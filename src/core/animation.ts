@@ -5,18 +5,19 @@ export function frameAt(clip:Clip,timeMs:number) {
   let end=0;for(let i=0;i<clip.frames.length;i++){end+=clip.durationsMs[i]!;if(t<end)return clip.frames[i]!;}return clip.frames.at(-1)!;
 }
 export class Animator {
-  time=0;instance=0;
-  constructor(public actor:string,public clip:Clip) {}
-  start(clip:Clip) {this.clip=clip;this.time=0;this.instance++;}
-  seek(time:number) {this.time=Math.max(0,time);} // silent; no gameplay/audio authority
+  time=0;instance=0;private notifiedThrough=-Number.EPSILON;
+  private orderedNotifies:Clip['notifies'];
+  constructor(public actor:string,public clip:Clip) {this.orderedNotifies=[...clip.notifies].sort((a,b)=>a.atMs-b.atMs);}
+  start(clip:Clip) {this.clip=clip;this.orderedNotifies=[...clip.notifies].sort((a,b)=>a.atMs-b.atMs);this.time=0;this.notifiedThrough=-Number.EPSILON;this.instance++;}
+  seek(time:number) {this.time=Math.max(0,time);this.notifiedThrough=Math.max(this.notifiedThrough,this.time);} // silent; rewinding cannot replay already crossed notifies
   advance(ms:number) {
-    const from=this.time,to=from+Math.max(0,ms),duration=clipDuration(this.clip),events:{key:string;kind:string}[]=[];
-    const first=Math.floor(from/duration),last=this.clip.loop?Math.floor(to/duration):0;
-    for(let loop=this.clip.loop?first:0;loop<=last;loop++) for(const event of this.clip.notifies){
+    const from=this.notifiedThrough<0?this.notifiedThrough:Math.max(this.time,this.notifiedThrough),to=this.time+Math.max(0,ms),duration=clipDuration(this.clip),events:{key:string;kind:string;timeMs:number;instance:number}[]=[];
+    const first=Math.floor(Math.max(0,from)/duration),last=this.clip.loop?Math.floor(to/duration):0;
+    for(let loop=this.clip.loop?first:0;loop<=last;loop++) for(const event of this.orderedNotifies){
       const at=loop*duration+event.atMs;
-      if(at>from&&at<=to)events.push({key:`${this.actor}:${this.instance}:${loop}:${event.id}`,kind:event.kind});
+      if(at>from&&at<=to)events.push({key:`${this.actor}:${this.instance}:${loop}:${event.id}`,kind:event.kind,timeMs:at,instance:this.instance});
     }
-    this.time=to;return events;
+    this.time=to;this.notifiedThrough=Math.max(this.notifiedThrough,to);return events;
   }
   get frame(){return frameAt(this.clip,this.time);}
 }

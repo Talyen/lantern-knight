@@ -1,0 +1,255 @@
+{
+  "hash": "936fceecd11a1c4fab4bffd515b12acecbae93f7ac9e464e45da46b1cee3e768",
+  "frames": [
+    {
+      "id": "proxy-walk-d45-0",
+      "bounds": [
+        94,
+        58,
+        196,
+        351
+      ],
+      "margins": [
+        94,
+        58,
+        94,
+        23
+      ]
+    },
+    {
+      "id": "proxy-walk-d45-1",
+      "bounds": [
+        93,
+        55,
+        195,
+        334
+      ],
+      "margins": [
+        93,
+        55,
+        96,
+        43
+      ]
+    },
+    {
+      "id": "proxy-walk-d45-2",
+      "bounds": [
+        93,
+        51,
+        193,
+        318
+      ],
+      "margins": [
+        93,
+        51,
+        98,
+        63
+      ]
+    },
+    {
+      "id": "proxy-walk-d45-3",
+      "bounds": [
+        93,
+        55,
+        195,
+        322
+      ],
+      "margins": [
+        93,
+        55,
+        96,
+        55
+      ]
+    },
+    {
+      "id": "proxy-walk-d45-4",
+      "bounds": [
+        94,
+        58,
+        196,
+        351
+      ],
+      "margins": [
+        94,
+        58,
+        94,
+        23
+      ]
+    },
+    {
+      "id": "proxy-walk-d45-5",
+      "bounds": [
+        95,
+        49,
+        196,
+        340
+      ],
+      "margins": [
+        95,
+        49,
+        93,
+        43
+      ]
+    },
+    {
+      "id": "proxy-walk-d45-6",
+      "bounds": [
+        95,
+        41,
+        196,
+        328
+      ],
+      "margins": [
+        95,
+        41,
+        93,
+        63
+      ]
+    },
+    {
+      "id": "proxy-walk-d45-7",
+      "bounds": [
+        95,
+        49,
+        196,
+        328
+      ],
+      "margins": [
+        95,
+        49,
+        93,
+        55
+      ]
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-0",
+      "bounds": [
+        94,
+        43,
+        198,
+        331
+      ],
+      "margins": [
+        94,
+        43,
+        92,
+        58
+      ]
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-1",
+      "bounds": [
+        94,
+        58,
+        192,
+        316
+      ],
+      "margins": [
+        94,
+        58,
+        98,
+        58
+      ]
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-2",
+      "bounds": [
+        94,
+        58,
+        202,
+        316
+      ],
+      "margins": [
+        94,
+        58,
+        88,
+        58
+      ]
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-3",
+      "bounds": [
+        94,
+        25,
+        203,
+        349
+      ],
+      "margins": [
+        94,
+        25,
+        87,
+        58
+      ]
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-4",
+      "bounds": [
+        94,
+        58,
+        181,
+        316
+      ],
+      "margins": [
+        94,
+        58,
+        109,
+        58
+      ]
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-5",
+      "bounds": [
+        94,
+        58,
+        190,
+        316
+      ],
+      "margins": [
+        94,
+        58,
+        100,
+        58
+      ]
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-6",
+      "bounds": [
+        94,
+        58,
+        194,
+        316
+      ],
+      "margins": [
+        94,
+        58,
+        96,
+        58
+      ]
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-7",
+      "bounds": [
+        94,
+        58,
+        196,
+        316
+      ],
+      "margins": [
+        94,
+        58,
+        94,
+        58
+      ]
+    }
+  ],
+  "sourceCanvas": [
+    384,
+    432
+  ],
+  "anchor": [
+    192,
+    348
+  ],
+  "minimumMargin": 23,
+  "status": "passed canvas-extrema check; visual approval pending"
+}

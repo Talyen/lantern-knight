@@ -1,5 +1,5 @@
 import {PlaneGeometry,MeshBasicMaterial,Mesh,BufferAttribute,Vector3, type OrthographicCamera,type Texture} from 'three';
-import {trimmedBounds} from '../core/camera';
+import {trimmedBounds,contract} from '../core/camera';
 import {Animator} from '../core/animation';
 import type {Manifest,Frame,Clip} from '../assets/schema';
 export class ActorSprite {
@@ -13,7 +13,11 @@ export class ActorSprite {
       const texture=this.textures.get(f.page);if(!texture)throw new Error(`runtime page missing: ${f.page}`);this.material.map=texture;this.material.needsUpdate=this.lastFrame==='';
       const b=trimmedBounds({density:this.manifest.asset.density,anchor:this.manifest.asset.anchor},f.trim);
       const pos=this.geometry.getAttribute('position') as BufferAttribute;
-      pos.setXYZ(0,b.left,b.top,0);pos.setXYZ(1,b.right,b.top,0);pos.setXYZ(2,b.left,b.bottom,0);pos.setXYZ(3,b.right,b.bottom,0);pos.needsUpdate=true;
+      // Move corners along camera depth without changing projected screen X/Y.
+      // up*y + outward*y*tan(elevation) = worldY*y/cos(elevation): a vertical
+      // actor plane, so a pillar behind the foot cannot incorrectly cut the head.
+      const depth=Math.tan(contract.elevationDeg*Math.PI/180);
+      pos.setXYZ(0,b.left,b.top,b.top*depth);pos.setXYZ(1,b.right,b.top,b.top*depth);pos.setXYZ(2,b.left,b.bottom,b.bottom*depth);pos.setXYZ(3,b.right,b.bottom,b.bottom*depth);pos.needsUpdate=true;
       const p=this.manifest.pages.find(p=>p.id===f.page)!,[x,y,w,h]=f.rect,uv=this.geometry.getAttribute('uv') as BufferAttribute;
       uv.setXY(0,x/p.width,1-y/p.height);uv.setXY(1,(x+w)/p.width,1-y/p.height);uv.setXY(2,x/p.width,1-(y+h)/p.height);uv.setXY(3,(x+w)/p.width,1-(y+h)/p.height);uv.needsUpdate=true;
       this.geometry.computeBoundingSphere();this.lastFrame=frameId;

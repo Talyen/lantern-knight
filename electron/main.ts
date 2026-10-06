@@ -6,14 +6,17 @@ import {resourcePath,trustedSender} from './security';
 protocol.registerSchemesAsPrivileged([{scheme:'lantern',privileges:{standard:true,secure:true,supportFetchAPI:true}}]);
 if(process.env.LANTERN_USER_DATA)app.setPath('userData',path.resolve(process.env.LANTERN_USER_DATA)); // app-owned test harness only; never renderer-selected
 app.enableSandbox();
+const hiddenTest=process.env.LANTERN_TEST_HIDDEN==='1';
 let window:BrowserWindow|undefined;
 app.whenReady().then(async()=>{
+  if(hiddenTest&&process.platform==='darwin')app.setActivationPolicy('accessory');
   Menu.setApplicationMenu(null);const root=path.join(app.getAppPath(),'dist');
   protocol.handle('lantern',async request=>{try{if(request.method!=='GET')return new Response('method denied',{status:405});return await net.fetch(pathToFileURL(resourcePath(request.url,root)).toString());}catch{return new Response('resource denied',{status:403});}});
   session.defaultSession.setPermissionRequestHandler((_wc,_permission,callback)=>callback(false));
   session.defaultSession.setPermissionCheckHandler(()=>false);
   const store=new Store(path.join(app.getPath('userData'),'saves'));
-  window=new BrowserWindow({width:1440,height:900,backgroundColor:'#151923',title:'Lantern Knight • Foundation',webPreferences:{preload:path.join(app.getAppPath(),'dist-electron/preload.cjs'),contextIsolation:true,sandbox:true,nodeIntegration:false,webSecurity:true}});
+  window=new BrowserWindow({width:1280,height:800,show:!hiddenTest,focusable:!hiddenTest,enableLargerThanScreen:true,backgroundColor:'#151923',title:'Lantern • Engineering placeholders',webPreferences:{preload:path.join(app.getAppPath(),'dist-electron/preload.cjs'),backgroundThrottling:!hiddenTest,contextIsolation:true,sandbox:true,nodeIntegration:false,webSecurity:true}});
+  window.on('blur',()=>window?.webContents.executeJavaScript('window.dispatchEvent(new Event("blur"))').catch(()=>{}));
   window.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   window.webContents.on('will-navigate',event=>event.preventDefault());
   window.webContents.on('will-attach-webview',event=>event.preventDefault());

@@ -31,7 +31,7 @@ def ball(name,loc,scale,material):
 def rod(name,start,end,radius,material):
     mid=(Vector(start)+Vector(end))/2
     bpy.ops.mesh.primitive_cylinder_add(vertices=5,radius=radius,depth=(Vector(end)-Vector(start)).length,location=mid)
-    o=bpy.context.object;o.name=name;o.rotation_euler=(Vector(end)-Vector(start)).to_track_quat('Z','Y').to_euler();o.data.materials.append(material);o.parent=rig;return o
+    o=bpy.context.object;o.name=name;o.rotation_euler=(Vector(end)-Vector(start)).to_track_quat('Z','Y').to_euler();o.data.materials.append(material);o.parent=rig;o['rest_length']=(Vector(end)-Vector(start)).length;return o
 torso=ball('slender_coat',(0,0,1.11),(0.235,0.14,0.35),cloth)
 belt=cube('belt',(0,0,0.94),(0.39,0.27,0.065),dark)
 head=ball('male_face',(0,-0.025,1.62),(0.117,0.112,0.17),skin)
@@ -52,14 +52,19 @@ grip=cube('sword_grip',(0,0,-.05),(.035,.035,.15),dark,sword_pivot)
 lantern_pivot=bpy.data.objects.new('lantern_LEFT_socket',None);scene.collection.objects.link(lantern_pivot);lantern_pivot.parent=rig
 for name,loc,scale,material in [('case',(0,0,-.14),(.17,.12,.21),brass),('flame',(0,-.066,-.14),(.09,.012,.13),glow),('top',(0,0,-.02),(.22,.16,.035),dark),('handle',(0,0,.035),(.08,.035,.08),brass)]:cube('lantern_'+name,loc,scale,material,lantern_pivot)
 def orient_rod(o,a,b):
-    a,b=Vector(a),Vector(b);o.location=(a+b)/2;o.rotation_euler=(b-a).to_track_quat('Z','Y').to_euler();o.scale.z=(b-a).length/.37 if 'thigh' in o.name else (b-a).length/.41 if 'shin' in o.name else (b-a).length/.243 if 'upper' in o.name else (b-a).length/.153
+    a,b=Vector(a),Vector(b);o.location=(a+b)/2;o.rotation_euler=(b-a).to_track_quat('Z','Y').to_euler();o.scale.z=(b-a).length/o['rest_length']
 def leg(side,phase,bob,objects):
     phase%=1
     if phase<.5:y=-.36+phase*1.44;z=.065
     else:
         p=(phase-.5)*2;y=.36-.72*(p*p*(3-2*p));z=.065+.18*math.sin(math.pi*p)
-    hip=Vector((side*.12,0,.87+bob));foot=Vector((side*.12,y,z+.04));delta=foot-hip;dist=min(delta.length,.755)
-    mid=hip+delta*.5;knee=mid+Vector((0,-1,0))*math.sqrt(max(0,.39**2-(dist/2)**2))
+    hip=Vector((side*.12,0,.82+bob));foot=Vector((side*.12,y,z+.04));delta=foot-hip;dist=delta.length
+    upper,lower=.40,.42
+    along=(upper*upper-lower*lower+dist*dist)/(2*dist)
+    bend=math.sqrt(max(0,upper*upper-along*along))
+    perpendicular=Vector((0,delta.z,-delta.y)).normalized()
+    knee=hip+delta.normalized()*along+perpendicular*bend
+    assert abs((knee-hip).length-upper)<1e-6 and abs((foot-knee).length-lower)<1e-6, 'leg reach/length invariant'
     orient_rod(objects[0],hip,knee);orient_rod(objects[1],knee,foot);objects[2].location=(side*.12,y-.055,z)
 def pose(clip,t):
     cyc=t/.8;bob=.022*(1-math.cos(4*math.pi*cyc)) if clip=='walk' else 0
@@ -77,7 +82,12 @@ def pose(clip,t):
         else:k=min(1,(t-.25)/.35);angle=math.radians(90-110*k);hand=Vector((.31,-.46+.36*k,1.11-.11*k))
         sword_pivot.rotation_euler=(angle,math.radians(-20),0);hands=[Vector((-.31,-.13,1.0)),hand]
     for i,side in enumerate([-1,1]):
-        shoulder=Vector((side*.235,0,1.32+bob));hand=hands[i];elbow=(shoulder+hand)/2+Vector((side*.055,.02,-.04));orient_rod(arms[i][0],shoulder,elbow);orient_rod(arms[i][1],elbow,hand);arms[i][2].location=hand
+        shoulder=Vector((side*.235,0,1.32+bob));hand=hands[i];delta=hand-shoulder;distance=delta.length;upper=lower=.27
+        along=(upper*upper-lower*lower+distance*distance)/(2*distance);bend=math.sqrt(max(0,upper*upper-along*along))
+        normal=delta.normalized();perp=Vector((side,.4,0));perp=(perp-normal*perp.dot(normal)).normalized()
+        elbow=shoulder+normal*along+perp*bend
+        assert abs((elbow-shoulder).length-upper)<1e-6 and abs((hand-elbow).length-lower)<1e-6, 'arm reach/length invariant'
+        orient_rod(arms[i][0],shoulder,elbow);orient_rod(arms[i][1],elbow,hand);arms[i][2].location=hand
     sword_pivot.location=hands[1];lantern_pivot.location=hands[0]
     for o in [*bpy.data.objects]:
         if o.parent==rig:o.keyframe_insert(data_path='location');o.keyframe_insert(data_path='rotation_euler');o.keyframe_insert(data_path='scale')
@@ -108,5 +118,6 @@ for i in range(8):
 rig.rotation_euler.z=math.pi/4
 scene.frame_start=1;scene.frame_end=148
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(ROOT,'authoring/knight/rig.blend'))
-json.dump({'contractId':C['id'],'bakeVersion':C['bakeVersion'],'tool':'Blender '+bpy.app.version_string,'axisMap':'game(X,Y,Z)=blender(X,Z,-Y)','status':'proxy','speedWorldUnitsPerSecond':1.8,'frames':frames,'clips':clips},open(os.path.join(outdir,'export.json'),'w'),indent=2)
+bpy.ops.export_scene.gltf(filepath=os.path.join(ROOT,'public/calibration-proxy.glb'),export_format='GLB',export_animations=False)
+json.dump({'contractId':C['id'],'bakeVersion':C['bakeVersion'],'recipe':'blender-proxy-v2-constant-limbs','tool':'Blender '+bpy.app.version_string,'axisMap':'game(X,Y,Z)=blender(X,Z,-Y)','status':'proxy','speedWorldUnitsPerSecond':1.8,'limbLengths':{'thigh':.40,'shin':.42,'upperArm':.27,'forearm':.27},'frames':frames,'clips':clips},open(os.path.join(outdir,'export.json'),'w'),indent=2)
 print('LANTERN_EXPORT_OK: editable rig, 16 d45 frames and 8 turnaround stills')

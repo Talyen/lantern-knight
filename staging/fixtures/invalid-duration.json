@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "asset": {
     "id": "hero-lantern-knight",
     "type": "character",
-    "schemaVersion": 1,
-    "contentVersion": "0.1.0-proxy",
+    "schemaVersion": 2,
+    "contentVersion": "0.1.1-proxy",
     "bundle": "hero",
     "status": "proxy",
     "provenance": {
@@ -12,8 +12,8 @@
       "license": "Project original; editable proxy, not approved art",
       "source": "authoring/knight/rig.blend + tools/diagnostic.ts"
     },
-    "contractId": "lantern-camera-v1-proxy",
-    "bakeVersion": 1,
+    "contractId": "lantern-camera-v2",
+    "bakeVersion": 2,
     "canvas": [
       384,
       432
@@ -33,7 +33,7 @@
       "opacity": 0.35
     },
     "collisionFootprint": "hero-circle-v1",
-    "occlusion": "foot-depth-camera-plane",
+    "occlusion": "vertical-plane-preserved-projection-v1",
     "fallbacks": {
       "run": "walk"
     },
@@ -622,7 +622,9 @@
           "notifies": []
         }
       }
-    }
+    },
+    "designReference": "engineering-placeholder",
+    "renderStyle": "diagnostic"
   },
   "frames": [
     {

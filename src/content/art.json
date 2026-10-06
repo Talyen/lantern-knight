@@ -1,0 +1,24 @@
+{
+  "designVersion": "0.3.0",
+  "hero": "male Lamplighter",
+  "style": "Clean INK",
+  "reference": {
+    "fileName": "image(3).png",
+    "libraryId": "libfile_0da5071239448191b6962495ce1e0164",
+    "expectedPath": "references/canon/image(3).png",
+    "originalAvailable": false
+  },
+  "designStatus": "locked_by_owner",
+  "productionStatus": "real_assets_deferred_by_owner",
+  "preserve": [
+    "original face",
+    "rust coat and repair patches",
+    "two crossing belts",
+    "vest",
+    "props",
+    "right forearm wrap",
+    "left forearm bracer"
+  ],
+  "runtimeContent": "existing diagnostic and historical engineering placeholders only",
+  "sourcePolicy": "one canonical controlled source per character; Clean INK multi-view motion proof before expansion; no image-generated runtime animation frames"
+}

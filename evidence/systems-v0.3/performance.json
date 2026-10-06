@@ -1,0 +1,394 @@
+{
+  "date": "2026-10-06",
+  "environment": {
+    "machine": "MacBook Air Mac17,3 Apple M5 10-core CPU / 8-core GPU, 16 GiB RAM",
+    "cpuCount": 10,
+    "ramBytes": 17179869184,
+    "os": "27.0.0",
+    "display": "Built-in 2560x1664 Retina, 60 Hz",
+    "window": "2560×1568 logical content; 2560×1440 drawing buffer, DPR cap 1",
+    "versions": {
+      "versions": {
+        "node": "24.21.0",
+        "acorn": "8.18.0",
+        "ada": "4.0.0",
+        "amaro": "1.1.11",
+        "ares": "1.34.8",
+        "brotli": "1.2.0",
+        "cldr": "48.0",
+        "icu": "78.2",
+        "llhttp": "9.4.3",
+        "merve": "1.2.2",
+        "modules": "149",
+        "napi": "10",
+        "nbytes": "0.1.4",
+        "ncrypto": "0.0.1",
+        "nghttp2": "1.70.0",
+        "nghttp3": "",
+        "ngtcp2": "",
+        "openssl": "0.0.0",
+        "simdjson": "4.6.7",
+        "simdutf": "7.7.0",
+        "sqlite": "3.53.4",
+        "tz": "2025c",
+        "undici": "7.29.1",
+        "unicode": "17.0",
+        "uv": "1.52.1",
+        "uvwasi": "0.0.23",
+        "v8": "15.2.124.28-electron.0",
+        "zlib": "1.3.2.1-motley",
+        "zstd": "1.6.0",
+        "electron": "44.5.1",
+        "chrome": "152.0.7977.130"
+      },
+      "packaged": true,
+      "platform": "darwin",
+      "arch": "arm64"
+    },
+    "three": "0.186.1",
+    "build": "packaged unsigned darwin/arm64 development-content checkpoint",
+    "package": {
+      "build": {
+        "sourceCommit": "d3a653b1918d655282a065b18aea23b985d9eac4",
+        "dirty": true,
+        "files": {
+          "dist-electron/main.cjs": "79814809452ffc61f347ec3b789e1360be90bab2cb0779d141656c2b5755fd90",
+          "dist-electron/preload.cjs": "8f8317ed1c847c94babd96179e517f885f360b64e9e2f5db2d473c6a2d7b90c1",
+          "dist/.DS_Store": "b4f1fb9210bff60215ec22c916e107511878e2266639032ad4f73458247f2509",
+          "dist/assets/index-DEaXN13l.js": "e701a8bcd08f1d2318f5c1efae883505800789b92b433501ec2a8417385dfd11",
+          "dist/assets/index-DSOrKsUV.css": "b35f046624cb485e70855b3dc7c64a36af4f54a84fc46a7c54db05d80c980928",
+          "dist/build-mode.json": "217959442afa4ac1bb77f2714af9fdff33c839bdfca0b7249ba26f682db1ec45",
+          "dist/calibration-proxy.glb": "d3789a4970da0079a2275f2b43bbc29e1b3d0a4d66133574973408d7dc9ed970",
+          "dist/generated/05040a456a17ad28/atlas-0.png": "a330e3f9676274ca7646f449a838cc5d2fb23b7c84c4a23fd95a5d08be065d93",
+          "dist/generated/05040a456a17ad28/atlas-1.png": "2aeb223718e0cf9d25566543fc477b57c3d4c2552715b21c27b7aaf79310ca2f",
+          "dist/generated/05040a456a17ad28/atlas-2.png": "772bab82fb34885de06abe8163b908f112664bfd114fee5ee6741ca8a6ae5cb6",
+          "dist/generated/05040a456a17ad28/atlas-3.png": "5270e8f9ce0a774466c9affffe071cc69477d2672d727ed50b94cbd55d06955b",
+          "dist/generated/05040a456a17ad28/manifest.json": "bc08708df9eb5bf9af31604ab3e4b59119497122614a016c3839dfde2884edf3",
+          "dist/generated/082ac74d05ed9fb7/atlas-0.png": "a330e3f9676274ca7646f449a838cc5d2fb23b7c84c4a23fd95a5d08be065d93",
+          "dist/generated/082ac74d05ed9fb7/atlas-1.png": "2aeb223718e0cf9d25566543fc477b57c3d4c2552715b21c27b7aaf79310ca2f",
+          "dist/generated/082ac74d05ed9fb7/atlas-2.png": "772bab82fb34885de06abe8163b908f112664bfd114fee5ee6741ca8a6ae5cb6",
+          "dist/generated/082ac74d05ed9fb7/atlas-3.png": "5270e8f9ce0a774466c9affffe071cc69477d2672d727ed50b94cbd55d06955b",
+          "dist/generated/082ac74d05ed9fb7/manifest.json": "ed5d47f1065b247a2be5951621e0d5b46976ac738de80cfe7f8df1547cf9afb2",
+          "dist/generated/16632aa6e95fc393/atlas-0.png": "a330e3f9676274ca7646f449a838cc5d2fb23b7c84c4a23fd95a5d08be065d93",
+          "dist/generated/16632aa6e95fc393/atlas-1.png": "2aeb223718e0cf9d25566543fc477b57c3d4c2552715b21c27b7aaf79310ca2f",
+          "dist/generated/16632aa6e95fc393/atlas-2.png": "772bab82fb34885de06abe8163b908f112664bfd114fee5ee6741ca8a6ae5cb6",
+          "dist/generated/16632aa6e95fc393/atlas-3.png": "957d513d0f2d5e7670caf965d3977df0e4f153696b2b104ede5636ea6f652d59",
+          "dist/generated/16632aa6e95fc393/manifest.json": "087e355baa61e97f329612cb73763fcc8386daf0a17cc72155b883e8bff14926",
+          "dist/generated/3e291c54f422e28f/atlas-0.png": "3d4348b1fd67c9be13d197bfacb6f32063aaf7a88fc2212fe32b5bf8ebc952dc",
+          "dist/generated/3e291c54f422e28f/atlas-1.png": "2355b6bfe730c154100b5bf5aae978d84d312868e8eed98a4ca1357368dc529f",
+          "dist/generated/3e291c54f422e28f/atlas-2.png": "5bb87ac7b8871cef8d30ac11c2634fa72b281bef76d052db9020bfc1ac9309d0",
+          "dist/generated/3e291c54f422e28f/manifest.json": "512fdfb853bbf4f04868e2254c87764108a2a14148d8ff0cfbbe44fd98545639",
+          "dist/generated/936fceecd11a1c4f/atlas-0.png": "a330e3f9676274ca7646f449a838cc5d2fb23b7c84c4a23fd95a5d08be065d93",
+          "dist/generated/936fceecd11a1c4f/atlas-1.png": "2aeb223718e0cf9d25566543fc477b57c3d4c2552715b21c27b7aaf79310ca2f",
+          "dist/generated/936fceecd11a1c4f/atlas-2.png": "772bab82fb34885de06abe8163b908f112664bfd114fee5ee6741ca8a6ae5cb6",
+          "dist/generated/936fceecd11a1c4f/atlas-3.png": "5270e8f9ce0a774466c9affffe071cc69477d2672d727ed50b94cbd55d06955b",
+          "dist/generated/936fceecd11a1c4f/manifest.json": "f63e3c7cfd0483ddfe2cd79915d91093eacdb0805d8832489752ea274e0423a2",
+          "dist/generated/b6095b325a212122/atlas-0.png": "a330e3f9676274ca7646f449a838cc5d2fb23b7c84c4a23fd95a5d08be065d93",
+          "dist/generated/b6095b325a212122/atlas-1.png": "2aeb223718e0cf9d25566543fc477b57c3d4c2552715b21c27b7aaf79310ca2f",
+          "dist/generated/b6095b325a212122/atlas-2.png": "772bab82fb34885de06abe8163b908f112664bfd114fee5ee6741ca8a6ae5cb6",
+          "dist/generated/b6095b325a212122/atlas-3.png": "957d513d0f2d5e7670caf965d3977df0e4f153696b2b104ede5636ea6f652d59",
+          "dist/generated/b6095b325a212122/manifest.json": "b34ee063cbce534d518406586fe1711df1a79c9c3d6ae8031490eacd38329e5b",
+          "dist/generated/calibration.json": "ca2c030e257393bd634c20278ce60ae8e8ffbadc1f30c92354551685dbc8485b",
+          "dist/generated/e05be4c1623b97b7/atlas-0.png": "a330e3f9676274ca7646f449a838cc5d2fb23b7c84c4a23fd95a5d08be065d93",
+          "dist/generated/e05be4c1623b97b7/atlas-1.png": "2aeb223718e0cf9d25566543fc477b57c3d4c2552715b21c27b7aaf79310ca2f",
+          "dist/generated/e05be4c1623b97b7/atlas-2.png": "772bab82fb34885de06abe8163b908f112664bfd114fee5ee6741ca8a6ae5cb6",
+          "dist/generated/e05be4c1623b97b7/atlas-3.png": "5270e8f9ce0a774466c9affffe071cc69477d2672d727ed50b94cbd55d06955b",
+          "dist/generated/e05be4c1623b97b7/manifest.json": "f28fa88d3f34874f998780fd9e8e1273f08fab0d092931e386acac86d44e403d",
+          "dist/generated/manifest.json": "bc08708df9eb5bf9af31604ab3e4b59119497122614a016c3839dfde2884edf3",
+          "dist/generated/report.json": "6434431d874152e78d82db144bd69ec9eb392a22d297aaa9d647f60f20777f50",
+          "dist/index.html": "16a994f2d559b5098b42ecd9dcb8c05338a3e3fa2091ce30d020433ddad7f613"
+        }
+      },
+      "sha256": "12782a6f232b61fd06f5775a7b846fe91206329d5f7e31186dc8c0319fd487e7",
+      "platform": "darwin",
+      "arch": "arm64",
+      "manifestHash": "05040a456a17ad28d58133d95b2af5dd424cf611ae1d43bf4aa4684f5da70256"
+    },
+    "gpuTiming": "unavailable; rAF intervals include presentation/display pacing"
+  },
+  "runs": [
+    {
+      "stats": {
+        "buffer": [
+          2560,
+          1440
+        ],
+        "logical": [
+          2560,
+          1440
+        ],
+        "devicePixelRatio": 2,
+        "verticalSpan": 13,
+        "area": "court",
+        "generation": 8,
+        "renderScale": 1,
+        "calls": 24,
+        "triangles": 1280,
+        "objects": {
+          "geometries": 62,
+          "textures": 6
+        },
+        "atlasBytes": 67108864,
+        "fileBytes": 1947893,
+        "actors": 4,
+        "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+      },
+      "droppedMs": 0,
+      "simulatedTicks": 3590,
+      "fixture": "4 actors representative",
+      "samples": 3600,
+      "medianMs": 16.69999999999709,
+      "p95Ms": 18.099999999998545,
+      "maxMs": 18.700000000000728,
+      "over33ms": 0
+    },
+    {
+      "stats": {
+        "buffer": [
+          2560,
+          1440
+        ],
+        "logical": [
+          2560,
+          1440
+        ],
+        "devicePixelRatio": 2,
+        "verticalSpan": 13,
+        "area": "court",
+        "generation": 15,
+        "renderScale": 1,
+        "calls": 73,
+        "triangles": 2008,
+        "objects": {
+          "geometries": 125,
+          "textures": 6
+        },
+        "atlasBytes": 67108864,
+        "fileBytes": 1947893,
+        "actors": 32,
+        "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+      },
+      "droppedMs": 0,
+      "simulatedTicks": 895,
+      "fixture": "32 actors stress",
+      "samples": 900,
+      "medianMs": 16.69999999999709,
+      "p95Ms": 17.89999999999418,
+      "maxMs": 18.69999999999709,
+      "over33ms": 0
+    }
+  ],
+  "lifetime": [
+    {
+      "buffer": [
+        2560,
+        1440
+      ],
+      "logical": [
+        2560,
+        1440
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": "court",
+      "generation": 17,
+      "renderScale": 1,
+      "calls": 22,
+      "triangles": 1184,
+      "objects": {
+        "geometries": 60,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        2560,
+        1440
+      ],
+      "logical": [
+        2560,
+        1440
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": "court",
+      "generation": 18,
+      "renderScale": 1,
+      "calls": 22,
+      "triangles": 1184,
+      "objects": {
+        "geometries": 60,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        2560,
+        1440
+      ],
+      "logical": [
+        2560,
+        1440
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": "court",
+      "generation": 19,
+      "renderScale": 1,
+      "calls": 22,
+      "triangles": 1184,
+      "objects": {
+        "geometries": 60,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        2560,
+        1440
+      ],
+      "logical": [
+        2560,
+        1440
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": "court",
+      "generation": 20,
+      "renderScale": 1,
+      "calls": 22,
+      "triangles": 1184,
+      "objects": {
+        "geometries": 60,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        2560,
+        1440
+      ],
+      "logical": [
+        2560,
+        1440
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": "court",
+      "generation": 21,
+      "renderScale": 1,
+      "calls": 22,
+      "triangles": 1184,
+      "objects": {
+        "geometries": 60,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        2560,
+        1440
+      ],
+      "logical": [
+        2560,
+        1440
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": "court",
+      "generation": 22,
+      "renderScale": 1,
+      "calls": 22,
+      "triangles": 1184,
+      "objects": {
+        "geometries": 60,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        2560,
+        1440
+      ],
+      "logical": [
+        2560,
+        1440
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": "court",
+      "generation": 23,
+      "renderScale": 1,
+      "calls": 22,
+      "triangles": 1184,
+      "objects": {
+        "geometries": 60,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        2560,
+        1440
+      ],
+      "logical": [
+        2560,
+        1440
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": "court",
+      "generation": 24,
+      "renderScale": 1,
+      "calls": 22,
+      "triangles": 1184,
+      "objects": {
+        "geometries": 60,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    }
+  ],
+  "errors": []
+}

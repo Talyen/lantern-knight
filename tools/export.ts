@@ -1,6 +1,7 @@
 import {spawn} from 'node:child_process';
 import fs from 'node:fs/promises';
 import {parseSource} from '../src/assets/schema';
+if(!process.argv.includes('--historical-proxy'))throw new Error('The old rig is a historical engineering placeholder, not the canonical Rust/Clean INK hero. No art generation tonight. Use existing staged frames; --historical-proxy is an explicit diagnostic-only maintenance option.');
 const blender=process.env.LANTERN_BLENDER??(process.platform==='darwin'?'/Applications/Blender.app/Contents/MacOS/Blender':'blender');
 const code=await new Promise<number|null>((resolve,reject)=>{const child=spawn(blender,['--background','--python','authoring/knight/export.py'],{stdio:'inherit'});child.on('error',reject);child.on('exit',resolve);});
 if(code!==0)throw new Error(`Blender export failed (${code}); diagnostic source remains usable. Set LANTERN_BLENDER to the installed executable.`);
@@ -8,6 +9,7 @@ const source=parseSource(JSON.parse(await fs.readFile('staging/diagnostic-source
 const exported=JSON.parse(await fs.readFile('staging/proxy/export.json','utf8'));
 if(exported.contractId!==source.asset.contractId||exported.bakeVersion!==source.asset.bakeVersion)throw new Error('Export camera mismatch');
 source.frames.push(...exported.frames);
+source.asset.recipe=`${exported.recipe} + diagnostic-v1`;
 for(const [clip,data] of Object.entries(exported.clips))source.asset.clips[clip]!.d45=data as typeof source.asset.clips[string]['d45'];
 source.asset.clips.idle!.d45={...source.asset.clips.idle!.d45!,frames:[exported.clips.walk.frames[0]],durationsMs:[800],notifies:[]};
 parseSource(source);await fs.writeFile('staging/source.json',JSON.stringify(source,null,2));

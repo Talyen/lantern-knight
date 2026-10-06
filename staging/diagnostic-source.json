@@ -1,19 +1,19 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "asset": {
     "id": "hero-lantern-knight",
     "type": "character",
-    "schemaVersion": 1,
-    "contentVersion": "0.1.0-proxy",
+    "schemaVersion": 2,
+    "contentVersion": "0.2.0-diagnostic",
     "bundle": "hero",
-    "status": "proxy",
+    "status": "diagnostic",
     "provenance": {
       "creator": "Lantern Knight foundation",
       "license": "Project original; editable proxy, not approved art",
       "source": "authoring/knight/rig.blend + tools/diagnostic.ts"
     },
-    "contractId": "lantern-camera-v1-proxy",
-    "bakeVersion": 1,
+    "contractId": "lantern-camera-v2",
+    "bakeVersion": 2,
     "canvas": [
       384,
       432
@@ -26,14 +26,14 @@
     "padding": 0,
     "colorSpace": "srgb",
     "alpha": "straight",
-    "recipe": "blender-proxy-v1 + diagnostic-v1",
+    "recipe": "existing-placeholder-revalidation-v2",
     "renderCategory": "cutout",
     "shadow": {
       "radius": 0.3,
       "opacity": 0.35
     },
     "collisionFootprint": "hero-circle-v1",
-    "occlusion": "foot-depth-camera-plane",
+    "occlusion": "vertical-plane-preserved-projection-v1",
     "fallbacks": {
       "run": "walk"
     },
@@ -45,7 +45,16 @@
       "dodge",
       "cast_lantern_flare",
       "hit",
-      "death"
+      "death",
+      "attack_sword_02",
+      "attack_sword_03",
+      "enemy_idle",
+      "enemy_walk",
+      "enemy_attack_sword_01",
+      "enemy_dodge",
+      "enemy_cast_lantern_flare",
+      "enemy_hit",
+      "enemy_death"
     ],
     "clips": {
       "idle": {
@@ -1061,7 +1070,1387 @@
           "loop": false,
           "notifies": []
         }
+      },
+      "attack_sword_02": {
+        "d00": {
+          "frames": [
+            "diag-attack_sword_01-d00-0",
+            "diag-attack_sword_01-d00-1",
+            "diag-attack_sword_01-d00-2",
+            "diag-attack_sword_01-d00-3"
+          ],
+          "durationsMs": [
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 148.44444444444443,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d45": {
+          "frames": [
+            "diag-attack_sword_01-d45-0",
+            "diag-attack_sword_01-d45-1",
+            "diag-attack_sword_01-d45-2",
+            "diag-attack_sword_01-d45-3"
+          ],
+          "durationsMs": [
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 148.44444444444443,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d90": {
+          "frames": [
+            "diag-attack_sword_01-d90-0",
+            "diag-attack_sword_01-d90-1",
+            "diag-attack_sword_01-d90-2",
+            "diag-attack_sword_01-d90-3"
+          ],
+          "durationsMs": [
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 148.44444444444443,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d135": {
+          "frames": [
+            "diag-attack_sword_01-d135-0",
+            "diag-attack_sword_01-d135-1",
+            "diag-attack_sword_01-d135-2",
+            "diag-attack_sword_01-d135-3"
+          ],
+          "durationsMs": [
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 148.44444444444443,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d180": {
+          "frames": [
+            "diag-attack_sword_01-d180-0",
+            "diag-attack_sword_01-d180-1",
+            "diag-attack_sword_01-d180-2",
+            "diag-attack_sword_01-d180-3"
+          ],
+          "durationsMs": [
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 148.44444444444443,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d225": {
+          "frames": [
+            "diag-attack_sword_01-d225-0",
+            "diag-attack_sword_01-d225-1",
+            "diag-attack_sword_01-d225-2",
+            "diag-attack_sword_01-d225-3"
+          ],
+          "durationsMs": [
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 148.44444444444443,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d270": {
+          "frames": [
+            "diag-attack_sword_01-d270-0",
+            "diag-attack_sword_01-d270-1",
+            "diag-attack_sword_01-d270-2",
+            "diag-attack_sword_01-d270-3"
+          ],
+          "durationsMs": [
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 148.44444444444443,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d315": {
+          "frames": [
+            "diag-attack_sword_01-d315-0",
+            "diag-attack_sword_01-d315-1",
+            "diag-attack_sword_01-d315-2",
+            "diag-attack_sword_01-d315-3"
+          ],
+          "durationsMs": [
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331,
+            133.33333333333331
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 148.44444444444443,
+              "kind": "whoosh"
+            }
+          ]
+        }
+      },
+      "attack_sword_03": {
+        "d00": {
+          "frames": [
+            "diag-attack_sword_01-d00-0",
+            "diag-attack_sword_01-d00-1",
+            "diag-attack_sword_01-d00-2",
+            "diag-attack_sword_01-d00-3"
+          ],
+          "durationsMs": [
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 204.11111111111111,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d45": {
+          "frames": [
+            "diag-attack_sword_01-d45-0",
+            "diag-attack_sword_01-d45-1",
+            "diag-attack_sword_01-d45-2",
+            "diag-attack_sword_01-d45-3"
+          ],
+          "durationsMs": [
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 204.11111111111111,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d90": {
+          "frames": [
+            "diag-attack_sword_01-d90-0",
+            "diag-attack_sword_01-d90-1",
+            "diag-attack_sword_01-d90-2",
+            "diag-attack_sword_01-d90-3"
+          ],
+          "durationsMs": [
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 204.11111111111111,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d135": {
+          "frames": [
+            "diag-attack_sword_01-d135-0",
+            "diag-attack_sword_01-d135-1",
+            "diag-attack_sword_01-d135-2",
+            "diag-attack_sword_01-d135-3"
+          ],
+          "durationsMs": [
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 204.11111111111111,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d180": {
+          "frames": [
+            "diag-attack_sword_01-d180-0",
+            "diag-attack_sword_01-d180-1",
+            "diag-attack_sword_01-d180-2",
+            "diag-attack_sword_01-d180-3"
+          ],
+          "durationsMs": [
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 204.11111111111111,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d225": {
+          "frames": [
+            "diag-attack_sword_01-d225-0",
+            "diag-attack_sword_01-d225-1",
+            "diag-attack_sword_01-d225-2",
+            "diag-attack_sword_01-d225-3"
+          ],
+          "durationsMs": [
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 204.11111111111111,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d270": {
+          "frames": [
+            "diag-attack_sword_01-d270-0",
+            "diag-attack_sword_01-d270-1",
+            "diag-attack_sword_01-d270-2",
+            "diag-attack_sword_01-d270-3"
+          ],
+          "durationsMs": [
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 204.11111111111111,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d315": {
+          "frames": [
+            "diag-attack_sword_01-d315-0",
+            "diag-attack_sword_01-d315-1",
+            "diag-attack_sword_01-d315-2",
+            "diag-attack_sword_01-d315-3"
+          ],
+          "durationsMs": [
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334,
+            183.33333333333334
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 204.11111111111111,
+              "kind": "whoosh"
+            }
+          ]
+        }
+      },
+      "enemy_idle": {
+        "d00": {
+          "frames": [
+            "diag-idle-d00-0",
+            "diag-idle-d00-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d45": {
+          "frames": [
+            "diag-idle-d45-0",
+            "diag-idle-d45-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d90": {
+          "frames": [
+            "diag-idle-d90-0",
+            "diag-idle-d90-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d135": {
+          "frames": [
+            "diag-idle-d135-0",
+            "diag-idle-d135-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d180": {
+          "frames": [
+            "diag-idle-d180-0",
+            "diag-idle-d180-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d225": {
+          "frames": [
+            "diag-idle-d225-0",
+            "diag-idle-d225-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d270": {
+          "frames": [
+            "diag-idle-d270-0",
+            "diag-idle-d270-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d315": {
+          "frames": [
+            "diag-idle-d315-0",
+            "diag-idle-d315-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        }
+      },
+      "enemy_walk": {
+        "d00": {
+          "frames": [
+            "diag-walk-d00-0",
+            "diag-walk-d00-1",
+            "diag-walk-d00-2",
+            "diag-walk-d00-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d45": {
+          "frames": [
+            "diag-walk-d45-0",
+            "diag-walk-d45-1",
+            "diag-walk-d45-2",
+            "diag-walk-d45-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d90": {
+          "frames": [
+            "diag-walk-d90-0",
+            "diag-walk-d90-1",
+            "diag-walk-d90-2",
+            "diag-walk-d90-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d135": {
+          "frames": [
+            "diag-walk-d135-0",
+            "diag-walk-d135-1",
+            "diag-walk-d135-2",
+            "diag-walk-d135-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d180": {
+          "frames": [
+            "diag-walk-d180-0",
+            "diag-walk-d180-1",
+            "diag-walk-d180-2",
+            "diag-walk-d180-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d225": {
+          "frames": [
+            "diag-walk-d225-0",
+            "diag-walk-d225-1",
+            "diag-walk-d225-2",
+            "diag-walk-d225-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d270": {
+          "frames": [
+            "diag-walk-d270-0",
+            "diag-walk-d270-1",
+            "diag-walk-d270-2",
+            "diag-walk-d270-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d315": {
+          "frames": [
+            "diag-walk-d315-0",
+            "diag-walk-d315-1",
+            "diag-walk-d315-2",
+            "diag-walk-d315-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        }
+      },
+      "enemy_attack_sword_01": {
+        "d00": {
+          "frames": [
+            "diag-attack_sword_01-d00-0",
+            "diag-attack_sword_01-d00-1",
+            "diag-attack_sword_01-d00-2",
+            "diag-attack_sword_01-d00-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d45": {
+          "frames": [
+            "diag-attack_sword_01-d45-0",
+            "diag-attack_sword_01-d45-1",
+            "diag-attack_sword_01-d45-2",
+            "diag-attack_sword_01-d45-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d90": {
+          "frames": [
+            "diag-attack_sword_01-d90-0",
+            "diag-attack_sword_01-d90-1",
+            "diag-attack_sword_01-d90-2",
+            "diag-attack_sword_01-d90-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d135": {
+          "frames": [
+            "diag-attack_sword_01-d135-0",
+            "diag-attack_sword_01-d135-1",
+            "diag-attack_sword_01-d135-2",
+            "diag-attack_sword_01-d135-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d180": {
+          "frames": [
+            "diag-attack_sword_01-d180-0",
+            "diag-attack_sword_01-d180-1",
+            "diag-attack_sword_01-d180-2",
+            "diag-attack_sword_01-d180-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d225": {
+          "frames": [
+            "diag-attack_sword_01-d225-0",
+            "diag-attack_sword_01-d225-1",
+            "diag-attack_sword_01-d225-2",
+            "diag-attack_sword_01-d225-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d270": {
+          "frames": [
+            "diag-attack_sword_01-d270-0",
+            "diag-attack_sword_01-d270-1",
+            "diag-attack_sword_01-d270-2",
+            "diag-attack_sword_01-d270-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d315": {
+          "frames": [
+            "diag-attack_sword_01-d315-0",
+            "diag-attack_sword_01-d315-1",
+            "diag-attack_sword_01-d315-2",
+            "diag-attack_sword_01-d315-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        }
+      },
+      "enemy_dodge": {
+        "d00": {
+          "frames": [
+            "diag-dodge-d00-0",
+            "diag-dodge-d00-1",
+            "diag-dodge-d00-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d45": {
+          "frames": [
+            "diag-dodge-d45-0",
+            "diag-dodge-d45-1",
+            "diag-dodge-d45-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d90": {
+          "frames": [
+            "diag-dodge-d90-0",
+            "diag-dodge-d90-1",
+            "diag-dodge-d90-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d135": {
+          "frames": [
+            "diag-dodge-d135-0",
+            "diag-dodge-d135-1",
+            "diag-dodge-d135-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d180": {
+          "frames": [
+            "diag-dodge-d180-0",
+            "diag-dodge-d180-1",
+            "diag-dodge-d180-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d225": {
+          "frames": [
+            "diag-dodge-d225-0",
+            "diag-dodge-d225-1",
+            "diag-dodge-d225-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d270": {
+          "frames": [
+            "diag-dodge-d270-0",
+            "diag-dodge-d270-1",
+            "diag-dodge-d270-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d315": {
+          "frames": [
+            "diag-dodge-d315-0",
+            "diag-dodge-d315-1",
+            "diag-dodge-d315-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        }
+      },
+      "enemy_cast_lantern_flare": {
+        "d00": {
+          "frames": [
+            "diag-cast_lantern_flare-d00-0",
+            "diag-cast_lantern_flare-d00-1",
+            "diag-cast_lantern_flare-d00-2",
+            "diag-cast_lantern_flare-d00-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d45": {
+          "frames": [
+            "diag-cast_lantern_flare-d45-0",
+            "diag-cast_lantern_flare-d45-1",
+            "diag-cast_lantern_flare-d45-2",
+            "diag-cast_lantern_flare-d45-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d90": {
+          "frames": [
+            "diag-cast_lantern_flare-d90-0",
+            "diag-cast_lantern_flare-d90-1",
+            "diag-cast_lantern_flare-d90-2",
+            "diag-cast_lantern_flare-d90-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d135": {
+          "frames": [
+            "diag-cast_lantern_flare-d135-0",
+            "diag-cast_lantern_flare-d135-1",
+            "diag-cast_lantern_flare-d135-2",
+            "diag-cast_lantern_flare-d135-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d180": {
+          "frames": [
+            "diag-cast_lantern_flare-d180-0",
+            "diag-cast_lantern_flare-d180-1",
+            "diag-cast_lantern_flare-d180-2",
+            "diag-cast_lantern_flare-d180-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d225": {
+          "frames": [
+            "diag-cast_lantern_flare-d225-0",
+            "diag-cast_lantern_flare-d225-1",
+            "diag-cast_lantern_flare-d225-2",
+            "diag-cast_lantern_flare-d225-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d270": {
+          "frames": [
+            "diag-cast_lantern_flare-d270-0",
+            "diag-cast_lantern_flare-d270-1",
+            "diag-cast_lantern_flare-d270-2",
+            "diag-cast_lantern_flare-d270-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d315": {
+          "frames": [
+            "diag-cast_lantern_flare-d315-0",
+            "diag-cast_lantern_flare-d315-1",
+            "diag-cast_lantern_flare-d315-2",
+            "diag-cast_lantern_flare-d315-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        }
+      },
+      "enemy_hit": {
+        "d00": {
+          "frames": [
+            "diag-hit-d00-0",
+            "diag-hit-d00-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d45": {
+          "frames": [
+            "diag-hit-d45-0",
+            "diag-hit-d45-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d90": {
+          "frames": [
+            "diag-hit-d90-0",
+            "diag-hit-d90-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d135": {
+          "frames": [
+            "diag-hit-d135-0",
+            "diag-hit-d135-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d180": {
+          "frames": [
+            "diag-hit-d180-0",
+            "diag-hit-d180-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d225": {
+          "frames": [
+            "diag-hit-d225-0",
+            "diag-hit-d225-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d270": {
+          "frames": [
+            "diag-hit-d270-0",
+            "diag-hit-d270-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d315": {
+          "frames": [
+            "diag-hit-d315-0",
+            "diag-hit-d315-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        }
+      },
+      "enemy_death": {
+        "d00": {
+          "frames": [
+            "diag-death-d00-0",
+            "diag-death-d00-1",
+            "diag-death-d00-2",
+            "diag-death-d00-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d45": {
+          "frames": [
+            "diag-death-d45-0",
+            "diag-death-d45-1",
+            "diag-death-d45-2",
+            "diag-death-d45-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d90": {
+          "frames": [
+            "diag-death-d90-0",
+            "diag-death-d90-1",
+            "diag-death-d90-2",
+            "diag-death-d90-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d135": {
+          "frames": [
+            "diag-death-d135-0",
+            "diag-death-d135-1",
+            "diag-death-d135-2",
+            "diag-death-d135-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d180": {
+          "frames": [
+            "diag-death-d180-0",
+            "diag-death-d180-1",
+            "diag-death-d180-2",
+            "diag-death-d180-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d225": {
+          "frames": [
+            "diag-death-d225-0",
+            "diag-death-d225-1",
+            "diag-death-d225-2",
+            "diag-death-d225-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d270": {
+          "frames": [
+            "diag-death-d270-0",
+            "diag-death-d270-1",
+            "diag-death-d270-2",
+            "diag-death-d270-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d315": {
+          "frames": [
+            "diag-death-d315-0",
+            "diag-death-d315-1",
+            "diag-death-d315-2",
+            "diag-death-d315-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        }
       }
+    },
+    "designReference": "engineering-placeholder",
+    "renderStyle": "diagnostic",
+    "legacyBake": {
+      "contractId": "lantern-camera-v1-proxy",
+      "bakeVersion": 1,
+      "azimuthDeg": 45,
+      "elevationDeg": 35.2643897,
+      "maxProjectionErrorPx": 1.7336915009241737e-7,
+      "reason": "Existing engineering frames retained unchanged tonight; only sub-micro-pixel angle precision changed. Span is presentation framing. These are not the canonical Rust/Clean INK hero."
     }
   },
   "frames": [
@@ -1071,8 +2460,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -1082,8 +2471,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -1093,8 +2482,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -1104,8 +2493,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -1115,8 +2504,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -1126,8 +2515,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -1138,7 +2527,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -1149,7 +2538,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -1159,8 +2548,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -1170,8 +2559,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -1181,8 +2570,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -1192,8 +2581,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -1203,8 +2592,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -1214,8 +2603,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -1226,7 +2615,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -1237,7 +2626,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -1247,8 +2636,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -1258,8 +2647,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -1269,8 +2658,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -1280,8 +2669,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -1291,8 +2680,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -1302,8 +2691,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -1313,8 +2702,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -1324,8 +2713,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -1335,8 +2724,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -1346,8 +2735,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -1357,8 +2746,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -1368,8 +2757,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -1380,7 +2769,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -1391,7 +2780,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -1402,7 +2791,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -1413,7 +2802,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -1423,8 +2812,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -1434,8 +2823,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -1445,8 +2834,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -1456,8 +2845,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -1467,8 +2856,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -1478,8 +2867,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -1489,8 +2878,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -1500,8 +2889,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -1511,8 +2900,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -1522,8 +2911,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -1533,8 +2922,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -1544,8 +2933,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -1556,7 +2945,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -1567,7 +2956,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -1578,7 +2967,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -1589,7 +2978,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -1599,8 +2988,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -1610,8 +2999,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -1621,8 +3010,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -1632,8 +3021,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -1643,8 +3032,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -1654,8 +3043,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -1665,8 +3054,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -1676,8 +3065,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -1687,8 +3076,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -1698,8 +3087,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -1709,8 +3098,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -1720,8 +3109,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -1732,7 +3121,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -1743,7 +3132,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -1754,7 +3143,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -1765,7 +3154,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -1775,8 +3164,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -1786,8 +3175,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -1797,8 +3186,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -1808,8 +3197,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -1819,8 +3208,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -1830,8 +3219,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -1841,8 +3230,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -1852,8 +3241,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -1863,8 +3252,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -1874,8 +3263,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -1885,8 +3274,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -1896,8 +3285,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -1908,7 +3297,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -1919,7 +3308,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -1930,7 +3319,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -1941,7 +3330,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -1951,8 +3340,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -1962,8 +3351,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -1973,8 +3362,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -1984,8 +3373,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -1995,8 +3384,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -2006,8 +3395,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -2017,8 +3406,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -2028,8 +3417,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -2039,8 +3428,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -2051,7 +3440,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -2062,7 +3451,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -2073,7 +3462,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -2083,8 +3472,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -2094,8 +3483,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -2105,8 +3494,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -2116,8 +3505,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -2127,8 +3516,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -2138,8 +3527,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -2149,8 +3538,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -2160,8 +3549,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -2171,8 +3560,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -2183,7 +3572,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -2194,7 +3583,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -2205,7 +3594,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -2215,8 +3604,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -2226,8 +3615,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -2237,8 +3626,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -2248,8 +3637,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -2259,8 +3648,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -2270,8 +3659,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -2281,8 +3670,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -2292,8 +3681,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -2303,8 +3692,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -2314,8 +3703,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -2325,8 +3714,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -2336,8 +3725,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -2348,7 +3737,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -2359,7 +3748,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -2370,7 +3759,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -2381,7 +3770,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -2391,8 +3780,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -2402,8 +3791,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -2413,8 +3802,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -2424,8 +3813,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -2435,8 +3824,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -2446,8 +3835,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -2457,8 +3846,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -2468,8 +3857,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -2479,8 +3868,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -2490,8 +3879,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -2501,8 +3890,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -2512,8 +3901,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -2524,7 +3913,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -2535,7 +3924,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -2546,7 +3935,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -2557,7 +3946,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -2567,8 +3956,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -2578,8 +3967,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -2589,8 +3978,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -2600,8 +3989,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -2611,8 +4000,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -2622,8 +4011,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -2634,7 +4023,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -2645,7 +4034,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -2655,8 +4044,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -2666,8 +4055,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -2677,8 +4066,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -2688,8 +4077,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -2699,8 +4088,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -2710,8 +4099,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -2722,7 +4111,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -2733,7 +4122,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -2743,8 +4132,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          267.72984743365464
+          135.57287886131348,
+          235.6217864071165
         ]
       }
     },
@@ -2754,8 +4143,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          282.72984743365464
+          135.57287886131348,
+          256.6217864071165
         ]
       }
     },
@@ -2765,8 +4154,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          297.7298474336546
+          135.57287886131348,
+          277.6217864071164
         ]
       }
     },
@@ -2776,8 +4165,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.69491347236678,
-          312.7298474336546
+          135.57287886131348,
+          298.6217864071164
         ]
       }
     },
@@ -2787,8 +4176,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          291
+          112.2,
+          268.2
         ]
       }
     },
@@ -2798,8 +4187,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          306
+          112.2,
+          289.2
         ]
       }
     },
@@ -2809,8 +4198,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          321
+          112.2,
+          310.2
         ]
       }
     },
@@ -2820,8 +4209,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          135,
-          336
+          112.2,
+          331.2
         ]
       }
     },
@@ -2831,8 +4220,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          314.2701525663454
+          135.57287886131354,
+          300.7782135928836
         ]
       }
     },
@@ -2842,8 +4231,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          329.2701525663454
+          135.57287886131354,
+          321.77821359288356
         ]
       }
     },
@@ -2853,8 +4242,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          344.2701525663454
+          135.57287886131354,
+          342.77821359288356
         ]
       }
     },
@@ -2864,8 +4253,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          151.6949134723668,
-          359.2701525663454
+          135.57287886131354,
+          363.77821359288356
         ]
       }
     },
@@ -2876,7 +4265,7 @@
       "attachments": {
         "lantern": [
           192,
-          323.9089653578167
+          314.27255150094345
         ]
       }
     },
@@ -2887,7 +4276,7 @@
       "attachments": {
         "lantern": [
           192,
-          338.9089653578167
+          335.2725515009434
         ]
       }
     },
@@ -2898,7 +4287,7 @@
       "attachments": {
         "lantern": [
           192,
-          353.9089653578167
+          356.2725515009434
         ]
       }
     },
@@ -2909,7 +4298,7 @@
       "attachments": {
         "lantern": [
           192,
-          368.9089653578167
+          377.2725515009434
         ]
       }
     },
@@ -2919,8 +4308,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          314.2701525663454
+          248.42712113868646,
+          300.7782135928836
         ]
       }
     },
@@ -2930,8 +4319,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          329.2701525663454
+          248.42712113868646,
+          321.77821359288356
         ]
       }
     },
@@ -2941,8 +4330,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          344.2701525663454
+          248.42712113868646,
+          342.77821359288356
         ]
       }
     },
@@ -2952,8 +4341,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.3050865276332,
-          359.2701525663454
+          248.42712113868646,
+          363.77821359288356
         ]
       }
     },
@@ -2963,8 +4352,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          291
+          271.8,
+          268.2
         ]
       }
     },
@@ -2974,8 +4363,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          306
+          271.8,
+          289.2
         ]
       }
     },
@@ -2985,8 +4374,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          321
+          271.8,
+          310.2
         ]
       }
     },
@@ -2996,8 +4385,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          249,
-          336
+          271.8,
+          331.2
         ]
       }
     },
@@ -3007,8 +4396,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          267.72984743365464
+          248.42712113868652,
+          235.6217864071165
         ]
       }
     },
@@ -3018,8 +4407,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          282.72984743365464
+          248.42712113868652,
+          256.6217864071165
         ]
       }
     },
@@ -3029,8 +4418,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          297.7298474336546
+          248.42712113868652,
+          277.6217864071164
         ]
       }
     },
@@ -3040,8 +4429,8 @@
       "origin": "diagnostic",
       "attachments": {
         "lantern": [
-          232.30508652763322,
-          312.7298474336546
+          248.42712113868652,
+          298.6217864071164
         ]
       }
     },
@@ -3052,7 +4441,7 @@
       "attachments": {
         "lantern": [
           192,
-          258.0910346421833
+          222.12744849905658
         ]
       }
     },
@@ -3063,7 +4452,7 @@
       "attachments": {
         "lantern": [
           192,
-          273.0910346421833
+          243.12744849905658
         ]
       }
     },
@@ -3074,7 +4463,7 @@
       "attachments": {
         "lantern": [
           192,
-          288.0910346421833
+          264.1274484990566
         ]
       }
     },
@@ -3085,7 +4474,7 @@
       "attachments": {
         "lantern": [
           192,
-          303.0910346421833
+          285.1274484990566
         ]
       }
     }

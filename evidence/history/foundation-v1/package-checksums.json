@@ -1,0 +1,15 @@
+{
+  "assetHash": "936fceecd11a1c4fab4bffd515b12acecbae93f7ac9e464e45da46b1cee3e768",
+  "packages": {
+    "mac": {
+      "path": "release/mac-arm64/Lantern Knight.app/Contents/Resources/app.asar",
+      "assetHash": "936fceecd11a1c4fab4bffd515b12acecbae93f7ac9e464e45da46b1cee3e768",
+      "sha256": "0d34de2bbd09f86c9a15c487ebbcd44ca2feb70132bf2df3b838d4c91fdeeb4f"
+    },
+    "windows": {
+      "path": "release/win-unpacked/resources/app.asar",
+      "assetHash": "936fceecd11a1c4fab4bffd515b12acecbae93f7ac9e464e45da46b1cee3e768",
+      "sha256": "0d34de2bbd09f86c9a15c487ebbcd44ca2feb70132bf2df3b838d4c91fdeeb4f"
+    }
+  }
+}

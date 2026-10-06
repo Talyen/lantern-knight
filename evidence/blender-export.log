@@ -4,31 +4,90 @@
 
 /Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/export.py:19: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
   m=bpy.data.materials.new(name);m.diffuse_color=(*color,1);m.use_nodes=True
-00:04.931  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-0.png'
-00:05.343  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-1.png'
-00:05.773  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-2.png'
-00:06.211  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-3.png'
-00:06.638  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-4.png'
-00:07.062  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-5.png'
-00:07.480  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-6.png'
-00:07.874  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-7.png'
-00:08.251  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-0.png'
-00:08.621  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-1.png'
-00:08.993  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-2.png'
-00:09.359  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-3.png'
-00:09.723  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-4.png'
-00:10.098  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-5.png'
-00:10.467  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-6.png'
-00:10.836  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-7.png'
-00:11.196  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d00.png'
-00:11.558  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d45.png'
-00:11.925  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d90.png'
-00:12.274  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d135.png'
-00:12.625  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d180.png'
-00:12.980  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d225.png'
-00:13.337  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d270.png'
-00:13.676  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d315.png'
+00:02.898  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-0.png'
+00:03.264  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-1.png'
+00:03.599  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-2.png'
+00:03.992  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-3.png'
+00:04.540  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-4.png'
+00:04.961  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-5.png'
+00:05.432  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-6.png'
+00:05.770  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-7.png'
+00:06.099  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-0.png'
+00:06.441  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-1.png'
+00:06.771  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-2.png'
+00:07.188  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-3.png'
+00:07.599  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-4.png'
+00:08.004  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-5.png'
+00:08.403  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-6.png'
+00:08.798  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-7.png'
+00:09.191  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d00.png'
+00:09.577  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d45.png'
+00:09.946  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d90.png'
+00:10.300  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d135.png'
+00:10.856  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d180.png'
+00:11.410  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d225.png'
+00:11.938  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d270.png'
+00:12.438  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d315.png'
 Info: Saved as "rig.blend"
+INFO Draco is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_draco_bridge.dylib
+INFO MeshOptimizer is available, use library at /Applications/Blender.app/Contents/Resources/5.2/scripts/addons_core/io_scene_gltf2/libbf_intern_meshopt_bridge.dylib
+00:58:20 | INFO: Starting glTF 2.0 export
+00:58:20 | INFO: Extracting primitive: Cube.001
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cube.005
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cube.004
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cube.002
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cube.003
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Icosphere.002
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cylinder.007
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cylinder.005
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Icosphere.006
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Icosphere.005
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cube.009
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cube.010
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cube.012
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cube.011
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Icosphere.001
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Icosphere.003
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cylinder.003
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cylinder.001
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Icosphere.004
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Icosphere
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cube.006
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cube.008
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cube.007
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cylinder.002
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cylinder
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cylinder.006
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Extracting primitive: Cylinder.004
+00:58:20 | INFO: Primitives created: 1
+00:58:20 | INFO: Finished glTF 2.0 export in 0.03600287437438965 s
+
 LANTERN_EXPORT_OK: editable rig, 16 d45 frames and 8 turnaround stills
 Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
 

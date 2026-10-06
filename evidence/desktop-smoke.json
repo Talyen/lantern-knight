@@ -1,0 +1,286 @@
+{
+  "versions": {
+    "versions": {
+      "node": "24.21.0",
+      "acorn": "8.18.0",
+      "ada": "4.0.0",
+      "amaro": "1.1.11",
+      "ares": "1.34.8",
+      "brotli": "1.2.0",
+      "cldr": "48.0",
+      "icu": "78.2",
+      "llhttp": "9.4.3",
+      "merve": "1.2.2",
+      "modules": "149",
+      "napi": "10",
+      "nbytes": "0.1.4",
+      "ncrypto": "0.0.1",
+      "nghttp2": "1.70.0",
+      "nghttp3": "",
+      "ngtcp2": "",
+      "openssl": "0.0.0",
+      "simdjson": "4.6.7",
+      "simdutf": "7.7.0",
+      "sqlite": "3.53.4",
+      "tz": "2025c",
+      "undici": "7.29.1",
+      "unicode": "17.0",
+      "uv": "1.52.1",
+      "uvwasi": "0.0.23",
+      "v8": "15.2.124.28-electron.0",
+      "zlib": "1.3.2.1-motley",
+      "zstd": "1.6.0",
+      "electron": "44.5.1",
+      "chrome": "152.0.7977.130"
+    },
+    "packaged": true,
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "prefs": {
+    "sandbox": true,
+    "contextIsolation": true,
+    "nodeIntegration": false
+  },
+  "checks": [
+    "packaged offline protocol boot",
+    "actual sandboxed preload bridge, no Node access",
+    "actual IPC rejects invalid payload",
+    "WASD moves on ground",
+    "runtime quad foot stays on the simulation ground plane",
+    "mouse ray aims on ground",
+    "sword action",
+    "dodge action",
+    "lantern action",
+    "pause/resume freezes ticks",
+    "selected 13 m camera with tested 11–15 m framing headroom",
+    "resize fixed vertical framing, 16:9 and 4:3 captures",
+    "sRGB reference swatches agree on dark and light runtime backgrounds",
+    "runtime lab exact proxy export and independent frames",
+    "translation-only follow keeps full hero sprite visible at all room corners",
+    "three combo stages through actual buffered mouse input",
+    "final death pose followed by exactly-once simulation room reset",
+    "clear progression is counted once across repeated saves",
+    "connected area transition through the unlocked gate",
+    "shared raised-ground query registers movement, sprite and shadow",
+    "save, exit, relaunch and load through actual Electron bridge",
+    "8 room replacement cycles: stable GPU object counts",
+    "interrupted room load suppressed"
+  ],
+  "independent": {
+    "a": "proxy-attack_sword_01-d45-3",
+    "b": "proxy-attack_sword_01-d45-7",
+    "sameTexture": true
+  },
+  "lifetime": [
+    {
+      "buffer": [
+        1440,
+        900
+      ],
+      "logical": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": 1,
+      "generation": 4,
+      "renderScale": 1,
+      "calls": 28,
+      "triangles": 2528,
+      "objects": {
+        "geometries": 64,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        1440,
+        900
+      ],
+      "logical": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": 1,
+      "generation": 5,
+      "renderScale": 1,
+      "calls": 28,
+      "triangles": 2528,
+      "objects": {
+        "geometries": 64,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        1440,
+        900
+      ],
+      "logical": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": 1,
+      "generation": 6,
+      "renderScale": 1,
+      "calls": 28,
+      "triangles": 2528,
+      "objects": {
+        "geometries": 64,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        1440,
+        900
+      ],
+      "logical": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": 1,
+      "generation": 7,
+      "renderScale": 1,
+      "calls": 28,
+      "triangles": 2528,
+      "objects": {
+        "geometries": 64,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        1440,
+        900
+      ],
+      "logical": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": 1,
+      "generation": 8,
+      "renderScale": 1,
+      "calls": 28,
+      "triangles": 2528,
+      "objects": {
+        "geometries": 64,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        1440,
+        900
+      ],
+      "logical": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": 1,
+      "generation": 9,
+      "renderScale": 1,
+      "calls": 28,
+      "triangles": 2528,
+      "objects": {
+        "geometries": 64,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        1440,
+        900
+      ],
+      "logical": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": 1,
+      "generation": 10,
+      "renderScale": 1,
+      "calls": 28,
+      "triangles": 2528,
+      "objects": {
+        "geometries": 64,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    },
+    {
+      "buffer": [
+        1440,
+        900
+      ],
+      "logical": [
+        1440,
+        900
+      ],
+      "devicePixelRatio": 2,
+      "verticalSpan": 13,
+      "area": 1,
+      "generation": 11,
+      "renderScale": 1,
+      "calls": 28,
+      "triangles": 2528,
+      "objects": {
+        "geometries": 64,
+        "textures": 6
+      },
+      "atlasBytes": 67108864,
+      "fileBytes": 1947893,
+      "actors": 4,
+      "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)"
+    }
+  ],
+  "errors": []
+}

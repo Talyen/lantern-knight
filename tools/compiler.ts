@@ -5,7 +5,7 @@ import sharp from 'sharp';
 import { parseSource,parseManifest, type Manifest } from '../src/assets/schema';
 import { calibrationFixture,contract } from '../src/core/camera';
 const root=process.cwd(),staging=path.join(root,'staging'),output=path.join(root,'public/generated');
-export const TOOL_VERSION='atlas-v1-sharp-0.35.5';
+export const TOOL_VERSION='atlas-v2-sharp-0.35.5';
 export const hash=(v:Buffer|string)=>createHash('sha256').update(v).digest('hex');
 export async function exactSource(relative:string,base=staging) {
   const parts=relative.split('/');let current=base;
@@ -31,11 +31,13 @@ export function paddedPixels(raw:Buffer,w:number,h:number,pad=4) {
 }
 export async function compile(sourceFile='source.json',out=output,production=false,validateOnly=false) {
   const input=await exactSource(sourceFile),source=parseSource(JSON.parse(input.toString()),production);
+  if(production){const canonical=await fs.readFile(path.join(root,'references/canon/image(3).png'));if(hash(canonical)!==source.asset.canonicalReferenceHash)throw new Error('canonical reference bytes changed: image(3).png must remain unchanged');}
   const frames=[] as Manifest['frames'],size=contract.atlasSize,pad=4;
   const pages:{raw:Buffer;id:string}[]=[];let x=0,y=0,row=0,index=-1;
   const digest=createHash('sha256').update(input).update(TOOL_VERSION).update(JSON.stringify(contract));
   for(const f of source.frames) {
     const file=await exactSource(f.path);digest.update(file);
+    const metadata=await sharp(file).metadata();if(metadata.format!=='png'||!metadata.hasAlpha||metadata.depth!=='uchar'||metadata.space!=='srgb')throw new Error(`${f.path}: reviewed RGBA8 sRGB PNG with alpha required`);
     const {data,info}=await sharp(file).ensureAlpha().raw().toBuffer({resolveWithObject:true});
     if(info.width!==source.asset.canvas[0]||info.height!==source.asset.canvas[1])throw new Error(`${f.path}: dimensions ${info.width}x${info.height} differ from canvas`);
     let minX=info.width,minY=info.height,maxX=-1,maxY=-1;
@@ -56,7 +58,7 @@ export async function compile(sourceFile='source.json',out=output,production=fal
   }
   const contentHash=digest.digest('hex'),folder=contentHash.slice(0,16);
   const encoded=await Promise.all(pages.map(p=>sharp(p.raw,{raw:{width:size,height:size,channels:4}}).png({compressionLevel:9}).toBuffer()));
-  const manifest:Manifest={schemaVersion:1,contractId:contract.id,bakeVersion:contract.bakeVersion,hash:contentHash,toolVersion:TOOL_VERSION,asset:source.asset,frames,
+  const manifest:Manifest={schemaVersion:2,contractId:contract.id,bakeVersion:contract.bakeVersion,hash:contentHash,toolVersion:TOOL_VERSION,asset:source.asset,frames,
     pages:pages.map((p,i)=>({id:p.id,path:`${folder}/${p.id}.png`,hash:hash(encoded[i]!),width:size,height:size,bytes:encoded[i]!.length,rgbaBytes:size*size*4,extrusion:2,gutter:2,mipmaps:false})),
     bundles:{boot:{required:[],optional:[],dependencies:[]},hero:{required:pages.map(p=>p.id),optional:[],dependencies:['boot']},room:{required:pages.map(p=>p.id),optional:[],dependencies:['hero']}}};
   parseManifest(manifest,production);

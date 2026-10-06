@@ -1,8 +1,14 @@
 {
-  "name": "lantern-knight", "version": "0.1.0", "private": true, "type": "module",
+  "name": "lantern-knight",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
   "description": "Fixed-camera Lantern Knight foundation; provisional proxy content",
-  "author": "Lantern Knight", "main": "dist-electron/main.cjs",
-  "engines": { "node": ">=24.18.0 <25" },
+  "author": "Lantern Knight",
+  "main": "dist-electron/main.cjs",
+  "engines": {
+    "node": ">=24.18.0 <25"
+  },
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "desktop": "npm run build && electron .",
@@ -14,24 +20,50 @@
     "assets:inspect": "tsx tools/inspect.ts",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.ts",
-    "build": "npm run typecheck && vite build && tsx tools/build-electron.ts",
-    "package:mac": "npm run build && electron-builder --mac --arm64 --dir",
-    "package:win": "npm run build && electron-builder --win --x64 --dir",
+    "build": "npm run typecheck && vite build && tsx tools/build-electron.ts && tsx tools/build-identity.ts --write",
+    "package:mac": "npm run build && npm run package:mac:prebuilt",
+    "package:win": "npm run build && npm run package:win:prebuilt",
     "smoke": "tsx tools/desktop-smoke.ts",
-    "benchmark": "tsx tools/desktop-smoke.ts --benchmark"
+    "benchmark": "tsx tools/desktop-smoke.ts --benchmark",
+    "assets:check": "tsx tools/check-assets.ts",
+    "build:verify": "tsx tools/build-identity.ts",
+    "package:mac:prebuilt": "electron-builder --mac --arm64 --dir",
+    "package:win:prebuilt": "electron-builder --win --x64 --dir"
   },
-  "dependencies": { "three": "0.186.1", "zod": "4.6.5" },
+  "dependencies": {
+    "three": "0.186.1",
+    "zod": "4.6.5"
+  },
   "devDependencies": {
-    "@types/node": "24.19.1", "@types/three": "0.186.0", "electron": "44.5.1",
-    "electron-builder": "26.15.3", "esbuild": "0.28.2", "playwright": "1.63.0",
-    "sharp": "0.35.5", "tsx": "4.23.15", "typescript": "7.0.2", "vite": "8.3.3"
+    "@types/node": "24.19.1",
+    "@types/three": "0.186.0",
+    "electron": "44.5.1",
+    "electron-builder": "26.15.3",
+    "esbuild": "0.28.2",
+    "playwright": "1.63.0",
+    "sharp": "0.35.5",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vite": "8.3.3"
   },
   "build": {
-    "appId": "studio.lanternknight.foundation", "productName": "Lantern Knight",
-    "directories": { "output": "release" },
-    "files": ["dist/**", "dist-electron/**", "package.json"],
+    "appId": "studio.lanternknight.foundation",
+    "productName": "Lantern Knight",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**",
+      "dist-electron/**",
+      "package.json"
+    ],
     "asar": true,
-    "mac": { "identity": null, "category": "public.app-category.role-playing-games" },
-    "win": { "target": "dir" }
+    "mac": {
+      "identity": null,
+      "category": "public.app-category.role-playing-games"
+    },
+    "win": {
+      "target": "dir"
+    }
   }
 }

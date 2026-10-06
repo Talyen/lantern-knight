@@ -1,5 +1,6 @@
 import { Matrix4, OrthographicCamera, Plane, Raycaster, Vector2, Vector3 } from 'three';
 import contract from '../content/camera.json';
+import {heightAt,type AreaDefinition} from '../content/world';
 export { contract };
 export const HEADINGS = ['d00','d45','d90','d135','d180','d225','d270','d315'] as const;
 export type Heading = typeof HEADINGS[number];
@@ -13,14 +14,25 @@ export function makeCamera(aspect: number, target = new Vector3()) {
   camera.position.copy(target).addScaledVector(outward,30); camera.lookAt(target);
   camera.updateMatrixWorld(); return camera;
 }
-export function resizeCamera(camera: OrthographicCamera, width: number, height: number) {
-  const half = contract.verticalSpan / 2;
+export function resizeCamera(camera: OrthographicCamera, width: number, height: number,span=contract.verticalSpan) {
+  if(width<=0||height<=0||!Number.isFinite(width+height))return;
+  const half = span / 2;
   camera.left = -half*width/height; camera.right = half*width/height;
   camera.top = half; camera.bottom = -half; camera.updateProjectionMatrix();
 }
 export function groundPoint(camera: OrthographicCamera, clientX: number, clientY: number, rect: Pick<DOMRect,'left'|'top'|'width'|'height'>) {
+  if(rect.width<=0||rect.height<=0||!Number.isFinite(clientX+clientY))return null;
   const ray = new Raycaster(); ray.setFromCamera(new Vector2((clientX-rect.left)/rect.width*2-1,1-(clientY-rect.top)/rect.height*2),camera);
   return ray.ray.intersectPlane(new Plane(new Vector3(0,1,0),0),new Vector3());
+}
+export function walkablePoint(camera:OrthographicCamera,clientX:number,clientY:number,rect:Pick<DOMRect,'left'|'top'|'width'|'height'>,area:AreaDefinition){
+  if(rect.width<=0||rect.height<=0||!Number.isFinite(clientX+clientY))return null;
+  const ray=new Raycaster();ray.setFromCamera(new Vector2((clientX-rect.left)/rect.width*2-1,1-(clientY-rect.top)/rect.height*2),camera);
+  let low=0,high=100;
+  const distance=(t:number)=>{const x=ray.ray.origin.x+ray.ray.direction.x*t,z=ray.ray.origin.z+ray.ray.direction.z*t,y=ray.ray.origin.y+ray.ray.direction.y*t;return y-heightAt(area,x,z);};
+  if(distance(low)<0||distance(high)>0)return null;
+  for(let i=0;i<36;i++){const mid=(low+high)/2;if(distance(mid)>0)low=mid;else high=mid;}
+  return ray.ray.at((low+high)/2,new Vector3());
 }
 export function selectDirection(yaw: number, previous?: Heading, hysteresis = 0.045): Heading {
   if (!Number.isFinite(yaw)) throw new Error('direction yaw must be finite');
@@ -38,7 +50,7 @@ export function trimmedBounds(canvas: {density:number;anchor:number[]}, trim: nu
 }
 export function calibrationFixture() {
   const camera=makeCamera(16/9);
-  return {contract, right:right.toArray(),up:up.toArray(),outward:outward.toArray(),matrixWorld:camera.matrixWorld.toArray(),view:camera.matrixWorldInverse.toArray(),projection:camera.projectionMatrix.toArray(),headings:HEADINGS.map((id,i)=>{
+  return {contract,matrixLayout:'column-major',units:'world metres', right:right.toArray(),up:up.toArray(),outward:outward.toArray(),matrixWorld:camera.matrixWorld.toArray(),view:camera.matrixWorldInverse.toArray(),projection:camera.projectionMatrix.toArray(),headings:HEADINGS.map((id,i)=>{
     const yaw=i*Math.PI/4, v=new Vector3(Math.sin(yaw),0,Math.cos(yaw));
     return {id,yawDeg:i*45,screenVector:[v.dot(right),-v.dot(up)],facing:i===1?'toward camera':i===5?'away from camera':'oblique'};
   })};

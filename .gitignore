@@ -9,3 +9,5 @@ release/
 !.env.example
 evidence/smoke-user/
 evidence/benchmark-user/
+
+tmp/
