@@ -1,0 +1,264 @@
+LANTERN KNIGHT: INITIAL FOUNDATION ASSIGNMENT
+
+Build the foundation of a new fixed-camera, 2.5D dark-fantasy action RPG using three.js and Electron. Deliver three connected results: an asset/animation test room, a controlled production pipeline that creates and integrates one usable walk loop and one sword attack before expanding to eight directions and the remaining clips, and a small playable encounter. I want to replace rough assets with finished art without rewriting movement, combat, scene composition, or the renderer.
+
+1. CONFIRMED DIRECTION AND PROVISIONAL CHOICES
+
+Confirmed:
+- three.js rendering and Electron desktop shell.
+- Fixed camera orientation. Camera translation/follow is allowed; player-controlled orbit or rotation is outside this assignment.
+- A 2.5D presentation: directional animated character sprites, carefully composed environment art, and simple underlying 3D geometry where useful for ground, collision, depth, and lighting.
+- A male Lantern Knight as the initial hero, carrying sword and lantern. His visual design is not approved yet. The latest direction calls for lighter, less chunky armor and a more distinctive, handcrafted character; do not lock the current concept's heavy plate, topknot, or palette.
+- WASD movement, mouse aim, sword plus carried lantern, Shift dodge, and one lantern ability.
+- Windows is the primary shipping target; development should work on macOS.
+- Target 2560 x 1440 at 60 FPS on an explicitly recorded reference machine. 120 FPS is a stretch goal, not a promised result. Target hardware has not yet been selected.
+- Clean, stylized, graphic/cut-paper shapes and readable silhouettes. Hades, Absolum, Hollow Knight, and Silksong inform visual clarity and shape language; Diablo II and Path of Exile II inform dark-fantasy atmosphere. Create original art direction rather than copying characters or assets. Avoid muddy detail, noisy realism, indiscriminate bloom, and darkness that obscures combat.
+
+Provisional defaults, to document and keep configurable:
+- TypeScript with strict checking is the recommended implementation language; it is an engineering choice, not a separately confirmed product requirement.
+- Orthographic camera; azimuth 45 degrees and elevation 35.264 degrees as an initial calibration proposal. These angles are NOT approved art-production values or facts about any reference game.
+- 60 Hz fixed gameplay simulation with interpolated rendering; each animation owns its visual frame durations independently.
+- Eight authored facing directions. Start with in-place animation and simulation-owned movement.
+- LMB sword attack, RMB lantern ability, Shift dodge, Escape pause. The input actions are confirmed; these mouse bindings are defaults.
+- Lantern ability prototype: a short, readable flare with a simple gameplay effect and cooldown. Keep its behavior data-driven; the final ability design is still open.
+- One hero loadout baked into the initial character sprites, with sword in his anatomical right hand and lantern in his anatomical left hand as the proposed handedness. Keep those sides consistent in every direction. Include attachment/event metadata for lantern effects. Full interchangeable equipment is future work.
+- One small hand-authored room, one simple melee enemy archetype, one attack, one dodge, one ability, damage/death/reset, and a minimal health/cooldown HUD.
+
+Do not block ordinary groundwork on reversible choices. Ask only when an unavailable input or a consequential decision actually blocks progress. Keep provisional decisions visible. Before anyone produces a large volume of final art, present the camera calibration, hero scale, and male Knight turnaround for approval. The supplied male Knight concept, if any, is a design reference, not an approved production turnaround or animation set. Carry forward the lighter, more distinctive character direction rather than refining the unapproved bulky armor by default.
+
+2. WORKING APPROACH AND SCOPE
+
+Build a thin, playable vertical slice through the milestones below. Spend most of the effort making the pipeline and game work. Use short tests and one bounded performance pass to find meaningful problems; do not spend most of the assignment building measurement infrastructure.
+
+Use clear module boundaries, a small number of dependencies, and ordinary data structures. Suggested boundaries are: Electron main/preload, renderer/bootstrap, deterministic simulation, input actions, presentation/animation, asset runtime, offline asset tools, content definitions, and tests. A single repository is sufficient. Choose the simplest build setup with a supported Electron packaging route.
+
+Verify the current stable, mutually compatible package versions and Node tooling before choosing them. Pin direct dependencies, retain the lockfile, record the versions actually installed, and use matching three.js core/addons. Do not copy old APIs from tutorials or silently use beta versions. The current three.js WebGLRenderer baseline is WebGL 2, not WebGL 1 [1]. Use that baseline. Do not introduce an automatic WebGPU migration, dual-renderer architecture, React-driven game loop, or a custom engine framework.
+
+Do not build multiplayer, accounts, backend services, procedural world generation, a general-purpose editor, a full inventory/loot system, an elaborate ECS, modding, or a complete equipment compositor. Avoid a speculative architecture for thousands of enemies. Leave useful seams, prove them with the small room, and explain real limitations.
+
+3. FIRST CONTRACT: CAMERA, WORLD, SCALE, AND DIRECTIONS
+
+Create a versioned camera/asset-space contract that is consumed by the asset compiler, runtime, and calibration scene. It must describe projection, orientation, world axes, source image coordinate convention, anchor convention, source pixel density, baseline framing, and the asset bake version.
+
+Use a right-handed world with XZ as ground and +Y as height. Define azimuth unambiguously: measured from +Z toward +X around +Y. For the initial camera proposal, its horizontal offset from the look-at target is in the +X/+Z quadrant. Define elevation above the XZ plane. Include the actual camera basis/matrix in a machine-readable calibration fixture rather than relying only on the word "isometric."
+
+Use an orthographic camera with a documented vertical span and resize policy. Keep vertical world framing stable while horizontal coverage follows aspect ratio, unless there is a recorded reason to letterbox. Separate logical viewport size, drawing-buffer resolution, device pixel ratio, and optional render scale. A Mac Retina window must not silently render four times the intended pixel count. Fix orientation for normal play; camera follow moves the camera and its target together. Avoid unrequested zoom changes.
+
+Record the exact asset bake orientation. Use one approved fixed-camera bake contract for the playable content; do not produce duplicate asset sets for multiple camera angles. Camera comparisons can use the same actual 3D calibration proxy before approval. Changing camera azimuth/elevation or the asset projection contract requires a version change and regenerated/revalidated dependent assets. Never "fix" a camera mismatch with undocumented nonuniform sprite scaling. Treat deliberate presentation zoom and higher-resolution exports separately from a bake-angle change.
+
+All actors have a simulation foot position on the ground. Visual quads, shadows, aim indicators, and collision debug views derive from that position. The image anchor is measured in the original untrimmed canvas, with pixel origin at top-left, +x right, +y down. Store the original canvas size, trim rectangle, anchor, and any extra padding. Trimming must preserve placement exactly. For a camera-facing quad, reconstruct trimmed bounds relative to the untrimmed anchor using the declared pixels-per-projected-world-unit, then place the anchor at the projected foot. Do not treat image height as world-Y height without accounting for the bake projection.
+
+Choose source resolution from the hero's actual on-screen footprint at the baseline framing, including room for the sword, lantern, and effects. Document the calculation: projected screen pixels per world unit = drawing-buffer height / effective orthographic vertical span. Distinguish that runtime density from source pixels per projected world unit. Make art at a sensible oversampling factor, not at an arbitrary giant resolution. Do not enforce a 512-pixel canvas if a smaller source is enough. Start with one consistent per-character canvas and density; use metadata to support trim differences.
+
+Define eight headings numerically. Use labels d00, d45, d90, d135, d180, d225, d270, d315, with heading zero = +Z and positive rotation toward +X; yaw = atan2(direction.x, direction.z). The artwork must show the character facing that world heading under the recorded camera. Add screen-arrow and front/back labels in the viewer so artists cannot confuse world headings with screen compass directions. With the proposed camera, d45 faces toward the camera/screen-down and d225 away/screen-up. Verify this rather than guessing from filenames.
+
+Implement one tested direction-selection function with wraparound, consistent tie handling, and small hysteresis if needed. Aim is continuous simulation data; visual facing is quantized. Aim uses a pointer ray intersecting the ground plane, correctly accounting for canvas position and resize. Normalize diagonal WASD motion. Explicitly choose screen-relative movement projected onto XZ as the initial control convention, show the mapping in the lab, and keep it configurable.
+
+Acceptance fixture: a marked grid, unit cube, axis arrows, footprint marker, eight-way facing chart, and a representative hero silhouette. Test projecting and unprojecting ground points, foot anchoring across clips/directions, trim invariance, and resizing. Include screenshots at baseline 16:9 plus a second aspect ratio. Label the camera version and provisional angles on calibration screenshots.
+
+4. ASSET PIPELINE: SOURCE TO VALIDATED RUNTIME CONTENT
+
+Create the schema before adding many assets. Use a runtime-validatable schema with useful file/field errors, generated or checked TypeScript types, and an offline compiler. Avoid a schema library that requires a large application framework. The precise folder names are your choice; preserve these distinct stages:
+- References/concepts: mood boards, generated concepts, exploratory sheets. Never implicitly import these into the game.
+- Authoring sources: editable source files or original renders, provenance/license, and bake recipe when available.
+- Import staging: reviewed, consistently exported PNG frames or equivalent lossless inputs plus source metadata.
+- Generated runtime assets: reproducible atlases, compiled manifest, hashes, contact sheets, and build report. Treat these as generated output, not hand-edited truth.
+
+The compiler should ingest real exported frames, validate them, preserve anchors, trim safely, pack atlases deterministically, and emit runtime data. Keep this separate from the focused authoring/export pipeline required below; do not build a general rendering farm or image-generation service. If no finished frames are provided, begin with clearly labeled diagnostic sprites with asymmetric sword/lantern markers, feet, direction labels, and several distinct frames. They unblock the runtime while the controlled walk/attack production pipeline is built; they are not the final animation deliverable. Do not treat a tiled AI concept image as an automatically valid sprite sheet. A single illustrated pose is not an animation set.
+
+Define at least:
+- Asset ID, type, schemaVersion, contentVersion/hash, bundle, provenance/license, and placeholder/production status.
+- Camera/bake contract ID, source canvas dimensions, projected pixel density, foot anchor, trim bounds, color space, alpha convention, and import recipe/version.
+- Atlas page ID, image path/hash/dimensions, per-frame rectangle, rotation flag, extrusion/gutter metadata, and original-source mapping.
+- Character clips, direction entries, explicit ordered frames, frame durations, loop behavior, visual notifies, and supported fallback mappings.
+- Render category, contact-shadow settings, optional attachments, occlusion/depth metadata, and collision footprint references. Collision shapes are authored gameplay data, not inferred from alpha bounds.
+- Dependency and bundle membership, size estimates, and required versus optional resources.
+
+Use stable IDs and explicit ordering. Never rely on directory enumeration or lexicographic frame sorting for playback. Reject duplicate IDs, non-finite values, zero/negative frame durations, broken references, out-of-bounds atlas rectangles, wrong image dimensions, incompatible camera contracts, missing required headings/clips, invalid anchors, and unapproved production placeholders. A ground anchor outside the visible opaque region can be intentional; validate its declared coordinate convention rather than requiring it to sit inside the alpha silhouette.
+
+The first tooling commands should cover validation, compilation, and a contact-sheet/inspection report. Compilation should be deterministic from identical source inputs and tool versions, with output written safely so a failed build cannot leave a half-updated manifest. Restrict source paths to the approved asset roots. Enforce exact filename/path case in references and reject paths that differ only by case, so content remains portable across Windows and macOS filesystems. Build a tiny valid fixture and deliberately invalid fixtures for the linter.
+
+Atlas policy:
+- Begin with conventional RGBA PNG pages and explicit color metadata. Use a practical starting page size, such as 2048 x 2048, and a configured maximum verified against renderer capabilities. Split pages rather than assuming an unlimited texture size.
+- Do not rotate packed frames in the first implementation unless the runtime and tests support it explicitly.
+- Preserve a consistent straight/premultiplied alpha convention across import, filtering, shader, and blend state. Add edge-color dilation/extrusion and an adequate gutter; transparent black borders must not produce halos.
+- Choose and document mip/filter policy. Do not assume a two-pixel gutter is safe at every mip level. For the fixed-scale first pass, a no-mipmap or carefully bounded-mipmap choice is acceptable if tested at expected scales; preserve clean downsampling and avoid shimmer. Do not force nearest-neighbor filtering merely because these are sprites.
+- Keep per-instance frame UVs independent. Mutating a shared texture's offset/repeat must not make every actor switch frames together.
+- KTX2/Basis texture compression is an optional later optimization after the PNG pipeline works. If adopted, validate alpha-edge quality, actual supported transcode formats, memory, bundled decoder paths, and offline loading. KTX2Loader support detection is required before loading [6]. It is not a first-milestone dependency.
+
+Fallback policy must be explicit. Development can show a diagnostic missing-asset card or documented idle fallback with a warning. Production validation fails for missing required content or placeholders unless a deliberately named development-build flag permits them. Missing attack frames must never invent new attack timing or crash combat. Do not silently mirror asymmetric equipment, substitute directions, or hide missing production clips.
+
+5. ANIMATION AND GAMEPLAY TIMING
+
+Keep three clocks separate: fixed simulation ticks, visual clip time/frame durations, and render presentation. Use a fixed-step accumulator with interpolation, a bounded catch-up policy, and intentional pause/focus/suspend behavior. Avoid a huge simulation catch-up after an Electron window resumes. Input becomes simulation commands; deterministic tests must not depend on requestAnimationFrame timing, wall-clock time, or uncontrolled Math.random calls.
+
+Initial hero state coverage: idle, locomotion, sword attack, dodge, lantern ability, hurt, and death. Support eight directions through the schema and diagnostic content. Prefer a small, clean frame set over hundreds of low-quality frames. For initial art planning, 8-12 visual FPS can be a useful starting range, with explicit authored holds and faster key moments where needed. It is not a cap on simulation responsiveness or a fixed requirement for every clip.
+
+Use stable clip IDs and an explicit state-to-clip mapping. For compatibility with the optional draft art contract, the proposed IDs are idle, walk, run, attack_sword_01, dodge, hit, death, and cast_lantern_flare. Map gameplay "hurt" to hit and the provisional lantern ability to its selected clip; do not derive gameplay behavior from the name. A separate run clip can wait until the walk/attack proof works and the movement-speed design needs it. Draft clip rates and durations are tuning proposals, not user-approved timings.
+
+Implement a small explicit state/ability model with transition and interruption rules. Put attack wind-up, active window, recovery, dodge movement/invulnerability, cooldowns, and hit-once-per-target behavior in gameplay definitions measured in simulation ticks or clearly converted time units. Bind the animation to that action timeline. Changing the number of visual drawings must not alter damage timing, movement distance, cooldown, or invulnerability.
+
+Visual notifies are identified events such as footstep, swing whoosh, lantern flash, or dust. Specify crossed-interval behavior so frame skips still emit due events. Use an identity such as actor + action/clip instance + loop index + event ID to prevent duplicates. Define policies for looping, interruption, resume, and debug seeking. Scrubbing must not deal damage or replay sounds accidentally. If gameplay markers and visual markers share a data file, keep authority explicit: the simulation processes gameplay markers once; rendered frame changes do not cause gameplay effects.
+
+Movement is simulation-owned and animations are initially in-place. Do not extract arbitrary root motion from sprite pixels. Keep action facing, movement facing, and aim as distinct concepts. For the smallest coherent animation kit, use travel-facing locomotion, aim-facing idle/attack/ability, and a facing lock when an attack starts. These are provisional animation policies. Eight forward-walk directions do not provide true aim-facing strafing or backward locomotion; do not make the hero moonwalk because the mouse points behind him. Torso-independent aim or dedicated backward/strafe clips can be a later expansion. Define dodge direction and its facing lock as tuning data. Smooth transform interpolation must not blend or warp art into unintended poses. Hold the final death frame and test repeated interruption/restart cases.
+
+Build an animation lab with clip/direction selection, play/pause, frame step, timeline scrub, playback speed, foot/canvas/trim overlays, attachment markers, and a notify log. Show the authoritative action timeline beside the visual timeline. Reuse the actual runtime animator and assets so the lab cannot pass while the game uses a different code path.
+
+5A. PRODUCE THE FIRST REAL ANIMATION SAMPLE
+
+You own implementing and exercising the authoring-to-runtime path, not only writing an art plan. Check which animation tools and source files are actually available. Prefer a small controlled 3D rig and repeatable orthographic export, using Blender if it is available and suitable, or a controlled 2D cutout rig with sufficient authored views. Select one route and explain the tradeoff briefly. Verify APIs against the installed tool version [13]. Do not generate unrelated AI images for every frame and hope they align.
+
+For the 3D route, create or adapt an editable, original low-complexity male Knight proxy with consistent proportions, fixed anatomical equipment sides, a simple rig, and restrained graphic materials. Keep the canonical camera, framing, lighting, color settings, alpha, frame sampling, and root/foot origin in a reusable export scene or script. Rotate the character around its ground root for the eight world headings while preserving the fixed camera and recorded lighting recipe. Account explicitly for the authoring tool's native axes when mapping to the game's Y-up contract; a Blender scene's customary Z-up coordinates must not leak into runtime metadata. Export lossless RGBA frame sequences and metadata, then pass them through the same compiler used by every other asset.
+
+For a 2D route, retain editable layered source, pivots, pose curves, and view-specific overlap order. Create genuinely suitable front/side/back directional views rather than mirroring asymmetric gear or treating a flat image as a 3D turnaround. Both routes must be repeatable after a source edit without manual per-frame placement.
+
+First produce one continuous in-place walk cycle and one sword attack in one explicitly labeled view, such as d45. Use an actual coordinated animation: planted-foot phases, controlled body travel/bob, consistent limb lengths and equipment, and a readable attack anticipation, strike, and recovery. A global bob/wobble of one still image does not count as the walk/attack deliverable. Preserve a stable foot origin and useful bounds throughout. Put any attack translation in gameplay data, not hidden sprite root drift. Keep the first pass small enough to inspect every frame.
+
+Save the editable source/rig, export recipe/script, original PNG sequence, source metadata, compiled atlas/manifest, contact sheet, and a looping preview. Integrate these exact compiled assets in the runtime lab and encounter. Check the loop seam, foot sliding at the selected movement speed, clipping at all extremities, silhouette/readability at actual gameplay size, hand consistency, alpha halos, and alignment of the visual strike with the simulation active window. Fix obvious defects before multiplying the animation into eight views.
+
+The approval gates are explicit: male design/turnaround and canonical camera/scale require my approval before final-art production; the first usable walk and attack should be shown before broad clip expansion. While an approval is pending, continue with a clearly labeled proxy rig, runtime work, and disposable calibration exports. Do not silently promote the proxy or an unapproved concept to production art. After approval, export the initial two clips in all eight directions, then add idle, dodge, ability, hurt, and death against the same contract. Each expanded clip must pass the lab and asset linter.
+
+If Blender or the chosen animation tool cannot run, or necessary approved art/rig input is unavailable, report the exact tool/input blocker and the smallest next step. Do not claim animation production is complete. Continue the compiler, runtime lab, diagnostic/proxy content, and playable encounter that do not depend on that input. Include the runnable export entry point and specify which asset-production checks remain unexecuted. Do not let "pipeline planned" or placeholders alone stand in for the requested sample when the tools and approved inputs are available.
+
+6. DEPTH, OCCLUSION, MATERIALS, AND EQUIPMENT
+
+Prove the scene-composition approach before creating a large environment library. Three.js transparent-object sorting alone cannot solve every overlap [4]. A tall flat sprite is not automatically a correctly occluding 3D object.
+
+Define separate rendering categories for opaque ground/geometry, cutout actors and props, soft contact shadows, foreground/canopy pieces, and translucent effects. Choose one coherent initial depth policy and document the relevant depthTest, depthWrite, alphaTest/blending, and stable sorting settings. For mostly hard-edged art, alpha-tested cutouts are worth testing; retain intentional soft edges and show the tradeoff. Blended effects need their own depth-write/sort treatment. Do not disable depth testing across the entire game or patch individual overlaps with arbitrary renderOrder numbers.
+
+Store foot/sort anchors and stable tie-breaks for actor/prop ordering. Tall or spanning objects need authored structure: split base/canopy/front/back layers, simple world-space occluder/depth proxies, or another demonstrated method. Pick the least complex solution that passes the test scene. Keep collision and visual occlusion separate. If using invisible depth proxies, verify that the proxy does not mask transparent holes or create an opaque rectangle around a sprite. Account for the mismatch between a camera-facing image plane and a world-space object's depth. Document unsupported overhangs/bridges instead of promising general depth from a single flat image.
+
+Required overlap cases: hero crossing another actor; walking in front of and behind a pillar; passing partly behind a tree/canopy; walking beside a wall/corner; and a foreground element that can conceal the hero. Keep combat readable using a simple, bounded occluder fade or hero silhouette only if necessary. Show both normal and debug views.
+
+Use correct color management: color artwork is sRGB; non-color masks/data have an appropriate non-color setting; output conversion happens exactly once [3]. Verify the same reference swatch and sprites in the import preview and runtime, over both dark and light backgrounds. Document the material choice for baked/painted shading so dynamic lighting does not double-light it. Begin with restrained lantern glow, readable world illumination, and soft ground-contact shadows. Do not assume a PointLight illuminates an unlit sprite material or that a sprite automatically casts the desired shadow. A contact-shadow decal is a valid first solution; align it to the ground and prevent z-fighting.
+
+For the first hero, bake body, sword, and carried lantern into one synchronized visual set unless supplied production assets justify layering. Keep VFX separate through per-frame/direction attachment metadata, with a documented space and fallback. A hand/socket location in screen pixels is not automatically a world-space physical location; use an explicit mapping or an authored world-space approximation for lights and gameplay effects.
+
+Document the future equipment contract without implementing every option: baked variants multiply clip/direction export cost; layered parts require identical bake camera, canvas, anchor, animation timing, per-frame attachment data, and per-direction front/behind-body ordering or masks. A lantern cannot simply be pasted above the body in every direction. Do not silently mirror the Knight and switch his sword/lantern hands. Include a rough asset-count/memory estimate for the initial loadout and the cost of another baked variant.
+
+7. LOADING, LIFETIME, AND MEMORY
+
+Build an asynchronous bundle loader with a manifest-first flow, deduplicated requests, shared-resource ownership/refcounts or equivalent explicit lifetime rules, progress/error reporting, and safe cancellation or stale-load suppression. Separate boot/UI, shared hero content, and room content. Load and warm required content before the encounter starts; avoid synchronous file IO, first-use decode/upload stalls, or compilation during the first sword swing where practical. A small preload/warm-up step is sufficient.
+
+Unloading a room must release room-owned meshes, materials, textures, render targets, listeners, timers, and decoded image resources where relevant, without disposing resources still shared by the hero or UI. Removing an object from the scene alone does not dispose GPU resources [5]. Test an interrupted load followed by room replacement so late completion cannot resurrect a discarded room. Make retries safe and avoid an unbounded global cache.
+
+Report file/download size separately from decoded CPU memory, estimated resident GPU texture memory, render targets, and temporary decode/transcode buffers. For RGBA8, width x height x 4 is a base-level estimate; include actual mip levels, atlas occupancy, copies, and additional maps. PNG compression does not directly reduce resident RGBA memory. renderer.info exposes useful object counts, not an authoritative GPU-byte meter [1]. Clearly label estimates.
+
+Set provisional content budgets in configuration and a short document. A starting whole-scene texture budget such as 256 MiB may be useful, but label it provisional until a target GPU and full content set are known. Include hero, enemies, scenery, UI, effects, and post-process buffers; do not silently exclude the expensive category to pass. Prefer sensible source resolution, shared atlases, limited variants, and lifetime management before sophisticated batching. Run a short repeated room load/unload test and look for unexplained growth after caches settle.
+
+8. ELECTRON SHELL, SAVES, AND PACKAGING
+
+Keep Electron privileged work in main, expose a minimal typed preload API with contextBridge, and keep the game renderer free of Node/filesystem access. Explicitly enable contextIsolation and sandbox; disable nodeIntegration. Use a restrictive production CSP, packaged local content, blocked unexpected navigation/new windows, no arbitrary external URLs, and a bounded custom app protocol for packaged resources. Do not weaken these settings just to make the dev server work. Follow the current official security guidance [7-9].
+
+Expose specific operations such as loadSettings, saveSettings, loadGame, and saveGame. Do not expose raw ipcRenderer, arbitrary channel names, shell execution, unrestricted filesystem paths, or IPC event objects. Validate request payloads and the expected sender/frame in main. The browser development adapter can use an in-memory or browser-local implementation of the same interface; tests must still exercise the actual Electron bridge.
+
+Implement a small versioned save format for settings and the slice's minimal progression/state. Store it under the application's userData directory [10]. Use app-owned slot IDs, bounded payloads, schema validation, an atomic-write strategy appropriate to the OS, and recovery/backup behavior for corrupt or interrupted writes. Serialize concurrent writes. Separate save format version from asset schema version. Test a simple migration and graceful rejection of newer unsupported versions; never overwrite an unreadable save with defaults automatically.
+
+Provide development and packaging commands for macOS and Windows using a supported packaging approach [11]. Keep paths portable and assets available offline. Verify a packaged build on the OS actually available. A successful macOS development run or creation of a Windows artifact does not establish a Windows runtime pass. Explicitly list unavailable platform checks; leave signing, installers requiring credentials, store distribution, and automatic updates for later. Do not claim release readiness.
+
+9. DELIVERY MILESTONES
+
+Milestone A: Bootable foundation and calibration.
+- Repository/tooling, pinned dependency selection, renderer/Electron shell, input mapping, camera contract, and runnable calibration scene.
+- Versioned schemas and the smallest valid/invalid test fixtures.
+- Show the proposed camera/scale with diagnostic art. Continue reversible foundation work while the art/camera approval remains pending.
+
+Milestone B: Asset and animation laboratory.
+- Reproducible import/compiler/atlas/manifest flow, linter, contact sheets, actual runtime loading, animation lab, eight-direction diagnostic hero, notify tests, and anchor/trim tests.
+- Demonstrate two actors using the same atlas with independent clips/frame timing.
+- Demonstrate replacing diagnostic frames through the pipeline without editing gameplay code.
+
+Milestone C: Controlled walk/attack animation production.
+- Implement the controlled rig/export route and deliver the first real walk/attack sample with editable source, a replayable export command, compiled assets, and in-engine playback. If approval is pending, use a labeled proxy and present the sample as provisional.
+- After design/camera and first-sample approval, expand walk/attack to all eight directions, then add the remaining clips. Keep this gated art work distinct from independent runtime progress.
+- Prove the actual export and integration, not just the plan or synthetic diagnostic labels. Record unavailable tools or source-art blockers precisely.
+
+Milestone D: Playable micro-slice.
+- One compact room, controllable Knight, basic enemy behavior, sword attack, dodge, lantern ability, damage/death/reset, and minimal HUD.
+- Occlusion test fixtures, ground contact/shadows, clear telegraphs, and coherent visual defaults.
+- Add only enough polish to judge responsiveness and readability. Do not expand content count before the pipeline works.
+
+Milestone E: Desktop verification and handoff.
+- Versioned settings/save round-trip through Electron, focused automated tests, one available-OS packaged smoke test, bounded performance/memory checks, and short setup/asset-authoring documentation.
+- Deliver a playable build/checkpoint plus an honest list of remaining art, camera-approval, hardware, and platform work.
+
+Each milestone must leave a runnable checkpoint. Send short updates when a milestone is playable, a real blocker appears, or a decision needs me. Do not stop after writing architecture documents. Complete the implementation through Milestone E within the defined micro-slice scope, unless a real authorization/environment blocker prevents it. A pending art approval pauses the dependent final-art work, not the lab, proxy export, or encounter implementation. If the assignment must be split, finish and verify the narrowest coherent checkpoint first and explain exactly what remains.
+
+10. TESTING AND BOUNDED PERFORMANCE CHECK
+
+Automated coverage should include:
+- Asset lint failures, deterministic compiler output, missing-resource behavior, camera/bake-version mismatch, trim/pivot math, angle wrap/ties, and invalid atlas data.
+- Fixed-input simulation replay with seeded randomness and the same final state across different render cadences. Be precise about the determinism guaranteed; do not claim universal bit-identical cross-platform physics.
+- Attack hit once per target, cooldowns, dodge windows, interruption/death transitions, skipped visual frames, looped notifies, scrub behavior, and independent actors sharing an atlas.
+- Async cancellation/stale completion, shared resource lifetime, repeated room reset/load/unload, save validation/migration/recovery, and narrow IPC request validation.
+- An available-platform desktop smoke test: boot, move/aim, attack/dodge/ability, resize, pause/resume, save/relaunch/load, and exit without new errors. Use current supported testing APIs [12].
+
+Do a short, reproducible benchmark after the slice works: a brief warm-up followed by roughly a minute in a fixed-seed representative encounter, plus a separate modest stress fixture. Record exact machine/GPU, OS, Electron/Chromium and three.js versions, build mode, window/display refresh, actual drawing-buffer dimensions, render scale, actor/effect counts, and asset residency. Prefer packaged Electron for target performance claims. If only the browser/dev build or macOS is available, label that limit.
+
+Report frame-time distribution (at least median and p95), visible stalls, draw calls/triangles, estimated resident asset bytes, and load/unload behavior. A 60 FPS target corresponds to approximately 16.7 ms per frame; 120 FPS to 8.3 ms. RequestAnimationFrame intervals are not pure GPU time, display refresh can cap them, and a browser-average FPS number does not prove Windows 1440p performance. Use GPU timing only if reliably available; mark it unavailable otherwise. Fix clear bottlenecks exposed by this pass, then rerun the same fixture. Do not build an hours-long profiling platform or make unsupported performance promises.
+
+11. REQUIRED HANDOFF
+
+Provide:
+- What is playable now, exact run/test/package commands, and the verified output/build location.
+- Dependency/tool versions and checks marked passed, failed, or not run, with the reason for any missing platform validation.
+- A concise architecture map and the camera/asset contract, with confirmed decisions clearly separated from provisional defaults.
+- The source-to-runtime asset workflow, one working example, an asset replacement walkthrough, and a list of art still needed.
+- The editable initial animation source/rig, export script/recipe, walk/attack frame sequences, contact sheets/previews, and proof that those exact exports run in the test room. Clearly distinguish an approved sample, a proxy sample, and any blocked production work.
+- Calibration/animation/occlusion screenshots or a short clip using the actual implementation; label placeholders clearly.
+- The bounded performance report with its reference environment and limitations.
+- Small next assignments that I can give to agents myself, with ownership boundaries and acceptance checks.
+
+Suggested next assignments after this foundation:
+1. Resolve any pending approval of the male Lantern Knight turnaround, camera calibration, silhouette, source density, and first walk/attack sample. If these were already approved and completed during this task, report that rather than repeating the work.
+2. Finish or polish the remaining hero animation pack against the approved contract: all required headings, sword/lantern hand consistency, combat timing, anchors, contact sheets, and attachment data. Scope this from the actual delivered clips.
+3. Build a small environment kit against the proven occlusion rules, with floor, pillar, wall/corner, canopy/foreground, collision footprints, and readable lantern lighting.
+4. Refine one satisfying encounter and the lantern ability, then test the packaged Windows build on named target hardware before scaling content.
+
+Do not label foundation success as final art approval or production performance certification. End with the most important next decision or blocker, not a long speculative feature backlog.
+
+OFFICIAL REFERENCE APPENDIX
+
+These pages were checked on 6 October 2026. APIs and tooling may change; recheck the installed versions during implementation. The camera values, schema design, budgets, and milestone choices above are project recommendations, not requirements from these sources.
+
+[1] three.js WebGLRenderer: WebGL 2 baseline, renderer information, drawing-buffer sizing, warm-up, and lifecycle APIs.
+https://threejs.org/docs/pages/WebGLRenderer.html
+
+[2] three.js OrthographicCamera: projection and projection-matrix updates.
+https://threejs.org/docs/pages/OrthographicCamera.html
+
+[3] three.js Color Management: color versus data textures and output conversion.
+https://threejs.org/manual/pages/color-management.html
+
+[4] three.js Transparency and Material: sorting limitations, alpha tests, blending, and depth settings.
+https://threejs.org/manual/pages/transparency.html
+https://threejs.org/docs/pages/Material.html
+
+[5] three.js Cleanup and Texture: explicit resource lifetime and texture properties.
+https://threejs.org/manual/pages/cleanup.html
+https://threejs.org/docs/pages/Texture.html
+
+[6] three.js KTX2Loader: optional compressed textures and renderer support detection.
+https://threejs.org/docs/pages/KTX2Loader.html
+
+[7] Electron Security: isolation, sandboxing, navigation, CSP, sender validation, and packaged protocol guidance.
+https://www.electronjs.org/docs/latest/tutorial/security
+
+[8] Electron Context Isolation: a specific method per exposed operation.
+https://www.electronjs.org/docs/latest/tutorial/context-isolation
+
+[9] Electron Inter-Process Communication: supported main/preload/renderer messaging patterns.
+https://www.electronjs.org/docs/latest/tutorial/ipc
+
+[10] Electron app API: platform application data paths, including userData.
+https://www.electronjs.org/docs/latest/api/app
+
+[11] Electron Application Packaging: packaging/distribution workflow.
+https://www.electronjs.org/docs/latest/tutorial/application-distribution
+
+[12] Electron Automated Testing: current desktop testing approaches.
+https://www.electronjs.org/docs/latest/tutorial/automated-testing
+
+[13] Blender Rendering Animations and Python API: repeatable image-sequence export; consult the documentation matching the installed Blender version.
+https://docs.blender.org/manual/en/latest/render/output/animation.html
+https://docs.blender.org/api/current/

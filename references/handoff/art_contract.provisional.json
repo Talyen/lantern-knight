@@ -1,0 +1,739 @@
+{
+  "documentType": "art_production_contract_draft",
+  "contractVersion": "0.1.0-draft",
+  "createdDate": "2026-10-06",
+  "productionReady": false,
+  "status": "provisional_approval_required",
+  "purpose": "Shared art export conventions for a fixed-camera 2.5D action RPG. This is not runtime implementation or a set of production assets.",
+  "confirmedBrief": {
+    "protagonist": "adult male Lantern Knight",
+    "camera": "fixed",
+    "inputs": [
+      "WASD movement",
+      "mouse aim",
+      "sword and lantern",
+      "Shift dodge",
+      "lantern ability"
+    ],
+    "visualIntent": "clean bold graphic dark fantasy with cut-paper clarity and expressive illustrated anatomy",
+    "latestCharacterFeedback": "Current male Knight is too generic and chunky; pursue a unique character with lighter armor."
+  },
+  "proposedDefaultsNotUserDecisions": [
+    "Orthographic camera at 35.2643897 degree elevation and 45 degree azimuth",
+    "Hero height 1.8 world units with 1 unit = 1 metre",
+    "512 by 640 hero source canvas with 256 pixels per projected world unit",
+    "Eight world-facing directions",
+    "Body faces travel during locomotion; independent mouse aim is retained for attacks and casting",
+    "Short attack/cast commitment with aim facing locked at action start",
+    "Lantern flare as first ability",
+    "Stylized rig pre-rendered to sprites; sword and lantern composited into the first hero set"
+  ],
+  "approvalGates": [
+    {
+      "id": "male_design",
+      "status": "pending",
+      "requires": [
+        "selection among lighter distinctive lamplighter, exorcist, duelist or occult noble variants",
+        "male face and body design",
+        "distinctive silhouette",
+        "hair, costume and palette",
+        "sword and carried lantern with approved hand assignment"
+      ]
+    },
+    {
+      "id": "camera_scale",
+      "status": "pending",
+      "requires": [
+        "same actual 3D proxy compared at 30,35.2643897,45 degree elevation",
+        "45 degree azimuth",
+        "fixed orthographic density across comparisons",
+        "gameplay zoom approval"
+      ]
+    },
+    {
+      "id": "one_direction_motion",
+      "status": "pending",
+      "requires": [
+        "d45 walk",
+        "d45 attack_sword_01",
+        "foot contact and grip review"
+      ]
+    },
+    {
+      "id": "eight_direction_motion",
+      "status": "pending",
+      "requires": [
+        "all eight walk and sword attack directions",
+        "back view identity and handedness review"
+      ]
+    },
+    {
+      "id": "remaining_kit",
+      "status": "pending",
+      "requires": [
+        "remaining hero clips",
+        "one enemy",
+        "minimal environment and lantern effects"
+      ]
+    },
+    {
+      "id": "production_export",
+      "status": "pending",
+      "requires": [
+        "source files present",
+        "registered masters and atlases",
+        "metadata validated",
+        "native-size and gameplay-size visual QA",
+        "runtime integration verification by implementation team"
+      ]
+    }
+  ],
+  "identity": {
+    "assetId": "hero_lantern_knight_male_01",
+    "sexPresentation": "male",
+    "agePresentation": "adult",
+    "referenceFiles": [
+      "../arpg_25d_exploration/asset_concepts/actors/heroes_gothic_graphic_v2.png",
+      "../arpg_25d_exploration/asset_concepts/actors/heroes_three_substyles.png"
+    ],
+    "referenceCaveat": "Earlier sheets are style references, not a locked male identity. The current heavy/chunky male version needs redesign. Male plus sword and lantern are fixed; hair, build, costume, palette and detailed prop design remain open for approval.",
+    "preserve": [
+      "adult male protagonist",
+      "sword",
+      "carried lantern",
+      "clean graphic dark-fantasy readability"
+    ],
+    "handedness": {
+      "sword": "anatomical_right",
+      "lantern": "anatomical_left",
+      "screenSide": "changes_with_facing",
+      "mirroringAllowed": false,
+      "status": "proposed_from_concept_not_separately_approved"
+    },
+    "style": {
+      "base": "distinctive lightly armored male identity with expressive graphic anatomy, clean silhouette and restrained hard-surface accents",
+      "shadeValuesPerMaterial": [
+        2,
+        3
+      ],
+      "paletteDraft": {
+        "charcoal": "#242326",
+        "oxblood": "#6E202B",
+        "boneSteel": "#CFC5AE",
+        "antiqueGold": "#A98953",
+        "amber": "#FFBA48"
+      },
+      "exclude": [
+        "grain",
+        "paper noise",
+        "surface scratches",
+        "micro buckles",
+        "soft painted gradients",
+        "photorealistic materials"
+      ],
+      "paletteDraftStatus": "Earlier reference palette only; not approved or required for the new variants."
+    },
+    "sourcePaletteStatus": "earlier_reference_only_not_locked",
+    "designStatus": "pending_selection_of_lighter_distinctive_variant",
+    "notLocked": [
+      "heavy plate armor",
+      "broad chunky shoulders",
+      "topknot",
+      "oxblood charcoal gold palette",
+      "cape shape",
+      "specific sword silhouette",
+      "specific lantern cage shape"
+    ],
+    "designVariantsInProgress": [
+      "lamplighter",
+      "exorcist",
+      "duelist",
+      "occult_noble"
+    ],
+    "latestUserFeedback": "More unique character; lighter armor; current design too generic and chunky."
+  },
+  "world": {
+    "upAxis": "+Y",
+    "groundPlane": "XZ",
+    "units": "metres_proposed",
+    "yawZeroAxis": "+Z",
+    "positiveYawToward": "+X",
+    "yawFormula": "atan2(directionX, directionZ)",
+    "yawDegreesRange": "[0,360)",
+    "flatGroundOnlyForFirstKit": true,
+    "actorLocalForward": "+Z",
+    "actorLocalUp": "+Y"
+  },
+  "camera": {
+    "id": "camera_iso_35_264_az45_v0",
+    "status": "provisional_not_approved",
+    "projection": "orthographic",
+    "elevationAboveHorizonDegrees": 35.264389682754654,
+    "azimuthDegrees": 45,
+    "azimuthZeroAxis": "+Z",
+    "positiveAzimuthToward": "+X",
+    "normalizedOffsetFromTarget": [
+      0.5773502691896258,
+      0.5773502691896258,
+      0.5773502691896258
+    ],
+    "screenRightWorld": [
+      0.7071067811865476,
+      0,
+      -0.7071067811865476
+    ],
+    "screenUpWorld": [
+      -0.408248290463863,
+      0.816496580927726,
+      -0.408248290463863
+    ],
+    "approvalComparisonElevationsDegrees": [
+      30,
+      35.264389682754654,
+      45
+    ],
+    "comparisonRule": "Change only elevation on the same measured 3D proxy scene with equal orthographic pixel density; do not regenerate independent concept paintings.",
+    "oneApprovedCameraSetOnly": true,
+    "runtimeRotationAllowed": false,
+    "sourceRenderRule": "Keep camera and world light fixed; rotate the rig about its ground root for the eight world yaw directions."
+  },
+  "directions": {
+    "basis": "world_yaw_not_screen_compass",
+    "count": 8,
+    "binWidthDegrees": 45,
+    "nearestBinFormula": "floor(((yawDegrees + 22.5) mod 360) / 45)",
+    "binBoundaryRule": "An exact boundary belongs to the next bin in positive yaw order, wrapping from d315 to d00 at 337.5 degrees.",
+    "entries": [
+      {
+        "id": "d00",
+        "worldYawDegrees": 0,
+        "forwardXZ": [
+          0.0,
+          1.0
+        ],
+        "screenTravelLabelAtProvisionalCamera": "screen_down_left",
+        "mirroredFrom": null
+      },
+      {
+        "id": "d45",
+        "worldYawDegrees": 45,
+        "forwardXZ": [
+          0.707106781,
+          0.707106781
+        ],
+        "screenTravelLabelAtProvisionalCamera": "screen_down",
+        "mirroredFrom": null
+      },
+      {
+        "id": "d90",
+        "worldYawDegrees": 90,
+        "forwardXZ": [
+          1.0,
+          0.0
+        ],
+        "screenTravelLabelAtProvisionalCamera": "screen_down_right",
+        "mirroredFrom": null
+      },
+      {
+        "id": "d135",
+        "worldYawDegrees": 135,
+        "forwardXZ": [
+          0.707106781,
+          -0.707106781
+        ],
+        "screenTravelLabelAtProvisionalCamera": "screen_right",
+        "mirroredFrom": null
+      },
+      {
+        "id": "d180",
+        "worldYawDegrees": 180,
+        "forwardXZ": [
+          0.0,
+          -1.0
+        ],
+        "screenTravelLabelAtProvisionalCamera": "screen_up_right",
+        "mirroredFrom": null
+      },
+      {
+        "id": "d225",
+        "worldYawDegrees": 225,
+        "forwardXZ": [
+          -0.707106781,
+          -0.707106781
+        ],
+        "screenTravelLabelAtProvisionalCamera": "screen_up",
+        "mirroredFrom": null
+      },
+      {
+        "id": "d270",
+        "worldYawDegrees": 270,
+        "forwardXZ": [
+          -1.0,
+          -0.0
+        ],
+        "screenTravelLabelAtProvisionalCamera": "screen_up_left",
+        "mirroredFrom": null
+      },
+      {
+        "id": "d315",
+        "worldYawDegrees": 315,
+        "forwardXZ": [
+          -0.707106781,
+          0.707106781
+        ],
+        "screenTravelLabelAtProvisionalCamera": "screen_left",
+        "mirroredFrom": null
+      }
+    ],
+    "nearestBinFormulaOutput": "Integer index 0 through 7 into entries after normalizing yaw to [0,360)."
+  },
+  "heroRegistration": {
+    "status": "provisional_not_measured",
+    "physicalHeightWorldUnits": 1.8,
+    "sourceCanvasPx": {
+      "width": 512,
+      "height": 640
+    },
+    "pixelCoordinateOrigin": "top_left_pixel_boundary",
+    "positivePixelAxes": {
+      "x": "right",
+      "y": "down"
+    },
+    "rootAnchorSourcePx": [
+      256,
+      544
+    ],
+    "rootDefinition": "Projected rig ground root, fixed for the full set; never derived from the lowest opaque pixel or moving foot.",
+    "sourcePixelsPerProjectedWorldUnit": 256,
+    "projectionMode": "camera_facing_card",
+    "fullCardSizeWorldUnits": [
+      2,
+      2.5
+    ],
+    "threeSpriteCenterNormalizedLowerLeft": [
+      0.5,
+      0.15
+    ],
+    "perFrameAutoScaleAllowed": false,
+    "perFrameAutoCenterAllowed": false,
+    "canvasExpansionRule": "Increase canvas and update anchor consistently without changing pixel density or actor scale; version affected clips together.",
+    "trimRule": "Preserve original canvas and root; atlas packed trim records its offset within the original canvas.",
+    "sourcePixelToCardLocal": "[(x-rootX)/P, (rootY-y)/P]",
+    "trimmedQuadCenterCardLocal": "[(trimX + trimWidth/2 - rootX)/P, (rootY - trimY - trimHeight/2)/P]",
+    "trimmedQuadSizeCardLocal": "[trimWidth/P, trimHeight/P]",
+    "verticalWorldYCardAlternative": {
+      "isDefault": false,
+      "heightFormula": "sourceCanvasHeight / (P * cos(cameraElevation))",
+      "widthFormula": "sourceCanvasWidth / P",
+      "exampleHeightWorldUnits": 3.0618621784789726,
+      "warning": "Do not apply inverse-cosine compensation to camera-facing cards; sprite-card height is not physical actor height."
+    },
+    "purpose": "Editable calibration fixture only; choose production dimensions from the approved projected footprint, motion bounds and target gameplay zoom."
+  },
+  "movementArtPolicy": {
+    "status": "proposed_implementation_default",
+    "aimAlwaysIndependent": true,
+    "aimAvailableWhileMoving": true,
+    "walkAndRunVisualFacing": "travel_direction",
+    "idleVisualFacing": "aim_direction",
+    "attackAndCastVisualFacing": "aim_direction_locked_at_action_start_for_short_commitment",
+    "dodgeVisualFacing": "travel_direction",
+    "movementRestrictionsDuringActions": "Gameplay tuning decision; sprite art must not erase mouse aim.",
+    "futureExtension": "Aim-facing strafing/backpedaling or independent torso aim requires additional clips or layered rig; not implied by eight forward-walk facings."
+  },
+  "animation": {
+    "targetDisplayHz": 60,
+    "displayHzIsNotUniqueDrawingRate": true,
+    "playback": "time_based_with_explicit_frame_durations",
+    "interpolation": "hold_source_drawing_between_frame_boundaries",
+    "exportLocomotion": "in_place",
+    "measuredStrideSpeedRequiredBeforeProduction": true,
+    "gameplayRootDisplacement": "separate_approved_curve_if_used",
+    "clips": [
+      {
+        "id": "idle",
+        "status": "proposed_not_rendered",
+        "directionIds": [
+          "d00",
+          "d45",
+          "d90",
+          "d135",
+          "d180",
+          "d225",
+          "d270",
+          "d315"
+        ],
+        "proposedUniqueFramesPerDirection": 12,
+        "proposedDrawingsPerSecond": 12,
+        "proposedDurationMs": 1000.0,
+        "loop": true,
+        "rootMotion": "in_place",
+        "visualFacingPolicy": "aim",
+        "onComplete": "select_next_state",
+        "eventTimingStatus": "illustrative_not_approved",
+        "events": [],
+        "eventsAuthoritativeForGameplay": false
+      },
+      {
+        "id": "walk",
+        "status": "proposed_not_rendered",
+        "directionIds": [
+          "d00",
+          "d45",
+          "d90",
+          "d135",
+          "d180",
+          "d225",
+          "d270",
+          "d315"
+        ],
+        "proposedUniqueFramesPerDirection": 12,
+        "proposedDrawingsPerSecond": 15,
+        "proposedDurationMs": 800.0,
+        "loop": true,
+        "rootMotion": "in_place",
+        "visualFacingPolicy": "travel",
+        "onComplete": "select_next_state",
+        "eventTimingStatus": "illustrative_not_approved",
+        "events": [
+          {
+            "id": "walk_left",
+            "timeMs": 0,
+            "type": "foot_contact",
+            "payload": {
+              "foot": "left"
+            }
+          },
+          {
+            "id": "walk_right",
+            "timeMs": 400,
+            "type": "foot_contact",
+            "payload": {
+              "foot": "right"
+            }
+          }
+        ],
+        "eventsAuthoritativeForGameplay": false
+      },
+      {
+        "id": "run",
+        "status": "proposed_not_rendered",
+        "directionIds": [
+          "d00",
+          "d45",
+          "d90",
+          "d135",
+          "d180",
+          "d225",
+          "d270",
+          "d315"
+        ],
+        "proposedUniqueFramesPerDirection": 8,
+        "proposedDrawingsPerSecond": 16,
+        "proposedDurationMs": 500.0,
+        "loop": true,
+        "rootMotion": "in_place",
+        "visualFacingPolicy": "travel",
+        "onComplete": "select_next_state",
+        "eventTimingStatus": "illustrative_not_approved",
+        "events": [
+          {
+            "id": "run_left",
+            "timeMs": 0,
+            "type": "foot_contact",
+            "payload": {
+              "foot": "left"
+            }
+          },
+          {
+            "id": "run_right",
+            "timeMs": 250,
+            "type": "foot_contact",
+            "payload": {
+              "foot": "right"
+            }
+          }
+        ],
+        "eventsAuthoritativeForGameplay": false
+      },
+      {
+        "id": "attack_sword_01",
+        "status": "proposed_not_rendered",
+        "directionIds": [
+          "d00",
+          "d45",
+          "d90",
+          "d135",
+          "d180",
+          "d225",
+          "d270",
+          "d315"
+        ],
+        "proposedUniqueFramesPerDirection": 10,
+        "proposedDrawingsPerSecond": 20,
+        "proposedDurationMs": 500.0,
+        "loop": false,
+        "rootMotion": "in_place",
+        "visualFacingPolicy": "locked_aim_at_action_start",
+        "onComplete": "select_next_state",
+        "eventTimingStatus": "illustrative_not_approved",
+        "events": [
+          {
+            "id": "sword_swing_01",
+            "timeMs": 100,
+            "type": "sword_swing_start",
+            "payload": {}
+          },
+          {
+            "id": "sword_window_open_01",
+            "timeMs": 150,
+            "type": "sword_hit_window_open",
+            "payload": {
+              "windowId": "sword_01"
+            }
+          },
+          {
+            "id": "sword_window_close_01",
+            "timeMs": 250,
+            "type": "sword_hit_window_close",
+            "payload": {
+              "windowId": "sword_01"
+            }
+          }
+        ],
+        "eventsAuthoritativeForGameplay": false
+      },
+      {
+        "id": "dodge",
+        "status": "proposed_not_rendered",
+        "directionIds": [
+          "d00",
+          "d45",
+          "d90",
+          "d135",
+          "d180",
+          "d225",
+          "d270",
+          "d315"
+        ],
+        "proposedUniqueFramesPerDirection": 8,
+        "proposedDrawingsPerSecond": 20,
+        "proposedDurationMs": 400.0,
+        "loop": false,
+        "rootMotion": "in_place",
+        "visualFacingPolicy": "travel",
+        "onComplete": "select_next_state",
+        "eventTimingStatus": "illustrative_not_approved",
+        "events": [
+          {
+            "id": "dodge_window_open_01",
+            "timeMs": 50,
+            "type": "dodge_window_open",
+            "payload": {
+              "windowId": "dodge_01"
+            }
+          },
+          {
+            "id": "dodge_window_close_01",
+            "timeMs": 300,
+            "type": "dodge_window_close",
+            "payload": {
+              "windowId": "dodge_01"
+            }
+          }
+        ],
+        "eventsAuthoritativeForGameplay": false
+      },
+      {
+        "id": "hit",
+        "status": "proposed_not_rendered",
+        "directionIds": [
+          "d00",
+          "d45",
+          "d90",
+          "d135",
+          "d180",
+          "d225",
+          "d270",
+          "d315"
+        ],
+        "proposedUniqueFramesPerDirection": 4,
+        "proposedDrawingsPerSecond": 16,
+        "proposedDurationMs": 250.0,
+        "loop": false,
+        "rootMotion": "in_place",
+        "visualFacingPolicy": "preserve_last_facing",
+        "onComplete": "select_next_state",
+        "eventTimingStatus": "illustrative_not_approved",
+        "events": [],
+        "eventsAuthoritativeForGameplay": false
+      },
+      {
+        "id": "death",
+        "status": "proposed_not_rendered",
+        "directionIds": [
+          "d00",
+          "d45",
+          "d90",
+          "d135",
+          "d180",
+          "d225",
+          "d270",
+          "d315"
+        ],
+        "proposedUniqueFramesPerDirection": 12,
+        "proposedDrawingsPerSecond": 12,
+        "proposedDurationMs": 1000.0,
+        "loop": false,
+        "rootMotion": "in_place",
+        "visualFacingPolicy": "preserve_last_facing",
+        "onComplete": "hold_last",
+        "eventTimingStatus": "illustrative_not_approved",
+        "events": [
+          {
+            "id": "death_settled_01",
+            "timeMs": 916.666667,
+            "type": "death_settled",
+            "payload": {}
+          }
+        ],
+        "eventsAuthoritativeForGameplay": false
+      },
+      {
+        "id": "cast_lantern_flare",
+        "status": "proposed_not_rendered",
+        "directionIds": [
+          "d00",
+          "d45",
+          "d90",
+          "d135",
+          "d180",
+          "d225",
+          "d270",
+          "d315"
+        ],
+        "proposedUniqueFramesPerDirection": 12,
+        "proposedDrawingsPerSecond": 16,
+        "proposedDurationMs": 750.0,
+        "loop": false,
+        "rootMotion": "in_place",
+        "visualFacingPolicy": "locked_aim_at_action_start",
+        "onComplete": "select_next_state",
+        "eventTimingStatus": "illustrative_not_approved",
+        "events": [
+          {
+            "id": "flare_release_01",
+            "timeMs": 375,
+            "type": "lantern_flare_release",
+            "payload": {
+              "socket": "lantern_light"
+            }
+          }
+        ],
+        "eventsAuthoritativeForGameplay": false
+      }
+    ],
+    "proposedTotalHeroUniqueFrames": 624,
+    "firstMotionTestFrameBudget": 22,
+    "firstMotionTestDirection": "d45",
+    "proposedTotalHeroUniqueFramesScope": "Future full art set after approval; not required for the diagnostic foundation."
+  },
+  "eventContract": {
+    "timeUnit": "milliseconds_from_clip_start",
+    "frameIndices": "zero_based",
+    "eventOwnership": "Timing proposals from art; gameplay explicitly approves authoritative windows and remains responsible for collision, damage, invulnerability, movement and cooldowns.",
+    "dispatch": "Emit every event crossed by elapsed clip time once, including when display frames are skipped. Emit time-zero events once on entry.",
+    "deduplicationKey": [
+      "actorId",
+      "animationInstanceId",
+      "loopOccurrence",
+      "eventId"
+    ],
+    "loopBoundary": "Close the previous cycle, then emit time-zero events for the new cycle once.",
+    "interruption": "Cancel remaining scheduled events and close active windows for the interrupted instance.",
+    "hitWindowDoesNotDefineHitGeometry": true,
+    "death": "hold_last_pose_after_completion",
+    "exampleEventsAreApprovedGameplay": false,
+    "authority": "timing_reference_only_not_gameplay_authority"
+  },
+  "attachments": {
+    "firstKit": "Sword and lantern composited with hero; retain separate rig objects in source.",
+    "requiredRigSocketNames": [
+      "hand_r_grip",
+      "hand_l_grip",
+      "lantern_light",
+      "sword_tip"
+    ],
+    "socket2DSpace": "original_untrimmed_source_pixels_top_left",
+    "socket3DSpace": "actor_local_metres_Y_up_forward_plus_Z",
+    "measuredSocketDataProvided": false,
+    "modularEquipmentLater": "Export per-frame sockets plus evaluated layering/depth. A single constant front or back overlay is insufficient for all body crossings.",
+    "lighting": "Lantern emission/light origin separated from baked opaque actor color; environment light contribution is separately controlled."
+  },
+  "export": {
+    "masterFormat": "PNG_RGBA_lossless",
+    "alphaMode": "straight",
+    "colorArtColorSpace": "sRGB",
+    "dataMapColorSpace": "linear_non_color",
+    "groundShadow": "separate_contact_shadow_or_proxy",
+    "atlasPageSizePxProposed": [
+      2048,
+      2048
+    ],
+    "atlasPageSizeMustFitTargetGpu": true,
+    "rotatedPackingAllowed": false,
+    "trimAllowed": true,
+    "extrusionPxBaseLevelProposed": 2,
+    "gutterPxPerSideBaseLevelProposed": 2,
+    "mipmapPolicy": "Undecided until zoom and filter test; base-level padding alone does not guarantee mip safety.",
+    "gpuMemoryNote": "One uncompressed 2048 square RGBA8 page is 16 MiB before mipmaps, independent of PNG download size.",
+    "normalMaps": {
+      "required": false,
+      "productionRule": "Render from the same rig, camera and frame; declare normal space and encoding. Never treat generated guesses as measured geometry."
+    },
+    "depthMaps": {
+      "required": false,
+      "productionRule": "Declare units, range, sign and reference plane and validate occlusion before adopting."
+    }
+  },
+  "productionValidation": {
+    "structural": [
+      "paths exist",
+      "PNG alpha is genuine",
+      "source canvas and root match camera set",
+      "frame duration > 0",
+      "event times inside clip duration",
+      "unique direction IDs and complete declared coverage",
+      "atlas rects do not overlap or exceed page",
+      "trim dimensions and offsets fit source canvas",
+      "hash and file version recorded"
+    ],
+    "visual": [
+      "design continuity and correct handedness",
+      "no clipped feet/cape/weapon",
+      "no frame scale drift or root drift",
+      "no planted foot skating",
+      "readable attack and cast anticipation/contact/recovery",
+      "loop seam approved",
+      "no matte fringe on light or dark test backgrounds",
+      "no atlas bleed at intended zoom",
+      "wall/tree/chest overlap and alignment validated"
+    ],
+    "doesNotProve": [
+      "actual runtime importer correctness",
+      "performance on target hardware",
+      "collision or gameplay balance",
+      "arbitrary 3D depth from a flat sprite"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Three.js OrthographicCamera",
+      "url": "https://threejs.org/docs/pages/OrthographicCamera.html"
+    },
+    {
+      "title": "Three.js Sprite",
+      "url": "https://threejs.org/docs/pages/Sprite.html"
+    }
+  ]
+}

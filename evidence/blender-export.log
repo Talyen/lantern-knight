@@ -1,0 +1,36 @@
+
+> lantern-knight@0.1.0 assets:export
+> tsx tools/export.ts
+
+/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/export.py:19: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m=bpy.data.materials.new(name);m.diffuse_color=(*color,1);m.use_nodes=True
+00:04.931  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-0.png'
+00:05.343  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-1.png'
+00:05.773  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-2.png'
+00:06.211  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-3.png'
+00:06.638  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-4.png'
+00:07.062  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-5.png'
+00:07.480  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-6.png'
+00:07.874  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-walk-d45-7.png'
+00:08.251  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-0.png'
+00:08.621  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-1.png'
+00:08.993  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-2.png'
+00:09.359  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-3.png'
+00:09.723  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-4.png'
+00:10.098  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-5.png'
+00:10.467  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-6.png'
+00:10.836  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/staging/proxy/proxy-attack_sword_01-d45-7.png'
+00:11.196  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d00.png'
+00:11.558  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d45.png'
+00:11.925  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d90.png'
+00:12.274  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d135.png'
+00:12.625  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d180.png'
+00:12.980  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d225.png'
+00:13.337  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d270.png'
+00:13.676  render           | Saved: '/Users/ryanmcintire/Documents/Lantern Knight/authoring/knight/turnaround_d315.png'
+Info: Saved as "rig.blend"
+LANTERN_EXPORT_OK: editable rig, 16 d45 frames and 8 turnaround stills
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:49:19)
+
+Blender quit
+Integrated exact d45 proxy exports. Other views/clips remain explicitly diagnostic.

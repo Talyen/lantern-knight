@@ -1,0 +1,187 @@
+{
+  "contract": {
+    "id": "lantern-camera-v1-proxy",
+    "schemaVersion": 1,
+    "bakeVersion": 1,
+    "approval": "pending",
+    "projection": "orthographic",
+    "azimuthDeg": 45,
+    "elevationDeg": 35.2643897,
+    "world": "right-handed XZ ground, +Y up; yaw from +Z toward +X",
+    "sourceCoordinates": "top-left +x right +y down",
+    "anchorConvention": "untrimmed-canvas ground foot origin",
+    "verticalSpan": 12,
+    "baseline": {
+      "width": 2560,
+      "height": 1440
+    },
+    "resize": "fixed-vertical-span",
+    "renderScale": 1,
+    "pixelRatioCap": 1,
+    "sourceDensity": 192,
+    "canvas": [
+      384,
+      432
+    ],
+    "anchor": [
+      192,
+      348
+    ],
+    "heroHeight": 1.8,
+    "atlasSize": 2048,
+    "atlasMaxSize": 4096,
+    "filter": "linear-no-mipmaps",
+    "colorSpace": "srgb",
+    "alpha": "straight",
+    "budgets": {
+      "sceneTextureMiB": 256,
+      "maxActors": 32,
+      "maxEffects": 32
+    },
+    "movement": "screen-relative",
+    "assetRecipe": "blender-proxy-v1"
+  },
+  "right": [
+    0.7071067811865476,
+    0,
+    -0.7071067811865475
+  ],
+  "up": [
+    -0.4082482906376385,
+    0.8164965807539504,
+    -0.40824829063763857
+  ],
+  "outward": [
+    0.5773502690667478,
+    0.5773502694353815,
+    0.5773502690667479
+  ],
+  "matrixWorld": [
+    0.7071067811865475,
+    -2.7755575615628914e-17,
+    -0.7071067811865476,
+    0,
+    -0.40824829063763857,
+    0.8164965807539504,
+    -0.4082482906376387,
+    0,
+    0.5773502690667479,
+    0.5773502694353816,
+    0.5773502690667478,
+    0,
+    17.320508072002433,
+    17.320508083061444,
+    17.320508072002436,
+    1
+  ],
+  "view": [
+    0.7071067811865475,
+    -0.40824829063763873,
+    0.5773502690667479,
+    0,
+    -5.551115123125783e-17,
+    0.8164965807539504,
+    0.5773502694353816,
+    0,
+    -0.7071067811865477,
+    -0.4082482906376387,
+    0.5773502690667478,
+    0,
+    4.351167857633658e-15,
+    5.02429586778808e-15,
+    -29.999999999999996,
+    1
+  ],
+  "projection": [
+    0.09375,
+    0,
+    0,
+    0,
+    0,
+    0.16666666666666666,
+    0,
+    0,
+    0,
+    0,
+    -0.02002002002002002,
+    0,
+    0,
+    0,
+    -1.002002002002002,
+    1
+  ],
+  "headings": [
+    {
+      "id": "d00",
+      "yawDeg": 0,
+      "screenVector": [
+        -0.7071067811865475,
+        0.40824829063763857
+      ],
+      "facing": "oblique"
+    },
+    {
+      "id": "d45",
+      "yawDeg": 45,
+      "screenVector": [
+        0,
+        0.5773502694353815
+      ],
+      "facing": "toward camera"
+    },
+    {
+      "id": "d90",
+      "yawDeg": 90,
+      "screenVector": [
+        0.7071067811865476,
+        0.4082482906376385
+      ],
+      "facing": "oblique"
+    },
+    {
+      "id": "d135",
+      "yawDeg": 135,
+      "screenVector": [
+        1,
+        0
+      ],
+      "facing": "oblique"
+    },
+    {
+      "id": "d180",
+      "yawDeg": 180,
+      "screenVector": [
+        0.7071067811865476,
+        -0.4082482906376385
+      ],
+      "facing": "oblique"
+    },
+    {
+      "id": "d225",
+      "yawDeg": 225,
+      "screenVector": [
+        1.1102230246251565e-16,
+        -0.5773502694353815
+      ],
+      "facing": "away from camera"
+    },
+    {
+      "id": "d270",
+      "yawDeg": 270,
+      "screenVector": [
+        -0.7071067811865475,
+        -0.40824829063763857
+      ],
+      "facing": "oblique"
+    },
+    {
+      "id": "d315",
+      "yawDeg": 315,
+      "screenVector": [
+        -1,
+        -1.1102230246251565e-16
+      ],
+      "facing": "oblique"
+    }
+  ]
+}

@@ -1,0 +1,6154 @@
+{
+  "schemaVersion": 1,
+  "contractId": "lantern-camera-v1-proxy",
+  "bakeVersion": 1,
+  "hash": "3e291c54f422e28f7f4733ba04375e57e6b175f0e42ffdf6aa703b7783cff1e9",
+  "toolVersion": "atlas-v1-sharp-0.35.5",
+  "asset": {
+    "id": "hero-lantern-knight",
+    "type": "character",
+    "schemaVersion": 1,
+    "contentVersion": "0.1.0-proxy",
+    "bundle": "hero",
+    "status": "proxy",
+    "provenance": {
+      "creator": "Lantern Knight foundation",
+      "license": "Project original; editable proxy, not approved art",
+      "source": "authoring/knight/rig.blend + tools/diagnostic.ts"
+    },
+    "contractId": "lantern-camera-v1-proxy",
+    "bakeVersion": 1,
+    "canvas": [
+      384,
+      432
+    ],
+    "density": 192,
+    "anchor": [
+      192,
+      348
+    ],
+    "padding": 0,
+    "colorSpace": "srgb",
+    "alpha": "straight",
+    "recipe": "blender-proxy-v1 + diagnostic-v1",
+    "renderCategory": "cutout",
+    "shadow": {
+      "radius": 0.3,
+      "opacity": 0.35
+    },
+    "collisionFootprint": "hero-circle-v1",
+    "occlusion": "foot-depth-camera-plane",
+    "fallbacks": {
+      "run": "walk"
+    },
+    "dependencies": [],
+    "requiredClips": [
+      "idle",
+      "walk",
+      "attack_sword_01",
+      "dodge",
+      "cast_lantern_flare",
+      "hit",
+      "death"
+    ],
+    "clips": {
+      "idle": {
+        "d00": {
+          "frames": [
+            "diag-idle-d00-0",
+            "diag-idle-d00-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d45": {
+          "frames": [
+            "proxy-walk-d45-0"
+          ],
+          "durationsMs": [
+            800
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d90": {
+          "frames": [
+            "diag-idle-d90-0",
+            "diag-idle-d90-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d135": {
+          "frames": [
+            "diag-idle-d135-0",
+            "diag-idle-d135-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d180": {
+          "frames": [
+            "diag-idle-d180-0",
+            "diag-idle-d180-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d225": {
+          "frames": [
+            "diag-idle-d225-0",
+            "diag-idle-d225-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d270": {
+          "frames": [
+            "diag-idle-d270-0",
+            "diag-idle-d270-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        },
+        "d315": {
+          "frames": [
+            "diag-idle-d315-0",
+            "diag-idle-d315-1"
+          ],
+          "durationsMs": [
+            300,
+            300
+          ],
+          "loop": true,
+          "notifies": []
+        }
+      },
+      "walk": {
+        "d00": {
+          "frames": [
+            "diag-walk-d00-0",
+            "diag-walk-d00-1",
+            "diag-walk-d00-2",
+            "diag-walk-d00-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d45": {
+          "frames": [
+            "proxy-walk-d45-0",
+            "proxy-walk-d45-1",
+            "proxy-walk-d45-2",
+            "proxy-walk-d45-3",
+            "proxy-walk-d45-4",
+            "proxy-walk-d45-5",
+            "proxy-walk-d45-6",
+            "proxy-walk-d45-7"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d90": {
+          "frames": [
+            "diag-walk-d90-0",
+            "diag-walk-d90-1",
+            "diag-walk-d90-2",
+            "diag-walk-d90-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d135": {
+          "frames": [
+            "diag-walk-d135-0",
+            "diag-walk-d135-1",
+            "diag-walk-d135-2",
+            "diag-walk-d135-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d180": {
+          "frames": [
+            "diag-walk-d180-0",
+            "diag-walk-d180-1",
+            "diag-walk-d180-2",
+            "diag-walk-d180-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d225": {
+          "frames": [
+            "diag-walk-d225-0",
+            "diag-walk-d225-1",
+            "diag-walk-d225-2",
+            "diag-walk-d225-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d270": {
+          "frames": [
+            "diag-walk-d270-0",
+            "diag-walk-d270-1",
+            "diag-walk-d270-2",
+            "diag-walk-d270-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        },
+        "d315": {
+          "frames": [
+            "diag-walk-d315-0",
+            "diag-walk-d315-1",
+            "diag-walk-d315-2",
+            "diag-walk-d315-3"
+          ],
+          "durationsMs": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "loop": true,
+          "notifies": [
+            {
+              "id": "step-right",
+              "atMs": 1,
+              "kind": "footstep"
+            },
+            {
+              "id": "step-left",
+              "atMs": 401,
+              "kind": "footstep"
+            }
+          ]
+        }
+      },
+      "attack_sword_01": {
+        "d00": {
+          "frames": [
+            "diag-attack_sword_01-d00-0",
+            "diag-attack_sword_01-d00-1",
+            "diag-attack_sword_01-d00-2",
+            "diag-attack_sword_01-d00-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d45": {
+          "frames": [
+            "proxy-attack_sword_01-d45-0",
+            "proxy-attack_sword_01-d45-1",
+            "proxy-attack_sword_01-d45-2",
+            "proxy-attack_sword_01-d45-3",
+            "proxy-attack_sword_01-d45-4",
+            "proxy-attack_sword_01-d45-5",
+            "proxy-attack_sword_01-d45-6",
+            "proxy-attack_sword_01-d45-7"
+          ],
+          "durationsMs": [
+            100,
+            67,
+            33,
+            50,
+            100,
+            100,
+            100,
+            50
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d90": {
+          "frames": [
+            "diag-attack_sword_01-d90-0",
+            "diag-attack_sword_01-d90-1",
+            "diag-attack_sword_01-d90-2",
+            "diag-attack_sword_01-d90-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d135": {
+          "frames": [
+            "diag-attack_sword_01-d135-0",
+            "diag-attack_sword_01-d135-1",
+            "diag-attack_sword_01-d135-2",
+            "diag-attack_sword_01-d135-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d180": {
+          "frames": [
+            "diag-attack_sword_01-d180-0",
+            "diag-attack_sword_01-d180-1",
+            "diag-attack_sword_01-d180-2",
+            "diag-attack_sword_01-d180-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d225": {
+          "frames": [
+            "diag-attack_sword_01-d225-0",
+            "diag-attack_sword_01-d225-1",
+            "diag-attack_sword_01-d225-2",
+            "diag-attack_sword_01-d225-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d270": {
+          "frames": [
+            "diag-attack_sword_01-d270-0",
+            "diag-attack_sword_01-d270-1",
+            "diag-attack_sword_01-d270-2",
+            "diag-attack_sword_01-d270-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        },
+        "d315": {
+          "frames": [
+            "diag-attack_sword_01-d315-0",
+            "diag-attack_sword_01-d315-1",
+            "diag-attack_sword_01-d315-2",
+            "diag-attack_sword_01-d315-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "swing",
+              "atMs": 167,
+              "kind": "whoosh"
+            }
+          ]
+        }
+      },
+      "dodge": {
+        "d00": {
+          "frames": [
+            "diag-dodge-d00-0",
+            "diag-dodge-d00-1",
+            "diag-dodge-d00-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d45": {
+          "frames": [
+            "diag-dodge-d45-0",
+            "diag-dodge-d45-1",
+            "diag-dodge-d45-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d90": {
+          "frames": [
+            "diag-dodge-d90-0",
+            "diag-dodge-d90-1",
+            "diag-dodge-d90-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d135": {
+          "frames": [
+            "diag-dodge-d135-0",
+            "diag-dodge-d135-1",
+            "diag-dodge-d135-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d180": {
+          "frames": [
+            "diag-dodge-d180-0",
+            "diag-dodge-d180-1",
+            "diag-dodge-d180-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d225": {
+          "frames": [
+            "diag-dodge-d225-0",
+            "diag-dodge-d225-1",
+            "diag-dodge-d225-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d270": {
+          "frames": [
+            "diag-dodge-d270-0",
+            "diag-dodge-d270-1",
+            "diag-dodge-d270-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d315": {
+          "frames": [
+            "diag-dodge-d315-0",
+            "diag-dodge-d315-1",
+            "diag-dodge-d315-2"
+          ],
+          "durationsMs": [
+            100,
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        }
+      },
+      "cast_lantern_flare": {
+        "d00": {
+          "frames": [
+            "diag-cast_lantern_flare-d00-0",
+            "diag-cast_lantern_flare-d00-1",
+            "diag-cast_lantern_flare-d00-2",
+            "diag-cast_lantern_flare-d00-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d45": {
+          "frames": [
+            "diag-cast_lantern_flare-d45-0",
+            "diag-cast_lantern_flare-d45-1",
+            "diag-cast_lantern_flare-d45-2",
+            "diag-cast_lantern_flare-d45-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d90": {
+          "frames": [
+            "diag-cast_lantern_flare-d90-0",
+            "diag-cast_lantern_flare-d90-1",
+            "diag-cast_lantern_flare-d90-2",
+            "diag-cast_lantern_flare-d90-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d135": {
+          "frames": [
+            "diag-cast_lantern_flare-d135-0",
+            "diag-cast_lantern_flare-d135-1",
+            "diag-cast_lantern_flare-d135-2",
+            "diag-cast_lantern_flare-d135-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d180": {
+          "frames": [
+            "diag-cast_lantern_flare-d180-0",
+            "diag-cast_lantern_flare-d180-1",
+            "diag-cast_lantern_flare-d180-2",
+            "diag-cast_lantern_flare-d180-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d225": {
+          "frames": [
+            "diag-cast_lantern_flare-d225-0",
+            "diag-cast_lantern_flare-d225-1",
+            "diag-cast_lantern_flare-d225-2",
+            "diag-cast_lantern_flare-d225-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d270": {
+          "frames": [
+            "diag-cast_lantern_flare-d270-0",
+            "diag-cast_lantern_flare-d270-1",
+            "diag-cast_lantern_flare-d270-2",
+            "diag-cast_lantern_flare-d270-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        },
+        "d315": {
+          "frames": [
+            "diag-cast_lantern_flare-d315-0",
+            "diag-cast_lantern_flare-d315-1",
+            "diag-cast_lantern_flare-d315-2",
+            "diag-cast_lantern_flare-d315-3"
+          ],
+          "durationsMs": [
+            150,
+            150,
+            150,
+            150
+          ],
+          "loop": false,
+          "notifies": [
+            {
+              "id": "flash",
+              "atMs": 167,
+              "kind": "flash"
+            }
+          ]
+        }
+      },
+      "hit": {
+        "d00": {
+          "frames": [
+            "diag-hit-d00-0",
+            "diag-hit-d00-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d45": {
+          "frames": [
+            "diag-hit-d45-0",
+            "diag-hit-d45-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d90": {
+          "frames": [
+            "diag-hit-d90-0",
+            "diag-hit-d90-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d135": {
+          "frames": [
+            "diag-hit-d135-0",
+            "diag-hit-d135-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d180": {
+          "frames": [
+            "diag-hit-d180-0",
+            "diag-hit-d180-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d225": {
+          "frames": [
+            "diag-hit-d225-0",
+            "diag-hit-d225-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d270": {
+          "frames": [
+            "diag-hit-d270-0",
+            "diag-hit-d270-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d315": {
+          "frames": [
+            "diag-hit-d315-0",
+            "diag-hit-d315-1"
+          ],
+          "durationsMs": [
+            100,
+            100
+          ],
+          "loop": false,
+          "notifies": []
+        }
+      },
+      "death": {
+        "d00": {
+          "frames": [
+            "diag-death-d00-0",
+            "diag-death-d00-1",
+            "diag-death-d00-2",
+            "diag-death-d00-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d45": {
+          "frames": [
+            "diag-death-d45-0",
+            "diag-death-d45-1",
+            "diag-death-d45-2",
+            "diag-death-d45-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d90": {
+          "frames": [
+            "diag-death-d90-0",
+            "diag-death-d90-1",
+            "diag-death-d90-2",
+            "diag-death-d90-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d135": {
+          "frames": [
+            "diag-death-d135-0",
+            "diag-death-d135-1",
+            "diag-death-d135-2",
+            "diag-death-d135-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d180": {
+          "frames": [
+            "diag-death-d180-0",
+            "diag-death-d180-1",
+            "diag-death-d180-2",
+            "diag-death-d180-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d225": {
+          "frames": [
+            "diag-death-d225-0",
+            "diag-death-d225-1",
+            "diag-death-d225-2",
+            "diag-death-d225-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d270": {
+          "frames": [
+            "diag-death-d270-0",
+            "diag-death-d270-1",
+            "diag-death-d270-2",
+            "diag-death-d270-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        },
+        "d315": {
+          "frames": [
+            "diag-death-d315-0",
+            "diag-death-d315-1",
+            "diag-death-d315-2",
+            "diag-death-d315-3"
+          ],
+          "durationsMs": [
+            180,
+            180,
+            180,
+            180
+          ],
+          "loop": false,
+          "notifies": []
+        }
+      }
+    }
+  },
+  "frames": [
+    {
+      "id": "diag-idle-d00-0",
+      "source": "diagnostic/diag-idle-d00-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        4,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d00-1",
+      "source": "diagnostic/diag-idle-d00-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        168,
+        4,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d45-0",
+      "source": "diagnostic/diag-idle-d45-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        332,
+        4,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d45-1",
+      "source": "diagnostic/diag-idle-d45-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        512,
+        4,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d90-0",
+      "source": "diagnostic/diag-idle-d90-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        692,
+        4,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d90-1",
+      "source": "diagnostic/diag-idle-d90-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        856,
+        4,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d135-0",
+      "source": "diagnostic/diag-idle-d135-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1020,
+        4,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d135-1",
+      "source": "diagnostic/diag-idle-d135-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1190,
+        4,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d180-0",
+      "source": "diagnostic/diag-idle-d180-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1359,
+        4,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d180-1",
+      "source": "diagnostic/diag-idle-d180-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1529,
+        4,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d225-0",
+      "source": "diagnostic/diag-idle-d225-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1698,
+        4,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d225-1",
+      "source": "diagnostic/diag-idle-d225-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1868,
+        4,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d270-0",
+      "source": "diagnostic/diag-idle-d270-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        248,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d270-1",
+      "source": "diagnostic/diag-idle-d270-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        174,
+        248,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d315-0",
+      "source": "diagnostic/diag-idle-d315-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        343,
+        248,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-idle-d315-1",
+      "source": "diagnostic/diag-idle-d315-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        513,
+        248,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d00-0",
+      "source": "diagnostic/diag-walk-d00-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        682,
+        248,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d00-1",
+      "source": "diagnostic/diag-walk-d00-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        846,
+        248,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d00-2",
+      "source": "diagnostic/diag-walk-d00-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1010,
+        248,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d00-3",
+      "source": "diagnostic/diag-walk-d00-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1174,
+        248,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d45-0",
+      "source": "diagnostic/diag-walk-d45-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1338,
+        248,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d45-1",
+      "source": "diagnostic/diag-walk-d45-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1518,
+        248,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d45-2",
+      "source": "diagnostic/diag-walk-d45-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1698,
+        248,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d45-3",
+      "source": "diagnostic/diag-walk-d45-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        492,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d90-0",
+      "source": "diagnostic/diag-walk-d90-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        184,
+        492,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d90-1",
+      "source": "diagnostic/diag-walk-d90-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        348,
+        492,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d90-2",
+      "source": "diagnostic/diag-walk-d90-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        512,
+        492,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d90-3",
+      "source": "diagnostic/diag-walk-d90-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        676,
+        492,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d135-0",
+      "source": "diagnostic/diag-walk-d135-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        840,
+        492,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d135-1",
+      "source": "diagnostic/diag-walk-d135-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1010,
+        492,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d135-2",
+      "source": "diagnostic/diag-walk-d135-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1179,
+        492,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d135-3",
+      "source": "diagnostic/diag-walk-d135-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1348,
+        492,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d180-0",
+      "source": "diagnostic/diag-walk-d180-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1518,
+        492,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d180-1",
+      "source": "diagnostic/diag-walk-d180-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1688,
+        492,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d180-2",
+      "source": "diagnostic/diag-walk-d180-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1857,
+        492,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d180-3",
+      "source": "diagnostic/diag-walk-d180-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        736,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d225-0",
+      "source": "diagnostic/diag-walk-d225-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        174,
+        736,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d225-1",
+      "source": "diagnostic/diag-walk-d225-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        344,
+        736,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d225-2",
+      "source": "diagnostic/diag-walk-d225-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        513,
+        736,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d225-3",
+      "source": "diagnostic/diag-walk-d225-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        682,
+        736,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d270-0",
+      "source": "diagnostic/diag-walk-d270-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        852,
+        736,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d270-1",
+      "source": "diagnostic/diag-walk-d270-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1022,
+        736,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d270-2",
+      "source": "diagnostic/diag-walk-d270-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1191,
+        736,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d270-3",
+      "source": "diagnostic/diag-walk-d270-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1360,
+        736,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d315-0",
+      "source": "diagnostic/diag-walk-d315-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1530,
+        736,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d315-1",
+      "source": "diagnostic/diag-walk-d315-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1700,
+        736,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d315-2",
+      "source": "diagnostic/diag-walk-d315-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1869,
+        736,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-walk-d315-3",
+      "source": "diagnostic/diag-walk-d315-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        980,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d00-0",
+      "source": "diagnostic/diag-attack_sword_01-d00-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        174,
+        980,
+        152,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        152,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d00-1",
+      "source": "diagnostic/diag-attack_sword_01-d00-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        334,
+        980,
+        152,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        152,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d00-2",
+      "source": "diagnostic/diag-attack_sword_01-d00-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        494,
+        980,
+        178,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        178,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d00-3",
+      "source": "diagnostic/diag-attack_sword_01-d00-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        680,
+        980,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d45-0",
+      "source": "diagnostic/diag-attack_sword_01-d45-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        844,
+        980,
+        152,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        152,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d45-1",
+      "source": "diagnostic/diag-attack_sword_01-d45-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1004,
+        980,
+        152,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        152,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d45-2",
+      "source": "diagnostic/diag-attack_sword_01-d45-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1164,
+        980,
+        195,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        195,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d45-3",
+      "source": "diagnostic/diag-attack_sword_01-d45-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1367,
+        980,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d90-0",
+      "source": "diagnostic/diag-attack_sword_01-d90-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1547,
+        980,
+        152,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        152,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d90-1",
+      "source": "diagnostic/diag-attack_sword_01-d90-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1707,
+        980,
+        152,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        152,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d90-2",
+      "source": "diagnostic/diag-attack_sword_01-d90-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        1224,
+        178,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        178,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d90-3",
+      "source": "diagnostic/diag-attack_sword_01-d90-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        190,
+        1224,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d135-0",
+      "source": "diagnostic/diag-attack_sword_01-d135-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        354,
+        1224,
+        163,
+        236
+      ],
+      "trim": [
+        110,
+        119,
+        163,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d135-1",
+      "source": "diagnostic/diag-attack_sword_01-d135-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        525,
+        1224,
+        171,
+        236
+      ],
+      "trim": [
+        101,
+        119,
+        171,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d135-2",
+      "source": "diagnostic/diag-attack_sword_01-d135-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        704,
+        1224,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d135-3",
+      "source": "diagnostic/diag-attack_sword_01-d135-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        873,
+        1224,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d180-0",
+      "source": "diagnostic/diag-attack_sword_01-d180-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1043,
+        1224,
+        203,
+        236
+      ],
+      "trim": [
+        70,
+        119,
+        203,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d180-1",
+      "source": "diagnostic/diag-attack_sword_01-d180-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1254,
+        1224,
+        212,
+        236
+      ],
+      "trim": [
+        60,
+        119,
+        212,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d180-2",
+      "source": "diagnostic/diag-attack_sword_01-d180-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1474,
+        1224,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d180-3",
+      "source": "diagnostic/diag-attack_sword_01-d180-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1643,
+        1224,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d225-0",
+      "source": "diagnostic/diag-attack_sword_01-d225-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1813,
+        1224,
+        220,
+        236
+      ],
+      "trim": [
+        53,
+        119,
+        220,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d225-1",
+      "source": "diagnostic/diag-attack_sword_01-d225-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        1468,
+        228,
+        236
+      ],
+      "trim": [
+        44,
+        119,
+        228,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d225-2",
+      "source": "diagnostic/diag-attack_sword_01-d225-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        240,
+        1468,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d225-3",
+      "source": "diagnostic/diag-attack_sword_01-d225-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        409,
+        1468,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d270-0",
+      "source": "diagnostic/diag-attack_sword_01-d270-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        579,
+        1468,
+        203,
+        236
+      ],
+      "trim": [
+        70,
+        119,
+        203,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d270-1",
+      "source": "diagnostic/diag-attack_sword_01-d270-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        790,
+        1468,
+        212,
+        236
+      ],
+      "trim": [
+        60,
+        119,
+        212,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d270-2",
+      "source": "diagnostic/diag-attack_sword_01-d270-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1010,
+        1468,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d270-3",
+      "source": "diagnostic/diag-attack_sword_01-d270-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1179,
+        1468,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d315-0",
+      "source": "diagnostic/diag-attack_sword_01-d315-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1349,
+        1468,
+        163,
+        236
+      ],
+      "trim": [
+        110,
+        119,
+        163,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d315-1",
+      "source": "diagnostic/diag-attack_sword_01-d315-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1520,
+        1468,
+        171,
+        236
+      ],
+      "trim": [
+        101,
+        119,
+        171,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d315-2",
+      "source": "diagnostic/diag-attack_sword_01-d315-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1699,
+        1468,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-attack_sword_01-d315-3",
+      "source": "diagnostic/diag-attack_sword_01-d315-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1868,
+        1468,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d00-0",
+      "source": "diagnostic/diag-dodge-d00-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        4,
+        1712,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d00-1",
+      "source": "diagnostic/diag-dodge-d00-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        168,
+        1712,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d00-2",
+      "source": "diagnostic/diag-dodge-d00-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        332,
+        1712,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d45-0",
+      "source": "diagnostic/diag-dodge-d45-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        496,
+        1712,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d45-1",
+      "source": "diagnostic/diag-dodge-d45-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        676,
+        1712,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d45-2",
+      "source": "diagnostic/diag-dodge-d45-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        856,
+        1712,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d90-0",
+      "source": "diagnostic/diag-dodge-d90-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1036,
+        1712,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d90-1",
+      "source": "diagnostic/diag-dodge-d90-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1200,
+        1712,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d90-2",
+      "source": "diagnostic/diag-dodge-d90-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1364,
+        1712,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d135-0",
+      "source": "diagnostic/diag-dodge-d135-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1528,
+        1712,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d135-1",
+      "source": "diagnostic/diag-dodge-d135-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1698,
+        1712,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d135-2",
+      "source": "diagnostic/diag-dodge-d135-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-0",
+      "rect": [
+        1867,
+        1712,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d180-0",
+      "source": "diagnostic/diag-dodge-d180-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        4,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d180-1",
+      "source": "diagnostic/diag-dodge-d180-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        174,
+        4,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d180-2",
+      "source": "diagnostic/diag-dodge-d180-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        343,
+        4,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d225-0",
+      "source": "diagnostic/diag-dodge-d225-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        512,
+        4,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d225-1",
+      "source": "diagnostic/diag-dodge-d225-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        682,
+        4,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d225-2",
+      "source": "diagnostic/diag-dodge-d225-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        851,
+        4,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d270-0",
+      "source": "diagnostic/diag-dodge-d270-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1020,
+        4,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d270-1",
+      "source": "diagnostic/diag-dodge-d270-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1190,
+        4,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d270-2",
+      "source": "diagnostic/diag-dodge-d270-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1359,
+        4,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d315-0",
+      "source": "diagnostic/diag-dodge-d315-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1528,
+        4,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d315-1",
+      "source": "diagnostic/diag-dodge-d315-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1698,
+        4,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-dodge-d315-2",
+      "source": "diagnostic/diag-dodge-d315-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1867,
+        4,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d00-0",
+      "source": "diagnostic/diag-cast_lantern_flare-d00-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        248,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d00-1",
+      "source": "diagnostic/diag-cast_lantern_flare-d00-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        168,
+        248,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d00-2",
+      "source": "diagnostic/diag-cast_lantern_flare-d00-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        332,
+        248,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d00-3",
+      "source": "diagnostic/diag-cast_lantern_flare-d00-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        496,
+        248,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d45-0",
+      "source": "diagnostic/diag-cast_lantern_flare-d45-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        660,
+        248,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d45-1",
+      "source": "diagnostic/diag-cast_lantern_flare-d45-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        840,
+        248,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d45-2",
+      "source": "diagnostic/diag-cast_lantern_flare-d45-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1020,
+        248,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d45-3",
+      "source": "diagnostic/diag-cast_lantern_flare-d45-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1200,
+        248,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d90-0",
+      "source": "diagnostic/diag-cast_lantern_flare-d90-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1380,
+        248,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d90-1",
+      "source": "diagnostic/diag-cast_lantern_flare-d90-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1544,
+        248,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d90-2",
+      "source": "diagnostic/diag-cast_lantern_flare-d90-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1708,
+        248,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d90-3",
+      "source": "diagnostic/diag-cast_lantern_flare-d90-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1872,
+        248,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d135-0",
+      "source": "diagnostic/diag-cast_lantern_flare-d135-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        492,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d135-1",
+      "source": "diagnostic/diag-cast_lantern_flare-d135-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        174,
+        492,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d135-2",
+      "source": "diagnostic/diag-cast_lantern_flare-d135-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        343,
+        492,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d135-3",
+      "source": "diagnostic/diag-cast_lantern_flare-d135-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        512,
+        492,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d180-0",
+      "source": "diagnostic/diag-cast_lantern_flare-d180-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        682,
+        492,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d180-1",
+      "source": "diagnostic/diag-cast_lantern_flare-d180-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        852,
+        492,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d180-2",
+      "source": "diagnostic/diag-cast_lantern_flare-d180-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1021,
+        492,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d180-3",
+      "source": "diagnostic/diag-cast_lantern_flare-d180-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1190,
+        492,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d225-0",
+      "source": "diagnostic/diag-cast_lantern_flare-d225-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1360,
+        492,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d225-1",
+      "source": "diagnostic/diag-cast_lantern_flare-d225-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1530,
+        492,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d225-2",
+      "source": "diagnostic/diag-cast_lantern_flare-d225-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1699,
+        492,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d225-3",
+      "source": "diagnostic/diag-cast_lantern_flare-d225-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1868,
+        492,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d270-0",
+      "source": "diagnostic/diag-cast_lantern_flare-d270-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        736,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d270-1",
+      "source": "diagnostic/diag-cast_lantern_flare-d270-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        174,
+        736,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d270-2",
+      "source": "diagnostic/diag-cast_lantern_flare-d270-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        343,
+        736,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d270-3",
+      "source": "diagnostic/diag-cast_lantern_flare-d270-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        512,
+        736,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d315-0",
+      "source": "diagnostic/diag-cast_lantern_flare-d315-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        682,
+        736,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d315-1",
+      "source": "diagnostic/diag-cast_lantern_flare-d315-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        852,
+        736,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d315-2",
+      "source": "diagnostic/diag-cast_lantern_flare-d315-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1021,
+        736,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-cast_lantern_flare-d315-3",
+      "source": "diagnostic/diag-cast_lantern_flare-d315-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1190,
+        736,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d00-0",
+      "source": "diagnostic/diag-hit-d00-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1360,
+        736,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d00-1",
+      "source": "diagnostic/diag-hit-d00-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1524,
+        736,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d45-0",
+      "source": "diagnostic/diag-hit-d45-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1688,
+        736,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d45-1",
+      "source": "diagnostic/diag-hit-d45-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1868,
+        736,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d90-0",
+      "source": "diagnostic/diag-hit-d90-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        980,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d90-1",
+      "source": "diagnostic/diag-hit-d90-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        168,
+        980,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d135-0",
+      "source": "diagnostic/diag-hit-d135-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        332,
+        980,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d135-1",
+      "source": "diagnostic/diag-hit-d135-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        502,
+        980,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d180-0",
+      "source": "diagnostic/diag-hit-d180-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        671,
+        980,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d180-1",
+      "source": "diagnostic/diag-hit-d180-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        841,
+        980,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d225-0",
+      "source": "diagnostic/diag-hit-d225-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1010,
+        980,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d225-1",
+      "source": "diagnostic/diag-hit-d225-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1180,
+        980,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d270-0",
+      "source": "diagnostic/diag-hit-d270-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1349,
+        980,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d270-1",
+      "source": "diagnostic/diag-hit-d270-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1519,
+        980,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d315-0",
+      "source": "diagnostic/diag-hit-d315-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1688,
+        980,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-hit-d315-1",
+      "source": "diagnostic/diag-hit-d315-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1858,
+        980,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d00-0",
+      "source": "diagnostic/diag-death-d00-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        1224,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d00-1",
+      "source": "diagnostic/diag-death-d00-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          282.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        168,
+        1224,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d00-2",
+      "source": "diagnostic/diag-death-d00-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          297.7298474336546
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        332,
+        1224,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d00-3",
+      "source": "diagnostic/diag-death-d00-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.69491347236678,
+          312.7298474336546
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        496,
+        1224,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d45-0",
+      "source": "diagnostic/diag-death-d45-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        660,
+        1224,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d45-1",
+      "source": "diagnostic/diag-death-d45-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          306
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        840,
+        1224,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d45-2",
+      "source": "diagnostic/diag-death-d45-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          321
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1020,
+        1224,
+        172,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d45-3",
+      "source": "diagnostic/diag-death-d45-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          135,
+          336
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1200,
+        1224,
+        172,
+        237
+      ],
+      "trim": [
+        116,
+        119,
+        172,
+        237
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d90-0",
+      "source": "diagnostic/diag-death-d90-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1380,
+        1224,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d90-1",
+      "source": "diagnostic/diag-death-d90-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          329.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1544,
+        1224,
+        156,
+        236
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d90-2",
+      "source": "diagnostic/diag-death-d90-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          344.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1708,
+        1224,
+        156,
+        245
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        245
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d90-3",
+      "source": "diagnostic/diag-death-d90-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          151.6949134723668,
+          359.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1872,
+        1224,
+        156,
+        260
+      ],
+      "trim": [
+        116,
+        119,
+        156,
+        260
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d135-0",
+      "source": "diagnostic/diag-death-d135-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          323.9089653578167
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        1492,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d135-1",
+      "source": "diagnostic/diag-death-d135-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          338.9089653578167
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        174,
+        1492,
+        161,
+        240
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        240
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d135-2",
+      "source": "diagnostic/diag-death-d135-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          353.9089653578167
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        343,
+        1492,
+        161,
+        255
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        255
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d135-3",
+      "source": "diagnostic/diag-death-d135-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          368.9089653578167
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        512,
+        1492,
+        162,
+        270
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        270
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d180-0",
+      "source": "diagnostic/diag-death-d180-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          314.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        682,
+        1492,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d180-1",
+      "source": "diagnostic/diag-death-d180-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          329.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        852,
+        1492,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d180-2",
+      "source": "diagnostic/diag-death-d180-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          344.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1021,
+        1492,
+        161,
+        245
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        245
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d180-3",
+      "source": "diagnostic/diag-death-d180-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.3050865276332,
+          359.2701525663454
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1190,
+        1492,
+        162,
+        260
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        260
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d225-0",
+      "source": "diagnostic/diag-death-d225-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          291
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1360,
+        1492,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d225-1",
+      "source": "diagnostic/diag-death-d225-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          306
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1530,
+        1492,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d225-2",
+      "source": "diagnostic/diag-death-d225-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          321
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1699,
+        1492,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d225-3",
+      "source": "diagnostic/diag-death-d225-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          249,
+          336
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1868,
+        1492,
+        162,
+        237
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        237
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d270-0",
+      "source": "diagnostic/diag-death-d270-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          267.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        4,
+        1770,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d270-1",
+      "source": "diagnostic/diag-death-d270-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          282.72984743365464
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        174,
+        1770,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d270-2",
+      "source": "diagnostic/diag-death-d270-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          297.7298474336546
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        343,
+        1770,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d270-3",
+      "source": "diagnostic/diag-death-d270-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          232.30508652763322,
+          312.7298474336546
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        512,
+        1770,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d315-0",
+      "source": "diagnostic/diag-death-d315-0.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          258.0910346421833
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        682,
+        1770,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d315-1",
+      "source": "diagnostic/diag-death-d315-1.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          273.0910346421833
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        852,
+        1770,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d315-2",
+      "source": "diagnostic/diag-death-d315-2.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          288.0910346421833
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1021,
+        1770,
+        161,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        161,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "diag-death-d315-3",
+      "source": "diagnostic/diag-death-d315-3.png",
+      "origin": "diagnostic",
+      "attachments": {
+        "lantern": [
+          192,
+          303.0910346421833
+        ]
+      },
+      "page": "atlas-1",
+      "rect": [
+        1190,
+        1770,
+        162,
+        236
+      ],
+      "trim": [
+        111,
+        119,
+        162,
+        236
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-walk-d45-0",
+      "source": "proxy/proxy-walk-d45-0.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.48000240325928,
+          202.31778001785278
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        4,
+        4,
+        165,
+        351
+      ],
+      "trim": [
+        109,
+        58,
+        165,
+        351
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-walk-d45-1",
+      "source": "proxy/proxy-walk-d45-1.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.48000240325928,
+          194.1658866405487
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        177,
+        4,
+        164,
+        334
+      ],
+      "trim": [
+        109,
+        55,
+        164,
+        334
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-walk-d45-2",
+      "source": "proxy/proxy-walk-d45-2.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.48000383377075,
+          188.76894092559814
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        349,
+        4,
+        165,
+        318
+      ],
+      "trim": [
+        109,
+        51,
+        165,
+        318
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-walk-d45-3",
+      "source": "proxy/proxy-walk-d45-3.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.48000240325928,
+          194.1658866405487
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        522,
+        4,
+        164,
+        322
+      ],
+      "trim": [
+        109,
+        55,
+        164,
+        322
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-walk-d45-4",
+      "source": "proxy/proxy-walk-d45-4.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.48000240325928,
+          202.31778001785278
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        694,
+        4,
+        165,
+        351
+      ],
+      "trim": [
+        109,
+        58,
+        165,
+        351
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-walk-d45-5",
+      "source": "proxy/proxy-walk-d45-5.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.47999668121338,
+          203.5719337463379
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        867,
+        4,
+        165,
+        340
+      ],
+      "trim": [
+        109,
+        49,
+        165,
+        340
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-walk-d45-6",
+      "source": "proxy/proxy-walk-d45-6.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.48000240325928,
+          202.07108688354492
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        1040,
+        4,
+        164,
+        328
+      ],
+      "trim": [
+        109,
+        41,
+        164,
+        328
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-walk-d45-7",
+      "source": "proxy/proxy-walk-d45-7.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.47999668121338,
+          203.5719337463379
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        1212,
+        4,
+        165,
+        328
+      ],
+      "trim": [
+        109,
+        49,
+        165,
+        328
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-0",
+      "source": "proxy/proxy-attack_sword_01-d45-0.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.47999954223633,
+          205.64332151412964
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        1385,
+        4,
+        165,
+        331
+      ],
+      "trim": [
+        109,
+        43,
+        165,
+        331
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-1",
+      "source": "proxy/proxy-attack_sword_01-d45-1.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.47999954223633,
+          205.64332151412964
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        1558,
+        4,
+        166,
+        316
+      ],
+      "trim": [
+        109,
+        58,
+        166,
+        316
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-2",
+      "source": "proxy/proxy-attack_sword_01-d45-2.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.47999954223633,
+          205.64332151412964
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        1732,
+        4,
+        187,
+        316
+      ],
+      "trim": [
+        109,
+        58,
+        187,
+        316
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-3",
+      "source": "proxy/proxy-attack_sword_01-d45-3.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.47999954223633,
+          205.64332151412964
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        4,
+        363,
+        165,
+        349
+      ],
+      "trim": [
+        109,
+        25,
+        165,
+        349
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-4",
+      "source": "proxy/proxy-attack_sword_01-d45-4.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.47999954223633,
+          205.64332151412964
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        177,
+        363,
+        166,
+        316
+      ],
+      "trim": [
+        109,
+        58,
+        166,
+        316
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-5",
+      "source": "proxy/proxy-attack_sword_01-d45-5.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.47999954223633,
+          205.64332151412964
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        351,
+        363,
+        165,
+        316
+      ],
+      "trim": [
+        109,
+        58,
+        165,
+        316
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-6",
+      "source": "proxy/proxy-attack_sword_01-d45-6.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.47999954223633,
+          205.64332151412964
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        524,
+        363,
+        165,
+        316
+      ],
+      "trim": [
+        109,
+        58,
+        165,
+        316
+      ],
+      "rotated": false
+    },
+    {
+      "id": "proxy-attack_sword_01-d45-7",
+      "source": "proxy/proxy-attack_sword_01-d45-7.png",
+      "origin": "blender-proxy",
+      "attachments": {
+        "lantern": [
+          132.47999954223633,
+          205.64332151412964
+        ]
+      },
+      "page": "atlas-2",
+      "rect": [
+        697,
+        363,
+        164,
+        316
+      ],
+      "trim": [
+        109,
+        58,
+        164,
+        316
+      ],
+      "rotated": false
+    }
+  ],
+  "pages": [
+    {
+      "id": "atlas-0",
+      "path": "3e291c54f422e28f/atlas-0.png",
+      "hash": "3d4348b1fd67c9be13d197bfacb6f32063aaf7a88fc2212fe32b5bf8ebc952dc",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 452466,
+      "rgbaBytes": 16777216,
+      "extrusion": 2,
+      "gutter": 2,
+      "mipmaps": false
+    },
+    {
+      "id": "atlas-1",
+      "path": "3e291c54f422e28f/atlas-1.png",
+      "hash": "2355b6bfe730c154100b5bf5aae978d84d312868e8eed98a4ca1357368dc529f",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 453179,
+      "rgbaBytes": 16777216,
+      "extrusion": 2,
+      "gutter": 2,
+      "mipmaps": false
+    },
+    {
+      "id": "atlas-2",
+      "path": "3e291c54f422e28f/atlas-2.png",
+      "hash": "5bb87ac7b8871cef8d30ac11c2634fa72b281bef76d052db9020bfc1ac9309d0",
+      "width": 2048,
+      "height": 2048,
+      "bytes": 508819,
+      "rgbaBytes": 16777216,
+      "extrusion": 2,
+      "gutter": 2,
+      "mipmaps": false
+    }
+  ],
+  "bundles": {
+    "boot": {
+      "required": [],
+      "optional": [],
+      "dependencies": []
+    },
+    "hero": {
+      "required": [
+        "atlas-0",
+        "atlas-1",
+        "atlas-2"
+      ],
+      "optional": [],
+      "dependencies": [
+        "boot"
+      ]
+    },
+    "room": {
+      "required": [
+        "atlas-0",
+        "atlas-1",
+        "atlas-2"
+      ],
+      "optional": [],
+      "dependencies": [
+        "hero"
+      ]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+node_modules/
+dist/
+dist-electron/
+release/
+*.blend1
+.DS_Store
+.env
+.env.*
+!.env.example
+evidence/smoke-user/
+evidence/benchmark-user/
