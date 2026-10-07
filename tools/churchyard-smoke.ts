@@ -6,7 +6,7 @@ import '../src/inspection';
 const run=await smokeLaunch(true),{app,page,output,errors}=run;const checks:string[]=[];
 try{
  await page.waitForFunction(()=>window.foundation?.ready,{},{timeout:45000});
- const resize=async(w:number,h:number)=>{await app.evaluate(({BrowserWindow},{w,h})=>BrowserWindow.getAllWindows()[0]!.setContentSize(w,h+128),{w,h});await page.waitForTimeout(80);};
+ const resize=async(w:number,h:number)=>{await app.evaluate(({BrowserWindow},{w,h})=>BrowserWindow.getAllWindows()[0]!.setContentSize(w,h+128),{w,h});await page.waitForFunction(w=>document.querySelector('canvas')!.clientWidth===w,w,{timeout:15000});await page.evaluate(()=>{window.foundation.presentation.resize();return new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));});};
  const freeze=async()=>{await page.evaluate(()=>window.foundation.pause(true));await page.locator('#modal').evaluate(el=>(el as HTMLElement).hidden=true);await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));};
  await resize(1920,1080);await freeze();
  assert.equal(await page.evaluate(()=>window.foundation.sim.enemies.length),1);assert.equal(await page.evaluate(()=>window.foundation.sim.engaged),false);assert.equal(await page.evaluate(()=>window.foundation.stats().verticalSpan),9);checks.push('one dormant skeleton and close camera at opening');
