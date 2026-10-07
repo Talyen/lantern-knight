@@ -21,7 +21,7 @@ export async function stagePayload(sourcePublic:string,staging:string,destinatio
  await fs.writeFile(path.join(destination,'public/registration.json'),registration);
  const flags=JSON.parse(await fs.readFile(path.join(destination,'public/build-mode.json'),'utf8'));flags.registrationHash=createHash('sha256').update(registration).digest('hex');await fs.writeFile(path.join(destination,'public/build-mode.json'),JSON.stringify(flags));
  await fs.mkdir(path.join(destination,'public/walk'),{recursive:true});await fs.copyFile(path.join(staging,'walk-blending/flow.png'),path.join(destination,'public/walk/flow.png'));
- for(const name of ['ink/derivatives.json','ink/graveyard-art-receipt.json','ink/graveyard-ground-receipt.json','rest/receipt.json','effects-playground/receipt.json','visual-effects/receipt.json']){
+ for(const name of ['ink/derivatives.json','ink/hero-receipt.json','ink/graveyard-art-receipt.json','ink/graveyard-ground-receipt.json','rest/receipt.json','effects-playground/receipt.json','visual-effects/receipt.json']){
   const target=path.join(destination,'metadata',name);await fs.mkdir(path.dirname(target),{recursive:true});await fs.copyFile(path.join(staging,name),target);
  }
  return files.size;

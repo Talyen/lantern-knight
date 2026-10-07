@@ -8,7 +8,6 @@ import {assetCatalog} from './content/visuals';
 import {createBrowserBridge} from './platform/browser-store';
 import {HEADINGS,contract} from './core/camera';
 import {clipDuration} from './core/animation';
-import {swordCombo} from './content/gameplay';
 import {walkTimings,type WalkTiming} from './core/walk-timing';
 import {walkBlendModes,type WalkBlendMode} from './core/walk-blending';
 import {sandboxUI} from './sandbox-ui';
@@ -92,7 +91,7 @@ async function boot(){await app.boot();presentation=app.presentation;
   $('#lighting-pause').onclick=()=>{app.pause(!app.paused);$('#modal').hidden=true;};
   $('#lighting-replay').onclick=()=>app.safe(startLightingReplay);
   $('#lighting-stop').onclick=()=>{lightingReplay=false;app.command=undefined;$('#lighting-stop').hidden=true;};
-  const blendControls=['walk-blend','game-walk-blend'];
+  const blendControls=['walk-blend'];
   for(const id of blendControls){
     $('#'+id).innerHTML=Object.entries(walkBlendModes).map(([key,value])=>`<option value="${key}">${value.label}</option>`).join('');
     $('#'+id).onchange=()=>{presentation.walkBlend=$<HTMLSelectElement>('#'+id).value as WalkBlendMode;
@@ -101,28 +100,29 @@ async function boot(){await app.boot();presentation=app.presentation;
     };
   }
   $('#walk-blend-help').textContent=walkBlendModes.original.description;
-  for(const id of ['walk-stabilized','game-walk-stabilized'])$('#'+id).onchange=()=>{
+  for(const id of ['walk-stabilized'])$('#'+id).onchange=()=>{
     presentation.walkStabilized=$<HTMLInputElement>('#'+id).checked;
-    for(const control of ['walk-stabilized','game-walk-stabilized'])$<HTMLInputElement>('#'+control).checked=presentation.walkStabilized;
+    for(const control of ['walk-stabilized'])$<HTMLInputElement>('#'+control).checked=presentation.walkStabilized;
     presentation.lastLabOverlay='';
   };
-  for(const id of ['walk-rigid-sword','game-walk-rigid-sword'])$('#'+id).onchange=()=>{
+  for(const id of ['walk-rigid-sword'])$('#'+id).onchange=()=>{
     presentation.walkRigidSword=$<HTMLInputElement>('#'+id).checked;
-    for(const control of ['walk-rigid-sword','game-walk-rigid-sword'])$<HTMLInputElement>('#'+control).checked=presentation.walkRigidSword;
+    for(const control of ['walk-rigid-sword'])$<HTMLInputElement>('#'+control).checked=presentation.walkRigidSword;
   };
-  for(const id of ['walk-timing','game-walk-timing']){
+  for(const id of ['walk-timing']){
     $('#'+id).innerHTML=Object.entries(walkTimings).map(([key,value])=>`<option value="${key}">${value.label}</option>`).join('');
     $<HTMLSelectElement>('#'+id).value=presentation.walkTiming;
     $('#'+id).onchange=()=>{presentation.walkTiming=$<HTMLSelectElement>('#'+id).value as WalkTiming;
-      for(const control of ['walk-timing','game-walk-timing'])$<HTMLSelectElement>('#'+control).value=presentation.walkTiming;
+      for(const control of ['walk-timing'])$<HTMLSelectElement>('#'+control).value=presentation.walkTiming;
       $('#walk-timing-help').textContent=walkTimings[presentation.walkTiming].description;
     };
   }
   $('#walk-timing-help').textContent=walkTimings[presentation.walkTiming].description;
-  $('#walk-compare').onclick=()=>{
+  $('#walk-compare').onclick=()=>app.safe(async()=>{
+    await app.loadAsset('ink-hero');if(!presentation.walkFlow)await presentation.loadWalkFlow();
     app.pause(false);$<HTMLInputElement>('#overlays').checked=false;presentation.selectLabAsset('ink-hero');$<HTMLSelectElement>('#asset').value='ink-hero';presentation.labClip='walk';updateLabClips();
     presentation.labAnimator.start(presentation.getClip('walk',presentation.labHeading));presentation.labTime=0;presentation.labPaused=false;$('#play').textContent='Pause';setMode('animation');
-  };
+  });
   const zoomPreview=(zoom:number)=>{presentation.setLabZoom(Math.round(zoom*100)/100);syncLabZoom();};
   $('#lab-zoom').oninput=()=>zoomPreview(Number($<HTMLInputElement>('#lab-zoom').value)/100);
   $('#lab-zoom-out').onclick=()=>zoomPreview(presentation.labZoom-.25);
@@ -146,7 +146,7 @@ async function boot(){await app.boot();presentation=app.presentation;
   $('#asset').onchange = () =>
     app.safe(async () => {
       const id = $<HTMLSelectElement>('#asset').value;
-      await app.loadAsset(id);
+      await app.loadAsset(id);if(id==='ink-hero'&&!presentation.walkFlow)await presentation.loadWalkFlow();
       presentation.selectLabAsset(id);
       updateLabClips();
     });
@@ -225,7 +225,7 @@ function updateUI(){if(!presentation)return;
  if(mode==='encounter'||mode==='lighting'){$('#room-title').textContent=sim.areaDefinition.name;$('#room-subtitle').textContent=sim.areaDefinition.subtitle;}
  if(mode==='lighting'){const lab=presentation.lightingLab.stats();$('#lighting-pause').textContent=app.paused?'Resume scene':'Pause scene';$('#lighting-playback').textContent=lightingReplay?'Replay: shade → lantern → combat → return':'Free play';$('#lighting-stop').hidden=!lightingReplay;$('#lighting-stats').textContent=`${presentation.renderer.domElement.width} × ${presentation.renderer.domElement.height}\n${lab.companions} generated companions · ${(lab.normalBytes/1048576).toFixed(1)} MiB\nHDR color buffers ${(lab.targets.colorBytes/1048576).toFixed(0)} MiB`;}
  if(mode==='occlusion'){const label=document.querySelector<HTMLElement>('#art-registration-status');if(label)label.textContent=presentation.artConstruction.findings.length?presentation.artConstruction.findings.map(f=>`${f.a}${f.b?' ↔ '+f.b:''}: ${f.message}`).join('\n'):'No undeclared Graveyard overlaps. Green: footprints. Gold: joins. Amber: light sockets.';}
- if(mode==='animation'){const c=presentation.labAnimator.clip,d=clipDuration(c);$<HTMLInputElement>('#scrub').max=String(d);$<HTMLInputElement>('#scrub').value=String(presentation.labTime%d);$('#visual-time').textContent=`${Math.round(presentation.labTime%d)} / ${Math.round(d)} ms`;$('#notify').textContent=presentation.notifyLog.join('\n');$('#frame-status').textContent=presentation.labAnimator.frame;$('#walk-comparison').hidden=presentation.labAsset!=='ink-hero';}
+ if(mode==='animation'){const c=presentation.labAnimator.clip,d=clipDuration(c);$<HTMLInputElement>('#scrub').max=String(d);$<HTMLInputElement>('#scrub').value=String(presentation.labTime%d);$('#visual-time').textContent=`${Math.round(presentation.labTime%d)} / ${Math.round(d)} ms`;$('#notify').textContent=presentation.notifyLog.join('\n');$('#frame-status').textContent=presentation.labAnimator.frame;$('#walk-comparison').hidden=presentation.labAsset!=='ink-hero';for(const id of ['walk-blend','walk-stabilized','walk-rigid-sword','walk-timing'])$<HTMLInputElement>('#'+id).disabled=presentation.labAsset!=='ink-hero';}
 }
 let benchmarkFrames:number[]=[],benchmarkMeasuring=false,returnSave:ReturnType<GameSession['captureSave']>|undefined;
 async function startBenchmark(stress=false){lightingReplay=false;await app.loadAsset('ink-revenant');returnSave??=app.session.captureSave();const definitions=stress?{...sandboxDefinitions,areas:sandboxDefinitions.areas.map(a=>a.id==='court'?{...a,activation:undefined,spawns:Array.from({length:32},(_,i)=>({id:`stress-${i}`,actor:'warden',x:(i%6-3)*1.2,z:(Math.floor(i/6)-2)*1.2}))}:a)}:sandboxDefinitions;

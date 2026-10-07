@@ -16,7 +16,7 @@ const PackSchema=z.object({schemaVersion:z.literal(1),recipeSha256:hash,files:z.
 export const lockFile=path.join(projectRoot,'assets/lock.json');
 export const readLock=async()=>LockSchema.parse(JSON.parse(await fs.readFile(lockFile,'utf8')));
 export async function recipeHash(){
- const names=['assets/sources.json','authoring/surface-depth.json','authoring/walk-tuning.json','src/content/camera.json','src/assets/schema.ts','src/content/scenery-registration.ts','src/content/graveyard-registration.ts','src/content/graveyard-scene.ts','src/content/crypt-scene.ts','src/content/graveyard-layout.ts','src/content/visuals.ts','src/content/effects-playground-assets.ts','src/presentation/lighting-profiles.ts','tools/compiler.ts','tools/walk-arm-correction.ts','tools/prepare-walk-flow.py','tools/diagnostic.ts','tools/assets/io.ts','tools/assets/sources.ts','tools/assets/source.py','tools/assets/resolver.py','tools/assets/paths.ts','src/assets/registration.ts','tools/assets/prepare.ts','tools/assets/payload.ts',...(await fs.readdir(path.join(projectRoot,'tools'))).filter(n=>n.startsWith('prepare-')&&n.endsWith('.ts')).map(n=>'tools/'+n)];
+ const names=['assets/sources.json','authoring/surface-depth.json','authoring/walk-tuning.json','authoring/hero-actions.json','tools/assets/hero.py','src/content/camera.json','src/assets/schema.ts','src/content/scenery-registration.ts','src/content/graveyard-registration.ts','src/content/graveyard-scene.ts','src/content/crypt-scene.ts','src/content/graveyard-layout.ts','src/content/visuals.ts','src/content/effects-playground-assets.ts','src/presentation/lighting-profiles.ts','tools/compiler.ts','tools/walk-arm-correction.ts','tools/prepare-walk-flow.py','tools/diagnostic.ts','tools/assets/io.ts','tools/assets/sources.ts','tools/assets/source.py','tools/assets/resolver.py','tools/assets/paths.ts','src/assets/registration.ts','tools/assets/prepare.ts','tools/assets/payload.ts',...(await fs.readdir(path.join(projectRoot,'tools'))).filter(n=>n.startsWith('prepare-')&&n.endsWith('.ts')).map(n=>'tools/'+n)];
  const config=JSON.parse(await fs.readFile(path.join(projectRoot,'package.json'),'utf8'));const digest=createHash('sha256').update(JSON.stringify({sharp:config.devDependencies.sharp,three:config.dependencies.three,zod:config.dependencies.zod,tar:config.devDependencies.tar}));for(const name of [...new Set(names)].sort()){digest.update(name+'\0');digest.update(await fs.readFile(path.join(projectRoot,name)));}return digest.digest('hex');
 }
 export async function listFiles(root:string):Promise<string[]>{
@@ -61,14 +61,15 @@ export async function ensurePack(lock:AssetLock,cache=new AssetCache(),request:t
  try{await installMutex(held.root,async()=>{
   try{await validatePack(held.root,lock);return;}catch{try{await fs.access(path.join(held.root,'pack.json'));if(!await held.sole())throw new Error('Corrupt prepared pack is in use; stop active commands before repairing it');}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}}
   await held.reserve(lock.bytes+await diskBytes(held.root));const archive=path.join(held.root,'.download-'+randomUUID()),incoming=path.join(held.root,'.incoming-'+randomUUID());
+  let downloadOutput:ReturnType<typeof createWriteStream>|undefined;
   try{
    const response=await request(url);if(!response.ok||!response.body)throw new Error(`Prepared pack unavailable: HTTP ${response.status}`);
-   const output=createWriteStream(archive,{flags:'wx'}),digest=createHash('sha256');let count=0;
+   const output=downloadOutput=createWriteStream(archive,{flags:'wx'}),digest=createHash('sha256');let count=0;
    async function* checked(){for await(const b of response.body as unknown as AsyncIterable<Uint8Array>){count+=b.length;if(count>lock.bytes)throw new Error('Download exceeds pinned size');digest.update(b);yield b;}}
    await pipeline(checked(),output);if(count!==lock.bytes||digest.digest('hex')!==lock.sha256)throw new Error('Prepared pack download hash or size differs');
    const unpacked=await inspectArchive(archive,cache.limit-lock.bytes);await held.reserve(unpacked+await diskBytes(held.root)+4096);
    await fs.mkdir(incoming);await tar.x({cwd:incoming,file:archive,strict:true,preservePaths:false});await validatePack(incoming,lock);
    await fs.mkdir(path.join(incoming,'metadata'),{recursive:true});for(const name of ['public','metadata','pack.json']){await fs.rm(path.join(held.root,name),{recursive:true,force:true});await fs.rename(path.join(incoming,name),path.join(held.root,name));}
-  }finally{await fs.rm(archive,{force:true});await fs.rm(incoming,{recursive:true,force:true});}
+  }finally{if(downloadOutput&&!downloadOutput.closed)await new Promise<void>(resolve=>{downloadOutput!.once('close',resolve);downloadOutput!.destroy();});await fs.rm(archive,{force:true});await fs.rm(incoming,{recursive:true,force:true});}
  });return held;}catch(error){await held.release();throw error;}
 }

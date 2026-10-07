@@ -10,7 +10,7 @@ import {resolveClip} from '../assets/schema';
 import {remapWalkTime} from '../core/walk-timing';
 import {Animator,clipDuration} from '../core/animation';
 import type {Manifest,Clip,Frame} from '../assets/schema';
-import {attackDefinition,swordCombo,tuning} from '../content/gameplay';
+import {attackDefinition,tuning} from '../content/gameplay';
 import {content,heightAt,surfaceGradient,type AreaDefinition,type ActorId,PLAYER_ID} from '../content/world';
 import {actorVisuals} from '../content/visuals';
 import {pageIdentity,type PackLease} from '../assets/loader';
@@ -31,8 +31,8 @@ calibration=new T.Group();overlay=new T.Group();rootMarkers=new T.Group();
  labTime=0;labClip='walk';labHeading:typeof HEADINGS[number]='d45';labPaused=false;labSpeed=1;notifyLog:string[]=[];
  labSprite:ActorSprite;secondSprite:ActorSprite;labAnimator:Animator;frameMap=new Map<string,Frame>();lastLabOverlay='';labZoom=2;labPanelInset=330;
  proxy:T.Group|undefined;comparisonElevation=contract.elevationDeg;labAsset='placeholder';
- override get manifest(){return this.packs.get(this.labAsset??'ink-hero')!.manifest;}
- override get textures(){return this.packs.get(this.labAsset??'ink-hero')!.textures;}
+ override get manifest(){return this.packs.get(this.labAsset??'ink-hero-current')!.manifest;}
+ override get textures(){return this.packs.get(this.labAsset??'ink-hero-current')!.textures;}
  constructor(canvas:HTMLCanvasElement,packs:Map<string,PackLease>,events:EventHub,initialArea:import('../content/world').AreaDefinition,registration:PreparedRegistration){super(canvas,packs,events,initialArea,registration);this.scene.add(this.calibration,this.overlay,this.rootMarkers,this.artConstruction.group);
  for(const side of [-1,1]){const marker=new T.Mesh(this.rootGeometry,this.rootMaterial);marker.position.addScaledVector(right,side*1.2).addScaledVector(outward,.03);marker.quaternion.copy(this.camera.quaternion);marker.renderOrder=1000;this.rootMarkers.add(marker);}this.rootMarkers.visible=false;
  const manifest=this.manifest,textures=this.textures,c=manifest.asset.clips[this.labClip]!.d45!;
@@ -57,7 +57,7 @@ calibration=new T.Group();overlay=new T.Group();rootMarkers=new T.Group();
     this.comparisonElevation=elevation;const a=contract.azimuthDeg*Math.PI/180,e=elevation*Math.PI/180,target=new T.Vector3();
     if(this.mode==='animation'){
       // Centre all authored poses together, so cycling drawings cannot move the camera.
-      const bounds=this.manifest.frames.map(f=>{const b=trimmedBounds(this.manifest.asset,f.trim),y=this.walkStabilized?f.visualOffsetPx?.[1]??0:0;return{...b,top:b.top-y/this.manifest.asset.density,bottom:b.bottom-y/this.manifest.asset.density};});
+      const bounds=this.manifest.frames.map(f=>{const b=trimmedBounds(f.registration??this.manifest.asset,f.trim),y=this.walkStabilized?f.visualOffsetPx?.[1]??0:0;return{...b,top:b.top-y/(f.registration??this.manifest.asset).density,bottom:b.bottom-y/(f.registration??this.manifest.asset).density};});
       const center=(Math.max(...bounds.map(b=>b.top))+Math.min(...bounds.map(b=>b.bottom)))/2;
       target.addScaledVector(up,center);
       // Use the open space to the left of the controls rather than hiding the reference.
@@ -90,7 +90,7 @@ calibration=new T.Group();overlay=new T.Group();rootMarkers=new T.Group();
  protected override renderFrame(sim:Simulation,ms:number){this.artConstruction.update(sim.areaDefinition,this.inkRoom,sim.generation,this.mode==='occlusion'&&this.debug);super.renderFrame(sim,ms);}
   drawOverlay(f:Frame,foot:T.Vector3){
     this.overlay.clear();this.overlayOwned.forEach(v=>v.dispose());this.overlayOwned=[];
-    const asset=this.manifest.asset,lines=(bounds:number[],color:number)=>{
+    const asset=f.registration??this.manifest.asset,lines=(bounds:number[],color:number)=>{
       const [x,y,w,h]=bounds as[number,number,number,number],ax=asset.anchor[0],ay=asset.anchor[1],d=asset.density;
       const corners=[[x,y],[x+w,y],[x+w,y+h],[x,y+h],[x,y]];
       const pts=corners.map(([px,py])=>foot.clone().addScaledVector(right,(px!-ax)/d).addScaledVector(up,(ay-py!)/d).addScaledVector(outward,.01));

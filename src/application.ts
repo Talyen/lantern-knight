@@ -36,7 +36,7 @@ export class Application<P extends GamePresentation=GamePresentation>{
   this.events.setGeneration(this.session.generation);
   this.input=new Input(this.canvas,this.presentation.camera,()=>this.pause(!this.paused));
   const settings=await this.bridge.loadSettings();this.assertActive();if(settings.status==='ok'||settings.status==='recovered'){this.scale=settings.data.renderScale;this.presentation.verticalSpan=settings.data.verticalSpan;this.presentation.setDepthOfField(settings.data.depthOfField);this.presentation.setVisualEffects(settings.data.visualEffects);}else if(settings.status==='unreadable')this.settingsError=settings.message;
-  await this.persistence.inspect();this.assertActive();this.presentation.resize(this.scale);await this.presentation.loadWalkFlow();this.assertActive();await this.presentation.warm();this.assertActive();
+  await this.persistence.inspect();this.assertActive();this.presentation.resize(this.scale);if(this.extraAssets.includes('ink-hero'))await this.presentation.loadWalkFlow();this.assertActive();await this.presentation.warm();this.assertActive();
   window.addEventListener('resize',this.onResize);window.addEventListener('blur',this.onBlur);document.addEventListener('visibilitychange',this.onVisibility);
   this.ready=true;this.canvas.dataset.ready='true';this.last=performance.now();this.frameId=requestAnimationFrame(this.loop);
  }

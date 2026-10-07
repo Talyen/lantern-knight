@@ -12,6 +12,13 @@ from resolver import SourceResolver, safe_relative
 def read(root, index, group, member, resolver=None):
     safe_relative(member)
     resolver = resolver or SourceResolver(root, index)
+    if group in index.get('archiveGroups', {}):
+        archive = index['archiveGroups'][group]
+        with resolver.open('archive:' + archive) as stream, zipfile.ZipFile(stream) as z:
+            entries = [i for i in z.infolist() if i.filename == member]
+            if len(entries) != 1 or stat.S_ISLNK(entries[0].external_attr >> 16):
+                raise ValueError('missing or ambiguous archive source: ' + group + '/' + member)
+            return z.read(entries[0])
     if group != 'ink-collection-01' or member.startswith('collection/'):
         return resolver.read('file:' + group + '/' + member)
     found = None

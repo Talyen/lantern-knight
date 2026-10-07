@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import {contract} from '../src/core/camera';
-import {swordCombo} from '../src/content/gameplay';
+// Historical engineering study timings, independent of live hero actions.
+const historicalStages=[{clip:'attack_sword_01',total:36},{clip:'attack_sword_02',total:32},{clip:'attack_sword_03',total:44}];
 import {parseSource} from '../src/assets/schema';
 const historical=JSON.parse(await fs.readFile('docs/history/camera-v1-proxy.json','utf8'));
 const error=192*3*Math.abs(historical.elevationDeg-contract.elevationDeg)*Math.PI/180;
@@ -10,7 +11,7 @@ for(const file of ['staging/source.json','staging/diagnostic-source.json']){
   for(const [id,dirs]of Object.entries({...data.asset.clips}) as [string,unknown][]){if(id.startsWith('enemy_')||id==='attack_sword_02'||id==='attack_sword_03')continue;data.asset.clips['enemy_'+id]=structuredClone(dirs);if(!data.asset.requiredClips.includes('enemy_'+id))data.asset.requiredClips.push('enemy_'+id);}
   Object.assign(data.asset,{contractId:contract.id,bakeVersion:contract.bakeVersion,contentVersion:'0.2.0-diagnostic',status:'diagnostic',designReference:'engineering-placeholder',renderStyle:'diagnostic',recipe:'existing-placeholder-revalidation-v2',legacyBake:{contractId:historical.id,bakeVersion:historical.bakeVersion,azimuthDeg:historical.azimuthDeg,elevationDeg:historical.elevationDeg,maxProjectionErrorPx:error,reason:'Existing engineering frames retained unchanged tonight; only sub-micro-pixel angle precision changed. Span is presentation framing. These are not the canonical Rust/Clean INK hero.'}});
   for(let i=1;i<3;i++){
-    const stage=swordCombo[i]!,base=data.asset.clips.attack_sword_01;
+    const stage=historicalStages[i]!,base=data.asset.clips.attack_sword_01;
     data.asset.clips[stage.clip]=structuredClone(base);
     for(const c of Object.values(data.asset.clips[stage.clip]) as {durationsMs:number[];notifies:{atMs:number}[]}[]){const ratio=stage.total/36;c.durationsMs=c.durationsMs.map(ms=>ms*ratio);c.notifies=c.notifies.map(n=>({...n,atMs:n.atMs*ratio}));}
     if(!data.asset.requiredClips.includes(stage.clip))data.asset.requiredClips.push(stage.clip);

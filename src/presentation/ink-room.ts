@@ -11,7 +11,7 @@ import {sceneryRegistration,restRegistration} from '../content/scenery-registrat
 import {heightAt,type AreaDefinition} from '../content/world';
 import {selectDirection,outward,right,up,contract} from '../core/camera';
 import {clipDuration,frameAt} from '../core/animation';
-import {swordCombo,tuning} from '../content/gameplay';
+import {attackDefinition,tuning} from '../content/gameplay';
 import type {Simulation} from '../core/simulation';
 
 export class InkRoom {
@@ -139,8 +139,8 @@ export class InkRoom {
   }
   if(!visible)return;
   const hero=sim.hero,foot=new T.Vector3(hero.px+(hero.x-hero.px)*alpha,hero.y+.06,hero.pz+(hero.z-hero.pz)*alpha),heading=selectDirection(hero.yaw);
-  if(hero.state==='attack'){const t=swordCombo[hero.swingStage]!;
-   if(hero.age>=t.windup&&hero.age<t.activeEnd){const clip=['sword_arc_01','sword_arc_02','sword_finisher_03'][hero.swingStage]!,s=this.effect('sword','ink-combat',clip),c=resolveClip(s.manifest,clip,heading);s.mesh.visible=true;this.sample(s,c,(hero.age-t.windup)/(t.activeEnd-t.windup)*clipDuration(c),foot);}
+  if(hero.state==='attack'&&hero.attackKind==='sweep'){const t=attackDefinition(hero);
+   if(hero.age>=t.windup&&hero.age<t.activeEnd){const clip='sword_arc_01',s=this.effect('sword','ink-combat',clip),c=resolveClip(s.manifest,clip,heading);s.mesh.visible=true;this.sample(s,c,(hero.age-t.windup)/(t.activeEnd-t.windup)*clipDuration(c),foot);}
   }
   if(hero.state==='ability'&&hero.age>=tuning.ability.windup){const s=this.effect('flare','ink-combat','lantern_cone_flare'),c=resolveClip(s.manifest,'lantern_cone_flare',heading);s.mesh.visible=true;this.sample(s,c,(hero.age-tuning.ability.windup)/(tuning.ability.total-tuning.ability.windup)*clipDuration(c),foot);}
   for(const a of sim.enemies)if(a.health>0&&a.state==='attack'){

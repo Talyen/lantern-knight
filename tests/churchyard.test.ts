@@ -25,7 +25,7 @@ test('activation survives load/revisit and resets on death; backward passage all
  session.sim.damage(session.sim.hero,session.sim.enemies[0]!,100);session.step(still);session.commitTransition(session.prepareTransition('landing'));assert.equal(session.sim.engaged,false);
  session.sim.damage(session.sim.hero,session.sim.enemies[0]!,1);session.commitTransition(session.prepareTransition('court'));assert.ok(session.sim.cleared);session.commitTransition(session.prepareTransition('landing'));assert.ok(session.sim.engaged);assert.equal(session.sim.enemies[0]!.health,49);
  const save=session.captureSave(),restored=new GameSession();restored.restoreSave(save);assert.ok(restored.sim.engaged);
- restored.sim.damage(restored.sim.enemies[0]!,restored.sim.hero,1000);restored.sim.hero.age=45;restored.step(still);assert.equal(restored.sim.engaged,false);assert.deepEqual(restored.sim.enemies.map(a=>a.health),[50,50]);restored.sim.hero.z=8.3;assert.equal(restored.step(still).transition,'court');
+ restored.sim.damage(restored.sim.enemies[0]!,restored.sim.hero,1000);restored.sim.hero.age=90;restored.step(still);assert.equal(restored.sim.engaged,false);assert.deepEqual(restored.sim.enemies.map(a=>a.health),[50,50]);restored.sim.hero.z=8.3;assert.equal(restored.step(still).transition,'court');
 });
 test('authored box footprints block bodies at edges and corners without escaping bounds',()=>{
  const area=content.area('court'),p=area.props.find(p=>p.id==='family-tomb-west')!;

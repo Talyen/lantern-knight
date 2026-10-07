@@ -147,6 +147,9 @@ async function effects(id:string,folder:string,selected:string[],directional:boo
  packs.push(p);
 }
 await effects('ink-combat','combat',['sword_arc_01','sword_arc_02','sword_finisher_03','lantern_cone_flare'],true);
+const combat=packs.at(-1)!,combatStudy=structuredClone(combat);combatStudy.asset.id='ink-combat-study';packs.push(combatStudy);
+combat.asset.clips=Object.fromEntries(Object.entries(combat.asset.clips).filter(([id])=>['sword_arc_01','lantern_cone_flare'].includes(id)));
+const activeCombatFrames=new Set(Object.values(combat.asset.clips).flatMap(dirs=>Object.values(dirs).flatMap(c=>c!.frames)));combat.frames=combat.frames.filter(f=>activeCombatFrames.has(f.id));
 await effects('ink-cues','interaction_pack_v1',['enemy_ring','door_seal_dissolve'],false);
 await effects('ink-crypt-ambient','ambient_pack_v1',['lamp_flame','rising_motes','droplet_splash','pond_ripple'],false);
 await write(`${staging}/derivatives.json`,JSON.stringify({recipe:'prepare-ink-v4',frames:sourceMetadata},null,2)+'\n');

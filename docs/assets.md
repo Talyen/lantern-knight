@@ -27,3 +27,11 @@ The cache is `~/Library/Caches/LanternKnight` on macOS, the XDG cache directory 
 Published deletion is explicit through `assets:clean`. It first resolves current/local, remote-main, open-PR and supported-release pins, and refuses deletion if reference inspection fails. It never deletes the shared source library. Initially no game releases are supported; maintain the short supported-tag list when releases enter or leave support.
 
 Successful checks use summaries. Failures or explicit capture requests retain bounded external diagnostics. Hosted failure artifacts expire after three days. Do not commit output to preserve a review history.
+
+## Current hero TEST selection
+
+The current hero uses the pinned 7 October 2026 v02 handoff, corrected import records, and 243 selected native drawings. Original 16-drawing walk and complete combat-effect sheets remain developer studies (`ink-hero` and `ink-combat-study`); their unused pages are excluded from Game. Four authored directions map world +Z/+X/−Z/−X to DL/DR/UR/UL. Native canvas, pivot and density are recorded per frame, including mixed ready/action Sweep densities. Runtime geometry uses these values without resizing, mirroring or adding root motion.
+
+LMB requests alternating Sweep and Lunge, beginning with Sweep. Attacks finish before the next buffered attack or dodge; no combo or finisher scaling applies. Alternation survives damage, dodges and area transitions but is not saved. Authored holds determine action duration and cumulative damage/pulse boundaries at 60 Hz. Dodge travels 2.1 metres only in cels 4–5; Hit lasts 30 ticks, Lantern 73 ticks, and Death 90 ticks before reset.
+
+These are supplied TEST assets with approximate registration and known pose/endpoint differences, not newly certified production artwork. At 3840×2160 and 9 metres vertical span, the least-dense hit pose has 0.901 native pixels per output pixel; all poses reach at least 1× from 9.99 metres. The quality gate checks this selected native baseline separately while retaining previous headroom requirements for existing assets. No raster enlargement is used to claim higher native resolution.

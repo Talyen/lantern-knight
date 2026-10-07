@@ -21,7 +21,7 @@ import {parseGame} from '../src/core/save';
 import {parseSettings} from '../src/core/save';
 import sharp from 'sharp';
 import {resourcePath,trustedSender} from '../electron/security';
-import {swordCombo} from '../src/content/gameplay';
+import {attackDefinition} from '../src/content/gameplay';
 import {content,heightAt,PLAYER_ID} from '../src/content/world';
 import {GameSession} from '../src/core/session';
 import {walkablePoint} from '../src/core/camera';
@@ -78,12 +78,12 @@ test('fixed command replay matches across render cadences; catch-up bounded and 
 });
 test('sword hits each target once in active window; visual drawings never determine hit timing',()=>{
   const s=new Simulation();s.actors=s.actors.slice(0,2);Object.assign(s.hero,{x:0,z:1,px:0,pz:1});Object.assign(s.actors[1]!,{x:0,z:0,px:0,pz:0});const target=s.actors[1]!;
-  for(let i=0;i<20;i++)s.step({move:{x:0,z:0},aim:{x:0,z:0},attack:i===0});assert.equal(target.health,target.definition.maxHealth-tuning.attack.damage);assert.equal(s.hero.hitIds.length,1);assert.equal(s.hero.state,'attack');
+  for(let i=0;i<40;i++)s.step({move:{x:0,z:0},aim:{x:0,z:0},attack:i===0});assert.equal(target.health,target.definition.maxHealth-tuning.attack.damage);assert.equal(s.hero.hitIds.length,1);assert.equal(s.hero.state,'attack');
 });
 test('dodge windows, ability cooldown, death interruption and action restart',()=>{
-  const s=new Simulation();s.step({move:{x:1,z:0},aim:{x:1,z:0},dodge:true});assert.equal(s.hero.state,'dodge');const health=s.hero.health;s.damage(s.actors[1]!,s.hero,20);assert.equal(s.hero.health,health);
+  const s=new Simulation();s.step({move:{x:1,z:0},aim:{x:1,z:0},dodge:true});assert.equal(s.hero.state,'dodge');s.hero.age=tuning.dodge.invulnerableStart;const health=s.hero.health;s.damage(s.actors[1]!,s.hero,20);assert.equal(s.hero.health,health);
   s.hero.age=tuning.dodge.invulnerableEnd;s.damage(s.actors[1]!,s.hero,20);assert.equal(s.hero.state,'hurt');s.start(s.hero,'ability');s.hero.cooldown=tuning.ability.cooldown;const action=s.hero.action;s.damage(s.actors[1]!,s.hero,1000);assert.equal(s.hero.state,'death');s.step({move:{x:1,z:1},aim:{x:0,z:0},attack:true});assert.equal(s.hero.state,'death');assert.ok(s.hero.action>action);
-  const alive=new Simulation();alive.step({move:{x:0,z:0},aim:{x:0,z:0},ability:true});assert.equal(alive.hero.cooldown,180);for(let i=0;i<40;i++)alive.step({move:{x:0,z:0},aim:{x:0,z:0},ability:true});assert.ok(alive.hero.cooldown>0);assert.notEqual(alive.hero.state,'ability');
+  const alive=new Simulation();alive.step({move:{x:0,z:0},aim:{x:0,z:0},ability:true});assert.equal(alive.hero.cooldown,180);for(let i=0;i<100;i++)alive.step({move:{x:0,z:0},aim:{x:0,z:0},ability:true});assert.ok(alive.hero.cooldown>0);assert.notEqual(alive.hero.state,'ability');
 });
 test('shared async resources deduplicate, cancellation cannot resurrect discarded room, retries and settled lifetime',async()=>{
   let finish!:(v:{id:number})=>void,loads=0,disposed=0;
@@ -110,19 +110,20 @@ test('IPC sender checks and protocol constrain origin, frame, slot, payload, ext
 });
 function duel(){const s=new Simulation();s.actors=s.actors.slice(0,2);Object.assign(s.hero,{x:0,z:1,px:0,pz:1});Object.assign(s.actors[1]!,{x:0,z:0,px:0,pz:0,health:100,stun:10000});return s;}
 const still={move:{x:0,z:0},aim:{x:0,z:0}};
-test('three buffered combo swings hit once each; early buffers expire and late attacks reset the chain',()=>{
-  const s=duel(),damage=[];const stages=new Set<number>();for(let i=0;i<90;i++){s.step({...still,attack:[0,18,36].includes(i)});if(s.hero.state==='attack')stages.add(s.hero.swingStage);damage.push(...s.events.filter(e=>e.kind==='damage'&&e.actor===PLAYER_ID));}
-  assert.deepEqual([...stages],[0,1,2]);assert.equal(damage.length,3);assert.equal(s.actors[1]!.health,100-swordCombo.reduce((sum,stage)=>sum+stage.damage,0));
-  const early=duel();for(let i=0;i<80;i++)early.step({...still,attack:i===0||i===2});assert.equal(early.hero.swingStage,0);early.step({...still,attack:true});assert.equal(early.hero.swingStage,0);
+test('LMB alternates complete sweep and lunge; late clicks queue without combo links',()=>{
+  const s=duel(),attacks:string[]=[];let action=-1;
+  for(let i=0;i<210;i++){s.step({...still,attack:[0,68,121].includes(i)});if(s.hero.state==='attack'&&s.hero.action!==action){action=s.hero.action;attacks.push(s.hero.attackKind);}}
+  assert.deepEqual(attacks,['sweep','lunge','sweep']);assert.equal(s.actors[1]!.health,22);
+  const early=duel();for(let i=0;i<100;i++)early.step({...still,attack:i===0||i===2});assert.equal(early.hero.attackKind,'sweep');early.step({...still,attack:true});assert.equal(early.hero.attackKind,'lunge');
 });
-test('dash cannot cancel anticipation/active; designated recovery cancels and preserves explicit distance',()=>{
-  for(const age of [2,12]){const s=duel();s.startSword(s.hero,0);s.hero.age=age;s.step({...still,move:{x:1,z:0},dodge:true});assert.equal(s.hero.state,'attack');}
-  const s=duel();s.startSword(s.hero,0);s.hero.age=swordCombo[0].cancelStart;const start=s.hero.x;s.step({...still,move:{x:1,z:0},dodge:true});assert.equal(s.hero.state,'dodge');for(let i=1;i<tuning.dodge.total;i++)s.step(still);approx(s.hero.x-start,tuning.dodge.speed*tuning.dodge.total/60);assert.equal(s.hero.nextSwing,0);
+test('dodge waits for complete attacks and travels only during authored cels',()=>{
+  const s=duel();s.startSword(s.hero,'sweep');s.hero.age=attackDefinition(s.hero).total-3;s.step({...still,move:{x:1,z:0},dodge:true});assert.equal(s.hero.state,'attack');
+  const d=duel();const start=d.hero.x;d.step({...still,move:{x:1,z:0},dodge:true});for(let i=1;i<tuning.dodge.total;i++)d.step(still);approx(d.hero.x-start,2.1);assert.equal(d.hero.nextAttack,'sweep');
 });
 test('flare tests the aimed cone boundary, range, one damage/stagger per cast and cooldown',()=>{
   for(const [angle,range,hit]of [[0,2.5,true],[tuning.ability.halfAngle,2.5,true],[tuning.ability.halfAngle+.001,2.5,false],[0,3.01,false]] as const){
     const s=duel();Object.assign(s.hero,{x:0,z:0});const target=s.actors[1]!;Object.assign(target,{x:Math.sin(angle)*range,z:Math.cos(angle)*range,health:70});let flares=0;
-    for(let i=0;i<24;i++){s.step({move:{x:0,z:0},aim:{x:0,z:5},ability:true});flares+=s.events.filter(e=>e.kind==='flare').length;}
+    for(let i=0;i<50;i++){s.step({move:{x:0,z:0},aim:{x:0,z:5},ability:true});flares+=s.events.filter(e=>e.kind==='flare').length;}
     assert.equal(flares,1);assert.equal(target.health,hit?70-tuning.ability.damage:70);assert.equal(s.hero.hitIds.length,hit?1:0);assert.ok(s.hero.cooldown>0);
   }
 });

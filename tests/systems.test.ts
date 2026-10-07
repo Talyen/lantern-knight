@@ -17,6 +17,7 @@ import {
   surfaceGradient,
 } from '../src/content/world';
 import {GameSession} from '../src/core/session';
+import {tuning,attackDefinition} from '../src/content/gameplay';
 import {Simulation, FixedClock} from '../src/core/simulation';
 import {
   parseGame,
@@ -183,7 +184,7 @@ test('death resets only current area and failed/superseded transitions cannot co
   assert.ok(!session.loading);
   enter(session, 'landing');
   session.sim.damage(session.sim.enemies[0]!, session.sim.hero, 1000);
-  session.sim.hero.age = 45;
+  session.sim.hero.age = tuning.deathHoldTicks;
   session.step(still);
   assert.equal(session.resetCount, 1);
   assert.equal(session.sim.hero.health, 100);
@@ -392,8 +393,8 @@ test('step events are immutable captured values; catch-up delivers all once and 
   combat.actors = [combat.hero, combat.enemies[0]!];
   Object.assign(combat.hero, {x: 0, z: 1, aim: Math.PI});
   Object.assign(combat.enemies[0]!, {x: 0, z: 0, stun: 10000});
-  combat.startSword(combat.hero, 0);
-  combat.hero.age = 9;
+  combat.startSword(combat.hero, 'sweep');
+  combat.hero.age = attackDefinition(combat.hero).windup-1;
   const delivery = new EventHub(),
     kinds: string[] = [],
     lifetimes: AbortSignal[] = [];

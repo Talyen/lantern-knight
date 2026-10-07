@@ -49,7 +49,10 @@
     "assets:publish": "tsx tools/assets.ts publish",
     "assets:ensure": "tsx tools/assets.ts ensure",
     "assets:clean": "tsx tools/assets.ts clean",
-    "repo:check": "tsx tools/check-repository.ts"
+    "repo:check": "tsx tools/check-repository.ts",
+    "assets:sources:check": "python3 -B tools/assets/library.py check",
+    "assets:dedupe": "python3 -B tools/assets/library.py dedupe",
+    "smoke:hero": "tsx tools/assets.ts run tools/hero-smoke.ts"
   },
   "dependencies": {
     "postprocessing": "6.39.5",

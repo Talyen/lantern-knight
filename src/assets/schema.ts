@@ -11,7 +11,7 @@ const notify = z.object({id,atMs:finite.nonnegative(),kind:z.enum(['footstep','w
 const timing = z.object({frames:z.array(id).min(1),durationsMs:z.array(positive).min(1),loop:z.boolean(),notifies:z.array(notify)}).strict();
 const metadata = z.object({
   id,type:z.enum(['character','prop','material','effect']),schemaVersion:z.literal(2),contentVersion:z.string().min(1),
-  viewMode:z.enum(['directional','fixed-authored']).optional(),
+  viewMode:z.enum(['directional','four-directional','fixed-authored']).optional(),
   projection:z.enum(['painted-cutout','projected-world','top-down','front-view']).optional(),
   allowEmptyFrames:z.boolean().optional(),limitations:z.array(z.string()).optional(),
   atlasSize:z.number().int().min(64).max(contract.atlasMaxSize).optional(),
@@ -28,7 +28,8 @@ const metadata = z.object({
   fallbacks:z.record(z.string(),z.string()),dependencies:z.array(id),requiredClips:z.array(id),
   clips:z.record(z.string(),z.partialRecord(z.enum(HEADINGS),timing)),
 }).strict();
-const sourceFrame=z.object({id,path,origin:z.enum(['diagnostic','blender-proxy','imported-study','production']),attachments:z.record(z.string(),pair),visualOffsetPx:pair.optional()}).strict();
+const frameRegistration=z.object({canvas:z.tuple([z.number().int().positive(),z.number().int().positive()]),density:positive,anchor:pair}).strict();
+const sourceFrame=z.object({id,path,origin:z.enum(['diagnostic','blender-proxy','imported-study','production']),attachments:z.record(z.string(),pair),visualOffsetPx:pair.optional(),registration:frameRegistration.optional()}).strict();
 export const SourceSchema=z.object({schemaVersion:z.literal(2),asset:metadata,frames:z.array(sourceFrame).min(1)}).strict();
 const runtimeFrame=sourceFrame.omit({path:true}).extend({source:path,page:id,rect,trim:rect,rotated:z.literal(false)}).strict();
 const page=z.object({id,path,hash:z.string().length(64),width:z.number().int().positive(),height:z.number().int().positive(),bytes:int,rgbaBytes:int,extrusion:int,gutter:int,mipmaps:z.boolean()}).strict();
@@ -44,12 +45,14 @@ export function validateSemantics(value: Source|Manifest, production=false) {
   const ids=new Set<string>(), paths=new Set<string>();
   const fail=(field:string,message:string):never=>{throw new Error(`${a.id}.${field}: ${message}`);};
   for(const f of value.frames) {
+    const registration=f.registration??a;
+    if(registration.anchor.some((v,i)=>v<0||v>registration.canvas[i]!))fail(`frames.${f.id}.registration`,'anchor outside canvas');
     if(ids.has(f.id)) fail(`frames.${f.id}`,'duplicate ID'); ids.add(f.id);
     const p='path' in f?f.path:f.source;
     if(paths.has(p.toLowerCase())) fail(`frames.${f.id}.path`,'duplicate or case-colliding source path'); paths.add(p.toLowerCase());
-    for(const [name,point] of Object.entries(f.attachments)) if(point.some((v,i)=>v<0||v>a.canvas[i]!)) fail(`frames.${f.id}.attachments.${name}`,'outside original canvas');
+    for(const [name,point] of Object.entries(f.attachments)) if(point.some((v,i)=>v<0||v>registration.canvas[i]!)) fail(`frames.${f.id}.attachments.${name}`,'outside original canvas');
     if('trim' in f) {
-      if(f.trim[0]+f.trim[2]>a.canvas[0]||f.trim[1]+f.trim[3]>a.canvas[1]) fail(`frames.${f.id}.trim`,'outside source canvas');
+      if(f.trim[0]+f.trim[2]>registration.canvas[0]||f.trim[1]+f.trim[3]>registration.canvas[1]) fail(`frames.${f.id}.trim`,'outside source canvas');
       const m=value as Manifest,p=m.pages.find(p=>p.id===f.page);
       if(!p||f.rect[0]+f.rect[2]>p.width||f.rect[1]+f.rect[3]>p.height||f.rect[2]!==f.trim[2]||f.rect[3]!==f.trim[3]) fail(`frames.${f.id}.rect`,'missing page or invalid atlas bounds');
     }
@@ -59,9 +62,9 @@ export function validateSemantics(value: Source|Manifest, production=false) {
   if(a.allowEmptyFrames&&a.type!=='effect')fail('allowEmptyFrames','only effects permit transparent timeline frames');
   if(a.viewMode==='fixed-authored'&&Object.values(a.clips).some(d=>Object.keys(d).some(k=>k!=='d45')))fail('viewMode','fixed authored views declare only their single d45 storage slot');
   if(a.viewMode==='fixed-authored'&&a.status==='production')fail('viewMode','fixed authored studies are development-only');
-  for(const [clip,dirs] of Object.entries(a.clips)) for(const dir of (a.viewMode==='fixed-authored'?['d45'] as const:HEADINGS)) {
+  for(const [clip,dirs] of Object.entries(a.clips)) for(const dir of (a.viewMode==='fixed-authored'?['d45'] as const:a.viewMode==='four-directional'?['d00','d90','d180','d270'] as const:HEADINGS)) {
     const c=dirs[dir]??fail(`clips.${clip}.${dir}`,'missing required heading; mirroring forbidden');
-    if(c.loop&&/(death|hit|dodge)$|attack_sword_|cast_lantern_flare/.test(clip))fail(`clips.${clip}.${dir}.loop`,'action and death clips must not loop');
+    if(c.loop&&/(death|hit|dodge|sweep|lunge)$|attack_sword_|cast_lantern_flare/.test(clip))fail(`clips.${clip}.${dir}.loop`,'action and death clips must not loop');
     if(c.frames.length!==c.durationsMs.length) fail(`clips.${clip}.${dir}`,'duration count differs from frame count');
     for(const f of c.frames) if(!ids.has(f)) fail(`clips.${clip}.${dir}`,`missing frame ${f}`);
     const end=c.durationsMs.reduce((x,y)=>x+y,0), seen=new Set<string>();
@@ -80,7 +83,7 @@ export function validateSemantics(value: Source|Manifest, production=false) {
 }
 export function resolveClip(manifest:Manifest,id:string,heading:typeof HEADINGS[number]):Clip {
   const key=manifest.asset.clips[id]?id:manifest.asset.fallbacks[id]??id;
-  const direction=manifest.asset.viewMode==='fixed-authored'?'d45':heading;
+  const direction=manifest.asset.viewMode==='fixed-authored'?'d45':manifest.asset.viewMode==='four-directional'?HEADINGS[(Math.floor((HEADINGS.indexOf(heading)+1)/2)*2)%8]!:heading;
   const clip=manifest.asset.clips[key]?.[direction];
   if(!clip)throw new Error(`required clip unavailable: ${manifest.asset.id}/${id}/${direction}`);
   return clip;

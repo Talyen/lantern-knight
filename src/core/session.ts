@@ -150,6 +150,7 @@ export class GameSession {
     next.hero.health = player.health;
     next.hero.cooldown = player.cooldown;
     next.hero.dodgeCooldown = player.dodgeCooldown;
+    next.hero.nextAttack = player.nextAttack;
     this.sim = next;
     this.pending = undefined;
     this.recordArea();

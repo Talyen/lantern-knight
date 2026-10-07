@@ -62,3 +62,13 @@ export function calibrationFixture() {
     return {id,yawDeg:i*45,screenVector:[v.dot(right),-v.dot(up)],facing:i===1?'toward camera':i===5?'away from camera':'oblique'};
   })};
 }
+
+export const AUTHORED_HEADINGS=['d00','d90','d180','d270'] as const;
+export type AuthoredHeading=typeof AUTHORED_HEADINGS[number];
+export function selectAuthoredDirection(yaw:number,previous?:Heading):AuthoredHeading {
+  if(!Number.isFinite(yaw))throw new Error('direction yaw must be finite');
+  const step=Math.PI/2,angle=((yaw%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
+  if(previous&&AUTHORED_HEADINGS.some(h=>h===previous)){const p=HEADINGS.indexOf(previous)*Math.PI/4;
+    if(Math.abs(Math.atan2(Math.sin(angle-p),Math.cos(angle-p)))<step/2+.045)return previous as AuthoredHeading;}
+  return AUTHORED_HEADINGS[Math.floor(angle/step+.5)%4]!;
+}

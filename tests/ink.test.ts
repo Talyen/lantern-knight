@@ -26,7 +26,7 @@ function sourceFromManifest(m:ReturnType<typeof parseManifest>){return {schemaVe
 
 test('canonical source bytes, fixed-view actor selection and production gate remain explicit',async()=>{
  assert.equal(hash(await readAsset('references/canon/image(3).png')),'74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c');
- for(const id of ['ink-hero','ink-revenant']){const m=await manifest(id),view=Object.values(actorVisuals).find(v=>v.asset===id)!;
+ for(const id of ['ink-hero','ink-revenant']){const m=await manifest(id),view=id==='ink-hero'?{clips:{idle:'rest',walk:'walk'},attacks:['rest']}:Object.values(actorVisuals).find(v=>v.asset===id)!;
   assert.deepEqual(Object.keys(m.asset.clips.rest!),['d45']);
   for(const heading of HEADINGS)for(const name of [...Object.values(view.clips),...view.attacks])assert.equal(resolveClip(m,name,heading),m.asset.clips[name]!.d45);
   assert.throws(()=>parseManifest(m,true),/development-only|production/);
@@ -141,7 +141,7 @@ test('hero walk preserves its registered root, drawings, holds and still action 
  const m=await manifest('ink-hero'),tuning=JSON.parse(await readAsset('authoring/walk-tuning.json','utf8')),clip=resolveClip(m,'walk','d135');
  assert.deepEqual(m.asset.canvas,[512,640]);assert.deepEqual(m.asset.anchor,[256,572]);assert.equal(clip.frames.length,16);assert.equal(clip.loop,true);assert.deepEqual(clip.notifies,[]);assert.ok(Math.abs(clipDuration(clip)-1000)<1e-10);
  let elapsed=0;for(const [i,id]of clip.frames.entries()){assert.equal(id,`walk-${String(i+1).padStart(2,'0')}`);assert.equal(frameAt(clip,elapsed+.001),id);assert.deepEqual(m.frames.find(f=>f.id===id)!.visualOffsetPx,tuning.frames[i].visualOffsetPx);elapsed+=clip.durationsMs[i]!;}
- assert.equal(frameAt(clip,1000.001),'walk-01');for(const state of ['idle','dodge','ability','hurt','death'] as const)assert.deepEqual(resolveClip(m,actorVisuals.hero!.clips[state],'d00').frames,['walk-05']);for(const name of actorVisuals.hero!.attacks)assert.deepEqual(resolveClip(m,name,'d315').frames,['walk-05']);
+ assert.equal(frameAt(clip,1000.001),'walk-01');assert.deepEqual(resolveClip(m,'rest','d00').frames,['walk-05']);assert.equal(actorVisuals.hero!.asset,'ink-hero-current');
 });
 
 test('visual offsets translate artwork with correct signs while keeping roots and UVs fixed',async()=>{

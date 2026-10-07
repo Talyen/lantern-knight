@@ -1,6 +1,6 @@
 import type {PreparedRegistration} from '../assets/registration';
 import * as T from 'three';
-import {contract,makeCamera,resizeCamera,trimmedBounds,selectDirection,drawingBufferSize,HEADINGS,right,up,outward} from '../core/camera';
+import {contract,makeCamera,resizeCamera,trimmedBounds,selectDirection,selectAuthoredDirection,drawingBufferSize,HEADINGS,right,up,outward} from '../core/camera';
 import {ActorSprite,setCutoutOpacity} from './sprite';
 import {timedWalk,remapWalkTime,type WalkTiming} from '../core/walk-timing';
 import type {WalkBlendMode} from '../core/walk-blending';
@@ -10,7 +10,7 @@ import {worldVisuals,floorUV,compositionPoint} from '../content/world-art';
 import {resolveClip} from '../assets/schema';
 import {Animator,clipDuration} from '../core/animation';
 import type {Manifest,Clip,Frame} from '../assets/schema';
-import {attackDefinition,swordCombo,tuning} from '../content/gameplay';
+import {attackDefinition,tuning} from '../content/gameplay';
 import {content,heightAt,surfaceGradient,type AreaDefinition,type ActorId,PLAYER_ID} from '../content/world';
 import {actorVisuals} from '../content/visuals';
 import {pageIdentity,type PackLease} from '../assets/loader';
@@ -29,8 +29,8 @@ export class GamePresentation {
  roomOwned:{dispose:()=>void}[]=[];debug=false;background='dark';walkBlend:WalkBlendMode='original';walkStabilized=true;walkRigidSword=true;walkTiming:WalkTiming='weighted';walkFlow:WalkFlow|undefined;private flowBitmap:ImageBitmap|undefined;protected disposed=false;
  shadowTexture:T.CanvasTexture;cameraTarget=new T.Vector3();viewTarget=new T.Vector3();requestedRenderScale=contract.renderScale;effectivePixelRatio=1;
  verticalSpan=contract.verticalSpan;area:AreaDefinition=content.area('court');generation=-1;groundNormal=new T.Vector3(0,1,0);planeNormal=new T.Vector3(0,0,1);effectTag='';flare:T.Mesh;slash:T.Mesh;inkRoom:InkRoom|undefined;
- get manifest(){return this.packs.get('ink-hero')!.manifest;}
- get textures(){return this.packs.get('ink-hero')!.textures;}
+ get manifest(){return this.packs.get('ink-hero-current')!.manifest;}
+ get textures(){return this.packs.get('ink-hero-current')!.textures;}
  constructor(public canvas:HTMLCanvasElement,public packs:Map<string,PackLease>,public events:EventHub,initialArea:AreaDefinition,readonly registration:PreparedRegistration){
     this.area=initialArea;
     this.renderer=new T.WebGLRenderer({canvas,antialias:false,alpha:false});this.renderer.outputColorSpace=T.SRGBColorSpace;this.renderer.setPixelRatio(contract.pixelRatioCap);this.renderer.setClearColor(0x151923);
@@ -91,29 +91,30 @@ export class GamePresentation {
     if(this.generation!==sim.generation){this.resetRoom(sim.areaDefinition);this.generation=sim.generation;}
     const lab=false;this.room.visible=true;
     if(!lab&&tuning.cameraFollow){const hero=sim.hero,x=hero.px+(hero.x-hero.px)*alpha,z=hero.pz+(hero.z-hero.pz)*alpha;this.cameraTarget.set(x,heightAt(sim.areaDefinition,x,z),z);const framed=compositionPoint(sim.area,{x,z});this.viewTarget.set(framed.x,heightAt(sim.areaDefinition,framed.x,framed.z),framed.z);this.camera.position.copy(this.viewTarget).addScaledVector(outward,30);this.camera.lookAt(this.viewTarget);this.camera.updateMatrixWorld();}
-    const swing=swordCombo[sim.hero.swingStage]!;
-    this.flare.visible=(!this.inkRoom||this.debug)&&!lab&&((sim.hero.state==='ability'&&sim.hero.age>=tuning.ability.windup)||this.debug);this.slash.visible=!this.inkRoom&&!lab&&sim.hero.state==='attack'&&sim.hero.age>=swing.windup&&sim.hero.age<swing.activeEnd;
+    const swing=attackDefinition(sim.hero);
+    this.flare.visible=(!this.inkRoom||this.debug)&&!lab&&((sim.hero.state==='ability'&&sim.hero.age>=tuning.ability.windup)||this.debug);this.slash.visible=!this.inkRoom&&!lab&&sim.hero.attackKind==='sweep'&&sim.hero.state==='attack'&&sim.hero.age>=swing.windup&&sim.hero.age<swing.activeEnd;
     this.flare.position.set(sim.hero.x,sim.hero.y+.06,sim.hero.z);this.flare.rotation.z=(sim.hero.state==='ability'?sim.hero.yaw:sim.hero.aim)-Math.PI/2;this.flare.scale.setScalar(1);(this.flare.material as T.MeshBasicMaterial).opacity=sim.hero.state==='ability'?Math.max(0,1-sim.hero.age/tuning.ability.total)*.6:.12;
     if(this.flare.visible){const points=this.flare.geometry.getAttribute('position'),a=this.flare.rotation.z,c=Math.cos(a),s=Math.sin(a);for(let i=0;i<points.count;i++){const x=points.getX(i),y=points.getY(i),wx=sim.hero.x+x*c-y*s,wz=sim.hero.z-x*s-y*c;points.setZ(i,heightAt(sim.areaDefinition,wx,wz)-sim.hero.y);}points.needsUpdate=true;}
-    const effectTag=`${sim.hero.swingStage}`;if(effectTag!==this.effectTag){this.slash.geometry.dispose();this.slash.geometry=new T.RingGeometry(swing.range-.16,swing.range,24,1,-swing.halfAngle,swing.halfAngle*2);this.effectTag=effectTag;}
+    const effectTag=sim.hero.attackKind;if(effectTag!==this.effectTag){this.slash.geometry.dispose();this.slash.geometry=new T.RingGeometry(swing.range-.16,swing.range,24,1,-swing.halfAngle,swing.halfAngle*2);this.effectTag=effectTag;}
     this.slash.position.set(sim.hero.x,sim.hero.y+.25,sim.hero.z);this.slash.rotation.z=sim.hero.yaw-Math.PI/2;
     this.renderer.setClearColor(this.background==='light'?0xd1c9b4:0x151923);this.aim.visible=!lab;this.aim.position.set(aim.x,heightAt(sim.areaDefinition,aim.x,aim.z)+.035,aim.z);
-      for(const a of sim.actors){const v=this.actors.get(a.id)??this.createVisual(a,sim.generation),heading=v.sprite.manifest.asset.viewMode==='fixed-authored'?'d45' as const:selectDirection(a.yaw,v.heading),binding=actorVisuals[a.definition.visual]!,id=a.state==='attack'?binding.attacks[a.kind==='hero'?a.swingStage:0]!:binding.clips[a.state],tag=`${sim.generation}:${id}:${heading}:${a.action}`;
+      for(const a of sim.actors){const v=this.actors.get(a.id)??this.createVisual(a,sim.generation),heading=v.sprite.manifest.asset.viewMode==='fixed-authored'?'d45' as const:v.sprite.manifest.asset.viewMode==='four-directional'?(a.state==='idle'||a.state==='walk'?selectAuthoredDirection(a.yaw,v.heading):a.actionHeading):selectDirection(a.yaw,v.heading),binding=actorVisuals[a.definition.visual]!,id=a.state==='attack'?binding.attacks[a.attackKind==='lunge'?1:0]!:binding.clips[a.state],tag=`${sim.generation}:${id}:${heading}:${a.action}`;
         const selectedClip=this.getClip(id,heading,v.sprite.manifest);
         if(tag!==v.tag||v.sprite.animator.clip!==selectedClip){const old=v.sprite.animator.time,previous=v.sprite.animator.clip,keepPhase=(a.state==='walk'||a.state==='idle')&&v.tag.split(':')[1]===id;v.sprite.animator.start(selectedClip);if(keepPhase)v.sprite.animator.seek(previous===selectedClip?old:remapWalkTime(previous,selectedClip,old));v.tag=tag;v.heading=v.sprite.manifest.asset.viewMode==='fixed-authored'?'d45':heading;}
         const clip=v.sprite.animator.clip;
         if(a.health<=0&&a.age>=tuning.deathHoldTicks&&v.sprite.animator.time===0)v.sprite.animator.seek(clipDuration(clip));
         let notifies:ReturnType<Animator['advance']>=[];
-        if(a.state==='attack'){
+        if(a.kind==='hero'&&a.state!=='walk'&&a.state!=='idle'){notifies=v.sprite.animator.advance(Math.max(0,(a.age-1+alpha)*1000/60-v.sprite.animator.time));}
+        else if(a.state==='attack'){
           const t=attackDefinition(a),duration=clipDuration(clip),strike=clip.notifies.find(n=>n.kind==='whoosh')?.atMs??duration*t.windup/t.total,end=strike+duration*(t.activeEnd-t.windup)/t.total;
           const visual=a.age<=t.windup?a.age/t.windup*strike:a.age<t.activeEnd?strike+(a.age-t.windup)/(t.activeEnd-t.windup)*(end-strike):end+(a.age-t.activeEnd)/(t.total-t.activeEnd)*(duration-end);
           notifies=v.sprite.animator.advance(Math.max(0,visual-v.sprite.animator.time));
-        }else if(a.state==='death')notifies=v.sprite.animator.advance(Math.max(0,Math.min(1,a.age/(tuning.deathHoldTicks-9))*clipDuration(clip)-v.sprite.animator.time));
+        }else if(a.state==='death')notifies=v.sprite.animator.advance(Math.max(0,Math.min(1,a.age/(tuning.enemyDeathHoldTicks-9))*clipDuration(clip)-v.sprite.animator.time));
         else if(a.state==='ability'){const duration=clipDuration(clip),flash=clip.notifies.find(n=>n.kind==='flash')?.atMs??duration*tuning.ability.windup/tuning.ability.total,visual=a.age<=tuning.ability.windup?a.age/tuning.ability.windup*flash:flash+(a.age-tuning.ability.windup)/(tuning.ability.total-tuning.ability.windup)*(duration-flash);notifies=v.sprite.animator.advance(Math.max(0,visual-v.sprite.animator.time));}
-        else if(a.state==='dodge'||a.state==='hurt'){const total=a.state==='dodge'?tuning.dodge.total:tuning.hurt.total;notifies=v.sprite.animator.advance(Math.max(0,a.age/total*clipDuration(clip)-v.sprite.animator.time));}
+        else if(a.state==='dodge'||a.state==='hurt'){const total=a.state==='dodge'?tuning.dodge.total:tuning.enemyHurt.total;notifies=v.sprite.animator.advance(Math.max(0,a.age/total*clipDuration(clip)-v.sprite.animator.time));}
         else notifies=v.sprite.animator.advance(ms);
         this.events.publish(notifies.map(n=>({key:`visual:${n.key}`,kind:'animation-notify',notify:n.kind,clip:id,instance:n.instance,timeMs:n.timeMs,tick:sim.tick,generation:sim.generation,actor:a.id,action:a.action,area:sim.area,position:Object.freeze([a.x,a.y,a.z]),direction:a.yaw}) as AnimationEvent));
-        const x=a.px+(a.x-a.px)*alpha,z=a.pz+(a.z-a.pz)*alpha,foot=new T.Vector3(x,heightAt(sim.areaDefinition,x,z),z);v.sprite.stabilized=a.kind==='hero'?this.walkStabilized:true;v.sprite.rigidSword=this.walkRigidSword;v.sprite.showAnimation(foot,this.camera,a.kind==='hero'&&a.state==='walk'?this.walkBlend:'original',this.walkFlow);v.sprite.mesh.visible=a.health>0||a.kind==='hero'||a.age<tuning.deathHoldTicks;
+        const x=a.px+(a.x-a.px)*alpha,z=a.pz+(a.z-a.pz)*alpha,foot=new T.Vector3(x,heightAt(sim.areaDefinition,x,z),z);v.sprite.stabilized=a.kind==='hero'?this.walkStabilized:true;v.sprite.rigidSword=this.walkRigidSword;v.sprite.showAnimation(foot,this.camera,a.state==='walk'&&v.sprite.manifest.asset.id==='ink-hero'?this.walkBlend:'original',this.walkFlow);v.sprite.mesh.visible=a.health>0||a.kind==='hero'||a.age<tuning.enemyDeathHoldTicks;
         const gradient=surfaceGradient(sim.areaDefinition,x,z);this.groundNormal.set(-gradient.x,1,-gradient.z).normalize();v.shadow.quaternion.setFromUnitVectors(this.planeNormal,this.groundNormal);v.ring.quaternion.copy(v.shadow.quaternion);
         v.shadow.position.set(foot.x,foot.y+.03,foot.z);v.shadow.visible=a.health>0;v.ring.position.set(foot.x,foot.y+.035,foot.z);v.ring.visible=this.debug||(!this.inkRoom&&a.kind==='enemy'&&(a.state==='attack'||a.stun>0));
         if(a.kind==='enemy'&&a.state==='attack'){v.ring.scale.setScalar(1+a.age/Math.max(1,a.definition.melee.windup)*2);(v.ring.material as T.MeshBasicMaterial).color.set(a.age<a.definition.melee.windup?0xc66e55:0xe5c37d);}else v.ring.scale.setScalar(1);

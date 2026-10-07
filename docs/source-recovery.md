@@ -13,3 +13,13 @@ Search does not follow symlinks or descend into Lantern's checkout/cache, hidden
 Existing `ASSET_LIBRARY_ROOT` and `LANTERN_CACHE_ROOT` overrides remain supported. Sources outside Documents can be found using `LANTERN_SOURCE_SEARCH_ROOTS`, a list of additional search roots separated by the platform path separator (`:` on macOS/Linux, `;` on Windows). These are configuration options for other machines; normal reorganization within this Mac's Documents folder requires no configuration.
 
 The recovery fixture suite runs with `npm test`. It exercises normal readers, import preflight, nested and whole-library moves, renamed archives and loose files, stale or interrupted cache metadata, duplicate and wrong-revision files, deleted/restored sources, inaccessible directories, symlinks, extra roots, moves during opening and concurrent recovery. All filesystem rearrangements occur in temporary fixtures.
+
+## Source health and consolidation
+
+`npm run assets:sources:check` verifies all pinned archive and loose-file identities and warms verified locations. `-- --numbered-only --fresh` uses a temporary location cache and accepts candidates only inside the numbered folders; neither legacy paths nor cached files elsewhere can satisfy it. Normal builds and CI still consume the prepared pack without scanning the library.
+
+Optional `pathHint` values locate originals within the library without changing logical IDs. Several loose-file identities can share one identical retained file. `archiveGroups` isolates selected hero packages that reuse member names; callers continue using `readLibrarySource(member, group)`. Archive bytes remain immutable even when the external filename changes.
+
+`npm run assets:dedupe` produces an external dry-run manifest and performs no library changes. `-- --manifest /absolute/external/plan.json` chooses its location. Apply the reviewed inventory with `-- --apply --manifest /absolute/external/plan.json`. The command refuses changed inventories or modified manifests, relocates unique legacy sources to their numbered categories, verifies all registered identities in those categories, and rehashes each retained/redundant pair immediately before deletion. It preserves one complete copy of every distinct file content, all ZIP members, canonical artwork and unique revisions. It does not clean published packs.
+
+The numbered layout retains environment Project Sources under category 03, walk studies under the original-view hero studies, and foundation sources under the guides. Original logical receipts remain readable through the hash resolver even when identical drawings have been consolidated across studies.

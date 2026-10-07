@@ -16,6 +16,7 @@ PROJECT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT / 'tools/assets'))
 from resolver import SourceResolver
 from source import read
+from library import make_plan, apply_plan, check_sources
 
 
 def identity(data):
@@ -23,6 +24,55 @@ def identity(data):
 
 
 class Recovery(unittest.TestCase):
+    def test_missing_numbered_survivor_blocks_before_any_relocation(self):
+        plan = make_plan(self.root)
+        with self.assertRaisesRegex(ValueError, 'no library changes'):
+            apply_plan(self.root, self.index, plan)
+        self.assertTrue(self.loose.exists())
+        self.assertTrue((self.root / 'pack.zip').exists())
+
+    def test_location_hints_aliases_and_restricted_check_reject_legacy_fallback(self):
+        numbered = self.root / '01 - Hero Animations'
+        copied = numbered / 'renamed.bin'
+        copied.parent.mkdir(); copied.write_bytes(self.payload)
+        self.index['files']['walk']['frames/one.png']['pathHint'] = copied.relative_to(self.root).as_posix()
+        self.index['files']['walk']['alias.png'] = identity(self.payload)
+        resolver = self.resolver(search_roots=[numbered])
+        self.assertEqual(resolver.read('file:walk/frames/one.png'), self.payload)
+        self.assertEqual(resolver.read('file:walk/alias.png'), self.payload)
+        copied.unlink()
+        with self.assertRaises(FileNotFoundError):
+            resolver.read('file:walk/frames/one.png')
+
+    def test_archive_groups_isolate_identical_member_names_after_archive_rename(self):
+        self.index['archiveGroups'] = {'first': 'pack.zip', 'second': 'other.zip'}
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, 'w') as z:
+            z.writestr('pack/art.txt', b'other illustration')
+        other = buffer.getvalue(); self.index['archives']['other.zip'] = identity(other)
+        (self.root / 'other.zip').write_bytes(other)
+        self.move(self.root / 'pack.zip', self.library / 'renamed.source')
+        resolver = self.resolver()
+        self.assertEqual(read(self.root, self.index, 'first', 'pack/art.txt', resolver), self.payload)
+        self.assertEqual(read(self.root, self.index, 'second', 'pack/art.txt', resolver), b'other illustration')
+
+    def test_consolidation_preserves_unique_contents_and_checks_survivors(self):
+        numbered = self.root / '00 - Guides and Catalogues'; numbered.mkdir()
+        (numbered / 'pack.zip').write_bytes(self.archive)
+        (numbered / 'notes.txt').write_bytes(b'notes')
+        plan = make_plan(self.root)
+        self.assertEqual(len(plan['remove']), 2)
+        changed = numbered / 'notes.txt'; changed.write_bytes(b'changed')
+        with self.assertRaisesRegex(ValueError, 'changed'):
+            apply_plan(self.root, self.index, plan)
+        self.assertTrue((self.root / 'pack.zip').exists())
+        changed.write_bytes(b'notes')
+        apply_plan(self.root, self.index, plan)
+        self.assertFalse((self.root / 'pack.zip').exists())
+        self.assertFalse(self.loose.exists())
+        roots = [p for p in self.root.iterdir() if p.is_dir()]
+        self.assertEqual(check_sources(self.root, self.index, roots, fresh=True), 3)
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.base = pathlib.Path(self.temp.name).resolve()

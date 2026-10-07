@@ -10,7 +10,7 @@ import {PlaygroundShafts} from './playground-shafts';
 import {GroundMist} from './ground-mist';
 import {defaultLook} from './lighting-profiles';
 import {sampleMaterial,SilhouetteOutline} from './playground-materials';
-import {makeCamera,resizeCamera,drawingBufferSize,right,up,outward,contract} from '../core/camera';
+import {makeCamera,resizeCamera,drawingBufferSize,selectAuthoredDirection,right,up,outward,contract} from '../core/camera';
 import {resolveClip,type Clip} from '../assets/schema';
 import {frameAt,clipDuration} from '../core/animation';
 import type {PackLease} from '../assets/loader';
@@ -46,7 +46,7 @@ export class EffectsPlayground {
   this.prop('shelter-pillar','pillar',-4,-1.5,.8);this.prop('plinth','offering-table',2,1,.5);
   this.prop('back-arch','arch',.3,-4.8,.8);this.prop('tree','tree',-6,1.5,.7,true);this.prop('fern','fern',4,2,1.3,true);
   this.prop('tomb','tomb',4,-3,.7);this.prop('stone','gravestone',-1.4,-2.8,.8);
-  this.hero=this.sprite('hero','ink-hero','rest',new T.Vector3(0,0,3));this.target=this.sprite('target','ink-skeleton','rest',new T.Vector3(2.8,0,-.7));
+  this.hero=this.sprite('hero','ink-hero-current','idle',new T.Vector3(0,0,3));this.target=this.sprite('target','ink-skeleton','rest',new T.Vector3(2.8,0,-.7));
   this.outlines=[new SilhouetteOutline(this.hero.mesh),new SilhouetteOutline(this.target.mesh)];this.outlines.forEach(o=>this.scene.add(o.mesh));
   for(const [i,[id,x,z]]of ([['watch',-1.9,1.3],['brazier',2.5,-2],['votive',-3.6,-1.7]] as const).entries()){
    const position=new T.Vector3(x,.16,z),socket=position.clone().add(new T.Vector3().fromArray(emitters[id]!));
@@ -83,8 +83,9 @@ export class EffectsPlayground {
   this.key.castShadow=true;this.hemi.color.set(on('palette')?0xb8cde3:0xc9d4d2);this.hemi.groundColor.set(on('palette')?0x49465c:0x59615c);this.key.color.set(on('palette')?0xffdaa0:0xe5ddd0);
   this.lighting.configure({...defaultLook,rig:'silver',look:'ink',strength:rich?1.25:.85,shadows:false,atmosphere:on('atmosphere')},new T.Vector3());this.lighting.common.inkShadowEnabled.value=0;
   this.lighting.restoreLightColors();if(!on('palette'))this.lighting.neutralPalette();
-  const hero=sim.hero,foot=new T.Vector3(hero.px+(hero.x-hero.px)*alpha,0,hero.pz+(hero.z-hero.pz)*alpha),clip=hero.state==='walk'?'walk':'rest';
-  if(clip!==this.heroClip){this.hero.animator.start(resolveClip(this.hero.manifest,clip,'d45'));this.heroClip=clip;}
+  const hero=sim.hero,foot=new T.Vector3(hero.px+(hero.x-hero.px)*alpha,0,hero.pz+(hero.z-hero.pz)*alpha),clip=hero.state==='walk'?'walk':'idle';
+  const heading=selectAuthoredDirection(hero.yaw),tag=clip+':'+heading;
+  if(tag!==this.heroClip){const prior=this.hero.animator.time,keep=this.heroClip.startsWith(clip+':');this.hero.animator.start(resolveClip(this.hero.manifest,clip,heading));if(keep)this.hero.animator.seek(prior);this.heroClip=tag;}
   if(!settings.paused)this.hero.animator.advance(ms);this.hero.show(this.hero.animator.frame,foot,this.camera);
   for(const {mesh,sprite}of this.contacts){const height=Math.max(0,sprite.mesh.position.y);mesh.position.set(sprite.mesh.position.x,.008,sprite.mesh.position.z);mesh.visible=on('contact')&&sprite.mesh.visible;mesh.material.opacity=.22*Math.exp(-height*2)*sprite.material.opacity;}this.winds.forEach(w=>w.update(this.time,on('wind'),.012*strength));
   for(const lamp of this.lamps){

@@ -44,10 +44,11 @@ export class ActorSprite {
     const fullCanvas=!!blend,geometryChanged=frameId!==this.lastFrame||fullCanvas!==this.fullCanvas||this.stabilized!==this.lastStabilized;
     if(geometryChanged){
       const texture=this.textures.get(f.page);if(!texture)throw new Error(`runtime page missing: ${f.page}`);this.material.map=texture;this.material.needsUpdate=this.lastFrame==='';if(this.edgeMaterial){this.edgeMaterial.map=texture;this.edgeMaterial.needsUpdate=this.lastFrame==='';}
-      const b=trimmedBounds({density:this.manifest.asset.density,anchor:this.manifest.asset.anchor},fullCanvas?[0,0,...this.manifest.asset.canvas]:f.trim);
+      const registration=f.registration??this.manifest.asset;
+      const b=trimmedBounds(registration,fullCanvas?[0,0,...registration.canvas]:f.trim);
       // Translate only artwork in the camera plane; mesh.position remains the foot root.
       if(!fullCanvas&&this.stabilized&&f.visualOffsetPx){
-        const [x,y]=f.visualOffsetPx,d=this.manifest.asset.density;
+        const [x,y]=f.visualOffsetPx,d=registration.density;
         b.left+=x/d;b.right+=x/d;b.top-=y/d;b.bottom-=y/d;
       }
       const pos=this.geometry.getAttribute('position') as BufferAttribute;

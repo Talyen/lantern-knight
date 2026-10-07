@@ -47,7 +47,7 @@ def regular_file(path):
 
 
 class SourceResolver:
-    def __init__(self, root, index, *, library_root=None, documents_root=None, cache=None, excluded=()):
+    def __init__(self, root, index, *, library_root=None, documents_root=None, cache=None, excluded=(), search_roots=None):
         self.root = pathlib.Path(root).absolute()
         self.index = index
         suffix = pathlib.PurePosixPath(index.get('libraryDirectory', '2d Assets/Lantern Knight')).parts
@@ -58,12 +58,13 @@ class SourceResolver:
         self.library = pathlib.Path(library_root or os.environ.get('ASSET_LIBRARY_ROOT') or inferred).absolute()
         self.documents = pathlib.Path(documents_root or pathlib.Path.home() / 'Documents').absolute()
         extra = [pathlib.Path(p).absolute() for p in os.environ.get('LANTERN_SOURCE_SEARCH_ROOTS', '').split(os.pathsep) if p]
-        self.roots = list(dict.fromkeys([self.library, self.documents, *extra]))
+        self.roots = list(dict.fromkeys(pathlib.Path(p).absolute() for p in search_roots)) if search_roots is not None else list(dict.fromkeys([self.library, self.documents, *extra]))
+        self.restricted = search_roots is not None
         self.cache = pathlib.Path(cache or cache_root()).absolute()
         self.excluded = {PROJECT, self.cache, *(pathlib.Path(p).absolute() for p in excluded)}
         self.identities = {}
         for name, info in index.get('archives', {}).items():
-            self.identities['archive:' + name] = (self.root / safe_relative(name), info)
+            self.identities['archive:' + name] = (self.root / safe_relative(info.get('pathHint', name)), info)
         for group, files in index.get('files', {}).items():
             for name, info in files.items():
                 safe_relative(name)
@@ -73,7 +74,7 @@ class SourceResolver:
                     hint = self.root / name.removeprefix('collection/')
                 else:
                     hint = self.root / safe_relative(index['directories'][group]) / name
-                self.identities['file:' + group + '/' + name] = (hint, info)
+                self.identities['file:' + group + '/' + name] = (self.root / safe_relative(info['pathHint']) if 'pathHint' in info else hint, info)
         for _, info in self.identities.values():
             if not re.fullmatch('[a-f0-9]{64}', info['sha256']) or not isinstance(info['bytes'], int) or info['bytes'] < 0:
                 raise ValueError('invalid source identity')
@@ -152,6 +153,8 @@ class SourceResolver:
 
     def matches(self, path, info):
         try:
+            if self.restricted and not any(path.absolute().is_relative_to(root) for root in self.roots):
+                return False
             return path.stat().st_size == info['bytes'] and self.digest(path) == info['sha256']
         except OSError:
             return False

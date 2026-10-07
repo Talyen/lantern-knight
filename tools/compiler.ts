@@ -39,10 +39,11 @@ export async function compile(sourceFile='source.json',out=publicFile('generated
   const pages:{raw:Buffer;id:string}[]=[];let x=0,y=0,row=0,index=-1;
   const digest=createHash('sha256').update(input).update(TOOL_VERSION).update(JSON.stringify(contract));
   for(const f of source.frames) {
+    const registration=f.registration??source.asset;
     const file=await exactSource(f.path,inputRoot);digest.update(file);
     const metadata=await sharp(file).metadata();if(metadata.format!=='png'||!metadata.hasAlpha||metadata.depth!=='uchar'||metadata.space!=='srgb')throw new Error(`${f.path}: reviewed RGBA8 sRGB PNG with alpha required`);
     const {data,info}=await sharp(file).ensureAlpha().raw().toBuffer({resolveWithObject:true});
-    if(info.width!==source.asset.canvas[0]||info.height!==source.asset.canvas[1])throw new Error(`${f.path}: dimensions ${info.width}x${info.height} differ from canvas`);
+    if(info.width!==registration.canvas[0]||info.height!==registration.canvas[1])throw new Error(`${f.path}: dimensions ${info.width}x${info.height} differ from canvas`);
     let minX=info.width,minY=info.height,maxX=-1,maxY=-1;
     for(let yy=0;yy<info.height;yy++)for(let xx=0;xx<info.width;xx++)if(data[(yy*info.width+xx)*4+3]!>(f.origin==='imported-study'?0:1)){minX=Math.min(minX,xx);minY=Math.min(minY,yy);maxX=Math.max(maxX,xx);maxY=Math.max(maxY,yy);}
     if(maxX<0){if(!source.asset.allowEmptyFrames)throw new Error(`${f.path}: empty frame`);minX=0;minY=0;maxX=0;maxY=0;}
@@ -56,7 +57,7 @@ export async function compile(sourceFile='source.json',out=publicFile('generated
     if(index<0||y+padded.height>size){index++;pages.push({id:`atlas-${index}`,raw:Buffer.alloc(size*size*4)});x=0;y=0;row=0;}
     const target=pages[index]!.raw;
     for(let yy=0;yy<padded.height;yy++)padded.data.copy(target,((y+yy)*size+x)*4,yy*padded.width*4,(yy+1)*padded.width*4);
-    frames.push({id:f.id,source:f.path,origin:f.origin,attachments:f.attachments,...(f.visualOffsetPx?{visualOffsetPx:f.visualOffsetPx}:{}),page:pages[index]!.id,rect:[x+pad,y+pad,w,h],trim:[minX,minY,w,h],rotated:false});
+    frames.push({id:f.id,source:f.path,origin:f.origin,attachments:f.attachments,...(f.visualOffsetPx?{visualOffsetPx:f.visualOffsetPx}:{}),...(f.registration?{registration:f.registration}:{}),page:pages[index]!.id,rect:[x+pad,y+pad,w,h],trim:[minX,minY,w,h],rotated:false});
     x+=padded.width;row=Math.max(row,padded.height);
   }
   const contentHash=digest.digest('hex'),folder=contentHash.slice(0,16);

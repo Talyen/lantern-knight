@@ -9,7 +9,7 @@ import {normalPixels} from '../src/presentation/lighting-profiles';
 const root='public/lighting',check=process.argv.includes('--check'),recipe='alpha-volume-v1',sha=(b:Buffer|string)=>createHash('sha256').update(b).digest('hex');
 const entries:Record<string,unknown>={};
 async function output(file:string,bytes:Buffer|string){if(check){if(!Buffer.from(bytes).equals(await readAsset(file)))throw new Error(`lighting derivative stale: ${file}`);}else{await mkdirAsset(path.dirname(file),{recursive:true});await writeAsset(file,bytes);}}
-for(const asset of ['ink-hero','ink-skeleton','ink-revenant','ink-scenery','ink-boundary','ink-graveyard-scenery','ink-blackwood-oak','ink-blackwood-woodland']){
+for(const asset of ['ink-hero-current','ink-hero','ink-skeleton','ink-revenant','ink-scenery','ink-boundary','ink-graveyard-scenery','ink-blackwood-oak','ink-blackwood-woodland']){
  const manifest=JSON.parse(await readAsset(path.join('public',assetCatalog[asset]!),'utf8')) as Manifest;
  for(const frame of manifest.frames){
   const page=manifest.pages.find(p=>p.id===frame.page)!,source=path.join('public',path.dirname(assetCatalog[asset]!),page.path),bytes=await readAsset(source);
