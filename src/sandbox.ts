@@ -1,0 +1,238 @@
+import './style.css';
+import {Application} from './application';
+import {Presentation,type Mode} from './presentation/scene';
+import {sandboxContent,sandboxDefinitions} from './content/sandbox-world';
+import {ContentRegistry} from './content/world';
+import {GameSession} from './core/session';
+import {assetCatalog} from './content/visuals';
+import {createBrowserBridge} from './platform/browser-store';
+import {HEADINGS,contract} from './core/camera';
+import {clipDuration} from './core/animation';
+import {swordCombo} from './content/gameplay';
+import {walkTimings,type WalkTiming} from './core/walk-timing';
+import {walkBlendModes,type WalkBlendMode} from './core/walk-blending';
+import {sandboxUI} from './sandbox-ui';
+import './inspection';
+const $=<T extends HTMLElement>(s:string)=>document.querySelector<T>(s)!;
+$('#app').innerHTML=sandboxUI;
+const controls=document.createElement('div');controls.className='sandbox-controls';controls.innerHTML='<label>Scene<select id="scene-select"><option value="court">Churchyard Approach</option><option value="upper-landing">Mausoleum Forecourt</option><option value="systems-fixture">Systems fixture</option></select></label><button id="preview-game">Play Opening Scene</button>';
+document.querySelector('header')!.append(controls);
+const sandboxBridge=window.lantern??createBrowserBridge('sandbox');
+let mode:Mode='encounter',presentation:Presentation;
+let lightingReplay=false,replayStart=0;
+const app=new Application($('canvas'),sandboxContent,assetCatalog,sandboxBridge,(...args)=>new Presentation(...args),{status,pause:value=>{$('#modal').hidden=!value;},frame:updateUI},['placeholder']);app.readOnly=true;
+function status(message:string,error=false){$('#status').textContent=message;$('#status').classList.toggle('error',error);}
+function syncLabZoom(){
+  const percent=Math.round(presentation.labZoom*100);
+  $<HTMLInputElement>('#lab-zoom').value=String(percent);$('#lab-zoom-value').textContent=`${percent}%`;
+  $<HTMLButtonElement>('#lab-zoom-out').disabled=percent<=50;$<HTMLButtonElement>('#lab-zoom-in').disabled=percent>=400;
+}
+function resizePresentation(){
+  if(mode==='animation'){const canvas=$('canvas').getBoundingClientRect(),panel=$('#lab').getBoundingClientRect();presentation.labPanelInset=canvas.right-panel.left+24;}
+  presentation.resize(app.scale);
+}
+function setMode(next: Mode) {
+  if(next!=='lighting'&&lightingReplay){lightingReplay=false;app.command=undefined;}
+  mode = next;
+  presentation.setMode(next);
+  const look=presentation.lookRenderer.settings;
+  $<HTMLSelectElement>('#lighting-look').value=look.look;$<HTMLSelectElement>('#lighting-rig').value=look.rig;
+  $<HTMLInputElement>('#lighting-strength').value=String(look.strength*100);$('#lighting-strength-value').textContent=Math.round(look.strength*100)+'%';
+  for(const [id,key]of [['lighting-baseline','baseline'],['lighting-enabled','lighting'],['lighting-shadows','shadows'],['lighting-atmosphere','atmosphere'],['lighting-post','postprocessing']] as const)$<HTMLInputElement>('#'+id).checked=look[key];
+  app.clock.reset();
+  app.input.clear();
+  app.pause(false);
+  presentation.debug = next === 'animation'
+    ? $<HTMLInputElement>('#overlays').checked
+    : next === 'occlusion' && $<HTMLInputElement>('#collision').checked;
+  if (next === 'calibration')
+    $<HTMLSelectElement>('#zoom-span').value = String(
+      presentation.verticalSpan,
+    );
+  for (const el of document.querySelectorAll<HTMLButtonElement>('[data-mode]'))
+    el.classList.toggle('active', el.dataset.mode === next);
+  $('#lab').hidden = next !== 'animation';
+  $('#calibration').hidden = next !== 'calibration';
+  $('#occlusion').hidden = next !== 'occlusion';
+  $('#lighting-lab').hidden = next !== 'lighting';
+  syncLabZoom();resizePresentation();
+  $('.hud').hidden = next === 'animation' || next === 'calibration';
+  $('.actions').hidden = $('.hud').hidden;
+  $('#room-title').textContent =
+    next === 'animation'
+      ? 'From source to motion'
+      : next === 'calibration'
+        ? 'A shared frame of reference'
+        : next === 'occlusion'
+          ? 'Grounded in the world'
+          : app.sim.areaDefinition.name;
+  $('#room-eyebrow').textContent =
+    next === 'encounter'||next==='lighting'
+      ? 'A small playable encounter'
+      : 'Foundation / inspection';
+  $('#room-subtitle').textContent =
+    next==='lighting'?'Golden hour / Silver hour':next === 'animation'
+      ? 'Same animator. Independent assets and actors.'
+      : 'Selected camera v2 · historical engineering placeholders';
+}
+function updateLabClips() {
+  const clips = Object.keys(presentation.manifest.asset.clips);
+  $('#clip').innerHTML = clips.map((c) => `<option>${c}</option>`).join('');
+  $<HTMLSelectElement>('#clip').value = presentation.labClip;
+}
+
+async function boot(){await app.boot();presentation=app.presentation;
+ $<HTMLSelectElement>('#render-scale').value=String(app.scale);$<HTMLSelectElement>('#zoom-span').value=String(presentation.verticalSpan);
+  const syncDof=()=>{for(const id of ['lighting-dof','depth-of-field']){$<HTMLInputElement>('#'+id).value=String(Math.round(presentation.depthOfField*100));$('#'+id+'-value').textContent=presentation.depthOfField===0?'Off':Math.round(presentation.depthOfField*100)+'%';}};syncDof();
+  for(const id of ['lighting-dof','depth-of-field']){$('#'+id).oninput=()=>{presentation.setDepthOfField(Number($<HTMLInputElement>('#'+id).value)/100);syncDof();};$('#'+id).onchange=()=>app.safe(()=>app.saveSettings());}
+  $('#lighting-rig').onchange=()=>presentation.lightingLab.setSettings({rig:$<HTMLSelectElement>('#lighting-rig').value as 'golden'|'silver'});
+  $('#lighting-look').onchange=()=>presentation.lightingLab.setSettings({look:$<HTMLSelectElement>('#lighting-look').value as 'ink'|'diorama'|'cinematic'});
+  for(const [id,key]of [['lighting-baseline','baseline'],['lighting-enabled','lighting'],['lighting-shadows','shadows'],['lighting-atmosphere','atmosphere'],['lighting-post','postprocessing']] as const)$('#'+id).onchange=()=>presentation.lightingLab.setSettings({[key]:$<HTMLInputElement>('#'+id).checked});
+  $('#lighting-strength').oninput=()=>{const strength=Number($<HTMLInputElement>('#lighting-strength').value);presentation.lightingLab.setSettings({strength:strength/100});$('#lighting-strength-value').textContent=`${strength}%`;};
+  $('#lighting-pause').onclick=()=>{app.pause(!app.paused);$('#modal').hidden=true;};
+  $('#lighting-replay').onclick=()=>app.safe(startLightingReplay);
+  $('#lighting-stop').onclick=()=>{lightingReplay=false;app.command=undefined;$('#lighting-stop').hidden=true;};
+  const blendControls=['walk-blend','game-walk-blend'];
+  for(const id of blendControls){
+    $('#'+id).innerHTML=Object.entries(walkBlendModes).map(([key,value])=>`<option value="${key}">${value.label}</option>`).join('');
+    $('#'+id).onchange=()=>{presentation.walkBlend=$<HTMLSelectElement>('#'+id).value as WalkBlendMode;
+      for(const control of blendControls)$<HTMLSelectElement>('#'+control).value=presentation.walkBlend;
+      $('#walk-blend-help').textContent=walkBlendModes[presentation.walkBlend].description;
+    };
+  }
+  $('#walk-blend-help').textContent=walkBlendModes.original.description;
+  for(const id of ['walk-stabilized','game-walk-stabilized'])$('#'+id).onchange=()=>{
+    presentation.walkStabilized=$<HTMLInputElement>('#'+id).checked;
+    for(const control of ['walk-stabilized','game-walk-stabilized'])$<HTMLInputElement>('#'+control).checked=presentation.walkStabilized;
+    presentation.lastLabOverlay='';
+  };
+  for(const id of ['walk-rigid-sword','game-walk-rigid-sword'])$('#'+id).onchange=()=>{
+    presentation.walkRigidSword=$<HTMLInputElement>('#'+id).checked;
+    for(const control of ['walk-rigid-sword','game-walk-rigid-sword'])$<HTMLInputElement>('#'+control).checked=presentation.walkRigidSword;
+  };
+  for(const id of ['walk-timing','game-walk-timing']){
+    $('#'+id).innerHTML=Object.entries(walkTimings).map(([key,value])=>`<option value="${key}">${value.label}</option>`).join('');
+    $<HTMLSelectElement>('#'+id).value=presentation.walkTiming;
+    $('#'+id).onchange=()=>{presentation.walkTiming=$<HTMLSelectElement>('#'+id).value as WalkTiming;
+      for(const control of ['walk-timing','game-walk-timing'])$<HTMLSelectElement>('#'+control).value=presentation.walkTiming;
+      $('#walk-timing-help').textContent=walkTimings[presentation.walkTiming].description;
+    };
+  }
+  $('#walk-timing-help').textContent=walkTimings[presentation.walkTiming].description;
+  $('#walk-compare').onclick=()=>{
+    app.pause(false);$<HTMLInputElement>('#overlays').checked=false;presentation.selectLabAsset('ink-hero');$<HTMLSelectElement>('#asset').value='ink-hero';presentation.labClip='walk';updateLabClips();
+    presentation.labAnimator.start(presentation.getClip('walk',presentation.labHeading));presentation.labTime=0;presentation.labPaused=false;$('#play').textContent='Pause';setMode('animation');
+  };
+  const zoomPreview=(zoom:number)=>{presentation.setLabZoom(Math.round(zoom*100)/100);syncLabZoom();};
+  $('#lab-zoom').oninput=()=>zoomPreview(Number($<HTMLInputElement>('#lab-zoom').value)/100);
+  $('#lab-zoom-out').onclick=()=>zoomPreview(presentation.labZoom-.25);
+  $('#lab-zoom-in').onclick=()=>zoomPreview(presentation.labZoom+.25);
+  $('#lab-zoom-reset').onclick=()=>zoomPreview(2);
+  $('canvas').addEventListener('wheel',(event:WheelEvent)=>{
+    if(mode!=='animation'||app.paused||app.busy||event.deltaY===0)return;
+    event.preventDefault();const pixels=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?$('canvas').clientHeight:1);
+    zoomPreview(presentation.labZoom*Math.exp(-pixels*.0015));
+  },{passive:false});
+  $('#walk-restart').onclick=()=>{presentation.labAnimator.start(presentation.getClip(presentation.labClip,presentation.labHeading));presentation.labTime=0;};
+  $('#asset').innerHTML = Object.keys(assetCatalog)
+    .map((id) => `<option>${id}</option>`)
+    .join('');
+  $<HTMLSelectElement>('#asset').value = presentation.labAsset;
+  updateLabClips();
+  $('#heading').innerHTML = HEADINGS.map((d) => `<option>${d}</option>`).join(
+    '',
+  );
+  $<HTMLSelectElement>('#heading').value = 'd45';
+  $('#asset').onchange = () =>
+    app.safe(async () => {
+      const id = $<HTMLSelectElement>('#asset').value;
+      await app.loadAsset(id);
+      presentation.selectLabAsset(id);
+      updateLabClips();
+    });
+  $('#clip').onchange = () => {
+    presentation.labClip = $<HTMLSelectElement>('#clip').value;
+    presentation.notifyLog = [];
+  };
+  $('#heading').onchange = () => {
+    presentation.labHeading = $<HTMLSelectElement>('#heading')
+      .value as (typeof HEADINGS)[number];
+    presentation.notifyLog = [];
+  };
+  $('#play').onclick = () => {
+    presentation.labPaused = !presentation.labPaused;
+    $('#play').textContent = presentation.labPaused ? 'Play' : 'Pause';
+  };
+  $('#step').onclick = () => {
+    presentation.labPaused = true;
+    $('#play').textContent = 'Play';
+    const c = presentation.labAnimator.clip,
+      t = presentation.labAnimator.time % clipDuration(c);
+    let end = 0;
+    for (const duration of c.durationsMs) {
+      end += duration;
+      if (end > t + 0.01) break;
+    }
+    presentation.labAnimator.seek(end >= clipDuration(c) ? 0 : end);
+    presentation.labTime = presentation.labAnimator.time;
+  };
+  $('#scrub').oninput = () => {
+    presentation.labPaused = true;
+    $('#play').textContent = 'Play';
+    presentation.labAnimator.seek(Number($<HTMLInputElement>('#scrub').value));
+    presentation.labTime = presentation.labAnimator.time;
+  };
+  $('#speed').onchange = () =>
+    (presentation.labSpeed = Number($<HTMLSelectElement>('#speed').value));
+  $('#overlays').onchange = () =>
+    (presentation.debug = $<HTMLInputElement>('#overlays').checked);
+  $('#zoom-span').onchange = () => {
+    presentation.verticalSpan = Number(
+      $<HTMLSelectElement>('#zoom-span').value,
+    );
+    presentation.resize(app.scale);app.safe(()=>app.saveSettings());
+  };
+  $('#collision').onchange = () =>
+    (presentation.debug = $<HTMLInputElement>('#collision').checked);
+  for (const id of ['background', 'calibration-background'])
+    $('#' + id).onchange = () => {
+      presentation.background = $<HTMLSelectElement>('#' + id).value;
+      for (const control of ['background', 'calibration-background'])
+        $<HTMLSelectElement>('#' + control).value = presentation.background;
+    };
+  document
+    .querySelectorAll<HTMLButtonElement>('[data-mode]')
+    .forEach((el) => (el.onclick = () => setMode(el.dataset.mode as Mode)));
+
+ $('#pause').onclick=()=>app.pause(!app.paused);$('#resume').onclick=()=>app.pause(false);$('#reset').onclick=()=>app.safe(()=>app.reset());
+ for(const id of ['save','load','new-game'])$<HTMLButtonElement>('#'+id).disabled=true;
+ $('#scene-select').onchange=()=>app.safe(()=>fixture($<HTMLSelectElement>('#scene-select').value));
+ $('#preview-game').onclick=()=>{app.pause(true);if(window.lantern?.launchMode)void window.lantern.launchMode('game');else location.href='/index.html';};
+ $('#render-scale').onchange=()=>{app.scale=Number($<HTMLSelectElement>('#render-scale').value);presentation.resize(app.scale);app.safe(()=>app.saveSettings());};
+ status('Dev Sandbox · disposable encounters; player checkpoints are isolated');
+}
+async function fixture(area:string){lightingReplay=false;app.command=undefined;await app.replaceArea(area,()=>{app.session=new GameSession(sandboxContent,142,area,app.session.generation+1);return [];});app.pause(false);}
+async function startLightingReplay(){await fixture(app.sim.area);setMode('lighting');presentation.lightingLab.time=0;lightingReplay=true;replayStart=app.sim.tick;$('#lighting-stop').hidden=false;
+ app.command=sim=>{const t=(sim.tick-replayStart)%1200,points=[{x:0,z:2.8},{x:1.8,z:-1},{x:1.6,z:-5.6},{x:-1.8,z:-3.4},{x:0,z:5.8}],target=points[Math.min(4,Math.floor(t/240))]!,dx=target.x-sim.hero.x,dz=target.z-sim.hero.z,d=Math.hypot(dx,dz);sim.enemies.forEach(e=>e.stun=10000);
+  return {move:d>.2?{x:dx/d,z:dz/d}:{x:0,z:0},aim:{x:sim.hero.x+2,z:sim.hero.z-1},ability:t===620,attack:t===730||t===760||t===790,generation:sim.generation};};
+}
+function updateUI(){if(!presentation)return;
+ const sim=app.sim;
+ $('#hp').textContent=`${sim.hero.health} / ${sim.hero.definition.maxHealth}`;$('#health-fill').style.width=`${sim.hero.health/sim.hero.definition.maxHealth*100}%`;
+ $('#enemy-count').textContent=`${sim.enemies.filter(a=>a.health>0).length} enemies remain`;$('#state').textContent=sim.hero.state;
+ $('#dodge-status').textContent=sim.hero.dodgeCooldown?`${sim.hero.dodgeCooldown/60} s`:'ready';$('#ability-status').textContent=sim.hero.cooldown?`${sim.hero.cooldown/60} s`:'ready';
+ $('#save-notice').textContent='Sandbox sessions cannot load or write game checkpoints.';
+ if(mode==='encounter'||mode==='lighting'){$('#room-title').textContent=sim.areaDefinition.name;$('#room-subtitle').textContent=sim.areaDefinition.subtitle;}
+ if(mode==='lighting'){const lab=presentation.lightingLab.stats();$('#lighting-pause').textContent=app.paused?'Resume scene':'Pause scene';$('#lighting-playback').textContent=lightingReplay?'Replay: shade → lantern → combat → return':'Free play';$('#lighting-stop').hidden=!lightingReplay;$('#lighting-stats').textContent=`${presentation.renderer.domElement.width} × ${presentation.renderer.domElement.height}\n${lab.companions} generated companions · ${(lab.normalBytes/1048576).toFixed(1)} MiB\nHDR color buffers ${(lab.targets.colorBytes/1048576).toFixed(0)} MiB`;}
+ if(mode==='occlusion'){const label=document.querySelector<HTMLElement>('#art-registration-status');if(label)label.textContent=presentation.artConstruction.findings.length?presentation.artConstruction.findings.map(f=>`${f.a}${f.b?' ↔ '+f.b:''}: ${f.message}`).join('\n'):'No undeclared Graveyard overlaps. Green: footprints. Gold: joins. Amber: light sockets.';}
+ if(mode==='animation'){const c=presentation.labAnimator.clip,d=clipDuration(c);$<HTMLInputElement>('#scrub').max=String(d);$<HTMLInputElement>('#scrub').value=String(presentation.labTime%d);$('#visual-time').textContent=`${Math.round(presentation.labTime%d)} / ${Math.round(d)} ms`;$('#notify').textContent=presentation.notifyLog.join('\n');$('#frame-status').textContent=presentation.labAnimator.frame;$('#walk-comparison').hidden=presentation.labAsset!=='ink-hero';}
+}
+let benchmarkFrames:number[]=[],benchmarkMeasuring=false,returnSave:ReturnType<GameSession['captureSave']>|undefined;
+async function startBenchmark(stress=false){lightingReplay=false;await app.loadAsset('ink-revenant');returnSave??=app.session.captureSave();const definitions=stress?{...sandboxDefinitions,areas:sandboxDefinitions.areas.map(a=>a.id==='court'?{...a,activation:undefined,spawns:Array.from({length:32},(_,i)=>({id:`stress-${i}`,actor:'warden',x:(i%6-3)*1.2,z:(Math.floor(i/6)-2)*1.2}))}:a)}:sandboxDefinitions;
+ await app.replaceArea('court',()=>{app.session=new GameSession(new ContentRegistry(definitions),142,'court',app.session.generation+1);return [];});
+ benchmarkFrames=[];benchmarkMeasuring=true;app.clock.droppedMs=0;app.command=sim=>{if(sim.cleared)app.publish(app.session.resetCurrentArea());const target=sim.enemies.find(a=>a.health>0)??sim.hero,angle=sim.tick/120;return {move:{x:Math.cos(angle),z:Math.sin(angle)},aim:target,attack:true,ability:sim.tick%180===0,dodge:sim.tick%100===50,generation:sim.generation};};setMode('encounter');app.pause(false);
+}
+app.afterFrame=ms=>{if(benchmarkMeasuring)benchmarkFrames.push(ms);};
+window.foundation={get ready(){return app.ready;},get session(){return app.session;},get sim(){return app.sim;},get presentation(){return app.presentation;},get persistence(){return app.persistence;},get eventHistory(){return app.events.history;},get manifest(){return app.packs.get('ink-hero')!.manifest;},fixture,mode:setMode,pause:value=>app.pause(value),reset:()=>app.reset(),stats:()=>app.presentation.stats(),saveValue:()=>app.session.captureSave(),startBenchmark,
+ async finishBenchmark(restoreSession=true){const result={frames:benchmarkFrames,stats:presentation.stats(),droppedMs:app.clock.droppedMs,simulatedTicks:app.sim.tick};benchmarkMeasuring=false;app.command=undefined;if(restoreSession&&returnSave){const snapshot=returnSave;await app.replaceArea(snapshot.area,()=>{app.session=new GameSession(sandboxContent,snapshot.seed,snapshot.area,app.session.generation+1);return app.session.restoreSave(snapshot);});returnSave=undefined;}return result;},dispose:()=>app.dispose()};
+window.addEventListener('beforeunload',()=>app.dispose());boot().catch(error=>{app.dispose();status(`Sandbox failed: ${error.message}`,true);console.error(error);});

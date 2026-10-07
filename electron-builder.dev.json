@@ -1,0 +1,23 @@
+{
+  "appId": "studio.lanternknight.dev",
+  "productName": "Lantern Knight Dev",
+  "directories": {
+    "output": "release-dev"
+  },
+  "files": [
+    "dist-dev/**",
+    "dist-electron-dev/**",
+    "package.json"
+  ],
+  "extraMetadata": {
+    "main": "dist-electron-dev/main.cjs"
+  },
+  "asar": true,
+  "mac": {
+    "identity": null,
+    "category": "public.app-category.developer-tools"
+  },
+  "win": {
+    "target": "dir"
+  }
+}

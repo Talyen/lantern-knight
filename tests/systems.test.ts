@@ -1,3 +1,6 @@
+import {readAsset} from '../tools/assets/io';
+import {defaultVisualEffects} from '../src/content/visual-effects';
+import {sandboxContent} from '../src/content/sandbox-world';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -93,7 +96,7 @@ test('content rejects duplicate/unknown IDs and invalid numbers, bounds, ramps a
   }
 });
 test('third area and melee profile have independent counts, health, radius, movement, timing and bounds', () => {
-  const s = new Simulation(12, 'systems-fixture');
+  const s = new Simulation(12, 'systems-fixture',1,sandboxContent);
   assert.equal(s.enemies.length, 5);
   const heavy = s.enemies.find((a) => a.definition.id === 'heavy-warden')!;
   assert.equal(heavy.health, 140);
@@ -116,7 +119,7 @@ test('third area and melee profile have independent counts, health, radius, move
   assert.ok(result.events.some((e) => e.kind === 'damage' && e.amount === 20));
 });
 test('x-ramp support, slope and pointer ray share the same surface independently of fixture axes', () => {
-  const area = content.area('systems-fixture'),
+  const area = sandboxContent.area('systems-fixture'),
     camera = makeCamera(16 / 9),
     rect = {left: 80, top: 70, width: 2560, height: 1440};
   for (const x of [-4, -0.5, 1, 4]) {
@@ -148,7 +151,7 @@ test('partial and cleared revisits preserve enemies; player cooldowns survive; e
   session.sim.hero.cooldown = 100;
   session.sim.hero.dodgeCooldown = 20;
   enter(session, 'landing');
-  assert.equal(session.sim.hero.z, 6.2);
+  assert.equal(session.sim.hero.z, 7.5);
   assert.equal(session.sim.hero.cooldown, 100);
   assert.equal(session.sim.hero.health, 63);
   enter(session, 'court');
@@ -184,19 +187,19 @@ test('death resets only current area and failed/superseded transitions cannot co
   session.step(still);
   assert.equal(session.resetCount, 1);
   assert.equal(session.sim.hero.health, 100);
-  assert.ok(session.sim.enemies.every((a) => a.health === 70));
+  assert.ok(session.sim.enemies.every((a) => a.health === 50));
   clear(session);
   enter(session, 'court');
   assert.ok(session.sim.cleared);
   assert.equal(session.sim.enemies[0]!.health, 0);
 });
-test('v3 saves preserve variable counts, health above 100, multiple areas and player cooldowns', () => {
-  const session = new GameSession(content, 7, 'systems-fixture');
+test('v5 saves preserve variable counts, health above 100, multiple areas and player cooldowns', () => {
+  const session = new GameSession(sandboxContent, 7, 'systems-fixture');
   session.sim.enemies[1]!.health = 121;
   session.sim.hero.cooldown = 57;
   session.sim.hero.dodgeCooldown = 12;
-  const save = parseGame(session.captureSave()),
-    restored = new GameSession();
+  const save = parseGame(session.captureSave(),sandboxContent),
+    restored = new GameSession(sandboxContent);
   restored.restoreSave(save);
   assert.equal(restored.sim.enemies.length, 5);
   assert.equal(restored.sim.enemies[1]!.health, 121);
@@ -205,10 +208,10 @@ test('v3 saves preserve variable counts, health above 100, multiple areas and pl
   assert.ok(restored.generation > 1);
   const unknown = structuredClone(save);
   unknown.area = 'missing';
-  assert.throws(() => parseGame(unknown), /unknown area/);
+  assert.throws(() => parseGame(unknown,sandboxContent), /unknown area/);
   const invalid = structuredClone(save);
   invalid.areas['systems-fixture']!.actors['fixture-2']!.health = 141;
-  assert.throws(() => parseGame(invalid), /invalid actor/);
+  assert.throws(() => parseGame(invalid,sandboxContent), /invalid actor/);
   for (const version of [0, 1, 2]) {
     const old = {
       version,
@@ -223,7 +226,7 @@ test('v3 saves preserve variable counts, health above 100, multiple areas and pl
       ...(version === 2 ? {area: 1} : {}),
     };
     const v = parseGame(old);
-    assert.equal(v.version, 3);
+    assert.equal(v.version, 5);
     assert.equal(v.area, version === 2 ? 'upper-landing' : 'court');
     assert.equal(v.player.cooldown, 0);
     assert.equal(v.wins, 3);
@@ -296,13 +299,13 @@ test('per-slot size limits, unknown content, unsupported settings and oversized 
     assert.equal((await store.load('game')).status, 'unreadable');
     await assert.rejects(store.save('game', save));
     assert.ok(
-      (await fs.readFile(path.join(dir, 'game.json'), 'utf8')).includes(
+      (await readAsset(path.join(dir, 'game.json'), 'utf8')).includes(
         'missing',
       ),
     );
     await fs.writeFile(
       path.join(dir, 'settings.json'),
-      JSON.stringify({version: 3}),
+      JSON.stringify({version: 6}),
     );
     assert.equal((await store.load('settings')).status, 'unreadable');
     await assert.rejects(
@@ -337,7 +340,7 @@ test('backup-only saves preserve unreadable, newer and unknown-content data befo
       await fs.writeFile(path.join(dir, 'game.bak'), text);
       assert.equal((await store.load('game')).status, 'unreadable');
       await assert.rejects(store.save('game', save));
-      assert.equal(await fs.readFile(path.join(dir, 'game.bak'), 'utf8'), text);
+      assert.equal(await readAsset(path.join(dir, 'game.bak'), 'utf8'), text);
       await assert.rejects(fs.stat(path.join(dir, 'game.json')), {code: 'ENOENT'});
     }
     await fs.writeFile(path.join(dir, 'game.bak'), JSON.stringify(save));
@@ -359,7 +362,7 @@ test('smoke profiles never delete user-supplied directories, including on launch
       env: {...process.env, LANTERN_EXECUTABLE: path.join(directory, 'missing-executable')}, encoding: 'utf8', timeout: 30000,
     });
     assert.equal(result.status, 1, result.stderr);
-    assert.equal(await fs.readFile(path.join(directory, 'game.json'), 'utf8'), 'existing player save');
+    assert.equal(await readAsset(path.join(directory, 'game.json'), 'utf8'), 'existing player save');
     assert.ok(!(await fs.readdir(directory)).some(name => name.startsWith('lantern-smoke-')));
     assert.ok(await fs.stat(path.join(directory, 'evidence/failure.json')));
   } finally {
@@ -429,7 +432,7 @@ test('step events are immutable captured values; catch-up delivers all once and 
   hub.dispose();
 });
 test('valid unsorted clip notifications reach consumers chronologically without losing earlier events', async () => {
-  const manifest = JSON.parse(await fs.readFile('public/generated/manifest.json', 'utf8')) as Manifest;
+  const manifest = JSON.parse(await readAsset('public/generated/manifest.json', 'utf8')) as Manifest;
   const clip = manifest.asset.clips.walk!.d45!;
   clip.notifies = [{id: 'later', atMs: 150, kind: 'whoosh'}, {id: 'earlier', atMs: 50, kind: 'dust'}, {id: 'together', atMs: 150, kind: 'flash'}];
   parseManifest(manifest);
@@ -448,7 +451,7 @@ test('valid unsorted clip notifications reach consumers chronologically without 
 });
 test('independent manifests isolate frame/page IDs and share compatible page resources with release-once leases', async () => {
   const primary = JSON.parse(
-      await fs.readFile('public/generated/manifest.json', 'utf8'),
+      await readAsset('public/generated/manifest.json', 'utf8'),
     ) as Manifest,
     other = structuredClone(primary);
   other.asset.id = 'registration-fixture';
@@ -539,10 +542,12 @@ test('browser adapter preserves unreadable settings/game bytes and reports unava
   try {
     const {browserBridge} = await import('../src/platform/browser-store');
     const settings = {
-      version: 2 as const,
+      version: 5 as const,
+      visualEffects: defaultVisualEffects(),
       renderScale: 1,
       showDebug: false,
       verticalSpan: 13,
+      depthOfField: 1,
     };
     values.set('lantern-settings', '{"version":99}');
     await assert.rejects(browserBridge.saveSettings(settings));
@@ -586,7 +591,7 @@ test('build proof ignores mutable Finder metadata but rejects app tampering, mis
     await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-one');
     assert.equal(run(['--write']).status, 0);
     const identityPath = path.join(directory, 'dist/build-identity.json'),
-      identity = JSON.parse(await fs.readFile(identityPath, 'utf8'));
+      identity = JSON.parse(await readAsset(identityPath, 'utf8'));
     assert.equal(identity.files['dist/.DS_Store'], undefined);
     await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-two');
     assert.equal(run().status, 0);

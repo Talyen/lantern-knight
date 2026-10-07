@@ -70,6 +70,7 @@ export class GameSession {
     );
     this.visited.set(this.sim.area, {
       actors,
+      engaged: this.sim.engaged,
       cleared: Object.values(actors).every((a) => a.health === 0),
     });
   }
@@ -97,6 +98,7 @@ export class GameSession {
         }
       }
       sim.cleared = state.cleared;
+      sim.engaged = state.engaged;
     }
     sim.tick = this.sim.tick;
     sim.resetCount = this.resetCount;
@@ -185,7 +187,7 @@ export class GameSession {
     this.recordArea();
     const a = this.sim.hero;
     return {
-      version: 3,
+      version: 5,
       seed: this.sim.initialSeed,
       wins: this.wins,
       area: this.sim.area,

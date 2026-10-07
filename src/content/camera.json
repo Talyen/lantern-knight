@@ -9,14 +9,14 @@
   "world": "right-handed XZ ground, +Y up; yaw from +Z toward +X",
   "sourceCoordinates": "top-left +x right +y down",
   "anchorConvention": "untrimmed-canvas ground foot origin",
-  "verticalSpan": 13,
+  "verticalSpan": 9,
   "baseline": {
-    "width": 2560,
-    "height": 1440
+    "width": 3840,
+    "height": 2160
   },
   "resize": "fixed-vertical-span",
   "renderScale": 1,
-  "pixelRatioCap": 1,
+  "pixelRatioCap": 4,
   "sourceDensity": 192,
   "canvas": [
     384,
@@ -33,14 +33,14 @@
   "colorSpace": "srgb",
   "alpha": "straight",
   "budgets": {
-    "sceneTextureMiB": 256,
+    "sceneTextureMiB": 768,
     "maxActors": 32,
     "maxEffects": 32
   },
   "movement": "screen-relative",
   "assetRecipe": "canonical-camera-v2",
   "framingRange": [
-    11,
+    9,
     15
   ]
 }

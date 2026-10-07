@@ -1,5 +1,5 @@
 import {tuning,swordCombo,attackDefinition} from '../content/gameplay';
-import {content,ContentRegistry,PLAYER_ID,spawnActorId,contains,heightAt,type AreaId,type ActorId,type ActorDefinition} from '../content/world';
+import {content,ContentRegistry,PLAYER_ID,spawnActorId,contains,heightAt,supportedPosition,type AreaId,type ActorId,type ActorDefinition} from '../content/world';
 import type {GameplayEvent,EventDetails} from './events';
 export type State='idle'|'walk'|'attack'|'dodge'|'ability'|'hurt'|'death';
 export type Actor={id:ActorId;definition:ActorDefinition;kind:'hero'|'enemy';x:number;y:number;z:number;px:number;py:number;pz:number;yaw:number;aim:number;state:State;age:number;action:number;health:number;cooldown:number;dodgeCooldown:number;stun:number;hitIds:ActorId[];swingStage:number;nextSwing:number;comboExpires:number;attackBufferedUntil:number;dashBufferedUntil:number;dashYaw:number};
@@ -8,13 +8,13 @@ export type SimEvent=GameplayEvent;
 export type StepResult={events:readonly GameplayEvent[];transition?:string;reset?:'death'};
 const idleCommand:Command={move:{x:0,z:0},aim:{x:0,z:1}};
 export class Simulation {
-  tick=0;seed:number;readonly initialSeed:number;actors:Actor[]=[];private tickEvents:SimEvent[]=[];cleared=false;generation:number;resetCount=0;completedEncounters=0;
+  tick=0;seed:number;readonly initialSeed:number;actors:Actor[]=[];private tickEvents:SimEvent[]=[];cleared=false;generation:number;resetCount=0;completedEncounters=0;engaged=false;
   constructor(seed=142,public area:AreaId='court',generation=1,public readonly registry:ContentRegistry=content,entry?:string){this.initialSeed=seed;this.seed=seed;this.generation=generation;this.populate(entry);}
   get events():readonly SimEvent[]{return Object.freeze([...this.tickEvents]);}
   get areaDefinition(){return this.registry.area(this.area);}
   random(){this.seed=(Math.imul(this.seed,1664525)+1013904223)>>>0;return this.seed/4294967296;}
-  populate(entry?:string){const def=this.areaDefinition,spawn=def.entries.find(e=>e.id===(entry??def.baselineEntry));if(!spawn)throw new Error('missing entry');this.seed=(this.initialSeed+def.seedOffset)>>>0;this.actors=[this.create(PLAYER_ID,'hero',spawn.x,spawn.z)];for(const p of def.spawns)this.actors.push(this.create(spawnActorId(def.id,p.id),'enemy',p.x,p.z+this.random()*(p.jitterZ??0),p.actor));this.cleared=this.enemies.length===0;}
-  create(id:ActorId,kind:Actor['kind'],x:number,z:number,definitionId=kind==='hero'?this.registry.definitions.player:'warden'):Actor{const definition=this.registry.actor(definitionId);if(definition.kind!==kind)throw new Error('actor kind mismatch');const y=heightAt(this.areaDefinition,x,z);return{id,definition,kind,x,y,z,px:x,py:y,pz:z,yaw:Math.PI/4,aim:Math.PI/4,state:'idle',age:0,action:0,health:definition.maxHealth,cooldown:0,dodgeCooldown:0,stun:0,hitIds:[],swingStage:0,nextSwing:0,comboExpires:-1,attackBufferedUntil:-1,dashBufferedUntil:-1,dashYaw:0};}
+  populate(entry?:string){const def=this.areaDefinition,spawn=def.entries.find(e=>e.id===(entry??def.baselineEntry));if(!spawn)throw new Error('missing entry');this.seed=(this.initialSeed+def.seedOffset)>>>0;this.actors=[this.create(PLAYER_ID,'hero',spawn.x,spawn.z)];for(const p of def.spawns)this.actors.push(this.create(spawnActorId(def.id,p.id),'enemy',p.x,p.z+this.random()*(p.jitterZ??0),p.actor));this.cleared=this.enemies.length===0;this.engaged=!def.activation;}
+  create(id:ActorId,kind:Actor['kind'],x:number,z:number,definitionId=kind==='hero'?this.registry.definitions.player:this.registry.definitions.actors.find(a=>a.kind==='enemy')!.id):Actor{const definition=this.registry.actor(definitionId);if(definition.kind!==kind)throw new Error('actor kind mismatch');const y=heightAt(this.areaDefinition,x,z);return{id,definition,kind,x,y,z,px:x,py:y,pz:z,yaw:Math.PI/4,aim:Math.PI/4,state:'idle',age:0,action:0,health:definition.maxHealth,cooldown:0,dodgeCooldown:0,stun:0,hitIds:[],swingStage:0,nextSwing:0,comboExpires:-1,attackBufferedUntil:-1,dashBufferedUntil:-1,dashYaw:0};}
   get hero(){const hero=this.actors.find(a=>a.id===PLAYER_ID);if(!hero)throw new Error('missing player');return hero;}
   get enemies(){return this.actors.filter(a=>a.kind==='enemy');}
   emit(a:Actor,details:EventDetails){const event=Object.freeze({key:`game:${this.generation}:${this.tick}:${a.id}:${a.action}:${this.tickEvents.length}`,tick:this.tick,generation:this.generation,actor:a.id,action:a.action,area:this.area,position:Object.freeze([a.x,a.y,a.z]) as readonly[number,number,number],direction:a.yaw,...details});this.tickEvents.push(event);return event;}
@@ -23,12 +23,12 @@ export class Simulation {
   startSword(a:Actor,stage:number){a.swingStage=stage;a.nextSwing=stage+1;a.attackBufferedUntil=-1;this.start(a,'attack');}
   startDash(a:Actor){a.dashBufferedUntil=-1;a.attackBufferedUntil=-1;a.nextSwing=0;a.comboExpires=-1;this.start(a,'dodge',a.dashYaw);a.dodgeCooldown=tuning.dodge.cooldown;}
   move(a:Actor,x:number,z:number){
-    const bounds=this.areaDefinition.bounds,margin=Math.max(.3,a.definition.radius);a.x=Math.max(bounds.minX+margin,Math.min(bounds.maxX-margin,a.x+x));a.z=Math.max(bounds.minZ+margin,Math.min(bounds.maxZ-margin,a.z+z));
-    for(const p of this.areaDefinition.props){if(p.blocking===false)continue;let dx=a.x-p.x,dz=a.z-p.z,d=Math.hypot(dx,dz),r=p.radius+a.definition.radius;if(d<r){if(d<.0001){dx=1;dz=0;d=1;}a.x=p.x+dx/d*r;a.z=p.z+dz/d*r;}}
+    const position=supportedPosition(this.areaDefinition,{x:a.x+x,z:a.z+z},Math.max(.3,a.definition.radius));a.x=position.x;a.z=position.z;
     a.y=heightAt(this.areaDefinition,a.x,a.z);
   }
   damage(from:Actor,to:Actor,amount:number,generation=this.generation){
     if(!Number.isFinite(amount)||amount<=0||generation!==this.generation||!this.actors.includes(from)||!this.actors.includes(to)||to.health<=0||(to.kind==='hero'&&to.state==='dodge'&&to.age>=tuning.dodge.invulnerableStart&&to.age<tuning.dodge.invulnerableEnd))return;
+    if(to.kind==='enemy')this.engaged=true;
     const actual=Math.min(to.health,amount);to.health-=actual;this.emit(from,{kind:'damage',target:to.id,amount:actual});to.attackBufferedUntil=-1;to.dashBufferedUntil=-1;to.nextSwing=0;to.comboExpires=-1;
     this.start(to,to.health<=0?'death':'hurt',to.yaw);if(!to.health)this.emit(to,{kind:'death'});
   }
@@ -55,11 +55,12 @@ export class Simulation {
         else{h.state=len>.01?'walk':'idle';h.yaw=h.state==='walk'?Math.atan2(mx,mz):h.aim;this.move(h,mx*h.definition.speed/60,mz*h.definition.speed/60);}
       }else if(h.state==='attack'&&h.swingStage<2&&h.age>=spec.linkStart&&h.age<=spec.linkEnd&&h.attackBufferedUntil>=this.tick)this.startSword(h,h.swingStage+1);
     }
+    if(this.areaDefinition.activation&&contains(this.areaDefinition.activation,h))this.engaged=true;
     for(const a of this.actors){
       if(a.health<=0){a.age++;continue;}
-      if(a.kind==='enemy'&&h.health>0&&a.stun===0&&(a.state==='idle'||a.state==='walk')){
+      if(a.kind==='enemy'&&this.engaged&&h.health>0&&a.stun===0&&(a.state==='idle'||a.state==='walk')){
         const dx=h.x-a.x,dz=h.z-a.z,d=Math.hypot(dx,dz);a.aim=Math.atan2(dx,dz);
-        if(d<a.definition.melee.range+.1)this.start(a,'attack');else if(d>.001){a.state='walk';a.yaw=a.aim;this.move(a,dx/d*a.definition.speed/60,dz/d*a.definition.speed/60);}
+        if(d<=a.definition.melee.range)this.start(a,'attack');else if(d>.001){a.state='walk';a.yaw=a.aim;this.move(a,dx/d*a.definition.speed/60,dz/d*a.definition.speed/60);}
       }
       if(a.kind==='enemy'&&a.stun>0&&(a.state==='walk'||a.state==='idle'))a.state='idle';
       if(a.state==='attack'){

@@ -7,4 +7,4 @@ export function resourcePath(url:string,root:string){
   if(!relative||relative.startsWith('..')||path.isAbsolute(relative))throw new Error('resource escapes app root');
   if(!/\.(html|js|css|png|json|ico|glb)$/.test(file))throw new Error('unsupported app resource');return file;
 }
-export function trustedSender(frameURL:string,isMainFrame:boolean,webContentsId:number,expectedId:number){return frameURL==='lantern://app/index.html'&&isMainFrame&&webContentsId===expectedId;}
+export function trustedSender(frameURL:string,isMainFrame:boolean,webContentsId:number,expectedId:number,entry='index.html'){return frameURL===`lantern://app/${entry}`&&isMainFrame&&webContentsId===expectedId;}

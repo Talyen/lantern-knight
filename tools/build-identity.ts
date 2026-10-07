@@ -3,7 +3,11 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import assert from 'node:assert/strict';
-const identityPath = 'dist/build-identity.json';
+import {contract} from '../src/core/camera';
+import {content} from '../src/content/world';
+import {worldVisuals} from '../src/content/world-art';
+const dev=process.argv.includes('--dev'),dist=dev?'dist-dev':'dist',electron=dev?'dist-electron-dev':'dist-electron';
+const identityPath = `${dist}/build-identity.json`;
 // Finder can rewrite this after a build. It is not an application resource.
 const isOSMetadata = (name: string) =>
   path.posix.basename(name) === '.DS_Store';
@@ -26,8 +30,8 @@ async function files(directory: string): Promise<string[]> {
     .sort();
 }
 const names = [
-    ...(await files('dist')),
-    ...(await files('dist-electron')),
+    ...(await files(dist)),
+    ...(await files(electron)),
   ].sort(),
   checksums = Object.fromEntries(
     await Promise.all(
@@ -54,7 +58,7 @@ if (process.argv.includes('--write')) {
   }
   await fs.writeFile(
     identityPath,
-    JSON.stringify({sourceCommit, dirty, files: checksums}, null, 2) + '\n',
+    JSON.stringify({sourceCommit, dirty, files: checksums,rendering:{camera:contract,areas:Object.fromEntries([...content.areas].map(([id,area])=>[id,{surface:area.surface,camera:worldVisuals[id]?.camera}]))}}, null, 2) + '\n',
   );
   console.log(
     `Build identity: ${sourceCommit ?? 'source archive'}${dirty ? ' (working tree)' : ''}`,

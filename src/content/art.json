@@ -1,15 +1,16 @@
 {
-  "designVersion": "0.3.0",
+  "designVersion": "0.4.0",
   "hero": "male Lamplighter",
   "style": "Clean INK",
   "reference": {
     "fileName": "image(3).png",
     "libraryId": "libfile_0da5071239448191b6962495ce1e0164",
     "expectedPath": "references/canon/image(3).png",
-    "originalAvailable": false
+    "originalAvailable": true,
+    "sha256": "74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c"
   },
   "designStatus": "locked_by_owner",
-  "productionStatus": "real_assets_deferred_by_owner",
+  "productionStatus": "imported_art_studies_integrated; production_animation_gate_remains_open",
   "preserve": [
     "original face",
     "rust coat and repair patches",
@@ -19,6 +20,6 @@
     "right forearm wrap",
     "left forearm bracer"
   ],
-  "runtimeContent": "existing diagnostic and historical engineering placeholders only",
-  "sourcePolicy": "one canonical controlled source per character; Clean INK multi-view motion proof before expansion; no image-generated runtime animation frames"
+  "runtimeContent": "canonical-derived Lamplighter with supplied sixteen-frame walk, static skeletons, imported Ink scenery/materials/effects; diagnostic assets retained in lab",
+  "sourcePolicy": "unchanged canonical source; fixed authored views explicitly permitted by owner for this integration; production motion still requires controlled sources and reviewed authored coverage"
 }

@@ -22,10 +22,10 @@
     "typescript": "7.0.2",
     "vite": "8.3.3"
   },
-  "projectVersion": "0.3.0",
+  "projectVersion": "0.4.0",
   "cameraContract": "lantern-camera-v2",
   "assetSchema": 2,
-  "saveFormat": 3,
-  "sourcePolicy": "existing placeholders only; canonical art deferred by owner",
-  "settingsFormat": 2
+  "saveFormat": 5,
+  "sourcePolicy": "full frozen Ink collection imported; runtime studies explicitly provisional; static actor views authorized",
+  "settingsFormat": 5
 }

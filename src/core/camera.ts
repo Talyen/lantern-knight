@@ -20,6 +20,13 @@ export function resizeCamera(camera: OrthographicCamera, width: number, height: 
   camera.left = -half*width/height; camera.right = half*width/height;
   camera.top = half; camera.bottom = -half; camera.updateProjectionMatrix();
 }
+export function drawingBufferSize(width:number,height:number,dpr:number,scale=contract.renderScale){
+  if(!Number.isFinite(width+height+dpr+scale)||width<=0||height<=0||dpr<=0||scale<=0||scale>1)throw new Error('invalid drawing-buffer dimensions');
+  // Fill physical display pixels where possible, with a bounded 1440p budget.
+  // Apply the user's quality reduction after choosing the full-resolution ratio.
+  const pixelRatio=Math.min(dpr,contract.pixelRatioCap,contract.baseline.width/width,contract.baseline.height/height);
+  return {width:Math.max(1,Math.floor(width*pixelRatio*scale)),height:Math.max(1,Math.floor(height*pixelRatio*scale)),pixelRatio};
+}
 export function groundPoint(camera: OrthographicCamera, clientX: number, clientY: number, rect: Pick<DOMRect,'left'|'top'|'width'|'height'>) {
   if(rect.width<=0||rect.height<=0||!Number.isFinite(clientX+clientY))return null;
   const ray = new Raycaster(); ray.setFromCamera(new Vector2((clientX-rect.left)/rect.width*2-1,1-(clientY-rect.top)/rect.height*2),camera);

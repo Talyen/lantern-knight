@@ -1,0 +1,317 @@
+{
+  "version": 2,
+  "canvas": [
+    512,
+    640
+  ],
+  "pivot": [
+    256,
+    572
+  ],
+  "registrationNote": "Central-trunk matched motion only: cyclic five-tap horizontal / three-tap vertical smoothing; added vertical correction bounded to five pixels. Frame 05 stays fixed. Head and feet are excluded from the fitting region. Values reviewed against fixed roots; original artwork unchanged.",
+  "torsoRegion": [
+    216,
+    220,
+    88,
+    124
+  ],
+  "frames": [
+    {
+      "index": 1,
+      "visualOffsetPx": [
+        1,
+        -5
+      ],
+      "suppliedOffsetPx": [
+        0,
+        0
+      ],
+      "sword": [
+        187,
+        407,
+        301,
+        555
+      ]
+    },
+    {
+      "index": 2,
+      "visualOffsetPx": [
+        3,
+        -1
+      ],
+      "suppliedOffsetPx": [
+        0,
+        0
+      ],
+      "sword": [
+        186,
+        402,
+        294,
+        561
+      ],
+      "armCorrection": {
+        "shift": [
+          33,
+          8
+        ],
+        "shoulder": [
+          205,
+          270
+        ],
+        "elbow": [
+          165,
+          313
+        ],
+        "wrist": [
+          142,
+          373
+        ],
+        "sword": [
+          153,
+          394,
+          261,
+          553
+        ],
+        "radius": 32
+      }
+    },
+    {
+      "index": 3,
+      "visualOffsetPx": [
+        3,
+        -5
+      ],
+      "suppliedOffsetPx": [
+        0,
+        0
+      ],
+      "sword": [
+        186,
+        405,
+        295,
+        552
+      ]
+    },
+    {
+      "index": 4,
+      "visualOffsetPx": [
+        4,
+        0
+      ],
+      "suppliedOffsetPx": [
+        0,
+        0
+      ],
+      "sword": [
+        188,
+        386,
+        291,
+        534
+      ]
+    },
+    {
+      "index": 5,
+      "visualOffsetPx": [
+        0,
+        0
+      ],
+      "suppliedOffsetPx": [
+        0,
+        0
+      ],
+      "sword": [
+        205,
+        380,
+        283,
+        550
+      ]
+    },
+    {
+      "index": 6,
+      "visualOffsetPx": [
+        -5,
+        3
+      ],
+      "suppliedOffsetPx": [
+        -8,
+        -1
+      ],
+      "sword": [
+        220,
+        372,
+        317,
+        527
+      ]
+    },
+    {
+      "index": 7,
+      "visualOffsetPx": [
+        7,
+        -5
+      ],
+      "suppliedOffsetPx": [
+        0,
+        0
+      ],
+      "sword": [
+        228,
+        387,
+        361,
+        520
+      ]
+    },
+    {
+      "index": 8,
+      "visualOffsetPx": [
+        -2,
+        2
+      ],
+      "suppliedOffsetPx": [
+        -6,
+        -1
+      ],
+      "sword": [
+        231,
+        386,
+        369,
+        521
+      ]
+    },
+    {
+      "index": 9,
+      "visualOffsetPx": [
+        1,
+        -2
+      ],
+      "suppliedOffsetPx": [
+        0,
+        0
+      ],
+      "sword": [
+        267,
+        395,
+        393,
+        521
+      ]
+    },
+    {
+      "index": 10,
+      "visualOffsetPx": [
+        -9,
+        -4
+      ],
+      "suppliedOffsetPx": [
+        -12,
+        -2
+      ],
+      "sword": [
+        266,
+        403,
+        396,
+        531
+      ]
+    },
+    {
+      "index": 11,
+      "visualOffsetPx": [
+        6,
+        -2
+      ],
+      "suppliedOffsetPx": [
+        0,
+        0
+      ],
+      "sword": [
+        263,
+        397,
+        374,
+        529
+      ]
+    },
+    {
+      "index": 12,
+      "visualOffsetPx": [
+        -6,
+        -7
+      ],
+      "suppliedOffsetPx": [
+        -10,
+        -2
+      ],
+      "sword": [
+        269,
+        401,
+        384,
+        531
+      ]
+    },
+    {
+      "index": 13,
+      "visualOffsetPx": [
+        0,
+        2
+      ],
+      "suppliedOffsetPx": [
+        0,
+        0
+      ],
+      "sword": [
+        195,
+        378,
+        261,
+        535
+      ]
+    },
+    {
+      "index": 14,
+      "visualOffsetPx": [
+        18,
+        7
+      ],
+      "suppliedOffsetPx": [
+        12,
+        2
+      ],
+      "sword": [
+        158,
+        362,
+        228,
+        528
+      ]
+    },
+    {
+      "index": 15,
+      "visualOffsetPx": [
+        -1,
+        -3
+      ],
+      "suppliedOffsetPx": [
+        0,
+        0
+      ],
+      "sword": [
+        169,
+        371,
+        263,
+        529
+      ]
+    },
+    {
+      "index": 16,
+      "visualOffsetPx": [
+        16,
+        4
+      ],
+      "suppliedOffsetPx": [
+        12,
+        2
+      ],
+      "sword": [
+        170,
+        377,
+        279,
+        531
+      ]
+    }
+  ]
+}

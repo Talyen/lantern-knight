@@ -5,36 +5,43 @@ import {
   type Bridge,
   type LoadResult,
 } from '../core/save';
-export const browserBridge: Bridge = {
+export function createBrowserBridge(profile='game'):Bridge {
+const prefix=profile==='game'?'lantern':`lantern-dev-${profile}`;
+return {
   async loadSettings() {
-    return read('settings', parseSettings);
+    return read('settings', parseSettings,prefix);
   },
   async saveSettings(v) {
-    const old = read('settings', parseSettings);
+    const old = read('settings', parseSettings,prefix);
     if (old.status === 'unreadable') throw new Error(old.message);
-    write('settings', parseSettings(v));
+    write('settings', parseSettings(v),prefix);
   },
   async loadGame() {
-    return read('game', parseGame);
+    if(profile==='sandbox')return {status:'empty'};
+    return read('game', parseGame,prefix);
   },
   async saveGame(v) {
-    const old = read('game', parseGame);
+    if(profile==='sandbox')throw new Error('Sandbox checkpoint writes denied');
+    const old = read('game', parseGame,prefix);
     if (old.status === 'unreadable') throw new Error(old.message);
-    write('game', parseGame(v));
+    write('game', parseGame(v),prefix);
   },
 };
-function write(slot: keyof typeof SAVE_LIMITS, value: unknown) {
+}
+export const browserBridge=createBrowserBridge();
+function write(slot: keyof typeof SAVE_LIMITS, value: unknown,prefix='lantern') {
   const text = JSON.stringify(value);
   if (new TextEncoder().encode(text).byteLength > SAVE_LIMITS[slot])
     throw new Error('save payload exceeds limit');
-  localStorage.setItem(`lantern-${slot}`, text);
+  localStorage.setItem(`${prefix}-${slot}`, text);
 }
 function read<T>(
   slot: keyof typeof SAVE_LIMITS,
   parse: (v: unknown) => T,
+  prefix='lantern',
 ): LoadResult<T> {
   try {
-    const value = localStorage.getItem(`lantern-${slot}`);
+    const value = localStorage.getItem(`${prefix}-${slot}`);
     if (value === null) return {status: 'empty'};
     if (new TextEncoder().encode(value).byteLength > SAVE_LIMITS[slot])
       throw new Error('oversized');

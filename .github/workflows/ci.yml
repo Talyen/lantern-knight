@@ -24,9 +24,21 @@ jobs:
           cache: npm
       - run: npm install --global npm@${{ env.NPM_VERSION }}
       - run: npm ci
+      - name: Configure external asset cache
+        shell: bash
+        run: echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
+      - run: npm run repo:check
       - run: npm test
       - run: npm run assets:check
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: failure()
+        with:
+          name: asset-check-failures-${{ github.sha }}
+          path: ${{ runner.temp }}/LanternKnight/entries/diagnostics-*
+          retention-days: 3
+          if-no-files-found: ignore
       - run: npm run build
+      - run: npm run build:dev
       - run: git diff --exit-code
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -34,7 +46,9 @@ jobs:
           path: |
             dist/
             dist-electron/
-          retention-days: 7
+            dist-dev/
+            dist-electron-dev/
+          retention-days: 3
   desktop:
     needs: checks
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
@@ -56,18 +70,30 @@ jobs:
           cache: npm
       - run: npm install --global npm@${{ env.NPM_VERSION }}
       - run: npm ci
+      - name: Configure external asset cache
+        shell: bash
+        run: echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: build-${{ github.sha }}
           path: .
       - run: npm run build:verify
+      - run: npm run build:dev:verify
       - run: npm run package:${{ matrix.platform }}:prebuilt
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
-      - run: npm run smoke -- --output tmp/desktop-smoke
+      - run: npm run package:dev:${{ matrix.platform }}:prebuilt
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - run: npm run smoke:game --
+      - run: npm run smoke:sandbox -- --ci
+      - run: npm run smoke:crypt -- --quick
+      - run: npm run smoke:visual-options --
+      - run: npm run smoke:visual-scenes --
+      - run: npm run smoke:effects --
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        if: always()
+        if: failure()
         with:
           name: desktop-${{ matrix.platform }}-${{ github.sha }}
-          path: tmp/desktop-smoke/
-          retention-days: 7
+          path: ${{ runner.temp }}/LanternKnight/entries/diagnostics-*
+          retention-days: 3

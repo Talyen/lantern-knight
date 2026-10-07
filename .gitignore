@@ -11,3 +11,18 @@ evidence/smoke-user/
 evidence/benchmark-user/
 
 tmp/
+
+dist-dev/
+dist-electron-dev/
+release-dev/
+
+staging/
+public/generated/
+public/lighting/
+public/visual-effects/
+public/dev-effects/
+public/dev-lighting/
+evidence/
+references/art/
+__pycache__/
+*.pyc

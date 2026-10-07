@@ -1,4 +1,5 @@
-import {Texture, SRGBColorSpace, LinearFilter} from 'three';
+import {parseRegistration,type PreparedRegistration} from './registration';
+import {Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter} from 'three';
 import {parseManifest, type Manifest} from './schema';
 type Entry<T> = {
   refs: number;
@@ -90,11 +91,12 @@ export type PackLease = {
   textures: Map<string, Texture>;
   release: () => void;
 };
-type PageRequest = {url: string; hash: string; width: number; height: number};
+type PageRequest = {url: string; hash: string; width: number; height: number; mipmaps?: boolean};
 export const pageIdentity = (
-  p: Pick<Manifest['pages'][number], 'hash' | 'width' | 'height'>,
-) => `${p.hash}:${p.width}x${p.height}:srgb-straight-linear-no-mips`;
+  p: Pick<Manifest['pages'][number], 'hash' | 'width' | 'height'> & {mipmaps?:boolean},
+) => `${p.hash}:${p.width}x${p.height}:srgb-straight-${p.mipmaps?'terrain-mips':'linear-no-mips'}`;
 export class AssetRuntime {
+  registration!:PreparedRegistration;
   readonly manifests = new Map<string, Promise<Manifest>>();
   private pages = new Map<string, PageRequest>();
   readonly pool: ResourcePool<Texture>;
@@ -140,8 +142,8 @@ export class AssetRuntime {
         }
         const texture = new Texture(bitmap);
         texture.colorSpace = SRGBColorSpace;
-        texture.generateMipmaps = false;
-        texture.minFilter = LinearFilter;
+        texture.generateMipmaps = p.mipmaps===true;
+        texture.minFilter = p.mipmaps?LinearMipmapLinearFilter:LinearFilter;
         texture.magFilter = LinearFilter;
         texture.flipY = false;
         texture.premultiplyAlpha = false;
@@ -176,6 +178,7 @@ export class AssetRuntime {
                 hash: page.hash,
                 width: page.width,
                 height: page.height,
+                mipmaps: page.mipmaps,
               });
           }
           return manifest;
@@ -213,6 +216,6 @@ export class AssetRuntime {
     const response = await fetch('/build-mode.json');
     if (!response.ok) throw new Error('missing build-mode policy');
     const flags = await response.json();
-    return new AssetRuntime(catalog, flags.allowDevelopmentContent !== true);
+    const runtime=new AssetRuntime(catalog,flags.allowDevelopmentContent!==true);const registration=await fetch('/registration.json');if(!registration.ok)throw new Error('Prepared registration unavailable');const bytes=await registration.arrayBuffer(),digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))).map(v=>v.toString(16).padStart(2,'0')).join('');if(digest!==flags.registrationHash)throw new Error('Prepared registration hash differs');runtime.registration=parseRegistration(JSON.parse(new TextDecoder().decode(bytes)));return runtime;
   }
 }

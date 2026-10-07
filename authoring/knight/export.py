@@ -6,6 +6,8 @@ import bpy, math, json, os
 from mathutils import Vector
 
 ROOT=os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+WORKSPACE=os.environ.get('LANTERN_ASSET_WORKSPACE')
+if not WORKSPACE:raise RuntimeError('Proxy export requires an external authoring workspace')
 C=json.load(open(os.path.join(ROOT,'src/content/camera.json')))
 bpy.ops.object.select_all(action='SELECT'); bpy.ops.object.delete(use_global=False)
 scene=bpy.context.scene
@@ -99,14 +101,14 @@ target=up*((C['anchor'][1]-C['canvas'][1]/2)/C['sourceDensity'])
 bpy.ops.object.camera_add(location=target+out*10);camera=bpy.context.object;camera.name='CANONICAL_camera_v1';camera.rotation_euler=(target-camera.location).to_track_quat('-Z','Y').to_euler();camera.data.type='ORTHO';camera.data.ortho_scale=C['canvas'][1]/C['sourceDensity'];scene.camera=camera
 for name,loc,energy,size in [('key',(3,-4,6),450,5),('fill',(-3,-1,4),220,4)]:
     bpy.ops.object.light_add(type='AREA',location=loc);o=bpy.context.object;o.name=name;o.data.energy=energy;o.data.shape='DISK';o.data.size=size;o.rotation_euler=(-o.location).to_track_quat('-Z','Y').to_euler()
-outdir=os.path.join(ROOT,'staging/proxy');os.makedirs(outdir,exist_ok=True)
+outdir=os.path.join(WORKSPACE,'staging/proxy');os.makedirs(outdir,exist_ok=True)
 frames=[];clips={};rig.rotation_euler.z=math.pi/4
 samples={'walk':([i*.1 for i in range(8)],[100]*8,True),'attack_sword_01':([0,.1,.167,.2,.25,.35,.45,.55],[100,67,33,50,100,100,100,50],False)}
 for clip,(times,durations,loop) in samples.items():
     ids=[]
     for i,t in enumerate(times):
         scene.frame_set((1 if clip=='walk' else 100)+round(t*60));pose(clip,t)
-        fid='proxy-'+clip+'-d45-'+str(i);ids.append(fid);filename='proxy/'+fid+'.png';scene.render.filepath=os.path.join(ROOT,'staging',filename);bpy.ops.render.render(write_still=True)
+        fid='proxy-'+clip+'-d45-'+str(i);ids.append(fid);filename='proxy/'+fid+'.png';scene.render.filepath=os.path.join(WORKSPACE,'staging',filename);bpy.ops.render.render(write_still=True)
         p=rig.matrix_world @ lantern_pivot.location
         offset=p-target;socket=[C['canvas'][0]/2+offset.dot(right)*C['sourceDensity'],C['canvas'][1]/2-offset.dot(up)*C['sourceDensity']]
         frames.append({'id':fid,'path':filename,'origin':'blender-proxy','attachments':{'lantern':socket}})
@@ -114,10 +116,10 @@ for clip,(times,durations,loop) in samples.items():
 # Eight stills are a proxy turnaround for review, not eight-direction animation production.
 scene.frame_set(1);pose('walk',0)
 for i in range(8):
-    rig.rotation_euler.z=i*math.pi/4;scene.render.filepath=os.path.join(ROOT,'authoring/knight','turnaround_d%02d.png'%(i*45));bpy.ops.render.render(write_still=True)
+    rig.rotation_euler.z=i*math.pi/4;scene.render.filepath=os.path.join(WORKSPACE,'authoring/knight','turnaround_d%02d.png'%(i*45));bpy.ops.render.render(write_still=True)
 rig.rotation_euler.z=math.pi/4
 scene.frame_start=1;scene.frame_end=148
-bpy.ops.wm.save_as_mainfile(filepath=os.path.join(ROOT,'authoring/knight/rig.blend'))
-bpy.ops.export_scene.gltf(filepath=os.path.join(ROOT,'public/calibration-proxy.glb'),export_format='GLB',export_animations=False)
+bpy.ops.wm.save_as_mainfile(filepath=os.path.join(WORKSPACE,'authoring/knight/rig.blend'))
+bpy.ops.export_scene.gltf(filepath=os.path.join(WORKSPACE,'public/calibration-proxy.glb'),export_format='GLB',export_animations=False)
 json.dump({'contractId':C['id'],'bakeVersion':C['bakeVersion'],'recipe':'blender-proxy-v2-constant-limbs','tool':'Blender '+bpy.app.version_string,'axisMap':'game(X,Y,Z)=blender(X,Z,-Y)','status':'proxy','speedWorldUnitsPerSecond':1.8,'limbLengths':{'thigh':.40,'shin':.42,'upperArm':.27,'forearm':.27},'frames':frames,'clips':clips},open(os.path.join(outdir,'export.json'),'w'),indent=2)
 print('LANTERN_EXPORT_OK: editable rig, 16 d45 frames and 8 turnaround stills')

@@ -1,8 +1,0 @@
-LANTERN FOUNDATION HANDOFF
-
-Give your agent Lantern_Foundation_Agent_Prompt.txt in full. It is self-contained.
-The art plan and JSON files are optional supporting inputs; ask the agent to reconcile them into one versioned contract rather than invent a second format.
-Fixed camera, male hero, WASD/mouse aim, sword/lantern, Shift dodge and a lantern ability are confirmed. Exact camera, scale and character design remain pending visual approval.
-The prompt covers the test room, an actual controlled walk/attack production pipeline, eight-direction expansion and a small playable encounter.
-The JSON manifests contain illustrative metadata, not real sprite assets. The schema is a starter contract, not an implemented runtime or importer.
-Do not mass-produce final art before camera/design approval. Reversible runtime and diagnostic proxy work can proceed meanwhile.

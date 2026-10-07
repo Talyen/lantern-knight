@@ -1,0 +1,7 @@
+# Keep code and authoring recipes portable across checkout platforms.
+* text=auto eol=lf
+# Artwork, generated receipts and evidence are verified against exact byte hashes.
+references/** -text
+staging/** -text
+public/** -text
+evidence/** -text
