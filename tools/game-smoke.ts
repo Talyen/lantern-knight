@@ -26,7 +26,7 @@ try{
   let startingArea:string|undefined;
   for(let i=0;i<24;i++){save=await observe();if(startingArea&&save.area!==startingArea)return;startingArea??=save.area;const dx=x-save.player.x,dz=z-save.player.z,d=Math.hypot(dx,dz);if(d<.25)return;
    const sx=(dx-dz)/Math.sqrt(2),sy=(-dx-dz)/Math.sqrt(2),keys:string[]=[];if(Math.abs(sx)>.15*d)keys.push(sx>0?'KeyD':'KeyA');if(Math.abs(sy)>.15*d)keys.push(sy>0?'KeyW':'KeyS');
-   await resume();for(const key of keys)await page.keyboard.down(key);await page.evaluate(ms=>new Promise<void>(resolve=>{const start=performance.now();let frames=0;const step=(now:number)=>{if(++frames>=2&&now-start>=ms)resolve();else requestAnimationFrame(step);};requestAnimationFrame(step);}),Math.min(650,d/1.8*1000));for(const key of keys)await page.keyboard.up(key);
+   await resume();for(const key of keys)await page.keyboard.down(key);await page.waitForTimeout(Math.min(650,d/1.8*1000));await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));for(const key of keys)await page.keyboard.up(key);
    if(await page.locator('#room-title').textContent()!=='Graveyard Approach'&&save.area==='court')return;
   }
   throw new Error(`unable to reach (${x},${z}) using player controls`);
