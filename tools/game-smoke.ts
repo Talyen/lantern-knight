@@ -12,18 +12,21 @@ const archive=process.platform==='darwin'?path.resolve(path.dirname(run.executab
 const identity=JSON.parse(extractFile(archive,'dist/build-identity.json').toString());
 try{
  await page.waitForFunction(()=>document.querySelector('canvas')?.getAttribute('data-ready')==='true',{},{timeout:45000});
- await app.evaluate(({BrowserWindow})=>{BrowserWindow.getAllWindows()[0]!.setContentSize(1920,1080);});
+ await app.evaluate(({BrowserWindow})=>{BrowserWindow.getAllWindows()[0]!.setContentSize(1280,800);});
  assert.equal(await page.evaluate(()=>('foundation' in window)),false);assert.equal(await page.locator('#lab').count(),0);assert.equal(await page.locator('#game-walk-blend').count(),0);assert.equal(await page.locator('[data-mode]').count(),0);assert.equal(await page.evaluate(()=>typeof window.lantern?.launchMode),'undefined');checks.push('player package has no inspection API, labs, mode controls or development launch bridge');
  const capture=async(name:string)=>{if(run.capture)await page.screenshot({path:path.join(output,`${name}.png`)});};
  const resume=async()=>{if(await page.locator('#modal').isVisible())await page.getByRole('button',{name:'Resume',exact:true}).click();await page.locator('canvas').focus();};
  const observe=async()=>{if(!await page.locator('#modal').isVisible())await page.getByRole('button',{name:'Pause / save'}).click();await page.getByRole('button',{name:'Save checkpoint',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#status')?.textContent==='Checkpoint saved');return JSON.parse(await fs.readFile(path.join(run.profile,'saves/game.json'),'utf8')) as GameSave;};
+ // Interaction checks use the player's existing quality setting on software-rendered CI.
+ if(!await page.locator('#modal').isVisible())await page.getByRole('button',{name:'Pause / save'}).click();
+ await page.locator('#render-scale').selectOption('0.5');
  let save=await observe();assert.equal(save.area,'court');assert.equal(Object.keys(save.areas.court!.actors).length,1);assert.equal(save.areas.court!.engaged,false);
  await resume();await capture('approach-opening');await page.waitForTimeout(1700);save=await observe();assert.equal(save.player.health,100);assert.equal(save.areas.court!.engaged,false);checks.push('opening grants a quiet approach with one dormant skeleton');
  const moveTo=async(x:number,z:number)=>{
   let startingArea:string|undefined;
   for(let i=0;i<24;i++){save=await observe();if(startingArea&&save.area!==startingArea)return;startingArea??=save.area;const dx=x-save.player.x,dz=z-save.player.z,d=Math.hypot(dx,dz);if(d<.25)return;
    const sx=(dx-dz)/Math.sqrt(2),sy=(-dx-dz)/Math.sqrt(2),keys:string[]=[];if(Math.abs(sx)>.15*d)keys.push(sx>0?'KeyD':'KeyA');if(Math.abs(sy)>.15*d)keys.push(sy>0?'KeyW':'KeyS');
-   await resume();for(const key of keys)await page.keyboard.down(key);await page.waitForTimeout(Math.min(650,d/1.8*1000));for(const key of keys)await page.keyboard.up(key);
+   await resume();for(const key of keys)await page.keyboard.down(key);await page.evaluate(ms=>new Promise<void>(resolve=>{const start=performance.now();let frames=0;const step=(now:number)=>{if(++frames>=2&&now-start>=ms)resolve();else requestAnimationFrame(step);};requestAnimationFrame(step);}),Math.min(650,d/1.8*1000));for(const key of keys)await page.keyboard.up(key);
    if(await page.locator('#room-title').textContent()!=='Graveyard Approach'&&save.area==='court')return;
   }
   throw new Error(`unable to reach (${x},${z}) using player controls`);
