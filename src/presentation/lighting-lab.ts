@@ -8,7 +8,7 @@ import {SurfaceRelief} from './surface-relief';
 import {FoliageWind} from './foliage-wind';
 import {ActorSprite} from './sprite';
 import {attachRevealMask} from './scenery-reveal';
-import {WalkBlendShader} from './walk-blend-shader';
+import {AnimationBlendShader} from './animation-blend-shader';
 import {worldVisuals} from '../content/world-art';
 import {sceneryRegistration} from '../content/scenery-registration';
 import {heightAt,type ActorId} from '../content/world';
@@ -35,8 +35,8 @@ void mainImage(const in vec4 inputColor,const in vec2 uv,out vec4 outputColor){
  float value=dot(color,vec3(.2126,.7152,.0722));color=mix(vec3(value),color,lookSaturation);
  color=max(vec3(0.0),(color-vec3(.05))*lookContrast+vec3(.05));outputColor=vec4(color,inputColor.a);
 }`;
-type Caster={mesh:T.Mesh<T.BufferGeometry,T.MeshBasicMaterial>;depth:T.MeshDepthMaterial;blend?:WalkBlendShader};
-type DepthEntry={material:T.MeshBasicMaterial;blend?:WalkBlendShader};
+type Caster={mesh:T.Mesh<T.BufferGeometry,T.MeshBasicMaterial>;depth:T.MeshDepthMaterial;blend?:AnimationBlendShader};
+type DepthEntry={material:T.MeshBasicMaterial;blend?:AnimationBlendShader};
 class ColorAntialiasing extends SMAAEffect {
  constructor(){super({preset:SMAAPreset.HIGH,edgeDetectionMode:EdgeDetectionMode.COLOR,predicationMode:PredicationMode.DISABLED});
   // Color edges without depth predication need no composer depth copy.
@@ -112,14 +112,14 @@ export class LightingLab {
  }
  private caster(id:ActorId,sprite:ActorSprite){let entry=this.actorCasters.get(id);if(!entry){const material=new T.MeshBasicMaterial({colorWrite:false,depthWrite:false,alphaTest:.35,side:T.DoubleSide}),depth=new T.MeshDepthMaterial({depthPacking:T.RGBADepthPacking,alphaTest:.35,side:T.DoubleSide});const mesh=new T.Mesh(sprite.geometry,material);mesh.customDepthMaterial=depth;this.shadowOnly(mesh);mesh.userData.actor=id;entry={mesh,depth};this.actorCasters.set(id,entry);this.proxies.add(mesh);}
   entry.mesh.position.copy(sprite.mesh.position);entry.mesh.quaternion.copy(sprite.mesh.quaternion);entry.mesh.scale.copy(sprite.mesh.scale);entry.mesh.visible=sprite.mesh.visible;if(!entry.mesh.material.map){entry.mesh.material.needsUpdate=true;entry.depth.needsUpdate=true;}entry.mesh.material.map=sprite.material.map;entry.depth.map=sprite.material.map;
-  const s=sprite.lightingSample;if(s?.blend&&s.next){entry.blend??=new WalkBlendShader([entry.depth as unknown as T.MeshBasicMaterial]);entry.blend.update(s.blend,sprite.manifest,s.frame,s.next,sprite.textures,s.flow,sprite.stabilized,sprite.rigidSword);}else if(entry.blend)entry.blend.uniforms.walkEnabled.value=0;
+  const s=sprite.lightingSample;if(s?.blend&&s.next){entry.blend??=new AnimationBlendShader([entry.depth as unknown as T.MeshBasicMaterial]);entry.blend.update(s.blend,sprite.manifest,s.frame,s.next,sprite.textures,s.flow,sprite.stabilized,sprite.rigidSword);}else if(entry.blend)entry.blend.uniforms.walkEnabled.value=0;
  }
  private depthMaterial(source:T.Material,sprite?:ActorSprite){let entry=this.depths.get(source);
     if(!entry){const material=new T.MeshBasicMaterial({alphaTest:sprite?1/255:source instanceof T.MeshBasicMaterial?Math.max(source.map&&source.transparent?1/255:0,source.alphaTest):0,depthWrite:true,depthTest:true,side:source.side,toneMapped:false});const protect=sprite?.manifest.asset.type==='character'||(sprite?.manifest.asset.type==='effect'&&!sprite.mesh.userData.decorative)?1:0;
      material.onBeforeCompile=shader=>{Object.assign(shader.uniforms,{focusNear:this.uniforms.lookNear,focusFar:this.uniforms.lookFar});shader.vertexShader='varying float focusDepth;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nfocusDepth=-mvPosition.z;');shader.fragmentShader='varying float focusDepth; uniform float focusNear,focusFar;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <opaque_fragment>',`outgoingLight=vec3(clamp((focusDepth-focusNear)/(focusFar-focusNear),0.,1.),${protect.toFixed(1)},0.0);\n#include <opaque_fragment>`);};material.customProgramCacheKey=()=>`focus-mask-${protect}`;attachRevealMask(material,source);entry={material};this.depths.set(source,entry);
     }
     const wind=source.userData.foliageWind as FoliageWind|undefined;if(wind)wind.attach(entry.material);entry.material.depthTest=source.depthTest;entry.material.map=source instanceof T.MeshBasicMaterial?source.map:null;entry.material.opacity=source.opacity;
-    const s=sprite?.lightingSample;if(s?.blend&&s.next){entry.blend??=new WalkBlendShader([entry.material]);entry.blend.update(s.blend,sprite!.manifest,s.frame,s.next,sprite!.textures,s.flow,sprite!.stabilized,sprite!.rigidSword);}else if(entry.blend)entry.blend.uniforms.walkEnabled.value=0;
+    const s=sprite?.lightingSample;if(s?.blend&&s.next){entry.blend??=new AnimationBlendShader([entry.material]);entry.blend.update(s.blend,sprite!.manifest,s.frame,s.next,sprite!.textures,s.flow,sprite!.stabilized,sprite!.rigidSword);}else if(entry.blend)entry.blend.uniforms.walkEnabled.value=0;
   return entry.material;
  }
  private depthMask(sprites:ActorSprite[]){const p=this.presentation,renderer=p.renderer,restore:{mesh:T.Mesh;material:T.Material|T.Material[]}[]=[],byMaterial=new Map<T.Material,ActorSprite>(),edges=new Set(sprites.flatMap(s=>s.edgeMesh?[s.edgeMesh]:[]));

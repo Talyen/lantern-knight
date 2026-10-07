@@ -3,7 +3,7 @@
   "version": "0.4.0",
   "private": true,
   "type": "module",
-  "description": "The Forgotten Churchyard opening location",
+  "description": "The connected Graveyard Approach and Ruined Chapel opening",
   "author": "Lantern Knight",
   "main": "dist-electron/main.cjs",
   "engines": {
@@ -25,7 +25,7 @@
     "package:mac:prebuilt": "electron-builder --mac --arm64 --dir",
     "package:win:prebuilt": "electron-builder --win --x64 --dir",
     "assets:prepare": "tsx tools/assets.ts prepare",
-    "smoke:walk-blend": "tsx tools/assets.ts run tools/walk-blend-smoke.ts",
+    "smoke:animation": "tsx tools/assets.ts run tools/animation-smoke.ts",
     "smoke:art": "tsx tools/assets.ts run tools/ink-art-smoke.ts",
     "dev:sandbox": "tsx tools/assets.ts run dev --mode sandbox --host 127.0.0.1 --open /sandbox.html",
     "desktop:dev": "npm run build:dev && electron dist-electron-dev/main.cjs",

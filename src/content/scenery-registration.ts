@@ -37,8 +37,3 @@ const dx=(1210-346)*ratio,dy=(985-656)*ratio;
 export const fenceStep={x:(dx-dy/Math.sin(e))/Math.sqrt(2),z:(-dx-dy/Math.sin(e))/Math.sqrt(2)};
 
 // New native cutouts remain untouched. Endpoints register the painted ground line.
-export const restRegistration = [
- {id:'wall-x',file:'wall-x-v1.png',height:2.7,measurePx:600,pivot:[230,620] as [number,number],sockets:[[230,620],[1235,1000]] as [number,number][]},
- {id:'wall-z',file:'wall-z-v1.png',height:2.7,measurePx:700,pivot:[160,1000] as [number,number],sockets:[[160,1000],[1460,700]] as [number,number][]},
- {id:'chapel',file:'chapel-v1.png',height:5.4,measurePx:1180,pivot:[280,1225] as [number,number]},
-] as const;

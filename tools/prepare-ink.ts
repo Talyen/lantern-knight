@@ -1,15 +1,13 @@
 import {readAsset,writeAsset,mkdirAsset} from './assets/io';
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
-import {correctWalkArm,type ArmCorrection} from './walk-arm-correction';
+import {source} from './assets/definition';
 import {compile,hash,exactSource} from './compiler';
 import type {Source} from '../src/assets/schema';
-import {sceneryRegistration,restRegistration} from '../src/content/scenery-registration';
+import {sceneryRegistration} from '../src/content/scenery-registration';
 import {contract,HEADINGS} from '../src/core/camera';
 const collection='references/art/ink-collection-01';
 const staging='staging/ink';
-const canonicalHash='74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c';
 const check=process.argv.includes('--check');
 const sourceMetadata:Record<string,unknown>[]=[];
 async function read(relative:string){return exactSource(relative,collection);}
@@ -18,12 +16,10 @@ async function write(file:string,data:Buffer|string){
   if(check){if(Buffer.compare(Buffer.from(data),await readAsset(file)))throw new Error(`stale prepared input: ${file}`);}
   else{await mkdirAsset(path.dirname(file),{recursive:true});await writeAsset(file,data);}
 }
-function source(id:string,type:Source['asset']['type'],canvas:[number,number],anchor:[number,number],density:number,viewMode:NonNullable<Source['asset']['viewMode']>='fixed-authored'):Source{
- return {schemaVersion:2,asset:{id,type,schemaVersion:2,contentVersion:'ink-01',bundle:id==='ink-hero'?'hero':'room',status:'proxy',viewMode,projection:type==='effect'?'projected-world':type==='material'?'top-down':'painted-cutout',allowEmptyFrames:type==='effect',atlasSize:type==='material'?512:type==='character'?1024:2048,limitations:['Imported reviewed study; painted camera and world registration remain provisional.','Source artwork unchanged; runtime derivatives use recorded uniform resampling and padding.'],provenance:{creator:'Lantern Ink collection authors',license:'Owner-supplied project artwork; original provenance and license declarations preserved in collection manifests.',source:collection},contractId:contract.id,bakeVersion:contract.bakeVersion,canvas,density,anchor,padding:4,colorSpace:'srgb',alpha:'straight',recipe:'prepare-ink-v4 / sharp-0.35.5',designReference:id.startsWith('ink-hero')?'libfile_0da5071239448191b6962495ce1e0164':'collection-study',renderStyle:'clean-ink',...(id.startsWith('ink-hero')?{canonicalReferenceHash:canonicalHash}:{}),renderCategory:type==='material'?'opaque':type==='effect'?'translucent':'cutout',shadow:{radius:.34,opacity:.32},collisionFootprint:type==='character'?'actor-definition':'none',occlusion:type==='material'?'ground-plane-v1':type==='effect'?'camera-card-v1':'vertical-plane-preserved-projection-v1',fallbacks:{},dependencies:[],requiredClips:[],clips:{}},frames:[]};
-}
-async function image(pack:Source,id:string,relative:string,options:{width?:number;height?:number;anchor?:[number,number];canvas?:[number,number];vectorScale?:number;sourceRoot?:string;armCorrection?:ArmCorrection}={}){
+
+async function image(pack:Source,id:string,relative:string,options:{width?:number;height?:number;anchor?:[number,number];canvas?:[number,number];vectorScale?:number;sourceRoot?:string}={}){
  const native=await exactSource(relative,options.sourceRoot??collection),m=await sharp(native).metadata();
- let rendered=options.armCorrection?await correctWalkArm(native,options.armCorrection):native,scale=1,offset:[number,number]=[0,0];
+ let rendered=native,scale=1,offset:[number,number]=[0,0];
  if(options.vectorScale){rendered=await sharp(native,{density:72*options.vectorScale}).ensureAlpha().png().toBuffer();scale=options.vectorScale;}
  if(options.width||options.height){rendered=await sharp(native).resize({width:options.width,height:options.height,fit:'inside'}).ensureAlpha().png().toBuffer();const r=await sharp(rendered).metadata();scale=r.width!/m.width!;}
  if(options.canvas&&options.anchor){const r=await sharp(rendered).metadata();offset=[Math.round(pack.asset.anchor[0]-options.anchor[0]*scale),Math.round(pack.asset.anchor[1]-options.anchor[1]*scale)];
@@ -37,43 +33,9 @@ async function image(pack:Source,id:string,relative:string,options:{width?:numbe
 }
 function still(pack:Source,id:string){pack.asset.clips[id]={d45:{frames:[id],durationsMs:[1000],loop:true,notifies:[]}};}
 const packs:Source[]=[];
-// Native sixteen-drawing sequence; offsets affect presentation only.
-const walkRoot='references/art/rust_16_frame_drawing_walk_prototype';
-const walkReceipt=JSON.parse((await exactSource('import-receipt.json',walkRoot)).toString()) as {files:Record<string,string>};
-for(const [file,expected] of Object.entries(walkReceipt.files))if(hash(await exactSource(file,walkRoot))!==expected)throw new Error(`walk source hash differs: ${file}`);
-const walk=JSON.parse((await exactSource('timing_and_registration.json',walkRoot)).toString()) as {
- canvas_px:[number,number];root_pivot_px_top_left:[number,number];presentation_fps:number;
- holds_60hz:number[];known_issues:string[];frames:{index:number;file:string}[];
-};
-const offsets=JSON.parse((await exactSource('Lantern_Walk_16_Optional_Offsets.json',walkRoot)).toString()) as {
- frames:{frame_index_1based:number;file:string;offset_x_px:number;offset_y_px:number}[];
-};
-const tuning=JSON.parse(await readAsset('authoring/walk-tuning.json','utf8')) as {frames:{index:number;visualOffsetPx:[number,number];armCorrection?:ArmCorrection}[]};
-if(walk.frames.length!==16||offsets.frames.length!==16)throw new Error('sixteen registered walk drawings and offsets required');
-const hero=source('ink-hero','character',walk.canvas_px,walk.root_pivot_px_top_left,(572-82)/(1.8*Math.cos(contract.elevationDeg*Math.PI/180)));
-hero.asset.contentVersion='rust-walk-density16-03';hero.asset.provenance.source=walkRoot;
-hero.asset.limitations=['One approximate authored walk; no idle or action animation. Rest holds original passing drawing 03 (sequence frame 05).','Visual stabilization is reversible; source pose/prop differences and foot sliding remain approximate.',...walk.known_issues];
-const walkIds=[];
-for(const f of walk.frames){
- const offset=offsets.frames.find(o=>o.frame_index_1based===f.index);
- if(!offset||offset.file!==path.basename(f.file))throw new Error(`walk offset mapping differs: ${f.file}`);
- const tuned=tuning.frames.find(t=>t.index===f.index);
- walkIds.push(await image(hero,`walk-${String(f.index).padStart(2,'0')}`,f.file,{sourceRoot:walkRoot,armCorrection:tuned?.armCorrection}));if(!tuned)throw new Error(`walk tuning missing frame: ${f.index}`);
- hero.frames.at(-1)!.visualOffsetPx=tuned.visualOffsetPx;
- Object.assign(sourceMetadata.at(-1)!,{visualOffsetPx:hero.frames.at(-1)!.visualOffsetPx,visualOffsetSource:'authoring/walk-tuning.json',suppliedVisualOffsetPx:[offset.offset_x_px,offset.offset_y_px],...(tuned.armCorrection?{armCorrection:tuned.armCorrection}:{} )});
-}
-hero.asset.clips.walk={d45:{frames:walkIds,durationsMs:walk.holds_60hz.map(t=>1000*t/walk.presentation_fps),loop:true,notifies:[]}};
-hero.asset.clips.rest={d45:{frames:['walk-05'],durationsMs:[1000],loop:true,notifies:[]}};packs.push(hero);
-const enemy=source('ink-revenant','character',[612,564],[687*612/1374,1169*564/1267],(1156-83)*564/1267/(1.8*Math.cos(contract.elevationDeg*Math.PI/180)));
-await image(enemy,'rest','import_padded/02_enemies/04_iron_revenant.png',{width:612,height:564,anchor:[687,1169]});still(enemy,'rest');packs.push(enemy);
 const skeleton=source('ink-skeleton','character',[1024,1536],[480,1260],(1260-280)/(1.7*Math.cos(contract.elevationDeg*Math.PI/180)));
 skeleton.asset.atlasSize=2048;
 await image(skeleton,'rest','packs/02_enemies/assets/02_skeleton_halberdier.png');still(skeleton,'rest');packs.push(skeleton);
-const idle=source('ink-hero-idle-study','character',[249,640],[272*249/466,1084*640/1198],(1084-35)*640/1198/(1.8*Math.cos(contract.elevationDeg*Math.PI/180)));idle.asset.atlasSize=2048;
-const study=await json('Lantern_Hero_KnownView_Idle_Study_v01/layered2d/study_manifest_native.json');
-const idleIds=[];
-for(const f of study.frames)idleIds.push(await image(idle,`idle-${f.index}`,`Lantern_Hero_KnownView_Idle_Study_v01/layered2d/${f.file}`,{width:249,height:640,anchor:[272,1084]}));
-idle.asset.clips.idle={d45:{frames:idleIds,durationsMs:study.frames.map((f:{duration_ticks:number;timebase_hz:number})=>1000*f.duration_ticks/f.timebase_hz),loop:true,notifies:[]}};packs.push(idle);
 // One shared prop canvas/density; anchors shift with each uniformly resized image.
 const props=source('ink-scenery','prop',[3072,3072],[1536,2750],356);props.asset.atlasSize=4096;
 const layout=await json('Lantern_Crypt_Entry_CleanInk_v02/scene_layout.json');
@@ -87,21 +49,14 @@ for(const registration of sceneryRegistration){const {id,file,height,measurePx}=
 const restRoot='references/art/lanternkeepers-rest-v1';
 const restReceipt=JSON.parse(await readAsset(`${restRoot}/provenance.json`,'utf8')) as {files:{file:string;sha256:string}[]};
 for(const f of restReceipt.files)if(hash(await exactSource(f.file,restRoot))!==f.sha256)throw new Error(`native Rest source changed: ${f.file}`);
-const rest=source('ink-rest','prop',[3072,3072],[1200,2500],356);rest.asset.atlasSize=4096;rest.asset.contentVersion='rest-v1';rest.asset.provenance.source=restRoot;rest.asset.provenance.creator='Built-in image_gen; original Lantern ink prompts and artwork used as style references';
-for(const r of restRegistration){const m=await sharp(await exactSource(r.file,restRoot)).metadata(),scale=r.height*Math.cos(contract.elevationDeg*Math.PI/180)*rest.asset.density/r.measurePx;
- await image(rest,r.id,r.file,{sourceRoot:restRoot,height:Math.round(m.height!*scale),anchor:r.pivot,canvas:rest.asset.canvas});still(rest,r.id);Object.assign(sourceMetadata.at(-1)!,{physicalHeightMetres:r.height,measurementPixels:r.measurePx,...('sockets' in r?{sourceConnectionSockets:r.sockets}:{})});
-}packs.push(rest);
 const soilNative=await sharp(await exactSource('grave-soil-v1.png',restRoot)).metadata();
 const soil=source('ink-soil','prop',[soilNative.width!,soilNative.height!],[soilNative.width!/2,soilNative.height!/2],700);soil.asset.projection='top-down';soil.asset.occlusion='ground-plane-v1';soil.asset.renderCategory='translucent';soil.asset.provenance.source=restRoot;await image(soil,'grave-soil','grave-soil-v1.png',{sourceRoot:restRoot});still(soil,'grave-soil');packs.push(soil);
-for(const id of ['ink-floor-court','ink-floor-landing']){const mat=source(id,'material',[1024,1024],[512,512],256);mat.asset.atlasSize=1024;mat.asset.provenance.source=restRoot;mat.asset.contentVersion='rest-v1';await image(mat,'surface','paving-v1.png',{sourceRoot:restRoot,width:1024,height:1024});still(mat,'surface');packs.push(mat);}
-const wood=source('ink-wood','material',[1024,1024],[512,512],256);wood.asset.atlasSize=1024;await image(wood,'surface','Ground_Surfaces_Decals_r02a/png/materials/04_wood_plank_floor.png');still(wood,'surface');packs.push(wood);
 const grass=source('ink-moss','material',[1024,1024],[512,512],256);grass.asset.atlasSize=1024;grass.asset.provenance.source=restRoot;await image(grass,'surface','grass-v1.png',{sourceRoot:restRoot,width:1024,height:1024});still(grass,'surface');packs.push(grass);
 const masonry=source('ink-masonry','material',[1024,512],[512,256],320);masonry.asset.atlasSize=1024;await image(masonry,'surface','limestone-face.png',{sourceRoot:'staging/rest'});Object.assign(sourceMetadata.at(-1)!,{minimumSourceDensity:313/1.1,materialReceipt:'staging/rest/receipt.json'});still(masonry,'surface');packs.push(masonry);
 const decals=source('ink-decals','prop',[1024,1024],[512,512],256);decals.asset.projection='top-down';decals.asset.occlusion='ground-plane-v1';decals.asset.renderCategory='translucent';
 for(const id of ['d01_branching_crack','d03_moss_edge','d04_moss_islands','d05_leaf_drift','d08_dirt_scuffs']){await image(decals,id,`Ground_Surfaces_Decals_r02a/png/decals/${id}.png`,{anchor:[512,512]});still(decals,id);}packs.push(decals);
 const transitions=source('ink-ground-transitions','prop',[1024,1024],[512,512],256);transitions.asset.projection='top-down';transitions.asset.occlusion='ground-plane-v1';transitions.asset.renderCategory='translucent';
 for(const id of ['t01_earth_stone_border','t02_moss_invasion','t03_broken_pavement_edge','t04_plank_threshold','t07_damp_spread','t08_crossing_root','t09_forked_roots']){await image(transitions,id,`Ground_Transitions/png/overlays/${id}.png`);still(transitions,id);}packs.push(transitions);
-const wall=source('ink-wall-face','prop',[1024,1024],[512,1024],256);wall.asset.projection='front-view';wall.asset.occlusion='wall-face-v1';wall.asset.atlasSize=2048;await image(wall,'face','Wall_Dressing/png/faces/w01_arched_stained_glass.png',{anchor:[512,1024]});still(wall,'face');packs.push(wall);
 // Crypt selections are independent packs: exterior registrations and original art stay intact.
 for(const [id,file]of [['ink-crypt-stone','02_cracked_cathedral_stone'],['ink-crypt-damp','05_damp_cellar_stone'],['ink-crypt-marble','09_pale_crypt_marble']] as const){
  const p=source(id,'material',[1024,1024],[512,512],256);p.asset.atlasSize=1024;p.asset.sampling='terrain-mipmapped';
@@ -146,10 +101,6 @@ async function effects(id:string,folder:string,selected:string[],directional:boo
  }
  packs.push(p);
 }
-await effects('ink-combat','combat',['sword_arc_01','sword_arc_02','sword_finisher_03','lantern_cone_flare'],true);
-const combat=packs.at(-1)!,combatStudy=structuredClone(combat);combatStudy.asset.id='ink-combat-study';packs.push(combatStudy);
-combat.asset.clips=Object.fromEntries(Object.entries(combat.asset.clips).filter(([id])=>['sword_arc_01','lantern_cone_flare'].includes(id)));
-const activeCombatFrames=new Set(Object.values(combat.asset.clips).flatMap(dirs=>Object.values(dirs).flatMap(c=>c!.frames)));combat.frames=combat.frames.filter(f=>activeCombatFrames.has(f.id));
 await effects('ink-cues','interaction_pack_v1',['enemy_ring','door_seal_dissolve'],false);
 await effects('ink-crypt-ambient','ambient_pack_v1',['lamp_flame','rising_motes','droplet_splash','pond_ripple'],false);
 await write(`${staging}/derivatives.json`,JSON.stringify({recipe:'prepare-ink-v4',frames:sourceMetadata},null,2)+'\n');

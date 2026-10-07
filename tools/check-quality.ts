@@ -27,10 +27,9 @@ for(const {id,scale} of cases){const m=parseManifest(JSON.parse(await readAsset(
  assert.equal(m.asset.colorSpace,'srgb');assert.equal(m.asset.alpha,'straight');assert.ok(m.pages.every(p=>p.mipmaps===(m.asset.sampling==='terrain-mipmapped')),'sampling declarations and runtime pages must agree');
  rows.push({id,canvas:m.asset.canvas,density:m.asset.density,maxScale:scale,minimumStagedPixelsPerOutputPixel:headroom,minimumSourcePixelsPerOutputPixel:sourceHeadroom,baseRgbaBytes:m.pages.reduce((n,p)=>n+Math.ceil(p.rgbaBytes*(p.mipmaps?4/3:1)),0)});
 }
-const diagnostic=parseManifest(JSON.parse(await readAsset('public/generated/manifest.json','utf8')));
-const flow=readRegistration().walk,motionFieldBytes=flow.width*flow.height*4;
+const flow=readRegistration().animation,motionFieldBytes=flow.width*flow.height*4;
 const cryptSurfaceCloneBytes=Math.ceil(rows.find(r=>r.id==='ink-masonry')!.baseRgbaBytes*4/3);
-const fullCatalogBaseBytes=cryptSurfaceCloneBytes+motionFieldBytes+[...residentPages.values()].reduce((n,p)=>n+p.rgbaBytes,0)+diagnostic.pages.reduce((n,p)=>n+p.rgbaBytes,0);
+const fullCatalogBaseBytes=cryptSurfaceCloneBytes+motionFieldBytes+[...residentPages.values()].reduce((n,p)=>n+p.rgbaBytes,0);
 const mipmapBytes=[...residentPages.values()].filter(p=>p.mipmaps).reduce((n,p)=>n+Math.ceil(p.rgbaBytes/3),0),fullCatalogTextureBytes=fullCatalogBaseBytes+mipmapBytes;
 const runtimeCatalogTextureBytes=cryptSurfaceCloneBytes+motionFieldBytes+[...runtimePages.values()].reduce((n,p)=>n+Math.ceil(p.rgbaBytes*(p.mipmaps?4/3:1)),0);
 assert.ok(runtimeCatalogTextureBytes<=contract.budgets.sceneTextureMiB*1024*1024,'active game catalog including motion fields exceeds the provisional scene texture budget');

@@ -1,6 +1,6 @@
 # Lighting and Look
 
-Game and developer preview use Silver hour / Atmospheric ink at 85% light response, with depth of field initially off. Saved visual preferences remain authoritative.
+Game and developer preview use Golden hour / HD-2D Diorama at 150% light response, with depth of field initially off. Saved visual preferences remain authoritative.
 
 Sandbox's Lighting & Look mode compares Golden/Silver hour, Atmospheric ink, HD-2D diorama and Dark cinematic. It exposes original rendering, independent effects, light response, pause and fixed replay controls. The same original artwork and shared production presentation are used.
 

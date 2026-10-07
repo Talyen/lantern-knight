@@ -7,7 +7,7 @@ export const sandboxDefinitions:ContentDefinitions={...contentDefinitions,actors
       radius: tuning.heroRadius,
       speed: tuning.enemy.speed,
       melee: {...tuning.enemy, halfAngle: 1.1},
-      visual: 'warden',
+      visual: 'skeleton',
     },
     {
       id: 'heavy-warden',
@@ -23,7 +23,7 @@ export const sandboxDefinitions:ContentDefinitions={...contentDefinitions,actors
         halfAngle: 1.1,
         damage: 20,
       },
-      visual: 'warden',
+      visual: 'skeleton',
     },],areas:[...contentDefinitions.areas,    {
       id: 'systems-fixture',
       name: 'Systems verification fixture',

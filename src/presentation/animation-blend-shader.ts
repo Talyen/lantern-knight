@@ -1,8 +1,15 @@
 import {Vector2,Vector4,type MeshBasicMaterial,type Texture} from 'three';
 import type {Frame,Manifest} from '../assets/schema';
-import type {FrameBlend} from '../core/walk-blending';
-import {registeredSword,rigidSwordGLSL,type SwordPair} from './rigid-sword';
-export type WalkFlow={texture:Texture;width:number;height:number;pairs:readonly {from:string;to:string;rect:readonly number[];rawRect:readonly number[];guardedRect:readonly number[];rawGuardedRect:readonly number[];sword?:SwordPair}[]};
+import type {FrameBlend} from '../core/animation-treatment';
+import {registeredSword,rigidSwordGLSL} from './rigid-sword';
+import type {PreparedRegistration} from '../assets/registration';
+export type AnimationPair=PreparedRegistration['animation']['pairs'][number];
+export type AnimationFlow=PreparedRegistration['animation'] & {texture:Texture};
+export function registeredTrim(manifest:Manifest,frame:Frame,domain:{canvas:readonly number[];anchor:readonly number[];density:number},stabilized=true){
+ const r=frame.registration??manifest.asset,scale=domain.density/r.density,offset=stabilized?frame.visualOffsetPx??[0,0]:[0,0];
+ return [(frame.trim[0]-r.anchor[0]+offset[0]!)*scale+domain.anchor[0]!, (frame.trim[1]-r.anchor[1]+offset[1]!)*scale+domain.anchor[1]!,frame.trim[2]*scale,frame.trim[3]*scale] as const;
+}
+
 // One composited RGBA sample per fragment, shared by the cutout core/edge passes.
 // Blend premultiplied linear color and alpha, then return straight alpha. Overlaying
 // two transparent meshes instead would darken overlaps and change occlusion.
@@ -12,12 +19,12 @@ uniform float walkEnabled;
 uniform float walkMix;
 uniform float walkWarp;
 uniform sampler2D walkNext;
-uniform sampler2D walkFlow;
+uniform sampler2D animationFlow;
 uniform vec4 walkTrimA;
 uniform vec4 walkTrimB;
 uniform vec4 walkRectA;
 uniform vec4 walkRectB;
-uniform vec4 walkFlowRect;
+uniform vec4 animationFlowRect;
 uniform vec2 walkCanvasSize;
 uniform float walkSwordEnabled,walkSwordWidth;
 uniform vec4 walkSwordA,walkSwordB;
@@ -29,8 +36,8 @@ vec4 walkSample(sampler2D page,vec2 q,vec4 trim,vec4 rect){
   return texture2D(page,vec2(uv.x,1.0-uv.y));
 }
 vec4 walkDisplacement(vec2 q){
-  vec2 uv=walkFlowRect.xy+clamp(q,0.0,1.0)*walkFlowRect.zw;
-  return (texture2D(walkFlow,vec2(uv.x,1.0-uv.y))*255.0-128.0)*2.0/walkCanvasSize.xyxy;
+  vec2 uv=animationFlowRect.xy+clamp(q,0.0,1.0)*animationFlowRect.zw;
+  return (texture2D(animationFlow,vec2(uv.x,1.0-uv.y))*255.0-128.0)*2.0/walkCanvasSize.xyxy;
 }
 vec4 walkComposite(){
   vec2 a=vWalkCanvas,b=vWalkCanvas;
@@ -54,11 +61,11 @@ vec4 walkComposite(){
   return vec4(alpha>0.00001?premul/alpha:vec3(0.0),alpha);
 }
 `;
-export class WalkBlendShader {
+export class AnimationBlendShader {
   uniforms={
-    walkEnabled:{value:0},walkMix:{value:0},walkWarp:{value:0},walkNext:{value:null as Texture|null},walkFlow:{value:null as Texture|null},
+    walkEnabled:{value:0},walkMix:{value:0},walkWarp:{value:0},walkNext:{value:null as Texture|null},animationFlow:{value:null as Texture|null},
     walkTrimA:{value:new Vector4()},walkTrimB:{value:new Vector4()},walkRectA:{value:new Vector4()},walkRectB:{value:new Vector4()},
-    walkFlowRect:{value:new Vector4()},walkCanvasSize:{value:new Vector2()},walkSwordEnabled:{value:0},walkSwordWidth:{value:22},walkSwordA:{value:new Vector4()},walkSwordB:{value:new Vector4()},
+    animationFlowRect:{value:new Vector4()},walkCanvasSize:{value:new Vector2()},walkSwordEnabled:{value:0},walkSwordWidth:{value:22},walkSwordA:{value:new Vector4()},walkSwordB:{value:new Vector4()},
   };
   constructor(materials:MeshBasicMaterial[]){
     materials.forEach((material,index)=>{
@@ -77,24 +84,23 @@ export class WalkBlendShader {
       material.customProgramCacheKey=()=>`${cacheKey}:walk-blend-v3-${index}`;material.needsUpdate=true;
     });
   }
-  update(sample:FrameBlend,manifest:Manifest,a:Frame,b:Frame,textures:Map<string,Texture>,flow?:WalkFlow,stabilized=true,rigidSword=true){
-    const u=this.uniforms,[width,height]=manifest.asset.canvas;
+  update(sample:FrameBlend,manifest:Manifest,a:Frame,b:Frame,textures:Map<string,Texture>,flow?:AnimationFlow,stabilized=true,rigidSword=true){
+    const pair=flow?.pairs.find(p=>p.asset===manifest.asset.id&&p.from===a.id&&p.to===b.id);
+    const domain=pair??a.registration??manifest.asset,u=this.uniforms,[width,height]=domain.canvas;
     u.walkEnabled.value=1;u.walkMix.value=sample.mix;u.walkNext.value=textures.get(b.page)!;
     u.walkCanvasSize.value.set(width,height);
     for(const [frame,trim,rect] of [[a,u.walkTrimA,u.walkRectA],[b,u.walkTrimB,u.walkRectB]] as const){
       const page=manifest.pages.find(p=>p.id===frame.page)!;
-      const offset=stabilized?frame.visualOffsetPx??[0,0]:[0,0];
-      trim.value.set((frame.trim[0]+offset[0]!)/width,(frame.trim[1]+offset[1]!)/height,frame.trim[2]/width,frame.trim[3]/height);
+      const t=registeredTrim(manifest,{...frame,visualOffsetPx:flow?.offsets[frame.id]??frame.visualOffsetPx},domain,stabilized);trim.value.set(t[0]/width,t[1]/height,t[2]/width,t[3]/height);
       rect.value.set(frame.rect[0]/page.width,frame.rect[1]/page.height,frame.rect[2]/page.width,frame.rect[3]/page.height);
     }
-    const pair=sample.motion?flow?.pairs.find(p=>p.from===a.id&&p.to===b.id):undefined;
     u.walkSwordEnabled.value=sample.guarded&&rigidSword&&pair?.sword?1:0;
-    if(pair?.sword){const sword=registeredSword(pair.sword,a,b,stabilized);u.walkSwordA.value.fromArray(sword.a);u.walkSwordB.value.fromArray(sword.b);u.walkSwordWidth.value=sword.width;}
-    u.walkWarp.value=pair?1:0;u.walkFlow.value=flow?.texture??textures.get(a.page)!;
+    if(pair?.sword){const sword=registeredSword(pair.sword,{...a,visualOffsetPx:[...pair.offsetA]},{...b,visualOffsetPx:[...pair.offsetB]},stabilized);u.walkSwordA.value.fromArray(sword.a);u.walkSwordB.value.fromArray(sword.b);u.walkSwordWidth.value=sword.width;}
+    u.walkWarp.value=pair?1:0;u.animationFlow.value=flow?.texture??textures.get(a.page)!;
     if(pair&&flow){const rect=sample.guarded?(stabilized?pair.guardedRect:pair.rawGuardedRect):(stabilized?pair.rect:pair.rawRect);
       const [x,y,w,h]=rect as [number,number,number,number];
       // Sample pixel centres; gutters prevent adjacent pair contamination.
-      u.walkFlowRect.value.set((x+.5)/flow.width,(y+.5)/flow.height,(w-1)/flow.width,(h-1)/flow.height);
+      u.animationFlowRect.value.set((x+.5)/flow.width,(y+.5)/flow.height,(w-1)/flow.width,(h-1)/flow.height);
     }
   }
 }

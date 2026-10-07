@@ -433,8 +433,8 @@ test('step events are immutable captured values; catch-up delivers all once and 
   hub.dispose();
 });
 test('valid unsorted clip notifications reach consumers chronologically without losing earlier events', async () => {
-  const manifest = JSON.parse(await readAsset('public/generated/manifest.json', 'utf8')) as Manifest;
-  const clip = manifest.asset.clips.walk!.d45!;
+  const manifest = JSON.parse(await readAsset('public/generated/ink/ink-hero-current/manifest.json', 'utf8')) as Manifest;
+  const clip = manifest.asset.clips.walk!.d90!;
   clip.notifies = [{id: 'later', atMs: 150, kind: 'whoosh'}, {id: 'earlier', atMs: 50, kind: 'dust'}, {id: 'together', atMs: 150, kind: 'flash'}];
   parseManifest(manifest);
   const animator = new Animator(PLAYER_ID, clip), sim = new Simulation(), hub = new EventHub(), received: string[] = [];
@@ -452,12 +452,12 @@ test('valid unsorted clip notifications reach consumers chronologically without 
 });
 test('independent manifests isolate frame/page IDs and share compatible page resources with release-once leases', async () => {
   const primary = JSON.parse(
-      await readAsset('public/generated/manifest.json', 'utf8'),
+      await readAsset('public/generated/ink/ink-skeleton/manifest.json', 'utf8'),
     ) as Manifest,
     other = structuredClone(primary);
   other.asset.id = 'registration-fixture';
-  other.asset.canvas = [448, 512];
-  other.asset.anchor = [224, 412];
+  other.asset.canvas = [1088, 1600];
+  other.asset.anchor = [512, 1324];
   other.asset.density = 144;
   other.frames.forEach((f) => {
     f.trim[0] += 32;
@@ -494,13 +494,13 @@ test('independent manifests isolate frame/page IDs and share compatible page res
       'a',
       a.manifest,
       a.textures,
-      a.manifest.asset.clips.walk!.d45!,
+      a.manifest.asset.clips.rest!.d45!,
     ),
     sb = new ActorSprite(
       'b',
       b.manifest,
       b.textures,
-      b.manifest.asset.clips.walk!.d45!,
+      b.manifest.asset.clips.rest!.d45!,
     );
   sa.animator.advance(200);
   sb.animator.advance(500);

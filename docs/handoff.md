@@ -1,6 +1,6 @@
 # Current handoff
 
-The asset architecture is migrating to a small authored repository, the existing external source Asset Library, one pinned prepared pack and a bounded external cache. Original artwork and the current Game/Dev features are preserved.
+The repository contains authored inputs; the external Asset Library owns originals, one pinned prepared pack supplies normal development and CI, and an external cache bounds disposable data. Original artwork and the current Game/Dev features are preserved.
 
 Source-aware fidelity and freshness checks run during preparation on the Mac. Normal development and hosted CI consume prepared assets and validate their integrity and runtime contracts. Delivery verification includes Game/Dev builds, artifact identities, macOS/Windows packaging, player controls and persistence, Sandbox routing, Crypt rendering, preferences, weather and the Effects Playground.
 

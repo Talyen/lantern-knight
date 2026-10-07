@@ -81,7 +81,7 @@ export class EffectsPlayground {
  draw(sim:Simulation,alpha:number,ms:number,settings:PlaygroundSettings){if(this.disposed)return;this.time+=settings.paused?0:ms/1000;this.uniformTime.value=this.time;
   const on=(key:Parameters<typeof activeEffect>[1])=>activeEffect(settings,key),rich=settings.treatment==='rich',strength=rich?1.7:1;
   this.key.castShadow=true;this.hemi.color.set(on('palette')?0xb8cde3:0xc9d4d2);this.hemi.groundColor.set(on('palette')?0x49465c:0x59615c);this.key.color.set(on('palette')?0xffdaa0:0xe5ddd0);
-  this.lighting.configure({...defaultLook,rig:'silver',look:'ink',strength:rich?1.25:.85,shadows:false,atmosphere:on('atmosphere')},new T.Vector3());this.lighting.common.inkShadowEnabled.value=0;
+  this.lighting.configure({...defaultLook,shadows:false,atmosphere:on('atmosphere')},new T.Vector3());this.lighting.common.inkShadowEnabled.value=0;
   this.lighting.restoreLightColors();if(!on('palette'))this.lighting.neutralPalette();
   const hero=sim.hero,foot=new T.Vector3(hero.px+(hero.x-hero.px)*alpha,0,hero.pz+(hero.z-hero.pz)*alpha),clip=hero.state==='walk'?'walk':'idle';
   const heading=selectAuthoredDirection(hero.yaw),tag=clip+':'+heading;

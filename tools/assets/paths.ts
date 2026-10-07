@@ -38,7 +38,7 @@ export function assetFile(file:string){
  if(file==='staging')return stagingRoot();
  if(file.startsWith('staging/')){
   if(process.env.LANTERN_PREPARING==='1')return stagingFile(file.slice(8));
-  if(file==='staging/walk-blending/flow.png')return publicFile('walk/flow.png');
+  if(file==='staging/animation/flow.png')return publicFile('animation/flow.png');
   return metadataFile(file.slice(8));
  }
  if(file.startsWith('references/art/')){const [group,...rest]=file.slice(15).split('/');return path.join(sourceLibrary(),'Project Sources',safeRelative(group!),...rest);}

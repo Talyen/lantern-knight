@@ -4,7 +4,7 @@ import {spawn} from 'node:child_process';
 import {randomUUID} from 'node:crypto';
 import {AssetCache} from './assets/cache';
 import {projectRoot,publicRoot} from './assets/paths';
-import {readLock,recipeHash,ensurePack,lockFile,type AssetLock} from './assets/pack';
+import {readLock,recipeHash,ensurePack,validatePack,LockSchema,lockFile,type AssetLock} from './assets/pack';
 import {prepareAssets} from './assets/prepare';
 import {gh,retainedPacks,obsoleteReleases} from './assets/retention';
 import {parseManifest} from '../src/assets/schema';
@@ -17,7 +17,12 @@ async function run(file:string,args:string[]=[],env:NodeJS.ProcessEnv=process.en
  const stop=(signal:NodeJS.Signals)=>child.kill(signal),interrupt=()=>stop('SIGINT'),terminate=()=>stop('SIGTERM');process.on('SIGINT',interrupt);process.on('SIGTERM',terminate);
  try{await new Promise<void>((resolve,reject)=>{child.on('error',reject);child.on('exit',(code,signal)=>code===0?resolve():reject(new Error(`${path.basename(file)} exited ${code??signal}`)));});}finally{process.off('SIGINT',interrupt);process.off('SIGTERM',terminate);}
 }
-async function pinned(){const lock=await readLock();if(lock.recipeSha256!==await recipeHash())throw new Error('Asset recipes differ from the pinned pack. Run assets:publish on an art-authoring machine.');return {lock,held:await ensurePack(lock,cache)};}
+async function pinned(){
+ if(process.argv.includes('--local')){
+  const held=await cache.lease('preparation');
+  try{const lock=LockSchema.parse(JSON.parse(await fs.readFile(path.join(held.root,'prepared.json'),'utf8')));if(lock.recipeSha256!==await recipeHash())throw new Error('Local preparation recipe differs; prepare again');const root=path.join(held.root,'work/payload');await validatePack(root,lock);return {lock,held:{...held,root}};}catch(error){await held.release();throw error;}
+ }
+ const lock=await readLock();if(lock.recipeSha256!==await recipeHash())throw new Error('Asset recipes differ from the pinned pack. Run assets:publish on an art-authoring machine.');return {lock,held:await ensurePack(lock,cache)};}
 async function verifyRemote(lock:AssetLock){
  const held=await cache.lease('publication-'+randomUUID());
  try{const response=await fetch(`https://github.com/Talyen/lantern-knight/releases/download/${lock.releaseTag}/${lock.filename}`);if(!response.ok||!response.body)throw new Error(`Published pack unavailable: HTTP ${response.status}`);
@@ -44,7 +49,7 @@ async function main(){
  try{
   if(mode==='ensure'){console.log(`Verified ${lock.releaseTag}; ${(lock.bytes/1024**2).toFixed(1)} MiB.`);return;}
   if(mode==='inspect'){const id=process.argv[3];if(!id){console.log(`Prepared pack ${lock.releaseTag}; ${Object.keys(assetCatalog).length} assets. Supply an asset ID for details.`);return;}const file=assetCatalog[id];if(!file)throw new Error('Unknown asset ID');const m=parseManifest(JSON.parse(await readAsset('public/'+file,'utf8')));console.log(JSON.stringify({id,canvas:m.asset.canvas,density:m.asset.density,frames:m.frames.length,pages:m.pages.length,clips:Object.keys(m.asset.clips)},null,2));return;}
-  if(mode!=='run')throw new Error('Unknown asset command');const task=process.argv[3],args=process.argv.slice(4);
+  if(mode!=='run')throw new Error('Unknown asset command');const task=process.argv[3],args=process.argv.slice(4).filter(a=>a!=='--local');
   if(task==='build'||task==='build:dev'){
    const dev=task==='build:dev';await run('node_modules/typescript/bin/tsc',['--noEmit'],env);await run('node_modules/vite/bin/vite.js',['build',...(dev?['--mode','sandbox']:[])],env);await run('tools/select-runtime-assets.ts',dev?['--dev']:[],env);await run('tools/build-electron.ts',dev?['--dev']:[],env);await run('tools/build-identity.ts',[...(dev?['--dev']:[]),'--write'],env);
   }else if(task==='test')await run('tools/test.ts',args,env);

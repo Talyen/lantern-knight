@@ -10,7 +10,7 @@ import {content,heightAt} from '../src/content/world';
 import {worldVisuals,areaArtAssets} from '../src/content/world-art';
 import {assetCatalog} from '../src/content/visuals';
 import {makeCamera} from '../src/core/camera';
-import {sceneryRegistration,restRegistration} from '../src/content/scenery-registration';
+import {sceneryRegistration} from '../src/content/scenery-registration';
 import type {PackLease} from '../src/assets/loader';
 import {parseManifest} from '../src/assets/schema';
 
@@ -28,7 +28,7 @@ test('painted geometry and cutouts meet their authored collision assemblies',asy
     const cards=room.sprites.filter(s=>s.mesh.userData.siteWall===wall.id);assert.ok(cards.length>0);
     for(const [card,endpoint,expected] of [[cards[0]!,0,wall.from],[cards.at(-1)!,1,wall.to]] as const){
      if(area.id==='court'){const point=new T.Vector3().fromBufferAttribute(card.geometry.getAttribute('position'),endpoint?3:2);card.mesh.updateMatrixWorld(true);point.applyMatrix4(card.mesh.matrixWorld);assert.ok(Math.hypot(point.x-expected.x,point.z-expected.z)<.01,wall.id);assert.ok(Math.abs(point.y-heightAt(area,expected.x,expected.z))<.01,wall.id);continue;}
-     const clip=card.animator.frame,r=[...sceneryRegistration,...restRegistration].find(r=>r.id===clip)!;assert.ok('sockets' in r);
+     const clip=card.animator.frame,r=[...sceneryRegistration].find(r=>r.id===clip)!;assert.ok('sockets' in r);
      const d=receipts.find(d=>d.pack===card.manifest.asset.id&&d.id===clip)!,socket=r.sockets[endpoint]!,frame=card.frameIndex.get(clip)!,[x,y,w,h]=frame.trim;
      const tx=(socket[0]*d.uniformScale+d.paddingOffset[0]!-x)/w,ty=(socket[1]*d.uniformScale+d.paddingOffset[1]!-y)/h,vertices=card.geometry.getAttribute('position');
      const point=new T.Vector3().fromBufferAttribute(vertices,0).lerp(new T.Vector3().fromBufferAttribute(vertices,1),tx).lerp(new T.Vector3().fromBufferAttribute(vertices,2).lerp(new T.Vector3().fromBufferAttribute(vertices,3),tx),ty);

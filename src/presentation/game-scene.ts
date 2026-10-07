@@ -1,17 +1,17 @@
 import type {PreparedRegistration} from '../assets/registration';
 import * as T from 'three';
-import {contract,makeCamera,resizeCamera,trimmedBounds,selectDirection,selectAuthoredDirection,drawingBufferSize,HEADINGS,right,up,outward} from '../core/camera';
+import {contract,makeCamera,resizeCamera,selectDirection,selectAuthoredDirection,drawingBufferSize,HEADINGS,outward} from '../core/camera';
 import {ActorSprite,setCutoutOpacity} from './sprite';
-import {timedWalk,remapWalkTime,type WalkTiming} from '../core/walk-timing';
-import type {WalkBlendMode} from '../core/walk-blending';
-import type {WalkFlow} from './walk-blend-shader';
+import {timedWalk,remapWalkTime,type WalkTiming} from '../core/locomotion-timing';
+import type {AnimationTreatment} from '../core/animation-treatment';
+import type {AnimationFlow} from './animation-blend-shader';
 import {InkRoom} from './ink-room';
 import {worldVisuals,floorUV,compositionPoint} from '../content/world-art';
 import {resolveClip} from '../assets/schema';
 import {Animator,clipDuration} from '../core/animation';
-import type {Manifest,Clip,Frame} from '../assets/schema';
+import type {Clip} from '../assets/schema';
 import {attackDefinition,tuning} from '../content/gameplay';
-import {content,heightAt,surfaceGradient,type AreaDefinition,type ActorId,PLAYER_ID} from '../content/world';
+import {content,heightAt,surfaceGradient,type AreaDefinition,type ActorId} from '../content/world';
 import {actorVisuals} from '../content/visuals';
 import {pageIdentity,type PackLease} from '../assets/loader';
 import {EventHub,type AnimationEvent} from '../core/events';
@@ -26,7 +26,7 @@ export class GamePresentation {
  lookRenderer:LightingLab;depthOfField=0;visualEffects=defaultVisualEffects();sceneEffects:SceneVisualEffects;
  renderer:T.WebGLRenderer;camera=makeCamera(16/9);scene=new T.Scene();room=new T.Group();actors=new Map<ActorId,Visual>();mode:Mode='encounter';
  aim:T.Mesh;light=new T.PointLight(0xf7b862,5,5,2);fadeMeshes:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>[]=[];
- roomOwned:{dispose:()=>void}[]=[];debug=false;background='dark';walkBlend:WalkBlendMode='original';walkStabilized=true;walkRigidSword=true;walkTiming:WalkTiming='weighted';walkFlow:WalkFlow|undefined;private flowBitmap:ImageBitmap|undefined;protected disposed=false;
+ roomOwned:{dispose:()=>void}[]=[];debug=false;background='dark';animationTreatment:AnimationTreatment='guarded';stabilized=true;rigidSword=true;walkTiming:WalkTiming='weighted';animationFlow:AnimationFlow|undefined;private flowBitmap:ImageBitmap|undefined;protected disposed=false;
  shadowTexture:T.CanvasTexture;cameraTarget=new T.Vector3();viewTarget=new T.Vector3();requestedRenderScale=contract.renderScale;effectivePixelRatio=1;
  verticalSpan=contract.verticalSpan;area:AreaDefinition=content.area('court');generation=-1;groundNormal=new T.Vector3(0,1,0);planeNormal=new T.Vector3(0,0,1);effectTag='';flare:T.Mesh;slash:T.Mesh;inkRoom:InkRoom|undefined;
  get manifest(){return this.packs.get('ink-hero-current')!.manifest;}
@@ -85,7 +85,7 @@ export class GamePresentation {
     const ring=new T.Mesh(new T.RingGeometry(a.definition.radius,a.definition.radius+.025,24),new T.MeshBasicMaterial({color:a.kind==='hero'?0xd1ba7c:0xc1645f,transparent:true,opacity:.5,depthWrite:false}));ring.rotation.x=-Math.PI/2;
     this.room.add(sprite.mesh,shadow,ring);const v={sprite,shadow,ring,tag:'',heading:'d45' as const};this.actors.set(a.id,v);return v;
   }
-  getClip(id:string,dir:typeof HEADINGS[number],manifest=this.manifest):Clip {const clip=resolveClip(manifest,id,dir);return id==='walk'&&manifest.asset.id==='ink-hero'?timedWalk(clip,this.walkTiming):clip;}
+  getClip(id:string,dir:typeof HEADINGS[number],manifest=this.manifest):Clip {const clip=resolveClip(manifest,id,dir);return id==='walk'&&manifest.asset.id==='ink-hero-current'?timedWalk(clip,this.walkTiming,this.registration.animation.clips[`walk:${Object.keys(manifest.asset.clips.walk!).find(h=>manifest.asset.clips.walk![h as typeof HEADINGS[number]]===clip)}`]?.weightedHoldsMs):clip;}
   get viewSpan(){return this.verticalSpan;}
   update(sim:Simulation,alpha:number,ms:number,aim:{x:number;z:number}){
     if(this.generation!==sim.generation){this.resetRoom(sim.areaDefinition);this.generation=sim.generation;}
@@ -114,7 +114,7 @@ export class GamePresentation {
         else if(a.state==='dodge'||a.state==='hurt'){const total=a.state==='dodge'?tuning.dodge.total:tuning.enemyHurt.total;notifies=v.sprite.animator.advance(Math.max(0,a.age/total*clipDuration(clip)-v.sprite.animator.time));}
         else notifies=v.sprite.animator.advance(ms);
         this.events.publish(notifies.map(n=>({key:`visual:${n.key}`,kind:'animation-notify',notify:n.kind,clip:id,instance:n.instance,timeMs:n.timeMs,tick:sim.tick,generation:sim.generation,actor:a.id,action:a.action,area:sim.area,position:Object.freeze([a.x,a.y,a.z]),direction:a.yaw}) as AnimationEvent));
-        const x=a.px+(a.x-a.px)*alpha,z=a.pz+(a.z-a.pz)*alpha,foot=new T.Vector3(x,heightAt(sim.areaDefinition,x,z),z);v.sprite.stabilized=a.kind==='hero'?this.walkStabilized:true;v.sprite.rigidSword=this.walkRigidSword;v.sprite.showAnimation(foot,this.camera,a.state==='walk'&&v.sprite.manifest.asset.id==='ink-hero'?this.walkBlend:'original',this.walkFlow);v.sprite.mesh.visible=a.health>0||a.kind==='hero'||a.age<tuning.enemyDeathHoldTicks;
+        const x=a.px+(a.x-a.px)*alpha,z=a.pz+(a.z-a.pz)*alpha,foot=new T.Vector3(x,heightAt(sim.areaDefinition,x,z),z);v.sprite.stabilized=a.kind==='hero'?this.stabilized:true;v.sprite.rigidSword=this.rigidSword;v.sprite.showAnimation(foot,this.camera,v.sprite.manifest.asset.id==='ink-hero-current'?this.animationTreatment:'original',this.animationFlow);v.sprite.mesh.visible=a.health>0||a.kind==='hero'||a.age<tuning.enemyDeathHoldTicks;
         const gradient=surfaceGradient(sim.areaDefinition,x,z);this.groundNormal.set(-gradient.x,1,-gradient.z).normalize();v.shadow.quaternion.setFromUnitVectors(this.planeNormal,this.groundNormal);v.ring.quaternion.copy(v.shadow.quaternion);
         v.shadow.position.set(foot.x,foot.y+.03,foot.z);v.shadow.visible=a.health>0;v.ring.position.set(foot.x,foot.y+.035,foot.z);v.ring.visible=this.debug||(!this.inkRoom&&a.kind==='enemy'&&(a.state==='attack'||a.stun>0));
         if(a.kind==='enemy'&&a.state==='attack'){v.ring.scale.setScalar(1+a.age/Math.max(1,a.definition.melee.windup)*2);(v.ring.material as T.MeshBasicMaterial).color.set(a.age<a.definition.melee.windup?0xc66e55:0xe5c37d);}else v.ring.scale.setScalar(1);
@@ -129,20 +129,20 @@ export class GamePresentation {
   setVisualEffects(options:Partial<VisualEffects>){this.visualEffects={...this.visualEffects,...options};}
   setWeather(state:WeatherState|null){this.sceneEffects.setWeather(state);}
   setDepthOfField(value:number){if(!Number.isFinite(value))return;this.depthOfField=Math.max(0,Math.min(1,value));this.lookRenderer.setSettings({depthOfField:this.depthOfField});}
-  protected renderFrame(sim:Simulation,ms:number){if(worldVisuals[sim.area]&&this.mode!=='lighting')this.lookRenderer.setSettings({rig:'silver',look:'ink',strength:.85,depthOfField:this.depthOfField});this.lookRenderer.render(sim,ms);}
+  protected renderFrame(sim:Simulation,ms:number){this.lookRenderer.render(sim,ms);}
   resize(scale=contract.renderScale){const width=this.canvas.clientWidth,height=this.canvas.clientHeight;if(width<=0||height<=0)return;const buffer=drawingBufferSize(width,height,devicePixelRatio,scale);this.requestedRenderScale=scale;this.effectivePixelRatio=buffer.pixelRatio;this.renderer.setPixelRatio(buffer.pixelRatio);this.renderer.setSize(width*scale,height*scale,false);resizeCamera(this.camera,width,height,this.viewSpan);}
   warmPack(pack:PackLease){if(this.renderer.capabilities.maxTextureSize<Math.max(...pack.manifest.pages.map(p=>Math.max(p.width,p.height))))throw new Error('GPU maximum texture size below atlas dimensions');for(const texture of pack.textures.values()){if(texture.generateMipmaps)texture.anisotropy=Math.min(8,this.renderer.capabilities.getMaxAnisotropy());this.renderer.initTexture(texture);}}
-  async loadWalkFlow(){
-    const walkFlowData=this.registration.walk;const response=await fetch('/walk/flow.png');if(!response.ok)throw new Error('walk motion fields unavailable');
+  async loadAnimationFlow(){
+    const animationFlowData=this.registration.animation;const response=await fetch('/animation/flow.png');if(!response.ok)throw new Error('walk motion fields unavailable');
     const bytes=await response.arrayBuffer(),digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))).map(v=>v.toString(16).padStart(2,'0')).join('');
-    if(digest!==walkFlowData.sha256)throw new Error('walk motion field hash differs');
+    if(digest!==animationFlowData.sha256)throw new Error('walk motion field hash differs');
     const bitmap=await createImageBitmap(new Blob([bytes],{type:'image/png'}),{imageOrientation:'flipY',premultiplyAlpha:'none',colorSpaceConversion:'none'});
-    if(bitmap.width!==walkFlowData.width||bitmap.height!==walkFlowData.height){bitmap.close();throw new Error('walk motion field dimensions differ');}
+    if(bitmap.width!==animationFlowData.width||bitmap.height!==animationFlowData.height){bitmap.close();throw new Error('walk motion field dimensions differ');}
     if(this.disposed){bitmap.close();throw new Error('presentation disposed');}
     const texture=new T.Texture(bitmap);texture.flipY=false;texture.generateMipmaps=false;texture.minFilter=T.LinearFilter;texture.magFilter=T.LinearFilter;texture.needsUpdate=true;
-    this.flowBitmap=bitmap;this.walkFlow={texture,...walkFlowData};this.renderer.initTexture(texture);
+    this.flowBitmap=bitmap;this.animationFlow={texture,...animationFlowData};this.renderer.initTexture(texture);
   }
   async warm(){await this.lookRenderer.prepare();if(this.disposed)throw new Error('presentation disposed');for(const pack of this.packs.values())this.warmPack(pack);await this.renderer.compileAsync(this.scene,this.camera);if(this.disposed)throw new Error('presentation disposed');this.renderer.render(this.scene,this.camera);}
-  stats(){const pages=new Map([...this.packs.values()].flatMap(pack=>pack.manifest.pages.map(page=>[pageIdentity(page),page] as const)));const size=this.renderer.getDrawingBufferSize(new T.Vector2());return{buffer:size.toArray(),logical:[this.canvas.clientWidth,this.canvas.clientHeight],devicePixelRatio,effectivePixelRatio:this.effectivePixelRatio,nativeDisplayPixels:[Math.round(this.canvas.clientWidth*devicePixelRatio),Math.round(this.canvas.clientHeight*devicePixelRatio)],verticalSpan:this.verticalSpan,viewSpan:this.viewSpan,area:this.area.id,generation:this.generation,renderScale:this.requestedRenderScale,walkBlend:this.walkBlend,walkStabilized:this.walkStabilized,walkTiming:this.walkTiming,walkRigidSword:this.walkRigidSword,calls:this.renderer.info.render.calls,triangles:this.renderer.info.render.triangles,objects:{...this.renderer.info.memory},surfaceTextureBytes:this.inkRoom?.architecture?.textureBytes??0,atlasBytes:(this.inkRoom?.architecture?.textureBytes??0)+[...pages.values()].reduce((s,p)=>s+Math.ceil(p.rgbaBytes*(p.mipmaps?4/3:1)),0)+(this.walkFlow?this.registration.walk.width*this.registration.walk.height*4:0),fileBytes:[...pages.values()].reduce((s,p)=>s+p.bytes,0)+(this.walkFlow?this.registration.walk.bytes:0),actors:this.actors.size,webgl:this.renderer.getContext().getParameter(this.renderer.getContext().VERSION),gpu:this.renderer.getContext().getExtension('WEBGL_debug_renderer_info')?this.renderer.getContext().getParameter(this.renderer.getContext().getExtension('WEBGL_debug_renderer_info')!.UNMASKED_RENDERER_WEBGL):'unavailable'};}
-  dispose(){if(this.disposed)return;this.disposed=true;this.sceneEffects?.dispose();this.lookRenderer?.dispose();this.disposeRoom();for(const m of [this.aim,this.flare,this.slash]){m.geometry.dispose();(m.material as T.Material).dispose();}this.walkFlow?.texture.dispose();this.flowBitmap?.close();this.shadowTexture.dispose();this.renderer.dispose();}
+  stats(){const pages=new Map([...this.packs.values()].flatMap(pack=>pack.manifest.pages.map(page=>[pageIdentity(page),page] as const)));const size=this.renderer.getDrawingBufferSize(new T.Vector2());return{buffer:size.toArray(),logical:[this.canvas.clientWidth,this.canvas.clientHeight],devicePixelRatio,effectivePixelRatio:this.effectivePixelRatio,nativeDisplayPixels:[Math.round(this.canvas.clientWidth*devicePixelRatio),Math.round(this.canvas.clientHeight*devicePixelRatio)],verticalSpan:this.verticalSpan,viewSpan:this.viewSpan,area:this.area.id,generation:this.generation,renderScale:this.requestedRenderScale,animationTreatment:this.animationTreatment,stabilized:this.stabilized,walkTiming:this.walkTiming,rigidSword:this.rigidSword,calls:this.renderer.info.render.calls,triangles:this.renderer.info.render.triangles,objects:{...this.renderer.info.memory},surfaceTextureBytes:this.inkRoom?.architecture?.textureBytes??0,atlasBytes:(this.inkRoom?.architecture?.textureBytes??0)+[...pages.values()].reduce((s,p)=>s+Math.ceil(p.rgbaBytes*(p.mipmaps?4/3:1)),0)+(this.animationFlow?this.registration.animation.width*this.registration.animation.height*4:0),fileBytes:[...pages.values()].reduce((s,p)=>s+p.bytes,0)+(this.animationFlow?this.registration.animation.bytes:0),actors:this.actors.size,webgl:this.renderer.getContext().getParameter(this.renderer.getContext().VERSION),gpu:this.renderer.getContext().getExtension('WEBGL_debug_renderer_info')?this.renderer.getContext().getParameter(this.renderer.getContext().getExtension('WEBGL_debug_renderer_info')!.UNMASKED_RENDERER_WEBGL):'unavailable'};}
+  dispose(){if(this.disposed)return;this.disposed=true;this.sceneEffects?.dispose();this.lookRenderer?.dispose();this.disposeRoom();for(const m of [this.aim,this.flare,this.slash]){m.geometry.dispose();(m.material as T.Material).dispose();}this.animationFlow?.texture.dispose();this.flowBitmap?.close();this.shadowTexture.dispose();this.renderer.dispose();}
 }

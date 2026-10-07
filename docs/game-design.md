@@ -61,3 +61,11 @@ Polish alternating sweep/lunge attacks, dodge, the Burn lantern special and move
 Art validation should establish that elevation, occlusion, contact shadows and selective glow work coherently. Visible playtesting should confirm that a new player understands the controls, reads enemy actions, uses both attacks meaningfully, traverses both areas, retries after death and saves/resumes reliably.
 
 Follow this with a cohesive progression loop before expanding the adventure. Resolve the open decisions in the [roadmap](roadmap.md#open-design-decisions) rather than treating prototype behavior as final design.
+
+## Presentation and delivery defaults
+
+Golden hour / HD-2D Diorama at 150% light response is the default in every Game area, Dev Preview and authoring scene. Both light rigs and all three looks remain available for authoring. Depth of field and saved visual preferences keep their existing behavior. The camera retains 45 degree azimuth, full-precision 35.264389682754654 degree elevation and 9 m initial vertical span.
+
+Use supplied four-direction artwork for the immediate hero kit. Further direction coverage and a future controlled 3D or 2D production route remain open; the original briefs do not impose an eight-direction or rig requirement. Stabilization, guarded motion warp, rigid-sword protection and weighted walk rhythm are the selected animation treatment. Artwork registration changes only presentation; simulation remains authoritative for actions, damage and movement.
+
+Windows is the primary delivery target, with macOS development support. Establish packaged 2560 x 1440 at 60 FPS on named reference hardware before making performance claims. 120 FPS remains a stretch goal.

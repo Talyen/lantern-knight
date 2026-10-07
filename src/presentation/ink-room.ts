@@ -7,11 +7,9 @@ import {GraveyardRoom} from './graveyard-room';
 import {resolveClip,type Clip} from '../assets/schema';
 import type {PackLease} from '../assets/loader';
 import {worldVisuals,type ArtPlacement} from '../content/world-art';
-import {sceneryRegistration,restRegistration} from '../content/scenery-registration';
 import {heightAt,type AreaDefinition} from '../content/world';
-import {selectDirection,outward,right,up,contract} from '../core/camera';
+import {outward} from '../core/camera';
 import {clipDuration,frameAt} from '../core/animation';
-import {attackDefinition,tuning} from '../content/gameplay';
 import type {Simulation} from '../core/simulation';
 
 export class InkRoom {
@@ -29,57 +27,13 @@ export class InkRoom {
  private sprite(id:string,asset:string,clip:string){const p=this.packs.get(asset);if(!p)throw new Error(`room art not acquired: ${asset}`);
   const s=new ActorSprite(id,p.manifest,p.textures,resolveClip(p.manifest,clip,'d45'));this.sprites.push(s);this.room.add(s.mesh);return s;
  }
- floorMaterial(){if(this.graveyard)return this.graveyard.floorMaterial();if(this.architecture)return this.architecture.floorMaterial();const art=worldVisuals[this.area.id]!,p=this.packs.get(art.floor)!,grass=this.packs.get('ink-moss')!,f=p.manifest.frames[0]!,gf=grass.manifest.frames[0]!;
-  const m=new T.MeshBasicMaterial({map:p.textures.get(f.page),depthTest:true,depthWrite:false,toneMapped:false});
-  m.onBeforeCompile=shader=>{
-   shader.uniforms.grassMap={value:grass.textures.get(gf.page)};
-   shader.vertexShader='varying vec3 siteWorld;\n'+shader.vertexShader;
-   shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nsiteWorld=(modelMatrix*vec4(position,1.)).xyz;');
-   const pathCode=art.paths.flatMap(path=>path.points.slice(1).map((to,i)=>{const from=path.points[i]!;return `stoneMask=max(stoneMask,1.-smoothstep(${path.width/2-.018},${path.width/2+.018},segmentDistance(q,vec2(${from.x.toFixed(3)},${from.z.toFixed(3)}),vec2(${to.x.toFixed(3)},${to.z.toFixed(3)}))));`;})).join('\n');
-   const patchCode=art.patches.map(p=>{const r=p.bounds;return `stoneMask=max(stoneMask,smoothstep(-.018,.018,min(min(q.x-(${r.minX.toFixed(3)}),${r.maxX.toFixed(3)}-q.x),min(q.y-(${r.minZ.toFixed(3)}),${r.maxZ.toFixed(3)}-q.y))));`;}).join('\n');
-   const lightCode=art.lights.map(l=>`warm+=pow(max(0.,1.-distance(q,vec2(${l.x.toFixed(3)},${l.z.toFixed(3)}))/${l.radius.toFixed(3)}),2.)*${l.power.toFixed(3)};`).join('\n');
-   shader.fragmentShader=`uniform sampler2D grassMap; varying vec3 siteWorld;
-    vec3 pavingSample(sampler2D sourceMap,vec2 uv){
-     vec3 a=texture2D(sourceMap,uv).rgb,b=texture2D(sourceMap,vec2(1.-uv.x,uv.y)).rgb,c=texture2D(sourceMap,vec2(uv.x,1.-uv.y)).rgb,d=texture2D(sourceMap,1.-uv).rgb;
-     vec2 blend=.5*(1.-smoothstep(vec2(0.),vec2(.025),min(uv,1.-uv)));
-     return mix(mix(a,b,blend.x),mix(c,d,blend.x),blend.y);
-    }
-    float segmentDistance(vec2 p,vec2 a,vec2 b){vec2 d=b-a;return length(p-a-d*clamp(dot(p-a,d)/dot(d,d),0.,1.));}
-   `+shader.fragmentShader;
-   shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>',`
-    vec2 q=siteWorld.xz;float stoneMask=0.;${pathCode}${patchCode}
-    // RGB comes from native paintings. Only the authored route selects a material.
-    vec3 grass=texture2D(grassMap,fract(vec2(q.x,-q.y)/3.6)).rgb;grass=mix(grass,vec3(dot(grass,vec3(.2126,.7152,.0722))),.28)*vec3(.57,.64,.62);
-    vec3 paving=pavingSample(map,fract(vec2(q.x,-q.y)/4.0))*vec3(.65,.73,.75);
-    paving=mix(paving,vec3(.16,.18,.18),.16);
-    vec3 color=mix(${art.interior?'paving*.10':'grass'},paving,stoneMask);
-    float warm=0.;${lightCode}color*=vec3(1.)+warm*vec3(.45,.20,.025);
-    float distanceFade=smoothstep(14.,35.,max(abs(q.x),abs(q.y)));color=mix(color,vec3(.025,.043,.043),distanceFade*.90);
-    diffuseColor*=vec4(color,1.);
-   `);
-  };m.customProgramCacheKey=()=>`rest-ground-${this.area.id}-v2`;return m;
- }
+ floorMaterial(){if(this.graveyard)return this.graveyard.floorMaterial();if(this.architecture)return this.architecture.floorMaterial();throw new Error(`No authored floor architecture for ${this.area.id}`);}
  private owned:{dispose:()=>void}[]=[];
  private castShadows:{sprite:ActorSprite;mesh:T.Mesh<T.BufferGeometry,T.MeshBasicMaterial>}[]=[];
  private staticShadows:T.Mesh<T.PlaneGeometry,T.MeshBasicMaterial>[]=[];
- // Painted endpoints determine a single flat card. There are no extruded stone faces.
- private walls(){if(this.architecture){this.architecture.build();return;}const art=worldVisuals[this.area.id]!,cos=Math.cos(contract.elevationDeg*Math.PI/180);
-  for(const w of art.walls){const dx=w.to.x-w.from.x,dz=w.to.z-w.from.z,length=Math.hypot(dx,dz),clip=w.cutout??'wall';
-   const registration=clip==='wall'?sceneryRegistration.find(r=>r.id==='wall')!:restRegistration.find(r=>r.id===clip)!;
-   if(!('sockets' in registration))throw new Error(`wall lacks painted endpoints: ${clip}`);
-   const r=registration,ratio=r.height*cos/r.measurePx,a=r.sockets[0]!,b=r.sockets[1]!,pivot=r.pivot;
-   const ax=(a[0]-pivot[0])*ratio,ay=(pivot[1]-a[1])*ratio,bx=(b[0]-pivot[0])*ratio,by=(pivot[1]-b[1])*ratio;
-   const count=Math.ceil(length/(clip==='wall'?2.5:4.5));
-   for(let i=0;i<count;i++){const from={x:w.from.x+dx*i/count,z:w.from.z+dz*i/count},to={x:w.from.x+dx*(i+1)/count,z:w.from.z+dz*(i+1)/count};
-    const card=this.sprite(`${w.id}-${i}`,clip==='wall'?'ink-scenery':'ink-rest',clip);card.show(card.animator.frame,new T.Vector3(from.x,heightAt(this.area,from.x,from.z),from.z),this.camera);
-    const vertices=card.geometry.getAttribute('position');
-    for(let j=0;j<vertices.count;j++){const x=vertices.getX(j),y=vertices.getY(j),t=(x-ax)/(bx-ax),groundY=ay+(by-ay)*t;
-     vertices.setXYZ(j,(to.x-from.x)*t,(y-groundY)/cos*(w.visualHeight??w.height)/r.height,(to.z-from.z)*t);
-    }vertices.needsUpdate=true;card.geometry.computeBoundingSphere();card.mesh.rotation.set(0,0,0);card.mesh.userData.siteWall=w.id;
-    card.material.color.set(0xc5cfc7);if(card.edgeMaterial)card.edgeMaterial.alphaTest=.8;this.fades.push(card);this.occlusion.add(card.mesh,w.assembly??card.id,w);
-   }
-  }
- }
+ // Active interiors use authored painted architecture.
+ private walls(){this.architecture?.build();}
+
  private ground(p:ArtPlacement,asset=p.asset??(p.clip.startsWith('t')?'ink-ground-transitions':'ink-decals')){
   const s=this.sprite(p.id,asset,p.clip),scale=p.scale??1,angle=p.rotation??0;
   s.show(s.animator.frame,new T.Vector3(p.x,heightAt(this.area,p.x,p.z)+.018,p.z),this.camera);s.mesh.scale.setScalar(scale);s.mesh.rotateZ(angle);s.mesh.renderOrder=-1.9;s.material.color.set(p.tint??0xb7c2b6);s.material.opacity=p.opacity??1;
@@ -104,7 +58,7 @@ export class InkRoom {
   s.show(s.animator.frame,new T.Vector3(p.x,heightAt(this.area,p.x,p.z)+(p.y??0),p.z),this.camera);s.mesh.scale.set(scale*(p.mirror?-1:1),scale,scale);
   if(p.tint){s.material.color.set(p.tint);s.edgeMaterial?.color.copy(s.material.color);}
   // Reversible runtime matte rejects generated backdrop residue without changing sources.
-  if(p.asset==='ink-rest'&&s.edgeMaterial)s.edgeMaterial.alphaTest=.8;
+
   s.mesh.userData.artPart={id:p.id,role:p.wallFace?'mounted-face':p.mount?'mounted-fixture':'prop',assembly:p.assembly,mount:p.mount,footprint:p.footprint};
   if(p.wallFace){const wall=worldVisuals[this.area.id]!.walls.find(w=>w.id===p.wallFace)!;s.mesh.rotation.y=Math.atan2(-(wall.to.z-wall.from.z),wall.to.x-wall.from.x);}
   if(p.fade){this.fades.push(s);this.occlusion.add(s.mesh,p.assembly??p.id);}
@@ -138,11 +92,7 @@ export class InkRoom {
    if(g.seal.mesh.visible){const c=resolveClip(g.seal.manifest,'door_seal_dissolve','d45');this.sample(g.seal,c,clipDuration(c)*.4,new T.Vector3(g.x,heightAt(this.area,g.x,g.z)+.02,g.z));}
   }
   if(!visible)return;
-  const hero=sim.hero,foot=new T.Vector3(hero.px+(hero.x-hero.px)*alpha,hero.y+.06,hero.pz+(hero.z-hero.pz)*alpha),heading=selectDirection(hero.yaw);
-  if(hero.state==='attack'&&hero.attackKind==='sweep'){const t=attackDefinition(hero);
-   if(hero.age>=t.windup&&hero.age<t.activeEnd){const clip='sword_arc_01',s=this.effect('sword','ink-combat',clip),c=resolveClip(s.manifest,clip,heading);s.mesh.visible=true;this.sample(s,c,(hero.age-t.windup)/(t.activeEnd-t.windup)*clipDuration(c),foot);}
-  }
-  if(hero.state==='ability'&&hero.age>=tuning.ability.windup){const s=this.effect('flare','ink-combat','lantern_cone_flare'),c=resolveClip(s.manifest,'lantern_cone_flare',heading);s.mesh.visible=true;this.sample(s,c,(hero.age-tuning.ability.windup)/(tuning.ability.total-tuning.ability.windup)*clipDuration(c),foot);}
+
   for(const a of sim.enemies)if(a.health>0&&a.state==='attack'){
    const s=this.effect(`telegraph-${a.id}`,'ink-cues','enemy_ring'),c=resolveClip(s.manifest,'enemy_ring','d45');s.mesh.visible=true;
    // Ring radius follows authoritative reach; artwork is only a cue.

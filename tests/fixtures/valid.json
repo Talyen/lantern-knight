@@ -10,7 +10,7 @@
     "provenance": {
       "creator": "Lantern Knight foundation",
       "license": "Project original; editable proxy, not approved art",
-      "source": "authoring/knight/rig.blend + tools/diagnostic.ts"
+      "source": "temporary generated fixture + tools/diagnostic.ts"
     },
     "contractId": "lantern-camera-v2",
     "bakeVersion": 2,
@@ -26,7 +26,7 @@
     "padding": 0,
     "colorSpace": "srgb",
     "alpha": "straight",
-    "recipe": "blender-proxy-v1 + diagnostic-v1",
+    "recipe": "diagnostic-v1 + diagnostic-v1",
     "renderCategory": "cutout",
     "shadow": {
       "radius": 0.3,
@@ -51,7 +51,7 @@
       "idle": {
         "d00": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -61,7 +61,7 @@
         },
         "d45": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -71,7 +71,7 @@
         },
         "d90": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -81,7 +81,7 @@
         },
         "d135": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -91,7 +91,7 @@
         },
         "d180": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -101,7 +101,7 @@
         },
         "d225": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -111,7 +111,7 @@
         },
         "d270": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -121,7 +121,7 @@
         },
         "d315": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -133,7 +133,7 @@
       "walk": {
         "d00": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -143,7 +143,7 @@
         },
         "d45": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -153,7 +153,7 @@
         },
         "d90": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -163,7 +163,7 @@
         },
         "d135": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -173,7 +173,7 @@
         },
         "d180": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -183,7 +183,7 @@
         },
         "d225": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -193,7 +193,7 @@
         },
         "d270": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -203,7 +203,7 @@
         },
         "d315": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -215,7 +215,7 @@
       "attack_sword_01": {
         "d00": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -225,7 +225,7 @@
         },
         "d45": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -235,7 +235,7 @@
         },
         "d90": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -245,7 +245,7 @@
         },
         "d135": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -255,7 +255,7 @@
         },
         "d180": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -265,7 +265,7 @@
         },
         "d225": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -275,7 +275,7 @@
         },
         "d270": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -285,7 +285,7 @@
         },
         "d315": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -297,7 +297,7 @@
       "dodge": {
         "d00": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -307,7 +307,7 @@
         },
         "d45": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -317,7 +317,7 @@
         },
         "d90": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -327,7 +327,7 @@
         },
         "d135": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -337,7 +337,7 @@
         },
         "d180": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -347,7 +347,7 @@
         },
         "d225": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -357,7 +357,7 @@
         },
         "d270": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -367,7 +367,7 @@
         },
         "d315": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -379,7 +379,7 @@
       "cast_lantern_flare": {
         "d00": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -389,7 +389,7 @@
         },
         "d45": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -399,7 +399,7 @@
         },
         "d90": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -409,7 +409,7 @@
         },
         "d135": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -419,7 +419,7 @@
         },
         "d180": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -429,7 +429,7 @@
         },
         "d225": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -439,7 +439,7 @@
         },
         "d270": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -449,7 +449,7 @@
         },
         "d315": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -461,7 +461,7 @@
       "hit": {
         "d00": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -471,7 +471,7 @@
         },
         "d45": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -481,7 +481,7 @@
         },
         "d90": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -491,7 +491,7 @@
         },
         "d135": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -501,7 +501,7 @@
         },
         "d180": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -511,7 +511,7 @@
         },
         "d225": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -521,7 +521,7 @@
         },
         "d270": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -531,7 +531,7 @@
         },
         "d315": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -543,7 +543,7 @@
       "death": {
         "d00": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -553,7 +553,7 @@
         },
         "d45": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -563,7 +563,7 @@
         },
         "d90": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -573,7 +573,7 @@
         },
         "d135": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -583,7 +583,7 @@
         },
         "d180": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -593,7 +593,7 @@
         },
         "d225": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -603,7 +603,7 @@
         },
         "d270": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -613,7 +613,7 @@
         },
         "d315": {
           "frames": [
-            "proxy-walk-d45-0"
+            "sample-frame"
           ],
           "durationsMs": [
             200
@@ -628,9 +628,9 @@
   },
   "frames": [
     {
-      "id": "proxy-walk-d45-0",
-      "path": "proxy/proxy-walk-d45-0.png",
-      "origin": "blender-proxy",
+      "id": "sample-frame",
+      "path": "sample.png",
+      "origin": "diagnostic",
       "attachments": {
         "lantern": [
           132.48000240325928,

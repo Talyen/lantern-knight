@@ -50,6 +50,6 @@ export const graveyardScene:WorldVisualDefinition={
  {id:'family-moss',clip:'d03_moss_edge',x:4.5,z:-2.8,scale:.5},
  {id:'old-grave-moss',clip:'d04_moss_islands',x:-4.2,z:-1.0,scale:.55},
  ].map(p=>({...p,asset:'ink-graveyard-overlays'})),
- dependencies:['ink-scenery','ink-graveyard-scenery','ink-graveyard-overlays','ink-ambient','ink-moss','ink-masonry','ink-soil','ink-chapel-front','ink-churchyard-roof','ink-blackwood-oak','ink-blackwood-woodland','ink-combat','ink-cues'],
+ dependencies:['ink-scenery','ink-graveyard-scenery','ink-graveyard-overlays','ink-ambient','ink-moss','ink-masonry','ink-soil','ink-chapel-front','ink-churchyard-roof','ink-blackwood-oak','ink-blackwood-woodland','ink-cues'],
  camera:{bounds:{minX:-1.5,maxX:2.0,minZ:-6.4,maxZ:3.7},bias:{x:.8,z:-3.0}},assemblies:[],overlaps:[],
 };

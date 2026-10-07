@@ -39,7 +39,7 @@ const props:ArtPlacement[]=[
 export const cryptScene:WorldVisualDefinition={
  floor:'ink-crypt-stone',interior:{minX:-8,maxX:8,minZ:-9,maxZ:9},props,walls,
  assemblies:[{id:'crypt',origin:{x:0,z:0},props,walls}],paths:[],graves:[],patches:[],lights:[],
- dependencies:['ink-scenery','ink-crypt','ink-crypt-wall','ink-crypt-flame','ink-crypt-damp','ink-crypt-marble','ink-masonry','ink-decals','ink-ground-transitions','ink-combat','ink-cues','ink-crypt-ambient','ink-crypt-feature'],
+ dependencies:['ink-scenery','ink-crypt','ink-crypt-wall','ink-crypt-flame','ink-crypt-damp','ink-crypt-marble','ink-masonry','ink-decals','ink-ground-transitions','ink-cues','ink-crypt-ambient','ink-crypt-feature'],
  overlaps:[...[-7.4,7.4].flatMap((x,side)=>[2.7,-2.8].map((z,i)=>({a:`crypt-pier-${side}-${i+1}`,b:`crypt-${side?'east':'west'}-return-${i}`,region:{minX:x-.31,maxX:x+.31,minZ:z-.31,maxZ:z+.31},reason:'The bay return is joined to its structural pier'})))],
  decals:[
   {id:'crypt-damp',clip:'t07_damp_spread',x:6.75,z:.15,scale:.7,tint:0x87969b},

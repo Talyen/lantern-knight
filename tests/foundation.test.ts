@@ -1,5 +1,5 @@
 import {projectRoot} from '../tools/assets/paths';
-const fixtureRoot=path.join(projectRoot,'tests/fixtures');
+
 import {assetFile} from '../tools/assets/paths';
 import {readAsset} from '../tools/assets/io';
 import {defaultVisualEffects} from '../src/content/visual-effects';
@@ -28,7 +28,12 @@ import {walkablePoint} from '../src/core/camera';
 const approx=(a:number,b:number)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);
 const read=async(p:string)=>JSON.parse(await readAsset(p,'utf8'));
 const source=await read('tests/fixtures/valid.json');
-const manifest=await read('public/generated/manifest.json');
+const fixtureRoot=await fs.mkdtemp(path.join(os.tmpdir(),'lantern-source-fixture-'));
+await fs.writeFile(path.join(fixtureRoot,'valid.json'),JSON.stringify(source));
+await sharp({create:{width:source.asset.canvas[0],height:source.asset.canvas[1],channels:4,background:{r:170,g:70,b:20,alpha:1}}}).png().toFile(path.join(fixtureRoot,'sample.png'));
+import {after} from 'node:test';
+after(()=>fs.rm(fixtureRoot,{recursive:true,force:true}));
+const manifest=await read('public/generated/ink/ink-hero-current/manifest.json');
 test('camera projection/unprojection accounts for canvas offset and both aspect ratios',()=>{
   const camera=makeCamera(16/9);for(const [width,height] of [[2560,1440],[1200,900]]){resizeCamera(camera,width!,height!);const rect={left:103,top:78,width:width!,height:height!};for(const p of [new Vector3(1,0,2),new Vector3(-3,0,-2),new Vector3()]){const ndc=p.clone().project(camera),q=groundPoint(camera,rect.left+(ndc.x+1)/2*rect.width,rect.top+(1-ndc.y)/2*rect.height,rect)!;approx(q.x,p.x);approx(q.z,p.z);}approx(camera.top-camera.bottom,contract.verticalSpan);}
   const fixture=calibrationFixture();assert.ok(fixture.headings[1]!.screenVector[1]!>0);assert.ok(fixture.headings[5]!.screenVector[1]!<0);assert.equal(fixture.view.length,16);
@@ -39,7 +44,7 @@ test('trim placement preserves every source pixel relative to the foot; heading 
 });
 test('all compiled clip/direction frames preserve the same untrimmed foot origin',()=>{
   const m=parseManifest(manifest),asset=m.asset;
-  for(const frame of m.frames){const bounds=trimmedBounds({density:asset.density,anchor:asset.anchor},frame.trim);approx(bounds.left+(asset.anchor[0]-frame.trim[0])/asset.density,0);approx(bounds.top-(asset.anchor[1]-frame.trim[1])/asset.density,0);}
+  for(const frame of m.frames){const bounds=trimmedBounds(frame.registration??asset,frame.trim);approx(bounds.left+((frame.registration??asset).anchor[0]-frame.trim[0])/(frame.registration??asset).density,0);approx(bounds.top-((frame.registration??asset).anchor[1]-frame.trim[1])/(frame.registration??asset).density,0);}
   for(const dirs of Object.values(m.asset.clips))for(const c of Object.values(dirs))for(const id of c.frames)assert.ok(m.frames.some(f=>f.id===id));
 });
 test('vertical actor depth preserves baked projection exactly and places head above the foot in world space',()=>{
@@ -56,7 +61,7 @@ test('valid and deliberately invalid schema fixtures; production fails closed',a
   const invalid=structuredClone(manifest);invalid.frames[0].rect[2]=99999;assert.throws(()=>parseManifest(invalid),/bounds/);invalid.frames[0].rect[2]=1;invalid.frames[0].rotated=true;assert.throws(()=>parseManifest(invalid));
   const nonFinite=structuredClone(source);nonFinite.asset.density=Infinity;assert.throws(()=>parseSource(nonFinite));
   const missingDep=structuredClone(manifest);missingDep.bundles.room.dependencies=['missing'];assert.throws(()=>parseManifest(missingDep),/dependency/);missingDep.bundles.room.dependencies=['room'];assert.throws(()=>parseManifest(missingDep),/cyclic/);
-  const looping=structuredClone(manifest);looping.asset.clips.death.d45.loop=true;assert.throws(()=>parseManifest(looping),/loop/);
+  const looping=structuredClone(manifest);looping.asset.clips.death.d00.loop=true;assert.throws(()=>parseManifest(looping),/loop/);
 });
 const fixtureTexts:Record<string,string>={};for(const name of ['invalid-duration','invalid-camera','invalid-heading']){const invalid=structuredClone(source);if(name==='invalid-duration')invalid.asset.clips.walk.d45.durationsMs=[0];if(name==='invalid-camera')invalid.asset.contractId='unapproved-other-camera';if(name==='invalid-heading')delete invalid.asset.clips.walk.d225;fixtureTexts[name]=JSON.stringify(invalid);}
 test('compiler is byte deterministic; failed build preserves prior manifest; source confinement and case',async()=>{

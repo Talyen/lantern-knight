@@ -1,3 +1,4 @@
+import {registeredTrim} from './animation-blend-shader';
 import * as T from 'three';
 export function neutralColor(color:T.Color){const v=color.r*.2126+color.g*.7152+color.b*.0722;return color.setRGB(v,v,v);}
 import {right,up,outward,contract} from '../core/camera';
@@ -95,14 +96,15 @@ export class IllustratedLighting {
  sprite(sprite:ActorSprite){
   const sample=sprite.lightingSample;if(!sample)return;
   for(const material of [sprite.material,sprite.edgeMaterial])if(material){
-   const u=this.attach(material,false,sprite.manifest.asset.id.startsWith('ink-combat')||!!sprite.mesh.userData.emissive),a=this.normals.get(sprite),b=sample.next?this.normals.get(sprite,sample.next):a;
+   const u=this.attach(material,false,!!sprite.mesh.userData.emissive),a=this.normals.get(sprite),b=sample.next?this.normals.get(sprite,sample.next):a;
    u.inkFootY.value=sprite.mesh.position.y;u.inkBodyHeight.value=Math.max(.1,sample.frame.trim[3]/(sample.frame.registration??sprite.manifest.asset).density*Math.abs(sprite.mesh.scale.y));u.inkMirror.value=sprite.mesh.scale.x<0?-1:1;u.inkHasNormal.value=a?1:0;if(!a)continue;u.inkNormalA.value=a;u.inkNormalB.value=b??a;
    const frame=sample.frame,page=sprite.manifest.pages.find(p=>p.id===frame.page)!,[x,y,w,h]=frame.rect;
    u.inkRectA.value.set(x/page.width,1-(y+h)/page.height,w/page.width,h/page.height);
-   const [cw,ch]=(sample.frame.registration??sprite.manifest.asset).canvas;u.inkCanvas.value.set(cw,ch);u.inkBlend.value=sample.blend?1:0;u.inkMix.value=sample.blend?.mix??0;
-   for(const [f,target]of [[frame,u.inkTrimA],[sample.next??frame,u.inkTrimB]] as const){const offset=sprite.stabilized?f.visualOffsetPx??[0,0]:[0,0];target.value.set((f.trim[0]+offset[0]!)/cw,(f.trim[1]+offset[1]!)/ch,f.trim[2]/cw,f.trim[3]/ch);}
-   const pair=sample.blend?.motion?sample.flow?.pairs.find(p=>p.from===frame.id&&p.to===sample.next?.id):undefined;u.inkSwordEnabled.value=sample.blend?.guarded&&sprite.rigidSword&&pair?.sword?1:0;
-   if(pair?.sword&&sample.next){const sword=registeredSword(pair.sword,frame,sample.next,sprite.stabilized);u.inkSwordA.value.fromArray(sword.a);u.inkSwordB.value.fromArray(sword.b);u.inkSwordWidth.value=sword.width;}
+   const pair=sample.blend?.motion?sample.flow?.pairs.find(p=>p.asset===sprite.manifest.asset.id&&p.from===frame.id&&p.to===sample.next?.id):undefined;
+   const domain=pair??frame.registration??sprite.manifest.asset,[cw,ch]=domain.canvas;u.inkCanvas.value.set(cw,ch);u.inkBlend.value=sample.blend?1:0;u.inkMix.value=sample.blend?.mix??0;
+   for(const [f,target]of [[frame,u.inkTrimA],[sample.next??frame,u.inkTrimB]] as const){const t=registeredTrim(sprite.manifest,f,domain,sprite.stabilized);target.value.set(t[0]/cw,t[1]/ch,t[2]/cw,t[3]/ch);}
+   u.inkSwordEnabled.value=sample.blend?.guarded&&sprite.rigidSword&&pair?.sword?1:0;
+   if(pair?.sword){const sword=registeredSword(pair.sword,{...frame,visualOffsetPx:[...pair.offsetA]},{...(sample.next??frame),visualOffsetPx:[...pair.offsetB]},sprite.stabilized);u.inkSwordA.value.fromArray(sword.a);u.inkSwordB.value.fromArray(sword.b);u.inkSwordWidth.value=sword.width;}
    u.inkWarp.value=pair?1:0;u.inkFlow.value=sample.flow?.texture??a;
    if(pair&&sample.flow){const [px,py,pw,ph]=(sample.blend!.guarded?(sprite.stabilized?pair.guardedRect:pair.rawGuardedRect):(sprite.stabilized?pair.rect:pair.rawRect)) as [number,number,number,number];u.inkFlowRect.value.set((px+.5)/sample.flow.width,(py+.5)/sample.flow.height,(pw-1)/sample.flow.width,(ph-1)/sample.flow.height);}
   }

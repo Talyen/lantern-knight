@@ -23,7 +23,7 @@ export function validateAreaArt(area:AreaDefinition,packs:ReadonlyMap<string,{ma
  for(const id of [art.floor,...(art.interior?[]:['ink-moss'])]){const m=pack(id);if(m.asset.type!=='material'||m.asset.projection!=='top-down')throw new Error('floor must use raw top-down material');}
  for(const p of art.props){if(!Number.isFinite(p.x+p.z+(p.y??0)+(p.scale??1))||(p.scale??1)<=0||!p.purpose)throw new Error(`invalid art placement: ${p.id}`);if(!pack(p.asset??'ink-scenery').asset.clips[p.clip]?.d45)throw new Error(`required clip unavailable: ${p.clip}`);}
  for(const p of art.decals){const m=pack(p.asset??(p.clip.startsWith('t')?'ink-ground-transitions':'ink-decals'));if(!m.asset.clips[p.clip]?.d45)throw new Error(`required clip unavailable: ${p.clip}`);}
- for(const id of ['ink-combat','ink-cues'])pack(id);
+ for(const id of ['ink-cues'])pack(id);
 }
 
 export function compositionPoint(area:string,hero:Point):Point{const f=worldVisuals[area]?.camera;if(!f)return {...hero};

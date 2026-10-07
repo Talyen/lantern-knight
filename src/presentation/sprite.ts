@@ -2,8 +2,8 @@ import {PlaneGeometry,MeshBasicMaterial,Mesh,BufferAttribute,Vector3, type Ortho
 import {trimmedBounds,contract} from '../core/camera';
 import {Animator} from '../core/animation';
 import type {Manifest,Frame,Clip} from '../assets/schema';
-import {sampleWalkBlend,type FrameBlend,type WalkBlendMode} from '../core/walk-blending';
-import {WalkBlendShader,type WalkFlow} from './walk-blend-shader';
+import {sampleAnimation,type FrameBlend,type AnimationTreatment} from '../core/animation-treatment';
+import {AnimationBlendShader,type AnimationFlow} from './animation-blend-shader';
 const edgeMaterials=new WeakMap<Material,MeshBasicMaterial>();
 // Transparency changes the OPAQUE shader define; opacity alone cannot invalidate it.
 export function setCutoutOpacity(material:Material,opacity:number){
@@ -12,11 +12,11 @@ export function setCutoutOpacity(material:Material,opacity:number){
   material.opacity=opacity;material.depthWrite=!transparent;const edge=edgeMaterials.get(material);if(edge)edge.opacity=opacity;
 }
 export class ActorSprite {
-  lightingSample: {frame:Frame;next?:Frame;blend?:FrameBlend;flow?:WalkFlow}|undefined;
+  lightingSample: {frame:Frame;next?:Frame;blend?:FrameBlend;flow?:AnimationFlow}|undefined;
   geometry=new PlaneGeometry(1,1);
   material=new MeshBasicMaterial({alphaTest:.05,depthTest:true,depthWrite:true,transparent:false,toneMapped:false});
   edgeMaterial:MeshBasicMaterial|undefined;edgeMesh:Mesh|undefined;
-  private blendShader:WalkBlendShader|undefined;private fullCanvas=false;private lastStabilized=true;
+  private blendShader:AnimationBlendShader|undefined;private fullCanvas=false;private lastPair='';private lastStabilized=true;
   stabilized=true;rigidSword=true;
   mesh=new Mesh(this.geometry,this.material);animator:Animator;lastFrame='';frameIndex=new Map<string,Frame>();
   constructor(public id:string,public manifest:Manifest,public textures:Map<string,Texture>,clip:Clip){this.animator=new Animator(id,clip);this.frameIndex=new Map(manifest.frames.map(f=>[f.id,f]));this.mesh.frustumCulled=false;
@@ -28,23 +28,26 @@ export class ActorSprite {
       this.edgeMesh=new Mesh(this.geometry,this.edgeMaterial);this.edgeMesh.frustumCulled=false;this.mesh.add(this.edgeMesh);edgeMaterials.set(this.material,this.edgeMaterial);
     }
     if(manifest.asset.type==='effect'||manifest.asset.renderCategory==='translucent'){this.material.transparent=true;this.material.depthWrite=false;this.material.alphaTest=0;}}
-  showAnimation(foot:Vector3,camera:OrthographicCamera,mode:WalkBlendMode='original',flow?:WalkFlow){
-    if(mode==='original'||this.animator.clip.frames.length<2)return this.show(this.animator.frame,foot,camera);
-    const sample=sampleWalkBlend(this.animator.clip,this.animator.time,mode);
+  showAnimation(foot:Vector3,camera:OrthographicCamera,mode:AnimationTreatment='original',flow?:AnimationFlow){
+    if(mode==='original'||this.animator.clip.frames.length<2)return this.show(this.animator.frame,foot,camera,undefined,flow);
+    const sample=sampleAnimation(this.animator.clip,this.animator.time,mode);
+    const pair=flow?.pairs.find(p=>p.asset===this.manifest.asset.id&&p.from===sample.from&&p.to===sample.to);
+    if(!pair?.supported)return this.show(this.animator.frame,foot,camera,undefined,flow);
     return this.show(sample.from,foot,camera,sample,flow);
   }
-  show(frameId:string,foot:Vector3,camera:OrthographicCamera,blend?:FrameBlend,flow?:WalkFlow){
-    const f=this.frameIndex.get(frameId);if(!f)throw new Error(`runtime required frame missing: ${frameId}`);
-    this.lightingSample={frame:f,next:blend?this.frameIndex.get(blend.to):undefined,blend,flow};
+  show(frameId:string,foot:Vector3,camera:OrthographicCamera,blend?:FrameBlend,flow?:AnimationFlow){
+    const original=this.frameIndex.get(frameId),offset=flow?.offsets[frameId];const f=original&&offset?{...original,visualOffsetPx:offset}:original;if(!f)throw new Error(`runtime required frame missing: ${frameId}`);
+    this.lightingSample={frame:f,next:blend?(()=>{const frame=this.frameIndex.get(blend.to)!;return {...frame,visualOffsetPx:flow?.offsets[frame.id]??frame.visualOffsetPx};})():undefined,blend,flow};
     if(blend){
-      this.blendShader??=new WalkBlendShader([this.material,...(this.edgeMaterial?[this.edgeMaterial]:[])]);
+      this.blendShader??=new AnimationBlendShader([this.material,...(this.edgeMaterial?[this.edgeMaterial]:[])]);
       const next=this.frameIndex.get(blend.to);if(!next)throw new Error(`runtime blend frame missing: ${blend.to}`);
       this.blendShader.update(blend,this.manifest,f,next,this.textures,flow,this.stabilized,this.rigidSword);
     }else if(this.blendShader)this.blendShader.uniforms.walkEnabled.value=0;
-    const fullCanvas=!!blend,geometryChanged=frameId!==this.lastFrame||fullCanvas!==this.fullCanvas||this.stabilized!==this.lastStabilized;
+    const pair=blend?flow?.pairs.find(p=>p.asset===this.manifest.asset.id&&p.from===blend.from&&p.to===blend.to):undefined,pairTag=pair?[pair.from,pair.to].join(':'):'';
+    const fullCanvas=!!blend,geometryChanged=pairTag!==this.lastPair||frameId!==this.lastFrame||fullCanvas!==this.fullCanvas||this.stabilized!==this.lastStabilized;
     if(geometryChanged){
       const texture=this.textures.get(f.page);if(!texture)throw new Error(`runtime page missing: ${f.page}`);this.material.map=texture;this.material.needsUpdate=this.lastFrame==='';if(this.edgeMaterial){this.edgeMaterial.map=texture;this.edgeMaterial.needsUpdate=this.lastFrame==='';}
-      const registration=f.registration??this.manifest.asset;
+      const registration=pair??f.registration??this.manifest.asset;
       const b=trimmedBounds(registration,fullCanvas?[0,0,...registration.canvas]:f.trim);
       // Translate only artwork in the camera plane; mesh.position remains the foot root.
       if(!fullCanvas&&this.stabilized&&f.visualOffsetPx){
@@ -60,7 +63,7 @@ export class ActorSprite {
       if(fullCanvas){const uv=this.geometry.getAttribute('uv') as BufferAttribute;uv.setXY(0,0,1);uv.setXY(1,1,1);uv.setXY(2,0,0);uv.setXY(3,1,0);uv.needsUpdate=true;}else{
       const p=this.manifest.pages.find(p=>p.id===f.page)!,[x,y,w,h]=f.rect,uv=this.geometry.getAttribute('uv') as BufferAttribute;
       uv.setXY(0,x/p.width,1-y/p.height);uv.setXY(1,(x+w)/p.width,1-y/p.height);uv.setXY(2,x/p.width,1-(y+h)/p.height);uv.setXY(3,(x+w)/p.width,1-(y+h)/p.height);uv.needsUpdate=true;}
-      this.geometry.computeBoundingSphere();this.lastFrame=frameId;this.fullCanvas=fullCanvas;this.lastStabilized=this.stabilized;
+      this.geometry.computeBoundingSphere();this.lastFrame=frameId;this.fullCanvas=fullCanvas;this.lastStabilized=this.stabilized;this.lastPair=pairTag;
     }
     if(this.edgeMaterial){this.edgeMaterial.color.copy(this.material.color);this.edgeMaterial.opacity=this.material.opacity;}
     this.mesh.position.copy(foot);if(this.manifest.asset.projection==='front-view')this.mesh.rotation.set(0,0,0);else if(this.manifest.asset.projection==='top-down')this.mesh.rotation.set(-Math.PI/2,0,0);else this.mesh.quaternion.copy(camera.quaternion);return f;

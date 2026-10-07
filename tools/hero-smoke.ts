@@ -7,6 +7,7 @@ const run=await smokeLaunch(true,[],{budget:32*1024**2}),{page,errors,output}=ru
 try{
  await page.waitForFunction(()=>window.foundation?.ready,{},{timeout:60000});
  await page.evaluate(async()=>{const f=window.foundation;await f.fixture('upper-landing');f.pause(true);document.querySelector<HTMLElement>('#modal')!.hidden=true;f.presentation.setDepthOfField(0);f.sim.enemies.forEach(a=>a.health=0);Object.assign(f.sim.hero,{x:0,z:1,px:0,pz:1});});
+ for(const area of ['court','upper-landing']){await page.evaluate(async area=>{const f=window.foundation;await f.fixture(area);f.mode('encounter');f.pause(true);document.querySelector<HTMLElement>('#modal')!.hidden=true;f.presentation.update(f.sim,1,0,{x:0,z:0});},area);assert.deepEqual(await page.evaluate(()=>{const s=window.foundation.presentation.lookRenderer.settings;return [s.rig,s.look,s.strength];}),['golden','diorama',1.5]);}
  const observations=await page.evaluate(()=>{
   const f=window.foundation,p=f.presentation,s=f.sim,h=s.hero,results=[];
   for(const [heading,yaw]of [['d00',0],['d90',Math.PI/2],['d180',Math.PI],['d270',-Math.PI/2]] as const){
@@ -32,9 +33,9 @@ try{
  });
  assert.equal(observations.cases.length,32);assert.ok(observations.stats.atlasBytes<=768*1024**2);
  if(run.capture)await page.locator('canvas').screenshot({path:path.join(output,'hero-sweep-gameplay.png')});
- await page.getByRole('button',{name:'Animation lab',exact:true}).click();await page.locator('#asset').selectOption('ink-hero');
- await page.waitForFunction(()=>window.foundation.presentation.labAsset==='ink-hero'&&!!window.foundation.presentation.walkFlow);
- assert.equal(await page.evaluate(()=>window.foundation.presentation.labSprite.manifest.asset.id),'ink-hero');
+ await page.getByRole('button',{name:'Animation lab',exact:true}).click();await page.locator('#asset').selectOption('ink-hero-current');
+ await page.waitForFunction(()=>window.foundation.presentation.labAsset==='ink-hero-current'&&!!window.foundation.presentation.animationFlow);
+ assert.equal(await page.evaluate(()=>window.foundation.presentation.labSprite.manifest.asset.id),'ink-hero-current');
  assert.deepEqual(errors,[]);await fs.writeFile(path.join(output,'hero-report.json'),JSON.stringify(observations,null,2));
- console.log(`PASS: 32 hero action/heading journeys, exact authored frame coverage, foot registration, ${Math.round(observations.stats.atlasBytes/1024**2)} MiB resident atlases, and original walk study.`);
+ console.log(`PASS: 32 hero action/heading journeys, exact authored frame coverage, foot registration, ${Math.round(observations.stats.atlasBytes/1024**2)} MiB resident atlases, and current animation comparison.`);
 }catch(error){await fs.writeFile(path.join(output,'hero-failure.json'),JSON.stringify({error:String(error),errors}));throw error;}finally{await run.close();}

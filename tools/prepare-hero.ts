@@ -4,6 +4,7 @@ import {writeAsset,readAsset} from './assets/io';
 import {readLibrarySource} from './assets/sources';
 import {compile,hash} from './compiler';
 import {parseSource,type Source} from '../src/assets/schema';
+import {source as definition} from './assets/definition';
 import {heroTimings} from '../src/content/hero-actions';
 type Registration={canvas:[number,number];anchor:[number,number];density:number};
 type Record={id:string;group:string;member:string;sha256:string;registration:Registration};
@@ -15,11 +16,11 @@ async function write(file:string,data:string|Buffer){
  if(check){if(!Buffer.from(data).equals(await readAsset(file)))throw new Error('Stale hero preparation: '+file);}
  else await writeAsset(file,data);
 }
-const legacy=JSON.parse(await readAsset('staging/ink/ink-hero.json','utf8')) as Source;
-const asset:Source['asset']={...legacy.asset,id:'ink-hero-current',contentVersion:'hero-test-20261007-v02',viewMode:'four-directional',
+const base=definition('ink-hero-current','character',[632,688],[301,556],350,'four-directional');
+const asset:Source['asset']={...base.asset,id:'ink-hero-current',contentVersion:'hero-test-20261007-v02',viewMode:'four-directional',
  canvas:[632,688],anchor:[301,556],density:350,atlasSize:2048,
  limitations:['TEST selection; approximate registration and action joins require gameplay review.',...handoff.limitations],
- provenance:{...legacy.asset.provenance,source:'hero-handoff / '+handoff.handoffSha256},
+ provenance:{...base.asset.provenance,source:'hero-handoff / '+handoff.handoffSha256},
  recipe:'prepare-hero-v1 / native held drawings',requiredClips:[],clips:{}};
 const source:Source={schemaVersion:2,asset,frames:[]};
 for(const record of handoff.frames){
