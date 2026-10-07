@@ -1,22 +1,28 @@
 # Lantern Knight — Design Intent
 
-This document records the intended direction for the prototype and first playable. It describes design targets, not a claim that these features are already implemented. Exact timings, ranges, and cooldowns remain open for playtesting.
+This document records the intended direction for the prototype and first playable. It describes design targets, not a claim that these features are already implemented. The [roadmap](roadmap.md) tracks existing capabilities and upcoming work. Exact timings, ranges and balance values remain open for playtesting.
 
 ## Combat feel
 
-Combat should feel deliberate but responsive. Attacks carry commitment, while recovery gives the player a clear opportunity to react.
+Combat should feel deliberate but responsive. Basic sword attacks alternate between sweep and lunge, with readable commitment and clear opportunities to react between actions.
 
-- Use a short, three-hit sword combo.
-- Allow dodging to cancel attack recovery, rather than allowing cancellation during every attack phase.
-- Start without a stamina system.
+The current implementation completes an attack before allowing a dodge. Confirm that policy through playtesting, or define an allowed cancellation window before changing it. Recovery cancellation is not yet an agreed requirement.
 
-Playtesting should establish a satisfying rhythm between attacking and dodging, with readable commitment and responsive recovery cancellation.
+Start without a stamina system. Tune attack timing, input buffering, dodge timing and aiming together with the action animations.
+
+## Damage types and Burn
+
+Basic sword attacks deal Physical damage. The lantern special deals Burn damage immediately and applies Burn damage over time as a status effect. Some enemies can be weak to particular damage types.
+
+Repeated Burn applications refresh one DoT rather than adding stacks. Enemy weakness modifies both the initial Burn hit and subsequent DoT ticks. Duration, tick cadence, refresh timing and weakness values require design and playtesting.
 
 ## Lantern ability
 
-The lantern produces a short, cone-shaped flare aimed at the mouse. Enemies caught in the flare are briefly staggered.
+Develop the lantern as an AoE special attack that complements the basic sword attacks through immediate Burn damage and a refreshing Burn DoT.
 
-For the prototype, the flare uses a cooldown. This lets us test aiming, reach, stagger duration, and combat feel without first building a resource economy. Tune those values through playtesting before deciding whether a resource system would improve the game.
+The existing prototype is a mouse-aimed cone that deals immediate damage and brief stagger on a cooldown. Its animation hookup and current directional cast integration support development; they do not establish the final ability design.
+
+Choose the AoE shape, range, targeting, cooldown/resource policy and whether stagger remains before implementing the Burn special. The prototype cone and cooldown are not final commitments.
 
 ## Movement and facing
 
@@ -26,24 +32,32 @@ Defer full aim-facing strafing initially: it requires additional animation work.
 
 ## Equipment
 
-Use one fixed sword-and-lantern loadout for the first playable.
+Use one fixed sword-and-lantern loadout while polishing the existing two areas. Build attachment hooks to support later equipment development.
 
-Build attachment hooks so the equipment setup can support later expansion. Postpone visible armor swapping and multiple weapon animation sets until the core loadout and its animations are proven.
+Equipment and loot will form part of the cohesive progression system. Slots, item effects and their relationships to stats and permanent upgrades need design before implementation. Visible armor swapping and additional weapon animation sets are not current roadmap commitments.
+
+## Character progression
+
+Design levels/stats, equipment/loot and permanent upgrades as one cohesive system. Favor authored rewards and deliberate build choices. Define attributes, equipment slots, reward cadence and how rewards feed each progression layer before implementation.
+
+Begin with a minimal integrated progression loop in existing content, including player-facing choices and persistent state. Retain earned progression on death and retry the encounter.
 
 ## World structure
 
-Begin with small, connected, hand-authored areas and simple elevation.
+Begin with small, connected, hand-authored areas and simple elevation. Polish Graveyard Approach and Ruined Chapel before expanding the adventure beyond them.
 
-Use these areas to prove the basic art and occlusion system. Defer procedural generation and stacked walkable floors until that foundation is reliable.
+These areas are the beginning of a continuing game, not a chapter requiring a clear ending. Use them to establish traversal, combat, art and occlusion, then extend the world after combat polish and the first progression loop are established. Later destinations and encounters remain to be designed.
 
 ## Lighting
 
-Use painted environmental lighting, simple contact shadows, and selective glow from the lantern and spells.
+Use painted environmental lighting, simple contact shadows and selective glow from the lantern and spells.
 
 Keep full dynamic relighting optional. The initial visual direction should work with the painted lighting approach, with selective glow supporting readability and atmosphere.
 
 ## Prototype priorities
 
-The first playable should prove the sword combo, recovery-only dodge cancellation, mouse-aimed lantern stagger, and movement/action facing transitions together in a small connected area. Art validation should establish that simple elevation, occlusion, contact shadows, and selective glow work coherently.
+Polish alternating sweep/lunge attacks, dodge, the Burn lantern special and movement/action facing transitions together across the existing two areas. Complete enemy action animation and attack cues, coherent hit/Burn feedback, sound and music, basic onboarding and settings usability.
 
-Stamina, a lantern resource economy, full aim-facing strafing, visible armor swaps, additional weapon animation sets, procedural generation, and stacked walkable floors are deferred. Full dynamic relighting remains an optional later direction.
+Art validation should establish that elevation, occlusion, contact shadows and selective glow work coherently. Visible playtesting should confirm that a new player understands the controls, reads enemy actions, uses both attacks meaningfully, traverses both areas, retries after death and saves/resumes reliably.
+
+Follow this with a cohesive progression loop before expanding the adventure. Resolve the open decisions in the [roadmap](roadmap.md#open-design-decisions) rather than treating prototype behavior as final design.
