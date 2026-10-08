@@ -1,14 +1,12 @@
 # Handoff and performance evidence
 
-The repository contains authored inputs; the external Asset Library owns originals, one pinned prepared pack supplies normal development and CI, and an external cache bounds disposable data. Original artwork and the current Game/Dev features are preserved.
+The [asset workflow](assets.md) owns originals, prepared packs and external cache retention. Original artwork and the current Game/Dev features are preserved.
 
-Source-aware fidelity and freshness checks run during preparation on the Mac. Normal development and hosted CI consume prepared assets and validate their integrity and runtime contracts. Delivery verification includes Game/Dev builds, artifact identities, macOS/Windows packaging, player controls and persistence, Sandbox routing, Crypt rendering, preferences, weather and the Effects Playground.
+Scene ownership refactors require matching object order, collider geometry, fixture sockets/effects, and rendered room evidence against an external baseline. Existing-lamp changes additionally exercise attached moves, support movement/deletion, capacity rollback, undo/recovery, and save conflicts through editor acceptance. [Asset finalization](assets.md#local-preparation-review) owns source fidelity, freshness and exact-payload equivalence evidence; source-free checks alone do not prove output equivalence.
 
 This document defines evidence requirements; it is not a record of a completed run. Only completed checks establish verification. A task response records the changed behavior, completed checks and material limitations. For a requested commit/push or release, the response records the exact final commit and hosted job conclusions after CI finishes. Hidden tests do not establish visible display pacing, release signing or behavior on untested GPUs.
 
-Routine prototype CI has a five-minute execution-path limit excluding runner queues: two minutes for checks/builds, followed by at most three for each desktop job in parallel. It retains all regular tests and static/asset gates, both builds and artifact identities, both packages, and `smoke:desktop` on macOS and Windows. The desktop smoke has a ninety-second command deadline and checks startup, actual movement/combat inputs, pause/confirmation, checkpoint protection and round-trip, and Dev Preview isolation. Long balanced playthroughs, resolution matrices, replay and effect comparisons are opt-in with the workflow's **exhaustive** manual-run input; they remain available for relevant investigations and release validation.
-
-Windows hosted smoke launches use ANGLE/SwiftShader and visible windows on the isolated CI desktop, avoiding hidden-window frame pacing. The interaction journey uses the player's existing 50% quality option; dedicated opt-in renderer checks retain native resolution. Their slow software-renderer deadlines are separate from the routine CI budget and product timing. Crypt composition samples keep all twenty animation/effect updates but submit only the final image, with an exact full-render pixel control; resource-lifetime checks still draw intermediate frames.
+The [E2E policy](../CONTRIBUTING.md#e2e-coverage-and-execution-budgets) owns test value, platform coverage and budgets. Report runner queues and local command admission separately, and compare summed runner time, launches and test LOC alongside elapsed execution. Automated checks do not establish visible pacing or exhaustive cross-platform renderer parity.
 
 [Public release](release.md) owns candidate preparation, packaged checks, signing/distribution prerequisites and rollback. [Session replay](session-replay.md) owns recorded production-session evidence.
 
@@ -16,7 +14,7 @@ Windows hosted smoke launches use ANGLE/SwiftShader and visible windows on the i
 
 Use repeatable scenes and action sequences for before/after measurements, including the existing benchmark when it exercises the changed work. Record the commit, pinned asset revision, named hardware, OS/runtime, viewport/drawing buffer, display refresh rate, quality and visual settings, window visibility, warm-up and measurement duration. Compare under matching conditions; changes to those inputs need a new baseline.
 
-Build and package Dev first using the commands in [README](../README.md#develop-and-verify). Then run:
+Build and package Dev first using the [prebuilt delivery commands](release.md#build-and-package-pinned-outputs). Then run:
 
 ```sh
 npm run benchmark -- --quick --visible --hardware reference-machine
@@ -33,7 +31,7 @@ Preserve visual fidelity, particle counts, animation timing and sound behavior d
 
 ## Packaged player journey measurements
 
-Build and package Game, then run `npm run benchmark:game -- --visible --hardware reference-machine`. This launches a fresh player process with an isolated profile and uses the existing shipping-control smoke journey. It records approach, graveyard combat, area traversal/revisit, chapel combat, checkpoint save/load and death/retry segments. The player retains no developer inspection API. The existing final settings/reload checks still run after measurement completes; only a successful full command establishes journey verification.
+Build and package Game using the [prebuilt delivery commands](release.md#build-and-package-pinned-outputs), then run `npm run benchmark:game -- --visible --hardware reference-machine`. This launches a fresh player process with an isolated profile and uses the existing shipping-control smoke journey. It records approach, graveyard combat, area traversal/revisit, chapel combat, checkpoint save/load and death/retry segments. The player retains no developer inspection API. The existing final settings/reload checks still run after measurement completes; only a successful full command establishes journey verification.
 
 The default benchmark uses a 2560 × 1440 window and 100% render scale; `--render-scale 0.75` or `--render-scale 0.5` selects the player's existing alternatives. Records contain actual canvas/buffer dimensions and settings, loaded artifact checksums, the exact starting authored-input digest and asset pin, environment observations, initial checkpoint identity, recorded input sequences and per-phase frame gaps. A package that does not match current authored inputs is rejected before measurement. No warm-up is performed: each invocation observes first use in a new process. Launch-to-ready and renderer-ready observations include harness scheduling; they do not prove cold OS/disk caches.
 

@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import * as tar from 'tar';
-import { LockSchema } from './pack';
+import { ArchiveLockSchema } from './pack';
 import { safeRelative } from './paths';
 import { shaFile } from './sources';
 export async function listFiles(root: string): Promise<string[]> {
@@ -48,7 +48,7 @@ export async function makeArchive(root: string, file: string, recipeSha256: stri
   const size = (await fs.stat(file)).size;
   if (size >= 2 * 1024 ** 3) throw new Error('Prepared pack must be smaller than 2 GiB');
   const sha256 = await shaFile(file);
-  return LockSchema.parse({
+  return ArchiveLockSchema.parse({
     schemaVersion: 1,
     releaseTag: 'assets-' + sha256.slice(0, 16),
     filename: 'lantern-assets.tar.gz',

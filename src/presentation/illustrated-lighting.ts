@@ -28,28 +28,59 @@ export class NormalLibrary {
   textures = new Map<string, T.Texture>();
   bytes = 0;
   private disposed = false;
-  async load() {
-    const response = await fetch('/lighting/manifest.json');
-    if (!response.ok) throw new Error('Lighting companions unavailable.');
-    const manifest = await response.json();
-    if (manifest.recipe !== 'alpha-volume-v1') throw new Error('Lighting companion recipe differs');
-    this.entries = manifest.entries;
+  private inventory?: Promise<void>;
+  private pending = Promise.resolve();
+  load(assets: Iterable<string> = []) {
+    const selected = [...assets];
+    const operation = this.pending.then(() => this.loadSelected(selected));
+    this.pending = operation.catch(() => {});
+    return operation;
+  }
+  private async loadSelected(assets: Iterable<string>) {
+    this.inventory ??= (async () => {
+      const response = await fetch('/lighting/manifest.json');
+      if (!response.ok) throw new Error('Lighting companions unavailable.');
+      const manifest = await response.json();
+      if (manifest.recipe !== 'alpha-volume-v1')
+        throw new Error('Lighting companion recipe differs');
+      this.entries = manifest.entries;
+    })();
+    await this.inventory;
+    if (this.disposed) return;
+    const selected = new Set(assets),
+      wanted = Object.entries(this.entries).filter(
+        ([key]) => !key.startsWith('library-') || selected.has(key.split(':')[0]!),
+      ),
+      keep = new Set(wanted.map(([key]) => key));
+    for (const [key, texture] of this.textures)
+      if (!keep.has(key)) {
+        const image = texture.image as ImageBitmap;
+        this.bytes -= image.width * image.height * 4;
+        image.close();
+        texture.dispose();
+        this.textures.delete(key);
+      }
     try {
+      const missing = wanted.filter(([key]) => !this.textures.has(key));
+      let index = 0;
       await Promise.all(
-        Object.entries(this.entries).map(async ([key, entry]) => {
-          const bitmap = await verifiedBitmap('/lighting/' + entry.file, entry);
-          if (this.disposed) {
-            bitmap.close();
-            return;
+        Array.from({ length: Math.min(8, missing.length) }, async () => {
+          while (index < missing.length) {
+            const [key, entry] = missing[index++]!;
+            const bitmap = await verifiedBitmap('/lighting/' + entry.file, entry);
+            if (this.disposed) {
+              bitmap.close();
+              continue;
+            }
+            const texture = new T.Texture(bitmap);
+            texture.flipY = false;
+            texture.generateMipmaps = false;
+            texture.minFilter = T.LinearFilter;
+            texture.magFilter = T.LinearFilter;
+            texture.needsUpdate = true;
+            this.textures.set(key, texture);
+            this.bytes += entry.width * entry.height * 4;
           }
-          const texture = new T.Texture(bitmap);
-          texture.flipY = false;
-          texture.generateMipmaps = false;
-          texture.minFilter = T.LinearFilter;
-          texture.magFilter = T.LinearFilter;
-          texture.needsUpdate = true;
-          this.textures.set(key, texture);
-          this.bytes += entry.width * entry.height * 4;
         }),
       );
     } catch (error) {

@@ -134,32 +134,6 @@ class Recovery(unittest.TestCase):
         source.rename(destination)
         return destination
 
-    def test_nested_moves_renames_and_sidecars_preserve_bytes(self):
-        self.move(self.root / "pack.zip", self.library / "organized/deep/renamed.no-extension")
-        self.move(self.loose, self.library / "organized/flattened.dat")
-        self.move(self.root / "notes.txt", self.library / "organized/note-renamed")
-        resolver = self.resolver()
-        self.assertEqual(
-            read(self.root, self.index, "ink-collection-01", "pack/art.txt", resolver), self.payload
-        )
-        scans = resolver.stats["scans"]
-        self.assertEqual(
-            read(self.root, self.index, "walk", "frames/one.png", resolver), self.payload
-        )
-        self.assertEqual(
-            read(self.root, self.index, "ink-collection-01", "collection/notes.txt", resolver),
-            b"notes",
-        )
-        self.assertEqual(resolver.stats["scans"], scans)
-        warm = self.resolver()
-        self.assertEqual(
-            read(self.root, self.index, "ink-collection-01", "pack/art.txt", warm), self.payload
-        )
-        self.assertEqual(warm.stats["scans"], 0)
-        hashes = warm.stats["hashes"]
-        read(self.root, self.index, "ink-collection-01", "pack/art.txt", warm)
-        self.assertEqual(warm.stats["hashes"], hashes)
-
     def test_whole_library_move_and_stale_cache(self):
         resolver = self.resolver()
         resolver.read("file:walk/frames/one.png")
@@ -169,6 +143,14 @@ class Recovery(unittest.TestCase):
             read(self.root, self.index, "ink-collection-01", "pack/art.txt", resolver), self.payload
         )
         self.assertEqual(self.resolver().read("file:walk/frames/one.png"), self.payload)
+        warm = self.resolver()
+        self.assertEqual(
+            read(self.root, self.index, "ink-collection-01", "pack/art.txt", warm), self.payload
+        )
+        self.assertEqual(warm.stats["scans"], 0)
+        hashes = warm.stats["hashes"]
+        read(self.root, self.index, "ink-collection-01", "pack/art.txt", warm)
+        self.assertEqual(warm.stats["hashes"], hashes)
 
     def test_repeated_moves_in_same_reader_and_completed_interrupted_move(self):
         resolver = self.resolver()
@@ -211,7 +193,9 @@ class Recovery(unittest.TestCase):
             read(self.root, self.index, "walk", "../outside/source", self.resolver())
 
     def test_inaccessible_directory_does_not_block_recovery(self):
-        moved = self.move(self.loose, self.documents / "valid/source")
+        extra = self.base / "external"
+        extra.mkdir()
+        moved = self.move(self.loose, extra / "valid/source")
         denied = self.library / "denied"
         denied.mkdir()
         original = os.scandir
@@ -221,7 +205,10 @@ class Recovery(unittest.TestCase):
                 raise PermissionError("fixture permission denied")
             return original(path)
 
-        with patch("os.scandir", side_effect=scandir):
+        with (
+            patch("os.scandir", side_effect=scandir),
+            patch.dict(os.environ, {"LANTERN_SOURCE_SEARCH_ROOTS": str(extra)}),
+        ):
             self.assertEqual(self.resolver().resolve("file:walk/frames/one.png"), moved)
 
     def test_corrupt_cache_and_concurrent_normal_reader_commands(self):
@@ -255,13 +242,6 @@ class Recovery(unittest.TestCase):
         self.assertEqual(stored["schemaVersion"], 1)
         self.assertEqual(len(stored["locations"]), 3)
         self.assertFalse(list(self.cache.glob(".source-locations-*")))
-
-    def test_configured_extra_root(self):
-        extra = self.base / "external"
-        extra.mkdir()
-        moved = self.move(self.loose, extra / "renamed")
-        with patch.dict(os.environ, {"LANTERN_SOURCE_SEARCH_ROOTS": str(extra)}):
-            self.assertEqual(self.resolver().resolve("file:walk/frames/one.png"), moved)
 
     def test_open_retries_move_between_resolution_and_consumption(self):
         resolver = self.resolver()

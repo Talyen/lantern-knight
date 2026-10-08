@@ -4,17 +4,25 @@ import sharp from 'sharp';
 import { assetCatalog } from '../src/content/asset-catalog';
 import type { Manifest } from '../src/assets/schema';
 import { hash } from './compiler';
+import path from 'node:path';
+import { readAuthoringCatalog } from './assets/authoring-catalog';
 const registration = JSON.parse(await readAsset('staging/ink/derivatives.json', 'utf8')).frames;
 const check = process.argv.includes('--check'),
   masks: Record<string, { width: number; height: number; alpha: number[] }> = {},
   sources: Record<string, string> = {},
   sockets: Record<string, number[][]> = {};
-for (const [id, file] of Object.entries(assetCatalog)) {
+for (const [id, file] of Object.entries(await readAuthoringCatalog())) {
   const m = JSON.parse(await readAsset('public/' + file, 'utf8')) as Manifest;
   if (m.asset.type !== 'prop') continue;
   for (const frame of m.frames) {
-    const b = await readAsset('staging/' + frame.source),
-      [left, top, width, height] = frame.trim;
+    const library = id.startsWith('library-'),
+      page = m.pages.find((p) => p.id === frame.page)!,
+      b = await readAsset(
+        library
+          ? path.posix.join('public', path.posix.dirname(file), page.path)
+          : 'staging/' + frame.source,
+      ),
+      [left, top, width, height] = library ? frame.rect : frame.trim;
     const raw = await sharp(b)
       .extract({ left, top, width, height })
       .extractChannel('alpha')

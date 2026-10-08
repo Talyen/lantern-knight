@@ -33,7 +33,7 @@ document.getElementById('app')!.innerHTML =
  <div class="buttons"><button id="pause">Pause</button><button id="reset">Replay from start</button></div>
  <p>WASD move · Shift dash · mouse aim · sword / lantern controls work. The left platform is sheltered from rain.</p><p>Switch one effect at a time, or compare your selection against all off.</p><output id="stats"></output></aside></main><footer id="status" role="status">Loading playground artwork…</footer>`;
 const registry = new ContentRegistry(effectsDefinitions);
-let sim = new Simulation(903, effectsDefinitions.initialArea, 0, registry),
+let sim = new Simulation(registry, 903, effectsDefinitions.initialArea, 0),
   runtime: AssetRuntime,
   view: EffectsPlayground,
   input: Input;
@@ -78,7 +78,7 @@ function pause() {
   synchronize();
 }
 function reset() {
-  sim = new Simulation(903, effectsDefinitions.initialArea, sim.generation + 1, registry);
+  sim = new Simulation(registry, 903, effectsDefinitions.initialArea, sim.generation + 1);
   view.time = 0;
   clock.reset();
   input.clear();

@@ -22,6 +22,10 @@ const timing = z
     durationsMs: z.array(positive).min(1),
     loop: z.boolean(),
     notifies: z.array(notify),
+    endBehavior: z.enum(['hold', 'hide']).optional(),
+    markers: z
+      .array(z.object({ id: z.string().min(1), atMs: finite.nonnegative() }).strict())
+      .optional(),
   })
   .strict();
 const metadata = z
@@ -31,11 +35,18 @@ const metadata = z
     schemaVersion: z.literal(2),
     contentVersion: z.string().min(1),
     viewMode: z
-      .enum(['directional', 'four-directional', 'mixed-directional', 'fixed-authored'])
+      .enum(['directional', 'four-directional', 'mixed-directional', 'fixed-authored', 'supplied'])
       .optional(),
     projection: z.enum(['painted-cutout', 'projected-world', 'top-down', 'front-view']).optional(),
     allowEmptyFrames: z.boolean().optional(),
     limitations: z.array(z.string()).optional(),
+    label: z.string().min(1).optional(),
+    category: z
+      .enum(['scenery', 'ground', 'character', 'pickup', 'effect', 'reference'])
+      .optional(),
+    mirroring: z.boolean().optional(),
+    placement: z.enum(['upright', 'ground', 'reference']).optional(),
+    layer: z.enum(['world', 'below-actor', 'overlay']).optional(),
     atlasSize: z.number().int().min(64).max(contract.atlasMaxSize).optional(),
     bundle: z.enum(['hero', 'room']),
     status: z.enum(['diagnostic', 'proxy', 'production']),
@@ -210,13 +221,18 @@ export function validateSemantics(value: Source | Manifest, production = false) 
   if (a.viewMode === 'fixed-authored' && a.status === 'production')
     fail('viewMode', 'fixed authored studies are development-only');
   for (const [clip, dirs] of Object.entries(a.clips))
-    for (const dir of a.viewMode === 'fixed-authored'
-      ? (['d45'] as const)
-      : a.viewMode === 'four-directional' || (a.viewMode === 'mixed-directional' && clip !== 'walk')
-        ? (['d00', 'd90', 'd180', 'd270'] as const)
-        : HEADINGS) {
+    for (const dir of a.viewMode === 'supplied'
+      ? (Object.keys(dirs) as (typeof HEADINGS)[number][])
+      : a.viewMode === 'fixed-authored'
+        ? (['d45'] as const)
+        : a.viewMode === 'four-directional' ||
+            (a.viewMode === 'mixed-directional' && clip !== 'walk')
+          ? (['d00', 'd90', 'd180', 'd270'] as const)
+          : HEADINGS) {
       const c =
         dirs[dir] ?? fail(`clips.${clip}.${dir}`, 'missing required heading; mirroring forbidden');
+      if (c.loop && c.endBehavior === 'hide')
+        fail(`clips.${clip}.${dir}`, 'loop cannot hide at its end');
       if (c.loop && /(death|hit|dodge|sweep|lunge)$|attack_sword_|cast_lantern_flare/.test(clip))
         fail(`clips.${clip}.${dir}.loop`, 'action and death clips must not loop');
       if (c.frames.length !== c.durationsMs.length)
@@ -229,7 +245,11 @@ export function validateSemantics(value: Source | Manifest, production = false) 
           fail(`clips.${clip}.${dir}.notifies`, 'event outside clip or duplicate ID');
         seen.add(n.id);
       }
+      for (const marker of c.markers ?? [])
+        if (marker.atMs > end) fail(`clips.${clip}.${dir}.markers`, 'marker outside clip');
     }
+  if (Object.values(a.clips).some((dirs) => !Object.keys(dirs).length))
+    fail('clips', 'empty heading coverage');
   for (const [key, to] of Object.entries(a.fallbacks))
     if (!a.clips[to] || a.clips[key])
       fail('fallbacks', 'fallback target missing or overrides supported clip');

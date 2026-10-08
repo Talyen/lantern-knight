@@ -9,31 +9,38 @@ import {
 } from './scene-surround';
 import { floorUV } from '../content/world-art';
 import { heightAt } from '../content/world';
-import type { GamePresentation } from './game-scene';
+import type { AreaDefinition } from '../content/world';
+import type { WorldVisualDefinition } from '../content/world-art';
+import type { PackLease } from '../assets/loader';
+import type { PreparedRegistration } from '../assets/registration';
 const DEPTH_STAGE = { ground: -2, groundGrid: -1, world: 0 } as const;
 export class RoomPresentation {
   readonly room = new T.Group();
   readonly surround: SceneSurround;
   inkRoom: InkRoom | undefined;
-  roomOwned: { dispose: () => void }[] = [];
+  private roomOwned: { dispose: () => void }[] = [];
   fadeMeshes: T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>[] = [];
-  constructor(private presentation: GamePresentation) {
-    this.surround = new SceneSurround(presentation.packs);
+  constructor(
+    private packs: Map<string, PackLease>,
+    private camera: T.OrthographicCamera,
+    private shadowTexture: T.CanvasTexture,
+    private registration: PreparedRegistration,
+  ) {
+    this.surround = new SceneSurround(packs);
   }
   ownedMesh(geometry: T.BufferGeometry, material: T.Material) {
     this.roomOwned.push(geometry, material);
     return new T.Mesh(geometry, material);
   }
-  buildRoom() {
-    const art = this.presentation.visuals,
-      surround = art?.surround;
+  buildRoom(area: AreaDefinition, art: WorldVisualDefinition | undefined) {
+    const surround = art?.surround;
     this.surround.build(surround);
     const footprint = art?.editorFloor
       ? [
-          { x: this.presentation.area.bounds.minX, z: this.presentation.area.bounds.minZ },
-          { x: this.presentation.area.bounds.maxX, z: this.presentation.area.bounds.minZ },
-          { x: this.presentation.area.bounds.maxX, z: this.presentation.area.bounds.maxZ },
-          { x: this.presentation.area.bounds.minX, z: this.presentation.area.bounds.maxZ },
+          { x: area.bounds.minX, z: area.bounds.minZ },
+          { x: area.bounds.maxX, z: area.bounds.minZ },
+          { x: area.bounds.maxX, z: area.bounds.maxZ },
+          { x: area.bounds.minX, z: area.bounds.maxZ },
         ]
       : surround
         ? art.interior
@@ -47,16 +54,16 @@ export class RoomPresentation {
         : undefined;
     if (art)
       this.inkRoom = new InkRoom(
-        this.presentation.area,
-        this.presentation.packs,
+        area,
+        this.packs,
         this.room,
-        this.presentation.camera,
-        this.presentation.shadowTexture,
-        this.presentation.registration,
+        this.camera,
+        this.shadowTexture,
+        this.registration,
         art,
       );
-    const bounds = this.presentation.area.bounds,
-      surface = this.presentation.area.surface,
+    const bounds = area.bounds,
+      surface = area.surface,
       axis = (min: number, max: number, name: 'x' | 'z') => {
         const values = [min, max];
         for (let n = min + 2; n < max; n += 2) values.push(n);
@@ -96,23 +103,21 @@ export class RoomPresentation {
           z = zs[zi]!,
           nz = zs[zi + 1]!,
           stepped = surface.kind === 'stairs',
-          middle = heightAt(this.presentation.area, (x + nx) / 2, (z + nz) / 2) - 0.01;
+          middle = heightAt(area, (x + nx) / 2, (z + nz) / 2) - 0.01;
         const y = (px: number, pz: number) =>
           this.inkRoom && stepped
             ? surface.startHeight - 0.01
             : stepped
               ? middle
-              : heightAt(this.presentation.area, px, pz) - 0.01;
+              : heightAt(area, px, pz) - 0.01;
         quad([x, y(x, z), z], [nx, y(nx, z), z], [x, y(x, nz), nz], [nx, y(nx, nz), nz]);
         if (!this.inkRoom && stepped && xi > 0) {
-          const before =
-            heightAt(this.presentation.area, (xs[xi - 1]! + x) / 2, (z + nz) / 2) - 0.01;
+          const before = heightAt(area, (xs[xi - 1]! + x) / 2, (z + nz) / 2) - 0.01;
           if (Math.abs(before - middle) > 1e-6)
             quad([x, before, nz], [x, before, z], [x, middle, nz], [x, middle, z]);
         }
         if (!this.inkRoom && stepped && zi > 0) {
-          const before =
-            heightAt(this.presentation.area, (x + nx) / 2, (zs[zi - 1]! + z) / 2) - 0.01;
+          const before = heightAt(area, (x + nx) / 2, (zs[zi - 1]! + z) / 2) - 0.01;
           if (Math.abs(before - middle) > 1e-6)
             quad([x, before, z], [nx, before, z], [x, middle, z], [nx, middle, z]);
         }
@@ -121,9 +126,7 @@ export class RoomPresentation {
       ? groundFootprintGeometry(
           art?.interior || art?.editorFloor ? footprint : insetGround(footprint, 1.4),
           (x, z) =>
-            surface.kind === 'stairs'
-              ? surface.startHeight - 0.01
-              : heightAt(this.presentation.area, x, z) - 0.01,
+            surface.kind === 'stairs' ? surface.startHeight - 0.01 : heightAt(area, x, z) - 0.01,
         )
       : new T.BufferGeometry();
     if (!footprint) {
@@ -142,7 +145,7 @@ export class RoomPresentation {
     }
     let outsideMap: T.Texture | undefined;
     if (surround && art?.interior) {
-      const pack = this.presentation.packs.get('ink-moss')!,
+      const pack = this.packs.get('ink-moss')!,
         map = pack.textures.get(pack.manifest.frames[0]!.page)!.clone();
       map.wrapS = map.wrapT = T.RepeatWrapping;
       map.needsUpdate = true;
@@ -151,7 +154,7 @@ export class RoomPresentation {
       const outside = this.ownedMesh(
         groundFootprintGeometry(
           insetGround(surround.ground, 1.4),
-          (x, z) => heightAt(this.presentation.area, x, z) - 0.02,
+          (x, z) => heightAt(area, x, z) - 0.02,
         ),
         new T.MeshBasicMaterial({
           map,
@@ -180,7 +183,7 @@ export class RoomPresentation {
           (x, z) =>
             surface.kind === 'stairs'
               ? surface.startHeight - 0.01
-              : heightAt(this.presentation.area, x, z) - (art?.interior ? 0.02 : 0.01),
+              : heightAt(area, x, z) - (art?.interior ? 0.02 : 0.01),
           1.4,
         ),
         rimMaterial,
@@ -195,7 +198,7 @@ export class RoomPresentation {
       this.inkRoom
         ? this.inkRoom.floorMaterial()
         : new T.MeshStandardMaterial({
-            color: this.presentation.area.floorColor,
+            color: area.floorColor,
             roughness: 1,
             depthTest: true,
             depthWrite: false,
@@ -207,8 +210,8 @@ export class RoomPresentation {
       this.inkRoom.build();
       return;
     }
-    for (const p of this.presentation.area.props) {
-      const ground = heightAt(this.presentation.area, p.x, p.z);
+    for (const p of area.props) {
+      const ground = heightAt(area, p.x, p.z);
       const material = new T.MeshStandardMaterial({
         color: p.kind === 'border' ? 0x4d5260 : p.kind === 'tree' ? 0x495452 : 0x6b6770,
         roughness: 1,
@@ -252,7 +255,7 @@ export class RoomPresentation {
         this.room.add(cap);
       }
     }
-    for (const exit of this.presentation.area.exits) {
+    for (const exit of area.exits) {
       const shrine = this.ownedMesh(
         new T.TorusGeometry(0.6, 0.08, 6, 24),
         new T.MeshStandardMaterial({
@@ -263,7 +266,7 @@ export class RoomPresentation {
       );
       shrine.position.set(
         exit.marker.x,
-        heightAt(this.presentation.area, exit.marker.x, exit.marker.z) + 1,
+        heightAt(area, exit.marker.x, exit.marker.z) + 1,
         exit.marker.z,
       );
       this.room.add(shrine);
@@ -275,14 +278,14 @@ export class RoomPresentation {
     for (const x of gx)
       for (let i = 1; i < gz.length; i++)
         gridPoints.push(
-          new T.Vector3(x, heightAt(this.presentation.area, x, gz[i - 1]!) + 0.012, gz[i - 1]),
-          new T.Vector3(x, heightAt(this.presentation.area, x, gz[i]!) + 0.012, gz[i]),
+          new T.Vector3(x, heightAt(area, x, gz[i - 1]!) + 0.012, gz[i - 1]),
+          new T.Vector3(x, heightAt(area, x, gz[i]!) + 0.012, gz[i]),
         );
     for (const z of gz)
       for (let i = 1; i < gx.length; i++)
         gridPoints.push(
-          new T.Vector3(gx[i - 1], heightAt(this.presentation.area, gx[i - 1]!, z) + 0.012, z),
-          new T.Vector3(gx[i], heightAt(this.presentation.area, gx[i]!, z) + 0.012, z),
+          new T.Vector3(gx[i - 1], heightAt(area, gx[i - 1]!, z) + 0.012, z),
+          new T.Vector3(gx[i], heightAt(area, gx[i]!, z) + 0.012, z),
         );
     const gridGeometry = new T.BufferGeometry().setFromPoints(gridPoints),
       gridMaterial = new T.LineBasicMaterial({

@@ -4,9 +4,24 @@ import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import { AssetCache } from './cache';
-import { LockSchema, lockFile } from './pack';
+import {
+  ArchiveLockSchema,
+  LockSchema,
+  lockFile,
+  readLock,
+  ensurePack,
+  validatePack,
+  payloadDigest,
+  preparationPin,
+  recipeInputs,
+} from './pack';
 import { prepareAssets } from './prepare';
-import { publishPrepared, validateCandidate, type PreparedAssets } from './publication';
+import {
+  publishPrepared,
+  validateCandidate,
+  preparationPinFor,
+  type PreparedAssets,
+} from './publication';
 import { projectRoot, cacheRoot } from './paths';
 import { shaFile } from './sources';
 import { verificationIdentity } from '../verification';
@@ -39,7 +54,7 @@ const evidenceSchema = z
     plan: planSchema,
     source: sourceSchema,
     withoutPin: hash,
-    candidate: LockSchema,
+    candidate: ArchiveLockSchema,
     artifacts: z.array(artifactSchema).max(128),
     steps: z
       .array(
@@ -71,6 +86,7 @@ export function reviewIdentifier(evidence: CompletionEvidence) {
     .digest('hex');
 }
 export type CompletionDependencies = {
+  expectedPin?: (candidate: PreparedAssets) => Promise<string>;
   plan?: (candidate: PreparedAssets, full: boolean) => Promise<ValidationPlan>;
   source: () => Promise<CompletionSource>;
   withoutPin: () => Promise<string>;
@@ -114,6 +130,7 @@ export function completionCommands(
       'Chapel scene',
       ['run', 'scene:check', '--', '--scene', 'upper-landing', '--local', '--capture'],
     ],
+    ['Scene editor', ['run', 'scene:editor:check', '--', '--local', '--capture']],
   ];
   const selected = commands.filter(([name]) => plan.phases.includes(name));
   let reloaded = false;
@@ -183,7 +200,9 @@ export async function completeReviewedCandidate(
   const expectedSteps = completionCommands(evidence.platform, expectedPlan).map(([name]) => name);
   if (JSON.stringify(evidence.steps.map((s) => s.name)) !== JSON.stringify(expectedSteps))
     throw new Error('Completion evidence omits a required check');
-  const visual = expectedSteps.filter((name) => name.endsWith(' smoke') || name.endsWith(' scene'));
+  const visual = expectedSteps.filter(
+    (name) => name.endsWith(' smoke') || name.endsWith(' scene') || name === 'Scene editor',
+  );
   if (visual.some((name) => !evidence.artifacts.some((a) => a.phase === name)))
     throw new Error('Completion evidence omits required visual captures');
   if (reviewId !== reviewIdentifier(evidence))
@@ -205,7 +224,9 @@ export async function completeReviewedCandidate(
     await stable();
     await deps.validateArtifacts(evidence.artifacts);
   });
-  const expected = JSON.stringify(candidate.lock, null, 2) + '\n';
+  const expected = deps.expectedPin
+    ? await deps.expectedPin(candidate)
+    : JSON.stringify(candidate.lock, null, 2) + '\n';
   try {
     if ((await deps.pin()) !== expected)
       throw new Error('Published pin differs from the reviewed candidate');
@@ -213,6 +234,8 @@ export async function completeReviewedCandidate(
       throw new Error('Inputs other than the asset pin changed during completion');
     await deps.run('published pack', ['run', 'assets:ensure']);
     await deps.run('pinned asset checks', ['run', 'assets:check']);
+    if ((await deps.pin()) !== expected)
+      throw new Error('Asset pin changed during pinned verification');
     if (
       evidence.withoutPin !== (await deps.withoutPin()) ||
       (await deps.source()).commit !== evidence.source.commit
@@ -226,13 +249,76 @@ export async function completeReviewedCandidate(
     'COMPLETE: reviewed pack published, pinned and verified through the ordinary pinned path.',
   );
 }
+export async function completeEquivalentCandidate(
+  candidate: PreparedAssets,
+  baseline: { root: string; lock: import('./pack').AssetLock },
+  deps: CompletionDependencies & {
+    pinEquivalent: (pin: import('./pack').AssetLock, expected: string) => Promise<void>;
+  },
+  platform: NodeJS.Platform = process.platform,
+  full = false,
+) {
+  await deps.validate(candidate);
+  const previous = await validatePack(baseline.root, baseline.lock),
+    next = await validatePack(candidate.payload, candidate.lock);
+  if (payloadDigest(previous) !== payloadDigest(next)) return false;
+  const inputs = await recipeInputs(),
+    pin = preparationPin(baseline.lock, inputs, next);
+  const evidence = await validateCompletion(
+    candidate,
+    {
+      ...deps,
+      plan: async () => ({
+        full,
+        reasons: ['Fresh preparation proves identical payload bytes'],
+        phases: full ? [...phases] : phases.slice(0, 5),
+      }),
+    },
+    platform,
+    full,
+  );
+  const old = await deps.pin();
+  if (JSON.stringify(LockSchema.parse(JSON.parse(old))) !== JSON.stringify(baseline.lock))
+    throw new Error('Published baseline pin changed during equivalence validation');
+  if (!sameSource(evidence.source, await deps.source()))
+    throw new Error('Source inputs changed after equivalence validation');
+  await deps.validate(candidate);
+  await validatePack(baseline.root, baseline.lock);
+  if (
+    payloadDigest(await validatePack(candidate.payload, candidate.lock)) !==
+    payloadDigest(await validatePack(baseline.root, baseline.lock))
+  )
+    throw new Error('Payload equivalence changed');
+  const expected = JSON.stringify(pin, null, 2) + '\n';
+  await deps.pinEquivalent(pin, old);
+  try {
+    if ((await deps.pin()) !== expected)
+      throw new Error('Accepted pin differs from proven equivalent preparation');
+    await deps.run('published pack', ['run', 'assets:ensure']);
+    await deps.run('pinned asset checks', ['run', 'assets:check']);
+    if ((await deps.pin()) !== expected)
+      throw new Error('Asset pin changed during pinned verification');
+    if (
+      evidence.withoutPin !== (await deps.withoutPin()) ||
+      (await deps.source()).commit !== evidence.source.commit
+    )
+      throw new Error('Source inputs changed during pinned equivalence verification');
+  } catch (error) {
+    await deps.restore(old, expected);
+    throw error;
+  }
+  console.log(
+    'COMPLETE: byte-identical published pack reused; current preparation provenance pinned and verified.',
+  );
+  return true;
+}
 export async function reusablePreparation(
   cache: AssetCache,
   prepare = prepareAssets,
 ): Promise<PreparedAssets> {
   const held = await cache.lease('preparation', 0, true);
   try {
-    const lock = LockSchema.parse(
+    const lock = ArchiveLockSchema.parse(
       JSON.parse(await fs.readFile(path.join(held.root, 'prepared.json'), 'utf8')),
     );
     const candidate = {
@@ -253,7 +339,7 @@ export async function reusablePreparation(
 async function reviewedPreparation(cache: AssetCache): Promise<PreparedAssets> {
   const held = await cache.lease('preparation', 0, true);
   try {
-    const lock = LockSchema.parse(
+    const lock = ArchiveLockSchema.parse(
         JSON.parse(await fs.readFile(path.join(held.root, 'prepared.json'), 'utf8')),
       ),
       candidate = {
@@ -330,6 +416,7 @@ export async function finalizeAssets(
     file = path.join(candidate.held.root, 'completion.json');
   let captureDirectories: string[] = [];
   const deps: CompletionDependencies = {
+    expectedPin: async (p) => JSON.stringify(await preparationPinFor(p), null, 2) + '\n',
     plan: candidateValidationPlan,
     source: () => verificationIdentity(projectRoot),
     withoutPin: async () =>
@@ -371,6 +458,41 @@ export async function finalizeAssets(
       return;
     }
     await fs.rm(file, { force: true });
+    let baseline: Awaited<ReturnType<typeof ensurePack>> | undefined;
+    let baselineLock: Awaited<ReturnType<typeof readLock>> | undefined;
+    try {
+      baselineLock = await readLock();
+      baseline = await ensurePack(baselineLock);
+    } catch {
+      console.log('Published baseline unavailable; using normal finalization.');
+    }
+    if (baseline && baselineLock) {
+      try {
+        const reused = await completeEquivalentCandidate(
+          candidate,
+          { root: baseline.root, lock: baselineLock },
+          {
+            ...deps,
+            pinEquivalent: async (pin, expected) => {
+              if ((await deps.pin()) !== expected)
+                throw new Error('Asset pin changed before equivalence completion');
+              const temporary = lockFile + '.' + randomUUID();
+              try {
+                await fs.writeFile(temporary, JSON.stringify(pin, null, 2) + '\n');
+                await fs.rename(temporary, lockFile);
+              } finally {
+                await fs.rm(temporary, { force: true });
+              }
+            },
+          },
+          process.platform,
+          requestedFull,
+        );
+        if (reused) return;
+      } finally {
+        await baseline.release();
+      }
+    }
     const evidence = await validateCompletion(candidate, deps, process.platform, requestedFull);
     await fs.writeFile(file, JSON.stringify(evidence));
     console.log(

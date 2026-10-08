@@ -7,7 +7,7 @@ import { projectRoot } from './paths';
 import { cameraCalibration as calibrationFixture } from '../../src/assets/camera-calibration';
 import { stagePayload } from './payload';
 import { makeArchive, recipeHash, recipeInputs } from './pack';
-const BUDGET = 2 * 1024 ** 3;
+const BUDGET = 2.5 * 1024 ** 3;
 export async function prepareAssets(cache = new AssetCache(), proof = false) {
   const held = await cache.lease('preparation', BUDGET, true),
     workspace = path.join(held.root, 'work');
@@ -18,6 +18,8 @@ export async function prepareAssets(cache = new AssetCache(), proof = false) {
     LANTERN_PREPARE_BUDGET: String(BUDGET - 16 * 1024 * 1024),
   };
   try {
+    await fs.rm(path.join(held.root, 'lantern-assets.tar.gz'), { force: true });
+    await fs.rm(path.join(held.root, 'prepared.json'), { force: true });
     await fs.rm(workspace, { recursive: true, force: true });
     await fs.mkdir(path.join(workspace, 'public'), { recursive: true });
     await fs.writeFile(
@@ -78,6 +80,11 @@ export async function prepareAssets(cache = new AssetCache(), proof = false) {
       await step('tools/' + operation.file, ['--check'], operation.file.endsWith('.py'));
     if ((await recipeHash()) !== startRecipe)
       throw new Error('Asset recipes changed during preparation; retry');
+    if (!proof) {
+      // Source fidelity and freshness are complete; consumers use payload only.
+      await fs.rm(path.join(workspace, 'staging'), { recursive: true, force: true });
+      await fs.rm(path.join(workspace, 'public'), { recursive: true, force: true });
+    }
     await fs.writeFile(
       path.join(payload, 'metadata/preparation-inputs.json'),
       JSON.stringify(await recipeInputs()),
@@ -87,6 +94,7 @@ export async function prepareAssets(cache = new AssetCache(), proof = false) {
     if ((await diskBytes(held.root)) > BUDGET)
       throw new Error('Prepared asset archive exceeded its reservation');
     await fs.writeFile(path.join(held.root, 'prepared.json'), JSON.stringify(lock));
+    await held.reserve(await diskBytes(held.root));
     console.log(
       `Prepared shared asset pack: ${(lock.bytes / 1024 ** 2).toFixed(1)} MiB; sources verified.`,
     );

@@ -6,21 +6,20 @@ The opening has two playable areas: Graveyard Approach (one skeleton) and Ruined
 
 Use Node 24.18.0 and npm 11.16.0. Dependencies are pinned.
 
+Start the browser game:
+
 ```sh
 npm ci
 npm run dev
-npm run check
-npm run format:check
-npm run build
-npm run build:dev
-npm run build:verify
-npm run build:dev:verify
-npm run package:mac:prebuilt
-npm run package:dev:mac:prebuilt
-npm run smoke
 ```
 
-Routine prototype CI runs the full regular suite, both builds, packaging and the short `smoke:desktop` integration journey. Long gameplay and rendering investigations are opt-in through the workflow's **exhaustive** manual-run input, or their individual smoke commands. The routine path targets a few minutes; exhaustive investigations are outside that budget.
+Controls: WASD move · Mouse aim · LMB sword · RMB lantern · Shift dodge · Escape pause.
+
+Run `npm run check` for regular verification: full tests, assets, types, repository boundaries, architecture, documentation, formatting and whitespace. For complete host verification on macOS or Windows, run `npm run verify:full`; it adds both Game/Dev builds, packages and E2E. Already verified packages can use `npm run test:e2e` directly. [Contributing](CONTRIBUTING.md#e2e-coverage-and-execution-budgets) owns platform coverage and execution budgets.
+
+CI runs regular gates and both builds. Main pushes and manual runs also package and run E2E. The [release runbook](docs/release.md#build-and-package-pinned-outputs) gives the separate build, identity and prebuilt packaging commands. Explicit captures and benchmarks remain separate investigations.
+
+For simultaneous agent tasks, use one worktree per task and follow [parallel task ownership](CONTRIBUTING.md#parallel-task-ownership). Select the checked-in Codex local environment for dependency/hook setup and assign distinct preview ports.
 
 For visual scene composition, run `npm run scene:editor`. The [scene editor guide](docs/scene-editor.md) covers placement, drafts, live edits, saving and recovery.
 
@@ -36,13 +35,13 @@ Use `upper-landing` for the Ruined Chapel. The shared preview restores developer
 
 Development, tests and builds automatically obtain the exact prepared asset revision pinned in `assets/lock.json`. Verified assets live in the operating system cache outside the checkout and are reusable offline. Code-only work and hosted CI do not need the source Asset Library.
 
-[Contributing](CONTRIBUTING.md) describes verification and test value. The combined handoff command is `npm run check`. During iteration, `npm test -- tests/hero-actions.test.ts` runs exactly that suite; omit file arguments for the full test run. [Foundation recipes](docs/foundation.md#change-recipes) identify owners and checks for saves, content and action changes.
+During iteration, `npm test -- tests/hero-actions.test.ts` runs exactly that suite; omit file arguments for the full test run. [Contributing](CONTRIBUTING.md#test-value) describes test value. [Foundation recipes](docs/foundation.md#change-recipes) identify owners and checks for saves, content and action changes.
 
-`npm run desktop` starts Game; `npm run desktop:dev` starts Sandbox; `npm run desktop:preview` starts Dev Game Preview; `npm run desktop:effects` starts the playground. Windows packaging uses the corresponding `package:win:prebuilt` and `package:dev:win:prebuilt` commands.
+`npm run desktop` starts Game; `npm run desktop:dev` starts Sandbox; `npm run desktop:preview` starts Dev Game Preview; `npm run desktop:effects` starts the playground.
 
 ## Artwork workflow
 
-Originals remain in the shared, iCloud-backed Asset Library under Documents. On an art-authoring machine, `npm run assets:prepare` creates and validates selected outputs. `npm run assets:finalize` validates the matching prepared pack and retains captures for agent visual review. After inspecting them, `npm run assets:finalize -- --reviewed <review-id>` publishes/pins those exact reviewed bytes through GitHub Releases and runs pinned checks. Follow the [completion steps](docs/assets.md#local-preparation-review). Requested runtime-asset work includes this completion step; `assets:publish` is a compatibility alias. These are explicit authoring operations; ordinary builds never regenerate artwork.
+Originals remain in the shared, iCloud-backed Asset Library under Documents. On an art-authoring machine, `npm run assets:prepare` creates and validates selected outputs. `npm run assets:finalize` validates the matching prepared pack and retains captures for agent visual review. When payload bytes differ, inspect the captures and run `npm run assets:finalize -- --reviewed <review-id>` to publish/pin those exact reviewed bytes through GitHub Releases. Fresh byte-identical preparations instead complete by reusing the archive and pinning current provenance. Both paths verify ordinary pinned consumption. Follow the [completion steps](docs/assets.md#local-preparation-review). Requested runtime-asset work includes this completion step; `assets:publish` is a compatibility alias. These are explicit authoring operations; ordinary builds never regenerate artwork.
 
 The source library can be reorganized: sources are recovered automatically by recorded hashes. Canonical reference images and Clean INK prompts remain unchanged. [Asset ownership](docs/assets.md) and [source recovery](docs/source-recovery.md) describe the contracts.
 

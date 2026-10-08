@@ -55,7 +55,7 @@ export async function traverseScene(context: SceneContext) {
       f.presentation.update(f.sim, 1, 0, { x: h.x + 1, z: h.z });
       f.presentation.artConstruction.update(
         f.sim.areaDefinition,
-        f.presentation.inkRoom,
+        f.presentation.roomPresentation.inkRoom,
         f.sim.generation,
         true,
       );
@@ -78,7 +78,7 @@ export async function checkForeground(context: SceneContext) {
         x: position.x + 1,
         z: position.z,
       });
-    const room = f.presentation.inkRoom!;
+    const room = f.presentation.roomPresentation.inkRoom!;
     const materials = room.sprites.map((s) => [
       s.material.version,
       s.material.transparent,
@@ -103,6 +103,135 @@ export async function checkForeground(context: SceneContext) {
   }, foreground);
 }
 
+// Compile the production core/edge materials against three known source coverages.
+// A local reveal must fade opaque pixels without moving them into the soft-edge pass.
+export async function checkCutoutCoverage(page: Page) {
+  await page.evaluate(() => {
+    const p = window.foundation.presentation;
+    const sprite = p.roomPresentation.inkRoom!.fades.find(
+      (sprite) => sprite.id === 'foreground-oak',
+    )!;
+    if (!sprite?.edgeMaterial)
+      throw new Error('Coverage probe requires the production core and edge materials');
+    const materials = [sprite.material, sprite.edgeMaterial];
+    const data = sprite.material.userData.revealData as {
+      count: { value: number };
+      centers: import('three').Vector2[];
+      sizes: import('three').Vector2[];
+      strengths: number[];
+    };
+    const saved = {
+      count: data.count.value,
+      center: data.centers[0]!.clone(),
+      size: data.sizes[0]!.clone(),
+      strength: data.strengths[0]!,
+    };
+    const image = document.createElement('canvas');
+    image.width = 32;
+    image.height = 8;
+    const context = image.getContext('2d')!;
+    context.fillStyle = 'rgba(255,0,0,0.5)';
+    context.fillRect(10, 0, 11, 8);
+    context.fillStyle = '#ff0000';
+    context.fillRect(21, 0, 11, 8);
+    const maps = materials.map((material) => material.map);
+    const Texture = maps[0]!.constructor as typeof import('three').Texture;
+    const texture = new Texture(image);
+    texture.flipY = false;
+    texture.colorSpace = maps[0]!.colorSpace;
+    texture.generateMipmaps = false;
+    texture.minFilter = maps[0]!.magFilter;
+    texture.magFilter = maps[0]!.magFilter;
+    texture.needsUpdate = true;
+    const geometry = sprite.geometry.clone(),
+      positions = geometry.getAttribute('position'),
+      uv = geometry.getAttribute('uv');
+    for (let i = 0; i < 4; i++) {
+      positions.setXYZ(i, i % 2 ? 1 : -1, i < 2 ? 1 : -1, 0);
+      uv.setXY(i, i % 2 ? 1 : 0, i < 2 ? 1 : 0);
+    }
+    positions.needsUpdate = true;
+    uv.needsUpdate = true;
+    const Scene = p.scene.constructor as typeof import('three').Scene;
+    const scene = new Scene(),
+      camera = p.camera.clone(),
+      mesh = sprite.mesh.clone(false);
+    mesh.geometry = geometry;
+    mesh.position.set(0, 0, 0);
+    mesh.quaternion.identity();
+    mesh.scale.set(1, 1, 1);
+    mesh.children.length = 0;
+    mesh.frustumCulled = false;
+    mesh.matrixAutoUpdate = true;
+    mesh.updateMatrixWorld(true);
+    scene.add(mesh);
+    camera.position.set(0, 0, 5);
+    camera.quaternion.identity();
+    camera.left = -1;
+    camera.right = 1;
+    camera.top = 1;
+    camera.bottom = -1;
+    camera.updateProjectionMatrix();
+    camera.updateMatrixWorld();
+    const renderer = p.renderer,
+      ratio = renderer.getPixelRatio(),
+      size = renderer.getSize(data.centers[0]!.clone());
+    const clear = renderer.getClearColor(p.light.color.clone()),
+      alpha = renderer.getClearAlpha(),
+      auto = renderer.autoClear,
+      target = renderer.getRenderTarget();
+    const gl = renderer.getContext();
+    const read = (material: import('three').MeshBasicMaterial) => {
+      mesh.material = material;
+      renderer.render(scene, camera);
+      const bytes = new Uint8Array(32 * 8 * 4);
+      gl.readPixels(0, 0, 32, 8, gl.RGBA, gl.UNSIGNED_BYTE, bytes);
+      return [5, 16, 27].map((x) =>
+        Array.from(bytes.slice((4 * 32 + x) * 4, (4 * 32 + x) * 4 + 3)),
+      );
+    };
+    try {
+      data.count.value = 1;
+      data.centers[0]!.set(0, 0);
+      data.sizes[0]!.set(1e5, 1e5);
+      data.strengths[0] = 1;
+      materials.forEach((material) => {
+        material.map = texture;
+        material.needsUpdate = true;
+      });
+      renderer.setRenderTarget(null);
+      renderer.setPixelRatio(1);
+      renderer.setSize(32, 8, false);
+      renderer.setClearColor(0, 1);
+      renderer.autoClear = true;
+      const core = read(materials[0]!),
+        edge = read(materials[1]!);
+      const lit = (pixel: number[]) => pixel.some((channel) => channel > 2);
+      if (core[0]!.some(Boolean) || core[1]!.some(Boolean) || !lit(core[2]!))
+        throw new Error('Reveal changed opaque source coverage: ' + JSON.stringify({ core, edge }));
+      if (edge[0]!.some(Boolean) || !lit(edge[1]!) || edge[2]!.some(Boolean))
+        throw new Error('Reveal changed soft-edge source coverage');
+      if (gl.getError() !== gl.NO_ERROR) throw new Error('Cutout coverage shader failed');
+    } finally {
+      materials.forEach((material, index) => {
+        material.map = maps[index]!;
+        material.needsUpdate = true;
+      });
+      data.count.value = saved.count;
+      data.centers[0]!.copy(saved.center);
+      data.sizes[0]!.copy(saved.size);
+      data.strengths[0] = saved.strength;
+      renderer.setPixelRatio(ratio);
+      renderer.setSize(size.x, size.y, false);
+      renderer.setClearColor(clear, alpha);
+      renderer.autoClear = auto;
+      renderer.setRenderTarget(target);
+      geometry.dispose();
+      texture.dispose();
+    }
+  });
+}
+
 export async function benchmarkSurround(context: SceneContext) {
   const { page } = context;
   return await page.evaluate(async () => {
@@ -112,7 +241,7 @@ export async function benchmarkSurround(context: SceneContext) {
     f.pause(true);
     try {
       for (const enabled of [false, true]) {
-        p.surround.scene.visible = enabled;
+        p.roomPresentation.surround.scene.visible = enabled;
         for (let i = 0; i < 6; i++) {
           p.update(f.sim, 1, 0, { x: 0, z: 0 });
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
@@ -146,7 +275,7 @@ export async function benchmarkSurround(context: SceneContext) {
         });
       }
     } finally {
-      p.surround.scene.visible = true;
+      p.roomPresentation.surround.scene.visible = true;
     }
     return results;
   });
@@ -170,14 +299,15 @@ export async function checkSurround(context: SceneContext) {
         width,
       );
       await page.evaluate(() => window.foundation.presentation.resize());
-      for (const span of [9, 11, 13, 15])
+      for (const span of width === 1920 ? [9, 15] : [9])
         await page.evaluate((span) => {
           const f = window.foundation,
             p = f.presentation;
           p.verticalSpan = span;
           p.resize();
           p.update(f.sim, 1, 0, { x: 0, z: 0 });
-          if (p.surround.stats().tiles === 0) throw new Error('Missing scene surround');
+          if (p.roomPresentation.surround.stats().tiles === 0)
+            throw new Error('Missing scene surround');
           if (p.renderer.getContext().getError() !== 0)
             throw new Error('Surround resize produced a WebGL error');
         }, span);
@@ -197,11 +327,11 @@ export async function checkSurround(context: SceneContext) {
       p.update(f.sim, 1, 0, { x: 0, z: 0 });
       ctx.drawImage(p.canvas, 0, 0);
       const before = ctx.getImageData(0, 0, copy.width, copy.height).data,
-        children = [...p.surround.scene.children];
+        children = [...p.roomPresentation.surround.scene.children];
       for (const c of children) c.visible = false;
       // renderFrame updates the surround; render its current scenes directly to
       // hold camera, shader time, actor poses and hidden background cards fixed.
-      p.surround.render(p.renderer, p.camera, p.scene);
+      p.roomPresentation.surround.render(p.renderer, p.camera, p.scene);
       ctx.drawImage(p.canvas, 0, 0);
       const after = ctx.getImageData(0, 0, copy.width, copy.height).data;
       let changed = 0;

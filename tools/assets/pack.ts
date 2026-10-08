@@ -12,18 +12,81 @@ import { shaFile } from './sources';
 
 const hash = z.string().regex(/^[a-f0-9]{64}$/),
   bytes = z.number().int().nonnegative();
-export const LockSchema = z
-  .object({
-    schemaVersion: z.literal(1),
-    releaseTag: z.string().regex(/^assets-[a-f0-9]{16}$/),
-    filename: z.literal('lantern-assets.tar.gz'),
-    sha256: hash,
-    inventorySha256: hash,
-    bytes: bytes.positive().max(2 * 1024 ** 3 - 1),
-    recipeSha256: hash,
-  })
+const archiveFields = {
+  releaseTag: z.string().regex(/^assets-[a-f0-9]{16}$/),
+  filename: z.literal('lantern-assets.tar.gz'),
+  sha256: hash,
+  inventorySha256: hash,
+  bytes: bytes.positive().max(2 * 1024 ** 3 - 1),
+  recipeSha256: hash,
+};
+export const ArchiveLockSchema = z
+  .object({ schemaVersion: z.literal(1), ...archiveFields })
   .strict();
+export type ArchiveLock = z.infer<typeof ArchiveLockSchema>;
+export const LockSchema = z.union([
+  ArchiveLockSchema,
+  z
+    .object({
+      schemaVersion: z.literal(2),
+      ...archiveFields,
+      preparation: z
+        .object({ recipeSha256: hash, inputs: z.record(z.string(), hash), payloadSha256: hash })
+        .strict(),
+    })
+    .strict()
+    .superRefine((pin, ctx) => {
+      if (
+        createHash('sha256').update(JSON.stringify(pin.preparation.inputs)).digest('hex') !==
+        pin.preparation.recipeSha256
+      )
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Accepted preparation input hashes differ from its recipe',
+        });
+    }),
+]);
 export type AssetLock = z.infer<typeof LockSchema>;
+export const acceptedRecipe = (lock: AssetLock) =>
+  lock.schemaVersion === 2 ? lock.preparation.recipeSha256 : lock.recipeSha256;
+export type PackInventory = {
+  schemaVersion: 1;
+  recipeSha256: string;
+  files: Record<string, { sha256: string; bytes: number }>;
+};
+// The only provenance-only payload file is deliberately named, never a folder exclusion.
+export function payloadDigest(inventory: PackInventory) {
+  return createHash('sha256')
+    .update(
+      JSON.stringify(
+        Object.entries(inventory.files)
+          .filter(([file]) => file !== 'metadata/preparation-inputs.json')
+          .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+          .map(([file, value]) => [file, value.bytes, value.sha256]),
+      ),
+    )
+    .digest('hex');
+}
+export function preparationPin(
+  archive: AssetLock,
+  inputs: Record<string, string>,
+  inventory: PackInventory,
+): AssetLock {
+  const {
+    preparation: __,
+    schemaVersion: _,
+    ...fields
+  } = archive as AssetLock & { preparation?: unknown };
+  return LockSchema.parse({
+    schemaVersion: 2,
+    ...fields,
+    preparation: {
+      recipeSha256: createHash('sha256').update(JSON.stringify(inputs)).digest('hex'),
+      inputs,
+      payloadSha256: payloadDigest(inventory),
+    },
+  });
+}
 const PackSchema = z
   .object({
     schemaVersion: z.literal(1),
@@ -56,6 +119,8 @@ export async function validatePack(root: string, lock: AssetLock) {
     if ((await fs.stat(file)).size !== f.bytes || (await shaFile(file)) !== f.sha256)
       throw new Error(`Prepared asset differs: ${name}`);
   }
+  if (lock.schemaVersion === 2 && payloadDigest(data) !== lock.preparation.payloadSha256)
+    throw new Error('Accepted preparation payload differs from the published pack');
   return data;
 }
 export async function inspectArchive(file: string, maxBytes = CACHE_LIMIT) {
@@ -137,6 +202,7 @@ export async function ensurePack(
           if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
         }
       }
+      if (await installMatchingPreparation(held, lock, cache)) return;
       await held.reserve(lock.bytes + (await diskBytes(held.root)));
       const archive = path.join(held.root, '.download-' + randomUUID()),
         incoming = path.join(held.root, '.incoming-' + randomUUID());
@@ -193,5 +259,55 @@ export async function ensurePack(
   } catch (error) {
     await held.release();
     throw error;
+  }
+}
+
+async function installMatchingPreparation(
+  destination: Awaited<ReturnType<AssetCache['lease']>>,
+  lock: AssetLock,
+  cache: AssetCache,
+) {
+  const root = path.join(cache.root, 'entries', 'preparation');
+  let prepared: ArchiveLock;
+  try {
+    prepared = ArchiveLockSchema.parse(
+      JSON.parse(await fs.readFile(path.join(root, 'prepared.json'), 'utf8')),
+    );
+  } catch {
+    return false;
+  }
+  if (prepared.sha256 !== lock.sha256 || prepared.inventorySha256 !== lock.inventorySha256)
+    return false;
+  const held = await cache.lease('preparation');
+  const incoming = path.join(destination.root, '.incoming-' + randomUUID());
+  try {
+    const payload = path.join(held.root, 'work/payload');
+    let inventory: Awaited<ReturnType<typeof validatePack>>;
+    try {
+      inventory = await validatePack(payload, lock);
+    } catch {
+      return false;
+    }
+    await destination.reserve(
+      Object.values(inventory.files).reduce((n, f) => n + f.bytes, 0) +
+        64 * 1024 +
+        (await diskBytes(destination.root)),
+    );
+    for (const file of [...Object.keys(inventory.files), 'pack.json']) {
+      safeRelative(file);
+      const target = path.join(incoming, file);
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      await fs.link(path.join(payload, file), target);
+    }
+    await validatePack(incoming, lock);
+    for (const name of ['public', 'metadata', 'pack.json']) {
+      await fs.rm(path.join(destination.root, name), { recursive: true, force: true });
+      await fs.rename(path.join(incoming, name), path.join(destination.root, name));
+    }
+    console.log('Reused exact pinned preparation payload; no download or extraction.');
+    return true;
+  } finally {
+    await fs.rm(incoming, { recursive: true, force: true });
+    await held.release();
   }
 }

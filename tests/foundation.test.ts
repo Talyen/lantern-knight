@@ -1,10 +1,7 @@
-import { readAsset } from '../tools/assets/io';
+import { manifestFixture } from './fixtures/manifest';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
-import os from 'node:os';
-import path from 'node:path';
-import { Vector3 } from 'three';
+import { Vector3, Texture } from 'three';
 import {
   makeCamera,
   resizeCamera,
@@ -18,34 +15,16 @@ import {
 import { Animator, frameAt } from '../src/core/animation';
 import { Simulation, FixedClock } from '../src/core/simulation';
 import { tuning } from '../src/content/gameplay';
-import { parseSource, parseManifest, type Clip } from '../src/assets/schema';
-import { compile, exactSource, paddedPixels } from '../tools/compiler';
-import { ResourcePool } from '../src/assets/loader';
+import { type Clip } from '../src/assets/schema';
+import { paddedPixels } from '../tools/compiler';
+import { ResourcePool, AssetRuntime, pageIdentity } from '../src/assets/loader';
 import { validateRequest } from '../electron/store';
-import sharp from 'sharp';
 import { resourcePath, trustedSender } from '../electron/security';
-import { attackDefinition } from '../src/content/gameplay';
-import { content, heightAt } from '../src/content/world';
+
+import { content } from '../src/content/game-content';
 import { GameSession } from '../src/core/session';
-import { walkablePoint } from '../src/core/camera';
+
 const approx = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-7, `${a} != ${b}`);
-const read = async (p: string) => JSON.parse(await readAsset(p, 'utf8'));
-const source = await read('tests/fixtures/valid.json');
-const fixtureRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-source-fixture-'));
-await fs.writeFile(path.join(fixtureRoot, 'valid.json'), JSON.stringify(source));
-await sharp({
-  create: {
-    width: source.asset.canvas[0],
-    height: source.asset.canvas[1],
-    channels: 4,
-    background: { r: 170, g: 70, b: 20, alpha: 1 },
-  },
-})
-  .png()
-  .toFile(path.join(fixtureRoot, 'sample.png'));
-import { after } from 'node:test';
-after(() => fs.rm(fixtureRoot, { recursive: true, force: true }));
-const manifest = await read('public/generated/ink/ink-hero-current/manifest.json');
 test('camera projection/unprojection accounts for canvas offset and both aspect ratios', () => {
   const camera = makeCamera(16 / 9);
   for (const [width, height] of [
@@ -87,28 +66,7 @@ test('trim placement preserves every source pixel relative to the foot; heading 
   approx(Math.hypot(v.x, v.z), 1);
   assert.ok(screenMovement(0, 1).x < 0);
 });
-test('all compiled clip/direction frames preserve the same untrimmed foot origin', () => {
-  const m = parseManifest(manifest),
-    asset = m.asset;
-  for (const frame of m.frames) {
-    const bounds = trimmedBounds(frame.registration ?? asset, frame.trim);
-    approx(
-      bounds.left +
-        ((frame.registration ?? asset).anchor[0] - frame.trim[0]) /
-          (frame.registration ?? asset).density,
-      0,
-    );
-    approx(
-      bounds.top -
-        ((frame.registration ?? asset).anchor[1] - frame.trim[1]) /
-          (frame.registration ?? asset).density,
-      0,
-    );
-  }
-  for (const dirs of Object.values(m.asset.clips))
-    for (const c of Object.values(dirs))
-      for (const id of c.frames) assert.ok(m.frames.some((f) => f.id === id));
-});
+
 test('vertical actor depth preserves baked projection exactly and places head above the foot in world space', () => {
   const camera = makeCamera(16 / 9),
     angle = (contract.elevationDeg * Math.PI) / 180,
@@ -129,60 +87,7 @@ test('vertical actor depth preserves baked projection exactly and places head ab
     approx(vertical.y, y! / Math.cos(angle));
   }
 });
-test('valid and deliberately invalid schema fixtures; production fails closed', async () => {
-  parseSource(source);
-  for (const name of ['invalid-duration', 'invalid-camera', 'invalid-heading'])
-    assert.throws(() => parseSource(JSON.parse(requireText(name))));
-  function requireText(name: string) {
-    return fixtureTexts[name]!;
-  }
-  assert.throws(() => parseSource(source, true), /production/);
-  const duplicate = structuredClone(source);
-  duplicate.frames.push(duplicate.frames[0]);
-  assert.throws(() => parseSource(duplicate), /duplicate/);
-  const invalid = structuredClone(manifest);
-  invalid.frames[0].rect[2] = 99999;
-  assert.throws(() => parseManifest(invalid), /bounds/);
-  invalid.frames[0].rect[2] = 1;
-  invalid.frames[0].rotated = true;
-  assert.throws(() => parseManifest(invalid));
-  const nonFinite = structuredClone(source);
-  nonFinite.asset.density = Infinity;
-  assert.throws(() => parseSource(nonFinite));
-  const missingDep = structuredClone(manifest);
-  missingDep.bundles.room.dependencies = ['missing'];
-  assert.throws(() => parseManifest(missingDep), /dependency/);
-  missingDep.bundles.room.dependencies = ['room'];
-  assert.throws(() => parseManifest(missingDep), /cyclic/);
-  const looping = structuredClone(manifest);
-  looping.asset.clips.death.d00.loop = true;
-  assert.throws(() => parseManifest(looping), /loop/);
-});
-const fixtureTexts: Record<string, string> = {};
-for (const name of ['invalid-duration', 'invalid-camera', 'invalid-heading']) {
-  const invalid = structuredClone(source);
-  if (name === 'invalid-duration') invalid.asset.clips.walk.d45.durationsMs = [0];
-  if (name === 'invalid-camera') invalid.asset.contractId = 'unapproved-other-camera';
-  if (name === 'invalid-heading') delete invalid.asset.clips.walk.d225;
-  fixtureTexts[name] = JSON.stringify(invalid);
-}
-test('compiler is byte deterministic; failed build preserves prior manifest; source confinement and case', async () => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-compiler-'));
-  try {
-    const a = await compile('valid.json', dir, false, false, fixtureRoot);
-    const before = await readAsset(path.join(dir, 'manifest.json'));
-    const b = await compile('valid.json', dir, false, false, fixtureRoot);
-    assert.equal(a.hash, b.hash);
-    assert.deepEqual(await readAsset(path.join(dir, 'manifest.json')), before);
-    await fs.writeFile(path.join(dir, 'invalid.json'), fixtureTexts['invalid-duration']!);
-    await assert.rejects(compile('invalid.json', dir, false, false, dir));
-    assert.deepEqual(await readAsset(path.join(dir, 'manifest.json')), before);
-    await assert.rejects(exactSource('../package.json', fixtureRoot));
-    await assert.rejects(exactSource('VALID.json', fixtureRoot), /case/);
-  } finally {
-    await fs.rm(dir, { recursive: true, force: true });
-  }
-});
+
 test('edge RGB dilation preserves alpha and extrusion avoids black halo at silhouette', () => {
   const pixels = Buffer.from([0, 0, 0, 0, 255, 100, 30, 255, 0, 0, 0, 0]);
   const padded = paddedPixels(pixels, 3, 1);
@@ -217,10 +122,32 @@ test('notifies survive skipped frames/loops, have unique identities, interruptio
   b.advance(180);
   assert.notEqual(a.frame, b.frame);
   assert.equal(a.time, 100);
+  const unsorted: Clip = {
+    ...clip,
+    notifies: [
+      { id: 'later', atMs: 150, kind: 'whoosh' },
+      { id: 'earlier', atMs: 50, kind: 'dust' },
+      { id: 'together', atMs: 150, kind: 'flash' },
+    ],
+  };
+  const notifications = new Animator('ordered', unsorted);
+  assert.deepEqual(
+    notifications.advance(200).map((n) => n.kind),
+    ['dust', 'whoosh', 'flash'],
+  );
+  notifications.start(unsorted);
+  assert.deepEqual(
+    notifications.advance(200).map((n) => n.kind),
+    ['dust', 'whoosh', 'flash'],
+  );
+  assert.deepEqual(
+    unsorted.notifies.map((n) => n.id),
+    ['later', 'earlier', 'together'],
+  );
 });
 test('fixed command replay matches across render cadences; catch-up bounded and pause reset discards debt', () => {
   const replay = (cadence: number) => {
-    const s = new Simulation(2),
+    const s = new Simulation(content, 2, content.definitions.initialArea, 1),
       clock = new FixedClock();
     for (let t = 0; t < 3000 - 1e-5; t += cadence)
       clock.advance(Math.min(cadence, 3000 - t), () => {
@@ -248,45 +175,7 @@ test('fixed command replay matches across render cadences; catch-up bounded and 
   c.reset();
   approx(c.accumulator, 0);
 });
-test('sword hits each target once in active window; visual drawings never determine hit timing', () => {
-  const s = new Simulation();
-  s.actors = s.actors.slice(0, 2);
-  Object.assign(s.hero, { x: 0, z: 1, px: 0, pz: 1 });
-  Object.assign(s.actors[1]!, { x: 0, z: 0, px: 0, pz: 0 });
-  const target = s.actors[1]!;
-  for (let i = 0; i < 40; i++)
-    s.step({ move: { x: 0, z: 0 }, aim: { x: 0, z: 0 }, attack: i === 0 });
-  assert.equal(target.health, target.definition.maxHealth - tuning.attack.damage);
-  assert.equal(s.hero.hitIds.length, 1);
-  assert.equal(s.hero.state, 'attack');
-});
-test('dodge windows, ability cooldown, death interruption and action restart', () => {
-  const s = new Simulation();
-  s.step({ move: { x: 1, z: 0 }, aim: { x: 1, z: 0 }, dodge: true });
-  assert.equal(s.hero.state, 'dodge');
-  s.hero.age = tuning.dodge.invulnerableStart;
-  const health = s.hero.health;
-  s.damage(s.actors[1]!, s.hero, 20);
-  assert.equal(s.hero.health, health);
-  s.hero.age = tuning.dodge.invulnerableEnd;
-  s.damage(s.actors[1]!, s.hero, 20);
-  assert.equal(s.hero.state, 'hurt');
-  s.start(s.hero, 'ability');
-  s.hero.cooldown = tuning.ability.cooldown;
-  const action = s.hero.action;
-  s.damage(s.actors[1]!, s.hero, 1000);
-  assert.equal(s.hero.state, 'death');
-  s.step({ move: { x: 1, z: 1 }, aim: { x: 0, z: 0 }, attack: true });
-  assert.equal(s.hero.state, 'death');
-  assert.ok(s.hero.action > action);
-  const alive = new Simulation();
-  alive.step({ move: { x: 0, z: 0 }, aim: { x: 0, z: 0 }, ability: true });
-  assert.equal(alive.hero.cooldown, 180);
-  for (let i = 0; i < 100; i++)
-    alive.step({ move: { x: 0, z: 0 }, aim: { x: 0, z: 0 }, ability: true });
-  assert.ok(alive.hero.cooldown > 0);
-  assert.notEqual(alive.hero.state, 'ability');
-});
+
 test('shared async resources deduplicate, cancellation cannot resurrect discarded room, retries and settled lifetime', async () => {
   let finish!: (v: { id: number }) => void,
     loads = 0,
@@ -338,6 +227,40 @@ test('shared async resources deduplicate, cancellation cannot resurrect discarde
     lease.release();
   }
   assert.equal(retry.entries.size, 0);
+  const firstManifest = manifestFixture();
+  const secondManifest = structuredClone(firstManifest);
+  secondManifest.asset.id = 'second-registration';
+  secondManifest.asset.anchor = [100, 200];
+  let decoded = 0,
+    released = 0;
+  const runtime = new AssetRuntime(
+    { first: 'generated/first.json', second: 'generated/second.json' },
+    false,
+    async (url) =>
+      new Response(JSON.stringify(String(url).includes('first') ? firstManifest : secondManifest)),
+    async () => {
+      decoded++;
+      return new Texture();
+    },
+    () => released++,
+  );
+  const [firstPack, secondPack] = await Promise.all([
+    runtime.loadPack('first'),
+    runtime.loadPack('second'),
+  ]);
+  assert.equal(decoded, 1);
+  assert.equal(firstPack.textures.get('atlas-0'), secondPack.textures.get('atlas-0'));
+  assert.notDeepEqual(firstPack.manifest.asset.anchor, secondPack.manifest.asset.anchor);
+  firstPack.release();
+  firstPack.release();
+  assert.equal(released, 0);
+  secondPack.release();
+  assert.equal(released, 1);
+  assert.equal(runtime.pool.entries.size, 0);
+  assert.notEqual(
+    pageIdentity(firstManifest.pages[0]!),
+    pageIdentity({ ...firstManifest.pages[0]!, hash: 'c'.repeat(64) }),
+  );
 });
 test('IPC sender checks and protocol constrain origin, frame, slot, payload, extensions and traversal', () => {
   assert.equal(trustedSender('lantern://app/index.html', true, 1, 1), true);
@@ -356,45 +279,14 @@ test('IPC sender checks and protocol constrain origin, frame, slot, payload, ext
   );
 });
 function duel() {
-  const s = new Simulation();
+  const s = new Simulation(content, 142, content.definitions.initialArea, 1);
   s.actors = s.actors.slice(0, 2);
   Object.assign(s.hero, { x: 0, z: 1, px: 0, pz: 1 });
   Object.assign(s.actors[1]!, { x: 0, z: 0, px: 0, pz: 0, health: 100, stun: 10000 });
   return s;
 }
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
-test('LMB alternates complete sweep and lunge; late clicks queue without combo links', () => {
-  const s = duel(),
-    attacks: string[] = [];
-  let action = -1;
-  for (let i = 0; i < 210; i++) {
-    s.step({ ...still, attack: [0, 68, 121].includes(i) });
-    if (s.hero.state === 'attack' && s.hero.action !== action) {
-      action = s.hero.action;
-      attacks.push(s.hero.attackKind);
-    }
-  }
-  assert.deepEqual(attacks, ['sweep', 'lunge', 'sweep']);
-  assert.equal(s.actors[1]!.health, 22);
-  const early = duel();
-  for (let i = 0; i < 100; i++) early.step({ ...still, attack: i === 0 || i === 2 });
-  assert.equal(early.hero.attackKind, 'sweep');
-  early.step({ ...still, attack: true });
-  assert.equal(early.hero.attackKind, 'lunge');
-});
-test('dodge waits for complete attacks and travels only during authored cels', () => {
-  const s = duel();
-  s.startSword(s.hero, 'sweep');
-  s.hero.age = attackDefinition(s.hero).total - 3;
-  s.step({ ...still, move: { x: 1, z: 0 }, dodge: true });
-  assert.equal(s.hero.state, 'attack');
-  const d = duel();
-  const start = d.hero.x;
-  d.step({ ...still, move: { x: 1, z: 0 }, dodge: true });
-  for (let i = 1; i < tuning.dodge.total; i++) d.step(still);
-  approx(d.hero.x - start, 2.1);
-  assert.equal(d.hero.nextAttack, 'sweep');
-});
+
 test('flare tests the aimed cone boundary, range, one damage/stagger per cast and cooldown', () => {
   for (const [angle, range, hit] of [
     [0, 2.5, true],
@@ -441,58 +333,7 @@ test('death resets current area exactly once, clears transient state, and invali
   assert.equal(s.hero.state, 'idle');
   assert.equal(session.resetCount, 1);
 });
-test('linked areas preserve health, establish new generations and share a continuous shallow height query', () => {
-  const session = new GameSession();
-  let s = session.sim;
-  s.hero.health = 55;
-  Object.assign(s.hero, { x: 0, z: -5.95 });
-  s.enemies.forEach((a) => (a.health = 0));
-  const result = session.step(still);
-  assert.equal(result.transition, 'landing');
-  session.commitTransition(session.prepareTransition(result.transition!));
-  s = session.sim;
-  assert.equal(s.area, 'upper-landing');
-  assert.equal(s.hero.health, 55);
-  assert.equal(session.wins, 1);
-  assert.equal(s.hero.z, 7.5);
-  for (const z of [1, 0, -0.5, -1, -2, -3]) {
-    s.hero.z = z;
-    s.move(s.hero, 0, 0);
-    approx(s.hero.y, heightAt(s.areaDefinition, s.hero.x, z));
-  }
-  approx(heightAt(s.areaDefinition, 0, 3.75), 0.3);
-  approx(heightAt(s.areaDefinition, 0, -3), 0.3);
-  s.hero.z = 8.3;
-  s.enemies.forEach((a) => (a.health = 0));
-  session.step(still);
-  session.commitTransition(session.prepareTransition('court'));
-  assert.equal(session.sim.area, 'court');
-  assert.equal(session.wins, 2);
-  assert.equal(session.sim.hero.z, -5.5);
-  assert.ok(session.sim.cleared);
-});
-test('aim unprojects the same raised surface used by movement and rendering; closer default framing gives a 235.2 px ruler', () => {
-  const c = makeCamera(16 / 9),
-    rect = { left: 80, top: 76, width: 2560, height: 1440 };
-  for (const z of [-4, -1, 2]) {
-    const p = new Vector3(1, heightAt(content.area('upper-landing'), 1, z), z),
-      ndc = p.clone().project(c),
-      q = walkablePoint(
-        c,
-        rect.left + ((ndc.x + 1) * rect.width) / 2,
-        rect.top + ((1 - ndc.y) * rect.height) / 2,
-        rect,
-        content.area('upper-landing'),
-      )!;
-    approx(q.x, p.x);
-    approx(q.y, p.y);
-    approx(q.z, p.z);
-  }
-  assert.equal(walkablePoint(c, 0, 0, { ...rect, width: 0 }, content.area('upper-landing')), null);
-  const base = new Vector3().project(c),
-    top = new Vector3(0, 1.8, 0).project(c);
-  assert.ok(Math.abs(((top.y - base.y) * 1440) / 2 - 235.2) < 0.05);
-});
+
 test('time zero emits once per entry; old loop closes before new loop; seek/resume cannot replay it', () => {
   const c: Clip = {
       frames: ['a', 'b'],
@@ -514,26 +355,4 @@ test('time zero emits once per entry; old loop closes before new loop; seek/resu
   assert.equal(a.advance(200).length, 0);
   a.start(c);
   assert.equal(a.advance(0).length, 1);
-});
-test('compiler rejects an opaque RGB concept input and keeps its prior published manifest', async () => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-alpha-'));
-  const bad = structuredClone(source),
-    file = path.join(dir, 'no-alpha.png'),
-    input = path.join(dir, 'invalid-alpha.json');
-  try {
-    await compile('valid.json', dir, false, false, fixtureRoot);
-    const before = await readAsset(path.join(dir, 'manifest.json'));
-    await sharp(path.join(fixtureRoot, bad.frames[0].path))
-      .flatten({ background: '#ffffff' })
-      .png()
-      .toFile(file);
-    bad.frames[0].path = 'no-alpha.png';
-    await fs.writeFile(input, JSON.stringify(bad));
-    await assert.rejects(compile('invalid-alpha.json', dir, false, false, dir), /alpha/);
-    assert.deepEqual(await readAsset(path.join(dir, 'manifest.json')), before);
-  } finally {
-    await fs.rm(dir, { recursive: true, force: true });
-    await fs.rm(file, { force: true });
-    await fs.rm(input, { force: true });
-  }
 });

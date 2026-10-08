@@ -45,7 +45,7 @@ test('TypeScript tooling reads recover a renamed library and sidecar without a r
     );
     await fs.writeFile(path.join(root, 'README_Import.txt'), source);
     const script = `
-   import fs from 'node:fs/promises';import path from 'node:path';import {createHash} from 'node:crypto';
+   import fs from 'node:fs/promises';import path from 'node:path';import { createHash } from 'node:crypto';
    import {readLibrarySource} from ${JSON.stringify(pathToFileURL(path.join(projectRoot, 'tools/assets/sources.ts')).href)};
    const location={root:${JSON.stringify(root)},indexPath:${JSON.stringify(indexPath)}};
    const read=()=>readLibrarySource('collection/README_Import.txt','ink-collection-01',location);

@@ -19,5 +19,6 @@
   },
   "win": {
     "target": "dir"
-  }
+  },
+  "beforeBuild": "tools/package-bundled.cjs"
 }

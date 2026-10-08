@@ -1,7 +1,5 @@
 import type { Point } from './world';
-import type { ArtPlacement, BurialPlot, SiteWall, WorldVisualDefinition } from './world-art';
-import { retainingStones, terraceHeight, gatewayLayout, chapelLayout } from './graveyard-layout';
-const stone = 0xc2c7b7;
+import type { BurialPlot, WorldVisualDefinition } from './world-art';
 export const graveRows: BurialPlot[] = [
   {
     id: 'family-kept',
@@ -86,278 +84,54 @@ export function graveHead(g: BurialPlot): Point {
     z: g.z - Math.cos(a) * (g.length / 2 + 0.06),
   };
 }
-const props: ArtPlacement[] = [
-  ...graveRows.map((g) => {
-    const rooted = g.id === 'family-plaque',
-      fallen = g.id === 'disturbed',
-      native = ['family-kept', 'east-old-1'].includes(g.id);
-    return {
-      id: `grave-${g.id}`,
-      clip: rooted
-        ? 'roots'
-        : fallen
-          ? 'fragments'
-          : native
-            ? 'marker'
-            : g.id === 'recent'
-              ? 'memorial'
-              : (g.marker ?? 'gravestone'),
-      asset: rooted
-        ? 'ink-tended-roots'
-        : fallen
-          ? 'ink-tended-fragments'
-          : native
-            ? 'ink-tended-marker'
-            : 'ink-scenery',
-      ...graveHead(g),
-      y: terraceHeight(g.x, g.z) - (g.id === 'east-old-3' ? 0.12 : 0),
-      scale:
-        rooted || fallen || g.id === 'recent'
-          ? 1
-          : native
-            ? 0.9
-            : g.marker === 'memorial'
-              ? 0.8
-              : 0.9,
-      tint: stone,
-      footprint: (fallen ? [1.15, 0.75] : [0.55, 0.3]) as readonly [number, number],
-      footprintAngle: g.angle ?? 0,
-      assembly: `burial-${g.id}`,
-      purpose: rooted
-        ? 'Oak roots displacing a half-buried family memorial'
-        : `Settled ${g.age} burial within its authored group`,
-    };
-  }),
-  {
-    asset: 'ink-scenery',
-    id: 'family-tomb-west',
-    clip: 'tomb',
-    x: -5.95,
-    z: 1.05,
-    y: 0.3,
-    tint: stone,
-    footprint: [0.85, 2.1],
-    purpose: 'One settled family tomb sheltered beneath the ancient oak',
-  },
-  {
-    id: 'boundary-oak',
-    clip: 'oak',
-    asset: 'ink-blackwood-oak',
-    x: -6.9,
-    z: -1.65,
-    y: 0.3,
-    scale: 1.05,
-    fade: true,
-    tint: 0xa8bdb5,
-    purpose: 'Ancient oak anchoring the western family burials',
-  },
-  {
-    asset: 'ink-scenery',
-    id: 'gate-lamp',
-    clip: 'crook-lamp',
-    x: -4.25,
-    z: 7.1,
-    scale: 0.8,
-    footprint: [0.2, 0.2],
-    purpose: 'Last maintained lamp beneath the broken approach gateway',
-  },
-  {
-    asset: 'ink-scenery',
-    id: 'threshold-light',
-    clip: 'lantern-hardware',
-    x: -1.45,
-    z: -5.35,
-    purpose: 'Tended lantern marking the chapel threshold',
-  },
-  {
-    asset: 'ink-scenery',
-    id: 'chapel-cresset',
-    clip: 'cresset-hardware',
-    x: -1.2,
-    z: -6.0,
-    y: 1.7,
-    purpose: 'Strongest environmental light beside the recessed chapel door',
-  },
-  {
-    asset: 'ink-scenery',
-    id: 'recent-offering',
-    clip: 'offering-table',
-    x: 3.05,
-    z: -4.5,
-    scale: 0.38,
-    tint: 0xd7d1b7,
-    footprint: [0.42, 0.32],
-    purpose: 'Small cleared stone shelf beside the recent burial',
-  },
-  ...[
-    [-6.1, 2.5, 0.85],
-    [-6.5, -0.65, 0.8],
-    [5.8, 1.7, 0.72],
-    [5.85, -1.6, 0.65],
-    [4.65, -2.9, 0.6],
-  ].map(([x, z, scale], i) => ({
-    id: `understory-mass-${i}`,
-    clip: 'understory',
-    asset: 'ink-tended-understory',
-    x: x!,
-    z: z!,
-    y: terraceHeight(x!, z!),
-    scale: scale!,
-    tint: 0x789b8e,
-    purpose: 'Connected sheltered planting around burial groups',
-  })),
-  ...[
-    [-5.7, 1.7, 0.8],
-    [-5.55, -1.0, 1.05],
-    [4.5, 2.6, 1.3],
-    [5.1, -1.6, 1.1],
-  ].map(([x, z, scale], i) => ({
-    asset: 'ink-scenery',
-    id: `fern-bank-${i}`,
-    clip: 'fern',
-    x: x!,
-    z: z!,
-    y: terraceHeight(x!, z!),
-    scale: scale!,
-    tint: 0x9fb6a1,
-    purpose: 'Fern silhouettes clustered at root and stone joins',
-  })),
-  ...[
-    [-3.4, 1.75],
-    [-6.35, -2.45],
-    [5.8, 0.0],
-  ].map(([x, z], i) => ({
-    asset: 'ink-scenery',
-    id: `rim-overgrowth-${i}`,
-    clip: 'bramble',
-    x: x!,
-    z: z!,
-    y: terraceHeight(x!, z!),
-    scale: 0.6,
-    tint: 0x728d81,
-    purpose: 'Sparse overgrowth joining broken masonry to woodland',
-  })),
-  ...[
-    [-8.9, 3, 0.95],
-    [-8.3, -5.8, 1.0],
-    [-5.8, -8.8, 0.85],
-    [2, -9.6, 0.9],
-    [8, -7.8, 0.9],
-    [8.8, -3.2, 1.05],
-    [9, 4.7, 0.95],
-    [-7.6, 8.5, 0.8],
-    [7, 9.5, 0.85],
-  ].map(([x, z, scale], i) => ({
-    id: `woodland-${i}`,
-    clip: i % 3 === 0 ? 'woodland' : 'woodland-near',
-    asset: i % 3 === 0 ? 'ink-blackwood-woodland' : 'ink-tended-woodland-near',
-    x: x!,
-    z: z!,
-    scale: scale!,
-    mirror: i % 2 === 1,
-    fade: z! > 4 || x! > 6,
-    tint: 0x73968f,
-    purpose: 'Connected blue-green woodland with openings toward the chapel',
-  })),
-  {
-    id: 'foreground-oak',
-    clip: 'oak',
-    asset: 'ink-blackwood-oak',
-    x: 8.8,
-    z: 9.2,
-    scale: 0.95,
-    mirror: true,
-    fade: true,
-    tint: 0x4d6a63,
-    purpose: 'Charcoal foreground crown framing the clearing without closing the path',
-  },
-];
-const c = chapelLayout,
-  g = gatewayLayout;
-const walls: SiteWall[] = [
-  ...retainingStones,
-  {
-    id: 'chapel-front-left',
-    from: { x: -c.width / 2, z: c.frontZ },
-    to: { x: -0.85, z: c.frontZ },
-    height: c.wallHeight,
-    thickness: 0.35,
-    surface: 'masonry',
-    assembly: 'chapel',
-  },
-  {
-    id: 'chapel-front-right',
-    from: { x: 0.85, z: c.frontZ },
-    to: { x: c.width / 2, z: c.frontZ },
-    height: c.wallHeight,
-    thickness: 0.35,
-    surface: 'masonry',
-    assembly: 'chapel',
-  },
-  {
-    id: 'gateway-west-pier',
-    from: { x: g.x - g.halfGap - g.pierWidth / 2, z: g.z },
-    to: { x: g.x - g.halfGap + g.pierWidth / 2, z: g.z },
-    height: g.leftHeight,
-    thickness: g.pierDepth,
-    surface: 'masonry',
-    assembly: 'gateway',
-  },
-  {
-    id: 'gateway-east-pier',
-    from: { x: g.x + g.halfGap - g.pierWidth / 2, z: g.z },
-    to: { x: g.x + g.halfGap + g.pierWidth / 2, z: g.z },
-    height: g.rightHeight,
-    thickness: g.pierDepth,
-    surface: 'masonry',
-    assembly: 'gateway',
-  },
-];
-const fixtures = [
-  {
-    id: 'entrance-flame',
-    prop: 'gate-lamp',
-    socket: [0.24, 1.67, -0.24] as const,
-    power: 0.45,
-    radius: 2.4,
-    phase: 0.2,
-    flameScale: 0.3,
-  },
-  {
-    id: 'porch-flame',
-    prop: 'threshold-light',
-    socket: [-0.03, 0.22, 0.03] as const,
-    power: 0.8,
-    radius: 3,
-    phase: 0.7,
-    flameScale: 0.25,
-  },
-  {
-    id: 'cresset-flame',
-    prop: 'chapel-cresset',
-    socket: [-0.11, 0.32, 0.11] as const,
-    power: 1.65,
-    radius: 4.1,
-    phase: 0.45,
-    smoke: true,
-    flameScale: 0.6,
-  },
-];
-export const graveyardScene: WorldVisualDefinition = {
+export const graveyardFoundation: WorldVisualDefinition = {
   surround: {
-    anchor: { x: 0, z: 0 },
-    color: 0x344b4e,
+    anchor: {
+      x: 0,
+      z: 0,
+    },
+    color: 3427150,
     ground: [
-      { x: -10, z: -8 },
-      { x: -5, z: -11 },
-      { x: 5, z: -11 },
-      { x: 10, z: -8 },
-      { x: 11, z: 1 },
-      { x: 9.5, z: 9 },
-      { x: 2, z: 13 },
-      { x: -5, z: 12 },
-      { x: -10, z: 8 },
-      { x: -11, z: 0 },
+      {
+        x: -10,
+        z: -8,
+      },
+      {
+        x: -5,
+        z: -11,
+      },
+      {
+        x: 5,
+        z: -11,
+      },
+      {
+        x: 10,
+        z: -8,
+      },
+      {
+        x: 11,
+        z: 1,
+      },
+      {
+        x: 9.5,
+        z: 9,
+      },
+      {
+        x: 2,
+        z: 13,
+      },
+      {
+        x: -5,
+        z: 12,
+      },
+      {
+        x: -10,
+        z: 8,
+      },
+      {
+        x: -11,
+        z: 0,
+      },
     ],
     layers: [
       {
@@ -366,145 +140,481 @@ export const graveyardScene: WorldVisualDefinition = {
         scale: 1.7,
         base: -2,
         parallax: 0.65,
-        tint: 0x607379,
+        tint: 6321017,
         detail: 0.06,
       },
       {
         asset: 'ink-tended-woodland-far',
         clip: 'woodland-far',
-        scale: 2.0,
+        scale: 2,
         base: -4,
         parallax: 0.85,
-        tint: 0x3e5550,
+        tint: 4085072,
         detail: 0.15,
       },
     ],
   },
   floor: 'ink-graveyard-materials',
-  props: props.map((p) => {
-    const f = fixtures.find((f) => f.prop === p.id);
-    return {
-      ...p,
-      shadow: 'none' as const,
-      ...([
-        'juniper',
-        'fallen-marker',
-        'crook-lamp',
-        'lantern-hardware',
-        'cresset-hardware',
-      ].includes(p.clip)
-        ? { asset: 'ink-graveyard-scenery' }
-        : {}),
-      ...(f
-        ? {
-            light: {
-              offset: f.socket.map((v) => v / (p.scale ?? 1)) as [number, number, number],
-              power: f.power,
-              range: f.radius,
-              phase: f.phase,
-            },
-          }
-        : {}),
-    };
-  }),
-  walls,
-  fixtures,
+  props: [],
+  walls: [
+    {
+      id: 'west-family-stone-0-0',
+      from: {
+        x: -6.1725,
+        z: 2.8615,
+      },
+      to: {
+        x: -5.63625,
+        z: 2.77075,
+      },
+      height: 0.22,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-0-1',
+      from: {
+        x: -5.53875,
+        z: 2.75425,
+      },
+      to: {
+        x: -4.82375,
+        z: 2.63325,
+      },
+      height: 0.265,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-0-2',
+      from: {
+        x: -4.72625,
+        z: 2.61675,
+      },
+      to: {
+        x: -4.01125,
+        z: 2.49575,
+      },
+      height: 0.31,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-0-3',
+      from: {
+        x: -3.91375,
+        z: 2.47925,
+      },
+      to: {
+        x: -3.3775,
+        z: 2.3885,
+      },
+      height: 0.355,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-1-0',
+      from: {
+        x: -3.1639999999999997,
+        z: 2.1232,
+      },
+      to: {
+        x: -3.197,
+        z: 1.5886,
+      },
+      height: 0.355,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-1-1',
+      from: {
+        x: -3.203,
+        z: 1.4914,
+      },
+      to: {
+        x: -3.247,
+        z: 0.7786000000000002,
+      },
+      height: 0.22,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-1-3',
+      from: {
+        x: -3.303,
+        z: -0.1285999999999996,
+      },
+      to: {
+        x: -3.347,
+        z: -0.8413999999999997,
+      },
+      height: 0.31,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-1-4',
+      from: {
+        x: -3.3529999999999998,
+        z: -0.9385999999999997,
+      },
+      to: {
+        x: -3.386,
+        z: -1.4731999999999994,
+      },
+      height: 0.355,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-2-1',
+      from: {
+        x: -4.0996,
+        z: -1.8801999999999999,
+      },
+      to: {
+        x: -4.680400000000001,
+        z: -2.0298,
+      },
+      height: 0.355,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-2-2',
+      from: {
+        x: -4.7596,
+        z: -2.0502,
+      },
+      to: {
+        x: -5.3404,
+        z: -2.1997999999999998,
+      },
+      height: 0.22,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-2-3',
+      from: {
+        x: -5.4196,
+        z: -2.2201999999999997,
+      },
+      to: {
+        x: -6.000400000000001,
+        z: -2.3697999999999997,
+      },
+      height: 0.265,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-2-4',
+      from: {
+        x: -6.0796,
+        z: -2.3901999999999997,
+      },
+      to: {
+        x: -6.5152,
+        z: -2.5023999999999997,
+      },
+      height: 0.31,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-3-0',
+      from: {
+        x: -6.777,
+        z: -2.34,
+      },
+      to: {
+        x: -6.9585,
+        z: -1.8449999999999998,
+      },
+      height: 0.265,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-3-1',
+      from: {
+        x: -6.9915,
+        z: -1.755,
+      },
+      to: {
+        x: -7.2335,
+        z: -1.0949999999999998,
+      },
+      height: 0.31,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-3-2',
+      from: {
+        x: -7.2665,
+        z: -1.005,
+      },
+      to: {
+        x: -7.5085,
+        z: -0.34499999999999975,
+      },
+      height: 0.355,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-3-3',
+      from: {
+        x: -7.5415,
+        z: -0.2549999999999999,
+      },
+      to: {
+        x: -7.723,
+        z: 0.2400000000000002,
+      },
+      height: 0.22,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-4-0',
+      from: {
+        x: -7.702,
+        z: 0.6214999999999999,
+      },
+      to: {
+        x: -7.471,
+        z: 1.02575,
+      },
+      height: 0.22,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-4-2',
+      from: {
+        x: -7.079,
+        z: 1.7117499999999999,
+      },
+      to: {
+        x: -6.771,
+        z: 2.25075,
+      },
+      height: 0.31,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'west-family-stone-4-3',
+      from: {
+        x: -6.729,
+        z: 2.3242499999999997,
+      },
+      to: {
+        x: -6.498,
+        z: 2.7285,
+      },
+      height: 0.355,
+      thickness: 0.32,
+      surface: 'masonry',
+      assembly: 'west-family',
+    },
+    {
+      id: 'chapel-front-left',
+      from: {
+        x: -3.2,
+        z: -6.15,
+      },
+      to: {
+        x: -0.85,
+        z: -6.15,
+      },
+      height: 3.1,
+      thickness: 0.35,
+      surface: 'masonry',
+      assembly: 'chapel',
+    },
+    {
+      id: 'chapel-front-right',
+      from: {
+        x: 0.85,
+        z: -6.15,
+      },
+      to: {
+        x: 3.2,
+        z: -6.15,
+      },
+      height: 3.1,
+      thickness: 0.35,
+      surface: 'masonry',
+      assembly: 'chapel',
+    },
+    {
+      id: 'gateway-west-pier',
+      from: {
+        x: -4.74,
+        z: 7.55,
+      },
+      to: {
+        x: -4.26,
+        z: 7.55,
+      },
+      height: 1.7,
+      thickness: 0.46,
+      surface: 'masonry',
+      assembly: 'gateway',
+    },
+    {
+      id: 'gateway-east-pier',
+      from: {
+        x: -2.24,
+        z: 7.55,
+      },
+      to: {
+        x: -1.76,
+        z: 7.55,
+      },
+      height: 1.15,
+      thickness: 0.46,
+      surface: 'masonry',
+      assembly: 'gateway',
+    },
+  ],
   paths: [
     {
       width: 1.45,
       widths: [1.4, 1.5, 1.65, 2.3, 2.5, 1.8],
       points: [
-        { x: -3.3, z: 40 },
-        { x: -3.3, z: 7.4 },
-        { x: -2.5, z: 4.6 },
-        { x: -0.2, z: 2.2 },
-        { x: 0.2, z: -1.5 },
-        { x: 0, z: -5.8 },
+        {
+          x: -3.3,
+          z: 40,
+        },
+        {
+          x: -3.3,
+          z: 7.4,
+        },
+        {
+          x: -2.5,
+          z: 4.6,
+        },
+        {
+          x: -0.2,
+          z: 2.2,
+        },
+        {
+          x: 0.2,
+          z: -1.5,
+        },
+        {
+          x: 0,
+          z: -5.8,
+        },
       ],
     },
   ],
-  graves: graveRows,
+  graves: [
+    {
+      id: 'family-kept',
+      x: -4.25,
+      z: 1.25,
+      width: 0.8,
+      length: 1.7,
+      age: 'old',
+      angle: -0.13,
+    },
+    {
+      id: 'family-plaque',
+      x: -5.35,
+      z: -0.15,
+      width: 0.7,
+      length: 1.5,
+      age: 'old',
+      angle: 0.16,
+      marker: 'memorial',
+    },
+    {
+      id: 'family-old',
+      x: -4.3,
+      z: -0.45,
+      width: 0.82,
+      length: 1.65,
+      age: 'old',
+      angle: -0.22,
+    },
+    {
+      id: 'east-old-1',
+      x: 3.9,
+      z: 2.25,
+      width: 0.8,
+      length: 1.75,
+      age: 'old',
+      angle: 0.3,
+    },
+    {
+      id: 'east-old-2',
+      x: 5.3,
+      z: 0.85,
+      width: 0.8,
+      length: 1.6,
+      age: 'old',
+      angle: 0.13,
+      marker: 'memorial',
+    },
+    {
+      id: 'east-old-3',
+      x: 4.65,
+      z: -1.15,
+      width: 0.82,
+      length: 1.65,
+      age: 'old',
+      angle: -0.2,
+    },
+    {
+      id: 'disturbed',
+      x: -3.9,
+      z: -3.45,
+      width: 0.9,
+      length: 1.7,
+      age: 'damaged',
+      angle: -0.2,
+      marker: 'fallen-marker',
+    },
+    {
+      id: 'recent',
+      x: 3.75,
+      z: -3.55,
+      width: 0.8,
+      length: 1.7,
+      age: 'kept',
+      angle: 0.05,
+    },
+  ],
   patches: [],
   lights: [],
-  decals: [
-    {
-      asset: 'ink-decals',
-      id: 'tree-leaves',
-      clip: 'd05_leaf_drift',
-      x: -5.05,
-      z: 1.65,
-      scale: 0.5,
-    },
-    {
-      asset: 'ink-ground-transitions',
-      id: 'old-roots',
-      clip: 't08_crossing_root',
-      x: -5.8,
-      z: -0.75,
-      scale: 0.55,
-      rotation: 0.6,
-    },
-    {
-      asset: 'ink-decals',
-      id: 'porch-scuffs',
-      clip: 'd08_dirt_scuffs',
-      x: 0,
-      z: -5.0,
-      scale: 0.3,
-    },
-    {
-      asset: 'ink-decals',
-      id: 'gate-scuffs',
-      clip: 'd08_dirt_scuffs',
-      x: -3.3,
-      z: 7.4,
-      scale: 0.25,
-    },
-    {
-      asset: 'ink-ground-transitions',
-      id: 'family-damp',
-      clip: 't07_damp_spread',
-      x: 5.0,
-      z: -1.2,
-      scale: 0.6,
-    },
-    {
-      asset: 'ink-ground-transitions',
-      id: 'east-puddle',
-      clip: 't06_still_puddle',
-      x: 3.25,
-      z: 3.1,
-      scale: 0.25,
-    },
-    {
-      asset: 'ink-decals',
-      id: 'west-leaf-bank',
-      clip: 'd06_scattered_leaves',
-      x: -5.2,
-      z: 2.35,
-      scale: 0.5,
-    },
-    {
-      asset: 'ink-decals',
-      id: 'family-moss',
-      clip: 'd03_moss_edge',
-      x: 5.5,
-      z: 0.8,
-      scale: 0.6,
-    },
-    {
-      asset: 'ink-decals',
-      id: 'old-grave-moss',
-      clip: 'd04_moss_islands',
-      x: -4.2,
-      z: -1.0,
-      scale: 0.55,
-    },
-  ].map((p) => ({
-    ...p,
-    asset: 'ink-graveyard-overlays',
-    purpose: 'Authored ground overlay',
-  })),
+  decals: [],
   proceduralAssets: [
     'ink-ambient',
     'ink-moss',
@@ -516,11 +626,62 @@ export const graveyardScene: WorldVisualDefinition = {
   ],
   camera: {
     keepHeroVisible: true,
-    bounds: { minX: -1.6, maxX: 2.0, minZ: -5.8, maxZ: 2.4 },
-    bias: { x: 0.65, z: -2.8 },
+    bounds: {
+      minX: -1.6,
+      maxX: 2,
+      minZ: -5.8,
+      maxZ: 2.4,
+    },
+    bias: {
+      x: 0.65,
+      z: -2.8,
+    },
     targetHeight: 2.6,
-    arrival: { start: 2.2, end: 6.65, biasZ: -4.9, targetHeight: 0.55 },
+    arrival: {
+      start: 2.2,
+      end: 6.65,
+      biasZ: -4.9,
+      targetHeight: 0.55,
+    },
   },
   assemblies: [],
   overlaps: [],
+  propOrder: [
+    'grave-family-kept',
+    'grave-family-plaque',
+    'grave-family-old',
+    'grave-east-old-1',
+    'grave-east-old-2',
+    'grave-east-old-3',
+    'grave-disturbed',
+    'grave-recent',
+    'family-tomb-west',
+    'boundary-oak',
+    'gate-lamp',
+    'threshold-light',
+    'chapel-cresset',
+    'recent-offering',
+    'understory-mass-0',
+    'understory-mass-1',
+    'understory-mass-2',
+    'understory-mass-3',
+    'understory-mass-4',
+    'fern-bank-0',
+    'fern-bank-1',
+    'fern-bank-2',
+    'fern-bank-3',
+    'rim-overgrowth-0',
+    'rim-overgrowth-1',
+    'rim-overgrowth-2',
+    'woodland-0',
+    'woodland-1',
+    'woodland-2',
+    'woodland-3',
+    'woodland-4',
+    'woodland-5',
+    'woodland-6',
+    'woodland-7',
+    'woodland-8',
+    'foreground-oak',
+  ],
 };

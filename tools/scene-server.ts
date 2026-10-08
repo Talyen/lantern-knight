@@ -2,14 +2,21 @@ import fs from 'node:fs/promises';
 import { createServer } from 'vite';
 import { projectRoot } from './assets/paths';
 
-const origin = 'http://127.0.0.1:5174',
-  endpoint = '/__lantern_scene_preview';
-export async function scenePreviewServer() {
+const endpoint = '/__lantern_scene_preview';
+export function scenePreviewPort(value = process.env.LANTERN_PREVIEW_PORT) {
+  if (value === undefined) return 5174;
+  if (!/^[1-9]\d{0,4}$/.test(value) || Number(value) > 65535)
+    throw new Error('LANTERN_PREVIEW_PORT must be an integer from 1 to 65535.');
+  return Number(value);
+}
+export async function scenePreviewServer(root = projectRoot, env = process.env) {
+  const port = scenePreviewPort(env.LANTERN_PREVIEW_PORT),
+    origin = `http://127.0.0.1:${port}`;
   const identity = {
-    root: await fs.realpath(projectRoot),
-    assets: process.env.LANTERN_ASSET_SHA256,
-    recipe: process.env.LANTERN_ASSET_RECIPE_SHA256,
-    workspace: process.env.LANTERN_ASSET_WORKSPACE,
+    root: await fs.realpath(root),
+    assets: env.LANTERN_ASSET_SHA256,
+    recipe: env.LANTERN_ASSET_RECIPE_SHA256,
+    workspace: env.LANTERN_ASSET_WORKSPACE,
   };
   let response: Response | undefined;
   try {
@@ -19,13 +26,14 @@ export async function scenePreviewServer() {
     const actual = await response.json().catch(() => null);
     if (!response.ok || JSON.stringify(actual) !== JSON.stringify(identity))
       throw new Error(
-        'Port 5174 belongs to another preview or asset revision. Stop that server before starting this preview.',
+        `Preview port ${port} belongs to another checkout, asset revision or server. Use a different LANTERN_PREVIEW_PORT or stop your own preview.`,
       );
     return { origin, reused: true, async close() {} };
   }
   const server = await createServer({
+    root,
     mode: 'sandbox',
-    server: { host: '127.0.0.1', port: 5174, strictPort: true, open: false },
+    server: { host: '127.0.0.1', port, strictPort: true, open: false },
     plugins: [
       {
         name: 'lantern-scene-preview',
@@ -43,6 +51,11 @@ export async function scenePreviewServer() {
     await server.listen();
   } catch (error) {
     await server.close();
+    if (
+      (error as NodeJS.ErrnoException).code === 'EADDRINUSE' ||
+      /already in use/.test(String(error))
+    )
+      throw new Error(`Preview port ${port} is occupied. Use a different LANTERN_PREVIEW_PORT.`);
     throw error;
   }
   return { origin, reused: false, close: () => server.close() };

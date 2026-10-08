@@ -21,6 +21,12 @@ export class InkRoom {
   readonly architecture: CryptArchitecture | undefined;
   readonly graveyard: GraveyardRoom | undefined;
   private time = 0;
+  playing = true;
+  private animated: { sprite: ActorSprite; placement: ArtPlacement }[] = [];
+  replay() {
+    this.time = 0;
+    for (const { sprite } of this.animated) sprite.animator.start(sprite.animator.clip);
+  }
   get ambientTime() {
     return this.time / 1000;
   }
@@ -55,10 +61,15 @@ export class InkRoom {
         art,
       );
   }
-  private sprite(id: string, asset: string, clip: string) {
+  private sprite(
+    id: string,
+    asset: string,
+    clip: string,
+    heading: ArtPlacement['heading'] = 'd45',
+  ) {
     const p = this.packs.get(asset);
     if (!p) throw new Error(`room art not acquired: ${asset}`);
-    const s = new ActorSprite(id, p.manifest, p.textures, resolveClip(p.manifest, clip, 'd45'));
+    const s = new ActorSprite(id, p.manifest, p.textures, resolveClip(p.manifest, clip, heading));
     this.sprites.push(s);
     this.room.add(s.mesh);
     return s;
@@ -110,7 +121,7 @@ export class InkRoom {
   }
 
   private ground(p: ArtPlacement, asset = p.asset) {
-    const s = this.sprite(p.id, asset, p.clip),
+    const s = this.sprite(p.id, asset, p.clip, p.heading),
       scale = p.scale ?? 1,
       angle = p.rotation ?? 0;
     s.show(
@@ -135,6 +146,7 @@ export class InkRoom {
     }
     s.mesh.userData.id = p.id;
     vertices.needsUpdate = true;
+    if (s.animator.clip.frames.length > 1) this.animated.push({ sprite: s, placement: p });
     return s;
   }
   private pathEdges() {
@@ -169,6 +181,7 @@ export class InkRoom {
   build() {
     if (this.graveyard) {
       this.graveyard.build();
+      for (const p of this.art.props) if (p.asset.startsWith('library-')) this.place(p);
       for (const p of this.art.decals) if (p.asset !== 'ink-graveyard-overlays') this.ground(p);
       return;
     }
@@ -190,7 +203,7 @@ export class InkRoom {
     for (const p of art.decals) this.ground(p);
   }
   private place(p: ArtPlacement) {
-    const s = this.sprite(p.id, p.asset, p.clip),
+    const s = this.sprite(p.id, p.asset, p.clip, p.heading),
       scale = p.scale ?? 1;
     s.show(
       s.animator.frame,
@@ -198,6 +211,16 @@ export class InkRoom {
       this.camera,
     );
     s.mesh.scale.set(scale * (p.mirror ? -1 : 1), scale, scale);
+    if (s.animator.clip.frames.length > 1) this.animated.push({ sprite: s, placement: p });
+    if (s.manifest.asset.type === 'effect') {
+      s.mesh.renderOrder =
+        s.manifest.asset.layer === 'below-actor'
+          ? -0.5
+          : s.manifest.asset.layer === 'overlay'
+            ? 1
+            : 0;
+      s.mesh.userData.emissive = true;
+    }
     if (p.tint) {
       s.material.color.set(p.tint);
       s.edgeMaterial?.color.copy(s.material.color);
@@ -228,6 +251,8 @@ export class InkRoom {
       this.flames.push({ fixture: s, emission, placement: p, settings: fixture });
     }
     if (
+      s.manifest.asset.type !== 'effect' &&
+      s.animator.clip.frames.length === 1 &&
       (p.shadow === undefined || p.shadow === 'cast') &&
       !['lantern', 'cresset', 'votive', 'roots', 'fern', 'bramble'].includes(p.clip)
     ) {
@@ -301,6 +326,26 @@ export class InkRoom {
     s.show(frameAt(clip, time), foot, this.camera);
   }
   update(sim: Simulation, alpha: number, visible: boolean, ms = 1000 / 60) {
+    if (!this.playing) ms = 0;
+    for (const { sprite: s, placement: p } of this.animated) {
+      s.animator.advance(ms);
+      s.showAnimation(
+        new T.Vector3(
+          p.x,
+          heightAt(this.area, p.x, p.z) +
+            (p.y ?? (s.manifest.asset.projection === 'top-down' ? 0.018 : 0)),
+          p.z,
+        ),
+        this.camera,
+      );
+      s.mesh.scale.set((p.scale ?? 1) * (p.mirror ? -1 : 1), p.scale ?? 1, p.scale ?? 1);
+      if (p.rotation) s.mesh.rotateZ(p.rotation);
+      s.mesh.visible =
+        visible &&
+        !(
+          s.animator.clip.endBehavior === 'hide' && s.animator.time >= clipDuration(s.animator.clip)
+        );
+    }
     for (const s of this.effects.values()) s.mesh.visible = false;
     this.graveyard?.update(sim, alpha, ms);
     this.time += Math.max(0, ms);

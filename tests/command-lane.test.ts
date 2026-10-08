@@ -110,6 +110,7 @@ test('lane credentials require a live owner; bounded and aborted waits perform n
   const next = await acquireCommandLane({ port, env: lane.env, waitMs: 0 });
   assert.notEqual(next.env.LANTERN_COMMAND_LANE, original);
   await next.release();
+  await next.release();
 });
 
 test('terminating a lane owner releases admission without a stale credential bypass', async () => {

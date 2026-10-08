@@ -1,8 +1,8 @@
 import './style.css';
 import { Application } from './application';
 import { GamePresentation } from './presentation/game-scene';
-import { content } from './content/world';
-import { gameAssetCatalog } from './content/visuals';
+import { content } from './content/game-content';
+import { gameCatalog } from './assets/authoring-catalog';
 import { browserBridge, createBrowserBridge } from './platform/browser-store';
 import { gameUI, bindGameUI, status, showPause, updateGameUI } from './game-ui';
 document.querySelector('#app')!.innerHTML = gameUI;
@@ -10,7 +10,7 @@ document.body.classList.add('game');
 const app = new Application(
   document.querySelector('canvas')!,
   content,
-  gameAssetCatalog,
+  await gameCatalog(),
   window.lantern ??
     (import.meta.env.MODE === 'sandbox' ? createBrowserBridge('preview') : browserBridge),
   (...args) => new GamePresentation(...args),

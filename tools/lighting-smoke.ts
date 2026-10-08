@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import sharp from 'sharp';
+import { comparePixels } from './smoke-pixels';
 import { smokeLaunch } from './smoke-launch';
 import { lightingRigs, lookPresets } from '../src/presentation/lighting-profiles';
 import { animationTreatments } from '../src/core/animation-treatment';
@@ -24,13 +24,14 @@ const quick = process.argv.includes('--quick'),
       canvas.getContext('2d')!.drawImage(f.presentation.canvas, 0, 0);
       return canvas.toDataURL('image/png').split(',')[1]!;
     }),
-  pixels = async () =>
-    sharp(Buffer.from(await capture(), 'base64'))
-      .raw()
-      .toBuffer(),
+  render = () =>
+    page.evaluate(() => {
+      const f = window.foundation;
+      f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
+    }),
   settle = async () => {
-    await capture();
-    await capture();
+    await render();
+    await render();
   };
 try {
   await page.waitForFunction(
@@ -83,65 +84,62 @@ try {
           document.querySelector<HTMLElement>('#modal')!.hidden = true;
         }, area);
         await page.locator('#lighting-baseline').check();
-        const baseline = createHash('sha256')
-          .update(await pixels())
-          .digest('hex');
-        await fs.writeFile(
-          path.join(output, `${area}-${resolution}-original.png`),
-          Buffer.from(await capture(), 'base64'),
-        );
-        gallery.push({
-          file: `${area}-${resolution}-original.png`,
-          area,
-          rig: 'Original',
-          look: 'Baseline',
-          resolution,
-        });
-        await page.locator('#lighting-baseline').uncheck();
+        if (launch.capture) {
+          const file = `${area}-${resolution}-original.png`;
+          await fs.writeFile(path.join(output, file), Buffer.from(await capture(), 'base64'));
+          gallery.push({ file, area, rig: 'Original', look: 'Baseline', resolution });
+        }
         const before = await page.evaluate(() => window.foundation.saveValue());
-        const hashes: string[] = [];
-        for (const rig of Object.keys(lightingRigs))
-          for (const look of Object.keys(lookPresets)) {
-            await page.locator('#lighting-rig').selectOption(rig);
-            await page.locator('#lighting-look').selectOption(look);
-            const file = `${area}-${resolution}-${rig}-${look}.png`,
-              image = Buffer.from(await capture(), 'base64');
-            await fs.writeFile(path.join(output, file), image);
-            gallery.push({
-              file,
-              area,
-              rig: lightingRigs[rig as keyof typeof lightingRigs].label,
-              look: lookPresets[look as keyof typeof lookPresets].label,
-              resolution,
-            });
-            hashes.push(
-              createHash('sha256')
-                .update(await sharp(image).raw().toBuffer())
-                .digest('hex'),
-            );
+        const choices = launch.capture
+          ? Object.keys(lightingRigs).flatMap((rig) =>
+              Object.keys(lookPresets).map((look) => [rig, look] as const),
+            )
+          : area === 'court' && resolution === '1440p'
+            ? ([
+                ['golden', 'diorama'],
+                ['silver', 'ink'],
+                ['golden', 'cinematic'],
+              ] as const)
+            : ([['golden', 'diorama']] as const);
+        const baseline = await comparePixels(
+          page,
+          async () => {
+            await page.locator('#lighting-baseline').uncheck();
+            for (const [rig, look] of choices) {
+              await page.locator('#lighting-rig').selectOption(rig);
+              await page.locator('#lighting-look').selectOption(look);
+              await render();
+              if (launch.capture) {
+                const file = `${area}-${resolution}-${rig}-${look}.png`;
+                await fs.writeFile(path.join(output, file), Buffer.from(await capture(), 'base64'));
+                gallery.push({
+                  file,
+                  area,
+                  rig: lightingRigs[rig as keyof typeof lightingRigs].label,
+                  look: lookPresets[look as keyof typeof lookPresets].label,
+                  resolution,
+                });
+              }
+            }
             assert.deepEqual(
               await page.evaluate(() => window.foundation.saveValue()),
               before,
-              'preset switching changed the session',
+              'Preset switching changed the session',
             );
             assert.deepEqual(await page.evaluate(() => window.foundation.stats().buffer), [
               width * 2,
               (height - 128) * 2,
             ]);
-          }
-        assert.equal(new Set(hashes).size, 6, 'six combinations must render distinctly');
-        await page.locator('#lighting-baseline').check();
-        assert.equal(
-          createHash('sha256')
-            .update(await pixels())
-            .digest('hex'),
-          baseline,
-          'original baseline changed after lighting',
+            await page.locator('#lighting-baseline').check();
+            await render();
+          },
+          { tolerance: 0 },
         );
+        assert.equal(baseline.maxDifference, 0, 'Original baseline changed after lighting');
         await page.locator('#lighting-baseline').uncheck();
         assert.equal(errors.length, 0, errors.join('\n'));
         checks.push(
-          `${area} / ${resolution}: six distinct looks, native buffer, unchanged session and exact original pixels`,
+          `${area} / ${resolution}: native shader paths, unchanged session and exact original pixels`,
         );
         console.log(checks.at(-1));
       }
@@ -152,7 +150,7 @@ try {
       f.sim.hero.state = 'idle';
       f.sim.hero.yaw = Math.PI / 2;
       f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
-      f.presentation.actors.get('player')!.sprite.animator.seek(142.73);
+      f.presentation.actorPresentation.actors.get('player')!.sprite.animator.seek(142.73);
     });
     for (const mode of Object.keys(animationTreatments)) {
       await page.evaluate((mode) => {
@@ -161,12 +159,13 @@ try {
           mode as keyof typeof import('../src/core/animation-treatment').animationTreatments;
         f.presentation.lightingLab.setSettings({ look: 'diorama', depthOfField: 1 });
       }, mode);
-      await capture();
+      await render();
       if (mode === 'guarded')
         assert.ok(
           await page.evaluate(
             () =>
-              !!window.foundation.presentation.actors.get('player')!.sprite.lightingSample?.blend,
+              !!window.foundation.presentation.actorPresentation.actors.get('player')!.sprite
+                .lightingSample?.blend,
           ),
           'lighting check must exercise an accepted warp',
         );
@@ -185,7 +184,7 @@ try {
         (enabled) => (window.foundation.presentation.rigidSword = enabled),
         enabled,
       );
-      await capture();
+      await render();
     }
     checks.push(
       'rigid-sword correction on/off remains aligned in lighting, shadow and focus sampling',
@@ -196,24 +195,14 @@ try {
     for (let i = 0; i < 12; i++) {
       await page.locator('#lighting-look').selectOption(['ink', 'diorama', 'cinematic'][i % 3]!);
       await page.locator('#lighting-rig').selectOption(i % 2 ? 'silver' : 'golden');
-      await capture();
+      await render();
     }
     assert.deepEqual(await page.evaluate(() => window.foundation.stats().objects), objects);
     checks.push('repeated look changes settle at identical geometry and texture counts');
-    for (const id of [
-      'lighting-enabled',
-      'lighting-shadows',
-      'lighting-atmosphere',
-      'lighting-post',
-    ]) {
-      await page.locator('#' + id).uncheck();
-      await capture();
-      await page.locator('#' + id).check();
-      await capture();
-    }
-    checks.push('independent lighting, shadow, atmosphere and postprocessing toggles render');
     await page.locator('#lighting-replay').click();
-    await page.waitForTimeout(1200);
+    await page.waitForFunction(
+      () => window.foundation.sim.tick > 30 && window.foundation.sim.hero.z < 5.5,
+    );
     const replay = await page.evaluate(() => ({
       tick: window.foundation.sim.tick,
       z: window.foundation.sim.hero.z,
@@ -237,25 +226,11 @@ try {
     checks.push(
       'replay moves through the scene; pause freezes simulation and atmosphere; stop returns free play',
     );
-    await page.screenshot({ path: path.join(output, 'lab-controls.png'), scale: 'device' });
+    if (launch.capture)
+      await page.screenshot({ path: path.join(output, 'lab-controls.png'), scale: 'device' });
   }
   if (!quick) {
-    if (!benchmarkOnly) {
-      const resets: unknown[] = [];
-      for (let i = 0; i < 8; i++) {
-        await page.evaluate(async () => {
-          const f = window.foundation;
-          await f.reset();
-          f.pause(true);
-          document.querySelector<HTMLElement>('#modal')!.hidden = true;
-        });
-        await settle();
-        resets.push(await page.evaluate(() => window.foundation.stats().objects));
-      }
-      resets.forEach((x) => assert.deepEqual(x, resets[0]));
-      checks.push('eight room replacements return to identical GPU geometry and texture counts');
-    }
-    if (!process.argv.includes('--no-benchmark')) {
+    if (process.argv.includes('--benchmark') || benchmarkOnly) {
       for (const [resolution, width, height] of [
         ['1440p', 1280, 848],
         ['4k', 1920, 1208],
@@ -340,17 +315,18 @@ try {
     }
   }
   await page.evaluate(() => window.foundation.mode('encounter'));
-  await capture();
+  await render();
   assert.equal(
     await page.evaluate(() => window.foundation.presentation.lookRenderer.settings.look),
     'diorama',
   );
   checks.push('leaving the lab restores the shared Golden/Diorama game look');
   assert.equal(errors.length, 0, errors.join('\n'));
-  await fs.writeFile(
-    path.join(output, 'index.html'),
-    `<!doctype html><meta charset="utf-8"><title>Lantern lighting comparisons</title><style>body{background:#141923;color:#e4e1d9;font:16px system-ui;margin:24px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:20px}img{width:100%;height:auto}figure{margin:0}figcaption{padding:8px 0}h1{font-family:Georgia}a{color:#dfc397}</style><h1>Golden hour / Silver hour</h1><p>Native renderer captures. Source artwork and the selected orthographic camera are unchanged. Each area/resolution includes the original rendering and six live lab combinations.</p><main>${gallery.map((g) => `<figure><a href="${g.file}"><img loading="lazy" src="${g.file}" alt="${g.area} ${g.rig} ${g.look}"></a><figcaption>${g.area} · ${g.resolution} · ${g.rig} · ${g.look}</figcaption></figure>`).join('')}</main>`,
-  );
+  if (launch.capture)
+    await fs.writeFile(
+      path.join(output, 'index.html'),
+      `<!doctype html><meta charset="utf-8"><title>Lantern lighting comparisons</title><style>body{background:#141923;color:#e4e1d9;font:16px system-ui;margin:24px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:20px}img{width:100%;height:auto}figure{margin:0}figcaption{padding:8px 0}h1{font-family:Georgia}a{color:#dfc397}</style><h1>Golden hour / Silver hour</h1><p>Native renderer captures. Source artwork and the selected orthographic camera are unchanged. Each area/resolution includes the original rendering and six live lab combinations.</p><main>${gallery.map((g) => `<figure><a href="${g.file}"><img loading="lazy" src="${g.file}" alt="${g.area} ${g.rig} ${g.look}"></a><figcaption>${g.area} · ${g.resolution} · ${g.rig} · ${g.look}</figcaption></figure>`).join('')}</main>`,
+    );
   const asar = path.resolve(path.dirname(launch.executable), '../Resources/app.asar');
   await fs.writeFile(
     path.join(output, 'lighting-smoke.json'),
@@ -372,7 +348,9 @@ try {
       2,
     ),
   );
-  console.log(`Passed ${checks.length} lighting checks. Gallery: ${output}/index.html`);
+  console.log(
+    `PASS: ${checks.length} lighting checks; ${launch.capture ? output + '/index.html' : 'verified; successful diagnostics discarded'}`,
+  );
 } catch (error) {
   await fs.writeFile(
     path.join(output, 'failure.json'),

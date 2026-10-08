@@ -8,7 +8,7 @@ import pathlib
 import tempfile
 from collections import defaultdict
 
-from resolver import PROJECT, SourceResolver, regular_file, safe_relative
+from resolver import PROJECT, SourceResolver, regular_file, safe_relative, load_index
 
 
 def digest(path):
@@ -179,7 +179,7 @@ def main():
     ap.add_argument("--manifest", type=pathlib.Path)
     ap.add_argument("--apply", action="store_true")
     args = ap.parse_args()
-    index = json.loads(args.index.read_text())
+    index = load_index(args.index)
     library = pathlib.Path(
         os.environ.get("ASSET_LIBRARY_ROOT", pathlib.Path.home() / "Documents/Asset Library")
     )

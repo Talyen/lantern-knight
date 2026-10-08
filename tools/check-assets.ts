@@ -1,3 +1,4 @@
+import { validateLightingBindings, type LightingBinding } from './lighting-bindings';
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { assetCatalog, actorVisuals } from '../src/content/visuals';
@@ -10,8 +11,12 @@ import {
 import { readAsset } from './assets/io';
 import { readRegistration } from './assets/data';
 import { hash } from './compiler';
+import { readAuthoringCatalog } from './assets/authoring-catalog';
 const manifests = new Map<string, Manifest>();
-const catalog: Readonly<Record<string, string>> = { ...assetCatalog, ...playgroundCatalog };
+const catalog: Readonly<Record<string, string>> = {
+  ...(await readAuthoringCatalog()),
+  ...playgroundCatalog,
+};
 let pages = 0;
 assert.deepEqual(
   JSON.parse(await readAsset('public/generated/calibration.json', 'utf8')),
@@ -45,20 +50,12 @@ assert.equal(
   hash(await readAsset('authoring/hero-motion.json')),
 );
 const lighting = JSON.parse(await readAsset('public/lighting/manifest.json', 'utf8'));
-for (const [key, entry] of Object.entries(lighting.entries) as [
-  string,
-  { sourceHash: string; rect: number[]; trim: number[]; file: string; hash: string },
-][]) {
-  const [id, frameId] = key.split(':'),
-    file = catalog[id!];
-  assert.ok(file, `Unknown lighting asset ${id}`);
-  const m = parseManifest(JSON.parse(await readAsset('public/' + file, 'utf8'))),
-    frame = m.frames.find((f) => f.id === frameId)!;
-  assert.ok(frame, `Unknown lighting frame ${key}`);
-  assert.equal(entry.sourceHash, m.pages.find((p) => p.id === frame.page)!.hash);
-  assert.deepEqual(entry.rect, frame.rect);
-  assert.deepEqual(entry.trim, frame.trim);
-  assert.equal(hash(await readAsset('public/lighting/' + entry.file)), entry.hash);
+validateLightingBindings(lighting, manifests);
+const companionHashes = new Map<string, string>();
+for (const entry of Object.values(lighting.entries) as LightingBinding[]) {
+  if (!companionHashes.has(entry.file))
+    companionHashes.set(entry.file, hash(await readAsset('public/lighting/' + entry.file)));
+  assert.equal(companionHashes.get(entry.file), entry.hash);
 }
 await (await import('./check-scene-documents')).checkSceneDocuments(process.cwd(), manifests);
 await import('./check-quality');

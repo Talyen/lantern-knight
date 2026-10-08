@@ -1,4 +1,4 @@
-import { readAsset, writeAsset, mkdirAsset } from './assets/io';
+import { readAsset, assetWriter } from './assets/io';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
@@ -6,6 +6,8 @@ import { createHash } from 'node:crypto';
 import { assetCatalog } from '../src/content/asset-catalog';
 import type { Manifest } from '../src/assets/schema';
 import { normalPixels } from '../src/assets/normal-pixels';
+import { readAuthoringCatalog } from './assets/authoring-catalog';
+import { needsLighting } from './lighting-bindings';
 const root = 'public/lighting',
   check = process.argv.includes('--check'),
   recipe = 'alpha-volume-v1',
@@ -14,31 +16,27 @@ const tended = JSON.parse(await readAsset('authoring/graveyard-art.json', 'utf8'
   frames: { id: string }[];
 };
 const entries: Record<string, unknown> = {};
+const write = check ? undefined : await assetWriter();
 async function output(file: string, bytes: Buffer | string) {
   if (check) {
     if (!Buffer.from(bytes).equals(await readAsset(file)))
       throw new Error(`lighting derivative stale: ${file}`);
   } else {
-    await mkdirAsset(path.dirname(file), { recursive: true });
-    await writeAsset(file, bytes);
+    await write!(file, bytes);
   }
 }
-for (const asset of [
-  'ink-hero-current',
-  'ink-skeleton',
-  'ink-scenery',
-  'ink-graveyard-scenery',
-  'ink-blackwood-oak',
-  'ink-blackwood-woodland',
-  ...tended.frames.map((r) => `ink-tended-${r.id}`),
-]) {
+const catalog = await readAuthoringCatalog();
+for (const asset of Object.keys(catalog)) {
   const manifest = JSON.parse(
-    await readAsset(path.join('public', assetCatalog[asset]!), 'utf8'),
+    await readAsset(path.join('public', catalog[asset]!), 'utf8'),
   ) as Manifest;
+  if (!needsLighting(asset, manifest)) continue;
+  const pageBytes = new Map<string, Buffer>();
   for (const frame of manifest.frames) {
     const page = manifest.pages.find((p) => p.id === frame.page)!,
-      source = path.join('public', path.dirname(assetCatalog[asset]!), page.path),
-      bytes = await readAsset(source);
+      source = path.join('public', path.dirname(catalog[asset]!), page.path),
+      bytes = pageBytes.get(source) ?? (await readAsset(source));
+    pageBytes.set(source, bytes);
     if (sha(bytes) !== page.hash) throw new Error(`lighting source changed: ${source}`);
     const [left, top, width, height] = frame.rect,
       scale = Math.min(1, 192 / height),

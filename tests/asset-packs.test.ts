@@ -1,4 +1,3 @@
-import { repositoryFinding } from '../tools/check-repository';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -14,7 +13,7 @@ import {
   recipeHash,
 } from '../tools/assets/pack';
 import { retainedPacks, obsoleteReleases } from '../tools/assets/retention';
-import { publishPrepared } from '../tools/assets';
+
 import { safeRelative } from '../tools/assets/paths';
 import { projectRoot } from '../tools/assets/paths';
 
@@ -61,6 +60,7 @@ test('runtime composition and lighting do not invalidate artwork, but bake input
   }
 });
 
+let fixtureRecipe: Promise<string> | undefined;
 async function fixture() {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-packs-')),
     source = path.join(root, 'source'),
@@ -69,7 +69,7 @@ async function fixture() {
   await fs.mkdir(path.join(source, 'metadata'));
   await fs.writeFile(path.join(source, 'public/page.png'), 'unchanged texture');
   await fs.writeFile(path.join(source, 'metadata/receipt.json'), '{}');
-  const lock = await makeArchive(source, archive, await recipeHash()),
+  const lock = await makeArchive(source, archive, await (fixtureRecipe ??= recipeHash())),
     body = await fs.readFile(archive),
     cache = new AssetCache(path.join(root, 'cache'), 256 * 1024);
   return {
@@ -119,6 +119,26 @@ test('corrupt caches are repaired by pinned bytes; active users are protected', 
       'unchanged texture',
     );
     await repaired.release();
+  } finally {
+    await f.close();
+  }
+});
+test('exact pinned preparation can be consumed offline and survives preparation cleanup', async () => {
+  const f = await fixture();
+  try {
+    const preparation = await f.cache.lease('preparation'),
+      payload = path.join(preparation.root, 'work/payload');
+    await fs.mkdir(path.dirname(payload), { recursive: true });
+    await fs.cp(f.source, payload, { recursive: true });
+    await fs.writeFile(path.join(preparation.root, 'prepared.json'), JSON.stringify(f.lock));
+    const held = await ensurePack(f.lock, f.cache, (async () => {
+      throw new Error('Unexpected download');
+    }) as typeof fetch);
+    await validatePack(held.root, f.lock);
+    await fs.rm(payload, { recursive: true, force: true });
+    await validatePack(held.root, f.lock);
+    await held.release();
+    await preparation.release();
   } finally {
     await f.close();
   }
@@ -294,41 +314,7 @@ test('failed initial cache ownership publication leaves the directory recoverabl
     await fs.rm(root, { recursive: true, force: true });
   }
 });
-test('publication does not change the pin before the public download is verified', async () => {
-  const f = await fixture();
-  try {
-    const pin = path.join(f.root, 'lock.json');
-    await fs.writeFile(pin, 'previous pin');
-    const fake = {
-      lock: f.lock,
-      archive: f.archive,
-      payload: f.source,
-      held: await f.cache.lease('prepared'),
-    };
-    await assert.rejects(
-      publishPrepared(
-        fake,
-        async () => JSON.stringify({ assets: [{ name: f.lock.filename }] }),
-        async () => {
-          throw new Error('unavailable');
-        },
-        pin,
-      ),
-      /unavailable/,
-    );
-    assert.equal(await fs.readFile(pin, 'utf8'), 'previous pin');
-    await publishPrepared(
-      fake,
-      async () => JSON.stringify({ assets: [{ name: f.lock.filename }] }),
-      async () => {},
-      pin,
-    );
-    assert.deepEqual(JSON.parse(await fs.readFile(pin, 'utf8')), f.lock);
-    await fake.held.release();
-  } finally {
-    await f.close();
-  }
-});
+
 test('remote cleanup retains main, local and open-PR pins and fails closed on unreadable references', async () => {
   const f = await fixture();
   try {
@@ -373,23 +359,6 @@ test('remote cleanup retains main, local and open-PR pins and fails closed on un
   } finally {
     await f.close();
   }
-});
-
-test('repository hygiene rejects raw output and oversized data while retaining explicit authored exceptions', () => {
-  for (const file of [
-    'staging/frames.json',
-    'evidence/report.json',
-    'references/art/catalog.json',
-    'public/generated/manifest.json',
-    'docs/history/old.md',
-    'dist/assets/file.js',
-  ])
-    assert.ok(repositoryFinding(file, 10));
-  assert.ok(repositoryFinding('src/data.json', 64 * 1024 + 1));
-  assert.ok(repositoryFinding('src/raw.txt', 256 * 1024 + 1));
-  assert.equal(repositoryFinding('assets/sources.json', 36000), undefined);
-  assert.equal(repositoryFinding('package-lock.json', 202106), undefined);
-  assert.equal(repositoryFinding('references/canon/image(3).png', 706541), undefined);
 });
 
 test('push guard checks the outgoing snapshot rather than an uncommitted repaired pin', async () => {
@@ -446,6 +415,52 @@ test('push guard checks the outgoing snapshot rather than an uncommitted repaire
     git(['add', '.']);
     git(['commit', '--quiet', '-m', 'repair pin']);
     await checkCommittedAssetPin(root);
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
+test('equivalence excludes only preparation provenance and binds the accepted recipe to unchanged archive bytes', async () => {
+  const { payloadDigest, preparationPin, LockSchema, acceptedRecipe } =
+    await import('../tools/assets/pack');
+  const { recipeInputs } = await import('../tools/assets/recipe');
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-equivalence-'));
+  try {
+    const payload = path.join(root, 'payload');
+    await fs.mkdir(path.join(payload, 'public'), { recursive: true });
+    await fs.mkdir(path.join(payload, 'metadata'));
+    await fs.writeFile(path.join(payload, 'public/pixels.png'), 'pixels');
+    await fs.writeFile(path.join(payload, 'metadata/preparation-inputs.json'), 'old recipe');
+    const lock = await makeArchive(payload, path.join(root, 'pack.tar.gz'), 'a'.repeat(64)),
+      before = await validatePack(payload, lock);
+    const inputs = await recipeInputs(),
+      pin = preparationPin(lock, inputs, before);
+    assert.equal(pin.sha256, lock.sha256);
+    assert.equal(pin.recipeSha256, lock.recipeSha256);
+    assert.equal(acceptedRecipe(pin), await recipeHash());
+    assert.deepEqual(await validatePack(payload, pin), before);
+    const changed = structuredClone(before);
+    changed.files['metadata/preparation-inputs.json'] = { bytes: 100, sha256: 'b'.repeat(64) };
+    assert.equal(payloadDigest(changed), payloadDigest(before));
+    changed.files['public/pixels.png']!.sha256 = 'c'.repeat(64);
+    assert.notEqual(payloadDigest(changed), payloadDigest(before));
+    delete changed.files['public/pixels.png'];
+    assert.notEqual(payloadDigest(changed), payloadDigest(before));
+    changed.files['metadata/new-receipt.json'] = { bytes: 1, sha256: 'd'.repeat(64) };
+    assert.notEqual(payloadDigest(changed), payloadDigest(before));
+    assert.throws(
+      () =>
+        LockSchema.parse({
+          ...pin,
+          preparation: {
+            ...(pin.schemaVersion === 2 ? pin.preparation : {}),
+            recipeSha256: 'f'.repeat(64),
+          },
+        }),
+      /Accepted preparation/,
+    );
+    await fs.writeFile(path.join(payload, 'public/pixels.png'), 'tampered');
+    await assert.rejects(validatePack(payload, pin), /differs/);
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }

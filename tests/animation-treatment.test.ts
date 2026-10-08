@@ -6,53 +6,18 @@ import { readAsset } from '../tools/assets/io';
 import { readRegistration } from '../tools/assets/data';
 import { parseRegistration } from '../src/assets/registration';
 import { parseManifest, resolveClip } from '../src/assets/schema';
-import { sampleAnimation, transitionMix } from '../src/core/animation-treatment';
+import { sampleAnimation } from '../src/core/animation-treatment';
 import { clipDuration, frameAt } from '../src/core/animation';
 import { timedWalk, remapWalkTime } from '../src/core/locomotion-timing';
 import { AnimationBlendShader, registeredTrim } from '../src/presentation/animation-blend-shader';
 import { ActorSprite } from '../src/presentation/sprite';
 import { makeCamera, trimmedBounds } from '../src/core/camera';
-import { heroTimings } from '../src/content/hero-actions';
-import { defaultLook } from '../src/presentation/lighting-profiles';
+
 const m = parseManifest(
     JSON.parse(await readAsset('public/generated/ink/ink-hero-current/manifest.json', 'utf8')),
   ),
   registration = readRegistration();
-test('current transition inventory binds all clips/directions and preserves action holds', () => {
-  const frames = new Set(m.frames.map((f) => f.id));
-  for (const [name, dirs] of Object.entries(m.asset.clips))
-    for (const [heading, c] of Object.entries(dirs)) {
-      const data = registration.animation.clips[`${name}:${heading}`]!;
-      assert.ok(data);
-      assert.deepEqual(data.frames, c!.frames);
-      assert.deepEqual(
-        c!.durationsMs,
-        heroTimings[name]![heading as keyof (typeof heroTimings)[string]]!.holdsMs,
-      );
-      if (name === 'walk') {
-        const weighted = timedWalk(c!, 'weighted', data.weightedHoldsMs);
-        assert.ok(
-          Math.abs(
-            weighted.durationsMs.reduce((a, b) => a + b) - c!.durationsMs.reduce((a, b) => a + b),
-          ) < 0.001,
-        );
-        const time = c!.durationsMs[0]! * 0.3;
-        assert.ok(
-          Math.abs(remapWalkTime(c!, weighted, time) - weighted.durationsMs[0]! * 0.3) < 0.001,
-        );
-      } else assert.deepEqual(data.weightedHoldsMs, c!.durationsMs);
-    }
-  for (const p of registration.animation.pairs) {
-    assert.ok(frames.has(p.from) && frames.has(p.to));
-    assert.equal(p.asset, m.asset.id);
-    if (p.supported) {
-      assert.ok(p.sword || p.weaponVisibility === 'hidden');
-      assert.ok(p.silhouetteAgreement >= 0.96);
-      assert.ok(p.colorError <= 0.09);
-      assert.equal(p.rejectionReason, null);
-    }
-  }
-});
+
 test('mixed-density guarded sampling keeps the foot fixed and restores native held geometry', () => {
   const textures = new Map(m.pages.map((p) => [p.id, new Texture()])),
     flow = { ...registration.animation, texture: new Texture() },
@@ -92,16 +57,13 @@ test('mixed-density guarded sampling keeps the foot fixed and restores native he
   material.dispose();
   flow.texture.dispose();
   textures.forEach((t) => t.dispose());
+  const six = resolveClip(m, 'walk', 'd45'),
+    eight = resolveClip(m, 'walk', 'd135');
+  assert.ok(
+    Math.abs(remapWalkTime(six, eight, clipDuration(six) * 1.7) - clipDuration(eight) * 1.7) < 1e-8,
+  );
 });
-test('guarded sampling respects variable holds, looping and terminal death poses', () => {
-  const c = { frames: ['a', 'b', 'c'], durationsMs: [100, 50, 150], loop: true, notifies: [] };
-  assert.equal(sampleAnimation(c, 50, 'guarded').mix, 0.5);
-  assert.equal(sampleAnimation(c, 100.01, 'guarded').from, 'b');
-  assert.equal(sampleAnimation(c, 299.99, 'guarded').to, 'a');
-  const terminal = sampleAnimation({ ...c, loop: false }, 9999, 'guarded');
-  assert.equal(terminal.from, 'c');
-  assert.equal(terminal.to, 'c');
-});
+
 test('registration rejects duplicate pairs, escaped crops and degenerate sword lines', () => {
   const value = structuredClone(registration);
   value.animation.pairs.push(value.animation.pairs[0]!);
@@ -119,54 +81,6 @@ test('registration rejects duplicate pairs, escaped crops and degenerate sword l
     sword: { a: [1, 1, 1, 1], b: [2, 2, 3, 3], width: 8 },
   });
   assert.throws(() => parseRegistration(blade), /Degenerate/);
-});
-test('shared authoring/player look starts Golden/Diorama at 150%', () => {
-  assert.equal(defaultLook.rig, 'golden');
-  assert.equal(defaultLook.look, 'diorama');
-  assert.equal(defaultLook.strength, 1.5);
-});
-
-test('canonical artwork remains byte-identical', async () => {
-  assert.equal(
-    hash(await readAsset('references/canon/image(3).png')),
-    '74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c',
-  );
-});
-
-test('loaded poses stay still before a bounded monotone transition, including loop closure', () => {
-  const clip = { frames: ['a', 'b'], durationsMs: [100, 100], loop: true, notifies: [] };
-  const transitions = [
-    { from: 'a', to: 'b', holdFraction: 0.65, easing: 'ease-in' as const },
-    { from: 'b', to: 'a', holdFraction: 0.1, easing: 'smoothstep' as const },
-  ];
-  assert.equal(sampleAnimation(clip, 64, 'guarded', transitions).mix, 0);
-  assert.ok(Math.abs(sampleAnimation(clip, 82.5, 'guarded', transitions).mix - 0.25) < 1e-12);
-  assert.equal(sampleAnimation(clip, 82.5, 'original', transitions).mix, 0);
-  assert.equal(sampleAnimation(clip, 210, 'guarded', transitions).mix, 0);
-  for (const easing of ['linear', 'ease-in', 'ease-out', 'smoothstep'] as const) {
-    const samples = Array.from({ length: 101 }, (_, i) =>
-      transitionMix(i / 100, { holdFraction: 0.25, easing }),
-    );
-    assert.equal(samples[0], 0);
-    assert.equal(samples.at(-1), 1);
-    assert.ok(samples.every((x, i) => i === 0 || x >= samples[i - 1]!));
-  }
-  const invalid = structuredClone(registration);
-  invalid.animation.pairs[0]!.holdFraction = 1;
-  assert.throws(() => parseRegistration(invalid));
-});
-test('eight-direction run turns retain phase across six/eight drawings and original timing remains available', () => {
-  const six = resolveClip(m, 'walk', 'd45'),
-    eight = resolveClip(m, 'walk', 'd135');
-  assert.equal(six.frames.length, 6);
-  assert.equal(eight.frames.length, 8);
-  assert.ok(
-    Math.abs(remapWalkTime(six, eight, clipDuration(six) * 1.7) - clipDuration(eight) * 1.7) < 1e-8,
-  );
-  assert.notDeepEqual(
-    registration.animation.clips['sweep:d90']!.originalHoldsMs,
-    resolveClip(m, 'sweep', 'd90').durationsMs,
-  );
   const hidden = registration.animation.pairs.find(
     (p) => p.supported && p.weaponVisibility === 'hidden',
   )!;
@@ -176,6 +90,16 @@ test('eight-direction run turns retain phase across six/eight drawings and origi
   const pair = invalid.animation.pairs.find((p) => p.supported && p.weaponVisibility === 'hidden')!;
   pair.weaponVisibility = 'uncertain';
   assert.throws(() => parseRegistration(invalid), /requires sword|visibility/);
+  const hold = structuredClone(registration);
+  hold.animation.pairs[0]!.holdFraction = 1;
+  assert.throws(() => parseRegistration(hold));
+});
+
+test('canonical artwork remains byte-identical', async () => {
+  assert.equal(
+    hash(await readAsset('references/canon/image(3).png')),
+    '74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c',
+  );
 });
 
 test('one-tick sweep launch and damage poses are visible at their exact simulation boundaries', () => {

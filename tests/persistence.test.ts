@@ -1,3 +1,6 @@
+import { SaveContentError } from '../src/core/save';
+import { isSupportedPosition } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -48,7 +51,7 @@ test('current saves preserve variable counts, health above 100, multiple areas a
           }),
       ...(version === 2 ? { area: 1 } : {}),
     };
-    const v = parseGame(old);
+    const v = parseGame(old, content);
     assert.equal(v.version, 6);
     assert.equal(v.area, version === 2 ? 'upper-landing' : 'court');
     assert.equal(v.player.cooldown, 0);
@@ -56,9 +59,130 @@ test('current saves preserve variable counts, health above 100, multiple areas a
     assert.equal(v.player.health, version === 0 ? 100 : 55);
     assert.equal(v.wins, 3);
   }
+  {
+    const previous = prototype(),
+      bytes = JSON.stringify(previous),
+      save = parseGame(previous, content);
+    assert.equal(JSON.stringify(previous), bytes);
+    assert.equal(save.version, 6);
+    assert.equal(save.player.health, previous.player.health);
+    assert.equal(save.player.cooldown, previous.player.cooldown);
+    assert.equal(save.player.dodgeCooldown, previous.player.dodgeCooldown);
+    assert.equal(save.player.z, 7.5);
+    assert.ok(save.areas.court!.cleared);
+    assert.equal(Object.keys(save.areas.court!.actors).length, 1);
+    assert.deepEqual(
+      Object.values(save.areas['upper-landing']!.actors).map((a) => a.health),
+      [50, 50],
+    );
+    assert.equal(save.areas['upper-landing']!.engaged, false);
+    previous.player.x = -5.3;
+    previous.player.z = -3.4;
+    const relocated = parseGame(previous, content);
+    assert.equal(relocated.player.x, 0);
+    assert.equal(relocated.player.z, 7.5);
+    assert.equal(relocated.player.health, 63);
+    const unknown = prototype();
+    unknown.areas.court.actors['unknown'] = { x: 0, z: 0, health: 0 };
+    assert.throws(() => parseGame(unknown, content), SaveContentError);
+    assert.deepEqual(
+      parseSettings({ version: 2, verticalSpan: 13, renderScale: 1, showDebug: false }),
+      {
+        version: 5,
+        verticalSpan: 13,
+        renderScale: 1,
+        showDebug: false,
+        depthOfField: 1,
+        visualEffects: defaultVisualEffects(),
+      },
+    );
+  }
+  {
+    const previous = {
+      version: 4,
+      seed: 142,
+      wins: 1,
+      area: 'upper-landing',
+      player: { x: 6, z: 6, health: 54, cooldown: 40, dodgeCooldown: 11 },
+      areas: {
+        court: { engaged: true, cleared: true, actors: { 'warden-1': { x: 0, z: 0, health: 0 } } },
+        'upper-landing': {
+          engaged: true,
+          cleared: false,
+          actors: {
+            'warden-1': { x: 1, z: -1, health: 25 },
+            'warden-2': { x: 2, z: 0, health: 50 },
+          },
+        },
+      },
+    };
+    const before = JSON.stringify(previous),
+      save = parseGame(previous, content);
+    assert.equal(JSON.stringify(previous), before);
+    assert.equal(save.version, 6);
+    assert.equal(save.player.health, 54);
+    assert.equal(save.player.cooldown, 40);
+    assert.equal(save.player.dodgeCooldown, 11);
+    assert.deepEqual([save.player.x, save.player.z], [0, 7.5]);
+    assert.ok(save.areas.court!.cleared);
+    assert.equal(save.areas['upper-landing']!.engaged, false);
+    assert.deepEqual(
+      Object.values(save.areas['upper-landing']!.actors).map((a) => a.health),
+      [50, 50],
+    );
+  }
+  {
+    const save = { ...new GameSession(content, 142, 'upper-landing').captureSave(), version: 5 };
+    Object.assign(save.player, { x: -6.85, z: -5.15, health: 63, cooldown: 17, dodgeCooldown: 8 });
+    Object.assign(save.areas['upper-landing']!.actors['warden-1']!, {
+      x: 6.15,
+      z: -5.45,
+      health: 17,
+    });
+    save.areas['upper-landing']!.engaged = true;
+    const original = JSON.stringify(save),
+      result = parseGame(save, content);
+    assert.equal(JSON.stringify(save), original);
+    assert.equal(result.version, 6);
+    assert.equal(result.player.health, 63);
+    assert.equal(result.player.cooldown, 17);
+    assert.equal(result.player.dodgeCooldown, 8);
+    assert.ok(isSupportedPosition(content.area('upper-landing'), result.player, 0.3));
+    assert.equal(result.areas['upper-landing']!.actors['warden-1']!.health, 17);
+    assert.equal(result.areas['upper-landing']!.engaged, true);
+    assert.equal(result.areas['upper-landing']!.cleared, false);
+    assert.ok(
+      isSupportedPosition(
+        content.area('upper-landing'),
+        result.areas['upper-landing']!.actors['warden-1']!,
+        0.3,
+      ),
+    );
+    assert.throws(
+      () => parseGame({ ...save, version: 6 }, content),
+      /invalid player/,
+      'new-format saves must not accept old bounds',
+    );
+    assert.throws(
+      () => parseGame({ ...save, player: { ...save.player, x: 8 } }, content),
+      /invalid player/,
+      'migration must reject positions outside the old bounds',
+    );
+    assert.throws(
+      () =>
+        parseGame(
+          {
+            ...save,
+            areas: { ...save.areas, 'unknown-chapel': save.areas['upper-landing']! },
+          },
+          content,
+        ),
+      /unknown area/,
+    );
+  }
 });
 test('startup protection requires explicit Load/New; writes snapshot in order and retain failure status', async () => {
-  const saved = new GameSession().captureSave();
+  const saved = new GameSession(content).captureSave();
   let value: LoadResult<GameSave> = { status: 'ok', data: saved },
     fail = false;
   const writes: GameSave[] = [];
@@ -101,7 +225,7 @@ test('startup protection requires explicit Load/New; writes snapshot in order an
 test('per-slot size limits, unknown content, unsupported settings and oversized reads preserve files', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-systems-save-')),
     store = new Store(dir),
-    save = new GameSession().captureSave();
+    save = new GameSession(content).captureSave();
   try {
     assert.equal(SAVE_LIMITS.game, 1048576);
     assert.equal(SAVE_LIMITS.settings, 16384);
@@ -144,7 +268,7 @@ test('per-slot size limits, unknown content, unsupported settings and oversized 
 test('backup-only saves preserve unreadable, newer and unknown-content data before accepting writes', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-backup-only-')),
     store = new Store(dir),
-    save = new GameSession().captureSave();
+    save = new GameSession(content).captureSave();
   try {
     for (const text of [
       'corrupt',
@@ -171,7 +295,7 @@ test('backup-only saves preserve unreadable, newer and unknown-content data befo
 test('short filesystem reads do not make a valid checkpoint unreadable or replace it with its older backup', async () => {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-short-read-')),
     store = new Store(directory),
-    save = new GameSession().captureSave(),
+    save = new GameSession(content).captureSave(),
     open = fs.open;
   try {
     await store.save('game', { ...save, wins: 1 });
@@ -203,7 +327,7 @@ test('short filesystem reads do not make a valid checkpoint unreadable or replac
 test('save migration, newer format rejection, serialized writes, corruption recovery and no automatic overwrite', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-save-'));
   const store = new Store(dir),
-    value = parseGame({ version: 0, seed: 142, wins: 1 });
+    value = parseGame({ version: 0, seed: 142, wins: 1 }, content);
   try {
     assert.equal((await store.load('game')).status, 'empty');
     await Promise.all([store.save('game', value), store.save('game', { ...value, wins: 2 })]);
@@ -219,7 +343,7 @@ test('save migration, newer format rejection, serialized writes, corruption reco
     assert.equal((await store.load('game')).status, 'unreadable');
     await assert.rejects(store.save('game', value));
     assert.equal(await fs.readFile(path.join(dir, 'game.json'), 'utf8'), 'new unreadable');
-    assert.throws(() => parseGame({ ...value, version: 99 }));
+    assert.throws(() => parseGame({ ...value, version: 99 }, content));
     assert.throws(() => validateRequest('game', { ...value, extra: 'x'.repeat(20000) }));
     await fs.rm(path.join(dir, 'game.bak'));
     await assert.rejects(store.save('game', value));
@@ -307,7 +431,7 @@ test('browser adapter preserves unreadable settings/game bytes and reports unava
     assert.equal(values.get('lantern-settings'), '{"version":99}');
     values.set('lantern-game', '');
     assert.equal((await browserBridge.loadGame()).status, 'unreadable');
-    await assert.rejects(browserBridge.saveGame(new GameSession().captureSave()));
+    await assert.rejects(browserBridge.saveGame(new GameSession(content).captureSave()));
     assert.equal(values.get('lantern-game'), '');
     values.clear();
     await browserBridge.saveSettings(settings);
@@ -320,3 +444,27 @@ test('browser adapter preserves unreadable settings/game bytes and reports unava
     else Reflect.deleteProperty(globalThis, 'localStorage');
   }
 });
+
+function prototype() {
+  return {
+    version: 3,
+    seed: 142,
+    wins: 1,
+    area: 'upper-landing',
+    player: { x: 0, z: 6.2, health: 63, cooldown: 70, dodgeCooldown: 12 },
+    areas: {
+      court: {
+        cleared: true,
+        actors: Object.fromEntries(
+          [1, 2, 3].map((i) => [`warden-${i}`, { x: 0, z: 0, health: 0 }]),
+        ),
+      },
+      'upper-landing': {
+        cleared: false,
+        actors: Object.fromEntries(
+          [1, 2, 3].map((i) => [`warden-${i}`, { x: 0, z: 0, health: i === 1 ? 25 : 70 }]),
+        ),
+      },
+    },
+  };
+}

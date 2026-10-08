@@ -65,6 +65,22 @@ def regular_file(path):
     return stat.S_ISREG(path.stat().st_mode)
 
 
+def load_index(path):
+    """Bounded authored supplements; identities may never override one another."""
+    path = pathlib.Path(path)
+    index = json.loads(path.read_text())
+    for name in index.get("includes", []):
+        safe_relative(name)
+        supplement = json.loads((path.parent / name).read_text())
+        for section in ("archives", "archiveGroups", "prefixes", "directories", "files"):
+            target = index.setdefault(section, {})
+            for key, value in supplement.get(section, {}).items():
+                if key in target and target[key] != value:
+                    raise ValueError("conflicting source identity: " + section + "/" + key)
+                target[key] = value
+    return index
+
+
 class SourceResolver:
     def __init__(
         self,

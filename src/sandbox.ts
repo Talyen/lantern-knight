@@ -88,6 +88,14 @@ function setMode(next: Mode) {
     app.command = undefined;
   }
   mode = next;
+  app.setSimulationEnabled(next !== 'animation' && next !== 'calibration');
+  app.beforeStep =
+    next === 'occlusion'
+      ? (sim) =>
+          sim.enemies.forEach((a) => {
+            a.stun = 2;
+          })
+      : () => {};
   presentation.setMode(next);
   syncLightingControls();
   app.clock.reset();

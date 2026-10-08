@@ -566,5 +566,6 @@
     "hero-source-rust-run-ur-lowcarry8-source-companion-v01": "rust_run_UR_lowcarry8_source_companion_v01.zip",
     "hero-source-rust-run-import-companion-v01": "rust_run_import_companion_v01.zip",
     "hero-source-rust-run-mixamo8-sources-v01": "rust_run_mixamo8_sources_v01.zip"
-  }
+  },
+  "includes": ["library-sources.json"]
 }

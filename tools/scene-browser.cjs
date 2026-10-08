@@ -1,11 +1,24 @@
 // Disposable Chromium host for the live Vite preview; no build or player Bridge.
 const { app, BrowserWindow, session } = require('electron');
 const [url, profile] = process.argv.slice(2);
+const port = process.env.LANTERN_PREVIEW_PORT ?? '5174';
+let preview;
+try {
+  preview = new URL(url);
+} catch {}
 if (
-  !/^http:\/\/127\.0\.0\.1:5174\/(?:sandbox\.html\?|editor\.html(?:\?|$))/.test(url ?? '') ||
+  !/^[1-9]\d{0,4}$/.test(port) ||
+  Number(port) > 65535 ||
+  !preview ||
+  preview.protocol !== 'http:' ||
+  preview.hostname !== '127.0.0.1' ||
+  (preview.port || '80') !== port ||
+  preview.username ||
+  preview.password ||
+  !['/sandbox.html', '/editor.html'].includes(preview.pathname) ||
   !profile
 )
-  throw new Error('Expected a local scene preview and isolated profile.');
+  throw new Error('Expected the assigned local scene preview port and an isolated profile.');
 app.setPath('userData', profile);
 app.enableSandbox();
 app.commandLine.appendSwitch('force-device-scale-factor', '1');

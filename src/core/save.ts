@@ -12,7 +12,7 @@ const VisualEffectsSchema = z
     >,
   )
   .strict();
-import { content, type ContentRegistry, contains, isSupportedPosition } from '../content/world';
+import { type ContentRegistry, contains, isSupportedPosition } from '../content/world';
 import { tuning } from '../content/gameplay';
 const id = z.string().regex(/^[a-z0-9][a-z0-9_-]*$/);
 const point = z
@@ -76,7 +76,7 @@ const legacy = z
   })
   .strict();
 export class SaveContentError extends Error {}
-export function parseGame(value: unknown, registry: ContentRegistry = content): GameSave {
+export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
   if (typeof value === 'object' && value !== null && 'version' in value) {
     if (value.version === 0) {
       const v = z

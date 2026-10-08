@@ -72,7 +72,7 @@ export class ArtConstructionOverlay {
         0xdcca91,
       );
     }
-    for (const f of sceneFixtures(art).filter((f) => f.constructionSocket)) {
+    for (const f of sceneFixtures(art)) {
       const p = art.props.find((p) => p.id === f.prop)!;
       const root = new T.Vector3(p.x, heightAt(area, p.x, p.z) + (p.y ?? 0), p.z),
         socket = root.clone().add(new T.Vector3(...f.socket));

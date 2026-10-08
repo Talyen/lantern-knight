@@ -1,3 +1,4 @@
+import type { GameSave } from '../src/core/save';
 import { AssetCache, diskBytes } from './assets/cache';
 import { randomUUID } from 'node:crypto';
 import { _electron as electron, type ElectronApplication, type Page } from 'playwright';
@@ -8,11 +9,132 @@ export const option = (name: string, fallback: string) => {
   const i = process.argv.indexOf(name);
   return i < 0 ? fallback : (process.argv[i + 1] ?? fallback);
 };
+export function playerControls(page: Page, profile: string) {
+  const pause = async () => {
+    if (!(await page.locator('#modal').isVisible()))
+      await page.getByRole('button', { name: 'Pause / save' }).click();
+  };
+  const resume = async () => {
+    if (await page.locator('#modal').isVisible())
+      await page.getByRole('button', { name: 'Resume', exact: true }).click();
+    await page.locator('canvas').focus();
+  };
+  const save = async () => {
+    await pause();
+    await page.getByRole('button', { name: 'Save checkpoint', exact: true }).click();
+    await page.waitForFunction(
+      () => document.querySelector('#status')?.textContent === 'Checkpoint saved',
+    );
+    return JSON.parse(await fs.readFile(path.join(profile, 'saves/game.json'), 'utf8')) as GameSave;
+  };
+  const frames = () =>
+    page.evaluate(
+      () =>
+        new Promise<void>((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+        ),
+    );
+  return { pause, resume, save, frames };
+}
+type SmokeRun = Awaited<ReturnType<typeof launch>>;
+type SmokeWork = { updates: number; submissions: number };
+let completedWork: SmokeWork[] = [];
+export function takeSmokeWork() {
+  const work = completedWork;
+  completedWork = [];
+  return work.length
+    ? work.reduce(
+        (total, value) => ({
+          updates: total.updates + value.updates,
+          submissions: total.submissions + value.submissions,
+        }),
+        { updates: 0, submissions: 0 },
+      )
+    : undefined;
+}
+async function observeWork(page: Page) {
+  await page.waitForFunction(
+    () => window.foundation?.ready || window.effectsPlayground?.ready,
+    {},
+    { timeout: 60000 },
+  );
+  await page.evaluate(() => {
+    // tsx preserves names of functions serialized into the browser by Playwright.
+    Reflect.set(window, '__name', (fn: Function) => fn);
+    if (!window.foundation) return; // Effects keeps its renderer private.
+    const holder = window.foundation.presentation;
+    const state = { updates: 0, submissions: 0, reported: false };
+    Reflect.set(window, '__lanternSmokeWork', state);
+    const method = window.foundation ? 'update' : 'render';
+    const update = Reflect.get(holder, method) as Function;
+    Reflect.set(holder, method, function (this: unknown, ...args: unknown[]) {
+      state.updates++;
+      return Reflect.apply(update, this, args);
+    });
+    const renderer = Reflect.get(holder, 'renderer');
+    const render = Reflect.get(renderer, 'render') as Function;
+    Reflect.set(renderer, 'render', function (this: unknown, ...args: unknown[]) {
+      state.submissions++;
+      return Reflect.apply(render, this, args);
+    });
+  });
+}
+async function collectWork(page: Page) {
+  const value = await page.evaluate(() => {
+    const state = Reflect.get(window, '__lanternSmokeWork') as
+      (SmokeWork & { reported: boolean }) | undefined;
+    if (!state || state.reported) return undefined;
+    state.reported = true;
+    return { updates: state.updates, submissions: state.submissions };
+  });
+  if (value) {
+    completedWork.push(value);
+    console.log(
+      `Smoke work: ${value.updates} presentation updates; ${value.submissions} renderer submissions.`,
+    );
+  }
+}
+let sharedDev: SmokeRun | undefined;
+let sharing = false;
+export async function withSmokeSessions(work: () => Promise<void>) {
+  if (sharing) throw new Error('Smoke suite is already active');
+  sharing = true;
+  try {
+    await work();
+  } finally {
+    sharing = false;
+    const run = sharedDev;
+    sharedDev = undefined;
+    await run?.close();
+  }
+}
+export function smokeExecutable(dev: boolean) {
+  const name = dev ? 'Lantern Knight Dev' : 'Lantern Knight';
+  return (
+    process.env.LANTERN_EXECUTABLE ??
+    (process.platform === 'darwin'
+      ? path.resolve(
+          `${dev ? 'release-dev' : 'release'}/mac-arm64/${name}.app/Contents/MacOS/${name}`,
+        )
+      : path.resolve(`${dev ? 'release-dev' : 'release'}/win-unpacked/${name}.exe`))
+  );
+}
 export async function smokeLaunch(
   dev: boolean,
   args: string[] = [],
   options: { budget?: number; retain?: boolean } = {},
 ) {
+  if (sharing && dev && sharedDev) {
+    const mode = args.includes('--effects') ? 'effects' : 'sandbox';
+    await Promise.all([
+      sharedDev.page.waitForEvent('load'),
+      sharedDev.page.evaluate((mode) => {
+        void window.lantern!.launchMode!(mode as 'effects' | 'sandbox');
+      }, mode),
+    ]);
+    await observeWork(sharedDev.page);
+    return { ...sharedDev, close: () => collectWork(sharedDev!.page) };
+  }
   let lane: Awaited<ReturnType<typeof acquireTestLane>>;
   try {
     lane = await acquireTestLane();
@@ -38,7 +160,12 @@ export async function smokeLaunch(
     throw error;
   }
   try {
-    return await launch(dev, args, options, () => lane.release());
+    const run = await launch(dev, args, options, () => lane.release());
+    if (sharing && dev) {
+      sharedDev = run;
+      return { ...run, close: () => collectWork(run.page) };
+    }
+    return run;
   } catch (error) {
     await lane.release();
     throw error;
@@ -59,14 +186,8 @@ async function launch(
   const parent = path.resolve(option('--profile', held.root));
   await fs.mkdir(parent, { recursive: true });
   const profile = await fs.mkdtemp(path.join(parent, 'lantern-smoke-'));
-  const name = dev ? 'Lantern Knight Dev' : 'Lantern Knight',
-    executable =
-      process.env.LANTERN_EXECUTABLE ??
-      (process.platform === 'darwin'
-        ? path.resolve(
-            `${dev ? 'release-dev' : 'release'}/mac-arm64/${name}.app/Contents/MacOS/${name}`,
-          )
-        : path.resolve(`${dev ? 'release-dev' : 'release'}/win-unpacked/${name}.exe`));
+  const executable = smokeExecutable(dev);
+  console.log(`Smoke launch: ${dev ? 'Dev' : 'Game'} (${args.join(' ') || 'default'}).`);
   let app: ElectronApplication | undefined, page: Page | undefined;
   const errors: string[] = [];
   const launchStarted = performance.now();
@@ -105,6 +226,7 @@ async function launch(
         { timeout: 45000 },
       );
     }
+    if (dev) await observeWork(page);
     const readyMs = performance.now() - launchStarted,
       rendererReadyMs = await page.evaluate(() => performance.now());
     return {
@@ -117,9 +239,13 @@ async function launch(
       capture,
       readyMs,
       rendererReadyMs,
+      reportWork: () => collectWork(page!),
       async close() {
         try {
-          await app!.close();
+          if (dev) await collectWork(page!);
+          await app!.close().catch((error) => {
+            if (app!.process().exitCode === null) throw error;
+          });
           await fs.rm(profile, { recursive: true, force: true });
           const failure = (await fs.readdir(output)).some((n) => /failure.*\.json$/.test(n));
           if (managed && !capture && !options.retain && !failure && !errors.length)

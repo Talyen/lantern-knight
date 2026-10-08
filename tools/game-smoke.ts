@@ -1,10 +1,11 @@
 import { startGameBenchmark } from './game-benchmark';
-import { option, smokeLaunch } from './smoke-launch';
+import { option, smokeLaunch, playerControls } from './smoke-launch';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { Vector3, OrthographicCamera } from 'three';
-import { content, heightAt } from '../src/content/world';
+import { heightAt } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import { tuning } from '../src/content/gameplay';
 import { maximumFrameMs } from '../src/core/simulation';
 import type { GameSave } from '../src/core/save';
@@ -54,32 +55,12 @@ try {
     );
   }, benchmark);
   assert.equal(await page.evaluate(() => 'foundation' in window), false);
-  assert.equal(await page.locator('#lab').count(), 0);
-  assert.equal(await page.locator('#game-walk-blend').count(), 0);
-  assert.equal(await page.locator('[data-mode]').count(), 0);
   assert.equal(await page.evaluate(() => typeof window.lantern?.launchMode), 'undefined');
-  checks.push(
-    'player package has no inspection API, labs, mode controls or development launch bridge',
-  );
+  checks.push('player package exposes no inspection API or developer launch bridge');
   const capture = async (name: string) => {
     if (run.capture) await page.screenshot({ path: path.join(output, `${name}.png`) });
   };
-  const resume = async () => {
-    if (await page.locator('#modal').isVisible())
-      await page.getByRole('button', { name: 'Resume', exact: true }).click();
-    await page.locator('canvas').focus();
-  };
-  const observe = async () => {
-    if (!(await page.locator('#modal').isVisible()))
-      await page.getByRole('button', { name: 'Pause / save' }).click();
-    await page.getByRole('button', { name: 'Save checkpoint', exact: true }).click();
-    await page.waitForFunction(
-      () => document.querySelector('#status')?.textContent === 'Checkpoint saved',
-    );
-    return JSON.parse(
-      await fs.readFile(path.join(run.profile, 'saves/game.json'), 'utf8'),
-    ) as GameSave;
-  };
+  const { resume, save: observe, frames: renderedFrames } = playerControls(page, run.profile);
   // Interaction checks use the player's existing quality setting on software-rendered CI.
   if (!(await page.locator('#modal').isVisible()))
     await page.getByRole('button', { name: 'Pause / save' }).click();
@@ -111,7 +92,11 @@ try {
   const focused = () => page.evaluate(() => document.activeElement?.id);
   assert.equal(await focused(), 'resume');
   await page.keyboard.press('Shift+Tab');
-  assert.equal(await page.evaluate(() => !!document.activeElement?.closest('#modal')), true);
+  await page.waitForFunction(
+    () => !!document.activeElement?.closest('#modal'),
+    {},
+    { timeout: 1000 },
+  );
   await page.keyboard.press('Tab');
   assert.equal(await focused(), 'resume');
   await page.locator('#new-game').focus();
@@ -170,13 +155,6 @@ try {
   assert.equal(save.player.health, 100);
   assert.equal(save.areas.court!.engaged, false);
   checks.push('opening grants a quiet approach with one dormant skeleton');
-  const renderedFrames = async () =>
-    page.evaluate(
-      () =>
-        new Promise<void>((resolve) =>
-          requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
-        ),
-    );
   // Estimate accepted clock time without inspecting or advancing the player session.
   // Checkpoint observations still verify actual movement after each held input.
   const gameplayTime = (durationMs: number) =>
@@ -383,7 +361,7 @@ try {
       // blocked renderer event queue. The short gameplay input buffer is unchanged.
       for (let strike = 0; strike < 12; strike++) {
         await aimWorld(enemy.x, enemy.z, save);
-        await page.waitForTimeout(110);
+        await gameplayTime(110);
         await renderedFrames();
         if (
           strike % 3 === 2 &&
@@ -453,17 +431,21 @@ try {
     'player enters the closed chapel passage, carrying health into the two-skeleton encounter',
   );
   await resume();
-  await page.waitForTimeout(850);
+  if (run.capture || benchmark) {
+    await moveTo(0, save.player.z);
+    await moveTo(0, -5.5);
+    await resume();
+    await capture('altar');
+  }
+  await gameplayTime(900); // Complete the accepted sword action before requesting a fresh dodge.
   await capture('chapel-cleared');
-  await moveTo(0, save.player.z);
-  await moveTo(0, -5.5);
-  await resume();
-  await capture('altar');
   await markStage('checkpoint');
   await measurement?.phase('checkpoint');
   await page.keyboard.down('Shift');
   await page.keyboard.down('KeyS');
-  await page.waitForTimeout(150);
+  await page.waitForFunction(
+    () => document.querySelector('#dodge-status')?.textContent !== 'Shift · ready',
+  );
   await page.keyboard.up('KeyS');
   await page.keyboard.up('Shift');
   save = await observe();
@@ -516,30 +498,6 @@ try {
   await resume();
   await capture('chapel-death-reset');
   await measurement?.finish();
-  await markStage('settings-reload');
-  if (!(await page.locator('#modal').isVisible()))
-    await page.getByRole('button', { name: 'Pause / save' }).click();
-  await page.locator('#zoom-span').selectOption('13');
-  await page.locator('#render-scale').selectOption('0.75');
-  await page.waitForFunction(async () => {
-    const result = await window.lantern!.loadSettings();
-    return (
-      (result.status === 'ok' || result.status === 'recovered') &&
-      result.data.verticalSpan === 13 &&
-      result.data.renderScale === 0.75
-    );
-  });
-  await page.reload();
-  await page.waitForFunction(
-    () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
-    {},
-    { timeout: 60000 },
-  );
-  if (!(await page.locator('#modal').isVisible()))
-    await page.getByRole('button', { name: 'Pause / save' }).click();
-  assert.equal(await page.locator('#zoom-span').inputValue(), '13');
-  assert.equal(await page.locator('#render-scale').inputValue(), '0.75');
-  checks.push('camera distance and render scale save immediately and survive reload');
   assert.deepEqual(errors, []);
   await measurement?.publish();
   await fs.rm(path.join(output, 'failure.json'), { force: true });

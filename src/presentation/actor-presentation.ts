@@ -9,7 +9,21 @@ import { heightAt, surfaceGradient, type ActorId } from '../content/world';
 import { actorVisuals } from '../content/visuals';
 import type { AnimationEvent } from '../core/events';
 import type { Actor, Simulation } from '../core/simulation';
-import type { GamePresentation } from './game-scene';
+import type { PackLease } from '../assets/loader';
+import type { PreparedRegistration } from '../assets/registration';
+import type { EventHub } from '../core/events';
+import type { WalkTiming } from '../core/locomotion-timing';
+import type { AnimationTreatment } from '../core/animation-treatment';
+import type { AnimationFlow } from './animation-blend-shader';
+export type ActorOptions = {
+  walkTiming: WalkTiming;
+  stabilized: boolean;
+  rigidSword: boolean;
+  animationTreatment: AnimationTreatment;
+  animationFlow?: AnimationFlow;
+  debug: boolean;
+  illustrated: boolean;
+};
 export type Visual = {
   sprite: ActorSprite;
   shadow: T.Mesh<T.CircleGeometry, T.MeshBasicMaterial>;
@@ -18,14 +32,24 @@ export type Visual = {
   heading: (typeof HEADINGS)[number];
 };
 export class ActorPresentation {
-  readonly actors = new Map<ActorId, Visual>();
+  private visuals = new Map<ActorId, Visual>();
+  get actors(): ReadonlyMap<ActorId, Visual> {
+    return this.visuals;
+  }
   private groundNormal = new T.Vector3(0, 1, 0);
   private planeNormal = new T.Vector3(0, 0, 1);
-  constructor(private presentation: GamePresentation) {}
+  constructor(
+    private room: T.Group,
+    private packs: Map<string, PackLease>,
+    private camera: T.OrthographicCamera,
+    private shadowTexture: T.CanvasTexture,
+    private registration: PreparedRegistration,
+    private events: EventHub,
+  ) {}
   createVisual(a: Actor, generation: number) {
     const binding = actorVisuals[a.definition.visual];
     if (!binding) throw new Error(`unknown visual ${a.definition.visual}`);
-    const pack = this.presentation.packs.get(binding.asset);
+    const pack = this.packs.get(binding.asset);
     if (!pack) throw new Error(`asset not acquired ${binding.asset}`);
     const sprite = new ActorSprite(
       `${generation}:${a.id}`,
@@ -37,7 +61,7 @@ export class ActorPresentation {
     const shadow = new T.Mesh(
       new T.CircleGeometry(sprite.manifest.asset.shadow.radius, 32),
       new T.MeshBasicMaterial({
-        map: this.presentation.shadowTexture,
+        map: this.shadowTexture,
         color: 0xffffff,
         transparent: true,
         opacity: sprite.manifest.asset.shadow.opacity,
@@ -56,26 +80,31 @@ export class ActorPresentation {
       }),
     );
     ring.rotation.x = -Math.PI / 2;
-    this.presentation.room.add(sprite.mesh, shadow, ring);
+    this.room.add(sprite.mesh, shadow, ring);
     const v = { sprite, shadow, ring, tag: '', heading: 'd45' as const };
-    this.actors.set(a.id, v);
+    this.visuals.set(a.id, v);
     return v;
   }
-  getClip(id: string, dir: (typeof HEADINGS)[number], manifest = this.presentation.manifest): Clip {
+  getClip(
+    id: string,
+    dir: (typeof HEADINGS)[number],
+    manifest = this.packs.get('ink-hero-current')!.manifest,
+    walkTiming: WalkTiming = 'weighted',
+  ): Clip {
     const clip = resolveClip(manifest, id, dir);
     return id === 'walk' && manifest.asset.id === 'ink-hero-current'
       ? timedWalk(
           clip,
-          this.presentation.walkTiming,
-          this.presentation.registration.animation.clips[
+          walkTiming,
+          this.registration.animation.clips[
             `walk:${Object.keys(manifest.asset.clips.walk!).find((h) => manifest.asset.clips.walk![h as (typeof HEADINGS)[number]] === clip)}`
           ]?.weightedHoldsMs,
         )
       : clip;
   }
-  update(sim: Simulation, alpha: number, ms: number) {
+  update(sim: Simulation, alpha: number, ms: number, options: ActorOptions) {
     for (const a of sim.actors) {
-      const v = this.actors.get(a.id) ?? this.createVisual(a, sim.generation),
+      const v = this.visuals.get(a.id) ?? this.createVisual(a, sim.generation),
         heading =
           v.sprite.manifest.asset.viewMode === 'fixed-authored'
             ? ('d45' as const)
@@ -91,7 +120,7 @@ export class ActorPresentation {
             ? binding.attacks[a.attackKind === 'lunge' ? 1 : 0]!
             : binding.clips[a.state],
         tag = `${sim.generation}:${id}:${heading}:${a.action}`;
-      const selectedClip = this.getClip(id, heading, v.sprite.manifest);
+      const selectedClip = this.getClip(id, heading, v.sprite.manifest, options.walkTiming);
       if (tag !== v.tag || v.sprite.animator.clip !== selectedClip) {
         const old = v.sprite.animator.time,
           previous = v.sprite.animator.clip,
@@ -151,7 +180,7 @@ export class ActorPresentation {
           Math.max(0, (a.age / total) * clipDuration(clip) - v.sprite.animator.time),
         );
       } else notifies = v.sprite.animator.advance(ms);
-      this.presentation.events.publish(
+      this.events.publish(
         notifies.map(
           (n) =>
             ({
@@ -174,15 +203,13 @@ export class ActorPresentation {
       const x = a.px + (a.x - a.px) * alpha,
         z = a.pz + (a.z - a.pz) * alpha,
         foot = new T.Vector3(x, heightAt(sim.areaDefinition, x, z), z);
-      v.sprite.stabilized = a.kind === 'hero' ? this.presentation.stabilized : true;
-      v.sprite.rigidSword = this.presentation.rigidSword;
+      v.sprite.stabilized = a.kind === 'hero' ? options.stabilized : true;
+      v.sprite.rigidSword = options.rigidSword;
       v.sprite.showAnimation(
         foot,
-        this.presentation.camera,
-        v.sprite.manifest.asset.id === 'ink-hero-current'
-          ? this.presentation.animationTreatment
-          : 'original',
-        this.presentation.animationFlow,
+        this.camera,
+        v.sprite.manifest.asset.id === 'ink-hero-current' ? options.animationTreatment : 'original',
+        options.animationFlow,
       );
       v.sprite.mesh.visible =
         a.health > 0 || a.kind === 'hero' || a.age < tuning.enemyDeathHoldTicks;
@@ -194,8 +221,8 @@ export class ActorPresentation {
       v.shadow.visible = a.health > 0;
       v.ring.position.set(foot.x, foot.y + 0.035, foot.z);
       v.ring.visible =
-        this.presentation.debug ||
-        (!this.presentation.inkRoom && a.kind === 'enemy' && (a.state === 'attack' || a.stun > 0));
+        options.debug ||
+        (!options.illustrated && a.kind === 'enemy' && (a.state === 'attack' || a.stun > 0));
       if (a.kind === 'enemy' && a.state === 'attack') {
         v.ring.scale.setScalar(1 + (a.age / Math.max(1, a.definition.melee.windup)) * 2);
         (v.ring.material as T.MeshBasicMaterial).color.set(
@@ -205,13 +232,13 @@ export class ActorPresentation {
     }
   }
   dispose() {
-    for (const v of this.actors.values()) {
+    for (const v of this.visuals.values()) {
       v.sprite.dispose();
       v.shadow.geometry.dispose();
       v.shadow.material.dispose();
       v.ring.geometry.dispose();
       (v.ring.material as T.Material).dispose();
     }
-    this.actors.clear();
+    this.visuals.clear();
   }
 }

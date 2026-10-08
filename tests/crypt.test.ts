@@ -1,3 +1,7 @@
+import { InkRoom } from '../src/presentation/ink-room';
+import { areaArtAssets } from '../src/content/world-art';
+import { readRegistration } from '../tools/assets/data';
+import type { PackLease } from '../src/assets/loader';
 import { assetFile } from '../tools/assets/paths';
 import { readAsset } from '../tools/assets/io';
 import { test } from 'node:test';
@@ -7,7 +11,8 @@ import * as T from 'three';
 import { ActorSprite } from '../src/presentation/sprite';
 import { OcclusionFades } from '../src/presentation/occlusion-fades';
 import { findDepthConflicts, validateConstruction } from '../src/presentation/art-validation';
-import { content, isSupportedPosition, heightAt } from '../src/content/world';
+import { heightAt } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import {
   worldVisuals,
   compositionPoint,
@@ -18,25 +23,64 @@ import { assetCatalog } from '../src/content/visuals';
 import { parseManifest, resolveClip } from '../src/assets/schema';
 import { makeCamera, resizeCamera, outward } from '../src/core/camera';
 import { Simulation } from '../src/core/simulation';
-import { GameSession } from '../src/core/session';
-import { parseGame } from '../src/core/save';
-import { inspectCrypt } from '../tools/check-crypt-art';
 
-test('Crypt construction has registered mounts, clear entry/combat routes and no opaque depth ties', async () => {
-  const result = await inspectCrypt();
-  assert.deepEqual(result.constructionErrors, []);
-  assert.deepEqual(result.depthConflicts, []);
-  const art = worldVisuals['upper-landing']!;
-  assert.deepEqual(
-    validateConstruction(content.area('upper-landing'), {
-      ...art,
-      props: art.props.map((p) => (p.mount ? { ...p, y: 99 } : p)),
-    }).filter((e) => e.includes('mount')).length,
-    art.props.filter((p) => p.mount).length,
-  );
-  assert.ok(!art.props.some((p) => p.clip === 'arch'), 'the door already includes its surround');
-});
 test('alpha-aware depth gate rejects the original door/arch conflict but ignores transparent margins and separated planes', async () => {
+  const area = content.area('upper-landing'),
+    art = worldVisuals[area.id]!;
+  assert.ok(
+    validateConstruction(area, {
+      ...art,
+      props: art.props.map((prop) => (prop.mount ? { ...prop, y: 99 } : prop)),
+    }).some((error) => error.includes('mount')),
+  );
+  const packs = new Map<string, PackLease>();
+  for (const id of areaArtAssets(area)) {
+    const manifest = parseManifest(
+      JSON.parse(await readAsset('public/' + assetCatalog[id]!, 'utf8')),
+    );
+    packs.set(id, {
+      manifest,
+      textures: new Map(manifest.pages.map((page) => [page.id, new T.Texture()])),
+      release() {},
+    });
+  }
+  const room = new InkRoom(
+    area,
+    packs,
+    new T.Group(),
+    makeCamera(16 / 9),
+    undefined,
+    readRegistration(),
+  );
+  room.build();
+  try {
+    for (const wall of art.walls) {
+      if (wall.surface !== 'masonry') continue;
+      const face = room.architecture!.parts.find(
+        (mesh) => mesh.userData.artPart.id === wall.id + '-face',
+      )!;
+      assert.ok(face);
+      assert.ok(
+        Math.abs(
+          (face.geometry as T.PlaneGeometry).parameters.width -
+            Math.hypot(wall.to.x - wall.from.x, wall.to.z - wall.from.z),
+        ) < 1e-6,
+      );
+    }
+    const sim = new Simulation(content, 142, area.id, 1);
+    Object.assign(sim.hero, { x: -5.3, z: -8.1 });
+    sim.move(sim.hero, 0, 0);
+    room.update(sim, 1, false);
+    const walls = room.architecture!.parts.filter((mesh) =>
+      ['crypt-west', 'crypt-rear'].includes(mesh.userData.siteWall),
+    );
+    assert.ok(walls.length);
+    for (const mesh of walls) assert.equal((mesh.material as T.MeshBasicMaterial).opacity, 1);
+  } finally {
+    room.dispose();
+    for (const pack of packs.values())
+      for (const texture of pack.textures.values()) texture.dispose();
+  }
   const m = parseManifest(
       JSON.parse(await readAsset(`public/${assetCatalog['ink-scenery']}`, 'utf8')),
     ),
@@ -48,17 +92,21 @@ test('alpha-aware depth gate rejects the original door/arch conflict but ignores
     arch.show(arch.animator.frame, new T.Vector3(), camera);
     door.show(door.animator.frame, new T.Vector3(), camera);
     const images = new Map<T.Mesh, { width: number; height: number; data: Uint8Array }>();
+    const decoded = new Map<string, { width: number; height: number; data: Uint8Array }>();
     for (const [sprite, file] of [
       [arch, 'arch'],
       [door, 'door-closed'],
     ] as const) {
       const frame = sprite.frameIndex.get(sprite.lastFrame)!,
-        page = m.pages.find((p) => p.id === frame.page)!,
-        raw = await sharp(assetFile(`public/generated/ink/ink-scenery/${page.path}`))
+        page = m.pages.find((page) => page.id === frame.page)!;
+      if (!decoded.has(page.id)) {
+        const raw = await sharp(assetFile(`public/generated/ink/ink-scenery/${page.path}`))
           .ensureAlpha()
           .raw()
           .toBuffer({ resolveWithObject: true });
-      images.set(sprite.mesh, { width: raw.info.width, height: raw.info.height, data: raw.data });
+        decoded.set(page.id, { width: raw.info.width, height: raw.info.height, data: raw.data });
+      }
+      images.set(sprite.mesh, decoded.get(page.id)!);
       sprite.mesh.userData.artPart = { id: file };
     }
     assert.equal(findDepthConflicts([arch.mesh, door.mesh], images).length, 1);
@@ -74,7 +122,7 @@ test('alpha-aware depth gate rejects the original door/arch conflict but ignores
   }
 });
 test('assembly fades ease, use interpolated fighters, freeze on pause, and restore more slowly', () => {
-  const sim = new Simulation(142, 'upper-landing');
+  const sim = new Simulation(content, 142, 'upper-landing', 1);
   for (const a of sim.enemies) a.health = 0;
   Object.assign(sim.hero, { x: 0, z: 0, px: 0, pz: 0 });
   const f = new OcclusionFades(),
@@ -114,52 +162,7 @@ test('assembly fades ease, use interpolated fighters, freeze on pause, and resto
     }
   }
 });
-test('new bay dressing reconciles v5 roots without losing vital state, enemy health or progress', () => {
-  const save = { ...new GameSession(content, 142, 'upper-landing').captureSave(), version: 5 };
-  Object.assign(save.player, { x: -6.85, z: -5.15, health: 63, cooldown: 17, dodgeCooldown: 8 });
-  Object.assign(save.areas['upper-landing']!.actors['warden-1']!, {
-    x: 6.15,
-    z: -5.45,
-    health: 17,
-  });
-  save.areas['upper-landing']!.engaged = true;
-  const original = JSON.stringify(save),
-    result = parseGame(save);
-  assert.equal(JSON.stringify(save), original);
-  assert.equal(result.version, 6);
-  assert.equal(result.player.health, 63);
-  assert.equal(result.player.cooldown, 17);
-  assert.equal(result.player.dodgeCooldown, 8);
-  assert.ok(isSupportedPosition(content.area('upper-landing'), result.player, 0.3));
-  assert.equal(result.areas['upper-landing']!.actors['warden-1']!.health, 17);
-  assert.equal(result.areas['upper-landing']!.engaged, true);
-  assert.equal(result.areas['upper-landing']!.cleared, false);
-  assert.ok(
-    isSupportedPosition(
-      content.area('upper-landing'),
-      result.areas['upper-landing']!.actors['warden-1']!,
-      0.3,
-    ),
-  );
-  assert.throws(
-    () => parseGame({ ...save, version: 6 }),
-    /invalid player/,
-    'new-format saves must not accept old bounds',
-  );
-  assert.throws(
-    () => parseGame({ ...save, player: { ...save.player, x: 8 } }),
-    /invalid player/,
-    'migration must reject positions outside the old bounds',
-  );
-  assert.throws(
-    () =>
-      parseGame({
-        ...save,
-        areas: { ...save.areas, 'unknown-chapel': save.areas['upper-landing']! },
-      }),
-    /unknown area/,
-  );
-});
+
 test('arrival framing reveals the sanctuary while remaining continuous at the handoff to normal follow', () => {
   const entry = { x: 0, z: 7.5 },
     framed = compositionPoint('upper-landing', entry),

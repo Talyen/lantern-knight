@@ -14,6 +14,10 @@ export async function runProcess(
 ) {
   const env = options.env ?? process.env,
     grouped = process.platform !== 'win32' && env.LANTERN_MANAGED_TREE !== '1';
+  const deadline = Number(env.LANTERN_EXECUTION_DEADLINE),
+    remaining = Number.isFinite(deadline) && deadline > 0 ? deadline - Date.now() : Infinity,
+    timeoutMs = Math.min(options.timeoutMs ?? Infinity, remaining);
+  if (timeoutMs <= 0) throw new Error('Aggregate execution deadline exceeded before launch');
   // Nested runners stay in the supervisor's group so an outer cancellation
   // cannot strand a separately detached compiler/browser/preparation process.
   const child = spawn(command, args, {
@@ -80,8 +84,8 @@ export async function runProcess(
     terminate = () => stop('terminated', 'SIGTERM');
   process.on('SIGINT', interrupt);
   process.on('SIGTERM', terminate);
-  const timer = options.timeoutMs
-    ? setTimeout(() => stop('deadline exceeded', 'SIGTERM'), options.timeoutMs)
+  const timer = Number.isFinite(timeoutMs)
+    ? setTimeout(() => stop('deadline exceeded', 'SIGTERM'), timeoutMs)
     : undefined;
   try {
     await new Promise<void>((resolve, reject) => {

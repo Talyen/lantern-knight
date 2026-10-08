@@ -68,6 +68,25 @@ const flow = JSON.parse(await readAsset('staging/animation/flow.json', 'utf8'));
 assert.equal(hash(await readAsset('staging/animation/flow.png')), flow.sha256);
 for (const [file, expected] of Object.entries(flow.preparedHashes))
   assert.equal(hash(await exactSource(file)), expected);
+const library = JSON.parse(await readAsset('staging/library/receipt.json', 'utf8'));
+for (const record of library.sources as {
+  group: string;
+  member: string;
+  sha256: string;
+  outputHash: string;
+  file: string;
+}[]) {
+  const original = await readLibrarySource(record.member, record.group),
+    prepared = await readAsset('public/' + record.file);
+  assert.equal(hash(original), record.sha256, 'Library source identity changed');
+  assert.equal(hash(prepared), record.outputHash, 'Library page identity changed');
+  if (!original.equals(prepared))
+    assert.deepEqual(
+      await sharp(original).ensureAlpha().raw().toBuffer(),
+      await sharp(prepared).ensureAlpha().raw().toBuffer(),
+      'Library import changed native pixels',
+    );
+}
 console.log(
   'PASS: current original bytes, native registrations, atlas pixels and transition bindings verified.',
 );

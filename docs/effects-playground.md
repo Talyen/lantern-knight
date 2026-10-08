@@ -4,4 +4,6 @@ The Dev-only playground is an independent scene for comparing living lights, smo
 
 Game packages exclude the playground and its developer fixtures. Production visual options use persistent settings; the playground changes only its disposable session.
 
-Shared ambience, weather scheduling and materials are prepared through `assets:prepare` and distributed in the pinned pack. `smoke:effects` verifies rendered differences, baseline restoration, playback, stable resources and routing. `smoke:visual-options` checks player preferences; `smoke:visual-scenes` checks production weather and area replacement. Details are retained for failures or explicit `--capture` investigations.
+`assets:prepare` supplies ambience artwork and companion data through the pinned pack. Runtime code owns weather scheduling, shaders and material construction; changes to those behaviors consume the existing pack unless they also change preparation inputs.
+
+`smoke:effects` verifies rendered differences, baseline restoration, playback, stable resources and routing. [Contributing](../CONTRIBUTING.md#e2e-coverage-and-execution-budgets) owns shared and platform coverage. Details are retained for failures or explicit `--capture` investigations.

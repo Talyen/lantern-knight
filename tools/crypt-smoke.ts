@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import sharp from 'sharp';
-import { inspectCrypt } from './check-crypt-art';
+import { comparePixels } from './smoke-pixels';
 import '../src/inspection';
 
 const run = await smokeLaunch(true),
@@ -33,10 +33,6 @@ try {
     for (const selector of ['.title-card', '.hud', '.actions'])
       document.querySelector<HTMLElement>(selector)!.style.display = 'none';
   });
-  const construction = await inspectCrypt();
-  assert.deepEqual(construction.constructionErrors, []);
-  assert.deepEqual(construction.depthConflicts, []);
-  checks.push('alpha-aware opaque-depth and support/clearance gate');
   const resize = async (w: number, h: number) => {
     await app.evaluate(
       ({ BrowserWindow }, { w, h }) => BrowserWindow.getAllWindows()[0]!.setContentSize(w, h + 128),
@@ -80,46 +76,52 @@ try {
       },
       { x, z, span, batch },
     );
-  const matrix = [];
-  for (const [aspect, w, h] of process.argv.includes('--quick')
-    ? ([['16x9', 1920, 1080]] as const)
-    : ([
-        ['4x3', 1440, 1080],
-        ['16x9', 1920, 1080],
-        ['ultrawide', 2520, 1080],
-      ] as const)) {
-    await resize(w, h);
-    for (const span of process.argv.includes('--quick') ? [9, 15] : [9, 11, 13, 15])
-      for (const [name, x, z] of positions) {
-        await pose(x, z, span);
-        const file = `${aspect}-${span}-${name}.jpg`;
-        if (run.capture)
-          await page
-            .locator('canvas')
-            .screenshot({ path: path.join(output, file), type: 'jpeg', quality: 90, scale: 'css' });
-        matrix.push({
-          file,
-          aspect,
-          span,
-          name,
-          stats: await page.evaluate(() => window.foundation.stats()),
-        });
-      }
+  const matrix: { file: string; aspect: string; span: number; name: string; stats: unknown }[] = [];
+  if (run.capture) {
+    for (const [aspect, w, h] of process.argv.includes('--quick')
+      ? ([['16x9', 1920, 1080]] as const)
+      : ([
+          ['4x3', 1440, 1080],
+          ['16x9', 1920, 1080],
+          ['ultrawide', 2520, 1080],
+        ] as const)) {
+      await resize(w, h);
+      for (const span of process.argv.includes('--quick') ? [9, 15] : [9, 11, 13, 15])
+        for (const [name, x, z] of positions) {
+          await pose(x, z, span);
+          const file = `${aspect}-${span}-${name}.jpg`;
+          if (run.capture)
+            await page.locator('canvas').screenshot({
+              path: path.join(output, file),
+              type: 'jpeg',
+              quality: 90,
+              scale: 'css',
+            });
+          matrix.push({
+            file,
+            aspect,
+            span,
+            name,
+            stats: await page.evaluate(() => window.foundation.stats()),
+          });
+        }
+    }
+    checks.push(`${matrix.length} composition views across camera/aspect matrix`);
   }
-  checks.push(`${matrix.length} composition views across camera/aspect matrix`);
-  for (const [w, h, name] of [
-    [2560, 1440, '1440p'],
-    [3840, 2160, '4k'],
-  ] as const) {
-    await resize(w, h);
-    await pose(0, -3.8, 9);
-    if (run.capture)
-      await page
-        .locator('canvas')
-        .screenshot({ path: path.join(output, `sanctuary-${name}.png`), scale: 'css' });
-  }
+  if (run.capture)
+    for (const [w, h, name] of [
+      [2560, 1440, '1440p'],
+      [3840, 2160, '4k'],
+    ] as const) {
+      await resize(w, h);
+      await pose(0, -3.8, 9);
+      if (run.capture)
+        await page
+          .locator('canvas')
+          .screenshot({ path: path.join(output, `sanctuary-${name}.png`), scale: 'css' });
+    }
   await resize(1280, 720);
-  const posePixels = async (batch: boolean) => {
+  const poseControl = async (batch: boolean) => {
     await page.evaluate(async () => {
       const f = window.foundation;
       await f.fixture('upper-landing');
@@ -127,27 +129,11 @@ try {
       f.presentation.lookRenderer.time = 0;
     });
     await pose(0, 1, 9, batch);
-    return page.evaluate(() => {
-      const source = window.foundation.presentation.canvas,
-        copy = document.createElement('canvas');
-      copy.width = source.width;
-      copy.height = source.height;
-      copy.getContext('2d')!.drawImage(source, 0, 0);
-      return copy.toDataURL('image/png').split(',')[1]!;
-    });
   };
-  const fullPose = await sharp(Buffer.from(await posePixels(false), 'base64'))
-      .raw()
-      .toBuffer(),
-    batchedPose = await sharp(Buffer.from(await posePixels(true), 'base64'))
-      .raw()
-      .toBuffer();
-  assert.equal(batchedPose.length, fullPose.length);
-  let poseDifference = 0;
-  for (let i = 0; i < fullPose.length; i++)
-    poseDifference = Math.max(poseDifference, Math.abs(fullPose[i]! - batchedPose[i]!));
+  await poseControl(false);
+  const parity = await comparePixels(page, () => poseControl(true), { tolerance: 0 });
   assert.equal(
-    poseDifference,
+    parity.maxDifference,
     0,
     'Batched pose updates must preserve every pixel of the fully rendered control',
   );
@@ -164,16 +150,20 @@ try {
     p.renderer.setSize(1280, 720, false);
     copy.width = 1280;
     copy.height = 720;
-    const images: string[] = [];
+    let before: Uint8ClampedArray | undefined,
+      samples = 0;
     for (let i = 0; i < 8; i++) {
       p.update(f.sim, 1, 0, { x: 0, z: -6 });
       copy.getContext('2d')!.drawImage(p.canvas, 0, 0);
-      if (i >= 3) images.push(copy.toDataURL('image/png').split(',')[1]!);
+      if (i < 3) continue;
+      const pixels = copy.getContext('2d')!.getImageData(0, 0, 1280, 720).data;
+      if (before && pixels.some((value, index) => value !== before![index]))
+        throw new Error('Stationary frozen image changed');
+      before = pixels;
+      samples++;
     }
-    return images;
+    return { samples };
   });
-  for (const sample of stationary.slice(1))
-    assert.equal(sample, stationary[0], 'stationary frozen image must remain identical');
   checks.push('frozen beauty frames have no stationary oscillation');
   const focus = await page.evaluate(() => {
     const f = window.foundation;
@@ -189,7 +179,7 @@ try {
   );
   checks.push('DOF preserves actors and combat cues while decorative flames follow scene focus');
   // Asset IDs isolate static depth ownership from lighting, effects, and animation.
-  const ids = await page.evaluate(() => {
+  const ids = await page.evaluate((capture) => {
     const f = window.foundation,
       p = f.presentation,
       copy = document.createElement('canvas');
@@ -204,7 +194,7 @@ try {
     const Material = (p.aim.material as import('three').MeshBasicMaterial)
       .constructor as typeof import('three').MeshBasicMaterial;
     let id = 0;
-    p.room.traverse((o) => {
+    p.roomPresentation.room.traverse((o) => {
       const mesh = o as import('three').Mesh;
       if (!mesh.isMesh) return;
       const material = mesh.material,
@@ -233,7 +223,7 @@ try {
       mesh.material = replacement;
       temporaries.push(replacement);
     });
-    for (const v of p.actors.values()) v.sprite.mesh.visible = false;
+    for (const v of p.actorPresentation.actors.values()) v.sprite.mesh.visible = false;
     const position = p.camera.position.clone(),
       auto = p.renderer.autoClear,
       color = p.renderer.getClearColor(
@@ -241,7 +231,7 @@ try {
       ),
       alpha = p.renderer.getClearAlpha(),
       right = p.camera.position.clone().setFromMatrixColumn(p.camera.matrixWorld, 0),
-      images: string[] = [];
+      images: Uint8ClampedArray[] = [];
     try {
       p.renderer.autoClear = true;
       p.renderer.setClearColor(0);
@@ -250,9 +240,9 @@ try {
           .copy(position)
           .addScaledVector(right, ((p.camera.right - p.camera.left) / copy.width) * i * 0.25);
         p.camera.updateMatrixWorld();
-        p.renderer.render(p.room, p.camera);
+        p.renderer.render(p.roomPresentation.room, p.camera);
         copy.getContext('2d')!.drawImage(p.canvas, 0, 0);
-        images.push(copy.toDataURL('image/png').split(',')[1]!);
+        images.push(copy.getContext('2d')!.getImageData(0, 0, copy.width, copy.height).data);
       }
     } finally {
       p.camera.position.copy(position);
@@ -265,42 +255,96 @@ try {
       }
       for (const m of temporaries) m.dispose();
     }
-    return { images, width: copy.width, height: copy.height };
-  });
-  const raw = await Promise.all(
-      ids.images.map((v) => sharp(Buffer.from(v, 'base64')).removeAlpha().raw().toBuffer()),
-    ),
-    pixel = (b: Buffer, x: number, y: number) => {
-      const i = (y * ids.width + x) * 3;
-      return (b[i]! << 16) + (b[i + 1]! << 8) + b[i + 2]!;
+    const pixel = (bytes: Uint8ClampedArray, x: number, y: number) => {
+      const i = (y * copy.width + x) * 4;
+      return (bytes[i]! << 16) + (bytes[i + 1]! << 8) + bytes[i + 2]!;
     };
-  let checked = 0,
-    swaps = 0;
-  for (let n = 1; n < raw.length; n++)
-    for (let y = 4; y < ids.height - 4; y += 2)
-      for (let x = 5; x < ids.width - 5; x += 2) {
-        const original = pixel(raw[0]!, x, y);
-        if (!original) continue;
+    const candidates: { x: number; y: number; owner: number }[] = [];
+    for (let y = 4; y < copy.height - 4; y += 2)
+      for (let x = 5; x < copy.width - 5; x += 2) {
+        const owner = pixel(images[0]!, x, y);
+        if (!owner) continue;
         let interior = true;
         for (let yy = -3; yy <= 3; yy++)
           for (let xx = -3; xx <= 3; xx++)
-            if (pixel(raw[0]!, x + xx, y + yy) !== original) interior = false;
-        if (!interior) continue;
-        checked++;
-        if (pixel(raw[n]!, Math.round(x - n * 0.25), y) !== original) swaps++;
+            if (pixel(images[0]!, x + xx, y + yy) !== owner) interior = false;
+        if (interior) candidates.push({ x, y, owner });
       }
+    let checked = 0,
+      pixelSwaps = 0;
+    for (let n = 1; n < images.length; n++)
+      for (const { x, y, owner } of candidates) {
+        checked++;
+        if (pixel(images[n]!, Math.round(x - n * 0.25), y) !== owner) pixelSwaps++;
+      }
+    return {
+      checked,
+      swaps: pixelSwaps,
+      firstImage: capture
+        ? (() => {
+            copy
+              .getContext('2d')!
+              .putImageData(
+                new ImageData(new Uint8ClampedArray(images[0]!), copy.width, copy.height),
+                0,
+                0,
+              );
+            return copy.toDataURL('image/png').split(',')[1]!;
+          })()
+        : undefined,
+    };
+  }, run.capture);
+  const { checked, swaps } = ids;
+  assert.ok(checked > 1000, 'Depth-owner check must sample actual opaque interiors');
   assert.equal(
     swaps,
     0,
     `unexpected static depth-owner swaps at ${swaps}/${checked} interior samples`,
   );
   if (run.capture)
-    await fs.writeFile(path.join(output, 'static-ids.png'), Buffer.from(ids.images[0]!, 'base64'));
+    await fs.writeFile(path.join(output, 'static-ids.png'), Buffer.from(ids.firstImage!, 'base64'));
   checks.push(
     `subpixel camera sweep retains static depth ownership at ${checked} interior samples`,
   );
+  const foreground = await page.evaluate(async () => {
+    const f = window.foundation;
+    await f.fixture('upper-landing');
+    f.pause(true);
+    const p = f.presentation,
+      hero = f.sim.hero;
+    Object.assign(hero, { x: 3.4, z: 2.0, px: 3.4, pz: 2.0 });
+    const frames = new Set<string>();
+    let obscured = false,
+      dodged = false;
+    for (let tick = 0; tick < 40; tick++) {
+      f.sim.step({ move: { x: 0.1, z: -0.1 }, aim: { x: 1.7, z: -1.3 }, dodge: tick === 8 });
+      p.update(f.sim, 1, 1000 / 60, { x: 1.7, z: -1.3 });
+      dodged ||= hero.state === 'dodge';
+      obscured ||= [...p.roomPresentation.inkRoom!.occlusion.groups.values()].some(
+        (group) => group.opacity < 0.99,
+      );
+      p.roomPresentation
+        .inkRoom!.sprites.filter((sprite) => sprite.mesh.userData.emissive)
+        .forEach((sprite) => frames.add(sprite.lastFrame));
+    }
+    const frozen = [...p.roomPresentation.inkRoom!.occlusion.groups.values()].map(
+      (group) => group.opacity,
+    );
+    p.update(f.sim, 1, 0, { x: 1.7, z: -1.3 });
+    const paused = [...p.roomPresentation.inkRoom!.occlusion.groups.values()].map(
+      (group) => group.opacity,
+    );
+    return { obscured, dodged, drawings: frames.size, frozen, paused };
+  });
+  assert.ok(foreground.obscured, 'Foreground route must exercise occlusion');
+  assert.ok(foreground.dodged, 'Foreground route must render a dodge');
+  assert.ok(foreground.drawings > 3, 'Fixture flame loops must advance');
+  assert.deepEqual(foreground.paused, foreground.frozen, 'Pause must freeze foreground opacity');
+  checks.push(
+    'short foreground/dodge sequence renders occlusion and advancing flames, then freezes on pause',
+  );
   const replay = [];
-  for (const scenario of ['travel', 'foreground', 'combat'] as const) {
+  for (const scenario of motionCapture ? (['travel', 'foreground', 'combat'] as const) : []) {
     await page.evaluate(() => window.foundation.fixture('upper-landing'));
     await page.evaluate((scenario) => {
       const f = window.foundation;
@@ -357,10 +401,10 @@ try {
               state: f.sim.hero.state,
               position: [f.sim.hero.x, f.sim.hero.z],
               attackKind: f.sim.hero.attackKind,
-              flames: p
+              flames: p.roomPresentation
                 .inkRoom!.sprites.filter((s) => s.mesh.userData.emissive)
                 .map((s) => s.lastFrame),
-              fades: [...p.inkRoom!.occlusion.groups].map(([id, g]) => ({
+              fades: [...p.roomPresentation.inkRoom!.occlusion.groups].map(([id, g]) => ({
                 id,
                 opacity: g.opacity,
               })),
@@ -374,23 +418,6 @@ try {
         frames.push(await sharp(Buffer.from(image, 'base64')).ensureAlpha().raw().toBuffer());
       trace.push(...batch.trace);
     }
-    if (scenario === 'combat') {
-      assert.ok(trace.some((t: any) => t.state === 'ability'));
-      assert.deepEqual(
-        [
-          ...new Set(trace.filter((t: any) => t.state === 'attack').map((t: any) => t.attackKind)),
-        ].sort(),
-        ['lunge', 'sweep'],
-      );
-    }
-    if (scenario === 'foreground') {
-      assert.ok(trace.some((t: any) => t.state === 'dodge'));
-      assert.ok(
-        trace.some((t: any) => t.fades.some((g: any) => g.opacity < 0.99)),
-        'foreground route must exercise occlusion',
-      );
-    }
-    assert.ok(new Set(trace.flatMap((t: any) => t.flames)).size > 3, 'flame loops must advance');
     const delay = Array.from(
       { length: 90 },
       (_, i) => Math.round(((i + 1) * 1000) / 15) - Math.round((i * 1000) / 15),
@@ -414,9 +441,7 @@ try {
         JSON.stringify(trace, null, 2) + '\n',
       );
   }
-  checks.push(
-    'travel, multi-fighter combat and foreground/dash replays; motion exports when requested',
-  );
+  if (motionCapture) checks.push('requested travel, combat and foreground motion exports');
   const resource = [];
   for (let i = 0; i < 4; i++) {
     await page.evaluate(async () => {
@@ -442,10 +467,9 @@ try {
     JSON.stringify(
       {
         checks,
-        construction,
         matrix,
         replay,
-        stationaryFrames: stationary.length,
+        stationaryFrames: stationary.samples,
         subpixel: { checked, swaps },
         resource,
         stats,

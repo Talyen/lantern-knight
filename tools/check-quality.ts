@@ -4,8 +4,9 @@ import assert from 'node:assert/strict';
 import { parseManifest } from '../src/assets/schema';
 import { assetCatalog, gameAssetCatalog } from '../src/content/visuals';
 import { worldVisuals } from '../src/content/world-art';
-import { content } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import { contract } from '../src/core/camera';
+import { readGameCatalog } from './game-asset-catalog';
 const height = 2160,
   minimumSpan = contract.framingRange[0]!,
   minimumHeadroom = 1;
@@ -99,6 +100,18 @@ for (const { id, scale } of cases) {
       0,
     ),
   });
+}
+for (const [id, file] of Object.entries(await readGameCatalog())) {
+  if (!id.startsWith('library-')) continue;
+  const m = parseManifest(JSON.parse(await readAsset('public/' + file, 'utf8')));
+  for (const page of m.pages) runtimePages.set(`${page.hash}:${page.width}x${page.height}`, page);
+  const scale = Math.max(1, ...placements.filter((p) => p.asset === id).map((p) => p.scale ?? 1));
+  const sampling =
+    Math.min(...m.frames.map((f) => (f.registration ?? m.asset).density)) /
+    ((height / minimumSpan) * scale);
+  console.log(
+    `Live TEST artwork ${id}: native sampling ${sampling.toFixed(3)} pixels per output pixel at span ${minimumSpan}; registration remains provisional.`,
+  );
 }
 const flow = readRegistration().animation,
   motionFieldBytes = flow.width * flow.height * 4;

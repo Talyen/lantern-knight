@@ -15,7 +15,7 @@ function alive(value: Owner) {
     return (error as NodeJS.ErrnoException).code !== 'ESRCH';
   }
 }
-export async function diskBytes(root: string): Promise<number> {
+export async function diskBytes(root: string, seen = new Set<string>()): Promise<number> {
   let names;
   try {
     names = await fs.readdir(root, { withFileTypes: true });
@@ -27,7 +27,15 @@ export async function diskBytes(root: string): Promise<number> {
   for (const e of names) {
     const file = path.join(root, e.name);
     if (e.isSymbolicLink()) throw new Error('Cache contains a symbolic link');
-    total += e.isDirectory() ? await diskBytes(file) : (await fs.stat(file)).size;
+    if (e.isDirectory()) total += await diskBytes(file, seen);
+    else {
+      const stat = await fs.stat(file),
+        key = stat.ino ? `${stat.dev}:${stat.ino}` : file;
+      if (!seen.has(key)) {
+        seen.add(key);
+        total += stat.size;
+      }
+    }
   }
   return total;
 }

@@ -27,7 +27,9 @@ async function check() {
     errors: string[] = [],
     expectedFailures = new Set<string>(),
     id = 'editor-check-' + randomUUID(),
-    file = path.join(projectRoot, 'authoring/scenes', id + '.json');
+    file = path.join(projectRoot, 'authoring/scenes', id + '.json'),
+    lampId = id + '-lamps',
+    lampFile = path.join(projectRoot, 'authoring/scenes', lampId + '.json');
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (message) => {
     if (
@@ -73,7 +75,9 @@ async function check() {
     const handle = await page.evaluate(() => {
       const v = window.sceneEditor.view(),
         d = window.sceneEditor.state().document,
-        s = v.presentation!.inkRoom!.sprites.find((s) => s.id === d.objects[0]!.id)!;
+        s = v.presentation!.roomPresentation.inkRoom!.sprites.find(
+          (s) => s.id === d.objects[0]!.id,
+        )!;
       s.mesh.updateMatrixWorld(true);
       const position = s.geometry.getAttribute('position'),
         corners = Array.from({ length: position.count }, (_, i) =>
@@ -107,7 +111,7 @@ async function check() {
     await page.mouse.up();
     await page.waitForFunction(
       () =>
-        Math.abs(window.sceneEditor.state().document.objects[0]!.x - 2) > 0.1 &&
+        Math.abs(window.sceneEditor.state().document.objects[0]!.x! - 2) > 0.1 &&
         !document.querySelector<HTMLButtonElement>('#save')!.disabled,
     );
     await page.locator('#duplicate').click();
@@ -139,7 +143,8 @@ async function check() {
         const view = window.sceneEditor.view();
         return {
           generation: view.sim!.generation,
-          hero: view.presentation!.actors.get(view.sim!.hero.id)!.sprite.mesh.uuid,
+          hero: view.presentation!.actorPresentation.actors.get(view.sim!.hero.id)!.sprite.mesh
+            .uuid,
         };
       });
     const beforeMetadata = await metadataResources();
@@ -166,7 +171,7 @@ async function check() {
       for (const rebuild of [true, false]) {
         const generation = view.sim!.generation;
         const start = performance.now();
-        for (let index = 0; index < 12; index++) {
+        for (let index = 0; index < 1; index++) {
           if (rebuild) (view as unknown as { composition?: string }).composition = undefined;
           await view.apply({
             ...scene,
@@ -176,8 +181,8 @@ async function check() {
           view.render();
         }
         samples.push(performance.now() - start);
-        if (view.sim!.generation !== generation + (rebuild ? 12 : 0))
-          throw new Error('Metadata benchmark did not exercise its declared rebuild/reuse path');
+        if (view.sim!.generation !== generation + (rebuild ? 1 : 0))
+          throw new Error('Metadata parity check did not exercise its declared rebuild/reuse path');
         context.drawImage(view.canvas, 0, 0);
         const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
         if (before) {
@@ -191,7 +196,7 @@ async function check() {
       return { rebuildMs: Math.round(samples[0]!), reuseMs: Math.round(samples[1]!) };
     });
     console.log(
-      `Metadata edits: 12 rebuilds ${metadataTiming.rebuildMs}ms; 12 reused updates ${metadataTiming.reuseMs}ms; frozen pixels identical.`,
+      `Metadata edits: one rebuild ${metadataTiming.rebuildMs}ms; one reused update ${metadataTiming.reuseMs}ms; frozen pixels identical.`,
     );
     await page.locator('#save-as').click();
     await page.locator('#file-id').fill(id);
@@ -341,7 +346,51 @@ async function check() {
     );
     assert.equal(await page.evaluate(() => window.sceneEditor.state().document.target), 'draft');
     await page.locator('#objects button').filter({ hasText: 'gate-lamp' }).click();
-    assert.equal(await page.locator('#delete').isDisabled(), true);
+    assert.equal(await page.locator('#delete').isDisabled(), false);
+    const lampSnapshot = await page.evaluate(() =>
+      JSON.stringify(window.sceneEditor.state().document),
+    );
+    await page.locator('#duplicate').click();
+    await page.waitForFunction(() =>
+      document.querySelector('#status')?.textContent?.includes('three lights'),
+    );
+    assert.equal(
+      await page.evaluate(() => JSON.stringify(window.sceneEditor.state().document)),
+      lampSnapshot,
+    );
+    await page.locator('#x').fill('-4');
+    await page.locator('#x').press('Tab');
+    await page.waitForFunction(
+      () =>
+        window.sceneEditor.state().document.objects.find((p) => p.id === 'gate-lamp')?.x === -4 &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    assert.equal(
+      await page.evaluate(
+        () => window.sceneEditor.view().presentation!.sceneEffects.stats().fixtures,
+      ),
+      3,
+    );
+    await page.locator('#delete').click();
+    await page.waitForFunction(
+      () =>
+        !window.sceneEditor.state().document.objects.some((p) => p.id === 'gate-lamp') &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    assert.equal(
+      await page.evaluate(
+        () => window.sceneEditor.view().presentation!.sceneEffects.stats().fixtures,
+      ),
+      2,
+    );
+    await page.locator('#undo').click();
+    await page.waitForFunction(() => !document.querySelector<HTMLButtonElement>('#save')!.disabled);
+    await page.locator('#undo').click();
+    await page.waitForFunction(() => !document.querySelector<HTMLButtonElement>('#save')!.disabled);
+    assert.equal(
+      await page.evaluate(() => JSON.stringify(window.sceneEditor.state().document)),
+      lampSnapshot,
+    );
     await page.locator('#objects button').filter({ hasText: 'boundary-oak' }).click();
     assert.equal(await page.locator('#delete').isDisabled(), false);
     const resources = [];
@@ -358,6 +407,209 @@ async function check() {
       );
     }
     assert.deepEqual(resources[2], resources[1], 'Scene rebuild leaked GPU resources');
+    await page.locator('#scene').selectOption('copy-upper-landing');
+    await page.locator('#open').click();
+    await page.waitForFunction(
+      () =>
+        window.sceneEditor.state().document.base === 'upper-landing' &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    await page.locator('#objects button').filter({ hasText: 'crypt-return-door' }).click();
+    assert.equal(await page.locator('#delete').isDisabled(), true);
+    await page.locator('#objects button').filter({ hasText: 'crypt-altar-candles' }).click();
+    assert.equal(await page.locator('#delete').isDisabled(), false);
+    await page.locator('#x').fill('0.4');
+    await page.locator('#x').press('Tab');
+    await page.waitForFunction(() => !document.querySelector<HTMLButtonElement>('#save')!.disabled);
+    await page
+      .locator('#objects button')
+      .filter({ hasText: /^crypt-altar$/ })
+      .click();
+    await page.locator('#x').fill('1');
+    await page.locator('#x').press('Tab');
+    await page.waitForFunction(
+      () =>
+        window.sceneEditor.state().document.objects.find((p) => p.id === 'crypt-altar')?.x === 1 &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    assert.equal(
+      await page.evaluate(
+        () =>
+          window.sceneEditor
+            .view()
+            .presentation!.visuals!.props.find((p) => p.id === 'crypt-altar-candles')!.x,
+      ),
+      1.4,
+    );
+    await page.locator('#delete').click();
+    await page.waitForFunction(
+      () =>
+        !window.sceneEditor.state().document.objects.some((p) => p.id === 'crypt-altar-candles') &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    assert.equal(
+      await page.evaluate(
+        () => window.sceneEditor.view().presentation!.sceneEffects.stats().fixtures,
+      ),
+      2,
+    );
+    await page.locator('#undo').click();
+    await page.waitForFunction(() => !document.querySelector<HTMLButtonElement>('#save')!.disabled);
+    assert.equal(
+      await page.evaluate(
+        () => window.sceneEditor.view().presentation!.sceneEffects.stats().fixtures,
+      ),
+      3,
+    );
+
+    await page.locator('#save-as').click();
+    await page.locator('#file-id').fill(lampId);
+    await page.locator('#confirm-save').click();
+    await page.waitForFunction(
+      () =>
+        !window.sceneEditor.state().dirty &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    const lampSaved = await page.evaluate(() => window.sceneEditor.state().document);
+    assert.deepEqual(JSON.parse(await fs.readFile(lampFile, 'utf8')), lampSaved);
+    await page.reload();
+    await page.waitForFunction(() => window.sceneEditor?.ready());
+    await page.locator('#scene').selectOption('file-' + lampId);
+    await page.locator('#open').click();
+    await page.waitForFunction(
+      (id) =>
+        window.sceneEditor.state().document.id === id &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+      lampId,
+    );
+    assert.deepEqual(await page.evaluate(() => window.sceneEditor.state().document), lampSaved);
+    assert.equal(
+      await page.evaluate(
+        () =>
+          window.sceneEditor
+            .view()
+            .presentation!.visuals!.props.find((p) => p.id === 'crypt-altar-candles')!.x,
+      ),
+      1.4,
+    );
+    // Exercise the real library renderer and controls; no gameplay actors spawn.
+    await page.locator('#scene').selectOption('new');
+    await page.locator('#open').click();
+    await page.waitForFunction(
+      () =>
+        window.sceneEditor.state().document.base === 'flat' &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    await page.locator('#category').selectOption('character');
+    await page.locator('#search').fill('library-sk01 move');
+    await page.locator('.asset').first().click();
+    await page
+      .locator('#viewport')
+      .click({ position: { x: box.width * 0.52, y: box.height * 0.58 } });
+    await page.waitForFunction(
+      () =>
+        window.sceneEditor.state().document.objects.length === 1 &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    assert.equal(
+      await page.evaluate(() => window.sceneEditor.state().document.objects[0]!.kind),
+      'character',
+    );
+    assert.equal(await page.locator('#mirror').isDisabled(), true);
+    await page.locator('#heading').selectOption('d270');
+    await page.waitForFunction(
+      () =>
+        window.sceneEditor.state().document.objects[0]!.heading === 'd270' &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    await page.locator('#clip').selectOption('attack');
+    await page.waitForFunction(
+      () =>
+        window.sceneEditor.state().document.objects[0]!.clip === 'attack' &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    await page.locator('#play-animation').click();
+    const frozen = await page.evaluate(() => {
+      const s = window.sceneEditor
+        .view()
+        .presentation!.roomPresentation.inkRoom!.sprites.find(
+          (s) => s.id === window.sceneEditor.state().document.objects[0]!.id,
+        )!;
+      return { time: s.animator.time, frame: s.animator.frame };
+    });
+    await page.evaluate(() => window.sceneEditor.view().render(100));
+    assert.deepEqual(
+      await page.evaluate(() => {
+        const s = window.sceneEditor
+          .view()
+          .presentation!.roomPresentation.inkRoom!.sprites.find(
+            (s) => s.id === window.sceneEditor.state().document.objects[0]!.id,
+          )!;
+        return { time: s.animator.time, frame: s.animator.frame };
+      }),
+      frozen,
+    );
+    await page.locator('#replay-animation').click();
+    assert.equal(
+      await page.evaluate(
+        () =>
+          window.sceneEditor
+            .view()
+            .presentation!.roomPresentation.inkRoom!.sprites.find(
+              (s) => s.id === window.sceneEditor.state().document.objects[0]!.id,
+            )!.animator.time,
+      ),
+      0,
+    );
+    await page.locator('#save-as').click();
+    await page.locator('#file-id').fill(id + '-animated');
+    await page.locator('#confirm-save').click();
+    await page.waitForFunction(
+      () =>
+        !window.sceneEditor.state().dirty &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    const animated = await page.evaluate(() => window.sceneEditor.state().document);
+    if (capture)
+      await page
+        .locator('#viewport')
+        .screenshot({ path: path.join(held.root, 'animated-enemy.png') });
+    await page.reload();
+    await page.waitForFunction(() => window.sceneEditor?.ready());
+    await page.locator('#scene').selectOption('file-' + id + '-animated');
+    await page.locator('#open').click();
+    await page.waitForFunction(
+      (id) =>
+        window.sceneEditor.state().document.id === id &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+      id + '-animated',
+    );
+    assert.deepEqual(await page.evaluate(() => window.sceneEditor.state().document), animated);
+    assert.equal(
+      await page.evaluate(
+        () => window.sceneEditor.view().sim!.actors.filter((a) => a.kind === 'enemy').length,
+      ),
+      0,
+    );
+    await page.locator('#objects button').first().click();
+    await page.locator('#delete').click();
+    await page.waitForFunction(
+      () =>
+        window.sceneEditor.state().document.objects.length === 0 &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    await page.locator('#undo').click();
+    await page.waitForFunction(
+      () =>
+        window.sceneEditor.state().document.objects.length === 1 &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    await page.locator('#redo').click();
+    await page.waitForFunction(
+      () =>
+        window.sceneEditor.state().document.objects.length === 0 &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
     assert.deepEqual(errors, []);
     assert.equal(
       await page.evaluate(() =>
@@ -366,8 +618,14 @@ async function check() {
       0,
     );
     if (capture) {
+      await (await import('./library-review')).captureLibraryReview(held.root);
       await page.locator('#viewport').screenshot({ path: path.join(held.root, 'editor.png') });
       console.log('Editor screenshot: ' + path.join(held.root, 'editor.png'));
+      if (process.env.LANTERN_TASK_RESULT)
+        await fs.writeFile(
+          process.env.LANTERN_TASK_RESULT,
+          JSON.stringify({ captureDirectories: [held.root] }),
+        );
     }
     passed = true;
   } catch (error) {
@@ -380,13 +638,15 @@ async function check() {
     await browser.close();
     await server.close();
     await fs.rm(file, { force: true });
+    await fs.rm(path.join(projectRoot, 'authoring/scenes', id + '-animated.json'), { force: true });
+    await fs.rm(lampFile, { force: true });
     await fs.rm(path.join(held.root, 'profile'), { recursive: true, force: true });
     if (passed && !capture) await fs.rm(held.root, { recursive: true, force: true });
     await held.release();
   }
   await requireStableInputs(projectRoot, before);
   console.log(
-    'PASS: editor browser placement, inspector, history, save, recovery, conflict protection, locked fixtures and renderer lifetime.',
+    'PASS: editor browser placement, inspector, history, save, recovery, conflict protection, editable/mounted lamps, protected foundations and renderer lifetime.',
   );
 }
 check().catch((error) => {

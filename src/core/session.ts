@@ -1,5 +1,4 @@
 import {
-  content,
   PLAYER_ID,
   spawnActorId,
   heightAt,
@@ -26,12 +25,12 @@ export class GameSession {
   private pending: TransitionPlan | undefined;
   private eventSequence = 0;
   constructor(
-    public readonly registry: ContentRegistry = content,
+    public readonly registry: ContentRegistry,
     seed = 142,
     area = registry.definitions.initialArea,
     generation = 1,
   ) {
-    this.sim = new Simulation(seed, area, generation, registry);
+    this.sim = new Simulation(registry, seed, area, generation);
     this.recordArea();
   }
   get loading() {
@@ -69,7 +68,7 @@ export class GameSession {
     });
   }
   private restoredSimulation(area: AreaId, generation: number, entry?: string) {
-    const sim = new Simulation(this.sim.initialSeed, area, generation, this.registry, entry),
+    const sim = new Simulation(this.registry, this.sim.initialSeed, area, generation, entry),
       state = this.visited.get(area);
     if (state) {
       for (const p of sim.areaDefinition.spawns) {
@@ -144,7 +143,7 @@ export class GameSession {
     const old = this.sim;
     this.resetCount++;
     this.visited.delete(old.area);
-    this.sim = new Simulation(old.initialSeed, old.area, old.generation + 1, this.registry);
+    this.sim = new Simulation(this.registry, old.initialSeed, old.area, old.generation + 1);
     this.sim.tick = old.tick;
     this.sim.resetCount = this.resetCount;
     this.recordArea();
@@ -175,7 +174,7 @@ export class GameSession {
     this.visited = new Map(Object.entries(structuredClone(save.areas)));
     this.wins = save.wins;
     const old = this.sim;
-    this.sim = new Simulation(save.seed, save.area, old.generation + 1, this.registry);
+    this.sim = new Simulation(this.registry, save.seed, save.area, old.generation + 1);
     const next = this.restoredSimulation(save.area, this.sim.generation);
     Object.assign(next.hero, save.player);
     next.hero.y = heightAt(next.areaDefinition, next.hero.x, next.hero.z);

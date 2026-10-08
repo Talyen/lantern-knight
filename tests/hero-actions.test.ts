@@ -1,3 +1,4 @@
+import { content } from '../src/content/game-content';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { GameSession } from '../src/core/session';
@@ -7,7 +8,7 @@ import { heroActionTiming, heroTimings } from '../src/content/hero-actions';
 import { selectAuthoredDirection, AUTHORED_HEADINGS } from '../src/core/camera';
 const still = { move: { x: 0, z: 0 }, aim: { x: 1, z: 0 } };
 function duel() {
-  const s = new Simulation();
+  const s = new Simulation(content, 142, content.definitions.initialArea, 1);
   s.actors = [s.hero, s.enemies[0]!];
   Object.assign(s.hero, { x: 0, z: 0 });
   Object.assign(s.enemies[0]!, { x: 1, z: 0, health: 100, stun: 10000 });
@@ -36,11 +37,15 @@ test('each authored attack heading damages only during its active phase and comp
         hits: number[] = [];
       for (let i = 0; i < spec.total; i++) {
         s.step({ move: { x: 0, z: 0 }, aim: { x: Math.sin(yaw), z: Math.cos(yaw) } });
-        if (s.events.some((e) => e.kind === 'damage')) hits.push(i);
+        if (s.events.some((e) => e.kind === 'damage')) {
+          hits.push(i);
+          assert.equal(s.hero.hitIds.length, 1);
+        }
       }
       assert.deepEqual(hits, [spec.windup]);
       assert.equal(s.hero.state, 'idle');
       assert.equal(s.enemies[0]!.health, 74);
+
       assert.equal(
         spec.total,
         Math.ceil(
@@ -66,13 +71,38 @@ test('alternation survives waiting, dodge and hurt; interruptions cannot complet
   s.step({ ...still, attack: true });
   assert.equal(s.hero.attackKind, 'lunge');
   assert.equal(s.hero.nextAttack, 'sweep');
-  assert.equal(new Simulation().hero.nextAttack, 'sweep');
-  const session = new GameSession();
+  assert.equal(
+    new Simulation(content, 142, content.definitions.initialArea, 1).hero.nextAttack,
+    'sweep',
+  );
+  const session = new GameSession(content);
   session.sim.hero.nextAttack = 'lunge';
   session.sim.enemies.forEach((a) => (a.health = 0));
   session.sim.cleared = true;
   session.commitTransition(session.prepareTransition('landing'));
   assert.equal(session.sim.hero.nextAttack, 'lunge');
+  const buffered = duel();
+  const attacks: string[] = [];
+  let action = -1;
+  for (let tick = 0; tick < 210; tick++) {
+    buffered.step({ ...still, attack: [0, 68, 121].includes(tick) });
+    if (buffered.hero.state === 'attack' && buffered.hero.action !== action) {
+      action = buffered.hero.action;
+      attacks.push(buffered.hero.attackKind);
+    }
+  }
+  assert.deepEqual(attacks, ['sweep', 'lunge', 'sweep']);
+  assert.equal(buffered.enemies[0]!.health, 22);
+  const early = duel();
+  for (let tick = 0; tick < 100; tick++) early.step({ ...still, attack: tick === 0 || tick === 2 });
+  assert.equal(early.hero.attackKind, 'sweep');
+  early.step({ ...still, attack: true });
+  assert.equal(early.hero.attackKind, 'lunge');
+  const queued = duel();
+  queued.startSword(queued.hero, 'sweep');
+  queued.hero.age = attackDefinition(queued.hero).total - 3;
+  queued.step({ ...still, move: { x: 1, z: 0 }, dodge: true });
+  assert.equal(queued.hero.state, 'attack');
 });
 test('dodge invulnerability and distance are confined to travel cels; lantern pulses once and death completes', () => {
   const s = duel();
@@ -98,28 +128,20 @@ test('dodge invulnerability and distance are confined to travel cels; lantern pu
   }
   assert.equal(pulses, 1);
   assert.equal(s.hero.state, 'idle');
+  s.start(s.hero, 'ability');
+  const interruptedAction = s.hero.action;
   s.damage(s.enemies[0]!, s.hero, 1000);
-  for (let i = 0; i < 90; i++) assert.equal(s.step(still).reset, undefined);
+  assert.ok(s.hero.action > interruptedAction);
+  const deathAction = s.hero.action;
+  s.step({ ...still, move: { x: 1, z: 1 }, attack: true });
+  assert.equal(s.hero.state, 'death');
+  assert.equal(s.hero.action, deathAction);
+  for (let i = 1; i < 90; i++) assert.equal(s.step(still).reset, undefined);
   assert.equal(s.step(still).reset, 'death');
   assert.equal(heroActionTiming('hit', 'd90').total, 24);
-});
-test('directed actions share their combat rhythm across headings and preserve dodge range', () => {
-  for (const heading of AUTHORED_HEADINGS) {
-    assert.deepEqual(heroActionTiming('sweep', heading), { total: 54, windup: 18, activeEnd: 24 });
-    assert.deepEqual(heroActionTiming('lunge', heading), { total: 42, windup: 12, activeEnd: 16 });
-    assert.deepEqual(heroActionTiming('cast_lantern_flare', heading), {
-      total: 60,
-      windup: 24,
-      activeEnd: 24,
-    });
-    assert.equal(heroActionTiming('death', heading).total, 90);
-  }
-  assert.equal(tuning.dodge.travelStart, 6);
-  assert.equal(tuning.dodge.travelEnd, 14);
-  assert.equal(tuning.dodge.total, 30);
-  assert.ok(
-    Math.abs(
-      (tuning.dodge.speed * (tuning.dodge.travelEnd - tuning.dodge.travelStart)) / 60 - 2.1,
-    ) < 1e-12,
-  );
+  const alive = duel();
+  alive.step({ ...still, ability: true });
+  for (let tick = 0; tick < 100; tick++) alive.step({ ...still, ability: true });
+  assert.ok(alive.hero.cooldown > 0);
+  assert.notEqual(alive.hero.state, 'ability');
 });

@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { authoredIdentity } from './authored-inputs';
 import { createHash } from 'node:crypto';
+import { LockSchema, acceptedRecipe } from './assets/pack';
 
 export function digest(value: unknown): string {
   const canonical = (v: unknown): unknown =>
@@ -20,9 +21,14 @@ export function digest(value: unknown): string {
 }
 export async function sourceIdentity(root: string) {
   const source = await authoredIdentity(root, { scope: 'runtime' });
-  const lock = JSON.parse(await fs.readFile(path.join(root, 'assets/lock.json'), 'utf8')) as {
-    sha256: string;
+  const lock = LockSchema.parse(
+    JSON.parse(await fs.readFile(path.join(root, 'assets/lock.json'), 'utf8')),
+  );
+  return {
+    ...source,
+    identityVersion: 3 as const,
+    assetSha256: lock.sha256,
+    archiveRecipeSha256: lock.recipeSha256,
+    preparationRecipeSha256: acceptedRecipe(lock),
   };
-  if (!/^[a-f0-9]{64}$/.test(lock.sha256)) throw new Error('Invalid pinned asset identity');
-  return { ...source, identityVersion: 2 as const, assetSha256: lock.sha256 };
 }

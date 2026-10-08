@@ -11,6 +11,13 @@ import { builtinModules } from 'node:module';
 export function importFinding(file: string, target: string) {
   if (!file.startsWith('src/')) return;
   if (
+    (file.startsWith('src/core/') || file === 'src/content/world.ts') &&
+    /^src\/content\/(?:game-content|world-art|scene-document|scene-v1|scenery-presets|visuals|asset-catalog|graveyard-scene|crypt-scene)/.test(
+      target,
+    )
+  )
+    return 'gameplay models require an explicit registry, without production scene or visual composition imports';
+  if (
     /^(?:electron|tools|tests)\//.test(target) ||
     target === 'electron' ||
     target.startsWith('node:') ||

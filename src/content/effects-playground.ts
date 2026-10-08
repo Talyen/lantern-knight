@@ -1,5 +1,6 @@
 import { visualEffectLabels } from './visual-effects';
-import { contentDefinitions, type ContentDefinitions, type AreaDefinition } from './world';
+import { type ContentDefinitions, type AreaDefinition } from './world';
+import { contentDefinitions } from './game-content';
 
 export const effectsArea: AreaDefinition = {
   id: 'effects-playground',

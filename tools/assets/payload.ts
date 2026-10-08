@@ -5,6 +5,7 @@ import { assetCatalog } from '../../src/content/asset-catalog';
 import { playgroundCatalog } from '../../src/content/effects-playground-assets';
 import { parseManifest } from '../../src/assets/schema';
 import { parseRegistration } from '../../src/assets/registration';
+import { readAuthoringCatalog } from './authoring-catalog';
 import { safeRelative } from './paths';
 
 export async function stagePayload(sourcePublic: string, staging: string, destination: string) {
@@ -14,8 +15,12 @@ export async function stagePayload(sourcePublic: string, staging: string, destin
     'lighting/manifest.json',
     'visual-effects/surfaces.json',
     'dev-effects/emitters.json',
+    'generated/library/catalog.json',
   ]);
-  for (const file of Object.values({ ...assetCatalog, ...playgroundCatalog })) {
+  for (const file of Object.values({
+    ...(await readAuthoringCatalog(sourcePublic)),
+    ...playgroundCatalog,
+  })) {
     files.add(file);
     const m = parseManifest(JSON.parse(await fs.readFile(path.join(sourcePublic, file), 'utf8')));
     for (const page of m.pages) files.add(path.posix.join(path.posix.dirname(file), page.path));
@@ -42,7 +47,9 @@ export async function stagePayload(sourcePublic: string, staging: string, destin
     safeRelative(file);
     const target = path.join(destination, 'public', file);
     await fs.mkdir(path.dirname(target), { recursive: true });
-    await fs.copyFile(path.join(sourcePublic, file), target);
+    // Both locations belong to the same leased candidate; immutable pages need
+    // no second physical copy while source fidelity and freshness are checked.
+    await fs.link(path.join(sourcePublic, file), target);
   }
   const animation = JSON.parse(
       await fs.readFile(path.join(staging, 'animation/flow.json'), 'utf8'),
@@ -71,6 +78,7 @@ export async function stagePayload(sourcePublic: string, staging: string, destin
     'rest/receipt.json',
     'effects-playground/receipt.json',
     'visual-effects/receipt.json',
+    'library/receipt.json',
   ]) {
     const target = path.join(destination, 'metadata', name);
     await fs.mkdir(path.dirname(target), { recursive: true });

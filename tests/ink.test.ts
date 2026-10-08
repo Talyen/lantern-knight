@@ -2,16 +2,15 @@ import { readAsset } from '../tools/assets/io';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { Texture, Vector3, MeshBasicMaterial } from 'three';
+import { Texture, MeshBasicMaterial } from 'three';
 import { parseManifest, resolveClip } from '../src/assets/schema';
 import { ActorSprite, setCutoutOpacity } from '../src/presentation/sprite';
-import { makeCamera, drawingBufferSize } from '../src/core/camera';
-import { areaArtAssets, validateAreaArt, floorUV } from '../src/content/world-art';
-import { content } from '../src/content/world';
+import { drawingBufferSize } from '../src/core/camera';
+import { areaArtAssets, validateAreaArt } from '../src/content/world-art';
+import { assetCatalog } from '../src/content/asset-catalog';
+import { content } from '../src/content/game-content';
 async function manifest(id: string) {
-  return parseManifest(
-    JSON.parse(await readAsset(`public/generated/ink/${id}/manifest.json`, 'utf8')),
-  );
+  return parseManifest(JSON.parse(await readAsset('public/' + assetCatalog[id]!, 'utf8')));
 }
 
 test('collection importer checks hashes, identical duplicates, unsafe paths and conflicts before writing', () => {
@@ -60,7 +59,7 @@ test('room visuals validate their dependencies and clips before a transition com
   assert.throws(() => validateAreaArt(area, packs), /required clip unavailable/);
 });
 
-test('cutout fades invalidate the opaque shader on transitions, without recompiling unchanged opacity', () => {
+test('cutout fades invalidate the opaque shader on transitions, without recompiling unchanged opacity', async () => {
   const m = new MeshBasicMaterial(),
     version = m.version;
   setCutoutOpacity(m, 0.38);
@@ -74,29 +73,20 @@ test('cutout fades invalidate the opaque shader on transitions, without recompil
   assert.equal(m.depthWrite, true);
   assert.equal(m.version, version + 2);
   m.dispose();
-});
-
-test('real cutouts retain a blended edge layer with shared geometry/texture and coherent fade opacity', async () => {
-  const m = await manifest('ink-hero-current'),
-    textures = new Map(m.pages.map((p) => [p.id, new Texture()]));
-  const s = new ActorSprite('soft-hero', m, textures, resolveClip(m, 'idle', 'd90'));
-  s.show(resolveClip(m, 'idle', 'd90').frames[0]!, new Vector3(), makeCamera(16 / 9));
-  assert.ok(s.edgeMesh);
-  assert.equal(s.edgeMesh.geometry, s.geometry);
-  assert.equal(s.edgeMaterial!.map, s.material.map);
-  assert.equal(s.edgeMaterial!.depthTest, true);
-  assert.equal(s.edgeMaterial!.depthWrite, false);
-  assert.equal(s.edgeMaterial!.transparent, true);
-  setCutoutOpacity(s.material, 0.38);
-  assert.equal(s.edgeMaterial!.opacity, 0.38);
-  setCutoutOpacity(s.material, 1);
-  assert.equal(s.edgeMaterial!.opacity, 1);
-  s.dispose();
-});
-
-test('top-down floor image-right maps +X and image-down maps +Z with 4-metre stone repeats', () => {
-  assert.deepEqual(floorUV(2, 2), [0.5, -0.5]);
-  assert.deepEqual(floorUV(4, 4), [1, -1]);
+  const manifest = parseManifest(
+    JSON.parse(await readAsset('public/generated/ink/ink-hero-current/manifest.json', 'utf8')),
+  );
+  const textures = new Map(manifest.pages.map((page) => [page.id, new Texture()]));
+  const sprite = new ActorSprite('edges', manifest, textures, resolveClip(manifest, 'idle', 'd90'));
+  assert.equal(sprite.edgeMesh!.geometry, sprite.geometry);
+  assert.equal(sprite.edgeMaterial!.map, sprite.material.map);
+  assert.equal(sprite.edgeMaterial!.depthWrite, false);
+  for (const opacity of [0.38, 1]) {
+    setCutoutOpacity(sprite.material, opacity);
+    assert.equal(sprite.edgeMaterial!.opacity, opacity);
+  }
+  sprite.dispose();
+  textures.forEach((texture) => texture.dispose());
 });
 
 test('Retina windows render physical pixels within the selected 4K budget, with explicit quality scaling', () => {

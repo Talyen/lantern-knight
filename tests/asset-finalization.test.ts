@@ -14,12 +14,14 @@ import {
 import {
   validateCompletion,
   completeReviewedCandidate,
+  completeEquivalentCandidate,
   reviewIdentifier,
   validateReviewArtifacts,
   reusablePreparation,
   type CompletionDependencies,
 } from '../tools/assets/finalize';
 
+let fixtureRecipe: Promise<string> | undefined;
 async function fixture() {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-finalize-')),
     payload = path.join(root, 'payload'),
@@ -27,7 +29,7 @@ async function fixture() {
   await fs.mkdir(path.join(payload, 'public'), { recursive: true });
   await fs.mkdir(path.join(payload, 'metadata'));
   await fs.writeFile(path.join(payload, 'public/sample.png'), 'original pixels');
-  const lock = await makeArchive(payload, archive, await recipeHash()),
+  const lock = await makeArchive(payload, archive, await (fixtureRecipe ??= recipeHash())),
     cache = new AssetCache(path.join(root, 'cache'), 1024 * 1024),
     held = await cache.lease('candidate');
   const candidate: PreparedAssets = { held, payload, archive, lock },
@@ -208,7 +210,10 @@ test('upload failures are not mistaken for absent releases; retries reuse immuta
       async () => {},
       target,
     );
-    assert.deepEqual(JSON.parse(await fs.readFile(target, 'utf8')), f.candidate.lock);
+    const published = JSON.parse(await fs.readFile(target, 'utf8'));
+    assert.equal(published.schemaVersion, 2);
+    assert.equal(published.sha256, f.candidate.lock.sha256);
+    assert.equal(published.recipeSha256, f.candidate.lock.recipeSha256);
   } finally {
     await f.close();
   }
@@ -264,6 +269,55 @@ test('selected finalization rejects a changed plan and omitted mandatory checks 
       /selection changed/,
     );
     assert.equal(f.pin(), 'previous pin');
+  } finally {
+    await f.close();
+  }
+});
+
+test('equivalent completion reuses the archive, runs mandatory checks, and rolls back post-pin failure', async () => {
+  const f = await fixture();
+  try {
+    const baseline = { root: f.candidate.payload, lock: f.candidate.lock };
+    let pin = JSON.stringify(baseline.lock, null, 2) + '\n',
+      fail = false;
+    const deps = {
+      ...f.deps,
+      pin: async () => pin,
+      pinEquivalent: async (value: unknown, expected: string) => {
+        assert.equal(pin, expected);
+        pin = JSON.stringify(value, null, 2) + '\n';
+      },
+      restore: async (old: string, expected: string) => {
+        assert.equal(pin, expected);
+        pin = old;
+      },
+      run: async (name: string) => {
+        f.calls.push(name);
+        if (fail && name === 'pinned asset checks') throw new Error('pinned failure');
+        return '';
+      },
+    };
+    assert.equal(await completeEquivalentCandidate(f.candidate, baseline, deps, 'darwin'), true);
+    assert.equal(JSON.parse(pin).sha256, f.candidate.lock.sha256);
+    assert.equal(JSON.parse(pin).schemaVersion, 2);
+    assert.deepEqual(f.calls, [
+      'regular local checks',
+      'Game build',
+      'Dev build',
+      'Game identity',
+      'Dev identity',
+      'published pack',
+      'pinned asset checks',
+    ]);
+    assert.ok(!f.calls.includes('publish'));
+    pin = JSON.stringify(baseline.lock, null, 2) + '\n';
+    const old = pin;
+    fail = true;
+    await assert.rejects(
+      completeEquivalentCandidate(f.candidate, baseline, deps, 'darwin'),
+      /pinned failure/,
+    );
+    assert.equal(pin, old);
   } finally {
     await f.close();
   }

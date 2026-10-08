@@ -2,7 +2,7 @@ import './editor.css';
 import * as T from 'three';
 import { AssetRuntime } from './assets/loader';
 import type { Manifest } from './assets/schema';
-import { assetCatalog } from './content/visuals';
+import { authoringCatalog } from './assets/authoring-catalog';
 import {
   emptyScene,
   parseSceneDocument,
@@ -10,8 +10,10 @@ import {
   paletteClips,
   floorClips,
   type SceneDocument,
+  type PaletteKind,
 } from './content/scene-document';
 import { heightAt } from './content/world';
+import { applySceneryPreset } from './content/scenery-presets';
 import { EditorHistory, sceneItems } from './editor/model';
 import { EditorView } from './editor/view';
 const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
@@ -19,10 +21,10 @@ document.getElementById('app')!.innerHTML = `
 <header><div class="brand">LANTERN KNIGHT <span>Scene editor</span></div><label>Scene <select id="scene"><option value="new">New flat scene</option><option value="copy-court">Copy of Graveyard Approach</option><option value="copy-upper-landing">Copy of Ruined Chapel</option><option value="live-court">Edit Live: Graveyard Approach</option><option value="live-upper-landing">Edit Live: Ruined Chapel</option></select></label><button id="open">Open</button><input id="name" aria-label="Scene name" maxlength="80"><button id="save">Save</button><button id="save-as">Save As</button><span id="save-state">Unsaved</span></header>
 <div id="recovery" class="notice" hidden>Unsaved work is available. <button id="restore">Restore recovery</button><button id="dismiss-recovery">Dismiss</button></div>
 <div id="conflict" class="notice" hidden>The file changed outside this editor. Your edits are preserved. <button id="reload">Reload from disk</button><button id="conflict-copy">Save a separate copy</button></div>
-<main><aside class="palette"><h2>Artwork</h2><input id="search" type="search" placeholder="Search scenery…" aria-label="Search artwork"><select id="category" aria-label="Artwork category"><option value="all">All scenery</option><option value="prop">Upright scenery</option><option value="decal">Ground details</option></select><p class="hint">Drag a thumbnail into the scene, or select it and click the ground.</p><div id="assets"></div></aside>
-<section class="viewport"><div class="toolbar"><button id="undo">Undo</button><button id="redo">Redo</button><button id="duplicate">Duplicate</button><button id="delete">Delete</button><label><input id="grid" type="checkbox"> Grid &amp; snap</label><label><input id="hero-tool" type="checkbox"> Move hero</label><button id="fit">Fit scene</button><span id="live-badge" hidden>EDITING LIVE SCENE</span></div><canvas id="viewport" tabindex="0" aria-label="Scene composition"></canvas><div class="viewport-help">Drag to move · Right-drag to pan · Scroll to zoom · Esc to deselect</div><p id="status" role="status" aria-live="polite">Loading prepared artwork…</p></section>
-<aside class="inspector"><h2>Scene</h2><label>Lighting<select id="rig"><option value="golden">Golden hour</option><option value="silver">Silver hour</option></select></label><label>Look<select id="look"><option value="diorama">HD-2D diorama</option><option value="ink">Atmospheric ink</option><option value="cinematic">Dark cinematic</option></select></label><fieldset id="foundation"><legend>Flat foundation</legend><label>Ground<select id="floor"></select></label><label>Width<input id="width" type="number" min="2" max="100" step="1"></label><label>Depth<input id="depth" type="number" min="2" max="100" step="1"></label></fieldset><h2>Selected object</h2><p id="selected-name">Select an object</p><fieldset id="transform" disabled><label>X<input id="x" type="number" step=".1"></label><label>Z<input id="z" type="number" step=".1"></label><label>Height offset<input id="y" type="number" step=".1"></label><label>Size<input id="scale" type="number" min=".05" max="20" step=".05"></label><label id="rotation-label">Rotation (degrees)<input id="rotation" type="number" min="-360" max="360" step="5"></label><label><input id="mirror" type="checkbox"> Mirror</label></fieldset><h2>Objects</h2><p class="hint">Terrain, architecture, paths, and attached fixtures are locked.</p><div id="objects" role="list" aria-label="Scene objects"></div></aside></main>
-<dialog id="save-dialog"><form method="dialog"><h2>Save scene copy</h2><label>File name<input id="file-id" required pattern="[a-z](?:[a-z0-9]|-){0,63}" maxlength="64" placeholder="my-forest-scene"></label><p>Use lowercase letters, numbers and hyphens. Copies are authoring drafts.</p><div><button value="cancel">Cancel</button><button id="confirm-save" value="save">Save copy</button></div></form></dialog>`;
+<main><aside class="palette"><h2>Artwork</h2><input id="search" type="search" placeholder="Search scenery…" aria-label="Search artwork"><select id="category" aria-label="Artwork category"><option value="all">All artwork</option><option value="prop">Upright scenery</option><option value="animated">Animated artwork</option><option value="pickup">Pickups</option><option value="decal">Ground details</option><option value="character">Characters</option><option value="effect">Effects</option><option value="reference">References</option></select><p class="hint">Drag a thumbnail into the scene, or select it and click the ground.</p><div id="assets"></div></aside>
+<section class="viewport"><div class="toolbar"><button id="undo">Undo</button><button id="redo">Redo</button><button id="duplicate">Duplicate</button><button id="delete">Delete</button><label><input id="grid" type="checkbox"> Grid &amp; snap</label><label><input id="hero-tool" type="checkbox"> Move hero</label><button id="fit">Fit scene</button><button id="play-animation">Pause animations</button><button id="replay-animation">Replay animations</button><span id="live-badge" hidden>EDITING LIVE SCENE</span></div><canvas id="viewport" tabindex="0" aria-label="Scene composition"></canvas><div class="viewport-help">Drag to move · Right-drag to pan · Scroll to zoom · Esc to deselect</div><p id="status" role="status" aria-live="polite">Loading prepared artwork…</p></section>
+<aside class="inspector"><h2>Scene</h2><label>Lighting<select id="rig"><option value="golden">Golden hour</option><option value="silver">Silver hour</option></select></label><label>Look<select id="look"><option value="diorama">HD-2D diorama</option><option value="ink">Atmospheric ink</option><option value="cinematic">Dark cinematic</option></select></label><fieldset id="foundation"><legend>Flat foundation</legend><label>Ground<select id="floor"></select></label><label>Width<input id="width" type="number" min="2" max="100" step="1"></label><label>Depth<input id="depth" type="number" min="2" max="100" step="1"></label></fieldset><h2>Selected object</h2><p id="selected-name">Select an object</p><fieldset id="transform" disabled><label>Clip<select id="clip"></select></label><label>Facing<select id="heading"></select></label><label>X<input id="x" type="number" step=".1"></label><label>Z<input id="z" type="number" step=".1"></label><label>Height offset<input id="y" type="number" step=".1"></label><label>Size<input id="scale" type="number" min=".05" max="20" step=".05"></label><label id="rotation-label">Rotation (degrees)<input id="rotation" type="number" min="-360" max="360" step="5"></label><label><input id="mirror" type="checkbox"> Mirror</label></fieldset><h2>Objects</h2><p class="hint">Terrain, architecture, paths, and attached fixtures are locked.</p><div id="objects" role="list" aria-label="Scene objects"></div></aside></main>
+<dialog id="art-preview"><p id="art-preview-label"></p><canvas id="art-preview-canvas" width="960" height="720" style="max-width:100%;height:auto"></canvas><form method="dialog"><button>Close</button></form></dialog><dialog id="save-dialog"><form method="dialog"><h2>Save scene copy</h2><label>File name<input id="file-id" required pattern="[a-z](?:[a-z0-9]|-){0,63}" maxlength="64" placeholder="my-forest-scene"></label><p>Use lowercase letters, numbers and hyphens. Copies are authoring drafts.</p><div><button value="cancel">Cancel</button><button id="confirm-save" value="save">Save copy</button></div></form></dialog>`;
 const canvas = $<HTMLCanvasElement>('viewport');
 let runtime: AssetRuntime,
   view: EditorView,
@@ -34,7 +36,13 @@ let runtime: AssetRuntime,
   savedSnapshot = '',
   busy = true,
   ready = false;
-let palette: { asset: string; clip: string; kind: 'prop' | 'decal'; manifest: Manifest }[] = [],
+let assetCatalog: Readonly<Record<string, string>> = {};
+let palette: {
+    asset: string;
+    clip: string;
+    kind: PaletteKind | 'reference';
+    manifest: Manifest;
+  }[] = [],
   chosen: (typeof palette)[number] | undefined;
 let recoveryKey = '';
 const recoveryPrefix = 'lantern-scene-editor-recovery:' + location.origin + location.pathname + ':';
@@ -87,6 +95,37 @@ function controls() {
   for (const key of ['x', 'z', 'y', 'scale'] as const)
     $<HTMLInputElement>(key).value = p ? String(p[key] ?? (key === 'scale' ? 1 : 0)) : '';
   $<HTMLInputElement>('mirror').checked = !!p?.mirror;
+  const manifest = p ? palette.find((e) => e.asset === p.asset)?.manifest : undefined;
+  $<HTMLInputElement>('mirror').disabled =
+    manifest?.asset.mirroring === false ||
+    (manifest?.asset.type === 'character' && manifest.asset.mirroring !== true);
+  const clipSelect = $<HTMLSelectElement>('clip'),
+    headingSelect = $<HTMLSelectElement>('heading');
+  clipSelect.replaceChildren();
+  headingSelect.replaceChildren();
+  for (const clip of manifest ? paletteClips(manifest) : []) clipSelect.add(new Option(clip, clip));
+  if (p) clipSelect.value = p.clip;
+  for (const heading of Object.keys(manifest?.asset.clips[p?.clip ?? ''] ?? {}))
+    headingSelect.add(
+      new Option(
+        manifest?.asset.viewMode === 'fixed-authored'
+          ? 'Authored view'
+          : ((
+              {
+                d00: 'Down-left',
+                d45: 'Down',
+                d90: 'Down-right',
+                d135: 'Right',
+                d180: 'Up-right',
+                d225: 'Up',
+                d270: 'Up-left',
+                d315: 'Left',
+              } as Record<string, string>
+            )[heading] ?? heading),
+        heading,
+      ),
+    );
+  if (p) headingSelect.value = p.heading ?? 'd45';
   $<HTMLInputElement>('rotation').value = String(((p?.rotation ?? 0) * 180) / Math.PI);
   $('rotation-label').hidden = item?.kind !== 'decal';
   $<HTMLInputElement>('y').disabled = item?.kind === 'decal';
@@ -348,11 +387,32 @@ $('delete').onclick = () =>
     }
   });
 $('fit').onclick = fit;
+let animationPlaying = true;
+$('play-animation').onclick = () => {
+  animationPlaying = !animationPlaying;
+  view?.setAnimationPlaying(animationPlaying);
+  $('play-animation').textContent = animationPlaying ? 'Pause animations' : 'Play animations';
+};
+$('replay-animation').onclick = () => view?.replayAnimations();
+$('clip').onchange = () =>
+  void change((d) => {
+    const p = d.objects.find((p) => p.id === selected);
+    if (!p) return;
+    p.clip = $<HTMLSelectElement>('clip').value;
+    const m = palette.find((e) => e.asset === p.asset)!.manifest;
+    if (!m.asset.clips[p.clip]?.[p.heading ?? 'd45'])
+      p.heading = Object.keys(m.asset.clips[p.clip]!)[0] as NonNullable<typeof p.heading>;
+  });
+$('heading').onchange = () =>
+  void change((d) => {
+    const p = d.objects.find((p) => p.id === selected);
+    if (p) p.heading = $<HTMLSelectElement>('heading').value as NonNullable<typeof p.heading>;
+  });
 $('grid').onchange = () => view?.setGrid($<HTMLInputElement>('grid').checked);
 const images = new Map<string, Promise<HTMLImageElement>>();
 async function thumbnail(entry: (typeof palette)[number], target: HTMLCanvasElement) {
   const m = entry.manifest,
-    f = m.frames.find((f) => f.id === m.asset.clips[entry.clip]!.d45!.frames[0])!,
+    f = m.frames.find((f) => f.id === Object.values(m.asset.clips[entry.clip]!)[0]!.frames[0])!,
     page = m.pages.find((p) => p.id === f.page)!,
     src = '/' + assetCatalog[entry.asset]!.replace(/manifest\.json$/, page.path);
   let promise = images.get(src);
@@ -364,6 +424,7 @@ async function thumbnail(entry: (typeof palette)[number], target: HTMLCanvasElem
       image.src = src;
     });
     images.set(src, promise);
+    if (images.size > 48) images.delete(images.keys().next().value!);
   }
   const image = await promise;
   if (!target.isConnected) return;
@@ -402,8 +463,16 @@ function showPalette() {
     kind = $<HTMLSelectElement>('category').value;
   for (const [index, entry] of palette.entries())
     if (
-      (kind === 'all' || kind === entry.kind) &&
-      `${entry.asset} ${entry.clip}`.toLowerCase().includes(search)
+      (kind === 'all' ||
+        kind === entry.kind ||
+        (kind === 'pickup' && entry.manifest.asset.category === 'pickup') ||
+        (kind === 'animated' &&
+          Object.values(entry.manifest.asset.clips[entry.clip]!).some(
+            (c) => c && c.frames.length > 1,
+          ))) &&
+      `${entry.manifest.asset.label ?? ''} ${entry.asset} ${entry.clip}`
+        .toLowerCase()
+        .includes(search)
     ) {
       const button = document.createElement('button');
       button.className = 'asset';
@@ -415,15 +484,26 @@ function showPalette() {
       c.dataset.index = String(index);
       c.setAttribute('aria-hidden', 'true');
       const label = document.createElement('span');
-      label.textContent = entry.clip.replaceAll('_', ' ').replaceAll('-', ' ');
+      label.textContent = `${entry.manifest.asset.label ?? entry.asset} · ${entry.clip.replaceAll('_', ' ')} · ${entry.asset.startsWith('library-') ? 'TEST' : 'study'}`;
       button.append(c, label);
       button.onclick = () => {
+        if (entry.kind === 'reference') {
+          $('art-preview-label').textContent =
+            `${entry.manifest.asset.label ?? entry.asset} · Reference artwork; this projection cannot be placed in a scene.`;
+          $<HTMLDialogElement>('art-preview').showModal();
+          void thumbnail(entry, $<HTMLCanvasElement>('art-preview-canvas'));
+          return;
+        }
         chosen = entry;
         selected = undefined;
         controls();
         status('Click the ground to place ' + entry.clip + '.');
       };
       button.ondragstart = (e) => {
+        if (entry.kind === 'reference') {
+          e.preventDefault();
+          return;
+        }
         e.dataTransfer!.setData('application/x-lantern-asset', String(index));
         e.dataTransfer!.effectAllowed = 'copy';
       };
@@ -437,20 +517,26 @@ function snapped(n: number) {
   return $<HTMLInputElement>('grid').checked ? Math.round(n * 2) / 2 : n;
 }
 async function place(entry: (typeof palette)[number], x: number, y: number) {
+  if (entry.kind === 'reference') return;
   const point = view.ground(x, y);
   if (!point) return;
   await run(async () => {
     const id = 'object-' + crypto.randomUUID();
     history.change((d) =>
-      d.objects.push({
-        id,
-        kind: entry.kind,
-        asset: entry.asset,
-        clip: entry.clip,
-        x: snapped(point.x),
-        z: snapped(point.z),
-        scale: 1,
-      }),
+      d.objects.push(
+        applySceneryPreset({
+          id,
+          kind: entry.kind as PaletteKind,
+          asset: entry.asset,
+          clip: entry.clip,
+          heading: Object.keys(entry.manifest.asset.clips[entry.clip]!)[0] as NonNullable<
+            SceneDocument['objects'][number]['heading']
+          >,
+          x: snapped(point.x),
+          z: snapped(point.z),
+          scale: 1,
+        }),
+      ),
     );
     selected = id;
     chosen = undefined;
@@ -664,7 +750,9 @@ async function start() {
         document: parseSceneDocument(value.document),
         revision: value.revision,
         baseRevision: value.baseRevision,
-        savedSnapshot: value.savedSnapshot,
+        savedSnapshot: value.savedSnapshot
+          ? JSON.stringify(parseSceneDocument(JSON.parse(value.savedSnapshot)))
+          : '',
       };
       $('recovery').hidden = false;
     }
@@ -673,11 +761,12 @@ async function start() {
     $<HTMLButtonElement>('restore').disabled = true;
     status('Saved recovery could not be read; dismiss it explicitly to start a new scene.', true);
   }
+  assetCatalog = await authoringCatalog();
   runtime = await AssetRuntime.open(assetCatalog);
   view = new EditorView(canvas, runtime);
   const manifests = await Promise.all(Object.keys(assetCatalog).map((id) => runtime.manifest(id)));
   for (const m of manifests) {
-    const kind = paletteKind(m);
+    const kind = paletteKind(m) ?? (m.asset.placement === 'reference' ? 'reference' : undefined);
     if (kind)
       for (const clip of paletteClips(m))
         palette.push({ asset: m.asset.id, clip, kind, manifest: m });

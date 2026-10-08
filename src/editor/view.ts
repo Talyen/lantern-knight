@@ -4,13 +4,8 @@ import { ActorSprite } from '../presentation/sprite';
 import { resolveClip } from '../assets/schema';
 import { baseWorldVisuals, sceneAssets, resolveAuthoredScene } from '../content/world-art';
 import { validateSceneReferences, type SceneDocument } from '../content/scene-document';
-import {
-  ContentRegistry,
-  contentDefinitions,
-  content,
-  heightAt,
-  type AreaDefinition,
-} from '../content/world';
+import { ContentRegistry, heightAt, type AreaDefinition } from '../content/world';
+import { contentDefinitions, content } from '../content/game-content';
 import { GameSession } from '../core/session';
 import { EventHub } from '../core/events';
 import { outward } from '../core/camera';
@@ -24,7 +19,7 @@ class EditorPresentation extends GamePresentation {
     this.aim.visible = false;
     this.flare.visible = false;
     this.slash.visible = false;
-    for (const v of this.actors.values()) v.ring.visible = false;
+    for (const v of this.actorPresentation.actors.values()) v.ring.visible = false;
     this.viewTarget.copy(this.center);
     this.cameraTarget.copy(this.center);
     this.camera.position.copy(this.center).addScaledVector(outward, 30);
@@ -49,6 +44,16 @@ export class EditorView {
   private abort = new AbortController();
   private closed = false;
   private composition?: string;
+  private animationPlaying = true;
+  setAnimationPlaying(playing: boolean) {
+    this.animationPlaying = playing;
+    if (this.presentation?.roomPresentation.inkRoom)
+      this.presentation.roomPresentation.inkRoom.playing = playing;
+  }
+  replayAnimations() {
+    this.presentation?.roomPresentation.inkRoom?.replay();
+    this.render();
+  }
   constructor(
     readonly canvas: HTMLCanvasElement,
     readonly runtime: AssetRuntime,
@@ -59,7 +64,6 @@ export class EditorView {
     const composition = JSON.stringify({
       base: document.base,
       floor: document.floor,
-      changes: document.changes,
       objects: document.objects,
     });
     if (composition === this.composition && this.presentation && this.sim) {
@@ -168,7 +172,9 @@ export class EditorView {
           pack.release();
           this.packs.delete(id);
         }
+      await this.presentation.lookRenderer.prepare();
       this.composition = composition;
+      this.setAnimationPlaying(this.animationPlaying);
     } catch (error) {
       for (const p of acquired) {
         p.release();
@@ -212,7 +218,7 @@ export class EditorView {
     );
   }
   private sprites() {
-    return [...(this.presentation?.inkRoom?.sprites ?? []), ...this.proxies];
+    return [...(this.presentation?.roomPresentation.inkRoom?.sprites ?? []), ...this.proxies];
   }
   private opaque(s: ActorSprite, uv: T.Vector2) {
     const texture = s.material.map!;

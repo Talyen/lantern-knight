@@ -30,6 +30,10 @@
       "freshness": true
     },
     {
+      "file": "prepare-library.ts",
+      "freshness": true
+    },
+    {
       "file": "prepare-visual-effects.ts",
       "freshness": true
     },
@@ -82,7 +86,11 @@
     "src/assets/registration.ts",
     "tools/assets/payload.ts",
     "tools/assets/recipe.ts",
-    "tools/assets/archive.ts"
+    "tools/assets/archive.ts",
+    "assets/library-packs.json",
+    "assets/library-sources.json",
+    "tools/assets/library_import.py",
+    "tools/assets/authoring-catalog.ts"
   ],
   "dependencies": {
     "devDependencies": [

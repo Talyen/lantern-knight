@@ -1,0 +1,716 @@
+{
+  "schemaVersion": 1,
+  "referenceDensity": 256,
+  "packs": [
+    {
+      "group": "library-3d71c19402aa",
+      "archive": "CT01_acolyte_completion_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-222d09f41fe0",
+      "archive": "CT01_waxmask_acolyte_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-c625ca9179c1",
+      "archive": "Lantern_Candlebone_Oracle_Animations_Runtime_v01.zip",
+      "category": 2
+    },
+    {
+      "group": "library-5aa3532f7ef6",
+      "archive": "bellbound_monk_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-d9ed6e44207d",
+      "archive": "enemy_defeat_states_01_runtime_native.zip",
+      "category": 2
+    },
+    {
+      "group": "library-b0bc5a166dfa",
+      "archive": "halo_veil_cantor_camera_guided_v02_runtime_test.zip",
+      "category": 2
+    },
+    {
+      "group": "library-0e289a945ae6",
+      "archive": "halo_veil_cantor_compact_completion_v02_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-1d0e0ce01263",
+      "archive": "lantern_enemy_hit_recovery_runtime_v01.zip",
+      "category": 2
+    },
+    {
+      "group": "library-604cd56c4cd9",
+      "archive": "lantern_monk_crawler_awakenings_runtime_native_TEST_v01.zip",
+      "category": 2
+    },
+    {
+      "group": "library-4012fa323859",
+      "archive": "oracle_enemy_states_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-ae5d185dc4d7",
+      "archive": "shroud_crawler_runtime_native.zip",
+      "category": 2
+    },
+    {
+      "group": "library-8a60d163066d",
+      "archive": "ZB01_four_direction_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-066740d296aa",
+      "archive": "ZB01_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-535f93d44b76",
+      "archive": "ZB01_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-daf9b2421a7f",
+      "archive": "bell_bearing_pilgrim_DL_only_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-b4a4f199b98a",
+      "archive": "bell_bearing_pilgrim_DR_states_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-a513d9c19418",
+      "archive": "bell_bearing_pilgrim_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-bebff73cb82d",
+      "archive": "candle_procession_wraith_directions_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-9438dafc855f",
+      "archive": "candle_procession_wraith_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-eba9e2105384",
+      "archive": "candle_procession_wraith_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-f81f951d6435",
+      "archive": "censer_keeper_three_heading_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-8daabe99f3b3",
+      "archive": "censer_keeper_DR_states_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-233ebcd53673",
+      "archive": "censer_keeper_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-ee6379153361",
+      "archive": "clockwork_penitent_three_heading_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-15333961ce16",
+      "archive": "clockwork_penitent_DR_states_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-5e021cf52342",
+      "archive": "clockwork_penitent_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-4c5f5e6da0d1",
+      "archive": "CT01_Waxmask_Acolyte_DL_UL_UR_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-f4fd4d48ba73",
+      "archive": "Bellbound_Monk_Directional_Runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-cc1c4987ab25",
+      "archive": "CT04_Halo_Veil_Cantor_DL_UL_UR_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-3576c3616c42",
+      "archive": "SK03_Candlebone_Oracle_DL_UL_UR_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-c5bf4a5441d2",
+      "archive": "ZB04_Shroud_Crawler_DL_UL_UR_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-fab3bd4a0ab0",
+      "archive": "ZB02_four_direction_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-3b57aa086f7b",
+      "archive": "ZB02_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-56c92a9d46e4",
+      "archive": "ZB02_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-38491e7c7ccd",
+      "archive": "hovering_broken_mask_directions_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-27c7096d0e4f",
+      "archive": "hovering_broken_mask_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-ec19f319b4e2",
+      "archive": "hovering_broken_mask_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-b9b0c179e138",
+      "archive": "ironcap_fungus_direction_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-5113ad9d4eb3",
+      "archive": "ironcap_fungus_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-f4455796b7cb",
+      "archive": "ironcap_fungus_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-11d36b4a04d1",
+      "archive": "masked_cultist_three_heading_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-6d260d52cfc4",
+      "archive": "masked_cultist_DR_states_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-1abd3bbcb20c",
+      "archive": "masked_cultist_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-d5ecb15c693b",
+      "archive": "mossfang_scavenger_direction_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-838cf18f5ec3",
+      "archive": "mossfang_scavenger_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-b2b63d258573",
+      "archive": "mossfang_scavenger_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-bf9d85083720",
+      "archive": "mosswell_slime_direction_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-799128f1977e",
+      "archive": "mosswell_slime_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-715f1743b884",
+      "archive": "mosswell_slime_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-5d9076818871",
+      "archive": "moth_oracle_directions_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-01d99f7b65a4",
+      "archive": "moth_oracle_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-e408fd3f8a02",
+      "archive": "moth_oracle_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-27ddafb11299",
+      "archive": "mourning_moth_directions_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-006a5c1c1cb9",
+      "archive": "mourning_moth_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-c671fd72d5a6",
+      "archive": "mourning_moth_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-08a0f4323bd2",
+      "archive": "SK01_four_direction_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-31c4d66192a0",
+      "archive": "SK01_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-48a3dd38a323",
+      "archive": "SK01_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-974d4cec922d",
+      "archive": "root_entangled_stone_saint_UL_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-7d6d54892875",
+      "archive": "root_entangled_stone_saint_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-77b56b7f9df8",
+      "archive": "root_entangled_stone_saint_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-aa937813726a",
+      "archive": "SK02_four_direction_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-f4dc6f36e0d7",
+      "archive": "SK02_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-e080bba25830",
+      "archive": "SK02_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-f3f3e38d0cd8",
+      "archive": "ARCHER_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-25da39546b13",
+      "archive": "ARCHER_partial_extension_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-7606a5b02cc7",
+      "archive": "ARCHER_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-65d15d37a742",
+      "archive": "veil_wisp_directions_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-4793f6ee4103",
+      "archive": "veil_wisp_DR_hit_defeat_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-11b2180573f4",
+      "archive": "veil_wisp_runtime.zip",
+      "category": 2
+    },
+    {
+      "group": "library-51b25eda1368",
+      "archive": "Lantern_Clockwork_Beetle_Ink_Revision02_r02b.zip",
+      "category": 2
+    },
+    {
+      "group": "library-1b7969e4bfd8",
+      "archive": "Lantern_Shroud_Wisp_Ink_Revision02_r02a.zip",
+      "category": 2
+    },
+    {
+      "group": "library-402815739679",
+      "archive": "Lantern_Canal_Workshop_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-e7c80cccbe78",
+      "archive": "Lantern_Crypt_Entry_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-36b474f8dd38",
+      "archive": "Lantern_Distant_Backdrops_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-601e989cea00",
+      "archive": "Lantern_Floor_Features_Revision02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-bdbca3d0d9a1",
+      "archive": "Lantern_Ground_Surfaces_Decals_Revision02a.zip",
+      "category": 3
+    },
+    {
+      "group": "library-a1f8c2fcb18e",
+      "archive": "Lantern_Ground_Transitions_Revision02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-69a0426b5017",
+      "archive": "Lantern_Location_Concepts_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-28623f59089b",
+      "archive": "Lantern_Wall_Dressing_Revision02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-8c2fab9bbdb7",
+      "archive": "Lantern_volume_01_nature_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-fb9c653302ea",
+      "archive": "Lantern_volume_02_gothic_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-9bff87621cb7",
+      "archive": "Lantern_volume_03_occult_industrial_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-0114c615fe6c",
+      "archive": "Lantern_volume_04_terrain_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-d6c4491db6ac",
+      "archive": "Lantern_volume_06_town_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-664458898024",
+      "archive": "Lantern_volume_07_cave_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-1a07d5157b97",
+      "archive": "Lantern_volume_08_landmarks_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-af178dc77fba",
+      "archive": "Lantern_volume_09_dock_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-f0b9a9e29539",
+      "archive": "Lantern_volume_10_mine_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-2fc96af6f559",
+      "archive": "Lantern_volume_11_garden_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-33925044baef",
+      "archive": "Lantern_volume_12_crypt_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-5ac1fa60bd97",
+      "archive": "Lantern_volume_13_service_architecture_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-f2190d24a1e0",
+      "archive": "Lantern_volume_14_crossings_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-abb34109c2c8",
+      "archive": "Lantern_volume_15_tree_forms_CleanInk_v02a.zip",
+      "category": 3
+    },
+    {
+      "group": "library-878ba3dc4657",
+      "archive": "Lantern_volume_16_occult_landmarks_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-9d75dffd9606",
+      "archive": "Lantern_volume_17_small_buildings_CleanInk_v02.zip",
+      "category": 3
+    },
+    {
+      "group": "library-0d24b1717f62",
+      "archive": "Lantern_CrateSmash_Runtime.zip",
+      "category": 4
+    },
+    {
+      "group": "library-50a25b328fb2",
+      "archive": "Lantern_Containers01_CleanInk_r02a_COMPLETE.zip",
+      "category": 4
+    },
+    {
+      "group": "library-f14da9c28347",
+      "archive": "Lantern_Hazards05_CleanInk_r02a_COMPLETE.zip",
+      "category": 4
+    },
+    {
+      "group": "library-781a2f4fcfdb",
+      "archive": "Lantern_Illustrated_Occult_Material_v02.zip",
+      "category": 4
+    },
+    {
+      "group": "library-0fae6984d2e6",
+      "archive": "Lantern_Illustrated_Scenic_Mechanisms_v02a_part01of03.zip",
+      "category": 4
+    },
+    {
+      "group": "library-e662010f52f1",
+      "archive": "Lantern_Illustrated_Scenic_Mechanisms_v02a_part02of03.zip",
+      "category": 4
+    },
+    {
+      "group": "library-9659859cdfc6",
+      "archive": "Lantern_Illustrated_Scenic_Mechanisms_v02a_part03of03.zip",
+      "category": 4
+    },
+    {
+      "group": "library-28ee20a757c4",
+      "archive": "Lantern_Lighting03_CleanInk_r02a_COMPLETE.zip",
+      "category": 4
+    },
+    {
+      "group": "library-42a07b6cea1a",
+      "archive": "Lantern_Mechanisms02_CleanInk_r02a_COMPLETE.zip",
+      "category": 4
+    },
+    {
+      "group": "library-a72230dee4dd",
+      "archive": "Lantern_Revision02_guardpost_08_frozen.zip",
+      "category": 4
+    },
+    {
+      "group": "library-2d3feb591505",
+      "archive": "Lantern_Revision02_household_market_06_frozen.zip",
+      "category": 4
+    },
+    {
+      "group": "library-989076a328a9",
+      "archive": "Lantern_Revision02_ritual_study_04_frozen.zip",
+      "category": 4
+    },
+    {
+      "group": "library-c1d5cebbfd89",
+      "archive": "Lantern_Revision02_travel_camp_05_frozen.zip",
+      "category": 4
+    },
+    {
+      "group": "library-2b977634baf3",
+      "archive": "Lantern_Workshop04_Clean_Ink_Complete.zip",
+      "category": 4
+    },
+    {
+      "group": "library-f7bb83a658aa",
+      "archive": "Lantern_volume_05_furnishings_CleanInk_v02.zip",
+      "category": 4
+    },
+    {
+      "group": "library-0a904ce820ff",
+      "archive": "Lantern_Urn_Shatter_v01_Runtime.zip",
+      "category": 4
+    },
+    {
+      "group": "library-a2e65c3d0a05",
+      "archive": "Lantern_WatchLantern_Transitions_Runtime.zip",
+      "category": 4
+    },
+    {
+      "group": "library-62f66e2d1e53",
+      "archive": "waypoint_runtime.zip",
+      "category": 4
+    },
+    {
+      "group": "library-dda8b6feac94",
+      "archive": "Lantern_Contact_Effects_v01_Runtime.zip",
+      "category": 5
+    },
+    {
+      "group": "library-fe50df5794c2",
+      "archive": "Lantern_Interaction_Cues_v1_Assets.zip",
+      "category": 5
+    },
+    {
+      "group": "library-8c166e09907f",
+      "archive": "Lantern_Interaction_Cues_v1_Source_and_Review.zip",
+      "category": 5
+    },
+    {
+      "group": "library-cb35ce6e4357",
+      "archive": "Lantern_Motion_Combat_r02.zip",
+      "category": 5
+    },
+    {
+      "group": "library-f7a4ea33febb",
+      "archive": "Lantern_Motion_Environment_r02.zip",
+      "category": 5
+    },
+    {
+      "group": "library-5f9cb669dcfd",
+      "archive": "Lantern_Motion_FlareTreatments_r02.zip",
+      "category": 5
+    },
+    {
+      "group": "library-d090b2caf007",
+      "archive": "Lantern_Motion_Weather_r02.zip",
+      "category": 5
+    },
+    {
+      "group": "library-a76198035275",
+      "archive": "Lantern_Quiet_Ambient_Effects_v1.zip",
+      "category": 5
+    },
+    {
+      "group": "library-ad493ce515ae",
+      "archive": "lantern_status_runtime.zip",
+      "category": 5
+    },
+    {
+      "group": "library-adb77f37fcf4",
+      "archive": "lantern_generic_loot_runtime.zip",
+      "category": 6
+    },
+    {
+      "group": "library-ee27f3013530",
+      "archive": "Lantern_Alchemy_Tabletop_07_Revision_02.zip",
+      "category": 6
+    },
+    {
+      "group": "library-0b774652f8aa",
+      "archive": "Lantern_Equipment_Loot_01_Revision_02.zip",
+      "category": 6
+    },
+    {
+      "group": "library-9d2dd4e75d4c",
+      "archive": "Lantern_Resource_Pickups_03_Revision_02.zip",
+      "category": 6
+    },
+    {
+      "group": "library-795d73a94511",
+      "archive": "Lantern_Utility_Pickups_09_Revision_02.zip",
+      "category": 6
+    },
+    {
+      "group": "library-4d8d9f05f446",
+      "archive": "Lantern_World_Drop_Gear_02_Revision_02.zip",
+      "category": 6
+    },
+    {
+      "group": "library-5ab90768aa58",
+      "archive": "02_archetypes_06_ink_revision02.zip",
+      "category": 7
+    },
+    {
+      "group": "library-c45105066c1a",
+      "archive": "02_cave_creatures_09_ink_revision02.zip",
+      "category": 7
+    },
+    {
+      "group": "library-2ccc7eddd5ca",
+      "archive": "02_creatures_03_ink_revision02.zip",
+      "category": 7
+    },
+    {
+      "group": "library-d052fa1e6589",
+      "archive": "02_elites_05_ink_revision02.zip",
+      "category": 7
+    },
+    {
+      "group": "library-5690105dffb2",
+      "archive": "02_enemies_02_ink_revision02.zip",
+      "category": 7
+    },
+    {
+      "group": "library-2eb71d1428be",
+      "archive": "02_enemies_ink_revision02.zip",
+      "category": 7
+    },
+    {
+      "group": "library-7fe7d6ee5a7a",
+      "archive": "02_hostile_faction_07_ink_revision02.zip",
+      "category": 7
+    },
+    {
+      "group": "library-322cd74f612c",
+      "archive": "02_nonhumanoid_04_ink_revision02.zip",
+      "category": 7
+    },
+    {
+      "group": "library-a5241e107a8c",
+      "archive": "02_townsfolk_01_ink_revision02.zip",
+      "category": 7
+    },
+    {
+      "group": "library-1a7a1727d82f",
+      "archive": "02_uncanny_fauna_08_ink_revision02.zip",
+      "category": 7
+    },
+    {
+      "group": "library-e7b41fbd581a",
+      "archive": "lantern_town_keepers_02_Runtime.zip",
+      "category": 7
+    },
+    {
+      "group": "library-9b4ddff8ac7c",
+      "archive": "enemy_animation_handoff_20261007.zip",
+      "category": 0
+    },
+    {
+      "group": "library-f049482a2124",
+      "archive": "Lantern_Enemy_Overnight_2026-10-08_Integration_Handoff.zip",
+      "category": 0
+    }
+  ]
+}

@@ -1,15 +1,11 @@
 import * as T from 'three';
 import type { PackLease } from '../assets/loader';
 import type { WorldVisualDefinition } from '../content/world-art';
-import { graveyardScene } from '../content/graveyard-scene';
 import { clearing, pavingIslands } from '../content/graveyard-layout';
 
 // Every static ground detail shares one depth surface. Artwork is sampled at native density;
 // there are no soil/border/decal planes to fight for ownership as the camera moves.
-export function graveyardGroundMaterial(
-  packs: Map<string, PackLease>,
-  art: WorldVisualDefinition = graveyardScene,
-) {
+export function graveyardGroundMaterial(packs: Map<string, PackLease>, art: WorldVisualDefinition) {
   const materials = packs.get('ink-graveyard-materials')!,
     soil = packs.get('ink-soil')!,
     overlays = packs.get('ink-graveyard-overlays')!;

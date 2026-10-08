@@ -7,7 +7,8 @@ import { z } from 'zod';
 import { GameSession } from '../src/core/session';
 import { Persistence } from '../src/core/persistence';
 import { parseGame } from '../src/core/save';
-import { content, type ContentRegistry } from '../src/content/world';
+import { type ContentRegistry } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import { AssetCache } from './assets/cache';
 import { digest, sourceIdentity } from './source-identity';
 
@@ -132,7 +133,15 @@ export async function executeRecipe(
 }
 const identity = z
   .object({
-    identityVersion: z.literal(2).optional(),
+    identityVersion: z.union([z.literal(2), z.literal(3)]).optional(),
+    archiveRecipeSha256: z
+      .string()
+      .regex(/^[a-f0-9]{64}$/)
+      .optional(),
+    preparationRecipeSha256: z
+      .string()
+      .regex(/^[a-f0-9]{64}$/)
+      .optional(),
     commit: z.string().nullable(),
     dirty: z.boolean(),
     sha256: z.string().regex(/^[a-f0-9]{64}$/),
@@ -160,6 +169,29 @@ async function readJSON(file: string) {
   if ((await fs.stat(file)).size > 16 * 1024 * 1024) throw new Error('Replay input exceeds 16 MiB');
   return JSON.parse(await fs.readFile(file, 'utf8'));
 }
+export async function replayBundle(
+  input: unknown,
+  source: Awaited<ReturnType<typeof sourceIdentity>>,
+  options: { experiment?: boolean; node?: string; registry?: ContentRegistry } = {},
+) {
+  const bundle = BundleSchema.parse(input),
+    same =
+      bundle.schemaVersion === 2 &&
+      (bundle.source.identityVersion === 2 || bundle.source.identityVersion === 3) &&
+      source.sha256 === bundle.source.sha256 &&
+      source.assetSha256 === bundle.source.assetSha256 &&
+      (bundle.source.identityVersion === 2 ||
+        (source.archiveRecipeSha256 === bundle.source.archiveRecipeSha256 &&
+          source.preparationRecipeSha256 === bundle.source.preparationRecipeSha256)) &&
+      (options.node ?? process.version) === bundle.node;
+  if (!same && !options.experiment)
+    throw new Error(
+      'Replay source, asset pin or Node version differs; use --experiment to label a regression experiment',
+    );
+  const result = await executeRecipe(bundle.recipe, options.registry);
+  assert.deepEqual(result, bundle.result, 'recorded session diverged');
+  return { result, same };
+}
 async function main() {
   const [mode, file, ...options] = process.argv.slice(2),
     root = fileURLToPath(new URL('../', import.meta.url));
@@ -174,7 +206,8 @@ async function main() {
     source = await sourceIdentity(root);
   if (mode === 'record') {
     const recipe = RecipeSchema.parse(input);
-    if (recipe.initialSave !== undefined) recipe.initialSave = parseGame(recipe.initialSave);
+    if (recipe.initialSave !== undefined)
+      recipe.initialSave = parseGame(recipe.initialSave, content);
     const held = await new AssetCache().lease(
       'diagnostics-replay-' + randomUUID(),
       20 * 1024 * 1024,
@@ -208,22 +241,12 @@ async function main() {
       await held.release();
     }
   } else {
-    const bundle = BundleSchema.parse(input),
-      same =
-        bundle.schemaVersion === 2 &&
-        bundle.source.identityVersion === 2 &&
-        source.sha256 === bundle.source.sha256 &&
-        source.assetSha256 === bundle.source.assetSha256 &&
-        process.version === bundle.node;
-    if (!same && !options.includes('--experiment'))
-      throw new Error(
-        'Replay source, asset pin or Node version differs; use --experiment to label a regression experiment',
-      );
+    const { result, same } = await replayBundle(input, source, {
+      experiment: options.includes('--experiment'),
+    });
+    assert.deepEqual(await sourceIdentity(root), source, 'source changed while replaying');
     if (!same)
       console.log('REGRESSION EXPERIMENT: source, assets or Node differ from recorded evidence.');
-    const result = await executeRecipe(bundle.recipe);
-    assert.deepEqual(await sourceIdentity(root), source, 'source changed while replaying');
-    assert.deepEqual(result, bundle.result, 'recorded session diverged');
     console.log(
       `PASS: ${result.hashes.length} recorded actions matched in this fresh process; ${same ? 'matching source identity' : 'regression experiment'}.`,
     );

@@ -1,22 +1,18 @@
-import {
-  applySceneryPreset,
-  resolveFixtures,
-  SCENE_LIGHT_CAPACITY,
-  type ResolvedFixture,
-} from './scenery-presets';
+import { resolveFixtures, SCENE_LIGHT_CAPACITY, type ResolvedFixture } from './scenery-presets';
 import courtDocument from '../../authoring/scenes/live-court.json';
 import chapelDocument from '../../authoring/scenes/live-upper-landing.json';
 import { parseSceneDocument, resolveSceneDocument, type SceneDocument } from './scene-document';
 import type { AreaDefinition, PropDefinition, Bounds, Point } from './world';
 import type { WeatherState } from './visual-effects';
 import type { Manifest } from '../assets/schema';
-import { cryptScene } from './crypt-scene';
-import { graveyardScene } from './graveyard-scene';
+import { cryptFoundation } from './crypt-scene';
+import { graveyardFoundation } from './graveyard-scene';
 import { burialTerraces } from './graveyard-layout';
 import { cameraContract } from '../assets/camera-contract';
 type PlacementBase = {
   id: string;
   clip: string;
+  heading?: (typeof import('../core/camera').HEADINGS)[number];
   x: number;
   z: number;
   y?: number;
@@ -34,13 +30,7 @@ type PlacementBase = {
   assembly?: string;
   shadow?: 'contact' | 'cast' | 'none';
   wallFace?: string;
-  light?: {
-    offset: readonly [number, number, number];
-    power: number;
-    range: number;
-    phase: number;
-  };
-  flame?: { clip: string; phase: number };
+  fixture?: FixtureDefinition;
   emissive?: boolean;
   opacity?: number;
 };
@@ -82,15 +72,23 @@ export type BurialPlot = {
   marker?: 'gravestone' | 'memorial' | 'fallen-marker';
 };
 export type SiteLight = { x: number; z: number; radius: number; power: number };
-export type SiteFixture = {
+export type FixtureDefinition = {
   id: string;
-  prop: string;
   socket: readonly [number, number, number];
   power: number;
-  radius: number;
+  range: number;
   phase: number;
-  smoke?: boolean;
-  flameScale?: number;
+  smoke: boolean;
+  embersScale: number;
+  flame?: {
+    asset: string;
+    clip: string;
+    offset: readonly [number, number, number];
+    scale: number;
+    phase: number;
+    depthOffset: number;
+    decorative: boolean;
+  };
 };
 export type OverlapAllowance = {
   a: string;
@@ -150,7 +148,7 @@ export type WorldVisualDefinition = {
     };
   };
   assemblies: readonly SiteAssembly[];
-  fixtures?: readonly SiteFixture[];
+  propOrder?: readonly string[];
   resolvedFixtures?: readonly ResolvedFixture[];
   groundTiles?: { asset: string; min: number; tileSize: number; count: number };
   overlaps?: readonly OverlapAllowance[];
@@ -158,24 +156,25 @@ export type WorldVisualDefinition = {
 export const floorUV = (x: number, z: number): readonly [number, number] => [x / 4, -z / 4];
 export { graveHead } from './graveyard-scene';
 export const baseWorldVisuals: Readonly<Record<string, WorldVisualDefinition>> = {
-  court: graveyardScene,
-  'upper-landing': cryptScene,
+  court: graveyardFoundation,
+  'upper-landing': cryptFoundation,
 };
 export function resolveAuthoredScene(document: SceneDocument): WorldVisualDefinition {
   const art = resolveSceneDocument(document, baseWorldVisuals[document.base]);
-  const added = new Set(document.objects.map((p) => p.id));
-  const props = art.props.map((p) => (added.has(p.id) ? applySceneryPreset(p) : p));
-  const resolved = { ...art, props };
-  const resolvedFixtures = resolveFixtures(resolved);
+  const resolvedFixtures = resolveFixtures(art);
   if (resolvedFixtures.length > SCENE_LIGHT_CAPACITY)
     throw new Error('The scene already has three lights. Remove a light before adding another.');
   return {
-    ...resolved,
+    ...art,
     resolvedFixtures,
     proceduralAssets: [
       ...new Set([
         ...art.proceduralAssets,
-        ...(props.some((p) => p.flame?.clip === 'editor-lamp') ? ['ink-ambient', 'fx-embers'] : []),
+        ...resolvedFixtures.flatMap((f) => [
+          ...(f.flame ? [f.flame.asset] : []),
+          'fx-embers',
+          ...(f.smoke ? ['fx-smoke'] : []),
+        ]),
       ]),
     ],
   };
@@ -269,7 +268,7 @@ export function validateAreaArt(
       !p.purpose
     )
       throw new Error(`invalid art placement: ${p.id}`);
-    if (!pack(p.asset).asset.clips[p.clip]?.d45)
+    if (!pack(p.asset).asset.clips[p.clip]?.[p.heading ?? 'd45'])
       throw new Error(`required clip unavailable: ${p.clip}`);
   }
   for (const p of art.decals) {

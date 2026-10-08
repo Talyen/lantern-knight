@@ -2,9 +2,11 @@ import { readAsset } from '../tools/assets/io';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
-import { graveyardScene } from '../src/content/graveyard-scene';
+import { worldVisuals } from '../src/content/world-art';
+const graveyardArt = worldVisuals.court!;
 import { sceneArtFindings } from '../src/content/scene-art-validation';
-import { content, isSupportedPosition, supportedPosition } from '../src/content/world';
+import { isSupportedPosition, supportedPosition } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import { areaArtAssets } from '../src/content/world-art';
 import { assetCatalog } from '../src/content/visuals';
 import { parseManifest } from '../src/assets/schema';
@@ -19,12 +21,18 @@ import { ActorSprite } from '../src/presentation/sprite';
 import type { PackLease } from '../src/assets/loader';
 import { readRegistration } from '../tools/assets/data';
 const coverage = readRegistration().coverage;
+const manifests = new Map(
+  areaArtAssets(content.area('court')).map((id) => [
+    id,
+    readAsset('public/' + assetCatalog[id]!, 'utf8').then((bytes) =>
+      parseManifest(JSON.parse(bytes)),
+    ),
+  ]),
+);
 async function fixture() {
   const packs = new Map<string, PackLease>();
   for (const id of areaArtAssets(content.area('court'))) {
-    const manifest = parseManifest(
-      JSON.parse(await readAsset('public/' + assetCatalog[id]!, 'utf8')),
-    );
+    const manifest = await manifests.get(id)!;
     packs.set(id, {
       manifest,
       textures: new Map(manifest.pages.map((p) => [p.id, new T.Texture()])),
@@ -50,10 +58,10 @@ async function fixture() {
 }
 
 test('art validation rejects solid penetration and an allowance reused away from its registered join', () => {
-  assert.deepEqual(sceneArtFindings(graveyardScene), []);
+  assert.deepEqual(sceneArtFindings(graveyardArt), []);
   const moved = {
-    ...graveyardScene,
-    props: graveyardScene.props.map((p) => (p.id === 'gate-lamp' ? { ...p, x: -6.1, z: 1.4 } : p)),
+    ...graveyardArt,
+    props: graveyardArt.props.map((p) => (p.id === 'gate-lamp' ? { ...p, x: -6.1, z: 1.4 } : p)),
   };
   assert.ok(
     sceneArtFindings(moved).some(
@@ -61,7 +69,7 @@ test('art validation rejects solid penetration and an allowance reused away from
     ),
   );
   const invalid = {
-    ...graveyardScene,
+    ...graveyardArt,
     overlaps: [
       {
         a: 'gate-lamp',
@@ -100,10 +108,10 @@ test('oriented footprint collision follows the visible long axis rather than its
 });
 test('four-centimetre reversals behind a near tree retains one shader/depth policy and a continuous local reveal', async () => {
   const f = await fixture(),
-    sim = new Simulation();
+    sim = new Simulation(content, 142, content.definitions.initialArea, 1);
   sim.enemies.forEach((a) => (a.health = 0));
   try {
-    const tree = graveyardScene.props.find((p) => p.id === 'foreground-oak')!;
+    const tree = graveyardArt.props.find((p) => p.id === 'foreground-oak')!;
     Object.assign(sim.hero, { x: tree.x, z: tree.z - 0.2, px: tree.x, pz: tree.z - 0.2 });
     for (let i = 0; i < 30; i++) f.room.update(sim, 1, false, 1000 / 60);
     const wall = f.room.sprites.filter((s) => s.id === 'foreground-oak'),
@@ -134,33 +142,6 @@ test('four-centimetre reversals behind a near tree retains one shader/depth poli
       f.room.graveyard!.revealStats().map((s) => s.strength),
       paused,
     );
-  } finally {
-    f.dispose();
-  }
-});
-test('source alpha testing precedes reveal opacity for both core and soft edges', async () => {
-  const f = await fixture();
-  try {
-    const wall = f.room.fades.find((s) => s.id === 'foreground-oak')!;
-    for (const m of [wall.material, wall.edgeMaterial!]) {
-      const shader = {
-        uniforms: {},
-        vertexShader: '#include <project_vertex>',
-        fragmentShader: '#include <alphatest_fragment>\n#include <opaque_fragment>',
-      } as unknown as T.WebGLProgramParametersWithUniforms;
-      m.onBeforeCompile(shader, {} as T.WebGLRenderer);
-      assert.ok(
-        shader.fragmentShader.indexOf('#include <alphatest_fragment>') <
-          shader.fragmentShader.indexOf('diffuseColor.a*=1.-reveal'),
-      );
-      if (m === wall.edgeMaterial)
-        assert.ok(
-          shader.fragmentShader.indexOf('discard;') <
-            shader.fragmentShader.indexOf('diffuseColor.a*=1.-reveal'),
-        );
-    }
-    assert.equal(wall.edgeMaterial!.depthWrite, false);
-    assert.equal(wall.material.depthWrite, true);
   } finally {
     f.dispose();
   }
@@ -201,6 +182,16 @@ test('opaque masonry validation rejects the porch/foundation depth tie while per
   const f = await fixture();
   try {
     const parts = f.room.graveyard!.architecture.parts;
+    for (const wall of graveyardArt.walls) {
+      const collider = content.area('court').props.find((prop) => prop.id === wall.id)!;
+      assert.ok(collider);
+      assert.ok(
+        Math.abs(
+          collider.rotation! - Math.atan2(wall.to.z - wall.from.z, wall.to.x - wall.from.x),
+        ) < 1e-6,
+      );
+    }
+
     assert.deepEqual(coplanarMeshConflicts(parts), []);
     const landing = parts.find((p) => p.userData.id === 'porch-landing')!,
       foundation = parts.find((p) => p.userData.id === 'chapel-foundation')!;

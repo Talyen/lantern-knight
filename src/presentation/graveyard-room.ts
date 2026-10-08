@@ -4,7 +4,6 @@ import { ActorSprite } from './sprite';
 import { graveyardGroundMaterial } from './graveyard-ground';
 import { resolveClip } from '../assets/schema';
 import type { PackLease } from '../assets/loader';
-import { graveyardScene } from '../content/graveyard-scene';
 import type { WorldVisualDefinition } from '../content/world-art';
 import { ChurchyardArchitecture } from './churchyard-architecture';
 import { heightAt, type AreaDefinition } from '../content/world';
@@ -35,9 +34,9 @@ export class GraveyardRoom {
     private fades: ActorSprite[],
     private shadowTexture: T.Texture | undefined,
     private coverage: PreparedRegistration['coverage'],
-    private art: WorldVisualDefinition = graveyardScene,
+    private art: WorldVisualDefinition,
   ) {
-    this.architecture = new ChurchyardArchitecture(packs, group);
+    this.architecture = new ChurchyardArchitecture(packs, group, art);
   }
   private sprite(id: string, asset: string, clip: string) {
     const p = this.packs.get(asset);
@@ -56,6 +55,7 @@ export class GraveyardRoom {
     const art = this.art;
     this.architecture.build();
     for (const p of art.props) {
+      if (p.asset.startsWith('library-')) continue;
       const s = this.sprite(p.id, p.asset, p.clip),
         scale = p.scale ?? 1;
       s.show(

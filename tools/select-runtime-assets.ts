@@ -7,9 +7,13 @@ import { assetCatalog, gameAssetCatalog } from '../src/content/visuals';
 import { playgroundCatalog } from '../src/content/effects-playground-assets';
 import { parseManifest } from '../src/assets/schema';
 import { exactSource, hash } from './compiler';
+import { readAuthoringCatalog } from './assets/authoring-catalog';
+import { readGameCatalog } from './game-asset-catalog';
 const dev = process.argv.includes('--dev'),
   root = dev ? 'dist-dev' : 'dist',
-  catalog = dev ? { ...assetCatalog, ...playgroundCatalog } : gameAssetCatalog;
+  catalog = dev
+    ? { ...(await readAuthoringCatalog()), ...playgroundCatalog }
+    : await readGameCatalog();
 if (!dev) await fs.rm(path.join(root, 'dev-lighting'), { recursive: true, force: true });
 if (!dev) await fs.rm(path.join(root, 'dev-effects'), { recursive: true, force: true });
 const normals = JSON.parse((await exactSource('lighting/manifest.json', root)).toString());
@@ -30,7 +34,20 @@ await fs.writeFile(
   path.join(root, 'lighting/manifest.json'),
   JSON.stringify({ ...normals, entries: normalEntries }, null, 2) + '\n',
 );
-const keep = new Set<string>(dev ? ['generated/calibration.json'] : []);
+const keep = new Set<string>(
+  dev ? ['generated/calibration.json', 'generated/library/catalog.json'] : [],
+);
+if (!dev && Object.keys(catalog).some((id) => id.startsWith('library-'))) {
+  const library = Object.fromEntries(
+    Object.entries(catalog).filter(([id]) => id.startsWith('library-')),
+  );
+  await fs.mkdir(path.join(root, 'generated/library'), { recursive: true });
+  await fs.writeFile(
+    path.join(root, 'generated/library/catalog.json'),
+    JSON.stringify(library) + '\n',
+  );
+  keep.add('generated/library/catalog.json');
+}
 for (const file of Object.values(catalog)) {
   const m = parseManifest(JSON.parse((await exactSource(file, root)).toString()));
   keep.add(file);

@@ -1,4 +1,5 @@
 import * as T from 'three';
+import type { WorldVisualDefinition } from '../content/world-art';
 import type { PackLease } from '../assets/loader';
 import {
   chapelLayout,
@@ -17,6 +18,7 @@ export class ChurchyardArchitecture {
   constructor(
     private packs: Map<string, PackLease>,
     private group: T.Group,
+    private art: WorldVisualDefinition,
   ) {}
   private map(id: string, frameId?: string) {
     const p = this.packs.get(id)!;
@@ -309,7 +311,7 @@ export class ChurchyardArchitecture {
         bevelThickness: 0.04,
       });
       g.rotateX(-Math.PI / 2);
-      const topMat = graveyardGroundMaterial(this.packs);
+      const topMat = graveyardGroundMaterial(this.packs, this.art);
       topMat.depthWrite = true;
       this.owned.push(topMat);
       const mesh = this.part(`terrain-${t.id}`, g, topMat, new T.Vector3(0, -0.04, 0), 'ground');

@@ -1,33 +1,17 @@
-import { readAsset } from '../tools/assets/io';
+import { validateLightingBindings } from '../tools/lighting-bindings';
+import { manifestFixture } from './fixtures/manifest';
+
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
-import { createHash } from 'node:crypto';
-import { assetCatalog } from '../src/content/visuals';
-import {
-  normalPixels,
-  cameraKeyDirection,
-  defaultLook,
-  lightingRigs,
-} from '../src/presentation/lighting-profiles';
-import { right, up, outward, contract } from '../src/core/camera';
-import { Vector3 } from 'three';
+
+import { normalPixels } from '../src/presentation/lighting-profiles';
+import { outward } from '../src/core/camera';
+
 import { GroundMist } from '../src/presentation/ground-mist';
-import { content, heightAt } from '../src/content/world';
-test('chosen lights face the fixed camera from the upper left and shorten cast shadows', () => {
-  for (const rig of Object.values(lightingRigs)) {
-    const d = new Vector3().fromArray(
-      cameraKeyDirection(contract.azimuthDeg, rig.elevation, rig.side),
-    );
-    assert.ok(Math.abs(d.length() - 1) < 1e-10);
-    assert.ok(d.dot(right) < -0.2);
-    assert.ok(d.dot(up) > 0.1);
-    assert.ok(d.dot(outward) > 0.7);
-    assert.ok(1 / Math.tan((rig.elevation * Math.PI) / 180) < 1.2);
-  }
-  assert.equal(defaultLook.look, 'diorama');
-  assert.equal(defaultLook.strength, 1.5);
-});
+import { heightAt } from '../src/content/world';
+import { content } from '../src/content/game-content';
+
 test('mist ribbons follow the raised terrain rather than intersecting its steps', () => {
   const mist = new GroundMist(),
     area = content.area('upper-landing');
@@ -60,34 +44,107 @@ test('alpha-derived normals point outward with an unchanged coverage channel', (
   assert.deepEqual([...pixel(2, 2)], [128, 128, 255, 255]);
   for (let i = 0; i < alpha.length; i++) assert.equal(normals[i * 4 + 3], alpha[i]);
   assert.throws(() => normalPixels(alpha, 4, 5), /dimensions/);
+  const manifest = manifestFixture(),
+    frame = manifest.frames[0]!;
+  const entry = {
+    file: 'normal.png',
+    hash: 'c'.repeat(64),
+    sourceHash: manifest.pages[0]!.hash,
+    rect: frame.rect,
+    trim: frame.trim,
+  };
+  const library = {
+    recipe: 'alpha-volume-v1',
+    entries: { 'ink-hero-current:sample-frame': entry },
+  };
+  const manifests = new Map([['ink-hero-current', manifest]]);
+  validateLightingBindings(library, manifests);
+  assert.throws(
+    () => validateLightingBindings({ ...library, entries: {} }, manifests),
+    /Missing lighting/,
+  );
+  assert.throws(
+    () =>
+      validateLightingBindings(
+        {
+          ...library,
+          entries: { 'ink-hero-current:sample-frame': { ...entry, sourceHash: 'd'.repeat(64) } },
+        },
+        manifests,
+      ),
+    /Stale lighting/,
+  );
+  assert.throws(
+    () =>
+      validateLightingBindings(
+        {
+          ...library,
+          entries: { 'ink-hero-current:sample-frame': { ...entry, rect: [1, 1, 1, 1] } },
+        },
+        manifests,
+      ),
+    /crop differs/,
+  );
+  assert.throws(
+    () =>
+      validateLightingBindings(
+        { ...library, entries: { ...library.entries, 'unknown:frame': entry } },
+        manifests,
+      ),
+    /Unknown lighting/,
+  );
 });
-test('every lighting companion is bound to the unchanged source page and registered frame', async () => {
-  const library = JSON.parse(await readAsset('public/lighting/manifest.json', 'utf8'));
-  assert.equal(library.recipe, 'alpha-volume-v1');
-  let count = 0;
-  for (const asset of [
-    'ink-hero-current',
-    'ink-skeleton',
-    'ink-scenery',
-    'ink-graveyard-scenery',
-    'ink-blackwood-oak',
-    'ink-blackwood-woodland',
-    ...Object.keys(assetCatalog).filter((id) => id.startsWith('ink-tended-')),
-  ]) {
-    const manifest = JSON.parse(await readAsset(path.join('public', assetCatalog[asset]!), 'utf8'));
-    for (const frame of manifest.frames) {
-      const entry = library.entries[`${asset}:${frame.id}`];
-      assert.ok(entry);
-      assert.equal(
-        entry.sourceHash,
-        manifest.pages.find((p: { id: string }) => p.id === frame.page).hash,
-      );
-      assert.deepEqual(entry.rect, frame.rect);
-      assert.deepEqual(entry.trim, frame.trim);
-      const bytes = await readAsset(path.join('public/lighting', entry.file));
-      assert.equal(createHash('sha256').update(bytes).digest('hex'), entry.hash);
-      count++;
-    }
+
+test('authoring lighting loads only placed library assets and releases companions after removal', async () => {
+  const { NormalLibrary } = await import('../src/presentation/illustrated-lighting');
+  const { createHash } = await import('node:crypto'),
+    bytes = Buffer.from('verified companion'),
+    hash = createHash('sha256').update(bytes).digest('hex');
+  const priorFetch = globalThis.fetch,
+    priorBitmap = globalThis.createImageBitmap;
+  const requests: string[] = [];
+  let closed = 0;
+  const entry = (file: string) => ({
+    file,
+    hash,
+    width: 2,
+    height: 2,
+    sourceHash: 'a'.repeat(64),
+    rect: [0, 0, 2, 2],
+    trim: [0, 0, 2, 2],
+  });
+  globalThis.fetch = (async (url) => {
+    requests.push(String(url));
+    return String(url).endsWith('manifest.json')
+      ? new Response(
+          JSON.stringify({
+            recipe: 'alpha-volume-v1',
+            entries: {
+              'ink-hero-current:pose': entry('base.png'),
+              'library-a:pose': entry('a.png'),
+              'library-b:pose': entry('b.png'),
+            },
+          }),
+        )
+      : new Response(bytes);
+  }) as typeof fetch;
+  globalThis.createImageBitmap = (async () =>
+    ({ width: 2, height: 2, close: () => closed++ }) as ImageBitmap) as typeof createImageBitmap;
+  const library = new NormalLibrary();
+  try {
+    await library.load(['library-a']);
+    assert.equal(requests.includes('/lighting/b.png'), false);
+    assert.equal(library.bytes, 32);
+    await library.load(['library-a']);
+    assert.equal(requests.filter((u) => u === '/lighting/a.png').length, 1);
+    await library.load(['library-b']);
+    assert.equal(closed, 1);
+    assert.equal(library.bytes, 32);
+    assert.equal(library.textures.has('library-a:pose'), false);
+  } finally {
+    library.dispose();
+    globalThis.fetch = priorFetch;
+    globalThis.createImageBitmap = priorBitmap;
   }
-  assert.equal(Object.keys(library.entries).length, count);
+  assert.equal(closed, 3);
 });

@@ -23,6 +23,7 @@ export const phases = [
   'Effects smoke',
   'Graveyard scene',
   'Chapel scene',
+  'Scene editor',
 ] as const;
 export type Phase = (typeof phases)[number];
 export type ValidationPlan = {
@@ -59,6 +60,11 @@ export function selectValidation(
       ],
       phases: [...phases],
     };
+  if (changes.assets.some((id) => id.startsWith('library-'))) {
+    selected.add('Dev package');
+    selected.add('Scene editor');
+    reasons.push('Authoring library artwork');
+  }
   if (changes.assets.some((id) => Object.values(actorVisuals).some((v) => v.asset === id))) {
     selected.add('Game package');
     selected.add('Game smoke');
@@ -132,17 +138,20 @@ export async function candidateValidationPlan(
   let baseline: Awaited<ReturnType<typeof ensurePack>> | undefined;
   try {
     baseline = await ensurePack(await readLock());
-    const old = await validatePack(baseline.root, await readLock()),
+    const pin = await readLock();
+    const old = await validatePack(baseline.root, pin),
       next = await validatePack(candidate.payload, candidate.lock);
     const json = (root: string, file: string) =>
       fs.readFile(path.join(root, file), 'utf8').then(JSON.parse);
-    const beforeInputs = (await json(baseline.root, 'metadata/preparation-inputs.json')) as Record<
-        string,
-        string
-      >,
+    const beforeInputs = (
+        pin.schemaVersion === 2
+          ? pin.preparation.inputs
+          : await json(baseline.root, 'metadata/preparation-inputs.json')
+      ) as Record<string, string>,
       afterInputs = await recipeInputs();
     if (
-      createHash('sha256').update(JSON.stringify(beforeInputs)).digest('hex') !== old.recipeSha256
+      createHash('sha256').update(JSON.stringify(beforeInputs)).digest('hex') !==
+      (pin.schemaVersion === 2 ? pin.preparation.recipeSha256 : old.recipeSha256)
     )
       return selectValidation({ assets: [], unknown: true }, rooms);
     const changedInputs = [

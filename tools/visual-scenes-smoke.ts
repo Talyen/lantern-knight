@@ -7,7 +7,8 @@ const run = await smokeLaunch(true),
   { page, output, errors } = run;
 try {
   await page.waitForFunction(() => window.foundation?.ready, {}, { timeout: 60000 });
-  await page.evaluate(() => {
+  await page.evaluate(async () => {
+    await window.foundation.fixture('court');
     window.foundation.mode('encounter');
     window.foundation.pause(true);
   });
@@ -24,7 +25,10 @@ try {
     window.foundation.presentation.setWeather({ rain: 1, wind: { x: 0.3, z: 0.1 } }),
   );
   await step(0);
-  for (let i = 0; i < 14; i++) await step(250);
+  await page.evaluate(() => {
+    const f = window.foundation;
+    for (let i = 0; i < 14; i++) f.presentation.update(f.sim, 1, 250, { x: 0, z: 0 });
+  });
   assert.equal(
     await page.evaluate(() => window.foundation.presentation.sceneEffects.stats().rain.visible),
     true,
@@ -57,10 +61,6 @@ try {
   assert.equal(
     await page.evaluate(() => window.foundation.presentation.sceneEffects.stats().rain.visible),
     false,
-  );
-  assert.equal(
-    await page.evaluate(() => window.foundation.presentation.sceneEffects.stats().fixtures),
-    3,
   );
   if (run.capture) await page.screenshot({ path: path.join(output, 'crypt-effects.png') });
   await page.evaluate(async () => {

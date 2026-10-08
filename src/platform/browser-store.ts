@@ -1,3 +1,4 @@
+import { content } from '../content/game-content';
 import { parseGame, parseSettings, SAVE_LIMITS, type Bridge, type LoadResult } from '../core/save';
 export function createBrowserBridge(profile = 'game'): Bridge {
   const prefix = profile === 'game' ? 'lantern' : `lantern-dev-${profile}`;
@@ -12,13 +13,13 @@ export function createBrowserBridge(profile = 'game'): Bridge {
     },
     async loadGame() {
       if (profile === 'sandbox') return { status: 'empty' };
-      return read('game', parseGame, prefix);
+      return read('game', (v) => parseGame(v, content), prefix);
     },
     async saveGame(v) {
       if (profile === 'sandbox') throw new Error('Sandbox checkpoint writes denied');
-      const old = read('game', parseGame, prefix);
+      const old = read('game', (v) => parseGame(v, content), prefix);
       if (old.status === 'unreadable') throw new Error(old.message);
-      write('game', parseGame(v), prefix);
+      write('game', parseGame(v, content), prefix);
     },
   };
 }

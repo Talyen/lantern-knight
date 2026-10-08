@@ -9,6 +9,7 @@ import {
   type SceneDocument,
 } from '../src/content/scene-document';
 import { assetCatalog } from '../src/content/asset-catalog';
+import { readAuthoringCatalog } from './assets/authoring-catalog';
 import { parseManifest } from '../src/assets/schema';
 import { publicRoot } from './assets/paths';
 import type { Plugin } from 'vite';
@@ -105,6 +106,10 @@ export function sceneEditorPlugin(root: string): Plugin {
       'src/content/graveyard-layout.ts',
       'src/content/world-art.ts',
       'src/content/world.ts',
+      'src/content/game-content.ts',
+      'src/content/scenery-presets.ts',
+      'src/content/scene-v1.ts',
+      'src/content/scene-v1-baseline.json',
       'src/content/scene-document.ts',
       'src/assets/camera.json',
       'src/content/camera.json',
@@ -119,11 +124,14 @@ export function sceneEditorPlugin(root: string): Plugin {
   let initialRevision: Promise<string>;
   let loadBase: () => Promise<typeof import('../src/content/world-art')>;
   const store = new SceneStore(path.join(root, 'authoring/scenes'), async (d) => {
-    const ids = new Set([...d.objects.map((p) => p.asset), ...(d.floor ? [d.floor.asset] : [])]);
+    const ids = new Set([
+      ...d.objects.flatMap((p) => [p.asset, ...(p.fixture?.flame ? [p.fixture.flame.asset] : [])]),
+      ...(d.floor ? [d.floor.asset] : []),
+    ]);
     const manifests = new Map(
       await Promise.all(
         [...ids].map(async (id) => {
-          const file = assetCatalog[id];
+          const file = (await readAuthoringCatalog())[id];
           if (!file) throw new Error('Unknown prepared asset: ' + id);
           return [
             id,
