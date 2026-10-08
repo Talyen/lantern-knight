@@ -187,6 +187,7 @@ export const commands: Record<string, CommandDefinition> = {
   'assets:sources:check': leaf('tools/assets/library.py', false, ['check']),
   'assets:dedupe': leaf('tools/assets/library.py', false, ['dedupe']),
   'smoke:game': smoke('tools/game-smoke.ts'),
+  'smoke:desktop': { ...leaf('tools/desktop-smoke.ts', true), timeoutMs: 90000 },
   'smoke:sandbox': smoke('tools/churchyard-smoke.ts'),
   'smoke:animation': smoke('tools/animation-smoke.ts'),
   'smoke:art': smoke('tools/ink-art-smoke.ts'),
@@ -200,7 +201,7 @@ export const commands: Record<string, CommandDefinition> = {
   benchmark: leaf('tools/churchyard-smoke.ts', true, ['--benchmark']),
   'benchmark:game': leaf('tools/game-smoke.ts', true, ['--benchmark']),
 };
-commands.smoke = commands['smoke:game']!;
+commands.smoke = commands['smoke:desktop']!;
 commands['assets:publish'] = commands['assets:finalize']!;
 for (const host of ['mac', 'win'] as const)
   for (const dev of [false, true])

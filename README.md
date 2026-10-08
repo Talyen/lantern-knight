@@ -17,10 +17,10 @@ npm run build:verify
 npm run build:dev:verify
 npm run package:mac:prebuilt
 npm run package:dev:mac:prebuilt
-npm run smoke:game
-npm run smoke:sandbox -- --ci
-npm run smoke:crypt -- --quick
+npm run smoke
 ```
+
+Routine prototype CI runs the full regular suite, both builds, packaging and the short `smoke:desktop` integration journey. Long gameplay and rendering investigations are opt-in through the workflow's **exhaustive** manual-run input, or their individual smoke commands. The routine path targets a few minutes; exhaustive investigations are outside that budget.
 
 For visual scene composition, run `npm run scene:editor`. The [scene editor guide](docs/scene-editor.md) covers placement, drafts, live edits, saving and recovery.
 

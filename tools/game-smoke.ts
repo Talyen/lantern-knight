@@ -86,6 +86,27 @@ try {
   await page
     .locator('#render-scale')
     .selectOption(benchmark ? option('--render-scale', '1') : '0.5');
+  if (process.platform === 'win32' && !benchmark) {
+    const gaps = await page.evaluate(
+      () =>
+        new Promise<number[]>((resolve) => {
+          const sample = {
+            previous: 0,
+            gaps: [] as number[],
+            frame(now: number) {
+              if (sample.previous) sample.gaps.push(now - sample.previous);
+              sample.previous = now;
+              if (sample.gaps.length === 6) resolve(sample.gaps);
+              else requestAnimationFrame(sample.frame);
+            },
+          };
+          requestAnimationFrame(sample.frame);
+        }),
+    );
+    console.log(
+      `Game frame cadence: ${gaps.map((gap) => Math.round(gap)).join(', ')}ms; visible=${await app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0]!.isVisible())}.`,
+    );
+  }
   await markStage('pause-menu');
   const focused = () => page.evaluate(() => document.activeElement?.id);
   assert.equal(await focused(), 'resume');

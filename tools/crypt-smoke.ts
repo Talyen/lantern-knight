@@ -46,9 +46,9 @@ try {
       () => new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r()))),
     );
   };
-  const pose = async (x: number, z: number, span: number) =>
+  const pose = async (x: number, z: number, span: number, batch = true) =>
     page.evaluate(
-      ({ x, z, span }) => {
+      ({ x, z, span, batch }) => {
         const f = window.foundation,
           p = f.presentation,
           h = f.sim.hero;
@@ -58,9 +58,27 @@ try {
         f.sim.move(h, 0, 0);
         h.px = h.x;
         h.pz = h.z;
-        for (let i = 0; i < 20; i++) p.update(f.sim, 1, 1000 / 60, { x: 0, z: -6 });
+        const renderer = p.renderer,
+          composer = (p.lookRenderer as unknown as { composer: { render(ms: number): void } })
+            .composer,
+          render = renderer.render,
+          compose = composer.render,
+          suppressed = { render() {}, compose() {} };
+        // Keep every animation/effect update. Only the final image is observed;
+        // submitting the preceding 19 images wastes software-rasterizer work.
+        try {
+          if (batch) {
+            renderer.render = suppressed.render;
+            composer.render = suppressed.compose;
+          }
+          for (let i = 0; i < 19; i++) p.update(f.sim, 1, 1000 / 60, { x: 0, z: -6 });
+        } finally {
+          renderer.render = render;
+          composer.render = compose;
+        }
+        p.update(f.sim, 1, 1000 / 60, { x: 0, z: -6 });
       },
-      { x, z, span },
+      { x, z, span, batch },
     );
   const matrix = [];
   for (const [aspect, w, h] of process.argv.includes('--quick')
@@ -101,6 +119,42 @@ try {
         .screenshot({ path: path.join(output, `sanctuary-${name}.png`), scale: 'css' });
   }
   await resize(1280, 720);
+  const posePixels = async (batch: boolean) => {
+    await page.evaluate(async () => {
+      const f = window.foundation;
+      await f.fixture('upper-landing');
+      f.pause(true);
+      f.presentation.lookRenderer.time = 0;
+    });
+    await pose(0, 1, 9, batch);
+    return page.evaluate(() => {
+      const source = window.foundation.presentation.canvas,
+        copy = document.createElement('canvas');
+      copy.width = source.width;
+      copy.height = source.height;
+      copy.getContext('2d')!.drawImage(source, 0, 0);
+      return copy.toDataURL('image/png').split(',')[1]!;
+    });
+  };
+  const fullPose = await sharp(Buffer.from(await posePixels(false), 'base64'))
+      .raw()
+      .toBuffer(),
+    batchedPose = await sharp(Buffer.from(await posePixels(true), 'base64'))
+      .raw()
+      .toBuffer();
+  assert.equal(batchedPose.length, fullPose.length);
+  let poseDifference = 0;
+  for (let i = 0; i < fullPose.length; i++)
+    poseDifference = Math.max(poseDifference, Math.abs(fullPose[i]! - batchedPose[i]!));
+  assert.equal(
+    poseDifference,
+    0,
+    'Batched pose updates must preserve every pixel of the fully rendered control',
+  );
+  checks.push('batched pose submission preserves exact pixels of the full-render control');
+  console.log(
+    'Crypt pose updates: 20 state updates, one final submission; full-render pixels identical.',
+  );
   await pose(0, 1, 9);
   const stationary = await page.evaluate(() => {
     const f = window.foundation,
@@ -365,8 +419,13 @@ try {
   );
   const resource = [];
   for (let i = 0; i < 4; i++) {
-    await page.evaluate(() => window.foundation.fixture('upper-landing'));
-    await pose(0, 1, 9);
+    await page.evaluate(async () => {
+      await window.foundation.fixture('upper-landing');
+      window.foundation.pause(true);
+    });
+    // Exercise all intermediate allocations for the lifetime check, including
+    // transient geometry that is absent from the final composition sample.
+    await pose(0, 1, 9, false);
     resource.push(await page.evaluate(() => window.foundation.stats().objects));
   }
   assert.deepEqual(resource[3], resource[1]);

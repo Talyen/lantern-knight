@@ -83,7 +83,13 @@ async function launch(
         ...process.env,
         LANTERN_USER_DATA: profile,
         LANTERN_AUTOMATED_RUN: '1',
-        LANTERN_TEST_HIDDEN: process.argv.includes('--visible') ? '0' : '1',
+        // Hidden Windows windows can limit frame callbacks even with renderer
+        // background throttling disabled. CI has its own isolated desktop.
+        LANTERN_TEST_HIDDEN:
+          process.argv.includes('--visible') ||
+          (process.platform === 'win32' && process.env.CI === 'true')
+            ? '0'
+            : '1',
       },
       timeout: 30000,
     });
