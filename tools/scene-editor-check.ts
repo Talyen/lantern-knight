@@ -25,12 +25,14 @@ async function check() {
   let passed = false;
   const page = await browser.firstWindow(),
     errors: string[] = [],
+    expectedFailures = new Set<string>(),
     id = 'editor-check-' + randomUUID(),
     file = path.join(projectRoot, 'authoring/scenes', id + '.json');
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (message) => {
     if (
       message.type() === 'error' &&
+      !(expectedFailures.has(message.location().url) && message.text().includes('503')) &&
       !(message.location().url.includes('/__lantern_editor') && message.text().includes('409'))
     )
       errors.push(message.text());
@@ -132,11 +134,64 @@ async function check() {
         window.sceneEditor.state().document.objects.length === 1 &&
         !document.querySelector<HTMLButtonElement>('#save')!.disabled,
     );
+    const metadataResources = () =>
+      page.evaluate(() => {
+        const view = window.sceneEditor.view();
+        return {
+          generation: view.sim!.generation,
+          hero: view.presentation!.actors.get(view.sim!.hero.id)!.sprite.mesh.uuid,
+        };
+      });
+    const beforeMetadata = await metadataResources();
     await page.locator('#rig').selectOption('silver');
     await page.waitForFunction(
       () =>
         window.sceneEditor.state().document.look.rig === 'silver' &&
         !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    assert.deepEqual(
+      await metadataResources(),
+      beforeMetadata,
+      'Lighting-only edits should preserve the scene and actor resources',
+    );
+    const metadataTiming = await page.evaluate(async () => {
+      const view = window.sceneEditor.view(),
+        scene = structuredClone(window.sceneEditor.state().document),
+        canvas = document.createElement('canvas');
+      canvas.width = view.canvas.width;
+      canvas.height = view.canvas.height;
+      const context = canvas.getContext('2d')!,
+        samples = [];
+      let before: Uint8ClampedArray | undefined;
+      for (const rebuild of [true, false]) {
+        const generation = view.sim!.generation;
+        const start = performance.now();
+        for (let index = 0; index < 12; index++) {
+          if (rebuild) (view as unknown as { composition?: string }).composition = undefined;
+          await view.apply({
+            ...scene,
+            look: { ...scene.look, rig: index % 2 ? 'silver' : 'golden' },
+          });
+          view.setGrid(false);
+          view.render();
+        }
+        samples.push(performance.now() - start);
+        if (view.sim!.generation !== generation + (rebuild ? 12 : 0))
+          throw new Error('Metadata benchmark did not exercise its declared rebuild/reuse path');
+        context.drawImage(view.canvas, 0, 0);
+        const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+        if (before) {
+          let difference = 0;
+          for (let index = 0; index < pixels.length; index++)
+            difference = Math.max(difference, Math.abs(pixels[index]! - before[index]!));
+          if (difference)
+            throw new Error('Metadata resource reuse changed frozen pixels: ' + difference);
+        } else before = pixels;
+      }
+      return { rebuildMs: Math.round(samples[0]!), reuseMs: Math.round(samples[1]!) };
+    });
+    console.log(
+      `Metadata edits: 12 rebuilds ${metadataTiming.rebuildMs}ms; 12 reused updates ${metadataTiming.reuseMs}ms; frozen pixels identical.`,
     );
     await page.locator('#save-as').click();
     await page.locator('#file-id').fill(id);
@@ -148,6 +203,34 @@ async function check() {
     );
     const saved = await page.evaluate(() => window.sceneEditor.state().document);
     assert.deepEqual(JSON.parse(await fs.readFile(file, 'utf8')), saved);
+    await page.locator('#undo').click();
+    await page.waitForFunction(
+      () =>
+        window.sceneEditor.state().document.look.rig === 'golden' &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    assert.equal(await page.evaluate(() => window.sceneEditor.state().document.id), id);
+    assert.equal(await page.evaluate(() => window.sceneEditor.state().dirty), true);
+    await page.locator('#save').click();
+    await page.waitForFunction(
+      () =>
+        !window.sceneEditor.state().dirty &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    await page.locator('#redo').click();
+    await page.waitForFunction(
+      () =>
+        window.sceneEditor.state().document.look.rig === 'silver' &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    assert.equal(await page.evaluate(() => window.sceneEditor.state().document.id), id);
+    assert.equal(await page.evaluate(() => window.sceneEditor.state().dirty), true);
+    await page.locator('#save').click();
+    await page.waitForFunction(
+      () =>
+        !window.sceneEditor.state().dirty &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
     await page.locator('#objects button').first().click();
     await page.locator('#x').fill('3');
     await page.locator('#x').press('Tab');
@@ -156,6 +239,14 @@ async function check() {
         window.sceneEditor.state().document.objects[0]!.x === 3 &&
         !document.querySelector<HTMLButtonElement>('#save')!.disabled,
     );
+    await page.addInitScript(() => {
+      for (const key of Object.keys(localStorage))
+        if (key.startsWith('lantern-scene-editor-recovery:')) {
+          const recovery = JSON.parse(localStorage.getItem(key)!);
+          recovery.baseRevision = '0'.repeat(64);
+          localStorage.setItem(key, JSON.stringify(recovery));
+        }
+    });
     await page.reload();
     await page.waitForFunction(() => window.sceneEditor?.ready(), {}, { timeout: 45000 });
     await page.locator('#restore').click();
@@ -164,12 +255,83 @@ async function check() {
         window.sceneEditor.state().document.objects[0]?.x === 3 &&
         !document.querySelector<HTMLButtonElement>('#save')!.disabled,
     );
+    await page.locator('#save').click();
+    await page.waitForFunction(
+      () =>
+        !window.sceneEditor.state().dirty &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    assert.equal(
+      JSON.parse(await fs.readFile(file, 'utf8')).objects[0].x,
+      3,
+      'Recovery validated against current foundations must remain saveable after review',
+    );
     const external = { ...saved, name: 'Changed by an agent' };
     await fs.writeFile(file, JSON.stringify(external, null, 2) + '\n');
     await page.locator('#save').click();
     await page.locator('#conflict').waitFor({ state: 'visible' });
     assert.equal(JSON.parse(await fs.readFile(file, 'utf8')).name, external.name);
     assert.equal(await page.evaluate(() => window.sceneEditor.state().document.objects[0]!.x), 3);
+    const beforeFailedOpen = await page.evaluate(() => window.sceneEditor.state());
+    const failedURLs = new Set(
+      await page.evaluate(async () => {
+        const runtime = window.sceneEditor.view().runtime,
+          manifest = await runtime.manifest('ink-chapel-floor'),
+          file = runtime.catalog['ink-chapel-floor']!,
+          directory = '/' + file.slice(0, file.lastIndexOf('/') + 1);
+        return manifest.pages.map((page) => new URL(directory + page.path, location.origin).href);
+      }),
+    );
+    const failedAsset = (url: URL) => failedURLs.has(url.href);
+    await page.route(failedAsset, async (route) => {
+      expectedFailures.add(route.request().url());
+      await route.fulfill({ status: 503, body: 'Deliberate scene-loading failure' });
+    });
+    await page.locator('#scene').selectOption('copy-upper-landing');
+    await page.locator('#open').click();
+    await page.waitForFunction(
+      () =>
+        document.querySelector('#status')?.textContent?.includes('HTTP 503') &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    assert.ok(expectedFailures.size, 'The failed-open check must actually reject an asset load');
+    assert.deepEqual(
+      await page.evaluate(() => window.sceneEditor.state()),
+      beforeFailedOpen,
+      'A failed scene open must preserve the current document, revision and dirty state',
+    );
+    await page.unroute(failedAsset);
+    await page.evaluate(() => {
+      const view = window.sceneEditor.view(),
+        apply = view.apply;
+      view.apply = async () => {
+        view.apply = apply;
+        throw new Error('Deliberate preview failure');
+      };
+    });
+    await page.locator('#name').fill('Recovered before rendering');
+    await page.locator('#name').press('Tab');
+    await page.waitForFunction(
+      () =>
+        document.querySelector('#status')?.textContent === 'Deliberate preview failure' &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
+    assert.equal(
+      await page.evaluate(() => {
+        const key = Object.keys(localStorage).find((key) =>
+          key.startsWith('lantern-scene-editor-recovery:'),
+        )!;
+        return JSON.parse(localStorage.getItem(key)!).document.name;
+      }),
+      'Recovered before rendering',
+      'Accepted edits must reach recovery even if the preview fails',
+    );
+    await page.locator('#undo').click();
+    await page.waitForFunction(
+      () =>
+        window.sceneEditor.state().document.name === 'Untitled scene' &&
+        !document.querySelector<HTMLButtonElement>('#save')!.disabled,
+    );
     await page.locator('#scene').selectOption('copy-court');
     await page.locator('#open').click();
     await page.waitForFunction(

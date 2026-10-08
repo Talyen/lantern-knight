@@ -23,7 +23,6 @@ import { sceneArtFindings } from '../src/content/scene-art-validation';
 import { AssetCache } from './assets/cache';
 import { scenePreviewServer } from './scene-server';
 import { verificationIdentity, requireStableInputs } from './verification';
-import { runProcess } from './run-process';
 import { projectRoot } from './assets/paths';
 import type {} from '../src/inspection';
 

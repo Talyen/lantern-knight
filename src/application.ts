@@ -34,6 +34,7 @@ export class Application<P extends GamePresentation = GamePresentation> {
   private last = 0;
   private frames: FrameScheduler | undefined;
   private disposed = false;
+  private pauseSequence = 0;
   private aim = { x: 0, z: 1 };
   private assetLoads = new Map<string, Promise<void>>();
   private assertActive() {
@@ -194,6 +195,7 @@ export class Application<P extends GamePresentation = GamePresentation> {
     this.events.publish(events);
   }
   async replaceArea(area: string, commit: () => readonly GameplayEvent[]) {
+    this.assertActive();
     const request = ++this.request;
     this.abort.abort();
     const controller = new AbortController();
@@ -226,6 +228,7 @@ export class Application<P extends GamePresentation = GamePresentation> {
     }
   }
   pause(value: boolean) {
+    this.pauseSequence++;
     this.paused = value;
     this.clock.reset();
     this.input?.clear();
@@ -248,16 +251,39 @@ export class Application<P extends GamePresentation = GamePresentation> {
     }
   }
   async reset() {
+    const resume = this.resumeOnCompletion();
     await this.replaceArea(this.sim.area, () => this.session.resetCurrentArea());
-    this.pause(false);
+    resume();
   }
-  async restore(save: GameSave) {
+  private resumeOnCompletion() {
+    this.assertActive();
+    const sequence = this.pauseSequence;
+    return () => {
+      if (!this.disposed && sequence === this.pauseSequence && !this.frames?.idle)
+        this.pause(false);
+    };
+  }
+  private async restoreState(save: GameSave) {
     const valid = parseGame(save, this.registry);
     await this.replaceArea(valid.area, () => this.session.restoreSave(valid));
     this.persistence.loaded();
-    this.pause(false);
+  }
+  async restore(save: GameSave) {
+    const resume = this.resumeOnCompletion();
+    await this.restoreState(save);
+    resume();
+  }
+  async load() {
+    const resume = this.resumeOnCompletion(),
+      result = await this.persistence.load();
+    if (result.status === 'unreadable') throw new Error(result.message);
+    if (result.status === 'empty') return false;
+    await this.restoreState(result.data);
+    resume();
+    return true;
   }
   async newGame() {
+    const resume = this.resumeOnCompletion();
     await this.replaceArea(this.registry.definitions.initialArea, () => {
       this.session = new GameSession(
         this.registry,
@@ -269,7 +295,7 @@ export class Application<P extends GamePresentation = GamePresentation> {
     });
     this.persistence.confirmNew();
     if (!this.readOnly) await this.persistence.save(this.session.captureSave());
-    this.pause(false);
+    resume();
   }
   async saveSettings() {
     await this.bridge.saveSettings({

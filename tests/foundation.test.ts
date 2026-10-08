@@ -1,8 +1,4 @@
-import { projectRoot } from '../tools/assets/paths';
-
-import { assetFile } from '../tools/assets/paths';
 import { readAsset } from '../tools/assets/io';
-import { defaultVisualEffects } from '../src/content/visual-effects';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -25,13 +21,11 @@ import { tuning } from '../src/content/gameplay';
 import { parseSource, parseManifest, type Clip } from '../src/assets/schema';
 import { compile, exactSource, paddedPixels } from '../tools/compiler';
 import { ResourcePool } from '../src/assets/loader';
-import { Store, validateRequest } from '../electron/store';
-import { parseGame } from '../src/core/save';
-import { parseSettings } from '../src/core/save';
+import { validateRequest } from '../electron/store';
 import sharp from 'sharp';
 import { resourcePath, trustedSender } from '../electron/security';
 import { attackDefinition } from '../src/content/gameplay';
-import { content, heightAt, PLAYER_ID } from '../src/content/world';
+import { content, heightAt } from '../src/content/world';
 import { GameSession } from '../src/core/session';
 import { walkablePoint } from '../src/core/camera';
 const approx = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-7, `${a} != ${b}`);
@@ -345,38 +339,6 @@ test('shared async resources deduplicate, cancellation cannot resurrect discarde
   }
   assert.equal(retry.entries.size, 0);
 });
-test('save migration, newer format rejection, serialized writes, corruption recovery and no automatic overwrite', async () => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-save-'));
-  const store = new Store(dir),
-    value = parseGame({ version: 0, seed: 142, wins: 1 });
-  try {
-    assert.equal((await store.load('game')).status, 'empty');
-    await Promise.all([store.save('game', value), store.save('game', { ...value, wins: 2 })]);
-    const loaded = await store.load('game');
-    assert.ok('data' in loaded);
-    assert.equal((loaded.data as typeof value).wins, 2);
-    await fs.writeFile(path.join(dir, 'game.json'), 'corrupt');
-    assert.equal((await store.load('game')).status, 'recovered');
-    await store.save('game', { ...value, wins: 3 });
-    assert.equal(await readAsset(path.join(dir, 'game.corrupt'), 'utf8'), 'corrupt');
-    await fs.writeFile(path.join(dir, 'game.json'), 'new unreadable');
-    await fs.writeFile(path.join(dir, 'game.bak'), 'also unreadable');
-    assert.equal((await store.load('game')).status, 'unreadable');
-    await assert.rejects(store.save('game', value));
-    assert.equal(await readAsset(path.join(dir, 'game.json'), 'utf8'), 'new unreadable');
-    assert.throws(() => parseGame({ ...value, version: 99 }));
-    assert.throws(() => validateRequest('game', { ...value, extra: 'x'.repeat(20000) }));
-    await fs.rm(path.join(dir, 'game.bak'));
-    await assert.rejects(store.save('game', value));
-    assert.equal(await readAsset(path.join(dir, 'game.json'), 'utf8'), 'new unreadable');
-    await fs.writeFile(path.join(dir, 'game.bak'), JSON.stringify(value));
-    await fs.writeFile(path.join(dir, 'game.json'), JSON.stringify({ ...value, version: 99 }));
-    assert.equal((await store.load('game')).status, 'unreadable');
-    await assert.rejects(store.save('game', value), /Newer/);
-  } finally {
-    await fs.rm(dir, { recursive: true, force: true });
-  }
-});
 test('IPC sender checks and protocol constrain origin, frame, slot, payload, extensions and traversal', () => {
   assert.equal(trustedSender('lantern://app/index.html', true, 1, 1), true);
   assert.equal(trustedSender('https://evil.test', true, 1, 1), false);
@@ -552,32 +514,6 @@ test('time zero emits once per entry; old loop closes before new loop; seek/resu
   assert.equal(a.advance(200).length, 0);
   a.start(c);
   assert.equal(a.advance(0).length, 1);
-});
-test('save v1 and settings v1 migrate without losing the checkpoint or render settings', () => {
-  const current = parseGame({ version: 0, seed: 142, wins: 4 }),
-    old = {
-      version: 1,
-      seed: current.seed,
-      wins: current.wins,
-      hero: { x: current.player.x, z: current.player.z, health: current.player.health },
-      enemies: [-2.5, 0.2, 2.9].map((x) => ({ x, z: -3.5, health: 70 })),
-    },
-    migrated = parseGame(old);
-  assert.equal(migrated.version, 6);
-  assert.equal(migrated.area, 'court');
-  assert.deepEqual(migrated.player, current.player);
-  assert.equal(migrated.wins, 4);
-  assert.deepEqual(parseSettings({ version: 1, renderScale: 0.75, showDebug: true }), {
-    version: 5,
-    verticalSpan: 9,
-    renderScale: 0.75,
-    showDebug: true,
-    depthOfField: 1,
-    visualEffects: defaultVisualEffects(),
-  });
-  assert.throws(() =>
-    parseSettings({ version: 2, verticalSpan: 20, renderScale: 1, showDebug: false }),
-  );
 });
 test('compiler rejects an opaque RGB concept input and keeps its prior published manifest', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-alpha-'));

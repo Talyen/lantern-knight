@@ -2,7 +2,6 @@ import { readRegistration } from '../tools/assets/data';
 import { readAsset } from '../tools/assets/io';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
 import * as T from 'three';
 import { Simulation } from '../src/core/simulation';
 import { InkRoom } from '../src/presentation/ink-room';

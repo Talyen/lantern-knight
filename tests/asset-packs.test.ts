@@ -197,6 +197,10 @@ test('cache reservations evict unused data, protect active work and enforce the 
     await assert.rejects(fs.access(old.root));
     await assert.rejects(cache.lease('too-big', 9000), /budget/);
     await assert.rejects(next.reserve(6000), /protected/);
+    for (const bytes of [NaN, Infinity, -1, 1.5]) {
+      await assert.rejects(next.reserve(bytes), /reservation/);
+      await assert.rejects(cache.reserve('next', bytes), /reservation/);
+    }
     await assert.rejects(cache.lease('active', 0, true), /in use/);
     assert.ok((await cache.usage()) <= 8192);
     await cache.clean();
@@ -207,6 +211,86 @@ test('cache reservations evict unused data, protect active work and enforce the 
     await cache.clean();
     assert.ok((await diskBytes(root)) < 8192);
   } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+test('failed lease metadata writes preserve live reservations and do not wedge subsequent cache operations', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-lease-write-')),
+    cache = new AssetCache(root, 8192),
+    held = await cache.lease('active', 3000),
+    directory = path.join(held.root, '.leases'),
+    file = path.join(directory, (await fs.readdir(directory))[0]!),
+    before = await fs.readFile(file, 'utf8'),
+    write = fs.writeFile;
+  const failWrite = () => {
+    fs.writeFile = async (...args: Parameters<typeof fs.writeFile>) => {
+      if (String(args[0]).includes(path.sep + '.leases' + path.sep)) {
+        await write(args[0], '{"pid":');
+        throw new Error('disk full during lease write');
+      }
+      return write(...args);
+    };
+  };
+  try {
+    failWrite();
+    try {
+      await assert.rejects(held.reserve(4000), /disk full/);
+    } finally {
+      fs.writeFile = write;
+    }
+    assert.equal(await fs.readFile(file, 'utf8'), before);
+    await assert.rejects(cache.lease('cannot-fit', 6000), /protected/);
+    failWrite();
+    try {
+      await assert.rejects(cache.lease('failed'), /disk full/);
+    } finally {
+      fs.writeFile = write;
+    }
+    assert.ok((await cache.usage()) <= 8192);
+    await fs.writeFile(path.join(directory, 'abandoned.json.tmp'), '{"pid":');
+    assert.equal(await held.sole(), true);
+    await assert.rejects(fs.access(path.join(directory, 'abandoned.json.tmp')));
+    const peer = await cache.lease('active');
+    assert.equal(await held.sole(), false);
+    await peer.release();
+    const next = await cache.lease('next', 1000);
+    await next.release();
+  } finally {
+    fs.writeFile = write;
+    await held.release();
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+test('failed initial cache ownership publication leaves the directory recoverable and still rejects unrelated files', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-owner-write-')),
+    cache = new AssetCache(root, 8192),
+    write = fs.writeFile;
+  try {
+    fs.writeFile = async (...args: Parameters<typeof fs.writeFile>) => {
+      if (String(args[0]).includes('.cache-owner')) {
+        await write(args[0], '{"schemaVersion":');
+        throw new Error('disk full during owner write');
+      }
+      return write(...args);
+    };
+    try {
+      await assert.rejects(cache.lease('first'), /disk full/);
+    } finally {
+      fs.writeFile = write;
+    }
+    await assert.rejects(fs.access(path.join(root, '.cache-owner.json')));
+    await fs.writeFile(
+      path.join(root, '.cache-owner-aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa.tmp'),
+      '{',
+    );
+    await fs.writeFile(path.join(root, 'unrelated.txt'), 'preserve this');
+    await assert.rejects(cache.lease('next'), /unrelated/);
+    assert.equal(await fs.readFile(path.join(root, 'unrelated.txt'), 'utf8'), 'preserve this');
+    await fs.rm(path.join(root, 'unrelated.txt'));
+    const held = await cache.lease('next');
+    await held.release();
+  } finally {
+    fs.writeFile = write;
     await fs.rm(root, { recursive: true, force: true });
   }
 });

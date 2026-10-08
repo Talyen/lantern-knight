@@ -1,6 +1,6 @@
 # Runtime foundation
 
-`Application` owns boot, asset leases, input, pause, fixed-step scheduling and persistence. Game and Sandbox create their respective presentations through the same lifecycle. Disposal prevents late asynchronous acquisition or startup from reviving an application.
+`Application` owns boot, asset leases, input, pause, fixed-step scheduling and persistence. Game and Sandbox create their respective presentations through the same lifecycle. Session operations preserve pause requests made while reading or loading and resume only an unchanged foreground request. Disposal prevents late asynchronous acquisition or startup from reviving an application.
 
 `GameSession` owns transactional area transitions, visited encounter state, resets and save capture/restore. Simulation owns collision, supports, combat timing, health and cooldowns. Events carry immutable fixed-step values and generation-scoped lifetimes.
 
@@ -31,7 +31,7 @@ These recipes describe current owners, not new gameplay requirements. [Contribut
 1. Classify the field as checkpoint data, visual settings or transient session/presentation state. [Save schemas and parsing](../src/core/save.ts) own persisted shapes, defaults, versions and migration; decide whether a version bump is needed before changing them.
 2. Update [session capture/restore](../src/core/session.ts) and [Application](../src/application.ts) lifecycle wiring together with schemas and representative fixtures. If the transport changes, update the `Bridge` contract, browser adapter, Electron preload and [slot storage](../electron/store.ts) together.
 3. Preserve [write authorization and ordered snapshots](../src/core/persistence.ts), Player/Dev Preview/Sandbox isolation, and unreadable, unknown-content or newer checkpoint bytes. Loading and confirmed New Game authorize writes; presentation settings do not. A schema change must not silently reset an existing checkpoint.
-4. Exercise round-trip/default/migration behavior and consequential invalid-data cases with `npm test -- tests/systems.test.ts tests/foundation.test.ts`. Use the player smoke journey for a changed save/load interaction; distinguish automated storage evidence from a visible playtest.
+4. Exercise round-trip/default/migration behavior, write authorization, browser storage and file recovery with `npm test -- tests/persistence.test.ts`; this suite needs no artwork. Add `tests/systems.test.ts` for area transitions and session integration. Use the player smoke journey for a changed save/load interaction; distinguish automated storage evidence from a visible playtest.
 
 ### Add an area or enemy
 
@@ -51,7 +51,7 @@ These recipes describe current owners, not new gameplay requirements. [Contribut
 1. Keep player UI in [game UI](../src/game-ui.ts), lifecycle and accepted operations in [Application](../src/application.ts), and gameplay input in [Input](../src/core/input.ts). Keep player and Dev Preview behavior aligned; developer-only controls stay in Sandbox. Reuse native buttons, labels, selects and ranges rather than introducing a second UI framework.
 2. For pause and confirmation polish, move focus to a visible eligible control when opening, contain focus in the active panel and restore it to the opener or game canvas on close. Escape dismisses the top choice first; underlying gameplay must not receive confirmation/menu input. Native select/text behavior takes precedence. Held confirmation keys must not activate a newly revealed action; movement keys retain their intended repeat/hold semantics.
 3. Give unavailable actions an inspectable reason. Acknowledge asynchronous operations, block duplicate activation while pending, and report success only after the operation succeeds. Preserve checkpoint authorization and the [player feedback](game-design.md#player-action-feedback) contract. Closing or replacing a panel must prevent late work from refocusing it.
-4. Verify the changed flow in the packaged player smoke journey: keyboard and pointer activation, nested confirmation cancellation, focus return, held keys, pending/failure states and save protection. Add only coverage that exposes a consequential failure. These are implementation acceptance rules for upcoming UI polish; the current pause panel does not yet establish focus containment/restoration or a complete Escape stack. New gamepad mapping and broader accessibility features need their own product design.
+4. Verify the changed flow in the packaged player smoke journey: keyboard and pointer activation, nested confirmation cancellation, focus return, held keys, pending/failure states and save protection. Add only coverage that exposes a consequential failure. Native dialogs own focus containment/restoration and the pause menu dismisses New Game confirmation before resuming on Escape. Checkpoint operations share pending-state protection. New gamepad mapping and broader accessibility features need their own product design.
 
 ### Introduce audio
 

@@ -3,12 +3,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   defaultVisualEffects,
-  visualEffectLabels,
   dryWeather,
   normalizeWeather,
   lightFlicker,
 } from '../src/content/visual-effects';
-import { parseSettings } from '../src/core/save';
 import {
   rainEvent,
   RainSchedule,
@@ -20,49 +18,111 @@ import {
 import { inPuddle } from '../src/presentation/playground-surfaces';
 import { FoliageWind } from '../src/presentation/foliage-wind';
 import { ActorSprite } from '../src/presentation/sprite';
-import { MeshDepthMaterial, MeshBasicMaterial, Texture, WebGLRenderer } from 'three';
+import { SurfaceRelief } from '../src/presentation/surface-relief';
+import { IllustratedLighting } from '../src/presentation/illustrated-lighting';
+import { graveyardGroundMaterial } from '../src/presentation/graveyard-ground';
+import { assetCatalog } from '../src/content/asset-catalog';
+import { worldVisuals } from '../src/content/world-art';
+import type { PackLease } from '../src/assets/loader';
+import { ShaderLib, MeshDepthMaterial, MeshBasicMaterial, Texture, WebGLRenderer } from 'three';
 import fs from 'node:fs';
 import type { Manifest } from '../src/assets/schema';
 
-test('approved preferences migrate independently from camera, DOF and checkpoints', () => {
-  assert.equal(Object.keys(visualEffectLabels).length, 9);
-  assert.ok(Object.values(defaultVisualEffects()).every(Boolean));
-  for (const legacy of [
-    { version: 1, renderScale: 0.75, showDebug: true },
-    { version: 2, verticalSpan: 13, renderScale: 0.75, showDebug: true },
-    { version: 3, verticalSpan: 15, renderScale: 1, showDebug: false, depthOfField: 0.4 },
-    { version: 4, verticalSpan: 11, renderScale: 0.5, showDebug: true, depthOfField: 0 },
-  ]) {
-    const result = parseSettings(legacy);
-    assert.equal(result.version, 5);
-    assert.equal(result.renderScale, legacy.renderScale);
-    assert.equal(result.showDebug, legacy.showDebug);
-    assert.deepEqual(result.visualEffects, defaultVisualEffects());
-    if ('depthOfField' in legacy) assert.equal(result.depthOfField, legacy.depthOfField);
-  }
-  const current = parseSettings({
-    version: 4,
-    verticalSpan: 9,
-    renderScale: 1,
-    showDebug: false,
-    depthOfField: 0,
+test('the production graveyard shader uses its authored surface companion without loading obsolete surfaces', async () => {
+  const request = globalThis.fetch,
+    decode = Object.getOwnPropertyDescriptor(globalThis, 'createImageBitmap'),
+    surfaces = new SurfaceRelief(),
+    lighting = new IllustratedLighting();
+  const packs = new Map<string, PackLease>(
+    ['ink-graveyard-materials', 'ink-soil', 'ink-graveyard-overlays'].map((id) => {
+      const manifest = JSON.parse(
+        fs.readFileSync(assetFile('public/' + assetCatalog[id]), 'utf8'),
+      ) as Manifest;
+      return [
+        id,
+        {
+          manifest,
+          textures: new Map(manifest.pages.map((page) => [page.id, new Texture()])),
+          release() {},
+        },
+      ];
+    }),
+  );
+  const manifest = packs.get('ink-graveyard-materials')!.manifest,
+    frame = manifest.frames.find((f) => f.id === 'apron')!,
+    page = manifest.pages.find((p) => p.id === frame.page)!;
+  globalThis.fetch = async (url) => {
+    if (String(url).endsWith('.json'))
+      return new Response(
+        JSON.stringify({
+          recipe: 'hand-authored-stone-height-v1',
+          entries: {
+            apron: {
+              asset: 'ink-graveyard-materials',
+              frame: 'apron',
+              pageHash: page.hash,
+              file: 'apron.png',
+              width: 1,
+              height: 1,
+              hash: 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad',
+            },
+            crypt: { file: 'obsolete.png' },
+            paving: { file: 'obsolete.png' },
+          },
+        }),
+      );
+    assert.equal(
+      String(url),
+      '/visual-effects/apron.png',
+      'Unused companions must not block the current scene',
+    );
+    return new Response('abc');
+  };
+  Object.defineProperty(globalThis, 'createImageBitmap', {
+    configurable: true,
+    value: async () => ({ width: 1, height: 1, close() {} }),
   });
-  current.visualEffects.rain = false;
-  current.visualEffects.bloom = false;
-  assert.deepEqual(parseSettings(current), current);
-  assert.throws(() =>
-    parseSettings({ ...current, visualEffects: { ...current.visualEffects, outlines: true } }),
-  );
-  assert.throws(() =>
-    parseSettings({ ...current, visualEffects: { ...current.visualEffects, bloom: 1 } }),
-  );
+  let material: MeshBasicMaterial | undefined;
+  try {
+    await surfaces.load(packs);
+    material = graveyardGroundMaterial(packs, worldVisuals.court!);
+    lighting.attach(material, true);
+    surfaces.attach(material);
+    const program = {
+      vertexShader: ShaderLib.basic.vertexShader,
+      fragmentShader: ShaderLib.basic.fragmentShader,
+      uniforms: {} as Record<string, { value: unknown }>,
+    };
+    material.onBeforeCompile(program as never, {} as WebGLRenderer);
+    const weight = program.fragmentShader.match(/fxSurfaceWeight=(?!0\.)[^;]+;/)?.[0];
+    assert.ok(weight, 'Ground normals must not be multiplied by an unchanged zero weight');
+    assert.ok(
+      program.fragmentShader.indexOf(weight) <
+        program.fragmentShader.indexOf('outgoingLight=inkIlluminate'),
+    );
+    surfaces.update(defaultVisualEffects());
+    assert.equal(program.uniforms.surfaceNormals!.value, 1);
+    surfaces.update({ ...defaultVisualEffects(), surfaceDepth: false });
+    assert.equal(program.uniforms.surfaceNormals!.value, 0);
+    assert.equal(program.uniforms.surfaceRelief!.value, 1);
+  } finally {
+    material?.dispose();
+    surfaces.dispose();
+    lighting.dispose();
+    for (const pack of packs.values())
+      for (const texture of pack.textures.values()) texture.dispose();
+    globalThis.fetch = request;
+    if (decode) Object.defineProperty(globalThis, 'createImageBitmap', decode);
+    else Reflect.deleteProperty(globalThis, 'createImageBitmap');
+  }
+});
+test('a seeded drop owns an invariant endpoint and triggers its splash at impact', () => {
   assert.equal(dryWeather().rain, 0);
   assert.deepEqual(normalizeWeather({ rain: NaN, wind: { x: Infinity, z: 4 } }), {
     rain: 0,
     wind: { x: 0, z: 3 },
   });
-});
-test('a seeded drop owns an invariant endpoint and triggers its splash at impact', () => {
+
   const bounds = { minX: -5, maxX: 5, minZ: -4, maxZ: 4 },
     weather = { rain: 1, wind: { x: 1, z: -0.5 } };
   for (let slot = 0; slot < RAIN_SLOTS; slot++) {

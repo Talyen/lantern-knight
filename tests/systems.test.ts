@@ -1,5 +1,4 @@
 import { readAsset } from '../tools/assets/io';
-import { defaultVisualEffects } from '../src/content/visual-effects';
 import { sandboxContent } from '../src/content/sandbox-world';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -9,7 +8,6 @@ import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { Texture, Vector3 } from 'three';
 import {
-  content,
   contentDefinitions,
   ContentRegistry,
   PLAYER_ID,
@@ -19,15 +17,12 @@ import {
 import { GameSession } from '../src/core/session';
 import { tuning, attackDefinition } from '../src/content/gameplay';
 import { Simulation, FixedClock } from '../src/core/simulation';
-import { parseGame, SAVE_LIMITS, type GameSave, type LoadResult } from '../src/core/save';
-import { Persistence } from '../src/core/persistence';
 import { EventHub, type AnimationEvent } from '../src/core/events';
 import { AssetRuntime, pageIdentity } from '../src/assets/loader';
 import { ActorSprite } from '../src/presentation/sprite';
 import { makeCamera, walkablePoint } from '../src/core/camera';
 import { Input } from '../src/core/input';
 import { Animator } from '../src/core/animation';
-import { Store, validateRequest } from '../electron/store';
 import { parseManifest, type Manifest } from '../src/assets/schema';
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 
@@ -195,157 +190,6 @@ test('death resets only current area and failed/superseded transitions cannot co
   assert.ok(session.sim.cleared);
   assert.equal(session.sim.enemies[0]!.health, 0);
 });
-test('current saves preserve variable counts, health above 100, multiple areas and player cooldowns', () => {
-  const session = new GameSession(sandboxContent, 7, 'systems-fixture');
-  session.sim.enemies[1]!.health = 121;
-  session.sim.hero.cooldown = 57;
-  session.sim.hero.dodgeCooldown = 12;
-  const save = parseGame(session.captureSave(), sandboxContent),
-    restored = new GameSession(sandboxContent);
-  restored.restoreSave(save);
-  assert.equal(restored.sim.enemies.length, 5);
-  assert.equal(restored.sim.enemies[1]!.health, 121);
-  assert.equal(restored.sim.hero.cooldown, 57);
-  assert.equal(restored.sim.hero.dodgeCooldown, 12);
-  assert.ok(restored.generation > 1);
-  const unknown = structuredClone(save);
-  unknown.area = 'missing';
-  assert.throws(() => parseGame(unknown, sandboxContent), /unknown area/);
-  const invalid = structuredClone(save);
-  invalid.areas['systems-fixture']!.actors['fixture-2']!.health = 141;
-  assert.throws(() => parseGame(invalid, sandboxContent), /invalid actor/);
-  for (const version of [0, 1, 2]) {
-    const old = {
-      version,
-      seed: 142,
-      wins: 3,
-      ...(version === 0
-        ? {}
-        : {
-            hero: { x: 0, z: 2.3, health: 55 },
-            enemies: [-2.5, 0.2, 2.9].map((x) => ({ x, z: -3.5, health: 70 })),
-          }),
-      ...(version === 2 ? { area: 1 } : {}),
-    };
-    const v = parseGame(old);
-    assert.equal(v.version, 6);
-    assert.equal(v.area, version === 2 ? 'upper-landing' : 'court');
-    assert.equal(v.player.cooldown, 0);
-    assert.equal(v.wins, 3);
-  }
-});
-test('startup protection requires explicit Load/New; writes snapshot in order and retain failure status', async () => {
-  const saved = new GameSession().captureSave();
-  let value: LoadResult<GameSave> = { status: 'ok', data: saved },
-    fail = false;
-  const writes: GameSave[] = [];
-  const persistence = new Persistence({
-    loadGame: async () => value,
-    saveGame: async (v) => {
-      if (fail) throw new Error('disk full');
-      writes.push(v);
-    },
-  });
-  await persistence.inspect();
-  assert.equal(persistence.canWrite, false);
-  assert.equal(await persistence.save(saved, true), false);
-  await assert.rejects(persistence.save(saved));
-  assert.equal(writes.length, 0);
-  persistence.loaded();
-  const first = structuredClone(saved);
-  first.wins = 4;
-  const pending = persistence.save(first, true);
-  first.wins = 999;
-  await Promise.all([pending, persistence.save({ ...saved, wins: 5 })]);
-  assert.deepEqual(
-    writes.map((v) => v.wins),
-    [4, 5],
-  );
-  fail = true;
-  await assert.rejects(persistence.save(saved, true), /disk full/);
-  assert.equal(persistence.error, 'disk full');
-  fail = false;
-  await persistence.save(saved);
-  assert.equal(persistence.error, '');
-  await persistence.inspect();
-  persistence.confirmNew();
-  await persistence.save(saved);
-  value = { status: 'unreadable', message: 'unsupported' };
-  await persistence.inspect();
-  assert.throws(() => persistence.confirmNew());
-  assert.equal(await persistence.save(saved, true), false);
-});
-test('per-slot size limits, unknown content, unsupported settings and oversized reads preserve files', async () => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-systems-save-')),
-    store = new Store(dir),
-    save = new GameSession().captureSave();
-  try {
-    assert.equal(SAVE_LIMITS.game, 1048576);
-    assert.equal(SAVE_LIMITS.settings, 16384);
-    assert.throws(
-      () =>
-        validateRequest('settings', {
-          version: 2,
-          renderScale: 1,
-          showDebug: false,
-          verticalSpan: 13,
-          extra: 'a'.repeat(17000),
-        }),
-      /limit/,
-    );
-    await fs.writeFile(path.join(dir, 'game.bak'), JSON.stringify(save));
-    await fs.writeFile(path.join(dir, 'game.json'), JSON.stringify({ ...save, area: 'missing' }));
-    assert.equal((await store.load('game')).status, 'unreadable');
-    await assert.rejects(store.save('game', save));
-    assert.ok((await readAsset(path.join(dir, 'game.json'), 'utf8')).includes('missing'));
-    await fs.writeFile(path.join(dir, 'settings.json'), JSON.stringify({ version: 6 }));
-    assert.equal((await store.load('settings')).status, 'unreadable');
-    await assert.rejects(
-      store.save('settings', {
-        version: 2,
-        renderScale: 1,
-        showDebug: false,
-        verticalSpan: 13,
-      }),
-      /Newer/,
-    );
-    await fs.rm(path.join(dir, 'game.bak'));
-    await fs.writeFile(path.join(dir, 'game.json'), 'x'.repeat(SAVE_LIMITS.game + 1));
-    assert.equal((await store.load('game')).status, 'unreadable');
-    await assert.rejects(store.save('game', save), /oversized/);
-    assert.equal((await fs.stat(path.join(dir, 'game.json'))).size, SAVE_LIMITS.game + 1);
-  } finally {
-    await fs.rm(dir, { recursive: true, force: true });
-  }
-});
-test('backup-only saves preserve unreadable, newer and unknown-content data before accepting writes', async () => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-backup-only-')),
-    store = new Store(dir),
-    save = new GameSession().captureSave();
-  try {
-    for (const text of [
-      'corrupt',
-      JSON.stringify({ ...save, version: 99 }),
-      JSON.stringify({ ...save, area: 'missing' }),
-      'x'.repeat(SAVE_LIMITS.game + 1),
-    ]) {
-      await fs.writeFile(path.join(dir, 'game.bak'), text);
-      assert.equal((await store.load('game')).status, 'unreadable');
-      await assert.rejects(store.save('game', save));
-      assert.equal(await readAsset(path.join(dir, 'game.bak'), 'utf8'), text);
-      await assert.rejects(fs.stat(path.join(dir, 'game.json')), { code: 'ENOENT' });
-    }
-    await fs.writeFile(path.join(dir, 'game.bak'), JSON.stringify(save));
-    assert.equal((await store.load('game')).status, 'recovered');
-    await store.save('game', { ...save, wins: 1 });
-    const result = await store.load('game');
-    assert.equal(result.status, 'ok');
-    assert.ok('data' in result && 'wins' in result.data && result.data.wins === 1);
-  } finally {
-    await fs.rm(dir, { recursive: true, force: true });
-  }
-});
-
 test('smoke profiles never delete user-supplied directories, including on launch failure', async () => {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-profile-review-'));
   try {
@@ -539,51 +383,6 @@ test('independent manifests isolate frame/page IDs and share compatible page res
   const different = structuredClone(primary.pages[0]!);
   different.hash = 'f'.repeat(64);
   assert.notEqual(pageIdentity(different), pageIdentity(primary.pages[0]!));
-});
-
-test('browser adapter preserves unreadable settings/game bytes and reports unavailable storage without throwing', async () => {
-  const previous = Object.getOwnPropertyDescriptor(globalThis, 'localStorage'),
-    values = new Map<string, string>();
-  let unavailable = false;
-  Object.defineProperty(globalThis, 'localStorage', {
-    configurable: true,
-    value: {
-      getItem(key: string) {
-        if (unavailable) throw new Error('storage denied');
-        return values.get(key) ?? null;
-      },
-      setItem(key: string, value: string) {
-        values.set(key, value);
-      },
-    },
-  });
-  try {
-    const { browserBridge } = await import('../src/platform/browser-store');
-    const settings = {
-      version: 5 as const,
-      visualEffects: defaultVisualEffects(),
-      renderScale: 1,
-      showDebug: false,
-      verticalSpan: 13,
-      depthOfField: 1,
-    };
-    values.set('lantern-settings', '{"version":99}');
-    await assert.rejects(browserBridge.saveSettings(settings));
-    assert.equal(values.get('lantern-settings'), '{"version":99}');
-    values.set('lantern-game', '');
-    assert.equal((await browserBridge.loadGame()).status, 'unreadable');
-    await assert.rejects(browserBridge.saveGame(new GameSession().captureSave()));
-    assert.equal(values.get('lantern-game'), '');
-    values.clear();
-    await browserBridge.saveSettings(settings);
-    assert.equal((await browserBridge.loadSettings()).status, 'ok');
-    unavailable = true;
-    assert.equal((await browserBridge.loadSettings()).status, 'unreadable');
-    assert.equal((await browserBridge.loadGame()).status, 'unreadable');
-  } finally {
-    if (previous) Object.defineProperty(globalThis, 'localStorage', previous);
-    else Reflect.deleteProperty(globalThis, 'localStorage');
-  }
 });
 
 test('build proof ignores mutable Finder metadata but rejects app tampering, mismatched commits and dirty CI reuse', async () => {

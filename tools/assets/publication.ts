@@ -1,5 +1,4 @@
 import fs from 'node:fs/promises';
-import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { AssetCache } from './cache';
 import { recipeHash, validatePack, lockFile, type AssetLock } from './pack';

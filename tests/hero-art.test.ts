@@ -35,7 +35,7 @@ test('current hero preserves mixed native registrations and resolves all heading
     assert.ok(Math.abs(pos.getY(0) - b.top) < 1e-6);
     assert.deepEqual(sprite.mesh.position, foot);
   }
-  for (const [name, dirs] of Object.entries(m.asset.clips))
+  for (const name of Object.keys(m.asset.clips))
     for (const heading of name === 'walk' ? HEADINGS : AUTHORED_HEADINGS) {
       const c = resolveClip(m, name, heading);
       assert.deepEqual(c.durationsMs, heroTimings[name]![heading]!.holdsMs);

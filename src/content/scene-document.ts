@@ -98,9 +98,6 @@ export function editablePlacement(p: ArtPlacement, art: WorldVisualDefinition) {
     !(art.fixtures ?? []).some((f) => f.prop === p.id)
   );
 }
-export function placementAsset(p: ArtPlacement, kind: 'prop' | 'decal') {
-  return p.asset;
-}
 export function paletteKind(m: Manifest): 'prop' | 'decal' | undefined {
   if (m.asset.status === 'diagnostic' || m.asset.renderStyle !== 'clean-ink') return;
   if (m.asset.projection === 'top-down' && (m.asset.type === 'prop' || m.asset.type === 'material'))

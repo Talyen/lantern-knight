@@ -26,7 +26,10 @@ export class Input {
       if ((e.target as HTMLElement).matches('input,select,textarea')) return;
       this.keys.add(e.code);
       if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') this.edges.dodge = !e.repeat;
-      if (e.code === 'Escape' && !e.repeat) this.pause();
+      if (e.code === 'Escape' && !e.repeat) {
+        e.preventDefault();
+        this.pause();
+      }
     });
     on('keyup', (e) => this.keys.delete(e.code));
     on('blur', () => this.clear());

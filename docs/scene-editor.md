@@ -14,9 +14,9 @@ New scenes have a rectangular flat foundation with ground material, width, and d
 
 ## Save and recover
 
-Save writes an authored scene document. Save As creates a separate draft and never replaces an existing filename. New scenes and copies are drafts by default. **Edit Live** opens the actual room override; its persistent banner identifies that saving changes the scenery used by the game. Live changes can also move or remove existing prop collision footprints, so review traversal after editing a blocking prop. New decorations and duplicates have no blocking footprint.
+Save writes an authored scene document. Save As creates a separate draft and never replaces an existing filename. Saving preserves Undo/Redo; after Save As, history belongs to the new draft. New scenes and copies are drafts by default. **Edit Live** opens the actual room override; its persistent banner identifies that saving changes the scenery used by the game. Live changes can also move or remove existing prop collision footprints, so review traversal after editing a blocking prop. New decorations and duplicates have no blocking footprint.
 
-Unsaved edits are stored as local recovery in this browser. Reloading offers Restore recovery or Dismiss. Recovery is separate from project files and game saves. Failed writes leave pending edits available. If an agent changes the scene file, saving rejects the stale revision; reload the file or use Save As. Changed base scene definitions or an asset pin require restarting and reviewing the composition before saving.
+Accepted edits reach local recovery before the preview loads. Reloading offers Restore recovery or Dismiss. Recovery is separate from project files and game saves. Failed writes leave pending edits available, and a failed scene open preserves the current document and file revision. If an agent changes the scene file, saving rejects the stale revision; reload the file or use Save As. Changed base scene definitions or an asset pin require restarting the server. Recovery then validates against the current foundations; review the restored composition before saving. Failed restoration preserves the original recovery.
 
 ## Agent integration
 

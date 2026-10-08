@@ -1,15 +1,6 @@
 import type { PreparedRegistration } from '../assets/registration';
 import * as T from 'three';
-import {
-  contract,
-  resizeCamera,
-  trimmedBounds,
-  drawingBufferSize,
-  HEADINGS,
-  right,
-  up,
-  outward,
-} from '../core/camera';
+import { contract, trimmedBounds, HEADINGS, right, up, outward } from '../core/camera';
 import { ActorSprite } from './sprite';
 import { remapWalkTime } from '../core/locomotion-timing';
 import { Animator } from '../core/animation';

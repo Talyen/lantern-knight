@@ -1,5 +1,4 @@
 import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import type { Page, ElectronApplication } from 'playwright';
 import { isSupportedPosition, type AreaDefinition, type Point } from '../src/content/world';
@@ -105,7 +104,7 @@ export async function checkForeground(context: SceneContext) {
 }
 
 export async function benchmarkSurround(context: SceneContext) {
-  const { page, scene } = context;
+  const { page } = context;
   return await page.evaluate(async () => {
     const f = window.foundation,
       p = f.presentation,
@@ -154,7 +153,7 @@ export async function benchmarkSurround(context: SceneContext) {
 }
 
 export async function checkSurround(context: SceneContext) {
-  const { page, browser, scene, art } = context;
+  const { page, browser, art } = context;
   if (art?.surround) {
     for (const [width, height] of [
       [1440, 1080],
@@ -260,7 +259,7 @@ export async function checkRoomLifetime(context: SceneContext) {
 }
 
 export async function checkPreviewReload(context: SceneContext) {
-  const { page, scene, area } = context;
+  const { page, scene } = context;
   // Exercise real reload persistence, rather than certifying the parser alone.
   const other = scene === 'court' ? 'upper-landing' : 'court';
   await page.evaluate(async (other) => {

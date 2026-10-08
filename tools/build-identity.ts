@@ -80,7 +80,15 @@ if (process.argv.includes('--write')) {
   const expected = Object.fromEntries(
     Object.entries(identity.files).filter(([name]) => !isOSMetadata(name)),
   );
-  assert.deepEqual(checksums, expected, 'build artifact files differ');
+  const changed = [...new Set([...Object.keys(checksums), ...Object.keys(expected)])].filter(
+    (name) => checksums[name] !== expected[name],
+  );
+  if (changed.length)
+    throw new Error(
+      `build artifact files differ: ${changed.length} changed, missing or unexpected files\n` +
+        changed.slice(0, 10).join('\n') +
+        (changed.length > 10 ? '\nAdditional paths omitted.' : ''),
+    );
   if (process.env.GITHUB_SHA) {
     assert.equal(
       identity.sourceCommit,

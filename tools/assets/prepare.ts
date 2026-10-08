@@ -4,7 +4,6 @@ import path from 'node:path';
 import { runProcess } from '../run-process';
 import { AssetCache, diskBytes } from './cache';
 import { projectRoot } from './paths';
-import { readLibrarySource } from './sources';
 import { cameraCalibration as calibrationFixture } from '../../src/assets/camera-calibration';
 import { stagePayload } from './payload';
 import { makeArchive, recipeHash, recipeInputs } from './pack';

@@ -17,10 +17,7 @@ const preparationSteps = [
   'prepare-graveyard-coverage.ts',
   'prepare-lighting.ts',
 ];
-async function legacyInputs(
-  read = (name: string) => fs.readFile(path.join(projectRoot, name)),
-  listTools = () => fs.readdir(path.join(projectRoot, 'tools')),
-) {
+async function legacyInputs(read = (name: string) => fs.readFile(path.join(projectRoot, name))) {
   const names = [
     'assets/sources.json',
     'authoring/surface-depth.json',
@@ -76,10 +73,9 @@ async function legacyInputs(
 }
 async function preparationRecipeHash(
   read = (name: string) => fs.readFile(path.join(projectRoot, name)),
-  listTools = () => fs.readdir(path.join(projectRoot, 'tools')),
 ) {
   return createHash('sha256')
-    .update(JSON.stringify(await legacyInputs(read, listTools)))
+    .update(JSON.stringify(await legacyInputs(read)))
     .digest('hex');
 }
 
@@ -88,8 +84,7 @@ export async function legacyRecipeHash(
   listTools = () => fs.readdir(path.join(projectRoot, 'tools')),
 ) {
   const source = (await read('tools/assets/pack.ts')).toString();
-  if (source.includes('export async function recipeInputs'))
-    return preparationRecipeHash(read, listTools);
+  if (source.includes('export async function recipeInputs')) return preparationRecipeHash(read);
   if (!source.includes('(await listTools()).filter'))
     throw new Error('Unsupported legacy recipe algorithm');
   const names = [

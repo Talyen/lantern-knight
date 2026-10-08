@@ -59,7 +59,6 @@ async function main() {
 export async function check(
   root: string,
   args: string[],
-  env: NodeJS.ProcessEnv,
   execute: (name: string, args: string[], output: (chunk: Buffer) => void) => Promise<void>,
 ) {
   const cache = new AssetCache(),

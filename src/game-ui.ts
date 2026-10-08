@@ -6,7 +6,7 @@ export const gameUI = `<main class="stage game-stage"><canvas aria-label="Lanter
 <div class="actions"><div class="action">Sword<small>LMB · Sweep / Lunge</small></div><div class="action">Dodge<small id="dodge-status"></small></div><div class="action">Lantern<small id="ability-status"></small></div></div>
 <p class="controls-hint">WASD move · Mouse aim · LMB sword · Shift dodge · RMB lantern · Esc pause</p>
 <button id="pause" aria-label="Pause / save">Ⅱ</button><p id="status" role="status"></p>
-<section class="modal" id="modal" hidden><div><div class="eyebrow">Lantern Knight</div><h2>Paused</h2><div class="buttons"><button id="resume">Resume</button><button id="reset">Reset encounter</button><button id="save">Save checkpoint</button><button id="load">Load checkpoint</button><button id="new-game">New Game</button></div><p id="save-notice"></p><div id="new-confirm" hidden><p>Replace the saved session with a new game?</p><div class="buttons"><button id="confirm-new">Confirm New Game</button><button id="cancel-new">Cancel</button></div></div>
+<dialog class="modal" id="modal" aria-labelledby="pause-title"><div><div class="eyebrow">Lantern Knight</div><h2 id="pause-title">Paused</h2><div class="buttons"><button id="resume" autofocus>Resume</button><button id="reset">Reset encounter</button><button id="save">Save checkpoint</button><button id="load">Load checkpoint</button><button id="new-game">New Game</button></div><p id="menu-status" role="status" aria-live="polite"></p><p id="save-notice"></p><dialog id="new-confirm" class="confirmation" aria-labelledby="new-game-question"><p id="new-game-question">Replace the saved session with a new game?</p><p id="new-status" role="status" aria-live="polite"></p><div class="buttons"><button id="confirm-new">Confirm New Game</button><button id="cancel-new" autofocus>Cancel</button></div></dialog>
 <label>Camera distance<select id="zoom-span"><option value="9">Close</option><option value="11">Medium</option><option value="13">Wide</option><option value="15">Far</option></select></label>
 <label for="depth-of-field">Depth of field <output id="depth-of-field-value">100%</output></label><input id="depth-of-field" type="range" min="0" max="100" step="5" value="100"><p class="muted">Foreground and distance blur. Set to 0% to turn off.</p><label>Render scale<select id="render-scale"><option value="1">100% · up to 4K</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label><fieldset class="visual-options"><legend>Visual effects</legend>${Object.entries(
   visualEffectLabels,
@@ -17,9 +17,49 @@ export const gameUI = `<main class="stage game-stage"><canvas aria-label="Lanter
   )
   .join(
     '',
-  )}<p class="muted">Rain appears only when the scene or weather calls for it.</p></fieldset><div id="dev-return"></div></div></section></main>`;
+  )}<p class="muted">Rain appears only when the scene or weather calls for it.</p></fieldset><div id="dev-return"></div></div></dialog></main>`;
 const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
+let pending = false;
 export function bindGameUI(app: Application) {
+  const modal = $<HTMLDialogElement>('#modal'),
+    confirmation = $<HTMLDialogElement>('#new-confirm');
+  const perform = (message: string, action: () => Promise<string>) =>
+    app.safe(async () => {
+      if (pending) return;
+      pending = true;
+      status(message);
+      updateGameUI(app);
+      let result: string;
+      try {
+        result = await action();
+      } finally {
+        pending = false;
+        updateGameUI(app);
+      }
+      status(result);
+    });
+  modal.oncancel = (event) => {
+    event.preventDefault();
+    app.pause(false);
+  };
+  document.addEventListener(
+    'keydown',
+    (event) => {
+      if (!modal.open || event.target instanceof HTMLSelectElement) return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        event.stopPropagation();
+        if (!event.repeat) {
+          if (confirmation.open) confirmation.close();
+          else app.pause(false);
+        }
+      } else if (event.repeat && (event.key === 'Enter' || event.key === ' ')) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    },
+    true,
+  );
   for (const box of document.querySelectorAll<HTMLInputElement>('[data-visual-effect]')) {
     const key = box.dataset.visualEffect as VisualEffect;
     box.checked = app.presentation.visualEffects[key];
@@ -42,32 +82,34 @@ export function bindGameUI(app: Application) {
   dof.onchange = () => app.safe(() => app.saveSettings());
   $('#pause').onclick = () => app.pause(!app.paused);
   $('#resume').onclick = () => app.pause(false);
-  $('#reset').onclick = () => app.safe(() => app.reset());
+  $('#reset').onclick = () =>
+    perform('Resetting encounter…', async () => {
+      await app.reset();
+      return 'Encounter reset';
+    });
   $('#save').onclick = () =>
-    app.safe(async () => {
-      status('Saving checkpoint…');
+    perform('Saving checkpoint…', async () => {
       await app.save();
-      status('Checkpoint saved');
+      return 'Checkpoint saved';
     });
   $('#load').onclick = () =>
-    app.safe(async () => {
-      const r = await app.persistence.load();
-      if (r.status === 'ok' || r.status === 'recovered') {
-        await app.restore(r.data);
-        status('Checkpoint loaded');
-      } else
-        status(
-          r.status === 'unreadable' ? r.message : 'No saved checkpoint',
-          r.status === 'unreadable',
-        );
-    });
+    perform('Loading checkpoint…', async () =>
+      (await app.load()) ? 'Checkpoint loaded' : 'No saved checkpoint',
+    );
   $('#new-game').onclick = () => {
-    $('#new-confirm').hidden = false;
+    if (!confirmation.open) {
+      $('#new-status').textContent = '';
+      confirmation.showModal();
+    }
   };
   $('#cancel-new').onclick = () => {
-    $('#new-confirm').hidden = true;
+    confirmation.close();
   };
-  $('#confirm-new').onclick = () => app.safe(() => app.newGame());
+  $('#confirm-new').onclick = () =>
+    perform('Starting new game…', async () => {
+      await app.newGame();
+      return 'New game started';
+    });
   $<HTMLSelectElement>('#zoom-span').value = String(app.presentation.verticalSpan);
   $('#zoom-span').onchange = () => {
     app.presentation.verticalSpan = Number($<HTMLSelectElement>('#zoom-span').value);
@@ -90,18 +132,23 @@ export function bindGameUI(app: Application) {
 let lastArea = '';
 let statusTimeout: ReturnType<typeof setTimeout> | undefined;
 export function status(message: string, error = false) {
-  const el = $('#status');
-  el.textContent = message;
-  el.classList.toggle('error', error);
+  const elements = [$('#status'), $('#menu-status'), $('#new-status')];
+  for (const el of elements) {
+    el.textContent = message;
+    el.classList.toggle('error', error);
+  }
   clearTimeout(statusTimeout);
-  if (!error)
+  if (!error && !pending)
     statusTimeout = setTimeout(() => {
-      el.textContent = '';
+      for (const el of elements) el.textContent = '';
     }, 5000);
 }
 export function showPause(paused: boolean) {
-  $('#modal').hidden = !paused;
-  $('#new-confirm').hidden = true;
+  const modal = $<HTMLDialogElement>('#modal'),
+    confirmation = $<HTMLDialogElement>('#new-confirm');
+  if (confirmation.open) confirmation.close();
+  if (paused && !modal.open) modal.showModal();
+  else if (!paused && modal.open) modal.close();
 }
 export function updateGameUI(app: Application) {
   const s = app.sim;
@@ -130,8 +177,11 @@ export function updateGameUI(app: Application) {
     void title.offsetWidth;
     title.classList.add('location-enter');
   }
-  $<HTMLButtonElement>('#save').disabled = !app.persistence.canWrite || app.busy;
-  $<HTMLButtonElement>('#new-game').disabled = app.persistence.mode === 'unreadable' || app.busy;
+  const unavailable = app.busy || pending;
+  $<HTMLButtonElement>('#save').disabled = !app.persistence.canWrite || unavailable;
+  for (const id of ['reset', 'load']) $<HTMLButtonElement>('#' + id).disabled = unavailable;
+  for (const id of ['new-game', 'confirm-new'])
+    $<HTMLButtonElement>('#' + id).disabled = app.persistence.mode === 'unreadable' || unavailable;
   $('#save-notice').textContent =
     app.persistence.error ||
     app.settingsError ||

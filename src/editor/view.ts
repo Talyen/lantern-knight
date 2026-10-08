@@ -3,11 +3,7 @@ import { GamePresentation } from '../presentation/game-scene';
 import { ActorSprite } from '../presentation/sprite';
 import { resolveClip } from '../assets/schema';
 import { baseWorldVisuals, sceneAssets, resolveAuthoredScene } from '../content/world-art';
-import {
-  validateSceneReferences,
-  placementAsset,
-  type SceneDocument,
-} from '../content/scene-document';
+import { validateSceneReferences, type SceneDocument } from '../content/scene-document';
 import {
   ContentRegistry,
   contentDefinitions,
@@ -52,12 +48,27 @@ export class EditorView {
   private alpha = new WeakMap<T.Texture, { data: Uint8Array; width: number; height: number }>();
   private abort = new AbortController();
   private closed = false;
+  private composition?: string;
   constructor(
     readonly canvas: HTMLCanvasElement,
     readonly runtime: AssetRuntime,
   ) {}
   async apply(document: SceneDocument) {
+    if (this.closed) throw new Error('Editor closed');
     const art = resolveAuthoredScene(document);
+    const composition = JSON.stringify({
+      base: document.base,
+      floor: document.floor,
+      changes: document.changes,
+      objects: document.objects,
+    });
+    if (composition === this.composition && this.presentation && this.sim) {
+      this.hero(document.hero);
+      if (document.base === 'flat') this.sim.areaDefinition.name = document.name;
+      this.presentation.visualOverride = art;
+      this.presentation.lookRenderer.setSettings(document.look);
+      return;
+    }
     const ids = new Set(
       [
         'ink-hero-current',
@@ -102,6 +113,7 @@ export class EditorView {
         initialArea: area.id,
         areas: [area],
       });
+      this.composition = undefined;
       this.sim = new GameSession(registry, 142, area.id, ++this.generation).sim;
       this.hero(document.hero);
       this.clearHelpers();
@@ -126,7 +138,7 @@ export class EditorView {
       // top-down cards provide selection without introducing a second visual layer.
       if (document.base === 'court')
         for (const p of art.decals.filter((p) => p.asset === 'ink-graveyard-overlays')) {
-          const pack = this.packs.get(placementAsset(p, 'decal'))!,
+          const pack = this.packs.get(p.asset)!,
             s = new ActorSprite(
               p.id,
               pack.manifest,
@@ -156,6 +168,7 @@ export class EditorView {
           pack.release();
           this.packs.delete(id);
         }
+      this.composition = composition;
     } catch (error) {
       for (const p of acquired) {
         p.release();
@@ -223,8 +236,8 @@ export class EditorView {
   }
   pick(x: number, y: number, document: SceneDocument) {
     this.ray(x, y);
-    const items = sceneItems(document),
-      sprites = this.sprites().filter((s) => items.some((p) => p.placement.id === s.id));
+    const items = new Map(sceneItems(document).map((item) => [item.placement.id, item])),
+      sprites = this.sprites().filter((s) => items.has(s.id));
     for (const s of sprites) s.mesh.updateMatrixWorld(true);
     const hits = this.rays.intersectObjects(
       sprites.map((s) => s.mesh),
@@ -232,7 +245,7 @@ export class EditorView {
     );
     for (const hit of hits) {
       const s = sprites.find((s) => s.mesh === hit.object)!;
-      if (hit.uv && this.opaque(s, hit.uv)) return items.find((p) => p.placement.id === s.id);
+      if (hit.uv && this.opaque(s, hit.uv)) return items.get(s.id);
     }
     return undefined;
   }

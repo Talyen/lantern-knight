@@ -238,7 +238,6 @@ export class ContentRegistry {
     return value;
   }
 }
-const bounds = { minX: -7.5, maxX: 7.5, minZ: -7.5, maxZ: 7.5 };
 export const contentDefinitions: ContentDefinitions = {
   initialArea: 'court',
   player: 'lamplighter',

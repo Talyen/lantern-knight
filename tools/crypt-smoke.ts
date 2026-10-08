@@ -277,7 +277,6 @@ try {
           for (let sample = start; sample < start + 10; sample++) {
             for (let step = 0; step < 4; step++) {
               const tick = sample * 4 + step,
-                h = f.sim.hero,
                 move =
                   scenario === 'travel'
                     ? { x: 0, z: -1 }

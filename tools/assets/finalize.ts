@@ -10,7 +10,6 @@ import { publishPrepared, validateCandidate, type PreparedAssets } from './publi
 import { projectRoot, cacheRoot } from './paths';
 import { shaFile } from './sources';
 import { verificationIdentity } from '../verification';
-import { runProcess } from '../run-process';
 
 const hash = z.string().regex(/^[a-f0-9]{64}$/);
 const sourceSchema = z.object({
@@ -317,7 +316,6 @@ export async function collectCaptureDirectories(
 }
 export async function finalizeAssets(
   args: string[],
-  env: NodeJS.ProcessEnv,
   execute?: (args: string[]) => Promise<{ output: string; captureDirectories: string[] }>,
 ) {
   const requestedFull = args.includes('--full');
@@ -339,7 +337,7 @@ export async function finalizeAssets(
     validate: validateCandidate,
     artifacts: async (phase) => collectCaptureDirectories(phase, captureDirectories),
     validateArtifacts: validateReviewArtifacts,
-    run: async (name, args) => {
+    run: async (_name, args) => {
       if (!execute) throw new Error('Asset finalization must run through the command supervisor');
       const result = await execute(args);
       captureDirectories = result.captureDirectories;

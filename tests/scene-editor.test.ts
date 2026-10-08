@@ -118,6 +118,29 @@ describe('scene authoring contracts', () => {
     d.objects.push({ ...d.objects[0]! });
     assert.throws(() => parseSceneDocument(d), /Duplicate/);
   });
+  it('preserves undo and redo across saving a copy without reverting to its source identity', () => {
+    const h = new EditorHistory({ ...emptyScene('court'), id: 'live-court', target: 'live' });
+    h.transform('family-tomb-west', { x: 2 });
+    h.transform('family-tomb-west', { x: 3 });
+    h.undo();
+    h.reidentify('scene-copy', 'draft');
+    assert.equal(h.document.id, 'scene-copy');
+    assert.equal(h.document.target, 'draft');
+    h.redo();
+    assert.equal(
+      resolveAuthoredScene(h.document).props.find((p) => p.id === 'family-tomb-west')!.x,
+      3,
+    );
+    h.undo();
+    h.undo();
+    assert.equal(h.document.id, 'scene-copy');
+    assert.equal(h.document.target, 'draft');
+    assert.equal(h.document.changes.length, 0);
+    const before = structuredClone(h.document);
+    assert.throws(() => h.reidentify('../outside', 'draft'));
+    assert.deepEqual(h.document, before);
+    assert.equal(h.canRedo, true);
+  });
 });
 describe('scene file saving', () => {
   it('round-trips, rejects simultaneous writes, and preserves malformed external files', async () => {

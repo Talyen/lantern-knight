@@ -3,7 +3,6 @@ import { readAsset } from '../tools/assets/io';
 import { defaultVisualEffects } from '../src/content/visual-effects';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
 import {
   content,
   contentDefinitions,
@@ -17,7 +16,6 @@ import { parseGame, parseSettings, SaveContentError } from '../src/core/save';
 import { worldVisuals, compositionPoint, compositionHeight } from '../src/content/world-art';
 import { createBrowserBridge } from '../src/platform/browser-store';
 import { launchEntry, checkpointDirectory } from '../electron/launch';
-import { hash } from '../tools/compiler';
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: -1 } };
 test('opening areas have a quiet approach, one/two skeletons and an unobstructed chase corridor', () => {
   assert.deepEqual(

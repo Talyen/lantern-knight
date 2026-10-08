@@ -1,20 +1,19 @@
 import {
   parseSceneDocument,
   editablePlacement,
-  placementAsset,
   type SceneDocument,
   type SceneObject,
 } from '../content/scene-document';
 import { resolveAuthoredScene, type ArtPlacement } from '../content/world-art';
 export type EditorItem = { placement: ArtPlacement; kind: 'prop' | 'decal'; locked: boolean };
 export function sceneItems(document: SceneDocument): EditorItem[] {
-  const art = resolveAuthoredScene(document);
+  const art = resolveAuthoredScene(document),
+    added = new Set(document.objects.map((p) => p.id));
   return [
     ...art.props.map((placement) => ({
       placement,
       kind: 'prop' as const,
-      locked:
-        !document.objects.some((p) => p.id === placement.id) && !editablePlacement(placement, art),
+      locked: !added.has(placement.id) && !editablePlacement(placement, art),
     })),
     ...art.decals.map((placement) => ({ placement, kind: 'decal' as const, locked: false })),
   ];
@@ -31,6 +30,15 @@ export class EditorHistory {
   }
   get canRedo() {
     return this.future.length > 0;
+  }
+  reidentify(id: string, target: SceneDocument['target']) {
+    const identify = (document: SceneDocument) => parseSceneDocument({ ...document, id, target });
+    const document = identify(this.document),
+      past = this.past.map(identify),
+      future = this.future.map(identify);
+    this.document = document;
+    this.past = past;
+    this.future = future;
   }
   change(mutator: (d: SceneDocument) => void) {
     const next = structuredClone(this.document);
@@ -96,7 +104,7 @@ export class EditorHistory {
       d.objects.push({
         id: newId,
         kind: item.kind,
-        asset: placementAsset(p, item.kind),
+        asset: p.asset,
         clip: p.clip,
         x: p.x + 0.5,
         z: p.z + 0.5,

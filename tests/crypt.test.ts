@@ -2,7 +2,6 @@ import { assetFile } from '../tools/assets/paths';
 import { readAsset } from '../tools/assets/io';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
 import sharp from 'sharp';
 import * as T from 'three';
 import { ActorSprite } from '../src/presentation/sprite';

@@ -1,5 +1,5 @@
 import { cameraCalibration, HEADINGS } from '../assets/camera-calibration';
-import { Matrix4, OrthographicCamera, Plane, Raycaster, Vector2, Vector3 } from 'three';
+import { OrthographicCamera, Plane, Raycaster, Vector2, Vector3 } from 'three';
 import { cameraContract as contract } from '../assets/camera-contract';
 import { heightAt, type AreaDefinition } from '../content/world';
 export { contract };

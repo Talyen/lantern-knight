@@ -1,6 +1,5 @@
 import { readRegistration } from './assets/data';
 import { readAsset } from './assets/io';
-import fs from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { parseManifest } from '../src/assets/schema';
 import { assetCatalog, gameAssetCatalog } from '../src/content/visuals';
@@ -9,7 +8,6 @@ import { content } from '../src/content/world';
 import { contract } from '../src/core/camera';
 const height = 2160,
   minimumSpan = contract.framingRange[0]!,
-  maximumSpan = contract.framingRange[1]!,
   minimumHeadroom = 1;
 const previousMinimumSpan = 11,
   previousHeadroom = 1.25;
@@ -46,12 +44,10 @@ const cases = Object.keys(assetCatalog)
   }));
 const rows = [];
 const runtimePages = new Map<string, { rgbaBytes: number; mipmaps: boolean }>();
-const residentPages = new Map<string, { rgbaBytes: number; mipmaps: boolean }>();
 for (const { id, scale } of cases) {
   const m = parseManifest(JSON.parse(await readAsset(`public/${assetCatalog[id]}`, 'utf8')));
   for (const page of m.pages) {
     const key = `${page.hash}:${page.width}x${page.height}`;
-    residentPages.set(key, page);
     if (id in gameAssetCatalog) runtimePages.set(key, page);
   }
   const density = Math.min(...m.frames.map((f) => (f.registration ?? m.asset).density));
@@ -97,10 +93,6 @@ for (const { id, scale } of cases) {
   );
   rows.push({
     id,
-    canvas: m.asset.canvas,
-    density: m.asset.density,
-    maxScale: scale,
-    minimumStagedPixelsPerOutputPixel: headroom,
     minimumSourcePixelsPerOutputPixel: sourceHeadroom,
     baseRgbaBytes: m.pages.reduce(
       (n, p) => n + Math.ceil(p.rgbaBytes * (p.mipmaps ? 4 / 3 : 1)),
@@ -113,14 +105,6 @@ const flow = readRegistration().animation,
 const cryptSurfaceCloneBytes = Math.ceil(
   (rows.find((r) => r.id === 'ink-masonry')!.baseRgbaBytes * 4) / 3,
 );
-const fullCatalogBaseBytes =
-  cryptSurfaceCloneBytes +
-  motionFieldBytes +
-  [...residentPages.values()].reduce((n, p) => n + p.rgbaBytes, 0);
-const mipmapBytes = [...residentPages.values()]
-    .filter((p) => p.mipmaps)
-    .reduce((n, p) => n + Math.ceil(p.rgbaBytes / 3), 0),
-  fullCatalogTextureBytes = fullCatalogBaseBytes + mipmapBytes;
 const runtimeCatalogTextureBytes =
   cryptSurfaceCloneBytes +
   motionFieldBytes +
@@ -132,32 +116,6 @@ assert.ok(
   runtimeCatalogTextureBytes <= contract.budgets.sceneTextureMiB * 1024 * 1024,
   'active game catalog including motion fields exceeds the provisional scene texture budget',
 );
-const report = {
-  runtimeCatalogTextureBytes,
-  developmentGalleryLoadsOnDemand: true,
-  fullCatalogBaseBytes,
-  fullCatalogTextureBytes,
-  mipmapBytes,
-  motionFieldBytes,
-  cryptSurfaceCloneBytes,
-  provisionalTextureBudgetMiB: contract.budgets.sceneTextureMiB,
-  drawingBuffer: [3840, height],
-  framing: [minimumSpan, maximumSpan],
-  minimumHeadroom,
-  previousFramingHeadroom: { span: previousMinimumSpan, minimumHeadroom: previousHeadroom },
-  colorSpace: 'sRGB input/output with linear lighting/blending',
-  alpha: 'straight; opaque core and blended edge pass for imported cutouts',
-  filtering:
-    'linear packed cutouts; mipmapped standalone terrain; Crypt wall surface uses a separately owned mipmapped sampler',
-  cameraContract: contract.id,
-  assets: rows,
-  limits: [
-    'Guarantee covers this drawing buffer and zoom range; arbitrary enlargement cannot invent source detail.',
-    'Source matte fringes remain until separately reviewed art-side cleanup.',
-    'Reduction to gameplay size necessarily hides detail finer than one output pixel.',
-  ],
-};
-
 console.log(
   `PASS: ${rows.length} Ink packs retain verified native sampling at 3840x2160/span${minimumSpan}. Hero TEST minimum ${rows.find((r) => r.id === 'ink-hero-current')!.minimumSourcePixelsPerOutputPixel.toFixed(3)}x (1x from span ${(height / 216.3).toFixed(2)}); existing packs retain their prior headroom. Active textures ${(runtimeCatalogTextureBytes / 1024 ** 2).toFixed(1)} MiB.`,
 );

@@ -38,6 +38,7 @@ try {
   assert.equal(await options().count(), 9);
   assert.equal(await page.locator('input[data-visual-effect]:checked').count(), 9);
   assert.equal(await page.locator('#zoom-span').inputValue(), '9');
+  assert.equal(await page.locator('#depth-of-field').inputValue(), '100');
   await page.locator('#zoom-span').selectOption('15');
   for (const key of Object.keys(visualEffectLabels)) {
     const box = page.locator(`[data-visual-effect="${key}"]`),
@@ -71,6 +72,7 @@ try {
     bloom: false,
   });
   assert.equal((persisted as { version: number }).version, 5);
+  assert.equal((persisted as { depthOfField: number }).depthOfField, 1);
   await assert.rejects(fs.access(path.join(run.profile, 'saves/game.json')));
   await page.reload();
   await page.waitForFunction(
@@ -81,6 +83,7 @@ try {
   await page.getByRole('button', { name: 'Pause / save' }).click();
   assert.equal(await page.locator('[data-visual-effect="smoke"]').isChecked(), false);
   assert.equal(await page.locator('[data-visual-effect="bloom"]').isChecked(), false);
+  assert.equal(await page.locator('#depth-of-field').inputValue(), '100');
   assert.equal(
     await page.evaluate(() => 'foundation' in window || 'effectsPlayground' in window),
     false,

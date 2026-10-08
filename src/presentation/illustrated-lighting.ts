@@ -1,4 +1,5 @@
 import { registeredTrim } from './animation-blend-shader';
+import { verifiedBitmap } from '../assets/bitmap';
 import * as T from 'three';
 export function neutralColor(color: T.Color) {
   const v = color.r * 0.2126 + color.g * 0.7152 + color.b * 0.0722;
@@ -29,30 +30,14 @@ export class NormalLibrary {
   private disposed = false;
   async load() {
     const response = await fetch('/lighting/manifest.json');
-    if (!response.ok)
-      throw new Error('Lighting companions unavailable. Run npm run assets:lighting.');
+    if (!response.ok) throw new Error('Lighting companions unavailable.');
     const manifest = await response.json();
     if (manifest.recipe !== 'alpha-volume-v1') throw new Error('Lighting companion recipe differs');
     this.entries = manifest.entries;
     try {
       await Promise.all(
         Object.entries(this.entries).map(async ([key, entry]) => {
-          const r = await fetch('/lighting/' + entry.file);
-          if (!r.ok) throw new Error(`lighting companion unavailable: ${key}`);
-          const bytes = await r.arrayBuffer();
-          const hash = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)))
-            .map((x) => x.toString(16).padStart(2, '0'))
-            .join('');
-          if (hash !== entry.hash) throw new Error(`lighting companion hash differs: ${key}`);
-          const bitmap = await createImageBitmap(new Blob([bytes], { type: 'image/png' }), {
-            imageOrientation: 'flipY',
-            premultiplyAlpha: 'none',
-            colorSpaceConversion: 'none',
-          });
-          if (bitmap.width !== entry.width || bitmap.height !== entry.height) {
-            bitmap.close();
-            throw new Error(`lighting companion size differs: ${key}`);
-          }
+          const bitmap = await verifiedBitmap('/lighting/' + entry.file, entry);
           if (this.disposed) {
             bitmap.close();
             return;

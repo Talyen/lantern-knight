@@ -1,6 +1,7 @@
 import { parseRegistration, type PreparedRegistration } from './registration';
 import { Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter } from 'three';
 import { parseManifest, type Manifest } from './schema';
+import { sha256, verifiedBitmap } from './bitmap';
 type Entry<T> = {
   refs: number;
   promise: Promise<T>;
@@ -43,8 +44,8 @@ export class ResourcePool<T> {
         if (released) return;
         released = true;
         held.refs--;
-        if (held.refs === 0 && held.value) {
-          held.dispose(held.value);
+        if (held.refs === 0 && Object.hasOwn(held, 'value')) {
+          held.dispose(held.value!);
           if (this.entries.get(id) === held) this.entries.delete(id);
         }
       },
@@ -118,22 +119,7 @@ export class AssetRuntime {
         const p = this.pages.get(key);
         if (!p) throw new Error('missing page descriptor');
         if (decode) return decode(p);
-        const response = await this.request(p.url);
-        if (!response.ok) throw new Error(`${p.url}: HTTP ${response.status}`);
-        const buffer = await response.arrayBuffer();
-        const digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', buffer)))
-          .map((v) => v.toString(16).padStart(2, '0'))
-          .join('');
-        if (digest !== p.hash) throw new Error(`${p.url}: hash mismatch`);
-        const bitmap = await createImageBitmap(new Blob([buffer], { type: 'image/png' }), {
-          imageOrientation: 'flipY',
-          premultiplyAlpha: 'none',
-          colorSpaceConversion: 'none',
-        });
-        if (bitmap.width !== p.width || bitmap.height !== p.height) {
-          bitmap.close();
-          throw new Error('page dimensions differ');
-        }
+        const bitmap = await verifiedBitmap(p.url, p, this.request);
         const texture = new Texture(bitmap);
         texture.colorSpace = SRGBColorSpace;
         texture.generateMipmaps = p.mipmaps === true;
@@ -208,9 +194,7 @@ export class AssetRuntime {
     const registration = await fetch('/registration.json');
     if (!registration.ok) throw new Error('Prepared registration unavailable');
     const bytes = await registration.arrayBuffer(),
-      digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)))
-        .map((v) => v.toString(16).padStart(2, '0'))
-        .join('');
+      digest = await sha256(bytes);
     if (digest !== flags.registrationHash) throw new Error('Prepared registration hash differs');
     runtime.registration = parseRegistration(JSON.parse(new TextDecoder().decode(bytes)));
     return runtime;

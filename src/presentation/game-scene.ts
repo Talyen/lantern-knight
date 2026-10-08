@@ -2,6 +2,7 @@ import { RoomPresentation } from './room-presentation';
 import { ActorPresentation } from './actor-presentation';
 import type { PreparedRegistration } from '../assets/registration';
 import * as T from 'three';
+import { verifiedBitmap } from '../assets/bitmap';
 import {
   contract,
   makeCamera,
@@ -57,7 +58,9 @@ export class GamePresentation {
     return this.actorPresentation.actors;
   }
   lookRenderer: SceneLightingRenderer;
-  depthOfField = 0;
+  get depthOfField() {
+    return this.lookRenderer.settings.depthOfField;
+  }
   visualEffects = defaultVisualEffects();
   sceneEffects: SceneVisualEffects;
   renderer: T.WebGLRenderer;
@@ -325,8 +328,7 @@ export class GamePresentation {
   }
   setDepthOfField(value: number) {
     if (!Number.isFinite(value)) return;
-    this.depthOfField = Math.max(0, Math.min(1, value));
-    this.lookRenderer.setSettings({ depthOfField: this.depthOfField });
+    this.lookRenderer.setSettings({ depthOfField: value });
   }
   protected renderFrame(sim: Simulation, ms: number) {
     this.surround.update(
@@ -362,22 +364,11 @@ export class GamePresentation {
   }
   async loadAnimationFlow() {
     const animationFlowData = this.registration.animation;
-    const response = await fetch('/animation/flow.png');
-    if (!response.ok) throw new Error('walk motion fields unavailable');
-    const bytes = await response.arrayBuffer(),
-      digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)))
-        .map((v) => v.toString(16).padStart(2, '0'))
-        .join('');
-    if (digest !== animationFlowData.sha256) throw new Error('walk motion field hash differs');
-    const bitmap = await createImageBitmap(new Blob([bytes], { type: 'image/png' }), {
-      imageOrientation: 'flipY',
-      premultiplyAlpha: 'none',
-      colorSpaceConversion: 'none',
+    const bitmap = await verifiedBitmap('/animation/flow.png', {
+      hash: animationFlowData.sha256,
+      width: animationFlowData.width,
+      height: animationFlowData.height,
     });
-    if (bitmap.width !== animationFlowData.width || bitmap.height !== animationFlowData.height) {
-      bitmap.close();
-      throw new Error('walk motion field dimensions differ');
-    }
     if (this.disposed) {
       bitmap.close();
       throw new Error('presentation disposed');

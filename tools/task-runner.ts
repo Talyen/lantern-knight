@@ -206,7 +206,7 @@ for (const host of ['mac', 'win'] as const)
 export async function checkCommandScripts(scripts: Record<string, string>) {
   for (const [name, script] of Object.entries(scripts)) {
     const match = /^tsx tools\/task-runner\.ts (\S+)$/.exec(script);
-    if (match && (!commands[match[1]!] || match[1] !== name))
+    if (match && (!Object.hasOwn(commands, match[1]!) || match[1] !== name))
       throw new Error('Unregistered managed npm command: ' + name);
   }
 }
@@ -216,8 +216,8 @@ export async function runTask(
   args: string[] = [],
   output?: (chunk: Buffer) => void,
 ) {
-  const definition = commands[task];
-  if (!definition) throw new Error('Unknown managed task: ' + task);
+  if (!Object.hasOwn(commands, task)) throw new Error('Unknown managed task: ' + task);
+  const definition = commands[task]!;
   const local = args.includes('--local'),
     clean = args.filter((a) => a !== '--local');
   if (clean.includes('--skip-reload') && !context.previewReloadVerified)
@@ -249,11 +249,11 @@ async function testTask({ context, clean, local, output }: Invocation) {
   );
 }
 
-async function checks({ context, args, clean, local, env, output }: Invocation) {
+async function checks({ context, args, clean, env }: Invocation) {
   if (clean.length) throw new Error('Use check [--local]');
   await (
     await import('./check')
-  ).check(projectRoot, args, env, async (name, argv, gateOutput) => {
+  ).check(projectRoot, args, async (name, argv, gateOutput) => {
     if (name === 'whitespace')
       await runProcess('git', ['diff', '--check'], {
         cwd: projectRoot,
@@ -277,7 +277,7 @@ async function taskCheck({ context, args, local }: Invocation) {
   await requireStableInputs(projectRoot, before);
   console.log('PASS: full regular gates and selected scene acceptance.');
 }
-async function build({ clean, local, env, output, child, definition }: Invocation) {
+async function build({ clean, env, output, child, definition }: Invocation) {
   if (clean.length) throw new Error('Build accepts only --local');
   const dev = definition.dev ?? false,
     identity = path.join(projectRoot, dev ? 'dist-dev' : 'dist', 'build-identity.json');
@@ -347,9 +347,9 @@ async function develop({ context, clean, env, output, definition }: Invocation) 
     { cwd: projectRoot, env: withoutCommandLane(env), output },
   );
 }
-async function finalize({ context, args, env, output }: Invocation) {
+async function finalize({ context, args }: Invocation) {
   await withTaskEnv(context.env, async () =>
-    (await import('./assets/finalize')).finalizeAssets(args, context.env, async (argv) => {
+    (await import('./assets/finalize')).finalizeAssets(args, async (argv) => {
       let log = '';
       await runNpmTask(context, argv, (chunk) => {
         log = (log + chunk.toString()).slice(-12000);
@@ -362,7 +362,7 @@ async function finalize({ context, args, env, output }: Invocation) {
     }),
   );
 }
-async function prepare({ context, clean, env }: Invocation) {
+async function prepare({ context, clean }: Invocation) {
   if (clean.some((a) => a !== '--proof')) throw new Error('Preparation accepts only --proof');
   const prepared = await withTaskEnv(context.env, () =>
     import('./assets/prepare').then((m) =>
@@ -405,7 +405,7 @@ async function inspectAssets({ context, task, clean, local }: Invocation) {
       );
     });
 }
-async function cleanAssets({ clean, env }: Invocation) {
+async function cleanAssets({ env }: Invocation) {
   await withTaskEnv(env, async () => {
     const { retainedPacks, obsoleteReleases, gh } = await import('./assets/retention');
     const cache = new AssetCache(),

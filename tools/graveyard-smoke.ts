@@ -2,7 +2,6 @@ import { smokeLaunch } from './smoke-launch';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import os from 'node:os';
 import { createHash } from 'node:crypto';
 import { _electron } from 'playwright';
 import sharp from 'sharp';
@@ -11,7 +10,7 @@ import '../src/inspection';
 const launch = await smokeLaunch(true, [], {
     budget: process.argv.includes('--capture') ? 1024 ** 3 : 32 * 1024 ** 2,
   }),
-  { output, profile, app, page, errors } = launch,
+  { output, app, page, errors } = launch,
   quick = process.argv.includes('--quick') || !launch.capture,
   stills = process.argv.includes('--stills') || !launch.capture;
 const checks: string[] = [],

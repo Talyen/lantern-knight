@@ -32,8 +32,13 @@ async function boundedRead(file: string, limit: number) {
   const handle = await fs.open(file, 'r');
   try {
     if ((await handle.stat()).size > limit) throw new Error('oversized save');
-    const buffer = Buffer.alloc(limit + 1),
-      { bytesRead } = await handle.read(buffer, 0, buffer.length, 0);
+    const buffer = Buffer.alloc(limit + 1);
+    let bytesRead = 0;
+    while (bytesRead < buffer.length) {
+      const read = await handle.read(buffer, bytesRead, buffer.length - bytesRead, bytesRead);
+      if (!read.bytesRead) break;
+      bytesRead += read.bytesRead;
+    }
     if (bytesRead > limit) throw new Error('oversized save');
     return buffer.toString('utf8', 0, bytesRead);
   } finally {

@@ -1,6 +1,6 @@
 import { AssetCache, diskBytes } from './assets/cache';
 import { randomUUID } from 'node:crypto';
-import { _electron as electron, type ElectronApplication } from 'playwright';
+import { _electron as electron, type ElectronApplication, type Page } from 'playwright';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { acquireTestLane } from './verification';
@@ -67,7 +67,8 @@ async function launch(
             `${dev ? 'release-dev' : 'release'}/mac-arm64/${name}.app/Contents/MacOS/${name}`,
           )
         : path.resolve(`${dev ? 'release-dev' : 'release'}/win-unpacked/${name}.exe`));
-  let app: ElectronApplication | undefined;
+  let app: ElectronApplication | undefined, page: Page | undefined;
+  const errors: string[] = [];
   const launchStarted = performance.now();
   try {
     app = await electron.launch({
@@ -86,8 +87,7 @@ async function launch(
       },
       timeout: 30000,
     });
-    const page = await app.firstWindow(),
-      errors: string[] = [];
+    page = await app.firstWindow();
     page.on('pageerror', (e) => errors.push(e.message));
     page.on('console', (m) => {
       if (m.type() === 'error') errors.push(m.text());
@@ -135,9 +135,43 @@ async function launch(
       },
     };
   } catch (error) {
+    let startup: unknown;
+    if (page) {
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      try {
+        startup = await Promise.race([
+          page.evaluate(() => ({
+            url: location.href,
+            status: document.querySelector('#status')?.textContent,
+            ready: document.querySelector('canvas')?.getAttribute('data-ready'),
+            resources: performance
+              .getEntriesByType('resource')
+              .slice(-12)
+              .map((entry) => ({ name: entry.name, durationMs: Math.round(entry.duration) })),
+          })),
+          new Promise((resolve) => {
+            timer = setTimeout(() => resolve({ unavailable: 'Renderer did not respond' }), 2000);
+          }),
+        ]);
+      } catch (diagnostic) {
+        startup = { unavailable: String(diagnostic) };
+      } finally {
+        clearTimeout(timer);
+      }
+    }
     await fs.writeFile(
       path.join(output, 'failure.json'),
-      JSON.stringify({ error: String(error) }, null, 2),
+      JSON.stringify(
+        {
+          stage: 'startup',
+          elapsedMs: Math.round(performance.now() - launchStarted),
+          error: String(error),
+          errors,
+          startup,
+        },
+        null,
+        2,
+      ),
     );
     await app?.close().catch(() => {});
     await fs.rm(profile, { recursive: true, force: true });

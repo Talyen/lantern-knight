@@ -1,10 +1,25 @@
 import { defineConfig } from 'vite';
 import path from 'node:path';
-import { sceneEditorPlugin } from './tools/scene-editor-store';
 import { publicRoot } from './tools/assets/paths.ts';
 export default defineConfig(({ mode }) => ({
   clearScreen: false,
-  plugins: mode === 'sandbox' ? [sceneEditorPlugin(process.cwd())] : [],
+  plugins:
+    mode === 'sandbox'
+      ? [
+          {
+            name: 'lantern-scene-editor',
+            async configureServer(server) {
+              const { sceneEditorPlugin } = (await server.ssrLoadModule(
+                '/tools/scene-editor-store.ts',
+              )) as typeof import('./tools/scene-editor-store.ts');
+              const configure = sceneEditorPlugin(process.cwd()).configureServer;
+              if (typeof configure !== 'function')
+                throw new Error('Scene editor server hook is unavailable');
+              return configure.call(this, server);
+            },
+          },
+        ]
+      : [],
   publicDir: publicRoot(),
   server: {
     watch: {

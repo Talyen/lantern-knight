@@ -9,7 +9,6 @@ import {
   paletteKind,
   paletteClips,
   floorClips,
-  placementAsset,
   type SceneDocument,
 } from './content/scene-document';
 import { heightAt } from './content/world';
@@ -68,7 +67,8 @@ function recover() {
 }
 function controls() {
   const d = history.document,
-    item = sceneItems(d).find((p) => p.placement.id === selected),
+    items = sceneItems(d),
+    item = items.find((p) => p.placement.id === selected),
     p = item?.placement;
   $<HTMLInputElement>('name').value = d.name;
   $('live-badge').hidden = d.target !== 'live';
@@ -109,7 +109,7 @@ function controls() {
     $<HTMLInputElement>(key).disabled = busy;
   $('save-state').textContent = busy ? 'Working…' : dirty() ? 'Unsaved' : 'Saved';
   $('objects').replaceChildren();
-  for (const item of sceneItems(d)) {
+  for (const item of items) {
     const b = document.createElement('button');
     b.textContent = `${item.locked ? '🔒 ' : ''}${item.placement.id}`;
     b.classList.toggle('active', item.placement.id === selected);
@@ -145,10 +145,10 @@ async function run(action: () => Promise<void>, restoring = false) {
   }
 }
 async function refresh() {
+  recover();
   await view.apply(history.document);
   view.setGrid($<HTMLInputElement>('grid').checked);
   view.render();
-  recover();
 }
 async function change(mutator: (d: SceneDocument) => void) {
   await run(async () => {
@@ -194,11 +194,12 @@ async function list() {
 async function open(value: string) {
   if (dirty() && !confirm('Discard unsaved edits and open another scene?')) return;
   await run(async () => {
-    let d: SceneDocument;
+    let d: SceneDocument,
+      nextRevision: string | null = null,
+      nextBaseRevision = baseRevision,
+      nextSavedSnapshot = '';
     if (value === 'new') {
       d = emptyScene();
-      revision = null;
-      savedSnapshot = '';
     } else {
       const id = value.startsWith('file-')
         ? value.slice(5)
@@ -208,17 +209,23 @@ async function open(value: string) {
       const data = await api(id);
       if (!data.document) throw new Error('Scene file is unavailable');
       d = parseSceneDocument(data.document);
-      revision = data.revision;
-      baseRevision = data.baseRevision;
+      nextRevision = data.revision;
+      nextBaseRevision = data.baseRevision;
       if (value.startsWith('copy-')) {
         d = { ...d, id: 'untitled', name: 'Copy of ' + d.name, target: 'draft' };
-        revision = null;
-        savedSnapshot = '';
-      } else savedSnapshot = JSON.stringify(d);
+        nextRevision = null;
+      } else nextSavedSnapshot = JSON.stringify(d);
     }
-    history = new EditorHistory(d);
+    const nextHistory = new EditorHistory(d);
+    await view.apply(nextHistory.document);
+    history = nextHistory;
+    revision = nextRevision;
+    baseRevision = nextBaseRevision;
+    savedSnapshot = nextSavedSnapshot;
     selected = undefined;
-    await refresh();
+    view.setGrid($<HTMLInputElement>('grid').checked);
+    view.render();
+    recover();
     fit();
     $('conflict').hidden = true;
     status(
@@ -244,7 +251,7 @@ async function save(copyId?: string) {
       if (r.status === 409) $('conflict').hidden = false;
       throw new Error(data.error);
     }
-    history = new EditorHistory(data.document);
+    history.reidentify(data.document.id, data.document.target);
     revision = data.revision;
     baseRevision = data.baseRevision;
     savedSnapshot = JSON.stringify(history.document);
@@ -603,21 +610,24 @@ $('dismiss-recovery').onclick = () => {
 $('restore').onclick = () =>
   void run(async () => {
     if (!recovery) return;
-    history = new EditorHistory(recovery.document);
+    const nextHistory = new EditorHistory(recovery.document),
+      changedFoundations = recovery.baseRevision !== baseRevision;
+    await view.apply(nextHistory.document);
+    history = nextHistory;
     revision = recovery.revision;
     savedSnapshot = recovery.savedSnapshot;
-    if (recovery.baseRevision !== baseRevision) {
-      status(
-        'The scene foundations changed. Recovery is preserved; restart and review before saving.',
-        true,
-      );
-      baseRevision = recovery.baseRevision;
-    }
     selected = undefined;
-    await refresh();
+    view.setGrid($<HTMLInputElement>('grid').checked);
+    view.render();
     fit();
     $('recovery').hidden = true;
     recovery = undefined;
+    recover();
+    status(
+      changedFoundations
+        ? 'Recovery restored against updated foundations. Review the composition before saving.'
+        : 'Recovery restored.',
+    );
   }, true);
 let resizeFrame = 0;
 new ResizeObserver(() => {

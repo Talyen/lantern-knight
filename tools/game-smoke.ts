@@ -5,6 +5,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { Vector3, OrthographicCamera } from 'three';
 import { content, heightAt } from '../src/content/world';
+import { tuning } from '../src/content/gameplay';
 import type { GameSave } from '../src/core/save';
 import { extractFile } from '@electron/asar';
 const benchmark = process.argv.includes('--benchmark');
@@ -15,12 +16,18 @@ const run = await smokeLaunch(
   ),
   { app, page, output, errors } = run;
 const checks: string[] = [];
+let stage = 'startup-checks';
+const markStage = async (name: string) => {
+  stage = name;
+  await fs.writeFile(path.join(output, 'progress.json'), JSON.stringify({ stage, checks }));
+};
 // Aim against the package's own calibration, even while another chat edits content.
 const archive =
   process.platform === 'darwin'
     ? path.resolve(path.dirname(run.executable), '../Resources/app.asar')
     : path.join(path.dirname(run.executable), 'resources/app.asar');
 try {
+  await markStage(stage);
   const identity = JSON.parse(extractFile(archive, 'dist/build-identity.json').toString());
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
@@ -69,6 +76,55 @@ try {
   // Interaction checks use the player's existing quality setting on software-rendered CI.
   if (!(await page.locator('#modal').isVisible()))
     await page.getByRole('button', { name: 'Pause / save' }).click();
+  await markStage('pause-menu');
+  const focused = () => page.evaluate(() => document.activeElement?.id);
+  assert.equal(await focused(), 'resume');
+  await page.keyboard.press('Shift+Tab');
+  assert.equal(await page.evaluate(() => !!document.activeElement?.closest('#modal')), true);
+  await page.keyboard.press('Tab');
+  assert.equal(await focused(), 'resume');
+  await page.locator('#new-game').focus();
+  await page.keyboard.down('Enter');
+  await page.locator('#new-confirm').waitFor({ state: 'visible' });
+  assert.equal(await focused(), 'cancel-new');
+  await page.keyboard.down('Enter');
+  assert.equal(await page.locator('#new-confirm').isVisible(), true);
+  await page.keyboard.up('Enter');
+  await page.keyboard.press('Escape');
+  assert.equal(await page.locator('#new-confirm').isVisible(), false);
+  assert.equal(await page.locator('#modal').isVisible(), true);
+  assert.equal(await focused(), 'new-game');
+  await page.keyboard.press('Escape');
+  assert.equal(await page.locator('#modal').isVisible(), false);
+  assert.equal(await focused(), 'pause');
+  await page.locator('canvas').focus();
+  await page.keyboard.press('Escape');
+  assert.equal(await focused(), 'resume');
+  await page.keyboard.press('Escape');
+  assert.equal(await page.evaluate(() => document.activeElement?.tagName), 'CANVAS');
+  await page.getByRole('button', { name: 'Pause / save' }).click();
+  checks.push(
+    'pause contains focus, restores its opener, and Escape cancels confirmation before resuming',
+  );
+  const checkpoint = path.join(run.profile, 'saves/game.json'),
+    newerSave = JSON.stringify({ version: 99 });
+  await fs.mkdir(path.dirname(checkpoint), { recursive: true });
+  await fs.writeFile(checkpoint, newerSave);
+  await page.locator('#new-game').click();
+  await page.locator('#confirm-new').click();
+  await page.waitForFunction(
+    () =>
+      document.querySelector('#new-status')?.textContent?.includes('Newer save') &&
+      !document.querySelector<HTMLButtonElement>('#confirm-new')!.disabled,
+  );
+  assert.equal(await page.locator('#new-status').isVisible(), true);
+  assert.equal(await page.locator('#new-confirm').isVisible(), true);
+  assert.equal(await fs.readFile(checkpoint, 'utf8'), newerSave);
+  await page.locator('#cancel-new').click();
+  await fs.rm(checkpoint);
+  checks.push(
+    'failed New Game reports its error in the confirmation and preserves newer save bytes',
+  );
   await page
     .locator('#render-scale')
     .selectOption(benchmark ? option('--render-scale', '1') : '0.5');
@@ -77,6 +133,7 @@ try {
   assert.equal(Object.keys(save.areas.court!.actors).length, 1);
   assert.equal(save.areas.court!.engaged, false);
   const measurement = benchmark ? await startGameBenchmark(run, save) : undefined;
+  await markStage('approach');
   await measurement?.phase('approach');
   await resume();
   await capture('approach-opening');
@@ -221,8 +278,9 @@ try {
             Math.hypot(a.x - save.player.x, a.z - save.player.z) -
             Math.hypot(b.x - save.player.x, b.z - save.player.z),
         );
-      // Use the same defensive controls available to a player when surrounded.
+      // Finish a lone enemy at one-hit health; use player dodge controls for remaining threats.
       if (
+        (targets.length > 1 || targets[0]!.health > tuning.attack.damage) &&
         save.player.dodgeCooldown === 0 &&
         Math.hypot(targets[0]!.x - save.player.x, targets[0]!.z - save.player.z) < 1.6
       ) {
@@ -246,6 +304,7 @@ try {
           await page.keyboard.up('Shift');
           if ((await page.locator('#dodge-status').textContent()) !== 'Shift · ready') break;
         }
+        for (const key of keys) await page.keyboard.up(key);
         await page.waitForFunction(
           () => {
             const text = document.querySelector('#dodge-status')?.textContent ?? '';
@@ -254,7 +313,6 @@ try {
           {},
           { timeout: 120000 },
         );
-        for (const key of keys) await page.keyboard.up(key);
         save = await observe();
       }
       const alive = Object.values(save.areas[save.area]!.actors)
@@ -277,11 +335,18 @@ try {
         await aimWorld(enemy.x, enemy.z, save);
         await page.waitForTimeout(110);
         await renderedFrames();
+        if (
+          strike % 3 === 2 &&
+          (await page.locator('#objective').textContent()) ===
+            (save.area === 'court' ? 'Enter the chapel' : 'The chapel is at rest')
+        )
+          return;
       }
     }
     throw new Error('encounter did not clear through player combat controls');
   };
 
+  await markStage('graveyard-combat');
   await measurement?.phase('graveyard-combat');
   await moveTo(0, 0.8);
   await fight();
@@ -291,6 +356,7 @@ try {
   console.log('Game journey: graveyard encounter cleared');
   await resume();
   await capture('approach-cleared');
+  await markStage('area-traversal');
   await measurement?.phase('area-traversal');
   await moveTo(0, -5.95);
   await page.waitForFunction(
@@ -325,6 +391,7 @@ try {
   checks.push(
     'retreat is available before chapel clear and a revisit retains the quiet two-enemy encounter',
   );
+  await markStage('chapel-combat');
   await measurement?.phase('chapel-combat');
   await moveTo(0, 2.0);
   await resume();
@@ -342,6 +409,7 @@ try {
   await moveTo(0, -5.5);
   await resume();
   await capture('altar');
+  await markStage('checkpoint');
   await measurement?.phase('checkpoint');
   await page.keyboard.down('Shift');
   await page.keyboard.down('KeyS');
@@ -362,6 +430,7 @@ try {
   assert.ok(save.areas.court!.cleared && save.areas['upper-landing']!.cleared);
   checks.push('normal UI save/load retains both cleared encounters');
   console.log('Game journey: chapel combat, save and load verified');
+  await markStage('death-retry');
   await measurement?.phase('death-retry');
   await page.getByRole('button', { name: 'Reset encounter', exact: true }).click();
   await page.waitForFunction(
@@ -397,6 +466,7 @@ try {
   await resume();
   await capture('chapel-death-reset');
   await measurement?.finish();
+  await markStage('settings-reload');
   if (!(await page.locator('#modal').isVisible()))
     await page.getByRole('button', { name: 'Pause / save' }).click();
   await page.locator('#zoom-span').selectOption('13');
@@ -457,7 +527,7 @@ try {
   } catch {}
   await fs.writeFile(
     path.join(output, 'failure.json'),
-    JSON.stringify({ error: String(error), errors, checks, checkpoint }, null, 2),
+    JSON.stringify({ stage, error: String(error), errors, checks, checkpoint }, null, 2),
   );
   throw error;
 } finally {

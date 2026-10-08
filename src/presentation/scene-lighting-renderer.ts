@@ -309,8 +309,7 @@ export class SceneLightingRenderer {
             material.map
           ) {
             this.lighting.attach(material, ground);
-            if (ground && this.presentation.visuals)
-              this.surfaces.attach(material, this.presentation.visuals!);
+            if (ground) this.surfaces.attach(material);
           }
         if (!ground) {
           if (materials.some((m) => !m.transparent) && !o.userData.noCastShadow)

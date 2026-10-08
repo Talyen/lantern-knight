@@ -1,7 +1,6 @@
 import { readAsset } from '../tools/assets/io';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
 import * as T from 'three';
 import { graveyardScene } from '../src/content/graveyard-scene';
 import { sceneArtFindings } from '../src/content/scene-art-validation';

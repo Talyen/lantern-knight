@@ -7,7 +7,7 @@ import { ContentRegistry } from './content/world';
 import { GameSession } from './core/session';
 import { assetCatalog } from './content/visuals';
 import { createBrowserBridge } from './platform/browser-store';
-import { HEADINGS, contract } from './core/camera';
+import { HEADINGS } from './core/camera';
 import { clipDuration } from './core/animation';
 import { walkTimings, type WalkTiming } from './core/locomotion-timing';
 import {

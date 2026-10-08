@@ -1,7 +1,6 @@
 import { readRegistration } from './assets/data';
 import { readAsset } from './assets/io';
 import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
 import * as T from 'three';
 import { graveyardScene, graveHead } from '../src/content/graveyard-scene';
 import { coplanarMeshConflicts } from '../src/presentation/mesh-plane-validation';
@@ -14,8 +13,6 @@ import { assetCatalog } from '../src/content/visuals';
 import { parseManifest } from '../src/assets/schema';
 import { InkRoom } from '../src/presentation/ink-room';
 import { makeCamera } from '../src/core/camera';
-import { graveyardRegistration } from '../src/content/graveyard-registration';
-import { sceneryRegistration } from '../src/content/scenery-registration';
 import type { PackLease } from '../src/assets/loader';
 const findings = sceneArtFindings(graveyardScene);
 assert.deepEqual(findings, [], 'unresolved Graveyard art construction');

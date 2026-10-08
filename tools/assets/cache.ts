@@ -71,10 +71,15 @@ export class AssetCache {
             'source-locations.lock',
             '.DS_Store',
           ].includes(name) &&
-          !name.startsWith('.source-locations-')
+          !name.startsWith('.source-locations-') &&
+          !/^\.cache-owner-[a-f0-9-]{36}\.tmp$/.test(name)
         )
           throw new Error('Cache location contains unrelated files');
-      await fs.writeFile(marker, JSON.stringify({ schemaVersion: 1, project: 'lantern-knight' }));
+      await this.writeJSON(
+        marker,
+        { schemaVersion: 1, project: 'lantern-knight' },
+        path.join(this.root, '.cache-owner-' + randomUUID() + '.tmp'),
+      );
     }
     const lock = path.join(this.root, '.mutex');
     for (let n = 0; ; n++) {
@@ -119,7 +124,7 @@ export class AssetCache {
       let used = false,
         reserved = 0;
       await fs.mkdir(leaseDir, { recursive: true });
-      for (const lease of await fs.readdir(leaseDir)) {
+      for (const lease of await this.leaseFiles(leaseDir)) {
         const file = path.join(leaseDir, lease),
           value = JSON.parse(await fs.readFile(file, 'utf8')) as Owner & { bytes: number };
         if (alive(value)) {
@@ -137,16 +142,38 @@ export class AssetCache {
     }
     return entries;
   }
-  private async makeRoom(name: string, bytes: number) {
-    const entries = await this.entries();
+  // Called under the mutex: abandoned unpublished records have no active writer.
+  private async leaseFiles(directory: string) {
+    const names = await fs.readdir(directory);
+    for (const name of names.filter((name) => name.endsWith('.json.tmp')))
+      await fs.rm(path.join(directory, name), { force: true });
+    return names.filter((name) => !name.endsWith('.json.tmp'));
+  }
+  private async writeJSON(file: string, value: unknown, temporary = file + '.tmp') {
+    try {
+      await fs.writeFile(temporary, JSON.stringify(value));
+      await fs.rename(temporary, file);
+    } finally {
+      await fs.rm(temporary, { force: true });
+    }
+  }
+  private async overheadBytes() {
     let overhead = 0;
     for (const e of await fs.readdir(this.root, { withFileTypes: true }))
       if (e.name !== 'entries')
         overhead += e.isDirectory()
           ? await diskBytes(path.join(this.root, e.name))
           : (await fs.stat(path.join(this.root, e.name))).size;
+    return overhead;
+  }
+  private async makeRoom(
+    name: string,
+    bytes: number,
+    knownEntries?: Awaited<ReturnType<AssetCache['entries']>>,
+  ) {
+    const entries = knownEntries ?? (await this.entries());
     let total =
-      overhead +
+      (await this.overheadBytes()) +
       entries.filter((e) => e.name !== name).reduce((sum, e) => sum + e.bytes, 0) +
       bytes;
     for (const e of entries.filter((e) => e.name !== name && !e.used).sort((a, b) => a.at - b.at)) {
@@ -171,9 +198,9 @@ export class AssetCache {
       const entries = await this.entries(),
         existing = entries.find((e) => e.name === name);
       if (exclusive && existing?.used) throw new Error('Asset preparation is already in use');
-      await this.makeRoom(name, Math.max(bytes, existing?.bytes ?? 0));
+      await this.makeRoom(name, Math.max(bytes, existing?.bytes ?? 0), entries);
       await fs.mkdir(path.dirname(file), { recursive: true });
-      await fs.writeFile(file, JSON.stringify({ ...owner(), bytes }));
+      await this.writeJSON(file, { ...owner(), bytes });
       await fs.utimes(root, new Date(), new Date());
     });
     let released = false;
@@ -182,7 +209,7 @@ export class AssetCache {
       root,
       async sole() {
         return cache.locked(async () => {
-          for (const entry of await fs.readdir(path.dirname(file)))
+          for (const entry of await cache.leaseFiles(path.dirname(file)))
             if (entry !== path.basename(file)) {
               const peer = JSON.parse(
                 await fs.readFile(path.join(path.dirname(file), entry), 'utf8'),
@@ -193,11 +220,11 @@ export class AssetCache {
         });
       },
       async reserve(bytes: number) {
-        if (released || bytes < 0 || bytes > cache.limit)
+        if (released || !Number.isSafeInteger(bytes) || bytes < 0 || bytes > cache.limit)
           throw new Error('Invalid cache reservation');
         await cache.locked(async () => {
           await cache.makeRoom(name, bytes);
-          await fs.writeFile(file, JSON.stringify({ ...owner(), bytes }));
+          await cache.writeJSON(file, { ...owner(), bytes });
         });
       },
       async release() {
@@ -208,6 +235,8 @@ export class AssetCache {
     };
   }
   async reserve(name: string, bytes: number) {
+    if (!Number.isSafeInteger(bytes) || bytes < 0 || bytes > this.limit)
+      throw new Error('Invalid cache reservation');
     await this.locked(() => this.makeRoom(name, bytes));
   }
   async clean(keep: ReadonlySet<string> = new Set()) {
@@ -224,11 +253,7 @@ export class AssetCache {
   async usage() {
     return this.locked(async () => {
       const entries = await this.entries();
-      return (
-        (await diskBytes(this.root)) +
-        entries.reduce((sum, e) => sum + Math.max(0, e.bytes), 0) -
-        (await diskBytes(path.join(this.root, 'entries')))
-      );
+      return (await this.overheadBytes()) + entries.reduce((sum, e) => sum + e.bytes, 0);
     });
   }
 }

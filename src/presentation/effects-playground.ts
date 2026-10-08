@@ -28,7 +28,6 @@ import {
   drawingBufferSize,
   selectAuthoredDirection,
   right,
-  up,
   outward,
   contract,
 } from '../core/camera';
