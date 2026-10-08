@@ -9,8 +9,10 @@ import {createBrowserBridge} from './platform/browser-store';
 import {HEADINGS,contract} from './core/camera';
 import {clipDuration} from './core/animation';
 import {walkTimings,type WalkTiming} from './core/locomotion-timing';
-import {animationTreatments,type AnimationTreatment} from './core/animation-treatment';
+import {sampleAnimation,animationTreatments,type AnimationTreatment} from './core/animation-treatment';
 import {sandboxUI} from './sandbox-ui';
+import {heroTimings} from './content/hero-actions';
+import type {Clip} from './assets/schema';
 import './inspection';
 const $=<T extends HTMLElement>(s:string)=>document.querySelector<T>(s)!;
 $('#app').innerHTML=sandboxUI;
@@ -106,7 +108,9 @@ async function boot(){await app.boot();presentation=app.presentation;
       $('#walk-blend-help').textContent=animationTreatments[presentation.animationTreatment].description;
     };
   }
-  $('#walk-blend-help').textContent=animationTreatments.guarded.description;
+  $<HTMLSelectElement>('#walk-blend').value=presentation.animationTreatment;
+  $('#walk-blend-help').textContent=animationTreatments[presentation.animationTreatment].description;
+  $('#animation-comparison').onchange=()=>{presentation.comparisonMode=$<HTMLSelectElement>('#animation-comparison').value as 'treatment'|'timing';presentation.restartLab();};
   for(const id of ['walk-stabilized'])$('#'+id).onchange=()=>{
     presentation.stabilized=$<HTMLInputElement>('#'+id).checked;
     for(const control of ['walk-stabilized'])$<HTMLInputElement>('#'+control).checked=presentation.stabilized;
@@ -140,7 +144,7 @@ async function boot(){await app.boot();presentation=app.presentation;
     event.preventDefault();const pixels=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?$('canvas').clientHeight:1);
     zoomPreview(presentation.labZoom*Math.exp(-pixels*.0015));
   },{passive:false});
-  $('#walk-restart').onclick=()=>{presentation.labAnimator.start(presentation.getClip(presentation.labClip,presentation.labHeading));presentation.labTime=0;};
+  $('#walk-restart').onclick=()=>presentation.restartLab();
   $('#asset').innerHTML = Object.keys(assetCatalog)
     .map((id) => `<option>${id}</option>`)
     .join('');
@@ -228,14 +232,38 @@ function updateUI(){if(!presentation)return;
  if(mode==='encounter'||mode==='lighting'){$('#room-title').textContent=sim.areaDefinition.name;$('#room-subtitle').textContent=sim.areaDefinition.subtitle;}
  if(mode==='lighting'){const lab=presentation.lightingLab.stats();$('#lighting-pause').textContent=app.paused?'Resume scene':'Pause scene';$('#lighting-playback').textContent=lightingReplay?'Replay: shade → lantern → combat → return':'Free play';$('#lighting-stop').hidden=!lightingReplay;$('#lighting-stats').textContent=`${presentation.renderer.domElement.width} × ${presentation.renderer.domElement.height}\n${lab.companions} generated companions · ${(lab.normalBytes/1048576).toFixed(1)} MiB\nHDR color buffers ${(lab.targets.colorBytes/1048576).toFixed(0)} MiB`;}
  if(mode==='occlusion'){const label=document.querySelector<HTMLElement>('#art-registration-status');if(label)label.textContent=presentation.artConstruction.findings.length?presentation.artConstruction.findings.map(f=>`${f.a}${f.b?' ↔ '+f.b:''}: ${f.message}`).join('\n'):'No undeclared Graveyard overlaps. Green: footprints. Gold: joins. Amber: light sockets.';}
- if(mode==='animation'){const c=presentation.labAnimator.clip,d=clipDuration(c),visualTime=c.loop?presentation.labTime%d:Math.min(presentation.labTime,d);$<HTMLInputElement>('#scrub').max=String(d);$<HTMLInputElement>('#scrub').value=String(visualTime);$('#visual-time').textContent=`${Math.round(visualTime)} / ${Math.round(d)} ms`;$('#notify').textContent=presentation.notifyLog.join('\n');$('#frame-status').textContent=`${presentation.labAnimator.frame} · ${presentation.labSprite.lightingSample?.blend?'Guarded transition':'Authored hold'}`;$('#walk-comparison').hidden=presentation.labAsset!=='ink-hero-current';for(const id of ['walk-blend','walk-stabilized','walk-rigid-sword','locomotion-timing'])$<HTMLInputElement>('#'+id).disabled=presentation.labAsset!=='ink-hero-current'||id==='locomotion-timing'&&presentation.labClip!=='walk';}
+ if(mode==='animation')updateAnimationReview();
 }
-let benchmarkFrames:number[]=[],benchmarkMeasuring=false,returnSave:ReturnType<GameSession['captureSave']>|undefined;
+let reviewClip:Clip|undefined,reviewMode='';
+function updateAnimationReview(){
+ const c=presentation.labAnimator.clip,d=clipDuration(c),original=presentation.getOriginalLabClip(),reference=clipDuration(original),timing=presentation.comparisonMode==='timing',span=timing?Math.max(d,reference):d;
+ const elapsed=c.loop?presentation.labTime%span:Math.min(presentation.labTime,span);
+ $<HTMLInputElement>('#scrub').max=String(span);$<HTMLInputElement>('#scrub').value=String(elapsed);$('#visual-time').textContent=`${Math.round(elapsed)} / ${Math.round(span)} ms`;
+ const hero=presentation.labAsset==='ink-hero-current',heading=c.frames[0]!.split('-')[1] as typeof HEADINGS[number],recipe=hero?heroTimings[presentation.labClip]?.[heading]:undefined;
+ if(reviewClip!==c||reviewMode!==presentation.comparisonMode){
+  reviewClip=c;reviewMode=presentation.comparisonMode;const timeline=$('.timeline');timeline.replaceChildren();
+  let end=0;for(const hold of c.durationsMs){end+=hold;const marker=document.createElement('span');marker.className='animation-marker';marker.style.left=`${end/span*100}%`;marker.title=`Drawing boundary ${Math.round(end)} ms`;timeline.append(marker);}
+  if(recipe?.damageMs){const active=document.createElement('span');active.className='animation-active';active.style.left=`${recipe.damageMs[0]!/span*100}%`;active.style.width=`${(recipe.damageMs[1]!-recipe.damageMs[0]!)/span*100}%`;active.title='Damage window';timeline.append(active);}
+  if(recipe?.pulseMs!==undefined){const pulse=document.createElement('span');pulse.className='animation-pulse';pulse.style.left=`${recipe.pulseMs/span*100}%`;pulse.title='Lantern pulse';timeline.append(pulse);}
+  const playhead=document.createElement('span');playhead.id='animation-playhead';timeline.append(playhead);
+ }
+ $('#animation-playhead').style.left=`${elapsed/span*100}%`;
+ const sample=sampleAnimation(c,presentation.labTime,'guarded',presentation.animationFlow?.pairs),pair=presentation.animationFlow?.pairs.find(p=>p.asset===presentation.labAsset&&p.from===sample.from&&p.to===sample.to);
+ const status=presentation.labSprite.lightingSample?.blend?'Guarded transition':pair?.supported?'Pose hold':sample.from===sample.to?(c.loop?'Static pose':'Terminal pose'):pair?.reviewReason??'Authored hold';
+ $('#frame-status').textContent=`${presentation.labAnimator.frame} · ${status}${pair?.supported&&pair.intent?' · '+pair.intent:''}`;
+ const markers=recipe?.damageMs?`Damage ${Math.round(recipe.damageMs[0]!)}–${Math.round(recipe.damageMs[1]!)} ms`:recipe?.pulseMs!==undefined?`Pulse ${Math.round(recipe.pulseMs)} ms`:presentation.labClip==='dodge'?'Travel / invulnerability 100–233 ms':c.frames.length===1?'Static pose':c.loop?'Loop':'Terminal drawing holds';
+ $('#action-timing').textContent=`Directed ${Math.round(d)} ms · imported ${Math.round(reference)} ms. ${markers}.`;
+ $('#walk-comparison').hidden=!hero;$('#walk-comparison').textContent=timing?'Left: directed rhythm and selected treatment. Right: imported rhythm and held drawings. Both start together on elapsed time.':'Left: selected treatment. Right: uncorrected held drawings. Both use identical directed timing. Green markers are fixed actor roots.';
+ $('#notify').textContent=presentation.notifyLog.join('\n');
+ for(const id of ['animation-comparison','walk-blend','walk-stabilized','walk-rigid-sword','locomotion-timing'])$<HTMLInputElement>('#'+id).disabled=!hero||id==='locomotion-timing'&&presentation.labClip!=='walk';
+}
+let benchmarkFrames:number[]=[],benchmarkMeasuring=false,benchmarkStartTick=0,benchmarkSkipFrame=true,returnSave:ReturnType<GameSession['captureSave']>|undefined;
+function beginBenchmarkMeasurement(){benchmarkFrames=[];benchmarkStartTick=app.sim.tick;benchmarkSkipFrame=true;app.clock.droppedMs=0;}
 async function startBenchmark(stress=false){lightingReplay=false;await app.loadAsset('ink-skeleton');returnSave??=app.session.captureSave();const definitions=stress?{...sandboxDefinitions,areas:sandboxDefinitions.areas.map(a=>a.id==='court'?{...a,activation:undefined,spawns:Array.from({length:32},(_,i)=>({id:`stress-${i}`,actor:'warden',x:(i%6-3)*1.2,z:(Math.floor(i/6)-2)*1.2}))}:a)}:sandboxDefinitions;
  await app.replaceArea('court',()=>{app.session=new GameSession(new ContentRegistry(definitions),142,'court',app.session.generation+1);return [];});
- benchmarkFrames=[];benchmarkMeasuring=true;app.clock.droppedMs=0;app.command=sim=>{if(sim.cleared)app.publish(app.session.resetCurrentArea());const target=sim.enemies.find(a=>a.health>0)??sim.hero,angle=sim.tick/120;return {move:{x:Math.cos(angle),z:Math.sin(angle)},aim:target,attack:true,ability:sim.tick%180===0,dodge:sim.tick%100===50,generation:sim.generation};};setMode('encounter');app.pause(false);
+ beginBenchmarkMeasurement();benchmarkMeasuring=true;app.command=sim=>{if(sim.cleared)app.publish(app.session.resetCurrentArea());const target=sim.enemies.find(a=>a.health>0)??sim.hero,angle=sim.tick/120;return {move:{x:Math.cos(angle),z:Math.sin(angle)},aim:target,attack:true,ability:sim.tick%180===0,dodge:sim.tick%100===50,generation:sim.generation};};setMode('encounter');app.pause(false);
 }
-app.afterFrame=ms=>{if(benchmarkMeasuring)benchmarkFrames.push(ms);};
-window.foundation={get ready(){return app.ready;},get session(){return app.session;},get sim(){return app.sim;},get presentation(){return app.presentation;},get persistence(){return app.persistence;},get eventHistory(){return app.events.history;},get manifest(){return app.packs.get('ink-hero-current')!.manifest;},fixture,mode:setMode,pause:value=>app.pause(value),reset:()=>app.reset(),stats:()=>app.presentation.stats(),saveValue:()=>app.session.captureSave(),startBenchmark,
- async finishBenchmark(restoreSession=true){const result={frames:benchmarkFrames,stats:presentation.stats(),droppedMs:app.clock.droppedMs,simulatedTicks:app.sim.tick};benchmarkMeasuring=false;app.command=undefined;if(restoreSession&&returnSave){const snapshot=returnSave;await app.replaceArea(snapshot.area,()=>{app.session=new GameSession(sandboxContent,snapshot.seed,snapshot.area,app.session.generation+1);return app.session.restoreSave(snapshot);});returnSave=undefined;}return result;},dispose:()=>app.dispose()};
+app.afterFrame=ms=>{if(benchmarkMeasuring){if(benchmarkSkipFrame)benchmarkSkipFrame=false;else benchmarkFrames.push(ms);}};
+window.foundation={get ready(){return app.ready;},get session(){return app.session;},get sim(){return app.sim;},get presentation(){return app.presentation;},get persistence(){return app.persistence;},get eventHistory(){return app.events.history;},get manifest(){return app.packs.get('ink-hero-current')!.manifest;},fixture,mode:setMode,pause:value=>app.pause(value),reset:()=>app.reset(),stats:()=>app.presentation.stats(),saveValue:()=>app.session.captureSave(),startBenchmark,beginBenchmarkMeasurement,
+ async finishBenchmark(restoreSession=true){const result={frames:benchmarkFrames,stats:presentation.stats(),droppedMs:app.clock.droppedMs,simulatedTicks:app.sim.tick-benchmarkStartTick};benchmarkMeasuring=false;app.command=undefined;if(restoreSession&&returnSave){const snapshot=returnSave;await app.replaceArea(snapshot.area,()=>{app.session=new GameSession(sandboxContent,snapshot.seed,snapshot.area,app.session.generation+1);return app.session.restoreSave(snapshot);});returnSave=undefined;}return result;},dispose:()=>app.dispose()};
 window.addEventListener('beforeunload',()=>app.dispose());boot().catch(error=>{app.dispose();status(`Sandbox failed: ${error.message}`,true);console.error(error);});

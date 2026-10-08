@@ -4,7 +4,7 @@ import {contract,resizeCamera,trimmedBounds,drawingBufferSize,HEADINGS,right,up,
 import {ActorSprite} from './sprite';
 import {remapWalkTime} from '../core/locomotion-timing';
 import {Animator} from '../core/animation';
-import type {Clip,Frame} from '../assets/schema';
+import {resolveClip,type Clip,type Frame} from '../assets/schema';
 import {tuning} from '../content/gameplay';
 import {type PackLease} from '../assets/loader';
 import {EventHub} from '../core/events';
@@ -23,6 +23,7 @@ calibration=new T.Group();overlay=new T.Group();rootMarkers=new T.Group();
  labTime=0;labClip='walk';labHeading:typeof HEADINGS[number]='d45';labPaused=false;labSpeed=1;notifyLog:string[]=[];
  labSprite:ActorSprite;secondSprite:ActorSprite;labAnimator:Animator;frameMap=new Map<string,Frame>();lastLabOverlay='';labZoom=2;labPanelInset=330;
  comparisonElevation=contract.elevationDeg;labAsset='ink-hero-current';
+ comparisonMode:'treatment'|'timing'='treatment';private originalClips=new WeakMap<Clip,Clip>();
  override get manifest(){return this.packs.get(this.labAsset??'ink-hero-current')!.manifest;}
  override get textures(){return this.packs.get(this.labAsset??'ink-hero-current')!.textures;}
  constructor(canvas:HTMLCanvasElement,packs:Map<string,PackLease>,events:EventHub,initialArea:import('../content/world').AreaDefinition,registration:PreparedRegistration){super(canvas,packs,events,initialArea,registration);this.scene.add(this.calibration,this.overlay,this.rootMarkers,this.artConstruction.group);
@@ -39,11 +40,19 @@ calibration=new T.Group();overlay=new T.Group();rootMarkers=new T.Group();
     for(const [color,x] of [[0x808080,-4],[0xe9bc67,-3],[0x263b4a,-2]] as const){const m=new T.Mesh(new T.PlaneGeometry(.65,.65),new T.MeshBasicMaterial({color,toneMapped:false}));m.quaternion.copy(this.camera.quaternion);m.position.set(x,2,1);this.calibration.add(m);}
   }
   getClip(id:string,dir:typeof HEADINGS[number],manifest=this.manifest):Clip {return super.getClip(id,dir,manifest);}
+  getOriginalLabClip():Clip{
+    const clip=resolveClip(this.manifest,this.labClip,this.labHeading);if(this.labAsset!=='ink-hero-current')return clip;
+    let original=this.originalClips.get(clip);if(original)return original;
+    const heading=Object.keys(this.manifest.asset.clips[this.labClip]!).find(h=>this.manifest.asset.clips[this.labClip]![h as typeof HEADINGS[number]]===clip)!;
+    const holds=this.registration.animation.clips[`${this.labClip}:${heading}`]?.originalHoldsMs;
+    original=holds?{...clip,durationsMs:[...holds],notifies:[]}:clip;this.originalClips.set(clip,original);return original;
+  }
+  restartLab(){this.labAnimator.start(this.getClip(this.labClip,this.labHeading));this.labTime=0;}
   selectLabAsset(id:string){if(id===this.labAsset)return;const pack=this.packs.get(id);if(!pack)throw new Error('lab asset not loaded');this.labAsset=id;this.labSprite.dispose();this.labClip=Object.keys(pack.manifest.asset.clips)[0]!;this.labSprite=new ActorSprite('lab-a',pack.manifest,pack.textures,this.getClip(this.labClip,this.labHeading));this.labAnimator=this.labSprite.animator;this.scene.add(this.labSprite.mesh);
     this.secondSprite.dispose();this.secondSprite=new ActorSprite('lab-b',pack.manifest,pack.textures,this.getClip(this.labClip,this.labHeading,pack.manifest));this.scene.add(this.secondSprite.mesh);this.frameMap=new Map(pack.manifest.frames.map(f=>[f.id,f]));this.lastLabOverlay='';this.notifyLog=[];if(this.mode==='animation')this.compareCamera(this.comparisonElevation);}
 
   setMode(mode:Mode){if(mode!=='lighting')this.lookRenderer.setSettings({...defaultLook,depthOfField:this.depthOfField});if(mode==='animation'||mode==='calibration')this.lookRenderer.deactivate();this.mode=mode;this.lastLabOverlay='';this.compareCamera(contract.elevationDeg);this.resize(this.requestedRenderScale);}
-  get viewSpan(){return this.mode==='animation'?contract.verticalSpan/this.labZoom:this.verticalSpan;}
+  get viewSpan(){return this.mode==='animation'?contract.verticalSpan/this.labZoom:this.mode==='calibration'?this.verticalSpan:super.viewSpan;}
   setLabZoom(zoom:number){if(!Number.isFinite(zoom))return;this.labZoom=Math.max(.5,Math.min(4,zoom));if(this.mode==='animation')this.resize(this.requestedRenderScale);}
   compareCamera(elevation:number){
     this.comparisonElevation=elevation;const a=contract.azimuthDeg*Math.PI/180,e=elevation*Math.PI/180,target=new T.Vector3();
@@ -72,7 +81,7 @@ calibration=new T.Group();overlay=new T.Group();rootMarkers=new T.Group();
       this.labSprite.rigidSword=this.rigidSword;
       this.labSprite.stabilized=compareHero?this.stabilized:true;this.secondSprite.stabilized=!compareHero;
       const f=this.labSprite.showAnimation(position,this.camera,blendHero?this.animationTreatment:'original',this.animationFlow);
-      if(compareHero){if(this.secondSprite.animator.clip!==c)this.secondSprite.animator.start(c);this.secondSprite.animator.seek(this.labAnimator.time);}else this.secondSprite.animator.advance(ms*.7);
+      if(compareHero){const reference=this.comparisonMode==='timing'?this.getOriginalLabClip():c;if(this.secondSprite.animator.clip!==reference)this.secondSprite.animator.start(reference);this.secondSprite.animator.seek(this.labAnimator.time);}else this.secondSprite.animator.advance(ms*.7);
       this.secondSprite.show(this.secondSprite.animator.frame,compareHero?new T.Vector3().addScaledVector(right,1.2):new T.Vector3(1.2,0,0),this.camera);
       this.secondSprite.material.color.set(compareHero?0xffffff:0x98a8c3);
       if(this.debug&&this.lastLabOverlay!==f.id){this.drawOverlay(f,position);this.lastLabOverlay=f.id;}

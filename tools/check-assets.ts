@@ -14,7 +14,7 @@ for(const [id,file]of Object.entries(catalog)){
  for(const page of manifest.pages){assert.equal(hash(await readAsset('public/'+path.posix.join(path.posix.dirname(file),page.path))),page.hash,`Prepared page differs: ${id}/${page.id}`);pages++;}
  for(const visual of Object.values(actorVisuals).filter(v=>v.asset===id))for(const clip of [...Object.values(visual.clips),...visual.attacks])for(const heading of HEADINGS)resolveClip(manifest,clip,heading);
 }
-const registration=readRegistration();assert.equal(hash(await readAsset('public/animation/flow.png')),registration.animation.sha256);assert.equal(registration.animation.tuningHash,hash(await readAsset('authoring/hero-actions.json')));
+const registration=readRegistration();assert.equal(hash(await readAsset('public/animation/flow.png')),registration.animation.sha256);assert.equal(registration.animation.tuningHash,hash(await readAsset('authoring/hero-actions.json')));assert.equal(registration.animation.motionHash,hash(await readAsset('authoring/hero-motion.json')));
 const lighting=JSON.parse(await readAsset('public/lighting/manifest.json','utf8'));
 for(const [key,entry]of Object.entries(lighting.entries) as [string,{sourceHash:string;rect:number[];trim:number[];file:string;hash:string}][]){
  const [id,frameId]=key.split(':'),file=catalog[id!];assert.ok(file,`Unknown lighting asset ${id}`);const m=parseManifest(JSON.parse(await readAsset('public/'+file,'utf8'))),frame=m.frames.find(f=>f.id===frameId)!;

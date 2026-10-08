@@ -6,7 +6,8 @@ import {readAsset} from '../tools/assets/io';
 import {readRegistration} from '../tools/assets/data';
 import {parseRegistration} from '../src/assets/registration';
 import {parseManifest,resolveClip} from '../src/assets/schema';
-import {sampleAnimation} from '../src/core/animation-treatment';
+import {sampleAnimation,transitionMix} from '../src/core/animation-treatment';
+import {clipDuration,frameAt} from '../src/core/animation';
 import {timedWalk,remapWalkTime} from '../src/core/locomotion-timing';
 import {AnimationBlendShader,registeredTrim} from '../src/presentation/animation-blend-shader';
 import {ActorSprite} from '../src/presentation/sprite';
@@ -18,11 +19,11 @@ test('current transition inventory binds all clips/directions and preserves acti
  const frames=new Set(m.frames.map(f=>f.id));
  for(const [name,dirs]of Object.entries(m.asset.clips))for(const [heading,c]of Object.entries(dirs)){
   const data=registration.animation.clips[`${name}:${heading}`]!;assert.ok(data);assert.deepEqual(data.frames,c!.frames);
-  assert.deepEqual(c!.durationsMs,heroTimings[name]![heading as keyof typeof heroTimings[string]].holdsMs);
+  assert.deepEqual(c!.durationsMs,heroTimings[name]![heading as keyof typeof heroTimings[string]]!.holdsMs);
   if(name==='walk'){const weighted=timedWalk(c!,'weighted',data.weightedHoldsMs);assert.ok(Math.abs(weighted.durationsMs.reduce((a,b)=>a+b)-c!.durationsMs.reduce((a,b)=>a+b))<.001);const time=c!.durationsMs[0]!*.3;assert.ok(Math.abs(remapWalkTime(c!,weighted,time)-weighted.durationsMs[0]!*.3)<.001);}
   else assert.deepEqual(data.weightedHoldsMs,c!.durationsMs);
  }
- for(const p of registration.animation.pairs){assert.ok(frames.has(p.from)&&frames.has(p.to));assert.equal(p.asset,m.asset.id);if(p.supported){assert.ok(p.sword);assert.ok(p.silhouetteAgreement>=.96);assert.ok(p.colorError<=.09);assert.equal(p.rejectionReason,null);}}
+ for(const p of registration.animation.pairs){assert.ok(frames.has(p.from)&&frames.has(p.to));assert.equal(p.asset,m.asset.id);if(p.supported){assert.ok(p.sword||p.weaponVisibility==='hidden');assert.ok(p.silhouetteAgreement>=.96);assert.ok(p.colorError<=.09);assert.equal(p.rejectionReason,null);}}
 });
 test('mixed-density guarded sampling keeps the foot fixed and restores native held geometry',()=>{
  const textures=new Map(m.pages.map(p=>[p.id,new Texture()])),flow={...registration.animation,texture:new Texture()},camera=makeCamera(16/9),foot=new Vector3(1,.2,2);
@@ -44,8 +45,43 @@ test('guarded sampling respects variable holds, looping and terminal death poses
 test('registration rejects duplicate pairs, escaped crops and degenerate sword lines',()=>{
  const value=structuredClone(registration);value.animation.pairs.push(value.animation.pairs[0]!);assert.throws(()=>parseRegistration(value),/Duplicate/);
  const crop=structuredClone(registration);crop.animation.pairs[0]!.rect[0]=crop.animation.width;assert.throws(()=>parseRegistration(crop),/escapes/);
- const blade=structuredClone(registration);Object.assign(blade.animation.pairs[0]!,{supported:true,silhouetteAgreement:1,colorError:0,rejectionReason:null,sword:{a:[1,1,1,1],b:[2,2,3,3],width:8}});assert.throws(()=>parseRegistration(blade),/Degenerate/);
+ const blade=structuredClone(registration);Object.assign(blade.animation.pairs[0]!,{supported:true,weaponVisibility:'visible',silhouetteAgreement:1,colorError:0,rejectionReason:null,sword:{a:[1,1,1,1],b:[2,2,3,3],width:8}});assert.throws(()=>parseRegistration(blade),/Degenerate/);
 });
 test('shared authoring/player look starts Golden/Diorama at 150%',()=>{assert.equal(defaultLook.rig,'golden');assert.equal(defaultLook.look,'diorama');assert.equal(defaultLook.strength,1.5);});
 
 test('canonical artwork remains byte-identical',async()=>{assert.equal(hash(await readAsset('references/canon/image(3).png')),'74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c');});
+
+test('loaded poses stay still before a bounded monotone transition, including loop closure',()=>{
+ const clip={frames:['a','b'],durationsMs:[100,100],loop:true,notifies:[]};
+ const transitions=[{from:'a',to:'b',holdFraction:.65,easing:'ease-in' as const},{from:'b',to:'a',holdFraction:.1,easing:'smoothstep' as const}];
+ assert.equal(sampleAnimation(clip,64,'guarded',transitions).mix,0);
+ assert.ok(Math.abs(sampleAnimation(clip,82.5,'guarded',transitions).mix-.25)<1e-12);
+ assert.equal(sampleAnimation(clip,82.5,'original',transitions).mix,0);
+ assert.equal(sampleAnimation(clip,210,'guarded',transitions).mix,0);
+ for(const easing of ['linear','ease-in','ease-out','smoothstep'] as const){
+  const samples=Array.from({length:101},(_,i)=>transitionMix(i/100,{holdFraction:.25,easing}));
+  assert.equal(samples[0],0);assert.equal(samples.at(-1),1);assert.ok(samples.every((x,i)=>i===0||x>=samples[i-1]!));
+ }
+ const invalid=structuredClone(registration);invalid.animation.pairs[0]!.holdFraction=1;assert.throws(()=>parseRegistration(invalid));
+});
+test('eight-direction run turns retain phase across six/eight drawings and original timing remains available',()=>{
+ const six=resolveClip(m,'walk','d45'),eight=resolveClip(m,'walk','d135');assert.equal(six.frames.length,6);assert.equal(eight.frames.length,8);
+ assert.ok(Math.abs(remapWalkTime(six,eight,clipDuration(six)*1.7)-clipDuration(eight)*1.7)<1e-8);
+ assert.notDeepEqual(registration.animation.clips['sweep:d90']!.originalHoldsMs,resolveClip(m,'sweep','d90').durationsMs);
+ const hidden=registration.animation.pairs.find(p=>p.supported&&p.weaponVisibility==='hidden')!;assert.ok(hidden);assert.equal(hidden.sword,undefined);
+ const invalid=structuredClone(registration);const pair=invalid.animation.pairs.find(p=>p.supported&&p.weaponVisibility==='hidden')!;pair.weaponVisibility='uncertain';assert.throws(()=>parseRegistration(invalid),/requires sword|visibility/);
+});
+
+test('one-tick sweep launch and damage poses are visible at their exact simulation boundaries',()=>{
+ const clip=resolveClip(m,'sweep','d90');
+ assert.equal(frameAt(clip,17000/60),clip.frames[4]);
+ assert.equal(sampleAnimation(clip,17000/60,'guarded').from,clip.frames[4]);
+ assert.equal(frameAt(clip,300),clip.frames[5]);
+ assert.equal(sampleAnimation(clip,300,'guarded').from,clip.frames[5]);
+});
+
+test('weighted cardinal run loops start on the first drawing at the exact 40-tick boundary',()=>{
+ const walk=timedWalk(resolveClip(m,'walk','d135'),'weighted',registration.animation.clips['walk:d135']!.weightedHoldsMs);
+ assert.equal(frameAt(walk,40000/60),walk.frames[0]);
+ assert.equal(sampleAnimation(walk,40000/60,'guarded').from,walk.frames[0]);
+});

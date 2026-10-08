@@ -84,9 +84,9 @@ export class InkRoom {
    foot.addScaledVector(outward,.008);this.sample(emission,clip,this.time+p.flame!.phase*1000,foot);emission.mesh.scale.setScalar((p.scale??1)*(candle?1:.38));emission.mesh.visible=visible;emission.material.opacity=fixture.material.opacity;
   }
   if(this.architecture&&visible){
-   const motes=this.effect('crypt-motes','ink-crypt-ambient','rising_motes');motes.mesh.visible=true;motes.mesh.userData.decorative=true;motes.mesh.scale.setScalar(.28);motes.material.opacity=.32;this.sample(motes,motes.animator.clip,this.time+710,new T.Vector3(0,1.35,-6.87));
+   const motes=this.effect('crypt-motes','ink-crypt-ambient','rising_motes');motes.mesh.visible=true;motes.mesh.userData.decorative=true;motes.mesh.scale.setScalar(.28);motes.material.opacity=.32;this.sample(motes,motes.animator.clip,this.time+710,new T.Vector3(0,1.8,-6.95));
    const phase=this.time%9500;
-   for(const [id,clipId,duration]of [['crypt-drop','droplet_splash',1000],['crypt-ripple','pond_ripple',2000]] as const){const effect=this.effect(id,'ink-crypt-ambient',clipId);effect.mesh.visible=phase<duration;effect.mesh.userData.decorative=true;effect.mesh.scale.setScalar(.2);effect.material.opacity=.5;this.sample(effect,effect.animator.clip,phase,new T.Vector3(6.6,heightAt(this.area,6.6,.3)+.025,.3));}
+   for(const [id,clipId,duration]of [['crypt-drop','droplet_splash',1000],['crypt-ripple','pond_ripple',2000]] as const){const effect=this.effect(id,'ink-crypt-ambient',clipId);effect.mesh.visible=phase<duration;effect.mesh.userData.decorative=true;effect.mesh.scale.setScalar(.2);effect.material.opacity=.5;this.sample(effect,effect.animator.clip,phase,new T.Vector3(5.3,heightAt(this.area,5.3,-.2)+.025,-.2));}
   }
   for(const g of this.gates){g.seal.mesh.visible=visible&&!sim.cleared;
    if(g.seal.mesh.visible){const c=resolveClip(g.seal.manifest,'door_seal_dissolve','d45');this.sample(g.seal,c,clipDuration(c)*.4,new T.Vector3(g.x,heightAt(this.area,g.x,g.z)+.02,g.z));}

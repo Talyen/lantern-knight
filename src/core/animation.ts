@@ -1,8 +1,14 @@
 import type { Clip } from '../assets/schema';
 export function clipDuration(clip:Clip) {return clip.durationsMs.reduce((a,b)=>a+b,0);}
+export function clipTime(clip:Clip,timeMs:number){
+  const duration=clipDuration(clip),time=Math.max(0,timeMs);
+  if(!clip.loop)return Math.min(time,duration-.0001);
+  const wrapped=time%duration;return duration-wrapped<1e-7?0:wrapped;
+}
 export function frameAt(clip:Clip,timeMs:number) {
-  const duration=clipDuration(clip),t=clip.loop?Math.max(0,timeMs)%duration:Math.min(Math.max(0,timeMs),duration-0.0001);
-  let end=0;for(let i=0;i<clip.frames.length;i++){end+=clip.durationsMs[i]!;if(t<end)return clip.frames[i]!;}return clip.frames.at(-1)!;
+  const t=clipTime(clip,timeMs);
+  // Tick-authored fractions can accumulate just above their exact 60 Hz boundary.
+  let end=0;for(let i=0;i<clip.frames.length;i++){end+=clip.durationsMs[i]!;if(t<end-1e-7)return clip.frames[i]!;}return clip.frames.at(-1)!;
 }
 export class Animator {
   time=0;instance=0;private notifiedThrough=-Number.EPSILON;

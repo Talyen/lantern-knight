@@ -10,6 +10,7 @@ if(__DEV_APP__)app.setPath('userData',path.join(app.getPath('appData'),'Lantern 
 if(process.env.LANTERN_USER_DATA)app.setPath('userData',path.resolve(process.env.LANTERN_USER_DATA)); // app-owned test harness only; never renderer-selected
 app.enableSandbox();
 const hiddenTest=process.env.LANTERN_TEST_HIDDEN==='1';
+const automatedRun=process.env.LANTERN_AUTOMATED_RUN==='1';
 let window:BrowserWindow|undefined;
 app.whenReady().then(async()=>{
   if(hiddenTest&&process.platform==='darwin')app.setActivationPolicy('accessory');
@@ -22,7 +23,7 @@ app.whenReady().then(async()=>{
   const storeFor=(selected:'game'|'sandbox'|'effects')=>new Store(checkpointDirectory(profileRoot,__DEV_APP__,selected));
   let store=storeFor(mode);
   const entry=()=>launchEntry(__DEV_APP__,mode);
-  window=new BrowserWindow({width:1280,height:800,show:!hiddenTest,focusable:!hiddenTest,enableLargerThanScreen:true,backgroundColor:'#151923',title:__DEV_APP__?'Lantern Knight Dev':'Lantern Knight',webPreferences:{preload:path.join(applicationRoot,__DEV_APP__?'dist-electron-dev/preload.cjs':'dist-electron/preload.cjs'),backgroundThrottling:!hiddenTest,contextIsolation:true,sandbox:true,nodeIntegration:false,webSecurity:true}});
+  window=new BrowserWindow({width:1280,height:800,show:!hiddenTest,focusable:!hiddenTest,enableLargerThanScreen:true,backgroundColor:'#151923',title:__DEV_APP__?'Lantern Knight Dev':'Lantern Knight',webPreferences:{preload:path.join(applicationRoot,__DEV_APP__?'dist-electron-dev/preload.cjs':'dist-electron/preload.cjs'),backgroundThrottling:!hiddenTest&&!automatedRun,additionalArguments:automatedRun?['--lantern-automated-run']:[],contextIsolation:true,sandbox:true,nodeIntegration:false,webSecurity:true}});
   window.on('blur',()=>window?.webContents.executeJavaScript('window.dispatchEvent(new Event("blur"))').catch(()=>{}));
   window.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   window.webContents.on('will-navigate',event=>event.preventDefault());

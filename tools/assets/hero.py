@@ -78,6 +78,28 @@ def describe(root, index):
     authored = {}
     for role, heading, recipe in recipes:
         authored.setdefault(role, {})[heading] = recipe
+    for screen, heading in {'D': 'd45', 'R': 'd135', 'U': 'd225', 'L': 'd315'}.items():
+        group = 'hero-run_' + screen
+        manifest = json.loads(read(root, index, group, 'manifest.json', resolver))
+        density = next(manifest[k] for k in ('pixels_per_unit_APPROXIMATE', 'suggested_pixels_per_unit_APPROXIMATE', 'approximate_pixels_per_unit') if k in manifest)
+        ids, holds = [], []
+        for i, frame in enumerate(manifest['frames']):
+            data = read(root, index, group, frame['file'], resolver)
+            digest = hashlib.sha256(data).hexdigest()
+            if frame.get('sha256', digest) != digest:
+                raise ValueError('cardinal run frame differs: ' + screen + '/' + frame['file'])
+            if data[:8] != b'\x89PNG\r\n\x1a\n' or struct.unpack('>IIBB', data[16:26]) != (*manifest['canvas'], 8, 6):
+                raise ValueError('cardinal run must retain native RGBA8 canvas')
+            fid = f'walk-{heading}-{i:02}'
+            ids.append(fid)
+            holds.append(frame.get('hold_ticks_60hz', frame.get('duration_ticks', 5)) * 1000 / 60)
+            frames.append({'id': fid, 'group': group, 'member': frame['file'], 'sha256': digest,
+                'registration': {'canvas': manifest['canvas'], 'anchor': manifest['pivot_top_left'], 'density': density}})
+        if abs(sum(holds) - 40000 / 60) > .001:
+            raise ValueError('cardinal run must preserve its 40-tick cycle')
+        clips.append({'id': 'walk', 'heading': heading, 'frames': ids, 'durationsMs': holds, 'loop': True, 'notifies': []})
+        authored['walk'][heading] = {'holdsMs': holds}
+        limits.extend(manifest.get('limitations', []))
     return {'frames': frames, 'clips': clips, 'timings': authored, 'limitations': list(dict.fromkeys(limits)),
         'handoffSha256': index['archives'][index['archiveGroups']['hero-handoff']]['sha256']}
 

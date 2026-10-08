@@ -27,6 +27,7 @@ export interface FoundationInspection {
   stats(): Stats;
   saveValue(): GameSave;
   startBenchmark(stress?: boolean): Promise<void>;
+  beginBenchmarkMeasurement(): void;
   finishBenchmark(restoreSession?: boolean): Promise<BenchmarkResult>;
   dispose(): void;
 }

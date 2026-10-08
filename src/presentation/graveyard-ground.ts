@@ -1,6 +1,7 @@
 import * as T from 'three';
 import type {PackLease} from '../assets/loader';
 import {graveyardScene} from '../content/graveyard-scene';
+import {clearing,pavingIslands} from '../content/graveyard-layout';
 
 // Every static ground detail shares one depth surface. Artwork is sampled at native density;
 // there are no soil/border/decal planes to fight for ownership as the camera moves.
@@ -24,21 +25,19 @@ vec4 sampleSoil(vec2 uv){vec2 p=uv*vec2(${soil.manifest.asset.canvas[0]}.0,${soi
 vec2 q=terrainWorld.xz,terrainUV=vec2(q.x,-q.y)/4.;
 float field=(sin(q.x*.43+q.y*.31)+sin(q.x*.19-q.y*.58)*.55)/1.55;
 float route=0.;${routes.replaceAll('stone','route')}
-float clearing=1.-smoothstep(.80,1.12,length((q-vec2(0.,.25))/vec2(2.7,3.1))+.04*sin(q.x*2.8-q.y));
+float clearing=1.-smoothstep(.80,1.12,length((q-vec2(${num(clearing.x)},${num(clearing.z)}))/vec2(${num(clearing.radiusX)},${num(clearing.radiusZ)}))+.04*sin(q.x*2.8-q.y));
 float wear=max(route,clearing);
 vec3 color=mix(texture2D(map,terrainUV).rgb,texture2D(earthMap,terrainUV).rgb,clamp(.24+wear*.68+field*.07,0.,1.));
 // Rest the eye on a broad settled earth plane. Texture becomes stronger under shelter.
-color=mix(vec3(.056,.062,.036),color,.56);
-color=mix(color,vec3(.071,.067,.043)*(1.+field*.045),clearing*.88);
-color=mix(color,vec3(.073,.062,.040)*(1.+field*.045),route*.48*(1.-clearing));
+color=mix(vec3(.052,.075,.065),color,.44);
+color=mix(color,vec3(.093,.078,.059)*(1.+field*.035),clearing*.82);
+color=mix(color,vec3(.12,.095,.068)*(1.+field*.035),route*.64*(1.-clearing));
 float stone=0.;
 // Scattered remnants of paving, deliberately separated by earth, share this depth surface.
-${[
- [-3.35,6.7,.48,.6,.2],[-3.05,5.9,.42,.55,-.1],[-2.6,4.9,.55,.62,.3],[-1.9,3.8,.42,.55,-.2],[-1.2,2.8,.6,.48,.1],[-.65,1.8,.4,.5,-.3],[.2,-2.5,.6,.5,.1],[-.3,-3.5,.7,.52,-.14],[.25,-4.4,.6,.55,.18]
-].map(([x,z,w,h,a])=>`{vec2 d=q-vec2(${x},${z});vec2 p=vec2(d.x*cos(${a})-d.y*sin(${a}),d.x*sin(${a})+d.y*cos(${a}));float edge=min(${w}/2.-abs(p.x),${h}/2.-abs(p.y));stone=max(stone,smoothstep(-.015,.015,edge));}`).join('\n')}
-color=mix(color,texture2D(apronMap,terrainUV).rgb*.80,stone*.72);
+${pavingIslands.map(p=>`{vec2 d=q-vec2(${num(p.x)},${num(p.z)});vec2 v=vec2(d.x*cos(${num(p.angle)})-d.y*sin(${num(p.angle)}),d.x*sin(${num(p.angle)})+d.y*cos(${num(p.angle)}));float edge=min(${num(p.width)}/2.-abs(v.x),${num(p.length)}/2.-abs(v.y));stone=max(stone,smoothstep(-.02,.025,edge)*${num(p.opacity)});}`).join('\n')}
+color=mix(color,texture2D(apronMap,terrainUV).rgb*vec3(.84,.91,.94),stone*.78);
 ${graves}\n${decals}
 float farFade=smoothstep(18.,40.,max(abs(q.x),abs(q.y)));diffuseColor*=vec4(mix(color,vec3(.025,.043,.039),farFade*.8),1.);
 `);
- };m.customProgramCacheKey=()=> `blackwood-earth-clearing-v3:${soil.manifest.hash}:${overlays.manifest.hash}`;return m;
+ };m.customProgramCacheKey=()=> `last-tended-light-ground-v1:${soil.manifest.hash}:${overlays.manifest.hash}`;return m;
 }

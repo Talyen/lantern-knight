@@ -40,7 +40,7 @@ test('alpha-derived normals point outward with an unchanged coverage channel',()
 });
 test('every lighting companion is bound to the unchanged source page and registered frame',async()=>{
  const library=JSON.parse(await readAsset('public/lighting/manifest.json','utf8'));assert.equal(library.recipe,'alpha-volume-v1');let count=0;
- for(const asset of ['ink-hero-current','ink-skeleton','ink-scenery','ink-graveyard-scenery','ink-blackwood-oak','ink-blackwood-woodland']){
+ for(const asset of ['ink-hero-current','ink-skeleton','ink-scenery','ink-graveyard-scenery','ink-blackwood-oak','ink-blackwood-woodland',...Object.keys(assetCatalog).filter(id=>id.startsWith('ink-tended-'))]){
   const manifest=JSON.parse(await readAsset(path.join('public',assetCatalog[asset]!),'utf8'));
   for(const frame of manifest.frames){const entry=library.entries[`${asset}:${frame.id}`];assert.ok(entry);assert.equal(entry.sourceHash,manifest.pages.find((p:{id:string})=>p.id===frame.page).hash);assert.deepEqual(entry.rect,frame.rect);assert.deepEqual(entry.trim,frame.trim);
    const bytes=await readAsset(path.join('public/lighting',entry.file));assert.equal(createHash('sha256').update(bytes).digest('hex'),entry.hash);count++;

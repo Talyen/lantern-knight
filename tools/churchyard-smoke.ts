@@ -3,7 +3,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import '../src/inspection';
-const run=await smokeLaunch(true),{app,page,output,errors}=run;const checks:string[]=[];
+import {captureBenchmark} from './benchmark';
+const benchmark=process.argv.includes('--benchmark');
+const run=await smokeLaunch(true,[],{retain:benchmark}),{app,page,output,errors}=run;const checks:string[]=[];
 try{
  await page.waitForFunction(()=>window.foundation?.ready,{},{timeout:45000});
  const resize=async(w:number,h:number)=>{await app.evaluate(({BrowserWindow},{w,h})=>BrowserWindow.getAllWindows()[0]!.setContentSize(w,h+128),{w,h});await page.waitForFunction(w=>document.querySelector('canvas')!.clientWidth===w,w,{timeout:15000});await page.evaluate(()=>{window.foundation.presentation.resize();return new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));});};
@@ -35,6 +37,6 @@ try{
   await page.getByRole('button',{name:'Play Opening Scene',exact:true}).click();await page.waitForFunction(()=>document.querySelector('canvas')?.getAttribute('data-ready')==='true'&&!('foundation' in window));assert.equal(await page.locator('#lab').count(),0);assert.equal(await page.evaluate(()=>typeof window.lantern?.launchMode),'function');
   await page.getByRole('button',{name:'Pause / save'}).click();await page.getByRole('button',{name:'Save checkpoint',exact:true}).click();await page.waitForFunction(()=>document.querySelector('#status')?.textContent==='Checkpoint saved');await page.getByRole('button',{name:'Return to Sandbox'}).click();await page.waitForFunction(()=>window.foundation?.ready);assert.equal((await fs.readdir(path.join(run.profile,'preview/saves'))).includes('game.json'),true);await assert.rejects(fs.stat(path.join(run.profile,'sandbox/saves/game.json')),{code:'ENOENT'});checks.push('Dev Game Preview shares player UI; mode recreation removes inspection API and keeps checkpoints out of sandbox');
  }
- if(process.argv.includes('--benchmark')){await page.evaluate(()=>window.foundation.startBenchmark());await page.waitForTimeout(10000);const result=await page.evaluate(()=>window.foundation.finishBenchmark());await fs.writeFile(path.join(output,'benchmark.json'),JSON.stringify(result,null,2));}
- assert.deepEqual(errors,[]);await fs.rm(path.join(output,'failure.json'),{force:true});await fs.writeFile(path.join(output,'report.json'),JSON.stringify({checks,errors,stats:await page.evaluate(()=>window.foundation.stats()),platform:process.platform,limitations:['Screenshots cover this host and do not certify visible display pacing.']},null,2));console.log(`PASS: ${checks.length} Dev checks; ${run.capture?output:'verified; successful diagnostics discarded'}`);
+ if(benchmark){await resize(2560,1440);await captureBenchmark(run);checks.push('versioned benchmark with matching-condition metadata and isolated warm-up');}
+ assert.deepEqual(errors,[]);await fs.rm(path.join(output,'failure.json'),{force:true});await fs.writeFile(path.join(output,'report.json'),JSON.stringify({checks,errors,stats:await page.evaluate(()=>window.foundation.stats()),platform:process.platform,limitations:['Screenshots cover this host and do not certify visible display pacing.']},null,2));console.log(`PASS: ${checks.length} Dev checks; ${run.capture||benchmark?output:'verified; successful diagnostics discarded'}`);
 } catch(error){await fs.writeFile(path.join(output,'failure.json'),JSON.stringify({error:String(error),errors,checks},null,2));throw error;}finally{await run.close();}

@@ -55,7 +55,7 @@ export function validateConstruction(area:AreaDefinition,art:WorldVisualDefiniti
   if(!seam)errors.push(`${p.id}/${w.id}: solid intersects wall outside a registered seam`);
  }
  for(const entry of area.entries)if(!isSupportedPosition(area,entry,.3))errors.push(`${entry.id}: entry is obstructed`);
- // A continuous three-metre central route is reserved for fighting and retreat.
- if(art.interior)for(let z=-5.5;z<=8.2;z+=.25)for(let x=-1.2;x<=1.2;x+=.3)if(!isSupportedPosition(area,{x,z},.3))errors.push(`nave clearance obstructed at ${x.toFixed(2)},${z.toFixed(2)}`);
+ // A continuous six-metre central route is reserved for fighting and retreat.
+ if(art.interior)for(let z=-5.5;z<=8.2;z+=.25)for(let x=-2.7;x<=2.7;x+=.3)if(!isSupportedPosition(area,{x,z},.3))errors.push(`nave clearance obstructed at ${x.toFixed(2)},${z.toFixed(2)}`);
  return errors;
 }

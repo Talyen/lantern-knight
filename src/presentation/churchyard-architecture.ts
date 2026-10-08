@@ -1,6 +1,6 @@
 import * as T from 'three';
 import type {PackLease} from '../assets/loader';
-import {chapelLayout,burialTerraces} from '../content/graveyard-layout';
+import {chapelLayout,burialTerraces,retainingStones,gatewayLayout} from '../content/graveyard-layout';
 import {graveyardGroundMaterial} from './graveyard-ground';
 import {LocalReveal} from './scenery-reveal';
 import {right,up,outward,contract} from '../core/camera';
@@ -16,7 +16,8 @@ export class ChurchyardArchitecture {
   return this.part(id,g,m,new T.Vector3(x,y+h/2,z));
  }
  build(){const c=chapelLayout,stone=this.material(0x969d93),cap=this.material(0xb9bdac),dark=this.material(0x606f67),roof=this.material(0xc0cbd2,'ink-churchyard-roof');
-  this.box('chapel-foundation',6.8,.3,6.3,0,0,-9.3,stone);
+  const foundationDepth=c.frontZ-c.rearZ+.35;
+  this.box('chapel-foundation',c.width+.4,c.foundationHeight,foundationDepth,0,0,c.frontZ-foundationDepth/2,stone);
   this.box('chapel-east-wall',.35,c.wallHeight,5.755,3.05,.3,-9.0475,stone);
   this.box('chapel-west-wall',.35,c.wallHeight,5.755,-3.05,.3,-9.0475,dark);
   this.box('chapel-rear-wall',6.45,c.wallHeight,.35,0,.3,c.rearZ,stone);
@@ -31,20 +32,32 @@ export class ChurchyardArchitecture {
   const doorMat=new T.MeshBasicMaterial({map:texture,color:0xb9b6a2,alphaTest:.5,toneMapped:false});this.owned.push(doorMat);const doorGeo=new T.PlaneGeometry(1.38,2.51);doorGeo.translate(0,1.255,0);const duv=doorGeo.getAttribute('uv');for(let i=0;i<duv.count;i++){const x=.5+(duv.getX(i)-.5)*1.38/c.width,y=duv.getY(i)*2.51/c.facadeHeight;duv.setXY(i,(frame.rect[0]+x*frame.rect[2])/page.width,1-(frame.rect[1]+(1-y)*frame.rect[3])/page.height);}this.part('chapel-recessed-door',doorGeo,doorMat,new T.Vector3(0,.3,c.frontZ-.28));
   for(const x of [-.71,.71])this.box(`door-return-${x}`, .16,2.45,.28,x,.3,c.frontZ-.155,dark);
   this.box('porch-first-tread',3,.15,.3,0,0,-5.25,cap);this.box('porch-second-tread',3,.3,.3,0,0,-5.55,cap);this.box('porch-landing',3,.3,.45,0,0,-5.925,cap);
-  for(const side of [-1,1]){const g=new T.BufferGeometry(),a=side*3.45,positions=[0,.3+c.ridgeHeight,-5.95,a,.3+c.wallHeight,-5.95,0,.3+c.ridgeHeight,-12.4,a,.3+c.wallHeight,-12.4];g.setAttribute('position',new T.Float32BufferAttribute(positions,3));g.setAttribute('uv',new T.Float32BufferAttribute([0,0,1.6,0,0,2.7,1.6,2.7],2));g.setIndex(side===1?[0,1,2,1,3,2]:[0,2,1,1,2,3]);g.computeVertexNormals();const mesh=this.part(`chapel-roof-${side}`,g,roof,new T.Vector3());mesh.material.side=T.DoubleSide;}
+  // The eastern rear roof has one designed wound; the front and ridge remain continuous.
+  for(const side of [-1,1]){
+   const contour=side===1?[[0,c.roofFrontZ],[1,c.roofFrontZ],[1,c.roofBreakZ-.35],[.76,c.roofBreakZ-.15],[.67,c.roofBreakZ-.9],[.43,c.roofBreakZ-.65],[.40,c.roofRearZ],[0,c.roofRearZ]]:[[0,c.roofFrontZ],[1,c.roofFrontZ],[1,c.roofRearZ],[0,c.roofRearZ]];
+   const points=contour.map(([u,z])=>new T.Vector2(u!,z!)),triangles=T.ShapeUtils.triangulateShape(points,[]),positions=contour.flatMap(([u,z])=>[side*c.roofHalfWidth*u!,c.foundationHeight+c.ridgeHeight+(c.wallHeight-c.ridgeHeight)*u!,z!]);
+   const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(positions,3));g.setAttribute('uv',new T.Float32BufferAttribute(contour.flatMap(([u,z])=>[u!*1.6,(c.roofFrontZ-z!)/2.4]),2));g.setIndex(triangles.flatMap(([a,b,c])=>side===1?[a!,c!,b!]:[a!,b!,c!]));g.computeVertexNormals();
+   const mesh=this.part(`chapel-roof-${side}`,g,roof,new T.Vector3());mesh.material.side=T.DoubleSide;
+   // A thin painted fascia backs every cut edge, including the irregular wound.
+   const edges:number[]=[];
+   for(let i=0;i<contour.length;i++){const j=(i+1)%contour.length,a=positions.slice(i*3,i*3+3),b=positions.slice(j*3,j*3+3);if(a[0]===0&&b[0]===0)continue;edges.push(...a,...b,a[0]!,a[1]!-.12,a[2]!,...b,b[0]!,b[1]!-.12,b[2]!,a[0]!,a[1]!-.12,a[2]!);}
+   const fascia=new T.BufferGeometry();fascia.setAttribute('position',new T.Float32BufferAttribute(edges,3));fascia.setAttribute('uv',new T.Float32BufferAttribute(edges.flatMap((_,i)=>i%3===0?[edges[i]!/2.4,edges[i+1]!/1.25]:[]),2));fascia.computeVertexNormals();const edgeMaterial=dark.clone();edgeMaterial.side=T.DoubleSide;this.owned.push(edgeMaterial);this.part(`chapel-roof-edge-${side}`,fascia,edgeMaterial,new T.Vector3());
+  }
   const rearGable=new T.BufferGeometry();rearGable.setAttribute('position',new T.Float32BufferAttribute([-3.05,3.4,c.rearZ,3.05,3.4,c.rearZ,0,5.0,c.rearZ],3));rearGable.setAttribute('uv',new T.Float32BufferAttribute([0,0,2.54,0,1.27,1.28],2));rearGable.setIndex([0,2,1]);rearGable.computeVertexNormals();this.part('chapel-rear-gable',rearGable,dark,new T.Vector3());
   for(const x of [-3.25,3.25])for(const z of [-6.1,-8.9,-11.8])this.box(`chapel-buttress-${x}-${z}`, .5,3.25,.5,x,.3,z,cap);
   // A damaged open belfry occupies the back roof rather than a second floating chapel image.
-  this.box('belfry-base',1.6,.9,1.5,1.2,4.05,-10.1,stone);for(const x of [.6,1.8])for(const z of [-10.7,-9.6])this.box(`belfry-pier-${x}-${z}`,.23,1.25,.23,x,4.95,z,cap);this.box('belfry-lintel',1.6,.24,.3,1.2,6.18,-9.6,cap);this.box('belfry-broken-cap',.45,.32,.45,.6,6.18,-10.7,stone);
+  this.box('belfry-base',1.6,.9,1.5,1.2,4.05,-10.1,stone);for(const x of [.6,1.8])for(const z of [-10.7,-9.6])this.box(`belfry-pier-${x}-${z}`,.23,1.25,.23,x,4.95,z,cap);this.box('belfry-lintel',.92,.24,.3,.86,6.18,-9.6,cap);this.box('belfry-broken-cap',.35,.20,.35,.6,6.18,-10.7,stone);
   const bell=new T.Mesh(new T.CylinderGeometry(.18,.32,.42,12,1,true),new T.MeshBasicMaterial({color:0x776b4d,toneMapped:false}));bell.position.set(1.2,5.55,-10.1);this.group.add(bell);this.parts.push(bell);this.owned.push(bell.geometry,bell.material);
   for(const t of burialTerraces){const shape=new T.Shape();t.points.forEach((p,i)=>i?shape.lineTo(p.x,-p.z):shape.moveTo(p.x,-p.z));shape.closePath();const g=new T.ExtrudeGeometry(shape,{depth:t.height,bevelEnabled:true,bevelSegments:1,steps:1,bevelSize:.07,bevelThickness:.04});g.rotateX(-Math.PI/2);const topMat=graveyardGroundMaterial(this.packs);topMat.depthWrite=true;this.owned.push(topMat);const mesh=this.part(`terrain-${t.id}`,g,topMat,new T.Vector3(0,-.04,0),'ground');mesh.renderOrder=-1.8;
-   for(let i=0;i<t.points.length;i++){const a=t.points[i]!,b=t.points[(i+1)%t.points.length]!,length=Math.hypot(b.x-a.x,b.z-a.z),segments=Math.ceil(length/.8);for(let j=0;j<segments;j++){const x=a.x+(b.x-a.x)*(j+.5)/segments,z=a.z+(b.z-a.z)*(j+.5)/segments,h=t.height+.12+Math.sin(i*7+j*3)*.045;const block=this.box(`${t.id}-stone-${i}-${j}`,length/segments-.04,h,.34,x,0,z,j%3===0?stone:dark);block.rotation.y=Math.atan2(-(b.z-a.z),b.x-a.x);}}
   }
-  // Broken gateway masonry frames a gap; there is no perimeter rectangle.
-  this.box('gateway-left-pier',.58,2.45,.55,-4.5,0,7.55,stone);this.box('gateway-right-pier',.58,1.85,.55,-2.0,0,7.55,stone);
-  const arch=new T.Shape();arch.moveTo(-1.48,1.52);arch.quadraticCurveTo(-1.05,3.35,0,3.4);arch.quadraticCurveTo(.85,3.28,1.23,2.18);arch.lineTo(.89,2.22);arch.quadraticCurveTo(.57,2.95,0,2.98);arch.quadraticCurveTo(-.82,2.87,-1.1,1.52);arch.closePath();const ag=new T.ExtrudeGeometry(arch,{depth:.42,bevelEnabled:true,bevelSize:.035,bevelThickness:.025,bevelSegments:1,steps:1});this.part('gateway-broken-arch',ag,cap,new T.Vector3(-3.25,0,7.25));
-  for(let i=0;i<5;i++){const x=-5.25-i*.55,z=7.4-i*.14;const b=this.box(`gateway-west-return-${i}`,.58,.8-i*.10,.5,x,0,z,stone);b.rotation.y=-.2;}
-  for(let i=0;i<4;i++)this.box(`gateway-east-rubble-${i}`,.7,.28+i%2*.1,.5,-1.1+i*.55,0,7.6+i*.12,stone);
+  for(const w of retainingStones){const x=(w.from.x+w.to.x)/2,z=(w.from.z+w.to.z)/2,block=this.box(w.id,Math.hypot(w.to.x-w.from.x,w.to.z-w.from.z),w.height,w.thickness,x,0,z,stone);block.rotation.y=-Math.atan2(w.to.z-w.from.z,w.to.x-w.from.x);}
+  // A low broken arch frames the maintained lamp rather than competing with the chapel.
+  const gate=gatewayLayout;
+  this.box('gateway-left-pier',gate.pierWidth,gate.leftHeight,gate.pierDepth,gate.x-gate.halfGap,0,gate.z,stone);
+  this.box('gateway-right-pier',gate.pierWidth,gate.rightHeight,gate.pierDepth,gate.x+gate.halfGap,0,gate.z,stone);
+  const arch=new T.Shape();arch.moveTo(-1.42,1.36);arch.quadraticCurveTo(-.9,2.62,0,2.65);arch.quadraticCurveTo(.65,2.56,.98,1.96);arch.lineTo(.71,1.97);arch.quadraticCurveTo(.45,2.32,0,2.33);arch.quadraticCurveTo(-.74,2.27,-1.12,1.36);arch.closePath();const ag=new T.ExtrudeGeometry(arch,{depth:gate.archDepth,bevelEnabled:false});this.part('gateway-broken-arch',ag,cap,new T.Vector3(gate.x,0,gate.z-gate.archDepth));
+  for(let i=0;i<3;i++){const b=this.box(`gateway-west-return-${i}`,.56,.42-i*.1,.4,gate.x-gate.halfGap-.7-i*.6,0,gate.z-.1-i*.12,stone);b.rotation.y=-.2;}
+  for(let i=0;i<3;i++)this.box(`gateway-east-rubble-${i}`,.55,.16+i%2*.07,.4,gate.x+gate.halfGap+.65+i*.65,0,gate.z+.08+i*.13,stone);
  }
  update(sim:Simulation,alpha:number,ms:number){
   const ray=new T.Raycaster(),actors=[sim.hero,...sim.enemies.filter(a=>a.health>0)];

@@ -35,7 +35,7 @@ uniform vec3 inkLightPosition[4]; uniform vec3 inkLightColor[4]; uniform float i
 uniform sampler2D inkNormalA,inkNormalB,inkFlow;
 uniform vec4 inkTrimA,inkTrimB,inkRectA,inkFlowRect;
 uniform vec2 inkCanvas;
-uniform float inkSwordEnabled,inkSwordWidth;uniform vec4 inkSwordA,inkSwordB;
+uniform float inkSwordEnabled,inkSwordWidth,inkSwordRotation;uniform vec4 inkSwordA,inkSwordB;
 uniform sampler2DShadow inkShadowMap; uniform mat4 inkShadowMatrix;
 float inkVisibility(){
  if(inkShadowEnabled<.5||inkIsGround>.5)return 1.0;
@@ -52,7 +52,7 @@ vec3 inkNormal(){
  vec3 n;
  if(inkBlend>.5){vec2 a=vec2(inkUV.x,1.0-inkUV.y),b=a;if(inkWarp>.5){for(int i=0;i<2;i++){a=vec2(inkUV.x,1.0-inkUV.y)-inkMix*inkMotion(a).xy;b=vec2(inkUV.x,1.0-inkUV.y)-(1.0-inkMix)*inkMotion(b).zw;}}
   float blend=inkMix;
-  if(inkSwordEnabled>.5){vec4 rigid=swordCoordinates(vec2(inkUV.x,1.0-inkUV.y)*inkCanvas,inkSwordA,inkSwordB,inkMix);float protect=swordProtection(vec4(a,b)*inkCanvas.xyxy,rigid,inkSwordA,inkSwordB,inkSwordWidth);a=mix(a,rigid.xy/inkCanvas,protect);b=mix(b,rigid.zw/inkCanvas,protect);blend=mix(blend,step(.5,inkMix),protect);}
+  if(inkSwordEnabled>.5){vec4 rigid=swordCoordinates(vec2(inkUV.x,1.0-inkUV.y)*inkCanvas,inkSwordA,inkSwordB,inkMix,inkSwordRotation);float protect=swordProtection(vec4(a,b)*inkCanvas.xyxy,rigid,inkSwordA,inkSwordB,inkSwordWidth);a=mix(a,rigid.xy/inkCanvas,protect);b=mix(b,rigid.zw/inkCanvas,protect);blend=mix(blend,step(.5,inkMix),protect);}
   n=normalize(mix(inkSampleNormal(inkNormalA,a,inkTrimA),inkSampleNormal(inkNormalB,b,inkTrimB),blend));
  }else{vec2 q=(inkUV-inkRectA.xy)/inkRectA.zw;n=normalize(texture2D(inkNormalA,q).rgb*2.0-1.0);}
  n.x*=inkMirror;return normalize(vec3(${right.x},${right.y},${right.z})*n.x+vec3(${up.x},${up.y},${up.z})*n.y+vec3(${outward.x},${outward.y},${outward.z})*n.z);
@@ -79,7 +79,7 @@ export class IllustratedLighting {
  readonly normals=new NormalLibrary();
  readonly common={inkShadowEnabled:{value:0},inkShadowMap:{value:null as T.DepthTexture|null},inkShadowMatrix:{value:new T.Matrix4()},inkEnabled:{value:0},inkStrength:{value:1},inkAmbient:{value:1},inkKeyStrength:{value:1},inkRim:{value:0},inkHaze:{value:0},inkSky:{value:new T.Color()},inkGround:{value:new T.Color()},inkKey:{value:new T.Color()},inkDirection:{value:new T.Vector3()},inkFog:{value:new T.Color()},inkOrigin:{value:new T.Vector3()},inkLightPosition:{value:Array.from({length:4},()=>new T.Vector3())},inkLightColor:{value:Array.from({length:4},()=>new T.Color(0xffad57))},inkLightRange:{value:[4.8,4.8,4.8,4.8]},inkLightPower:{value:[0,0,0,0]}};
  private attached=new WeakMap<T.MeshBasicMaterial,ReturnType<IllustratedLighting['uniformsFor']>>();
- private uniformsFor(ground:boolean,emissive:boolean){return {...this.common,inkIsGround:{value:ground?1:0},inkEmissive:{value:emissive?1:0},inkFootY:{value:0},inkBodyHeight:{value:1},inkHasNormal:{value:0},inkMirror:{value:1},inkBlend:{value:0},inkWarp:{value:0},inkMix:{value:0},inkNormalA:{value:null as T.Texture|null},inkNormalB:{value:null as T.Texture|null},inkFlow:{value:null as T.Texture|null},inkTrimA:{value:new T.Vector4()},inkTrimB:{value:new T.Vector4()},inkRectA:{value:new T.Vector4()},inkFlowRect:{value:new T.Vector4()},inkCanvas:{value:new T.Vector2(1,1)},inkSwordEnabled:{value:0},inkSwordWidth:{value:22},inkSwordA:{value:new T.Vector4()},inkSwordB:{value:new T.Vector4()}};}
+ private uniformsFor(ground:boolean,emissive:boolean){return {...this.common,inkIsGround:{value:ground?1:0},inkEmissive:{value:emissive?1:0},inkFootY:{value:0},inkBodyHeight:{value:1},inkHasNormal:{value:0},inkMirror:{value:1},inkBlend:{value:0},inkWarp:{value:0},inkMix:{value:0},inkNormalA:{value:null as T.Texture|null},inkNormalB:{value:null as T.Texture|null},inkFlow:{value:null as T.Texture|null},inkTrimA:{value:new T.Vector4()},inkTrimB:{value:new T.Vector4()},inkRectA:{value:new T.Vector4()},inkFlowRect:{value:new T.Vector4()},inkCanvas:{value:new T.Vector2(1,1)},inkSwordEnabled:{value:0},inkSwordWidth:{value:22},inkSwordRotation:{value:0},inkSwordA:{value:new T.Vector4()},inkSwordB:{value:new T.Vector4()}};}
  attach(material:T.MeshBasicMaterial,ground=false,emissive=false){
   const held=this.attached.get(material);if(held)return held;
   const uniforms=this.uniformsFor(ground,emissive);
@@ -104,14 +104,14 @@ export class IllustratedLighting {
    const domain=pair??frame.registration??sprite.manifest.asset,[cw,ch]=domain.canvas;u.inkCanvas.value.set(cw,ch);u.inkBlend.value=sample.blend?1:0;u.inkMix.value=sample.blend?.mix??0;
    for(const [f,target]of [[frame,u.inkTrimA],[sample.next??frame,u.inkTrimB]] as const){const t=registeredTrim(sprite.manifest,f,domain,sprite.stabilized);target.value.set(t[0]/cw,t[1]/ch,t[2]/cw,t[3]/ch);}
    u.inkSwordEnabled.value=sample.blend?.guarded&&sprite.rigidSword&&pair?.sword?1:0;
-   if(pair?.sword){const sword=registeredSword(pair.sword,{...frame,visualOffsetPx:[...pair.offsetA]},{...(sample.next??frame),visualOffsetPx:[...pair.offsetB]},sprite.stabilized);u.inkSwordA.value.fromArray(sword.a);u.inkSwordB.value.fromArray(sword.b);u.inkSwordWidth.value=sword.width;}
+   if(pair?.sword){const sword=registeredSword(pair.sword,{...frame,visualOffsetPx:[...pair.offsetA]},{...(sample.next??frame),visualOffsetPx:[...pair.offsetB]},sprite.stabilized);u.inkSwordA.value.fromArray(sword.a);u.inkSwordB.value.fromArray(sword.b);u.inkSwordWidth.value=sword.width;u.inkSwordRotation.value=sword.rotationRad;}
    u.inkWarp.value=pair?1:0;u.inkFlow.value=sample.flow?.texture??a;
    if(pair&&sample.flow){const [px,py,pw,ph]=(sample.blend!.guarded?(sprite.stabilized?pair.guardedRect:pair.rawGuardedRect):(sprite.stabilized?pair.rect:pair.rawRect)) as [number,number,number,number];u.inkFlowRect.value.set((px+.5)/sample.flow.width,(py+.5)/sample.flow.height,(pw-1)/sample.flow.width,(ph-1)/sample.flow.height);}
   }
  }
  configure(settings:LookSettings,origin:T.Vector3,interior=false){const rig=lightingRigs[settings.rig],look=lookPresets[settings.look],u=this.common;
   u.inkEnabled.value=!settings.baseline&&settings.lighting?1:0;u.inkStrength.value=settings.strength;u.inkSky.value.set(rig.sky);u.inkGround.value.set(rig.ground);u.inkKey.value.set(rig.key);u.inkFog.value.set(rig.fog);u.inkDirection.value.fromArray(cameraKeyDirection(contract.azimuthDeg,rig.elevation,rig.side));u.inkOrigin.value.copy(origin);u.inkAmbient.value=rig.ambient*(settings.look==='cinematic'?.80:1);u.inkKeyStrength.value=rig.keyStrength;u.inkRim.value=look.rim;u.inkHaze.value=settings.atmosphere?look.haze*.5:0;
-  if(interior){u.inkAmbient.value*=.85;u.inkKeyStrength.value*=.28;u.inkSky.value.set(0x8d9da8);u.inkGround.value.set(0x64727d);u.inkHaze.value=0;}
+  if(interior){u.inkAmbient.value*=1.08;u.inkKeyStrength.value*=.18;u.inkKey.value.set(0xb8cbdc);u.inkSky.value.set(0xc3d2dc);u.inkGround.value.set(0x9eafb9);u.inkHaze.value=0;}
  }
  neutralPalette(){const u=this.common;for(const c of [u.inkSky.value,u.inkGround.value,u.inkKey.value,u.inkFog.value,...u.inkLightColor.value])neutralColor(c);}
  restoreLightColors(){for(const c of this.common.inkLightColor.value)c.set(0xffad57);}

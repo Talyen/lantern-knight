@@ -27,9 +27,7 @@ jobs:
       - name: Configure external asset cache
         shell: bash
         run: echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
-      - run: npm run repo:check
-      - run: npm test
-      - run: npm run assets:check
+      - run: npm run check
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: failure()
         with:

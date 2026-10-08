@@ -1,0 +1,13 @@
+{
+  "group": "last-tended-light-v1",
+  "alphaRemap": {"floor": 0.72, "ceiling": 0.92},
+  "padding": 256,
+  "frames": [
+    {"id":"marker","canvas":[1024,1536],"anchor":[536,1478],"density":1700},
+    {"id":"fragments","canvas":[1536,1024],"anchor":[920,897],"density":1000},
+    {"id":"roots","canvas":[1536,1024],"anchor":[970,985],"density":800},
+    {"id":"understory","canvas":[1536,1024],"anchor":[768,880],"density":600},
+    {"id":"woodland-near","canvas":[1536,1024],"anchor":[775,946],"density":300},
+    {"id":"woodland-far","canvas":[1536,1024],"anchor":[770,965],"density":340}
+  ]
+}

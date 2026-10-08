@@ -13,7 +13,7 @@ const point = z
   .strict();
 export const GameSchema = z
   .object({
-    version: z.literal(5),
+    version: z.literal(6),
     seed: z.number().int().min(0).max(4294967295),
     wins: z.number().int().nonnegative().max(100000),
     area: id,
@@ -41,7 +41,7 @@ export type GameSave = z.infer<typeof GameSchema>;
 export type SavedActor = z.infer<typeof point>;
 export type SavedArea = GameSave['areas'][string];
 export type Settings = z.infer<typeof SettingsSchema>;
-export const SAVE_FORMAT_VERSION = 5;
+export const SAVE_FORMAT_VERSION = 6;
 export const SETTINGS_FORMAT_VERSION = 5;
 export const SAVE_LIMITS = {game: 1024 * 1024, settings: 16 * 1024} as const;
 const legacyPoint = point.extend({
@@ -150,6 +150,9 @@ export function parseGame(
     player.x=entry.x;player.z=entry.z;
     value={...previous,version:5,player,areas};
   }
+  // Validate v5 against its shipped chapel bounds before reconciling the narrower room.
+  const previousChapel=(value as {version?:number})?.version===5;
+  if(previousChapel){const previous=GameSchema.extend({version:z.literal(5)}).parse(value);value={...previous,version:6};}
   const save = GameSchema.parse(value),
     resolve = (id: string) => {
       try {
@@ -161,7 +164,7 @@ export function parseGame(
     active = resolve(save.area),
     player = registry.actor(registry.definitions.player);
   if (
-    !contains(active.bounds, save.player) ||
+    !contains(previousChapel&&active.id==='upper-landing'?{minX:-7.7,maxX:7.7,minZ:-8.7,maxZ:8.7}:active.bounds, save.player) ||
     save.player.health > player.maxHealth
   )
     throw new Error('invalid player state');
@@ -180,7 +183,7 @@ export function parseGame(
       const actor = state.actors[spawn.id];
       if (
         !actor ||
-        !contains(area.bounds, actor) ||
+        !contains(previousChapel&&areaId==='upper-landing'?{minX:-7.7,maxX:7.7,minZ:-8.7,maxZ:8.7}:area.bounds, actor) ||
         actor.health > registry.actor(spawn.actor).maxHealth
       )
         throw new Error(`invalid actor ${areaId}/${spawn.id}`);
@@ -190,7 +193,7 @@ export function parseGame(
     )
       throw new Error(`inconsistent clear state ${areaId}`);
   }
-  // New scene dressing can obstruct a formerly valid v5 position. Keep progress
+  // New chapel bounds and dressing can obstruct a formerly valid position. Keep progress
   // and vital state, but restore roots to named supports rather than inside art.
   if(!isSupportedPosition(active,save.player,.3)){const entry=active.entries.find(e=>e.id===active.baselineEntry)!;save.player.x=entry.x;save.player.z=entry.z;}
   for(const [areaId,state]of Object.entries(save.areas)){const area=resolve(areaId);for(const spawn of area.spawns){const actor=state.actors[spawn.id]!;if(!isSupportedPosition(area,actor,Math.max(.3,registry.actor(spawn.actor).radius))){actor.x=spawn.x;actor.z=spawn.z;}}}
@@ -226,6 +229,7 @@ export type LoadResult<T> =
   | {status: 'ok' | 'recovered'; data: T}
   | {status: 'unreadable'; message: string};
 export interface Bridge {
+  readonly automatedRun?:boolean;
   launchMode?(mode:'game'|'sandbox'|'effects'):Promise<void>;
   loadSettings(): Promise<LoadResult<Settings>>;
   saveSettings(value: Settings): Promise<void>;

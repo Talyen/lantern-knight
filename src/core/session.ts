@@ -188,7 +188,7 @@ export class GameSession {
     this.recordArea();
     const a = this.sim.hero;
     return {
-      version: 5,
+      version: 6,
       seed: this.sim.initialSeed,
       wins: this.wins,
       area: this.sim.area,

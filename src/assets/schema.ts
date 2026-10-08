@@ -11,7 +11,7 @@ const notify = z.object({id,atMs:finite.nonnegative(),kind:z.enum(['footstep','w
 const timing = z.object({frames:z.array(id).min(1),durationsMs:z.array(positive).min(1),loop:z.boolean(),notifies:z.array(notify)}).strict();
 const metadata = z.object({
   id,type:z.enum(['character','prop','material','effect']),schemaVersion:z.literal(2),contentVersion:z.string().min(1),
-  viewMode:z.enum(['directional','four-directional','fixed-authored']).optional(),
+  viewMode:z.enum(['directional','four-directional','mixed-directional','fixed-authored']).optional(),
   projection:z.enum(['painted-cutout','projected-world','top-down','front-view']).optional(),
   allowEmptyFrames:z.boolean().optional(),limitations:z.array(z.string()).optional(),
   atlasSize:z.number().int().min(64).max(contract.atlasMaxSize).optional(),
@@ -62,7 +62,7 @@ export function validateSemantics(value: Source|Manifest, production=false) {
   if(a.allowEmptyFrames&&a.type!=='effect')fail('allowEmptyFrames','only effects permit transparent timeline frames');
   if(a.viewMode==='fixed-authored'&&Object.values(a.clips).some(d=>Object.keys(d).some(k=>k!=='d45')))fail('viewMode','fixed authored views declare only their single d45 storage slot');
   if(a.viewMode==='fixed-authored'&&a.status==='production')fail('viewMode','fixed authored studies are development-only');
-  for(const [clip,dirs] of Object.entries(a.clips)) for(const dir of (a.viewMode==='fixed-authored'?['d45'] as const:a.viewMode==='four-directional'?['d00','d90','d180','d270'] as const:HEADINGS)) {
+  for(const [clip,dirs] of Object.entries(a.clips)) for(const dir of (a.viewMode==='fixed-authored'?['d45'] as const:a.viewMode==='four-directional'||a.viewMode==='mixed-directional'&&clip!=='walk'?['d00','d90','d180','d270'] as const:HEADINGS)) {
     const c=dirs[dir]??fail(`clips.${clip}.${dir}`,'missing required heading; mirroring forbidden');
     if(c.loop&&/(death|hit|dodge|sweep|lunge)$|attack_sword_|cast_lantern_flare/.test(clip))fail(`clips.${clip}.${dir}.loop`,'action and death clips must not loop');
     if(c.frames.length!==c.durationsMs.length) fail(`clips.${clip}.${dir}`,'duration count differs from frame count');
@@ -83,7 +83,7 @@ export function validateSemantics(value: Source|Manifest, production=false) {
 }
 export function resolveClip(manifest:Manifest,id:string,heading:typeof HEADINGS[number]):Clip {
   const key=manifest.asset.clips[id]?id:manifest.asset.fallbacks[id]??id;
-  const direction=manifest.asset.viewMode==='fixed-authored'?'d45':manifest.asset.viewMode==='four-directional'?HEADINGS[(Math.floor((HEADINGS.indexOf(heading)+1)/2)*2)%8]!:heading;
+  const direction=manifest.asset.viewMode==='fixed-authored'?'d45':manifest.asset.viewMode==='four-directional'||manifest.asset.viewMode==='mixed-directional'&&key!=='walk'?HEADINGS[(Math.floor((HEADINGS.indexOf(heading)+1)/2)*2)%8]!:heading;
   const clip=manifest.asset.clips[key]?.[direction];
   if(!clip)throw new Error(`required clip unavailable: ${manifest.asset.id}/${id}/${direction}`);
   return clip;

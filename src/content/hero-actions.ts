@@ -1,8 +1,8 @@
 import timings from '../../authoring/hero-actions.json';
-import type {AuthoredHeading} from '../core/camera';
+import type {AuthoredHeading,Heading} from '../core/camera';
 export type HeroAttackKind='sweep'|'lunge';
 export type HeroTiming={holdsMs:number[];damageMs?:number[];pulseMs?:number};
-export const heroTimings=timings as Record<string,Record<AuthoredHeading,HeroTiming>>;
+export const heroTimings=timings as Record<string,Record<AuthoredHeading,HeroTiming>&Partial<Record<Heading,HeroTiming>>>;
 const tick=(ms:number)=>Math.ceil(ms*60/1000-1e-8);
 export function heroActionTiming(clip:string,heading:AuthoredHeading){
  const recipe=heroTimings[clip]?.[heading];if(!recipe)throw new Error(`Missing hero action timing: ${clip}/${heading}`);
@@ -10,5 +10,5 @@ export function heroActionTiming(clip:string,heading:AuthoredHeading){
 }
 
 export function heroCelTick(clip:string,celIndex:number,heading:AuthoredHeading='d90'){
- return tick(heroTimings[clip]![heading].holdsMs.slice(0,celIndex).reduce((sum,ms)=>sum+ms,0));
+ return tick(heroTimings[clip]![heading]!.holdsMs.slice(0,celIndex).reduce((sum,ms)=>sum+ms,0));
 }

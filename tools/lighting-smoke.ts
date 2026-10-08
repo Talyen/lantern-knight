@@ -37,12 +37,12 @@ try{
   }
  }
  // Freeze a moving drawing and exercise both color/normal warps and caster/mask alpha.
- await page.evaluate(()=>{const f=window.foundation;f.sim.hero.state='walk';f.presentation.update(f.sim,1,0,{x:0,z:1});f.presentation.actors.get('player')!.sprite.animator.seek(615.73);});
+ await page.evaluate(()=>{const f=window.foundation;f.sim.hero.state='idle';f.sim.hero.yaw=Math.PI/2;f.presentation.update(f.sim,1,0,{x:0,z:1});f.presentation.actors.get('player')!.sprite.animator.seek(142.73);});
  for(const mode of Object.keys(animationTreatments)){
   await page.evaluate(mode=>{const f=window.foundation;f.presentation.animationTreatment=mode as keyof typeof import('../src/core/animation-treatment').animationTreatments;f.presentation.lightingLab.setSettings({look:'diorama',depthOfField:1});},mode);
-  await capture();const mask=await page.evaluate(()=>window.foundation.presentation.lightingLab.focusMaskStats());assert.ok(mask.protectedPixels>100);assert.ok(mask.groundPixels>100000);
+  await capture();if(mode==='guarded')assert.ok(await page.evaluate(()=>!!window.foundation.presentation.actors.get('player')!.sprite.lightingSample?.blend),'lighting check must exercise an accepted warp');const mask=await page.evaluate(()=>window.foundation.presentation.lightingLab.focusMaskStats());assert.ok(mask.protectedPixels>100);assert.ok(mask.groundPixels>100000);
  }
- assert.equal(errors.length,0,errors.join('\n'));checks.push('all walk blends compile with lighting, soft edges, animated shadow alpha and focus masks');
+ assert.equal(errors.length,0,errors.join('\n'));checks.push('held and guarded idle samples compile with lighting, soft edges, animated shadow alpha and focus masks');
  for(const enabled of [false,true]){await page.evaluate(enabled=>window.foundation.presentation.rigidSword=enabled,enabled);await capture();}checks.push('rigid-sword correction on/off remains aligned in lighting, shadow and focus sampling');
  await page.locator('#lighting-look').selectOption('ink');
  await settle();const objects=await page.evaluate(()=>window.foundation.stats().objects);

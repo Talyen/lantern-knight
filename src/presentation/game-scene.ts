@@ -6,7 +6,7 @@ import {timedWalk,remapWalkTime,type WalkTiming} from '../core/locomotion-timing
 import type {AnimationTreatment} from '../core/animation-treatment';
 import type {AnimationFlow} from './animation-blend-shader';
 import {InkRoom} from './ink-room';
-import {worldVisuals,floorUV,compositionPoint} from '../content/world-art';
+import {worldVisuals,floorUV,compositionPoint,compositionSpan,compositionHeight} from '../content/world-art';
 import {resolveClip} from '../assets/schema';
 import {Animator,clipDuration} from '../core/animation';
 import type {Clip} from '../assets/schema';
@@ -86,11 +86,12 @@ export class GamePresentation {
     this.room.add(sprite.mesh,shadow,ring);const v={sprite,shadow,ring,tag:'',heading:'d45' as const};this.actors.set(a.id,v);return v;
   }
   getClip(id:string,dir:typeof HEADINGS[number],manifest=this.manifest):Clip {const clip=resolveClip(manifest,id,dir);return id==='walk'&&manifest.asset.id==='ink-hero-current'?timedWalk(clip,this.walkTiming,this.registration.animation.clips[`walk:${Object.keys(manifest.asset.clips.walk!).find(h=>manifest.asset.clips.walk![h as typeof HEADINGS[number]]===clip)}`]?.weightedHoldsMs):clip;}
-  get viewSpan(){return this.verticalSpan;}
+  protected framingZ=3;
+  get viewSpan(){return compositionSpan(this.area.id,{x:0,z:this.framingZ},this.verticalSpan);}
   update(sim:Simulation,alpha:number,ms:number,aim:{x:number;z:number}){
     if(this.generation!==sim.generation){this.resetRoom(sim.areaDefinition);this.generation=sim.generation;}
     const lab=false;this.room.visible=true;
-    if(!lab&&tuning.cameraFollow){const hero=sim.hero,x=hero.px+(hero.x-hero.px)*alpha,z=hero.pz+(hero.z-hero.pz)*alpha;this.cameraTarget.set(x,heightAt(sim.areaDefinition,x,z),z);const framed=compositionPoint(sim.area,{x,z});this.viewTarget.set(framed.x,heightAt(sim.areaDefinition,framed.x,framed.z),framed.z);this.camera.position.copy(this.viewTarget).addScaledVector(outward,30);this.camera.lookAt(this.viewTarget);this.camera.updateMatrixWorld();}
+    if(!lab&&tuning.cameraFollow){const hero=sim.hero,x=hero.px+(hero.x-hero.px)*alpha,z=hero.pz+(hero.z-hero.pz)*alpha;this.framingZ=z;if(Math.abs(this.camera.top*2-this.viewSpan)>1e-8)resizeCamera(this.camera,this.canvas.clientWidth,this.canvas.clientHeight,this.viewSpan);this.cameraTarget.set(x,heightAt(sim.areaDefinition,x,z),z);const framed=compositionPoint(sim.area,{x,z},{halfWidth:(this.camera.right-this.camera.left)/2,halfHeight:(this.camera.top-this.camera.bottom)/2});this.viewTarget.set(framed.x,heightAt(sim.areaDefinition,framed.x,framed.z)+compositionHeight(sim.area,{x,z}),framed.z);this.camera.position.copy(this.viewTarget).addScaledVector(outward,30);this.camera.lookAt(this.viewTarget);this.camera.updateMatrixWorld();}
     const swing=attackDefinition(sim.hero);
     this.flare.visible=(!this.inkRoom||this.debug)&&!lab&&((sim.hero.state==='ability'&&sim.hero.age>=tuning.ability.windup)||this.debug);this.slash.visible=!this.inkRoom&&!lab&&sim.hero.attackKind==='sweep'&&sim.hero.state==='attack'&&sim.hero.age>=swing.windup&&sim.hero.age<swing.activeEnd;
     this.flare.position.set(sim.hero.x,sim.hero.y+.06,sim.hero.z);this.flare.rotation.z=(sim.hero.state==='ability'?sim.hero.yaw:sim.hero.aim)-Math.PI/2;this.flare.scale.setScalar(1);(this.flare.material as T.MeshBasicMaterial).opacity=sim.hero.state==='ability'?Math.max(0,1-sim.hero.age/tuning.ability.total)*.6:.12;
@@ -98,7 +99,7 @@ export class GamePresentation {
     const effectTag=sim.hero.attackKind;if(effectTag!==this.effectTag){this.slash.geometry.dispose();this.slash.geometry=new T.RingGeometry(swing.range-.16,swing.range,24,1,-swing.halfAngle,swing.halfAngle*2);this.effectTag=effectTag;}
     this.slash.position.set(sim.hero.x,sim.hero.y+.25,sim.hero.z);this.slash.rotation.z=sim.hero.yaw-Math.PI/2;
     this.renderer.setClearColor(this.background==='light'?0xd1c9b4:0x151923);this.aim.visible=!lab;this.aim.position.set(aim.x,heightAt(sim.areaDefinition,aim.x,aim.z)+.035,aim.z);
-      for(const a of sim.actors){const v=this.actors.get(a.id)??this.createVisual(a,sim.generation),heading=v.sprite.manifest.asset.viewMode==='fixed-authored'?'d45' as const:v.sprite.manifest.asset.viewMode==='four-directional'?(a.state==='idle'||a.state==='walk'?selectAuthoredDirection(a.yaw,v.heading):a.actionHeading):selectDirection(a.yaw,v.heading),binding=actorVisuals[a.definition.visual]!,id=a.state==='attack'?binding.attacks[a.attackKind==='lunge'?1:0]!:binding.clips[a.state],tag=`${sim.generation}:${id}:${heading}:${a.action}`;
+      for(const a of sim.actors){const v=this.actors.get(a.id)??this.createVisual(a,sim.generation),heading=v.sprite.manifest.asset.viewMode==='fixed-authored'?'d45' as const:(v.sprite.manifest.asset.viewMode==='four-directional'||v.sprite.manifest.asset.viewMode==='mixed-directional'&&a.state!=='walk')?(a.state==='idle'||a.state==='walk'?selectAuthoredDirection(a.yaw,v.heading):a.actionHeading):selectDirection(a.yaw,v.heading),binding=actorVisuals[a.definition.visual]!,id=a.state==='attack'?binding.attacks[a.attackKind==='lunge'?1:0]!:binding.clips[a.state],tag=`${sim.generation}:${id}:${heading}:${a.action}`;
         const selectedClip=this.getClip(id,heading,v.sprite.manifest);
         if(tag!==v.tag||v.sprite.animator.clip!==selectedClip){const old=v.sprite.animator.time,previous=v.sprite.animator.clip,keepPhase=(a.state==='walk'||a.state==='idle')&&v.tag.split(':')[1]===id;v.sprite.animator.start(selectedClip);if(keepPhase)v.sprite.animator.seek(previous===selectedClip?old:remapWalkTime(previous,selectedClip,old));v.tag=tag;v.heading=v.sprite.manifest.asset.viewMode==='fixed-authored'?'d45':heading;}
         const clip=v.sprite.animator.clip;

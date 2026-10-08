@@ -23,7 +23,7 @@ export class GraveyardRoom {
  build(){
   const art=graveyardScene;
   this.architecture.build();
-  for(const p of art.props){const s=this.sprite(p.id,p.asset??'ink-scenery',p.clip),scale=p.scale??1;s.show(s.animator.frame,new T.Vector3(p.x,heightAt(this.area,p.x,p.z)+(p.y??0),p.z),this.camera);s.mesh.scale.set(scale*(p.mirror?-1:1),scale,scale);s.material.color.set(p.tint??0xffffff);
+  for(const p of art.props){const s=this.sprite(p.id,p.asset??'ink-scenery',p.clip),scale=p.scale??1;s.show(s.animator.frame,new T.Vector3(p.x,heightAt(this.area,p.x,p.z)+(p.y??0),p.z),this.camera);s.mesh.scale.set(scale*(p.mirror?-1:1),scale,scale);s.material.color.set(p.tint??0xffffff);s.edgeMaterial?.color.copy(s.material.color);
    s.mesh.userData.surfaceRole=p.role??'upright';s.mesh.userData.assembly=p.assembly;if(p.fade)this.reveal(s);
    if(!['fern','bramble','lantern','cresset','lantern-hardware','cresset-hardware','crook-lamp','juniper'].includes(p.clip)&&p.role!=='ground')this.cast(s);
    if(this.shadowTexture&&p.footprint){const g=new T.PlaneGeometry(...p.footprint),m=new T.MeshBasicMaterial({map:this.shadowTexture,color:0x172521,transparent:true,depthTest:true,depthWrite:false,opacity:.22});const mesh=new T.Mesh(g,m);mesh.rotation.x=-Math.PI/2;mesh.position.set(p.x,heightAt(this.area,p.x,p.z)+(p.y??0)+.003,p.z);mesh.renderOrder=-1.55;this.group.add(mesh);this.owned.push(g,m);}

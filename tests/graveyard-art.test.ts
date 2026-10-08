@@ -32,9 +32,9 @@ test('oriented footprint collision follows the visible long axis rather than its
 });
 test('four-centimetre reversals behind a near tree retains one shader/depth policy and a continuous local reveal',async()=>{
  const f=await fixture(),sim=new Simulation();sim.enemies.forEach(a=>a.health=0);try{
-  Object.assign(sim.hero,{x:7.8,z:8.5,px:7.8,pz:8.5});for(let i=0;i<30;i++)f.room.update(sim,1,false,1000/60);
+  const tree=graveyardScene.props.find(p=>p.id==='foreground-oak')!;Object.assign(sim.hero,{x:tree.x,z:tree.z-.2,px:tree.x,pz:tree.z-.2});for(let i=0;i<30;i++)f.room.update(sim,1,false,1000/60);
   const wall=f.room.sprites.filter(s=>s.id==='foreground-oak'),versions=wall.map(s=>s.material.version);const before=f.room.graveyard!.revealStats();
-  for(const z of [8.54,8.5,8.54,8.5]){Object.assign(sim.hero,{z,pz:z});f.room.update(sim,1,false,1000/60);assert.ok(wall.every(s=>s.material.opacity===1&&s.material.transparent&&s.material.depthWrite));assert.deepEqual(wall.map(s=>s.material.version),versions);}
+  for(const z of [tree.z-.16,tree.z-.2,tree.z-.16,tree.z-.2]){Object.assign(sim.hero,{z,pz:z});f.room.update(sim,1,false,1000/60);assert.ok(wall.every(s=>s.material.opacity===1&&s.material.transparent&&s.material.depthWrite));assert.deepEqual(wall.map(s=>s.material.version),versions);}
   const after=f.room.graveyard!.revealStats();assert.ok(after.some(s=>s.strength>.5));assert.ok(after.every((s,i)=>Math.abs(s.strength-before[i]!.strength)<.3),'tiny reversals must not jump a whole module between solid and invisible');
   const paused=after.map(s=>s.strength);f.room.update(sim,1,false,0);assert.deepEqual(f.room.graveyard!.revealStats().map(s=>s.strength),paused);
  }finally{f.dispose();}

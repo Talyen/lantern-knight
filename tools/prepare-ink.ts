@@ -91,6 +91,17 @@ const flameClip=(await json('Lantern_Lighting03_CleanInk/animation/clips.json'))
 const candle=cryptItems.find(r=>r.id==='votive-hardware')!,candleScale=candle.height*Math.cos(contract.elevationDeg*Math.PI/180)*crypt.asset.density/candle.measurePx;
 const flameIds=[];for(const [i,f]of flameClip.frames.entries())flameIds.push(await image(flames,`votive-${i}`,`Lantern_Lighting03_CleanInk/${f.emission_file}`,{height:Math.round(1536*candleScale),anchor:candle.pivot,canvas:flames.asset.canvas}));
 flames.asset.clips.votive={d45:{frames:flameIds,durationsMs:flameClip.frames.map((f:{duration_ms:number})=>f.duration_ms),loop:true,notifies:[]}};packs.push(flames);
+// Selected chapel drawings retain native pixels and individually authored ground roots.
+const chapel=JSON.parse(await readAsset('authoring/chapel-art.json','utf8')) as {group:string;frames:{id:string;canvas:[number,number];anchor:[number,number];density:number;projection?:'front-view'}[]};
+const chapelRoot=`references/art/${chapel.group}`;
+for(const r of chapel.frames){
+ const p=source(`ink-chapel-${r.id}`,'prop',r.canvas,r.anchor,r.density);p.asset.atlasSize=2048;p.asset.provenance.source=chapelRoot;p.asset.provenance.creator='Built-in image_gen; owner-directed Clean INK';
+ p.asset.limitations=['Native Clean INK environment artwork; ground roots and scene scale authored for the fixed camera.'];
+ if(r.projection){p.asset.projection=r.projection;p.asset.occlusion='wall-face-v1';}
+ await image(p,r.id,`${r.id}-v1.png`,{sourceRoot:chapelRoot});still(p,r.id);packs.push(p);
+}
+const chapelFloor=source('ink-chapel-floor','material',[1024,1024],[512,512],256);chapelFloor.asset.atlasSize=1024;chapelFloor.asset.sampling='terrain-mipmapped';chapelFloor.asset.provenance.source=chapelRoot;chapelFloor.asset.provenance.creator='Built-in image_gen; owner-directed Clean INK';
+await image(chapelFloor,'surface','floor-v1.png',{sourceRoot:chapelRoot,width:1024,height:1024});still(chapelFloor,'surface');packs.push(chapelFloor);
 async function effects(id:string,folder:string,selected:string[],directional:boolean){
  const data=await json(`${folder}/manifest.json`),p=source(id,'effect',[1536,1344],[768,858],336,directional?'directional':'fixed-authored');
  for(const c of data.clips){const base=c.effect??c.id.split('__')[0];if(!selected.includes(base))continue;

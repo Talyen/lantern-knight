@@ -45,7 +45,7 @@ export function selectDirection(yaw: number, previous?: Heading, hysteresis = 0.
   if (!Number.isFinite(yaw)) throw new Error('direction yaw must be finite');
   const tau=Math.PI*2, step=tau/8, angle=((yaw%tau)+tau)%tau;
   if (previous) { const p=HEADINGS.indexOf(previous)*step; const delta=Math.abs(Math.atan2(Math.sin(angle-p),Math.cos(angle-p))); if(delta<step/2+hysteresis) return previous; }
-  return HEADINGS[Math.floor(angle/step+0.5)%8]!; // ties go toward increasing heading
+  return HEADINGS[Math.floor(angle/step+0.5+1e-12)%8]!; // ties go toward increasing heading
 }
 export function screenMovement(x: number, y: number, mode: 'screen-relative'|'world' = 'screen-relative') {
   const v=mode==='world'?new Vector3(x,0,-y):right.clone().multiplyScalar(x).add(new Vector3(-Math.sin(a),0,-Math.cos(a)).multiplyScalar(y));
@@ -70,5 +70,5 @@ export function selectAuthoredDirection(yaw:number,previous?:Heading):AuthoredHe
   const step=Math.PI/2,angle=((yaw%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
   if(previous&&AUTHORED_HEADINGS.some(h=>h===previous)){const p=HEADINGS.indexOf(previous)*Math.PI/4;
     if(Math.abs(Math.atan2(Math.sin(angle-p),Math.cos(angle-p)))<step/2+.045)return previous as AuthoredHeading;}
-  return AUTHORED_HEADINGS[Math.floor(angle/step+.5)%4]!;
+  return AUTHORED_HEADINGS[Math.floor(angle/step+.5+1e-12)%4]!;
 }

@@ -1,0 +1,10 @@
+{
+  "group": "chapel-sanctuary-v1",
+  "frames": [
+    {"id":"altar","canvas":[1536,1024],"anchor":[768,790],"density":550,"footprint":[2.4,1.2]},
+    {"id":"window","canvas":[1024,1536],"anchor":[512,1519],"density":489,"projection":"front-view"},
+    {"id":"pew","canvas":[1536,1024],"anchor":[735,735],"density":660,"footprint":[1.9,0.85]},
+    {"id":"broken-pew","canvas":[1536,1024],"anchor":[768,740],"density":710,"footprint":[2.05,1.05]},
+    {"id":"collapse","canvas":[1536,1024],"anchor":[768,765],"density":515,"footprint":[1.6,2.5]}
+  ]
+}

@@ -194,7 +194,7 @@ test('death resets only current area and failed/superseded transitions cannot co
   assert.ok(session.sim.cleared);
   assert.equal(session.sim.enemies[0]!.health, 0);
 });
-test('v5 saves preserve variable counts, health above 100, multiple areas and player cooldowns', () => {
+test('current saves preserve variable counts, health above 100, multiple areas and player cooldowns', () => {
   const session = new GameSession(sandboxContent, 7, 'systems-fixture');
   session.sim.enemies[1]!.health = 121;
   session.sim.hero.cooldown = 57;
@@ -227,7 +227,7 @@ test('v5 saves preserve variable counts, health above 100, multiple areas and pl
       ...(version === 2 ? {area: 1} : {}),
     };
     const v = parseGame(old);
-    assert.equal(v.version, 5);
+    assert.equal(v.version, 6);
     assert.equal(v.area, version === 2 ? 'upper-landing' : 'court');
     assert.equal(v.player.cooldown, 0);
     assert.equal(v.wins, 3);
@@ -576,7 +576,7 @@ test('build proof ignores mutable Finder metadata but rejects app tampering, mis
       path.join(os.tmpdir(), 'lantern-build-proof-'),
     ),
     tool = path.resolve('tools/build-identity.ts'),
-    env = {...process.env};
+    env:NodeJS.ProcessEnv = {...process.env,LANTERN_BUILD_SOURCE:JSON.stringify({commit:null,dirty:true,sha256:'0'.repeat(64)})};
   delete env.GITHUB_SHA;
   const run = (args: string[] = [], overrides: Record<string, string> = {}) =>
     spawnSync(
@@ -590,6 +590,7 @@ test('build proof ignores mutable Finder metadata but rejects app tampering, mis
     await fs.writeFile(path.join(directory, 'dist/app.js'), 'original');
     await fs.writeFile(path.join(directory, 'dist-electron/main.cjs'), 'main');
     await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-one');
+    assert.notEqual(run(['--write'],{LANTERN_BUILD_SOURCE:''}).status,0,'unguarded identity writes must fail');
     assert.equal(run(['--write']).status, 0);
     const identityPath = path.join(directory, 'dist/build-identity.json'),
       identity = JSON.parse(await readAsset(identityPath, 'utf8'));

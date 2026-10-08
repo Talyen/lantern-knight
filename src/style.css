@@ -9,3 +9,7 @@ body.game{overflow:hidden;background:#151d22}.game #app{height:100dvh;display:bl
 @media(max-width:850px){.game .hud{left:12px;bottom:12px;width:175px}.game .actions{left:auto;right:12px;transform:none;bottom:12px}.game .action{min-width:55px;padding:8px}.game .controls-hint{white-space:normal;width:80%;text-align:center}.sandbox-controls{position:absolute;top:82px;right:20px;z-index:5}}
 
 .modal>div{max-height:calc(100dvh - 40px);overflow-y:auto}.visual-options{margin:20px 0 0;border:1px solid #53635b;padding:10px 14px}.visual-options legend{color:#eadabb}.visual-options label{font-size:13px}.visual-options input{accent-color:#d6b66e}
+
+.timeline{position:relative;background:#3f5763;overflow:hidden}.animation-marker,.animation-active,.animation-pulse,#animation-playhead{position:absolute;top:0;height:100%;pointer-events:none}.animation-marker{width:1px;background:#a6b5ba88}.animation-active{background:#c47864}.animation-pulse{width:3px;background:#f6c369}#animation-playhead{width:2px;background:#fff}
+
+@media(max-width:1100px){.game .hud{left:12px;bottom:12px;width:175px;min-width:0}}

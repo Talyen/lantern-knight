@@ -1,0 +1,12 @@
+{
+  "seed": 142,
+  "actions": [
+    {"kind": "step", "ticks": 60, "command": {"move": {"x": 0, "z": -1}, "aim": {"x": 0, "z": 0}}},
+    {"kind": "save"},
+    {"kind": "step", "ticks": 360, "command": {"move": {"x": 0, "z": -1}, "aim": {"x": 0, "z": 0}, "attack": true, "ability": true}},
+    {"kind": "reset"},
+    {"kind": "load"},
+    {"kind": "step", "ticks": 60, "command": {"move": {"x": 1, "z": 0}, "aim": {"x": 0, "z": 0}, "dodge": true}},
+    {"kind": "save"}
+  ]
+}

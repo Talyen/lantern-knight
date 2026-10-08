@@ -11,13 +11,14 @@ import {areaArtAssets,validateAreaArt} from './content/world-art';
 import {ContentRegistry} from './content/world';
 import {visualEffectsAssets} from './content/visual-effects-assets';
 import {parseGame,type GameSave,type Bridge} from './core/save';
+import {FrameScheduler} from './frame-scheduler';
 export type ApplicationHooks={status:(message:string,error?:boolean)=>void;pause:(paused:boolean)=>void;frame:()=>void};
 // Both launch experiences own exactly this session/loading/input/persistence lifecycle.
 export class Application<P extends GamePresentation=GamePresentation>{
  session:GameSession;presentation!:P;input!:Input;runtime!:AssetRuntime;
  persistence:Persistence;events=new EventHub();clock=new FixedClock();packs=new Map<string,PackLease>();
  persistentLeases=new Map<string,PackLease>();private roomLeases=new Map<string,PackLease>();
- private abort=new AbortController();private request=0;private last=0;private frameId=0;private disposed=false;
+ private abort=new AbortController();private request=0;private last=0;private frames:FrameScheduler|undefined;private disposed=false;
  private aim={x:0,z:1};private assetLoads=new Map<string,Promise<void>>();
  private assertActive(){if(this.disposed)throw new Error('application disposed');}
  ready=false;busy=false;paused=false;readOnly=false;scale=1;settingsError='';command:((sim:GameSession['sim'])=>Command)|undefined;
@@ -26,7 +27,8 @@ export class Application<P extends GamePresentation=GamePresentation>{
  get sim(){return this.session.sim;}
  private onResize=()=>this.presentation?.resize(this.scale);
  private onBlur=()=>{if(this.ready)this.pause(true);};
- private onVisibility=()=>{if(document.hidden)this.onBlur();this.clock.reset();this.last=performance.now();};
+ private onVisibility=()=>{if(document.hidden)this.onBlur();this.resetFrameClock();};
+ private resetFrameClock=()=>{this.clock.reset();this.last=performance.now();};
  async boot(){
   this.assertActive();this.runtime=await AssetRuntime.open(this.catalog);this.assertActive();
   const hero=actorVisuals[this.registry.actor(this.registry.definitions.player).visual]!.asset;
@@ -38,7 +40,7 @@ export class Application<P extends GamePresentation=GamePresentation>{
   const settings=await this.bridge.loadSettings();this.assertActive();if(settings.status==='ok'||settings.status==='recovered'){this.scale=settings.data.renderScale;this.presentation.verticalSpan=settings.data.verticalSpan;this.presentation.setDepthOfField(settings.data.depthOfField);this.presentation.setVisualEffects(settings.data.visualEffects);}else if(settings.status==='unreadable')this.settingsError=settings.message;
   await this.persistence.inspect();this.assertActive();this.presentation.resize(this.scale);await this.presentation.loadAnimationFlow();this.assertActive();await this.presentation.warm();this.assertActive();
   window.addEventListener('resize',this.onResize);window.addEventListener('blur',this.onBlur);document.addEventListener('visibilitychange',this.onVisibility);
-  this.ready=true;this.canvas.dataset.ready='true';this.last=performance.now();this.frameId=requestAnimationFrame(this.loop);
+  this.ready=true;this.canvas.dataset.ready='true';if(!this.bridge.automatedRun&&(document.hidden||!document.hasFocus()))this.pause(true);this.frames=new FrameScheduler(this.loop,this.resetFrameClock,this.bridge.automatedRun);
  }
  async loadAsset(id:string){
   this.assertActive();if(this.persistentLeases.has(id))return;
@@ -74,12 +76,13 @@ export class Application<P extends GamePresentation=GamePresentation>{
  async save(){if(this.readOnly)throw new Error('Sandbox sessions cannot write checkpoints');await this.persistence.save(this.session.captureSave());await this.saveSettings();}
  autosave(){if(!this.readOnly)this.safe(()=>this.persistence.save(this.session.captureSave(),true));}
  private loop=(now:number)=>{if(this.disposed)return;const ms=Math.max(0,now-this.last);this.last=now;let alpha=1;let aim=this.aim;
-  if(!this.paused&&!this.busy&&(this.presentation.mode==='encounter'||this.presentation.mode==='occlusion'||this.presentation.mode==='lighting'))alpha=this.clock.advance(ms,()=>{
+  const idle=this.frames?.idle??(!this.bridge.automatedRun&&(document.hidden||!document.hasFocus())),frozen=this.paused||this.busy||idle;
+  if(!frozen&&(this.presentation.mode==='encounter'||this.presentation.mode==='occlusion'||this.presentation.mode==='lighting'))alpha=this.clock.advance(ms,()=>{
    const sim=this.sim;if(this.presentation.mode==='occlusion')sim.enemies.forEach(a=>a.stun=2);
    const cmd=this.command?.(sim)??this.input.consume(sim.hero,sim.areaDefinition,sim.generation);aim=cmd.aim;this.aim=aim;const result=this.session.step(cmd);this.publish(result.events);
    if(result.reset){this.input.resetAim();this.autosave();return false;}if(result.transition&&!this.command){this.safe(()=>this.transition(result.transition!));return false;}return true;
   });
-  this.presentation.update(this.sim,alpha,this.paused||this.busy?0:ms,aim);this.hooks.frame();this.afterFrame(ms);this.frameId=requestAnimationFrame(this.loop);
+  this.presentation.update(this.sim,alpha,frozen?0:ms,aim);this.hooks.frame();this.afterFrame(ms);
  };
- dispose(){if(this.disposed)return;this.disposed=true;this.ready=false;this.abort.abort();cancelAnimationFrame(this.frameId);window.removeEventListener('resize',this.onResize);window.removeEventListener('blur',this.onBlur);document.removeEventListener('visibilitychange',this.onVisibility);this.input?.dispose();this.presentation?.dispose();for(const p of this.roomLeases.values())p.release();for(const p of this.persistentLeases.values())p.release();this.events.dispose();}
+ dispose(){if(this.disposed)return;this.disposed=true;this.ready=false;this.abort.abort();this.frames?.dispose();window.removeEventListener('resize',this.onResize);window.removeEventListener('blur',this.onBlur);document.removeEventListener('visibilitychange',this.onVisibility);this.input?.dispose();this.presentation?.dispose();for(const p of this.roomLeases.values())p.release();for(const p of this.persistentLeases.values())p.release();this.events.dispose();}
 }

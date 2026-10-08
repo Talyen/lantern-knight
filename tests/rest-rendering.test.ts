@@ -35,7 +35,7 @@ test('painted geometry and cutouts meet their authored collision assemblies',asy
      card.mesh.updateMatrixWorld(true);point.applyMatrix4(card.mesh.matrixWorld);assert.ok(Math.hypot(point.x-expected.x,point.z-expected.z)<.01,wall.id);assert.ok(Math.abs(point.y-heightAt(area,expected.x,expected.z))<.01,wall.id);
     }
    }
-  if(area.id==='upper-landing'){const sim=new Simulation(142,area.id);Object.assign(sim.hero,{x:-7.3,z:-8.1});sim.move(sim.hero,0,0);room.update(sim,1,false);for(const card of room.architecture!.parts.filter(s=>['crypt-west','crypt-rear'].includes(s.userData.siteWall)))assert.equal((card.material as T.MeshBasicMaterial).opacity,1,'a far wall must not fade when the actor stands in front of its local plane');}
+  if(area.id==='upper-landing'){const sim=new Simulation(142,area.id);Object.assign(sim.hero,{x:-5.3,z:-8.1});sim.move(sim.hero,0,0);room.update(sim,1,false);for(const card of room.architecture!.parts.filter(s=>['crypt-west','crypt-rear'].includes(s.userData.siteWall)))assert.equal((card.material as T.MeshBasicMaterial).opacity,1,'a far wall must not fade when the actor stands in front of its local plane');}
   }finally{room.dispose();for(const pack of packs.values())for(const texture of pack.textures.values())texture.dispose();}
  }
 });

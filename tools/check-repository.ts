@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 const forbidden=/^(?:staging|evidence|docs\/history|references\/(?:art|handoff|updates)|public\/(?:generated|lighting|visual-effects|dev-effects|dev-lighting)|dist(?:-dev|-electron(?:-dev)?)?|release(?:-dev)?|tmp|\.cache)(?:\/|$)/;
-const exceptions:Readonly<Record<string,number>>={'package-lock.json':512*1024,'references/hero/hero-reference.png':1024*1024,'references/canon/image(3).png':1024*1024};
+const exceptions:Readonly<Record<string,number>>={'assets/sources.json':80*1024,'package-lock.json':512*1024,'references/hero/hero-reference.png':1024*1024,'references/canon/image(3).png':1024*1024};
 export function repositoryFinding(file:string,bytes:number){
  if(forbidden.test(file))return 'generated, historical or bulk asset data must remain outside Git';
  const limit=exceptions[file]??(/\.(json|ya?ml)$/i.test(file)?64*1024:256*1024);

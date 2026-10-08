@@ -4,6 +4,7 @@ import path from 'node:path';
 import sharp from 'sharp';
 import {compile,hash} from './compiler';
 import {graveyardScene} from '../src/content/graveyard-scene';
+import {clearing,pavingIslands} from '../src/content/graveyard-layout';
 import type {Source} from '../src/assets/schema';
 
 const check=process.argv.includes('--check'),root='references/art/ink-collection-01',size=2048,density=256;
@@ -55,4 +56,4 @@ const overlayPack:Source={schemaVersion:2,asset:{...template.asset,id:'ink-grave
 for(const {placement:p,image:im}of overlays.filter((v,i)=>overlays.findIndex(w=>w.placement.clip===v.placement.clip)===i)){const file=`ink/ink-graveyard-overlays/${p.clip}.png`;await write(`staging/${file}`,await sharp(im.data,{raw:im.info}).png().toBuffer());overlayPack.frames.push({id:p.clip,path:file,origin:'imported-study',attachments:{}});overlayPack.asset.clips[p.clip]={d45:{frames:[p.clip],durationsMs:[1000],loop:true,notifies:[]}};overlayPack.asset.requiredClips.push(p.clip);}
 await write('staging/ink/ink-graveyard-overlays.json',JSON.stringify(overlayPack,null,2)+'\n');const overlayManifest=await compile('ink/ink-graveyard-overlays.json','public/generated/ink/ink-graveyard-overlays',false,check);if(check&&JSON.stringify(overlayManifest)!==JSON.stringify(JSON.parse(await readAsset('public/generated/ink/ink-graveyard-overlays/manifest.json','utf8'))))throw new Error('stale graveyard overlays');
 if(source.frames.length){const file=`ink/${layout.asset}.json`;await write(`staging/${file}`,JSON.stringify(source,null,2)+'\n');const expected=await compile(file,`public/generated/ink/${layout.asset}`,false,check);if(check&&JSON.stringify(expected)!==JSON.stringify(JSON.parse(await readAsset(`public/generated/ink/${layout.asset}/manifest.json`,'utf8'))))throw new Error('stale ground proof');}
-await write('staging/ink/graveyard-ground-receipt.json',JSON.stringify({recipe:'blackwood-ground-v2',inputs:Object.fromEntries(Object.entries(inputs).sort(([a],[b])=>a.localeCompare(b))),compositionHash:hash(JSON.stringify({paths:graveyardScene.paths,graves:graveyardScene.graves,decals:graveyardScene.decals})),layout,density,originalSourcesPreserved:true,runtimeSamplerSize:1024},null,2)+'\n');
+await write('staging/ink/graveyard-ground-receipt.json',JSON.stringify({recipe:'blackwood-ground-v2',inputs:Object.fromEntries(Object.entries(inputs).sort(([a],[b])=>a.localeCompare(b))),compositionHash:hash(JSON.stringify({paths:graveyardScene.paths,graves:graveyardScene.graves,decals:graveyardScene.decals,clearing,pavingIslands})),layout,density,originalSourcesPreserved:true,runtimeSamplerSize:1024},null,2)+'\n');

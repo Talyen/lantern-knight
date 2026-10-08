@@ -10,10 +10,10 @@ import {contract} from '../src/core/camera';
 const height=2160,minimumSpan=contract.framingRange[0]!,maximumSpan=contract.framingRange[1]!,minimumHeadroom=1;
 const previousMinimumSpan=11,previousHeadroom=1.25;
 const placements=Object.values(worldVisuals).flatMap(v=>v.props);
-const derivatives=[...JSON.parse(await readAsset('staging/ink/derivatives.json','utf8')).frames,...JSON.parse(await readAsset('staging/ink/graveyard-art-receipt.json','utf8')).frames] as {pack:string;id:string;uniformScale:number;source:string;minimumSourceDensity?:number}[];
-const largestPropScale=Math.max(1,...placements.map(p=>p.scale??1));
+const derivatives=[...JSON.parse(await readAsset('staging/ink/derivatives.json','utf8')).frames,...JSON.parse(await readAsset('staging/ink/graveyard-art-receipt.json','utf8')).frames,...JSON.parse(await readAsset('staging/ink/tended-art-receipt.json','utf8')).frames] as {pack:string;id:string;uniformScale:number;source:string;minimumSourceDensity?:number}[];
+const largestPropScale=Math.max(1,...placements.filter(p=>(p.asset??'ink-scenery')==='ink-scenery').map(p=>p.scale??1));
 const largestCueScale=Math.max(1,...[...content.actors.values()].filter(a=>a.kind==='enemy').map(a=>a.melee.range/2));
-const cases=Object.keys(assetCatalog).filter(id=>id.startsWith('ink-')).map(id=>({id,scale:id==='ink-scenery'?largestPropScale:id==='ink-cues'?largestCueScale:1}));
+const cases=Object.keys(assetCatalog).filter(id=>id.startsWith('ink-')).map(id=>({id,scale:id==='ink-scenery'?largestPropScale:id==='ink-cues'?largestCueScale:Math.max(1,...placements.filter(p=>p.asset===id).map(p=>p.scale??1))}));
 const rows=[];const runtimePages=new Map<string,{rgbaBytes:number;mipmaps:boolean}>();const residentPages=new Map<string,{rgbaBytes:number;mipmaps:boolean}>();
 for(const {id,scale} of cases){const m=parseManifest(JSON.parse(await readAsset(`public/${assetCatalog[id]}`,'utf8')));
  for(const page of m.pages){const key=`${page.hash}:${page.width}x${page.height}`;residentPages.set(key,page);if(id in gameAssetCatalog)runtimePages.set(key,page);}

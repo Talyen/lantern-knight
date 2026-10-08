@@ -1,7 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {execFileSync} from 'node:child_process';
 import assert from 'node:assert/strict';
 import {contract} from '../src/core/camera';
 import {content} from '../src/content/world';
@@ -44,24 +43,14 @@ const names = [
     ),
   );
 if (process.argv.includes('--write')) {
-  let sourceCommit: string | null = null,
-    dirty = true;
-  try {
-    sourceCommit = execFileSync('git', ['rev-parse', 'HEAD'], {
-      encoding: 'utf8',
-    }).trim();
-    dirty =
-      execFileSync('git', ['status', '--porcelain'], {encoding: 'utf8'}).trim()
-        .length > 0;
-  } catch {
-    /* source archives have no Git identity */
-  }
+  const inputs=JSON.parse(process.env.LANTERN_BUILD_SOURCE??'null') as {commit:string|null;dirty:boolean;sha256:string}|null;
+  assert.ok(inputs&&/^[a-f0-9]{64}$/.test(inputs.sha256),'build identity requires a guarded build invocation');
   await fs.writeFile(
     identityPath,
-    JSON.stringify({sourceCommit, dirty, files: checksums,rendering:{camera:contract,areas:Object.fromEntries([...content.areas].map(([id,area])=>[id,{surface:area.surface,camera:worldVisuals[id]?.camera}]))}}, null, 2) + '\n',
+    JSON.stringify({sourceCommit:inputs.commit, dirty:inputs.dirty,inputSha256:inputs.sha256, assets:{sha256:process.env.LANTERN_ASSET_SHA256??null,recipeSha256:process.env.LANTERN_ASSET_RECIPE_SHA256??null},files: checksums,rendering:{camera:contract,areas:Object.fromEntries([...content.areas].map(([id,area])=>[id,{surface:area.surface,camera:worldVisuals[id]?.camera}]))}}, null, 2) + '\n',
   );
   console.log(
-    `Build identity: ${sourceCommit ?? 'source archive'}${dirty ? ' (working tree)' : ''}`,
+    `Build identity: ${inputs.commit ?? 'source archive'}${inputs.dirty ? ' (working tree)' : ''}`,
   );
 } else {
   const identity = JSON.parse(await fs.readFile(identityPath, 'utf8'));

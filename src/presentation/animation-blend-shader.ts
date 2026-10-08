@@ -26,7 +26,7 @@ uniform vec4 walkRectA;
 uniform vec4 walkRectB;
 uniform vec4 animationFlowRect;
 uniform vec2 walkCanvasSize;
-uniform float walkSwordEnabled,walkSwordWidth;
+uniform float walkSwordEnabled,walkSwordWidth,walkSwordRotation;
 uniform vec4 walkSwordA,walkSwordB;
 ${rigidSwordGLSL}
 vec4 walkSample(sampler2D page,vec2 q,vec4 trim,vec4 rect){
@@ -50,7 +50,7 @@ vec4 walkComposite(){
   }
   float blend=walkMix;
   if(walkSwordEnabled>.5){
-    vec4 rigid=swordCoordinates(vWalkCanvas*walkCanvasSize,walkSwordA,walkSwordB,walkMix);
+    vec4 rigid=swordCoordinates(vWalkCanvas*walkCanvasSize,walkSwordA,walkSwordB,walkMix,walkSwordRotation);
     float protect=swordProtection(vec4(a,b)*walkCanvasSize.xyxy,rigid,walkSwordA,walkSwordB,walkSwordWidth);
     a=mix(a,rigid.xy/walkCanvasSize,protect);b=mix(b,rigid.zw/walkCanvasSize,protect);
     blend=mix(blend,step(.5,walkMix),protect);
@@ -65,7 +65,7 @@ export class AnimationBlendShader {
   uniforms={
     walkEnabled:{value:0},walkMix:{value:0},walkWarp:{value:0},walkNext:{value:null as Texture|null},animationFlow:{value:null as Texture|null},
     walkTrimA:{value:new Vector4()},walkTrimB:{value:new Vector4()},walkRectA:{value:new Vector4()},walkRectB:{value:new Vector4()},
-    animationFlowRect:{value:new Vector4()},walkCanvasSize:{value:new Vector2()},walkSwordEnabled:{value:0},walkSwordWidth:{value:22},walkSwordA:{value:new Vector4()},walkSwordB:{value:new Vector4()},
+    animationFlowRect:{value:new Vector4()},walkCanvasSize:{value:new Vector2()},walkSwordEnabled:{value:0},walkSwordWidth:{value:22},walkSwordRotation:{value:0},walkSwordA:{value:new Vector4()},walkSwordB:{value:new Vector4()},
   };
   constructor(materials:MeshBasicMaterial[]){
     materials.forEach((material,index)=>{
@@ -95,7 +95,7 @@ export class AnimationBlendShader {
       rect.value.set(frame.rect[0]/page.width,frame.rect[1]/page.height,frame.rect[2]/page.width,frame.rect[3]/page.height);
     }
     u.walkSwordEnabled.value=sample.guarded&&rigidSword&&pair?.sword?1:0;
-    if(pair?.sword){const sword=registeredSword(pair.sword,{...a,visualOffsetPx:[...pair.offsetA]},{...b,visualOffsetPx:[...pair.offsetB]},stabilized);u.walkSwordA.value.fromArray(sword.a);u.walkSwordB.value.fromArray(sword.b);u.walkSwordWidth.value=sword.width;}
+    if(pair?.sword){const sword=registeredSword(pair.sword,{...a,visualOffsetPx:[...pair.offsetA]},{...b,visualOffsetPx:[...pair.offsetB]},stabilized);u.walkSwordA.value.fromArray(sword.a);u.walkSwordB.value.fromArray(sword.b);u.walkSwordWidth.value=sword.width;u.walkSwordRotation.value=sword.rotationRad;}
     u.walkWarp.value=pair?1:0;u.animationFlow.value=flow?.texture??textures.get(a.page)!;
     if(pair&&flow){const rect=sample.guarded?(stabilized?pair.guardedRect:pair.rawGuardedRect):(stabilized?pair.rect:pair.rawRect);
       const [x,y,w,h]=rect as [number,number,number,number];

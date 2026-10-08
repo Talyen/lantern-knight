@@ -30,9 +30,9 @@ export class ActorSprite {
     if(manifest.asset.type==='effect'||manifest.asset.renderCategory==='translucent'){this.material.transparent=true;this.material.depthWrite=false;this.material.alphaTest=0;}}
   showAnimation(foot:Vector3,camera:OrthographicCamera,mode:AnimationTreatment='original',flow?:AnimationFlow){
     if(mode==='original'||this.animator.clip.frames.length<2)return this.show(this.animator.frame,foot,camera,undefined,flow);
-    const sample=sampleAnimation(this.animator.clip,this.animator.time,mode);
+    const sample=sampleAnimation(this.animator.clip,this.animator.time,mode,flow?.pairs);
     const pair=flow?.pairs.find(p=>p.asset===this.manifest.asset.id&&p.from===sample.from&&p.to===sample.to);
-    if(!pair?.supported)return this.show(this.animator.frame,foot,camera,undefined,flow);
+    if(!pair?.supported||sample.mix===0||sample.from===sample.to)return this.show(this.animator.frame,foot,camera,undefined,flow);
     return this.show(sample.from,foot,camera,sample,flow);
   }
   show(frameId:string,foot:Vector3,camera:OrthographicCamera,blend?:FrameBlend,flow?:AnimationFlow){

@@ -151,7 +151,7 @@ test('time zero emits once per entry; old loop closes before new loop; seek/resu
   assert.equal(a.advance(0).length,1);assert.equal(a.advance(0).length,0);const crossed=a.advance(200);assert.equal(crossed.length,2);assert.ok(crossed[0]!.key.includes(':0:last'));assert.ok(crossed[1]!.key.includes(':1:birth'));a.seek(0);assert.equal(a.advance(200).length,0);a.start(c);assert.equal(a.advance(0).length,1);
 });
 test('save v1 and settings v1 migrate without losing the checkpoint or render settings',()=>{
-  const current=parseGame({version:0,seed:142,wins:4}),old={version:1,seed:current.seed,wins:current.wins,hero:{x:current.player.x,z:current.player.z,health:current.player.health},enemies:[-2.5,.2,2.9].map(x=>({x,z:-3.5,health:70}))},migrated=parseGame(old);assert.equal(migrated.version,5);assert.equal(migrated.area,'court');assert.deepEqual(migrated.player,current.player);assert.equal(migrated.wins,4);
+  const current=parseGame({version:0,seed:142,wins:4}),old={version:1,seed:current.seed,wins:current.wins,hero:{x:current.player.x,z:current.player.z,health:current.player.health},enemies:[-2.5,.2,2.9].map(x=>({x,z:-3.5,health:70}))},migrated=parseGame(old);assert.equal(migrated.version,6);assert.equal(migrated.area,'court');assert.deepEqual(migrated.player,current.player);assert.equal(migrated.wins,4);
   assert.deepEqual(parseSettings({version:1,renderScale:.75,showDebug:true}),{version:5,verticalSpan:9,renderScale:.75,showDebug:true,depthOfField:1,visualEffects:defaultVisualEffects()});assert.throws(()=>parseSettings({version:2,verticalSpan:20,renderScale:1,showDebug:false}));
 });
 test('compiler rejects an opaque RGB concept input and keeps its prior published manifest',async()=>{

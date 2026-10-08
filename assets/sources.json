@@ -2,6 +2,10 @@
   "schemaVersion": 2,
   "libraryDirectory": "2d Assets/Lantern Knight",
   "archives": {
+    "Lantern_Run_D_6cel_Runtime_Test.zip": {"sha256":"009b3c3b555c7efe4eb1c57b115436ae6ee7b44c38488f8566edd46cb5831180","bytes":2104394,"pathHint":"01 - Hero Animations/01 - Gameplay Camera - TEST/01 - Runtime - TEST Awaiting Gameplay Review/Lantern_Run_D_6cel_Runtime_Test.zip"},
+    "Lantern_Run_R_Native_Runtime_Test_v03.zip": {"sha256":"42114ec04d00fb6035ae1f8a8804b6db462d15d7fccac2a8fd87b3d1075b3652","bytes":4147351,"pathHint":"01 - Hero Animations/01 - Gameplay Camera - TEST/01 - Runtime - TEST Awaiting Gameplay Review/Lantern_Run_R_Native_Runtime_Test_v03.zip"},
+    "Lantern_run_U_native8_runtime_test_v01.zip": {"sha256":"588eaf1c156d266a0ebcfcbee3c792b1536ba9cb5707f9ac3799eb2919772241","bytes":2955095,"pathHint":"01 - Hero Animations/01 - Gameplay Camera - TEST/01 - Runtime - TEST Awaiting Gameplay Review/Lantern_run_U_native8_runtime_test_v01.zip"},
+    "lantern_run_L_runtime_v01.zip": {"sha256":"117b8711c8a59f945b4bd2d141aeca6e2581e7e4999f197b463278307d2ab2c9","bytes":3565765,"pathHint":"01 - Hero Animations/01 - Gameplay Camera - TEST/01 - Runtime - TEST Awaiting Gameplay Review/lantern_run_L_runtime_v01.zip"},
     "Lantern_volume_01_nature_CleanInk_v02.zip": {"sha256":"651350dec7a860ccc238d90a9d3ddc3c147df6acf02dc40c3d5c2c97969fcebe","bytes":10279329,"pathHint":"03 - Environments and Locations/Lantern_volume_01_nature_CleanInk_v02.zip"},
     "Lantern_volume_02_gothic_CleanInk_v02.zip": {"sha256":"fc674ab340e7d6ee20bae88b85306ae4b24996a8a5b2eb68341ff3a69d4563ff","bytes":14030949,"pathHint":"03 - Environments and Locations/Lantern_volume_02_gothic_CleanInk_v02.zip"},
     "Lantern_volume_03_occult_industrial_CleanInk_v02.zip": {"sha256":"0fb9a4dafa12d5c8f7b7184dd90d3df6bbb41c1603a78c3f634c1965da0fb15a","bytes":11598704,"pathHint":"03 - Environments and Locations/Lantern_volume_03_occult_industrial_CleanInk_v02.zip"},
@@ -310,6 +314,8 @@
     ]
   },
   "directories": {
+    "last-tended-light-v1": "Project Sources/last-tended-light-v1",
+    "chapel-sanctuary-v1": "Project Sources/chapel-sanctuary-v1",
     "blackwood-churchyard-v2": "Project Sources/blackwood-churchyard-v2",
     "graveyard-redesign-v1": "Project Sources/graveyard-redesign-v1",
     "lanternkeepers-rest-v1": "Project Sources/lanternkeepers-rest-v1",
@@ -318,6 +324,83 @@
     "foundation-proxy": "Project Sources/foundation-proxy"
   },
   "files": {
+    "last-tended-light-v1": {
+      "marker-v1.png": {
+        "bytes": 1476497,
+        "sha256": "3b686ed46b294a8caa412bbd16397842edaf575893a340ddc2deb663afbc9416",
+        "pathHint": "Project Sources/last-tended-light-v1/marker-v1.png"
+      },
+      "marker-v1.prompt.txt": {
+        "bytes": 3871,
+        "sha256": "d014446250e1614e7780f88dbf19b9c8672f35656dbb24941ddfe5fcda7a27d7",
+        "pathHint": "Project Sources/last-tended-light-v1/marker-v1.prompt.txt"
+      },
+      "fragments-v1.png": {
+        "bytes": 1609218,
+        "sha256": "99f7b990bbc117d6cc074693ab83dbc02f8fa97aa9d4d2c1d6a4e3fd98364a1f",
+        "pathHint": "Project Sources/last-tended-light-v1/fragments-v1.png"
+      },
+      "fragments-v1.prompt.txt": {
+        "bytes": 3785,
+        "sha256": "b91ddbf402ce79ab22e31c77d18627018b41ab9fca842ca3d686d25135dd7bfd",
+        "pathHint": "Project Sources/last-tended-light-v1/fragments-v1.prompt.txt"
+      },
+      "roots-v1.png": {
+        "bytes": 1762992,
+        "sha256": "52c3ccd59a87cc3ddefd0255a909849e034dd34f502d6ce884e49640bc975ba9",
+        "pathHint": "Project Sources/last-tended-light-v1/roots-v1.png"
+      },
+      "roots-v1.prompt.txt": {
+        "bytes": 3898,
+        "sha256": "fdc0937e72c5ccc0a6b438af7ab9888173606732744a0f4ec8d1429763ebc149",
+        "pathHint": "Project Sources/last-tended-light-v1/roots-v1.prompt.txt"
+      },
+      "understory-v1.png": {
+        "bytes": 1762405,
+        "sha256": "13f23ed5da7ed865dc5c6cd33400cca04f4bce63a31b3cf4451c7433cf7ed66a",
+        "pathHint": "Project Sources/last-tended-light-v1/understory-v1.png"
+      },
+      "understory-v1.prompt.txt": {
+        "bytes": 3768,
+        "sha256": "df3d38809f0ee0fdaeb1c0ca36eb0d2bd076f50aacea2a63045e6081da80cba1",
+        "pathHint": "Project Sources/last-tended-light-v1/understory-v1.prompt.txt"
+      },
+      "woodland-near-v1.png": {
+        "bytes": 2352547,
+        "sha256": "aeedd558c254d6ea9c1f99fbbb11e198226182cd190fcf636f93d74f5ba76822",
+        "pathHint": "Project Sources/last-tended-light-v1/woodland-near-v1.png"
+      },
+      "woodland-near-v1.prompt.txt": {
+        "bytes": 3811,
+        "sha256": "e88a4dbf00aff75df0327da44cba66b50f1a0779ab4389f00b2ecf7926e804d1",
+        "pathHint": "Project Sources/last-tended-light-v1/woodland-near-v1.prompt.txt"
+      },
+      "woodland-far-v1.png": {
+        "bytes": 1714634,
+        "sha256": "213c77dd2303f0f7dc6c8cc29aa45084106c09c7ffdfc15626c713f39ee73a43",
+        "pathHint": "Project Sources/last-tended-light-v1/woodland-far-v1.png"
+      },
+      "woodland-far-v1.prompt.txt": {
+        "bytes": 3742,
+        "sha256": "b61e8128a89f551065cb80f1469399e2a9fed0d8d0efd93d9534ffb8087b6d61",
+        "pathHint": "Project Sources/last-tended-light-v1/woodland-far-v1.prompt.txt"
+      },
+      "provenance.json": {
+        "bytes": 1758,
+        "sha256": "4b9e4c2d6a2724f906a47a20cb29c53122ee6b18e4872832f321b53e76ab187c",
+        "pathHint": "Project Sources/last-tended-light-v1/provenance.json"
+      }
+    },
+    "chapel-sanctuary-v1": {
+      "altar-v1.png": {"bytes":1614865,"sha256":"170f41c14869c02a01280e65c93dc8f11dd5d3f97b99313fd9b8ba3714f7a0b4","pathHint":"Project Sources/chapel-sanctuary-v1/altar-v1.png"},
+      "window-v1.png": {"bytes":1747411,"sha256":"5384927f14f054edff3963600625394e481a8bfc8a1efabddb72d968ab95f64b","pathHint":"Project Sources/chapel-sanctuary-v1/window-v1.png"},
+      "pew-v1.png": {"bytes":1286398,"sha256":"a9e93dd0d0675a7121ebc6c450cdc0461fe8e59ef7ae15dd97fb407ee1abf01e","pathHint":"Project Sources/chapel-sanctuary-v1/pew-v1.png"},
+      "broken-pew-v1.png": {"bytes":1363935,"sha256":"7bb1d24bc55ecfba588fc121a67d4c9801d5559ed5dba338382b7a8d7e12c952","pathHint":"Project Sources/chapel-sanctuary-v1/broken-pew-v1.png"},
+      "collapse-v1.png": {"bytes":1547036,"sha256":"ceba8308fb1ba12c6463a439494f4a30b8b1309a1fe183ca0558b37ad099a605","pathHint":"Project Sources/chapel-sanctuary-v1/collapse-v1.png"},
+      "floor-v1.png": {"bytes":1248669,"sha256":"faf69fba9308c73b0c62ad5863754f329e93e0ce7a9b2e11ba9fd2d46faa2663","pathHint":"Project Sources/chapel-sanctuary-v1/floor-v1.png"},
+      "prompts.json": {"bytes":18046,"sha256":"0e8c778c9d086d61a1d8b2aa83c0074cf8483d7b322d7894f21103bb15084119","pathHint":"Project Sources/chapel-sanctuary-v1/prompts.json"},
+      "provenance.json": {"bytes":2005,"sha256":"4bbaf2b327b7cd64d6837bfff251b74f73c50edf157fa38c952bdf3f80577cdc","pathHint":"Project Sources/chapel-sanctuary-v1/provenance.json"}
+    },
     "blackwood-churchyard-v2": {
       "ancient-oak 2.png": {"bytes":2192663,"sha256":"59af99132a307b3466fa460bc83d736541a875d8b1d2ac7c069d4a90ee104570","pathHint":"03 - Environments and Locations/Project Sources/blackwood-churchyard-v2/rejected-boiled/ancient-oak.png"},
       "ancient-oak.png": {"bytes":1350991,"sha256":"629f009fe39ace6e000db40f3e5f959e6350527d967fd088df022e25a00be4b9","pathHint":"03 - Environments and Locations/Project Sources/blackwood-churchyard-v2/ancient-oak.png"},
@@ -457,6 +540,10 @@
     }
   },
   "archiveGroups": {
+    "hero-run_D": "Lantern_Run_D_6cel_Runtime_Test.zip",
+    "hero-run_R": "Lantern_Run_R_Native_Runtime_Test_v03.zip",
+    "hero-run_U": "Lantern_run_U_native8_runtime_test_v01.zip",
+    "hero-run_L": "lantern_run_L_runtime_v01.zip",
     "hero-ready_idle": "Lantern_Ready_Idle_FourDirections_v01_RuntimeTest.zip",
     "hero-dodge": "Lantern_Dodge_4Directions_Runtime.zip",
     "hero-lantern": "Lantern_Lantern_4Directions_Runtime.zip",
