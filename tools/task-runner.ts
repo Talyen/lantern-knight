@@ -102,6 +102,11 @@ const leaf = (
   prefix: string[] = [],
   captures = false,
 ): CommandDefinition => ({ operation: leafTask, file, assets, prefix, captures });
+const smoke = (file: string): CommandDefinition => ({
+  ...leaf(file, true, [], true),
+  // Full-resolution renderer coverage remains intact on the software-only runner.
+  timeoutMs: process.platform === 'win32' && process.env.CI === 'true' ? 15 * 60 * 1000 : undefined,
+});
 const dev = (file: string, prefix: string[] = []): CommandDefinition => ({
   operation: develop,
   file,
@@ -181,23 +186,17 @@ export const commands: Record<string, CommandDefinition> = {
   'assets:clean': { operation: cleanAssets, parse: noArgs },
   'assets:sources:check': leaf('tools/assets/library.py', false, ['check']),
   'assets:dedupe': leaf('tools/assets/library.py', false, ['dedupe']),
-  'smoke:game': {
-    ...leaf('tools/game-smoke.ts', true, [], true),
-    // Hosted Windows uses SwiftShader; dropped frame time makes the unchanged
-    // fixed-step player journey take substantially longer than a native GPU run.
-    timeoutMs:
-      process.platform === 'win32' && process.env.CI === 'true' ? 15 * 60 * 1000 : undefined,
-  },
-  'smoke:sandbox': leaf('tools/churchyard-smoke.ts', true, [], true),
-  'smoke:animation': leaf('tools/animation-smoke.ts', true, [], true),
-  'smoke:art': leaf('tools/ink-art-smoke.ts', true, [], true),
-  'smoke:hero': leaf('tools/hero-smoke.ts', true, [], true),
-  'smoke:lighting': leaf('tools/lighting-smoke.ts', true, [], true),
-  'smoke:crypt': leaf('tools/crypt-smoke.ts', true, [], true),
-  'smoke:effects': leaf('tools/effects-playground-smoke.ts', true, [], true),
-  'smoke:graveyard': leaf('tools/graveyard-smoke.ts', true, [], true),
-  'smoke:visual-options': leaf('tools/visual-options-smoke.ts', true, [], true),
-  'smoke:visual-scenes': leaf('tools/visual-scenes-smoke.ts', true, [], true),
+  'smoke:game': smoke('tools/game-smoke.ts'),
+  'smoke:sandbox': smoke('tools/churchyard-smoke.ts'),
+  'smoke:animation': smoke('tools/animation-smoke.ts'),
+  'smoke:art': smoke('tools/ink-art-smoke.ts'),
+  'smoke:hero': smoke('tools/hero-smoke.ts'),
+  'smoke:lighting': smoke('tools/lighting-smoke.ts'),
+  'smoke:crypt': smoke('tools/crypt-smoke.ts'),
+  'smoke:effects': smoke('tools/effects-playground-smoke.ts'),
+  'smoke:graveyard': smoke('tools/graveyard-smoke.ts'),
+  'smoke:visual-options': smoke('tools/visual-options-smoke.ts'),
+  'smoke:visual-scenes': smoke('tools/visual-scenes-smoke.ts'),
   benchmark: leaf('tools/churchyard-smoke.ts', true, ['--benchmark']),
   'benchmark:game': leaf('tools/game-smoke.ts', true, ['--benchmark']),
 };

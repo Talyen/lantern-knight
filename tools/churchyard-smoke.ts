@@ -8,7 +8,19 @@ const benchmark = process.argv.includes('--benchmark');
 const run = await smokeLaunch(true, [], { retain: benchmark }),
   { app, page, output, errors } = run;
 const checks: string[] = [];
+let stage = 'startup';
+const started = performance.now();
+const markStage = async (name: string) => {
+  stage = name;
+  const elapsedMs = Math.round(performance.now() - started);
+  console.log(`Sandbox journey: ${stage} (${elapsedMs}ms)`);
+  await fs.writeFile(
+    path.join(output, 'progress.json'),
+    JSON.stringify({ stage, elapsedMs, checks }),
+  );
+};
 try {
+  await markStage(stage);
   await page.waitForFunction(() => window.foundation?.ready, {}, { timeout: 45000 });
   const resize = async (w: number, h: number) => {
     await app.evaluate(
@@ -37,6 +49,7 @@ try {
   };
   await resize(1920, 1080);
   await freeze();
+  await markStage('opening-scenes');
   assert.equal(await page.evaluate(() => window.foundation.sim.enemies.length), 1);
   assert.equal(await page.evaluate(() => window.foundation.sim.engaged), false);
   assert.equal(await page.evaluate(() => window.foundation.stats().verticalSpan), 9);
@@ -63,6 +76,7 @@ try {
           ] as const)) {
         await resize(w, h);
         for (const span of process.argv.includes('--ci') ? [9, 15] : [9, 11, 13, 15]) {
+          await markStage(`composition-${area}-${aspect}-${span}`);
           await page.evaluate((span) => {
             window.foundation.presentation.verticalSpan = span;
             window.foundation.presentation.resize();
@@ -136,6 +150,7 @@ try {
       'requested scene/camera/aspect matrix at spawn, combat, stairs, exits, edges and corners; supported roots/shadows',
     );
     for (const area of ['court', 'upper-landing']) {
+      await markStage(`resolution-${area}`);
       await page.evaluate((area) => window.foundation.fixture(area), area);
       await freeze();
       await resize(2560, 1440);
@@ -157,6 +172,10 @@ try {
       assert.ok(buffer[1]! >= 1800 && buffer[1]! <= 2160);
     }
     const resources = [];
+    // Native-resolution coverage is complete; lifetime/routing checks need no
+    // repeated 4K redraws while rebuilding rooms and reopening the player UI.
+    await resize(1280, 800);
+    await markStage('room-lifetime');
     for (let i = 0; i < 6; i++) {
       await page.evaluate(() => window.foundation.reset());
       await freeze();
@@ -164,6 +183,7 @@ try {
     }
     assert.deepEqual(resources.at(-1), resources[2]);
     checks.push('repeated room replacement retains stable GPU resources');
+    await markStage('animation-lab');
     await page.getByRole('button', { name: 'Animation lab', exact: true }).click();
     await page.locator('#asset').selectOption('ink-hero-current');
     await page.waitForFunction(
@@ -179,6 +199,7 @@ try {
     await freeze();
     assert.equal(await page.evaluate(() => window.foundation.sim.enemies.length), 5);
     checks.push('development-only fixture retains five enemies and two melee profiles');
+    await markStage('preview-routing');
     await page.getByRole('button', { name: 'Play Opening Scene', exact: true }).click();
     await page.waitForFunction(
       () =>
@@ -232,7 +253,7 @@ try {
 } catch (error) {
   await fs.writeFile(
     path.join(output, 'failure.json'),
-    JSON.stringify({ error: String(error), errors, checks }, null, 2),
+    JSON.stringify({ stage, error: String(error), errors, checks }, null, 2),
   );
   throw error;
 } finally {
