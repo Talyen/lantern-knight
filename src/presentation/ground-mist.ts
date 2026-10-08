@@ -1,6 +1,6 @@
 import * as T from 'three';
-import {heightAt,type AreaDefinition} from '../content/world';
-const fragment=`
+import { heightAt, type AreaDefinition } from '../content/world';
+const fragment = `
 uniform float mistTime,mistOpacity;uniform vec3 mistColor,mistOrigin;
 varying vec3 mistWorld;varying vec2 mistUV;
 float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
@@ -21,11 +21,59 @@ void main(){
 // Broken, world-anchored ribbons. Noise advects through them rather than moving
 // a large radial texture with the camera or laying a uniform film over actors.
 export class GroundMist {
- readonly group=new T.Group();
- private uniforms={mistTime:{value:0},mistOpacity:{value:.08},mistColor:{value:new T.Color()},mistOrigin:{value:new T.Vector3()}};
- private material=new T.ShaderMaterial({uniforms:this.uniforms,transparent:true,depthTest:true,depthWrite:false,side:T.DoubleSide,vertexShader:'varying vec3 mistWorld;varying vec2 mistUV;void main(){mistUV=uv;vec4 world=modelMatrix*vec4(position,1.);mistWorld=world.xyz;gl_Position=projectionMatrix*viewMatrix*world;}',fragmentShader:fragment});
- constructor(){for(const [x,z]of [[-7,-1],[7,-3],[0,-11],[0,11]]){const geometry=new T.PlaneGeometry(14,5,14,5);geometry.rotateX(-Math.PI/2);const mesh=new T.Mesh(geometry,this.material);mesh.position.set(x!,0,z!);this.group.add(mesh);}}
- setArea(area:AreaDefinition){for(const mesh of this.group.children as T.Mesh<T.PlaneGeometry>[]){const positions=mesh.geometry.getAttribute('position');for(let i=0;i<positions.count;i++)positions.setY(i,heightAt(area,mesh.position.x+positions.getX(i),mesh.position.z+positions.getZ(i))+.14);positions.needsUpdate=true;mesh.geometry.computeBoundingSphere();}}
- update(time:number,color:number,opacity:number,origin:T.Vector3){this.uniforms.mistTime.value=time;this.uniforms.mistColor.value.set(color);this.uniforms.mistOpacity.value=opacity;this.uniforms.mistOrigin.value.copy(origin);}
- dispose(){for(const mesh of this.group.children as T.Mesh[])mesh.geometry.dispose();this.material.dispose();this.group.removeFromParent();}
+  readonly group = new T.Group();
+  private uniforms = {
+    mistTime: { value: 0 },
+    mistOpacity: { value: 0.08 },
+    mistColor: { value: new T.Color() },
+    mistOrigin: { value: new T.Vector3() },
+  };
+  private material = new T.ShaderMaterial({
+    uniforms: this.uniforms,
+    transparent: true,
+    depthTest: true,
+    depthWrite: false,
+    side: T.DoubleSide,
+    vertexShader:
+      'varying vec3 mistWorld;varying vec2 mistUV;void main(){mistUV=uv;vec4 world=modelMatrix*vec4(position,1.);mistWorld=world.xyz;gl_Position=projectionMatrix*viewMatrix*world;}',
+    fragmentShader: fragment,
+  });
+  constructor() {
+    for (const [x, z] of [
+      [-7, -1],
+      [7, -3],
+      [0, -11],
+      [0, 11],
+    ]) {
+      const geometry = new T.PlaneGeometry(14, 5, 14, 5);
+      geometry.rotateX(-Math.PI / 2);
+      const mesh = new T.Mesh(geometry, this.material);
+      mesh.position.set(x!, 0, z!);
+      this.group.add(mesh);
+    }
+  }
+  setArea(area: AreaDefinition) {
+    for (const mesh of this.group.children as T.Mesh<T.PlaneGeometry>[]) {
+      const positions = mesh.geometry.getAttribute('position');
+      for (let i = 0; i < positions.count; i++)
+        positions.setY(
+          i,
+          heightAt(area, mesh.position.x + positions.getX(i), mesh.position.z + positions.getZ(i)) +
+            0.14,
+        );
+      positions.needsUpdate = true;
+      mesh.geometry.computeBoundingSphere();
+    }
+  }
+  update(time: number, color: number, opacity: number, origin: T.Vector3) {
+    this.uniforms.mistTime.value = time;
+    this.uniforms.mistColor.value.set(color);
+    this.uniforms.mistOpacity.value = opacity;
+    this.uniforms.mistOrigin.value.copy(origin);
+  }
+  dispose() {
+    for (const mesh of this.group.children as T.Mesh[]) mesh.geometry.dispose();
+    this.material.dispose();
+    this.group.removeFromParent();
+  }
 }

@@ -1,12 +1,16 @@
-import {tuning} from './gameplay';
-import {contentDefinitions,ContentRegistry,type ContentDefinitions} from './world';
-export const sandboxDefinitions:ContentDefinitions={...contentDefinitions,actors:[...contentDefinitions.actors,    {
+import { tuning } from './gameplay';
+import { contentDefinitions, ContentRegistry, type ContentDefinitions } from './world';
+export const sandboxDefinitions: ContentDefinitions = {
+  ...contentDefinitions,
+  actors: [
+    ...contentDefinitions.actors,
+    {
       id: 'warden',
       kind: 'enemy',
       maxHealth: tuning.enemy.maxHealth,
       radius: tuning.heroRadius,
       speed: tuning.enemy.speed,
-      melee: {...tuning.enemy, halfAngle: 1.1},
+      melee: { ...tuning.enemy, halfAngle: 1.1 },
       visual: 'skeleton',
     },
     {
@@ -24,11 +28,15 @@ export const sandboxDefinitions:ContentDefinitions={...contentDefinitions,actors
         damage: 20,
       },
       visual: 'skeleton',
-    },],areas:[...contentDefinitions.areas,    {
+    },
+  ],
+  areas: [
+    ...contentDefinitions.areas,
+    {
       id: 'systems-fixture',
       name: 'Systems verification fixture',
       subtitle: 'Two melee profiles. Five wardens.',
-      bounds: {minX: -5, maxX: 5, minZ: -4, maxZ: 6},
+      bounds: { minX: -5, maxX: 5, minZ: -4, maxZ: 6 },
       surface: {
         kind: 'ramp',
         axis: 'x',
@@ -39,7 +47,7 @@ export const sandboxDefinitions:ContentDefinitions={...contentDefinitions,actors
       },
       seedOffset: 202,
       baselineEntry: 'start',
-      entries: [{id: 'start', x: 0, z: 4}],
+      entries: [{ id: 'start', x: 0, z: 4 }],
       spawns: [-3, -1.5, 0, 1.5, 3].map((x, i) => ({
         id: `fixture-${i + 1}`,
         actor: i % 2 ? 'heavy-warden' : 'warden',
@@ -49,5 +57,7 @@ export const sandboxDefinitions:ContentDefinitions={...contentDefinitions,actors
       props: [],
       floorColor: 0x34434a,
       exits: [],
-    }]};
-export const sandboxContent=new ContentRegistry(sandboxDefinitions);
+    },
+  ],
+};
+export const sandboxContent = new ContentRegistry(sandboxDefinitions);

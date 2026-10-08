@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "releaseTag": "assets-31bc25a10c1a053d",
+  "releaseTag": "assets-dba1c933c6c2ea76",
   "filename": "lantern-assets.tar.gz",
-  "sha256": "31bc25a10c1a053d9a1a1028e9fe0d5f3342b215db12b29c33acb810b2842d5c",
-  "inventorySha256": "ce55bc549590a6d1a4b595d12d2118022949f30c054fe09252f876a0773d8239",
-  "bytes": 144268735,
-  "recipeSha256": "a49b2f3012d2fe362d6d2aa1deb8a8e959d469d88c70b8ad0eb7f670785132fc"
+  "sha256": "dba1c933c6c2ea764d8af5d4db95a48c29dd3240148ccb7e1247c444a50b75ca",
+  "inventorySha256": "54ee546c30127a8544f5d1654410c0c18ef0c81b9f64c5dd39cf05538c99eef1",
+  "bytes": 144292161,
+  "recipeSha256": "b1af692b01df204c0259790b203e5016680cf1b819c117a73c86d34737271d3e"
 }

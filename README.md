@@ -10,14 +10,29 @@ Use Node 24.18.0 and npm 11.16.0. Dependencies are pinned.
 npm ci
 npm run dev
 npm run check
+npm run format:check
 npm run build
 npm run build:dev
+npm run build:verify
+npm run build:dev:verify
 npm run package:mac:prebuilt
 npm run package:dev:mac:prebuilt
 npm run smoke:game
 npm run smoke:sandbox -- --ci
 npm run smoke:crypt -- --quick
 ```
+
+For visual scene composition, run `npm run scene:editor`. The [scene editor guide](docs/scene-editor.md) covers placement, drafts, live edits, saving and recovery.
+
+For existing-artwork scene iteration:
+
+```sh
+npm run scene:dev -- --scene court
+npm run scene:check -- --scene court
+npm run check:task -- --scene court --capture
+```
+
+Use `upper-landing` for the Ruined Chapel. The shared preview restores developer context on reload. The task check includes the full regular gates and a short scene journey; inspect its three retained stills and the edited location for a visual redesign. [Contributing](CONTRIBUTING.md#verification) owns when to use full desktop journeys and exhaustive investigations.
 
 Development, tests and builds automatically obtain the exact prepared asset revision pinned in `assets/lock.json`. Verified assets live in the operating system cache outside the checkout and are reusable offline. Code-only work and hosted CI do not need the source Asset Library.
 
@@ -27,13 +42,13 @@ Development, tests and builds automatically obtain the exact prepared asset revi
 
 ## Artwork workflow
 
-Originals remain in the shared, iCloud-backed Asset Library under Documents. On an art-authoring machine, `npm run assets:prepare` creates and validates selected outputs. `npm run assets:publish` publishes the verified shared pack through GitHub Releases and updates the pin after checking the public download. These are explicit authoring operations; ordinary builds never regenerate artwork.
+Originals remain in the shared, iCloud-backed Asset Library under Documents. On an art-authoring machine, `npm run assets:prepare` creates and validates selected outputs. `npm run assets:finalize` validates the matching prepared pack and retains captures for agent visual review. After inspecting them, `npm run assets:finalize -- --reviewed <review-id>` publishes/pins those exact reviewed bytes through GitHub Releases and runs pinned checks. Follow the [completion steps](docs/assets.md#local-preparation-review). Requested runtime-asset work includes this completion step; `assets:publish` is a compatibility alias. These are explicit authoring operations; ordinary builds never regenerate artwork.
 
 The source library can be reorganized: sources are recovered automatically by recorded hashes. Canonical reference images and Clean INK prompts remain unchanged. [Asset ownership](docs/assets.md) and [source recovery](docs/source-recovery.md) describe the contracts.
 
 ## Retention and diagnostics
 
-The external disposable cache has a 4 GiB budget. Unused entries are evicted automatically; active commands are protected. `npm run assets:clean` explicitly deletes published packs no current checkout, remote main, open PR or supported release needs. Supported game tags are listed in `assets/supported.json`.
+The external disposable cache has a 4 GiB budget. Unused entries are evicted automatically; active commands are protected. `npm run assets:clean` explicitly deletes published packs unreferenced by this checkout’s pin, remote main, open PR heads or supported releases. Pins unique to another local checkout are not included in that reference scan. Supported game tags are listed in `assets/supported.json`.
 
 Successful checks print concise summaries and discard routine captures. Failures retain bounded diagnostics; `--capture` explicitly requests screenshots/video exports. Smoke windows are hidden and non-focusable by default; `--visible` enables a normal window. Hidden checks do not certify visible display pacing.
 

@@ -10,14 +10,12 @@ import {
   type LoadResult,
 } from '../src/core/save';
 export type Slot = 'settings' | 'game';
-const version = (slot: Slot) =>
-  slot === 'game' ? SAVE_FORMAT_VERSION : SETTINGS_FORMAT_VERSION;
+const version = (slot: Slot) => (slot === 'game' ? SAVE_FORMAT_VERSION : SETTINGS_FORMAT_VERSION);
 export function parseSlot(slot: Slot, value: unknown) {
   return slot === 'game' ? parseGame(value) : parseSettings(value);
 }
 export function validateRequest(slot: Slot, value: unknown) {
-  if (!['game', 'settings'].includes(slot))
-    throw new Error('unknown app-owned slot');
+  if (!['game', 'settings'].includes(slot)) throw new Error('unknown app-owned slot');
   const text = JSON.stringify(value);
   if (!text || Buffer.byteLength(text) > SAVE_LIMITS[slot])
     throw new Error('save payload exceeds limit');
@@ -35,7 +33,7 @@ async function boundedRead(file: string, limit: number) {
   try {
     if ((await handle.stat()).size > limit) throw new Error('oversized save');
     const buffer = Buffer.alloc(limit + 1),
-      {bytesRead} = await handle.read(buffer, 0, buffer.length, 0);
+      { bytesRead } = await handle.read(buffer, 0, buffer.length, 0);
     if (bytesRead > limit) throw new Error('oversized save');
     return buffer.toString('utf8', 0, bytesRead);
   } finally {
@@ -50,10 +48,7 @@ export class Store {
     let exists = false;
     for (const suffix of ['.json', '.bak'])
       try {
-        const text = await boundedRead(
-          path.join(this.directory, slot + suffix),
-          SAVE_LIMITS[slot],
-        );
+        const text = await boundedRead(path.join(this.directory, slot + suffix), SAVE_LIMITS[slot]);
         exists = true;
         return {
           status: suffix === '.json' ? 'ok' : 'recovered',
@@ -61,7 +56,7 @@ export class Store {
         };
       } catch (e) {
         if (e instanceof UnsupportedSave || e instanceof SaveContentError)
-          return {status: 'unreadable', message: e.message};
+          return { status: 'unreadable', message: e.message };
         if ((e as NodeJS.ErrnoException).code !== 'ENOENT') exists = true;
       }
     return exists
@@ -70,12 +65,12 @@ export class Store {
           message:
             'No readable primary/backup save. Files preserved; automatic overwrite disabled.',
         }
-      : {status: 'empty'};
+      : { status: 'empty' };
   }
   save(slot: Slot, value: unknown) {
     const validated = validateRequest(slot, value);
     const write = async () => {
-      await fs.mkdir(this.directory, {recursive: true});
+      await fs.mkdir(this.directory, { recursive: true });
       const file = path.join(this.directory, slot + '.json');
       let old: string | undefined;
       try {
@@ -94,8 +89,7 @@ export class Store {
           try {
             decode(slot, backup);
           } catch (e) {
-            if (e instanceof UnsupportedSave || e instanceof SaveContentError)
-              throw e;
+            if (e instanceof UnsupportedSave || e instanceof SaveContentError) throw e;
             throw new Error('Unreadable backup preserved; writing refused.');
           }
         } catch (e) {
@@ -108,28 +102,19 @@ export class Store {
           decode(slot, old);
           valid = true;
         } catch (e) {
-          if (e instanceof UnsupportedSave || e instanceof SaveContentError)
-            throw e;
+          if (e instanceof UnsupportedSave || e instanceof SaveContentError) throw e;
         }
         if (valid) {
           await fs.writeFile(file + '.bak.tmp', old);
-          await fs.rename(
-            file + '.bak.tmp',
-            path.join(this.directory, slot + '.bak'),
-          );
+          await fs.rename(file + '.bak.tmp', path.join(this.directory, slot + '.bak'));
         } else {
           try {
             decode(
               slot,
-              await boundedRead(
-                path.join(this.directory, slot + '.bak'),
-                SAVE_LIMITS[slot],
-              ),
+              await boundedRead(path.join(this.directory, slot + '.bak'), SAVE_LIMITS[slot]),
             );
           } catch {
-            throw new Error(
-              'Unreadable save preserved; restore a valid backup before writing.',
-            );
+            throw new Error('Unreadable save preserved; restore a valid backup before writing.');
           }
           await fs.copyFile(file, path.join(this.directory, slot + '.corrupt'));
         }

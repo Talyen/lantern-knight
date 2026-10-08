@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "steps": [
+    {
+      "file": "prepare-masonry.ts",
+      "freshness": true
+    },
+    {
+      "file": "prepare-ink.ts",
+      "freshness": true
+    },
+    {
+      "file": "prepare-hero.ts",
+      "freshness": true
+    },
+    {
+      "file": "prepare-graveyard-art.ts",
+      "freshness": true
+    },
+    {
+      "file": "prepare-graveyard-ground.ts",
+      "freshness": true
+    },
+    {
+      "file": "prepare-churchyard-kit.ts",
+      "freshness": true
+    },
+    {
+      "file": "prepare-tended-art.ts",
+      "freshness": true
+    },
+    {
+      "file": "prepare-visual-effects.ts",
+      "freshness": true
+    },
+    {
+      "file": "prepare-surface-relief.ts",
+      "freshness": true
+    },
+    {
+      "file": "prepare-effects-playground.ts",
+      "freshness": true
+    },
+    {
+      "file": "prepare-graveyard-coverage.ts",
+      "freshness": true
+    },
+    {
+      "file": "prepare-lighting.ts",
+      "freshness": true
+    },
+    {
+      "file": "prepare-animation-flow.py",
+      "freshness": false
+    }
+  ],
+  "inputs": [
+    "assets/sources.json",
+    "authoring/surface-depth.json",
+    "authoring/ground-overlays.json",
+    "authoring/graveyard-art.json",
+    "authoring/chapel-art.json",
+    "authoring/hero-actions.json",
+    "authoring/hero-motion.json",
+    "tools/assets/hero.py",
+    "tools/assets/definition.ts",
+    "src/assets/camera.json",
+    "src/assets/camera-calibration.ts",
+    "src/assets/normal-pixels.ts",
+    "src/assets/schema.ts",
+    "src/content/scenery-registration.ts",
+    "src/content/graveyard-registration.ts",
+    "src/content/asset-catalog.ts",
+    "src/content/visual-effects-assets.ts",
+    "src/content/effects-playground-assets.ts",
+    "tools/compiler.ts",
+    "tools/prepare-animation-flow.py",
+    "tools/assets/io.ts",
+    "tools/assets/sources.ts",
+    "tools/assets/source.py",
+    "tools/assets/resolver.py",
+    "src/assets/registration.ts",
+    "tools/assets/payload.ts",
+    "tools/assets/recipe.ts",
+    "tools/assets/archive.ts"
+  ],
+  "dependencies": {
+    "devDependencies": [
+      "sharp",
+      "tar"
+    ],
+    "dependencies": [
+      "three",
+      "zod"
+    ]
+  }
+}

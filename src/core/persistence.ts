@@ -1,8 +1,7 @@
-import type {Bridge, GameSave, LoadResult} from './save';
+import type { Bridge, GameSave, LoadResult } from './save';
 // Session write authorization is independent of gameplay and filesystem recovery.
 export class Persistence {
-  mode: 'uninspected' | 'empty' | 'protected' | 'enabled' | 'unreadable' =
-    'uninspected';
+  mode: 'uninspected' | 'empty' | 'protected' | 'enabled' | 'unreadable' = 'uninspected';
   error = '';
   private queue: Promise<unknown> = Promise.resolve();
   constructor(private bridge: Pick<Bridge, 'loadGame' | 'saveGame'>) {}
@@ -36,9 +35,7 @@ export class Persistence {
   save(value: GameSave, automatic = false): Promise<boolean> {
     if (!this.canWrite) {
       if (automatic) return Promise.resolve(false);
-      return Promise.reject(
-        new Error('Choose Load or confirm New Game before saving.'),
-      );
+      return Promise.reject(new Error('Choose Load or confirm New Game before saving.'));
     }
     const snapshot = structuredClone(value),
       write = async () => {

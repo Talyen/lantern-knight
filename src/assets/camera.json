@@ -1,0 +1,46 @@
+{
+  "id": "lantern-camera-v2",
+  "schemaVersion": 1,
+  "bakeVersion": 2,
+  "approval": "approved",
+  "projection": "orthographic",
+  "azimuthDeg": 45,
+  "elevationDeg": 35.264389682754654,
+  "world": "right-handed XZ ground, +Y up; yaw from +Z toward +X",
+  "sourceCoordinates": "top-left +x right +y down",
+  "anchorConvention": "untrimmed-canvas ground foot origin",
+  "verticalSpan": 9,
+  "baseline": {
+    "width": 3840,
+    "height": 2160
+  },
+  "resize": "fixed-vertical-span",
+  "renderScale": 1,
+  "pixelRatioCap": 4,
+  "sourceDensity": 192,
+  "canvas": [
+    384,
+    432
+  ],
+  "anchor": [
+    192,
+    348
+  ],
+  "heroHeight": 1.8,
+  "atlasSize": 2048,
+  "atlasMaxSize": 4096,
+  "filter": "linear-no-mipmaps",
+  "colorSpace": "srgb",
+  "alpha": "straight",
+  "budgets": {
+    "sceneTextureMiB": 768,
+    "maxActors": 32,
+    "maxEffects": 32
+  },
+  "movement": "screen-relative",
+  "assetRecipe": "canonical-camera-v2",
+  "framingRange": [
+    9,
+    15
+  ]
+}

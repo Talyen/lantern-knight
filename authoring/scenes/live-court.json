@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "id": "live-court",
+  "name": "Graveyard Approach",
+  "base": "court",
+  "target": "live",
+  "changes": [],
+  "objects": [],
+  "hero": {
+    "x": 0,
+    "z": 0
+  },
+  "look": {
+    "rig": "golden",
+    "look": "diorama"
+  }
+}

@@ -6,10 +6,10 @@ import {
   type ContentRegistry,
   type AreaId,
 } from '../content/world';
-import {Simulation, type Command, type StepResult} from './simulation';
-import {tuning} from '../content/gameplay';
-import {parseGame, type GameSave, type SavedArea} from './save';
-import type {GameplayEvent, EventDetails} from './events';
+import { Simulation, type Command, type StepResult } from './simulation';
+import { tuning } from '../content/gameplay';
+import { parseGame, type GameSave, type SavedArea } from './save';
+import type { GameplayEvent, EventDetails } from './events';
 export type TransitionPlan = {
   readonly token: number;
   readonly sourceGeneration: number;
@@ -49,11 +49,7 @@ export class GameSession {
       actor: PLAYER_ID,
       action: a.action,
       area: this.sim.area,
-      position: Object.freeze([a.x, a.y, a.z]) as readonly [
-        number,
-        number,
-        number,
-      ],
+      position: Object.freeze([a.x, a.y, a.z]) as readonly [number, number, number],
       direction: a.yaw,
       ...details,
     });
@@ -61,11 +57,9 @@ export class GameSession {
   private recordArea() {
     const actors = Object.fromEntries(
       this.sim.areaDefinition.spawns.map((p) => {
-        const a = this.sim.actors.find(
-          (a) => a.id === spawnActorId(this.sim.area, p.id),
-        );
+        const a = this.sim.actors.find((a) => a.id === spawnActorId(this.sim.area, p.id));
         if (!a) throw new Error(`missing spawn ${p.id}`);
-        return [p.id, {x: a.x, z: a.z, health: a.health}];
+        return [p.id, { x: a.x, z: a.z, health: a.health }];
       }),
     );
     this.visited.set(this.sim.area, {
@@ -75,13 +69,7 @@ export class GameSession {
     });
   }
   private restoredSimulation(area: AreaId, generation: number, entry?: string) {
-    const sim = new Simulation(
-        this.sim.initialSeed,
-        area,
-        generation,
-        this.registry,
-        entry,
-      ),
+    const sim = new Simulation(this.sim.initialSeed, area, generation, this.registry, entry),
       state = this.visited.get(area);
     if (state) {
       for (const p of sim.areaDefinition.spawns) {
@@ -105,25 +93,18 @@ export class GameSession {
     return sim;
   }
   step(command: Command): StepResult {
-    if (this.loading) return {events: []};
+    if (this.loading) return { events: [] };
     const result = this.sim.step(command);
     if (result.events.some((e) => e.kind === 'room-clear')) this.wins++;
-    if (result.reset)
-      return {events: this.resetCurrentArea('death'), reset: 'death'};
+    if (result.reset) return { events: this.resetCurrentArea('death'), reset: 'death' };
     return result;
   }
   prepareTransition(exitId: string): TransitionPlan {
     const exit = this.sim.areaDefinition.exits.find((e) => e.id === exitId);
-    if (
-      !exit ||
-      this.sim.hero.health <= 0 ||
-      (exit.requiresClear && !this.sim.cleared)
-    )
+    if (!exit || this.sim.hero.health <= 0 || (exit.requiresClear && !this.sim.cleared))
       throw new Error('exit unavailable');
     this.recordArea();
-    const events = [
-      this.event({kind: 'transition-start', destination: exit.destination}),
-    ];
+    const events = [this.event({ kind: 'transition-start', destination: exit.destination })];
     const plan = Object.freeze({
       token: ++this.request,
       sourceGeneration: this.generation,
@@ -142,11 +123,7 @@ export class GameSession {
     )
       throw new Error('stale transition');
     const player = this.sim.hero,
-      next = this.restoredSimulation(
-        plan.destination,
-        this.generation + 1,
-        plan.entry,
-      );
+      next = this.restoredSimulation(plan.destination, this.generation + 1, plan.entry);
     next.hero.health = player.health;
     next.hero.cooldown = player.cooldown;
     next.hero.dodgeCooldown = player.dodgeCooldown;
@@ -154,35 +131,24 @@ export class GameSession {
     this.sim = next;
     this.pending = undefined;
     this.recordArea();
-    return [
-      this.event({kind: 'area-transition', destination: plan.destination}),
-    ];
+    return [this.event({ kind: 'area-transition', destination: plan.destination })];
   }
   cancelTransition(plan: TransitionPlan): readonly GameplayEvent[] {
     if (this.pending !== plan) return [];
     this.pending = undefined;
-    return [
-      this.event({kind: 'transition-cancelled', destination: plan.destination}),
-    ];
+    return [this.event({ kind: 'transition-cancelled', destination: plan.destination })];
   }
-  resetCurrentArea(
-    reason: 'death' | 'manual' = 'manual',
-  ): readonly GameplayEvent[] {
+  resetCurrentArea(reason: 'death' | 'manual' = 'manual'): readonly GameplayEvent[] {
     this.pending = undefined;
     this.request++;
     const old = this.sim;
     this.resetCount++;
     this.visited.delete(old.area);
-    this.sim = new Simulation(
-      old.initialSeed,
-      old.area,
-      old.generation + 1,
-      this.registry,
-    );
+    this.sim = new Simulation(old.initialSeed, old.area, old.generation + 1, this.registry);
     this.sim.tick = old.tick;
     this.sim.resetCount = this.resetCount;
     this.recordArea();
-    return [this.event({kind: 'room-reset', reason})];
+    return [this.event({ kind: 'room-reset', reason })];
   }
   captureSave(): GameSave {
     this.recordArea();
@@ -209,12 +175,7 @@ export class GameSession {
     this.visited = new Map(Object.entries(structuredClone(save.areas)));
     this.wins = save.wins;
     const old = this.sim;
-    this.sim = new Simulation(
-      save.seed,
-      save.area,
-      old.generation + 1,
-      this.registry,
-    );
+    this.sim = new Simulation(save.seed, save.area, old.generation + 1, this.registry);
     const next = this.restoredSimulation(save.area, this.sim.generation);
     Object.assign(next.hero, save.player);
     next.hero.y = heightAt(next.areaDefinition, next.hero.x, next.hero.z);
@@ -226,6 +187,6 @@ export class GameSession {
       next.hero.age = tuning.deathHoldTicks;
     }
     this.sim = next;
-    return [this.event({kind: 'area-transition', destination: save.area})];
+    return [this.event({ kind: 'area-transition', destination: save.area })];
   }
 }

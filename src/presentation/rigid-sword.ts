@@ -1,13 +1,34 @@
-import type {Frame} from '../assets/schema';
-export type SwordPair={a:readonly number[];b:readonly number[];width:number;rotationRad?:number};
-export function registeredSword(pair:SwordPair,a:Frame,b:Frame,stabilized:boolean){
- const shifted=(points:readonly number[],frame:Frame)=>{const [x,y]=stabilized?frame.visualOffsetPx??[0,0]:[0,0];return [points[0]!+x!,points[1]!+y!,points[2]!+x!,points[3]!+y!] as [number,number,number,number];};
- const ax=pair.a[2]!-pair.a[0]!,ay=pair.a[3]!-pair.a[1]!,bx=pair.b[2]!-pair.b[0]!,by=pair.b[3]!-pair.b[1]!;
- return {a:shifted(pair.a,a),b:shifted(pair.b,b),width:pair.width,rotationRad:pair.rotationRad??Math.atan2(ax*by-ay*bx,ax*bx+ay*by)};
+import type { Frame } from '../assets/schema';
+export type SwordPair = {
+  a: readonly number[];
+  b: readonly number[];
+  width: number;
+  rotationRad?: number;
+};
+export function registeredSword(pair: SwordPair, a: Frame, b: Frame, stabilized: boolean) {
+  const shifted = (points: readonly number[], frame: Frame) => {
+    const [x, y] = stabilized ? (frame.visualOffsetPx ?? [0, 0]) : [0, 0];
+    return [points[0]! + x!, points[1]! + y!, points[2]! + x!, points[3]! + y!] as [
+      number,
+      number,
+      number,
+      number,
+    ];
+  };
+  const ax = pair.a[2]! - pair.a[0]!,
+    ay = pair.a[3]! - pair.a[1]!,
+    bx = pair.b[2]! - pair.b[0]!,
+    by = pair.b[3]! - pair.b[1]!;
+  return {
+    a: shifted(pair.a, a),
+    b: shifted(pair.b, b),
+    width: pair.width,
+    rotationRad: pair.rotationRad ?? Math.atan2(ax * by - ay * bx, ax * bx + ay * by),
+  };
 }
 // Shared by color and normal sampling. The blade stays straight; one source
 // drawing supplies its paint. Nearby source pixels preserve the hilt/hand overlap.
-export const rigidSwordGLSL=`
+export const rigidSwordGLSL = `
 #ifndef LANTERN_RIGID_SWORD
 #define LANTERN_RIGID_SWORD
 vec2 swordPerp(vec2 a){return vec2(-a.y,a.x);}

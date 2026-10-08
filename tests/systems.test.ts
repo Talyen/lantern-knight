@@ -1,13 +1,13 @@
-import {readAsset} from '../tools/assets/io';
-import {defaultVisualEffects} from '../src/content/visual-effects';
-import {sandboxContent} from '../src/content/sandbox-world';
-import {test} from 'node:test';
+import { readAsset } from '../tools/assets/io';
+import { defaultVisualEffects } from '../src/content/visual-effects';
+import { sandboxContent } from '../src/content/sandbox-world';
+import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
-import {spawnSync} from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 import path from 'node:path';
-import {Texture, Vector3} from 'three';
+import { Texture, Vector3 } from 'three';
 import {
   content,
   contentDefinitions,
@@ -16,40 +16,44 @@ import {
   heightAt,
   surfaceGradient,
 } from '../src/content/world';
-import {GameSession} from '../src/core/session';
-import {tuning,attackDefinition} from '../src/content/gameplay';
-import {Simulation, FixedClock} from '../src/core/simulation';
-import {
-  parseGame,
-  SAVE_LIMITS,
-  type GameSave,
-  type LoadResult,
-} from '../src/core/save';
-import {Persistence} from '../src/core/persistence';
-import {EventHub, type AnimationEvent} from '../src/core/events';
-import {AssetRuntime, pageIdentity} from '../src/assets/loader';
-import {ActorSprite} from '../src/presentation/sprite';
-import {makeCamera, walkablePoint} from '../src/core/camera';
-import {Input} from '../src/core/input';
-import {Animator} from '../src/core/animation';
-import {Store, validateRequest} from '../electron/store';
-import {parseManifest, type Manifest} from '../src/assets/schema';
-const still = {move: {x: 0, z: 0}, aim: {x: 0, z: 0}};
+import { GameSession } from '../src/core/session';
+import { tuning, attackDefinition } from '../src/content/gameplay';
+import { Simulation, FixedClock } from '../src/core/simulation';
+import { parseGame, SAVE_LIMITS, type GameSave, type LoadResult } from '../src/core/save';
+import { Persistence } from '../src/core/persistence';
+import { EventHub, type AnimationEvent } from '../src/core/events';
+import { AssetRuntime, pageIdentity } from '../src/assets/loader';
+import { ActorSprite } from '../src/presentation/sprite';
+import { makeCamera, walkablePoint } from '../src/core/camera';
+import { Input } from '../src/core/input';
+import { Animator } from '../src/core/animation';
+import { Store, validateRequest } from '../electron/store';
+import { parseManifest, type Manifest } from '../src/assets/schema';
+const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 
 test('first click after an aim reset uses the click position without requiring pointer movement', () => {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'window'),
     target = new EventTarget(),
     canvas = Object.assign(new EventTarget(), {
-      getBoundingClientRect: () => ({left: 80, top: 70, width: 800, height: 600, right: 880, bottom: 670}),
+      getBoundingClientRect: () => ({
+        left: 80,
+        top: 70,
+        width: 800,
+        height: 600,
+        right: 880,
+        bottom: 670,
+      }),
     });
-  Object.defineProperty(globalThis, 'window', {configurable: true, value: target});
+  Object.defineProperty(globalThis, 'window', { configurable: true, value: target });
   const input = new Input(canvas as unknown as HTMLCanvasElement, makeCamera(4 / 3), () => {});
   try {
-    const sim = new Simulation(), rect = canvas.getBoundingClientRect();
+    const sim = new Simulation(),
+      rect = canvas.getBoundingClientRect();
     for (const button of [0, 2]) {
       input.resetAim();
-      const clientX = 650, clientY = 320;
-      canvas.dispatchEvent(Object.assign(new Event('pointerdown'), {button, clientX, clientY}));
+      const clientX = 650,
+        clientY = 320;
+      canvas.dispatchEvent(Object.assign(new Event('pointerdown'), { button, clientX, clientY }));
       const cmd = input.consume(sim.hero, sim.areaDefinition, sim.generation),
         point = walkablePoint(input.camera, clientX, clientY, rect, sim.areaDefinition)!;
       assert.ok(Math.abs(cmd.aim.x - point.x) < 1e-7);
@@ -64,9 +68,7 @@ test('first click after an aim reset uses the click position without requiring p
   }
 });
 function clear(session: GameSession) {
-  session.sim.enemies.forEach((a) =>
-    session.sim.damage(session.sim.hero, a, 10000),
-  );
+  session.sim.enemies.forEach((a) => session.sim.damage(session.sim.hero, a, 10000));
   session.step(still);
 }
 function enter(session: GameSession, exit: string) {
@@ -78,8 +80,7 @@ test('content rejects duplicate/unknown IDs and invalid numbers, bounds, ramps a
     (d: typeof contentDefinitions) => (d.areas = [...d.areas, d.areas[0]!]),
     (d: typeof contentDefinitions) => (d.actors[0]!.radius = NaN),
     (d: typeof contentDefinitions) => (d.areas[0]!.bounds.maxX = -10),
-    (d: typeof contentDefinitions) =>
-      (d.areas[0]!.spawns[0]!.actor = 'missing'),
+    (d: typeof contentDefinitions) => (d.areas[0]!.spawns[0]!.actor = 'missing'),
     (d: typeof contentDefinitions) => (d.areas[0]!.exits[0]!.entry = 'missing'),
     (d: typeof contentDefinitions) =>
       (d.areas[1]!.surface = {
@@ -97,7 +98,7 @@ test('content rejects duplicate/unknown IDs and invalid numbers, bounds, ramps a
   }
 });
 test('third area and melee profile have independent counts, health, radius, movement, timing and bounds', () => {
-  const s = new Simulation(12, 'systems-fixture',1,sandboxContent);
+  const s = new Simulation(12, 'systems-fixture', 1, sandboxContent);
   assert.equal(s.enemies.length, 5);
   const heavy = s.enemies.find((a) => a.definition.id === 'heavy-warden')!;
   assert.equal(heavy.health, 140);
@@ -109,9 +110,9 @@ test('third area and melee profile have independent counts, health, radius, move
   assert.equal(s.hero.id, PLAYER_ID);
   assert.equal(s.hero.definition.id, 'lamplighter');
   const a = s.enemies.find((a) => a.definition.id === 'warden')!;
-  Object.assign(s.hero, {x: 0, z: 0, y: heightAt(s.areaDefinition, 0, 0)});
-  Object.assign(a, {x: 0.1, z: 0, y: s.hero.y, stun: 10000});
-  Object.assign(heavy, {x: 1, z: 0, y: s.hero.y, stun: 0});
+  Object.assign(s.hero, { x: 0, z: 0, y: heightAt(s.areaDefinition, 0, 0) });
+  Object.assign(a, { x: 0.1, z: 0, y: s.hero.y, stun: 10000 });
+  Object.assign(heavy, { x: 1, z: 0, y: s.hero.y, stun: 0 });
   s.actors = [s.hero, heavy, a];
   s.start(heavy, 'attack', -Math.PI / 2);
   heavy.age = heavy.definition.melee.windup;
@@ -122,7 +123,7 @@ test('third area and melee profile have independent counts, health, radius, move
 test('x-ramp support, slope and pointer ray share the same surface independently of fixture axes', () => {
   const area = sandboxContent.area('systems-fixture'),
     camera = makeCamera(16 / 9),
-    rect = {left: 80, top: 70, width: 2560, height: 1440};
+    rect = { left: 80, top: 70, width: 2560, height: 1440 };
   for (const x of [-4, -0.5, 1, 4]) {
     const p = new Vector3(x, heightAt(area, x, 0), 0),
       ndc = p.clone().project(camera),
@@ -136,7 +137,7 @@ test('x-ramp support, slope and pointer ray share the same surface independently
     assert.ok(p.distanceTo(q) < 1e-7);
   }
   assert.ok(Math.abs(surfaceGradient(area, 0, 0).x - 0.1) < 1e-10);
-  assert.deepEqual(surfaceGradient(area, 4, 0), {x: 0, z: 0});
+  assert.deepEqual(surfaceGradient(area, 4, 0), { x: 0, z: 0 });
 });
 test('partial and cleared revisits preserve enemies; player cooldowns survive; enemy transient state clears', () => {
   const definitions = structuredClone(contentDefinitions);
@@ -199,7 +200,7 @@ test('current saves preserve variable counts, health above 100, multiple areas a
   session.sim.enemies[1]!.health = 121;
   session.sim.hero.cooldown = 57;
   session.sim.hero.dodgeCooldown = 12;
-  const save = parseGame(session.captureSave(),sandboxContent),
+  const save = parseGame(session.captureSave(), sandboxContent),
     restored = new GameSession(sandboxContent);
   restored.restoreSave(save);
   assert.equal(restored.sim.enemies.length, 5);
@@ -209,10 +210,10 @@ test('current saves preserve variable counts, health above 100, multiple areas a
   assert.ok(restored.generation > 1);
   const unknown = structuredClone(save);
   unknown.area = 'missing';
-  assert.throws(() => parseGame(unknown,sandboxContent), /unknown area/);
+  assert.throws(() => parseGame(unknown, sandboxContent), /unknown area/);
   const invalid = structuredClone(save);
   invalid.areas['systems-fixture']!.actors['fixture-2']!.health = 141;
-  assert.throws(() => parseGame(invalid,sandboxContent), /invalid actor/);
+  assert.throws(() => parseGame(invalid, sandboxContent), /invalid actor/);
   for (const version of [0, 1, 2]) {
     const old = {
       version,
@@ -221,10 +222,10 @@ test('current saves preserve variable counts, health above 100, multiple areas a
       ...(version === 0
         ? {}
         : {
-            hero: {x: 0, z: 2.3, health: 55},
-            enemies: [-2.5, 0.2, 2.9].map((x) => ({x, z: -3.5, health: 70})),
+            hero: { x: 0, z: 2.3, health: 55 },
+            enemies: [-2.5, 0.2, 2.9].map((x) => ({ x, z: -3.5, health: 70 })),
           }),
-      ...(version === 2 ? {area: 1} : {}),
+      ...(version === 2 ? { area: 1 } : {}),
     };
     const v = parseGame(old);
     assert.equal(v.version, 6);
@@ -235,7 +236,7 @@ test('current saves preserve variable counts, health above 100, multiple areas a
 });
 test('startup protection requires explicit Load/New; writes snapshot in order and retain failure status', async () => {
   const saved = new GameSession().captureSave();
-  let value: LoadResult<GameSave> = {status: 'ok', data: saved},
+  let value: LoadResult<GameSave> = { status: 'ok', data: saved },
     fail = false;
   const writes: GameSave[] = [];
   const persistence = new Persistence({
@@ -255,7 +256,7 @@ test('startup protection requires explicit Load/New; writes snapshot in order an
   first.wins = 4;
   const pending = persistence.save(first, true);
   first.wins = 999;
-  await Promise.all([pending, persistence.save({...saved, wins: 5})]);
+  await Promise.all([pending, persistence.save({ ...saved, wins: 5 })]);
   assert.deepEqual(
     writes.map((v) => v.wins),
     [4, 5],
@@ -269,7 +270,7 @@ test('startup protection requires explicit Load/New; writes snapshot in order an
   await persistence.inspect();
   persistence.confirmNew();
   await persistence.save(saved);
-  value = {status: 'unreadable', message: 'unsupported'};
+  value = { status: 'unreadable', message: 'unsupported' };
   await persistence.inspect();
   assert.throws(() => persistence.confirmNew());
   assert.equal(await persistence.save(saved, true), false);
@@ -293,21 +294,11 @@ test('per-slot size limits, unknown content, unsupported settings and oversized 
       /limit/,
     );
     await fs.writeFile(path.join(dir, 'game.bak'), JSON.stringify(save));
-    await fs.writeFile(
-      path.join(dir, 'game.json'),
-      JSON.stringify({...save, area: 'missing'}),
-    );
+    await fs.writeFile(path.join(dir, 'game.json'), JSON.stringify({ ...save, area: 'missing' }));
     assert.equal((await store.load('game')).status, 'unreadable');
     await assert.rejects(store.save('game', save));
-    assert.ok(
-      (await readAsset(path.join(dir, 'game.json'), 'utf8')).includes(
-        'missing',
-      ),
-    );
-    await fs.writeFile(
-      path.join(dir, 'settings.json'),
-      JSON.stringify({version: 6}),
-    );
+    assert.ok((await readAsset(path.join(dir, 'game.json'), 'utf8')).includes('missing'));
+    await fs.writeFile(path.join(dir, 'settings.json'), JSON.stringify({ version: 6 }));
     assert.equal((await store.load('settings')).status, 'unreadable');
     await assert.rejects(
       store.save('settings', {
@@ -319,39 +310,39 @@ test('per-slot size limits, unknown content, unsupported settings and oversized 
       /Newer/,
     );
     await fs.rm(path.join(dir, 'game.bak'));
-    await fs.writeFile(
-      path.join(dir, 'game.json'),
-      'x'.repeat(SAVE_LIMITS.game + 1),
-    );
+    await fs.writeFile(path.join(dir, 'game.json'), 'x'.repeat(SAVE_LIMITS.game + 1));
     assert.equal((await store.load('game')).status, 'unreadable');
     await assert.rejects(store.save('game', save), /oversized/);
-    assert.equal(
-      (await fs.stat(path.join(dir, 'game.json'))).size,
-      SAVE_LIMITS.game + 1,
-    );
+    assert.equal((await fs.stat(path.join(dir, 'game.json'))).size, SAVE_LIMITS.game + 1);
   } finally {
-    await fs.rm(dir, {recursive: true, force: true});
+    await fs.rm(dir, { recursive: true, force: true });
   }
 });
 test('backup-only saves preserve unreadable, newer and unknown-content data before accepting writes', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-backup-only-')),
-    store = new Store(dir), save = new GameSession().captureSave();
+    store = new Store(dir),
+    save = new GameSession().captureSave();
   try {
-    for (const text of ['corrupt', JSON.stringify({...save, version: 99}), JSON.stringify({...save, area: 'missing'}), 'x'.repeat(SAVE_LIMITS.game + 1)]) {
+    for (const text of [
+      'corrupt',
+      JSON.stringify({ ...save, version: 99 }),
+      JSON.stringify({ ...save, area: 'missing' }),
+      'x'.repeat(SAVE_LIMITS.game + 1),
+    ]) {
       await fs.writeFile(path.join(dir, 'game.bak'), text);
       assert.equal((await store.load('game')).status, 'unreadable');
       await assert.rejects(store.save('game', save));
       assert.equal(await readAsset(path.join(dir, 'game.bak'), 'utf8'), text);
-      await assert.rejects(fs.stat(path.join(dir, 'game.json')), {code: 'ENOENT'});
+      await assert.rejects(fs.stat(path.join(dir, 'game.json')), { code: 'ENOENT' });
     }
     await fs.writeFile(path.join(dir, 'game.bak'), JSON.stringify(save));
     assert.equal((await store.load('game')).status, 'recovered');
-    await store.save('game', {...save, wins: 1});
+    await store.save('game', { ...save, wins: 1 });
     const result = await store.load('game');
     assert.equal(result.status, 'ok');
     assert.ok('data' in result && 'wins' in result.data && result.data.wins === 1);
   } finally {
-    await fs.rm(dir, {recursive: true, force: true});
+    await fs.rm(dir, { recursive: true, force: true });
   }
 });
 
@@ -359,15 +350,32 @@ test('smoke profiles never delete user-supplied directories, including on launch
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-profile-review-'));
   try {
     await fs.writeFile(path.join(directory, 'game.json'), 'existing player save');
-    const result = spawnSync(process.execPath, ['--import', import.meta.resolve('tsx'), path.resolve('tools/desktop-smoke.ts'), '--profile', directory, '--output', path.join(directory, 'evidence')], {
-      env: {...process.env, LANTERN_EXECUTABLE: path.join(directory, 'missing-executable')}, encoding: 'utf8', timeout: 30000,
-    });
+    const result = spawnSync(
+      process.execPath,
+      [
+        '--import',
+        import.meta.resolve('tsx'),
+        path.resolve('tools/desktop-smoke.ts'),
+        '--profile',
+        directory,
+        '--output',
+        path.join(directory, 'evidence'),
+      ],
+      {
+        env: { ...process.env, LANTERN_EXECUTABLE: path.join(directory, 'missing-executable') },
+        encoding: 'utf8',
+        timeout: 30000,
+      },
+    );
     assert.equal(result.status, 1, result.stderr);
-    assert.equal(await readAsset(path.join(directory, 'game.json'), 'utf8'), 'existing player save');
-    assert.ok(!(await fs.readdir(directory)).some(name => name.startsWith('lantern-smoke-')));
+    assert.equal(
+      await readAsset(path.join(directory, 'game.json'), 'utf8'),
+      'existing player save',
+    );
+    assert.ok(!(await fs.readdir(directory)).some((name) => name.startsWith('lantern-smoke-')));
     assert.ok(await fs.stat(path.join(directory, 'evidence/failure.json')));
   } finally {
-    await fs.rm(directory, {recursive: true, force: true});
+    await fs.rm(directory, { recursive: true, force: true });
   }
 });
 test('step events are immutable captured values; catch-up delivers all once and disposal rejects late work', () => {
@@ -391,10 +399,10 @@ test('step events are immutable captured values; catch-up delivers all once and 
   assert.equal(received.length, 2);
   const combat = new Simulation();
   combat.actors = [combat.hero, combat.enemies[0]!];
-  Object.assign(combat.hero, {x: 0, z: 1, aim: Math.PI});
-  Object.assign(combat.enemies[0]!, {x: 0, z: 0, stun: 10000});
+  Object.assign(combat.hero, { x: 0, z: 1, aim: Math.PI });
+  Object.assign(combat.enemies[0]!, { x: 0, z: 0, stun: 10000 });
   combat.startSword(combat.hero, 'sweep');
-  combat.hero.age = attackDefinition(combat.hero).windup-1;
+  combat.hero.age = attackDefinition(combat.hero).windup - 1;
   const delivery = new EventHub(),
     kinds: string[] = [],
     lifetimes: AbortSignal[] = [];
@@ -425,7 +433,7 @@ test('step events are immutable captured values; catch-up delivers all once and 
   hub.publish([visual, visual]);
   assert.equal(received.filter((k) => k === 'visual-one').length, 1);
   dispose();
-  hub.publish([{...visual, key: 'visual-two', timeMs: 30}]);
+  hub.publish([{ ...visual, key: 'visual-two', timeMs: 30 }]);
   const length = received.length;
   hub.setGeneration(s.generation + 1);
   hub.publish([visual]);
@@ -433,21 +441,46 @@ test('step events are immutable captured values; catch-up delivers all once and 
   hub.dispose();
 });
 test('valid unsorted clip notifications reach consumers chronologically without losing earlier events', async () => {
-  const manifest = JSON.parse(await readAsset('public/generated/ink/ink-hero-current/manifest.json', 'utf8')) as Manifest;
+  const manifest = JSON.parse(
+    await readAsset('public/generated/ink/ink-hero-current/manifest.json', 'utf8'),
+  ) as Manifest;
   const clip = manifest.asset.clips.walk!.d90!;
-  clip.notifies = [{id: 'later', atMs: 150, kind: 'whoosh'}, {id: 'earlier', atMs: 50, kind: 'dust'}, {id: 'together', atMs: 150, kind: 'flash'}];
+  clip.notifies = [
+    { id: 'later', atMs: 150, kind: 'whoosh' },
+    { id: 'earlier', atMs: 50, kind: 'dust' },
+    { id: 'together', atMs: 150, kind: 'flash' },
+  ];
   parseManifest(manifest);
-  const animator = new Animator(PLAYER_ID, clip), sim = new Simulation(), hub = new EventHub(), received: string[] = [];
+  const animator = new Animator(PLAYER_ID, clip),
+    sim = new Simulation(),
+    hub = new EventHub(),
+    received: string[] = [];
   hub.setGeneration(sim.generation);
-  hub.subscribe(e => {if (e.kind === 'animation-notify') received.push(e.notify);});
-  const base = sim.emit(sim.hero, {kind: 'strike'});
-  const publish = () => hub.publish(animator.advance(200).map(n => ({...base, key: n.key, kind: 'animation-notify', notify: n.kind, clip: 'walk', instance: n.instance, timeMs: n.timeMs})));
+  hub.subscribe((e) => {
+    if (e.kind === 'animation-notify') received.push(e.notify);
+  });
+  const base = sim.emit(sim.hero, { kind: 'strike' });
+  const publish = () =>
+    hub.publish(
+      animator.advance(200).map((n) => ({
+        ...base,
+        key: n.key,
+        kind: 'animation-notify',
+        notify: n.kind,
+        clip: 'walk',
+        instance: n.instance,
+        timeMs: n.timeMs,
+      })),
+    );
   publish();
   assert.deepEqual(received, ['dust', 'whoosh', 'flash']);
   animator.start(clip);
   publish();
   assert.deepEqual(received, ['dust', 'whoosh', 'flash', 'dust', 'whoosh', 'flash']);
-  assert.deepEqual(clip.notifies.map(n => n.id), ['later', 'earlier', 'together']);
+  assert.deepEqual(
+    clip.notifies.map((n) => n.id),
+    ['later', 'earlier', 'together'],
+  );
   hub.dispose();
 });
 test('independent manifests isolate frame/page IDs and share compatible page resources with release-once leases', async () => {
@@ -470,38 +503,22 @@ test('independent manifests isolate frame/page IDs and share compatible page res
   let decoded = 0,
     disposed = 0;
   const runtime = new AssetRuntime(
-    {first: 'generated/first.json', second: 'generated/second.json'},
+    { first: 'generated/first.json', second: 'generated/second.json' },
     false,
-    async (url) =>
-      new Response(
-        JSON.stringify(String(url).includes('first') ? primary : other),
-      ),
+    async (url) => new Response(JSON.stringify(String(url).includes('first') ? primary : other)),
     async () => {
       decoded++;
       return new Texture();
     },
     () => disposed++,
   );
-  const [a, b] = await Promise.all([
-    runtime.loadPack('first'),
-    runtime.loadPack('second'),
-  ]);
+  const [a, b] = await Promise.all([runtime.loadPack('first'), runtime.loadPack('second')]);
   assert.equal(decoded, primary.pages.length);
   assert.equal(a.textures.get('atlas-0'), b.textures.get('atlas-0'));
   const camera = makeCamera(16 / 9),
     foot = new Vector3(1, 0, 2),
-    sa = new ActorSprite(
-      'a',
-      a.manifest,
-      a.textures,
-      a.manifest.asset.clips.rest!.d45!,
-    ),
-    sb = new ActorSprite(
-      'b',
-      b.manifest,
-      b.textures,
-      b.manifest.asset.clips.rest!.d45!,
-    );
+    sa = new ActorSprite('a', a.manifest, a.textures, a.manifest.asset.clips.rest!.d45!),
+    sb = new ActorSprite('b', b.manifest, b.textures, b.manifest.asset.clips.rest!.d45!);
   sa.animator.advance(200);
   sb.animator.advance(500);
   sa.show(sa.animator.frame, foot, camera);
@@ -541,7 +558,7 @@ test('browser adapter preserves unreadable settings/game bytes and reports unava
     },
   });
   try {
-    const {browserBridge} = await import('../src/platform/browser-store');
+    const { browserBridge } = await import('../src/platform/browser-store');
     const settings = {
       version: 5 as const,
       visualEffects: defaultVisualEffects(),
@@ -555,9 +572,7 @@ test('browser adapter preserves unreadable settings/game bytes and reports unava
     assert.equal(values.get('lantern-settings'), '{"version":99}');
     values.set('lantern-game', '');
     assert.equal((await browserBridge.loadGame()).status, 'unreadable');
-    await assert.rejects(
-      browserBridge.saveGame(new GameSession().captureSave()),
-    );
+    await assert.rejects(browserBridge.saveGame(new GameSession().captureSave()));
     assert.equal(values.get('lantern-game'), '');
     values.clear();
     await browserBridge.saveSettings(settings);
@@ -572,25 +587,30 @@ test('browser adapter preserves unreadable settings/game bytes and reports unava
 });
 
 test('build proof ignores mutable Finder metadata but rejects app tampering, mismatched commits and dirty CI reuse', async () => {
-  const directory = await fs.mkdtemp(
-      path.join(os.tmpdir(), 'lantern-build-proof-'),
-    ),
+  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-build-proof-')),
     tool = path.resolve('tools/build-identity.ts'),
-    env:NodeJS.ProcessEnv = {...process.env,LANTERN_BUILD_SOURCE:JSON.stringify({commit:null,dirty:true,sha256:'0'.repeat(64)})};
+    env: NodeJS.ProcessEnv = {
+      ...process.env,
+      LANTERN_BUILD_SOURCE: JSON.stringify({ commit: null, dirty: true, sha256: '0'.repeat(64) }),
+    };
   delete env.GITHUB_SHA;
   const run = (args: string[] = [], overrides: Record<string, string> = {}) =>
-    spawnSync(
-      process.execPath,
-      ['--import', import.meta.resolve('tsx'), tool, ...args],
-      {cwd: directory, env: {...env, ...overrides}, encoding: 'utf8'},
-    );
+    spawnSync(process.execPath, ['--import', import.meta.resolve('tsx'), tool, ...args], {
+      cwd: directory,
+      env: { ...env, ...overrides },
+      encoding: 'utf8',
+    });
   try {
     await fs.mkdir(path.join(directory, 'dist'));
     await fs.mkdir(path.join(directory, 'dist-electron'));
     await fs.writeFile(path.join(directory, 'dist/app.js'), 'original');
     await fs.writeFile(path.join(directory, 'dist-electron/main.cjs'), 'main');
     await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-one');
-    assert.notEqual(run(['--write'],{LANTERN_BUILD_SOURCE:''}).status,0,'unguarded identity writes must fail');
+    assert.notEqual(
+      run(['--write'], { LANTERN_BUILD_SOURCE: '' }).status,
+      0,
+      'unguarded identity writes must fail',
+    );
     assert.equal(run(['--write']).status, 0);
     const identityPath = path.join(directory, 'dist/build-identity.json'),
       identity = JSON.parse(await readAsset(identityPath, 'utf8'));
@@ -605,20 +625,14 @@ test('build proof ignores mutable Finder metadata but rejects app tampering, mis
     identity.sourceCommit = 'a'.repeat(40);
     identity.dirty = false;
     await fs.writeFile(identityPath, JSON.stringify(identity));
-    assert.match(
-      run([], {GITHUB_SHA: 'b'.repeat(40)}).stderr,
-      /another commit/,
-    );
+    assert.match(run([], { GITHUB_SHA: 'b'.repeat(40) }).stderr, /another commit/);
     identity.dirty = true;
     await fs.writeFile(identityPath, JSON.stringify(identity));
-    assert.match(
-      run([], {GITHUB_SHA: identity.sourceCommit}).stderr,
-      /clean source identity/,
-    );
+    assert.match(run([], { GITHUB_SHA: identity.sourceCommit }).stderr, /clean source identity/);
     identity.dirty = false;
     await fs.writeFile(identityPath, JSON.stringify(identity));
-    assert.equal(run([], {GITHUB_SHA: identity.sourceCommit}).status, 0);
+    assert.equal(run([], { GITHUB_SHA: identity.sourceCommit }).status, 0);
   } finally {
-    await fs.rm(directory, {recursive: true, force: true});
+    await fs.rm(directory, { recursive: true, force: true });
   }
 });

@@ -1,6 +1,6 @@
-import {parseRegistration,type PreparedRegistration} from './registration';
-import {Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter} from 'three';
-import {parseManifest, type Manifest} from './schema';
+import { parseRegistration, type PreparedRegistration } from './registration';
+import { Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter } from 'three';
+import { parseManifest, type Manifest } from './schema';
 type Entry<T> = {
   refs: number;
   promise: Promise<T>;
@@ -16,7 +16,7 @@ export class ResourcePool<T> {
   retain(id: string) {
     let entry = this.entries.get(id);
     if (!entry) {
-      const created = {refs: 0, dispose: this.dispose} as Entry<T>;
+      const created = { refs: 0, dispose: this.dispose } as Entry<T>;
       entry = created;
       created.promise = this.load(id).then(
         (value) => {
@@ -56,9 +56,7 @@ export class ResourcePool<T> {
     onProgress?: (done: number, total: number) => void,
   ) {
     if (signal?.aborted) throw new Error('load cancelled');
-    const leases = [...new Set(ids)].map(
-      (id) => [id, this.retain(id)] as const,
-    );
+    const leases = [...new Set(ids)].map((id) => [id, this.retain(id)] as const);
     let released = false;
     const release = () => {
       if (released) return;
@@ -66,7 +64,7 @@ export class ResourcePool<T> {
       leases.forEach(([, l]) => l.release());
     };
     const abort = () => release();
-    signal?.addEventListener('abort', abort, {once: true});
+    signal?.addEventListener('abort', abort, { once: true });
     let done = 0;
     try {
       const results = await Promise.all(
@@ -77,7 +75,7 @@ export class ResourcePool<T> {
         }),
       );
       if (signal?.aborted) throw new Error('load cancelled');
-      return {resources: new Map(results), release};
+      return { resources: new Map(results), release };
     } catch (error) {
       release();
       throw error;
@@ -91,12 +89,13 @@ export type PackLease = {
   textures: Map<string, Texture>;
   release: () => void;
 };
-type PageRequest = {url: string; hash: string; width: number; height: number; mipmaps?: boolean};
+type PageRequest = { url: string; hash: string; width: number; height: number; mipmaps?: boolean };
 export const pageIdentity = (
-  p: Pick<Manifest['pages'][number], 'hash' | 'width' | 'height'> & {mipmaps?:boolean},
-) => `${p.hash}:${p.width}x${p.height}:srgb-straight-${p.mipmaps?'terrain-mips':'linear-no-mips'}`;
+  p: Pick<Manifest['pages'][number], 'hash' | 'width' | 'height'> & { mipmaps?: boolean },
+) =>
+  `${p.hash}:${p.width}x${p.height}:srgb-straight-${p.mipmaps ? 'terrain-mips' : 'linear-no-mips'}`;
 export class AssetRuntime {
-  registration!:PreparedRegistration;
+  registration!: PreparedRegistration;
   readonly manifests = new Map<string, Promise<Manifest>>();
   private pages = new Map<string, PageRequest>();
   readonly pool: ResourcePool<Texture>;
@@ -122,28 +121,23 @@ export class AssetRuntime {
         const response = await this.request(p.url);
         if (!response.ok) throw new Error(`${p.url}: HTTP ${response.status}`);
         const buffer = await response.arrayBuffer();
-        const digest = Array.from(
-          new Uint8Array(await crypto.subtle.digest('SHA-256', buffer)),
-        )
+        const digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', buffer)))
           .map((v) => v.toString(16).padStart(2, '0'))
           .join('');
         if (digest !== p.hash) throw new Error(`${p.url}: hash mismatch`);
-        const bitmap = await createImageBitmap(
-          new Blob([buffer], {type: 'image/png'}),
-          {
-            imageOrientation: 'flipY',
-            premultiplyAlpha: 'none',
-            colorSpaceConversion: 'none',
-          },
-        );
+        const bitmap = await createImageBitmap(new Blob([buffer], { type: 'image/png' }), {
+          imageOrientation: 'flipY',
+          premultiplyAlpha: 'none',
+          colorSpaceConversion: 'none',
+        });
         if (bitmap.width !== p.width || bitmap.height !== p.height) {
           bitmap.close();
           throw new Error('page dimensions differ');
         }
         const texture = new Texture(bitmap);
         texture.colorSpace = SRGBColorSpace;
-        texture.generateMipmaps = p.mipmaps===true;
-        texture.minFilter = p.mipmaps?LinearMipmapLinearFilter:LinearFilter;
+        texture.generateMipmaps = p.mipmaps === true;
+        texture.minFilter = p.mipmaps ? LinearMipmapLinearFilter : LinearFilter;
         texture.magFilter = LinearFilter;
         texture.flipY = false;
         texture.premultiplyAlpha = false;
@@ -199,16 +193,10 @@ export class AssetRuntime {
     if (signal?.aborted) throw new Error('load cancelled');
     const manifest = await this.manifest(id);
     if (signal?.aborted) throw new Error('load cancelled');
-    const held = await this.pool.acquire(
-      manifest.pages.map(pageIdentity),
-      signal,
-      progress,
-    );
+    const held = await this.pool.acquire(manifest.pages.map(pageIdentity), signal, progress);
     return {
       manifest,
-      textures: new Map(
-        manifest.pages.map((p) => [p.id, held.resources.get(pageIdentity(p))!]),
-      ),
+      textures: new Map(manifest.pages.map((p) => [p.id, held.resources.get(pageIdentity(p))!])),
       release: held.release,
     };
   }
@@ -216,6 +204,15 @@ export class AssetRuntime {
     const response = await fetch('/build-mode.json');
     if (!response.ok) throw new Error('missing build-mode policy');
     const flags = await response.json();
-    const runtime=new AssetRuntime(catalog,flags.allowDevelopmentContent!==true);const registration=await fetch('/registration.json');if(!registration.ok)throw new Error('Prepared registration unavailable');const bytes=await registration.arrayBuffer(),digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))).map(v=>v.toString(16).padStart(2,'0')).join('');if(digest!==flags.registrationHash)throw new Error('Prepared registration hash differs');runtime.registration=parseRegistration(JSON.parse(new TextDecoder().decode(bytes)));return runtime;
+    const runtime = new AssetRuntime(catalog, flags.allowDevelopmentContent !== true);
+    const registration = await fetch('/registration.json');
+    if (!registration.ok) throw new Error('Prepared registration unavailable');
+    const bytes = await registration.arrayBuffer(),
+      digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)))
+        .map((v) => v.toString(16).padStart(2, '0'))
+        .join('');
+    if (digest !== flags.registrationHash) throw new Error('Prepared registration hash differs');
+    runtime.registration = parseRegistration(JSON.parse(new TextDecoder().decode(bytes)));
+    return runtime;
   }
 }

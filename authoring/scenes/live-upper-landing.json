@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "id": "live-upper-landing",
+  "name": "Ruined Chapel",
+  "base": "upper-landing",
+  "target": "live",
+  "changes": [],
+  "objects": [],
+  "hero": {
+    "x": 0,
+    "z": 0
+  },
+  "look": {
+    "rig": "golden",
+    "look": "diorama"
+  }
+}

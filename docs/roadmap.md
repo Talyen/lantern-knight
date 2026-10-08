@@ -9,7 +9,7 @@ Build a deliberate, responsive sword-and-lantern adventure in small, connected, 
 - **Planned**: agreed direction with implementation ahead.
 - **Needs design**: an explicit decision or playtest is required before implementation.
 
-The baseline includes the committed hero-action integration; supplied animation artwork remains TEST material pending visible playtesting. Source and existing test links provide inspection evidence, not a claim that tests currently pass. Current build, visible gameplay and hosted CI verification must be recorded separately when performed.
+The baseline includes the current hero-action integration; supplied animation artwork remains TEST material pending visible playtesting. Source and existing test links provide inspection evidence, not a claim that tests currently pass. Current build, visible gameplay and hosted CI verification must be recorded separately when performed.
 
 ## Built — existing capabilities
 
@@ -77,7 +77,7 @@ Promote local work only after integration and relevant validation. Record verifi
 | Work | Status | Acceptance |
 | --- | --- | --- |
 | Current hero animation treatment | In progress | The current-kit implementation supplies mixed-registration transitions, bounded stabilization, weighted locomotion and rigid-sword protection. Finish visual acceptance per clip/direction; large action-pose changes or uncertain equipment retain authored holds. Further smoothing requires compatible supplied art or stronger correspondence, without changing action consequences. |
-| Hero attachments and production validation | Planned | Validate per-frame/direction effect attachments, registration, source density, hands, pose joins and gameplay readability. Four-direction supplied artwork is the immediate route; additional directions and future production methods remain open. |
+| Hero attachments and production validation | Planned | Validate per-frame/direction effect attachments, registration, source density, hands, pose joins and gameplay readability. Eight-direction running and four-direction idle/action artwork are the immediate route; additional action directions and future production methods remain open. |
 | Replacement combat effects | Planned | Integrate the newer external sword/lantern artwork with explicit directional bindings, timing and attachment metadata. Retired placeholder arcs/flare are not final effects. |
 | Windows delivery acceptance | Needs design | Select reference CPU/GPU and display; validate packaged Windows at 1440p/60 FPS. macOS and software-renderer smoke results do not certify target performance. |
 | Bounded performance and lifetime pass | Planned | Warm up, measure roughly one minute in a seeded representative encounter and a separate modest stress fixture; record median/p95/stalls, environment, buffer size and scale. Account separately for download, decoded CPU, GPU textures/mips, render targets and temporary allocations; verify growth settles across repeated room changes. |

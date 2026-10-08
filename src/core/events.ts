@@ -1,4 +1,4 @@
-import type {ActorId, AreaId} from '../content/world';
+import type { ActorId, AreaId } from '../content/world';
 export type EventBase = {
   readonly key: string;
   readonly tick: number;
@@ -10,10 +10,10 @@ export type EventBase = {
   readonly direction: number;
 };
 export type EventDetails =
-  | {kind: 'damage'; target: ActorId; amount: number}
-  | {kind: 'stagger'; target: ActorId; duration: number}
-  | {kind: 'strike' | 'flare' | 'death' | 'room-clear'}
-  | {kind: 'room-reset'; reason: 'death' | 'manual'}
+  | { kind: 'damage'; target: ActorId; amount: number }
+  | { kind: 'stagger'; target: ActorId; duration: number }
+  | { kind: 'strike' | 'flare' | 'death' | 'room-clear' }
+  | { kind: 'room-reset'; reason: 'death' | 'manual' }
   | {
       kind: 'transition-start' | 'area-transition' | 'transition-cancelled';
       destination: AreaId;
@@ -40,16 +40,11 @@ export class EventHub {
   private generation = -1;
   private tick = -1;
   private tickKeys = new Set<string>();
-  private animations = new Map<
-    string,
-    {instance: number; time: number; keys: Set<string>}
-  >();
+  private animations = new Map<string, { instance: number; time: number; keys: Set<string> }>();
   readonly history: PresentationEvent[] = [];
-  subscribe(
-    handler: (event: PresentationEvent, lifetime: AbortSignal) => void,
-  ) {
+  subscribe(handler: (event: PresentationEvent, lifetime: AbortSignal) => void) {
     const key = Symbol(),
-      consumer = {handler, lifetime: new AbortController()};
+      consumer = { handler, lifetime: new AbortController() };
     this.consumers.set(key, consumer);
     return () => {
       consumer.lifetime.abort();
@@ -78,11 +73,7 @@ export class EventHub {
             (event.instance === cursor.instance && event.timeMs < cursor.time))
         )
           continue;
-        if (
-          !cursor ||
-          event.instance > cursor.instance ||
-          event.timeMs > cursor.time
-        ) {
+        if (!cursor || event.instance > cursor.instance || event.timeMs > cursor.time) {
           cursor = {
             instance: event.instance,
             time: event.timeMs,
