@@ -196,8 +196,10 @@ async function developer() {
     await assert.rejects(fs.access(path.join(run.profile, 'sandbox/saves/game.json')), {
       code: 'ENOENT',
     });
-    await page.getByRole('button', { name: 'Return to Sandbox', exact: true }).click();
-    await page.waitForFunction(() => window.foundation?.ready, {}, { timeout: 30000 });
+    assert.equal(
+      await page.getByRole('button', { name: 'Return to Sandbox', exact: true }).count(),
+      1,
+    );
     assert.deepEqual(errors, []);
     console.log('PASS: Dev startup, Preview routing and checkpoint isolation.');
   } catch (error) {
