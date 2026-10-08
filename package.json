@@ -46,6 +46,7 @@
     "package:dev:win": "tsx tools/task-runner.ts package:dev:win",
     "package:dev:win:prebuilt": "tsx tools/task-runner.ts package:dev:win:prebuilt",
     "smoke:game": "tsx tools/task-runner.ts smoke:game",
+    "smoke:desktop": "tsx tools/task-runner.ts smoke:desktop",
     "smoke:sandbox": "tsx tools/task-runner.ts smoke:sandbox",
     "smoke:lighting": "tsx tools/task-runner.ts smoke:lighting",
     "smoke:crypt": "tsx tools/task-runner.ts smoke:crypt",

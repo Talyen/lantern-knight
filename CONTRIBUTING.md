@@ -15,7 +15,7 @@ Changed runtime asset recipes finish through [asset finalization](docs/assets.md
 | During iteration | Use `npm run scene:dev -- --scene court` for scene work and run the suites that exercise the changed behavior, for example `npm test -- tests/hero-actions.test.ts tests/systems.test.ts`. |
 | Task handoff | For a scene task, run `npm run check:task -- --scene court`; add `--capture` for a visual redesign and inspect the edited location. Other tasks run `npm run check`: full tests, assets, types, repository boundaries, architecture, documentation, formatting and `git diff --check`. |
 | Delivery changes | Add the affected Game/Dev builds, identity checks, packaging or smoke journeys from [README](README.md#develop-and-verify) and the workflow. These supplement the regular gates. |
-| Hosted CI | [The workflow](.github/workflows/ci.yml) owns the exact checks. Pull requests run checks and both builds; main pushes and manual runs also package and smoke-test macOS and Windows. |
+| Hosted CI | [The workflow](.github/workflows/ci.yml) owns the exact checks. Pull requests run the full regular suite and both builds; main pushes and manual runs also package and run the short desktop integration smoke on macOS and Windows. Long gameplay and visual matrices require the manual **exhaustive** input. |
 
 `check` runs the regular gates sequentially and includes documentation and formatting validation. It reports each passed, failed or skipped gate, stops dependent work after failure, and retains bounded failure evidence in the external cache. Each gate has a five-minute deadline. Use `npm run check -- --local` only for an intentional unpublished preparation; the full test scope is unchanged. Builds, packaging and smoke remain separate delivery checks.
 

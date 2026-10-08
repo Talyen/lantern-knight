@@ -31,7 +31,7 @@ test('independent suites require no pin and unknown suites remain asset-backed',
     pure: ['tests/hero-actions.test.ts'],
     assets: ['tests/unknown.test.ts'],
   });
-  assert.equal(commands.smoke, commands['smoke:game']);
+  assert.equal(commands.smoke, commands['smoke:desktop']);
   assert.equal(commands['assets:publish'], commands['assets:finalize']);
   await assert.rejects(
     checkCommandScripts({ invalid: 'tsx tools/task-runner.ts missing' }),

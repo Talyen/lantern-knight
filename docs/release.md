@@ -10,7 +10,7 @@ Current packaging produces unpacked macOS arm64 and Windows x64 Game/Dev applica
 
 1. Review the complete changed-file inventory and task-owned patches through the [review workflow](../CONTRIBUTING.md#review-and-investigation). Preserve unrelated work. A supported release needs a clean, reviewed commit; do not clean the checkout destructively to obtain it.
 2. Choose the intended version in `package.json` and identify the exact commit and pinned `assets/lock.json` revision. Ordinary builds consume that pin. Changed art recipes require the explicit art-authoring workflow, not regeneration in CI.
-3. Run the regular gates and both Game/Dev builds. Verify both identities, then package the prebuilt outputs on the applicable hosts. The [CI workflow](../.github/workflows/ci.yml) reuses checked build artifacts and owns macOS/Windows smoke coverage on main/manual runs. Avoid rebuilding a different candidate between identity verification and packaging.
+3. Run the regular gates and both Game/Dev builds. Verify both identities, then package the prebuilt outputs on the applicable hosts. The [CI workflow](../.github/workflows/ci.yml) reuses checked build artifacts and runs short macOS/Windows integration smoke by default. For release-candidate gameplay and visual evidence, request its **exhaustive** manual-run input or the affected individual journeys. Avoid rebuilding a different candidate between identity verification and packaging.
 4. Follow the hosted run for that exact commit to final job conclusions. A missing run, failed job or policy-skipped desktop job leaves that evidence incomplete. PR checks alone do not include desktop packaging/smoke.
 
 ## Verify the delivered application
