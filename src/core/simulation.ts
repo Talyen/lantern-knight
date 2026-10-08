@@ -391,12 +391,13 @@ export class Simulation {
     };
   }
 }
+export const maximumFrameMs = 100;
 export class FixedClock {
   accumulator = 0;
   droppedMs = 0;
   readonly stepMs = 1000 / 60;
   advance(ms: number, step: () => void | boolean) {
-    const bounded = Math.min(Math.max(ms, 0), 100);
+    const bounded = Math.min(Math.max(ms, 0), maximumFrameMs);
     this.droppedMs += Math.max(0, ms - bounded);
     this.accumulator += bounded;
     let steps = 0;

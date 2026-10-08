@@ -6,6 +6,7 @@ import assert from 'node:assert/strict';
 import { Vector3, OrthographicCamera } from 'three';
 import { content, heightAt } from '../src/content/world';
 import { tuning } from '../src/content/gameplay';
+import { maximumFrameMs } from '../src/core/simulation';
 import type { GameSave } from '../src/core/save';
 import { extractFile } from '@electron/asar';
 const benchmark = process.argv.includes('--benchmark');
@@ -155,6 +156,26 @@ try {
           requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
         ),
     );
+  // Estimate accepted clock time without inspecting or advancing the player session.
+  // Checkpoint observations still verify actual movement after each held input.
+  const gameplayTime = (durationMs: number) =>
+    page.evaluate(
+      ({ durationMs, maximumFrameMs }) =>
+        new Promise<void>((resolve) => {
+          const clock = {
+            previous: performance.now(),
+            elapsed: 0,
+            frame(now: number) {
+              clock.elapsed += Math.max(0, Math.min(maximumFrameMs, now - clock.previous));
+              clock.previous = now;
+              if (clock.elapsed >= durationMs) resolve();
+              else requestAnimationFrame(clock.frame);
+            },
+          };
+          requestAnimationFrame(clock.frame);
+        }),
+      { durationMs, maximumFrameMs },
+    );
   const moveTo = async (x: number, z: number) => {
     let startingArea: string | undefined;
     for (let i = 0; i < 24; i++) {
@@ -172,9 +193,11 @@ try {
       if (Math.abs(sy) > 0.15 * d) keys.push(sy > 0 ? 'KeyW' : 'KeyS');
       await resume();
       for (const key of keys) await page.keyboard.down(key);
-      await page.waitForTimeout(Math.min(650, (d / 1.8) * 1000));
-      await renderedFrames();
-      for (const key of keys) await page.keyboard.up(key);
+      try {
+        await gameplayTime(Math.min(1800, (d / tuning.moveSpeed) * 1000));
+      } finally {
+        for (const key of keys) await page.keyboard.up(key);
+      }
       if (
         (await page.locator('#room-title').textContent()) !== 'Graveyard Approach' &&
         save.area === 'court'
