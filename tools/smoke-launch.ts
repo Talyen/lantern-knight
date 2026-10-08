@@ -75,7 +75,7 @@ async function launch(
       executablePath: executable,
       args: [
         ...(process.platform === 'win32' && process.env.CI === 'true'
-          ? ['--use-gl=angle', '--use-angle=swiftshader']
+          ? ['--use-gl=angle', '--use-angle=d3d11-warp']
           : []),
         ...args,
       ],
