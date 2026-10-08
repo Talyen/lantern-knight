@@ -2,6 +2,12 @@
 
 Use the pinned Node/npm versions in [README](README.md#develop-and-verify). [Agent rules](AGENTS.md) own artwork and repository boundaries. Inspect status and relevant diffs before editing, preserve unrelated work, and re-read shared files when another session may have changed them. Use the current checkout; commit, push or publish only when requested.
 
+## Push protection
+
+Run `npm run hooks:install` once in each clone to enable the tracked pre-push hook. It checks each outgoing commit’s recipe inputs against its committed `assets/lock.json`, even with unrelated working-tree edits. It rejects a stale pin before upload without reading source artwork or downloading packs. `npm run assets:pin:check` runs the same check manually. This guard supplements the regular checks; it does not certify asset quality or hosted CI.
+
+Changed asset recipes need local validation and separately approved publication under [assets](docs/assets.md#local-preparation-review), followed by committing the updated pin. Local `--local` checks alone cannot certify a push against the published pack.
+
 ## Verification
 
 | Moment | Checks and evidence |

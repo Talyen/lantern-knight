@@ -10,6 +10,8 @@
     "node": ">=24.18.0 <25"
   },
   "scripts": {
+    "hooks:install": "git config core.hooksPath .githooks",
+    "assets:pin:check": "tsx tools/check-asset-pin.ts",
     "check": "tsx tools/managed-command.ts tools/check.ts",
     "benchmark:game": "tsx tools/managed-command.ts tools/assets.ts run tools/game-smoke.ts --benchmark",
     "dev": "tsx tools/assets.ts run dev --host 127.0.0.1",

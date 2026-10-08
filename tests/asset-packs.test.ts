@@ -76,3 +76,25 @@ test('repository hygiene rejects raw output and oversized data while retaining e
  for(const file of ['staging/frames.json','evidence/report.json','references/art/catalog.json','public/generated/manifest.json','docs/history/old.md','dist/assets/file.js'])assert.ok(repositoryFinding(file,10));
  assert.ok(repositoryFinding('src/data.json',64*1024+1));assert.ok(repositoryFinding('src/raw.txt',256*1024+1));assert.equal(repositoryFinding('assets/sources.json',36000),undefined);assert.equal(repositoryFinding('package-lock.json',202106),undefined);assert.equal(repositoryFinding('references/canon/image(3).png',706541),undefined);
 });
+
+test('push guard checks the outgoing snapshot rather than an uncommitted repaired pin',async()=>{
+ const root=await fs.mkdtemp(path.join(os.tmpdir(),'lantern-push-pin-'));
+ try{
+  const {execFileSync}=await import('node:child_process'),{checkCommittedAssetPin}=await import('../tools/check-asset-pin');
+  const git=(args:string[])=>execFileSync('git',args,{cwd:root,stdio:'pipe'});
+  git(['init','--quiet']);git(['config','user.name','Fixture']);git(['config','user.email','fixture@example.invalid']);
+  const inputs=new Map<string,Buffer>();
+  const read=async(name:string)=>{const data=Buffer.from(name==='package.json'?JSON.stringify({dependencies:{three:'1',zod:'1'},devDependencies:{sharp:'1',tar:'1'}}):'{}');inputs.set(name,data);return data;};
+  const hash=await recipeHash(read,async()=>[]);
+  for(const [name,data]of inputs){await fs.mkdir(path.dirname(path.join(root,name)),{recursive:true});await fs.writeFile(path.join(root,name),data);}
+  const lock={schemaVersion:1,releaseTag:'assets-'+ 'a'.repeat(16),filename:'lantern-assets.tar.gz',sha256:'a'.repeat(64),inventorySha256:'b'.repeat(64),bytes:1,recipeSha256:hash};
+  await fs.writeFile(path.join(root,'assets/lock.json'),JSON.stringify(lock));git(['add','.']);git(['commit','--quiet','-m','matching pin']);
+  const good=git(['rev-parse','HEAD']).toString().trim();await checkCommittedAssetPin(root,good);
+  await fs.writeFile(path.join(root,'authoring/hero-actions.json'),'changed recipe');git(['add','.']);git(['commit','--quiet','-m','stale pin']);
+  const bad=git(['rev-parse','HEAD']).toString().trim();
+  lock.recipeSha256=await recipeHash(name=>fs.readFile(path.join(root,name)),async()=>[]);
+  await fs.writeFile(path.join(root,'assets/lock.json'),JSON.stringify(lock));
+  await assert.rejects(checkCommittedAssetPin(root,bad),/recipes differ/);await checkCommittedAssetPin(root,good);
+  git(['add','.']);git(['commit','--quiet','-m','repair pin']);await checkCommittedAssetPin(root);
+ }finally{await fs.rm(root,{recursive:true,force:true});}
+});
