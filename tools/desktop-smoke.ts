@@ -188,6 +188,7 @@ async function player() {
         if (m.type() === 'error') errors.push(m.text());
       });
       await page.waitForFunction(() => document.querySelector('canvas')?.dataset.ready === 'true');
+      if (!(await page.locator('#modal').isVisible())) await page.locator('#pause').click();
       assert.equal(await page.locator('#zoom-span').inputValue(), '13');
       await page.locator('#load').click();
       await page.waitForFunction(
@@ -202,6 +203,7 @@ async function player() {
         file,
         JSON.stringify(new GameSession(content, 142, 'upper-landing').captureSave()),
       );
+      if (!(await page.locator('#modal').isVisible())) await page.locator('#pause').click();
       await page.locator('#load').click();
       await page.waitForFunction(
         () => document.querySelector('#room-title')?.textContent === 'Ruined Chapel',
