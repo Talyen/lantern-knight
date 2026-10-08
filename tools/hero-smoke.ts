@@ -86,9 +86,10 @@ try {
           const time = elapsed + hold / 2;
           elapsed += hold;
           h.age = Math.floor((time * 60) / 1000);
-          if (state === 'idle' || state === 'walk') p.actors.get(h.id)!.sprite.animator.seek(time);
+          if (state === 'idle' || state === 'walk')
+            p.actorPresentation.actors.get(h.id)!.sprite.animator.seek(time);
           p.update(s, 1, 0, { x: 0, z: 0 });
-          const sprite = p.actors.get(h.id)!.sprite;
+          const sprite = p.actorPresentation.actors.get(h.id)!.sprite;
           seen.add(sprite.lastFrame);
           if (
             sprite.manifest.asset.id !== 'ink-hero-current' ||

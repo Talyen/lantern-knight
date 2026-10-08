@@ -3,7 +3,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import assert from 'node:assert/strict';
 import { contract } from '../src/core/camera';
-import { content } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import { worldVisuals } from '../src/content/world-art';
 const dev = process.argv.includes('--dev'),
   dist = dev ? 'dist-dev' : 'dist',
@@ -53,9 +53,11 @@ if (process.argv.includes('--write')) {
         sourceCommit: inputs.commit,
         dirty: inputs.dirty,
         inputSha256: inputs.sha256,
+        bundledDependencies: true,
         assets: {
           sha256: process.env.LANTERN_ASSET_SHA256 ?? null,
           recipeSha256: process.env.LANTERN_ASSET_RECIPE_SHA256 ?? null,
+          archiveRecipeSha256: process.env.LANTERN_ASSET_ARCHIVE_RECIPE_SHA256 ?? null,
         },
         files: checksums,
         rendering: {
@@ -77,6 +79,11 @@ if (process.argv.includes('--write')) {
   );
 } else {
   const identity = JSON.parse(await fs.readFile(identityPath, 'utf8'));
+  assert.equal(
+    identity.bundledDependencies,
+    true,
+    'Rebuild with the current Electron dependency bundle guard before packaging',
+  );
   const expected = Object.fromEntries(
     Object.entries(identity.files).filter(([name]) => !isOSMetadata(name)),
   );

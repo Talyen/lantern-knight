@@ -1,5 +1,6 @@
 import { tuning } from './gameplay';
-import { contentDefinitions, ContentRegistry, type ContentDefinitions } from './world';
+import { ContentRegistry, type ContentDefinitions } from './world';
+import { contentDefinitions } from './game-content';
 export const sandboxDefinitions: ContentDefinitions = {
   ...contentDefinitions,
   actors: [

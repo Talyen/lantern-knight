@@ -1,3 +1,4 @@
+import { content } from '../src/content/game-content';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -48,7 +49,7 @@ test('current saves preserve variable counts, health above 100, multiple areas a
           }),
       ...(version === 2 ? { area: 1 } : {}),
     };
-    const v = parseGame(old);
+    const v = parseGame(old, content);
     assert.equal(v.version, 6);
     assert.equal(v.area, version === 2 ? 'upper-landing' : 'court');
     assert.equal(v.player.cooldown, 0);
@@ -58,7 +59,7 @@ test('current saves preserve variable counts, health above 100, multiple areas a
   }
 });
 test('startup protection requires explicit Load/New; writes snapshot in order and retain failure status', async () => {
-  const saved = new GameSession().captureSave();
+  const saved = new GameSession(content).captureSave();
   let value: LoadResult<GameSave> = { status: 'ok', data: saved },
     fail = false;
   const writes: GameSave[] = [];
@@ -101,7 +102,7 @@ test('startup protection requires explicit Load/New; writes snapshot in order an
 test('per-slot size limits, unknown content, unsupported settings and oversized reads preserve files', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-systems-save-')),
     store = new Store(dir),
-    save = new GameSession().captureSave();
+    save = new GameSession(content).captureSave();
   try {
     assert.equal(SAVE_LIMITS.game, 1048576);
     assert.equal(SAVE_LIMITS.settings, 16384);
@@ -144,7 +145,7 @@ test('per-slot size limits, unknown content, unsupported settings and oversized 
 test('backup-only saves preserve unreadable, newer and unknown-content data before accepting writes', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-backup-only-')),
     store = new Store(dir),
-    save = new GameSession().captureSave();
+    save = new GameSession(content).captureSave();
   try {
     for (const text of [
       'corrupt',
@@ -171,7 +172,7 @@ test('backup-only saves preserve unreadable, newer and unknown-content data befo
 test('short filesystem reads do not make a valid checkpoint unreadable or replace it with its older backup', async () => {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-short-read-')),
     store = new Store(directory),
-    save = new GameSession().captureSave(),
+    save = new GameSession(content).captureSave(),
     open = fs.open;
   try {
     await store.save('game', { ...save, wins: 1 });
@@ -203,7 +204,7 @@ test('short filesystem reads do not make a valid checkpoint unreadable or replac
 test('save migration, newer format rejection, serialized writes, corruption recovery and no automatic overwrite', async () => {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-save-'));
   const store = new Store(dir),
-    value = parseGame({ version: 0, seed: 142, wins: 1 });
+    value = parseGame({ version: 0, seed: 142, wins: 1 }, content);
   try {
     assert.equal((await store.load('game')).status, 'empty');
     await Promise.all([store.save('game', value), store.save('game', { ...value, wins: 2 })]);
@@ -219,7 +220,7 @@ test('save migration, newer format rejection, serialized writes, corruption reco
     assert.equal((await store.load('game')).status, 'unreadable');
     await assert.rejects(store.save('game', value));
     assert.equal(await fs.readFile(path.join(dir, 'game.json'), 'utf8'), 'new unreadable');
-    assert.throws(() => parseGame({ ...value, version: 99 }));
+    assert.throws(() => parseGame({ ...value, version: 99 }, content));
     assert.throws(() => validateRequest('game', { ...value, extra: 'x'.repeat(20000) }));
     await fs.rm(path.join(dir, 'game.bak'));
     await assert.rejects(store.save('game', value));
@@ -307,7 +308,7 @@ test('browser adapter preserves unreadable settings/game bytes and reports unava
     assert.equal(values.get('lantern-settings'), '{"version":99}');
     values.set('lantern-game', '');
     assert.equal((await browserBridge.loadGame()).status, 'unreadable');
-    await assert.rejects(browserBridge.saveGame(new GameSession().captureSave()));
+    await assert.rejects(browserBridge.saveGame(new GameSession(content).captureSave()));
     assert.equal(values.get('lantern-game'), '');
     values.clear();
     await browserBridge.saveSettings(settings);

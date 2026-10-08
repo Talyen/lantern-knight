@@ -2,9 +2,11 @@ import { readAsset } from '../tools/assets/io';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
-import { graveyardScene } from '../src/content/graveyard-scene';
+import { worldVisuals } from '../src/content/world-art';
+const graveyardArt = worldVisuals.court!;
 import { sceneArtFindings } from '../src/content/scene-art-validation';
-import { content, isSupportedPosition, supportedPosition } from '../src/content/world';
+import { isSupportedPosition, supportedPosition } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import { areaArtAssets } from '../src/content/world-art';
 import { assetCatalog } from '../src/content/visuals';
 import { parseManifest } from '../src/assets/schema';
@@ -50,10 +52,10 @@ async function fixture() {
 }
 
 test('art validation rejects solid penetration and an allowance reused away from its registered join', () => {
-  assert.deepEqual(sceneArtFindings(graveyardScene), []);
+  assert.deepEqual(sceneArtFindings(graveyardArt), []);
   const moved = {
-    ...graveyardScene,
-    props: graveyardScene.props.map((p) => (p.id === 'gate-lamp' ? { ...p, x: -6.1, z: 1.4 } : p)),
+    ...graveyardArt,
+    props: graveyardArt.props.map((p) => (p.id === 'gate-lamp' ? { ...p, x: -6.1, z: 1.4 } : p)),
   };
   assert.ok(
     sceneArtFindings(moved).some(
@@ -61,7 +63,7 @@ test('art validation rejects solid penetration and an allowance reused away from
     ),
   );
   const invalid = {
-    ...graveyardScene,
+    ...graveyardArt,
     overlaps: [
       {
         a: 'gate-lamp',
@@ -100,10 +102,10 @@ test('oriented footprint collision follows the visible long axis rather than its
 });
 test('four-centimetre reversals behind a near tree retains one shader/depth policy and a continuous local reveal', async () => {
   const f = await fixture(),
-    sim = new Simulation();
+    sim = new Simulation(content, 142, content.definitions.initialArea, 1);
   sim.enemies.forEach((a) => (a.health = 0));
   try {
-    const tree = graveyardScene.props.find((p) => p.id === 'foreground-oak')!;
+    const tree = graveyardArt.props.find((p) => p.id === 'foreground-oak')!;
     Object.assign(sim.hero, { x: tree.x, z: tree.z - 0.2, px: tree.x, pz: tree.z - 0.2 });
     for (let i = 0; i < 30; i++) f.room.update(sim, 1, false, 1000 / 60);
     const wall = f.room.sprites.filter((s) => s.id === 'foreground-oak'),

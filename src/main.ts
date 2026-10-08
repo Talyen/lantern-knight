@@ -1,7 +1,7 @@
 import './style.css';
 import { Application } from './application';
 import { GamePresentation } from './presentation/game-scene';
-import { content } from './content/world';
+import { content } from './content/game-content';
 import { gameAssetCatalog } from './content/visuals';
 import { browserBridge, createBrowserBridge } from './platform/browser-store';
 import { gameUI, bindGameUI, status, showPause, updateGameUI } from './game-ui';

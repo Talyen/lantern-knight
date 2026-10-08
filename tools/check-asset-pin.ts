@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { readLock, recipeHash } from './assets/pack';
+import { readLock, recipeHash, acceptedRecipe } from './assets/pack';
 
 // Check each outgoing snapshot, even when unrelated working-tree edits exist.
 export async function checkCommittedAssetPin(cwd = process.cwd(), ref = 'HEAD') {
@@ -19,7 +19,7 @@ export async function checkCommittedAssetPin(cwd = process.cwd(), ref = 'HEAD') 
   })();
   const lock = await readLock(read);
   if (
-    lock.recipeSha256 !==
+    acceptedRecipe(lock) !==
     (await (hasManifest
       ? recipeHash(read)
       : (await import('./assets/legacy-recipe')).legacyRecipeHash(read, () =>

@@ -12,18 +12,81 @@ import { shaFile } from './sources';
 
 const hash = z.string().regex(/^[a-f0-9]{64}$/),
   bytes = z.number().int().nonnegative();
-export const LockSchema = z
-  .object({
-    schemaVersion: z.literal(1),
-    releaseTag: z.string().regex(/^assets-[a-f0-9]{16}$/),
-    filename: z.literal('lantern-assets.tar.gz'),
-    sha256: hash,
-    inventorySha256: hash,
-    bytes: bytes.positive().max(2 * 1024 ** 3 - 1),
-    recipeSha256: hash,
-  })
+const archiveFields = {
+  releaseTag: z.string().regex(/^assets-[a-f0-9]{16}$/),
+  filename: z.literal('lantern-assets.tar.gz'),
+  sha256: hash,
+  inventorySha256: hash,
+  bytes: bytes.positive().max(2 * 1024 ** 3 - 1),
+  recipeSha256: hash,
+};
+export const ArchiveLockSchema = z
+  .object({ schemaVersion: z.literal(1), ...archiveFields })
   .strict();
+export type ArchiveLock = z.infer<typeof ArchiveLockSchema>;
+export const LockSchema = z.union([
+  ArchiveLockSchema,
+  z
+    .object({
+      schemaVersion: z.literal(2),
+      ...archiveFields,
+      preparation: z
+        .object({ recipeSha256: hash, inputs: z.record(z.string(), hash), payloadSha256: hash })
+        .strict(),
+    })
+    .strict()
+    .superRefine((pin, ctx) => {
+      if (
+        createHash('sha256').update(JSON.stringify(pin.preparation.inputs)).digest('hex') !==
+        pin.preparation.recipeSha256
+      )
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Accepted preparation input hashes differ from its recipe',
+        });
+    }),
+]);
 export type AssetLock = z.infer<typeof LockSchema>;
+export const acceptedRecipe = (lock: AssetLock) =>
+  lock.schemaVersion === 2 ? lock.preparation.recipeSha256 : lock.recipeSha256;
+export type PackInventory = {
+  schemaVersion: 1;
+  recipeSha256: string;
+  files: Record<string, { sha256: string; bytes: number }>;
+};
+// The only provenance-only payload file is deliberately named, never a folder exclusion.
+export function payloadDigest(inventory: PackInventory) {
+  return createHash('sha256')
+    .update(
+      JSON.stringify(
+        Object.entries(inventory.files)
+          .filter(([file]) => file !== 'metadata/preparation-inputs.json')
+          .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+          .map(([file, value]) => [file, value.bytes, value.sha256]),
+      ),
+    )
+    .digest('hex');
+}
+export function preparationPin(
+  archive: AssetLock,
+  inputs: Record<string, string>,
+  inventory: PackInventory,
+): AssetLock {
+  const {
+    preparation: __,
+    schemaVersion: _,
+    ...fields
+  } = archive as AssetLock & { preparation?: unknown };
+  return LockSchema.parse({
+    schemaVersion: 2,
+    ...fields,
+    preparation: {
+      recipeSha256: createHash('sha256').update(JSON.stringify(inputs)).digest('hex'),
+      inputs,
+      payloadSha256: payloadDigest(inventory),
+    },
+  });
+}
 const PackSchema = z
   .object({
     schemaVersion: z.literal(1),
@@ -56,6 +119,8 @@ export async function validatePack(root: string, lock: AssetLock) {
     if ((await fs.stat(file)).size !== f.bytes || (await shaFile(file)) !== f.sha256)
       throw new Error(`Prepared asset differs: ${name}`);
   }
+  if (lock.schemaVersion === 2 && payloadDigest(data) !== lock.preparation.payloadSha256)
+    throw new Error('Accepted preparation payload differs from the published pack');
   return data;
 }
 export async function inspectArchive(file: string, maxBytes = CACHE_LIMIT) {

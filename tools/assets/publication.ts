@@ -1,7 +1,14 @@
 import fs from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { AssetCache } from './cache';
-import { recipeHash, validatePack, lockFile, type AssetLock } from './pack';
+import {
+  recipeHash,
+  recipeInputs,
+  validatePack,
+  preparationPin,
+  lockFile,
+  type AssetLock,
+} from './pack';
 import { shaFile } from './sources';
 import { gh } from './retention';
 import type { prepareAssets } from './prepare';
@@ -51,6 +58,7 @@ export async function publishPrepared(
   beforePin: () => Promise<void> = async () => {},
 ) {
   const lock = prepared.lock;
+  const pin = await preparationPinFor(prepared);
   await validateCandidate(prepared);
   let existing: { assets: { name: string }[] } | undefined;
   try {
@@ -98,10 +106,19 @@ export async function publishPrepared(
   await beforePin();
   const temporary = target + '.' + randomUUID();
   try {
-    await fs.writeFile(temporary, JSON.stringify(lock, null, 2) + '\n');
+    await fs.writeFile(temporary, JSON.stringify(pin, null, 2) + '\n');
     await fs.rename(temporary, target);
   } finally {
     await fs.rm(temporary, { force: true });
   }
   console.log('Published and pinned ' + lock.releaseTag);
+}
+
+export async function preparationPinFor(prepared: PreparedAssets) {
+  await validateCandidate(prepared);
+  return preparationPin(
+    prepared.lock,
+    await recipeInputs(),
+    await validatePack(prepared.payload, prepared.lock),
+  );
 }

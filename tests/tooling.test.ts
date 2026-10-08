@@ -338,3 +338,23 @@ test('documentation links respect duplicate headings, references, encoded paths 
     await f.close();
   }
 });
+
+test('packaged Electron bundles may rely on built-ins but reject missing runtime packages', async () => {
+  const { verifyElectronImports } = await import('../tools/build-electron');
+  const metadata = (paths: string[]) => ({
+    outputs: {
+      'main.cjs': {
+        imports: paths.map((path) => ({ path, external: true, kind: 'require-call' as const })),
+        exports: [],
+        inputs: {},
+        bytes: 1,
+      },
+    },
+  });
+  verifyElectronImports(metadata(['electron', 'node:fs', 'path']));
+  assert.throws(() => verifyElectronImports(metadata(['sharp'])), /unbundled runtime dependency/);
+  assert.throws(
+    () => verifyElectronImports(metadata(['.\/native.node'])),
+    /unbundled runtime dependency/,
+  );
+});

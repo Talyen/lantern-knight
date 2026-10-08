@@ -1,3 +1,4 @@
+import { placementOffset } from '../content/scenery-presets';
 import { Vector3, type Mesh } from 'three';
 import { right, up } from '../core/camera';
 import type { WorldVisualDefinition } from '../content/world-art';
@@ -150,7 +151,7 @@ export function validateConstruction(area: AreaDefinition, art: WorldVisualDefin
         continue;
       }
       const root = parent ?? { x: wall!.from.x, z: wall!.from.z, y: 0 },
-        [x, y, z] = p.mount.offset;
+        [x, y, z] = placementOffset(parent ?? {}, p.mount.offset);
       if (
         Math.hypot(p.x - root.x - x, p.z - root.z - z) > 1e-6 ||
         Math.abs((p.y ?? 0) - (root.y ?? 0) - y) > 1e-6

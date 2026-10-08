@@ -7,7 +7,8 @@ const run = await smokeLaunch(true),
   { page, output, errors } = run;
 try {
   await page.waitForFunction(() => window.foundation?.ready, {}, { timeout: 60000 });
-  await page.evaluate(() => {
+  await page.evaluate(async () => {
+    await window.foundation.fixture('court');
     window.foundation.mode('encounter');
     window.foundation.pause(true);
   });

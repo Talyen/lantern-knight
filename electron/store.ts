@@ -1,3 +1,4 @@
+import { content } from '../src/content/game-content';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {
@@ -12,7 +13,7 @@ import {
 export type Slot = 'settings' | 'game';
 const version = (slot: Slot) => (slot === 'game' ? SAVE_FORMAT_VERSION : SETTINGS_FORMAT_VERSION);
 export function parseSlot(slot: Slot, value: unknown) {
-  return slot === 'game' ? parseGame(value) : parseSettings(value);
+  return slot === 'game' ? parseGame(value, content) : parseSettings(value);
 }
 export function validateRequest(slot: Slot, value: unknown) {
   if (!['game', 'settings'].includes(slot)) throw new Error('unknown app-owned slot');

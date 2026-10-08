@@ -32,6 +32,8 @@ export const suiteRequirements: Readonly<Record<string, 'pure' | 'runtime-assets
   Object.fromEntries(
     [
       'application',
+      'systems',
+      'foundation',
       'asset-finalization',
       'asset-packs',
       'bitmap',
@@ -60,6 +62,7 @@ export async function runTests(
   files: string[],
   setup: () => Promise<NodeJS.ProcessEnv>,
   output?: (chunk: Buffer) => void,
+  root = process.cwd(),
 ) {
   const scope = `${files.length} suite${files.length === 1 ? '' : 's'}`,
     lane = await acquireTestLane();
@@ -68,7 +71,7 @@ export async function runTests(
   try {
     const groups = testGroups(files),
       identityOptions = { ignoreAssetPin: groups.assets.length === 0 };
-    const before = await verificationIdentity(process.cwd(), identityOptions);
+    const before = await verificationIdentity(root, identityOptions);
     report(`Running ${scope}: ${files.join(', ')}`);
     let passed = 0,
       failed = 0,
@@ -80,12 +83,20 @@ export async function runTests(
       const temporary = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-test-result-')),
         resultFile = path.join(temporary, 'result.json');
       try {
+        const childEnv: NodeJS.ProcessEnv = { ...env, LANTERN_TEST_CHILD_RESULT: resultFile };
+        // A nested supervisor is a new runner, not a node:test worker.
+        delete childEnv.NODE_TEST_CONTEXT;
         await runProcess(
           process.execPath,
-          ['--import', 'tsx', path.resolve('tools/test.ts'), ...selected],
+          [
+            '--import',
+            import.meta.resolve('tsx'),
+            fileURLToPath(new URL('./test.ts', import.meta.url)),
+            ...selected,
+          ],
           {
-            cwd: process.cwd(),
-            env: { ...env, LANTERN_TEST_CHILD_RESULT: resultFile },
+            cwd: root,
+            env: childEnv,
             timeoutMs: Math.max(1, deadline - Date.now()),
             output: (chunk) => {
               details = (details + chunk.toString()).slice(-1024 * 1024);
@@ -100,6 +111,7 @@ export async function runTests(
           result.failed < 0
         )
           throw new Error('Invalid test worker result');
+        if (result.passed + result.failed === 0) throw new Error('Test worker executed no checks');
         passed += result.passed;
         failed += result.failed;
         details = (details + result.details).slice(-1024 * 1024);
@@ -111,7 +123,7 @@ export async function runTests(
         await fs.rm(temporary, { recursive: true, force: true });
       }
     }
-    await requireStableInputs(process.cwd(), before, identityOptions);
+    await requireStableInputs(root, before, identityOptions);
     report(`${scope}; ${passed} checks passed; ${failed} failed.`);
     if (failed) {
       const cache = new AssetCache(),
@@ -133,12 +145,14 @@ async function runSuites(files: string[]): Promise<SuiteResult> {
   const result: SuiteResult = { passed: 0, failed: 0, details: '', messages: [] };
   for await (const event of run({
     files,
-    execArgv: ['--import', 'tsx'],
+    execArgv: ['--import', import.meta.resolve('tsx')],
     concurrency: Math.min(2, availableParallelism()),
     timeout: 120000,
     signal: AbortSignal.timeout(5 * 60 * 1000),
   })) {
-    if (event.type === 'test:pass') result.passed++;
+    // Only a worker's test summary establishes executed checks. Node's parent
+    // stream also reports empty files as passing containers without this summary.
+    if (event.type === 'test:summary' && event.data.file) result.passed += event.data.counts.passed;
     if (event.type === 'test:fail') {
       result.failed++;
       const message = inspect(event.data.details.error, {

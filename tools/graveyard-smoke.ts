@@ -239,7 +239,7 @@ try {
   });
   await pose(-3.3, 7.25);
   const policy = await page.evaluate(() =>
-    window.foundation.presentation.inkRoom!.graveyard!.revealStats(),
+    window.foundation.presentation.roomPresentation.inkRoom!.graveyard!.revealStats(),
   );
   for (const [i, z] of [7.29, 7.25, 7.29, 7.25].entries()) {
     await page.evaluate((z) => {
@@ -248,7 +248,7 @@ try {
       f.presentation.update(f.sim, 1, 1000 / 60, { x: 4, z });
     }, z);
     const states = await page.evaluate(() =>
-      window.foundation.presentation.inkRoom!.graveyard!.revealStats(),
+      window.foundation.presentation.roomPresentation.inkRoom!.graveyard!.revealStats(),
     );
     assert.ok(
       states.every(

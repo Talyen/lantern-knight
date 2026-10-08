@@ -7,7 +7,8 @@ import * as T from 'three';
 import { ActorSprite } from '../src/presentation/sprite';
 import { OcclusionFades } from '../src/presentation/occlusion-fades';
 import { findDepthConflicts, validateConstruction } from '../src/presentation/art-validation';
-import { content, isSupportedPosition, heightAt } from '../src/content/world';
+import { isSupportedPosition, heightAt } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import {
   worldVisuals,
   compositionPoint,
@@ -74,7 +75,7 @@ test('alpha-aware depth gate rejects the original door/arch conflict but ignores
   }
 });
 test('assembly fades ease, use interpolated fighters, freeze on pause, and restore more slowly', () => {
-  const sim = new Simulation(142, 'upper-landing');
+  const sim = new Simulation(content, 142, 'upper-landing', 1);
   for (const a of sim.enemies) a.health = 0;
   Object.assign(sim.hero, { x: 0, z: 0, px: 0, pz: 0 });
   const f = new OcclusionFades(),
@@ -124,7 +125,7 @@ test('new bay dressing reconciles v5 roots without losing vital state, enemy hea
   });
   save.areas['upper-landing']!.engaged = true;
   const original = JSON.stringify(save),
-    result = parseGame(save);
+    result = parseGame(save, content);
   assert.equal(JSON.stringify(save), original);
   assert.equal(result.version, 6);
   assert.equal(result.player.health, 63);
@@ -142,21 +143,24 @@ test('new bay dressing reconciles v5 roots without losing vital state, enemy hea
     ),
   );
   assert.throws(
-    () => parseGame({ ...save, version: 6 }),
+    () => parseGame({ ...save, version: 6 }, content),
     /invalid player/,
     'new-format saves must not accept old bounds',
   );
   assert.throws(
-    () => parseGame({ ...save, player: { ...save.player, x: 8 } }),
+    () => parseGame({ ...save, player: { ...save.player, x: 8 } }, content),
     /invalid player/,
     'migration must reject positions outside the old bounds',
   );
   assert.throws(
     () =>
-      parseGame({
-        ...save,
-        areas: { ...save.areas, 'unknown-chapel': save.areas['upper-landing']! },
-      }),
+      parseGame(
+        {
+          ...save,
+          areas: { ...save.areas, 'unknown-chapel': save.areas['upper-landing']! },
+        },
+        content,
+      ),
     /unknown area/,
   );
 });

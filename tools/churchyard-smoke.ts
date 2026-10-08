@@ -62,93 +62,95 @@ try {
   if (run.capture)
     await page.locator('canvas').screenshot({ path: path.join(output, 'chapel-opening.png') });
   if (!process.argv.includes('--quick')) {
-    for (const area of option('--area', 'both') === 'both'
-      ? ['court', 'upper-landing']
-      : [option('--area', 'both')]) {
-      await page.evaluate((area) => window.foundation.fixture(area), area);
-      await freeze();
-      for (const [aspect, w, h] of process.argv.includes('--ci')
-        ? [['16x9', 1920, 1080] as const]
-        : ([
-            ['4x3', 1440, 1080],
-            ['16x9', 1920, 1080],
-            ['ultrawide', 2520, 1080],
-          ] as const)) {
-        await resize(w, h);
-        for (const span of process.argv.includes('--ci') ? [9, 15] : [9, 11, 13, 15]) {
-          await markStage(`composition-${area}-${aspect}-${span}`);
-          await page.evaluate((span) => {
-            window.foundation.presentation.verticalSpan = span;
-            window.foundation.presentation.resize();
-          }, span);
-          const positions =
-            area === 'court'
-              ? ([
-                  ['spawn', -2.2, 6.65],
-                  ['combat', 0.4, 1.5],
-                  ['stairs', 0, -5.4],
-                  ['exit', 0, -6.0],
-                  ['west', -6.1, 0],
-                  ['east', 6.1, 0],
-                  ['north', 0, -5.8],
-                  ['south', 0, 7.6],
-                  ['nw', -6.1, -5.8],
-                  ['ne', 6.1, -5.8],
-                  ['sw', -6.1, 7.6],
-                  ['se', 6.1, 7.6],
-                ] as const)
-              : ([
-                  ['spawn', 0, 7.5],
-                  ['combat', 0, 1],
-                  ['altar', 0, -5.5],
-                  ['exit', 0, 8.3],
-                  ['west', -7.3, 0],
-                  ['east', 7.3, 0],
-                  ['north', 0, -8.1],
-                  ['south', 0, 8.3],
-                  ['nw', -7.3, -8.1],
-                  ['ne', 7.3, -8.1],
-                  ['sw', -7.3, 8.3],
-                  ['se', 7.3, 8.3],
-                ] as const);
-          for (const [position, x, z] of positions) {
-            await page.evaluate(
-              ({ x, z }) => {
+    if (run.capture) {
+      for (const area of option('--area', 'both') === 'both'
+        ? ['court', 'upper-landing']
+        : [option('--area', 'both')]) {
+        await page.evaluate((area) => window.foundation.fixture(area), area);
+        await freeze();
+        for (const [aspect, w, h] of process.argv.includes('--ci')
+          ? [['16x9', 1920, 1080] as const]
+          : ([
+              ['4x3', 1440, 1080],
+              ['16x9', 1920, 1080],
+              ['ultrawide', 2520, 1080],
+            ] as const)) {
+          await resize(w, h);
+          for (const span of process.argv.includes('--ci') ? [9, 15] : [9, 11, 13, 15]) {
+            await markStage(`composition-${area}-${aspect}-${span}`);
+            await page.evaluate((span) => {
+              window.foundation.presentation.verticalSpan = span;
+              window.foundation.presentation.resize();
+            }, span);
+            const positions =
+              area === 'court'
+                ? ([
+                    ['spawn', -2.2, 6.65],
+                    ['combat', 0.4, 1.5],
+                    ['stairs', 0, -5.4],
+                    ['exit', 0, -6.0],
+                    ['west', -6.1, 0],
+                    ['east', 6.1, 0],
+                    ['north', 0, -5.8],
+                    ['south', 0, 7.6],
+                    ['nw', -6.1, -5.8],
+                    ['ne', 6.1, -5.8],
+                    ['sw', -6.1, 7.6],
+                    ['se', 6.1, 7.6],
+                  ] as const)
+                : ([
+                    ['spawn', 0, 7.5],
+                    ['combat', 0, 1],
+                    ['altar', 0, -5.5],
+                    ['exit', 0, 8.3],
+                    ['west', -7.3, 0],
+                    ['east', 7.3, 0],
+                    ['north', 0, -8.1],
+                    ['south', 0, 8.3],
+                    ['nw', -7.3, -8.1],
+                    ['ne', 7.3, -8.1],
+                    ['sw', -7.3, 8.3],
+                    ['se', 7.3, 8.3],
+                  ] as const);
+            for (const [position, x, z] of positions) {
+              await page.evaluate(
+                ({ x, z }) => {
+                  const f = window.foundation,
+                    h = f.sim.hero;
+                  Object.assign(h, { x, z, px: x, pz: z });
+                  f.sim.move(h, 0, 0);
+                  h.px = h.x;
+                  h.pz = h.z;
+                  f.presentation.update(f.sim, 1, 0, { x: h.x, z: h.z + 1 });
+                },
+                { x, z },
+              );
+              if (run.capture)
+                await page.locator('canvas').screenshot({
+                  path: path.join(output, `${area}-${aspect}-${span}-${position}.jpg`),
+                  type: 'jpeg',
+                  quality: 88,
+                  scale: 'css',
+                });
+              const support = await page.evaluate(() => {
                 const f = window.foundation,
-                  h = f.sim.hero;
-                Object.assign(h, { x, z, px: x, pz: z });
-                f.sim.move(h, 0, 0);
-                h.px = h.x;
-                h.pz = h.z;
-                f.presentation.update(f.sim, 1, 0, { x: h.x, z: h.z + 1 });
-              },
-              { x, z },
-            );
-            if (run.capture)
-              await page.locator('canvas').screenshot({
-                path: path.join(output, `${area}-${aspect}-${span}-${position}.jpg`),
-                type: 'jpeg',
-                quality: 88,
-                scale: 'css',
+                  s = f.presentation.actorPresentation.actors.get('player')!;
+                return {
+                  root: s.sprite.mesh.position.y,
+                  height: f.sim.hero.y,
+                  shadow: s.shadow.position.y,
+                };
               });
-            const support = await page.evaluate(() => {
-              const f = window.foundation,
-                s = f.presentation.actors.get('player')!;
-              return {
-                root: s.sprite.mesh.position.y,
-                height: f.sim.hero.y,
-                shadow: s.shadow.position.y,
-              };
-            });
-            assert.ok(Math.abs(support.root - support.height) < 1e-6);
-            assert.ok(Math.abs(support.shadow - support.height - 0.03) < 1e-6);
+              assert.ok(Math.abs(support.root - support.height) < 1e-6);
+              assert.ok(Math.abs(support.shadow - support.height - 0.03) < 1e-6);
+            }
           }
         }
       }
+      checks.push(
+        'requested scene/camera/aspect matrix at spawn, combat, stairs, exits, edges and corners; supported roots/shadows',
+      );
     }
-    checks.push(
-      'requested scene/camera/aspect matrix at spawn, combat, stairs, exits, edges and corners; supported roots/shadows',
-    );
     for (const area of ['court', 'upper-landing']) {
       await markStage(`resolution-${area}`);
       await page.evaluate((area) => window.foundation.fixture(area), area);
@@ -167,6 +169,17 @@ try {
         await page
           .locator('canvas')
           .screenshot({ path: path.join(output, `${area}-4k.png`), scale: 'css' });
+      const support = await page.evaluate(() => {
+        const f = window.foundation,
+          actor = f.presentation.actorPresentation.actors.get('player')!;
+        return {
+          root: actor.sprite.mesh.position.y,
+          height: f.sim.hero.y,
+          shadow: actor.shadow.position.y,
+        };
+      });
+      assert.ok(Math.abs(support.root - support.height) < 1e-6);
+      assert.ok(Math.abs(support.shadow - support.height - 0.03) < 1e-6);
       const buffer = await page.evaluate(() => window.foundation.stats().buffer);
       assert.equal(buffer[0], 3840);
       assert.ok(buffer[1]! >= 1800 && buffer[1]! <= 2160);

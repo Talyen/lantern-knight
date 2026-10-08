@@ -12,6 +12,7 @@ import {
   type SceneDocument,
 } from './content/scene-document';
 import { heightAt } from './content/world';
+import { applySceneryPreset } from './content/scenery-presets';
 import { EditorHistory, sceneItems } from './editor/model';
 import { EditorView } from './editor/view';
 const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
@@ -442,15 +443,17 @@ async function place(entry: (typeof palette)[number], x: number, y: number) {
   await run(async () => {
     const id = 'object-' + crypto.randomUUID();
     history.change((d) =>
-      d.objects.push({
-        id,
-        kind: entry.kind,
-        asset: entry.asset,
-        clip: entry.clip,
-        x: snapped(point.x),
-        z: snapped(point.z),
-        scale: 1,
-      }),
+      d.objects.push(
+        applySceneryPreset({
+          id,
+          kind: entry.kind,
+          asset: entry.asset,
+          clip: entry.clip,
+          x: snapped(point.x),
+          z: snapped(point.z),
+          scale: 1,
+        }),
+      ),
     );
     selected = id;
     chosen = undefined;
@@ -664,7 +667,9 @@ async function start() {
         document: parseSceneDocument(value.document),
         revision: value.revision,
         baseRevision: value.baseRevision,
-        savedSnapshot: value.savedSnapshot,
+        savedSnapshot: value.savedSnapshot
+          ? JSON.stringify(parseSceneDocument(JSON.parse(value.savedSnapshot)))
+          : '',
       };
       $('recovery').hidden = false;
     }

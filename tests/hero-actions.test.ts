@@ -1,3 +1,4 @@
+import { content } from '../src/content/game-content';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { GameSession } from '../src/core/session';
@@ -7,7 +8,7 @@ import { heroActionTiming, heroTimings } from '../src/content/hero-actions';
 import { selectAuthoredDirection, AUTHORED_HEADINGS } from '../src/core/camera';
 const still = { move: { x: 0, z: 0 }, aim: { x: 1, z: 0 } };
 function duel() {
-  const s = new Simulation();
+  const s = new Simulation(content, 142, content.definitions.initialArea, 1);
   s.actors = [s.hero, s.enemies[0]!];
   Object.assign(s.hero, { x: 0, z: 0 });
   Object.assign(s.enemies[0]!, { x: 1, z: 0, health: 100, stun: 10000 });
@@ -66,8 +67,11 @@ test('alternation survives waiting, dodge and hurt; interruptions cannot complet
   s.step({ ...still, attack: true });
   assert.equal(s.hero.attackKind, 'lunge');
   assert.equal(s.hero.nextAttack, 'sweep');
-  assert.equal(new Simulation().hero.nextAttack, 'sweep');
-  const session = new GameSession();
+  assert.equal(
+    new Simulation(content, 142, content.definitions.initialArea, 1).hero.nextAttack,
+    'sweep',
+  );
+  const session = new GameSession(content);
   session.sim.hero.nextAttack = 'lunge';
   session.sim.enemies.forEach((a) => (a.health = 0));
   session.sim.cleared = true;

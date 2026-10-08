@@ -5,7 +5,7 @@ import { FoliageWind } from './foliage-wind';
 import { sceneryRegistration } from '../content/scenery-registration';
 import { heightAt, type ActorId } from '../content/world';
 import type { Simulation } from '../core/simulation';
-import type { GamePresentation } from './game-scene';
+import type { WorldVisualDefinition } from '../content/world-art';
 type Caster = {
   mesh: T.Mesh<T.BufferGeometry, T.MeshBasicMaterial>;
   depth: T.MeshDepthMaterial;
@@ -14,17 +14,17 @@ type Caster = {
 export class ShadowProxies {
   readonly proxies = new T.Group();
   private actorCasters = new Map<ActorId, Caster>();
-  constructor(
-    private presentation: GamePresentation,
-    private sun: T.DirectionalLight,
-  ) {}
-  build(sim: Simulation) {
-    const p = this.presentation;
-    for (const prop of this.presentation.visuals?.props ?? []) {
+  constructor(private sun: T.DirectionalLight) {}
+  build(
+    sim: Simulation,
+    visuals: WorldVisualDefinition | undefined,
+    sprites: readonly ActorSprite[],
+  ) {
+    for (const prop of visuals?.props ?? []) {
       if (
         prop.shadow === 'none' ||
         prop.shadow === 'contact' ||
-        prop.light ||
+        prop.fixture ||
         prop.wallFace ||
         prop.clip === 'lantern' ||
         prop.clip === 'stairs' ||
@@ -35,7 +35,7 @@ export class ShadowProxies {
       const registration = sceneryRegistration.find((r) => r.id === prop.clip),
         h = (registration?.height ?? 1) * (prop.scale ?? 1),
         size = prop.footprint ?? [Math.min(1.5, h * 0.35), Math.min(1.5, h * 0.35)];
-      const sprite = p.inkRoom?.sprites.find((s) => s.id === prop.id);
+      const sprite = sprites.find((s) => s.id === prop.id);
       if (sprite) {
         const material = new T.MeshBasicMaterial({
           map: sprite.material.map,

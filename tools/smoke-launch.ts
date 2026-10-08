@@ -8,11 +8,47 @@ export const option = (name: string, fallback: string) => {
   const i = process.argv.indexOf(name);
   return i < 0 ? fallback : (process.argv[i + 1] ?? fallback);
 };
+type SmokeRun = Awaited<ReturnType<typeof launch>>;
+let sharedDev: SmokeRun | undefined;
+let sharing = false;
+export async function withSmokeSessions(work: () => Promise<void>) {
+  if (sharing) throw new Error('Smoke suite is already active');
+  sharing = true;
+  try {
+    await work();
+  } finally {
+    sharing = false;
+    const run = sharedDev;
+    sharedDev = undefined;
+    await run?.close();
+  }
+}
+export function smokeExecutable(dev: boolean) {
+  const name = dev ? 'Lantern Knight Dev' : 'Lantern Knight';
+  return (
+    process.env.LANTERN_EXECUTABLE ??
+    (process.platform === 'darwin'
+      ? path.resolve(
+          `${dev ? 'release-dev' : 'release'}/mac-arm64/${name}.app/Contents/MacOS/${name}`,
+        )
+      : path.resolve(`${dev ? 'release-dev' : 'release'}/win-unpacked/${name}.exe`))
+  );
+}
 export async function smokeLaunch(
   dev: boolean,
   args: string[] = [],
   options: { budget?: number; retain?: boolean } = {},
 ) {
+  if (sharing && dev && sharedDev) {
+    const mode = args.includes('--effects') ? 'effects' : 'sandbox';
+    await Promise.all([
+      sharedDev.page.waitForEvent('load'),
+      sharedDev.page.evaluate((mode) => {
+        void window.lantern!.launchMode!(mode as 'effects' | 'sandbox');
+      }, mode),
+    ]);
+    return { ...sharedDev, close: async () => {} };
+  }
   let lane: Awaited<ReturnType<typeof acquireTestLane>>;
   try {
     lane = await acquireTestLane();
@@ -38,7 +74,12 @@ export async function smokeLaunch(
     throw error;
   }
   try {
-    return await launch(dev, args, options, () => lane.release());
+    const run = await launch(dev, args, options, () => lane.release());
+    if (sharing && dev) {
+      sharedDev = run;
+      return { ...run, close: async () => {} };
+    }
+    return run;
   } catch (error) {
     await lane.release();
     throw error;
@@ -59,14 +100,8 @@ async function launch(
   const parent = path.resolve(option('--profile', held.root));
   await fs.mkdir(parent, { recursive: true });
   const profile = await fs.mkdtemp(path.join(parent, 'lantern-smoke-'));
-  const name = dev ? 'Lantern Knight Dev' : 'Lantern Knight',
-    executable =
-      process.env.LANTERN_EXECUTABLE ??
-      (process.platform === 'darwin'
-        ? path.resolve(
-            `${dev ? 'release-dev' : 'release'}/mac-arm64/${name}.app/Contents/MacOS/${name}`,
-          )
-        : path.resolve(`${dev ? 'release-dev' : 'release'}/win-unpacked/${name}.exe`));
+  const executable = smokeExecutable(dev);
+  console.log(`Smoke launch: ${dev ? 'Dev' : 'Game'} (${args.join(' ') || 'default'}).`);
   let app: ElectronApplication | undefined, page: Page | undefined;
   const errors: string[] = [];
   const launchStarted = performance.now();
@@ -119,7 +154,9 @@ async function launch(
       rendererReadyMs,
       async close() {
         try {
-          await app!.close();
+          await app!.close().catch((error) => {
+            if (app!.process().exitCode === null) throw error;
+          });
           await fs.rm(profile, { recursive: true, force: true });
           const failure = (await fs.readdir(output)).some((n) => /failure.*\.json$/.test(n));
           if (managed && !capture && !options.retain && !failure && !errors.length)

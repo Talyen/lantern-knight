@@ -5,7 +5,8 @@ import assert from 'node:assert/strict';
 import * as T from 'three';
 import { Simulation } from '../src/core/simulation';
 import { InkRoom } from '../src/presentation/ink-room';
-import { content, heightAt } from '../src/content/world';
+import { heightAt } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import { worldVisuals, areaArtAssets } from '../src/content/world-art';
 import { assetCatalog } from '../src/content/visuals';
 import { makeCamera } from '../src/core/camera';
@@ -105,7 +106,7 @@ test('painted geometry and cutouts meet their authored collision assemblies', as
         }
       }
       if (area.id === 'upper-landing') {
-        const sim = new Simulation(142, area.id);
+        const sim = new Simulation(content, 142, area.id, 1);
         Object.assign(sim.hero, { x: -5.3, z: -8.1 });
         sim.move(sim.hero, 0, 0);
         room.update(sim, 1, false);

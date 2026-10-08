@@ -8,7 +8,6 @@ const run = await smokeLaunch(false),
   { page, errors, output } = run,
   changes: Record<string, number> = {};
 const capture = async () => {
-  await page.waitForTimeout(80);
   return page.evaluate(
     () =>
       new Promise<string>((resolve) =>
@@ -32,7 +31,12 @@ try {
   );
   if (await page.locator('#modal').isVisible())
     await page.getByRole('button', { name: 'Resume', exact: true }).click();
-  await page.waitForTimeout(1200);
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      ),
+  );
   if (!(await page.locator('#modal').isVisible()))
     await page.getByRole('button', { name: 'Pause / save' }).click();
   assert.equal(await options().count(), 9);
@@ -60,12 +64,14 @@ try {
   await page.locator('[data-visual-effect="smoke"]').uncheck();
   await page.locator('[data-visual-effect="bloom"]').uncheck();
   const settingsFile = path.join(run.profile, 'saves/settings.json');
-  let persisted: unknown;
-  for (let i = 0; i < 20; i++) {
-    persisted = JSON.parse(await fs.readFile(settingsFile, 'utf8'));
-    if ((persisted as { visualEffects: { bloom: boolean } }).visualEffects.bloom === false) break;
-    await page.waitForTimeout(50);
-  }
+  await page.waitForFunction(async () => {
+    const saved = await window.lantern!.loadSettings();
+    return (
+      (saved.status === 'ok' || saved.status === 'recovered') &&
+      saved.data.visualEffects.bloom === false
+    );
+  });
+  const persisted = JSON.parse(await fs.readFile(settingsFile, 'utf8'));
   assert.deepEqual((persisted as { visualEffects: unknown }).visualEffects, {
     ...defaultVisualEffects(),
     smoke: false,

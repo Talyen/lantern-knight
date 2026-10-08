@@ -3,7 +3,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 import { compile, hash } from './compiler';
-import { graveyardScene } from '../src/content/graveyard-scene';
+import { worldVisuals } from '../src/content/world-art';
+const graveyardArt = worldVisuals.court!;
 import { clearing, pavingIslands } from '../src/content/graveyard-layout';
 import type { Source } from '../src/assets/schema';
 
@@ -36,7 +37,7 @@ const apron = await pixels(
 );
 const soil = await pixels('references/art/lanternkeepers-rest-v1/grave-soil-v1.png', 1.1, 0.65);
 const overlays = await Promise.all(
-  graveyardScene.decals.map(async (p) => ({
+  graveyardArt.decals.map(async (p) => ({
     placement: p,
     image: await pixels(
       `${root}/${p.clip.startsWith('t') ? 'Ground_Transitions/png/overlays' : 'Ground_Surfaces_Decals_r02a/png/decals'}/${p.clip}.png`,
@@ -57,7 +58,7 @@ function sample(im: typeof grass, x: number, z: number, repeat = 4) {
 }
 function pathGap(x: number, z: number) {
   let nearest = Infinity;
-  for (const route of graveyardScene.paths)
+  for (const route of graveyardArt.paths)
     for (let i = 1; i < route.points.length; i++) {
       const a = route.points[i - 1]!,
         b = route.points[i]!,
@@ -142,7 +143,7 @@ for (let tz = 0; tz < layout.count; tz++)
         b =
           b * (1 - stone) +
           (paving.data[pa + 2]! * (1 - threshold) + apron.data[ap + 2]! * threshold) * stone;
-        for (const plot of graveyardScene.graves) {
+        for (const plot of graveyardArt.graves) {
           const a = plot.angle ?? 0,
             dx = wx - plot.x,
             dz = wz - plot.z,
@@ -224,9 +225,9 @@ await write(
       inputs: Object.fromEntries(Object.entries(inputs).sort(([a], [b]) => a.localeCompare(b))),
       compositionHash: hash(
         JSON.stringify({
-          paths: graveyardScene.paths,
-          graves: graveyardScene.graves,
-          decals: graveyardScene.decals,
+          paths: graveyardArt.paths,
+          graves: graveyardArt.graves,
+          decals: graveyardArt.decals,
           clearing,
           pavingIslands,
         }),

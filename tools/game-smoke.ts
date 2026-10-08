@@ -4,7 +4,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { Vector3, OrthographicCamera } from 'three';
-import { content, heightAt } from '../src/content/world';
+import { heightAt } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import { tuning } from '../src/content/gameplay';
 import { maximumFrameMs } from '../src/core/simulation';
 import type { GameSave } from '../src/core/save';
@@ -111,7 +112,11 @@ try {
   const focused = () => page.evaluate(() => document.activeElement?.id);
   assert.equal(await focused(), 'resume');
   await page.keyboard.press('Shift+Tab');
-  assert.equal(await page.evaluate(() => !!document.activeElement?.closest('#modal')), true);
+  await page.waitForFunction(
+    () => !!document.activeElement?.closest('#modal'),
+    {},
+    { timeout: 1000 },
+  );
   await page.keyboard.press('Tab');
   assert.equal(await focused(), 'resume');
   await page.locator('#new-game').focus();

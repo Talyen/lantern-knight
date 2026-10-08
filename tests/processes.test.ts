@@ -1,9 +1,10 @@
+import { content } from '../src/content/game-content';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { executeRecipe, RecipeSchema } from '../tools/session-replay';
 import { GameSession } from '../src/core/session';
 import { compareBenchmarks, type BenchmarkRecord } from '../tools/benchmark';
@@ -11,7 +12,7 @@ import { projectRoot } from '../tools/assets/paths';
 import { compareGameBenchmarks, journeyPhases } from '../tools/game-benchmark';
 
 test('recorded shipping sessions preserve checkpoints, traverse cleared exits and retry death deterministically', async () => {
-  const initial = new GameSession().captureSave();
+  const initial = new GameSession(content).captureSave();
   initial.player.health = 0;
   const command = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } },
     death = {
@@ -28,7 +29,7 @@ test('recorded shipping sessions preserve checkpoints, traverse cleared exits an
   assert.equal(first.targeted, true);
   assert.deepEqual(await executeRecipe(death), first);
   assert.ok(first.finalSave.player.health > 0);
-  const clear = new GameSession().captureSave();
+  const clear = new GameSession(content).captureSave();
   for (const actor of Object.values(clear.areas[clear.area]!.actors)) actor.health = 0;
   clear.areas[clear.area]!.cleared = true;
   // A supported cleared checkpoint at the authored exit, not a mutation of live actors.
@@ -248,4 +249,88 @@ test('player comparisons reject incomplete or easier journeys and separate start
       segments: record.segments.map((s) => ({ ...s, frames: [] })),
     }),
   );
+});
+
+test('build proof ignores mutable Finder metadata but rejects app tampering, mismatched commits and dirty CI reuse', async () => {
+  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-build-proof-')),
+    tool = path.resolve('tools/build-identity.ts'),
+    env: NodeJS.ProcessEnv = {
+      ...process.env,
+      LANTERN_BUILD_SOURCE: JSON.stringify({ commit: null, dirty: true, sha256: '0'.repeat(64) }),
+    };
+  delete env.GITHUB_SHA;
+  const run = (args: string[] = [], overrides: Record<string, string> = {}) =>
+    spawnSync(process.execPath, ['--import', import.meta.resolve('tsx'), tool, ...args], {
+      cwd: directory,
+      env: { ...env, ...overrides },
+      encoding: 'utf8',
+    });
+  try {
+    await fs.mkdir(path.join(directory, 'dist'));
+    await fs.mkdir(path.join(directory, 'dist-electron'));
+    await fs.writeFile(path.join(directory, 'dist/app.js'), 'original');
+    await fs.writeFile(path.join(directory, 'dist-electron/main.cjs'), 'main');
+    await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-one');
+    assert.notEqual(
+      run(['--write'], { LANTERN_BUILD_SOURCE: '' }).status,
+      0,
+      'unguarded identity writes must fail',
+    );
+    assert.equal(run(['--write']).status, 0);
+    const identityPath = path.join(directory, 'dist/build-identity.json'),
+      identity = JSON.parse(await fs.readFile(identityPath, 'utf8'));
+    assert.equal(identity.files['dist/.DS_Store'], undefined);
+    await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-two');
+    assert.equal(run().status, 0);
+    await fs.writeFile(path.join(directory, 'dist/app.js'), 'tampered');
+    const changed = run();
+    assert.notEqual(changed.status, 0);
+    assert.match(changed.stderr, /build artifact files differ/);
+    await fs.writeFile(path.join(directory, 'dist/app.js'), 'original');
+    identity.sourceCommit = 'a'.repeat(40);
+    identity.dirty = false;
+    await fs.writeFile(identityPath, JSON.stringify(identity));
+    assert.match(run([], { GITHUB_SHA: 'b'.repeat(40) }).stderr, /another commit/);
+    identity.dirty = true;
+    await fs.writeFile(identityPath, JSON.stringify(identity));
+    assert.match(run([], { GITHUB_SHA: identity.sourceCommit }).stderr, /clean source identity/);
+    identity.dirty = false;
+    await fs.writeFile(identityPath, JSON.stringify(identity));
+    assert.equal(run([], { GITHUB_SHA: identity.sourceCommit }).status, 0);
+  } finally {
+    await fs.rm(directory, { recursive: true, force: true });
+  }
+});
+
+test('smoke profiles never delete user-supplied directories, including on launch failure', async () => {
+  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-profile-review-'));
+  try {
+    await fs.writeFile(path.join(directory, 'game.json'), 'existing player save');
+    const result = spawnSync(
+      process.execPath,
+      [
+        '--import',
+        import.meta.resolve('tsx'),
+        path.resolve('tools/desktop-smoke.ts'),
+        '--profile',
+        directory,
+        '--output',
+        path.join(directory, 'evidence'),
+      ],
+      {
+        env: { ...process.env, LANTERN_EXECUTABLE: path.join(directory, 'missing-executable') },
+        encoding: 'utf8',
+        timeout: 30000,
+      },
+    );
+    assert.equal(result.status, 1, result.stderr);
+    assert.equal(
+      await fs.readFile(path.join(directory, 'game.json'), 'utf8'),
+      'existing player save',
+    );
+    assert.ok(!(await fs.readdir(directory)).some((name) => name.startsWith('lantern-smoke-')));
+    assert.ok(await fs.stat(path.join(directory, 'evidence/failure.json')));
+  } finally {
+    await fs.rm(directory, { recursive: true, force: true });
+  }
 });

@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 import * as T from 'three';
-import { content } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import { worldVisuals, areaArtAssets } from '../src/content/world-art';
 import { assetCatalog } from '../src/content/visuals';
 import { parseManifest } from '../src/assets/schema';

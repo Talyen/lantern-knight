@@ -9,7 +9,7 @@ export function captureArtDiagnostics(p: GamePresentation) {
       minFilter: T.NearestFilter,
       magFilter: T.NearestFilter,
     });
-  const sprites = p.inkRoom?.sprites ?? [],
+  const sprites = p.roomPresentation.inkRoom?.sprites ?? [],
     byMesh = new Map(sprites.map((s) => [s.mesh, s])),
     edges = new Set(sprites.flatMap((s) => (s.edgeMesh ? [s.edgeMesh] : []))),
     hidden: T.Object3D[] = [],
@@ -25,8 +25,8 @@ export function captureArtDiagnostics(p: GamePresentation) {
     depthPixels = new Float32Array(size.x * size.y * 4);
   try {
     p.scene.traverseVisible((o) => {
-      if (o === p.scene || o === p.room) return;
-      if (!p.room.getObjectById(o.id) || edges.has(o as T.Mesh)) {
+      if (o === p.scene || o === p.roomPresentation.room) return;
+      if (!p.roomPresentation.room.getObjectById(o.id) || edges.has(o as T.Mesh)) {
         hidden.push(o);
         return;
       }
@@ -35,7 +35,9 @@ export function captureArtDiagnostics(p: GamePresentation) {
         source = Array.isArray(o.material) ? o.material[0]! : o.material;
       if (
         sprite?.manifest.asset.type === 'effect' ||
-        [...p.actors.values()].some((v) => [v.sprite.mesh, v.shadow, v.ring].includes(o)) ||
+        [...p.actorPresentation.actors.values()].some((v) =>
+          [v.sprite.mesh, v.shadow, v.ring].includes(o),
+        ) ||
         source instanceof T.ShadowMaterial ||
         (source.transparent && !sprite && !o.userData.stableReveal)
       ) {

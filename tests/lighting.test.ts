@@ -13,7 +13,8 @@ import {
 import { right, up, outward, contract } from '../src/core/camera';
 import { Vector3 } from 'three';
 import { GroundMist } from '../src/presentation/ground-mist';
-import { content, heightAt } from '../src/content/world';
+import { heightAt } from '../src/content/world';
+import { content } from '../src/content/game-content';
 test('chosen lights face the fixed camera from the upper left and shorten cast shadows', () => {
   for (const rig of Object.values(lightingRigs)) {
     const d = new Vector3().fromArray(

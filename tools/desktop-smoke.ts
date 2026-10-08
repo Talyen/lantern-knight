@@ -7,6 +7,9 @@ import { makeCamera, resizeCamera } from '../src/core/camera';
 import { heightAt, type AreaDefinition } from '../src/content/world';
 import { compositionPoint, compositionHeight, compositionSpan } from '../src/content/world-art';
 import type { GameSave } from '../src/core/save';
+import { GameSession } from '../src/core/session';
+import { content } from '../src/content/game-content';
+import { _electron } from 'playwright';
 import type {} from '../src/inspection';
 
 // Routine prototype integration: actual package input, persistence and Dev isolation.
@@ -153,6 +156,70 @@ async function player() {
     assert.ok(
       Math.hypot(restored.player.x - saved.player.x, restored.player.z - saved.player.z) < 0.03,
     );
+    stage = 'restart-preferences-and-load';
+    await page.locator('#zoom-span').selectOption('13');
+    await page.waitForFunction(async () => {
+      const settings = await window.lantern!.loadSettings();
+      return (
+        (settings.status === 'ok' || settings.status === 'recovered') &&
+        settings.data.verticalSpan === 13
+      );
+    });
+    await run.app.close();
+    console.log('Smoke launch: Game (process restart).');
+    const restarted = await _electron.launch({
+      executablePath: run.executable,
+      args: process.platform === 'win32' ? ['--use-gl=angle', '--use-angle=swiftshader'] : [],
+      env: {
+        ...process.env,
+        LANTERN_USER_DATA: run.profile,
+        LANTERN_AUTOMATED_RUN: '1',
+        LANTERN_TEST_HIDDEN: '1',
+      },
+      timeout: 30_000,
+    });
+    try {
+      const page = await restarted.firstWindow();
+      page.on('pageerror', (e) => errors.push(e.message));
+      page.on('console', (m) => {
+        if (m.type() === 'error') errors.push(m.text());
+      });
+      await page.waitForFunction(() => document.querySelector('canvas')?.dataset.ready === 'true');
+      assert.equal(await page.locator('#zoom-span').inputValue(), '13');
+      await page.locator('#load').click();
+      await page.waitForFunction(
+        () => document.querySelector('#status')?.textContent === 'Checkpoint loaded',
+      );
+      const loaded = await page.evaluate(() => window.lantern!.loadGame());
+      assert.ok(loaded.status === 'ok' || loaded.status === 'recovered');
+      if (loaded.status === 'ok' || loaded.status === 'recovered')
+        assert.deepEqual(loaded.data, restored);
+      // Seed the scenario boundary; Load, scene construction and rendering are production paths.
+      await fs.writeFile(
+        file,
+        JSON.stringify(new GameSession(content, 142, 'upper-landing').captureSave()),
+      );
+      await page.locator('#load').click();
+      await page.waitForFunction(
+        () => document.querySelector('#room-title')?.textContent === 'Ruined Chapel',
+      );
+      assert.equal(
+        await page.evaluate(() => {
+          const canvas = document.querySelector('canvas')!,
+            gl = canvas.getContext('webgl2')!;
+          return (
+            canvas.width > 0 &&
+            canvas.height > 0 &&
+            !gl.isContextLost() &&
+            gl.getError() === gl.NO_ERROR
+          );
+        }),
+        true,
+        'Chapel framebuffer and shaders must be usable',
+      );
+    } finally {
+      await restarted.close();
+    }
     assert.deepEqual(errors, []);
     console.log(
       'PASS: player startup, pause, checkpoint protection, movement, sword, lantern, dodge and save/load.',

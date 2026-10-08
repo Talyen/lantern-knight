@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { parseManifest } from '../src/assets/schema';
 import { assetCatalog, gameAssetCatalog } from '../src/content/visuals';
 import { worldVisuals } from '../src/content/world-art';
-import { content } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import { contract } from '../src/core/camera';
 const height = 2160,
   minimumSpan = contract.framingRange[0]!,

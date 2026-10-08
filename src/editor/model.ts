@@ -1,9 +1,9 @@
 import {
   parseSceneDocument,
-  editablePlacement,
   type SceneDocument,
   type SceneObject,
 } from '../content/scene-document';
+import { localOffset } from '../content/scenery-presets';
 import { resolveAuthoredScene, type ArtPlacement } from '../content/world-art';
 export type EditorItem = { placement: ArtPlacement; kind: 'prop' | 'decal'; locked: boolean };
 export function sceneItems(document: SceneDocument): EditorItem[] {
@@ -13,9 +13,13 @@ export function sceneItems(document: SceneDocument): EditorItem[] {
     ...art.props.map((placement) => ({
       placement,
       kind: 'prop' as const,
-      locked: !added.has(placement.id) && !editablePlacement(placement, art),
+      locked: !added.has(placement.id),
     })),
-    ...art.decals.map((placement) => ({ placement, kind: 'decal' as const, locked: false })),
+    ...art.decals.map((placement) => ({
+      placement,
+      kind: 'decal' as const,
+      locked: !added.has(placement.id),
+    })),
   ];
 }
 export class EditorHistory {
@@ -72,52 +76,56 @@ export class EditorHistory {
     const item = sceneItems(this.document).find((p) => p.placement.id === id);
     if (!item || item.locked) throw new Error('Object is locked');
     this.change((d) => {
-      const added = d.objects.find((p) => p.id === id);
-      if (added) Object.assign(added, fields);
-      else {
-        let c = d.changes.find((p) => p.id === id);
-        if (!c) {
-          c = { id, x: item.placement.x, z: item.placement.z };
-          d.changes.push(c);
-        }
-        Object.assign(c, fields);
-      }
+      const object = d.objects.find((p) => p.id === id)!;
+      if (object.mount) {
+        const { x, y, z, ...other } = fields;
+        const offset = object.mount.offset;
+        const support = sceneItems(d).find((p) => p.placement.id === object.mount!.to)!.placement;
+        const delta = localOffset(support, [
+          x === undefined ? 0 : x - item.placement.x,
+          y === undefined ? 0 : y - (item.placement.y ?? 0),
+          z === undefined ? 0 : z - item.placement.z,
+        ]);
+        for (let i = 0; i < 3; i++) offset[i]! += delta[i]!;
+        Object.assign(object, other);
+      } else Object.assign(object, fields);
     });
   }
+
   remove(id: string) {
     const item = sceneItems(this.document).find((p) => p.placement.id === id);
     if (!item || item.locked) throw new Error('Object is locked');
     this.change((d) => {
-      if (d.objects.some((p) => p.id === id)) d.objects = d.objects.filter((p) => p.id !== id);
-      else {
-        d.changes = d.changes.filter((p) => p.id !== id);
-        d.changes.push({ id, x: item.placement.x, z: item.placement.z, deleted: true });
-      }
+      const removed = new Set([id]);
+      let count;
+      do {
+        count = removed.size;
+        for (const p of d.objects) if (p.mount && removed.has(p.mount.to)) removed.add(p.id);
+      } while (count !== removed.size);
+      d.objects = d.objects.filter((p) => !removed.has(p.id));
     });
   }
+
   duplicate(id: string) {
     const item = sceneItems(this.document).find((p) => p.placement.id === id);
     if (!item || item.locked) throw new Error('Object is locked');
-    const p = item.placement,
+    const p = structuredClone(this.document.objects.find((p) => p.id === id)!),
       newId = 'object-' + crypto.randomUUID();
-    this.change((d) =>
-      d.objects.push({
-        id: newId,
-        kind: item.kind,
-        asset: p.asset,
-        clip: p.clip,
-        x: p.x + 0.5,
-        z: p.z + 0.5,
-        y: p.y,
-        scale: p.scale,
-        mirror: p.mirror,
-        tint: p.tint,
-        opacity: p.opacity,
-        fade: p.fade,
-        shadow: p.shadow,
-        ...(item.kind === 'decal' ? { rotation: p.rotation } : {}),
-      }),
-    );
+    delete p.footprint;
+    delete p.footprintAngle;
+    p.id = newId;
+    if (p.fixture) p.fixture.id = newId + '-flame';
+    if (p.mount) {
+      const support = sceneItems(this.document).find(
+        (v) => v.placement.id === p.mount!.to,
+      )!.placement;
+      const delta = localOffset(support, [0.5, 0, 0.5]);
+      for (let i = 0; i < 3; i++) p.mount.offset[i]! += delta[i]!;
+    } else {
+      p.x = item.placement.x + 0.5;
+      p.z = item.placement.z + 0.5;
+    }
+    this.change((d) => d.objects.push(p));
     return newId;
   }
 }

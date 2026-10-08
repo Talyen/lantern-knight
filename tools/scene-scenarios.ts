@@ -55,7 +55,7 @@ export async function traverseScene(context: SceneContext) {
       f.presentation.update(f.sim, 1, 0, { x: h.x + 1, z: h.z });
       f.presentation.artConstruction.update(
         f.sim.areaDefinition,
-        f.presentation.inkRoom,
+        f.presentation.roomPresentation.inkRoom,
         f.sim.generation,
         true,
       );
@@ -78,7 +78,7 @@ export async function checkForeground(context: SceneContext) {
         x: position.x + 1,
         z: position.z,
       });
-    const room = f.presentation.inkRoom!;
+    const room = f.presentation.roomPresentation.inkRoom!;
     const materials = room.sprites.map((s) => [
       s.material.version,
       s.material.transparent,
@@ -112,7 +112,7 @@ export async function benchmarkSurround(context: SceneContext) {
     f.pause(true);
     try {
       for (const enabled of [false, true]) {
-        p.surround.scene.visible = enabled;
+        p.roomPresentation.surround.scene.visible = enabled;
         for (let i = 0; i < 6; i++) {
           p.update(f.sim, 1, 0, { x: 0, z: 0 });
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
@@ -146,7 +146,7 @@ export async function benchmarkSurround(context: SceneContext) {
         });
       }
     } finally {
-      p.surround.scene.visible = true;
+      p.roomPresentation.surround.scene.visible = true;
     }
     return results;
   });
@@ -177,7 +177,8 @@ export async function checkSurround(context: SceneContext) {
           p.verticalSpan = span;
           p.resize();
           p.update(f.sim, 1, 0, { x: 0, z: 0 });
-          if (p.surround.stats().tiles === 0) throw new Error('Missing scene surround');
+          if (p.roomPresentation.surround.stats().tiles === 0)
+            throw new Error('Missing scene surround');
           if (p.renderer.getContext().getError() !== 0)
             throw new Error('Surround resize produced a WebGL error');
         }, span);
@@ -197,11 +198,11 @@ export async function checkSurround(context: SceneContext) {
       p.update(f.sim, 1, 0, { x: 0, z: 0 });
       ctx.drawImage(p.canvas, 0, 0);
       const before = ctx.getImageData(0, 0, copy.width, copy.height).data,
-        children = [...p.surround.scene.children];
+        children = [...p.roomPresentation.surround.scene.children];
       for (const c of children) c.visible = false;
       // renderFrame updates the surround; render its current scenes directly to
       // hold camera, shader time, actor poses and hidden background cards fixed.
-      p.surround.render(p.renderer, p.camera, p.scene);
+      p.roomPresentation.surround.render(p.renderer, p.camera, p.scene);
       ctx.drawImage(p.canvas, 0, 0);
       const after = ctx.getImageData(0, 0, copy.width, copy.height).data;
       let changed = 0;

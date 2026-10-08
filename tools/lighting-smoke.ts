@@ -152,7 +152,7 @@ try {
       f.sim.hero.state = 'idle';
       f.sim.hero.yaw = Math.PI / 2;
       f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
-      f.presentation.actors.get('player')!.sprite.animator.seek(142.73);
+      f.presentation.actorPresentation.actors.get('player')!.sprite.animator.seek(142.73);
     });
     for (const mode of Object.keys(animationTreatments)) {
       await page.evaluate((mode) => {
@@ -166,7 +166,8 @@ try {
         assert.ok(
           await page.evaluate(
             () =>
-              !!window.foundation.presentation.actors.get('player')!.sprite.lightingSample?.blend,
+              !!window.foundation.presentation.actorPresentation.actors.get('player')!.sprite
+                .lightingSample?.blend,
           ),
           'lighting check must exercise an accepted warp',
         );
@@ -255,7 +256,7 @@ try {
       resets.forEach((x) => assert.deepEqual(x, resets[0]));
       checks.push('eight room replacements return to identical GPU geometry and texture counts');
     }
-    if (!process.argv.includes('--no-benchmark')) {
+    if (process.argv.includes('--benchmark') || benchmarkOnly) {
       for (const [resolution, width, height] of [
         ['1440p', 1280, 848],
         ['4k', 1920, 1208],

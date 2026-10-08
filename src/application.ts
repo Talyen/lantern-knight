@@ -46,6 +46,14 @@ export class Application<P extends GamePresentation = GamePresentation> {
   readOnly = false;
   scale = 1;
   settingsError = '';
+  private simulationEnabled = true;
+  beforeStep: (sim: GameSession['sim']) => void = () => {};
+  setSimulationEnabled(value: boolean) {
+    if (value === this.simulationEnabled) return;
+    this.simulationEnabled = value;
+    this.resetFrameClock();
+    this.input?.clear();
+  }
   command: ((sim: GameSession['sim']) => Command) | undefined;
   afterFrame: (ms: number) => void = () => {};
   constructor(
@@ -326,15 +334,10 @@ export class Application<P extends GamePresentation = GamePresentation> {
         this.frames?.idle ??
         (!this.bridge.automatedRun && (document.hidden || !document.hasFocus())),
       frozen = this.paused || this.busy || idle;
-    if (
-      !frozen &&
-      (this.presentation.mode === 'encounter' ||
-        this.presentation.mode === 'occlusion' ||
-        this.presentation.mode === 'lighting')
-    )
+    if (!frozen && this.simulationEnabled)
       alpha = this.clock.advance(ms, () => {
         const sim = this.sim;
-        if (this.presentation.mode === 'occlusion') sim.enemies.forEach((a) => (a.stun = 2));
+        this.beforeStep(sim);
         const cmd =
           this.command?.(sim) ?? this.input.consume(sim.hero, sim.areaDefinition, sim.generation);
         aim = cmd.aim;

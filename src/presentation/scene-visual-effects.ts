@@ -6,7 +6,7 @@ import { IllustratedRain } from './illustrated-rain';
 import { resolveClip } from '../assets/schema';
 import { frameAt, clipDuration } from '../core/animation';
 import { heightAt, type AreaDefinition } from '../content/world';
-import { worldVisuals, type WorldVisualDefinition } from '../content/world-art';
+import { type WorldVisualDefinition } from '../content/world-art';
 import {
   lightFlicker,
   dryWeather,
@@ -106,7 +106,7 @@ export class SceneVisualEffects {
     sprites: ActorSprite[],
     ms: number,
     options: VisualEffects,
-    art: WorldVisualDefinition | undefined = worldVisuals[area.id],
+    art: WorldVisualDefinition | undefined,
   ) {
     if (generation !== this.generation || area.id !== this.area?.id)
       this.build(area, generation, sprites, art);

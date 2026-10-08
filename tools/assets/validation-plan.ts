@@ -132,17 +132,20 @@ export async function candidateValidationPlan(
   let baseline: Awaited<ReturnType<typeof ensurePack>> | undefined;
   try {
     baseline = await ensurePack(await readLock());
-    const old = await validatePack(baseline.root, await readLock()),
+    const pin = await readLock();
+    const old = await validatePack(baseline.root, pin),
       next = await validatePack(candidate.payload, candidate.lock);
     const json = (root: string, file: string) =>
       fs.readFile(path.join(root, file), 'utf8').then(JSON.parse);
-    const beforeInputs = (await json(baseline.root, 'metadata/preparation-inputs.json')) as Record<
-        string,
-        string
-      >,
+    const beforeInputs = (
+        pin.schemaVersion === 2
+          ? pin.preparation.inputs
+          : await json(baseline.root, 'metadata/preparation-inputs.json')
+      ) as Record<string, string>,
       afterInputs = await recipeInputs();
     if (
-      createHash('sha256').update(JSON.stringify(beforeInputs)).digest('hex') !== old.recipeSha256
+      createHash('sha256').update(JSON.stringify(beforeInputs)).digest('hex') !==
+      (pin.schemaVersion === 2 ? pin.preparation.recipeSha256 : old.recipeSha256)
     )
       return selectValidation({ assets: [], unknown: true }, rooms);
     const changedInputs = [

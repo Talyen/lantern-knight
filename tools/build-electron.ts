@@ -1,22 +1,34 @@
-const dev = process.argv.includes('--dev');
-import { build } from 'esbuild';
-await build({
-  entryPoints: ['electron/main.ts'],
-  outfile: `${dev ? 'dist-electron-dev' : 'dist-electron'}/main.cjs`,
-  define: { __DEV_APP__: String(dev) },
-  bundle: true,
-  platform: 'node',
-  target: 'node24',
-  format: 'cjs',
-  external: ['electron'],
-});
-await build({
-  entryPoints: ['electron/preload.ts'],
-  outfile: `${dev ? 'dist-electron-dev' : 'dist-electron'}/preload.cjs`,
-  define: { __DEV_APP__: String(dev) },
-  bundle: true,
-  platform: 'node',
-  target: 'node24',
-  format: 'cjs',
-  external: ['electron'],
-});
+import { build, type Metafile } from 'esbuild';
+import { builtinModules } from 'node:module';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+export function verifyElectronImports(metadata: Pick<Metafile, 'outputs'>) {
+  for (const output of Object.values(metadata.outputs))
+    for (const entry of output.imports)
+      if (
+        entry.external &&
+        entry.path !== 'electron' &&
+        !builtinModules.includes(entry.path) &&
+        !builtinModules.includes(entry.path.replace(/^node:/, ''))
+      )
+        throw new Error('Electron bundle requires an unbundled runtime dependency: ' + entry.path);
+}
+async function buildElectron(dev: boolean) {
+  for (const name of ['main', 'preload']) {
+    const result = await build({
+      entryPoints: [`electron/${name}.ts`],
+      outfile: `${dev ? 'dist-electron-dev' : 'dist-electron'}/${name}.cjs`,
+      define: { __DEV_APP__: String(dev) },
+      bundle: true,
+      metafile: true,
+      platform: 'node',
+      target: 'node24',
+      format: 'cjs',
+      external: ['electron'],
+    });
+    verifyElectronImports(result.metafile!);
+  }
+}
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
+  await buildElectron(process.argv.includes('--dev'));

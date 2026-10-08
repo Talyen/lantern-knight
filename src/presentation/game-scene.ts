@@ -24,7 +24,7 @@ import {
 } from '../content/world-art';
 import type { Clip } from '../assets/schema';
 import { attackDefinition, tuning } from '../content/gameplay';
-import { content, heightAt, type AreaDefinition } from '../content/world';
+import { heightAt, type AreaDefinition } from '../content/world';
 import { pageIdentity, type PackLease } from '../assets/loader';
 import { EventHub } from '../core/events';
 import type { Actor, Simulation } from '../core/simulation';
@@ -35,28 +35,9 @@ import {
 } from '../content/visual-effects';
 import { SceneVisualEffects } from './scene-visual-effects';
 import { SceneLightingRenderer } from './scene-lighting-renderer';
-export type Mode = 'encounter' | 'calibration' | 'animation' | 'occlusion' | 'lighting';
 export class GamePresentation {
-  private roomPresentation: RoomPresentation;
-  private actorPresentation: ActorPresentation;
-  get surround() {
-    return this.roomPresentation.surround;
-  }
-  get room() {
-    return this.roomPresentation.room;
-  }
-  get inkRoom() {
-    return this.roomPresentation.inkRoom;
-  }
-  get roomOwned() {
-    return this.roomPresentation.roomOwned;
-  }
-  get fadeMeshes() {
-    return this.roomPresentation.fadeMeshes;
-  }
-  get actors() {
-    return this.actorPresentation.actors;
-  }
+  readonly roomPresentation: RoomPresentation;
+  readonly actorPresentation: ActorPresentation;
   lookRenderer: SceneLightingRenderer;
   get depthOfField() {
     return this.lookRenderer.settings.depthOfField;
@@ -66,7 +47,6 @@ export class GamePresentation {
   renderer: T.WebGLRenderer;
   camera = makeCamera(16 / 9);
   scene = new T.Scene();
-  mode: Mode = 'encounter';
   aim: T.Mesh;
   light = new T.PointLight(0xf7b862, 5, 5, 2);
   debug = false;
@@ -84,7 +64,7 @@ export class GamePresentation {
   requestedRenderScale = contract.renderScale;
   effectivePixelRatio = 1;
   verticalSpan = contract.verticalSpan;
-  area: AreaDefinition = content.area('court');
+  area: AreaDefinition;
   generation = -1;
   effectTag = '';
   flare: T.Mesh;
@@ -107,8 +87,6 @@ export class GamePresentation {
     public visualOverride?: WorldVisualDefinition,
   ) {
     this.area = initialArea;
-    this.roomPresentation = new RoomPresentation(this);
-    this.actorPresentation = new ActorPresentation(this);
     this.renderer = new T.WebGLRenderer({
       canvas,
       antialias: false,
@@ -125,7 +103,7 @@ export class GamePresentation {
     this.scene.add(new T.HemisphereLight(0xc5d4e1, 0x392b30, 2));
     const sun = new T.DirectionalLight(0xe9d2ac, 2);
     sun.position.set(-4, 8, 3);
-    this.scene.add(sun, this.light, this.room);
+    this.scene.add(sun, this.light);
     const shadowCanvas = document.createElement('canvas');
     shadowCanvas.width = 64;
     shadowCanvas.height = 64;
@@ -137,6 +115,21 @@ export class GamePresentation {
     ctx.fillRect(0, 0, 64, 64);
     this.shadowTexture = new T.CanvasTexture(shadowCanvas);
     this.shadowTexture.generateMipmaps = false;
+    this.roomPresentation = new RoomPresentation(
+      packs,
+      this.camera,
+      this.shadowTexture,
+      registration,
+    );
+    this.actorPresentation = new ActorPresentation(
+      this.roomPresentation.room,
+      packs,
+      this.camera,
+      this.shadowTexture,
+      registration,
+      events,
+    );
+    this.scene.add(this.roomPresentation.room);
     this.flare = new T.Mesh(
       new T.RingGeometry(
         0.02,
@@ -182,16 +175,18 @@ export class GamePresentation {
     this.scene.add(this.aim);
     this.buildRoom();
     this.resize();
-    this.lookRenderer = new SceneLightingRenderer(this);
-    if (this.visuals?.look) this.lookRenderer.setSettings(this.visuals.look);
     this.sceneEffects = new SceneVisualEffects(this.packs, this.camera);
+    this.lookRenderer = new SceneLightingRenderer(
+      { renderer: this.renderer, scene: this.scene, camera: this.camera, packs: this.packs },
+      this.roomPresentation,
+      this.actorPresentation,
+      this.sceneEffects,
+    );
+    if (this.visuals?.look) this.lookRenderer.setSettings(this.visuals.look);
     this.scene.add(this.sceneEffects.group);
   }
-  ownedMesh(geometry: T.BufferGeometry, material: T.Material) {
-    return this.roomPresentation.ownedMesh(geometry, material);
-  }
   buildRoom() {
-    this.roomPresentation.buildRoom();
+    this.roomPresentation.buildRoom(this.area, this.visuals);
   }
   disposeRoom() {
     this.roomPresentation.disposeScenery();
@@ -211,7 +206,7 @@ export class GamePresentation {
     return this.actorPresentation.createVisual(a, generation);
   }
   getClip(id: string, dir: (typeof HEADINGS)[number], manifest = this.manifest): Clip {
-    return this.actorPresentation.getClip(id, dir, manifest);
+    return this.actorPresentation.getClip(id, dir, manifest, this.walkTiming);
   }
   protected framingZ = 3;
   get viewSpan() {
@@ -222,14 +217,14 @@ export class GamePresentation {
       this.resetRoom(sim.areaDefinition);
       this.generation = sim.generation;
     }
-    this.room.visible = true;
+    this.roomPresentation.room.visible = true;
     this.updateCamera(sim, alpha);
     const swing = attackDefinition(sim.hero);
     this.flare.visible =
-      (!this.inkRoom || this.debug) &&
+      (!this.roomPresentation.inkRoom || this.debug) &&
       ((sim.hero.state === 'ability' && sim.hero.age >= tuning.ability.windup) || this.debug);
     this.slash.visible =
-      !this.inkRoom &&
+      !this.roomPresentation.inkRoom &&
       sim.hero.attackKind === 'sweep' &&
       sim.hero.state === 'attack' &&
       sim.hero.age >= swing.windup &&
@@ -274,22 +269,31 @@ export class GamePresentation {
     this.renderer.setClearColor(this.background === 'light' ? 0xd1c9b4 : 0x151923);
     this.aim.visible = true;
     this.aim.position.set(aim.x, heightAt(sim.areaDefinition, aim.x, aim.z) + 0.035, aim.z);
-    this.actorPresentation.update(sim, alpha, ms);
+    this.actorPresentation.update(sim, alpha, ms, {
+      walkTiming: this.walkTiming,
+      stabilized: this.stabilized,
+      rigidSword: this.rigidSword,
+      animationTreatment: this.animationTreatment,
+      animationFlow: this.animationFlow,
+      debug: this.debug,
+      illustrated: !!this.roomPresentation.inkRoom,
+    });
     this.light.position.set(sim.hero.x - 0.25, sim.hero.y + 0.85, sim.hero.z);
     this.light.intensity = sim.hero.state === 'ability' ? 14 : 5;
-    for (const m of this.fadeMeshes) {
+    for (const m of this.roomPresentation.fadeMeshes) {
       const p = m.userData.foot as { x: number; y: number; z: number },
         delta = new T.Vector3(sim.hero.x - p.x, sim.hero.y - p.y, sim.hero.z - p.z);
       const fade = delta.length() < 1.65 && delta.dot(outward) < 0;
       setCutoutOpacity(m.material, fade ? 0.38 : 1);
     }
-    this.inkRoom?.update(sim, alpha, true, ms);
+    this.roomPresentation.inkRoom?.update(sim, alpha, true, ms);
     this.sceneEffects.update(
       sim.areaDefinition,
       sim.generation,
-      this.inkRoom?.sprites ?? [],
+      this.roomPresentation.inkRoom?.sprites ?? [],
       ms,
       this.visualEffects,
+      this.visuals,
     );
     this.renderFrame(sim, ms);
   }
@@ -331,13 +335,18 @@ export class GamePresentation {
     this.lookRenderer.setSettings({ depthOfField: value });
   }
   protected renderFrame(sim: Simulation, ms: number) {
-    this.surround.update(
+    this.roomPresentation.surround.update(
       this.camera,
       this.viewTarget,
       this.lookRenderer.settings,
       this.visualEffects.palette,
     );
-    this.lookRenderer.render(sim, ms);
+    this.lookRenderer.render(sim, ms, {
+      visuals: this.visuals,
+      visualEffects: this.visualEffects,
+      cameraTarget: this.cameraTarget,
+      viewSpan: this.viewSpan,
+    });
   }
   resize(scale = contract.renderScale) {
     const width = this.canvas.clientWidth,
@@ -388,15 +397,15 @@ export class GamePresentation {
     if (this.disposed) throw new Error('presentation disposed');
     for (const pack of this.packs.values()) this.warmPack(pack);
     await this.renderer.compileAsync(this.scene, this.camera);
-    this.surround.update(
+    this.roomPresentation.surround.update(
       this.camera,
       this.viewTarget,
       this.lookRenderer.settings,
       this.visualEffects.palette,
     );
-    await this.renderer.compileAsync(this.surround.scene, this.camera);
+    await this.renderer.compileAsync(this.roomPresentation.surround.scene, this.camera);
     if (this.disposed) throw new Error('presentation disposed');
-    this.surround.render(this.renderer, this.camera, this.scene);
+    this.roomPresentation.surround.render(this.renderer, this.camera, this.scene);
   }
   stats() {
     const pages = new Map(
@@ -426,9 +435,9 @@ export class GamePresentation {
       calls: this.renderer.info.render.calls,
       triangles: this.renderer.info.render.triangles,
       objects: { ...this.renderer.info.memory },
-      surfaceTextureBytes: this.inkRoom?.architecture?.textureBytes ?? 0,
+      surfaceTextureBytes: this.roomPresentation.inkRoom?.architecture?.textureBytes ?? 0,
       atlasBytes:
-        (this.inkRoom?.architecture?.textureBytes ?? 0) +
+        (this.roomPresentation.inkRoom?.architecture?.textureBytes ?? 0) +
         [...pages.values()].reduce(
           (s, p) => s + Math.ceil(p.rgbaBytes * (p.mipmaps ? 4 / 3 : 1)),
           0,
@@ -439,8 +448,8 @@ export class GamePresentation {
       fileBytes:
         [...pages.values()].reduce((s, p) => s + p.bytes, 0) +
         (this.animationFlow ? this.registration.animation.bytes : 0),
-      actors: this.actors.size,
-      surround: this.surround.stats(),
+      actors: this.actorPresentation.actors.size,
+      surround: this.roomPresentation.surround.stats(),
       webgl: this.renderer.getContext().getParameter(this.renderer.getContext().VERSION),
       gpu: this.renderer.getContext().getExtension('WEBGL_debug_renderer_info')
         ? this.renderer

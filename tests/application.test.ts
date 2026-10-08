@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { Application } from '../src/application';
 import { AssetRuntime, ResourcePool, type PackLease } from '../src/assets/loader';
 import type { GamePresentation } from '../src/presentation/game-scene';
-import { content } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import type { Bridge } from '../src/core/save';
 import { Persistence } from '../src/core/persistence';
 
@@ -206,5 +206,49 @@ test('startup disposed while opening its catalog cannot acquire assets or become
     } finally {
       AssetRuntime.open = open;
     }
+  });
+});
+
+test('simulation enablement isolates lab policy, keeps rendering, and clears catch-up time', async () => {
+  await withDOM(async () => {
+    const { app } = fixture();
+    Object.assign(app.bridge, { automatedRun: true });
+    let steps = 0,
+      renders = 0,
+      lastRenderMs = 0;
+    app.beforeStep = () => {
+      steps++;
+    };
+    app.presentation = {
+      update: (_sim: unknown, _alpha: number, ms: number) => {
+        renders++;
+        lastRenderMs = ms;
+      },
+      dispose: () => {},
+    } as unknown as GamePresentation;
+    app.input = {
+      clear: () => {},
+      consume: () => ({ move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } }),
+      dispose: () => {},
+    } as unknown as typeof app.input;
+    const frame = Reflect.get(app, 'loop') as (now: number) => void;
+    app.setSimulationEnabled(false);
+    const tick = app.sim.tick;
+    frame(performance.now() + 1000);
+    assert.equal(app.sim.tick, tick);
+    assert.equal(steps, 0);
+    assert.equal(renders, 1);
+    assert.ok(lastRenderMs > 0);
+    app.setSimulationEnabled(true);
+    assert.equal(app.clock.accumulator, 0);
+    frame(performance.now() + 20);
+    assert.equal(app.sim.tick, tick + 1);
+    assert.equal(steps, 1);
+    app.pause(true);
+    frame(performance.now() + 1000);
+    assert.equal(app.sim.tick, tick + 1);
+    assert.equal(steps, 1);
+    assert.equal(lastRenderMs, 0);
+    app.dispose();
   });
 });

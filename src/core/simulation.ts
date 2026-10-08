@@ -2,7 +2,6 @@ import { selectAuthoredDirection, type AuthoredHeading } from './camera';
 import type { HeroAttackKind } from '../content/hero-actions';
 import { tuning, attackDefinition } from '../content/gameplay';
 import {
-  content,
   ContentRegistry,
   PLAYER_ID,
   spawnActorId,
@@ -65,10 +64,10 @@ export class Simulation {
   completedEncounters = 0;
   engaged = false;
   constructor(
+    public readonly registry: ContentRegistry,
     seed = 142,
-    public area: AreaId = 'court',
+    public area: AreaId = registry.definitions.initialArea,
     generation = 1,
-    public readonly registry: ContentRegistry = content,
     entry?: string,
   ) {
     this.initialSeed = seed;

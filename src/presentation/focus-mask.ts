@@ -3,7 +3,7 @@ import { ActorSprite } from './sprite';
 import { attachRevealMask } from './scenery-reveal';
 import { AnimationBlendShader } from './animation-blend-shader';
 import { FoliageWind } from './foliage-wind';
-import type { GamePresentation } from './game-scene';
+
 type DepthEntry = { material: T.MeshBasicMaterial; blend?: AnimationBlendShader };
 export class FocusMask {
   readonly target = new T.WebGLRenderTarget(1, 1, {
@@ -13,7 +13,9 @@ export class FocusMask {
   });
   private depths = new Map<T.Material, DepthEntry>();
   constructor(
-    private presentation: GamePresentation,
+    private renderer: T.WebGLRenderer,
+    private scene: T.Scene,
+    private camera: T.OrthographicCamera,
     private uniforms: { lookNear: T.Uniform<number>; lookFar: T.Uniform<number> },
     private extras: T.Group,
     private proxies: T.Group,
@@ -81,8 +83,7 @@ export class FocusMask {
     return entry.material;
   }
   render(sprites: ActorSprite[]) {
-    const p = this.presentation,
-      renderer = p.renderer,
+    const renderer = this.renderer,
       restore: { mesh: T.Mesh; material: T.Material | T.Material[] }[] = [],
       byMaterial = new Map<T.Material, ActorSprite>(),
       edges = new Set(sprites.flatMap((s) => (s.edgeMesh ? [s.edgeMesh] : [])));
@@ -99,7 +100,7 @@ export class FocusMask {
     try {
       this.extras.visible = this.proxies.visible = false;
       renderer.shadowMap.enabled = false;
-      p.scene.traverseVisible((o) => {
+      this.scene.traverseVisible((o) => {
         if (!(o instanceof T.Mesh) || edges.has(o)) return;
         const materials = Array.isArray(o.material) ? o.material : [o.material];
         if (materials.every((m) => m instanceof T.ShadowMaterial)) return;
@@ -128,7 +129,7 @@ export class FocusMask {
         renderer.setRenderTarget(this.target);
         renderer.setClearColor(0xff0000, 1);
         renderer.clear();
-        renderer.render(p.scene, p.camera);
+        renderer.render(this.scene, this.camera);
       } finally {
         for (const [mesh, wasVisible] of visible) mesh.visible = wasVisible;
       }
@@ -143,7 +144,7 @@ export class FocusMask {
   }
   stats() {
     const pixels = new Uint8Array(this.target.width * this.target.height * 4);
-    this.presentation.renderer.readRenderTargetPixels(
+    this.renderer.readRenderTargetPixels(
       this.target,
       0,
       0,

@@ -3,13 +3,8 @@ import { readAsset } from '../tools/assets/io';
 import { defaultVisualEffects } from '../src/content/visual-effects';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import {
-  content,
-  contentDefinitions,
-  supportedPosition,
-  isSupportedPosition,
-  heightAt,
-} from '../src/content/world';
+import { supportedPosition, isSupportedPosition, heightAt } from '../src/content/world';
+import { content, contentDefinitions } from '../src/content/game-content';
 import { Simulation } from '../src/core/simulation';
 import { GameSession } from '../src/core/session';
 import { parseGame, parseSettings, SaveContentError } from '../src/core/save';
@@ -26,7 +21,7 @@ test('opening areas have a quiet approach, one/two skeletons and an unobstructed
     ['court', 1],
     ['upper-landing', 2],
   ] as const) {
-    const s = new Simulation(142, area);
+    const s = new Simulation(content, 142, area, 1);
     assert.equal(s.enemies.length, count);
     assert.equal(s.engaged, false);
     const before = s.enemies.map((a) => [a.x, a.z, a.health]);
@@ -48,19 +43,19 @@ test('opening areas have a quiet approach, one/two skeletons and an unobstructed
       }
     }
   }
-  const s = new Simulation();
+  const s = new Simulation(content, 142, content.definitions.initialArea, 1);
   s.hero.z = 1.2;
   s.step(still);
   assert.ok(s.engaged);
   assert.notEqual(s.enemies[0]!.state, 'idle');
-  const group = new Simulation(142, 'upper-landing');
+  const group = new Simulation(content, 142, 'upper-landing', 1);
   group.damage(group.hero, group.enemies[0]!, 1);
   assert.ok(group.engaged);
   group.step(still);
   assert.equal(group.enemies[1]!.state, 'walk');
 });
 test('activation survives load/revisit and resets on death; backward passage allows retreat', () => {
-  const session = new GameSession();
+  const session = new GameSession(content);
   assert.throws(() => session.prepareTransition('landing'), /unavailable/);
   session.sim.damage(session.sim.hero, session.sim.enemies[0]!, 100);
   session.step(still);
@@ -73,7 +68,7 @@ test('activation survives load/revisit and resets on death; backward passage all
   assert.ok(session.sim.engaged);
   assert.equal(session.sim.enemies[0]!.health, 49);
   const save = session.captureSave(),
-    restored = new GameSession();
+    restored = new GameSession(content);
   restored.restoreSave(save);
   assert.ok(restored.sim.engaged);
   restored.sim.damage(restored.sim.enemies[0]!, restored.sim.hero, 1000);
@@ -167,7 +162,7 @@ test('the redesigned processional route stays traversable and the burial clearin
     }
   }
   for (const yaw of [0, Math.PI / 2, Math.PI, Math.PI * 1.5]) {
-    const sim = new Simulation();
+    const sim = new Simulation(content, 142, content.definitions.initialArea, 1);
     sim.enemies.forEach((a) => (a.health = 0));
     Object.assign(sim.hero, { x: 0, z: 0.25, yaw, aim: yaw });
     sim.step({
@@ -239,7 +234,7 @@ function prototype() {
 test('prototype migration preserves clears/health/cooldowns, restarts unfinished encounters and protects unknown content', () => {
   const previous = prototype(),
     bytes = JSON.stringify(previous),
-    save = parseGame(previous);
+    save = parseGame(previous, content);
   assert.equal(JSON.stringify(previous), bytes);
   assert.equal(save.version, 6);
   assert.equal(save.player.health, previous.player.health);
@@ -255,13 +250,13 @@ test('prototype migration preserves clears/health/cooldowns, restarts unfinished
   assert.equal(save.areas['upper-landing']!.engaged, false);
   previous.player.x = -5.3;
   previous.player.z = -3.4;
-  const relocated = parseGame(previous);
+  const relocated = parseGame(previous, content);
   assert.equal(relocated.player.x, 0);
   assert.equal(relocated.player.z, 7.5);
   assert.equal(relocated.player.health, 63);
   const unknown = prototype();
   unknown.areas.court.actors['unknown'] = { x: 0, z: 0, health: 0 };
-  assert.throws(() => parseGame(unknown), SaveContentError);
+  assert.throws(() => parseGame(unknown, content), SaveContentError);
   assert.deepEqual(
     parseSettings({ version: 2, verticalSpan: 13, renderScale: 1, showDebug: false }),
     {
@@ -288,7 +283,7 @@ test('Game, developer preview and Sandbox have isolated checkpoints; Sandbox ref
     const game = createBrowserBridge(),
       preview = createBrowserBridge('preview'),
       sandbox = createBrowserBridge('sandbox'),
-      save = new GameSession().captureSave();
+      save = new GameSession(content).captureSave();
     await game.saveGame(save);
     await preview.saveGame({ ...save, wins: 4 });
     await assert.rejects(sandbox.saveGame(save), /denied/);
@@ -331,7 +326,7 @@ test('v4 location migration preserves clear progress and vital state without reu
     },
   };
   const before = JSON.stringify(previous),
-    save = parseGame(previous);
+    save = parseGame(previous, content);
   assert.equal(JSON.stringify(previous), before);
   assert.equal(save.version, 6);
   assert.equal(save.player.health, 54);
@@ -347,7 +342,7 @@ test('v4 location migration preserves clear progress and vital state without reu
 });
 
 test('skeletons close the last part of their reach and can hit a stationary player', () => {
-  const s = new Simulation(),
+  const s = new Simulation(content, 142, content.definitions.initialArea, 1),
     enemy = s.enemies[0]!;
   Object.assign(s.hero, { x: enemy.x, z: enemy.z + enemy.definition.melee.range + 0.06 });
   s.move(s.hero, 0, 0);

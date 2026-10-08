@@ -323,7 +323,10 @@ test('publication does not change the pin before the public download is verified
       async () => {},
       pin,
     );
-    assert.deepEqual(JSON.parse(await fs.readFile(pin, 'utf8')), f.lock);
+    const pinned = JSON.parse(await fs.readFile(pin, 'utf8'));
+    assert.equal(pinned.schemaVersion, 2);
+    assert.equal(pinned.sha256, f.lock.sha256);
+    assert.equal(pinned.recipeSha256, f.lock.recipeSha256);
     await fake.held.release();
   } finally {
     await f.close();
@@ -446,6 +449,52 @@ test('push guard checks the outgoing snapshot rather than an uncommitted repaire
     git(['add', '.']);
     git(['commit', '--quiet', '-m', 'repair pin']);
     await checkCommittedAssetPin(root);
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
+test('equivalence excludes only preparation provenance and binds the accepted recipe to unchanged archive bytes', async () => {
+  const { payloadDigest, preparationPin, LockSchema, acceptedRecipe } =
+    await import('../tools/assets/pack');
+  const { recipeInputs } = await import('../tools/assets/recipe');
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-equivalence-'));
+  try {
+    const payload = path.join(root, 'payload');
+    await fs.mkdir(path.join(payload, 'public'), { recursive: true });
+    await fs.mkdir(path.join(payload, 'metadata'));
+    await fs.writeFile(path.join(payload, 'public/pixels.png'), 'pixels');
+    await fs.writeFile(path.join(payload, 'metadata/preparation-inputs.json'), 'old recipe');
+    const lock = await makeArchive(payload, path.join(root, 'pack.tar.gz'), 'a'.repeat(64)),
+      before = await validatePack(payload, lock);
+    const inputs = await recipeInputs(),
+      pin = preparationPin(lock, inputs, before);
+    assert.equal(pin.sha256, lock.sha256);
+    assert.equal(pin.recipeSha256, lock.recipeSha256);
+    assert.equal(acceptedRecipe(pin), await recipeHash());
+    assert.deepEqual(await validatePack(payload, pin), before);
+    const changed = structuredClone(before);
+    changed.files['metadata/preparation-inputs.json'] = { bytes: 100, sha256: 'b'.repeat(64) };
+    assert.equal(payloadDigest(changed), payloadDigest(before));
+    changed.files['public/pixels.png']!.sha256 = 'c'.repeat(64);
+    assert.notEqual(payloadDigest(changed), payloadDigest(before));
+    delete changed.files['public/pixels.png'];
+    assert.notEqual(payloadDigest(changed), payloadDigest(before));
+    changed.files['metadata/new-receipt.json'] = { bytes: 1, sha256: 'd'.repeat(64) };
+    assert.notEqual(payloadDigest(changed), payloadDigest(before));
+    assert.throws(
+      () =>
+        LockSchema.parse({
+          ...pin,
+          preparation: {
+            ...(pin.schemaVersion === 2 ? pin.preparation : {}),
+            recipeSha256: 'f'.repeat(64),
+          },
+        }),
+      /Accepted preparation/,
+    );
+    await fs.writeFile(path.join(payload, 'public/pixels.png'), 'tampered');
+    await assert.rejects(validatePack(payload, pin), /differs/);
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }

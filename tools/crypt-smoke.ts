@@ -80,33 +80,38 @@ try {
       },
       { x, z, span, batch },
     );
-  const matrix = [];
-  for (const [aspect, w, h] of process.argv.includes('--quick')
-    ? ([['16x9', 1920, 1080]] as const)
-    : ([
-        ['4x3', 1440, 1080],
-        ['16x9', 1920, 1080],
-        ['ultrawide', 2520, 1080],
-      ] as const)) {
-    await resize(w, h);
-    for (const span of process.argv.includes('--quick') ? [9, 15] : [9, 11, 13, 15])
-      for (const [name, x, z] of positions) {
-        await pose(x, z, span);
-        const file = `${aspect}-${span}-${name}.jpg`;
-        if (run.capture)
-          await page
-            .locator('canvas')
-            .screenshot({ path: path.join(output, file), type: 'jpeg', quality: 90, scale: 'css' });
-        matrix.push({
-          file,
-          aspect,
-          span,
-          name,
-          stats: await page.evaluate(() => window.foundation.stats()),
-        });
-      }
+  const matrix: { file: string; aspect: string; span: number; name: string; stats: unknown }[] = [];
+  if (run.capture) {
+    for (const [aspect, w, h] of process.argv.includes('--quick')
+      ? ([['16x9', 1920, 1080]] as const)
+      : ([
+          ['4x3', 1440, 1080],
+          ['16x9', 1920, 1080],
+          ['ultrawide', 2520, 1080],
+        ] as const)) {
+      await resize(w, h);
+      for (const span of process.argv.includes('--quick') ? [9, 15] : [9, 11, 13, 15])
+        for (const [name, x, z] of positions) {
+          await pose(x, z, span);
+          const file = `${aspect}-${span}-${name}.jpg`;
+          if (run.capture)
+            await page.locator('canvas').screenshot({
+              path: path.join(output, file),
+              type: 'jpeg',
+              quality: 90,
+              scale: 'css',
+            });
+          matrix.push({
+            file,
+            aspect,
+            span,
+            name,
+            stats: await page.evaluate(() => window.foundation.stats()),
+          });
+        }
+    }
+    checks.push(`${matrix.length} composition views across camera/aspect matrix`);
   }
-  checks.push(`${matrix.length} composition views across camera/aspect matrix`);
   for (const [w, h, name] of [
     [2560, 1440, '1440p'],
     [3840, 2160, '4k'],
@@ -204,7 +209,7 @@ try {
     const Material = (p.aim.material as import('three').MeshBasicMaterial)
       .constructor as typeof import('three').MeshBasicMaterial;
     let id = 0;
-    p.room.traverse((o) => {
+    p.roomPresentation.room.traverse((o) => {
       const mesh = o as import('three').Mesh;
       if (!mesh.isMesh) return;
       const material = mesh.material,
@@ -233,7 +238,7 @@ try {
       mesh.material = replacement;
       temporaries.push(replacement);
     });
-    for (const v of p.actors.values()) v.sprite.mesh.visible = false;
+    for (const v of p.actorPresentation.actors.values()) v.sprite.mesh.visible = false;
     const position = p.camera.position.clone(),
       auto = p.renderer.autoClear,
       color = p.renderer.getClearColor(
@@ -250,7 +255,7 @@ try {
           .copy(position)
           .addScaledVector(right, ((p.camera.right - p.camera.left) / copy.width) * i * 0.25);
         p.camera.updateMatrixWorld();
-        p.renderer.render(p.room, p.camera);
+        p.renderer.render(p.roomPresentation.room, p.camera);
         copy.getContext('2d')!.drawImage(p.canvas, 0, 0);
         images.push(copy.toDataURL('image/png').split(',')[1]!);
       }
@@ -357,10 +362,10 @@ try {
               state: f.sim.hero.state,
               position: [f.sim.hero.x, f.sim.hero.z],
               attackKind: f.sim.hero.attackKind,
-              flames: p
+              flames: p.roomPresentation
                 .inkRoom!.sprites.filter((s) => s.mesh.userData.emissive)
                 .map((s) => s.lastFrame),
-              fades: [...p.inkRoom!.occlusion.groups].map(([id, g]) => ({
+              fades: [...p.roomPresentation.inkRoom!.occlusion.groups].map(([id, g]) => ({
                 id,
                 opacity: g.opacity,
               })),

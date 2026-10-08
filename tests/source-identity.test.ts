@@ -29,7 +29,15 @@ test('runtime identity follows imported live documents without including unrelat
     );
     await fs.writeFile(
       path.join(root, 'assets/lock.json'),
-      JSON.stringify({ sha256: 'a'.repeat(64) }),
+      JSON.stringify({
+        schemaVersion: 1,
+        releaseTag: 'assets-' + 'a'.repeat(16),
+        filename: 'lantern-assets.tar.gz',
+        sha256: 'a'.repeat(64),
+        inventorySha256: 'b'.repeat(64),
+        bytes: 10,
+        recipeSha256: 'c'.repeat(64),
+      }),
     );
     await fs.writeFile(path.join(root, 'authoring/scenes/live-court.json'), '{}');
     await fs.writeFile(path.join(root, 'authoring/unrelated.json'), '{}');

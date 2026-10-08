@@ -24,7 +24,18 @@ import { neutralColor } from './illustrated-lighting';
 import { SurfaceRelief } from './surface-relief';
 import { heightAt } from '../content/world';
 import type { Simulation } from '../core/simulation';
-import type { GamePresentation } from './game-scene';
+import type { RoomPresentation } from './room-presentation';
+import type { ActorPresentation } from './actor-presentation';
+import type { SceneVisualEffects } from './scene-visual-effects';
+import type { PackLease } from '../assets/loader';
+import type { WorldVisualDefinition } from '../content/world-art';
+import type { VisualEffects } from '../content/visual-effects';
+type LightingFrame = {
+  visuals: WorldVisualDefinition | undefined;
+  visualEffects: VisualEffects;
+  cameraTarget: T.Vector3;
+  viewSpan: number;
+};
 
 const finishShader = `
 uniform float lookContrast,lookSaturation,lookDefocus,lookFocus,lookNear,lookFar;
@@ -134,17 +145,34 @@ export class SceneLightingRenderer {
     lookTexel: new T.Uniform(new T.Vector2(1, 1)),
     lookMask: new T.Uniform<T.Texture | null>(null),
   };
-  constructor(private presentation: GamePresentation) {
-    this.shadowProxies = new ShadowProxies(presentation, this.sun);
-    this.focusMask = new FocusMask(presentation, this.uniforms, this.extras, this.proxies);
-    const { renderer, scene, camera } = presentation;
+  constructor(
+    private resources: {
+      renderer: T.WebGLRenderer;
+      scene: T.Scene;
+      camera: T.OrthographicCamera;
+      packs: Map<string, PackLease>;
+    },
+    private room: RoomPresentation,
+    private actors: ActorPresentation,
+    private effects: SceneVisualEffects,
+  ) {
+    this.shadowProxies = new ShadowProxies(this.sun);
+    const { renderer, scene, camera } = resources;
+    this.focusMask = new FocusMask(
+      renderer,
+      scene,
+      camera,
+      this.uniforms,
+      this.extras,
+      this.proxies,
+    );
     this.priorAutoClear = renderer.autoClear;
     this.shadowWasEnabled = renderer.shadowMap.enabled;
     this.shadowType = renderer.shadowMap.type;
     this.gl = renderer.getContext() as WebGL2RenderingContext;
     this.timer = this.gl.getExtension('EXT_disjoint_timer_query_webgl2');
     this.composer = new EffectComposer(renderer, { frameBufferType: T.HalfFloatType });
-    const surroundPass = new RenderPass(presentation.surround.scene, camera);
+    const surroundPass = new RenderPass(this.room.surround.scene, camera);
     surroundPass.skipShadowMapUpdate = true;
     this.composer.addPass(surroundPass);
     const worldPass = new RenderPass(scene, camera);
@@ -227,7 +255,7 @@ export class SceneLightingRenderer {
     }
     this.normalReady = Promise.all([
       this.lighting.normals.load(),
-      this.surfaces.load(presentation.packs),
+      this.surfaces.load(resources.packs),
     ]).then(() => {
       this.ready = true;
     });
@@ -268,7 +296,7 @@ export class SceneLightingRenderer {
     this.extras.visible = this.proxies.visible = false;
     for (const mesh of this.floorReceivers) mesh.visible = false;
     this.sun.castShadow = false;
-    const r = this.presentation.renderer;
+    const r = this.resources.renderer;
     r.shadowMap.enabled = this.shadowWasEnabled;
     r.shadowMap.type = this.shadowType;
     r.autoClear = this.priorAutoClear;
@@ -286,15 +314,15 @@ export class SceneLightingRenderer {
     this.focusMask.reset();
     this.generation = -1;
   }
-  private buildRoom(sim: Simulation) {
-    const p = this.presentation;
+  private buildRoom(sim: Simulation, visuals: WorldVisualDefinition | undefined) {
     this.mist.setArea(sim.areaDefinition);
     const spriteGeometries = new Set(
-      [...(p.inkRoom?.sprites ?? []), ...[...p.actors.values()].map((v) => v.sprite)].map(
-        (s) => s.geometry,
-      ),
+      [
+        ...(this.room.inkRoom?.sprites ?? []),
+        ...[...this.actors.actors.values()].map((v) => v.sprite),
+      ].map((s) => s.geometry),
     );
-    p.room.traverse((o) => {
+    this.room.room.traverse((o) => {
       if (
         o instanceof T.Mesh &&
         !spriteGeometries.has(o.geometry) &&
@@ -328,15 +356,15 @@ export class SceneLightingRenderer {
         receiver.position.y += 0.024;
         receiver.renderOrder = -1.6;
         receiver.receiveShadow = true;
-        p.room.add(receiver);
+        this.room.room.add(receiver);
         this.floorReceivers.push(receiver);
       }
     });
-    this.shadowProxies.build(sim);
+    this.shadowProxies.build(sim, visuals, this.room.inkRoom?.sprites ?? []);
     this.generation = sim.generation;
   }
-  render(sim: Simulation, ms: number) {
-    const r = this.presentation.renderer,
+  render(sim: Simulation, ms: number, frame: LightingFrame) {
+    const r = this.resources.renderer,
       start = performance.now(),
       autoReset = r.info.autoReset;
     let query: WebGLQuery | null = null;
@@ -359,7 +387,7 @@ export class SceneLightingRenderer {
     r.info.reset();
     r.info.autoReset = false;
     try {
-      this.draw(sim, ms);
+      this.draw(sim, ms, frame);
     } finally {
       if (query) {
         this.gl.endQuery(this.timer!.TIME_ELAPSED_EXT);
@@ -371,31 +399,33 @@ export class SceneLightingRenderer {
       r.info.autoReset = autoReset;
     }
   }
-  private draw(sim: Simulation, ms: number) {
-    const p = this.presentation,
+  private draw(sim: Simulation, ms: number, frame: LightingFrame) {
+    const p = this.resources,
       r = p.renderer,
       s = this.settings,
-      fx = p.visualEffects;
+      fx = frame.visualEffects;
     if (!this.ready) throw new Error('scene lighting renderer is still preparing');
     if (s.baseline) {
       this.deactivate();
-      p.surround.render(r, p.camera, p.scene);
+      this.room.surround.render(r, p.camera, p.scene);
       return;
     }
     if (this.generation !== sim.generation) {
       this.resetRoom();
-      this.buildRoom(sim);
+      this.buildRoom(sim, frame.visuals);
     }
     this.surfaces.update(fx);
     this.time += ms / 1000;
     const rig = lightingRigs[s.rig],
       look = lookPresets[s.look],
-      origin = p.cameraTarget;
-    this.lighting.configure(s, origin, !!this.presentation.visuals?.interior);
-    if (this.presentation.visuals?.interior || !fx.atmosphere)
-      this.lighting.common.inkHaze.value = 0;
+      origin = frame.cameraTarget;
+    this.lighting.configure(s, origin, !!frame.visuals?.interior);
+    if (frame.visuals?.interior || !fx.atmosphere) this.lighting.common.inkHaze.value = 0;
     this.lighting.common.inkShadowEnabled.value = s.shadows ? 1 : 0;
-    const sprites = [...(p.inkRoom?.sprites ?? []), ...[...p.actors.values()].map((v) => v.sprite)];
+    const sprites = [
+      ...(this.room.inkRoom?.sprites ?? []),
+      ...[...this.actors.actors.values()].map((v) => v.sprite),
+    ];
     for (const sprite of sprites) {
       this.lighting.sprite(sprite);
       if (!fx.surfaceDepth)
@@ -409,7 +439,7 @@ export class SceneLightingRenderer {
     lights.inkLightPosition.value[0]!.set(sim.hero.x - 0.25, sim.hero.y + 0.85, sim.hero.z);
     lights.inkLightPower.value[0] = sim.hero.state === 'ability' ? 2.9 : 1.15;
     lights.inkLightRange.value.fill(4.8);
-    for (const [i, l] of p.sceneEffects.lights(fx).slice(0, SCENE_LIGHT_CAPACITY).entries()) {
+    for (const [i, l] of this.effects.lights(fx).slice(0, SCENE_LIGHT_CAPACITY).entries()) {
       lights.inkLightPosition.value[i + 1]!.copy(l.position);
       lights.inkLightPower.value[i + 1] = l.power;
       lights.inkLightRange.value[i + 1] = l.range;
@@ -426,26 +456,26 @@ export class SceneLightingRenderer {
       if (!fx.palette) neutralColor(material.color);
     }
     const shadowOrigin =
-      this.presentation.visuals?.interior || sim.area === 'court'
+      frame.visuals?.interior || sim.area === 'court'
         ? new T.Vector3(0, heightAt(sim.areaDefinition, 0, 0), 0)
         : origin;
     this.sun.target.position.copy(shadowOrigin);
     this.sun.position.copy(shadowOrigin).addScaledVector(lights.inkDirection.value, 32);
     this.sun.target.updateMatrixWorld();
     this.sun.position.y = Math.max(this.sun.position.y, 8);
-    const span = sim.area === 'court' ? 22 : Math.max(15, p.viewSpan * 1.25),
+    const span = sim.area === 'court' ? 22 : Math.max(15, frame.viewSpan * 1.25),
       shadow = this.sun.shadow.camera;
     shadow.left = shadow.bottom = -span;
     shadow.right = shadow.top = span;
     shadow.updateProjectionMatrix();
-    for (const [id, v] of p.actors) this.shadowProxies.updateActor(id, v.sprite);
+    for (const [id, v] of this.actors.actors) this.shadowProxies.updateActor(id, v.sprite);
     this.extras.visible = s.atmosphere || s.lighting;
-    this.dust.visible = fx.atmosphere && s.atmosphere && !this.presentation.visuals?.interior;
+    this.dust.visible = fx.atmosphere && s.atmosphere && !frame.visuals?.interior;
     (this.dust.material as T.ShaderMaterial).uniforms.t!.value = this.time;
     (this.dust.material as T.ShaderMaterial).uniforms.tint!.value.set(
       s.rig === 'golden' ? 0xffd7a0 : 0xc5d7ed,
     );
-    this.mist.group.visible = fx.atmosphere && s.atmosphere && !this.presentation.visuals?.interior;
+    this.mist.group.visible = fx.atmosphere && s.atmosphere && !frame.visuals?.interior;
     this.mist.update(
       this.time,
       rig.fog,
@@ -457,16 +487,12 @@ export class SceneLightingRenderer {
       mesh.position.copy(lights.inkLightPosition.value[i]!);
       mesh.quaternion.copy(p.camera.quaternion);
       mesh.scale.setScalar(
-        i === 0 && sim.hero.state === 'ability'
-          ? 2.7
-          : this.presentation.visuals?.interior
-            ? 0.5
-            : 1,
+        i === 0 && sim.hero.state === 'ability' ? 2.7 : frame.visuals?.interior ? 0.5 : 1,
       );
     });
     if (!s.postprocessing) {
       r.autoClear = this.priorAutoClear;
-      p.surround.render(r, p.camera, p.scene);
+      this.room.surround.render(r, p.camera, p.scene);
       return;
     }
     this.resize();
@@ -486,7 +512,7 @@ export class SceneLightingRenderer {
     this.composer.render(ms / 1000);
   }
   resize() {
-    const r = this.presentation.renderer,
+    const r = this.resources.renderer,
       size = r.getDrawingBufferSize(new T.Vector2());
     if (size.equals(this.size)) return;
     this.size.copy(size);

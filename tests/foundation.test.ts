@@ -25,7 +25,8 @@ import { validateRequest } from '../electron/store';
 import sharp from 'sharp';
 import { resourcePath, trustedSender } from '../electron/security';
 import { attackDefinition } from '../src/content/gameplay';
-import { content, heightAt } from '../src/content/world';
+import { heightAt } from '../src/content/world';
+import { content } from '../src/content/game-content';
 import { GameSession } from '../src/core/session';
 import { walkablePoint } from '../src/core/camera';
 const approx = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-7, `${a} != ${b}`);
@@ -45,7 +46,11 @@ await sharp({
   .toFile(path.join(fixtureRoot, 'sample.png'));
 import { after } from 'node:test';
 after(() => fs.rm(fixtureRoot, { recursive: true, force: true }));
-const manifest = await read('public/generated/ink/ink-hero-current/manifest.json');
+const manifestDirectory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-manifest-fixture-'));
+const manifest = JSON.parse(
+  JSON.stringify(await compile('valid.json', manifestDirectory, false, false, fixtureRoot)),
+);
+await fs.rm(manifestDirectory, { recursive: true, force: true });
 test('camera projection/unprojection accounts for canvas offset and both aspect ratios', () => {
   const camera = makeCamera(16 / 9);
   for (const [width, height] of [
@@ -150,9 +155,11 @@ test('valid and deliberately invalid schema fixtures; production fails closed', 
   nonFinite.asset.density = Infinity;
   assert.throws(() => parseSource(nonFinite));
   const missingDep = structuredClone(manifest);
-  missingDep.bundles.room.dependencies = ['missing'];
+  missingDep.bundles[Object.keys(missingDep.bundles)[0]!]!.dependencies = ['missing'];
   assert.throws(() => parseManifest(missingDep), /dependency/);
-  missingDep.bundles.room.dependencies = ['room'];
+  missingDep.bundles[Object.keys(missingDep.bundles)[0]!]!.dependencies = [
+    Object.keys(missingDep.bundles)[0]!,
+  ];
   assert.throws(() => parseManifest(missingDep), /cyclic/);
   const looping = structuredClone(manifest);
   looping.asset.clips.death.d00.loop = true;
@@ -220,7 +227,7 @@ test('notifies survive skipped frames/loops, have unique identities, interruptio
 });
 test('fixed command replay matches across render cadences; catch-up bounded and pause reset discards debt', () => {
   const replay = (cadence: number) => {
-    const s = new Simulation(2),
+    const s = new Simulation(content, 2, content.definitions.initialArea, 1),
       clock = new FixedClock();
     for (let t = 0; t < 3000 - 1e-5; t += cadence)
       clock.advance(Math.min(cadence, 3000 - t), () => {
@@ -249,7 +256,7 @@ test('fixed command replay matches across render cadences; catch-up bounded and 
   approx(c.accumulator, 0);
 });
 test('sword hits each target once in active window; visual drawings never determine hit timing', () => {
-  const s = new Simulation();
+  const s = new Simulation(content, 142, content.definitions.initialArea, 1);
   s.actors = s.actors.slice(0, 2);
   Object.assign(s.hero, { x: 0, z: 1, px: 0, pz: 1 });
   Object.assign(s.actors[1]!, { x: 0, z: 0, px: 0, pz: 0 });
@@ -261,7 +268,7 @@ test('sword hits each target once in active window; visual drawings never determ
   assert.equal(s.hero.state, 'attack');
 });
 test('dodge windows, ability cooldown, death interruption and action restart', () => {
-  const s = new Simulation();
+  const s = new Simulation(content, 142, content.definitions.initialArea, 1);
   s.step({ move: { x: 1, z: 0 }, aim: { x: 1, z: 0 }, dodge: true });
   assert.equal(s.hero.state, 'dodge');
   s.hero.age = tuning.dodge.invulnerableStart;
@@ -279,7 +286,7 @@ test('dodge windows, ability cooldown, death interruption and action restart', (
   s.step({ move: { x: 1, z: 1 }, aim: { x: 0, z: 0 }, attack: true });
   assert.equal(s.hero.state, 'death');
   assert.ok(s.hero.action > action);
-  const alive = new Simulation();
+  const alive = new Simulation(content, 142, content.definitions.initialArea, 1);
   alive.step({ move: { x: 0, z: 0 }, aim: { x: 0, z: 0 }, ability: true });
   assert.equal(alive.hero.cooldown, 180);
   for (let i = 0; i < 100; i++)
@@ -356,7 +363,7 @@ test('IPC sender checks and protocol constrain origin, frame, slot, payload, ext
   );
 });
 function duel() {
-  const s = new Simulation();
+  const s = new Simulation(content, 142, content.definitions.initialArea, 1);
   s.actors = s.actors.slice(0, 2);
   Object.assign(s.hero, { x: 0, z: 1, px: 0, pz: 1 });
   Object.assign(s.actors[1]!, { x: 0, z: 0, px: 0, pz: 0, health: 100, stun: 10000 });
@@ -442,7 +449,7 @@ test('death resets current area exactly once, clears transient state, and invali
   assert.equal(session.resetCount, 1);
 });
 test('linked areas preserve health, establish new generations and share a continuous shallow height query', () => {
-  const session = new GameSession();
+  const session = new GameSession(content);
   let s = session.sim;
   s.hero.health = 55;
   Object.assign(s.hero, { x: 0, z: -5.95 });

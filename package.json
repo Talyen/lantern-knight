@@ -18,6 +18,8 @@
     "scene:check": "tsx tools/task-runner.ts scene:check",
     "check:task": "tsx tools/task-runner.ts check:task",
     "check": "tsx tools/task-runner.ts check",
+    "test:e2e": "tsx tools/task-runner.ts test:e2e",
+    "verify:full": "tsx tools/task-runner.ts verify:full",
     "benchmark:game": "tsx tools/task-runner.ts benchmark:game",
     "dev": "tsx tools/task-runner.ts dev",
     "desktop": "npm run build && electron .",
@@ -112,6 +114,7 @@
     },
     "win": {
       "target": "dir"
-    }
+    },
+    "beforeBuild": "tools/package-bundled.cjs"
   }
 }

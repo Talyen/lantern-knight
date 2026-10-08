@@ -9,12 +9,13 @@ import { tuning } from '../content/gameplay';
 import { type PackLease } from '../assets/loader';
 import { EventHub } from '../core/events';
 import type { Simulation } from '../core/simulation';
-import { GamePresentation, type Mode } from './game-scene';
+import { GamePresentation } from './game-scene';
 import { defaultLook } from './lighting-profiles';
 import { captureArtDiagnostics } from './art-diagnostics';
 import { ArtConstructionOverlay } from './art-construction-overlay';
-export type { Mode } from './game-scene';
+export type Mode = 'encounter' | 'calibration' | 'animation' | 'occlusion' | 'lighting';
 export class Presentation extends GamePresentation {
+  mode: Mode = 'encounter';
   captureArtDiagnostics() {
     return captureArtDiagnostics(this);
   }
@@ -251,7 +252,7 @@ export class Presentation extends GamePresentation {
       return;
     }
     this.artConstruction.group.visible = false;
-    this.room.visible = false;
+    this.roomPresentation.room.visible = false;
     this.flare.visible = false;
     this.slash.visible = false;
     this.aim.visible = false;
@@ -308,7 +309,7 @@ export class Presentation extends GamePresentation {
   protected override renderFrame(sim: Simulation, ms: number) {
     this.artConstruction.update(
       sim.areaDefinition,
-      this.inkRoom,
+      this.roomPresentation.inkRoom,
       sim.generation,
       this.mode === 'occlusion' && this.debug,
     );
