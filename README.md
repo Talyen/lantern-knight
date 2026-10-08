@@ -20,7 +20,7 @@ npm run package:dev:mac:prebuilt
 npm run smoke
 ```
 
-Routine prototype CI runs the full regular suite, both builds, packaging and the short `smoke:desktop` integration journey. Long gameplay and rendering investigations are opt-in through the workflow's **exhaustive** manual-run input, or their individual smoke commands. The complete CI execution path has a nine-minute hard budget; explicit captures and benchmarks remain separate investigations.
+CI runs the full regular suite and both builds. Main pushes and manual runs also package both applications and run `npm run test:e2e`: shared gameplay/rendering on macOS, focused platform integration on Windows. The complete execution path has a nine-minute hard budget, excluding runner queues. Explicit captures and benchmarks remain separate investigations.
 
 For visual scene composition, run `npm run scene:editor`. The [scene editor guide](docs/scene-editor.md) covers placement, drafts, live edits, saving and recovery.
 
