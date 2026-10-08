@@ -6,7 +6,7 @@ Source-aware fidelity and freshness checks run during preparation on the Mac. No
 
 This document defines evidence requirements; it is not a record of a completed run. Only completed checks establish verification. A task response records the changed behavior, completed checks and material limitations. For a requested commit/push or release, the response records the exact final commit and hosted job conclusions after CI finishes. Hidden tests do not establish visible display pacing, release signing or behavior on untested GPUs.
 
-Windows hosted checks select Chromium’s documented ANGLE/SwiftShader software backend. The player interaction journey uses its existing 50% quality option; dedicated renderer checks retain native-resolution coverage. Software-runner timeouts are bounded separately from product timing.
+Windows hosted checks select Chromium’s documented ANGLE/SwiftShader software backend. The player interaction journey uses its existing 50% quality option before menu and gameplay checks; dedicated renderer checks retain native-resolution coverage. This software journey has a fifteen-minute deadline because the unchanged fixed-step clock drops long frame gaps. Other smoke commands retain their five-minute deadlines. Software-runner timeouts are separate from product timing.
 
 [Public release](release.md) owns candidate preparation, packaged checks, signing/distribution prerequisites and rollback. [Session replay](session-replay.md) owns recorded production-session evidence.
 

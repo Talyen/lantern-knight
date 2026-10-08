@@ -181,7 +181,13 @@ export const commands: Record<string, CommandDefinition> = {
   'assets:clean': { operation: cleanAssets, parse: noArgs },
   'assets:sources:check': leaf('tools/assets/library.py', false, ['check']),
   'assets:dedupe': leaf('tools/assets/library.py', false, ['dedupe']),
-  'smoke:game': leaf('tools/game-smoke.ts', true, [], true),
+  'smoke:game': {
+    ...leaf('tools/game-smoke.ts', true, [], true),
+    // Hosted Windows uses SwiftShader; dropped frame time makes the unchanged
+    // fixed-step player journey take substantially longer than a native GPU run.
+    timeoutMs:
+      process.platform === 'win32' && process.env.CI === 'true' ? 15 * 60 * 1000 : undefined,
+  },
   'smoke:sandbox': leaf('tools/churchyard-smoke.ts', true, [], true),
   'smoke:animation': leaf('tools/animation-smoke.ts', true, [], true),
   'smoke:art': leaf('tools/ink-art-smoke.ts', true, [], true),

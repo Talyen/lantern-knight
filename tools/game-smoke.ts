@@ -17,9 +17,15 @@ const run = await smokeLaunch(
   { app, page, output, errors } = run;
 const checks: string[] = [];
 let stage = 'startup-checks';
+const journeyStarted = performance.now();
 const markStage = async (name: string) => {
   stage = name;
-  await fs.writeFile(path.join(output, 'progress.json'), JSON.stringify({ stage, checks }));
+  const elapsedMs = Math.round(performance.now() - journeyStarted);
+  console.log(`Game journey: ${stage} (${elapsedMs}ms)`);
+  await fs.writeFile(
+    path.join(output, 'progress.json'),
+    JSON.stringify({ stage, elapsedMs, checks }),
+  );
 };
 // Aim against the package's own calibration, even while another chat edits content.
 const archive =
@@ -76,6 +82,9 @@ try {
   // Interaction checks use the player's existing quality setting on software-rendered CI.
   if (!(await page.locator('#modal').isVisible()))
     await page.getByRole('button', { name: 'Pause / save' }).click();
+  await page
+    .locator('#render-scale')
+    .selectOption(benchmark ? option('--render-scale', '1') : '0.5');
   await markStage('pause-menu');
   const focused = () => page.evaluate(() => document.activeElement?.id);
   assert.equal(await focused(), 'resume');
@@ -125,9 +134,6 @@ try {
   checks.push(
     'failed New Game reports its error in the confirmation and preserves newer save bytes',
   );
-  await page
-    .locator('#render-scale')
-    .selectOption(benchmark ? option('--render-scale', '1') : '0.5');
   let save = await observe();
   assert.equal(save.area, 'court');
   assert.equal(Object.keys(save.areas.court!.actors).length, 1);
