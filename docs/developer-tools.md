@@ -4,7 +4,7 @@ Run `npm run dev`; developer navigation connects Game, Sandbox, the scene editor
 
 ## Scene editor
 
-Open `/editor.html`. Start a flat draft, copy either room, or edit its live document. Search/drag artwork, select placements, adjust transforms, duplicate/delete, and use undo/redo. [Scene design](scene-design.md) explains composition advice and technical protections.
+Open `/editor.html`. Start a flat draft, copy either room, or edit its live document. Browse grouped artwork with clip/facing choices, favorites and recent use. Preview artwork or move its placement ghost before placing one object. Shift-click or drag empty ground to select multiple placements; use group handles, arrow nudging, duplicate/delete and undo/redo. Grid visibility and optional snapping are independent. The Object/Scene inspector tabs and searchable attachment outliner keep editing controls accessible; hide/lock are editor-only. Panels resize/collapse and remember their layout. [Scene design](scene-design.md) explains composition advice and technical protections.
 
 Ground, camera framing and playable bounds are editable. Version 5 scene documents also contain surrounds, paths, supports and scene geometry; edit fields directly when the inspector does not expose them. Old drafts require manual adaptation.
 

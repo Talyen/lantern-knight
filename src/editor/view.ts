@@ -39,6 +39,13 @@ export class EditorView {
   private proxies: ActorSprite[] = [];
   private grid?: T.GridHelper;
   private selection?: T.BoxHelper;
+  private selections: T.BoxHelper[] = [];
+  private hidden = new Set<string>();
+  private ghost?: ActorSprite;
+  private ghostPack?: PackLease;
+  private ghostKey = '';
+  private ghostRequest = 0;
+
   private rays = new T.Raycaster();
   private alpha = new WeakMap<T.Texture, { data: Uint8Array; width: number; height: number }>();
   private abort = new AbortController();
@@ -204,6 +211,8 @@ export class EditorView {
     if (!this.presentation || !this.sim) return;
     this.presentation.update(this.sim, 1, ms, this.sim.hero);
     this.selection?.update();
+    this.selections.forEach((s) => s.update());
+    this.setEditingVisibility(this.hidden);
   }
   screen(point: T.Vector3) {
     const p = point.clone().project(this.presentation!.camera),
@@ -250,7 +259,7 @@ export class EditorView {
   pick(x: number, y: number, document: SceneDocument) {
     this.ray(x, y);
     const items = new Map(sceneItems(document).map((item) => [item.placement.id, item])),
-      sprites = this.sprites().filter((s) => items.has(s.id));
+      sprites = this.sprites().filter((s) => items.has(s.id) && !this.hidden.has(s.id));
     for (const s of sprites) s.mesh.updateMatrixWorld(true);
     const hits = this.rays.intersectObjects(
       sprites.map((s) => s.mesh),
@@ -275,6 +284,70 @@ export class EditorView {
       this.presentation.overlay.add(this.selection);
     }
   }
+  async placementGhost(asset: string, clip: string, heading: string, point: T.Vector3) {
+    const key = asset + '/' + clip + '/' + heading;
+    if (this.ghostKey !== key) {
+      const request = ++this.ghostRequest;
+      this.ghostKey = key;
+      this.ghost?.dispose();
+      this.ghost = undefined;
+      this.ghostPack?.release();
+      this.ghostPack = undefined;
+      const pack = await this.runtime.loadPack(asset, this.abort.signal);
+      if (this.closed || request !== this.ghostRequest) {
+        pack.release();
+        return;
+      }
+      this.ghostPack = pack;
+      this.ghost = new ActorSprite(
+        'editor-ghost',
+        pack.manifest,
+        pack.textures,
+        resolveClip(
+          pack.manifest,
+          clip,
+          heading as NonNullable<SceneDocument['objects'][number]['heading']>,
+        ),
+      );
+      this.ghost.material.transparent = true;
+      this.ghost.material.opacity = 0.45;
+      this.ghost.material.depthWrite = false;
+      this.presentation?.overlay.add(this.ghost.mesh);
+    }
+    if (this.ghost && this.presentation) {
+      this.ghost.show(this.ghost.animator.frame, point, this.presentation.camera);
+      this.render();
+    }
+  }
+  clearPlacementGhost() {
+    this.ghostRequest++;
+    this.ghostKey = '';
+    this.ghost?.dispose();
+    this.ghost = undefined;
+    this.ghostPack?.release();
+    this.ghostPack = undefined;
+  }
+  setEditingVisibility(ids: ReadonlySet<string>) {
+    this.hidden = new Set(ids);
+    for (const s of this.sprites()) s.mesh.visible = !ids.has(s.id);
+  }
+  selectMany(ids: readonly string[]) {
+    for (const helper of this.selections) {
+      helper.geometry.dispose();
+      (helper.material as T.Material).dispose();
+      helper.removeFromParent();
+    }
+    this.selections = [];
+    this.select(undefined);
+    for (const id of ids) {
+      const s = this.sprites().find((s) => s.id === id);
+      if (s && this.presentation) {
+        const helper = new T.BoxHelper(s.mesh, 0xe9bd65);
+        this.presentation.overlay.add(helper);
+        this.selections.push(helper);
+      }
+    }
+  }
   setGrid(visible: boolean) {
     if (this.grid) this.grid.visible = visible;
   }
@@ -288,7 +361,7 @@ export class EditorView {
   private clearHelpers() {
     this.proxies.forEach((s) => s.dispose());
     this.proxies = [];
-    this.select(undefined);
+    this.selectMany([]);
     if (this.grid) {
       this.grid.geometry.dispose();
       (this.grid.material as T.Material).dispose();
@@ -302,6 +375,7 @@ export class EditorView {
   dispose() {
     this.closed = true;
     this.abort.abort();
+    this.clearPlacementGhost();
     this.clearHelpers();
     this.presentation?.dispose();
     for (const pack of this.packs.values()) pack.release();

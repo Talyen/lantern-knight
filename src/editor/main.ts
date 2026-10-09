@@ -1,3 +1,4 @@
+import { CompositionTools } from './composition';
 import { editorUI } from './ui';
 import { bindSceneControls } from './scene-controls';
 import '../developer-nav';
@@ -28,6 +29,7 @@ import { EditorView } from './view';
 const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
 document.getElementById('app')!.innerHTML = editorUI;
 const refreshSceneControls = bindSceneControls(change);
+let composition: CompositionTools;
 const canvas = $<HTMLCanvasElement>('viewport');
 let runtime: AssetRuntime,
   view: EditorView,
@@ -77,7 +79,6 @@ function recover() {
   }
 }
 function controls() {
-  if (palette.length) showPalette();
   refreshSceneControls(history.document, busy);
   const d = history.document,
     items = sceneItems(d),
@@ -167,14 +168,15 @@ function controls() {
   }
   const notes = sceneCompositionFindings(resolveAuthoredScene(d));
   $('composition-notes').hidden = notes.length === 0;
-  $('composition-notes').textContent =
-    notes.slice(0, 3).join('; ') + (notes.length > 3 ? `; ${notes.length - 3} more notes` : '');
+  $('composition-notes').textContent = notes.join('; ');
   view?.select(selected);
   view?.setGrid($<HTMLInputElement>('grid').checked);
+  composition?.render();
 }
 function select(id: string | undefined) {
   selected = id;
   chosen = undefined;
+  view?.clearPlacementGhost();
   controls();
 }
 function launch(work: Promise<unknown>) {
@@ -278,6 +280,7 @@ async function open(value: string) {
     baseRevision = nextBaseRevision;
     savedSnapshot = nextSavedSnapshot;
     selected = undefined;
+    composition?.selection.clear();
     view.setGrid($<HTMLInputElement>('grid').checked);
     view.render();
     recover();
@@ -387,21 +390,8 @@ $('redo').onclick = () =>
     history.redo();
     await refresh();
   });
-$('duplicate').onclick = () =>
-  void run(async () => {
-    if (selected) {
-      selected = history.duplicate(selected);
-      await refresh();
-    }
-  });
-$('delete').onclick = () =>
-  void run(async () => {
-    if (selected) {
-      history.remove(selected);
-      selected = undefined;
-      await refresh();
-    }
-  });
+$('duplicate').onclick = () => void composition?.duplicate();
+$('delete').onclick = () => void composition?.remove();
 $('fit').onclick = fit;
 let animationPlaying = true;
 $('play-animation').onclick = () => {
@@ -428,7 +418,15 @@ $('grid').onchange = () => view?.setGrid($<HTMLInputElement>('grid').checked);
 const images = new Map<string, Promise<HTMLImageElement>>();
 async function thumbnail(entry: (typeof palette)[number], target: HTMLCanvasElement) {
   const m = entry.manifest,
-    f = m.frames.find((f) => f.id === Object.values(m.asset.clips[entry.clip]!)[0]!.frames[0])!,
+    f = m.frames.find((f) => f.id === Object.values(m.asset.clips[entry.clip]!)[0]!.frames[0])!;
+  await drawFrame(entry, f, target);
+}
+async function drawFrame(
+  entry: (typeof palette)[number],
+  f: Manifest['frames'][number],
+  target: HTMLCanvasElement,
+) {
+  const m = entry.manifest,
     page = m.pages.find((p) => p.id === f.page)!,
     src = '/' + assetCatalog[entry.asset]!.replace(/manifest\.json$/, page.path);
   let promise = images.get(src);
@@ -475,6 +473,7 @@ const observer = new IntersectionObserver(
 function showPalette() {
   observer.disconnect();
   $('assets').replaceChildren();
+  const shown = new Set<string>();
   const search = $<HTMLInputElement>('search').value.toLowerCase(),
     kind = $<HTMLSelectElement>('category').value;
   for (const [index, entry] of palette.entries())
@@ -488,11 +487,15 @@ function showPalette() {
           ))) &&
       `${entry.manifest.asset.label ?? ''} ${entry.asset} ${entry.clip}`
         .toLowerCase()
-        .includes(search)
+        .includes(search) &&
+      !shown.has(entry.asset) &&
+      assetVisible(entry)
     ) {
+      shown.add(entry.asset);
       const button = document.createElement('button');
       button.className = 'asset';
       button.title = entry.asset + '/' + entry.clip;
+      button.classList.toggle('active', entry.asset === chosen?.asset);
       button.draggable = true;
       const c = document.createElement('canvas');
       c.width = 112;
@@ -500,7 +503,7 @@ function showPalette() {
       c.dataset.index = String(index);
       c.setAttribute('aria-hidden', 'true');
       const label = document.createElement('span');
-      label.textContent = `${entry.manifest.asset.label ?? entry.asset} · ${entry.clip.replaceAll('_', ' ')} · ${entry.asset.startsWith('library-') ? 'TEST' : 'study'}`;
+      label.textContent = `${entry.manifest.asset.label ?? entry.asset} · ${entry.asset.startsWith('library-') ? 'Experimental' : 'Current'}${entry.kind === 'reference' ? ' · Reference' : ''}`;
       button.append(c, label);
       button.onclick = () => {
         if (entry.kind === 'reference') {
@@ -510,8 +513,9 @@ function showPalette() {
           launch(thumbnail(entry, $<HTMLCanvasElement>('art-preview-canvas')));
           return;
         }
-        chosen = entry;
+        chooseAsset(entry);
         selected = undefined;
+        composition.selection.clear();
         controls();
         status('Click the ground to place ' + entry.clip + '.');
       };
@@ -527,10 +531,122 @@ function showPalette() {
       observer.observe(c);
     }
 }
+
+const favorites = new Set<string>();
+let recent: string[] = [];
+try {
+  JSON.parse(localStorage.getItem('lantern-editor-favorites') ?? '[]').forEach((id: string) =>
+    favorites.add(id),
+  );
+  recent = JSON.parse(localStorage.getItem('lantern-editor-recent') ?? '[]');
+} catch {
+  /* Disposable preferences. */
+}
+function rememberAsset(id: string) {
+  recent = [id, ...recent.filter((v) => v !== id)].slice(0, 24);
+  try {
+    localStorage.setItem('lantern-editor-recent', JSON.stringify(recent));
+  } catch {
+    /* Disposable preferences. */
+  }
+}
+function assetVisible(entry: (typeof palette)[number]) {
+  const collection = $<HTMLSelectElement>('collection').value,
+    status = $<HTMLSelectElement>('asset-status').value;
+  return (
+    (collection === 'all' ||
+      (collection === 'favorites' && favorites.has(entry.asset)) ||
+      (collection === 'recent' && recent.includes(entry.asset)) ||
+      (collection === 'ink' && entry.asset.startsWith('ink-')) ||
+      (collection === 'library' && entry.asset.startsWith('library-'))) &&
+    (status === 'all' ||
+      (status === 'reference' && entry.kind === 'reference') ||
+      (status === 'experimental' && entry.asset.startsWith('library-')) ||
+      (status === 'current' && !entry.asset.startsWith('library-') && entry.kind !== 'reference'))
+  );
+}
+function chooseAsset(entry: (typeof palette)[number]) {
+  chosen = entry;
+  $('asset-choice').hidden = false;
+  $<HTMLSelectElement>('tool').value = 'place';
+  const clips = $<HTMLSelectElement>('place-clip');
+  clips.replaceChildren();
+  for (const p of palette.filter((p) => p.asset === entry.asset))
+    clips.add(new Option(p.clip.replaceAll('_', ' '), p.clip));
+  clips.value = entry.clip;
+  updatePlaceHeading();
+  showPalette();
+}
+function updatePlaceHeading() {
+  const headings = $<HTMLSelectElement>('place-heading');
+  headings.replaceChildren();
+  if (chosen)
+    for (const h of Object.keys(chosen.manifest.asset.clips[chosen.clip]!))
+      headings.add(new Option(h, h));
+}
+$('place-clip').onchange = () => {
+  if (chosen) {
+    chosen = palette.find(
+      (p) => p.asset === chosen!.asset && p.clip === $<HTMLSelectElement>('place-clip').value,
+    );
+    updatePlaceHeading();
+  }
+};
+$('collection').onchange = showPalette;
+$('asset-status').onchange = showPalette;
+$('favorite-asset').onclick = () => {
+  if (!chosen) return;
+  if (favorites.has(chosen.asset)) favorites.delete(chosen.asset);
+  else favorites.add(chosen.asset);
+  try {
+    localStorage.setItem('lantern-editor-favorites', JSON.stringify([...favorites]));
+  } catch {
+    /* Disposable preferences. */
+  }
+  $('favorite-asset').textContent = favorites.has(chosen.asset) ? 'Unfavorite' : 'Favorite';
+  showPalette();
+};
+let previewEntry: (typeof palette)[number] | undefined,
+  previewPlaying = true,
+  previewTime = 0;
+$('preview-asset').onclick = () => {
+  if (!chosen) return;
+  previewEntry = chosen;
+  previewTime = 0;
+  $('art-preview-label').textContent = chosen.manifest.asset.label ?? chosen.asset;
+  $('preview-scale').textContent =
+    'Authored height: ' +
+    (chosen.manifest.asset.canvas[1] / chosen.manifest.asset.density).toFixed(2) +
+    ' units. Hero height: ' +
+    (
+      palette.find((p) => p.asset === 'ink-hero-current')!.manifest.asset.canvas[1] /
+      palette.find((p) => p.asset === 'ink-hero-current')!.manifest.asset.density
+    ).toFixed(2) +
+    ' units.';
+  $<HTMLDialogElement>('art-preview').showModal();
+  launch(thumbnail(chosen, $<HTMLCanvasElement>('art-preview-canvas')));
+};
+$('preview-play').onclick = () => {
+  previewPlaying = !previewPlaying;
+  $('preview-play').textContent = previewPlaying ? 'Pause preview' : 'Play preview';
+};
+$('tool').onchange = () => {
+  if ($<HTMLSelectElement>('tool').value !== 'place') {
+    chosen = undefined;
+    view?.clearPlacementGhost();
+    $('asset-choice').hidden = true;
+  }
+};
+let marquee: { x: number; y: number; additive: boolean } | undefined;
+function startMarquee(e: PointerEvent) {
+  marquee = { x: e.clientX, y: e.clientY, additive: e.shiftKey };
+  canvas.setPointerCapture(e.pointerId);
+}
+
 $('search').oninput = showPalette;
 $('category').onchange = showPalette;
 function snapped(n: number) {
-  return $<HTMLInputElement>('grid').checked ? Math.round(n * 2) / 2 : n;
+  return composition?.snap(n) ?? n;
 }
 async function place(entry: (typeof palette)[number], x: number, y: number) {
   if (entry.kind === 'reference') return;
@@ -545,7 +661,8 @@ async function place(entry: (typeof palette)[number], x: number, y: number) {
           kind: entry.kind as PaletteKind,
           asset: entry.asset,
           clip: entry.clip,
-          heading: Object.keys(entry.manifest.asset.clips[entry.clip]!)[0] as NonNullable<
+          heading: ($<HTMLSelectElement>('place-heading').value ||
+            Object.keys(entry.manifest.asset.clips[entry.clip]!)[0]) as NonNullable<
             SceneDocument['objects'][number]['heading']
           >,
           x: snapped(point.x),
@@ -566,7 +683,14 @@ async function place(entry: (typeof palette)[number], x: number, y: number) {
       ),
     );
     selected = id;
+    composition.selection.clear();
+    composition.selection.add(id);
+    composition.set(id);
+    rememberAsset(entry.asset);
     chosen = undefined;
+    view.clearPlacementGhost();
+    $<HTMLSelectElement>('tool').value = 'select';
+    $('asset-choice').hidden = true;
     await refresh();
     status('Placed ' + entry.clip + '.');
   });
@@ -605,11 +729,16 @@ canvas.onpointerdown = (e) => {
     return;
   }
   const item = e.button === 0 ? view.pick(e.clientX, e.clientY, history.document) : undefined,
-    hero = $<HTMLInputElement>('hero-tool').checked && e.button === 0;
+    hero = $<HTMLSelectElement>('tool').value === 'hero' && e.button === 0;
   let mode: Drag['mode'] = hero ? 'hero' : e.button !== 0 ? 'pan' : 'object';
   if (mode === 'object') {
-    select(item?.placement.id);
-    if (!item || item.locked) return;
+    if (!item) {
+      if ($<HTMLSelectElement>('tool').value === 'select') startMarquee(e);
+      return;
+    }
+    if (!composition.selection.has(item.placement.id) || e.shiftKey)
+      composition.set(item.placement.id, e.shiftKey);
+    if (e.shiftKey || item.locked || composition.locked.has(item.placement.id)) return;
   }
   const root = hero ? history.document.hero : (item?.placement ?? { x: 0, z: 0 }),
     height =
@@ -632,6 +761,34 @@ canvas.onpointerdown = (e) => {
   canvas.setPointerCapture(e.pointerId);
 };
 canvas.onpointermove = (e) => {
+  if (marquee) {
+    const box = $('marquee');
+    box.hidden = false;
+    Object.assign(box.style, {
+      left: Math.min(marquee.x, e.clientX) + 'px',
+      top: Math.min(marquee.y, e.clientY) + 'px',
+      width: Math.abs(e.clientX - marquee.x) + 'px',
+      height: Math.abs(e.clientY - marquee.y) + 'px',
+    });
+    return;
+  }
+  if (chosen && !drag && view.presentation) {
+    const point = view.ground(e.clientX, e.clientY);
+    if (point) {
+      point.x = snapped(point.x);
+      point.z = snapped(point.z);
+      point.y = heightAt(view.sim!.areaDefinition, point.x, point.z);
+      launch(
+        view.placementGhost(
+          chosen.asset,
+          chosen.clip,
+          $<HTMLSelectElement>('place-heading').value ||
+            Object.keys(chosen.manifest.asset.clips[chosen.clip]!)[0]!,
+          point,
+        ),
+      );
+    }
+  }
   if (!drag || !view.presentation) return;
   const point = view.ground(e.clientX, e.clientY, drag.height);
   if (!point) return;
@@ -643,11 +800,22 @@ canvas.onpointermove = (e) => {
     view.render();
     return;
   }
-  const next = new T.Vector3(snapped(drag.x + dx), 0, snapped(drag.z + dz));
+  const axis = $<HTMLSelectElement>('axis').value;
+  const next = new T.Vector3(
+    axis === 'z' ? drag.x : snapped(drag.x + dx),
+    0,
+    axis === 'x' ? drag.z : snapped(drag.z + dz),
+  );
   drag.next = next;
   drag.changed = Math.abs(next.x - drag.x) + Math.abs(next.z - drag.z) > 0.001;
   if (drag.mode === 'hero') view.hero(next);
-  else view.previewPosition(drag.id!, next.x, next.z);
+  else {
+    const items = sceneItems(history.document);
+    for (const id of composition.editable()) {
+      const p = items.find((p) => p.placement.id === id)?.placement;
+      if (p) view.previewPosition(id, p.x + next.x - drag.x, p.z + next.z - drag.z);
+    }
+  }
   view.render();
 };
 function finishDrag(cancel = false) {
@@ -664,14 +832,27 @@ function finishDrag(cancel = false) {
           history.change((d) => {
             d.hero = { x, z };
           });
-        else history.transform(current.id!, { x, z });
+        else history.transformMany(composition.editable(), { x: x - current.x, z: z - current.z });
       }
       await refresh();
     }),
   );
 }
-canvas.onpointerup = () => finishDrag();
-canvas.onpointercancel = () => finishDrag(true);
+canvas.onpointerup = (e) => {
+  if (marquee) {
+    composition.rectangle(marquee, { x: e.clientX, y: e.clientY }, marquee.additive);
+    marquee = undefined;
+    $('marquee').hidden = true;
+    if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
+    return;
+  }
+  finishDrag();
+};
+canvas.onpointercancel = () => {
+  marquee = undefined;
+  $('marquee').hidden = true;
+  finishDrag(true);
+};
 canvas.onlostpointercapture = () => {
   if (drag) finishDrag(true);
 };
@@ -693,7 +874,32 @@ document.addEventListener('keydown', (e) => {
   if (text || $<HTMLDialogElement>('save-dialog').open) return;
   if (e.key === 'Escape') {
     finishDrag(true);
-    select(undefined);
+    composition.set(undefined);
+    return;
+  }
+  if (e.key.toLowerCase() === 'f') {
+    composition.focus();
+    return;
+  }
+  if (['x', 'z'].includes(e.key.toLowerCase()) && !e.ctrlKey && !e.metaKey) {
+    $<HTMLSelectElement>('axis').value = e.key.toLowerCase();
+    return;
+  }
+  if (
+    ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key) &&
+    composition.editable().length
+  ) {
+    e.preventDefault();
+    const spacing = Number($<HTMLInputElement>('snap-spacing').value);
+    const step = (Number.isFinite(spacing) && spacing > 0 ? spacing : 0.5) * (e.shiftKey ? 10 : 1);
+    void composition
+      .edit(() =>
+        history.transformMany(composition.editable(), {
+          x: e.key === 'ArrowLeft' ? -step : e.key === 'ArrowRight' ? step : 0,
+          z: e.key === 'ArrowUp' ? -step : e.key === 'ArrowDown' ? step : 0,
+        }),
+      )
+      .catch(console.error);
     return;
   }
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
@@ -742,6 +948,7 @@ $('restore').onclick = () =>
     revision = recovery.revision;
     savedSnapshot = recovery.savedSnapshot;
     selected = undefined;
+    composition?.selection.clear();
     view.setGrid($<HTMLInputElement>('grid').checked);
     view.render();
     fit();
@@ -773,6 +980,19 @@ function animate(time: number) {
   const ms = last ? Math.min(50, time - last) : 0;
   last = time;
   view.render(ms);
+  if (previewEntry && previewPlaying && $<HTMLDialogElement>('art-preview').open) {
+    previewTime += ms;
+    const clip = Object.values(previewEntry.manifest.asset.clips[previewEntry.clip]!)[0]!;
+    const total = clip.durationsMs.reduce((a, b) => a + b, 0);
+    let position = clip.loop ? previewTime % total : Math.min(previewTime, total - 1);
+    let index = 0;
+    while (index < clip.frames.length - 1 && position >= clip.durationsMs[index]!) {
+      position -= clip.durationsMs[index]!;
+      index++;
+    }
+    const frame = previewEntry.manifest.frames.find((f) => f.id === clip.frames[index]);
+    if (frame) launch(drawFrame(previewEntry, frame, $<HTMLCanvasElement>('art-preview-canvas')));
+  }
 }
 window.addEventListener('pagehide', () => {
   cancelAnimationFrame(frame);
@@ -806,6 +1026,17 @@ async function start() {
   assetCatalog = await authoringCatalog();
   runtime = await AssetRuntime.open(assetCatalog);
   view = new EditorView(canvas, runtime);
+  composition = new CompositionTools({
+    history: () => history,
+    view: () => view,
+    run,
+    refresh,
+    select,
+    thumbnail: async (asset, clip, target) => {
+      const entry = palette.find((p) => p.asset === asset && p.clip === clip);
+      if (entry) await thumbnail(entry, target);
+    },
+  });
   const manifests = await Promise.all(Object.keys(assetCatalog).map((id) => runtime.manifest(id)));
   for (const m of manifests) {
     const kind = paletteKind(m) ?? (m.asset.placement === 'reference' ? 'reference' : undefined);

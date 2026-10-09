@@ -26,7 +26,8 @@ test('editor placement, experimental scale, history, recovery, save and external
     await expect(page.locator('#recovery')).toBeVisible();
     await page.locator('#restore').click();
     await page.locator('#search').fill('ink-scenery');
-    await page.getByTitle('ink-scenery/gravestone', { exact: true }).click();
+    await page.getByTitle('ink-scenery/arch', { exact: true }).click();
+    await page.locator('#place-clip').selectOption('gravestone');
     await page.locator('#viewport').click({ position: { x: 350, y: 280 } });
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
@@ -70,4 +71,42 @@ test('editor placement, experimental scale, history, recovery, save and external
   } finally {
     await fs.rm(file, { force: true });
   }
+});
+
+test('editor multi-selection, inspector, palette grouping and editor-only visibility', async ({
+  page,
+}) => {
+  await page.goto('/editor.html?automated');
+  await page.waitForFunction(() => window.sceneEditor?.ready());
+  await page.locator('#search').fill('ink-scenery');
+  await page.getByTitle('ink-scenery/arch', { exact: true }).click();
+  await expect(page.locator('#assets .asset')).toHaveCount(1);
+  await page.locator('#place-clip').selectOption('gravestone');
+  await page.locator('#viewport').click({ position: { x: 300, y: 250 } });
+  await expect(page.locator('#object-panel')).toBeVisible();
+  await page.locator('#duplicate').click();
+  await expect(page.locator('.object-row')).toHaveCount(2);
+  await page
+    .locator('.object-select')
+    .first()
+    .click({ modifiers: ['Shift'] });
+  await expect(page.locator('#selected-name')).toContainText('2 objects selected');
+  const before = await page.evaluate(() =>
+    window.sceneEditor.state().document.objects.map((p) => p.x),
+  );
+  await page.locator('#viewport').focus();
+  await page.keyboard.press('ArrowRight');
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.map((p) => p.x)))
+    .toEqual(before.map((v) => v! + 0.5));
+  await page.locator('#undo').click();
+  expect(
+    await page.evaluate(() => window.sceneEditor.state().document.objects.map((p) => p.x)),
+  ).toEqual(before);
+  await page.locator('.object-row').first().getByRole('button', { name: /Hide/ }).click();
+  expect((await page.evaluate(() => window.sceneEditor.state().document)).objects).toHaveLength(2);
+  await page.locator('#scene-tab').click();
+  await expect(page.locator('#scene-panel')).toBeVisible();
+  await page.locator('#grid').check();
+  await expect(page.locator('#snap')).not.toBeChecked();
 });
