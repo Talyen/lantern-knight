@@ -1,0 +1,99 @@
+{
+  "$schema": "./node_modules/knip/schema.json",
+  "entry": [
+    "electron/main.ts",
+    "electron/preload.ts",
+    "src/editor.ts",
+    "src/effects-playground.ts",
+    "src/main.ts",
+    "src/sandbox.ts",
+    "tests/*.test.ts",
+    "tools/benchmark.ts",
+    "tools/build-electron.ts",
+    "tools/build-identity.ts",
+    "tools/check-architecture.ts",
+    "tools/check-asset-pin.ts",
+    "tools/check-assets.ts",
+    "tools/check-docs.ts",
+    "tools/check-repository.ts",
+    "tools/check-source-assets.ts",
+    "tools/format.ts",
+    "tools/game-benchmark.ts",
+    "tools/library-review.ts",
+    "tools/lint.ts",
+    "tools/package-bundled.cjs",
+    "tools/prepare-churchyard-kit.ts",
+    "tools/prepare-effects-playground.ts",
+    "tools/prepare-graveyard-art.ts",
+    "tools/prepare-graveyard-coverage.ts",
+    "tools/prepare-graveyard-ground.ts",
+    "tools/prepare-ground-proof.ts",
+    "tools/prepare-hero.ts",
+    "tools/prepare-ink.ts",
+    "tools/prepare-library.ts",
+    "tools/prepare-lighting.ts",
+    "tools/prepare-masonry.ts",
+    "tools/prepare-surface-relief.ts",
+    "tools/prepare-tended-art.ts",
+    "tools/prepare-visual-effects.ts",
+    "tools/review-diff.ts",
+    "tools/scene/scene-browser.cjs",
+    "tools/scene/scene-editor-check.ts",
+    "tools/scene/scene-editor-store.ts",
+    "tools/scene/scene-editor.ts",
+    "tools/scene/scene-workflow.ts",
+    "tools/select-runtime-assets.ts",
+    "tools/session-replay.ts",
+    "tools/smoke/animation-smoke.ts",
+    "tools/smoke/churchyard-smoke.ts",
+    "tools/smoke/crypt-smoke.ts",
+    "tools/smoke/desktop-smoke.ts",
+    "tools/smoke/e2e.ts",
+    "tools/smoke/effects-playground-smoke.ts",
+    "tools/smoke/game-smoke.ts",
+    "tools/smoke/graveyard-smoke.ts",
+    "tools/smoke/hero-smoke.ts",
+    "tools/smoke/lighting-smoke.ts",
+    "tools/smoke/visual-options-smoke.ts",
+    "tools/smoke/visual-scenes-smoke.ts",
+    "tools/task-runner.ts",
+    "vite.config.ts",
+    "tools/prepare-loading-media.ts",
+    "tools/prepare-flat-stage.ts"
+  ],
+  "project": [
+    "src/**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}",
+    "electron/**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}",
+    "tools/**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}",
+    "tests/**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}",
+    "*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}"
+  ],
+  "include": [
+    "files",
+    "dependencies",
+    "unlisted",
+    "unresolved",
+    "exports",
+    "nsExports",
+    "types",
+    "nsTypes",
+    "duplicates"
+  ],
+  "includeEntryExports": true,
+  "ignoreDependencies": [
+    "prettier",
+    "electron-builder"
+  ],
+  "ignoreIssues": {
+    "vite.config.ts": [
+      "exports"
+    ],
+    "tools/package-bundled.cjs": [
+      "exports"
+    ]
+  },
+  "ignoreExportsUsedInFile": false,
+  "tags": [
+    "-knip-external"
+  ]
+}

@@ -1,16 +1,18 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { assetCatalog } from '../../src/content/asset-catalog';
+
 import { playgroundCatalog } from '../../src/content/effects-playground-assets';
 import { parseManifest } from '../../src/assets/schema';
 import { parseRegistration } from '../../src/assets/registration';
 import { readAuthoringCatalog } from './authoring-catalog';
 import { safeRelative } from './paths';
+import { loadingVideoPath } from '../../src/content/loading-media';
 
 export async function stagePayload(sourcePublic: string, staging: string, destination: string) {
   const files = new Set([
     'build-mode.json',
+    loadingVideoPath,
     'generated/calibration.json',
     'lighting/manifest.json',
     'visual-effects/surfaces.json',
@@ -71,6 +73,7 @@ export async function stagePayload(sourcePublic: string, staging: string, destin
   );
   for (const name of [
     'ink/derivatives.json',
+    'ink/flat-stage-receipt.json',
     'ink/hero-receipt.json',
     'ink/graveyard-art-receipt.json',
     'ink/tended-art-receipt.json',

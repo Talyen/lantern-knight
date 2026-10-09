@@ -87,6 +87,8 @@ export async function runProcess(
   const timer = Number.isFinite(timeoutMs)
     ? setTimeout(() => stop('deadline exceeded', 'SIGTERM'), timeoutMs)
     : undefined;
+  let failed = false,
+    failure: unknown;
   try {
     await new Promise<void>((resolve, reject) => {
       child.once('error', reject);
@@ -96,31 +98,41 @@ export async function runProcess(
           : reject(new Error(`${command} ${stopped ?? `exited ${code ?? signal}`}`)),
       );
     });
-  } finally {
-    clearTimeout(timer);
-    clearTimeout(force);
-    try {
-      if (grouped || stopped) kill('SIGKILL');
-      await Promise.all(cleanup);
-      if (process.platform !== 'win32' && child.pid) {
-        const targets = grouped ? [-child.pid] : stopped ? descendants : [];
-        for (const pid of targets) {
-          const deadline = Date.now() + 5000;
-          for (;;) {
-            try {
-              process.kill(pid, 0);
-            } catch (error) {
-              if ((error as NodeJS.ErrnoException).code === 'ESRCH') break;
-              throw error;
-            }
-            if (Date.now() >= deadline) throw new Error('Owned child cleanup did not finish');
-            await delay(10);
+  } catch (error) {
+    failed = true;
+    failure = error;
+  }
+  clearTimeout(timer);
+  clearTimeout(force);
+  try {
+    if (grouped || stopped) kill('SIGKILL');
+    await Promise.all(cleanup);
+    if (process.platform !== 'win32' && child.pid) {
+      const targets = grouped ? [-child.pid] : stopped ? descendants : [];
+      for (const pid of targets) {
+        const deadline = Date.now() + 5000;
+        for (;;) {
+          try {
+            process.kill(pid, 0);
+          } catch (error) {
+            if ((error as NodeJS.ErrnoException).code === 'ESRCH') break;
+            throw error;
           }
+          if (Date.now() >= deadline) throw new Error('Owned child cleanup did not finish');
+          await delay(10);
         }
       }
-    } finally {
-      process.off('SIGINT', interrupt);
-      process.off('SIGTERM', terminate);
     }
+  } catch (error) {
+    if (failed)
+      throw new AggregateError(
+        [failure, error],
+        'Process failed and owned child cleanup also failed',
+      );
+    throw error;
+  } finally {
+    process.off('SIGINT', interrupt);
+    process.off('SIGTERM', terminate);
   }
+  if (failed) throw failure;
 }

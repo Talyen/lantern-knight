@@ -219,7 +219,7 @@ export class IllustratedLighting {
     const held = this.attached.get(material);
     if (held) return held;
     const uniforms = this.uniformsFor(ground, emissive);
-    const previous = material.onBeforeCompile,
+    const previous = material.onBeforeCompile.bind(material),
       key = material.customProgramCacheKey();
     material.onBeforeCompile = (program, renderer) => {
       previous.call(material, program, renderer);

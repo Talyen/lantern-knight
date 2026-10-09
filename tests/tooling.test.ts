@@ -14,24 +14,54 @@ import { runChecks } from '../tools/check';
 test('handoff cannot certify changed inputs and reports unrun gates after failure', async () => {
   const f = await fixture();
   try {
+    await f.write('tests/input.test.ts', 'export {};');
     const executed: string[] = [];
-    const success = await runChecks(f.root, async (name) => {
-      executed.push(name);
-    });
+    const success = await runChecks(
+      f.root,
+      async (name) => {
+        executed.push(name);
+      },
+      false,
+      true,
+    );
     assert.equal(success.passed, true);
-    assert.equal(executed.length, 8);
+    assert.deepEqual(executed.slice(0, 3), ['typecheck', 'lint', 'unused code']);
+    assert.equal(executed.length, 10);
     assert.ok(success.steps.every((step) => step.status === 'passed'));
-    const failed = await runChecks(f.root, async (name) => {
-      if (name === 'tests') throw new Error('consequential regression');
-    });
+    for (const gate of ['lint', 'unused code']) {
+      const rejected = await runChecks(
+        f.root,
+        async (name) => {
+          if (name === gate) throw new Error('static regression');
+        },
+        false,
+        true,
+      );
+      assert.equal(rejected.passed, false);
+      assert.equal(rejected.steps.find((step) => step.name === gate)?.status, 'failed');
+      assert.equal(rejected.steps.find((step) => step.name === 'tests')?.status, 'skipped');
+    }
+    const failed = await runChecks(
+      f.root,
+      async (name) => {
+        if (name === 'tests') throw new Error('consequential regression');
+      },
+      false,
+      true,
+    );
     assert.equal(failed.passed, false);
     assert.deepEqual(
       failed.steps.filter((s) => s.status === 'skipped').map((s) => s.name),
       ['assets', 'whitespace'],
     );
-    const changed = await runChecks(f.root, async (name) => {
-      if (name === 'tests') await f.write('tests/new.test.ts', 'export const changed=1;');
-    });
+    const changed = await runChecks(
+      f.root,
+      async (name) => {
+        if (name === 'tests') await f.write('tests/new.test.ts', 'export const changed=1;');
+      },
+      false,
+      true,
+    );
     assert.equal(changed.passed, false);
     assert.equal(changed.steps.at(-1)!.name, 'source stability');
     const before = await verificationIdentity(f.root);
@@ -191,6 +221,16 @@ test('review retains staged reversals, renames, deletions and untracked paths ou
     const full = await reviewDiff(f.root, [], { cache });
     assert.ok((await fs.readFile(full.report, 'utf8')).includes('+new work'));
     assert.ok((await fs.readFile(full.report, 'utf8')).includes('rename to new name.txt'));
+    const status = await reviewDiff(f.root, [], { cache, statusOnly: true });
+    assert.equal(status.entries.length, 4);
+    assert.match(status.text, /Subsystems:/);
+    assert.match(status.text, /4 inventory entries omitted/);
+    const allStatus = await reviewDiff(f.root, [], { cache, statusOnly: true, all: true });
+    for (const name of ['new file.txt', 'deleted.txt', 'old name.txt', 'new name.txt'])
+      assert.ok(allStatus.text.includes(name));
+    const scopedStatus = await reviewDiff(f.root, ['reverse.txt'], { cache, statusOnly: true });
+    assert.match(scopedStatus.text, /Task-relevant: 1/);
+    assert.match(scopedStatus.text, /reverse.txt/);
     await assert.rejects(reviewDiff(f.root, ['../'], { cache }), /inside the checkout/);
     await assert.rejects(reviewDiff(f.root, ['unknown'], { cache }), /no changes/);
   } finally {
@@ -213,7 +253,7 @@ test('packaged Electron bundles may rely on built-ins but reject missing runtime
   verifyElectronImports(metadata(['electron', 'node:fs', 'path']));
   assert.throws(() => verifyElectronImports(metadata(['sharp'])), /unbundled runtime dependency/);
   assert.throws(
-    () => verifyElectronImports(metadata(['.\/native.node'])),
+    () => verifyElectronImports(metadata(['./native.node'])),
     /unbundled runtime dependency/,
   );
 });

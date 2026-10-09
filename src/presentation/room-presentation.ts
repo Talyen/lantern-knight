@@ -145,7 +145,7 @@ export class RoomPresentation {
     }
     let outsideMap: T.Texture | undefined;
     if (surround && art?.interior) {
-      const pack = this.packs.get('ink-moss')!,
+      const pack = this.packs.get('ink-stage-earth')!,
         map = pack.textures.get(pack.manifest.frames[0]!.page)!.clone();
       map.wrapS = map.wrapT = T.RepeatWrapping;
       map.needsUpdate = true;
@@ -158,7 +158,7 @@ export class RoomPresentation {
         ),
         new T.MeshBasicMaterial({
           map,
-          color: 0x3c574c,
+          color: 0xffffff,
           depthWrite: false,
           toneMapped: false,
         }),
@@ -171,7 +171,7 @@ export class RoomPresentation {
       const rimMaterial = art?.interior
         ? new T.MeshBasicMaterial({
             map: outsideMap,
-            color: 0x3c574c,
+            color: 0xffffff,
             depthWrite: false,
             toneMapped: false,
           })

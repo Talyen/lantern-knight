@@ -13,15 +13,10 @@ import { OcclusionFades } from '../src/presentation/occlusion-fades';
 import { findDepthConflicts, validateConstruction } from '../src/presentation/art-validation';
 import { heightAt } from '../src/content/world';
 import { content } from '../src/content/game-content';
-import {
-  worldVisuals,
-  compositionPoint,
-  compositionSpan,
-  compositionHeight,
-} from '../src/content/world-art';
+import { worldVisuals, compositionPoint, compositionSpan } from '../src/content/world-art';
 import { assetCatalog } from '../src/content/visuals';
 import { parseManifest, resolveClip } from '../src/assets/schema';
-import { makeCamera, resizeCamera, outward } from '../src/core/camera';
+import { makeCamera } from '../src/core/camera';
 import { Simulation } from '../src/core/simulation';
 
 test('alpha-aware depth gate rejects the original door/arch conflict but ignores transparent margins and separated planes', async () => {
@@ -54,28 +49,9 @@ test('alpha-aware depth gate rejects the original door/arch conflict but ignores
   );
   room.build();
   try {
-    for (const wall of art.walls) {
-      if (wall.surface !== 'masonry') continue;
-      const face = room.architecture!.parts.find(
-        (mesh) => mesh.userData.artPart.id === wall.id + '-face',
-      )!;
-      assert.ok(face);
-      assert.ok(
-        Math.abs(
-          (face.geometry as T.PlaneGeometry).parameters.width -
-            Math.hypot(wall.to.x - wall.from.x, wall.to.z - wall.from.z),
-        ) < 1e-6,
-      );
-    }
-    const sim = new Simulation(content, 142, area.id, 1);
-    Object.assign(sim.hero, { x: -5.3, z: -8.1 });
-    sim.move(sim.hero, 0, 0);
-    room.update(sim, 1, false);
-    const walls = room.architecture!.parts.filter((mesh) =>
-      ['crypt-west', 'crypt-rear'].includes(mesh.userData.siteWall),
-    );
-    assert.ok(walls.length);
-    for (const mesh of walls) assert.equal((mesh.material as T.MeshBasicMaterial).opacity, 1);
+    assert.equal(room.architecture!.parts.length, 0);
+    assert.ok(room.sprites.some((s) => s.id === 'sanctuary-shell'));
+    assert.equal(heightAt(area, 0, 0), 0);
   } finally {
     room.dispose();
     for (const pack of packs.values())
@@ -163,36 +139,7 @@ test('assembly fades ease, use interpolated fighters, freeze on pause, and resto
   }
 });
 
-test('arrival framing reveals the sanctuary while remaining continuous at the handoff to normal follow', () => {
-  const entry = { x: 0, z: 7.5 },
-    framed = compositionPoint('upper-landing', entry),
-    area = content.area('upper-landing');
-  for (const aspect of [4 / 3, 16 / 9, 21 / 9]) {
-    const camera = makeCamera(aspect),
-      target = new T.Vector3(
-        framed.x,
-        heightAt(area, framed.x, framed.z) + compositionHeight(area.id, entry),
-        framed.z,
-      );
-    resizeCamera(camera, aspect * 1080, 1080, compositionSpan(area.id, entry, 9));
-    camera.position.copy(target).addScaledVector(outward, 30);
-    camera.lookAt(target);
-    camera.updateMatrixWorld();
-    for (const [x, y, z] of [
-      [0, 0.3, 7.5],
-      [0, 2.1, 7.5],
-      [-0.7, 4.2, -8.795],
-      [0.7, 4.2, -8.795],
-      [0, 1.45, -6.95],
-    ]) {
-      const point = new T.Vector3(x, y, z).project(camera);
-      assert.ok(
-        Math.abs(point.x) < 1 && Math.abs(point.y) < 1,
-        'arrival must frame the hero, altar and full window',
-      );
-    }
-  }
-
+test('chapel camera preserves player distance and a continuous follow handoff', () => {
   assert.equal(compositionSpan('upper-landing', { x: 0, z: 7.5 }, 9), 11);
   assert.equal(compositionSpan('upper-landing', { x: 0, z: 3 }, 9), 9);
   assert.equal(compositionSpan('upper-landing', { x: 0, z: 7.5 }, 13), 13);

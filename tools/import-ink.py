@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 """Import the frozen Ink collection safely; originals and existing different files are never overwritten."""
 
-import argparse, collections, contextlib, hashlib, json, pathlib, stat, struct, zipfile
+import argparse
+import contextlib
+import hashlib
+import json
+import pathlib
+import stat
+import struct
+import zipfile
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "assets"))

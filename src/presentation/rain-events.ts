@@ -1,10 +1,10 @@
 import type { Bounds } from '../content/world';
 import { normalizeWeather, type WeatherState } from '../content/visual-effects';
 export const RAIN_SLOTS = 32,
-  RAIN_PERIOD = 3,
   RAIN_FALL = 0.52,
   RAIN_SPLASH = 1,
   RAIN_RIPPLE = 1.2;
+const RAIN_PERIOD = 3;
 function random(seed: number) {
   let v = seed | 0;
   v = Math.imul(v ^ (v >>> 16), 0x45d9f3b);

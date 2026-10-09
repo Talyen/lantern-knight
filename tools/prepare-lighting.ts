@@ -1,9 +1,9 @@
 import { readAsset, assetWriter } from './assets/io';
-import fs from 'node:fs/promises';
+
 import path from 'node:path';
 import sharp from 'sharp';
 import { createHash } from 'node:crypto';
-import { assetCatalog } from '../src/content/asset-catalog';
+
 import type { Manifest } from '../src/assets/schema';
 import { normalPixels } from '../src/assets/normal-pixels';
 import { readAuthoringCatalog } from './assets/authoring-catalog';
@@ -12,9 +12,8 @@ const root = 'public/lighting',
   check = process.argv.includes('--check'),
   recipe = 'alpha-volume-v1',
   sha = (b: Buffer | string) => createHash('sha256').update(b).digest('hex');
-const tended = JSON.parse(await readAsset('authoring/graveyard-art.json', 'utf8')) as {
-  frames: { id: string }[];
-};
+// Retain authored-input parsing: malformed artwork recipes must still fail preparation.
+JSON.parse(await readAsset('authoring/graveyard-art.json', 'utf8'));
 const entries: Record<string, unknown> = {};
 const write = check ? undefined : await assetWriter();
 async function output(file: string, bytes: Buffer | string) {

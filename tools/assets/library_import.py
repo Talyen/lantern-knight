@@ -5,7 +5,6 @@ registration fails; provisional stills use a documented common reference density
 """
 
 import argparse
-import hashlib
 import json
 import pathlib
 import re
@@ -817,7 +816,6 @@ class Importer:
                     holds = timing.get("hold_ticks_in_order") or [
                         t["hold_ticks"] for t in timing.get("timeline", raw.get("timeline", []))
                     ]
-                    contract = c.get("current_import_contracts", {})
                     # Current import corrections are embedded and explicitly scoped per clip.
                     matches = []
                     for doc in g.get("import_contracts", {}).values():
@@ -881,7 +879,7 @@ class Importer:
                     data = runtime.json(member)
                     raw = c["authoritative_clip_metadata"]
                     common = {**data, "clips": {state: raw}}
-                    temp = self.animation(
+                    self.animation(
                         runtime,
                         member,
                         common,
@@ -1059,7 +1057,6 @@ def build(root, specs, index):
         for p in packages:
             if p.spec["category"] == 0 and "Overnight" in p.spec["archive"]:
                 importer.enemy_overnight(p)
-        enemy_selected = {d.get("archive") for d in importer.dispositions}
         for p in packages:
             if p.spec["category"] == 0:
                 continue

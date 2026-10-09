@@ -1,4 +1,4 @@
-import type { ArtPlacement, FixtureDefinition, WorldVisualDefinition } from './world-art';
+import type { FixtureDefinition, WorldVisualDefinition } from './world-art';
 export const SCENE_LIGHT_CAPACITY = 3;
 const lamp = (
   socket: [number, number, number],
@@ -22,7 +22,7 @@ const lamp = (
     decorative: true,
   },
 });
-export const sceneryPresets: Readonly<Record<string, Omit<FixtureDefinition, 'id'>>> = {
+const sceneryPresets: Readonly<Record<string, Omit<FixtureDefinition, 'id'>>> = {
   'ink-graveyard-scenery:crook-lamp': lamp([0.3, 2.0875, -0.3], 0.45, 2.4, 0.2),
   'ink-graveyard-scenery:lantern-hardware': lamp([-0.03, 0.22, 0.03], 0.8, 3, 0.7),
   'ink-graveyard-scenery:cresset-hardware': lamp([-0.11, 0.32, 0.11], 1.65, 4.1, 0.45),

@@ -1,4 +1,4 @@
-import { preparationSteps } from './recipe';
+import { preparationSteps, preparationStepKey } from './recipe';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { runProcess } from '../run-process';
@@ -7,6 +7,7 @@ import { projectRoot } from './paths';
 import { cameraCalibration as calibrationFixture } from '../../src/assets/camera-calibration';
 import { stagePayload } from './payload';
 import { makeArchive, recipeHash, recipeInputs } from './pack';
+import { cachedPreparationStep } from './incremental';
 const BUDGET = 2.5 * 1024 ** 3;
 export async function prepareAssets(cache = new AssetCache(), proof = false) {
   const held = await cache.lease('preparation', BUDGET, true),
@@ -34,7 +35,12 @@ export async function prepareAssets(cache = new AssetCache(), proof = false) {
       JSON.stringify(calibrationFixture()),
     );
     const startRecipe = await recipeHash();
-    async function step(file: string, args: string[] = [], python = false) {
+    async function step(
+      file: string,
+      args: string[] = [],
+      python = false,
+      extra: NodeJS.ProcessEnv = {},
+    ) {
       let log = '';
       const started = performance.now();
       try {
@@ -43,7 +49,7 @@ export async function prepareAssets(cache = new AssetCache(), proof = false) {
           [...(python ? ['-B'] : ['--import', 'tsx']), path.join(projectRoot, file), ...args],
           {
             cwd: projectRoot,
-            env,
+            env: { ...env, ...extra },
             timeoutMs: 5 * 60 * 1000,
             output: (chunk) => {
               log = (log + chunk.toString()).slice(-1024 * 1024);
@@ -62,8 +68,24 @@ export async function prepareAssets(cache = new AssetCache(), proof = false) {
       if ((await diskBytes(held.root)) > BUDGET)
         throw new Error('Asset preparation exceeded its reservation');
     }
-    for (const operation of preparationSteps)
-      await step('tools/' + operation.file, [], operation.file.endsWith('.py'));
+    const inputs = await recipeInputs();
+    const digests = new Map<string, string>();
+    for (const operation of preparationSteps) {
+      const key = preparationStepKey(operation, inputs, digests);
+      const result = await cachedPreparationStep({
+        file: operation.file,
+        workspace,
+        cache: path.join(held.root, 'steps'),
+        key,
+        run: (extra) => step('tools/' + operation.file, [], operation.file.endsWith('.py'), extra),
+        validate: operation.freshness
+          ? () => step('tools/' + operation.file, ['--check'], operation.file.endsWith('.py'))
+          : undefined,
+      });
+      digests.set(operation.file, result.digest);
+      if (result.reused)
+        console.log(operation.file + ': reused source-verified immutable outputs.');
+    }
     if (proof) {
       await step('tools/prepare-ground-proof.ts');
       await step('tools/prepare-ground-proof.ts', ['--check']);
@@ -75,9 +97,8 @@ export async function prepareAssets(cache = new AssetCache(), proof = false) {
       path.join(workspace, 'public/registration.json'),
     );
     // Source fidelity belongs here; ordinary CI only validates prepared data.
-    await step('tools/check-source-assets.ts');
-    for (const operation of preparationSteps.filter((s) => s.freshness))
-      await step('tools/' + operation.file, ['--check'], operation.file.endsWith('.py'));
+    // New steps have already run their own fidelity/freshness check once; cached
+    // steps retain matching tool/input/output hashes and verify selected source bytes.
     if ((await recipeHash()) !== startRecipe)
       throw new Error('Asset recipes changed during preparation; retry');
     if (!proof) {

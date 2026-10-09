@@ -16,6 +16,7 @@ export type ApplicationHooks = {
   status: (message: string, error?: boolean) => void;
   pause: (paused: boolean) => void;
   frame: () => void;
+  loading?: (active: boolean) => void;
 };
 // Both launch experiences own exactly this session/loading/input/persistence lifecycle.
 export class Application<P extends GamePresentation = GamePresentation> {
@@ -34,6 +35,7 @@ export class Application<P extends GamePresentation = GamePresentation> {
   private last = 0;
   private frames: FrameScheduler | undefined;
   private disposed = false;
+  private loading = new Set<symbol>();
   private pauseSequence = 0;
   private aim = { x: 0, z: 1 };
   private assetLoads = new Map<string, Promise<void>>();
@@ -89,7 +91,35 @@ export class Application<P extends GamePresentation = GamePresentation> {
     this.clock.reset();
     this.last = performance.now();
   };
-  async boot() {
+  async withLoading<T>(work: () => Promise<T>): Promise<T> {
+    this.assertActive();
+    const token = Symbol();
+    this.loading.add(token);
+    if (this.loading.size === 1) {
+      this.clock.reset();
+      this.input?.clear();
+      this.hooks.loading?.(true);
+    }
+    try {
+      return await work();
+    } finally {
+      this.loading.delete(token);
+      if (!this.disposed && this.loading.size === 0) {
+        try {
+          // Submit the destination before revealing it, even in a paused/background window.
+          if (this.ready) this.presentation.update(this.sim, 1, 0, this.aim);
+        } finally {
+          this.resetFrameClock();
+          this.input?.clear();
+          this.hooks.loading?.(false);
+        }
+      }
+    }
+  }
+  boot() {
+    return this.withLoading(() => this.bootApplication());
+  }
+  private async bootApplication() {
     this.assertActive();
     this.runtime = await AssetRuntime.open(this.catalog);
     this.assertActive();
@@ -144,7 +174,11 @@ export class Application<P extends GamePresentation = GamePresentation> {
     if (!this.bridge.automatedRun && (document.hidden || !document.hasFocus())) this.pause(true);
     this.frames = new FrameScheduler(this.loop, this.resetFrameClock, this.bridge.automatedRun);
   }
-  async loadAsset(id: string) {
+  loadAsset(id: string) {
+    if (!this.disposed && this.persistentLeases.has(id)) return Promise.resolve();
+    return this.withLoading(() => this.acquireAsset(id));
+  }
+  private async acquireAsset(id: string) {
     this.assertActive();
     if (this.persistentLeases.has(id)) return;
     const pending = this.assetLoads.get(id);
@@ -202,7 +236,10 @@ export class Application<P extends GamePresentation = GamePresentation> {
     this.events.setGeneration(this.session.generation);
     this.events.publish(events);
   }
-  async replaceArea(area: string, commit: () => readonly GameplayEvent[]) {
+  replaceArea(area: string, commit: () => readonly GameplayEvent[]) {
+    return this.withLoading(() => this.replaceRoom(area, commit));
+  }
+  private async replaceRoom(area: string, commit: () => readonly GameplayEvent[]) {
     this.assertActive();
     const request = ++this.request;
     this.abort.abort();
@@ -261,7 +298,10 @@ export class Application<P extends GamePresentation = GamePresentation> {
       throw error;
     }
   }
-  async reset() {
+  reset() {
+    return this.withLoading(() => this.resetEncounter());
+  }
+  private async resetEncounter() {
     const resume = this.resumeOnCompletion();
     await this.replaceArea(this.sim.area, () => this.session.resetCurrentArea());
     resume();
@@ -279,12 +319,18 @@ export class Application<P extends GamePresentation = GamePresentation> {
     await this.replaceArea(valid.area, () => this.session.restoreSave(valid));
     this.persistence.loaded();
   }
-  async restore(save: GameSave) {
+  restore(save: GameSave) {
+    return this.withLoading(() => this.restoreCheckpoint(save));
+  }
+  private async restoreCheckpoint(save: GameSave) {
     const resume = this.resumeOnCompletion();
     await this.restoreState(save);
     resume();
   }
-  async load() {
+  load() {
+    return this.withLoading(() => this.loadCheckpoint());
+  }
+  private async loadCheckpoint() {
     const resume = this.resumeOnCompletion(),
       result = await this.persistence.load();
     if (result.status === 'unreadable') throw new Error(result.message);
@@ -293,7 +339,10 @@ export class Application<P extends GamePresentation = GamePresentation> {
     resume();
     return true;
   }
-  async newGame() {
+  newGame() {
+    return this.withLoading(() => this.startNewGame());
+  }
+  private async startNewGame() {
     const resume = this.resumeOnCompletion();
     await this.replaceArea(this.registry.definitions.initialArea, () => {
       this.session = new GameSession(
@@ -336,7 +385,7 @@ export class Application<P extends GamePresentation = GamePresentation> {
     const idle =
         this.frames?.idle ??
         (!this.bridge.automatedRun && (document.hidden || !document.hasFocus())),
-      frozen = this.paused || this.busy || idle;
+      frozen = this.paused || this.busy || this.loading.size > 0 || idle;
     if (!frozen && this.simulationEnabled)
       alpha = this.clock.advance(ms, () => {
         const sim = this.sim;
@@ -365,6 +414,8 @@ export class Application<P extends GamePresentation = GamePresentation> {
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
+    this.loading.clear();
+    this.hooks.loading?.(false);
     this.ready = false;
     this.abort.abort();
     this.frames?.dispose();

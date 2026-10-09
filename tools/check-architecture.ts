@@ -8,7 +8,7 @@ import { builtinModules } from 'node:module';
 
 // These rules protect existing owners, including type imports and re-exports.
 // Three.js math and the current core/content/asset relationships remain legal.
-export function importFinding(file: string, target: string) {
+function importFinding(file: string, target: string) {
   if (!file.startsWith('src/')) return;
   if (
     (file.startsWith('src/core/') || file === 'src/content/world.ts') &&
@@ -33,7 +33,7 @@ export function importFinding(file: string, target: string) {
   )
     return 'core, content and assets must not depend on application, presentation or developer entry points';
 }
-export async function checkArchitecture(root: string, files: string[]) {
+async function checkArchitecture(root: string, files: string[]) {
   const api = new API({ cwd: root }),
     findings: string[] = [];
   try {
@@ -51,6 +51,40 @@ export async function checkArchitecture(root: string, files: string[]) {
       const source = project.program.getSourceFile(path.join(root, file));
       if (!source) throw new Error(`Runtime file is outside tsconfig: ${file}`);
       const inspect = (node: ts.Node) => {
+        if (ts.isNewExpression(node)) {
+          const symbol = ts.isPropertyAccessExpression(node.expression)
+            ? node.expression.name.text
+            : ts.isIdentifier(node.expression)
+              ? node.expression.text
+              : '';
+          const diagnosticOwners = new Set([
+            'src/presentation/scene.ts',
+            'src/presentation/room-presentation.ts',
+            'src/presentation/shadow-proxies.ts',
+            'src/presentation/art-construction-overlay.ts',
+            'src/presentation/effects-playground.ts',
+          ]);
+          if (
+            /^(Box|Cylinder|Extrude|Shape|Sphere|Cone|Torus|Icosahedron)Geometry$/.test(symbol) &&
+            !diagnosticOwners.has(file)
+          )
+            findings.push(
+              `${file}: production scenery must use intact illustrations, not constructed solid geometry`,
+            );
+        }
+        if (
+          [
+            'src/presentation/graveyard-ground.ts',
+            'src/presentation/churchyard-architecture.ts',
+            'src/presentation/crypt-architecture.ts',
+          ].includes(file) &&
+          ts.isBinaryExpression(node) &&
+          ts.isPropertyAccessExpression(node.left) &&
+          node.left.name.text === 'onBeforeCompile'
+        )
+          findings.push(
+            `${file}: authored scene surfaces cannot install procedural painting shaders`,
+          );
         let specifier: ts.Node | undefined;
         if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node))
           specifier = node.moduleSpecifier;

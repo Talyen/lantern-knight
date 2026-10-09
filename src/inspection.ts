@@ -5,14 +5,14 @@ import type { GameSession } from './core/session';
 import type { Persistence } from './core/persistence';
 import type { PresentationEvent } from './core/events';
 import type { GameSave } from './core/save';
-export type Stats = ReturnType<Presentation['stats']>;
-export type BenchmarkResult = {
+type Stats = ReturnType<Presentation['stats']>;
+type BenchmarkResult = {
   frames: number[];
   stats: Stats;
   droppedMs: number;
   simulatedTicks: number;
 };
-export interface FoundationInspection {
+interface FoundationInspection {
   readonly session: GameSession;
   readonly persistence: Persistence;
   readonly eventHistory: readonly PresentationEvent[];

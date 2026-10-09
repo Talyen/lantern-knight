@@ -86,7 +86,7 @@ function markdownLinks(text: string) {
   return links;
 }
 
-export async function checkDocumentation(root: string, files: string[]) {
+async function checkDocumentation(root: string, files: string[]) {
   const { scripts } = JSON.parse(await fs.readFile(path.join(root, 'package.json'), 'utf8')) as {
     scripts: Record<string, string>;
   };
@@ -186,6 +186,29 @@ export async function checkDocumentation(root: string, files: string[]) {
   return findings;
 }
 
+export async function checkContextRoutes(root: string) {
+  const { contextRoutes, entryLocation } = await import('./verification-plan');
+  const findings: string[] = [];
+  for (const route of contextRoutes) {
+    for (const reference of [
+      ...route.entries,
+      ...route.suites.map((name) => 'tests/' + name + '.test.ts'),
+    ]) {
+      const file = reference.split('#')[0]!;
+      const source = await fs.readFile(path.join(root, file), 'utf8').catch(() => undefined);
+      if (source === undefined || !entryLocation(reference, source))
+        findings.push(route.name + ': missing ' + reference);
+    }
+    for (const reference of route.docs) {
+      const [file, anchor] = reference.split('#');
+      const text = await fs.readFile(path.join(root, file!), 'utf8').catch(() => undefined);
+      if (text === undefined || (anchor && !headingAnchors(text).has(anchor)))
+        findings.push(route.name + ': missing ' + reference);
+    }
+  }
+  return findings;
+}
+
 async function main() {
   const root = fileURLToPath(new URL('../', import.meta.url));
   const files = [
@@ -209,7 +232,10 @@ async function main() {
         .filter((file) => file.endsWith('.md')),
     ),
   ];
-  const findings = await checkDocumentation(root, files);
+  const findings = [
+    ...(await checkDocumentation(root, files)),
+    ...(await checkContextRoutes(root)),
+  ];
   if (findings.length)
     throw new Error(
       `${findings.length} documentation issues:\n${findings.slice(0, 10).join('\n')}`,

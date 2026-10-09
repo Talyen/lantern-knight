@@ -189,6 +189,7 @@ test('gallery requests share one lease; disposal and failed warming release acqu
 test('startup disposed while opening its catalog cannot acquire assets or become ready', async () => {
   const f = fixture(),
     opening = deferred<AssetRuntime>(),
+    // oxlint-disable-next-line typescript/unbound-method -- Saved for restoration, never invoked unbound.
     open = AssetRuntime.open;
   AssetRuntime.open = () => opening.promise;
   await withDOM(async () => {
@@ -250,5 +251,85 @@ test('simulation enablement isolates lab policy, keeps rendering, and clears cat
     assert.equal(steps, 1);
     assert.equal(lastRenderMs, 0);
     app.dispose();
+  });
+});
+
+test('overlapping loading scopes reveal a rendered destination only after every request settles', async () => {
+  await withDOM(async () => {
+    const { app } = fixture(),
+      first = deferred<void>(),
+      second = deferred<void>();
+    const states: (boolean | string)[] = [];
+    app.hooks.loading = (active) => states.push(active);
+    app.ready = true;
+    app.presentation.update = () => {
+      states.push('render');
+    };
+    const a = app.withLoading(() => first.promise);
+    const b = app.withLoading(() => second.promise);
+    assert.deepEqual(states, [true]);
+    first.resolve();
+    await a;
+    assert.deepEqual(states, [true], 'An old request must not reveal a newer pending load');
+    second.resolve();
+    await b;
+    assert.deepEqual(states, [true, 'render', false]);
+    await assert.rejects(
+      app.withLoading(async () => {
+        throw new Error('unavailable');
+      }),
+      /unavailable/,
+    );
+    assert.deepEqual(states.slice(-3), [true, 'render', false]);
+    app.presentation.update = () => {
+      throw new Error('destination render unavailable');
+    };
+    await assert.rejects(
+      app.withLoading(async () => {}),
+      /destination render unavailable/,
+    );
+    assert.deepEqual(states.slice(-2), [true, false], 'A failed render must release the overlay');
+    const late = deferred<void>();
+    const pending = app.withLoading(() => late.promise);
+    app.dispose();
+    const afterDispose = [...states];
+    late.resolve();
+    await pending;
+    assert.deepEqual(
+      states,
+      afterDispose,
+      'Late completion must not render or reopen a disposed screen',
+    );
+  });
+});
+
+test('checkpoint reading freezes gameplay and recovers loading state for empty and unreadable saves', async () => {
+  await withDOM(async () => {
+    const { app } = fixture(),
+      waiting = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+    const states: boolean[] = [];
+    app.hooks.loading = (active) => states.push(active);
+    app.persistence = new Persistence({
+      loadGame: () => waiting.promise,
+      saveGame: async () => {},
+    });
+    Object.assign(app.bridge, { automatedRun: true });
+    let steps = 0;
+    app.beforeStep = () => {
+      steps++;
+    };
+    app.presentation.update = () => {};
+    const load = app.load();
+    (app as unknown as { loop: (now: number) => void }).loop(performance.now() + 1000);
+    assert.equal(steps, 0, 'Pending checkpoint reads must block commands before area acquisition');
+    waiting.resolve({ status: 'empty' });
+    assert.equal(await load, false);
+    assert.deepEqual(states, [true, false]);
+    app.persistence = new Persistence({
+      loadGame: async () => ({ status: 'unreadable', message: 'protected' }),
+      saveGame: async () => {},
+    });
+    await assert.rejects(app.load(), /protected/);
+    assert.deepEqual(states, [true, false, true, false]);
   });
 });

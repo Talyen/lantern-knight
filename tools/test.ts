@@ -2,9 +2,7 @@ import { run } from 'node:test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { inspect } from 'node:util';
-import { randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { AssetCache } from './assets/cache';
 import os, { availableParallelism } from 'node:os';
 import { runProcess } from './run-process';
 import { acquireTestLane, verificationIdentity, requireStableInputs } from './verification';
@@ -31,6 +29,8 @@ export async function selectTestFiles(args: string[], root = process.cwd()) {
 export const suiteRequirements: Readonly<Record<string, 'pure' | 'runtime-assets'>> =
   Object.fromEntries(
     [
+      'code-tools',
+      'agent-context',
       'compiler',
       'animation-sampling',
       'churchyard',
@@ -48,6 +48,7 @@ export const suiteRequirements: Readonly<Record<string, 'pure' | 'runtime-assets
       'processes',
       'persistence',
       'scene-editor',
+      'scene-design',
       'library-import',
       'scene-preview',
       'source-recovery',
@@ -56,6 +57,8 @@ export const suiteRequirements: Readonly<Record<string, 'pure' | 'runtime-assets
       'validation-plan',
       'source-identity',
       'worktrees',
+      'verification-plan',
+      'prototype-workflow',
     ].map((name) => [`tests/${name}.test.ts`, 'pure']),
   );
 export function testGroups(files: string[]) {
@@ -64,24 +67,33 @@ export function testGroups(files: string[]) {
     assets: files.filter((f) => suiteRequirements[f] !== 'pure'),
   };
 }
+export class TestExecutionFailure extends Error {
+  constructor(
+    public result: SuiteResult,
+    cause: unknown,
+  ) {
+    super(String(cause));
+  }
+}
 export async function runTests(
   files: string[],
   setup: () => Promise<NodeJS.ProcessEnv>,
   output?: (chunk: Buffer) => void,
   root = process.cwd(),
-) {
-  const scope = `${files.length} suite${files.length === 1 ? '' : 's'}`,
-    lane = await acquireTestLane();
-  const report = (message: string) =>
-    output ? output(Buffer.from(message + '\n')) : console.log(message);
+): Promise<SuiteResult> {
+  const groups = testGroups(files);
+  const lane = groups.assets.length
+    ? await acquireTestLane()
+    : { env: { ...process.env }, release: async () => {} };
+  const aggregate: SuiteResult = { passed: 0, failed: 0, details: '', messages: [], timings: [] };
   try {
-    const groups = testGroups(files),
-      identityOptions = { ignoreAssetPin: groups.assets.length === 0 };
+    const identityOptions = {
+      ignoreAssetPin: groups.assets.length === 0,
+      ...(process.env.LANTERN_VERIFICATION_FILES
+        ? { files: JSON.parse(process.env.LANTERN_VERIFICATION_FILES) as string[] }
+        : {}),
+    };
     const before = await verificationIdentity(root, identityOptions);
-    report(`Running ${scope}: ${files.join(', ')}`);
-    let passed = 0,
-      failed = 0,
-      details = '';
     const deadline = Date.now() + 5 * 60 * 1000;
     for (const [kind, selected] of Object.entries(groups)) {
       if (!selected.length) continue;
@@ -90,7 +102,6 @@ export async function runTests(
         resultFile = path.join(temporary, 'result.json');
       try {
         const childEnv: NodeJS.ProcessEnv = { ...env, LANTERN_TEST_CHILD_RESULT: resultFile };
-        // A nested supervisor is a new runner, not a node:test worker.
         delete childEnv.NODE_TEST_CONTEXT;
         await runProcess(
           process.execPath,
@@ -105,7 +116,9 @@ export async function runTests(
             env: childEnv,
             timeoutMs: Math.max(1, deadline - Date.now()),
             output: (chunk) => {
-              details = (details + chunk.toString()).slice(-1024 * 1024);
+              aggregate.details = (aggregate.details + chunk.toString()).slice(-1024 * 1024);
+              // Callers decide whether raw output belongs in a diagnostic or the terminal.
+              output?.(chunk);
             },
           },
         );
@@ -114,44 +127,34 @@ export async function runTests(
           !Number.isSafeInteger(result.passed) ||
           result.passed < 0 ||
           !Number.isSafeInteger(result.failed) ||
-          result.failed < 0
+          result.failed < 0 ||
+          !Array.isArray(result.timings) ||
+          !Array.isArray(result.messages) ||
+          typeof result.details !== 'string'
         )
           throw new Error('Invalid test worker result');
         if (result.passed + result.failed === 0) throw new Error('Test worker executed no checks');
-        passed += result.passed;
-        failed += result.failed;
-        details = (details + result.details).slice(-1024 * 1024);
-        for (const message of result.messages) report(message);
-        report(
-          'Unit timing: ' +
-            result.timings.map((t) => `${path.basename(t.file)} ${t.ms}ms`).join('; ') +
-            '.',
+        aggregate.passed += result.passed;
+        aggregate.failed += result.failed;
+        aggregate.details = (aggregate.details + result.details).slice(-1024 * 1024);
+        aggregate.messages.push(
+          ...result.messages.slice(0, Math.max(0, 3 - aggregate.messages.length)),
         );
-      } catch (error) {
-        report(details.slice(-4000));
-        throw error;
+        aggregate.timings.push(...result.timings);
       } finally {
         await fs.rm(temporary, { recursive: true, force: true });
       }
     }
     await requireStableInputs(root, before, identityOptions);
-    report(`${scope}; ${passed} checks passed; ${failed} failed.`);
-    if (failed) {
-      const cache = new AssetCache(),
-        held = await cache.lease('diagnostics-' + randomUUID(), 2 * 1024 * 1024);
-      try {
-        await fs.writeFile(path.join(held.root, 'tests.log'), details.slice(-1024 * 1024));
-        report('Failure diagnostics: ' + path.join(held.root, 'tests.log'));
-      } finally {
-        await held.release();
-      }
-      throw new Error('Tests failed');
-    }
+    if (aggregate.failed) throw new Error('Tests failed');
+    return aggregate;
+  } catch (error) {
+    throw new TestExecutionFailure(aggregate, error);
   } finally {
     await lane.release();
   }
 }
-type SuiteResult = {
+export type SuiteResult = {
   passed: number;
   failed: number;
   details: string;
@@ -180,7 +183,10 @@ async function runSuites(files: string[]): Promise<SuiteResult> {
         maxArrayLength: 20,
         maxStringLength: 2000,
       });
-      if (result.failed <= 5) result.messages.push(`${event.data.name}: ${message.slice(0, 3000)}`);
+      if (result.messages.length < 3)
+        result.messages.push(
+          `${event.data.file}:${event.data.line}:${event.data.column} ${event.data.name}: ${message}`,
+        );
       result.details = (result.details + event.data.name + '\n' + message + '\n').slice(
         -1024 * 1024,
       );
@@ -192,8 +198,10 @@ async function runSuites(files: string[]): Promise<SuiteResult> {
 }
 async function main() {
   if (process.env.LANTERN_TEST_CHILD_RESULT) {
-    const files = await selectTestFiles(process.argv.slice(2)),
-      lane = await acquireTestLane();
+    const files = await selectTestFiles(process.argv.slice(2));
+    const lane = testGroups(files).assets.length
+      ? await acquireTestLane()
+      : { release: async () => {} };
     try {
       await fs.writeFile(
         process.env.LANTERN_TEST_CHILD_RESULT,

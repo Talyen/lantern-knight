@@ -15,6 +15,7 @@ const previousMinimumSpan = 11,
 const placements = Object.values(worldVisuals).flatMap((v) => v.props);
 const derivatives = [
   ...JSON.parse(await readAsset('staging/ink/derivatives.json', 'utf8')).frames,
+  ...JSON.parse(await readAsset('staging/ink/flat-stage-receipt.json', 'utf8')).frames,
   ...JSON.parse(await readAsset('staging/ink/graveyard-art-receipt.json', 'utf8')).frames,
   ...JSON.parse(await readAsset('staging/ink/tended-art-receipt.json', 'utf8')).frames,
 ] as {

@@ -224,4 +224,4 @@ if __name__ == "__main__":
     try:
         main()
     except (OSError, ValueError, KeyError) as error:
-        raise SystemExit(str(error))
+        raise SystemExit(str(error)) from error

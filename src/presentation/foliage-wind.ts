@@ -16,7 +16,7 @@ export class FoliageWind {
   }
   attach(material: T.Material) {
     if (material.userData.foliageWind === this) return;
-    const previous = material.onBeforeCompile,
+    const previous = material.onBeforeCompile.bind(material),
       key = material.customProgramCacheKey();
     material.onBeforeCompile = (shader, renderer) => {
       previous.call(material, shader, renderer);

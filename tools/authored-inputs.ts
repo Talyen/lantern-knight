@@ -6,7 +6,7 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 
 // Authored inputs only: never walk installed dependencies, packs or the library.
-export const inputPath = (file: string) =>
+const inputPath = (file: string) =>
   !/^(?:node_modules|staging|public|dist(?:-[^/]*)?|release(?:-[^/]*)?|evidence|tmp|references\/art)\//.test(
     file,
   ) &&
@@ -14,7 +14,11 @@ export const inputPath = (file: string) =>
     /^(?:\.gitignore|\.npmrc|\.node-version|\.nvmrc|\.env(?:\..*)?)$/.test(file));
 export async function authoredIdentity(
   root: string,
-  options: { ignoreAssetPin?: boolean; scope?: 'verification' | 'runtime' } = {},
+  options: {
+    ignoreAssetPin?: boolean;
+    scope?: 'verification' | 'runtime';
+    files?: readonly string[];
+  } = {},
 ) {
   const git = (args: string[]) =>
     execFileSync(
@@ -137,6 +141,8 @@ export async function authoredIdentity(
     runtimeDocuments.has(file) ||
     [
       'package.json',
+      'package-lock.json',
+      'assets/lock.json',
       'tsconfig.json',
       'vite.config.ts',
       'index.html',
@@ -146,6 +152,12 @@ export async function authoredIdentity(
       'tools/session-replay.ts',
       'tools/source-identity.ts',
       'tools/authored-inputs.ts',
+      'tools/build-electron.ts',
+      'tools/build-identity.ts',
+      'tools/select-runtime-assets.ts',
+      'tools/game-asset-catalog.ts',
+      'tools/task-runner.ts',
+      'tools/assets/authoring-catalog.ts',
     ].includes(file) ||
     /^\.env(?:\..*)?$|^\.npmrc$/.test(file);
   const hash = createHash('sha256');
@@ -156,6 +168,7 @@ export async function authoredIdentity(
     .filter(
       (file) =>
         inputPath(file) &&
+        (!options.files || options.files.includes(file)) &&
         (!options.ignoreAssetPin || file !== 'assets/lock.json') &&
         (options.scope !== 'runtime' || runtimeInput(file)),
     )

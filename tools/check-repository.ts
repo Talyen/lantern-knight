@@ -8,14 +8,14 @@ const exceptions: Readonly<Record<string, number>> = {
   'references/hero/hero-reference.png': 1024 * 1024,
   'references/canon/image(3).png': 1024 * 1024,
 };
-export function repositoryFinding(file: string, bytes: number) {
+function repositoryFinding(file: string, bytes: number) {
   if (forbidden.test(file))
     return 'generated, historical or bulk asset data must remain outside Git';
   const limit = exceptions[file] ?? (/\.(json|ya?ml)$/i.test(file) ? 64 * 1024 : 256 * 1024);
   if (bytes > limit)
     return `file exceeds ${limit / 1024} KiB; use an external artifact or a documented authored-input exception`;
 }
-export async function checkRepository() {
+async function checkRepository() {
   const names = execFileSync(
       'git',
       ['ls-files', '--cached', '--others', '--exclude-standard', '-z'],

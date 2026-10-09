@@ -237,7 +237,13 @@ test('shared async resources deduplicate, cancellation cannot resurrect discarde
     { first: 'generated/first.json', second: 'generated/second.json' },
     false,
     async (url) =>
-      new Response(JSON.stringify(String(url).includes('first') ? firstManifest : secondManifest)),
+      new Response(
+        JSON.stringify(
+          (url instanceof Request ? url.url : url.toString()).includes('first')
+            ? firstManifest
+            : secondManifest,
+        ),
+      ),
     async () => {
       decoded++;
       return new Texture();
@@ -267,8 +273,13 @@ test('IPC sender checks and protocol constrain origin, frame, slot, payload, ext
   assert.equal(trustedSender('https://evil.test', true, 1, 1), false);
   assert.equal(trustedSender('lantern://app/index.html', false, 1, 1), false);
   assert.equal(resourcePath('lantern://app/index.html', '/app/dist'), '/app/dist/index.html');
+  assert.equal(
+    resourcePath('lantern://app/media/last-ferry.mp4', '/app/dist'),
+    '/app/dist/media/last-ferry.mp4',
+  );
   for (const url of [
     'lantern://other/index.html',
+    'lantern://app/%2e%2e%2fsecret.mp4',
     'lantern://app/%2e%2e%2fsecret.json',
     'lantern://app/package.exe',
     'lantern://app/%5csecret.json',

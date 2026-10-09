@@ -15,7 +15,6 @@ import { makeCamera } from '../src/core/camera';
 import { Simulation } from '../src/core/simulation';
 import { cardCoverage, coverageAt } from '../src/presentation/scenery-reveal';
 import { pageIdentity } from '../src/assets/loader';
-import { coplanarMeshConflicts } from '../src/presentation/mesh-plane-validation';
 import { coplanarArtConflicts } from '../src/presentation/carrier-validation';
 import { ActorSprite } from '../src/presentation/sprite';
 import type { PackLease } from '../src/assets/loader';
@@ -167,6 +166,18 @@ test('alpha-aware validation distinguishes a real duplicated card from empty car
     f.dispose();
   }
 });
+test('ground panel butt joins have zero overlap area while real shared source coverage fails', async () => {
+  const f = await fixture();
+  try {
+    const panels = f.room.sprites.filter((s) => s.id.startsWith('processional-panel')).slice(0, 2);
+    assert.equal(panels.length, 2);
+    assert.deepEqual(coplanarArtConflicts(panels, coverage.masks), []);
+    panels[1]!.mesh.position.z += 0.25;
+    assert.equal(coplanarArtConflicts(panels, coverage.masks).length, 1);
+  } finally {
+    f.dispose();
+  }
+});
 test('terrain mips never share identity with a non-mipmapped lease or bleed across atlas frames', async () => {
   const m = parseManifest(
     JSON.parse(await readAsset('public/' + assetCatalog['ink-graveyard-materials']!, 'utf8')),
@@ -178,28 +189,11 @@ test('terrain mips never share identity with a non-mipmapped lease or bleed acro
   assert.throws(() => parseManifest(bad));
 });
 
-test('opaque masonry validation rejects the porch/foundation depth tie while permitting their butt join', async () => {
+test('the building is one intact illustrated shell without exposed constructed geometry', async () => {
   const f = await fixture();
   try {
-    const parts = f.room.graveyard!.architecture.parts;
-    for (const wall of graveyardArt.walls) {
-      const collider = content.area('court').props.find((prop) => prop.id === wall.id)!;
-      assert.ok(collider);
-      assert.ok(
-        Math.abs(
-          collider.rotation! - Math.atan2(wall.to.z - wall.from.z, wall.to.x - wall.from.x),
-        ) < 1e-6,
-      );
-    }
-
-    assert.deepEqual(coplanarMeshConflicts(parts), []);
-    const landing = parts.find((p) => p.userData.id === 'porch-landing')!,
-      foundation = parts.find((p) => p.userData.id === 'chapel-foundation')!;
-    landing.position.z -= 0.3;
-    assert.ok(
-      coplanarMeshConflicts([landing, foundation]).length > 0,
-      'overlapping supported tops must fail the construction gate',
-    );
+    assert.equal(f.room.graveyard!.architecture.parts.length, 0);
+    assert.equal(f.room.sprites.filter((s) => s.id === 'chapel-shell').length, 1);
   } finally {
     f.dispose();
   }

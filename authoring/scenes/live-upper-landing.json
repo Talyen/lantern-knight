@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 4,
   "id": "live-upper-landing",
   "name": "Ruined Chapel",
   "base": "upper-landing",
@@ -13,11 +13,10 @@
       "x": -8.4,
       "z": -6.8,
       "scale": 1.1,
-      "mirror": false,
       "fade": true,
       "shadow": "none",
-      "tint": 7310980,
-      "purpose": "Grounded woodland beyond the ruined chapel perimeter"
+      "purpose": "Grounded woodland beyond the ruined chapel perimeter",
+      "zone": "woodland-west"
     },
     {
       "kind": "prop",
@@ -27,11 +26,10 @@
       "x": 8.3,
       "z": -7.8,
       "scale": 1.1,
-      "mirror": true,
       "fade": true,
       "shadow": "none",
-      "tint": 7310980,
-      "purpose": "Grounded woodland beyond the ruined chapel perimeter"
+      "purpose": "Grounded woodland beyond the ruined chapel perimeter",
+      "zone": "woodland-east"
     },
     {
       "kind": "prop",
@@ -41,11 +39,10 @@
       "x": 8.6,
       "z": 0.2,
       "scale": 1.1,
-      "mirror": false,
       "fade": true,
       "shadow": "none",
-      "tint": 7310980,
-      "purpose": "Grounded woodland beyond the ruined chapel perimeter"
+      "purpose": "Grounded woodland beyond the ruined chapel perimeter",
+      "zone": "woodland-east"
     },
     {
       "kind": "prop",
@@ -55,11 +52,10 @@
       "x": -8.3,
       "z": 4.8,
       "scale": 1.1,
-      "mirror": true,
       "fade": true,
       "shadow": "none",
-      "tint": 7310980,
-      "purpose": "Grounded woodland beyond the ruined chapel perimeter"
+      "purpose": "Grounded woodland beyond the ruined chapel perimeter",
+      "zone": "woodland-west"
     },
     {
       "kind": "prop",
@@ -69,151 +65,10 @@
       "x": 7.8,
       "z": 9.6,
       "scale": 1.1,
-      "mirror": false,
       "fade": true,
       "shadow": "none",
-      "tint": 7310980,
-      "purpose": "Grounded woodland beyond the ruined chapel perimeter"
-    },
-    {
-      "kind": "prop",
-      "asset": "ink-scenery",
-      "id": "crypt-pier-0-0",
-      "clip": "pillar",
-      "x": -5.45,
-      "z": 7.8,
-      "scale": 1.05,
-      "tint": 12898000,
-      "footprint": [
-        0.6,
-        0.6
-      ],
-      "fade": false,
-      "shadow": "contact",
-      "purpose": "Structural pier; nearer eastern remains stay low to reveal combat"
-    },
-    {
-      "kind": "prop",
-      "asset": "ink-scenery",
-      "id": "crypt-pier-0-1",
-      "clip": "pillar",
-      "x": -5.45,
-      "z": 1.7,
-      "scale": 1.05,
-      "tint": 12898000,
-      "footprint": [
-        0.6,
-        0.6
-      ],
-      "fade": false,
-      "shadow": "contact",
-      "purpose": "Structural pier; nearer eastern remains stay low to reveal combat"
-    },
-    {
-      "kind": "prop",
-      "asset": "ink-scenery",
-      "id": "crypt-pier-0-2",
-      "clip": "pillar",
-      "x": -5.45,
-      "z": -2.2,
-      "scale": 1.05,
-      "tint": 12898000,
-      "footprint": [
-        0.6,
-        0.6
-      ],
-      "fade": false,
-      "shadow": "contact",
-      "purpose": "Structural pier; nearer eastern remains stay low to reveal combat"
-    },
-    {
-      "kind": "prop",
-      "asset": "ink-scenery",
-      "id": "crypt-pier-0-3",
-      "clip": "pillar",
-      "x": -5.45,
-      "z": -8.1,
-      "scale": 1.05,
-      "tint": 12898000,
-      "footprint": [
-        0.6,
-        0.6
-      ],
-      "fade": false,
-      "shadow": "contact",
-      "purpose": "Structural pier; nearer eastern remains stay low to reveal combat"
-    },
-    {
-      "kind": "prop",
-      "asset": "ink-scenery",
-      "id": "crypt-pier-1-0",
-      "clip": "pillar",
-      "x": 5.45,
-      "z": 7.8,
-      "scale": 0.65,
-      "tint": 12898000,
-      "footprint": [
-        0.6,
-        0.6
-      ],
-      "fade": true,
-      "assembly": "crypt-east-bay-0",
-      "shadow": "contact",
-      "purpose": "Structural pier; nearer eastern remains stay low to reveal combat"
-    },
-    {
-      "kind": "prop",
-      "asset": "ink-scenery",
-      "id": "crypt-pier-1-1",
-      "clip": "pillar",
-      "x": 5.45,
-      "z": 1.7,
-      "scale": 0.65,
-      "tint": 12898000,
-      "footprint": [
-        0.6,
-        0.6
-      ],
-      "fade": true,
-      "assembly": "crypt-east-bay-1",
-      "shadow": "contact",
-      "purpose": "Structural pier; nearer eastern remains stay low to reveal combat"
-    },
-    {
-      "kind": "prop",
-      "asset": "ink-scenery",
-      "id": "crypt-pier-1-2",
-      "clip": "pillar",
-      "x": 5.45,
-      "z": -2.2,
-      "scale": 0.65,
-      "tint": 12898000,
-      "footprint": [
-        0.6,
-        0.6
-      ],
-      "fade": true,
-      "assembly": "crypt-east-bay-2",
-      "shadow": "contact",
-      "purpose": "Structural pier; nearer eastern remains stay low to reveal combat"
-    },
-    {
-      "kind": "prop",
-      "asset": "ink-scenery",
-      "id": "crypt-pier-1-3",
-      "clip": "pillar",
-      "x": 5.45,
-      "z": -8.1,
-      "scale": 0.65,
-      "tint": 12898000,
-      "footprint": [
-        0.6,
-        0.6
-      ],
-      "fade": true,
-      "assembly": "crypt-east-bay-2",
-      "shadow": "contact",
-      "purpose": "Structural pier; nearer eastern remains stay low to reveal combat"
+      "purpose": "Grounded woodland beyond the ruined chapel perimeter",
+      "zone": "woodland-east"
     },
     {
       "kind": "prop",
@@ -224,12 +79,10 @@
       "z": 5.8,
       "fade": true,
       "assembly": "chapel-seating-0-0",
-      "footprint": [
-        1.9,
-        0.85
-      ],
       "shadow": "contact",
-      "purpose": "Surviving oak pew facing the sanctuary"
+      "purpose": "Surviving oak pew facing the sanctuary",
+      "zone": "west-pews",
+      "scale": 1
     },
     {
       "kind": "prop",
@@ -240,12 +93,10 @@
       "z": 2.6,
       "fade": true,
       "assembly": "chapel-seating-0-1",
-      "footprint": [
-        1.9,
-        0.85
-      ],
       "shadow": "contact",
-      "purpose": "Surviving oak pew facing the sanctuary"
+      "purpose": "Surviving oak pew facing the sanctuary",
+      "zone": "west-pews",
+      "scale": 1
     },
     {
       "kind": "prop",
@@ -256,12 +107,10 @@
       "z": 5.8,
       "fade": true,
       "assembly": "chapel-seating-1-0",
-      "footprint": [
-        2.05,
-        1.05
-      ],
       "shadow": "contact",
-      "purpose": "Displaced broken pew beside the breached east bay"
+      "purpose": "Displaced broken pew beside the breached east bay",
+      "zone": "east-pews",
+      "scale": 1
     },
     {
       "kind": "prop",
@@ -272,12 +121,10 @@
       "z": 2.6,
       "fade": true,
       "assembly": "chapel-seating-1-1",
-      "footprint": [
-        2.05,
-        1.05
-      ],
       "shadow": "contact",
-      "purpose": "Displaced broken pew beside the breached east bay"
+      "purpose": "Displaced broken pew beside the breached east bay",
+      "zone": "east-pews",
+      "scale": 1
     },
     {
       "kind": "prop",
@@ -286,44 +133,10 @@
       "asset": "ink-chapel-altar",
       "x": 0,
       "z": -6.95,
-      "footprint": [
-        2.4,
-        1.2
-      ],
       "shadow": "contact",
-      "purpose": "Principal limestone altar with a carved lantern insignia"
-    },
-    {
-      "kind": "prop",
-      "asset": "ink-scenery",
-      "id": "crypt-sanctuary-pier-0",
-      "clip": "pillar",
-      "x": -2.1,
-      "z": -8.1,
-      "scale": 1.16,
-      "tint": 14737104,
-      "footprint": [
-        0.7,
-        0.7
-      ],
-      "shadow": "contact",
-      "purpose": "Substantial piers framing the surviving lantern window"
-    },
-    {
-      "kind": "prop",
-      "asset": "ink-scenery",
-      "id": "crypt-sanctuary-pier-1",
-      "clip": "pillar",
-      "x": 2.1,
-      "z": -8.1,
-      "scale": 1.16,
-      "tint": 14737104,
-      "footprint": [
-        0.7,
-        0.7
-      ],
-      "shadow": "contact",
-      "purpose": "Substantial piers framing the surviving lantern window"
+      "purpose": "Principal limestone altar with a carved lantern insignia",
+      "zone": "sanctuary",
+      "scale": 1
     },
     {
       "kind": "prop",
@@ -337,7 +150,8 @@
           -0.07,
           1.15,
           0.08
-        ]
+        ],
+        "socket": "votive"
       },
       "shadow": "none",
       "purpose": "Candelabrum supported on the principal altar slab",
@@ -366,7 +180,9 @@
           "depthOffset": 0.008,
           "decorative": true
         }
-      }
+      },
+      "zone": "sanctuary",
+      "scale": 1
     },
     {
       "kind": "prop",
@@ -375,29 +191,26 @@
       "clip": "offering-table",
       "x": -4.65,
       "z": -5.25,
-      "scale": 0.75,
-      "tint": 14737104,
-      "footprint": [
-        0.85,
-        0.75
-      ],
+      "scale": 1,
       "shadow": "contact",
-      "purpose": "One small devotional table in the west memorial grouping"
+      "purpose": "One small devotional table in the west memorial grouping",
+      "zone": "devotional"
     },
     {
       "kind": "prop",
       "id": "chapel-devotional-candles",
       "clip": "votive-hardware",
       "asset": "ink-crypt",
-      "scale": 0.8,
+      "scale": 1,
       "role": "attachment",
       "mount": {
         "to": "chapel-devotional-table",
         "offset": [
-          -0.09333333333333334,
-          0.6133333333333334,
-          0.10666666666666667
-        ]
+          -0.07,
+          0.8,
+          0.08
+        ],
+        "socket": "votive"
       },
       "shadow": "none",
       "purpose": "Restrained votive warmth beside the west devotional fragment",
@@ -426,7 +239,8 @@
           "depthOffset": 0.008,
           "decorative": true
         }
-      }
+      },
+      "zone": "devotional"
     },
     {
       "kind": "prop",
@@ -435,13 +249,10 @@
       "clip": "tomb",
       "x": 4.55,
       "z": -5.45,
-      "tint": 14737104,
-      "footprint": [
-        0.95,
-        2.25
-      ],
       "shadow": "contact",
-      "purpose": "One quiet memorial tomb in the east sanctuary recess"
+      "purpose": "One quiet memorial tomb in the east sanctuary recess",
+      "zone": "east-memorial",
+      "scale": 1
     },
     {
       "kind": "prop",
@@ -452,12 +263,10 @@
       "z": -0.15,
       "fade": true,
       "assembly": "crypt-east-bay-1",
-      "footprint": [
-        1.6,
-        2.5
-      ],
       "shadow": "contact",
-      "purpose": "Fallen roof rib and weighty stones explain the breached eastern wall"
+      "purpose": "Fallen roof rib and weighty stones explain the breached eastern wall",
+      "zone": "collapse",
+      "scale": 1
     },
     {
       "kind": "prop",
@@ -494,53 +303,19 @@
           "depthOffset": 0.008,
           "decorative": true
         }
-      }
+      },
+      "zone": "entry"
     },
     {
-      "kind": "decal",
-      "id": "crypt-puddle",
-      "purpose": "Authored chapel ground overlay",
-      "clip": "puddle",
-      "asset": "ink-crypt-feature",
-      "x": 5.3,
-      "z": -0.2,
-      "scale": 0.3,
-      "tint": 9284532
-    },
-    {
-      "kind": "decal",
-      "asset": "ink-decals",
-      "id": "crypt-collapse-crack",
-      "purpose": "Authored chapel ground overlay",
-      "clip": "d01_branching_crack",
-      "x": 4.9,
-      "z": 1,
-      "scale": 0.22,
-      "tint": 7439501
-    },
-    {
-      "kind": "decal",
-      "asset": "ink-ground-transitions",
-      "id": "crypt-entry-wear",
-      "purpose": "Authored chapel ground overlay",
-      "clip": "t07_damp_spread",
+      "id": "sanctuary-shell",
+      "kind": "prop",
+      "asset": "ink-stage-chapel-interior",
+      "clip": "shell",
       "x": 0,
-      "z": 7.7,
-      "scale": 0.42,
-      "tint": 11384500,
-      "opacity": 0.1
-    },
-    {
-      "kind": "decal",
-      "asset": "ink-ground-transitions",
-      "id": "crypt-altar-wear",
-      "purpose": "Authored chapel ground overlay",
-      "clip": "t07_damp_spread",
-      "x": 0,
-      "z": -5.65,
-      "scale": 0.3,
-      "tint": 9608088,
-      "opacity": 0.08
+      "z": -8.8,
+      "zone": "sanctuary",
+      "purpose": "One open-front illustrated sanctuary with integrated window",
+      "shadow": "none"
     }
   ],
   "hero": {
@@ -550,5 +325,6 @@
   "look": {
     "rig": "golden",
     "look": "diorama"
-  }
+  },
+  "profile": "chapel"
 }

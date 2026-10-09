@@ -1,0 +1,41 @@
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  overflow: hidden;
+  background: #101318;
+  color: #e7ddc5;
+  z-index: 10000;
+}
+#loading-screen::backdrop {
+  background: #101318;
+}
+#loading-screen video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+#loading-screen[data-failed] video {
+  visibility: hidden;
+}
+#loading-screen p {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font:
+    14px Georgia,
+    serif;
+  letter-spacing: 0.12em;
+  text-shadow: 0 1px 4px #000;
+}

@@ -112,9 +112,9 @@ test('authored box footprints block bodies at edges and corners without escaping
   const graveyard = content.area('court'),
     chapel = content.area('upper-landing');
   assert.equal(heightAt(graveyard, 4, 0), 0);
-  assert.equal(heightAt(graveyard, 0, -5.4), 0.15);
-  assert.equal(heightAt(graveyard, 0, -5.95), 0.3);
-  assert.equal(heightAt(chapel, 0, 0), 0.3);
+  assert.equal(heightAt(graveyard, 0, -5.4), 0);
+  assert.equal(heightAt(graveyard, 0, -5.95), 0);
+  assert.equal(heightAt(chapel, 0, 0), 0);
   assert.equal(graveyard.exits[0]!.destination, chapel.id);
   assert.equal(chapel.exits[0]!.destination, graveyard.id);
   assert.equal(chapel.exits[0]!.requiresClear, false);

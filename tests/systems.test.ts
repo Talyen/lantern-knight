@@ -196,8 +196,8 @@ test('partial and cleared revisits preserve enemies; player cooldowns survive; e
       s.move(s.hero, 0, 0);
       near(s.hero.y, heightAt(s.areaDefinition, s.hero.x, z));
     }
-    near(heightAt(s.areaDefinition, 0, 3.75), 0.3);
-    near(heightAt(s.areaDefinition, 0, -3), 0.3);
+    near(heightAt(s.areaDefinition, 0, 3.75), 0);
+    near(heightAt(s.areaDefinition, 0, -3), 0);
     s.hero.z = 8.3;
     s.enemies.forEach((a) => (a.health = 0));
     session.step(still);

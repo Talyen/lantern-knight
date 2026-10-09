@@ -3,59 +3,429 @@
   "steps": [
     {
       "file": "prepare-masonry.ts",
-      "freshness": true
+      "freshness": true,
+      "ids": [
+        "masonry"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "assets/sources.json"
+      ],
+      "dependsOn": []
     },
     {
       "file": "prepare-ink.ts",
-      "freshness": true
+      "freshness": true,
+      "ids": [
+        "ink-scenery",
+        "ink-moss",
+        "ink-cues",
+        "ink-crypt",
+        "ink-chapel-*"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "authoring/chapel-art.json",
+        "assets/sources.json",
+        "src/content/scenery-registration.ts"
+      ],
+      "dependsOn": [
+        "prepare-masonry.ts"
+      ]
     },
     {
       "file": "prepare-hero.ts",
-      "freshness": true
+      "freshness": true,
+      "ids": [
+        "ink-hero-current"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "authoring/hero-actions.json",
+        "authoring/hero-motion.json",
+        "tools/assets/hero.py",
+        "assets/sources.json",
+        "src/content/hero-actions.ts"
+      ],
+      "dependsOn": [
+        "prepare-ink.ts"
+      ]
     },
     {
       "file": "prepare-graveyard-art.ts",
-      "freshness": true
+      "freshness": true,
+      "ids": [
+        "ink-graveyard-*"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "src/content/graveyard-registration.ts",
+        "assets/sources.json"
+      ],
+      "dependsOn": [
+        "prepare-ink.ts"
+      ]
     },
     {
       "file": "prepare-graveyard-ground.ts",
-      "freshness": true
+      "freshness": true,
+      "ids": [
+        "ink-graveyard-materials",
+        "ink-graveyard-overlays"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "authoring/ground-overlays.json",
+        "assets/sources.json"
+      ],
+      "dependsOn": [
+        "prepare-ink.ts"
+      ]
     },
     {
       "file": "prepare-churchyard-kit.ts",
-      "freshness": true
+      "freshness": true,
+      "ids": [
+        "ink-blackwood-*"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "assets/sources.json"
+      ],
+      "dependsOn": [
+        "prepare-ink.ts"
+      ]
     },
     {
       "file": "prepare-tended-art.ts",
-      "freshness": true
+      "freshness": true,
+      "ids": [
+        "ink-tended-*"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "authoring/graveyard-art.json",
+        "assets/sources.json"
+      ],
+      "dependsOn": [
+        "prepare-ink.ts"
+      ]
     },
     {
       "file": "prepare-library.ts",
-      "freshness": true
+      "freshness": true,
+      "ids": [
+        "library-*"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "assets/library-packs.json",
+        "tools/assets/library_import.py",
+        "tools/assets/authoring-catalog.ts",
+        "assets/sources.json",
+        "assets/library-sources.json"
+      ],
+      "dependsOn": [
+        "prepare-ink.ts",
+        "prepare-hero.ts",
+        "prepare-graveyard-art.ts",
+        "prepare-tended-art.ts"
+      ]
     },
     {
       "file": "prepare-visual-effects.ts",
-      "freshness": true
+      "freshness": true,
+      "ids": [
+        "fx-*"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "src/content/visual-effects-assets.ts",
+        "assets/sources.json"
+      ],
+      "dependsOn": [
+        "prepare-ink.ts"
+      ]
     },
     {
       "file": "prepare-surface-relief.ts",
-      "freshness": true
+      "freshness": true,
+      "ids": [
+        "surface-relief"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "authoring/surface-depth.json",
+        "src/assets/normal-pixels.ts",
+        "assets/sources.json",
+        "src/content/asset-catalog.ts"
+      ],
+      "dependsOn": [
+        "prepare-ink.ts",
+        "prepare-graveyard-art.ts",
+        "prepare-graveyard-ground.ts",
+        "prepare-churchyard-kit.ts",
+        "prepare-tended-art.ts",
+        "prepare-flat-stage.ts"
+      ]
     },
     {
       "file": "prepare-effects-playground.ts",
-      "freshness": true
+      "freshness": true,
+      "ids": [
+        "dev-effects"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "src/content/effects-playground-assets.ts",
+        "assets/sources.json"
+      ],
+      "dependsOn": [
+        "prepare-visual-effects.ts"
+      ]
+    },
+    {
+      "file": "prepare-flat-stage.ts",
+      "freshness": true,
+      "ids": [
+        "ink-stage-*"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "authoring/flat-stage-art.json",
+        "assets/sources.json"
+      ],
+      "dependsOn": []
     },
     {
       "file": "prepare-graveyard-coverage.ts",
-      "freshness": true
+      "freshness": true,
+      "ids": [
+        "coverage"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "src/content/asset-catalog.ts",
+        "src/content/scenery-registration.ts",
+        "assets/sources.json",
+        "tools/assets/authoring-catalog.ts"
+      ],
+      "dependsOn": [
+        "prepare-ink.ts",
+        "prepare-hero.ts",
+        "prepare-graveyard-art.ts",
+        "prepare-graveyard-ground.ts",
+        "prepare-churchyard-kit.ts",
+        "prepare-tended-art.ts",
+        "prepare-flat-stage.ts",
+        "prepare-library.ts"
+      ]
     },
     {
       "file": "prepare-lighting.ts",
-      "freshness": true
+      "freshness": true,
+      "ids": [
+        "lighting"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "src/content/asset-catalog.ts",
+        "src/assets/normal-pixels.ts",
+        "src/content/scenery-registration.ts",
+        "assets/sources.json",
+        "tools/assets/authoring-catalog.ts",
+        "tools/lighting-bindings.ts",
+        "authoring/graveyard-art.json"
+      ],
+      "dependsOn": [
+        "prepare-ink.ts",
+        "prepare-hero.ts",
+        "prepare-graveyard-art.ts",
+        "prepare-graveyard-ground.ts",
+        "prepare-churchyard-kit.ts",
+        "prepare-tended-art.ts",
+        "prepare-flat-stage.ts",
+        "prepare-library.ts",
+        "prepare-visual-effects.ts",
+        "prepare-surface-relief.ts",
+        "prepare-effects-playground.ts"
+      ]
     },
     {
       "file": "prepare-animation-flow.py",
-      "freshness": false
+      "freshness": false,
+      "ids": [
+        "animation"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "authoring/hero-actions.json",
+        "authoring/hero-motion.json",
+        "tools/assets/hero.py",
+        "assets/sources.json"
+      ],
+      "dependsOn": [
+        "prepare-hero.ts"
+      ]
+    },
+    {
+      "file": "prepare-loading-media.ts",
+      "freshness": true,
+      "ids": [
+        "loading",
+        "last-ferry"
+      ],
+      "inputs": [
+        "tools/assets/io.ts",
+        "tools/assets/sources.ts",
+        "tools/assets/source.py",
+        "tools/assets/resolver.py",
+        "tools/assets/definition.ts",
+        "tools/compiler.ts",
+        "src/assets/schema.ts",
+        "src/assets/camera.json",
+        "src/assets/camera-calibration.ts",
+        "src/assets/registration.ts",
+        "assets/loading-sources.json",
+        "src/content/loading-media.ts",
+        "tools/assets/loading-media.ts"
+      ],
+      "dependsOn": []
     }
   ],
   "inputs": [
@@ -90,7 +460,13 @@
     "assets/library-packs.json",
     "assets/library-sources.json",
     "tools/assets/library_import.py",
-    "tools/assets/authoring-catalog.ts"
+    "tools/assets/authoring-catalog.ts",
+    "assets/loading-sources.json",
+    "src/content/loading-media.ts",
+    "tools/assets/loading-media.ts",
+    "authoring/flat-stage-art.json",
+    "src/content/hero-actions.ts",
+    "tools/lighting-bindings.ts"
   ],
   "dependencies": {
     "devDependencies": [

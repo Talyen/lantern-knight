@@ -1,5 +1,5 @@
 import type { ActorId, AreaId } from '../content/world';
-export type EventBase = {
+type EventBase = {
   readonly key: string;
   readonly tick: number;
   readonly generation: number;

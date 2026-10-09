@@ -10,7 +10,7 @@ import { neutralColor } from './illustrated-lighting';
 
 // The camera translates without rotating. Project camera motion, never actor
 // motion, so the background stops when composition reaches its follow limit.
-export function surroundOffset(target: T.Vector3, anchor: T.Vector3, parallax: number) {
+function surroundOffset(target: T.Vector3, anchor: T.Vector3, parallax: number) {
   const delta = target.clone().sub(anchor);
   return right
     .clone()
@@ -96,7 +96,7 @@ export function groundRimGeometry(
   return geometry;
 }
 export function fadeGroundRim(material: T.MeshBasicMaterial) {
-  const previous = material.onBeforeCompile,
+  const previous = material.onBeforeCompile.bind(material),
     cacheKey = material.customProgramCacheKey();
   material.transparent = true;
   material.onBeforeCompile = (shader, renderer) => {
@@ -165,7 +165,7 @@ export class SceneSurround {
       // Each band is one blended instanced draw, including native soft edges.
       // Mirror UVs instead of using unsupported negative instance scales.
       const material = sprite.material,
-        previous = material.onBeforeCompile,
+        previous = material.onBeforeCompile.bind(material),
         cacheKey = material.customProgramCacheKey();
       material.transparent = true;
       material.alphaTest = 1 / 255;

@@ -2,6 +2,34 @@ import * as T from 'three';
 import type { ActorSprite } from './sprite';
 import { right, up } from '../core/camera';
 import { cardCoverage, type CoverageMask } from './scenery-reveal';
+// Adjacent projected parallelograms can share a diagonal line inside overlapping
+// bounding boxes. Require positive polygon area before sampling source alpha.
+function intersectionArea(a: T.Vector2[], b: T.Vector2[]) {
+  const cross = (u: T.Vector2, v: T.Vector2, p: T.Vector2) =>
+    (v.x - u.x) * (p.y - u.y) - (v.y - u.y) * (p.x - u.x);
+  const signed = (p: T.Vector2[]) =>
+    p.reduce((sum, v, i) => {
+      const q = p[(i + 1) % p.length]!;
+      return sum + v.x * q.y - v.y * q.x;
+    }, 0) / 2;
+  const sign = Math.sign(signed(b));
+  let polygon = a;
+  for (let edge = 0; edge < b.length; edge++) {
+    const u = b[edge]!,
+      v = b[(edge + 1) % b.length]!,
+      input = polygon;
+    polygon = [];
+    for (let i = 0; i < input.length; i++) {
+      const p = input[i]!,
+        q = input[(i + 1) % input.length]!,
+        cp = cross(u, v, p) * sign,
+        cq = cross(u, v, q) * sign;
+      if (cp >= -1e-10) polygon.push(p);
+      if (cp >= -1e-10 !== cq >= -1e-10) polygon.push(p.clone().lerp(q, cp / (cp - cq)));
+    }
+  }
+  return Math.abs(signed(polygon));
+}
 export function coplanarArtConflicts(sprites: ActorSprite[], masks: Record<string, CoverageMask>) {
   const records = sprites
     .filter((s) => s.manifest.asset.type === 'prop')
@@ -39,6 +67,9 @@ export function coplanarArtConflicts(sprites: ActorSprite[], masks: Record<strin
         top = Math.min(a.top, b.top);
       if ((rightEdge - left) * (top - bottom) < 0.002 || left >= rightEdge || bottom >= top)
         continue;
+      const projected = (points: T.Vector3[]) =>
+        [0, 1, 3, 2].map((i) => new T.Vector2(points[i]!.dot(right), points[i]!.dot(up)));
+      if (intersectionArea(projected(a.points), projected(b.points)) < 1e-8) continue;
       let hits = 0;
       for (let y = 0; y < 12; y++)
         for (let x = 0; x < 12; x++) {

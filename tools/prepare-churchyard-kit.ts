@@ -1,5 +1,5 @@
 import { readAsset, writeAsset, mkdirAsset } from './assets/io';
-import fs from 'node:fs/promises';
+
 import sharp from 'sharp';
 import { compile, hash } from './compiler';
 import type { Source } from '../src/assets/schema';

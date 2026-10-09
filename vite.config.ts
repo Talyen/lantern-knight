@@ -10,8 +10,8 @@ export default defineConfig(({ mode }) => ({
             name: 'lantern-scene-editor',
             async configureServer(server) {
               const { sceneEditorPlugin } = (await server.ssrLoadModule(
-                '/tools/scene-editor-store.ts',
-              )) as typeof import('./tools/scene-editor-store.ts');
+                '/tools/scene/scene-editor-store.ts',
+              )) as typeof import('./tools/scene/scene-editor-store.ts');
               const configure = sceneEditorPlugin(process.cwd()).configureServer;
               if (typeof configure !== 'function')
                 throw new Error('Scene editor server hook is unavailable');

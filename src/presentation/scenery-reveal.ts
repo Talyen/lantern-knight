@@ -66,7 +66,7 @@ export function cardCoverage(sprite: ActorSprite, point: T.Vector3, mask?: Cover
   return coverageAt(mask, sample(0), sample(1));
 }
 
-export class LocalReveal {
+class LocalReveal {
   readonly centers = Array.from(
     { length: contract.budgets.maxActors + 1 },
     () => new T.Vector2(1e5, 1e5),
@@ -84,7 +84,7 @@ export class LocalReveal {
   ) {
     for (const m of materials)
       if (m) {
-        const prior = m.onBeforeCompile,
+        const prior = m.onBeforeCompile.bind(m),
           key = m.customProgramCacheKey();
         m.userData.revealData = {
           centers: this.centers,
@@ -158,7 +158,7 @@ export function attachRevealMask(material: T.MeshBasicMaterial, source: T.Materi
     | { centers: T.Vector2[]; sizes: T.Vector2[]; strengths: number[]; count: { value: number } }
     | undefined;
   if (!data) return;
-  const prior = material.onBeforeCompile,
+  const prior = material.onBeforeCompile.bind(material),
     key = material.customProgramCacheKey(),
     length = data.centers.length;
   material.onBeforeCompile = (shader, renderer) => {

@@ -7,4 +7,4 @@ The consolidated [generation prompt](clean-ink-style.prompt.txt) recovers the co
 - Original courtyard prompt: external collection member `Lantern_Location_Concepts_CleanInk_v02/prompts/01_ruined_lantern_warden_courtyard_r02c.txt`.
 - Recovered Clean INK and native-resolution requests: `Project Sources/lanternkeepers-rest-v1/prompts.json` in the external library.
 
-The original prompt files and artwork remain unchanged. The approved Blackwood churchyard concept governs composition; it does not supersede these style requirements. Painted 2.5D geometry is permitted by the owner, while generated surface artwork retains the illustrated Clean INK treatment.
+The original prompt files and artwork remain unchanged. The approved Blackwood churchyard concept governs composition; it does not supersede these style requirements. Production scenes now follow [scene design](../../docs/scene-design.md): flat ground, intact illustrated shells and registered ground panels. Source art retains the illustrated Clean INK treatment.

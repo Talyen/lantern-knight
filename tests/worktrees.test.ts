@@ -7,7 +7,7 @@ import net from 'node:net';
 import http from 'node:http';
 import vm from 'node:vm';
 import { execFileSync } from 'node:child_process';
-import { scenePreviewPort, scenePreviewServer } from '../tools/scene-server';
+import { scenePreviewPort, scenePreviewServer } from '../tools/scene/scene-server';
 import { verificationIdentity, requireStableInputs } from '../tools/verification';
 import { parseTask } from '../tools/task-runner';
 import { emptyScene } from '../src/content/scene-document';
@@ -21,7 +21,10 @@ async function unusedPort() {
 }
 
 test('Chromium host accepts its assigned preview port and rejects other origins', async () => {
-  const source = await fs.readFile(new URL('../tools/scene-browser.cjs', import.meta.url), 'utf8');
+  const source = await fs.readFile(
+    new URL('../tools/scene/scene-browser.cjs', import.meta.url),
+    'utf8',
+  );
   const launch = (url: string, port?: string) => {
     let profile: string | undefined;
     vm.runInNewContext(source, {
@@ -37,7 +40,7 @@ test('Chromium host accepts its assigned preview port and rejects other origins'
           },
           enableSandbox() {},
           commandLine: { appendSwitch() {} },
-          whenReady: () => ({ then() {} }),
+          whenReady: () => new Promise<void>(() => {}),
           on() {},
         },
       }),
@@ -105,7 +108,7 @@ test('worktree previews isolate editor writes and verification, then integrate g
       'src/content/world-art.ts':
         'export const baseWorldVisuals = {}; export const resolveAuthoredScene = () => ({});\n',
       'vite.config.mjs':
-        `import { sceneEditorPlugin } from ${JSON.stringify(new URL('../tools/scene-editor-store.ts', import.meta.url).href)};\n` +
+        `import { sceneEditorPlugin } from ${JSON.stringify(new URL('../tools/scene/scene-editor-store.ts', import.meta.url).href)};\n` +
         'export default { publicDir: false, logLevel: "silent", plugins: [sceneEditorPlugin(import.meta.dirname)] };\n',
     };
     // Minimal foundations for the real editor's optimistic save guard; no artwork is read.
@@ -119,6 +122,7 @@ test('worktree previews isolate editor writes and verification, then integrate g
       'src/content/scene-v1.ts',
       'src/content/scene-v1-baseline.json',
       'src/content/scene-document.ts',
+      'src/content/scene-design.ts',
       'src/assets/camera.json',
       'src/content/camera.json',
       'assets/lock.json',
@@ -215,6 +219,23 @@ test('worktree previews isolate editor writes and verification, then integrate g
 
     await a.close();
     assert.equal((await editor(b.origin, document.id)).document.name, 'Scene task');
+    const current = await editor(b.origin, document.id),
+      sceneFile = path.join(scene, 'authoring/scenes/draft-court.json'),
+      sceneBytes = await fs.readFile(sceneFile, 'utf8');
+    await fs.writeFile(
+      path.join(scene, 'src/content/scene-design.ts'),
+      'export const paletteChanged = true;\n',
+    );
+    const stale = await fetch(b.origin + '/__lantern_editor', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-lantern-editor-token': listB.token },
+      body: JSON.stringify({
+        ...current,
+        document: { ...current.document, name: 'Unreviewed registry' },
+      }),
+    });
+    assert.equal(stale.status, 409, await stale.text());
+    assert.equal(await fs.readFile(sceneFile, 'utf8'), sceneBytes);
     foreign = http.createServer((_request, result) => result.end('unrelated server'));
     await new Promise<void>((resolve) => foreign!.listen(0, '127.0.0.1', resolve));
     const foreignPort = (foreign.address() as net.AddressInfo).port;

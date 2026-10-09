@@ -7,7 +7,7 @@ import type { WeatherState } from './visual-effects';
 import type { Manifest } from '../assets/schema';
 import { cryptFoundation } from './crypt-scene';
 import { graveyardFoundation } from './graveyard-scene';
-import { burialTerraces } from './graveyard-layout';
+import { validateSceneDesign, type SceneProfile } from './scene-design';
 import { cameraContract } from '../assets/camera-contract';
 type PlacementBase = {
   id: string;
@@ -22,6 +22,7 @@ type PlacementBase = {
   tint?: number;
   footprint?: readonly [number, number];
   purpose: string;
+  zone?: string;
   door?: boolean;
   rotation?: number;
   asset: string;
@@ -38,12 +39,12 @@ export type ArtPlacement = PlacementBase &
   (
     | {
         role: 'attachment';
-        mount: { to: string; offset: readonly [number, number, number] };
+        mount: { to: string; offset: readonly [number, number, number]; socket?: string };
       }
     | { role?: 'ground' | 'upright'; mount?: never }
   );
-export type GroundPatch = { bounds: Bounds };
-export type GroundPath = {
+type GroundPatch = { bounds: Bounds };
+type GroundPath = {
   points: readonly Point[];
   width: number;
   widths?: readonly number[];
@@ -71,7 +72,7 @@ export type BurialPlot = {
   angle?: number;
   marker?: 'gravestone' | 'memorial' | 'fallen-marker';
 };
-export type SiteLight = { x: number; z: number; radius: number; power: number };
+type SiteLight = { x: number; z: number; radius: number; power: number };
 export type FixtureDefinition = {
   id: string;
   socket: readonly [number, number, number];
@@ -90,13 +91,13 @@ export type FixtureDefinition = {
     decorative: boolean;
   };
 };
-export type OverlapAllowance = {
+type OverlapAllowance = {
   a: string;
   b: string;
   region: Bounds;
   reason: string;
 };
-export type SiteAssembly = {
+type SiteAssembly = {
   id: string;
   origin: Point;
   walls: readonly SiteWall[];
@@ -118,6 +119,7 @@ export type SceneSurroundDefinition = {
   layers: readonly SurroundLayer[];
 };
 export type WorldVisualDefinition = {
+  designProfile?: SceneProfile;
   editorFloor?: { asset: string; clip: string };
   look?: { rig: 'golden' | 'silver'; look: 'ink' | 'diorama' | 'cinematic' };
   surround?: SceneSurroundDefinition;
@@ -154,7 +156,6 @@ export type WorldVisualDefinition = {
   overlaps?: readonly OverlapAllowance[];
 };
 export const floorUV = (x: number, z: number): readonly [number, number] => [x / 4, -z / 4];
-export { graveHead } from './graveyard-scene';
 export const baseWorldVisuals: Readonly<Record<string, WorldVisualDefinition>> = {
   court: graveyardFoundation,
   'upper-landing': cryptFoundation,
@@ -188,19 +189,6 @@ export function churchyardColliders(
   art: WorldVisualDefinition = worldVisuals[id]!,
 ): PropDefinition[] {
   return [
-    ...(id === 'court'
-      ? burialTerraces.map((t) => ({
-          id: `terrain-volume-${t.id}`,
-          kind: 'border' as const,
-          x: 0,
-          z: 0,
-          radius: 0.2,
-          height: t.height,
-          shape: 'polygon' as const,
-          polygon: t.points,
-          blocking: true,
-        }))
-      : []),
     ...art.props
       .filter((p) => p.footprint)
       .map((p) => ({
@@ -251,12 +239,15 @@ export function validateAreaArt(
 ) {
   const art = worldVisuals[area.id];
   if (!art) return;
+  if (area.surface.kind !== 'flat' || area.surface.height !== 0)
+    throw new Error('Production scene stages must be flat at ground level');
+  validateSceneDesign(art);
   const pack = (id: string) => {
     const p = packs.get(id);
     if (!p) throw new Error(`missing room art: ${id}`);
     return p.manifest;
   };
-  for (const id of [art.floor, ...(art.interior ? [] : ['ink-moss'])]) {
+  for (const id of [art.floor]) {
     const m = pack(id);
     if (m.asset.type !== 'material' || m.asset.projection !== 'top-down')
       throw new Error('floor must use raw top-down material');

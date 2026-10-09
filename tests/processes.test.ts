@@ -1,6 +1,6 @@
 import { buildIdentity } from '../tools/build-identity';
 import { sourceIdentity } from '../tools/source-identity';
-import { content } from '../src/content/game-content';
+
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -279,7 +279,7 @@ test('smoke profiles never delete user-supplied directories, including on launch
       [
         '--import',
         import.meta.resolve('tsx'),
-        path.resolve('tools/desktop-smoke.ts'),
+        path.resolve('tools/smoke/desktop-smoke.ts'),
         '--profile',
         directory,
         '--output',

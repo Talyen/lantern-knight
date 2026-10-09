@@ -1,5 +1,5 @@
 import { readAsset, writeAsset, mkdirAsset } from './assets/io';
-import fs from 'node:fs/promises';
+
 import sharp from 'sharp';
 import { hash } from './compiler';
 const source = 'references/art/ink-collection-01/volume_02_gothic/assets/arch_gothic_wall_01.png',

@@ -1,0 +1,13 @@
+# Local skill routing
+
+Use a skill when its workflow applies. [AGENTS.md](../../AGENTS.md) owns artwork and repository boundaries; [CONTRIBUTING.md](../../CONTRIBUTING.md) owns verification, test value and task coordination.
+
+| When                                                                                                          | Skill                                                 |
+| ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| Add or structurally revise a contract across runtime, content, presentation, desktop or asset-tool boundaries | [architect](architect/SKILL.md)                       |
+| Run a requested named audit or all audits                                                                     | [run-audits](run-audits/SKILL.md)                     |
+| Compose or inspect production scenes using curated flat-stage artwork                                         | [lantern-scene-design](lantern-scene-design/SKILL.md) |
+
+`architect` designs a changed contract; `run-audits` investigates evidence against current contracts. Ordinary use of an existing contract or a private helper does not need a separate design workflow. Creating or editing audit guidance does not request execution of the audits.
+
+Verification and E2E authoring use the existing [verification](../../CONTRIBUTING.md#verification) and [test value](../../docs/verification.md#test-value) policies. Artwork generation and editing use the art-direction skill identified in AGENTS.md.

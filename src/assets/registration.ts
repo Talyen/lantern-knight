@@ -71,7 +71,7 @@ const mask = z.object({
   height: size,
   alpha: z.array(z.number().int().min(0).max(255)),
 });
-export const RegistrationSchema = z
+const RegistrationSchema = z
   .object({
     schemaVersion: z.literal(2),
     animation,

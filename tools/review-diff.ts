@@ -9,7 +9,7 @@ import { AssetCache } from './assets/cache';
 export async function reviewDiff(
   root: string,
   paths: string[] = [],
-  options: { full?: boolean; statusOnly?: boolean; cache?: AssetCache } = {},
+  options: { full?: boolean; statusOnly?: boolean; all?: boolean; cache?: AssetCache } = {},
 ) {
   const git = (args: string[], accepted = [0]) => {
     try {
@@ -119,18 +119,61 @@ export async function reviewDiff(
     const excerpts: string[] = [];
     let bytes = 0,
       hidden = 0;
-    for (const patch of patches) {
-      if (bytes + Buffer.byteLength(patch) > 8000) {
-        hidden++;
-        continue;
+    if (options.statusOnly) {
+      if (options.all) excerpts.push(...inventory);
+      else {
+        const { taskBaseline, snapshot, delta } = await import('./task-state');
+        const task = await taskBaseline(root);
+        const changed = task ? delta(task.start, await snapshot(root)) : [];
+        const relevant = selected.length
+          ? entries.filter(matches)
+          : entries.filter((entry) =>
+              [entry.file, entry.from].some(
+                (name) =>
+                  name &&
+                  (changed.includes(name) ||
+                    task?.paths?.some((p) => name === p || name.startsWith(p + '/'))),
+              ),
+            );
+        const groups = new Map<string, number>();
+        for (const entry of entries) {
+          const parts = entry.file.split('/');
+          const group =
+            ['src', 'tools'].includes(parts[0]!) && parts.length > 2
+              ? parts.slice(0, 2).join('/')
+              : parts.length > 1
+                ? parts[0]!
+                : 'root';
+          groups.set(group, (groups.get(group) ?? 0) + 1);
+        }
+        excerpts.push(
+          'Subsystems: ' +
+            [...groups]
+              .sort(([a], [b]) => a.localeCompare(b))
+              .map(([group, count]) => `${group} ${count}`)
+              .join('; ') +
+            '.',
+        );
+        excerpts.push(
+          `Task-relevant: ${relevant.length}; showing up to 6 paths. Use --all for the complete inventory.`,
+        );
+        for (const entry of relevant.slice(0, 6)) excerpts.push(inventory[entries.indexOf(entry)]!);
+        hidden = entries.length - Math.min(6, relevant.length);
       }
-      excerpts.push(patch);
-      bytes += Buffer.byteLength(patch);
+    } else {
+      for (const patch of patches) {
+        if (bytes + Buffer.byteLength(patch) > 8000) {
+          hidden++;
+          continue;
+        }
+        excerpts.push(patch);
+        bytes += Buffer.byteLength(patch);
+      }
     }
     return {
       entries,
       report: filename,
-      text: `${entries.length} changed paths; ${entries.filter(matches).length} selected.\n${excerpts.join('\n')}\n${hidden} selected blocks omitted from terminal output. Complete inventory and selected patches: ${filename}`,
+      text: `${entries.length} changed paths; ${entries.filter(matches).length} selected.\n${excerpts.join('\n')}\n${hidden} ${options.statusOnly ? 'inventory entries' : 'selected blocks'} omitted from terminal output. Complete inventory and selected patches: ${filename}`,
     };
   } finally {
     await held.release();
@@ -138,12 +181,18 @@ export async function reviewDiff(
 }
 async function main() {
   const args = process.argv.slice(2);
-  if (args.some((a) => a.startsWith('--') && !['--full', '--status'].includes(a)))
-    throw new Error('Use [--full] [--status] [task-owned paths]');
+  if (args.some((a) => a.startsWith('--') && !['--full', '--status', '--all'].includes(a)))
+    throw new Error('Use [--full] [--status [--all]] [task-owned paths]');
+  if (args.includes('--all') && !args.includes('--status'))
+    throw new Error('--all requires --status');
   const result = await reviewDiff(
     fileURLToPath(new URL('../', import.meta.url)),
     args.filter((a) => !a.startsWith('--')),
-    { full: args.includes('--full'), statusOnly: args.includes('--status') },
+    {
+      full: args.includes('--full'),
+      statusOnly: args.includes('--status'),
+      all: args.includes('--all'),
+    },
   );
   console.log(result.text);
 }

@@ -1,4 +1,4 @@
-export const puddles = [
+const puddles = [
   [
     [0.45, 1.42],
     [0.7, 1.14],

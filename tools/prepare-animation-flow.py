@@ -1,7 +1,10 @@
 """Prepare registered guarded transitions for the current kit; original RGBA stays intact."""
 
 from pathlib import Path
-import hashlib, json, os, math
+import hashlib
+import json
+import os
+import math
 import cv2
 import numpy as np
 

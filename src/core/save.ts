@@ -22,7 +22,7 @@ const point = z
     health: z.number().int().nonnegative(),
   })
   .strict();
-export const GameSchema = z
+const GameSchema = z
   .object({
     version: z.literal(6),
     seed: z.number().int().min(0).max(4294967295),
@@ -40,7 +40,7 @@ export const GameSchema = z
     ),
   })
   .strict();
-export const SettingsSchema = z
+const SettingsSchema = z
   .object({
     version: z.literal(5),
     renderScale: z.number().min(0.5).max(1),
@@ -51,7 +51,6 @@ export const SettingsSchema = z
   })
   .strict();
 export type GameSave = z.infer<typeof GameSchema>;
-export type SavedActor = z.infer<typeof point>;
 export type SavedArea = GameSave['areas'][string];
 export type Settings = z.infer<typeof SettingsSchema>;
 export const SAVE_FORMAT_VERSION = 6;

@@ -11,7 +11,13 @@ export const gh = async (args: string[]) => {
 };
 type GitHub = (args: string[]) => Promise<string>;
 export async function retainedPacks(local: AssetLock, github: GitHub = gh) {
-  const keep = new Set([local.releaseTag]);
+  const tags = (pin: AssetLock) => [
+    pin.releaseTag,
+    ...(pin.schemaVersion === 3
+      ? Object.values(pin.bundles).map((bundle) => bundle.releaseTag)
+      : []),
+  ];
+  const keep = new Set(tags(local));
   async function pin(repo: string, ref: string) {
     const response = JSON.parse(
       await github([
@@ -21,9 +27,10 @@ export async function retainedPacks(local: AssetLock, github: GitHub = gh) {
     );
     if (response.encoding !== 'base64' || typeof response.content !== 'string')
       throw new Error('Cannot verify retained asset reference');
-    keep.add(
-      LockSchema.parse(JSON.parse(Buffer.from(response.content, 'base64').toString())).releaseTag,
-    );
+    for (const tag of tags(
+      LockSchema.parse(JSON.parse(Buffer.from(response.content, 'base64').toString())),
+    ))
+      keep.add(tag);
   }
   await pin('Talyen/lantern-knight', 'main');
   const pulls = JSON.parse(

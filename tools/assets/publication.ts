@@ -1,3 +1,4 @@
+import path from 'node:path';
 import fs from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { AssetCache } from './cache';
@@ -7,6 +8,7 @@ import {
   validatePack,
   preparationPin,
   lockFile,
+  LockSchema,
   type AssetLock,
 } from './pack';
 import { shaFile } from './sources';
@@ -14,7 +16,7 @@ import { gh } from './retention';
 import type { prepareAssets } from './prepare';
 export type PreparedAssets = Awaited<ReturnType<typeof prepareAssets>>;
 
-export async function verifyRemote(lock: AssetLock) {
+async function verifyRemote(lock: AssetLock) {
   const held = await new AssetCache().lease('publication-' + randomUUID());
   try {
     const response = await fetch(
@@ -60,47 +62,7 @@ export async function publishPrepared(
   const lock = prepared.lock;
   const pin = await preparationPinFor(prepared);
   await validateCandidate(prepared);
-  let existing: { assets: { name: string }[] } | undefined;
-  try {
-    const value = JSON.parse(
-      await publish(['release', 'view', lock.releaseTag, '--json', 'assets']),
-    );
-    if (
-      !Array.isArray(value.assets) ||
-      value.assets.some((a: unknown) => !a || typeof (a as { name?: unknown }).name !== 'string')
-    )
-      throw new Error('Invalid existing release metadata');
-    existing = value;
-  } catch (error) {
-    const detail = String(error) + ' ' + String((error as { stderr?: unknown }).stderr ?? '');
-    if (!/release not found|HTTP 404|Not Found/i.test(detail)) throw error;
-  }
-  if (existing) {
-    if (!existing.assets.some((a) => a.name === lock.filename))
-      await publish(['release', 'upload', lock.releaseTag, prepared.archive + '#' + lock.filename]);
-  } else {
-    const commit = (
-      await publish([
-        'api',
-        'repos/Talyen/lantern-knight/git/ref/heads/main',
-        '--jq',
-        '.object.sha',
-      ])
-    ).trim();
-    await publish([
-      'release',
-      'create',
-      lock.releaseTag,
-      prepared.archive + '#' + lock.filename,
-      '--target',
-      commit,
-      '--title',
-      'Prepared assets ' + lock.sha256.slice(0, 16),
-      '--notes',
-      'Verified runtime asset pack. Recipe SHA-256: ' + lock.recipeSha256,
-      '--latest=false',
-    ]);
-  }
+  await uploadArchive(lock, prepared.archive, publish);
   await verify(lock);
   await validateCandidate(prepared);
   await beforePin();
@@ -114,6 +76,96 @@ export async function publishPrepared(
   console.log('Published and pinned ' + lock.releaseTag);
 }
 
+async function uploadArchive(
+  lock: import('./pack').AssetLock,
+  archive: string,
+  publish: typeof gh,
+) {
+  let existing: { assets: { name: string }[] } | undefined;
+  try {
+    const value = JSON.parse(
+      await publish(['release', 'view', lock.releaseTag, '--json', 'assets']),
+    );
+    if (
+      !Array.isArray(value.assets) ||
+      value.assets.some((a: unknown) => !a || typeof (a as { name?: unknown }).name !== 'string')
+    )
+      throw new Error('Invalid existing release metadata');
+    existing = value;
+  } catch (error) {
+    const stderr = (error as { stderr?: unknown }).stderr;
+    const detail =
+      String(error) +
+      ' ' +
+      (typeof stderr === 'string' || Buffer.isBuffer(stderr) ? stderr.toString() : '');
+    if (!/release not found|HTTP 404|Not Found/i.test(detail)) throw error;
+  }
+  if (existing) {
+    if (!existing.assets.some((a) => a.name === lock.filename))
+      await publish(['release', 'upload', lock.releaseTag, archive + '#' + lock.filename]);
+  } else {
+    const commit = (
+      await publish([
+        'api',
+        'repos/Talyen/lantern-knight/git/ref/heads/main',
+        '--jq',
+        '.object.sha',
+      ])
+    ).trim();
+    await publish([
+      'release',
+      'create',
+      lock.releaseTag,
+      archive + '#' + lock.filename,
+      '--target',
+      commit,
+      '--title',
+      'Prepared assets ' + lock.sha256.slice(0, 16),
+      '--notes',
+      'Verified runtime asset pack. Recipe SHA-256: ' + lock.recipeSha256,
+      '--latest=false',
+    ]);
+  }
+}
+export async function publishBundledPrepared(
+  prepared: PreparedAssets,
+  publish = gh,
+  verify = verifyRemote,
+  target = lockFile,
+  beforePin: () => Promise<void> = async () => {},
+) {
+  await validateCandidate(prepared);
+  let previous: import('./pack').AssetLock | undefined;
+  try {
+    previous = LockSchema.parse(JSON.parse(await fs.readFile(target, 'utf8')));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+  }
+  const { prepareBundles } = await import('./bundles');
+  const plan = await prepareBundles(prepared, previous);
+  for (const [name, lock] of Object.entries(plan.pin.bundles)) {
+    if (plan.archives[name]) await uploadArchive(lock, plan.archives[name]!, publish);
+    await verify(lock);
+  }
+  await validateCandidate(prepared);
+  await beforePin();
+  const temporary = target + '.' + randomUUID();
+  try {
+    await fs.writeFile(temporary, JSON.stringify(plan.pin, null, 2) + '\n');
+    await fs.rename(temporary, target);
+  } finally {
+    await fs.rm(temporary, { force: true });
+  }
+  console.log('Published and pinned immutable bundles; unchanged bundles were reused.');
+}
+export async function bundlePinFor(prepared: PreparedAssets) {
+  const plan = JSON.parse(
+    await fs.readFile(path.join(prepared.held.root, 'bundles/plan.json'), 'utf8'),
+  );
+  const pin = LockSchema.parse(plan.pin);
+  if (pin.sha256 !== prepared.lock.sha256) throw new Error('Bundle plan differs from candidate');
+  return pin;
+}
 export async function preparationPinFor(prepared: PreparedAssets) {
   await validateCandidate(prepared);
   return preparationPin(

@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { BenchmarkSchema, frameSummary } from './benchmark';
 import { digest } from './source-identity';
 import { verificationIdentity, requireStableInputs } from './verification';
-import { option, type smokeLaunch } from './smoke-launch';
+import { option, type smokeLaunch } from './smoke/smoke-launch';
 
 export const journeyPhases = [
   'approach',

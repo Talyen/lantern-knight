@@ -10,6 +10,8 @@ import {
   ensurePack,
   inspectArchive,
   validatePack,
+  validateCachedPack,
+  preparationPin,
   recipeHash,
 } from '../tools/assets/pack';
 import { retainedPacks, obsoleteReleases } from '../tools/assets/retention';
@@ -119,6 +121,34 @@ test('corrupt caches are repaired by pinned bytes; active users are protected', 
       'unchanged texture',
     );
     await repaired.release();
+  } finally {
+    await f.close();
+  }
+});
+
+test('warm pack validation still checks each accepted payload identity', async () => {
+  const f = await fixture();
+  try {
+    const held = await ensurePack(
+      f.lock,
+      f.cache,
+      (async () => new Response(f.body)) as typeof fetch,
+    );
+    try {
+      const pin = preparationPin(f.lock, {}, await validatePack(held.root, f.lock));
+      await validateCachedPack(held.root, pin);
+      assert.notEqual(pin.schemaVersion, 1);
+      if (pin.schemaVersion !== 1)
+        await assert.rejects(
+          validateCachedPack(held.root, {
+            ...pin,
+            preparation: { ...pin.preparation, payloadSha256: '0'.repeat(64) },
+          }),
+          /Accepted preparation payload differs/,
+        );
+    } finally {
+      await held.release();
+    }
   } finally {
     await f.close();
   }
@@ -244,7 +274,7 @@ test('failed lease metadata writes preserve live reservations and do not wedge s
     write = fs.writeFile;
   const failWrite = () => {
     fs.writeFile = async (...args: Parameters<typeof fs.writeFile>) => {
-      if (String(args[0]).includes(path.sep + '.leases' + path.sep)) {
+      if (typeof args[0] === 'string' && args[0].includes(path.sep + '.leases' + path.sep)) {
         await write(args[0], '{"pid":');
         throw new Error('disk full during lease write');
       }
@@ -287,7 +317,7 @@ test('failed initial cache ownership publication leaves the directory recoverabl
     write = fs.writeFile;
   try {
     fs.writeFile = async (...args: Parameters<typeof fs.writeFile>) => {
-      if (String(args[0]).includes('.cache-owner')) {
+      if (typeof args[0] === 'string' && args[0].includes('.cache-owner')) {
         await write(args[0], '{"schemaVersion":');
         throw new Error('disk full during owner write');
       }
@@ -365,7 +395,7 @@ test('push guard checks the outgoing snapshot rather than an uncommitted repaire
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-push-pin-'));
   try {
     const { execFileSync } = await import('node:child_process'),
-      { checkCommittedAssetPin } = await import('../tools/check-asset-pin');
+      { checkCommittedAssetPin, checkCurrentAssetPin } = await import('../tools/check-asset-pin');
     const git = (args: string[]) => execFileSync('git', args, { cwd: root, stdio: 'pipe' });
     git(['init', '--quiet']);
     git(['config', 'user.name', 'Fixture']);
@@ -404,12 +434,15 @@ test('push guard checks the outgoing snapshot rather than an uncommitted repaire
     git(['commit', '--quiet', '-m', 'matching pin']);
     const good = git(['rev-parse', 'HEAD']).toString().trim();
     await checkCommittedAssetPin(root, good);
+    await checkCurrentAssetPin(root);
     await fs.writeFile(path.join(root, 'authoring/hero-actions.json'), 'changed recipe');
+    await assert.rejects(checkCurrentAssetPin(root), /recipes differ/);
     git(['add', '.']);
     git(['commit', '--quiet', '-m', 'stale pin']);
     const bad = git(['rev-parse', 'HEAD']).toString().trim();
     lock.recipeSha256 = await recipeHash((name) => fs.readFile(path.join(root, name)));
     await fs.writeFile(path.join(root, 'assets/lock.json'), JSON.stringify(lock));
+    await checkCurrentAssetPin(root);
     await assert.rejects(checkCommittedAssetPin(root, bad), /recipes differ/);
     await checkCommittedAssetPin(root, good);
     git(['add', '.']);
@@ -464,4 +497,11 @@ test('equivalence excludes only preparation provenance and binds the accepted re
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }
+});
+
+test('loading media rejects missing, truncated and changed selected source bytes', async () => {
+  const { validateLoadingVideo } = await import('../tools/assets/loading-media');
+  assert.throws(() => validateLoadingVideo(new Uint8Array()), /differs/);
+  assert.throws(() => validateLoadingVideo(new Uint8Array(625991)), /differs/);
+  assert.throws(() => validateLoadingVideo(new Uint8Array(625992)), /differs/);
 });

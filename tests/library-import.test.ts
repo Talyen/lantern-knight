@@ -7,6 +7,7 @@ import { clipDuration, frameAt } from '../src/core/animation';
 import {
   emptyScene,
   parseSceneDocument,
+  convertLegacySceneDocument,
   validateSceneReferences,
   paletteKind,
   paletteClips,
@@ -93,7 +94,7 @@ it('exposes only supplied directions while preserving complete-asset coverage re
     }),
   );
   const saved = parseSceneDocument(JSON.parse(JSON.stringify(h.document)));
-  assert.equal(saved.version, 3);
+  assert.equal(saved.version, 4);
   assert.equal(saved.objects[0]!.heading, 'd90');
   h.undo();
   assert.equal(h.document.objects.length, 0);
@@ -140,18 +141,22 @@ it('exposes only supplied directions while preserving complete-asset coverage re
     /Mirroring unavailable/,
   );
 });
-it('migrates version 2 in memory and rejects disguised newer objects', () => {
+it('requires explicit version 2 conversion and rejects disguised newer objects', () => {
   const original = { ...emptyScene(), version: 2 };
-  assert.equal(parseSceneDocument(original).version, 3);
+  assert.throws(() => parseSceneDocument(original), /explicit conversion/);
+  assert.equal(convertLegacySceneDocument(original, 'study').version, 4);
   assert.equal(original.version, 2);
   assert.throws(
     () =>
-      parseSceneDocument({
-        ...original,
-        objects: [
-          { id: 'enemy', kind: 'character', asset: 'library-fixture', clip: 'move', x: 0, z: 0 },
-        ],
-      }),
+      convertLegacySceneDocument(
+        {
+          ...original,
+          objects: [
+            { id: 'enemy', kind: 'character', asset: 'library-fixture', clip: 'move', x: 0, z: 0 },
+          ],
+        },
+        'study',
+      ),
     /version 2/,
   );
 });

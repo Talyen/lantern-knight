@@ -15,9 +15,9 @@ from unittest.mock import patch
 
 PROJECT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT / "tools/assets"))
-from resolver import SourceResolver
-from source import read
-from library import make_plan, apply_plan, check_sources
+from resolver import SourceResolver  # noqa: E402 - local modules require the path above.
+from source import read  # noqa: E402 - local modules require the path above.
+from library import make_plan, apply_plan, check_sources  # noqa: E402 - local module path.
 
 
 def identity(data):

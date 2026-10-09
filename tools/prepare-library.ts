@@ -5,7 +5,7 @@ import { source } from './assets/definition';
 import { parseManifest, type Manifest } from '../src/assets/schema';
 import { hash } from './compiler';
 import { readLibrarySource } from './assets/sources';
-import { publicFile, stagingFile, projectRoot } from './assets/paths';
+import { stagingFile, projectRoot } from './assets/paths';
 import { runProcess } from './run-process';
 import { readAsset, assetWriter } from './assets/io';
 type Input = {

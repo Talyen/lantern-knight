@@ -7,8 +7,9 @@ import sharp from 'sharp';
 import { parseSource, parseManifest, type Manifest } from '../src/assets/schema';
 import contract from '../src/assets/camera.json';
 import { cameraCalibration as calibrationFixture } from '../src/assets/camera-calibration';
+import { recordAssetOutput } from './assets/io';
 const root = projectRoot;
-export const TOOL_VERSION = 'atlas-v2.2-sharp-0.35.5';
+const TOOL_VERSION = 'atlas-v2.2-sharp-0.35.5';
 export const hash = (v: Buffer | string) => createHash('sha256').update(v).digest('hex');
 export async function exactSource(relative: string, base = stagingRoot()) {
   if (base.startsWith('references/art/')) return readLibrarySource(relative, sourceGroup(base));
@@ -250,11 +251,11 @@ export async function compile(
     );
     await fs.rename(path.join(out, 'manifest.json.tmp'), path.join(out, 'manifest.json'));
     await fs.writeFile(
-      path.join(out, 'calibration.json'),
+      path.join(out, 'calibration.json.tmp'),
       JSON.stringify(calibrationFixture(), null, 2) + '\n',
     );
     await fs.writeFile(
-      path.join(out, 'report.json'),
+      path.join(out, 'report.json.tmp'),
       JSON.stringify(
         {
           hash: contentHash,
@@ -272,6 +273,15 @@ export async function compile(
         2,
       ),
     );
+    await fs.rename(path.join(out, 'calibration.json.tmp'), path.join(out, 'calibration.json'));
+    await fs.rename(path.join(out, 'report.json.tmp'), path.join(out, 'report.json'));
+    for (const file of [
+      'manifest.json',
+      'calibration.json',
+      'report.json',
+      ...manifest.pages.map((page) => page.path),
+    ])
+      await recordAssetOutput(path.join(out, file));
     return manifest;
   } catch (error) {
     await fs.rm(tmp, { recursive: true, force: true });

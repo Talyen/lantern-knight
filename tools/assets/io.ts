@@ -1,8 +1,21 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { assetFile, assetRoot } from './paths';
+import { assetFile, assetRoot, safeRelative } from './paths';
 import { readLibrarySource } from './sources';
 import { diskBytes } from './cache';
+import { randomUUID } from 'node:crypto';
+export async function recordAssetOutput(file: string) {
+  if (!process.env.LANTERN_STEP_OUTPUT_LOG) return;
+  const relative = path.relative(assetRoot(), assetFile(file)).split(path.sep).join('/');
+  safeRelative(relative);
+  await fs.appendFile(process.env.LANTERN_STEP_OUTPUT_LOG, relative + '\n');
+}
+async function atomicAssetWrite(target: string, data: Buffer | string) {
+  const temporary = target + '.write-' + randomUUID();
+  await fs.writeFile(temporary, data);
+  await fs.rename(temporary, target);
+  await recordAssetOutput(target);
+}
 
 export function readAsset(file: string): Promise<Buffer>;
 export function readAsset(file: string, encoding: BufferEncoding): Promise<string>;
@@ -34,7 +47,7 @@ export async function writeAsset(file: string, data: Buffer | string) {
   if ((await diskBytes(root)) - prior + size > budget)
     throw new Error('Asset preparation exceeds reserved cache space');
   await fs.mkdir(path.dirname(target), { recursive: true });
-  await fs.writeFile(target, data);
+  await atomicAssetWrite(target, data);
 }
 export const mkdirAsset = (file: string, options: { recursive?: boolean }) =>
   fs.mkdir(assetFile(file), options);
@@ -64,7 +77,7 @@ export async function assetWriter() {
       const next = bytes - prior + Buffer.byteLength(data);
       if (next > budget) throw new Error('Asset preparation exceeds reserved cache space');
       await fs.mkdir(path.dirname(target), { recursive: true });
-      await fs.writeFile(target, data);
+      await atomicAssetWrite(target, data);
       bytes = next;
     });
     return pending;

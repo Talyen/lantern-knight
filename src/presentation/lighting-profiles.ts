@@ -1,5 +1,5 @@
-export type LightingRig = 'golden' | 'silver';
-export type LookPreset = 'ink' | 'diorama' | 'cinematic';
+type LightingRig = 'golden' | 'silver';
+type LookPreset = 'ink' | 'diorama' | 'cinematic';
 export type LookSettings = {
   rig: LightingRig;
   look: LookPreset;

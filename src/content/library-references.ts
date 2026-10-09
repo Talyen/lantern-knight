@@ -1,6 +1,6 @@
 import court from '../../authoring/scenes/live-court.json';
 import chapel from '../../authoring/scenes/live-upper-landing.json';
-export function sceneLibraryAssets(
+function sceneLibraryAssets(
   documents: readonly {
     objects: readonly { asset: string; fixture?: { flame?: { asset: string } } }[];
   }[],

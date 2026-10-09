@@ -1,4 +1,4 @@
-import { sceneOptions } from '../tools/scene-workflow';
+import { sceneOptions } from '../tools/scene/scene-workflow';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
@@ -6,7 +6,28 @@ import { runProcess } from '../tools/run-process';
 import { withoutCommandLane } from '../tools/command-lane';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { runTask, type TaskContext } from '../tools/task-runner';
+import { runTask, parseTask, type TaskContext } from '../tools/task-runner';
+
+test('explicit local browser verification consumes the candidate rather than a cached prototype layer', async () => {
+  const context: TaskContext = {
+    env: {},
+    workspaces: new Map<boolean | string, { env: NodeJS.ProcessEnv; release: () => Promise<void> }>(
+      [
+        [true, { env: { LANTERN_ASSET_SHA256: 'candidate' }, release: async () => {} }],
+        ['prototype', { env: { LANTERN_ASSET_SHA256: 'prototype' }, release: async () => {} }],
+      ],
+    ),
+    releaseAdmission: async () => {},
+  };
+  const parsed = await parseTask('ui:probe', ['--local']);
+  const definition = {
+    ...parsed.definition,
+    operation: async ({ env }: { env: NodeJS.ProcessEnv }) => {
+      assert.equal(env.LANTERN_ASSET_SHA256, 'candidate');
+    },
+  };
+  await runTask(context, 'ui:probe', ['--local'], undefined, { ...parsed, definition });
+});
 test('invalid tasks, test selections and reload reuse fail before acquiring an asset workspace', async () => {
   const context: TaskContext = {
     captureDirectories: ['/fixture/capture'],
@@ -17,6 +38,10 @@ test('invalid tasks, test selections and reload reuse fail before acquiring an a
     },
   };
   for (const [task, args] of [
+    ['lint', ['--unsafe-fixes']],
+    ['lint:js', ['--fix', '--fix']],
+    ['lint:py', ['--unknown']],
+    ['knip', ['--fix']],
     ['test', ['tests/missing.test.ts']],
     ['build', ['--unknown']],
     ['scene:check', ['--scene', 'court', '--skip-reload']],
@@ -67,13 +92,13 @@ test('a focused pure run executes one small fixture with an unusable asset cache
       output += chunk.toString();
     });
     assert.equal(context.workspaces.size, 0);
-    assert.match(output, /1 suite; 1 checks passed; 0 failed/);
+    assert.match(output, /1 suite;.*\n1 executed; 0 reused; 0 failed/);
     assert.equal(await fs.readFile(path.join(root, '.ran'), 'utf8'), 'once');
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }
   const { testGroups } = await import('../tools/test');
-  const { commands, checkCommandScripts } = await import('../tools/task-runner');
+  const { checkCommandScripts } = await import('../tools/task-runner');
   assert.deepEqual(testGroups(['tests/hero-actions.test.ts', 'tests/unknown.test.ts']), {
     pure: ['tests/hero-actions.test.ts'],
     assets: ['tests/unknown.test.ts'],
@@ -163,7 +188,7 @@ test('empty or failed test workers cannot produce successful focused evidence', 
     );
     await assert.rejects(
       runTask(context, 'test', ['tests/persistence.test.ts'], () => {}),
-      /Tests failed/,
+      /regression/,
     );
   } finally {
     await fs.rm(root, { recursive: true, force: true });

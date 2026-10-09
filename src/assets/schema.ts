@@ -113,7 +113,7 @@ const sourceFrame = z
     registration: frameRegistration.optional(),
   })
   .strict();
-export const SourceSchema = z
+const SourceSchema = z
   .object({ schemaVersion: z.literal(2), asset: metadata, frames: z.array(sourceFrame).min(1) })
   .strict();
 const runtimeFrame = sourceFrame
@@ -134,7 +134,7 @@ const page = z
     mipmaps: z.boolean(),
   })
   .strict();
-export const ManifestSchema = z
+const ManifestSchema = z
   .object({
     schemaVersion: z.literal(2),
     contractId: z.literal(contract.id),
@@ -156,7 +156,7 @@ export type Source = z.infer<typeof SourceSchema>;
 export type Manifest = z.infer<typeof ManifestSchema>;
 export type Frame = Manifest['frames'][number];
 export type Clip = z.infer<typeof timing>;
-export function validateSemantics(value: Source | Manifest, production = false) {
+function validateSemantics(value: Source | Manifest, production = false) {
   const a = value.asset;
   if (a.sampling === 'terrain-mipmapped' && a.type !== 'material')
     throw new Error('terrain mipmaps require a material');

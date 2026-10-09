@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-src 'none'"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'none'; frame-src 'none'"
     />
+    <link rel="stylesheet" href="/src/loading-screen.css" />
     <title>Lantern Knight Dev</title>
   </head>
   <body>
+    <dialog id="loading-screen" open aria-label="Loading Lantern Knight">
+      <video muted loop playsinline preload="auto" aria-hidden="true"></video>
+      <p role="status" aria-live="polite">Loading…</p>
+    </dialog>
     <div id="app"></div>
     <script type="module" src="/src/sandbox.ts"></script>
   </body>

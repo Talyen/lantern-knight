@@ -3,6 +3,7 @@ import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import { createInterface } from 'node:readline';
 import { createHash } from 'node:crypto';
 import { createReadStream } from 'node:fs';
+import fs from 'node:fs/promises';
 import { projectRoot, sourceLibrary, safeRelative } from './paths';
 const indexPath = path.join(projectRoot, 'assets/sources.json');
 export async function shaFile(file: string) {
@@ -78,7 +79,7 @@ export function readLibrarySource(
   const root = location?.root ?? sourceLibrary(),
     child = reader(),
     requestId = ++id;
-  return new Promise((resolve, reject) => {
+  const promise = new Promise<Buffer>((resolve, reject) => {
     pending.set(requestId, { resolve, reject });
     child.stdin.write(
       JSON.stringify({
@@ -89,6 +90,20 @@ export function readLibrarySource(
         member,
       }) + '\n',
     );
+  });
+  if (!process.env.LANTERN_STEP_INPUT_LOG) return promise;
+  return promise.then(async (bytes) => {
+    await fs.appendFile(
+      process.env.LANTERN_STEP_INPUT_LOG!,
+      JSON.stringify({
+        member,
+        group,
+        root,
+        indexPath: location?.indexPath ?? indexPath,
+        sha256: createHash('sha256').update(bytes).digest('hex'),
+      }) + '\n',
+    );
+    return bytes;
   });
 }
 export function sourceGroup(base: string) {

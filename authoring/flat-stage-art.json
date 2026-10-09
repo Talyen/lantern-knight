@@ -1,0 +1,99 @@
+{
+  "group": "flat-stage-v1",
+  "frames": [
+    {
+      "id": "ink-stage-chapel-exterior",
+      "file": "exterior.png",
+      "clip": "shell",
+      "canvas": [
+        1420,
+        1108
+      ],
+      "anchor": [
+        1180,
+        985
+      ],
+      "density": 245.5,
+      "type": "prop",
+      "projection": "painted-cutout",
+      "alphaRemap": {
+        "floor": 0.72,
+        "ceiling": 0.92
+      }
+    },
+    {
+      "id": "ink-stage-chapel-interior",
+      "file": "interior.png",
+      "clip": "shell",
+      "canvas": [
+        1536,
+        1024
+      ],
+      "anchor": [
+        768,
+        635
+      ],
+      "density": 256,
+      "type": "prop",
+      "projection": "painted-cutout",
+      "alphaRemap": {
+        "floor": 0.72,
+        "ceiling": 0.92
+      }
+    },
+    {
+      "id": "ink-stage-earth",
+      "file": "earth.png",
+      "clip": "surface",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "anchor": [
+        627.0,
+        627.0
+      ],
+      "density": 313.5,
+      "type": "material",
+      "projection": "top-down",
+      "alphaRemap": null
+    },
+    {
+      "id": "ink-stage-road",
+      "file": "road.png",
+      "clip": "panel",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "anchor": [
+        627.0,
+        627.0
+      ],
+      "density": 313.5,
+      "type": "prop",
+      "projection": "top-down",
+      "alphaRemap": {
+        "floor": 0.72,
+        "ceiling": 0.92
+      }
+    },
+    {
+      "id": "ink-stage-stone",
+      "file": "stone.png",
+      "clip": "surface",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "anchor": [
+        627.0,
+        627.0
+      ],
+      "density": 313.5,
+      "type": "material",
+      "projection": "top-down",
+      "alphaRemap": null
+    }
+  ]
+}

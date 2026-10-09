@@ -18,6 +18,8 @@ import {
 import { prepareAssets } from './prepare';
 import {
   publishPrepared,
+  publishBundledPrepared,
+  bundlePinFor,
   validateCandidate,
   preparationPinFor,
   type PreparedAssets,
@@ -113,7 +115,7 @@ export function completionCommands(
     throw new Error('Packaged asset finalization requires the supported macOS or Windows host');
   const host = platform === 'darwin' ? 'mac' : 'win';
   const commands: [(typeof names)[number], string[]][] = [
-    ['regular local checks', ['run', 'check', '--', '--local']],
+    ['regular local checks', ['run', 'check:full', '--', '--local']],
     ['Game build', ['run', 'build', '--', '--local']],
     ['Dev build', ['run', 'build:dev', '--', '--local']],
     ['Game identity', ['run', 'build:verify', '--', '--local']],
@@ -124,6 +126,7 @@ export function completionCommands(
     ['hero smoke', ['run', 'smoke:hero', '--', '--local', '--capture']],
     ['lighting smoke', ['run', 'smoke:lighting', '--', '--local', '--quick', '--capture']],
     ['Game smoke', ['run', 'smoke:game', '--', '--local', '--capture']],
+    ['Sandbox smoke', ['run', 'smoke:sandbox', '--', '--local', '--quick', '--capture']],
     ['Effects smoke', ['run', 'smoke:effects', '--', '--local', '--capture']],
     ['Graveyard scene', ['run', 'scene:check', '--', '--scene', 'court', '--local', '--capture']],
     [
@@ -330,7 +333,7 @@ export async function reusablePreparation(
     await validateCandidate(candidate);
     console.log('Reusing prepared ' + lock.releaseTag);
     return candidate;
-  } catch (error) {
+  } catch {
     await held.release();
     console.log('No matching intact preparation; preparing current runtime assets.');
     return prepare(cache);
@@ -405,7 +408,8 @@ export async function finalizeAssets(
   execute?: (args: string[]) => Promise<{ output: string; captureDirectories: string[] }>,
 ) {
   const requestedFull = args.includes('--full');
-  args = args.filter((a) => a !== '--full');
+  const bundled = args.includes('--bundles');
+  args = args.filter((a) => a !== '--full' && a !== '--bundles');
   const reviewed = args[0] === '--reviewed';
   if (reviewed ? args.length !== 2 || !hash.safeParse(args[1]).success : args.length !== 0)
     throw new Error(
@@ -416,7 +420,8 @@ export async function finalizeAssets(
     file = path.join(candidate.held.root, 'completion.json');
   let captureDirectories: string[] = [];
   const deps: CompletionDependencies = {
-    expectedPin: async (p) => JSON.stringify(await preparationPinFor(p), null, 2) + '\n',
+    expectedPin: async (p) =>
+      JSON.stringify(await (bundled ? bundlePinFor(p) : preparationPinFor(p)), null, 2) + '\n',
     plan: candidateValidationPlan,
     source: () => verificationIdentity(projectRoot),
     withoutPin: async () =>
@@ -430,7 +435,14 @@ export async function finalizeAssets(
       captureDirectories = result.captureDirectories;
       return result.output;
     },
-    publish: (p, stable) => publishPrepared(p, undefined, undefined, lockFile, stable),
+    publish: (p, stable) =>
+      (bundled ? publishBundledPrepared : publishPrepared)(
+        p,
+        undefined,
+        undefined,
+        lockFile,
+        stable,
+      ),
     pin: () => fs.readFile(lockFile, 'utf8'),
     restore: async (old, expected) => {
       if ((await fs.readFile(lockFile, 'utf8')) !== expected)
@@ -462,9 +474,18 @@ export async function finalizeAssets(
     let baselineLock: Awaited<ReturnType<typeof readLock>> | undefined;
     try {
       baselineLock = await readLock();
-      baseline = await ensurePack(baselineLock);
+      baseline = await cache.lease('pack-' + baselineLock.sha256);
+      await validatePack(baseline.root, baselineLock);
     } catch {
+      await baseline?.release();
+      baseline = undefined;
+      baselineLock = undefined;
       console.log('Published baseline unavailable; using normal finalization.');
+    }
+    if (bundled) {
+      await baseline?.release();
+      baseline = undefined;
+      baselineLock = undefined;
     }
     if (baseline && baselineLock) {
       try {

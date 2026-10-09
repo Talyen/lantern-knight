@@ -3,6 +3,11 @@ export const assetCatalog: Readonly<Record<string, string>> = {
   ...visualEffectsCatalog,
   ...Object.fromEntries(
     [
+      'ink-stage-chapel-exterior',
+      'ink-stage-chapel-interior',
+      'ink-stage-earth',
+      'ink-stage-road',
+      'ink-stage-stone',
       'ink-chapel-altar',
       'ink-chapel-window',
       'ink-chapel-pew',

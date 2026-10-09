@@ -1,3 +1,4 @@
+import { paletteEntry, sceneDesignProfiles } from './content/scene-design';
 import './editor.css';
 import * as T from 'three';
 import { AssetRuntime } from './assets/loader';
@@ -74,6 +75,7 @@ function recover() {
   }
 }
 function controls() {
+  if (palette.length) showPalette();
   const d = history.document,
     items = sceneItems(d),
     item = items.find((p) => p.placement.id === selected),
@@ -95,15 +97,29 @@ function controls() {
   for (const key of ['x', 'z', 'y', 'scale'] as const)
     $<HTMLInputElement>(key).value = p ? String(p[key] ?? (key === 'scale' ? 1 : 0)) : '';
   $<HTMLInputElement>('mirror').checked = !!p?.mirror;
+  const curated = p && d.profile !== 'study' ? paletteEntry(p) : undefined;
+  const fixedAttachment = !!p?.mount && d.profile !== 'study';
+  const size = $<HTMLInputElement>('scale');
+  size.min = String(fixedAttachment ? 1 : (curated?.scale[0] ?? 0.05));
+  size.max = String(fixedAttachment ? 1 : (curated?.scale[1] ?? 20));
+  size.disabled = fixedAttachment || (!!curated && curated.scale[0] === curated.scale[1]);
+  $<HTMLInputElement>('x').disabled = !!p?.mount && d.profile !== 'study';
+  $<HTMLInputElement>('z').disabled = !!p?.mount && d.profile !== 'study';
   const manifest = p ? palette.find((e) => e.asset === p.asset)?.manifest : undefined;
   $<HTMLInputElement>('mirror').disabled =
+    (d.profile !== 'study' && !curated?.mirror) ||
     manifest?.asset.mirroring === false ||
     (manifest?.asset.type === 'character' && manifest.asset.mirroring !== true);
   const clipSelect = $<HTMLSelectElement>('clip'),
     headingSelect = $<HTMLSelectElement>('heading');
   clipSelect.replaceChildren();
   headingSelect.replaceChildren();
-  for (const clip of manifest ? paletteClips(manifest) : []) clipSelect.add(new Option(clip, clip));
+  for (const clip of manifest ? paletteClips(manifest) : [])
+    if (
+      d.profile === 'study' ||
+      paletteEntry({ asset: manifest!.asset.id, clip })?.profiles.includes(d.profile)
+    )
+      clipSelect.add(new Option(clip, clip));
   if (p) clipSelect.value = p.clip;
   for (const heading of Object.keys(manifest?.asset.clips[p?.clip ?? ''] ?? {}))
     headingSelect.add(
@@ -128,7 +144,7 @@ function controls() {
   if (p) headingSelect.value = p.heading ?? 'd45';
   $<HTMLInputElement>('rotation').value = String(((p?.rotation ?? 0) * 180) / Math.PI);
   $('rotation-label').hidden = item?.kind !== 'decal';
-  $<HTMLInputElement>('y').disabled = item?.kind === 'decal';
+  $<HTMLInputElement>('y').disabled = d.profile !== 'study' || item?.kind === 'decal';
   $<HTMLButtonElement>('undo').disabled = busy || !history.canUndo;
   $<HTMLButtonElement>('redo').disabled = busy || !history.canRedo;
   for (const key of ['delete', 'duplicate'])
@@ -163,6 +179,9 @@ function select(id: string | undefined) {
   selected = id;
   chosen = undefined;
   controls();
+}
+function launch(work: Promise<unknown>) {
+  work.catch((error) => status(error instanceof Error ? error.message : String(error), true));
 }
 async function run(action: () => Promise<void>, restoring = false) {
   if (busy) return;
@@ -316,12 +335,12 @@ function saveAs() {
 }
 $('save-dialog').addEventListener('close', () => {
   if ($<HTMLDialogElement>('save-dialog').returnValue === 'save')
-    void save($<HTMLInputElement>('file-id').value);
+    launch(save($<HTMLInputElement>('file-id').value));
 });
 $('open').onclick = () => void open($<HTMLSelectElement>('scene').value);
 $('save').onclick = () => {
   if (revision === null) saveAs();
-  else void save();
+  else launch(save());
 };
 $('save-as').onclick = saveAs;
 $('conflict-copy').onclick = saveAs;
@@ -463,6 +482,8 @@ function showPalette() {
     kind = $<HTMLSelectElement>('category').value;
   for (const [index, entry] of palette.entries())
     if (
+      (history.document.profile === 'study' ||
+        paletteEntry(entry)?.profiles.includes(history.document.profile)) &&
       (kind === 'all' ||
         kind === entry.kind ||
         (kind === 'pickup' && entry.manifest.asset.category === 'pickup') ||
@@ -491,7 +512,7 @@ function showPalette() {
           $('art-preview-label').textContent =
             `${entry.manifest.asset.label ?? entry.asset} · Reference artwork; this projection cannot be placed in a scene.`;
           $<HTMLDialogElement>('art-preview').showModal();
-          void thumbnail(entry, $<HTMLCanvasElement>('art-preview-canvas'));
+          launch(thumbnail(entry, $<HTMLCanvasElement>('art-preview-canvas')));
           return;
         }
         chosen = entry;
@@ -535,6 +556,17 @@ async function place(entry: (typeof palette)[number], x: number, y: number) {
           x: snapped(point.x),
           z: snapped(point.z),
           scale: 1,
+          zone:
+            d.profile === 'study'
+              ? undefined
+              : Object.entries(sceneDesignProfiles[d.profile].zones).find(
+                  ([, v]) =>
+                    (v.kind !== 'clear' || paletteEntry(entry)?.category === 'ground-panel') &&
+                    point.x >= v.bounds.minX &&
+                    point.x <= v.bounds.maxX &&
+                    point.z >= v.bounds.minZ &&
+                    point.z <= v.bounds.maxZ,
+                )?.[0],
         }),
       ),
     );
@@ -553,7 +585,7 @@ canvas.ondrop = (e) => {
   const value = e.dataTransfer!.getData('application/x-lantern-asset');
   if (value === '') return;
   const entry = palette[Number(value)];
-  if (entry && !busy) void place(entry, e.clientX, e.clientY);
+  if (entry && !busy) launch(place(entry, e.clientX, e.clientY));
 };
 type Drag = {
   pointer: number;
@@ -574,7 +606,7 @@ canvas.onpointerdown = (e) => {
   canvas.focus();
   if (e.button !== 0 && e.button !== 2 && e.button !== 1) return;
   if (chosen && e.button === 0) {
-    void place(chosen, e.clientX, e.clientY);
+    launch(place(chosen, e.clientX, e.clientY));
     return;
   }
   const item = e.button === 0 ? view.pick(e.clientX, e.clientY, history.document) : undefined,
@@ -629,17 +661,19 @@ function finishDrag(cancel = false) {
   if (!current) return;
   if (canvas.hasPointerCapture(current.pointer)) canvas.releasePointerCapture(current.pointer);
   if (current.mode === 'pan') return;
-  void run(async () => {
-    if (!cancel && current.changed && current.next) {
-      const { x, z } = current.next;
-      if (current.mode === 'hero')
-        history.change((d) => {
-          d.hero = { x, z };
-        });
-      else history.transform(current.id!, { x, z });
-    }
-    await refresh();
-  });
+  launch(
+    run(async () => {
+      if (!cancel && current.changed && current.next) {
+        const { x, z } = current.next;
+        if (current.mode === 'hero')
+          history.change((d) => {
+            d.hero = { x, z };
+          });
+        else history.transform(current.id!, { x, z });
+      }
+      await refresh();
+    }),
+  );
 }
 canvas.onpointerup = () => finishDrag();
 canvas.onpointercancel = () => finishDrag(true);

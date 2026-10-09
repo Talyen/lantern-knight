@@ -10,8 +10,10 @@ Current packaging produces unpacked macOS arm64 and Windows x64 Game/Dev applica
 
 1. Review the complete changed-file inventory and task-owned patches through the [review workflow](../CONTRIBUTING.md#review-and-investigation). Preserve unrelated work. A supported release needs a clean, reviewed commit; do not clean the checkout destructively to obtain it.
 2. Choose the intended version in `package.json` and identify the exact commit and pinned `assets/lock.json` revision. Ordinary builds consume that pin. Changed art recipes require the explicit art-authoring workflow, not regeneration in CI.
-3. Run the regular gates and both Game/Dev builds. Verify both identities, then package the prebuilt outputs on the applicable hosts using the commands below. The [CI workflow](../.github/workflows/ci.yml) reuses checked build artifacts; [Contributing](../CONTRIBUTING.md#e2e-coverage-and-execution-budgets) owns platform coverage and execution budgets. Avoid rebuilding a different candidate between identity verification and packaging.
-4. Follow the hosted run for that exact commit to final job conclusions. A missing run, failed job or policy-skipped desktop job leaves that evidence incomplete. PR checks alone do not include desktop packaging/smoke.
+3. Run the regular gates and both Game/Dev builds. Verify both identities, then package the prebuilt outputs on the applicable hosts using the commands below. The [CI workflow](../.github/workflows/ci.yml) reuses checked build artifacts; [Contributing](verification.md#e2e-coverage-and-execution-budgets) owns platform coverage and execution budgets. Avoid rebuilding a different candidate between identity verification and packaging.
+4. Follow the hosted run for that exact commit to final job conclusions. A missing run, failed job or policy-skipped desktop job leaves that evidence incomplete. Affected PRs include desktop packaging/smoke; documentation and independent-tooling PRs may skip it. Releases still require completed desktop evidence for both platforms.
+
+Prototype tasks do not run this delivery sequence. Normal code/asset iteration follows [scoped verification](../CONTRIBUTING.md#verification) and [local asset layers](assets.md#local-preparation-review). Local builds/packages may reuse matching runtime/configuration/pin inputs after validating output identities; CI retains exact-commit full delivery checks. Editing a test, documentation or browser assertion does not change the runtime build identity.
 
 ### Build and package pinned outputs
 
@@ -26,9 +28,9 @@ npm run build:dev:verify
 
 Package those outputs on the matching host:
 
-| Host | Game | Dev |
-| --- | --- | --- |
-| macOS | `npm run package:mac:prebuilt` | `npm run package:dev:mac:prebuilt` |
+| Host    | Game                           | Dev                                |
+| ------- | ------------------------------ | ---------------------------------- |
+| macOS   | `npm run package:mac:prebuilt` | `npm run package:dev:mac:prebuilt` |
 | Windows | `npm run package:win:prebuilt` | `npm run package:dev:win:prebuilt` |
 
 Run `npm run test:e2e` afterward. `npm run verify:full` combines regular gates, builds, host packaging and E2E when separate candidate stages are unnecessary.

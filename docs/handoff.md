@@ -6,7 +6,7 @@ Scene ownership refactors require matching object order, collider geometry, fixt
 
 This document defines evidence requirements; it is not a record of a completed run. Only completed checks establish verification. A task response records the changed behavior, completed checks and material limitations. For a requested commit/push or release, the response records the exact final commit and hosted job conclusions after CI finishes. Hidden tests do not establish visible display pacing, release signing or behavior on untested GPUs.
 
-The [E2E policy](../CONTRIBUTING.md#e2e-coverage-and-execution-budgets) owns test value, platform coverage and budgets. Report runner queues and local command admission separately, and compare summed runner time, launches and test LOC alongside elapsed execution. Automated checks do not establish visible pacing or exhaustive cross-platform renderer parity.
+The [E2E policy](verification.md#e2e-coverage-and-execution-budgets) owns test value, platform coverage and budgets. Report runner queues and local command admission separately, and compare summed runner time, launches and test LOC alongside elapsed execution. Automated checks do not establish visible pacing or exhaustive cross-platform renderer parity.
 
 [Public release](release.md) owns candidate preparation, packaged checks, signing/distribution prerequisites and rollback. [Session replay](session-replay.md) owns recorded production-session evidence.
 

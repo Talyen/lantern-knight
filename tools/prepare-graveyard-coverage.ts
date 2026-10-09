@@ -1,7 +1,7 @@
 import { readAsset, writeAsset } from './assets/io';
-import fs from 'node:fs/promises';
+
 import sharp from 'sharp';
-import { assetCatalog } from '../src/content/asset-catalog';
+
 import type { Manifest } from '../src/assets/schema';
 import { hash } from './compiler';
 import path from 'node:path';

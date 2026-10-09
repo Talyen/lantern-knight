@@ -9,6 +9,7 @@ import * as tar from 'tar';
 import { AssetCache, diskBytes } from './cache';
 import { projectRoot, safeRelative, CACHE_LIMIT } from './paths';
 import { shaFile } from './sources';
+import { verifiedOutput } from '../verified-files';
 
 const hash = z.string().regex(/^[a-f0-9]{64}$/),
   bytes = z.number().int().nonnegative();
@@ -23,16 +24,17 @@ const archiveFields = {
 export const ArchiveLockSchema = z
   .object({ schemaVersion: z.literal(1), ...archiveFields })
   .strict();
-export type ArchiveLock = z.infer<typeof ArchiveLockSchema>;
+type ArchiveLock = z.infer<typeof ArchiveLockSchema>;
+const preparation = z
+  .object({ recipeSha256: hash, inputs: z.record(z.string(), hash), payloadSha256: hash })
+  .strict();
 export const LockSchema = z.union([
   ArchiveLockSchema,
   z
     .object({
       schemaVersion: z.literal(2),
       ...archiveFields,
-      preparation: z
-        .object({ recipeSha256: hash, inputs: z.record(z.string(), hash), payloadSha256: hash })
-        .strict(),
+      preparation,
     })
     .strict()
     .superRefine((pin, ctx) => {
@@ -45,10 +47,26 @@ export const LockSchema = z.union([
           message: 'Accepted preparation input hashes differ from its recipe',
         });
     }),
+  z
+    .object({
+      schemaVersion: z.literal(3),
+      ...archiveFields,
+      preparation,
+      bundles: z.record(z.string().regex(/^[a-z][a-z0-9_-]*$/), ArchiveLockSchema),
+    })
+    .strict()
+    .superRefine((pin, ctx) => {
+      if (
+        !Object.keys(pin.bundles).length ||
+        createHash('sha256').update(JSON.stringify(pin.preparation.inputs)).digest('hex') !==
+          pin.preparation.recipeSha256
+      )
+        ctx.addIssue({ code: 'custom', message: 'Invalid bundle preparation identity' });
+    }),
 ]);
 export type AssetLock = z.infer<typeof LockSchema>;
 export const acceptedRecipe = (lock: AssetLock) =>
-  lock.schemaVersion === 2 ? lock.preparation.recipeSha256 : lock.recipeSha256;
+  lock.schemaVersion !== 1 ? lock.preparation.recipeSha256 : lock.recipeSha256;
 export type PackInventory = {
   schemaVersion: 1;
   recipeSha256: string;
@@ -78,7 +96,7 @@ export function preparationPin(
     ...fields
   } = archive as AssetLock & { preparation?: unknown };
   return LockSchema.parse({
-    schemaVersion: 2,
+    schemaVersion: archive.schemaVersion === 3 ? 3 : 2,
     ...fields,
     preparation: {
       recipeSha256: createHash('sha256').update(JSON.stringify(inputs)).digest('hex'),
@@ -99,7 +117,6 @@ export const readLock = async (
   read = (name: string) => fs.readFile(path.join(projectRoot, name)),
 ) => LockSchema.parse(JSON.parse((await read('assets/lock.json')).toString()));
 import { listFiles } from './archive';
-export { listFiles } from './archive';
 export { makeArchive } from './archive';
 export async function validatePack(root: string, lock: AssetLock) {
   const inventory = await fs.readFile(path.join(root, 'pack.json'));
@@ -119,9 +136,35 @@ export async function validatePack(root: string, lock: AssetLock) {
     if ((await fs.stat(file)).size !== f.bytes || (await shaFile(file)) !== f.sha256)
       throw new Error(`Prepared asset differs: ${name}`);
   }
-  if (lock.schemaVersion === 2 && payloadDigest(data) !== lock.preparation.payloadSha256)
+  if (lock.schemaVersion !== 1 && payloadDigest(data) !== lock.preparation.payloadSha256)
     throw new Error('Accepted preparation payload differs from the published pack');
   return data;
+}
+export async function validateCachedPack(root: string, lock: AssetLock) {
+  const inventory = PackSchema.parse(
+    JSON.parse(await fs.readFile(path.join(root, 'pack.json'), 'utf8')),
+  );
+  const names = [...Object.keys(inventory.files), 'pack.json'];
+  const actual = (await listFiles(root)).filter((name) => !name.startsWith('.')).sort();
+  if (actual.join('\n') !== names.sort().join('\n'))
+    throw new Error('Prepared pack file inventory differs');
+  // The inventory itself remains cryptographically checked on every acquisition.
+  if (
+    (await shaFile(path.join(root, 'pack.json'))) !== lock.inventorySha256 ||
+    inventory.recipeSha256 !== lock.recipeSha256
+  )
+    throw new Error('Prepared inventory differs from pin');
+  if (lock.schemaVersion !== 1 && payloadDigest(inventory) !== lock.preparation.payloadSha256)
+    throw new Error('Accepted preparation payload differs from the published pack');
+  await verifiedOutput(
+    root,
+    names,
+    async () => {
+      await validatePack(root, lock);
+    },
+    '.verified-pack.json',
+  );
+  return inventory;
 }
 export async function inspectArchive(file: string, maxBytes = CACHE_LIMIT) {
   const names = new Set<string>(),
@@ -152,7 +195,7 @@ export async function inspectArchive(file: string, maxBytes = CACHE_LIMIT) {
   if (!names.has('pack.json')) throw new Error('Archive has no inventory');
   return total;
 }
-async function installMutex<T>(root: string, work: () => Promise<T>) {
+export async function installMutex<T>(root: string, work: () => Promise<T>) {
   const file = path.join(root, '.install');
   for (let i = 0; ; i++) {
     try {
@@ -185,11 +228,13 @@ export async function ensurePack(
   request: typeof fetch = fetch,
   url = `https://github.com/Talyen/lantern-knight/releases/download/${lock.releaseTag}/${lock.filename}`,
 ) {
+  if (lock.schemaVersion === 3)
+    return (await import('./bundles')).ensureBundlePack(lock, cache, request);
   const held = await cache.lease('pack-' + lock.sha256);
   try {
     await installMutex(held.root, async () => {
       try {
-        await validatePack(held.root, lock);
+        await validateCachedPack(held.root, lock);
         return;
       } catch {
         try {

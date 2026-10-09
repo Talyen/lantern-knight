@@ -3,7 +3,6 @@ import type { Frame, Manifest } from '../assets/schema';
 import type { FrameBlend } from '../core/animation-treatment';
 import { registeredSword, rigidSwordGLSL } from './rigid-sword';
 import type { PreparedRegistration } from '../assets/registration';
-export type AnimationPair = PreparedRegistration['animation']['pairs'][number];
 export type AnimationFlow = PreparedRegistration['animation'] & { texture: Texture };
 export function registeredTrim(
   manifest: Manifest,
@@ -94,7 +93,7 @@ export class AnimationBlendShader {
   };
   constructor(materials: MeshBasicMaterial[]) {
     materials.forEach((material, index) => {
-      const previous = material.onBeforeCompile;
+      const previous = material.onBeforeCompile.bind(material);
       const previousKey = material.customProgramCacheKey.bind(material);
       const cacheKey = previousKey();
       material.onBeforeCompile = (shader, renderer) => {

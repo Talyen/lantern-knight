@@ -3,17 +3,20 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import { assetCatalog, gameAssetCatalog } from '../src/content/visuals';
+
 import { playgroundCatalog } from '../src/content/effects-playground-assets';
 import { parseManifest } from '../src/assets/schema';
 import { exactSource, hash } from './compiler';
 import { readAuthoringCatalog } from './assets/authoring-catalog';
+import { loadingVideoPath } from '../src/content/loading-media';
+import { validateLoadingVideo } from './assets/loading-media';
 import { readGameCatalog } from './game-asset-catalog';
 const dev = process.argv.includes('--dev'),
   root = dev ? 'dist-dev' : 'dist',
   catalog = dev
     ? { ...(await readAuthoringCatalog()), ...playgroundCatalog }
     : await readGameCatalog();
+validateLoadingVideo(await exactSource(loadingVideoPath, root));
 if (!dev) await fs.rm(path.join(root, 'dev-lighting'), { recursive: true, force: true });
 if (!dev) await fs.rm(path.join(root, 'dev-effects'), { recursive: true, force: true });
 const normals = JSON.parse((await exactSource('lighting/manifest.json', root)).toString());

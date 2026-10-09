@@ -1,7 +1,6 @@
 """Consequential importer contracts with tiny synthetic archives, no library access."""
 
 import io
-import json
 import pathlib
 import struct
 import sys

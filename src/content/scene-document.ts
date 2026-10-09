@@ -6,6 +6,7 @@ import { migrateSceneV1 } from './scene-v1';
 import court from '../../authoring/scenes/live-court.json';
 import chapel from '../../authoring/scenes/live-upper-landing.json';
 import { HEADINGS } from '../core/camera';
+import { deriveScenePlacement, validateSceneDesign, paletteEntry } from './scene-design';
 const id = z.string().regex(/^[a-z][a-z0-9-]{0,63}$/);
 const coordinate = z.number().finite().min(-1000).max(1000),
   positive = z.number().finite().positive();
@@ -70,9 +71,10 @@ const object = legacyObject
     footprintAngle: coordinate.optional(),
     coverage: z.string().optional(),
     assembly: z.string().optional(),
+    zone: z.string().optional(),
     emissive: z.boolean().optional(),
     role: z.enum(['ground', 'upright', 'attachment']).optional(),
-    mount: z.object({ to: id, offset: vector }).strict().optional(),
+    mount: z.object({ to: id, offset: vector, socket: z.string().optional() }).strict().optional(),
     fixture: fixture.optional(),
   })
   .superRefine((p, ctx) => {
@@ -125,10 +127,33 @@ function documentRules(
   if (new Set(d.objects.map((p) => p.id)).size !== d.objects.length)
     ctx.addIssue({ code: 'custom', message: 'Duplicate object identity' });
 }
-export const SceneDocumentSchema = z
-  .object({ version: z.literal(3), ...fields, objects: z.array(object).max(500) })
+const SceneDocumentSchema = z
+  .object({
+    version: z.literal(4),
+    profile: z.enum(['graveyard', 'chapel', 'study']),
+    ...fields,
+    objects: z.array(object).max(500),
+  })
   .strict()
-  .superRefine(documentRules);
+  .superRefine((d, ctx) => {
+    documentRules(d, ctx);
+    if (
+      d.profile === 'study'
+        ? d.base !== 'flat' || d.target !== 'draft'
+        : d.base !== 'flat' && d.profile !== (d.base === 'court' ? 'graveyard' : 'chapel')
+    )
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Scene design profile does not match its production foundation',
+      });
+    if (d.profile !== 'study')
+      for (const p of d.objects)
+        if (p.footprint !== undefined || p.footprintAngle !== undefined || p.coverage !== undefined)
+          ctx.addIssue({
+            code: 'custom',
+            message: 'Scenery registration comes from the curated palette, not placements',
+          });
+  });
 const legacySchema = z
   .object({
     version: z.literal(1),
@@ -150,21 +175,34 @@ export type SceneDocument = z.infer<typeof SceneDocumentSchema>;
 export type SceneObject = SceneDocument['objects'][number];
 export const sceneBytesLimit = 64 * 1024;
 export function parseSceneDocument(value: unknown): SceneDocument {
-  if ((value as { version?: number })?.version === 1)
-    value = migrateSceneV1(legacySchema.parse(value));
-  if ((value as { version?: number })?.version === 2) {
-    const prior = value as { objects: { kind: string; heading?: unknown }[] };
-    if (
-      !Array.isArray(prior.objects) ||
-      prior.objects.some((p) => !['prop', 'decal'].includes(p.kind) || p.heading !== undefined)
-    )
-      throw new Error('Invalid version 2 scene objects');
-    value = { ...(value as object), version: 3 };
-  }
+  if ([1, 2, 3].includes((value as { version?: number })?.version ?? 0))
+    throw new Error(
+      'Legacy scene requires explicit conversion to version 4 and a design profile; artwork and transforms are not silently changed',
+    );
   return SceneDocumentSchema.parse(value);
 }
-export function editablePlacement(p: ArtPlacement) {
-  return !p.wallFace && !p.door && (!p.mount || !!p.fixture);
+export function convertLegacySceneDocument(
+  value: unknown,
+  profile: SceneDocument['profile'],
+): SceneDocument {
+  let prior = value as { version?: number; objects?: unknown[] };
+  if (prior.version === 1) prior = migrateSceneV1(legacySchema.parse(prior));
+  if (![2, 3].includes(prior.version ?? 0) || !Array.isArray(prior.objects))
+    throw new Error('Unsupported legacy scene');
+  if (
+    prior.version === 2 &&
+    prior.objects.some(
+      (p) =>
+        !p ||
+        typeof p !== 'object' ||
+        !['prop', 'decal'].includes((p as { kind: string }).kind) ||
+        (p as { heading?: unknown }).heading !== undefined,
+    )
+  )
+    throw new Error('Invalid version 2 scene objects');
+  const result = parseSceneDocument({ ...prior, version: 4, profile });
+  resolveSceneDocument(result);
+  return result;
 }
 export type PaletteKind = SceneObject['kind'];
 export function paletteKind(m: Manifest): PaletteKind | undefined {
@@ -199,6 +237,11 @@ export function validateSceneReferences(
     ...(base?.walls ?? []).map((p) => p.id),
   ]);
   for (const p of d.objects) {
+    if (
+      d.profile !== 'study' &&
+      p.kind !== (paletteEntry(p)?.category === 'ground-panel' ? 'decal' : 'prop')
+    )
+      throw new Error(`${p.id}: object kind differs from curated scene artwork`);
     if (ids.has(p.id)) throw new Error('Locked or duplicate object identity: ' + p.id);
     ids.add(p.id);
     if (p.kind !== 'decal' && p.rotation !== undefined)
@@ -289,6 +332,7 @@ export function resolveSceneDocument(
         z: p.z!,
       };
     visiting.delete(id);
+    if (d.profile !== 'study') placement = deriveScenePlacement(placement);
     resolved.set(id, placement);
     return placement;
   };
@@ -300,13 +344,16 @@ export function resolveSceneDocument(
   const decals = [...source.decals, ...d.objects.filter((p) => p.kind === 'decal')].map((p) =>
     resolve(p.id),
   );
-  return {
+  const art: WorldVisualDefinition = {
     ...source,
+    designProfile: d.profile === 'study' ? undefined : d.profile,
     props,
     decals,
     editorFloor: f ? { asset: f.asset, clip: f.clip } : undefined,
     look: d.look,
   };
+  if (art.designProfile) validateSceneDesign(art);
+  return art;
 }
 export function emptyScene(base: SceneDocument['base'] = 'flat'): SceneDocument {
   if (base !== 'flat')
@@ -317,7 +364,8 @@ export function emptyScene(base: SceneDocument['base'] = 'flat'): SceneDocument 
       target: 'draft',
     });
   return {
-    version: 3,
+    version: 4,
+    profile: 'study',
     id: 'untitled',
     name: 'Untitled scene',
     base,

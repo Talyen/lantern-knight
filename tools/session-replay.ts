@@ -40,7 +40,6 @@ export const RecipeSchema = z
     (r) => r.actions.reduce((n, a) => n + (a.kind === 'step' ? a.ticks : 0), 0) <= 36000,
     'Replay exceeds 36,000 fixed steps',
   );
-export type SessionRecipe = z.input<typeof RecipeSchema>;
 export async function executeRecipe(
   input: unknown,
   registry: ContentRegistry = content,

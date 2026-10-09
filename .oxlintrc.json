@@ -1,0 +1,105 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "typescript"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "off",
+    "pedantic": "off",
+    "perf": "off",
+    "style": "off",
+    "restriction": "off",
+    "nursery": "off"
+  },
+  "options": {
+    "typeAware": true,
+    "typeCheck": false
+  },
+  "rules": {
+    "eslint/no-unused-vars": [
+      "error",
+      {
+        "args": "all",
+        "argsIgnorePattern": "^_",
+        "caughtErrors": "all",
+        "caughtErrorsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
+      }
+    ],
+    "typescript/no-floating-promises": [
+      "error",
+      {
+        "ignoreVoid": false
+      }
+    ],
+    "typescript/no-misused-promises": "error",
+    "typescript/await-thenable": "error",
+    "typescript/no-for-in-array": "error",
+    "typescript/unbound-method": "error",
+    "typescript/no-base-to-string": "error"
+  },
+  "ignorePatterns": [
+    "node_modules/**",
+    "references/**",
+    "public/**",
+    "staging/**",
+    "dist*/**",
+    "release*/**",
+    "evidence/**",
+    "tmp/**"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "src/**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}"
+      ],
+      "env": {
+        "browser": true
+      }
+    },
+    {
+      "files": [
+        "electron/**",
+        "tools/**",
+        "tests/**",
+        "*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}"
+      ],
+      "env": {
+        "node": true
+      }
+    },
+    {
+      "files": [
+        "electron/**"
+      ],
+      "globals": {
+        "__DEV_APP__": "readonly"
+      }
+    },
+    {
+      "files": [
+        "tests/*.test.ts"
+      ],
+      "rules": {
+        "typescript/no-floating-promises": [
+          "error",
+          {
+            "ignoreVoid": false,
+            "allowForKnownSafeCalls": [
+              {
+                "from": "package",
+                "name": [
+                  "test",
+                  "it",
+                  "describe"
+                ],
+                "package": "node:test"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

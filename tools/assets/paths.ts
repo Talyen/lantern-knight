@@ -34,8 +34,7 @@ export function assetRoot() {
 }
 export const publicRoot = () => path.join(assetRoot(), 'public');
 export const publicFile = (file: string) => path.join(publicRoot(), safeRelative(file));
-export const metadataFile = (file: string) =>
-  path.join(assetRoot(), 'metadata', safeRelative(file));
+const metadataFile = (file: string) => path.join(assetRoot(), 'metadata', safeRelative(file));
 export function stagingRoot() {
   if (process.env.LANTERN_PREPARING !== '1' || !process.env.LANTERN_ASSET_WORKSPACE)
     throw new Error('Asset generation requires assets:prepare; builds consume prepared assets.');

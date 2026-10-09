@@ -3,10 +3,8 @@ import { manifestFixture } from './fixtures/manifest';
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import path from 'node:path';
 
 import { normalPixels } from '../src/presentation/lighting-profiles';
-import { outward } from '../src/core/camera';
 
 import { GroundMist } from '../src/presentation/ground-mist';
 import { heightAt } from '../src/content/world';
@@ -114,8 +112,8 @@ test('authoring lighting loads only placed library assets and releases companion
     trim: [0, 0, 2, 2],
   });
   globalThis.fetch = (async (url) => {
-    requests.push(String(url));
-    return String(url).endsWith('manifest.json')
+    requests.push(url instanceof Request ? url.url : url.toString());
+    return (url instanceof Request ? url.url : url.toString()).endsWith('manifest.json')
       ? new Response(
           JSON.stringify({
             recipe: 'alpha-volume-v1',

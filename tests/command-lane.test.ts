@@ -169,3 +169,41 @@ test('managed cancellation reaps a stubborn descendant before releasing its lane
   const next = await acquireCommandLane({ port: lane.port, waitMs: 0 });
   await next.release();
 });
+
+test('process failure retains its original cause when owned cleanup also fails', async () => {
+  if (process.platform === 'win32') return; // Windows uses taskkill rather than process groups.
+  const descriptor = Object.getOwnPropertyDescriptor(process, 'kill')!,
+    cleanup = new Error('cleanup permission denied'),
+    signals = ['SIGINT', 'SIGTERM'] as const,
+    listeners = signals.map((signal) => process.listenerCount(signal));
+  try {
+    Object.defineProperty(process, 'kill', {
+      ...descriptor,
+      value: () => {
+        throw cleanup;
+      },
+    });
+    const env = { ...process.env };
+    delete env.LANTERN_MANAGED_TREE;
+    await assert.rejects(
+      runProcess(process.execPath, ['-e', 'process.exit(7)'], {
+        cwd: process.cwd(),
+        env,
+        timeoutMs: 2000,
+        output: () => {},
+      }),
+      (error: unknown) => {
+        assert.ok(error instanceof AggregateError);
+        assert.match(error.errors[0].message, /exited 7/);
+        assert.equal(error.errors[1], cleanup);
+        return true;
+      },
+    );
+    assert.deepEqual(
+      signals.map((signal) => process.listenerCount(signal)),
+      listeners,
+    );
+  } finally {
+    Object.defineProperty(process, 'kill', descriptor);
+  }
+});

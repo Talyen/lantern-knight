@@ -51,8 +51,11 @@ try {
     [],
     'opaque construction planes share depth',
   );
-  assert.ok(architecture.parts.some((p) => p.userData.id === 'chapel-roof-1'));
-  assert.ok(architecture.parts.some((p) => p.userData.id === 'chapel-recessed-door'));
+  assert.equal(architecture.parts.length, 0, 'No manufactured visible geometry');
+  assert.ok(
+    room.sprites.some((s) => s.id === 'chapel-shell'),
+    'Complete illustrated building shell',
+  );
   for (const wall of graveyardArt.walls)
     assert.ok(
       area.props.some(
@@ -73,10 +76,10 @@ try {
       assert.ok(isSupportedPosition(area, { x, z }, 0.3), `central corridor blocked at ${x}/${z}`);
   for (const entry of area.entries) assert.ok(isSupportedPosition(area, entry, 0.3));
   const floor = packs.get(graveyardArt.floor)!;
-  assert.equal(floor.manifest.frames.length, 4);
+  assert.equal(floor.manifest.frames.length, 1);
   assert.ok(floor.manifest.pages.every((p) => p.mipmaps));
   console.log(
-    `PASS: Graveyard footprints, connected chapel geometry, eight burial heads and retaining terrain volumes, clear corridor, standalone terrain mipmaps and fixture sockets`,
+    `PASS: Graveyard footprints, intact chapel shell and flat ground, clear corridor, standalone terrain mipmaps and fixture sockets`,
   );
 } finally {
   room.dispose();

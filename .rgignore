@@ -1,0 +1,2 @@
+# Machine-maintained dependencies; explicit rg package-lock.json remains available.
+/package-lock.json

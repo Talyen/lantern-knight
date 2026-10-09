@@ -132,7 +132,7 @@ export class InkRoom {
     s.mesh.scale.set(scale * (p.mirror ? -1 : 1), scale, scale);
     s.mesh.rotateZ(angle);
     s.mesh.renderOrder = -1.9;
-    s.material.color.set(p.tint ?? 0xb7c2b6);
+    s.material.color.set(p.tint ?? 0xffffff);
     s.material.opacity = p.opacity ?? 1;
     const vertices = s.geometry.getAttribute('position'),
       c = Math.cos(angle),
@@ -149,35 +149,6 @@ export class InkRoom {
     if (s.animator.clip.frames.length > 1) this.animated.push({ sprite: s, placement: p });
     return s;
   }
-  private pathEdges() {
-    const art = this.art;
-    for (const [pi, path] of art.paths.entries())
-      for (let i = 1; i < path.points.length; i++) {
-        const from = path.points[i - 1]!,
-          to = path.points[i]!,
-          dx = to.x - from.x,
-          dz = to.z - from.z,
-          length = Math.hypot(dx, dz),
-          n = Math.ceil(length / 1.7);
-        for (const side of [-1, 1])
-          for (let j = 0; j < n; j++) {
-            const t = (j + 0.5) / n,
-              x = from.x + dx * t - (((dz / length) * path.width) / 2) * side,
-              z = from.z + dz * t + (((dx / length) * path.width) / 2) * side;
-            this.ground({
-              asset: 'ink-ground-transitions',
-              purpose: 'Procedural path edge',
-              id: `path-edge-${pi}-${i}-${side}-${j}`,
-              clip: 't03_broken_pavement_edge',
-              x,
-              z,
-              scale: 0.44,
-              rotation: Math.atan2(-dz, dx),
-              tint: 0xbfc8bd,
-            });
-          }
-      }
-  }
   build() {
     if (this.graveyard) {
       this.graveyard.build();
@@ -187,18 +158,6 @@ export class InkRoom {
     }
     const art = this.art;
     this.walls();
-    this.pathEdges();
-    for (const plot of art.graves)
-      this.ground({
-        purpose: 'Procedural burial soil',
-        id: `soil-${plot.id}`,
-        clip: 'grave-soil',
-        asset: 'ink-soil',
-        x: plot.x,
-        z: plot.z,
-        scale: plot.age === 'old' ? 0.94 : 1,
-        tint: 0xc3c7b7,
-      });
     for (const p of art.props) this.place(p);
     for (const p of art.decals) this.ground(p);
   }

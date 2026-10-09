@@ -4,7 +4,7 @@ export type AreaId = string;
 export type ActorId = string;
 export type Point = { x: number; z: number };
 export type Bounds = { minX: number; maxX: number; minZ: number; maxZ: number };
-export type Surface =
+type Surface =
   | { kind: 'flat'; height: number }
   | {
       kind: 'ramp' | 'stairs';
@@ -17,7 +17,7 @@ export type Surface =
       startHeight: number;
       endHeight: number;
     };
-export type MeleeDefinition = {
+type MeleeDefinition = {
   windup: number;
   activeEnd: number;
   total: number;
@@ -34,13 +34,13 @@ export type ActorDefinition = {
   melee: MeleeDefinition;
   visual: string;
 };
-export type SpawnDefinition = Point & {
+type SpawnDefinition = Point & {
   id: string;
   actor: string;
   jitterZ?: number;
 };
-export type EntryDefinition = Point & { id: string };
-export type ExitDefinition = {
+type EntryDefinition = Point & { id: string };
+type ExitDefinition = {
   id: string;
   trigger: Bounds;
   destination: string;

@@ -4,7 +4,7 @@ import os from 'node:os';
 import assert from 'node:assert/strict';
 import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
-import { option, type smokeLaunch } from './smoke-launch';
+import { option, type smokeLaunch } from './smoke/smoke-launch';
 import { digest, sourceIdentity } from './source-identity';
 
 const pair = z.tuple([z.number().positive(), z.number().positive()]);

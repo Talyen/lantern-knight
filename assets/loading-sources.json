@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 2,
+  "libraryDirectory": "Video",
+  "directories": { "last-ferry": "Video" },
+  "files": {
+    "last-ferry": {
+      "Lantern_C_LastFerry_Preview.mp4": {
+        "bytes": 625992,
+        "sha256": "89b802adf8fb71b006fdd4a7071ac45e27b941f60f52a4ea6b131d2ae6b4f3c7",
+        "pathHint": "Video/Lantern_C_LastFerry_Preview.mp4"
+      }
+    }
+  }
+}

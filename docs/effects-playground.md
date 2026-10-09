@@ -6,4 +6,4 @@ Game packages exclude the playground and its developer fixtures. Production visu
 
 `assets:prepare` supplies ambience artwork and companion data through the pinned pack. Runtime code owns weather scheduling, shaders and material construction; changes to those behaviors consume the existing pack unless they also change preparation inputs.
 
-`smoke:effects` verifies rendered differences, baseline restoration, playback, stable resources and routing. [Contributing](../CONTRIBUTING.md#e2e-coverage-and-execution-budgets) owns shared and platform coverage. Details are retained for failures or explicit `--capture` investigations.
+`smoke:effects` verifies rendered differences, baseline restoration, playback, stable resources and routing. [Contributing](verification.md#e2e-coverage-and-execution-budgets) owns shared and platform coverage. Details are retained for failures or explicit `--capture` investigations.

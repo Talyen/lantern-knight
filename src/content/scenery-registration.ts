@@ -185,15 +185,4 @@ export const sceneryRegistration = [
     measurePx: 590,
   },
 ] as const;
-// Native fence ground-endpoint displacement converted through the locked camera.
-const fence = sceneryRegistration.find((r) => r.id === 'fence')!;
-const e = Math.atan(1 / Math.sqrt(2)),
-  ratio = (fence.height * Math.cos(e)) / fence.measurePx;
-const dx = (1210 - 346) * ratio,
-  dy = (985 - 656) * ratio;
-export const fenceStep = {
-  x: (dx - dy / Math.sin(e)) / Math.sqrt(2),
-  z: (-dx - dy / Math.sin(e)) / Math.sqrt(2),
-};
-
 // New native cutouts remain untouched. Endpoints register the painted ground line.

@@ -1,7 +1,7 @@
 import { validateLightingBindings, type LightingBinding } from './lighting-bindings';
 import assert from 'node:assert/strict';
 import path from 'node:path';
-import { assetCatalog, actorVisuals } from '../src/content/visuals';
+import { actorVisuals } from '../src/content/visuals';
 import { playgroundCatalog } from '../src/content/effects-playground-assets';
 import { parseManifest, resolveClip, type Manifest } from '../src/assets/schema';
 import {
@@ -11,7 +11,10 @@ import {
 import { readAsset } from './assets/io';
 import { readRegistration } from './assets/data';
 import { hash } from './compiler';
+import { loadingVideoPath } from '../src/content/loading-media';
+import { validateLoadingVideo } from './assets/loading-media';
 import { readAuthoringCatalog } from './assets/authoring-catalog';
+validateLoadingVideo(await readAsset('public/' + loadingVideoPath));
 const manifests = new Map<string, Manifest>();
 const catalog: Readonly<Record<string, string>> = {
   ...(await readAuthoringCatalog()),

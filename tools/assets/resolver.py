@@ -338,13 +338,13 @@ class SourceResolver:
                     ):
                         raise FileNotFoundError("source changed during recovery")
                 stream.seek(0)
-            except OSError:
+            except OSError as error:
                 if stream:
                     stream.close()
                 self.verified.pop(str(path), None)
                 self.scanned.clear()
                 if attempt == 1:
-                    raise FileNotFoundError("source changed during recovery: " + key)
+                    raise FileNotFoundError("source changed during recovery: " + key) from error
                 continue
             try:
                 yield stream

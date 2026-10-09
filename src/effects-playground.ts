@@ -162,7 +162,11 @@ async function boot() {
   $('pause').onclick = pause;
   $('reset').onclick = reset;
   $('back').onclick = () => {
-    if (window.lantern?.launchMode) void window.lantern.launchMode('sandbox');
+    if (window.lantern?.launchMode)
+      window.lantern.launchMode('sandbox').catch((error) => {
+        $('status').textContent = `Unable to return to Sandbox: ${error.message}`;
+        console.error(error);
+      });
     else location.href = '/sandbox.html';
   };
   window.addEventListener('resize', onResize);

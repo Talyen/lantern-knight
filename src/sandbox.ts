@@ -1,5 +1,6 @@
 import { readScenePreview, previewHero, previewKey, type ScenePreviewState } from './scene-preview';
 import './style.css';
+import { LoadingScreen } from './loading-screen';
 import { Application } from './application';
 import { Presentation, type Mode } from './presentation/scene';
 import { sandboxContent, sandboxDefinitions } from './content/sandbox-world';
@@ -19,6 +20,7 @@ import { sandboxUI } from './sandbox-ui';
 import { heroTimings } from './content/hero-actions';
 import type { Clip } from './assets/schema';
 import './inspection';
+const loading = new LoadingScreen();
 const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
 $('#app').innerHTML = sandboxUI;
 const controls = document.createElement('div');
@@ -44,6 +46,7 @@ const app = new Application(
       $('#modal').hidden = !value;
     },
     frame: updateUI,
+    loading: loading.set,
   },
   ['ink-hero-current'],
 );
@@ -251,21 +254,23 @@ async function boot() {
   }
   $('#locomotion-timing-help').textContent = walkTimings[presentation.walkTiming].description;
   $('#walk-compare').onclick = () =>
-    app.safe(async () => {
-      await app.loadAsset('ink-hero-current');
-      if (!presentation.animationFlow) await presentation.loadAnimationFlow();
-      app.pause(false);
-      $<HTMLInputElement>('#overlays').checked = false;
-      presentation.selectLabAsset('ink-hero-current');
-      $<HTMLSelectElement>('#asset').value = 'ink-hero-current';
-      presentation.labClip = 'walk';
-      updateLabClips();
-      presentation.labAnimator.start(presentation.getClip('walk', presentation.labHeading));
-      presentation.labTime = 0;
-      presentation.labPaused = false;
-      $('#play').textContent = 'Pause';
-      setMode('animation');
-    });
+    app.safe(() =>
+      app.withLoading(async () => {
+        await app.loadAsset('ink-hero-current');
+        if (!presentation.animationFlow) await presentation.loadAnimationFlow();
+        app.pause(false);
+        $<HTMLInputElement>('#overlays').checked = false;
+        presentation.selectLabAsset('ink-hero-current');
+        $<HTMLSelectElement>('#asset').value = 'ink-hero-current';
+        presentation.labClip = 'walk';
+        updateLabClips();
+        presentation.labAnimator.start(presentation.getClip('walk', presentation.labHeading));
+        presentation.labTime = 0;
+        presentation.labPaused = false;
+        $('#play').textContent = 'Pause';
+        setMode('animation');
+      }),
+    );
   const zoomPreview = (zoom: number) => {
     presentation.setLabZoom(Math.round(zoom * 100) / 100);
     syncLabZoom();
@@ -293,14 +298,16 @@ async function boot() {
   $<HTMLSelectElement>('#asset').value = presentation.labAsset;
   updateLabClips();
   $('#asset').onchange = () =>
-    app.safe(async () => {
-      const id = $<HTMLSelectElement>('#asset').value;
-      await app.loadAsset(id);
-      if (id === 'ink-hero-current' && !presentation.animationFlow)
-        await presentation.loadAnimationFlow();
-      presentation.selectLabAsset(id);
-      updateLabClips();
-    });
+    app.safe(() =>
+      app.withLoading(async () => {
+        const id = $<HTMLSelectElement>('#asset').value;
+        await app.loadAsset(id);
+        if (id === 'ink-hero-current' && !presentation.animationFlow)
+          await presentation.loadAnimationFlow();
+        presentation.selectLabAsset(id);
+        updateLabClips();
+      }),
+    );
   $('#clip').onchange = () => {
     presentation.labClip = $<HTMLSelectElement>('#clip').value;
     presentation.notifyLog = [];
@@ -360,7 +367,7 @@ async function boot() {
     app.safe(() => fixture($<HTMLSelectElement>('#scene-select').value));
   $('#preview-game').onclick = () => {
     app.pause(true);
-    if (window.lantern?.launchMode) void window.lantern.launchMode('game');
+    if (window.lantern?.launchMode) app.safe(() => window.lantern!.launchMode!('game'));
     else location.href = '/index.html';
   };
   $('#render-scale').onchange = () => {
@@ -719,16 +726,19 @@ window.addEventListener('pagehide', savePreview);
 window.addEventListener('beforeunload', () => {
   savePreview();
   app.dispose();
+  loading.dispose();
 });
 if (import.meta.hot) {
   import.meta.hot.on('vite:beforeFullReload', savePreview);
   import.meta.hot.dispose(() => {
     savePreview();
     app.dispose();
+    loading.dispose();
   });
 }
-boot().catch((error) => {
+app.withLoading(boot).catch((error) => {
   app.dispose();
+  loading.dispose();
   status(`Sandbox failed: ${error.message}`, true);
   console.error(error);
 });

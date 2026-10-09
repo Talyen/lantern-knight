@@ -1,18 +1,24 @@
-# Lantern Knight artwork
+# Agent workflow
 
-For any artwork or texture generation, editing, replacement, or art-direction work in this project, read and apply the `lantern-art-direction` skill at `/Users/ryanmcintire/.codex/skills/lantern-art-direction/SKILL.md` before making generation calls.
+Prototype iteration is the default. Preserve unrelated edits. Start independent work in an isolated worktree containing the intended baseline; run `npm run task:start -- <name> --paths <paths...>` before editing. Refresh owners, contracts, checks and evidence with `npm run agent:context -- [paths...]`. Discovery paths never restrict verification. [Contributing](CONTRIBUTING.md) routes detailed policies.
 
-The project source of truth is `references/canon/clean-ink-style.prompt.txt`; provenance is in `references/canon/clean-ink-style-sources.md`. Include the canonical style block in every generation prompt, request the highest available native resolution and quality, and include the literal model request `gpt-image-2.5 sunburst`. Inspect outputs and reject boiled, grainy, mottled or photographic surfaces. Do not treat noisy concept imagery as a replacement style reference.
+Finish with focused `npm run check`; changed browser interactions need one `scene:probe` or `ui:probe`. Full checks, packaging and exhaustive journeys belong to explicit integration/delivery or CI. Capture only for explicit visual investigations. Local evidence does not establish hosted CI or visible approval.
 
-Keep original sources and canonical hero artwork intact. Painted 2.5D environment geometry is allowed. These artwork instructions do not change unrelated coding workflows or add per-asset approval requirements.
+Future worktree tasks follow [handoff and commits](docs/task-coordination.md#handoff-and-commits): integrate into local `main`, commit task-owned changes, and report integration status plus commit hash. Push only when requested.
 
-# Repository map and asset boundaries
+# Artwork and scenes
 
-- `src/core`: simulation, sessions, saves and input. `src/content`: authored gameplay/scene definitions. `src/presentation`: Game, Sandbox, lighting and effects. `tools/assets`: asset preparation, pack delivery, cache and retention.
-- Keep code, focused tests, small authored recipes and current documentation in Git. Never commit atlases, expanded catalogs, staging data, captures, logs or historical output. `npm run repo:check` enforces path and size boundaries.
-- Source authority is the external iCloud-backed Asset Library. Ordinary agent/code work and CI use `assets/lock.json`; do not crawl the library, asset cache, dependency lockfile or generated pack contents to obtain general context.
-- Use `npm run assets:inspect -- <asset-id>` for bounded asset details. Open a particular original or diagnostic only when needed for the task. Sources are recovered automatically by hash after reorganization.
-- [Contributing](CONTRIBUTING.md) owns verification, high-value test selection, E2E coverage and execution budgets, and coordination for concurrent agents. `npm run check` runs the full regular gates, including documentation validation, and rejects results if authored inputs change. Builds and tests automatically fetch the exact pinned pack and reuse valid local copies offline.
-- Requested runtime-asset changes include validated publication and pinning through `npm run assets:finalize` without another user approval prompt; [the asset workflow](docs/assets.md#local-preparation-review) owns completion and concurrent-batch coordination. Preview-only experiments stay local.
-- `npm run assets:prepare` and asset finalization are explicit art-authoring operations. Neither ordinary builds nor CI regenerate source artwork. Cache data stays outside the checkout, with a 4 GiB limit and active process leases.
-- Success produces concise summaries. Failures create bounded temporary diagnostics. Use `--capture` only for an explicit visual investigation. Delete obsolete output through the asset cleanup workflow; do not add historical reports to the repository.
+Before artwork/texture generation, editing, replacement or art direction, apply `lantern-art-direction` at `/Users/ryanmcintire/.codex/skills/lantern-art-direction/SKILL.md`. Include the canonical `references/canon/clean-ink-style.prompt.txt` block, highest native resolution/quality and literal `gpt-image-2.5 sunburst` in every generation prompt. Provenance: [style sources](references/canon/clean-ink-style-sources.md). Inspect outputs; reject boiled, grainy, mottled or photographic surfaces. Preserve original sources and canonical hero artwork; noisy concepts are not style references.
+
+Production scenes follow [scene policy](docs/scene-design.md) and [lantern-scene-design](.agents/skills/lantern-scene-design/SKILL.md): flat stages, intact illustrated shells and registered ground panels. Rendering carriers, hidden collision and shadow proxies remain supported.
+
+# Repository boundaries
+
+- Owners: core simulation/save/input; content gameplay/scenes; presentation rendering/effects; asset tools preparation/delivery/cache.
+- Keep code, focused tests, small recipes and current docs in Git. Generated packs/catalogs, staging, captures, logs and historical output stay outside Git; `repo:check` enforces boundaries.
+- Ordinary code/CI consumes `assets/lock.json`. Do not crawl the source Asset Library, cache, dependency lockfile or generated packs for context. Use `assets:inspect -- <asset-id>` for bounded details.
+- Asset prototypes finish through source-verified `assets:dev -- --ids <asset-id>`. Preparation/finalization are explicit art-authoring operations; builds/CI never regenerate artwork. Publication/pinning via `assets:finalize` is explicit delivery. Preserve the published pin; external cache retains its 4 GiB limit and active leases.
+
+# Skill routing
+
+Apply [architect](.agents/skills/architect/SKILL.md) for revised cross-boundary contracts and [run-audits](.agents/skills/run-audits/SKILL.md) for requested [audits](docs/audits/README.md). [Routing](.agents/skills/README.md) describes applicability.

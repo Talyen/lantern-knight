@@ -16,6 +16,8 @@ jobs:
   checks:
     runs-on: ubuntu-24.04
     timeout-minutes: 2
+    outputs:
+      desktop: ${{ steps.impact.outputs.desktop }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -29,10 +31,21 @@ jobs:
             npm install --global "npm@$NPM_VERSION" --no-audit --no-fund
           fi
       - run: npm ci
+      - name: Fetch PR comparison base
+        if: github.event_name == 'pull_request'
+        env:
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+        # Missing history conservatively selects desktop coverage.
+        run: git fetch --no-tags --depth=1 origin "$PR_BASE" || true
+      - name: Select desktop coverage
+        id: impact
+        env:
+          LANTERN_CI_BASE: ${{ github.event.pull_request.base.sha }}
+        run: node --import tsx tools/verification-plan.ts --ci
       - name: Configure external asset cache
         shell: bash
         run: echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
-      - run: npm run check
+      - run: npm run check:full
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: failure()
         with:
@@ -54,7 +67,7 @@ jobs:
           retention-days: 3
   desktop:
     needs: checks
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: needs.checks.outputs.desktop == 'true'
     strategy:
       fail-fast: false
       matrix:

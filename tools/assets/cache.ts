@@ -212,12 +212,11 @@ export class AssetCache {
       await fs.utimes(root, new Date(), new Date());
     });
     let released = false;
-    const cache = this;
     return {
       root,
-      async sole() {
-        return cache.locked(async () => {
-          for (const entry of await cache.leaseFiles(path.dirname(file)))
+      sole: async () => {
+        return this.locked(async () => {
+          for (const entry of await this.leaseFiles(path.dirname(file)))
             if (entry !== path.basename(file)) {
               const peer = JSON.parse(
                 await fs.readFile(path.join(path.dirname(file), entry), 'utf8'),
@@ -227,18 +226,18 @@ export class AssetCache {
           return true;
         });
       },
-      async reserve(bytes: number) {
-        if (released || !Number.isSafeInteger(bytes) || bytes < 0 || bytes > cache.limit)
+      reserve: async (bytes: number) => {
+        if (released || !Number.isSafeInteger(bytes) || bytes < 0 || bytes > this.limit)
           throw new Error('Invalid cache reservation');
-        await cache.locked(async () => {
-          await cache.makeRoom(name, bytes);
-          await cache.writeJSON(file, { ...owner(), bytes });
+        await this.locked(async () => {
+          await this.makeRoom(name, bytes);
+          await this.writeJSON(file, { ...owner(), bytes });
         });
       },
-      async release() {
+      release: async () => {
         if (released) return;
         released = true;
-        await cache.locked(() => fs.rm(file, { force: true }));
+        await this.locked(() => fs.rm(file, { force: true }));
       },
     };
   }

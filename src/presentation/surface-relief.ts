@@ -13,6 +13,8 @@ export class SurfaceRelief {
   private disposed = false;
   async load(packs: Map<string, PackLease>) {
     this.packs = packs;
+    // Curated flat-stage artwork has no procedural apron or height/UV companion.
+    if (!packs.has('ink-graveyard-materials')) return;
     const response = await fetch('/visual-effects/surfaces.json');
     if (!response.ok) throw new Error('Surface companions unavailable');
     const data = await response.json();
@@ -62,7 +64,7 @@ export class SurfaceRelief {
     this.validate();
     const normal = new T.Uniform(0),
       relief = new T.Uniform(0),
-      previous = material.onBeforeCompile;
+      previous = material.onBeforeCompile.bind(material);
     this.bindings.push({ normal, relief });
     material.userData.surfaceRelief = true;
     material.onBeforeCompile = (shader, renderer) => {

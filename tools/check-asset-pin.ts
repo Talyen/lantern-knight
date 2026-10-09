@@ -1,5 +1,29 @@
 import { execFileSync } from 'node:child_process';
 import { readLock, recipeHash, acceptedRecipe } from './assets/pack';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { AssetCache } from './assets/cache';
+import { LockSchema } from './assets/pack';
+
+export async function checkCurrentAssetPin(cwd = process.cwd(), local = false) {
+  const read = (name: string) => fs.readFile(path.join(cwd, name));
+  const held = local ? await new AssetCache().lease('preparation') : undefined;
+  try {
+    const lock = held
+      ? LockSchema.parse(
+          JSON.parse(await fs.readFile(path.join(held.root, 'prepared.json'), 'utf8')),
+        )
+      : await readLock(read);
+    if (acceptedRecipe(lock) !== (await recipeHash(read)))
+      throw new Error(
+        local
+          ? 'Local preparation recipe differs; prepare again.'
+          : 'Asset recipes differ from the pinned pack. Run assets:finalize.',
+      );
+  } finally {
+    await held?.release();
+  }
+}
 
 // Check each outgoing snapshot, even when unrelated working-tree edits exist.
 export async function checkCommittedAssetPin(cwd = process.cwd(), ref = 'HEAD') {
