@@ -56,6 +56,48 @@ async function player() {
       Math.hypot(moved.player.x - initial.player.x, moved.player.z - initial.player.z) > 0.03,
     );
 
+    // Observe accepted input immediately, before combat can stagger or defeat the hero.
+    // Node-side polling can otherwise miss a short cooldown on a slow renderer.
+    await resume();
+    const acceptedInput = async (selector: string, ready: string, input: () => Promise<void>) => {
+      assert.equal(await page.locator(selector).textContent(), ready);
+      await page.evaluate(
+        ({ selector, ready }) => {
+          const status = document.querySelector<HTMLElement>(selector)!;
+          status.dataset.acceptedInput = 'false';
+          const observer = new MutationObserver(() => {
+            if (status.textContent !== ready) {
+              status.dataset.acceptedInput = 'true';
+              observer.disconnect();
+            }
+          });
+          observer.observe(status, { childList: true, subtree: true, characterData: true });
+        },
+        { selector, ready },
+      );
+      await input();
+      await page.waitForFunction(
+        (selector) =>
+          document.querySelector<HTMLElement>(selector)?.dataset.acceptedInput === 'true',
+        selector,
+        { timeout: 10000 },
+      );
+    };
+    try {
+      await acceptedInput('#dodge-status', 'Shift · ready', () => page.keyboard.down('Shift'));
+    } finally {
+      await page.keyboard.up('Shift');
+    }
+    await page.waitForFunction(
+      () => document.querySelector('#dodge-status')?.textContent === 'Shift · ready',
+      {},
+      { timeout: 10000 },
+    );
+    await acceptedInput('#ability-status', 'RMB · ready', () =>
+      page.locator('canvas').click({ button: 'right' }),
+    );
+    await pause();
+
     // Load a normal checkpoint near an enemy, exercising real Load and aiming
     // without replaying minutes of balanced encounters on both OSes.
     const encounter = structuredClone(initial),
@@ -105,19 +147,6 @@ async function player() {
       struck.areas[struck.area]!.actors[id]!.health < enemy.health,
       'Mouse sword input must damage an enemy',
     );
-    await resume();
-    for (let i = 0; i < 4; i++) {
-      await page.mouse.click(x, y, { button: 'right' });
-      await page.waitForTimeout(250);
-      if ((await page.locator('#ability-status').textContent()) !== 'RMB · ready') break;
-    }
-    assert.notEqual(await page.locator('#ability-status').textContent(), 'RMB · ready');
-    for (let i = 0; i < 6; i++) {
-      await page.keyboard.press('Shift');
-      await page.waitForTimeout(200);
-      if ((await page.locator('#dodge-status').textContent()) !== 'Shift · ready') break;
-    }
-    assert.notEqual(await page.locator('#dodge-status').textContent(), 'Shift · ready');
     const saved = await save();
     // Software-renderer/UI latency may consume the cooldown before Save is clicked.
     // Input feedback above is the platform contract; positive-cooldown saving is
