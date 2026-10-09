@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { supportedPosition, heightAt, type ContentRegistry } from './content/world';
+import { supportedPosition, heightAt, type ContentRegistry } from '../content/world';
 const finite = z.number().finite();
 const schema = z.object({
   version: z.literal(1),

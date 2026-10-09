@@ -4,7 +4,7 @@ import path from 'node:path';
 import { comparePixels } from './smoke-pixels';
 import { smokeLaunch } from './smoke-launch';
 import { effectLabels, type PlaygroundEffect } from '../../src/content/effects-playground';
-import type {} from '../../src/effects-playground';
+import type {} from '../../src/effects-playground/main';
 
 export async function runScenario(flags: string[] = []) {
   const run = await smokeLaunch(true, ['--effects'], { flags }),

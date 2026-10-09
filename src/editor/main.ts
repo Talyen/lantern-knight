@@ -1,18 +1,18 @@
-import { editorUI } from './editor/ui';
-import { bindSceneControls } from './editor/scene-controls';
-import './developer-nav';
-import { emptyScene } from './editor/default-scene';
-import { resolveAuthoredScene } from './content/world-art';
+import { editorUI } from './ui';
+import { bindSceneControls } from './scene-controls';
+import '../developer-nav';
+import { emptyScene } from './default-scene';
+import { resolveAuthoredScene } from '../content/world-art';
 import {
   paletteEntry,
   sceneDesignProfiles,
   sceneCompositionFindings,
-} from './content/scene-design';
-import './editor.css';
+} from '../content/scene-design';
+import './style.css';
 import * as T from 'three';
-import { AssetRuntime } from './assets/loader';
-import type { Manifest } from './assets/schema';
-import { authoringCatalog } from './assets/authoring-catalog';
+import { AssetRuntime } from '../assets/loader';
+import type { Manifest } from '../assets/schema';
+import { authoringCatalog } from '../assets/authoring-catalog';
 import {
   parseSceneDocument,
   paletteKind,
@@ -20,11 +20,11 @@ import {
   floorClips,
   type SceneDocument,
   type PaletteKind,
-} from './content/scene-document';
-import { heightAt } from './content/world';
-import { applySceneryPreset } from './content/scenery-presets';
-import { EditorHistory, sceneItems } from './editor/model';
-import { EditorView } from './editor/view';
+} from '../content/scene-document';
+import { heightAt } from '../content/world';
+import { applySceneryPreset } from '../content/scenery-presets';
+import { EditorHistory, sceneItems } from './model';
+import { EditorView } from './view';
 const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
 document.getElementById('app')!.innerHTML = editorUI;
 const refreshSceneControls = bindSceneControls(change);

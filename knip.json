@@ -3,10 +3,10 @@
   "entry": [
     "electron/main.ts",
     "electron/preload.ts",
-    "src/editor.ts",
-    "src/effects-playground.ts",
+    "src/editor/main.ts",
+    "src/effects-playground/main.ts",
     "src/main.ts",
-    "src/sandbox.ts",
+    "src/sandbox/main.ts",
     "tools/diagnostics/benchmark.ts",
     "tools/build-electron.ts",
     "tools/build-identity.ts",

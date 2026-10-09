@@ -1,28 +1,28 @@
-import { bindLightingControls } from './sandbox/lighting-controls';
-import './developer-nav';
-import { composeSceneContent } from './content/game-content';
-import { readScenePreview, previewHero, previewKey, type ScenePreviewState } from './scene-preview';
-import './style.css';
-import { LoadingScreen } from './loading-screen';
-import { Application } from './application';
-import { Presentation, type Mode } from './presentation/scene';
-import { sandboxContent, sandboxDefinitions } from './content/sandbox-world';
-import { ContentRegistry } from './content/world';
-import { GameSession } from './core/session';
-import { assetCatalog } from './content/visuals';
-import { createBrowserBridge } from './platform/browser-store';
-import { HEADINGS } from './core/camera';
-import { clipDuration } from './core/animation';
-import { walkTimings, type WalkTiming } from './core/locomotion-timing';
+import { bindLightingControls } from './lighting-controls';
+import '../developer-nav';
+import { composeSceneContent } from '../content/game-content';
+import { readScenePreview, previewHero, previewKey, type ScenePreviewState } from './preview';
+import '../style.css';
+import { LoadingScreen } from '../loading-screen';
+import { Application } from '../application';
+import { Presentation, type Mode } from '../presentation/scene';
+import { sandboxContent, sandboxDefinitions } from '../content/sandbox-world';
+import { ContentRegistry } from '../content/world';
+import { GameSession } from '../core/session';
+import { assetCatalog } from '../content/visuals';
+import { createBrowserBridge } from '../platform/browser-store';
+import { HEADINGS } from '../core/camera';
+import { clipDuration } from '../core/animation';
+import { walkTimings, type WalkTiming } from '../core/locomotion-timing';
 import {
   sampleAnimation,
   animationTreatments,
   type AnimationTreatment,
-} from './core/animation-treatment';
-import { sandboxUI } from './sandbox-ui';
-import { heroTimings } from './content/hero-actions';
-import type { Clip } from './assets/schema';
-import './inspection';
+} from '../core/animation-treatment';
+import { sandboxUI } from './ui';
+import { heroTimings } from '../content/hero-actions';
+import type { Clip } from '../assets/schema';
+import '../inspection';
 const loading = new LoadingScreen();
 const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
 $('#app').innerHTML = sandboxUI;

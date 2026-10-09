@@ -2,7 +2,7 @@ import { test, expect } from './fixtures';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { projectRoot } from '../../tools/assets/paths';
-import type {} from '../../src/editor';
+import type {} from '../../src/editor/main';
 test('editor placement, experimental scale, history, recovery, save and external conflict', async ({
   page,
   request,

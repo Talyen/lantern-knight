@@ -1,20 +1,20 @@
-import './developer-nav';
-import './effects-playground.css';
-import { AssetRuntime, type PackLease } from './assets/loader';
-import { ContentRegistry } from './content/world';
-import { Simulation, FixedClock } from './core/simulation';
-import { Input } from './core/input';
-import { outward } from './core/camera';
-import { EffectsPlayground } from './presentation/effects-playground';
+import '../developer-nav';
+import './style.css';
+import { AssetRuntime, type PackLease } from '../assets/loader';
+import { ContentRegistry } from '../content/world';
+import { Simulation, FixedClock } from '../core/simulation';
+import { Input } from '../core/input';
+import { outward } from '../core/camera';
+import { EffectsPlayground } from '../presentation/effects-playground';
 import {
   effectLabels,
   effectsDefinitions,
   playgroundCatalog,
   playgroundDefaults,
   type PlaygroundEffect,
-} from './content/effects-playground';
-import './inspection';
-import { FrameScheduler } from './frame-scheduler';
+} from '../content/effects-playground';
+import '../inspection';
+import { FrameScheduler } from '../frame-scheduler';
 
 const settings = playgroundDefaults(),
   $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;

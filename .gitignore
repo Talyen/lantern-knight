@@ -1,21 +1,26 @@
+# Dependencies and local tooling
 node_modules/
-dist/
-dist-electron/
-release/
-*.blend1
+.venv/
+.cache/
+.ruff_cache/
+__pycache__/
+*.pyc
 .DS_Store
 .env
 .env.*
 !.env.example
-evidence/smoke-user/
-evidence/benchmark-user/
 
-tmp/
-
+# Build and package output
+dist/
 dist-dev/
+dist-electron/
 dist-electron-dev/
+release/
 release-dev/
 
+# Prepared assets, retained diagnostics and scratch work
+*.blend1
+tmp/
 staging/
 public/generated/
 public/lighting/
@@ -24,10 +29,5 @@ public/dev-effects/
 public/dev-lighting/
 evidence/
 references/art/
-__pycache__/
-*.pyc
-
-.cache/
-.venv/
 playwright-report/
 test-results/

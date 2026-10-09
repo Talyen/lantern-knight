@@ -22,6 +22,8 @@ Run an exact suite while editing: `npm test -- tests/unit/hero-actions.test.ts`.
 
 ## Review and collaboration
 
+Runtime owners live in `src/core/`, `src/content/`, `src/assets/`, `src/presentation/` and `src/platform/`. Shared application and DOM helpers stay at the `src/` root. Developer screens keep their entry point and screen-specific helpers together in `src/editor/`, `src/sandbox/` and `src/effects-playground/`; their root HTML pages load each folder's `main.ts`. Authored inputs live in `authoring/`, asset delivery recipes and pins in `assets/`, and preserved visual references in `references/`.
+
 Tool commands live at the root of `tools/`; asset preparation scripts live in `tools/assets/prepare/`, replay and benchmark helpers in `tools/diagnostics/`, and native rendering scenarios in `tools/smoke/`. Asset tests, including their Python fixtures, live together in `tests/assets/`. Preparation recipe paths are relative to `tools/`; moving a preparation script invalidates its cached preparation identity without changing the published asset pin.
 
 Inspect `git status`, `git diff --stat` and the relevant diff, including new files. Preserve unrelated edits. Use worktrees for independent or concurrent editing, and agree ownership of shared contracts. Small sequential edits need no task registration, snapshot database or passing-evidence receipt. [Task coordination](task-coordination.md) describes integration and commit authorization.

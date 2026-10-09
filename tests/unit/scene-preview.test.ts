@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readScenePreview, previewHero } from '../../src/scene-preview';
+import { readScenePreview, previewHero } from '../../src/sandbox/preview';
 import { sandboxContent } from '../../src/content/sandbox-world';
 import { isSupportedPosition, heightAt } from '../../src/content/world';
 import { defaultLook } from '../../src/presentation/lighting-profiles';
