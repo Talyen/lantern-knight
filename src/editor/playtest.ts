@@ -24,14 +24,14 @@ export class DraftPlaytest {
     this.dialog = document.createElement('dialog');
     this.dialog.id = 'playtest-dialog';
     this.dialog.innerHTML =
-      '<header><strong>Draft playtest</strong><button id="playtest-pause">Pause</button><button id="playtest-reset">Restart</button><button id="playtest-return">Return to editor</button></header><canvas id="playtest-viewport" tabindex="0" aria-label="Draft gameplay"></canvas><p id="playtest-status" role="status">WASD moves · Mouse aims · Click attacks · Shift dodges · Right-click uses lantern · Escape pauses. Gameplay state is discarded on return.</p>';
+      '<header><strong>Draft playtest</strong><button id="playtest-pause">Pause</button><button id="playtest-reset">Restart</button><button id="playtest-return">Return to editor</button></header><canvas id="playtest-viewport" tabindex="0" aria-label="Draft gameplay"></canvas><p id="playtest-status" role="status"></p>';
     document.body.append(this.dialog);
     this.canvas = this.dialog.querySelector('canvas')!;
     const button = document.createElement('button');
     button.id = 'play-from-here';
-    button.textContent = 'Play from here';
+    button.textContent = 'Play';
     button.onclick = () => void this.start().catch((e) => host.status(editorError(e), true));
-    document.querySelector('.toolbar')!.append(button);
+    document.getElementById('play-action')!.append(button);
     this.dialog.querySelector<HTMLButtonElement>('#playtest-return')!.onclick = () => this.close();
     this.dialog.querySelector<HTMLButtonElement>('#playtest-pause')!.onclick = () =>
       this.app?.pause(!this.app.paused);
@@ -108,7 +108,10 @@ export class DraftPlaytest {
     ++this.request;
     this.app?.dispose();
     this.app = undefined;
-    if (this.dialog.open) this.dialog.close();
+    if (this.dialog.open) {
+      this.dialog.close();
+      document.getElementById('viewport')?.focus();
+    }
   }
   state() {
     return this.app

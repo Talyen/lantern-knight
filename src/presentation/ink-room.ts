@@ -170,6 +170,7 @@ export class InkRoom {
       const wall = this.art.walls.find((w) => w.id === p.wallFace)!;
       s.mesh.rotation.y = Math.atan2(-(wall.to.z - wall.from.z), wall.to.x - wall.from.x);
     }
+    if (p.rotation) s.mesh.rotateZ(p.rotation);
     if (p.fade) {
       this.fades.push(s);
       if (this.sceneryReveal) this.sceneryReveal.add(s);

@@ -27,6 +27,7 @@ export function patternPoints(
   count: number,
   seed: number,
   radius: number,
+  target: { pathIndex?: number; center?: { x: number; z: number } } = {},
 ) {
   if (
     !Number.isInteger(count) ||
@@ -46,9 +47,12 @@ export function patternPoints(
     return Array.from({ length: count }, () => {
       const angle = random() * Math.PI * 2,
         r = Math.sqrt(random()) * radius;
-      return { x: d.hero.x + Math.cos(angle) * r, z: d.hero.z + Math.sin(angle) * r };
+      const center = target.center ?? d.hero;
+      if (!Number.isFinite(center.x) || !Number.isFinite(center.z))
+        throw new Error('Choose a finite scatter center');
+      return { x: center.x + Math.cos(angle) * r, z: center.z + Math.sin(angle) * r };
     });
-  const points = d.paths[0]?.points;
+  const points = d.paths[target.pathIndex ?? 0]?.points;
   if (!points || points.length < 2) throw new Error('Create a path with at least two points first');
   const segments = points
     .slice(1)
@@ -76,10 +80,10 @@ export class SceneLibrary {
   private snapshot = '';
   private fragmentData: SceneDocument['objects'] = [];
   constructor(private host: Host) {
-    const toolbar = document.querySelector('.toolbar')!;
+    const toolbar = $('document-actions');
     const button = document.createElement('button');
     button.id = 'scene-library';
-    button.textContent = 'Scene library';
+    button.textContent = 'Scene library & recovery';
     button.onclick = () => void this.load().catch((e) => host.status(editorError(e), true));
     toolbar.append(button);
     const exportButton = document.createElement('button');
@@ -114,7 +118,7 @@ export class SceneLibrary {
     this.dialog = document.createElement('dialog');
     this.dialog.id = 'scene-library-dialog';
     this.dialog.innerHTML =
-      '<h2>Scene library</h2><input id="library-search" type="search" aria-label="Search scenes" placeholder="Search scenes"><h3>Scenes</h3><div id="library-scenes"></div><h3>Recovery</h3><div id="library-recovery"></div><h3>Reusable fragments</h3><input id="fragment-name" aria-label="Fragment name" placeholder="Arrangement name" maxlength="80"><button id="save-fragment">Save selection as fragment</button><div id="library-fragments"></div><form method="dialog"><button>Close</button></form>';
+      '<h2>Scene library</h2><input id="library-search" type="search" aria-label="Search scenes" placeholder="Search scenes"><h3>Scenes</h3><div id="library-scenes"></div><h3>Recovery</h3><div id="library-recovery"></div><h3>Arrangements</h3><input id="fragment-name" aria-label="Fragment name" placeholder="Arrangement name" maxlength="80"><button id="save-fragment">Save selection as arrangement</button><div id="library-fragments"></div><form method="dialog"><button>Close</button></form>';
     document.body.append(this.dialog);
     $('save-fragment').onclick = () =>
       void (async () => {
@@ -128,8 +132,36 @@ export class SceneLibrary {
     const pattern = document.createElement('fieldset');
     pattern.id = 'pattern-tools';
     pattern.innerHTML =
-      '<legend>Repeat selection</legend><label>Pattern<select id="pattern-kind"><option value="path">Along first path</option><option value="scatter">Scatter around hero</option></select></label><label>Copies<input id="pattern-count" type="number" min="1" max="50" value="5"></label><label>Seed<input id="pattern-seed" type="number" value="142"></label><label>Scatter radius<input id="pattern-radius" type="number" min=".1" step=".1" value="3"></label><button id="pattern-preview">Preview pattern</button><button id="pattern-apply" disabled>Apply pattern</button><button id="pattern-cancel">Cancel preview</button>';
-    $('scene-panel').append(pattern);
+      '<legend>Repeat selection</legend><label>Pattern<select id="pattern-kind"><option value="path">Along path</option><option value="scatter">Scatter in region</option></select></label><label id="pattern-path-label">Path<select id="pattern-path"></select></label><div id="scatter-region"><label>Center X<input id="pattern-x" type="number" step=".1" value="0"></label><label>Center Z<input id="pattern-z" type="number" step=".1" value="0"></label><button id="pattern-center">Center on selection</button></div><label>Copies<input id="pattern-count" type="number" min="1" max="50" value="5"></label><label>Seed<input id="pattern-seed" type="number" value="142"></label><label>Scatter radius<input id="pattern-radius" type="number" min=".1" step=".1" value="3"></label><button id="pattern-preview">Preview pattern</button><button id="pattern-apply" disabled>Apply pattern</button><button id="pattern-cancel">Cancel preview</button>';
+    $('arrange-section').append(pattern);
+    for (const id of [
+      'pattern-kind',
+      'pattern-path',
+      'pattern-x',
+      'pattern-z',
+      'pattern-count',
+      'pattern-seed',
+      'pattern-radius',
+    ])
+      $(id).onchange = () => {
+        this.clearPreview();
+        this.refresh();
+      };
+    $('pattern-center').onclick = () => {
+      const items = sceneItems(host.history().document).filter((p) =>
+        host.selection().includes(p.placement.id),
+      );
+      if (!items.length) return;
+      $<HTMLInputElement>('pattern-x').value = String(
+        items.reduce((n, p) => n + p.placement.x, 0) / items.length,
+      );
+      $<HTMLInputElement>('pattern-z').value = String(
+        items.reduce((n, p) => n + p.placement.z, 0) / items.length,
+      );
+      this.clearPreview();
+    };
+    $('arrangements').onclick = () =>
+      void this.load(true).catch((e) => host.status(editorError(e), true));
     $('pattern-preview').onclick = () => {
       try {
         this.previewPattern();
@@ -167,12 +199,13 @@ export class SceneLibrary {
       /* Thumbnails are disposable. */
     }
   }
-  async load() {
+  async load(arrangementsOnly = false) {
     const response = await fetch('/__lantern_editor', { signal: this.lifetime.signal });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error);
     this.lifetime.signal.throwIfAborted();
     if (!this.dialog.open) this.dialog.showModal();
+    this.dialog.classList.toggle('arrangements-only', arrangementsOnly);
     let recent: string[] = [];
     try {
       recent = JSON.parse(localStorage.getItem('lantern-editor-scenes') ?? '[]');
@@ -251,6 +284,36 @@ export class SceneLibrary {
       list.append(b);
     }
   }
+  refresh() {
+    const paths = $<HTMLSelectElement>('pattern-path');
+    const selected = paths.value;
+    paths.replaceChildren();
+    this.host
+      .history()
+      .document.paths.forEach((_, i) => paths.add(new Option('Path ' + (i + 1), String(i))));
+    if ([...paths.options].some((p) => p.value === selected)) paths.value = selected;
+    const scatter = $<HTMLSelectElement>('pattern-kind').value === 'scatter';
+    $('pattern-path-label').hidden = scatter;
+    $('scatter-region').hidden = !scatter;
+    $('pattern-radius').closest('label')!.hidden = !scatter;
+    $('pattern-seed').closest('label')!.hidden = !scatter;
+    $<HTMLButtonElement>('pattern-preview').disabled = !this.host.selection().length;
+  }
+  private patternSnapshot() {
+    return JSON.stringify([
+      this.host.history().document,
+      this.host.selection(),
+      ...[
+        'pattern-kind',
+        'pattern-path',
+        'pattern-x',
+        'pattern-z',
+        'pattern-count',
+        'pattern-seed',
+        'pattern-radius',
+      ].map((id) => $<HTMLInputElement>(id).value),
+    ]);
+  }
   private previewPattern() {
     this.clearPreview();
     const d = this.host.history().document;
@@ -262,10 +325,17 @@ export class SceneLibrary {
       Number($<HTMLInputElement>('pattern-count').value),
       Number($<HTMLInputElement>('pattern-seed').value),
       Number($<HTMLInputElement>('pattern-radius').value),
+      {
+        pathIndex: Number($<HTMLSelectElement>('pattern-path').value),
+        center: {
+          x: Number($<HTMLInputElement>('pattern-x').value),
+          z: Number($<HTMLInputElement>('pattern-z').value),
+        },
+      },
     );
     if (this.points.length * this.fragmentData.length + d.objects.length > 500)
       throw new Error('Pattern exceeds the 500-object scene limit');
-    this.snapshot = JSON.stringify(d);
+    this.snapshot = this.patternSnapshot();
     const view = this.host.view();
     view.presentation!.overlay.add(this.preview);
     for (const p of this.points) {
@@ -288,7 +358,7 @@ export class SceneLibrary {
     );
   }
   private async applyPattern() {
-    if (this.snapshot !== JSON.stringify(this.host.history().document))
+    if (this.snapshot !== this.patternSnapshot())
       throw new Error('Scene changed; preview the pattern again');
     const items = sceneItems(this.host.history().document).filter((p) =>
       this.fragmentData.some((v) => v.id === p.placement.id),
@@ -314,6 +384,7 @@ export class SceneLibrary {
     }
     this.points = [];
     this.snapshot = '';
+    this.host.view()?.render();
     $<HTMLButtonElement>('pattern-apply').disabled = true;
   }
   dispose() {

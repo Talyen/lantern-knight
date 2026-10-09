@@ -52,6 +52,75 @@ export class EditorView {
   private closed = false;
   private composition?: string;
   private animationPlaying = true;
+  private transformPreview: {
+    sprite: ActorSprite;
+    position: T.Vector3;
+    scale: T.Vector3;
+    quaternion: T.Quaternion;
+  }[] = [];
+  private previewMatrices = new Map<
+    string,
+    { position: T.Vector3; scale: T.Vector3; quaternion: T.Quaternion }
+  >();
+  private appliedDocument?: SceneDocument;
+  previewTransforms(document: SceneDocument) {
+    if (!this.appliedDocument || !this.sim) return;
+    const originals = new Map(
+      sceneItems(this.appliedDocument).map((p) => [p.placement.id, p.placement]),
+    );
+    this.transformPreview = [];
+    for (const { placement: p } of sceneItems(document)) {
+      const original = originals.get(p.id),
+        sprite = this.sprites().find((s) => s.id === p.id);
+      if (!original || !sprite) continue;
+      if (
+        !this.previewMatrices.has(p.id) &&
+        (['x', 'z', 'y', 'scale', 'rotation'] as const).every((key) => p[key] === original[key])
+      )
+        continue;
+      let base = this.previewMatrices.get(p.id);
+      if (!base) {
+        base = {
+          position: sprite.mesh.position.clone(),
+          scale: sprite.mesh.scale.clone(),
+          quaternion: sprite.mesh.quaternion.clone(),
+        };
+        this.previewMatrices.set(p.id, base);
+      }
+      const angle = (p.rotation ?? 0) - (original.rotation ?? 0);
+      this.transformPreview.push({
+        sprite,
+        position: base.position
+          .clone()
+          .add(
+            new T.Vector3(
+              p.x - original.x,
+              heightAt(this.sim.areaDefinition, p.x, p.z) -
+                heightAt(this.sim.areaDefinition, original.x, original.z) +
+                (p.y ?? 0) -
+                (original.y ?? 0),
+              p.z - original.z,
+            ),
+          ),
+        scale: base.scale.clone().multiplyScalar((p.scale ?? 1) / (original.scale ?? 1)),
+        quaternion: base.quaternion
+          .clone()
+          .multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0, 0, 1), angle)),
+      });
+    }
+    this.render();
+  }
+  clearTransformPreview() {
+    for (const sprite of this.sprites()) {
+      const base = this.previewMatrices.get(sprite.id);
+      if (!base) continue;
+      sprite.mesh.position.copy(base.position);
+      sprite.mesh.scale.copy(base.scale);
+      sprite.mesh.quaternion.copy(base.quaternion);
+    }
+    this.previewMatrices.clear();
+    this.transformPreview = [];
+  }
   setAnimationPlaying(playing: boolean) {
     this.animationPlaying = playing;
     if (this.presentation?.roomPresentation.inkRoom)
@@ -67,6 +136,7 @@ export class EditorView {
   ) {}
   async apply(document: SceneDocument) {
     if (this.closed) throw new Error('Editor closed');
+    this.clearTransformPreview();
     const resolved = resolveScene(document);
     const art = this.hidden.size
       ? {
@@ -87,6 +157,7 @@ export class EditorView {
       look: undefined,
     });
     if (composition === this.composition && this.presentation && this.sim) {
+      this.appliedDocument = document;
       this.hero(document.hero);
       if (document.base === 'flat') this.sim.areaDefinition.name = document.name;
       this.presentation.visualOverride = art;
@@ -163,6 +234,7 @@ export class EditorView {
       await this.presentation.lookRenderer.prepare();
       if (this.closed) throw new Error('Editor closed');
       this.composition = composition;
+      this.appliedDocument = document;
       this.setAnimationPlaying(this.animationPlaying);
     } catch (error) {
       for (const p of acquired) {
@@ -185,6 +257,11 @@ export class EditorView {
   render(ms = 0) {
     if (!this.presentation || !this.sim) return;
     this.presentation.update(this.sim, 1, ms, this.sim.hero);
+    for (const { sprite, position, scale, quaternion } of this.transformPreview) {
+      sprite.mesh.position.copy(position);
+      sprite.mesh.scale.copy(scale);
+      sprite.mesh.quaternion.copy(quaternion);
+    }
     this.selection?.update();
     this.selections.forEach((s) => s.update());
     this.setEditingVisibility(this.hidden);
@@ -344,6 +421,7 @@ export class EditorView {
   }
   resize() {
     this.presentation?.resize();
+    this.render();
   }
   dispose() {
     this.closed = true;

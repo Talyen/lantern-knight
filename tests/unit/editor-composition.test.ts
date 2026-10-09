@@ -81,6 +81,20 @@ it('patterns are reproducible, bounded, and follow authored path endpoints', () 
     { x: 4, z: 0 },
     { x: 4, z: 4 },
   ]);
+  d.paths.push({
+    points: [
+      { x: 10, z: 10 },
+      { x: 12, z: 10 },
+    ],
+    width: 1,
+  });
+  assert.deepEqual(patternPoints(d, 'path', 2, 1, 2, { pathIndex: 1 }), [
+    { x: 10, z: 10 },
+    { x: 12, z: 10 },
+  ]);
+  assert.throws(() => patternPoints(d, 'path', 2, 1, 2, { pathIndex: 3 }));
+  const shifted = patternPoints(d, 'scatter', 10, 142, 2, { center: { x: 8, z: -3 } });
+  assert.ok(shifted.every((p) => Math.hypot(p.x - 8, p.z + 3) <= 2));
   const points = patternPoints(d, 'scatter', 10, 142, 2);
   assert.deepEqual(points, patternPoints(d, 'scatter', 10, 142, 2));
   assert.ok(points.every((p) => Math.hypot(p.x, p.z) <= 2));

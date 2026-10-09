@@ -1,4 +1,6 @@
 import * as T from 'three';
+import { heightAt } from '../content/world';
+import { openDock } from './workspace';
 import { EditorHistory, sceneItems } from './model';
 import type { EditorView } from './view';
 export type CompositionHost = {
@@ -14,8 +16,7 @@ export class CompositionTools {
   readonly selection = new Set<string>();
   readonly hidden = new Set<string>();
   readonly locked = new Set<string>();
-  private tab: 'object' | 'scene' = 'scene';
-  private observers: ResizeObserver[] = [];
+  private cancelHandle: (() => void) | undefined;
   private thumbnails: IntersectionObserver;
   constructor(private host: CompositionHost) {
     this.thumbnails = new IntersectionObserver(
@@ -31,11 +32,6 @@ export class CompositionTools {
       },
       { root: element('objects') },
     );
-    for (const tab of ['object', 'scene'] as const)
-      element(tab + '-tab').onclick = () => {
-        this.tab = tab;
-        this.render();
-      };
     element('object-search').oninput = () => this.render();
     element('focus-selection').onclick = () => this.focus();
     element('shortcuts').onclick = () => element<HTMLDialogElement>('shortcut-dialog').showModal();
@@ -49,45 +45,6 @@ export class CompositionTools {
             }
         });
       });
-    const main = document.querySelector('main')!;
-    for (const side of ['palette', 'inspector']) {
-      const panel = document.querySelector<HTMLElement>('aside.' + side)!;
-      const key = 'lantern-editor-' + side;
-      try {
-        const saved = JSON.parse(localStorage.getItem(key) ?? '{}');
-        if (saved.width) panel.style.width = saved.width;
-        panel.classList.toggle('collapsed', !!saved.collapsed);
-      } catch {
-        /* Layout is disposable. */
-      }
-      const measure = () => {
-        main.style.setProperty(
-          '--' + side + '-width',
-          panel.classList.contains('collapsed')
-            ? '42px'
-            : panel.style.width || (side === 'palette' ? '230px' : '280px'),
-        );
-        try {
-          localStorage.setItem(
-            key,
-            JSON.stringify({
-              width: panel.style.width,
-              collapsed: panel.classList.contains('collapsed'),
-            }),
-          );
-        } catch {
-          /* Layout is disposable. */
-        }
-      };
-      element('collapse-' + side).onclick = () => {
-        panel.classList.toggle('collapsed');
-        measure();
-      };
-      const observer = new ResizeObserver(measure);
-      observer.observe(panel);
-      this.observers.push(observer);
-      measure();
-    }
     for (const label of document.querySelectorAll<HTMLLabelElement>('#transform label')) {
       const input = label.querySelector<HTMLInputElement>('input[type="number"]');
       if (!input) continue;
@@ -133,44 +90,125 @@ export class CompositionTools {
             d.objects = temp.document.objects;
           });
         }).catch(console.error);
-      element('selection-tools').append(button);
+      element('alignment-tools').append(button);
     }
     for (const button of document.querySelectorAll<HTMLButtonElement>('[data-handle]')) {
       button.onpointerdown = (e) => {
-        if (!this.selection.size) return;
+        const ids = this.editable();
+        if (
+          e.button !== 0 ||
+          !ids.length ||
+          (element<HTMLButtonElement>('undo').disabled &&
+            element('save-state').textContent === 'Working…')
+        )
+          return;
         e.preventDefault();
+        const view = this.host.view();
+        const original = structuredClone(this.host.history().document);
+        const items = sceneItems(original).filter((p) => ids.includes(p.placement.id));
+        const center = new T.Vector3(
+          items.reduce((n, p) => n + p.placement.x, 0) / items.length,
+          0,
+          items.reduce((n, p) => n + p.placement.z, 0) / items.length,
+        );
+        const pivot = view.screen(center),
+          start = view.ground(e.clientX, e.clientY);
+        const field = button.dataset.handle!;
+        let fields: { x?: number; z?: number; scale?: number; rotation?: number } = {};
+        let changed = false;
+        let validFields = fields;
         button.setPointerCapture(e.pointerId);
-        const start = e.clientX;
-        const finish = (end: PointerEvent) => {
+        const finish = (cancel: boolean) => {
+          button.onpointermove = null;
           button.onpointerup = null;
           button.onpointercancel = null;
-          button.onpointermove = null;
+          button.onlostpointercapture = null;
+          this.cancelHandle = undefined;
           if (button.hasPointerCapture(e.pointerId)) button.releasePointerCapture(e.pointerId);
-          if (end.type === 'pointercancel') return;
-          const delta = (end.clientX - start) / 80;
-          const field = button.dataset.handle!;
-          const value =
-            field === 'scale'
-              ? Math.max(0.1, 1 + delta)
-              : field === 'rotation'
-                ? delta
-                : this.snap(delta);
-          void this.edit(() =>
-            this.host.history().transformMany(this.editable(), { [field]: value }),
-          ).catch(console.error);
+          view.clearTransformPreview();
+          if (!cancel && changed)
+            void this.edit(() => this.host.history().transformMany(ids, validFields)).catch(
+              console.error,
+            );
+          else {
+            view.render();
+            this.positionHandles();
+          }
         };
-        button.onpointerup = finish;
-        button.onpointercancel = finish;
+        this.cancelHandle = () => finish(true);
         button.onpointermove = (move) => {
-          button.title = 'Drag value: ' + ((move.clientX - start) / 80).toFixed(2);
+          const point = view.ground(move.clientX, move.clientY);
+          if (field === 'x' || field === 'z') {
+            if (!point || !start) return;
+            fields = { [field]: this.snap(point[field] - start[field]) };
+          } else if (field === 'rotation') {
+            fields = {
+              rotation:
+                Math.atan2(move.clientY - pivot.y, move.clientX - pivot.x) -
+                Math.atan2(e.clientY - pivot.y, e.clientX - pivot.x),
+            };
+          } else {
+            fields = {
+              scale: Math.max(
+                0.1,
+                Math.hypot(move.clientX - pivot.x, move.clientY - pivot.y) /
+                  Math.max(20, Math.hypot(e.clientX - pivot.x, e.clientY - pivot.y)),
+              ),
+            };
+          }
+          try {
+            const temp = new EditorHistory(original);
+            temp.transformMany(ids, fields);
+            view.previewTransforms(temp.document);
+            validFields = fields;
+            changed = JSON.stringify(temp.document) !== JSON.stringify(original);
+          } catch {
+            /* Keep the last valid preview when a transform exceeds scene limits. */
+          }
         };
+        button.onpointerup = () => finish(false);
+        button.onpointercancel = () => finish(true);
+        button.onlostpointercapture = () => finish(true);
       };
     }
   }
+  cancelGesture() {
+    this.cancelHandle?.();
+  }
   dispose() {
-    this.observers.forEach((o) => o.disconnect());
+    this.cancelGesture();
     this.thumbnails.disconnect();
   }
+  positionHandles() {
+    const items = sceneItems(this.host.history().document).filter((p) =>
+      this.editable().includes(p.placement.id),
+    );
+    const handles = element('transform-handles');
+    handles.hidden =
+      !items.length ||
+      element<HTMLSelectElement>('tool').value !== 'select' ||
+      document.body.classList.contains('focus-mode');
+    const view = this.host.view();
+    if (handles.hidden || !view.presentation) return;
+    const p = view.screen(
+      new T.Vector3(
+        items.reduce((n, p) => n + p.placement.x, 0) / items.length,
+        items.reduce(
+          (n, p) =>
+            n +
+            heightAt(view.sim!.areaDefinition, p.placement.x, p.placement.z) +
+            (p.placement.y ?? 0),
+          0,
+        ) / items.length,
+        items.reduce((n, p) => n + p.placement.z, 0) / items.length,
+      ),
+    );
+    const rect = view.canvas.getBoundingClientRect();
+    handles.hidden = p.x < rect.left || p.x > rect.right || p.y < rect.top || p.y > rect.bottom;
+    handles.style.left = Math.max(0, Math.min(rect.width - 120, p.x - rect.left - 25)) + 'px';
+    handles.style.top = Math.max(40, Math.min(rect.height - 80, p.y - rect.top + 40 - 30)) + 'px';
+  }
+
   snap(value: number) {
     const spacing = Number(element<HTMLInputElement>('snap-spacing').value);
     return element<HTMLInputElement>('snap').checked && spacing > 0 && Number.isFinite(spacing)
@@ -178,7 +216,17 @@ export class CompositionTools {
       : value;
   }
   editable() {
-    return [...this.selection].filter((id) => !this.locked.has(id) && !this.hidden.has(id));
+    const items = sceneItems(this.host.history().document);
+    const hidden = new Set(this.host.history().descendants([...this.hidden]));
+    return [...this.selection].filter(
+      (id) =>
+        !hidden.has(id) &&
+        !items.find((p) => p.placement.id === id)?.locked &&
+        !this.host
+          .history()
+          .descendants([id])
+          .some((child) => this.locked.has(child)),
+    );
   }
   set(id: string | undefined, additive = false) {
     if (!additive) this.selection.clear();
@@ -186,7 +234,7 @@ export class CompositionTools {
       if (additive && this.selection.has(id)) this.selection.delete(id);
       else this.selection.add(id);
     }
-    if (this.selection.size) this.tab = 'object';
+    if (this.selection.size) openDock('object', false);
     this.host.select([...this.selection].at(-1));
   }
   rectangle(a: { x: number; y: number }, b: { x: number; y: number }, additive: boolean) {
@@ -204,7 +252,7 @@ export class CompositionTools {
       )
         this.selection.add(item.placement.id);
     }
-    this.tab = this.selection.size ? 'object' : this.tab;
+    if (this.selection.size) openDock('object', false);
     this.host.select([...this.selection].at(-1));
   }
   async edit(work: () => void) {
@@ -255,14 +303,30 @@ export class CompositionTools {
     const items = sceneItems(this.host.history().document);
     for (const id of this.selection)
       if (!items.some((v) => v.placement.id === id)) this.selection.delete(id);
-    for (const tab of ['object', 'scene'] as const) {
-      element(tab + '-panel').hidden = tab !== this.tab;
-      element(tab + '-tab').setAttribute('aria-selected', String(tab === this.tab));
-    }
     element('selection-tools').hidden = !this.editable().length;
-    if (this.selection.size > 1)
-      element('selected-name').textContent =
-        `${this.selection.size} objects selected · fields edit the last selected object; handles edit the group`;
+    element('alignment-tools').hidden = this.editable().length < 2;
+    if (this.selection.size > 1) {
+      element('selected-name').textContent = `${this.selection.size} objects selected`;
+      const selected = items
+        .filter((p) => this.selection.has(p.placement.id))
+        .map((p) => p.placement);
+      for (const key of ['x', 'z', 'y', 'scale', 'rotation'] as const) {
+        const values = selected.map((p) => p[key] ?? (key === 'scale' ? 1 : 0));
+        const input = element<HTMLInputElement>(key);
+        input.value = values.every((v) => v === values[0])
+          ? String(Number((values[0]! * (key === 'rotation' ? 180 / Math.PI : 1)).toFixed(3)))
+          : '';
+        input.placeholder = 'Mixed';
+      }
+      for (const id of ['clip', 'heading'])
+        element<HTMLSelectElement>(id).closest('label')!.hidden = true;
+      element<HTMLInputElement>('y').disabled = items.some(
+        (p) => this.selection.has(p.placement.id) && p.kind === 'decal',
+      );
+      element<HTMLInputElement>('mirror').indeterminate = !selected.every(
+        (p) => !!p.mirror === !!selected[0]!.mirror,
+      );
+    } else element<HTMLInputElement>('mirror').indeterminate = false;
     const filter = element<HTMLInputElement>('object-search').value.toLowerCase();
     const list = element('objects');
     this.thumbnails.disconnect();
@@ -272,14 +336,16 @@ export class CompositionTools {
       const p = documents.get(id);
       return p?.mount ? 1 + depth(p.mount.to) : 0;
     };
-    const ordered = [...items].sort((a, b) => {
-      const root = (id: string): string =>
-        documents.get(id)?.mount ? root(documents.get(id)!.mount!.to) : id;
-      return (
-        root(a.placement.id).localeCompare(root(b.placement.id)) ||
-        depth(a.placement.id) - depth(b.placement.id)
-      );
-    });
+    const ordered: typeof items = [];
+    const children = (parent: string | undefined) => {
+      for (const item of items
+        .filter((p) => documents.get(p.placement.id)?.mount?.to === parent)
+        .sort((a, b) => a.placement.id.localeCompare(b.placement.id))) {
+        ordered.push(item);
+        children(item.placement.id);
+      }
+    };
+    children(undefined);
     for (const { placement: p, locked } of ordered) {
       if (
         !`${p.id} ${p.asset} ${p.clip} ${documents.get(p.id)?.label ?? ''}`
@@ -303,13 +369,23 @@ export class CompositionTools {
       select.title = p.asset + '/' + p.clip;
       select.classList.toggle('active', this.selection.has(p.id));
       select.onclick = (e) => this.set(p.id, e.shiftKey);
-      row.append(thumbnail, select);
+      const focus = document.createElement('button');
+      focus.textContent = '⌖';
+      focus.className = 'object-action';
+      focus.setAttribute('aria-label', 'Focus ' + p.id);
+      focus.onclick = () => {
+        this.set(p.id);
+        this.focus();
+      };
+      row.append(thumbnail, select, focus);
       for (const [label, set] of [
         ['Hide', this.hidden],
         ['Lock', this.locked],
       ] as const) {
         const button = document.createElement('button');
         button.textContent = set.has(p.id) ? (label === 'Hide' ? 'Show' : 'Unlock') : label;
+        button.className = 'object-action';
+        button.classList.toggle('active', set.has(p.id));
         button.setAttribute('aria-label', button.textContent + ' ' + p.id);
         button.disabled = locked && label === 'Lock';
         button.onclick = () => {
@@ -336,6 +412,7 @@ export class CompositionTools {
     const hidden = new Set(this.host.history().descendants([...this.hidden]));
     this.host.view()?.setEditingVisibility(hidden);
     this.host.view()?.selectMany([...this.selection].filter((id) => !hidden.has(id)));
+    this.positionHandles();
     const primary = [...this.selection].at(-1);
     if (primary && (this.locked.has(primary) || this.hidden.has(primary)))
       element<HTMLFieldSetElement>('transform').disabled = true;

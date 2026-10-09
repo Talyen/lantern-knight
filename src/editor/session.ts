@@ -7,7 +7,7 @@ import { SceneLibrary } from './library';
 import { VisualAuthoring } from './visual-authoring';
 import { CompositionTools } from './composition';
 import { editorUI } from './ui';
-import { bindSceneControls } from './scene-controls';
+import { EditorWorkspace, openDock } from './workspace';
 import { emptyScene } from './default-scene';
 import { resolveAuthoredScene } from '../content/world-art';
 import {
@@ -56,7 +56,7 @@ export function createEditorSession() {
   }
   const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
   document.getElementById('app')!.innerHTML = editorUI;
-  const refreshSceneControls = bindSceneControls(change);
+  const workspace = new EditorWorkspace();
   let composition: CompositionTools;
   let visualAuthoring: VisualAuthoring;
   let sceneLibrary: SceneLibrary;
@@ -94,7 +94,7 @@ export function createEditorSession() {
   let recovery: Recovery | undefined;
   function status(message: string, error = false) {
     if (closed) return;
-    $('status').textContent = message;
+    workspace.notify(message, error);
     $('status').classList.toggle('error', error);
     $('validation-errors').textContent = error ? 'Error: ' + message : '';
     $('validation-errors').hidden = !error;
@@ -123,7 +123,6 @@ export function createEditorSession() {
   }
   function controls() {
     if (closed) return;
-    refreshSceneControls(history.document, busy);
     const d = history.document,
       items = sceneItems(d),
       item = items.find((p) => p.placement.id === selected),
@@ -140,10 +139,14 @@ export function createEditorSession() {
     }
     $<HTMLFieldSetElement>('transform').disabled = busy || !p || !!item?.locked;
     $('selected-name').textContent = p
-      ? `${p.id}${item?.locked ? ' · locked fixture' : ''}`
+      ? item?.locked || composition?.locked.has(p.id)
+        ? 'Locked object'
+        : ''
       : 'Select an object';
     for (const key of ['x', 'z', 'y', 'scale'] as const)
-      $<HTMLInputElement>(key).value = p ? String(p[key] ?? (key === 'scale' ? 1 : 0)) : '';
+      $<HTMLInputElement>(key).value = p
+        ? String(Number((p[key] ?? (key === 'scale' ? 1 : 0)).toFixed(3)))
+        : '';
     $<HTMLInputElement>('mirror').checked = !!p?.mirror;
     const size = $<HTMLInputElement>('scale');
     size.min = '0.05';
@@ -181,7 +184,9 @@ export function createEditorSession() {
         ),
       );
     if (p) headingSelect.value = p.heading ?? 'd45';
-    $<HTMLInputElement>('rotation').value = String(((p?.rotation ?? 0) * 180) / Math.PI);
+    $<HTMLInputElement>('rotation').value = String(
+      Number((((p?.rotation ?? 0) * 180) / Math.PI).toFixed(3)),
+    );
     $('rotation-label').hidden = false;
     $<HTMLInputElement>('y').disabled = item?.kind === 'decal';
     $<HTMLButtonElement>('undo').disabled = busy || !history.canUndo;
@@ -226,7 +231,10 @@ export function createEditorSession() {
     view?.select(selected);
     view?.setGrid($<HTMLInputElement>('grid').checked);
     composition?.render();
-    visualAuthoring?.render(busy);
+    visualAuthoring?.render(busy, composition?.selection.size > 1);
+    $('scene-summary-text').textContent = `${d.name} · ${items.length} objects`;
+    workspace.refresh();
+    sceneLibrary?.refresh();
   }
   function select(id: string | undefined) {
     selected = id;
@@ -242,6 +250,7 @@ export function createEditorSession() {
   }
   async function run(action: () => Promise<void>, restoring = false) {
     if (closed || busy) return;
+    composition?.cancelGesture();
     if (!$('recovery').hidden && !restoring) {
       status('Restore or dismiss the previous recovery before editing.', true);
       controls();
@@ -295,6 +304,24 @@ export function createEditorSession() {
     const b = p.area.bounds;
     p.center.set((b.minX + b.maxX) / 2, 1.8, (b.minZ + b.maxZ) / 2);
     p.verticalSpan = Math.max(10, Math.min(50, Math.max(b.maxX - b.minX, b.maxZ - b.minZ) * 0.85));
+    p.resize();
+    view.render();
+    const corners = [
+      [b.minX, b.minZ],
+      [b.minX, b.maxZ],
+      [b.maxX, b.minZ],
+      [b.maxX, b.maxZ],
+    ].map(([x, z]) => view.screen(new T.Vector3(x!, 0, z!)));
+    const rect = canvas.getBoundingClientRect();
+    const width = Math.max(...corners.map((p) => p.x)) - Math.min(...corners.map((p) => p.x));
+    const height = Math.max(...corners.map((p) => p.y)) - Math.min(...corners.map((p) => p.y));
+    p.verticalSpan = Math.max(
+      3,
+      Math.min(
+        100,
+        p.verticalSpan * Math.max(width / (rect.width * 0.9), height / (rect.height * 0.9)),
+      ),
+    );
     p.resize();
     view.render();
   }
@@ -479,7 +506,14 @@ export function createEditorSession() {
           id === 'mirror'
             ? $<HTMLInputElement>(id).checked
             : Number($<HTMLInputElement>(id).value) * (id === 'rotation' ? Math.PI / 180 : 1);
-        history.transform(selected, { [id]: value });
+        const ids = composition.editable();
+        const input = $<HTMLInputElement>(id);
+        if (id !== 'mirror' && (!input.value.trim() || !Number.isFinite(value))) return;
+        const temp = new EditorHistory(history.document);
+        for (const target of ids) temp.transform(target, { [id]: value });
+        history.change((d) => {
+          d.objects = temp.document.objects;
+        });
         await refresh();
       });
   $('undo').onclick = () =>
@@ -575,6 +609,7 @@ export function createEditorSession() {
   function showPalette() {
     observer.disconnect();
     $('assets').replaceChildren();
+    workspace.refresh();
     const shown = new Set<string>();
     const search = $<HTMLInputElement>('search').value.toLowerCase(),
       kind = $<HTMLSelectElement>('category').value;
@@ -605,8 +640,20 @@ export function createEditorSession() {
         c.dataset.index = String(index);
         c.setAttribute('aria-hidden', 'true');
         const label = document.createElement('span');
-        label.textContent = `${entry.manifest.asset.label ?? entry.asset} · ${entry.asset.startsWith('library-') ? 'Experimental' : 'Current'}${entry.kind === 'reference' ? ' · Reference' : ''}`;
-        button.append(c, label);
+        label.textContent = (
+          entry.manifest.asset.label ?? entry.asset.replace(/^(ink|library)-/, '')
+        )
+          .replaceAll('_', ' ')
+          .replaceAll('-', ' ');
+        const badge = document.createElement('span');
+        badge.className = 'asset-status';
+        badge.textContent =
+          entry.kind === 'reference'
+            ? 'Reference'
+            : entry.asset.startsWith('library-')
+              ? 'Experimental'
+              : '';
+        button.append(c, label, badge);
         button.onclick = () => {
           if (entry.kind === 'reference') {
             $('art-preview-label').textContent =
@@ -619,7 +666,7 @@ export function createEditorSession() {
           selected = undefined;
           composition.selection.clear();
           controls();
-          status('Click the ground to place ' + entry.clip + '.');
+          workspace.refresh();
         };
         button.ondragstart = (e) => {
           if (entry.kind === 'reference') {
@@ -672,6 +719,7 @@ export function createEditorSession() {
     $('favorite-asset').textContent = favorites.has(entry.asset) ? 'Unfavorite' : 'Favorite';
     $('asset-choice').hidden = false;
     $<HTMLSelectElement>('tool').value = 'place';
+    openDock('artwork');
     const clips = $<HTMLSelectElement>('place-clip');
     clips.replaceChildren();
     for (const p of palette.filter((p) => p.asset === entry.asset))
@@ -679,13 +727,31 @@ export function createEditorSession() {
     clips.value = entry.clip;
     updatePlaceHeading();
     showPalette();
+    workspace.refresh();
   }
   function updatePlaceHeading() {
     const headings = $<HTMLSelectElement>('place-heading');
     headings.replaceChildren();
     if (chosen)
       for (const h of Object.keys(chosen.manifest.asset.clips[chosen.clip]!))
-        headings.add(new Option(h, h));
+        headings.add(
+          new Option(
+            (
+              {
+                d00: 'Down-left',
+                d45: 'Down',
+                d90: 'Down-right',
+                d135: 'Right',
+                d180: 'Up-right',
+                d225: 'Up',
+                d270: 'Up-left',
+                d315: 'Left',
+              } as Record<string, string>
+            )[h] ?? h,
+            h,
+          ),
+        );
+    workspace.refresh();
   }
   $('place-clip').onchange = () => {
     if (chosen) {
@@ -734,11 +800,15 @@ export function createEditorSession() {
     $('preview-play').textContent = previewPlaying ? 'Pause preview' : 'Play preview';
   };
   $('tool').onchange = () => {
+    if ($<HTMLSelectElement>('tool').value === 'place') openDock('artwork');
+    if ($<HTMLSelectElement>('tool').value === 'geometry') openDock('scene');
     if ($<HTMLSelectElement>('tool').value !== 'place') {
       chosen = undefined;
       view?.clearPlacementGhost();
       $('asset-choice').hidden = true;
     }
+    workspace.refresh();
+    composition?.positionHandles();
   };
   let marquee: { x: number; y: number; additive: boolean } | undefined;
   function startMarquee(e: PointerEvent) {
@@ -785,15 +855,15 @@ export function createEditorSession() {
           }),
         ),
       );
-      selected = id;
-      composition.selection.clear();
-      composition.selection.add(id);
+      const repeat = $<HTMLInputElement>('repeat-placement').checked;
+      const heading = $<HTMLSelectElement>('place-heading').value;
       composition.set(id);
       rememberAsset(entry.asset);
-      chosen = undefined;
-      view.clearPlacementGhost();
-      $<HTMLSelectElement>('tool').value = 'select';
-      $('asset-choice').hidden = true;
+      if (repeat) {
+        chooseAsset(entry);
+        $<HTMLSelectElement>('place-heading').value = heading;
+        openDock('artwork');
+      }
       await refresh();
       status('Placed ' + entry.clip + '.');
     });
@@ -982,13 +1052,14 @@ export function createEditorSession() {
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLSelectElement ||
         e.target instanceof HTMLTextAreaElement;
-      if (text || [...document.querySelectorAll<HTMLDialogElement>('dialog')].some((d) => d.open))
-        return;
+      if ([...document.querySelectorAll<HTMLDialogElement>('dialog')].some((d) => d.open)) return;
       if (e.key === 'Escape') {
+        composition.cancelGesture();
         finishDrag(true);
         composition.set(undefined);
         return;
       }
+      if (text) return;
       if (e.key.toLowerCase() === 'f') {
         composition.focus();
         return;
@@ -1102,6 +1173,7 @@ export function createEditorSession() {
     const ms = last ? Math.min(50, time - last) : 0;
     last = time;
     view.render(ms);
+    composition?.positionHandles();
     visualAuthoring?.draw();
     if (previewEntry && previewPlaying && $<HTMLDialogElement>('art-preview').open) {
       previewTime += ms;
@@ -1122,6 +1194,7 @@ export function createEditorSession() {
     closed = true;
     ready = false;
     lifetime.abort();
+    workspace.dispose();
     cancelAnimationFrame(frame);
     cancelAnimationFrame(resizeFrame);
     observer.disconnect();
@@ -1259,6 +1332,7 @@ export function createEditorSession() {
         ids.forEach((id) => composition.selection.add(id));
         composition.set(ids.at(-1), false);
         ids.forEach((id) => composition.selection.add(id));
+        controls();
       },
       recoveries: recoveryEntries,
       restore: (key) => {
@@ -1295,7 +1369,7 @@ export function createEditorSession() {
     busy = false;
     controls();
     ready = true;
-    if ($('recovery').hidden) status('Ready. Drag artwork into the scene.');
+    if ($('recovery').hidden) status('');
     frame = requestAnimationFrame(animate);
   }
   // Development-only inspection supports browser acceptance without exposing a player bridge.

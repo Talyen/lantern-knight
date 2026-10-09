@@ -77,6 +77,36 @@ const choices: Record<string, string[]> = {
   cutout: ['wall', 'wall-x', 'wall-z', 'boundary-x', 'boundary-z', 'fence'],
   marker: ['gravestone', 'memorial', 'fallen-marker'],
 };
+function fieldLabel(name: string) {
+  const names: Record<string, string> = {
+    rainBounds: 'Rain area',
+    rainShelters: 'Rain shelters',
+    propOrder: 'Draw order',
+    overlaps: 'Intentional overlaps',
+    geometry: 'Surface & bounds',
+    surround: 'Surroundings',
+    targetHeight: 'Target height',
+    baselineEntry: 'Default entry',
+    minX: 'Left (X)',
+    maxX: 'Right (X)',
+    minZ: 'Near (Z)',
+    maxZ: 'Far (Z)',
+    keepHeroVisible: 'Keep hero visible',
+    x: 'X',
+    z: 'Z',
+    y: 'Height',
+    fade: 'Fade behind hero',
+    spawns: 'Enemies',
+    ground: 'Ground outline',
+  };
+  return (
+    names[name] ??
+    name
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replaceAll('_', ' ')
+      .replace(/^./, (c) => c.toUpperCase())
+  );
+}
 function read(root: unknown, path: readonly (string | number)[]): Data | undefined {
   let value = root as Data;
   for (const key of path) value = (value as Record<string, Data>)[key]!;
@@ -99,7 +129,7 @@ export class VisualAuthoring {
   constructor(private host: Host) {
     this.fields = document.createElement('section');
     this.fields.id = 'visual-fields';
-    $('scene-panel').append(this.fields);
+    $('scene-panel').insertBefore(this.fields, $('advice-section'));
     this.objectFields = document.createElement('section');
     this.objectFields.id = 'object-appearance';
     $('object-panel').append(this.objectFields);
@@ -110,7 +140,7 @@ export class VisualAuthoring {
       ['camera', 'bounds', 'collision', 'entries', 'zones', 'lights', 'shelters', 'gameplay']
         .map((id) => `<label><input type="checkbox" data-overlay="${id}"> ${id}</label>`)
         .join('');
-    $('scene-panel').prepend(overlays);
+    $('overlay-options').append(overlays);
     overlays.onchange = () => {
       this.key = '';
       this.draw();
@@ -129,10 +159,10 @@ export class VisualAuthoring {
   private form(value: Data, path: (string | number)[], parent: HTMLElement, label: string) {
     if (typeof value === 'object') {
       const details = document.createElement('details');
-      details.open = path.length < 2;
+      details.open = false;
       details.dataset.section = path.join('.');
       const summary = document.createElement('summary');
-      summary.textContent = label;
+      summary.textContent = fieldLabel(label);
       details.append(summary);
       parent.append(details);
       if (Array.isArray(value)) {
@@ -143,7 +173,7 @@ export class VisualAuthoring {
           this.form(v, [...path, i], row, `${label} ${i + 1}`);
           if (!tuple)
             row.append(
-              this.button('Remove ' + label, () => {
+              this.button('Remove ' + fieldLabel(label), () => {
                 const next = structuredClone(read(this.host.history().document, path) as Data[]);
                 next.splice(i, 1);
                 this.commit(path, next);
@@ -152,7 +182,7 @@ export class VisualAuthoring {
         });
         if (!tuple)
           details.append(
-            this.button('Add ' + label, () => {
+            this.button('Add ' + fieldLabel(label), () => {
               const next = structuredClone(read(this.host.history().document, path) as Data[]);
               const field = String(path.at(-1));
               const base =
@@ -205,11 +235,12 @@ export class VisualAuthoring {
           );
       } else
         for (const [name, child] of Object.entries(value))
-          if (child !== undefined) this.form(child, [...path, name], details, name);
+          if (child !== undefined && [...path, name].join('.') !== 'geometry.surface.kind')
+            this.form(child, [...path, name], details, name);
       return;
     }
     const row = document.createElement('label');
-    row.textContent = label.replace(/([A-Z])/g, ' $1');
+    row.textContent = fieldLabel(label);
     const field = String(path.at(-1));
     const options =
       field === 'actor'
@@ -238,7 +269,9 @@ export class VisualAuthoring {
     input.value =
       input instanceof HTMLInputElement && input.type === 'color'
         ? '#' + Number(value).toString(16).padStart(6, '0')
-        : String(value);
+        : typeof value === 'number'
+          ? String(Number(value.toFixed(3)))
+          : String(value);
     input.dataset.field = path.join('.');
     input.onchange = () =>
       this.commit(
@@ -254,7 +287,7 @@ export class VisualAuthoring {
     row.append(input);
     parent.append(row);
   }
-  render(busy = false) {
+  render(busy = false, multiple = false) {
     const d = this.host.history().document;
     const focused = document.activeElement;
     const field = focused instanceof HTMLElement ? focused.dataset.field : undefined;
@@ -265,36 +298,54 @@ export class VisualAuthoring {
         ),
       ].map((v) => [v.dataset.section, v.open]),
     );
+    const atmosphere = $('atmosphere-section');
+    $('scene-panel').append(atmosphere);
     this.fields.replaceChildren();
-    const header = document.createElement('h2');
-    header.textContent = 'Scene authoring';
-    this.fields.append(header);
-    for (const key of [
-      'camera',
-      'geometry',
-      'gameplay',
-      'paths',
-      'walls',
-      'graves',
-      'surround',
-      'weather',
-      'rainBounds',
-      'rainShelters',
-      'interior',
-      'propOrder',
-      'overlaps',
-    ] as const) {
-      const value = d[key] as Data | undefined;
-      if (value !== undefined) {
-        this.form(value, [key], this.fields, key);
-        if (key in optional)
-          this.fields.append(this.button('Remove ' + key, () => this.commit([key], undefined)));
-      } else
-        this.fields.append(
-          this.button('Add ' + key, () =>
-            this.commit([key], structuredClone(optional[key as keyof typeof optional])),
-          ),
-        );
+    const categories = [
+      ['Camera', ['camera']],
+      ['Gameplay', ['gameplay']],
+      ['Geometry', ['geometry', 'paths', 'walls', 'graves', 'interior']],
+      ['Atmosphere', ['surround', 'weather', 'rainBounds', 'rainShelters']],
+      ['Advanced', ['propOrder', 'overlaps']],
+    ] as const;
+    for (const [title, keys] of categories) {
+      const category = document.createElement('details');
+      category.name = 'scene-sections';
+      category.dataset.section = 'category-' + title;
+      const summary = document.createElement('summary');
+      summary.textContent = title;
+      category.append(summary);
+      this.fields.append(category);
+      if (title === 'Atmosphere') category.append($('atmosphere-section'));
+      for (const key of keys) {
+        const value = d[key] as Data | undefined;
+        if (value !== undefined) {
+          let section: Element = category;
+          if (keys.length === 1 && typeof value === 'object' && !Array.isArray(value)) {
+            for (const [field, child] of Object.entries(value))
+              if (child !== undefined) this.form(child, [key, field], category, fieldLabel(field));
+          } else {
+            this.form(value, [key], category, fieldLabel(key));
+            section = category.lastElementChild!;
+          }
+          if (key in optional)
+            section.append(
+              this.button('Remove ' + fieldLabel(key), () => this.commit([key], undefined)),
+            );
+        } else {
+          const section = document.createElement('details');
+          section.dataset.section = key;
+          const summary = document.createElement('summary');
+          summary.textContent = fieldLabel(key);
+          section.append(
+            summary,
+            this.button('Add ' + fieldLabel(key), () =>
+              this.commit([key], structuredClone(optional[key as keyof typeof optional])),
+            ),
+          );
+          category.append(section);
+        }
+      }
     }
     // Surface alternatives have different valid fields and change atomically.
     if (d.geometry) {
@@ -317,11 +368,15 @@ export class VisualAuthoring {
                 ...(select.value === 'stairs' ? { steps: 3 } : {}),
               },
         );
-      this.fields.prepend(select);
+      const row = document.createElement('label');
+      row.textContent = 'Surface type';
+      row.append(select);
+      this.fields.querySelector('[data-section=geometry] > summary')?.after(row);
     }
     this.objectFields.replaceChildren();
+    $('object-name').replaceChildren();
     const index = d.objects.findIndex((p) => p.id === this.host.selected());
-    if (index >= 0) this.objectForm(d.objects[index]!, index);
+    if (index >= 0 && !multiple) this.objectForm(d.objects[index]!, index);
     for (const details of document.querySelectorAll<HTMLDetailsElement>(
       '#visual-fields details,#object-appearance details',
     ))
@@ -342,7 +397,9 @@ export class VisualAuthoring {
     }
     for (const input of this.fields.querySelectorAll<HTMLInputElement>('input,select,button'))
       input.disabled = busy;
-    for (const input of this.objectFields.querySelectorAll<HTMLInputElement>('input,select,button'))
+    for (const input of document.querySelectorAll<HTMLInputElement>(
+      '#object-appearance input,#object-appearance select,#object-appearance button,#object-name input',
+    ))
       input.disabled = busy || !!this.host.locked?.();
     this.key = '';
     this.draw();
@@ -357,12 +414,17 @@ export class VisualAuthoring {
   }
   private objectForm(p: SceneObject, index: number) {
     const path = ['objects', index];
-    this.form(
-      p.label ?? p.clip.replaceAll('_', ' '),
-      [...path, 'label'],
-      this.objectFields,
-      'Name',
-    );
+    this.form(p.label ?? p.clip.replaceAll('_', ' '), [...path, 'label'], $('object-name'), 'Name');
+    const section = (label: string) => {
+      const details = document.createElement('details');
+      details.dataset.section = 'object-' + label;
+      const summary = document.createElement('summary');
+      summary.textContent = label;
+      details.append(summary);
+      this.objectFields.append(details);
+      return details;
+    };
+    const appearance = section('Appearance');
     for (const [key, fallback] of Object.entries({
       tint: 0xffffff,
       opacity: 1,
@@ -372,29 +434,26 @@ export class VisualAuthoring {
       this.form(
         (p as unknown as Record<string, Data>)[key] ?? fallback,
         [...path, key],
-        this.objectFields,
+        appearance,
         key,
       );
+    const collision = section('Collision');
     if (p.footprint)
-      this.form(
-        p.footprint as Data,
-        [...path, 'footprint'],
-        this.objectFields,
-        'Collision footprint',
-      );
+      this.form(p.footprint as Data, [...path, 'footprint'], collision, 'Collision footprint');
     else if (p.kind !== 'decal')
-      this.objectFields.append(
+      collision.append(
         this.button('Add collision footprint', () =>
           this.commit([...path, 'footprint'], [0.5, 0.5]),
         ),
       );
     if (p.footprint)
-      this.objectFields.append(
+      collision.append(
         this.button('Remove collision footprint', () =>
           this.commit([...path, 'footprint'], undefined),
         ),
       );
     if (p.kind === 'decal') return;
+    const attachments = section('Attachments');
     const attach = document.createElement('select');
     attach.setAttribute('aria-label', 'Attachment support');
     attach.add(new Option('Free object', ''));
@@ -433,7 +492,7 @@ export class VisualAuthoring {
         })
         .catch(console.error);
     };
-    this.objectFields.append(attach);
+    attachments.append(attach);
     if (p.mount) {
       const support = sceneItems(this.host.history().document).find(
         (v) => v.placement.id === p.mount!.to,
@@ -457,14 +516,15 @@ export class VisualAuthoring {
               .catch(console.error);
           }
         };
-        this.objectFields.append(socket);
+        attachments.append(socket);
       }
     }
-    if (p.mount) this.form(p.mount as Data, [...path, 'mount'], this.objectFields, 'Attachment');
+    if (p.mount) this.form(p.mount as Data, [...path, 'mount'], attachments, 'Attachment');
+    const lighting = section('Lighting');
     if (p.fixture) {
-      this.form(p.fixture as Data, [...path, 'fixture'], this.objectFields, 'Light fixture');
+      this.form(p.fixture as Data, [...path, 'fixture'], lighting, 'Light fixture');
       if (!p.fixture.flame)
-        this.objectFields.append(
+        lighting.append(
           this.button('Add flame artwork', () =>
             this.commit([...path, 'fixture', 'flame'], {
               asset: 'ink-ambient',
@@ -477,11 +537,11 @@ export class VisualAuthoring {
             }),
           ),
         );
-      this.objectFields.append(
+      lighting.append(
         this.button('Remove light', () => this.commit([...path, 'fixture'], undefined)),
       );
     } else
-      this.objectFields.append(
+      lighting.append(
         this.button('Add light', () =>
           this.commit([...path, 'fixture'], {
             id: p.id + '-flame',
