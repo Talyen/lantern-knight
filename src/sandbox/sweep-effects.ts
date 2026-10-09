@@ -5,7 +5,6 @@ import type { Simulation } from '../core/simulation';
 import { clipDuration } from '../core/animation';
 import { attackDefinition } from '../content/gameplay';
 import type { GameplayEvent } from '../core/events';
-import { SwordTipTrail } from './sword-tip-trail';
 
 export const sweepTreatments = {
   baseline: { label: 'Baseline · hero artwork only' },
@@ -25,20 +24,17 @@ export const sweepEffectAssets = [
 // Preview owns these sprites; Application owns the loaded pack leases.
 export class SweepEffects {
   treatment: SweepTreatment = 'baseline';
-  alignment: 'authored' | 'attached' | 'forward' = 'forward';
   readonly group = new T.Group();
   private arc?: ActorSprite;
   private arcTag = '';
   private impacts: { sprite: ActorSprite; start: number; position: T.Vector3 }[] = [];
   private generation = -1;
   private unsubscribe: () => void;
-  private tipTrail: SwordTipTrail;
   constructor(
     private view: Presentation,
     private simulation: () => Simulation,
   ) {
     view.scene.add(this.group);
-    this.tipTrail = new SwordTipTrail(view, this.group);
     this.unsubscribe = view.events.subscribe((event) => {
       const sim = simulation();
       if (this.generation !== sim.generation) {
@@ -93,13 +89,7 @@ export class SweepEffects {
       recipe = sweepTreatments[this.treatment],
       timing = attackDefinition(hero),
       elapsed = ((hero.age - timing.windup + 3) * 1000) / 60;
-    const followsTip = this.treatment === 'dramatic' && this.alignment !== 'authored';
-    if (followsTip) {
-      if (this.arc) this.arc.mesh.visible = false;
-      this.tipTrail.update(sim, this.alignment === 'forward' ? 0.14 : 0);
-    } else this.tipTrail.reset();
     if (
-      !followsTip &&
       'asset' in recipe &&
       hero.state === 'attack' &&
       hero.attackKind === 'sweep' &&
@@ -136,7 +126,6 @@ export class SweepEffects {
     }
   }
   reset() {
-    this.tipTrail.reset();
     this.arc?.mesh.removeFromParent();
     this.arc?.dispose();
     this.arc = undefined;
@@ -150,7 +139,6 @@ export class SweepEffects {
   dispose() {
     this.unsubscribe();
     this.reset();
-    this.tipTrail.dispose();
     this.group.removeFromParent();
   }
 }

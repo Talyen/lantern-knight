@@ -184,7 +184,7 @@ export function mountScene(
     applyMovementSpeed();
     sweepEffects = new SweepEffects(presentation, () => app.sim);
     presentation.beforeSceneRender = (sim) => sweepEffects?.update(sim);
-    $<HTMLSelectElement>('#sweep-treatment').value = 'dramatic';
+    $<HTMLSelectElement>('#sweep-treatment').value = 'baseline';
     $<HTMLSelectElement>('#movement-speed').value = String(movementSpeed);
     $<HTMLSelectElement>('#render-scale').value = String(app.scale);
     $<HTMLSelectElement>('#zoom-span').value = String(presentation.verticalSpan);
@@ -378,12 +378,6 @@ export function mountScene(
     $('#movement-replay').onclick = () => app.safe(startMovementReplay);
     $('#movement-stop').onclick = stopMovementReplay;
     $('#sweep-treatment').onchange = () => app.safe(loadSweepEffects);
-    $('#sweep-alignment').onchange = () => {
-      if (!sweepEffects) return;
-      sweepEffects.reset();
-      sweepEffects.alignment = $<HTMLSelectElement>('#sweep-alignment')
-        .value as SweepEffects['alignment'];
-    };
     $('#sweep-range').onchange = () => {
       sweepRange = Number($<HTMLSelectElement>('#sweep-range').value);
       applySweepRange();
