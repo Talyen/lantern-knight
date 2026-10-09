@@ -8,7 +8,17 @@ test('cancellation terminates the owned process tree and does not hold the calle
     process.execPath,
     [
       '-e',
-      "const {spawn}=require('node:child_process');const child=spawn(process.execPath,['-e','setInterval(()=>{},1000)'],{stdio:'inherit'});console.log(child.pid);setInterval(()=>{},1000);",
+      // Reap the child before the parent exits. Killing an orphaned zombie group can
+      // return EPERM on macOS; the parent never sends a signal to its child itself.
+      `const {spawn}=require('node:child_process');
+       const child=spawn(process.execPath,['-e','setInterval(()=>{},1000)'],{stdio:'inherit'});
+       const timer=setInterval(()=>{},1000);
+       process.on('SIGTERM',()=>{
+         clearInterval(timer);
+         if(child.exitCode!==null || child.signalCode!==null) process.exit(0);
+         else child.once('exit',()=>process.exit(0));
+       });
+       console.log(child.pid);`,
     ],
     {
       cwd: process.cwd(),

@@ -68,13 +68,15 @@ test('mixed-density guarded sampling keeps the foot fixed and restores native he
 });
 
 test('registration rejects duplicate pairs, escaped crops and degenerate sword lines', () => {
-  const value = structuredClone(registration);
+  // These mutations exercise animation validation; large terrain alpha masks are irrelevant.
+  const fixture = { ...registration, coverage: { masks: {}, sockets: {} } };
+  const value = structuredClone(fixture);
   value.animation.pairs.push(value.animation.pairs[0]!);
   assert.throws(() => parseRegistration(value), /Duplicate/);
-  const crop = structuredClone(registration);
+  const crop = structuredClone(fixture);
   crop.animation.pairs[0]!.rect[0] = crop.animation.width;
   assert.throws(() => parseRegistration(crop), /escapes/);
-  const blade = structuredClone(registration);
+  const blade = structuredClone(fixture);
   Object.assign(blade.animation.pairs[0]!, {
     supported: true,
     weaponVisibility: 'visible',
@@ -89,11 +91,11 @@ test('registration rejects duplicate pairs, escaped crops and degenerate sword l
   )!;
   assert.ok(hidden);
   assert.equal(hidden.sword, undefined);
-  const invalid = structuredClone(registration);
+  const invalid = structuredClone(fixture);
   const pair = invalid.animation.pairs.find((p) => p.supported && p.weaponVisibility === 'hidden')!;
   pair.weaponVisibility = 'uncertain';
   assert.throws(() => parseRegistration(invalid), /requires sword|visibility/);
-  const hold = structuredClone(registration);
+  const hold = structuredClone(fixture);
   hold.animation.pairs[0]!.holdFraction = 1;
   assert.throws(() => parseRegistration(hold));
 });

@@ -8,7 +8,7 @@ export async function check(ci = false) {
     ['typecheck', ['node_modules/typescript/bin/tsc', '--noEmit']],
     ['lint', ['--import', 'tsx', 'tools/lint.ts', 'js']],
     ['formatting', ['--import', 'tsx', 'tools/format.ts', '--check']],
-    ['pure tests', ['--import', 'tsx', 'tools/test.ts']],
+    ['pure tests', ['--import', 'tsx', 'tools/test.ts', ...(ci ? ['--full'] : [])]],
     ...(ci
       ? ([
           ['documentation', ['--import', 'tsx', 'tools/check-docs.ts']],

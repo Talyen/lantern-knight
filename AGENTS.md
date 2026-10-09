@@ -2,7 +2,7 @@
 
 Prototype iteration is the default. Preserve unrelated edits. Use isolated worktrees for independent/concurrent work, with an intended common baseline and clear ownership. Small sequential edits need no task registration or evidence database. [Development](docs/development.md) owns the normal loop.
 
-Finish ordinary work with fresh `npm run check`. Changed browser interactions need their relevant `npm run test:browser -- [scenario]` check. Assets, native integration and milestone delivery have separate checks in [verification](docs/verification.md). Capture for explicit visual investigations. Report actual evidence; local checks do not establish hosted CI or visible approval.
+Finish ordinary work with fresh `npm run check`. Write or retain only high-value tests under [test value](docs/verification.md#test-value); zero new tests can be appropriate. Fast suites are the local default; slow/integration checks run in CI by default, with targeted local diagnosis or validation allowed. Changed browser interactions need appropriate CI coverage and an accurate report of whether it ran. Assets, native integration and milestone delivery have separate checks in [verification](docs/verification.md). Capture for explicit visual investigations. Report actual evidence; local checks do not establish hosted CI or visible approval.
 
 Integrate task-owned work into local `main`, commit reviewed/verified changes under [handoff and commits](docs/task-coordination.md#handoff-and-commits), and report the hash and integration status. Push only when requested.
 

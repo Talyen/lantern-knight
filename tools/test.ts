@@ -5,6 +5,11 @@ import { runProcess } from './run-process';
 import { projectRoot } from './assets/paths';
 import { openWorkspace, workspaceEnvironment } from './assets/workspace';
 
+// These integration proofs launch multiple CLIs and hash repository inputs; keep them off the edit loop.
+export const ciDefaultSuites: Readonly<Record<string, string>> = {
+  'tests/unit/process-integration.test.ts': 'Fresh CLI replay, build proof and diagnostic launch',
+};
+
 export async function selectTestFiles(args: string[], root = projectRoot, group = 'unit') {
   const directory = path.join(root, 'tests', group);
   const available = (await fs.readdir(directory))
@@ -12,7 +17,19 @@ export async function selectTestFiles(args: string[], root = projectRoot, group 
     .map((name) => 'tests/' + group + '/' + name)
     .sort();
   if (!available.length) throw new Error('No test suites found');
-  if (!args.length) return available;
+  if (group === 'unit')
+    for (const name of Object.keys(ciDefaultSuites))
+      if (!available.includes(name)) throw new Error('Missing CI-default test suite: ' + name);
+  const full = args.includes('--full');
+  if (full && (group !== 'unit' || args.length !== 1))
+    throw new Error('Use --full for all pure suites, without exact files or --assets');
+  if (full) return available;
+  if (!args.length) {
+    const selected =
+      group === 'unit' ? available.filter((name) => !(name in ciDefaultSuites)) : available;
+    if (!selected.length) throw new Error('No local test suites found; use --full');
+    return selected;
+  }
   return [
     ...new Set(
       args.map((arg) => {

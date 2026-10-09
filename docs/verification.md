@@ -2,17 +2,21 @@
 
 ## Regular checks
 
-`npm run check` executes fresh typechecking, JavaScript linting, handwritten web-code formatting checks and all pure tests. It reports actual phase timings and fails on the first broken phase. No task snapshot, affected-suite guess or previous passing receipt can suppress a test.
+`npm run check` executes fresh typechecking, JavaScript linting, handwritten web-code formatting checks and the reviewed fast pure suites. It reports actual phase timings and fails on the first broken phase. Every selected suite runs fresh; no task snapshot, affected-suite guess or previous passing receipt suppresses it.
 
-`npm run check:ci` adds documentation, repository boundaries, import boundaries and unused-code analysis. These are inexpensive source checks, separate from asset acquisition, browser checks and packaging. Ordinary commands do not install Python tooling.
+`npm run check:ci` runs all pure suites with `--full` and adds documentation, repository boundaries, import boundaries and unused-code analysis. These are inexpensive source checks, separate from asset acquisition, browser checks and packaging. Ordinary commands do not install Python tooling.
 
 ## Test selection
 
-`npm test` runs every `tests/unit/*.test.ts` suite. Arguments name exact files in that group; duplicates run once and invalid selections fail before setup. `npm run test:watch` uses Node's watcher. Pure tests use small fixtures and require no source artwork or prepared pack. Authored scenes are disposable content: gameplay and rendering regressions own their setup, and authored-document validation accepts an empty scene directory.
+`npm test` and `npm run test:watch` default to fast `tests/unit/*.test.ts` suites. `npm test -- --full` runs all pure suites; `npm run test:watch -- --full` watches them all. The small explicit CI-default list in `tools/test.ts` records expensive suites and their reasons; missing entries fail selection rather than silently losing coverage. New pure suites run locally unless deliberately classified. Arguments name exact files, including CI-default suites; duplicates run once and invalid selections fail before setup. Use `--full` without exact files or `--assets`. Pure tests use small fixtures and require no source artwork or prepared pack.
+
+Routine local testing should take roughly ten seconds including setup. This is a guideline, not a timeout or permission to omit failures. Optimize useful slow tests or route them to CI by default. Asset, browser and desktop checks are explicit integration commands, outside routine local checks. Agents may run full or slow coverage locally for a specific reproduction, diagnosis or validation need: state the reason, choose the smallest relevant scope and avoid repeating unchanged successful runs. Changed browser behavior needs appropriate CI scenarios; report whether they actually ran, including pending or unavailable coverage.
+
+Authored scenes are disposable content: gameplay and rendering regressions own their setup, and authored-document validation accepts an empty scene directory.
 
 `npm run test:assets` runs `tests/assets/*.test.ts` against pinned prepared assets. Python authoring/recovery fixtures belong to this tier. `npm run assets:check` validates current runtime manifests, references, pages and companion registration without source-library access or visual approval.
 
-`npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`. Game covers input, pause/focus and current checkpoints; scene covers independent outdoor/interior fixtures, reload and resource lifetime; editor covers authoring/history/recovery and protected save requests; effects covers dedicated-scene controls and switching back to production scenes. One preview session acquires assets and starts a server, or reuses a matching Vite server after checking checkout, asset identity and required scope. It closes only its own server and lease. CI uses pinned assets and its own server. Add `-- --ui` for continuous interactive iteration.
+`npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`. Game covers input, pause/focus and current checkpoints; scene covers independent outdoor/interior fixtures, reload and resource lifetime; editor covers authoring/history/recovery and protected save requests; effects covers dedicated-scene controls and switching back to independent scene fixtures. One preview session acquires assets and starts a server, or reuses a matching Vite server after checking checkout, asset identity and required scope. It closes only its own server and lease. CI uses pinned assets and its own server. Add `-- --ui` for continuous interactive iteration.
 
 After `npm run build`, `npm run test:browser -- game --built` verifies Game against the production web artifact with its recorded asset identity. It checks artifact bytes before starting a dedicated preview, without reopening the asset cache. Scene/editor/effects scenarios retain development previews because production Game excludes those views. Rebuild the web artifact after packaging before using `--built`.
 
@@ -20,7 +24,13 @@ After `npm run build`, `npm run test:browser -- game --built` verifies Game agai
 
 ## Test value
 
-Protect a consequential failure once at the cheapest sufficient layer. Prefer real state changes, failed operations, cancellation, re-entry and disposal over checking source text or mirroring implementation details. Remove coverage for removed machinery. Do not add retries to hide races or weaken an invariant to reach a timing target.
+Write and retain only high-value tests: detecting a plausible, significant failure must justify the effort to write and maintain the test and the time to run it, including setup. This applies across gameplay, saves, rendering, assets, tooling and delivery. There is no test-count quota or line-coverage target.
+
+Before adding a test, identify the failure it catches and inspect existing protection. Extend an existing test when that provides clear coverage more cheaply. Zero new tests is appropriate when existing coverage is sufficient or a proposed test offers insufficient value. Do not add medium- or low-value coverage: trivial implementation assertions, redundant cases, source-text checks where behavioral proof is available, or speculative edge cases without meaningful consequences.
+
+Protect a consequential failure once at the cheapest sufficient layer. Prefer observable state changes, failed operations, cancellation, re-entry and disposal. Keep expensive integration tests only for failures cheaper tests cannot meaningfully catch. Consolidate overlap, strengthen or remove weak tests, and remove coverage for removed machinery; preserve meaningful known-regression, exact rendering and resource-lifetime protection when its value justifies the cost. Review a plausible broken implementation against the assertion before claiming protection.
+
+Do not add retries to hide races, silently skip failures or weaken an invariant to reach a timing target. Test value is a review judgment; duration alone does not establish it.
 
 ## Code formatting
 
@@ -36,7 +46,7 @@ Protect a consequential failure once at the cheapest sufficient layer. Prefer re
 
 ## E2E coverage and execution budgets
 
-Routine Linux CI runs source gates, runtime asset validation, one Game web build, Game against that artifact and scene against a development preview. Authoring-tool changes additionally run editor/effects scenarios with the authoring bundle. Desktop/build/dependency/asset-delivery contract changes select macOS and Windows jobs; explicit milestone dispatch also runs them. Native jobs build and package Game once on their host, with no cross-platform restoration format or mandatory Dev package. Scene/gameplay edits use routine CI.
+Routine Linux CI runs source gates with all pure suites, all asset tests (including Python authoring/recovery fixtures), runtime asset validation, one Game web build, Game against that artifact and scene against a development preview. Authoring-tool changes additionally run editor/effects scenarios with the authoring bundle. Desktop/build/dependency/asset-delivery contract changes select macOS and Windows jobs; explicit milestone dispatch also runs them. Native jobs build and package Game once on their host, with no cross-platform restoration format or mandatory Dev package. Scene/gameplay edits use routine CI.
 
 CI has generous hang timeouts. Local GPU tests and asset preparation share a small admission lane; static checks, pure tests and builds do not. Default unit concurrency remains two and browser concurrency one. [Coordination](task-coordination.md#concurrent-commands) owns the shared-machine details.
 

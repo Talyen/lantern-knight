@@ -43,6 +43,7 @@ jobs:
       - name: Configure external cache
         run: echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
       - run: npm run check:ci
+      - run: npm run test:assets
       - run: npm run assets:check
       - run: npm run build
       - run: npx playwright install --with-deps chromium

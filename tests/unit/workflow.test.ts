@@ -3,23 +3,44 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
-import { selectTestFiles } from '../../tools/test';
+import { selectTestFiles, ciDefaultSuites } from '../../tools/test';
 import { coverageFor } from '../../tools/coverage-policy';
 const requiresDesktop = (files: readonly string[]) => coverageFor(files).desktop;
 const requiresAuthoring = (files: readonly string[]) => coverageFor(files).authoring;
 import { browserSelection } from '../../tools/browser-tests';
 import { checkAssets } from '../../tools/check-assets';
-test('explicit test paths are exact and unknown requests fail before asset setup', async () => {
+test('fast defaults, full coverage and explicit paths cannot silently lose CI suites', async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-selection-'));
   try {
     await fs.mkdir(path.join(root, 'tests/unit'), { recursive: true });
-    await fs.writeFile(path.join(root, 'tests/unit/one.test.ts'), 'export {};');
-    assert.deepEqual(
-      await selectTestFiles(['tests/unit/one.test.ts', './tests/unit/one.test.ts'], root),
-      ['tests/unit/one.test.ts'],
-    );
+    const fast = 'tests/unit/one.test.ts',
+      integration = 'tests/unit/process-integration.test.ts';
+    for (const file of [fast, integration]) await fs.writeFile(path.join(root, file), 'export {};');
+    assert.deepEqual(await selectTestFiles([], root), [fast]);
+    assert.deepEqual(await selectTestFiles(['--full'], root), [fast, integration]);
+    assert.deepEqual(await selectTestFiles([integration, './' + integration], root), [integration]);
     await assert.rejects(selectTestFiles(['tests/unit'], root), /Invalid test selection/);
     await assert.rejects(selectTestFiles(['--unknown'], root), /Invalid test selection/);
+    await assert.rejects(selectTestFiles(['--full', fast], root), /Use --full/);
+    await fs.mkdir(path.join(root, 'tests/assets'));
+    await fs.writeFile(path.join(root, 'tests/assets/one.test.ts'), 'export {};');
+    assert.deepEqual(await selectTestFiles([], root, 'assets'), ['tests/assets/one.test.ts']);
+    await assert.rejects(selectTestFiles(['--full'], root, 'assets'), /Use --full/);
+    await fs.rm(path.join(root, fast));
+    await assert.rejects(selectTestFiles([], root), /No local test suites/);
+    assert.deepEqual(await selectTestFiles(['--full'], root), [integration]);
+    await fs.writeFile(path.join(root, fast), 'export {};');
+    await fs.rm(path.join(root, integration));
+    for (const args of [[], ['--full'], [fast]])
+      await assert.rejects(selectTestFiles(args, root), /Missing CI-default test suite/);
+    // Also check actual discovery: a new suite runs locally unless deliberately classified.
+    const all = await selectTestFiles(['--full']),
+      local = await selectTestFiles([]);
+    assert.deepEqual(
+      local,
+      all.filter((file) => !(file in ciDefaultSuites)),
+    );
+    for (const file of Object.keys(ciDefaultSuites)) assert.ok(all.includes(file));
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }
