@@ -28,7 +28,12 @@ import { sandboxUI, previewHUD } from './ui';
 import { heroTimings } from '../content/hero-actions';
 import type { Clip } from '../assets/schema';
 import '../inspection';
-import { SweepEffects, sweepEffectAssets, type SweepTreatment } from './sweep-effects';
+import {
+  SweepEffects,
+  sweepAssetsFor,
+  sweepTreatments,
+  type SweepTreatment,
+} from './sweep-effects';
 import { tuning } from '../content/gameplay';
 import { spawnActorId, heightAt } from '../content/world';
 import type { Actor, Simulation } from '../core/simulation';
@@ -184,6 +189,9 @@ export function mountScene(
     applyMovementSpeed();
     sweepEffects = new SweepEffects(presentation, () => app.sim);
     presentation.beforeSceneRender = (sim) => sweepEffects?.update(sim);
+    $<HTMLSelectElement>('#sweep-treatment').replaceChildren(
+      ...Object.entries(sweepTreatments).map(([id, recipe]) => new Option(recipe.label, id)),
+    );
     $<HTMLSelectElement>('#sweep-treatment').value = 'baseline';
     $<HTMLSelectElement>('#movement-speed').value = String(movementSpeed);
     $<HTMLSelectElement>('#render-scale').value = String(app.scale);
@@ -378,6 +386,19 @@ export function mountScene(
     $('#movement-replay').onclick = () => app.safe(startMovementReplay);
     $('#movement-stop').onclick = stopMovementReplay;
     $('#sweep-treatment').onchange = () => app.safe(loadSweepEffects);
+    $('#sweep-reverse').onchange = () => {
+      if (sweepEffects) {
+        sweepEffects.reset();
+        sweepEffects.reverse = $<HTMLInputElement>('#sweep-reverse').checked;
+      }
+    };
+    $('#sweep-rotation').oninput = () => {
+      if (sweepEffects) {
+        sweepEffects.reset();
+        sweepEffects.rotation = Number($<HTMLInputElement>('#sweep-rotation').value);
+        $('#sweep-rotation-value').textContent = `${sweepEffects.rotation}°`;
+      }
+    };
     $('#sweep-range').onchange = () => {
       sweepRange = Number($<HTMLSelectElement>('#sweep-range').value);
       applySweepRange();
@@ -643,10 +664,21 @@ export function mountScene(
     };
   }
   async function loadSweepEffects() {
-    await app.withLoading(() => Promise.all(sweepEffectAssets.map((id) => app.loadAsset(id))));
+    const treatment = $<HTMLSelectElement>('#sweep-treatment').value as SweepTreatment;
+    const ids = sweepAssetsFor(treatment);
+    if (ids.length) await app.withLoading(() => Promise.all(ids.map((id) => app.loadAsset(id))));
     if (closed || !sweepEffects) return;
+    const changed = sweepEffects.treatment !== treatment;
     sweepEffects.reset();
-    sweepEffects.treatment = $<HTMLSelectElement>('#sweep-treatment').value as SweepTreatment;
+    sweepEffects.treatment = treatment;
+    if (changed) {
+      sweepEffects.reverse =
+        'reverse' in sweepTreatments[treatment] && sweepTreatments[treatment].reverse === true;
+      sweepEffects.rotation = 0;
+    }
+    $<HTMLInputElement>('#sweep-reverse').checked = sweepEffects.reverse;
+    $<HTMLInputElement>('#sweep-rotation').value = String(sweepEffects.rotation);
+    $('#sweep-rotation-value').textContent = `${sweepEffects.rotation}°`;
   }
   function applySweepRange() {
     const hero = app.sim.hero;

@@ -5,29 +5,124 @@ import type { Simulation } from '../core/simulation';
 import { clipDuration } from '../core/animation';
 import { attackDefinition } from '../content/gameplay';
 import type { GameplayEvent } from '../core/events';
+import { HEADINGS } from '../core/camera';
 
+type Treatment = {
+  label: string;
+  asset?: string;
+  facingAssets?: boolean;
+  impactOnly?: boolean;
+  reverse?: boolean;
+  scale: number;
+  durationMs?: number;
+};
 export const sweepTreatments = {
-  baseline: { label: 'Baseline · hero artwork only' },
-  quiet: { label: 'A · restrained arc', asset: 'library-sword_arc_01', opacity: 0.75 },
-  strong: { label: 'B · stronger arc', asset: 'library-sword_arc_02', opacity: 1 },
-  dramatic: { label: 'C · finisher arc', asset: 'library-sword_finisher_03', opacity: 1 },
-} as const;
+  baseline: { label: 'Baseline · no added effects', scale: 1 },
+  quiet: {
+    label: '01 · Sword Arc 01',
+    asset: 'library-sword_arc_01',
+    scale: 0.95,
+    reverse: true,
+    durationMs: 300,
+  },
+  strong: {
+    label: '02 · Sword Arc 02',
+    asset: 'library-sword_arc_02',
+    scale: 0.95,
+    durationMs: 300,
+  },
+  dramatic: {
+    label: '03 · Sword Finisher 03',
+    asset: 'library-sword_finisher_03',
+    scale: 0.95,
+    reverse: true,
+    durationMs: 300,
+  },
+  ribbons: {
+    label: '04 · Curling Ember Ribbons',
+    asset: 'library-curling_ember_ribbons',
+    facingAssets: true,
+    scale: 0.8,
+    durationMs: 500,
+  },
+  flame: {
+    label: '05 · Layered Flame Tongues',
+    asset: 'library-layered_flame_tongues',
+    facingAssets: true,
+    scale: 0.8,
+    durationMs: 500,
+  },
+  panes: {
+    label: '06 · Fractured Amber Panes',
+    asset: 'library-fractured_amber_panes',
+    facingAssets: true,
+    scale: 0.8,
+    durationMs: 500,
+  },
+  chain: { label: '07 · Cursed Chain Strike', asset: 'library-cursed_chain_strike', scale: 0.65 },
+  shadow: {
+    label: '08 · Ink Shadow Burst · hit',
+    asset: 'library-ink_shadow_burst',
+    impactOnly: true,
+    scale: 0.55,
+  },
+  amber: {
+    label: '09 · Amber Impact · hit',
+    asset: 'library-amber_impact',
+    impactOnly: true,
+    scale: 0.65,
+  },
+  spectral: {
+    label: '10 · Spectral Bolt Impact · hit',
+    asset: 'library-spectral_bolt_impact',
+    impactOnly: true,
+    scale: 0.5,
+  },
+  shear: {
+    label: '11 · Blocked Contact Shear · hit',
+    asset: 'library-blocked_contact_shear',
+    impactOnly: true,
+    scale: 0.9,
+  },
+  shards: {
+    label: '12 · Stagger Shards · hit',
+    asset: 'library-stagger_shards',
+    impactOnly: true,
+    scale: 0.65,
+  },
+} as const satisfies Record<string, Treatment>;
 export type SweepTreatment = keyof typeof sweepTreatments;
-export const sweepEffectAssets = [
-  'library-sword_arc_01',
-  'library-sword_arc_02',
-  'library-sword_finisher_03',
-  'library-neutral_contact_snap',
-  'library-amber_impact',
-] as const;
+const headingCode = (heading: string) => `d${heading.slice(1).padStart(3, '0')}`;
+export function sweepAssetsFor(treatment: SweepTreatment) {
+  const recipe: Treatment = sweepTreatments[treatment];
+  if (!recipe.asset) return [];
+  const assets = recipe.facingAssets
+    ? HEADINGS.filter((heading) => ['d00', 'd90', 'd180', 'd270'].includes(heading)).map(
+        (heading) => `${recipe.asset}__${headingCode(heading)}`,
+      )
+    : [recipe.asset];
+  return [...assets, ...(!recipe.impactOnly ? ['library-neutral_contact_snap'] : [])];
+}
 
-// Preview owns these sprites; Application owns the loaded pack leases.
+type Effect = {
+  sprite: ActorSprite;
+  start: number;
+  duration: number;
+  position: T.Vector3;
+  reverse: boolean;
+  scale: number;
+  rotation: number;
+};
+
+// Original library sprites only: uniform scale, rigid rotation/placement and playback.
+// Preview owns sprite resources; Application owns the acquired pack leases.
 export class SweepEffects {
   treatment: SweepTreatment = 'baseline';
+  reverse = false;
+  rotation = 0;
   readonly group = new T.Group();
-  private arc?: ActorSprite;
-  private arcTag = '';
-  private impacts: { sprite: ActorSprite; start: number; position: T.Vector3 }[] = [];
+  private effects: Effect[] = [];
+  private castTag = '';
   private generation = -1;
   private unsubscribe: () => void;
   constructor(
@@ -37,104 +132,120 @@ export class SweepEffects {
     view.scene.add(this.group);
     this.unsubscribe = view.events.subscribe((event) => {
       const sim = simulation();
-      if (this.generation !== sim.generation) {
-        this.reset();
-        this.generation = sim.generation;
-      }
+      this.ensureGeneration(sim);
       if (
         event.kind === 'damage' &&
         event.generation === sim.generation &&
         event.actor === sim.hero.id &&
-        sim.hero.attackKind === 'sweep' &&
-        this.treatment !== 'baseline'
+        sim.hero.attackKind === 'sweep'
       )
         this.hit(event);
     });
   }
-  private sprite(asset: string, clip: string) {
-    const pack = this.view.packs.get(asset);
-    if (!pack) throw new Error(`Sweep review effect not loaded: ${asset}`);
-    const animation = pack.manifest.asset.clips[clip]?.d45;
-    if (!animation) throw new Error(`Sweep review clip missing: ${asset}/${clip}`);
-    const sprite = new ActorSprite(
-      `sweep-review:${asset}`,
-      pack.manifest,
-      pack.textures,
-      animation,
-    );
-    this.group.add(sprite.mesh);
-    return sprite;
-  }
-  private hit(event: GameplayEvent & { kind: 'damage' }) {
-    const target = this.simulation().actors.find((actor) => actor.id === event.target);
-    if (!target) return;
-    const dramatic = this.treatment === 'dramatic';
-    const sprite = this.sprite(
-      dramatic ? 'library-amber_impact' : 'library-neutral_contact_snap',
-      dramatic ? 'amber_impact__unoriented' : 'neutral_contact_snap',
-    );
-    sprite.mesh.scale.setScalar(dramatic ? 0.55 : 0.6);
-    this.impacts.push({
-      sprite,
-      start: event.tick,
-      position: new T.Vector3(target.x, target.y + 0.75, target.z),
-    });
-  }
-  update(sim: Simulation) {
+  private ensureGeneration(sim: Simulation) {
     if (this.generation !== sim.generation) {
       this.reset();
       this.generation = sim.generation;
     }
+  }
+  private emit(
+    asset: string,
+    position: T.Vector3,
+    scale: number,
+    heading: string,
+    duration?: number,
+    reverse = false,
+    rotation = 0,
+  ) {
+    const pack = this.view.packs.get(asset);
+    if (!pack) throw new Error(`Sweep review effect not loaded: ${asset}`);
+    const clipName =
+      Object.keys(pack.manifest.asset.clips).find((clip) =>
+        clip.endsWith(`__${headingCode(heading)}`),
+      ) ?? Object.keys(pack.manifest.asset.clips)[0]!;
+    const clip = pack.manifest.asset.clips[clipName]!.d45!;
+    const sprite = new ActorSprite(`sweep-review:${asset}`, pack.manifest, pack.textures, clip);
+    this.group.add(sprite.mesh);
+    this.effects.push({
+      sprite,
+      start: this.simulation().tick,
+      duration: duration ?? clipDuration(clip),
+      position,
+      scale,
+      reverse,
+      rotation,
+    });
+  }
+  private hit(event: GameplayEvent & { kind: 'damage' }) {
+    const sim = this.simulation(),
+      recipe: Treatment = sweepTreatments[this.treatment],
+      target = sim.actors.find((actor) => actor.id === event.target);
+    if (!recipe.asset || !target) return;
+    const asset = recipe.impactOnly ? recipe.asset : 'library-neutral_contact_snap';
+    this.emit(
+      asset,
+      new T.Vector3(target.x, target.y + 0.75, target.z),
+      recipe.impactOnly ? recipe.scale : 0.6,
+      sim.hero.actionHeading,
+      undefined,
+      recipe.impactOnly ? this.reverse : false,
+      recipe.impactOnly ? this.rotation : 0,
+    );
+  }
+  update(sim: Simulation) {
+    this.ensureGeneration(sim);
     const hero = sim.hero,
-      recipe = sweepTreatments[this.treatment],
+      recipe: Treatment = sweepTreatments[this.treatment],
       timing = attackDefinition(hero),
-      elapsed = ((hero.age - timing.windup + 3) * 1000) / 60;
+      tag = `${sim.generation}:${hero.action}`;
     if (
-      'asset' in recipe &&
+      recipe.asset &&
+      !recipe.impactOnly &&
       hero.state === 'attack' &&
       hero.attackKind === 'sweep' &&
-      elapsed >= 0 &&
-      elapsed < 200
+      hero.age >= timing.windup - 3 &&
+      hero.age < timing.activeEnd &&
+      this.castTag !== tag
     ) {
-      const tag = `${recipe.asset}:${hero.actionHeading}`;
-      if (tag !== this.arcTag) {
-        this.arc?.mesh.removeFromParent();
-        this.arc?.dispose();
-        const heading = hero.actionHeading.slice(1).padStart(3, '0');
-        this.arc = this.sprite(recipe.asset, `${recipe.asset.slice(8)}__d${heading}`);
-        this.arcTag = tag;
-      }
-      const arc = this.arc!;
-      arc.mesh.visible = true;
-      // Keep the peak around the committed damage beat; fade during early recovery.
-      arc.animator.seek((elapsed / 200) * clipDuration(arc.animator.clip));
-      arc.material.opacity = recipe.opacity;
-      arc.mesh.scale.setScalar(timing.range / 2);
-      arc.showAnimation(new T.Vector3(hero.x, hero.y + 0.55, hero.z), this.view.camera);
-    } else if (this.arc) this.arc.mesh.visible = false;
-    for (let i = this.impacts.length - 1; i >= 0; i--) {
-      const impact = this.impacts[i]!,
-        elapsed = ((sim.tick - impact.start) * 1000) / 60;
-      if (elapsed >= clipDuration(impact.sprite.animator.clip)) {
-        impact.sprite.mesh.removeFromParent();
-        impact.sprite.dispose();
-        this.impacts.splice(i, 1);
+      this.castTag = tag;
+      const asset = recipe.facingAssets
+        ? `${recipe.asset}__${headingCode(hero.actionHeading)}`
+        : recipe.asset;
+      this.emit(
+        asset,
+        new T.Vector3(
+          hero.x + Math.sin(hero.yaw) * 0.35,
+          hero.y + 0.3,
+          hero.z + Math.cos(hero.yaw) * 0.35,
+        ),
+        recipe.scale,
+        hero.actionHeading,
+        recipe.durationMs,
+        this.reverse,
+        this.rotation,
+      );
+    }
+    for (let i = this.effects.length - 1; i >= 0; i--) {
+      const effect = this.effects[i]!,
+        elapsed = ((sim.tick - effect.start) * 1000) / 60;
+      if (elapsed >= effect.duration) {
+        effect.sprite.dispose();
+        this.effects.splice(i, 1);
       } else {
-        impact.sprite.animator.seek(elapsed);
-        impact.sprite.showAnimation(impact.position, this.view.camera);
+        const phase = elapsed / effect.duration;
+        effect.sprite.animator.seek(
+          (effect.reverse ? 1 - phase : phase) * clipDuration(effect.sprite.animator.clip),
+        );
+        effect.sprite.mesh.scale.setScalar(effect.scale);
+        effect.sprite.showAnimation(effect.position, this.view.camera);
+        effect.sprite.mesh.rotateZ(T.MathUtils.degToRad(effect.rotation));
       }
     }
   }
   reset() {
-    this.arc?.mesh.removeFromParent();
-    this.arc?.dispose();
-    this.arc = undefined;
-    this.arcTag = '';
-    for (const impact of this.impacts) {
-      impact.sprite.mesh.removeFromParent();
-      impact.sprite.dispose();
-    }
-    this.impacts = [];
+    for (const effect of this.effects) effect.sprite.dispose();
+    this.effects = [];
+    this.castTag = '';
   }
   dispose() {
     this.unsubscribe();
