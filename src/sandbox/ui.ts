@@ -1,6 +1,8 @@
+import { assetFilterHTML } from '../assets/asset-browser';
+export const assetPickerUI = `<input id="asset-search" type="search" placeholder="Search assets…" aria-label="Search assets"><details data-section="asset-filters"><summary>Asset filters</summary>${assetFilterHTML('asset-type')}</details><label>Asset<select id="asset"></select></label><output id="asset-count"></output>`;
 export const sandboxUI = `<section data-preview-panel="animation" id="lab" hidden>
 <button id="return-scene">Return to scene</button>
-<label>Asset<select id="asset"></select></label><label>Clip<select id="clip"></select></label><label>Direction<select id="heading"></select></label>
+${assetPickerUI}<label>Clip<select id="clip"></select></label><label>Direction<select id="heading"></select></label>
 <label for="scrub">Timeline <span id="visual-time"></span></label><input id="scrub" type="range" min="0" max="800" value="0" step="1">
 <div class="buttons"><button id="step">Step frame</button><label>Speed<select id="speed"><option value=".25">¼×</option><option value="0.5">½×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
 <details data-section="animation-comparison"><summary>Comparison &amp; treatment</summary><button id="walk-compare">Compare hero walk</button>

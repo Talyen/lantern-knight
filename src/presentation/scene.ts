@@ -1,3 +1,4 @@
+import { animatedSequence } from '../assets/asset-browser';
 import type { PreparedRegistration } from '../assets/registration';
 import * as T from 'three';
 import { contract, trimmedBounds, HEADINGS, right, up, outward } from '../core/camera';
@@ -152,7 +153,15 @@ export class Presentation extends GamePresentation {
     if (!pack) throw new Error('lab asset not loaded');
     this.labAsset = id;
     this.labSprite.dispose();
-    this.labClip = Object.keys(pack.manifest.asset.clips)[0]!;
+    this.labClip =
+      Object.keys(pack.manifest.asset.clips).find((name) =>
+        Object.values(pack.manifest.asset.clips[name]!).some(
+          (clip) => clip && animatedSequence(clip),
+        ),
+      ) ?? Object.keys(pack.manifest.asset.clips)[0]!;
+    this.labHeading = Object.keys(
+      pack.manifest.asset.clips[this.labClip]!,
+    )[0] as typeof this.labHeading;
     this.labSprite = new ActorSprite(
       'lab-a',
       pack.manifest,
@@ -172,7 +181,7 @@ export class Presentation extends GamePresentation {
     this.frameMap = new Map(pack.manifest.frames.map((f) => [f.id, f]));
     this.lastLabOverlay = '';
     this.notifyLog = [];
-    if (this.mode === 'animation') this.compareCamera(this.comparisonElevation);
+    if (this.mode === 'animation') this.resize(this.requestedRenderScale);
   }
 
   setMode(mode: Mode) {
@@ -186,6 +195,20 @@ export class Presentation extends GamePresentation {
     if (this.mode === 'animation') {
       const available = Math.max(80, this.canvas.clientWidth - this.labPanelInset);
       const requested = contract.verticalSpan / this.labZoom;
+      if (this.labAsset !== 'ink-hero-current') {
+        const bounds = this.manifest.frames.map((frame) =>
+          trimmedBounds(frame.registration ?? this.manifest.asset, frame.trim),
+        );
+        const height = Math.max(...bounds.map((b) => b.top - b.bottom));
+        const width = Math.max(...bounds.map((b) => b.right - b.left));
+        const fitted = Math.max(
+          contract.verticalSpan / 2,
+          height * 1.3,
+          ((width * this.canvas.clientHeight) / available) * 1.3,
+        );
+        return (fitted * 2) / this.labZoom;
+      }
+
       // Fit the default comparison in the uncovered strip; retain relative zoom.
       return available < 600 && this.labPanelInset > 0
         ? requested *
@@ -244,11 +267,14 @@ export class Presentation extends GamePresentation {
   }
   override update(sim: Simulation, alpha: number, ms: number, aim: { x: number; z: number }) {
     const lab = this.mode === 'animation' || this.mode === 'calibration';
+    this.sceneEffects.group.visible = !lab;
     this.rootMarkers.visible = this.mode === 'animation' && this.labAsset === 'ink-hero-current';
     this.calibration.visible =
-      lab && !(this.mode === 'animation' && this.labAsset === 'ink-hero-current');
+      this.mode === 'calibration' ||
+      (this.mode === 'animation' && this.debug && this.labAsset !== 'ink-hero-current');
     this.labSprite.mesh.visible = this.mode === 'animation';
-    this.secondSprite.mesh.visible = this.mode === 'animation';
+    this.secondSprite.mesh.visible =
+      this.mode === 'animation' && this.labAsset === 'ink-hero-current';
     this.overlay.visible = this.mode === 'animation' && this.debug;
     if (!lab) {
       super.update(sim, alpha, ms, aim);
@@ -278,7 +304,7 @@ export class Presentation extends GamePresentation {
       this.mode === 'animation'
         ? this.labAsset === 'ink-hero-current'
           ? new T.Vector3().addScaledVector(right, -1.2)
-          : new T.Vector3(-1.2, 0, 0)
+          : new T.Vector3()
         : new T.Vector3(0, 0, 0);
     const compareHero = this.labAsset === 'ink-hero-current',
       blendHero = compareHero;

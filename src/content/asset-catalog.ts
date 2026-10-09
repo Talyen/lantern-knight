@@ -1,3 +1,4 @@
+import { playgroundCatalog } from './effects-playground-assets';
 import { visualEffectsCatalog } from './visual-effects-assets';
 export const assetCatalog: Readonly<Record<string, string>> = {
   ...visualEffectsCatalog,
@@ -54,3 +55,8 @@ export const assetCatalog: Readonly<Record<string, string>> = {
 };
 
 export const gameAssetCatalog = assetCatalog;
+
+export const authoringBaseCatalog: Readonly<Record<string, string>> = {
+  ...assetCatalog,
+  ...playgroundCatalog,
+};

@@ -1,3 +1,11 @@
+import {
+  assetClosure,
+  matchesAsset,
+  loadAssetIndex,
+  type AssetScope,
+  type AssetFilter,
+} from '../assets/asset-browser';
+import { documentAssetRoots, usedAssetRoots } from '../content/asset-usage';
 import { editorError } from './errors';
 import { DraftPlaytest } from './playtest';
 import { composeDraftGameplay, withGameplayDefaults } from '../content/draft-gameplay';
@@ -80,6 +88,8 @@ export function createEditorSession() {
       manifest: Manifest;
     }[] = [],
     chosen: (typeof palette)[number] | undefined;
+  let assetIndex = new Map<string, Manifest>();
+  let usedAssets = new Set<string>();
   let recoveryKey = '';
   let recoveryRoot = '';
   const recoveryPrefix =
@@ -235,6 +245,7 @@ export function createEditorSession() {
     $('scene-summary-text').textContent = `${d.name} · ${items.length} objects`;
     workspace.refresh();
     sceneLibrary?.refresh();
+    if (ready && $<HTMLSelectElement>('asset-scope').value === 'scene') showPalette();
   }
   function select(id: string | undefined) {
     selected = id;
@@ -611,20 +622,16 @@ export function createEditorSession() {
     $('assets').replaceChildren();
     workspace.refresh();
     const shown = new Set<string>();
-    const search = $<HTMLInputElement>('search').value.toLowerCase(),
-      kind = $<HTMLSelectElement>('category').value;
+    const filter = {
+      search: $<HTMLInputElement>('search').value,
+      type: $<HTMLSelectElement>('category').value as AssetFilter['type'],
+      scope: $<HTMLSelectElement>('asset-scope').value as AssetScope,
+      animated: $<HTMLInputElement>('asset-animated').checked,
+    };
+    const sceneAssets = assetClosure(documentAssetRoots(history.document), assetIndex);
     for (const [index, entry] of palette.entries())
       if (
-        (kind === 'all' ||
-          kind === entry.kind ||
-          (kind === 'pickup' && entry.manifest.asset.category === 'pickup') ||
-          (kind === 'animated' &&
-            Object.values(entry.manifest.asset.clips[entry.clip]!).some(
-              (c) => c && c.frames.length > 1,
-            ))) &&
-        `${entry.manifest.asset.label ?? ''} ${entry.asset} ${entry.clip}`
-          .toLowerCase()
-          .includes(search) &&
+        matchesAsset(entry.manifest, filter, usedAssets, sceneAssets) &&
         !shown.has(entry.asset) &&
         assetVisible(entry)
       ) {
@@ -650,9 +657,11 @@ export function createEditorSession() {
         badge.textContent =
           entry.kind === 'reference'
             ? 'Reference'
-            : entry.asset.startsWith('library-')
-              ? 'Experimental'
-              : '';
+            : sceneAssets.has(entry.asset)
+              ? 'In this scene'
+              : usedAssets.has(entry.asset)
+                ? 'In use'
+                : 'Library';
         button.append(c, label, badge);
         button.onclick = () => {
           if (entry.kind === 'reference') {
@@ -700,18 +709,13 @@ export function createEditorSession() {
     }
   }
   function assetVisible(entry: (typeof palette)[number]) {
-    const collection = $<HTMLSelectElement>('collection').value,
-      status = $<HTMLSelectElement>('asset-status').value;
+    const collection = $<HTMLSelectElement>('collection').value;
     return (
-      (collection === 'all' ||
-        (collection === 'favorites' && favorites.has(entry.asset)) ||
-        (collection === 'recent' && recent.includes(entry.asset)) ||
-        (collection === 'ink' && entry.asset.startsWith('ink-')) ||
-        (collection === 'library' && entry.asset.startsWith('library-'))) &&
-      (status === 'all' ||
-        (status === 'reference' && entry.kind === 'reference') ||
-        (status === 'experimental' && entry.asset.startsWith('library-')) ||
-        (status === 'current' && !entry.asset.startsWith('library-') && entry.kind !== 'reference'))
+      collection === 'all' ||
+      (collection === 'favorites' && favorites.has(entry.asset)) ||
+      (collection === 'recent' && recent.includes(entry.asset)) ||
+      (collection === 'ink' && entry.asset.startsWith('ink-')) ||
+      (collection === 'library' && entry.asset.startsWith('library-'))
     );
   }
   function chooseAsset(entry: (typeof palette)[number]) {
@@ -762,7 +766,8 @@ export function createEditorSession() {
     }
   };
   $('collection').onchange = showPalette;
-  $('asset-status').onchange = showPalette;
+  $('asset-scope').onchange = showPalette;
+  $('asset-animated').onchange = showPalette;
   $('favorite-asset').onclick = () => {
     if (!chosen) return;
     if (favorites.has(chosen.asset)) favorites.delete(chosen.asset);
@@ -1276,7 +1281,7 @@ export function createEditorSession() {
     } catch {
       status('Local recovery is unavailable.', true);
     }
-    assetCatalog = await authoringCatalog();
+    assetCatalog = await authoringCatalog(lifetime.signal);
     assertActive();
     runtime = await AssetRuntime.open(assetCatalog);
     assertActive();
@@ -1347,12 +1352,12 @@ export function createEditorSession() {
       catalog: () => assetCatalog,
       status,
     });
-    const manifests = await Promise.all(
-      Object.keys(assetCatalog).map((id) => runtime.manifest(id)),
-    );
+    assetIndex = await loadAssetIndex(runtime, lifetime.signal);
+    usedAssets = assetClosure(usedAssetRoots(), assetIndex);
+    const manifests = [...assetIndex.values()];
     assertActive();
     for (const m of manifests) {
-      const kind = paletteKind(m) ?? (m.asset.placement === 'reference' ? 'reference' : undefined);
+      const kind = paletteKind(m) ?? 'reference';
       if (kind)
         for (const clip of paletteClips(m))
           palette.push({ asset: m.asset.id, clip, kind, manifest: m });

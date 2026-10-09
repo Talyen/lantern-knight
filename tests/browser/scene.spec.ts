@@ -142,3 +142,47 @@ test('preview scene reset preserves experiments; settings reset and workspace re
   await expect(page.locator('#preview-drawer')).toBeHidden();
   await expect(page.locator('.hud')).toBeHidden();
 });
+
+test('shared asset browser includes library enemies, separates poses and filters references', async ({
+  page,
+}) => {
+  await page.goto('/sandbox.html?scene=outdoor-fixture');
+  await page.waitForFunction(() => window.foundation?.ready);
+  await page.getByRole('button', { name: 'Animation', exact: true }).click();
+  await expect(page.locator('#asset option[value="library-ct01"]')).toHaveCount(1);
+  await expect(page.locator('#asset option[value="ink-stage-earth"]')).toHaveCount(0);
+  await page.locator('#asset').selectOption('library-ct01');
+  await expect
+    .poll(() => page.evaluate(() => window.foundation.presentation.labAsset))
+    .toBe('library-ct01');
+  expect(
+    await page.evaluate(() => {
+      const p = window.foundation.presentation;
+      return p.camera.top - p.camera.bottom - p.viewSpan;
+    }),
+  ).toBeCloseTo(0);
+  await expect(page.locator('#visual-time')).toContainText('drawings');
+  expect(await page.evaluate(() => window.foundation.presentation.secondSprite.mesh.visible)).toBe(
+    false,
+  );
+  expect(await page.evaluate(() => window.foundation.presentation.sceneEffects.group.visible)).toBe(
+    false,
+  );
+  await page.getByText('Asset filters', { exact: true }).click();
+  await page.locator('#asset-scope').selectOption('used');
+  await expect(page.locator('#asset option[value="library-ct01"]')).toHaveCount(0);
+  await page.locator('#asset-scope').selectOption('all');
+  await page.locator('#asset-animated').uncheck();
+  await expect(page.locator('#asset option[value="ink-stage-earth"]')).toHaveCount(1);
+  await page.locator('#asset').selectOption('ink-stage-earth');
+  await expect
+    .poll(() => page.evaluate(() => window.foundation.presentation.labAsset))
+    .toBe('ink-stage-earth');
+  await expect(page.locator('#clip optgroup[label="Still poses"] option')).toHaveCount(1);
+  await page.locator('#asset-search').fill('library-loot_pickup');
+  await expect(page.locator('#asset option')).toHaveCount(1);
+  await page.locator('#asset').selectOption('library-loot_pickup');
+  await expect
+    .poll(() => page.evaluate(() => window.foundation.presentation.labAsset))
+    .toBe('library-loot_pickup');
+});

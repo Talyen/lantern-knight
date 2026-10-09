@@ -14,7 +14,8 @@ import { Presentation, type Mode } from '../presentation/scene';
 import { sandboxContent, sandboxDefinitions } from '../content/sandbox-world';
 import { ContentRegistry } from '../content/world';
 import { GameSession } from '../core/session';
-import { assetCatalog } from '../content/visuals';
+import { animatedSequence, animatedAsset } from '../assets/asset-browser';
+import { bindAssetPicker } from './asset-picker';
 import { HEADINGS } from '../core/camera';
 import { clipDuration } from '../core/animation';
 import { walkTimings, type WalkTiming } from '../core/locomotion-timing';
@@ -28,8 +29,13 @@ import { heroTimings } from '../content/hero-actions';
 import type { Clip } from '../assets/schema';
 import '../inspection';
 
-export function mountScene(context: PreviewContext) {
+export function mountScene(
+  context: PreviewContext,
+  assetCatalog: Readonly<Record<string, string>>,
+) {
   let closed = false;
+  const lifetime = new AbortController();
+  let picker: ReturnType<typeof bindAssetPicker>;
   const loading = new LoadingScreen();
   const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
   const shell = mountShell(context, sandboxUI, previewHUD);
@@ -73,7 +79,7 @@ export function mountScene(context: PreviewContext) {
   );
   app.readOnly = true;
   function status(message: string, error = false) {
-    shell.status(message, error);
+    if (!closed) shell.status(message, error);
   }
   function syncLabZoom() {
     const percent = Math.round(presentation.labZoom * 100);
@@ -132,9 +138,21 @@ export function mountScene(context: PreviewContext) {
     );
   }
   function updateLabClips() {
-    const clips = Object.keys(presentation.manifest.asset.clips);
-    $('#clip').innerHTML = clips.map((c) => `<option>${c}</option>`).join('');
-    $<HTMLSelectElement>('#clip').value = presentation.labClip;
+    const entries = Object.entries(presentation.manifest.asset.clips);
+    const select = $<HTMLSelectElement>('#clip');
+    select.replaceChildren();
+    for (const [label, animated] of [
+      ['Animations', true],
+      ['Still poses', false],
+    ] as const) {
+      const group = document.createElement('optgroup');
+      group.label = label;
+      for (const [name, directions] of entries)
+        if (Object.values(directions).some((clip) => clip && animatedSequence(clip)) === animated)
+          group.append(new Option(name.replaceAll('_', ' '), name));
+      if (group.children.length) select.append(group);
+    }
+    select.value = presentation.labClip;
     updateLabHeadings();
   }
   function updateLabHeadings() {
@@ -226,7 +244,7 @@ export function mountScene(context: PreviewContext) {
           if (closed) return;
           $<HTMLInputElement>('#overlays').checked = false;
           presentation.selectLabAsset('ink-hero-current');
-          $<HTMLSelectElement>('#asset').value = 'ink-hero-current';
+          picker.selected('ink-hero-current');
           presentation.labClip = 'walk';
           updateLabClips();
           presentation.labAnimator.start(presentation.getClip('walk', presentation.labHeading));
@@ -256,24 +274,23 @@ export function mountScene(context: PreviewContext) {
       },
       { passive: false },
     );
-    $('#asset').innerHTML = Object.keys(assetCatalog)
-      .map((id) => `<option>${id}</option>`)
-      .join('');
-    $<HTMLSelectElement>('#asset').value = presentation.labAsset;
-    updateLabClips();
-    $('#asset').onchange = () =>
-      app.safe(() =>
-        app.withLoading(async () => {
-          const id = $<HTMLSelectElement>('#asset').value;
+    picker = bindAssetPicker(
+      app.runtime,
+      lifetime.signal,
+      () => app.sim.area,
+      async (id) => {
+        await app.withLoading(async () => {
           await app.loadAsset(id);
-          if (id === 'ink-hero-current' && !presentation.animationFlow)
-            await presentation.loadAnimationFlow();
           if (closed) return;
           presentation.selectLabAsset(id);
           updateLabClips();
+          picker.selected(id);
           savePreview();
-        }),
-      );
+        });
+      },
+      context.ui.assetFilters,
+    );
+    updateLabClips();
     $('#clip').onchange = () => {
       presentation.labClip = $<HTMLSelectElement>('#clip').value;
       presentation.notifyLog = [];
@@ -381,6 +398,15 @@ export function mountScene(context: PreviewContext) {
       // Inspectors are independent of the viewport. Restore special views explicitly.
       setMode(remembered.mode === 'lighting' ? 'encounter' : remembered.mode);
     }
+    if (context.assetToPreview && context.assetToPreview in assetCatalog) {
+      await app.loadAsset(context.assetToPreview);
+      if (closed) return;
+      presentation.selectLabAsset(context.assetToPreview);
+      updateLabClips();
+      context.ui.assetFilters.animated = animatedAsset(presentation.manifest);
+      $<HTMLInputElement>('#asset-animated').checked = context.ui.assetFilters.animated;
+      picker.selected(context.assetToPreview);
+    }
     lightingControls.syncLook();
     lightingControls.syncDof();
     $<HTMLSelectElement>('#scene-select').value = app.sim.area;
@@ -390,7 +416,10 @@ export function mountScene(context: PreviewContext) {
     shell.bind({
       capabilities: { animation: true, calibration: true, productionLighting: true },
       open: (panel) => {
-        if (panel === 'animation' && mode !== 'animation') setMode('animation');
+        if (panel === 'animation') {
+          if (mode !== 'animation') setMode('animation');
+          app.safe(() => picker.load());
+        }
       },
       clearInput: () => app.input?.clear(),
       togglePause: () => {
@@ -425,6 +454,8 @@ export function mountScene(context: PreviewContext) {
   }
   async function restoreAnimation(value: AnimationState) {
     if (!(value.asset in assetCatalog)) return;
+    const metadata = await app.runtime.manifest(value.asset);
+    if (closed || !Object.keys(metadata.asset.clips).length) return;
     await app.loadAsset(value.asset);
     if (closed) return;
     presentation.selectLabAsset(value.asset);
@@ -441,7 +472,7 @@ export function mountScene(context: PreviewContext) {
     presentation.labPaused = value.paused;
     presentation.labTime = value.time;
     presentation.background = value.background;
-    $<HTMLSelectElement>('#asset').value = value.asset;
+    picker.selected(value.asset);
     updateLabClips();
     presentation.labAnimator.start(
       presentation.getClip(presentation.labClip, presentation.labHeading),
@@ -561,7 +592,10 @@ export function mountScene(context: PreviewContext) {
     const elapsed = c.loop ? presentation.labTime % span : Math.min(presentation.labTime, span);
     $<HTMLInputElement>('#scrub').max = String(span);
     $<HTMLInputElement>('#scrub').value = String(elapsed);
-    $('#visual-time').textContent = `${Math.round(elapsed)} / ${Math.round(span)} ms`;
+    $('#visual-time').textContent =
+      `${Math.round(elapsed)} / ${Math.round(span)} ms · ${new Set(c.frames).size} drawings`;
+    document.querySelector<HTMLDetailsElement>('[data-section="animation-comparison"]')!.hidden =
+      presentation.labAsset !== 'ink-hero-current';
     const hero = presentation.labAsset === 'ink-hero-current',
       heading = c.frames[0]!.split('-')[1] as (typeof HEADINGS)[number],
       recipe = hero ? heroTimings[presentation.labClip]?.[heading] : undefined;
@@ -812,6 +846,7 @@ export function mountScene(context: PreviewContext) {
     if (closed) return;
     savePreview();
     closed = true;
+    lifetime.abort();
     previewReady = false;
     app.dispose();
     loading.dispose();

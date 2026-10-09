@@ -548,3 +548,33 @@ test('repeated placement, shared fields and canvas handles commit or cancel one 
   await page.locator('#undo').click();
   await expect.poll(orientation).toEqual(originalOrientation);
 });
+
+test('shared editor asset filters update for unsaved placement and undo', async ({ page }) => {
+  await page.goto('/editor.html');
+  await page.waitForFunction(() => window.sceneEditor?.ready());
+  await page.locator('#artwork-tab').click();
+  await page.locator('#search').fill('library-ct01');
+  await expect(page.locator('#assets .asset')).toHaveCount(1);
+  await page.locator('#art-filters > summary').click();
+  await page.locator('#asset-scope').selectOption('used');
+  await expect(page.locator('#assets .asset')).toHaveCount(0);
+  await page.locator('#asset-scope').selectOption('all');
+  await page.locator('#search').fill('library-pilgrim_chest');
+  await expect(page.locator('#assets .asset')).toHaveCount(1);
+  await page.locator('#assets .asset').click();
+  await page.locator('#viewport').click({ position: { x: 300, y: 280 } });
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
+    .toBe(1);
+  await page.locator('#artwork-tab').click();
+  await page.locator('#asset-scope').selectOption('scene');
+  await expect(page.locator('#assets .asset')).toHaveCount(1);
+  await page.locator('#undo').click();
+  await expect(page.locator('#assets .asset')).toHaveCount(0);
+  await page.locator('#asset-scope').selectOption('all');
+  await page.locator('#asset-animated').check();
+  await page.locator('#search').fill('ink-stage-earth');
+  await expect(page.locator('#assets .asset')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Clear animated filter' }).click();
+  await expect(page.locator('#assets .asset')).toHaveCount(1);
+});

@@ -12,7 +12,9 @@ export async function prepare(context: PreparationContext, check = false) {
   const masks: Record<string, { width: number; height: number; alpha: number[] }> = {},
     sources: Record<string, string> = {},
     sockets: Record<string, number[][]> = {};
-  for (const [id, file] of Object.entries(await readAuthoringCatalog(context.publicDirectory))) {
+  for (const [id, file] of Object.entries(
+    await readAuthoringCatalog(context.publicDirectory, { includeDeveloperAssets: false }),
+  )) {
     const m = JSON.parse(await readAsset('public/' + file, 'utf8')) as Manifest;
     if (m.asset.type !== 'prop') continue;
     for (const frame of m.frames) {

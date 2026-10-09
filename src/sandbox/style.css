@@ -118,6 +118,19 @@
     max-width: 185px;
     min-width: 0;
   }
+  input[type='search'] {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 7px 9px;
+    color: inherit;
+    background: #252a30;
+    border: 1px solid #41474f;
+    border-radius: 4px;
+  }
+  label.check {
+    justify-content: flex-start;
+  }
   input[type='range'] {
     width: 100%;
   }

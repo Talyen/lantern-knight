@@ -1,3 +1,4 @@
+import { assetFilterSchema } from '../assets/asset-browser';
 import { z } from 'zod';
 import { scenePreviewSchema } from './preview';
 import { effectLabels } from '../content/effects-playground';
@@ -78,6 +79,12 @@ const uiSchema = z.object({
   hud: z.boolean(),
   hidden: z.boolean(),
   sections: z.record(z.string(), z.boolean()),
+  assetFilters: assetFilterSchema.default({
+    scope: 'all',
+    animated: true,
+    type: 'all',
+    search: '',
+  }),
 });
 type PreviewUI = z.infer<typeof uiSchema>;
 export type Panel = NonNullable<PreviewUI['panel']>;
@@ -97,7 +104,13 @@ export function emptyWorkspace(): Workspace {
     version: 2,
     selected: 'outdoor-fixture',
     scenes: {},
-    ui: { panel: null, hud: false, hidden: false, sections: {} },
+    ui: {
+      panel: null,
+      hud: false,
+      hidden: false,
+      sections: {},
+      assetFilters: { scope: 'all', animated: true, type: 'all', search: '' },
+    },
   };
 }
 export function readWorkspace(raw: string | null): Workspace {
@@ -141,6 +154,8 @@ export function createWorkspaceStore(storage: Pick<Storage, 'getItem' | 'setItem
 }
 export type PreviewContext = {
   fixture: Fixture;
+  assetToPreview?: string;
+  previewAsset(id: string): void;
   remembered?: FixtureState;
   ui: PreviewUI;
   remember(state: FixtureState): void;

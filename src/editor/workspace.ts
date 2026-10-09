@@ -162,7 +162,7 @@ export class EditorWorkspace {
     }
     const chips = element('filter-chips');
     chips.replaceChildren();
-    for (const id of ['category', 'collection', 'asset-status']) {
+    for (const id of ['category', 'collection', 'asset-scope']) {
       const select = element<HTMLSelectElement>(id);
       if (select.value === 'all') continue;
       const button = document.createElement('button');
@@ -172,6 +172,17 @@ export class EditorWorkspace {
         select.value = 'all';
         select.dispatchEvent(new Event('change'));
         this.refresh();
+      };
+      chips.append(button);
+    }
+    const animated = element<HTMLInputElement>('asset-animated');
+    if (animated.checked) {
+      const button = document.createElement('button');
+      button.textContent = 'Animated ×';
+      button.ariaLabel = 'Clear animated filter';
+      button.onclick = () => {
+        animated.checked = false;
+        animated.dispatchEvent(new Event('change'));
       };
       chips.append(button);
     }

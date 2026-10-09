@@ -1,7 +1,10 @@
+import { authoringCatalog } from '../assets/authoring-catalog';
+import { AssetRuntime } from '../assets/loader';
+import { bindAssetPicker } from './asset-picker';
 import { mountShell } from './shell';
 import type { PreviewContext, EffectsState } from './workspace';
 import { supportedPosition, heightAt } from '../content/world';
-import { previewHUD } from './ui';
+import { assetPickerUI, previewHUD } from './ui';
 import { LoadingScreen } from '../loading-screen';
 import { Application } from '../application';
 import { ContentRegistry } from '../content/world';
@@ -54,7 +57,7 @@ export function mountEffects(context: PreviewContext) {
       .join('')}</details>
     <details data-section="effects-outline"><summary>Outline appearance</summary><label for="outline-width">Thickness <output id="outline-width-value">1 px</output></label><input id="outline-width" type="range" min="0.5" max="2" step="0.25" value="1"><label for="outline-opacity">Opacity <output id="outline-opacity-value">25%</output></label><input id="outline-opacity" type="range" min="0" max="50" step="5" value="25"><label>Color<input id="outline-color" type="color" value="#29343b"></label></details>
     <details data-section="effects-rendering"><summary>Rendering</summary><label>Render scale<select id="render-scale"><option value="1">100%</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label><p>Production light rigs, looks and focus controls use Outdoor, Interior or Systems.</p><button data-fixture="outdoor-fixture">Open Outdoor fixture</button></details></section>
-    <section data-preview-panel="animation" hidden><p>Animation requires Outdoor, Interior or Systems.</p><button data-fixture="outdoor-fixture">Open Outdoor fixture</button></section>
+    <section data-preview-panel="animation" hidden>${assetPickerUI}<p>Animation requires Outdoor, Interior or Systems.</p><button id="preview-library-asset">Preview selected asset in Outdoor</button></section>
     <section data-preview-panel="inspect" hidden><label>Freeze enemies<input id="freeze-enemies" type="checkbox"></label><p>Calibration, registration and occlusion inspection require Outdoor, Interior or Systems.</p><button data-fixture="outdoor-fixture">Open Outdoor fixture</button></section>`,
     previewHUD,
   );
@@ -66,6 +69,8 @@ export function mountEffects(context: PreviewContext) {
   const remembered = context.remembered?.kind === 'effects' ? context.remembered : undefined;
   if (remembered) Object.assign(settings, structuredClone(remembered.settings));
   const abort = new AbortController();
+  let picker: ReturnType<typeof bindAssetPicker> | undefined;
+  let selectedAsset = 'ink-hero-current';
   function synchronize() {
     for (const box of document.querySelectorAll<HTMLInputElement>('[data-effect]'))
       box.checked = settings.effects[box.dataset.effect as PlaygroundEffect];
@@ -139,7 +144,7 @@ export function mountEffects(context: PreviewContext) {
       },
       {
         status: (message) => {
-          shell.status(message);
+          if (!disposed) shell.status(message);
         },
         pause: (value) => {
           settings.paused = value;
@@ -227,7 +232,27 @@ export function mountEffects(context: PreviewContext) {
       .forEach((el) => (el.onclick = () => context.select('outdoor-fixture')));
     shell.bind({
       capabilities: { animation: false, calibration: false, productionLighting: false },
-      open: () => {},
+      open: (panel) => {
+        if (panel === 'animation')
+          app.safe(async () => {
+            if (!picker) {
+              const catalog = await authoringCatalog(abort.signal);
+              if (disposed) return;
+              picker = bindAssetPicker(
+                new AssetRuntime(catalog),
+                abort.signal,
+                () => 'effects-playground',
+                async (id) => {
+                  selectedAsset = id;
+                  picker!.selected(id);
+                },
+                context.ui.assetFilters,
+              );
+              $('preview-library-asset').onclick = () => context.previewAsset(selectedAsset);
+            }
+            await picker.load();
+          });
+      },
       clearInput: () => app.input?.clear(),
       togglePause: pause,
       restart: reset,
