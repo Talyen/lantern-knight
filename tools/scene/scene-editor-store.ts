@@ -1,9 +1,11 @@
+import { FragmentStore } from './fragment-store';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import {
   parseSceneDocument,
+  parseSceneFragment,
   sceneBytesLimit,
   validateSceneReferences,
   type SceneDocument,
@@ -109,7 +111,7 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
     );
   let initialRevision: Promise<string>;
   let loadBase: () => Promise<typeof import('../../src/content/world-art')>;
-  const store = new SceneStore(path.join(root, 'authoring/scenes'), async (d) => {
+  const validate = async (d: SceneDocument) => {
     const ids = new Set([
       ...d.objects.flatMap((p) => [p.asset, ...(p.fixture?.flame ? [p.fixture.flame.asset] : [])]),
       ...(d.floor ? [d.floor.asset] : []),
@@ -133,7 +135,9 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
       throw new SceneConflict(
         'Scene schema or pinned assets changed while saving. Restart and review the recovered draft.',
       );
-  });
+  };
+  const store = new SceneStore(path.join(root, 'authoring/scenes'), validate);
+  const fragments = new FragmentStore(path.join(root, 'authoring/fragments'));
   return {
     name: 'lantern-scene-editor',
     configureServer(server) {
@@ -170,6 +174,10 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
                   'Scene schema or pinned assets or pinned assets changed. Preserve your draft and restart the editor before saving.',
                 );
               if (req.method === 'GET') {
+                if (url.searchParams.has('fragments')) {
+                  respond(200, { fragments: await fragments.list() });
+                  return;
+                }
                 const id = url.searchParams.get('id');
                 respond(
                   200,
@@ -204,6 +212,16 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
                 throw new SceneConflict(
                   'Scene schema or pinned assets changed. Reload or save a separate recovered draft.',
                 );
+              if (body.action === 'fragment') {
+                const fragment = parseSceneFragment(body.fragment);
+                const document = parseSceneDocument({
+                  ...body.document,
+                  objects: fragment.objects,
+                });
+                await validate(document);
+                respond(200, await fragments.create(fragment));
+                return;
+              }
               respond(200, { ...(await store.save(body.document, body.revision)), baseRevision });
             } catch (error) {
               respond(error instanceof SceneConflict ? 409 : 400, {

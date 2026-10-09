@@ -107,13 +107,17 @@ export class EditorHistory {
     ids: readonly string[],
     fields: { x?: number; z?: number; rotation?: number; scale?: number },
   ) {
-    const items = sceneItems(this.document).filter((p) => ids.includes(p.placement.id));
+    let items = sceneItems(this.document).filter((p) => ids.includes(p.placement.id));
     if (!items.length) return;
     if (items.some((p) => p.locked)) throw new Error('Object is locked');
     const cx = items.reduce((v, p) => v + p.placement.x, 0) / items.length;
     const cz = items.reduce((v, p) => v + p.placement.z, 0) / items.length;
     const angle = fields.rotation ?? 0,
       factor = fields.scale ?? 1;
+    if (angle || factor !== 1) {
+      const included = new Set(this.descendants(ids));
+      items = sceneItems(this.document).filter((p) => included.has(p.placement.id));
+    }
     // Resolve targets against the original snapshot. A selected support carries its
     // descendants; explicitly selected children are transformed only once.
     const targets = new Map(

@@ -1,3 +1,5 @@
+import { SceneLibrary } from './library';
+import { VisualAuthoring } from './visual-authoring';
 import { CompositionTools } from './composition';
 import { editorUI } from './ui';
 import { bindSceneControls } from './scene-controls';
@@ -30,6 +32,8 @@ const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as 
 document.getElementById('app')!.innerHTML = editorUI;
 const refreshSceneControls = bindSceneControls(change);
 let composition: CompositionTools;
+let visualAuthoring: VisualAuthoring;
+let sceneLibrary: SceneLibrary;
 const canvas = $<HTMLCanvasElement>('viewport');
 let runtime: AssetRuntime,
   view: EditorView,
@@ -50,17 +54,21 @@ let palette: {
   }[] = [],
   chosen: (typeof palette)[number] | undefined;
 let recoveryKey = '';
+let recoveryRoot = '';
 const recoveryPrefix = 'lantern-scene-editor-recovery:' + location.origin + location.pathname + ':';
 type Recovery = {
   document: SceneDocument;
   revision: string | null;
   baseRevision: string;
   savedSnapshot: string;
+  savedAt?: string;
 };
 let recovery: Recovery | undefined;
 function status(message: string, error = false) {
   $('status').textContent = message;
   $('status').classList.toggle('error', error);
+  $('validation-errors').textContent = error ? 'Error: ' + message : '';
+  $('validation-errors').hidden = !error;
 }
 function dirty() {
   return JSON.stringify(history.document) !== savedSnapshot;
@@ -71,7 +79,13 @@ function recover() {
     if (dirty()) {
       localStorage.setItem(
         recoveryKey,
-        JSON.stringify({ document: history.document, revision, baseRevision, savedSnapshot }),
+        JSON.stringify({
+          document: history.document,
+          revision,
+          baseRevision,
+          savedSnapshot,
+          savedAt: new Date().toISOString(),
+        }),
       );
     } else localStorage.removeItem(recoveryKey);
   } catch {
@@ -172,6 +186,7 @@ function controls() {
   view?.select(selected);
   view?.setGrid($<HTMLInputElement>('grid').checked);
   composition?.render();
+  visualAuthoring?.render(busy);
 }
 function select(id: string | undefined) {
   selected = id;
@@ -209,7 +224,15 @@ async function refresh() {
 }
 async function change(mutator: (d: SceneDocument) => void) {
   await run(async () => {
-    history.change(mutator);
+    const next = structuredClone(history.document);
+    mutator(next);
+    const valid = parseSceneDocument(next);
+    resolveAuthoredScene(valid);
+    await view.apply(valid);
+    history.change((d) => {
+      for (const key of Object.keys(d)) delete (d as unknown as Record<string, unknown>)[key];
+      Object.assign(d, valid);
+    });
     await refresh();
     status('Composition updated.');
   });
@@ -233,7 +256,8 @@ async function list() {
   const data = await api();
   token = data.token;
   baseRevision = data.baseRevision;
-  recoveryKey = recoveryPrefix + data.workspace;
+  recoveryRoot = recoveryPrefix + data.workspace;
+  if (!recoveryKey) recoveryKey = recoveryRoot + ':untitled';
   const select = $<HTMLSelectElement>('scene');
   for (const option of [...select.options]) if (option.dataset.saved) option.remove();
   for (const scene of data.scenes as {
@@ -276,6 +300,7 @@ async function open(value: string) {
     const nextHistory = new EditorHistory(d);
     await view.apply(nextHistory.document);
     history = nextHistory;
+    recoveryKey = recoveryRoot + ':' + d.id;
     revision = nextRevision;
     baseRevision = nextBaseRevision;
     savedSnapshot = nextSavedSnapshot;
@@ -286,6 +311,7 @@ async function open(value: string) {
     recover();
     fit();
     $('conflict').hidden = true;
+    sceneLibrary?.remember();
     status(
       d.target === 'live'
         ? 'Live room opened. Saving changes its scenery in the game.'
@@ -309,13 +335,16 @@ async function save(copyId?: string) {
       if (r.status === 409) $('conflict').hidden = false;
       throw new Error(data.error);
     }
+    localStorage.removeItem(recoveryKey);
     history.reidentify(data.document.id, data.document.target);
+    recoveryKey = recoveryRoot + ':' + history.document.id;
     revision = data.revision;
     baseRevision = data.baseRevision;
     savedSnapshot = JSON.stringify(history.document);
     recover();
     $('conflict').hidden = true;
     await list();
+    sceneLibrary?.remember();
     status(
       history.document.target === 'live'
         ? 'Saved. The game now uses this scenery.'
@@ -723,6 +752,7 @@ canvas.oncontextmenu = (e) => e.preventDefault();
 canvas.onpointerdown = (e) => {
   if (busy || !view.presentation || !$('recovery').hidden) return;
   canvas.focus();
+  if (visualAuthoring?.pointerDown(e)) return;
   if (e.button !== 0 && e.button !== 2 && e.button !== 1) return;
   if (chosen && e.button === 0) {
     launch(place(chosen, e.clientX, e.clientY));
@@ -811,7 +841,7 @@ canvas.onpointermove = (e) => {
   if (drag.mode === 'hero') view.hero(next);
   else {
     const items = sceneItems(history.document);
-    for (const id of composition.editable()) {
+    for (const id of history.descendants(composition.editable())) {
       const p = items.find((p) => p.placement.id === id)?.placement;
       if (p) view.previewPosition(id, p.x + next.x - drag.x, p.z + next.z - drag.z);
     }
@@ -839,6 +869,7 @@ function finishDrag(cancel = false) {
   );
 }
 canvas.onpointerup = (e) => {
+  if (visualAuthoring?.pointerUp(e)) return;
   if (marquee) {
     composition.rectangle(marquee, { x: e.clientX, y: e.clientY }, marquee.additive);
     marquee = undefined;
@@ -848,7 +879,8 @@ canvas.onpointerup = (e) => {
   }
   finishDrag();
 };
-canvas.onpointercancel = () => {
+canvas.onpointercancel = (e) => {
+  visualAuthoring?.pointerUp(e);
   marquee = undefined;
   $('marquee').hidden = true;
   finishDrag(true);
@@ -980,6 +1012,7 @@ function animate(time: number) {
   const ms = last ? Math.min(50, time - last) : 0;
   last = time;
   view.render(ms);
+  visualAuthoring?.draw();
   if (previewEntry && previewPlaying && $<HTMLDialogElement>('art-preview').open) {
     previewTime += ms;
     const clip = Object.values(previewEntry.manifest.asset.clips[previewEntry.clip]!)[0]!;
@@ -997,31 +1030,79 @@ function animate(time: number) {
 window.addEventListener('pagehide', () => {
   cancelAnimationFrame(frame);
   observer.disconnect();
+  composition?.dispose();
+  sceneLibrary?.dispose();
+  visualAuthoring?.dispose();
   view?.dispose();
 });
-async function start() {
-  await list();
-  try {
-    const stored = localStorage.getItem(recoveryKey);
-    if (stored) {
-      const value = JSON.parse(stored);
-      recovery = {
-        document: parseSceneDocument(value.document),
-        revision: value.revision,
-        baseRevision: value.baseRevision,
-        savedSnapshot: value.savedSnapshot
-          ? JSON.stringify(parseSceneDocument(JSON.parse(value.savedSnapshot)))
-          : '',
-      };
-      $('recovery').hidden = false;
+
+function recoveryEntries() {
+  const entries: { key: string; name: string; time: string }[] = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i)!;
+    if (!key.startsWith(recoveryRoot)) continue;
+    try {
+      const data = JSON.parse(localStorage.getItem(key)!);
+      entries.push({
+        key,
+        name: data.document?.name ?? 'Unreadable recovery',
+        time: data.savedAt ?? 'Unknown time',
+      });
+    } catch {
+      entries.push({ key, name: 'Unreadable recovery', time: 'Unknown time' });
     }
+  }
+  return entries.sort((a, b) => b.time.localeCompare(a.time));
+}
+function readRecovery(key: string) {
+  recoveryKey = key;
+  recovery = undefined;
+  const stored = localStorage.getItem(key);
+  if (!stored) return;
+  $('recovery').hidden = false;
+  try {
+    const value = JSON.parse(stored);
+    recovery = {
+      document: parseSceneDocument(value.document),
+      revision: value.revision,
+      baseRevision: value.baseRevision,
+      savedSnapshot: value.savedSnapshot
+        ? JSON.stringify(parseSceneDocument(JSON.parse(value.savedSnapshot)))
+        : '',
+      savedAt: value.savedAt,
+    };
+    $<HTMLButtonElement>('restore').disabled = false;
   } catch {
-    $('recovery').hidden = false;
     $<HTMLButtonElement>('restore').disabled = true;
     status(
       'Saved recovery uses an unreadable or older format. Download it before adapting or dismissing it.',
       true,
     );
+  }
+}
+async function importDocument(document: SceneDocument) {
+  if (dirty() && !confirm('Replace the current composition with this imported draft?')) return;
+  recover();
+  await run(async () => {
+    const next = new EditorHistory(document);
+    await view.apply(next.document);
+    history = next;
+    revision = null;
+    savedSnapshot = '';
+    recoveryKey = recoveryRoot + ':' + document.id;
+    composition.set(undefined);
+    recover();
+    fit();
+    status('Imported draft. Save As to create a scene file.');
+  });
+}
+async function start() {
+  await list();
+  try {
+    const entries = recoveryEntries();
+    if (entries[0]) readRecovery(entries[0].key);
+  } catch {
+    status('Local recovery is unavailable.', true);
   }
   assetCatalog = await authoringCatalog();
   runtime = await AssetRuntime.open(assetCatalog);
@@ -1035,6 +1116,51 @@ async function start() {
     thumbnail: async (asset, clip, target) => {
       const entry = palette.find((p) => p.asset === asset && p.clip === clip);
       if (entry) await thumbnail(entry, target);
+    },
+  });
+  visualAuthoring = new VisualAuthoring({
+    history: () => history,
+    view: () => view,
+    selected: () => selected,
+    change,
+    select: (id) => composition.set(id),
+  });
+  sceneLibrary = new SceneLibrary({
+    history: () => history,
+    view: () => view,
+    selection: () => composition.editable(),
+    open,
+    import: importDocument,
+    change,
+    status,
+    fragment: async (name, objects) => {
+      await run(async () => {
+        const r = await fetch('/__lantern_editor', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Lantern-Editor-Token': token },
+          body: JSON.stringify({
+            action: 'fragment',
+            fragment: { version: 1, name, objects },
+            document: history.document,
+            baseRevision,
+          }),
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error);
+        status('Fragment saved to authoring/fragments/' + data.id + '.json');
+      });
+    },
+    select: (ids) => {
+      composition.selection.clear();
+      ids.forEach((id) => composition.selection.add(id));
+      composition.set(ids.at(-1), false);
+      ids.forEach((id) => composition.selection.add(id));
+    },
+    recoveries: recoveryEntries,
+    restore: (key) => {
+      recover();
+      readRecovery(key);
+      $<HTMLButtonElement>('restore').click();
     },
   });
   const manifests = await Promise.all(Object.keys(assetCatalog).map((id) => runtime.manifest(id)));

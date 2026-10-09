@@ -61,3 +61,44 @@ it('fragments detach external supports while keeping world placement and insert 
   assert.notEqual(ids[0], 'child');
   assert.equal(h.document.objects.at(-1)!.x, 1);
 });
+
+import { patternPoints } from '../../src/editor/library';
+import { parseSceneFragment } from '../../src/content/scene-document';
+it('patterns are reproducible, bounded, and follow authored path endpoints', () => {
+  const d = emptyScene();
+  d.paths = [
+    {
+      points: [
+        { x: 0, z: 0 },
+        { x: 4, z: 0 },
+        { x: 4, z: 4 },
+      ],
+      width: 1,
+    },
+  ];
+  assert.deepEqual(patternPoints(d, 'path', 3, 1, 2), [
+    { x: 0, z: 0 },
+    { x: 4, z: 0 },
+    { x: 4, z: 4 },
+  ]);
+  const points = patternPoints(d, 'scatter', 10, 142, 2);
+  assert.deepEqual(points, patternPoints(d, 'scatter', 10, 142, 2));
+  assert.ok(points.every((p) => Math.hypot(p.x, p.z) <= 2));
+  assert.throws(() => patternPoints(d, 'scatter', 51, 142, 2));
+  assert.throws(() =>
+    parseSceneFragment({
+      version: 1,
+      name: 'Broken',
+      objects: [
+        {
+          id: 'child',
+          kind: 'prop',
+          asset: 'ink-scenery',
+          clip: 'lantern',
+          role: 'attachment',
+          mount: { to: 'missing', offset: [0, 0, 0] },
+        },
+      ],
+    }),
+  );
+});

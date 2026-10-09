@@ -87,7 +87,7 @@ test('editor multi-selection, inspector, palette grouping and editor-only visibi
   await page.locator('#duplicate').click();
   await expect(page.locator('.object-row')).toHaveCount(2);
   await page
-    .locator('.object-select')
+    .locator('.object-select:not(.active)')
     .first()
     .click({ modifiers: ['Shift'] });
   await expect(page.locator('#selected-name')).toContainText('2 objects selected');
@@ -109,4 +109,77 @@ test('editor multi-selection, inspector, palette grouping and editor-only visibi
   await expect(page.locator('#scene-panel')).toBeVisible();
   await page.locator('#grid').check();
   await expect(page.locator('#snap')).not.toBeChecked();
+});
+
+test('visual authoring, independent fragments, pattern undo and import', async ({
+  page,
+  request,
+}) => {
+  const before = (await (await request.get('/__lantern_editor?fragments')).json()).fragments.map(
+    (p: { id: string }) => p.id,
+  ) as string[];
+  try {
+    await page.goto('/editor.html?automated');
+    await page.waitForFunction(() => window.sceneEditor?.ready());
+    await page
+      .locator('#scene-panel')
+      .getByRole('button', { name: 'Add paths', exact: true })
+      .click();
+    await page.locator('#visual-fields').getByText('paths 1', { exact: true }).click();
+    const width = page.locator('[data-field="paths.0.width"]');
+    await width.fill('2');
+    await width.dispatchEvent('change');
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.paths[0]?.width))
+      .toBe(2);
+    await page.locator('#tool').selectOption('geometry');
+    await page.locator('#search').fill('ink-scenery');
+    await page.getByTitle('ink-scenery/arch', { exact: true }).click();
+    await page.locator('#place-clip').selectOption('gravestone');
+    await page.locator('#viewport').click({ position: { x: 350, y: 230 } });
+    await page.locator('#scene-library').click();
+    await page.locator('#fragment-name').fill('Browser test arrangement');
+    await page.locator('#save-fragment').click();
+    await expect(page.locator('#library-fragments')).toContainText('Browser test arrangement');
+    await page
+      .locator('#library-fragments')
+      .getByRole('button', { name: 'Browser test arrangement · 1 objects', exact: true })
+      .click();
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
+      .toBe(2);
+    expect(
+      await page.evaluate(
+        () => new Set(window.sceneEditor.state().document.objects.map((p) => p.id)).size,
+      ),
+    ).toBe(2);
+    await page.locator('#scene-tab').click();
+    await page.locator('#pattern-count').fill('2');
+    await page.locator('#pattern-preview').click();
+    await page.locator('#pattern-apply').click();
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
+      .toBe(4);
+    await page.locator('#undo').click();
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
+      .toBe(2);
+    const imported = await page.evaluate(() => window.sceneEditor.state().document);
+    page.once('dialog', (dialog) => void dialog.accept());
+    await page.locator('#import-scene').setInputFiles({
+      name: 'scene.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(imported)),
+    });
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.name))
+      .toContain('Imported');
+    expect((await page.evaluate(() => window.sceneEditor.state())).revision).toBeNull();
+  } finally {
+    const fragments = (await (await request.get('/__lantern_editor?fragments')).json())
+      .fragments as { id: string }[];
+    for (const p of fragments)
+      if (!before.includes(p.id))
+        await fs.rm(path.join(projectRoot, 'authoring/fragments', p.id + '.json'), { force: true });
+  }
 });

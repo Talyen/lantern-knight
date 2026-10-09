@@ -385,3 +385,29 @@ export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
   };
   return art;
 }
+
+export function parseSceneFragment(value: unknown) {
+  const fragment = z
+    .object({
+      version: z.literal(1),
+      name: z.string().trim().min(1).max(80),
+      objects: z.array(object).min(1).max(500),
+    })
+    .strict()
+    .parse(value);
+  const objects = new Map(fragment.objects.map((p) => [p.id, p]));
+  if (objects.size !== fragment.objects.length)
+    throw new Error('Duplicate fragment object identity');
+  for (const p of fragment.objects) {
+    const seen = new Set([p.id]);
+    let support = p.mount?.to;
+    while (support) {
+      if (seen.has(support)) throw new Error('Cyclic fragment attachment');
+      seen.add(support);
+      const parent = objects.get(support);
+      if (!parent) throw new Error('Fragment attachment must include its support');
+      support = parent.mount?.to;
+    }
+  }
+  return fragment;
+}
