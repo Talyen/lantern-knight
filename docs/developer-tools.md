@@ -30,6 +30,6 @@ Prepared ambience artwork and companion data come from the selected asset worksp
 
 ## Checks and diagnostics
 
-Run `npm run test:browser -- editor` for authoring/history/recovery changes, `scene` for room presentation, and `effects` for effects comparison and switching between dedicated and production scenes. [Verification](verification.md#test-selection) owns selection and coverage.
+CI runs `npm run test:browser -- editor` for authoring/history/recovery changes, `scene` for room presentation, and `effects` for effects comparison and switching between dedicated and production scenes. Use these locally for targeted diagnosis or validation. [Verification](verification.md#test-selection) owns selection and coverage.
 
 For explicit native investigations, `npm run benchmark -- crypt`, `preferences` or `scenes` checks frozen frames, depth/focus protection, weather and settled resources. `npm run benchmark -- effects` checks rendered differences, baseline restoration, playback, resources and routing. Lighting smoke measures performance only with `--benchmark` or `--benchmark-only`; ordinary assertions have no benchmark waits. Use `--capture` for requested exports. [Performance comparisons](verification.md#performance-comparisons) explains evidence limits.

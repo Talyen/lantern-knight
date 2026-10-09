@@ -86,6 +86,10 @@ test('browser profiles retain old namespaces, reset obsolete data and surface un
     await game.saveGame(save);
     assert.equal(values.get('lantern-game'), 'old session');
     assert.deepEqual(await preview.loadGame(), { status: 'empty' });
+    await preview.saveGame({ ...save, wins: 4 });
+    assert.equal(((await preview.loadGame()) as { data: { wins: number } }).data.wins, 4);
+    assert.equal(((await game.loadGame()) as { data: { wins: number } }).data.wins, 0);
+    assert.deepEqual(await sandbox.loadGame(), { status: 'empty' });
     await assert.rejects(sandbox.saveGame(save));
     values.set('lantern-prototype-game-game', '{"version":99}');
     assert.deepEqual(await game.loadGame(), { status: 'empty' });

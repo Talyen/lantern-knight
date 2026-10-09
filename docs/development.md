@@ -16,7 +16,7 @@ Development selects a checkout-local preparation when available, otherwise the i
 
 ## Verify an edit
 
-Run an exact suite while editing: `npm test -- tests/unit/hero-actions.test.ts`. `npm run test:watch` keeps pure testing live. After edits stabilize, run `npm run check` once. Changed browser behavior should also run its relevant scenario, such as `npm run test:browser -- scene` or `npm run test:browser -- editor`. `-- --ui` opens Playwright's interactive test workflow.
+Run an exact suite while editing: `npm test -- tests/unit/hero-actions.test.ts`. `npm run test:watch` keeps fast pure testing live. After edits stabilize, run `npm run check` once. Full pure coverage uses `npm test -- --full`; slow/integration checks run in CI by default. For targeted local diagnosis or validation, state the reason and run the smallest relevant scope, such as `npm run test:browser -- editor`. `-- --ui` opens Playwright's interactive workflow. Follow [test value](verification.md#test-value) before adding coverage; zero new tests may be sufficient.
 
 [Verification](verification.md) owns test tiers and CI. [Architecture](architecture.md) explains behavior owners. [Assets](assets.md) owns preparing and sharing artwork. Use the [scene editor](developer-tools.md#scene-editor) for composition; design advice does not block valid experiments.
 

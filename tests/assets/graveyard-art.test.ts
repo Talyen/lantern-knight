@@ -17,6 +17,8 @@ scene.objects.push(
   })),
 );
 const graveyardArt = resolveAuthoredScene(scene);
+// The graveyard renderer adds falling leaves even in this reduced contract fixture.
+graveyardArt.proceduralAssets = [...graveyardArt.proceduralAssets, 'ink-ambient'];
 import { sceneArtFindings } from '../../src/content/scene-art-validation';
 import { isSupportedPosition, supportedPosition } from '../../src/content/world';
 import { content } from '../fixtures/content';
@@ -123,6 +125,7 @@ test('four-centimetre reversals behind a near tree retains one shader/depth poli
     sim = new Simulation(content, 142, content.definitions.initialArea, 1);
   sim.enemies.forEach((a) => (a.health = 0));
   try {
+    assert.ok(graveyardArt.props.every((p) => f.room.sprites.some((s) => s.id === p.id)));
     const tree = graveyardArt.props.find((p) => p.id === 'boundary-oak')!;
     Object.assign(sim.hero, { x: tree.x, z: tree.z - 0.2, px: tree.x, pz: tree.z - 0.2 });
     for (let i = 0; i < 30; i++) f.room.update(sim, 1, false, 1000 / 60);
@@ -200,15 +203,6 @@ test('terrain mips never share identity with a non-mipmapped lease or bleed acro
   const bad = structuredClone(m);
   bad.frames[0]!.rect[0] = 1;
   assert.throws(() => parseManifest(bad));
-});
-
-test('every authored fixture prop produces its intact artwork sprite', async () => {
-  const f = await fixture();
-  try {
-    assert.ok(graveyardArt.props.every((p) => f.room.sprites.some((s) => s.id === p.id)));
-  } finally {
-    f.dispose();
-  }
 });
 
 test('blocked terrain volumes reject buried roots and bodies exactly on a polygon edge', () => {

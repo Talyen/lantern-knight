@@ -26,7 +26,6 @@ test('current documents reject malformed values and attachment cycles while allo
     lamp = d.objects.find((p) => p.mount)!;
   lamp.mount!.offset[0] += 0.25;
   assert.doesNotThrow(() => resolveSceneDocument(parseSceneDocument(d)));
-  assert.throws(() => parseSceneDocument({ ...d, version: 4 }));
   assert.throws(() =>
     parseSceneDocument({
       ...d,

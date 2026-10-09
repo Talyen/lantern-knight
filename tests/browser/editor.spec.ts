@@ -322,9 +322,6 @@ test('editor workspace keeps populated attachment controls accessible at desktop
     expect(canvas!.width).toBeGreaterThan(250);
     expect(canvas!.height).toBeGreaterThan(300);
     await expect(page.locator('#object-search')).toBeVisible();
-    await page.screenshot({
-      path: path.join(projectRoot, '.cache', `editor-attachment-${width}.png`),
-    });
   }
 });
 

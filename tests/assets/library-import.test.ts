@@ -12,32 +12,6 @@ import {
   paletteClips,
 } from '../../src/content/scene-document';
 import { EditorHistory } from '../../src/editor/model';
-import fs from 'node:fs/promises';
-import os from 'node:os';
-import path from 'node:path';
-import { createPreparationContext } from '../../tools/assets/context';
-import { diskBytes } from '../../tools/assets/cache';
-it('keeps incremental output accounting within its reserved space and counts candidate links once', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-writer-'));
-  try {
-    const context = await createPreparationContext({
-      workspace: root,
-      sourceRoot: root,
-      libraryRoot: root,
-      budget: 64,
-    });
-    const write = context.writeAsset;
-    await write('public/one.png', Buffer.alloc(40));
-    await write('public/one.png', Buffer.alloc(30));
-    await write('public/two.png', Buffer.alloc(32));
-    await assert.rejects(write('public/three.png', Buffer.alloc(3)), /reserved cache space/);
-    await assert.rejects(fs.access(path.join(root, 'public/three.png')));
-    await fs.link(path.join(root, 'public/one.png'), path.join(root, 'public/candidate.png'));
-    assert.equal(await diskBytes(root), 62);
-  } finally {
-    await fs.rm(root, { recursive: true, force: true });
-  }
-});
 it('preserves authoritative source registration, timing and extension conflicts without library access', () => {
   execFileSync('python3', ['-B', 'tests/assets/library_import.py'], {
     cwd: process.cwd(),
@@ -129,8 +103,4 @@ it('exposes only supplied directions while preserving complete-asset coverage re
       manifests,
     ),
   );
-});
-it('rejects obsolete authoring document versions', () => {
-  const original = { ...emptyScene(), version: 2 };
-  assert.throws(() => parseSceneDocument(original));
 });

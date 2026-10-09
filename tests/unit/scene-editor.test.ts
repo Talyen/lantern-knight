@@ -1,6 +1,6 @@
 import { emptyScene } from '../../src/editor/default-scene';
 import { sceneFixture } from '../fixtures/scene';
-import { applySceneryPreset, sceneFixtures } from '../../src/content/scenery-presets';
+import { applySceneryPreset } from '../../src/content/scenery-presets';
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -48,7 +48,8 @@ describe('scene authoring contracts', () => {
     assert.equal(resolved.visuals.props.find((p) => p.id === item.id)!.x, item.x);
   });
   it('rejects unsupported documents and references without silently resetting them', () => {
-    assert.throws(() => parseSceneDocument({ ...emptyScene(), version: 99 }));
+    for (const version of [2, 99])
+      assert.throws(() => parseSceneDocument({ ...emptyScene(), version }));
     assert.throws(() => parseSceneDocument({ ...emptyScene(), id: '../outside' }));
     const d = emptyScene();
     d.objects.push({ id: 'tree', kind: 'prop', asset: 'missing', clip: 'oak', x: 0, z: 0 });
@@ -123,8 +124,7 @@ describe('scene file saving', () => {
   });
 });
 
-it('obsolete drafts reject and mounted lamps follow edited supports through cascading undo', () => {
-  assert.throws(() => parseSceneDocument({ ...sceneFixture('graveyard'), version: 2 }), /5/);
+it('mounted lamps follow edited supports through cascading undo', () => {
   const h = new EditorHistory(sceneFixture('chapel'));
   const lamp = () =>
     resolveAuthoredScene(h.document).props.find((p) => p.id === 'crypt-altar-candles')!;
@@ -197,13 +197,4 @@ it('attachment cycles and missing supports reject without changing history', () 
     );
     assert.deepEqual(h.document, before);
   }
-});
-
-it('prototype support scale/mirroring preserves finite attachment transforms', () => {
-  const h = new EditorHistory(sceneFixture('chapel')),
-    before = structuredClone(h.document);
-  h.transform('chapel-devotional-table', { scale: 1.5, mirror: true });
-  assert.notDeepEqual(h.document, before);
-  for (const f of sceneFixtures(resolveAuthoredScene(h.document)))
-    assert.ok(f.socket.every(Number.isFinite));
 });

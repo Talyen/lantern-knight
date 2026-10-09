@@ -28,12 +28,12 @@ it('blank drafts start empty, generic geometry resolves, and missing gameplay in
     contentDefinitions.areas.find((a) => a.id === 'court')!.spawns,
   );
 });
-it('draft gameplay rejects invalid references and obstructed placement without altering the input', () => {
-  const d = emptyScene(),
-    original = structuredClone(d);
+it('draft gameplay rejects invalid references without altering the input', () => {
+  const d = emptyScene();
   d.gameplay!.spawns = [{ id: 'enemy', actor: 'missing', x: 2, z: 0 }];
+  const before = structuredClone(d);
   assert.throws(() => composeDraftGameplay(d, contentDefinitions, {}), /unknown actor/);
-  assert.equal(original.gameplay!.spawns.length, 0);
+  assert.deepEqual(d, before);
   d.gameplay!.spawns = [];
   d.gameplay!.exits = [
     {
@@ -60,6 +60,7 @@ it('health pickups collect once, preserve collection across save/restore, and re
   session.sim.hero.health -= 40;
   session.step({ move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } });
   const healed = session.sim.hero.health;
+  assert.equal(healed, session.sim.hero.definition.maxHealth - 15);
   assert.equal(session.sim.collectedPickups.has('health'), true);
   session.step({ move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } });
   assert.equal(session.sim.hero.health, healed);

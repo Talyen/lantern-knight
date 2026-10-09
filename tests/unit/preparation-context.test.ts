@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import sharp from 'sharp';
+import { diskBytes } from '../../tools/assets/cache';
 import { createPreparationContext } from '../../tools/assets/context';
 
 test('one explicit writer accounts for replacement/concurrent writes and confines output', async () => {
@@ -18,6 +19,9 @@ test('one explicit writer accounts for replacement/concurrent writes and confine
     ]);
     assert.equal(await context.readAsset('public/a.txt', 'utf8'), '12');
     await assert.rejects(context.writeAsset('public/c.txt', '1'), /reserved cache space/);
+    await assert.rejects(fs.access(path.join(root, 'public/c.txt')));
+    await fs.link(path.join(root, 'public/a.txt'), path.join(root, 'public/candidate.txt'));
+    assert.equal(await diskBytes(root), 8);
     assert.equal(await context.readAsset('public/b.txt', 'utf8'), '123456');
     const other = await createPreparationContext({ ...options, budget: 32 });
     await assert.rejects(other.writeAsset('docs/escaped.txt', 'x'), /escapes workspace/);

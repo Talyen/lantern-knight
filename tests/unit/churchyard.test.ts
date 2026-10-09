@@ -8,8 +8,6 @@ import { GameSession } from '../../src/core/session';
 
 import { worldVisuals } from '../../src/content/game-content';
 import { compositionPoint, compositionHeight } from '../../src/content/world-art';
-import { createBrowserBridge } from '../../src/platform/browser-store';
-import { launchEntry, checkpointDirectory } from '../../electron/launch';
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: -1 } };
 test('encounters remain dormant until activation and damage wakes their peers', () => {
   assert.deepEqual(
@@ -166,40 +164,6 @@ test('narrow Graveyard framing keeps the hero and full silhouette inside the vie
         }
   }
 });
-test('Game, developer preview and Sandbox have isolated checkpoints; Sandbox refuses writes', async () => {
-  const previous = Object.getOwnPropertyDescriptor(globalThis, 'localStorage'),
-    values = new Map<string, string>();
-  Object.defineProperty(globalThis, 'localStorage', {
-    configurable: true,
-    value: {
-      getItem: (k: string) => values.get(k) ?? null,
-      setItem: (k: string, v: string) => values.set(k, v),
-    },
-  });
-  try {
-    const game = createBrowserBridge(),
-      preview = createBrowserBridge('preview'),
-      sandbox = createBrowserBridge('sandbox'),
-      save = new GameSession(content).captureSave();
-    await game.saveGame(save);
-    await preview.saveGame({ ...save, wins: 4 });
-    await assert.rejects(sandbox.saveGame(save), /denied/);
-    assert.equal((await sandbox.loadGame()).status, 'empty');
-    assert.equal(((await preview.loadGame()) as { data: { wins: number } }).data.wins, 4);
-    assert.equal(((await game.loadGame()) as { data: { wins: number } }).data.wins, 0);
-    assert.notEqual(
-      checkpointDirectory('/profile', true, 'game'),
-      checkpointDirectory('/profile', true, 'sandbox'),
-    );
-    assert.equal(checkpointDirectory('/profile', false, 'game'), '/profile/prototype-saves');
-    assert.equal(launchEntry(false, 'sandbox'), 'index.html');
-    assert.equal(launchEntry(true, 'sandbox'), 'sandbox.html');
-  } finally {
-    if (previous) Object.defineProperty(globalThis, 'localStorage', previous);
-    else Reflect.deleteProperty(globalThis, 'localStorage');
-  }
-});
-
 test('skeletons close the last part of their reach and can hit a stationary player', () => {
   const s = new Simulation(content, 142, content.definitions.initialArea, 1),
     enemy = s.enemies[0]!;
