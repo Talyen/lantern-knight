@@ -6,6 +6,7 @@ import { prototypeAssets } from './preview';
 
 export type AssetWorkspace = {
   root: string;
+  scope: AssetScope;
   publicDirectory: string;
   metadataDirectory: string;
   identity: string;
@@ -33,6 +34,7 @@ export async function openWorkspace(
   console.log(`Asset workspace (${mode}/${scope}): ${Math.round(performance.now() - started)}ms.`);
   return {
     root: held.root,
+    scope,
     publicDirectory: path.join(held.root, 'public'),
     metadataDirectory: path.join(held.root, 'metadata'),
     identity: lock.sha256,

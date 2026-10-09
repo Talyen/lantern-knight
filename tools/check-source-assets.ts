@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
-import { hash, exactSource } from './compiler';
+import { hash, exactSource as readExactSource } from './compiler';
+import { stagingRoot } from './assets/paths';
+const exactSource = (file: string) => readExactSource(file, stagingRoot());
 import { readAsset } from './assets/io';
 import { readLibrarySource } from './assets/sources';
 import { parseManifest } from '../src/assets/schema';

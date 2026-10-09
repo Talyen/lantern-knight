@@ -2,11 +2,11 @@ import { test, expect, _electron } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
-import { buildIdentity } from '../../tools/build-identity';
+import { verifyBuildIdentity } from '../../tools/build-identity';
 import { smokeExecutable } from '../../tools/smoke/smoke-launch';
 import { extractFile } from '@electron/asar';
 test('Game package starts, accepts input and reloads current storage', async () => {
-  await buildIdentity();
+  await verifyBuildIdentity();
   const executable = smokeExecutable(false),
     profile = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-desktop-'));
   const archive =

@@ -1,7 +1,7 @@
 import type { Point } from '../../src/content/world';
 import { isSupportedPosition, supportedPosition } from '../../src/content/world';
 import { sandboxContent } from '../../src/content/sandbox-world';
-import { worldVisuals } from '../../src/content/world-art';
+import { worldVisuals } from '../../src/content/game-content';
 
 // Optional scene journeys follow current authored data, not a frozen composition.
 export function sceneFixture(scene: string, entry: Point) {

@@ -1,7 +1,9 @@
 import { defineConfig, type UserConfig } from 'vite';
 import path from 'node:path';
+import type { BuildProfile } from './tools/build-profile';
 import { openWorkspace } from './tools/assets/workspace';
-export function webConfig(publicDirectory: string, authoring: boolean): UserConfig {
+export function webConfig(publicDirectory: string, profile: BuildProfile): UserConfig {
+  const authoring = profile === 'authoring';
   return {
     clearScreen: false,
     plugins: authoring
@@ -51,13 +53,26 @@ export function webConfig(publicDirectory: string, authoring: boolean): UserConf
     },
   };
 }
-export default defineConfig(async ({ command, mode }) => {
-  const authoring = command === 'serve' || mode === 'sandbox';
-  const workspace = await openWorkspace(
-    command === 'serve' ? 'local' : 'pinned',
-    authoring ? 'authoring' : 'runtime',
-  );
-  const config = webConfig(workspace.publicDirectory, authoring);
-  config.plugins!.push({ name: 'lantern-workspace-lease', closeBundle: () => workspace.release() });
-  return config;
+// Importing configuration for source analysis acquires no artwork or leases.
+let directWorkspace: Awaited<ReturnType<typeof openWorkspace>> | undefined;
+export default defineConfig({
+  plugins: [
+    ...webConfig('', 'authoring').plugins!,
+    {
+      name: 'lantern-direct-workspace',
+      async config(_config, { command, mode }) {
+        const authoring = command === 'serve' || mode === 'sandbox';
+        directWorkspace = await openWorkspace(
+          command === 'serve' ? 'local' : 'pinned',
+          authoring ? 'authoring' : 'runtime',
+        );
+        const { plugins: _plugins, ...config } = webConfig(
+          directWorkspace.publicDirectory,
+          authoring ? 'authoring' : 'game',
+        );
+        return config;
+      },
+      closeBundle: () => directWorkspace?.release(),
+    },
+  ],
 });

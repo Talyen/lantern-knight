@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 
 import { launchEntry, checkpointDirectory } from '../../electron/launch';
 
-test('effects launch is developer-only and uses an isolated checkpoint directory', () => {
-  assert.equal(launchEntry(true, 'effects'), 'effects.html');
+test('effects launch is a developer-only Sandbox scene with isolated player checkpoints', () => {
+  assert.equal(launchEntry(true, 'effects'), 'sandbox.html#effects-playground');
   assert.equal(launchEntry(false, 'effects'), 'index.html');
-  assert.notEqual(
+  assert.equal(
     checkpointDirectory('/profile', true, 'effects'),
     checkpointDirectory('/profile', true, 'sandbox'),
   );

@@ -338,3 +338,48 @@ test('checkpoint reading freezes gameplay and recovers loading state for empty s
     assert.deepEqual(states, [true, false, true, false]);
   });
 });
+
+test('startup settles the initial asset batch and releases successful peers when any pack fails or boot is disposed', async () => {
+  await withDOM(async () => {
+    for (const cancelled of [false, true]) {
+      const waiting = deferred<PackLease>(),
+        requested: string[] = [];
+      let released = 0;
+      // oxlint-disable-next-line typescript/unbound-method -- Saved for restoration, never invoked unbound.
+      const open = AssetRuntime.open;
+      const app = new Application(
+        { dataset: {} } as unknown as HTMLCanvasElement,
+        content,
+        { first: 'first', second: 'second' },
+        {} as Bridge,
+        { ...sceneFixture(content), initialAssets: ['first', 'second'] },
+        () => presentationFixture(),
+        { status: () => {}, pause: () => {}, frame: () => {} },
+      );
+      AssetRuntime.open = async () =>
+        ({
+          loadPack: async (id: string) => {
+            requested.push(id);
+            if (id === 'first') return waiting.promise;
+            if (!cancelled) throw new Error('missing pack');
+            return { release: () => released++ } as unknown as PackLease;
+          },
+        }) as unknown as AssetRuntime;
+      try {
+        const boot = app.boot();
+        const rejected = assert.rejects(boot, cancelled ? /cancelled/ : /missing pack/);
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        assert.deepEqual(requested, ['first', 'second']);
+        if (cancelled) app.dispose();
+        waiting.resolve({ release: () => released++ } as unknown as PackLease);
+        await rejected;
+        assert.equal(released, cancelled ? 2 : 1);
+        assert.equal(app.packs.size, 0);
+        assert.equal(app.ready, false);
+      } finally {
+        app.dispose();
+        AssetRuntime.open = open;
+      }
+    }
+  });
+});

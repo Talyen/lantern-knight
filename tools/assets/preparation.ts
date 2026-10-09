@@ -1,3 +1,5 @@
+import { createPreparationContext, preparationOptions } from './context';
+import { preparationOperations } from './operations';
 import path from 'node:path';
 import fs from 'node:fs';
 import { runProcess } from '../run-process';
@@ -17,11 +19,25 @@ export async function prepareSteps(options: {
   const inputs = await recipeInputs(),
     digests = new Map<string, string>(),
     files: Record<string, string> = {};
+  const context = await createPreparationContext(
+    preparationOptions(options.workspace, options.env),
+  );
   for (const operation of options.steps) {
     const invoke = async (args: string[], extra: NodeJS.ProcessEnv = {}) => {
       let log = '';
       const python = operation.file.endsWith('.py');
       try {
+        if (!python) {
+          const prepare = preparationOperations[operation.file];
+          if (!prepare) throw new Error('Unknown preparation operation: ' + operation.file);
+          context.setReceipts({
+            outputLog: extra.LANTERN_STEP_OUTPUT_LOG,
+            inputLog: extra.LANTERN_STEP_INPUT_LOG,
+          });
+          await prepare(context, args.includes('--check'));
+          return;
+        }
+
         await runProcess(
           python
             ? fs.existsSync(path.join(projectRoot, '.venv'))
@@ -66,6 +82,7 @@ export async function prepareSteps(options: {
       run: (env) => invoke([], env),
       validate: operation.freshness ? () => invoke(['--check']) : undefined,
     });
+    if (result.reused || operation.file.endsWith('.py')) await context.adopt(result.files);
     digests.set(operation.file, result.digest);
     for (const name of result.files)
       files[name] = await shaFile(path.join(options.workspace, name));
@@ -78,14 +95,8 @@ export async function prepareSteps(options: {
   return { digests, files };
 }
 export async function prepareProof(workspace: string, env: NodeJS.ProcessEnv) {
-  for (const args of [[], ['--check']])
-    await runProcess(
-      process.execPath,
-      ['--import', 'tsx', 'tools/assets/prepare/prepare-ground-proof.ts', ...args],
-      {
-        cwd: projectRoot,
-        env: { ...env, LANTERN_ASSET_WORKSPACE: workspace, LANTERN_PREPARING: '1' },
-        timeoutMs: 5 * 60_000,
-      },
-    );
+  const context = await createPreparationContext(preparationOptions(workspace, env));
+  const prepare = preparationOperations['assets/prepare/prepare-ground-proof.ts']!;
+  await prepare(context, false);
+  await prepare(context, true);
 }

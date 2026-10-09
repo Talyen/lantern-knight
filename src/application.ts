@@ -123,21 +123,29 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.assertActive();
     this.runtime = await AssetRuntime.open(this.catalog);
     this.assertActive();
-    for (const id of [
-      ...new Set([
-        ...this.scenes.initialAssets.filter((id) => id in this.catalog),
-        ...this.extraAssets,
-      ]),
-    ]) {
-      const pack = await this.runtime.loadPack(id, this.abort.signal);
-      if (this.disposed) {
-        pack.release();
-        this.assertActive();
-      }
+    const initial = await this.acquirePacks(
+      [
+        ...new Set([
+          ...this.scenes.initialAssets.filter((id) => id in this.catalog),
+          ...this.extraAssets,
+        ]),
+      ],
+      this.abort.signal,
+    );
+    if (this.disposed) {
+      for (const pack of initial.values()) pack.release();
+      this.assertActive();
+    }
+    for (const [id, pack] of initial) {
       this.persistentLeases.set(id, pack);
       this.packs.set(id, pack);
     }
-    this.roomLeases = await this.acquireArea(this.sim.area, this.abort.signal);
+    const room = await this.acquireArea(this.sim.area, this.abort.signal);
+    if (this.disposed) {
+      for (const pack of room.values()) pack.release();
+      this.assertActive();
+    }
+    this.roomLeases = room;
     for (const [id, p] of this.roomLeases) this.packs.set(id, p);
     this.presentation = this.createPresentation(
       this.canvas,
@@ -203,22 +211,30 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       this.assetLoads.delete(id);
     }
   }
-  private async acquireArea(area: string, signal: AbortSignal) {
-    const scene = this.scenes.area(area),
-      ids = scene.assets;
+  private async acquirePacks(ids: readonly string[], signal: AbortSignal) {
     const results = await Promise.allSettled(ids.map((id) => this.runtime.loadPack(id, signal))),
       leases = new Map<string, PackLease>();
-    results.forEach((r, i) => {
-      if (r.status === 'fulfilled') leases.set(ids[i]!, r.value);
+    results.forEach((result, i) => {
+      if (result.status === 'fulfilled') leases.set(ids[i]!, result.value);
     });
     try {
-      const failure = results.find((r) => r.status === 'rejected');
+      const failure = results.find((result) => result.status === 'rejected');
       if (failure?.status === 'rejected') throw failure.reason;
       if (signal.aborted) throw new Error('load cancelled');
+      return leases;
+    } catch (error) {
+      for (const pack of leases.values()) pack.release();
+      throw error;
+    }
+  }
+  private async acquireArea(area: string, signal: AbortSignal) {
+    const scene = this.scenes.area(area),
+      leases = await this.acquirePacks(scene.assets, signal);
+    try {
       this.scenes.validate(scene, leases);
       return leases;
     } catch (error) {
-      for (const p of leases.values()) p.release();
+      for (const pack of leases.values()) pack.release();
       throw error;
     }
   }

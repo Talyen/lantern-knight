@@ -1,4 +1,4 @@
-import { buildIdentity } from '../../tools/build-identity';
+import { writeBuildIdentity, verifyBuildIdentity } from '../../tools/build-identity';
 import { sourceIdentity } from '../../tools/source-identity';
 
 import test from 'node:test';
@@ -242,7 +242,11 @@ test('build proof ignores mutable Finder metadata but rejects app tampering, mis
     await fs.writeFile(path.join(directory, 'dist-electron/main.cjs'), 'main');
     await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-one');
     const proof = (overrides: NodeJS.ProcessEnv = {}, write = false) =>
-      buildIdentity({ root: directory, env: { ...env, ...overrides }, write, report: () => {} });
+      (write ? writeBuildIdentity : verifyBuildIdentity)({
+        root: directory,
+        env: { ...env, ...overrides },
+        report: () => {},
+      });
     await assert.rejects(proof({ LANTERN_BUILD_SOURCE: undefined }, true), /guarded build/);
     assert.equal(run(['--write']).status, 0);
     const identityPath = path.join(directory, 'dist/build-identity.json'),
@@ -251,9 +255,7 @@ test('build proof ignores mutable Finder metadata but rejects app tampering, mis
     await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-two');
     await proof();
     await fs.writeFile(path.join(directory, 'dist/app.js'), 'tampered');
-    const changed = run();
-    assert.notEqual(changed.status, 0);
-    assert.match(changed.stderr, /build artifact files differ/);
+    await assert.rejects(proof(), /build artifact files differ/);
     await fs.writeFile(path.join(directory, 'dist/app.js'), 'original');
     identity.sourceCommit = 'a'.repeat(40);
     identity.dirty = false;
@@ -282,17 +284,23 @@ test('web identities need no Electron output and cannot be reused as desktop bui
       env: { ...process.env, GITHUB_SHA: undefined },
       report: () => {},
     };
-    const web = await buildIdentity({ ...options, write: true });
+    const web = await writeBuildIdentity(options);
     assert.equal(web.bundledDependencies, false);
-    await buildIdentity(options);
+    await verifyBuildIdentity(options);
     await fs.mkdir(path.join(root, 'dist-electron'));
     await fs.writeFile(path.join(root, 'dist-electron/main.cjs'), 'electron');
-    await assert.rejects(buildIdentity({ ...options, target: 'desktop' }), /desktop artifact/);
-    await buildIdentity({ ...options, target: 'desktop', write: true });
-    await buildIdentity({ ...options, target: 'desktop' });
+    await assert.rejects(
+      verifyBuildIdentity({ ...options, target: 'desktop' }),
+      /desktop artifact/,
+    );
+    await writeBuildIdentity({ ...options, target: 'desktop' });
+    await verifyBuildIdentity({ ...options, target: 'desktop' });
     await fs.writeFile(path.join(root, 'dist-electron/main.cjs'), 'tampered');
-    await assert.rejects(buildIdentity({ ...options, target: 'desktop' }), /artifact files differ/);
-    await assert.rejects(buildIdentity(options), /web artifact/);
+    await assert.rejects(
+      verifyBuildIdentity({ ...options, target: 'desktop' }),
+      /artifact files differ/,
+    );
+    await assert.rejects(verifyBuildIdentity(options), /web artifact/);
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }
@@ -329,5 +337,26 @@ test('smoke profiles never delete user-supplied directories, including on launch
     assert.ok(await fs.stat(path.join(directory, 'evidence/failure.json')));
   } finally {
     await fs.rm(directory, { recursive: true, force: true });
+  }
+});
+
+test('web input identity ignores Electron-only edits while desktop identity observes them', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-inputs-'));
+  try {
+    execFileSync('git', ['init', '-q'], { cwd: root });
+    await fs.mkdir(path.join(root, 'src'));
+    await fs.mkdir(path.join(root, 'electron'));
+    await fs.writeFile(path.join(root, 'src/application.ts'), 'web');
+    await fs.writeFile(path.join(root, 'electron/main.ts'), 'desktop');
+    const { sourceInputHash } = await import('../../tools/source-identity');
+    const web = await sourceInputHash(root, { scope: 'web' });
+    const desktop = await sourceInputHash(root, { scope: 'desktop' });
+    await fs.writeFile(path.join(root, 'electron/main.ts'), 'changed desktop');
+    assert.equal(await sourceInputHash(root, { scope: 'web' }), web);
+    assert.notEqual(await sourceInputHash(root, { scope: 'desktop' }), desktop);
+    await fs.writeFile(path.join(root, 'src/application.ts'), 'changed web');
+    assert.notEqual(await sourceInputHash(root, { scope: 'web' }), web);
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
   }
 });

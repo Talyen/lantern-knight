@@ -16,7 +16,7 @@ import { ActorSprite } from '../../src/presentation/sprite';
 import { SurfaceRelief } from '../../src/presentation/surface-relief';
 import { graveyardGroundMaterial } from '../../src/presentation/graveyard-ground';
 import { assetCatalog } from '../../src/content/asset-catalog';
-import { worldVisuals } from '../../src/content/world-art';
+import { worldVisuals } from '../../src/content/game-content';
 import type { PackLease } from '../../src/assets/loader';
 import { MeshDepthMaterial, MeshBasicMaterial, Texture, WebGLRenderer } from 'three';
 import fs from 'node:fs';

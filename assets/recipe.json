@@ -296,7 +296,9 @@
     "tools/assets/sources.ts",
     "tools/compiler.ts",
     "tools/assets/preparation.ts",
-    "tools/assets/incremental.ts"
+    "tools/assets/incremental.ts",
+    "tools/assets/context.ts",
+    "tools/assets/operations.ts"
   ],
   "authoredInputs": [
     "assets/library-packs.json",

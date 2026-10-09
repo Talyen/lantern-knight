@@ -24,7 +24,7 @@ export function safeRelative(file: string) {
     throw new Error(`Unsafe asset path: ${file}`);
   return file;
 }
-export function assetRoot() {
+function assetRoot() {
   if (process.env.LANTERN_ASSET_WORKSPACE) return path.resolve(process.env.LANTERN_ASSET_WORKSPACE);
   const lock = JSON.parse(fs.readFileSync(path.join(projectRoot, 'assets/lock.json'), 'utf8')) as {
     sha256: string;
@@ -40,13 +40,13 @@ export function stagingRoot() {
     throw new Error('Asset generation requires assets:prepare; builds consume prepared assets.');
   return path.join(assetRoot(), 'staging');
 }
-export const stagingFile = (file: string) => path.join(stagingRoot(), safeRelative(file));
-export function sourceLibrary() {
+const stagingFile = (file: string) => path.join(stagingRoot(), safeRelative(file));
+export function sourceLibrary(env: NodeJS.ProcessEnv = process.env) {
   const sources = JSON.parse(
     fs.readFileSync(path.join(projectRoot, 'assets/sources.json'), 'utf8'),
   ) as { libraryDirectory: string };
   return path.join(
-    process.env.ASSET_LIBRARY_ROOT ?? path.join(os.homedir(), 'Documents', 'Asset Library'),
+    env.ASSET_LIBRARY_ROOT ?? path.join(os.homedir(), 'Documents', 'Asset Library'),
     safeRelative(sources.libraryDirectory),
   );
 }

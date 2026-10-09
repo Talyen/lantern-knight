@@ -83,3 +83,15 @@ export async function runProcess(
     child.stderr?.destroy();
   }
 }
+
+export async function untilInterrupted() {
+  await new Promise<void>((resolve) => {
+    const stop = () => {
+      process.off('SIGINT', stop);
+      process.off('SIGTERM', stop);
+      resolve();
+    };
+    process.once('SIGINT', stop);
+    process.once('SIGTERM', stop);
+  });
+}

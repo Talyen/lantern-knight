@@ -4,7 +4,7 @@ This is an early prototype. Prefer a short edit–play–check loop. Scenes, ass
 
 ## Start and iterate
 
-Use Node 24.18.0 and npm 11.16.0, then `npm ci` and `npm run dev`. One Vite server serves Game, Sandbox, the scene editor and Effects Playground. Developer navigation links connect these views. Sandbox contains animation, calibration, occlusion and Lighting & Look modes.
+Use Node 24.18.0 and npm 11.16.0, then `npm ci` and `npm run dev`. One Vite server serves Game, Sandbox and the scene editor. Sandbox includes the effects test scene. Developer navigation links connect these views; the Sandbox scene selector switches between opening rooms, the systems fixture and effects experiments. Sandbox contains animation, calibration, occlusion and Lighting & Look modes.
 
 `npm run desktop:dev` starts the same server and watches Electron main/preload bundles. Renderer edits reload through Vite; main/preload edits restart the owned Electron process. It does not build or package the application first. Close the command to release its server and asset lease.
 
@@ -22,9 +22,9 @@ Run an exact suite while editing: `npm test -- tests/unit/hero-actions.test.ts`.
 
 ## Review and collaboration
 
-Runtime owners live in `src/core/`, `src/content/`, `src/assets/`, `src/presentation/` and `src/platform/`. Shared application and DOM helpers stay at the `src/` root. Developer screens keep their entry point and screen-specific helpers together in `src/editor/`, `src/sandbox/` and `src/effects-playground/`; their root HTML pages load each folder's `main.ts`. Authored inputs live in `authoring/`, asset delivery recipes and pins in `assets/`, and preserved visual references in `references/`.
+Runtime owners live in `src/core/`, `src/content/`, `src/assets/`, `src/presentation/` and `src/platform/`. Shared application and DOM helpers stay at the `src/` root. Developer screens keep their entry point and screen-specific helpers together in `src/editor/` and `src/sandbox/`; their root HTML pages load each folder's `main.ts`. The former Effects page redirects to Sandbox. Authored inputs live in `authoring/`, asset delivery recipes and pins in `assets/`, and preserved visual references in `references/`.
 
-Tool commands live at the root of `tools/`; asset preparation scripts live in `tools/assets/prepare/`, replay and benchmark helpers in `tools/diagnostics/`, and native rendering scenarios in `tools/smoke/`. Asset tests, including their Python fixtures, live together in `tests/assets/`. Preparation recipe paths are relative to `tools/`; moving a preparation script invalidates its cached preparation identity without changing the published asset pin.
+Tool commands parse arguments and call owned workflows. Preview sessions hold one server/asset workspace, and builds use explicit Game/Authoring profiles. Commands live at the root of `tools/`; callable asset preparation operations live in `tools/assets/prepare/`, replay and benchmark helpers in `tools/diagnostics/`, and native rendering scenarios in `tools/smoke/`. Asset tests, including their Python fixtures, live together in `tests/assets/`. Preparation recipe paths are relative to `tools/`; moving a preparation script invalidates its cached preparation identity without changing the published asset pin.
 
 Inspect `git status`, `git diff --stat` and the relevant diff, including new files. Preserve unrelated edits. Use worktrees for independent or concurrent editing, and agree ownership of shared contracts. Small sequential edits need no task registration, snapshot database or passing-evidence receipt. [Task coordination](task-coordination.md) describes integration and commit authorization.
 

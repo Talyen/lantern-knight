@@ -1,5 +1,5 @@
-import { projectRoot, stagingRoot, publicFile, assetFile } from './assets/paths';
-import { readLibrarySource, sourceGroup } from './assets/sources';
+import type { PreparationContext } from './assets/context';
+import { projectRoot } from './assets/paths';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -7,13 +7,10 @@ import sharp from 'sharp';
 import { parseSource, parseManifest, type Manifest } from '../src/assets/schema';
 import contract from '../src/assets/camera.json';
 import { cameraCalibration as calibrationFixture } from '../src/assets/camera-calibration';
-import { recordAssetOutput } from './assets/io';
 const root = projectRoot;
 const TOOL_VERSION = 'atlas-v2.2-sharp-0.35.5';
 export const hash = (v: Buffer | string) => createHash('sha256').update(v).digest('hex');
-export async function exactSource(relative: string, base = stagingRoot()) {
-  if (base.startsWith('references/art/')) return readLibrarySource(relative, sourceGroup(base));
-  base = assetFile(base);
+export async function exactSource(relative: string, base: string) {
   const parts = relative.split('/');
   let current = base;
   for (const part of parts) {
@@ -67,14 +64,16 @@ export function paddedPixels(raw: Buffer, w: number, h: number, pad = 4) {
   return { data: result, width, height };
 }
 export async function compile(
-  sourceFile = 'source.json',
-  out = publicFile('generated'),
+  sourceFile: string,
+  out: string,
   production = false,
   validateOnly = false,
-  inputRoot = stagingRoot(),
+  inputRoot: string,
+  context?: PreparationContext,
 ) {
-  out = assetFile(out);
-  const input = await exactSource(sourceFile, inputRoot),
+  out = context ? context.path(out) : path.resolve(out);
+  const readSource = context?.exactSource ?? exactSource;
+  const input = await readSource(sourceFile, inputRoot),
     source = parseSource(JSON.parse(input.toString()), production);
   if (production) {
     const canonical = await fs.readFile(path.join(root, 'references/canon/image(3).png'));
@@ -95,7 +94,7 @@ export async function compile(
     .update(JSON.stringify(contract));
   for (const f of source.frames) {
     const registration = f.registration ?? source.asset;
-    const file = await exactSource(f.path, inputRoot);
+    const file = await readSource(f.path, inputRoot);
     digest.update(file);
     const metadata = await sharp(file).metadata();
     if (
@@ -228,6 +227,42 @@ export async function compile(
   };
   parseManifest(manifest, production);
   if (validateOnly) return manifest;
+  if (context) {
+    for (let i = 0; i < encoded.length; i++)
+      await context.writeAsset(path.join(out, folder, `${pages[i]!.id}.png`), encoded[i]!);
+    await context.writeAsset(
+      path.join(out, folder, 'manifest.json'),
+      JSON.stringify(manifest, null, 2) + '\n',
+    );
+    await context.writeAsset(
+      path.join(out, 'calibration.json'),
+      JSON.stringify(calibrationFixture(), null, 2) + '\n',
+    );
+    await context.writeAsset(
+      path.join(out, 'report.json'),
+      JSON.stringify(
+        {
+          hash: contentHash,
+          toolVersion: TOOL_VERSION,
+          frames: frames.length,
+          pages: pages.length,
+          fileBytes: manifest.pages.reduce((s, p) => s + p.bytes, 0),
+          baseGpuBytes: manifest.pages.reduce((s, p) => s + p.rgbaBytes, 0),
+          occupancy:
+            frames.reduce((s, f) => s + f.rect[2] * f.rect[3], 0) /
+            manifest.pages.reduce((s, p) => s + p.width * p.height, 0),
+          status: source.asset.status,
+        },
+        null,
+        2,
+      ),
+    );
+    await context.writeAsset(
+      path.join(out, 'manifest.json'),
+      JSON.stringify(manifest, null, 2) + '\n',
+    );
+    return manifest;
+  }
   await fs.mkdir(out, { recursive: true });
   const tmp = await fs.mkdtemp(path.join(out, '.compile-'));
   try {
@@ -275,32 +310,9 @@ export async function compile(
     );
     await fs.rename(path.join(out, 'calibration.json.tmp'), path.join(out, 'calibration.json'));
     await fs.rename(path.join(out, 'report.json.tmp'), path.join(out, 'report.json'));
-    for (const file of [
-      'manifest.json',
-      'calibration.json',
-      'report.json',
-      ...manifest.pages.map((page) => page.path),
-    ])
-      await recordAssetOutput(path.join(out, file));
     return manifest;
   } catch (error) {
     await fs.rm(tmp, { recursive: true, force: true });
     throw error;
   }
 }
-if (process.argv[1]?.endsWith('compiler.ts'))
-  compile(
-    'source.json',
-    publicFile('generated'),
-    process.argv.includes('--production'),
-    process.argv.includes('--validate'),
-  )
-    .then((m) =>
-      console.log(
-        `Asset ${m.asset.id}: ${m.frames.length} frames, ${m.pages.length} pages; ${m.hash}`,
-      ),
-    )
-    .catch((e) => {
-      console.error(e);
-      process.exitCode = 1;
-    });

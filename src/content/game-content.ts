@@ -1,10 +1,8 @@
 import courtDocument from '../../authoring/scenes/live-court.json';
 import chapelDocument from '../../authoring/scenes/live-upper-landing.json';
-import { parseSceneDocument } from './scene-document';
 import { ContentRegistry, type ContentDefinitions } from './world';
 import {
-  churchyardColliders,
-  worldVisuals,
+  resolveScene,
   sceneAssets,
   validateAreaArt,
   type WorldVisualDefinition,
@@ -14,9 +12,11 @@ import type { AreaDefinition } from './world';
 import type { Manifest } from '../assets/schema';
 import { tuning } from './gameplay';
 import { actorVisuals, assetCatalog } from './visuals';
-const courtGeometry = parseSceneDocument(courtDocument).geometry!;
-const chapelGeometry = parseSceneDocument(chapelDocument).geometry!;
-export const contentDefinitions: ContentDefinitions = {
+const productionDocuments: Readonly<Record<string, unknown>> = {
+  court: courtDocument,
+  'upper-landing': chapelDocument,
+};
+const gameDefinitions = {
   initialArea: 'court',
   player: 'lamplighter',
   actors: [
@@ -44,10 +44,8 @@ export const contentDefinitions: ContentDefinitions = {
       id: 'court',
       name: 'Graveyard Approach',
       subtitle: 'A worn path leads between the graves to the chapel.',
-      ...courtGeometry,
       seedOffset: 0,
       spawns: [{ id: 'warden-1', actor: 'skeleton', x: 0.7, z: 0.0 }],
-      props: churchyardColliders('court'),
       floorColor: 0x34434a,
       exits: [
         {
@@ -64,13 +62,11 @@ export const contentDefinitions: ContentDefinitions = {
       id: 'upper-landing',
       name: 'Ruined Chapel',
       subtitle: 'The restless dead gather in the ruined nave.',
-      ...chapelGeometry,
       seedOffset: 101,
       spawns: [
         { id: 'warden-1', actor: 'skeleton', x: -2.0, z: 1.0 },
         { id: 'warden-2', actor: 'skeleton', x: 1.7, z: -1.3 },
       ],
-      props: churchyardColliders('upper-landing'),
       floorColor: 0x3e444e,
       exits: [
         {
@@ -84,6 +80,19 @@ export const contentDefinitions: ContentDefinitions = {
       ],
     },
   ],
+} satisfies Omit<ContentDefinitions, 'areas'> & { areas: Partial<AreaDefinition>[] };
+export const productionScenes = Object.fromEntries(
+  gameDefinitions.areas.map((gameplay) => {
+    const scene = resolveScene(productionDocuments[gameplay.id!], gameplay);
+    return [scene.area.id, scene];
+  }),
+);
+export const worldVisuals = Object.fromEntries(
+  Object.entries(productionScenes).map(([id, scene]) => [id, scene.visuals]),
+);
+export const contentDefinitions: ContentDefinitions = {
+  ...gameDefinitions,
+  areas: Object.values(productionScenes).map((scene) => scene.area),
 };
 for (const actor of contentDefinitions.actors) {
   const visual = actorVisuals[actor.visual];
@@ -102,10 +111,13 @@ export type SceneContent = {
   area: (id: string) => ResolvedArea;
   validate: (scene: ResolvedArea, packs: ReadonlyMap<string, { manifest: Manifest }>) => void;
 };
-export function composeSceneContent(registry: ContentRegistry): SceneContent {
+export function composeSceneContent(
+  registry: ContentRegistry,
+  visualsByArea: Readonly<Record<string, WorldVisualDefinition>>,
+): SceneContent {
   const areas = new Map(
     registry.definitions.areas.map((area) => {
-      const visuals = worldVisuals[area.id];
+      const visuals = visualsByArea[area.id];
       return [
         area.id,
         {

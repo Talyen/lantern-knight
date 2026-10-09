@@ -18,11 +18,11 @@ export function digest(value: unknown): string {
     .update(JSON.stringify(canonical(value)))
     .digest('hex');
 }
-export async function sourceFingerprint(
+export async function sourceInputHash(
   root: string,
   options: {
     ignoreAssetPin?: boolean;
-    scope?: 'runtime' | 'verification';
+    scope?: 'runtime' | 'web' | 'desktop' | 'verification';
     files?: readonly string[];
   } = {},
 ) {
@@ -39,10 +39,15 @@ export async function sourceFingerprint(
     if (options.ignoreAssetPin && file === 'assets/lock.json') continue;
     if (options.files && !options.files.includes(file)) continue;
     if (
-      options.scope === 'runtime' &&
-      !/^(src|electron|authoring)\/|^(package(?:-lock)?\.json|vite\.config\.ts|.*\.html|assets\/lock\.json)$/.test(
+      ['runtime', 'web', 'desktop'].includes(options.scope ?? '') &&
+      !/^(src|electron|authoring)\/|^tools\/(?:build|select-runtime-assets|game-asset-catalog|verified-files|source-identity)|^(package(?:-lock)?\.json|vite\.config\.ts|.*\.html|assets\/lock\.json)$/.test(
         file,
       )
+    )
+      continue;
+    if (
+      options.scope === 'web' &&
+      (file.startsWith('electron/') || file === 'tools/build-electron.ts')
     )
       continue;
     if (!/\.(ts|cjs|json|css|html|md|py|yml|toml)$/.test(file) || file.startsWith('references/'))
@@ -56,10 +61,17 @@ export async function sourceFingerprint(
       throw new Error('Authored inputs cannot follow symlink: ' + file);
     hash.update(file).update(await fs.readFile(path.join(root, file)));
   }
+  return hash.digest('hex');
+}
+export async function sourceFingerprint(
+  root: string,
+  options: Parameters<typeof sourceInputHash>[1] = {},
+) {
+  const sha256 = await sourceInputHash(root, options);
   return {
     commit: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(),
     dirty: !!execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8' }).trim(),
-    sha256: hash.digest('hex'),
+    sha256,
   };
 }
 export async function sourceIdentity(root: string) {

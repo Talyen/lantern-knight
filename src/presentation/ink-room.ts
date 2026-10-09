@@ -7,7 +7,7 @@ import { graveyardGroundMaterial } from './graveyard-ground';
 import { GraveyardRoom } from './graveyard-room';
 import { resolveClip, type Clip } from '../assets/schema';
 import type { PackLease } from '../assets/loader';
-import { worldVisuals, type WorldVisualDefinition, type ArtPlacement } from '../content/world-art';
+import { type WorldVisualDefinition, type ArtPlacement } from '../content/world-art';
 import { heightAt, type AreaDefinition } from '../content/world';
 import { outward } from '../core/camera';
 import { clipDuration, frameAt } from '../core/animation';
@@ -43,7 +43,7 @@ export class InkRoom {
     private camera: T.OrthographicCamera,
     private shadowTexture: T.Texture | undefined,
     readonly registration: PreparedRegistration,
-    readonly art: WorldVisualDefinition = worldVisuals[area.id]!,
+    readonly art: WorldVisualDefinition,
   ) {
     if (area.id === 'court')
       this.graveyard = new GraveyardRoom(

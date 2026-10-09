@@ -2,10 +2,10 @@ import * as T from 'three';
 import { GamePresentation } from '../presentation/game-scene';
 import { ActorSprite } from '../presentation/sprite';
 import { resolveClip } from '../assets/schema';
-import { sceneAssets, resolveAuthoredScene } from '../content/world-art';
+import { resolveScene } from '../content/world-art';
 import { validateSceneReferences, type SceneDocument } from '../content/scene-document';
-import { ContentRegistry, heightAt, type AreaDefinition } from '../content/world';
-import { contentDefinitions, content } from '../content/game-content';
+import { ContentRegistry, heightAt } from '../content/world';
+import { contentDefinitions } from '../content/game-content';
 import { GameSession } from '../core/session';
 import { EventHub } from '../core/events';
 import { outward } from '../core/camera';
@@ -60,7 +60,8 @@ export class EditorView {
   ) {}
   async apply(document: SceneDocument) {
     if (this.closed) throw new Error('Editor closed');
-    const art = resolveAuthoredScene(document);
+    const resolved = resolveScene(document),
+      art = resolved.visuals;
     const composition = JSON.stringify({
       ...document,
       name: undefined,
@@ -77,7 +78,7 @@ export class EditorView {
     const ids = new Set(
       [
         'ink-hero-current',
-        ...sceneAssets(art),
+        ...resolved.assets,
         ...(document.base === 'flat' ? [] : ['fx-embers', 'fx-smoke', 'fx-splash', 'fx-ripple']),
       ].filter((id) => id in this.runtime.catalog),
     );
@@ -94,31 +95,7 @@ export class EditorView {
         document,
         new Map([...this.packs].map(([id, p]) => [id, p.manifest])),
       );
-      let area: AreaDefinition;
-      if (document.base === 'flat') {
-        const f = document.floor!;
-        area = {
-          id: 'editor-flat',
-          name: document.name,
-          subtitle: 'Scene composition',
-          bounds: { minX: -f.width / 2, maxX: f.width / 2, minZ: -f.depth / 2, maxZ: f.depth / 2 },
-          surface: { kind: 'flat', height: 0 },
-          seedOffset: 0,
-          baselineEntry: 'start',
-          entries: [{ id: 'start', x: 0, z: 0 }],
-          spawns: [],
-          exits: [],
-          props: [],
-          floorColor: 0x344b4e,
-        };
-      } else
-        area = {
-          ...content.area(document.base),
-          ...document.geometry!,
-          spawns: [],
-          exits: [],
-          props: [],
-        };
+      const area = resolved.area;
       const registry = new ContentRegistry({
         ...contentDefinitions,
         initialArea: area.id,
@@ -139,6 +116,7 @@ export class EditorView {
         );
         this.presentation.scene.add(this.presentation.overlay);
         await this.presentation.warm();
+        if (this.closed) throw new Error('Editor closed');
       } else {
         this.presentation.visualOverride = art;
         this.presentation.resetRoom(area, art);
@@ -180,6 +158,7 @@ export class EditorView {
           this.packs.delete(id);
         }
       await this.presentation.lookRenderer.prepare();
+      if (this.closed) throw new Error('Editor closed');
       this.composition = composition;
       this.setAnimationPlaying(this.animationPlaying);
     } catch (error) {

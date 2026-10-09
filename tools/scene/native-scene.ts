@@ -1,7 +1,7 @@
 import { smokeLaunch, option } from '../smoke/smoke-launch';
 import { AssetCache } from '../assets/cache';
 import { sandboxContent } from '../../src/content/sandbox-world';
-import { worldVisuals } from '../../src/content/world-art';
+import { worldVisuals } from '../../src/content/game-content';
 import { sceneFixture } from './scene-fixtures';
 import {
   traverseScene,
