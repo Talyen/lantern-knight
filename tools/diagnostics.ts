@@ -8,8 +8,6 @@ const native = new Set([
   'animation',
   'hero',
   'lighting',
-  'crypt',
-  'graveyard',
   'effects',
   'preferences',
   'scenes',

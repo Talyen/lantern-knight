@@ -48,15 +48,13 @@ Equipment and loot will form part of the cohesive progression system. Slots, ite
 
 Design levels/stats, equipment/loot and permanent upgrades as one cohesive system. Favor authored rewards and deliberate build choices. Define attributes, equipment slots, reward cadence and how rewards feed each progression layer before implementation.
 
-Begin with a minimal integrated progression loop in existing content, including player-facing choices and persistent state. Retain earned progression on death and retry the encounter.
+Begin with a minimal integrated progression loop in authored prototype content, including player-facing choices and persistent state. Retain earned progression on death and retry the encounter.
 
 ## World structure
 
-Begin with small, connected, hand-authored areas and simple elevation. Polish Graveyard Approach and Ruined Chapel before expanding the adventure beyond them.
+Author small, connected areas in the scene editor. Prototype scenes can be replaced or deleted without changing engine verification fixtures. Game currently starts on an empty floor with the hero; scene-editor playtests run authored content in temporary sessions.
 
-Graveyard Approach follows the Last Tended Light composition: a small broken gateway opens onto a worn processional path, an ancient oak shelters one low family terrace, and ground-level older burials merge into blue-green woodland. Eight burials include one visibly tended grave and one disturbed burial. A quiet central clearing supports the full dodge and the existing one-skeleton encounter. The chapel threshold is the strongest environmental light; interrupted paving, grouped roots and shelter-bound leaf/moss detail lead toward it. Retaining geometry and collision share the authored layout. A broken rear roof and belfry crown establish the exterior's age while keeping the entrance intact.
-
-These areas are the beginning of a continuing game, not a chapter requiring a clear ending. Use them to establish traversal, combat, art and occlusion, then extend the world after combat polish and the first progression loop are established. Later destinations and encounters remain to be designed.
+Traversal, combat, artwork and occlusion are capabilities independent of a particular level composition. Future destinations and encounters remain to be designed.
 
 ## Lighting
 
@@ -66,7 +64,7 @@ Keep full dynamic relighting optional. The initial visual direction should work 
 
 ## Prototype priorities
 
-Polish alternating sweep/lunge attacks, dodge, the Burn lantern special and movement/action facing transitions together across the existing two areas. Complete enemy action animation and attack cues, coherent hit/Burn feedback, sound and music, basic onboarding and settings usability.
+Polish alternating sweep/lunge attacks, dodge, the Burn lantern special and movement/action facing transitions together in authored prototype areas. Complete enemy action animation and attack cues, coherent hit/Burn feedback, sound and music, basic onboarding and settings usability.
 
 Art validation should establish that elevation, occlusion, contact shadows and selective glow work coherently. Visible playtesting should confirm that a new player understands the controls, reads enemy actions, uses both attacks meaningfully, traverses both areas, retries after death and saves/resumes reliably.
 

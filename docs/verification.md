@@ -8,11 +8,11 @@
 
 ## Test selection
 
-`npm test` runs every `tests/unit/*.test.ts` suite. Arguments name exact files in that group; duplicates run once and invalid selections fail before setup. `npm run test:watch` uses Node's watcher. Pure tests use small fixtures and require no source artwork or prepared pack.
+`npm test` runs every `tests/unit/*.test.ts` suite. Arguments name exact files in that group; duplicates run once and invalid selections fail before setup. `npm run test:watch` uses Node's watcher. Pure tests use small fixtures and require no source artwork or prepared pack. Authored scenes are disposable content: gameplay and rendering regressions own their setup, and authored-document validation accepts an empty scene directory.
 
 `npm run test:assets` runs `tests/assets/*.test.ts` against pinned prepared assets. Python authoring/recovery fixtures belong to this tier. `npm run assets:check` validates current runtime manifests, references, pages and companion registration without source-library access or visual approval.
 
-`npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`. Game covers input, pause/focus and current checkpoints; scene covers both rooms/reload/resource lifetime; editor covers authoring/history/recovery and protected save requests; effects covers dedicated-scene controls and switching back to production scenes. One preview session acquires assets and starts a server, or reuses a matching Vite server after checking checkout, asset identity and required scope. It closes only its own server and lease. CI uses pinned assets and its own server. Add `-- --ui` for continuous interactive iteration.
+`npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`. Game covers input, pause/focus and current checkpoints; scene covers independent outdoor/interior fixtures, reload and resource lifetime; editor covers authoring/history/recovery and protected save requests; effects covers dedicated-scene controls and switching back to production scenes. One preview session acquires assets and starts a server, or reuses a matching Vite server after checking checkout, asset identity and required scope. It closes only its own server and lease. CI uses pinned assets and its own server. Add `-- --ui` for continuous interactive iteration.
 
 After `npm run build`, `npm run test:browser -- game --built` verifies Game against the production web artifact with its recorded asset identity. It checks artifact bytes before starting a dedicated preview, without reopening the asset cache. Scene/editor/effects scenarios retain development previews because production Game excludes those views. Rebuild the web artifact after packaging before using `--built`.
 
@@ -42,7 +42,7 @@ CI has generous hang timeouts. Local GPU tests and asset preparation share a sma
 
 ## Diagnostics and measurements
 
-`npm run benchmark -- game`, `lighting`, `crypt`, `graveyard`, `animation`, `hero`, `sandbox`, `effects`, `preferences` or `scenes` runs an explicit native investigation against the relevant package. Use `--capture` only when visual evidence is wanted. Retained output remains external. Native framebuffer, motion and resource assertions remain available through these scenarios; routine checks do not generate galleries.
+`npm run benchmark -- game`, `lighting`, `animation`, `hero`, `sandbox`, `effects`, `preferences` or `scenes` runs an explicit native investigation against the relevant package. Use `--capture` only when visual evidence is wanted. Retained output remains external. Native framebuffer, motion and resource assertions remain available through these scenarios; routine checks do not generate galleries.
 
 Initial goals are three seconds for warm preview updates and ten seconds for ordinary checks; correctness remains required.
 

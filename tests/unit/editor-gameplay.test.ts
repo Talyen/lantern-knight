@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { emptyScene } from '../../src/editor/default-scene';
 import { parseSceneDocument } from '../../src/content/scene-document';
 import { composeDraftGameplay, withGameplayDefaults } from '../../src/content/draft-gameplay';
-import { contentDefinitions } from '../../src/content/game-content';
+import { contentDefinitions } from '../fixtures/content';
 import { GameSession } from '../../src/core/session';
 import { parseGame } from '../../src/core/save';
 it('blank drafts start empty, generic geometry resolves, and missing gameplay inherits a copied room', () => {

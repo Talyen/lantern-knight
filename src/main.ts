@@ -51,6 +51,6 @@ window.addEventListener('beforeunload', () => {
 void start().catch((error: Error) => {
   app?.dispose();
   loading.dispose();
-  status(`Unable to open the churchyard: ${error.message}`, true);
+  status(`Unable to open the game: ${error.message}`, true);
   console.error(error);
 });

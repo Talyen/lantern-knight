@@ -1,4 +1,4 @@
-import { worldVisuals } from '../../src/content/game-content';
+import { worldVisuals } from '../fixtures/visuals';
 import { readAsset } from '../../tools/assets/io';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -55,10 +55,10 @@ test('room visuals validate their dependencies and clips before a transition com
       ),
     );
   validateAreaArt(area, packs, worldVisuals[area.id]);
-  packs.delete('ink-cues');
+  packs.delete('ink-stage-earth');
   assert.throws(() => validateAreaArt(area, packs, worldVisuals[area.id]), /missing room art/);
-  packs.set('ink-cues', { manifest: await manifest('ink-cues') });
-  delete packs.get('ink-scenery')!.manifest.asset.clips.gravestone;
+  packs.set('ink-stage-earth', { manifest: await manifest('ink-stage-earth') });
+  delete packs.get('ink-blackwood-oak')!.manifest.asset.clips.oak;
   assert.throws(
     () => validateAreaArt(area, packs, worldVisuals[area.id]),
     /required clip unavailable/,

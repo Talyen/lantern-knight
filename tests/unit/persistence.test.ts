@@ -6,24 +6,24 @@ import path from 'node:path';
 import { GameSession } from '../../src/core/session';
 import { parseGame, parseSettings } from '../../src/core/save';
 import { content } from '../../src/content/game-content';
+import { content as fixtureContent } from '../fixtures/content';
 import { Store } from '../../electron/store';
 import { createBrowserBridge } from '../../src/platform/browser-store';
 import { defaultVisualEffects } from '../../src/content/visual-effects';
-import { sandboxContent } from '../../src/content/sandbox-world';
 test('current saves preserve variable actors, vitality, cooldowns and encounter progress', () => {
-  const session = new GameSession(sandboxContent, 7, 'systems-fixture');
-  session.sim.enemies[1]!.health = 121;
+  const session = new GameSession(fixtureContent, 7, 'upper-landing');
+  session.sim.enemies[1]!.health = 41;
   session.sim.hero.cooldown = 57;
   session.sim.hero.dodgeCooldown = 12;
-  const restored = new GameSession(sandboxContent);
-  restored.restoreSave(parseGame(session.captureSave(), sandboxContent));
-  assert.equal(restored.sim.enemies.length, 5);
-  assert.equal(restored.sim.enemies[1]!.health, 121);
+  const restored = new GameSession(fixtureContent);
+  restored.restoreSave(parseGame(session.captureSave(), fixtureContent));
+  assert.equal(restored.sim.enemies.length, 2);
+  assert.equal(restored.sim.enemies[1]!.health, 41);
   assert.equal(restored.sim.hero.cooldown, 57);
   assert.equal(restored.sim.hero.dodgeCooldown, 12);
   const invalid = session.captureSave();
   invalid.area = 'missing';
-  assert.throws(() => parseGame(invalid, sandboxContent), /unknown area/);
+  assert.throws(() => parseGame(invalid, fixtureContent), /unknown area/);
 });
 test('obsolete and malformed prototype data reset; adapters snapshot ordered writes and expose I/O failures', async () => {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-store-')),

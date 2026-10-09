@@ -4,8 +4,8 @@ import * as T from 'three';
 import { readAsset } from '../../tools/assets/io';
 import { parseManifest } from '../../src/assets/schema';
 import { assetCatalog } from '../../src/content/visuals';
-import { worldVisuals } from '../../src/content/game-content';
-import { content } from '../../src/content/game-content';
+import { worldVisuals } from '../fixtures/visuals';
+import { content } from '../fixtures/visuals';
 import { makeCamera, right, up, outward, resizeCamera } from '../../src/core/camera';
 import {
   SceneSurround,

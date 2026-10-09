@@ -109,36 +109,6 @@ export function findDepthConflicts(
     }
   return findings;
 }
-export function depthConflictMask(
-  conflict: DepthConflict,
-  meshes: readonly Mesh[],
-  images: ReadonlyMap<Mesh, AlphaImage>,
-) {
-  const a = meshes.find((m) => partId(m) === conflict.a)!,
-    b = meshes.find((m) => partId(m) === conflict.b)!,
-    [l, lo, r, hi] = conflict.bounds,
-    width = 512,
-    height = Math.max(64, Math.min(1024, Math.round((width * (hi - lo)) / (r - l)))),
-    data = new Uint8Array(width * height * 4);
-  for (let y = 0; y < height; y++)
-    for (let x = 0; x < width; x++) {
-      const xx = l + ((x + 0.5) / width) * (r - l),
-        yy = hi - ((y + 0.5) / height) * (hi - lo),
-        aa = coverage(a, images.get(a), xx, yy) >= 0.98,
-        bb = coverage(b, images.get(b), xx, yy) >= 0.98;
-      data.set(
-        aa && bb
-          ? [255, 170, 42, 255]
-          : aa
-            ? [58, 171, 200, 255]
-            : bb
-              ? [209, 87, 129, 255]
-              : [15, 23, 31, 255],
-        (y * width + x) * 4,
-      );
-    }
-  return { width, height, data };
-}
 export function validateConstruction(area: AreaDefinition, art: WorldVisualDefinition) {
   const errors: string[] = [];
   const byId = new Map(art.props.map((p) => [p.id, p]));

@@ -14,7 +14,7 @@ Gameplay controls place registered enemies, exits and health pickups linked to u
 
 Play from here starts an unsaved snapshot through the shared Application lifecycle with a storage-free bridge. WASD moves, left-click attacks, Shift dodges, right-click uses the lantern, and Escape pauses. Return to editor discards gameplay state and preserves the draft, selection and camera. Restart creates a fresh temporary session. Prototype scene version 5 and save version 6 accept the additive gameplay/collection fields; unsupported recovery remains downloadable.
 
-For a room preview, open `/sandbox.html?scene=court` (Graveyard Approach) or `/sandbox.html?scene=upper-landing` (Ruined Chapel). Reload restores preview context. Moving existing artwork requires no preparation or publication; changed artwork inputs follow [Assets](assets.md#runtime-composition-boundary).
+Game launches an empty floor with the hero. Use editor Play from here for authored scenes. For independent rendering fixtures, open `/sandbox.html?scene=outdoor-fixture` or `/sandbox.html?scene=interior-fixture`. Reload restores preview context. Moving existing artwork requires no preparation or publication; changed artwork inputs follow [Assets](assets.md#runtime-composition-boundary).
 
 ## Lighting and Look
 
@@ -32,4 +32,4 @@ Prepared ambience artwork and companion data come from the selected asset worksp
 
 Run `npm run test:browser -- editor` for authoring/history/recovery changes, `scene` for room presentation, and `effects` for effects comparison and switching between dedicated and production scenes. [Verification](verification.md#test-selection) owns selection and coverage.
 
-For explicit native investigations, `npm run benchmark -- crypt`, `preferences` or `scenes` checks frozen frames, depth/focus protection, weather and settled resources. `npm run benchmark -- effects` checks rendered differences, baseline restoration, playback, resources and routing. Lighting smoke measures performance only with `--benchmark` or `--benchmark-only`; ordinary assertions have no benchmark waits. Use `--capture` for requested exports. [Performance comparisons](verification.md#performance-comparisons) explains evidence limits.
+For explicit native investigations, `npm run benchmark -- scene`, `preferences` or `scenes` checks frozen frames, depth/focus protection, weather and settled resources. `npm run benchmark -- effects` checks rendered differences, baseline restoration, playback, resources and routing. Lighting smoke measures performance only with `--benchmark` or `--benchmark-only`; ordinary assertions have no benchmark waits. Use `--capture` for requested exports. [Performance comparisons](verification.md#performance-comparisons) explains evidence limits.

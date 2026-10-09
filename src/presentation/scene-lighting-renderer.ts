@@ -456,15 +456,20 @@ export class SceneLightingRenderer {
       material.color.set(s.rig === 'golden' ? 0x454451 : 0x293243);
       if (!fx.palette) neutralColor(material.color);
     }
-    const shadowOrigin =
-      frame.visuals?.interior || sim.area === 'court'
-        ? new T.Vector3(0, heightAt(sim.areaDefinition, 0, 0), 0)
-        : origin;
+    const shadowOrigin = frame.visuals?.surround
+      ? new T.Vector3(0, heightAt(sim.areaDefinition, 0, 0), 0)
+      : origin;
     this.sun.target.position.copy(shadowOrigin);
     this.sun.position.copy(shadowOrigin).addScaledVector(lights.inkDirection.value, 32);
     this.sun.target.updateMatrixWorld();
     this.sun.position.y = Math.max(this.sun.position.y, 8);
-    const span = sim.area === 'court' ? 22 : Math.max(15, frame.viewSpan * 1.25),
+    const span = frame.visuals?.surround
+        ? Math.max(
+            15,
+            sim.areaDefinition.bounds.maxX - sim.areaDefinition.bounds.minX,
+            sim.areaDefinition.bounds.maxZ - sim.areaDefinition.bounds.minZ,
+          )
+        : Math.max(15, frame.viewSpan * 1.25),
       shadow = this.sun.shadow.camera;
     shadow.left = shadow.bottom = -span;
     shadow.right = shadow.top = span;
@@ -481,7 +486,7 @@ export class SceneLightingRenderer {
       this.time,
       rig.fog,
       look.mist * 0.8,
-      sim.area === 'court' ? new T.Vector3(0, 0, 0) : origin,
+      frame.visuals?.surround ? new T.Vector3(0, 0, 0) : origin,
     );
     this.glows.forEach((mesh, i) => {
       mesh.visible = s.lighting && lights.inkLightPower.value[i]! > 0;

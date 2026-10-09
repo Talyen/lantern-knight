@@ -18,16 +18,15 @@ export class ArtConstructionOverlay {
     this.generation = generation;
     const art = room?.art;
     if (!art) return;
-    this.findings =
-      area.id === 'court'
-        ? [
-            ...sceneArtFindings(art),
-            ...coplanarArtConflicts(room?.sprites ?? [], this.coverage.masks).map((v) => ({
-              ...v,
-              message: 'Opaque source coverage shares a depth plane',
-            })),
-          ]
-        : [];
+    this.findings = !art.interior
+      ? [
+          ...sceneArtFindings(art),
+          ...coplanarArtConflicts(room?.sprites ?? [], this.coverage.masks).map((v) => ({
+            ...v,
+            message: 'Opaque source coverage shares a depth plane',
+          })),
+        ]
+      : [];
     const line = (points: T.Vector3[], color: number) => {
       const g = new T.BufferGeometry().setFromPoints(points),
         m = new T.LineBasicMaterial({ color, depthTest: false, depthWrite: false });

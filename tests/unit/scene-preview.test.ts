@@ -8,7 +8,7 @@ import { defaultLook } from '../../src/presentation/lighting-profiles';
 test('preview reload reconciles blocked or moved positions without accepting corrupt state', () => {
   const state = {
     version: 1,
-    scene: 'court',
+    scene: 'outdoor-fixture',
     hero: { x: 999, z: 999, yaw: 0.8 },
     span: 11,
     scale: 1,
@@ -18,11 +18,11 @@ test('preview reload reconciles blocked or moved positions without accepting cor
   };
   const restored = readScenePreview(JSON.stringify(state), sandboxContent)!;
   assert.ok(restored);
-  assert.ok(isSupportedPosition(sandboxContent.area('court'), restored.hero, 0.3));
+  assert.ok(isSupportedPosition(sandboxContent.area('outdoor-fixture'), restored.hero, 0.3));
   const hero = previewHero(restored, sandboxContent);
   assert.equal(hero.px, hero.x);
   assert.equal(hero.pz, hero.z);
-  assert.equal(hero.py, heightAt(sandboxContent.area('court'), hero.x, hero.z));
+  assert.equal(hero.py, heightAt(sandboxContent.area('outdoor-fixture'), hero.x, hero.z));
   assert.equal(hero.yaw, 0.8);
   assert.equal(restored.paused, true);
   assert.equal(restored.look.rig, 'silver');

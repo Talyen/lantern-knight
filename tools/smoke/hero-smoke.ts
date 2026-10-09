@@ -11,7 +11,7 @@ export async function runScenario(flags: string[] = []) {
     await page.waitForFunction(() => window.foundation?.ready, {}, { timeout: 60000 });
     await page.evaluate(async () => {
       const f = window.foundation;
-      await f.fixture('upper-landing');
+      await f.fixture('interior-fixture');
       f.pause(true);
       document.querySelector<HTMLElement>('#modal')!.hidden = true;
       f.presentation.setDepthOfField(0);

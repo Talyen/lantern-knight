@@ -8,14 +8,7 @@ import { digest } from '../source-identity';
 import { verificationIdentity, requireStableInputs } from '../verification';
 import { option, type smokeLaunch } from '../smoke/smoke-launch';
 
-export const journeyPhases = [
-  'approach',
-  'graveyard-combat',
-  'area-traversal',
-  'chapel-combat',
-  'checkpoint',
-  'death-retry',
-] as const;
+export const journeyPhases = ['movement', 'actions', 'checkpoint'] as const;
 const segment = z
   .object({
     name: z.enum(journeyPhases),
@@ -30,10 +23,10 @@ export const GameBenchmarkSchema = BenchmarkSchema.omit({
   source: true,
 })
   .extend({
-    schemaVersion: z.literal(2),
+    schemaVersion: z.literal(3),
     source: z.object({ commit: z.string().nullable(), dirty: z.boolean(), sha256: z.string() }),
     environment: BenchmarkSchema.shape.environment.extend({
-      scenario: z.literal('game-opening-v1'),
+      scenario: z.literal('game-empty-v1'),
       warmupMs: z.literal(0),
     }),
     initialCheckpoint: z.string().regex(/^[a-f0-9]{64}$/),
@@ -177,7 +170,7 @@ export async function startGameBenchmark(
         os.hostname() + ' / ' + (os.cpus()[0]?.model ?? 'unknown CPU'),
       ),
       os: `${os.platform()} ${os.release()}`,
-      scenario: 'game-opening-v1' as const,
+      scenario: 'game-empty-v1' as const,
       warmupMs: 0 as const,
       assets: loaded.assets.sha256,
     };
@@ -271,7 +264,7 @@ export async function startGameBenchmark(
       );
       await requireStableInputs(process.cwd(), source);
       record = GameBenchmarkSchema.parse({
-        schemaVersion: 2,
+        schemaVersion: 3,
         recordedAt: new Date().toISOString(),
         source,
         build: {

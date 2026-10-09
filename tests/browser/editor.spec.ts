@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { projectRoot } from '../../tools/assets/paths';
 import type {} from '../../src/editor/main';
+import { sceneFixture } from '../fixtures/scene';
 test('editor placement, experimental scale, history, recovery, save and external conflict', async ({
   page,
   request,
@@ -299,9 +300,12 @@ test('editor workspace keeps populated attachment controls accessible at desktop
   await page.goto('/editor.html?automated');
   await page.waitForFunction(() => window.sceneEditor?.ready());
   page.on('dialog', (dialog) => void dialog.accept());
-  await page.locator('#scene').selectOption('file-live-upper-landing');
-  await page.locator('#open').click();
-  await expect(page.locator('#save-state')).toHaveText('Saved');
+  await page.locator('#import-scene').setInputFiles({
+    name: 'fixture.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(sceneFixture('chapel'))),
+  });
+  await expect(page.locator('#save-state')).toHaveText('Unsaved');
   const child = await page.evaluate(
     () => window.sceneEditor.state().document.objects.find((p) => p.mount)?.id,
   );

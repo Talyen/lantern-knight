@@ -29,7 +29,7 @@ test('scene and gameplay edits use routine CI; desktop contracts select platform
   assert.equal(requiresAuthoring(['src/core/simulation.ts']), false);
   assert.equal(
     requiresDesktop([
-      'authoring/scenes/live-court.json',
+      'authoring/scenes/example.json',
       'src/core/simulation.ts',
       'docs/development.md',
     ]),

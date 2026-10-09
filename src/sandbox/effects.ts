@@ -39,7 +39,7 @@ export function mountEffects(selectScene: (scene: string) => void) {
   const settings = playgroundDefaults(),
     $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
   document.getElementById('app')!.innerHTML =
-    `<header><div><strong>Effects Playground</strong><span>Separate developer scene · SMAA 1× High</span></div><label>Scene<select id="scene-select"><option value="court">Graveyard Approach</option><option value="upper-landing">Ruined Chapel</option><option value="systems-fixture">Systems fixture</option><option value="effects-playground" selected>Effects test scene</option></select></label><button id="back">Return to Sandbox</button></header>
+    `<header><div><strong>Effects Playground</strong><span>Separate developer scene · SMAA 1× High</span></div><label>Scene<select id="scene-select"><option value="outdoor-fixture">Outdoor fixture</option><option value="interior-fixture">Interior fixture</option><option value="systems-fixture">Systems fixture</option><option value="effects-playground" selected>Effects test scene</option></select></label><button id="back">Return to Sandbox</button></header>
  <main><canvas id="scene" tabindex="0" aria-label="Effects Playground game"></canvas><aside><h1>Compare effects</h1>
  <label>Treatment<select id="treatment"><option value="quiet">Quiet ink</option><option value="rich">Richer HD-2D</option></select></label>
  <label class="compare"><input type="checkbox" id="baseline">Compare with all off</label>
@@ -172,7 +172,7 @@ export function mountEffects(selectScene: (scene: string) => void) {
       (settings.outline.color = $<HTMLInputElement>('outline-color').value);
     $('pause').onclick = pause;
     $('reset').onclick = reset;
-    $('back').onclick = () => selectScene('court');
+    $('back').onclick = () => selectScene('outdoor-fixture');
     $('scene-select').onchange = () => selectScene($<HTMLSelectElement>('scene-select').value);
     $('status').textContent = 'Developer experiment only · no checkpoints or settings written';
     synchronize();

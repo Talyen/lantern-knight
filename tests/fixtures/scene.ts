@@ -1,4 +1,3 @@
-import { emptyScene } from '../../src/editor/default-scene';
 import { parseSceneDocument, type SceneDocument } from '../../src/content/scene-document';
 
 // Contract fixtures own their IDs and layout. Production compositions may change freely.
@@ -14,7 +13,15 @@ export function sceneFixture(profile: 'graveyard' | 'chapel'): SceneDocument {
     purpose: 'Contract fixture',
   });
   return parseSceneDocument({
-    ...emptyScene(),
+    floor: { asset: 'ink-moss', clip: 'surface', width: 20, depth: 20 },
+    camera: { bounds: { minX: -10, maxX: 10, minZ: -10, maxZ: 10 }, bias: { x: 0, z: 0 } },
+    gameplay: { spawns: [], exits: [], pickups: [] },
+    proceduralAssets: [],
+    paths: [],
+    walls: [],
+    graves: [],
+    propOrder: [],
+    overlaps: [],
     geometry: {
       bounds: { minX: -7, maxX: 7, minZ: -10, maxZ: 10 },
       surface: { kind: 'flat', height: 0 },
@@ -26,7 +33,7 @@ export function sceneFixture(profile: 'graveyard' | 'chapel'): SceneDocument {
     id: 'fixture',
     name: 'Contract fixture',
     target: 'draft',
-    base: profile === 'graveyard' ? 'court' : 'upper-landing',
+    base: profile + '-fixture',
     hero: { x: 0, z: 0 },
     look: { rig: 'golden', look: 'diorama' },
     objects:

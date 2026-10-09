@@ -125,7 +125,7 @@ export function bindGameUI(app: Application) {
   app.events.subscribe((event) => {
     if (event.kind === 'room-clear')
       status(
-        app.sim.area === 'upper-landing' ? 'The chapel is at rest' : 'The chapel door is unsealed',
+        app.sim.areaDefinition.exits.length ? 'Area cleared. Passage available.' : 'Area cleared.',
       );
   });
 }
@@ -154,15 +154,15 @@ export function updateGameUI(app: Application) {
   const s = app.sim;
   $('#hp').textContent = `${s.hero.health} / ${s.hero.definition.maxHealth}`;
   $('#health-fill').style.width = `${(s.hero.health / s.hero.definition.maxHealth) * 100}%`;
-  $('#objective').textContent = s.cleared
-    ? s.area === 'court'
-      ? 'Enter the chapel'
-      : 'The chapel is at rest'
-    : s.engaged
-      ? 'Clear the restless dead'
-      : s.area === 'court'
-        ? 'Follow the lantern path'
-        : 'Approach the altar';
+  $('#objective').textContent = !s.enemies.length
+    ? 'Explore the scene'
+    : s.cleared
+      ? s.areaDefinition.exits.length
+        ? 'Passage available'
+        : 'Area cleared'
+      : s.engaged
+        ? 'Clear the enemies'
+        : 'Explore the scene';
   $('#dodge-status').textContent = s.hero.dodgeCooldown
     ? `${(s.hero.dodgeCooldown / 60).toFixed(1)} s`
     : 'Shift · ready';

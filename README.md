@@ -1,6 +1,6 @@
 # Lantern Knight
 
-An early sword-and-lantern prototype with connected Graveyard Approach and Ruined Chapel areas. Game and developer views share simulation, rendering and session lifecycles; production Game builds exclude developer screens.
+An early sword-and-lantern prototype with an empty Game stage and independently authored scenes. Game and developer views share simulation, rendering and session lifecycles; production Game builds exclude developer screens.
 
 ## Develop and verify
 

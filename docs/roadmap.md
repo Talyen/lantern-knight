@@ -1,6 +1,6 @@
 # Roadmap
 
-Polish Graveyard Approach and Ruined Chapel, then build a cohesive progression loop before extending the adventure. [Game design](game-design.md) owns design intent; this page tracks capability, priorities and acceptance.
+Author new prototype scenes and build a cohesive progression loop. [Game design](game-design.md) owns design intent; this page tracks capability, priorities and acceptance.
 
 Implemented means reachable in source, in progress means unfinished, planned means agreed direction, and needs design means a decision or playtest is required. These statuses do not certify current checks, visual polish or release availability. Supplied hero animation artwork remains TEST material pending visible playtesting.
 
@@ -8,7 +8,7 @@ Implemented means reachable in source, in progress means unfinished, planned mea
 
 | Capability | Current limits and source |
 | --- | --- |
-| Connected opening areas | Authored activation, clear-gated forward passage and retreat; one skeleton in Graveyard Approach and two in Ruined Chapel. [Content](../src/content/game-content.ts), [area tests](../tests/unit/churchyard.test.ts). |
+| Independent area capabilities | Activation, clear-gated forward passage and retreat are protected by owned gameplay fixtures; Game currently starts empty. [Content](../src/content/game-content.ts), [area tests](../tests/unit/churchyard.test.ts). |
 | Movement and combat | Keyboard movement, mouse aim, alternating sweep/lunge, dodge, health, hurt/death and encounter retry. Four-heading actions use supplied art and authored timing. [Simulation](../src/core/simulation.ts), [hero actions](../src/content/hero-actions.ts), [action tests](../tests/unit/hero-actions.test.ts). |
 | Prototype lantern | Aimed cone, immediate damage, brief stagger and cooldown with directional cast art. Burn/DoT remains planned. [Simulation](../src/core/simulation.ts), [visual mappings](../src/content/visuals.ts). |
 | Sessions and checkpoints | Encounter state survives revisits; manual and boundary saves use disposable prototype checkpoints with isolated player/developer profiles. [Application](../src/application.ts), [persistence](../src/core/persistence.ts), [system tests](../tests/unit/systems.test.ts). |

@@ -108,9 +108,7 @@ export async function checkForeground(context: SceneContext) {
 export async function checkCutoutCoverage(page: Page) {
   await page.evaluate(() => {
     const p = window.foundation.presentation;
-    const sprite = p.roomPresentation.inkRoom!.fades.find(
-      (sprite) => sprite.id === 'foreground-oak',
-    )!;
+    const sprite = p.roomPresentation.inkRoom!.fades[0];
     if (!sprite?.edgeMaterial)
       throw new Error('Coverage probe requires the production core and edge materials');
     const materials = [sprite.material, sprite.edgeMaterial];
@@ -391,7 +389,7 @@ export async function checkRoomLifetime(context: SceneContext) {
 export async function checkPreviewReload(context: SceneContext) {
   const { page, scene } = context;
   // Exercise real reload persistence, rather than certifying the parser alone.
-  const other = scene === 'court' ? 'upper-landing' : 'court';
+  const other = scene === 'outdoor-fixture' ? 'interior-fixture' : 'outdoor-fixture';
   await page.evaluate(async (other) => {
     await window.foundation.fixture(other);
   }, other);

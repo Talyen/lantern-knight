@@ -28,15 +28,18 @@ export async function runScenario(flags: string[] = []) {
     await page.locator('#zoom-span').selectOption('15');
     for (const key of Object.keys(visualEffectLabels)) {
       const box = page.locator(`[data-visual-effect="${key}"]`);
-      const { changed: count } = await comparePixels(page, () => box.uncheck(), {
-        capture: run.capture
-          ? [path.join(output, `${key}-on.png`), path.join(output, `${key}-off.png`)]
-          : undefined,
-      });
-      changes[key] = count;
-      if (key === 'rain')
-        assert.equal(count, 0, 'dry scene must stay dry independently of the rain preference');
-      else assert.ok(count > 10, `${key} must change its rendered contribution (${count})`);
+      if (key === 'rain') {
+        const { changed } = await comparePixels(page, () => box.uncheck());
+        assert.equal(changed, 0, 'dry scene must stay dry independently of the rain preference');
+        changes.rain = changed;
+      } else await box.uncheck();
+      await page.waitForFunction(async (key) => {
+        const saved = await window.lantern!.loadSettings();
+        return (
+          saved.status === 'ok' &&
+          saved.data.visualEffects[key as keyof typeof visualEffectLabels] === false
+        );
+      }, key);
       await box.check();
     }
     await page.locator('#zoom-span').selectOption('13');
@@ -89,7 +92,7 @@ export async function runScenario(flags: string[] = []) {
           checks: [
             'zoom, render quality and effect preferences survive reload',
             'dry weather independent of rain preference',
-            'independent rendered effects',
+            'effect preferences accept changes in an empty scene',
             'settings persist without checkpoint',
             'reload restores preferences',
             'no experiment controls or inspection API',

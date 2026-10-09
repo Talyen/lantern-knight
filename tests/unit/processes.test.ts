@@ -152,7 +152,7 @@ test('performance comparisons normalize duration and refuse incompatible setting
 });
 test('player comparisons reject incomplete or easier journeys and separate startup from phase cadence', () => {
   const record = {
-    schemaVersion: 2,
+    schemaVersion: 3,
     recordedAt: 'now',
     source: { commit: 'a', dirty: false, sha256: 'a' },
     build: { sourceCommit: 'a', dirty: false, sha256: 'a' },
@@ -169,7 +169,7 @@ test('player comparisons reject incomplete or easier journeys and separate start
       viewport: [2560, 1440],
       buffer: [2560, 1440],
       dpr: 1,
-      scenario: 'game-opening-v1',
+      scenario: 'game-empty-v1',
       warmupMs: 0,
       assets: 'a'.repeat(64),
       settings: { quality: 1 },
@@ -181,7 +181,7 @@ test('player comparisons reject incomplete or easier journeys and separate start
       frames: Array(60).fill(16),
       actions: ['pointerdown:canvas:0:100,100'],
     })),
-    frames: Array(360).fill(16),
+    frames: Array(journeyPhases.length * 60).fill(16),
   };
   assert.equal(
     compareGameBenchmarks(record, {

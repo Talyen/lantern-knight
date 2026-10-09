@@ -1,10 +1,12 @@
+import { captureBenchmark } from '../diagnostics/benchmark';
 import { smokeLaunch, option } from '../smoke/smoke-launch';
 import { AssetCache } from '../assets/cache';
 import { sandboxContent } from '../../src/content/sandbox-world';
-import { worldVisuals } from '../../src/content/game-content';
+import { developerVisuals as worldVisuals } from '../../src/content/developer-scenes';
 import { sceneFixture } from './scene-fixtures';
 import {
   traverseScene,
+  checkCutoutCoverage,
   checkForeground,
   checkSurround,
   checkRoomLifetime,
@@ -13,7 +15,7 @@ import {
   benchmarkSurround,
 } from './scene-scenarios';
 export async function nativeScene(flags: string[]) {
-  const scene = option('--scene', 'court', flags),
+  const scene = option('--scene', 'outdoor-fixture', flags),
     area = sandboxContent.area(scene),
     art = worldVisuals[scene],
     fixture = sceneFixture(scene, area.entries[0]!);
@@ -40,10 +42,14 @@ export async function nativeScene(flags: string[]) {
     };
     await traverseScene(context);
     await checkForeground(context);
+    if (art?.props.some((p) => p.fade) && !art.interior) await checkCutoutCoverage(run.page);
     await checkSurround(context);
     await checkRoomLifetime(context);
     await checkPreviewReload(context);
-    if (context.benchmark) console.log(await benchmarkSurround(context));
+    if (context.benchmark) {
+      console.log(await benchmarkSurround(context));
+      await captureBenchmark(run);
+    }
     await captureScene(context);
   } finally {
     await run.close();

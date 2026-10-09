@@ -9,7 +9,12 @@ import { resolveAuthoredScene } from '../src/content/world-art';
 import type { Manifest } from '../src/assets/schema';
 export async function checkSceneDocuments(root: string, manifests: ReadonlyMap<string, Manifest>) {
   const directory = path.join(root, 'authoring/scenes'),
-    files = (await fs.readdir(directory)).filter((f) => f.endsWith('.json'));
+    files = (
+      await fs.readdir(directory).catch((error: NodeJS.ErrnoException) => {
+        if (error.code === 'ENOENT') return [];
+        throw error;
+      })
+    ).filter((f) => f.endsWith('.json'));
   for (const file of files) {
     const location = path.join(directory, file);
     if (!(await fs.lstat(location)).isFile() || (await fs.stat(location)).size > sceneBytesLimit)

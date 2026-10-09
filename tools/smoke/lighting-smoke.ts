@@ -75,7 +75,7 @@ export async function runScenario(flags: string[] = []) {
             window.foundation.stats().buffer[1] === size[1],
           [width * 2, (height - 128) * 2],
         );
-        for (const area of quick ? ['court'] : ['court', 'upper-landing']) {
+        for (const area of quick ? ['outdoor-fixture'] : ['outdoor-fixture', 'interior-fixture']) {
           await page.evaluate(async (area) => {
             const f = window.foundation;
             await f.fixture(area);
@@ -97,7 +97,7 @@ export async function runScenario(flags: string[] = []) {
             ? Object.keys(lightingRigs).flatMap((rig) =>
                 Object.keys(lookPresets).map((look) => [rig, look] as const),
               )
-            : area === 'court' && resolution === '1440p'
+            : area === 'outdoor-fixture' && resolution === '1440p'
               ? ([
                   ['golden', 'diorama'],
                   ['silver', 'ink'],

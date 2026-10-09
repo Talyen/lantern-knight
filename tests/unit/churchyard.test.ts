@@ -2,14 +2,12 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { supportedPosition, isSupportedPosition, heightAt } from '../../src/content/world';
 import { content, contentDefinitions } from '../fixtures/content';
-import { content as liveContent } from '../../src/content/game-content';
+import { content as visualContent } from '../fixtures/visuals';
 import { Simulation } from '../../src/core/simulation';
 import { GameSession } from '../../src/core/session';
 
-import { worldVisuals } from '../../src/content/game-content';
+import { worldVisuals } from '../fixtures/visuals';
 import { compositionPoint, compositionHeight } from '../../src/content/world-art';
-import { createBrowserBridge } from '../../src/platform/browser-store';
-import { launchEntry, checkpointDirectory } from '../../electron/launch';
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: -1 } };
 test('encounters remain dormant until activation and damage wakes their peers', () => {
   assert.deepEqual(
@@ -95,7 +93,7 @@ test('authored box footprints block bodies at edges and corners without escaping
   }
   for (const a of content.areas.values())
     for (const entry of a.entries) assert.ok(isSupportedPosition(a, entry, 0.3));
-  for (const area of liveContent.areas.values())
+  for (const area of visualContent.areas.values())
     for (const collider of area.props) {
       const art = worldVisuals[area.id]!,
         sprite = art.props.find((p) => p.id === collider.id),
@@ -140,11 +138,11 @@ test('a clear fixture arena supports the complete dodge distance', () => {
   }
 });
 
-test('narrow Graveyard framing keeps the hero and full silhouette inside the viewport', () => {
+test('narrow authored framing keeps the hero and full silhouette inside the viewport', () => {
   const elevation = Math.atan(1 / Math.sqrt(2)),
     halfHeight = 4.5;
   for (const halfWidth of [(halfHeight * 9) / 16, (halfHeight * 16) / 9, (halfHeight * 21) / 9])
-    for (const hero of liveContent.area('court').entries) {
+    for (const hero of visualContent.area('court').entries) {
       const target = compositionPoint('court', hero, { halfWidth, halfHeight }, worldVisuals.court),
         dx = hero.x - target.x,
         dz = hero.z - target.z,
@@ -166,40 +164,6 @@ test('narrow Graveyard framing keeps the hero and full silhouette inside the vie
         }
   }
 });
-test('Game, developer preview and Sandbox have isolated checkpoints; Sandbox refuses writes', async () => {
-  const previous = Object.getOwnPropertyDescriptor(globalThis, 'localStorage'),
-    values = new Map<string, string>();
-  Object.defineProperty(globalThis, 'localStorage', {
-    configurable: true,
-    value: {
-      getItem: (k: string) => values.get(k) ?? null,
-      setItem: (k: string, v: string) => values.set(k, v),
-    },
-  });
-  try {
-    const game = createBrowserBridge(),
-      preview = createBrowserBridge('preview'),
-      sandbox = createBrowserBridge('sandbox'),
-      save = new GameSession(content).captureSave();
-    await game.saveGame(save);
-    await preview.saveGame({ ...save, wins: 4 });
-    await assert.rejects(sandbox.saveGame(save), /denied/);
-    assert.equal((await sandbox.loadGame()).status, 'empty');
-    assert.equal(((await preview.loadGame()) as { data: { wins: number } }).data.wins, 4);
-    assert.equal(((await game.loadGame()) as { data: { wins: number } }).data.wins, 0);
-    assert.notEqual(
-      checkpointDirectory('/profile', true, 'game'),
-      checkpointDirectory('/profile', true, 'sandbox'),
-    );
-    assert.equal(checkpointDirectory('/profile', false, 'game'), '/profile/prototype-saves');
-    assert.equal(launchEntry(false, 'sandbox'), 'index.html');
-    assert.equal(launchEntry(true, 'sandbox'), 'sandbox.html');
-  } finally {
-    if (previous) Object.defineProperty(globalThis, 'localStorage', previous);
-    else Reflect.deleteProperty(globalThis, 'localStorage');
-  }
-});
-
 test('skeletons close the last part of their reach and can hit a stationary player', () => {
   const s = new Simulation(content, 142, content.definitions.initialArea, 1),
     enemy = s.enemies[0]!;

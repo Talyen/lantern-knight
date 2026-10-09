@@ -37,7 +37,6 @@ export class EditorView {
   sim?: Simulation;
   private generation = 0;
   private packs = new Map<string, PackLease>();
-  private proxies: ActorSprite[] = [];
   private grid?: T.GridHelper;
   private selection?: T.BoxHelper;
   private selections: T.BoxHelper[] = [];
@@ -147,26 +146,6 @@ export class EditorView {
       }
       this.presentation.generation = this.sim.generation;
       this.presentation.lookRenderer.setSettings(document.look);
-      // The graveyard bakes overlays into its floor shader. Invisible, matching
-      // top-down cards provide selection without introducing a second visual layer.
-      if (document.base === 'court')
-        for (const p of art.decals.filter((p) => p.asset === 'ink-graveyard-overlays')) {
-          const pack = this.packs.get(p.asset)!,
-            s = new ActorSprite(
-              p.id,
-              pack.manifest,
-              pack.textures,
-              resolveClip(pack.manifest, p.clip, 'd45'),
-            );
-          s.show(
-            s.animator.frame,
-            new T.Vector3(p.x, heightAt(area, p.x, p.z) + 0.018, p.z),
-            this.presentation.camera,
-          );
-          s.mesh.scale.set((p.scale ?? 1) * (p.mirror ? -1 : 1), p.scale ?? 1, p.scale ?? 1);
-          s.mesh.rotateZ(p.rotation ?? 0);
-          this.proxies.push(s);
-        }
       const bounds = area.bounds;
       this.grid = new T.GridHelper(
         Math.max(bounds.maxX - bounds.minX, bounds.maxZ - bounds.minZ),
@@ -230,7 +209,7 @@ export class EditorView {
     );
   }
   private sprites() {
-    return [...(this.presentation?.roomPresentation.inkRoom?.sprites ?? []), ...this.proxies];
+    return this.presentation?.roomPresentation.inkRoom?.sprites ?? [];
   }
   private opaque(s: ActorSprite, uv: T.Vector2) {
     const texture = s.material.map!;
@@ -355,8 +334,6 @@ export class EditorView {
     }
   }
   private clearHelpers() {
-    this.proxies.forEach((s) => s.dispose());
-    this.proxies = [];
     this.selectMany([]);
     if (this.grid) {
       this.grid.geometry.dispose();

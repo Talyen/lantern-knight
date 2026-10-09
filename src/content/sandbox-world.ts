@@ -1,8 +1,10 @@
 import { tuning } from './gameplay';
 import { ContentRegistry, type ContentDefinitions } from './world';
 import { contentDefinitions } from './game-content';
+import { developerScenes } from './developer-scenes';
 export const sandboxDefinitions: ContentDefinitions = {
   ...contentDefinitions,
+  initialArea: 'outdoor-fixture',
   actors: [
     ...contentDefinitions.actors,
     {
@@ -33,6 +35,7 @@ export const sandboxDefinitions: ContentDefinitions = {
   ],
   areas: [
     ...contentDefinitions.areas,
+    ...developerScenes.map((s) => s.area),
     {
       id: 'systems-fixture',
       name: 'Systems verification fixture',

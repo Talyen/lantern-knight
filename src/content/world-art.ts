@@ -64,7 +64,7 @@ export type SiteWall = {
   assembly?: string;
   fade?: boolean;
 };
-export type BurialPlot = {
+type BurialPlot = {
   id: string;
   x: number;
   z: number;

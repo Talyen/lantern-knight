@@ -4,7 +4,7 @@ import * as T from 'three';
 import { ActorSprite } from './sprite';
 import { OcclusionFades } from './occlusion-fades';
 import { graveyardGroundMaterial } from './graveyard-ground';
-import { GraveyardRoom } from './graveyard-room';
+import { SceneryReveals } from './scenery-reveals';
 import { resolveClip, type Clip } from '../assets/schema';
 import type { PackLease } from '../assets/loader';
 import { type WorldVisualDefinition, type ArtPlacement } from '../content/world-art';
@@ -15,10 +15,10 @@ import type { Simulation } from '../core/simulation';
 
 export class InkRoom {
   readonly sprites: ActorSprite[] = [];
-  readonly fades: ActorSprite[] = [];
   readonly effects = new Map<string, ActorSprite>();
+  readonly fades: ActorSprite[] = [];
   readonly occlusion = new OcclusionFades();
-  readonly graveyard: GraveyardRoom | undefined;
+  readonly sceneryReveal: SceneryReveals | undefined;
   private time = 0;
   playing = true;
   private animated: { sprite: ActorSprite; placement: ArtPlacement }[] = [];
@@ -45,19 +45,9 @@ export class InkRoom {
     readonly registration: PreparedRegistration,
     readonly art: WorldVisualDefinition,
   ) {
-    if (area.id === 'court')
-      this.graveyard = new GraveyardRoom(
-        area,
-        packs,
-        room,
-        camera,
-        this.sprites,
-        this.fades,
-        shadowTexture,
-        registration.coverage,
-        art,
-      );
+    if (!art.interior) this.sceneryReveal = new SceneryReveals(area, registration.coverage, art);
   }
+
   private sprite(
     id: string,
     asset: string,
@@ -140,12 +130,6 @@ export class InkRoom {
     return s;
   }
   build() {
-    if (this.graveyard) {
-      this.graveyard.build();
-      for (const p of this.art.props) if (p.asset.startsWith('library-')) this.place(p);
-      for (const p of this.art.decals) if (p.asset !== 'ink-graveyard-overlays') this.ground(p);
-      return;
-    }
     const art = this.art;
     for (const p of art.props) this.place(p);
     for (const p of art.decals) this.ground(p);
@@ -188,7 +172,8 @@ export class InkRoom {
     }
     if (p.fade) {
       this.fades.push(s);
-      this.occlusion.add(s.mesh, p.assembly ?? p.id);
+      if (this.sceneryReveal) this.sceneryReveal.add(s);
+      else this.occlusion.add(s.mesh, p.assembly ?? p.id);
     }
     const fixture = sceneFixtures(this.art).find((f) => f.prop === p.id);
     if (fixture?.flame) {
@@ -295,7 +280,7 @@ export class InkRoom {
         );
     }
     for (const s of this.effects.values()) s.mesh.visible = false;
-    this.graveyard?.update(sim, alpha, ms);
+    this.sceneryReveal?.update(sim, alpha, ms);
     this.time += Math.max(0, ms);
     this.occlusion.update(sim, alpha, ms);
     for (const cast of this.castShadows) {
@@ -316,31 +301,6 @@ export class InkRoom {
       emission.mesh.scale.setScalar(f.scale);
       emission.mesh.visible = visible;
       emission.material.opacity = fixture.material.opacity;
-    }
-    if (this.art.interior && !this.art.editorFloor && visible) {
-      const motes = this.effect('crypt-motes', 'ink-crypt-ambient', 'rising_motes');
-      motes.mesh.visible = true;
-      motes.mesh.userData.decorative = true;
-      motes.mesh.scale.setScalar(0.28);
-      motes.material.opacity = 0.32;
-      this.sample(motes, motes.animator.clip, this.time + 710, new T.Vector3(0, 1.8, -6.95));
-      const phase = this.time % 9500;
-      for (const [id, clipId, duration] of [
-        ['crypt-drop', 'droplet_splash', 1000],
-        ['crypt-ripple', 'pond_ripple', 2000],
-      ] as const) {
-        const effect = this.effect(id, 'ink-crypt-ambient', clipId);
-        effect.mesh.visible = phase < duration;
-        effect.mesh.userData.decorative = true;
-        effect.mesh.scale.setScalar(0.2);
-        effect.material.opacity = 0.5;
-        this.sample(
-          effect,
-          effect.animator.clip,
-          phase,
-          new T.Vector3(5.3, heightAt(this.area, 5.3, -0.2) + 0.025, -0.2),
-        );
-      }
     }
     for (const g of this.gates) {
       g.seal.mesh.visible = visible && !sim.cleared;
@@ -372,7 +332,7 @@ export class InkRoom {
       }
   }
   dispose() {
-    this.graveyard?.dispose();
+    this.sceneryReveal?.dispose();
     this.owned.forEach((v) => v.dispose());
     this.owned = [];
     for (const s of this.staticShadows) {

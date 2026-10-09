@@ -7,7 +7,6 @@ import { playgroundCatalog } from '../src/content/effects-playground-assets';
 import { loadingVideoPath } from '../src/content/loading-media';
 import { readAuthoringCatalog } from './assets/authoring-catalog';
 import { gameAssetCatalog } from '../src/content/asset-catalog';
-import { liveLibraryAssets } from '../src/content/library-references';
 import { safeRelative } from './assets/paths';
 
 export type SelectedFiles = { files: string[]; generated: Record<string, string>; bytes: number };
@@ -16,19 +15,9 @@ export async function selectedFiles(
   profile: BuildProfile = 'game',
 ): Promise<SelectedFiles> {
   const dev = profile === 'authoring';
-  const library =
-    dev || liveLibraryAssets.length ? await readAuthoringCatalog(publicRoot) : gameAssetCatalog;
   const catalog = dev
-    ? { ...library, ...playgroundCatalog }
-    : {
-        ...gameAssetCatalog,
-        ...Object.fromEntries(
-          liveLibraryAssets.map((id) => {
-            if (!library[id]) throw new Error('Live artwork unavailable: ' + id);
-            return [id, library[id]];
-          }),
-        ),
-      };
+    ? { ...(await readAuthoringCatalog(publicRoot)), ...playgroundCatalog }
+    : gameAssetCatalog;
   const files = new Set([
     'build-mode.json',
     'generated/calibration.json',

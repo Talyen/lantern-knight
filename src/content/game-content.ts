@@ -1,98 +1,31 @@
-import courtDocument from '../../authoring/scenes/live-court.json';
-import chapelDocument from '../../authoring/scenes/live-upper-landing.json';
 import { ContentRegistry, type ContentDefinitions } from './world';
-import {
-  resolveScene,
-  sceneAssets,
-  validateAreaArt,
-  type WorldVisualDefinition,
-} from './world-art';
+import { sceneAssets, validateAreaArt, type WorldVisualDefinition } from './world-art';
 import { visualEffectsAssets } from './visual-effects-assets';
 import type { AreaDefinition } from './world';
 import type { Manifest } from '../assets/schema';
-import { tuning } from './gameplay';
+import { actors } from './actors';
 import { actorVisuals, assetCatalog } from './visuals';
-const productionDocuments: Readonly<Record<string, unknown>> = {
-  court: courtDocument,
-  'upper-landing': chapelDocument,
-};
-const gameDefinitions = {
-  initialArea: 'court',
+export const worldVisuals: Readonly<Record<string, WorldVisualDefinition>> = {};
+export const contentDefinitions: ContentDefinitions = {
+  initialArea: 'empty',
   player: 'lamplighter',
-  actors: [
-    {
-      id: 'skeleton',
-      kind: 'enemy',
-      maxHealth: 50,
-      radius: 0.25,
-      speed: 0.9,
-      melee: { windup: 39, activeEnd: 43, total: 68, range: 1.2, halfAngle: 1.1, damage: 8 },
-      visual: 'skeleton',
-    },
-    {
-      id: 'lamplighter',
-      kind: 'hero',
-      maxHealth: tuning.heroMaxHealth,
-      radius: tuning.heroRadius,
-      speed: tuning.moveSpeed,
-      melee: { ...tuning.attack },
-      visual: 'hero',
-    },
-  ],
+  actors,
   areas: [
     {
-      id: 'court',
-      name: 'Graveyard Approach',
-      subtitle: 'A worn path leads between the graves to the chapel.',
+      id: 'empty',
+      name: 'Empty scene',
+      subtitle: 'A blank space for prototype development.',
+      bounds: { minX: -10, maxX: 10, minZ: -10, maxZ: 10 },
+      surface: { kind: 'flat', height: 0 },
       seedOffset: 0,
-      spawns: [{ id: 'warden-1', actor: 'skeleton', x: 0.7, z: 0.0 }],
+      baselineEntry: 'start',
+      entries: [{ id: 'start', x: 0, z: 0 }],
+      spawns: [],
+      props: [],
+      exits: [],
       floorColor: 0x34434a,
-      exits: [
-        {
-          id: 'landing',
-          trigger: { minX: -0.95, maxX: 0.95, minZ: -6.3, maxZ: -5.75 },
-          destination: 'upper-landing',
-          entry: 'start',
-          requiresClear: true,
-          marker: { x: 0, z: -6.15 },
-        },
-      ],
-    },
-    {
-      id: 'upper-landing',
-      name: 'Ruined Chapel',
-      subtitle: 'The restless dead gather in the ruined nave.',
-      seedOffset: 101,
-      spawns: [
-        { id: 'warden-1', actor: 'skeleton', x: -2.0, z: 1.0 },
-        { id: 'warden-2', actor: 'skeleton', x: 1.7, z: -1.3 },
-      ],
-      floorColor: 0x3e444e,
-      exits: [
-        {
-          id: 'court',
-          trigger: { minX: -0.95, maxX: 0.95, minZ: 8.1, maxZ: 8.7 },
-          destination: 'court',
-          entry: 'from-landing',
-          requiresClear: false,
-          marker: { x: 0, z: 9 },
-        },
-      ],
     },
   ],
-} satisfies Omit<ContentDefinitions, 'areas'> & { areas: Partial<AreaDefinition>[] };
-export const productionScenes = Object.fromEntries(
-  gameDefinitions.areas.map((gameplay) => {
-    const scene = resolveScene(productionDocuments[gameplay.id!], gameplay);
-    return [scene.area.id, scene];
-  }),
-);
-export const worldVisuals = Object.fromEntries(
-  Object.entries(productionScenes).map(([id, scene]) => [id, scene.visuals]),
-);
-export const contentDefinitions: ContentDefinitions = {
-  ...gameDefinitions,
-  areas: Object.values(productionScenes).map((scene) => scene.area),
 };
 for (const actor of contentDefinitions.actors) {
   const visual = actorVisuals[actor.visual];

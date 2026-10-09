@@ -1,6 +1,7 @@
 import { bindEffectControls } from './effect-controls';
 import { bindLightingControls } from './lighting-controls';
-import { composeSceneContent, worldVisuals } from '../content/game-content';
+import { composeSceneContent } from '../content/game-content';
+import { developerVisuals as worldVisuals } from '../content/developer-scenes';
 import { readScenePreview, previewHero, previewKey, type ScenePreviewState } from './preview';
 import '../style.css';
 import { LoadingScreen } from '../loading-screen';
@@ -32,7 +33,7 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
   const controls = document.createElement('div');
   controls.className = 'sandbox-controls';
   controls.innerHTML =
-    '<label>Scene<select id="scene-select"><option value="court">Graveyard Approach</option><option value="upper-landing">Ruined Chapel</option><option value="systems-fixture">Systems fixture</option><option value="effects-playground">Effects test scene</option></select></label><button id="preview-game">Play Opening Scene</button>';
+    '<label>Scene<select id="scene-select"><option value="outdoor-fixture">Outdoor fixture</option><option value="interior-fixture">Interior fixture</option><option value="systems-fixture">Systems fixture</option><option value="effects-playground">Effects test scene</option></select></label><button id="preview-game">Play Game</button>';
   document.querySelector('header')!.append(controls);
   const sandboxBridge = window.lantern ?? createBrowserBridge('sandbox');
   let previewReady = false;
@@ -340,7 +341,8 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
       presentation.resize(app.scale);
       app.safe(() => app.saveSettings());
     };
-    const requested = initialScene;
+    const requested =
+      initialScene && sandboxContent.areas.has(initialScene) ? initialScene : undefined;
     let restored: ScenePreviewState | undefined;
     try {
       restored = readScenePreview(sessionStorage.getItem(previewKey), sandboxContent);
@@ -447,7 +449,7 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
           ? presentation.artConstruction.findings
               .map((f) => `${f.a}${f.b ? ' ↔ ' + f.b : ''}: ${f.message}`)
               .join('\n')
-          : 'No undeclared Graveyard overlaps. Green: footprints. Gold: joins. Amber: light sockets.';
+          : 'No undeclared scenery overlaps. Green: footprints. Gold: joins. Amber: light sockets.';
     }
     if (mode === 'animation') updateAnimationReview();
   }
@@ -568,7 +570,7 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
       ? {
           ...sandboxDefinitions,
           areas: sandboxDefinitions.areas.map((a) =>
-            a.id === 'court'
+            a.id === 'outdoor-fixture'
               ? {
                   ...a,
                   activation: undefined,
@@ -583,11 +585,11 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
           ),
         }
       : sandboxDefinitions;
-    await app.replaceArea('court', () => {
+    await app.replaceArea('outdoor-fixture', () => {
       app.session = new GameSession(
         new ContentRegistry(definitions),
         142,
-        'court',
+        'outdoor-fixture',
         app.session.generation + 1,
       );
       return [];

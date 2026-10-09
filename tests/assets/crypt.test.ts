@@ -1,4 +1,4 @@
-import { worldVisuals } from '../../src/content/game-content';
+import { worldVisuals } from '../fixtures/visuals';
 import { InkRoom } from '../../src/presentation/ink-room';
 import { sceneAssets, resolveAuthoredScene } from '../../src/content/world-art';
 import { sceneFixture } from '../fixtures/scene';
@@ -141,7 +141,7 @@ test('assembly fades ease, use interpolated fighters, freeze on pause, and resto
   }
 });
 
-test('chapel camera preserves player distance and a continuous follow handoff', () => {
+test('authored arrival camera preserves player distance and a continuous follow handoff', () => {
   assert.equal(
     compositionSpan('upper-landing', { x: 0, z: 7.5 }, 9, worldVisuals['upper-landing']),
     11,

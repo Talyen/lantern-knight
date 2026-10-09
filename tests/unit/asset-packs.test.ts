@@ -22,7 +22,7 @@ test('runtime composition and lighting do not invalidate artwork, but bake input
   const read = (name: string) => fs.readFile(path.join(projectRoot, name));
   const before = await recipeHash(read);
   for (const file of [
-    'src/content/graveyard-scene.ts',
+    'src/content/developer-scenes.ts',
     'src/content/crypt-scene.ts',
     'src/content/graveyard-layout.ts',
     'src/content/camera.json',

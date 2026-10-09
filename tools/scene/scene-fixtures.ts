@@ -1,9 +1,9 @@
 import type { Point } from '../../src/content/world';
 import { isSupportedPosition, supportedPosition } from '../../src/content/world';
 import { sandboxContent } from '../../src/content/sandbox-world';
-import { worldVisuals } from '../../src/content/game-content';
+import { developerVisuals as worldVisuals } from '../../src/content/developer-scenes';
 
-// Optional scene journeys follow current authored data, not a frozen composition.
+// Optional scene journeys derive routes from the selected developer fixture.
 export function sceneFixture(scene: string, entry: Point) {
   const area = sandboxContent.area(scene),
     art = worldVisuals[scene];

@@ -14,6 +14,10 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
   );
   expect(keys.length).toBe(1);
   const initial = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), keys[0]!);
+  expect(initial.area).toBe('empty');
+  expect(initial.areas.empty.actors).toEqual({});
+  expect(initial.wins).toBe(0);
+  await expect(page.locator('#objective')).toHaveText('Explore the scene');
   await page.locator('#resume').click();
   await page.locator('canvas').focus();
   await page.keyboard.down('KeyW');

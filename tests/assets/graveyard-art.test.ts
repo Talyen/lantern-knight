@@ -50,7 +50,7 @@ async function fixture() {
     } as PackLease);
   }
   const room = new InkRoom(
-    content.area('court'),
+    { ...content.area('court'), id: 'custom-authored-room' },
     packs,
     new T.Group(),
     makeCamera(16 / 9),
@@ -128,7 +128,7 @@ test('four-centimetre reversals behind a near tree retains one shader/depth poli
     for (let i = 0; i < 30; i++) f.room.update(sim, 1, false, 1000 / 60);
     const wall = f.room.sprites.filter((s) => s.id === 'boundary-oak'),
       versions = wall.map((s) => s.material.version);
-    const before = f.room.graveyard!.revealStats();
+    const before = f.room.sceneryReveal!.revealStats();
     for (const z of [tree.z - 0.16, tree.z - 0.2, tree.z - 0.16, tree.z - 0.2]) {
       Object.assign(sim.hero, { z, pz: z });
       f.room.update(sim, 1, false, 1000 / 60);
@@ -142,7 +142,7 @@ test('four-centimetre reversals behind a near tree retains one shader/depth poli
         versions,
       );
     }
-    const after = f.room.graveyard!.revealStats();
+    const after = f.room.sceneryReveal!.revealStats();
     assert.ok(after.some((s) => s.strength > 0.5));
     assert.ok(
       after.every((s, i) => Math.abs(s.strength - before[i]!.strength) < 0.3),
@@ -151,7 +151,7 @@ test('four-centimetre reversals behind a near tree retains one shader/depth poli
     const paused = after.map((s) => s.strength);
     f.room.update(sim, 1, false, 0);
     assert.deepEqual(
-      f.room.graveyard!.revealStats().map((s) => s.strength),
+      f.room.sceneryReveal!.revealStats().map((s) => s.strength),
       paused,
     );
   } finally {

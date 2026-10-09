@@ -10,7 +10,7 @@ export async function runScenario(flags: string[] = []) {
   try {
     await page.waitForFunction(() => window.foundation?.ready, {}, { timeout: 60000 });
     await page.evaluate(async () => {
-      await window.foundation.fixture('court');
+      await window.foundation.fixture('outdoor-fixture');
       window.foundation.mode('encounter');
       window.foundation.pause(true);
     });
@@ -57,7 +57,7 @@ export async function runScenario(flags: string[] = []) {
       warm,
     );
     await page.evaluate(async () => {
-      await window.foundation.fixture('upper-landing');
+      await window.foundation.fixture('interior-fixture');
       window.foundation.pause(true);
     });
     await step(0);
@@ -65,9 +65,9 @@ export async function runScenario(flags: string[] = []) {
       await page.evaluate(() => window.foundation.presentation.sceneEffects.stats().rain.visible),
       false,
     );
-    if (run.capture) await page.screenshot({ path: path.join(output, 'crypt-effects.png') });
+    if (run.capture) await page.screenshot({ path: path.join(output, 'interior-effects.png') });
     await page.evaluate(async () => {
-      await window.foundation.fixture('court');
+      await window.foundation.fixture('outdoor-fixture');
       window.foundation.pause(true);
       window.foundation.presentation.setWeather(null);
     });
@@ -81,7 +81,7 @@ export async function runScenario(flags: string[] = []) {
       0,
     );
     assert.deepEqual(errors, []);
-    if (run.capture) await page.screenshot({ path: path.join(output, 'graveyard-effects.png') });
+    if (run.capture) await page.screenshot({ path: path.join(output, 'outdoor-effects.png') });
     await fs.rm(path.join(output, 'failure.json'), { force: true });
     await fs.writeFile(
       path.join(output, 'report.json'),
@@ -98,7 +98,8 @@ export async function runScenario(flags: string[] = []) {
             'clearing weather restores dry scene',
             'no shader or GL errors',
           ],
-          scope: 'Packaged developer app using production presentation and both existing scenes',
+          scope:
+            'Packaged developer app using production presentation and independent presentation fixtures',
         },
         null,
         2,
