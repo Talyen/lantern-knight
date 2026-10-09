@@ -108,10 +108,10 @@ export async function withSmokeSessions(work: () => Promise<void>) {
     await run?.close();
   }
 }
-export function smokeExecutable(dev: boolean) {
+export function smokeExecutable(dev: boolean, env: NodeJS.ProcessEnv = process.env) {
   const name = dev ? 'Lantern Knight Dev' : 'Lantern Knight';
   return (
-    process.env.LANTERN_EXECUTABLE ??
+    env.LANTERN_EXECUTABLE ??
     (process.platform === 'darwin'
       ? path.resolve(
           `${dev ? 'release-dev' : 'release'}/mac-arm64/${name}.app/Contents/MacOS/${name}`,

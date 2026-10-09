@@ -1,3 +1,4 @@
+import type { PresentationLifecycle } from './lifecycle';
 import { RoomPresentation } from './room-presentation';
 import { ActorPresentation } from './actor-presentation';
 import type { PreparedRegistration } from '../assets/registration';
@@ -16,7 +17,6 @@ import type { WalkTiming } from '../core/locomotion-timing';
 import type { AnimationTreatment } from '../core/animation-treatment';
 import type { AnimationFlow } from './animation-blend-shader';
 import {
-  worldVisuals,
   type WorldVisualDefinition,
   compositionPoint,
   compositionSpan,
@@ -35,7 +35,7 @@ import {
 } from '../content/visual-effects';
 import { SceneVisualEffects } from './scene-visual-effects';
 import { SceneLightingRenderer } from './scene-lighting-renderer';
-export class GamePresentation {
+export class GamePresentation implements PresentationLifecycle {
   readonly roomPresentation: RoomPresentation;
   readonly actorPresentation: ActorPresentation;
   lookRenderer: SceneLightingRenderer;
@@ -70,7 +70,7 @@ export class GamePresentation {
   flare: T.Mesh;
   slash: T.Mesh;
   get visuals() {
-    return this.visualOverride ?? worldVisuals[this.area.id];
+    return this.visualOverride;
   }
   get manifest() {
     return this.packs.get('ink-hero-current')!.manifest;
@@ -193,7 +193,11 @@ export class GamePresentation {
     this.actorPresentation.dispose();
     this.roomPresentation.disposeResources();
   }
-  resetRoom(area: AreaDefinition = this.area) {
+  prepareAssets(ids?: ReadonlySet<string>) {
+    return this.lookRenderer.prepare(ids);
+  }
+  resetRoom(area: AreaDefinition, visuals: WorldVisualDefinition | undefined) {
+    this.visualOverride = visuals;
     this.sceneEffects.reset();
     this.lookRenderer.resetRoom();
     this.disposeRoom();
@@ -210,11 +214,16 @@ export class GamePresentation {
   }
   protected framingZ = 3;
   get viewSpan() {
-    return compositionSpan(this.area.id, { x: 0, z: this.framingZ }, this.verticalSpan);
+    return compositionSpan(
+      this.area.id,
+      { x: 0, z: this.framingZ },
+      this.verticalSpan,
+      this.visuals,
+    );
   }
   update(sim: Simulation, alpha: number, ms: number, aim: { x: number; z: number }) {
     if (this.generation !== sim.generation) {
-      this.resetRoom(sim.areaDefinition);
+      this.resetRoom(sim.areaDefinition, this.visuals);
       this.generation = sim.generation;
     }
     this.roomPresentation.room.visible = true;
@@ -319,10 +328,12 @@ export class GamePresentation {
           halfWidth: (this.camera.right - this.camera.left) / 2,
           halfHeight: (this.camera.top - this.camera.bottom) / 2,
         },
+        this.visuals,
       );
       this.viewTarget.set(
         framed.x,
-        heightAt(sim.areaDefinition, framed.x, framed.z) + compositionHeight(sim.area, { x, z }),
+        heightAt(sim.areaDefinition, framed.x, framed.z) +
+          compositionHeight(sim.area, { x, z }, this.visuals),
         framed.z,
       );
       this.camera.position.copy(this.viewTarget).addScaledVector(outward, 30);

@@ -3,26 +3,24 @@ import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { createServer } from 'node:http';
 import { spawn } from 'node:child_process';
-import { _electron } from 'playwright';
 import { AssetCache } from '../assets/cache';
-import { cacheRoot, projectRoot } from '../assets/paths';
-import { scenePreviewServer } from './scene-server';
+import { projectRoot } from '../assets/paths';
+import { previewBrowser } from './preview-session';
 import { withoutCommandLane } from '../command-lane';
-import { shaFile } from '../assets/sources';
+import { snapshot, inputKey, type InputSnapshot } from '../task-state';
+import { dependencyInputs } from '../verification-plan';
 import { sandboxContent } from '../../src/content/sandbox-world';
 import type {} from '../../src/inspection';
 
 type Endpoint = { root: string; asset: string; tool: string; port: number; token: string };
-async function browserToolIdentity() {
-  const hashes = await Promise.all(
-    [
-      'tools/scene/prototype-browser.ts',
-      'tools/scene/scene-server.ts',
-      'tools/scene/scene-browser.cjs',
-      'vite.config.ts',
-    ].map((file) => shaFile(path.join(projectRoot, file))),
+async function browserToolIdentity(providedInputs?: InputSnapshot) {
+  const inputs = providedInputs ?? (await snapshot(projectRoot));
+  const names = await dependencyInputs(projectRoot, ['tools/scene/prototype-browser.ts'], inputs);
+  return inputKey(
+    inputs,
+    names,
+    process.version + ':' + process.platform + ':prototype-browser-v2',
   );
-  return createHash('sha256').update(JSON.stringify(hashes)).digest('hex');
 }
 const entryName =
   'prototype-browser-' + createHash('sha256').update(projectRoot).digest('hex').slice(0, 20);
@@ -47,7 +45,13 @@ async function request(value: Endpoint, command: unknown, timeout = 15000) {
     throw new Error(result.error ?? 'Prototype browser request failed');
   return result;
 }
-export async function prototypeProbe(scene: string, loading = false) {
+export async function prototypeProbe(
+  scene: string,
+  loading = false,
+  env: NodeJS.ProcessEnv = process.env,
+  inputs?: InputSnapshot,
+) {
+  const tool = await browserToolIdentity(inputs);
   if (!loading) sandboxContent.area(scene);
   const held = await new AssetCache().lease(entryName, 32 * 1024 ** 2);
   try {
@@ -62,8 +66,8 @@ export async function prototypeProbe(scene: string, loading = false) {
     if (
       server &&
       (server.root !== projectRoot ||
-        server.asset !== process.env.LANTERN_ASSET_SHA256 ||
-        server.tool !== (await browserToolIdentity()))
+        server.asset !== env.LANTERN_ASSET_SHA256 ||
+        server.tool !== tool)
     ) {
       await request(server, { stop: true });
       server = undefined;
@@ -82,7 +86,7 @@ export async function prototypeProbe(scene: string, loading = false) {
         {
           cwd: projectRoot,
           detached: true,
-          env: withoutCommandLane(process.env),
+          env: withoutCommandLane(env),
           stdio: ['ignore', log.fd, log.fd],
         },
       );
@@ -91,11 +95,7 @@ export async function prototypeProbe(scene: string, loading = false) {
       const deadline = Date.now() + 15000;
       while (Date.now() < deadline) {
         const candidate = await endpoint(held.root);
-        if (
-          candidate &&
-          candidate.asset === process.env.LANTERN_ASSET_SHA256 &&
-          candidate.tool === (await browserToolIdentity())
-        ) {
+        if (candidate && candidate.asset === env.LANTERN_ASSET_SHA256 && candidate.tool === tool) {
           try {
             await request(candidate, { health: true }, 500);
             server = candidate;
@@ -127,35 +127,23 @@ export async function stopPrototypeBrowser() {
   }
 }
 async function serve(directory: string) {
-  const cache = new AssetCache();
-  const assetEntry = path
-    .relative(path.join(cacheRoot(), 'entries'), process.env.LANTERN_ASSET_WORKSPACE!)
-    .split(path.sep)[0]!;
-  if (!assetEntry || assetEntry.startsWith('.') || assetEntry.includes('/'))
-    throw new Error('Invalid prototype asset workspace');
-  const held = await cache.lease(entryName, 32 * 1024 ** 2),
-    assets = await cache.lease(assetEntry);
-  const preview = await scenePreviewServer();
-  const browser = await _electron.launch({
-    args: [
-      path.join(projectRoot, 'tools/scene/scene-browser.cjs'),
-      preview.origin + '/__lantern_prototype_blank',
-      path.join(directory, 'profile'),
-    ],
-    timeout: 8000,
-  });
-  const page = await browser.firstWindow();
-  await page.evaluate(() => Reflect.set(window, '__name', (fn: Function) => fn));
-  const fixture = page;
+  const held = await new AssetCache().lease(entryName, 32 * 1024 ** 2);
+  let session: Awaited<ReturnType<typeof previewBrowser>>;
+  try {
+    session = await previewBrowser(path.join(directory, 'profile'), '/__lantern_prototype_blank');
+  } catch (error) {
+    await held.release();
+    throw error;
+  }
+  const page = session.page,
+    fixture = page;
   const token = randomUUID();
   let last = Date.now(),
     chain = Promise.resolve();
   const close = async () => {
     clearInterval(idle);
     await fs.rm(path.join(directory, 'endpoint.json'), { force: true });
-    await browser.close();
-    await preview.close();
-    await assets.release();
+    await session.close();
     await held.release();
     server.close();
   };
@@ -188,7 +176,7 @@ async function serve(directory: string) {
             };
             if (!command.health && !command.stop) {
               if (command.loading) {
-                await fixture.goto(preview.origin + '/__lantern_prototype_blank');
+                await fixture.goto(session.origin + '/__lantern_prototype_blank');
                 await fixture.setContent(
                   '<link rel="stylesheet" href="/src/loading-screen.css"><dialog id="loading-screen" open><video muted loop playsinline></video><p>Loading</p></dialog><canvas tabindex="0"></canvas>',
                 );
@@ -205,7 +193,7 @@ async function serve(directory: string) {
               } else {
                 sandboxContent.area(command.scene!);
                 if (!page.url().includes('/sandbox.html'))
-                  await page.goto(preview.origin + '/sandbox.html');
+                  await page.goto(session.origin + '/sandbox.html');
                 await page.waitForFunction(() => window.foundation?.ready, {}, { timeout: 10000 });
                 await page.evaluate(async (scene) => {
                   await window.foundation.fixture(scene);

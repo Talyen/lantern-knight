@@ -1,3 +1,4 @@
+import { emptyScene } from './editor/default-scene';
 import { resolveAuthoredScene } from './content/world-art';
 import {
   paletteEntry,
@@ -10,7 +11,6 @@ import { AssetRuntime } from './assets/loader';
 import type { Manifest } from './assets/schema';
 import { authoringCatalog } from './assets/authoring-catalog';
 import {
-  emptyScene,
   parseSceneDocument,
   paletteKind,
   paletteClips,

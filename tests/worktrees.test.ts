@@ -1,3 +1,4 @@
+import { emptyScene } from '../src/editor/default-scene';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -10,7 +11,6 @@ import { execFileSync } from 'node:child_process';
 import { scenePreviewPort, scenePreviewServer } from '../tools/scene/scene-server';
 import { verificationIdentity, requireStableInputs } from '../tools/verification';
 import { parseTask } from '../tools/task-runner';
-import { emptyScene } from '../src/content/scene-document';
 
 async function unusedPort() {
   const server = net.createServer();

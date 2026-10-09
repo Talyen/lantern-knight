@@ -1,3 +1,4 @@
+import { emptyScene } from '../src/editor/default-scene';
 import { sceneFixture } from './fixtures/scene';
 import { applySceneryPreset, sceneFixtures } from '../src/content/scenery-presets';
 import { describe, it } from 'node:test';
@@ -5,11 +6,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import {
-  emptyScene,
-  parseSceneDocument,
-  validateSceneReferences,
-} from '../src/content/scene-document';
+import { parseSceneDocument, validateSceneReferences } from '../src/content/scene-document';
 import { churchyardColliders, resolveAuthoredScene } from '../src/content/world-art';
 import { EditorHistory } from '../src/editor/model';
 import { SceneStore } from '../tools/scene/scene-editor-store';

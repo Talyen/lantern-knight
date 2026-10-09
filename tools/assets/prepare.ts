@@ -7,11 +7,15 @@ import { stagePayload } from './payload';
 import { makeArchive, recipeHash, recipeInputs } from './pack';
 import { prepareSteps, prepareProof } from './preparation';
 const BUDGET = 2.5 * 1024 ** 3;
-export async function prepareAssets(cache = new AssetCache(), proof = false) {
+export async function prepareAssets(
+  cache = new AssetCache(),
+  proof = false,
+  environment: NodeJS.ProcessEnv = process.env,
+) {
   const held = await cache.lease('preparation', BUDGET, true),
     workspace = path.join(held.root, 'work');
   const env = {
-    ...process.env,
+    ...environment,
     LANTERN_ASSET_WORKSPACE: workspace,
     LANTERN_PREPARING: '1',
     LANTERN_PREPARE_BUDGET: String(BUDGET - 16 * 1024 * 1024),

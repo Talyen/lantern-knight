@@ -50,7 +50,7 @@ jobs:
       - name: Configure external asset cache
         shell: bash
         run: echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
-      - run: npm run check:full
+      - run: npm run verify:build
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: failure()
         with:
@@ -58,8 +58,6 @@ jobs:
           path: ${{ runner.temp }}/LanternKnight/entries/diagnostics-*
           retention-days: 3
           if-no-files-found: ignore
-      - run: npm run build
-      - run: npm run build:dev
       - run: git diff --exit-code
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:

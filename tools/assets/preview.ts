@@ -69,7 +69,11 @@ export async function prototypeAssets(cache = new AssetCache(), root = projectRo
   const lock = await readLock((name) => fs.readFile(path.join(root, name)));
   return { held: await ensurePack(lock, cache), lock };
 }
-export async function preparePreviewAssets(ids: string[], cache = new AssetCache()) {
+export async function preparePreviewAssets(
+  ids: string[],
+  cache = new AssetCache(),
+  env: NodeJS.ProcessEnv = process.env,
+) {
   const base = await prototypeAssets(cache);
   const selectedIds = [
     ...new Set([...('selections' in base.lock ? base.lock.selections : []), ...ids]),
@@ -133,7 +137,7 @@ export async function preparePreviewAssets(ids: string[], cache = new AssetCache
       steps,
       workspace: work,
       cache: path.join(held.root, 'steps'),
-      env: process.env,
+      env,
     });
     if ((await recipeHash()) !== startRecipe)
       throw new Error('Preparation inputs changed during scoped import');

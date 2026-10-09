@@ -223,8 +223,8 @@ export function areaArtAssets(area: AreaDefinition) {
 export function validateAreaArt(
   area: AreaDefinition,
   packs: ReadonlyMap<string, { manifest: Manifest }>,
+  art: WorldVisualDefinition | undefined = worldVisuals[area.id],
 ) {
-  const art = worldVisuals[area.id];
   if (!art) return;
   if (area.surface.kind !== 'flat' || area.surface.height !== 0)
     throw new Error('Production scene stages must be flat at ground level');
@@ -283,8 +283,9 @@ export function compositionPoint(
   area: string,
   hero: Point,
   frame?: { halfWidth: number; halfHeight: number },
+  art: WorldVisualDefinition | undefined = worldVisuals[area],
 ): Point {
-  const f = worldVisuals[area]?.camera;
+  const f = art?.camera;
   if (!f) return { ...hero };
   const t = f.arrival
       ? Math.max(0, Math.min(1, (hero.z - f.arrival.start) / (f.arrival.end - f.arrival.start)))
@@ -309,7 +310,7 @@ export function compositionPoint(
     target.z -= shift * s;
     const vertical =
         -((hero.x - target.x) * s + (hero.z - target.z) * c) * sine -
-        compositionHeight(area, hero) * Math.cos(e),
+        compositionHeight(area, hero, art) * Math.cos(e),
       low = -frame.halfHeight + 0.6,
       high = frame.halfHeight - cameraContract.heroHeight * Math.cos(e) - 0.6,
       correction = vertical - Math.max(low, Math.min(high, vertical));
@@ -320,8 +321,13 @@ export function compositionPoint(
 }
 
 // The requested span remains the saved preference; only the default framing reveals entry.
-export function compositionSpan(area: string, hero: Point, requested: number): number {
-  const f = worldVisuals[area]?.camera,
+export function compositionSpan(
+  area: string,
+  hero: Point,
+  requested: number,
+  art: WorldVisualDefinition | undefined = worldVisuals[area],
+): number {
+  const f = art?.camera,
     a = f?.arrival;
   if (!a?.span || requested !== 9) return requested;
   const t = Math.max(0, Math.min(1, (hero.z - a.start) / (a.end - a.start))),
@@ -329,8 +335,12 @@ export function compositionSpan(area: string, hero: Point, requested: number): n
   return requested + (a.span - requested) * ease;
 }
 
-export function compositionHeight(area: string, hero: Point): number {
-  const f = worldVisuals[area]?.camera,
+export function compositionHeight(
+  area: string,
+  hero: Point,
+  art: WorldVisualDefinition | undefined = worldVisuals[area],
+): number {
+  const f = art?.camera,
     base = f?.targetHeight ?? 0,
     a = f?.arrival;
   const t = a ? Math.max(0, Math.min(1, (hero.z - a.start) / (a.end - a.start))) : 0;

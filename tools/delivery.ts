@@ -4,7 +4,7 @@ import { projectRoot } from './assets/paths';
 import { runProcess } from './run-process';
 import { taskBudget } from './task-budget';
 import { guardedBuild, verificationIdentity, requireStableInputs } from './verification';
-import type { Invocation } from './task-runner';
+import { taskInputs, type Invocation } from './task-context';
 export async function e2e({
   run,
   args,
@@ -20,6 +20,13 @@ export async function e2e({
   await child('tools/smoke/e2e.ts', clean, taskBudget('test:e2e'));
   await requireStableInputs(projectRoot, before);
 }
+export async function buildVerification({ run, args }: Invocation) {
+  for (const task of ['check:full', 'build', 'build:dev']) {
+    const started = performance.now();
+    await run(task, args);
+    console.log(`Verification phase ${task}: ${Math.round(performance.now() - started)}ms.`);
+  }
+}
 export async function fullVerification({ context, run, args }: Invocation) {
   if (!['darwin', 'win32'].includes(process.platform))
     throw new Error('Full verification requires macOS or Windows');
@@ -27,9 +34,7 @@ export async function fullVerification({ context, run, args }: Invocation) {
     host = process.platform === 'darwin' ? 'mac' : 'win';
   context.env = { ...context.env, LANTERN_FULL_VERIFICATION: '1' };
   for (const task of [
-    'check:full',
-    'build',
-    'build:dev',
+    'verify:build',
     `package:${host}:prebuilt`,
     `package:dev:${host}:prebuilt`,
     'test:e2e',
@@ -44,7 +49,7 @@ export async function fullVerification({ context, run, args }: Invocation) {
   );
 }
 
-export async function build({ clean, env, output, child, definition }: Invocation) {
+export async function build({ context, run, clean, env, output, child, definition }: Invocation) {
   if (clean.length) throw new Error('Build accepts only --local');
   const dev = definition.dev ?? false,
     identity = path.join(projectRoot, dev ? 'dist-dev' : 'dist', 'build-identity.json');
@@ -53,7 +58,7 @@ export async function build({ clean, env, output, child, definition }: Invocatio
       projectRoot,
       identity,
       async (before) => {
-        await child('node_modules/typescript/bin/tsc', ['--noEmit']);
+        await run('typecheck');
         await child('node_modules/vite/bin/vite.js', [
           'build',
           ...(dev ? ['--mode', 'sandbox'] : []),
@@ -72,10 +77,13 @@ export async function build({ clean, env, output, child, definition }: Invocatio
       },
       { scope: 'runtime' },
     );
-  if (process.env.CI === 'true') return execute();
+  if (env.CI === 'true') return execute();
   const { phaseEvidence } = await import('./task-state');
   const { fileChecksums } = await import('./verified-files');
-  const inputs = await verificationIdentity(projectRoot, { scope: 'runtime' });
+  const inputs = await verificationIdentity(projectRoot, {
+    scope: 'runtime',
+    inputs: await taskInputs(context),
+  });
   const key = [
     inputs.sha256,
     env.LANTERN_ASSET_SHA256,
@@ -115,7 +123,7 @@ export async function build({ clean, env, output, child, definition }: Invocatio
     console.log('Reused validated build: runtime inputs, pinned assets and output files match.');
 }
 
-export async function packageApp({ run, args, output, child, definition }: Invocation) {
+export async function packageApp({ run, args, output, child, definition, env }: Invocation) {
   const { dev, host, prebuilt } = definition.package!;
   if (!host) throw new Error('Unknown package target');
   if (!prebuilt) await run(dev ? 'build:dev' : 'build', args, output);
@@ -127,7 +135,7 @@ export async function packageApp({ run, args, output, child, definition }: Invoc
       host === 'mac' ? '--arm64' : '--x64',
       '--dir',
     ]);
-  if (process.env.CI === 'true') return execute();
+  if (env.CI === 'true') return execute();
   const { phaseEvidence } = await import('./task-state');
   const { fileChecksums } = await import('./verified-files');
   const dist = dev ? 'dist-dev' : 'dist';

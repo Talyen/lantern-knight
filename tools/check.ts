@@ -1,18 +1,25 @@
+import { runNpmTask } from './task-runner';
+import { taskInputs, taskPlan, type Invocation } from './task-context';
+import { projectRoot } from './assets/paths';
+import { runProcess } from './run-process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { verificationIdentity, requireStableInputs } from './verification';
-import { verificationPlan } from './verification-plan';
-import { snapshot, inputKey, phaseEvidence, recordCheck } from './task-state';
+import { verificationPlan, type VerificationPlan } from './verification-plan';
+import { snapshot, inputKey, phaseEvidence, recordCheck, type InputSnapshot } from './task-state';
 import { dependencyInputs } from './verification-plan';
 import { publishResult, failureLog, ReportedFailure, type CommandResult } from './command-report';
 
 export async function runChecks(
   root: string,
-  run: (name: string, args: string[]) => Promise<void | CommandResult>,
+  run: (name: string, args: string[], files?: string[]) => Promise<void | CommandResult>,
   local = false,
   full = false,
+  providedInputs?: InputSnapshot,
+  providedPlan?: VerificationPlan,
 ) {
-  const before = await verificationIdentity(root),
+  const inputs = providedInputs ?? (await snapshot(root));
+  const before = await verificationIdentity(root, { inputs }),
     steps: {
       name: string;
       status: 'passed' | 'failed' | 'skipped';
@@ -20,8 +27,7 @@ export async function runChecks(
       reused?: boolean;
       ms?: number;
     }[] = [];
-  const plan = await verificationPlan(root, { full, prototype: !full });
-  const inputs = await snapshot(root);
+  const plan = providedPlan ?? (await verificationPlan(root, { full, prototype: !full, inputs }));
   const changed = plan.changed;
   const code = changed.filter(
     (name) => /\.(?:[cm]?[jt]sx?|py|css|html)$/.test(name) && name in inputs.files,
@@ -154,25 +160,20 @@ export async function runChecks(
             JSON.stringify(args),
         );
         const proof = await phaseEvidence(root, name, key, async () => {
-          const previous = process.env.LANTERN_CHECK_FILES;
-          if (name === 'lint' || name === 'formatting') {
-            const configChanged = changed.some((file) =>
-              /\.oxlintrc|ruff\.toml|\.prettier/.test(file),
-            );
-            if (!configChanged) process.env.LANTERN_CHECK_FILES = JSON.stringify(code);
-          }
-          try {
-            const result = await run(name, args);
-            if (name === 'tests' && result) tests = result;
-            if (
-              inputKey(await snapshot(root), names, 'stability') !==
-              inputKey(inputs, names, 'stability')
-            )
-              throw new Error('Inputs changed during ' + name);
-          } finally {
-            if (previous === undefined) delete process.env.LANTERN_CHECK_FILES;
-            else process.env.LANTERN_CHECK_FILES = previous;
-          }
+          const configChanged = changed.some((file) =>
+            /\.oxlintrc|ruff\.toml|\.prettier/.test(file),
+          );
+          const result = await run(
+            name,
+            args,
+            (name === 'lint' || name === 'formatting') && !configChanged ? code : undefined,
+          );
+          if (name === 'tests' && result) tests = result;
+          if (
+            inputKey(await snapshot(root), names, 'stability') !==
+            inputKey(inputs, names, 'stability')
+          )
+            throw new Error('Inputs changed during ' + name);
           return { passed: true, ...(tests && name === 'tests' ? { tests } : {}) };
         });
         reused = proof.reused;
@@ -223,22 +224,30 @@ export async function check(
     name: string,
     args: string[],
     output: (chunk: Buffer) => void,
+    files?: string[],
   ) => Promise<void | CommandResult>,
   full = false,
   output?: (chunk: Buffer) => void,
+  providedInputs?: InputSnapshot,
+  providedPlan?: VerificationPlan,
 ) {
+  const inputs = providedInputs ?? (await snapshot(root));
   const started = performance.now();
-  const inputs = await snapshot(root);
   let log = '';
   let failures: string[] = [];
   const result = await runChecks(
     root,
-    async (name, args) => {
+    async (name, args, files) => {
       let output = '';
       try {
-        return await execute(name, args, (chunk) => {
-          output = (output + chunk.toString()).slice(-1024 * 1024);
-        });
+        return await execute(
+          name,
+          args,
+          (chunk) => {
+            output = (output + chunk.toString()).slice(-1024 * 1024);
+          },
+          files,
+        );
       } catch (error) {
         if (error instanceof ReportedFailure && error.result.diagnostics) {
           const fs = await import('node:fs/promises');
@@ -260,6 +269,8 @@ export async function check(
     },
     args.includes('--local'),
     full,
+    inputs,
+    providedPlan,
   );
   const report: CommandResult = {
     command: full ? 'check:full' : 'check',
@@ -310,3 +321,38 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     if (!(error instanceof ReportedFailure)) console.error(error.message);
     process.exitCode = 1;
   });
+
+export async function checks({ context, definition, args, clean, env, output }: Invocation) {
+  if (clean.length) throw new Error('Use check [--local]');
+  if (definition.full) context.env = { ...context.env, LANTERN_FULL_VERIFICATION: '1' };
+  await (
+    await import('./check')
+  ).check(
+    projectRoot,
+    args,
+    async (name, argv, gateOutput, files) => {
+      if (name === 'whitespace')
+        await runProcess('git', ['diff', '--check'], {
+          cwd: projectRoot,
+          env,
+          output: gateOutput,
+        });
+      else {
+        const previous = context.env;
+        context.env = {
+          ...context.env,
+          LANTERN_CHECK_FILES: files ? JSON.stringify(files) : undefined,
+        };
+        try {
+          return await runNpmTask(context, argv, gateOutput);
+        } finally {
+          context.env = previous;
+        }
+      }
+    },
+    !!definition.full,
+    output,
+    await taskInputs(context),
+    await taskPlan(context, !!definition.full),
+  );
+}

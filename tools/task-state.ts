@@ -5,9 +5,12 @@ import { execFileSync } from 'node:child_process';
 import { safeRelative } from './assets/paths';
 import { AssetCache } from './assets/cache';
 import { authoredInputs, inputFingerprint } from './authored-inputs';
+import { dependencies, type ModuleGraph } from './module-graph';
 
 export type InputSnapshot = {
   schemaVersion: 1;
+  commit?: string | null;
+  dirty?: boolean;
   files: Record<string, string>;
 };
 export type TaskState = {
@@ -15,13 +18,14 @@ export type TaskState = {
   name: string;
   start: InputSnapshot;
   checked?: InputSnapshot;
+  dependencies?: ModuleGraph;
   paths?: string[];
   commit?: string;
   inheritedDirty?: number;
   identity?: string;
 };
 export async function snapshot(root: string): Promise<InputSnapshot> {
-  return { schemaVersion: 1, files: (await authoredInputs(root)).files };
+  return { schemaVersion: 1, ...(await authoredInputs(root)) };
 }
 export function delta(before: InputSnapshot, after: InputSnapshot) {
   return [...new Set([...Object.keys(before.files), ...Object.keys(after.files)])]
@@ -74,12 +78,13 @@ export async function startTask(root: string, name: string, paths: string[] = []
     /* Non-Git fixtures still have an authored snapshot identity. */
   }
   const identity = inputKey(start, Object.keys(start.files), 'task-baseline-v1');
-  await withState(root, (directory) =>
+  await withState(root, async (directory) =>
     atomic(path.join(directory, 'task.json'), {
       schemaVersion: 1,
       name,
       paths: parsed.paths,
       start,
+      dependencies: await dependencies(root, start),
       commit,
       inheritedDirty,
       identity,
@@ -113,7 +118,11 @@ export async function recordCheck(root: string, current: InputSnapshot) {
       if ((error as NodeJS.ErrnoException).code === 'ENOENT') return;
       throw error;
     }
-    await atomic(file, { ...state, checked: current });
+    await atomic(file, {
+      ...state,
+      checked: current,
+      dependencies: await dependencies(root, current),
+    });
   });
 }
 export async function phaseEvidence<T>(

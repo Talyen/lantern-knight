@@ -134,7 +134,7 @@ export class EditorView {
         await this.presentation.warm();
       } else {
         this.presentation.visualOverride = art;
-        this.presentation.resetRoom(area);
+        this.presentation.resetRoom(area, art);
       }
       this.presentation.generation = this.sim.generation;
       this.presentation.lookRenderer.setSettings(document.look);

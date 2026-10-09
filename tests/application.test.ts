@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Application } from '../src/application';
 import { AssetRuntime, ResourcePool, type PackLease } from '../src/assets/loader';
-import type { GamePresentation } from '../src/presentation/game-scene';
+import { presentationFixture, sceneFixture } from './fixtures/presentation';
 import { content } from './fixtures/content';
 import type { Bridge } from '../src/core/save';
 import { Persistence } from '../src/core/persistence';
@@ -56,13 +56,18 @@ function fixture() {
     content,
     {},
     {} as Bridge,
-    () => ({}) as GamePresentation,
+    sceneFixture(content),
+    () => presentationFixture(),
     { status: () => {}, pause: () => {}, frame: () => {} },
   );
   let released = 0,
     warmed = 0;
   const lease = { release: () => released++ } as unknown as PackLease;
-  app.presentation = { warmPack: () => warmed++, dispose: () => {} } as unknown as GamePresentation;
+  app.presentation = presentationFixture({
+    warmPack: () => {
+      warmed++;
+    },
+  });
   return {
     app,
     lease,
@@ -220,13 +225,13 @@ test('simulation enablement isolates lab policy, keeps rendering, and clears cat
     app.beforeStep = () => {
       steps++;
     };
-    app.presentation = {
+    app.presentation = presentationFixture({
       update: (_sim: unknown, _alpha: number, ms: number) => {
         renders++;
         lastRenderMs = ms;
       },
       dispose: () => {},
-    } as unknown as GamePresentation;
+    });
     app.input = {
       clear: () => {},
       consume: () => ({ move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } }),

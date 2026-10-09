@@ -1,14 +1,26 @@
+import type { InputSnapshot } from './task-state';
 import fs from 'node:fs/promises';
 import { acquireCommandLane } from './command-lane';
 import { authoredIdentity } from './authored-inputs';
 export const verificationIdentity = (
   root: string,
   options: {
+    inputs?: InputSnapshot;
     ignoreAssetPin?: boolean;
     scope?: 'verification' | 'runtime';
     files?: readonly string[];
   } = {},
-) => authoredIdentity(root, options);
+) =>
+  authoredIdentity(root, {
+    ...options,
+    inputs: options.inputs
+      ? {
+          files: options.inputs.files,
+          commit: options.inputs.commit ?? null,
+          dirty: options.inputs.dirty ?? true,
+        }
+      : undefined,
+  });
 export async function requireStableInputs(
   root: string,
   before: Awaited<ReturnType<typeof verificationIdentity>>,

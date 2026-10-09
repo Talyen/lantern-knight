@@ -3,6 +3,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { snapshot, taskBaseline, delta, type InputSnapshot } from './task-state';
+import { dependencies, dependencyClosure, type ModuleGraph } from './module-graph';
 
 export type VerificationPlan = {
   base: string | null;
@@ -54,13 +55,16 @@ export function changedInputs(root: string, base?: string) {
 }
 export async function verificationPlan(
   root: string,
-  options: { base?: string; full?: boolean; prototype?: boolean } = {},
+  options: { base?: string; full?: boolean; prototype?: boolean; inputs?: InputSnapshot } = {},
 ): Promise<VerificationPlan> {
   const suites = (await fs.readdir(path.join(root, 'tests'), { withFileTypes: true }))
     .filter((file) => file.isFile() && file.name.endsWith('.test.ts'))
     .map((file) => 'tests/' + file.name)
     .sort();
   if (!suites.length) throw new Error('No test suites found.');
+  const inputs = options.inputs ?? (await snapshot(root));
+  const graph = await dependencies(root, inputs);
+  let prior: ModuleGraph | undefined;
   let base: string | null = null,
     changed: string[] = [];
   let full = !!options.full;
@@ -71,12 +75,13 @@ export async function verificationPlan(
       const task = options.prototype && (await taskBaseline(root));
       if (task) {
         base = 'task:' + task.name;
-        changed = delta(task.checked ?? task.start, await snapshot(root));
+        prior = task.dependencies;
+        changed = delta(task.checked ?? task.start, inputs);
       } else ({ base, changed } = changedInputs(root, options.base));
       full = changed.some(
         (file) =>
           shared(file) ||
-          (/^tests\//.test(file) && !/^tests\/[^/]+\.test\.ts$/.test(file)) ||
+          (!graph && /^tests\//.test(file) && !/^tests\/[^/]+\.test\.ts$/.test(file)) ||
           (!documents(file) && !contextOwner(file)) ||
           (/^tests\/[^/]+\.test\.ts$/.test(file) && !suites.includes(file)),
       );
@@ -89,14 +94,18 @@ export async function verificationPlan(
       full = true;
       reasons.push('Unavailable comparison baseline; conservative full coverage');
     }
-  const selected = new Set<string>();
-  for (const file of changed) {
-    if (documents(file)) continue;
-    if (/^tests\/[^/]+\.test\.ts$/.test(file)) selected.add(file);
-    else
-      for (const name of contextOwner(file)?.suites ?? [])
-        selected.add('tests/' + name + '.test.ts');
-  }
+  const selected = graph
+    ? affectedSuites(graph, suites, changed, prior)
+    : new Set(
+        changed.flatMap((file) =>
+          documents(file)
+            ? []
+            : /^tests\/[^/]+\.test\.ts$/.test(file)
+              ? [file]
+              : (contextOwner(file)?.suites ?? []).map((name) => 'tests/' + name + '.test.ts'),
+        ),
+      );
+  if (graph) reasons.push('Compiler-resolved consumers and declared non-import inputs');
   return {
     base,
     changed,
@@ -115,7 +124,7 @@ export type ContextRoute = {
   suites: string[];
   skills?: string[];
 };
-// One conservative owner map serves local test selection and agent discovery.
+// Owners serve discovery and fallback; compiler consumers own normal selection.
 export const contextRoutes: ContextRoute[] = [
   {
     name: 'saved state',
@@ -218,7 +227,7 @@ export const contextRoutes: ContextRoute[] = [
     match:
       /^(?:tools\/|tests\/)|^(?:package|tsconfig|vite\.config|\.github\/|\.codex\/|\.githooks\/)/,
     entries: [
-      'tools/task-runner.ts#commands',
+      'tools/commands.ts#commands',
       'tools/verification-plan.ts#verificationPlan',
       'tools/test.ts#runTests',
     ],
@@ -247,23 +256,50 @@ export function entryLocation(reference: string, source?: string) {
   const line = source?.split('\n').findIndex((text) => declaration.test(text));
   return line === undefined || line < 0 ? undefined : file + ':' + (line + 1);
 }
-// Reuse is deliberately conservative within each executable family. This avoids
-// another dependency parser: execution selection and evidence identity have different jobs.
+export function affectedSuites(
+  graph: ModuleGraph,
+  suites: string[],
+  changed: string[],
+  prior?: ModuleGraph,
+) {
+  const selected = new Set<string>();
+  const executable = changed.filter((file) => !documents(file));
+  for (const suite of suites) {
+    const current = dependencyClosure(graph, [suite]);
+    const previous = prior && dependencyClosure(prior, [suite]);
+    if (
+      executable.some((file) => current.files.has(file) || previous?.files.has(file)) ||
+      (executable.length && (current.unresolved || previous?.unresolved))
+    )
+      selected.add(suite);
+  }
+  for (const file of executable) {
+    if (
+      selected.has(file) ||
+      suites.some((suite) => dependencyClosure(graph, [suite]).files.has(file))
+    )
+      continue;
+    // Unimported authored inventories still have conservative subsystem owners.
+    for (const name of contextOwner(file)?.suites ?? []) {
+      const suite = 'tests/' + name + '.test.ts';
+      if (suites.includes(suite)) selected.add(suite);
+    }
+  }
+  return selected;
+}
 export async function dependencyInputs(root: string, entries: string[], inputs?: InputSnapshot) {
   const current = inputs ?? (await snapshot(root));
-  const browser = entries.every((file) => /^tools\/(?:smoke|scene)\//.test(file));
+  const graph = await dependencies(root, current);
+  const closure = graph && dependencyClosure(graph, entries);
   return [
     ...new Set([
       ...entries,
       ...Object.keys(current.files).filter(
         (file) =>
-          /^(?:src|electron|authoring|assets|tests\/fixtures)\//.test(file) ||
           shared(file) ||
-          (browser
-            ? /^tools\/(?:smoke|scene|assets)\/|^tools\/(?:command-lane|run-process|verification|authored-inputs|source-identity|phase-run|verified-files)\.ts$/.test(
-                file,
-              )
-            : file.startsWith('tools/')),
+          (closure && !closure.unresolved
+            ? closure.files.has(file)
+            : /^(?:src|electron|authoring|assets|tools|tests\/fixtures)\//.test(file)),
       ),
     ]),
   ].sort();

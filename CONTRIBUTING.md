@@ -14,7 +14,7 @@ Finish ordinary tasks with `npm run check`; use `npm test -- tests/<name>.test.t
 
 ### Regular checks
 
-[Regular checks](docs/verification.md#regular-checks) own task deltas, conservative selection, evidence reuse and stability. `check:full`, `test:full` and `verify:full` explicitly request integration coverage. A local result certifies only its reported scope; CI and visual approval remain separate.
+[Regular checks](docs/verification.md#regular-checks) own task deltas, conservative selection, evidence reuse and stability. `check:full` and `test:full` explicitly request full coverage; `verify:build` combines full checks and both builds, and `verify:full` adds host delivery coverage. A local result certifies only its reported scope; CI and visual approval remain separate.
 
 ### Scene workflow
 

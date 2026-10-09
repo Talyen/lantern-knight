@@ -2,7 +2,7 @@ import test, { type TestContext } from 'node:test';
 import assert from 'node:assert/strict';
 import { FrameScheduler } from '../src/frame-scheduler';
 import { Application } from '../src/application';
-import type { GamePresentation } from '../src/presentation/game-scene';
+import { presentationFixture, sceneFixture } from './fixtures/presentation';
 import type { Bridge } from '../src/core/save';
 import { content } from './fixtures/content';
 
@@ -160,14 +160,14 @@ test('background Application redraws cannot advance simulation, settings or chec
     content,
     {},
     bridge,
-    () => ({}) as GamePresentation,
+    sceneFixture(content),
+    () => presentationFixture(),
     { status: () => {}, pause: () => {}, frame: () => frames++ },
   );
-  app.presentation = {
-    mode: 'encounter',
+  app.presentation = presentationFixture({
     update: (_sim: unknown, _alpha: number, ms: number) => elapsed.push(ms),
     dispose: () => {},
-  } as unknown as GamePresentation;
+  });
   app.input = {
     clear: () => {},
     dispose: () => {},

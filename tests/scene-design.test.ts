@@ -1,8 +1,8 @@
+import { emptyScene } from '../src/editor/default-scene';
 import { sceneFixture } from './fixtures/scene';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  emptyScene,
   parseSceneDocument,
   resolveSceneDocument,
   convertLegacySceneDocument,

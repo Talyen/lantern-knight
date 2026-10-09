@@ -33,7 +33,19 @@ export async function scenePreviewServer(root = projectRoot, env = process.env) 
   const server = await createServer({
     root,
     mode: 'sandbox',
-    server: { host: '127.0.0.1', port, strictPort: true, open: false },
+    ...(env.LANTERN_ASSET_WORKSPACE ? { publicDir: env.LANTERN_ASSET_WORKSPACE + '/public' } : {}),
+    server: {
+      host: '127.0.0.1',
+      port,
+      strictPort: true,
+      open: false,
+      fs: {
+        allow: [
+          root,
+          ...(env.LANTERN_ASSET_WORKSPACE ? [env.LANTERN_ASSET_WORKSPACE + '/public'] : []),
+        ],
+      },
+    },
     plugins: [
       {
         name: 'lantern-scene-preview',

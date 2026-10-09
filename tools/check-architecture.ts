@@ -5,6 +5,7 @@ import { API } from 'typescript/unstable/sync';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { builtinModules } from 'node:module';
+import { inspectImports } from './module-graph';
 
 // These rules protect existing owners, including type imports and re-exports.
 // Three.js math and the current core/content/asset relationships remain legal.
@@ -41,9 +42,8 @@ async function checkArchitecture(root: string, files: string[]) {
       project = snapshot.getProject(path.join(root, 'tsconfig.json'));
     if (!project) throw new Error('Architecture checker could not open tsconfig.json');
     for (const file of files.filter((f) => f.startsWith('src/') && /\.[cm]?tsx?$/.test(f))) {
-      let text: string;
       try {
-        text = await fs.readFile(path.join(root, file), 'utf8');
+        await fs.access(path.join(root, file));
       } catch (error) {
         if ((error as NodeJS.ErrnoException).code === 'ENOENT') continue;
         throw error;
@@ -85,53 +85,27 @@ async function checkArchitecture(root: string, files: string[]) {
           findings.push(
             `${file}: authored scene surfaces cannot install procedural painting shaders`,
           );
-        let specifier: ts.Node | undefined;
-        if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node))
-          specifier = node.moduleSpecifier;
-        else if (
-          ts.isImportEqualsDeclaration(node) &&
-          ts.isExternalModuleReference(node.moduleReference)
-        )
-          specifier = node.moduleReference.expression;
-        else if (ts.isImportTypeNode(node) && ts.isLiteralTypeNode(node.argument))
-          specifier = node.argument.literal;
-        else if (
-          ts.isCallExpression(node) &&
-          (node.expression.kind === ts.SyntaxKind.ImportKeyword ||
-            (ts.isIdentifier(node.expression) && node.expression.text === 'require'))
-        )
-          specifier = node.arguments[0];
-        if (specifier) {
-          const line = text.slice(0, node.getStart(source)).split('\n').length;
-          if (!ts.isStringLiteral(specifier) && !ts.isNoSubstitutionTemplateLiteral(specifier)) {
-            findings.push(
-              `${file}:${line}: module imports must have a literal target for boundary validation`,
-            );
-          } else {
-            const name = specifier.text;
-            // Native handles use case-folded paths on macOS; the resolved SourceFile
-            // retains spelling so path.relative does not misclassify an internal edge.
-            const declaration = project.checker
-              .getSymbolAtLocation(specifier)
-              ?.declarations.find((node) => node.kind === ts.SyntaxKind.SourceFile)
-              ?.resolve(project);
-            const resolved =
-              declaration && ts.isSourceFile(declaration) ? declaration.fileName : undefined;
-            const target =
-              resolved && !resolved.replaceAll('\\', '/').includes('/node_modules/')
-                ? path.relative(root, resolved).split(path.sep).join('/')
-                : name.startsWith('.')
-                  ? path
-                      .relative(root, path.resolve(root, path.dirname(file), name))
-                      .split(path.sep)
-                      .join('/')
-                  : name;
-            const finding = importFinding(file, target);
-            if (finding) findings.push(`${file}:${line}: ${name}: ${finding}`);
-          }
-        }
         node.forEachChild(inspect);
       };
+      inspectImports(project, source, ({ name, resolved, line }) => {
+        if (!name) {
+          findings.push(
+            `${file}:${line}: module imports must have a literal target for boundary validation`,
+          );
+          return;
+        }
+        const target =
+          resolved && !resolved.replaceAll('\\', '/').includes('/node_modules/')
+            ? path.relative(root, resolved).split(path.sep).join('/')
+            : name.startsWith('.')
+              ? path
+                  .relative(root, path.resolve(root, path.dirname(file), name))
+                  .split(path.sep)
+                  .join('/')
+              : name;
+        const finding = importFinding(file, target);
+        if (finding) findings.push(`${file}:${line}: ${name}: ${finding}`);
+      });
       inspect(source);
     }
     snapshot.dispose();

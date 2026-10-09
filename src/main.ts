@@ -1,3 +1,4 @@
+import { composeSceneContent } from './content/game-content';
 import './style.css';
 import { LoadingScreen } from './loading-screen';
 import { Application } from './application';
@@ -17,6 +18,7 @@ async function start() {
     await gameCatalog(),
     window.lantern ??
       (import.meta.env.MODE === 'sandbox' ? createBrowserBridge('preview') : browserBridge),
+    composeSceneContent(content),
     (...args) => new GamePresentation(...args),
     {
       status,

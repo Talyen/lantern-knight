@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises';
-import { snapshot, inputKey, phaseEvidence } from './task-state';
+import { snapshot, inputKey, phaseEvidence, type InputSnapshot } from './task-state';
 import { dependencyInputs } from './verification-plan';
 import { fileChecksums } from './verified-files';
 import { shaFile } from './assets/sources';
@@ -7,6 +7,7 @@ import { shaFile } from './assets/sources';
 export async function reusableDeliveryPhase(
   root: string,
   options: {
+    inputs?: InputSnapshot;
     name: string;
     entry: string;
     args: string[];
@@ -15,7 +16,7 @@ export async function reusableDeliveryPhase(
     run: () => Promise<string[]>;
   },
 ) {
-  const inputs = await snapshot(root);
+  const inputs = options.inputs ?? (await snapshot(root));
   const names = await dependencyInputs(root, [options.entry], inputs);
   if (options.outputFiles) for (const file of options.outputFiles) names.push(file);
   const identity = options.outputFiles ? await fileChecksums(root, options.outputFiles) : {};

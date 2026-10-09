@@ -1,3 +1,4 @@
+import { emptyScene } from '../src/editor/default-scene';
 import { it } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
@@ -5,7 +6,6 @@ import { manifestFixture } from './fixtures/manifest';
 import { parseManifest, resolveClip } from '../src/assets/schema';
 import { clipDuration, frameAt } from '../src/core/animation';
 import {
-  emptyScene,
   parseSceneDocument,
   convertLegacySceneDocument,
   validateSceneReferences,

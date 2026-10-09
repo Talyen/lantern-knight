@@ -1,15 +1,13 @@
 import type { PreparedRegistration } from './assets/registration';
 import { AssetRuntime, type PackLease } from './assets/loader';
-import type { GamePresentation } from './presentation/game-scene';
+import type { PresentationLifecycle } from './presentation/lifecycle';
+import type { SceneContent } from './content/game-content';
 import { GameSession } from './core/session';
 import { FixedClock, type Command } from './core/simulation';
 import { Persistence } from './core/persistence';
 import { EventHub, type GameplayEvent } from './core/events';
 import { Input } from './core/input';
-import { actorVisuals } from './content/visuals';
-import { areaArtAssets, validateAreaArt } from './content/world-art';
 import { ContentRegistry } from './content/world';
-import { visualEffectsAssets } from './content/visual-effects-assets';
 import { parseGame, type GameSave, type Bridge } from './core/save';
 import { FrameScheduler } from './frame-scheduler';
 export type ApplicationHooks = {
@@ -19,7 +17,7 @@ export type ApplicationHooks = {
   loading?: (active: boolean) => void;
 };
 // Both launch experiences own exactly this session/loading/input/persistence lifecycle.
-export class Application<P extends GamePresentation = GamePresentation> {
+export class Application<P extends PresentationLifecycle = PresentationLifecycle> {
   session: GameSession;
   presentation!: P;
   input!: Input;
@@ -63,12 +61,14 @@ export class Application<P extends GamePresentation = GamePresentation> {
     readonly registry: ContentRegistry,
     readonly catalog: Readonly<Record<string, string>>,
     readonly bridge: Bridge,
+    readonly scenes: SceneContent,
     readonly createPresentation: (
       canvas: HTMLCanvasElement,
       packs: Map<string, PackLease>,
       events: EventHub,
       area: import('./content/world').AreaDefinition,
       registration: PreparedRegistration,
+      visuals: import('./content/world-art').WorldVisualDefinition | undefined,
     ) => P,
     readonly hooks: ApplicationHooks,
     readonly extraAssets: readonly string[] = [],
@@ -123,11 +123,9 @@ export class Application<P extends GamePresentation = GamePresentation> {
     this.assertActive();
     this.runtime = await AssetRuntime.open(this.catalog);
     this.assertActive();
-    const hero = actorVisuals[this.registry.actor(this.registry.definitions.player).visual]!.asset;
     for (const id of [
       ...new Set([
-        hero,
-        ...visualEffectsAssets.filter((id) => id in this.catalog),
+        ...this.scenes.initialAssets.filter((id) => id in this.catalog),
         ...this.extraAssets,
       ]),
     ]) {
@@ -147,6 +145,7 @@ export class Application<P extends GamePresentation = GamePresentation> {
       this.events,
       this.sim.areaDefinition,
       this.runtime.registration,
+      this.scenes.area(this.sim.area).visuals,
     );
     this.presentation.generation = this.session.generation;
     this.events.setGeneration(this.session.generation);
@@ -203,13 +202,8 @@ export class Application<P extends GamePresentation = GamePresentation> {
     }
   }
   private async acquireArea(area: string, signal: AbortSignal) {
-    const def = this.registry.area(area),
-      ids = [
-        ...new Set([
-          ...areaArtAssets(def),
-          ...def.spawns.map((s) => actorVisuals[this.registry.actor(s.actor).visual]!.asset),
-        ]),
-      ];
+    const scene = this.scenes.area(area),
+      ids = scene.assets;
     const results = await Promise.allSettled(ids.map((id) => this.runtime.loadPack(id, signal))),
       leases = new Map<string, PackLease>();
     results.forEach((r, i) => {
@@ -219,13 +213,7 @@ export class Application<P extends GamePresentation = GamePresentation> {
       const failure = results.find((r) => r.status === 'rejected');
       if (failure?.status === 'rejected') throw failure.reason;
       if (signal.aborted) throw new Error('load cancelled');
-      validateAreaArt(def, leases);
-      for (const spawn of def.spawns) {
-        const visual = actorVisuals[this.registry.actor(spawn.actor).visual]!,
-          manifest = leases.get(visual.asset)!.manifest;
-        for (const name of [...Object.values(visual.clips), ...visual.attacks])
-          if (!manifest.asset.clips[name]) throw new Error(`missing clip ${name}`);
-      }
+      this.scenes.validate(scene, leases);
       return leases;
     } catch (error) {
       for (const p of leases.values()) p.release();
@@ -253,21 +241,21 @@ export class Application<P extends GamePresentation = GamePresentation> {
       next = await this.acquireArea(area, controller.signal);
       if (this.disposed || request !== this.request) throw new Error('load cancelled');
       for (const pack of next.values()) this.presentation.warmPack(pack);
-      await this.presentation.lookRenderer.prepare(new Set([...this.packs.keys(), ...next.keys()]));
+      await this.presentation.prepareAssets(new Set([...this.packs.keys(), ...next.keys()]));
       if (this.disposed || request !== this.request) throw new Error('load cancelled');
       const changes = commit(),
         old = this.roomLeases;
       this.roomLeases = next;
       for (const [id, p] of next) this.packs.set(id, p);
       for (const [id, p] of this.persistentLeases) this.packs.set(id, p);
-      this.presentation.resetRoom(this.sim.areaDefinition);
+      this.presentation.resetRoom(this.sim.areaDefinition, this.scenes.area(this.sim.area).visuals);
       this.presentation.generation = this.session.generation;
       for (const [id, p] of old) {
         p.release();
         if (!next.has(id) && !this.persistentLeases.has(id)) this.packs.delete(id);
       }
       next = undefined;
-      await this.presentation.lookRenderer.prepare();
+      await this.presentation.prepareAssets();
       this.input.resetAim();
       this.publish(changes);
     } finally {

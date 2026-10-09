@@ -242,3 +242,36 @@ test('full delivery flags reach journeys without leaking into build verification
   assert.deepEqual(verified, ['build:verify', 'build:dev:verify']);
   assert.equal(journeys, true);
 });
+
+test('composite verification shares typecheck evidence without mutating the process asset environment', async () => {
+  const context: TaskContext = {
+    env: { ...process.env, LANTERN_ASSET_SHA256: 'invocation-assets' },
+    workspaces: new Map(),
+    releaseAdmission: async () => {},
+  };
+  const initial = process.env.LANTERN_ASSET_SHA256;
+  const parsed = await parseTask('verify:build');
+  const output: string[] = [];
+  await runTask(context, 'verify:build', [], undefined, {
+    ...parsed,
+    definition: {
+      ...parsed.definition,
+      operation: async ({ run, env }) => {
+        assert.equal(env.LANTERN_ASSET_SHA256, 'invocation-assets');
+        assert.equal(process.env.LANTERN_ASSET_SHA256, initial);
+        for (let i = 0; i < 2; i++) {
+          let log = '';
+          await run('typecheck', [], (chunk) => {
+            log += chunk.toString();
+          });
+          output.push(log);
+        }
+      },
+    },
+  });
+  assert.match(output[0]!, /1 executed; 0 reused/);
+  assert.match(output[1]!, /0 executed; 1 reused/);
+  assert.equal(process.env.LANTERN_ASSET_SHA256, initial);
+  for (const retired of ['smoke:art', 'assets:publish'])
+    await assert.rejects(parseTask(retired), /Unknown managed task/);
+});

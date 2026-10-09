@@ -40,7 +40,6 @@
     "package:win:prebuilt": "tsx tools/task-runner.ts package:win:prebuilt",
     "assets:prepare": "tsx tools/task-runner.ts assets:prepare",
     "smoke:animation": "tsx tools/task-runner.ts smoke:animation",
-    "smoke:art": "tsx tools/task-runner.ts smoke:art",
     "dev:sandbox": "tsx tools/task-runner.ts dev:sandbox",
     "desktop:dev": "npm run build:dev && electron dist-electron-dev/main.cjs",
     "desktop:preview": "npm run build:dev && electron dist-electron-dev/main.cjs --game",
@@ -62,7 +61,6 @@
     "smoke:visual-options": "tsx tools/task-runner.ts smoke:visual-options",
     "smoke:visual-scenes": "tsx tools/task-runner.ts smoke:visual-scenes",
     "assets:finalize": "tsx tools/task-runner.ts assets:finalize",
-    "assets:publish": "tsx tools/task-runner.ts assets:publish",
     "assets:ensure": "tsx tools/task-runner.ts assets:ensure",
     "assets:clean": "tsx tools/task-runner.ts assets:clean",
     "repo:check": "tsx tools/check-repository.ts",
@@ -90,7 +88,8 @@
     "scene:probe": "tsx tools/task-runner.ts scene:probe",
     "ui:probe": "tsx tools/task-runner.ts ui:probe",
     "prototype:stop": "tsx tools/task-runner.ts prototype:stop",
-    "build:restore": "tsx tools/task-runner.ts build:restore"
+    "build:restore": "tsx tools/task-runner.ts build:restore",
+    "verify:build": "tsx tools/task-runner.ts verify:build"
   },
   "dependencies": {
     "postprocessing": "6.39.5",

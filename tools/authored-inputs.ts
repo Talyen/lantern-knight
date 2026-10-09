@@ -1,3 +1,4 @@
+import { dependencies, dependencyClosure } from './module-graph';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
@@ -9,6 +10,7 @@ export type AuthoredInputs = {
   dirty: boolean;
 };
 export type InputOptions = {
+  inputs?: AuthoredInputs;
   ignoreAssetPin?: boolean;
   scope?: 'verification' | 'runtime';
   files?: readonly string[];
@@ -32,6 +34,11 @@ const runtime = (file: string) =>
     'tools/compiler.ts',
     'tools/delivery.ts',
     'tools/task-runner.ts',
+    'tools/commands.ts',
+    'tools/task-context.ts',
+    'tools/task-budget.ts',
+    'tools/module-graph.ts',
+    'tools/verification.ts',
     'tools/assets/authoring-catalog.ts',
     'tools/assets/loading-media.ts',
     'tools/assets/io.ts',
@@ -120,39 +127,16 @@ export function inputFingerprint(
     .digest('hex');
 }
 export async function authoredIdentity(root: string, options: InputOptions = {}) {
-  const inputs = await authoredInputs(root);
+  const inputs = options.inputs ?? (await authoredInputs(root));
   const runtimeDocuments = new Set<string>();
   let conservativeDocuments = false;
   if (options.scope === 'runtime') {
-    for (const file of Object.keys(inputs.files).filter(
-      (file) => /^(?:src|electron)\//.test(file) && /\.[cm]?[jt]sx?$/.test(file),
-    )) {
-      const source = await fs.readFile(path.join(root, file), 'utf8');
-      const text = source.replace(
-        /"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`|\/\/[^\n]*|\/\*[\s\S]*?\*\//g,
-        (token) => (token.startsWith('/') ? ' ' : token),
-      );
-      for (const match of text.matchAll(/(['"`])([^'"`\r\n]+\.json)\1/g)) {
-        const name = match[2]!;
-        if (name.startsWith('.')) {
-          const target = path
-            .relative(root, path.resolve(root, path.dirname(file), name))
-            .split(path.sep)
-            .join('/');
-          if (target.startsWith('authoring/')) runtimeDocuments.add(target);
-        } else if (name.startsWith('authoring/')) runtimeDocuments.add(name);
-      }
-      if (/(?:import|require)\s*\((?!\s*['"`])/.test(text)) conservativeDocuments = true;
-    }
-    const config = await fs
-      .readFile(path.join(root, 'tsconfig.json'), 'utf8')
-      .then(JSON.parse)
-      .catch(() => ({}));
-    conservativeDocuments ||= !!(
-      config.extends ||
-      config.compilerOptions?.paths ||
-      config.compilerOptions?.baseUrl
-    );
+    const graph = await dependencies(root, { schemaVersion: 1, ...inputs });
+    const entries = Object.keys(inputs.files).filter((file) => /^(?:src|electron)\//.test(file));
+    const closure = graph && dependencyClosure(graph, entries);
+    conservativeDocuments = !closure || closure.unresolved;
+    for (const file of closure?.files ?? [])
+      if (file.startsWith('authoring/')) runtimeDocuments.add(file);
   }
   const names = Object.keys(inputs.files).filter(
     (file) =>

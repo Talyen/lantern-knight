@@ -1,3 +1,6 @@
+import { projectRoot } from './assets/paths';
+import { workspace, taskInputs, taskPlan, type Invocation } from './task-context';
+import { publishResult, failureLog, type CommandResult } from './command-report';
 import { run } from 'node:test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -221,3 +224,124 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     console.error(error.message);
     process.exitCode = 1;
   });
+
+export async function testTask({
+  context,
+  task,
+  testFiles,
+  local,
+  assetMode,
+  output,
+}: Invocation): Promise<CommandResult> {
+  const root = context.testRoot ?? projectRoot;
+  const { dependencyInputs } = await import('./verification-plan');
+  const inputs = await taskInputs(context);
+  const plan = testFiles ? undefined : await taskPlan(context, task === 'test:full');
+  const selected = await selectTestFiles(testFiles ?? plan!.suites, root);
+  // selectTestFiles([]) means all for explicit invocations, not an empty affected plan.
+  const files = plan && !plan.suites.length ? [] : selected;
+  const full = task === 'test:full' || context.env.LANTERN_FULL_VERIFICATION === '1';
+  const { inputKey, phaseEvidence } = await import('./task-state');
+  const names = full
+    ? undefined
+    : [
+        ...new Set([
+          ...(await dependencyInputs(root, files, inputs)),
+          'tools/test.ts',
+          'tools/task-runner.ts',
+          'tools/task-state.ts',
+          'tools/command-report.ts',
+          'tools/run-process.ts',
+          'tools/verification.ts',
+          'tools/verification-plan.ts',
+          'tools/command-lane.ts',
+        ]),
+      ];
+  const started = performance.now();
+  const result: CommandResult = {
+    command: task,
+    scope: `${files.length} suite${files.length === 1 ? '' : 's'}; ${plan ? (plan.full ? 'full' : 'affected') : 'explicit'}`,
+    outcome: files.length ? 'passed' : 'not-run',
+    unit: 'checks',
+    executed: 0,
+    reused: 0,
+    failed: 0,
+    skipped: 0,
+    durationMs: 0,
+    selected: files,
+    reasons: plan?.reasons ?? ['Explicit test selection'],
+    remaining: ['local scope only; hosted CI and visible playtesting separate'],
+    timings: [],
+  };
+  try {
+    if (files.length) {
+      const before = await verificationIdentity(root, {
+        inputs,
+        ignoreAssetPin: true,
+        ...(names ? { files: names } : {}),
+      });
+      const execute = async () => {
+        const tests = await runTests(
+          files,
+          async () => workspace(context, assetMode),
+          undefined,
+          root,
+          {
+            ...context.env,
+            ...(names ? { LANTERN_VERIFICATION_FILES: JSON.stringify(names) } : {}),
+          },
+        );
+        await requireStableInputs(root, before, {
+          ignoreAssetPin: true,
+          ...(names ? { files: names } : {}),
+        });
+        // Receipts contain scope/counts/timings, never replayable terminal output.
+        return { passed: tests.passed, failed: tests.failed, timings: tests.timings };
+      };
+      const assetEnv = testGroups(files).assets.length
+        ? await workspace(context, assetMode)
+        : undefined;
+      const key = inputKey(
+        inputs,
+        names ?? Object.keys(inputs.files),
+        'tests-v2:' +
+          process.platform +
+          ':' +
+          process.version +
+          ':' +
+          JSON.stringify(files) +
+          ':' +
+          JSON.stringify([
+            local,
+            assetEnv?.LANTERN_ASSET_SHA256,
+            assetEnv?.LANTERN_ASSET_RECIPE_SHA256,
+          ]),
+      );
+      const proof = full
+        ? { result: await execute(), reused: false }
+        : await phaseEvidence(root, 'tests:' + files.join(','), key, execute);
+      await requireStableInputs(root, before, {
+        ignoreAssetPin: true,
+        ...(names ? { files: names } : {}),
+      });
+      result[proof.reused ? 'reused' : 'executed'] = proof.result.passed;
+      result.timings = proof.result.timings.map((t) => ({ name: t.file, ms: t.ms }));
+    } else result.reasons.push('No affected suites; no tests executed.');
+  } catch (error) {
+    result.outcome = 'failed';
+    if (error instanceof TestExecutionFailure) {
+      result.executed = error.result.passed + error.result.failed;
+      result.failed = error.result.failed;
+      result.failures = error.result.messages.length ? error.result.messages : [error.message];
+      result.timings = error.result.timings.map((t) => ({ name: t.file, ms: t.ms }));
+      result.diagnostics = await failureLog(
+        error.result.details + '\n' + error.message,
+        'tests.log',
+      );
+    } else {
+      result.failures = [String(error)];
+    }
+  }
+  result.durationMs = performance.now() - started;
+  return publishResult(root, result, inputs, names, output);
+}

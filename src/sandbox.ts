@@ -1,3 +1,4 @@
+import { composeSceneContent } from './content/game-content';
 import { readScenePreview, previewHero, previewKey, type ScenePreviewState } from './scene-preview';
 import './style.css';
 import { LoadingScreen } from './loading-screen';
@@ -39,6 +40,7 @@ const app = new Application(
   sandboxContent,
   assetCatalog,
   sandboxBridge,
+  composeSceneContent(sandboxContent),
   (...args) => new Presentation(...args),
   {
     status,

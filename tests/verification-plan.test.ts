@@ -230,3 +230,91 @@ test('scene layout edits select contract checks and unknown executable inputs re
     await f.close();
   }
 });
+
+test('compiler consumers cover session persistence, JSON, dynamic imports and isolated presentation inputs', async () => {
+  const f = await fixture();
+  try {
+    await f.write(
+      'tsconfig.json',
+      JSON.stringify({
+        compilerOptions: {
+          module: 'esnext',
+          moduleResolution: 'bundler',
+          resolveJsonModule: true,
+          types: [],
+        },
+        include: ['src', 'tests'],
+      }),
+    );
+    await f.write('src/core/session.ts', 'export const session = 1;');
+    await f.write('src/presentation/wind.ts', 'export const wind = 1;');
+    await f.write('authoring/config.json', '{}');
+    await f.write('tests/fixtures/value.ts', 'export const value = 1;');
+    await f.write(
+      'tests/persistence.test.ts',
+      "import {session} from '../src/core/session'; export {session};",
+    );
+    await f.write(
+      'tests/systems.test.ts',
+      "import config from '../authoring/config.json'; import {value} from './fixtures/value'; export const load=()=>import('../src/core/session'); export {config,value};",
+    );
+    await f.write(
+      'tests/visual-effects.test.ts',
+      "import {wind} from '../src/presentation/wind'; export {wind};",
+    );
+    await f.baseline();
+    await startTask(f.root, 'compiler-selection');
+    await f.write('src/core/session.ts', 'export const session = 2;');
+    assert.deepEqual((await verificationPlan(f.root, { prototype: true })).suites, [
+      'tests/persistence.test.ts',
+      'tests/systems.test.ts',
+    ]);
+    const { snapshot } = await import('../tools/task-state');
+    const { dependencies, dependencyClosure } = await import('../tools/module-graph');
+    const { affectedSuites, dependencyInputs } = await import('../tools/verification-plan');
+    const inputs = await snapshot(f.root),
+      graph = (await dependencies(f.root, inputs))!;
+    const suites = [
+      'tests/persistence.test.ts',
+      'tests/systems.test.ts',
+      'tests/visual-effects.test.ts',
+    ];
+    assert.deepEqual(
+      [...affectedSuites(graph, suites, ['src/presentation/wind.ts'])],
+      ['tests/visual-effects.test.ts'],
+    );
+    for (const file of ['authoring/config.json', 'tests/fixtures/value.ts'])
+      assert.deepEqual([...affectedSuites(graph, suites, [file])], ['tests/systems.test.ts']);
+    const names = await dependencyInputs(f.root, ['tests/persistence.test.ts'], inputs);
+    assert.ok(names.includes('src/core/session.ts'));
+    assert.ok(!names.includes('src/presentation/wind.ts'));
+    assert.ok(!names.includes('authoring/config.json'));
+    assert.ok(dependencyClosure(graph, ['tests/systems.test.ts']).files.has('src/core/session.ts'));
+    await f.write('src/core/replacement.ts', 'export const session = 2;');
+    await f.write(
+      'tests/persistence.test.ts',
+      "import {session} from '../src/core/replacement'; export {session};",
+    );
+    await fs.unlink(path.join(f.root, 'src/core/session.ts'));
+    const after = (await dependencies(f.root, await snapshot(f.root)))!;
+    assert.ok(
+      affectedSuites(after, suites, ['src/core/session.ts'], graph).has(
+        'tests/persistence.test.ts',
+      ),
+      'Previous edges survive an import retargeting',
+    );
+    assert.ok(
+      affectedSuites(after, suites, ['src/core/session.ts'], graph).has('tests/systems.test.ts'),
+      'A missing dynamic target remains conservative',
+    );
+    await f.write('tests/visual-effects.test.ts', 'export const load=(name:string)=>import(name);');
+    const unknown = (await dependencies(f.root, await snapshot(f.root)))!;
+    assert.ok(
+      affectedSuites(unknown, suites, ['src/core/replacement.ts']).has(
+        'tests/visual-effects.test.ts',
+      ),
+    );
+  } finally {
+    await f.close();
+  }
+});

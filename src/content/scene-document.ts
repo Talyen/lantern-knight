@@ -3,8 +3,6 @@ import type { ArtPlacement, WorldVisualDefinition } from './world-art';
 import type { Manifest } from '../assets/schema';
 import { placementOffset } from './scenery-presets';
 import { migrateSceneV1 } from './scene-v1';
-import court from '../../authoring/scenes/live-court.json';
-import chapel from '../../authoring/scenes/live-upper-landing.json';
 import { HEADINGS } from '../core/camera';
 import { deriveScenePlacement, validateSceneDesign, paletteEntry } from './scene-design';
 const id = z.string().regex(/^[a-z][a-z0-9-]{0,63}$/);
@@ -352,25 +350,4 @@ export function resolveSceneDocument(
   };
   if (art.designProfile) validateSceneDesign(art);
   return art;
-}
-export function emptyScene(base: SceneDocument['base'] = 'flat'): SceneDocument {
-  if (base !== 'flat')
-    return parseSceneDocument({
-      ...structuredClone(base === 'court' ? court : chapel),
-      id: 'untitled',
-      name: `Copy of ${base === 'court' ? 'Graveyard Approach' : 'Ruined Chapel'}`,
-      target: 'draft',
-    });
-  return {
-    version: 4,
-    profile: 'study',
-    id: 'untitled',
-    name: 'Untitled scene',
-    base,
-    target: 'draft',
-    floor: { asset: 'ink-moss', clip: 'surface', width: 20, depth: 20 },
-    objects: [],
-    hero: { x: 0, z: 0 },
-    look: { rig: 'golden', look: 'diorama' },
-  };
 }

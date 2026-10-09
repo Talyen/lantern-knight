@@ -3,8 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { _electron } from 'playwright';
-import { scenePreviewServer } from './scene-server';
+import { previewBrowser } from './preview-session';
 import { AssetCache } from '../assets/cache';
 import { projectRoot } from '../assets/paths';
 import { verificationIdentity, requireStableInputs } from '../verification';
@@ -27,17 +26,16 @@ async function check() {
           id: `${fixtureId}-${profile}`,
         }),
       );
-    const held = await new AssetCache().lease('editor-check-' + randomUUID(), 24 * 1024 ** 2),
-      server = await scenePreviewServer();
-    const browser = await _electron.launch({
-      args: [
-        path.join(projectRoot, 'tools/scene/scene-browser.cjs'),
-        server.origin + '/editor.html?automated=1',
-        path.join(held.root, 'profile'),
-      ],
-    });
+    const held = await new AssetCache().lease('editor-check-' + randomUUID(), 24 * 1024 ** 2);
+    let session: Awaited<ReturnType<typeof previewBrowser>>;
+    try {
+      session = await previewBrowser(path.join(held.root, 'profile'), '/editor.html?automated=1');
+    } catch (error) {
+      await held.release();
+      throw error;
+    }
     let passed = false;
-    const page = await browser.firstWindow(),
+    const page = session.page,
       errors: string[] = [],
       expectedFailures = new Set<string>(),
       id = 'editor-check-' + randomUUID(),
@@ -676,8 +674,7 @@ async function check() {
       await page.screenshot({ path: path.join(held.root, 'failure.png') });
       throw error;
     } finally {
-      await browser.close();
-      await server.close();
+      await session.close();
       await fs.rm(file, { force: true });
       await fs.rm(path.join(projectRoot, 'authoring/scenes', id + '-animated.json'), {
         force: true,
