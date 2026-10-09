@@ -40,7 +40,7 @@ Defer full aim-facing strafing initially: it requires additional animation work.
 
 ## Equipment
 
-Use one fixed sword-and-lantern loadout while polishing the existing two areas. Build attachment hooks to support later equipment development.
+Use one fixed sword-and-lantern loadout while authoring and playtesting prototype scenes. Build attachment hooks to support later equipment development.
 
 Equipment and loot will form part of the cohesive progression system. Slots, item effects and their relationships to stats and permanent upgrades need design before implementation. Visible armor swapping and additional weapon animation sets are not current roadmap commitments.
 

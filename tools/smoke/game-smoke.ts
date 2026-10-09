@@ -1,5 +1,7 @@
 import { checkLoadingScreen } from './loading-screen';
 import { startGameBenchmark } from '../diagnostics/game-benchmark';
+import { heroTimings } from '../../src/content/hero-actions';
+import { maximumFrameMs } from '../../src/core/simulation';
 import { option, smokeLaunch, playerControls } from './smoke-launch';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -138,6 +140,29 @@ export async function runScenario(flags: string[] = []) {
     assert.equal(await page.locator('#objective').textContent(), 'Explore the scene');
     const measurement = benchmark ? await startGameBenchmark(run, save) : undefined;
     await measurement?.phase('movement');
+    // Follow the same bounded clock as Game, so slow rendering does not shorten an authored action.
+    const gameplayTime = (durationMs: number) =>
+      page.evaluate(
+        ({ durationMs, maximumFrameMs }) =>
+          new Promise<void>((resolve) => {
+            let previous = performance.now(),
+              elapsed = 0;
+            const frame = (now: number) => {
+              elapsed += Math.max(0, Math.min(maximumFrameMs, now - previous));
+              previous = now;
+              if (elapsed >= durationMs) resolve();
+              else requestAnimationFrame(frame);
+            };
+            requestAnimationFrame(frame);
+          }),
+        { durationMs, maximumFrameMs },
+      );
+    const actionDuration = (clip: string) =>
+      Math.max(
+        ...Object.values(heroTimings[clip]!).map(
+          (recipe) => recipe?.holdsMs.reduce((sum, ms) => sum + ms, 0) ?? 0,
+        ),
+      ) + 50;
     const initial = { ...save.player };
     await resume();
     await page.locator('canvas').focus();
@@ -154,12 +179,14 @@ export async function runScenario(flags: string[] = []) {
     await resume();
     await page.mouse.click(500, 350);
     await renderedFrames();
-    await page.waitForTimeout(benchmark ? 2200 : 900);
+    await gameplayTime(
+      Math.max(benchmark ? 2200 : 0, actionDuration('sweep'), actionDuration('lunge')),
+    );
     await page.mouse.click(500, 350, { button: 'right' });
     await page.waitForFunction(
       () => document.querySelector('#ability-status')?.textContent !== 'RMB · ready',
     );
-    await page.waitForTimeout(benchmark ? 1500 : 750);
+    await gameplayTime(Math.max(benchmark ? 2200 : 0, actionDuration('cast_lantern_flare')));
     await page.keyboard.down('KeyD');
     await page.keyboard.down('Shift');
     try {
@@ -185,7 +212,11 @@ export async function runScenario(flags: string[] = []) {
     );
     assert.equal(await page.evaluate(() => document.activeElement?.tagName), 'CANVAS');
     const restored = await observe();
-    assert.deepEqual(restored.player, save.player);
+    // Loading restores canvas focus and resumes Game before the next UI pause can be observed.
+    for (const field of ['x', 'z', 'health'] as const)
+      assert.equal(restored.player[field], save.player[field]);
+    for (const field of ['cooldown', 'dodgeCooldown'] as const)
+      assert.ok(restored.player[field] > 0 && restored.player[field] <= save.player[field]);
     await resume();
     await page.waitForTimeout(benchmark ? 2200 : 100);
     await pause();

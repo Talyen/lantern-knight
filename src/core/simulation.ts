@@ -408,7 +408,7 @@ export class Simulation {
     };
   }
 }
-const maximumFrameMs = 100;
+export const maximumFrameMs = 100;
 export class FixedClock {
   accumulator = 0;
   droppedMs = 0;

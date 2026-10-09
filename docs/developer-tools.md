@@ -1,6 +1,6 @@
 # Developer tools
 
-Run `npm run dev`; developer navigation connects Game, Sandbox and the scene editor. The Sandbox scene selector includes the opening rooms, systems fixture and dedicated effects test scene. Sandbox includes animation, calibration, occlusion and Lighting & Look modes. Game packages exclude developer screens and fixtures. [Development](development.md) owns setup and preview ports.
+Run `npm run dev`; developer navigation connects Game, Sandbox and the scene editor. The Sandbox scene selector includes independent outdoor/interior fixtures, the systems fixture and dedicated effects test scene. Sandbox includes animation, calibration, occlusion and Lighting & Look modes. Game packages exclude developer screens and fixtures. [Development](development.md) owns setup and preview ports.
 
 ## Scene editor
 
@@ -24,7 +24,7 @@ Alpha-derived normal companions bind to the exact source page, trim and crop; au
 
 ## Effects Playground
 
-Choose Effects test scene in Sandbox to compare living lights, smoke/embers, rain, surface normals, relief, wind, atmosphere, palette, bloom, wetness, outlines, contact grounding and shafts. It supports quiet/richer treatments, an all-off baseline that preserves selected options, pause, replay and switching back to the opening rooms. `/effects.html` redirects to this scene. Its disposable session does not change persistent production settings.
+Choose Effects test scene in Sandbox to compare living lights, smoke/embers, rain, surface normals, relief, wind, atmosphere, palette, bloom, wetness, outlines, contact grounding and shafts. It supports quiet/richer treatments, an all-off baseline that preserves selected options, pause, replay and switching back to independent scene fixtures. `/effects.html` redirects to this scene. Its disposable session does not change persistent production settings.
 
 Prepared ambience artwork and companion data come from the selected asset workspace. Runtime owns weather scheduling, shaders and materials; these changes need preparation only when their artwork-producing inputs change.
 
