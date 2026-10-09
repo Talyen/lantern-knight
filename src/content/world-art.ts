@@ -43,7 +43,6 @@ export type ArtPlacement = PlacementBase &
       }
     | { role?: 'ground' | 'upright'; mount?: never }
   );
-type GroundPatch = { bounds: Bounds };
 type GroundPath = {
   points: readonly Point[];
   width: number;
@@ -72,7 +71,6 @@ export type BurialPlot = {
   angle?: number;
   marker?: 'gravestone' | 'memorial' | 'fallen-marker';
 };
-type SiteLight = { x: number; z: number; radius: number; power: number };
 export type FixtureDefinition = {
   id: string;
   socket: readonly [number, number, number];
@@ -96,12 +94,6 @@ type OverlapAllowance = {
   b: string;
   region: Bounds;
   reason: string;
-};
-type SiteAssembly = {
-  id: string;
-  origin: Point;
-  walls: readonly SiteWall[];
-  props: readonly ArtPlacement[];
 };
 export type SurroundLayer = {
   asset: string;
@@ -129,12 +121,10 @@ export type WorldVisualDefinition = {
   floor: string;
   props: readonly ArtPlacement[];
   proceduralAssets: readonly string[];
-  patches: readonly GroundPatch[];
   decals: readonly ArtPlacement[];
   paths: readonly GroundPath[];
   walls: readonly SiteWall[];
   graves: readonly BurialPlot[];
-  lights: readonly SiteLight[];
   interior?: Bounds;
   camera: {
     bounds: Bounds;
@@ -149,10 +139,8 @@ export type WorldVisualDefinition = {
       targetHeight?: number;
     };
   };
-  assemblies: readonly SiteAssembly[];
   propOrder?: readonly string[];
   resolvedFixtures?: readonly ResolvedFixture[];
-  groundTiles?: { asset: string; min: number; tileSize: number; count: number };
   overlaps?: readonly OverlapAllowance[];
 };
 export const floorUV = (x: number, z: number): readonly [number, number] => [x / 4, -z / 4];
@@ -225,7 +213,6 @@ export function sceneAssets(art: WorldVisualDefinition) {
       ...art.props.map((p) => p.asset),
       ...art.decals.map((p) => p.asset),
       ...(art.surround?.layers.map((l) => l.asset) ?? []),
-      ...(art.groundTiles ? [art.groundTiles.asset] : []),
     ]),
   ];
 }

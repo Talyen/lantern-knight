@@ -1,3 +1,4 @@
+import { sceneFixture } from './fixtures/scene';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
@@ -6,17 +7,16 @@ import {
   resolveSceneDocument,
   convertLegacySceneDocument,
 } from '../src/content/scene-document';
-import { worldVisuals, baseWorldVisuals } from '../src/content/world-art';
-import { validateSceneDesign } from '../src/content/scene-design';
+import { baseWorldVisuals } from '../src/content/world-art';
+import { validateSceneDesign, sceneCompositionFindings } from '../src/content/scene-design';
 
 test('production placements cannot disguise trees, remove collisions or manufacture joins', () => {
-  const d = emptyScene('court'),
+  const d = sceneFixture('graveyard'),
     before = structuredClone(d);
   for (const change of [
     { id: 'boundary-oak', scale: 0.1 },
     { id: 'boundary-oak', y: 2 },
     { id: 'family-tomb-west', footprint: [0.01, 0.01] },
-    { id: 'family-tomb-west', x: 0, zone: 'route' },
     { id: 'family-tomb-west', asset: 'ink-scenery', clip: 'pillar' },
     { id: 'chapel-shell', mirror: true },
   ]) {
@@ -43,7 +43,7 @@ test('production placements cannot disguise trees, remove collisions or manufact
   assert.throws(
     () =>
       validateSceneDesign({
-        ...worldVisuals.court!,
+        ...resolveSceneDocument(sceneFixture('graveyard'), baseWorldVisuals.court),
         walls: [
           { id: 'blocks', from: { x: 0, z: 0 }, to: { x: 1, z: 0 }, height: 1, thickness: 0.3 },
         ],
@@ -53,11 +53,30 @@ test('production placements cannot disguise trees, remove collisions or manufact
   assert.deepEqual(d, before);
 });
 test('production socket offsets are fixed and draft conversion is explicit', () => {
-  const d = emptyScene('upper-landing'),
+  const d = sceneFixture('chapel'),
     lamp = d.objects.find((p) => p.id === 'crypt-altar-candles')!;
   lamp.mount!.offset[1] += 1;
   assert.throws(() => resolveSceneDocument(d, baseWorldVisuals['upper-landing']), /socket/);
   const { profile: _, ...study } = emptyScene();
   assert.throws(() => parseSceneDocument({ ...study, version: 3 }), /explicit conversion/);
   assert.deepEqual(convertLegacySceneDocument({ ...study, version: 3 }, 'study'), emptyScene());
+});
+
+test('prototype placement and cluster density are advisory while registered footprints remain authoritative', () => {
+  const d = sceneFixture('graveyard');
+  d.objects.find((p) => p.id === 'family-tomb-west')!.x = 0;
+  for (let i = 0; i < 10; i++)
+    d.objects.push({
+      id: 'marker-' + i,
+      kind: 'prop',
+      asset: 'ink-tended-marker',
+      clip: 'marker',
+      x: -5,
+      z: -4.4 + i * 0.6,
+      zone: 'west-burials',
+    });
+  const art = resolveSceneDocument(parseSceneDocument(d), baseWorldVisuals.court);
+  assert.ok(sceneCompositionFindings(art).some((note) => note.includes('clear zone')));
+  assert.ok(sceneCompositionFindings(art).some((note) => note.includes('dense cluster')));
+  assert.deepEqual(art.props.find((p) => p.id === 'family-tomb-west')!.footprint, [0.95, 2.25]);
 });

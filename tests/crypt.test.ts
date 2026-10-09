@@ -49,8 +49,7 @@ test('alpha-aware depth gate rejects the original door/arch conflict but ignores
   );
   room.build();
   try {
-    assert.equal(room.architecture!.parts.length, 0);
-    assert.ok(room.sprites.some((s) => s.id === 'sanctuary-shell'));
+    assert.ok(art.props.every((p) => room.sprites.some((s) => s.id === p.id)));
     assert.equal(heightAt(area, 0, 0), 0);
   } finally {
     room.dispose();

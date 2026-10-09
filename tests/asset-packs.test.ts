@@ -505,3 +505,29 @@ test('loading media rejects missing, truncated and changed selected source bytes
   assert.throws(() => validateLoadingVideo(new Uint8Array(625991)), /differs/);
   assert.throws(() => validateLoadingVideo(new Uint8Array(625992)), /differs/);
 });
+
+test('modern pins permit preparation-tool changes but reject changed authored asset data', async () => {
+  const f = await fixture();
+  try {
+    const { recipeInputs } = await import('../tools/assets/recipe');
+    const { checkCurrentAssetPin } = await import('../tools/check-asset-pin');
+    const inputs = await recipeInputs();
+    const config = JSON.parse(
+      await fs.readFile(path.join(projectRoot, 'assets/recipe.json'), 'utf8'),
+    );
+    for (const name of ['assets/recipe.json', ...config.authoredInputs]) {
+      const target = path.join(f.root, name);
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      await fs.copyFile(path.join(projectRoot, name), target);
+    }
+    const pin = preparationPin(f.lock, inputs, await validatePack(f.source, f.lock));
+    await fs.writeFile(path.join(f.root, 'assets/lock.json'), JSON.stringify(pin));
+    await fs.mkdir(path.join(f.root, 'tools'), { recursive: true });
+    await fs.writeFile(path.join(f.root, 'tools/compiler.ts'), 'changed preparation tooling');
+    await checkCurrentAssetPin(f.root);
+    await fs.writeFile(path.join(f.root, 'authoring/hero-actions.json'), 'changed authored timing');
+    await assert.rejects(checkCurrentAssetPin(f.root), /Authored asset input differs/);
+  } finally {
+    await f.close();
+  }
+});

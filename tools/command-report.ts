@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { createHash, randomUUID } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 import { AssetCache } from './assets/cache';
 import { inputKey, snapshot, taskDirectory, type InputSnapshot } from './task-state';
 
@@ -88,10 +88,7 @@ export async function saveResult(
   const selected = names ?? Object.keys(inputs.files);
   const directory = await taskDirectory(root);
   await fs.mkdir(directory, { recursive: true });
-  const file = path.join(
-    directory,
-    'report-' + createHash('sha256').update(result.command).digest('hex').slice(0, 20) + '.json',
-  );
+  const file = path.join(directory, 'latest-report.json');
   const record: ReportRecord = {
     schemaVersion: 1,
     recordedAt: new Date().toISOString(),
@@ -103,7 +100,6 @@ export async function saveResult(
     result,
   };
   await atomic(file, record);
-  await atomic(path.join(directory, 'latest-report.json'), { file: path.basename(file) });
   // A supervised child communicates its authoritative result without stdout parsing.
   if (process.env.LANTERN_SUPERVISOR_RESULT)
     await atomic(process.env.LANTERN_SUPERVISOR_RESULT, { result, details: file });
@@ -112,11 +108,7 @@ export async function saveResult(
 export async function latestResult(root: string, current?: InputSnapshot) {
   const directory = await taskDirectory(root);
   try {
-    const pointer = JSON.parse(
-      await fs.readFile(path.join(directory, 'latest-report.json'), 'utf8'),
-    ) as { file: string };
-    if (!/^report-[a-f0-9]{20}\.json$/.test(pointer.file)) return undefined;
-    const file = path.join(directory, pointer.file);
+    const file = path.join(directory, 'latest-report.json');
     const record = JSON.parse(await fs.readFile(file, 'utf8')) as ReportRecord;
     if (record.schemaVersion !== 1 || !Array.isArray(record.inputs) || !record.result)
       return undefined;

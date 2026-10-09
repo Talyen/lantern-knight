@@ -29,6 +29,7 @@ export async function selectTestFiles(args: string[], root = process.cwd()) {
 export const suiteRequirements: Readonly<Record<string, 'pure' | 'runtime-assets'>> =
   Object.fromEntries(
     [
+      'build-assets',
       'code-tools',
       'agent-context',
       'compiler',
@@ -80,6 +81,7 @@ export async function runTests(
   setup: () => Promise<NodeJS.ProcessEnv>,
   output?: (chunk: Buffer) => void,
   root = process.cwd(),
+  environment: NodeJS.ProcessEnv = process.env,
 ): Promise<SuiteResult> {
   const groups = testGroups(files);
   const lane = groups.assets.length
@@ -89,8 +91,8 @@ export async function runTests(
   try {
     const identityOptions = {
       ignoreAssetPin: groups.assets.length === 0,
-      ...(process.env.LANTERN_VERIFICATION_FILES
-        ? { files: JSON.parse(process.env.LANTERN_VERIFICATION_FILES) as string[] }
+      ...(environment.LANTERN_VERIFICATION_FILES
+        ? { files: JSON.parse(environment.LANTERN_VERIFICATION_FILES) as string[] }
         : {}),
     };
     const before = await verificationIdentity(root, identityOptions);
@@ -99,7 +101,7 @@ export async function runTests(
       if (!selected.length) continue;
       // Workspace setup adds asset paths; keep the lane credentials acquired by
       // this runner so its worker cannot wait on its own parent for admission.
-      const env = kind === 'assets' ? { ...lane.env, ...(await setup()) } : lane.env;
+      const env = { ...lane.env, ...environment, ...(kind === 'assets' ? await setup() : {}) };
       const temporary = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-test-result-')),
         resultFile = path.join(temporary, 'result.json');
       try {

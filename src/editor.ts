@@ -1,4 +1,9 @@
-import { paletteEntry, sceneDesignProfiles } from './content/scene-design';
+import { resolveAuthoredScene } from './content/world-art';
+import {
+  paletteEntry,
+  sceneDesignProfiles,
+  sceneCompositionFindings,
+} from './content/scene-design';
 import './editor.css';
 import * as T from 'three';
 import { AssetRuntime } from './assets/loader';
@@ -23,7 +28,7 @@ document.getElementById('app')!.innerHTML = `
 <div id="recovery" class="notice" hidden>Unsaved work is available. <button id="restore">Restore recovery</button><button id="dismiss-recovery">Dismiss</button></div>
 <div id="conflict" class="notice" hidden>The file changed outside this editor. Your edits are preserved. <button id="reload">Reload from disk</button><button id="conflict-copy">Save a separate copy</button></div>
 <main><aside class="palette"><h2>Artwork</h2><input id="search" type="search" placeholder="Search scenery…" aria-label="Search artwork"><select id="category" aria-label="Artwork category"><option value="all">All artwork</option><option value="prop">Upright scenery</option><option value="animated">Animated artwork</option><option value="pickup">Pickups</option><option value="decal">Ground details</option><option value="character">Characters</option><option value="effect">Effects</option><option value="reference">References</option></select><p class="hint">Drag a thumbnail into the scene, or select it and click the ground.</p><div id="assets"></div></aside>
-<section class="viewport"><div class="toolbar"><button id="undo">Undo</button><button id="redo">Redo</button><button id="duplicate">Duplicate</button><button id="delete">Delete</button><label><input id="grid" type="checkbox"> Grid &amp; snap</label><label><input id="hero-tool" type="checkbox"> Move hero</label><button id="fit">Fit scene</button><button id="play-animation">Pause animations</button><button id="replay-animation">Replay animations</button><span id="live-badge" hidden>EDITING LIVE SCENE</span></div><canvas id="viewport" tabindex="0" aria-label="Scene composition"></canvas><div class="viewport-help">Drag to move · Right-drag to pan · Scroll to zoom · Esc to deselect</div><p id="status" role="status" aria-live="polite">Loading prepared artwork…</p></section>
+<section class="viewport"><div class="toolbar"><button id="undo">Undo</button><button id="redo">Redo</button><button id="duplicate">Duplicate</button><button id="delete">Delete</button><label><input id="grid" type="checkbox"> Grid &amp; snap</label><label><input id="hero-tool" type="checkbox"> Move hero</label><button id="fit">Fit scene</button><button id="play-animation">Pause animations</button><button id="replay-animation">Replay animations</button><span id="live-badge" hidden>EDITING LIVE SCENE</span></div><canvas id="viewport" tabindex="0" aria-label="Scene composition"></canvas><div class="viewport-help">Drag to move · Right-drag to pan · Scroll to zoom · Esc to deselect</div><p id="composition-notes" aria-label="Composition notes" hidden></p><p id="status" role="status" aria-live="polite">Loading prepared artwork…</p></section>
 <aside class="inspector"><h2>Scene</h2><label>Lighting<select id="rig"><option value="golden">Golden hour</option><option value="silver">Silver hour</option></select></label><label>Look<select id="look"><option value="diorama">HD-2D diorama</option><option value="ink">Atmospheric ink</option><option value="cinematic">Dark cinematic</option></select></label><fieldset id="foundation"><legend>Flat foundation</legend><label>Ground<select id="floor"></select></label><label>Width<input id="width" type="number" min="2" max="100" step="1"></label><label>Depth<input id="depth" type="number" min="2" max="100" step="1"></label></fieldset><h2>Selected object</h2><p id="selected-name">Select an object</p><fieldset id="transform" disabled><label>Clip<select id="clip"></select></label><label>Facing<select id="heading"></select></label><label>X<input id="x" type="number" step=".1"></label><label>Z<input id="z" type="number" step=".1"></label><label>Height offset<input id="y" type="number" step=".1"></label><label>Size<input id="scale" type="number" min=".05" max="20" step=".05"></label><label id="rotation-label">Rotation (degrees)<input id="rotation" type="number" min="-360" max="360" step="5"></label><label><input id="mirror" type="checkbox"> Mirror</label></fieldset><h2>Objects</h2><p class="hint">Terrain, architecture, paths, and attached fixtures are locked.</p><div id="objects" role="list" aria-label="Scene objects"></div></aside></main>
 <dialog id="art-preview"><p id="art-preview-label"></p><canvas id="art-preview-canvas" width="960" height="720" style="max-width:100%;height:auto"></canvas><form method="dialog"><button>Close</button></form></dialog><dialog id="save-dialog"><form method="dialog"><h2>Save scene copy</h2><label>File name<input id="file-id" required pattern="[a-z](?:[a-z0-9]|-){0,63}" maxlength="64" placeholder="my-forest-scene"></label><p>Use lowercase letters, numbers and hyphens. Copies are authoring drafts.</p><div><button value="cancel">Cancel</button><button id="confirm-save" value="save">Save copy</button></div></form></dialog>`;
 const canvas = $<HTMLCanvasElement>('viewport');
@@ -172,6 +177,10 @@ function controls() {
     b.onclick = () => select(item.placement.id);
     $('objects').append(b);
   }
+  const notes = sceneCompositionFindings(resolveAuthoredScene(d));
+  $('composition-notes').hidden = notes.length === 0;
+  $('composition-notes').textContent =
+    notes.slice(0, 3).join('; ') + (notes.length > 3 ? `; ${notes.length - 3} more notes` : '');
   view?.select(selected);
   view?.setGrid($<HTMLInputElement>('grid').checked);
 }

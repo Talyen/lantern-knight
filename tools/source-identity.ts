@@ -26,7 +26,7 @@ export async function sourceIdentity(root: string) {
   );
   return {
     ...source,
-    identityVersion: 3 as const,
+    identityVersion: 4 as const,
     assetSha256: lock.sha256,
     archiveRecipeSha256: lock.recipeSha256,
     preparationRecipeSha256: acceptedRecipe(lock),

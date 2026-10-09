@@ -126,7 +126,18 @@ export async function agentContext(root: string, paths: string[] = []) {
   for (const route of scope.length
     ? routes
     : contextRoutes.filter((owner) => owner.name !== 'documentation')) {
-    const line = `${route.name}: ${route.entries.map((entry) => entryLocation(entry, current.scripts[entry.split('#')[0]!]) ?? entry).join(', ')}; ${route.docs.join(', ')}${route.skills?.length ? '; ' + route.skills.join(', ') : ''}.`;
+    const sources = new Map(
+      await Promise.all(
+        route.entries.map(async (entry) => {
+          const file = entry.split('#')[0]!;
+          return [
+            file,
+            await fs.readFile(path.join(root, file), 'utf8').catch(() => undefined),
+          ] as const;
+        }),
+      ),
+    );
+    const line = `${route.name}: ${route.entries.map((entry) => entryLocation(entry, sources.get(entry.split('#')[0]!)) ?? entry).join(', ')}; ${route.docs.join(', ')}${route.skills?.length ? '; ' + route.skills.join(', ') : ''}.`;
     if (shown === 4 || (lines.join(' ') + ' ' + line).split(/\s+/).length > 320) break;
     lines.push(line);
     shown++;

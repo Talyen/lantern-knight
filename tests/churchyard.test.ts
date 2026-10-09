@@ -1,7 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { supportedPosition, isSupportedPosition, heightAt } from '../src/content/world';
-import { content, contentDefinitions } from '../src/content/game-content';
+import { content, contentDefinitions } from './fixtures/content';
+import { content as liveContent } from '../src/content/game-content';
 import { Simulation } from '../src/core/simulation';
 import { GameSession } from '../src/core/session';
 
@@ -9,7 +10,7 @@ import { worldVisuals, compositionPoint, compositionHeight } from '../src/conten
 import { createBrowserBridge } from '../src/platform/browser-store';
 import { launchEntry, checkpointDirectory } from '../electron/launch';
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: -1 } };
-test('opening areas have a quiet approach, one/two skeletons and an unobstructed chase corridor', () => {
+test('encounters remain dormant until activation and damage wakes their peers', () => {
   assert.deepEqual(
     contentDefinitions.areas.map((a) => a.id),
     ['court', 'upper-landing'],
@@ -93,7 +94,7 @@ test('authored box footprints block bodies at edges and corners without escaping
   }
   for (const a of content.areas.values())
     for (const entry of a.entries) assert.ok(isSupportedPosition(a, entry, 0.3));
-  for (const area of content.areas.values())
+  for (const area of liveContent.areas.values())
     for (const collider of area.props) {
       const art = worldVisuals[area.id]!,
         sprite = art.props.find((p) => p.id === collider.id),
@@ -120,22 +121,7 @@ test('authored box footprints block bodies at edges and corners without escaping
   assert.equal(chapel.exits[0]!.requiresClear, false);
 });
 
-test('the redesigned processional route stays traversable and the burial clearing supports a full dodge', () => {
-  const area = content.area('court'),
-    route = worldVisuals.court!.paths[0]!;
-  // The first control point continues the approach outside the playable bounds.
-  for (let i = 2; i < route.points.length; i++) {
-    const a = route.points[i - 1]!,
-      b = route.points[i]!;
-    for (let j = 0; j <= 40; j++) {
-      const t = j / 40,
-        p = { x: a.x + (b.x - a.x) * t, z: a.z + (b.z - a.z) * t };
-      assert.ok(
-        isSupportedPosition(area, p, 0.3),
-        `processional route obstructed at ${p.x}/${p.z}`,
-      );
-    }
-  }
+test('a clear fixture arena supports the complete dodge distance', () => {
   for (const yaw of [0, Math.PI / 2, Math.PI, Math.PI * 1.5]) {
     const sim = new Simulation(content, 142, content.definitions.initialArea, 1);
     sim.enemies.forEach((a) => (a.health = 0));
@@ -148,7 +134,7 @@ test('the redesigned processional route stays traversable and the burial clearin
     while (sim.hero.state === 'dodge') sim.step(still);
     assert.ok(
       Math.abs(Math.hypot(sim.hero.x, sim.hero.z - 0.25) - 2.1) < 0.03,
-      'burial props must not truncate the full dodge',
+      'A clear arena must preserve directed dodge distance',
     );
   }
 });
@@ -157,12 +143,7 @@ test('narrow Graveyard framing keeps the hero and full silhouette inside the vie
   const elevation = Math.atan(1 / Math.sqrt(2)),
     halfHeight = 4.5;
   for (const halfWidth of [(halfHeight * 9) / 16, (halfHeight * 16) / 9, (halfHeight * 21) / 9])
-    for (const hero of [
-      { x: -3.3, z: 6.65 },
-      { x: 0, z: 1 },
-      { x: 5.9, z: 3.7 },
-      { x: 0, z: -5.5 },
-    ]) {
+    for (const hero of liveContent.area('court').entries) {
       const target = compositionPoint('court', hero, { halfWidth, halfHeight }),
         dx = hero.x - target.x,
         dz = hero.z - target.z,

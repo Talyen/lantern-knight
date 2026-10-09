@@ -1,3 +1,4 @@
+import { build, packageApp, e2e, fullVerification } from './delivery';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
@@ -6,79 +7,30 @@ import { acquireCommandLane, withoutCommandLane } from './command-lane';
 import { runProcess } from './run-process';
 import { projectRoot } from './assets/paths';
 import { AssetCache } from './assets/cache';
-import {
-  readLock,
-  recipeHash,
-  ensurePack,
-  validatePack,
-  LockSchema,
-  acceptedRecipe,
-} from './assets/pack';
-import { guardedBuild, verificationIdentity, requireStableInputs } from './verification';
+import { readLock } from './assets/pack';
+import { verificationIdentity, requireStableInputs } from './verification';
 import { taskBudget, executionDeadline } from './task-budget';
 import { preparationSelection } from './assets/recipe';
 import { publishResult, failureLog, ReportedFailure, type CommandResult } from './command-report';
 
-type Workspace = { env: NodeJS.ProcessEnv; release: () => Promise<void> };
+import { assetWorkspace, type AssetMode, type AssetWorkspace } from './assets/workspace';
+type Workspace = AssetWorkspace;
 export type TaskContext = {
   testRoot?: string;
   captureDirectories?: string[];
   previewReloadVerified?: boolean;
+  assetMode?: AssetMode;
   env: NodeJS.ProcessEnv;
-  workspaces: Map<boolean | string, Workspace>;
+  workspaces: Map<AssetMode, Workspace>;
   releaseAdmission: () => Promise<void>;
 };
-async function workspace(context: TaskContext, local: boolean, prototype = false) {
-  // An explicit candidate selection must never be replaced by a prototype layer.
-  prototype = prototype && !local;
-  const key = prototype ? 'prototype' : local;
-  const existing = context.workspaces.get(key);
-  if (existing) return existing.env;
-  const cache = new AssetCache();
-  let held: Awaited<ReturnType<AssetCache['lease']>>, lock: Awaited<ReturnType<typeof readLock>>;
-  if (prototype) {
-    const selected = await (await import('./assets/preview')).prototypeAssets(cache);
-    const env = {
-      ...context.env,
-      LANTERN_ASSET_WORKSPACE: selected.held.root,
-      LANTERN_ASSET_SHA256: selected.lock.sha256,
-      LANTERN_ASSET_RECIPE_SHA256: selected.lock.recipeSha256,
-      LANTERN_ASSET_ARCHIVE_RECIPE_SHA256: selected.lock.recipeSha256,
-      LANTERN_PREPARING: '0',
-    };
-    context.workspaces.set(key, { env, release: () => selected.held.release() });
-    return env;
-  } else if (local) {
-    held = await cache.lease('preparation');
-    try {
-      lock = LockSchema.parse(
-        JSON.parse(await fs.readFile(path.join(held.root, 'prepared.json'), 'utf8')),
-      );
-      if (acceptedRecipe(lock) !== (await recipeHash()))
-        throw new Error('Local preparation recipe differs; prepare again');
-      const payload = path.join(held.root, 'work/payload');
-      await validatePack(payload, lock);
-      held = { ...held, root: payload };
-    } catch (error) {
-      await held.release();
-      throw error;
-    }
-  } else {
-    lock = await readLock();
-    if (acceptedRecipe(lock) !== (await recipeHash()))
-      throw new Error('Asset recipes differ from the pinned pack. Run assets:finalize.');
-    held = await ensurePack(lock, cache);
+async function workspace(context: TaskContext, mode: AssetMode) {
+  let held = context.workspaces.get(mode);
+  if (!held) {
+    held = await assetWorkspace(mode, context.env);
+    context.workspaces.set(mode, held);
   }
-  const env: NodeJS.ProcessEnv = {
-    ...context.env,
-    LANTERN_ASSET_WORKSPACE: held.root,
-    LANTERN_ASSET_SHA256: lock.sha256,
-    LANTERN_ASSET_RECIPE_SHA256: acceptedRecipe(lock),
-    LANTERN_ASSET_ARCHIVE_RECIPE_SHA256: lock.recipeSha256,
-    LANTERN_PREPARING: '0',
-  };
-  context.workspaces.set(local, { env, release: () => held.release() });
-  return env;
+  return held.env;
 }
 export async function withTaskEnv<T>(env: NodeJS.ProcessEnv, work: () => Promise<T>) {
   const keys = Object.keys(env).filter((key) => key.startsWith('LANTERN_')),
@@ -96,6 +48,7 @@ export async function withTaskEnv<T>(env: NodeJS.ProcessEnv, work: () => Promise
 type CommandDefinition = {
   operation: (invocation: Invocation) => Promise<void | CommandResult>;
   assets?: boolean;
+  assetMode?: AssetMode;
   parse?: (args: string[]) => void | Promise<void>;
   file?: string;
   prefix?: string[];
@@ -106,17 +59,19 @@ type CommandDefinition = {
   admission?: 'command' | 'startup' | 'none';
   summary?: boolean;
 };
-type Invocation = {
+export type Invocation = {
   context: TaskContext;
   task: string;
   args: string[];
   clean: string[];
   local: boolean;
+  assetMode: AssetMode;
   env: NodeJS.ProcessEnv;
   output?: (chunk: Buffer) => void;
   definition: CommandDefinition;
   testFiles?: string[];
   scene?: { scene: string; capture: boolean; local: boolean; skipReload: boolean };
+  run: (task: string, args?: string[], output?: (chunk: Buffer) => void) => Promise<unknown>;
   child: (
     file: string,
     args?: string[],
@@ -169,9 +124,10 @@ const dev = (file: string, prefix: string[] = []): CommandDefinition => ({
   prefix,
   assets: true,
   admission: 'startup',
+  assetMode: 'preview',
 });
 export const commands: Record<string, CommandDefinition> = {
-  check: { operation: checks, parse: noArgs, admission: 'none' },
+  check: { operation: checks, parse: noArgs, admission: 'none', assetMode: 'preview' },
   'task:start': {
     operation: async ({ clean, context }) => {
       const root = context.testRoot ?? projectRoot;
@@ -194,13 +150,17 @@ export const commands: Record<string, CommandDefinition> = {
   'test:full': { operation: testTask, parse: noArgs },
   'assets:pin:current': { operation: currentPin, parse: noArgs },
   'verify:full': { operation: fullVerification, parse: noArgs },
-  'test:e2e': { operation: e2e, parse: noArgs },
+  'test:e2e': {
+    operation: e2e,
+    parse: (args) => {
+      if (args.length > 1 || args.some((a) => a !== '--full'))
+        throw new Error('Use test:e2e [--full]');
+    },
+  },
   'check:task': { operation: taskCheck, parse: sceneArgs },
   test: {
     operation: testTask,
-    parse: async (args) => {
-      await (await import('./test')).selectTestFiles(args, projectRoot);
-    },
+    assetMode: 'preview',
   },
   build: { operation: build, assets: true, parse: noArgs },
   'build:dev': { operation: build, assets: true, parse: noArgs, dev: true },
@@ -215,12 +175,13 @@ export const commands: Record<string, CommandDefinition> = {
   'scene:check': {
     operation: sceneCheck,
     assets: true,
+    assetMode: 'preview',
     parse: sceneArgs,
     prefix: ['check'],
     timeoutMs: 120000,
   },
-  'scene:probe': { operation: probeTask, assets: true, parse: sceneArgs },
-  'ui:probe': { operation: probeTask, assets: true, parse: noArgs },
+  'scene:probe': { operation: probeTask, assets: true, assetMode: 'preview', parse: sceneArgs },
+  'ui:probe': { operation: probeTask, assets: true, assetMode: 'preview', parse: noArgs },
   'prototype:stop': {
     operation: async () => {
       await (await import('./scene/prototype-browser')).stopPrototypeBrowser();
@@ -231,6 +192,7 @@ export const commands: Record<string, CommandDefinition> = {
   'scene:benchmark': {
     operation: sceneCheck,
     assets: true,
+    assetMode: 'preview',
     parse: sceneArgs,
     prefix: ['benchmark'],
     timeoutMs: 120000,
@@ -271,12 +233,27 @@ export const commands: Record<string, CommandDefinition> = {
   knip: { ...leaf('tools/lint.ts', false, ['knip']), parse: noArgs },
   format: leaf('tools/format.ts'),
   'format:check': leaf('tools/format.ts', false, ['--check']),
+  'build:restore': {
+    assets: true,
+    parse: noArgs,
+    operation: async ({ env }) => {
+      await (
+        await import('./build-assets')
+      ).restoreBuildAssets(
+        projectRoot,
+        env.LANTERN_ASSET_WORKSPACE!,
+        env.LANTERN_ASSET_SHA256!,
+        env.GITHUB_SHA,
+      );
+    },
+  },
   'build:verify': leaf('tools/build-identity.ts', true),
   'build:dev:verify': leaf('tools/build-identity.ts', true, ['--dev']),
   'assets:check': { ...leaf('tools/check-assets.ts', true), summary: true },
-  'assets:ensure': { operation: inspectAssets, parse: noArgs },
+  'assets:ensure': { operation: inspectAssets, assets: true, parse: noArgs },
   'assets:inspect': {
     operation: inspectAssets,
+    assets: true,
     parse: async (args) => {
       if (args.length > 1 || args.some((a) => a.startsWith('--')))
         throw new Error('Supply one asset ID');
@@ -352,7 +329,7 @@ export async function checkCommandScripts(scripts: Record<string, string>) {
 }
 export type ParsedTask = Pick<
   Invocation,
-  'task' | 'args' | 'clean' | 'local' | 'definition' | 'testFiles' | 'scene'
+  'task' | 'args' | 'clean' | 'local' | 'assetMode' | 'definition' | 'testFiles' | 'scene'
 >;
 export async function parseTask(
   task: string,
@@ -366,12 +343,34 @@ export async function parseTask(
     const m = await import('./agent-context');
     if (task === 'task:start') m.taskStartArgs(args, root);
     else m.contextPaths(root, args);
-    return { task, args, clean: args, local: false, definition: commands[task]! };
+    return {
+      task,
+      args,
+      clean: args,
+      local: false,
+      assetMode: 'published',
+      definition: commands[task]!,
+    };
   }
   if (args.filter((a) => a === '--local').length > 1) throw new Error('Supply --local once');
   const definition = commands[task]!,
     local = args.includes('--local'),
     clean = args.filter((a) => a !== '--local');
+  let assetMode: AssetMode = local ? 'candidate' : (definition.assetMode ?? 'published');
+  const selection = clean.indexOf('--assets');
+  if (selection >= 0) {
+    const mode = clean[selection + 1];
+    if (
+      local ||
+      !['published', 'candidate', 'preview'].includes(mode ?? '') ||
+      clean.lastIndexOf('--assets') !== selection
+    )
+      throw new Error(
+        'Use --assets published|candidate|preview once; --local is a candidate alias',
+      );
+    assetMode = mode as AssetMode;
+    clean.splice(selection, 2);
+  }
   let testFiles: string[] | undefined, scene: ParsedTask['scene'];
   if (task === 'test' || task === 'test:full') {
     if (task === 'test:full') noArgs(clean);
@@ -420,9 +419,6 @@ export async function parseTask(
         if (!value || value.startsWith('--')) throw new Error('Missing value: ' + flag);
       } else if (!flags.has(flag)) throw new Error('Unknown option: ' + flag);
     }
-  } else if (task === 'scene:editor:check') {
-    if (clean.length > 1 || clean.some((a) => a !== '--capture'))
-      throw new Error('Use scene:editor:check [--capture]');
   } else if (task === 'format:check' || task === 'format') {
     if (clean.some((a) => a !== '--check') || clean.length > 1)
       throw new Error('Use format [--check]');
@@ -436,7 +432,16 @@ export async function parseTask(
       } else if (!flags.has(a)) throw new Error('Unknown development option: ' + a);
     }
   } else noArgs(clean);
-  return { task, args, clean, local, definition, testFiles, scene };
+  return {
+    task,
+    args,
+    clean,
+    local: assetMode === 'candidate',
+    assetMode,
+    definition,
+    testFiles,
+    scene,
+  };
 }
 export async function runTask(
   context: TaskContext,
@@ -447,21 +452,16 @@ export async function runTask(
 ) {
   const invocation = parsed ?? (await parseTask(task, args, context.testRoot ?? projectRoot));
   const { definition, local, clean, testFiles, scene } = invocation;
+  const assetMode =
+    args.includes('--local') || args.includes('--assets')
+      ? invocation.assetMode
+      : (context.assetMode ?? invocation.assetMode);
   if (clean.includes('--skip-reload') && !context.previewReloadVerified)
     throw new Error('Reload reuse requires a successful scene check in this task');
   context.captureDirectories = [];
   const budget = taskBudget(task);
   const env: NodeJS.ProcessEnv = {
-    ...(definition.assets
-      ? await workspace(
-          context,
-          local,
-          process.env.CI !== 'true' &&
-            context.env.LANTERN_FULL_VERIFICATION !== '1' &&
-            (definition.admission === 'startup' ||
-              ['scene:probe', 'ui:probe', 'scene:check', 'scene:editor:check'].includes(task)),
-        )
-      : context.env),
+    ...(definition.assets ? await workspace(context, assetMode) : context.env),
     ...(budget
       ? {
           LANTERN_EXECUTION_DEADLINE: executionDeadline(
@@ -486,103 +486,78 @@ export async function runTask(
       ],
       { cwd: projectRoot, env, timeoutMs, output: childOutput },
     );
-  const previousEnv = context.env;
-  context.env = env;
+  const parent = context;
+  context = { ...context, env, assetMode, captureDirectories: [] };
   try {
-    const invocation = {
-      context,
-      task,
-      args,
-      clean,
-      local,
-      env,
-      output,
-      child,
-      definition,
-      testFiles,
-      scene,
-    };
-    if (
-      (task.startsWith('smoke:') || task === 'scene:check' || task === 'scene:editor:check') &&
-      process.env.CI !== 'true'
-    ) {
-      const { reusableDeliveryPhase } = await import('./phase-run');
-      const packaged = task.startsWith('smoke:');
-      const devPackage = !['smoke:game', 'smoke:visual-options'].includes(task);
-      const executables = packaged
-        ? await import('./smoke/smoke-launch').then(({ smokeExecutable }) =>
-            task === 'smoke:desktop'
-              ? [smokeExecutable(false), smokeExecutable(true)]
-              : [smokeExecutable(devPackage)],
-          )
-        : [];
-      const outputFiles = executables.flatMap((executable) => [
-        path.relative(projectRoot, executable),
-        path.relative(
-          projectRoot,
-          process.platform === 'darwin'
-            ? path.resolve(path.dirname(executable), '../Resources/app.asar')
-            : path.join(path.dirname(executable), 'resources/app.asar'),
-        ),
-      ]);
-      // Explicit external executables retain fresh verification instead of local-output reuse.
-      if (outputFiles.some((file) => file.startsWith('..') || path.isAbsolute(file))) {
-        await definition.operation(invocation);
-        return;
-      }
-      context.captureDirectories = await reusableDeliveryPhase(projectRoot, {
-        name: task,
-        entry: definition.file ?? 'tools/scene/scene-workflow.ts',
+    return await withTaskEnv(env, async () => {
+      const invocation = {
+        context,
+        run: (name: string, args: string[] = [], sink?: (chunk: Buffer) => void) =>
+          runTask(context, name, args, sink),
+        task,
         args,
-        assets: env.LANTERN_ASSET_SHA256,
-        ...(outputFiles.length ? { outputFiles } : {}),
-        run: async () => {
+        clean,
+        local,
+        assetMode,
+        env,
+        output,
+        child,
+        definition,
+        testFiles,
+        scene,
+      };
+      if (
+        (task.startsWith('smoke:') || task === 'scene:check' || task === 'scene:editor:check') &&
+        process.env.CI !== 'true'
+      ) {
+        const { reusableDeliveryPhase } = await import('./phase-run');
+        const packaged = task.startsWith('smoke:');
+        const devPackage = !['smoke:game', 'smoke:visual-options'].includes(task);
+        const executables = packaged
+          ? await import('./smoke/smoke-launch').then(({ smokeExecutable }) =>
+              task === 'smoke:desktop'
+                ? [smokeExecutable(false), smokeExecutable(true)]
+                : [smokeExecutable(devPackage)],
+            )
+          : [];
+        const outputFiles = executables.flatMap((executable) => [
+          path.relative(projectRoot, executable),
+          path.relative(
+            projectRoot,
+            process.platform === 'darwin'
+              ? path.resolve(path.dirname(executable), '../Resources/app.asar')
+              : path.join(path.dirname(executable), 'resources/app.asar'),
+          ),
+        ]);
+        // Explicit external executables retain fresh verification instead of local-output reuse.
+        if (outputFiles.some((file) => file.startsWith('..') || path.isAbsolute(file))) {
           await definition.operation(invocation);
-          return context.captureDirectories ?? [];
-        },
-      });
-    } else return await definition.operation(invocation);
+          return;
+        }
+        context.captureDirectories = await reusableDeliveryPhase(projectRoot, {
+          name: task,
+          entry: definition.file ?? 'tools/scene/scene-workflow.ts',
+          args,
+          assets: env.LANTERN_ASSET_SHA256,
+          ...(outputFiles.length ? { outputFiles } : {}),
+          run: async () => {
+            await definition.operation(invocation);
+            return context.captureDirectories ?? [];
+          },
+        });
+      } else return await definition.operation(invocation);
+    });
   } finally {
-    context.env = previousEnv;
+    parent.captureDirectories = context.captureDirectories;
+    parent.previewReloadVerified = context.previewReloadVerified;
   }
 }
-async function e2e({ context, args, child }: Invocation) {
-  if (!['darwin', 'win32'].includes(process.platform))
-    throw new Error('E2E requires macOS or Windows');
-  const before = await verificationIdentity(projectRoot);
-  for (const task of ['build:verify', 'build:dev:verify']) await runTask(context, task, args);
-  await child('tools/smoke/e2e.ts', [], taskBudget('test:e2e'));
-  await requireStableInputs(projectRoot, before);
-}
-async function fullVerification({ context, args }: Invocation) {
-  if (!['darwin', 'win32'].includes(process.platform))
-    throw new Error('Full verification requires macOS or Windows');
-  const before = await verificationIdentity(projectRoot),
-    host = process.platform === 'darwin' ? 'mac' : 'win';
-  context.env = { ...context.env, LANTERN_FULL_VERIFICATION: '1' };
-  for (const task of [
-    'check:full',
-    'build',
-    'build:dev',
-    `package:${host}:prebuilt`,
-    `package:dev:${host}:prebuilt`,
-    'test:e2e',
-  ]) {
-    const started = performance.now();
-    await runTask(context, task, args);
-    console.log(`Verification phase ${task}: ${Math.round(performance.now() - started)}ms.`);
-  }
-  await requireStableInputs(projectRoot, before);
-  console.log(
-    'PASS: complete host verification; other platforms and visible playtesting require separate evidence.',
-  );
-}
-
 async function testTask({
   context,
   task,
   testFiles,
   local,
+  assetMode,
   output,
 }: Invocation): Promise<CommandResult> {
   const { selectTestFiles, runTests, TestExecutionFailure } = await import('./test');
@@ -635,18 +610,15 @@ async function testTask({
         ...(names ? { files: names } : {}),
       });
       const execute = async () => {
-        const tests = await withTaskEnv(
+        const tests = await runTests(
+          files,
+          async () => workspace(context, assetMode),
+          undefined,
+          root,
           {
             ...context.env,
             ...(names ? { LANTERN_VERIFICATION_FILES: JSON.stringify(names) } : {}),
           },
-          () =>
-            runTests(
-              files,
-              async () => workspace(context, local, !full && process.env.CI !== 'true'),
-              undefined,
-              root,
-            ),
         );
         await requireStableInputs(root, before, {
           ignoreAssetPin: true,
@@ -692,7 +664,7 @@ async function testTask({
   return publishResult(root, result, inputs, names, output);
 }
 
-async function probeTask({ task, scene, env, context, clean, output }: Invocation) {
+async function probeTask({ task, scene, context, clean, output }: Invocation) {
   if (scene?.capture) return runTask(context, 'scene:check', clean, output);
   const { snapshot } = await import('./task-state');
   const inputs = await snapshot(projectRoot),
@@ -713,11 +685,9 @@ async function probeTask({ task, scene, env, context, clean, output }: Invocatio
     timings: [],
   };
   try {
-    await withTaskEnv(env, () =>
-      import('./scene/prototype-browser').then((m) =>
-        m.prototypeProbe(scene?.scene ?? 'court', task === 'ui:probe'),
-      ),
-    );
+    await (
+      await import('./scene/prototype-browser')
+    ).prototypeProbe(scene?.scene ?? 'court', task === 'ui:probe');
     // Compare authored inputs, including additions/deletions, before claiming a current pass.
     const after = await snapshot(projectRoot);
     if (JSON.stringify(inputs.files) !== JSON.stringify(after.files))
@@ -735,7 +705,7 @@ async function probeTask({ task, scene, env, context, clean, output }: Invocatio
 async function currentPin({ local }: Invocation) {
   await (await import('./check-asset-pin')).checkCurrentAssetPin(projectRoot, local);
   console.log(
-    'PASS: current asset recipe matches the ' +
+    'PASS: authored asset inputs match the ' +
       (local ? 'local preparation' : 'published pack pin') +
       '; no artwork acquired.',
   );
@@ -790,76 +760,6 @@ async function taskCheck({ context, scene, local }: Invocation) {
     'PASS: focused local handoff and selected scene acceptance; full regression coverage belongs to CI.',
   );
 }
-async function build({ clean, env, output, child, definition }: Invocation) {
-  if (clean.length) throw new Error('Build accepts only --local');
-  const dev = definition.dev ?? false,
-    identity = path.join(projectRoot, dev ? 'dist-dev' : 'dist', 'build-identity.json');
-  const execute = () =>
-    guardedBuild(
-      projectRoot,
-      identity,
-      async (before) => {
-        await child('node_modules/typescript/bin/tsc', ['--noEmit']);
-        await child('node_modules/vite/bin/vite.js', [
-          'build',
-          ...(dev ? ['--mode', 'sandbox'] : []),
-        ]);
-        await child('tools/select-runtime-assets.ts', dev ? ['--dev'] : []);
-        await child('tools/build-electron.ts', dev ? ['--dev'] : []);
-        await runProcess(
-          process.execPath,
-          ['--import', 'tsx', 'tools/build-identity.ts', ...(dev ? ['--dev'] : []), '--write'],
-          {
-            cwd: projectRoot,
-            env: { ...env, LANTERN_BUILD_SOURCE: JSON.stringify(before) },
-            output,
-          },
-        );
-      },
-      { scope: 'runtime' },
-    );
-  if (process.env.CI === 'true' || env.LANTERN_FULL_VERIFICATION === '1') return execute();
-  const { phaseEvidence } = await import('./task-state');
-  const { fileSignatures } = await import('./verified-files');
-  const inputs = await verificationIdentity(projectRoot, { scope: 'runtime' });
-  const key = [
-    inputs.sha256,
-    env.LANTERN_ASSET_SHA256,
-    process.version,
-    process.platform,
-    dev,
-    'build-v1',
-  ].join(':');
-  const result = await phaseEvidence(
-    projectRoot,
-    dev ? 'build:dev' : 'build',
-    key,
-    async () => {
-      await execute();
-      const data = JSON.parse(await fs.readFile(identity, 'utf8')) as {
-        files: Record<string, string>;
-      };
-      return {
-        signatures: await fileSignatures(projectRoot, [
-          ...Object.keys(data.files),
-          path.relative(projectRoot, identity),
-        ]),
-      };
-    },
-    async (proof) => {
-      try {
-        return (
-          JSON.stringify(proof.signatures) ===
-          JSON.stringify(await fileSignatures(projectRoot, Object.keys(proof.signatures)))
-        );
-      } catch {
-        return false;
-      }
-    },
-  );
-  if (result.reused)
-    console.log('Reused validated build: runtime inputs, pinned assets and output files match.');
-}
 async function captureChild(
   file: string,
   args: string[],
@@ -911,136 +811,71 @@ async function develop({ context, clean, env, output, definition }: Invocation) 
   );
 }
 async function finalize({ context, args }: Invocation) {
-  await withTaskEnv(context.env, async () =>
-    (await import('./assets/finalize')).finalizeAssets(args, async (argv) => {
-      let log = '';
-      await runNpmTask(context, argv, (chunk) => {
-        log = (log + chunk.toString()).slice(-12000);
-        process.stdout.write(chunk);
-      });
-      return {
-        output: log,
-        captureDirectories: context.captureDirectories ?? [],
-      };
-    }),
-  );
-}
-async function prepare({ context, clean }: Invocation) {
-  const ids = preparationArgs(clean);
-  if (ids.length) {
-    await withTaskEnv(context.env, () =>
-      import('./assets/preview').then((m) => m.preparePreviewAssets(ids)),
-    );
-    return;
-  }
-  const prepared = await withTaskEnv(context.env, () =>
-    import('./assets/prepare').then((m) =>
-      m.prepareAssets(new AssetCache(), clean.includes('--proof')),
-    ),
-  );
-  await prepared.held.release();
-}
-async function inspectAssets({ context, task, clean, local }: Invocation) {
-  const selected = await workspace(context, local);
-  if (task === 'assets:inspect')
-    await withTaskEnv(selected, async () => {
-      const assetCatalog = await (
-        await import('./assets/authoring-catalog')
-      ).readAuthoringCatalog();
-      const { parseManifest } = await import('../src/assets/schema');
-      const id = clean[0];
-      if (!id) {
-        console.log(`${Object.keys(assetCatalog).length} assets. Supply an asset ID.`);
-        return;
-      }
-      const file = assetCatalog[id];
-      if (!file) throw new Error('Unknown asset ID');
-      const manifest = parseManifest(
-        JSON.parse(
-          await fs.readFile(path.join(selected.LANTERN_ASSET_WORKSPACE!, 'public', file), 'utf8'),
-        ),
-      );
-      console.log(
-        JSON.stringify(
-          {
-            id,
-            canvas: manifest.asset.canvas,
-            density: manifest.asset.density,
-            frames: manifest.frames.length,
-            pages: manifest.pages.length,
-            clips: Object.keys(manifest.asset.clips),
-          },
-          null,
-          2,
-        ),
-      );
+  await (
+    await import('./assets/finalize')
+  ).finalizeAssets(args, async (argv) => {
+    let log = '';
+    await runNpmTask(context, argv, (chunk) => {
+      log = (log + chunk.toString()).slice(-12000);
+      process.stdout.write(chunk);
     });
-}
-async function cleanAssets({ env }: Invocation) {
-  await withTaskEnv(env, async () => {
-    const { retainedPacks, obsoleteReleases, gh } = await import('./assets/retention');
-    const cache = new AssetCache(),
-      keep = await retainedPacks(await readLock()),
-      obsolete = await obsoleteReleases(keep);
-    for (const tag of obsolete) await gh(['release', 'delete', tag, '--cleanup-tag', '--yes']);
-    const names = await fs.readdir(path.join(cache.root, 'entries'));
-    const removed = await cache.clean(
-      new Set(names.filter((n) => n.startsWith('pack-') && keep.has('assets-' + n.slice(5, 21)))),
-    );
-    console.log(`Cleaned ${obsolete.length} published packs and ${removed} unused entries.`);
+    return { output: log, captureDirectories: context.captureDirectories ?? [] };
   });
 }
-async function packageApp({ context, args, output, child, definition }: Invocation) {
-  const { dev, host, prebuilt } = definition.package!;
-  if (!host) throw new Error('Unknown package target');
-  if (!prebuilt) await runTask(context, dev ? 'build:dev' : 'build', args, output);
-  await child('tools/build-identity.ts', dev ? ['--dev'] : []);
-  const execute = () =>
-    child('node_modules/electron-builder/cli.js', [
-      ...(dev ? ['--config', 'electron-builder.dev.json'] : []),
-      '--' + host,
-      host === 'mac' ? '--arm64' : '--x64',
-      '--dir',
-    ]);
-  if (process.env.CI === 'true' || context.env.LANTERN_FULL_VERIFICATION === '1') return execute();
-  const { phaseEvidence } = await import('./task-state');
-  const { fileSignatures } = await import('./verified-files');
-  const dist = dev ? 'dist-dev' : 'dist';
-  const name = dev ? 'Lantern Knight Dev' : 'Lantern Knight';
-  const release = dev ? 'release-dev' : 'release';
-  const files =
-    host === 'mac'
-      ? [
-          `${release}/mac-arm64/${name}.app/Contents/Resources/app.asar`,
-          `${release}/mac-arm64/${name}.app/Contents/MacOS/${name}`,
-        ]
-      : [`${release}/win-unpacked/resources/app.asar`, `${release}/win-unpacked/${name}.exe`];
-  const identity = await fs.readFile(path.join(projectRoot, dist, 'build-identity.json'), 'utf8');
-  const config = await fs.readFile(
-    path.join(projectRoot, dev ? 'electron-builder.dev.json' : 'package.json'),
-    'utf8',
+async function prepare({ clean }: Invocation) {
+  const ids = preparationArgs(clean);
+  if (ids.length) {
+    await (await import('./assets/preview')).preparePreviewAssets(ids);
+    return;
+  }
+  const prepared = await (
+    await import('./assets/prepare')
+  ).prepareAssets(new AssetCache(), clean.includes('--proof'));
+  await prepared.held.release();
+}
+async function inspectAssets({ task, clean, env }: Invocation) {
+  if (task === 'assets:inspect') {
+    const assetCatalog = await (await import('./assets/authoring-catalog')).readAuthoringCatalog();
+    const { parseManifest } = await import('../src/assets/schema');
+    const id = clean[0];
+    if (!id) {
+      console.log(`${Object.keys(assetCatalog).length} assets. Supply an asset ID.`);
+      return;
+    }
+    const file = assetCatalog[id];
+    if (!file) throw new Error('Unknown asset ID');
+    const manifest = parseManifest(
+      JSON.parse(
+        await fs.readFile(path.join(env.LANTERN_ASSET_WORKSPACE!, 'public', file), 'utf8'),
+      ),
+    );
+    console.log(
+      JSON.stringify(
+        {
+          id,
+          canvas: manifest.asset.canvas,
+          density: manifest.asset.density,
+          frames: manifest.frames.length,
+          pages: manifest.pages.length,
+          clips: Object.keys(manifest.asset.clips),
+        },
+        null,
+        2,
+      ),
+    );
+  }
+}
+async function cleanAssets() {
+  const { retainedPacks, obsoleteReleases, gh } = await import('./assets/retention');
+  const cache = new AssetCache(),
+    keep = await retainedPacks(await readLock()),
+    obsolete = await obsoleteReleases(keep);
+  for (const tag of obsolete) await gh(['release', 'delete', tag, '--cleanup-tag', '--yes']);
+  const names = await fs.readdir(path.join(cache.root, 'entries'));
+  const removed = await cache.clean(
+    new Set(names.filter((n) => n.startsWith('pack-') && keep.has('assets-' + n.slice(5, 21)))),
   );
-  const key = identity + config + process.platform + host + 'package-v1';
-  const proof = await phaseEvidence(
-    projectRoot,
-    'package:' + dev + ':' + host,
-    key,
-    async () => {
-      await execute();
-      return { signatures: await fileSignatures(projectRoot, files) };
-    },
-    async (value) => {
-      try {
-        return (
-          JSON.stringify(value.signatures) ===
-          JSON.stringify(await fileSignatures(projectRoot, files))
-        );
-      } catch {
-        return false;
-      }
-    },
-  );
-  if (proof.reused) console.log('Reused matching validated package output.');
+  console.log(`Cleaned ${obsolete.length} published packs and ${removed} unused entries.`);
 }
 async function leafTask({ task, context, clean, env, output, child, definition }: Invocation) {
   const argv = [...(definition.prefix ?? []), ...clean];
@@ -1145,6 +980,7 @@ export async function managedTask(task: string, args: string[]) {
         });
   const context: TaskContext = {
     env: lane.env,
+    assetMode: process.env.CI === 'true' ? 'published' : undefined,
     workspaces: new Map(),
     releaseAdmission: () => lane.release(),
   };

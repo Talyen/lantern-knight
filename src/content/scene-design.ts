@@ -128,19 +128,10 @@ export function validateSceneDesign(art: WorldVisualDefinition) {
   const profile = art.designProfile;
   if (!profile) throw new Error('Scene requires a design profile');
   const spec = sceneDesignProfiles[profile];
-  if (
-    art.floor !== spec.floor ||
-    art.walls.length ||
-    art.graves.length ||
-    art.patches.length ||
-    art.groundTiles ||
-    art.overlaps?.length
-  )
+  if (art.floor !== spec.floor || art.walls.length || art.graves.length || art.overlaps?.length)
     throw new Error('Scene foundation requires authored flat ground and whole illustrated shells');
-  const count = new Map<string, number>();
   for (const p of [...art.props, ...art.decals]) {
     const e = paletteEntry(p),
-      zone = p.zone && spec.zones[p.zone],
       scale = p.scale ?? 1;
     if (!e || !e.profiles.includes(profile))
       throw new Error(`${p.id}: artwork is outside the scene palette`);
@@ -154,10 +145,8 @@ export function validateSceneDesign(art: WorldVisualDefinition) {
       (p.tint !== undefined && p.tint !== 0xffffff)
     )
       throw new Error(`${p.id}: artwork transform violates its registered treatment`);
-    if (!zone || (zone.kind === 'clear' && e.category !== 'ground-panel'))
-      throw new Error(`${p.id}: invalid composition zone`);
-    if (!p.mount && ((p.y ?? 0) !== 0 || !contains(zone.bounds, p.x, p.z)))
-      throw new Error(`${p.id}: placement is not grounded in its zone`);
+    if (!Number.isFinite(p.x + p.z + (p.y ?? 0) + scale) || (!p.mount && (p.y ?? 0) !== 0))
+      throw new Error(`${p.id}: placement is not grounded`);
     if (p.mount) {
       const parent = art.props.find((v) => v.id === p.mount!.to),
         socket = parent && paletteEntry(parent)?.sockets?.[p.mount.socket ?? ''];
@@ -165,7 +154,6 @@ export function validateSceneDesign(art: WorldVisualDefinition) {
         !socket ||
         !socket.accepts.includes(p.asset + ':' + p.clip) ||
         p.mount.offset.some((v, i) => Math.abs(v - socket.offset[i]!) > 1e-8) ||
-        p.zone !== parent!.zone ||
         scale !== 1
       )
         throw new Error(`${p.id}: attachment differs from its registered socket`);
@@ -176,7 +164,6 @@ export function validateSceneDesign(art: WorldVisualDefinition) {
       )
         throw new Error(`${p.id}: socket already occupied`);
     }
-    if (e.category !== 'ground-panel') count.set(p.zone!, (count.get(p.zone!) ?? 0) + 1);
     const expected = e.footprint?.map((n) => n * scale);
     if (
       expected
@@ -186,17 +173,35 @@ export function validateSceneDesign(art: WorldVisualDefinition) {
       throw new Error(`${p.id}: footprint differs from curated artwork`);
     if (p.footprintAngle && p.footprintAngle !== 0)
       throw new Error(`${p.id}: footprint facing differs from artwork`);
+  }
+  const conflict = sceneArtFindings(art).find((f) => f.kind === 'solid-intersection');
+  if (conflict) throw new Error(`${conflict.a}/${conflict.b}: structural scenery intersects`);
+}
+
+// Composition is prototype authoring guidance, separate from engine/registration safety.
+export function sceneCompositionFindings(art: WorldVisualDefinition): string[] {
+  if (!art.designProfile) return [];
+  const spec = sceneDesignProfiles[art.designProfile],
+    notes: string[] = [],
+    count = new Map<string, number>();
+  for (const p of [...art.props, ...art.decals]) {
+    const e = paletteEntry(p),
+      zone = p.zone && spec.zones[p.zone];
+    if (!zone || (!p.mount && !contains(zone.bounds, p.x, p.z)))
+      notes.push(`${p.id}: outside its composition zone`);
+    if (e?.category !== 'ground-panel' && p.zone && zone)
+      count.set(p.zone, (count.get(p.zone) ?? 0) + 1);
     if (p.footprint)
-      for (const z of Object.values(spec.zones).filter((v) => v.kind === 'clear')) {
-        const b = z.bounds;
+      for (const clear of Object.values(spec.zones).filter((z) => z.kind === 'clear')) {
+        const b = clear.bounds;
         if (
           solidIntersection(
             {
               id: p.id,
-              center: { x: p.x, z: p.z },
+              center: p,
               width: p.footprint[0],
               length: p.footprint[1],
-              angle: 0,
+              angle: p.footprintAngle ?? 0,
             },
             {
               id: 'route',
@@ -207,12 +212,10 @@ export function validateSceneDesign(art: WorldVisualDefinition) {
             },
           )
         )
-          throw new Error(`${p.id}: solid scenery blocks a clear composition zone`);
+          notes.push(`${p.id}: occupies an intended clear zone`);
       }
   }
-  const conflict = sceneArtFindings(art).find((f) => f.kind === 'solid-intersection');
-  if (conflict) throw new Error(`${conflict.a}/${conflict.b}: structural scenery intersects`);
   for (const [name, n] of count)
-    if (n > spec.zones[name]!.capacity)
-      throw new Error(`${name}: composition exceeds curated cluster capacity`);
+    if (n > spec.zones[name]!.capacity) notes.push(`${name}: dense cluster (${n} objects)`);
+  return notes;
 }

@@ -8,7 +8,7 @@ Production scenes use flat ground and intact illustrated scenery. Painted 3D env
 - Use cohesive whole building shells or open-front interior shells. Attach only compatible artwork at registered sockets. Structural clipping and prose overlap waivers are prohibited; natural depth occlusion is permitted.
 - Preserve artwork silhouettes and projection. Do not crop, cut, stretch, deform, repaint or manipulate UVs to manufacture scenery. Transparent-margin trimming and atlas sampling preserve registration and visible pixels.
 - Use semantic world sizes. Independent props normally allow 0.85–1.15 of their registered size. Shells, ground panels and attachments use registered dimensions. A tree is never substituted for a bush by shrinking it.
-- Select a scene palette and assign every object to a focal, supporting or framing zone. Clear traversal/combat zones remain available; random filler placement is prohibited.
+- Use the scene palette and composition zones to guide iteration. Zone placement and cluster density are advisory editor notes for these prototypes. Valid asset references, flat grounding, registered transforms/sockets and absence of structural clipping remain required.
 - Ground supports scenery through quiet colors and broad smooth fills. Paths, threshold transitions and paving are authored images, never runtime painting or shader masks.
 
 ## Native ground panels
@@ -17,4 +17,4 @@ Measure actual source dimensions. A roughly 1k image covers about four metres at
 
 ## Verification
 
-Use the [contributing handoff](../CONTRIBUTING.md#verification): deterministic checks, scene acceptance and direct visual inspection of requested captures. Runtime artwork changes finish through the existing [asset finalization workflow](assets.md#local-preparation-review). Captures and temporary diagnostics remain outside Git.
+Use the [contributing handoff](../CONTRIBUTING.md#verification): dynamic contract checks and a warm scene probe; direct visual inspection only for requested captures. Stable test fixtures protect renderer/engine behavior independently of production layout. Runtime artwork changes finish through the existing [asset finalization workflow](assets.md#local-preparation-review). Captures and temporary diagnostics remain outside Git.

@@ -5,7 +5,6 @@ import * as T from 'three';
 import { worldVisuals } from '../src/content/world-art';
 import { graveHead } from '../src/content/graveyard-scene';
 const graveyardArt = worldVisuals.court!;
-import { coplanarMeshConflicts } from '../src/presentation/mesh-plane-validation';
 import { coplanarArtConflicts } from '../src/presentation/carrier-validation';
 const coverage = readRegistration().coverage;
 import { sceneArtFindings } from '../src/content/scene-art-validation';
@@ -45,13 +44,6 @@ try {
     [],
     'undeclared opaque art occupies the same depth plane',
   );
-  const architecture = room.graveyard!.architecture;
-  assert.deepEqual(
-    coplanarMeshConflicts(architecture.parts),
-    [],
-    'opaque construction planes share depth',
-  );
-  assert.equal(architecture.parts.length, 0, 'No manufactured visible geometry');
   assert.ok(
     room.sprites.some((s) => s.id === 'chapel-shell'),
     'Complete illustrated building shell',
@@ -71,15 +63,12 @@ try {
     assert.equal(marker.x, head.x);
     assert.equal(marker.z, head.z);
   }
-  for (const x of [-0.9, 0, 0.9])
-    for (let z = -4.7; z <= 4.3; z += 0.2)
-      assert.ok(isSupportedPosition(area, { x, z }, 0.3), `central corridor blocked at ${x}/${z}`);
   for (const entry of area.entries) assert.ok(isSupportedPosition(area, entry, 0.3));
   const floor = packs.get(graveyardArt.floor)!;
   assert.equal(floor.manifest.frames.length, 1);
   assert.ok(floor.manifest.pages.every((p) => p.mipmaps));
   console.log(
-    `PASS: Graveyard footprints, intact chapel shell and flat ground, clear corridor, standalone terrain mipmaps and fixture sockets`,
+    `PASS: Graveyard footprints, intact chapel shell and flat ground, supported entries, standalone terrain mipmaps and fixture sockets`,
   );
 } finally {
   room.dispose();

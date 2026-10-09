@@ -1,10 +1,10 @@
-import { content } from '../src/content/game-content';
+import { content } from './fixtures/content';
 import { sandboxContent } from '../src/content/sandbox-world';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Vector3 } from 'three';
 import { ContentRegistry, PLAYER_ID, heightAt, surfaceGradient } from '../src/content/world';
-import { contentDefinitions } from '../src/content/game-content';
+import { contentDefinitions } from './fixtures/content';
 import { GameSession } from '../src/core/session';
 import { tuning, attackDefinition } from '../src/content/gameplay';
 import { Simulation, FixedClock } from '../src/core/simulation';

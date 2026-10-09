@@ -2,9 +2,10 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { safeRelative } from './assets/paths';
+import { shaFile } from './assets/sources';
 
 // A successful hash check is reusable only while every file's identity and metadata match.
-export async function fileSignatures(root: string, names: readonly string[]) {
+async function fileSignatures(root: string, names: readonly string[]) {
   const signatures: Record<string, string> = {};
   for (const name of [...new Set(names)].sort()) {
     safeRelative(name);
@@ -38,4 +39,14 @@ export async function verifiedOutput(
     throw new Error('Output changed during validation');
   await fs.writeFile(file, JSON.stringify({ version: 1, key }));
   return false;
+}
+
+// Delivery identity follows bytes, so an identical rebuild can reuse its proof.
+export async function fileChecksums(root: string, names: readonly string[]) {
+  const before = await fileSignatures(root, names);
+  const hashes: Record<string, string> = {};
+  for (const name of Object.keys(before)) hashes[name] = await shaFile(path.join(root, name));
+  if (JSON.stringify(before) !== JSON.stringify(await fileSignatures(root, names)))
+    throw new Error('Output changed while hashing');
+  return hashes;
 }

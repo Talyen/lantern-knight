@@ -8,16 +8,6 @@
         "masonry"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "assets/sources.json"
       ],
       "dependsOn": []
@@ -33,16 +23,6 @@
         "ink-chapel-*"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "authoring/chapel-art.json",
         "assets/sources.json",
         "src/content/scenery-registration.ts"
@@ -58,16 +38,6 @@
         "ink-hero-current"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "authoring/hero-actions.json",
         "authoring/hero-motion.json",
         "tools/assets/hero.py",
@@ -85,16 +55,6 @@
         "ink-graveyard-*"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "src/content/graveyard-registration.ts",
         "assets/sources.json"
       ],
@@ -110,16 +70,6 @@
         "ink-graveyard-overlays"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "authoring/ground-overlays.json",
         "assets/sources.json"
       ],
@@ -134,16 +84,6 @@
         "ink-blackwood-*"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "assets/sources.json"
       ],
       "dependsOn": [
@@ -157,16 +97,6 @@
         "ink-tended-*"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "authoring/graveyard-art.json",
         "assets/sources.json"
       ],
@@ -181,16 +111,6 @@
         "library-*"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "assets/library-packs.json",
         "tools/assets/library_import.py",
         "tools/assets/authoring-catalog.ts",
@@ -211,16 +131,6 @@
         "fx-*"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "src/content/visual-effects-assets.ts",
         "assets/sources.json"
       ],
@@ -235,16 +145,6 @@
         "surface-relief"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "authoring/surface-depth.json",
         "src/assets/normal-pixels.ts",
         "assets/sources.json",
@@ -266,16 +166,6 @@
         "dev-effects"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "src/content/effects-playground-assets.ts",
         "assets/sources.json"
       ],
@@ -290,16 +180,6 @@
         "ink-stage-*"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "authoring/flat-stage-art.json",
         "assets/sources.json"
       ],
@@ -312,16 +192,6 @@
         "coverage"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "src/content/asset-catalog.ts",
         "src/content/scenery-registration.ts",
         "assets/sources.json",
@@ -345,16 +215,6 @@
         "lighting"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "src/content/asset-catalog.ts",
         "src/assets/normal-pixels.ts",
         "src/content/scenery-registration.ts",
@@ -384,16 +244,6 @@
         "animation"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "authoring/hero-actions.json",
         "authoring/hero-motion.json",
         "tools/assets/hero.py",
@@ -411,16 +261,6 @@
         "last-ferry"
       ],
       "inputs": [
-        "tools/assets/io.ts",
-        "tools/assets/sources.ts",
-        "tools/assets/source.py",
-        "tools/assets/resolver.py",
-        "tools/assets/definition.ts",
-        "tools/compiler.ts",
-        "src/assets/schema.ts",
-        "src/assets/camera.json",
-        "src/assets/camera-calibration.ts",
-        "src/assets/registration.ts",
         "assets/loading-sources.json",
         "src/content/loading-media.ts",
         "tools/assets/loading-media.ts"
@@ -429,44 +269,10 @@
     }
   ],
   "inputs": [
-    "assets/sources.json",
-    "authoring/surface-depth.json",
-    "authoring/ground-overlays.json",
-    "authoring/graveyard-art.json",
-    "authoring/chapel-art.json",
-    "authoring/hero-actions.json",
-    "authoring/hero-motion.json",
-    "tools/assets/hero.py",
-    "tools/assets/definition.ts",
-    "src/assets/camera.json",
-    "src/assets/camera-calibration.ts",
-    "src/assets/normal-pixels.ts",
-    "src/assets/schema.ts",
-    "src/content/scenery-registration.ts",
-    "src/content/graveyard-registration.ts",
-    "src/content/asset-catalog.ts",
-    "src/content/visual-effects-assets.ts",
-    "src/content/effects-playground-assets.ts",
-    "tools/compiler.ts",
-    "tools/prepare-animation-flow.py",
-    "tools/assets/io.ts",
-    "tools/assets/sources.ts",
-    "tools/assets/source.py",
-    "tools/assets/resolver.py",
-    "src/assets/registration.ts",
+    "tools/assets/archive.ts",
     "tools/assets/payload.ts",
     "tools/assets/recipe.ts",
-    "tools/assets/archive.ts",
-    "assets/library-packs.json",
-    "assets/library-sources.json",
-    "tools/assets/library_import.py",
-    "tools/assets/authoring-catalog.ts",
-    "assets/loading-sources.json",
-    "src/content/loading-media.ts",
-    "tools/assets/loading-media.ts",
-    "authoring/flat-stage-art.json",
-    "src/content/hero-actions.ts",
-    "tools/lighting-bindings.ts"
+    "tools/prepare-animation-flow.py"
   ],
   "dependencies": {
     "devDependencies": [
@@ -477,5 +283,39 @@
       "three",
       "zod"
     ]
-  }
+  },
+  "sharedInputs": [
+    "src/assets/camera-calibration.ts",
+    "src/assets/camera.json",
+    "src/assets/registration.ts",
+    "src/assets/schema.ts",
+    "tools/assets/definition.ts",
+    "tools/assets/io.ts",
+    "tools/assets/resolver.py",
+    "tools/assets/source.py",
+    "tools/assets/sources.ts",
+    "tools/compiler.ts",
+    "tools/assets/preparation.ts",
+    "tools/assets/incremental.ts"
+  ],
+  "authoredInputs": [
+    "assets/library-packs.json",
+    "assets/library-sources.json",
+    "assets/loading-sources.json",
+    "assets/sources.json",
+    "authoring/chapel-art.json",
+    "authoring/flat-stage-art.json",
+    "authoring/graveyard-art.json",
+    "authoring/ground-overlays.json",
+    "authoring/hero-actions.json",
+    "authoring/hero-motion.json",
+    "authoring/surface-depth.json",
+    "src/assets/camera.json",
+    "src/content/asset-catalog.ts",
+    "src/content/effects-playground-assets.ts",
+    "src/content/graveyard-registration.ts",
+    "src/content/loading-media.ts",
+    "src/content/scenery-registration.ts",
+    "src/content/visual-effects-assets.ts"
+  ]
 }

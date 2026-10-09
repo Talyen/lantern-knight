@@ -287,9 +287,7 @@ export function resolveSceneDocument(
     walls: [],
     paths: [],
     graves: [],
-    patches: [],
-    lights: [],
-    assemblies: [],
+
     proceduralAssets: [],
     camera: {
       bounds: { minX: -f!.width / 2, maxX: f!.width / 2, minZ: -f!.depth / 2, maxZ: f!.depth / 2 },

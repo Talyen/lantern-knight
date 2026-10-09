@@ -135,6 +135,7 @@ test('delivery phase reuse keeps unchanged captures but invalidates harness and 
       },
     };
     await reusableDeliveryPhase(root, options);
+    await fs.writeFile(path.join(root, 'dist/app.asar'), 'package');
     await reusableDeliveryPhase(root, options);
     assert.equal(runs, 1);
     await fs.writeFile(path.join(root, 'tools/check.ts'), 'export const changed = true;');

@@ -3,7 +3,7 @@ import type { PreparedRegistration } from '../assets/registration';
 import * as T from 'three';
 import { ActorSprite } from './sprite';
 import { OcclusionFades } from './occlusion-fades';
-import { CryptArchitecture } from './crypt-architecture';
+import { graveyardGroundMaterial } from './graveyard-ground';
 import { GraveyardRoom } from './graveyard-room';
 import { resolveClip, type Clip } from '../assets/schema';
 import type { PackLease } from '../assets/loader';
@@ -18,7 +18,6 @@ export class InkRoom {
   readonly fades: ActorSprite[] = [];
   readonly effects = new Map<string, ActorSprite>();
   readonly occlusion = new OcclusionFades();
-  readonly architecture: CryptArchitecture | undefined;
   readonly graveyard: GraveyardRoom | undefined;
   private time = 0;
   playing = true;
@@ -46,8 +45,6 @@ export class InkRoom {
     readonly registration: PreparedRegistration,
     readonly art: WorldVisualDefinition = worldVisuals[area.id]!,
   ) {
-    if (art?.interior && !art.editorFloor)
-      this.architecture = new CryptArchitecture(area, art, packs, room, this.occlusion);
     if (area.id === 'court')
       this.graveyard = new GraveyardRoom(
         area,
@@ -105,9 +102,7 @@ export class InkRoom {
       material.customProgramCacheKey = () => 'editor-floor:' + pack.manifest.hash + ':' + f.clip;
       return material;
     }
-    if (this.graveyard) return this.graveyard.floorMaterial();
-    if (this.architecture) return this.architecture.floorMaterial();
-    throw new Error(`No authored floor architecture for ${this.area.id}`);
+    return graveyardGroundMaterial(this.packs, this.art);
   }
   private owned: { dispose: () => void }[] = [];
   private castShadows: {
@@ -115,11 +110,6 @@ export class InkRoom {
     mesh: T.Mesh<T.BufferGeometry, T.MeshBasicMaterial>;
   }[] = [];
   private staticShadows: T.Mesh<T.PlaneGeometry, T.MeshBasicMaterial>[] = [];
-  // Active interiors use authored painted architecture.
-  private walls() {
-    this.architecture?.build();
-  }
-
   private ground(p: ArtPlacement, asset = p.asset) {
     const s = this.sprite(p.id, asset, p.clip, p.heading),
       scale = p.scale ?? 1,
@@ -157,7 +147,6 @@ export class InkRoom {
       return;
     }
     const art = this.art;
-    this.walls();
     for (const p of art.props) this.place(p);
     for (const p of art.decals) this.ground(p);
   }
@@ -328,7 +317,7 @@ export class InkRoom {
       emission.mesh.visible = visible;
       emission.material.opacity = fixture.material.opacity;
     }
-    if (this.architecture && visible) {
+    if (this.art.interior && !this.art.editorFloor && visible) {
       const motes = this.effect('crypt-motes', 'ink-crypt-ambient', 'rising_motes');
       motes.mesh.visible = true;
       motes.mesh.userData.decorative = true;
@@ -384,7 +373,6 @@ export class InkRoom {
   }
   dispose() {
     this.graveyard?.dispose();
-    this.architecture?.dispose();
     this.owned.forEach((v) => v.dispose());
     this.owned = [];
     for (const s of this.staticShadows) {

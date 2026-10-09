@@ -89,7 +89,8 @@
     "assets:dev": "tsx tools/task-runner.ts assets:dev",
     "scene:probe": "tsx tools/task-runner.ts scene:probe",
     "ui:probe": "tsx tools/task-runner.ts ui:probe",
-    "prototype:stop": "tsx tools/task-runner.ts prototype:stop"
+    "prototype:stop": "tsx tools/task-runner.ts prototype:stop",
+    "build:restore": "tsx tools/task-runner.ts build:restore"
   },
   "dependencies": {
     "postprocessing": "6.39.5",

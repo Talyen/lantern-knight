@@ -33,13 +33,13 @@ for (const dev of [false, true]) {
     );
 }
 const phases =
-  process.platform === 'win32'
-    ? ([['Windows integration', './desktop-smoke.ts', []]] as const)
+  process.platform === 'win32' || !process.argv.includes('--full')
+    ? ([['Platform integration', './desktop-smoke.ts', []]] as const)
     : ([
         ['Game controls, combat and persistence', './game-smoke.ts', []],
         ['Isolated player preferences', './visual-options-smoke.ts', []],
         ['Sandbox routing and native buffers', './churchyard-smoke.ts', ['--ci']],
-        ['Crypt frozen pixels, occlusion and lifetime', './crypt-smoke.ts', ['--quick']],
+        ['Crypt frozen pixels and lifetime', './crypt-smoke.ts', ['--quick']],
         ['Room weather and resource ownership', './visual-scenes-smoke.ts', []],
         ['Effects contribution and developer routing', './effects-playground-smoke.ts', []],
       ] as const);

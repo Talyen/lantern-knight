@@ -4,12 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { execFileSync } from 'node:child_process';
-import {
-  affectedVerification,
-  verificationPlan,
-  changedInputs,
-  ciDesktopRequired,
-} from '../tools/verification-plan';
+import { verificationPlan, changedInputs, ciDesktopRequired } from '../tools/verification-plan';
 import { runChecks } from '../tools/check';
 import { runTask, parseTask, type TaskContext } from '../tools/task-runner';
 import { startTask, taskBaseline } from '../tools/task-state';
@@ -63,161 +58,15 @@ async function fixture() {
   };
 }
 
-test('reverse dependencies preserve transitive type, re-export, dynamic and authored JSON consumers', async () => {
-  const f = await fixture();
-  try {
-    const files = new Map([
-      ['src/core/value.ts', 'export type Value = number;'],
-      ['src/core/barrel.ts', "export type { Value } from './value';"],
-      [
-        'src/core/model.ts',
-        "import type { Value } from './barrel'; import data from '../../authoring/model.json'; export const value: Value = data.value;",
-      ],
-      ['tests/systems.test.ts', "void import('../src/core/model');"],
-      ['tests/persistence.test.ts', 'export {};'],
-      ['authoring/model.json', '{"value":1}'],
-    ]);
-    for (const changed of ['src/core/value.ts', 'authoring/model.json']) {
-      const plan = affectedVerification(f.root, 'baseline', [changed], files, files);
-      assert.equal(plan.full, false);
-      assert.deepEqual(plan.suites, ['tests/systems.test.ts']);
-      assert.equal(plan.desktop, true);
-    }
-    const before = new Map(files),
-      after = new Map(files);
-    after.delete('src/core/value.ts');
-    after.set('src/core/renamed.ts', 'export type Value = number;');
-    after.set('src/core/barrel.ts', "export type { Value } from './renamed';");
-    assert.deepEqual(
-      affectedVerification(
-        f.root,
-        'baseline',
-        ['src/core/value.ts', 'src/core/renamed.ts'],
-        after,
-        before,
-      ).suites,
-      ['tests/systems.test.ts'],
-    );
-    after.set('src/core/barrel.ts', 'export type Value = number;');
-    after.delete('src/core/renamed.ts');
-    assert.deepEqual(
-      affectedVerification(f.root, 'baseline', ['src/core/value.ts'], after, before).suites,
-      ['tests/systems.test.ts'],
-    );
-  } finally {
-    await f.close();
-  }
-});
-
-test('subprocess, Python wrappers and file fixtures have consumers without importing them', async () => {
-  const f = await fixture();
-  try {
-    const files = new Map([
-      ['tests/library-import.test.ts', 'export {};'],
-      ['tests/processes.test.ts', 'export {};'],
-      ['tests/compiler.test.ts', 'export {};'],
-      ['tests/persistence.test.ts', 'export {};'],
-      ['tests/launcher.test.ts', "const tool = 'tools/tool.ts';"],
-      ['tools/tool.ts', 'export {};'],
-      ['tools/assets/library_import.py', 'pass'],
-      ['authoring/session-opening.json', '{}'],
-      ['tests/fixtures/valid.json', '{}'],
-      ['tests/text-fixture.test.ts', "const fixture = 'tests/fixtures/recipe.txt';"],
-      ['tests/fixtures/recipe.txt', 'authored fixture'],
-    ]);
-    for (const [file, expected] of [
-      ['tools/assets/library_import.py', 'tests/library-import.test.ts'],
-      ['authoring/session-opening.json', 'tests/processes.test.ts'],
-      ['tests/fixtures/valid.json', 'tests/compiler.test.ts'],
-      ['tools/tool.ts', 'tests/launcher.test.ts'],
-      ['tests/fixtures/recipe.txt', 'tests/text-fixture.test.ts'],
-    ]) {
-      const plan = affectedVerification(f.root, 'baseline', [file!], files, files);
-      assert.equal(plan.full, false);
-      assert.deepEqual(plan.suites, [expected]);
-    }
-  } finally {
-    await f.close();
-  }
-});
-
-test('emitted JavaScript imports select their TypeScript source before a same-named JavaScript file', async () => {
-  const f = await fixture();
-  try {
-    const files = new Map([
-      ['src/core/value.ts', 'export {};'],
-      ['src/core/value.js', 'export {};'],
-      ['tests/systems.test.ts', "import '../src/core/value.js';"],
-      ['tests/persistence.test.ts', 'export {};'],
-    ]);
-    const plan = affectedVerification(f.root, 'baseline', ['src/core/value.ts'], files, files);
-    assert.equal(plan.full, false);
-    assert.deepEqual(plan.suites, ['tests/systems.test.ts']);
-    await f.write(
-      'tsconfig.json',
-      JSON.stringify({ compilerOptions: { paths: { '@core/*': ['src/core/*'] } } }),
-    );
-    await f.baseline();
-    await f.write('tests/persistence.test.ts', 'export {};');
-    assert.equal((await verificationPlan(f.root)).full, true);
-  } finally {
-    await f.close();
-  }
-});
-
-test('unknown, unresolved, computed, shared and deleted-suite changes broaden coverage', async () => {
-  const f = await fixture();
-  try {
-    const files = new Map([
-      ['tests/persistence.test.ts', 'export {};'],
-      ['tests/systems.test.ts', "import '../src/missing';"],
-      ['src/core/value.ts', 'export {};'],
-    ]);
-    for (const changed of [
-      '.oxlintrc.json',
-      'knip.json',
-      'ruff.toml',
-      'tools/lint.ts',
-      'tools/code-tools.ts',
-      'tools/future.py',
-      'package.json',
-      'tools/test.ts',
-      'src/core/value.ts',
-    ]) {
-      const plan = affectedVerification(f.root, 'baseline', [changed], files, files);
-      assert.equal(plan.full, true);
-      assert.equal(plan.suites.length, 2);
-      assert.equal(plan.desktop, true);
-    }
-    const resolved = new Map(files);
-    resolved.set(
-      'tests/systems.test.ts',
-      "import '../src/core/value'; void import(location.hash);",
-    );
-    assert.equal(
-      affectedVerification(f.root, 'baseline', ['src/core/value.ts'], resolved, resolved).full,
-      true,
-    );
-    const deleted = new Map(files);
-    deleted.delete('tests/systems.test.ts');
-    assert.deepEqual(
-      affectedVerification(f.root, 'baseline', ['tests/systems.test.ts'], deleted, files).suites,
-      ['tests/persistence.test.ts'],
-    );
-  } finally {
-    await f.close();
-  }
-});
-
 test('local scope includes committed changes, staged reversals, untracked files and both rename/deletion paths', async () => {
   const f = await fixture();
   try {
-    await f.write('src/core/value.ts', 'export const value = 1;');
+    await f.write('src/core/input.ts', 'export const value = 1;');
     await f.write('tests/systems.test.ts', "import '../src/core/value';");
     await f.write('old name.txt', 'rename');
     await f.write('deleted.txt', 'delete');
     const base = await f.baseline();
-    await f.write('src/core/value.ts', 'export const value = 2;');
+    await f.write('src/core/input.ts', 'export const value = 2;');
     f.git('add', '.');
     f.git('commit', '--quiet', '-m', 'local change');
     const committed = await verificationPlan(f.root);
@@ -236,7 +85,7 @@ test('local scope includes committed changes, staged reversals, untracked files 
       'deleted.txt',
       'new name.txt',
       'old name.txt',
-      'src/core/value.ts',
+      'src/core/input.ts',
       'tests/persistence.test.ts',
       'tests/untracked.test.ts',
     ]);
@@ -303,7 +152,7 @@ test('automatic pure runs and full commands use managed supervision without an a
     );
     const context: TaskContext = {
       testRoot: f.root,
-      env: { ...process.env, LANTERN_CACHE_ROOT: process.cwd() },
+      env: { ...process.env, LANTERN_ASSET_WORKSPACE: '/unavailable-artwork' },
       workspaces: new Map(),
       releaseAdmission: async () => {},
     };
@@ -350,27 +199,33 @@ test('CI skips desktop only for demonstrated independent PRs, never main/manual 
   }
 });
 
-test('finite E2E dispatch retains phase edges while dispatcher edits always request full verification', async () => {
+test('scene layout edits select contract checks and unknown executable inputs remain conservative', async () => {
   const f = await fixture();
   try {
-    const files = new Map([
-      ['src/core/input.ts', 'export {};'],
-      ['tools/smoke/game-smoke.ts', "import '../../src/core/input';"],
-      [
-        'tools/smoke/e2e.ts',
-        "const phases = ['./game-smoke.ts']; for (const module of phases) await import(module);",
-      ],
-      ['tests/systems.test.ts', "import '../src/core/input';"],
-      ['tests/persistence.test.ts', 'export {};'],
-    ]);
-    const plan = affectedVerification(f.root, 'baseline', ['src/core/input.ts'], files, files);
-    assert.equal(plan.full, false);
-    assert.deepEqual(plan.suites, ['tests/systems.test.ts']);
-    assert.equal(plan.desktop, true);
-    assert.equal(
-      affectedVerification(f.root, 'baseline', ['tools/smoke/e2e.ts'], files, files).full,
-      true,
+    await f.write(
+      'tests/scene-design.test.ts',
+      "import test from 'node:test';test('contract',()=>{});",
     );
+    await f.write(
+      'tests/scene-editor.test.ts',
+      "import test from 'node:test';test('editor',()=>{});",
+    );
+    await f.write('authoring/scenes/draft.json', '{"objects":[]}');
+    await f.baseline();
+    await f.write('authoring/scenes/draft.json', '{"objects":[{"x":4}]}');
+    const plan = await verificationPlan(f.root);
+    assert.equal(plan.full, false);
+    assert.deepEqual(plan.suites, ['tests/scene-design.test.ts', 'tests/scene-editor.test.ts']);
+    await f.write('tests/fixtures/arena.ts', 'export const position = 2;');
+    assert.equal(
+      (await verificationPlan(f.root)).full,
+      true,
+      'Shared test fixtures select all consumers',
+    );
+    await fs.rm(path.join(f.root, 'tests/fixtures/arena.ts'));
+    await f.write('future.ts', 'export {};');
+    assert.equal((await verificationPlan(f.root)).full, true);
+    assert.equal((await verificationPlan(f.root)).suites.length, 3);
   } finally {
     await f.close();
   }

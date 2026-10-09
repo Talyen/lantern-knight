@@ -4,11 +4,11 @@ import { createHash, randomUUID } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { safeRelative } from './assets/paths';
 import { AssetCache } from './assets/cache';
+import { authoredInputs, inputFingerprint } from './authored-inputs';
 
 export type InputSnapshot = {
   schemaVersion: 1;
   files: Record<string, string>;
-  scripts: Record<string, string>;
 };
 export type TaskState = {
   schemaVersion: 1;
@@ -21,58 +21,7 @@ export type TaskState = {
   identity?: string;
 };
 export async function snapshot(root: string): Promise<InputSnapshot> {
-  let names: string[];
-  try {
-    names = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '-z'], {
-      cwd: root,
-      encoding: 'utf8',
-      maxBuffer: 8 * 1024 ** 2,
-    }).split('\0');
-  } catch {
-    names = [];
-    const walk = async (directory: string) => {
-      for (const entry of await fs.readdir(path.join(root, directory), { withFileTypes: true })) {
-        const name = path.posix.join(directory, entry.name);
-        if (entry.isDirectory()) await walk(name);
-        else names.push(name);
-      }
-    };
-    for (const entry of await fs.readdir(root, { withFileTypes: true })) {
-      if (!entry.isDirectory()) names.push(entry.name);
-      else if (
-        ['src', 'electron', 'tools', 'tests', 'authoring', 'assets', 'docs', '.github'].includes(
-          entry.name,
-        )
-      )
-        await walk(entry.name);
-    }
-  }
-  names.push(...(await fs.readdir(root)).filter((name) => /^\.env(?:\..*)?$|^\.npmrc$/.test(name)));
-  const files: Record<string, string> = {},
-    scripts: Record<string, string> = {};
-  for (const name of [...new Set(names)]
-    .filter(
-      (name) =>
-        name &&
-        !/^(?:node_modules|dist(?:-[^/]*)?|release(?:-[^/]*)?|public|staging|tmp|references\/art)\//.test(
-          name,
-        ),
-    )
-    .sort()) {
-    safeRelative(name);
-    const file = path.join(root, name);
-    const stat = await fs.lstat(file).catch((error: NodeJS.ErrnoException) => {
-      if (error.code === 'ENOENT') return undefined;
-      throw error;
-    });
-    if (!stat) continue;
-    if (stat.isSymbolicLink()) throw new Error('Task inputs cannot follow symlinks: ' + name);
-    if (!stat.isFile()) continue;
-    const bytes = await fs.readFile(file);
-    files[name] = createHash('sha256').update(String(stat.mode)).update(bytes).digest('hex');
-    if (/\.[cm]?[jt]sx?$/.test(name)) scripts[name] = bytes.toString('utf8');
-  }
-  return { schemaVersion: 1, files, scripts };
+  return { schemaVersion: 1, files: (await authoredInputs(root)).files };
 }
 export function delta(before: InputSnapshot, after: InputSnapshot) {
   return [...new Set([...Object.keys(before.files), ...Object.keys(after.files)])]
@@ -80,14 +29,7 @@ export function delta(before: InputSnapshot, after: InputSnapshot) {
     .sort();
 }
 export function inputKey(inputs: InputSnapshot, names: readonly string[], salt: string) {
-  return createHash('sha256')
-    .update(
-      JSON.stringify([
-        salt,
-        [...new Set(names)].sort().map((name) => [name, inputs.files[name] ?? null]),
-      ]),
-    )
-    .digest('hex');
+  return inputFingerprint(inputs.files, names, salt);
 }
 export async function taskDirectory(root: string) {
   const real = await fs.realpath(root);
@@ -154,7 +96,7 @@ export async function taskBaseline(root: string) {
       if ((error as NodeJS.ErrnoException).code === 'ENOENT') return undefined;
       throw error;
     }
-    if (state.schemaVersion !== 1 || !state.start?.files || !state.start.scripts || !state.name)
+    if (state.schemaVersion !== 1 || !state.start?.files || !state.name)
       throw new Error('Invalid task snapshot; run task:start again');
     for (const name of Object.keys(state.start.files)) safeRelative(name);
     for (const name of state.paths ?? []) safeRelative(name);

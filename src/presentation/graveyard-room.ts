@@ -1,11 +1,9 @@
 import { sceneFixtures } from '../content/scenery-presets';
 import * as T from 'three';
 import { ActorSprite } from './sprite';
-import { graveyardGroundMaterial } from './graveyard-ground';
 import { resolveClip } from '../assets/schema';
 import type { PackLease } from '../assets/loader';
 import type { WorldVisualDefinition } from '../content/world-art';
-import { ChurchyardArchitecture } from './churchyard-architecture';
 import { heightAt, type AreaDefinition } from '../content/world';
 import { contract, outward, right, up } from '../core/camera';
 import { frameAt, clipDuration } from '../core/animation';
@@ -14,7 +12,6 @@ import { SceneryReveal, cardCoverage, type CoverageMask } from './scenery-reveal
 import type { PreparedRegistration } from '../assets/registration';
 
 export class GraveyardRoom {
-  readonly architecture: ChurchyardArchitecture;
   private owned: { dispose: () => void }[] = [];
   private reveals: SceneryReveal[] = [];
   private time = 0;
@@ -35,9 +32,7 @@ export class GraveyardRoom {
     private shadowTexture: T.Texture | undefined,
     private coverage: PreparedRegistration['coverage'],
     private art: WorldVisualDefinition,
-  ) {
-    this.architecture = new ChurchyardArchitecture(packs, group, art);
-  }
+  ) {}
   private sprite(id: string, asset: string, clip: string) {
     const p = this.packs.get(asset);
     if (!p) throw new Error(`graveyard pack unavailable: ${asset}`);
@@ -47,13 +42,8 @@ export class GraveyardRoom {
     s.mesh.userData.id = id;
     return s;
   }
-  floorMaterial() {
-    return graveyardGroundMaterial(this.packs, this.art);
-  }
-
   build() {
     const art = this.art;
-    this.architecture.build();
     for (const p of art.props) {
       if (p.asset.startsWith('library-')) continue;
       const s = this.sprite(p.id, p.asset, p.clip),
@@ -158,7 +148,6 @@ export class GraveyardRoom {
     this.fades.push(s);
   }
   update(sim: Simulation, alpha: number, ms: number) {
-    this.architecture.update(sim, alpha, ms);
     this.time += Math.max(0, ms) / 1000;
     const actors = [sim.hero, ...sim.enemies.filter((a) => a.health > 0)];
     for (const reveal of this.reveals) {
@@ -225,7 +214,6 @@ export class GraveyardRoom {
     }));
   }
   dispose() {
-    this.architecture.dispose();
     for (const o of this.owned) o.dispose();
     this.owned = [];
     this.reveals = [];

@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { readLock, recipeHash, acceptedRecipe } from './assets/pack';
+import { checkAuthoredAssetInputs } from './assets/recipe';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { AssetCache } from './assets/cache';
@@ -14,11 +15,13 @@ export async function checkCurrentAssetPin(cwd = process.cwd(), local = false) {
           JSON.parse(await fs.readFile(path.join(held.root, 'prepared.json'), 'utf8')),
         )
       : await readLock(read);
-    if (acceptedRecipe(lock) !== (await recipeHash(read)))
+    if (!local && lock.schemaVersion !== 1)
+      await checkAuthoredAssetInputs(lock.preparation.inputs, read);
+    else if (acceptedRecipe(lock) !== (await recipeHash(read)))
       throw new Error(
         local
-          ? 'Local preparation recipe differs; prepare again.'
-          : 'Asset recipes differ from the pinned pack. Run assets:finalize.',
+          ? 'Local preparation is stale; prepare again.'
+          : 'Legacy asset recipes differ from the pin; finalize the assets.',
       );
   } finally {
     await held?.release();
@@ -42,6 +45,10 @@ export async function checkCommittedAssetPin(cwd = process.cwd(), ref = 'HEAD') 
     }
   })();
   const lock = await readLock(read);
+  if (lock.schemaVersion !== 1) {
+    await checkAuthoredAssetInputs(lock.preparation.inputs, read);
+    return;
+  }
   if (
     acceptedRecipe(lock) !==
     (await (hasManifest
@@ -63,7 +70,11 @@ export async function checkCommittedAssetPin(cwd = process.cwd(), ref = 'HEAD') 
 }
 if (process.argv[1]?.endsWith('check-asset-pin.ts'))
   checkCommittedAssetPin(process.cwd(), process.argv[2])
-    .then(() => console.log('PASS: committed asset recipes match the published pack pin.'))
+    .then(() =>
+      console.log(
+        'PASS: committed authored assets match the published pin; preparation tooling is independent.',
+      ),
+    )
     .catch((error) => {
       console.error(error.message);
       process.exitCode = 1;

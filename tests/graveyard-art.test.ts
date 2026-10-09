@@ -2,12 +2,24 @@ import { readAsset } from '../tools/assets/io';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
-import { worldVisuals } from '../src/content/world-art';
-const graveyardArt = worldVisuals.court!;
+import { resolveAuthoredScene, sceneAssets } from '../src/content/world-art';
+import { sceneFixture } from './fixtures/scene';
+const scene = sceneFixture('graveyard');
+scene.objects.push(
+  ...[6, 2].map((z, i) => ({
+    id: `fixture-panel-${i}`,
+    kind: 'decal' as const,
+    asset: 'ink-stage-road',
+    clip: 'panel',
+    x: 0,
+    z,
+    zone: 'route',
+  })),
+);
+const graveyardArt = resolveAuthoredScene(scene);
 import { sceneArtFindings } from '../src/content/scene-art-validation';
 import { isSupportedPosition, supportedPosition } from '../src/content/world';
-import { content } from '../src/content/game-content';
-import { areaArtAssets } from '../src/content/world-art';
+import { content } from './fixtures/content';
 import { assetCatalog } from '../src/content/visuals';
 import { parseManifest } from '../src/assets/schema';
 import { InkRoom } from '../src/presentation/ink-room';
@@ -21,7 +33,7 @@ import type { PackLease } from '../src/assets/loader';
 import { readRegistration } from '../tools/assets/data';
 const coverage = readRegistration().coverage;
 const manifests = new Map(
-  areaArtAssets(content.area('court')).map((id) => [
+  sceneAssets(graveyardArt).map((id) => [
     id,
     readAsset('public/' + assetCatalog[id]!, 'utf8').then((bytes) =>
       parseManifest(JSON.parse(bytes)),
@@ -30,7 +42,7 @@ const manifests = new Map(
 );
 async function fixture() {
   const packs = new Map<string, PackLease>();
-  for (const id of areaArtAssets(content.area('court'))) {
+  for (const id of sceneAssets(graveyardArt)) {
     const manifest = await manifests.get(id)!;
     packs.set(id, {
       manifest,
@@ -44,6 +56,7 @@ async function fixture() {
     makeCamera(16 / 9),
     undefined,
     readRegistration(),
+    graveyardArt,
   );
   room.build();
   return {
@@ -60,7 +73,7 @@ test('art validation rejects solid penetration and an allowance reused away from
   assert.deepEqual(sceneArtFindings(graveyardArt), []);
   const moved = {
     ...graveyardArt,
-    props: graveyardArt.props.map((p) => (p.id === 'gate-lamp' ? { ...p, x: -6.1, z: 1.4 } : p)),
+    props: [...graveyardArt.props, { ...graveyardArt.props[0]!, id: 'gate-lamp', x: -6.1, z: 1.4 }],
   };
   assert.ok(
     sceneArtFindings(moved).some(
@@ -110,10 +123,10 @@ test('four-centimetre reversals behind a near tree retains one shader/depth poli
     sim = new Simulation(content, 142, content.definitions.initialArea, 1);
   sim.enemies.forEach((a) => (a.health = 0));
   try {
-    const tree = graveyardArt.props.find((p) => p.id === 'foreground-oak')!;
+    const tree = graveyardArt.props.find((p) => p.id === 'boundary-oak')!;
     Object.assign(sim.hero, { x: tree.x, z: tree.z - 0.2, px: tree.x, pz: tree.z - 0.2 });
     for (let i = 0; i < 30; i++) f.room.update(sim, 1, false, 1000 / 60);
-    const wall = f.room.sprites.filter((s) => s.id === 'foreground-oak'),
+    const wall = f.room.sprites.filter((s) => s.id === 'boundary-oak'),
       versions = wall.map((s) => s.material.version);
     const before = f.room.graveyard!.revealStats();
     for (const z of [tree.z - 0.16, tree.z - 0.2, tree.z - 0.16, tree.z - 0.2]) {
@@ -169,7 +182,7 @@ test('alpha-aware validation distinguishes a real duplicated card from empty car
 test('ground panel butt joins have zero overlap area while real shared source coverage fails', async () => {
   const f = await fixture();
   try {
-    const panels = f.room.sprites.filter((s) => s.id.startsWith('processional-panel')).slice(0, 2);
+    const panels = f.room.sprites.filter((s) => s.id.startsWith('fixture-panel')).slice(0, 2);
     assert.equal(panels.length, 2);
     assert.deepEqual(coplanarArtConflicts(panels, coverage.masks), []);
     panels[1]!.mesh.position.z += 0.25;
@@ -189,11 +202,10 @@ test('terrain mips never share identity with a non-mipmapped lease or bleed acro
   assert.throws(() => parseManifest(bad));
 });
 
-test('the building is one intact illustrated shell without exposed constructed geometry', async () => {
+test('every authored fixture prop produces its intact artwork sprite', async () => {
   const f = await fixture();
   try {
-    assert.equal(f.room.graveyard!.architecture.parts.length, 0);
-    assert.equal(f.room.sprites.filter((s) => s.id === 'chapel-shell').length, 1);
+    assert.ok(graveyardArt.props.every((p) => f.room.sprites.some((s) => s.id === p.id)));
   } finally {
     f.dispose();
   }

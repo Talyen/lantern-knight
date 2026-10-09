@@ -435,9 +435,8 @@ export class GamePresentation {
       calls: this.renderer.info.render.calls,
       triangles: this.renderer.info.render.triangles,
       objects: { ...this.renderer.info.memory },
-      surfaceTextureBytes: this.roomPresentation.inkRoom?.architecture?.textureBytes ?? 0,
+      surfaceTextureBytes: 0,
       atlasBytes:
-        (this.roomPresentation.inkRoom?.architecture?.textureBytes ?? 0) +
         [...pages.values()].reduce(
           (s, p) => s + Math.ceil(p.rgbaBytes * (p.mipmaps ? 4 / 3 : 1)),
           0,

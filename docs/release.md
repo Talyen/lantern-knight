@@ -33,7 +33,7 @@ Package those outputs on the matching host:
 | macOS   | `npm run package:mac:prebuilt` | `npm run package:dev:mac:prebuilt` |
 | Windows | `npm run package:win:prebuilt` | `npm run package:dev:win:prebuilt` |
 
-Run `npm run test:e2e` afterward. `npm run verify:full` combines regular gates, builds, host packaging and E2E when separate candidate stages are unnecessary.
+Run `npm run test:e2e -- --full` afterward for explicit full delivery. `npm run verify:full` combines regular gates, builds, host packaging and E2E when separate candidate stages are unnecessary.
 
 ## Verify the delivered application
 

@@ -3,7 +3,6 @@ import * as T from 'three';
 import { worldVisuals } from '../content/world-art';
 import { heightAt, type AreaDefinition } from '../content/world';
 import { sceneArtFindings } from '../content/scene-art-validation';
-import { coplanarMeshConflicts } from './mesh-plane-validation';
 import { coplanarArtConflicts } from './carrier-validation';
 import type { InkRoom } from './ink-room';
 import type { PreparedRegistration } from '../assets/registration';
@@ -24,10 +23,6 @@ export class ArtConstructionOverlay {
       area.id === 'court'
         ? [
             ...sceneArtFindings(art),
-            ...coplanarMeshConflicts(room?.graveyard?.architecture.parts ?? []).map((v) => ({
-              ...v,
-              message: 'Opaque masonry surfaces share a depth plane',
-            })),
             ...coplanarArtConflicts(room?.sprites ?? [], this.coverage.masks).map((v) => ({
               ...v,
               message: 'Opaque source coverage shares a depth plane',

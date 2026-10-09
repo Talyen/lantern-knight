@@ -1,22 +1,25 @@
 import type { Point } from '../../src/content/world';
+import { isSupportedPosition, supportedPosition } from '../../src/content/world';
+import { sandboxContent } from '../../src/content/sandbox-world';
+import { worldVisuals } from '../../src/content/world-art';
 
+// Optional scene journeys follow current authored data, not a frozen composition.
 export function sceneFixture(scene: string, entry: Point) {
-  const fixtures: Record<string, { route: Point[]; foreground: Point }> = {
-    court: {
-      route: [
-        entry,
-        { x: 0, z: 4.7 },
-        { x: 0, z: 2.25 },
-        { x: 0.6, z: -0.3 },
-        { x: 0.45, z: -2.8 },
-        { x: 0, z: -5.4 },
-      ],
-      foreground: { x: -3.3, z: 7.25 },
-    },
-    'upper-landing': {
-      route: [entry, { x: 0, z: 3 }, { x: 0, z: -3 }, { x: 0, z: -5.5 }],
-      foreground: { x: 3.4, z: 1.6 },
-    },
+  const area = sandboxContent.area(scene),
+    art = worldVisuals[scene];
+  const route = art?.paths[0]?.points.filter((p) => isSupportedPosition(area, p, 0.3)) ?? [];
+  const exit = area.exits[0]?.trigger;
+  if (!route.length && exit)
+    route.push(
+      supportedPosition(
+        area,
+        { x: (exit.minX + exit.maxX) / 2, z: (exit.minZ + exit.maxZ) / 2 },
+        0.3,
+      ),
+    );
+  const front = art?.props.find((p) => p.fade);
+  return {
+    route: [entry, ...route],
+    foreground: front ? supportedPosition(area, { x: front.x, z: front.z - 0.2 }, 0.3) : entry,
   };
-  return fixtures[scene] ?? { route: [entry, { x: 0, z: 0 }], foreground: entry };
 }

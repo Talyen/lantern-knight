@@ -1,3 +1,4 @@
+import { sceneFixture } from './fixtures/scene';
 import { applySceneryPreset, sceneFixtures } from '../src/content/scenery-presets';
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
@@ -9,14 +10,14 @@ import {
   parseSceneDocument,
   validateSceneReferences,
 } from '../src/content/scene-document';
-import { worldVisuals, churchyardColliders, resolveAuthoredScene } from '../src/content/world-art';
+import { churchyardColliders, resolveAuthoredScene } from '../src/content/world-art';
 import { EditorHistory } from '../src/editor/model';
 import { SceneStore } from '../tools/scene/scene-editor-store';
 describe('scene authoring contracts', () => {
   it('derives collision footprints and rejects invalid edits without changing history', () => {
-    const h = new EditorHistory(emptyScene('court')),
+    const h = new EditorHistory(sceneFixture('graveyard')),
       before = structuredClone(h.document);
-    assert.throws(() => h.transform('family-tomb-west', { x: 0 }), /zone|clear/);
+    assert.throws(() => h.transform('family-tomb-west', { y: 1 }), /grounded/);
     assert.throws(() => h.transform('boundary-oak', { scale: 0.1 }), /registered/);
     assert.deepEqual(h.document, before);
     assert.equal(h.canUndo, false);
@@ -45,7 +46,7 @@ describe('scene authoring contracts', () => {
     assert.throws(() => parseSceneDocument(d), /Duplicate/);
   });
   it('preserves undo/redo across saving a production copy as a draft', () => {
-    const h = new EditorHistory(emptyScene('court'));
+    const h = new EditorHistory(sceneFixture('graveyard'));
     h.transform('family-tomb-west', { x: -6.2 });
     h.transform('family-tomb-west', { x: -6.3 });
     h.undo();
@@ -113,10 +114,10 @@ describe('scene file saving', () => {
 
 it('legacy drafts require explicit conversion and mounted lamps retain registered sockets through cascading undo', () => {
   assert.throws(
-    () => parseSceneDocument({ ...emptyScene('court'), version: 2 }),
+    () => parseSceneDocument({ ...sceneFixture('graveyard'), version: 2 }),
     /explicit conversion/,
   );
-  const h = new EditorHistory(emptyScene('upper-landing'));
+  const h = new EditorHistory(sceneFixture('chapel'));
   const lamp = () =>
     resolveAuthoredScene(h.document).props.find((p) => p.id === 'crypt-altar-candles')!;
   assert.throws(() => h.transform('crypt-altar-candles', { y: 3 }), /socket/);
@@ -130,7 +131,7 @@ it('legacy drafts require explicit conversion and mounted lamps retain registere
   assert.ok(Math.abs(lamp().x - 0.93) < 1e-10);
 });
 it('attachment cycles and missing supports reject without changing history', () => {
-  const h = new EditorHistory(emptyScene('upper-landing')),
+  const h = new EditorHistory(sceneFixture('chapel')),
     before = structuredClone(h.document);
   assert.throws(
     () =>
@@ -150,7 +151,7 @@ it('attachment cycles and missing supports reject without changing history', () 
   assert.equal(h.canUndo, false);
   {
     const h = new EditorHistory(emptyScene());
-    const template = worldVisuals.court!.props.find((p) => p.clip === 'lantern-hardware')!;
+    const template = { asset: 'ink-graveyard-scenery', clip: 'lantern-hardware' };
     for (let i = 0; i < 3; i++)
       h.change((d) =>
         d.objects.push(
@@ -190,7 +191,7 @@ it('attachment cycles and missing supports reject without changing history', () 
 });
 
 it('production support scale/mirroring cannot distort a registered assembly', () => {
-  const h = new EditorHistory(emptyScene('upper-landing')),
+  const h = new EditorHistory(sceneFixture('chapel')),
     before = structuredClone(h.document);
   assert.throws(
     () => h.transform('chapel-devotional-table', { scale: 1.5, mirror: true }),

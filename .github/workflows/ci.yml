@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      full_delivery:
+        description: Run the long shared rendering/gameplay journeys
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -64,6 +69,10 @@ jobs:
             dist-electron/
             dist-dev/
             dist-electron-dev/
+            !dist/**/*.png
+            !dist/**/*.mp4
+            !dist-dev/**/*.png
+            !dist-dev/**/*.mp4
           retention-days: 3
   desktop:
     needs: checks
@@ -99,6 +108,7 @@ jobs:
         with:
           name: build-${{ github.sha }}
           path: .
+      - run: npm run build:restore
       - run: npm run build:verify
       - run: npm run build:dev:verify
       - run: npm run package:${{ matrix.platform }}:prebuilt
@@ -107,7 +117,12 @@ jobs:
       - run: npm run package:dev:${{ matrix.platform }}:prebuilt
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
-      - run: npm run test:e2e
+      - name: Platform integration
+        if: github.event_name != 'workflow_dispatch' || !inputs.full_delivery
+        run: npm run test:e2e
+      - name: Full delivery journeys
+        if: github.event_name == 'workflow_dispatch' && inputs.full_delivery
+        run: npm run test:e2e -- --full
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: failure()
         with:

@@ -1,13 +1,11 @@
-import { preparationSteps, preparationStepKey } from './recipe';
+import { preparationSteps } from './recipe';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { runProcess } from '../run-process';
 import { AssetCache, diskBytes } from './cache';
-import { projectRoot } from './paths';
 import { cameraCalibration as calibrationFixture } from '../../src/assets/camera-calibration';
 import { stagePayload } from './payload';
 import { makeArchive, recipeHash, recipeInputs } from './pack';
-import { cachedPreparationStep } from './incremental';
+import { prepareSteps, prepareProof } from './preparation';
 const BUDGET = 2.5 * 1024 ** 3;
 export async function prepareAssets(cache = new AssetCache(), proof = false) {
   const held = await cache.lease('preparation', BUDGET, true),
@@ -35,61 +33,17 @@ export async function prepareAssets(cache = new AssetCache(), proof = false) {
       JSON.stringify(calibrationFixture()),
     );
     const startRecipe = await recipeHash();
-    async function step(
-      file: string,
-      args: string[] = [],
-      python = false,
-      extra: NodeJS.ProcessEnv = {},
-    ) {
-      let log = '';
-      const started = performance.now();
-      try {
-        await runProcess(
-          python ? 'python3' : process.execPath,
-          [...(python ? ['-B'] : ['--import', 'tsx']), path.join(projectRoot, file), ...args],
-          {
-            cwd: projectRoot,
-            env: { ...env, ...extra },
-            timeoutMs: 5 * 60 * 1000,
-            output: (chunk) => {
-              log = (log + chunk.toString()).slice(-1024 * 1024);
-            },
-          },
-        );
-      } catch (error) {
-        await fs.writeFile(path.join(held.root, 'failure.log'), log);
-        throw new Error(`${file} failed: ${log.split('\n').filter(Boolean).slice(-8).join('\n')}`, {
-          cause: error,
-        });
-      }
-      console.log(
-        `${file}${args.includes('--check') ? ' freshness' : ''}: ${Math.round(performance.now() - started)}ms.`,
-      );
-      if ((await diskBytes(held.root)) > BUDGET)
-        throw new Error('Asset preparation exceeded its reservation');
-    }
-    const inputs = await recipeInputs();
-    const digests = new Map<string, string>();
-    for (const operation of preparationSteps) {
-      const key = preparationStepKey(operation, inputs, digests);
-      const result = await cachedPreparationStep({
-        file: operation.file,
-        workspace,
-        cache: path.join(held.root, 'steps'),
-        key,
-        run: (extra) => step('tools/' + operation.file, [], operation.file.endsWith('.py'), extra),
-        validate: operation.freshness
-          ? () => step('tools/' + operation.file, ['--check'], operation.file.endsWith('.py'))
-          : undefined,
-      });
-      digests.set(operation.file, result.digest);
-      if (result.reused)
-        console.log(operation.file + ': reused source-verified immutable outputs.');
-    }
-    if (proof) {
-      await step('tools/prepare-ground-proof.ts');
-      await step('tools/prepare-ground-proof.ts', ['--check']);
-    }
+    await prepareSteps({
+      steps: preparationSteps,
+      workspace,
+      cache: path.join(held.root, 'steps'),
+      env,
+      afterStep: async () => {
+        if ((await diskBytes(held.root)) > BUDGET)
+          throw new Error('Asset preparation exceeded its reservation');
+      },
+    });
+    if (proof) await prepareProof(workspace, env);
     const payload = path.join(workspace, 'payload');
     await stagePayload(path.join(workspace, 'public'), path.join(workspace, 'staging'), payload);
     await fs.copyFile(

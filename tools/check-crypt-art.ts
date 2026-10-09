@@ -51,7 +51,6 @@ export async function inspectCrypt() {
   try {
     const meshes = [
         ...room.sprites.filter((s) => s.manifest.asset.type !== 'effect').map((s) => s.mesh),
-        ...(room.architecture?.parts ?? []),
       ],
       images = new Map<T.Mesh, AlphaImage>();
     for (const m of meshes) {

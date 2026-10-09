@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import { snapshot, inputKey, phaseEvidence } from './task-state';
 import { dependencyInputs } from './verification-plan';
-import { fileSignatures } from './verified-files';
+import { fileChecksums } from './verified-files';
 import { shaFile } from './assets/sources';
 
 export async function reusableDeliveryPhase(
@@ -18,7 +18,7 @@ export async function reusableDeliveryPhase(
   const inputs = await snapshot(root);
   const names = await dependencyInputs(root, [options.entry], inputs);
   if (options.outputFiles) for (const file of options.outputFiles) names.push(file);
-  const identity = options.outputFiles ? await fileSignatures(root, options.outputFiles) : {};
+  const identity = options.outputFiles ? await fileChecksums(root, options.outputFiles) : {};
   const key = inputKey(
     inputs,
     names,
@@ -42,7 +42,7 @@ export async function reusableDeliveryPhase(
         throw new Error('Phase inputs changed: ' + options.name);
       if (
         options.outputFiles &&
-        JSON.stringify(identity) !== JSON.stringify(await fileSignatures(root, options.outputFiles))
+        JSON.stringify(identity) !== JSON.stringify(await fileChecksums(root, options.outputFiles))
       )
         throw new Error('Phase package outputs changed: ' + options.name);
       const files: Record<string, string> = {};
@@ -60,7 +60,7 @@ export async function reusableDeliveryPhase(
         if (options.outputFiles)
           return (
             JSON.stringify(identity) ===
-            JSON.stringify(await fileSignatures(root, options.outputFiles))
+            JSON.stringify(await fileChecksums(root, options.outputFiles))
           );
         return true;
       } catch {

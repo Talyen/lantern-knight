@@ -93,8 +93,7 @@ export const graveyardFoundation: WorldVisualDefinition = {
     },
   ],
   graves: [],
-  patches: [],
-  lights: [],
+
   decals: [],
   proceduralAssets: ['ink-cues', 'ink-stage-earth', 'ink-ambient'],
   camera: {
@@ -117,7 +116,7 @@ export const graveyardFoundation: WorldVisualDefinition = {
       targetHeight: 0.6,
     },
   },
-  assemblies: [],
+
   overlaps: [],
   propOrder: [],
 };

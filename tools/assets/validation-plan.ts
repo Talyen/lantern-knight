@@ -3,11 +3,10 @@ import path from 'node:path';
 import { assetCatalog } from '../../src/content/asset-catalog';
 import { playgroundCatalog } from '../../src/content/effects-playground-assets';
 import { worldVisuals, sceneAssets } from '../../src/content/world-art';
-import { readLock, validatePack, recipeInputs } from './pack';
+import { readLock, validatePack } from './pack';
 import { AssetCache } from './cache';
 import type { PreparedAssets } from './publication';
 import { actorVisuals } from '../../src/content/visuals';
-import { createHash } from 'node:crypto';
 
 export const phases = [
   'regular local checks',
@@ -153,38 +152,9 @@ export async function candidateValidationPlan(
       next = await validatePack(candidate.payload, candidate.lock);
     const json = (root: string, file: string) =>
       fs.readFile(path.join(root, file), 'utf8').then(JSON.parse);
-    const beforeInputs = (
-        pin.schemaVersion !== 1
-          ? pin.preparation.inputs
-          : await json(baseline.root, 'metadata/preparation-inputs.json')
-      ) as Record<string, string>,
-      afterInputs = await recipeInputs();
-    if (
-      createHash('sha256').update(JSON.stringify(beforeInputs)).digest('hex') !==
-      (pin.schemaVersion !== 1 ? pin.preparation.recipeSha256 : old.recipeSha256)
-    )
-      return selectValidation({ assets: [], unknown: true }, rooms);
-    const changedInputs = [
-      ...new Set([...Object.keys(beforeInputs), ...Object.keys(afterInputs)]),
-    ].filter((file) => beforeInputs[file] !== afterInputs[file]);
-    // Only small authored recipes have proven family ownership. Helper/catalog changes stay full.
-    const owned = new Set([
-      'authoring/hero-actions.json',
-      'authoring/hero-motion.json',
-      'authoring/graveyard-art.json',
-      'authoring/chapel-art.json',
-      'authoring/ground-overlays.json',
-      'authoring/surface-depth.json',
-      'assets/loading-sources.json',
-    ]);
-    if (changedInputs.some((file) => !owned.has(file)))
-      return selectValidation({ shared: true, assets: [] }, rooms);
-    const changes: AssetChanges = {
-      assets: [],
-      loading: changedInputs.includes('assets/loading-sources.json'),
-      animation: changedInputs.some((f) => f.includes('hero-')),
-      lighting: changedInputs.includes('authoring/surface-depth.json'),
-    };
+    // Prepared output identity determines affected visuals. Tooling/provenance edits
+    // never turn an otherwise unchanged hero into a mandatory visual journey.
+    const changes: AssetChanges = { assets: [] };
     const owners = new Map<string, Set<string>>();
     for (const root of [baseline.root, candidate.payload])
       for (const [id, file] of Object.entries({

@@ -3,17 +3,10 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { AssetCache } from './cache';
 import { projectRoot } from './paths';
-import {
-  readLock,
-  LockSchema,
-  ensurePack,
-  validateCachedPack,
-  recipeInputs,
-  recipeHash,
-} from './pack';
-import { preparationSelection, preparationStepKey } from './recipe';
-import { cachedPreparationStep, linkTree } from './incremental';
-import { runProcess } from '../run-process';
+import { readLock, LockSchema, ensurePack, validateCachedPack, recipeHash } from './pack';
+import { preparationSelection } from './recipe';
+import { linkTree } from './incremental';
+import { prepareSteps } from './preparation';
 import { shaFile } from './sources';
 import { readLibrarySource } from './sources';
 
@@ -136,42 +129,12 @@ export async function preparePreviewAssets(ids: string[], cache = new AssetCache
     await fs.rm(work, { recursive: true, force: true });
     await fs.mkdir(work, { recursive: true });
     await linkTree(base.held.root, work);
-    const inputs = await recipeInputs();
-    const digests = new Map<string, string>(),
-      files: Record<string, string> = {};
-    for (const operation of steps) {
-      const key = preparationStepKey(operation, inputs, digests);
-      const invoke = async (args: string[], extra: NodeJS.ProcessEnv = {}) =>
-        runProcess(
-          operation.file.endsWith('.py') ? 'python3' : process.execPath,
-          [
-            ...(operation.file.endsWith('.py') ? ['-B'] : ['--import', 'tsx']),
-            path.join(projectRoot, 'tools', operation.file),
-            ...args,
-          ],
-          {
-            cwd: projectRoot,
-            env: {
-              ...process.env,
-              LANTERN_ASSET_WORKSPACE: work,
-              LANTERN_PREPARING: '1',
-              ...extra,
-            },
-            timeoutMs: 5 * 60_000,
-          },
-        );
-      const result = await cachedPreparationStep({
-        file: operation.file,
-        workspace: work,
-        cache: path.join(held.root, 'steps'),
-        key,
-        run: (extra) => invoke([], extra),
-        validate: operation.freshness ? () => invoke(['--check']) : undefined,
-      });
-      digests.set(operation.file, result.digest);
-      for (const name of result.files) files[name] = await shaFile(path.join(work, name));
-      console.log(operation.file + (result.reused ? ': reused.' : ': prepared and validated.'));
-    }
+    const { digests, files } = await prepareSteps({
+      steps,
+      workspace: work,
+      cache: path.join(held.root, 'steps'),
+      env: process.env,
+    });
     if ((await recipeHash()) !== startRecipe)
       throw new Error('Preparation inputs changed during scoped import');
     const digest = createHash('sha256')

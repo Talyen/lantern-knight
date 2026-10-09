@@ -91,11 +91,10 @@ export const cryptFoundation: WorldVisualDefinition = {
     },
   ],
   walls: [],
-  assemblies: [],
+
   paths: [],
   graves: [],
-  patches: [],
-  lights: [],
+
   proceduralAssets: [
     'ink-cues',
     'ink-stage-earth',

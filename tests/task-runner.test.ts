@@ -37,12 +37,13 @@ test('asset-backed workers inherit runner admission when workspace setup has no 
 test('explicit local browser verification consumes the candidate rather than a cached prototype layer', async () => {
   const context: TaskContext = {
     env: {},
-    workspaces: new Map<boolean | string, { env: NodeJS.ProcessEnv; release: () => Promise<void> }>(
-      [
-        [true, { env: { LANTERN_ASSET_SHA256: 'candidate' }, release: async () => {} }],
-        ['prototype', { env: { LANTERN_ASSET_SHA256: 'prototype' }, release: async () => {} }],
-      ],
-    ),
+    workspaces: new Map<
+      'published' | 'candidate' | 'preview',
+      { env: NodeJS.ProcessEnv; release: () => Promise<void> }
+    >([
+      ['candidate', { env: { LANTERN_ASSET_SHA256: 'candidate' }, release: async () => {} }],
+      ['preview', { env: { LANTERN_ASSET_SHA256: 'prototype' }, release: async () => {} }],
+    ]),
     releaseAdmission: async () => {},
   };
   const parsed = await parseTask('ui:probe', ['--local']);
@@ -109,7 +110,7 @@ test('a focused pure run executes one small fixture with an unusable asset cache
     );
     const context: TaskContext = {
       testRoot: root,
-      env: { ...process.env, LANTERN_CACHE_ROOT: process.cwd() },
+      env: { ...process.env, LANTERN_ASSET_WORKSPACE: '/unavailable-artwork' },
       workspaces: new Map(),
       releaseAdmission: async () => {},
     };

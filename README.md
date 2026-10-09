@@ -34,7 +34,7 @@ Use `upper-landing` for the Ruined Chapel. The shared preview restores developer
 
 Development, tests and builds automatically obtain the exact prepared asset revision pinned in `assets/lock.json`. Verified assets live in the operating system cache outside the checkout and are reusable offline. Code-only work and hosted CI do not need the source Asset Library.
 
-During iteration, `npm test -- tests/hero-actions.test.ts` runs exactly that suite; omit file arguments to select affected suites automatically. Use `npm run test:full` for all suites. [Contributing](CONTRIBUTING.md#test-value) describes test value. [Foundation recipes](docs/foundation.md#change-recipes) identify owners and checks for saves, content and action changes.
+During iteration, `npm test -- tests/hero-actions.test.ts` runs exactly that suite; omit file arguments to select affected suites automatically. Use `npm run test:full` for all suites. Prototype scene layouts are not frozen by gameplay fixtures; full visual/delivery journeys are explicit. [Contributing](CONTRIBUTING.md#test-value) describes test value. [Foundation recipes](docs/foundation.md#change-recipes) identify owners and checks for saves, content and action changes.
 
 `npm run desktop` starts Game; `npm run desktop:dev` starts Sandbox; `npm run desktop:preview` starts Dev Game Preview; `npm run desktop:effects` starts the playground.
 

@@ -9,7 +9,7 @@ import { verificationIdentity } from '../tools/verification';
 test('runtime identity follows imported live documents without including unrelated guidance or recipes', async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-identity-'));
   try {
-    for (const dir of ['src', 'authoring/scenes', 'assets', 'docs'])
+    for (const dir of ['src', 'authoring/scenes', 'assets', 'docs', 'tools/assets'])
       await fs.mkdir(path.join(root, dir), { recursive: true });
     await fs.writeFile(
       path.join(root, 'tsconfig.json'),
@@ -42,14 +42,28 @@ test('runtime identity follows imported live documents without including unrelat
     await fs.writeFile(path.join(root, 'authoring/scenes/live-court.json'), '{}');
     await fs.writeFile(path.join(root, 'authoring/unrelated.json'), '{}');
     await fs.writeFile(path.join(root, 'docs/guide.md'), 'Guide');
+    await fs.writeFile(
+      path.join(root, 'tools/assets/authoring-catalog.ts'),
+      'export const catalog = 1;',
+    );
     const before = await sourceIdentity(root),
       verification = await verificationIdentity(root);
     await fs.writeFile(path.join(root, 'docs/guide.md'), 'Changed guide');
     await fs.writeFile(path.join(root, 'authoring/unrelated.json'), '[1]');
     assert.equal((await sourceIdentity(root)).sha256, before.sha256);
     assert.notEqual((await verificationIdentity(root)).sha256, verification.sha256);
+    await fs.writeFile(
+      path.join(root, 'tools/assets/authoring-catalog.ts'),
+      'export const catalog = 2;',
+    );
+    assert.notEqual(
+      (await sourceIdentity(root)).sha256,
+      before.sha256,
+      'Build helper edits invalidate reuse',
+    );
+    const afterHelper = await sourceIdentity(root);
     await fs.writeFile(path.join(root, 'authoring/scenes/live-court.json'), '{"x":2}');
-    assert.notEqual((await sourceIdentity(root)).sha256, before.sha256);
+    assert.notEqual((await sourceIdentity(root)).sha256, afterHelper.sha256);
     if (process.platform !== 'win32') {
       await fs.rm(path.join(root, 'authoring/scenes/live-court.json'));
       await fs.symlink(

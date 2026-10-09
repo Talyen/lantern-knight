@@ -132,7 +132,7 @@ export async function executeRecipe(
 }
 const identity = z
   .object({
-    identityVersion: z.union([z.literal(2), z.literal(3)]).optional(),
+    identityVersion: z.union([z.literal(2), z.literal(3), z.literal(4)]).optional(),
     archiveRecipeSha256: z
       .string()
       .regex(/^[a-f0-9]{64}$/)
@@ -176,7 +176,7 @@ export async function replayBundle(
   const bundle = BundleSchema.parse(input),
     same =
       bundle.schemaVersion === 2 &&
-      (bundle.source.identityVersion === 2 || bundle.source.identityVersion === 3) &&
+      [2, 3, 4].includes(bundle.source.identityVersion ?? 0) &&
       source.sha256 === bundle.source.sha256 &&
       source.assetSha256 === bundle.source.assetSha256 &&
       (bundle.source.identityVersion === 2 ||
