@@ -97,7 +97,9 @@ export async function runTests(
     const deadline = Date.now() + 5 * 60 * 1000;
     for (const [kind, selected] of Object.entries(groups)) {
       if (!selected.length) continue;
-      const env = kind === 'assets' ? await setup() : lane.env;
+      // Workspace setup adds asset paths; keep the lane credentials acquired by
+      // this runner so its worker cannot wait on its own parent for admission.
+      const env = kind === 'assets' ? { ...lane.env, ...(await setup()) } : lane.env;
       const temporary = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-test-result-')),
         resultFile = path.join(temporary, 'result.json');
       try {

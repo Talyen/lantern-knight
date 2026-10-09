@@ -16,6 +16,24 @@ import {
   recipeInputs,
 } from '../tools/assets/recipe';
 
+test('cold task evidence initializes cache ownership before writing report directories', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'prototype-cold-cache-'));
+  const previous = process.env.LANTERN_CACHE_ROOT;
+  const cacheRoot = path.join(root, 'cache');
+  process.env.LANTERN_CACHE_ROOT = cacheRoot;
+  try {
+    await phaseEvidence(root, 'cold-start', 'one', async () => ({ passed: true }));
+    const marker = JSON.parse(await fs.readFile(path.join(cacheRoot, '.cache-owner.json'), 'utf8'));
+    assert.equal(marker.project, 'lantern-knight');
+    const held = await new AssetCache(cacheRoot).lease('subsequent-command');
+    await held.release();
+  } finally {
+    if (previous === undefined) delete process.env.LANTERN_CACHE_ROOT;
+    else process.env.LANTERN_CACHE_ROOT = previous;
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
 test('preparation reuse invalidates registration, source-index and lighting-owner changes without rebaking media', async () => {
   const inputs = await recipeInputs(),
     digests = new Map<string, string>();

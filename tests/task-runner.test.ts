@@ -7,6 +7,32 @@ import { withoutCommandLane } from '../tools/command-lane';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runTask, parseTask, type TaskContext } from '../tools/task-runner';
+import { runTests } from '../tools/test';
+
+test('asset-backed workers inherit runner admission when workspace setup has no lane credentials', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-worker-admission-'));
+  try {
+    await fs.mkdir(path.join(root, 'tests'));
+    await fs.writeFile(
+      path.join(root, 'tests/unknown.test.ts'),
+      "import test from 'node:test';test('asset-independent worker fixture',()=>{});",
+    );
+    const result = await runTests(
+      ['tests/unknown.test.ts'],
+      async () => ({
+        ...withoutCommandLane(process.env),
+        LANTERN_EXECUTION_DEADLINE: String(Date.now() + 4000),
+        LANTERN_ASSET_WORKSPACE: '/unused-fixture-artwork',
+      }),
+      undefined,
+      root,
+    );
+    assert.equal(result.passed, 1);
+    assert.equal(result.failed, 0);
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
 
 test('explicit local browser verification consumes the candidate rather than a cached prototype layer', async () => {
   const context: TaskContext = {

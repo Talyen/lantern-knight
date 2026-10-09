@@ -92,7 +92,9 @@ export function inputKey(inputs: InputSnapshot, names: readonly string[], salt: 
 export async function taskDirectory(root: string) {
   const real = await fs.realpath(root);
   const id = createHash('sha256').update(real).digest('hex').slice(0, 24);
-  return path.join(new AssetCache().root, 'prototype-tasks', id);
+  const cache = new AssetCache();
+  await cache.initialize();
+  return path.join(cache.root, 'prototype-tasks', id);
 }
 async function withState<T>(root: string, work: (directory: string) => Promise<T>) {
   const directory = await taskDirectory(root);

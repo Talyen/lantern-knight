@@ -61,6 +61,10 @@ export class AssetCache {
     if (limit <= 0 || limit > CACHE_LIMIT)
       throw new Error('Cache budget must be between 1 byte and 4 GiB');
   }
+  // Task reports share this root but do not acquire artwork or a pack lease.
+  async initialize() {
+    await this.locked(async () => {});
+  }
   private async locked<T>(work: () => Promise<T>): Promise<T> {
     await fs.mkdir(this.root, { recursive: true });
     const marker = path.join(this.root, '.cache-owner.json');
