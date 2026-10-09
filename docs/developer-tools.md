@@ -40,6 +40,8 @@ Session storage remembers each fixture's experiments, preview position/camera/pa
 
 ## Checks and diagnostics
 
+For hero stride review, open Inspect → Hero movement review. Travel speed changes only the current preview hero; run cadence and Game tuning stay fixed. Replay an out-and-back stride, all eight headings, or movement into the fixture boundary. Stop, Restart, switching fixtures or opening animation review cancels the replay. Choose Selected to restore the chosen 3 m/s; Original retains the former 1.8 m/s comparison. Reloading restores the default speed. These short-lived experiments are not saved in player checkpoints.
+
 CI runs `npm run test:browser -- editor` for authoring/history/recovery changes, `scene` for room presentation and preview interactions, and `effects` for remembered effect experiments and fixture switching. Use these locally for targeted diagnosis or validation. [Verification](verification.md#test-selection) owns selection and coverage.
 
 For explicit native investigations, `npm run benchmark -- scene`, `preferences` or `scenes` checks frozen frames, depth/focus protection, weather and settled resources. `npm run benchmark -- effects` checks rendered differences, baseline restoration, playback, resources and routing. Lighting smoke measures performance only with `--benchmark` or `--benchmark-only`; ordinary assertions have no benchmark waits. Use `--capture` for requested exports. [Performance comparisons](verification.md#performance-comparisons) explains evidence limits.

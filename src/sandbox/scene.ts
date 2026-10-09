@@ -59,6 +59,8 @@ export function mountScene(
   let lightingControls: ReturnType<typeof bindLightingControls>;
   let lightingReplay = false,
     replayStart = 0;
+  let movementSpeed = sandboxContent.actor(sandboxContent.definitions.player).speed,
+    movementReplay = false;
   const app = new Application(
     $('canvas'),
     sandboxContent,
@@ -100,6 +102,7 @@ export function mountScene(
     presentation.resize(app.scale);
   }
   function setMode(next: Mode) {
+    stopMovementReplay();
     const special = mode === 'animation' || mode === 'calibration';
     const nextSpecial = next === 'animation' || next === 'calibration';
     if (!special && nextSpecial) {
@@ -168,6 +171,7 @@ export function mountScene(
     await app.boot();
     if (closed) return;
     presentation = app.presentation;
+    $<HTMLSelectElement>('#movement-speed').value = String(movementSpeed);
     $<HTMLSelectElement>('#render-scale').value = String(app.scale);
     $<HTMLSelectElement>('#zoom-span').value = String(presentation.verticalSpan);
     lightingControls = bindLightingControls(presentation, savePreview);
@@ -353,7 +357,14 @@ export function mountScene(
       };
     $('#return-scene').onclick = () =>
       setMode($<HTMLInputElement>('#collision').checked ? 'occlusion' : 'encounter');
+    $('#movement-speed').onchange = () => {
+      movementSpeed = Number($<HTMLSelectElement>('#movement-speed').value);
+      applyMovementSpeed();
+    };
+    $('#movement-replay').onclick = () => app.safe(startMovementReplay);
+    $('#movement-stop').onclick = stopMovementReplay;
     app.beforeStep = (sim) => {
+      applyMovementSpeed();
       if ($<HTMLInputElement>('#freeze-enemies').checked)
         sim.enemies.forEach((enemy) => {
           enemy.stun = 2;
@@ -430,6 +441,7 @@ export function mountScene(
         } else app.pause(!app.paused);
       },
       restart: () => {
+        stopMovementReplay();
         if (mode === 'animation') presentation.restartLab();
         else
           app.safe(async () => {
@@ -496,6 +508,7 @@ export function mountScene(
   }
 
   async function fixture(area: string) {
+    stopMovementReplay();
     lightingReplay = false;
     app.command = undefined;
     await app.replaceArea(area, () => {
@@ -538,6 +551,64 @@ export function mountScene(
         aim: { x: sim.hero.x + 2, z: sim.hero.z - 1 },
         ability: t === 620,
         attack: t === 730 || t === 760 || t === 790,
+        generation: sim.generation,
+      };
+    };
+  }
+  function applyMovementSpeed() {
+    const hero = app.sim.hero;
+    if (hero.definition.speed !== movementSpeed)
+      hero.definition = { ...hero.definition, speed: movementSpeed };
+    const label = `${movementReplay ? 'Replay' : 'Free play'} · ${movementSpeed.toFixed(1)} m/s · fixed run cadence`;
+    if ($('#movement-status').textContent !== label) $('#movement-status').textContent = label;
+  }
+  function stopMovementReplay() {
+    if (!movementReplay) return;
+    movementReplay = false;
+    app.command = undefined;
+    $('#movement-stop').hidden = true;
+    applyMovementSpeed();
+  }
+  async function startMovementReplay() {
+    const route = $<HTMLSelectElement>('#movement-route').value;
+    await fixture(app.sim.area);
+    if (closed) return;
+    setMode('encounter');
+    const position = previewHero(
+      { ...captureState(), hero: { x: route === 'blocked' ? 6.5 : -2, z: 4, yaw: Math.PI / 2 } },
+      sandboxContent,
+    );
+    Object.assign(app.sim.hero, position);
+    movementReplay = true;
+    const start = app.sim.tick;
+    $('#movement-stop').hidden = false;
+    applyMovementSpeed();
+    app.pause(false);
+    app.command = (sim) => {
+      const elapsed = sim.tick - start;
+      sim.enemies.forEach((enemy) => (enemy.stun = 2));
+      let x = 0,
+        z = 0;
+      if (route === 'stride') {
+        // Matching fixed-time passes, with a pause before each reversal.
+        if (elapsed >= 30 && elapsed < 180) x = 1;
+        else if (elapsed >= 210 && elapsed < 360) x = -1;
+        else if (elapsed >= 390 && elapsed < 540) {
+          x = Math.SQRT1_2;
+          z = -Math.SQRT1_2;
+        }
+      } else if (route === 'headings' && elapsed < 720) {
+        const heading = Math.floor(elapsed / 90);
+        if (elapsed % 90 < 60) {
+          x = Math.sin((heading * Math.PI) / 4);
+          z = Math.cos((heading * Math.PI) / 4);
+        }
+      } else if (route === 'blocked' && elapsed >= 30 && elapsed < 360) x = 1;
+      if (elapsed >= (route === 'headings' ? 720 : route === 'blocked' ? 390 : 570))
+        stopMovementReplay();
+      return {
+        move: { x, z },
+        aim: { x: sim.hero.x + Math.sin(sim.hero.yaw), z: sim.hero.z + Math.cos(sim.hero.yaw) },
         generation: sim.generation,
       };
     };
@@ -693,6 +764,7 @@ export function mountScene(
     app.clock.droppedMs = 0;
   }
   async function startBenchmark(stress = false) {
+    stopMovementReplay();
     lightingReplay = false;
     await app.loadAsset('ink-skeleton');
     returnSave ??= app.session.captureSave();
@@ -773,7 +845,10 @@ export function mountScene(
     fixture,
     mode: setMode,
     pause: (value) => app.pause(value),
-    reset: () => app.reset(),
+    reset: () => {
+      stopMovementReplay();
+      return app.reset();
+    },
     stats: () => app.presentation.stats(),
     saveValue: () => app.session.captureSave(),
     startBenchmark,
