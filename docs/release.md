@@ -2,7 +2,7 @@
 
 Packaging is an explicit milestone operation, separate from ordinary iteration and asset sharing. There are no players or supported public releases yet.
 
-Run `npm run check:ci`, runtime asset validation and browser scenarios, then `npm run package -- --platform mac` or `win`. Packaging builds Game once unless `--prebuilt` deliberately selects verified existing outputs. `--dev` optionally packages the developer tools. Run `npm run test:desktop` against the resulting Game package on its actual host.
+Run `npm run check:ci`, runtime asset validation and browser scenarios, then `npm run package -- --platform mac` or `win`. Packaging builds the web and Electron outputs once, then records and verifies their combined desktop identity. `--prebuilt` deliberately selects existing verified desktop outputs; a browser-only build is insufficient. `--dev` optionally packages the developer tools. Run `npm run test:desktop` against the resulting Game package on its actual host.
 
 Packages retain source commit, asset identity and output checksums. Native jobs build directly from the checked-out commit and pin; no cross-platform build-restoration protocol is needed. Follow hosted CI to final conclusions only after an authorized push. Local macOS validation does not establish Windows or hosted success.
 

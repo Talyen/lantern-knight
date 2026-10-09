@@ -10,6 +10,8 @@ GamePresentation coordinates RoomPresentation, ActorPresentation and SceneLighti
 
 Tool entry points call workflows; workflows call process, asset and file helpers. Helpers do not dispatch npm commands or import their callers. Standard tools run directly. Tests/checks execute fresh; immutable prepared assets cache expensive production work.
 
+AssetWorkspace owns the selected asset root, resolved public/metadata paths, identity and release. Development, web compilation and runtime validation receive those paths explicitly. Environment translation remains at preparation, legacy diagnostics and test subprocess boundaries. Web identities cover only web output; packaging composes Electron through the shared build configuration and records a desktop identity covering both outputs. Prebuilt packaging requires a matching desktop identity.
+
 ## Import boundaries
 
 `npm run architecture:check` protects browser/runtime imports, the pure gameplay model and presentation direction, including type imports and literal dynamic imports. Runtime code uses the Bridge/browser adapter rather than importing Node, Electron, tests or tools. Core cannot import live scenes or art composition. Keep any exception narrow and explain its actual consumer.

@@ -6,6 +6,8 @@ import { prototypeAssets } from './preview';
 
 export type AssetWorkspace = {
   root: string;
+  publicDirectory: string;
+  metadataDirectory: string;
   identity: string;
   recipe: string;
   release: () => Promise<void>;
@@ -23,12 +25,16 @@ export async function openWorkspace(
   mode: 'pinned' | 'local' = 'pinned',
   scope: AssetScope = 'runtime',
 ): Promise<AssetWorkspace> {
+  const started = performance.now();
   const cache = new AssetCache();
   const selected = mode === 'local' ? await prototypeAssets(cache, undefined, scope) : undefined;
   const lock = selected?.lock ?? (await readLock());
   const held = selected?.held ?? (await acquirePinnedPack(lock as AssetLock, cache, scope));
+  console.log(`Asset workspace (${mode}/${scope}): ${Math.round(performance.now() - started)}ms.`);
   return {
     root: held.root,
+    publicDirectory: path.join(held.root, 'public'),
+    metadataDirectory: path.join(held.root, 'metadata'),
     identity: lock.sha256,
     recipe: lock.recipeSha256,
     release: () => held.release(),

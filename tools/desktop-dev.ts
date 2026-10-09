@@ -3,6 +3,7 @@ import { context } from 'esbuild';
 import { developmentServer, untilInterrupted } from './dev';
 import { runProcess } from './run-process';
 import { projectRoot } from './assets/paths';
+import { electronConfig } from './build-electron';
 const electron = createRequire(import.meta.url)('electron') as string;
 const session = await developmentServer();
 const ready = new Set<string>();
@@ -34,16 +35,9 @@ const restart = () => {
 };
 const builders = [];
 try {
-  for (const name of ['main', 'preload']) {
+  for (const name of ['main', 'preload'] as const) {
     const builder = await context({
-      entryPoints: [`electron/${name}.ts`],
-      outfile: `dist-electron-dev/${name}.cjs`,
-      define: { __DEV_APP__: 'true' },
-      bundle: true,
-      platform: 'node',
-      target: 'node24',
-      format: 'cjs',
-      external: ['electron'],
+      ...electronConfig(name, true),
       plugins: [
         {
           name: 'restart-electron',

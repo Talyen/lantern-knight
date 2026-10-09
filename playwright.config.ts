@@ -1,6 +1,7 @@
 import { defineConfig } from '@playwright/test';
 import path from 'node:path';
 const desktop = process.env.LANTERN_TEST_TARGET === 'desktop';
+const built = process.env.LANTERN_TEST_BUILT === 'true';
 const port = process.env.LANTERN_PREVIEW_PORT ?? '5174';
 export default defineConfig({
   testDir: desktop ? 'tests/desktop' : 'tests/browser',
@@ -22,9 +23,11 @@ export default defineConfig({
   webServer: desktop
     ? undefined
     : {
-        command: `npm run dev -- --port ${port}${process.env.LANTERN_TEST_ASSETS === 'pinned' ? ' --pinned' : ''}${process.env.LANTERN_TEST_SCOPE === 'runtime' ? ' --runtime' : ''}`,
+        command: built
+          ? 'node --import tsx tools/built-preview.ts'
+          : `npm run dev -- --port ${port}${process.env.LANTERN_TEST_ASSETS === 'pinned' ? ' --pinned' : ''}${process.env.LANTERN_TEST_SCOPE === 'runtime' ? ' --runtime' : ''}`,
         url: `http://127.0.0.1:${port}/__lantern_identity`,
-        reuseExistingServer: !process.env.CI,
+        reuseExistingServer: !built && !process.env.CI,
         timeout: 60_000,
         gracefulShutdown: { signal: 'SIGTERM', timeout: 5000 },
       },

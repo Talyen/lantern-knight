@@ -5,6 +5,8 @@ import path from 'node:path';
 import os from 'node:os';
 import { selectTestFiles } from '../../tools/test';
 import { requiresDesktop, requiresAuthoring } from '../../tools/ci-impact';
+import { browserSelection } from '../../tools/browser-tests';
+import { checkAssets } from '../../tools/check-assets';
 test('explicit test paths are exact and unknown requests fail before asset setup', async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-selection-'));
   try {
@@ -39,4 +41,25 @@ test('scene and gameplay edits use routine CI; desktop contracts select platform
     'package-lock.json',
   ])
     assert.equal(requiresDesktop([file]), true);
+});
+test('built browser tests select only Game and remove the wrapper flag', () => {
+  assert.deepEqual(browserSelection(['game', '--built', '--ui']), {
+    built: true,
+    forwarded: ['game', '--ui'],
+    scope: 'runtime',
+  });
+  assert.throws(() => browserSelection(['scene', '--built']), /Game scenario/);
+  assert.throws(() => browserSelection(['--built']), /Game scenario/);
+  assert.equal(browserSelection(['editor']).scope, 'authoring');
+});
+test('asset validation reads the explicit workspace and rejects altered media', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-explicit-assets-'));
+  try {
+    const { loadingVideoPath } = await import('../../src/content/loading-media');
+    await fs.mkdir(path.dirname(path.join(root, loadingVideoPath)), { recursive: true });
+    await fs.writeFile(path.join(root, loadingVideoPath), 'altered media');
+    await assert.rejects(checkAssets({ publicDirectory: root }), /loading video differs/);
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
 });

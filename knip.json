@@ -47,6 +47,7 @@
     "tools/dev.ts",
     "tools/desktop-dev.ts",
     "tools/browser-tests.ts",
+    "tools/built-preview.ts",
     "tools/desktop-tests.ts",
     "tools/build.ts",
     "tools/package.ts",

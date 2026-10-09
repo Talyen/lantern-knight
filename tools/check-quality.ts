@@ -6,6 +6,7 @@ import { assetCatalog, gameAssetCatalog } from '../src/content/visuals';
 import { worldVisuals } from '../src/content/world-art';
 import { content } from '../src/content/game-content';
 import { contract } from '../src/core/camera';
+import { publicRoot } from './assets/paths';
 import { readGameCatalog } from './game-asset-catalog';
 const height = 2160,
   minimumSpan = contract.framingRange[0]!,
@@ -102,7 +103,7 @@ for (const { id, scale } of cases) {
     ),
   });
 }
-for (const [id, file] of Object.entries(await readGameCatalog())) {
+for (const [id, file] of Object.entries(await readGameCatalog(publicRoot()))) {
   if (!id.startsWith('library-')) continue;
   const m = parseManifest(JSON.parse(await readAsset('public/' + file, 'utf8')));
   for (const page of m.pages) runtimePages.set(`${page.hash}:${page.width}x${page.height}`, page);

@@ -11,7 +11,6 @@ import {
 
 import { readAuthoringCatalog } from '../assets/authoring-catalog';
 import { parseManifest } from '../../src/assets/schema';
-import { publicRoot } from '../assets/paths';
 import type { Plugin } from 'vite';
 const digest = (bytes: string | Buffer) => createHash('sha256').update(bytes).digest('hex');
 const validId = /^[a-z][a-z0-9-]{0,63}$/;
@@ -99,7 +98,7 @@ export class SceneStore {
   }
 }
 /** @knip-external Loaded by Vite ssrLoadModule and generated worktree fixture configs. */
-export function sceneEditorPlugin(root: string, preparedPublic = publicRoot()): Plugin {
+export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin {
   const token = randomUUID(),
     sourceFiles = ['src/content/scene-document.ts', 'src/assets/schema.ts', 'assets/lock.json'];
   const sourceRevision = async () =>

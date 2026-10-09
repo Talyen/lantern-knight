@@ -3,16 +3,15 @@ import path from 'node:path';
 import { parseArgs } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { AssetCache } from './cache';
-import { openWorkspace, workspaceEnvironment } from './workspace';
+import { openWorkspace } from './workspace';
 import { readLock } from './pack';
 import { preparePreviewAssets } from './preview';
 import { prepareAssets } from './prepare';
 import { publishBundledPrepared } from './publication';
 import { readAuthoringCatalog } from './authoring-catalog';
 import { parseManifest } from '../../src/assets/schema';
-import { runProcess } from '../run-process';
+import { checkAssets } from '../check-assets';
 import { acquireCommandLane } from '../command-lane';
-import { projectRoot } from './paths';
 
 async function main() {
   const [command, ...args] = process.argv.slice(2);
@@ -35,16 +34,7 @@ async function main() {
         const prepared = await prepareAssets(new AssetCache(), !!values.proof);
         try {
           if (command === 'publish') {
-            await runProcess(process.execPath, ['--import', 'tsx', 'tools/check-assets.ts'], {
-              cwd: projectRoot,
-              env: workspaceEnvironment({
-                root: prepared.payload,
-                identity: prepared.lock.sha256,
-                recipe: prepared.lock.recipeSha256,
-                release: async () => {},
-              }),
-              timeoutMs: 5 * 60_000,
-            });
+            await checkAssets({ publicDirectory: path.join(prepared.payload, 'public') });
             await publishBundledPrepared(prepared);
           }
         } finally {
@@ -83,21 +73,16 @@ async function main() {
       command === 'inspect' ? 'authoring' : 'runtime',
     );
     try {
-      if (command === 'check')
-        await runProcess(process.execPath, ['--import', 'tsx', 'tools/check-assets.ts'], {
-          cwd: projectRoot,
-          env: workspaceEnvironment(workspace),
-          timeoutMs: 5 * 60_000,
-        });
+      if (command === 'check') await checkAssets(workspace);
       else {
-        const catalog = await readAuthoringCatalog(path.join(workspace.root, 'public')),
+        const catalog = await readAuthoringCatalog(workspace.publicDirectory),
           id = positionals[0];
         if (!id) console.log(`${Object.keys(catalog).length} assets. Supply an asset ID.`);
         else {
           if (!Object.hasOwn(catalog, id)) throw new Error('Unknown asset: ' + id);
           const m = parseManifest(
             JSON.parse(
-              await fs.readFile(path.join(workspace.root, 'public', catalog[id]!), 'utf8'),
+              await fs.readFile(path.join(workspace.publicDirectory, catalog[id]!), 'utf8'),
             ),
           );
           console.log(

@@ -1,10 +1,10 @@
-import { defineConfig } from 'vite';
+import { defineConfig, type UserConfig } from 'vite';
 import path from 'node:path';
-import { publicRoot } from './tools/assets/paths.ts';
-export default defineConfig(({ mode }) => ({
-  clearScreen: false,
-  plugins:
-    mode === 'sandbox'
+import { openWorkspace } from './tools/assets/workspace';
+export function webConfig(publicDirectory: string, authoring: boolean): UserConfig {
+  return {
+    clearScreen: false,
+    plugins: authoring
       ? [
           {
             name: 'lantern-scene-editor',
@@ -23,24 +23,23 @@ export default defineConfig(({ mode }) => ({
           },
         ]
       : [],
-  publicDir: publicRoot(),
-  server: {
-    port: Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
-    strictPort: true,
-    watch: {
-      ignored: (file: string) =>
-        /^(?:dist(?:-[^/]*)?|release(?:-[^/]*)?|staging|tmp)(\/|$)/.test(
-          path.relative(process.cwd(), file).split(path.sep).join('/'),
-        ),
+    publicDir: publicDirectory,
+    server: {
+      port: Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
+      strictPort: true,
+      watch: {
+        ignored: (file: string) =>
+          /^(?:dist(?:-[^/]*)?|release(?:-[^/]*)?|staging|tmp)(\/|$)/.test(
+            path.relative(process.cwd(), file).split(path.sep).join('/'),
+          ),
+      },
+      fs: { allow: [process.cwd(), publicDirectory] },
     },
-    fs: { allow: [process.cwd(), publicRoot()] },
-  },
-  build: {
-    copyPublicDir: false,
-    outDir: mode === 'sandbox' ? 'dist-dev' : 'dist',
-    rolldownOptions: {
-      input:
-        mode === 'sandbox'
+    build: {
+      copyPublicDir: false,
+      outDir: authoring ? 'dist-dev' : 'dist',
+      rolldownOptions: {
+        input: authoring
           ? {
               game: path.resolve('index.html'),
               sandbox: path.resolve('sandbox.html'),
@@ -48,6 +47,17 @@ export default defineConfig(({ mode }) => ({
               editor: path.resolve('editor.html'),
             }
           : path.resolve('index.html'),
+      },
     },
-  },
-}));
+  };
+}
+export default defineConfig(async ({ command, mode }) => {
+  const authoring = command === 'serve' || mode === 'sandbox';
+  const workspace = await openWorkspace(
+    command === 'serve' ? 'local' : 'pinned',
+    authoring ? 'authoring' : 'runtime',
+  );
+  const config = webConfig(workspace.publicDirectory, authoring);
+  config.plugins!.push({ name: 'lantern-workspace-lease', closeBundle: () => workspace.release() });
+  return config;
+});

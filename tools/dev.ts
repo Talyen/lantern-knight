@@ -5,6 +5,7 @@ import { parseArgs } from 'node:util';
 import { createServer } from 'vite';
 import { openWorkspace } from './assets/workspace';
 import { projectRoot } from './assets/paths';
+import { webConfig } from '../vite.config';
 
 export async function developmentServer(
   options: { port?: number; pinned?: boolean; open?: boolean; runtime?: boolean } = {},
@@ -14,19 +15,28 @@ export async function developmentServer(
     options.runtime ? 'runtime' : 'authoring',
   );
   try {
-    const identity = { root: await fs.realpath(projectRoot), assets: workspace.identity };
+    const identity = {
+      root: await fs.realpath(projectRoot),
+      assets: workspace.identity,
+      target: 'development',
+    };
+    const config = webConfig(workspace.publicDirectory, true);
     const server = await createServer({
+      ...config,
+      configFile: false,
       root: projectRoot,
       mode: 'sandbox',
-      publicDir: path.join(workspace.root, 'public'),
+      publicDir: workspace.publicDirectory,
       server: {
+        ...config.server,
         host: '127.0.0.1',
         port: options.port ?? Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
         strictPort: true,
         open: options.open ?? false,
-        fs: { allow: [projectRoot, path.join(workspace.root, 'public')] },
+        fs: { allow: [projectRoot, workspace.publicDirectory] },
       },
       plugins: [
+        ...config.plugins!,
         {
           name: 'lantern-development-identity',
           configureServer(server) {

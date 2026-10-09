@@ -269,6 +269,34 @@ test('build proof ignores mutable Finder metadata but rejects app tampering, mis
     await fs.rm(directory, { recursive: true, force: true });
   }
 });
+test('web identities need no Electron output and cannot be reused as desktop builds', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-web-proof-'));
+  const source = { commit: 'a'.repeat(40), dirty: true, sha256: 'a'.repeat(64) };
+  try {
+    await fs.mkdir(path.join(root, 'dist'));
+    await fs.writeFile(path.join(root, 'dist/index.html'), 'web');
+    const options = {
+      root,
+      source,
+      target: 'web' as const,
+      env: { ...process.env, GITHUB_SHA: undefined },
+      report: () => {},
+    };
+    const web = await buildIdentity({ ...options, write: true });
+    assert.equal(web.bundledDependencies, false);
+    await buildIdentity(options);
+    await fs.mkdir(path.join(root, 'dist-electron'));
+    await fs.writeFile(path.join(root, 'dist-electron/main.cjs'), 'electron');
+    await assert.rejects(buildIdentity({ ...options, target: 'desktop' }), /desktop artifact/);
+    await buildIdentity({ ...options, target: 'desktop', write: true });
+    await buildIdentity({ ...options, target: 'desktop' });
+    await fs.writeFile(path.join(root, 'dist-electron/main.cjs'), 'tampered');
+    await assert.rejects(buildIdentity({ ...options, target: 'desktop' }), /artifact files differ/);
+    await assert.rejects(buildIdentity(options), /web artifact/);
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
 
 test('smoke profiles never delete user-supplied directories, including on launch failure', async () => {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-profile-review-'));

@@ -46,7 +46,8 @@ jobs:
       - run: npm run assets:check
       - run: npm run build
       - run: npx playwright install --with-deps chromium
-      - run: npm run test:browser -- game scene
+      - run: npm run test:browser -- game --built
+      - run: npm run test:browser -- scene
       - name: Authoring browser checks
         if: steps.impact.outputs.authoring == 'true'
         run: npm run test:browser -- editor effects

@@ -14,6 +14,8 @@
 
 `npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`. Game covers input, pause/focus and current checkpoints; scene covers both rooms/reload/resource lifetime; editor covers authoring/history/recovery and protected save requests; effects covers startup. Local testing reuses a matching Vite server and rejects another checkout or asset identity. CI uses pinned assets and its own server. Add `-- --ui` for continuous interactive iteration.
 
+After `npm run build`, `npm run test:browser -- game --built` verifies Game against the production web artifact with its recorded asset identity. It checks artifact bytes before starting a dedicated preview, without reopening the asset cache. Scene/editor/effects scenarios retain development previews because production Game excludes those views. Rebuild the web artifact after packaging before using `--built`.
+
 `npm run test:desktop` consumes a Game package and tests the actual executable, bundled identity, real controls and storage restart. Native results apply to the platform exercised. Browser results do not certify desktop integration or visible reference-hardware pacing.
 
 ## Test value
@@ -34,7 +36,7 @@ Protect a consequential failure once at the cheapest sufficient layer. Prefer re
 
 ## E2E coverage and execution budgets
 
-Routine Linux CI runs source gates, runtime asset validation, one Game build and Game/scene browser scenarios. Authoring-tool changes additionally run editor/effects scenarios with the authoring bundle. Desktop/build/dependency/asset-delivery contract changes select macOS and Windows jobs; explicit milestone dispatch also runs them. Native jobs build and package Game once on their host, with no cross-platform restoration format or mandatory Dev package. Scene/gameplay edits use routine CI.
+Routine Linux CI runs source gates, runtime asset validation, one Game web build, Game against that artifact and scene against a development preview. Authoring-tool changes additionally run editor/effects scenarios with the authoring bundle. Desktop/build/dependency/asset-delivery contract changes select macOS and Windows jobs; explicit milestone dispatch also runs them. Native jobs build and package Game once on their host, with no cross-platform restoration format or mandatory Dev package. Scene/gameplay edits use routine CI.
 
 CI has generous hang timeouts. Local GPU tests and asset preparation share a small admission lane; static checks, pure tests and builds do not. Default unit concurrency remains two and browser concurrency one. [Coordination](task-coordination.md#concurrent-commands) owns the shared-machine details.
 

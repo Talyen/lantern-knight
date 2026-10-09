@@ -1,9 +1,9 @@
 import { gameAssetCatalog } from '../src/content/asset-catalog';
 import { liveLibraryAssets } from '../src/content/library-references';
 import { readAuthoringCatalog } from './assets/authoring-catalog';
-export async function readGameCatalog() {
+export async function readGameCatalog(publicDirectory: string) {
   if (!liveLibraryAssets.length) return gameAssetCatalog;
-  const library = await readAuthoringCatalog();
+  const library = await readAuthoringCatalog(publicDirectory);
   return {
     ...gameAssetCatalog,
     ...Object.fromEntries(
