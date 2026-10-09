@@ -2,6 +2,10 @@
 
 Prototype iteration is the default. Preserve unrelated edits. Use isolated worktrees for independent/concurrent work, with an intended common baseline and clear ownership. Small sequential edits need no task registration or evidence database. [Development](docs/development.md) owns the normal loop.
 
+Before concurrent editing, verify the task's checkout with `git rev-parse --show-toplevel` and `git worktree list`; use a distinct worktree rather than sharing the primary checkout. Keep implementation and checks independent. Coordinate only for concrete dependencies, overlapping scope, shared contracts or final integration. One owner at a time integrates into local `main`; [task coordination](docs/task-coordination.md) owns the handoff.
+
+The user authorizes task-relevant messages to other Codex chats. This permission does not require routine progress broadcasts or repeated editing-status inquiries, and does not authorize external messages, pushes, publication or deletion. Use resource locks for routine contention; message only when a concrete problem needs another owner's action.
+
 Finish ordinary work with fresh `npm run check`. Write or retain only high-value tests under [test value](docs/verification.md#test-value); zero new tests can be appropriate. Fast suites are the local default; slow/integration checks run in CI by default, with targeted local diagnosis or validation allowed. Changed browser interactions need appropriate CI coverage and an accurate report of whether it ran. Assets, native integration and milestone delivery have separate checks in [verification](docs/verification.md). Capture for explicit visual investigations. Report actual evidence; local checks do not establish hosted CI or visible approval.
 
 Integrate task-owned work into local `main`, commit reviewed/verified changes under [handoff and commits](docs/task-coordination.md#handoff-and-commits), and report the hash and integration status. Push only when requested.

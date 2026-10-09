@@ -28,4 +28,6 @@ Tool commands parse arguments and call owned workflows. Preview sessions hold on
 
 Inspect `git status`, `git diff --stat` and the relevant diff, including new files. Preserve unrelated edits. Use worktrees for independent or concurrent editing, and agree ownership of shared contracts. Small sequential edits need no task registration, snapshot database or passing-evidence receipt. [Task coordination](task-coordination.md) describes integration and commit authorization.
 
+Before concurrent edits, verify the checkout and worktree list. Each task edits and checks in its own worktree with local dependencies and a distinct preview port. Message other chats only for a concrete dependency, overlapping scope, shared contract decision or integration handoff. Finish isolated verification before handing changes to the single current `main` integration owner. Resource locks handle routine GPU and asset contention.
+
 Keep implementation choices local. Add interfaces only when they express a real consumer or resource lifetime. Delete superseded paths and update their documentation in the same change.
