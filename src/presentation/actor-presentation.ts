@@ -1,7 +1,12 @@
 import * as T from 'three';
 import { selectDirection, selectAuthoredDirection, HEADINGS } from '../core/camera';
 import { retimeSweepClip } from './sweep-timing';
-import type { SweepTiming, SweepRecovery } from '../content/sweep-timing';
+import {
+  defaultSweepTiming,
+  defaultSweepRecovery,
+  type SweepTiming,
+  type SweepRecovery,
+} from '../content/sweep-timing';
 import { ActorSprite } from './sprite';
 import { timedWalk, remapWalkTime } from '../core/locomotion-timing';
 import { Animator, clipDuration } from '../core/animation';
@@ -92,8 +97,8 @@ export class ActorPresentation {
     dir: (typeof HEADINGS)[number],
     manifest = this.packs.get('ink-hero-current')!.manifest,
     walkTiming: WalkTiming = 'weighted',
-    sweepTiming: SweepTiming = 'baseline',
-    sweepRecovery: SweepRecovery = 'clean',
+    sweepTiming: SweepTiming = defaultSweepTiming,
+    sweepRecovery: SweepRecovery = defaultSweepRecovery,
   ): Clip {
     const clip = resolveClip(manifest, id, dir);
     if (id === 'sweep' && manifest.asset.id === 'ink-hero-current')

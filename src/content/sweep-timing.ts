@@ -10,7 +10,7 @@ type Preset = {
 export const sweepTimingPresets = {
   baseline: {
     label: 'Baseline · 300 / 900 ms',
-    description: 'Current authored timing and linear effect playback.',
+    description: 'Original authored timing and linear effect playback.',
   },
   snap: {
     label: 'A · Snap · 200 / 700 ms',
@@ -82,3 +82,6 @@ export const sweepRecoveryOptions = {
   ready: 'Canonical final pose',
   clean: 'Clean settle to idle',
 } as const;
+
+export const defaultSweepTiming: SweepTiming = 'quick';
+export const defaultSweepRecovery: SweepRecovery = 'ready';

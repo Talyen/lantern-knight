@@ -1,7 +1,12 @@
 import * as T from 'three';
 import { ActorSprite } from './sprite';
 import { combatFeedback as settings } from '../content/combat-feedback';
-import { sweepEffectTiming, sweepEffectPhase, type SweepTiming } from '../content/sweep-timing';
+import {
+  defaultSweepTiming,
+  sweepEffectTiming,
+  sweepEffectPhase,
+  type SweepTiming,
+} from '../content/sweep-timing';
 import { attackDefinition } from '../content/gameplay';
 import { selectDirection, selectAuthoredDirection } from '../core/camera';
 import { clipDuration } from '../core/animation';
@@ -79,7 +84,7 @@ export class CombatFeedback {
     const hero = sim.hero,
       timing = attackDefinition(hero),
       tag = `${sim.generation}:${hero.action}`,
-      profile = hero.sweepTiming ?? 'baseline',
+      profile = hero.sweepTiming ?? defaultSweepTiming,
       effectTiming = sweepEffectTiming(profile),
       lead = effectTiming?.lead ?? settings.sweep.leadTicks;
     if (

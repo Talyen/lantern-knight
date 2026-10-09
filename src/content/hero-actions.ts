@@ -1,4 +1,4 @@
-import { sweepTimingOverride, type SweepTiming } from './sweep-timing';
+import { defaultSweepTiming, sweepTimingOverride, type SweepTiming } from './sweep-timing';
 import timings from '../../authoring/hero-actions.json';
 import type { AuthoredHeading, Heading } from '../core/camera';
 export type HeroAttackKind = 'sweep' | 'lunge';
@@ -11,7 +11,7 @@ const tick = (ms: number) => Math.ceil((ms * 60) / 1000 - 1e-8);
 export function heroActionTiming(
   clip: string,
   heading: AuthoredHeading,
-  sweepTiming: SweepTiming = 'baseline',
+  sweepTiming: SweepTiming = defaultSweepTiming,
 ) {
   const recipe: HeroTiming | undefined =
     (clip === 'sweep' ? sweepTimingOverride(sweepTiming, heading) : undefined) ??

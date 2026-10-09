@@ -29,6 +29,8 @@ import { heroTimings } from '../content/hero-actions';
 import type { Clip } from '../assets/schema';
 import '../inspection';
 import {
+  defaultSweepTiming,
+  defaultSweepRecovery,
   sweepTimingPresets,
   sweepRecoveryOptions,
   type SweepTiming,
@@ -74,8 +76,8 @@ export function mountScene(
   let sweepGuide: SweepAreaGuide | undefined,
     sweepReplay = false,
     sweepRange = tuning.sweepRange as number,
-    sweepTiming: SweepTiming = 'baseline',
-    sweepRecovery: SweepRecovery = 'clean';
+    sweepTiming: SweepTiming = defaultSweepTiming,
+    sweepRecovery: SweepRecovery = defaultSweepRecovery;
   const app = new Application(
     $('canvas'),
     sandboxContent,
@@ -197,7 +199,9 @@ export function mountScene(
     $<HTMLSelectElement>('#sweep-recovery').replaceChildren(
       ...Object.entries(sweepRecoveryOptions).map(([id, label]) => new Option(label, id)),
     );
-    $<HTMLSelectElement>('#sweep-recovery').value = 'clean';
+    $<HTMLSelectElement>('#sweep-timing').value = sweepTiming;
+    $<HTMLSelectElement>('#sweep-recovery').value = sweepRecovery;
+    $('#sweep-timing-help').textContent = sweepTimingPresets[sweepTiming].description;
     sweepGuide = new SweepAreaGuide(presentation.scene);
     presentation.beforeSceneRender = (sim) => {
       sweepGuide?.update(sim);

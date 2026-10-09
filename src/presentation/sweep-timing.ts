@@ -1,11 +1,16 @@
 import type { Clip } from '../assets/schema';
 import type { AuthoredHeading } from '../core/camera';
-import { sweepTimingOverride, type SweepTiming, type SweepRecovery } from '../content/sweep-timing';
+import {
+  defaultSweepRecovery,
+  sweepTimingOverride,
+  type SweepTiming,
+  type SweepRecovery,
+} from '../content/sweep-timing';
 const cache = new WeakMap<Clip, Map<string, Clip>>();
 export function retimeSweepClip(
   clip: Clip,
   timing: SweepTiming,
-  recovery: SweepRecovery = 'clean',
+  recovery: SweepRecovery = defaultSweepRecovery,
   readyFrame?: string,
 ): Clip {
   const heading = clip.frames[0]!.split('-')[1] as AuthoredHeading,

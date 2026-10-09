@@ -25,7 +25,7 @@ test('authored heading ties and hysteresis preserve action headings while aim ch
   assert.equal(s.hero.actionHeading, heading);
   assert.equal(s.hero.yaw, Math.PI / 2);
 });
-test('each authored attack heading damages only during its active phase and completes without chaining', () => {
+test('each attack heading damages only during its active phase and completes without chaining', () => {
   for (const kind of ['sweep', 'lunge'] as const)
     for (const heading of AUTHORED_HEADINGS) {
       const s = duel(),
@@ -48,9 +48,11 @@ test('each authored attack heading damages only during its active phase and comp
 
       assert.equal(
         spec.total,
-        Math.ceil(
-          (heroTimings[kind]![heading].holdsMs.reduce((a, b) => a + b, 0) * 60) / 1000 - 1e-8,
-        ),
+        kind === 'sweep'
+          ? 36
+          : Math.ceil(
+              (heroTimings[kind]![heading].holdsMs.reduce((a, b) => a + b, 0) * 60) / 1000 - 1e-8,
+            ),
       );
     }
   const narrow = duel();
