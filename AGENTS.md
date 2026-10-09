@@ -22,3 +22,5 @@ Prototype scene guidance follows [scene policy](docs/scene-design.md) and [lante
 # Skill routing
 
 Use [architect](.agents/skills/architect/SKILL.md) for changed shared contracts, [run-audits](.agents/skills/run-audits/SKILL.md) for requested [audits](docs/audits/README.md), and [scene guidance](.agents/skills/lantern-scene-design/SKILL.md) for composition. [Routing](.agents/skills/README.md) describes applicability.
+
+Use [frontend-design](.agents/skills/frontend-design/SKILL.md) for menus, HUD, and developer interface design; preserve existing art direction and scene guidance.
