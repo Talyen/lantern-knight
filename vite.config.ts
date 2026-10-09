@@ -25,6 +25,8 @@ export default defineConfig(({ mode }) => ({
       : [],
   publicDir: publicRoot(),
   server: {
+    port: Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
+    strictPort: true,
     watch: {
       ignored: (file: string) =>
         /^(?:dist(?:-[^/]*)?|release(?:-[^/]*)?|staging|tmp)(\/|$)/.test(
