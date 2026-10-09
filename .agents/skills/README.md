@@ -7,6 +7,7 @@ Use a skill when its workflow applies. [AGENTS.md](../../AGENTS.md) owns artwork
 | Add or structurally revise a contract across runtime, content, presentation, desktop or asset-tool boundaries | [architect](architect/SKILL.md)                       |
 | Run a requested named audit or all audits                                                                     | [run-audits](run-audits/SKILL.md)                     |
 | Compose or inspect production scenes using curated flat-stage artwork                                         | [lantern-scene-design](lantern-scene-design/SKILL.md) |
+| Design or refine menus, HUD, and developer interfaces                                                        | [frontend-design](frontend-design/SKILL.md)           |
 
 `architect` designs a changed contract; `run-audits` investigates evidence against current contracts. Ordinary use of an existing contract or a private helper does not need a separate design workflow. Creating or editing audit guidance does not request execution of the audits.
 
