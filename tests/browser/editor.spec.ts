@@ -68,6 +68,42 @@ test('editor placement, experimental scale, history, recovery, save and external
       data: { document: initial, revision: null, baseRevision: data.baseRevision },
     });
     expect(denied.status()).toBe(403);
+    const invalidId = 'invalid-surround-' + Date.now();
+    const invalid = await request.post('/__lantern_editor', {
+      headers: { 'X-Lantern-Editor-Token': data.token },
+      data: {
+        document: {
+          ...initial,
+          id: invalidId,
+          surround: {
+            anchor: { x: 0, z: 0 },
+            color: 0,
+            ground: [
+              { x: 0, z: 0 },
+              { x: 1, z: 0 },
+              { x: 0, z: 1 },
+            ],
+            layers: [
+              {
+                asset: 'missing-surround',
+                clip: 'still',
+                scale: 1,
+                base: 0,
+                parallax: 0,
+                tint: 0xffffff,
+                detail: 0,
+              },
+            ],
+          },
+        },
+        revision: null,
+        baseRevision: data.baseRevision,
+      },
+    });
+    expect(invalid.status()).toBe(400);
+    expect(
+      (await (await request.get('/__lantern_editor?id=' + invalidId)).json()).document,
+    ).toBeNull();
   } finally {
     await fs.rm(file, { force: true });
   }
@@ -105,10 +141,26 @@ test('editor multi-selection, inspector, palette grouping and editor-only visibi
   ).toEqual(before);
   await page.locator('.object-row').first().getByRole('button', { name: /Hide/ }).click();
   expect((await page.evaluate(() => window.sceneEditor.state().document)).objects).toHaveLength(2);
+  await expect
+    .poll(() =>
+      page.evaluate(() => window.sceneEditor.view().presentation!.visualOverride!.props.length),
+    )
+    .toBe(1);
   await page.locator('#scene-tab').click();
   await expect(page.locator('#scene-panel')).toBeVisible();
   await page.locator('#grid').check();
   await expect(page.locator('#snap')).not.toBeChecked();
+  await page.locator('.object-row').first().getByRole('button', { name: /Show/ }).click();
+  await expect(page.locator('#save-state')).toHaveText('Unsaved');
+  await page.locator('#viewport').focus();
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#selected-name')).toHaveText('Select an object');
+  const box = await page.locator('#viewport').boundingBox();
+  await page.mouse.move(box!.x + 5, box!.y + 5);
+  await page.mouse.down();
+  await page.mouse.move(box!.x + box!.width - 5, box!.y + box!.height - 5);
+  await page.mouse.up();
+  await expect(page.locator('#selected-name')).toContainText('2 objects selected');
 });
 
 test('visual authoring, independent fragments, pattern undo and import', async ({
@@ -274,4 +326,31 @@ test('editor workspace keeps populated attachment controls accessible at desktop
       path: path.join(projectRoot, '.cache', `editor-attachment-${width}.png`),
     });
   }
+});
+
+test('geometry handles edit a path point with one undoable gesture', async ({ page }) => {
+  await page.goto('/editor.html?automated');
+  await page.waitForFunction(() => window.sceneEditor?.ready());
+  await page
+    .locator('#scene-panel')
+    .getByRole('button', { name: 'Add paths', exact: true })
+    .click();
+  await page.locator('#tool').selectOption('geometry');
+  const before = await page.evaluate(() => window.sceneEditor.state().document.paths[0]!.points[0]);
+  const screen = await page.evaluate(() => {
+    const p = window.sceneEditor.state().document.paths[0]!.points[0]!,
+      view = window.sceneEditor.view();
+    return view.screen(view.presentation!.center.clone().set(p.x, 0, p.z));
+  });
+  await page.mouse.move(screen.x, screen.y);
+  await page.mouse.down();
+  await page.mouse.move(screen.x + 30, screen.y + 10);
+  await page.mouse.up();
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.paths[0]!.points[0]))
+    .not.toEqual(before);
+  await page.locator('#undo').click();
+  expect(
+    await page.evaluate(() => window.sceneEditor.state().document.paths[0]!.points[0]),
+  ).toEqual(before);
 });

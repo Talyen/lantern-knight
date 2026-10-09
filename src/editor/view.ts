@@ -68,10 +68,21 @@ export class EditorView {
   ) {}
   async apply(document: SceneDocument) {
     if (this.closed) throw new Error('Editor closed');
-    const resolved = resolveScene(document),
-      art = resolved.visuals;
+    const resolved = resolveScene(document);
+    const art = this.hidden.size
+      ? {
+          ...resolved.visuals,
+          props: resolved.visuals.props.filter((p) => !this.hidden.has(p.id)),
+          decals: resolved.visuals.decals.filter((p) => !this.hidden.has(p.id)),
+          graves: resolved.visuals.graves.filter((p) => !this.hidden.has(p.id)),
+          resolvedFixtures: resolved.visuals.resolvedFixtures?.filter(
+            (p) => !this.hidden.has(p.prop),
+          ),
+        }
+      : resolved.visuals;
     const composition = JSON.stringify({
       ...document,
+      editorHidden: [...this.hidden].sort(),
       name: undefined,
       hero: undefined,
       look: undefined,

@@ -136,68 +136,73 @@ export class VisualAuthoring {
       details.append(summary);
       parent.append(details);
       if (Array.isArray(value)) {
+        const tuple = ['offset', 'socket', 'footprint'].includes(String(path.at(-1)));
         value.forEach((v, i) => {
           const row = document.createElement('div');
           details.append(row);
           this.form(v, [...path, i], row, `${label} ${i + 1}`);
-          row.append(
-            this.button('Remove ' + label, () => {
+          if (!tuple)
+            row.append(
+              this.button('Remove ' + label, () => {
+                const next = structuredClone(read(this.host.history().document, path) as Data[]);
+                next.splice(i, 1);
+                this.commit(path, next);
+              }),
+            );
+        });
+        if (!tuple)
+          details.append(
+            this.button('Add ' + label, () => {
               const next = structuredClone(read(this.host.history().document, path) as Data[]);
-              next.splice(i, 1);
+              const field = String(path.at(-1));
+              const base =
+                value[0] ??
+                (templates as Record<string, Data>)[field] ??
+                (field === 'propOrder'
+                  ? (this.host.history().document.objects[0]?.id ?? 'object')
+                  : field === 'layers'
+                    ? {
+                        asset: 'ink-blackwood-woodland',
+                        clip: 'woodland',
+                        scale: 1,
+                        base: 0,
+                        parallax: 0.1,
+                        tint: 0xffffff,
+                        detail: 0,
+                      }
+                    : field === 'entries'
+                      ? { id: 'entry', x: 0, z: 0 }
+                      : field === 'points' || field === 'ground'
+                        ? point
+                        : field === 'widths'
+                          ? 1
+                          : '');
+              const item = structuredClone(base);
+              if (item && typeof item === 'object' && !Array.isArray(item) && 'id' in item)
+                item.id = field.replace(/s$/, '') + '-' + crypto.randomUUID();
+              if (field === 'pickups' && typeof item === 'object' && !Array.isArray(item)) {
+                const selected =
+                  this.host
+                    .history()
+                    .document.objects.find(
+                      (p) => p.id === this.host.selected() && p.kind !== 'decal',
+                    ) ?? this.host.history().document.objects.find((p) => p.kind !== 'decal');
+                if (!selected) throw new Error('Place pickup artwork first');
+                (item as Record<string, Data>).object = selected.id;
+                item.x = selected.x ?? 0;
+                item.z = selected.z ?? 0;
+              }
+              if (field === 'exits' && typeof item === 'object' && !Array.isArray(item)) {
+                (item as Record<string, Data>).destination = resolveScene(
+                  this.host.history().document,
+                ).area.id;
+                (item as Record<string, Data>).entry =
+                  this.host.history().document.geometry?.baselineEntry ?? 'start';
+              }
+              next.push(item);
               this.commit(path, next);
             }),
           );
-        });
-        details.append(
-          this.button('Add ' + label, () => {
-            const next = structuredClone(read(this.host.history().document, path) as Data[]);
-            const field = String(path.at(-1));
-            const base =
-              value[0] ??
-              (templates as Record<string, Data>)[field] ??
-              (field === 'layers'
-                ? {
-                    asset: 'ink-blackwood-woodland',
-                    clip: 'woodland',
-                    scale: 1,
-                    base: 0,
-                    parallax: 0.1,
-                    tint: 0xffffff,
-                    detail: 0,
-                  }
-                : field === 'entries'
-                  ? { id: 'entry', x: 0, z: 0 }
-                  : field === 'points' || field === 'ground'
-                    ? point
-                    : field === 'widths'
-                      ? 1
-                      : '');
-            const item = structuredClone(base);
-            if (item && typeof item === 'object' && !Array.isArray(item) && 'id' in item)
-              item.id = field.replace(/s$/, '') + '-' + crypto.randomUUID();
-            if (field === 'pickups' && typeof item === 'object' && !Array.isArray(item)) {
-              const selected =
-                this.host
-                  .history()
-                  .document.objects.find(
-                    (p) => p.id === this.host.selected() && p.kind !== 'decal',
-                  ) ?? this.host.history().document.objects.find((p) => p.kind !== 'decal');
-              if (!selected) throw new Error('Place pickup artwork first');
-              (item as Record<string, Data>).object = selected.id;
-              item.x = selected.x ?? 0;
-              item.z = selected.z ?? 0;
-            }
-            if (field === 'exits' && typeof item === 'object' && !Array.isArray(item)) {
-              (item as Record<string, Data>).destination = resolveScene(
-                this.host.history().document,
-              ).area.id;
-              (item as Record<string, Data>).entry =
-                this.host.history().document.geometry?.baselineEntry ?? 'start';
-            }
-            next.push(item);
-            this.commit(path, next);
-          }),
-        );
       } else
         for (const [name, child] of Object.entries(value))
           if (child !== undefined) this.form(child, [...path, name], details, name);

@@ -1,3 +1,4 @@
+import { editorError } from './errors';
 import { DraftPlaytest } from './playtest';
 import { composeDraftGameplay, withGameplayDefaults } from '../content/draft-gameplay';
 import { contentDefinitions } from '../content/game-content';
@@ -237,7 +238,7 @@ export function createEditorSession() {
     controls();
   }
   function launch(work: Promise<unknown>) {
-    work.catch((error) => status(error instanceof Error ? error.message : String(error), true));
+    work.catch((error) => status(editorError(error), true));
   }
   async function run(action: () => Promise<void>, restoring = false) {
     if (closed || busy) return;
@@ -252,7 +253,7 @@ export function createEditorSession() {
       controls();
       await pending;
     } catch (error) {
-      status((error as Error).message, true);
+      status(editorError(error), true);
     } finally {
       if (!closed) {
         busy = false;
@@ -1308,7 +1309,7 @@ export function createEditorSession() {
   controls();
   void start().catch((error) => {
     if (!closed) {
-      status('Editor startup failed: ' + error.message, true);
+      status('Editor startup failed: ' + editorError(error), true);
       view?.dispose();
     }
   });

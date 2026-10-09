@@ -1,3 +1,4 @@
+import { editorError } from './errors';
 import { Application } from '../application';
 import { GamePresentation } from '../presentation/game-scene';
 import type { ContentRegistry } from '../content/world';
@@ -29,13 +30,14 @@ export class DraftPlaytest {
     const button = document.createElement('button');
     button.id = 'play-from-here';
     button.textContent = 'Play from here';
-    button.onclick = () => void this.start().catch((e) => host.status(e.message, true));
+    button.onclick = () => void this.start().catch((e) => host.status(editorError(e), true));
     document.querySelector('.toolbar')!.append(button);
     this.dialog.querySelector<HTMLButtonElement>('#playtest-return')!.onclick = () => this.close();
     this.dialog.querySelector<HTMLButtonElement>('#playtest-pause')!.onclick = () =>
       this.app?.pause(!this.app.paused);
     this.dialog.querySelector<HTMLButtonElement>('#playtest-reset')!.onclick = () => {
-      if (this.snapshot) void this.start(this.snapshot).catch((e) => host.status(e.message, true));
+      if (this.snapshot)
+        void this.start(this.snapshot).catch((e) => host.status(editorError(e), true));
     };
     this.dialog.addEventListener('cancel', (e) => {
       e.preventDefault();

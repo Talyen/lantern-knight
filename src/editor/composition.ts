@@ -16,7 +16,21 @@ export class CompositionTools {
   readonly locked = new Set<string>();
   private tab: 'object' | 'scene' = 'scene';
   private observers: ResizeObserver[] = [];
+  private thumbnails: IntersectionObserver;
   constructor(private host: CompositionHost) {
+    this.thumbnails = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries)
+          if (entry.isIntersecting) {
+            const canvas = entry.target as HTMLCanvasElement;
+            this.thumbnails.unobserve(canvas);
+            void this.host
+              .thumbnail(canvas.dataset.asset!, canvas.dataset.clip!, canvas)
+              .catch(() => {});
+          }
+      },
+      { root: element('objects') },
+    );
     for (const tab of ['object', 'scene'] as const)
       element(tab + '-tab').onclick = () => {
         this.tab = tab;
@@ -155,6 +169,7 @@ export class CompositionTools {
   }
   dispose() {
     this.observers.forEach((o) => o.disconnect());
+    this.thumbnails.disconnect();
   }
   snap(value: number) {
     const spacing = Number(element<HTMLInputElement>('snap-spacing').value);
@@ -250,16 +265,16 @@ export class CompositionTools {
         `${this.selection.size} objects selected · fields edit the last selected object; handles edit the group`;
     const filter = element<HTMLInputElement>('object-search').value.toLowerCase();
     const list = element('objects');
+    this.thumbnails.disconnect();
     list.replaceChildren();
+    const documents = new Map(this.host.history().document.objects.map((p) => [p.id, p]));
     const depth = (id: string): number => {
-      const p = this.host.history().document.objects.find((v) => v.id === id);
+      const p = documents.get(id);
       return p?.mount ? 1 + depth(p.mount.to) : 0;
     };
     const ordered = [...items].sort((a, b) => {
       const root = (id: string): string =>
-        this.host.history().document.objects.find((v) => v.id === id)?.mount
-          ? root(this.host.history().document.objects.find((v) => v.id === id)!.mount!.to)
-          : id;
+        documents.get(id)?.mount ? root(documents.get(id)!.mount!.to) : id;
       return (
         root(a.placement.id).localeCompare(root(b.placement.id)) ||
         depth(a.placement.id) - depth(b.placement.id)
@@ -267,7 +282,7 @@ export class CompositionTools {
     });
     for (const { placement: p, locked } of ordered) {
       if (
-        !`${p.id} ${p.asset} ${p.clip} ${this.host.history().document.objects.find((v) => v.id === p.id)?.label ?? ''}`
+        !`${p.id} ${p.asset} ${p.clip} ${documents.get(p.id)?.label ?? ''}`
           .toLowerCase()
           .includes(filter)
       )
@@ -283,7 +298,7 @@ export class CompositionTools {
       const select = document.createElement('button');
       select.className = 'object-select';
       select.textContent =
-        this.host.history().document.objects.find((v) => v.id === p.id)?.label ??
+        documents.get(p.id)?.label ??
         (p.id.startsWith('object-') ? p.clip.replaceAll('_', ' ') + ' · ' + p.id.slice(-4) : p.id);
       select.title = p.asset + '/' + p.clip;
       select.classList.toggle('active', this.selection.has(p.id));
@@ -301,14 +316,26 @@ export class CompositionTools {
           if (set.has(p.id)) set.delete(p.id);
           else set.add(p.id);
           this.host.select([...this.selection].at(-1));
+          if (label === 'Hide') void this.host.run(() => this.host.refresh()).catch(console.error);
         };
         row.append(button);
       }
       list.append(row);
-      void this.host.thumbnail(p.asset, p.clip, thumbnail).catch(() => {});
+      thumbnail.dataset.asset = p.asset;
+      thumbnail.dataset.clip = p.clip;
+      this.thumbnails.observe(thumbnail);
     }
-    this.host.view()?.setEditingVisibility(this.hidden);
-    this.host.view()?.selectMany([...this.selection].filter((id) => !this.hidden.has(id)));
+    if (!list.children.length) {
+      const empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = filter
+        ? 'No objects match this search.'
+        : 'Place artwork to start composing.';
+      list.append(empty);
+    }
+    const hidden = new Set(this.host.history().descendants([...this.hidden]));
+    this.host.view()?.setEditingVisibility(hidden);
+    this.host.view()?.selectMany([...this.selection].filter((id) => !hidden.has(id)));
     const primary = [...this.selection].at(-1);
     if (primary && (this.locked.has(primary) || this.hidden.has(primary)))
       element<HTMLFieldSetElement>('transform').disabled = true;

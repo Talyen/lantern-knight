@@ -1,3 +1,4 @@
+import { editorError } from './errors';
 import {
   parseSceneDocument,
   parseSceneFragment,
@@ -79,7 +80,7 @@ export class SceneLibrary {
     const button = document.createElement('button');
     button.id = 'scene-library';
     button.textContent = 'Scene library';
-    button.onclick = () => void this.load().catch((e) => host.status(e.message, true));
+    button.onclick = () => void this.load().catch((e) => host.status(editorError(e), true));
     toolbar.append(button);
     const exportButton = document.createElement('button');
     exportButton.textContent = 'Export JSON';
@@ -105,7 +106,7 @@ export class SceneLibrary {
             target: 'draft',
             name: 'Imported ' + d.name.slice(0, 71),
           });
-        })().catch((e) => host.status(e.message, true));
+        })().catch((e) => host.status(editorError(e), true));
       input.value = '';
     };
     importLabel.append(input);
@@ -123,7 +124,7 @@ export class SceneLibrary {
         if (!name) throw new Error('Name the fragment first');
         await host.fragment(name, objects);
         await this.load();
-      })().catch((e) => host.status(e.message, true));
+      })().catch((e) => host.status(editorError(e), true));
     const pattern = document.createElement('fieldset');
     pattern.id = 'pattern-tools';
     pattern.innerHTML =
@@ -133,12 +134,12 @@ export class SceneLibrary {
       try {
         this.previewPattern();
       } catch (e) {
-        host.status((e as Error).message, true);
+        host.status(editorError(e), true);
       }
     };
     $('pattern-cancel').onclick = () => this.clearPreview();
     $('pattern-apply').onclick = () =>
-      void this.applyPattern().catch((e) => host.status(e.message, true));
+      void this.applyPattern().catch((e) => host.status(editorError(e), true));
   }
   private download(value: unknown, name: string) {
     const url = URL.createObjectURL(
@@ -206,7 +207,9 @@ export class SceneLibrary {
         }
         b.onclick = () => {
           this.dialog.close();
-          void this.host.open('file-' + scene.id).catch((e) => this.host.status(e.message, true));
+          void this.host
+            .open('file-' + scene.id)
+            .catch((e) => this.host.status(editorError(e), true));
         };
         list.append(b);
       }
@@ -243,7 +246,7 @@ export class SceneLibrary {
             d.objects = temp.document.objects;
           })
           .then(() => this.host.select(inserted))
-          .catch((e) => this.host.status(e.message, true));
+          .catch((e) => this.host.status(editorError(e), true));
       };
       list.append(b);
     }

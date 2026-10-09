@@ -530,3 +530,17 @@ main {
   flex-basis: 0;
   min-height: 0;
 }
+
+#objects:has(.empty-state) {
+  flex-basis: 32px;
+  min-height: 0;
+}
+.empty-state {
+  color: #a6b6b3;
+  font-size: 12px;
+  margin: 4px 0;
+}
+#validation-errors {
+  max-height: 100px;
+  overflow: auto;
+}

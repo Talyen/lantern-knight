@@ -118,14 +118,17 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
   let loadBase: () => Promise<typeof import('../../src/content/world-art')>;
   let validateGameplay: (d: SceneDocument) => Promise<void>;
   const validate = async (d: SceneDocument) => {
+    const catalog = await readAuthoringCatalog(preparedPublic);
     const ids = new Set([
+      ...d.proceduralAssets,
+      ...(d.surround?.layers.map((layer) => layer.asset) ?? []),
       ...d.objects.flatMap((p) => [p.asset, ...(p.fixture?.flame ? [p.fixture.flame.asset] : [])]),
       ...(d.floor ? [d.floor.asset] : []),
     ]);
     const manifests = new Map(
       await Promise.all(
         [...ids].map(async (id) => {
-          const file = (await readAuthoringCatalog(preparedPublic))[id];
+          const file = catalog[id];
           if (!file) throw new Error('Unknown prepared asset: ' + id);
           return [
             id,

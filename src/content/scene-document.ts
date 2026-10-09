@@ -152,9 +152,9 @@ const surround = z
           clip: z.string(),
           scale: positive,
           base: coordinate,
-          parallax: coordinate,
+          parallax: z.number().finite().min(0).max(1),
           tint: z.number().int().min(0).max(0xffffff),
-          detail: coordinate,
+          detail: z.number().finite().min(0).max(1),
         })
         .strict(),
     ),
@@ -302,6 +302,19 @@ export function validateSceneReferences(
       if (manifests && f && !manifests.get(f.asset)?.asset.clips[f.clip]?.d45)
         throw new Error(`Unavailable flame: ${f.asset}/${f.clip}`);
     }
+  if (manifests) {
+    for (const asset of d.proceduralAssets)
+      if (!manifests.has(asset)) throw new Error('Unavailable scene asset: ' + asset);
+    for (const layer of d.surround?.layers ?? []) {
+      const manifest = manifests.get(layer.asset);
+      if (
+        !manifest ||
+        manifest.asset.projection !== 'painted-cutout' ||
+        !manifest.asset.clips[layer.clip]?.d45
+      )
+        throw new Error('Unavailable surround: ' + layer.asset + '/' + layer.clip);
+    }
+  }
   if (d.floor && manifests) {
     const m = manifests.get(d.floor.asset);
     if (
