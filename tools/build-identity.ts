@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { createHash } from 'node:crypto';
+import { fileChecksums } from './verified-files';
 import assert from 'node:assert/strict';
 import { contract } from '../src/core/camera';
 import { content } from '../src/content/game-content';
@@ -39,16 +39,7 @@ export async function buildIdentity(
       .sort();
   }
   const names = [...(await files(dist)), ...(await files(electron))].sort(),
-    checksums = Object.fromEntries(
-      await Promise.all(
-        names.map(async (file) => [
-          file,
-          createHash('sha256')
-            .update(await fs.readFile(path.join(root, file)))
-            .digest('hex'),
-        ]),
-      ),
-    );
+    checksums = await fileChecksums(root, names);
   if (options.write) {
     const inputs = JSON.parse(env.LANTERN_BUILD_SOURCE ?? 'null') as {
       commit: string | null;
