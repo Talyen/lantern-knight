@@ -4,9 +4,9 @@ import os from 'node:os';
 import assert from 'node:assert/strict';
 import { z } from 'zod';
 import { BenchmarkSchema, frameSummary } from './benchmark-model';
-import { digest } from './source-identity';
-import { verificationIdentity, requireStableInputs } from './verification';
-import { option, type smokeLaunch } from './smoke/smoke-launch';
+import { digest } from '../source-identity';
+import { verificationIdentity, requireStableInputs } from '../verification';
+import { option, type smokeLaunch } from '../smoke/smoke-launch';
 
 export const journeyPhases = [
   'approach',

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { digest } from './source-identity';
+import { digest } from '../source-identity';
 const pair = z.tuple([z.number().positive(), z.number().positive()]);
 export const BenchmarkSchema = z
   .object({

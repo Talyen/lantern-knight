@@ -1,11 +1,11 @@
-import { readAsset, writeAsset, mkdirAsset } from './assets/io';
+import { readAsset, writeAsset, mkdirAsset } from '../io';
 
 import path from 'node:path';
 import sharp from 'sharp';
-import { hash, exactSource } from './compiler';
-import { normalPixels } from '../src/assets/normal-pixels';
-import { assetCatalog } from '../src/content/asset-catalog';
-import type { Manifest } from '../src/assets/schema';
+import { hash, exactSource } from '../../compiler';
+import { normalPixels } from '../../../src/assets/normal-pixels';
+import { assetCatalog } from '../../../src/content/asset-catalog';
+import type { Manifest } from '../../../src/assets/schema';
 const check = process.argv.includes('--check'),
   root = 'references/art/ink-collection-01',
   recipeBytes = await readAsset('authoring/surface-depth.json'),

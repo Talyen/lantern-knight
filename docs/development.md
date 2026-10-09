@@ -22,6 +22,8 @@ Run an exact suite while editing: `npm test -- tests/unit/hero-actions.test.ts`.
 
 ## Review and collaboration
 
+Tool commands live at the root of `tools/`; asset preparation scripts live in `tools/assets/prepare/`, replay and benchmark helpers in `tools/diagnostics/`, and native rendering scenarios in `tools/smoke/`. Asset tests, including their Python fixtures, live together in `tests/assets/`. Preparation recipe paths are relative to `tools/`; moving a preparation script invalidates its cached preparation identity without changing the published asset pin.
+
 Inspect `git status`, `git diff --stat` and the relevant diff, including new files. Preserve unrelated edits. Use worktrees for independent or concurrent editing, and agree ownership of shared contracts. Small sequential edits need no task registration, snapshot database or passing-evidence receipt. [Task coordination](task-coordination.md) describes integration and commit authorization.
 
 Keep implementation choices local. Add interfaces only when they express a real consumer or resource lifetime. Delete superseded paths and update their documentation in the same change.

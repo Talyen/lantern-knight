@@ -1,5 +1,5 @@
 import { checkLoadingScreen } from './loading-screen';
-import { startGameBenchmark } from '../game-benchmark';
+import { startGameBenchmark } from '../diagnostics/game-benchmark';
 import { option, smokeLaunch, playerControls } from './smoke-launch';
 import fs from 'node:fs/promises';
 import path from 'node:path';

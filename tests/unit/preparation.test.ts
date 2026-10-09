@@ -15,13 +15,13 @@ test('preparation reuse invalidates registration, source-index and lighting-owne
     digests = new Map<string, string>();
   const step = (file: string) => preparationSteps.find((step) => step.file === file)!;
   for (const [file, input] of [
-    ['prepare-ink.ts', 'src/content/scenery-registration.ts'],
-    ['prepare-hero.ts', 'src/content/hero-actions.ts'],
-    ['prepare-lighting.ts', 'tools/lighting-bindings.ts'],
-    ['prepare-graveyard-coverage.ts', 'tools/assets/authoring-catalog.ts'],
-    ['prepare-surface-relief.ts', 'src/content/asset-catalog.ts'],
-    ['prepare-library.ts', 'assets/library-sources.json'],
-    ['prepare-ink.ts', 'assets/sources.json'],
+    ['assets/prepare/prepare-ink.ts', 'src/content/scenery-registration.ts'],
+    ['assets/prepare/prepare-hero.ts', 'src/content/hero-actions.ts'],
+    ['assets/prepare/prepare-lighting.ts', 'tools/lighting-bindings.ts'],
+    ['assets/prepare/prepare-graveyard-coverage.ts', 'tools/assets/authoring-catalog.ts'],
+    ['assets/prepare/prepare-surface-relief.ts', 'src/content/asset-catalog.ts'],
+    ['assets/prepare/prepare-library.ts', 'assets/library-sources.json'],
+    ['assets/prepare/prepare-ink.ts', 'assets/sources.json'],
   ]) {
     const changed = { ...inputs, [input!]: 'changed' };
     assert.notEqual(
@@ -30,8 +30,8 @@ test('preparation reuse invalidates registration, source-index and lighting-owne
       input,
     );
     assert.equal(
-      preparationStepKey(step('prepare-loading-media.ts'), inputs, digests),
-      preparationStepKey(step('prepare-loading-media.ts'), changed, digests),
+      preparationStepKey(step('assets/prepare/prepare-loading-media.ts'), inputs, digests),
+      preparationStepKey(step('assets/prepare/prepare-loading-media.ts'), changed, digests),
     );
   }
 });
@@ -44,8 +44,8 @@ test('full and scoped preparation run producers before consumers, including flat
         assert.ok(completed.has(dependency), `${step.file} ran before ${dependency}`);
       completed.add(step.file);
     }
-    assert.ok(completed.has('prepare-flat-stage.ts'));
-    assert.ok(completed.has('prepare-surface-relief.ts'));
+    assert.ok(completed.has('assets/prepare/prepare-flat-stage.ts'));
+    assert.ok(completed.has('assets/prepare/prepare-surface-relief.ts'));
   }
 });
 
@@ -65,7 +65,7 @@ test('incremental preparation reuses one validated step and rebuilds changed inp
   };
   try {
     const options = {
-      file: 'prepare-sample.ts',
+      file: 'assets/prepare/prepare-sample.ts',
       workspace,
       cache,
       key: 'one',
@@ -81,7 +81,10 @@ test('incremental preparation reuses one validated step and rebuilds changed inp
     assert.equal(runs, 1);
     assert.equal(checks, 1);
     assert.equal((await cachedPreparationStep({ ...options, key: 'two' })).reused, false);
-    await fs.writeFile(path.join(cache, 'prepare-sample/files/public/media/sample.mp4'), 'corrupt');
+    await fs.writeFile(
+      path.join(cache, 'assets/prepare/prepare-sample/files/public/media/sample.mp4'),
+      'corrupt',
+    );
     assert.equal((await cachedPreparationStep({ ...options, key: 'two' })).reused, false);
     assert.equal(runs, 3);
   } finally {

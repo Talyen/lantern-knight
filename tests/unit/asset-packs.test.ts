@@ -27,7 +27,7 @@ test('runtime composition and lighting do not invalidate artwork, but bake input
     'src/content/graveyard-layout.ts',
     'src/content/camera.json',
     'src/presentation/lighting-profiles.ts',
-    'tools/prepare-ground-proof.ts',
+    'tools/assets/prepare/prepare-ground-proof.ts',
     'src/content/visuals.ts',
     'tools/run-process.ts',
     'tools/assets/pack.ts',
@@ -49,7 +49,7 @@ test('runtime composition and lighting do not invalidate artwork, but bake input
     'src/assets/normal-pixels.ts',
     'authoring/ground-overlays.json',
     'authoring/hero-actions.json',
-    'tools/prepare-graveyard-coverage.ts',
+    'tools/assets/prepare/prepare-graveyard-coverage.ts',
   ]) {
     assert.notEqual(
       await recipeHash((name) =>

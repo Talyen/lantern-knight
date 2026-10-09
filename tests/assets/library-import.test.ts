@@ -48,7 +48,10 @@ it('keeps incremental output accounting within its reserved space and counts can
   }
 });
 it('preserves authoritative source registration, timing and extension conflicts without library access', () => {
-  execFileSync('python3', ['-B', 'tests/library_import.py'], { cwd: process.cwd(), stdio: 'pipe' });
+  execFileSync('python3', ['-B', 'tests/assets/library_import.py'], {
+    cwd: process.cwd(),
+    stdio: 'pipe',
+  });
 });
 it('exposes only supplied directions while preserving complete-asset coverage requirements', () => {
   const original = manifestFixture('library-fixture'),

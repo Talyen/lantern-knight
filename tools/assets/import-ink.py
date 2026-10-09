@@ -11,10 +11,10 @@ import struct
 import zipfile
 import sys
 
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "assets"))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from resolver import SourceResolver
 
-ROOT = pathlib.Path(__file__).resolve().parents[1]
+ROOT = pathlib.Path(__file__).resolve().parents[2]
 DEST = ROOT / "references/art/ink-collection-01"
 
 

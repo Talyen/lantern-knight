@@ -13,7 +13,7 @@ import unittest
 import zipfile
 from unittest.mock import patch
 
-PROJECT = pathlib.Path(__file__).resolve().parents[1]
+PROJECT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT / "tools/assets"))
 from resolver import SourceResolver  # noqa: E402 - local modules require the path above.
 from source import read  # noqa: E402 - local modules require the path above.
@@ -309,7 +309,7 @@ class Recovery(unittest.TestCase):
             child.stderr.close()
 
     def test_moved_archive_import_preflight_preserves_logical_receipt(self):
-        spec = importlib.util.spec_from_file_location("importer", PROJECT / "tools/import-ink.py")
+        spec = importlib.util.spec_from_file_location("importer", PROJECT / "tools/assets/import-ink.py")
         importer = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(importer)
         importer.DEST = self.base / "out"

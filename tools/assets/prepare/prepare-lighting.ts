@@ -1,13 +1,13 @@
-import { readAsset, assetWriter } from './assets/io';
+import { readAsset, assetWriter } from '../io';
 
 import path from 'node:path';
 import sharp from 'sharp';
 import { createHash } from 'node:crypto';
 
-import type { Manifest } from '../src/assets/schema';
-import { normalPixels } from '../src/assets/normal-pixels';
-import { readAuthoringCatalog } from './assets/authoring-catalog';
-import { needsLighting } from './lighting-bindings';
+import type { Manifest } from '../../../src/assets/schema';
+import { normalPixels } from '../../../src/assets/normal-pixels';
+import { readAuthoringCatalog } from '../authoring-catalog';
+import { needsLighting } from '../../lighting-bindings';
 const root = 'public/lighting',
   check = process.argv.includes('--check'),
   recipe = 'alpha-volume-v1',

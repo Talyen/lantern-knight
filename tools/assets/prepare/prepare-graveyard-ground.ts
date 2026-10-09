@@ -1,10 +1,10 @@
-import { readAsset, writeAsset, mkdirAsset } from './assets/io';
+import { readAsset, writeAsset, mkdirAsset } from '../io';
 
 import path from 'node:path';
 import sharp from 'sharp';
-import { compile, hash } from './compiler';
-import overlayClips from '../authoring/ground-overlays.json';
-import type { Source } from '../src/assets/schema';
+import { compile, hash } from '../../compiler';
+import overlayClips from '../../../authoring/ground-overlays.json';
+import type { Source } from '../../../src/assets/schema';
 
 const check = process.argv.includes('--check'),
   root = 'references/art/ink-collection-01';

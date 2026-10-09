@@ -1,9 +1,9 @@
 import sharp from 'sharp';
-import recipe from '../authoring/flat-stage-art.json';
-import { source } from './assets/definition';
-import { readAsset, writeAsset } from './assets/io';
-import { compile, hash } from './compiler';
-import type { Source } from '../src/assets/schema';
+import recipe from '../../../authoring/flat-stage-art.json';
+import { source } from '../definition';
+import { readAsset, writeAsset } from '../io';
+import { compile, hash } from '../../compiler';
+import type { Source } from '../../../src/assets/schema';
 
 const check = process.argv.includes('--check'),
   root = 'references/art/' + recipe.group;

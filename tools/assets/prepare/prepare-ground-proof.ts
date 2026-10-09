@@ -1,7 +1,7 @@
 import sharp from 'sharp';
-import recipe from '../authoring/flat-stage-art.json';
-import { readAsset, writeAsset } from './assets/io';
-import { hash } from './compiler';
+import recipe from '../../../authoring/flat-stage-art.json';
+import { readAsset, writeAsset } from '../io';
+import { hash } from '../../compiler';
 
 // Diagnostic contact proof only. Whole native ground panels remain intact;
 // production composition and joins are inspected through scene:check with requested captures.

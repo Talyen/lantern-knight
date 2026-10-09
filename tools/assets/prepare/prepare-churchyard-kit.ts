@@ -1,9 +1,9 @@
-import { readAsset, writeAsset, mkdirAsset } from './assets/io';
+import { readAsset, writeAsset, mkdirAsset } from '../io';
 
 import sharp from 'sharp';
-import { compile, hash } from './compiler';
-import type { Source } from '../src/assets/schema';
-import contract from '../src/assets/camera.json';
+import { compile, hash } from '../../compiler';
+import type { Source } from '../../../src/assets/schema';
+import contract from '../../../src/assets/camera.json';
 const check = process.argv.includes('--check'),
   root = 'references/art/blackwood-churchyard-v2',
   receipt = [];

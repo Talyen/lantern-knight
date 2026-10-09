@@ -81,7 +81,7 @@ export async function prepareProof(workspace: string, env: NodeJS.ProcessEnv) {
   for (const args of [[], ['--check']])
     await runProcess(
       process.execPath,
-      ['--import', 'tsx', 'tools/prepare-ground-proof.ts', ...args],
+      ['--import', 'tsx', 'tools/assets/prepare/prepare-ground-proof.ts', ...args],
       {
         cwd: projectRoot,
         env: { ...env, LANTERN_ASSET_WORKSPACE: workspace, LANTERN_PREPARING: '1' },

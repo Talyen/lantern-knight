@@ -16,7 +16,7 @@ async function manifest(id: string) {
 test('collection importer checks hashes, identical duplicates, unsafe paths and conflicts before writing', () => {
   const script = `import sys,importlib.util,tempfile,pathlib,json,zipfile,hashlib
 sys.dont_write_bytecode=True
-spec=importlib.util.spec_from_file_location('importer','tools/import-ink.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+spec=importlib.util.spec_from_file_location('importer','tools/assets/import-ink.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 with tempfile.TemporaryDirectory() as tmp:
  p=pathlib.Path(tmp).resolve();m.DEST=p/'out'
  def setup(names):

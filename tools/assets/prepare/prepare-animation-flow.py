@@ -10,7 +10,7 @@ import numpy as np
 
 cv2.setNumThreads(1)
 cv2.setRNGSeed(0)
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[3]
 WORK = Path(os.environ["LANTERN_ASSET_WORKSPACE"])
 source_file = WORK / "staging/ink/ink-hero-current.json"
 source = json.loads(source_file.read_text())

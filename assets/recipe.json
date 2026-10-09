@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "steps": [
     {
-      "file": "prepare-masonry.ts",
+      "file": "assets/prepare/prepare-masonry.ts",
       "freshness": true,
       "ids": [
         "masonry"
@@ -13,7 +13,7 @@
       "dependsOn": []
     },
     {
-      "file": "prepare-ink.ts",
+      "file": "assets/prepare/prepare-ink.ts",
       "freshness": true,
       "ids": [
         "ink-scenery",
@@ -28,11 +28,11 @@
         "src/content/scenery-registration.ts"
       ],
       "dependsOn": [
-        "prepare-masonry.ts"
+        "assets/prepare/prepare-masonry.ts"
       ]
     },
     {
-      "file": "prepare-hero.ts",
+      "file": "assets/prepare/prepare-hero.ts",
       "freshness": true,
       "ids": [
         "ink-hero-current"
@@ -45,11 +45,11 @@
         "src/content/hero-actions.ts"
       ],
       "dependsOn": [
-        "prepare-ink.ts"
+        "assets/prepare/prepare-ink.ts"
       ]
     },
     {
-      "file": "prepare-graveyard-art.ts",
+      "file": "assets/prepare/prepare-graveyard-art.ts",
       "freshness": true,
       "ids": [
         "ink-graveyard-*"
@@ -59,11 +59,11 @@
         "assets/sources.json"
       ],
       "dependsOn": [
-        "prepare-ink.ts"
+        "assets/prepare/prepare-ink.ts"
       ]
     },
     {
-      "file": "prepare-graveyard-ground.ts",
+      "file": "assets/prepare/prepare-graveyard-ground.ts",
       "freshness": true,
       "ids": [
         "ink-graveyard-materials",
@@ -74,11 +74,11 @@
         "assets/sources.json"
       ],
       "dependsOn": [
-        "prepare-ink.ts"
+        "assets/prepare/prepare-ink.ts"
       ]
     },
     {
-      "file": "prepare-churchyard-kit.ts",
+      "file": "assets/prepare/prepare-churchyard-kit.ts",
       "freshness": true,
       "ids": [
         "ink-blackwood-*"
@@ -87,11 +87,11 @@
         "assets/sources.json"
       ],
       "dependsOn": [
-        "prepare-ink.ts"
+        "assets/prepare/prepare-ink.ts"
       ]
     },
     {
-      "file": "prepare-tended-art.ts",
+      "file": "assets/prepare/prepare-tended-art.ts",
       "freshness": true,
       "ids": [
         "ink-tended-*"
@@ -101,11 +101,11 @@
         "assets/sources.json"
       ],
       "dependsOn": [
-        "prepare-ink.ts"
+        "assets/prepare/prepare-ink.ts"
       ]
     },
     {
-      "file": "prepare-library.ts",
+      "file": "assets/prepare/prepare-library.ts",
       "freshness": true,
       "ids": [
         "library-*"
@@ -118,14 +118,14 @@
         "assets/library-sources.json"
       ],
       "dependsOn": [
-        "prepare-ink.ts",
-        "prepare-hero.ts",
-        "prepare-graveyard-art.ts",
-        "prepare-tended-art.ts"
+        "assets/prepare/prepare-ink.ts",
+        "assets/prepare/prepare-hero.ts",
+        "assets/prepare/prepare-graveyard-art.ts",
+        "assets/prepare/prepare-tended-art.ts"
       ]
     },
     {
-      "file": "prepare-visual-effects.ts",
+      "file": "assets/prepare/prepare-visual-effects.ts",
       "freshness": true,
       "ids": [
         "fx-*"
@@ -135,11 +135,11 @@
         "assets/sources.json"
       ],
       "dependsOn": [
-        "prepare-ink.ts"
+        "assets/prepare/prepare-ink.ts"
       ]
     },
     {
-      "file": "prepare-surface-relief.ts",
+      "file": "assets/prepare/prepare-surface-relief.ts",
       "freshness": true,
       "ids": [
         "surface-relief"
@@ -151,16 +151,16 @@
         "src/content/asset-catalog.ts"
       ],
       "dependsOn": [
-        "prepare-ink.ts",
-        "prepare-graveyard-art.ts",
-        "prepare-graveyard-ground.ts",
-        "prepare-churchyard-kit.ts",
-        "prepare-tended-art.ts",
-        "prepare-flat-stage.ts"
+        "assets/prepare/prepare-ink.ts",
+        "assets/prepare/prepare-graveyard-art.ts",
+        "assets/prepare/prepare-graveyard-ground.ts",
+        "assets/prepare/prepare-churchyard-kit.ts",
+        "assets/prepare/prepare-tended-art.ts",
+        "assets/prepare/prepare-flat-stage.ts"
       ]
     },
     {
-      "file": "prepare-effects-playground.ts",
+      "file": "assets/prepare/prepare-effects-playground.ts",
       "freshness": true,
       "ids": [
         "dev-effects"
@@ -170,11 +170,11 @@
         "assets/sources.json"
       ],
       "dependsOn": [
-        "prepare-visual-effects.ts"
+        "assets/prepare/prepare-visual-effects.ts"
       ]
     },
     {
-      "file": "prepare-flat-stage.ts",
+      "file": "assets/prepare/prepare-flat-stage.ts",
       "freshness": true,
       "ids": [
         "ink-stage-*"
@@ -186,7 +186,7 @@
       "dependsOn": []
     },
     {
-      "file": "prepare-graveyard-coverage.ts",
+      "file": "assets/prepare/prepare-graveyard-coverage.ts",
       "freshness": true,
       "ids": [
         "coverage"
@@ -198,18 +198,18 @@
         "tools/assets/authoring-catalog.ts"
       ],
       "dependsOn": [
-        "prepare-ink.ts",
-        "prepare-hero.ts",
-        "prepare-graveyard-art.ts",
-        "prepare-graveyard-ground.ts",
-        "prepare-churchyard-kit.ts",
-        "prepare-tended-art.ts",
-        "prepare-flat-stage.ts",
-        "prepare-library.ts"
+        "assets/prepare/prepare-ink.ts",
+        "assets/prepare/prepare-hero.ts",
+        "assets/prepare/prepare-graveyard-art.ts",
+        "assets/prepare/prepare-graveyard-ground.ts",
+        "assets/prepare/prepare-churchyard-kit.ts",
+        "assets/prepare/prepare-tended-art.ts",
+        "assets/prepare/prepare-flat-stage.ts",
+        "assets/prepare/prepare-library.ts"
       ]
     },
     {
-      "file": "prepare-lighting.ts",
+      "file": "assets/prepare/prepare-lighting.ts",
       "freshness": true,
       "ids": [
         "lighting"
@@ -224,21 +224,21 @@
         "authoring/graveyard-art.json"
       ],
       "dependsOn": [
-        "prepare-ink.ts",
-        "prepare-hero.ts",
-        "prepare-graveyard-art.ts",
-        "prepare-graveyard-ground.ts",
-        "prepare-churchyard-kit.ts",
-        "prepare-tended-art.ts",
-        "prepare-flat-stage.ts",
-        "prepare-library.ts",
-        "prepare-visual-effects.ts",
-        "prepare-surface-relief.ts",
-        "prepare-effects-playground.ts"
+        "assets/prepare/prepare-ink.ts",
+        "assets/prepare/prepare-hero.ts",
+        "assets/prepare/prepare-graveyard-art.ts",
+        "assets/prepare/prepare-graveyard-ground.ts",
+        "assets/prepare/prepare-churchyard-kit.ts",
+        "assets/prepare/prepare-tended-art.ts",
+        "assets/prepare/prepare-flat-stage.ts",
+        "assets/prepare/prepare-library.ts",
+        "assets/prepare/prepare-visual-effects.ts",
+        "assets/prepare/prepare-surface-relief.ts",
+        "assets/prepare/prepare-effects-playground.ts"
       ]
     },
     {
-      "file": "prepare-animation-flow.py",
+      "file": "assets/prepare/prepare-animation-flow.py",
       "freshness": false,
       "ids": [
         "animation"
@@ -250,11 +250,11 @@
         "assets/sources.json"
       ],
       "dependsOn": [
-        "prepare-hero.ts"
+        "assets/prepare/prepare-hero.ts"
       ]
     },
     {
-      "file": "prepare-loading-media.ts",
+      "file": "assets/prepare/prepare-loading-media.ts",
       "freshness": true,
       "ids": [
         "loading",
@@ -272,7 +272,7 @@
     "tools/assets/archive.ts",
     "tools/assets/payload.ts",
     "tools/assets/recipe.ts",
-    "tools/prepare-animation-flow.py"
+    "tools/assets/prepare/prepare-animation-flow.py"
   ],
   "dependencies": {
     "devDependencies": [

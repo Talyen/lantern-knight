@@ -4,7 +4,7 @@ import path from 'node:path';
 import { projectRoot } from '../../tools/assets/paths';
 
 test('external source recovery survives reorganization through normal readers and import preflight', () => {
-  execFileSync('python3', ['-B', path.join(projectRoot, 'tests/source_recovery.py')], {
+  execFileSync('python3', ['-B', path.join(projectRoot, 'tests/assets/source_recovery.py')], {
     cwd: projectRoot,
     stdio: 'pipe',
   });

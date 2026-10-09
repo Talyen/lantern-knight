@@ -1,10 +1,10 @@
-import { readAsset, writeAsset, mkdirAsset } from './assets/io';
+import { readAsset, writeAsset, mkdirAsset } from '../io';
 import path from 'node:path';
 import sharp from 'sharp';
-import { compile, hash } from './compiler';
-import type { Source } from '../src/assets/schema';
-import contract from '../src/assets/camera.json';
-import { graveyardExtraRegistration } from '../src/content/graveyard-registration';
+import { compile, hash } from '../../compiler';
+import type { Source } from '../../../src/assets/schema';
+import contract from '../../../src/assets/camera.json';
+import { graveyardExtraRegistration } from '../../../src/content/graveyard-registration';
 const check = process.argv.includes('--check'),
   collection = 'references/art/ink-collection-01';
 const receipts: Record<string, unknown>[] = [];

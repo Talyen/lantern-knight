@@ -7,7 +7,7 @@ import sys
 import unittest
 import zipfile
 
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "tools/assets"))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2] / "tools/assets"))
 from library_import import Package, Importer
 
 

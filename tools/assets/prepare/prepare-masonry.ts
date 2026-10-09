@@ -1,7 +1,7 @@
-import { readAsset, writeAsset, mkdirAsset } from './assets/io';
+import { readAsset, writeAsset, mkdirAsset } from '../io';
 
 import sharp from 'sharp';
-import { hash } from './compiler';
+import { hash } from '../../compiler';
 const source = 'references/art/ink-collection-01/volume_02_gothic/assets/arch_gothic_wall_01.png',
   root = 'staging/rest',
   check = process.argv.includes('--check');

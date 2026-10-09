@@ -5,7 +5,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import '../../src/inspection';
-import { captureBenchmark } from '../benchmark';
+import { captureBenchmark } from '../diagnostics/benchmark';
 
 export async function runScenario(flags: string[] = []) {
   const benchmark = flags.includes('--benchmark');

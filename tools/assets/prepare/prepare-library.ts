@@ -1,13 +1,13 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
-import { source } from './assets/definition';
-import { parseManifest, type Manifest } from '../src/assets/schema';
-import { hash } from './compiler';
-import { readLibrarySource } from './assets/sources';
-import { stagingFile, projectRoot } from './assets/paths';
-import { runProcess } from './run-process';
-import { readAsset, assetWriter } from './assets/io';
+import { source } from '../definition';
+import { parseManifest, type Manifest } from '../../../src/assets/schema';
+import { hash } from '../../compiler';
+import { readLibrarySource } from '../sources';
+import { stagingFile, projectRoot } from '../paths';
+import { runProcess } from '../../run-process';
+import { readAsset, assetWriter } from '../io';
 type Input = {
   group: string;
   member: string;

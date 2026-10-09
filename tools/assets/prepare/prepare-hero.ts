@@ -1,11 +1,11 @@
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { writeAsset, readAsset } from './assets/io';
-import { readLibrarySource } from './assets/sources';
-import { compile, hash } from './compiler';
-import { parseSource, type Source } from '../src/assets/schema';
-import { source as definition } from './assets/definition';
-import { heroTimings } from '../src/content/hero-actions';
+import { writeAsset, readAsset } from '../io';
+import { readLibrarySource } from '../sources';
+import { compile, hash } from '../../compiler';
+import { parseSource, type Source } from '../../../src/assets/schema';
+import { source as definition } from '../definition';
+import { heroTimings } from '../../../src/content/hero-actions';
 type Registration = { canvas: [number, number]; anchor: [number, number]; density: number };
 type Record = {
   id: string;

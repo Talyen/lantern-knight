@@ -7,18 +7,18 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { executeRecipe, RecipeSchema, replayBundle } from '../../tools/session-replay';
+import { executeRecipe, RecipeSchema, replayBundle } from '../../tools/diagnostics/session-replay';
 
-import { compareBenchmarks, type BenchmarkRecord } from '../../tools/benchmark-model';
+import { compareBenchmarks, type BenchmarkRecord } from '../../tools/diagnostics/benchmark-model';
 import { projectRoot } from '../../tools/assets/paths';
-import { compareGameBenchmarks, journeyPhases } from '../../tools/game-benchmark';
+import { compareGameBenchmarks, journeyPhases } from '../../tools/diagnostics/game-benchmark';
 
 test('replay CLI matches fresh-process evidence and rejects tampered hashes or changed source identity', async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-replay-'));
   const cli = (args: string[]) =>
     execFileSync(
       process.execPath,
-      ['--import', 'tsx', path.join(projectRoot, 'tools/session-replay.ts'), ...args],
+      ['--import', 'tsx', path.join(projectRoot, 'tools/diagnostics/session-replay.ts'), ...args],
       {
         cwd: projectRoot,
         env: { ...process.env, LANTERN_CACHE_ROOT: path.join(root, 'cache') },
@@ -307,7 +307,7 @@ test('smoke profiles never delete user-supplied directories, including on launch
       [
         '--import',
         import.meta.resolve('tsx'),
-        path.resolve('tools/run-diagnostic.ts'),
+        path.resolve('tools/diagnostics/run-diagnostic.ts'),
         'game',
         '--profile',
         directory,

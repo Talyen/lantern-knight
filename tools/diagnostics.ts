@@ -22,7 +22,9 @@ if (scenario === 'record' || scenario === 'replay' || scenario === 'compare') {
     [
       '--import',
       'tsx',
-      scenario === 'compare' ? 'tools/benchmark.ts' : 'tools/session-replay.ts',
+      scenario === 'compare'
+        ? 'tools/diagnostics/benchmark.ts'
+        : 'tools/diagnostics/session-replay.ts',
       ...(scenario === 'compare' ? flags : [scenario, ...flags]),
     ],
     { cwd: projectRoot, timeoutMs: 10 * 60_000 },
@@ -44,7 +46,7 @@ if (scenario === 'record' || scenario === 'replay' || scenario === 'compare') {
       [
         '--import',
         'tsx',
-        'tools/run-diagnostic.ts',
+        'tools/diagnostics/run-diagnostic.ts',
         scenario,
         ...flags.filter((flag) => flag !== '--local'),
       ],

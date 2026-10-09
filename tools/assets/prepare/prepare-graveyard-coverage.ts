@@ -1,11 +1,11 @@
-import { readAsset, writeAsset } from './assets/io';
+import { readAsset, writeAsset } from '../io';
 
 import sharp from 'sharp';
 
-import type { Manifest } from '../src/assets/schema';
-import { hash } from './compiler';
+import type { Manifest } from '../../../src/assets/schema';
+import { hash } from '../../compiler';
 import path from 'node:path';
-import { readAuthoringCatalog } from './assets/authoring-catalog';
+import { readAuthoringCatalog } from '../authoring-catalog';
 const registration = JSON.parse(await readAsset('staging/ink/derivatives.json', 'utf8')).frames;
 const check = process.argv.includes('--check'),
   masks: Record<string, { width: number; height: number; alpha: number[] }> = {},

@@ -4,13 +4,13 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
-import { GameSession } from '../src/core/session';
-import { Persistence } from '../src/core/persistence';
-import { parseGame } from '../src/core/save';
-import { type ContentRegistry } from '../src/content/world';
-import { content } from '../src/content/game-content';
-import { AssetCache } from './assets/cache';
-import { digest, sourceIdentity } from './source-identity';
+import { GameSession } from '../../src/core/session';
+import { Persistence } from '../../src/core/persistence';
+import { parseGame } from '../../src/core/save';
+import { type ContentRegistry } from '../../src/content/world';
+import { content } from '../../src/content/game-content';
+import { AssetCache } from '../assets/cache';
+import { digest, sourceIdentity } from '../source-identity';
 
 const point = z.object({ x: z.number().finite(), z: z.number().finite() }).strict();
 const command = z
@@ -190,7 +190,7 @@ export async function replayBundle(
 }
 async function main() {
   const [mode, file, ...options] = process.argv.slice(2),
-    root = fileURLToPath(new URL('../', import.meta.url));
+    root = fileURLToPath(new URL('../../', import.meta.url));
   if (
     !file ||
     !['record', 'replay'].includes(mode ?? '') ||
