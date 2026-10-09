@@ -8,7 +8,7 @@ export async function authoringCatalog(signal?: AbortSignal) {
       !/^library-[a-z0-9_-]+$/.test(id) ||
       !/^generated\/library\/[a-z0-9_/-]+\.json$/.test(file) ||
       file.split('/').includes('..') ||
-      id in authoringBaseCatalog
+      (id in authoringBaseCatalog && authoringBaseCatalog[id] !== file)
     )
       throw new Error('Invalid prepared authoring catalog');
   return { ...authoringBaseCatalog, ...library };

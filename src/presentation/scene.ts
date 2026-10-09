@@ -269,6 +269,7 @@ export class Presentation extends GamePresentation {
   override update(sim: Simulation, alpha: number, ms: number, aim: { x: number; z: number }) {
     const lab = this.mode === 'animation' || this.mode === 'calibration';
     this.sceneEffects.group.visible = !lab;
+    this.combatFeedback.group.visible = !lab;
     this.rootMarkers.visible = this.mode === 'animation' && this.labAsset === 'ink-hero-current';
     this.calibration.visible =
       this.mode === 'calibration' ||
@@ -284,7 +285,6 @@ export class Presentation extends GamePresentation {
     this.artConstruction.group.visible = false;
     this.roomPresentation.room.visible = false;
     this.flare.visible = false;
-    this.slash.visible = false;
     this.aim.visible = false;
     this.renderer.setClearColor(this.background === 'light' ? 0xd1c9b4 : 0x151923);
     const c = this.getClip(this.labClip, this.labHeading);

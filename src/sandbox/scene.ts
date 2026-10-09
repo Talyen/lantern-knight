@@ -28,12 +28,7 @@ import { sandboxUI, previewHUD } from './ui';
 import { heroTimings } from '../content/hero-actions';
 import type { Clip } from '../assets/schema';
 import '../inspection';
-import {
-  SweepEffects,
-  sweepAssetsFor,
-  sweepTreatments,
-  type SweepTreatment,
-} from './sweep-effects';
+import { SweepAreaGuide } from './sweep-area-guide';
 import { tuning } from '../content/gameplay';
 import { spawnActorId, heightAt } from '../content/world';
 import type { Actor, Simulation } from '../core/simulation';
@@ -70,7 +65,7 @@ export function mountScene(
     replayStart = 0;
   let movementSpeed = sandboxContent.actor(sandboxContent.definitions.player).speed,
     movementReplay = false;
-  let sweepEffects: SweepEffects | undefined,
+  let sweepGuide: SweepAreaGuide | undefined,
     sweepReplay = false,
     sweepRange = tuning.sweepRange as number;
   const app = new Application(
@@ -116,8 +111,9 @@ export function mountScene(
   function setMode(next: Mode) {
     stopMovementReplay();
     stopSweepReplay();
-    sweepEffects?.reset();
-    if (sweepEffects) sweepEffects.group.visible = next !== 'animation' && next !== 'calibration';
+    presentation?.combatFeedback.reset();
+    sweepGuide?.reset();
+    if (sweepGuide) sweepGuide.group.visible = next !== 'animation' && next !== 'calibration';
     const special = mode === 'animation' || mode === 'calibration';
     const nextSpecial = next === 'animation' || next === 'calibration';
     if (!special && nextSpecial) {
@@ -187,12 +183,23 @@ export function mountScene(
     if (closed) return;
     presentation = app.presentation;
     applyMovementSpeed();
-    sweepEffects = new SweepEffects(presentation, () => app.sim);
-    presentation.beforeSceneRender = (sim) => sweepEffects?.update(sim);
-    $<HTMLSelectElement>('#sweep-treatment').replaceChildren(
-      ...Object.entries(sweepTreatments).map(([id, recipe]) => new Option(recipe.label, id)),
-    );
-    $<HTMLSelectElement>('#sweep-treatment').value = 'baseline';
+    sweepGuide = new SweepAreaGuide(presentation.scene);
+    presentation.beforeSceneRender = (sim) => {
+      sweepGuide?.update(sim);
+      if (sweepGuide?.probes) {
+        for (const actor of sim.enemies) {
+          const visual = presentation.actorPresentation.actors.get(actor.id);
+          if (!visual || !actor.id.includes('/sweep-target-')) continue;
+          visual.sprite.mesh.visible = false;
+          visual.shadow.visible = false;
+          visual.ring.visible = true;
+          visual.ring.scale.setScalar(1.3);
+          (visual.ring.material as import('three').MeshBasicMaterial).color.set(
+            actor.health < 500 ? 0xf2c16b : 0x9bb8c3,
+          );
+        }
+      }
+    };
     $<HTMLSelectElement>('#movement-speed').value = String(movementSpeed);
     $<HTMLSelectElement>('#render-scale').value = String(app.scale);
     $<HTMLSelectElement>('#zoom-span').value = String(presentation.verticalSpan);
@@ -385,19 +392,11 @@ export function mountScene(
     };
     $('#movement-replay').onclick = () => app.safe(startMovementReplay);
     $('#movement-stop').onclick = stopMovementReplay;
-    $('#sweep-treatment').onchange = () => app.safe(loadSweepEffects);
-    $('#sweep-reverse').onchange = () => {
-      if (sweepEffects) {
-        sweepEffects.reset();
-        sweepEffects.reverse = $<HTMLInputElement>('#sweep-reverse').checked;
-      }
+    $('#sweep-guide').onchange = () => {
+      if (sweepGuide) sweepGuide.enabled = $<HTMLInputElement>('#sweep-guide').checked;
     };
-    $('#sweep-rotation').oninput = () => {
-      if (sweepEffects) {
-        sweepEffects.reset();
-        sweepEffects.rotation = Number($<HTMLInputElement>('#sweep-rotation').value);
-        $('#sweep-rotation-value').textContent = `${sweepEffects.rotation}°`;
-      }
+    $('#sweep-artwork').onchange = () => {
+      presentation.combatFeedback.sweepEnabled = $<HTMLInputElement>('#sweep-artwork').checked;
     };
     $('#sweep-range').onchange = () => {
       sweepRange = Number($<HTMLSelectElement>('#sweep-range').value);
@@ -486,7 +485,8 @@ export function mountScene(
       restart: () => {
         stopMovementReplay();
         stopSweepReplay();
-        sweepEffects?.reset();
+        presentation?.combatFeedback.reset();
+        sweepGuide?.reset();
         if (mode === 'animation') presentation.restartLab();
         else
           app.safe(async () => {
@@ -505,7 +505,6 @@ export function mountScene(
       isPaused: () => (mode === 'animation' ? presentation.labPaused || app.paused : app.paused),
       isAnimation: () => mode === 'animation',
     });
-    await loadSweepEffects();
     if (closed) return;
     previewReady = true;
     status('Ready');
@@ -557,7 +556,8 @@ export function mountScene(
   async function fixture(area: string, prepare?: (sim: Simulation) => void) {
     stopMovementReplay();
     stopSweepReplay();
-    sweepEffects?.reset();
+    presentation?.combatFeedback.reset();
+    sweepGuide?.reset();
     lightingReplay = false;
     app.command = undefined;
     await app.replaceArea(area, () => {
@@ -663,23 +663,6 @@ export function mountScene(
       };
     };
   }
-  async function loadSweepEffects() {
-    const treatment = $<HTMLSelectElement>('#sweep-treatment').value as SweepTreatment;
-    const ids = sweepAssetsFor(treatment);
-    if (ids.length) await app.withLoading(() => Promise.all(ids.map((id) => app.loadAsset(id))));
-    if (closed || !sweepEffects) return;
-    const changed = sweepEffects.treatment !== treatment;
-    sweepEffects.reset();
-    sweepEffects.treatment = treatment;
-    if (changed) {
-      sweepEffects.reverse =
-        'reverse' in sweepTreatments[treatment] && sweepTreatments[treatment].reverse === true;
-      sweepEffects.rotation = 0;
-    }
-    $<HTMLInputElement>('#sweep-reverse').checked = sweepEffects.reverse;
-    $<HTMLInputElement>('#sweep-rotation').value = String(sweepEffects.rotation);
-    $('#sweep-rotation-value').textContent = `${sweepEffects.rotation}°`;
-  }
   function applySweepRange() {
     const hero = app.sim.hero;
     if (hero.definition.melee.sweepRange !== sweepRange)
@@ -694,10 +677,9 @@ export function mountScene(
     app.command = undefined;
     $('#sweep-stop').hidden = true;
     $('#sweep-status').textContent = 'Free play · preview sweep reach';
-    sweepEffects?.reset();
+    presentation?.combatFeedback.reset();
   }
   async function startSweepReplay() {
-    await loadSweepEffects();
     if (closed) return;
     const yaw =
         (HEADINGS.indexOf(
@@ -708,8 +690,16 @@ export function mountScene(
       origin = previewHero({ ...captureState(), hero: { x: -2, z: 4, yaw } }, sandboxContent);
     const targets: { actor: Actor; distance: number; angle: number }[] = [];
     await fixture(app.sim.area, (sim) => {
-      for (const [index, distance] of [1.45, 1.8, 2.05].entries()) {
-        const angle = yaw + (index - 1) * 0.5;
+      const probes = [
+        { distance: 1.5, offset: 0 },
+        { distance: sweepRange - 0.03, offset: 0.35 },
+        { distance: sweepRange + 0.12, offset: 0 },
+        { distance: 1.85, offset: tuning.sweepHalfAngle - 0.03 },
+        { distance: 1.85, offset: -tuning.sweepHalfAngle - 0.03 },
+      ];
+      for (const [index, probe] of probes.entries()) {
+        const { distance } = probe,
+          angle = yaw + probe.offset;
         const actor = sim.create(
           spawnActorId(sim.area, `sweep-target-${index}`),
           'enemy',
@@ -732,6 +722,7 @@ export function mountScene(
     const start = sim.tick;
     sweepReplay = true;
     $('#sweep-stop').hidden = false;
+    if (sweepGuide) sweepGuide.probes = true;
     app.command = (sim) => {
       const elapsed = sim.tick - start;
       for (const { actor, distance, angle } of targets) {
@@ -744,7 +735,7 @@ export function mountScene(
       const attack = [30, 180, 300, 420].includes(elapsed);
       if (attack) sim.hero.nextAttack = 'sweep';
       $('#sweep-status').textContent =
-        `${elapsed < 150 ? 'Miss' : 'Targets: 1.45 / 1.80 / 2.05 m'} · ${sweepRange.toFixed(2)} m reach`;
+        `${elapsed < 150 ? 'Miss' : 'Probes: near / range in / range out / angle in / angle out'} · ${sweepRange.toFixed(2)} m reach`;
       if (elapsed >= 570) stopSweepReplay();
       return {
         move: { x: 0, z: 0 },
@@ -991,7 +982,8 @@ export function mountScene(
     reset: () => {
       stopMovementReplay();
       stopSweepReplay();
-      sweepEffects?.reset();
+      presentation?.combatFeedback.reset();
+      sweepGuide?.reset();
       return app.reset();
     },
     stats: () => app.presentation.stats(),
@@ -1066,7 +1058,7 @@ export function mountScene(
     if (closed) return;
     savePreview();
     closed = true;
-    sweepEffects?.dispose();
+    sweepGuide?.dispose();
     if (presentation) presentation.beforeSceneRender = undefined;
     lifetime.abort();
     previewReady = false;

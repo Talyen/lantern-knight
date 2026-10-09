@@ -22,6 +22,8 @@ Builds derive a selected inventory including manifests, pages, registration, lig
 
 The currently published monolithic pin remains usable through the transition. The new two-bundle format becomes active at the next explicit publication. Existing releases are not rewritten or deleted by implementation.
 
+Selected library effects can be promoted into the Game catalog when their exact manifest paths already exist in the pin. Authoring catalog overlap is allowed only for an identical binding; a conflicting path still fails. Current combat defaults use Sword Finisher 03 and Blocked Contact Shear from the existing pin without regenerating or publishing original artwork.
+
 ## Preparation and publication
 
 `npm run assets:publish` explicitly prepares/reuses current source-verified outputs, validates consuming runtime references, publishes immutable runtime/authoring bundles, verifies downloadable bytes and atomically changes the pin. Failure preserves the previous pin. It does not package the game, require capture galleries, or claim production-art approval. Publication needs an authenticated `gh` release writer and working download access.

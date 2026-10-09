@@ -23,7 +23,7 @@ import {
   compositionHeight,
 } from '../content/world-art';
 import type { Clip } from '../assets/schema';
-import { attackDefinition, tuning } from '../content/gameplay';
+import { tuning } from '../content/gameplay';
 import { heightAt, type AreaDefinition } from '../content/world';
 import { pageIdentity, type PackLease } from '../assets/loader';
 import { EventHub } from '../core/events';
@@ -34,6 +34,7 @@ import {
   type WeatherState,
 } from '../content/visual-effects';
 import { SceneVisualEffects } from './scene-visual-effects';
+import { CombatFeedback } from './combat-feedback';
 import { SceneLightingRenderer } from './scene-lighting-renderer';
 export class GamePresentation implements PresentationLifecycle {
   readonly roomPresentation: RoomPresentation;
@@ -44,6 +45,7 @@ export class GamePresentation implements PresentationLifecycle {
   }
   visualEffects = defaultVisualEffects();
   sceneEffects: SceneVisualEffects;
+  readonly combatFeedback: CombatFeedback;
   renderer: T.WebGLRenderer;
   camera = makeCamera(16 / 9);
   scene = new T.Scene();
@@ -66,9 +68,7 @@ export class GamePresentation implements PresentationLifecycle {
   verticalSpan = contract.verticalSpan;
   area: AreaDefinition;
   generation = -1;
-  effectTag = '';
   flare: T.Mesh;
-  slash: T.Mesh;
   get visuals() {
     return this.visualOverride;
   }
@@ -150,19 +150,7 @@ export class GamePresentation implements PresentationLifecycle {
     );
     this.flare.rotation.x = -Math.PI / 2;
     this.flare.frustumCulled = false;
-    this.slash = new T.Mesh(
-      new T.RingGeometry(1.1, 1.25, 24, 1, -tuning.attack.halfAngle, tuning.attack.halfAngle * 2),
-      new T.MeshBasicMaterial({
-        color: 0xfbe5b8,
-        transparent: true,
-        opacity: 0.7,
-        depthTest: true,
-        depthWrite: false,
-        side: T.DoubleSide,
-      }),
-    );
-    this.slash.rotation.x = -Math.PI / 2;
-    this.scene.add(this.flare, this.slash);
+    this.scene.add(this.flare);
     const aimGeo = new T.RingGeometry(0.16, 0.19, 32),
       aimMat = new T.MeshBasicMaterial({
         color: 0xe5bd77,
@@ -184,6 +172,8 @@ export class GamePresentation implements PresentationLifecycle {
     );
     if (this.visuals?.look) this.lookRenderer.setSettings(this.visuals.look);
     this.scene.add(this.sceneEffects.group);
+    this.combatFeedback = new CombatFeedback(this.packs, this.camera, this.events);
+    this.scene.add(this.combatFeedback.group);
   }
   buildRoom() {
     this.roomPresentation.buildRoom(this.area, this.visuals);
@@ -199,12 +189,12 @@ export class GamePresentation implements PresentationLifecycle {
   resetRoom(area: AreaDefinition, visuals: WorldVisualDefinition | undefined) {
     this.visualOverride = visuals;
     this.sceneEffects.reset();
+    this.combatFeedback.reset();
     this.lookRenderer.resetRoom();
     this.disposeRoom();
     this.area = area;
     this.buildRoom();
     if (this.visuals?.look) this.lookRenderer.setSettings(this.visuals.look);
-    this.effectTag = '';
   }
   createVisual(a: Actor, generation: number) {
     return this.actorPresentation.createVisual(a, generation);
@@ -228,16 +218,9 @@ export class GamePresentation implements PresentationLifecycle {
     }
     this.roomPresentation.room.visible = true;
     this.updateCamera(sim, alpha);
-    const swing = attackDefinition(sim.hero);
     this.flare.visible =
       (!this.roomPresentation.inkRoom || this.debug) &&
       ((sim.hero.state === 'ability' && sim.hero.age >= tuning.ability.windup) || this.debug);
-    this.slash.visible =
-      !this.roomPresentation.inkRoom &&
-      sim.hero.attackKind === 'sweep' &&
-      sim.hero.state === 'attack' &&
-      sim.hero.age >= swing.windup &&
-      sim.hero.age < swing.activeEnd;
     this.flare.position.set(sim.hero.x, sim.hero.y + 0.06, sim.hero.z);
     this.flare.rotation.z =
       (sim.hero.state === 'ability' ? sim.hero.yaw : sim.hero.aim) - Math.PI / 2;
@@ -260,21 +243,6 @@ export class GamePresentation implements PresentationLifecycle {
       }
       points.needsUpdate = true;
     }
-    const effectTag = `${sim.hero.attackKind}:${swing.range}`;
-    if (effectTag !== this.effectTag) {
-      this.slash.geometry.dispose();
-      this.slash.geometry = new T.RingGeometry(
-        swing.range - 0.16,
-        swing.range,
-        24,
-        1,
-        -swing.halfAngle,
-        swing.halfAngle * 2,
-      );
-      this.effectTag = effectTag;
-    }
-    this.slash.position.set(sim.hero.x, sim.hero.y + 0.25, sim.hero.z);
-    this.slash.rotation.z = sim.hero.yaw - Math.PI / 2;
     this.renderer.setClearColor(this.background === 'light' ? 0xd1c9b4 : 0x151923);
     this.aim.visible = true;
     this.aim.position.set(aim.x, heightAt(sim.areaDefinition, aim.x, aim.z) + 0.035, aim.z);
@@ -308,6 +276,7 @@ export class GamePresentation implements PresentationLifecycle {
       this.visualEffects,
       this.visuals,
     );
+    this.combatFeedback.update(sim);
     this.renderFrame(sim, ms);
   }
   setVisualEffects(options: Partial<VisualEffects>) {
@@ -478,10 +447,11 @@ export class GamePresentation implements PresentationLifecycle {
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
+    this.combatFeedback.dispose();
     this.sceneEffects?.dispose();
     this.lookRenderer?.dispose();
     this.disposeRoom();
-    for (const m of [this.aim, this.flare, this.slash]) {
+    for (const m of [this.aim, this.flare]) {
       m.geometry.dispose();
       (m.material as T.Material).dispose();
     }

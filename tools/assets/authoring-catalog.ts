@@ -15,7 +15,8 @@ export async function readAuthoringCatalog(
   for (const [id, file] of Object.entries(library)) {
     if (!/^library-[a-z0-9_-]+$/.test(id) || !safeRelative(file).startsWith('generated/library/'))
       throw new Error('Invalid prepared authoring catalog');
-    if (id in authoringBaseCatalog) throw new Error('Authoring catalog overrides Game artwork');
+    if (id in authoringBaseCatalog && authoringBaseCatalog[id] !== file)
+      throw new Error('Authoring catalog overrides Game artwork');
   }
   return {
     ...(options.includeDeveloperAssets === false ? assetCatalog : authoringBaseCatalog),

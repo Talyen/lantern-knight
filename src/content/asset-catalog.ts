@@ -1,7 +1,9 @@
+import { combatEffectCatalog } from './combat-feedback';
 import { playgroundCatalog } from './effects-playground-assets';
 import { visualEffectsCatalog } from './visual-effects-assets';
 export const assetCatalog: Readonly<Record<string, string>> = {
   ...visualEffectsCatalog,
+  ...combatEffectCatalog,
   ...Object.fromEntries(
     [
       'ink-stage-chapel-exterior',

@@ -19,7 +19,6 @@ class EditorPresentation extends GamePresentation {
   protected override renderFrame(sim: Simulation, ms: number) {
     this.aim.visible = false;
     this.flare.visible = false;
-    this.slash.visible = false;
     for (const v of this.actorPresentation.actors.values()) v.ring.visible = false;
     this.viewTarget.copy(this.center);
     this.cameraTarget.copy(this.center);

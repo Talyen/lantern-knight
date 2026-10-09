@@ -1,5 +1,6 @@
 import { ContentRegistry, type ContentDefinitions } from './world';
 import { sceneAssets, validateAreaArt, type WorldVisualDefinition } from './world-art';
+import { combatEffectAssets } from './combat-feedback';
 import { visualEffectsAssets } from './visual-effects-assets';
 import type { AreaDefinition } from './world';
 import type { Manifest } from '../assets/schema';
@@ -73,6 +74,7 @@ export function composeSceneContent(
       ...new Set([
         actorVisuals[registry.actor(registry.definitions.player).visual]!.asset,
         ...visualEffectsAssets,
+        ...combatEffectAssets,
       ]),
     ],
     area: (id) => {
