@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { Application } from '../src/application';
 import { AssetRuntime, ResourcePool, type PackLease } from '../src/assets/loader';
 import type { GamePresentation } from '../src/presentation/game-scene';
-import { content } from '../src/content/game-content';
+import { content } from './fixtures/content';
 import type { Bridge } from '../src/core/save';
 import { Persistence } from '../src/core/persistence';
 

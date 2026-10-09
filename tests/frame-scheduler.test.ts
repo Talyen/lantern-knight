@@ -4,7 +4,7 @@ import { FrameScheduler } from '../src/frame-scheduler';
 import { Application } from '../src/application';
 import type { GamePresentation } from '../src/presentation/game-scene';
 import type { Bridge } from '../src/core/save';
-import { content } from '../src/content/game-content';
+import { content } from './fixtures/content';
 
 function environment(t: TestContext) {
   const original = {

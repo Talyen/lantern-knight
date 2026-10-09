@@ -21,7 +21,7 @@ import { ResourcePool, AssetRuntime, pageIdentity } from '../src/assets/loader';
 import { validateRequest } from '../electron/store';
 import { resourcePath, trustedSender } from '../electron/security';
 
-import { content } from '../src/content/game-content';
+import { content } from './fixtures/content';
 import { GameSession } from '../src/core/session';
 
 const approx = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-7, `${a} != ${b}`);

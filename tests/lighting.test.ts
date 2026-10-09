@@ -8,7 +8,7 @@ import { normalPixels } from '../src/presentation/lighting-profiles';
 
 import { GroundMist } from '../src/presentation/ground-mist';
 import { heightAt } from '../src/content/world';
-import { content } from '../src/content/game-content';
+import { content } from './fixtures/content';
 
 test('mist ribbons follow the raised terrain rather than intersecting its steps', () => {
   const mist = new GroundMist(),

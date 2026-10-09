@@ -1,5 +1,6 @@
 import { InkRoom } from '../src/presentation/ink-room';
-import { areaArtAssets } from '../src/content/world-art';
+import { sceneAssets, resolveAuthoredScene } from '../src/content/world-art';
+import { sceneFixture } from './fixtures/scene';
 import { readRegistration } from '../tools/assets/data';
 import type { PackLease } from '../src/assets/loader';
 import { assetFile } from '../tools/assets/paths';
@@ -12,8 +13,8 @@ import { ActorSprite } from '../src/presentation/sprite';
 import { OcclusionFades } from '../src/presentation/occlusion-fades';
 import { findDepthConflicts, validateConstruction } from '../src/presentation/art-validation';
 import { heightAt } from '../src/content/world';
-import { content } from '../src/content/game-content';
-import { worldVisuals, compositionPoint, compositionSpan } from '../src/content/world-art';
+import { content } from './fixtures/content';
+import { compositionPoint, compositionSpan } from '../src/content/world-art';
 import { assetCatalog } from '../src/content/visuals';
 import { parseManifest, resolveClip } from '../src/assets/schema';
 import { makeCamera } from '../src/core/camera';
@@ -21,7 +22,7 @@ import { Simulation } from '../src/core/simulation';
 
 test('alpha-aware depth gate rejects the original door/arch conflict but ignores transparent margins and separated planes', async () => {
   const area = content.area('upper-landing'),
-    art = worldVisuals[area.id]!;
+    art = resolveAuthoredScene(sceneFixture('chapel'));
   assert.ok(
     validateConstruction(area, {
       ...art,
@@ -29,7 +30,7 @@ test('alpha-aware depth gate rejects the original door/arch conflict but ignores
     }).some((error) => error.includes('mount')),
   );
   const packs = new Map<string, PackLease>();
-  for (const id of areaArtAssets(area)) {
+  for (const id of sceneAssets(art)) {
     const manifest = parseManifest(
       JSON.parse(await readAsset('public/' + assetCatalog[id]!, 'utf8')),
     );
@@ -46,6 +47,7 @@ test('alpha-aware depth gate rejects the original door/arch conflict but ignores
     makeCamera(16 / 9),
     undefined,
     readRegistration(),
+    art,
   );
   room.build();
   try {

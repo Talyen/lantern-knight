@@ -1,6 +1,6 @@
 import { SaveContentError } from '../src/core/save';
 import { isSupportedPosition } from '../src/content/world';
-import { content } from '../src/content/game-content';
+import { content } from './fixtures/content';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';

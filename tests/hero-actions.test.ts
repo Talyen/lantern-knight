@@ -1,4 +1,4 @@
-import { content } from '../src/content/game-content';
+import { content } from './fixtures/content';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { GameSession } from '../src/core/session';

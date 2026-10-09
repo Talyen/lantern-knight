@@ -8,7 +8,7 @@ import { ActorSprite, setCutoutOpacity } from '../src/presentation/sprite';
 import { drawingBufferSize } from '../src/core/camera';
 import { areaArtAssets, validateAreaArt } from '../src/content/world-art';
 import { assetCatalog } from '../src/content/asset-catalog';
-import { content } from '../src/content/game-content';
+import { content } from './fixtures/content';
 async function manifest(id: string) {
   return parseManifest(JSON.parse(await readAsset('public/' + assetCatalog[id]!, 'utf8')));
 }

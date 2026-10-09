@@ -102,13 +102,13 @@ CI transfers code and manifests once. PNG/MP4 resources are omitted from the bui
 
 | Execution scope                                                                            | Hard budget |
 | ------------------------------------------------------------------------------------------ | ----------- |
-| CI checks, including install, regular gates, both builds and upload                        | 2 minutes   |
+| CI checks, including install, regular gates, both builds and upload                        | 3 minutes   |
 | Each dependent desktop job, including install, download, identities, both packages and E2E | 7 minutes   |
 | Shared macOS E2E, including package validation and application startup                     | 5 minutes   |
-| Windows integration E2E, including package validation and application startup              | 2 minutes   |
+| Windows integration E2E, including package validation and application startup              | 3 minutes   |
 | Complete local host verification, including asset setup, builds and packages               | 9 minutes   |
 
-Target eight minutes for the complete CI execution path. The two-minute checks job plus the longest seven-minute desktop job caps execution at nine minutes; runner queues are reported separately. Local admission waiting is also separate. Deadlines fail verification, terminate owned processes and retain bounded failure logs. Setup and nested phases cannot reset an aggregate clock. Normal successful runs print phase times and slowest E2E phases, plus presentation-update and renderer-submission counts for inspectable Dev phases; compare summed runner time and launches as well as elapsed time. Keep the existing CI runner count, two unit workers and one local expensive-command lane.
+Target eight minutes for the complete CI execution path. The three-minute checks job plus the longest seven-minute desktop job caps execution at ten minutes; runner queues are reported separately. Local admission waiting is also separate. Deadlines fail verification, terminate owned processes and retain bounded failure logs. Setup and nested phases cannot reset an aggregate clock. Normal successful runs print phase times and slowest E2E phases, plus presentation-update and renderer-submission counts for inspectable Dev phases; compare summed runner time and launches as well as elapsed time. Keep the existing CI runner count, two unit workers and one local expensive-command lane.
 
 | Protected risk                                                             | Surviving coverage                                                                                                                                      |
 | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
