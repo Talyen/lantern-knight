@@ -10,6 +10,7 @@ type EventBase = {
   readonly direction: number;
 };
 export type EventDetails =
+  | { kind: 'pickup'; pickup: string; amount: number }
   | { kind: 'damage'; target: ActorId; amount: number }
   | { kind: 'stagger'; target: ActorId; duration: number }
   | { kind: 'strike' | 'flare' | 'death' | 'room-clear' }

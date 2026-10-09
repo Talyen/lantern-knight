@@ -102,7 +102,12 @@ export class SceneStore {
 /** @knip-external Loaded by Vite ssrLoadModule and generated worktree fixture configs. */
 export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin {
   const token = randomUUID(),
-    sourceFiles = ['src/content/scene-document.ts', 'src/assets/schema.ts', 'assets/lock.json'];
+    sourceFiles = [
+      'src/content/scene-document.ts',
+      'src/content/authored-gameplay.ts',
+      'src/assets/schema.ts',
+      'assets/lock.json',
+    ];
   const sourceRevision = async () =>
     digest(
       (await Promise.all(sourceFiles.map((f) => fs.readFile(path.join(root, f), 'utf8')))).join(
@@ -111,6 +116,7 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
     );
   let initialRevision: Promise<string>;
   let loadBase: () => Promise<typeof import('../../src/content/world-art')>;
+  let validateGameplay: (d: SceneDocument) => Promise<void>;
   const validate = async (d: SceneDocument) => {
     const ids = new Set([
       ...d.objects.flatMap((p) => [p.asset, ...(p.fixture?.flame ? [p.fixture.flame.asset] : [])]),
@@ -130,6 +136,7 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
     );
     const { resolveAuthoredScene } = await loadBase();
     resolveAuthoredScene(d);
+    await validateGameplay(d);
     validateSceneReferences(d, manifests);
     if ((await sourceRevision()) !== (await initialRevision))
       throw new SceneConflict(
@@ -142,6 +149,15 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
     name: 'lantern-scene-editor',
     configureServer(server) {
       initialRevision = sourceRevision();
+      validateGameplay = async (d) => {
+        const draft = (await server.ssrLoadModule(
+          '/src/content/draft-gameplay.ts',
+        )) as typeof import('../../src/content/draft-gameplay');
+        const game = (await server.ssrLoadModule(
+          '/src/content/game-content.ts',
+        )) as typeof import('../../src/content/game-content');
+        draft.composeDraftGameplay(d, game.contentDefinitions, {});
+      };
       loadBase = () =>
         server.ssrLoadModule('/src/content/world-art.ts') as Promise<
           typeof import('../../src/content/world-art')

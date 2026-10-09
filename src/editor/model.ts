@@ -169,6 +169,7 @@ export class EditorHistory {
     const removed = new Set(this.descendants(ids));
     this.change((d) => {
       d.objects = d.objects.filter((p) => !removed.has(p.id));
+      if (d.gameplay) d.gameplay.pickups = d.gameplay.pickups.filter((p) => !removed.has(p.object));
       d.propOrder = d.propOrder.filter((id) => !removed.has(id));
       d.overlaps = d.overlaps.filter((p) => !removed.has(p.a) && !removed.has(p.b));
     });
@@ -217,6 +218,16 @@ export class EditorHistory {
           p.z = p.z! + dz;
         }
         d.objects.push(p);
+        const original = objects.find((o) => remap.get(o.id) === p.id)!;
+        const pickup = this.document.gameplay?.pickups.find((v) => v.object === original.id);
+        if (pickup && d.gameplay)
+          d.gameplay.pickups.push({
+            ...structuredClone(pickup),
+            id: 'pickup-' + crypto.randomUUID(),
+            object: p.id,
+            x: p.x ?? pickup.x,
+            z: p.z ?? pickup.z,
+          });
       }
     });
     return copies.map((p) => p.id);
@@ -233,6 +244,7 @@ export class EditorHistory {
         for (const p of d.objects) if (p.mount && removed.has(p.mount.to)) removed.add(p.id);
       } while (count !== removed.size);
       d.objects = d.objects.filter((p) => !removed.has(p.id));
+      if (d.gameplay) d.gameplay.pickups = d.gameplay.pickups.filter((p) => !removed.has(p.object));
     });
   }
 

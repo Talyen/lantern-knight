@@ -296,6 +296,10 @@ export class GamePresentation implements PresentationLifecycle {
       setCutoutOpacity(m.material, fade ? 0.38 : 1);
     }
     this.roomPresentation.inkRoom?.update(sim, alpha, true, ms);
+    for (const pickup of sim.areaDefinition.pickups ?? []) {
+      const sprite = this.roomPresentation.inkRoom?.sprites.find((p) => p.id === pickup.object);
+      if (sprite) sprite.mesh.visible = !sim.collectedPickups.has(pickup.id);
+    }
     this.sceneEffects.update(
       sim.areaDefinition,
       sim.generation,

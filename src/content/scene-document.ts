@@ -1,3 +1,4 @@
+import { AuthoredGameplaySchema } from './authored-gameplay';
 import { z } from 'zod';
 import type { ArtPlacement, WorldVisualDefinition } from './world-art';
 import type { Manifest } from '../assets/schema';
@@ -64,6 +65,7 @@ const object = placementSchema
     x: coordinate.optional(),
     z: coordinate.optional(),
     purpose: z.string().min(1).optional(),
+    label: z.string().trim().min(1).max(80).optional(),
     footprint: z.tuple([positive, positive]).optional(),
     footprintAngle: coordinate.optional(),
     coverage: z.string().optional(),
@@ -178,7 +180,7 @@ const SceneDocumentSchema = z
     version: z.literal(5),
     id,
     name: z.string().trim().min(1).max(80),
-    base: z.enum(['flat', 'court', 'upper-landing']),
+    base: id,
     target: z.enum(['draft', 'live']),
     profile: z.enum(['graveyard', 'chapel', 'study']),
     floor: z
@@ -195,6 +197,7 @@ const SceneDocumentSchema = z
       .strict(),
     camera,
     geometry: geometry.optional(),
+    gameplay: AuthoredGameplaySchema.optional(),
     surround: surround.optional(),
     weather: z
       .object({ rain: z.number().min(0).max(1), wind: point })
@@ -236,14 +239,16 @@ const SceneDocumentSchema = z
   })
   .strict()
   .superRefine((d, ctx) => {
-    if (d.target === 'live' && (d.base === 'flat' || d.id !== `live-${d.base}`))
-      ctx.addIssue({ code: 'custom', message: 'Live documents use the room identity' });
-    if (d.target === 'draft' && d.id.startsWith('live-'))
-      ctx.addIssue({ code: 'custom', message: 'Draft names cannot use live identities' });
     if (new Set(d.objects.map((p) => p.id)).size !== d.objects.length)
       ctx.addIssue({ code: 'custom', message: 'Duplicate object identity' });
     if (d.base !== 'flat' && !d.geometry)
       ctx.addIssue({ code: 'custom', message: 'Gameplay scenes require geometry and entries' });
+    for (const p of d.gameplay?.pickups ?? [])
+      if (!d.objects.some((o) => o.id === p.object && o.kind !== 'decal'))
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Pickup references missing upright artwork: ' + p.object,
+        });
   });
 export type SceneDocument = z.infer<typeof SceneDocumentSchema>;
 export type SceneObject = SceneDocument['objects'][number];

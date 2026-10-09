@@ -29,7 +29,7 @@ export class CompositionTools {
       void this.edit(() => {
         this.host.history().change((d) => {
           for (const p of d.objects)
-            if (this.selection.has(p.id)) {
+            if (this.editable().includes(p.id)) {
               p.scale = 1;
               p.rotation = 0;
             }
@@ -102,6 +102,24 @@ export class CompositionTools {
         label.onpointerup = finish;
         label.onpointercancel = finish;
       };
+    }
+    for (const axis of ['x', 'z'] as const) {
+      const button = document.createElement('button');
+      button.textContent = 'Align ' + axis.toUpperCase();
+      button.id = 'align-' + axis;
+      button.onclick = () =>
+        void this.edit(() => {
+          const ids = this.editable(),
+            items = sceneItems(this.host.history().document);
+          const anchor = items.find((p) => p.placement.id === ids.at(-1))?.placement[axis];
+          if (anchor === undefined) return;
+          const temp = new EditorHistory(this.host.history().document);
+          for (const id of ids) temp.transform(id, { [axis]: anchor });
+          this.host.history().change((d) => {
+            d.objects = temp.document.objects;
+          });
+        }).catch(console.error);
+      element('selection-tools').append(button);
     }
     for (const button of document.querySelectorAll<HTMLButtonElement>('[data-handle]')) {
       button.onpointerdown = (e) => {
@@ -191,6 +209,10 @@ export class CompositionTools {
   remove() {
     const selected = this.editable();
     const descendants = this.host.history().descendants(selected);
+    if (descendants.some((id) => this.locked.has(id)))
+      return this.edit(() => {
+        throw new Error('Unlock attached objects before deleting their support');
+      });
     const extra = descendants.filter((id) => !selected.includes(id));
     if (extra.length && !confirm(`Delete selection and ${extra.length} attached object(s)?`))
       return;
@@ -244,7 +266,12 @@ export class CompositionTools {
       );
     });
     for (const { placement: p, locked } of ordered) {
-      if (!`${p.id} ${p.asset} ${p.clip}`.toLowerCase().includes(filter)) continue;
+      if (
+        !`${p.id} ${p.asset} ${p.clip} ${this.host.history().document.objects.find((v) => v.id === p.id)?.label ?? ''}`
+          .toLowerCase()
+          .includes(filter)
+      )
+        continue;
       const row = document.createElement('div');
       row.className = 'object-row';
       row.setAttribute('role', 'listitem');
@@ -255,9 +282,9 @@ export class CompositionTools {
       thumbnail.setAttribute('aria-hidden', 'true');
       const select = document.createElement('button');
       select.className = 'object-select';
-      select.textContent = p.id.startsWith('object-')
-        ? p.clip.replaceAll('_', ' ') + ' · ' + p.id.slice(-4)
-        : p.id;
+      select.textContent =
+        this.host.history().document.objects.find((v) => v.id === p.id)?.label ??
+        (p.id.startsWith('object-') ? p.clip.replaceAll('_', ' ') + ' · ' + p.id.slice(-4) : p.id);
       select.title = p.asset + '/' + p.clip;
       select.classList.toggle('active', this.selection.has(p.id));
       select.onclick = (e) => this.set(p.id, e.shiftKey);
@@ -273,7 +300,7 @@ export class CompositionTools {
         button.onclick = () => {
           if (set.has(p.id)) set.delete(p.id);
           else set.add(p.id);
-          this.render();
+          this.host.select([...this.selection].at(-1));
         };
         row.append(button);
       }
@@ -281,9 +308,9 @@ export class CompositionTools {
       void this.host.thumbnail(p.asset, p.clip, thumbnail).catch(() => {});
     }
     this.host.view()?.setEditingVisibility(this.hidden);
-    this.host.view()?.selectMany([...this.selection]);
+    this.host.view()?.selectMany([...this.selection].filter((id) => !this.hidden.has(id)));
     const primary = [...this.selection].at(-1);
-    if (primary && this.locked.has(primary))
+    if (primary && (this.locked.has(primary) || this.hidden.has(primary)))
       element<HTMLFieldSetElement>('transform').disabled = true;
   }
 }

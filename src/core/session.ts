@@ -63,6 +63,9 @@ export class GameSession {
     );
     this.visited.set(this.sim.area, {
       actors,
+      ...(this.sim.collectedPickups.size
+        ? { collectedPickups: [...this.sim.collectedPickups] }
+        : {}),
       engaged: this.sim.engaged,
       cleared: Object.values(actors).every((a) => a.health === 0),
     });
@@ -84,6 +87,7 @@ export class GameSession {
           a.age = tuning.deathHoldTicks;
         }
       }
+      sim.collectedPickups = new Set(state.collectedPickups ?? []);
       sim.cleared = state.cleared;
       sim.engaged = state.engaged;
     }

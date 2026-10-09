@@ -301,7 +301,7 @@ aside {
 .palette.collapsed,
 .inspector.collapsed {
   min-width: 42px;
-  width: 42px;
+  width: 42px !important;
   resize: none;
   overflow: hidden;
 }
@@ -481,4 +481,36 @@ summary {
   padding: 8px;
   margin: 0;
   background: #35251f;
+}
+aside.inspector {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: 60px;
+}
+#object-panel,
+#scene-panel {
+  flex: 1 1 auto;
+  overflow: auto;
+  min-height: 0;
+  padding-bottom: 10px;
+}
+.inspector > h2,
+.inspector > [role='tablist'],
+#collapse-inspector,
+#object-search {
+  flex: 0 0 auto;
+}
+.inspector > .hint {
+  display: none;
+}
+#objects {
+  flex: 0 1 180px;
+  min-height: 70px;
+}
+main {
+  grid-template-columns: var(--palette-width, 230px) minmax(200px, 1fr) var(
+      --inspector-width,
+      280px
+    );
 }

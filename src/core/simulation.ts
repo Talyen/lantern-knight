@@ -57,6 +57,7 @@ export class Simulation {
   seed: number;
   readonly initialSeed: number;
   actors: Actor[] = [];
+  collectedPickups = new Set<string>();
   private tickEvents: SimEvent[] = [];
   cleared = false;
   generation: number;
@@ -89,6 +90,7 @@ export class Simulation {
     const def = this.areaDefinition,
       spawn = def.entries.find((e) => e.id === (entry ?? def.baselineEntry));
     if (!spawn) throw new Error('missing entry');
+    this.collectedPickups.clear();
     this.seed = (this.initialSeed + def.seedOffset) >>> 0;
     this.actors = [this.create(PLAYER_ID, 'hero', spawn.x, spawn.z)];
     for (const p of def.spawns)
@@ -373,6 +375,22 @@ export class Simulation {
         }
       }
     const wasCleared = this.cleared;
+    if (h.health > 0)
+      for (const pickup of this.areaDefinition.pickups ?? []) {
+        if (
+          this.collectedPickups.has(pickup.id) ||
+          Math.hypot(h.x - pickup.x, h.z - pickup.z) > pickup.radius ||
+          h.health >= this.registry.actor(this.registry.definitions.player).maxHealth
+        )
+          continue;
+        const amount = Math.min(
+          pickup.amount,
+          this.registry.actor(this.registry.definitions.player).maxHealth - h.health,
+        );
+        h.health += amount;
+        this.collectedPickups.add(pickup.id);
+        this.emit(h, { kind: 'pickup', pickup: pickup.id, amount });
+      }
     this.cleared = this.enemies.every((a) => a.health <= 0);
     if (this.enemies.length && this.cleared && !wasCleared) {
       this.completedEncounters++;

@@ -14,7 +14,13 @@ export function sceneFixture(profile: 'graveyard' | 'chapel'): SceneDocument {
     purpose: 'Contract fixture',
   });
   return parseSceneDocument({
-    ...emptyScene(profile === 'graveyard' ? 'court' : 'upper-landing'),
+    ...emptyScene(),
+    geometry: {
+      bounds: { minX: -7, maxX: 7, minZ: -10, maxZ: 10 },
+      surface: { kind: 'flat', height: 0 },
+      baselineEntry: 'start',
+      entries: [{ id: 'start', x: 0, z: 0 }],
+    },
     version: 5,
     profile,
     id: 'fixture',

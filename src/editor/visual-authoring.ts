@@ -1,4 +1,5 @@
 import * as T from 'three';
+import { contentDefinitions } from '../content/game-content';
 import { type SceneDocument, type SceneObject } from '../content/scene-document';
 import { sceneItems, type EditorHistory } from './model';
 import type { EditorView } from './view';
@@ -15,6 +16,7 @@ type Host = {
   history: () => EditorHistory;
   view: () => EditorView;
   selected: () => string | undefined;
+  locked?: () => boolean;
   change: (mutate: (d: SceneDocument) => void) => Promise<void>;
   select: (id: string) => void;
 };
@@ -22,6 +24,16 @@ const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as 
 const point = { x: 0, z: 0 },
   bounds = { minX: -5, maxX: 5, minZ: -5, maxZ: 5 };
 const templates = {
+  spawns: { id: 'enemy', actor: 'skeleton', x: 2, z: 0 },
+  exits: {
+    id: 'exit',
+    trigger: { minX: -1, maxX: 1, minZ: -3, maxZ: -2 },
+    destination: 'flat',
+    entry: 'start',
+    requiresClear: false,
+    marker: { x: 0, z: -2.5 },
+  },
+  pickups: { id: 'pickup', object: '', kind: 'health', amount: 25, radius: 0.5, x: 0, z: 0 },
   paths: {
     points: [
       { x: -2, z: 0 },
@@ -35,6 +47,7 @@ const templates = {
   overlaps: { a: '', b: '', region: bounds, reason: 'Intentional overlap' },
 };
 const optional = {
+  gameplay: { spawns: [], exits: [], pickups: [] },
   geometry: {
     bounds,
     surface: { kind: 'flat', height: 0 },
@@ -94,7 +107,7 @@ export class VisualAuthoring {
     overlays.id = 'overlays';
     overlays.innerHTML =
       '<legend>Viewport overlays</legend>' +
-      ['camera', 'bounds', 'collision', 'entries', 'zones', 'lights', 'shelters']
+      ['camera', 'bounds', 'collision', 'entries', 'zones', 'lights', 'shelters', 'gameplay']
         .map((id) => `<label><input type="checkbox" data-overlay="${id}"> ${id}</label>`)
         .join('');
     $('scene-panel').prepend(overlays);
@@ -162,6 +175,23 @@ export class VisualAuthoring {
             const item = structuredClone(base);
             if (item && typeof item === 'object' && !Array.isArray(item) && 'id' in item)
               item.id = field.replace(/s$/, '') + '-' + crypto.randomUUID();
+            if (field === 'pickups' && typeof item === 'object' && !Array.isArray(item)) {
+              const selected =
+                this.host
+                  .history()
+                  .document.objects.find(
+                    (p) => p.id === this.host.selected() && p.kind !== 'decal',
+                  ) ?? this.host.history().document.objects.find((p) => p.kind !== 'decal');
+              if (!selected) throw new Error('Place pickup artwork first');
+              (item as Record<string, Data>).object = selected.id;
+              item.x = selected.x ?? 0;
+              item.z = selected.z ?? 0;
+            }
+            if (field === 'exits' && typeof item === 'object' && !Array.isArray(item)) {
+              (item as Record<string, Data>).destination = this.host.history().document.base;
+              (item as Record<string, Data>).entry =
+                this.host.history().document.geometry?.baselineEntry ?? 'start';
+            }
             next.push(item);
             this.commit(path, next);
           }),
@@ -173,26 +203,46 @@ export class VisualAuthoring {
     }
     const row = document.createElement('label');
     row.textContent = label.replace(/([A-Z])/g, ' $1');
-    const options = choices[String(path.at(-1))];
+    const field = String(path.at(-1));
+    const options =
+      field === 'actor'
+        ? contentDefinitions.actors.filter((p) => p.kind === 'enemy').map((p) => p.id)
+        : field === 'object'
+          ? this.host
+              .history()
+              .document.objects.filter((p) => p.kind !== 'decal')
+              .map((p) => p.id)
+          : choices[field];
     const input = options ? document.createElement('select') : document.createElement('input');
     if (input instanceof HTMLSelectElement)
       for (const choice of options!) input.add(new Option(choice, choice));
     if (input instanceof HTMLInputElement) {
       input.type =
-        typeof value === 'boolean' ? 'checkbox' : typeof value === 'number' ? 'number' : 'text';
+        typeof value === 'boolean'
+          ? 'checkbox'
+          : typeof value === 'number'
+            ? ['color', 'tint'].includes(field)
+              ? 'color'
+              : 'number'
+            : 'text';
       input.step = 'any';
       if (typeof value === 'boolean') input.checked = value;
     }
-    input.value = String(value);
+    input.value =
+      input instanceof HTMLInputElement && input.type === 'color'
+        ? '#' + Number(value).toString(16).padStart(6, '0')
+        : String(value);
     input.dataset.field = path.join('.');
     input.onchange = () =>
       this.commit(
         path,
         input instanceof HTMLInputElement && input.type === 'checkbox'
           ? input.checked
-          : typeof value === 'number'
-            ? Number(input.value)
-            : input.value,
+          : input instanceof HTMLInputElement && input.type === 'color'
+            ? parseInt(input.value.slice(1), 16)
+            : typeof value === 'number'
+              ? Number(input.value)
+              : input.value,
       );
     row.append(input);
     parent.append(row);
@@ -215,6 +265,7 @@ export class VisualAuthoring {
     for (const key of [
       'camera',
       'geometry',
+      'gameplay',
       'paths',
       'walls',
       'graves',
@@ -285,7 +336,7 @@ export class VisualAuthoring {
     for (const input of this.fields.querySelectorAll<HTMLInputElement>('input,select,button'))
       input.disabled = busy;
     for (const input of this.objectFields.querySelectorAll<HTMLInputElement>('input,select,button'))
-      input.disabled = busy;
+      input.disabled = busy || !!this.host.locked?.();
     this.key = '';
     this.draw();
   }
@@ -299,6 +350,12 @@ export class VisualAuthoring {
   }
   private objectForm(p: SceneObject, index: number) {
     const path = ['objects', index];
+    this.form(
+      p.label ?? p.clip.replaceAll('_', ' '),
+      [...path, 'label'],
+      this.objectFields,
+      'Name',
+    );
     for (const [key, fallback] of Object.entries({
       tint: 0xffffff,
       opacity: 1,
@@ -310,6 +367,25 @@ export class VisualAuthoring {
         [...path, key],
         this.objectFields,
         key,
+      );
+    if (p.footprint)
+      this.form(
+        p.footprint as Data,
+        [...path, 'footprint'],
+        this.objectFields,
+        'Collision footprint',
+      );
+    else if (p.kind !== 'decal')
+      this.objectFields.append(
+        this.button('Add collision footprint', () =>
+          this.commit([...path, 'footprint'], [0.5, 0.5]),
+        ),
+      );
+    if (p.footprint)
+      this.objectFields.append(
+        this.button('Remove collision footprint', () =>
+          this.commit([...path, 'footprint'], undefined),
+        ),
       );
     if (p.kind === 'decal') return;
     const attach = document.createElement('select');
@@ -505,6 +581,13 @@ export class VisualAuthoring {
       }
     if (enabled.includes('entries') || geometry)
       d.geometry?.entries.forEach((p, i) => handle(['geometry', 'entries', i], p, 'Entry ' + p.id));
+    if (geometry || enabled.includes('gameplay')) {
+      d.gameplay?.spawns.forEach((p, i) => handle(['gameplay', 'spawns', i], p, 'Enemy ' + p.id));
+      d.gameplay?.pickups.forEach((p, i) =>
+        handle(['gameplay', 'pickups', i], p, 'Pickup ' + p.id),
+      );
+      d.gameplay?.exits.forEach((p) => box(p.trigger, 0x66ffaa));
+    }
     if (geometry) {
       d.paths.forEach((p, i) => {
         line(p.points, 0x77ddaa, false);

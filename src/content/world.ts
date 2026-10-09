@@ -72,6 +72,15 @@ export type AreaDefinition = {
   spawns: readonly SpawnDefinition[];
   exits: readonly ExitDefinition[];
   props: readonly PropDefinition[];
+  pickups?: readonly {
+    id: string;
+    object: string;
+    kind: 'health';
+    amount: number;
+    radius: number;
+    x: number;
+    z: number;
+  }[];
   floorColor: number;
 };
 export type ContentDefinitions = {
@@ -167,6 +176,18 @@ export class ContentRegistry {
       unique(a.spawns, 'spawn');
       unique(a.exits, 'exit');
       unique(a.props, 'prop');
+      unique(a.pickups ?? [], 'pickup');
+      for (const p of a.pickups ?? []) {
+        finite(p.x, p.z, p.amount, p.radius);
+        if (
+          !contains(a.bounds, p) ||
+          p.kind !== 'health' ||
+          !Number.isInteger(p.amount) ||
+          p.amount <= 0 ||
+          p.radius <= 0
+        )
+          fail('invalid pickup ' + p.id);
+      }
       for (const p of [...a.entries, ...a.spawns]) {
         finite(p.x, p.z);
         if (!contains(a.bounds, p)) fail(`point outside ${a.id}`);

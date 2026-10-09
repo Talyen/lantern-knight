@@ -1,3 +1,4 @@
+import { authoredGameplay } from './authored-gameplay';
 import courtDocument from '../../authoring/scenes/live-court.json';
 import chapelDocument from '../../authoring/scenes/live-upper-landing.json';
 import { parseSceneDocument } from './scene-document';
@@ -14,8 +15,10 @@ import type { AreaDefinition } from './world';
 import type { Manifest } from '../assets/schema';
 import { tuning } from './gameplay';
 import { actorVisuals, assetCatalog } from './visuals';
-const courtGeometry = parseSceneDocument(courtDocument).geometry!;
-const chapelGeometry = parseSceneDocument(chapelDocument).geometry!;
+const courtScene = parseSceneDocument(courtDocument);
+const courtGeometry = courtScene.geometry!;
+const chapelScene = parseSceneDocument(chapelDocument);
+const chapelGeometry = chapelScene.geometry!;
 export const contentDefinitions: ContentDefinitions = {
   initialArea: 'court',
   player: 'lamplighter',
@@ -85,6 +88,13 @@ export const contentDefinitions: ContentDefinitions = {
     },
   ],
 };
+contentDefinitions.areas = contentDefinitions.areas.map((area) =>
+  authoredGameplay(
+    area.id === 'court' ? courtScene : chapelScene,
+    area,
+    worldVisuals[area.id]?.props,
+  ),
+);
 for (const actor of contentDefinitions.actors) {
   const visual = actorVisuals[actor.visual];
   if (!visual || !assetCatalog[visual.asset])

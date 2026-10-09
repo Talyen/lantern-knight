@@ -31,7 +31,12 @@ const GameSchema = z
     areas: z.record(
       id,
       z
-        .object({ cleared: z.boolean(), engaged: z.boolean(), actors: z.record(id, point) })
+        .object({
+          cleared: z.boolean(),
+          engaged: z.boolean(),
+          actors: z.record(id, point),
+          collectedPickups: z.array(id).optional(),
+        })
         .strict(),
     ),
   })
@@ -70,6 +75,12 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
       throw new Error(`unknown actor reference in ${areaId}`);
     if (Object.keys(state.actors).length !== area.spawns.length)
       throw new Error(`actor count differs in ${areaId}`);
+    if (
+      state.collectedPickups &&
+      (new Set(state.collectedPickups).size !== state.collectedPickups.length ||
+        state.collectedPickups.some((id) => !area.pickups?.some((p) => p.id === id)))
+    )
+      throw new Error('Unknown or duplicate collected pickup');
     for (const spawn of area.spawns) {
       const actor = state.actors[spawn.id];
       if (

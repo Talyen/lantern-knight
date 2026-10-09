@@ -1,3 +1,4 @@
+import { actorVisuals } from '../content/visuals';
 import * as T from 'three';
 import { GamePresentation } from '../presentation/game-scene';
 import { ActorSprite } from '../presentation/sprite';
@@ -5,7 +6,7 @@ import { resolveClip } from '../assets/schema';
 import { sceneAssets, resolveAuthoredScene } from '../content/world-art';
 import { validateSceneReferences, type SceneDocument } from '../content/scene-document';
 import { ContentRegistry, heightAt, type AreaDefinition } from '../content/world';
-import { contentDefinitions, content } from '../content/game-content';
+import { contentDefinitions } from '../content/game-content';
 import { GameSession } from '../core/session';
 import { EventHub } from '../core/events';
 import { outward } from '../core/camera';
@@ -84,6 +85,11 @@ export class EditorView {
     const ids = new Set(
       [
         'ink-hero-current',
+        ...(document.gameplay?.spawns.map((p) => {
+          const actor = contentDefinitions.actors.find((a) => a.id === p.actor);
+          if (!actor) throw new Error('Unknown enemy ' + p.actor);
+          return actorVisuals[actor.visual]!.asset;
+        }) ?? []),
         ...sceneAssets(art),
         ...(document.base === 'flat' ? [] : ['fx-embers', 'fx-smoke', 'fx-splash', 'fx-ripple']),
       ].filter((id) => id in this.runtime.catalog),
@@ -102,7 +108,7 @@ export class EditorView {
         new Map([...this.packs].map(([id, p]) => [id, p.manifest])),
       );
       let area: AreaDefinition;
-      if (document.base === 'flat') {
+      if (!document.geometry) {
         const f = document.floor!;
         area = {
           id: 'editor-flat',
@@ -113,16 +119,20 @@ export class EditorView {
           seedOffset: 0,
           baselineEntry: 'start',
           entries: [{ id: 'start', x: 0, z: 0 }],
-          spawns: [],
+          spawns: document.gameplay?.spawns ?? [],
           exits: [],
           props: [],
           floorColor: 0x344b4e,
         };
       } else
         area = {
-          ...content.area(document.base),
+          id: document.base,
+          name: document.name,
+          subtitle: 'Scene composition',
+          seedOffset: 0,
+          floorColor: 0x344b4e,
           ...document.geometry!,
-          spawns: [],
+          spawns: document.gameplay?.spawns ?? [],
           exits: [],
           props: [],
         };

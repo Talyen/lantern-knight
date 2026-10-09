@@ -183,3 +183,60 @@ test('visual authoring, independent fragments, pattern undo and import', async (
         await fs.rm(path.join(projectRoot, 'authoring/fragments', p.id + '.json'), { force: true });
   }
 });
+
+test('unsaved draft playtest discards gameplay state and survives repeated entry', async ({
+  page,
+}) => {
+  await page.goto('/editor.html?automated');
+  await page.waitForFunction(() => window.sceneEditor?.ready());
+  await page.locator('#name').fill('Unsaved playtest');
+  await page.locator('#viewport').focus();
+  await expect(page.locator('#save-state')).toHaveText('Unsaved');
+  const before = await page.evaluate(() => ({
+    document: window.sceneEditor.state().document,
+    storage: JSON.stringify(
+      Object.fromEntries(
+        Array.from({ length: localStorage.length }, (_, i) => {
+          const key = localStorage.key(i)!;
+          return [key, localStorage.getItem(key)];
+        }).sort((a, b) => a[0]!.localeCompare(b[0]!)),
+      ),
+    ),
+  }));
+  for (let i = 0; i < 2; i++) {
+    await page.locator('#play-from-here').click();
+    await expect
+      .poll(
+        () =>
+          page.evaluate(() =>
+            window.sceneEditor.playtest()?.ready
+              ? 'ready'
+              : document.getElementById('validation-errors')?.textContent || 'loading',
+          ),
+        { timeout: 20000 },
+      )
+      .toBe('ready');
+    await page.locator('#playtest-viewport').focus();
+    await page.keyboard.down('KeyD');
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.playtest()?.hero.x))
+      .not.toBe(before.document.hero.x);
+    await page.keyboard.up('KeyD');
+    await page.locator('#playtest-return').click();
+    await expect(page.locator('#playtest-dialog')).not.toBeVisible();
+    expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(before.document);
+    expect(
+      await page.evaluate(() =>
+        JSON.stringify(
+          Object.fromEntries(
+            Array.from({ length: localStorage.length }, (_, i) => {
+              const key = localStorage.key(i)!;
+              return [key, localStorage.getItem(key)];
+            }).sort((a, b) => a[0]!.localeCompare(b[0]!)),
+          ),
+        ),
+      ),
+    ).toEqual(before.storage);
+    expect(await page.evaluate(() => window.sceneEditor.playtest())).toBeUndefined();
+  }
+});

@@ -1,3 +1,7 @@
+import { DraftPlaytest } from './playtest';
+import { composeDraftGameplay, withGameplayDefaults } from '../content/draft-gameplay';
+import { contentDefinitions } from '../content/game-content';
+import { worldVisuals } from '../content/world-art';
 import { SceneLibrary } from './library';
 import { VisualAuthoring } from './visual-authoring';
 import { CompositionTools } from './composition';
@@ -34,6 +38,7 @@ const refreshSceneControls = bindSceneControls(change);
 let composition: CompositionTools;
 let visualAuthoring: VisualAuthoring;
 let sceneLibrary: SceneLibrary;
+let playtest: DraftPlaytest;
 const canvas = $<HTMLCanvasElement>('viewport');
 let runtime: AssetRuntime,
   view: EditorView,
@@ -168,8 +173,17 @@ function controls() {
     'width',
     'depth',
     'fit',
-  ])
-    $<HTMLInputElement>(key).disabled = busy;
+    'play-from-here',
+    'scene-library',
+    'import-scene',
+    'copy-scene',
+    'tool',
+    'snap-spacing',
+    'preview-asset',
+  ]) {
+    const control = document.getElementById(key) as HTMLInputElement | null;
+    if (control) control.disabled = busy;
+  }
   $('save-state').textContent = busy ? 'Working…' : dirty() ? 'Unsaved' : 'Saved';
   $('objects').replaceChildren();
   for (const item of items) {
@@ -228,7 +242,13 @@ async function change(mutator: (d: SceneDocument) => void) {
     mutator(next);
     const valid = parseSceneDocument(next);
     resolveAuthoredScene(valid);
-    await view.apply(valid);
+    if (valid.gameplay) composeDraftGameplay(valid, contentDefinitions, worldVisuals);
+    try {
+      await view.apply(valid);
+    } catch (error) {
+      await view.apply(history.document);
+      throw error;
+    }
     history.change((d) => {
       for (const key of Object.keys(d)) delete (d as unknown as Record<string, unknown>)[key];
       Object.assign(d, valid);
@@ -266,8 +286,12 @@ async function list() {
     target?: string;
     error?: string;
   }[]) {
-    if (scene.id.startsWith('live-')) continue;
-    const o = new Option(scene.name + (scene.error ? ' · invalid file' : ''), 'file-' + scene.id);
+    const o = new Option(
+      scene.name +
+        (scene.target === 'live' ? ' · LIVE' : ' · Draft') +
+        (scene.error ? ' · invalid file' : ''),
+      'file-' + scene.id,
+    );
     o.dataset.saved = 'true';
     select.add(o);
   }
@@ -289,7 +313,7 @@ async function open(value: string) {
           : value;
       const data = await api(id);
       if (!data.document) throw new Error('Scene file is unavailable');
-      d = parseSceneDocument(data.document);
+      d = withGameplayDefaults(parseSceneDocument(data.document), contentDefinitions);
       nextRevision = data.revision;
       nextBaseRevision = data.baseRevision;
       if (value.startsWith('copy-')) {
@@ -372,6 +396,15 @@ $('save').onclick = () => {
   else launch(save());
 };
 $('save-as').onclick = saveAs;
+$('copy-scene').onclick = () => {
+  const document = {
+    ...structuredClone(history.document),
+    id: 'untitled',
+    target: 'draft' as const,
+    name: 'Copy of ' + history.document.name.slice(0, 72),
+  };
+  void importDocument(document).catch((e) => status(e.message, true));
+};
 $('conflict-copy').onclick = saveAs;
 $('reload').onclick = () => void open('file-' + history.document.id);
 $('name').onchange = () =>
@@ -903,7 +936,8 @@ document.addEventListener('keydown', (e) => {
     e.target instanceof HTMLInputElement ||
     e.target instanceof HTMLSelectElement ||
     e.target instanceof HTMLTextAreaElement;
-  if (text || $<HTMLDialogElement>('save-dialog').open) return;
+  if (text || [...document.querySelectorAll<HTMLDialogElement>('dialog')].some((d) => d.open))
+    return;
   if (e.key === 'Escape') {
     finishDrag(true);
     composition.set(undefined);
@@ -1030,6 +1064,7 @@ function animate(time: number) {
 window.addEventListener('pagehide', () => {
   cancelAnimationFrame(frame);
   observer.disconnect();
+  playtest?.dispose();
   composition?.dispose();
   sceneLibrary?.dispose();
   visualAuthoring?.dispose();
@@ -1122,6 +1157,8 @@ async function start() {
     history: () => history,
     view: () => view,
     selected: () => selected,
+    locked: () =>
+      !!selected && (composition.locked.has(selected) || composition.hidden.has(selected)),
     change,
     select: (id) => composition.set(id),
   });
@@ -1163,6 +1200,12 @@ async function start() {
       $<HTMLButtonElement>('restore').click();
     },
   });
+  playtest = new DraftPlaytest({
+    document: () => history.document,
+    compose: (snapshot) => composeDraftGameplay(snapshot, contentDefinitions, worldVisuals),
+    catalog: () => assetCatalog,
+    status,
+  });
   const manifests = await Promise.all(Object.keys(assetCatalog).map((id) => runtime.manifest(id)));
   for (const m of manifests) {
     const kind = paletteKind(m) ?? (m.asset.placement === 'reference' ? 'reference' : undefined);
@@ -1196,6 +1239,7 @@ declare global {
         selected: string | undefined;
       };
       view: () => EditorView;
+      playtest: () => ReturnType<DraftPlaytest['state']>;
       dispose: () => void;
     };
   }
@@ -1204,7 +1248,14 @@ window.sceneEditor = {
   ready: () => ready,
   state: () => ({ document: history.document, revision, dirty: dirty(), selected }),
   view: () => view,
-  dispose: () => view.dispose(),
+  playtest: () => playtest.state(),
+  dispose: () => {
+    playtest?.dispose();
+    composition?.dispose();
+    sceneLibrary?.dispose();
+    visualAuthoring?.dispose();
+    view.dispose();
+  },
 };
 controls();
 void start().catch((error) => status('Editor startup failed: ' + error.message, true));
