@@ -1,3 +1,4 @@
+import { e2e } from '../tools/delivery';
 import { sceneOptions } from '../tools/scene/scene-workflow';
 import fs from 'node:fs/promises';
 import os from 'node:os';
@@ -220,4 +221,24 @@ test('empty or failed test workers cannot produce successful focused evidence', 
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }
+});
+
+test('full delivery flags reach journeys without leaking into build verification', async () => {
+  const verified: string[] = [];
+  let journeys = false;
+  await e2e({
+    run: async (name, args = []) => {
+      await parseTask(name, args);
+      verified.push(name);
+    },
+    args: ['--full'],
+    clean: ['--full'],
+    child: async (file, args) => {
+      assert.equal(file, 'tools/smoke/e2e.ts');
+      assert.deepEqual(args, ['--full']);
+      journeys = true;
+    },
+  });
+  assert.deepEqual(verified, ['build:verify', 'build:dev:verify']);
+  assert.equal(journeys, true);
 });

@@ -5,11 +5,18 @@ import { runProcess } from './run-process';
 import { taskBudget } from './task-budget';
 import { guardedBuild, verificationIdentity, requireStableInputs } from './verification';
 import type { Invocation } from './task-runner';
-export async function e2e({ run, args, clean, child }: Invocation) {
-  if (!['darwin', 'win32'].includes(process.platform))
-    throw new Error('E2E requires macOS or Windows');
+export async function e2e({
+  run,
+  args,
+  clean,
+  child,
+}: Pick<Invocation, 'run' | 'args' | 'clean' | 'child'>) {
   const before = await verificationIdentity(projectRoot);
-  for (const task of ['build:verify', 'build:dev:verify']) await run(task, args);
+  for (const task of ['build:verify', 'build:dev:verify'])
+    await run(
+      task,
+      args.filter((arg) => arg !== '--full'),
+    );
   await child('tools/smoke/e2e.ts', clean, taskBudget('test:e2e'));
   await requireStableInputs(projectRoot, before);
 }

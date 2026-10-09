@@ -62,8 +62,15 @@ test('runtime identity follows imported live documents without including unrelat
       'Build helper edits invalidate reuse',
     );
     const afterHelper = await sourceIdentity(root);
+    await fs.writeFile(path.join(root, 'tools/delivery.ts'), 'export const build = 1;');
+    const afterExecutor = await sourceIdentity(root);
+    assert.notEqual(
+      afterExecutor.sha256,
+      afterHelper.sha256,
+      'Delivery executor invalidates build reuse',
+    );
     await fs.writeFile(path.join(root, 'authoring/scenes/live-court.json'), '{"x":2}');
-    assert.notEqual((await sourceIdentity(root)).sha256, afterHelper.sha256);
+    assert.notEqual((await sourceIdentity(root)).sha256, afterExecutor.sha256);
     if (process.platform !== 'win32') {
       await fs.rm(path.join(root, 'authoring/scenes/live-court.json'));
       await fs.symlink(

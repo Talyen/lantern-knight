@@ -155,6 +155,8 @@ export const commands: Record<string, CommandDefinition> = {
     parse: (args) => {
       if (args.length > 1 || args.some((a) => a !== '--full'))
         throw new Error('Use test:e2e [--full]');
+      if (!['darwin', 'win32'].includes(process.platform))
+        throw new Error('E2E requires macOS or Windows');
     },
   },
   'check:task': { operation: taskCheck, parse: sceneArgs },

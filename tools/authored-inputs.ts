@@ -30,6 +30,8 @@ const runtime = (file: string) =>
     'tools/source-identity.ts',
     'tools/verified-files.ts',
     'tools/compiler.ts',
+    'tools/delivery.ts',
+    'tools/task-runner.ts',
     'tools/assets/authoring-catalog.ts',
     'tools/assets/loading-media.ts',
     'tools/assets/io.ts',
