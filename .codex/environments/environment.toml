@@ -2,8 +2,4 @@ version = 1
 name = "Lantern Knight"
 
 [setup]
-script = """
-set -eu
-npm ci
-npm run hooks:install
-"""
+script = "npm ci"

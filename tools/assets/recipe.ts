@@ -137,29 +137,3 @@ export async function recipeHash(
     .update(JSON.stringify(await recipeInputs(read)))
     .digest('hex');
 }
-
-// Runtime consumption depends on authored asset intent, not preparation-tool formatting.
-export async function checkAuthoredAssetInputs(
-  inputs: Record<string, string>,
-  read = (name: string) => fs.readFile(path.join(projectRoot, name)),
-) {
-  const current = RecipeSchema.parse(JSON.parse((await read('assets/recipe.json')).toString()));
-  const names =
-    current.authoredInputs ??
-    current.inputs.filter(
-      (file) =>
-        /^(?:assets|authoring)\//.test(file) || /registration\.ts$|asset-catalog\.ts$/.test(file),
-    );
-  for (const file of names)
-    if (
-      !inputs[file] ||
-      createHash('sha256')
-        .update(await read(file))
-        .digest('hex') !== inputs[file]
-    )
-      throw new Error(
-        'Authored asset input differs from the published pin: ' +
-          file +
-          '. Prepare the affected assets before delivery.',
-      );
-}

@@ -1,9 +1,11 @@
+import type { AssetScope } from './bundles';
+import { ensureBundlePack } from './bundles';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { AssetCache } from './cache';
 import { projectRoot } from './paths';
-import { readLock, LockSchema, ensurePack, validateCachedPack, recipeHash } from './pack';
+import { readLock, ensurePack, recipeHash } from './pack';
 import { preparationSelection } from './recipe';
 import { linkTree } from './incremental';
 import { prepareSteps } from './preparation';
@@ -20,7 +22,11 @@ type Preview = {
   selections: string[];
   files: Record<string, string>;
 };
-export async function prototypeAssets(cache = new AssetCache(), root = projectRoot) {
+export async function prototypeAssets(
+  cache = new AssetCache(),
+  root = projectRoot,
+  scope: AssetScope = 'authoring',
+) {
   const index = await cache.lease(previewName(root) + '-index');
   let entry: string | undefined;
   try {
@@ -52,22 +58,13 @@ export async function prototypeAssets(cache = new AssetCache(), root = projectRo
       throw error;
     }
   }
-  // Prefer a previously source-verified candidate for this checkout. Recipe
-  // tooling edits do not make its immutable images unsuitable for iteration.
-  const candidate = await cache.lease('preparation');
-  try {
-    const lock = LockSchema.parse(
-      JSON.parse(await fs.readFile(path.join(candidate.root, 'prepared.json'), 'utf8')),
-    );
-    const payload = path.join(candidate.root, 'work/payload');
-    await validateCachedPack(payload, lock);
-    return { held: { ...candidate, root: payload }, lock };
-  } catch (error) {
-    await candidate.release();
-    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
-  }
   const lock = await readLock((name) => fs.readFile(path.join(root, name)));
-  return { held: await ensurePack(lock, cache), lock };
+  return {
+    held: await (lock.schemaVersion === 3
+      ? ensureBundlePack(lock, cache, fetch, scope)
+      : ensurePack(lock, cache)),
+    lock,
+  };
 }
 export async function preparePreviewAssets(
   ids: string[],

@@ -79,7 +79,7 @@
     },
     {
       "files": [
-        "tests/*.test.ts"
+        "tests/**/*.test.ts"
       ],
       "rules": {
         "typescript/no-floating-promises": [

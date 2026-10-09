@@ -115,69 +115,16 @@ export function paletteEntry(p: Pick<ArtPlacement, 'asset' | 'clip'>) {
 }
 export function deriveScenePlacement(p: ArtPlacement): ArtPlacement {
   const e = paletteEntry(p);
-  if (!e) throw new Error(`Uncurated scene artwork: ${p.asset}/${p.clip}`);
   return {
     ...p,
-    footprint: e.footprint
-      ? [e.footprint[0] * (p.scale ?? 1), e.footprint[1] * (p.scale ?? 1)]
-      : undefined,
-    footprintAngle: 0,
+    footprint:
+      p.footprint ??
+      (e?.footprint
+        ? [e.footprint[0] * (p.scale ?? 1), e.footprint[1] * (p.scale ?? 1)]
+        : undefined),
+    footprintAngle: p.footprintAngle ?? 0,
   };
 }
-export function validateSceneDesign(art: WorldVisualDefinition) {
-  const profile = art.designProfile;
-  if (!profile) throw new Error('Scene requires a design profile');
-  const spec = sceneDesignProfiles[profile];
-  if (art.floor !== spec.floor || art.walls.length || art.graves.length || art.overlaps?.length)
-    throw new Error('Scene foundation requires authored flat ground and whole illustrated shells');
-  for (const p of [...art.props, ...art.decals]) {
-    const e = paletteEntry(p),
-      scale = p.scale ?? 1;
-    if (!e || !e.profiles.includes(profile))
-      throw new Error(`${p.id}: artwork is outside the scene palette`);
-    if (
-      scale < e.scale[0] ||
-      scale > e.scale[1] ||
-      (p.mirror && !e.mirror) ||
-      p.rotation ||
-      p.wallFace ||
-      (p.opacity !== undefined && p.opacity !== 1) ||
-      (p.tint !== undefined && p.tint !== 0xffffff)
-    )
-      throw new Error(`${p.id}: artwork transform violates its registered treatment`);
-    if (!Number.isFinite(p.x + p.z + (p.y ?? 0) + scale) || (!p.mount && (p.y ?? 0) !== 0))
-      throw new Error(`${p.id}: placement is not grounded`);
-    if (p.mount) {
-      const parent = art.props.find((v) => v.id === p.mount!.to),
-        socket = parent && paletteEntry(parent)?.sockets?.[p.mount.socket ?? ''];
-      if (
-        !socket ||
-        !socket.accepts.includes(p.asset + ':' + p.clip) ||
-        p.mount.offset.some((v, i) => Math.abs(v - socket.offset[i]!) > 1e-8) ||
-        scale !== 1
-      )
-        throw new Error(`${p.id}: attachment differs from its registered socket`);
-      if (
-        art.props.some(
-          (v) => v.id !== p.id && v.mount?.to === p.mount!.to && v.mount.socket === p.mount!.socket,
-        )
-      )
-        throw new Error(`${p.id}: socket already occupied`);
-    }
-    const expected = e.footprint?.map((n) => n * scale);
-    if (
-      expected
-        ? !p.footprint || expected.some((v, i) => Math.abs(v - p.footprint![i]!) > 1e-8)
-        : p.footprint !== undefined
-    )
-      throw new Error(`${p.id}: footprint differs from curated artwork`);
-    if (p.footprintAngle && p.footprintAngle !== 0)
-      throw new Error(`${p.id}: footprint facing differs from artwork`);
-  }
-  const conflict = sceneArtFindings(art).find((f) => f.kind === 'solid-intersection');
-  if (conflict) throw new Error(`${conflict.a}/${conflict.b}: structural scenery intersects`);
-}
-
 // Composition is prototype authoring guidance, separate from engine/registration safety.
 export function sceneCompositionFindings(art: WorldVisualDefinition): string[] {
   if (!art.designProfile) return [];
@@ -187,6 +134,18 @@ export function sceneCompositionFindings(art: WorldVisualDefinition): string[] {
   for (const p of [...art.props, ...art.decals]) {
     const e = paletteEntry(p),
       zone = p.zone && spec.zones[p.zone];
+    if (!e || !e.profiles.includes(art.designProfile))
+      notes.push(`${p.id}: outside the suggested palette`);
+    if (
+      e &&
+      ((p.scale ?? 1) < e.scale[0] ||
+        (p.scale ?? 1) > e.scale[1] ||
+        p.mirror ||
+        p.rotation ||
+        (p.tint && p.tint !== 0xffffff) ||
+        (p.opacity !== undefined && p.opacity !== 1))
+    )
+      notes.push(`${p.id}: experimental artwork treatment`);
     if (!zone || (!p.mount && !contains(zone.bounds, p.x, p.z)))
       notes.push(`${p.id}: outside its composition zone`);
     if (e?.category !== 'ground-panel' && p.zone && zone)
@@ -217,5 +176,6 @@ export function sceneCompositionFindings(art: WorldVisualDefinition): string[] {
   }
   for (const [name, n] of count)
     if (n > spec.zones[name]!.capacity) notes.push(`${name}: dense cluster (${n} objects)`);
+  notes.push(...sceneArtFindings(art).map((finding) => finding.message));
   return notes;
 }

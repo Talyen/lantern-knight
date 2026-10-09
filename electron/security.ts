@@ -19,6 +19,11 @@ export function trustedSender(
   webContentsId: number,
   expectedId: number,
   entry = 'index.html',
+  developmentOrigin?: string,
 ) {
-  return frameURL === `lantern://app/${entry}` && isMainFrame && webContentsId === expectedId;
+  return (
+    frameURL === (developmentOrigin ? `${developmentOrigin}/${entry}` : `lantern://app/${entry}`) &&
+    isMainFrame &&
+    webContentsId === expectedId
+  );
 }

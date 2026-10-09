@@ -1,98 +1,111 @@
-// Vite copies public wholesale. Ship only catalog-selected generated resources;
-// source originals remain external; packages contain only selected resources.
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import assert from 'node:assert/strict';
-
-import { playgroundCatalog } from '../src/content/effects-playground-assets';
+import { createHash } from 'node:crypto';
 import { parseManifest } from '../src/assets/schema';
-import { exactSource, hash } from './compiler';
-import { readAuthoringCatalog } from './assets/authoring-catalog';
+import { playgroundCatalog } from '../src/content/effects-playground-assets';
 import { loadingVideoPath } from '../src/content/loading-media';
-import { validateLoadingVideo } from './assets/loading-media';
-import { readGameCatalog } from './game-asset-catalog';
-const dev = process.argv.includes('--dev'),
-  root = dev ? 'dist-dev' : 'dist',
-  catalog = dev
-    ? { ...(await readAuthoringCatalog()), ...playgroundCatalog }
-    : await readGameCatalog();
-validateLoadingVideo(await exactSource(loadingVideoPath, root));
-if (!dev) await fs.rm(path.join(root, 'dev-lighting'), { recursive: true, force: true });
-if (!dev) await fs.rm(path.join(root, 'dev-effects'), { recursive: true, force: true });
-const normals = JSON.parse((await exactSource('lighting/manifest.json', root)).toString());
-const normalEntries = Object.fromEntries(
-  Object.entries(normals.entries as Record<string, { file: string; hash: string }>).filter(
-    ([key]) => key.split(':')[0]! in catalog,
-  ),
-);
-const normalFiles = new Set(['manifest.json']);
-for (const entry of Object.values(normalEntries)) {
-  assert.match(entry.file, /^[a-f0-9]{64}\.png$/);
-  assert.equal(hash(await exactSource(`lighting/${entry.file}`, root)), entry.hash);
-  normalFiles.add(entry.file);
-}
-for (const entry of await fs.readdir(path.join(root, 'lighting')))
-  if (!normalFiles.has(entry)) await fs.unlink(path.join(root, 'lighting', entry));
-await fs.writeFile(
-  path.join(root, 'lighting/manifest.json'),
-  JSON.stringify({ ...normals, entries: normalEntries }, null, 2) + '\n',
-);
-const keep = new Set<string>(
-  dev ? ['generated/calibration.json', 'generated/library/catalog.json'] : [],
-);
-if (!dev && Object.keys(catalog).some((id) => id.startsWith('library-'))) {
-  const library = Object.fromEntries(
+import { readAuthoringCatalog } from './assets/authoring-catalog';
+import { gameAssetCatalog } from '../src/content/asset-catalog';
+import { liveLibraryAssets } from '../src/content/library-references';
+import { safeRelative } from './assets/paths';
+
+export type SelectedFiles = { files: string[]; generated: Record<string, string>; bytes: number };
+export async function selectedFiles(publicRoot: string, dev = false): Promise<SelectedFiles> {
+  const library =
+    dev || liveLibraryAssets.length ? await readAuthoringCatalog(publicRoot) : gameAssetCatalog;
+  const catalog = dev
+    ? { ...library, ...playgroundCatalog }
+    : {
+        ...gameAssetCatalog,
+        ...Object.fromEntries(
+          liveLibraryAssets.map((id) => {
+            if (!library[id]) throw new Error('Live artwork unavailable: ' + id);
+            return [id, library[id]];
+          }),
+        ),
+      };
+  const files = new Set([
+    'build-mode.json',
+    'generated/calibration.json',
+    'registration.json',
+    'animation/flow.png',
+    loadingVideoPath,
+  ]);
+  const generated: Record<string, string> = {};
+  if (dev) files.add('generated/calibration.json');
+  const read = (name: string) => fs.readFile(path.join(publicRoot, safeRelative(name)));
+  const hash = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
+  const manifests = new Map();
+  for (const [id, file] of Object.entries(catalog)) {
+    const m = parseManifest(JSON.parse((await read(file)).toString()));
+    if (m.asset.id !== id) throw new Error('Manifest identity differs: ' + id);
+    manifests.set(id, m);
+    files.add(file);
+    for (const page of m.pages) {
+      const name = path.posix.join(path.posix.dirname(file), page.path);
+      if (hash(await read(name)) !== page.hash) throw new Error('Prepared page differs: ' + name);
+      files.add(name);
+    }
+  }
+  const lighting = JSON.parse((await read('lighting/manifest.json')).toString());
+  lighting.entries = Object.fromEntries(
+    Object.entries(
+      lighting.entries as Record<
+        string,
+        { file: string; hash: string; sourceHash: string; rect: unknown; trim: unknown }
+      >,
+    ).filter(([key]) => key.split(':')[0]! in catalog),
+  );
+  for (const [key, e] of Object.entries(lighting.entries) as [
+    string,
+    { file: string; hash: string; sourceHash: string; rect: unknown; trim: unknown },
+  ][]) {
+    const id = key.slice(0, key.indexOf(':')),
+      frameId = key.slice(key.indexOf(':') + 1),
+      m = manifests.get(id)!;
+    const frame = m.frames.find((f: { id: string }) => f.id === frameId);
+    if (
+      !frame ||
+      m.pages.find((p: { id: string; hash: string }) => p.id === frame.page)?.hash !==
+        e.sourceHash ||
+      JSON.stringify(frame.rect) !== JSON.stringify(e.rect) ||
+      JSON.stringify(frame.trim) !== JSON.stringify(e.trim)
+    )
+      throw new Error('Lighting registration differs: ' + key);
+    const file = 'lighting/' + safeRelative(e.file);
+    if (hash(await read(file)) !== e.hash) throw new Error('Lighting companion differs: ' + file);
+    files.add(file);
+  }
+  generated['lighting/manifest.json'] = JSON.stringify(lighting) + '\n';
+  const surfaces = JSON.parse((await read('visual-effects/surfaces.json')).toString());
+  generated['visual-effects/surfaces.json'] = JSON.stringify(surfaces) + '\n';
+  for (const entry of Object.values(surfaces.entries) as { file: string }[])
+    files.add('visual-effects/' + safeRelative(entry.file));
+  if (dev) files.add('dev-effects/emitters.json');
+  const libraryEntries = Object.fromEntries(
     Object.entries(catalog).filter(([id]) => id.startsWith('library-')),
   );
-  await fs.mkdir(path.join(root, 'generated/library'), { recursive: true });
-  await fs.writeFile(
-    path.join(root, 'generated/library/catalog.json'),
-    JSON.stringify(library) + '\n',
-  );
-  keep.add('generated/library/catalog.json');
+  if (dev || Object.keys(libraryEntries).length)
+    generated['generated/library/catalog.json'] = JSON.stringify(libraryEntries) + '\n';
+  const sorted = [...files].sort();
+  let bytes = 0;
+  for (const file of sorted) bytes += (await fs.stat(path.join(publicRoot, file))).size;
+  bytes += Object.values(generated).reduce((n, text) => n + Buffer.byteLength(text), 0);
+  return { files: sorted, generated, bytes };
 }
-for (const file of Object.values(catalog)) {
-  const m = parseManifest(JSON.parse((await exactSource(file, root)).toString()));
-  keep.add(file);
-  for (const frame of m.frames) {
-    const companion = normals.entries[`${m.asset.id}:${frame.id}`];
-    if (!companion) continue;
-    assert.equal(
-      companion.sourceHash,
-      m.pages.find((p) => p.id === frame.page)!.hash,
-      `build lighting source differs: ${m.asset.id}/${frame.id}`,
-    );
-    assert.deepEqual(
-      companion.rect,
-      frame.rect,
-      `build lighting crop differs: ${m.asset.id}/${frame.id}`,
-    );
-    assert.deepEqual(
-      companion.trim,
-      frame.trim,
-      `build lighting registration differs: ${m.asset.id}/${frame.id}`,
-    );
+export async function copySelectedFiles(
+  source: string,
+  destination: string,
+  inventory: SelectedFiles,
+) {
+  for (const file of inventory.files) {
+    const target = path.join(destination, safeRelative(file));
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    await fs.copyFile(path.join(source, file), target);
   }
-  for (const page of m.pages) {
-    const filePath = path.posix.join(path.posix.dirname(file), page.path);
-    assert.equal(
-      hash(await exactSource(filePath, root)),
-      page.hash,
-      `build page differs: ${filePath}`,
-    );
-    keep.add(filePath);
+  for (const [file, text] of Object.entries(inventory.generated)) {
+    const target = path.join(destination, safeRelative(file));
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    await fs.writeFile(target, text);
   }
 }
-async function visit(dir: string) {
-  for (const entry of await fs.readdir(path.join(root, dir), { withFileTypes: true })) {
-    const name = path.posix.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      await visit(name);
-      if (!(await fs.readdir(path.join(root, name))).length) await fs.rmdir(path.join(root, name));
-    } else if (!keep.has(name)) await fs.unlink(path.join(root, name));
-  }
-}
-await visit('generated');
-console.log(
-  `Selected ${keep.size} generated runtime files; source collection and historical generations stay outside the package.`,
-);

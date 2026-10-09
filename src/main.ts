@@ -1,3 +1,4 @@
+import './developer-nav';
 import { composeSceneContent } from './content/game-content';
 import './style.css';
 import { LoadingScreen } from './loading-screen';

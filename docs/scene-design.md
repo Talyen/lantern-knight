@@ -1,20 +1,13 @@
-# Scene design
+# Scene design guidance
 
-Production scenes use flat ground and intact illustrated scenery. Painted 3D environment construction is superseded by this policy. The [scene registry](../src/content/scene-design.ts) owns eligible artwork, real dimensions, footprints, scale limits and named sockets; scene placements cannot redefine them. Missing suitable artwork requires artwork authoring under the canonical [Clean INK prompt](../references/canon/clean-ink-style.prompt.txt).
+Use the project Clean INK art direction, preserving original sources and canonical references. Prefer flat stages, whole illustrated shells and registered native ground panels. Hidden collision/rendering carriers and shadow proxies support the artwork.
 
-## Construction and composition
-
-- Keep playable stages flat. Rendering planes, invisible collision and shadow proxies remain supported; hills, steps, raised terraces and visible textured blocks do not.
-- Use cohesive whole building shells or open-front interior shells. Attach only compatible artwork at registered sockets. Structural clipping and prose overlap waivers are prohibited; natural depth occlusion is permitted.
-- Preserve artwork silhouettes and projection. Do not crop, cut, stretch, deform, repaint or manipulate UVs to manufacture scenery. Transparent-margin trimming and atlas sampling preserve registration and visible pixels.
-- Use semantic world sizes. Independent props normally allow 0.85–1.15 of their registered size. Shells, ground panels and attachments use registered dimensions. A tree is never substituted for a bush by shrinking it.
-- Use the scene palette and composition zones to guide iteration. Zone placement and cluster density are advisory editor notes for these prototypes. Valid asset references, flat grounding, registered transforms/sockets and absence of structural clipping remain required.
-- Ground supports scenery through quiet colors and broad smooth fills. Paths, threshold transitions and paving are authored images, never runtime painting or shader masks.
+These are prototype design recommendations. Palette membership, composition zones, density, scale, tint, mirroring, grounding and treatment can be experimented with. The editor shows advice rather than rejecting otherwise valid layouts. Source-fidelity and malformed/missing-resource errors remain technical protections.
 
 ## Native ground panels
 
-Measure actual source dimensions. A roughly 1k image covers about four metres at 256 native pixels per metre, not an entire room. Use a quiet repeatable bed and coordinated intact path/floor/threshold panels with authored joins; register their physical coverage and density. Do not enlarge rasters or relabel enlarged outputs as native. Review joins, repeated landmarks and material contrast in the production renderer. The ground is one designed composition assembled from registered panels, rather than arbitrary overlapping ground decals.
+Measure native dimensions and density. Prefer quiet beds and coordinated intact path/floor/threshold panels with authored joins. Do not enlarge rasters and call the enlarged results native. Inspect joins, repeated landmarks, contrast and combat visibility in the actual renderer when investigating visuals.
 
 ## Verification
 
-Use the [contributing handoff](../CONTRIBUTING.md#verification): dynamic contract checks and a warm scene probe; direct visual inspection only for requested captures. Stable test fixtures protect renderer/engine behavior independently of production layout. Runtime artwork changes finish through the existing [asset finalization workflow](assets.md#local-preparation-review). Captures and temporary diagnostics remain outside Git.
+Use the shared development server and affected scene/editor browser scenario. Stable fixtures protect engine and registration behavior without freezing production counts/routes. Original art preparation and explicit sharing follow [assets](assets.md); [verification](verification.md) owns evidence boundaries.

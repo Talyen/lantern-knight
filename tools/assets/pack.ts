@@ -116,8 +116,7 @@ export const lockFile = path.join(projectRoot, 'assets/lock.json');
 export const readLock = async (
   read = (name: string) => fs.readFile(path.join(projectRoot, name)),
 ) => LockSchema.parse(JSON.parse((await read('assets/lock.json')).toString()));
-import { listFiles } from './archive';
-export { makeArchive } from './archive';
+import { listFiles } from './files';
 export async function validatePack(root: string, lock: AssetLock) {
   const inventory = await fs.readFile(path.join(root, 'pack.json'));
   if (createHash('sha256').update(inventory).digest('hex') !== lock.inventorySha256)
@@ -228,8 +227,6 @@ export async function ensurePack(
   request: typeof fetch = fetch,
   url = `https://github.com/Talyen/lantern-knight/releases/download/${lock.releaseTag}/${lock.filename}`,
 ) {
-  if (lock.schemaVersion === 3)
-    return (await import('./bundles')).ensureBundlePack(lock, cache, request);
   const held = await cache.lease('pack-' + lock.sha256);
   try {
     await installMutex(held.root, async () => {

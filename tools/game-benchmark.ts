@@ -3,7 +3,7 @@ import path from 'node:path';
 import os from 'node:os';
 import assert from 'node:assert/strict';
 import { z } from 'zod';
-import { BenchmarkSchema, frameSummary } from './benchmark';
+import { BenchmarkSchema, frameSummary } from './benchmark-model';
 import { digest } from './source-identity';
 import { verificationIdentity, requireStableInputs } from './verification';
 import { option, type smokeLaunch } from './smoke/smoke-launch';
@@ -143,7 +143,7 @@ export async function startGameBenchmark(
           electron: process.versions.electron!,
           chromium: process.versions.chrome!,
         },
-        flags: process.argv.filter((a) => /^--(?:use-|disable-gpu)/.test(a)),
+        flags: run.flags.filter((a) => /^--(?:use-|disable-gpu)/.test(a)),
       };
     });
     const rendering = await run.page.evaluate(() => {

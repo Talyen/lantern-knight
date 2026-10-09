@@ -178,14 +178,10 @@ export function updateGameUI(app: Application) {
     title.classList.add('location-enter');
   }
   const unavailable = app.busy || pending;
-  $<HTMLButtonElement>('#save').disabled = !app.persistence.canWrite || unavailable;
-  for (const id of ['reset', 'load']) $<HTMLButtonElement>('#' + id).disabled = unavailable;
-  for (const id of ['new-game', 'confirm-new'])
-    $<HTMLButtonElement>('#' + id).disabled = app.persistence.mode === 'unreadable' || unavailable;
+  for (const id of ['save', 'reset', 'load', 'new-game', 'confirm-new'])
+    $<HTMLButtonElement>('#' + id).disabled = unavailable;
   $('#save-notice').textContent =
     app.persistence.error ||
     app.settingsError ||
-    (!app.persistence.canWrite
-      ? 'Existing checkpoint protected. Load it or confirm New Game.'
-      : 'Manual saves and boundary autosaves share this checkpoint.');
+    'Prototype checkpoints may reset when the game changes.';
 }

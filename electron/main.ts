@@ -15,6 +15,23 @@ if (__DEV_APP__) app.setPath('userData', path.join(app.getPath('appData'), 'Lant
 if (process.env.LANTERN_USER_DATA)
   app.setPath('userData', path.resolve(process.env.LANTERN_USER_DATA)); // app-owned test harness only; never renderer-selected
 app.enableSandbox();
+const developmentOrigin = __DEV_APP__ ? process.env.LANTERN_DEV_URL : undefined;
+if (developmentOrigin) {
+  const url = new URL(developmentOrigin);
+  if (
+    url.protocol !== 'http:' ||
+    url.hostname !== '127.0.0.1' ||
+    !url.port ||
+    url.pathname !== '/' ||
+    url.username ||
+    url.password ||
+    url.search ||
+    url.hash
+  )
+    throw new Error('Expected an assigned local Vite origin');
+}
+const pageURL = (entry: string) =>
+  developmentOrigin ? `${developmentOrigin}/${entry}` : `lantern://app/${entry}`;
 const hiddenTest = process.env.LANTERN_TEST_HIDDEN === '1';
 const automatedRun = process.env.LANTERN_AUTOMATED_RUN === '1';
 let window: BrowserWindow | undefined;
@@ -37,14 +54,16 @@ app
       callback(false),
     );
     session.defaultSession.setPermissionCheckHandler(() => false);
-    let mode: 'game' | 'sandbox' | 'effects' =
-      __DEV_APP__ && process.argv.includes('--effects')
-        ? 'effects'
-        : __DEV_APP__ && !process.argv.includes('--game')
-          ? 'sandbox'
-          : 'game';
+    let mode: 'game' | 'sandbox' | 'effects' | 'editor' =
+      __DEV_APP__ && process.argv.includes('--editor')
+        ? 'editor'
+        : __DEV_APP__ && process.argv.includes('--effects')
+          ? 'effects'
+          : __DEV_APP__ && !process.argv.includes('--game')
+            ? 'sandbox'
+            : 'game';
     const profileRoot = app.getPath('userData');
-    const storeFor = (selected: 'game' | 'sandbox' | 'effects') =>
+    const storeFor = (selected: 'game' | 'sandbox' | 'effects' | 'editor') =>
       new Store(checkpointDirectory(profileRoot, __DEV_APP__, selected));
     let store = storeFor(mode);
     const entry = () => launchEntry(__DEV_APP__, mode);
@@ -75,7 +94,9 @@ app
         .catch(() => {});
     });
     window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
-    window.webContents.on('will-navigate', (event) => event.preventDefault());
+    window.webContents.on('will-navigate', (event, url) => {
+      if (!developmentOrigin || url !== pageURL(entry())) event.preventDefault();
+    });
     window.webContents.on('will-attach-webview', (event) => event.preventDefault());
     for (const [channel, slot, write] of [
       ['load-settings', 'settings', false],
@@ -93,6 +114,7 @@ app
             event.sender.id,
             window.webContents.id,
             entry(),
+            developmentOrigin,
           )
         )
           throw new Error('untrusted IPC sender');
@@ -119,16 +141,17 @@ app
             event.sender.id,
             window.webContents.id,
             entry(),
+            developmentOrigin,
           ) ||
-          !['game', 'sandbox', 'effects'].includes(next)
+          !['game', 'sandbox', 'effects', 'editor'].includes(next)
         )
           throw new Error('invalid development launch');
         await store.queue;
         mode = next;
         store = storeFor(mode);
-        await window.loadURL(`lantern://app/${entry()}`);
+        await window.loadURL(pageURL(entry()));
       });
-    await window.loadURL(`lantern://app/${entry()}`);
+    await window.loadURL(pageURL(entry()));
   })
   .catch((error) => {
     console.error('Unable to start Lantern Knight:', error);

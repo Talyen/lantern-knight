@@ -8,10 +8,23 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "lib": ["ES2022", "DOM"],
-    "types": ["node", "vite/client"],
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "types": [
+      "node",
+      "vite/client"
+    ],
     "noEmit": true,
     "allowImportingTsExtensions": true
   },
-  "include": ["src", "electron", "tools", "tests", "vite.config.ts"]
+  "include": [
+    "src",
+    "electron",
+    "tools",
+    "tests",
+    "vite.config.ts",
+    "playwright.config.ts"
+  ]
 }

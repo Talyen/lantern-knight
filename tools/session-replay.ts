@@ -64,7 +64,6 @@ export async function executeRecipe(
       bytes = JSON.stringify(save);
     },
   });
-  await persistence.inspect();
   const hashes: string[] = [],
     events: Record<string, number> = {},
     areas = new Set([session.sim.area]);
@@ -90,7 +89,6 @@ export async function executeRecipe(
     else if (a.kind === 'save') {
       const snapshot = session.captureSave();
       await persistence.save(snapshot);
-      await persistence.settled();
       assert.deepEqual(
         parseGame(JSON.parse(bytes!), registry),
         snapshot,
@@ -98,10 +96,9 @@ export async function executeRecipe(
       );
     } else {
       const loaded = await persistence.load();
-      if (loaded.status !== 'ok' && loaded.status !== 'recovered')
+      if (loaded.status !== 'ok')
         throw new Error('Replay Load requires a previously saved checkpoint');
       observe(session.restoreSave(loaded.data));
-      persistence.loaded();
       areas.add(session.sim.area);
       assert.deepEqual(
         session.captureSave(),

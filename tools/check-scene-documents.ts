@@ -5,7 +5,7 @@ import {
   validateSceneReferences,
   sceneBytesLimit,
 } from '../src/content/scene-document';
-import { baseWorldVisuals, resolveAuthoredScene } from '../src/content/world-art';
+import { resolveAuthoredScene } from '../src/content/world-art';
 import type { Manifest } from '../src/assets/schema';
 export async function checkSceneDocuments(root: string, manifests: ReadonlyMap<string, Manifest>) {
   const directory = path.join(root, 'authoring/scenes'),
@@ -17,7 +17,7 @@ export async function checkSceneDocuments(root: string, manifests: ReadonlyMap<s
     const d = parseSceneDocument(JSON.parse(await fs.readFile(location, 'utf8')));
     if (file !== d.id + '.json')
       throw new Error('Scene filename differs from its identity: ' + file);
-    validateSceneReferences(d, baseWorldVisuals[d.base], manifests);
+    validateSceneReferences(d, manifests);
     resolveAuthoredScene(d);
   }
   return files.length;

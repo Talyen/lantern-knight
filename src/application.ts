@@ -150,15 +150,17 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.presentation.generation = this.session.generation;
     this.events.setGeneration(this.session.generation);
     this.input = new Input(this.canvas, this.presentation.camera, () => this.pause(!this.paused));
-    const settings = await this.bridge.loadSettings();
+    const settings = await this.bridge.loadSettings().catch((error: Error) => {
+      this.settingsError = error.message;
+      return { status: 'empty' } as const;
+    });
     this.assertActive();
-    if (settings.status === 'ok' || settings.status === 'recovered') {
+    if (settings.status === 'ok') {
       this.scale = settings.data.renderScale;
       this.presentation.verticalSpan = settings.data.verticalSpan;
       this.presentation.setDepthOfField(settings.data.depthOfField);
       this.presentation.setVisualEffects(settings.data.visualEffects);
-    } else if (settings.status === 'unreadable') this.settingsError = settings.message;
-    await this.persistence.inspect();
+    }
     this.assertActive();
     this.presentation.resize(this.scale);
     await this.presentation.loadAnimationFlow();
@@ -305,7 +307,6 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private async restoreState(save: GameSave) {
     const valid = parseGame(save, this.registry);
     await this.replaceArea(valid.area, () => this.session.restoreSave(valid));
-    this.persistence.loaded();
   }
   restore(save: GameSave) {
     return this.withLoading(() => this.restoreCheckpoint(save));
@@ -321,7 +322,6 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private async loadCheckpoint() {
     const resume = this.resumeOnCompletion(),
       result = await this.persistence.load();
-    if (result.status === 'unreadable') throw new Error(result.message);
     if (result.status === 'empty') return false;
     await this.restoreState(result.data);
     resume();
@@ -341,7 +341,6 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       );
       return [];
     });
-    this.persistence.confirmNew();
     if (!this.readOnly) await this.persistence.save(this.session.captureSave());
     resume();
   }
@@ -362,7 +361,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     await this.saveSettings();
   }
   autosave() {
-    if (!this.readOnly) this.safe(() => this.persistence.save(this.session.captureSave(), true));
+    if (!this.readOnly) this.safe(() => this.persistence.save(this.session.captureSave()));
   }
   private loop = (now: number) => {
     if (this.disposed) return;

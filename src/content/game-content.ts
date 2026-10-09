@@ -1,3 +1,6 @@
+import courtDocument from '../../authoring/scenes/live-court.json';
+import chapelDocument from '../../authoring/scenes/live-upper-landing.json';
+import { parseSceneDocument } from './scene-document';
 import { ContentRegistry, type ContentDefinitions } from './world';
 import {
   churchyardColliders,
@@ -11,6 +14,8 @@ import type { AreaDefinition } from './world';
 import type { Manifest } from '../assets/schema';
 import { tuning } from './gameplay';
 import { actorVisuals, assetCatalog } from './visuals';
+const courtGeometry = parseSceneDocument(courtDocument).geometry!;
+const chapelGeometry = parseSceneDocument(chapelDocument).geometry!;
 export const contentDefinitions: ContentDefinitions = {
   initialArea: 'court',
   player: 'lamplighter',
@@ -39,15 +44,8 @@ export const contentDefinitions: ContentDefinitions = {
       id: 'court',
       name: 'Graveyard Approach',
       subtitle: 'A worn path leads between the graves to the chapel.',
-      bounds: { minX: -6.5, maxX: 6.5, minZ: -6.3, maxZ: 8 },
-      surface: { kind: 'flat', height: 0 },
+      ...courtGeometry,
       seedOffset: 0,
-      baselineEntry: 'start',
-      entries: [
-        { id: 'start', x: 0, z: 6.65 },
-        { id: 'from-landing', x: 0, z: -5.5 },
-      ],
-      activation: { minX: -6.5, maxX: 6.5, minZ: -6.3, maxZ: 2.0 },
       spawns: [{ id: 'warden-1', actor: 'skeleton', x: 0.7, z: 0.0 }],
       props: churchyardColliders('court'),
       floorColor: 0x34434a,
@@ -66,12 +64,8 @@ export const contentDefinitions: ContentDefinitions = {
       id: 'upper-landing',
       name: 'Ruined Chapel',
       subtitle: 'The restless dead gather in the ruined nave.',
-      bounds: { minX: -5.7, maxX: 5.7, minZ: -8.7, maxZ: 8.7 },
-      surface: { kind: 'flat', height: 0 },
+      ...chapelGeometry,
       seedOffset: 101,
-      baselineEntry: 'start',
-      entries: [{ id: 'start', x: 0, z: 7.5 }],
-      activation: { minX: -5.7, maxX: 5.7, minZ: -8.7, maxZ: 4.3 },
       spawns: [
         { id: 'warden-1', actor: 'skeleton', x: -2.0, z: 1.0 },
         { id: 'warden-2', actor: 'skeleton', x: 1.7, z: -1.3 },

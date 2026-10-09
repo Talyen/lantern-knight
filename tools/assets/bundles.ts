@@ -14,45 +14,22 @@ import {
 import { makeArchive } from './archive';
 import { AssetCache } from './cache';
 import { diskBytes } from './cache';
-import type { PreparedAssets } from './publication';
+import type { PreparedAssets } from './prepare';
 import { safeRelative } from './paths';
-import { worldVisuals, sceneAssets } from '../../src/content/world-art';
-import { assetCatalog } from '../../src/content/asset-catalog';
+import { selectedFiles } from '../select-runtime-assets';
+export type AssetScope = 'runtime' | 'authoring';
 
 type BundlePin = Extract<AssetLock, { schemaVersion: 3 }>;
-export function bundleOwner(file: string) {
-  if (file.startsWith('public/media/'))
-    return (
-      'media-' +
-      path.posix
-        .basename(file)
-        .replace(/\.[^.]*$/, '')
-        .toLowerCase()
-        .replace(/[^a-z0-9_-]/g, '_')
-    );
-  if (file.startsWith('public/generated/library/') || file.startsWith('metadata/library/'))
-    return 'developer';
-  if (
-    /^(?:public\/animation\/|public\/generated\/ink\/ink-hero|metadata\/(?:ink\/hero|rest\/))/.test(
-      file,
-    )
-  )
-    return 'hero';
-  const owners = Object.entries(worldVisuals)
-    .filter(([, art]) =>
-      sceneAssets(art).some((id) => {
-        const manifest = assetCatalog[id];
-        return manifest && file.startsWith('public/' + path.posix.dirname(manifest) + '/');
-      }),
-    )
-    .map(([id]) => id);
-  return owners.length === 1 ? 'room-' + owners[0] : 'common';
-}
 export async function prepareBundles(candidate: PreparedAssets, previous?: AssetLock) {
   const inventory = await validatePack(candidate.payload, candidate.lock);
+  const selection = await selectedFiles(path.join(candidate.payload, 'public'));
+  const runtime = new Set(
+    [...selection.files, ...Object.keys(selection.generated)].map((file) => 'public/' + file),
+  );
   const groups = new Map<string, string[]>();
   for (const file of Object.keys(inventory.files)) {
-    const owner = bundleOwner(file),
+    if (file === 'metadata/preparation-inputs.json') continue;
+    const owner = runtime.has(file) || file.startsWith('metadata/') ? 'runtime' : 'authoring',
       names = groups.get(owner) ?? [];
     names.push(file);
     groups.set(owner, names);
@@ -99,13 +76,39 @@ export async function ensureBundlePack(
   pin: BundlePin,
   cache = new AssetCache(),
   request: typeof fetch = fetch,
+  scope: AssetScope = 'authoring',
 ) {
-  const held = await cache.lease('pack-' + pin.sha256),
+  const names = scope === 'runtime' && pin.bundles.runtime ? ['runtime'] : Object.keys(pin.bundles);
+  const held = await cache.lease('pack-' + pin.sha256 + '-' + scope),
     parts: Awaited<ReturnType<typeof ensurePack>>[] = [];
   try {
+    const files: Record<string, { sha256: string; bytes: number }> = {},
+      folded = new Set<string>();
+    for (const name of names) {
+      const part = await ensurePack(pin.bundles[name]!, cache, request);
+      parts.push(part);
+      const inventory = await validateCachedPack(part.root, pin.bundles[name]!);
+      for (const [file, info] of Object.entries(inventory.files)) {
+        safeRelative(file);
+        if (folded.has(file.toLowerCase()))
+          throw new Error('Duplicate or case-colliding bundle file: ' + file);
+        folded.add(file.toLowerCase());
+        files[file] = info;
+      }
+    }
+    const inventory = JSON.stringify({
+      schemaVersion: 1,
+      recipeSha256: pin.recipeSha256,
+      files: Object.fromEntries(Object.entries(files).sort(([a], [b]) => a.localeCompare(b))),
+    });
+    const assembly = {
+      ...pin,
+      schemaVersion: 1 as const,
+      inventorySha256: createHash('sha256').update(inventory).digest('hex'),
+    };
     await installMutex(held.root, async () => {
       try {
-        await validateCachedPack(held.root, pin);
+        await validateCachedPack(held.root, assembly);
         return;
       } catch {}
       const exists = await fs.access(path.join(held.root, 'pack.json')).then(
@@ -116,32 +119,18 @@ export async function ensureBundlePack(
         throw new Error('Bundle assembly is in use; stop its readers before repairing it');
       const incoming = path.join(held.root, '.bundle-incoming');
       await fs.rm(incoming, { recursive: true, force: true });
-      const files: Record<string, { sha256: string; bytes: number }> = {};
-      const folded = new Set<string>();
       try {
-        for (const bundle of Object.values(pin.bundles)) {
-          const part = await ensurePack(bundle, cache, request);
-          parts.push(part);
-          const inventory = await validateCachedPack(part.root, bundle);
-          for (const [file, info] of Object.entries(inventory.files)) {
-            safeRelative(file);
-            if (folded.has(file.toLowerCase()))
-              throw new Error('Duplicate or case-colliding file across asset bundles: ' + file);
-            folded.add(file.toLowerCase());
-            files[file] = info;
+        for (const part of parts) {
+          const data = JSON.parse(await fs.readFile(path.join(part.root, 'pack.json'), 'utf8'));
+          for (const file of Object.keys(data.files)) {
             const target = path.join(incoming, file);
             await fs.mkdir(path.dirname(target), { recursive: true });
             await fs.link(path.join(part.root, file), target);
           }
         }
-        const sorted = Object.fromEntries(
-          Object.entries(files).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)),
-        );
-        await fs.writeFile(
-          path.join(incoming, 'pack.json'),
-          JSON.stringify({ schemaVersion: 1, recipeSha256: pin.recipeSha256, files: sorted }),
-        );
-        await validatePack(incoming, pin);
+        await fs.mkdir(path.join(incoming, 'metadata'), { recursive: true });
+        await fs.writeFile(path.join(incoming, 'pack.json'), inventory);
+        await validatePack(incoming, assembly);
         for (const name of ['public', 'metadata', 'pack.json']) {
           await fs.rm(path.join(held.root, name), { recursive: true, force: true });
           await fs.rename(path.join(incoming, name), path.join(held.root, name));

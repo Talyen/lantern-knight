@@ -1,4 +1,5 @@
 import path from 'node:path';
+import fs from 'node:fs';
 import { runProcess } from '../run-process';
 import { projectRoot } from './paths';
 import { cachedPreparationStep } from './incremental';
@@ -22,7 +23,15 @@ export async function prepareSteps(options: {
       const python = operation.file.endsWith('.py');
       try {
         await runProcess(
-          python ? 'python3' : process.execPath,
+          python
+            ? fs.existsSync(path.join(projectRoot, '.venv'))
+              ? path.join(
+                  projectRoot,
+                  '.venv',
+                  process.platform === 'win32' ? 'Scripts/python.exe' : 'bin/python',
+                )
+              : 'python3'
+            : process.execPath,
           [
             ...(python ? ['-B'] : ['--import', 'tsx']),
             path.join(projectRoot, 'tools', operation.file),

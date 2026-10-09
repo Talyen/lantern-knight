@@ -6,6 +6,6 @@ Sandbox's Lighting & Look mode compares Golden/Silver hour, Atmospheric ink, HD-
 
 Alpha-derived normal companions remain bound to the exact source page, trim and crop. Hand-authored surface companions add restrained structural response. Shadow, focus, foliage and reveal passes share the appropriate registration/deformation. SMAA handles antialiasing; auxiliary masks protect fighters and combat cues. Interiors exclude outdoor haze and rain.
 
-`smoke:crypt`, `smoke:visual-options` and `smoke:visual-scenes` cover frozen frames, depth ownership, focus protection, preferences, weather and settled resource counts. Success produces short summaries; use `--capture` to retain review exports. Hidden-window results do not certify visible monitor pacing or other hardware.
+`benchmark -- crypt`, `benchmark -- preferences` and `benchmark -- scenes` cover frozen frames, depth ownership, focus protection, preferences, weather and settled resource counts. Success produces short summaries; use `--capture` to retain review exports. Hidden-window results do not certify visible monitor pacing or other hardware.
 
 Lighting correctness smoke samples performance only with `--benchmark` or `--benchmark-only`; ordinary checks retain their rendering and resource assertions without benchmark waits. [Contributing](verification.md#e2e-coverage-and-execution-budgets) owns regression budgets.

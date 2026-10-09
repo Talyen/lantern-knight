@@ -4,7 +4,8 @@ import path from 'node:path';
 import { AssetCache, diskBytes } from './cache';
 import { cameraCalibration as calibrationFixture } from '../../src/assets/camera-calibration';
 import { stagePayload } from './payload';
-import { makeArchive, recipeHash, recipeInputs } from './pack';
+import { recipeHash, recipeInputs } from './pack';
+import { makeArchive } from './archive';
 import { prepareSteps, prepareProof } from './preparation';
 const BUDGET = 2.5 * 1024 ** 3;
 export async function prepareAssets(
@@ -83,3 +84,5 @@ export async function prepareAssets(
     throw error;
   }
 }
+
+export type PreparedAssets = Awaited<ReturnType<typeof prepareAssets>>;

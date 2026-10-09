@@ -2,7 +2,6 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { runProcess } from './run-process';
-import { AssetCache, diskBytes } from './assets/cache';
 import { projectRoot } from './assets/paths';
 
 const directories = ['src', 'electron', 'tools', 'tests'];
@@ -79,51 +78,19 @@ export async function quietRun(command: string, args: string[], root = projectRo
   }
 }
 
-const RUFF_VERSION = '0.16.10';
 export async function withRuff<T>(work: (executable: string) => Promise<T>) {
-  const cache = new AssetCache(),
-    held = await cache.lease('format-tools-ruff-' + RUFF_VERSION, 64 * 1024 ** 2);
-  try {
-    const executable = path.join(
-      held.root,
-      'runtime',
-      'bin',
-      process.platform === 'win32' ? 'ruff.exe' : 'ruff',
-    );
-    if (
-      !(await fs.access(executable).then(
-        () => true,
-        () => false,
-      ))
-    ) {
-      console.log('Installing pinned Ruff ' + RUFF_VERSION + '…');
-      await quietRun('python3', [
-        '-m',
-        'pip',
-        'install',
-        '--target',
-        path.join(held.root, 'runtime'),
-        '--no-compile',
-        '--no-cache-dir',
-        '--no-deps',
-        'ruff==' + RUFF_VERSION,
-      ]);
-    }
-    let version = '';
-    await runProcess(executable, ['--version'], {
-      cwd: projectRoot,
-      timeoutMs: 120000,
-      output: (chunk) => {
-        version += chunk.toString();
-      },
-    });
-    if (version.trim() !== 'ruff ' + RUFF_VERSION)
-      throw new Error('Unexpected Ruff version; remove the disposable formatter entry and retry');
-    const result = await work(executable);
-    if ((await diskBytes(held.root)) > 64 * 1024 ** 2)
-      throw new Error('Ruff runtime exceeds its cache reservation');
-    return result;
-  } finally {
-    await held.release();
-  }
+  const executable = path.join(
+    projectRoot,
+    '.venv',
+    process.platform === 'win32' ? 'Scripts' : 'bin',
+    process.platform === 'win32' ? 'ruff.exe' : 'ruff',
+  );
+  if (
+    !(await fs.access(executable).then(
+      () => true,
+      () => false,
+    ))
+  )
+    throw new Error('Set up the authoring .venv with Ruff 0.16.10 before explicit Python checks');
+  return work(executable);
 }

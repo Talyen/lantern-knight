@@ -1,3 +1,6 @@
+import { editorUI } from './editor/ui';
+import { bindSceneControls } from './editor/scene-controls';
+import './developer-nav';
 import { emptyScene } from './editor/default-scene';
 import { resolveAuthoredScene } from './content/world-art';
 import {
@@ -23,14 +26,8 @@ import { applySceneryPreset } from './content/scenery-presets';
 import { EditorHistory, sceneItems } from './editor/model';
 import { EditorView } from './editor/view';
 const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
-document.getElementById('app')!.innerHTML = `
-<header><div class="brand">LANTERN KNIGHT <span>Scene editor</span></div><label>Scene <select id="scene"><option value="new">New flat scene</option><option value="copy-court">Copy of Graveyard Approach</option><option value="copy-upper-landing">Copy of Ruined Chapel</option><option value="live-court">Edit Live: Graveyard Approach</option><option value="live-upper-landing">Edit Live: Ruined Chapel</option></select></label><button id="open">Open</button><input id="name" aria-label="Scene name" maxlength="80"><button id="save">Save</button><button id="save-as">Save As</button><span id="save-state">Unsaved</span></header>
-<div id="recovery" class="notice" hidden>Unsaved work is available. <button id="restore">Restore recovery</button><button id="dismiss-recovery">Dismiss</button></div>
-<div id="conflict" class="notice" hidden>The file changed outside this editor. Your edits are preserved. <button id="reload">Reload from disk</button><button id="conflict-copy">Save a separate copy</button></div>
-<main><aside class="palette"><h2>Artwork</h2><input id="search" type="search" placeholder="Search scenery…" aria-label="Search artwork"><select id="category" aria-label="Artwork category"><option value="all">All artwork</option><option value="prop">Upright scenery</option><option value="animated">Animated artwork</option><option value="pickup">Pickups</option><option value="decal">Ground details</option><option value="character">Characters</option><option value="effect">Effects</option><option value="reference">References</option></select><p class="hint">Drag a thumbnail into the scene, or select it and click the ground.</p><div id="assets"></div></aside>
-<section class="viewport"><div class="toolbar"><button id="undo">Undo</button><button id="redo">Redo</button><button id="duplicate">Duplicate</button><button id="delete">Delete</button><label><input id="grid" type="checkbox"> Grid &amp; snap</label><label><input id="hero-tool" type="checkbox"> Move hero</label><button id="fit">Fit scene</button><button id="play-animation">Pause animations</button><button id="replay-animation">Replay animations</button><span id="live-badge" hidden>EDITING LIVE SCENE</span></div><canvas id="viewport" tabindex="0" aria-label="Scene composition"></canvas><div class="viewport-help">Drag to move · Right-drag to pan · Scroll to zoom · Esc to deselect</div><p id="composition-notes" aria-label="Composition notes" hidden></p><p id="status" role="status" aria-live="polite">Loading prepared artwork…</p></section>
-<aside class="inspector"><h2>Scene</h2><label>Lighting<select id="rig"><option value="golden">Golden hour</option><option value="silver">Silver hour</option></select></label><label>Look<select id="look"><option value="diorama">HD-2D diorama</option><option value="ink">Atmospheric ink</option><option value="cinematic">Dark cinematic</option></select></label><fieldset id="foundation"><legend>Flat foundation</legend><label>Ground<select id="floor"></select></label><label>Width<input id="width" type="number" min="2" max="100" step="1"></label><label>Depth<input id="depth" type="number" min="2" max="100" step="1"></label></fieldset><h2>Selected object</h2><p id="selected-name">Select an object</p><fieldset id="transform" disabled><label>Clip<select id="clip"></select></label><label>Facing<select id="heading"></select></label><label>X<input id="x" type="number" step=".1"></label><label>Z<input id="z" type="number" step=".1"></label><label>Height offset<input id="y" type="number" step=".1"></label><label>Size<input id="scale" type="number" min=".05" max="20" step=".05"></label><label id="rotation-label">Rotation (degrees)<input id="rotation" type="number" min="-360" max="360" step="5"></label><label><input id="mirror" type="checkbox"> Mirror</label></fieldset><h2>Objects</h2><p class="hint">Terrain, architecture, paths, and attached fixtures are locked.</p><div id="objects" role="list" aria-label="Scene objects"></div></aside></main>
-<dialog id="art-preview"><p id="art-preview-label"></p><canvas id="art-preview-canvas" width="960" height="720" style="max-width:100%;height:auto"></canvas><form method="dialog"><button>Close</button></form></dialog><dialog id="save-dialog"><form method="dialog"><h2>Save scene copy</h2><label>File name<input id="file-id" required pattern="[a-z](?:[a-z0-9]|-){0,63}" maxlength="64" placeholder="my-forest-scene"></label><p>Use lowercase letters, numbers and hyphens. Copies are authoring drafts.</p><div><button value="cancel">Cancel</button><button id="confirm-save" value="save">Save copy</button></div></form></dialog>`;
+document.getElementById('app')!.innerHTML = editorUI;
+const refreshSceneControls = bindSceneControls(change);
 const canvas = $<HTMLCanvasElement>('viewport');
 let runtime: AssetRuntime,
   view: EditorView,
@@ -81,17 +78,18 @@ function recover() {
 }
 function controls() {
   if (palette.length) showPalette();
+  refreshSceneControls(history.document, busy);
   const d = history.document,
     items = sceneItems(d),
     item = items.find((p) => p.placement.id === selected),
     p = item?.placement;
   $<HTMLInputElement>('name').value = d.name;
   $('live-badge').hidden = d.target !== 'live';
-  $('foundation').hidden = d.base !== 'flat';
+  $('foundation').hidden = false;
   $<HTMLSelectElement>('rig').value = d.look.rig;
   $<HTMLSelectElement>('look').value = d.look.look;
   if (d.floor) {
-    $<HTMLSelectElement>('floor').value = d.floor.asset + '/' + d.floor.clip;
+    $<HTMLSelectElement>('floor').value = d.floor.asset + '/' + (d.floor.clip ?? 'surface');
     $<HTMLInputElement>('width').value = String(d.floor.width);
     $<HTMLInputElement>('depth').value = String(d.floor.depth);
   }
@@ -102,29 +100,19 @@ function controls() {
   for (const key of ['x', 'z', 'y', 'scale'] as const)
     $<HTMLInputElement>(key).value = p ? String(p[key] ?? (key === 'scale' ? 1 : 0)) : '';
   $<HTMLInputElement>('mirror').checked = !!p?.mirror;
-  const curated = p && d.profile !== 'study' ? paletteEntry(p) : undefined;
-  const fixedAttachment = !!p?.mount && d.profile !== 'study';
   const size = $<HTMLInputElement>('scale');
-  size.min = String(fixedAttachment ? 1 : (curated?.scale[0] ?? 0.05));
-  size.max = String(fixedAttachment ? 1 : (curated?.scale[1] ?? 20));
-  size.disabled = fixedAttachment || (!!curated && curated.scale[0] === curated.scale[1]);
-  $<HTMLInputElement>('x').disabled = !!p?.mount && d.profile !== 'study';
-  $<HTMLInputElement>('z').disabled = !!p?.mount && d.profile !== 'study';
+  size.min = '0.05';
+  size.max = '20';
+  size.disabled = false;
+  $<HTMLInputElement>('x').disabled = false;
+  $<HTMLInputElement>('z').disabled = false;
   const manifest = p ? palette.find((e) => e.asset === p.asset)?.manifest : undefined;
-  $<HTMLInputElement>('mirror').disabled =
-    (d.profile !== 'study' && !curated?.mirror) ||
-    manifest?.asset.mirroring === false ||
-    (manifest?.asset.type === 'character' && manifest.asset.mirroring !== true);
+  $<HTMLInputElement>('mirror').disabled = false;
   const clipSelect = $<HTMLSelectElement>('clip'),
     headingSelect = $<HTMLSelectElement>('heading');
   clipSelect.replaceChildren();
   headingSelect.replaceChildren();
-  for (const clip of manifest ? paletteClips(manifest) : [])
-    if (
-      d.profile === 'study' ||
-      paletteEntry({ asset: manifest!.asset.id, clip })?.profiles.includes(d.profile)
-    )
-      clipSelect.add(new Option(clip, clip));
+  for (const clip of manifest ? paletteClips(manifest) : []) clipSelect.add(new Option(clip, clip));
   if (p) clipSelect.value = p.clip;
   for (const heading of Object.keys(manifest?.asset.clips[p?.clip ?? ''] ?? {}))
     headingSelect.add(
@@ -148,8 +136,8 @@ function controls() {
     );
   if (p) headingSelect.value = p.heading ?? 'd45';
   $<HTMLInputElement>('rotation').value = String(((p?.rotation ?? 0) * 180) / Math.PI);
-  $('rotation-label').hidden = item?.kind !== 'decal';
-  $<HTMLInputElement>('y').disabled = d.profile !== 'study' || item?.kind === 'decal';
+  $('rotation-label').hidden = false;
+  $<HTMLInputElement>('y').disabled = item?.kind === 'decal';
   $<HTMLButtonElement>('undo').disabled = busy || !history.canUndo;
   $<HTMLButtonElement>('redo').disabled = busy || !history.canRedo;
   for (const key of ['delete', 'duplicate'])
@@ -491,8 +479,6 @@ function showPalette() {
     kind = $<HTMLSelectElement>('category').value;
   for (const [index, entry] of palette.entries())
     if (
-      (history.document.profile === 'study' ||
-        paletteEntry(entry)?.profiles.includes(history.document.profile)) &&
       (kind === 'all' ||
         kind === entry.kind ||
         (kind === 'pickup' && entry.manifest.asset.category === 'pickup') ||
@@ -731,6 +717,16 @@ window.addEventListener('beforeunload', (e) => {
     e.returnValue = '';
   }
 });
+$('export-recovery').onclick = () => {
+  const stored = localStorage.getItem(recoveryKey);
+  if (stored === null) return;
+  const url = URL.createObjectURL(new Blob([stored], { type: 'application/json' })),
+    link = document.createElement('a');
+  link.href = url;
+  link.download = 'lantern-scene-recovery.json';
+  link.click();
+  URL.revokeObjectURL(url);
+};
 $('dismiss-recovery').onclick = () => {
   recovery = undefined;
   localStorage.removeItem(recoveryKey);
@@ -802,7 +798,10 @@ async function start() {
   } catch {
     $('recovery').hidden = false;
     $<HTMLButtonElement>('restore').disabled = true;
-    status('Saved recovery could not be read; dismiss it explicitly to start a new scene.', true);
+    status(
+      'Saved recovery uses an unreadable or older format. Download it before adapting or dismissing it.',
+      true,
+    );
   }
   assetCatalog = await authoringCatalog();
   runtime = await AssetRuntime.open(assetCatalog);

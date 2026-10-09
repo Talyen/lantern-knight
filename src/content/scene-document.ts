@@ -2,9 +2,8 @@ import { z } from 'zod';
 import type { ArtPlacement, WorldVisualDefinition } from './world-art';
 import type { Manifest } from '../assets/schema';
 import { placementOffset } from './scenery-presets';
-import { migrateSceneV1 } from './scene-v1';
 import { HEADINGS } from '../core/camera';
-import { deriveScenePlacement, validateSceneDesign, paletteEntry } from './scene-design';
+import { deriveScenePlacement } from './scene-design';
 const id = z.string().regex(/^[a-z][a-z0-9-]{0,63}$/);
 const coordinate = z.number().finite().min(-1000).max(1000),
   positive = z.number().finite().positive();
@@ -22,7 +21,7 @@ const transform = {
     .max(Math.PI * 2)
     .optional(),
 };
-const legacyObject = z
+const placementSchema = z
   .object({
     id,
     kind: z.enum(['prop', 'decal']),
@@ -58,7 +57,7 @@ const fixture = z
       .optional(),
   })
   .strict();
-const object = legacyObject
+const object = placementSchema
   .extend({
     kind: z.enum(['prop', 'decal', 'character', 'effect']),
     heading: z.enum(HEADINGS).optional(),
@@ -71,6 +70,7 @@ const object = legacyObject
     assembly: z.string().optional(),
     zone: z.string().optional(),
     emissive: z.boolean().optional(),
+    door: z.boolean().optional(),
     role: z.enum(['ground', 'upright', 'attachment']).optional(),
     mount: z.object({ to: id, offset: vector, socket: z.string().optional() }).strict().optional(),
     fixture: fixture.optional(),
@@ -88,123 +88,171 @@ const object = legacyObject
     if (p.kind === 'decal' && (p.mount || p.fixture))
       ctx.addIssue({ code: 'custom', message: 'Ground details cannot carry fixtures or mounts' });
   });
-const fields = {
-  id,
-  name: z.string().trim().min(1).max(80),
-  base: z.enum(['flat', 'court', 'upper-landing']),
-  target: z.enum(['draft', 'live']),
-  floor: z
+const point = z.object({ x: coordinate, z: coordinate }).strict();
+const bounds = z
+  .object({ minX: coordinate, maxX: coordinate, minZ: coordinate, maxZ: coordinate })
+  .strict()
+  .refine((b) => b.minX < b.maxX && b.minZ < b.maxZ, 'Bounds must have positive dimensions');
+const camera = z
+  .object({
+    bounds,
+    bias: point,
+    keepHeroVisible: z.boolean().optional(),
+    targetHeight: coordinate.optional(),
+    arrival: z
+      .object({
+        start: coordinate,
+        end: coordinate,
+        biasZ: coordinate,
+        span: positive.optional(),
+        targetHeight: coordinate.optional(),
+      })
+      .strict()
+      .refine((a) => a.start < a.end, 'Camera arrival needs a nonempty range')
+      .optional(),
+  })
+  .strict();
+const surface = z.union([
+  z.object({ kind: z.literal('flat'), height: coordinate }).strict(),
+  z
     .object({
-      asset: z.string(),
-      clip: z.string(),
-      width: z.number().finite().min(2).max(100),
-      depth: z.number().finite().min(2).max(100),
+      kind: z.enum(['ramp', 'stairs']),
+      steps: z.number().int().positive().optional(),
+      terraceBounds: bounds.optional(),
+      stairWidth: positive.optional(),
+      axis: z.enum(['x', 'z']),
+      start: coordinate,
+      end: coordinate,
+      startHeight: coordinate,
+      endHeight: coordinate,
     })
     .strict()
-    .optional(),
-  hero: z.object({ x: coordinate, z: coordinate }).strict(),
-  look: z
-    .object({ rig: z.enum(['golden', 'silver']), look: z.enum(['ink', 'diorama', 'cinematic']) })
-    .strict(),
-};
-function documentRules(
-  d: { base: string; floor?: unknown; target: string; id: string; objects: { id: string }[] },
-  ctx: z.RefinementCtx,
-) {
-  if (d.base === 'flat' && (!d.floor || d.target === 'live'))
-    ctx.addIssue({
-      code: 'custom',
-      message: 'Flat drafts require a floor and cannot override an existing room',
-    });
-  if (d.base !== 'flat' && d.floor)
-    ctx.addIssue({ code: 'custom', message: 'Existing room foundations are locked' });
-  if (d.target === 'live' && d.id !== `live-${d.base}`)
-    ctx.addIssue({ code: 'custom', message: 'Live documents use the room identity' });
-  if (d.target === 'draft' && d.id.startsWith('live-'))
-    ctx.addIssue({ code: 'custom', message: 'Draft names cannot use live identities' });
-  if (new Set(d.objects.map((p) => p.id)).size !== d.objects.length)
-    ctx.addIssue({ code: 'custom', message: 'Duplicate object identity' });
-}
+    .refine((s) => s.start !== s.end, 'Surface needs a nonempty range'),
+]);
+const geometry = z
+  .object({
+    bounds,
+    surface,
+    activation: bounds.optional(),
+    baselineEntry: id,
+    entries: z.array(point.extend({ id }).strict()).min(1),
+  })
+  .strict();
+const surround = z
+  .object({
+    anchor: point,
+    color: z.number().int().min(0).max(0xffffff),
+    ground: z.array(point).min(3),
+    layers: z.array(
+      z
+        .object({
+          asset: z.string(),
+          clip: z.string(),
+          scale: positive,
+          base: coordinate,
+          parallax: coordinate,
+          tint: z.number().int().min(0).max(0xffffff),
+          detail: coordinate,
+        })
+        .strict(),
+    ),
+  })
+  .strict();
+const wall = z
+  .object({
+    id,
+    from: point,
+    to: point,
+    height: positive,
+    thickness: positive,
+    visualHeight: positive.optional(),
+    breaks: z.array(coordinate).optional(),
+    cutout: z.enum(['wall', 'wall-x', 'wall-z', 'boundary-x', 'boundary-z', 'fence']).optional(),
+    surface: z.literal('masonry').optional(),
+    assembly: z.string().optional(),
+    fade: z.boolean().optional(),
+  })
+  .strict();
 const SceneDocumentSchema = z
   .object({
-    version: z.literal(4),
+    version: z.literal(5),
+    id,
+    name: z.string().trim().min(1).max(80),
+    base: z.enum(['flat', 'court', 'upper-landing']),
+    target: z.enum(['draft', 'live']),
     profile: z.enum(['graveyard', 'chapel', 'study']),
-    ...fields,
+    floor: z
+      .object({
+        asset: z.string(),
+        clip: z.string().optional(),
+        width: positive.max(100),
+        depth: positive.max(100),
+      })
+      .strict(),
+    hero: point,
+    look: z
+      .object({ rig: z.enum(['golden', 'silver']), look: z.enum(['ink', 'diorama', 'cinematic']) })
+      .strict(),
+    camera,
+    geometry: geometry.optional(),
+    surround: surround.optional(),
+    weather: z
+      .object({ rain: z.number().min(0).max(1), wind: point })
+      .strict()
+      .optional(),
+    rainBounds: bounds.optional(),
+    rainShelters: z.array(bounds).optional(),
+    proceduralAssets: z.array(z.string()).default([]),
+    paths: z
+      .array(
+        z
+          .object({ points: z.array(point), width: positive, widths: z.array(positive).optional() })
+          .strict(),
+      )
+      .default([]),
+    walls: z.array(wall).default([]),
+    graves: z
+      .array(
+        z
+          .object({
+            id,
+            x: coordinate,
+            z: coordinate,
+            width: positive,
+            length: positive,
+            age: z.enum(['kept', 'old', 'damaged']),
+            angle: coordinate.optional(),
+            marker: z.enum(['gravestone', 'memorial', 'fallen-marker']).optional(),
+          })
+          .strict(),
+      )
+      .default([]),
+    interior: bounds.optional(),
+    propOrder: z.array(id).default([]),
+    overlaps: z
+      .array(z.object({ a: id, b: id, region: bounds, reason: z.string() }).strict())
+      .default([]),
     objects: z.array(object).max(500),
   })
   .strict()
   .superRefine((d, ctx) => {
-    documentRules(d, ctx);
-    if (
-      d.profile === 'study'
-        ? d.base !== 'flat' || d.target !== 'draft'
-        : d.base !== 'flat' && d.profile !== (d.base === 'court' ? 'graveyard' : 'chapel')
-    )
-      ctx.addIssue({
-        code: 'custom',
-        message: 'Scene design profile does not match its production foundation',
-      });
-    if (d.profile !== 'study')
-      for (const p of d.objects)
-        if (p.footprint !== undefined || p.footprintAngle !== undefined || p.coverage !== undefined)
-          ctx.addIssue({
-            code: 'custom',
-            message: 'Scenery registration comes from the curated palette, not placements',
-          });
-  });
-const legacySchema = z
-  .object({
-    version: z.literal(1),
-    ...fields,
-    changes: z
-      .array(z.object({ id, ...transform, deleted: z.boolean().optional() }).strict())
-      .max(500),
-    objects: z.array(legacyObject).max(500),
-  })
-  .strict()
-  .superRefine((d, ctx) => {
-    documentRules(d, ctx);
-    if (new Set(d.changes.map((p) => p.id)).size !== d.changes.length)
+    if (d.target === 'live' && (d.base === 'flat' || d.id !== `live-${d.base}`))
+      ctx.addIssue({ code: 'custom', message: 'Live documents use the room identity' });
+    if (d.target === 'draft' && d.id.startsWith('live-'))
+      ctx.addIssue({ code: 'custom', message: 'Draft names cannot use live identities' });
+    if (new Set(d.objects.map((p) => p.id)).size !== d.objects.length)
       ctx.addIssue({ code: 'custom', message: 'Duplicate object identity' });
-    if (d.base === 'flat' && d.changes.length)
-      ctx.addIssue({ code: 'custom', message: 'Flat drafts cannot override an existing room' });
+    if (d.base !== 'flat' && !d.geometry)
+      ctx.addIssue({ code: 'custom', message: 'Gameplay scenes require geometry and entries' });
   });
 export type SceneDocument = z.infer<typeof SceneDocumentSchema>;
 export type SceneObject = SceneDocument['objects'][number];
 export const sceneBytesLimit = 64 * 1024;
 export function parseSceneDocument(value: unknown): SceneDocument {
-  if ([1, 2, 3].includes((value as { version?: number })?.version ?? 0))
-    throw new Error(
-      'Legacy scene requires explicit conversion to version 4 and a design profile; artwork and transforms are not silently changed',
-    );
   return SceneDocumentSchema.parse(value);
-}
-export function convertLegacySceneDocument(
-  value: unknown,
-  profile: SceneDocument['profile'],
-): SceneDocument {
-  let prior = value as { version?: number; objects?: unknown[] };
-  if (prior.version === 1) prior = migrateSceneV1(legacySchema.parse(prior));
-  if (![2, 3].includes(prior.version ?? 0) || !Array.isArray(prior.objects))
-    throw new Error('Unsupported legacy scene');
-  if (
-    prior.version === 2 &&
-    prior.objects.some(
-      (p) =>
-        !p ||
-        typeof p !== 'object' ||
-        !['prop', 'decal'].includes((p as { kind: string }).kind) ||
-        (p as { heading?: unknown }).heading !== undefined,
-    )
-  )
-    throw new Error('Invalid version 2 scene objects');
-  const result = parseSceneDocument({ ...prior, version: 4, profile });
-  resolveSceneDocument(result);
-  return result;
 }
 export type PaletteKind = SceneObject['kind'];
 export function paletteKind(m: Manifest): PaletteKind | undefined {
-  if (m.asset.status === 'diagnostic' || m.asset.renderStyle !== 'clean-ink') return;
   if (m.asset.placement === 'reference') return;
   if (m.asset.type === 'character') return 'character';
   if (m.asset.type === 'effect') return 'effect';
@@ -226,24 +274,12 @@ export function floorClips(m: Manifest) {
 }
 export function validateSceneReferences(
   d: SceneDocument,
-  base: WorldVisualDefinition | undefined,
   manifests?: ReadonlyMap<string, Manifest>,
 ) {
-  const ids = new Set([
-    ...(base?.props ?? []).map((p) => p.id),
-    ...(base?.decals ?? []).map((p) => p.id),
-    ...(base?.walls ?? []).map((p) => p.id),
-  ]);
+  const ids = new Set<string>();
   for (const p of d.objects) {
-    if (
-      d.profile !== 'study' &&
-      p.kind !== (paletteEntry(p)?.category === 'ground-panel' ? 'decal' : 'prop')
-    )
-      throw new Error(`${p.id}: object kind differs from curated scene artwork`);
-    if (ids.has(p.id)) throw new Error('Locked or duplicate object identity: ' + p.id);
+    if (ids.has(p.id)) throw new Error('Duplicate object identity: ' + p.id);
     ids.add(p.id);
-    if (p.kind !== 'decal' && p.rotation !== undefined)
-      throw new Error('Upright artwork has a fixed authored facing');
     if (manifests) {
       const m = manifests.get(p.asset);
       if (!m || paletteKind(m) !== p.kind || !paletteClips(m).includes(p.clip))
@@ -251,12 +287,6 @@ export function validateSceneReferences(
       const heading = p.heading ?? 'd45';
       if (!m.asset.clips[p.clip]?.[heading])
         throw new Error(`Unavailable facing: ${p.asset}/${p.clip}/${heading}`);
-      if (
-        p.mirror &&
-        (m.asset.mirroring === false ||
-          (m.asset.type === 'character' && m.asset.mirroring !== true))
-      )
-        throw new Error(`Mirroring unavailable: ${p.asset}`);
     }
   }
   for (const p of d.objects)
@@ -269,28 +299,33 @@ export function validateSceneReferences(
     }
   if (d.floor && manifests) {
     const m = manifests.get(d.floor.asset);
-    if (!m || !floorClips(m).includes(d.floor.clip)) throw new Error('Unavailable ground material');
+    if (
+      !m ||
+      m.asset.type !== 'material' ||
+      m.asset.projection !== 'top-down' ||
+      (d.floor.clip && !floorClips(m).includes(d.floor.clip))
+    )
+      throw new Error('Unavailable ground material');
   }
 }
-export function resolveSceneDocument(
-  d: SceneDocument,
-  base?: WorldVisualDefinition,
-): WorldVisualDefinition {
-  validateSceneReferences(d, base);
-  const f = d.floor;
-  const source = base ?? {
-    floor: f!.asset,
+export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
+  validateSceneReferences(d);
+  const source: WorldVisualDefinition = {
+    floor: d.floor.asset,
+    camera: d.camera,
+    surround: d.surround,
+    weather: d.weather,
+    rainBounds: d.rainBounds,
+    rainShelters: d.rainShelters,
+    paths: d.paths,
+    walls: d.walls,
+    graves: d.graves,
+    interior: d.interior,
+    proceduralAssets: d.proceduralAssets,
+    propOrder: d.propOrder,
+    overlaps: d.overlaps,
     props: [],
     decals: [],
-    walls: [],
-    paths: [],
-    graves: [],
-
-    proceduralAssets: [],
-    camera: {
-      bounds: { minX: -f!.width / 2, maxX: f!.width / 2, minZ: -f!.depth / 2, maxZ: f!.depth / 2 },
-      bias: { x: 0, z: 0 },
-    },
   };
   const raw = new Map<string, ArtPlacement | SceneObject>(
     [...source.props, ...source.decals, ...d.objects].map((p) => [p.id, p]),
@@ -328,14 +363,14 @@ export function resolveSceneDocument(
         z: p.z!,
       };
     visiting.delete(id);
-    if (d.profile !== 'study') placement = deriveScenePlacement(placement);
+    placement = deriveScenePlacement(placement);
     resolved.set(id, placement);
     return placement;
   };
   const props = [...source.props, ...d.objects.filter((p) => p.kind !== 'decal')].map((p) =>
     resolve(p.id),
   );
-  const order = new Map((base?.propOrder ?? []).map((id, i) => [id, i]));
+  const order = new Map(d.propOrder.map((id, i) => [id, i]));
   props.sort((a, b) => (order.get(a.id) ?? Infinity) - (order.get(b.id) ?? Infinity));
   const decals = [...source.decals, ...d.objects.filter((p) => p.kind === 'decal')].map((p) =>
     resolve(p.id),
@@ -345,9 +380,8 @@ export function resolveSceneDocument(
     designProfile: d.profile === 'study' ? undefined : d.profile,
     props,
     decals,
-    editorFloor: f ? { asset: f.asset, clip: f.clip } : undefined,
+    editorFloor: d.floor.clip ? { asset: d.floor.asset, clip: d.floor.clip } : undefined,
     look: d.look,
   };
-  if (art.designProfile) validateSceneDesign(art);
   return art;
 }

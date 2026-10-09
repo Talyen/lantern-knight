@@ -1,76 +1,50 @@
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import { AssetCache } from './cache';
-import {
-  readLock,
-  LockSchema,
-  ensurePack,
-  acceptedRecipe,
-  recipeHash,
-  validateCachedPack,
-} from './pack';
-import { checkCurrentAssetPin } from '../check-asset-pin';
+import { readLock, ensurePack, type AssetLock } from './pack';
+import { ensureBundlePack, type AssetScope } from './bundles';
 import { prototypeAssets } from './preview';
 
-export type AssetMode = 'published' | 'candidate' | 'preview';
-export type AssetWorkspace = { env: NodeJS.ProcessEnv; release: () => Promise<void> };
-export async function assetWorkspace(
-  mode: AssetMode,
-  env: NodeJS.ProcessEnv,
+export type AssetWorkspace = {
+  root: string;
+  identity: string;
+  recipe: string;
+  release: () => Promise<void>;
+};
+async function acquirePinnedPack(
+  lock: AssetLock,
+  cache = new AssetCache(),
+  scope: AssetScope = 'authoring',
+) {
+  return lock.schemaVersion === 3
+    ? ensureBundlePack(lock, cache, fetch, scope)
+    : ensurePack(lock, cache);
+}
+export async function openWorkspace(
+  mode: 'pinned' | 'local' = 'pinned',
+  scope: AssetScope = 'runtime',
 ): Promise<AssetWorkspace> {
   const cache = new AssetCache();
-  if (mode === 'preview') {
-    const selected = await prototypeAssets(cache);
-    return {
-      env: {
-        ...env,
-        LANTERN_ASSET_WORKSPACE: selected.held.root,
-        LANTERN_ASSET_SHA256: selected.lock.sha256,
-        LANTERN_ASSET_RECIPE_SHA256: selected.lock.recipeSha256,
-        LANTERN_ASSET_ARCHIVE_RECIPE_SHA256: selected.lock.recipeSha256,
-        LANTERN_PREPARING: '0',
-      },
-      release: () => selected.held.release(),
-    };
-  }
-  if (mode === 'published') {
-    await checkCurrentAssetPin();
-    const lock = await readLock(),
-      held = await ensurePack(lock, cache);
-    return {
-      env: {
-        ...env,
-        LANTERN_ASSET_WORKSPACE: held.root,
-        LANTERN_ASSET_SHA256: lock.sha256,
-        LANTERN_ASSET_RECIPE_SHA256: acceptedRecipe(lock),
-        LANTERN_ASSET_ARCHIVE_RECIPE_SHA256: lock.recipeSha256,
-        LANTERN_PREPARING: '0',
-      },
-      release: () => held.release(),
-    };
-  }
-  const held = await cache.lease('preparation');
-  try {
-    const lock = LockSchema.parse(
-      JSON.parse(await fs.readFile(path.join(held.root, 'prepared.json'), 'utf8')),
-    );
-    if (acceptedRecipe(lock) !== (await recipeHash()))
-      throw new Error('Candidate preparation is stale; prepare the affected assets.');
-    const payload = path.join(held.root, 'work/payload');
-    await validateCachedPack(payload, lock);
-    return {
-      env: {
-        ...env,
-        LANTERN_ASSET_WORKSPACE: payload,
-        LANTERN_ASSET_SHA256: lock.sha256,
-        LANTERN_ASSET_RECIPE_SHA256: acceptedRecipe(lock),
-        LANTERN_ASSET_ARCHIVE_RECIPE_SHA256: lock.recipeSha256,
-        LANTERN_PREPARING: '0',
-      },
-      release: () => held.release(),
-    };
-  } catch (error) {
-    await held.release();
-    throw error;
-  }
+  const selected = mode === 'local' ? await prototypeAssets(cache, undefined, scope) : undefined;
+  const lock = selected?.lock ?? (await readLock());
+  const held = selected?.held ?? (await acquirePinnedPack(lock as AssetLock, cache, scope));
+  return {
+    root: held.root,
+    identity: lock.sha256,
+    recipe: lock.recipeSha256,
+    release: () => held.release(),
+  };
+}
+// Environment variables are confined to the legacy preparation/test subprocess boundary.
+export function workspaceEnvironment(
+  workspace: AssetWorkspace,
+  env = process.env,
+): NodeJS.ProcessEnv {
+  return {
+    ...env,
+    LANTERN_ASSET_WORKSPACE: path.resolve(workspace.root),
+    LANTERN_ASSET_SHA256: workspace.identity,
+    LANTERN_ASSET_RECIPE_SHA256: workspace.recipe,
+    LANTERN_ASSET_ARCHIVE_RECIPE_SHA256: workspace.recipe,
+    LANTERN_PREPARING: '0',
+  };
 }

@@ -1,20 +1,10 @@
-import path from 'node:path';
 import fs from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { AssetCache } from './cache';
-import {
-  recipeHash,
-  recipeInputs,
-  validatePack,
-  preparationPin,
-  lockFile,
-  LockSchema,
-  type AssetLock,
-} from './pack';
+import { recipeHash, validatePack, lockFile, LockSchema, type AssetLock } from './pack';
 import { shaFile } from './sources';
-import { gh } from './retention';
-import type { prepareAssets } from './prepare';
-export type PreparedAssets = Awaited<ReturnType<typeof prepareAssets>>;
+import { gh } from './github';
+import type { PreparedAssets } from './prepare';
 
 async function verifyRemote(lock: AssetLock) {
   const held = await new AssetCache().lease('publication-' + randomUUID());
@@ -42,7 +32,7 @@ async function verifyRemote(lock: AssetLock) {
     await fs.rm(held.root, { recursive: true, force: true });
   }
 }
-export async function validateCandidate(prepared: PreparedAssets) {
+async function validateCandidate(prepared: PreparedAssets) {
   if (prepared.lock.recipeSha256 !== (await recipeHash()))
     throw new Error('Asset recipes changed; prepare and validate again');
   await validatePack(prepared.payload, prepared.lock);
@@ -52,30 +42,6 @@ export async function validateCandidate(prepared: PreparedAssets) {
   )
     throw new Error('Prepared archive differs from the reviewed candidate');
 }
-export async function publishPrepared(
-  prepared: PreparedAssets,
-  publish = gh,
-  verify = verifyRemote,
-  target = lockFile,
-  beforePin: () => Promise<void> = async () => {},
-) {
-  const lock = prepared.lock;
-  const pin = await preparationPinFor(prepared);
-  await validateCandidate(prepared);
-  await uploadArchive(lock, prepared.archive, publish);
-  await verify(lock);
-  await validateCandidate(prepared);
-  await beforePin();
-  const temporary = target + '.' + randomUUID();
-  try {
-    await fs.writeFile(temporary, JSON.stringify(pin, null, 2) + '\n');
-    await fs.rename(temporary, target);
-  } finally {
-    await fs.rm(temporary, { force: true });
-  }
-  console.log('Published and pinned ' + lock.releaseTag);
-}
-
 async function uploadArchive(
   lock: import('./pack').AssetLock,
   archive: string,
@@ -157,20 +123,4 @@ export async function publishBundledPrepared(
     await fs.rm(temporary, { force: true });
   }
   console.log('Published and pinned immutable bundles; unchanged bundles were reused.');
-}
-export async function bundlePinFor(prepared: PreparedAssets) {
-  const plan = JSON.parse(
-    await fs.readFile(path.join(prepared.held.root, 'bundles/plan.json'), 'utf8'),
-  );
-  const pin = LockSchema.parse(plan.pin);
-  if (pin.sha256 !== prepared.lock.sha256) throw new Error('Bundle plan differs from candidate');
-  return pin;
-}
-export async function preparationPinFor(prepared: PreparedAssets) {
-  await validateCandidate(prepared);
-  return preparationPin(
-    prepared.lock,
-    await recipeInputs(),
-    await validatePack(prepared.payload, prepared.lock),
-  );
 }

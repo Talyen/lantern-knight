@@ -2,7 +2,7 @@ import * as T from 'three';
 import { GamePresentation } from '../presentation/game-scene';
 import { ActorSprite } from '../presentation/sprite';
 import { resolveClip } from '../assets/schema';
-import { baseWorldVisuals, sceneAssets, resolveAuthoredScene } from '../content/world-art';
+import { sceneAssets, resolveAuthoredScene } from '../content/world-art';
 import { validateSceneReferences, type SceneDocument } from '../content/scene-document';
 import { ContentRegistry, heightAt, type AreaDefinition } from '../content/world';
 import { contentDefinitions, content } from '../content/game-content';
@@ -62,9 +62,10 @@ export class EditorView {
     if (this.closed) throw new Error('Editor closed');
     const art = resolveAuthoredScene(document);
     const composition = JSON.stringify({
-      base: document.base,
-      floor: document.floor,
-      objects: document.objects,
+      ...document,
+      name: undefined,
+      hero: undefined,
+      look: undefined,
     });
     if (composition === this.composition && this.presentation && this.sim) {
       this.hero(document.hero);
@@ -91,7 +92,6 @@ export class EditorView {
       if (this.closed) throw new Error('Editor closed');
       validateSceneReferences(
         document,
-        baseWorldVisuals[document.base],
         new Map([...this.packs].map(([id, p]) => [id, p.manifest])),
       );
       let area: AreaDefinition;
@@ -111,7 +111,14 @@ export class EditorView {
           props: [],
           floorColor: 0x344b4e,
         };
-      } else area = { ...content.area(document.base), spawns: [], exits: [], props: [] };
+      } else
+        area = {
+          ...content.area(document.base),
+          ...document.geometry!,
+          spawns: [],
+          exits: [],
+          props: [],
+        };
       const registry = new ContentRegistry({
         ...contentDefinitions,
         initialArea: area.id,

@@ -1,3 +1,5 @@
+import { bindLightingControls } from './sandbox/lighting-controls';
+import './developer-nav';
 import { composeSceneContent } from './content/game-content';
 import { readScenePreview, previewHero, previewKey, type ScenePreviewState } from './scene-preview';
 import './style.css';
@@ -33,6 +35,7 @@ const sandboxBridge = window.lantern ?? createBrowserBridge('sandbox');
 let previewReady = false;
 let mode: Mode = 'encounter',
   presentation: Presentation;
+let lightingControls: ReturnType<typeof bindLightingControls>;
 let lightingReplay = false,
   replayStart = 0;
 const app = new Application(
@@ -72,21 +75,6 @@ function resizePresentation() {
   }
   presentation.resize(app.scale);
 }
-function syncLightingControls() {
-  const look = presentation.lookRenderer.settings;
-  $<HTMLSelectElement>('#lighting-look').value = look.look;
-  $<HTMLSelectElement>('#lighting-rig').value = look.rig;
-  $<HTMLInputElement>('#lighting-strength').value = String(look.strength * 100);
-  $('#lighting-strength-value').textContent = Math.round(look.strength * 100) + '%';
-  for (const [id, key] of [
-    ['lighting-baseline', 'baseline'],
-    ['lighting-enabled', 'lighting'],
-    ['lighting-shadows', 'shadows'],
-    ['lighting-atmosphere', 'atmosphere'],
-    ['lighting-post', 'postprocessing'],
-  ] as const)
-    $<HTMLInputElement>('#' + id).checked = look[key];
-}
 function setMode(next: Mode) {
   if (next !== 'lighting' && lightingReplay) {
     lightingReplay = false;
@@ -102,7 +90,7 @@ function setMode(next: Mode) {
           })
       : () => {};
   presentation.setMode(next);
-  syncLightingControls();
+  lightingControls.syncLook();
   app.clock.reset();
   app.input.clear();
   app.pause(false);
@@ -161,43 +149,7 @@ async function boot() {
   presentation = app.presentation;
   $<HTMLSelectElement>('#render-scale').value = String(app.scale);
   $<HTMLSelectElement>('#zoom-span').value = String(presentation.verticalSpan);
-  const syncDof = () => {
-    for (const id of ['lighting-dof', 'depth-of-field']) {
-      $<HTMLInputElement>('#' + id).value = String(Math.round(presentation.depthOfField * 100));
-      $('#' + id + '-value').textContent =
-        presentation.depthOfField === 0 ? 'Off' : Math.round(presentation.depthOfField * 100) + '%';
-    }
-  };
-  syncDof();
-  for (const id of ['lighting-dof', 'depth-of-field']) {
-    $('#' + id).oninput = () => {
-      presentation.setDepthOfField(Number($<HTMLInputElement>('#' + id).value) / 100);
-      syncDof();
-    };
-    $('#' + id).onchange = () => app.safe(() => app.saveSettings());
-  }
-  $('#lighting-rig').onchange = () =>
-    presentation.lightingLab.setSettings({
-      rig: $<HTMLSelectElement>('#lighting-rig').value as 'golden' | 'silver',
-    });
-  $('#lighting-look').onchange = () =>
-    presentation.lightingLab.setSettings({
-      look: $<HTMLSelectElement>('#lighting-look').value as 'ink' | 'diorama' | 'cinematic',
-    });
-  for (const [id, key] of [
-    ['lighting-baseline', 'baseline'],
-    ['lighting-enabled', 'lighting'],
-    ['lighting-shadows', 'shadows'],
-    ['lighting-atmosphere', 'atmosphere'],
-    ['lighting-post', 'postprocessing'],
-  ] as const)
-    $('#' + id).onchange = () =>
-      presentation.lightingLab.setSettings({ [key]: $<HTMLInputElement>('#' + id).checked });
-  $('#lighting-strength').oninput = () => {
-    const strength = Number($<HTMLInputElement>('#lighting-strength').value);
-    presentation.lightingLab.setSettings({ strength: strength / 100 });
-    $('#lighting-strength-value').textContent = `${strength}%`;
-  };
+  lightingControls = bindLightingControls(presentation, () => app.safe(() => app.saveSettings()));
   $('#lighting-pause').onclick = () => {
     app.pause(!app.paused);
     $('#modal').hidden = true;
@@ -393,10 +345,10 @@ async function boot() {
     setMode(restored.mode);
     presentation.lightingLab.setSettings(restored.look);
     presentation.setDepthOfField(restored.look.depthOfField);
-    syncLightingControls();
+    lightingControls.syncLook();
     app.pause(restored.paused);
     presentation.resize(app.scale);
-    syncDof();
+    lightingControls.syncDof();
   }
   $<HTMLSelectElement>('#scene-select').value = app.sim.area;
   $<HTMLSelectElement>('#render-scale').value = String(app.scale);

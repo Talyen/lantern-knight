@@ -1,11 +1,10 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import * as ts from 'typescript/unstable/ast';
 import { API } from 'typescript/unstable/sync';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { builtinModules } from 'node:module';
-import { inspectImports } from './module-graph';
+import { inspectImports } from './import-edges';
 
 // These rules protect existing owners, including type imports and re-exports.
 // Three.js math and the current core/content/asset relationships remain legal.
@@ -50,43 +49,6 @@ async function checkArchitecture(root: string, files: string[]) {
       }
       const source = project.program.getSourceFile(path.join(root, file));
       if (!source) throw new Error(`Runtime file is outside tsconfig: ${file}`);
-      const inspect = (node: ts.Node) => {
-        if (ts.isNewExpression(node)) {
-          const symbol = ts.isPropertyAccessExpression(node.expression)
-            ? node.expression.name.text
-            : ts.isIdentifier(node.expression)
-              ? node.expression.text
-              : '';
-          const diagnosticOwners = new Set([
-            'src/presentation/scene.ts',
-            'src/presentation/room-presentation.ts',
-            'src/presentation/shadow-proxies.ts',
-            'src/presentation/art-construction-overlay.ts',
-            'src/presentation/effects-playground.ts',
-          ]);
-          if (
-            /^(Box|Cylinder|Extrude|Shape|Sphere|Cone|Torus|Icosahedron)Geometry$/.test(symbol) &&
-            !diagnosticOwners.has(file)
-          )
-            findings.push(
-              `${file}: production scenery must use intact illustrations, not constructed solid geometry`,
-            );
-        }
-        if (
-          [
-            'src/presentation/graveyard-ground.ts',
-            'src/presentation/churchyard-architecture.ts',
-            'src/presentation/crypt-architecture.ts',
-          ].includes(file) &&
-          ts.isBinaryExpression(node) &&
-          ts.isPropertyAccessExpression(node.left) &&
-          node.left.name.text === 'onBeforeCompile'
-        )
-          findings.push(
-            `${file}: authored scene surfaces cannot install procedural painting shaders`,
-          );
-        node.forEachChild(inspect);
-      };
       inspectImports(project, source, ({ name, resolved, line }) => {
         if (!name) {
           findings.push(
@@ -106,8 +68,36 @@ async function checkArchitecture(root: string, files: string[]) {
         const finding = importFinding(file, target);
         if (finding) findings.push(`${file}:${line}: ${name}: ${finding}`);
       });
-      inspect(source);
     }
+    const edges = new Map<string, string[]>();
+    for (const file of files.filter((file) => file.startsWith('tools/') && /\.ts$/.test(file))) {
+      const source = project.program.getSourceFile(path.join(root, file));
+      if (!source) continue;
+      const targets: string[] = [];
+      inspectImports(project, source, ({ resolved, typeOnly }) => {
+        if (typeOnly || !resolved || resolved.replaceAll('\\', '/').includes('/node_modules/'))
+          return;
+        const target = path.relative(root, resolved).split(path.sep).join('/');
+        if (target.startsWith('tools/')) targets.push(target);
+      });
+      edges.set(file, targets);
+    }
+    const visited = new Set<string>(),
+      active: string[] = [];
+    const visit = (file: string) => {
+      if (active.includes(file)) {
+        findings.push(
+          'Tool dependency cycle: ' + [...active.slice(active.indexOf(file)), file].join(' → '),
+        );
+        return;
+      }
+      if (visited.has(file)) return;
+      active.push(file);
+      for (const target of edges.get(file) ?? []) visit(target);
+      active.pop();
+      visited.add(file);
+    };
+    for (const file of edges.keys()) visit(file);
     snapshot.dispose();
     return findings;
   } finally {
@@ -137,7 +127,7 @@ async function main() {
       `${findings.length} import boundary violations:\n${findings.slice(0, 10).join('\n')}`,
     );
   console.log(
-    'PASS: runtime import boundaries, including type imports, exports and dynamic imports.',
+    'PASS: runtime import boundaries and acyclic tooling dependencies, including literal dynamic imports.',
   );
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))

@@ -5,9 +5,9 @@ import { _electron as electron, type ElectronApplication, type Page } from 'play
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { acquireTestLane } from '../verification';
-export const option = (name: string, fallback: string) => {
-  const i = process.argv.indexOf(name);
-  return i < 0 ? fallback : (process.argv[i + 1] ?? fallback);
+export const option = (name: string, fallback: string, flags: string[] = []) => {
+  const i = flags.indexOf(name);
+  return i < 0 ? fallback : (flags[i + 1] ?? fallback);
 };
 export function playerControls(page: Page, profile: string) {
   const pause = async () => {
@@ -25,7 +25,9 @@ export function playerControls(page: Page, profile: string) {
     await page.waitForFunction(
       () => document.querySelector('#status')?.textContent === 'Checkpoint saved',
     );
-    return JSON.parse(await fs.readFile(path.join(profile, 'saves/game.json'), 'utf8')) as GameSave;
+    return JSON.parse(
+      await fs.readFile(path.join(profile, 'prototype-saves/game.json'), 'utf8'),
+    ) as GameSave;
   };
   const frames = () =>
     page.evaluate(
@@ -36,22 +38,7 @@ export function playerControls(page: Page, profile: string) {
     );
   return { pause, resume, save, frames };
 }
-type SmokeRun = Awaited<ReturnType<typeof launch>>;
 type SmokeWork = { updates: number; submissions: number };
-let completedWork: SmokeWork[] = [];
-export function takeSmokeWork() {
-  const work = completedWork;
-  completedWork = [];
-  return work.length
-    ? work.reduce(
-        (total, value) => ({
-          updates: total.updates + value.updates,
-          submissions: total.submissions + value.submissions,
-        }),
-        { updates: 0, submissions: 0 },
-      )
-    : undefined;
-}
 export async function observeWork(page: Page) {
   await page.waitForFunction(
     () => window.foundation?.ready || window.effectsPlayground?.ready,
@@ -88,24 +75,9 @@ async function collectWork(page: Page) {
     return { updates: state.updates, submissions: state.submissions };
   });
   if (value) {
-    completedWork.push(value);
     console.log(
       `Smoke work: ${value.updates} presentation updates; ${value.submissions} renderer submissions.`,
     );
-  }
-}
-let sharedDev: SmokeRun | undefined;
-let sharing = false;
-export async function withSmokeSessions(work: () => Promise<void>) {
-  if (sharing) throw new Error('Smoke suite is already active');
-  sharing = true;
-  try {
-    await work();
-  } finally {
-    sharing = false;
-    const run = sharedDev;
-    sharedDev = undefined;
-    await run?.close();
   }
 }
 export function smokeExecutable(dev: boolean, env: NodeJS.ProcessEnv = process.env) {
@@ -122,28 +94,18 @@ export function smokeExecutable(dev: boolean, env: NodeJS.ProcessEnv = process.e
 export async function smokeLaunch(
   dev: boolean,
   args: string[] = [],
-  options: { budget?: number; retain?: boolean } = {},
+  options: { budget?: number; retain?: boolean; flags?: string[] } = {},
 ) {
-  if (sharing && dev && sharedDev) {
-    const mode = args.includes('--effects') ? 'effects' : 'sandbox';
-    await Promise.all([
-      sharedDev.page.waitForEvent('load'),
-      sharedDev.page.evaluate(
-        (mode) => window.lantern!.launchMode!(mode as 'effects' | 'sandbox'),
-        mode,
-      ),
-    ]);
-    await observeWork(sharedDev.page);
-    return { ...sharedDev, close: () => collectWork(sharedDev!.page) };
-  }
+  const flags = options.flags ?? [];
   let lane: Awaited<ReturnType<typeof acquireTestLane>>;
   try {
+    await fs.access(smokeExecutable(dev));
     lane = await acquireTestLane();
   } catch (error) {
     // A refused run never creates a profile, but an explicitly requested diagnostic
     // still records the failure. Preserve any existing diagnostic in that folder.
-    if (process.argv.includes('--output')) {
-      const output = path.resolve(option('--output', ''));
+    if (flags.includes('--output')) {
+      const output = path.resolve(option('--output', '', flags));
       await fs.mkdir(output, { recursive: true });
       await fs
         .writeFile(
@@ -162,10 +124,7 @@ export async function smokeLaunch(
   }
   try {
     const run = await launch(dev, args, options, () => lane.release());
-    if (sharing && dev) {
-      sharedDev = run;
-      return { ...run, close: () => collectWork(run.page) };
-    }
+
     return run;
   } catch (error) {
     await lane.release();
@@ -175,16 +134,19 @@ export async function smokeLaunch(
 async function launch(
   dev: boolean,
   args: string[],
-  options: { budget?: number; retain?: boolean },
+  options: { budget?: number; retain?: boolean; flags?: string[] },
   releaseLane: () => Promise<void>,
 ) {
-  const capture = process.argv.includes('--capture'),
+  const flags = options.flags ?? [];
+  const capture = flags.includes('--capture'),
     budget = options.budget ?? (capture ? 1024 ** 3 : 32 * 1024 ** 2),
     held = await new AssetCache().lease('diagnostics-' + randomUUID(), budget),
-    managed = !process.argv.includes('--output');
-  const output = managed ? path.join(held.root, 'results') : path.resolve(option('--output', ''));
+    managed = !flags.includes('--output');
+  const output = managed
+    ? path.join(held.root, 'results')
+    : path.resolve(option('--output', '', flags));
   await fs.mkdir(output, { recursive: true });
-  const parent = path.resolve(option('--profile', held.root));
+  const parent = path.resolve(option('--profile', held.root, flags));
   await fs.mkdir(parent, { recursive: true });
   const profile = await fs.mkdtemp(path.join(parent, 'lantern-smoke-'));
   const executable = smokeExecutable(dev);
@@ -208,8 +170,7 @@ async function launch(
         // Hidden Windows windows can limit frame callbacks even with renderer
         // background throttling disabled. CI has its own isolated desktop.
         LANTERN_TEST_HIDDEN:
-          process.argv.includes('--visible') ||
-          (process.platform === 'win32' && process.env.CI === 'true')
+          flags.includes('--visible') || (process.platform === 'win32' && process.env.CI === 'true')
             ? '0'
             : '1',
       },
@@ -231,6 +192,7 @@ async function launch(
     const readyMs = performance.now() - launchStarted,
       rendererReadyMs = await page.evaluate(() => performance.now());
     return {
+      flags,
       app,
       page,
       profile,

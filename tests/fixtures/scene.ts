@@ -1,4 +1,4 @@
-import { applySceneryPreset } from '../../src/content/scenery-presets';
+import { emptyScene } from '../../src/editor/default-scene';
 import { parseSceneDocument, type SceneDocument } from '../../src/content/scene-document';
 
 // Contract fixtures own their IDs and layout. Production compositions may change freely.
@@ -14,7 +14,8 @@ export function sceneFixture(profile: 'graveyard' | 'chapel'): SceneDocument {
     purpose: 'Contract fixture',
   });
   return parseSceneDocument({
-    version: 4,
+    ...emptyScene(profile === 'graveyard' ? 'court' : 'upper-landing'),
+    version: 5,
     profile,
     id: 'fixture',
     name: 'Contract fixture',
@@ -54,23 +55,4 @@ export function sceneFixture(profile: 'graveyard' | 'chapel'): SceneDocument {
             ),
           ],
   });
-}
-
-export function editorSceneFixture(profile: 'graveyard' | 'chapel'): SceneDocument {
-  const scene = sceneFixture(profile);
-  scene.objects = scene.objects.map(applySceneryPreset);
-  const count = profile === 'graveyard' ? 3 : 2;
-  for (let i = 0; i < count; i++)
-    scene.objects.push(
-      applySceneryPreset({
-        id: i === 0 ? 'gate-lamp' : `fixture-lamp-${i}`,
-        asset: profile === 'graveyard' ? 'ink-graveyard-scenery' : 'ink-crypt',
-        clip: profile === 'graveyard' ? 'crook-lamp' : 'votive-hardware',
-        kind: 'prop',
-        x: profile === 'graveyard' ? -4.25 + i * 3 : -3 + i * 6,
-        z: profile === 'graveyard' ? 7.1 : 3,
-        zone: profile === 'graveyard' ? 'arrival' : 'nave',
-      }),
-    );
-  return parseSceneDocument(scene);
 }

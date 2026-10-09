@@ -2,12 +2,16 @@ import { resolveFixtures, SCENE_LIGHT_CAPACITY, type ResolvedFixture } from './s
 import courtDocument from '../../authoring/scenes/live-court.json';
 import chapelDocument from '../../authoring/scenes/live-upper-landing.json';
 import { parseSceneDocument, resolveSceneDocument, type SceneDocument } from './scene-document';
-import type { AreaDefinition, PropDefinition, Bounds, Point } from './world';
+import {
+  isSupportedPosition,
+  type AreaDefinition,
+  type PropDefinition,
+  type Bounds,
+  type Point,
+} from './world';
 import type { WeatherState } from './visual-effects';
 import type { Manifest } from '../assets/schema';
-import { cryptFoundation } from './crypt-scene';
-import { graveyardFoundation } from './graveyard-scene';
-import { validateSceneDesign, type SceneProfile } from './scene-design';
+import { type SceneProfile } from './scene-design';
 import { cameraContract } from '../assets/camera-contract';
 type PlacementBase = {
   id: string;
@@ -144,12 +148,24 @@ export type WorldVisualDefinition = {
   overlaps?: readonly OverlapAllowance[];
 };
 export const floorUV = (x: number, z: number): readonly [number, number] => [x / 4, -z / 4];
-export const baseWorldVisuals: Readonly<Record<string, WorldVisualDefinition>> = {
-  court: graveyardFoundation,
-  'upper-landing': cryptFoundation,
-};
 export function resolveAuthoredScene(document: SceneDocument): WorldVisualDefinition {
-  const art = resolveSceneDocument(document, baseWorldVisuals[document.base]);
+  const art = resolveSceneDocument(document);
+  if (document.geometry) {
+    const area: AreaDefinition = {
+      id: document.base,
+      name: document.name,
+      subtitle: '',
+      seedOffset: 0,
+      spawns: [],
+      exits: [],
+      floorColor: 0,
+      ...document.geometry,
+      props: churchyardColliders(document.base, art),
+    };
+    for (const entry of area.entries)
+      if (!isSupportedPosition(area, entry, 0.3))
+        throw new Error('Scene entry is obstructed: ' + entry.id);
+  }
   const resolvedFixtures = resolveFixtures(art);
   if (resolvedFixtures.length > SCENE_LIGHT_CAPACITY)
     throw new Error('The scene already has three lights. Remove a light before adding another.');
@@ -226,9 +242,6 @@ export function validateAreaArt(
   art: WorldVisualDefinition | undefined = worldVisuals[area.id],
 ) {
   if (!art) return;
-  if (area.surface.kind !== 'flat' || area.surface.height !== 0)
-    throw new Error('Production scene stages must be flat at ground level');
-  validateSceneDesign(art);
   const pack = (id: string) => {
     const p = packs.get(id);
     if (!p) throw new Error(`missing room art: ${id}`);

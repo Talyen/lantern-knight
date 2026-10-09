@@ -5,8 +5,8 @@ Find reachable crashes, wrong combat outcomes, blocked input or progress, checkp
 ## Investigation
 
 - Trace player input through accepted operations, fixed-step simulation, session mutation, persistence, feedback and re-entry. Include rapid repetition, pause, area transitions, death/retry, loading failure and disposal where relevant.
-- Inspect `Application` acquisition/startup and teardown, foreground/pause requests, generation-scoped events, and room/actor resource leases against [runtime ownership](../foundation.md). Distinguish work allowed to complete safely from stale work that can revive or mutate a disposed application.
-- Follow checkpoints through parsing, capture/restore, write authorization, ordered snapshots, browser storage and Electron file recovery under [saved-state changes](../foundation.md#change-saved-state). Compare uninterrupted progress with save/load and failed-operation recovery. Use isolated fixtures and profiles.
+- Inspect `Application` acquisition/startup and teardown, foreground/pause requests, generation-scoped events, and room/actor resource leases against [runtime ownership](../architecture.md). Distinguish work allowed to complete safely from stale work that can revive or mutate a disposed application.
+- Follow checkpoints through parsing, capture/restore, current schema validation, captured writes, browser storage and atomic Electron writes under [saved-state changes](../architecture.md#change-saved-state). Compare uninterrupted progress with save/load and failed-operation recovery. Use isolated fixtures and profiles.
 - Trace renderer/desktop inputs through the existing Bridge, preload and storage owners. Check malformed inputs and session mismatches against the current contract; do not replace validated operations with ad hoc writes.
 
 ## Remedy and evidence

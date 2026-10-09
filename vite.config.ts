@@ -12,7 +12,10 @@ export default defineConfig(({ mode }) => ({
               const { sceneEditorPlugin } = (await server.ssrLoadModule(
                 '/tools/scene/scene-editor-store.ts',
               )) as typeof import('./tools/scene/scene-editor-store.ts');
-              const configure = sceneEditorPlugin(process.cwd()).configureServer;
+              const configure = sceneEditorPlugin(
+                process.cwd(),
+                server.config.publicDir,
+              ).configureServer;
               if (typeof configure !== 'function')
                 throw new Error('Scene editor server hook is unavailable');
               return configure.call(this, server);
@@ -31,6 +34,7 @@ export default defineConfig(({ mode }) => ({
     fs: { allow: [process.cwd(), publicRoot()] },
   },
   build: {
+    copyPublicDir: false,
     outDir: mode === 'sandbox' ? 'dist-dev' : 'dist',
     rolldownOptions: {
       input:

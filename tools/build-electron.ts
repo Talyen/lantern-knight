@@ -3,7 +3,7 @@ import { builtinModules } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export function verifyElectronImports(metadata: Pick<Metafile, 'outputs'>) {
+function verifyElectronImports(metadata: Pick<Metafile, 'outputs'>) {
   for (const output of Object.values(metadata.outputs))
     for (const entry of output.imports)
       if (
@@ -14,7 +14,7 @@ export function verifyElectronImports(metadata: Pick<Metafile, 'outputs'>) {
       )
         throw new Error('Electron bundle requires an unbundled runtime dependency: ' + entry.path);
 }
-async function buildElectron(dev: boolean) {
+export async function buildElectron(dev: boolean) {
   for (const name of ['main', 'preload']) {
     const result = await build({
       entryPoints: [`electron/${name}.ts`],

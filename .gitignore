@@ -26,3 +26,8 @@ evidence/
 references/art/
 __pycache__/
 *.pyc
+
+.cache/
+.venv/
+playwright-report/
+test-results/

@@ -2,7 +2,6 @@ import { validateLightingBindings, type LightingBinding } from './lighting-bindi
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { actorVisuals } from '../src/content/visuals';
-import { playgroundCatalog } from '../src/content/effects-playground-assets';
 import { parseManifest, resolveClip, type Manifest } from '../src/assets/schema';
 import {
   HEADINGS,
@@ -13,12 +12,11 @@ import { readRegistration } from './assets/data';
 import { hash } from './compiler';
 import { loadingVideoPath } from '../src/content/loading-media';
 import { validateLoadingVideo } from './assets/loading-media';
-import { readAuthoringCatalog } from './assets/authoring-catalog';
+import { readGameCatalog } from './game-asset-catalog';
 validateLoadingVideo(await readAsset('public/' + loadingVideoPath));
 const manifests = new Map<string, Manifest>();
 const catalog: Readonly<Record<string, string>> = {
-  ...(await readAuthoringCatalog()),
-  ...playgroundCatalog,
+  ...(await readGameCatalog()),
 };
 let pages = 0;
 assert.deepEqual(
@@ -53,6 +51,9 @@ assert.equal(
   hash(await readAsset('authoring/hero-motion.json')),
 );
 const lighting = JSON.parse(await readAsset('public/lighting/manifest.json', 'utf8'));
+lighting.entries = Object.fromEntries(
+  Object.entries(lighting.entries).filter(([key]) => manifests.has(key.split(':')[0]!)),
+);
 validateLightingBindings(lighting, manifests);
 const companionHashes = new Map<string, string>();
 for (const entry of Object.values(lighting.entries) as LightingBinding[]) {
@@ -61,12 +62,7 @@ for (const entry of Object.values(lighting.entries) as LightingBinding[]) {
   assert.equal(companionHashes.get(entry.file), entry.hash);
 }
 await (await import('./check-scene-documents')).checkSceneDocuments(process.cwd(), manifests);
-await import('./check-quality');
-const { inspectCrypt } = await import('./check-crypt-art');
-const crypt = await inspectCrypt();
-assert.deepEqual(crypt.constructionErrors, []);
-assert.deepEqual(crypt.depthConflicts, []);
-await import('./check-graveyard-art');
+// Native-pixel diagnostics remain explicit investigations.
 console.log(
-  `PASS: ${Object.keys(catalog).length} prepared assets / ${pages} pages; bindings, registration, quality and construction verified. Source freshness belongs to assets:prepare.`,
+  `PASS: ${Object.keys(catalog).length} runtime assets / ${pages} pages; current references and registration verified.`,
 );

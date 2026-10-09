@@ -99,24 +99,9 @@ export class SceneStore {
   }
 }
 /** @knip-external Loaded by Vite ssrLoadModule and generated worktree fixture configs. */
-export function sceneEditorPlugin(root: string): Plugin {
+export function sceneEditorPlugin(root: string, preparedPublic = publicRoot()): Plugin {
   const token = randomUUID(),
-    sourceFiles = [
-      'src/content/graveyard-scene.ts',
-      'src/content/crypt-scene.ts',
-      'src/content/graveyard-layout.ts',
-      'src/content/world-art.ts',
-      'src/content/world.ts',
-      'src/content/game-content.ts',
-      'src/content/scenery-presets.ts',
-      'src/content/scene-v1.ts',
-      'src/content/scene-v1-baseline.json',
-      'src/content/scene-document.ts',
-      'src/content/scene-design.ts',
-      'src/assets/camera.json',
-      'src/content/camera.json',
-      'assets/lock.json',
-    ];
+    sourceFiles = ['src/content/scene-document.ts', 'src/assets/schema.ts', 'assets/lock.json'];
   const sourceRevision = async () =>
     digest(
       (await Promise.all(sourceFiles.map((f) => fs.readFile(path.join(root, f), 'utf8')))).join(
@@ -133,21 +118,21 @@ export function sceneEditorPlugin(root: string): Plugin {
     const manifests = new Map(
       await Promise.all(
         [...ids].map(async (id) => {
-          const file = (await readAuthoringCatalog())[id];
+          const file = (await readAuthoringCatalog(preparedPublic))[id];
           if (!file) throw new Error('Unknown prepared asset: ' + id);
           return [
             id,
-            parseManifest(JSON.parse(await fs.readFile(path.join(publicRoot(), file), 'utf8'))),
+            parseManifest(JSON.parse(await fs.readFile(path.join(preparedPublic, file), 'utf8'))),
           ] as const;
         }),
       ),
     );
-    const { baseWorldVisuals, resolveAuthoredScene } = await loadBase();
+    const { resolveAuthoredScene } = await loadBase();
     resolveAuthoredScene(d);
-    validateSceneReferences(d, d.base === 'flat' ? undefined : baseWorldVisuals[d.base], manifests);
+    validateSceneReferences(d, manifests);
     if ((await sourceRevision()) !== (await initialRevision))
       throw new SceneConflict(
-        'Scene foundations changed while saving. Restart and review the recovered draft.',
+        'Scene schema or pinned assets changed while saving. Restart and review the recovered draft.',
       );
   });
   return {
@@ -183,7 +168,7 @@ export function sceneEditorPlugin(root: string): Plugin {
               const baseRevision = await sourceRevision();
               if (baseRevision !== (await initialRevision))
                 throw new SceneConflict(
-                  'Scene foundations or pinned assets changed. Preserve your draft and restart the editor before saving.',
+                  'Scene schema or pinned assets or pinned assets changed. Preserve your draft and restart the editor before saving.',
                 );
               if (req.method === 'GET') {
                 const id = url.searchParams.get('id');
@@ -218,7 +203,7 @@ export function sceneEditorPlugin(root: string): Plugin {
               const body = JSON.parse(Buffer.concat(chunks).toString());
               if (body.baseRevision !== baseRevision)
                 throw new SceneConflict(
-                  'Scene foundations changed. Reload or save a separate recovered draft.',
+                  'Scene schema or pinned assets changed. Reload or save a separate recovered draft.',
                 );
               respond(200, { ...(await store.save(body.document, body.revision)), baseRevision });
             } catch (error) {

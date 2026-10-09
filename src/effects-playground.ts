@@ -1,3 +1,4 @@
+import './developer-nav';
 import './effects-playground.css';
 import { AssetRuntime, type PackLease } from './assets/loader';
 import { ContentRegistry } from './content/world';
