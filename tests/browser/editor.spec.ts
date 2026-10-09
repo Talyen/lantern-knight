@@ -240,3 +240,38 @@ test('unsaved draft playtest discards gameplay state and survives repeated entry
     expect(await page.evaluate(() => window.sceneEditor.playtest())).toBeUndefined();
   }
 });
+
+test('editor workspace keeps populated attachment controls accessible at desktop widths', async ({
+  page,
+}) => {
+  await page.goto('/editor.html?automated');
+  await page.waitForFunction(() => window.sceneEditor?.ready());
+  page.on('dialog', (dialog) => void dialog.accept());
+  await page.locator('#scene').selectOption('file-live-upper-landing');
+  await page.locator('#open').click();
+  await expect(page.locator('#save-state')).toHaveText('Saved');
+  const child = await page.evaluate(
+    () => window.sceneEditor.state().document.objects.find((p) => p.mount)?.id,
+  );
+  expect(child).toBeTruthy();
+  await page.getByRole('button', { name: child!, exact: true }).click();
+  for (const width of [1440, 900]) {
+    const frame = await page.evaluate(
+      () => window.sceneEditor.view().presentation!.renderer.info.render.frame,
+    );
+    await page.setViewportSize({ width, height: 900 });
+    await expect
+      .poll(() =>
+        page.evaluate(() => window.sceneEditor.view().presentation!.renderer.info.render.frame),
+      )
+      .toBeGreaterThan(frame + 2);
+    await expect(page.locator('#object-panel')).toBeVisible();
+    const canvas = await page.locator('#viewport').boundingBox();
+    expect(canvas!.width).toBeGreaterThan(250);
+    expect(canvas!.height).toBeGreaterThan(300);
+    await expect(page.locator('#object-search')).toBeVisible();
+    await page.screenshot({
+      path: path.join(projectRoot, '.cache', `editor-attachment-${width}.png`),
+    });
+  }
+});

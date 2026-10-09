@@ -514,3 +514,19 @@ main {
       280px
     );
 }
+#selection-tools {
+  position: static;
+  flex: 0 0 auto;
+  max-width: none;
+  padding: 5px 9px;
+}
+.viewport-help {
+  position: static;
+  flex: 0 0 auto;
+  padding: 5px 12px;
+  border-radius: 0;
+}
+#objects:empty {
+  flex-basis: 0;
+  min-height: 0;
+}

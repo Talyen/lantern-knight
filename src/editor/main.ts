@@ -206,6 +206,8 @@ function select(id: string | undefined) {
   selected = id;
   chosen = undefined;
   view?.clearPlacementGhost();
+  $('asset-choice').hidden = true;
+  if ($<HTMLSelectElement>('tool').value === 'place') $<HTMLSelectElement>('tool').value = 'select';
   controls();
 }
 function launch(work: Promise<unknown>) {
@@ -313,7 +315,9 @@ async function open(value: string) {
           : value;
       const data = await api(id);
       if (!data.document) throw new Error('Scene file is unavailable');
-      d = withGameplayDefaults(parseSceneDocument(data.document), contentDefinitions);
+      d = parseSceneDocument(
+        withGameplayDefaults(parseSceneDocument(data.document), contentDefinitions),
+      );
       nextRevision = data.revision;
       nextBaseRevision = data.baseRevision;
       if (value.startsWith('copy-')) {
@@ -629,6 +633,7 @@ function assetVisible(entry: (typeof palette)[number]) {
 }
 function chooseAsset(entry: (typeof palette)[number]) {
   chosen = entry;
+  $('favorite-asset').textContent = favorites.has(entry.asset) ? 'Unfavorite' : 'Favorite';
   $('asset-choice').hidden = false;
   $<HTMLSelectElement>('tool').value = 'place';
   const clips = $<HTMLSelectElement>('place-clip');
