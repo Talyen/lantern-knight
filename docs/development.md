@@ -16,7 +16,7 @@ Development selects a checkout-local preparation when available, otherwise the i
 
 Run an exact suite while editing: `npm test -- tests/unit/hero-actions.test.ts`. `npm run test:watch` keeps pure testing live. After edits stabilize, run `npm run check` once. Changed browser behavior should also run its relevant scenario, such as `npm run test:browser -- scene` or `npm run test:browser -- editor`. `-- --ui` opens Playwright's interactive test workflow.
 
-[Verification](verification.md) owns test tiers and CI. [Architecture](architecture.md) explains behavior owners. [Assets](assets.md) owns preparing and sharing artwork. Use the [scene editor](scene-editor.md) for composition; design advice does not block valid experiments.
+[Verification](verification.md) owns test tiers and CI. [Architecture](architecture.md) explains behavior owners. [Assets](assets.md) owns preparing and sharing artwork. Use the [scene editor](developer-tools.md#scene-editor) for composition; design advice does not block valid experiments.
 
 ## Review and collaboration
 

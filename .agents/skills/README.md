@@ -1,6 +1,6 @@
 # Local skill routing
 
-Use a skill when its workflow applies. [AGENTS.md](../../AGENTS.md) owns artwork and repository boundaries; [CONTRIBUTING.md](../../CONTRIBUTING.md) owns verification, test value and task coordination.
+Use a skill when its workflow applies. [AGENTS.md](../../AGENTS.md) owns artwork and repository boundaries. [Contributing](../../CONTRIBUTING.md) introduces review and integration; [verification](../../docs/verification.md) and [task coordination](../../docs/task-coordination.md) own the detailed workflows.
 
 | When                                                                                                          | Skill                                                 |
 | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |

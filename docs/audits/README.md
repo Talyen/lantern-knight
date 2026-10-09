@@ -17,7 +17,7 @@ Run the guide matching the user's request; “all audits” means these four gui
 
 ## Owners and verification
 
-Use [foundation](../architecture.md) for runtime ownership and compatibility, [scene design](../scene-design.md) for production construction, [assets](../assets.md) for preparation and publication, and [handoff](../handoff.md) for performance and delivery evidence. [AGENTS.md](../../AGENTS.md) retains artwork and repository boundaries. Discovery uses authored sources and bounded asset inspection, following those rules.
+Use [architecture](../architecture.md) for runtime ownership and compatibility, [scene design](../scene-design.md) for production construction, [assets](../assets.md) for preparation and publication, and [verification](../verification.md) for performance and delivery evidence. [AGENTS.md](../../AGENTS.md) retains artwork and repository boundaries. Discovery uses authored sources and bounded asset inspection, following those rules.
 
 [Verification](../../CONTRIBUTING.md#verification), [test value](../verification.md#test-value) and [concurrent commands](../task-coordination.md#concurrent-commands) retain their fresh checks and ownership. Use the cheapest meaningful protection for the original problem and report completed versus unavailable checks. A passing static gate does not settle a semantic ownership question or establish visual acceptance.
 

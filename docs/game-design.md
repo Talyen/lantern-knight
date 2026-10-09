@@ -70,7 +70,7 @@ Polish alternating sweep/lunge attacks, dodge, the Burn lantern special and move
 
 Art validation should establish that elevation, occlusion, contact shadows and selective glow work coherently. Visible playtesting should confirm that a new player understands the controls, reads enemy actions, uses both attacks meaningfully, traverses both areas, retries after death and saves/resumes reliably.
 
-Follow this with a cohesive progression loop before expanding the adventure. Resolve the open decisions in the [roadmap](roadmap.md#open-design-decisions) rather than treating prototype behavior as final design.
+Follow this with a cohesive progression loop before expanding the adventure. Resolve lantern, Burn, dodge and progression decisions in their sections above before implementation; the [roadmap](roadmap.md) tracks the work.
 
 ## Presentation and delivery defaults
 

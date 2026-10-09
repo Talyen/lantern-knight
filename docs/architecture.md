@@ -34,4 +34,16 @@ Keep native DOM controls and the shared Application lifecycle. Verify focus retu
 
 ### Introduce audio
 
-Follow the [audio design](audio.md), keeping gameplay authority and media lifetime explicit. Add the owner and focused failure/disposal checks together.
+Follow [planned audio](#planned-audio), adding the playback owner and focused failure/disposal checks together.
+
+## Planned audio
+
+Sound and music remain [planned](roadmap.md#now). These are implementation requirements, not an existing playback system. [Assets](assets.md) owns media preparation and publication; [player action feedback](game-design.md#player-action-feedback) owns feedback intent.
+
+Use one runtime playback owner with injectable media, clock and timer seams. Application boot/disposal owns its lifetime; resolved session events supply gameplay cues. Audio never commits damage, progression, transitions or saves. Essential feedback survives mute, missing media and failed playback; success cues require accepted outcomes.
+
+One-shots have pending, playing and finished lifetimes. Cancel pending work on disposal or session replacement and clean up media, handlers and timers through one idempotent path. Late callbacks cannot affect replacement sounds or newer cooldown reservations. Delayed cues start cooldown on actual playback; cancelled/muted pending cues consume none, and failed playback releases its own reservation.
+
+Music/ambience have one requested destination and an active owner. Superseded loads/fades cannot start late; failed destination changes preserve usable outgoing audio. Master/music/SFX settings update live playback separately from checkpoints. Choose voice limits, repeat suppression, pause, crossfade, room-loop and mute/unmute policies with the sound design.
+
+Playback failure is non-fatal and reports bounded diagnostics without blocking gameplay. Check stale loads, failed playback, mute/unmute, transitions, pause and disposal at the cheapest meaningful layer. Listen in Game and Dev Preview for overlaps, loop seams, levels, first use and cleanup; lifetime tests do not certify the mix. Keep tuning and registrations in code/content and record established behavior here when implemented.

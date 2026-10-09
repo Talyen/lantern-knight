@@ -1,17 +1,15 @@
 # Contributing
 
-Follow [development](docs/development.md) for the edit–play–check loop. This repository is a prototype; prefer clear local changes and deletion of superseded machinery. Preserve unrelated edits and original artwork.
+Follow [Development](docs/development.md) for the edit–play–check loop. Prefer clear local changes and deletion of superseded machinery. Preserve unrelated edits and original artwork.
 
 ## Verification
 
-Use focused pure tests while editing, then `npm run check` after changes stabilize. Changed browser interactions receive their relevant `npm run test:browser -- [scenario]` coverage. Asset-backed, native and milestone checks are separate under [verification](docs/verification.md). Run source-free asset validation when asset consumption changes; original preparation/publication remains explicit.
+Finish with fresh `npm run check` and the affected browser scenarios. [Verification](docs/verification.md) owns test selection, asset/native checks and evidence requirements. Local checks do not establish hosted CI or visible playtesting.
 
 ## Review and investigation
 
-Inspect the complete relevant diff and surrounding consumers. Confirm a reachable defect or contract problem, check counterevidence, and fix the connected cause. Report actual scope, limitations and tests executed. Local checks are not hosted CI or visible playtesting. Add consequential coverage instead of tests mirroring implementation details.
+Inspect the complete relevant diff, including new files, and surrounding consumers. Confirm a reachable defect or contract problem, check counterevidence, and fix the connected cause. Add consequential coverage under [test value](docs/verification.md#test-value). Keep docs consistent with behavior and link to the owning guide rather than copying its rules.
 
 ## Collaboration and commits
 
-Use worktrees for independent/concurrent changes and agree ownership of shared interfaces. Small sequential work needs no task registration. [Task coordination](docs/task-coordination.md#handoff-and-commits) owns local integration and standing task-commit authorization. Pushes and publication require the user's request.
-
-Rules have one owner: [development](docs/development.md), [architecture](docs/architecture.md), [assets](docs/assets.md), or [verification](docs/verification.md). Feature guides link to them. Keep docs and process entry points consistent with code.
+[Task coordination](docs/task-coordination.md) owns worktrees, shared interfaces, local integration and standing task-commit authorization. Pushes and publication require the user's request. Report the change, integration/commit, completed checks and unavailable coverage.

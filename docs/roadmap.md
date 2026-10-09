@@ -1,83 +1,53 @@
-# Lantern Knight — Roadmap
+# Roadmap
 
-Build a deliberate, responsive sword-and-lantern adventure in small, connected, hand-authored areas. The immediate goal is to polish Graveyard Approach and Ruined Chapel; these are the beginning of a continuing game, not a chapter requiring an ending. Character progression follows as a cohesive system of levels/stats, equipment/loot and permanent upgrades.
+Polish Graveyard Approach and Ruined Chapel, then build a cohesive progression loop before extending the adventure. [Game design](game-design.md) owns design intent; this page tracks capability, priorities and acceptance.
 
-## Status and evidence
+Implemented means reachable in source, in progress means unfinished, planned means agreed direction, and needs design means a decision or playtest is required. These statuses do not certify current checks, visual polish or release availability. Supplied hero animation artwork remains TEST material pending visible playtesting.
 
-- **Implemented**: reachable capability exists in source; this does not certify polish or release availability.
-- **In progress**: partial implementation or local integration still needs completion and validation.
-- **Planned**: agreed direction with implementation ahead.
-- **Needs design**: an explicit decision or playtest is required before implementation.
+## Built
 
-The baseline includes the current hero-action integration; supplied animation artwork remains TEST material pending visible playtesting. Source and existing test links provide inspection evidence, not a claim that tests currently pass. Current build, visible gameplay and hosted CI verification must be recorded separately when performed.
+| Capability | Current limits and source |
+| --- | --- |
+| Connected opening areas | Authored activation, clear-gated forward passage and retreat; one skeleton in Graveyard Approach and two in Ruined Chapel. [Content](../src/content/game-content.ts), [area tests](../tests/unit/churchyard.test.ts). |
+| Movement and combat | Keyboard movement, mouse aim, alternating sweep/lunge, dodge, health, hurt/death and encounter retry. Four-heading actions use supplied art and authored timing. [Simulation](../src/core/simulation.ts), [hero actions](../src/content/hero-actions.ts), [action tests](../tests/unit/hero-actions.test.ts). |
+| Prototype lantern | Aimed cone, immediate damage, brief stagger and cooldown with directional cast art. Burn/DoT remains planned. [Simulation](../src/core/simulation.ts), [visual mappings](../src/content/visuals.ts). |
+| Sessions and checkpoints | Encounter state survives revisits; manual and boundary saves use disposable prototype checkpoints with isolated player/developer profiles. [Application](../src/application.ts), [persistence](../src/core/persistence.ts), [system tests](../tests/unit/systems.test.ts). |
+| Presentation and developer tools | Elevation/collision, painted geometry, occlusion/reveal, lighting, weather and visual preferences; Sandbox/labs, editor and independent Effects Playground. [Architecture](architecture.md), [developer tools](developer-tools.md), [visual tests](../tests/assets/visual-effects.test.ts). |
+| Asset and desktop delivery | Pinned external packs, offline cache reuse, and macOS/Windows Game packaging; developer packages are optional. [Assets](assets.md), [delivery](release.md), [CI](../.github/workflows/ci.yml). |
 
-## Built — existing capabilities
+## Now
 
-| Feature | Status | Current capability and limits | Source |
-| --- | --- | --- | --- |
-| Connected opening areas | Implemented | Graveyard Approach has one skeleton and Ruined Chapel has two; quiet approach, encounter activation, clear-gated forward passage and retreat are authored. | [Production content](../src/content/game-content.ts), [area tests](../tests/unit/churchyard.test.ts) |
-| Core movement and combat | Implemented | Keyboard movement, mouse aiming, sword damage, dodge, health, hurt/death and current-encounter retry exist. Alternating sweep/lunge actions are integrated; combat polish is tracked under Now. | [Simulation](../src/core/simulation.ts), [input](../src/core/input.ts), [session](../src/core/session.ts) |
-| Prototype lantern ability | Implemented | A mouse-aimed cone deals immediate damage and brief stagger on a cooldown. An ability-state animation hookup exists; the four-direction cast is integrated with supplied TEST artwork. This prototype is not the planned Burn special. | [Simulation](../src/core/simulation.ts), [visual mappings](../src/content/visuals.ts) |
-| Sessions and checkpoints | Implemented | Encounter state survives revisits; manual saves and boundary autosaves share a disposable prototype checkpoint; player/developer profiles stay isolated. | [Application](../src/application.ts), [persistence](../src/core/persistence.ts), [system tests](../tests/unit/systems.test.ts) |
-| Painted environment presentation | Implemented | Authored elevation/collision, painted geometry, occlusion/reveal, lighting, weather and persistent visual preferences exist. Rendering capability does not establish final visual quality. | [Foundation](architecture.md), [lighting](lighting-lab.md), [visual tests](../tests/assets/visual-effects.test.ts) |
-| Developer tools | Implemented | Sandbox, animation/calibration/lighting labs and an independent Effects Playground support inspection and comparison. Player builds exclude developer screens. | [Sandbox](../src/sandbox-ui.ts), [Effects Playground](effects-playground.md) |
-| Desktop delivery and verification | Implemented | Game packaging targets macOS and Windows for desktop changes and milestones; developer packages are optional. This records infrastructure, not a current release or green CI claim. | [Commands](../package.json), [CI](../.github/workflows/ci.yml) |
-| Prepared asset delivery | Implemented | External source ownership, pinned prepared packs, offline reuse and a bounded external cache separate art authoring from ordinary development. | [Assets](assets.md), [pack tests](../tests/unit/asset-packs.test.ts) |
-| Directional hero actions | Implemented | Four-heading sweep/lunge alternation, dodge, lantern cast, hurt and death are integrated with authored timing and native registration. Automated local checks cover action timing and rendering; supplied TEST art still needs visible playtesting and polish. | [Hero actions](../src/content/hero-actions.ts), [action tests](../tests/unit/hero-actions.test.ts) |
+| Work | Status | Remaining outcome |
+| --- | --- | --- |
+| Combat feel and aiming | In progress | Playtest commitment, buffering, dodge timing and movement/action facing. Resolve [dodge cancellation](game-design.md#combat-feel). |
+| Damage types and lantern Burn | Needs design | Physical sword and Burn special are planned; resolve AoE/use limits, stagger, DoT timing and weaknesses under [damage](game-design.md#damage-types-and-burn) and [lantern design](game-design.md#lantern-ability). |
+| Enemy actions and cues | Planned | Readable movement, attacks, hurt and death. Skeleton states currently use a resting clip in [visual mappings](../src/content/visuals.ts). |
+| Combat feedback and audio | Planned | Coherent impacts, weaknesses, cast/Burn feedback, sound and music. Follow [action feedback](game-design.md#player-action-feedback) and [planned audio](architecture.md#planned-audio). |
+| Onboarding and settings | Planned | Teach controls and refine the HUD, pause/checkpoint flow and visual settings. [Player UI](../src/game-ui.ts). |
+| Area and presentation cohesion | In progress | Polish routes, collision, elevation, composition and combat visibility. [Content](../src/content/game-content.ts), [world art](../src/content/world-art.ts). |
 
-## Now — polish the two existing areas
+Acceptance: a new player understands the controls, reads enemy actions, uses sword and lantern meaningfully, traverses both areas, retries after death and saves/resumes reliably. Confirm through visible playtesting and applicable automated checks. The opening does not need a chapter ending.
 
-| Feature | Status | Intended outcome or remaining work | Source |
-| --- | --- | --- | --- |
-| Combat feel and aiming | In progress | Tune commitment, buffering, dodge timing and readability through playtesting. Local code currently waits for a complete attack before dodging; cancellation policy still needs a design decision. | [Simulation](../src/core/simulation.ts), [design intent](game-design.md#combat-feel) |
-| Damage types and weaknesses | Planned | Sword attacks deal Physical damage; the lantern deals Burn damage. Enemy weaknesses modify both initial Burn damage and Burn DoT ticks. | [Damage design](game-design.md#damage-types-and-burn) |
-| Lantern Burn special | Needs design | Replace the prototype behavior with an AoE special dealing immediate Burn damage and one refreshing Burn DoT. Resolve shape, targeting, timing, use limits and stagger before implementation. | [Lantern design](game-design.md#lantern-ability) |
-| Enemy actions and attack cues | Planned | Give enemy movement, attacks, hurt and death readable animation and cues. Skeleton visuals currently map all states to a resting clip. | [Visual mappings](../src/content/visuals.ts) |
-| Combat feedback | Planned | Make sword impacts, damage, enemy weaknesses, lantern application and ongoing Burn readable and coherent with the artwork. | [Design intent](game-design.md) |
-| Audio | Planned | Add sound and music supporting actions, combat feedback and the atmosphere of both areas. | [Polish priorities](game-design.md#prototype-priorities) |
-| Onboarding and settings usability | Planned | Help a new player understand movement, aiming, sword, dodge and lantern; refine the existing HUD, pause/checkpoint flow and visual settings. | [Current player UI](../src/game-ui.ts) |
-| Area and presentation cohesion | In progress | Polish routes, collision, elevation, environment composition and combat visibility across the existing areas. | [Production content](../src/content/game-content.ts), [area visuals](../src/content/world-art.ts), [lighting](lighting-lab.md) |
+## Next
 
-**Polish acceptance:** a new player can understand the controls, read enemy actions, use sword and lantern meaningfully, traverse both areas, retry after death and save/resume reliably. Confirm this with visible playtesting as well as applicable automated checks; a chapter ending is not required.
+Design levels/stats, equipment/loot and permanent upgrades together, then implement a minimal reward-and-choice loop in existing content. Resolve attributes, slots, reward cadence and relationships before implementation. Persist progression and retain it on death while retrying the encounter. See [character progression](game-design.md#character-progression).
 
-## Next — cohesive character progression
+## Later
 
-| Feature | Status | Intended outcome or remaining work | Source |
-| --- | --- | --- | --- |
-| Integrated progression design | Needs design | Define levels/stats, equipment/loot and permanent upgrades together. Favor authored rewards and deliberate build choices; resolve how rewards feed each layer before implementation. | [Progression intent](game-design.md#character-progression) |
-| First progression loop | Planned | Implement a minimal connected reward-and-choice loop in existing content, with player-facing information and persistent progression. | [Progression intent](game-design.md#character-progression) |
-| Progression and death | Planned | Retain earned progression on death while retrying the encounter. Extend checkpoint persistence to the new progression state. | [Progression intent](game-design.md#character-progression), [current sessions](../src/core/session.ts) |
-
-## Later — extend the foundation
-
-| Feature | Status | Intended outcome or remaining work | Source |
-| --- | --- | --- | --- |
-| Adventure expansion | Planned | Continue beyond the existing areas after combat polish and the first progression loop are established. Choose destinations and encounters during later design. | [World intent](game-design.md#world-structure) |
-| Progression content expansion | Planned | Expand authored rewards, equipment, upgrades and encounters to support the established progression loop. | [Progression intent](game-design.md#character-progression) |
-
-Specific bosses, destinations and additional speculative systems are not commitments in this roadmap.
+Extend the adventure and authored rewards, equipment, upgrades and encounters after combat polish and the first progression loop. Destinations, bosses and speculative systems remain uncommitted; see [world structure](game-design.md#world-structure).
 
 ## Open design decisions
 
-| Decision | Required outcome | Before |
-| --- | --- | --- |
-| Lantern AoE and use limits | Choose shape, range, targeting, cooldown/resource policy and whether stagger remains. The current aimed cone/cooldown is a prototype, not the final specification. | Burn special implementation |
-| Burn and weaknesses | Choose duration, tick cadence, refresh timing and weakness values. Keep one refreshing DoT; weaknesses affect initial damage and ticks. | Damage/status implementation |
-| Dodge cancellation | Confirm complete-attack commitment or define an allowed cancellation window through playtesting. | Combat-feel sign-off |
-| Progression relationships | Choose attributes, equipment slots, reward cadence and how levels, loot and permanent upgrades interact. | First progression loop |
+Before implementation, resolve dodge cancellation, lantern shape/targeting/use limits/stagger, Burn duration/cadence/refresh/weakness values, and progression relationships in the linked design sections above. Keep decisions in [Game design](game-design.md), then update the corresponding work here.
 
-## Delivery and animation acceptance
+## Presentation and delivery acceptance
 
 | Work | Status | Acceptance |
 | --- | --- | --- |
-| Current hero animation treatment | In progress | The current-kit implementation supplies mixed-registration transitions, bounded stabilization, weighted locomotion and rigid-sword protection. Finish visual acceptance per clip/direction; large action-pose changes or uncertain equipment retain authored holds. Further smoothing requires compatible supplied art or stronger correspondence, without changing action consequences. |
-| Hero attachments and production validation | Planned | Validate per-frame/direction effect attachments, registration, source density, hands, pose joins and gameplay readability. Eight-direction running and four-direction idle/action artwork are the immediate route; additional action directions and future production methods remain open. |
-| Replacement combat effects | Planned | Integrate the newer external sword/lantern artwork with explicit directional bindings, timing and attachment metadata. Retired placeholder arcs/flare are not final effects. |
-| Windows delivery acceptance | Needs design | Select reference CPU/GPU and display; validate packaged Windows at 1440p/60 FPS. macOS and software-renderer smoke results do not certify target performance. |
-| Bounded performance and lifetime pass | Planned | Warm up, measure roughly one minute in a seeded representative encounter and a separate modest stress fixture; record median/p95/stalls, environment, buffer size and scale. Account separately for download, decoded CPU, GPU textures/mips, render targets and temporary allocations; verify growth settles across repeated room changes. |
+| Hero animation treatment | In progress | Inspect every clip/direction for mixed-registration transitions, bounded stabilization, weighted locomotion and rigid-sword protection. Large pose changes or uncertain equipment retain authored holds; further smoothing needs compatible art or stronger correspondence and preserves action consequences. |
+| Hero attachments | Planned | Validate per-frame/direction attachments, registration, source density, hands, pose joins and gameplay readability. Immediate kit and production-method choices follow [presentation defaults](game-design.md#presentation-and-delivery-defaults). |
+| Replacement combat effects | Planned | Integrate newer external sword/lantern art with explicit directional bindings, timing and attachments; retired placeholder arcs/flare are not final effects. |
+| Windows acceptance | Needs design | Name reference CPU/GPU/display and validate packaged 1440p/60 FPS. macOS and software smoke do not certify target performance. |
+| Performance and lifetime | Planned | Warm up, measure roughly one minute in a seeded representative encounter and a modest stress fixture; record median/p95/stalls, environment, buffer size and scale. Account separately for downloads, decoded CPU data, GPU textures/mips, render targets and temporary allocations; verify settled growth across repeated room changes. Follow [performance comparisons](verification.md#performance-comparisons). |
 
-## Maintaining this roadmap
-
-Update existing rows as features advance; move completed work into Built rather than appending historical reports. Keep items at feature level and link detailed contracts or focused tests instead of copying them here. Resolve design decisions in [design intent](game-design.md) and update the corresponding roadmap rows together.
-
-Promote local work only after integration and relevant validation. Record verification scope accurately and separately from feature status. Keep architecture in [foundation](architecture.md) and delivery verification expectations in [handoff](handoff.md). Avoid speculative dates, generated artifacts and historical output in this document.
+Update existing items as work advances; move completed capabilities into Built. Promote local work after integration and relevant validation, reporting evidence separately from status. Keep dates, historical reports and generated output out of this page. [Task coordination](task-coordination.md#handoff-and-commits) owns integration; [Verification](verification.md) owns checks.

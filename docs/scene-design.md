@@ -2,7 +2,7 @@
 
 Use the project Clean INK art direction, preserving original sources and canonical references. Prefer flat stages, whole illustrated shells and registered native ground panels. Hidden collision/rendering carriers and shadow proxies support the artwork.
 
-These are prototype design recommendations. Palette membership, composition zones, density, scale, tint, mirroring, grounding and treatment can be experimented with. The editor shows advice rather than rejecting otherwise valid layouts. Source-fidelity and malformed/missing-resource errors remain technical protections.
+These are prototype design recommendations. Palette membership, composition zones, density, scale, tint, mirroring, grounding and treatment can be experimented with. The editor shows advice rather than rejecting otherwise valid layouts. Source fidelity remains protected. Missing assets/clips, malformed numbers, duplicate IDs, cyclic attachments, obstructed required entries and unsupported light capacity remain errors.
 
 ## Native ground panels
 

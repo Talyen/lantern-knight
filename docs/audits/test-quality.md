@@ -15,4 +15,4 @@ Strengthen weak consequential assertions, move protection to a cheaper sufficien
 
 Use observable state/frame conditions instead of fixed sleeps unless elapsed time is the behavior being tested. Preserve exact pixel/subpixel and resource-lifetime checks where they own renderer risks; treat screenshot galleries and long motion traces as diagnostics under the existing policy.
 
-Use [test selection](../verification.md#test-selection) and verified packaged smoke coverage rather than importing Alchemy's Playwright fixtures, tags or CI tiers. Include surviving protection when consolidating and account for deletions in the handoff. Verify changed assertions can detect the intended failure and report measured timing comparisons for expensive-suite changes as required by test value policy.
+Use the existing [test selection](../verification.md#test-selection) and packaged smoke coverage. Include surviving protection when consolidating and account for deletions in the handoff. Verify changed assertions can detect the intended failure and report measured timing comparisons when changing expensive suites.

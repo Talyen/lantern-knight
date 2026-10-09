@@ -16,12 +16,6 @@
 
 `npm run test:desktop` consumes a Game package and tests the actual executable, bundled identity, real controls and storage restart. Native results apply to the platform exercised. Browser results do not certify desktop integration or visible reference-hardware pacing.
 
-## Scene workflow
-
-Open `/editor.html` or `/sandbox.html?scene=court` on the development server; `upper-landing` selects the chapel. Reload restores preview context without writing checkpoints. Existing artwork placement does not require packaging or publication. Run the affected scene/editor browser scenario after changes.
-
-Prototype palette, composition, scale and treatment guidance is advisory. Missing resources, malformed data, cyclic attachments, unsupported light capacity and obstructed required entries remain errors. Tests use stable fixtures rather than freezing production object counts or routes.
-
 ## Test value
 
 Protect a consequential failure once at the cheapest sufficient layer. Prefer real state changes, failed operations, cancellation, re-entry and disposal over checking source text or mirroring implementation details. Remove coverage for removed machinery. Do not add retries to hide races or weaken an invariant to reach a timing target.
@@ -36,7 +30,7 @@ Protect a consequential failure once at the cheapest sufficient layer. Prefer re
 
 ## Documentation checks
 
-`npm run docs:check` validates local Markdown links/anchors, current npm commands and repository file references. Four canonical guides own development, architecture, assets and verification; feature guides link to those owners. The checker does not establish that prose matches behavior.
+`npm run docs:check` validates local Markdown links/anchors, current npm commands and repository file references. Feature guides link to the relevant workflow or contract owner. The checker does not establish that prose matches behavior.
 
 ## E2E coverage and execution budgets
 
@@ -48,4 +42,14 @@ CI has generous hang timeouts. Local GPU tests and asset preparation share a sma
 
 `npm run benchmark -- game`, `lighting`, `crypt`, `graveyard`, `animation`, `hero`, `sandbox`, `effects`, `preferences` or `scenes` runs an explicit native investigation against the relevant package. Use `--capture` only when visual evidence is wanted. Retained output remains external. Native framebuffer, motion and resource assertions remain available through these scenarios; routine checks do not generate galleries.
 
-Measure cold/warm startup, edit-to-preview, checks, builds, transferred bytes and packaging separately. Compare repeated warm samples under the same assets/settings/hardware. Initial goals are three seconds for warm preview updates and ten seconds for ordinary checks, not correctness exceptions. [Handoff](handoff.md) explains comparable performance evidence.
+Initial goals are three seconds for warm preview updates and ten seconds for ordinary checks; correctness remains required.
+
+## Performance comparisons
+
+Compare cold acquisition/startup separately from warm iteration, checks, builds and packaging. Use repeated equivalent samples; record hardware, assets, settings, sample duration, foreground/background policy and rendering quality. Count transferred bytes and repeated launches as well as elapsed time. Preserve needed baselines outside Git.
+
+`npm run benchmark -- sandbox --benchmark` records renderer measurements; `npm run benchmark -- compare <baseline.json> <candidate.json>` compares retained external records. Renderer calculation changes require native output and exact pixel parity. Fewer submissions alone do not prove better visible pacing.
+
+## Packaged player journey measurements
+
+`npm run benchmark -- game --benchmark` exercises the actual Game package after explicit packaging. Preserve gameplay, animation timing, sound behavior and visual fidelity. Hidden/software runs do not certify 60 FPS on reference hardware or visible polish. See [Delivery](release.md) for packaging and [session replay](session-replay.md) for headless reproduction.
