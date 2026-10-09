@@ -260,7 +260,7 @@ export class GamePresentation implements PresentationLifecycle {
       }
       points.needsUpdate = true;
     }
-    const effectTag = sim.hero.attackKind;
+    const effectTag = `${sim.hero.attackKind}:${swing.range}`;
     if (effectTag !== this.effectTag) {
       this.slash.geometry.dispose();
       this.slash.geometry = new T.RingGeometry(

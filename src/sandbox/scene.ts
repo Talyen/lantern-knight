@@ -28,6 +28,10 @@ import { sandboxUI, previewHUD } from './ui';
 import { heroTimings } from '../content/hero-actions';
 import type { Clip } from '../assets/schema';
 import '../inspection';
+import { SweepEffects, sweepEffectAssets, type SweepTreatment } from './sweep-effects';
+import { tuning } from '../content/gameplay';
+import { spawnActorId, heightAt } from '../content/world';
+import type { Actor, Simulation } from '../core/simulation';
 
 export function mountScene(
   context: PreviewContext,
@@ -61,6 +65,9 @@ export function mountScene(
     replayStart = 0;
   let movementSpeed = sandboxContent.actor(sandboxContent.definitions.player).speed,
     movementReplay = false;
+  let sweepEffects: SweepEffects | undefined,
+    sweepReplay = false,
+    sweepRange = tuning.sweepRange as number;
   const app = new Application(
     $('canvas'),
     sandboxContent,
@@ -103,6 +110,9 @@ export function mountScene(
   }
   function setMode(next: Mode) {
     stopMovementReplay();
+    stopSweepReplay();
+    sweepEffects?.reset();
+    if (sweepEffects) sweepEffects.group.visible = next !== 'animation' && next !== 'calibration';
     const special = mode === 'animation' || mode === 'calibration';
     const nextSpecial = next === 'animation' || next === 'calibration';
     if (!special && nextSpecial) {
@@ -171,6 +181,10 @@ export function mountScene(
     await app.boot();
     if (closed) return;
     presentation = app.presentation;
+    applyMovementSpeed();
+    sweepEffects = new SweepEffects(presentation, () => app.sim);
+    presentation.beforeSceneRender = (sim) => sweepEffects?.update(sim);
+    $<HTMLSelectElement>('#sweep-treatment').value = 'dramatic';
     $<HTMLSelectElement>('#movement-speed').value = String(movementSpeed);
     $<HTMLSelectElement>('#render-scale').value = String(app.scale);
     $<HTMLSelectElement>('#zoom-span').value = String(presentation.verticalSpan);
@@ -363,8 +377,22 @@ export function mountScene(
     };
     $('#movement-replay').onclick = () => app.safe(startMovementReplay);
     $('#movement-stop').onclick = stopMovementReplay;
+    $('#sweep-treatment').onchange = () => app.safe(loadSweepEffects);
+    $('#sweep-alignment').onchange = () => {
+      if (!sweepEffects) return;
+      sweepEffects.reset();
+      sweepEffects.alignment = $<HTMLSelectElement>('#sweep-alignment')
+        .value as SweepEffects['alignment'];
+    };
+    $('#sweep-range').onchange = () => {
+      sweepRange = Number($<HTMLSelectElement>('#sweep-range').value);
+      applySweepRange();
+    };
+    $('#sweep-replay').onclick = () => app.safe(startSweepReplay);
+    $('#sweep-stop').onclick = stopSweepReplay;
     app.beforeStep = (sim) => {
       applyMovementSpeed();
+      applySweepRange();
       if ($<HTMLInputElement>('#freeze-enemies').checked)
         sim.enemies.forEach((enemy) => {
           enemy.stun = 2;
@@ -442,6 +470,8 @@ export function mountScene(
       },
       restart: () => {
         stopMovementReplay();
+        stopSweepReplay();
+        sweepEffects?.reset();
         if (mode === 'animation') presentation.restartLab();
         else
           app.safe(async () => {
@@ -460,6 +490,8 @@ export function mountScene(
       isPaused: () => (mode === 'animation' ? presentation.labPaused || app.paused : app.paused),
       isAnimation: () => mode === 'animation',
     });
+    await loadSweepEffects();
+    if (closed) return;
     previewReady = true;
     status('Ready');
     savePreview();
@@ -507,12 +539,15 @@ export function mountScene(
       $<HTMLInputElement>('#' + id).checked = checked;
   }
 
-  async function fixture(area: string) {
+  async function fixture(area: string, prepare?: (sim: Simulation) => void) {
     stopMovementReplay();
+    stopSweepReplay();
+    sweepEffects?.reset();
     lightingReplay = false;
     app.command = undefined;
     await app.replaceArea(area, () => {
       app.session = new GameSession(sandboxContent, 142, area, app.session.generation + 1);
+      prepare?.(app.sim);
       return [];
     });
     if (closed) return;
@@ -612,6 +647,87 @@ export function mountScene(
         generation: sim.generation,
       };
     };
+  }
+  async function loadSweepEffects() {
+    await app.withLoading(() => Promise.all(sweepEffectAssets.map((id) => app.loadAsset(id))));
+    if (closed || !sweepEffects) return;
+    sweepEffects.reset();
+    sweepEffects.treatment = $<HTMLSelectElement>('#sweep-treatment').value as SweepTreatment;
+  }
+  function applySweepRange() {
+    const hero = app.sim.hero;
+    if (hero.definition.melee.sweepRange !== sweepRange)
+      hero.definition = {
+        ...hero.definition,
+        melee: { ...hero.definition.melee, sweepRange: sweepRange },
+      };
+  }
+  function stopSweepReplay() {
+    if (!sweepReplay) return;
+    sweepReplay = false;
+    app.command = undefined;
+    $('#sweep-stop').hidden = true;
+    $('#sweep-status').textContent = 'Free play · preview sweep reach';
+    sweepEffects?.reset();
+  }
+  async function startSweepReplay() {
+    await loadSweepEffects();
+    if (closed) return;
+    const yaw =
+        (HEADINGS.indexOf(
+          $<HTMLSelectElement>('#sweep-heading').value as (typeof HEADINGS)[number],
+        ) *
+          Math.PI) /
+        4,
+      origin = previewHero({ ...captureState(), hero: { x: -2, z: 4, yaw } }, sandboxContent);
+    const targets: { actor: Actor; distance: number; angle: number }[] = [];
+    await fixture(app.sim.area, (sim) => {
+      for (const [index, distance] of [1.45, 1.8, 2.05].entries()) {
+        const angle = yaw + (index - 1) * 0.5;
+        const actor = sim.create(
+          spawnActorId(sim.area, `sweep-target-${index}`),
+          'enemy',
+          origin.x + Math.sin(angle) * 3.5,
+          origin.z + Math.cos(angle) * 3.5,
+          'warden',
+        );
+        actor.definition = { ...actor.definition, maxHealth: 500 };
+        actor.health = 500;
+        actor.stun = 10000;
+        targets.push({ actor, distance, angle });
+      }
+      Object.assign(sim.hero, origin);
+      sim.actors = [sim.hero, ...targets.map((target) => target.actor)];
+      applySweepRange();
+    });
+    if (closed) return;
+    setMode('encounter');
+    const sim = app.sim;
+    const start = sim.tick;
+    sweepReplay = true;
+    $('#sweep-stop').hidden = false;
+    app.command = (sim) => {
+      const elapsed = sim.tick - start;
+      for (const { actor, distance, angle } of targets) {
+        actor.stun = 10000;
+        const d = elapsed < 150 ? 3.5 : distance;
+        actor.x = actor.px = origin.x + Math.sin(angle) * d;
+        actor.z = actor.pz = origin.z + Math.cos(angle) * d;
+        actor.y = actor.py = heightAt(sim.areaDefinition, actor.x, actor.z);
+      }
+      const attack = [30, 180, 300, 420].includes(elapsed);
+      if (attack) sim.hero.nextAttack = 'sweep';
+      $('#sweep-status').textContent =
+        `${elapsed < 150 ? 'Miss' : 'Targets: 1.45 / 1.80 / 2.05 m'} · ${sweepRange.toFixed(2)} m reach`;
+      if (elapsed >= 570) stopSweepReplay();
+      return {
+        move: { x: 0, z: 0 },
+        aim: { x: origin.x + Math.sin(yaw) * 4, z: origin.z + Math.cos(yaw) * 4 },
+        attack,
+        generation: sim.generation,
+      };
+    };
+    app.pause(false);
   }
   function updateUI() {
     if (!presentation) return;
@@ -765,6 +881,7 @@ export function mountScene(
   }
   async function startBenchmark(stress = false) {
     stopMovementReplay();
+    stopSweepReplay();
     lightingReplay = false;
     await app.loadAsset('ink-skeleton');
     returnSave ??= app.session.captureSave();
@@ -847,6 +964,8 @@ export function mountScene(
     pause: (value) => app.pause(value),
     reset: () => {
       stopMovementReplay();
+      stopSweepReplay();
+      sweepEffects?.reset();
       return app.reset();
     },
     stats: () => app.presentation.stats(),
@@ -921,6 +1040,8 @@ export function mountScene(
     if (closed) return;
     savePreview();
     closed = true;
+    sweepEffects?.dispose();
+    if (presentation) presentation.beforeSceneRender = undefined;
     lifetime.abort();
     previewReady = false;
     app.dispose();

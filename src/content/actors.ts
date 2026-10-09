@@ -16,7 +16,7 @@ export const actors = [
     maxHealth: tuning.heroMaxHealth,
     radius: tuning.heroRadius,
     speed: tuning.moveSpeed,
-    melee: { ...tuning.attack },
+    melee: { ...tuning.attack, sweepRange: tuning.sweepRange },
     visual: 'hero',
   },
 ] satisfies ContentDefinitions['actors'];

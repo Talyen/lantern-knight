@@ -15,6 +15,7 @@ import { captureArtDiagnostics } from './art-diagnostics';
 import { ArtConstructionOverlay } from './art-construction-overlay';
 export type Mode = 'encounter' | 'calibration' | 'animation' | 'occlusion' | 'lighting';
 export class Presentation extends GamePresentation {
+  beforeSceneRender?: (sim: Simulation, ms: number) => void;
   mode: Mode = 'encounter';
   captureArtDiagnostics() {
     return captureArtDiagnostics(this);
@@ -336,6 +337,7 @@ export class Presentation extends GamePresentation {
     this.renderer.render(this.scene, this.camera);
   }
   protected override renderFrame(sim: Simulation, ms: number) {
+    this.beforeSceneRender?.(sim, ms);
     this.artConstruction.update(
       sim.areaDefinition,
       this.roomPresentation.inkRoom,

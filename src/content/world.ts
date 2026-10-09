@@ -22,6 +22,7 @@ type MeleeDefinition = {
   activeEnd: number;
   total: number;
   range: number;
+  sweepRange?: number;
   halfAngle: number;
   damage: number;
 };
@@ -159,6 +160,7 @@ export class ContentRegistry {
         m.activeEnd <= m.windup ||
         m.total <= m.activeEnd ||
         m.range <= 0 ||
+        (m.sweepRange !== undefined && m.sweepRange <= 0) ||
         m.halfAngle <= 0 ||
         m.halfAngle > Math.PI ||
         m.damage <= 0

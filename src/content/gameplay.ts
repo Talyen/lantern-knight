@@ -7,6 +7,7 @@ export const tuning = {
   heroRadius: 0.25,
   heroMaxHealth: 100,
   attack: { ...heroActionTiming('sweep', 'd90'), range: 1.65, halfAngle: 0.95, damage: 26 },
+  sweepRange: 2.15,
   inputBufferTicks: 8,
   dashBufferTicks: 5,
   deathHoldTicks: heroActionTiming('death', 'd90').total,
@@ -54,6 +55,7 @@ export function attackDefinition(actor: {
       activeEnd: number;
       total: number;
       range: number;
+      sweepRange?: number;
       halfAngle: number;
       damage: number;
     };
@@ -62,6 +64,10 @@ export function attackDefinition(actor: {
   return actor.kind === 'hero'
     ? {
         ...tuning.attack,
+        range:
+          actor.attackKind === 'sweep'
+            ? (actor.definition.melee.sweepRange ?? actor.definition.melee.range)
+            : actor.definition.melee.range,
         ...heroActionTiming(actor.attackKind, actor.actionHeading),
         clip: actor.attackKind,
         halfAngle: actor.attackKind === 'sweep' ? 0.95 : 0.35,

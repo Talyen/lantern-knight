@@ -28,7 +28,7 @@ Author scene geometry and visuals together, and extend actor/encounter/exit defi
 
 ### Change action timing or presentation
 
-Authored hero holds, gameplay tuning and simulation own timing at 60 Hz. Animation callbacks never commit damage. Preserve generation-scoped immutable events, fixed-step outcomes and resource disposal. Use action/foundation unit tests, prepared-asset tests for registration changes, and optional native diagnostics for visual investigations.
+Authored hero holds, gameplay tuning and simulation own timing at 60 Hz. The hero's melee definition owns base/lunge reach and an optional sweepRange override (otherwise falling back to base reach); authored action timing still owns the damage window. Animation callbacks never commit damage. Preserve generation-scoped immutable events, fixed-step outcomes and resource disposal. Use action/foundation unit tests, prepared-asset tests for registration changes, and optional native diagnostics for visual investigations.
 
 ### Change player menus or settings
 
