@@ -1,6 +1,7 @@
 import * as T from 'three';
 import { ActorSprite } from './sprite';
 import { combatFeedback as settings } from '../content/combat-feedback';
+import { sweepEffectTiming, sweepEffectPhase, type SweepTiming } from '../content/sweep-timing';
 import { attackDefinition } from '../content/gameplay';
 import { selectDirection, selectAuthoredDirection } from '../core/camera';
 import { clipDuration } from '../core/animation';
@@ -16,6 +17,7 @@ type ActiveEffect = {
   reverse: boolean;
   scale: number;
   kind: 'sweep' | 'contact';
+  sweepTiming?: SweepTiming;
 };
 export class CombatFeedback {
   readonly group = new T.Group();
@@ -76,12 +78,15 @@ export class CombatFeedback {
     this.pending = [];
     const hero = sim.hero,
       timing = attackDefinition(hero),
-      tag = `${sim.generation}:${hero.action}`;
+      tag = `${sim.generation}:${hero.action}`,
+      profile = hero.sweepTiming ?? 'baseline',
+      effectTiming = sweepEffectTiming(profile),
+      lead = effectTiming?.lead ?? settings.sweep.leadTicks;
     if (
       this.sweepEnabled &&
       hero.state === 'attack' &&
       hero.attackKind === 'sweep' &&
-      hero.age >= timing.windup - settings.sweep.leadTicks &&
+      hero.age >= timing.windup - lead &&
       hero.age < timing.activeEnd &&
       this.castTag !== tag
     ) {
@@ -91,13 +96,16 @@ export class CombatFeedback {
       );
       const code = heading.slice(1).padStart(3, '0');
       this.emit(settings.sweep.asset, `sword_finisher_03__d${code}`, {
-        start: sim.tick,
+        start: sim.tick - (hero.age - (timing.windup - lead)),
         position: new T.Vector3(
           hero.x + Math.sin(hero.yaw) * settings.sweep.forward,
           hero.y + settings.sweep.height,
           hero.z + Math.cos(hero.yaw) * settings.sweep.forward,
         ),
-        duration: settings.sweep.durationMs,
+        duration: effectTiming
+          ? ((effectTiming.lead + effectTiming.hold + effectTiming.tail) * 1000) / 60
+          : settings.sweep.durationMs,
+        sweepTiming: effectTiming ? profile : undefined,
         scale: settings.sweep.scale[selectAuthoredDirection(hero.yaw)],
         reverse: settings.sweep.reverse,
         kind: 'sweep',
@@ -110,7 +118,9 @@ export class CombatFeedback {
         effect.sprite.dispose();
         this.active.splice(i, 1);
       } else {
-        const phase = elapsed / effect.duration;
+        const phase = effect.sweepTiming
+          ? sweepEffectPhase(effect.sweepTiming, elapsed)
+          : elapsed / effect.duration;
         effect.sprite.animator.seek(
           (effect.reverse ? 1 - phase : phase) * clipDuration(effect.sprite.animator.clip),
         );

@@ -1,5 +1,7 @@
 import * as T from 'three';
 import { selectDirection, selectAuthoredDirection, HEADINGS } from '../core/camera';
+import { retimeSweepClip } from './sweep-timing';
+import type { SweepTiming, SweepRecovery } from '../content/sweep-timing';
 import { ActorSprite } from './sprite';
 import { timedWalk, remapWalkTime } from '../core/locomotion-timing';
 import { Animator, clipDuration } from '../core/animation';
@@ -90,8 +92,17 @@ export class ActorPresentation {
     dir: (typeof HEADINGS)[number],
     manifest = this.packs.get('ink-hero-current')!.manifest,
     walkTiming: WalkTiming = 'weighted',
+    sweepTiming: SweepTiming = 'baseline',
+    sweepRecovery: SweepRecovery = 'clean',
   ): Clip {
     const clip = resolveClip(manifest, id, dir);
+    if (id === 'sweep' && manifest.asset.id === 'ink-hero-current')
+      return retimeSweepClip(
+        clip,
+        sweepTiming,
+        sweepRecovery,
+        resolveClip(manifest, 'idle', dir).frames[0],
+      );
     return id === 'walk' && manifest.asset.id === 'ink-hero-current'
       ? timedWalk(
           clip,
@@ -120,7 +131,14 @@ export class ActorPresentation {
             ? binding.attacks[a.attackKind === 'lunge' ? 1 : 0]!
             : binding.clips[a.state],
         tag = `${sim.generation}:${id}:${heading}:${a.action}`;
-      const selectedClip = this.getClip(id, heading, v.sprite.manifest, options.walkTiming);
+      const selectedClip = this.getClip(
+        id,
+        heading,
+        v.sprite.manifest,
+        options.walkTiming,
+        a.sweepTiming,
+        a.sweepRecovery,
+      );
       if (tag !== v.tag || v.sprite.animator.clip !== selectedClip) {
         const old = v.sprite.animator.time,
           previous = v.sprite.animator.clip,

@@ -1,5 +1,6 @@
 import { selectAuthoredDirection, type AuthoredHeading } from './camera';
 import type { HeroAttackKind } from '../content/hero-actions';
+import type { SweepTiming, SweepRecovery } from '../content/sweep-timing';
 import { tuning, attackDefinition } from '../content/gameplay';
 import {
   ContentRegistry,
@@ -35,6 +36,8 @@ export type Actor = {
   stun: number;
   hitIds: ActorId[];
   attackKind: HeroAttackKind;
+  sweepTiming?: SweepTiming;
+  sweepRecovery?: SweepRecovery;
   nextAttack: HeroAttackKind;
   actionHeading: AuthoredHeading;
   attackBufferedUntil: number;

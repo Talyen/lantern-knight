@@ -1,3 +1,4 @@
+import { sweepTimingOverride, type SweepTiming } from './sweep-timing';
 import timings from '../../authoring/hero-actions.json';
 import type { AuthoredHeading, Heading } from '../core/camera';
 export type HeroAttackKind = 'sweep' | 'lunge';
@@ -7,8 +8,14 @@ export const heroTimings = timings as Record<
   Record<AuthoredHeading, HeroTiming> & Partial<Record<Heading, HeroTiming>>
 >;
 const tick = (ms: number) => Math.ceil((ms * 60) / 1000 - 1e-8);
-export function heroActionTiming(clip: string, heading: AuthoredHeading) {
-  const recipe = heroTimings[clip]?.[heading];
+export function heroActionTiming(
+  clip: string,
+  heading: AuthoredHeading,
+  sweepTiming: SweepTiming = 'baseline',
+) {
+  const recipe: HeroTiming | undefined =
+    (clip === 'sweep' ? sweepTimingOverride(sweepTiming, heading) : undefined) ??
+    heroTimings[clip]?.[heading];
   if (!recipe) throw new Error(`Missing hero action timing: ${clip}/${heading}`);
   return {
     total: tick(recipe.holdsMs.reduce((sum, ms) => sum + ms, 0)),

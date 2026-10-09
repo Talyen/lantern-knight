@@ -1,4 +1,5 @@
 import { heroActionTiming, heroCelTick, type HeroAttackKind } from './hero-actions';
+import type { SweepTiming } from './sweep-timing';
 import type { AuthoredHeading } from '../core/camera';
 export const tuning = {
   cameraFollow: true,
@@ -49,6 +50,7 @@ export const tuning = {
 export function attackDefinition(actor: {
   kind: 'hero' | 'enemy';
   attackKind: HeroAttackKind;
+  sweepTiming?: SweepTiming;
   actionHeading: AuthoredHeading;
   definition: {
     melee: {
@@ -69,7 +71,7 @@ export function attackDefinition(actor: {
           actor.attackKind === 'sweep'
             ? (actor.definition.melee.sweepRange ?? actor.definition.melee.range)
             : actor.definition.melee.range,
-        ...heroActionTiming(actor.attackKind, actor.actionHeading),
+        ...heroActionTiming(actor.attackKind, actor.actionHeading, actor.sweepTiming),
         clip: actor.attackKind,
         halfAngle: actor.attackKind === 'sweep' ? tuning.sweepHalfAngle : 0.35,
       }
