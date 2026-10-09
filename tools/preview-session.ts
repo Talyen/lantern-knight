@@ -76,6 +76,7 @@ export async function openPreview(options: PreviewOptions) {
     let closed = false;
     return {
       origin,
+      ownsServer: owned !== undefined,
       workspace,
       assetIdentity: workspace?.identity ?? artifact!.assets.sha256,
       async close() {

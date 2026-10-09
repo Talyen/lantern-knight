@@ -11,6 +11,7 @@
   },
   "scripts": {
     "dev": "tsx tools/dev.ts",
+    "dev:preview": "tsx tools/dev.ts --preview",
     "desktop:dev": "tsx tools/desktop-dev.ts",
     "test": "tsx tools/test.ts",
     "test:watch": "tsx tools/test.ts --watch",

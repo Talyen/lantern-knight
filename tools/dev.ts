@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
-import { untilInterrupted } from './run-process';
+import { runProcess, untilInterrupted } from './run-process';
 import { openPreview } from './preview-session';
 
 async function main() {
@@ -11,8 +11,12 @@ async function main() {
       pinned: { type: 'boolean' },
       open: { type: 'boolean' },
       runtime: { type: 'boolean' },
+      preview: { type: 'boolean' },
     },
   });
+  if (values.preview && process.platform !== 'darwin')
+    throw new Error('Safari preview launch requires macOS; use npm run dev on this platform.');
+  if (values.preview && values.runtime) throw new Error('Dev Preview requires authoring assets.');
   const port = values.port === undefined ? undefined : Number(values.port);
   if (port !== undefined && (!Number.isInteger(port) || port < 1 || port > 65535))
     throw new Error('Invalid development port');
@@ -21,14 +25,22 @@ async function main() {
     assets: values.pinned ? 'pinned' : 'local',
     scope: values.runtime ? 'runtime' : 'authoring',
     port: port ?? Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
-    open: values.open,
+    open: values.preview ? false : values.open,
+    reuse: values.preview,
   });
   try {
+    if (values.preview) {
+      const url = session.origin + '/sandbox.html';
+      await runProcess('open', ['-a', 'Safari', url], {
+        cwd: path.dirname(fileURLToPath(import.meta.url)),
+      });
+      console.log('Dev Preview in Safari: ' + url);
+    }
     console.log(session.origin);
     console.log(
       'Game /index.html · Dev Preview /sandbox.html · Editor /editor.html · Effects /effects.html',
     );
-    await untilInterrupted();
+    if (session.ownsServer) await untilInterrupted();
   } finally {
     await session.close();
   }

@@ -6,6 +6,8 @@ This is an early prototype. Prefer a short edit–play–check loop. Scenes, ass
 
 Use Node 24.18.0 and npm 11.16.0, then `npm ci` and `npm run dev`. One Vite server serves Game, Dev Preview and the scene editor. Developer navigation links connect these views. Dev Preview uses one toolbar and floating inspector for independent outdoor/interior/system fixtures, animation, visuals/effects, inspection and diagnostics; advanced controls remain collapsed until needed.
 
+`npm run dev:preview` starts Dev Preview and opens `/sandbox.html` in Safari on macOS. It reuses a server only after checking checkout, asset identity and authoring scope. Reusing a server opens Safari and returns to the shell; when starting a server, Ctrl+C closes only that server. Use `npm run dev:preview -- --port 5175` to select another port. The personal `lantern-dev` shell command runs this from the primary checkout, from any directory.
+
 `npm run desktop:dev` starts the same server and watches Electron main/preload bundles. Renderer edits reload through Vite; main/preload edits restart the owned Electron process. It does not build or package the application first. Close the command to release its server and asset lease.
 
 Lantern defaults to port 5174, including direct Vite launches. Use `-- --port 5175` for a browser worktree, or set `LANTERN_PREVIEW_PORT=5175` for browser and desktop commands. Ports are strict: an occupied port is never taken from another checkout.
