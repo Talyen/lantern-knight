@@ -2,7 +2,11 @@ import { bindEffectControls } from './effect-controls';
 import { bindLightingControls } from './lighting-controls';
 import { composeSceneContent } from '../content/game-content';
 import { developerVisuals as worldVisuals } from '../content/developer-scenes';
-import { readScenePreview, previewHero, previewKey, type ScenePreviewState } from './preview';
+import { previewHero } from './preview';
+import { mountShell } from './shell';
+import type { PreviewContext, SceneState, AnimationState } from './workspace';
+import { defaultVisualEffects } from '../content/visual-effects';
+import type { Bridge } from '../core/save';
 import '../style.css';
 import { LoadingScreen } from '../loading-screen';
 import { Application } from '../application';
@@ -11,7 +15,6 @@ import { sandboxContent, sandboxDefinitions } from '../content/sandbox-world';
 import { ContentRegistry } from '../content/world';
 import { GameSession } from '../core/session';
 import { assetCatalog } from '../content/visuals';
-import { createBrowserBridge } from '../platform/browser-store';
 import { HEADINGS } from '../core/camera';
 import { clipDuration } from '../core/animation';
 import { walkTimings, type WalkTiming } from '../core/locomotion-timing';
@@ -20,22 +23,30 @@ import {
   animationTreatments,
   type AnimationTreatment,
 } from '../core/animation-treatment';
-import { sandboxUI } from './ui';
+import { sandboxUI, previewHUD } from './ui';
 import { heroTimings } from '../content/hero-actions';
 import type { Clip } from '../assets/schema';
 import '../inspection';
 
-export function mountScene(initialScene: string | undefined, selectScene: (scene: string) => void) {
+export function mountScene(context: PreviewContext) {
   let closed = false;
   const loading = new LoadingScreen();
   const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
-  $('#app').innerHTML = sandboxUI;
-  const controls = document.createElement('div');
-  controls.className = 'sandbox-controls';
-  controls.innerHTML =
-    '<label>Scene<select id="scene-select"><option value="outdoor-fixture">Outdoor fixture</option><option value="interior-fixture">Interior fixture</option><option value="systems-fixture">Systems fixture</option><option value="effects-playground">Effects test scene</option></select></label><button id="preview-game">Play Game</button>';
-  document.querySelector('header')!.append(controls);
-  const sandboxBridge = window.lantern ?? createBrowserBridge('sandbox');
+  const shell = mountShell(context, sandboxUI, previewHUD);
+  const sandboxBridge: Bridge = {
+    automatedRun: window.lantern?.automatedRun,
+    loadGame: async () => ({ status: 'empty' }),
+    loadSettings: async () => ({ status: 'empty' }),
+    saveGame: async () => {
+      throw new Error('Dev Preview checkpoint writes denied');
+    },
+    saveSettings: async () => {},
+  };
+  let scenePaused = false,
+    sceneSpan = 9;
+  let effectsBaseline = false;
+  let selectedEffects = defaultVisualEffects();
+  const remembered = context.remembered?.kind === 'scene' ? context.remembered : undefined;
   let previewReady = false;
   let mode: Mode = 'encounter',
     presentation: Presentation;
@@ -51,8 +62,9 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
     (...args) => new Presentation(...args),
     {
       status,
-      pause: (value) => {
-        $('#modal').hidden = !value;
+      pause: () => {
+        shell.sync();
+        savePreview();
       },
       frame: updateUI,
       loading: loading.set,
@@ -61,8 +73,7 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
   );
   app.readOnly = true;
   function status(message: string, error = false) {
-    $('#status').textContent = message;
-    $('#status').classList.toggle('error', error);
+    shell.status(message, error);
   }
   function syncLabZoom() {
     const percent = Math.round(presentation.labZoom * 100);
@@ -72,66 +83,53 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
     $<HTMLButtonElement>('#lab-zoom-in').disabled = percent >= 400;
   }
   function resizePresentation() {
+    if (!presentation) return;
     if (mode === 'animation') {
       const canvas = $('canvas').getBoundingClientRect(),
-        panel = $('#lab').getBoundingClientRect();
-      presentation.labPanelInset = canvas.right - panel.left + 24;
+        drawer = $('#preview-drawer');
+      presentation.labPanelInset = drawer.hidden
+        ? 0
+        : canvas.right - drawer.getBoundingClientRect().left + 16;
     }
     presentation.resize(app.scale);
   }
   function setMode(next: Mode) {
-    if (next !== 'lighting' && lightingReplay) {
+    const special = mode === 'animation' || mode === 'calibration';
+    const nextSpecial = next === 'animation' || next === 'calibration';
+    if (!special && nextSpecial) {
+      scenePaused = app.paused;
+      sceneSpan = presentation.verticalSpan;
+    }
+    if (nextSpecial) {
       lightingReplay = false;
       app.command = undefined;
+      app.pause(false);
+    } else if (special) {
+      presentation.verticalSpan = sceneSpan;
+      app.pause(scenePaused);
     }
     mode = next;
-    app.setSimulationEnabled(next !== 'animation' && next !== 'calibration');
-    app.beforeStep =
-      next === 'occlusion'
-        ? (sim) =>
-            sim.enemies.forEach((a) => {
-              a.stun = 2;
-            })
-        : () => {};
+    app.setSimulationEnabled(!nextSpecial);
     presentation.setMode(next);
-    lightingControls.syncLook();
-    app.clock.reset();
-    app.input.clear();
-    app.pause(false);
     presentation.debug =
       next === 'animation'
         ? $<HTMLInputElement>('#overlays').checked
-        : next === 'occlusion' && $<HTMLInputElement>('#collision').checked;
-    if (next === 'calibration')
-      $<HTMLSelectElement>('#zoom-span').value = String(presentation.verticalSpan);
-    for (const el of document.querySelectorAll<HTMLButtonElement>('[data-mode]'))
-      el.classList.toggle('active', el.dataset.mode === next);
-    $('#lab').hidden = next !== 'animation';
-    $('#calibration').hidden = next !== 'calibration';
-    $('#occlusion').hidden = next !== 'occlusion';
-    $('#lighting-lab').hidden = next !== 'lighting';
+        : $<HTMLInputElement>('#collision').checked;
+    app.clock.reset();
+    app.input.clear();
+    $('#calibration-toggle').textContent =
+      next === 'calibration' ? 'Return to scene' : 'Open reference view';
     syncLabZoom();
     resizePresentation();
-    $('.hud').hidden = next === 'animation' || next === 'calibration';
-    $('.actions').hidden = $('.hud').hidden;
-    $('#room-title').textContent =
-      next === 'animation'
-        ? 'From source to motion'
-        : next === 'calibration'
-          ? 'A shared frame of reference'
-          : next === 'occlusion'
-            ? 'Grounded in the world'
-            : app.sim.areaDefinition.name;
-    $('#room-eyebrow').textContent =
-      next === 'encounter' || next === 'lighting'
-        ? 'A small playable encounter'
-        : 'Foundation / inspection';
-    $('#room-subtitle').textContent =
-      next === 'lighting'
-        ? 'Golden hour / Silver hour'
-        : next === 'animation'
-          ? 'Same animator. Independent assets and actors.'
-          : 'Selected camera v2 · current calibrated artwork';
+    shell.sync();
+    savePreview();
+  }
+  function applyEffects() {
+    presentation.setVisualEffects(
+      effectsBaseline
+        ? Object.fromEntries(Object.keys(selectedEffects).map((key) => [key, false]))
+        : selectedEffects,
+    );
   }
   function updateLabClips() {
     const clips = Object.keys(presentation.manifest.asset.clips);
@@ -154,11 +152,16 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
     presentation = app.presentation;
     $<HTMLSelectElement>('#render-scale').value = String(app.scale);
     $<HTMLSelectElement>('#zoom-span').value = String(presentation.verticalSpan);
-    lightingControls = bindLightingControls(presentation, () => app.safe(() => app.saveSettings()));
-    bindEffectControls(presentation);
-    $('#lighting-pause').onclick = () => {
-      app.pause(!app.paused);
-      $('#modal').hidden = true;
+    lightingControls = bindLightingControls(presentation, savePreview);
+    bindEffectControls(presentation, (key, enabled) => {
+      selectedEffects[key] = enabled;
+      applyEffects();
+      savePreview();
+    });
+    $('#scene-baseline').onchange = () => {
+      effectsBaseline = $<HTMLInputElement>('#scene-baseline').checked;
+      applyEffects();
+      savePreview();
     };
     $('#lighting-replay').onclick = () => app.safe(startLightingReplay);
     $('#lighting-stop').onclick = () => {
@@ -218,8 +221,9 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
       app.safe(() =>
         app.withLoading(async () => {
           await app.loadAsset('ink-hero-current');
+          if (closed) return;
           if (!presentation.animationFlow) await presentation.loadAnimationFlow();
-          app.pause(false);
+          if (closed) return;
           $<HTMLInputElement>('#overlays').checked = false;
           presentation.selectLabAsset('ink-hero-current');
           $<HTMLSelectElement>('#asset').value = 'ink-hero-current';
@@ -228,7 +232,6 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
           presentation.labAnimator.start(presentation.getClip('walk', presentation.labHeading));
           presentation.labTime = 0;
           presentation.labPaused = false;
-          $('#play').textContent = 'Pause';
           setMode('animation');
         }),
       );
@@ -253,7 +256,6 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
       },
       { passive: false },
     );
-    $('#walk-restart').onclick = () => presentation.restartLab();
     $('#asset').innerHTML = Object.keys(assetCatalog)
       .map((id) => `<option>${id}</option>`)
       .join('');
@@ -266,8 +268,10 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
           await app.loadAsset(id);
           if (id === 'ink-hero-current' && !presentation.animationFlow)
             await presentation.loadAnimationFlow();
+          if (closed) return;
           presentation.selectLabAsset(id);
           updateLabClips();
+          savePreview();
         }),
       );
     $('#clip').onchange = () => {
@@ -279,13 +283,9 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
       presentation.labHeading = $<HTMLSelectElement>('#heading').value as (typeof HEADINGS)[number];
       presentation.notifyLog = [];
     };
-    $('#play').onclick = () => {
-      presentation.labPaused = !presentation.labPaused;
-      $('#play').textContent = presentation.labPaused ? 'Play' : 'Pause';
-    };
     $('#step').onclick = () => {
       presentation.labPaused = true;
-      $('#play').textContent = 'Play';
+      shell.sync();
       const c = presentation.labAnimator.clip,
         t = presentation.labAnimator.time % clipDuration(c);
       let end = 0;
@@ -298,7 +298,7 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
     };
     $('#scrub').oninput = () => {
       presentation.labPaused = true;
-      $('#play').textContent = 'Play';
+      shell.sync();
       presentation.labAnimator.seek(Number($<HTMLInputElement>('#scrub').value));
       presentation.labTime = presentation.labAnimator.time;
     };
@@ -308,68 +308,162 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
     $('#zoom-span').onchange = () => {
       presentation.verticalSpan = Number($<HTMLSelectElement>('#zoom-span').value);
       presentation.resize(app.scale);
-      app.safe(() => app.saveSettings());
+      savePreview();
     };
-    $('#collision').onchange = () =>
-      (presentation.debug = $<HTMLInputElement>('#collision').checked);
+    $('#collision').onchange = () => {
+      if (mode !== 'animation' && mode !== 'calibration')
+        setMode($<HTMLInputElement>('#collision').checked ? 'occlusion' : 'encounter');
+    };
+    $('#calibration-toggle').onclick = () =>
+      setMode(
+        mode === 'calibration'
+          ? $<HTMLInputElement>('#collision').checked
+            ? 'occlusion'
+            : 'encounter'
+          : 'calibration',
+      );
+    for (const [id, z] of [
+      ['occlude-front', -1],
+      ['occlude-back', -3],
+    ] as const)
+      $('#' + id).onclick = () => {
+        const position = previewHero(
+          { ...captureState(), hero: { x: -4, z, yaw: app.sim.hero.yaw } },
+          sandboxContent,
+        );
+        Object.assign(app.sim.hero, position);
+        savePreview();
+      };
+    $('#return-scene').onclick = () =>
+      setMode($<HTMLInputElement>('#collision').checked ? 'occlusion' : 'encounter');
+    app.beforeStep = (sim) => {
+      if ($<HTMLInputElement>('#freeze-enemies').checked)
+        sim.enemies.forEach((enemy) => {
+          enemy.stun = 2;
+        });
+    };
     for (const id of ['background', 'calibration-background'])
       $('#' + id).onchange = () => {
         presentation.background = $<HTMLSelectElement>('#' + id).value;
         for (const control of ['background', 'calibration-background'])
           $<HTMLSelectElement>('#' + control).value = presentation.background;
       };
-    document
-      .querySelectorAll<HTMLButtonElement>('[data-mode]')
-      .forEach((el) => (el.onclick = () => setMode(el.dataset.mode as Mode)));
-
-    $('#pause').onclick = () => app.pause(!app.paused);
-    $('#resume').onclick = () => app.pause(false);
-    $('#reset').onclick = () => app.safe(() => app.reset());
-    for (const id of ['save', 'load', 'new-game']) $<HTMLButtonElement>('#' + id).disabled = true;
-    $('#scene-select').onchange = () => {
-      const scene = $<HTMLSelectElement>('#scene-select').value;
-      if (scene === 'effects-playground') selectScene(scene);
-      else app.safe(() => fixture(scene));
-    };
-    $('#preview-game').onclick = () => {
-      app.pause(true);
-      if (window.lantern?.launchMode) app.safe(() => window.lantern!.launchMode!('game'));
-      else location.href = '/index.html';
-    };
     $('#render-scale').onchange = () => {
       app.scale = Number($<HTMLSelectElement>('#render-scale').value);
       presentation.resize(app.scale);
-      app.safe(() => app.saveSettings());
+      savePreview();
     };
-    const requested =
-      initialScene && sandboxContent.areas.has(initialScene) ? initialScene : undefined;
-    let restored: ScenePreviewState | undefined;
-    try {
-      restored = readScenePreview(sessionStorage.getItem(previewKey), sandboxContent);
-    } catch {}
-    if (requested && requested !== restored?.scene) {
-      if (requested !== app.sim.area) await fixture(requested);
-      app.pause(true);
-    } else if (restored) {
-      await fixture(restored.scene);
-      Object.assign(app.sim.hero, previewHero(restored, sandboxContent));
-      presentation.verticalSpan = restored.span;
-      app.scale = restored.scale;
-      setMode(restored.mode);
-      presentation.lightingLab.setSettings(restored.look);
-      presentation.setDepthOfField(restored.look.depthOfField);
-      lightingControls.syncLook();
-      app.pause(restored.paused);
-      presentation.resize(app.scale);
-      lightingControls.syncDof();
+    if (context.fixture !== app.sim.area) await fixture(context.fixture);
+    if (closed) return;
+    if (remembered) {
+      Object.assign(app.sim.hero, previewHero(remembered, sandboxContent));
+      presentation.verticalSpan = remembered.span;
+      app.scale = remembered.scale;
+      presentation.lightingLab.setSettings(remembered.look);
+      presentation.setDepthOfField(remembered.look.depthOfField);
+      selectedEffects = { ...remembered.effects };
+      effectsBaseline = remembered.effectsBaseline;
+      applyEffects();
+      $<HTMLInputElement>('#scene-baseline').checked = effectsBaseline;
+      document
+        .querySelectorAll<HTMLInputElement>('[data-scene-effect]')
+        .forEach(
+          (input) =>
+            (input.checked =
+              selectedEffects[input.dataset.sceneEffect as keyof typeof selectedEffects]),
+        );
+      $<HTMLInputElement>('#collision').checked = remembered.collision;
+      $<HTMLInputElement>('#freeze-enemies').checked = remembered.freeze;
+      await restoreAnimation(remembered.animation);
+      if (closed) return;
+      app.pause(remembered.paused);
+      scenePaused = remembered.paused;
+      // Inspectors are independent of the viewport. Restore special views explicitly.
+      setMode(remembered.mode === 'lighting' ? 'encounter' : remembered.mode);
     }
+    lightingControls.syncLook();
+    lightingControls.syncDof();
     $<HTMLSelectElement>('#scene-select').value = app.sim.area;
     $<HTMLSelectElement>('#render-scale').value = String(app.scale);
     $<HTMLSelectElement>('#zoom-span').value = String(presentation.verticalSpan);
-    if (closed) return;
+    $('[data-fixture]').onclick = () => context.select('effects-playground');
+    shell.bind({
+      capabilities: { animation: true, calibration: true, productionLighting: true },
+      open: (panel) => {
+        if (panel === 'animation' && mode !== 'animation') setMode('animation');
+      },
+      clearInput: () => app.input?.clear(),
+      togglePause: () => {
+        if (mode === 'animation') {
+          const resume = presentation.labPaused || app.paused;
+          presentation.labPaused = !resume;
+          app.pause(false);
+        } else app.pause(!app.paused);
+      },
+      restart: () => {
+        if (mode === 'animation') presentation.restartLab();
+        else
+          app.safe(async () => {
+            const paused = app.paused;
+            const look = { ...presentation.lightingLab.settings };
+            await app.reset();
+            if (closed) return;
+            presentation.lightingLab.setSettings(look);
+            lightingControls.syncLook();
+            app.pause(paused);
+            savePreview();
+          });
+      },
+      resize: resizePresentation,
+      save: savePreview,
+      isPaused: () => (mode === 'animation' ? presentation.labPaused || app.paused : app.paused),
+      isAnimation: () => mode === 'animation',
+    });
     previewReady = true;
-    status('Dev Sandbox · disposable encounters; player checkpoints are isolated');
+    status('Ready');
+    savePreview();
   }
+  async function restoreAnimation(value: AnimationState) {
+    if (!(value.asset in assetCatalog)) return;
+    await app.loadAsset(value.asset);
+    if (closed) return;
+    presentation.selectLabAsset(value.asset);
+    if (!presentation.manifest.asset.clips[value.clip]) return;
+    presentation.labClip = value.clip;
+    presentation.labHeading = value.heading;
+    presentation.animationTreatment = value.treatment;
+    presentation.walkTiming = value.timing;
+    presentation.stabilized = value.stabilized;
+    presentation.rigidSword = value.rigidSword;
+    presentation.comparisonMode = value.comparison;
+    presentation.labSpeed = value.speed;
+    presentation.labZoom = value.zoom;
+    presentation.labPaused = value.paused;
+    presentation.labTime = value.time;
+    presentation.background = value.background;
+    $<HTMLSelectElement>('#asset').value = value.asset;
+    updateLabClips();
+    presentation.labAnimator.start(
+      presentation.getClip(presentation.labClip, presentation.labHeading),
+    );
+    presentation.labAnimator.seek(value.time);
+    for (const [id, selected] of [
+      ['walk-blend', value.treatment],
+      ['locomotion-timing', value.timing],
+      ['animation-comparison', value.comparison],
+      ['speed', String(value.speed)],
+      ['background', value.background],
+      ['calibration-background', value.background],
+    ])
+      $<HTMLSelectElement>('#' + id).value = selected!;
+    for (const [id, checked] of [
+      ['overlays', value.overlays],
+      ['walk-stabilized', value.stabilized],
+      ['walk-rigid-sword', value.rigidSword],
+    ] as const)
+      $<HTMLInputElement>('#' + id).checked = checked;
+  }
+
   async function fixture(area: string) {
     lightingReplay = false;
     app.command = undefined;
@@ -377,7 +471,7 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
       app.session = new GameSession(sandboxContent, 142, area, app.session.generation + 1);
       return [];
     });
-    app.pause(false);
+    if (closed) return;
     $<HTMLSelectElement>('#scene-select').value = area;
     if (location.protocol === 'http:' && !window.lantern) {
       const url = new URL(location.href);
@@ -387,7 +481,9 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
   }
   async function startLightingReplay() {
     await fixture(app.sim.area);
+    if (closed) return;
     setMode('lighting');
+    app.pause(false);
     presentation.lightingLab.time = 0;
     lightingReplay = true;
     replayStart = app.sim.tick;
@@ -427,14 +523,8 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
       ? `${sim.hero.dodgeCooldown / 60} s`
       : 'ready';
     $('#ability-status').textContent = sim.hero.cooldown ? `${sim.hero.cooldown / 60} s` : 'ready';
-    $('#save-notice').textContent = 'Sandbox sessions cannot load or write game checkpoints.';
-    if (mode === 'encounter' || mode === 'lighting') {
-      $('#room-title').textContent = sim.areaDefinition.name;
-      $('#room-subtitle').textContent = sim.areaDefinition.subtitle;
-    }
     if (mode === 'lighting') {
       const lab = presentation.lightingLab.stats();
-      $('#lighting-pause').textContent = app.paused ? 'Resume scene' : 'Pause scene';
       $('#lighting-playback').textContent = lightingReplay
         ? 'Replay: shade → lantern → combat → return'
         : 'Free play';
@@ -452,6 +542,12 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
           : 'No undeclared scenery overlaps. Green: footprints. Gold: joins. Amber: light sockets.';
     }
     if (mode === 'animation') updateAnimationReview();
+    shell.sync();
+    shell.diagnostics(() => ({
+      ...presentation.stats(),
+      registration: presentation.artConstruction.findings,
+      events: presentation.notifyLog,
+    }));
   }
   let reviewClip: Clip | undefined,
     reviewMode = '';
@@ -620,7 +716,7 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
   };
   window.foundation = {
     get ready() {
-      return app.ready && previewReady;
+      return !closed && app.ready && previewReady;
     },
     get session() {
       return app.session;
@@ -672,38 +768,61 @@ export function mountScene(initialScene: string | undefined, selectScene: (scene
       }
       return result;
     },
-    dispose: () => app.dispose(),
+    dispose,
   };
   function savePreview() {
-    if (!previewReady || !app.ready || app.busy) return;
-    const state: ScenePreviewState = {
+    if (closed || !previewReady || !app.ready || app.busy) return;
+    context.remember(captureState());
+  }
+  function captureState(): SceneState {
+    return {
+      kind: 'scene',
       version: 1,
       scene: app.sim.area,
       hero: { x: app.sim.hero.x, z: app.sim.hero.z, yaw: app.sim.hero.yaw },
-      span: presentation.verticalSpan,
-      scale: app.scale as ScenePreviewState['scale'],
+      span: mode === 'animation' || mode === 'calibration' ? sceneSpan : presentation.verticalSpan,
+      scale: app.scale as SceneState['scale'],
       mode,
-      paused: app.paused,
+      paused: mode === 'animation' || mode === 'calibration' ? scenePaused : app.paused,
       look: { ...presentation.lightingLab.settings, depthOfField: presentation.depthOfField },
+      effects: { ...selectedEffects },
+      effectsBaseline,
+      freeze: $<HTMLInputElement>('#freeze-enemies').checked,
+      collision: $<HTMLInputElement>('#collision').checked,
+      animation: {
+        asset: presentation.labAsset,
+        clip: presentation.labClip,
+        heading: presentation.labHeading,
+        treatment: presentation.animationTreatment,
+        timing: presentation.walkTiming,
+        stabilized: presentation.stabilized,
+        rigidSword: presentation.rigidSword,
+        comparison: presentation.comparisonMode,
+        speed: presentation.labSpeed,
+        zoom: presentation.labZoom,
+        paused: presentation.labPaused,
+        time: presentation.labTime,
+        overlays: $<HTMLInputElement>('#overlays').checked,
+        background: presentation.background === 'light' ? 'light' : 'dark',
+      },
     };
-    try {
-      sessionStorage.setItem(previewKey, JSON.stringify(state));
-    } catch {}
   }
   window.addEventListener('pagehide', savePreview);
   function dispose() {
     if (closed) return;
-    closed = true;
     savePreview();
+    closed = true;
     previewReady = false;
     app.dispose();
     loading.dispose();
+    shell.dispose();
+    Reflect.deleteProperty(window, 'foundation');
     window.removeEventListener('beforeunload', dispose);
     window.removeEventListener('pagehide', savePreview);
   }
   window.addEventListener('beforeunload', dispose);
   void boot().catch((error) => {
-    if (!closed) status('Sandbox failed: ' + error.message, true);
+    if (!closed) status('Dev Preview failed: ' + error.message, true);
     app.dispose();
     loading.dispose();
   });

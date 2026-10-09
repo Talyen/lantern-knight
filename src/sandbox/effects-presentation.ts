@@ -25,8 +25,8 @@ export class EffectsPresentation implements PresentationLifecycle {
   setVisualEffects(value: Partial<VisualEffects>) {
     Object.assign(this.settings.effects, value);
   }
-  resize() {
-    this.view.resize();
+  resize(scale = 1) {
+    this.view.resize(scale);
   }
   async loadAnimationFlow() {}
   warm() {

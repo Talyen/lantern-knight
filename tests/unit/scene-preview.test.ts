@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readScenePreview, previewHero } from '../../src/sandbox/preview';
+import { scenePreviewSchema, previewHero } from '../../src/sandbox/preview';
 import { sandboxContent } from '../../src/content/sandbox-world';
 import { isSupportedPosition, heightAt } from '../../src/content/world';
 import { defaultLook } from '../../src/presentation/lighting-profiles';
@@ -16,10 +16,10 @@ test('preview reload reconciles blocked or moved positions without accepting cor
     mode: 'lighting',
     look: { ...defaultLook, rig: 'silver', strength: 0.8 },
   };
-  const restored = readScenePreview(JSON.stringify(state), sandboxContent)!;
+  const restored = scenePreviewSchema.parse(state);
   assert.ok(restored);
-  assert.ok(isSupportedPosition(sandboxContent.area('outdoor-fixture'), restored.hero, 0.3));
   const hero = previewHero(restored, sandboxContent);
+  assert.ok(isSupportedPosition(sandboxContent.area('outdoor-fixture'), hero, 0.3));
   assert.equal(hero.px, hero.x);
   assert.equal(hero.pz, hero.z);
   assert.equal(hero.py, heightAt(sandboxContent.area('outdoor-fixture'), hero.x, hero.z));
@@ -27,11 +27,11 @@ test('preview reload reconciles blocked or moved positions without accepting cor
   assert.equal(restored.paused, true);
   assert.equal(restored.look.rig, 'silver');
   assert.equal(restored.span, 11);
+  assert.throws(() => previewHero({ ...restored, scene: 'missing' }, sandboxContent));
   for (const bad of [
-    '{',
-    JSON.stringify({ ...state, scene: 'missing' }),
-    JSON.stringify({ ...state, scale: 0 }),
-    JSON.stringify({ ...state, hero: { x: null, z: 0, yaw: 0 } }),
+    { ...state, scale: 0 },
+    { ...state, hero: { x: null, z: 0, yaw: 0 } },
+    { ...state, look: { ...state.look, strength: Infinity } },
   ])
-    assert.equal(readScenePreview(bad, sandboxContent), undefined);
+    assert.equal(scenePreviewSchema.safeParse(bad).success, false);
 });

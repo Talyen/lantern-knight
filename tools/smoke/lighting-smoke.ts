@@ -55,7 +55,6 @@ export async function runScenario(flags: string[] = []) {
     checks.push('single-sampled context and SMAA 1× High are the sole AA path');
     await page.evaluate(() => {
       window.foundation.pause(true);
-      document.querySelector<HTMLElement>('#modal')!.hidden = true;
     });
     if (!benchmarkOnly) {
       for (const [resolution, width, height] of (quick
@@ -73,7 +72,7 @@ export async function runScenario(flags: string[] = []) {
           (size) =>
             window.foundation.stats().buffer[0] === size[0] &&
             window.foundation.stats().buffer[1] === size[1],
-          [width * 2, (height - 128) * 2],
+          [width * 2, (height - 44) * 2],
         );
         for (const area of quick ? ['outdoor-fixture'] : ['outdoor-fixture', 'interior-fixture']) {
           await page.evaluate(async (area) => {
@@ -84,8 +83,9 @@ export async function runScenario(flags: string[] = []) {
             f.presentation.lightingLab.setSettings({ baseline: false });
             f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
             f.presentation.lightingLab.setSettings({ baseline: true });
-            document.querySelector<HTMLElement>('#modal')!.hidden = true;
           }, area);
+          if (!(await page.locator('#preview-drawer').isVisible()))
+            await page.getByRole('button', { name: 'Visuals', exact: true }).click();
           await page.locator('#lighting-baseline').check();
           if (launch.capture) {
             const file = `${area}-${resolution}-original.png`;
@@ -134,7 +134,7 @@ export async function runScenario(flags: string[] = []) {
               );
               assert.deepEqual(await page.evaluate(() => window.foundation.stats().buffer), [
                 width * 2,
-                (height - 128) * 2,
+                (height - 44) * 2,
               ]);
               await page.locator('#lighting-baseline').check();
               await render();
@@ -205,6 +205,9 @@ export async function runScenario(flags: string[] = []) {
       }
       assert.deepEqual(await page.evaluate(() => window.foundation.stats().objects), objects);
       checks.push('repeated look changes settle at identical geometry and texture counts');
+      await page.locator('details[data-section="visuals-playback"]').evaluate((el) => {
+        (el as HTMLDetailsElement).open = true;
+      });
       await page.locator('#lighting-replay').click();
       await page.waitForFunction(
         () => window.foundation.sim.tick > 30 && window.foundation.sim.hero.z < 5.5,
@@ -215,7 +218,7 @@ export async function runScenario(flags: string[] = []) {
       }));
       assert.ok(replay.tick > 30);
       assert.ok(replay.z < 5.5);
-      await page.locator('#lighting-pause').click();
+      await page.locator('#pause').click();
       const paused = await page.evaluate(() => ({
         save: window.foundation.saveValue(),
         time: window.foundation.presentation.lightingLab.time,

@@ -1,4 +1,7 @@
-import './effects.css';
+import { mountShell } from './shell';
+import type { PreviewContext, EffectsState } from './workspace';
+import { supportedPosition, heightAt } from '../content/world';
+import { previewHUD } from './ui';
 import { LoadingScreen } from '../loading-screen';
 import { Application } from '../application';
 import { ContentRegistry } from '../content/world';
@@ -33,30 +36,35 @@ declare global {
   }
 }
 
-export function mountEffects(selectScene: (scene: string) => void) {
-  document.body.classList.add('effects-mode');
+export function mountEffects(context: PreviewContext) {
   const loading = new LoadingScreen();
   const settings = playgroundDefaults(),
     $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
-  document.getElementById('app')!.innerHTML =
-    `<header><div><strong>Effects Playground</strong><span>Separate developer scene · SMAA 1× High</span></div><label>Scene<select id="scene-select"><option value="outdoor-fixture">Outdoor fixture</option><option value="interior-fixture">Interior fixture</option><option value="systems-fixture">Systems fixture</option><option value="effects-playground" selected>Effects test scene</option></select></label><button id="back">Return to Sandbox</button></header>
- <main><canvas id="scene" tabindex="0" aria-label="Effects Playground game"></canvas><aside><h1>Compare effects</h1>
- <label>Treatment<select id="treatment"><option value="quiet">Quiet ink</option><option value="rich">Richer HD-2D</option></select></label>
- <label class="compare"><input type="checkbox" id="baseline">Compare with all off</label>
- <div class="buttons"><button id="all-on">All on</button><button id="all-off">All off</button></div>
- ${Object.entries(effectLabels)
-   .map(
-     ([key, label]) =>
-       `<label><input type="checkbox" data-effect="${key}" checked>${label}</label>`,
-   )
-   .join('')}
- <fieldset><legend>Outline appearance</legend><label>Thickness <output id="outline-width-value">1 px</output><input id="outline-width" type="range" min="0.5" max="2" step="0.25" value="1"></label><label>Opacity <output id="outline-opacity-value">25%</output><input id="outline-opacity" type="range" min="0" max="50" step="5" value="25"></label><label>Color<input id="outline-color" type="color" value="#29343b"></label></fieldset>
- <div class="buttons"><button id="pause">Pause</button><button id="reset">Replay from start</button></div>
- <p>WASD move · Shift dash · mouse aim · sword / lantern controls work. The left platform is sheltered from rain.</p><p>Switch one effect at a time, or compare your selection against all off.</p><output id="stats"></output></aside></main><footer id="status" role="status">Loading playground artwork…</footer>`;
+  const shell = mountShell(
+    context,
+    `<section data-preview-panel="visuals" hidden>
+    <label>Treatment<select id="treatment"><option value="quiet">Quiet ink</option><option value="rich">Richer HD-2D</option></select></label>
+    <label>All effects off<input type="checkbox" id="baseline"></label>
+    <details data-section="effects-individual"><summary>Individual effects</summary><div class="buttons"><button id="all-on">All on</button><button id="all-off">All off</button></div>
+    ${Object.entries(effectLabels)
+      .map(
+        ([key, label]) =>
+          `<label>${label}<input type="checkbox" data-effect="${key}" checked></label>`,
+      )
+      .join('')}</details>
+    <details data-section="effects-outline"><summary>Outline appearance</summary><label for="outline-width">Thickness <output id="outline-width-value">1 px</output></label><input id="outline-width" type="range" min="0.5" max="2" step="0.25" value="1"><label for="outline-opacity">Opacity <output id="outline-opacity-value">25%</output></label><input id="outline-opacity" type="range" min="0" max="50" step="5" value="25"><label>Color<input id="outline-color" type="color" value="#29343b"></label></details>
+    <details data-section="effects-rendering"><summary>Rendering</summary><label>Render scale<select id="render-scale"><option value="1">100%</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label><p>Production light rigs, looks and focus controls use Outdoor, Interior or Systems.</p><button data-fixture="outdoor-fixture">Open Outdoor fixture</button></details></section>
+    <section data-preview-panel="animation" hidden><p>Animation requires Outdoor, Interior or Systems.</p><button data-fixture="outdoor-fixture">Open Outdoor fixture</button></section>
+    <section data-preview-panel="inspect" hidden><label>Freeze enemies<input id="freeze-enemies" type="checkbox"></label><p>Calibration, registration and occlusion inspection require Outdoor, Interior or Systems.</p><button data-fixture="outdoor-fixture">Open Outdoor fixture</button></section>`,
+    previewHUD,
+  );
   const registry = new ContentRegistry(effectsDefinitions);
   let app: Application<EffectsPresentation>;
   let view: EffectsPlayground;
-  let disposed = false;
+  let disposed = false,
+    previewReady = false;
+  const remembered = context.remembered?.kind === 'effects' ? context.remembered : undefined;
+  if (remembered) Object.assign(settings, structuredClone(remembered.settings));
   const abort = new AbortController();
   function synchronize() {
     for (const box of document.querySelectorAll<HTMLInputElement>('[data-effect]'))
@@ -64,7 +72,13 @@ export function mountEffects(selectScene: (scene: string) => void) {
     $('baseline').classList.toggle('active', settings.baseline);
     $<HTMLInputElement>('baseline').checked = settings.baseline;
     $<HTMLSelectElement>('treatment').value = settings.treatment;
-    $('pause').textContent = settings.paused ? 'Resume' : 'Pause';
+    $<HTMLInputElement>('outline-width').value = String(settings.outline.thickness);
+    $('outline-width-value').textContent = settings.outline.thickness + ' px';
+    $<HTMLInputElement>('outline-opacity').value = String(settings.outline.opacity * 100);
+    $('outline-opacity-value').textContent = Math.round(settings.outline.opacity * 100) + '%';
+    $<HTMLInputElement>('outline-color').value = settings.outline.color;
+    shell.sync();
+    savePreview();
   }
 
   function pause() {
@@ -78,17 +92,22 @@ export function mountEffects(selectScene: (scene: string) => void) {
       app.session.generation + 1,
     );
     view.time = 0;
+    app.presentation.generation = app.session.generation;
+    app.events.setGeneration(app.session.generation);
     app.clock.reset();
     app.input.clear();
   }
   function dispose() {
     if (disposed) return;
+    savePreview();
     disposed = true;
     abort.abort();
-    document.body.classList.remove('effects-mode');
+    shell.dispose();
+    Reflect.deleteProperty(window, 'effectsPlayground');
     app?.dispose();
     loading.dispose();
     window.removeEventListener('beforeunload', dispose);
+    window.removeEventListener('pagehide', savePreview);
   }
   async function boot() {
     const response = await fetch('/dev-effects/emitters.json', { signal: abort.signal });
@@ -120,26 +139,39 @@ export function mountEffects(selectScene: (scene: string) => void) {
       },
       {
         status: (message) => {
-          $('status').textContent = message;
+          shell.status(message);
         },
         pause: (value) => {
           settings.paused = value;
           synchronize();
         },
         frame: () => {
-          const stats = view.stats();
-          $('stats').textContent =
-            `${settings.baseline ? 'All effects off' : settings.treatment === 'quiet' ? 'Quiet ink' : 'Richer HD-2D'}\n${stats.buffer.join(' × ')} · ${stats.objects.textures} textures\nTime ${stats.time.toFixed(1)} s`;
+          const hero = app.sim.hero;
+          $('hp').textContent = `${hero.health} / ${hero.definition.maxHealth}`;
+          $('health-fill').style.width = `${(hero.health / hero.definition.maxHealth) * 100}%`;
+          $('enemy-count').textContent =
+            `${app.sim.enemies.filter((enemy) => enemy.health > 0).length} enemies`;
+          $('state').textContent = hero.state;
+          $('dodge-status').textContent = hero.dodgeCooldown
+            ? `${(hero.dodgeCooldown / 60).toFixed(1)} s`
+            : 'ready';
+          $('ability-status').textContent = hero.cooldown
+            ? `${(hero.cooldown / 60).toFixed(1)} s`
+            : 'ready';
+          shell.diagnostics(() => ({ stats: view.stats(), details: view.diagnostics() }));
+          shell.sync();
         },
         loading: loading.set,
       },
     );
     app.session = new GameSession(registry, 903);
     app.readOnly = true;
-    app.beforeStep = (sim) =>
-      sim.enemies.forEach((enemy) => {
-        enemy.stun = 2;
-      });
+    app.beforeStep = (sim) => {
+      if ($<HTMLInputElement>('freeze-enemies').checked)
+        sim.enemies.forEach((enemy) => {
+          enemy.stun = 2;
+        });
+    };
     await app.boot();
     abort.signal.throwIfAborted();
     for (const box of document.querySelectorAll<HTMLInputElement>('[data-effect]'))
@@ -170,16 +202,47 @@ export function mountEffects(selectScene: (scene: string) => void) {
     };
     $('outline-color').oninput = () =>
       (settings.outline.color = $<HTMLInputElement>('outline-color').value);
-    $('pause').onclick = pause;
-    $('reset').onclick = reset;
-    $('back').onclick = () => selectScene('outdoor-fixture');
-    $('scene-select').onchange = () => selectScene($<HTMLSelectElement>('scene-select').value);
-    $('status').textContent = 'Developer experiment only · no checkpoints or settings written';
+    if (remembered) {
+      const position = supportedPosition(registry.area('effects-playground'), remembered.hero, 0.3);
+      const y = heightAt(registry.area('effects-playground'), position.x, position.z);
+      Object.assign(app.sim.hero, position, {
+        px: position.x,
+        pz: position.z,
+        y,
+        py: y,
+        yaw: remembered.hero.yaw,
+      });
+      app.scale = remembered.scale;
+      $<HTMLInputElement>('freeze-enemies').checked = remembered.freeze;
+      app.pause(remembered.settings.paused);
+    }
+    app.presentation.resize(app.scale);
+    $<HTMLSelectElement>('render-scale').value = String(app.scale);
+    $('render-scale').onchange = () => {
+      app.scale = Number($<HTMLSelectElement>('render-scale').value);
+      app.presentation.resize(app.scale);
+    };
+    document
+      .querySelectorAll<HTMLElement>('[data-fixture]')
+      .forEach((el) => (el.onclick = () => context.select('outdoor-fixture')));
+    shell.bind({
+      capabilities: { animation: false, calibration: false, productionLighting: false },
+      open: () => {},
+      clearInput: () => app.input?.clear(),
+      togglePause: pause,
+      restart: reset,
+      resize: () => app.presentation?.resize(app.scale),
+      save: savePreview,
+      isPaused: () => settings.paused,
+      isAnimation: () => false,
+    });
+    previewReady = true;
+    shell.status('Ready');
     synchronize();
   }
   window.effectsPlayground = {
     get ready() {
-      return !disposed && (app?.ready ?? false);
+      return !disposed && previewReady && (app?.ready ?? false);
     },
     get settings() {
       return structuredClone(settings);
@@ -198,6 +261,7 @@ export function mountEffects(selectScene: (scene: string) => void) {
     },
     pause(value: boolean) {
       app.pause(value);
+      savePreview();
     },
     step(ms: number) {
       view.draw(app.sim, 1, ms, { ...settings, paused: false });
@@ -210,13 +274,26 @@ export function mountEffects(selectScene: (scene: string) => void) {
     diagnostics: () => view.diagnostics(),
     dispose,
   };
+  function savePreview() {
+    if (disposed || !previewReady || !app?.ready || app.busy) return;
+    const state: EffectsState = {
+      kind: 'effects',
+      settings: structuredClone(settings),
+      scale: app.scale as EffectsState['scale'],
+      freeze: $<HTMLInputElement>('freeze-enemies').checked,
+      hero: { x: app.sim.hero.x, z: app.sim.hero.z, yaw: app.sim.hero.yaw },
+    };
+    context.remember(state);
+  }
+  window.addEventListener('pagehide', savePreview);
   window.addEventListener('beforeunload', dispose);
   void boot().catch((error) => {
     if (!disposed) {
-      $('status').textContent = `Playground failed: ${error.message}`;
+      shell.status(`Effects failed: ${error.message}`, true);
       console.error(error);
     }
-    dispose();
+    app?.dispose();
+    loading.dispose();
   });
   return dispose;
 }

@@ -306,11 +306,11 @@ export class EffectsPlayground {
     await this.renderer.compileAsync(this.scene, this.camera);
     if (this.disposed) throw new Error('playground disposed');
   }
-  resize() {
+  resize(scale = 1) {
     const w = this.canvas.clientWidth,
       h = this.canvas.clientHeight;
     if (!w || !h) return;
-    const size = drawingBufferSize(w, h, devicePixelRatio);
+    const size = drawingBufferSize(w, h, devicePixelRatio, scale);
     this.renderer.setPixelRatio(size.pixelRatio);
     this.renderer.setSize(w, h, false);
     resizeCamera(this.camera, w, h, 9);

@@ -1,0 +1,301 @@
+@scope (.dev-preview) {
+  :scope {
+    height: 100%;
+    color: #d5d9dd;
+    background: #181c21;
+    font:
+      12px/1.5 system-ui,
+      sans-serif;
+  }
+  [hidden] {
+    display: none !important;
+  }
+  button,
+  select,
+  input {
+    font: inherit;
+  }
+  button,
+  select {
+    color: inherit;
+    background: #252a30;
+    border: 1px solid #41474f;
+    border-radius: 4px;
+    padding: 5px 9px;
+    cursor: pointer;
+  }
+  button:hover,
+  button[aria-expanded='true'] {
+    background: #343c44;
+    border-color: #778590;
+    color: #fff;
+  }
+  button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  :is(button, select, input, summary, a):focus-visible {
+    outline: 2px solid #a3becb;
+    outline-offset: 2px;
+  }
+  input {
+    accent-color: #abc1ce;
+  }
+  .preview-toolbar {
+    height: 44px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #353b43;
+    background: #1d2228;
+  }
+  .preview-toolbar strong {
+    font-size: 12px;
+    white-space: nowrap;
+    margin-right: 4px;
+    font-weight: 600;
+  }
+  .preview-toolbar nav {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+  }
+  .preview-toolbar select {
+    max-width: 150px;
+  }
+  .preview-stage {
+    position: relative;
+    height: calc(100% - 44px);
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+  }
+  #preview-drawer {
+    position: absolute;
+    z-index: 3;
+    right: 10px;
+    top: 10px;
+    bottom: 10px;
+    width: 320px;
+    max-width: calc(100% - 20px);
+    overflow: auto;
+    padding: 12px;
+    background: #1d2228f5;
+    border: 1px solid #454d56;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px #0005;
+  }
+  .drawer-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  h2 {
+    font:
+      600 13px/1.4 system-ui,
+      sans-serif;
+    margin: 0;
+  }
+  #drawer-close {
+    border: 0;
+    background: transparent;
+    font-size: 18px;
+    padding: 0 6px;
+  }
+  label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 10px 0;
+  }
+  label select {
+    max-width: 185px;
+    min-width: 0;
+  }
+  input[type='range'] {
+    width: 100%;
+  }
+  details {
+    border-top: 1px solid #39414a;
+    margin-top: 12px;
+    padding-top: 9px;
+  }
+  summary {
+    cursor: pointer;
+    color: #b9c5cf;
+  }
+  .buttons,
+  .preview-zoom {
+    display: flex;
+    gap: 6px;
+    margin: 10px 0;
+  }
+  .preview-zoom input {
+    min-width: 30px;
+  }
+  p {
+    font-size: 12px;
+    color: #a5b0bb;
+    margin: 8px 0;
+  }
+  output,
+  .stats,
+  .log {
+    display: block;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font:
+      11px/1.5 ui-monospace,
+      monospace;
+  }
+  #preview-menu {
+    position: absolute;
+    z-index: 5;
+    right: 10px;
+    top: 6px;
+    width: 230px;
+    max-width: calc(100% - 20px);
+    padding: 10px;
+    background: #20262d;
+    border: 1px solid #454d56;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px #0006;
+  }
+  #preview-menu > button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin: 4px 0;
+  }
+  #preview-menu label {
+    justify-content: flex-start;
+  }
+  #preview-navigation nav {
+    position: static !important;
+    margin: 0 0 8px;
+    padding: 0 !important;
+    background: transparent !important;
+    font: inherit !important;
+  }
+  #preview-navigation a {
+    color: #cad5df !important;
+  }
+  #preview-error {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    max-width: calc(100% - 24px);
+    padding: 10px;
+    border: 1px solid #aa7971;
+    background: #382a2b;
+    z-index: 6;
+  }
+  #preview-error button {
+    margin-left: 10px;
+  }
+  :scope.controls-hidden .preview-toolbar {
+    display: none;
+  }
+  :scope.controls-hidden .preview-stage {
+    height: 100%;
+  }
+  .hud,
+  .actions {
+    position: absolute;
+    left: 12px;
+    padding: 10px;
+    background: #1d2228dc;
+    border-radius: 4px;
+    pointer-events: none;
+  }
+  .hud {
+    top: 12px;
+    width: 230px;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .health {
+    height: 4px;
+    background: #41454b;
+    margin: 5px 0;
+  }
+  .health span {
+    display: block;
+    height: 100%;
+    background: #a37f79;
+  }
+  .actions {
+    bottom: 12px;
+    display: flex;
+    gap: 15px;
+  }
+  .actions small {
+    display: block;
+    color: #aab6c0;
+  }
+  .timeline {
+    position: relative;
+    height: 14px;
+    background: #343c46;
+    margin: 10px 0;
+  }
+  .timeline span {
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background: #8b9ba7;
+  }
+  .timeline .animation-active {
+    background: #96845c;
+  }
+  #animation-playhead {
+    background: #fff;
+    width: 2px;
+  }
+  dialog {
+    color: #d5d9dd;
+    background: #20262d;
+    border: 1px solid #59636e;
+    border-radius: 6px;
+    max-width: min(420px, calc(100% - 24px));
+    padding: 20px;
+  }
+  dialog::backdrop {
+    background: #0007;
+  }
+  @media (max-width: 650px) {
+    .preview-toolbar {
+      gap: 4px;
+      padding: 0 5px;
+      overflow-x: auto;
+    }
+    .preview-toolbar strong {
+      display: none;
+    }
+    .preview-toolbar select {
+      width: 86px;
+      flex-shrink: 0;
+    }
+    .preview-toolbar button {
+      padding: 5px 6px;
+    }
+    .preview-toolbar nav {
+      margin-left: 0;
+    }
+    #preview-drawer {
+      right: 6px;
+      top: 6px;
+      bottom: 6px;
+      max-width: calc(100% - 12px);
+    }
+  }
+}

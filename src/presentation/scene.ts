@@ -10,7 +10,6 @@ import { type PackLease } from '../assets/loader';
 import { EventHub } from '../core/events';
 import type { Simulation } from '../core/simulation';
 import { GamePresentation } from './game-scene';
-import { defaultLook } from './lighting-profiles';
 import { captureArtDiagnostics } from './art-diagnostics';
 import { ArtConstructionOverlay } from './art-construction-overlay';
 export type Mode = 'encounter' | 'calibration' | 'animation' | 'occlusion' | 'lighting';
@@ -177,11 +176,6 @@ export class Presentation extends GamePresentation {
   }
 
   setMode(mode: Mode) {
-    if (mode !== 'lighting')
-      this.lookRenderer.setSettings({
-        ...defaultLook,
-        depthOfField: this.depthOfField,
-      });
     if (mode === 'animation' || mode === 'calibration') this.lookRenderer.deactivate();
     this.mode = mode;
     this.lastLabOverlay = '';
@@ -189,11 +183,19 @@ export class Presentation extends GamePresentation {
     this.resize(this.requestedRenderScale);
   }
   get viewSpan() {
-    return this.mode === 'animation'
-      ? contract.verticalSpan / this.labZoom
-      : this.mode === 'calibration'
-        ? this.verticalSpan
-        : super.viewSpan;
+    if (this.mode === 'animation') {
+      const available = Math.max(80, this.canvas.clientWidth - this.labPanelInset);
+      const requested = contract.verticalSpan / this.labZoom;
+      // Fit the default comparison in the uncovered strip; retain relative zoom.
+      return available < 600 && this.labPanelInset > 0
+        ? requested *
+            Math.max(
+              1,
+              (4.2 * this.canvas.clientHeight) / (available * (contract.verticalSpan / 2)),
+            )
+        : requested;
+    }
+    return this.mode === 'calibration' ? this.verticalSpan : super.viewSpan;
   }
   setLabZoom(zoom: number) {
     if (!Number.isFinite(zoom)) return;
@@ -225,7 +227,7 @@ export class Presentation extends GamePresentation {
       if (height > 0)
         target.addScaledVector(
           right,
-          (Math.min(this.labPanelInset, width * 0.4) * this.viewSpan) / (2 * height),
+          (Math.min(this.labPanelInset, Math.max(0, width - 80)) * this.viewSpan) / (2 * height),
         );
     }
     this.camera.position

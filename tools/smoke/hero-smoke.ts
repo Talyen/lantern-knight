@@ -13,7 +13,6 @@ export async function runScenario(flags: string[] = []) {
       const f = window.foundation;
       await f.fixture('interior-fixture');
       f.pause(true);
-      document.querySelector<HTMLElement>('#modal')!.hidden = true;
       f.presentation.setDepthOfField(0);
       f.sim.enemies.forEach((a) => (a.health = 0));
       Object.assign(f.sim.hero, { x: 0, z: 1, px: 0, pz: 1 });
@@ -104,7 +103,7 @@ export async function runScenario(flags: string[] = []) {
       await page
         .locator('canvas')
         .screenshot({ path: path.join(output, 'hero-sweep-gameplay.png') });
-    await page.getByRole('button', { name: 'Animation lab', exact: true }).click();
+    await page.getByRole('button', { name: 'Animation', exact: true }).click();
     await page.locator('#asset').selectOption('ink-hero-current');
     await page.waitForFunction(
       () =>
@@ -115,6 +114,7 @@ export async function runScenario(flags: string[] = []) {
       await page.evaluate(() => window.foundation.presentation.labSprite.manifest.asset.id),
       'ink-hero-current',
     );
+    await page.getByText('Comparison & treatment', { exact: true }).click();
     await page.locator('#animation-comparison').selectOption('timing');
     await page.locator('#clip').selectOption('sweep');
     const timing = await page.evaluate(() => {
@@ -127,7 +127,7 @@ export async function runScenario(flags: string[] = []) {
     });
     assert.ok(Math.abs(timing[0]! - 900) < 0.001);
     assert.notEqual(timing[0], timing[1]);
-    await page.locator('#play').click();
+    await page.locator('#pause').click();
     const comparison = await page.evaluate(() => {
       const f = window.foundation,
         p = f.presentation;

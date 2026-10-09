@@ -6,7 +6,7 @@ if (import.meta.env.DEV) {
   let pending = false;
   for (const [label, url, mode] of [
     ['Game', '/index.html', 'game'],
-    ['Sandbox', '/sandbox.html', 'sandbox'],
+    ['Dev Preview', '/sandbox.html', 'sandbox'],
     ['Editor', '/editor.html', 'editor'],
   ] as const) {
     const link = document.createElement('a');

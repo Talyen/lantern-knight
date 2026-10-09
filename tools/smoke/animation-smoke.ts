@@ -10,8 +10,10 @@ export async function runScenario(flags: string[] = []) {
   try {
     const { page, output } = run;
     await page.waitForFunction(() => window.foundation?.ready, {}, { timeout: 60000 });
-    await page.getByRole('button', { name: 'Compare animation', exact: true }).click();
-    await page.locator('#play').click();
+    await page.getByRole('button', { name: 'Animation', exact: true }).click();
+    await page.getByText('Comparison & treatment', { exact: true }).click();
+    await page.locator('#walk-compare').click();
+    await page.locator('#pause').click();
     const report = await page.evaluate(() => {
       const p = window.foundation.presentation,
         observations = [];

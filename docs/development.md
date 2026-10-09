@@ -4,7 +4,7 @@ This is an early prototype. Prefer a short edit–play–check loop. Scenes, ass
 
 ## Start and iterate
 
-Use Node 24.18.0 and npm 11.16.0, then `npm ci` and `npm run dev`. One Vite server serves Game, Sandbox and the scene editor. Sandbox includes the effects test scene. Developer navigation links connect these views; the Sandbox scene selector switches between independent outdoor/interior fixtures, the systems fixture and effects experiments. Sandbox contains animation, calibration, occlusion and Lighting & Look modes.
+Use Node 24.18.0 and npm 11.16.0, then `npm ci` and `npm run dev`. One Vite server serves Game, Dev Preview and the scene editor. Developer navigation links connect these views. Dev Preview uses one toolbar and floating inspector for independent outdoor/interior/system fixtures, animation, visuals/effects, inspection and diagnostics; advanced controls remain collapsed until needed.
 
 `npm run desktop:dev` starts the same server and watches Electron main/preload bundles. Renderer edits reload through Vite; main/preload edits restart the owned Electron process. It does not build or package the application first. Close the command to release its server and asset lease.
 

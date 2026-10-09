@@ -31,6 +31,8 @@ export async function runScenario(flags: string[] = []) {
       changes[key] = count;
       await page.evaluate((key) => window.effectsPlayground.setEffect(key, true), key);
     }
+    await page.getByRole('button', { name: 'Visuals', exact: true }).click();
+    await page.getByText('Individual effects', { exact: true }).click();
     const selection = await page.evaluate(() => window.effectsPlayground.settings.effects);
     await page.locator('#baseline').check();
     const baseline = await comparePixels(
@@ -64,7 +66,7 @@ export async function runScenario(flags: string[] = []) {
     assert.deepEqual(await page.evaluate(() => window.effectsPlayground.stats().objects), counts);
     assert.deepEqual(errors, []);
     await run.reportWork();
-    await page.getByRole('button', { name: 'Return to Sandbox', exact: true }).click();
+    await page.locator('#scene-select').selectOption('outdoor-fixture');
     await page.waitForFunction(() => window.foundation?.ready);
     await fs.writeFile(
       path.join(output, 'report.json'),
@@ -78,7 +80,7 @@ export async function runScenario(flags: string[] = []) {
             'baseline restores exact pixels without changing selection',
             'pause and frame-step',
             'stable resources through replay/toggles',
-            'return to sandbox',
+            'return to Dev Preview scene',
           ],
           scope:
             'Packaged macOS developer app; source art and the two production scene definitions are unchanged by this work.',

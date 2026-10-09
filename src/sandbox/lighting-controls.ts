@@ -17,21 +17,15 @@ export function bindLightingControls(presentation: Presentation, saveSettings: (
     for (const [id, key] of toggles) element<HTMLInputElement>('#' + id).checked = look[key];
   };
   const syncDof = () => {
-    for (const id of ['lighting-dof', 'depth-of-field']) {
-      element<HTMLInputElement>('#' + id).value = String(
-        Math.round(presentation.depthOfField * 100),
-      );
-      element('#' + id + '-value').textContent =
-        presentation.depthOfField === 0 ? 'Off' : Math.round(presentation.depthOfField * 100) + '%';
-    }
+    const percent = Math.round(presentation.depthOfField * 100);
+    element<HTMLInputElement>('#lighting-dof').value = String(percent);
+    element('#lighting-dof-value').textContent = percent === 0 ? 'Off' : percent + '%';
   };
-  for (const id of ['lighting-dof', 'depth-of-field']) {
-    element('#' + id).oninput = () => {
-      presentation.setDepthOfField(Number(element<HTMLInputElement>('#' + id).value) / 100);
-      syncDof();
-    };
-    element('#' + id).onchange = saveSettings;
-  }
+  element('#lighting-dof').oninput = () => {
+    presentation.setDepthOfField(Number(element<HTMLInputElement>('#lighting-dof').value) / 100);
+    syncDof();
+  };
+  element('#lighting-dof').onchange = saveSettings;
   element('#lighting-rig').onchange = () =>
     presentation.lightingLab.setSettings({
       rig: element<HTMLSelectElement>('#lighting-rig').value as 'golden' | 'silver',

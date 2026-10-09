@@ -1,6 +1,6 @@
 # Developer tools
 
-Run `npm run dev`; developer navigation connects Game, Sandbox and the scene editor. The Sandbox scene selector includes independent outdoor/interior fixtures, the systems fixture and dedicated effects test scene. Sandbox includes animation, calibration, occlusion and Lighting & Look modes. Game packages exclude developer screens and fixtures. [Development](development.md) owns setup and preview ports.
+Run `npm run dev`; developer navigation connects Game, Dev Preview and the scene editor. Dev Preview lives at `/sandbox.html` and consolidates independent outdoor/interior/system fixtures, animation, calibration, occlusion, lighting and effects experiments. Game packages exclude developer screens and fixtures. [Development](development.md) owns setup and preview ports.
 
 ## Scene editor
 
@@ -20,20 +20,24 @@ Play starts an unsaved snapshot through the shared Application lifecycle with a 
 
 Game launches an empty floor with the hero. Use editor Play for authored scenes. For independent rendering fixtures, open `/sandbox.html?scene=outdoor-fixture` or `/sandbox.html?scene=interior-fixture`. Reload restores preview context. Moving existing artwork requires no preparation or publication; changed artwork inputs follow [Assets](assets.md#runtime-composition-boundary).
 
-## Lighting and Look
+## Dev Preview
 
-Sandbox's Lighting & Look mode compares Golden/Silver hour with Atmospheric ink, HD-2D diorama and Dark cinematic. It exposes original rendering, independent effects, light response, pause and fixed replay controls using shared production presentation. [Game design](game-design.md#presentation-and-delivery-defaults) owns initial visual defaults; saved preferences remain authoritative. Depth of field starts at 100%.
+The scene fills the window below a slim toolbar. Choose Outdoor, Interior, Systems or Effects, then open Animation, Visuals or Inspect. One floating inspector contains essential controls followed by collapsed advanced sections. Opening Visuals or Inspect preserves scene playback, camera and pause state. Clicking the active tool or closing the inspector hides its controls without leaving the current view.
 
-Alpha-derived normal companions bind to the exact source page, trim and crop; authored surface companions add structural response. Shadow, focus, foliage and reveal passes share registration/deformation. SMAA handles antialiasing, auxiliary masks protect fighters and combat cues, and interiors exclude outdoor haze and rain.
+Pause/Resume and Restart apply to the current scene or animation cycle. Animation enters dedicated asset playback; Return to scene restores the scene's pause and camera context. Timeline seeking and frame stepping are silent. Comparison supports treatment and original/directed timing; advanced controls expose stabilization, rigid sword, locomotion timing, zoom, backdrop and registration. Narrow windows frame comparison actors within the uncovered canvas strip.
 
-## Effects Playground
+Visuals exposes production light rigs and looks, original rendering and a separate all-effects-off comparison. Nested controls cover lighting response, depth of field, individual effects, scripted replay and render scale. The Effects fixture keeps Quiet ink/Richer HD-2D treatments, individual effects and outline experiments; it does not reinterpret them as production lighting looks. Comparisons preserve selected options. Controls requiring another fixture name it and offer an explicit switch.
 
-Choose Effects test scene in Sandbox to compare living lights, smoke/embers, rain, surface normals, relief, wind, atmosphere, palette, bloom, wetness, outlines, contact grounding and shafts. It supports quiet/richer treatments, an all-off baseline that preserves selected options, pause, replay and switching back to independent scene fixtures. `/effects.html` redirects to this scene. Its disposable session does not change persistent production settings.
+Inspect groups registration/collision overlays, camera framing, calibration reference view, occlusion positioning and an explicit enemy-freeze control. Calibration preserves scene context; Return to scene restores it. Opening Inspect alone never freezes enemies.
 
-Prepared ambience artwork and companion data come from the selected asset workspace. Runtime owns weather scheduling, shaders and materials; these changes need preparation only when their artwork-producing inputs change.
+More options contains Game/Editor navigation, optional gameplay HUD, diagnostics, keyboard help, reset actions and Hide controls. HUD and diagnostics start hidden. Escape closes a menu/inspector first, restores hidden controls, otherwise pauses/resumes playback. Keyboard focus in controls cannot move or attack; focus returns to the tool button on inspector closure.
+
+Session storage remembers each fixture's experiments, preview position/camera/pause context, animation choices and interface sections across switches/reloads. Combat outcomes are disposable, not restored checkpoints. Restart preserves experiments; Reset scene settings restores only the current fixture's defaults. Reset workspace confirms before clearing all remembered preview state. Invalid data starts fresh, and unavailable storage retains an in-memory workspace. Dev Preview cannot write player checkpoints or settings.
+
+`/effects.html` redirects to the Effects fixture in Dev Preview. The shared shell preserves the existing application lifecycle and fixture-specific renderers. Artwork preparation follows [Assets](assets.md); moving between tools does not prepare or publish artwork.
 
 ## Checks and diagnostics
 
-CI runs `npm run test:browser -- editor` for authoring/history/recovery changes, `scene` for room presentation, and `effects` for effects comparison and switching between effects experiments and independent fixtures. Use these locally for targeted diagnosis or validation. [Verification](verification.md#test-selection) owns selection and coverage.
+CI runs `npm run test:browser -- editor` for authoring/history/recovery changes, `scene` for room presentation and preview interactions, and `effects` for remembered effect experiments and fixture switching. Use these locally for targeted diagnosis or validation. [Verification](verification.md#test-selection) owns selection and coverage.
 
 For explicit native investigations, `npm run benchmark -- scene`, `preferences` or `scenes` checks frozen frames, depth/focus protection, weather and settled resources. `npm run benchmark -- effects` checks rendered differences, baseline restoration, playback, resources and routing. Lighting smoke measures performance only with `--benchmark` or `--benchmark-only`; ordinary assertions have no benchmark waits. Use `--capture` for requested exports. [Performance comparisons](verification.md#performance-comparisons) explains evidence limits.

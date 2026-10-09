@@ -26,7 +26,7 @@ async function main() {
   try {
     console.log(session.origin);
     console.log(
-      'Game /index.html · Sandbox /sandbox.html · Editor /editor.html · Effects /effects.html',
+      'Game /index.html · Dev Preview /sandbox.html · Editor /editor.html · Effects /effects.html',
     );
     await untilInterrupted();
   } finally {
