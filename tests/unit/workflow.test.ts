@@ -4,7 +4,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { selectTestFiles } from '../../tools/test';
-import { requiresDesktop, requiresAuthoring } from '../../tools/ci-impact';
+import { coverageFor } from '../../tools/coverage-policy';
+const requiresDesktop = (files: readonly string[]) => coverageFor(files).desktop;
+const requiresAuthoring = (files: readonly string[]) => coverageFor(files).authoring;
 import { browserSelection } from '../../tools/browser-tests';
 import { checkAssets } from '../../tools/check-assets';
 test('explicit test paths are exact and unknown requests fail before asset setup', async () => {
@@ -62,4 +64,15 @@ test('asset validation reads the explicit workspace and rejects altered media', 
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }
+});
+
+test('preview and policy changes select both optional tiers; missing comparisons fail closed', () => {
+  assert.deepEqual(coverageFor(), { desktop: true, authoring: true });
+  for (const file of [
+    'tools/preview-session.ts',
+    'tools/coverage-policy.ts',
+    'playwright.config.ts',
+  ])
+    assert.deepEqual(coverageFor([file]), { desktop: true, authoring: true });
+  assert.deepEqual(coverageFor(['docs/development.md']), { desktop: false, authoring: false });
 });

@@ -1,6 +1,5 @@
+import { authoredGameplay } from './authored-gameplay';
 import { resolveFixtures, SCENE_LIGHT_CAPACITY, type ResolvedFixture } from './scenery-presets';
-import courtDocument from '../../authoring/scenes/live-court.json';
-import chapelDocument from '../../authoring/scenes/live-upper-landing.json';
 import { parseSceneDocument, resolveSceneDocument, type SceneDocument } from './scene-document';
 import {
   isSupportedPosition,
@@ -160,7 +159,7 @@ export function resolveAuthoredScene(document: SceneDocument): WorldVisualDefini
       exits: [],
       floorColor: 0,
       ...document.geometry,
-      props: churchyardColliders(document.base, art),
+      props: churchyardColliders(art),
     };
     for (const entry of area.entries)
       if (!isSupportedPosition(area, entry, 0.3))
@@ -184,14 +183,7 @@ export function resolveAuthoredScene(document: SceneDocument): WorldVisualDefini
     ],
   };
 }
-export const worldVisuals: Readonly<Record<string, WorldVisualDefinition>> = {
-  court: resolveAuthoredScene(parseSceneDocument(courtDocument)),
-  'upper-landing': resolveAuthoredScene(parseSceneDocument(chapelDocument)),
-};
-export function churchyardColliders(
-  id: string,
-  art: WorldVisualDefinition = worldVisuals[id]!,
-): PropDefinition[] {
+export function churchyardColliders(art: WorldVisualDefinition): PropDefinition[] {
   return [
     ...art.props
       .filter((p) => p.footprint)
@@ -225,6 +217,7 @@ export function sceneAssets(art: WorldVisualDefinition) {
   return [
     ...new Set([
       art.floor,
+      'ink-cues',
       ...art.proceduralAssets,
       ...art.props.map((p) => p.asset),
       ...art.decals.map((p) => p.asset),
@@ -232,14 +225,10 @@ export function sceneAssets(art: WorldVisualDefinition) {
     ]),
   ];
 }
-export function areaArtAssets(area: AreaDefinition) {
-  const art = worldVisuals[area.id];
-  return art ? sceneAssets(art) : [];
-}
 export function validateAreaArt(
-  area: AreaDefinition,
+  _area: AreaDefinition,
   packs: ReadonlyMap<string, { manifest: Manifest }>,
-  art: WorldVisualDefinition | undefined = worldVisuals[area.id],
+  art: WorldVisualDefinition | undefined,
 ) {
   if (!art) return;
   const pack = (id: string) => {
@@ -295,8 +284,8 @@ export function validateAreaArt(
 export function compositionPoint(
   area: string,
   hero: Point,
-  frame?: { halfWidth: number; halfHeight: number },
-  art: WorldVisualDefinition | undefined = worldVisuals[area],
+  frame: { halfWidth: number; halfHeight: number } | undefined,
+  art: WorldVisualDefinition | undefined,
 ): Point {
   const f = art?.camera;
   if (!f) return { ...hero };
@@ -335,10 +324,10 @@ export function compositionPoint(
 
 // The requested span remains the saved preference; only the default framing reveals entry.
 export function compositionSpan(
-  area: string,
+  _area: string,
   hero: Point,
   requested: number,
-  art: WorldVisualDefinition | undefined = worldVisuals[area],
+  art: WorldVisualDefinition | undefined,
 ): number {
   const f = art?.camera,
     a = f?.arrival;
@@ -349,13 +338,55 @@ export function compositionSpan(
 }
 
 export function compositionHeight(
-  area: string,
+  _area: string,
   hero: Point,
-  art: WorldVisualDefinition | undefined = worldVisuals[area],
+  art: WorldVisualDefinition | undefined,
 ): number {
   const f = art?.camera,
     base = f?.targetHeight ?? 0,
     a = f?.arrival;
   const t = a ? Math.max(0, Math.min(1, (hero.z - a.start) / (a.end - a.start))) : 0;
   return base + ((a?.targetHeight ?? base) - base) * t;
+}
+
+export type ResolvedScene = {
+  document: SceneDocument;
+  area: AreaDefinition;
+  visuals: WorldVisualDefinition;
+  assets: readonly string[];
+};
+export function resolveScene(
+  value: unknown,
+  gameplay: Partial<
+    Pick<AreaDefinition, 'subtitle' | 'seedOffset' | 'spawns' | 'exits' | 'floorColor'>
+  > = {},
+): ResolvedScene {
+  const document = parseSceneDocument(value);
+  const visuals = resolveAuthoredScene(document);
+  const floor = document.floor;
+  const geometry = document.geometry ?? {
+    bounds: {
+      minX: -floor!.width / 2,
+      maxX: floor!.width / 2,
+      minZ: -floor!.depth / 2,
+      maxZ: floor!.depth / 2,
+    },
+    surface: { kind: 'flat' as const, height: 0 },
+    baselineEntry: 'start',
+    entries: [{ id: 'start', x: 0, z: 0 }],
+  };
+  let area: AreaDefinition = {
+    id: document.base === 'flat' ? 'editor-flat' : document.base,
+    name: document.name,
+    subtitle: '',
+    seedOffset: 0,
+    spawns: [],
+    exits: [],
+    floorColor: 0x344b4e,
+    ...geometry,
+    ...gameplay,
+    props: churchyardColliders(visuals),
+  };
+  area = authoredGameplay(document, area, visuals.props);
+  return { document, area, visuals, assets: sceneAssets(visuals) };
 }

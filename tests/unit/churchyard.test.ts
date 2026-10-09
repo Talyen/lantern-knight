@@ -6,7 +6,8 @@ import { content as liveContent } from '../../src/content/game-content';
 import { Simulation } from '../../src/core/simulation';
 import { GameSession } from '../../src/core/session';
 
-import { worldVisuals, compositionPoint, compositionHeight } from '../../src/content/world-art';
+import { worldVisuals } from '../../src/content/game-content';
+import { compositionPoint, compositionHeight } from '../../src/content/world-art';
 import { createBrowserBridge } from '../../src/platform/browser-store';
 import { launchEntry, checkpointDirectory } from '../../electron/launch';
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: -1 } };
@@ -144,13 +145,13 @@ test('narrow Graveyard framing keeps the hero and full silhouette inside the vie
     halfHeight = 4.5;
   for (const halfWidth of [(halfHeight * 9) / 16, (halfHeight * 16) / 9, (halfHeight * 21) / 9])
     for (const hero of liveContent.area('court').entries) {
-      const target = compositionPoint('court', hero, { halfWidth, halfHeight }),
+      const target = compositionPoint('court', hero, { halfWidth, halfHeight }, worldVisuals.court),
         dx = hero.x - target.x,
         dz = hero.z - target.z,
         x = (dx - dz) / Math.sqrt(2),
         root =
           (-(dx + dz) * Math.sin(elevation)) / Math.sqrt(2) -
-          compositionHeight('court', hero) * Math.cos(elevation);
+          compositionHeight('court', hero, worldVisuals.court) * Math.cos(elevation);
       assert.ok(Math.abs(x) < halfWidth - 0.7);
       assert.ok(root > -halfHeight + 0.5);
       assert.ok(root + 1.8 * Math.cos(elevation) < halfHeight - 0.5);
@@ -159,7 +160,7 @@ test('narrow Graveyard framing keeps the hero and full silhouette inside the vie
     for (const area of content.areas.values())
       for (const x of [area.bounds.minX, 0, area.bounds.maxX])
         for (const z of [area.bounds.minZ, 0, area.bounds.maxZ]) {
-          const q = compositionPoint(area.id, { x, z }),
+          const q = compositionPoint(area.id, { x, z }, undefined, worldVisuals[area.id]),
             b = worldVisuals[area.id]!.camera.bounds;
           assert.ok(q.x >= b.minX && q.x <= b.maxX && q.z >= b.minZ && q.z <= b.maxZ);
         }

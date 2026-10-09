@@ -7,7 +7,11 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { parseSceneDocument, validateSceneReferences } from '../../src/content/scene-document';
-import { churchyardColliders, resolveAuthoredScene } from '../../src/content/world-art';
+import {
+  churchyardColliders,
+  resolveAuthoredScene,
+  resolveScene,
+} from '../../src/content/world-art';
 import { EditorHistory } from '../../src/editor/model';
 import { SceneStore } from '../../tools/scene/scene-editor-store';
 describe('scene authoring contracts', () => {
@@ -24,15 +28,24 @@ describe('scene authoring contracts', () => {
     h.redo();
     const art = resolveAuthoredScene(h.document),
       p = art.props.find((p) => p.id === 'family-tomb-west')!;
-    assert.deepEqual(
-      churchyardColliders('court', art).find((v) => v.id === p.id)!.size,
-      p.footprint,
-    );
+    assert.deepEqual(churchyardColliders(art).find((v) => v.id === p.id)!.size, p.footprint);
     const duplicate = h.duplicate('family-tomb-west');
     h.remove(duplicate);
     h.remove('family-tomb-west');
     h.undo();
     assert.equal(h.document.objects.find((p) => p.id === 'family-tomb-west')!.x, -6.3);
+  });
+  it('resolves edited geometry, collision and asset requirements together', () => {
+    const document = sceneFixture('graveyard');
+    document.geometry!.bounds.maxX += 1;
+    const item = document.objects.find((p) => p.id === 'family-tomb-west')!;
+    item.footprint = [0.95, 2.25];
+    item.x = (item.x ?? 0) + 0.1;
+    const resolved = resolveScene(document);
+    assert.equal(resolved.area.bounds.maxX, document.geometry!.bounds.maxX);
+    assert.equal(resolved.area.props.find((p) => p.id === item.id)!.x, item.x);
+    assert.ok(resolved.assets.includes(item.asset));
+    assert.equal(resolved.visuals.props.find((p) => p.id === item.id)!.x, item.x);
   });
   it('rejects unsupported documents and references without silently resetting them', () => {
     assert.throws(() => parseSceneDocument({ ...emptyScene(), version: 99 }));

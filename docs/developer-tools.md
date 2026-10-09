@@ -1,6 +1,6 @@
 # Developer tools
 
-Run `npm run dev`; developer navigation connects Game, Sandbox, the scene editor and Effects Playground. Sandbox includes animation, calibration, occlusion and Lighting & Look modes. Game packages exclude developer screens and fixtures. [Development](development.md) owns setup and preview ports.
+Run `npm run dev`; developer navigation connects Game, Sandbox and the scene editor. The Sandbox scene selector includes the opening rooms, systems fixture and dedicated effects test scene. Sandbox includes animation, calibration, occlusion and Lighting & Look modes. Game packages exclude developer screens and fixtures. [Development](development.md) owns setup and preview ports.
 
 ## Scene editor
 
@@ -24,12 +24,12 @@ Alpha-derived normal companions bind to the exact source page, trim and crop; au
 
 ## Effects Playground
 
-The independent playground compares living lights, smoke/embers, rain, surface normals, relief, wind, atmosphere, palette, bloom, wetness, outlines, contact grounding and shafts. It supports quiet/richer treatments, an all-off baseline that preserves selected options, pause, replay and return to Sandbox. Its disposable session does not change persistent production settings.
+Choose Effects test scene in Sandbox to compare living lights, smoke/embers, rain, surface normals, relief, wind, atmosphere, palette, bloom, wetness, outlines, contact grounding and shafts. It supports quiet/richer treatments, an all-off baseline that preserves selected options, pause, replay and switching back to the opening rooms. `/effects.html` redirects to this scene. Its disposable session does not change persistent production settings.
 
 Prepared ambience artwork and companion data come from the selected asset workspace. Runtime owns weather scheduling, shaders and materials; these changes need preparation only when their artwork-producing inputs change.
 
 ## Checks and diagnostics
 
-Run `npm run test:browser -- editor` for authoring/history/recovery changes, `scene` for room presentation, and `effects` for playground startup. [Verification](verification.md#test-selection) owns selection and coverage.
+Run `npm run test:browser -- editor` for authoring/history/recovery changes, `scene` for room presentation, and `effects` for effects comparison and switching between dedicated and production scenes. [Verification](verification.md#test-selection) owns selection and coverage.
 
 For explicit native investigations, `npm run benchmark -- crypt`, `preferences` or `scenes` checks frozen frames, depth/focus protection, weather and settled resources. `npm run benchmark -- effects` checks rendered differences, baseline restoration, playback, resources and routing. Lighting smoke measures performance only with `--benchmark` or `--benchmark-only`; ordinary assertions have no benchmark waits. Use `--capture` for requested exports. [Performance comparisons](verification.md#performance-comparisons) explains evidence limits.

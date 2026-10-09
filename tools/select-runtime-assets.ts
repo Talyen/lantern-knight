@@ -1,3 +1,4 @@
+import type { BuildProfile } from './build-profile';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -10,7 +11,11 @@ import { liveLibraryAssets } from '../src/content/library-references';
 import { safeRelative } from './assets/paths';
 
 export type SelectedFiles = { files: string[]; generated: Record<string, string>; bytes: number };
-export async function selectedFiles(publicRoot: string, dev = false): Promise<SelectedFiles> {
+export async function selectedFiles(
+  publicRoot: string,
+  profile: BuildProfile = 'game',
+): Promise<SelectedFiles> {
+  const dev = profile === 'authoring';
   const library =
     dev || liveLibraryAssets.length ? await readAuthoringCatalog(publicRoot) : gameAssetCatalog;
   const catalog = dev

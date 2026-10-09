@@ -5,7 +5,8 @@ import path from 'node:path';
 import sharp from 'sharp';
 import * as T from 'three';
 import { content } from '../src/content/game-content';
-import { worldVisuals, areaArtAssets } from '../src/content/world-art';
+import { worldVisuals } from '../src/content/game-content';
+import { sceneAssets } from '../src/content/world-art';
 import { assetCatalog } from '../src/content/visuals';
 import { parseManifest } from '../src/assets/schema';
 import { makeCamera } from '../src/core/camera';
@@ -23,7 +24,7 @@ export async function inspectCrypt() {
     art = worldVisuals[area.id]!,
     packs = new Map<string, PackLease>(),
     imagesByTexture = new Map<T.Texture, AlphaImage>();
-  for (const id of areaArtAssets(area)) {
+  for (const id of sceneAssets(worldVisuals[area.id]!)) {
     const manifest = parseManifest(
         JSON.parse(await readAsset(`public/${assetCatalog[id]}`, 'utf8')),
       ),
@@ -46,7 +47,7 @@ export async function inspectCrypt() {
     packs.set(id, { manifest, textures, release: () => {} });
   }
   const group = new T.Group(),
-    room = new InkRoom(area, packs, group, makeCamera(16 / 9), undefined, readRegistration());
+    room = new InkRoom(area, packs, group, makeCamera(16 / 9), undefined, readRegistration(), art);
   room.build();
   try {
     const meshes = [

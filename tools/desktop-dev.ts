@@ -1,11 +1,17 @@
 import { createRequire } from 'node:module';
 import { context } from 'esbuild';
-import { developmentServer, untilInterrupted } from './dev';
+import { untilInterrupted } from './run-process';
+import { openPreview } from './preview-session';
 import { runProcess } from './run-process';
 import { projectRoot } from './assets/paths';
 import { electronConfig } from './build-electron';
 const electron = createRequire(import.meta.url)('electron') as string;
-const session = await developmentServer();
+const session = await openPreview({
+  output: 'development',
+  assets: 'local',
+  scope: 'authoring',
+  port: Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
+});
 const ready = new Set<string>();
 let timer: ReturnType<typeof setTimeout> | undefined;
 let active: AbortController | undefined,
@@ -37,7 +43,7 @@ const builders = [];
 try {
   for (const name of ['main', 'preload'] as const) {
     const builder = await context({
-      ...electronConfig(name, true),
+      ...electronConfig(name, 'authoring'),
       plugins: [
         {
           name: 'restart-electron',

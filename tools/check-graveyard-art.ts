@@ -2,7 +2,7 @@ import { readRegistration } from './assets/data';
 import { readAsset } from './assets/io';
 import assert from 'node:assert/strict';
 import * as T from 'three';
-import { worldVisuals } from '../src/content/world-art';
+import { worldVisuals } from '../src/content/game-content';
 import { graveHead } from '../src/content/graveyard-scene';
 const graveyardArt = worldVisuals.court!;
 import { coplanarArtConflicts } from '../src/presentation/carrier-validation';
@@ -10,7 +10,7 @@ const coverage = readRegistration().coverage;
 import { sceneArtFindings } from '../src/content/scene-art-validation';
 import { isSupportedPosition } from '../src/content/world';
 import { content } from '../src/content/game-content';
-import { areaArtAssets } from '../src/content/world-art';
+import { sceneAssets } from '../src/content/world-art';
 import { assetCatalog } from '../src/content/visuals';
 import { parseManifest } from '../src/assets/schema';
 import { InkRoom } from '../src/presentation/ink-room';
@@ -20,7 +20,7 @@ const findings = sceneArtFindings(graveyardArt);
 assert.deepEqual(findings, [], 'unresolved Graveyard art construction');
 const area = content.area('court'),
   packs = new Map<string, PackLease>();
-for (const id of areaArtAssets(area)) {
+for (const id of sceneAssets(worldVisuals[area.id]!)) {
   const manifest = parseManifest(
     JSON.parse(await readAsset('public/' + assetCatalog[id]!, 'utf8')),
   );
@@ -36,6 +36,7 @@ const room = new InkRoom(
   makeCamera(16 / 9),
   undefined,
   readRegistration(),
+  graveyardArt,
 );
 room.build();
 try {

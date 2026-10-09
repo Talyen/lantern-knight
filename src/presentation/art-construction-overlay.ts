@@ -1,6 +1,5 @@
 import { sceneFixtures } from '../content/scenery-presets';
 import * as T from 'three';
-import { worldVisuals } from '../content/world-art';
 import { heightAt, type AreaDefinition } from '../content/world';
 import { sceneArtFindings } from '../content/scene-art-validation';
 import { coplanarArtConflicts } from './carrier-validation';
@@ -17,7 +16,7 @@ export class ArtConstructionOverlay {
     if (!visible || this.generation === generation) return;
     this.clear();
     this.generation = generation;
-    const art = worldVisuals[area.id];
+    const art = room?.art;
     if (!art) return;
     this.findings =
       area.id === 'court'

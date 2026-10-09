@@ -4,7 +4,7 @@ import path from 'node:path';
 import { comparePixels } from './smoke-pixels';
 import { smokeLaunch } from './smoke-launch';
 import { effectLabels, type PlaygroundEffect } from '../../src/content/effects-playground';
-import type {} from '../../src/effects-playground/main';
+import type {} from '../../src/sandbox/effects';
 
 export async function runScenario(flags: string[] = []) {
   const run = await smokeLaunch(true, ['--effects'], { flags }),
@@ -65,7 +65,7 @@ export async function runScenario(flags: string[] = []) {
     assert.deepEqual(errors, []);
     await run.reportWork();
     await page.getByRole('button', { name: 'Return to Sandbox', exact: true }).click();
-    await page.waitForURL('lantern://app/sandbox.html');
+    await page.waitForFunction(() => window.foundation?.ready);
     await fs.writeFile(
       path.join(output, 'report.json'),
       JSON.stringify(

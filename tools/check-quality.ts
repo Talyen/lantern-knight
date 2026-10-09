@@ -3,7 +3,7 @@ import { readAsset } from './assets/io';
 import assert from 'node:assert/strict';
 import { parseManifest } from '../src/assets/schema';
 import { assetCatalog, gameAssetCatalog } from '../src/content/visuals';
-import { worldVisuals } from '../src/content/world-art';
+import { worldVisuals } from '../src/content/game-content';
 import { content } from '../src/content/game-content';
 import { contract } from '../src/core/camera';
 import { publicRoot } from './assets/paths';

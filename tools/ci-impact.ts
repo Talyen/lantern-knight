@@ -1,21 +1,8 @@
+import { coverageFor } from './coverage-policy';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
-export function requiresDesktop(files: readonly string[]) {
-  return files.some((file) =>
-    /^(electron\/|package(?:-lock)?\.json$|electron-builder.*\.json$|vite\.config\.ts$|.*\.html$|assets\/lock\.json$|src\/core\/save\.ts$|src\/content\/asset-catalog\.ts$|tools\/(?:build|package|desktop|select-runtime-assets)|tools\/assets\/(?:pack|archive|bundles|workspace|publication|paths)\.ts$|tests\/desktop\/|\.github\/workflows\/)/.test(
-      file,
-    ),
-  );
-}
-export function requiresAuthoring(files: readonly string[]) {
-  return files.some((file) =>
-    /^(src\/(?:editor|effects-playground|sandbox)|src\/content\/scene-(?:document|design)|tools\/(?:dev|browser-tests)|tests\/browser\/(?:editor|effects)|vite\.config)/.test(
-      file,
-    ),
-  );
-}
 async function main() {
   const base = process.env.LANTERN_CI_BASE;
   let desktop = true,
@@ -29,8 +16,7 @@ async function main() {
       )
         .split('\0')
         .filter(Boolean);
-      desktop = requiresDesktop(files);
-      authoring = requiresAuthoring(files);
+      ({ desktop, authoring } = coverageFor(files));
     } catch {
       console.log('Comparison unavailable; selecting desktop verification');
     }

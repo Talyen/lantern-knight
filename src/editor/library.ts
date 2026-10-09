@@ -69,6 +69,7 @@ export function patternPoints(
 }
 export class SceneLibrary {
   private dialog: HTMLDialogElement;
+  private lifetime = new AbortController();
   private preview = new T.Group();
   private points: { x: number; z: number }[] = [];
   private snapshot = '';
@@ -166,9 +167,10 @@ export class SceneLibrary {
     }
   }
   async load() {
-    const response = await fetch('/__lantern_editor');
+    const response = await fetch('/__lantern_editor', { signal: this.lifetime.signal });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error);
+    this.lifetime.signal.throwIfAborted();
     if (!this.dialog.open) this.dialog.showModal();
     let recent: string[] = [];
     try {
@@ -222,7 +224,7 @@ export class SceneLibrary {
       };
       recoveries.append(b);
     }
-    const r = await fetch('/__lantern_editor?fragments');
+    const r = await fetch('/__lantern_editor?fragments', { signal: this.lifetime.signal });
     const fragments = await r.json();
     if (!r.ok) throw new Error(fragments.error);
     const list = $('library-fragments');
@@ -312,6 +314,7 @@ export class SceneLibrary {
     $<HTMLButtonElement>('pattern-apply').disabled = true;
   }
   dispose() {
+    this.lifetime.abort();
     this.clearPreview();
     this.preview.removeFromParent();
     this.dialog.remove();

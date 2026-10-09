@@ -1,3 +1,4 @@
+import { electronOutput, type BuildProfile } from './build-profile';
 import { build, type Metafile, type BuildOptions } from 'esbuild';
 import { builtinModules } from 'node:module';
 import path from 'node:path';
@@ -14,11 +15,11 @@ function verifyElectronImports(metadata: Pick<Metafile, 'outputs'>) {
       )
         throw new Error('Electron bundle requires an unbundled runtime dependency: ' + entry.path);
 }
-export function electronConfig(name: 'main' | 'preload', dev: boolean): BuildOptions {
+export function electronConfig(name: 'main' | 'preload', profile: BuildProfile): BuildOptions {
   return {
     entryPoints: [`electron/${name}.ts`],
-    outfile: `${dev ? 'dist-electron-dev' : 'dist-electron'}/${name}.cjs`,
-    define: { __DEV_APP__: String(dev) },
+    outfile: `${electronOutput(profile)}/${name}.cjs`,
+    define: { __DEV_APP__: String(profile === 'authoring') },
     bundle: true,
     metafile: true,
     platform: 'node',
@@ -27,11 +28,11 @@ export function electronConfig(name: 'main' | 'preload', dev: boolean): BuildOpt
     external: ['electron'],
   };
 }
-export async function buildElectron(dev: boolean) {
+export async function buildElectron(profile: BuildProfile) {
   for (const name of ['main', 'preload'] as const) {
-    const result = await build(electronConfig(name, dev));
+    const result = await build(electronConfig(name, profile));
     verifyElectronImports(result.metafile!);
   }
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
-  await buildElectron(process.argv.includes('--dev'));
+  await buildElectron(process.argv.includes('--dev') ? 'authoring' : 'game');

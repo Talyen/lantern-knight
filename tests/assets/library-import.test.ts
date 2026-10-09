@@ -15,20 +15,18 @@ import { EditorHistory } from '../../src/editor/model';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { assetWriter } from '../../tools/assets/io';
+import { createPreparationContext } from '../../tools/assets/context';
 import { diskBytes } from '../../tools/assets/cache';
 it('keeps incremental output accounting within its reserved space and counts candidate links once', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-writer-')),
-    old = {
-      workspace: process.env.LANTERN_ASSET_WORKSPACE,
-      preparing: process.env.LANTERN_PREPARING,
-      budget: process.env.LANTERN_PREPARE_BUDGET,
-    };
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-writer-'));
   try {
-    process.env.LANTERN_ASSET_WORKSPACE = root;
-    process.env.LANTERN_PREPARING = '1';
-    process.env.LANTERN_PREPARE_BUDGET = '64';
-    const write = await assetWriter();
+    const context = await createPreparationContext({
+      workspace: root,
+      sourceRoot: root,
+      libraryRoot: root,
+      budget: 64,
+    });
+    const write = context.writeAsset;
     await write('public/one.png', Buffer.alloc(40));
     await write('public/one.png', Buffer.alloc(30));
     await write('public/two.png', Buffer.alloc(32));
@@ -37,13 +35,6 @@ it('keeps incremental output accounting within its reserved space and counts can
     await fs.link(path.join(root, 'public/one.png'), path.join(root, 'public/candidate.png'));
     assert.equal(await diskBytes(root), 62);
   } finally {
-    for (const [key, value] of Object.entries({
-      LANTERN_ASSET_WORKSPACE: old.workspace,
-      LANTERN_PREPARING: old.preparing,
-      LANTERN_PREPARE_BUDGET: old.budget,
-    }))
-      if (value === undefined) delete process.env[key];
-      else process.env[key] = value;
     await fs.rm(root, { recursive: true, force: true });
   }
 });

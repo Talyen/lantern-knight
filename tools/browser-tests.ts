@@ -1,10 +1,10 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { openWorkspace, workspaceEnvironment } from './assets/workspace';
+import { workspaceEnvironment } from './assets/workspace';
 import { acquireCommandLane } from './command-lane';
 import { runProcess } from './run-process';
 import { projectRoot } from './assets/paths';
-import { buildIdentity } from './build-identity';
+import { openPreview } from './preview-session';
 export function browserSelection(args: string[]) {
   const built = args.includes('--built');
   const forwarded = args.filter((arg) => arg !== '--built');
@@ -24,8 +24,14 @@ async function browserTests(args: string[]) {
   const { built, forwarded, scope } = browserSelection(args);
   const lane = await acquireCommandLane({ command: 'test:browser' });
   try {
-    const artifact = built ? await buildIdentity({ target: 'web' }) : undefined;
-    const workspace = built ? undefined : await openWorkspace(mode, scope);
+    const session = await openPreview({
+      output: built ? 'built' : 'development',
+      assets: mode,
+      scope,
+      port: Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
+      reuse: !built && !process.env.CI,
+    });
+    const workspace = session.workspace;
     try {
       await runProcess(
         process.execPath,
@@ -34,7 +40,8 @@ async function browserTests(args: string[]) {
           cwd: projectRoot,
           env: {
             ...(workspace ? workspaceEnvironment(workspace) : process.env),
-            ...(artifact ? { LANTERN_ASSET_SHA256: artifact.assets.sha256 } : {}),
+            LANTERN_ASSET_SHA256: session.assetIdentity,
+            LANTERN_MANAGED_PREVIEW: '1',
             LANTERN_TEST_BUILT: String(built),
             LANTERN_TEST_ASSETS: mode,
             LANTERN_TEST_SCOPE: scope,
@@ -44,7 +51,7 @@ async function browserTests(args: string[]) {
         },
       );
     } finally {
-      await workspace?.release();
+      await session.close();
     }
   } finally {
     await lane.release();

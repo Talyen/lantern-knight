@@ -39,3 +39,9 @@ The current TEST hero uses supplied native drawings, eight-direction running, fo
 `LANTERN_CACHE_ROOT` can choose an external disposable location; `ASSET_LIBRARY_ROOT` selects the parent source library. Unused local cache entries are evicted within the budget. `npm run assets:clean` cleans local disposable data only, preserving the current pin and active readers. Published releases and source originals are never deleted by cleanup.
 
 `npm run assets:inspect -- <asset-id>` prints bounded metadata. Explicit diagnostics retain output externally; normal checks do not keep passing-evidence receipts.
+
+## Preparation ownership
+
+TypeScript recipe steps are callable operations registered in `tools/assets/operations.ts`. They receive an explicit preparation context for source access, paths, atomic output recording and incremental byte accounting. Compiler writes use the same writer. Python subprocesses receive the translated context at their launch boundary; ordinary builds never invoke preparation.
+
+The next explicit `npm run assets:publish` uses the existing version 3 split runtime/authoring bundles. The current version 2 pin remains usable until that delivery succeeds and a fresh checkout verifies it. Retire obsolete top-level readers only after that gate; source artwork and published archives remain preserved.

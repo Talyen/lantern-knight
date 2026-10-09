@@ -17,6 +17,7 @@ export class DraftPlaytest {
   private app: Application<GamePresentation> | undefined;
   private request = 0;
   private busy = false;
+  private closed = false;
   private snapshot: SceneDocument | undefined;
   constructor(private host: Host) {
     this.dialog = document.createElement('dialog');
@@ -43,7 +44,7 @@ export class DraftPlaytest {
     this.dialog.addEventListener('close', () => this.close());
   }
   async start(snapshot = this.host.document()) {
-    if (this.busy) return;
+    if (this.closed || this.busy) return;
     this.busy = true;
     this.app?.dispose();
     this.app = undefined;
@@ -122,7 +123,9 @@ export class DraftPlaytest {
       : undefined;
   }
   dispose() {
+    this.closed = true;
     this.close();
+    this.snapshot = undefined;
     this.dialog.remove();
   }
 }

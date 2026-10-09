@@ -8,7 +8,7 @@ import {
   sceneDesignProfiles,
   paletteEntry,
 } from '../content/scene-design';
-import { resolveAuthoredScene } from '../content/world-art';
+import { resolveAuthoredScene, resolveScene } from '../content/world-art';
 import { localOffset } from '../content/scenery-presets';
 import { heightAt } from '../content/world';
 type Data = string | number | boolean | Data[] | { [key: string]: Data | undefined };
@@ -188,7 +188,9 @@ export class VisualAuthoring {
               item.z = selected.z ?? 0;
             }
             if (field === 'exits' && typeof item === 'object' && !Array.isArray(item)) {
-              (item as Record<string, Data>).destination = this.host.history().document.base;
+              (item as Record<string, Data>).destination = resolveScene(
+                this.host.history().document,
+              ).area.id;
               (item as Record<string, Data>).entry =
                 this.host.history().document.geometry?.baselineEntry ?? 'start';
             }

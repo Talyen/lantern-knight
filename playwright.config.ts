@@ -20,16 +20,17 @@ export default defineConfig({
       args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
     },
   },
-  webServer: desktop
-    ? undefined
-    : {
-        command: built
-          ? 'node --import tsx tools/built-preview.ts'
-          : `npm run dev -- --port ${port}${process.env.LANTERN_TEST_ASSETS === 'pinned' ? ' --pinned' : ''}${process.env.LANTERN_TEST_SCOPE === 'runtime' ? ' --runtime' : ''}`,
-        url: `http://127.0.0.1:${port}/__lantern_identity`,
-        reuseExistingServer: !built && !process.env.CI,
-        timeout: 60_000,
-        gracefulShutdown: { signal: 'SIGTERM', timeout: 5000 },
-      },
+  webServer:
+    desktop || process.env.LANTERN_MANAGED_PREVIEW
+      ? undefined
+      : {
+          command: built
+            ? 'node --import tsx tools/built-preview.ts'
+            : `npm run dev -- --port ${port}${process.env.LANTERN_TEST_ASSETS === 'pinned' ? ' --pinned' : ''}${process.env.LANTERN_TEST_SCOPE === 'runtime' ? ' --runtime' : ''}`,
+          url: `http://127.0.0.1:${port}/__lantern_identity`,
+          reuseExistingServer: !built && !process.env.CI,
+          timeout: 60_000,
+          gracefulShutdown: { signal: 'SIGTERM', timeout: 5000 },
+        },
   metadata: { checkout: path.resolve('.') },
 });

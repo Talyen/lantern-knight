@@ -8,7 +8,6 @@ if (import.meta.env.DEV) {
     ['Game', '/index.html', 'game'],
     ['Sandbox', '/sandbox.html', 'sandbox'],
     ['Editor', '/editor.html', 'editor'],
-    ['Effects', '/effects.html', 'effects'],
   ] as const) {
     const link = document.createElement('a');
     link.textContent = label;

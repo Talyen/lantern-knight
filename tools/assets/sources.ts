@@ -71,7 +71,7 @@ function reader() {
 export function readLibrarySource(
   member: string,
   group = 'ink-collection-01',
-  location?: { root: string; indexPath: string },
+  location?: { root: string; indexPath: string; inputLog?: string | null },
 ): Promise<Buffer> {
   safeRelative(member);
   safeRelative(group);
@@ -91,10 +91,12 @@ export function readLibrarySource(
       }) + '\n',
     );
   });
-  if (!process.env.LANTERN_STEP_INPUT_LOG) return promise;
+  const inputLog =
+    location?.inputLog === undefined ? process.env.LANTERN_STEP_INPUT_LOG : location.inputLog;
+  if (!inputLog) return promise;
   return promise.then(async (bytes) => {
     await fs.appendFile(
-      process.env.LANTERN_STEP_INPUT_LOG!,
+      inputLog,
       JSON.stringify({
         member,
         group,

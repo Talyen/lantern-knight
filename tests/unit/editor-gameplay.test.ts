@@ -9,7 +9,7 @@ import { parseGame } from '../../src/core/save';
 it('blank drafts start empty, generic geometry resolves, and missing gameplay inherits a copied room', () => {
   const draft = emptyScene();
   let composed = composeDraftGameplay(draft, contentDefinitions, {});
-  assert.equal(composed.registry.area('flat').spawns.length, 0);
+  assert.equal(composed.registry.area(composed.registry.definitions.initialArea).spawns.length, 0);
   draft.base = 'custom-room';
   draft.geometry = {
     bounds: { minX: -6, maxX: 6, minZ: -6, maxZ: 6 },
@@ -67,7 +67,7 @@ it('health pickups collect once, preserve collection across save/restore, and re
   session.restoreSave(saved);
   assert.equal(session.sim.collectedPickups.has('health'), true);
   const broken = structuredClone(saved);
-  broken.areas.flat!.collectedPickups = ['unknown'];
+  broken.areas[registry.definitions.initialArea]!.collectedPickups = ['unknown'];
   assert.throws(() => parseGame(broken, registry));
   session.resetCurrentArea();
   assert.equal(session.sim.collectedPickups.size, 0);
