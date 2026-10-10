@@ -490,10 +490,12 @@ test('repeated placement, shared fields and canvas handles commit or cancel one 
     .toBe(1);
   await expect(page.locator('#artwork-panel')).toBeVisible();
   await expect(page.locator('#tool')).toHaveValue('place');
+  await expect(page.locator('#tool')).toBeEnabled();
   await page.locator('#viewport').click({ position: { x: 460, y: 330 } });
   await expect
     .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
     .toBe(2);
+  await expect(page.locator('#tool')).toBeEnabled();
   await page.locator('#search').focus();
   await page.keyboard.press('Escape');
   await expect(page.locator('#tool')).toHaveValue('select');
