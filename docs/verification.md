@@ -20,7 +20,7 @@ Authored scenes are disposable content: gameplay and rendering regressions own t
 
 After `npm run build`, `npm run test:browser -- game --built` verifies Game against the production web artifact with its recorded asset identity. It checks artifact bytes before starting a dedicated preview, without reopening the asset cache. Scene/editor/effects scenarios retain development previews because production Game excludes those views. Rebuild the web artifact after packaging before using `--built`.
 
-`npm run test:desktop` consumes a Game package and tests the actual executable, bundled identity, real controls and storage restart. Native results apply to the platform exercised. Browser results do not certify desktop integration or visible reference-hardware pacing.
+`npm run test:desktop` consumes a Game package and tests the actual executable, bundled identity, real controls and storage restart. The live-development fixture copies sources and installed dependencies into an isolated checkout, excluding generated dependency caches; CI verifies fresh installation once before these tests. Native results apply to the platform exercised. Browser results do not certify desktop integration or visible reference-hardware pacing.
 
 ## Test value
 

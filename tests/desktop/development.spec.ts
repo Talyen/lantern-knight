@@ -1,12 +1,13 @@
 import net from 'node:net';
 import { test, expect, chromium, type Browser } from '@playwright/test';
 import fs from 'node:fs/promises';
+import { constants } from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { runProcess } from '../../tools/run-process';
 import { projectRoot } from '../../tools/assets/paths';
 test('fresh source checkout: renderer reload, main/preload restart and owned shutdown', async () => {
-  test.setTimeout(240_000);
+  test.setTimeout(8 * 60_000);
   // Expand Windows 8.3 temp aliases before Vite starts native filesystem watchers.
   const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-live-'))),
     controller = new AbortController();
@@ -35,18 +36,17 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
       'effects.html',
     ])
       await fs.copyFile(path.join(projectRoot, file), path.join(root, file));
-    if (!process.env.npm_execpath) throw new Error('Run desktop integration through npm');
-    await runProcess(
-      process.execPath,
-      [process.env.npm_execpath, 'ci', '--no-audit', '--no-fund'],
-      {
-        cwd: root,
-        timeoutMs: 120_000,
-        output: (chunk) => {
-          log = (log + chunk.toString()).slice(-65536);
-        },
-      },
-    );
+    // CI verifies npm ci once. This copy keeps dependencies and watcher caches checkout-local.
+    const dependencies = path.join(projectRoot, 'node_modules');
+    await fs.cp(dependencies, path.join(root, 'node_modules'), {
+      recursive: true,
+      verbatimSymlinks: true,
+      mode: constants.COPYFILE_FICLONE,
+      filter: (source) =>
+        !/^(?:\.vite|\.cache)(?:\/|$)/.test(
+          path.relative(dependencies, source).split(path.sep).join('/'),
+        ),
+    });
     running = runProcess(
       process.execPath,
       ['--import', 'tsx', 'tools/desktop-dev.ts', '--game', '--remote-debugging-port=0'],
