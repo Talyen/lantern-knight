@@ -43,8 +43,9 @@ export async function selectTestFiles(args: string[], root = projectRoot, group 
 async function main() {
   const args = process.argv.slice(2);
   const assets = args.includes('--assets'),
-    watch = args.includes('--watch');
-  const requested = args.filter((arg) => arg !== '--assets' && arg !== '--watch');
+    watch = args.includes('--watch'),
+    verbose = args.includes('--verbose');
+  const requested = args.filter((arg) => !['--assets', '--watch', '--verbose'].includes(arg));
   const files = await selectTestFiles(requested, projectRoot, assets ? 'assets' : 'unit');
   const workspace = assets ? await openWorkspace('pinned', 'authoring') : undefined;
   try {
@@ -55,6 +56,7 @@ async function main() {
         'tsx',
         '--test',
         '--test-concurrency=2',
+        '--test-reporter=' + (watch || verbose ? 'spec' : './tools/test-reporter.ts'),
         ...(watch ? ['--watch'] : []),
         ...files,
       ],

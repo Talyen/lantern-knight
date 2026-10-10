@@ -24,6 +24,14 @@ For documentation edits, run `npm run docs:check` as well. Verify behavior claim
 
 [Verification](verification.md) owns test tiers and CI. [Architecture](architecture.md) explains behavior owners. [Assets](assets.md) owns preparing and sharing artwork. Use the [scene editor](developer-tools.md#scene-editor) for composition; design advice does not block valid experiments.
 
+## Agent context
+
+Read the relevant [owner](architecture.md#owners), guide section and matching skill before expanding discovery. Use scoped searches such as `rg -n 'parseGame' src/core tests/unit` or `rg --files src/editor tests/browser`; open the matching code and consequential callers. Expand to other owners when the dependency requires it. Avoid loading every guide, skill or whole source directory at startup.
+
+Default ripgrep discovery excludes dependency locks and bulk asset metadata through [.rgignore](../.rgignore), in addition to Git's ignored outputs. Explicit paths still work: `rg -n 'sha256' assets/lock.json`. Use `rg --no-ignore <pattern> <exact-file>` when investigating excluded metadata; keep the search bounded. Use `npm run assets:inspect -- <asset-id>` for asset details.
+
+`npm test` prints totals, failures, skips, TODOs and process diagnostics, omitting individual passing cases. Use `npm test -- --verbose tests/unit/hero-actions.test.ts` when passing-case detail helps; watch mode retains that detail. `npm run check` already summarizes successful phases. Read a failure before repeating a command, and reuse unchanged discovery within the task. Required checks still run fresh after edits stabilize.
+
 ## Review and collaboration
 
 Runtime owners live in `src/core/`, `src/content/`, `src/assets/`, `src/presentation/` and `src/platform/`. Shared application and DOM helpers stay at the `src/` root. Developer screens keep their entry point and screen-specific helpers together in `src/editor/` and `src/sandbox/`; their root HTML pages load each folder's `main.ts`. The former Effects page redirects to Sandbox. Authored inputs live in `authoring/`, asset delivery recipes and pins in `assets/`, and preserved visual references in `references/`.

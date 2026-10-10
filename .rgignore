@@ -1,2 +1,4 @@
-# Machine-maintained dependencies; explicit rg package-lock.json remains available.
+# Bulk metadata is available through explicit paths or rg --no-ignore.
 /package-lock.json
+/assets/lock.json
+/assets/sources.json

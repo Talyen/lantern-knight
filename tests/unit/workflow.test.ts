@@ -3,12 +3,68 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
+import { spawnSync } from 'node:child_process';
 import { selectTestFiles, ciDefaultSuites } from '../../tools/test';
 import { coverageFor } from '../../tools/coverage-policy';
 const requiresDesktop = (files: readonly string[]) => coverageFor(files).desktop;
 const requiresAuthoring = (files: readonly string[]) => coverageFor(files).authoring;
 import { browserSelection } from '../../tools/browser-tests';
 import { checkAssets } from '../../tools/check-assets';
+test('concise test output preserves failures, skips, TODOs and process diagnostics', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-reporter-'));
+  const file = path.join(root, 'reporter.test.mjs');
+  try {
+    await fs.writeFile(
+      file,
+      `import test from 'node:test';
+import assert from 'node:assert/strict';
+console.log('stdout-marker');
+console.error('stderr-marker');
+test('passing suite', async t => { await t.test('passing leaf', () => {}); });
+test('skipped leaf', { skip: 'fixture skip' }, () => {});
+test('todo leaf', { todo: 'fixture todo' }, () => {});
+if (process.env.LANTERN_REPORTER_FAILURE === '1')
+  test('broken suite', async t => {
+    await t.test('broken leaf', () => assert.equal(1, 2, 'failure-marker'));
+  });
+`,
+    );
+    const env = { ...process.env };
+    delete env.NODE_TEST_CONTEXT;
+    for (const failure of [false, true]) {
+      const result = spawnSync(
+        process.execPath,
+        [
+          '--import',
+          import.meta.resolve('tsx'),
+          '--test',
+          '--test-reporter=./tools/test-reporter.ts',
+          file,
+        ],
+        {
+          encoding: 'utf8',
+          env: { ...env, LANTERN_REPORTER_FAILURE: failure ? '1' : '0' },
+          timeout: 10000,
+        },
+      );
+      const output = result.stdout + result.stderr;
+      assert.equal(result.status, failure ? 1 : 0, output);
+      assert.doesNotMatch(output, /passing (suite|leaf)/);
+      for (const marker of ['stdout-marker', 'stderr-marker', 'fixture skip', 'fixture todo'])
+        assert.ok(output.includes(marker), output);
+      assert.match(output, /ℹ skipped 1/);
+      assert.match(output, /ℹ todo 1/);
+      if (failure) {
+        assert.match(output, /broken leaf/);
+        assert.match(output, /failure-marker/);
+        assert.match(output, /reporter\.test\.mjs:\d+/);
+        assert.match(output, /ℹ fail [1-9]/);
+      } else assert.match(output, /ℹ fail 0/);
+    }
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
 test('fast defaults, full coverage and explicit paths cannot silently lose CI suites', async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-selection-'));
   try {

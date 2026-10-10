@@ -24,6 +24,8 @@ After `npm run build`, `npm run test:browser -- game --built` verifies Game agai
 
 `npm run test:desktop` consumes a Game package and tests the actual executable, bundled identity, real controls and storage restart. The live-development fixture copies sources and installed dependencies into an isolated checkout, excluding generated dependency caches; CI verifies fresh installation once before these tests. Native results apply to the platform exercised. Browser results do not certify desktop integration or visible reference-hardware pacing.
 
+Non-watch test commands omit individual passing cases while streaming summaries, failure details, skips, TODOs, stdout and stderr through Node's spec reporter. `--verbose` restores passing-case output; watch mode always includes it. Reporting does not change suite selection or failure exit status.
+
 ## Test value
 
 Write and retain only high-value tests: detecting a plausible, significant failure must justify the effort to write and maintain the test and the time to run it, including setup. This applies across gameplay, saves, rendering, assets, tooling and delivery. There is no test-count quota or line-coverage target.

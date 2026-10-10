@@ -1,32 +1,27 @@
 # Agent workflow
 
-Prototype iteration is the default. Preserve unrelated edits. Use isolated worktrees for independent/concurrent work, with an intended common baseline and clear ownership. Small sequential edits need no task registration or evidence database. [Development](docs/development.md) owns the normal loop.
+Prototype iteration is the default. Preserve unrelated edits. Follow [Development](docs/development.md); small sequential edits need no task registry or evidence database.
 
-Before concurrent editing, verify the task's checkout with `git rev-parse --show-toplevel` and `git worktree list`; use a distinct worktree rather than sharing the primary checkout. Keep implementation and checks independent. Coordinate only for concrete dependencies, overlapping scope, shared contracts or final integration. One owner at a time integrates into local `main`; [task coordination](docs/task-coordination.md) owns the handoff.
+Before independent/concurrent editing, verify `git rev-parse --show-toplevel` and `git worktree list`, then use a distinct worktree with an intended common baseline and clear ownership. Keep implementation and checks independent. Coordinate for concrete dependencies, overlapping scope, shared contracts or integration; resource locks handle routine contention. Task-relevant messages to other Codex chats are authorized; external messages, pushes, publication and deletion are not.
 
-The user authorizes task-relevant messages to other Codex chats. This permission does not require routine progress broadcasts or repeated editing-status inquiries, and does not authorize external messages, pushes, publication or deletion. Use resource locks for routine contention; message only when a concrete problem needs another owner's action.
+Finish with fresh `npm run check`; also run `npm run docs:check` for prose edits. Retain only [high-value tests](docs/verification.md#test-value), allowing zero new tests. Slow/integration checks default to CI; targeted local validation is allowed. Changed browser interactions need appropriate CI coverage. [Verification](docs/verification.md) owns asset/native/milestone checks. Capture explicit visual investigations and report actual coverage; local checks establish neither hosted CI nor visible approval.
 
-Finish ordinary work with fresh `npm run check`. Write or retain only high-value tests under [test value](docs/verification.md#test-value); zero new tests can be appropriate. Fast suites are the local default; slow/integration checks run in CI by default, with targeted local diagnosis or validation allowed. Changed browser interactions need appropriate CI coverage and an accurate report of whether it ran. Assets, native integration and milestone delivery have separate checks in [verification](docs/verification.md). Capture for explicit visual investigations. Report actual evidence; local checks do not establish hosted CI or visible approval.
+One owner integrates into local `main` and commits reviewed/verified task-owned changes under [handoff and commits](docs/task-coordination.md#handoff-and-commits). Preserve other owners' work; report the hash and integration status. Push only when requested.
 
-Integrate task-owned work into local `main`, commit reviewed/verified changes under [handoff and commits](docs/task-coordination.md#handoff-and-commits), and report the hash and integration status. Push only when requested.
+# Context and discovery
 
-# Artwork and scenes
+Start with the relevant owner in [Architecture](docs/architecture.md#owners) or [README's guide index](README.md#documentation); read only the matching sections and skills. Search the owner's directory with `rg -n` or list paths with `rg --files` before opening files. Follow symbols and callers as needed. [Development](docs/development.md#agent-context) owns search/output details. Reuse unchanged findings within the task; refresh changed inputs and final verification.
 
-Before artwork/texture generation, editing, replacement or art direction, apply `lantern-art-direction` at `/Users/ryanmcintire/.codex/skills/lantern-art-direction/SKILL.md`. Include the canonical `references/canon/clean-ink-style.prompt.txt` block, highest native resolution/quality and literal `gpt-image-2.5 sunburst` in every generation prompt. Provenance: [style sources](references/canon/clean-ink-style-sources.md). Inspect outputs; reject boiled, grainy, mottled or photographic surfaces. Preserve original sources and canonical hero artwork; noisy concepts are not style references.
+# Artwork and assets
 
-Prototype scene guidance follows [scene policy](docs/scene-design.md) and [lantern-scene-design](.agents/skills/lantern-scene-design/SKILL.md): prefer flat stages, intact illustrated shells and registered ground panels. Design preferences are advice; valid experiments can differ. Rendering carriers, hidden collision and shadow proxies remain supported.
+Before artwork/texture generation, editing, replacement or art direction, apply `lantern-art-direction` at `/Users/ryanmcintire/.codex/skills/lantern-art-direction/SKILL.md`. Every generation prompt includes the canonical `references/canon/clean-ink-style.prompt.txt` block, highest native resolution/quality and literal `gpt-image-2.5 sunburst`. [Provenance](references/canon/clean-ink-style-sources.md). Inspect outputs; reject boiled, grainy, mottled or photographic surfaces. Preserve original sources and canonical hero artwork; noisy concepts are not style references.
 
-# Repository boundaries
+For production composition, follow [scene policy](docs/scene-design.md) and [lantern-scene-design](.agents/skills/lantern-scene-design/SKILL.md): prefer flat stages, intact illustrated shells and registered ground panels. Design advice permits valid experiments; rendering carriers, hidden collision and shadow proxies remain supported.
 
-- Owners: core simulation/save/input; content gameplay/scenes; presentation rendering/effects; asset tools preparation/delivery/cache.
-- Keep code, focused tests, small recipes and current docs in Git. Generated packs/catalogs, staging, captures, logs and historical output stay outside Git.
-- Ordinary code/CI consumes `assets/lock.json`; do not crawl the source library, cache, dependency lockfile or generated packs for context. Use `npm run assets:inspect -- <asset-id>` for bounded details.
-- Asset prototypes use source-verified `npm run assets:prepare -- --ids <asset-id>`. Builds/CI never regenerate artwork. Publication/pinning through `npm run assets:publish` is explicit delivery. Preserve the existing pin until that operation; the external cache retains its 4 GiB limit and active leases.
+Keep code, focused tests, small recipes and current docs in Git; generated packs/catalogs, staging, captures, logs and history stay outside Git. Ordinary code/CI consumes `assets/lock.json`; do not crawl the source library, cache, dependency lockfile or generated packs for context. Use `npm run assets:inspect -- <asset-id>` for bounded details.
 
-# Skill routing
+Asset prototypes use source-verified `npm run assets:prepare -- --ids <asset-id>`. Builds/CI never regenerate artwork. `npm run assets:publish` requires explicit delivery authorization; preserve the pin until then. The external cache retains its 4 GiB limit and active leases.
 
-Select local skills automatically when the task matches their descriptions; no slash command or skill-name mention is required. Apply only the relevant workflow within the requested scope.
+# Skills
 
-Use [architect](.agents/skills/architect/SKILL.md) for changed shared contracts, [run-audits](.agents/skills/run-audits/SKILL.md) for requested [audits](docs/audits/README.md), and [scene guidance](.agents/skills/lantern-scene-design/SKILL.md) for composition. [Routing](.agents/skills/README.md) describes applicability.
-
-Use [frontend-design](.agents/skills/frontend-design/SKILL.md) for menus, HUD, and developer interface design; preserve existing art direction and scene guidance.
+Apply matching [local skills](.agents/skills/README.md) automatically within scope: `architect` for changed shared contracts, `run-audits` for requested audits, `frontend-design` for menus/HUD/developer interfaces, and scene guidance for production composition. Preserve existing art direction.

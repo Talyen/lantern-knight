@@ -36,6 +36,7 @@
     "tools/build.ts",
     "tools/package.ts",
     "tools/diagnostics.ts",
+    "tools/test-reporter.ts",
     "playwright.config.ts"
   ],
   "project": [
