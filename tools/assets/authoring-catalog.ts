@@ -1,8 +1,9 @@
 import { assetCatalog, authoringBaseCatalog } from '../../src/content/asset-catalog';
 import { readAsset } from './io';
-import { safeRelative } from './paths';
+
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { safeRelative } from './files';
 export async function readAuthoringCatalog(
   publicDirectory?: string,
   options: { includeDeveloperAssets?: boolean } = {},

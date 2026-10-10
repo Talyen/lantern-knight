@@ -7,7 +7,7 @@ import { pipeline } from 'node:stream/promises';
 import { z } from 'zod';
 import * as tar from 'tar';
 import { AssetCache, diskBytes } from './cache';
-import { projectRoot, safeRelative, CACHE_LIMIT } from './paths';
+import { projectRoot, CACHE_LIMIT } from './paths';
 import { shaFile } from './sources';
 import { verifiedOutput } from '../verified-files';
 
@@ -116,7 +116,7 @@ export const lockFile = path.join(projectRoot, 'assets/lock.json');
 export const readLock = async (
   read = (name: string) => fs.readFile(path.join(projectRoot, name)),
 ) => LockSchema.parse(JSON.parse((await read('assets/lock.json')).toString()));
-import { listFiles } from './files';
+import { safeRelative, listFiles } from './files';
 export async function validatePack(root: string, lock: AssetLock) {
   const inventory = await fs.readFile(path.join(root, 'pack.json'));
   if (createHash('sha256').update(inventory).digest('hex') !== lock.inventorySha256)

@@ -4,7 +4,8 @@ import { createInterface } from 'node:readline';
 import { createHash } from 'node:crypto';
 import { createReadStream } from 'node:fs';
 import fs from 'node:fs/promises';
-import { projectRoot, sourceLibrary, safeRelative } from './paths';
+import { safeRelative } from './files';
+import { projectRoot, sourceLibrary } from './paths';
 const indexPath = path.join(projectRoot, 'assets/sources.json');
 export async function shaFile(file: string) {
   const hash = createHash('sha256');

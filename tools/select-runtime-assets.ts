@@ -2,12 +2,12 @@ import type { BuildProfile } from './build-profile';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
+import { safeRelative } from './assets/files';
 import { parseManifest } from '../src/assets/schema';
 import { playgroundCatalog } from '../src/content/effects-playground-assets';
 import { loadingVideoPath } from '../src/content/loading-media';
 import { readAuthoringCatalog } from './assets/authoring-catalog';
 import { gameAssetCatalog } from '../src/content/asset-catalog';
-import { safeRelative } from './assets/paths';
 
 export type SelectedFiles = { files: string[]; generated: Record<string, string>; bytes: number };
 export async function selectedFiles(

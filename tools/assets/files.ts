@@ -1,6 +1,16 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { safeRelative } from './paths';
+
+export function safeRelative(file: string) {
+  if (
+    !file ||
+    file.includes('\\') ||
+    path.posix.isAbsolute(file) ||
+    file.split('/').some((p) => !p || p === '.' || p === '..' || p.includes(':'))
+  )
+    throw new Error(`Unsafe asset path: ${file}`);
+  return file;
+}
 
 export async function exactSource(relative: string, base: string) {
   safeRelative(relative);

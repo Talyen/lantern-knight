@@ -1,7 +1,8 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
-import { safeRelative } from './paths';
+import { safeRelative } from './files';
+
 import { shaFile, readLibrarySource } from './sources';
 import { verifiedOutput } from '../verified-files';
 

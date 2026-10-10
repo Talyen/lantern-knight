@@ -2,9 +2,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import * as tar from 'tar';
 import { ArchiveLockSchema } from './pack';
-import { safeRelative } from './paths';
+
 import { shaFile } from './sources';
-import { listFiles } from './files';
+import { safeRelative, listFiles } from './files';
 export async function makeArchive(root: string, file: string, recipeSha256: string) {
   const names = (await listFiles(root)).filter((n) => n !== 'pack.json'),
     files: Record<string, { sha256: string; bytes: number }> = {};

@@ -1,12 +1,13 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
+import { safeRelative } from './files';
 
 import { playgroundCatalog } from '../../src/content/effects-playground-assets';
 import { parseManifest } from '../../src/assets/schema';
 import { parseRegistration } from '../../src/assets/registration';
 import { readAuthoringCatalog } from './authoring-catalog';
-import { safeRelative } from './paths';
+
 import { loadingVideoPath } from '../../src/content/loading-media';
 
 export async function stagePayload(sourcePublic: string, staging: string, destination: string) {

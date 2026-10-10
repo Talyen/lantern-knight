@@ -2,7 +2,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { randomUUID } from 'node:crypto';
-import { cacheRoot, CACHE_LIMIT, safeRelative, projectRoot } from './paths';
+import { safeRelative } from './files';
+import { cacheRoot, CACHE_LIMIT, projectRoot } from './paths';
 
 type Owner = { pid: number; host: string };
 const owner = (): Owner => ({ pid: process.pid, host: os.hostname() });

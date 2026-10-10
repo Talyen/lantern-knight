@@ -2,12 +2,12 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { randomUUID } from 'node:crypto';
-import { projectRoot, safeRelative, sourceLibrary } from './paths';
+import { projectRoot, sourceLibrary } from './paths';
 import { readLibrarySource as libraryRead, sourceGroup } from './sources';
 import { compile as compileAtlas } from '../compiler';
 import type { Manifest } from '../../src/assets/schema';
 import { runProcess as invokeProcess } from '../run-process';
-import { exactSource as readExactSource } from './files';
+import { safeRelative, exactSource as readExactSource } from './files';
 
 export type PreparationOptions = {
   workspace: string;

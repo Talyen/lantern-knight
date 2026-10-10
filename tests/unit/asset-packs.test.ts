@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { createHash } from 'node:crypto';
+import { safeRelative } from '../../tools/assets/files';
 import * as tar from 'tar';
 import { AssetCache, diskBytes } from '../../tools/assets/cache';
 import {
@@ -16,7 +17,6 @@ import {
 } from '../../tools/assets/pack';
 import { makeArchive } from '../../tools/assets/archive';
 
-import { safeRelative } from '../../tools/assets/paths';
 import { projectRoot } from '../../tools/assets/paths';
 import { prototypeAssets } from '../../tools/assets/preview';
 

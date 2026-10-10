@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
+import { safeRelative } from './files';
 import {
   LockSchema,
   validatePack,
@@ -15,7 +16,7 @@ import { makeArchive } from './archive';
 import { AssetCache } from './cache';
 import { diskBytes } from './cache';
 import type { PreparedAssets } from './prepare';
-import { safeRelative } from './paths';
+
 import { selectedFiles } from '../select-runtime-assets';
 export type AssetScope = 'runtime' | 'authoring';
 

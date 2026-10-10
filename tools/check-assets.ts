@@ -9,9 +9,10 @@ import {
 } from '../src/assets/camera-calibration';
 import fs from 'node:fs/promises';
 import { parseRegistration } from '../src/assets/registration';
-import { projectRoot, safeRelative } from './assets/paths';
+import { projectRoot } from './assets/paths';
 import { openWorkspace, type AssetWorkspace } from './assets/workspace';
 import { fileURLToPath } from 'node:url';
+import { safeRelative } from './assets/files';
 import { hash } from './compiler';
 import { loadingVideoPath } from '../src/content/loading-media';
 import { validateLoadingVideo } from './assets/loading-media';

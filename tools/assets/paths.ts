@@ -2,6 +2,7 @@ import path from 'node:path';
 import os from 'node:os';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { safeRelative } from './files';
 
 export const projectRoot = fileURLToPath(new URL('../../', import.meta.url));
 export const CACHE_LIMIT = 4 * 1024 ** 3;
@@ -13,16 +14,6 @@ export function cacheRoot() {
         ? (process.env.LOCALAPPDATA ?? path.join(os.homedir(), 'AppData', 'Local'))
         : (process.env.XDG_CACHE_HOME ?? path.join(os.homedir(), '.cache'));
   return path.resolve(process.env.LANTERN_CACHE_ROOT ?? path.join(base, 'LanternKnight'));
-}
-export function safeRelative(file: string) {
-  if (
-    !file ||
-    file.includes('\\') ||
-    path.posix.isAbsolute(file) ||
-    file.split('/').some((p) => !p || p === '.' || p === '..' || p.includes(':'))
-  )
-    throw new Error(`Unsafe asset path: ${file}`);
-  return file;
 }
 function assetRoot() {
   if (process.env.LANTERN_ASSET_WORKSPACE) return path.resolve(process.env.LANTERN_ASSET_WORKSPACE);

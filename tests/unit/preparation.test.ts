@@ -34,6 +34,13 @@ test('preparation reuse invalidates registration, source-index and lighting-owne
       preparationStepKey(step('assets/prepare/prepare-loading-media.ts'), changed, digests),
     );
   }
+  const confined = { ...inputs, 'tools/assets/files.ts': 'changed' };
+  for (const operation of preparationSteps)
+    assert.notEqual(
+      preparationStepKey(operation, inputs, digests),
+      preparationStepKey(operation, confined, digests),
+      `${operation.file} must invalidate changed source confinement`,
+    );
 });
 
 test('full and scoped preparation run producers before consumers, including flat-stage relief inputs', () => {

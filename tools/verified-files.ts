@@ -1,7 +1,8 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { safeRelative } from './assets/paths';
+import { safeRelative } from './assets/files';
+
 import { shaFile } from './assets/sources';
 
 // A successful hash check is reusable only while every file's identity and metadata match.

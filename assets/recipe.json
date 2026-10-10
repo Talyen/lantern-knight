@@ -299,6 +299,7 @@
     "src/assets/registration.ts",
     "src/assets/schema.ts",
     "tools/assets/definition.ts",
+    "tools/assets/files.ts",
     "tools/assets/io.ts",
     "tools/assets/resolver.py",
     "tools/assets/source.py",

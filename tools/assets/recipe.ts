@@ -1,9 +1,10 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
+import { safeRelative } from './files';
 import { z } from 'zod';
 import recipe from '../../assets/recipe.json';
-import { projectRoot, safeRelative } from './paths';
+import { projectRoot } from './paths';
 const RecipeSchema = z
   .object({
     schemaVersion: z.literal(1),
