@@ -40,10 +40,31 @@ Session storage remembers each fixture's experiments, preview position/camera/pa
 
 ## Checks and diagnostics
 
-For hero stride review, open Inspect → Hero movement review. Travel speed changes only the current preview hero; run cadence and Game tuning stay fixed. Replay an out-and-back stride, all eight headings, or movement into the fixture boundary. Stop, Restart, switching fixtures or opening animation review cancels the replay. Choose Selected to restore the chosen 3 m/s; Original retains the former 1.8 m/s comparison. Reloading restores the default speed. These short-lived experiments are not saved in player checkpoints.
+### Hero movement review
 
-Inspect → Sweep review shows the selected Sword Finisher 03 and Contact Shear defaults. The native crescent is uniformly scaled per facing and uses camera-correct pre-painted views; no curve deformation is used. Sweep reach is 2.15 m with a 180° sector; lunge keeps its own reach and angle. Blue guides show the actual ground hit area, and gold guides show the same boundary at the effect midpoint. Five numbered probes test near, inside range, outside range, inside angle and outside angle; accepted hits turn their rings gold. The replay begins with a miss, then repeats boundary strikes. Restart restores normal fixture actors. Timing defaults to Quick and offers the original 300/900 ms baseline plus Snap (200/700 ms), Weight (250/800 ms) and Quick (167/600 ms); numbers are first damage / total duration. Optional preview actor overrides change actual gameplay timing, cel holds, notifies and native effect playback together, taking effect at the next available action. The 100 ms damage window, area, amount and Contact Shear remain unchanged. Single enemy mode provides an uncluttered timing comparison. Down-right recovery defaults to replacing only the final drawing with the canonical idle frame, removing the thin ending pose and its size snap. The original penultimate pose is preserved. Original and clean-settle alternatives remain available for comparison. This reuses native artwork and preserves the action duration and damage beats. The overrides reset on reload and are excluded from checkpoints; Game and Dev Preview share the selected Quick timing and canonical-final-pose defaults. Contact Shear is shared runtime feedback for every positive damage event, including hero sword/lantern attacks and enemies damaging the hero. Stop, Restart, fixture changes and dedicated animation review clear transient feedback.
+Open Inspect → Hero movement review. Travel speed changes only the current preview hero; run cadence and Game tuning stay fixed. Replay an out-and-back stride, all eight headings, or movement into the fixture boundary. Stop, Restart, switching fixtures or opening animation review cancels the replay. Choose Selected for the current 3 m/s or Original for the former 1.8 m/s. Reloading restores the default speed; these experiments are excluded from checkpoints.
+
+### Sweep review
+
+Open Inspect → Sweep review to compare the selected Sword Finisher 03 and Contact Shear feedback. The crescent uses camera-correct pre-painted views and uniform scale per facing. Sweep defaults to 2.15 m reach and a 180° sector; lunge keeps its own reach and angle.
+
+Enable Hit area guides to show the ground boundary in blue and the same boundary at the effect midpoint in gold. The replay begins with a miss, then repeats five numbered probes: near, inside range, outside range, inside angle and outside angle. Accepted hits turn their rings gold. Single enemy mode provides an uncluttered timing comparison. Stop returns control; Restart restores normal fixture actors.
+
+Timing choices share the 100 ms damage window, hit area, damage amount and Contact Shear:
+
+| Preset | First damage | Total duration |
+| --- | --- | --- |
+| Baseline | 300 ms | 900 ms |
+| Snap | 200 ms | 700 ms |
+| Weight | 250 ms | 800 ms |
+| Quick (default) | 167 ms | 600 ms |
+
+Timing overrides change simulation, cel holds, notifies and effect playback together at the next available action. Down-right recovery defaults to Canonical final pose: replace only the final drawing with the canonical idle frame while preserving the penultimate pose, action duration and damage beats. Original ending and Clean settle to idle remain available for comparison.
+
+Game and Dev Preview share the Quick timing and Canonical final pose defaults. Preview overrides reset on reload and are excluded from checkpoints. Contact Shear appears for every positive damage event, including hero sword/lantern attacks and incoming enemy damage. Stop, Restart, fixture changes and dedicated animation review clear transient feedback.
+
+### Automated diagnostics
 
 CI runs `npm run test:browser -- editor` for authoring/history/recovery changes, `scene` for room presentation and preview interactions, and `effects` for remembered effect experiments and fixture switching. Use these locally for targeted diagnosis or validation. [Verification](verification.md#test-selection) owns selection and coverage.
 
-For explicit native investigations, `npm run benchmark -- scene`, `preferences` or `scenes` checks frozen frames, depth/focus protection, weather and settled resources. `npm run benchmark -- effects` checks rendered differences, baseline restoration, playback, resources and routing. Lighting smoke measures performance only with `--benchmark` or `--benchmark-only`; ordinary assertions have no benchmark waits. Use `--capture` for requested exports. [Performance comparisons](verification.md#performance-comparisons) explains evidence limits.
+For explicit native investigations, `npm run benchmark -- scene` checks fixture traversal, foreground/surround rendering, reload and settled resources. `scenes` checks fixture-specific weather and effects; `preferences` checks Game visual-setting persistence. Package prerequisites are listed in [diagnostics and measurements](verification.md#diagnostics-and-measurements). `npm run benchmark -- effects` checks rendered differences, baseline restoration, playback, resources and routing. Lighting smoke measures performance only with `--benchmark` or `--benchmark-only`; ordinary assertions have no benchmark waits. Use `--capture` for requested exports. [Performance comparisons](verification.md#performance-comparisons) explains evidence limits.

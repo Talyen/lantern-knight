@@ -15,7 +15,7 @@ Use the existing commands and comparison records in [verification](../../../docs
 - Confirm the intended work actually completes. Count failures, retries, and timeouts; verify output correctness rather than accepting fast rejection or a no-op as a gain.
 - Compare equivalent hardware, assets, settings, data, build profiles, sample duration, cache state, and foreground policy. Separate cold acquisition/startup from warm iteration, builds, packaging, and gameplay.
 - Identify the limiter using a separate profiling run. Do not include profiler overhead in reported timings. Check whether the measured gain is plausible given the changed work's share of total cost.
-- Inspect machine contention with available platform tools. Coordinate a stable window under [task coordination](../../../docs/task-coordination.md#concurrent-commands); never stop another owner's process. If contention remains, alternate conditions and disclose it.
+- Inspect machine contention with available platform tools. Let the [shared command lane](../../../docs/task-coordination.md#concurrent-commands) handle routine GPU contention; coordinate when a concrete resource problem needs another owner’s action. Never stop another owner’s process. If contention remains, alternate conditions and disclose it.
 - Normally take at least five samples per side, alternating baseline and candidate. Report units, count, median, range, and limiter. A difference within run-to-run noise is no measurable difference. An explicitly requested ballpark may use one sample, labeled as such, while still checking correctness and completed work.
 - Relate a microbenchmark to the path the player or developer waits on. Do not infer visible pacing from fewer submissions or hidden/software runs.
 

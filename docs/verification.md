@@ -16,7 +16,7 @@ Authored scenes are disposable content: gameplay and rendering regressions own t
 
 `npm run test:assets` runs `tests/assets/*.test.ts` against pinned prepared assets. Authored scene documents validate against authoring assets independently of Game selection. Python authoring/recovery fixtures belong to this tier. `npm run assets:check` validates current runtime manifests, references, pages and companion registration without source-library access or visual approval.
 
-`npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`. Game covers input, pause/focus and current checkpoints; scene covers independent outdoor/interior fixtures, reload and resource lifetime; editor covers authoring/history/recovery and protected save requests; effects covers dedicated-scene controls and switching back to independent scene fixtures. One preview session acquires assets and starts a server, or reuses a matching Vite server after checking checkout, asset identity and required scope. It closes only its own server and lease. CI uses pinned assets and its own server. Add `-- --ui` for continuous interactive iteration.
+`npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`. Game covers input, pause/focus and current checkpoints; scene covers independent outdoor/interior fixtures, reload and resource lifetime; editor covers authoring/history/recovery and protected save requests; effects covers dedicated-scene controls and switching back to independent scene fixtures. One preview session acquires assets and starts a server, or reuses a matching Vite server after checking checkout, asset identity and required scope. It closes only its own server and lease. CI uses pinned assets and its own server. Add `--ui` after the scenario for continuous interactive iteration, for example `npm run test:browser -- editor --ui`.
 
 After `npm run build`, `npm run test:browser -- game --built` verifies Game against the production web artifact with its recorded asset identity. It checks artifact bytes before starting a dedicated preview, without reopening the asset cache. Scene/editor/effects scenarios retain development previews because production Game excludes those views. Rebuild the web artifact after packaging before using `--built`.
 
@@ -42,7 +42,7 @@ Do not add retries to hide races, silently skip failures or weaken an invariant 
 
 ## Documentation checks
 
-`npm run docs:check` validates local Markdown links/anchors, current npm commands and repository file references. Feature guides link to the relevant workflow or contract owner. The checker does not establish that prose matches behavior.
+`npm run docs:check` validates local Markdown links/anchors, npm script names, repository file references and reachability of root/docs guides from README or AGENTS. It does not validate command arguments. Feature guides link to the relevant workflow or contract owner. The checker does not establish that prose matches behavior.
 
 ## E2E coverage and execution budgets
 
@@ -52,7 +52,14 @@ CI has generous hang timeouts. Local GPU tests and asset preparation share a sma
 
 ## Diagnostics and measurements
 
-`npm run benchmark -- game`, `lighting`, `animation`, `hero`, `sandbox`, `effects`, `preferences` or `scenes` runs an explicit native investigation against the relevant package. Use `--capture` only when visual evidence is wanted. Retained output remains external. Native framebuffer, motion and resource assertions remain available through these scenarios; routine checks do not generate galleries.
+Native diagnostics consume an already packaged application; they do not build it. Prepare the matching package on the host before running a scenario:
+
+| Scenarios after `npm run benchmark --` | Required package |
+| --- | --- |
+| `game`, `preferences` | Game: `npm run package` |
+| `sandbox` (alias `scene`), `lighting`, `animation`, `hero`, `effects`, `scenes` | Dev: `npm run package -- --dev` |
+
+Use `--local` on both packaging and the diagnostic when investigating a local asset preparation. `--visible` shows the native window; hidden/software runs do not establish visible pacing. Use `--capture` when visual evidence is wanted, or `--output /external/investigation` to retain results without requesting captures. Successful managed diagnostics normally discard their output; keep comparison records in an external directory. Native framebuffer, motion and resource assertions remain available through these scenarios; routine checks do not generate galleries.
 
 Initial goals are three seconds for warm preview updates and ten seconds for ordinary checks; correctness remains required.
 
@@ -60,8 +67,8 @@ Initial goals are three seconds for warm preview updates and ten seconds for ord
 
 Compare cold acquisition/startup separately from warm iteration, checks, builds and packaging. Use repeated equivalent samples; record hardware, assets, settings, sample duration, foreground/background policy and rendering quality. Count transferred bytes and repeated launches as well as elapsed time. Preserve needed baselines outside Git.
 
-`npm run benchmark -- sandbox --benchmark` records renderer measurements; `npm run benchmark -- compare <baseline.json> <candidate.json>` compares retained external records. Benchmarks require a package matching current desktop build inputs and the selected asset pin; records keep source and build identities separately. Harness-only edits do not require recompilation. Renderer calculation changes require native output and exact pixel parity. Fewer submissions alone do not prove better visible pacing.
+`npm run benchmark -- sandbox --benchmark --output /external/renderer-baseline` retains renderer measurements in that directory’s `benchmark.json`; `npm run benchmark -- compare <baseline.json> <candidate.json>` compares retained external records. Benchmarks require a package matching current desktop build inputs and the selected asset pin; records keep source and build identities separately. Harness-only edits do not require recompilation. Renderer calculation changes require native output and exact pixel parity. Fewer submissions alone do not prove better visible pacing.
 
 ## Packaged player journey measurements
 
-`npm run benchmark -- game --benchmark` exercises the actual Game package after explicit packaging. Preserve gameplay, animation timing, sound behavior and visual fidelity. Hidden/software runs do not certify 60 FPS on reference hardware or visible polish. See [Delivery](release.md) for packaging and [session replay](session-replay.md) for headless reproduction.
+`npm run benchmark -- game --benchmark` exercises movement, action inputs and checkpoint operations in the actual empty Game package after explicit packaging. It does not measure encounters, connected-area traversal or death/retry. Add representative authored gameplay before using it to support combat performance claims. Preserve gameplay, animation timing, sound behavior and visual fidelity. Hidden/software runs do not certify 60 FPS on reference hardware or visible polish. See [Delivery](release.md) for packaging and [session replay](session-replay.md) for headless reproduction.
