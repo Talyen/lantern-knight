@@ -2,6 +2,8 @@ import { test, expect } from './fixtures';
 import type {} from '../../src/inspection';
 for (const scene of ['outdoor-fixture', 'interior-fixture'])
   test(`scene ${scene}: readiness, reload and resource lifetime`, async ({ page }) => {
+    // Eight fixture switches plus reload exercise software rendering on CI.
+    test.setTimeout(180_000);
     await page.goto('/sandbox.html?scene=' + scene);
     await page.waitForFunction(() => window.foundation?.ready);
     expect(await page.evaluate(() => window.foundation.sim.area)).toBe(scene);
@@ -115,6 +117,8 @@ test('preview navigation preserves playback and isolates controls from gameplay'
 test('preview scene reset preserves experiments; settings reset and workspace reset are explicit', async ({
   page,
 }) => {
+  // This journey rebuilds the preview through several full-page resets.
+  test.setTimeout(180_000);
   await page.goto('/sandbox.html?scene=outdoor-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   await page.getByRole('button', { name: 'Visuals', exact: true }).click();
