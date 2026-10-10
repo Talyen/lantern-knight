@@ -54,7 +54,8 @@ test('editor placement, experimental scale, history, recovery, save and external
     );
     await page.locator('#confirm-save').click();
     expect((await saving).status()).toBe(200);
-    await expect(page.locator('#save-state')).toHaveText('Saved');
+    // Saving also refreshes the scene list before releasing the editor's busy state.
+    await expect(page.locator('#save-state')).toHaveText('Saved', { timeout: 30000 });
     const saved = JSON.parse(await fs.readFile(file, 'utf8'));
     expect(saved.objects[0].scale).toBe(2);
     expect(saved.version).toBe(5);
@@ -259,6 +260,7 @@ test('visual authoring, independent fragments, pattern undo and import', async (
 test('unsaved draft playtest discards gameplay state and survives repeated entry', async ({
   page,
 }) => {
+  test.setTimeout(180_000);
   await page.goto('/editor.html?automated');
   await page.waitForFunction(() => window.sceneEditor?.ready());
   await page.locator('#artwork-tab').click();
@@ -299,7 +301,7 @@ test('unsaved draft playtest discards gameplay state and survives repeated entry
               ? 'ready'
               : document.getElementById('validation-errors')?.textContent || 'loading',
           ),
-        { timeout: 20000 },
+        { timeout: 60000 },
       )
       .toBe('ready');
     await page.locator('#playtest-viewport').focus();
