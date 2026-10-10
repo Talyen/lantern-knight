@@ -32,6 +32,7 @@
     "lint": "tsx tools/lint.ts js",
     "format": "tsx tools/format.ts",
     "format:check": "tsx tools/format.ts --check",
+    "docs:read": "tsx tools/read-guide.ts",
     "docs:check": "tsx tools/check-docs.ts",
     "repo:check": "tsx tools/check-repository.ts",
     "architecture:check": "tsx tools/check-architecture.ts",

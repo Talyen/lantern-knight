@@ -2,58 +2,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { markdownHeadings, withoutComments, withoutFences } from './markdown';
 
-function withoutComments(text: string) {
-  return text.replace(/<!--[\s\S]*?-->/g, (match) => match.replace(/[^\n]/g, ' '));
-}
-function withoutFences(text: string) {
-  let fence: { character: string; length: number } | undefined;
-  return text
-    .split('\n')
-    .map((line) => {
-      const marker = /^\s{0,3}(`{3,}|~{3,})/.exec(line)?.[1];
-      if (fence) {
-        if (
-          marker &&
-          marker[0] === fence.character &&
-          marker.length >= fence.length &&
-          line.trim() === marker
-        )
-          fence = undefined;
-        return ' '.repeat(line.length);
-      }
-      if (marker) {
-        fence = { character: marker[0]!, length: marker.length };
-        return ' '.repeat(line.length);
-      }
-      return line;
-    })
-    .join('\n');
-}
-function headingAnchors(text: string) {
-  const anchors = new Set<string>(),
-    lines = withoutFences(withoutComments(text)).split('\n');
-  for (let index = 0; index < lines.length; index++) {
-    const line = lines[index]!,
-      heading =
-        /^\s{0,3}#{1,6}\s+(.+?)(?:\s+#+)?\s*$/.exec(line)?.[1] ??
-        (line.trim() && /^\s{0,3}(?:=+|-+)\s*$/.test(lines[index + 1] ?? '')
-          ? line.trim()
-          : undefined);
-    if (heading === undefined) continue;
-    const base = heading
-      .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
-      .replace(/<[^>]*>/g, '')
-      .toLowerCase()
-      .replace(/[^\p{L}\p{N}\p{M}_\-\s]/gu, '')
-      .replace(/\s/g, '-');
-    let anchor = base,
-      suffix = 0;
-    while (anchors.has(anchor)) anchor = base + '-' + ++suffix;
-    anchors.add(anchor);
-  }
-  return anchors;
-}
 const referenceKey = (label: string) => label.trim().replace(/\s+/g, ' ').toLowerCase();
 function markdownLinks(text: string) {
   const prose = withoutFences(text).replace(/(`+)[\s\S]*?\1/g, (match) =>
@@ -159,7 +109,12 @@ async function checkDocumentation(root: string, files: string[]) {
           edges.get(relativeFile)!.add(path.relative(root, resolved).split(path.sep).join('/'));
         if (fragment && /\.md$/i.test(resolved)) {
           if (!anchors.has(actual))
-            anchors.set(actual, headingAnchors(await fs.readFile(actual, 'utf8')));
+            anchors.set(
+              actual,
+              new Set(
+                markdownHeadings(await fs.readFile(actual, 'utf8')).map(({ anchor }) => anchor),
+              ),
+            );
           if (!anchors.get(actual)!.has(decodeURIComponent(fragment)))
             throw new Error('heading anchor does not exist');
         }
