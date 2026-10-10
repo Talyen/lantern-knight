@@ -7,6 +7,7 @@ import {
 } from '../assets/asset-browser';
 import { documentAssetRoots, usedAssetRoots } from '../content/asset-usage';
 import { editorError } from './errors';
+import { FrameScheduler } from '../frame-scheduler';
 import { DraftPlaytest } from './playtest';
 import { composeDraftGameplay, withGameplayDefaults } from '../content/draft-gameplay';
 import { contentDefinitions } from '../content/game-content';
@@ -58,6 +59,7 @@ declare global {
 }
 export function createEditorSession() {
   const lifetime = new AbortController();
+  const automated = new URLSearchParams(location.search).has('automated');
   let closed = false;
   function assertActive() {
     lifetime.signal.throwIfAborted();
@@ -1096,7 +1098,7 @@ export function createEditorSession() {
     'beforeunload',
     (e) => {
       recover();
-      if (dirty() && !new URLSearchParams(location.search).has('automated')) {
+      if (dirty() && !automated) {
         e.preventDefault();
         e.returnValue = '';
       }
@@ -1149,17 +1151,10 @@ export function createEditorSession() {
     resizeFrame = requestAnimationFrame(() => view?.resize());
   });
   resizeObserver.observe(canvas.parentElement!);
-  let last = 0,
-    frame = 0;
+  let last = 0;
+  let frames: FrameScheduler | undefined;
   function animate(time: number) {
-    frame = requestAnimationFrame(animate);
     if (!ready || busy) return;
-    if (
-      !new URLSearchParams(location.search).has('automated') &&
-      (document.hidden || !document.hasFocus()) &&
-      time - last < 1000
-    )
-      return;
     const ms = last ? Math.min(50, time - last) : 0;
     last = time;
     view.render(ms);
@@ -1185,7 +1180,7 @@ export function createEditorSession() {
     ready = false;
     lifetime.abort();
     workspace.dispose();
-    cancelAnimationFrame(frame);
+    frames?.dispose();
     cancelAnimationFrame(resizeFrame);
     observer.disconnect();
     resizeObserver.disconnect();
@@ -1360,7 +1355,7 @@ export function createEditorSession() {
     controls();
     ready = true;
     if ($('recovery').hidden) status('');
-    frame = requestAnimationFrame(animate);
+    frames = new FrameScheduler(animate, () => (last = 0), automated);
   }
   // Development-only inspection supports browser acceptance without exposing a player bridge.
   window.sceneEditor = {
