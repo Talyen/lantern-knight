@@ -104,7 +104,10 @@ async function developmentServer(
     target: 'development',
     scope: workspace.scope,
   };
-  const config = webConfig(workspace.publicDirectory, 'authoring');
+  const config = webConfig(
+    workspace.publicDirectory,
+    workspace.scope === 'authoring' ? 'authoring' : 'game',
+  );
   const server = await createServer({
     ...config,
     configFile: false,

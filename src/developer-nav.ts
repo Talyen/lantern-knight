@@ -1,4 +1,5 @@
-if (import.meta.env.DEV) {
+declare const __AUTHORING__: boolean;
+if (import.meta.env.DEV && __AUTHORING__) {
   const nav = document.createElement('nav');
   nav.ariaLabel = 'Developer tools';
   nav.style.cssText =

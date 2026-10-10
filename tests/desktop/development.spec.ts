@@ -76,10 +76,22 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
     await page.waitForFunction(
       () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
     );
+    expect(
+      (await (await page.request.get(new URL('/__lantern_identity', page.url()).href)).json())
+        .scope,
+    ).toBe('runtime');
+    expect(await page.evaluate(() => typeof window.lantern?.launchMode)).toBe('undefined');
+    await expect(page.locator('nav[aria-label="Developer tools"]')).toHaveCount(0);
     page.on('console', (message) => console.log('Development browser: ' + message.text()));
     console.log('Live Game ready');
     await page.locator('#pause').click();
     await page.locator('#render-scale').selectOption('0.5');
+    await page.evaluate(() => window.lantern!.loadSettings());
+    expect(
+      JSON.parse(
+        await fs.readFile(path.join(root, 'profile/preview/prototype-saves/settings.json'), 'utf8'),
+      ).renderScale,
+    ).toBe(0.5);
     const renderStarted = performance.now();
     await fs.appendFile(
       path.join(root, 'src/developer-nav.ts'),

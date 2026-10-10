@@ -43,7 +43,8 @@ const builders = [];
 try {
   for (const name of ['main', 'preload'] as const) {
     const builder = await context({
-      ...electronConfig(name, 'authoring'),
+      ...electronConfig(name, process.argv.includes('--game') ? 'game' : 'authoring'),
+      outfile: `dist-electron-dev/${name}.cjs`,
       plugins: [
         {
           name: 'restart-electron',

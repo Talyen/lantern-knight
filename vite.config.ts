@@ -6,6 +6,7 @@ export function webConfig(publicDirectory: string, profile: BuildProfile): UserC
   const authoring = profile === 'authoring';
   return {
     clearScreen: false,
+    define: { __AUTHORING__: String(authoring) },
     plugins: authoring
       ? [
           {

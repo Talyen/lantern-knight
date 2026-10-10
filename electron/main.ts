@@ -11,11 +11,12 @@ protocol.registerSchemesAsPrivileged([
     privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true },
   },
 ]);
-if (__DEV_APP__) app.setPath('userData', path.join(app.getPath('appData'), 'Lantern Knight Dev'));
+const developmentOrigin = app.isPackaged ? undefined : process.env.LANTERN_DEV_URL;
+const developer = __DEV_APP__ || !!developmentOrigin;
+if (developer) app.setPath('userData', path.join(app.getPath('appData'), 'Lantern Knight Dev'));
 if (process.env.LANTERN_USER_DATA)
   app.setPath('userData', path.resolve(process.env.LANTERN_USER_DATA)); // app-owned test harness only; never renderer-selected
 app.enableSandbox();
-const developmentOrigin = __DEV_APP__ ? process.env.LANTERN_DEV_URL : undefined;
 if (developmentOrigin) {
   const url = new URL(developmentOrigin);
   if (
@@ -64,7 +65,7 @@ app
             : 'game';
     const profileRoot = app.getPath('userData');
     const storeFor = (selected: 'game' | 'sandbox' | 'effects' | 'editor') =>
-      new Store(checkpointDirectory(profileRoot, __DEV_APP__, selected));
+      new Store(checkpointDirectory(profileRoot, developer, selected));
     let store = storeFor(mode);
     const entry = () => launchEntry(__DEV_APP__, mode);
     window = new BrowserWindow({
@@ -74,12 +75,9 @@ app
       focusable: !hiddenTest,
       enableLargerThanScreen: true,
       backgroundColor: '#151923',
-      title: __DEV_APP__ ? 'Lantern Knight Dev' : 'Lantern Knight',
+      title: developer ? 'Lantern Knight Dev' : 'Lantern Knight',
       webPreferences: {
-        preload: path.join(
-          applicationRoot,
-          __DEV_APP__ ? 'dist-electron-dev/preload.cjs' : 'dist-electron/preload.cjs',
-        ),
+        preload: path.join(__dirname, 'preload.cjs'),
         backgroundThrottling: !hiddenTest && !automatedRun,
         additionalArguments: automatedRun ? ['--lantern-automated-run'] : [],
         contextIsolation: true,

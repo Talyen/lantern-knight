@@ -38,7 +38,9 @@ async function main() {
     }
     console.log(session.origin);
     console.log(
-      'Game /index.html · Dev Preview /sandbox.html · Editor /editor.html · Effects /effects.html',
+      values.runtime
+        ? 'Game /index.html'
+        : 'Game /index.html · Dev Preview /sandbox.html · Editor /editor.html · Effects /effects.html',
     );
     if (session.ownsServer) await untilInterrupted();
   } finally {
