@@ -85,11 +85,11 @@ export class ResourcePool<T> {
     }
   }
 }
-export type PackLease = {
+export type AssetPack = {
   manifest: Manifest;
-  textures: Map<string, Texture>;
-  release: () => void;
+  textures: ReadonlyMap<string, Texture>;
 };
+export type PackLease = AssetPack & { release: () => void };
 export type PackBatch = {
   packs: ReadonlyMap<string, PackLease>;
   release: () => void;

@@ -27,7 +27,7 @@ import type { Simulation } from '../core/simulation';
 import type { RoomPresentation } from './room-presentation';
 import type { ActorPresentation } from './actor-presentation';
 import type { SceneVisualEffects } from './scene-visual-effects';
-import type { PackLease } from '../assets/loader';
+import type { AssetPack } from '../assets/loader';
 import type { WorldVisualDefinition } from '../content/world-visuals';
 import type { VisualEffects } from '../content/visual-effects';
 type LightingFrame = {
@@ -150,7 +150,7 @@ export class SceneLightingRenderer {
       renderer: T.WebGLRenderer;
       scene: T.Scene;
       camera: T.OrthographicCamera;
-      packs: Map<string, PackLease>;
+      packs: ReadonlyMap<string, AssetPack>;
     },
     private room: RoomPresentation,
     private actors: ActorPresentation,

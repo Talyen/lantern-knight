@@ -33,7 +33,7 @@ import {
 } from '../core/camera';
 import { resolveClip, type Clip } from '../assets/schema';
 import { frameAt, clipDuration } from '../core/animation';
-import type { PackLease } from '../assets/loader';
+import type { AssetPack } from '../assets/loader';
 import type { Simulation } from '../core/simulation';
 import { effectsArea, activeEffect, type PlaygroundSettings } from '../content/effects-playground';
 
@@ -91,7 +91,7 @@ export class EffectsPlayground {
   private disposed = false;
   constructor(
     readonly canvas: HTMLCanvasElement,
-    private packs: Map<string, PackLease>,
+    private packs: ReadonlyMap<string, AssetPack>,
     emitters: Record<string, number[]>,
   ) {
     this.renderer = new T.WebGLRenderer({ canvas, antialias: false });
@@ -301,7 +301,7 @@ export class EffectsPlayground {
     a.sprite.show(frameAt(a.clip, ms), a.foot, this.camera);
   }
   async prepare() {
-    await this.lighting.normals.load();
+    await this.lighting.normals.load(this.packs.keys());
     if (this.disposed) throw new Error('playground disposed');
     await this.renderer.compileAsync(this.scene, this.camera);
     if (this.disposed) throw new Error('playground disposed');

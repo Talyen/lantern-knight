@@ -34,7 +34,7 @@ export class NormalLibrary {
   private disposed = false;
   private inventory?: Promise<void>;
   private pending = Promise.resolve();
-  load(assets: Iterable<string> = []) {
+  load(assets: Iterable<string>) {
     const selected = [...assets];
     const operation = this.pending.then(() => this.loadSelected(selected));
     this.pending = operation.catch(() => {});
@@ -56,9 +56,7 @@ export class NormalLibrary {
     await this.inventory;
     if (this.disposed) return;
     const selected = new Set(assets),
-      wanted = Object.entries(this.entries).filter(
-        ([key]) => !key.startsWith('library-') || selected.has(key.split(':')[0]!),
-      ),
+      wanted = Object.entries(this.entries).filter(([key]) => selected.has(key.split(':')[0]!)),
       keep = new Set(wanted.map(([key]) => key)),
       missing = wanted.filter(([key]) => !this.textures.has(key)),
       acquired = new Map<string, T.Texture>();

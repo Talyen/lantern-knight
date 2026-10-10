@@ -123,7 +123,7 @@ export class AnimationBlendShader {
     manifest: Manifest,
     a: Frame,
     b: Frame,
-    textures: Map<string, Texture>,
+    textures: ReadonlyMap<string, Texture>,
     flow?: AnimationFlow,
     stabilized = true,
     rigidSword = true,

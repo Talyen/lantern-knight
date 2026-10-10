@@ -12,7 +12,7 @@ import { selectDirection, selectAuthoredDirection } from '../core/camera';
 import { clipDuration } from '../core/animation';
 import type { EventHub, GameplayEvent } from '../core/events';
 import type { Simulation } from '../core/simulation';
-import type { PackLease } from '../assets/loader';
+import type { AssetPack } from '../assets/loader';
 
 type ActiveEffect = {
   sprite: ActorSprite;
@@ -33,7 +33,7 @@ export class CombatFeedback {
   private castTag = '';
   private unsubscribe: () => void;
   constructor(
-    private packs: Map<string, PackLease>,
+    private packs: ReadonlyMap<string, AssetPack>,
     private camera: T.OrthographicCamera,
     events: EventHub,
   ) {

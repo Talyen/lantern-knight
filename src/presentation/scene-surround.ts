@@ -1,7 +1,7 @@
 import * as T from 'three';
 import { outward, right, up } from '../core/camera';
 import { resolveClip } from '../assets/schema';
-import type { PackLease } from '../assets/loader';
+import type { AssetPack } from '../assets/loader';
 import type { Point } from '../content/world';
 import type { SceneSurroundDefinition, SurroundLayer } from '../content/world-visuals';
 import { ActorSprite } from './sprite';
@@ -134,7 +134,7 @@ export class SceneSurround {
   private bands: Band[] = [];
   private anchor = new T.Vector3();
   private definition: SceneSurroundDefinition | undefined;
-  constructor(readonly packs: ReadonlyMap<string, PackLease>) {}
+  constructor(readonly packs: ReadonlyMap<string, AssetPack>) {}
   build(definition: SceneSurroundDefinition | undefined) {
     this.dispose();
     this.definition = definition;

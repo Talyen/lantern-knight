@@ -16,7 +16,7 @@ import { heightAt, surfaceGradient, type ActorId } from '../content/world';
 import { actorVisuals } from '../content/visuals';
 import type { AnimationEvent } from '../core/events';
 import type { Actor, Simulation } from '../core/simulation';
-import type { PackLease } from '../assets/loader';
+import type { AssetPack } from '../assets/loader';
 import type { PreparedRegistration } from '../assets/registration';
 import type { EventHub } from '../core/events';
 import type { WalkTiming } from '../core/locomotion-timing';
@@ -47,7 +47,7 @@ export class ActorPresentation {
   private planeNormal = new T.Vector3(0, 0, 1);
   constructor(
     private room: T.Group,
-    private packs: Map<string, PackLease>,
+    private packs: ReadonlyMap<string, AssetPack>,
     private camera: T.OrthographicCamera,
     private shadowTexture: T.CanvasTexture,
     private registration: PreparedRegistration,

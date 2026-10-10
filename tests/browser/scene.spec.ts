@@ -195,6 +195,9 @@ test('shared asset browser includes library enemies, separates poses and filters
     .poll(() => page.evaluate(() => window.foundation.presentation.labAsset), { timeout: 30_000 })
     .toBe('ink-stage-earth');
   await expect(page.locator('#clip optgroup[label="Still poses"] option')).toHaveCount(1);
+  expect(await page.evaluate(() => window.foundation.presentation.packs.has('library-ct01'))).toBe(
+    false,
+  );
   await page.locator('#asset-search').fill('library-loot_pickup');
   await expect(page.locator('#asset option')).toHaveCount(1);
   await page.locator('#asset').selectOption('library-loot_pickup');

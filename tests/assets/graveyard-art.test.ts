@@ -30,7 +30,7 @@ import { cardCoverage, coverageAt } from '../../src/presentation/scenery-reveal'
 import { pageIdentity } from '../../src/assets/loader';
 import { coplanarArtConflicts } from '../../src/presentation/carrier-validation';
 import { ActorSprite } from '../../src/presentation/sprite';
-import type { PackLease } from '../../src/assets/loader';
+import type { AssetPack } from '../../src/assets/loader';
 import { readRegistration } from '../../tools/assets/data';
 const coverage = readRegistration().coverage;
 const manifests = new Map(
@@ -42,13 +42,13 @@ const manifests = new Map(
   ]),
 );
 async function fixture() {
-  const packs = new Map<string, PackLease>();
+  const packs = new Map<string, AssetPack>();
   for (const id of sceneAssets(graveyardArt)) {
     const manifest = await manifests.get(id)!;
     packs.set(id, {
       manifest,
       textures: new Map(manifest.pages.map((p) => [p.id, new T.Texture()])),
-    } as PackLease);
+    } as AssetPack);
   }
   const room = new InkRoom(
     { ...content.area('court'), id: 'custom-authored-room' },

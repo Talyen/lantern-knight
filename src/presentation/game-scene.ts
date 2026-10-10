@@ -25,7 +25,7 @@ import {
 import type { Clip } from '../assets/schema';
 import { tuning } from '../content/gameplay';
 import { heightAt, type AreaDefinition } from '../content/world';
-import { pageIdentity, type PackLease } from '../assets/loader';
+import { pageIdentity, type AssetPack } from '../assets/loader';
 import { EventHub } from '../core/events';
 import type { Actor, Simulation } from '../core/simulation';
 import {
@@ -80,7 +80,7 @@ export class GamePresentation implements PresentationLifecycle {
   }
   constructor(
     public canvas: HTMLCanvasElement,
-    public packs: Map<string, PackLease>,
+    public packs: ReadonlyMap<string, AssetPack>,
     public events: EventHub,
     initialArea: AreaDefinition,
     readonly registration: PreparedRegistration,
@@ -337,7 +337,7 @@ export class GamePresentation implements PresentationLifecycle {
     this.renderer.setSize(width * scale, height * scale, false);
     resizeCamera(this.camera, width, height, this.viewSpan);
   }
-  warmPack(pack: PackLease) {
+  warmPack(pack: AssetPack) {
     if (
       this.renderer.capabilities.maxTextureSize <
       Math.max(...pack.manifest.pages.map((p) => Math.max(p.width, p.height)))

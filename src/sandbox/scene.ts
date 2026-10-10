@@ -100,6 +100,17 @@ export function mountScene(
   function status(message: string, error = false) {
     if (!closed) shell.status(message, error);
   }
+  function selectAnimationAsset(id: string) {
+    return app.withLoading(async () => {
+      const accepted = await app.previewAsset(id, () => {
+        presentation.selectLabAsset(id);
+      });
+      if (!accepted || closed) return;
+      updateLabClips();
+      picker.selected(id);
+      savePreview();
+    });
+  }
   function syncLabZoom() {
     const percent = Math.round(presentation.labZoom * 100);
     $<HTMLInputElement>('#lab-zoom').value = String(percent);
@@ -290,13 +301,11 @@ export function mountScene(
     $('#walk-compare').onclick = () =>
       app.safe(() =>
         app.withLoading(async () => {
-          await app.loadAsset('ink-hero-current');
+          await selectAnimationAsset('ink-hero-current');
           if (closed) return;
           if (!presentation.animationFlow) await presentation.loadAnimationFlow();
           if (closed) return;
           $<HTMLInputElement>('#overlays').checked = false;
-          presentation.selectLabAsset('ink-hero-current');
-          picker.selected('ink-hero-current');
           presentation.labClip = 'walk';
           updateLabClips();
           presentation.labAnimator.start(presentation.getClip('walk', presentation.labHeading));
@@ -330,16 +339,7 @@ export function mountScene(
       app.runtime,
       lifetime.signal,
       () => app.sim.area,
-      async (id) => {
-        await app.withLoading(async () => {
-          await app.loadAsset(id);
-          if (closed) return;
-          presentation.selectLabAsset(id);
-          updateLabClips();
-          picker.selected(id);
-          savePreview();
-        });
-      },
+      selectAnimationAsset,
       context.ui.assetFilters,
     );
     updateLabClips();
@@ -482,10 +482,8 @@ export function mountScene(
       setMode(remembered.mode === 'lighting' ? 'encounter' : remembered.mode);
     }
     if (context.assetToPreview && context.assetToPreview in assetCatalog) {
-      await app.loadAsset(context.assetToPreview);
+      await selectAnimationAsset(context.assetToPreview);
       if (closed) return;
-      presentation.selectLabAsset(context.assetToPreview);
-      updateLabClips();
       context.ui.assetFilters.animated = animatedAsset(presentation.manifest);
       $<HTMLInputElement>('#asset-animated').checked = context.ui.assetFilters.animated;
       picker.selected(context.assetToPreview);
@@ -544,9 +542,8 @@ export function mountScene(
     if (!(value.asset in assetCatalog)) return;
     const metadata = await app.runtime.manifest(value.asset);
     if (closed || !Object.keys(metadata.asset.clips).length) return;
-    await app.loadAsset(value.asset);
+    await selectAnimationAsset(value.asset);
     if (closed) return;
-    presentation.selectLabAsset(value.asset);
     if (!presentation.manifest.asset.clips[value.clip]) return;
     presentation.labClip = value.clip;
     presentation.labHeading = value.heading;
@@ -933,7 +930,7 @@ export function mountScene(
     stopMovementReplay();
     stopSweepReplay();
     lightingReplay = false;
-    await app.loadAsset('ink-skeleton');
+    await app.retainAsset('ink-skeleton');
     returnSave ??= app.session.captureSave();
     const definitions = stress
       ? {

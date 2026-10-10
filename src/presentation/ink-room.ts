@@ -7,7 +7,7 @@ import { OcclusionFades } from './occlusion-fades';
 import { graveyardGroundMaterial } from './graveyard-ground';
 import { SceneryReveals } from './scenery-reveals';
 import { resolveClip, type Clip } from '../assets/schema';
-import type { PackLease } from '../assets/loader';
+import type { AssetPack } from '../assets/loader';
 import { type WorldVisualDefinition, type ArtPlacement } from '../content/world-visuals';
 import { heightAt, type AreaDefinition } from '../content/world';
 import { outward } from '../core/camera';
@@ -39,7 +39,7 @@ export class InkRoom {
   private gates: { sprite: ActorSprite; seal: ActorSprite; x: number; z: number }[] = [];
   constructor(
     readonly area: AreaDefinition,
-    private packs: Map<string, PackLease>,
+    private packs: ReadonlyMap<string, AssetPack>,
     private room: T.Group,
     private camera: T.OrthographicCamera,
     private shadowTexture: T.Texture | undefined,

@@ -7,6 +7,7 @@ import { content } from '../fixtures/content';
 import type { Bridge } from '../../src/core/save';
 import { Persistence } from '../../src/core/persistence';
 import { GameSession } from '../../src/core/session';
+import { manifestFixture } from '../fixtures/manifest';
 
 async function withDOM(work: () => Promise<void>) {
   const previous = new Map(
@@ -83,6 +84,70 @@ function fixture() {
     },
   };
 }
+test('preview replacement preserves shared session assets and rolls back failed selections', async () => {
+  await withDOM(async () => {
+    const { app } = fixture(),
+      released: PackLease[] = [],
+      loaded: PackLease[] = [];
+    app.runtime = runtime(async (id) => {
+      const pack: PackLease = {
+        manifest: manifestFixture(id),
+        textures: new Map(),
+        release: () => released.push(pack),
+      };
+      loaded.push(pack);
+      return pack;
+    });
+    await app.retainAsset('shared');
+    await app.previewAsset('shared', () => {
+      assert.equal(app.packs.get('shared'), loaded[1]);
+    });
+    await app.previewAsset('second', () => {});
+    assert.deepEqual([...app.packs.keys()], ['shared', 'second']);
+    assert.equal(app.packs.get('shared'), loaded[0]);
+    assert.deepEqual(released, [loaded[1]]);
+    await assert.rejects(
+      app.previewAsset('bad', () => {
+        throw new Error('selection failed');
+      }),
+      /selection failed/,
+    );
+    assert.equal(app.packs.get('second'), loaded[2]);
+    assert.equal(app.packs.has('bad'), false);
+    assert.deepEqual(released, [loaded[1], loaded[3]]);
+    app.dispose();
+    app.dispose();
+    assert.deepEqual(released, [loaded[1], loaded[3], loaded[2], loaded[0]]);
+    assert.equal(app.packs.size, 0);
+  });
+});
+test('stale previews release their lease without selecting or warming; disposal rejects late acquisitions', async () => {
+  await withDOM(async () => {
+    const f = fixture(),
+      slow = deferred<PackLease>(),
+      late = deferred<PackLease>();
+    let staleReleased = 0,
+      lateReleased = 0;
+    f.app.runtime = runtime((id) =>
+      id === 'slow' ? slow.promise : id === 'late' ? late.promise : Promise.resolve(f.lease),
+    );
+    const stale = f.app.previewAsset('slow', () => assert.fail('stale selection'));
+    assert.equal(await f.app.previewAsset('fast', () => {}), true);
+    slow.resolve({ release: () => staleReleased++ } as unknown as PackLease);
+    assert.equal(await stale, false);
+    assert.equal(staleReleased, 1);
+    assert.equal(f.warmed, 1);
+    assert.equal(f.app.packs.get('fast'), f.lease);
+    const pending = f.app.previewAsset('late', () => assert.fail('disposed selection'));
+    f.app.dispose();
+    late.resolve({ release: () => lateReleased++ } as unknown as PackLease);
+    await assert.rejects(pending, /disposed/);
+    assert.equal(lateReleased, 1);
+    assert.equal(f.released, 1);
+    assert.equal(f.warmed, 1);
+    assert.equal(f.app.packs.size, 0);
+  });
+});
 test('completed session operations preserve a pause requested while loading', async () => {
   for (const operation of [
     (app: Application) => app.reset(),
@@ -148,7 +213,7 @@ test('checkpoint reading preserves later pause requests and background state, an
     await assert.rejects(request, /disposed/);
   });
 });
-test('gallery requests share one lease; disposal and failed warming release acquisitions', async () => {
+test('session asset requests share one lease; disposal and failed warming release acquisitions', async () => {
   const f = fixture(),
     pending = deferred<PackLease>();
   let loads = 0;
@@ -156,8 +221,8 @@ test('gallery requests share one lease; disposal and failed warming release acqu
     loads++;
     return pending.promise;
   });
-  const first = f.app.loadAsset('gallery'),
-    second = f.app.loadAsset('gallery');
+  const first = f.app.retainAsset('gallery'),
+    second = f.app.retainAsset('gallery');
   pending.resolve(f.lease);
   await Promise.all([first, second]);
   assert.equal(loads, 1);
@@ -167,11 +232,11 @@ test('gallery requests share one lease; disposal and failed warming release acqu
     f.app.dispose();
     f.app.dispose();
     assert.equal(f.released, 1);
-    await assert.rejects(f.app.loadAsset('gallery'), /disposed/);
+    await assert.rejects(f.app.retainAsset('gallery'), /disposed/);
     const late = fixture(),
       wait = deferred<PackLease>();
     late.app.runtime = runtime(() => wait.promise);
-    const loading = late.app.loadAsset('gallery');
+    const loading = late.app.retainAsset('gallery');
     late.app.dispose();
     wait.resolve(late.lease);
     await assert.rejects(loading, /disposed/);
@@ -183,10 +248,10 @@ test('gallery requests share one lease; disposal and failed warming release acqu
     failure.app.presentation.warmPack = () => {
       throw new Error('GPU unavailable');
     };
-    await assert.rejects(failure.app.loadAsset('gallery'), /GPU unavailable/);
+    await assert.rejects(failure.app.retainAsset('gallery'), /GPU unavailable/);
     assert.equal(failure.released, 1);
     failure.app.presentation.warmPack = () => {};
-    await failure.app.loadAsset('gallery');
+    await failure.app.retainAsset('gallery');
     assert.equal(failure.app.packs.size, 1);
     failure.app.dispose();
   });

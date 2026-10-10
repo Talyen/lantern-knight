@@ -11,7 +11,7 @@ import { floorUV } from '../content/world-visuals';
 import { heightAt } from '../content/world';
 import type { AreaDefinition } from '../content/world';
 import type { WorldVisualDefinition } from '../content/world-visuals';
-import type { PackLease } from '../assets/loader';
+import type { AssetPack } from '../assets/loader';
 import type { PreparedRegistration } from '../assets/registration';
 const DEPTH_STAGE = { ground: -2, groundGrid: -1, world: 0 } as const;
 export class RoomPresentation {
@@ -21,7 +21,7 @@ export class RoomPresentation {
   private roomOwned: { dispose: () => void }[] = [];
   fadeMeshes: T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>[] = [];
   constructor(
-    private packs: Map<string, PackLease>,
+    private packs: ReadonlyMap<string, AssetPack>,
     private camera: T.OrthographicCamera,
     private shadowTexture: T.CanvasTexture,
     private registration: PreparedRegistration,

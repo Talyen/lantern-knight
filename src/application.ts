@@ -1,5 +1,5 @@
 import type { PreparedRegistration } from './assets/registration';
-import { AssetRuntime, type PackLease, type PackBatch } from './assets/loader';
+import { AssetRuntime, type PackLease, type PackBatch, type AssetPack } from './assets/loader';
 import type { PresentationLifecycle } from './presentation/lifecycle';
 import type { SceneContent } from './content/game-content';
 import { GameSession } from './core/session';
@@ -25,7 +25,18 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   persistence: Persistence;
   events = new EventHub();
   clock = new FixedClock();
-  packs = new Map<string, PackLease>();
+  private packViews = new Map<string, AssetPack>();
+  private previewPack?: { id: string; pack: PackLease };
+  private previewRequest = 0;
+  get packs(): ReadonlyMap<string, AssetPack> {
+    return this.packViews;
+  }
+  private syncPacks() {
+    this.packViews.clear();
+    for (const group of [this.roomAssets?.packs, this.persistentLeases])
+      for (const [id, pack] of group ?? []) this.packViews.set(id, pack);
+    if (this.previewPack) this.packViews.set(this.previewPack.id, this.previewPack.pack);
+  }
   private persistentLeases = new Map<string, PackLease>();
   private roomAssets?: PackBatch;
   private abort = new AbortController();
@@ -64,7 +75,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     readonly scenes: SceneContent,
     readonly createPresentation: (
       canvas: HTMLCanvasElement,
-      packs: Map<string, PackLease>,
+      packs: ReadonlyMap<string, AssetPack>,
       events: EventHub,
       area: import('./content/world').AreaDefinition,
       registration: PreparedRegistration,
@@ -133,15 +144,15 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     }
     for (const [id, pack] of initial.packs) {
       this.persistentLeases.set(id, pack);
-      this.packs.set(id, pack);
     }
+    this.syncPacks();
     const room = await this.acquireArea(this.sim.area, this.abort.signal);
     if (this.disposed) {
       room.release();
       this.assertActive();
     }
     this.roomAssets = room;
-    for (const [id, p] of room.packs) this.packs.set(id, p);
+    this.syncPacks();
     this.presentation = this.createPresentation(
       this.canvas,
       this.packs,
@@ -178,7 +189,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     if (!this.bridge.automatedRun && (document.hidden || !document.hasFocus())) this.pause(true);
     this.frames = new FrameScheduler(this.loop, this.resetFrameClock, this.bridge.automatedRun);
   }
-  loadAsset(id: string) {
+  retainAsset(id: string) {
     if (!this.disposed && this.persistentLeases.has(id)) return Promise.resolve();
     return this.withLoading(() => this.acquireAsset(id));
   }
@@ -197,7 +208,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         throw error;
       }
       this.persistentLeases.set(id, pack);
-      this.packs.set(id, pack);
+      this.syncPacks();
     })();
     this.assetLoads.set(id, load);
     try {
@@ -205,6 +216,33 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     } finally {
       this.assetLoads.delete(id);
     }
+  }
+  previewAsset(id: string, select: () => undefined) {
+    return this.withLoading(async () => {
+      const request = ++this.previewRequest;
+      const pack = await this.runtime.loadPack(id, this.abort.signal);
+      let installed = false;
+      try {
+        this.assertActive();
+        if (request !== this.previewRequest) return false;
+        this.presentation.warmPack(pack);
+        const previous = this.previewPack;
+        this.previewPack = { id, pack };
+        this.syncPacks();
+        try {
+          select();
+        } catch (error) {
+          this.previewPack = previous;
+          this.syncPacks();
+          throw error;
+        }
+        installed = true;
+        previous?.pack.release();
+        return true;
+      } finally {
+        if (!installed) pack.release();
+      }
+    });
   }
   private async acquireArea(area: string, signal: AbortSignal) {
     const scene = this.scenes.area(area),
@@ -243,13 +281,10 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       const changes = commit(),
         old = this.roomAssets;
       this.roomAssets = next;
-      for (const [id, p] of next.packs) this.packs.set(id, p);
-      for (const [id, p] of this.persistentLeases) this.packs.set(id, p);
+      this.syncPacks();
       this.presentation.resetRoom(this.sim.areaDefinition, this.scenes.area(this.sim.area).visuals);
       this.presentation.generation = this.session.generation;
       old?.release();
-      for (const id of old?.packs.keys() ?? [])
-        if (!next.packs.has(id) && !this.persistentLeases.has(id)) this.packs.delete(id);
       next = undefined;
       await this.presentation.prepareAssets();
       this.input.resetAim();
@@ -405,8 +440,10 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     document.removeEventListener('visibilitychange', this.onVisibility);
     this.input?.dispose();
     this.presentation?.dispose();
+    this.previewPack?.pack.release();
     this.roomAssets?.release();
     for (const p of this.persistentLeases.values()) p.release();
+    this.packViews.clear();
     this.events.dispose();
   }
 }

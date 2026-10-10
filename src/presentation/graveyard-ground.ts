@@ -1,10 +1,13 @@
 import * as T from 'three';
-import type { PackLease } from '../assets/loader';
+import type { AssetPack } from '../assets/loader';
 import type { WorldVisualDefinition } from '../content/world-visuals';
 
 // Entire standalone artwork pages repeat at their registered four-metre coverage.
 // Routes and thresholds are separate intact authored panels, never shader paint.
-export function graveyardGroundMaterial(packs: Map<string, PackLease>, art: WorldVisualDefinition) {
+export function graveyardGroundMaterial(
+  packs: ReadonlyMap<string, AssetPack>,
+  art: WorldVisualDefinition,
+) {
   const p = packs.get(art.floor);
   if (!p) throw new Error('Authored ground unavailable: ' + art.floor);
   const frame = p.manifest.frames[0]!,

@@ -56,7 +56,7 @@ export class ActorSprite {
   constructor(
     public id: string,
     public manifest: Manifest,
-    public textures: Map<string, Texture>,
+    public textures: ReadonlyMap<string, Texture>,
     clip: Clip,
   ) {
     this.animator = new Animator(id, clip);

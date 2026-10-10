@@ -14,7 +14,7 @@ import {
   type WeatherState,
   type VisualEffects,
 } from '../content/visual-effects';
-import type { PackLease } from '../assets/loader';
+import type { AssetPack } from '../assets/loader';
 type Fixture = {
   body?: ActorSprite;
   flame?: ActorSprite;
@@ -36,7 +36,7 @@ export class SceneVisualEffects {
   private area?: AreaDefinition;
   private art?: WorldVisualDefinition;
   constructor(
-    private packs: Map<string, PackLease>,
+    private packs: ReadonlyMap<string, AssetPack>,
     private camera: T.OrthographicCamera,
   ) {
     this.group.name = 'visual-effects';

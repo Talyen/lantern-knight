@@ -7,7 +7,7 @@ import { remapWalkTime } from '../core/locomotion-timing';
 import { Animator } from '../core/animation';
 import { resolveClip, type Clip, type Frame } from '../assets/schema';
 import { tuning } from '../content/gameplay';
-import { type PackLease } from '../assets/loader';
+import { type AssetPack } from '../assets/loader';
 import { EventHub } from '../core/events';
 import type { Simulation } from '../core/simulation';
 import { GamePresentation } from './game-scene';
@@ -59,7 +59,7 @@ export class Presentation extends GamePresentation {
   }
   constructor(
     canvas: HTMLCanvasElement,
-    packs: Map<string, PackLease>,
+    packs: ReadonlyMap<string, AssetPack>,
     events: EventHub,
     initialArea: import('../content/world').AreaDefinition,
     registration: PreparedRegistration,
@@ -152,37 +152,53 @@ export class Presentation extends GamePresentation {
     if (id === this.labAsset) return;
     const pack = this.packs.get(id);
     if (!pack) throw new Error('lab asset not loaded');
-    this.labAsset = id;
-    this.labSprite.dispose();
-    this.labClip =
+    const clipName =
       Object.keys(pack.manifest.asset.clips).find((name) =>
         Object.values(pack.manifest.asset.clips[name]!).some(
           (clip) => clip && animatedSequence(clip),
         ),
       ) ?? Object.keys(pack.manifest.asset.clips)[0]!;
-    this.labHeading = Object.keys(
-      pack.manifest.asset.clips[this.labClip]!,
-    )[0] as typeof this.labHeading;
-    this.labSprite = new ActorSprite(
-      'lab-a',
-      pack.manifest,
-      pack.textures,
-      this.getClip(this.labClip, this.labHeading),
-    );
-    this.labAnimator = this.labSprite.animator;
-    this.scene.add(this.labSprite.mesh);
-    this.secondSprite.dispose();
-    this.secondSprite = new ActorSprite(
-      'lab-b',
-      pack.manifest,
-      pack.textures,
-      this.getClip(this.labClip, this.labHeading, pack.manifest),
-    );
-    this.scene.add(this.secondSprite.mesh);
+    const heading = Object.keys(pack.manifest.asset.clips[clipName]!)[0] as typeof this.labHeading;
+    const clip = this.getClip(clipName, heading, pack.manifest);
+    const lab = new ActorSprite('lab-a', pack.manifest, pack.textures, clip);
+    let second: ActorSprite;
+    try {
+      second = new ActorSprite('lab-b', pack.manifest, pack.textures, clip);
+    } catch (error) {
+      lab.dispose();
+      throw error;
+    }
+    const previous = {
+      labAsset: this.labAsset,
+      labClip: this.labClip,
+      labHeading: this.labHeading,
+      labSprite: this.labSprite,
+      secondSprite: this.secondSprite,
+      labAnimator: this.labAnimator,
+      frameMap: this.frameMap,
+      lastLabOverlay: this.lastLabOverlay,
+      notifyLog: this.notifyLog,
+    };
+    this.labAsset = id;
+    this.labClip = clipName;
+    this.labHeading = heading;
+    this.labSprite = lab;
+    this.secondSprite = second;
+    this.labAnimator = lab.animator;
+    this.scene.add(lab.mesh, second.mesh);
     this.frameMap = new Map(pack.manifest.frames.map((f) => [f.id, f]));
     this.lastLabOverlay = '';
     this.notifyLog = [];
-    if (this.mode === 'animation') this.resize(this.requestedRenderScale);
+    try {
+      if (this.mode === 'animation') this.resize(this.requestedRenderScale);
+    } catch (error) {
+      lab.dispose();
+      second.dispose();
+      Object.assign(this, previous);
+      throw error;
+    }
+    previous.labSprite.dispose();
+    previous.secondSprite.dispose();
   }
 
   setMode(mode: Mode) {

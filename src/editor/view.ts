@@ -49,6 +49,7 @@ export class EditorView {
   private alpha = new WeakMap<T.Texture, { data: Uint8Array; width: number; height: number }>();
   private abort = new AbortController();
   private closed = false;
+  private applying = false;
   private composition?: string;
   private animationPlaying = true;
   private transformPreview: {
@@ -176,6 +177,7 @@ export class EditorView {
       ].filter((id) => id in this.runtime.catalog),
     );
     let acquired: PackBatch | undefined;
+    this.applying = true;
     try {
       acquired = await this.runtime.loadPacks(
         [...ids].filter((id) => !this.packs.has(id)),
@@ -238,6 +240,8 @@ export class EditorView {
       acquired?.release();
       for (const id of acquired?.packs.keys() ?? []) this.packs.delete(id);
       throw error;
+    } finally {
+      this.applying = false;
     }
   }
   hero(point: { x: number; z: number }) {
@@ -251,7 +255,7 @@ export class EditorView {
     });
   }
   render(ms = 0) {
-    if (!this.presentation || !this.sim) return;
+    if (this.closed || this.applying || !this.presentation || !this.sim) return;
     this.presentation.update(this.sim, 1, ms, this.sim.hero);
     for (const { sprite, position, scale, quaternion } of this.transformPreview) {
       sprite.mesh.position.copy(position);
@@ -416,6 +420,7 @@ export class EditorView {
     }
   }
   resize() {
+    if (this.closed) return;
     this.presentation?.resize();
     this.render();
   }

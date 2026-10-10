@@ -3,7 +3,7 @@ import { ActorSprite } from './sprite';
 import { resolveClip } from '../assets/schema';
 import { frameAt, clipDuration } from '../core/animation';
 import { right, up } from '../core/camera';
-import type { PackLease } from '../assets/loader';
+import type { AssetPack } from '../assets/loader';
 import type { Bounds } from '../content/world';
 import { normalizeWeather, type WeatherState } from '../content/visual-effects';
 import {
@@ -39,7 +39,7 @@ export class IllustratedRain {
   private visibleDrops = 0;
   private impacts: { x: number; z: number; age: number }[] = [];
   private schedule: RainSchedule;
-  constructor(packs: Map<string, PackLease>, seed = 903) {
+  constructor(packs: ReadonlyMap<string, AssetPack>, seed = 903) {
     this.schedule = new RainSchedule(seed);
     for (let i = 0; i < RAIN_SLOTS; i++) {
       const sprite = (asset: string) => {

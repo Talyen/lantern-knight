@@ -1,5 +1,5 @@
 import type { OrthographicCamera } from 'three';
-import type { PackLease } from '../assets/loader';
+import type { AssetPack } from '../assets/loader';
 import type { AreaDefinition } from '../content/world';
 import type { WorldVisualDefinition } from '../content/world-visuals';
 import type { VisualEffects } from '../content/visual-effects';
@@ -17,7 +17,7 @@ export interface PresentationLifecycle {
   resize(scale: number): void;
   loadAnimationFlow(): Promise<void>;
   warm(): Promise<void>;
-  warmPack(pack: PackLease): void;
+  warmPack(pack: AssetPack): void;
   prepareAssets(ids?: ReadonlySet<string>): Promise<void>;
   resetRoom(area: AreaDefinition, visuals: WorldVisualDefinition | undefined): void;
   update(sim: Simulation, alpha: number, ms: number, aim: { x: number; z: number }): void;

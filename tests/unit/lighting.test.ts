@@ -128,6 +128,7 @@ test('lighting replacement preserves the current room on failure, retries, and r
             recipe: 'alpha-volume-v1',
             entries: {
               'ink-hero-current:pose': entry('base.png'),
+              'ink-unused:pose': entry('unused.png'),
               'library-a:pose': entry('a.png'),
               'library-b:pose': entry('b.png'),
               'library-c:pose': entry('c.png'),
@@ -139,21 +140,23 @@ test('lighting replacement preserves the current room on failure, retries, and r
   globalThis.createImageBitmap = (async () =>
     ({ width: 2, height: 2, close: () => closed++ }) as ImageBitmap) as typeof createImageBitmap;
   const library = new NormalLibrary();
+  const load = (...ids: string[]) => library.load(['ink-hero-current', ...ids]);
   try {
     fail = 'manifest.json';
-    await assert.rejects(library.load(['library-a']), /companions unavailable/);
+    await assert.rejects(load('library-a'), /companions unavailable/);
     fail = '';
-    await library.load(['library-a']);
+    await load('library-a');
     assert.equal(requests.includes('/lighting/b.png'), false);
+    assert.equal(requests.includes('/lighting/unused.png'), false);
     assert.equal(library.bytes, 32);
-    await library.load(['library-a']);
+    await load('library-a');
     assert.equal(requests.filter((u) => u === '/lighting/a.png').length, 1);
     const current = library.textures.get('library-a:pose');
     let finish!: (response: Response) => void;
     wait = new Promise((resolve) => (finish = resolve));
     const started = new Promise<void>((resolve) => (requested = resolve));
     fail = 'b.png';
-    const replacement = library.load(['library-b', 'library-c']);
+    const replacement = load('library-b', 'library-c');
     let settled = false;
     const rejected = assert.rejects(replacement, /HTTP 503/).then(() => {
       settled = true;
@@ -168,14 +171,14 @@ test('lighting replacement preserves the current room on failure, retries, and r
     assert.equal(library.bytes, 32);
     assert.equal(library.textures.has('library-c:pose'), false);
     fail = '';
-    await library.load(['library-b']);
+    await load('library-b');
     assert.equal(closed, 2);
     assert.equal(library.bytes, 32);
     assert.equal(library.textures.has('library-a:pose'), false);
 
     wait = new Promise((resolve) => (finish = resolve));
     const lateStarted = new Promise<void>((resolve) => (requested = resolve));
-    const late = library.load(['library-c']);
+    const late = load('library-c');
     await lateStarted;
     library.dispose();
     finish(new Response(bytes));

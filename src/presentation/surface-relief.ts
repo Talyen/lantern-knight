@@ -1,5 +1,5 @@
 import * as T from 'three';
-import type { PackLease } from '../assets/loader';
+import type { AssetPack } from '../assets/loader';
 import type { VisualEffects } from '../content/visual-effects';
 import { outward } from '../core/camera';
 import { verifiedBitmap } from '../assets/bitmap';
@@ -8,10 +8,10 @@ type SurfaceSource = { asset: string; frame: string; pageHash: string };
 export class SurfaceRelief {
   private texture?: T.Texture;
   private source?: SurfaceSource;
-  private packs?: Map<string, PackLease>;
+  private packs?: ReadonlyMap<string, AssetPack>;
   private bindings: { normal: T.Uniform<number>; relief: T.Uniform<number> }[] = [];
   private disposed = false;
-  async load(packs: Map<string, PackLease>) {
+  async load(packs: ReadonlyMap<string, AssetPack>) {
     this.packs = packs;
     // Curated flat-stage artwork has no procedural apron or height/UV companion.
     if (!packs.has('ink-graveyard-materials')) return;
