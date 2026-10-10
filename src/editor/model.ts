@@ -5,20 +5,18 @@ import {
 } from '../content/scene-document';
 import { localOffset } from '../content/scenery-presets';
 import { resolveAuthoredScene, type ArtPlacement } from '../content/world-art';
-export type EditorItem = { placement: ArtPlacement; kind: SceneObject['kind']; locked: boolean };
+export type EditorItem = { placement: ArtPlacement; kind: SceneObject['kind'] };
 export function sceneItems(document: SceneDocument): EditorItem[] {
   const art = resolveAuthoredScene(document),
-    added = new Set(document.objects.map((p) => p.id));
+    kinds = new Map(document.objects.map((p) => [p.id, p.kind]));
   return [
     ...art.props.map((placement) => ({
       placement,
-      kind: document.objects.find((p) => p.id === placement.id)?.kind ?? ('prop' as const),
-      locked: !added.has(placement.id),
+      kind: kinds.get(placement.id)!,
     })),
     ...art.decals.map((placement) => ({
       placement,
       kind: 'decal' as const,
-      locked: !added.has(placement.id),
     })),
   ];
 }
@@ -74,7 +72,7 @@ export class EditorHistory {
     fields: Partial<Pick<SceneObject, 'x' | 'z' | 'y' | 'scale' | 'mirror' | 'rotation'>>,
   ) {
     const item = sceneItems(this.document).find((p) => p.placement.id === id);
-    if (!item || item.locked) throw new Error('Object is locked');
+    if (!item) throw new Error('Unknown scene object: ' + id);
     this.change((d) => {
       const object = d.objects.find((p) => p.id === id)!;
       if (object.mount) {
@@ -109,7 +107,6 @@ export class EditorHistory {
   ) {
     let items = sceneItems(this.document).filter((p) => ids.includes(p.placement.id));
     if (!items.length) return;
-    if (items.some((p) => p.locked)) throw new Error('Object is locked');
     const cx = items.reduce((v, p) => v + p.placement.x, 0) / items.length;
     const cz = items.reduce((v, p) => v + p.placement.z, 0) / items.length;
     const angle = fields.rotation ?? 0,
@@ -231,43 +228,5 @@ export class EditorHistory {
       }
     });
     return copies.map((p) => p.id);
-  }
-
-  remove(id: string) {
-    const item = sceneItems(this.document).find((p) => p.placement.id === id);
-    if (!item || item.locked) throw new Error('Object is locked');
-    this.change((d) => {
-      const removed = new Set([id]);
-      let count;
-      do {
-        count = removed.size;
-        for (const p of d.objects) if (p.mount && removed.has(p.mount.to)) removed.add(p.id);
-      } while (count !== removed.size);
-      d.objects = d.objects.filter((p) => !removed.has(p.id));
-      if (d.gameplay) d.gameplay.pickups = d.gameplay.pickups.filter((p) => !removed.has(p.object));
-    });
-  }
-
-  duplicate(id: string) {
-    const item = sceneItems(this.document).find((p) => p.placement.id === id);
-    if (!item || item.locked) throw new Error('Object is locked');
-    const p = structuredClone(this.document.objects.find((p) => p.id === id)!),
-      newId = 'object-' + crypto.randomUUID();
-    delete p.footprint;
-    delete p.footprintAngle;
-    p.id = newId;
-    if (p.fixture) p.fixture.id = newId + '-flame';
-    if (p.mount) {
-      const support = sceneItems(this.document).find(
-        (v) => v.placement.id === p.mount!.to,
-      )!.placement;
-      const delta = localOffset(support, [0.5, 0, 0.5]);
-      for (let i = 0; i < 3; i++) p.mount.offset[i]! += delta[i]!;
-    } else {
-      p.x = item.placement.x + 0.5;
-      p.z = item.placement.z + 0.5;
-    }
-    this.change((d) => d.objects.push(p));
-    return newId;
   }
 }

@@ -134,6 +134,18 @@ test('editor multi-selection, inspector, palette grouping and editor-only visibi
   await page.locator('#duplicate').click();
   await expect(page.locator('.object-row')).toHaveCount(2);
   await page.locator('#objects-tab').click();
+  const first = page.locator('.object-row').first();
+  await first.locator('.object-select').click();
+  await page.locator('#objects-tab').click();
+  const unlocked = await page.evaluate(() => window.sceneEditor.state().document);
+  await first.getByRole('button', { name: /^Lock / }).click();
+  await expect(page.locator('#x')).toBeDisabled();
+  await expect(page.locator('#delete')).toBeDisabled();
+  await page.locator('#viewport').focus();
+  await page.keyboard.press('ArrowRight');
+  expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(unlocked);
+  await first.getByRole('button', { name: /^Unlock / }).click();
+  await expect(page.locator('#x')).toBeEnabled();
   await page
     .locator('.object-select:not(.active)')
     .first()

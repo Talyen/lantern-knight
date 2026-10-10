@@ -29,9 +29,9 @@ describe('scene authoring contracts', () => {
     const art = resolveAuthoredScene(h.document),
       p = art.props.find((p) => p.id === 'family-tomb-west')!;
     assert.deepEqual(churchyardColliders(art).find((v) => v.id === p.id)!.size, p.footprint);
-    const duplicate = h.duplicate('family-tomb-west');
-    h.remove(duplicate);
-    h.remove('family-tomb-west');
+    const duplicate = h.duplicateMany(['family-tomb-west'])[0]!;
+    h.removeMany([duplicate]);
+    h.removeMany(['family-tomb-west']);
     h.undo();
     assert.equal(h.document.objects.find((p) => p.id === 'family-tomb-west')!.x, -6.3);
   });
@@ -132,9 +132,9 @@ it('mounted lamps follow edited supports through cascading undo', () => {
   h.transform('crypt-altar', { x: 1, z: -6.5 });
   assert.ok(Math.abs(lamp().x - 0.93) < 1e-10);
   assert.equal(lamp().y, 1.15);
-  const copy = h.duplicate('crypt-altar-candles');
-  h.remove(copy);
-  h.remove('crypt-altar');
+  const copy = h.duplicateMany(['crypt-altar-candles'])[0]!;
+  h.removeMany([copy]);
+  h.removeMany(['crypt-altar']);
   assert.ok(!h.document.objects.some((p) => p.mount?.to === 'crypt-altar'));
   h.undo();
   assert.ok(Math.abs(lamp().x - 0.93) < 1e-10);

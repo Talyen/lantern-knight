@@ -136,23 +136,18 @@ export function createEditorSession() {
     const d = history.document,
       items = sceneItems(d),
       item = items.find((p) => p.placement.id === selected),
-      p = item?.placement;
+      p = item?.placement,
+      locked = !!p && !!composition?.locked.has(p.id);
     $<HTMLInputElement>('name').value = d.name;
     $('live-badge').hidden = d.target !== 'live';
     $('foundation').hidden = false;
     $<HTMLSelectElement>('rig').value = d.look.rig;
     $<HTMLSelectElement>('look').value = d.look.look;
-    if (d.floor) {
-      $<HTMLSelectElement>('floor').value = d.floor.asset + '/' + (d.floor.clip ?? 'surface');
-      $<HTMLInputElement>('width').value = String(d.floor.width);
-      $<HTMLInputElement>('depth').value = String(d.floor.depth);
-    }
-    $<HTMLFieldSetElement>('transform').disabled = busy || !p || !!item?.locked;
-    $('selected-name').textContent = p
-      ? item?.locked || composition?.locked.has(p.id)
-        ? 'Locked object'
-        : ''
-      : 'Select an object';
+    $<HTMLSelectElement>('floor').value = d.floor.asset + '/' + (d.floor.clip ?? 'surface');
+    $<HTMLInputElement>('width').value = String(d.floor.width);
+    $<HTMLInputElement>('depth').value = String(d.floor.depth);
+    $<HTMLFieldSetElement>('transform').disabled = busy || !p || locked;
+    $('selected-name').textContent = p ? (locked ? 'Locked object' : '') : 'Select an object';
     for (const key of ['x', 'z', 'y', 'scale'] as const)
       $<HTMLInputElement>(key).value = p
         ? String(Number((p[key] ?? (key === 'scale' ? 1 : 0)).toFixed(3)))
@@ -202,7 +197,7 @@ export function createEditorSession() {
     $<HTMLButtonElement>('undo').disabled = busy || !history.canUndo;
     $<HTMLButtonElement>('redo').disabled = busy || !history.canRedo;
     for (const key of ['delete', 'duplicate'])
-      $<HTMLButtonElement>(key).disabled = busy || !p || !!item?.locked;
+      $<HTMLButtonElement>(key).disabled = busy || !p || locked;
     for (const key of [
       'save',
       'save-as',
@@ -226,15 +221,6 @@ export function createEditorSession() {
       if (control) control.disabled = busy;
     }
     $('save-state').textContent = busy ? 'Working…' : dirty() ? 'Unsaved' : 'Saved';
-    $('objects').replaceChildren();
-    for (const item of items) {
-      const b = document.createElement('button');
-      b.textContent = `${item.locked ? '🔒 ' : ''}${item.placement.id}`;
-      b.classList.toggle('active', item.placement.id === selected);
-      b.setAttribute('role', 'listitem');
-      b.onclick = () => select(item.placement.id);
-      $('objects').append(b);
-    }
     const notes = sceneCompositionFindings(resolveAuthoredScene(d));
     $('composition-notes').hidden = notes.length === 0;
     $('composition-notes').textContent = notes.join('; ');
@@ -500,7 +486,6 @@ export function createEditorSession() {
   for (const id of ['floor', 'width', 'depth'])
     $(id).onchange = () =>
       void change((d) => {
-        if (!d.floor) return;
         const [asset, clip] = $<HTMLSelectElement>('floor').value.split('/');
         d.floor = {
           asset: asset!,
@@ -917,7 +902,7 @@ export function createEditorSession() {
       }
       if (!composition.selection.has(item.placement.id) || e.shiftKey)
         composition.set(item.placement.id, e.shiftKey);
-      if (e.shiftKey || item.locked || composition.locked.has(item.placement.id)) return;
+      if (e.shiftKey || composition.locked.has(item.placement.id)) return;
     }
     const root = hero ? history.document.hero : (item?.placement ?? { x: 0, z: 0 }),
       height =

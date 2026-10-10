@@ -216,12 +216,10 @@ export class CompositionTools {
       : value;
   }
   editable() {
-    const items = sceneItems(this.host.history().document);
     const hidden = new Set(this.host.history().descendants([...this.hidden]));
     return [...this.selection].filter(
       (id) =>
         !hidden.has(id) &&
-        !items.find((p) => p.placement.id === id)?.locked &&
         !this.host
           .history()
           .descendants([id])
@@ -346,7 +344,7 @@ export class CompositionTools {
       }
     };
     children(undefined);
-    for (const { placement: p, locked } of ordered) {
+    for (const { placement: p } of ordered) {
       if (
         !`${p.id} ${p.asset} ${p.clip} ${documents.get(p.id)?.label ?? ''}`
           .toLowerCase()
@@ -387,7 +385,6 @@ export class CompositionTools {
         button.className = 'object-action';
         button.classList.toggle('active', set.has(p.id));
         button.setAttribute('aria-label', button.textContent + ' ' + p.id);
-        button.disabled = locked && label === 'Lock';
         button.onclick = () => {
           if (set.has(p.id)) set.delete(p.id);
           else set.add(p.id);
