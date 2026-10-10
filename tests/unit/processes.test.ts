@@ -155,6 +155,7 @@ test('web identities need no Electron output and cannot be reused as desktop bui
     const options = {
       root,
       source,
+      assets: { identity: 'b'.repeat(64), recipe: 'c'.repeat(64) },
       target: 'web' as const,
       env: { ...process.env, GITHUB_SHA: undefined },
       report: () => {},

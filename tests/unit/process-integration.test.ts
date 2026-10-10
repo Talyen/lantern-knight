@@ -84,15 +84,12 @@ test('replay CLI matches fresh-process evidence and rejects tampered hashes or c
 test('build proof ignores mutable Finder metadata but rejects app tampering, mismatched commits and dirty CI reuse', async () => {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-build-proof-')),
     tool = path.resolve('tools/build-identity.ts'),
-    env: NodeJS.ProcessEnv = {
-      ...process.env,
-      LANTERN_BUILD_SOURCE: JSON.stringify({ commit: null, dirty: true, sha256: '0'.repeat(64) }),
-    };
+    env: NodeJS.ProcessEnv = { ...process.env };
   delete env.GITHUB_SHA;
-  const run = (args: string[] = [], overrides: Record<string, string> = {}) =>
+  const run = (args: string[] = []) =>
     spawnSync(process.execPath, ['--import', import.meta.resolve('tsx'), tool, ...args], {
       cwd: directory,
-      env: { ...env, ...overrides },
+      env,
       encoding: 'utf8',
     });
   try {
@@ -101,14 +98,20 @@ test('build proof ignores mutable Finder metadata but rejects app tampering, mis
     await fs.writeFile(path.join(directory, 'dist/app.js'), 'original');
     await fs.writeFile(path.join(directory, 'dist-electron/main.cjs'), 'main');
     await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-one');
-    const proof = (overrides: NodeJS.ProcessEnv = {}, write = false) =>
-      (write ? writeBuildIdentity : verifyBuildIdentity)({
+    const proof = (overrides: NodeJS.ProcessEnv = {}) =>
+      verifyBuildIdentity({
         root: directory,
         env: { ...env, ...overrides },
         report: () => {},
       });
-    await assert.rejects(proof({ LANTERN_BUILD_SOURCE: undefined }, true), /guarded build/);
-    assert.equal(run(['--write']).status, 0);
+    await writeBuildIdentity({
+      root: directory,
+      source: { commit: '0'.repeat(40), dirty: true, sha256: '0'.repeat(64) },
+      assets: { identity: '1'.repeat(64), recipe: '2'.repeat(64) },
+      report: () => {},
+    });
+    assert.equal(run().status, 0);
+    assert.equal(run(['--write']).status, 1, 'Only supervised builds write identities');
     const identityPath = path.join(directory, 'dist/build-identity.json'),
       identity = JSON.parse(await fs.readFile(identityPath, 'utf8'));
     assert.equal(identity.files['dist/.DS_Store'], undefined);

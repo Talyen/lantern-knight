@@ -10,19 +10,14 @@ import { webOutput, electronOutput, type BuildProfile } from './build-profile';
 import type { AssetWorkspace } from './assets/workspace';
 import type { sourceFingerprint } from './source-identity';
 const isOSMetadata = (name: string) => path.posix.basename(name) === '.DS_Store';
-async function artifactFiles(
-  options: {
-    root?: string;
-    profile?: BuildProfile;
-    env?: NodeJS.ProcessEnv;
-    report?: (message: string) => void;
-    target?: 'web' | 'desktop';
-    source?: Awaited<ReturnType<typeof sourceFingerprint>>;
-    assets?: Pick<AssetWorkspace, 'identity' | 'recipe'>;
-  } = {},
-) {
+type ArtifactOptions = {
+  root?: string;
+  profile?: BuildProfile;
+  report?: (message: string) => void;
+  target?: 'web' | 'desktop';
+};
+async function artifactFiles(options: ArtifactOptions = {}) {
   const root = options.root ?? process.cwd(),
-    env = options.env ?? process.env,
     report = options.report ?? console.log;
   const profile = options.profile ?? 'game',
     target = options.target ?? 'desktop',
@@ -50,19 +45,16 @@ async function artifactFiles(
       ...(target === 'desktop' ? await files(electron) : []),
     ].sort(),
     checksums = await fileChecksums(root, names);
-  return { root, env, report, target, identityPath, names, checksums };
+  return { root, report, target, identityPath, names, checksums };
 }
-type IdentityOptions = NonNullable<Parameters<typeof artifactFiles>[0]>;
-export async function writeBuildIdentity(options: IdentityOptions) {
-  const { root, env, report, target, identityPath, checksums } = await artifactFiles(options);
-
-  const inputs =
-    options.source ??
-    (JSON.parse(env.LANTERN_BUILD_SOURCE ?? 'null') as {
-      commit: string | null;
-      dirty: boolean;
-      sha256: string;
-    } | null);
+export async function writeBuildIdentity(
+  options: ArtifactOptions & {
+    source: Awaited<ReturnType<typeof sourceFingerprint>>;
+    assets: Pick<AssetWorkspace, 'identity' | 'recipe'>;
+  },
+) {
+  const { root, report, target, identityPath, checksums } = await artifactFiles(options),
+    inputs = options.source;
   assert.ok(
     inputs && /^[a-f0-9]{64}$/.test(inputs.sha256),
     'build identity requires a guarded build invocation',
@@ -74,10 +66,9 @@ export async function writeBuildIdentity(options: IdentityOptions) {
     inputSha256: inputs.sha256,
     bundledDependencies: target === 'desktop',
     assets: {
-      sha256: options.assets?.identity ?? env.LANTERN_ASSET_SHA256 ?? null,
-      recipeSha256: options.assets?.recipe ?? env.LANTERN_ASSET_RECIPE_SHA256 ?? null,
-      archiveRecipeSha256:
-        options.assets?.recipe ?? env.LANTERN_ASSET_ARCHIVE_RECIPE_SHA256 ?? null,
+      sha256: options.assets.identity,
+      recipeSha256: options.assets.recipe,
+      archiveRecipeSha256: options.assets.recipe,
     },
     files: checksums,
     rendering: {
@@ -91,14 +82,14 @@ export async function writeBuildIdentity(options: IdentityOptions) {
     },
   };
   await fs.writeFile(path.join(root, identityPath), JSON.stringify(identity, null, 2) + '\n');
-  report(
-    `Build identity: ${inputs.commit ?? 'source archive'}${inputs.dirty ? ' (working tree)' : ''}`,
-  );
+  report(`Build identity: ${inputs.commit}${inputs.dirty ? ' (working tree)' : ''}`);
   return identity;
 }
-export async function verifyBuildIdentity(options: IdentityOptions = {}) {
-  const { root, env, report, target, identityPath, names, checksums } =
-    await artifactFiles(options);
+export async function verifyBuildIdentity(
+  options: ArtifactOptions & { env?: NodeJS.ProcessEnv } = {},
+) {
+  const { root, report, target, identityPath, names, checksums } = await artifactFiles(options),
+    env = options.env ?? process.env;
 
   const identity = JSON.parse(await fs.readFile(path.join(root, identityPath), 'utf8'));
   assert.equal(identity.target, target, `Rebuild the ${target} artifact before verification`);
@@ -128,7 +119,9 @@ export async function verifyBuildIdentity(options: IdentityOptions = {}) {
   return identity;
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  (process.argv.includes('--write') ? writeBuildIdentity : verifyBuildIdentity)({
+  if (process.argv.slice(2).some((arg) => arg !== '--dev' && arg !== '--web'))
+    throw new Error('Use build-identity [--dev] [--web]; build/package writes identities');
+  verifyBuildIdentity({
     profile: process.argv.includes('--dev') ? 'authoring' : 'game',
     target: process.argv.includes('--web') ? 'web' : 'desktop',
   }).catch((error) => {
