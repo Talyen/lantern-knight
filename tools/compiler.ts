@@ -10,22 +10,6 @@ import { cameraCalibration as calibrationFixture } from '../src/assets/camera-ca
 const root = projectRoot;
 const TOOL_VERSION = 'atlas-v2.2-sharp-0.35.5';
 export const hash = (v: Buffer | string) => createHash('sha256').update(v).digest('hex');
-export async function exactSource(relative: string, base: string) {
-  const parts = relative.split('/');
-  let current = base;
-  for (const part of parts) {
-    if (!part || part === '.' || part === '..' || part.includes('\\'))
-      throw new Error(`unsafe source path: ${relative}`);
-    const names = await fs.readdir(current);
-    if (!names.includes(part)) throw new Error(`exact filename case or missing file: ${relative}`);
-    current = path.join(current, part);
-  }
-  const real = await fs.realpath(current),
-    baseReal = await fs.realpath(base);
-  if (!real.startsWith(baseReal + path.sep))
-    throw new Error(`source escapes approved root: ${relative}`);
-  return fs.readFile(current);
-}
 // Dilate RGB into transparent pixels, then extrude the trim edge. Straight alpha stays unchanged.
 export function paddedPixels(raw: Buffer, w: number, h: number, pad = 4) {
   const dilated = Buffer.from(raw);
@@ -64,15 +48,15 @@ export function paddedPixels(raw: Buffer, w: number, h: number, pad = 4) {
   return { data: result, width, height };
 }
 export async function compile(
+  context: Pick<PreparationContext, 'path' | 'exactSource' | 'writeAsset'>,
   sourceFile: string,
   out: string,
   production = false,
   validateOnly = false,
   inputRoot: string,
-  context?: PreparationContext,
 ) {
-  out = context ? context.path(out) : path.resolve(out);
-  const readSource = context?.exactSource ?? exactSource;
+  out = context.path(out);
+  const readSource = context.exactSource;
   const input = await readSource(sourceFile, inputRoot),
     source = parseSource(JSON.parse(input.toString()), production);
   if (production) {
@@ -227,92 +211,38 @@ export async function compile(
   };
   parseManifest(manifest, production);
   if (validateOnly) return manifest;
-  if (context) {
-    for (let i = 0; i < encoded.length; i++)
-      await context.writeAsset(path.join(out, folder, `${pages[i]!.id}.png`), encoded[i]!);
-    await context.writeAsset(
-      path.join(out, folder, 'manifest.json'),
-      JSON.stringify(manifest, null, 2) + '\n',
-    );
-    await context.writeAsset(
-      path.join(out, 'calibration.json'),
-      JSON.stringify(calibrationFixture(), null, 2) + '\n',
-    );
-    await context.writeAsset(
-      path.join(out, 'report.json'),
-      JSON.stringify(
-        {
-          hash: contentHash,
-          toolVersion: TOOL_VERSION,
-          frames: frames.length,
-          pages: pages.length,
-          fileBytes: manifest.pages.reduce((s, p) => s + p.bytes, 0),
-          baseGpuBytes: manifest.pages.reduce((s, p) => s + p.rgbaBytes, 0),
-          occupancy:
-            frames.reduce((s, f) => s + f.rect[2] * f.rect[3], 0) /
-            manifest.pages.reduce((s, p) => s + p.width * p.height, 0),
-          status: source.asset.status,
-        },
-        null,
-        2,
-      ),
-    );
-    await context.writeAsset(
-      path.join(out, 'manifest.json'),
-      JSON.stringify(manifest, null, 2) + '\n',
-    );
-    return manifest;
-  }
-  await fs.mkdir(out, { recursive: true });
-  const tmp = await fs.mkdtemp(path.join(out, '.compile-'));
-  try {
-    await Promise.all(
-      encoded.map((buf, i) => fs.writeFile(path.join(tmp, `${pages[i]!.id}.png`), buf)),
-    );
-    await fs.writeFile(path.join(tmp, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
-    try {
-      await fs.rename(tmp, path.join(out, folder));
-    } catch (error) {
-      if (
-        (error as NodeJS.ErrnoException).code !== 'EEXIST' &&
-        (error as NodeJS.ErrnoException).code !== 'ENOTEMPTY'
-      )
-        throw error;
-      await fs.rm(tmp, { recursive: true, force: true });
-    }
-    await fs.writeFile(
-      path.join(out, 'manifest.json.tmp'),
-      JSON.stringify(manifest, null, 2) + '\n',
-    );
-    await fs.rename(path.join(out, 'manifest.json.tmp'), path.join(out, 'manifest.json'));
-    await fs.writeFile(
-      path.join(out, 'calibration.json.tmp'),
-      JSON.stringify(calibrationFixture(), null, 2) + '\n',
-    );
-    await fs.writeFile(
-      path.join(out, 'report.json.tmp'),
-      JSON.stringify(
-        {
-          hash: contentHash,
-          toolVersion: TOOL_VERSION,
-          frames: frames.length,
-          pages: pages.length,
-          fileBytes: manifest.pages.reduce((s, p) => s + p.bytes, 0),
-          baseGpuBytes: manifest.pages.reduce((s, p) => s + p.rgbaBytes, 0),
-          occupancy:
-            frames.reduce((s, f) => s + f.rect[2] * f.rect[3], 0) /
-            manifest.pages.reduce((s, p) => s + p.width * p.height, 0),
-          status: source.asset.status,
-        },
-        null,
-        2,
-      ),
-    );
-    await fs.rename(path.join(out, 'calibration.json.tmp'), path.join(out, 'calibration.json'));
-    await fs.rename(path.join(out, 'report.json.tmp'), path.join(out, 'report.json'));
-    return manifest;
-  } catch (error) {
-    await fs.rm(tmp, { recursive: true, force: true });
-    throw error;
-  }
+  for (let i = 0; i < encoded.length; i++)
+    await context.writeAsset(path.join(out, folder, `${pages[i]!.id}.png`), encoded[i]!);
+  await context.writeAsset(
+    path.join(out, folder, 'manifest.json'),
+    JSON.stringify(manifest, null, 2) + '\n',
+  );
+  await context.writeAsset(
+    path.join(out, 'calibration.json'),
+    JSON.stringify(calibrationFixture(), null, 2) + '\n',
+  );
+  await context.writeAsset(
+    path.join(out, 'report.json'),
+    JSON.stringify(
+      {
+        hash: contentHash,
+        toolVersion: TOOL_VERSION,
+        frames: frames.length,
+        pages: pages.length,
+        fileBytes: manifest.pages.reduce((s, p) => s + p.bytes, 0),
+        baseGpuBytes: manifest.pages.reduce((s, p) => s + p.rgbaBytes, 0),
+        occupancy:
+          frames.reduce((s, f) => s + f.rect[2] * f.rect[3], 0) /
+          manifest.pages.reduce((s, p) => s + p.width * p.height, 0),
+        status: source.asset.status,
+      },
+      null,
+      2,
+    ),
+  );
+  await context.writeAsset(
+    path.join(out, 'manifest.json'),
+    JSON.stringify(manifest, null, 2) + '\n',
+  );
+  return manifest;
 }

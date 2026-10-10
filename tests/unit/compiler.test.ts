@@ -6,7 +6,15 @@ import path from 'node:path';
 import sharp from 'sharp';
 import { readAsset } from '../../tools/assets/io';
 import { parseSource, parseManifest } from '../../src/assets/schema';
-import { compile, exactSource } from '../../tools/compiler';
+import { exactSource } from '../../tools/assets/files';
+import { createPreparationContext } from '../../tools/assets/context';
+const writer = (workspace: string) =>
+  createPreparationContext({
+    workspace,
+    budget: 16 * 1024 ** 2,
+    sourceRoot: workspace,
+    libraryRoot: workspace,
+  });
 const read = async (p: string) => JSON.parse(await readAsset(p, 'utf8'));
 const source = await read('tests/fixtures/valid.json');
 let fixture: Promise<{ root: string; manifest: any }> | undefined;
@@ -26,10 +34,13 @@ function compiledFixture() {
       .toFile(path.join(root, 'sample.png'));
     const output = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-manifest-fixture-'));
     try {
+      const context = await writer(output);
       return {
         root,
         manifest: JSON.parse(
-          JSON.stringify(await compile('valid.json', output, false, false, root)),
+          JSON.stringify(
+            await context.compile('valid.json', 'public/generated', false, false, root),
+          ),
         ),
       };
     } finally {
@@ -87,14 +98,15 @@ test('compiler is byte deterministic; failed build preserves prior manifest; sou
   const { root: fixtureRoot } = await compiledFixture();
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-compiler-'));
   try {
-    const a = await compile('valid.json', dir, false, false, fixtureRoot);
-    const before = await readAsset(path.join(dir, 'manifest.json'));
-    const b = await compile('valid.json', dir, false, false, fixtureRoot);
+    const context = await writer(dir);
+    const a = await context.compile('valid.json', 'public/generated', false, false, fixtureRoot);
+    const before = await readAsset(path.join(dir, 'public/generated/manifest.json'));
+    const b = await context.compile('valid.json', 'public/generated', false, false, fixtureRoot);
     assert.equal(a.hash, b.hash);
-    assert.deepEqual(await readAsset(path.join(dir, 'manifest.json')), before);
+    assert.deepEqual(await readAsset(path.join(dir, 'public/generated/manifest.json')), before);
     await fs.writeFile(path.join(dir, 'invalid.json'), fixtureTexts['invalid-duration']!);
-    await assert.rejects(compile('invalid.json', dir, false, false, dir));
-    assert.deepEqual(await readAsset(path.join(dir, 'manifest.json')), before);
+    await assert.rejects(context.compile('invalid.json', 'public/generated', false, false, dir));
+    assert.deepEqual(await readAsset(path.join(dir, 'public/generated/manifest.json')), before);
     await assert.rejects(exactSource('../package.json', fixtureRoot));
     await assert.rejects(exactSource('VALID.json', fixtureRoot), /case/);
   } finally {
@@ -109,16 +121,20 @@ test('compiler rejects an opaque RGB concept input and keeps its prior published
     file = path.join(dir, 'no-alpha.png'),
     input = path.join(dir, 'invalid-alpha.json');
   try {
-    await compile('valid.json', dir, false, false, fixtureRoot);
-    const before = await readAsset(path.join(dir, 'manifest.json'));
+    const context = await writer(dir);
+    await context.compile('valid.json', 'public/generated', false, false, fixtureRoot);
+    const before = await readAsset(path.join(dir, 'public/generated/manifest.json'));
     await sharp(path.join(fixtureRoot, bad.frames[0].path))
       .flatten({ background: '#ffffff' })
       .png()
       .toFile(file);
     bad.frames[0].path = 'no-alpha.png';
     await fs.writeFile(input, JSON.stringify(bad));
-    await assert.rejects(compile('invalid-alpha.json', dir, false, false, dir), /alpha/);
-    assert.deepEqual(await readAsset(path.join(dir, 'manifest.json')), before);
+    await assert.rejects(
+      context.compile('invalid-alpha.json', 'public/generated', false, false, dir),
+      /alpha/,
+    );
+    assert.deepEqual(await readAsset(path.join(dir, 'public/generated/manifest.json')), before);
   } finally {
     await fs.rm(dir, { recursive: true, force: true });
     await fs.rm(file, { force: true });

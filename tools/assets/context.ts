@@ -7,6 +7,7 @@ import { readLibrarySource as libraryRead, sourceGroup } from './sources';
 import { compile as compileAtlas } from '../compiler';
 import type { Manifest } from '../../src/assets/schema';
 import { runProcess as invokeProcess } from '../run-process';
+import { exactSource as readExactSource } from './files';
 
 export type PreparationOptions = {
   workspace: string;
@@ -72,17 +73,7 @@ export async function createPreparationContext(options: PreparationOptions) {
     safeRelative(file);
     if (base.startsWith('references/art/')) return source(file, sourceGroup(base));
     const directory = resolve(base);
-    let current = directory;
-    for (const part of file.split('/')) {
-      if (!(await fs.readdir(current)).includes(part))
-        throw new Error('exact filename case or missing file: ' + file);
-      current = path.join(current, part);
-    }
-    const real = await fs.realpath(current),
-      baseReal = await fs.realpath(directory);
-    if (!real.startsWith(baseReal + path.sep))
-      throw new Error('source escapes approved root: ' + file);
-    return fs.readFile(current);
+    return readExactSource(file, directory);
   };
   const record = async (file: string) => {
     const relative = safeRelative(path.relative(root, resolve(file)).split(path.sep).join('/'));
@@ -191,7 +182,7 @@ export async function createPreparationContext(options: PreparationOptions) {
       validateOnly = false,
       inputRoot = path.join(root, 'staging'),
     ): Promise<Manifest> =>
-      compileAtlas(sourceFile, out, production, validateOnly, inputRoot, context),
+      compileAtlas(context, sourceFile, out, production, validateOnly, inputRoot),
     runProcess: async (
       command: string,
       args: string[],
