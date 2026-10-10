@@ -37,6 +37,8 @@ def density_of(contexts, default=256):
         "pixels_per_unit",
         "estimated_pixels_per_unit",
         "estimated_ppu",
+        "suggested_pixels_per_unit",
+        "suggestedPixelsPerUnit",
         "clip_pixels_per_metre",
         "source_density_px_per_m",
         "source_texels_per_metre",
@@ -198,6 +200,9 @@ class Importer:
         canvas = pick(
             contexts,
             "canvas_px",
+            "cell_px",
+            "cell_size",
+            "native_cell_size",
             "canvas_pixels",
             "canvas",
             "frame_dimensions",
@@ -224,6 +229,8 @@ class Importer:
             "pivot_px",
             "pivotPx",
             "ground_pivot_px",
+            "fixed_pivot_pixels_top_left",
+            "pivotPixels",
             "default_root",
             "anchor_pixels",
             "anchor",
@@ -517,6 +524,9 @@ class Importer:
         return asset
 
     def package(self, p):
+        if p.spec.get("format"):
+            self.delivered_package(p)
+            return
         manifests = sorted(
             n
             for n in p.names
@@ -792,6 +802,146 @@ class Importer:
             {"archive": p.spec["archive"], "status": "imported", "metadataGroups": imported}
         )
 
+    def delivered_package(self, p):
+        """Delivered atlas/sequence contracts selected explicitly in library-packs."""
+        spec = p.spec
+        data = p.json(spec["manifest"])
+        base = str(pathlib.PurePosixPath(spec["manifest"]).parent)
+        kind = spec.get("kind", "prop")
+
+        def sequence(
+            identity,
+            name,
+            meta,
+            frames,
+            holds,
+            *,
+            loop=False,
+            heading="d45",
+            end="hold",
+            markers=None,
+        ):
+            asset = self.asset(identity, identity.replace("_", " ").title(), kind)
+            asset["mirroring"] = False
+            refs = [
+                self.frame(p, f, [meta, data], base, density=density_of([meta, data]))
+                for f in frames
+            ]
+            self.clip(
+                asset,
+                name,
+                heading,
+                refs,
+                [
+                    t
+                    * 1000
+                    / pick([meta, data], "timing_hz", "timebase_hz", "fps_timebase", default=60)
+                    for t in holds
+                ],
+                loop,
+                end,
+                markers,
+            )
+            return asset
+
+        def atlas(identity, meta, clips):
+            if "density" in spec:
+                meta = {**meta, "pixels_per_unit": spec["density"]}
+            image = meta["atlas"]
+            columns = meta.get("atlas_columns", meta.get("columns"))
+            if isinstance(image, dict):
+                columns = image["columns"]
+                image = image["file"]
+            w, h = meta.get("cell_size", meta.get("native_cell_size"))
+            for name, clip in clips.items():
+                indices = clip.get("frames", clip.get("sequence"))
+                records = [
+                    {
+                        "file": image,
+                        "canvas": [w, h],
+                        "rect": [(i % columns) * w, (i // columns) * h, w, h],
+                        "trim": [0, 0, w, h],
+                    }
+                    for i in indices
+                ]
+                holds = clip.get("duration_ticks", clip.get("holds_ticks", clip.get("hold_ticks")))
+                sequence(identity, name, meta, records, holds, loop=clip.get("loop", False))
+
+        if spec["format"] == "atlas-characters":
+            for identity, meta in data["characters"].items():
+                atlas(identity, meta, {"work": meta["work_loop"]})
+        elif spec["format"] == "atlas-actor":
+            clips = data.get("clips")
+            if clips is None:
+                clip = data.get("animation", data.get("clip"))
+                clips = {clip["name"]: clip}
+            atlas(spec["identity"], data, clips)
+        elif spec["format"] == "frame-props":
+            records = data if isinstance(data, list) else data.get("assets", [data])
+            for meta in records:
+                identity = meta.get("id", meta.get("name", spec.get("identity"))) + "_opening"
+                frames = meta["frames"]
+                context = {**data, **meta} if isinstance(data, dict) else meta
+                context["pivot_pixels"] = pick(
+                    [meta, data], "pivotPixels", "pivot_px", "pivot_top_left_px"
+                )
+                context["canvas_px"] = pick([meta, data], "canvas_px", "canvas", default=None)
+                context["pixels_per_unit"] = pick(
+                    [meta, data], "suggestedPixelsPerUnit", "pixels_per_unit", default=256
+                )
+                if meta.get("approximate_height_m"):
+                    from PIL import Image
+
+                    member = p.locate(frames[0]["file"], base)
+                    with p.zip.open(member) as stream, Image.open(stream) as image:
+                        bounds = image.convert("RGBA").getchannel("A").getbbox()
+                    if bounds is None:
+                        raise ValueError("Cannot register empty prop: " + identity)
+                    context["pixels_per_unit"] = (bounds[3] - bounds[1]) / meta[
+                        "approximate_height_m"
+                    ]
+                holds = [pick([f], "holdTicks", "hold_ticks", "ticks") for f in frames]
+                markers = [
+                    {"id": e["name"], "atMs": e["tick"] * 1000 / 60} for e in meta.get("events", [])
+                ]
+                sequence(
+                    identity,
+                    "open" if meta.get("states") else "search",
+                    context,
+                    frames,
+                    holds,
+                    markers=markers,
+                )
+                sequence(identity, "idle", context, frames[:1], [60], loop=True)
+                sequence(identity, "looted", context, frames[-1:], [60], loop=True)
+        elif spec["format"] == "portal":
+            for name, clip in data["animations"].items():
+                frames = [{"file": "runtime/frames/" + f["id"] + ".png"} for f in clip["frames"]]
+                sequence(
+                    "town_portal",
+                    name,
+                    data,
+                    frames,
+                    [f["ticks"] for f in clip["frames"]],
+                    loop=clip["loop"],
+                    end="hide" if clip["terminal_state"] == "absent" else "hold",
+                )
+        elif spec["format"] == "hero-interactions":
+            for direction, meta in data["directions"].items():
+                for name, clip in data["clips"].items():
+                    sequence(
+                        "hero_interactions",
+                        name,
+                        meta,
+                        [meta["frames"][f] for f in clip["frames"]],
+                        clip["hold_ticks_60hz"],
+                        loop=clip["loop"],
+                        heading=HEADINGS[direction],
+                    )
+        else:
+            raise ValueError("Unsupported delivered package format: " + spec["format"])
+        self.dispositions.append({"archive": spec["archive"], "status": "imported"})
+
     def enemy_catalog(self, p):
         member = next(n for n in p.names if n.endswith("/catalog.json"))
         catalog = p.json(member)
@@ -1025,7 +1175,7 @@ class Importer:
                     )
 
 
-def build(root, specs, index):
+def build(root, specs, index, artwork=()):
     resolver = SourceResolver(root, index)
     with ExitStack() as stack:
         packages = []
@@ -1072,6 +1222,26 @@ def build(root, specs, index):
             for c in d.values()
             for f in c["frames"]
         }
+        for record in artwork:
+            member = record["member"]
+            original = resolver.read("file:library-artwork/" + member)
+            dimensions = list(struct.unpack(">II", original[16:24]))
+            if original[:8] != b"\x89PNG\r\n\x1a\n" or dimensions != record["canvas"]:
+                raise ValueError("Artwork registration differs: " + member)
+            asset = importer.asset(
+                record["id"], record["label"], record["type"], record["projection"]
+            )
+            asset["limitations"] = [
+                "Intact supplied artwork; world-size registration is an editable starting point."
+            ]
+            frame = {
+                "group": "library-artwork",
+                "member": member,
+                "canvas": record["canvas"],
+                "anchor": record["anchor"],
+                "density": record["density"],
+            }
+            importer.clip(asset, "still", "d45", [frame], [1000], True)
         selected = {
             p.spec["archive"]: (
                 "imported"
@@ -1084,12 +1254,19 @@ def build(root, specs, index):
         }
         for archive in sorted(root.rglob("*.zip")):
             relative = archive.relative_to(root).as_posix()
-            reason = selected.get(archive.name)
+            reason = next(
+                (
+                    selected[name]
+                    for name, info in index["archives"].items()
+                    if info.get("pathHint", name) == relative and name in selected
+                ),
+                None,
+            )
             if reason is None:
                 lower = relative.lower()
                 reason = (
                     "deferred-title-loading"
-                    if relative.startswith("08 - ")
+                    if relative.startswith("Title and Loading/")
                     else "rejected-or-superseded"
                     if any(
                         x in lower
@@ -1102,7 +1279,7 @@ def build(root, specs, index):
                         ]
                     )
                     else "existing-hero-selection"
-                    if relative.startswith("01 - ")
+                    if relative.startswith("Characters/Hero/")
                     else "source-or-review-only"
                 )
             importer.dispositions.append({"path": relative, "status": reason})
@@ -1127,6 +1304,11 @@ if __name__ == "__main__":
         / index["libraryDirectory"]
     )
     specs = json.loads((PROJECT / "assets/library-packs.json").read_text())["packs"]
-    result = build(root, specs, index)
+    artwork = [
+        record
+        for name in json.loads((PROJECT / "assets/library-artwork.json").read_text())["includes"]
+        for record in json.loads((PROJECT / "assets" / safe_relative(name)).read_text())["assets"]
+    ]
+    result = build(root, specs, index, artwork)
     pathlib.Path(args.output).write_text(json.dumps(result, separators=(",", ":")) + "\n")
     print(f"Normalized {len(result['assets'])} logical world assets")

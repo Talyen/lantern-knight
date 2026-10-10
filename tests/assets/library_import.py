@@ -1,6 +1,7 @@
 """Consequential importer contracts with tiny synthetic archives, no library access."""
 
 import io
+import json
 import pathlib
 import struct
 import sys
@@ -27,6 +28,64 @@ def png(w, h):
 
 
 class ImportTests(unittest.TestCase):
+    def test_delivered_atlas_preserves_repeated_cells_holds_and_pivot(self):
+        meta = {
+            "cell_size": [10, 20],
+            "atlas": "atlas.png",
+            "columns": 2,
+            "pivot_pixels_top_left": [4, 18],
+            "suggested_pixels_per_unit": 100,
+            "timing_hz": 60,
+            "animation": {
+                "name": "tea",
+                "frames": [0, 1, 0],
+                "duration_ticks": [12, 3, 9],
+                "loop": True,
+            },
+        }
+        p = package({"runtime/animation.json": json.dumps(meta), "runtime/atlas.png": png(20, 20)})
+        p.spec.update(
+            format="atlas-actor",
+            manifest="runtime/animation.json",
+            identity="headsman",
+            kind="character",
+        )
+        importer = Importer([p])
+        importer.package(p)
+        c = importer.assets["library-headsman"]["clips"]["tea"]["d45"]
+        self.assertEqual(c["durationsMs"], [200, 50, 150])
+        self.assertEqual(
+            [f["rect"] for f in c["frames"]], [[0, 0, 10, 20], [10, 0, 10, 20], [0, 0, 10, 20]]
+        )
+        self.assertEqual(c["frames"][0]["anchor"], [4, 18])
+        self.assertEqual(c["frames"][0]["density"], 100)
+        self.assertTrue(c["loop"])
+
+    def test_delivered_prop_preserves_one_shot_and_held_states(self):
+        meta = {
+            "name": "desk",
+            "canvas": [10, 20],
+            "pivotPixels": [4, 18],
+            "suggestedPixelsPerUnit": 100,
+            "frames": [{"file": "a.png", "holdTicks": 9}, {"file": "b.png", "holdTicks": 27}],
+            "events": [{"name": "loot_release", "tick": 9}],
+        }
+        p = package(
+            {
+                "runtime/manifest.json": json.dumps(meta),
+                "runtime/a.png": png(10, 20),
+                "runtime/b.png": png(10, 20),
+            }
+        )
+        p.spec.update(format="frame-props", manifest="runtime/manifest.json", identity="desk")
+        importer = Importer([p])
+        importer.package(p)
+        clips = importer.assets["library-desk_opening"]["clips"]
+        self.assertFalse(clips["search"]["d45"]["loop"])
+        self.assertEqual(clips["search"]["d45"]["durationsMs"], [150, 450])
+        self.assertEqual(clips["search"]["d45"]["markers"], [{"id": "loot_release", "atMs": 150}])
+        self.assertEqual(clips["looted"]["d45"]["frames"][0]["member"], "runtime/b.png")
+
     def test_mixed_registration_and_repeated_cel_timing(self):
         p = package({"runtime/a.png": png(400, 620), "runtime/b.png": png(600, 700)})
         importer = Importer([p])

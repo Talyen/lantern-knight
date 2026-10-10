@@ -115,7 +115,16 @@
         "tools/assets/library_import.py",
         "tools/assets/authoring-catalog.ts",
         "assets/sources.json",
-        "assets/library-sources.json"
+        "assets/library-sources.json",
+        "assets/library-artwork.json",
+        "assets/library-artwork/artwork-1.json",
+        "assets/library-artwork/artwork-2.json",
+        "assets/library-artwork/artwork-3.json",
+        "assets/library-artwork/artwork-4.json",
+        "assets/library-artwork/sources-1.json",
+        "assets/library-artwork/sources-2.json",
+        "assets/library-artwork/sources-3.json",
+        "assets/library-artwork/sources-4.json"
       ],
       "dependsOn": [
         "assets/prepare/prepare-ink.ts",

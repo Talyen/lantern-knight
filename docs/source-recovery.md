@@ -14,7 +14,7 @@ Search does not follow symlinks or descend into Lantern's checkout/cache, hidden
 
 ## Configuration
 
-`ASSET_LIBRARY_ROOT` selects the parent Asset Library folder, normally `~/Documents/Asset Library`, rather than the project's source folder; tools append the source index's `libraryDirectory`, currently `2d Assets/Lantern Knight`. `LANTERN_CACHE_ROOT` selects the external cache. Sources outside Documents can be found using `LANTERN_SOURCE_SEARCH_ROOTS`, a list of additional search roots separated by the platform path separator (`:` on macOS/Linux, `;` on Windows). These are configuration options for other machines; normal reorganization within this Mac's Documents folder requires no configuration.
+`ASSET_LIBRARY_ROOT` selects the parent Asset Library folder, normally `~/Documents/Asset Library`, rather than the project's source folder; tools append the source index's `libraryDirectory`, currently `Lantern Knight`. `LANTERN_CACHE_ROOT` selects the external cache. Sources outside Documents can be found using `LANTERN_SOURCE_SEARCH_ROOTS`, a list of additional search roots separated by the platform path separator (`:` on macOS/Linux, `;` on Windows). These are configuration options for other machines; normal reorganization within this Mac's Documents folder requires no configuration.
 
 Recovery fixtures run with `npm run test:assets`, using temporary files to cover relocation, wrong revisions, cache invalidation, interruptions and concurrent recovery. No test rearranges the source library.
 
@@ -26,17 +26,8 @@ Run an explicit source health check:
 python3 -B tools/assets/library.py check
 ```
 
-This verifies all pinned archive/loose-file identities and warms verified locations. Add `--numbered-only --fresh` to use a temporary location cache and accept only files inside numbered folders. Normal builds and CI consume prepared assets without scanning the library.
+This verifies all pinned archive/loose-file identities and warms verified locations. Use `--fresh` for a temporary location cache. Normal builds and CI consume prepared assets without scanning the library.
 
 Optional `pathHint` values locate originals within the library without changing logical IDs. Several loose-file identities can share one identical retained file. `archiveGroups` isolates selected hero packages that reuse member names; callers continue using `readLibrarySource(member, group)`. Archive bytes remain immutable even when the external filename changes.
 
-Create an external dry-run consolidation plan, then apply only the reviewed inventory:
-
-```sh
-python3 -B tools/assets/library.py dedupe --manifest /absolute/external/plan.json
-python3 -B tools/assets/library.py dedupe --apply --manifest /absolute/external/plan.json
-```
-
-The dry run changes no library files. The apply operation refuses changed inventories or modified manifests, relocates unique legacy sources to their numbered categories, verifies all registered identities in those categories, and rehashes each retained/redundant pair immediately before deletion. It preserves one complete copy of every distinct file content, all ZIP members, canonical artwork and unique revisions. It does not clean published packs.
-
-The numbered layout retains environment Project Sources under category 03, walk studies under the original-view hero studies, and foundation sources under the guides. Original logical receipts remain readable through the hash resolver even when identical drawings have been consolidated across studies.
+The library groups characters, environments, props, items, effects and title/loading media by subject. Sources remain beside their assets; shared packages stay together. Original logical receipts remain readable through explicit path hints and the hash resolver.

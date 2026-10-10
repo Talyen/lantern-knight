@@ -75,6 +75,15 @@ def load_index(path):
         for section in ("archives", "archiveGroups", "prefixes", "directories", "files"):
             target = index.setdefault(section, {})
             for key, value in supplement.get(section, {}).items():
+                if section == "files":
+                    group = target.setdefault(key, {})
+                    for member, identity in value.items():
+                        if member in group and group[member] != identity:
+                            raise ValueError(
+                                "conflicting source identity: files/" + key + "/" + member
+                            )
+                        group[member] = identity
+                    continue
                 if key in target and target[key] != value:
                     raise ValueError("conflicting source identity: " + section + "/" + key)
                 target[key] = value
@@ -95,9 +104,7 @@ class SourceResolver:
     ):
         self.root = pathlib.Path(root).absolute()
         self.index = index
-        suffix = pathlib.PurePosixPath(
-            index.get("libraryDirectory", "2d Assets/Lantern Knight")
-        ).parts
+        suffix = pathlib.PurePosixPath(index.get("libraryDirectory", "Lantern Knight")).parts
         inferred = self.root
         if self.root.parts[-len(suffix) :] == suffix:
             for _ in suffix:
@@ -130,16 +137,15 @@ class SourceResolver:
         for group, files in index.get("files", {}).items():
             for name, info in files.items():
                 safe_relative(name)
-                if group == "ink-collection-01":
-                    if not name.startswith("collection/"):
-                        raise ValueError("only collection sidecars may be loose collection sources")
+                if group == "ink-collection-01" and not name.startswith("collection/"):
+                    raise ValueError("only collection sidecars may be loose collection sources")
+                if "pathHint" in info:
+                    hint = self.root / safe_relative(info["pathHint"])
+                elif group == "ink-collection-01":
                     hint = self.root / name.removeprefix("collection/")
                 else:
                     hint = self.root / safe_relative(index["directories"][group]) / name
-                self.identities["file:" + group + "/" + name] = (
-                    self.root / safe_relative(info["pathHint"]) if "pathHint" in info else hint,
-                    info,
-                )
+                self.identities["file:" + group + "/" + name] = (hint, info)
         for _, info in self.identities.values():
             if (
                 not re.fullmatch("[a-f0-9]{64}", info["sha256"])

@@ -55,7 +55,7 @@ export async function prototypeAssets(
       return { held: { ...held, root: path.join(held.root, 'work') }, lock: descriptor };
     } catch (error) {
       await held.release();
-      throw error;
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
     }
   }
   const lock = await readLock((name) => fs.readFile(path.join(root, name)));
@@ -154,6 +154,10 @@ export async function preparePreviewAssets(
         files,
       } satisfies Preview),
     );
+    // The complete new layer owns its linked files. Releasing this operation's
+    // base lease lets the cache evict an unused predecessor before publishing
+    // the index; other readers retain their own independent leases.
+    await base.held.release();
     const index = await cache.lease(previewName(projectRoot) + '-index');
     try {
       await fs.writeFile(path.join(index.root, 'preview.json'), JSON.stringify({ entry }));

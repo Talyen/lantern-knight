@@ -15,7 +15,7 @@ from unittest.mock import patch
 
 PROJECT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT / "tools/assets"))
-from resolver import SourceResolver  # noqa: E402 - local modules require the path above.
+from resolver import SourceResolver, load_index  # noqa: E402 - local modules require the path above.
 from source import read  # noqa: E402 - local modules require the path above.
 from library import make_plan, apply_plan, check_sources  # noqa: E402 - local module path.
 
@@ -25,6 +25,18 @@ def identity(data):
 
 
 class Recovery(unittest.TestCase):
+    def test_supplements_merge_file_members_without_overriding_identities(self):
+        first = {"files": {"walk": {"one.png": identity(b"one")}}}
+        second = {"files": {"walk": {"two.png": identity(b"two")}}}
+        (self.base / "one.json").write_text(json.dumps(first))
+        (self.base / "two.json").write_text(json.dumps(second))
+        self.index_path.write_text(json.dumps({"includes": ["one.json", "two.json"]}))
+        self.assertEqual(set(load_index(self.index_path)["files"]["walk"]), {"one.png", "two.png"})
+        second["files"]["walk"]["one.png"] = identity(b"different")
+        (self.base / "two.json").write_text(json.dumps(second))
+        with self.assertRaisesRegex(ValueError, "conflicting source identity"):
+            load_index(self.index_path)
+
     def test_missing_numbered_survivor_blocks_before_any_relocation(self):
         plan = make_plan(self.root)
         with self.assertRaisesRegex(ValueError, "no library changes"):
@@ -151,6 +163,21 @@ class Recovery(unittest.TestCase):
         hashes = warm.stats["hashes"]
         read(self.root, self.index, "ink-collection-01", "pack/art.txt", warm)
         self.assertEqual(warm.stats["hashes"], hashes)
+
+    def test_explicit_file_hints_need_no_shared_directory(self):
+        self.index["files"]["walk"]["frames/one.png"]["pathHint"] = self.loose.relative_to(
+            self.root
+        ).as_posix()
+        del self.index["directories"]["walk"]
+        resolver = self.resolver(search_roots=[self.root])
+        self.assertEqual(resolver.read("file:walk/frames/one.png"), self.payload)
+        self.assertEqual(resolver.stats["scans"], 0)
+        self.index["files"]["ink-collection-01"]["unregistered.png"] = {
+            **identity(self.payload),
+            "pathHint": self.loose.relative_to(self.root).as_posix(),
+        }
+        with self.assertRaisesRegex(ValueError, "only collection sidecars"):
+            self.resolver()
 
     def test_repeated_moves_in_same_reader_and_completed_interrupted_move(self):
         resolver = self.resolver()
@@ -309,7 +336,9 @@ class Recovery(unittest.TestCase):
             child.stderr.close()
 
     def test_moved_archive_import_preflight_preserves_logical_receipt(self):
-        spec = importlib.util.spec_from_file_location("importer", PROJECT / "tools/assets/import-ink.py")
+        spec = importlib.util.spec_from_file_location(
+            "importer", PROJECT / "tools/assets/import-ink.py"
+        )
         importer = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(importer)
         importer.DEST = self.base / "out"

@@ -2,7 +2,7 @@
 
 ## Ownership
 
-Originals live in the iCloud-backed Asset Library under `2d Assets/Lantern Knight`. Preserve archives, unique revisions, canonical hero references, Clean INK prompts and provenance. The source index records hashes as identity and paths as hints; [source recovery](source-recovery.md) handles moves. Ordinary code/build/CI work does not scan the library.
+Originals live in the iCloud-backed Asset Library under `Lantern Knight`, organized by subject: Characters, Environments, Props, Items, Effects, Title and Loading, and Guides. Useful exports are browsable beside their Sources; original package bytes and internal paths remain unchanged. Preserve archives, unique revisions, canonical hero references, Clean INK prompts and provenance. The source index records hashes as identity and paths as hints; [source recovery](source-recovery.md) handles moves. Ordinary code/build/CI work does not scan the library.
 
 Git contains code, small recipes and the shared pin. Native source collections, prepared pages/catalogs, captures and logs remain outside Git. The external asset cache retains a 4 GiB budget and leases protecting active readers.
 
@@ -47,3 +47,9 @@ The current TEST hero uses supplied native drawings, eight-direction running, fo
 TypeScript recipe steps are callable operations registered in `tools/assets/operations.ts`. They receive an explicit preparation context for source access, paths, atomic output recording and incremental byte accounting. Compiler writes use the same writer. Python subprocesses receive the translated context at their launch boundary; ordinary builds never invoke preparation.
 
 The next explicit `npm run assets:publish` uses the existing version 3 split runtime/authoring bundles. The current version 2 pin remains usable until that delivery succeeds and a fresh checkout verifies it. Retire obsolete top-level readers only after that gate; source artwork and published archives remain preserved.
+
+## Library authoring coverage
+
+The existing authoring catalog also prepares delivered townsfolk, wildlife, searchable containers, portal clips and hero interactions. `assets/library-packs.json` selects their original metadata contracts; `assets/library-artwork.json` registers additional intact paintings and loose artwork. Source identities and locations remain in the source indices. No file discovery runs in Game, builds or CI.
+
+Use `npm run assets:prepare -- --ids library-all` to refresh this catalog locally. Intact scene paintings are placeable ground panels where registered, with editable provisional world scale. Preview videos and larger alternative-resolution masters stay in the source library; they do not become video scene objects. Existing Game bindings and the published pin do not change.

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
+import { createHash } from 'node:crypto';
 import * as tar from 'tar';
 import { AssetCache, diskBytes } from '../../tools/assets/cache';
 import {
@@ -17,6 +18,7 @@ import { makeArchive } from '../../tools/assets/archive';
 
 import { safeRelative } from '../../tools/assets/paths';
 import { projectRoot } from '../../tools/assets/paths';
+import { prototypeAssets } from '../../tools/assets/preview';
 
 test('runtime composition and lighting do not invalidate artwork, but bake inputs still do', async () => {
   const read = (name: string) => fs.readFile(path.join(projectRoot, name));
@@ -102,6 +104,38 @@ test('prepared archives are deterministic; fresh downloads verify every file and
     }) as typeof fetch);
     assert.equal(downloads, 1);
     await offline.release();
+  } finally {
+    await f.close();
+  }
+});
+test('an evicted local layer falls back to the pin while a corrupt descriptor still fails', async () => {
+  const f = await fixture();
+  try {
+    await fs.mkdir(path.join(f.root, 'assets'));
+    await fs.writeFile(path.join(f.root, 'assets/lock.json'), JSON.stringify(f.lock));
+    const pinned = await ensurePack(
+      f.lock,
+      f.cache,
+      (async () => new Response(f.body)) as typeof fetch,
+    );
+    await pinned.release();
+    const prefix =
+      'preview-' + createHash('sha256').update(path.resolve(f.root)).digest('hex').slice(0, 20);
+    const entry = prefix + '-' + '0'.repeat(24);
+    const index = await f.cache.lease(prefix + '-index');
+    await fs.writeFile(path.join(index.root, 'preview.json'), JSON.stringify({ entry }));
+    await index.release();
+    const restored = await prototypeAssets(f.cache, f.root);
+    assert.equal(restored.lock.sha256, f.lock.sha256);
+    assert.equal(
+      await fs.readFile(path.join(restored.held.root, 'public/page.png'), 'utf8'),
+      'unchanged texture',
+    );
+    await restored.held.release();
+    const corrupt = await f.cache.lease(entry);
+    await fs.writeFile(path.join(corrupt.root, 'preview.json'), '{');
+    await corrupt.release();
+    await assert.rejects(prototypeAssets(f.cache, f.root), SyntaxError);
   } finally {
     await f.close();
   }

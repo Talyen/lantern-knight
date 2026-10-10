@@ -711,6 +711,107 @@
       "group": "library-f049482a2124",
       "archive": "Lantern_Enemy_Overnight_2026-10-08_Integration_Handoff.zip",
       "category": 0
+    },
+    {
+      "group": "library-0168d98a9958",
+      "archive": "Lantern_MothKeeper_BrassApothecary_Runtime.zip",
+      "category": 9,
+      "format": "atlas-characters",
+      "manifest": "npcs_bf/manifest.json",
+      "kind": "character"
+    },
+    {
+      "group": "library-1ca393fb02c7",
+      "archive": "lantern_town_craftspeople_01_Runtime.zip",
+      "category": 9
+    },
+    {
+      "group": "library-73818d0040a7",
+      "archive": "Lantern_GentleHeadsman_I_Runtime.zip",
+      "category": 9,
+      "format": "atlas-actor",
+      "manifest": "runtime/animation.json",
+      "kind": "character",
+      "identity": "gentle_headsman"
+    },
+    {
+      "group": "library-67a37d18ad33",
+      "archive": "Lantern_Raven_F1_Runtime.zip",
+      "category": 9,
+      "format": "atlas-actor",
+      "manifest": "raven/runtime/animation.json",
+      "kind": "character",
+      "identity": "raven",
+      "density": 1152
+    },
+    {
+      "group": "library-c1d4371729fb",
+      "archive": "Lantern_Moths_F3_Runtime.zip",
+      "category": 9,
+      "format": "atlas-actor",
+      "manifest": "moths/runtime/animation.json",
+      "kind": "character",
+      "identity": "moths",
+      "density": 3840
+    },
+    {
+      "group": "library-aad714e1a1a7",
+      "archive": "Lantern_SleepingAlleyCat_F5_Runtime.zip",
+      "category": 9,
+      "format": "atlas-actor",
+      "manifest": "sleeping_alley_cat/runtime/manifest.json",
+      "kind": "character",
+      "identity": "sleeping_alley_cat"
+    },
+    {
+      "group": "library-a20d60b61c3d",
+      "archive": "lantern_gothic_manor_desk_runtime.zip",
+      "category": 4,
+      "format": "frame-props",
+      "manifest": "runtime/manifest.json",
+      "kind": "prop",
+      "identity": "gothic_manor_desk"
+    },
+    {
+      "group": "library-08d3f6dab5df",
+      "archive": "lantern_containers_runtime.zip",
+      "category": 4,
+      "format": "frame-props",
+      "manifest": "lantern_containers/manifest.json",
+      "kind": "prop"
+    },
+    {
+      "group": "library-4a50d443dd7b",
+      "archive": "Lantern_Ossuary_ReedHamper_Runtime.zip",
+      "category": 4,
+      "format": "frame-props",
+      "manifest": "manifest.json",
+      "kind": "prop"
+    },
+    {
+      "group": "library-663a0164e300",
+      "archive": "lantern_occult_bookshelf_runtime.zip",
+      "category": 4,
+      "format": "frame-props",
+      "manifest": "runtime/manifest.json",
+      "kind": "prop",
+      "identity": "occult_bookshelf"
+    },
+    {
+      "group": "library-b9e5ff2e8809",
+      "archive": "lantern_town_portal_runtime.zip",
+      "category": 5,
+      "format": "portal",
+      "manifest": "runtime/manifest.json",
+      "kind": "effect"
+    },
+    {
+      "group": "library-f616041d27e5",
+      "archive": "Lantern_Essential_Interactions_Runtime.zip",
+      "category": 1,
+      "format": "hero-interactions",
+      "manifest": "interaction_manifest.json",
+      "kind": "character"
     }
   ]
 }
