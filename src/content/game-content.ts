@@ -1,5 +1,5 @@
 import { ContentRegistry, type ContentDefinitions } from './world';
-import { sceneAssets, validateAreaArt, type WorldVisualDefinition } from './world-art';
+import { sceneAssets, validateAreaArt, type WorldVisualDefinition } from './world-visuals';
 import { combatEffectAssets } from './combat-feedback';
 import { visualEffectsAssets } from './visual-effects-assets';
 import type { AreaDefinition } from './world';
@@ -83,7 +83,7 @@ export function composeSceneContent(
       return scene;
     },
     validate: ({ area, visuals }, packs) => {
-      validateAreaArt(area, packs, visuals);
+      validateAreaArt(packs, visuals);
       for (const spawn of area.spawns) {
         const visual = actorVisuals[registry.actor(spawn.actor).visual]!,
           manifest = packs.get(visual.asset)!.manifest;

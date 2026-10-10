@@ -1,7 +1,7 @@
 import type { OrthographicCamera } from 'three';
 import type { PackLease } from '../assets/loader';
 import type { AreaDefinition } from '../content/world';
-import type { WorldVisualDefinition } from '../content/world-art';
+import type { WorldVisualDefinition } from '../content/world-visuals';
 import type { VisualEffects } from '../content/visual-effects';
 import type { Simulation } from '../core/simulation';
 

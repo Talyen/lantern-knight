@@ -5,7 +5,7 @@ import { FoliageWind } from './foliage-wind';
 import { sceneryRegistration } from '../content/scenery-registration';
 import { heightAt, type ActorId } from '../content/world';
 import type { Simulation } from '../core/simulation';
-import type { WorldVisualDefinition } from '../content/world-art';
+import type { WorldVisualDefinition } from '../content/world-visuals';
 type Caster = {
   mesh: T.Mesh<T.BufferGeometry, T.MeshBasicMaterial>;
   depth: T.MeshDepthMaterial;

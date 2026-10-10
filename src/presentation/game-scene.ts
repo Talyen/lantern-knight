@@ -21,7 +21,7 @@ import {
   compositionPoint,
   compositionSpan,
   compositionHeight,
-} from '../content/world-art';
+} from '../content/world-visuals';
 import type { Clip } from '../assets/schema';
 import { tuning } from '../content/gameplay';
 import { heightAt, type AreaDefinition } from '../content/world';
@@ -204,12 +204,7 @@ export class GamePresentation implements PresentationLifecycle {
   }
   protected framingZ = 3;
   get viewSpan() {
-    return compositionSpan(
-      this.area.id,
-      { x: 0, z: this.framingZ },
-      this.verticalSpan,
-      this.visuals,
-    );
+    return compositionSpan({ x: 0, z: this.framingZ }, this.verticalSpan, this.visuals);
   }
   update(sim: Simulation, alpha: number, ms: number, aim: { x: number; z: number }) {
     if (this.generation !== sim.generation) {
@@ -295,7 +290,6 @@ export class GamePresentation implements PresentationLifecycle {
         resizeCamera(this.camera, this.canvas.clientWidth, this.canvas.clientHeight, this.viewSpan);
       this.cameraTarget.set(x, heightAt(sim.areaDefinition, x, z), z);
       const framed = compositionPoint(
-        sim.area,
         { x, z },
         {
           halfWidth: (this.camera.right - this.camera.left) / 2,
@@ -306,7 +300,7 @@ export class GamePresentation implements PresentationLifecycle {
       this.viewTarget.set(
         framed.x,
         heightAt(sim.areaDefinition, framed.x, framed.z) +
-          compositionHeight(sim.area, { x, z }, this.visuals),
+          compositionHeight({ x, z }, this.visuals),
         framed.z,
       );
       this.camera.position.copy(this.viewTarget).addScaledVector(outward, 30);

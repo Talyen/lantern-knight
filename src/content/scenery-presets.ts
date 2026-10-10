@@ -1,5 +1,4 @@
-import type { FixtureDefinition, WorldVisualDefinition } from './world-art';
-export const SCENE_LIGHT_CAPACITY = 3;
+import type { FixtureDefinition, WorldVisualDefinition, ResolvedFixture } from './world-visuals';
 const lamp = (
   socket: [number, number, number],
   power: number,
@@ -47,7 +46,6 @@ export function placementOffset(
 }
 export const localOffset = (p: { scale?: number; mirror?: boolean }, v: readonly number[]) =>
   placementOffset({ mirror: p.mirror, scale: 1 / (p.scale ?? 1) }, v);
-export type ResolvedFixture = Omit<FixtureDefinition, 'range'> & { prop: string; radius: number };
 export function resolveFixtures(art: WorldVisualDefinition): ResolvedFixture[] {
   return art.props.flatMap((p) => {
     if (!p.fixture) return [];

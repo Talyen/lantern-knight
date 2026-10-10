@@ -1,6 +1,6 @@
 import { AuthoredGameplaySchema } from './authored-gameplay';
 import { z } from 'zod';
-import type { ArtPlacement, WorldVisualDefinition } from './world-art';
+import type { ArtPlacement, WorldVisualDefinition } from './world-visuals';
 import type { Manifest } from '../assets/schema';
 import { placementOffset } from './scenery-presets';
 import { HEADINGS } from '../core/camera';

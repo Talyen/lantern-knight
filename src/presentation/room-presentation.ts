@@ -7,10 +7,10 @@ import {
   insetGround,
   fadeGroundRim,
 } from './scene-surround';
-import { floorUV } from '../content/world-art';
+import { floorUV } from '../content/world-visuals';
 import { heightAt } from '../content/world';
 import type { AreaDefinition } from '../content/world';
-import type { WorldVisualDefinition } from '../content/world-art';
+import type { WorldVisualDefinition } from '../content/world-visuals';
 import type { PackLease } from '../assets/loader';
 import type { PreparedRegistration } from '../assets/registration';
 const DEPTH_STAGE = { ground: -2, groundGrid: -1, world: 0 } as const;

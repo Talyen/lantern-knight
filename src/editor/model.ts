@@ -4,7 +4,8 @@ import {
   type SceneObject,
 } from '../content/scene-document';
 import { localOffset } from '../content/scenery-presets';
-import { resolveAuthoredScene, type ArtPlacement } from '../content/world-art';
+import { resolveAuthoredScene } from '../content/world-art';
+import { type ArtPlacement } from '../content/world-visuals';
 export type EditorItem = { placement: ArtPlacement; kind: SceneObject['kind'] };
 export function sceneItems(document: SceneDocument): EditorItem[] {
   const art = resolveAuthoredScene(document),

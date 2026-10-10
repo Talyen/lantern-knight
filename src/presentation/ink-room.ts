@@ -1,4 +1,5 @@
-import { sceneFixtures, type ResolvedFixture } from '../content/scenery-presets';
+import { sceneFixtures } from '../content/scenery-presets';
+import { type ResolvedFixture } from '../content/world-visuals';
 import type { PreparedRegistration } from '../assets/registration';
 import * as T from 'three';
 import { ActorSprite } from './sprite';
@@ -7,7 +8,7 @@ import { graveyardGroundMaterial } from './graveyard-ground';
 import { SceneryReveals } from './scenery-reveals';
 import { resolveClip, type Clip } from '../assets/schema';
 import type { PackLease } from '../assets/loader';
-import { type WorldVisualDefinition, type ArtPlacement } from '../content/world-art';
+import { type WorldVisualDefinition, type ArtPlacement } from '../content/world-visuals';
 import { heightAt, type AreaDefinition } from '../content/world';
 import { outward } from '../core/camera';
 import { clipDuration, frameAt } from '../core/animation';

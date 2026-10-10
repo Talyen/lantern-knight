@@ -3,7 +3,7 @@ import { outward, right, up } from '../core/camera';
 import { resolveClip } from '../assets/schema';
 import type { PackLease } from '../assets/loader';
 import type { Point } from '../content/world';
-import type { SceneSurroundDefinition, SurroundLayer } from '../content/world-art';
+import type { SceneSurroundDefinition, SurroundLayer } from '../content/world-visuals';
 import { ActorSprite } from './sprite';
 import { lightingRigs, type LookSettings } from './lighting-profiles';
 import { neutralColor } from './illustrated-lighting';

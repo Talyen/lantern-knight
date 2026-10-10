@@ -7,7 +7,7 @@ import { Texture, MeshBasicMaterial } from 'three';
 import { parseManifest, resolveClip } from '../../src/assets/schema';
 import { ActorSprite, setCutoutOpacity } from '../../src/presentation/sprite';
 import { drawingBufferSize } from '../../src/core/camera';
-import { sceneAssets, validateAreaArt } from '../../src/content/world-art';
+import { sceneAssets, validateAreaArt } from '../../src/content/world-visuals';
 import { assetCatalog } from '../../src/content/asset-catalog';
 import { content } from '../fixtures/content';
 async function manifest(id: string) {
@@ -54,15 +54,12 @@ test('room visuals validate their dependencies and clips before a transition com
         ),
       ),
     );
-  validateAreaArt(area, packs, worldVisuals[area.id]);
+  validateAreaArt(packs, worldVisuals[area.id]);
   packs.delete('ink-stage-earth');
-  assert.throws(() => validateAreaArt(area, packs, worldVisuals[area.id]), /missing room art/);
+  assert.throws(() => validateAreaArt(packs, worldVisuals[area.id]), /missing room art/);
   packs.set('ink-stage-earth', { manifest: await manifest('ink-stage-earth') });
   delete packs.get('ink-blackwood-oak')!.manifest.asset.clips.oak;
-  assert.throws(
-    () => validateAreaArt(area, packs, worldVisuals[area.id]),
-    /required clip unavailable/,
-  );
+  assert.throws(() => validateAreaArt(packs, worldVisuals[area.id]), /required clip unavailable/);
 });
 
 test('cutout fades invalidate the opaque shader on transitions, without recompiling unchanged opacity', async () => {

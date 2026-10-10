@@ -2,7 +2,8 @@ import { readAsset } from '../../tools/assets/io';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
-import { resolveAuthoredScene, sceneAssets } from '../../src/content/world-art';
+import { resolveAuthoredScene } from '../../src/content/world-art';
+import { sceneAssets } from '../../src/content/world-visuals';
 import { sceneFixture } from '../fixtures/scene';
 const scene = sceneFixture('graveyard');
 scene.objects.push(

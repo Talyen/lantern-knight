@@ -1,6 +1,6 @@
 import { sceneFixtures } from './scenery-presets';
 import type { Bounds, Point } from './world';
-import type { ArtPlacement, WorldVisualDefinition, SiteWall } from './world-art';
+import type { ArtPlacement, WorldVisualDefinition, SiteWall } from './world-visuals';
 export type ArtFinding = {
   kind: 'solid-intersection' | 'invalid-registration' | 'blocked-route' | 'unknown-allowance';
   a: string;

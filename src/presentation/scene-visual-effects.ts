@@ -6,7 +6,7 @@ import { IllustratedRain } from './illustrated-rain';
 import { resolveClip } from '../assets/schema';
 import { frameAt, clipDuration } from '../core/animation';
 import { heightAt, type AreaDefinition } from '../content/world';
-import { type WorldVisualDefinition } from '../content/world-art';
+import { type WorldVisualDefinition } from '../content/world-visuals';
 import {
   lightFlicker,
   dryWeather,

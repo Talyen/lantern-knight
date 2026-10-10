@@ -5,7 +5,7 @@ import type { Simulation } from '../core/simulation';
 import type { ActorSprite } from './sprite';
 import { SceneryReveal, cardCoverage, type CoverageMask } from './scenery-reveal';
 import type { PreparedRegistration } from '../assets/registration';
-import type { WorldVisualDefinition } from '../content/world-art';
+import type { WorldVisualDefinition } from '../content/world-visuals';
 
 export class SceneryReveals {
   private reveals: SceneryReveal[] = [];

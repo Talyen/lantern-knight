@@ -2,7 +2,7 @@ import { Mesh, Vector3, type Material } from 'three';
 import { outward, right, up, contract } from '../core/camera';
 import { setCutoutOpacity } from './sprite';
 import type { Simulation } from '../core/simulation';
-import type { SiteWall } from '../content/world-art';
+import type { SiteWall } from '../content/world-visuals';
 
 type Point = { x: number; y: number };
 type Part = {

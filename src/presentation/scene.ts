@@ -63,7 +63,7 @@ export class Presentation extends GamePresentation {
     events: EventHub,
     initialArea: import('../content/world').AreaDefinition,
     registration: PreparedRegistration,
-    visuals: import('../content/world-art').WorldVisualDefinition | undefined,
+    visuals: import('../content/world-visuals').WorldVisualDefinition | undefined,
   ) {
     super(canvas, packs, events, initialArea, registration, visuals);
     this.scene.add(this.calibration, this.overlay, this.rootMarkers, this.artConstruction.group);

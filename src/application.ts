@@ -68,7 +68,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       events: EventHub,
       area: import('./content/world').AreaDefinition,
       registration: PreparedRegistration,
-      visuals: import('./content/world-art').WorldVisualDefinition | undefined,
+      visuals: import('./content/world-visuals').WorldVisualDefinition | undefined,
     ) => P,
     readonly hooks: ApplicationHooks,
     readonly extraAssets: readonly string[] = [],

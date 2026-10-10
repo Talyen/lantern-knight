@@ -1,6 +1,6 @@
 import { FocusMask } from './focus-mask';
 import { ShadowProxies } from './shadow-proxies';
-import { SCENE_LIGHT_CAPACITY } from '../content/scenery-presets';
+import { SCENE_LIGHT_CAPACITY } from '../content/world-visuals';
 import * as T from 'three';
 import {
   EffectComposer,
@@ -28,7 +28,7 @@ import type { RoomPresentation } from './room-presentation';
 import type { ActorPresentation } from './actor-presentation';
 import type { SceneVisualEffects } from './scene-visual-effects';
 import type { PackLease } from '../assets/loader';
-import type { WorldVisualDefinition } from '../content/world-art';
+import type { WorldVisualDefinition } from '../content/world-visuals';
 import type { VisualEffects } from '../content/visual-effects';
 type LightingFrame = {
   visuals: WorldVisualDefinition | undefined;

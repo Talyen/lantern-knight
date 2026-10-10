@@ -1,8 +1,7 @@
 import type { Bounds } from './world';
-import type { ArtPlacement, WorldVisualDefinition } from './world-art';
+import type { ArtPlacement, WorldVisualDefinition, SceneProfile } from './world-visuals';
 import { sceneArtFindings, solidIntersection } from './scene-art-validation';
 
-export type SceneProfile = 'graveyard' | 'chapel';
 type DesignZone = {
   kind: 'focal' | 'supporting' | 'framing' | 'clear';
   bounds: Bounds;

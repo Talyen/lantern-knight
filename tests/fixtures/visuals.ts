@@ -1,4 +1,4 @@
-import type { WorldVisualDefinition } from '../../src/content/world-art';
+import type { WorldVisualDefinition } from '../../src/content/world-visuals';
 import { developerScenes } from '../../src/content/developer-scenes';
 import { ContentRegistry } from '../../src/content/world';
 import { actors } from '../../src/content/actors';

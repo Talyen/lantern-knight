@@ -1,7 +1,7 @@
 import { placementOffset } from '../content/scenery-presets';
 import { Vector3, type Mesh } from 'three';
 import { right, up } from '../core/camera';
-import type { WorldVisualDefinition } from '../content/world-art';
+import type { WorldVisualDefinition } from '../content/world-visuals';
 import { isSupportedPosition, type AreaDefinition } from '../content/world';
 
 export type AlphaImage = { width: number; height: number; data: Uint8Array };

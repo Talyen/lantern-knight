@@ -12,11 +12,16 @@ function importFinding(file: string, target: string) {
   if (!file.startsWith('src/')) return;
   if (
     (file.startsWith('src/core/') || file === 'src/content/world.ts') &&
-    /^src\/content\/(?:game-content|world-art|scene-document|scene-v1|scenery-presets|visuals|asset-catalog|graveyard-scene|crypt-scene)/.test(
+    /^src\/content\/(?:game-content|world-art|world-visuals|scene-document|scene-v1|scenery-presets|visuals|asset-catalog|graveyard-scene|crypt-scene)/.test(
       target,
     )
   )
     return 'gameplay models require an explicit registry, without production scene or visual composition imports';
+  if (
+    file.startsWith('src/presentation/') &&
+    /^src\/content\/(?:world-art|scene-document)(?:\.|$)/.test(target)
+  )
+    return 'presentation receives resolved world-visuals; authored scene parsing belongs to content and editor owners';
   if (
     /^(?:electron|tools|tests)\//.test(target) ||
     target === 'electron' ||

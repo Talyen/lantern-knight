@@ -1,6 +1,7 @@
 import { worldVisuals } from '../fixtures/visuals';
 import { InkRoom } from '../../src/presentation/ink-room';
-import { sceneAssets, resolveAuthoredScene } from '../../src/content/world-art';
+import { resolveAuthoredScene } from '../../src/content/world-art';
+import { sceneAssets } from '../../src/content/world-visuals';
 import { sceneFixture } from '../fixtures/scene';
 import { readRegistration } from '../../tools/assets/data';
 import type { PackLease } from '../../src/assets/loader';
@@ -15,7 +16,7 @@ import { OcclusionFades } from '../../src/presentation/occlusion-fades';
 import { findDepthConflicts, validateConstruction } from '../../src/presentation/art-validation';
 import { heightAt } from '../../src/content/world';
 import { content } from '../fixtures/content';
-import { compositionPoint, compositionSpan } from '../../src/content/world-art';
+import { compositionPoint, compositionSpan } from '../../src/content/world-visuals';
 import { assetCatalog } from '../../src/content/visuals';
 import { parseManifest, resolveClip } from '../../src/assets/schema';
 import { makeCamera } from '../../src/core/camera';
@@ -142,35 +143,14 @@ test('assembly fades ease, use interpolated fighters, freeze on pause, and resto
 });
 
 test('authored arrival camera preserves player distance and a continuous follow handoff', () => {
-  assert.equal(
-    compositionSpan('upper-landing', { x: 0, z: 7.5 }, 9, worldVisuals['upper-landing']),
-    11,
-  );
-  assert.equal(
-    compositionSpan('upper-landing', { x: 0, z: 3 }, 9, worldVisuals['upper-landing']),
-    9,
-  );
-  assert.equal(
-    compositionSpan('upper-landing', { x: 0, z: 7.5 }, 13, worldVisuals['upper-landing']),
-    13,
-  );
-  assert.equal(compositionSpan('court', { x: 0, z: 7.5 }, 9, worldVisuals['court']), 9);
+  assert.equal(compositionSpan({ x: 0, z: 7.5 }, 9, worldVisuals['upper-landing']), 11);
+  assert.equal(compositionSpan({ x: 0, z: 3 }, 9, worldVisuals['upper-landing']), 9);
+  assert.equal(compositionSpan({ x: 0, z: 7.5 }, 13, worldVisuals['upper-landing']), 13);
+  assert.equal(compositionSpan({ x: 0, z: 7.5 }, 9, worldVisuals['court']), 9);
   assert.ok(
-    Math.abs(
-      compositionSpan('upper-landing', { x: 0, z: 3.00001 }, 9, worldVisuals['upper-landing']) - 9,
-    ) < 1e-8,
+    Math.abs(compositionSpan({ x: 0, z: 3.00001 }, 9, worldVisuals['upper-landing']) - 9) < 1e-8,
   );
-  const before = compositionPoint(
-      'upper-landing',
-      { x: 0, z: 3.00001 },
-      undefined,
-      worldVisuals['upper-landing'],
-    ),
-    after = compositionPoint(
-      'upper-landing',
-      { x: 0, z: 2.99999 },
-      undefined,
-      worldVisuals['upper-landing'],
-    );
+  const before = compositionPoint({ x: 0, z: 3.00001 }, undefined, worldVisuals['upper-landing']),
+    after = compositionPoint({ x: 0, z: 2.99999 }, undefined, worldVisuals['upper-landing']);
   assert.ok(Math.abs(before.z - after.z) < 0.0001);
 });

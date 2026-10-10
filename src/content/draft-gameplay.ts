@@ -1,6 +1,7 @@
 import { ContentRegistry, type ContentDefinitions, isSupportedPosition } from './world';
 import { type SceneDocument, parseSceneDocument, validateSceneReferences } from './scene-document';
-import { resolveScene, type WorldVisualDefinition } from './world-art';
+import { resolveScene } from './world-art';
+import { type WorldVisualDefinition } from './world-visuals';
 import { composeSceneContent } from './game-content';
 export function composeDraftGameplay(
   value: unknown,

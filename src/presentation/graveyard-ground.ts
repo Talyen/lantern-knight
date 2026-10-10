@@ -1,6 +1,6 @@
 import * as T from 'three';
 import type { PackLease } from '../assets/loader';
-import type { WorldVisualDefinition } from '../content/world-art';
+import type { WorldVisualDefinition } from '../content/world-visuals';
 
 // Entire standalone artwork pages repeat at their registered four-metre coverage.
 // Routes and thresholds are separate intact authored panels, never shader paint.
