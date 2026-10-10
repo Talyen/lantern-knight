@@ -7,7 +7,7 @@ export class Input {
   keys = new Set<string>();
   edges = { attack: false, dodge: false, ability: false };
   pointer = { x: 0, y: 0 };
-  cleanups: (() => void)[] = [];
+  private lifetime = new AbortController();
   hasPointer = false;
   lastAim: { x: number; z: number } | undefined;
   constructor(
@@ -15,17 +15,17 @@ export class Input {
     public camera: OrthographicCamera,
     public pause: () => void,
   ) {
+    const signal = this.lifetime.signal;
     const on = <K extends keyof WindowEventMap>(
       type: K,
       fn: (event: WindowEventMap[K]) => void,
     ) => {
-      window.addEventListener(type, fn);
-      this.cleanups.push(() => window.removeEventListener(type, fn));
+      window.addEventListener(type, fn, { signal });
     };
     on('keydown', (e) => {
       if ((e.target as HTMLElement).matches('input,select,textarea')) return;
       this.keys.add(e.code);
-      if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') this.edges.dodge = !e.repeat;
+      if (!e.repeat && (e.code === 'ShiftLeft' || e.code === 'ShiftRight')) this.edges.dodge = true;
       if (e.code === 'Escape' && !e.repeat) {
         e.preventDefault();
         this.pause();
@@ -43,11 +43,8 @@ export class Input {
       if (e.button === 0) this.edges.attack = true;
       if (e.button === 2) this.edges.ability = true;
     };
-    canvas.addEventListener('pointerdown', down);
-    this.cleanups.push(() => canvas.removeEventListener('pointerdown', down));
-    const context = (e: Event) => e.preventDefault();
-    canvas.addEventListener('contextmenu', context);
-    this.cleanups.push(() => canvas.removeEventListener('contextmenu', context));
+    canvas.addEventListener('pointerdown', down, { signal });
+    canvas.addEventListener('contextmenu', (e) => e.preventDefault(), { signal });
   }
   consume(
     actor: Pick<Actor, 'x' | 'z' | 'aim'>,
@@ -88,7 +85,7 @@ export class Input {
     this.hasPointer = false;
   }
   dispose() {
-    this.cleanups.forEach((f) => f());
+    this.lifetime.abort();
     this.clear();
   }
 }

@@ -14,9 +14,9 @@ import { Input } from '../../src/core/input';
 const near = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-7);
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 
-test('first click after an aim reset uses the click position without requiring pointer movement', () => {
+test('input uses the first click position, preserves pending dodge across key repeats, and disposes its listeners', () => {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'window'),
-    target = new EventTarget(),
+    target = Object.assign(new EventTarget(), { matches: () => false }),
     canvas = Object.assign(new EventTarget(), {
       getBoundingClientRect: () => ({
         left: 80,
@@ -44,6 +44,20 @@ test('first click after an aim reset uses the click position without requiring p
       assert.equal(cmd.attack, button === 0);
       assert.equal(cmd.ability, button === 2);
     }
+    for (const repeat of [false, true])
+      target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat }));
+    assert.equal(input.consume(sim.hero, sim.areaDefinition, sim.generation).dodge, true);
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: true }));
+    assert.equal(input.consume(sim.hero, sim.areaDefinition, sim.generation).dodge, false);
+    input.resetAim();
+    input.dispose();
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: false }));
+    canvas.dispatchEvent(
+      Object.assign(new Event('pointerdown'), { button: 0, clientX: 650, clientY: 320 }),
+    );
+    assert.equal(input.keys.size, 0);
+    assert.deepEqual(input.edges, { attack: false, dodge: false, ability: false });
+    assert.equal(input.hasPointer, false);
   } finally {
     input.dispose();
     if (previous) Object.defineProperty(globalThis, 'window', previous);
