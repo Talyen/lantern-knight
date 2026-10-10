@@ -9,7 +9,7 @@ const electron = createRequire(import.meta.url)('electron') as string;
 const session = await openPreview({
   output: 'development',
   assets: 'local',
-  scope: 'authoring',
+  scope: process.argv.includes('--game') ? 'runtime' : 'authoring',
   port: Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
 });
 const ready = new Set<string>();

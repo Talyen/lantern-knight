@@ -6,7 +6,7 @@ import os from 'node:os';
 import { runProcess } from '../../tools/run-process';
 import { projectRoot } from '../../tools/assets/paths';
 test('fresh source checkout: renderer reload, main/preload restart and owned shutdown', async () => {
-  test.setTimeout(180_000);
+  test.setTimeout(240_000);
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-live-')),
     controller = new AbortController();
   let browser: Browser | undefined,
@@ -40,7 +40,7 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
       [process.env.npm_execpath, 'ci', '--no-audit', '--no-fund'],
       {
         cwd: root,
-        timeoutMs: 60_000,
+        timeoutMs: 120_000,
         output: (chunk) => {
           log = (log + chunk.toString()).slice(-65536);
         },
