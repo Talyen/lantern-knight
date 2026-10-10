@@ -1,10 +1,11 @@
+import { desktopEnvironment } from './environment';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import os from 'node:os';
 import assert from 'node:assert/strict';
 import { fileURLToPath } from 'node:url';
 import { option, type smokeLaunch } from '../smoke/smoke-launch';
 import { digest, sourceIdentity } from '../source-identity';
+import { requireCurrentDesktopInputs } from '../build-identity';
 
 import { BenchmarkSchema, frameSummary, compareBenchmarks } from './benchmark-model';
 export async function captureBenchmark(run: Awaited<ReturnType<typeof smokeLaunch>>) {
@@ -27,10 +28,12 @@ export async function captureBenchmark(run: Awaited<ReturnType<typeof smokeLaunc
     ) as {
       sourceCommit: string | null;
       dirty: boolean;
+      inputSha256: string;
       assets: { sha256: string };
       files: Record<string, string>;
     };
   });
+  await requireCurrentDesktopInputs(loaded);
   if (
     !loaded.assets?.sha256 ||
     loaded.assets.sha256 !== (process.env.LANTERN_ASSET_SHA256 ?? source.assetSha256)
@@ -39,20 +42,7 @@ export async function captureBenchmark(run: Awaited<ReturnType<typeof smokeLaunc
       'Benchmark package asset identity differs; rebuild/package Dev with the selected pack',
     );
   const environment = async () => {
-    const desktop = await run.app.evaluate(({ BrowserWindow, screen }) => {
-      const window = BrowserWindow.getAllWindows()[0]!;
-      return {
-        arch: process.arch,
-        refreshHz: screen.getDisplayMatching(window.getBounds()).displayFrequency,
-        visible: window.isVisible(),
-        runtime: {
-          node: process.versions.node!,
-          electron: process.versions.electron!,
-          chromium: process.versions.chrome!,
-        },
-        flags: run.flags.filter((a) => /^--(?:use-|disable-gpu)/.test(a)),
-      };
-    });
+    const desktop = await desktopEnvironment(run);
     const rendering = await run.page.evaluate(() => {
       const p = window.foundation.presentation,
         s = p.stats();
@@ -78,11 +68,6 @@ export async function captureBenchmark(run: Awaited<ReturnType<typeof smokeLaunc
     return {
       ...desktop,
       ...rendering,
-      hardware: option(
-        '--hardware',
-        os.hostname() + ' / ' + (os.cpus()[0]?.model ?? 'unknown CPU'),
-      ),
-      os: `${os.platform()} ${os.release()}`,
       scenario: 'opening-loop-v1' as const,
       warmupMs,
       assets: loaded.assets.sha256,

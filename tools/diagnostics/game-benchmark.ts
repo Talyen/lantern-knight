@@ -1,12 +1,13 @@
+import { desktopEnvironment } from './environment';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import os from 'node:os';
 import assert from 'node:assert/strict';
 import { z } from 'zod';
 import { BenchmarkSchema, frameSummary } from './benchmark-model';
 import { digest } from '../source-identity';
 import { verificationIdentity, requireStableInputs } from '../verification';
-import { option, type smokeLaunch } from '../smoke/smoke-launch';
+import { requireCurrentDesktopInputs } from '../build-identity';
+import type { smokeLaunch } from '../smoke/smoke-launch';
 
 export const journeyPhases = ['movement', 'actions', 'checkpoint'] as const;
 const segment = z
@@ -114,31 +115,14 @@ export async function startGameBenchmark(
       files: Record<string, string>;
     };
   });
-  assert.equal(
-    loaded.inputSha256,
-    source.sha256,
-    'Game benchmark requires a fresh package matching current authored inputs',
-  );
+  await requireCurrentDesktopInputs(loaded);
   assert.equal(
     loaded.assets.sha256,
     process.env.LANTERN_ASSET_SHA256,
     'Game benchmark package asset pin differs',
   );
   const environment = async () => {
-    const desktop = await run.app.evaluate(({ BrowserWindow, screen }) => {
-      const w = BrowserWindow.getAllWindows()[0]!;
-      return {
-        arch: process.arch,
-        refreshHz: screen.getDisplayMatching(w.getBounds()).displayFrequency,
-        visible: w.isVisible(),
-        runtime: {
-          node: process.versions.node!,
-          electron: process.versions.electron!,
-          chromium: process.versions.chrome!,
-        },
-        flags: run.flags.filter((a) => /^--(?:use-|disable-gpu)/.test(a)),
-      };
-    });
+    const desktop = await desktopEnvironment(run);
     const rendering = await run.page.evaluate(() => {
       const canvas = document.querySelector('canvas')!,
         rect = canvas.getBoundingClientRect(),
@@ -165,11 +149,6 @@ export async function startGameBenchmark(
     return {
       ...desktop,
       ...rendering,
-      hardware: option(
-        '--hardware',
-        os.hostname() + ' / ' + (os.cpus()[0]?.model ?? 'unknown CPU'),
-      ),
-      os: `${os.platform()} ${os.release()}`,
       scenario: 'game-empty-v1' as const,
       warmupMs: 0 as const,
       assets: loaded.assets.sha256,

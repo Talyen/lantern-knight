@@ -1,4 +1,8 @@
-import { writeBuildIdentity, verifyBuildIdentity } from '../../tools/build-identity';
+import {
+  writeBuildIdentity,
+  verifyBuildIdentity,
+  requireCurrentDesktopInputs,
+} from '../../tools/build-identity';
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -6,9 +10,44 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { execFileSync } from 'node:child_process';
+import vm from 'node:vm';
+import { desktopEnvironment } from '../../tools/diagnostics/environment';
 
 import { compareBenchmarks, type BenchmarkRecord } from '../../tools/diagnostics/benchmark-model';
 import { compareGameBenchmarks, journeyPhases } from '../../tools/diagnostics/game-benchmark';
+
+test('benchmark metadata crosses the serialized Electron boundary with explicit effective arguments', async () => {
+  const app = {
+    async evaluate(callback: Function, argument: unknown) {
+      const evaluate = vm.runInNewContext(`(${callback.toString()})`, {
+        process: { arch: 'arm64', versions: { node: '24', electron: '44', chrome: '144' } },
+      });
+      return JSON.parse(
+        JSON.stringify(
+          evaluate(
+            {
+              BrowserWindow: {
+                getAllWindows: () => [{ getBounds: () => ({}), isVisible: () => false }],
+              },
+              screen: { getDisplayMatching: () => ({ displayFrequency: 60 }) },
+            },
+            argument,
+          ),
+        ),
+      );
+    },
+  };
+  const environment = await desktopEnvironment({
+    app: app as unknown as Parameters<typeof desktopEnvironment>[0]['app'],
+    flags: ['--hardware', 'fixture hardware'],
+    launchArgs: ['--use-angle=metal', '--disable-gpu-sandbox', '--remote-debugging-port=0'],
+  });
+  assert.equal(environment.hardware, 'fixture hardware');
+  assert.equal(environment.runtime.electron, '44');
+  assert.equal(environment.refreshHz, 60);
+  assert.equal(environment.visible, false);
+  assert.deepEqual(environment.flags, ['--use-angle=metal', '--disable-gpu-sandbox']);
+});
 
 test('performance comparisons normalize duration and refuse incompatible settings or malformed samples', () => {
   const record: BenchmarkRecord = {
@@ -196,8 +235,16 @@ test('web input identity ignores Electron-only edits while desktop identity obse
     await fs.writeFile(path.join(root, 'electron/main.ts'), 'changed desktop');
     assert.equal(await sourceInputHash(root, { scope: 'web' }), web);
     assert.notEqual(await sourceInputHash(root, { scope: 'desktop' }), desktop);
+    await fs.mkdir(path.join(root, 'tools/diagnostics'), { recursive: true });
+    const harness = path.join(root, 'tools/diagnostics/benchmark.ts');
+    await fs.writeFile(harness, 'baseline harness');
+    const built = { inputSha256: await sourceInputHash(root, { scope: 'desktop' }) };
+    await requireCurrentDesktopInputs(built, root);
+    await fs.writeFile(harness, 'changed harness');
+    await requireCurrentDesktopInputs(built, root);
     await fs.writeFile(path.join(root, 'src/application.ts'), 'changed web');
     assert.notEqual(await sourceInputHash(root, { scope: 'web' }), web);
+    await assert.rejects(requireCurrentDesktopInputs(built, root), /fresh desktop package/);
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }

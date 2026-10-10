@@ -154,15 +154,16 @@ async function launch(
   let app: ElectronApplication | undefined, page: Page | undefined;
   const errors: string[] = [];
   const launchStarted = performance.now();
+  const launchArgs = [
+    ...(process.platform === 'win32' && process.env.CI === 'true'
+      ? ['--use-gl=angle', '--use-angle=swiftshader']
+      : []),
+    ...args,
+  ];
   try {
     app = await electron.launch({
       executablePath: executable,
-      args: [
-        ...(process.platform === 'win32' && process.env.CI === 'true'
-          ? ['--use-gl=angle', '--use-angle=swiftshader']
-          : []),
-        ...args,
-      ],
+      args: launchArgs,
       env: {
         ...process.env,
         LANTERN_USER_DATA: profile,
@@ -193,6 +194,7 @@ async function launch(
       rendererReadyMs = await page.evaluate(() => performance.now());
     return {
       flags,
+      launchArgs,
       app,
       page,
       profile,

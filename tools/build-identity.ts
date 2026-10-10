@@ -8,7 +8,7 @@ import { content } from '../src/content/game-content';
 import { worldVisuals } from '../src/content/game-content';
 import { webOutput, electronOutput, type BuildProfile } from './build-profile';
 import type { AssetWorkspace } from './assets/workspace';
-import type { sourceFingerprint } from './source-identity';
+import { sourceInputHash, type sourceFingerprint } from './source-identity';
 const isOSMetadata = (name: string) => path.posix.basename(name) === '.DS_Store';
 type ArtifactOptions = {
   root?: string;
@@ -84,6 +84,16 @@ export async function writeBuildIdentity(
   await fs.writeFile(path.join(root, identityPath), JSON.stringify(identity, null, 2) + '\n');
   report(`Build identity: ${inputs.commit}${inputs.dirty ? ' (working tree)' : ''}`);
   return identity;
+}
+export async function requireCurrentDesktopInputs(
+  identity: { inputSha256: string },
+  root = process.cwd(),
+) {
+  assert.equal(
+    identity.inputSha256,
+    await sourceInputHash(root, { scope: 'desktop' }),
+    'Benchmark requires a fresh desktop package matching current build inputs',
+  );
 }
 export async function verifyBuildIdentity(
   options: ArtifactOptions & { env?: NodeJS.ProcessEnv } = {},
