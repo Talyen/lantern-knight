@@ -46,7 +46,7 @@ Preview sessions own server acquisition, identity checks and lease release once.
 
 ### Change saved state
 
-Change the current schema, session capture/restore and relevant adapters together. Prototype saves use version 6 and settings version 5; obsolete or incompatible data loads as empty. Storage failures remain visible. Adapters validate writes; Electron snapshots requests, serializes them through one queue and replaces files atomically. Browser and desktop isolate prototype profiles. Test with `npm test -- tests/unit/persistence.test.ts tests/unit/application.test.ts`. Add migrations when external players create a real compatibility need.
+Change the schemas and parsers in `src/core/save.ts`, session capture/restore and relevant adapters together. Prototype saves use version 6 and settings version 5; obsolete or incompatible data loads as empty. Storage failures remain visible. Adapters validate writes; Electron snapshots requests, serializes them through one queue and replaces files atomically. Browser and desktop isolate prototype profiles. Test with `npm test -- tests/unit/persistence.test.ts tests/unit/application.test.ts`. Add migrations when external players create a real compatibility need.
 
 ### Add an area or enemy
 
