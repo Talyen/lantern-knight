@@ -14,7 +14,7 @@ export function browserSelection(args: string[]) {
       'Built browser tests require the Game scenario; scene/editor/effects use development previews',
     );
   const scope =
-    selections.length && selections.every((arg) => /^(game|scene)(\.spec\.ts)?$/.test(arg))
+    selections.length && selections.every((arg) => /^game(\.spec\.ts)?$/.test(arg))
       ? 'runtime'
       : 'authoring';
   return { built, forwarded, scope } as const;

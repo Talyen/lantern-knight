@@ -74,6 +74,7 @@ test('built browser tests select only Game and remove the wrapper flag', () => {
   assert.throws(() => browserSelection(['scene', '--built']), /Game scenario/);
   assert.throws(() => browserSelection(['--built']), /Game scenario/);
   assert.equal(browserSelection(['editor']).scope, 'authoring');
+  assert.equal(browserSelection(['scene']).scope, 'authoring');
 });
 test('asset validation reads the explicit workspace and rejects altered media', async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-explicit-assets-'));
