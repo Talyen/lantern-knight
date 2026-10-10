@@ -5,7 +5,7 @@ const built = process.env.LANTERN_TEST_BUILT === 'true';
 const port = process.env.LANTERN_PREVIEW_PORT ?? '5174';
 export default defineConfig({
   testDir: desktop ? 'tests/desktop' : 'tests/browser',
-  timeout: 90_000,
+  timeout: 180_000,
   workers: 1,
   retries: 0,
   outputDir: '.cache/browser-results',

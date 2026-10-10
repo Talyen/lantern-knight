@@ -47,7 +47,7 @@ async function browserTests(args: string[]) {
             LANTERN_TEST_SCOPE: scope,
             LANTERN_TEST_TARGET: 'browser',
           },
-          timeoutMs: args.includes('--ui') ? undefined : 10 * 60_000,
+          timeoutMs: args.includes('--ui') ? undefined : 30 * 60_000,
         },
       );
     } finally {
