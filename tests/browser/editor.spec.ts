@@ -47,7 +47,13 @@ test('editor placement, experimental scale, history, recovery, save and external
     await page.locator('#document-menu > summary').click();
     await page.locator('#save-as').click();
     await page.locator('#file-id').fill(id);
+    const saving = page.waitForResponse(
+      (response) =>
+        new URL(response.url()).pathname === '/__lantern_editor' &&
+        response.request().method() === 'POST',
+    );
     await page.locator('#confirm-save').click();
+    expect((await saving).status()).toBe(200);
     await expect(page.locator('#save-state')).toHaveText('Saved');
     const saved = JSON.parse(await fs.readFile(file, 'utf8'));
     expect(saved.objects[0].scale).toBe(2);
