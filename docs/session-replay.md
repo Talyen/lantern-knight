@@ -4,10 +4,12 @@ The Node harness drives the shipping `GameSession.step`, transition, reset and c
 
 ```sh
 npm run benchmark -- record authoring/session-opening.json
-npm run benchmark -- replay /external/printed-session.json
+npm run benchmark -- replay /external/session.json
 ```
 
-Recording prints a bounded external-cache bundle containing the recipe, source/content hash, commit/dirty attribution, pinned asset hash, Node version, action hashes, reached areas/events and final checkpoint. It writes the input and each attempted/completed action before continuing; a failed recording retains that journal and bounded diagnostics, and never retries a committed action. Replay runs those actions again in a fresh CLI process and requires exact recorded results. Copy needed evidence to another external workspace before cache eviction; no bundles or journals belong in Git. `--experiment` explicitly labels replay under changed source/assets/Node as a regression experiment; it still fails if results diverge.
+Use the `session.json` path printed by recording in the replay command; `/external/session.json` is a placeholder. The [opening recipe](../authoring/session-opening.json) provides a runnable example.
+
+Recording writes a bounded external-cache bundle containing the recipe, source/content hash, commit/dirty attribution, pinned asset hash, Node version, action hashes, reached areas/events and final checkpoint. It writes the input and each attempted/completed action before continuing; a failed recording retains that journal and bounded diagnostics, and never retries a committed action. Replay runs those actions again in a fresh CLI process and requires exact recorded results. Copy needed evidence to another external workspace before cache eviction; no bundles or journals belong in Git. `--experiment` explicitly labels replay under changed source/assets/Node as a regression experiment; it still fails if results diverge.
 
 Replay and benchmark identity records runtime source, authored scene data, the asset pin and Node version. Documentation and tests are outside that runtime scope. Old evidence can be read as an explicit regression experiment; it does not become a current passing check.
 

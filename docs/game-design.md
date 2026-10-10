@@ -20,7 +20,7 @@ For delayed operations such as save/load, acknowledge pending work promptly, the
 
 ## Damage types and Burn
 
-Basic sword attacks deal Physical damage. The lantern special deals Burn damage immediately and applies Burn damage over time as a status effect. Some enemies can be weak to particular damage types.
+For the planned damage system, basic sword attacks deal Physical damage. The lantern special deals Burn damage immediately and applies Burn damage over time as a status effect. Some enemies can be weak to particular damage types. The current prototype uses numeric damage without damage types, weaknesses or Burn status.
 
 Repeated Burn applications refresh one DoT rather than adding stacks. Enemy weakness modifies both the initial Burn hit and subsequent DoT ticks. Duration, tick cadence, refresh timing and weakness values require design and playtesting.
 

@@ -6,7 +6,7 @@ This is an early prototype. Prefer a short edit–play–check loop. Scenes, ass
 
 Use Node 24.18.0 and npm 11.16.0, then `npm ci` and `npm run dev`. One Vite server serves Game, Dev Preview and the scene editor. Developer navigation links connect these views. Dev Preview uses one toolbar and floating inspector for independent outdoor/interior/system fixtures, animation, visuals/effects, inspection and diagnostics; advanced controls remain collapsed until needed.
 
-`npm run dev:preview` starts Dev Preview and opens `/sandbox.html` in Safari on macOS. It reuses a server only after checking checkout, asset identity and authoring scope. Reusing a server opens Safari and returns to the shell; when starting a server, Ctrl+C closes only that server. Use `npm run dev:preview -- --port 5175` to select another port. The personal `lantern-dev` shell command runs this from the primary checkout, from any directory.
+`npm run dev:preview` starts Dev Preview and opens `/sandbox.html` in Safari on macOS. It reuses a server only after checking checkout, asset identity and authoring scope. Reusing a server opens Safari and returns to the shell; when starting a server, Ctrl+C closes only that server. Use `npm run dev:preview -- --port 5175` to select another port. On other platforms, use `npm run dev` and open `/sandbox.html` in your browser.
 
 `npm run desktop:dev` starts the same server and watches Electron main/preload bundles. Renderer edits reload through Vite; main/preload edits restart the owned Electron process. `-- --game` opens Game with runtime assets and Game-only navigation; the default developer views use authoring assets. Live Game keeps its separate preview save namespace. It does not build or package the application first. Close the command to release its server and asset lease.
 
@@ -19,6 +19,8 @@ Development selects a checkout-local preparation when available, otherwise the i
 ## Verify an edit
 
 Run an exact suite while editing: `npm test -- tests/unit/hero-actions.test.ts`. `npm run test:watch` keeps fast pure testing live. After edits stabilize, run `npm run check` once. Full pure coverage uses `npm test -- --full`; slow/integration checks run in CI by default. For targeted local diagnosis or validation, state the reason and run the smallest relevant scope, such as `npm run test:browser -- editor`. `npm run test:browser -- editor --ui` opens Playwright’s interactive workflow for that scenario. Follow [test value](verification.md#test-value) before adding coverage; zero new tests may be sufficient.
+
+For documentation edits, run `npm run docs:check` as well. Verify behavior claims against their source owners; link and command-name checks cannot establish prose accuracy. Keep workflow rules in their owning guide and link to them from feature guides.
 
 [Verification](verification.md) owns test tiers and CI. [Architecture](architecture.md) explains behavior owners. [Assets](assets.md) owns preparing and sharing artwork. Use the [scene editor](developer-tools.md#scene-editor) for composition; design advice does not block valid experiments.
 

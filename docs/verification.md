@@ -42,11 +42,13 @@ Do not add retries to hide races, silently skip failures or weaken an invariant 
 
 ## Documentation checks
 
-`npm run docs:check` validates local Markdown links/anchors, npm script names, repository file references and reachability of root/docs guides from README or AGENTS. It does not validate command arguments. Feature guides link to the relevant workflow or contract owner. The checker does not establish that prose matches behavior.
+Run `npm run docs:check` after documentation edits; `npm run check` does not include it, while `npm run check:ci` does. It validates local Markdown links/anchors, npm script names, repository file references and reachability of root/docs guides from README or AGENTS. It does not validate command arguments, external links or whether prose matches behavior. Check those claims against the relevant source owner. Feature guides link to the relevant workflow or contract owner.
 
 ## E2E coverage and execution budgets
 
-Routine Linux CI runs source gates with all pure suites, all asset tests (including Python authoring/recovery fixtures), runtime asset validation, one Game web build, Game against that artifact and scene against a development preview with authoring assets. Scene checks include the shared asset browser; only Game scenarios use runtime-only assets. Authoring-tool changes additionally run editor/effects scenarios with the authoring bundle. Desktop/build/dependency/asset-delivery contract changes select macOS and Windows jobs; explicit milestone dispatch also runs them. Native jobs build and package Game once on their host, with no cross-platform restoration format or mandatory Dev package. Scene/gameplay edits use routine CI.
+Routine Linux CI runs source gates with all pure suites, all asset tests (including Python authoring/recovery fixtures), runtime asset validation, one Game web build, Game against that artifact and scene against a development preview with authoring assets. Scene checks include the shared asset browser; only Game scenarios use runtime-only assets. Authoring-tool changes additionally run editor/effects scenarios with the authoring bundle. Desktop/build/dependency/asset-delivery contract changes select macOS and Windows jobs; explicit milestone dispatch also runs them. Native jobs build and package Game once on their host, with no cross-platform restoration format or mandatory Dev package.
+
+[The CI workflow](../.github/workflows/ci.yml) defines the executed jobs, and [coverage policy](../tools/coverage-policy.ts) owns optional authoring/desktop selection. An unavailable comparison base selects both optional tiers. Report the jobs that actually ran; a path classification alone does not establish coverage.
 
 CI has generous hang timeouts. Local GPU tests and asset preparation share a small admission lane; static checks, pure tests and builds do not. Default unit concurrency remains two and browser concurrency one. [Coordination](task-coordination.md#concurrent-commands) owns the shared-machine details.
 

@@ -2,13 +2,35 @@
 
 ## Owners
 
-Application owns boot, input, loading, pause, fixed-step scheduling and persistence. Game and Dev Preview, including its effects fixture, share that lifecycle. Renderer adapters own presentation, while mounted developer sessions own controls and cancellation. Dev Preview owns a shared shell, per-fixture session state and cancellation; inspector selection is separate from specialized animation/calibration rendering. Preview state uses validated session storage and storage-free bridges, never player checkpoints/settings. Simulation owns gameplay; GameSession owns transitions, encounter state and save capture/restore. Presentation owns interpolation, animation, camera rendering, lighting and GPU resources. Core receives plain gameplay definitions and does not load live scene documents.
+| Owner | Responsibility | Main location |
+| --- | --- | --- |
+| Application | Boot, input, loading, pause, fixed-step scheduling and persistence operations | `src/application.ts` |
+| Simulation and GameSession | Gameplay outcomes, transitions, encounter state and checkpoint capture/restore | `src/core/` |
+| Content | Gameplay definitions, scene parsing/resolution and explicit visual requirements | `src/content/` |
+| Presentation | Interpolation, animation, camera rendering, lighting and GPU resource disposal | `src/presentation/` |
+| Developer sessions | Editor/preview controls, temporary state, mounted requests and cancellation | `src/editor/`, `src/sandbox/` |
+| Storage adapters | Validated browser storage and atomic desktop writes through Bridge | `src/platform/`, `electron/` |
+| Asset tools | Source preparation, immutable delivery, workspaces and cache leases | `tools/assets/` |
 
-Authored version 5 scene documents own floor, scenery, camera, surrounds and gameplay geometry. The content resolver produces area geometry, colliders, visuals and asset requirements together. Editor playtests use that resolver through `src/content/draft-gameplay.ts`. Game runtime and builds share the content and asset selection in `src/content/game-content.ts`, which currently defines a built-in empty area with the hero. Saving a scene under `authoring/scenes/` does not add it to Game. Asset preparation and runtime delivery keep their curated catalog independently. Authored scene files can be replaced or removed; developer presentation fixtures and gameplay test arenas own their setup independently. Presentation receives explicit resolved visuals. `src/content/world-visuals.ts` owns their types, resource requirements and framing helpers; `world-art.ts` and `scene-document.ts` own authored-document resolution and parsing. Scene parsing validates data; design profiles produce advice. The editor uses the same resolver, and its owned session disposes requests, observers and rendering work together. Optional typed enemy/exit/health-pickup placements convert through that resolver into plain runtime definitions. Draft playtests use the shared Application with a storage-free bridge; core owns collection and checkpoint state. Original artwork and preparation remain separate from placements and gameplay timing.
+Game and Dev Preview, including its effects fixture, share the Application lifecycle. Dev Preview's shell retains per-fixture state; opening an inspector is separate from entering dedicated animation/calibration rendering. Preview state uses validated session storage and storage-free bridges, never player checkpoints/settings. Mounted developer sessions dispose their requests, observers and rendering work together.
 
-GamePresentation coordinates RoomPresentation, ActorPresentation and SceneLightingRenderer. Preserve their explicit resource ownership and disposal. The existing Three.js math and content/assets dependencies are intentional; a new engine or UI framework is unnecessary.
+## Scene content
 
-AssetRuntime owns pack-batch acquisition for Application and the editor: deduplicate identities, settle pending peers after failure or cancellation, and release the batch once. Callers validate and install a completed batch before releasing the previous room. Application retains session assets explicitly and owns one replaceable preview pack. Presentation borrows read-only pack views without release capability. Its pack map is derived from the current ownership groups, including preview overlap with a room or session asset. Lighting loads companions only for selected packs. Lighting companion replacement retains the current textures until all requested companions load successfully; failed batches release only their new textures and remain retryable. Disposal also closes late acquisitions.
+Version 5 scene documents own floor, scenery, camera, surrounds and gameplay geometry. `src/content/scene-document.ts` parses them; `src/content/world-art.ts` resolves area geometry, colliders, visuals and asset requirements together. `src/content/world-visuals.ts` owns visual types, resource requirements and framing helpers. Parsing protects technical validity; design profiles produce advice under [scene guidance](scene-design.md).
+
+Editor playtests use that resolver through `src/content/draft-gameplay.ts` and run the shared Application with a storage-free bridge. Optional enemy, exit and health-pickup placements become plain runtime definitions; core owns collection and checkpoint state. Core does not load live scene documents. Original artwork and preparation remain separate from placements and gameplay timing.
+
+Game runtime and builds share the content and asset selection in `src/content/game-content.ts`, which currently defines a built-in empty area with the hero. Saving under `authoring/scenes/` does not add a scene to Game. Authored scenes are replaceable; developer presentation fixtures and gameplay test arenas own their setup independently. Asset preparation and runtime delivery retain their curated catalog independently of scene selection.
+
+## Runtime resources
+
+GamePresentation coordinates RoomPresentation, ActorPresentation and SceneLightingRenderer. Preserve their explicit ownership and disposal. The existing Three.js math and content/assets dependencies are intentional; a new engine or UI framework is unnecessary.
+
+AssetRuntime owns pack-batch acquisition for Application and the editor: deduplicate identities, settle pending peers after failure or cancellation, and release the batch once. Callers validate and install a completed batch before releasing the previous room. Application retains session assets explicitly and owns one replaceable preview pack. Presentation borrows read-only pack views without release capability. Its pack map derives from the current ownership groups, including preview overlap with a room or session asset.
+
+Lighting loads companions only for selected packs. Replacement retains current textures until all requested companions load successfully; failed batches release only their new textures and remain retryable. Disposal also closes late acquisitions.
+
+## Tooling and builds
 
 Tool entry points call workflows; workflows call process, asset and file helpers. Helpers do not dispatch npm commands or import their callers. Standard tools run directly. Tests/checks execute fresh; immutable prepared assets cache expensive production work.
 
@@ -24,15 +46,17 @@ Preview sessions own server acquisition, identity checks and lease release once.
 
 ### Change saved state
 
-Change the current schema, session capture/restore and relevant adapters together. Prototype saves use version 6 and settings version 5; obsolete or incompatible data resets to empty. Storage failures remain visible. Adapters own one write queue and snapshot requests; Electron writes atomically. Browser and desktop use new prototype namespaces. Test with `npm test -- tests/unit/persistence.test.ts tests/unit/application.test.ts`. Add migrations when external players create a real compatibility need.
+Change the current schema, session capture/restore and relevant adapters together. Prototype saves use version 6 and settings version 5; obsolete or incompatible data loads as empty. Storage failures remain visible. Adapters validate writes; Electron snapshots requests, serializes them through one queue and replaces files atomically. Browser and desktop isolate prototype profiles. Test with `npm test -- tests/unit/persistence.test.ts tests/unit/application.test.ts`. Add migrations when external players create a real compatibility need.
 
 ### Add an area or enemy
 
-Author scene geometry and visuals together. For Game, register the area and its resolved visuals in `src/content/game-content.ts`; saving an editor draft alone does not change Game. Extend actor definitions in `src/content/actors.ts` and their art bindings in `src/content/visuals.ts` when needed. Keep simulation independent of art. Check pure transitions, collision and combat, then run the affected browser scene scenario. Existing development checkpoints can reset when IDs or geometry become incompatible.
+Author scene geometry and visuals together. For Game, register the area and its resolved visuals in `src/content/game-content.ts`; saving an editor draft alone does not change Game. Extend actor definitions in `src/content/actors.ts` and their art bindings in `src/content/visuals.ts` when needed. Keep simulation independent of art. Check pure transitions, collision and combat, and cover changed browser behavior under [test selection](verification.md#test-selection). Existing development checkpoints can reset when IDs or geometry become incompatible.
 
 ### Change action timing or presentation
 
-Authored hero holds, gameplay tuning and simulation own timing at 60 Hz. The hero's melee definition owns base/lunge reach and an optional sweepRange override (otherwise falling back to base reach); action timing owns the damage window. Sweep defaults to the selected Quick preset shared by the simulation, retimed presentation clips and effect clock, with optional per-actor preview overrides. It changes no raster assets or persisted fields; the original authored timing remains available for comparison. Down-right sweep recovery replaces only the final drawing with the canonical idle frame, retaining the penultimate pose and selected holds while keeping visual scale consistent at the action-to-idle join. Animation callbacks never commit damage. Preserve generation-scoped immutable events, fixed-step outcomes and resource disposal. Use action/foundation unit tests, prepared-asset tests for registration changes, and optional native diagnostics for visual investigations.
+Authored hero holds, gameplay tuning and simulation own timing at 60 Hz. The hero's melee definition owns base/lunge reach and an optional `sweepRange` override, falling back to base reach; action timing owns the damage window. Sweep defaults to the Quick preset shared by simulation, retimed presentation clips and the effect clock. Preview overrides change no raster assets or persisted fields. [Sweep review](developer-tools.md#sweep-review) owns preset timings and recovery comparisons.
+
+Animation callbacks never commit damage. Preserve generation-scoped immutable events, fixed-step outcomes and resource disposal. Use action/foundation unit tests, prepared-asset tests for registration changes, and optional native diagnostics for visual investigations.
 
 GamePresentation owns shared CombatFeedback. Application acquires its two catalog assets with initial scene assets and retains their leases; presentation reset/disposal clears effects and subscriptions before releasing those assets. Damage events queue one Contact Shear at each confirmed target, regardless of attacker kind. The sweep effect uses its original pre-painted camera-facing view and fixed registration, scale and timing; it never decides damage or changes the artwork geometry.
 
