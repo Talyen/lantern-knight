@@ -1,3 +1,4 @@
+import { artworkFloorLayout } from './floor-layout';
 import { authoredGameplay } from './authored-gameplay';
 import { resolveFixtures } from './scenery-presets';
 import { parseSceneDocument, resolveSceneDocument, type SceneDocument } from './scene-document';
@@ -84,7 +85,7 @@ export function resolveScene(
   const document = parseSceneDocument(value);
   const visuals = resolveAuthoredScene(document);
   const floor = document.floor;
-  const geometry = document.geometry ?? {
+  let geometry = document.geometry ?? {
     bounds: {
       minX: -floor!.width / 2,
       maxX: floor!.width / 2,
@@ -95,6 +96,9 @@ export function resolveScene(
     baselineEntry: 'start',
     entries: [{ id: 'start', x: 0, z: 0 }],
   };
+  const layout =
+    floor.layout === 'artwork' ? artworkFloorLayout(floor.width, floor.depth) : undefined;
+  if (layout) geometry = { ...geometry, bounds: layout.bounds };
   let area: AreaDefinition = {
     id: document.base === 'flat' ? 'editor-flat' : document.base,
     name: document.name,
@@ -104,6 +108,7 @@ export function resolveScene(
     exits: [],
     floorColor: 0x344b4e,
     ...geometry,
+    playableBoundary: layout?.corners,
     ...gameplay,
     props: churchyardColliders(visuals),
   };

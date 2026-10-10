@@ -108,7 +108,7 @@ export type SceneSurroundDefinition = {
 };
 export type WorldVisualDefinition = {
   designProfile?: SceneProfile;
-  editorFloor?: { asset: string; clip: string };
+  editorFloor?: { asset: string; clip: string; layout?: 'artwork'; width: number; depth: number };
   look?: { rig: 'golden' | 'silver'; look: 'ink' | 'diorama' | 'cinematic' };
   surround?: SceneSurroundDefinition;
   weather?: WeatherState;

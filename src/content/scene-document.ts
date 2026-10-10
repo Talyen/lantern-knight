@@ -186,6 +186,7 @@ const SceneDocumentSchema = z
     floor: z
       .object({
         asset: z.string(),
+        layout: z.literal('artwork').optional(),
         clip: z.string().optional(),
         width: positive.max(100),
         depth: positive.max(100),
@@ -281,6 +282,8 @@ export function validateSceneReferences(
   d: SceneDocument,
   manifests?: ReadonlyMap<string, Manifest>,
 ) {
+  if (d.floor.layout === 'artwork' && d.geometry && d.geometry.surface.kind !== 'flat')
+    throw new Error('Artwork floors need a flat surface. Change the scene surface to Flat first.');
   const ids = new Set<string>();
   for (const p of d.objects) {
     if (ids.has(p.id)) throw new Error('Duplicate object identity: ' + p.id);
@@ -321,6 +324,7 @@ export function validateSceneReferences(
       !m ||
       m.asset.type !== 'material' ||
       m.asset.projection !== 'top-down' ||
+      (d.floor.layout === 'artwork' && !d.floor.clip) ||
       (d.floor.clip && !floorClips(m).includes(d.floor.clip))
     )
       throw new Error('Unavailable ground material');
@@ -398,7 +402,15 @@ export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
     designProfile: d.profile === 'study' ? undefined : d.profile,
     props,
     decals,
-    editorFloor: d.floor.clip ? { asset: d.floor.asset, clip: d.floor.clip } : undefined,
+    editorFloor: d.floor.clip
+      ? {
+          asset: d.floor.asset,
+          clip: d.floor.clip,
+          layout: d.floor.layout,
+          width: d.floor.width,
+          depth: d.floor.depth,
+        }
+      : undefined,
     look: d.look,
   };
   return art;

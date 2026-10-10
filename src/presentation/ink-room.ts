@@ -69,7 +69,7 @@ export class InkRoom {
         clip = resolveClip(pack.manifest, f.clip, 'd45'),
         frame = pack.manifest.frames.find((f) => f.id === clip.frames[0])!;
       const map = pack.textures.get(frame.page)!.clone();
-      map.wrapS = map.wrapT = T.RepeatWrapping;
+      map.wrapS = map.wrapT = f.layout === 'artwork' ? T.ClampToEdgeWrapping : T.RepeatWrapping;
       map.needsUpdate = true;
       this.owned.push(map);
       const material = new T.MeshBasicMaterial({ map, depthWrite: false, toneMapped: false }),
@@ -87,10 +87,13 @@ export class InkRoom {
         shader.fragmentShader = 'uniform vec4 editorFloorRect;\n' + shader.fragmentShader;
         shader.fragmentShader = shader.fragmentShader.replace(
           '#include <map_fragment>',
-          'diffuseColor *= texture2D(map,editorFloorRect.xy+fract(vMapUv)*editorFloorRect.zw);',
+          f.layout === 'artwork'
+            ? 'diffuseColor *= texture2D(map,editorFloorRect.xy+clamp(vMapUv,0.0,1.0)*editorFloorRect.zw);'
+            : 'diffuseColor *= texture2D(map,editorFloorRect.xy+fract(vMapUv)*editorFloorRect.zw);',
         );
       };
-      material.customProgramCacheKey = () => 'editor-floor:' + pack.manifest.hash + ':' + f.clip;
+      material.customProgramCacheKey = () =>
+        'editor-floor:' + pack.manifest.hash + ':' + f.clip + ':' + (f.layout ?? 'repeat');
       return material;
     }
     return graveyardGroundMaterial(this.packs, this.art);

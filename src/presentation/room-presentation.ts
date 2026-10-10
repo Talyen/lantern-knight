@@ -1,3 +1,4 @@
+import { artworkFloorLayout } from '../content/floor-layout';
 import * as T from 'three';
 import { InkRoom } from './ink-room';
 import {
@@ -33,25 +34,31 @@ export class RoomPresentation {
     return new T.Mesh(geometry, material);
   }
   buildRoom(area: AreaDefinition, art: WorldVisualDefinition | undefined) {
-    const surround = art?.surround;
-    this.surround.build(surround);
-    const footprint = art?.editorFloor
-      ? [
-          { x: area.bounds.minX, z: area.bounds.minZ },
-          { x: area.bounds.maxX, z: area.bounds.minZ },
-          { x: area.bounds.maxX, z: area.bounds.maxZ },
-          { x: area.bounds.minX, z: area.bounds.maxZ },
-        ]
-      : surround
-        ? art.interior
-          ? [
-              { x: art.interior.minX, z: art.interior.minZ },
-              { x: art.interior.maxX, z: art.interior.minZ },
-              { x: art.interior.maxX, z: art.interior.maxZ },
-              { x: art.interior.minX, z: art.interior.maxZ },
-            ]
-          : surround.ground
+    const artwork =
+      art?.editorFloor?.layout === 'artwork'
+        ? artworkFloorLayout(art.editorFloor.width, art.editorFloor.depth)
         : undefined;
+    const surround = artwork ? undefined : art?.surround;
+    this.surround.build(surround);
+    const footprint = artwork
+      ? artwork.corners
+      : art?.editorFloor
+        ? [
+            { x: area.bounds.minX, z: area.bounds.minZ },
+            { x: area.bounds.maxX, z: area.bounds.minZ },
+            { x: area.bounds.maxX, z: area.bounds.maxZ },
+            { x: area.bounds.minX, z: area.bounds.maxZ },
+          ]
+        : surround
+          ? art?.interior
+            ? [
+                { x: art.interior.minX, z: art.interior.minZ },
+                { x: art.interior.maxX, z: art.interior.minZ },
+                { x: art.interior.maxX, z: art.interior.maxZ },
+                { x: art.interior.minX, z: art.interior.maxZ },
+              ]
+            : surround.ground
+          : undefined;
     if (art)
       this.inkRoom = new InkRoom(
         area,
@@ -142,6 +149,13 @@ export class RoomPresentation {
           2,
         ),
       );
+    }
+    if (artwork) {
+      const positions = floorGeometry.getAttribute('position');
+      const uvs = Array.from({ length: positions.count }, (_, i) =>
+        artwork.uv({ x: positions.getX(i), z: positions.getZ(i) }),
+      ).flat();
+      floorGeometry.setAttribute('uv', new T.Float32BufferAttribute(uvs, 2));
     }
     let outsideMap: T.Texture | undefined;
     if (surround && art?.interior) {

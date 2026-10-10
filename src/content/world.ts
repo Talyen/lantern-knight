@@ -65,6 +65,7 @@ export type AreaDefinition = {
   name: string;
   subtitle: string;
   bounds: Bounds;
+  playableBoundary?: readonly Point[];
   surface: Surface;
   seedOffset: number;
   activation?: Bounds;
@@ -119,6 +120,47 @@ export function surfaceGradient(area: AreaDefinition, x: number, z: number) {
 export function contains(bounds: Bounds, p: Point) {
   return p.x >= bounds.minX && p.x <= bounds.maxX && p.z >= bounds.minZ && p.z <= bounds.maxZ;
 }
+// Convex boundaries use counterclockwise XZ vertices. Offset each edge inward
+// by the actor radius, then project onto the resulting polygon.
+export function boundaryContains(points: readonly Point[], p: Point, radius = 0) {
+  return points.every((a, i) => {
+    const b = points[(i + 1) % points.length]!,
+      dx = b.x - a.x,
+      dz = b.z - a.z;
+    return (dx * (p.z - a.z) - dz * (p.x - a.x)) / Math.hypot(dx, dz) >= radius - 1e-8;
+  });
+}
+export function clampToBoundary(points: readonly Point[], p: Point, radius: number): Point {
+  if (boundaryContains(points, p, radius)) return p;
+  const edges = points.map((a, i) => {
+    const b = points[(i + 1) % points.length]!,
+      dx = b.x - a.x,
+      dz = b.z - a.z,
+      length = Math.hypot(dx, dz);
+    return { x: -dz / length, z: dx / length, d: (-dz * a.x + dx * a.z) / length + radius };
+  });
+  const inset = edges.map((b, i) => {
+    const a = edges[(i + edges.length - 1) % edges.length]!,
+      det = a.x * b.z - a.z * b.x;
+    return { x: (a.d * b.z - a.z * b.d) / det, z: (a.x * b.d - a.d * b.x) / det };
+  });
+  let closest = p,
+    distance = Infinity;
+  for (let i = 0; i < inset.length; i++) {
+    const a = inset[i]!,
+      b = inset[(i + 1) % inset.length]!,
+      dx = b.x - a.x,
+      dz = b.z - a.z;
+    const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.z - a.z) * dz) / (dx * dx + dz * dz)));
+    const q = { x: a.x + dx * t, z: a.z + dz * t },
+      d = Math.hypot(q.x - p.x, q.z - p.z);
+    if (d < distance) {
+      closest = q;
+      distance = d;
+    }
+  }
+  return closest;
+}
 const ids = /^[a-z0-9][a-z0-9_-]*$/;
 export class ContentRegistry {
   readonly areas = new Map<AreaId, AreaDefinition>();
@@ -172,6 +214,20 @@ export class ContentRegistry {
     for (const a of definitions.areas) {
       bounds(a.bounds);
       if (a.activation) bounds(a.activation);
+      if (a.playableBoundary) {
+        const points = a.playableBoundary;
+        if (points.length < 3 || points.length > 16) fail('invalid playable boundary');
+        for (const [i, p] of points.entries()) {
+          finite(p.x, p.z);
+          const b = points[(i + 1) % points.length]!,
+            c = points[(i + 2) % points.length]!;
+          if (
+            !contains(a.bounds, p) ||
+            (b.x - p.x) * (c.z - b.z) - (b.z - p.z) * (c.x - b.x) <= 1e-8
+          )
+            fail('playable boundary must be strictly convex and counterclockwise');
+        }
+      }
       finite(a.seedOffset, a.floorColor);
       if (!Number.isInteger(a.seedOffset) || a.seedOffset < 0) fail('invalid seed offset');
       unique(a.entries, 'entry');
@@ -263,6 +319,8 @@ export function supportedPosition(area: AreaDefinition, p: Point, radius: number
   const clamp = () => {
     x = Math.max(area.bounds.minX + radius, Math.min(area.bounds.maxX - radius, x));
     z = Math.max(area.bounds.minZ + radius, Math.min(area.bounds.maxZ - radius, z));
+    if (area.playableBoundary)
+      ({ x, z } = clampToBoundary(area.playableBoundary, { x, z }, radius));
   };
   clamp();
   for (let pass = 0; pass < 3; pass++)
