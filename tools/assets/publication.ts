@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
-import { AssetCache } from './cache';
+import { AssetCache, diskBytes } from './cache';
 import { recipeHash, validatePack, lockFile, LockSchema, type AssetLock } from './pack';
 import { shaFile } from './sources';
 import { gh } from './github';
@@ -36,11 +36,6 @@ async function validateCandidate(prepared: PreparedAssets) {
   if (prepared.lock.recipeSha256 !== (await recipeHash()))
     throw new Error('Asset recipes changed; prepare and validate again');
   await validatePack(prepared.payload, prepared.lock);
-  if (
-    (await fs.stat(prepared.archive)).size !== prepared.lock.bytes ||
-    (await shaFile(prepared.archive)) !== prepared.lock.sha256
-  )
-    throw new Error('Prepared archive differs from the reviewed candidate');
 }
 async function uploadArchive(
   lock: import('./pack').AssetLock,
@@ -101,6 +96,15 @@ export async function publishBundledPrepared(
   beforePin: () => Promise<void> = async () => {},
 ) {
   await validateCandidate(prepared);
+  if (
+    (await fs.stat(prepared.archive)).size !== prepared.lock.bytes ||
+    (await shaFile(prepared.archive)) !== prepared.lock.sha256
+  )
+    throw new Error('Prepared archive differs from the reviewed candidate');
+  // The monolithic candidate establishes its identity, but only the split
+  // bundles are delivered. Release this redundant copy before compressing them.
+  await fs.rm(prepared.archive);
+  await prepared.held.reserve(await diskBytes(prepared.held.root));
   let previous: import('./pack').AssetLock | undefined;
   try {
     previous = LockSchema.parse(JSON.parse(await fs.readFile(target, 'utf8')));

@@ -23,6 +23,7 @@ export async function prepareAssets(
   };
   try {
     await fs.rm(path.join(held.root, 'lantern-assets.tar.gz'), { force: true });
+    await fs.rm(path.join(held.root, 'bundles'), { recursive: true, force: true });
     await fs.rm(path.join(held.root, 'prepared.json'), { force: true });
     await fs.rm(workspace, { recursive: true, force: true });
     await fs.mkdir(path.join(workspace, 'public'), { recursive: true });
@@ -69,10 +70,11 @@ export async function prepareAssets(
       path.join(payload, 'metadata/preparation-inputs.json'),
       JSON.stringify(await recipeInputs()),
     );
+    // Generation has a smaller working budget. Delivery also needs room for
+    // compressed bytes; reserve that peak through the same 4 GiB cache owner.
+    await held.reserve((await diskBytes(held.root)) + (await diskBytes(payload)) + 64 * 1024 ** 2);
     const archive = path.join(held.root, 'lantern-assets.tar.gz'),
       lock = await makeArchive(payload, archive, startRecipe);
-    if ((await diskBytes(held.root)) > BUDGET)
-      throw new Error('Prepared asset archive exceeded its reservation');
     await fs.writeFile(path.join(held.root, 'prepared.json'), JSON.stringify(lock));
     await held.reserve(await diskBytes(held.root));
     console.log(

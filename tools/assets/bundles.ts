@@ -61,7 +61,9 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
       await fs.mkdir(path.dirname(target), { recursive: true });
       await fs.link(path.join(candidate.payload, file), target);
     }
-    const archive = path.join(root, name + '.tar.gz');
+    // gh uploads the basename; # only supplies its display label.
+    const archive = path.join(root, name + '-archive', 'lantern-assets.tar.gz');
+    await fs.mkdir(path.dirname(archive), { recursive: true });
     const lock = await makeArchive(payload, archive, key);
     bundles[name] = lock;
     archives[name] = archive;

@@ -20,13 +20,15 @@ Consumers acquire an explicit workspace with its root, identity and release oper
 
 Builds derive a selected inventory including manifests, pages, registration, lighting/surface companions and loading media. They validate and copy those files once. Vite does not copy the entire public directory before pruning it. Runtime and additional authoring resources are separate bundles: authoring requires runtime, while Game/CI can request runtime alone.
 
-The currently published monolithic pin remains usable through the transition. The new two-bundle format becomes active at the next explicit publication. Existing releases are not rewritten or deleted by implementation.
+The shared version 3 pin identifies separate runtime and authoring bundles. Existing monolithic releases remain preserved.
 
 Selected library effects can be promoted into the Game catalog when their exact manifest paths already exist in the pin. Authoring catalog overlap is allowed only for an identical binding; a conflicting path still fails. Current combat defaults use Sword Finisher 03 and Blocked Contact Shear from the existing pin without regenerating or publishing original artwork.
 
 ## Preparation and publication
 
 `npm run assets:publish` explicitly prepares/reuses current source-verified outputs, validates consuming runtime references, publishes immutable runtime/authoring bundles, verifies downloadable bytes and atomically changes the pin. Failure preserves the previous pin. It does not package the game, require capture galleries, or claim production-art approval. Publication needs an authenticated `gh` release writer and working download access.
+
+Delivery reserves compression space through the same 4 GiB cache budget. After validating the monolithic candidate identity, publication removes that redundant archive before creating the delivered bundles. Active readers remain protected; close unused previews if their leases prevent publication from fitting.
 
 Publication is sharing prepared assets, separate from shipping a game. Original artwork generation/editing follows AGENTS and the art-direction skill. Inspect generated artwork when authoring it; the publisher does not turn aesthetic advice into release receipts.
 
@@ -46,7 +48,7 @@ The current TEST hero uses supplied native drawings, eight-direction running, fo
 
 TypeScript recipe steps are callable operations registered in `tools/assets/operations.ts`. They receive an explicit preparation context for source access, paths, atomic output recording and incremental byte accounting. Compiler writes use the same writer. Python subprocesses receive the translated context at their launch boundary; ordinary builds never invoke preparation.
 
-The next explicit `npm run assets:publish` uses the existing version 3 split runtime/authoring bundles. The current version 2 pin remains usable until that delivery succeeds and a fresh checkout verifies it. Retire obsolete top-level readers only after that gate; source artwork and published archives remain preserved.
+Publication uses version 3 split runtime/authoring bundles. Fresh-checkout CI verifies acquisition through the shared pin without source-library access. Source artwork and published archives remain preserved.
 
 ## Library authoring coverage
 
