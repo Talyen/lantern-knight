@@ -6,6 +6,7 @@ import { presentationFixture, sceneFixture } from '../fixtures/presentation';
 import { content } from '../fixtures/content';
 import type { Bridge } from '../../src/core/save';
 import { Persistence } from '../../src/core/persistence';
+import { GameSession } from '../../src/core/session';
 
 async function withDOM(work: () => Promise<void>) {
   const previous = new Map(
@@ -49,6 +50,9 @@ function deferred<T>() {
   let resolve!: (value: T) => void;
   const promise = new Promise<T>((done) => (resolve = done));
   return { promise, resolve };
+}
+function runtime(loadPack: AssetRuntime['loadPack']) {
+  return Object.assign(new AssetRuntime({}), { loadPack });
 }
 function fixture() {
   const app = new Application(
@@ -148,12 +152,10 @@ test('gallery requests share one lease; disposal and failed warming release acqu
   const f = fixture(),
     pending = deferred<PackLease>();
   let loads = 0;
-  f.app.runtime = {
-    loadPack: () => {
-      loads++;
-      return pending.promise;
-    },
-  } as unknown as AssetRuntime;
+  f.app.runtime = runtime(() => {
+    loads++;
+    return pending.promise;
+  });
   const first = f.app.loadAsset('gallery'),
     second = f.app.loadAsset('gallery');
   pending.resolve(f.lease);
@@ -168,7 +170,7 @@ test('gallery requests share one lease; disposal and failed warming release acqu
     await assert.rejects(f.app.loadAsset('gallery'), /disposed/);
     const late = fixture(),
       wait = deferred<PackLease>();
-    late.app.runtime = { loadPack: () => wait.promise } as unknown as AssetRuntime;
+    late.app.runtime = runtime(() => wait.promise);
     const loading = late.app.loadAsset('gallery');
     late.app.dispose();
     wait.resolve(late.lease);
@@ -177,7 +179,7 @@ test('gallery requests share one lease; disposal and failed warming release acqu
     assert.equal(late.warmed, 0);
     assert.equal(late.app.packs.size, 0);
     const failure = fixture();
-    failure.app.runtime = { loadPack: async () => failure.lease } as unknown as AssetRuntime;
+    failure.app.runtime = runtime(async () => failure.lease);
     failure.app.presentation.warmPack = () => {
       throw new Error('GPU unavailable');
     };
@@ -187,6 +189,48 @@ test('gallery requests share one lease; disposal and failed warming release acqu
     await failure.app.loadAsset('gallery');
     assert.equal(failure.app.packs.size, 1);
     failure.app.dispose();
+  });
+});
+test('failed room preparation keeps the current session and packs; retry replaces and disposes each batch once', async () => {
+  await withDOM(async () => {
+    const { app } = fixture(),
+      releases: string[] = [],
+      initial = app.sim.area,
+      destination = 'upper-landing',
+      snapshot = new GameSession(content, 142, destination).captureSave();
+    app.input = {
+      clear: () => {},
+      resetAim: () => {},
+      dispose: () => {},
+    } as unknown as typeof app.input;
+    app.scenes.area = (id) => ({ area: content.area(id), assets: [id] });
+    app.runtime = runtime(
+      async (id) => ({ release: () => releases.push(id) }) as unknown as PackLease,
+    );
+    await app.replaceArea(initial, () => []);
+    const previous = app.sim,
+      pack = app.packs.get(initial);
+    app.presentation.prepareAssets = async () => {
+      throw new Error('companions unavailable');
+    };
+    await assert.rejects(
+      app.replaceArea(destination, () => app.session.restoreSave(snapshot)),
+      /companions unavailable/,
+    );
+    assert.equal(app.sim, previous);
+    assert.equal(app.packs.get(initial), pack);
+    assert.equal(app.packs.has(destination), false);
+    assert.equal(app.busy, false);
+    assert.deepEqual(releases, [destination]);
+    app.presentation.prepareAssets = async () => {};
+    await app.replaceArea(destination, () => app.session.restoreSave(snapshot));
+    assert.equal(app.sim.area, destination);
+    assert.equal(app.packs.has(initial), false);
+    assert.equal(app.packs.has(destination), true);
+    assert.deepEqual(releases, [destination, initial]);
+    app.dispose();
+    app.dispose();
+    assert.deepEqual(releases, [destination, initial, destination]);
   });
 });
 test('startup disposed while opening its catalog cannot acquire assets or become ready', async () => {
@@ -357,14 +401,12 @@ test('startup settles the initial asset batch and releases successful peers when
         { status: () => {}, pause: () => {}, frame: () => {} },
       );
       AssetRuntime.open = async () =>
-        ({
-          loadPack: async (id: string) => {
-            requested.push(id);
-            if (id === 'first') return waiting.promise;
-            if (!cancelled) throw new Error('missing pack');
-            return { release: () => released++ } as unknown as PackLease;
-          },
-        }) as unknown as AssetRuntime;
+        runtime(async (id: string) => {
+          requested.push(id);
+          if (id === 'first') return waiting.promise;
+          if (!cancelled) throw new Error('missing pack');
+          return { release: () => released++ } as unknown as PackLease;
+        });
       try {
         const boot = app.boot();
         const rejected = assert.rejects(boot, cancelled ? /cancelled/ : /missing pack/);

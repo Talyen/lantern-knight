@@ -1,5 +1,5 @@
 import type { PreparedRegistration } from './assets/registration';
-import { AssetRuntime, type PackLease } from './assets/loader';
+import { AssetRuntime, type PackLease, type PackBatch } from './assets/loader';
 import type { PresentationLifecycle } from './presentation/lifecycle';
 import type { SceneContent } from './content/game-content';
 import { GameSession } from './core/session';
@@ -26,8 +26,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   events = new EventHub();
   clock = new FixedClock();
   packs = new Map<string, PackLease>();
-  persistentLeases = new Map<string, PackLease>();
-  private roomLeases = new Map<string, PackLease>();
+  private persistentLeases = new Map<string, PackLease>();
+  private roomAssets?: PackBatch;
   private abort = new AbortController();
   private request = 0;
   private last = 0;
@@ -123,30 +123,25 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.assertActive();
     this.runtime = await AssetRuntime.open(this.catalog);
     this.assertActive();
-    const initial = await this.acquirePacks(
-      [
-        ...new Set([
-          ...this.scenes.initialAssets.filter((id) => id in this.catalog),
-          ...this.extraAssets,
-        ]),
-      ],
+    const initial = await this.runtime.loadPacks(
+      [...this.scenes.initialAssets.filter((id) => id in this.catalog), ...this.extraAssets],
       this.abort.signal,
     );
     if (this.disposed) {
-      for (const pack of initial.values()) pack.release();
+      initial.release();
       this.assertActive();
     }
-    for (const [id, pack] of initial) {
+    for (const [id, pack] of initial.packs) {
       this.persistentLeases.set(id, pack);
       this.packs.set(id, pack);
     }
     const room = await this.acquireArea(this.sim.area, this.abort.signal);
     if (this.disposed) {
-      for (const pack of room.values()) pack.release();
+      room.release();
       this.assertActive();
     }
-    this.roomLeases = room;
-    for (const [id, p] of this.roomLeases) this.packs.set(id, p);
+    this.roomAssets = room;
+    for (const [id, p] of room.packs) this.packs.set(id, p);
     this.presentation = this.createPresentation(
       this.canvas,
       this.packs,
@@ -211,30 +206,14 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       this.assetLoads.delete(id);
     }
   }
-  private async acquirePacks(ids: readonly string[], signal: AbortSignal) {
-    const results = await Promise.allSettled(ids.map((id) => this.runtime.loadPack(id, signal))),
-      leases = new Map<string, PackLease>();
-    results.forEach((result, i) => {
-      if (result.status === 'fulfilled') leases.set(ids[i]!, result.value);
-    });
-    try {
-      const failure = results.find((result) => result.status === 'rejected');
-      if (failure?.status === 'rejected') throw failure.reason;
-      if (signal.aborted) throw new Error('load cancelled');
-      return leases;
-    } catch (error) {
-      for (const pack of leases.values()) pack.release();
-      throw error;
-    }
-  }
   private async acquireArea(area: string, signal: AbortSignal) {
     const scene = this.scenes.area(area),
-      leases = await this.acquirePacks(scene.assets, signal);
+      held = await this.runtime.loadPacks(scene.assets, signal);
     try {
-      this.scenes.validate(scene, leases);
-      return leases;
+      this.scenes.validate(scene, held.packs);
+      return held;
     } catch (error) {
-      for (const pack of leases.values()) pack.release();
+      held.release();
       throw error;
     }
   }
@@ -254,30 +233,29 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.busy = true;
     this.clock.reset();
     this.input.clear();
-    let next: Map<string, PackLease> | undefined;
+    let next: PackBatch | undefined;
     try {
       next = await this.acquireArea(area, controller.signal);
       if (this.disposed || request !== this.request) throw new Error('load cancelled');
-      for (const pack of next.values()) this.presentation.warmPack(pack);
-      await this.presentation.prepareAssets(new Set([...this.packs.keys(), ...next.keys()]));
+      for (const pack of next.packs.values()) this.presentation.warmPack(pack);
+      await this.presentation.prepareAssets(new Set([...this.packs.keys(), ...next.packs.keys()]));
       if (this.disposed || request !== this.request) throw new Error('load cancelled');
       const changes = commit(),
-        old = this.roomLeases;
-      this.roomLeases = next;
-      for (const [id, p] of next) this.packs.set(id, p);
+        old = this.roomAssets;
+      this.roomAssets = next;
+      for (const [id, p] of next.packs) this.packs.set(id, p);
       for (const [id, p] of this.persistentLeases) this.packs.set(id, p);
       this.presentation.resetRoom(this.sim.areaDefinition, this.scenes.area(this.sim.area).visuals);
       this.presentation.generation = this.session.generation;
-      for (const [id, p] of old) {
-        p.release();
-        if (!next.has(id) && !this.persistentLeases.has(id)) this.packs.delete(id);
-      }
+      old?.release();
+      for (const id of old?.packs.keys() ?? [])
+        if (!next.packs.has(id) && !this.persistentLeases.has(id)) this.packs.delete(id);
       next = undefined;
       await this.presentation.prepareAssets();
       this.input.resetAim();
       this.publish(changes);
     } finally {
-      if (next) for (const p of next.values()) p.release();
+      next?.release();
       if (request === this.request) this.busy = false;
     }
   }
@@ -427,7 +405,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     document.removeEventListener('visibilitychange', this.onVisibility);
     this.input?.dispose();
     this.presentation?.dispose();
-    for (const p of this.roomLeases.values()) p.release();
+    this.roomAssets?.release();
     for (const p of this.persistentLeases.values()) p.release();
     this.events.dispose();
   }

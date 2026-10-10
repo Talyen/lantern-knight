@@ -90,6 +90,10 @@ export type PackLease = {
   textures: Map<string, Texture>;
   release: () => void;
 };
+export type PackBatch = {
+  packs: ReadonlyMap<string, PackLease>;
+  release: () => void;
+};
 type PageRequest = { url: string; hash: string; width: number; height: number; mipmaps?: boolean };
 export const pageIdentity = (
   p: Pick<Manifest['pages'][number], 'hash' | 'width' | 'height'> & { mipmaps?: boolean },
@@ -185,6 +189,28 @@ export class AssetRuntime {
       textures: new Map(manifest.pages.map((p) => [p.id, held.resources.get(pageIdentity(p))!])),
       release: held.release,
     };
+  }
+  async loadPacks(ids: Iterable<string>, signal?: AbortSignal): Promise<PackBatch> {
+    signal?.throwIfAborted();
+    const selected = [...new Set(ids)],
+      results = await Promise.allSettled(selected.map((id) => this.loadPack(id, signal))),
+      packs = new Map<string, PackLease>();
+    results.forEach((result, i) => {
+      if (result.status === 'fulfilled') packs.set(selected[i]!, result.value);
+    });
+    let released = false;
+    const release = () => {
+      if (released) return;
+      released = true;
+      for (const pack of packs.values()) pack.release();
+    };
+    const failure = results.find((result) => result.status === 'rejected');
+    if (failure || signal?.aborted) {
+      release();
+      if (failure?.status === 'rejected') throw failure.reason;
+      throw new Error('load cancelled');
+    }
+    return { packs, release };
   }
   static async open(catalog: Readonly<Record<string, string>>) {
     const response = await fetch('/build-mode.json');

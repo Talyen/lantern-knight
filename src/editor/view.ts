@@ -11,7 +11,7 @@ import { GameSession } from '../core/session';
 import { EventHub } from '../core/events';
 import { outward } from '../core/camera';
 import type { Simulation } from '../core/simulation';
-import type { AssetRuntime, PackLease } from '../assets/loader';
+import type { AssetRuntime, PackLease, PackBatch } from '../assets/loader';
 import { sceneItems } from './model';
 class EditorPresentation extends GamePresentation {
   center = new T.Vector3();
@@ -175,15 +175,14 @@ export class EditorView {
         ...(document.base === 'flat' ? [] : ['fx-embers', 'fx-smoke', 'fx-splash', 'fx-ripple']),
       ].filter((id) => id in this.runtime.catalog),
     );
-    const acquired: PackLease[] = [];
+    let acquired: PackBatch | undefined;
     try {
-      for (const id of ids)
-        if (!this.packs.has(id)) {
-          const pack = await this.runtime.loadPack(id, this.abort.signal);
-          acquired.push(pack);
-          this.packs.set(id, pack);
-        }
+      acquired = await this.runtime.loadPacks(
+        [...ids].filter((id) => !this.packs.has(id)),
+        this.abort.signal,
+      );
       if (this.closed) throw new Error('Editor closed');
+      for (const [id, pack] of acquired.packs) this.packs.set(id, pack);
       validateSceneReferences(
         document,
         new Map([...this.packs].map(([id, p]) => [id, p.manifest])),
@@ -236,10 +235,8 @@ export class EditorView {
       this.appliedDocument = document;
       this.setAnimationPlaying(this.animationPlaying);
     } catch (error) {
-      for (const p of acquired) {
-        p.release();
-        this.packs.delete(p.manifest.asset.id);
-      }
+      acquired?.release();
+      for (const id of acquired?.packs.keys() ?? []) this.packs.delete(id);
       throw error;
     }
   }

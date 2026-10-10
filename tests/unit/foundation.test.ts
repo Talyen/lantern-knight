@@ -250,17 +250,17 @@ test('shared async resources deduplicate, cancellation cannot resurrect discarde
     },
     () => released++,
   );
-  const [firstPack, secondPack] = await Promise.all([
-    runtime.loadPack('first'),
-    runtime.loadPack('second'),
-  ]);
+  const batch = await runtime.loadPacks(['first', 'second', 'first']);
+  const firstPack = batch.packs.get('first')!,
+    secondPack = batch.packs.get('second')!;
   assert.equal(decoded, 1);
   assert.equal(firstPack.textures.get('atlas-0'), secondPack.textures.get('atlas-0'));
   assert.notDeepEqual(firstPack.manifest.asset.anchor, secondPack.manifest.asset.anchor);
   firstPack.release();
   firstPack.release();
   assert.equal(released, 0);
-  secondPack.release();
+  batch.release();
+  batch.release();
   assert.equal(released, 1);
   assert.equal(runtime.pool.entries.size, 0);
   assert.notEqual(

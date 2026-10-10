@@ -23,6 +23,10 @@ type Companion = {
   width: number;
   height: number;
 };
+function disposeNormal(texture: T.Texture) {
+  (texture.image as ImageBitmap).close();
+  texture.dispose();
+}
 export class NormalLibrary {
   entries: Record<string, Companion> = {};
   textures = new Map<string, T.Texture>();
@@ -37,6 +41,7 @@ export class NormalLibrary {
     return operation;
   }
   private async loadSelected(assets: Iterable<string>) {
+    if (this.disposed) return;
     this.inventory ??= (async () => {
       const response = await fetch('/lighting/manifest.json');
       if (!response.ok) throw new Error('Lighting companions unavailable.');
@@ -44,49 +49,55 @@ export class NormalLibrary {
       if (manifest.recipe !== 'alpha-volume-v1')
         throw new Error('Lighting companion recipe differs');
       this.entries = manifest.entries;
-    })();
+    })().catch((error) => {
+      this.inventory = undefined;
+      throw error;
+    });
     await this.inventory;
     if (this.disposed) return;
     const selected = new Set(assets),
       wanted = Object.entries(this.entries).filter(
         ([key]) => !key.startsWith('library-') || selected.has(key.split(':')[0]!),
       ),
-      keep = new Set(wanted.map(([key]) => key));
+      keep = new Set(wanted.map(([key]) => key)),
+      missing = wanted.filter(([key]) => !this.textures.has(key)),
+      acquired = new Map<string, T.Texture>();
+    let index = 0;
+    const results = await Promise.allSettled(
+      Array.from({ length: Math.min(8, missing.length) }, async () => {
+        while (!this.disposed && index < missing.length) {
+          const [key, entry] = missing[index++]!;
+          const bitmap = await verifiedBitmap('/lighting/' + entry.file, entry);
+          if (this.disposed) {
+            bitmap.close();
+            return;
+          }
+          const texture = new T.Texture(bitmap);
+          texture.flipY = false;
+          texture.generateMipmaps = false;
+          texture.minFilter = T.LinearFilter;
+          texture.magFilter = T.LinearFilter;
+          texture.needsUpdate = true;
+          acquired.set(key, texture);
+        }
+      }),
+    );
+    const failure = results.find((result) => result.status === 'rejected');
+    if (failure || this.disposed) {
+      for (const texture of acquired.values()) disposeNormal(texture);
+      if (failure?.status === 'rejected') throw failure.reason;
+      return;
+    }
+    for (const [key, texture] of acquired) this.textures.set(key, texture);
     for (const [key, texture] of this.textures)
       if (!keep.has(key)) {
-        const image = texture.image as ImageBitmap;
-        this.bytes -= image.width * image.height * 4;
-        image.close();
-        texture.dispose();
+        disposeNormal(texture);
         this.textures.delete(key);
       }
-    try {
-      const missing = wanted.filter(([key]) => !this.textures.has(key));
-      let index = 0;
-      await Promise.all(
-        Array.from({ length: Math.min(8, missing.length) }, async () => {
-          while (index < missing.length) {
-            const [key, entry] = missing[index++]!;
-            const bitmap = await verifiedBitmap('/lighting/' + entry.file, entry);
-            if (this.disposed) {
-              bitmap.close();
-              continue;
-            }
-            const texture = new T.Texture(bitmap);
-            texture.flipY = false;
-            texture.generateMipmaps = false;
-            texture.minFilter = T.LinearFilter;
-            texture.magFilter = T.LinearFilter;
-            texture.needsUpdate = true;
-            this.textures.set(key, texture);
-            this.bytes += entry.width * entry.height * 4;
-          }
-        }),
-      );
-    } catch (error) {
-      this.dispose();
-      throw error;
-    }
+    this.bytes = [...this.textures.values()].reduce((sum, texture) => {
+      const image = texture.image as ImageBitmap;
+      return sum + image.width * image.height * 4;
+    }, 0);
   }
   get(sprite: ActorSprite, frame = sprite.lightingSample?.frame) {
     if (!frame) return undefined;
@@ -104,10 +115,7 @@ export class NormalLibrary {
   }
   dispose() {
     this.disposed = true;
-    for (const t of this.textures.values()) {
-      (t.image as ImageBitmap).close();
-      t.dispose();
-    }
+    for (const texture of this.textures.values()) disposeNormal(texture);
     this.textures.clear();
     this.bytes = 0;
   }

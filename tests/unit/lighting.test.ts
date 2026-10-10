@@ -93,7 +93,7 @@ test('alpha-derived normals point outward with an unchanged coverage channel', (
   );
 });
 
-test('authoring lighting loads only placed library assets and releases companions after removal', async () => {
+test('lighting replacement preserves the current room on failure, retries, and releases late or removed companions', async () => {
   const { NormalLibrary } = await import('../../src/presentation/illustrated-lighting');
   const { createHash } = await import('node:crypto'),
     bytes = Buffer.from('verified companion'),
@@ -101,7 +101,10 @@ test('authoring lighting loads only placed library assets and releases companion
   const priorFetch = globalThis.fetch,
     priorBitmap = globalThis.createImageBitmap;
   const requests: string[] = [];
-  let closed = 0;
+  let closed = 0,
+    fail = '',
+    wait: Promise<Response> | undefined,
+    requested: (() => void) | undefined;
   const entry = (file: string) => ({
     file,
     hash,
@@ -113,7 +116,13 @@ test('authoring lighting loads only placed library assets and releases companion
   });
   globalThis.fetch = (async (url) => {
     requests.push(url instanceof Request ? url.url : url.toString());
-    return (url instanceof Request ? url.url : url.toString()).endsWith('manifest.json')
+    const file = url instanceof Request ? url.url : url.toString();
+    if (file === '/lighting/' + fail) return new Response('', { status: 503 });
+    if (file === '/lighting/c.png' && wait) {
+      requested?.();
+      return wait;
+    }
+    return file.endsWith('manifest.json')
       ? new Response(
           JSON.stringify({
             recipe: 'alpha-volume-v1',
@@ -121,6 +130,7 @@ test('authoring lighting loads only placed library assets and releases companion
               'ink-hero-current:pose': entry('base.png'),
               'library-a:pose': entry('a.png'),
               'library-b:pose': entry('b.png'),
+              'library-c:pose': entry('c.png'),
             },
           }),
         )
@@ -130,19 +140,52 @@ test('authoring lighting loads only placed library assets and releases companion
     ({ width: 2, height: 2, close: () => closed++ }) as ImageBitmap) as typeof createImageBitmap;
   const library = new NormalLibrary();
   try {
+    fail = 'manifest.json';
+    await assert.rejects(library.load(['library-a']), /companions unavailable/);
+    fail = '';
     await library.load(['library-a']);
     assert.equal(requests.includes('/lighting/b.png'), false);
     assert.equal(library.bytes, 32);
     await library.load(['library-a']);
     assert.equal(requests.filter((u) => u === '/lighting/a.png').length, 1);
-    await library.load(['library-b']);
+    const current = library.textures.get('library-a:pose');
+    let finish!: (response: Response) => void;
+    wait = new Promise((resolve) => (finish = resolve));
+    const started = new Promise<void>((resolve) => (requested = resolve));
+    fail = 'b.png';
+    const replacement = library.load(['library-b', 'library-c']);
+    let settled = false;
+    const rejected = assert.rejects(replacement, /HTTP 503/).then(() => {
+      settled = true;
+    });
+    await started;
+    assert.equal(settled, false, 'Failed batches must settle and release successful late peers');
+    assert.equal(library.textures.get('library-a:pose'), current);
+    finish(new Response(bytes));
+    await rejected;
     assert.equal(closed, 1);
+    assert.equal(library.textures.get('library-a:pose'), current);
+    assert.equal(library.bytes, 32);
+    assert.equal(library.textures.has('library-c:pose'), false);
+    fail = '';
+    await library.load(['library-b']);
+    assert.equal(closed, 2);
     assert.equal(library.bytes, 32);
     assert.equal(library.textures.has('library-a:pose'), false);
+
+    wait = new Promise((resolve) => (finish = resolve));
+    const lateStarted = new Promise<void>((resolve) => (requested = resolve));
+    const late = library.load(['library-c']);
+    await lateStarted;
+    library.dispose();
+    finish(new Response(bytes));
+    await late;
+    assert.equal(library.textures.size, 0);
+    assert.equal(library.bytes, 0);
   } finally {
     library.dispose();
     globalThis.fetch = priorFetch;
     globalThis.createImageBitmap = priorBitmap;
   }
-  assert.equal(closed, 3);
+  assert.equal(closed, 5);
 });
