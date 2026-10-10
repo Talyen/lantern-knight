@@ -7,7 +7,8 @@ import { runProcess } from '../../tools/run-process';
 import { projectRoot } from '../../tools/assets/paths';
 test('fresh source checkout: renderer reload, main/preload restart and owned shutdown', async () => {
   test.setTimeout(240_000);
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-live-')),
+  // Expand Windows 8.3 temp aliases before Vite starts native filesystem watchers.
+  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-live-'))),
     controller = new AbortController();
   let browser: Browser | undefined,
     running: Promise<void> | undefined,
