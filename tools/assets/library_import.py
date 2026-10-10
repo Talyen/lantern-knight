@@ -524,6 +524,9 @@ class Importer:
         return asset
 
     def package(self, p):
+        if p.spec.get("format") == "timed-effects":
+            self.timed_effect(p)
+            return
         if p.spec.get("format"):
             self.delivered_package(p)
             return
@@ -801,6 +804,45 @@ class Importer:
         self.dispositions.append(
             {"archive": p.spec["archive"], "status": "imported", "metadataGroups": imported}
         )
+
+    def timed_effect(self, p):
+        """Import supplied millisecond timelines without resampling their drawings."""
+        data = p.json(p.spec["manifest"])
+        base = str(pathlib.PurePosixPath(p.spec["manifest"]).parent)
+        asset = self.asset(p.spec["identity"], p.spec["label"], "effect")
+        asset["mirroring"] = False
+        timelines = data.get("timelines", {"show": data.get("animation", data)})
+        for name, timeline in timelines.items():
+            records = timeline.get("entries", timeline.get("frames"))
+            if records is None:
+                durations = timeline["durations_ms"]
+                members = sorted(
+                    n for n in p.names if n.startswith(base + "/frames/") and n.endswith(".png")
+                )
+                if len(members) != len(durations):
+                    raise ValueError(
+                        "Effect timing does not cover exact frames: " + p.spec["archive"]
+                    )
+                records = [dict(file=n, duration_ms=t) for n, t in zip(members, durations)]
+            frames, times, markers = [], [], []
+            for i, record in enumerate(records):
+                filename = record.get("file", f"frames/{i:02d}.png")
+                member = p.locate(filename, base)
+                canvas = p.dimensions(member)
+                pivot = pick([timeline, data], "pivot_pixels", "anchor_px")
+                if pivot is None and isinstance(data.get("registration"), dict):
+                    pivot = data["registration"].get("target")
+                # Packs without a delivered pivot use the same provisional
+                # center registration as loose projected-world artwork.
+                pivot = pivot or [canvas[0] / 2, canvas[1] / 2]
+                frames.append(self.frame(p, {"file": member}, [], density=256, anchor=pivot))
+                duration = record["duration_ms"]
+                if record.get("damage_event"):
+                    markers.append({"id": "contact", "atMs": sum(times)})
+                times.append(duration)
+            loop = timeline.get("loop", False)
+            self.clip(asset, name, "d45", frames, times, loop, "hold" if loop else "hide", markers)
+        self.dispositions.append({"archive": p.spec["archive"], "status": "imported"})
 
     def delivered_package(self, p):
         """Delivered atlas/sequence contracts selected explicitly in library-packs."""

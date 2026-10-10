@@ -7,7 +7,7 @@ import { createHash } from 'node:crypto';
 import { makeArchive } from '../../tools/assets/archive';
 import { ensureBundlePack } from '../../tools/assets/bundles';
 import { AssetCache } from '../../tools/assets/cache';
-import { LockSchema } from '../../tools/assets/pack';
+import { LockSchema, payloadDigest } from '../../tools/assets/pack';
 test('runtime consumers fetch only runtime bundles; authoring reuses them and verifies its additional bytes', async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-bundle-'));
   try {
@@ -22,6 +22,12 @@ test('runtime consumers fetch only runtime bundles; authoring reuses them and ve
       locks[name] = lock;
       archives.set(lock.releaseTag, await fs.readFile(archive));
     }
+    const payloadFiles = {};
+    for (const name of ['runtime', 'authoring'])
+      Object.assign(
+        payloadFiles,
+        JSON.parse(await fs.readFile(path.join(root, name, 'pack.json'), 'utf8')).files,
+      );
     const pin = LockSchema.parse({
       ...locks.runtime,
       schemaVersion: 3,
@@ -29,7 +35,11 @@ test('runtime consumers fetch only runtime bundles; authoring reuses them and ve
       preparation: {
         inputs: {},
         recipeSha256: createHash('sha256').update('{}').digest('hex'),
-        payloadSha256: 'a'.repeat(64),
+        payloadSha256: payloadDigest({
+          schemaVersion: 1,
+          recipeSha256: 'a'.repeat(64),
+          files: payloadFiles,
+        }),
       },
     });
     assert.equal(pin.schemaVersion, 3);
@@ -62,6 +72,14 @@ test('runtime consumers fetch only runtime bundles; authoring reuses them and ve
     } finally {
       await authoring.release();
     }
+    await cache.clean(new Set(['pack-' + pin.sha256 + '-authoring']));
+    const offline = (async () => {
+      throw new Error('Cached authoring must work without reacquiring evicted bundles');
+    }) as typeof fetch;
+    const reused = await ensureBundlePack(pin, cache, offline, 'authoring');
+    await reused.release();
+    await fs.writeFile(path.join(reused.root, 'public/authoring.txt'), 'tampered');
+    await assert.rejects(ensureBundlePack(pin, cache, offline, 'authoring'));
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }

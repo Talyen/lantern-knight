@@ -124,7 +124,10 @@
         "assets/library-artwork/sources-1.json",
         "assets/library-artwork/sources-2.json",
         "assets/library-artwork/sources-3.json",
-        "assets/library-artwork/sources-4.json"
+        "assets/library-artwork/sources-4.json",
+        "assets/library-artwork/artwork-5.json",
+        "assets/library-artwork/sources-5.json",
+        "assets/library-combat-sources.json"
       ],
       "dependsOn": [
         "assets/prepare/prepare-ink.ts",

@@ -812,6 +812,474 @@
       "format": "hero-interactions",
       "manifest": "interaction_manifest.json",
       "kind": "character"
+    },
+    {
+      "archive": "Effects/Combat/Cultist Paper Cut/Sources/cultist_paper_cut_animation_kit.zip",
+      "group": "library-32841179d2e8",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "cultist_paper_cut/timing_manifest.json",
+      "identity": "combat-cultist-paper-cut",
+      "label": "Cultist Paper Cut"
+    },
+    {
+      "archive": "Effects/Combat/Verdigris Shear/Sources/verdigris_shear_animation_kit.zip",
+      "group": "library-f640e3328ccb",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "verdigris_shear/timing_manifest.json",
+      "identity": "combat-verdigris-shear",
+      "label": "Verdigris Shear"
+    },
+    {
+      "archive": "Effects/Combat/Moth Oracle Lance/Sources/moth_oracle_lance_animation_kit.zip",
+      "group": "library-2a957c3490b3",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "moth_oracle_lance/timing_manifest.json",
+      "identity": "combat-moth-oracle-lance",
+      "label": "Moth Oracle Lance"
+    },
+    {
+      "archive": "Effects/Combat/Saltwire Lash/Sources/saltwire_lash_animation_kit.zip",
+      "group": "library-07108783bdbb",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "saltwire_lash/timing_manifest.json",
+      "identity": "combat-saltwire-lash",
+      "label": "Saltwire Lash"
+    },
+    {
+      "archive": "Effects/Combat/Candlebone Rib Lane/Sources/candlebone_rib_lane_animation_kit.zip",
+      "group": "library-77f4c0c423e8",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "candlebone_rib_lane/timing_manifest.json",
+      "identity": "combat-candlebone-rib-lane",
+      "label": "Candlebone Rib Lane"
+    },
+    {
+      "archive": "Effects/Combat/Bellbound Dust Slam/Sources/bellbound_dust_slam_animation_kit.zip",
+      "group": "library-667330883424",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "bellbound_dust_slam/timing_manifest.json",
+      "identity": "combat-bellbound-dust-slam",
+      "label": "Bellbound Dust Slam"
+    },
+    {
+      "archive": "Effects/Combat/Funeral Streamer/Sources/funeral_streamer_animation_kit.zip",
+      "group": "library-8ecbd83feb9d",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "funeral_streamer/timing_manifest.json",
+      "identity": "combat-funeral-streamer",
+      "label": "Funeral Streamer"
+    },
+    {
+      "archive": "Effects/Combat/Umbral Beak/Sources/umbral_beak_animation_kit.zip",
+      "group": "library-a974c8371c71",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "umbral_beak/timing_manifest.json",
+      "identity": "combat-umbral-beak",
+      "label": "Umbral Beak"
+    },
+    {
+      "archive": "Effects/Combat/Censer Chain Lash/Sources/censer_chain_lash_animation_kit.zip",
+      "group": "library-8f126ca1c6cb",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "censer_chain_lash/timing_manifest.json",
+      "identity": "combat-censer-chain-lash",
+      "label": "Censer Chain Lash"
+    },
+    {
+      "archive": "Effects/Combat/Stone Saint Reach/Sources/stone_saint_reach_animation_kit.zip",
+      "group": "library-2d2edc66ddb4",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "stone_saint_reach/timing_manifest.json",
+      "identity": "combat-stone-saint-reach",
+      "label": "Stone Saint Reach"
+    },
+    {
+      "archive": "Effects/Combat/Oil Whip/Sources/oil_whip_Formation_Impact_Kit.zip",
+      "group": "library-834f08ae1ff3",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "oil_whip/timing_manifest.json",
+      "identity": "combat-oil-whip",
+      "label": "Oil Whip"
+    },
+    {
+      "archive": "Effects/Combat/Veil Shear/Sources/veil_shear_Formation_Impact_Kit.zip",
+      "group": "library-c001c08c144d",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "veil_shear/timing_manifest.json",
+      "identity": "combat-veil-shear",
+      "label": "Veil Shear"
+    },
+    {
+      "archive": "Effects/Combat/Ivory Rake/Sources/ivory_rake_Formation_Impact_Kit.zip",
+      "group": "library-6e1f58e18be6",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "ivory_rake/timing_manifest.json",
+      "identity": "combat-ivory-rake",
+      "label": "Ivory Rake"
+    },
+    {
+      "archive": "Effects/Combat/Ivory Blade/Sources/ivory_blade_Formation_Impact_Kit.zip",
+      "group": "library-b857f3b24979",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "ivory_blade/timing_manifest.json",
+      "identity": "combat-ivory-blade",
+      "label": "Ivory Blade"
+    },
+    {
+      "archive": "Effects/Combat/Root Eruption/Sources/root_eruption_Formation_Impact_Kit.zip",
+      "group": "library-a11d4b475f6e",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "root_eruption/timing_manifest.json",
+      "identity": "combat-root-eruption",
+      "label": "Root Eruption"
+    },
+    {
+      "archive": "Effects/Combat/Cinder Cone/Sources/cinder_cone_Formation_Impact_Kit.zip",
+      "group": "library-beaab76986ca",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "cinder_cone/timing_manifest.json",
+      "identity": "combat-cinder-cone",
+      "label": "Cinder Cone"
+    },
+    {
+      "archive": "Effects/Combat/Slate Guillotine/Sources/slate_guillotine_Enemy_Attack_Kit.zip",
+      "group": "library-9d5ff0a2bfd7",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "slate_guillotine/animation.json",
+      "identity": "combat-slate-guillotine",
+      "label": "Slate Guillotine"
+    },
+    {
+      "archive": "Effects/Combat/Fungal Crucible/Sources/fungal_crucible_Enemy_Attack_Kit.zip",
+      "group": "library-df1190d6eb9d",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "fungal_crucible/animation.json",
+      "identity": "combat-fungal-crucible",
+      "label": "Fungal Crucible"
+    },
+    {
+      "archive": "Effects/Combat/Hollow Trident/Sources/hollow_trident_Enemy_Attack_Kit.zip",
+      "group": "library-c8a17a0e3b1f",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "hollow_trident/animation.json",
+      "identity": "combat-hollow-trident",
+      "label": "Hollow Trident"
+    },
+    {
+      "archive": "Effects/Combat/Black Rainfall/Sources/black_rainfall_Enemy_Attack_Kit.zip",
+      "group": "library-0d67edd00e43",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "black_rainfall/animation.json",
+      "identity": "combat-black-rainfall",
+      "label": "Black Rainfall"
+    },
+    {
+      "archive": "Effects/Combat/Briar Furrow/Sources/briar_furrow_Enemy_Attack_Kit.zip",
+      "group": "library-edbac308feb8",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "briar_furrow/animation.json",
+      "identity": "combat-briar-furrow",
+      "label": "Briar Furrow"
+    },
+    {
+      "archive": "Effects/Combat/Tallow Fault/Sources/tallow_fault_Enemy_Attack_Kit.zip",
+      "group": "library-b87dffdb4b08",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "tallow_fault/animation.json",
+      "identity": "combat-tallow-fault",
+      "label": "Tallow Fault"
+    },
+    {
+      "archive": "Effects/Combat/Salt Halo/Sources/salt_halo_Enemy_Attack_Kit.zip",
+      "group": "library-8da677d48434",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "salt_halo/animation.json",
+      "identity": "combat-salt-halo",
+      "label": "Salt Halo"
+    },
+    {
+      "archive": "Effects/Combat/Rust Crescent/Sources/rust_crescent_Enemy_Attack_Kit.zip",
+      "group": "library-0cb4246eb018",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "rust_crescent/animation.json",
+      "identity": "combat-rust-crescent",
+      "label": "Rust Crescent"
+    },
+    {
+      "archive": "Effects/Combat/Ivory Vertebra/Sources/ivory_vertebra_Enemy_Attack_Kit.zip",
+      "group": "library-7e282938da9f",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "ivory_vertebra/animation.json",
+      "identity": "combat-ivory-vertebra",
+      "label": "Ivory Vertebra"
+    },
+    {
+      "archive": "Effects/Combat/Grave Dust Bloom/Sources/03_Grave_Dust_Bloom_RGBA_Assets.zip",
+      "group": "library-062eb567cad3",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "Grave_Dust_Bloom/timing_manifest.json",
+      "identity": "combat-grave-dust-bloom",
+      "label": "Grave Dust Bloom"
+    },
+    {
+      "archive": "Effects/Combat/Iron Grit Lance/Sources/02_Iron_Grit_Lance_RGBA_Assets.zip",
+      "group": "library-9b461e09dbc9",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "Iron_Grit_Lance/timing_manifest.json",
+      "identity": "combat-iron-grit-lance",
+      "label": "Iron Grit Lance"
+    },
+    {
+      "archive": "Effects/Combat/Ivory Rupture/Sources/Ivory_Rupture_Attack_RGBA.zip",
+      "group": "library-397628099f09",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "02_ivory_rupture/timing_manifest.json",
+      "identity": "combat-ivory-rupture",
+      "label": "Ivory Rupture"
+    },
+    {
+      "archive": "Effects/Combat/Censer Fan/Sources/censer_fan_Animation_Kit.zip",
+      "group": "library-9dfe21302141",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "censer_fan/timing_manifest.json",
+      "identity": "combat-censer-fan",
+      "label": "Censer Fan"
+    },
+    {
+      "archive": "Effects/Combat/Hearthskin Ward/Sources/hearthskin_ward_Animation_Kit.zip",
+      "group": "library-b5504e6de72d",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "hearthskin_ward/timing_manifest.json",
+      "identity": "combat-hearthskin-ward",
+      "label": "Hearthskin Ward"
+    },
+    {
+      "archive": "Effects/Combat/Caged Ember/Sources/caged_ember_Animation_Kit.zip",
+      "group": "library-29eb4ba5b31c",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "caged_ember/timing_manifest.json",
+      "identity": "combat-caged-ember",
+      "label": "Caged Ember"
+    },
+    {
+      "archive": "Effects/Combat/Gutter Spark/Sources/gutter_spark_Animation_Kit.zip",
+      "group": "library-932508381123",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "gutter_spark/timing_manifest.json",
+      "identity": "combat-gutter-spark",
+      "label": "Gutter Spark"
+    },
+    {
+      "archive": "Effects/Combat/Mothlight Recall/Sources/mothlight_recall_Animation_Kit.zip",
+      "group": "library-7f8eb7a0cc5d",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "mothlight_recall/timing_manifest.json",
+      "identity": "combat-mothlight-recall",
+      "label": "Mothlight Recall"
+    },
+    {
+      "archive": "Effects/Combat/Lanternfall/Sources/lanternfall_Animation_Kit.zip",
+      "group": "library-ead90cabee73",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "lanternfall/timing_manifest.json",
+      "identity": "combat-lanternfall",
+      "label": "Lanternfall"
+    },
+    {
+      "archive": "Effects/Combat/Shutter Cleave/Sources/shutter_cleave_Animation_Kit.zip",
+      "group": "library-2eddf67dff97",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "shutter_cleave/timing_manifest.json",
+      "identity": "combat-shutter-cleave",
+      "label": "Shutter Cleave"
+    },
+    {
+      "archive": "Effects/Combat/Wickline Thrust/Sources/wickline_thrust_Animation_Kit.zip",
+      "group": "library-ff902eaa6d38",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "wickline_thrust/timing_manifest.json",
+      "identity": "combat-wickline-thrust",
+      "label": "Wickline Thrust"
+    },
+    {
+      "archive": "Effects/Combat/Pilgrims Brand/Sources/pilgrims_brand_Animation_Kit.zip",
+      "group": "library-03bab92fab52",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "pilgrims_brand/timing_manifest.json",
+      "identity": "combat-pilgrims-brand",
+      "label": "Pilgrims Brand"
+    },
+    {
+      "archive": "Effects/Combat/Sootstep Wake/Sources/sootstep_wake_Animation_Kit.zip",
+      "group": "library-d3492fef9941",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "sootstep_wake/timing_manifest.json",
+      "identity": "combat-sootstep-wake",
+      "label": "Sootstep Wake"
+    },
+    {
+      "archive": "Effects/Combat/Withering Gale/Sources/08_Withering_Gale_RGBA_Assets.zip",
+      "group": "library-e00de32d0694",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "Withering_Gale/timing_manifest.json",
+      "identity": "combat-withering-gale",
+      "label": "Withering Gale"
+    },
+    {
+      "archive": "Effects/Combat/Cinder Breath/Sources/06_Cinder_Breath_RGBA_Assets.zip",
+      "group": "library-16455c790a9f",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "Cinder_Breath/timing_manifest.json",
+      "identity": "combat-cinder-breath",
+      "label": "Cinder Breath"
+    },
+    {
+      "archive": "Effects/Combat/Shale Ward/Sources/07_Shale_Ward_RGBA_Assets.zip",
+      "group": "library-8c3241cd3188",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "Shale_Ward/timing_manifest.json",
+      "identity": "combat-shale-ward",
+      "label": "Shale Ward"
+    },
+    {
+      "archive": "Effects/Combat/Hoarfrost Rupture/Sources/05_Hoarfrost_Rupture_RGBA_Assets.zip",
+      "group": "library-76fb9a2cc283",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "Hoarfrost_Rupture/timing_manifest.json",
+      "identity": "combat-hoarfrost-rupture",
+      "label": "Hoarfrost Rupture"
+    },
+    {
+      "archive": "Effects/Combat/Mourners Fan/Sources/mourners_fan_Enemy_Attack_Kit.zip",
+      "group": "library-5f633ce691ca",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "mourners_fan/animation.json",
+      "identity": "combat-mourners-fan",
+      "label": "Mourners Fan"
+    },
+    {
+      "archive": "Effects/Combat/Summoned Bell/Sources/summoned_bell_test.zip",
+      "group": "library-68644ed74158",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "summoned_bell/timing_manifest.json",
+      "identity": "combat-summoned-bell",
+      "label": "Summoned Bell"
+    },
+    {
+      "archive": "Effects/Combat/Ashen Claw/Sources/01_Ashen_Claw_RGBA_Assets.zip",
+      "group": "library-893d8f41da09",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "Ashen_Claw/timing_manifest.json",
+      "identity": "combat-ashen-claw",
+      "label": "Ashen Claw"
+    },
+    {
+      "archive": "Effects/Combat/Pallid Spore Fan/Sources/Pallid_Spore_Fan_Action_Revision_RGBA.zip",
+      "group": "library-149fcb50df90",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "pallid_spore_fan/timing_manifest.json",
+      "identity": "combat-pallid-spore-fan",
+      "label": "Pallid Spore Fan"
+    },
+    {
+      "archive": "Effects/Combat/Ritual Wax Barrier/Sources/Ritual_Wax_Barrier_Action_Revision_RGBA.zip",
+      "group": "library-5f787979545b",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "ritual_wax_barrier/timing_manifest.json",
+      "identity": "combat-ritual-wax-barrier",
+      "label": "Ritual Wax Barrier"
+    },
+    {
+      "archive": "Effects/Combat/Bruised Breach/Sources/Bruised_Breach_Action_Revision_RGBA.zip",
+      "group": "library-d02c64074fb3",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "bruised_breach/timing_manifest.json",
+      "identity": "combat-bruised-breach",
+      "label": "Bruised Breach"
+    },
+    {
+      "archive": "Effects/Combat/Stone Crescent/Sources/stone_crescent_Formation_Impact_Kit.zip",
+      "group": "library-2175f76fec27",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "stone_crescent/timing_manifest.json",
+      "identity": "combat-stone-crescent",
+      "label": "Stone Crescent"
+    },
+    {
+      "archive": "Effects/Combat/Rust Chain/Sources/rust_chain_Formation_Impact_Kit.zip",
+      "group": "library-988f1544f8e4",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "rust_chain/timing_manifest.json",
+      "identity": "combat-rust-chain",
+      "label": "Rust Chain"
+    },
+    {
+      "archive": "Effects/Combat/Ash Palm/Sources/ash_palm_Formation_Impact_Kit.zip",
+      "group": "library-4fa1e6a8b063",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "ash_palm/timing_manifest.json",
+      "identity": "combat-ash-palm",
+      "label": "Ash Palm"
+    },
+    {
+      "archive": "Effects/Combat/Thorn Snare/Sources/04_Thorn_Snare_RGBA_Assets.zip",
+      "group": "library-7f5d44f62d4a",
+      "category": 5,
+      "format": "timed-effects",
+      "manifest": "Thorn_Snare/timing_manifest.json",
+      "identity": "combat-thorn-snare",
+      "label": "Thorn Snare"
     }
   ]
 }

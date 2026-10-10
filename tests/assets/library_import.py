@@ -28,6 +28,70 @@ def png(w, h):
 
 
 class ImportTests(unittest.TestCase):
+    def test_timed_effect_preserves_alternate_timelines_contact_and_clear_hold(self):
+        meta = {
+            "pivot_pixels": [3, 8],
+            "timelines": {
+                "enemy": {
+                    "entries": [
+                        {"file": "frames/00.png", "duration_ms": 85},
+                        {"file": "frames/01.png", "duration_ms": 90, "damage_event": True},
+                        {"file": "frames/00.png", "duration_ms": 40},
+                        {"file": "frames/02.png", "duration_ms": 350},
+                    ]
+                },
+                "hero": {
+                    "entries": [
+                        {"file": "frames/01.png", "duration_ms": 30, "damage_event": True},
+                        {"file": "frames/02.png", "duration_ms": 350},
+                    ]
+                },
+            },
+        }
+        p = package(
+            {
+                "fx/timing.json": json.dumps(meta),
+                **{f"fx/frames/{i:02d}.png": png(10, 10) for i in range(3)},
+            }
+        )
+        p.spec.update(
+            format="timed-effects", manifest="fx/timing.json", identity="test", label="Test"
+        )
+        importer = Importer([p])
+        importer.package(p)
+        clips = importer.assets["library-test"]["clips"]
+        enemy, hero = clips["enemy"]["d45"], clips["hero"]["d45"]
+        self.assertEqual(enemy["durationsMs"], [85, 90, 40, 350])
+        self.assertEqual(enemy["frames"][0], enemy["frames"][2])
+        self.assertEqual(enemy["frames"][0]["anchor"], [3, 8])
+        self.assertEqual(enemy["frames"][-1]["member"], "fx/frames/02.png")
+        self.assertEqual(enemy["markers"], [{"id": "contact", "atMs": 85}])
+        self.assertEqual(hero["markers"], [{"id": "contact", "atMs": 0}])
+        self.assertEqual(enemy["endBehavior"], "hide")
+        self.assertFalse(enemy["loop"])
+
+    def test_numbered_effect_requires_timing_for_every_delivered_frame(self):
+        p = package(
+            {
+                "fx/timing.json": json.dumps({"durations_ms": [40, 500], "loop": True}),
+                "fx/frames/00.png": png(10, 10),
+                "fx/frames/01.png": png(10, 10),
+            }
+        )
+        p.spec.update(
+            format="timed-effects", manifest="fx/timing.json", identity="test", label="Test"
+        )
+        importer = Importer([p])
+        importer.package(p)
+        c = importer.assets["library-test"]["clips"]["show"]["d45"]
+        self.assertEqual(c["durationsMs"], [40, 500])
+        self.assertTrue(c["loop"])
+        self.assertEqual(c["endBehavior"], "hold")
+        self.assertEqual(c["frames"][0]["anchor"], [5, 5])
+        p.names.add("fx/frames/02.png")
+        with self.assertRaisesRegex(ValueError, "timing does not cover exact frames"):
+            Importer([p]).package(p)
+
     def test_delivered_atlas_preserves_repeated_cells_holds_and_pivot(self):
         meta = {
             "cell_size": [10, 20],

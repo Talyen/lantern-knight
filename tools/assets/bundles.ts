@@ -85,6 +85,22 @@ export async function ensureBundlePack(
   const held = await cache.lease('pack-' + pin.sha256 + '-' + scope),
     parts: Awaited<ReturnType<typeof ensurePack>>[] = [];
   try {
+    if (scope === 'authoring') {
+      try {
+        const inventory = await fs.readFile(path.join(held.root, 'pack.json'));
+        // The complete authoring assembly has the pin's payload identity even
+        // though its inventory serialization differs from the original archive.
+        // Verify that identity and every file before acquiring redundant bundles.
+        await validateCachedPack(held.root, {
+          ...pin,
+          schemaVersion: 2,
+          inventorySha256: createHash('sha256').update(inventory).digest('hex'),
+        });
+        return held;
+      } catch {
+        // Missing or corrupt assemblies still rebuild from verified bundles.
+      }
+    }
     const files: Record<string, { sha256: string; bytes: number }> = {},
       folded = new Set<string>();
     for (const name of names) {
