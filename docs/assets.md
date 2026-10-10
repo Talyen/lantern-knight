@@ -18,7 +18,7 @@ Development prefers its local layer, otherwise the shared pin. Builds and CI use
 
 Consumers acquire an explicit workspace with its root, identity and release operation. Legacy preparation/test subprocesses receive paths at their process boundary. Missing or corrupt pinned downloads are verified before installation; valid cached assets work offline. Safe extraction, inventory checks, exact bytes and active leases remain required.
 
-Builds derive a selected inventory including manifests, pages, registration, lighting/surface companions and loading media. They validate and copy those files once. Vite does not copy the entire public directory before pruning it. Runtime and additional authoring resources are separate bundles: authoring requires runtime, while Game/CI can request runtime alone.
+Builds derive a selected inventory including manifests, pages, registration, lighting/surface companions and loading media. They validate and copy those files once. Vite does not copy the entire public directory before pruning it. Game artifacts select the assets required by resolved Game content, including its initial effects and actors. Runtime delivery retains the curated runtime catalog so content-only recomposition can reuse the same pin. Additional authoring resources form a separate bundle: authoring requires runtime, while Game/CI can request runtime alone.
 
 The shared version 3 pin identifies separate runtime and authoring bundles. Existing monolithic releases remain preserved.
 

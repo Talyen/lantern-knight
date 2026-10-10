@@ -23,7 +23,7 @@ export type AssetScope = 'runtime' | 'authoring';
 type BundlePin = Extract<AssetLock, { schemaVersion: 3 }>;
 export async function prepareBundles(candidate: PreparedAssets, previous?: AssetLock) {
   const inventory = await validatePack(candidate.payload, candidate.lock);
-  const selection = await selectedFiles(path.join(candidate.payload, 'public'));
+  const selection = await selectedFiles(path.join(candidate.payload, 'public'), 'runtime');
   const runtime = new Set(
     [...selection.files, ...Object.keys(selection.generated)].map((file) => 'public/' + file),
   );

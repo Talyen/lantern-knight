@@ -93,3 +93,17 @@ export function composeSceneContent(
     },
   };
 }
+
+export const gameScenes = composeSceneContent(content, worldVisuals);
+export const gameAssetCatalog: Readonly<Record<string, string>> = Object.fromEntries(
+  [
+    ...new Set([
+      ...gameScenes.initialAssets,
+      ...content.definitions.areas.flatMap((area) => gameScenes.area(area.id).assets),
+    ]),
+  ].map((id) => {
+    const file = assetCatalog[id];
+    if (!file) throw new Error('Game requires an undeclared runtime asset: ' + id);
+    return [id, file];
+  }),
+);

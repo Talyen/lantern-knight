@@ -1,11 +1,9 @@
 import './developer-nav';
-import { composeSceneContent, worldVisuals } from './content/game-content';
+import { content, gameScenes, gameAssetCatalog } from './content/game-content';
 import './style.css';
 import { LoadingScreen } from './loading-screen';
 import { Application } from './application';
 import { GamePresentation } from './presentation/game-scene';
-import { content } from './content/game-content';
-import { gameCatalog } from './assets/authoring-catalog';
 import { browserBridge, createBrowserBridge } from './platform/browser-store';
 import { gameUI, bindGameUI, status, showPause, updateGameUI } from './game-ui';
 const loading = new LoadingScreen();
@@ -16,10 +14,10 @@ async function start() {
   const application = new Application(
     document.querySelector('canvas')!,
     content,
-    await gameCatalog(),
+    gameAssetCatalog,
     window.lantern ??
       (import.meta.env.MODE === 'sandbox' ? createBrowserBridge('preview') : browserBridge),
-    composeSceneContent(content, worldVisuals),
+    gameScenes,
     (...args) => new GamePresentation(...args),
     {
       status,

@@ -40,7 +40,7 @@ export async function sourceInputHash(
     if (options.files && !options.files.includes(file)) continue;
     if (
       ['runtime', 'web', 'desktop'].includes(options.scope ?? '') &&
-      !/^(src|electron|authoring)\/|^tools\/(?:build|select-runtime-assets|game-asset-catalog|verified-files|source-identity)|^(package(?:-lock)?\.json|vite\.config\.ts|.*\.html|assets\/lock\.json)$/.test(
+      !/^(src|electron|authoring)\/|^tools\/(?:build|select-runtime-assets|verified-files|source-identity)|^(package(?:-lock)?\.json|vite\.config\.ts|.*\.html|assets\/lock\.json)$/.test(
         file,
       )
     )

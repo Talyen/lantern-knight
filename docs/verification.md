@@ -14,7 +14,7 @@ Routine local testing should take roughly ten seconds including setup. This is a
 
 Authored scenes are disposable content: gameplay and rendering regressions own their setup, and authored-document validation accepts an empty scene directory.
 
-`npm run test:assets` runs `tests/assets/*.test.ts` against pinned prepared assets. Python authoring/recovery fixtures belong to this tier. `npm run assets:check` validates current runtime manifests, references, pages and companion registration without source-library access or visual approval.
+`npm run test:assets` runs `tests/assets/*.test.ts` against pinned prepared assets. Authored scene documents validate against authoring assets independently of Game selection. Python authoring/recovery fixtures belong to this tier. `npm run assets:check` validates current runtime manifests, references, pages and companion registration without source-library access or visual approval.
 
 `npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`. Game covers input, pause/focus and current checkpoints; scene covers independent outdoor/interior fixtures, reload and resource lifetime; editor covers authoring/history/recovery and protected save requests; effects covers dedicated-scene controls and switching back to independent scene fixtures. One preview session acquires assets and starts a server, or reuses a matching Vite server after checking checkout, asset identity and required scope. It closes only its own server and lease. CI uses pinned assets and its own server. Add `-- --ui` for continuous interactive iteration.
 

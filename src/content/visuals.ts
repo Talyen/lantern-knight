@@ -1,4 +1,4 @@
-export { assetCatalog, gameAssetCatalog } from './asset-catalog';
+export { assetCatalog } from './asset-catalog';
 import { clipForState } from './gameplay';
 export type ActorVisualDefinition = {
   id: string;

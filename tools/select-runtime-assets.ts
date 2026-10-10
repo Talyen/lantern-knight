@@ -7,17 +7,19 @@ import { parseManifest } from '../src/assets/schema';
 import { playgroundCatalog } from '../src/content/effects-playground-assets';
 import { loadingVideoPath } from '../src/content/loading-media';
 import { readAuthoringCatalog } from './assets/authoring-catalog';
-import { gameAssetCatalog } from '../src/content/asset-catalog';
+import { assetCatalog } from '../src/content/asset-catalog';
 
 export type SelectedFiles = { files: string[]; generated: Record<string, string>; bytes: number };
 export async function selectedFiles(
   publicRoot: string,
-  profile: BuildProfile = 'game',
+  profile: BuildProfile | 'runtime' = 'game',
 ): Promise<SelectedFiles> {
   const dev = profile === 'authoring';
   const catalog = dev
     ? { ...(await readAuthoringCatalog(publicRoot)), ...playgroundCatalog }
-    : gameAssetCatalog;
+    : profile === 'runtime'
+      ? assetCatalog
+      : (await import('../src/content/game-content')).gameAssetCatalog;
   const files = new Set([
     'build-mode.json',
     'generated/calibration.json',
@@ -26,7 +28,6 @@ export async function selectedFiles(
     loadingVideoPath,
   ]);
   const generated: Record<string, string> = {};
-  if (dev) files.add('generated/calibration.json');
   const read = (name: string) => fs.readFile(path.join(publicRoot, safeRelative(name)));
   const hash = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
   const manifests = new Map();
@@ -72,9 +73,18 @@ export async function selectedFiles(
   }
   generated['lighting/manifest.json'] = JSON.stringify(lighting) + '\n';
   const surfaces = JSON.parse((await read('visual-effects/surfaces.json')).toString());
+  surfaces.entries = Object.fromEntries(
+    Object.entries(surfaces.entries as Record<string, { asset: string }>).filter(
+      ([, entry]) => entry.asset in catalog,
+    ),
+  );
   generated['visual-effects/surfaces.json'] = JSON.stringify(surfaces) + '\n';
-  for (const entry of Object.values(surfaces.entries) as { file: string }[])
-    files.add('visual-effects/' + safeRelative(entry.file));
+  for (const entry of Object.values(surfaces.entries) as { file: string; hash: string }[]) {
+    const file = 'visual-effects/' + safeRelative(entry.file);
+    if (hash(await read(file)) !== entry.hash)
+      throw new Error('Surface companion differs: ' + file);
+    files.add(file);
+  }
   if (dev) files.add('dev-effects/emitters.json');
   const libraryEntries = Object.fromEntries(
     Object.entries(catalog).filter(([id]) => id.startsWith('library-')),

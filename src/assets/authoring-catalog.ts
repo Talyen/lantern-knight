@@ -1,4 +1,4 @@
-import { assetCatalog, authoringBaseCatalog } from '../content/asset-catalog';
+import { authoringBaseCatalog } from '../content/asset-catalog';
 export async function authoringCatalog(signal?: AbortSignal) {
   const response = await fetch('/generated/library/catalog.json', { signal });
   if (!response.ok) throw new Error('Prepared authoring library is unavailable');
@@ -12,7 +12,4 @@ export async function authoringCatalog(signal?: AbortSignal) {
     )
       throw new Error('Invalid prepared authoring catalog');
   return { ...authoringBaseCatalog, ...library };
-}
-export async function gameCatalog() {
-  return assetCatalog;
 }

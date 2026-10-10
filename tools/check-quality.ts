@@ -2,12 +2,11 @@ import { readRegistration } from './assets/data';
 import { readAsset } from './assets/io';
 import assert from 'node:assert/strict';
 import { parseManifest } from '../src/assets/schema';
-import { assetCatalog, gameAssetCatalog } from '../src/content/visuals';
+import { assetCatalog } from '../src/content/asset-catalog';
+import { gameAssetCatalog } from '../src/content/game-content';
 import { worldVisuals } from '../src/content/game-content';
 import { content } from '../src/content/game-content';
 import { contract } from '../src/core/camera';
-import { publicRoot } from './assets/paths';
-import { readGameCatalog } from './game-asset-catalog';
 const height = 2160,
   minimumSpan = contract.framingRange[0]!,
   minimumHeadroom = 1;
@@ -103,10 +102,10 @@ for (const { id, scale } of cases) {
     ),
   });
 }
-for (const [id, file] of Object.entries(await readGameCatalog(publicRoot()))) {
-  if (!id.startsWith('library-')) continue;
+for (const [id, file] of Object.entries(gameAssetCatalog)) {
   const m = parseManifest(JSON.parse(await readAsset('public/' + file, 'utf8')));
   for (const page of m.pages) runtimePages.set(`${page.hash}:${page.width}x${page.height}`, page);
+  if (!id.startsWith('library-')) continue;
   const scale = Math.max(1, ...placements.filter((p) => p.asset === id).map((p) => p.scale ?? 1));
   const sampling =
     Math.min(...m.frames.map((f) => (f.registration ?? m.asset).density)) /
@@ -117,9 +116,9 @@ for (const [id, file] of Object.entries(await readGameCatalog(publicRoot()))) {
 }
 const flow = readRegistration().animation,
   motionFieldBytes = flow.width * flow.height * 4;
-const cryptSurfaceCloneBytes = Math.ceil(
-  (rows.find((r) => r.id === 'ink-masonry')!.baseRgbaBytes * 4) / 3,
-);
+const cryptSurfaceCloneBytes = gameAssetCatalog['ink-masonry']
+  ? Math.ceil((rows.find((r) => r.id === 'ink-masonry')!.baseRgbaBytes * 4) / 3)
+  : 0;
 const runtimeCatalogTextureBytes =
   cryptSurfaceCloneBytes +
   motionFieldBytes +

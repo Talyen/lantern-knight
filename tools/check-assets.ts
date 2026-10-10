@@ -2,6 +2,7 @@ import { validateLightingBindings, type LightingBinding } from './lighting-bindi
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { actorVisuals } from '../src/content/visuals';
+import { assetCatalog } from '../src/content/asset-catalog';
 import { parseManifest, resolveClip, type Manifest } from '../src/assets/schema';
 import {
   HEADINGS,
@@ -16,15 +17,12 @@ import { safeRelative } from './assets/files';
 import { hash } from './compiler';
 import { loadingVideoPath } from '../src/content/loading-media';
 import { validateLoadingVideo } from './assets/loading-media';
-import { readGameCatalog } from './game-asset-catalog';
 export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirectory'>) {
   const readPublic = (file: string) =>
     fs.readFile(path.join(workspace.publicDirectory, safeRelative(file)));
   validateLoadingVideo(await readPublic(loadingVideoPath));
   const manifests = new Map<string, Manifest>();
-  const catalog: Readonly<Record<string, string>> = {
-    ...(await readGameCatalog(workspace.publicDirectory)),
-  };
+  const catalog = assetCatalog;
   let pages = 0;
   assert.deepEqual(
     JSON.parse((await readPublic('generated/calibration.json')).toString()),
@@ -70,7 +68,6 @@ export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirecto
       companionHashes.set(entry.file, hash(await readPublic('lighting/' + entry.file)));
     assert.equal(companionHashes.get(entry.file), entry.hash);
   }
-  await (await import('./check-scene-documents')).checkSceneDocuments(process.cwd(), manifests);
   // Native-pixel diagnostics remain explicit investigations.
   console.log(
     `PASS: ${Object.keys(catalog).length} runtime assets / ${pages} pages; current references and registration verified.`,

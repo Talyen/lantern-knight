@@ -23,7 +23,7 @@ function assetRoot() {
   if (!/^[a-f0-9]{64}$/.test(lock.sha256)) throw new Error('Invalid asset pack hash');
   return path.join(cacheRoot(), 'entries', `pack-${lock.sha256}`);
 }
-export const publicRoot = () => path.join(assetRoot(), 'public');
+const publicRoot = () => path.join(assetRoot(), 'public');
 export const publicFile = (file: string) => path.join(publicRoot(), safeRelative(file));
 const metadataFile = (file: string) => path.join(assetRoot(), 'metadata', safeRelative(file));
 export function stagingRoot() {

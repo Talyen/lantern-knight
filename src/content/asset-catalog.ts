@@ -56,8 +56,6 @@ export const assetCatalog: Readonly<Record<string, string>> = {
   ),
 };
 
-export const gameAssetCatalog = assetCatalog;
-
 export const authoringBaseCatalog: Readonly<Record<string, string>> = {
   ...assetCatalog,
   ...playgroundCatalog,
