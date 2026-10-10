@@ -32,11 +32,22 @@ for (const scene of ['outdoor-fixture', 'interior-fixture'])
     expect(resources[3]).toEqual(resources[2]);
   });
 
-test('removed scene selections fall back to a valid developer fixture', async ({ page }) => {
+test('preview selection uses its current workspace and rejects removed URL fixtures', async ({
+  page,
+}) => {
+  // Four scene loads exercise selection precedence under CI software rendering.
+  test.setTimeout(120_000);
   await page.addInitScript(() => sessionStorage.setItem('lantern-author-scene', 'court'));
   await page.goto('/sandbox.html');
   await page.waitForFunction(() => window.foundation?.ready);
   expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');
+  await page.locator('#scene-select').selectOption('interior-fixture');
+  await page.waitForFunction(
+    () => window.foundation?.ready && window.foundation.sim.area === 'interior-fixture',
+  );
+  await page.goto('/sandbox.html');
+  await page.waitForFunction(() => window.foundation?.ready);
+  expect(await page.evaluate(() => window.foundation.sim.area)).toBe('interior-fixture');
   await page.goto('/sandbox.html?scene=upper-landing');
   await page.waitForFunction(() => window.foundation?.ready);
   expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');

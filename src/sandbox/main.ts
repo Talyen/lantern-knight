@@ -77,11 +77,7 @@ const parameter =
   location.hash === '#effects-playground'
     ? 'effects-playground'
     : new URLSearchParams(location.search).get('scene');
-let legacy: string | null = null;
-try {
-  legacy = sessionStorage.getItem('lantern-author-scene');
-} catch {}
-const selected = parameter ?? legacy ?? store.state.selected;
+const selected = parameter ?? store.state.selected;
 const initialScene = fixtures.includes(selected as Fixture)
   ? (selected as Fixture)
   : 'outdoor-fixture';
