@@ -1,4 +1,5 @@
 import { brushMask } from './mask-contours';
+import { GroundProfileSchema, restoreGroundProfile } from '../content/ground-profile';
 import * as T from 'three';
 import { groundPoint } from '../core/camera';
 import { artworkFloorLayout } from '../content/floor-layout';
@@ -64,6 +65,13 @@ export class GroundAuthoring {
     this.panel.id = 'ground-interaction-section';
     this.panel.innerHTML = `<summary>Ground interaction</summary><p>Trace ground footprints separately from scenery silhouettes.</p><label>Region<select id="ground-region"><option value="">New region</option></select></label><label>Name<input id="ground-region-name" maxlength="80" value="Ground region"></label><label>Task<select id="ground-task"><option value="off">Select / edit vertices</option><option value="footprint">Block movement polygon</option><option value="mask">Occlusion polygon</option><option value="ai-box">AI box selection</option><option value="ai-point">AI include / exclude clicks</option><option value="brush-add">Add to mask brush</option><option value="brush-erase">Erase mask brush</option><option value="anchor">Depth anchor</option><option value="boundary">Depth boundary</option></select></label><p id="ground-task-help">Choose a task, then work on the canvas. Shift-click excludes from AI selection.</p><label>Brush radius (source pixels)<input id="ground-brush-radius" type="number" min="1" max="256" value="12"></label><div class="ground-actions"><button id="ground-finish">Finish polygon / boundary</button><button id="ground-refine">Run AI selection</button><button id="ground-accept">Accept mask</button><button id="ground-cancel">Cancel selection</button><button id="ground-duplicate">Duplicate region</button><button id="ground-delete">Delete region</button><button id="ground-clear">Clear all ground interaction</button></div><fieldset><legend>Ground overlays</legend><label><input id="ground-show-blockers" type="checkbox" checked> Blocking footprints</label><label><input id="ground-show-masks" type="checkbox" checked> Occlusion masks</label><label><input id="ground-show-depth" type="checkbox" checked> Depth anchors and boundaries</label></fieldset><p id="ground-ai-state" role="status">Local selection: run npm run segmentation:setup once.</p>`;
     document.getElementById('scene-panel')!.append(this.panel);
+    const profiles = document.createElement('fieldset');
+    profiles.innerHTML = `<legend>Saved artwork interaction profiles</legend><button id="ground-load-profiles">Find saved profiles</button><label>Saved revision<select id="ground-profile"><option value="">Find saved profiles first</option></select></label><label><input id="ground-profile-review" type="checkbox"> Reassign to changed artwork and review alignment</label><button id="ground-restore-profile">Restore selected profile</button><p>Saving a scene archives an independent revision. Scene deletion and asset processing leave these revisions intact. Restoring replaces this draft’s interaction data in one undoable edit.</p>`;
+    this.panel.append(profiles);
+    profiles.querySelector<HTMLButtonElement>('#ground-load-profiles')!.onclick = () =>
+      void this.loadProfiles().catch((e) => this.host.status(String(e), true));
+    profiles.querySelector<HTMLButtonElement>('#ground-restore-profile')!.onclick = () =>
+      void this.restoreProfile().catch((e) => this.host.status(String(e), true));
     const batch = document.createElement('fieldset');
     batch.innerHTML = `<legend>Automatic scenery proposals</legend><label>Find objects<input id="ground-find-text" value="pine tree. dead tree. stone wall. large rock." maxlength="300"></label><button id="ground-find">Find scenery</button><label>Review proposal<select id="ground-candidate"><option value="">Find scenery first</option></select></label><label><input id="ground-candidate-included" type="checkbox" checked> Include this proposal</label><div class="ground-actions"><button id="ground-prepare">Prepare included masks</button><button id="ground-accept-batch">Accept prepared masks</button></div><p>AI proposes silhouettes only. Review collision footprints and depth separately. Nothing is saved until accepted.</p>`;
     this.panel.querySelector('#ground-ai-state')!.before(batch);
@@ -504,6 +512,55 @@ export class GroundAuthoring {
       dimensions: [...m.asset.canvas] as UV,
     };
   }
+  private async loadProfiles() {
+    const d = this.host.document(),
+      identity = this.selectionIdentity();
+    const response = await fetch('/__lantern_editor?groundProfiles', {
+      signal: this.lifetime.signal,
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error);
+    if (d !== this.host.document()) return;
+    const profiles = data.profiles as { id: string; name: string; hash: string; regions: number }[];
+    profiles.sort((a, b) => Number(b.hash === identity.hash) - Number(a.hash === identity.hash));
+    this.panel
+      .querySelector<HTMLSelectElement>('#ground-profile')!
+      .replaceChildren(
+        new Option('Choose a saved revision', ''),
+        ...profiles.map(
+          (p) =>
+            new Option(
+              `${p.name} · ${p.regions} regions · ${p.id.slice(0, 8)}${p.hash === identity.hash ? ' · matching artwork' : ' · artwork differs'}`,
+              p.id,
+            ),
+        ),
+      );
+    this.host.status(`${profiles.length} saved interaction revisions available.`);
+  }
+  private async restoreProfile() {
+    const id = this.panel.querySelector<HTMLSelectElement>('#ground-profile')!.value;
+    if (!id) throw new Error('Choose a saved interaction revision first.');
+    const d = this.host.document(),
+      identity = this.selectionIdentity();
+    const response = await fetch('/__lantern_editor?groundProfile=' + encodeURIComponent(id), {
+      signal: this.lifetime.signal,
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error);
+    if (d !== this.host.document()) return;
+    const interaction = restoreGroundProfile(
+      GroundProfileSchema.parse(data.profile),
+      identity,
+      d.floor,
+      this.panel.querySelector<HTMLInputElement>('#ground-profile-review')!.checked,
+    );
+    await this.host.change((draft) => {
+      draft.groundInteraction = interaction;
+    });
+    this.host.status(
+      'Saved interaction restored. Inspect alignment, collision and depth before saving.',
+    );
+  }
   private reviewCandidate() {
     const candidate =
       this.candidates[
@@ -659,6 +716,7 @@ export class GroundAuthoring {
     if (!p) return;
     if (this.previous !== d) {
       this.signature = '';
+      this.panel.querySelector<HTMLInputElement>('#ground-profile-review')!.checked = false;
       if (this.previous) this.cancel(true);
       this.previous = d;
       const select = this.panel.querySelector<HTMLSelectElement>('#ground-region')!;

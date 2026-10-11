@@ -1,5 +1,6 @@
 import { test, expect } from './fixtures';
 import fs from 'node:fs/promises';
+import path from 'node:path';
 import type {} from '../../src/editor/main';
 
 test('review authored occluders from reachable front and behind positions', async ({
@@ -7,9 +8,15 @@ test('review authored occluders from reachable front and behind positions', asyn
 }, info) => {
   const id = process.env.LANTERN_GROUND_REVIEW;
   test.skip(!id, 'Opt in for captures of a prepared authored scene');
-  test.setTimeout(600_000);
+  test.setTimeout(1_800_000);
   page.setDefaultTimeout(30_000);
   page.on('dialog', (dialog) => void dialog.accept());
+  await page.addInitScript(() =>
+    localStorage.setItem(
+      'lantern-ground-overlays',
+      JSON.stringify({ masks: false, blockers: false, depth: false }),
+    ),
+  );
   await page.goto('/editor.html?automated');
   await page.waitForFunction(() => window.sceneEditor?.ready(), undefined, { timeout: 30_000 });
   console.info('Review: editor ready');
@@ -18,6 +25,7 @@ test('review authored occluders from reachable front and behind positions', asyn
   await page.locator('#document-menu > summary').click();
   await page.locator('#scene').selectOption('file-' + id!);
   await page.locator('#open').click();
+  await page.locator('#confirmation-accept').click();
   await page.waitForFunction(() => window.sceneEditor.view().presentation?.groundOcclusion);
   console.info('Review: authored atlas ready');
   await page.locator('#scene-tab').click();
@@ -88,9 +96,19 @@ test('review authored occluders from reachable front and behind positions', asyn
   });
   console.info('Review: approaches validated', report.regions.length);
   expect(report.regions.length).toBeGreaterThan(0);
+  const resume = process.env.LANTERN_GROUND_REVIEW_RESUME;
+  const captured: string[] = resume
+    ? JSON.parse(await fs.readFile(path.join(resume, 'review.json'), 'utf8')).captured
+    : [];
+  if (resume)
+    for (const id of captured)
+      await fs.copyFile(path.join(resume, id + '.png'), info.outputPath(id + '.png'));
+  const saveReport = () =>
+    fs.writeFile(info.outputPath('review.json'), JSON.stringify({ ...report, captured }, null, 2));
+  await saveReport();
   for (const region of report.regions) {
-    if (!region.approaches.length) continue;
-    await page.evaluate(({ base, approaches }) => {
+    if (!region.approaches.length || captured.includes(region.id)) continue;
+    const capture = await page.evaluate(({ base, approaches }) => {
       const view = window.sceneEditor.view(),
         p = view.presentation!,
         sim = view.sim!;
@@ -109,8 +127,13 @@ test('review authored occluders from reachable front and behind positions', asyn
         });
       }
       view.render();
+      return view.canvas.toDataURL('image/png');
     }, region);
-    await page.locator('#viewport').screenshot({ path: info.outputPath(region.id + '.png') });
+    await fs.writeFile(
+      info.outputPath(region.id + '.png'),
+      Buffer.from(capture.split(',')[1]!, 'base64'),
+    );
+    captured.push(region.id);
+    await saveReport();
   }
-  await fs.writeFile(info.outputPath('review.json'), JSON.stringify(report, null, 2));
 });

@@ -66,13 +66,28 @@ test('artwork coordinates round trip and resize all world geometry together', ()
     const actual = before.uv(before.world(uv));
     assert.ok(actual.every((v, i) => Math.abs(v - uv[i]!) < 1e-12));
   }
-  const g = ground(),
-    old = structuredClone(g);
+  const g = ground();
+  g.regions.push({
+    id: 'wall',
+    name: 'Wall',
+    depth: { kind: 'boundary', points: [before.world([0.2, 0.3]), before.world([0.8, 0.6])] },
+  });
+  g.destinations[0] = { name: 'Passage', ...before.world([0.7, 0.8]) };
+  const old = structuredClone(g);
   resizeGroundInteraction(g, { width: 40, depth: 26.666 }, { width: 20, depth: 30 });
   assert.deepEqual(g.regions[0]!.mask, old.regions[0]!.mask);
   const a = before.uv(old.regions[0]!.footprint![0]!),
     b = after.uv(g.regions[0]!.footprint![0]!);
   assert.ok(a.every((v, i) => Math.abs(v - b[i]!) < 1e-12));
+  const points = (value: typeof g) =>
+    value.regions
+      .flatMap((r) => (r.depth?.kind === 'anchor' ? [r.depth.point] : (r.depth?.points ?? [])))
+      .concat(value.destinations);
+  for (const [index, point] of points(old).entries()) {
+    const uv = before.uv(point),
+      resized = after.uv(points(g)[index]!);
+    assert.ok(uv.every((v, i) => Math.abs(v - resized[i]!) < 1e-12));
+  }
 });
 test('top-left image coordinates register with the actual camera projection', () => {
   const layout = artworkFloorLayout(40, 26.666);

@@ -3,6 +3,7 @@ import path from 'node:path';
 const desktop = process.env.LANTERN_TEST_TARGET === 'desktop';
 const built = process.env.LANTERN_TEST_BUILT === 'true';
 const port = process.env.LANTERN_PREVIEW_PORT ?? '5174';
+const hardware = process.env.LANTERN_TEST_GPU === 'hardware';
 export default defineConfig({
   testDir: desktop ? 'tests/desktop' : 'tests/browser',
   timeout: 180_000,
@@ -17,7 +18,11 @@ export default defineConfig({
     video: 'off',
     trace: 'off',
     launchOptions: {
-      args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
+      args: hardware
+        ? process.platform === 'darwin'
+          ? ['--use-gl=angle', '--use-angle=metal']
+          : []
+        : ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
     },
   },
   webServer:

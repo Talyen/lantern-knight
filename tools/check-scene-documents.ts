@@ -8,7 +8,16 @@ import {
 import { resolveScene } from '../src/content/world-art';
 import { parseManifest, type Manifest } from '../src/assets/schema';
 import { readAuthoringCatalog } from './assets/authoring-catalog';
+import { GroundProfileStore } from './scene/ground-profile-store';
 export async function checkSceneDocuments(root: string, publicDirectory: string) {
+  // Archived profiles remain valid even when their original asset is no longer prepared.
+  const profileDirectory = path.join(root, 'authoring/ground-profiles');
+  try {
+    await fs.access(profileDirectory);
+    await new GroundProfileStore(profileDirectory).list();
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+  }
   const directory = path.join(root, 'authoring/scenes'),
     files = (
       await fs.readdir(directory).catch((error: NodeJS.ErrnoException) => {

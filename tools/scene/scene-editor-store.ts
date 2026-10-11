@@ -1,5 +1,6 @@
 import { SegmentationService } from '../segmentation/service';
 import { FragmentStore } from './fragment-store';
+import { GroundProfileStore } from './ground-profile-store';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
@@ -23,6 +24,7 @@ export class SceneStore {
   constructor(
     readonly directory: string,
     private validate: (d: SceneDocument) => Promise<void> = async () => {},
+    private profiles?: GroundProfileStore,
   ) {}
   private async location(id: string) {
     if (!validId.test(id)) throw new Error('Invalid scene identity');
@@ -88,6 +90,13 @@ export class SceneStore {
         throw new SceneConflict(
           'This scene changed on disk. Reload it or use Save As to preserve your edits.',
         );
+      if (document.groundInteraction && this.profiles)
+        await this.profiles.save({
+          version: 1,
+          name: document.name,
+          floor: { width: document.floor.width, depth: document.floor.depth },
+          interaction: document.groundInteraction,
+        });
       const temporary = file + '.' + randomUUID() + '.tmp';
       try {
         await fs.writeFile(temporary, bytes, { flag: 'wx' });
@@ -108,6 +117,7 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
     sourceFiles = [
       'src/content/scene-document.ts',
       'src/content/ground-interaction.ts',
+      'src/content/ground-profile.ts',
       'src/content/floor-layout.ts',
       'src/content/authored-gameplay.ts',
       'src/assets/schema.ts',
@@ -151,7 +161,8 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
         'Scene schema or pinned assets changed while saving. Restart and review the recovered draft.',
       );
   };
-  const store = new SceneStore(path.join(root, 'authoring/scenes'), validate);
+  const profiles = new GroundProfileStore(path.join(root, 'authoring/ground-profiles'));
+  const store = new SceneStore(path.join(root, 'authoring/scenes'), validate, profiles);
   const fragments = new FragmentStore(path.join(root, 'authoring/fragments'));
   return {
     name: 'lantern-scene-editor',
@@ -199,6 +210,15 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
                   'Scene schema or pinned assets or pinned assets changed. Preserve your draft and restart the editor before saving.',
                 );
               if (req.method === 'GET') {
+                if (url.searchParams.has('groundProfiles')) {
+                  respond(200, { profiles: await profiles.list() });
+                  return;
+                }
+                const profile = url.searchParams.get('groundProfile');
+                if (profile) {
+                  respond(200, { profile: await profiles.read(profile) });
+                  return;
+                }
                 if (url.searchParams.has('segmentation')) {
                   respond(200, await segmentation.status());
                   return;

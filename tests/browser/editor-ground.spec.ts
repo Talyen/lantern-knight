@@ -9,6 +9,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
   page,
   request,
 }) => {
+  test.setTimeout(600_000);
   const id = 'ground-proof-' + Date.now(),
     file = path.join(projectRoot, 'authoring/scenes', id + '.json');
   const mask = [
@@ -23,6 +24,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     },
   ];
   let selections = 0;
+  let profileId: string | undefined;
   await page.route('**/__lantern_editor', async (route) => {
     if (
       route.request().method() === 'POST' &&
@@ -48,6 +50,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await page.goto('/editor.html?automated');
     await page.waitForFunction(() => window.sceneEditor?.ready());
     const d = emptyScene();
+    d.name = id;
     d.floor.layout = 'artwork';
     // The sandbox supplies three reachable enemies without changing the saved scene.
     d.gameplay!.spawns = [];
@@ -56,6 +59,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
       mimeType: 'application/json',
       buffer: Buffer.from(JSON.stringify(d)),
     });
+    await page.locator('#confirmation-accept').click();
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.layout), {
         timeout: 30_000,
@@ -168,6 +172,9 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await expect(page.locator('#save-state')).toHaveText('Saved');
     const saved = JSON.parse(await fs.readFile(file, 'utf8'));
     expect(saved.groundInteraction).toEqual(authored);
+    const archive = await (await request.get('/__lantern_editor?groundProfiles')).json();
+    profileId = archive.profiles.find((p: { name: string }) => p.name.includes(id))?.id;
+    expect(profileId).toBeTruthy();
     await page.reload();
     await page.waitForFunction(() => window.sceneEditor?.ready());
     const data = await (await request.get('/__lantern_editor?id=' + id)).json();
@@ -177,6 +184,31 @@ test('ground authoring accepts and corrects selection, saves contours and routes
       mimeType: 'application/json',
       buffer: Buffer.from(JSON.stringify(saved)),
     });
+    await page.locator('#confirmation-accept').click();
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
+      .toEqual(authored);
+    // Recreate a deleted scene from its independent artwork interaction revision.
+    await fs.rm(file);
+    await page.locator('#scene-tab').click();
+    if ((await page.locator('#ground-interaction-section').getAttribute('open')) === null)
+      await page.locator('#ground-interaction-section > summary').click();
+    await page.locator('#ground-clear').click();
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
+      .toBeUndefined();
+    await page.locator('#ground-load-profiles').click();
+    await expect(page.locator('#ground-profile option[value="' + profileId + '"]')).toHaveCount(1);
+    await page.locator('#ground-profile').selectOption(profileId!);
+    await page.locator('#ground-restore-profile').click();
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
+      .toEqual(authored);
+    await page.locator('#undo').click();
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
+      .toBeUndefined();
+    await page.locator('#redo').click();
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
       .toEqual(authored);
@@ -218,5 +250,9 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     ).toEqual(before.storage);
   } finally {
     await fs.rm(file, { force: true });
+    if (profileId)
+      await fs.rm(path.join(projectRoot, 'authoring/ground-profiles', profileId + '.json'), {
+        force: true,
+      });
   }
 });

@@ -13,7 +13,8 @@ function repositoryFinding(file: string, bytes: number) {
   if (forbidden.test(file))
     return 'generated, historical or bulk asset data must remain outside Git';
   const limit =
-    (/^authoring\/scenes\/[a-z][a-z0-9-]*\.json$/.test(file)
+    (/^authoring\/scenes\/[a-z][a-z0-9-]*\.json$/.test(file) ||
+    /^authoring\/ground-profiles\/[a-f0-9]{64}\.json$/.test(file)
       ? sceneBytesLimit
       : exceptions[file]) ?? (/\.(json|ya?ml)$/i.test(file) ? 64 * 1024 : 256 * 1024);
   if (bytes > limit)
