@@ -15,6 +15,8 @@
 
 Game and Dev Preview, including its effects fixture, share the Application lifecycle. Dev Preview's shell retains per-fixture state; opening an inspector is separate from entering dedicated animation/calibration rendering. Preview state uses validated session storage and storage-free bridges, never player checkpoints/settings. Mounted developer sessions dispose their requests, observers and rendering work together.
 
+Application owns one current session operation spanning checkpoint reads, room acquisition, commit, persistence and completion. A newer Load, Restore, Reset, New Game, transition or developer room replacement supersedes the previous operation. Superseded operations cannot commit, resume play or start an autosave; expected cancellation stays out of error feedback. Transition plans cancel immediately. Storage reads stop blocking loading on cancellation and discard late results; resource acquisitions settle and release late leases. Disposal cancels session operations and the separate retained/preview asset lifetime. Writes already submitted remain ordered by the storage adapter.
+
 ## Scene content
 
 Version 5 scene documents own floor, scenery, camera, surrounds and gameplay geometry. `src/content/scene-document.ts` parses them; `src/content/world-art.ts` resolves area geometry, colliders, visuals and asset requirements together. `src/content/world-visuals.ts` owns visual types, resource requirements and framing helpers. Parsing protects technical validity; design profiles produce advice under [scene guidance](scene-design.md).

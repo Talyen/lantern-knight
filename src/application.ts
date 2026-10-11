@@ -10,6 +10,7 @@ import { Input } from './core/input';
 import { ContentRegistry } from './content/world';
 import { parseGame, type GameSave, type Bridge } from './core/save';
 import { FrameScheduler } from './frame-scheduler';
+import { SessionOperation, SessionOperationCancelled } from './session-operation';
 export type ApplicationHooks = {
   status: (message: string, error?: boolean) => void;
   pause: (paused: boolean) => void;
@@ -39,8 +40,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   private persistentLeases = new Map<string, PackLease>();
   private roomAssets?: PackBatch;
-  private abort = new AbortController();
-  private request = 0;
+  private readonly abort = new AbortController();
+  private sessionOperation?: SessionOperation;
   private last = 0;
   private frames: FrameScheduler | undefined;
   private disposed = false;
@@ -52,7 +53,9 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     if (this.disposed) throw new Error('application disposed');
   }
   ready = false;
-  busy = false;
+  get busy() {
+    return this.sessionOperation !== undefined;
+  }
   paused = false;
   readOnly = false;
   scale = 1;
@@ -260,25 +263,41 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.events.setGeneration(this.session.generation);
     this.events.publish(events);
   }
-  replaceArea(area: string, commit: () => readonly GameplayEvent[]) {
-    return this.withLoading(() => this.replaceRoom(area, commit));
-  }
-  private async replaceRoom(area: string, commit: () => readonly GameplayEvent[]) {
+  private async withSessionOperation<T>(work: (operation: SessionOperation) => Promise<T>) {
     this.assertActive();
-    const request = ++this.request;
-    this.abort.abort();
-    const controller = new AbortController();
-    this.abort = controller;
-    this.busy = true;
-    this.clock.reset();
+    this.sessionOperation?.cancel('session operation superseded');
+    const operation = new SessionOperation();
+    this.sessionOperation = operation;
+    return this.withLoading(async () => {
+      try {
+        const result = await work(operation);
+        operation.check();
+        return result;
+      } catch (error) {
+        operation.check();
+        throw error;
+      } finally {
+        if (this.sessionOperation === operation) this.sessionOperation = undefined;
+      }
+    });
+  }
+  replaceArea(area: string, commit: () => readonly GameplayEvent[]) {
+    return this.withSessionOperation((operation) => this.replaceRoom(area, commit, operation));
+  }
+  private async replaceRoom(
+    area: string,
+    commit: () => readonly GameplayEvent[],
+    operation: SessionOperation,
+  ) {
+    operation.check();
     this.input.clear();
     let next: PackBatch | undefined;
     try {
-      next = await this.acquireArea(area, controller.signal);
-      if (this.disposed || request !== this.request) throw new Error('load cancelled');
+      next = await this.acquireArea(area, operation.signal);
+      operation.check();
       for (const pack of next.packs.values()) this.presentation.warmPack(pack);
       await this.presentation.prepareAssets(new Set([...this.packs.keys(), ...next.packs.keys()]));
-      if (this.disposed || request !== this.request) throw new Error('load cancelled');
+      operation.check();
       const changes = commit(),
         old = this.roomAssets;
       this.roomAssets = next;
@@ -288,11 +307,11 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       old?.release();
       next = undefined;
       await this.presentation.prepareAssets();
+      operation.check();
       this.input.resetAim();
       this.publish(changes);
     } finally {
       next?.release();
-      if (request === this.request) this.busy = false;
     }
   }
   pause(value: boolean) {
@@ -304,27 +323,43 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.hooks.pause(value);
   }
   safe(fn: () => Promise<unknown>) {
-    void fn().catch((error) => this.hooks.status(String(error.message ?? error), true));
+    void fn().catch((error) => {
+      if (!(error instanceof SessionOperationCancelled))
+        this.hooks.status(String(error.message ?? error), true);
+    });
   }
-  async transition(id: string) {
-    const plan = this.session.prepareTransition(id);
-    this.publish(plan.events);
-    try {
-      await this.replaceArea(plan.destination, () => this.session.commitTransition(plan));
-      this.autosave();
-    } catch (error) {
-      this.publish(this.session.cancelTransition(plan));
-      this.pause(true);
-      throw error;
-    }
+  transition(id: string) {
+    return this.withSessionOperation(async (operation) => {
+      const plan = this.session.prepareTransition(id);
+      const cancel = () => this.publish(this.session.cancelTransition(plan));
+      operation.signal.addEventListener('abort', cancel, { once: true });
+      try {
+        this.publish(plan.events);
+        operation.check();
+        await this.replaceRoom(
+          plan.destination,
+          () => this.session.commitTransition(plan),
+          operation,
+        );
+        operation.check();
+        this.autosave();
+      } catch (error) {
+        this.publish(this.session.cancelTransition(plan));
+        // An obsolete transition must not pause a newer session operation.
+        if (!operation.signal.aborted) this.pause(true);
+        throw error;
+      } finally {
+        operation.signal.removeEventListener('abort', cancel);
+      }
+    });
   }
   reset() {
-    return this.withLoading(() => this.resetEncounter());
-  }
-  private async resetEncounter() {
-    const resume = this.resumeOnCompletion();
-    await this.replaceArea(this.sim.area, () => this.session.resetCurrentArea());
-    resume();
+    return this.withSessionOperation(async (operation) => {
+      const resume = this.resumeOnCompletion();
+      await this.replaceRoom(this.sim.area, () => this.session.resetCurrentArea(), operation);
+      operation.check();
+      resume();
+    });
   }
   private resumeOnCompletion() {
     this.assertActive();
@@ -334,45 +369,51 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         this.pause(false);
     };
   }
-  private async restoreState(save: GameSave) {
+  private async restoreState(save: GameSave, operation: SessionOperation) {
+    operation.check();
     const valid = parseGame(save, this.registry);
-    await this.replaceArea(valid.area, () => this.session.restoreSave(valid));
+    await this.replaceRoom(valid.area, () => this.session.restoreSave(valid), operation);
   }
   restore(save: GameSave) {
-    return this.withLoading(() => this.restoreCheckpoint(save));
-  }
-  private async restoreCheckpoint(save: GameSave) {
-    const resume = this.resumeOnCompletion();
-    await this.restoreState(save);
-    resume();
+    return this.withSessionOperation(async (operation) => {
+      const resume = this.resumeOnCompletion();
+      await this.restoreState(save, operation);
+      operation.check();
+      resume();
+    });
   }
   load() {
-    return this.withLoading(() => this.loadCheckpoint());
-  }
-  private async loadCheckpoint() {
-    const resume = this.resumeOnCompletion(),
-      result = await this.persistence.load();
-    if (result.status === 'empty') return false;
-    await this.restoreState(result.data);
-    resume();
-    return true;
+    return this.withSessionOperation(async (operation) => {
+      const resume = this.resumeOnCompletion(),
+        result = await operation.read(this.persistence.load());
+      if (result.status === 'empty') return false;
+      await this.restoreState(result.data, operation);
+      operation.check();
+      resume();
+      return true;
+    });
   }
   newGame() {
-    return this.withLoading(() => this.startNewGame());
-  }
-  private async startNewGame() {
-    const resume = this.resumeOnCompletion();
-    await this.replaceArea(this.registry.definitions.initialArea, () => {
-      this.session = new GameSession(
-        this.registry,
-        142,
+    return this.withSessionOperation(async (operation) => {
+      const resume = this.resumeOnCompletion();
+      await this.replaceRoom(
         this.registry.definitions.initialArea,
-        this.session.generation + 1,
+        () => {
+          this.session = new GameSession(
+            this.registry,
+            142,
+            this.registry.definitions.initialArea,
+            this.session.generation + 1,
+          );
+          return [];
+        },
+        operation,
       );
-      return [];
+      operation.check();
+      if (!this.readOnly) await this.persistence.save(this.session.captureSave());
+      operation.check();
+      resume();
     });
-    if (!this.readOnly) await this.persistence.save(this.session.captureSave());
-    resume();
   }
   async saveSettings() {
     await this.bridge.saveSettings({
@@ -435,6 +476,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.hooks.loading?.(false);
     this.ready = false;
     this.abort.abort();
+    this.sessionOperation?.cancel('application disposed');
+    this.sessionOperation = undefined;
     this.frames?.dispose();
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('blur', this.onBlur);

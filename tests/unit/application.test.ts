@@ -65,6 +65,8 @@ function fixture() {
     () => presentationFixture(),
     { status: () => {}, pause: () => {}, frame: () => {} },
   );
+  app.input = { clear() {}, resetAim() {}, dispose() {} } as unknown as typeof app.input;
+  app.runtime = runtime(async () => assert.fail('fixture requires no packs'));
   let released = 0,
     warmed = 0;
   const lease = { release: () => released++ } as unknown as PackLease;
@@ -157,10 +159,7 @@ test('completed session operations preserve a pause requested while loading', as
     const { app } = fixture(),
       waiting = deferred<void>();
     app.readOnly = true;
-    app.replaceArea = async (_area, commit) => {
-      await waiting.promise;
-      commit();
-    };
+    app.presentation.prepareAssets = () => waiting.promise;
     app.pause(true);
     const pending = operation(app);
     app.pause(true);
@@ -181,9 +180,8 @@ test('checkpoint reading preserves later pause requests and background state, an
       saveGame: async () => {},
     });
     let areas = 0;
-    app.replaceArea = async (_area, commit) => {
+    app.presentation.resetRoom = () => {
       areas++;
-      commit();
     };
     app.pause(true);
     const loading = app.load();
@@ -213,6 +211,117 @@ test('checkpoint reading preserves later pause requests and background state, an
     await assert.rejects(request, /disposed/);
   });
 });
+test('newer session intent supersedes checkpoint reads before room acquisition', async () => {
+  await withDOM(async () => {
+    const { app } = fixture(),
+      waiting = deferred<Awaited<ReturnType<Bridge['loadGame']>>>(),
+      saved = new GameSession(content, 142, 'upper-landing').captureSave();
+    app.readOnly = true;
+    app.input = { clear() {}, resetAim() {}, dispose() {} } as unknown as typeof app.input;
+    app.runtime = runtime(async () => assert.fail('fixture requires no packs'));
+    app.persistence = new Persistence({
+      loadGame: () => waiting.promise,
+      saveGame: async () => {},
+    });
+    const loading = app.load();
+    const rejected = assert.rejects(loading, /superseded/);
+    await app.newGame();
+    const newest = app.sim;
+    await rejected;
+    waiting.resolve({ status: 'ok', data: saved });
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(app.sim, newest, 'Late checkpoint data must not replace the new game');
+    assert.equal(app.busy, false);
+
+    const writing = deferred<void>(),
+      started = deferred<void>();
+    app.readOnly = false;
+    app.persistence = new Persistence({
+      loadGame: async () => ({ status: 'empty' }),
+      saveGame: () => {
+        started.resolve();
+        return writing.promise;
+      },
+    });
+    const starting = app.newGame();
+    const cancelled = assert.rejects(starting, /superseded/);
+    await started.promise;
+    await app.restore(saved);
+    app.pause(true);
+    writing.resolve();
+    await cancelled;
+    assert.equal(app.sim.area, saved.area);
+    assert.equal(app.paused, true, 'An obsolete save completion cannot resume a newer session');
+    app.dispose();
+  });
+});
+test('superseded transitions release late rooms without pausing or freezing the newer session', async () => {
+  await withDOM(async () => {
+    const { app } = fixture(),
+      waiting = deferred<PackLease>(),
+      checkpoint = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+    app.sim.cleared = true;
+    const exit = app.sim.areaDefinition.exits[0]!;
+    assert.ok(exit);
+    let released = 0;
+    const statuses: string[] = [];
+    app.hooks.status = (message) => statuses.push(message);
+    app.scenes.area = (id) => ({ area: content.area(id), assets: [id] });
+    app.runtime = runtime(() => waiting.promise);
+    app.persistence = new Persistence({
+      loadGame: () => checkpoint.promise,
+      saveGame: async () => {},
+    });
+    const original = app.sim;
+    const transition = app.transition(exit.id);
+    const rejected = assert.rejects(transition, /superseded/);
+    assert.equal(app.session.loading, true);
+    const latest = app.load();
+    assert.equal(
+      app.session.loading,
+      false,
+      'Supersession must cancel the plan before assets settle',
+    );
+    waiting.resolve({ release: () => released++ } as unknown as PackLease);
+    await rejected;
+    assert.equal(app.sim, original);
+    assert.equal(
+      app.paused,
+      false,
+      'An obsolete transition failure must not pause the latest session',
+    );
+    assert.equal(released, 1);
+    assert.equal(app.busy, true, 'Old cleanup must preserve the latest operation ownership');
+    checkpoint.resolve({ status: 'empty' });
+    assert.equal(await latest, false);
+    assert.equal(app.busy, false);
+    app.safe(() => transition);
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.deepEqual(statuses, [], 'Expected supersession must not surface as an error');
+    app.dispose();
+  });
+});
+
+test('session replacement preserves independent pending asset acquisitions', async () => {
+  await withDOM(async () => {
+    const { app, lease } = fixture(),
+      waiting = deferred<PackLease>();
+    let assetSignal: AbortSignal | undefined;
+    app.runtime = runtime((_id, signal) => {
+      assetSignal = signal;
+      return waiting.promise;
+    });
+    const retaining = app.retainAsset('gallery');
+    await app.reset();
+    assert.equal(assetSignal?.aborted, false, 'Room changes must not abort the asset lifetime');
+    waiting.resolve(lease);
+    await retaining;
+    assert.equal(app.packs.get('gallery'), lease);
+    app.dispose();
+    assert.equal(assetSignal?.aborted, true);
+  });
+});
+
 test('session asset requests share one lease; disposal and failed warming release acquisitions', async () => {
   const f = fixture(),
     pending = deferred<PackLease>();
