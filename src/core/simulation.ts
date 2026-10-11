@@ -1,3 +1,4 @@
+import type { ContentSnapshot } from '../content/snapshot';
 import { selectAuthoredDirection, type AuthoredHeading } from './camera';
 import type { HeroAttackKind } from '../content/hero-actions';
 import type { SweepTiming, SweepRecovery } from '../content/sweep-timing';
@@ -17,7 +18,7 @@ import type { GameplayEvent, EventDetails } from './events';
 export type State = 'idle' | 'walk' | 'attack' | 'dodge' | 'ability' | 'hurt' | 'death';
 export type Actor = {
   id: ActorId;
-  definition: ActorDefinition;
+  definition: ContentSnapshot<ActorDefinition>;
   kind: 'hero' | 'enemy';
   x: number;
   y: number;

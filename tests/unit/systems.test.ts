@@ -6,6 +6,7 @@ import { Vector3 } from 'three';
 import { ContentRegistry, PLAYER_ID, heightAt, surfaceGradient } from '../../src/content/world';
 import { contentDefinitions } from '../fixtures/content';
 import { GameSession } from '../../src/core/session';
+import { parseGame } from '../../src/core/save';
 import { tuning, attackDefinition } from '../../src/content/gameplay';
 import { Simulation, FixedClock } from '../../src/core/simulation';
 import { EventHub, type AnimationEvent } from '../../src/core/events';
@@ -71,6 +72,34 @@ function clear(session: GameSession) {
 function enter(session: GameSession, exit: string) {
   return session.commitTransition(session.prepareTransition(exit));
 }
+
+test('accepted content isolates live sessions and checkpoints from later draft edits', () => {
+  const draft = structuredClone(contentDefinitions);
+  const registry = new ContentRegistry(draft);
+  const session = new GameSession(registry);
+  const save = session.captureSave();
+  const area = registry.area(save.area);
+  const enemy = session.sim.enemies[0]!;
+  const health = enemy.definition.maxHealth;
+
+  draft.areas[0]!.bounds.maxX = -100;
+  draft.areas[0]!.spawns[0]!.actor = 'missing';
+  draft.actors[0]!.maxHealth = 1;
+  draft.areas = [];
+  assert.equal(registry.area(save.area), area);
+  assert.equal(area.spawns[0]!.actor, 'skeleton');
+  assert.equal(enemy.definition.maxHealth, health);
+  assert.equal(registry.definitions.areas[0], area);
+  assert.equal(registry.actor(enemy.definition.id), enemy.definition);
+  assert.equal(Reflect.set(area.bounds, 'maxX', -100), false);
+  assert.equal(Reflect.set(enemy.definition.melee, 'damage', 10000), false);
+  assert.equal(Reflect.set(registry.definitions.areas, '0', undefined), false);
+  assert.equal(Reflect.set(registry, 'definitions', draft), false);
+  assert.deepEqual(parseGame(save, registry), save);
+  session.restoreSave(save);
+  assert.deepEqual(session.captureSave(), save);
+  session.step(still);
+});
 
 test('content rejects duplicate/unknown IDs and invalid numbers, bounds, ramps and exits', () => {
   for (const mutate of [

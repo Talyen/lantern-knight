@@ -56,13 +56,13 @@ function deferred<T>() {
 function runtime(loadPack: AssetRuntime['loadPack']) {
   return Object.assign(new AssetRuntime({}), { loadPack });
 }
-function fixture() {
+function fixture(scenes = sceneFixture(content)) {
   const app = new Application(
     { dataset: {} } as unknown as HTMLCanvasElement,
     content,
     {},
     {} as Bridge,
-    sceneFixture(content),
+    scenes,
     () => presentationFixture(),
     { status: () => {}, pause: () => {}, frame: () => {} },
   );
@@ -258,7 +258,10 @@ test('newer session intent supersedes checkpoint reads before room acquisition',
 });
 test('superseded transitions release late rooms without pausing or freezing the newer session', async () => {
   await withDOM(async () => {
-    const { app } = fixture(),
+    const { app } = fixture({
+        ...sceneFixture(content),
+        area: (id) => ({ area: content.area(id), assets: [id] }),
+      }),
       waiting = deferred<PackLease>(),
       checkpoint = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
     app.sim.cleared = true;
@@ -267,7 +270,6 @@ test('superseded transitions release late rooms without pausing or freezing the 
     let released = 0;
     const statuses: string[] = [];
     app.hooks.status = (message) => statuses.push(message);
-    app.scenes.area = (id) => ({ area: content.area(id), assets: [id] });
     app.runtime = runtime(() => waiting.promise);
     app.persistence = new Persistence({
       loadGame: () => checkpoint.promise,
@@ -368,7 +370,10 @@ test('session asset requests share one lease; disposal and failed warming releas
 });
 test('failed room preparation keeps the current session and packs; retry replaces and disposes each batch once', async () => {
   await withDOM(async () => {
-    const { app } = fixture(),
+    const { app } = fixture({
+        ...sceneFixture(content),
+        area: (id) => ({ area: content.area(id), assets: [id] }),
+      }),
       releases: string[] = [],
       initial = app.sim.area,
       destination = 'upper-landing',
@@ -378,7 +383,6 @@ test('failed room preparation keeps the current session and packs; retry replace
       resetAim: () => {},
       dispose: () => {},
     } as unknown as typeof app.input;
-    app.scenes.area = (id) => ({ area: content.area(id), assets: [id] });
     app.runtime = runtime(
       async (id) => ({ release: () => releases.push(id) }) as unknown as PackLease,
     );

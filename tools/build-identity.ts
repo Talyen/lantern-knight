@@ -74,9 +74,9 @@ export async function writeBuildIdentity(
     rendering: {
       camera: contract,
       areas: Object.fromEntries(
-        [...content.areas].map(([id, area]) => [
-          id,
-          { surface: area.surface, camera: worldVisuals[id]?.camera },
+        content.definitions.areas.map((area) => [
+          area.id,
+          { surface: area.surface, camera: worldVisuals[area.id]?.camera },
         ]),
       ),
     },

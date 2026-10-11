@@ -1,4 +1,5 @@
 import { insidePolygon } from './graveyard-layout';
+import { contentSnapshot, type ContentSnapshot } from './snapshot';
 
 export type AreaId = string;
 export type ActorId = string;
@@ -163,9 +164,12 @@ export function clampToBoundary(points: readonly Point[], p: Point, radius: numb
 }
 const ids = /^[a-z0-9][a-z0-9_-]*$/;
 export class ContentRegistry {
-  readonly areas = new Map<AreaId, AreaDefinition>();
-  readonly actors = new Map<string, ActorDefinition>();
-  constructor(public readonly definitions: ContentDefinitions) {
+  readonly definitions: ContentSnapshot<ContentDefinitions>;
+  #areas = new Map<AreaId, ContentSnapshot<AreaDefinition>>();
+  #actors = new Map<string, ContentSnapshot<ActorDefinition>>();
+  constructor(draft: ContentDefinitions) {
+    const definitions = contentSnapshot(draft);
+    this.definitions = definitions;
     const fail = (message: string): never => {
       throw new Error(`content: ${message}`);
     };
@@ -208,7 +212,7 @@ export class ContentRegistry {
         m.damage <= 0
       )
         fail(`invalid melee ${a.id}`);
-      this.actors.set(a.id, a);
+      this.#actors.set(a.id, a);
     }
     if (this.actor(definitions.player).kind !== 'hero') fail('player must use a hero definition');
     for (const a of definitions.areas) {
@@ -293,21 +297,22 @@ export class ContentRegistry {
         )
           fail(`exit outside ${a.id}`);
       }
-      this.areas.set(a.id, a);
+      this.#areas.set(a.id, a);
     }
     this.area(definitions.initialArea);
     for (const a of definitions.areas)
       for (const e of a.exits)
         if (!this.area(e.destination).entries.some((p) => p.id === e.entry))
           fail(`missing destination entry ${e.destination}/${e.entry}`);
+    Object.freeze(this);
   }
   area(id: AreaId) {
-    const value = this.areas.get(id);
+    const value = this.#areas.get(id);
     if (!value) throw new Error(`content: unknown area ${id}`);
     return value;
   }
   actor(id: string) {
-    const value = this.actors.get(id);
+    const value = this.#actors.get(id);
     if (!value) throw new Error(`content: unknown actor ${id}`);
     return value;
   }

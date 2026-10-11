@@ -152,14 +152,12 @@ export class EditorView {
     const composition = JSON.stringify({
       ...document,
       editorHidden: [...this.hidden].sort(),
-      name: undefined,
       hero: undefined,
       look: undefined,
     });
     if (composition === this.composition && this.presentation && this.sim) {
       this.appliedDocument = document;
       this.hero(document.hero);
-      if (document.base === 'flat') this.sim.areaDefinition.name = document.name;
       this.presentation.visualOverride = art;
       this.presentation.lookRenderer.setSettings(document.look);
       return;
@@ -204,7 +202,7 @@ export class EditorView {
           this.canvas,
           this.packs,
           new EventHub(),
-          area,
+          this.sim.areaDefinition,
           this.runtime.registration,
           art,
         );
@@ -213,7 +211,7 @@ export class EditorView {
         if (this.closed) throw new Error('Editor closed');
       } else {
         this.presentation.visualOverride = art;
-        this.presentation.resetRoom(area, art);
+        this.presentation.resetRoom(this.sim.areaDefinition, art);
       }
       this.presentation.generation = this.sim.generation;
       this.presentation.lookRenderer.setSettings(document.look);

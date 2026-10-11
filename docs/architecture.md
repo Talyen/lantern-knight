@@ -19,6 +19,8 @@ Application owns one current session operation spanning checkpoint reads, room a
 
 ## Scene content
 
+ContentRegistry clones and deeply freezes gameplay definitions before validation. Its private lookup indexes and public definition snapshot share the same accepted objects; callers retain editable drafts. Scene composition separately snapshots visual definitions and freezes their derived asset requirements, so draft edits cannot change live geometry, checkpoint validation or rendering requirements. Replace content by constructing a new registry and scene composition. Editor renames follow scene acceptance rather than mutating the active simulation.
+
 Version 5 scene documents own floor, scenery, camera, surrounds and gameplay geometry. `src/content/scene-document.ts` parses them; `src/content/world-art.ts` resolves area geometry, colliders, visuals and asset requirements together. `src/content/world-visuals.ts` owns visual types, resource requirements and framing helpers. Parsing protects technical validity; design profiles produce advice under [scene guidance](scene-design.md).
 
 Editor playtests use that resolver through `src/content/draft-gameplay.ts` and run the shared Application with a storage-free bridge. Optional enemy, exit and health-pickup placements become plain runtime definitions; core owns collection and checkpoint state. Core does not load live scene documents. Original artwork and preparation remain separate from placements and gameplay timing.

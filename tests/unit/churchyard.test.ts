@@ -6,6 +6,8 @@ import { content as visualContent } from '../fixtures/visuals';
 import { Simulation } from '../../src/core/simulation';
 import { GameSession } from '../../src/core/session';
 
+import { composeSceneContent } from '../../src/content/game-content';
+import { sceneAssets } from '../../src/content/world-visuals';
 import { worldVisuals } from '../fixtures/visuals';
 import { compositionPoint, compositionHeight } from '../../src/content/world-visuals';
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: -1 } };
@@ -91,9 +93,9 @@ test('authored box footprints block bodies at edges and corners without escaping
     assert.ok(isSupportedPosition(area, q, 0.3));
     assert.ok(q.x >= area.bounds.minX + 0.3 && q.z <= area.bounds.maxZ - 0.3);
   }
-  for (const a of content.areas.values())
+  for (const a of content.definitions.areas)
     for (const entry of a.entries) assert.ok(isSupportedPosition(a, entry, 0.3));
-  for (const area of visualContent.areas.values())
+  for (const area of visualContent.definitions.areas)
     for (const collider of area.props) {
       const art = worldVisuals[area.id]!,
         sprite = art.props.find((p) => p.id === collider.id),
@@ -155,7 +157,7 @@ test('narrow authored framing keeps the hero and full silhouette inside the view
       assert.ok(root + 1.8 * Math.cos(elevation) < halfHeight - 0.5);
     }
   {
-    for (const area of content.areas.values())
+    for (const area of content.definitions.areas)
       for (const x of [area.bounds.minX, 0, area.bounds.maxX])
         for (const z of [area.bounds.minZ, 0, area.bounds.maxZ]) {
           const q = compositionPoint({ x, z }, undefined, worldVisuals[area.id]),
@@ -172,4 +174,26 @@ test('skeletons close the last part of their reach and can hit a stationary play
   for (let i = 0; i < 120; i++) s.step(still);
   assert.ok(s.hero.health < 100, 'an enemy must not swing forever outside its hit range');
   assert.ok(s.enemies[0]!.health === 50);
+});
+
+test('scene composition keeps visuals and asset requirements in the same accepted snapshot', () => {
+  const draft = structuredClone(worldVisuals);
+  const scenes = composeSceneContent(visualContent, draft);
+  const id = visualContent.definitions.initialArea;
+  const scene = scenes.area(id);
+  const floor = scene.visuals!.floor;
+  const cameraX = scene.visuals!.camera.bounds.maxX;
+  draft[id]!.floor = 'missing-floor';
+  draft[id]!.camera.bounds.maxX = -100;
+  draft[id]!.proceduralAssets = ['missing-effect'];
+  assert.equal(scene.area, visualContent.area(id));
+  assert.equal(scene.visuals!.floor, floor);
+  assert.equal(scene.visuals!.camera.bounds.maxX, cameraX);
+  assert.ok(sceneAssets(scene.visuals!).every((asset) => scene.assets.includes(asset)));
+  assert.ok(!scene.assets.includes('missing-effect'));
+  assert.equal(Reflect.set(scene.visuals!.camera.bounds, 'maxX', -100), false);
+  assert.equal(Reflect.set(scene, 'visuals', draft[id]), false);
+  assert.equal(Reflect.set(scene.assets, '0', 'missing-floor'), false);
+  assert.equal(Reflect.set(scenes.initialAssets, '0', 'missing-hero'), false);
+  assert.equal(Reflect.set(scenes, 'initialAssets', []), false);
 });

@@ -2,7 +2,7 @@ import { ContentRegistry, type ContentDefinitions, isSupportedPosition } from '.
 import { type SceneDocument, parseSceneDocument, validateSceneReferences } from './scene-document';
 import { resolveScene } from './world-art';
 import { type WorldVisualDefinition } from './world-visuals';
-import { composeSceneContent } from './game-content';
+import { composeSceneContent, type SceneContent } from './game-content';
 export function composeDraftGameplay(
   value: unknown,
   definitions: ContentDefinitions,
@@ -26,14 +26,23 @@ export function composeDraftGameplay(
   for (const p of placements)
     if (!isSupportedPosition(area, p, p.radius))
       throw new Error('Gameplay placement is outside the playable surface or obstructed');
+  const validationDocument = structuredClone(document);
   const scenes = composeSceneContent(registry, { ...visualsByArea, [area.id]: visuals });
-  const validate = scenes.validate;
-  scenes.validate = (scene, packs) => {
-    validate(scene, packs);
-    if (scene.area.id === area.id)
-      validateSceneReferences(document, new Map([...packs].map(([id, p]) => [id, p.manifest])));
+  return {
+    document,
+    registry,
+    scenes: Object.freeze<SceneContent>({
+      ...scenes,
+      validate(scene, packs) {
+        scenes.validate(scene, packs);
+        if (scene.area.id === area.id)
+          validateSceneReferences(
+            validationDocument,
+            new Map([...packs].map(([id, p]) => [id, p.manifest])),
+          );
+      },
+    }),
   };
-  return { document, registry, scenes };
 }
 
 export function withGameplayDefaults(

@@ -1,3 +1,4 @@
+import { contentSnapshot, type ContentSnapshot } from './snapshot';
 import { ContentRegistry, type ContentDefinitions } from './world';
 import { sceneAssets, validateAreaArt, type WorldVisualDefinition } from './world-visuals';
 import { combatEffectAssets } from './combat-feedback';
@@ -35,15 +36,18 @@ for (const actor of contentDefinitions.actors) {
 }
 export const content = new ContentRegistry(contentDefinitions);
 
-type ResolvedArea = {
+type ResolvedArea = ContentSnapshot<{
   area: AreaDefinition;
   visuals?: WorldVisualDefinition;
   assets: readonly string[];
-};
+}>;
 export type SceneContent = {
-  initialAssets: readonly string[];
-  area: (id: string) => ResolvedArea;
-  validate: (scene: ResolvedArea, packs: ReadonlyMap<string, { manifest: Manifest }>) => void;
+  readonly initialAssets: readonly string[];
+  readonly area: (id: string) => ResolvedArea;
+  readonly validate: (
+    scene: ResolvedArea,
+    packs: ReadonlyMap<string, { manifest: Manifest }>,
+  ) => void;
 };
 export function composeSceneContent(
   registry: ContentRegistry,
@@ -51,32 +55,33 @@ export function composeSceneContent(
 ): SceneContent {
   const areas = new Map(
     registry.definitions.areas.map((area) => {
-      const visuals = visualsByArea[area.id];
+      const draft = visualsByArea[area.id];
+      const visuals = draft ? contentSnapshot(draft) : undefined;
       return [
         area.id,
-        {
+        Object.freeze({
           area,
           visuals,
-          assets: [
+          assets: Object.freeze([
             ...new Set([
               ...(visuals ? sceneAssets(visuals) : []),
               ...area.spawns.map(
                 (spawn) => actorVisuals[registry.actor(spawn.actor).visual]!.asset,
               ),
             ]),
-          ],
-        },
+          ]),
+        }),
       ];
     }),
   );
-  return {
-    initialAssets: [
+  return Object.freeze<SceneContent>({
+    initialAssets: Object.freeze([
       ...new Set([
         actorVisuals[registry.actor(registry.definitions.player).visual]!.asset,
         ...visualEffectsAssets,
         ...combatEffectAssets,
       ]),
-    ],
+    ]),
     area: (id) => {
       const scene = areas.get(id);
       if (!scene) throw new Error('Unknown scene: ' + id);
@@ -91,7 +96,7 @@ export function composeSceneContent(
           if (!manifest.asset.clips[name]) throw new Error(`missing clip ${name}`);
       }
     },
-  };
+  });
 }
 
 export const gameScenes = composeSceneContent(content, worldVisuals);
