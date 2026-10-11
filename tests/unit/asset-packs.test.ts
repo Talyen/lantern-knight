@@ -454,3 +454,34 @@ test('eviction does not subtract shared files retained by active cache entries',
     await fs.rm(root, { recursive: true, force: true });
   }
 });
+
+test('preview pruning preserves active readers, the current layer and other checkouts', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-preview-prune-'));
+  const cache = new AssetCache(root);
+  const prefix = 'preview-' + 'a'.repeat(20);
+  const old = await cache.lease(prefix + '-old');
+  const current = await cache.lease(prefix + '-current');
+  const active = await cache.lease(prefix + '-active');
+  const peer = await cache.lease('preview-' + 'b'.repeat(20) + '-old');
+  try {
+    await old.release();
+    await current.release();
+    await peer.release();
+    const index = await cache.lease(prefix + '-index');
+    await cache.prunePreviews(prefix, prefix + '-current');
+    await fs.access(old.root);
+    await index.release();
+    await cache.prunePreviews(prefix, prefix + '-current');
+    await assert.rejects(fs.access(old.root), { code: 'ENOENT' });
+    await Promise.all([current, active, peer].map((held) => fs.access(held.root)));
+    await active.release();
+    await cache.prunePreviews(prefix, prefix + '-current');
+    await assert.rejects(fs.access(active.root), { code: 'ENOENT' });
+  } finally {
+    await active.release();
+    await old.release();
+    await current.release();
+    await peer.release();
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});

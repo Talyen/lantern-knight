@@ -6,6 +6,9 @@ import { safeRelative } from './assets/files';
 import { shaFile } from './assets/sources';
 
 // A successful hash check is reusable only while every file's identity and metadata match.
+export const fileSignature = (stat: import('node:fs').Stats) =>
+  [stat.dev, stat.ino, stat.size, stat.mtimeMs, stat.ctimeMs, stat.mode].join(':');
+export type VerifiedFiles = Map<string, { signature: string; hash: string }>;
 async function fileSignatures(root: string, names: readonly string[]) {
   const signatures: Record<string, string> = {};
   const sorted = [...new Set(names)].sort();
@@ -18,14 +21,7 @@ async function fileSignatures(root: string, names: readonly string[]) {
       const stat = stats[index]!;
       if (!stat.isFile() || stat.isSymbolicLink())
         throw new Error('Invalid verified output: ' + name);
-      signatures[name] = [
-        stat.dev,
-        stat.ino,
-        stat.size,
-        stat.mtimeMs,
-        stat.ctimeMs,
-        stat.mode,
-      ].join(':');
+      signatures[name] = fileSignature(stat);
     }
   }
   return signatures;
@@ -54,13 +50,19 @@ export async function verifiedOutput(
 }
 
 // Delivery identity follows bytes, so an identical rebuild can reuse its proof.
-export async function fileChecksums(root: string, names: readonly string[]) {
+export async function fileChecksums(
+  root: string,
+  names: readonly string[],
+  verified?: VerifiedFiles,
+) {
   const before = await fileSignatures(root, names);
   const hashes: Record<string, string> = {};
   const shared = new Map<string, string>();
+  for (const proof of verified?.values() ?? []) shared.set(proof.signature, proof.hash);
   for (const [name, signature] of Object.entries(before)) {
     const key = signature.split(':')[1] === '0' ? name : signature;
-    let hash = shared.get(key);
+    const prior = verified?.get(name);
+    let hash = prior?.signature === signature ? prior.hash : shared.get(key);
     if (!hash) {
       hash = await shaFile(path.join(root, name));
       shared.set(key, hash);

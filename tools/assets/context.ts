@@ -9,6 +9,7 @@ import { compile as compileAtlas } from '../compiler';
 import type { Manifest } from '../../src/assets/schema';
 import { runProcess as invokeProcess } from '../run-process';
 import { safeRelative, exactSource as readExactSource } from './files';
+import { fileChecksums, fileSignature, type VerifiedFiles } from '../verified-files';
 
 export type PreparationOptions = {
   workspace: string;
@@ -19,6 +20,7 @@ export type PreparationOptions = {
   inputLog?: string;
   environment?: NodeJS.ProcessEnv;
   knownContent?: Record<string, string>;
+  reserveGrowth?: (bytes: number) => Promise<void>;
 };
 export type PreparationContext = Awaited<ReturnType<typeof createPreparationContext>>;
 export async function createPreparationContext(options: PreparationOptions) {
@@ -27,45 +29,71 @@ export async function createPreparationContext(options: PreparationOptions) {
   const root = path.resolve(options.workspace);
   let bytes = 0,
     pending = Promise.resolve();
+  let allocated = 0;
   const links = new Map<string, { count: number; size: number }>();
   const identities = new Map<string, string>();
   const contents = new Map<string, { file: string; key: string }>();
   const expectedOutputs = new Map<string, string>();
+  const verified: VerifiedFiles = new Map();
+  const verifiedInodes = new Map<string, string>();
+  const outputRecords = new Set<string>();
+  const initialSignatures = new Map<string, string>();
   const inode = (stat: { dev: number; ino: number }, file: string) =>
     stat.ino ? `${stat.dev}:${stat.ino}` : file;
   async function account(directory: string) {
-    const entries = await fs
-      .readdir(directory, { withFileTypes: true })
-      .catch((error: NodeJS.ErrnoException) => {
-        if (error.code === 'ENOENT') return [];
-        throw error;
-      });
-    for (const entry of entries) {
-      const file = path.join(directory, entry.name);
-      if (entry.isSymbolicLink()) throw new Error('Cache contains a symbolic link');
-      if (entry.isDirectory()) await account(file);
-      else {
-        const stat = await fs.stat(file),
-          key = inode(stat, file),
-          existing = links.get(key);
-        identities.set(file, key);
-        if (existing) existing.count++;
-        else {
-          links.set(key, { count: 1, size: stat.size });
-          bytes += stat.size;
-        }
-      }
-    }
+    const directories = [directory];
+    while (directories.length)
+      await Promise.all(
+        directories.splice(0, 16).map(async (directory) => {
+          const entries = await fs
+            .readdir(directory, { withFileTypes: true })
+            .catch((error: NodeJS.ErrnoException) => {
+              if (error.code === 'ENOENT') return [];
+              throw error;
+            });
+          for (let offset = 0; offset < entries.length; offset += 64) {
+            const batch = entries.slice(offset, offset + 64);
+            await Promise.all(
+              batch.map(async (entry) => {
+                const file = path.join(directory, entry.name);
+                if (entry.isSymbolicLink()) throw new Error('Cache contains a symbolic link');
+                if (entry.isDirectory()) {
+                  directories.push(file);
+                  return;
+                }
+                const stat = await fs.stat(file),
+                  key = inode(stat, file),
+                  existing = links.get(key);
+                identities.set(file, key);
+                initialSignatures.set(file, fileSignature(stat));
+                if (existing) existing.count++;
+                else {
+                  links.set(key, { count: 1, size: stat.size });
+                  bytes += stat.size;
+                }
+              }),
+            );
+          }
+        }),
+      );
   }
   await account(root);
   for (const [file, hash] of Object.entries(options.knownContent ?? {})) {
     const full = path.join(root, safeRelative(file)),
       key = identities.get(full);
     if (key) contents.set(hash, { file: full, key });
+    const signature = initialSignatures.get(full);
+    if (signature) {
+      verified.set(file, { signature, hash });
+      verifiedInodes.set(signature, hash);
+    }
   }
   const resolve = (file: string) => {
     if (path.isAbsolute(file)) return file;
-    return path.join(/^(public|staging)(\/|$)/.test(file) ? root : projectRoot, safeRelative(file));
+    return path.join(
+      /^(public|staging|metadata)(\/|$)/.test(file) ? root : projectRoot,
+      safeRelative(file),
+    );
   };
   const source = (
     member: string,
@@ -89,13 +117,18 @@ export async function createPreparationContext(options: PreparationOptions) {
   const record = async (file: string, hash?: string) => {
     const relative = safeRelative(path.relative(root, resolve(file)).split(path.sep).join('/'));
     if (hash) expectedOutputs.set(relative, hash);
-    if (options.outputLog) await fs.appendFile(options.outputLog, relative + '\n');
+    if (options.outputLog) outputRecords.add(relative);
   };
   const writeAsset = (file: string, data: Buffer | string) => {
     pending = pending.then(async () => {
       const target = resolve(file);
       if (!target.startsWith(root + path.sep))
         throw new Error('Preparation output escapes workspace');
+      const contentHash = createHash('sha256').update(data).digest('hex');
+      if ((await context.verifiedHash(file)) === contentHash) {
+        await record(target, contentHash);
+        return;
+      }
       await fs.mkdir(path.dirname(target), { recursive: true });
       if (
         !(await fs.realpath(path.dirname(target))).startsWith((await fs.realpath(root)) + path.sep)
@@ -111,7 +144,6 @@ export async function createPreparationContext(options: PreparationOptions) {
       const priorLinks = priorKey ? links.get(priorKey) : undefined;
       if (prior && (identities.get(target) !== priorKey || priorLinks?.size !== prior.size))
         throw new Error('Preparation workspace changed outside its writer');
-      const contentHash = createHash('sha256').update(data).digest('hex');
       const candidate = contents.get(contentHash);
       const candidateStat = candidate
         ? await fs.lstat(candidate.file).catch(() => undefined)
@@ -121,6 +153,7 @@ export async function createPreparationContext(options: PreparationOptions) {
         candidateStat?.isFile() &&
         !candidateStat.isSymbolicLink() &&
         inode(candidateStat, candidate.file) === candidate.key &&
+        verifiedInodes.get(fileSignature(candidateStat)) === contentHash &&
         identities.get(candidate.file) === candidate.key
           ? candidate
           : undefined;
@@ -133,6 +166,10 @@ export async function createPreparationContext(options: PreparationOptions) {
         (priorLinks?.count === 1 ? priorLinks.size : 0) +
         (shared ? 0 : Buffer.byteLength(data));
       if (next > options.budget) throw new Error('Asset preparation exceeds reserved cache space');
+      if (!shared) {
+        allocated += Buffer.byteLength(data);
+        await options.reserveGrowth?.(allocated);
+      }
       const temporary = target + '.write-' + randomUUID();
       try {
         if (shared) await fs.link(shared.file, temporary);
@@ -149,6 +186,9 @@ export async function createPreparationContext(options: PreparationOptions) {
       if (existing) existing.count++;
       else links.set(installedKey, { count: 1, size: installed.size });
       contents.set(contentHash, { file: target, key: installedKey });
+      const relative = path.relative(root, target).split(path.sep).join('/');
+      verified.set(relative, { hash: contentHash, signature: fileSignature(installed) });
+      verifiedInodes.set(fileSignature(installed), contentHash);
       bytes = next;
       await record(target, contentHash);
     });
@@ -177,6 +217,15 @@ export async function createPreparationContext(options: PreparationOptions) {
     exactSource,
     readLibrarySource: source,
     record,
+    checksums: (names: readonly string[]) => fileChecksums(root, names, verified),
+    async verifiedHash(file: string) {
+      const relative = safeRelative(path.relative(root, resolve(file)).split(path.sep).join('/'));
+      const stat = await fs.lstat(resolve(file)).catch(() => undefined);
+      if (!stat?.isFile()) return;
+      const signature = fileSignature(stat),
+        prior = verified.get(relative);
+      return signature === prior?.signature ? prior.hash : verifiedInodes.get(signature);
+    },
     async verifyOutputs(hashes: Readonly<Record<string, string>>) {
       await pending;
       for (const [file, expected] of expectedOutputs)
@@ -191,12 +240,21 @@ export async function createPreparationContext(options: PreparationOptions) {
       if (!stat.isFile() || stat.isSymbolicLink() || identities.get(resolved) !== key)
         throw new Error('Prepared content changed during verification');
       contents.set(hash, { file: resolved, key });
+      verified.set(file, { hash, signature: fileSignature(stat) });
+      verifiedInodes.set(fileSignature(stat), hash);
     },
     mkdirAsset: (file: string, mkdirOptions: { recursive?: boolean }) =>
       fs.mkdir(resolve(file), mkdirOptions),
     setReceipts(logs: { outputLog?: string; inputLog?: string }) {
+      if (outputRecords.size) throw new Error('Preparation output receipts were not flushed');
       options.outputLog = logs.outputLog;
       options.inputLog = logs.inputLog;
+    },
+    async flushReceipts() {
+      await pending;
+      if (options.outputLog)
+        await fs.appendFile(options.outputLog, [...outputRecords].join('\n') + '\n');
+      outputRecords.clear();
     },
     async adopt(files: readonly string[]) {
       await pending;
@@ -227,14 +285,24 @@ export async function createPreparationContext(options: PreparationOptions) {
       }
       if (bytes > options.budget) throw new Error('Asset preparation exceeds reserved cache space');
     },
-    compile: (
+    compile: async (
       sourceFile: string,
       out: string,
       production = false,
       validateOnly = false,
       inputRoot = path.join(root, 'staging'),
-    ): Promise<Manifest> =>
-      compileAtlas(context, sourceFile, out, production, validateOnly, inputRoot),
+    ): Promise<Manifest> => {
+      const result = await compileAtlas(
+        context,
+        sourceFile,
+        out,
+        production,
+        validateOnly,
+        inputRoot,
+      );
+      await context.flushReceipts();
+      return result;
+    },
     runProcess: async (
       command: string,
       args: string[],

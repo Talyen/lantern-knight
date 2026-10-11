@@ -16,6 +16,25 @@ export async function prepare(context: PreparationContext, check = false) {
   // Retain authored-input parsing: malformed artwork recipes must still fail preparation.
   JSON.parse(await readAsset('authoring/graveyard-art.json', 'utf8'));
   const entries: Record<string, unknown> = {};
+  const algorithm = sha(
+    JSON.stringify([
+      await readAsset('tools/assets/prepare/prepare-lighting.ts', 'utf8'),
+      await readAsset('src/assets/normal-pixels.ts', 'utf8'),
+      sharp.versions,
+    ]),
+  );
+  let previous: {
+    algorithm?: string;
+    entries?: Record<
+      string,
+      { file: string; hash: string; sourceHash: string; rect: number[]; trim: number[] }
+    >;
+  } = {};
+  try {
+    previous = JSON.parse(await readAsset(path.join(root, 'manifest.json'), 'utf8'));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+  }
   const write = check ? undefined : context.writeAsset;
   async function output(file: string, bytes: Buffer | string) {
     if (check) {
@@ -33,8 +52,19 @@ export async function prepare(context: PreparationContext, check = false) {
     if (!needsLighting(asset, manifest)) continue;
     const pageBytes = new Map<string, Buffer>();
     for (const frame of manifest.frames) {
-      const page = manifest.pages.find((p) => p.id === frame.page)!,
-        source = path.join('public', path.dirname(catalog[asset]!), page.path),
+      const old = previous.entries?.[`${asset}:${frame.id}`];
+      const page = manifest.pages.find((p) => p.id === frame.page)!;
+      if (
+        previous.algorithm === algorithm &&
+        old?.sourceHash === page.hash &&
+        JSON.stringify([old.rect, old.trim]) === JSON.stringify([frame.rect, frame.trim]) &&
+        (await context.verifiedHash(path.join(root, old.file))) === old.hash
+      ) {
+        entries[`${asset}:${frame.id}`] = old;
+        await context.record(path.join(root, old.file), old.hash);
+        continue;
+      }
+      const source = path.join('public', path.dirname(catalog[asset]!), page.path),
         bytes = pageBytes.get(source) ?? (await readAsset(source));
       pageBytes.set(source, bytes);
       if (sha(bytes) !== page.hash) throw new Error(`lighting source changed: ${source}`);
@@ -71,7 +101,7 @@ export async function prepare(context: PreparationContext, check = false) {
   }
   await output(
     path.join(root, 'manifest.json'),
-    JSON.stringify({ recipe, entries }, null, 2) + '\n',
+    JSON.stringify({ recipe, algorithm, entries }, null, 2) + '\n',
   );
   console.log(
     `${check ? 'Verified' : 'Prepared'} ${Object.keys(entries).length} independent lighting companions; original art is unchanged.`,

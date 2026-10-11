@@ -16,6 +16,48 @@ from resolver import SourceResolver
 
 
 class DiscoveryTests(unittest.TestCase):
+    def test_replacements_moves_and_retained_versions_keep_distinct_stable_ids(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary)
+            def drawing(size, color):
+                output = io.BytesIO()
+                Image.new('RGBA', size, color).save(output, format='PNG')
+                return output.getvalue()
+            first = drawing((8, 4), (10, 20, 30, 255))
+            second = drawing((16, 8), (90, 30, 40, 255))
+            (root / 'master.png').write_bytes(first)
+            registered = {'libraryDirectory': 'Test', 'archives': {}, 'files': {'known': {
+                'master.png': {'sha256': hashlib.sha256(first).hexdigest(), 'bytes': len(first), 'pathHint': 'master.png'}}}}
+            _, before = discover(root, registered)
+            identity = before['images'][0]['assetIdentity']
+            (root / 'master.png').write_bytes(second)
+            (root / 'retained.png').write_bytes(first)
+            index, changed = discover(root, registered, before)
+            self.assertEqual(index['files']['known']['master.png']['sha256'], hashlib.sha256(second).hexdigest())
+            self.assertEqual(len({i['assetIdentity'] for i in changed['images']}), 2)
+            self.assertEqual(next(i for i in changed['images'] if i['path'] == 'master.png')['assetIdentity'], identity)
+            (root / 'master.png').rename(root / 'moved.png')
+            moved_index, moved = discover(root, registered, changed)
+            self.assertEqual(moved_index['files']['known']['master.png']['sha256'], hashlib.sha256(second).hexdigest())
+            self.assertEqual(next(i for i in moved['images'] if i['path'] == 'moved.png')['assetIdentity'], identity)
+            registry = {'images': [{k: i[k] for k in ('path', 'sha256', 'assetIdentity')} for i in moved['images']]}
+            cold_index, cold = discover(root, registered, identities=registry)
+            self.assertEqual(cold_index['files']['known']['master.png']['sha256'], hashlib.sha256(second).hexdigest())
+            self.assertEqual(discover(root, registered, cold, registry)[1]['sha256'], cold['sha256'])
+            self.assertEqual({i['sha256']: i['assetIdentity'] for i in cold['images']}, {i['sha256']: i['assetIdentity'] for i in moved['images']})
+            archive = root / 'animation.zip'
+            with zipfile.ZipFile(archive, 'w') as z:
+                z.writestr('frame.png', first)
+            registered['archives']['animation.zip'] = {'sha256': hashlib.sha256(archive.read_bytes()).hexdigest(), 'bytes': archive.stat().st_size, 'pathHint': archive.name}
+            _, prior_archive = discover(root, registered, cold)
+            with zipfile.ZipFile(archive, 'w') as z:
+                z.writestr('frame.png', second)
+            _, changed_archive = discover(root, registered, prior_archive)
+            archive.rename(root / 'moved-animation.zip')
+            moved_archive_index, _ = discover(root, registered, changed_archive)
+            self.assertEqual(moved_archive_index['archives']['animation.zip']['sha256'], hashlib.sha256((root / 'moved-animation.zip').read_bytes()).hexdigest())
+            self.assertEqual(moved_archive_index['archives']['animation.zip']['pathHint'], 'moved-animation.zip')
+
     def test_all_versions_moves_deletions_and_archived_aliases(self):
         with tempfile.TemporaryDirectory() as temporary:
             base = pathlib.Path(temporary).resolve()

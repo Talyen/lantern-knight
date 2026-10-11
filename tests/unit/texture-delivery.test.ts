@@ -3,7 +3,7 @@ import { parseManifest } from '../../src/assets/schema';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { selectDelivery, type SourcePage } from '../../src/assets/texture-delivery';
-import { useGpuCompression, imageError } from '../../tools/assets/image-delivery';
+import { useGpuCompression } from '../../tools/assets/image-delivery';
 
 test('delivery selects adequate full-composition variants, preserves source quality and respects GPU formats', () => {
   const variant = (width: number, height: number, encoding: 'png' | 'ktx2-uastc') => ({
@@ -48,10 +48,6 @@ test('delivery selects adequate full-composition variants, preserves source qual
 });
 
 test('alpha-sensitive artwork keeps lossless delivery and GPU formats respect block dimensions', () => {
-  assert.deepEqual(
-    imageError(new Uint8Array([10, 20, 30, 255]), new Uint8Array([10, 20, 30, 255])),
-    { rmse: 0, alphaMaxError: 0 },
-  );
   assert.equal(useGpuCompression(true, 640, 640), false);
   assert.equal(useGpuCompression(false, 6144, 4096), true);
   assert.equal(useGpuCompression(false, 1254, 1254), false);

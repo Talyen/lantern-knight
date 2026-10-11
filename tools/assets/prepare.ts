@@ -6,14 +6,14 @@ import { cameraCalibration as calibrationFixture } from '../../src/assets/camera
 import { stagePayload } from './payload';
 import { recipeHash, recipeInputs } from './pack';
 import { makeArchive } from './archive';
-import { prepareSteps, prepareProof } from './preparation';
+import { prepareSteps, prepareProof, growthReservation } from './preparation';
 export async function prepareAssets(
   cache = new AssetCache(),
   proof = false,
   environment: NodeJS.ProcessEnv = process.env,
 ) {
-  const BUDGET = Number(environment.LANTERN_PREPARE_BUDGET ?? Math.floor(cache.limit * 0.7));
-  const held = await cache.lease('preparation', BUDGET, true),
+  const BUDGET = Number(environment.LANTERN_PREPARE_BUDGET ?? cache.limit);
+  const held = await cache.lease('preparation', 0, true),
     workspace = path.join(held.root, 'work');
   const env = {
     ...environment,
@@ -44,10 +44,7 @@ export async function prepareAssets(
       workspace,
       cache: path.join(held.root, 'steps'),
       env,
-      afterStep: async ({ reused }) => {
-        if (!reused && (await diskBytes(held.root)) > BUDGET)
-          throw new Error('Asset preparation exceeded its reservation');
-      },
+      reserveGrowth: await growthReservation(held),
     });
     if ((await diskBytes(held.root)) > BUDGET)
       throw new Error('Asset preparation exceeded its reservation');

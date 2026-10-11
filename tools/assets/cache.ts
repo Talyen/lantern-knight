@@ -80,6 +80,32 @@ export async function diskBytes(root: string, seen = new Set<string>()) {
   return (await diskUsage(root, seen)).physical;
 }
 export class AssetCache {
+  async prunePreviews(prefix: string, current: string) {
+    if (!/^preview-[a-f0-9]{20}$/.test(prefix) || !current.startsWith(prefix + '-'))
+      throw new Error('Invalid preview cleanup scope');
+    return this.locked(async () => {
+      const entries = path.join(this.root, 'entries');
+      const active = async (name: string) => {
+        const directory = path.join(entries, name, '.leases');
+        const names = await this.leaseFiles(directory).catch((error: NodeJS.ErrnoException) => {
+          if (error.code === 'ENOENT') return [];
+          throw error;
+        });
+        for (const file of names)
+          if (alive(JSON.parse(await fs.readFile(path.join(directory, file), 'utf8')))) return true;
+        return false;
+      };
+      if (await active(prefix + '-index')) return;
+      for (const name of await fs.readdir(entries))
+        if (
+          name.startsWith(prefix + '-') &&
+          name !== current &&
+          name !== prefix + '-index' &&
+          !(await active(name))
+        )
+          await fs.rm(path.join(entries, name), { recursive: true, force: true });
+    });
+  }
   constructor(
     readonly root = cacheRoot(),
     readonly limit = CACHE_LIMIT,
@@ -268,15 +294,31 @@ export class AssetCache {
       file = path.join(root, '.leases', token + '.json');
     await this.locked(async () => {
       const reader =
-        bytes === 0 && !exclusive
+        bytes === 0
           ? await fs.lstat(root).catch((error: NodeJS.ErrnoException) => {
               if (error.code === 'ENOENT') return undefined;
               throw error;
             })
           : undefined;
-      // Reading an existing entry adds no asset bytes. Writers and reservations
-      // still account for the whole cache before growing or evicting anything.
-      if (!reader?.isDirectory() || reader.isSymbolicLink()) {
+      if (reader && (!reader.isDirectory() || reader.isSymbolicLink()))
+        throw new Error('Invalid cache entry');
+      if (bytes === 0 && exclusive && reader) {
+        const leases = await this.leaseFiles(path.join(root, '.leases')).catch(
+          (error: NodeJS.ErrnoException) => {
+            if (error.code === 'ENOENT') return [];
+            throw error;
+          },
+        );
+        for (const lease of leases) {
+          const value = JSON.parse(
+            await fs.readFile(path.join(root, '.leases', lease), 'utf8'),
+          ) as Owner;
+          if (alive(value)) throw new Error('Asset preparation is already in use');
+        }
+      }
+      // A zero-byte lease adds only ownership metadata. Actual growth is
+      // checked by reservations, including final activation of a prepared layer.
+      if (bytes !== 0) {
         const entries = await this.entries(),
           existing = entries.find((e) => e.name === name);
         if (exclusive && existing?.used) throw new Error('Asset preparation is already in use');

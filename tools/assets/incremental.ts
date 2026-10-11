@@ -21,19 +21,29 @@ type Receipt = {
   sources: SourceRead[];
 };
 export async function linkTree(source: string, destination: string, merge = false) {
-  await fs.mkdir(destination, { recursive: true });
-  for (const entry of await fs.readdir(source, { withFileTypes: true })) {
-    if (entry.name.startsWith('.')) continue;
-    const from = path.join(source, entry.name),
-      to = path.join(destination, entry.name);
-    if (entry.isSymbolicLink()) throw new Error('Immutable asset layers cannot contain symlinks');
-    if (entry.isDirectory()) {
-      await linkTree(from, to, merge);
-    } else {
-      await fs.link(from, to).catch((error: NodeJS.ErrnoException) => {
-        if (!merge || error.code !== 'EEXIST') throw error;
-      });
-    }
+  const pending = [[source, destination]] as [string, string][];
+  while (pending.length) {
+    await Promise.all(
+      pending.splice(0, 16).map(async ([fromRoot, toRoot]) => {
+        await fs.mkdir(toRoot, { recursive: true });
+        const entries = await fs.readdir(fromRoot, { withFileTypes: true });
+        for (let offset = 0; offset < entries.length; offset += 64)
+          await Promise.all(
+            entries.slice(offset, offset + 64).map(async (entry) => {
+              if (entry.name.startsWith('.')) return;
+              const from = path.join(fromRoot, entry.name),
+                to = path.join(toRoot, entry.name);
+              if (entry.isSymbolicLink())
+                throw new Error('Immutable asset layers cannot contain symlinks');
+              if (entry.isDirectory()) pending.push([from, to]);
+              else
+                await fs.link(from, to).catch((error: NodeJS.ErrnoException) => {
+                  if (!merge || error.code !== 'EEXIST') throw error;
+                });
+            }),
+          );
+      }),
+    );
   }
 }
 export async function cachedPreparationStep(options: {
@@ -44,6 +54,9 @@ export async function cachedPreparationStep(options: {
   run: (env: NodeJS.ProcessEnv) => Promise<void>;
   validate?: () => Promise<void>;
   verifyOutputs?: (hashes: Readonly<Record<string, string>>) => Promise<void>;
+  hashFiles?: (names: readonly string[]) => Promise<Record<string, string>>;
+  sourceVerified?: (source: SourceRead) => boolean;
+  cachePublic?: boolean;
   sourceLocation?: { root: string; indexPath: string; strict: boolean };
 }) {
   const directory = path.join(options.cache, options.file.replace(/\.[^.]+$/, ''));
@@ -56,16 +69,27 @@ export async function cachedPreparationStep(options: {
   }
   if (prior?.version === 1 && prior.key === options.key) {
     try {
-      await verifiedOutput(path.join(directory, 'files'), Object.keys(prior.files), async () => {
-        const hashes = await fileChecksums(
-          path.join(directory, 'files'),
-          Object.keys(prior!.files),
-        );
-        for (const [name, hash] of Object.entries(prior!.files))
-          if (hashes[name] !== hash) throw new Error('Cached preparation output differs');
+      const names = Object.keys(prior.files);
+      const stored = names.filter(
+        (name) => options.cachePublic !== false || !name.startsWith('public/'),
+      );
+      if (options.cachePublic === false) {
+        const publicNames = names.filter((name) => name.startsWith('public/'));
+        const hashes = await (options.hashFiles?.(publicNames) ??
+          fileChecksums(options.workspace, publicNames));
+        for (const name of publicNames)
+          if (hashes[name] !== prior.files[name])
+            throw new Error('Cached preparation output differs');
+      }
+      await verifiedOutput(path.join(directory, 'files'), stored, async () => {
+        const hashes = await fileChecksums(path.join(directory, 'files'), stored);
+        for (const name of stored)
+          if (hashes[name] !== prior!.files[name])
+            throw new Error('Cached preparation output differs');
       });
       // Source bytes are verified by the normal resolver; unrelated source groups are never read.
       for (const source of prior.sources) {
+        if (options.sourceVerified?.(source)) continue;
         const bytes = await readLibrarySource(source.member, source.group, {
           root: source.root,
           indexPath: source.indexPath,
@@ -74,7 +98,7 @@ export async function cachedPreparationStep(options: {
         if (createHash('sha256').update(bytes).digest('hex') !== source.sha256)
           throw new Error('Cached preparation source changed');
       }
-      for (const name of Object.keys(prior.files)) {
+      for (const name of stored) {
         safeRelative(name);
         const target = path.join(options.workspace, name);
         await fs.mkdir(path.dirname(target), { recursive: true });
@@ -112,15 +136,18 @@ export async function cachedPreparationStep(options: {
       names.push('staging/animation/flow.json', 'staging/animation/flow.png');
     if (!names.length)
       throw new Error('Preparation step recorded no owned output: ' + options.file);
-    for (const name of names.sort()) {
+    names.sort();
+    const files = await (options.hashFiles?.(names) ?? fileChecksums(options.workspace, names));
+    await options.verifyOutputs?.(files);
+    await fs.mkdir(path.join(temporary, 'files'), { recursive: true });
+    for (const name of names) {
       safeRelative(name);
+      if (options.cachePublic === false && name.startsWith('public/')) continue;
       const target = path.join(temporary, 'files', name),
         original = path.join(options.workspace, name);
       await fs.mkdir(path.dirname(target), { recursive: true });
       await fs.link(original, target);
     }
-    const files = await fileChecksums(options.workspace, names);
-    await options.verifyOutputs?.(files);
     const sourceReads = (await readLog(sources))
       .split('\n')
       .filter(Boolean)

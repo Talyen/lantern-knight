@@ -1,4 +1,4 @@
-import { discoverLibrary } from './discovery';
+import { discoverLibrary, sourceSnapshot } from './discovery';
 import { cameraCalibration } from '../../src/assets/camera-calibration';
 import { stagePayload } from './payload';
 import { listFiles } from './files';
@@ -11,9 +11,9 @@ import { createHash } from 'node:crypto';
 import { AssetCache } from './cache';
 import { projectRoot, sourceLibrary } from './paths';
 import { readLock, ensurePack, recipeHash } from './pack';
-import { preparationSelection } from './recipe';
+import { preparationSelection, preparationStepKey, recipeInputs } from './recipe';
 import { linkTree } from './incremental';
-import { prepareSteps } from './preparation';
+import { prepareSteps, growthReservation } from './preparation';
 import { readLibrarySource } from './sources';
 
 const previewName = (root: string) =>
@@ -105,6 +105,7 @@ export async function preparePreviewAssets(
     ) {
       try {
         const directory = path.dirname(base.held.root);
+        const sourceVerified = await sourceSnapshot(env);
         for (const operation of steps) {
           const receipt = JSON.parse(
             await fs.readFile(
@@ -121,6 +122,7 @@ export async function preparePreviewAssets(
             }[];
           };
           for (const source of receipt.sources) {
+            if (sourceVerified?.(source)) continue;
             const bytes = await readLibrarySource(source.member, source.group, {
               root: source.root,
               indexPath: source.indexPath,
@@ -132,6 +134,13 @@ export async function preparePreviewAssets(
               throw new Error('Prototype source changed');
           }
         }
+        if (
+          env.LANTERN_LIBRARY_SHA256 &&
+          (await discoverLibrary(cache, env)).LANTERN_LIBRARY_SHA256 !== env.LANTERN_LIBRARY_SHA256
+        )
+          throw new Error(
+            'External library changed during refresh; retry with the current inventory',
+          );
         console.log('Prototype assets reused: selected source bytes and immutable outputs match.');
         return { sha256: base.lock.sha256, steps: steps.map((step) => step.file) };
       } finally {
@@ -202,7 +211,9 @@ export async function preparePreviewAssets(
         ...(checkpointLease ? [path.join(checkpointLease.root, 'steps')] : []),
         path.join(path.dirname(base.held.root), 'steps'),
       ];
-      for (const oldSteps of stepRoots)
+      const inputs = await recipeInputs();
+      for (const oldSteps of stepRoots) {
+        const digests = new Map<string, string>();
         for (const operation of preparationSelection([])) {
           const name = operation.file.replace(/\.[^.]+$/, ''),
             from = path.join(oldSteps, name);
@@ -212,6 +223,20 @@ export async function preparePreviewAssets(
               () => false,
             )
           ) {
+            const receiptBytes = await fs.readFile(path.join(from, 'receipt.json'));
+            const receipt = JSON.parse(receiptBytes.toString());
+            const key = preparationStepKey(
+              operation,
+              inputs,
+              digests,
+              operation.file.endsWith('prepare-library.ts')
+                ? env.LANTERN_LIBRARY_SHA256
+                : operation.file.endsWith('prepare-image-delivery.ts')
+                  ? (env.LANTERN_IMAGE_GPU ?? '0')
+                  : undefined,
+            );
+            digests.set(operation.file, receipt.digest);
+            if (key !== receipt.key) continue;
             const to = path.join(held.root, 'steps', name);
             if (
               await fs.access(path.join(to, 'receipt.json')).then(
@@ -221,9 +246,28 @@ export async function preparePreviewAssets(
             )
               continue;
             await fs.mkdir(to, { recursive: true });
-            await linkTree(from, to, true);
+            if (
+              [
+                'prepare-library.ts',
+                'prepare-lighting.ts',
+                'prepare-graveyard-coverage.ts',
+                'prepare-image-delivery.ts',
+              ].some((file) => operation.file.endsWith(file))
+            ) {
+              await fs.writeFile(path.join(to, 'receipt.json'), receiptBytes);
+              await fs.mkdir(path.join(to, 'files'), { recursive: true });
+              const staging = path.join(from, 'files/staging');
+              if (
+                await fs.access(staging).then(
+                  () => true,
+                  () => false,
+                )
+              )
+                await linkTree(staging, path.join(to, 'files/staging'));
+            } else await linkTree(from, to, true);
           }
         }
+      }
       const checkpointIndex = await cache.lease(previewName(projectRoot) + '-index');
       try {
         const target = path.join(checkpointIndex.root, 'checkpoint.json');
@@ -237,30 +281,52 @@ export async function preparePreviewAssets(
       }
       await checkpointLease?.release();
       checkpointLease = undefined;
-      const { digests } = await prepareSteps({
+      let knownContent = 'files' in base.lock ? base.lock.files : undefined;
+      if (resumed && knownContent) {
+        const unchanged: Record<string, string> = {};
+        const names = Object.keys(knownContent);
+        for (let offset = 0; offset < names.length; offset += 64)
+          await Promise.all(
+            names.slice(offset, offset + 64).map(async (name) => {
+              const [prior, current] = await Promise.all(
+                [base.held.root, work].map((root) =>
+                  fs.lstat(path.join(root, name)).catch((error: NodeJS.ErrnoException) => {
+                    if (error.code === 'ENOENT') return undefined;
+                    throw error;
+                  }),
+                ),
+              );
+              // Checkpoint writers replace files atomically. Retain the verified
+              // base proof only for the same unchanged file; linking changes ctime.
+              if (
+                prior?.isFile() &&
+                current?.isFile() &&
+                prior.ino !== 0 &&
+                prior.dev === current.dev &&
+                prior.ino === current.ino &&
+                prior.size === current.size &&
+                prior.mtimeMs === current.mtimeMs &&
+                prior.mode === current.mode
+              )
+                unchanged[name] = knownContent![name]!;
+            }),
+          );
+        knownContent = unchanged;
+      }
+      const { digests, checksums } = await prepareSteps({
         steps,
         workspace: work,
         cache: path.join(held.root, 'steps'),
         env,
-        knownContent: !resumed && 'files' in base.lock ? base.lock.files : undefined,
-        afterStep: async ({ reused }) => {
-          if (!reused) await held.reserve(await (await import('./cache')).diskBytes(held.root));
-        },
+        knownContent,
+        reserveGrowth: await growthReservation(held),
       });
       const calibrationFile = path.join(work, 'public/generated/calibration.json');
       await fs.writeFile(calibrationFile + '.tmp', JSON.stringify(cameraCalibration()));
       await fs.rename(calibrationFile + '.tmp', calibrationFile);
-      const payload = path.join(work, 'payload');
-      await fs.rm(payload, { recursive: true, force: true });
-      await stagePayload(path.join(work, 'public'), path.join(work, 'staging'), payload);
-      for (const name of ['public', 'metadata']) {
-        await fs.rm(path.join(work, name), { recursive: true, force: true });
-        await fs.rename(path.join(payload, name), path.join(work, name));
-      }
-      await fs.rm(payload, { recursive: true, force: true });
+      await stagePayload(path.join(work, 'public'), path.join(work, 'staging'), work, true);
       await fs.rm(path.join(work, 'staging'), { recursive: true, force: true });
-      const files = await fileChecksums(
-        work,
+      const files = await checksums(
         (await listFiles(work)).filter((name) => /^(public|metadata)\//.test(name)),
       );
       if (
@@ -297,11 +363,19 @@ export async function preparePreviewAssets(
       await held.reserve(await (await import('./cache')).diskBytes(held.root));
       const index = await cache.lease(previewName(projectRoot) + '-index');
       try {
-        await fs.writeFile(path.join(index.root, 'preview.json'), JSON.stringify({ entry }));
+        await fs.writeFile(path.join(index.root, 'preview.json.tmp'), JSON.stringify({ entry }));
+        await fs.rename(
+          path.join(index.root, 'preview.json.tmp'),
+          path.join(index.root, 'preview.json'),
+        );
         await fs.rm(path.join(index.root, 'checkpoint.json'), { force: true });
       } finally {
         await index.release();
       }
+      await cache.prunePreviews(previewName(projectRoot), entry);
+      // Final checksums already validated this exclusively owned layer. Only
+      // controlled renames/unlinks followed; retain its proof for the next refresh.
+      await verifiedOutput(old, Object.keys(files), async () => {}, '.verified-prototype.json');
       console.log(
         `Prototype assets ready: ${steps.length} step(s); no unrelated baking, archive creation, packaging or publication.`,
       );

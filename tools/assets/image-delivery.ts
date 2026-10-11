@@ -9,23 +9,6 @@ import type { PreparationContext } from './context';
 
 export const imageHash = (data: Buffer | string) => createHash('sha256').update(data).digest('hex');
 type Delivery = NonNullable<Manifest['pages'][number]['delivery']>[number];
-export function imageError(reference: Uint8Array, candidate: Uint8Array) {
-  if (reference.length !== candidate.length)
-    throw new Error('Image dimensions differ during quality validation');
-  let squared = 0,
-    channels = 0,
-    alphaMaxError = 0;
-  for (let i = 0; i < reference.length; i += 4) {
-    alphaMaxError = Math.max(alphaMaxError, Math.abs(reference[i + 3]! - candidate[i + 3]!));
-    if (reference[i + 3] === 0) continue;
-    for (let c = 0; c < 3; c++) {
-      const d = ((reference[i + c]! - candidate[i + c]!) * reference[i + 3]!) / 255;
-      squared += d * d;
-      channels++;
-    }
-  }
-  return { rmse: Math.sqrt(squared / Math.max(1, channels)), alphaMaxError };
-}
 // Format selection concerns the cooked representation, never library eligibility.
 export function useGpuCompression(transparent: boolean, width: number, height: number) {
   const blockDimension = (n: number) => n === 1 || n === 2 || n % 4 === 0;
@@ -47,23 +30,96 @@ const recipeSettings = {
   pngCompression: 6,
   resolutions: [2048, 4096, 'native'],
   codec: 'KTX-Software-4.4.2/UASTC',
-  uastcQuality: 2,
+  uastcQuality: 1,
   zstdLevel: 6,
   origin: 'bottom-left',
   transparency: 'lossless',
   alphaMipmaps: false,
 };
 // Derived data keys track the encoding recipe, rather than unrelated helper edits.
-const recipeFor = (gpu: boolean, rgb = false) =>
+const recipeFor = (gpu: boolean, rgb = false, legacy = false) =>
   'image-delivery-v3-' +
   imageHash(
     JSON.stringify({
       ...recipeSettings,
+      ...(legacy ? { uastcQuality: 2 } : {}),
       gpu,
+      ...(!gpu ? { uastcQuality: 2 } : {}),
+      ...(gpu && legacy ? { maxRgbRmse: 3 } : {}),
       ...(gpu && rgb ? { inputFormat: 'R8G8B8_SRGB' } : {}),
     }),
   ).slice(0, 16);
 const fallbackTool = path.join(os.homedir(), '.local/share/lantern-tools/ktx-4.4.2/bin/ktx');
+type Receipt = {
+  recipe: string;
+  sourceHash: string;
+  preview: Delivery;
+  delivery: Delivery[];
+  files: Record<string, string>;
+  rejected: number;
+  decisions: {
+    width: number;
+    height: number;
+    reason: string;
+    quality?: Delivery['quality'];
+  }[];
+};
+const deliveryRoot = (
+  page: Manifest['pages'][number],
+  standalone: boolean,
+  gpu: boolean,
+  rgb = false,
+  legacy = false,
+) =>
+  `generated/delivery/${page.hash}-${standalone ? 'painting' : 'atlas'}-${page.mipmaps ? 'mips' : 'linear'}-${recipeFor(gpu, rgb, legacy).slice(-16)}`;
+export async function restoreImageDelivery(
+  context: PreparationContext,
+  page: Manifest['pages'][number],
+  standalone: boolean,
+  check = false,
+): Promise<Receipt | undefined> {
+  let failure: unknown;
+  for (const [gpu, rgb, legacy] of [
+    [true, false, true],
+    [true, true, true],
+    [true, false, false],
+    [true, true, false],
+    [false, false, false],
+  ] as const) {
+    try {
+      const file = 'public/' + deliveryRoot(page, standalone, gpu, rgb, legacy) + '/receipt.json';
+      const bytes = await context.readAsset(file);
+      const receipt = JSON.parse(bytes.toString()) as Receipt;
+      if (
+        receipt.recipe !== recipeFor(gpu, rgb, legacy) ||
+        receipt.sourceHash !== page.hash ||
+        !receipt.delivery.some(
+          (v) => v.encoding === 'png' && v.width === page.width && v.height === page.height,
+        )
+      )
+        throw new Error('Delivery recipe or dimensions differ');
+      if (
+        context.environment.LANTERN_IMAGE_GPU === '1' &&
+        !gpu &&
+        !receipt.decisions.every((d) => d.reason === 'lossless-alpha')
+      )
+        continue;
+      for (const [name, hash] of Object.entries(receipt.files)) {
+        if (
+          (await context.verifiedHash('public/' + name)) !== hash &&
+          imageHash(await context.readAsset('public/' + name)) !== hash
+        )
+          throw new Error('Delivery bytes differ');
+        await context.record('public/' + name, hash);
+      }
+      await context.record(file, imageHash(bytes));
+      return receipt;
+    } catch (error) {
+      failure = error;
+    }
+  }
+  if (check) throw failure ?? new Error('Prepared delivery is missing');
+}
 export async function prepareImageDelivery(
   context: PreparationContext,
   source: Buffer,
@@ -82,47 +138,8 @@ export async function prepareImageDelivery(
     `generated/delivery/${page.hash}-${mode}-${page.mipmaps ? 'mips' : 'linear'}-${recipeFor(gpu, rgb).slice(-16)}`;
   const root = rootFor(cookGpu);
   const receiptFile = `public/${root}/receipt.json`;
-  type Receipt = {
-    recipe: string;
-    sourceHash: string;
-    preview: Delivery;
-    delivery: Delivery[];
-    files: Record<string, string>;
-    rejected: number;
-    decisions: {
-      width: number;
-      height: number;
-      reason: string;
-      quality?: ReturnType<typeof imageError> & { ssim?: number };
-    }[];
-  };
-  const restore = async (gpu = cookGpu) => {
-    const file = 'public/' + rootFor(gpu) + '/receipt.json';
-    const receiptBytes = await context.readAsset(file);
-    const receipt = JSON.parse(receiptBytes.toString()) as Receipt;
-    if (receipt.recipe !== recipeFor(gpu, rgb) || receipt.sourceHash !== page.hash)
-      throw new Error('Delivery recipe differs');
-    for (const [file, hash] of Object.entries(receipt.files)) {
-      if (imageHash(await context.readAsset('public/' + file)) !== hash)
-        throw new Error('Delivery bytes differ');
-      await context.record('public/' + file, hash);
-    }
-    await context.record(file, imageHash(receiptBytes));
-    return receipt;
-  };
-  // A quick import may retain already-cooked derivatives for unchanged sources.
-  if (!cookGpu) {
-    try {
-      return await restore(true);
-    } catch {
-      /* Missing derived data is regenerated by its owner. */
-    }
-  }
-  try {
-    return await restore();
-  } catch (error) {
-    if (check) throw error;
-  }
+  const restored = await restoreImageDelivery(context, page, standalone, check);
+  if (restored) return restored;
   const temporary = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-image-delivery-'));
   const files: Record<string, string> = {};
   const store = async (file: string, bytes: Buffer) => {
@@ -198,6 +215,12 @@ export async function prepareImageDelivery(
               .png({ compressionLevel: recipeSettings.pngCompression })
               .toBuffer();
       delivery.push(await pngVariant(width, height, String(size), png, mipmaps));
+      // The renderer requests native detail. Reduced PNGs already cover devices
+      // with smaller texture limits; do not encode unused GPU tiers on every edit.
+      if (cookGpu && scale < 1) {
+        decisions.push({ width, height, reason: 'lossless-resolution-variant' });
+        continue;
+      }
       if (!cookGpu || !useGpuCompression(transparent, width, height)) {
         decisions.push({
           width,
@@ -211,8 +234,7 @@ export async function prepareImageDelivery(
         continue;
       }
       const input = path.join(temporary, 'input.png'),
-        encoded = path.join(temporary, 'image.ktx2'),
-        decoded = path.join(temporary, 'decoded.png');
+        encoded = path.join(temporary, 'image.ktx2');
       await fs.writeFile(input, png);
       const tool =
         context.environment.LANTERN_KTX ??
@@ -250,7 +272,6 @@ export async function prepareImageDelivery(
         String(recipeSettings.uastcQuality),
         '--threads',
         '2',
-        '--compare-ssim',
         '--zstd',
         String(recipeSettings.zstdLevel),
         '--convert-texcoord-origin',
@@ -260,23 +281,15 @@ export async function prepareImageDelivery(
         input,
         encoded,
       ]);
-      await run(['extract', '--transcode', 'rgba8', encoded, decoded]);
-      const reference = await sharp(png).ensureAlpha().raw().toBuffer();
-      const candidate = await sharp(decoded).flip().ensureAlpha().raw().toBuffer();
-      const errors = imageError(reference, candidate);
-      const comparisons = [
-        ...log.matchAll(/SSIM Avg R:\s*([+-]?[0-9.]+), G:\s*([+-]?[0-9.]+), B:\s*([+-]?[0-9.]+)/g),
-      ];
-      const last = comparisons.at(-1);
-      const quality = {
-        ...errors,
-        ...(last ? { ssim: Math.min(Number(last[1]), Number(last[2]), Number(last[3])) } : {}),
-      };
       const bytes = await fs.readFile(encoded);
       if (
-        quality.alphaMaxError === 0 &&
-        (bytes.length < png.length || blockGpuBytes(width, height, mipmaps) < width * height * 2)
-      ) {
+        bytes.length < 80 ||
+        !bytes.subarray(0, 12).equals(Buffer.from('ab4b5458203230bb0d0a1a0a', 'hex')) ||
+        bytes.readUInt32LE(20) !== width ||
+        bytes.readUInt32LE(24) !== height
+      )
+        throw new Error('Encoder produced an invalid image container');
+      if (bytes.length < png.length || blockGpuBytes(width, height, mipmaps) < width * height * 2) {
         const file = `${root}/${size}.ktx2`;
         await store(file, bytes);
         delivery.push({
@@ -288,19 +301,14 @@ export async function prepareImageDelivery(
           gpuBytes: blockGpuBytes(width, height, mipmaps),
           encoding: 'ktx2-uastc',
           mipmaps,
-          quality,
         });
-        decisions.push({ width, height, reason: 'gpu-high-quality', quality });
+        decisions.push({ width, height, reason: 'gpu-high-quality' });
       } else {
         rejected++;
         decisions.push({
           width,
           height,
-          reason:
-            quality.alphaMaxError !== 0
-              ? 'unexpected-opaque-alpha-change'
-              : 'no-size-or-memory-benefit',
-          quality,
+          reason: 'no-size-or-memory-benefit',
         });
       }
     }

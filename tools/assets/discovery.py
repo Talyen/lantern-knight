@@ -50,11 +50,18 @@ def image_info(data):
         }
 
 
-def discover(root, original, previous=None):
-    previous = previous if previous and previous.get("discoveryVersion") in (4, 5) else {}
+def discover(root, original, previous=None, identities=None):
+    previous = previous if previous and previous.get("discoveryVersion") in (4, 5, 6, 7) else {}
     prior = {r["path"]: r for r in previous.get("files", [])}
     records, images, media, problems = [], {}, {}, []
     archives = {}
+    identities = identities or {}
+    old_images = [*identities.get('images', []), *previous.get('images', [])]
+    image_by_hash = {i['sha256']: i for i in old_images}
+    image_by_path = {i['path']: i for i in old_images}
+    old_archives = [*identities.get('archives', []), *[r for r in previous.get('files', []) if r['kind'] == 'archive']]
+    archive_by_path = {r['path']: r for r in old_archives}
+    archive_by_hash = {r['sha256']: r for r in old_archives}
     for directory, dirs, files in os.walk(root, followlinks=False):
         parent = pathlib.Path(directory)
         dirs[:] = sorted(d for d in dirs if not d.startswith(".") and not (parent / d).is_symlink())
@@ -101,10 +108,13 @@ def discover(root, original, previous=None):
                     media.setdefault(digest, {**ref, "path": rel})
             if suffix == ".zip":
                 record["kind"] = "archive"
+                old_archive = archive_by_hash.get(digest) or archive_by_path.get(rel)
+                record['assetIdentity'] = old_archive.get('assetIdentity', old_archive['sha256']) if old_archive else digest
                 archives.setdefault(digest, rel)
                 members = old.get("members") if old and old["sha256"] == digest else None
                 if members is None:
                     members = []
+                    old_members = {m['sha256']: m for m in (old_archive or {}).get('members', [])}
                     try:
                         with zipfile.ZipFile(p) as z:
                             names = set()
@@ -128,7 +138,9 @@ def discover(root, original, previous=None):
                                     "suffix": ext,
                                 }
                                 if ext in IMAGE_TYPES:
-                                    m.update(image_info(data))
+                                    prior_member = old_members.get(m['sha256'])
+                                    m.update({k: prior_member[k] for k in ('canvas', 'animated', 'alpha')}
+                                        if prior_member and 'canvas' in prior_member else image_info(data))
                                 members.append(m)
                     except (OSError, ValueError, zipfile.BadZipFile) as e:
                         problems.append({"path": rel, "reason": str(e)})
@@ -146,6 +158,21 @@ def discover(root, original, previous=None):
                         },
                     )
             records.append(record)
+    # Identity follows moves by content and replacements by their existing path.
+    # Distinct retained versions still receive separate logical bindings.
+    for image in images.values():
+        old_image = image_by_hash.get(image['sha256']) or image_by_path.get(image['path'])
+        image['assetIdentity'] = old_image.get('assetIdentity', old_image['sha256']) if old_image else image['sha256']
+    owners = {}
+    for image in images.values():
+        owners.setdefault(image['assetIdentity'], []).append(image)
+    for identity, versions in owners.items():
+        if len(versions) < 2:
+            continue
+        owner = next((i for i in versions if i['path'] in image_by_path and image_by_path[i['path']]['sha256'] != i['sha256']), versions[0])
+        for image in versions:
+            if image is not owner:
+                image['assetIdentity'] = sha(('retained-version:' + identity + ':' + image['sha256']).encode())
     by_hash = {}
     archived = {}
     for r in records:
@@ -158,15 +185,35 @@ def discover(root, original, previous=None):
     index = json.loads(json.dumps(original))
     index.pop("includes", None)
     missing = []
+    by_path = {r['path']: r for r in records}
+    image_owners = {i['assetIdentity']: i for i in images.values()}
+    archive_owners = {r['assetIdentity']: r for r in records if r['kind'] == 'archive'}
+    source_bytes = {r['sha256']: r['bytes'] for r in records}
+    source_bytes.update({m['sha256']: m['bytes'] for r in records for m in r.get('members', [])})
     for name, identity in list(index.get("archives", {}).items()):
-        if identity["sha256"] in archives:
+        current = by_path.get(identity.get('pathHint')) or archive_owners.get(identity['sha256'])
+        if current and current['kind'] == 'archive':
+            identity.update(sha256=current['sha256'], bytes=current['bytes'], pathHint=current['path'])
+        elif identity["sha256"] in archives:
             identity["pathHint"] = archives[identity["sha256"]]
         else:
             missing.append({"logical": "archive:" + name, **identity})
             del index["archives"][name]
     for group, files in index.get("files", {}).items():
         for member, identity in list(files.items()):
-            if identity["sha256"] in by_hash:
+            current = by_path.get(identity.get('pathHint'))
+            lineage = image_owners.get(identity['sha256'])
+            if current and current['kind'] != 'archive':
+                identity.update(sha256=current['sha256'], bytes=current['bytes'])
+                identity.pop('archive', None)
+                identity.pop('member', None)
+            elif lineage and lineage['sha256'] in by_hash:
+                identity.update(sha256=lineage['sha256'], bytes=source_bytes[lineage['sha256']], pathHint=by_hash[lineage['sha256']])
+                identity.pop('archive', None)
+                identity.pop('member', None)
+            elif lineage and lineage['sha256'] in archived:
+                identity.update(archived[lineage['sha256']], sha256=lineage['sha256'], bytes=source_bytes[lineage['sha256']])
+            elif identity["sha256"] in by_hash:
                 identity["pathHint"] = by_hash[identity["sha256"]]
                 identity.pop("archive", None)
                 identity.pop("member", None)
@@ -191,12 +238,13 @@ def discover(root, original, previous=None):
         key = "discovered/" + digest + ".zip"
         r = next(r for r in records if r["path"] == rel)
         index["archives"][key] = {"sha256": digest, "bytes": r["bytes"], "pathHint": rel}
+        index['archives'][key]['assetIdentity'] = r['assetIdentity']
         index.setdefault("archiveGroups", {})["discovered-" + digest[:24]] = key
     content = [{k: v for k, v in r.items() if k != "signature"} for r in records]
     identity = sha(
         json.dumps(
             {
-                "version": 5,
+                "version": 7,
                 "files": content,
                 "images": list(images.values()),
                 "media": list(media.values()),
@@ -207,7 +255,7 @@ def discover(root, original, previous=None):
     )
     inventory = {
         "schemaVersion": 1,
-        "discoveryVersion": 5,
+        "discoveryVersion": 7,
         "sha256": identity,
         "files": records,
         "images": list(images.values()),
@@ -226,6 +274,13 @@ if __name__ == "__main__":
     ap.add_argument("--output-inventory", required=True, type=pathlib.Path)
     ap.add_argument("--extra-index", type=pathlib.Path)
     args = ap.parse_args()
+    identity_file = args.root / '.lantern' / 'identities.json'
+    try:
+        identities = json.loads(identity_file.read_text())
+        if identities.get('schemaVersion') != 1:
+            raise ValueError('Unsupported asset identity registry')
+    except FileNotFoundError:
+        identities = None
     try:
         prior = json.loads(args.output_inventory.read_text())
     except FileNotFoundError:
@@ -240,7 +295,21 @@ if __name__ == "__main__":
                 if hint.startswith(prefix):
                     identity["pathHint"] = hint[len(prefix) :]
             original.setdefault("files", {})[group] = files
-    index, inventory = discover(args.root, original, prior)
+    index, inventory = discover(args.root, original, prior, identities)
+    if not inventory['problems']:
+        identity_file.parent.mkdir(parents=True, exist_ok=True)
+        retained = identities or {'images': [], 'archives': []}
+        def retained_records(kind, current):
+            values = {r['path'] + ':' + r['sha256']: r for r in retained.get(kind, [])}
+            for r in current:
+                values[r['path'] + ':' + r['sha256']] = {k: r[k] for k in ('path', 'sha256', 'assetIdentity')}
+            return list(values.values())
+        registry = {'schemaVersion': 1,
+            'images': retained_records('images', inventory['images']),
+            'archives': retained_records('archives', [r for r in inventory['files'] if r['kind'] == 'archive'])}
+        temporary = identity_file.with_suffix('.tmp')
+        temporary.write_text(json.dumps(registry, separators=(',', ':')) + '\n')
+        temporary.replace(identity_file)
     for p, data in [(args.output_index, index), (args.output_inventory, inventory)]:
         p.parent.mkdir(parents=True, exist_ok=True)
         temporary = p.with_suffix(".tmp")

@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import os from 'node:os';
 import sharp from 'sharp';
 import { source } from '../definition';
 import { parseManifest, type Manifest } from '../../../src/assets/schema';
@@ -8,13 +9,15 @@ import { hash } from '../../compiler';
 import { projectRoot } from '../paths';
 
 import type { PreparationContext } from '../context';
+import { runProcess } from '../../run-process';
 export async function prepare(context: PreparationContext, check = false) {
-  const { readLibrarySource, stagingFile, runProcess, readAsset } = context;
+  const { readLibrarySource, stagingFile, readAsset } = context;
 
   type Input = {
     group: string;
     member: string;
     sha256?: string;
+    sourceSha256?: string;
     canvas: [number, number];
     anchor: [number, number];
     density: number;
@@ -52,12 +55,22 @@ export async function prepare(context: PreparationContext, check = false) {
   };
 
   const planFile = stagingFile('library/plan.json');
-  await fs.mkdir(path.dirname(planFile), { recursive: true });
-  await runProcess(
-    'python3',
-    ['-B', path.join(projectRoot, 'tools/assets/library_import.py'), '--output', planFile],
-    { cwd: projectRoot, timeoutMs: 120000 },
-  );
+  const temporary = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-library-plan-'));
+  try {
+    await runProcess(
+      'python3',
+      [
+        '-B',
+        path.join(projectRoot, 'tools/assets/library_import.py'),
+        '--output',
+        path.join(temporary, 'plan.json'),
+      ],
+      { cwd: projectRoot, env: context.environment, timeoutMs: 120000 },
+    );
+    await context.writeAsset(planFile, await fs.readFile(path.join(temporary, 'plan.json')));
+  } finally {
+    await fs.rm(temporary, { recursive: true, force: true });
+  }
   const plan = JSON.parse(await fs.readFile(planFile, 'utf8')) as {
     assets: LibraryAsset[];
     dispositions: unknown[];
@@ -78,6 +91,14 @@ export async function prepare(context: PreparationContext, check = false) {
     outputHash: string;
     file: string;
   }[] = [];
+  let previous: typeof receipts = [];
+  try {
+    previous = JSON.parse(await readAsset('metadata/library/receipt.json', 'utf8')).sources;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+  }
+  const priorSources = new Map(previous.map((r) => [`${r.asset}/${r.group}/${r.member}`, r]));
+  const priorImages = new Map(previous.map((r) => [`${r.asset}/${r.sha256}`, r]));
   let clips = 0,
     drawings = 0;
   async function output(file: string, bytes: Buffer | string) {
@@ -89,6 +110,14 @@ export async function prepare(context: PreparationContext, check = false) {
     }
   }
   for (const item of plan.assets) {
+    let priorManifest: Manifest | undefined;
+    try {
+      priorManifest = parseManifest(
+        JSON.parse(await readAsset(`public/generated/library/${item.id}/manifest.json`, 'utf8')),
+      );
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+    }
     const first = Object.values(item.clips).flatMap((d) => Object.values(d))[0]!.frames[0]!;
     const definition = source(item.id, item.type, first.canvas, first.anchor, first.density);
     Object.assign(definition.asset, {
@@ -136,6 +165,45 @@ export async function prepare(context: PreparationContext, check = false) {
           const key = `${input.group}/${input.member}`;
           let cached = inputCache.get(key);
           if (!cached) {
+            const prior =
+              priorSources.get(`${item.id}/${key}`) ??
+              priorImages.get(`${item.id}/${input.sourceSha256}`);
+            const oldPage = priorManifest?.pages.find((p) => p.hash === prior?.outputHash);
+            let reusable = false;
+            if (prior && oldPage && input.sourceSha256 === prior.sha256) {
+              const file = 'public/' + prior.file;
+              const known = await context.verifiedHash(file);
+              const actual =
+                known ??
+                (
+                  await context
+                    .checksums([file])
+                    .catch((error: NodeJS.ErrnoException): Record<string, string> => {
+                      if (error.code === 'ENOENT') return {};
+                      throw error;
+                    })
+                )[file];
+              reusable = actual === prior.outputHash;
+              if (reusable && !known) await context.recordContentHash(file, prior.outputHash);
+            }
+            if (prior && oldPage && reusable) {
+              const page = pageMap.get(oldPage.hash) ?? { ...oldPage };
+              if (!pageMap.has(page.hash)) {
+                pages.push(page);
+                pageMap.set(page.hash, page);
+              }
+              cached = {
+                hash: prior.sha256,
+                acceptedHash: input.sha256 ?? prior.sha256,
+                outputHash: prior.outputHash,
+                page,
+              };
+              inputCache.set(key, cached);
+              receipts.push({ ...prior, group: input.group, member: input.member });
+              await context.record('public/' + prior.file, prior.outputHash);
+            }
+          }
+          if (!cached) {
             const original = await readLibrarySource(
                 input.member,
                 input.group,
@@ -145,7 +213,10 @@ export async function prepare(context: PreparationContext, check = false) {
               ),
               originalHash = hash(original);
             // Some supplied manifests hash decoded RGBA, others encoded PNG bytes.
+            if (input.sourceSha256 && originalHash !== input.sourceSha256)
+              throw new Error('Library source changed after discovery: ' + key);
             if (
+              !input.sourceSha256 &&
               input.sha256 &&
               originalHash !== input.sha256 &&
               hash(await sharp(original).ensureAlpha().raw().toBuffer()) !== input.sha256
@@ -207,7 +278,11 @@ export async function prepare(context: PreparationContext, check = false) {
               file: `${root.slice(7)}/${page.path}`,
             });
           }
-          if (input.sha256 && input.sha256 !== cached.hash && input.sha256 !== cached.acceptedHash)
+          if (
+            input.sourceSha256
+              ? input.sourceSha256 !== cached.hash
+              : input.sha256 && input.sha256 !== cached.hash && input.sha256 !== cached.acceptedHash
+          )
             throw new Error('Conflicting delivered frame identity: ' + key);
           const registration = {
             canvas: input.canvas,
@@ -271,9 +346,15 @@ export async function prepare(context: PreparationContext, check = false) {
   await output('public/generated/library/catalog.json', JSON.stringify(catalog) + '\n');
   const media = [];
   for (const source of plan.media ?? []) {
-    const bytes = await readLibrarySource(source.member, source.group);
     const extension = path.extname(source.member).toLowerCase();
     const file = `generated/library/media/${source.sha256}${extension}`;
+    if ((await context.verifiedHash('public/' + file)) === source.sha256) {
+      await context.record('public/' + file, source.sha256);
+      const bytes = (await fs.stat(context.path('public/' + file))).size;
+      media.push({ ...source, file, bytes });
+      continue;
+    }
+    const bytes = await readLibrarySource(source.member, source.group);
     await output('public/' + file, bytes);
     media.push({ ...source, file, bytes: bytes.length });
   }

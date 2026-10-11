@@ -125,6 +125,11 @@ test('preparation rejects changed written bytes before caching a producer', asyn
     libraryRoot: root,
   });
   try {
+    await context.writeAsset('metadata/library/receipt.json', '{"sources":[]}');
+    assert.equal(
+      await context.readAsset('metadata/library/receipt.json', 'utf8'),
+      '{"sources":[]}',
+    );
     await assert.rejects(
       cachedPreparationStep({
         file: 'image-delivery.ts',
@@ -135,8 +140,10 @@ test('preparation rejects changed written bytes before caching a producer', asyn
           context.setReceipts({ outputLog: env.LANTERN_STEP_OUTPUT_LOG });
           await context.writeAsset('public/master.png', 'native pixels');
           await fs.writeFile(path.join(workspace, 'public/master.png'), 'corrupt pixels');
+          await context.flushReceipts();
         },
         verifyOutputs: (hashes) => context.verifyOutputs(hashes),
+        hashFiles: context.checksums,
       }),
       /Prepared output bytes differ/,
     );

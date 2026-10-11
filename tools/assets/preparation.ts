@@ -6,6 +6,28 @@ import { runProcess } from '../run-process';
 import { projectRoot } from './paths';
 import { cachedPreparationStep } from './incremental';
 import { preparationStepKey, recipeInputs, type preparationSteps } from './recipe';
+import { sourceSnapshot } from './discovery';
+import { diskBytes } from './cache';
+
+export async function growthReservation(held: {
+  root: string;
+  reserve: (bytes: number) => Promise<void>;
+}) {
+  const initial = await diskBytes(held.root);
+  let credit = 0;
+  return async (bytes: number) => {
+    if (bytes <= credit) return;
+    const next = Math.ceil(bytes / (256 * 1024 ** 2)) * 256 * 1024 ** 2;
+    try {
+      await held.reserve(initial + next);
+      credit = next;
+    } catch (error) {
+      if (!/budget|protected/.test(String(error))) throw error;
+      await held.reserve(initial + bytes);
+      credit = bytes;
+    }
+  };
+}
 
 // Full packs and local overlays execute and validate exactly the same steps.
 export async function prepareSteps(options: {
@@ -15,6 +37,7 @@ export async function prepareSteps(options: {
   env: NodeJS.ProcessEnv;
   afterStep?: (result: { reused: boolean }) => Promise<void>;
   knownContent?: Record<string, string>;
+  reserveGrowth?: (bytes: number) => Promise<void>;
 }) {
   const inputs = await recipeInputs(),
     digests = new Map<string, string>(),
@@ -22,7 +45,9 @@ export async function prepareSteps(options: {
   const context = await createPreparationContext({
     ...preparationOptions(options.workspace, options.env),
     knownContent: options.knownContent,
+    reserveGrowth: options.reserveGrowth,
   });
+  const sourceVerified = await sourceSnapshot(options.env);
   for (const operation of options.steps) {
     const invoke = async (args: string[], extra: NodeJS.ProcessEnv = {}) => {
       let log = '';
@@ -36,6 +61,7 @@ export async function prepareSteps(options: {
             inputLog: extra.LANTERN_STEP_INPUT_LOG,
           });
           await prepare(context, args.includes('--check'));
+          await context.flushReceipts();
           return;
         }
 
@@ -95,6 +121,14 @@ export async function prepareSteps(options: {
       run: (env) => invoke([], env),
       validate: operation.freshness ? () => invoke(['--check']) : undefined,
       verifyOutputs: (hashes) => context.verifyOutputs(hashes),
+      hashFiles: context.checksums,
+      sourceVerified,
+      cachePublic: ![
+        'prepare-library.ts',
+        'prepare-lighting.ts',
+        'prepare-graveyard-coverage.ts',
+        'prepare-image-delivery.ts',
+      ].some((name) => operation.file.endsWith(name)),
       sourceLocation: options.env.LANTERN_LIBRARY_INDEX
         ? { root: context.sourceRoot, indexPath: options.env.LANTERN_LIBRARY_INDEX, strict: true }
         : undefined,
@@ -111,7 +145,7 @@ export async function prepareSteps(options: {
         (result.reused ? ': reused verified outputs.' : ': prepared and source-verified.'),
     );
   }
-  return { digests, files };
+  return { digests, files, checksums: context.checksums };
 }
 export async function prepareProof(workspace: string, env: NodeJS.ProcessEnv) {
   const context = await createPreparationContext(preparationOptions(workspace, env));

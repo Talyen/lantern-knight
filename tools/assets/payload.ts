@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { safeRelative } from './files';
+import { safeRelative, listFiles } from './files';
 
 import { playgroundCatalog } from '../../src/content/effects-playground-assets';
 import { parseManifest } from '../../src/assets/schema';
@@ -10,7 +10,14 @@ import { readAuthoringCatalog } from './authoring-catalog';
 
 import { loadingVideoPath } from '../../src/content/loading-media';
 
-export async function stagePayload(sourcePublic: string, staging: string, destination: string) {
+export async function stagePayload(
+  sourcePublic: string,
+  staging: string,
+  destination: string,
+  inPlace = false,
+) {
+  if (inPlace && path.resolve(sourcePublic) !== path.resolve(destination, 'public'))
+    throw new Error('In-place finalization requires the same public directory');
   const files = new Set([
     'build-mode.json',
     loadingVideoPath,
@@ -74,14 +81,19 @@ export async function stagePayload(sourcePublic: string, staging: string, destin
       files.add(folder + '/' + safeRelative(entry.file));
   }
   await fs.mkdir(path.join(destination, 'metadata'), { recursive: true });
-  for (const file of [...files].sort()) {
-    safeRelative(file);
-    const target = path.join(destination, 'public', file);
-    await fs.mkdir(path.dirname(target), { recursive: true });
-    // Both locations belong to the same leased candidate; immutable pages need
-    // no second physical copy while source fidelity and freshness are checked.
-    await fs.link(path.join(sourcePublic, file), target);
-  }
+  if (!inPlace)
+    for (const file of [...files].sort()) {
+      safeRelative(file);
+      const target = path.join(destination, 'public', file);
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      // Both locations belong to the same leased candidate; immutable pages need
+      // no second physical copy while source fidelity and freshness are checked.
+      await fs.link(path.join(sourcePublic, file), target);
+    }
+  const atomic = async (file: string, bytes: Buffer | string) => {
+    await fs.writeFile(file + '.finalize-tmp', bytes);
+    await fs.rename(file + '.finalize-tmp', file);
+  };
   const animation = JSON.parse(
       await fs.readFile(path.join(staging, 'animation/flow.json'), 'utf8'),
     ),
@@ -89,7 +101,8 @@ export async function stagePayload(sourcePublic: string, staging: string, destin
       await fs.readFile(path.join(staging, 'ink/graveyard-coverage.json'), 'utf8'),
     );
   const registration = JSON.stringify(parseRegistration({ schemaVersion: 2, animation, coverage }));
-  await fs.writeFile(path.join(destination, 'public/registration.json'), registration);
+  await atomic(path.join(destination, 'public/registration.json'), registration);
+  files.add('registration.json');
   const flags = JSON.parse(
     await fs.readFile(path.join(destination, 'public/build-mode.json'), 'utf8'),
   );
@@ -98,10 +111,11 @@ export async function stagePayload(sourcePublic: string, staging: string, destin
   await fs.writeFile(flagsFile + '.tmp', JSON.stringify(flags));
   await fs.rename(flagsFile + '.tmp', flagsFile);
   await fs.mkdir(path.join(destination, 'public/animation'), { recursive: true });
-  await fs.copyFile(
-    path.join(staging, 'animation/flow.png'),
+  await atomic(
     path.join(destination, 'public/animation/flow.png'),
+    await fs.readFile(path.join(staging, 'animation/flow.png')),
   );
+  files.add('animation/flow.png');
   for (const name of [
     'ink/derivatives.json',
     'ink/flat-stage-receipt.json',
@@ -109,6 +123,7 @@ export async function stagePayload(sourcePublic: string, staging: string, destin
     'ink/graveyard-art-receipt.json',
     'ink/tended-art-receipt.json',
     'ink/graveyard-ground-receipt.json',
+    'ink/coverage-inputs.json',
     'rest/receipt.json',
     'effects-playground/receipt.json',
     'visual-effects/receipt.json',
@@ -116,7 +131,10 @@ export async function stagePayload(sourcePublic: string, staging: string, destin
   ]) {
     const target = path.join(destination, 'metadata', name);
     await fs.mkdir(path.dirname(target), { recursive: true });
-    await fs.copyFile(path.join(staging, name), target);
+    await atomic(target, await fs.readFile(path.join(staging, name)));
   }
+  if (inPlace)
+    for (const name of await listFiles(sourcePublic))
+      if (!files.has(name)) await fs.rm(path.join(sourcePublic, name));
   return files.size;
 }

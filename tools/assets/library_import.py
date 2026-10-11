@@ -55,6 +55,24 @@ def density_of(contexts, default=256):
     return default
 
 
+def animation_contract(data):
+    """Playback records declare a sequence; counts and review notes are not clips."""
+    if not isinstance(data, dict):
+        return False
+    clips = data.get('clips', data.get('actions'))
+    if clips is None:
+        clips = [data]
+    if isinstance(clips, dict):
+        clips = clips.values()
+    if not isinstance(clips, (list, type({}.values()))):
+        return False
+    return any(isinstance(c, dict) and (
+        any(isinstance(c.get(key), list) and c[key] for key in ('frames', 'cels', 'drawings'))
+        or (c.get('rects') and c.get('atlas'))
+        or (c.get('timeline') and c.get('unique_cels'))
+    ) for c in clips)
+
+
 class Package:
     def __init__(self, spec, archive):
         self.spec, self.zip = spec, archive
@@ -1246,6 +1264,11 @@ class Importer:
 
 def build(root, specs, index, artwork=(), inventory=None, index_path=None):
     resolver = SourceResolver(root, index)
+    images_by_hash = {i['sha256']: i for i in inventory['images']} if inventory else {}
+    archive_members = {
+        r['sha256']: {m['member']: m['sha256'] for m in r.get('members', [])}
+        for r in inventory['files'] if r['kind'] == 'archive'
+    } if inventory else {}
     with ExitStack() as stack:
         packages = []
         for spec in specs:
@@ -1311,6 +1334,8 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                         continue
                     if not isinstance(data, dict):
                         continue
+                    if not animation_contract(data):
+                        continue
                     clips = data.get("clips")
                     if clips and (
                         not isinstance(clips, (dict, list))
@@ -1331,7 +1356,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                     trial = Importer([package])
                     identity = (
                         "animation-"
-                        + archive_identity["sha256"][:16]
+                        + archive_identity.get('assetIdentity', archive_identity['sha256'])[:16]
                         + "-"
                         + hashlib.sha256(member.encode()).hexdigest()[:12]
                     )
@@ -1379,10 +1404,21 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
         }
         for record in artwork:
             member = record["member"]
-            original = resolver.read("file:library-artwork/" + member)
-            dimensions = list(struct.unpack(">II", original[16:24]))
-            if original[:8] != b"\x89PNG\r\n\x1a\n" or dimensions != record["canvas"]:
-                raise ValueError("Artwork registration differs: " + member)
+            identity = index['files']['library-artwork'][member]['sha256']
+            delivered = images_by_hash.get(identity)
+            if delivered:
+                dimensions = delivered['canvas']
+            else:
+                original = resolver.read("file:library-artwork/" + member)
+                dimensions = list(struct.unpack(">II", original[16:24]))
+                if original[:8] != b"\x89PNG\r\n\x1a\n":
+                    raise ValueError('Expected native PNG: ' + member)
+            if dimensions != record["canvas"]:
+                if not delivered:
+                    raise ValueError("Artwork registration differs: " + member)
+                record = {**record, 'canvas': dimensions,
+                    'anchor': [record['anchor'][i] * dimensions[i] / record['canvas'][i] for i in range(2)],
+                    'density': record['density'] * dimensions[0] / record['canvas'][0]}
             asset = importer.asset(
                 record["id"], record["label"], record["type"], record["projection"]
             )
@@ -1410,20 +1446,24 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                             key = (frame["group"], frame["member"])
                             if key not in hashes:
                                 package = by_group.get(key[0])
-                                hashes[key] = (
+                                cached_hash = archive_members.get(
+                                    index['archives'][package.spec['archive']]['sha256'], {}
+                                ).get(key[1]) if package else None
+                                hashes[key] = cached_hash or (
                                     __import__("hashlib")
                                     .sha256(package.zip.read(key[1]))
                                     .hexdigest()
                                     if package
                                     else index["files"][key[0]][key[1]]["sha256"]
                                 )
+                            frame['sourceSha256'] = hashes[key]
                             represented.setdefault(hashes[key], set()).add(asset["id"])
             for image in inventory["images"]:
                 if image["sha256"] in represented:
                     continue
                 canvas = image["canvas"]
                 asset = importer.asset(
-                    "source-" + image["sha256"][:24],
+                    "source-" + image.get('assetIdentity', image['sha256'])[:24],
                     image["path"],
                     "prop" if image["alpha"] else "material",
                     "painted-cutout" if image["alpha"] else "top-down",
@@ -1439,6 +1479,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                     "anchor": [canvas[0] / 2, canvas[1] if image["alpha"] else canvas[1] / 2],
                     "density": 256,
                     "indexPath": str(index_path),
+                    "sourceSha256": image['sha256'],
                 }
                 importer.clip(asset, "still", "d45", [frame], [1000], True)
                 represented[image["sha256"]] = {asset["id"]}

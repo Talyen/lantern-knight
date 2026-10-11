@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+import os from 'node:os';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 import { fileURLToPath } from 'node:url';
@@ -27,6 +28,7 @@ async function main() {
     },
   });
   if (command === 'prepare' || command === 'publish') {
+    os.setPriority(process.pid, os.constants.priority.PRIORITY_BELOW_NORMAL);
     if (
       command === 'publish' &&
       (positionals.length || values.ids || values.local || values.proof || values.gpu)
@@ -42,9 +44,8 @@ async function main() {
       const cache = new AssetCache();
       await cache.initialize();
       const env = await discoverLibrary(cache, process.env);
-      env.LANTERN_IMAGE_GPU = command === 'publish' || values.gpu ? '1' : '0';
-      env.LANTERN_PREPARE_BUDGET =
-        process.env.LANTERN_PREPARE_BUDGET ?? String(Math.floor(cache.limit * 0.7));
+      env.LANTERN_IMAGE_GPU = '1';
+      env.LANTERN_PREPARE_BUDGET = process.env.LANTERN_PREPARE_BUDGET ?? String(cache.limit);
       if (command === 'prepare' && !values.proof) {
         if (values.proof) throw new Error('Use --ids or --proof');
         await preparePreviewAssets(positionals, cache, env);

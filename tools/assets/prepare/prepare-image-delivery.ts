@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { readAuthoringCatalog } from '../authoring-catalog';
 import { playgroundCatalog } from '../../../src/content/effects-playground-assets';
 import { parseManifest, type Manifest } from '../../../src/assets/schema';
-import { imageHash, prepareImageDelivery } from '../image-delivery';
+import { imageHash, prepareImageDelivery, restoreImageDelivery } from '../image-delivery';
 import type { PreparationContext } from '../context';
 
 export async function prepare(context: PreparationContext, check = false) {
@@ -60,10 +60,35 @@ export async function prepare(context: PreparationContext, check = false) {
   const queue = [...jobs.entries()];
   const workers = Number(
     context.environment.LANTERN_IMAGE_WORKERS ??
-      Math.max(1, Math.min(4, Math.floor(os.availableParallelism() / 2))),
+      Math.max(1, Math.min(2, Math.floor(os.availableParallelism() / 4))),
   );
   if (!Number.isSafeInteger(workers) || workers < 1)
     throw new Error('LANTERN_IMAGE_WORKERS must be a positive integer');
+  // Measured encoder footprint is about 37 bytes/pixel; allow headroom and
+  // never run more than two background jobs on the default path.
+  const memoryBudget = Math.floor(os.totalmem() / 8);
+  let memoryUsed = 0;
+  const waiting: { bytes: number; ready: () => void }[] = [];
+  const drain = () => {
+    while (waiting.length && memoryUsed + waiting[0]!.bytes <= memoryBudget) {
+      const next = waiting.shift()!;
+      memoryUsed += next.bytes;
+      next.ready();
+    }
+  };
+  const cook = async <T>(page: Manifest['pages'][number], action: () => Promise<T>) => {
+    const bytes = Math.min(memoryBudget, page.width * page.height * 40);
+    await new Promise<void>((ready) => {
+      waiting.push({ bytes, ready });
+      drain();
+    });
+    try {
+      return await action();
+    } finally {
+      memoryUsed -= bytes;
+      drain();
+    }
+  };
   let next = 0,
     completed = 0,
     failure: unknown;
@@ -77,10 +102,19 @@ export async function prepare(context: PreparationContext, check = false) {
         if (!job) break;
         const [key, { sourceFile, page, standalone, pages }] = job;
         try {
-          const source = await context.readAsset(sourceFile);
-          if (imageHash(source) !== page.hash)
-            throw new Error('Source page changed before encoding: ' + sourceFile);
-          const receipt = await prepareImageDelivery(context, source, page, standalone, check);
+          const known = await context.verifiedHash(sourceFile);
+          let receipt =
+            known === page.hash
+              ? await restoreImageDelivery(context, page, standalone, check)
+              : undefined;
+          if (!receipt) {
+            receipt = await cook(page, async () => {
+              const source = await context.readAsset(sourceFile);
+              if (imageHash(source) !== page.hash)
+                throw new Error('Source page changed before encoding: ' + sourceFile);
+              return prepareImageDelivery(context, source, page, standalone, check);
+            });
+          }
           cached.set(key, receipt);
           compressed += receipt.delivery.filter((v) => v.encoding === 'ktx2-uastc').length;
           rejected += receipt.rejected;
@@ -88,7 +122,7 @@ export async function prepare(context: PreparationContext, check = false) {
           losslessDimensions += receipt.decisions.filter(
             (d) => d.reason === 'lossless-block-dimensions',
           ).length;
-          sourceBytes += source.length;
+          sourceBytes += page.bytes;
           const native = receipt.delivery.filter(
             (v) => v.width === page.width && v.height === page.height,
           );
@@ -134,7 +168,10 @@ export async function prepare(context: PreparationContext, check = false) {
     if (!image.assets.length || image.assets.some((id) => !index[id]))
       throw new Error('Source image has no prepared catalog binding: ' + image.sha256);
   for (const media of inventory.media)
-    if (imageHash(await context.readAsset('public/' + media.file)) !== media.sha256)
+    if (
+      (await context.verifiedHash('public/' + media.file)) !== media.sha256 &&
+      imageHash(await context.readAsset('public/' + media.file)) !== media.sha256
+    )
       throw new Error('Prepared native media differs: ' + media.file);
   const report = {
     schemaVersion: 1,
