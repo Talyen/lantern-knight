@@ -6,10 +6,16 @@ import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { acquireCommandLane } from './command-lane';
 import { runProcess } from './run-process';
+import { archiveIntegratedWorktree } from './worktree-cleanup';
 
 const exec = promisify(execFile);
 
-export async function withIntegrationLock(command: string, args: string[], cwd = process.cwd()) {
+export async function withIntegrationLock(
+  command: string,
+  args: string[],
+  cwd = process.cwd(),
+  keepWorktree = false,
+) {
   if (process.env.LANTERN_INTEGRATION_LOCK)
     throw new Error(
       'Nested integration locks are unsupported; keep all integration steps in one command',
@@ -41,26 +47,41 @@ export async function withIntegrationLock(command: string, args: string[], cwd =
       throw new Error(
         'Local main has unfinished changes; preserve them and leave the task committed on its branch',
       );
+    const task = (await git('rev-parse', '--show-toplevel')).trim();
+    const branch = (await git('branch', '--show-current')).trim();
     console.log(`Integration lock acquired; running in ${main}`);
     await runProcess(command, args, {
       cwd: main,
       env: { ...process.env, LANTERN_INTEGRATION_LOCK: common },
     });
+    if (!keepWorktree && task !== main && branch.startsWith('codex/')) {
+      try {
+        const head = (await git('rev-parse', 'HEAD')).trim();
+        archiveIntegratedWorktree(main, task, branch, head);
+      } catch (error) {
+        throw new Error(
+          `Integration command completed; worktree cleanup blocked: ${String(error)}`,
+        );
+      }
+    }
   } finally {
     await lane.release();
   }
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const [command, ...args] = process.argv.slice(2);
+  const options = process.argv.slice(2);
+  const keepWorktree = options[0] === '--keep-worktree';
+  if (keepWorktree) options.shift();
+  const [command, ...args] = options;
   if (!command || command === '--help') {
-    console.log('Use npm run integration:lock -- <command> [args...]');
+    console.log('Use npm run integration:lock -- [--keep-worktree] <command> [args...]');
     console.log(
       'Runs the complete integration command in local main under a shared worktree lock.',
     );
     if (!command) process.exitCode = 1;
   } else {
-    withIntegrationLock(command, args).catch((error) => {
+    withIntegrationLock(command, args, process.cwd(), keepWorktree).catch((error) => {
       console.error(error.message);
       process.exitCode = 1;
     });

@@ -33,13 +33,24 @@ async function fixture(t: test.TestContext) {
     await Promise.all(processes.map(({ done }) => done));
     await fs.rm(root, { recursive: true, force: true });
   });
-  const run = (code: string, cwd = task) => {
+  const run = (code: string, cwd = task, keepWorktree = false) => {
     // Fixture repositories own independent locks, even when check runs during real integration.
-    const env = { ...process.env };
+    const env: NodeJS.ProcessEnv = {
+      ...process.env,
+      CODEX_WORKTREE_ARCHIVE_ROOT: path.join(root, 'archives'),
+    };
     delete env.LANTERN_INTEGRATION_LOCK;
     const child = spawn(
       process.execPath,
-      ['--import', import.meta.resolve('tsx'), cli, process.execPath, '-e', code],
+      [
+        '--import',
+        import.meta.resolve('tsx'),
+        cli,
+        ...(keepWorktree ? ['--keep-worktree'] : []),
+        process.execPath,
+        '-e',
+        code,
+      ],
       {
         cwd,
         env,
@@ -156,3 +167,64 @@ test(
     );
   },
 );
+
+test('successful task integration archives local evidence and dependencies without touching peers', async (t) => {
+  const { root, task, git, run } = await fixture(t);
+  git(['branch', '-m', 'codex/task'], task);
+  await fs.writeFile(path.join(task, '.gitignore'), 'node_modules/\nevidence\n');
+  git(['add', '.gitignore'], task);
+  git(
+    ['-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.test', 'commit', '-m', 'task'],
+    task,
+  );
+  await fs.writeFile(path.join(task, 'evidence'), 'local evidence');
+  await fs.mkdir(path.join(task, 'node_modules'));
+  await fs.writeFile(path.join(task, 'node_modules', 'cache'), 'rebuildable');
+  const peer = path.join(root, 'peer');
+  git(['worktree', 'add', '-b', 'codex/peer', peer]);
+  await fs.writeFile(path.join(peer, 'unfinished'), 'peer work');
+  const failed = run('process.exit(7)');
+  assert.equal(await failed.done, 1);
+  assert.equal(await fs.readFile(path.join(task, 'evidence'), 'utf8'), 'local evidence');
+  const merge =
+    "require('node:child_process').execFileSync('git', ['merge', '--ff-only', 'codex/task'])";
+  const kept = run(merge, task, true);
+  assert.equal(await kept.done, 0, kept.output());
+  assert.equal(await fs.readFile(path.join(task, 'evidence'), 'utf8'), 'local evidence');
+  const final = run(merge);
+  assert.equal(await final.done, 0, final.output());
+  assert.equal(
+    await fs.stat(task).then(
+      () => true,
+      () => false,
+    ),
+    false,
+  );
+  const [name] = await fs.readdir(path.join(root, 'archives'));
+  const archived = path.join(root, 'archives', name!, 'checkout');
+  assert.equal(await fs.readFile(path.join(archived, 'evidence'), 'utf8'), 'local evidence');
+  assert.equal(
+    await fs.stat(path.join(archived, 'node_modules')).then(
+      () => true,
+      () => false,
+    ),
+    false,
+  );
+  assert.equal(await fs.readFile(path.join(peer, 'unfinished'), 'utf8'), 'peer work');
+  assert.equal(git(['rev-parse', 'main']), git(['rev-parse', 'codex/task']));
+});
+
+test('cleanup refuses dirty or locked task even after a successful integration command', async (t) => {
+  const { main, task, git, run } = await fixture(t);
+  git(['branch', '-m', 'codex/task'], task);
+  await fs.writeFile(path.join(task, 'unfinished'), 'keep me');
+  const dirty = run('process.exit(0)');
+  assert.equal(await dirty.done, 1);
+  assert.equal(await fs.readFile(path.join(task, 'unfinished'), 'utf8'), 'keep me');
+  await fs.unlink(path.join(task, 'unfinished'));
+  git(['worktree', 'lock', task], main);
+  const locked = run('process.exit(0)');
+  assert.equal(await locked.done, 1);
+  assert.match(locked.output(), /locked/);
+  assert.equal(git(['branch', '--show-current'], task).trim(), 'codex/task');
+});
