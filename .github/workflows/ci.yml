@@ -31,6 +31,12 @@ jobs:
             npm install --global "npm@$NPM_VERSION" --no-audit --no-fund
           fi
       - run: npm ci
+      - name: Set up Python asset test dependencies
+        shell: bash
+        run: |
+          python3 -m venv "$RUNNER_TEMP/asset-test-python"
+          "$RUNNER_TEMP/asset-test-python/bin/pip" install --disable-pip-version-check Pillow==11.3.0
+          echo "$RUNNER_TEMP/asset-test-python/bin" >> "$GITHUB_PATH"
       - name: Fetch comparison base
         env:
           COMPARISON_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
