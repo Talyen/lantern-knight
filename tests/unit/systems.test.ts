@@ -17,7 +17,7 @@ const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 
 test('input uses the first click position, preserves pending dodge across key repeats, and disposes its listeners', () => {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'window'),
-    target = Object.assign(new EventTarget(), { matches: () => false }),
+    target = Object.assign(new EventTarget(), { matches: (): boolean => false }),
     canvas = Object.assign(new EventTarget(), {
       getBoundingClientRect: () => ({
         left: 80,
@@ -50,6 +50,12 @@ test('input uses the first click position, preserves pending dodge across key re
     assert.equal(input.consume(sim.hero, sim.areaDefinition, sim.generation).dodge, true);
     target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: true }));
     assert.equal(input.consume(sim.hero, sim.areaDefinition, sim.generation).dodge, false);
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
+    assert.ok(input.keys.has('KeyW'));
+    target.matches = () => true;
+    target.dispatchEvent(new Event('focusin'));
+    assert.equal(input.keys.size, 0, 'focusing a text field releases held movement');
+    target.matches = () => false;
     input.resetAim();
     input.dispose();
     target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: false }));

@@ -18,6 +18,7 @@ import { sceneItems } from './model';
 class EditorPresentation extends GamePresentation {
   center = new T.Vector3();
   overlay = new T.Group();
+  beforeRender = () => {};
   protected override renderFrame(sim: SimulationView, ms: number) {
     this.aim.visible = false;
     this.flare.visible = false;
@@ -29,6 +30,7 @@ class EditorPresentation extends GamePresentation {
     this.camera.position.copy(this.viewTarget).addScaledVector(outward, 30);
     this.camera.lookAt(this.viewTarget);
     this.camera.updateMatrixWorld();
+    this.beforeRender();
     super.renderFrame(sim, ms);
   }
   override get viewSpan() {
@@ -299,15 +301,17 @@ export class EditorView {
       const hero = this.sim.hero;
       this.presentation.center.set(hero.x, hero.y, hero.z);
     }
+    this.presentation.beforeRender = () => {
+      for (const { sprite, position, scale, quaternion } of this.transformPreview) {
+        sprite.mesh.position.copy(position);
+        sprite.mesh.scale.copy(scale);
+        sprite.mesh.quaternion.copy(quaternion);
+      }
+      this.selection?.update();
+      this.selections.forEach((s) => s.update());
+      this.setEditingVisibility(this.hidden);
+    };
     this.presentation.update(this.sim.view, 1, ms, this.sim.hero);
-    for (const { sprite, position, scale, quaternion } of this.transformPreview) {
-      sprite.mesh.position.copy(position);
-      sprite.mesh.scale.copy(scale);
-      sprite.mesh.quaternion.copy(quaternion);
-    }
-    this.selection?.update();
-    this.selections.forEach((s) => s.update());
-    this.setEditingVisibility(this.hidden);
   }
   screen(point: T.Vector3) {
     const p = point.clone().project(this.presentation!.camera),
@@ -388,7 +392,13 @@ export class EditorView {
       this.ghost = undefined;
       this.ghostPack?.release();
       this.ghostPack = undefined;
-      const pack = await this.runtime.loadPack(asset, this.abort.signal);
+      let pack: PackLease;
+      try {
+        pack = await this.runtime.loadPack(asset, this.abort.signal);
+      } catch (error) {
+        if (request === this.ghostRequest) this.ghostKey = '';
+        throw error;
+      }
       if (this.closed || request !== this.ghostRequest) {
         pack.release();
         return;

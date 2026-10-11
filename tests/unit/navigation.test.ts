@@ -255,3 +255,24 @@ test('health pickups cannot be collected across a stair height gap', () => {
   assert.equal(sim.hero.health, 70);
   assert.ok(sim.collectedPickups.has('health'));
 });
+
+test('actors on opposite sides of a stair height gap do not push each other', () => {
+  const a = area();
+  a.props = [];
+  a.surface = {
+    kind: 'stairs',
+    axis: 'z',
+    start: 0,
+    end: 4,
+    startHeight: 0,
+    endHeight: 2,
+    steps: 1,
+  };
+  a.entries = [{ id: 'start', x: 0, z: 0.1 }];
+  a.spawns = [{ id: 'enemy', actor: 'skeleton', x: 0, z: -0.1 }];
+  const sim = simulate(a);
+  sim.enemies[0]!.stun = 100;
+  sim.step(still);
+  assert.equal(sim.hero.z, 0.1);
+  assert.equal(sim.enemies[0]!.z, -0.1);
+});

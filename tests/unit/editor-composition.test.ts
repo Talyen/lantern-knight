@@ -116,3 +116,69 @@ it('patterns are reproducible, bounded, and follow authored path endpoints', () 
     }),
   );
 });
+
+import { EditorView } from '../../src/editor/view';
+import type { AssetRuntime } from '../../src/assets/loader';
+import { Vector3, Quaternion } from 'three';
+import { Simulation } from '../../src/core/simulation';
+import { content } from '../fixtures/content';
+import { manifestFixture } from '../fixtures/manifest';
+
+it('placement ghost retries the same asset after a transient load failure', async () => {
+  let attempts = 0,
+    releases = 0;
+  const runtime = {
+    async loadPack() {
+      attempts++;
+      if (attempts === 1) throw new Error('temporary failure');
+      return {
+        manifest: manifestFixture(),
+        textures: new Map(),
+        release: () => {
+          releases++;
+        },
+      };
+    },
+  };
+  const view = new EditorView({} as HTMLCanvasElement, runtime as unknown as AssetRuntime);
+  await assert.rejects(
+    view.placementGhost('ink-hero-current', 'idle', 'd00', new Vector3()),
+    /temporary failure/,
+  );
+  await view.placementGhost('ink-hero-current', 'idle', 'd00', new Vector3());
+  assert.equal(attempts, 2);
+  view.clearPlacementGhost();
+  assert.equal(releases, 1);
+});
+
+it('editor applies transform previews before submitting the rendered frame', () => {
+  const view = new EditorView({} as HTMLCanvasElement, {} as AssetRuntime);
+  const mesh = {
+    position: new Vector3(),
+    scale: new Vector3(1, 1, 1),
+    quaternion: new Quaternion(),
+  };
+  const sprite = { id: 'prop', mesh };
+  let renderedX = -1;
+  const presentation = {
+    beforeRender: () => {},
+    update() {
+      mesh.position.set(0, 0, 0); // Shared scene update restores the accepted placement.
+      this.beforeRender();
+      renderedX = mesh.position.x;
+    },
+    roomPresentation: { inkRoom: { sprites: [sprite] } },
+  };
+  view.presentation = presentation as unknown as NonNullable<EditorView['presentation']>;
+  view.sim = new Simulation(content);
+  const accepted = emptyScene();
+  accepted.objects = [
+    { id: 'prop', kind: 'prop', asset: 'ink-scenery', clip: 'lantern', x: 0, z: 0 },
+  ];
+  const internals = view as unknown as { appliedDocument: typeof accepted };
+  internals.appliedDocument = accepted;
+  const preview = structuredClone(accepted);
+  preview.objects[0]!.x = 3;
+  view.previewTransforms(preview);
+  assert.equal(renderedX, 3);
+});
