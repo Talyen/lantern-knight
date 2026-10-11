@@ -1201,6 +1201,7 @@ export function createEditorSession() {
     sceneLibrary?.dispose();
     visualAuthoring?.dispose();
     view?.dispose();
+    runtime?.dispose();
   }
   window.addEventListener('pagehide', dispose, { signal: lifetime.signal });
 
@@ -1275,7 +1276,9 @@ export function createEditorSession() {
     }
     assetCatalog = await authoringCatalog(lifetime.signal);
     assertActive();
-    runtime = await AssetRuntime.open(assetCatalog);
+    // Picking reads texture alpha on a 2D canvas, so editor delivery stays PNG.
+    runtime = await AssetRuntime.open(assetCatalog, canvas, 'lossless');
+    if (closed) runtime.dispose();
     assertActive();
     view = new EditorView(canvas, runtime);
     composition = new CompositionTools({
@@ -1390,6 +1393,7 @@ export function createEditorSession() {
     if (!closed) {
       status('Editor startup failed: ' + editorError(error), true);
       view?.dispose();
+      runtime?.dispose();
     }
   });
   return window.sceneEditor;

@@ -3,6 +3,8 @@ import { Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter } from 
 import type { Manifest } from './schema';
 import { sha256, verifiedBitmap } from './bitmap';
 
+export type ImageQuality = 'source' | 'delivery' | 'lossless';
+
 type Variant = NonNullable<Manifest['pages'][number]['delivery']>[number];
 export type ImageRequest = {
   url: string;
@@ -21,7 +23,7 @@ export function selectDelivery(
   targetPixels: number,
   maxTextureSize: number,
   compressed: boolean,
-  quality: 'source' | 'delivery',
+  quality: ImageQuality,
   requireBlockAlignment = true,
 ): ImageRequest {
   if (quality === 'source' || !page.delivery?.length) {
@@ -46,7 +48,9 @@ export function selectDelivery(
     (v) =>
       Math.max(v.width, v.height) <= maxTextureSize &&
       (v.encoding === 'png' ||
-        (compressed && (!requireBlockAlignment || (v.width % 4 === 0 && v.height % 4 === 0)))),
+        (quality !== 'lossless' &&
+          compressed &&
+          (!requireBlockAlignment || (v.width % 4 === 0 && v.height % 4 === 0)))),
   );
   if (!available.length)
     throw new Error('No prepared image fits this GPU; the source image remains available.');
@@ -69,7 +73,7 @@ export class TextureDelivery {
   private maxSize: number;
   constructor(
     canvas: HTMLCanvasElement,
-    private quality: 'source' | 'delivery' = 'delivery',
+    private quality: ImageQuality = 'delivery',
     private request: typeof fetch = globalThis.fetch.bind(globalThis),
   ) {
     const gl = canvas.getContext('webgl2', { alpha: false, antialias: false });

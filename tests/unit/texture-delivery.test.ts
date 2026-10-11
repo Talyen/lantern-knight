@@ -32,6 +32,15 @@ test('delivery selects adequate full-composition variants, preserves source qual
   };
   assert.equal(selectDelivery(page, 2500, 8192, true, 'delivery').width, 4092);
   assert.equal(selectDelivery(page, 2500, 8192, false, 'delivery').encoding, 'png');
+  // Editor picking needs drawable PNGs, with native detail when supported and
+  // a complete smaller composition on a GPU limited to 4096 pixels.
+  const editorNative = selectDelivery(page, Infinity, 8192, true, 'lossless');
+  assert.equal(editorNative.width, 6144);
+  assert.equal(editorNative.encoding, 'png');
+  const editorLimited = selectDelivery(page, Infinity, 4096, true, 'lossless');
+  assert.equal(editorLimited.width, 4092);
+  assert.equal(editorLimited.encoding, 'png');
+
   const original = selectDelivery(page, 1000, 8192, true, 'source');
   assert.equal(original.width, 6144);
   assert.equal(original.encoding, 'png');

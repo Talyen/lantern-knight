@@ -12,10 +12,81 @@ from PIL import Image
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2] / "tools/assets"))
 from discovery import discover
+from library_import import build
 from resolver import SourceResolver
 
 
 class DiscoveryTests(unittest.TestCase):
+    def test_animated_png_and_webp_remain_native_media_after_cached_refresh(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary).resolve()
+            for extension, format in [('png', 'PNG'), ('webp', 'WEBP')]:
+                output = io.BytesIO()
+                Image.new('RGBA', (8, 8), 'red').save(
+                    output, format=format, save_all=True,
+                    append_images=[Image.new('RGBA', (8, 8), 'blue')],
+                    duration=[100, 200], loop=0,
+                )
+                (root / ('animation.' + extension)).write_bytes(output.getvalue())
+            with zipfile.ZipFile(root / 'animations.zip', 'w') as archive:
+                archive.writestr('animation.png', (root / 'animation.png').read_bytes())
+            original = {'libraryDirectory': 'Test', 'archives': {}, 'files': {}, 'prefixes': {}}
+            _, inventory = discover(root, original)
+            self.assertEqual(len(inventory['images']), 0)
+            self.assertEqual(len(inventory['media']), 2)
+            self.assertTrue(all(m['animated'] for m in inventory['media']))
+            # Older snapshots cached still-image metadata even for these same bytes.
+            legacy = json.loads(json.dumps(inventory))
+            legacy['discoveryVersion'] = 7
+            for record in legacy['files']:
+                if 'image' in record:
+                    record['image']['animated'] = False
+                for member in record.get('members', []):
+                    member['animated'] = False
+            _, refreshed = discover(root, original, legacy)
+            self.assertEqual(refreshed['images'], [])
+            self.assertTrue(all(m['animated'] for m in refreshed['media']))
+            self.assertTrue(next(r for r in refreshed['files'] if r['kind'] == 'archive')['members'][0]['animated'])
+
+    def test_retained_archive_timelines_keep_distinct_bindings_across_moves(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary).resolve()
+            def write_archive(file, color, duration):
+                output = io.BytesIO()
+                Image.new('RGBA', (8, 8), color).save(output, format='PNG')
+                with zipfile.ZipFile(file, 'w') as archive:
+                    archive.writestr('frame.png', output.getvalue())
+                    archive.writestr('meta.json', json.dumps({
+                        'canvas': [8, 8], 'pivotPixels': [4, 7],
+                        'frames': [{'file': 'frame.png', 'duration_ms': duration}],
+                    }))
+            original = {'libraryDirectory': 'Test', 'archives': {}, 'files': {}, 'prefixes': {}}
+            write_archive(root / 'current.zip', 'red', 100)
+            _, before = discover(root, original)
+            identity = before['files'][0]['assetIdentity']
+            (root / 'current.zip').rename(root / 'retained.zip')
+            write_archive(root / 'current.zip', 'blue', 200)
+            index, changed = discover(root, original, before)
+            self.assertEqual(len({r['assetIdentity'] for r in changed['files']}), 2)
+            self.assertEqual(next(r for r in changed['files'] if r['path'] == 'current.zip')['assetIdentity'], identity)
+            def animations(index, inventory):
+                result = build(root, [], index, inventory=inventory, index_path=root / 'index.json')
+                return {a['id']: next(iter(a['clips'].values()))['d45']['durationsMs']
+                        for a in result['assets'] if a['id'].startswith('library-animation-')}
+            expected = animations(index, json.loads(json.dumps(changed)))
+            self.assertEqual(sorted(expected.values()), [[100], [200]])
+            (root / 'current.zip').rename(root / 'moved.zip')
+            moved_index, moved = discover(root, original, changed)
+            self.assertEqual(animations(moved_index, json.loads(json.dumps(moved))), expected)
+            registry = {'archives': [{k: r[k] for k in ('path', 'sha256', 'assetIdentity')} for r in moved['files']]}
+            cold_index, cold = discover(root, original, identities=registry)
+            self.assertEqual(animations(cold_index, cold), expected)
+            # Importing conflicting IDs must fail instead of hiding one timeline.
+            for archive in cold_index['archives'].values():
+                archive['assetIdentity'] = identity
+            with self.assertRaisesRegex(ValueError, 'Conflicting discovered animation identities'):
+                animations(cold_index, cold)
+
     def test_replacements_moves_and_retained_versions_keep_distinct_stable_ids(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary)

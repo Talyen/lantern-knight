@@ -45,13 +45,14 @@ def image_info(data):
         image = ImageOps.exif_transpose(original)
         return {
             "canvas": list(image.size),
-            "animated": getattr(image, "n_frames", 1) > 1,
+            "animated": getattr(original, "n_frames", 1) > 1,
             "alpha": image.convert("RGBA").getextrema()[3][0] < 255,
         }
 
 
 def discover(root, original, previous=None, identities=None):
-    previous = previous if previous and previous.get("discoveryVersion") in (4, 5, 6, 7) else {}
+    previous = previous if previous and previous.get("discoveryVersion") in (4, 5, 6, 7, 8) else {}
+    metadata_current = previous.get("discoveryVersion") == 8
     prior = {r["path"]: r for r in previous.get("files", [])}
     records, images, media, problems = [], {}, {}, []
     archives = {}
@@ -93,7 +94,7 @@ def discover(root, original, previous=None, identities=None):
                 if suffix in IMAGE_TYPES:
                     try:
                         details = (
-                            old.get("image") if old and old.get("signature") == stamp else None
+                            old.get("image") if metadata_current and old and old.get("signature") == stamp else None
                         )
                         details = details or image_info(p.read_bytes())
                         record["image"] = details
@@ -111,10 +112,10 @@ def discover(root, original, previous=None, identities=None):
                 old_archive = archive_by_hash.get(digest) or archive_by_path.get(rel)
                 record['assetIdentity'] = old_archive.get('assetIdentity', old_archive['sha256']) if old_archive else digest
                 archives.setdefault(digest, rel)
-                members = old.get("members") if old and old["sha256"] == digest else None
+                members = old.get("members") if metadata_current and old and old["sha256"] == digest else None
                 if members is None:
                     members = []
-                    old_members = {m['sha256']: m for m in (old_archive or {}).get('members', [])}
+                    old_members = {m['sha256']: m for m in (old_archive or {}).get('members', [])} if metadata_current else {}
                     try:
                         with zipfile.ZipFile(p) as z:
                             names = set()
@@ -163,16 +164,27 @@ def discover(root, original, previous=None, identities=None):
     for image in images.values():
         old_image = image_by_hash.get(image['sha256']) or image_by_path.get(image['path'])
         image['assetIdentity'] = old_image.get('assetIdentity', old_image['sha256']) if old_image else image['sha256']
-    owners = {}
-    for image in images.values():
-        owners.setdefault(image['assetIdentity'], []).append(image)
-    for identity, versions in owners.items():
-        if len(versions) < 2:
-            continue
-        owner = next((i for i in versions if i['path'] in image_by_path and image_by_path[i['path']]['sha256'] != i['sha256']), versions[0])
-        for image in versions:
-            if image is not owner:
-                image['assetIdentity'] = sha(('retained-version:' + identity + ':' + image['sha256']).encode())
+    # Copies share an identity, but retained revisions must not overwrite their
+    # replacement's scene binding or animation timeline.
+    for current, prior_by_path in (
+        (list(images.values()), image_by_path),
+        ([r for r in records if r['kind'] == 'archive'], archive_by_path),
+    ):
+        owners = {}
+        for record in current:
+            owners.setdefault(record['assetIdentity'], {}).setdefault(record['sha256'], []).append(record)
+        for identity, versions in owners.items():
+            if len(versions) < 2:
+                continue
+            owner = next((digest for digest, copies in versions.items() if any(
+                r['path'] in prior_by_path and prior_by_path[r['path']]['sha256'] != digest
+                for r in copies
+            )), next(iter(versions)))
+            for digest, copies in versions.items():
+                if digest != owner:
+                    retained = sha(('retained-version:' + identity + ':' + digest).encode())
+                    for record in copies:
+                        record['assetIdentity'] = retained
     by_hash = {}
     archived = {}
     for r in records:
@@ -244,7 +256,7 @@ def discover(root, original, previous=None, identities=None):
     identity = sha(
         json.dumps(
             {
-                "version": 7,
+                "version": 8,
                 "files": content,
                 "images": list(images.values()),
                 "media": list(media.values()),
@@ -255,7 +267,7 @@ def discover(root, original, previous=None, identities=None):
     )
     inventory = {
         "schemaVersion": 1,
-        "discoveryVersion": 7,
+        "discoveryVersion": 8,
         "sha256": identity,
         "files": records,
         "images": list(images.values()),

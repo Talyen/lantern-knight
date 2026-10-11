@@ -628,6 +628,16 @@ test('complete scenes retain native masters and place as one image with source c
     ).toBe(true);
   }
   const master = masters[0];
+  // Exercise device-fit delivery even on the larger software GPU used by CI.
+  await page.addInitScript(() => {
+    const getParameter = Object.getOwnPropertyDescriptor(
+      WebGL2RenderingContext.prototype,
+      'getParameter',
+    )!.value;
+    WebGL2RenderingContext.prototype.getParameter = function (parameter) {
+      return parameter === this.MAX_TEXTURE_SIZE ? 4096 : getParameter.call(this, parameter);
+    };
+  });
   await page.goto('/editor.html');
   await page.waitForFunction(() => window.sceneEditor?.ready());
   await page.locator('#artwork-tab').click();
@@ -643,6 +653,22 @@ test('complete scenes retain native masters and place as one image with source c
     .toBe('artwork');
   const floor = await page.evaluate(() => window.sceneEditor.state().document.floor);
   expect(floor.width / floor.depth).toBeCloseTo(1.5, 8);
+  const textures = await page.evaluate((id) => {
+    const pack = window.sceneEditor.view().presentation!.packs.get(id)!;
+    return [...pack.textures.values()].map((texture) => {
+      const image = texture.image as { width: number; height: number };
+      return {
+        width: image.width,
+        height: image.height,
+        compressed: 'isCompressedTexture' in texture && texture.isCompressedTexture === true,
+      };
+    });
+  }, master.asset.id);
+  expect(textures.length).toBeGreaterThan(0);
+  for (const texture of textures) {
+    expect(Math.max(texture.width, texture.height)).toBeLessThanOrEqual(4096);
+    expect(texture.compressed).toBe(false);
+  }
   await page.locator('#depth').fill('8');
   await page.locator('#depth').dispatchEvent('change');
   await expect

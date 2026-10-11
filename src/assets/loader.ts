@@ -2,7 +2,7 @@ import { parseRegistration, type PreparedRegistration } from './registration';
 import { Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter } from 'three';
 import { parseManifest, type Manifest } from './schema';
 import { sha256, verifiedBitmap } from './bitmap';
-import { TextureDelivery, type SourcePage } from './texture-delivery';
+import { TextureDelivery, type SourcePage, type ImageQuality } from './texture-delivery';
 type Entry<T> = {
   refs: number;
   promise: Promise<T>;
@@ -252,14 +252,18 @@ export class AssetRuntime {
   dispose() {
     this.delivery?.dispose();
   }
-  static async open(catalog: Readonly<Record<string, string>>, canvas?: HTMLCanvasElement) {
+  static async open(
+    catalog: Readonly<Record<string, string>>,
+    canvas?: HTMLCanvasElement,
+    quality: Exclude<ImageQuality, 'source'> = 'delivery',
+  ) {
     const response = await fetch('/build-mode.json');
     if (!response.ok) throw new Error('missing build-mode policy');
     const flags = await response.json();
     const delivery = canvas
       ? new TextureDelivery(
           canvas,
-          new URLSearchParams(location.search).get('images') === 'source' ? 'source' : 'delivery',
+          new URLSearchParams(location.search).get('images') === 'source' ? 'source' : quality,
         )
       : undefined;
     const runtime = new AssetRuntime(

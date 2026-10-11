@@ -1385,7 +1385,6 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                                             raise ValueError(
                                                 "supplied registration requires an adapter"
                                             )
-                        importer.assets.update(trial.assets)
                     except (ValueError, KeyError, TypeError, IndexError, AttributeError) as error:
                         if not known or member not in known.cache:
                             unresolved_animations.append(
@@ -1395,6 +1394,11 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                                     "reason": str(error),
                                 }
                             )
+                    else:
+                        conflicts = importer.assets.keys() & trial.assets.keys()
+                        if conflicts:
+                            raise ValueError("Conflicting discovered animation identities: " + ", ".join(sorted(conflicts)))
+                        importer.assets.update(trial.assets)
         used = {
             f["group"]
             for a in importer.assets.values()

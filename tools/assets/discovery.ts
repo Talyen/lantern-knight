@@ -13,7 +13,7 @@ export async function sourceSnapshot(env: NodeJS.ProcessEnv) {
     fs.readFile(env.LANTERN_LIBRARY_INDEX, 'utf8').then(JSON.parse),
     fs.readFile(env.LANTERN_LIBRARY_INVENTORY, 'utf8').then(JSON.parse),
   ]);
-  if (inventory.discoveryVersion < 5 || inventory.sha256 !== env.LANTERN_LIBRARY_SHA256)
+  if (inventory.discoveryVersion < 8 || inventory.sha256 !== env.LANTERN_LIBRARY_SHA256)
     throw new Error('Source inventory differs from the verified discovery snapshot');
   const archives = new Map<string, Map<string, string>>();
   for (const file of inventory.files)

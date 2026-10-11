@@ -82,7 +82,9 @@ export async function libraryInventory(
         link.textContent = 'Download original';
         item.append(link);
         const ext = row.media.file.split('.').at(-1);
-        if (['mp4', 'webm', 'wav', 'mp3', 'ogg', 'gif', 'apng', 'svg'].includes(ext!)) {
+        if (
+          ['mp4', 'webm', 'wav', 'mp3', 'ogg', 'gif', 'apng', 'png', 'webp', 'svg'].includes(ext!)
+        ) {
           const details = document.createElement('details'),
             title = document.createElement('summary');
           title.textContent = 'Preview';
