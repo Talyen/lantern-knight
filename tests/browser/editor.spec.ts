@@ -12,6 +12,11 @@ test('editor placement, experimental scale, history, recovery, save and external
   const id = 'prototype-' + Date.now(),
     file = path.join(projectRoot, 'authoring/scenes', id + '.json');
   try {
+    const nativeDialogs: string[] = [];
+    page.on('dialog', async (dialog) => {
+      nativeDialogs.push(dialog.type());
+      await dialog.dismiss();
+    });
     await page.goto('/editor.html');
     await page.waitForFunction(() => window.sceneEditor?.ready());
     const initial = await page.evaluate(() => window.sceneEditor.state().document);
@@ -22,8 +27,20 @@ test('editor placement, experimental scale, history, recovery, save and external
       initial.name,
     );
     await page.locator('#redo').click();
+    await page.locator('#document-menu > summary').click();
+    await page.locator('#open').click();
+    await expect(page.getByRole('dialog', { name: 'Confirm action' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Cancel', exact: true })).toBeFocused();
+    await page.keyboard.press('Escape');
+    expect((await page.evaluate(() => window.sceneEditor.state().document)).name).toBe(
+      'Prototype recovery',
+    );
+    await page.locator('#document-menu > summary').click();
+    await page.locator('#open').click();
+    await page.getByRole('button', { name: 'Cancel', exact: true }).click();
     await page.reload();
     await page.waitForFunction(() => window.sceneEditor?.ready());
+    expect(nativeDialogs).toEqual([]);
     await expect(page.locator('#recovery')).toBeVisible();
     await page.locator('#restore').click();
     await page.locator('#artwork-tab').click();
@@ -116,6 +133,11 @@ test('editor placement, experimental scale, history, recovery, save and external
     expect((await page.evaluate(() => window.sceneEditor.state().document)).name).toBe(
       'Preserved draft',
     );
+    await page.locator('#reload').click();
+    await page.getByRole('button', { name: 'Discard edits', exact: true }).click();
+    await expect(page.locator('#name')).toHaveValue('External change', { timeout: 30000 });
+    await expect(page.locator('#save-state')).toHaveText('Saved');
+    expect(nativeDialogs).toEqual([]);
     const data = await (await request.get('/__lantern_editor')).json();
     const denied = await request.post('/__lantern_editor', {
       data: { document: initial, revision: null, baseRevision: data.baseRevision },
@@ -293,12 +315,12 @@ test('visual authoring, independent fragments, pattern undo and import', async (
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
       .toBe(2);
     const imported = await page.evaluate(() => window.sceneEditor.state().document);
-    page.once('dialog', (dialog) => void dialog.accept());
     await page.locator('#import-scene').setInputFiles({
       name: 'scene.json',
       mimeType: 'application/json',
       buffer: Buffer.from(JSON.stringify(imported)),
     });
+    await page.locator('#confirmation-accept').click();
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.name))
       .toContain('Imported');
@@ -399,12 +421,12 @@ test('editor workspace keeps populated attachment controls accessible at desktop
 }) => {
   await page.goto('/editor.html?automated');
   await page.waitForFunction(() => window.sceneEditor?.ready());
-  page.on('dialog', (dialog) => void dialog.accept());
   await page.locator('#import-scene').setInputFiles({
     name: 'fixture.json',
     mimeType: 'application/json',
     buffer: Buffer.from(JSON.stringify(sceneFixture('chapel'))),
   });
+  await page.locator('#confirmation-accept').click();
   await expect
     .poll(() => page.evaluate(() => window.sceneEditor.state().document.name))
     .toContain('Imported');

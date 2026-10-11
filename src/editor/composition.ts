@@ -5,6 +5,7 @@ import { EditorHistory, sceneItems } from './model';
 import type { EditorView } from './view';
 import type { EditorSnapshot } from './document';
 export type CompositionHost = {
+  confirm: (message: string, action: string) => Promise<boolean>;
   history: () => EditorSnapshot;
   edit: (work: (history: EditorHistory) => void, committed?: () => void) => Promise<void>;
   view: () => EditorView;
@@ -271,7 +272,7 @@ export class CompositionTools {
       },
     );
   }
-  remove() {
+  async remove() {
     const selected = this.editable();
     const descendants = this.host.history().descendants(selected);
     if (descendants.some((id) => this.locked.has(id)))
@@ -279,7 +280,13 @@ export class CompositionTools {
         throw new Error('Unlock attached objects before deleting their support');
       });
     const extra = descendants.filter((id) => !selected.includes(id));
-    if (extra.length && !confirm(`Delete selection and ${extra.length} attached object(s)?`))
+    if (
+      extra.length &&
+      !(await this.host.confirm(
+        `Delete selection and ${extra.length} attached object(s)?`,
+        'Delete objects',
+      ))
+    )
       return;
     return this.edit(
       (history) => {

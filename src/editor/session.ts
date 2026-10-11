@@ -15,6 +15,7 @@ import { worldVisuals } from '../content/game-content';
 import { SceneLibrary } from './library';
 import { VisualAuthoring } from './visual-authoring';
 import { CompositionTools } from './composition';
+import { EditorConfirmation } from './confirmation';
 import { libraryInventory } from './library-inventory';
 import { editorUI } from './ui';
 import { EditorWorkspace, openDock } from './workspace';
@@ -70,6 +71,7 @@ export function createEditorSession() {
   const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
   document.getElementById('app')!.innerHTML = editorUI;
   const workspace = new EditorWorkspace();
+  const confirmation = new EditorConfirmation();
   let composition: CompositionTools;
   let visualAuthoring: VisualAuthoring;
   let sceneLibrary: SceneLibrary;
@@ -379,7 +381,11 @@ export function createEditorSession() {
     }
   }
   async function open(value: string) {
-    if (dirty() && !confirm('Discard unsaved edits and open another scene?')) return;
+    if (
+      dirty() &&
+      !(await confirmation.ask('Discard unsaved edits and open another scene?', 'Discard edits'))
+    )
+      return;
     await run(async () => {
       let d: SceneDocument,
         nextRevision: string | null = null,
@@ -1206,17 +1212,7 @@ export function createEditorSession() {
     },
     { signal: lifetime.signal },
   );
-  window.addEventListener(
-    'beforeunload',
-    (e) => {
-      recover();
-      if (dirty() && !automated) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    },
-    { signal: lifetime.signal },
-  );
+  window.addEventListener('beforeunload', () => recover(), { signal: lifetime.signal });
   $('export-recovery').onclick = () => {
     const stored = localStorage.getItem(recoveryKey);
     if (stored === null) return;
@@ -1300,6 +1296,7 @@ export function createEditorSession() {
     ready = false;
     lifetime.abort();
     workspace.dispose();
+    confirmation.dispose();
     frames?.dispose();
     cancelAnimationFrame(resizeFrame);
     observer.disconnect();
@@ -1358,7 +1355,14 @@ export function createEditorSession() {
     }
   }
   async function importDocument(document: SceneDocument) {
-    if (dirty() && !confirm('Replace the current composition with this imported draft?')) return;
+    if (
+      dirty() &&
+      !(await confirmation.ask(
+        'Replace the current composition with this imported draft?',
+        'Replace composition',
+      ))
+    )
+      return;
     recover();
     await run(async () => {
       setWalkingHero(false);
@@ -1390,6 +1394,7 @@ export function createEditorSession() {
     assertActive();
     view = new EditorView(canvas, runtime);
     composition = new CompositionTools({
+      confirm: (message, action) => confirmation.ask(message, action),
       history: () => documents.history,
       view: () => view,
       run,
