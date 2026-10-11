@@ -413,10 +413,7 @@ export class Simulation {
     if (this.areaDefinition.activation && contains(this.areaDefinition.activation, h))
       this.engaged = true;
     for (const a of this.actors) {
-      if (a.health <= 0) {
-        a.age++;
-        continue;
-      }
+      if (a.health <= 0) continue;
       if (
         a.kind === 'enemy' &&
         (this.engaged || this.movementPreview) &&
@@ -487,8 +484,9 @@ export class Simulation {
         a.age >= (a.kind === 'hero' ? tuning.hurt.total : tuning.enemyHurt.total) - 1
       )
         this.start(a, 'idle', a.yaw);
-      a.age++;
     }
+    // Every actor observes the same action tick during combat, including dodge protection.
+    for (const a of this.actors) a.age++;
     for (let i = 0; i < this.actors.length; i++)
       for (let j = i + 1; j < this.actors.length; j++) {
         const a = this.actors[i]!,
@@ -513,6 +511,8 @@ export class Simulation {
         if (
           this.collectedPickups.has(pickup.id) ||
           Math.hypot(h.x - pickup.x, h.z - pickup.z) > pickup.radius ||
+          Math.abs(h.y - heightAt(this.areaDefinition, pickup.x, pickup.z)) >
+            tuning.maxCombatHeightDifference ||
           !clearSegment(this.areaDefinition, h, pickup, 0.001) ||
           h.health >= this.registry.actor(this.registry.definitions.player).maxHealth
         )

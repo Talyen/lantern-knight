@@ -1,4 +1,4 @@
-import { effectiveRadius } from '../core/navigation';
+import { clearSegment, effectiveRadius } from '../core/navigation';
 import { ContentRegistry, type ContentDefinitions, isSupportedPosition } from './world';
 import { type SceneDocument, parseSceneDocument, validateSceneReferences } from './scene-document';
 import { resolveScene } from './world-art';
@@ -13,7 +13,14 @@ export function composeDraftGameplay(
   const source = definitions.areas.find((a) => a.id === document.base);
   const { area, visuals } = resolveScene(
     document,
-    source ? { spawns: source.spawns, exits: source.exits, seedOffset: source.seedOffset } : {},
+    source
+      ? {
+          spawns: source.spawns,
+          exits: source.exits,
+          pickups: source.pickups,
+          seedOffset: source.seedOffset,
+        }
+      : {},
   );
   const registry = new ContentRegistry({
     ...definitions,
@@ -21,11 +28,14 @@ export function composeDraftGameplay(
     areas: [...definitions.areas.filter((p) => p.id !== area.id), area],
   });
   const placements = [
-    { ...document.hero, radius: registry.actor(definitions.player).radius },
+    { ...document.hero, radius: registry.actor(definitions.player).radius, jitterZ: 0 },
     ...area.spawns.map((p) => ({ ...p, radius: registry.actor(p.actor).radius })),
   ];
   for (const p of placements)
-    if (!isSupportedPosition(area, p, effectiveRadius(p.radius)))
+    if (
+      !isSupportedPosition(area, p, effectiveRadius(p.radius)) ||
+      !clearSegment(area, p, { x: p.x, z: p.z + (p.jitterZ ?? 0) }, effectiveRadius(p.radius))
+    )
       throw new Error('Gameplay placement is outside the playable surface or obstructed');
   const validationDocument = structuredClone(document);
   const scenes = composeSceneContent(registry, { ...visualsByArea, [area.id]: visuals });

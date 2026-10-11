@@ -1,4 +1,5 @@
-import { content } from '../fixtures/content';
+import { content, contentDefinitions } from '../fixtures/content';
+import { ContentRegistry } from '../../src/content/world';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { GameSession } from '../../src/core/session';
@@ -146,4 +147,42 @@ test('dodge invulnerability and distance are confined to travel cels; lantern pu
   for (let tick = 0; tick < 100; tick++) alive.step({ ...still, ability: true });
   assert.ok(alive.hero.cooldown > 0);
   assert.notEqual(alive.hero.state, 'ability');
+});
+
+test('enemy strikes use the same dodge invulnerability tick regardless of actor iteration order', () => {
+  for (const age of [
+    tuning.dodge.invulnerableStart - 1,
+    tuning.dodge.invulnerableStart,
+    tuning.dodge.invulnerableEnd - 1,
+    tuning.dodge.invulnerableEnd,
+  ]) {
+    for (const reverse of [false, true]) {
+      const s = duel(),
+        enemy = s.enemies[0]!;
+      Object.assign(enemy, { x: 0, z: 1.1, stun: 0, aim: Math.PI });
+      s.start(enemy, 'attack');
+      enemy.age = enemy.definition.melee.windup;
+      s.start(s.hero, 'dodge', Math.PI / 2);
+      s.hero.age = age;
+      if (reverse) s.actors.reverse();
+      s.step(still);
+      const invulnerable =
+        age >= tuning.dodge.invulnerableStart && age < tuning.dodge.invulnerableEnd;
+      assert.equal(s.hero.health, invulnerable ? 100 : 92, `age=${age}, reverse=${reverse}`);
+    }
+  }
+});
+
+test('sweep and lunge apply the accepted hero melee damage', () => {
+  const definitions = structuredClone(contentDefinitions);
+  definitions.actors.find((a) => a.kind === 'hero')!.melee.damage = 7;
+  for (const kind of ['sweep', 'lunge'] as const) {
+    const s = new Simulation(new ContentRegistry(definitions));
+    Object.assign(s.hero, { x: 0, z: 0, aim: Math.PI / 2 });
+    Object.assign(s.enemies[0]!, { x: 1, z: 0, stun: 10000 });
+    s.startSword(s.hero, kind);
+    s.hero.age = attackDefinition(s.hero).windup;
+    s.step(still);
+    assert.equal(s.enemies[0]!.health, 43);
+  }
 });

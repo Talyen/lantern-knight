@@ -67,6 +67,7 @@ export function attackDefinition(actor: {
   return actor.kind === 'hero'
     ? {
         ...tuning.attack,
+        damage: actor.definition.melee.damage,
         range:
           actor.attackKind === 'sweep'
             ? (actor.definition.melee.sweepRange ?? actor.definition.melee.range)

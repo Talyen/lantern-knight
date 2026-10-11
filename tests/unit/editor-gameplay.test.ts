@@ -73,3 +73,43 @@ it('health pickups collect once, preserve collection across save/restore, and re
   session.resetCurrentArea();
   assert.equal(session.sim.collectedPickups.size, 0);
 });
+
+it('inherited gameplay keeps health pickups when a scene omits its gameplay block', () => {
+  const definitions = structuredClone(contentDefinitions),
+    draft = emptyScene();
+  definitions.areas[0]!.pickups = [
+    { id: 'health', object: 'potion', kind: 'health', x: 0, z: 0, radius: 1, amount: 25 },
+  ];
+  draft.base = 'court';
+  draft.geometry = {
+    bounds: definitions.areas[0]!.bounds,
+    surface: definitions.areas[0]!.surface,
+    baselineEntry: 'start',
+    entries: [
+      { id: 'start', x: 0, z: 0 },
+      { id: 'from-landing', x: 0, z: -5.5 },
+    ],
+  };
+  delete draft.gameplay;
+  const { registry } = composeDraftGameplay(draft, definitions, {}),
+    session = new GameSession(registry);
+  session.sim.hero.health = 50;
+  session.step({ move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } });
+  assert.equal(session.sim.hero.health, 75);
+  assert.ok(session.sim.collectedPickups.has('health'));
+});
+
+it('draft spawn jitter cannot place an enemy inside scenery or beyond supported ground', () => {
+  const draft = emptyScene();
+  draft.gameplay!.spawns = [{ id: 'enemy', actor: 'skeleton', x: 2, z: 0, jitterZ: 4 }];
+  draft.walls = [
+    { id: 'wall', from: { x: 1, z: 2 }, to: { x: 3, z: 2 }, height: 1, thickness: 0.5 },
+  ];
+  assert.throws(() => composeDraftGameplay(draft, contentDefinitions, {}), /placement|jitter/i);
+  draft.walls = [];
+  draft.gameplay!.spawns[0]!.z = 9;
+  draft.gameplay!.spawns[0]!.jitterZ = 0.9;
+  assert.throws(() => composeDraftGameplay(draft, contentDefinitions, {}), /placement|jitter/i);
+  draft.gameplay!.spawns[0]!.jitterZ = 0.5;
+  assert.doesNotThrow(() => composeDraftGameplay(draft, contentDefinitions, {}));
+});

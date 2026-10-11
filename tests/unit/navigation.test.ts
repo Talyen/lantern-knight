@@ -227,3 +227,31 @@ test('an enemy pursues across a stair height gap instead of repeatedly swinging 
   for (let i = 0; i < 180; i++) sim.step(still);
   assert.ok(sim.hero.health < sim.hero.definition.maxHealth);
 });
+
+test('health pickups cannot be collected across a stair height gap', () => {
+  const a = area();
+  a.props = [];
+  a.spawns = [];
+  a.surface = {
+    kind: 'stairs',
+    axis: 'z',
+    start: 0,
+    end: 4,
+    startHeight: 0,
+    endHeight: 2,
+    steps: 1,
+  };
+  a.entries = [{ id: 'start', x: 0, z: -0.4 }];
+  a.pickups = [
+    { id: 'health', object: 'health-art', kind: 'health', x: 0, z: 0.4, radius: 1, amount: 20 },
+  ];
+  const sim = simulate(a);
+  sim.hero.health = 50;
+  sim.step(still);
+  assert.equal(sim.hero.health, 50);
+  assert.equal(sim.collectedPickups.size, 0);
+  sim.move(sim.hero, 0, 0.8);
+  sim.step(still);
+  assert.equal(sim.hero.health, 70);
+  assert.ok(sim.collectedPickups.has('health'));
+});

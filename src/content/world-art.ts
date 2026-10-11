@@ -79,7 +79,7 @@ export type ResolvedScene = {
 export function resolveScene(
   value: unknown,
   gameplay: Partial<
-    Pick<AreaDefinition, 'subtitle' | 'seedOffset' | 'spawns' | 'exits' | 'floorColor'>
+    Pick<AreaDefinition, 'subtitle' | 'seedOffset' | 'spawns' | 'exits' | 'pickups' | 'floorColor'>
   > = {},
 ): ResolvedScene {
   const document = parseSceneDocument(value);
