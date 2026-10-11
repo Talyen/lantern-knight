@@ -46,13 +46,11 @@ test('authored ground opens and routes its actors through saved annotations', as
   await page.waitForFunction(() => window.sceneEditor.playtest()?.ready);
   await expect(page.locator('#movement-actor option')).toHaveCount(4);
   const targets = await page.evaluate(() =>
-    window.sceneEditor
-      .state()
-      .document.groundInteraction!.destinations.map((p, i) => ({
-        value: String(i),
-        name: p.name,
-        reachable: p.reachable ?? p.name !== 'Blocked island',
-      })),
+    window.sceneEditor.state().document.groundInteraction!.destinations.map((p, i) => ({
+      value: String(i),
+      name: p.name,
+      reachable: p.reachable ?? p.name !== 'Blocked island',
+    })),
   );
   await expect(page.locator('#movement-destination option')).toHaveCount(targets.length + 1);
   const routes = [];
