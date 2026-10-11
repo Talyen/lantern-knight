@@ -36,6 +36,46 @@ export function resizeCamera(
   camera.bottom = -half;
   camera.updateProjectionMatrix();
 }
+/** Keep the entire ground-plane viewport inside the same rectangle used by movement. */
+export function constrainCamera(camera: OrthographicCamera, target: Vector3, area: AreaDefinition) {
+  const b = area.bounds,
+    corners = area.playableBoundary ?? [
+      { x: b.minX, z: b.minZ },
+      { x: b.maxX, z: b.minZ },
+      { x: b.maxX, z: b.maxZ },
+      { x: b.minX, z: b.maxZ },
+    ],
+    origin = corners[0]!,
+    edge = corners[1]!,
+    opposite = corners[3]!,
+    width = Math.hypot(edge.x - origin.x, edge.z - origin.z),
+    depth = Math.hypot(opposite.x - origin.x, opposite.z - origin.z),
+    u = { x: (edge.x - origin.x) / width, z: (edge.z - origin.z) / width },
+    v = { x: (opposite.x - origin.x) / depth, z: (opposite.z - origin.z) / depth },
+    halfWidth = (camera.right - camera.left) / 2,
+    halfHeight = (camera.top - camera.bottom) / 2,
+    // Project screen up onto the ground along the viewing ray.
+    groundUp = up.clone().addScaledVector(outward, -up.y / outward.y),
+    extent = (axis: { x: number; z: number }) =>
+      Math.abs(right.x * axis.x + right.z * axis.z) * halfWidth +
+      Math.abs(groundUp.x * axis.x + groundUp.z * axis.z) * halfHeight,
+    spanU = extent(u),
+    spanV = extent(v),
+    scale = Math.min(1, width / (2 * spanU), depth / (2 * spanV));
+  camera.zoom = 1 / scale;
+  camera.updateProjectionMatrix();
+  // The rendered floor sits 1 cm below the logical walking surface.
+  const groundHeight = heightAt(area, target.x, target.z) - 0.01,
+    offset = (target.y - groundHeight) / outward.y,
+    x = target.x - outward.x * offset - origin.x,
+    z = target.z - outward.z * offset - origin.z,
+    clamp = (value: number, span: number, size: number) =>
+      Math.max(span * scale, Math.min(size - span * scale, value)),
+    alongU = clamp(x * u.x + z * u.z, spanU, width),
+    alongV = clamp(x * v.x + z * v.z, spanV, depth);
+  target.x = origin.x + alongU * u.x + alongV * v.x + outward.x * offset;
+  target.z = origin.z + alongU * u.z + alongV * v.z + outward.z * offset;
+}
 export function drawingBufferSize(
   width: number,
   height: number,

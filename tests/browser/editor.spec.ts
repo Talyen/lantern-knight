@@ -860,3 +860,68 @@ test('ground search and 4K filter narrow results without changing the current gr
     .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.asset))
     .toBe(initial.asset);
 });
+
+test('editor walking reaches the ground edge while the full camera stays inside it', async ({
+  page,
+}) => {
+  await page.goto('/editor.html');
+  await page.waitForFunction(() => window.sceneEditor?.ready());
+  const result = await page.evaluate(() => {
+    const view = window.sceneEditor.view(),
+      presentation = view.presentation!,
+      area = view.sim!.areaDefinition,
+      initial = { x: view.sim!.hero.x, z: view.sim!.hero.z },
+      center = presentation.center.toArray();
+    view.setHeroWalking(true);
+    // Exercise a long walk in each screen direction without wall-clock waits.
+    const samples = [];
+    for (const [x, y] of [
+      [1, 0],
+      [0, 1],
+      [-1, 0],
+      [0, -1],
+    ]) {
+      view.walkHero(x!, y!, 100_000);
+      view.render();
+      const hero = view.sim!.hero,
+        camera = presentation.camera,
+        direction = camera.getWorldDirection(camera.position.clone());
+      const corners = [-1, 1].flatMap((u) =>
+        [-1, 1].map((v) => {
+          const p = camera.position.clone().set(u, v, 0).unproject(camera);
+          p.addScaledVector(direction, (-0.01 - p.y) / direction.y);
+          return { x: p.x, z: p.z };
+        }),
+      );
+      samples.push({ hero: { x: hero.x, z: hero.z }, corners });
+    }
+    view.setHeroWalking(false);
+    return {
+      samples,
+      bounds: area.bounds,
+      radius: view.sim!.hero.definition.radius,
+      initial,
+      restored: { x: view.sim!.hero.x, z: view.sim!.hero.z },
+      center,
+      restoredCenter: presentation.center.toArray(),
+    };
+  });
+  const { bounds: b, radius } = result;
+  for (const { hero, corners } of result.samples) {
+    expect(hero.x).toBeGreaterThanOrEqual(b.minX + radius - 1e-8);
+    expect(hero.x).toBeLessThanOrEqual(b.maxX - radius + 1e-8);
+    expect(hero.z).toBeGreaterThanOrEqual(b.minZ + radius - 1e-8);
+    expect(hero.z).toBeLessThanOrEqual(b.maxZ - radius + 1e-8);
+    expect(
+      Math.min(hero.x - b.minX, b.maxX - hero.x, hero.z - b.minZ, b.maxZ - hero.z),
+    ).toBeCloseTo(radius);
+    for (const p of corners) {
+      expect(p.x).toBeGreaterThanOrEqual(b.minX - 1e-7);
+      expect(p.x).toBeLessThanOrEqual(b.maxX + 1e-7);
+      expect(p.z).toBeGreaterThanOrEqual(b.minZ - 1e-7);
+      expect(p.z).toBeLessThanOrEqual(b.maxZ + 1e-7);
+    }
+  }
+  expect(result.restored).toEqual(result.initial);
+  expect(result.restoredCenter).toEqual(result.center);
+});

@@ -9,6 +9,7 @@ import {
   contract,
   makeCamera,
   resizeCamera,
+  constrainCamera,
   drawingBufferSize,
   HEADINGS,
   outward,
@@ -308,6 +309,7 @@ export class GamePresentation implements PresentationLifecycle {
           compositionHeight({ x, z }, this.visuals),
         framed.z,
       );
+      constrainCamera(this.camera, this.viewTarget, sim.areaDefinition);
       this.camera.position.copy(this.viewTarget).addScaledVector(outward, 30);
       this.camera.lookAt(this.viewTarget);
       this.camera.updateMatrixWorld();

@@ -5,11 +5,11 @@ import { ActorSprite } from '../presentation/sprite';
 import { resolveClip } from '../assets/schema';
 import { resolveScene } from '../content/world-art';
 import { validateSceneReferences, type SceneDocument } from '../content/scene-document';
-import { ContentRegistry, heightAt } from '../content/world';
+import { ContentRegistry, heightAt, supportedPosition } from '../content/world';
 import { contentDefinitions } from '../content/game-content';
 import { GameSession } from '../core/session';
 import { EventHub } from '../core/events';
-import { outward, screenMovement } from '../core/camera';
+import { outward, screenMovement, constrainCamera, resizeCamera } from '../core/camera';
 import type { Simulation } from '../core/simulation';
 import type { AssetRuntime, PackLease, PackBatch } from '../assets/loader';
 import { sceneItems } from './model';
@@ -20,10 +20,12 @@ class EditorPresentation extends GamePresentation {
     this.aim.visible = false;
     this.flare.visible = false;
     for (const v of this.actorPresentation.actors.values()) v.ring.visible = false;
+    resizeCamera(this.camera, this.canvas.clientWidth, this.canvas.clientHeight, this.viewSpan);
     this.viewTarget.copy(this.center);
-    this.cameraTarget.copy(this.center);
-    this.camera.position.copy(this.center).addScaledVector(outward, 30);
-    this.camera.lookAt(this.center);
+    constrainCamera(this.camera, this.viewTarget, sim.areaDefinition);
+    this.cameraTarget.copy(this.viewTarget);
+    this.camera.position.copy(this.viewTarget).addScaledVector(outward, 30);
+    this.camera.lookAt(this.viewTarget);
     this.camera.updateMatrixWorld();
     super.renderFrame(sim, ms);
   }
@@ -86,6 +88,14 @@ export class EditorView {
     if (x || y) this.walking.yaw = Math.atan2(move.x, move.z);
     this.walking.x += (move.x * hero.definition.speed * ms) / 1000;
     this.walking.z += (move.z * hero.definition.speed * ms) / 1000;
+    Object.assign(
+      this.walking,
+      supportedPosition(
+        { ...this.sim.areaDefinition, props: [] },
+        this.walking,
+        hero.definition.radius,
+      ),
+    );
     this.hero(this.walking);
     hero.yaw = this.walking.yaw;
   }
