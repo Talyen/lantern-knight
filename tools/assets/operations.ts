@@ -1,3 +1,4 @@
+import { prepare as imageDelivery } from './prepare/prepare-image-delivery';
 import { prepare as operation0 } from './prepare/prepare-churchyard-kit';
 import { prepare as operation1 } from './prepare/prepare-effects-playground';
 import { prepare as operation2 } from './prepare/prepare-flat-stage';
@@ -18,6 +19,7 @@ import type { PreparationContext } from './context';
 export const preparationOperations: Readonly<
   Record<string, (context: PreparationContext, check: boolean) => Promise<void>>
 > = {
+  'assets/prepare/prepare-image-delivery.ts': imageDelivery,
   'assets/prepare/prepare-churchyard-kit.ts': operation0,
   'assets/prepare/prepare-effects-playground.ts': operation1,
   'assets/prepare/prepare-flat-stage.ts': operation2,

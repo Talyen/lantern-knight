@@ -28,6 +28,30 @@ def png(w, h):
 
 
 class ImportTests(unittest.TestCase):
+    def test_native_camel_case_holds_preserve_events_without_guessing_frames(self):
+        p = package({"frames/one.png": png(8, 8), "frames/two.png": png(8, 8)})
+        meta = {
+            "canvas": [8, 8],
+            "pivotPixels": [4, 7],
+            "fps": 60,
+            "frames": [
+                {"file": "frames/one.png", "holdTicks": 20},
+                {"file": "frames/two.png", "holdTicks": 40},
+            ],
+            "events": [{"name": "loot_release", "tick": 25}],
+        }
+        asset = Importer([p]).animation(
+            p, "manifest.json", meta, "desk", defaults={"pixels_per_unit": 256}
+        )
+        clip = asset["clips"]["animation"]["d45"]
+        self.assertEqual(clip["durationsMs"], [20 * 1000 / 60, 40 * 1000 / 60])
+        self.assertEqual(clip["markers"], [{"id": "loot_release", "atMs": 25 * 1000 / 60}])
+        meta["events"][0]["tick"] = 90
+        with self.assertRaisesRegex(ValueError, "event outside supplied timeline"):
+            Importer([p]).animation(
+                p, "manifest.json", meta, "desk", defaults={"pixels_per_unit": 256}
+            )
+
     def test_timed_effect_preserves_alternate_timelines_contact_and_clear_hold(self):
         meta = {
             "pivot_pixels": [3, 8],

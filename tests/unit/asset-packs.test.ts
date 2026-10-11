@@ -72,6 +72,7 @@ async function fixture() {
   await fs.mkdir(path.join(source, 'public'), { recursive: true });
   await fs.mkdir(path.join(source, 'metadata'));
   await fs.writeFile(path.join(source, 'public/page.png'), 'unchanged texture');
+  await fs.link(path.join(source, 'public/page.png'), path.join(source, 'public/native.png'));
   await fs.writeFile(path.join(source, 'metadata/receipt.json'), '{}');
   const lock = await makeArchive(source, archive, await (fixtureRecipe ??= recipeHash())),
     body = await fs.readFile(archive),
@@ -99,6 +100,10 @@ test('prepared archives are deterministic; fresh downloads verify every file and
     }) as typeof fetch;
     const held = await ensurePack(f.lock, f.cache, request);
     await validatePack(held.root, f.lock);
+    assert.equal(
+      await fs.readFile(path.join(held.root, 'public/native.png'), 'utf8'),
+      'unchanged texture',
+    );
     await held.release();
     const offline = await ensurePack(f.lock, f.cache, (async () => {
       throw new Error('offline');
@@ -430,4 +435,22 @@ test('loading media rejects missing, truncated and changed selected source bytes
   assert.throws(() => validateLoadingVideo(new Uint8Array()), /differs/);
   assert.throws(() => validateLoadingVideo(new Uint8Array(625991)), /differs/);
   assert.throws(() => validateLoadingVideo(new Uint8Array(625992)), /differs/);
+});
+
+test('eviction does not subtract shared files retained by active cache entries', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-shared-cache-'));
+  const cache = new AssetCache(root, 8192);
+  try {
+    const old = await cache.lease('a-old');
+    await fs.writeFile(path.join(old.root, 'shared'), Buffer.alloc(5000));
+    await old.release();
+    const live = await cache.lease('z-live');
+    await fs.link(path.join(old.root, 'shared'), path.join(live.root, 'shared'));
+    await assert.rejects(cache.lease('next', 4000), /protected/);
+    await fs.access(path.join(live.root, 'shared'));
+    assert.ok((await cache.usage()) >= 5000);
+    await live.release();
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
 });

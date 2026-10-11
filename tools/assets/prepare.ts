@@ -7,12 +7,12 @@ import { stagePayload } from './payload';
 import { recipeHash, recipeInputs } from './pack';
 import { makeArchive } from './archive';
 import { prepareSteps, prepareProof } from './preparation';
-const BUDGET = 2.5 * 1024 ** 3;
 export async function prepareAssets(
   cache = new AssetCache(),
   proof = false,
   environment: NodeJS.ProcessEnv = process.env,
 ) {
+  const BUDGET = Number(environment.LANTERN_PREPARE_BUDGET ?? Math.floor(cache.limit * 0.7));
   const held = await cache.lease('preparation', BUDGET, true),
     workspace = path.join(held.root, 'work');
   const env = {
@@ -44,11 +44,13 @@ export async function prepareAssets(
       workspace,
       cache: path.join(held.root, 'steps'),
       env,
-      afterStep: async () => {
-        if ((await diskBytes(held.root)) > BUDGET)
+      afterStep: async ({ reused }) => {
+        if (!reused && (await diskBytes(held.root)) > BUDGET)
           throw new Error('Asset preparation exceeded its reservation');
       },
     });
+    if ((await diskBytes(held.root)) > BUDGET)
+      throw new Error('Asset preparation exceeded its reservation');
     if (proof) await prepareProof(workspace, env);
     const payload = path.join(workspace, 'payload');
     await stagePayload(path.join(workspace, 'public'), path.join(workspace, 'staging'), payload);
@@ -71,7 +73,7 @@ export async function prepareAssets(
       JSON.stringify(await recipeInputs()),
     );
     // Generation has a smaller working budget. Delivery also needs room for
-    // compressed bytes; reserve that peak through the same 4 GiB cache owner.
+    // compressed bytes; reserve that peak through the same configurable cache owner.
     await held.reserve((await diskBytes(held.root)) + (await diskBytes(payload)) + 64 * 1024 ** 2);
     const archive = path.join(held.root, 'lantern-assets.tar.gz'),
       lock = await makeArchive(payload, archive, startRecipe);

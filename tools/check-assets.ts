@@ -24,8 +24,11 @@ export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirecto
   const manifests = new Map<string, Manifest>();
   const catalog = assetCatalog;
   let pages = 0;
+  const calibration = JSON.parse((await readPublic('generated/calibration.json')).toString());
+  // Older pins record this retired preparation cap alongside camera settings.
+  delete calibration.contract.atlasMaxSize;
   assert.deepEqual(
-    JSON.parse((await readPublic('generated/calibration.json')).toString()),
+    calibration,
     JSON.parse(JSON.stringify(calibrationFixture())),
     'Prepared camera differs',
   );

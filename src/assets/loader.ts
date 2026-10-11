@@ -2,6 +2,7 @@ import { parseRegistration, type PreparedRegistration } from './registration';
 import { Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter } from 'three';
 import { parseManifest, type Manifest } from './schema';
 import { sha256, verifiedBitmap } from './bitmap';
+import { TextureDelivery, type SourcePage } from './texture-delivery';
 type Entry<T> = {
   refs: number;
   promise: Promise<T>;
@@ -94,13 +95,17 @@ export type PackBatch = {
   packs: ReadonlyMap<string, PackLease>;
   release: () => void;
 };
-type PageRequest = { url: string; hash: string; width: number; height: number; mipmaps?: boolean };
+type PageRequest = SourcePage;
 export const pageIdentity = (
-  p: Pick<Manifest['pages'][number], 'hash' | 'width' | 'height'> & { mipmaps?: boolean },
+  p: Pick<Manifest['pages'][number], 'hash' | 'width' | 'height'> & {
+    mipmaps?: boolean;
+    delivery?: Manifest['pages'][number]['delivery'];
+  },
 ) =>
-  `${p.hash}:${p.width}x${p.height}:srgb-straight-${p.mipmaps ? 'terrain-mips' : 'linear-no-mips'}`;
+  `${p.hash}:${p.width}x${p.height}:srgb-straight-${p.mipmaps ? 'terrain-mips' : 'linear-no-mips'}:${p.delivery?.map((v) => v.hash + ':' + v.mipmaps).join('|') ?? ''}`;
 export class AssetRuntime {
   registration!: PreparedRegistration;
+  libraryInventory = false;
   readonly manifests = new Map<string, Promise<Manifest>>();
   private pages = new Map<string, PageRequest>();
   readonly pool: ResourcePool<Texture>;
@@ -110,6 +115,7 @@ export class AssetRuntime {
     private request: typeof fetch = globalThis.fetch.bind(globalThis),
     decode?: (page: PageRequest) => Promise<Texture>,
     dispose?: (texture: Texture) => void,
+    private delivery?: TextureDelivery,
   ) {
     for (const [id, url] of Object.entries(catalog))
       if (
@@ -123,6 +129,7 @@ export class AssetRuntime {
         const p = this.pages.get(key);
         if (!p) throw new Error('missing page descriptor');
         if (decode) return decode(p);
+        if (this.delivery) return this.delivery.decode(p);
         const bitmap = await verifiedBitmap(p.url, p, this.request);
         const texture = new Texture(bitmap);
         texture.colorSpace = SRGBColorSpace;
@@ -136,7 +143,7 @@ export class AssetRuntime {
       },
       dispose ??
         ((texture) => {
-          (texture.image as ImageBitmap).close();
+          (texture.image as { close?: () => void }).close?.();
           texture.dispose();
         }),
     );
@@ -163,6 +170,8 @@ export class AssetRuntime {
                 width: page.width,
                 height: page.height,
                 mipmaps: page.mipmaps,
+                delivery: page.delivery,
+                bytes: page.bytes,
               });
           }
           return manifest;
@@ -175,6 +184,26 @@ export class AssetRuntime {
     }
     return promise;
   }
+  seedManifest(id: string, data: unknown) {
+    const file = this.catalog[id];
+    if (!file) return;
+    const manifest = parseManifest(data, this.production);
+    if (manifest.asset.id !== id) throw new Error('Prepared asset index identity differs: ' + id);
+    for (const page of manifest.pages) {
+      const key = pageIdentity(page);
+      if (!this.pages.has(key))
+        this.pages.set(key, {
+          url: '/' + file.slice(0, file.lastIndexOf('/') + 1) + page.path,
+          hash: page.hash,
+          width: page.width,
+          height: page.height,
+          mipmaps: page.mipmaps,
+          delivery: page.delivery,
+          bytes: page.bytes,
+        });
+    }
+    this.manifests.set(id, Promise.resolve(manifest));
+  }
   async loadPack(
     id: string,
     signal?: AbortSignal,
@@ -183,10 +212,18 @@ export class AssetRuntime {
     if (signal?.aborted) throw new Error('load cancelled');
     const manifest = await this.manifest(id);
     if (signal?.aborted) throw new Error('load cancelled');
-    const held = await this.pool.acquire(manifest.pages.map(pageIdentity), signal, progress);
+    const keys = manifest.pages.map((page) => {
+      const original = this.pages.get(pageIdentity(page))!;
+      if (!this.delivery) return pageIdentity(page);
+      const selected = this.delivery.choose(original);
+      const key = pageIdentity(selected) + ':' + (selected.encoding ?? 'png');
+      this.pages.set(key, selected);
+      return key;
+    });
+    const held = await this.pool.acquire(keys, signal, progress);
     return {
       manifest,
-      textures: new Map(manifest.pages.map((p) => [p.id, held.resources.get(pageIdentity(p))!])),
+      textures: new Map(manifest.pages.map((p, i) => [p.id, held.resources.get(keys[i]!)!])),
       release: held.release,
     };
   }
@@ -212,17 +249,39 @@ export class AssetRuntime {
     }
     return { packs, release };
   }
-  static async open(catalog: Readonly<Record<string, string>>) {
+  dispose() {
+    this.delivery?.dispose();
+  }
+  static async open(catalog: Readonly<Record<string, string>>, canvas?: HTMLCanvasElement) {
     const response = await fetch('/build-mode.json');
     if (!response.ok) throw new Error('missing build-mode policy');
     const flags = await response.json();
-    const runtime = new AssetRuntime(catalog, flags.allowDevelopmentContent !== true);
-    const registration = await fetch('/registration.json');
-    if (!registration.ok) throw new Error('Prepared registration unavailable');
-    const bytes = await registration.arrayBuffer(),
-      digest = await sha256(bytes);
-    if (digest !== flags.registrationHash) throw new Error('Prepared registration hash differs');
-    runtime.registration = parseRegistration(JSON.parse(new TextDecoder().decode(bytes)));
-    return runtime;
+    const delivery = canvas
+      ? new TextureDelivery(
+          canvas,
+          new URLSearchParams(location.search).get('images') === 'source' ? 'source' : 'delivery',
+        )
+      : undefined;
+    const runtime = new AssetRuntime(
+      catalog,
+      flags.allowDevelopmentContent !== true,
+      undefined,
+      undefined,
+      undefined,
+      delivery,
+    );
+    runtime.libraryInventory = flags.libraryInventory === true;
+    try {
+      const registration = await fetch('/registration.json');
+      if (!registration.ok) throw new Error('Prepared registration unavailable');
+      const bytes = await registration.arrayBuffer(),
+        digest = await sha256(bytes);
+      if (digest !== flags.registrationHash) throw new Error('Prepared registration hash differs');
+      runtime.registration = parseRegistration(JSON.parse(new TextDecoder().decode(bytes)));
+      return runtime;
+    } catch (error) {
+      runtime.dispose();
+      throw error;
+    }
   }
 }

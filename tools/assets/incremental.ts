@@ -3,8 +3,8 @@ import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { safeRelative } from './files';
 
-import { shaFile, readLibrarySource } from './sources';
-import { verifiedOutput } from '../verified-files';
+import { readLibrarySource } from './sources';
+import { verifiedOutput, fileChecksums } from '../verified-files';
 
 type SourceRead = {
   member: string;
@@ -20,18 +20,19 @@ type Receipt = {
   files: Record<string, string>;
   sources: SourceRead[];
 };
-export async function linkTree(source: string, destination: string) {
+export async function linkTree(source: string, destination: string, merge = false) {
+  await fs.mkdir(destination, { recursive: true });
   for (const entry of await fs.readdir(source, { withFileTypes: true })) {
     if (entry.name.startsWith('.')) continue;
     const from = path.join(source, entry.name),
       to = path.join(destination, entry.name);
     if (entry.isSymbolicLink()) throw new Error('Immutable asset layers cannot contain symlinks');
     if (entry.isDirectory()) {
-      await fs.mkdir(to, { recursive: true });
-      await linkTree(from, to);
+      await linkTree(from, to, merge);
     } else {
-      await fs.mkdir(path.dirname(to), { recursive: true });
-      await fs.link(from, to);
+      await fs.link(from, to).catch((error: NodeJS.ErrnoException) => {
+        if (!merge || error.code !== 'EEXIST') throw error;
+      });
     }
   }
 }
@@ -42,6 +43,8 @@ export async function cachedPreparationStep(options: {
   key: string;
   run: (env: NodeJS.ProcessEnv) => Promise<void>;
   validate?: () => Promise<void>;
+  verifyOutputs?: (hashes: Readonly<Record<string, string>>) => Promise<void>;
+  sourceLocation?: { root: string; indexPath: string; strict: boolean };
 }) {
   const directory = path.join(options.cache, options.file.replace(/\.[^.]+$/, ''));
   let prior: Receipt | undefined;
@@ -54,15 +57,19 @@ export async function cachedPreparationStep(options: {
   if (prior?.version === 1 && prior.key === options.key) {
     try {
       await verifiedOutput(path.join(directory, 'files'), Object.keys(prior.files), async () => {
+        const hashes = await fileChecksums(
+          path.join(directory, 'files'),
+          Object.keys(prior!.files),
+        );
         for (const [name, hash] of Object.entries(prior!.files))
-          if ((await shaFile(path.join(directory, 'files', safeRelative(name)))) !== hash)
-            throw new Error('Cached preparation output differs');
+          if (hashes[name] !== hash) throw new Error('Cached preparation output differs');
       });
       // Source bytes are verified by the normal resolver; unrelated source groups are never read.
       for (const source of prior.sources) {
         const bytes = await readLibrarySource(source.member, source.group, {
           root: source.root,
           indexPath: source.indexPath,
+          ...options.sourceLocation,
         });
         if (createHash('sha256').update(bytes).digest('hex') !== source.sha256)
           throw new Error('Cached preparation source changed');
@@ -74,7 +81,12 @@ export async function cachedPreparationStep(options: {
         await fs.rm(target, { force: true });
         await fs.link(path.join(directory, 'files', name), target);
       }
-      return { reused: true, digest: prior.digest, files: Object.keys(prior.files) };
+      return {
+        reused: true,
+        digest: prior.digest,
+        files: Object.keys(prior.files),
+        hashes: prior.files,
+      };
     } catch (error) {
       if (
         (error as NodeJS.ErrnoException).code !== 'ENOENT' &&
@@ -100,15 +112,15 @@ export async function cachedPreparationStep(options: {
       names.push('staging/animation/flow.json', 'staging/animation/flow.png');
     if (!names.length)
       throw new Error('Preparation step recorded no owned output: ' + options.file);
-    const files: Record<string, string> = {};
     for (const name of names.sort()) {
       safeRelative(name);
       const target = path.join(temporary, 'files', name),
         original = path.join(options.workspace, name);
       await fs.mkdir(path.dirname(target), { recursive: true });
       await fs.link(original, target);
-      files[name] = await shaFile(original);
     }
+    const files = await fileChecksums(options.workspace, names);
+    await options.verifyOutputs?.(files);
     const sourceReads = (await readLog(sources))
       .split('\n')
       .filter(Boolean)
@@ -131,7 +143,7 @@ export async function cachedPreparationStep(options: {
     await fs.rm(sources, { force: true });
     await fs.rm(directory, { recursive: true, force: true });
     await fs.rename(temporary, directory);
-    return { reused: false, digest, files: names };
+    return { reused: false, digest, files: names, hashes: files };
   } finally {
     await fs.rm(temporary, { recursive: true, force: true });
   }

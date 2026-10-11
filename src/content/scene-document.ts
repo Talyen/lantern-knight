@@ -258,13 +258,10 @@ export function parseSceneDocument(value: unknown): SceneDocument {
   return SceneDocumentSchema.parse(value);
 }
 export type PaletteKind = SceneObject['kind'];
-export function paletteKind(m: Manifest): PaletteKind | undefined {
-  if (m.asset.placement === 'reference') return;
+export function paletteKind(m: Manifest): PaletteKind {
   if (m.asset.type === 'character') return 'character';
   if (m.asset.type === 'effect') return 'effect';
-  if (m.asset.projection === 'top-down' && (m.asset.type === 'prop' || m.asset.type === 'material'))
-    return 'decal';
-  if (m.asset.type === 'prop' && m.asset.projection === 'painted-cutout') return 'prop';
+  return m.asset.projection === 'top-down' ? 'decal' : 'prop';
 }
 export function paletteClips(m: Manifest) {
   return Object.entries(m.asset.clips)
@@ -272,9 +269,7 @@ export function paletteClips(m: Manifest) {
     .map(([c]) => c);
 }
 export function floorClips(m: Manifest) {
-  return m.asset.type === 'material' &&
-    m.asset.projection === 'top-down' &&
-    m.asset.status !== 'diagnostic'
+  return m.asset.type === 'material' && m.asset.projection === 'top-down'
     ? paletteClips(m).filter((c) => m.asset.clips[c]?.d45?.frames.length === 1)
     : [];
 }

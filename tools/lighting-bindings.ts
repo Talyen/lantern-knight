@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import type { Manifest } from '../src/assets/schema';
 export function needsLighting(id: string, manifest: Manifest) {
+  if (manifest.asset.imageRole) return false;
   return (
     [
       'ink-hero-current',

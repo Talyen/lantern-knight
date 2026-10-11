@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { randomUUID } from 'node:crypto';
+import { createHash } from 'node:crypto';
 import { projectRoot, sourceLibrary } from './paths';
 import { readLibrarySource as libraryRead, sourceGroup } from './sources';
 import { compile as compileAtlas } from '../compiler';
@@ -17,6 +18,7 @@ export type PreparationOptions = {
   outputLog?: string;
   inputLog?: string;
   environment?: NodeJS.ProcessEnv;
+  knownContent?: Record<string, string>;
 };
 export type PreparationContext = Awaited<ReturnType<typeof createPreparationContext>>;
 export async function createPreparationContext(options: PreparationOptions) {
@@ -27,6 +29,8 @@ export async function createPreparationContext(options: PreparationOptions) {
     pending = Promise.resolve();
   const links = new Map<string, { count: number; size: number }>();
   const identities = new Map<string, string>();
+  const contents = new Map<string, { file: string; key: string }>();
+  const expectedOutputs = new Map<string, string>();
   const inode = (stat: { dev: number; ino: number }, file: string) =>
     stat.ino ? `${stat.dev}:${stat.ino}` : file;
   async function account(directory: string) {
@@ -54,6 +58,11 @@ export async function createPreparationContext(options: PreparationOptions) {
     }
   }
   await account(root);
+  for (const [file, hash] of Object.entries(options.knownContent ?? {})) {
+    const full = path.join(root, safeRelative(file)),
+      key = identities.get(full);
+    if (key) contents.set(hash, { file: full, key });
+  }
   const resolve = (file: string) => {
     if (path.isAbsolute(file)) return file;
     return path.join(/^(public|staging)(\/|$)/.test(file) ? root : projectRoot, safeRelative(file));
@@ -65,7 +74,9 @@ export async function createPreparationContext(options: PreparationOptions) {
   ) =>
     libraryRead(member, group, {
       root: options.sourceRoot,
-      indexPath: path.join(projectRoot, 'assets/sources.json'),
+      indexPath:
+        options.environment?.LANTERN_LIBRARY_INDEX ?? path.join(projectRoot, 'assets/sources.json'),
+      strict: !!options.environment?.LANTERN_LIBRARY_INDEX,
       ...location,
       inputLog: options.inputLog ?? null,
     });
@@ -75,8 +86,9 @@ export async function createPreparationContext(options: PreparationOptions) {
     const directory = resolve(base);
     return readExactSource(file, directory);
   };
-  const record = async (file: string) => {
+  const record = async (file: string, hash?: string) => {
     const relative = safeRelative(path.relative(root, resolve(file)).split(path.sep).join('/'));
+    if (hash) expectedOutputs.set(relative, hash);
     if (options.outputLog) await fs.appendFile(options.outputLog, relative + '\n');
   };
   const writeAsset = (file: string, data: Buffer | string) => {
@@ -99,12 +111,32 @@ export async function createPreparationContext(options: PreparationOptions) {
       const priorLinks = priorKey ? links.get(priorKey) : undefined;
       if (prior && (identities.get(target) !== priorKey || priorLinks?.size !== prior.size))
         throw new Error('Preparation workspace changed outside its writer');
+      const contentHash = createHash('sha256').update(data).digest('hex');
+      const candidate = contents.get(contentHash);
+      const candidateStat = candidate
+        ? await fs.lstat(candidate.file).catch(() => undefined)
+        : undefined;
+      const shared =
+        candidate &&
+        candidateStat?.isFile() &&
+        !candidateStat.isSymbolicLink() &&
+        inode(candidateStat, candidate.file) === candidate.key &&
+        identities.get(candidate.file) === candidate.key
+          ? candidate
+          : undefined;
+      if (shared && shared.key === priorKey) {
+        await record(target, contentHash);
+        return;
+      }
       const next =
-        bytes - (priorLinks?.count === 1 ? priorLinks.size : 0) + Buffer.byteLength(data);
+        bytes -
+        (priorLinks?.count === 1 ? priorLinks.size : 0) +
+        (shared ? 0 : Buffer.byteLength(data));
       if (next > options.budget) throw new Error('Asset preparation exceeds reserved cache space');
       const temporary = target + '.write-' + randomUUID();
       try {
-        await fs.writeFile(temporary, data);
+        if (shared) await fs.link(shared.file, temporary);
+        else await fs.writeFile(temporary, data);
         await fs.rename(temporary, target);
       } finally {
         await fs.rm(temporary, { force: true });
@@ -113,9 +145,12 @@ export async function createPreparationContext(options: PreparationOptions) {
       const installed = await fs.stat(target),
         installedKey = inode(installed, target);
       identities.set(target, installedKey);
-      links.set(installedKey, { count: 1, size: installed.size });
+      const existing = links.get(installedKey);
+      if (existing) existing.count++;
+      else links.set(installedKey, { count: 1, size: installed.size });
+      contents.set(contentHash, { file: target, key: installedKey });
       bytes = next;
-      await record(target);
+      await record(target, contentHash);
     });
     return pending;
   };
@@ -133,6 +168,8 @@ export async function createPreparationContext(options: PreparationOptions) {
     root,
     publicDirectory: path.join(root, 'public'),
     libraryRoot: options.libraryRoot,
+    sourceRoot: options.sourceRoot,
+    environment: options.environment ?? process.env,
     path: resolve,
     stagingFile: (file: string) => path.join(root, 'staging', safeRelative(file)),
     readAsset,
@@ -140,6 +177,21 @@ export async function createPreparationContext(options: PreparationOptions) {
     exactSource,
     readLibrarySource: source,
     record,
+    async verifyOutputs(hashes: Readonly<Record<string, string>>) {
+      await pending;
+      for (const [file, expected] of expectedOutputs)
+        if (hashes[file] !== expected) throw new Error('Prepared output bytes differ: ' + file);
+      expectedOutputs.clear();
+    },
+    async recordContentHash(file: string, hash: string) {
+      await pending;
+      const resolved = resolve(file),
+        stat = await fs.lstat(resolved),
+        key = inode(stat, resolved);
+      if (!stat.isFile() || stat.isSymbolicLink() || identities.get(resolved) !== key)
+        throw new Error('Prepared content changed during verification');
+      contents.set(hash, { file: resolved, key });
+    },
     mkdirAsset: (file: string, mkdirOptions: { recursive?: boolean }) =>
       fs.mkdir(resolve(file), mkdirOptions),
     setReceipts(logs: { outputLog?: string; inputLog?: string }) {

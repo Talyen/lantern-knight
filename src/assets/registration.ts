@@ -88,8 +88,6 @@ export function parseRegistration(value: unknown) {
   const data = RegistrationSchema.parse(value);
   for (const m of Object.values(data.coverage.masks))
     if (m.alpha.length !== m.width * m.height) throw new Error('Coverage mask dimensions differ');
-  if (data.animation.width > 4096 || data.animation.height > 4096)
-    throw new Error('Animation field exceeds portable texture limit');
   const frames = new Set(Object.values(data.animation.clips).flatMap((c) => c.frames));
   const seen = new Set<string>();
   for (const p of data.animation.pairs) {

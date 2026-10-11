@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+import type { Stats } from 'node:fs';
 import path from 'node:path';
 import * as tar from 'tar';
 import { ArchiveLockSchema } from './pack';
@@ -7,12 +8,18 @@ import { shaFile } from './sources';
 import { safeRelative, listFiles } from './files';
 export async function makeArchive(root: string, file: string, recipeSha256: string) {
   const names = (await listFiles(root)).filter((n) => n !== 'pack.json'),
-    files: Record<string, { sha256: string; bytes: number }> = {};
+    files: Record<string, { sha256: string; bytes: number }> = {},
+    stats = new Map<string, Stats>();
   for (const name of names) {
     safeRelative(name);
     if (!/^(public|metadata)\//.test(name)) throw new Error('Unexpected pack payload');
     const p = path.join(root, name);
-    files[name] = { sha256: await shaFile(p), bytes: (await fs.stat(p)).size };
+    const stat = await fs.stat(p);
+    // Cache hardlinks share storage; delivered archives contain regular files.
+    // The downloader deliberately rejects archive links.
+    stat.nlink = 1;
+    stats.set(path.resolve(p), stat);
+    files[name] = { sha256: await shaFile(p), bytes: stat.size };
   }
   await fs.writeFile(
     path.join(root, 'pack.json'),
@@ -26,11 +33,11 @@ export async function makeArchive(root: string, file: string, recipeSha256: stri
       portable: true,
       mtime: new Date(0),
       noPax: true,
+      statCache: stats,
     },
     [...names, 'pack.json'].sort(),
   );
   const size = (await fs.stat(file)).size;
-  if (size >= 2 * 1024 ** 3) throw new Error('Prepared pack must be smaller than 2 GiB');
   const sha256 = await shaFile(file);
   return ArchiveLockSchema.parse({
     schemaVersion: 1,

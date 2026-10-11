@@ -35,6 +35,26 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
     names.push(file);
     groups.set(owner, names);
   }
+  // Authoring downloads are independent parts; source eligibility is unrelated
+  // to the release host's per-file transport limit.
+  const authoring = groups.get('authoring') ?? [];
+  if (authoring.reduce((n, file) => n + inventory.files[file]!.bytes, 0) > 1024 ** 3) {
+    groups.delete('authoring');
+    let part = 0,
+      bytes = 0,
+      files: string[] = [];
+    for (const file of authoring.sort()) {
+      const size = inventory.files[file]!.bytes;
+      if (files.length && bytes + size > 1024 ** 3) {
+        groups.set('authoring-' + part++, files);
+        files = [];
+        bytes = 0;
+      }
+      files.push(file);
+      bytes += size;
+    }
+    if (files.length) groups.set('authoring-' + part, files);
+  }
   const bundles: BundlePin['bundles'] = {},
     archives: Record<string, string> = {};
   const root = path.join(candidate.held.root, 'bundles');

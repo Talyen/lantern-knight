@@ -18,7 +18,7 @@ const archiveFields = {
   filename: z.literal('lantern-assets.tar.gz'),
   sha256: hash,
   inventorySha256: hash,
-  bytes: bytes.positive().max(2 * 1024 ** 3 - 1),
+  bytes: bytes.positive(),
   recipeSha256: hash,
 };
 export const ArchiveLockSchema = z

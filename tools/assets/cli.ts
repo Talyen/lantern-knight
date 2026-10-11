@@ -12,26 +12,44 @@ import { readAuthoringCatalog } from './authoring-catalog';
 import { parseManifest } from '../../src/assets/schema';
 import { checkAssets } from '../check-assets';
 import { acquireCommandLane } from '../command-lane';
+import { discoverLibrary } from './discovery';
 
 async function main() {
   const [command, ...args] = process.argv.slice(2);
   const { values, positionals } = parseArgs({
     args,
     allowPositionals: true,
-    options: { ids: { type: 'boolean' }, local: { type: 'boolean' }, proof: { type: 'boolean' } },
+    options: {
+      ids: { type: 'boolean' },
+      local: { type: 'boolean' },
+      proof: { type: 'boolean' },
+      gpu: { type: 'boolean' },
+    },
   });
   if (command === 'prepare' || command === 'publish') {
-    if (command === 'publish' && (positionals.length || values.ids || values.local || values.proof))
+    if (
+      command === 'publish' &&
+      (positionals.length || values.ids || values.local || values.proof || values.gpu)
+    )
       throw new Error('Use assets:publish without options');
-    if (command === 'prepare' && (!values.ids || !positionals.length) && !values.proof)
-      throw new Error('Use assets:prepare --ids <asset-id>... or --proof');
+    if (
+      command === 'prepare' &&
+      ((values.ids && !positionals.length) || (!values.ids && positionals.length))
+    )
+      throw new Error('Use assets:prepare, --ids <asset-id>... or --proof');
     const lane = await acquireCommandLane({ command: 'assets:' + command });
     try {
-      if (command === 'prepare' && values.ids) {
+      const cache = new AssetCache();
+      await cache.initialize();
+      const env = await discoverLibrary(cache, process.env);
+      env.LANTERN_IMAGE_GPU = command === 'publish' || values.gpu ? '1' : '0';
+      env.LANTERN_PREPARE_BUDGET =
+        process.env.LANTERN_PREPARE_BUDGET ?? String(Math.floor(cache.limit * 0.7));
+      if (command === 'prepare' && !values.proof) {
         if (values.proof) throw new Error('Use --ids or --proof');
-        await preparePreviewAssets(positionals, new AssetCache(), process.env);
+        await preparePreviewAssets(positionals, cache, env);
       } else {
-        const prepared = await prepareAssets(new AssetCache(), !!values.proof);
+        const prepared = await prepareAssets(cache, !!values.proof, env);
         try {
           if (command === 'publish') {
             await checkAssets({ publicDirectory: path.join(prepared.payload, 'public') });
@@ -65,7 +83,8 @@ async function main() {
       (command === 'check' && positionals.length) ||
       (command === 'inspect' && positionals.length > 1) ||
       values.ids ||
-      values.proof
+      values.proof ||
+      values.gpu
     )
       throw new Error('Invalid asset inspection/check arguments');
     const workspace = await openWorkspace(

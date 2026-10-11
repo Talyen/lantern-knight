@@ -600,3 +600,55 @@ test('shared editor asset filters update for unsaved placement and undo', async 
   await page.getByRole('button', { name: 'Clear animated filter' }).click();
   await expect(page.locator('#assets .asset')).toHaveCount(1);
 });
+
+test('complete scenes retain native masters and place as one image with source coverage visible', async ({
+  page,
+  request,
+}) => {
+  const flags = await (await request.get('/build-mode.json')).json();
+  test.skip(
+    !flags.libraryInventory,
+    'The existing published pin predates complete-library delivery.',
+  );
+  const index = await (await request.get('/generated/library/index.json')).json();
+  const masters = Object.values(index).filter(
+    (m: any) =>
+      m.asset.imageRole === 'scene-painting' &&
+      m.asset.canvas[0] === 6144 &&
+      m.asset.canvas[1] === 4096,
+  ) as any[];
+  expect(masters.length).toBeGreaterThan(0);
+  for (const manifest of masters) {
+    expect(manifest.pages[0].width).toBe(6144);
+    expect(manifest.pages[0].height).toBe(4096);
+    expect(
+      manifest.pages[0].delivery.some(
+        (v: any) => v.encoding === 'png' && v.width === 6144 && v.height === 4096,
+      ),
+    ).toBe(true);
+  }
+  const master = masters[0];
+  await page.goto('/editor.html');
+  await page.waitForFunction(() => window.sceneEditor?.ready());
+  await page.locator('#artwork-tab').click();
+  await page.locator('#source-library > summary').click();
+  const inventory = await (await request.get('/generated/library/inventory.json')).json();
+  await expect(page.locator('#library-inventory')).toContainText(
+    inventory.images.length.toLocaleString() + ' distinct images',
+  );
+  await page.locator('#scene-tab').click();
+  await page.locator('#floor').selectOption(master.asset.id + '/still');
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.layout))
+    .toBe('artwork');
+  const floor = await page.evaluate(() => window.sceneEditor.state().document.floor);
+  expect(floor.width / floor.depth).toBeCloseTo(1.5, 8);
+  await page.locator('#depth').fill('8');
+  await page.locator('#depth').dispatchEvent('change');
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.width))
+    .toBe(12);
+  await page.locator('#play-from-here').click();
+  await page.waitForFunction(() => window.sceneEditor.playtest()?.ready);
+  await page.locator('#playtest-return').click();
+});

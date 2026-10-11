@@ -26,7 +26,35 @@ export async function stagePayload(sourcePublic: string, staging: string, destin
   })) {
     files.add(file);
     const m = parseManifest(JSON.parse(await fs.readFile(path.join(sourcePublic, file), 'utf8')));
-    for (const page of m.pages) files.add(path.posix.join(path.posix.dirname(file), page.path));
+    for (const page of m.pages) {
+      files.add(path.posix.join(path.posix.dirname(file), page.path));
+      for (const image of [...(page.delivery ?? []), ...(page.preview ? [page.preview] : [])])
+        files.add(image.path);
+      if (page.delivery?.length)
+        files.add(path.posix.dirname(page.delivery[0]!.path) + '/receipt.json');
+    }
+  }
+  for (const file of [
+    'generated/library/index.json',
+    'generated/library/inventory.json',
+    'generated/library/delivery-report.json',
+    'decoders/basis_transcoder.js',
+    'decoders/basis_transcoder.wasm',
+  ])
+    if (
+      await fs.access(path.join(sourcePublic, file)).then(
+        () => true,
+        () => false,
+      )
+    )
+      files.add(file);
+  try {
+    const inventory = JSON.parse(
+      await fs.readFile(path.join(sourcePublic, 'generated/library/inventory.json'), 'utf8'),
+    );
+    for (const media of inventory.media ?? []) files.add(safeRelative(media.file));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
   }
   for (const folder of ['lighting', 'visual-effects']) {
     const data = JSON.parse(
@@ -66,7 +94,9 @@ export async function stagePayload(sourcePublic: string, staging: string, destin
     await fs.readFile(path.join(destination, 'public/build-mode.json'), 'utf8'),
   );
   flags.registrationHash = createHash('sha256').update(registration).digest('hex');
-  await fs.writeFile(path.join(destination, 'public/build-mode.json'), JSON.stringify(flags));
+  const flagsFile = path.join(destination, 'public/build-mode.json');
+  await fs.writeFile(flagsFile + '.tmp', JSON.stringify(flags));
+  await fs.rename(flagsFile + '.tmp', flagsFile);
   await fs.mkdir(path.join(destination, 'public/animation'), { recursive: true });
   await fs.copyFile(
     path.join(staging, 'animation/flow.png'),

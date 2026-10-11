@@ -70,12 +70,14 @@ export function preparationSelection(ids: readonly string[] = []) {
     if (!owners.length) throw new Error('No preparation owner for asset: ' + id);
     for (const owner of owners) visit(owner.file);
   }
+  visit('assets/prepare/prepare-image-delivery.ts');
   return preparationSteps.filter((step) => selected.has(step.file));
 }
 export function preparationStepKey(
   operation: (typeof preparationSteps)[number],
   inputs: Record<string, string>,
   digests: ReadonlyMap<string, string>,
+  sourceInventory?: string,
 ) {
   const owned = [
     ...(recipe.sharedInputs ?? []),
@@ -89,6 +91,7 @@ export function preparationStepKey(
         inputs['tools/' + operation.file],
         inputs['tools/assets/recipe.ts'],
         inputs.dependencies,
+        sourceInventory,
         owned.map((file) => [file, inputs[file] ?? null]),
         (operation.dependsOn ?? []).map((file) => [file, digests.get(file)]),
         process.version,

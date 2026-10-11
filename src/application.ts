@@ -132,7 +132,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   private async bootApplication() {
     this.assertActive();
-    this.runtime = await AssetRuntime.open(this.catalog);
+    this.runtime = await AssetRuntime.open(this.catalog, this.canvas);
+    if (this.disposed) this.runtime.dispose?.();
     this.assertActive();
     const initial = await this.runtime.loadPacks(
       [...this.scenes.initialAssets.filter((id) => id in this.catalog), ...this.extraAssets],
@@ -444,6 +445,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.roomAssets?.release();
     for (const p of this.persistentLeases.values()) p.release();
     this.packViews.clear();
+    this.runtime?.dispose?.();
     this.events.dispose();
   }
 }

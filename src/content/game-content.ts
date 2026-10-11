@@ -102,7 +102,9 @@ export const gameAssetCatalog: Readonly<Record<string, string>> = Object.fromEnt
       ...content.definitions.areas.flatMap((area) => gameScenes.area(area.id).assets),
     ]),
   ].map((id) => {
-    const file = assetCatalog[id];
+    const file =
+      assetCatalog[id] ??
+      (/^library-[a-z0-9_-]+$/.test(id) ? `generated/library/${id}/manifest.json` : undefined);
     if (!file) throw new Error('Game requires an undeclared runtime asset: ' + id);
     return [id, file];
   }),

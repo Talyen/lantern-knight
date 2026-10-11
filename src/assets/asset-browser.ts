@@ -5,7 +5,17 @@ export type AssetScope = 'all' | 'used' | 'scene';
 export const assetFilterSchema = z.object({
   scope: z.enum(['all', 'used', 'scene']),
   animated: z.boolean(),
-  type: z.enum(['all', 'character', 'prop', 'decal', 'material', 'effect', 'pickup', 'reference']),
+  type: z.enum([
+    'all',
+    'scene-painting',
+    'character',
+    'prop',
+    'decal',
+    'material',
+    'effect',
+    'pickup',
+    'reference',
+  ]),
   search: z.string(),
 });
 export type AssetFilter = z.infer<typeof assetFilterSchema>;
@@ -40,6 +50,7 @@ export function matchesAsset(
     type === 'all' ||
     type === asset.type ||
     type === asset.category ||
+    type === asset.imageRole ||
     (type === 'prop' && asset.type === 'prop' && asset.placement !== 'ground') ||
     (type === 'decal' && asset.placement === 'ground');
   return (
@@ -53,10 +64,18 @@ export function matchesAsset(
 }
 export function assetFilterHTML(typeId: string) {
   return `<label>Usage<select id="asset-scope" aria-label="Asset usage"><option value="all">All assets</option><option value="used">In use</option><option value="scene">In this scene</option></select></label>
-    <label>Type<select id="${typeId}" aria-label="Asset type"><option value="all">All types</option><option value="character">Characters</option><option value="prop">Scenery</option><option value="decal">Ground details</option><option value="material">Materials</option><option value="effect">Effects</option><option value="pickup">Pickups</option><option value="reference">References</option></select></label>
+    <label>Type<select id="${typeId}" aria-label="Asset type"><option value="all">All types</option><option value="scene-painting">Scene paintings</option><option value="character">Characters</option><option value="prop">Scenery</option><option value="decal">Ground details</option><option value="material">Materials</option><option value="effect">Effects</option><option value="pickup">Pickups</option><option value="reference">References</option></select></label>
     <label class="check"><input id="asset-animated" type="checkbox">Animated</label>`;
 }
 export async function loadAssetIndex(runtime: AssetRuntime, signal: AbortSignal) {
+  if (runtime.libraryInventory) {
+    const response = await fetch('/generated/library/index.json', { signal });
+    if (response.ok) {
+      const index = (await response.json()) as Record<string, unknown>;
+      for (const [id, data] of Object.entries(index))
+        if (id in runtime.catalog) runtime.seedManifest(id, data);
+    } else if (response.status !== 404) throw new Error('Prepared asset index is unavailable');
+  }
   const ids = Object.keys(runtime.catalog),
     manifests = new Map<string, Manifest>();
   let next = 0;

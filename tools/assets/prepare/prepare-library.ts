@@ -18,6 +18,7 @@ export async function prepare(context: PreparationContext, check = false) {
     canvas: [number, number];
     anchor: [number, number];
     density: number;
+    indexPath?: string;
     rect?: [number, number, number, number];
     trim?: [number, number, number, number];
     visualOffsetPx?: [number, number];
@@ -30,6 +31,7 @@ export async function prepare(context: PreparationContext, check = false) {
     placement: Manifest['asset']['placement'];
     category: Manifest['asset']['category'];
     layer?: Manifest['asset']['layer'];
+    imageRole?: Manifest['asset']['imageRole'];
     mirroring?: boolean;
     limitations: string[];
     clips: Record<
@@ -59,18 +61,15 @@ export async function prepare(context: PreparationContext, check = false) {
   const plan = JSON.parse(await fs.readFile(planFile, 'utf8')) as {
     assets: LibraryAsset[];
     dispositions: unknown[];
+    inventory?: {
+      files: { assets: string[] }[];
+      images: { sha256: string; assets: string[] }[];
+      [key: string]: unknown;
+    };
+    media?: { group: string; member: string; sha256: string; path: string }[];
   };
   const write = check ? undefined : context.writeAsset;
   const catalog: Record<string, string> = {};
-  const existingSources = new Set<string>();
-  for (const file of [
-    'ink/derivatives.json',
-    'ink/graveyard-art-receipt.json',
-    'ink/tended-art-receipt.json',
-  ]) {
-    const receipt = JSON.parse(await readAsset('staging/' + file, 'utf8'));
-    for (const frame of receipt.frames) if (frame.sourceHash) existingSources.add(frame.sourceHash);
-  }
   const receipts: {
     asset: string;
     group: string;
@@ -79,7 +78,6 @@ export async function prepare(context: PreparationContext, check = false) {
     outputHash: string;
     file: string;
   }[] = [];
-  const skipped: string[] = [];
   let clips = 0,
     drawings = 0;
   async function output(file: string, bytes: Buffer | string) {
@@ -91,16 +89,6 @@ export async function prepare(context: PreparationContext, check = false) {
     }
   }
   for (const item of plan.assets) {
-    // A source already exposed by a selected static binding is not another asset.
-    const still = item.clips.still?.d45;
-    if (Object.keys(item.clips).length === 1 && still?.frames.length === 1) {
-      const input = still.frames[0]!;
-      const bytes = await readLibrarySource(input.member, input.group);
-      if (existingSources.has(hash(bytes))) {
-        skipped.push(item.id);
-        continue;
-      }
-    }
     const first = Object.values(item.clips).flatMap((d) => Object.values(d))[0]!.frames[0]!;
     const definition = source(item.id, item.type, first.canvas, first.anchor, first.density);
     Object.assign(definition.asset, {
@@ -113,8 +101,10 @@ export async function prepare(context: PreparationContext, check = false) {
       projection: item.projection,
       mirroring: item.mirroring,
       layer: item.layer,
+      imageRole: item.imageRole,
+      renderStyle: item.imageRole ? 'source' : definition.asset.renderStyle,
       limitations: item.limitations,
-      recipe: 'library-native-v1',
+      recipe: 'library-native-v2',
       provenance: {
         creator: 'Lantern artwork authors',
         license:
@@ -124,7 +114,11 @@ export async function prepare(context: PreparationContext, check = false) {
     });
     definition.asset.allowEmptyFrames = item.type === 'effect';
     definition.asset.renderCategory =
-      item.type === 'effect' ? 'translucent' : item.type === 'material' ? 'opaque' : 'cutout';
+      item.type === 'effect' || (item.imageRole && item.type === 'prop')
+        ? 'translucent'
+        : item.type === 'material'
+          ? 'opaque'
+          : 'cutout';
     const frames: Manifest['frames'] = [],
       pages: Manifest['pages'] = [];
     const pageMap = new Map<string, Manifest['pages'][number]>(),
@@ -142,7 +136,13 @@ export async function prepare(context: PreparationContext, check = false) {
           const key = `${input.group}/${input.member}`;
           let cached = inputCache.get(key);
           if (!cached) {
-            const original = await readLibrarySource(input.member, input.group),
+            const original = await readLibrarySource(
+                input.member,
+                input.group,
+                input.indexPath
+                  ? { root: context.sourceRoot, indexPath: input.indexPath }
+                  : undefined,
+              ),
               originalHash = hash(original);
             // Some supplied manifests hash decoded RGBA, others encoded PNG bytes.
             if (
@@ -151,19 +151,27 @@ export async function prepare(context: PreparationContext, check = false) {
               hash(await sharp(original).ensureAlpha().raw().toBuffer()) !== input.sha256
             )
               throw new Error('Library source differs: ' + key);
-            const metadata = await sharp(original).metadata();
+            let metadata = await sharp(original).metadata();
             if (
-              metadata.format !== 'png' ||
+              !['png', 'jpeg', 'webp'].includes(metadata.format ?? '') ||
               !metadata.width ||
-              !metadata.height ||
-              metadata.width > 4096 ||
-              metadata.height > 4096
+              !metadata.height
             )
               throw new Error('Unsupported native library page: ' + key);
-            // Adding an opaque alpha channel is lossless for RGB-only paintings.
-            const bytes = metadata.hasAlpha
-              ? original
-              : await sharp(original).ensureAlpha().png().toBuffer();
+            // Compatible RGB and RGBA PNGs remain byte-identical to their sources.
+            const bytes =
+              metadata.format === 'png' &&
+              metadata.depth === 'uchar' &&
+              !metadata.icc &&
+              (!metadata.orientation || metadata.orientation === 1)
+                ? original
+                : await sharp(original)
+                    .autoOrient()
+                    .toColourspace('srgb')
+                    .ensureAlpha()
+                    .png()
+                    .toBuffer();
+            metadata = await sharp(bytes).metadata();
             const outputHash = hash(bytes);
             let page = pageMap.get(outputHash);
             if (!page) {
@@ -245,7 +253,7 @@ export async function prepare(context: PreparationContext, check = false) {
       contractId: definition.asset.contractId,
       bakeVersion: definition.asset.bakeVersion,
       hash: hash(JSON.stringify([definition.asset, frames, pages])),
-      toolVersion: 'library-native-v1',
+      toolVersion: 'library-native-v2',
       asset: definition.asset,
       frames,
       pages,
@@ -261,6 +269,20 @@ export async function prepare(context: PreparationContext, check = false) {
     drawings += frames.length;
   }
   await output('public/generated/library/catalog.json', JSON.stringify(catalog) + '\n');
+  const media = [];
+  for (const source of plan.media ?? []) {
+    const bytes = await readLibrarySource(source.member, source.group);
+    const extension = path.extname(source.member).toLowerCase();
+    const file = `generated/library/media/${source.sha256}${extension}`;
+    await output('public/' + file, bytes);
+    media.push({ ...source, file, bytes: bytes.length });
+  }
+  if (plan.inventory) {
+    await output(
+      'public/generated/library/inventory.json',
+      JSON.stringify({ ...plan.inventory, media }) + '\n',
+    );
+  }
   await output(
     'staging/library/receipt.json',
     JSON.stringify({
@@ -268,12 +290,12 @@ export async function prepare(context: PreparationContext, check = false) {
       assets: Object.keys(catalog).length,
       clips,
       drawings,
-      skipped,
+      skipped: [],
       sources: receipts,
       dispositions: plan.dispositions,
     }) + '\n',
   );
   console.log(
-    `${check ? 'Verified' : 'Prepared'} ${Object.keys(catalog).length} library assets, ${clips} clip/facing bindings, ${drawings} registered drawings; ${skipped.length} existing source bindings reused.`,
+    `${check ? 'Verified' : 'Prepared'} ${Object.keys(catalog).length} library assets, ${clips} clip/facing bindings, ${drawings} registered drawings.`,
   );
 }

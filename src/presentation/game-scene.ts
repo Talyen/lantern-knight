@@ -1,3 +1,4 @@
+import { imageDimensions } from '../assets/texture-delivery';
 import type { PresentationLifecycle } from './lifecycle';
 import { RoomPresentation } from './room-presentation';
 import { ActorPresentation } from './actor-presentation';
@@ -97,7 +98,11 @@ export class GamePresentation implements PresentationLifecycle {
     this.renderer.setClearColor(0x151923);
     if (
       this.renderer.capabilities.maxTextureSize <
-      Math.max(...this.manifest.pages.map((p) => Math.max(p.width, p.height)))
+      Math.max(
+        ...[...this.textures.values()].map((t) =>
+          Math.max(imageDimensions(t.image).width, imageDimensions(t.image).height),
+        ),
+      )
     )
       throw new Error('GPU maximum texture size below compiled atlas dimensions');
     this.scene.add(new T.HemisphereLight(0xc5d4e1, 0x392b30, 2));
@@ -340,7 +345,11 @@ export class GamePresentation implements PresentationLifecycle {
   warmPack(pack: AssetPack) {
     if (
       this.renderer.capabilities.maxTextureSize <
-      Math.max(...pack.manifest.pages.map((p) => Math.max(p.width, p.height)))
+      Math.max(
+        ...[...pack.textures.values()].map((t) =>
+          Math.max(imageDimensions(t.image).width, imageDimensions(t.image).height),
+        ),
+      )
     )
       throw new Error('GPU maximum texture size below atlas dimensions');
     for (const texture of pack.textures.values()) {
@@ -392,6 +401,10 @@ export class GamePresentation implements PresentationLifecycle {
       ),
     );
     const size = this.renderer.getDrawingBufferSize(new T.Vector2());
+    const textures = [
+      ...new Set([...this.packs.values()].flatMap((pack) => [...pack.textures.values()])),
+    ];
+    const delivered = textures.map((t) => t.userData.delivery).filter(Boolean);
     return {
       buffer: size.toArray(),
       logical: [this.canvas.clientWidth, this.canvas.clientHeight],
@@ -415,17 +428,22 @@ export class GamePresentation implements PresentationLifecycle {
       objects: { ...this.renderer.info.memory },
       surfaceTextureBytes: 0,
       atlasBytes:
-        [...pages.values()].reduce(
-          (s, p) => s + Math.ceil(p.rgbaBytes * (p.mipmaps ? 4 / 3 : 1)),
-          0,
-        ) +
+        (delivered.length === textures.length
+          ? delivered.reduce((s, p) => s + p.gpuBytes, 0)
+          : [...pages.values()].reduce(
+              (s, p) => s + Math.ceil(p.rgbaBytes * (p.mipmaps ? 4 / 3 : 1)),
+              0,
+            )) +
         (this.animationFlow
           ? this.registration.animation.width * this.registration.animation.height * 4
           : 0),
       fileBytes:
-        [...pages.values()].reduce((s, p) => s + p.bytes, 0) +
+        (delivered.length === textures.length
+          ? delivered.reduce((s, p) => s + p.bytes, 0)
+          : [...pages.values()].reduce((s, p) => s + p.bytes, 0)) +
         (this.animationFlow ? this.registration.animation.bytes : 0),
       actors: this.actorPresentation.actors.size,
+      imageDelivery: delivered,
       surround: this.roomPresentation.surround.stats(),
       webgl: this.renderer.getContext().getParameter(this.renderer.getContext().VERSION),
       gpu: this.renderer.getContext().getExtension('WEBGL_debug_renderer_info')

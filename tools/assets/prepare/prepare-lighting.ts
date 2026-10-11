@@ -44,6 +44,7 @@ export async function prepare(context: PreparationContext, check = false) {
         h = Math.max(1, Math.round(height * scale));
       // Each frame is filtered independently: neighboring atlas frames never bleed into normals.
       const alpha = await sharp(bytes)
+        .ensureAlpha()
         .extract({ left, top, width, height })
         .resize(w, h)
         .extractChannel('alpha')

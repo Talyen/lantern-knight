@@ -31,7 +31,8 @@ def check_sources(root, index, roots=None, fresh=False):
         failures = []
         for key in resolver.identities:
             try:
-                resolver.resolve(key)
+                with resolver.open(key):
+                    pass
             except (OSError, ValueError) as error:
                 failures.append(str(error))
         if failures:

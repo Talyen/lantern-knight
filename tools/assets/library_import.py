@@ -154,9 +154,7 @@ class Importer:
             if projection == "top-down"
             else "scenery",
             "clips": {},
-            "limitations": [
-                "Supplied TEST/study artwork; projection and world-size registration are provisional."
-            ],
+            "limitations": ["Supplied asset; registration follows its metadata where available."],
         }
         self.assets[identity] = asset
         return asset
@@ -169,6 +167,13 @@ class Importer:
             or any(not isinstance(d, (int, float)) or d <= 0 for d in durations)
         ):
             raise ValueError(f"{asset['id']}/{name}: missing frames or positive timing")
+        if any(
+            not isinstance(m.get("atMs"), (int, float))
+            or m["atMs"] < 0
+            or m["atMs"] > sum(durations) + 1e-8
+            for m in (markers or [])
+        ):
+            raise ValueError(f"{asset['id']}/{name}: event outside supplied timeline")
         c = {
             "frames": frames,
             "durationsMs": durations,
@@ -229,6 +234,7 @@ class Importer:
             "pivot_px",
             "pivotPx",
             "ground_pivot_px",
+            "native_pivot_top_left_px",
             "fixed_pivot_pixels_top_left",
             "pivotPixels",
             "default_root",
@@ -237,6 +243,22 @@ class Importer:
             "pivot",
             "root",
         )
+        if pivot is None:
+            normalized = pick(
+                contexts,
+                "pivot_normalized",
+                "normalized_pivot_bottom_origin",
+                "pivot_normalized_bottom_left",
+            )
+            if isinstance(normalized, list) and len(normalized) == 2:
+                bottom = any(
+                    "normalized_pivot_bottom_origin" in c or "pivot_normalized_bottom_left" in c
+                    for c in contexts
+                )
+                pivot = [
+                    normalized[0] * dims[0],
+                    (1 - normalized[1] if bottom else normalized[1]) * dims[1],
+                ]
         if isinstance(pivot, dict):
             pivot = pick(
                 [pivot],
@@ -371,7 +393,7 @@ class Importer:
         if clips is None and "frames" in data:
             clips = {data.get("id", data.get("clip", "animation")): data}
         if isinstance(clips, list):
-            clips = {c["id"]: c for c in clips}
+            clips = {c.get("id", c.get("name", str(i))): c for i, c in enumerate(clips)}
         if not isinstance(clips, dict):
             raise ValueError("Unsupported clip metadata: " + member)
         for name, c in clips.items():
@@ -420,6 +442,10 @@ class Importer:
             for i, f in enumerate(records):
                 duration = pick([f], "duration_ms", default=None)
                 if duration is None:
+                    durations = pick(contexts, "durations_ms", "durationsMs", "frame_durations_ms")
+                    if isinstance(durations, list):
+                        duration = durations[i]
+                if duration is None:
                     duration = pick([f], "duration_seconds", "durationSeconds", default=None)
                     if duration is not None:
                         duration *= 1000
@@ -428,6 +454,7 @@ class Importer:
                         [f],
                         "hold_ticks_60hz",
                         "hold_ticks",
+                        "holdTicks",
                         "duration_ticks",
                         "durationTicks",
                         "hold_ticks_60",
@@ -494,7 +521,7 @@ class Importer:
                 if isinstance(events, dict)
                 else [
                     {
-                        "id": str(e.get("id", e.get("event", "visual"))),
+                        "id": str(e.get("id", e.get("name", e.get("event", "visual")))),
                         "atMs": e["tick"] * 1000 / 60,
                     }
                     for e in events
@@ -1217,11 +1244,13 @@ class Importer:
                     )
 
 
-def build(root, specs, index, artwork=()):
+def build(root, specs, index, artwork=(), inventory=None, index_path=None):
     resolver = SourceResolver(root, index)
     with ExitStack() as stack:
         packages = []
         for spec in specs:
+            if spec["archive"] not in index["archives"]:
+                continue
             stream = stack.enter_context(resolver.open("archive:" + spec["archive"]))
             packages.append(Package(spec, stack.enter_context(zipfile.ZipFile(stream))))
         importer = Importer(packages)
@@ -1257,6 +1286,90 @@ def build(root, specs, index, artwork=()):
             if p.spec["archive"] == "Lantern_Interaction_Cues_v1_Source_and_Review.zip":
                 continue
             importer.package(p)
+        unresolved_animations = []
+        if inventory:
+            import hashlib
+
+            known_archives = {index["archives"][p.spec["archive"]]["sha256"]: p for p in packages}
+            for archive, archive_identity in index["archives"].items():
+                if not archive.startswith("discovered/"):
+                    continue
+                group = "discovered-" + archive_identity["sha256"][:24]
+                known = known_archives.get(archive_identity["sha256"])
+                stream = None if known else stack.enter_context(resolver.open("archive:" + archive))
+                package = Package(
+                    {"archive": archive, "group": group, "category": 7},
+                    known.zip if known else stack.enter_context(zipfile.ZipFile(stream)),
+                )
+                packages.append(package)
+                for member in sorted(package.names):
+                    if not member.endswith(".json"):
+                        continue
+                    try:
+                        data = package.json(member)
+                    except (ValueError, UnicodeDecodeError):
+                        continue
+                    if not isinstance(data, dict):
+                        continue
+                    clips = data.get("clips")
+                    if clips and (
+                        not isinstance(clips, (dict, list))
+                        or not all(
+                            isinstance(c, dict)
+                            for c in (clips.values() if isinstance(clips, dict) else clips)
+                        )
+                    ):
+                        continue
+                    frames = data.get("frames")
+                    if not clips and not (
+                        isinstance(frames, list)
+                        and frames
+                        and isinstance(frames[0], dict)
+                        and any(k in frames[0] for k in ("file", "png", "sprite", "path", "image"))
+                    ):
+                        continue
+                    trial = Importer([package])
+                    identity = (
+                        "animation-"
+                        + archive_identity["sha256"][:16]
+                        + "-"
+                        + hashlib.sha256(member.encode()).hexdigest()[:12]
+                    )
+                    try:
+                        trial.animation(
+                            package,
+                            member,
+                            data,
+                            identity,
+                            label=archive_identity["pathHint"] + " / " + member,
+                            kind=data.get("type")
+                            if data.get("type") in ("character", "prop", "effect")
+                            else "prop",
+                            defaults={"pixels_per_unit": 256},
+                        )
+                        if not all(a["clips"] for a in trial.assets.values()):
+                            raise ValueError("no complete animation clips")
+                        for a in trial.assets.values():
+                            for directions in a["clips"].values():
+                                for clip in directions.values():
+                                    for frame in clip["frames"]:
+                                        if any(
+                                            n < 0 or n > frame["canvas"][i]
+                                            for i, n in enumerate(frame["anchor"])
+                                        ):
+                                            raise ValueError(
+                                                "supplied registration requires an adapter"
+                                            )
+                        importer.assets.update(trial.assets)
+                    except (ValueError, KeyError, TypeError, IndexError, AttributeError) as error:
+                        if not known or member not in known.cache:
+                            unresolved_animations.append(
+                                {
+                                    "archive": archive_identity["pathHint"],
+                                    "metadata": member,
+                                    "reason": str(error),
+                                }
+                            )
         used = {
             f["group"]
             for a in importer.assets.values()
@@ -1276,6 +1389,7 @@ def build(root, specs, index, artwork=()):
             asset["limitations"] = [
                 "Intact supplied artwork; world-size registration is an editable starting point."
             ]
+            asset["imageRole"] = record.get("imageRole", "image")
             frame = {
                 "group": "library-artwork",
                 "member": member,
@@ -1284,13 +1398,70 @@ def build(root, specs, index, artwork=()):
                 "density": record["density"],
             }
             importer.clip(asset, "still", "d45", [frame], [1000], True)
+        represented = {}
+        if inventory:
+            inventory["unresolvedAnimations"] = unresolved_animations
+            by_group = {p.spec["group"]: p for p in packages}
+            hashes = {}
+            for asset in importer.assets.values():
+                for directions in asset["clips"].values():
+                    for clip in directions.values():
+                        for frame in clip["frames"]:
+                            key = (frame["group"], frame["member"])
+                            if key not in hashes:
+                                package = by_group.get(key[0])
+                                hashes[key] = (
+                                    __import__("hashlib")
+                                    .sha256(package.zip.read(key[1]))
+                                    .hexdigest()
+                                    if package
+                                    else index["files"][key[0]][key[1]]["sha256"]
+                                )
+                            represented.setdefault(hashes[key], set()).add(asset["id"])
+            for image in inventory["images"]:
+                if image["sha256"] in represented:
+                    continue
+                canvas = image["canvas"]
+                asset = importer.asset(
+                    "source-" + image["sha256"][:24],
+                    image["path"],
+                    "prop" if image["alpha"] else "material",
+                    "painted-cutout" if image["alpha"] else "top-down",
+                )
+                asset["imageRole"] = "image"
+                asset["limitations"] = [
+                    "Supplied image; placement and world scale are editable initial registrations."
+                ]
+                frame = {
+                    "group": image["group"],
+                    "member": image["member"],
+                    "canvas": canvas,
+                    "anchor": [canvas[0] / 2, canvas[1] if image["alpha"] else canvas[1] / 2],
+                    "density": 256,
+                    "indexPath": str(index_path),
+                }
+                importer.clip(asset, "still", "d45", [frame], [1000], True)
+                represented[image["sha256"]] = {asset["id"]}
+            for image in inventory["images"]:
+                image["assets"] = sorted(represented.get(image["sha256"], ()))
+            for record in inventory["files"]:
+                record.pop("signature", None)
+                identities = [record["sha256"], *[m["sha256"] for m in record.get("members", [])]]
+                record["assets"] = sorted({a for h in identities for a in represented.get(h, ())})
+                record["status"] = (
+                    "represented"
+                    if record["assets"]
+                    else "media"
+                    if record["kind"] == "media"
+                    else "source-material"
+                )
         selected = {
             p.spec["archive"]: (
                 "imported"
                 if p.spec["group"] in used
                 else "metadata-support"
                 if p.spec["category"] == 0 or "Source_and_Review" in p.spec["archive"]
-                else "excluded-current-handoff-selection"
+                else "unrepresented-selected-package"
             )
             for p in packages
         }
@@ -1305,30 +1476,15 @@ def build(root, specs, index, artwork=()):
                 None,
             )
             if reason is None:
-                lower = relative.lower()
-                reason = (
-                    "deferred-title-loading"
-                    if relative.startswith("Title and Loading/")
-                    else "rejected-or-superseded"
-                    if any(
-                        x in lower
-                        for x in [
-                            "rejected",
-                            "earlier",
-                            "superseded",
-                            "alternate concept",
-                            "unreviewed",
-                        ]
-                    )
-                    else "existing-hero-selection"
-                    if relative.startswith("Characters/Hero/")
-                    else "source-or-review-only"
-                )
+                # A folder name is not evidence that its assets are represented
+                # or intentionally excluded. Unregistered packages need review.
+                reason = "unregistered-needs-classification"
             importer.dispositions.append({"path": relative, "status": reason})
         return {
             "schemaVersion": 1,
             "assets": list(importer.assets.values()),
             "dispositions": importer.dispositions,
+            **({"inventory": inventory, "media": inventory["media"]} if inventory else {}),
         }
 
 
@@ -1336,7 +1492,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
-    index = load_index(PROJECT / "assets/sources.json")
+    index_path = pathlib.Path(
+        __import__("os").environ.get("LANTERN_LIBRARY_INDEX", PROJECT / "assets/sources.json")
+    )
+    index = load_index(index_path)
     root = (
         pathlib.Path(
             __import__("os").environ.get(
@@ -1351,6 +1510,9 @@ if __name__ == "__main__":
         for name in json.loads((PROJECT / "assets/library-artwork.json").read_text())["includes"]
         for record in json.loads((PROJECT / "assets" / safe_relative(name)).read_text())["assets"]
     ]
-    result = build(root, specs, index, artwork)
+    artwork = [a for a in artwork if a["member"] in index["files"].get("library-artwork", {})]
+    inventory_path = __import__("os").environ.get("LANTERN_LIBRARY_INVENTORY")
+    inventory = json.loads(pathlib.Path(inventory_path).read_text()) if inventory_path else None
+    result = build(root, specs, index, artwork, inventory, index_path)
     pathlib.Path(args.output).write_text(json.dumps(result, separators=(",", ":")) + "\n")
     print(f"Normalized {len(result['assets'])} logical world assets")

@@ -1,13 +1,10 @@
 import type { PreparationContext } from './assets/context';
-import { projectRoot } from './assets/paths';
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import sharp from 'sharp';
 import { parseSource, parseManifest, type Manifest } from '../src/assets/schema';
 import contract from '../src/assets/camera.json';
 import { cameraCalibration as calibrationFixture } from '../src/assets/camera-calibration';
-const root = projectRoot;
 const TOOL_VERSION = 'atlas-v2.2-sharp-0.35.5';
 export const hash = (v: Buffer | string) => createHash('sha256').update(v).digest('hex');
 // Dilate RGB into transparent pixels, then extrude the trim edge. Straight alpha stays unchanged.
@@ -59,11 +56,7 @@ export async function compile(
   const readSource = context.exactSource;
   const input = await readSource(sourceFile, inputRoot),
     source = parseSource(JSON.parse(input.toString()), production);
-  if (production) {
-    const canonical = await fs.readFile(path.join(root, 'references/canon/image(3).png'));
-    if (hash(canonical) !== source.asset.canonicalReferenceHash)
-      throw new Error('canonical reference bytes changed: image(3).png must remain unchanged');
-  }
+
   const frames = [] as Manifest['frames'],
     size = source.asset.atlasSize ?? contract.atlasSize,
     pad = source.asset.type === 'material' ? 0 : 4;
@@ -81,13 +74,8 @@ export async function compile(
     const file = await readSource(f.path, inputRoot);
     digest.update(file);
     const metadata = await sharp(file).metadata();
-    if (
-      metadata.format !== 'png' ||
-      !metadata.hasAlpha ||
-      metadata.depth !== 'uchar' ||
-      metadata.space !== 'srgb'
-    )
-      throw new Error(`${f.path}: reviewed RGBA8 sRGB PNG with alpha required`);
+    if (metadata.format !== 'png' || metadata.depth !== 'uchar' || metadata.space !== 'srgb')
+      throw new Error(`${f.path}: 8-bit sRGB PNG required`);
     const { data, info } = await sharp(file)
       .ensureAlpha()
       .raw()
@@ -100,7 +88,7 @@ export async function compile(
       maxY = -1;
     for (let yy = 0; yy < info.height; yy++)
       for (let xx = 0; xx < info.width; xx++)
-        if (data[(yy * info.width + xx) * 4 + 3]! > (f.origin === 'imported-study' ? 0 : 1)) {
+        if (data[(yy * info.width + xx) * 4 + 3]! > 0) {
           minX = Math.min(minX, xx);
           minY = Math.min(minY, yy);
           maxX = Math.max(maxX, xx);

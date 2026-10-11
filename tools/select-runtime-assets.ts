@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { safeRelative } from './assets/files';
-import { parseManifest } from '../src/assets/schema';
+import { parseManifest, type Manifest } from '../src/assets/schema';
 import { playgroundCatalog } from '../src/content/effects-playground-assets';
 import { loadingVideoPath } from '../src/content/loading-media';
 import { readAuthoringCatalog } from './assets/authoring-catalog';
@@ -18,7 +18,7 @@ export async function selectedFiles(
   const catalog = dev
     ? { ...(await readAuthoringCatalog(publicRoot)), ...playgroundCatalog }
     : profile === 'runtime'
-      ? assetCatalog
+      ? { ...assetCatalog, ...(await import('../src/content/game-content')).gameAssetCatalog }
       : (await import('../src/content/game-content')).gameAssetCatalog;
   const files = new Set([
     'build-mode.json',
@@ -39,7 +39,50 @@ export async function selectedFiles(
     for (const page of m.pages) {
       const name = path.posix.join(path.posix.dirname(file), page.path);
       if (hash(await read(name)) !== page.hash) throw new Error('Prepared page differs: ' + name);
-      files.add(name);
+      if (
+        dev ||
+        !page.delivery?.some(
+          (v) => v.encoding === 'png' && v.width === page.width && v.height === page.height,
+        )
+      )
+        files.add(name);
+      for (const image of [
+        ...(page.delivery ?? []),
+        ...(dev && page.preview ? [page.preview] : []),
+      ]) {
+        if (hash(await read(image.path)) !== image.hash)
+          throw new Error('Prepared delivery image differs: ' + image.path);
+        files.add(image.path);
+      }
+    }
+  }
+  if (
+    [...manifests.values()].some((m) =>
+      m.pages.some((p: Manifest['pages'][number]) =>
+        p.delivery?.some((v) => v.encoding === 'ktx2-uastc'),
+      ),
+    )
+  )
+    for (const name of ['basis_transcoder.js', 'basis_transcoder.wasm'])
+      files.add('decoders/' + name);
+  if (dev) {
+    for (const file of [
+      'generated/library/index.json',
+      'generated/library/inventory.json',
+      'generated/library/delivery-report.json',
+    ])
+      if (
+        await fs.access(path.join(publicRoot, file)).then(
+          () => true,
+          () => false,
+        )
+      )
+        files.add(file);
+    try {
+      const inventory = JSON.parse((await read('generated/library/inventory.json')).toString());
+      for (const media of inventory.media ?? []) files.add(safeRelative(media.file));
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
     }
   }
   const lighting = JSON.parse((await read('lighting/manifest.json')).toString());

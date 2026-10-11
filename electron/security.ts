@@ -9,7 +9,11 @@ export function resourcePath(url: string, root: string) {
     relative = path.relative(root, file);
   if (!relative || relative.startsWith('..') || path.isAbsolute(relative))
     throw new Error('resource escapes app root');
-  if (!/\.(html|js|css|png|json|ico|glb|mp4)$/.test(file))
+  if (
+    !/\.(html|js|css|png|json|ico|glb|mp4|ktx2|wasm|jpg|jpeg|webp|gif|apng|webm|wav|mp3|ogg|pdf|blend|svg|ttf)$/.test(
+      file,
+    )
+  )
     throw new Error('unsupported app resource');
   return file;
 }

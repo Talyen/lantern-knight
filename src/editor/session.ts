@@ -15,6 +15,7 @@ import { worldVisuals } from '../content/game-content';
 import { SceneLibrary } from './library';
 import { VisualAuthoring } from './visual-authoring';
 import { CompositionTools } from './composition';
+import { libraryInventory } from './library-inventory';
 import { editorUI } from './ui';
 import { EditorWorkspace, openDock } from './workspace';
 import { emptyScene } from './default-scene';
@@ -37,6 +38,7 @@ import {
   type PaletteKind,
 } from '../content/scene-document';
 import { heightAt } from '../content/world';
+import { artworkFloorLayout } from '../content/floor-layout';
 import { applySceneryPreset } from '../content/scenery-presets';
 import { EditorHistory, sceneItems } from './model';
 import { EditorView } from './view';
@@ -86,7 +88,7 @@ export function createEditorSession() {
   let palette: {
       asset: string;
       clip: string;
-      kind: PaletteKind | 'reference';
+      kind: PaletteKind;
       manifest: Manifest;
     }[] = [],
     chosen: (typeof palette)[number] | undefined;
@@ -146,6 +148,7 @@ export function createEditorSession() {
     $<HTMLSelectElement>('rig').value = d.look.rig;
     $<HTMLSelectElement>('look').value = d.look.look;
     $<HTMLSelectElement>('floor').value = d.floor.asset + '/' + (d.floor.clip ?? 'surface');
+    $<HTMLSelectElement>('floor-layout').value = d.floor.layout ?? 'repeat';
     $<HTMLInputElement>('width').value = String(d.floor.width);
     $<HTMLInputElement>('depth').value = String(d.floor.depth);
     $<HTMLFieldSetElement>('transform').disabled = busy || !p || locked;
@@ -301,16 +304,23 @@ export function createEditorSession() {
     const p = view.presentation;
     if (!p) return;
     const b = p.area.bounds;
-    p.center.set((b.minX + b.maxX) / 2, 1.8, (b.minZ + b.maxZ) / 2);
+    const floor = history.document.floor;
+    const artwork =
+      floor.layout === 'artwork' ? artworkFloorLayout(floor.width, floor.depth) : undefined;
+    p.center.set((b.minX + b.maxX) / 2, artwork ? 0 : 1.8, (b.minZ + b.maxZ) / 2);
     p.verticalSpan = Math.max(10, Math.min(50, Math.max(b.maxX - b.minX, b.maxZ - b.minZ) * 0.85));
     p.resize();
     view.render();
-    const corners = [
-      [b.minX, b.minZ],
-      [b.minX, b.maxZ],
-      [b.maxX, b.minZ],
-      [b.maxX, b.maxZ],
-    ].map(([x, z]) => view.screen(new T.Vector3(x!, 0, z!)));
+    const corners = (
+      artwork
+        ? artwork.corners.map((p) => [p.x, p.z])
+        : [
+            [b.minX, b.minZ],
+            [b.minX, b.maxZ],
+            [b.maxX, b.minZ],
+            [b.maxX, b.maxZ],
+          ]
+    ).map(([x, z]) => view.screen(new T.Vector3(x!, 0, z!)));
     const rect = canvas.getBoundingClientRect();
     const width = Math.max(...corners.map((p) => p.x)) - Math.min(...corners.map((p) => p.x));
     const height = Math.max(...corners.map((p) => p.y)) - Math.min(...corners.map((p) => p.y));
@@ -485,16 +495,30 @@ export function createEditorSession() {
           look: $<HTMLSelectElement>('look').value as SceneDocument['look']['look'],
         };
       });
-  for (const id of ['floor', 'width', 'depth'])
+  for (const id of ['floor', 'floor-layout', 'width', 'depth'])
     $(id).onchange = () =>
       void change((d) => {
         const [asset, clip] = $<HTMLSelectElement>('floor').value.split('/');
         d.floor = {
           asset: asset!,
           clip: clip!,
+          layout:
+            id === 'floor'
+              ? assetIndex.get(asset!)?.asset.imageRole
+                ? 'artwork'
+                : undefined
+              : $<HTMLSelectElement>('floor-layout').value === 'artwork'
+                ? 'artwork'
+                : undefined,
           width: Number($<HTMLInputElement>('width').value),
           depth: Number($<HTMLInputElement>('depth').value),
         };
+        const painting = assetIndex.get(asset!)?.asset;
+        if (d.floor.layout === 'artwork' && painting) {
+          const ratio = painting.canvas[0] / painting.canvas[1];
+          if (id === 'depth') d.floor.width = d.floor.depth * ratio;
+          else d.floor.depth = d.floor.width / ratio;
+        }
       });
   for (const id of ['x', 'z', 'y', 'scale', 'rotation', 'mirror'])
     $(id).onchange = () =>
@@ -562,7 +586,10 @@ export function createEditorSession() {
   ) {
     const m = entry.manifest,
       page = m.pages.find((p) => p.id === f.page)!,
-      src = '/' + assetCatalog[entry.asset]!.replace(/manifest\.json$/, page.path);
+      preview = target.width <= 192 ? page.preview : undefined,
+      src = preview
+        ? '/' + preview.path
+        : '/' + assetCatalog[entry.asset]!.replace(/manifest\.json$/, page.path);
     let promise = images.get(src);
     if (!promise) {
       promise = new Promise((resolve, reject) => {
@@ -582,10 +609,10 @@ export function createEditorSession() {
     ctx.clearRect(0, 0, target.width, target.height);
     ctx.drawImage(
       image,
-      x,
-      y,
-      w,
-      h,
+      x * (preview ? preview.width / page.width : 1),
+      y * (preview ? preview.height / page.height : 1),
+      w * (preview ? preview.width / page.width : 1),
+      h * (preview ? preview.height / page.height : 1),
       (target.width - w * ratio) / 2,
       (target.height - h * ratio) / 2,
       w * ratio,
@@ -641,23 +668,13 @@ export function createEditorSession() {
           .replaceAll('-', ' ');
         const badge = document.createElement('span');
         badge.className = 'asset-status';
-        badge.textContent =
-          entry.kind === 'reference'
-            ? 'Reference'
-            : sceneAssets.has(entry.asset)
-              ? 'In this scene'
-              : usedAssets.has(entry.asset)
-                ? 'In use'
-                : 'Library';
+        badge.textContent = sceneAssets.has(entry.asset)
+          ? 'In this scene'
+          : usedAssets.has(entry.asset)
+            ? 'In use'
+            : 'Library';
         button.append(c, label, badge);
         button.onclick = () => {
-          if (entry.kind === 'reference') {
-            $('art-preview-label').textContent =
-              `${entry.manifest.asset.label ?? entry.asset} · Reference artwork; this projection cannot be placed in a scene.`;
-            $<HTMLDialogElement>('art-preview').showModal();
-            launch(thumbnail(entry, $<HTMLCanvasElement>('art-preview-canvas')));
-            return;
-          }
           chooseAsset(entry);
           selected = undefined;
           composition.selection.clear();
@@ -665,10 +682,6 @@ export function createEditorSession() {
           workspace.refresh();
         };
         button.ondragstart = (e) => {
-          if (entry.kind === 'reference') {
-            e.preventDefault();
-            return;
-          }
           e.dataTransfer!.setData('application/x-lantern-asset', String(index));
           e.dataTransfer!.effectAllowed = 'copy';
         };
@@ -814,7 +827,6 @@ export function createEditorSession() {
     return composition?.snap(n) ?? n;
   }
   async function place(entry: (typeof palette)[number], x: number, y: number) {
-    if (entry.kind === 'reference') return;
     const point = view.ground(x, y);
     if (!point) return;
     await run(async () => {
@@ -1337,7 +1349,7 @@ export function createEditorSession() {
     const manifests = [...assetIndex.values()];
     assertActive();
     for (const m of manifests) {
-      const kind = paletteKind(m) ?? 'reference';
+      const kind = paletteKind(m);
       if (kind)
         for (const clip of paletteClips(m))
           palette.push({ asset: m.asset.id, clip, kind, manifest: m });
@@ -1348,6 +1360,14 @@ export function createEditorSession() {
     }
     palette.sort((a, b) => a.asset.localeCompare(b.asset) || a.clip.localeCompare(b.clip));
     showPalette();
+    if (runtime.libraryInventory)
+      await libraryInventory($('library-inventory'), lifetime.signal, (id) => {
+        $<HTMLInputElement>('search').value = id;
+        for (const field of ['asset-scope', 'category', 'collection'])
+          $<HTMLSelectElement>(field).value = 'all';
+        $<HTMLInputElement>('asset-animated').checked = false;
+        showPalette();
+      });
     await view.apply(history.document);
     assertActive();
     fit();

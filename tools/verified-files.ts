@@ -8,14 +8,25 @@ import { shaFile } from './assets/sources';
 // A successful hash check is reusable only while every file's identity and metadata match.
 async function fileSignatures(root: string, names: readonly string[]) {
   const signatures: Record<string, string> = {};
-  for (const name of [...new Set(names)].sort()) {
-    safeRelative(name);
-    const stat = await fs.lstat(path.join(root, name));
-    if (!stat.isFile() || stat.isSymbolicLink())
-      throw new Error('Invalid verified output: ' + name);
-    signatures[name] = [stat.dev, stat.ino, stat.size, stat.mtimeMs, stat.ctimeMs, stat.mode].join(
-      ':',
+  const sorted = [...new Set(names)].sort();
+  for (let offset = 0; offset < sorted.length; offset += 64) {
+    const batch = sorted.slice(offset, offset + 64);
+    const stats = await Promise.all(
+      batch.map((name) => fs.lstat(path.join(root, safeRelative(name)))),
     );
+    for (const [index, name] of batch.entries()) {
+      const stat = stats[index]!;
+      if (!stat.isFile() || stat.isSymbolicLink())
+        throw new Error('Invalid verified output: ' + name);
+      signatures[name] = [
+        stat.dev,
+        stat.ino,
+        stat.size,
+        stat.mtimeMs,
+        stat.ctimeMs,
+        stat.mode,
+      ].join(':');
+    }
   }
   return signatures;
 }
@@ -46,7 +57,16 @@ export async function verifiedOutput(
 export async function fileChecksums(root: string, names: readonly string[]) {
   const before = await fileSignatures(root, names);
   const hashes: Record<string, string> = {};
-  for (const name of Object.keys(before)) hashes[name] = await shaFile(path.join(root, name));
+  const shared = new Map<string, string>();
+  for (const [name, signature] of Object.entries(before)) {
+    const key = signature.split(':')[1] === '0' ? name : signature;
+    let hash = shared.get(key);
+    if (!hash) {
+      hash = await shaFile(path.join(root, name));
+      shared.set(key, hash);
+    }
+    hashes[name] = hash;
+  }
   if (JSON.stringify(before) !== JSON.stringify(await fileSignatures(root, names)))
     throw new Error('Output changed while hashing');
   return hashes;

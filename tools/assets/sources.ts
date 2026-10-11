@@ -72,7 +72,7 @@ function reader() {
 export function readLibrarySource(
   member: string,
   group = 'ink-collection-01',
-  location?: { root: string; indexPath: string; inputLog?: string | null },
+  location?: { root: string; indexPath: string; inputLog?: string | null; strict?: boolean },
 ): Promise<Buffer> {
   safeRelative(member);
   safeRelative(group);
@@ -89,6 +89,7 @@ export function readLibrarySource(
         index: location?.indexPath ?? indexPath,
         group,
         member,
+        strict: location?.strict,
       }) + '\n',
     );
   });
@@ -103,6 +104,7 @@ export function readLibrarySource(
         group,
         root,
         indexPath: location?.indexPath ?? indexPath,
+        strict: location?.strict,
         sha256: createHash('sha256').update(bytes).digest('hex'),
       }) + '\n',
     );

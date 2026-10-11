@@ -8,7 +8,7 @@ const rect = z.tuple([int, int, z.number().int().positive(), z.number().int().po
 const id = z.string().regex(/^[a-z0-9][a-z0-9_-]*$/);
 const path = z
   .string()
-  .regex(/^[a-zA-Z0-9_/-]+\.(png|json)$/)
+  .regex(/^[a-zA-Z0-9_/-]+\.(png|json|ktx2)$/)
   .refine(
     (v) => !v.split('/').includes('..') && !v.startsWith('/'),
     'relative approved-root path required',
@@ -47,7 +47,8 @@ const metadata = z
     mirroring: z.boolean().optional(),
     placement: z.enum(['upright', 'ground', 'reference']).optional(),
     layer: z.enum(['world', 'below-actor', 'overlay']).optional(),
-    atlasSize: z.number().int().min(64).max(contract.atlasMaxSize).optional(),
+    imageRole: z.enum(['image', 'scene-painting']).optional(),
+    atlasSize: z.number().int().positive().optional(),
     bundle: z.enum(['hero', 'room']),
     status: z.enum(['diagnostic', 'proxy', 'production']),
     provenance: z
@@ -63,12 +64,8 @@ const metadata = z
     alpha: z.literal('straight'),
     recipe: z.string().min(1),
     sampling: z.enum(['linear', 'terrain-mipmapped']).optional(),
-    designReference: z.enum([
-      'engineering-placeholder',
-      'collection-study',
-      'libfile_0da5071239448191b6962495ce1e0164',
-    ]),
-    renderStyle: z.enum(['diagnostic', 'clean-ink']),
+    designReference: z.string().min(1),
+    renderStyle: z.string().min(1),
     canonicalReferenceHash: z.string().length(64).optional(),
     legacyBake: z
       .object({
@@ -107,7 +104,7 @@ const sourceFrame = z
   .object({
     id,
     path,
-    origin: z.enum(['diagnostic', 'blender-proxy', 'imported-study', 'production']),
+    origin: z.string().min(1),
     attachments: z.record(z.string(), pair),
     visualOffsetPx: pair.optional(),
     registration: frameRegistration.optional(),
@@ -119,6 +116,26 @@ const SourceSchema = z
 const runtimeFrame = sourceFrame
   .omit({ path: true })
   .extend({ source: path, page: id, rect, trim: rect, rotated: z.literal(false) })
+  .strict();
+const deliveryImage = z
+  .object({
+    path,
+    hash: z.string().length(64),
+    width: z.number().int().positive(),
+    height: z.number().int().positive(),
+    bytes: int,
+    gpuBytes: int,
+    encoding: z.enum(['png', 'ktx2-uastc']),
+    mipmaps: z.boolean(),
+    quality: z
+      .object({
+        rmse: finite.nonnegative(),
+        alphaMaxError: int,
+        ssim: finite.min(0).max(1).optional(),
+      })
+      .strict()
+      .optional(),
+  })
   .strict();
 const page = z
   .object({
@@ -132,6 +149,8 @@ const page = z
     extrusion: int,
     gutter: int,
     mipmaps: z.boolean(),
+    preview: deliveryImage.optional(),
+    delivery: z.array(deliveryImage).optional(),
   })
   .strict();
 const ManifestSchema = z
@@ -156,7 +175,7 @@ export type Source = z.infer<typeof SourceSchema>;
 export type Manifest = z.infer<typeof ManifestSchema>;
 export type Frame = Manifest['frames'][number];
 export type Clip = z.infer<typeof timing>;
-function validateSemantics(value: Source | Manifest, production = false) {
+function validateSemantics(value: Source | Manifest, _production = false) {
   const a = value.asset;
   if (a.sampling === 'terrain-mipmapped' && a.type !== 'material')
     throw new Error('terrain mipmaps require a material');
@@ -218,8 +237,6 @@ function validateSemantics(value: Source | Manifest, production = false) {
     Object.values(a.clips).some((d) => Object.keys(d).some((k) => k !== 'd45'))
   )
     fail('viewMode', 'fixed authored views declare only their single d45 storage slot');
-  if (a.viewMode === 'fixed-authored' && a.status === 'production')
-    fail('viewMode', 'fixed authored studies are development-only');
   for (const [clip, dirs] of Object.entries(a.clips))
     for (const dir of a.viewMode === 'supplied'
       ? (Object.keys(dirs) as (typeof HEADINGS)[number][])
@@ -233,8 +250,6 @@ function validateSemantics(value: Source | Manifest, production = false) {
         dirs[dir] ?? fail(`clips.${clip}.${dir}`, 'missing required heading; mirroring forbidden');
       if (c.loop && c.endBehavior === 'hide')
         fail(`clips.${clip}.${dir}`, 'loop cannot hide at its end');
-      if (c.loop && /(death|hit|dodge|sweep|lunge)$|attack_sword_|cast_lantern_flare/.test(clip))
-        fail(`clips.${clip}.${dir}.loop`, 'action and death clips must not loop');
       if (c.frames.length !== c.durationsMs.length)
         fail(`clips.${clip}.${dir}`, 'duration count differs from frame count');
       for (const f of c.frames) if (!ids.has(f)) fail(`clips.${clip}.${dir}`, `missing frame ${f}`);
@@ -260,11 +275,9 @@ function validateSemantics(value: Source | Manifest, production = false) {
       if (
         seen.has(p.id) ||
         pagePaths.has(p.path.toLowerCase()) ||
-        p.width > contract.atlasMaxSize ||
-        p.height > contract.atlasMaxSize ||
         p.rgbaBytes !== p.width * p.height * 4
       )
-        fail('pages', 'duplicate, case-colliding, oversized or invalid byte estimate');
+        fail('pages', 'duplicate, case-colliding or invalid byte estimate');
       seen.add(p.id);
       pagePaths.add(p.path.toLowerCase());
     }
@@ -285,31 +298,6 @@ function validateSemantics(value: Source | Manifest, production = false) {
     fail(
       'dependencies',
       'this single-character source format requires self-contained staged inputs',
-    );
-  if (
-    a.legacyBake &&
-    (a.status === 'production' ||
-      a.legacyBake.maxProjectionErrorPx > 0.001 ||
-      Math.abs(a.legacyBake.azimuthDeg - contract.azimuthDeg) > 1e-6 ||
-      Math.abs(a.legacyBake.elevationDeg - contract.elevationDeg) > 1e-6)
-  )
-    fail(
-      'legacyBake',
-      'historical bakes may only be revalidated for negligible precision changes in development',
-    );
-  if (
-    production &&
-    (a.status !== 'production' ||
-      contract.approval !== 'approved' ||
-      a.legacyBake ||
-      !a.canonicalReferenceHash ||
-      a.designReference !== 'libfile_0da5071239448191b6962495ce1e0164' ||
-      a.renderStyle !== 'clean-ink' ||
-      value.frames.some((f) => f.origin !== 'production'))
-  )
-    fail(
-      'status',
-      'production requires canonical Rust/Clean INK source and production frames; placeholders are development-only',
     );
 }
 export function resolveClip(

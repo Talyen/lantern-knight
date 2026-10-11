@@ -13,6 +13,10 @@ import {
 } from '../../src/content/scene-document';
 import { EditorHistory } from '../../src/editor/model';
 it('preserves authoritative source registration, timing and extension conflicts without library access', () => {
+  execFileSync('python3', ['-B', 'tests/assets/library_discovery.py'], {
+    cwd: process.cwd(),
+    stdio: 'pipe',
+  });
   execFileSync('python3', ['-B', 'tests/assets/library_import.py'], {
     cwd: process.cwd(),
     stdio: 'pipe',

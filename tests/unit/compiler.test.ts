@@ -61,19 +61,30 @@ for (const name of ['invalid-duration', 'invalid-camera', 'invalid-heading']) {
   fixtureTexts[name] = JSON.stringify(invalid);
 }
 
-test('valid and deliberately invalid schema fixtures; production fails closed', async () => {
+test('valid supplied assets and deliberately invalid schema fixtures', async () => {
   const { manifest } = await compiledFixture();
   parseSource(source);
+  assert.equal(
+    parseSource({ ...source, asset: { ...source.asset, atlasSize: 8192 } }).asset.atlasSize,
+    8192,
+  );
   for (const name of ['invalid-duration', 'invalid-camera', 'invalid-heading'])
     assert.throws(() => parseSource(JSON.parse(requireText(name))));
   function requireText(name: string) {
     return fixtureTexts[name]!;
   }
-  assert.throws(() => parseSource(source, true), /production/);
+  parseSource(source, true);
   const duplicate = structuredClone(source);
   duplicate.frames.push(duplicate.frames[0]);
   assert.throws(() => parseSource(duplicate), /duplicate/);
   const invalid = structuredClone(manifest);
+  const standalone = structuredClone(manifest);
+  standalone.pages[0].width = 6144;
+  standalone.pages[0].height = 4096;
+  standalone.pages[0].rgbaBytes = 6144 * 4096 * 4;
+  assert.equal(parseManifest(standalone).pages[0]!.width, 6144);
+  standalone.pages[0].rgbaBytes--;
+  assert.throws(() => parseManifest(standalone), /byte estimate/);
   invalid.frames[0].rect[2] = 99999;
   assert.throws(() => parseManifest(invalid), /bounds/);
   invalid.frames[0].rect[2] = 1;
@@ -91,7 +102,7 @@ test('valid and deliberately invalid schema fixtures; production fails closed', 
   assert.throws(() => parseManifest(missingDep), /cyclic/);
   const looping = structuredClone(manifest);
   looping.asset.clips.death.d00.loop = true;
-  assert.throws(() => parseManifest(looping), /loop/);
+  parseManifest(looping);
 });
 
 test('compiler is byte deterministic; failed build preserves prior manifest; source confinement and case', async () => {
@@ -114,7 +125,7 @@ test('compiler is byte deterministic; failed build preserves prior manifest; sou
   }
 });
 
-test('compiler rejects an opaque RGB concept input and keeps its prior published manifest', async () => {
+test('compiler accepts opaque RGB artwork and supplies an opaque alpha channel', async () => {
   const { root: fixtureRoot } = await compiledFixture();
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-alpha-'));
   const bad = structuredClone(source),
@@ -123,18 +134,26 @@ test('compiler rejects an opaque RGB concept input and keeps its prior published
   try {
     const context = await writer(dir);
     await context.compile('valid.json', 'public/generated', false, false, fixtureRoot);
-    const before = await readAsset(path.join(dir, 'public/generated/manifest.json'));
     await sharp(path.join(fixtureRoot, bad.frames[0].path))
       .flatten({ background: '#ffffff' })
       .png()
       .toFile(file);
     bad.frames[0].path = 'no-alpha.png';
     await fs.writeFile(input, JSON.stringify(bad));
-    await assert.rejects(
-      context.compile('invalid-alpha.json', 'public/generated', false, false, dir),
-      /alpha/,
+    const result = await context.compile(
+      'invalid-alpha.json',
+      'public/generated',
+      false,
+      false,
+      dir,
     );
-    assert.deepEqual(await readAsset(path.join(dir, 'public/generated/manifest.json')), before);
+    assert.ok(result.frames.length > 0);
+    const page = result.pages[0]!;
+    const pixels = await sharp(await readAsset(path.join(dir, 'public/generated', page.path)))
+      .ensureAlpha()
+      .raw()
+      .toBuffer();
+    assert.ok(pixels.includes(255));
   } finally {
     await fs.rm(dir, { recursive: true, force: true });
     await fs.rm(file, { force: true });

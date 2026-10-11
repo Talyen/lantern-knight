@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { cachedPreparationStep } from '../../tools/assets/incremental';
+import { createPreparationContext } from '../../tools/assets/context';
 import {
   preparationSteps,
   preparationSelection,
@@ -41,6 +42,21 @@ test('preparation reuse invalidates registration, source-index and lighting-owne
       preparationStepKey(operation, confined, digests),
       `${operation.file} must invalidate changed source confinement`,
     );
+  for (const helper of [
+    'tools/assets/context.ts',
+    'tools/assets/incremental.ts',
+    'tools/assets/preparation.ts',
+  ])
+    for (const operation of preparationSteps)
+      assert.equal(
+        preparationStepKey(operation, inputs, digests),
+        preparationStepKey(
+          operation,
+          { ...inputs, [helper]: 'changed filesystem plumbing' },
+          digests,
+        ),
+        `${operation.file} should retain its encoding cache when ${helper} changes`,
+      );
 });
 
 test('full and scoped preparation run producers before consumers, including flat-stage relief inputs', () => {
@@ -94,6 +110,37 @@ test('incremental preparation reuses one validated step and rebuilds changed inp
     );
     assert.equal((await cachedPreparationStep({ ...options, key: 'two' })).reused, false);
     assert.equal(runs, 3);
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
+test('preparation rejects changed written bytes before caching a producer', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'preparation-write-proof-'));
+  const workspace = path.join(root, 'work');
+  const context = await createPreparationContext({
+    workspace,
+    budget: 1024,
+    sourceRoot: root,
+    libraryRoot: root,
+  });
+  try {
+    await assert.rejects(
+      cachedPreparationStep({
+        file: 'image-delivery.ts',
+        workspace,
+        cache: path.join(root, 'cache'),
+        key: 'one',
+        run: async (env) => {
+          context.setReceipts({ outputLog: env.LANTERN_STEP_OUTPUT_LOG });
+          await context.writeAsset('public/master.png', 'native pixels');
+          await fs.writeFile(path.join(workspace, 'public/master.png'), 'corrupt pixels');
+        },
+        verifyOutputs: (hashes) => context.verifyOutputs(hashes),
+      }),
+      /Prepared output bytes differ/,
+    );
+    await assert.rejects(fs.access(path.join(root, 'cache/image-delivery/receipt.json')));
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }

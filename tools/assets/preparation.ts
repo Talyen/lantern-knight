@@ -6,7 +6,6 @@ import { runProcess } from '../run-process';
 import { projectRoot } from './paths';
 import { cachedPreparationStep } from './incremental';
 import { preparationStepKey, recipeInputs, type preparationSteps } from './recipe';
-import { shaFile } from './sources';
 
 // Full packs and local overlays execute and validate exactly the same steps.
 export async function prepareSteps(options: {
@@ -14,14 +13,16 @@ export async function prepareSteps(options: {
   workspace: string;
   cache: string;
   env: NodeJS.ProcessEnv;
-  afterStep?: () => Promise<void>;
+  afterStep?: (result: { reused: boolean }) => Promise<void>;
+  knownContent?: Record<string, string>;
 }) {
   const inputs = await recipeInputs(),
     digests = new Map<string, string>(),
     files: Record<string, string> = {};
-  const context = await createPreparationContext(
-    preparationOptions(options.workspace, options.env),
-  );
+  const context = await createPreparationContext({
+    ...preparationOptions(options.workspace, options.env),
+    knownContent: options.knownContent,
+  });
   for (const operation of options.steps) {
     const invoke = async (args: string[], extra: NodeJS.ProcessEnv = {}) => {
       let log = '';
@@ -38,6 +39,9 @@ export async function prepareSteps(options: {
           return;
         }
 
+        if (!args.includes('--check'))
+          for (const file of ['staging/animation/flow.json', 'staging/animation/flow.png'])
+            await fs.promises.rm(path.join(options.workspace, file), { force: true });
         await runProcess(
           python
             ? fs.existsSync(path.join(projectRoot, '.venv'))
@@ -78,15 +82,30 @@ export async function prepareSteps(options: {
       file: operation.file,
       workspace: options.workspace,
       cache: options.cache,
-      key: preparationStepKey(operation, inputs, digests),
+      key: preparationStepKey(
+        operation,
+        inputs,
+        digests,
+        operation.file.endsWith('prepare-library.ts')
+          ? options.env.LANTERN_LIBRARY_SHA256
+          : operation.file.endsWith('prepare-image-delivery.ts')
+            ? (options.env.LANTERN_IMAGE_GPU ?? '0')
+            : undefined,
+      ),
       run: (env) => invoke([], env),
       validate: operation.freshness ? () => invoke(['--check']) : undefined,
+      verifyOutputs: (hashes) => context.verifyOutputs(hashes),
+      sourceLocation: options.env.LANTERN_LIBRARY_INDEX
+        ? { root: context.sourceRoot, indexPath: options.env.LANTERN_LIBRARY_INDEX, strict: true }
+        : undefined,
     });
     if (result.reused || operation.file.endsWith('.py')) await context.adopt(result.files);
     digests.set(operation.file, result.digest);
-    for (const name of result.files)
-      files[name] = await shaFile(path.join(options.workspace, name));
-    await options.afterStep?.();
+    for (const name of result.files) {
+      files[name] = result.hashes[name]!;
+      await context.recordContentHash(name, files[name]!);
+    }
+    await options.afterStep?.({ reused: result.reused });
     console.log(
       operation.file +
         (result.reused ? ': reused verified outputs.' : ': prepared and source-verified.'),

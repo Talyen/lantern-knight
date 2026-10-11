@@ -103,10 +103,17 @@ def serve():
         request = json.loads(line)
         try:
             root, index_path = request["root"], request["index"]
-            key = (root, index_path)
+            key = (
+                root,
+                index_path,
+                signature(pathlib.Path(index_path).stat()),
+                bool(request.get("strict")),
+            )
             if key not in resolvers:
                 index = load_index(index_path)
-                resolvers[key] = SourceResolver(root, index)
+                resolvers[key] = SourceResolver(
+                    root, index, search_roots=[root] if request.get("strict") else None
+                )
             resolver = resolvers[key]
             data = read(
                 root, resolver.index, request["group"], request["member"], resolver, archives

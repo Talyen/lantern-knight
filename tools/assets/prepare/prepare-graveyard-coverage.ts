@@ -27,6 +27,7 @@ export async function prepare(context: PreparationContext, check = false) {
         ),
         [left, top, width, height] = library ? frame.rect : frame.trim;
       const raw = await sharp(b)
+        .ensureAlpha()
         .extract({ left, top, width, height })
         .extractChannel('alpha')
         .resize(32, 32, { kernel: 'linear' })

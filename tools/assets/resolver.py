@@ -9,6 +9,8 @@ import re
 import stat
 import sys
 import tempfile
+import io
+import zipfile
 
 PROJECT = pathlib.Path(__file__).resolve().parents[2]
 SKIP_NAMES = {
@@ -324,6 +326,25 @@ class SourceResolver:
 
     @contextlib.contextmanager
     def open(self, key):
+        identity = self.identities[key][1]
+        if identity.get("archive"):
+            member = safe_relative(identity["member"])
+            with (
+                self.open("archive:" + identity["archive"]) as stream,
+                zipfile.ZipFile(stream) as archive,
+            ):
+                matches = [i for i in archive.infolist() if i.filename == member]
+                if len(matches) != 1 or stat.S_ISLNK(matches[0].external_attr >> 16):
+                    raise ValueError("missing or unsafe archived source: " + key)
+                data = archive.read(matches[0])
+                if (
+                    len(data) != identity["bytes"]
+                    or hashlib.sha256(data).hexdigest() != identity["sha256"]
+                ):
+                    raise ValueError("archived source differs: " + key)
+                with io.BytesIO(data) as original:
+                    yield original
+            return
         # Retry once if a source is moved/replaced between discovery and opening.
         for attempt in range(2):
             path = self.resolve(key)
