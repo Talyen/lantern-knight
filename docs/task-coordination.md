@@ -2,26 +2,45 @@
 
 ## Parallel task ownership
 
-Use one worktree per independent editing task, based on the intended common commit or preserved dirty baseline. Agree owners for shared scene documents, schemas, dependencies and interfaces. Never reset, stash or clean another owner's work. Keep dependencies, builds and previews worktree-local; only immutable prepared assets share the external cache.
+Use one isolated worktree and task branch per implementation chat, starting from committed local `main` unless the user specifies another base. Reuse a suitable worktree. Verify `git rev-parse --show-toplevel` and `git worktree list` before editing; a separate chat does not establish isolation. Preserve unrelated edits and unfinished work in every checkout. If work began in the primary checkout, carry only task-owned changes into an isolated worktree before continuing. Keep dependencies, builds and previews worktree-local; only immutable prepared assets share the external cache.
 
-Before concurrent editing, run `git rev-parse --show-toplevel` and `git worktree list` to verify that the task uses a distinct checkout. A separate chat does not establish checkout isolation. If work began in the shared primary checkout, preserve its edits and carry only task-owned changes into a separate worktree before continuing independent editing.
+Zero inter-chat messages is the default. Do not discover or poll chats to establish isolation, negotiate routine ownership, announce startup, broadcast progress/completion, request verification windows or acknowledge messages. Repository evidence and automatic locks handle ordinary work. Task-relevant messaging is authorized only for a concrete unresolved dependency or conflict that cannot be answered from the repository. Keep the exchange bounded and actionable; do not reply merely to acknowledge. This permission covers Codex chats only, not external communication services.
 
-Proceed independently once scope and contracts are clear. The user authorizes task-relevant coordination messages to other Codex chats; authorization is permission, not an expectation of continuous coordination. Message for a concrete dependency, overlapping scope, shared interface decision or final integration handoff. Avoid routine progress broadcasts, repeated editing-status inquiries and requests to pause another worktree for ordinary local checks. This authorization does not cover external communication services or separately controlled actions such as pushing, publication or deletion.
+After reporting completion to the user, stop. Finished chats leave the coordination loop: do not message, poll or wake them unless the user explicitly asks to resume them. An unsolicited routine message is not a new task and requires no response or renewed coordination. Do not create recurring coordination monitors or follow-ups.
 
 Assign distinct preview ports: integration uses 5174, worktrees can use 5175/5176. Set `LANTERN_PREVIEW_PORT` before development/browser commands. A probe verifies checkout and asset identity before reusing a server. Stop only previews the task started.
 
 ## Handoff and commits
 
-The user gives standing authorization to commit task-owned reviewed/verified changes after integration into local `main`. Preserve inherited edits and other owners' staged work. Integrate coherent changes sequentially and verify the combined snapshot. Interdependent changes can use one coordinated atomic commit. Pushing remains separately authorized.
+The user authorizes task-scoped branch/worktree creation, commits and local integration into `main` after review and required verification. Each chat owns its task through completion. Commit only reviewed task-owned changes on the task branch. Preserve inherited edits and other owners' staged work. Pushes, PRs, publication, destructive cleanup and unrelated changes require separate authorization; explicit task restrictions take precedence.
 
-Finish and verify task-owned changes in the isolated worktree before handoff. With concurrent tasks, agree one current integration owner before modifying `main`; other chats continue worktree-local work and do not edit, stage, commit or finalize the primary checkout during that integration window. The owner reviews and integrates the completed changes, runs fresh `npm run check` on the combined snapshot, commits only reviewed task-owned paths and reports the result before handing integration ownership onward. No permanent coordinator or task registry is required.
+Use `npm run integration:lock -- <command> [args...]` from the task worktree to run the complete integration command in the checkout holding local `main`. The command acquires an exclusive loopback listener derived from the repository's physical Git common directory, so all its worktrees share one lock. Hash collisions with another repository serialize harmlessly. It waits automatically for up to 30 minutes, announces contention once and starts no command on timeout or cancellation. Missing or dirty `main` fails before the command starts. Ordinary command completion, failure and interruption release the lock after owned subprocess cleanup. Nested integration commands are rejected. No permanent coordinator, task registry or chat handoff is required.
 
-Report integration status, local `main` checkout, commit hash/subject, completed checks and unavailable coverage. If integration is blocked or task changes cannot be separated safely, identify the concrete dependency. Worktree checks do not establish main integration or remote delivery.
+Hold the lock throughout these steps: incorporate current `main` into the task branch, resolve understood conflicts there, review the combined result, run fresh `npm run check` (and `npm run docs:check` for prose), then fast-forward clean local `main` to the verified task commit. Supply one foreground command or script containing the entire sequence; separate lock invocations do not protect intervening commands. Do not background integration work, edit the primary checkout outside the lock or acquire the lock merely to launch another agent. This is a cooperative lock: all automated writers to `main` must use it.
+
+For a clean, committed task branch, an integration script can use the following sequence. Pass the absolute task worktree path and its branch name as arguments; the lock command supplies the `main` working directory. Add any checks required by the change before advancing `main`.
+
+```sh
+set -eu
+task_worktree=$1
+task_branch=$2
+test "$(git -C "$task_worktree" branch --show-current)" = "$task_branch"
+test -z "$(git -C "$task_worktree" status --porcelain)"
+git -C "$task_worktree" merge --no-edit main
+npm --prefix "$task_worktree" run check
+npm --prefix "$task_worktree" run docs:check
+test -z "$(git status --porcelain)"
+git merge --ff-only "$task_branch"
+```
+
+Save the script outside tracked source and invoke `npm run integration:lock -- sh /absolute/integrate-task.sh /absolute/task-worktree codex/task-branch`. Resolve a failed merge in the task worktree, commit the resolution, then rerun the full locked sequence. Never overwrite dirty `main`, reset another chat's branch, stash its changes or weaken checks to integrate. If integration is unsafe or blocked, leave the reviewed task committed on its branch and report the concrete limitation to the user. Do not start a chat coordination loop to clear routine dirty-checkout or lock contention.
+
+Report integration status, local `main` checkout, task commit hash/subject, completed checks and unavailable coverage, then stop. Worktree checks alone do not establish main integration or remote delivery.
 
 ## Concurrent commands
 
-GPU checks and asset preparation share one local lane on loopback port 48158. Top-level operations acquire it; helpers do not borrow credentials or recursively acquire admission. Waiting reports contention and starts no work on cancellation/timeout. The OS releases the listener after process termination.
+GPU checks and asset preparation share one local lane on loopback port 48158, separate from integration admission. Top-level operations acquire it; helpers do not borrow credentials or recursively acquire admission. Waiting reports contention and starts no work on cancellation/timeout. The OS releases the listener after process termination.
 
-Let the lane and asset leases handle routine contention automatically. Do not negotiate verification windows through chat for normal waiting. Coordinate only when a specific lock, preview or resource problem requires another owner's action; identify the resource and blocking condition.
+Let the lane and asset leases handle routine contention automatically. Do not negotiate verification windows through chat for normal waiting. Message only when a concrete resource problem requires another owner's action and repository evidence cannot resolve it; identify the resource and blocking condition.
 
-Pure tests, static checks and builds do not acquire the lane. Unit workers remain bounded at two and browser tests at one. Active asset leases independently protect cache data. Preserve foreground rendering quality; hidden/unfocused developer views throttle their own work and never advance background gameplay. Explicit automated rendering may retain continuous cadence.
+Pure tests, static checks and builds do not acquire the GPU lane. Unit workers remain bounded at two and browser tests at one. Active asset leases independently protect cache data. Preserve foreground rendering quality; hidden/unfocused developer views throttle their own work and never advance background gameplay. Explicit automated rendering may retain continuous cadence.

@@ -1,9 +1,10 @@
 import net from 'node:net';
 import { setTimeout as delay } from 'node:timers/promises';
-// Only top-level GPU/preparation operations use this OS-owned listener.
+// Top-level operations hold an OS-owned listener for their full command lifetime.
 export async function acquireCommandLane(
   options: {
     port?: number;
+    name?: string;
     command?: string;
     cwd?: string;
     waitMs?: number;
@@ -11,7 +12,8 @@ export async function acquireCommandLane(
     report?: (message: string) => void;
   } = {},
 ) {
-  const port = options.port ?? 48158,
+  const name = options.name ?? 'GPU/preparation',
+    port = options.port ?? 48158,
     started = Date.now(),
     waitMs = options.waitMs ?? 5 * 60_000;
   const controller = new AbortController(),
@@ -28,7 +30,7 @@ export async function acquireCommandLane(
       const sockets = new Set<net.Socket>();
       const owner = {
         pid: process.pid,
-        command: options.command ?? 'GPU/preparation',
+        command: options.command ?? name,
         checkout: options.cwd ?? process.cwd(),
         startedAt: Date.now(),
       };
@@ -61,12 +63,12 @@ export async function acquireCommandLane(
       if (error.code !== 'EADDRINUSE') throw error;
       if (!announced) {
         (options.report ?? console.error)(
-          'Waiting for the local GPU/preparation lane on port ' + port,
+          'Waiting for the local ' + name + ' lane on port ' + port,
         );
         announced = true;
       }
       if (Date.now() - started >= waitMs)
-        throw new Error('GPU/preparation lane is occupied; no work started');
+        throw new Error(name + ' lane is occupied; no work started');
       await delay(Math.min(250, waitMs - (Date.now() - started)), undefined, { signal });
     }
   } finally {

@@ -18,6 +18,7 @@
     "test:assets": "tsx tools/test.ts --assets",
     "test:browser": "tsx tools/browser-tests.ts",
     "test:desktop": "tsx tools/desktop-tests.ts",
+    "integration:lock": "tsx tools/integration-lock.ts",
     "check": "tsx tools/check.ts",
     "check:ci": "tsx tools/check.ts --ci",
     "build": "tsx tools/build.ts",
