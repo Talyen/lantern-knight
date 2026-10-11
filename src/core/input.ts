@@ -22,8 +22,15 @@ export class Input {
     ) => {
       window.addEventListener(type, fn, { signal });
     };
+    const editing = (target: EventTarget | null) => {
+      const element = target as HTMLElement;
+      return element.matches('input,select,textarea') || element.isContentEditable;
+    };
+    on('focusin', (e) => {
+      if (editing(e.target)) this.clear();
+    });
     on('keydown', (e) => {
-      if ((e.target as HTMLElement).matches('input,select,textarea')) return;
+      if (editing(e.target)) return;
       this.keys.add(e.code);
       if (!e.repeat && (e.code === 'ShiftLeft' || e.code === 'ShiftRight')) this.edges.dodge = true;
       if (e.code === 'Escape' && !e.repeat) {

@@ -491,7 +491,12 @@ export class Simulation {
       for (let j = i + 1; j < this.actors.length; j++) {
         const a = this.actors[i]!,
           b = this.actors[j]!;
-        if (a.health <= 0 || b.health <= 0) continue;
+        if (
+          a.health <= 0 ||
+          b.health <= 0 ||
+          Math.abs(a.y - b.y) > tuning.maxCombatHeightDifference
+        )
+          continue;
         const dx = b.x - a.x,
           dz = b.z - a.z,
           d = Math.hypot(dx, dz),

@@ -5,6 +5,8 @@ import assert from 'node:assert/strict';
 import { Vector3, Texture } from 'three';
 import {
   makeCamera,
+  constrainCamera,
+  outward,
   resizeCamera,
   groundPoint,
   selectDirection,
@@ -23,6 +25,7 @@ import { validateRequest } from '../../electron/store';
 import { resourcePath, trustedSender } from '../../electron/security';
 
 import { content } from '../fixtures/content';
+import { boundaryContains } from '../../src/content/world';
 import { GameSession } from '../../src/core/session';
 
 const approx = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-7, `${a} != ${b}`);
@@ -478,4 +481,46 @@ test('time zero emits once per entry; old loop closes before new loop; seek/resu
   assert.equal(a.advance(200).length, 0);
   a.start(c);
   assert.equal(a.advance(0).length, 1);
+});
+
+test('camera framing keeps the ground viewport inside convex boundaries', () => {
+  for (const boundary of [
+    [
+      { x: -6, z: -6 },
+      { x: 6, z: -6 },
+      { x: 6, z: 7 },
+      { x: -6, z: 7 },
+    ],
+    [
+      { x: -6, z: -6 },
+      { x: 6, z: -6 },
+      { x: 0, z: 7 },
+    ],
+    [
+      { x: -6, z: -6 },
+      { x: 6, z: -6 },
+      { x: 2, z: 7 },
+      { x: -2, z: 7 },
+    ],
+  ]) {
+    const area = { ...content.area('court'), playableBoundary: boundary };
+    for (const desired of [new Vector3(0, 0, 0), new Vector3(5, 0, 6)]) {
+      const camera = makeCamera(16 / 9),
+        target = desired.clone();
+      constrainCamera(camera, target, area);
+      camera.position.copy(target).addScaledVector(outward, 30);
+      camera.lookAt(target);
+      camera.updateMatrixWorld();
+      for (const x of [0, 800])
+        for (const y of [0, 450]) {
+          const point = groundPoint(camera, x, y, { left: 0, top: 0, width: 800, height: 450 })!;
+          // The camera constrains the rendered floor, 1 cm below gameplay.
+          point.addScaledVector(outward, -0.01 / outward.y);
+          assert.ok(
+            boundaryContains(boundary, point),
+            `viewport outside boundary: ${point.toArray().join(', ')}`,
+          );
+        }
+    }
+  }
 });

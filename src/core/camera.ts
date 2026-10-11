@@ -1,7 +1,7 @@
 import { cameraCalibration, HEADINGS } from '../assets/camera-calibration';
 import { OrthographicCamera, Plane, Raycaster, Vector2, Vector3 } from 'three';
 import { cameraContract as contract } from '../assets/camera-contract';
-import { heightAt, type AreaDefinition } from '../content/world';
+import { heightAt, type AreaDefinition, type Point } from '../content/world';
 export { contract };
 export { HEADINGS };
 export type Heading = (typeof HEADINGS)[number];
@@ -36,8 +36,106 @@ export function resizeCamera(
   camera.bottom = -half;
   camera.updateProjectionMatrix();
 }
-/** Keep the entire ground-plane viewport inside the same rectangle used by movement. */
+/** Fit the ground-plane viewport inside the convex movement boundary. */
 export function constrainCamera(camera: OrthographicCamera, target: Vector3, area: AreaDefinition) {
+  const boundary = area.playableBoundary;
+  if (
+    !boundary ||
+    (boundary.length === 4 &&
+      boundary.every((a, i) => {
+        const b = boundary[(i + 1) % 4]!,
+          c = boundary[(i + 2) % 4]!;
+        return Math.abs((b.x - a.x) * (c.x - b.x) + (b.z - a.z) * (c.z - b.z)) < 1e-8;
+      }))
+  ) {
+    constrainRectangularCamera(camera, target, area);
+    return;
+  }
+  const corners = boundary,
+    halfWidth = (camera.right - camera.left) / 2,
+    halfHeight = (camera.top - camera.bottom) / 2,
+    groundUp = up.clone().addScaledVector(outward, -up.y / outward.y),
+    edges = corners.map((a, i) => {
+      const next = corners[(i + 1) % corners.length]!,
+        length = Math.hypot(next.x - a.x, next.z - a.z),
+        x = (a.z - next.z) / length,
+        z = (next.x - a.x) / length;
+      return {
+        x,
+        z,
+        d: x * a.x + z * a.z,
+        extent:
+          Math.abs(right.x * x + right.z * z) * halfWidth +
+          Math.abs(groundUp.x * x + groundUp.z * z) * halfHeight,
+      };
+    }),
+    // Clip possible viewport centers against each edge inset by the viewport's
+    // projected extent. This also handles triangles and nonrectangular quads.
+    inset = (scale: number) => {
+      let polygon: readonly Point[] = corners;
+      for (const edge of edges) {
+        const clipped: Point[] = [],
+          distance = (p: Point) => edge.x * p.x + edge.z * p.z - edge.d - edge.extent * scale;
+        for (let i = 0; i < polygon.length; i++) {
+          const a = polygon[i]!,
+            next = polygon[(i + 1) % polygon.length]!,
+            da = distance(a),
+            db = distance(next);
+          if (da >= 0) clipped.push(a);
+          if (da >= 0 !== db >= 0) {
+            const t = da / (da - db);
+            clipped.push({ x: a.x + (next.x - a.x) * t, z: a.z + (next.z - a.z) * t });
+          }
+        }
+        polygon = clipped;
+      }
+      return polygon;
+    };
+  let scale = 1;
+  if (!inset(scale).length) {
+    let low = 0,
+      high = 1;
+    for (let i = 0; i < 48; i++) {
+      const mid = (low + high) / 2;
+      if (inset(mid).length) low = mid;
+      else high = mid;
+    }
+    scale = low * (1 - 1e-10);
+  }
+  camera.zoom = 1 / scale;
+  camera.updateProjectionMatrix();
+  // The rendered floor sits 1 cm below the logical walking surface.
+  const groundHeight = heightAt(area, target.x, target.z) - 0.01,
+    offset = (target.y - groundHeight) / outward.y,
+    center = { x: target.x - outward.x * offset, z: target.z - outward.z * offset };
+  if (edges.every((e) => e.x * center.x + e.z * center.z >= e.d + e.extent * scale)) return;
+  const polygon = inset(scale);
+  let closest = center,
+    distance = Infinity;
+  for (let i = 0; i < polygon.length; i++) {
+    const a = polygon[i]!,
+      next = polygon[(i + 1) % polygon.length]!,
+      dx = next.x - a.x,
+      dz = next.z - a.z,
+      lengthSquared = dx * dx + dz * dz,
+      t = lengthSquared
+        ? Math.max(0, Math.min(1, ((center.x - a.x) * dx + (center.z - a.z) * dz) / lengthSquared))
+        : 0,
+      p = { x: a.x + dx * t, z: a.z + dz * t },
+      d = Math.hypot(p.x - center.x, p.z - center.z);
+    if (d < distance) {
+      closest = p;
+      distance = d;
+    }
+  }
+  target.x = closest.x + outward.x * offset;
+  target.z = closest.z + outward.z * offset;
+}
+function constrainRectangularCamera(
+  camera: OrthographicCamera,
+  target: Vector3,
+  area: AreaDefinition,
+) {
   const b = area.bounds,
     corners = area.playableBoundary ?? [
       { x: b.minX, z: b.minZ },
