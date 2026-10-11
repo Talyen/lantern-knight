@@ -34,7 +34,7 @@ import {
 import { resolveClip, type Clip } from '../assets/schema';
 import { frameAt, clipDuration } from '../core/animation';
 import type { AssetPack } from '../assets/loader';
-import type { Simulation } from '../core/simulation';
+import type { SimulationView } from '../core/simulation-view';
 import { effectsArea, activeEffect, type PlaygroundSettings } from '../content/effects-playground';
 
 type Animated = { sprite: ActorSprite; clip: Clip; foot: T.Vector3; phase: number };
@@ -316,7 +316,7 @@ export class EffectsPlayground {
     resizeCamera(this.camera, w, h, 9);
     this.composer.setSize(w, h);
   }
-  draw(sim: Simulation, alpha: number, ms: number, settings: PlaygroundSettings) {
+  draw(sim: SimulationView, alpha: number, ms: number, settings: PlaygroundSettings) {
     if (this.disposed) return;
     this.time += settings.paused ? 0 : ms / 1000;
     this.uniformTime.value = this.time;

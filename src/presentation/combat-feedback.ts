@@ -11,7 +11,7 @@ import { attackDefinition } from '../content/gameplay';
 import { selectDirection, selectAuthoredDirection } from '../core/camera';
 import { clipDuration } from '../core/animation';
 import type { EventHub, GameplayEvent } from '../core/events';
-import type { Simulation } from '../core/simulation';
+import type { SimulationView } from '../core/simulation-view';
 import type { AssetPack } from '../assets/loader';
 
 type ActiveEffect = {
@@ -61,7 +61,7 @@ export class CombatFeedback {
     this.group.add(sprite.mesh);
     this.active.push({ ...effect, sprite, duration: effect.duration ?? clipDuration(clip) });
   }
-  update(sim: Simulation) {
+  update(sim: SimulationView) {
     if (this.generation !== sim.generation) {
       for (const effect of this.active) effect.sprite.dispose();
       this.active = [];

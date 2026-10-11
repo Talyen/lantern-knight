@@ -1,7 +1,7 @@
 import { Mesh, Vector3, type Material } from 'three';
 import { outward, right, up, contract } from '../core/camera';
 import { setCutoutOpacity } from './sprite';
-import type { Simulation } from '../core/simulation';
+import type { SimulationView } from '../core/simulation-view';
 import type { SiteWall } from '../content/world-visuals';
 
 type Point = { x: number; y: number };
@@ -102,7 +102,7 @@ export class OcclusionFades {
     }
     entry.parts.push(part);
   }
-  update(sim: Simulation, alpha: number, ms: number) {
+  update(sim: SimulationView, alpha: number, ms: number) {
     const actors = [sim.hero, ...sim.enemies.filter((a) => a.health > 0)],
       cos = Math.cos((contract.elevationDeg * Math.PI) / 180);
     for (const group of this.groups.values()) {

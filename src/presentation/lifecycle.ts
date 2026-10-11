@@ -3,7 +3,7 @@ import type { AssetPack } from '../assets/loader';
 import type { AreaDefinition } from '../content/world';
 import type { WorldVisualDefinition } from '../content/world-visuals';
 import type { VisualEffects } from '../content/visual-effects';
-import type { Simulation } from '../core/simulation';
+import type { SimulationView } from '../core/simulation-view';
 
 // Application owns session transactions; presentation owns renderer preparation.
 export interface PresentationLifecycle {
@@ -20,6 +20,6 @@ export interface PresentationLifecycle {
   warmPack(pack: AssetPack): void;
   prepareAssets(ids?: ReadonlySet<string>): Promise<void>;
   resetRoom(area: AreaDefinition, visuals: WorldVisualDefinition | undefined): void;
-  update(sim: Simulation, alpha: number, ms: number, aim: { x: number; z: number }): void;
+  update(sim: SimulationView, alpha: number, ms: number, aim: { x: number; z: number }): void;
   dispose(): void;
 }

@@ -19,6 +19,11 @@ function importFinding(file: string, target: string) {
     return 'gameplay models require an explicit registry, without production scene or visual composition imports';
   if (
     file.startsWith('src/presentation/') &&
+    /^src\/core\/(?:simulation|session)(?:\.|$)/.test(target)
+  )
+    return 'presentation borrows simulation-view; mutable gameplay owners stay behind the application boundary';
+  if (
+    file.startsWith('src/presentation/') &&
     /^src\/content\/(?:world-art|scene-document)(?:\.|$)/.test(target)
   )
     return 'presentation receives resolved world-visuals; authored scene parsing belongs to content and editor owners';

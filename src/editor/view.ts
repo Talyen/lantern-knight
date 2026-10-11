@@ -12,12 +12,13 @@ import { GameSession } from '../core/session';
 import { EventHub } from '../core/events';
 import { outward, screenMovement, constrainCamera, resizeCamera } from '../core/camera';
 import type { Simulation } from '../core/simulation';
+import type { SimulationView } from '../core/simulation-view';
 import type { AssetRuntime, PackLease, PackBatch } from '../assets/loader';
 import { sceneItems } from './model';
 class EditorPresentation extends GamePresentation {
   center = new T.Vector3();
   overlay = new T.Group();
-  protected override renderFrame(sim: Simulation, ms: number) {
+  protected override renderFrame(sim: SimulationView, ms: number) {
     this.aim.visible = false;
     this.flare.visible = false;
     for (const v of this.actorPresentation.actors.values()) v.ring.visible = false;
@@ -298,7 +299,7 @@ export class EditorView {
       const hero = this.sim.hero;
       this.presentation.center.set(hero.x, hero.y, hero.z);
     }
-    this.presentation.update(this.sim, 1, ms, this.sim.hero);
+    this.presentation.update(this.sim.view, 1, ms, this.sim.hero);
     for (const { sprite, position, scale, quaternion } of this.transformPreview) {
       sprite.mesh.position.copy(position);
       sprite.mesh.scale.copy(scale);

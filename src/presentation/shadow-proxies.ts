@@ -4,7 +4,7 @@ import { AnimationBlendShader } from './animation-blend-shader';
 import { FoliageWind } from './foliage-wind';
 import { sceneryRegistration } from '../content/scenery-registration';
 import { heightAt, type ActorId } from '../content/world';
-import type { Simulation } from '../core/simulation';
+import type { SimulationView } from '../core/simulation-view';
 import type { WorldVisualDefinition } from '../content/world-visuals';
 type Caster = {
   mesh: T.Mesh<T.BufferGeometry, T.MeshBasicMaterial>;
@@ -16,7 +16,7 @@ export class ShadowProxies {
   private actorCasters = new Map<ActorId, Caster>();
   constructor(private sun: T.DirectionalLight) {}
   build(
-    sim: Simulation,
+    sim: SimulationView,
     visuals: WorldVisualDefinition | undefined,
     sprites: readonly ActorSprite[],
   ) {

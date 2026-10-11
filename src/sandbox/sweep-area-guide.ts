@@ -1,7 +1,7 @@
 import * as T from 'three';
 import { attackDefinition } from '../content/gameplay';
 import { heightAt } from '../content/world';
-import type { Simulation } from '../core/simulation';
+import type { SimulationView } from '../core/simulation-view';
 
 // Diagnostic geometry only; the production effect remains the untouched library sprite.
 export class SweepAreaGuide {
@@ -38,7 +38,7 @@ export class SweepAreaGuide {
       this.group.add(sprite);
     }
   }
-  update(sim: Simulation) {
+  update(sim: SimulationView) {
     const hero = sim.hero,
       attack = attackDefinition({ ...hero, attackKind: 'sweep' as const });
     for (const [line, height] of [

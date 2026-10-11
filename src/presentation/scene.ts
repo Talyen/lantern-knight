@@ -9,13 +9,13 @@ import { resolveClip, type Clip, type Frame } from '../assets/schema';
 import { tuning } from '../content/gameplay';
 import { type AssetPack } from '../assets/loader';
 import { EventHub } from '../core/events';
-import type { Simulation } from '../core/simulation';
+import type { SimulationView } from '../core/simulation-view';
 import { GamePresentation } from './game-scene';
 import { captureArtDiagnostics } from './art-diagnostics';
 import { ArtConstructionOverlay } from './art-construction-overlay';
 export type Mode = 'encounter' | 'calibration' | 'animation' | 'occlusion' | 'lighting';
 export class Presentation extends GamePresentation {
-  beforeSceneRender?: (sim: Simulation, ms: number) => void;
+  beforeSceneRender?: (sim: SimulationView, ms: number) => void;
   mode: Mode = 'encounter';
   captureArtDiagnostics() {
     return captureArtDiagnostics(this);
@@ -282,7 +282,7 @@ export class Presentation extends GamePresentation {
     this.camera.lookAt(target);
     this.camera.updateMatrixWorld();
   }
-  override update(sim: Simulation, alpha: number, ms: number, aim: { x: number; z: number }) {
+  override update(sim: SimulationView, alpha: number, ms: number, aim: { x: number; z: number }) {
     const lab = this.mode === 'animation' || this.mode === 'calibration';
     this.sceneEffects.group.visible = !lab;
     this.combatFeedback.group.visible = !lab;
@@ -352,7 +352,7 @@ export class Presentation extends GamePresentation {
     }
     this.renderer.render(this.scene, this.camera);
   }
-  protected override renderFrame(sim: Simulation, ms: number) {
+  protected override renderFrame(sim: SimulationView, ms: number) {
     this.beforeSceneRender?.(sim, ms);
     this.artConstruction.update(
       sim.areaDefinition,

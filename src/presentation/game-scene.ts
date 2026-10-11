@@ -31,7 +31,7 @@ import { tuning } from '../content/gameplay';
 import { heightAt, type AreaDefinition } from '../content/world';
 import { pageIdentity, type AssetPack } from '../assets/loader';
 import { EventHub } from '../core/events';
-import type { Actor, Simulation } from '../core/simulation';
+import type { ActorView, SimulationView } from '../core/simulation-view';
 import {
   defaultVisualEffects,
   type VisualEffects,
@@ -216,7 +216,7 @@ export class GamePresentation implements PresentationLifecycle {
     this.buildRoom();
     if (this.visuals?.look) this.lookRenderer.setSettings(this.visuals.look);
   }
-  createVisual(a: Actor, generation: number) {
+  createVisual(a: ActorView, generation: number) {
     return this.actorPresentation.createVisual(a, generation);
   }
   getClip(id: string, dir: (typeof HEADINGS)[number], manifest = this.manifest): Clip {
@@ -226,7 +226,7 @@ export class GamePresentation implements PresentationLifecycle {
   get viewSpan() {
     return compositionSpan({ x: 0, z: this.framingZ }, this.verticalSpan, this.visuals);
   }
-  update(sim: Simulation, alpha: number, ms: number, aim: { x: number; z: number }) {
+  update(sim: SimulationView, alpha: number, ms: number, aim: { x: number; z: number }) {
     if (this.generation !== sim.generation) {
       this.resetRoom(sim.areaDefinition, this.visuals);
       this.generation = sim.generation;
@@ -313,7 +313,7 @@ export class GamePresentation implements PresentationLifecycle {
   setWeather(state: WeatherState | null) {
     this.sceneEffects.setWeather(state);
   }
-  private updateCamera(sim: Simulation, alpha: number) {
+  private updateCamera(sim: SimulationView, alpha: number) {
     if (tuning.cameraFollow) {
       const hero = sim.hero,
         x = hero.px + (hero.x - hero.px) * alpha,
@@ -346,7 +346,7 @@ export class GamePresentation implements PresentationLifecycle {
     if (!Number.isFinite(value)) return;
     this.lookRenderer.setSettings({ depthOfField: value });
   }
-  protected renderFrame(sim: Simulation, ms: number) {
+  protected renderFrame(sim: SimulationView, ms: number) {
     this.roomPresentation.surround.update(
       this.camera,
       this.viewTarget,

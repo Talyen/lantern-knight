@@ -37,7 +37,9 @@ Game runtime and builds share the content and asset selection in `src/content/ga
 
 ## Runtime resources
 
-GamePresentation coordinates RoomPresentation, ActorPresentation and SceneLightingRenderer. Preserve their explicit ownership and disposal. The existing Three.js math and content/assets dependencies are intentional; a new engine or UI framework is unnecessary.
+GamePresentation coordinates RoomPresentation, ActorPresentation and SceneLightingRenderer. Preserve renderer ownership and disposal. The existing Three.js math and content/assets dependencies are intentional; a new engine or UI framework is unnecessary.
+
+Presentation borrows `SimulationView` from `src/core/simulation-view.ts`, with read-only actors, collections and current-tick fields; it cannot call simulation commands. Application and editor pass the stable `Simulation.view` facade. Views are live borrows, not retained snapshots, and TypeScript protects nested state from writes. Navigation diagnostics return detached data without initializing gameplay navigation. Developer render hooks use the same view; deliberate gameplay overrides remain in the application step hooks.
 
 AssetRuntime owns pack-batch acquisition for Application and the editor: deduplicate identities, settle pending peers after failure or cancellation, and release the batch once. Callers validate and install a completed batch before releasing the previous room. Application retains session assets explicitly and owns one replaceable preview pack. Presentation borrows read-only pack views without release capability. Its pack map derives from the current ownership groups, including preview overlap with a room or session asset.
 

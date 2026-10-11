@@ -12,7 +12,7 @@ import { type WorldVisualDefinition, type ArtPlacement } from '../content/world-
 import { heightAt, type AreaDefinition } from '../content/world';
 import { outward } from '../core/camera';
 import { clipDuration, frameAt } from '../core/animation';
-import type { Simulation } from '../core/simulation';
+import type { SimulationView } from '../core/simulation-view';
 
 export class InkRoom {
   readonly sprites: ActorSprite[] = [];
@@ -263,7 +263,7 @@ export class InkRoom {
   private sample(s: ActorSprite, clip: Clip, time: number, foot: T.Vector3) {
     s.show(frameAt(clip, time), foot, this.camera);
   }
-  update(sim: Simulation, alpha: number, visible: boolean, ms = 1000 / 60) {
+  update(sim: SimulationView, alpha: number, visible: boolean, ms = 1000 / 60) {
     if (!this.playing) ms = 0;
     for (const { sprite: s, placement: p } of this.animated) {
       s.animator.advance(ms);

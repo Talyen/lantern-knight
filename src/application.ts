@@ -121,7 +121,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       if (!this.disposed && this.loading.size === 0) {
         try {
           // Submit the destination before revealing it, even in a paused/background window.
-          if (this.ready) this.presentation.update(this.sim, 1, 0, this.aim);
+          if (this.ready) this.presentation.update(this.sim.view, 1, 0, this.aim);
         } finally {
           this.resetFrameClock();
           this.input?.clear();
@@ -465,7 +465,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         }
         return true;
       });
-    this.presentation.update(this.sim, alpha, frozen ? 0 : ms, aim);
+    this.presentation.update(this.sim.view, alpha, frozen ? 0 : ms, aim);
     this.hooks.frame();
     this.afterFrame(ms);
   };

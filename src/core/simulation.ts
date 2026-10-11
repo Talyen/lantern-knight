@@ -1,3 +1,4 @@
+import { simulationView } from './simulation-view';
 import {
   Navigation,
   moveSupported,
@@ -64,6 +65,10 @@ export type SimEvent = GameplayEvent;
 export type StepResult = { events: readonly GameplayEvent[]; transition?: string; reset?: 'death' };
 const idleCommand: Command = { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } };
 export class Simulation {
+  readonly #view = simulationView(this);
+  get view() {
+    return this.#view;
+  }
   movementPreview = false;
   private navigationArea?: object;
   private navigation?: Navigation;
@@ -97,6 +102,7 @@ export class Simulation {
     return this.navigation!;
   }
   navigationDebug(includeCells = true) {
+    // Diagnostics must not initialize the gameplay navigator or clear movement targets.
     return {
       routes: [...this.movementTargets].map(([id, p]) => ({
         id,
@@ -104,9 +110,10 @@ export class Simulation {
         status: p.route.status,
         points: p.route.points.map((v) => ({ ...v })),
       })),
-      cells: includeCells
-        ? this.navigator.debugCells(effectiveRadius(this.hero.definition.radius))
-        : [],
+      cells:
+        includeCells && this.navigationArea === this.areaDefinition
+          ? this.navigation!.debugCells(effectiveRadius(this.hero.definition.radius))
+          : [],
     };
   }
   private pursuitRoute(a: Actor, target: Point): RouteResult {

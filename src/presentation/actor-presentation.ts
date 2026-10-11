@@ -15,7 +15,7 @@ import { attackDefinition, tuning } from '../content/gameplay';
 import { heightAt, surfaceGradient, type ActorId } from '../content/world';
 import { actorVisuals } from '../content/visuals';
 import type { AnimationEvent } from '../core/events';
-import type { Actor, Simulation } from '../core/simulation';
+import type { ActorView, SimulationView } from '../core/simulation-view';
 import type { AssetPack } from '../assets/loader';
 import type { PreparedRegistration } from '../assets/registration';
 import type { EventHub } from '../core/events';
@@ -53,7 +53,7 @@ export class ActorPresentation {
     private registration: PreparedRegistration,
     private events: EventHub,
   ) {}
-  createVisual(a: Actor, generation: number) {
+  createVisual(a: ActorView, generation: number) {
     const binding = actorVisuals[a.definition.visual];
     if (!binding) throw new Error(`unknown visual ${a.definition.visual}`);
     const pack = this.packs.get(binding.asset);
@@ -118,7 +118,7 @@ export class ActorPresentation {
         )
       : clip;
   }
-  update(sim: Simulation, alpha: number, ms: number, options: ActorOptions) {
+  update(sim: SimulationView, alpha: number, ms: number, options: ActorOptions) {
     for (const a of sim.actors) {
       const v = this.visuals.get(a.id) ?? this.createVisual(a, sim.generation),
         heading =

@@ -24,7 +24,7 @@ import { defaultLook, lightingRigs, lookPresets, type LookSettings } from './lig
 import { neutralColor } from './illustrated-lighting';
 import { SurfaceRelief } from './surface-relief';
 import { heightAt } from '../content/world';
-import type { Simulation } from '../core/simulation';
+import type { SimulationView } from '../core/simulation-view';
 import type { RoomPresentation } from './room-presentation';
 import type { ActorPresentation } from './actor-presentation';
 import type { SceneVisualEffects } from './scene-visual-effects';
@@ -316,7 +316,7 @@ export class SceneLightingRenderer {
     this.focusMask.reset();
     this.generation = -1;
   }
-  private buildRoom(sim: Simulation, visuals: WorldVisualDefinition | undefined) {
+  private buildRoom(sim: SimulationView, visuals: WorldVisualDefinition | undefined) {
     this.mist.setArea(sim.areaDefinition);
     const spriteGeometries = new Set(
       [
@@ -365,7 +365,7 @@ export class SceneLightingRenderer {
     this.shadowProxies.build(sim, visuals, this.room.inkRoom?.sprites ?? []);
     this.generation = sim.generation;
   }
-  render(sim: Simulation, ms: number, frame: LightingFrame) {
+  render(sim: SimulationView, ms: number, frame: LightingFrame) {
     const r = this.resources.renderer,
       start = performance.now(),
       autoReset = r.info.autoReset;
@@ -401,7 +401,7 @@ export class SceneLightingRenderer {
       r.info.autoReset = autoReset;
     }
   }
-  private draw(sim: Simulation, ms: number, frame: LightingFrame) {
+  private draw(sim: SimulationView, ms: number, frame: LightingFrame) {
     const p = this.resources,
       r = p.renderer,
       s = this.settings,

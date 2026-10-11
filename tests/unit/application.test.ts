@@ -160,6 +160,11 @@ test('completed session operations preserve a pause requested while loading', as
     const { app } = fixture(),
       waiting = deferred<void>();
     app.readOnly = true;
+    app.ready = true;
+    app.presentation.update = (view) => {
+      assert.equal(view, app.sim.view, 'The renderer receives the current simulation facade');
+      assert.equal('step' in view, false, 'Rendering cannot advance the simulation');
+    };
     app.presentation.prepareAssets = () => waiting.promise;
     app.pause(true);
     const pending = operation(app);

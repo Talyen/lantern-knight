@@ -1,5 +1,5 @@
 import * as T from 'three';
-import type { Simulation } from '../core/simulation';
+import type { SimulationView } from '../core/simulation-view';
 import type { WorldVisualDefinition } from '../content/world-visuals';
 import { artworkFloorLayout } from '../content/floor-layout';
 export class NavigationOverlay {
@@ -13,7 +13,7 @@ export class NavigationOverlay {
     footprints: true,
   };
   private tick = -1;
-  update(sim: Simulation, visuals?: WorldVisualDefinition) {
+  update(sim: SimulationView, visuals?: WorldVisualDefinition) {
     if (sim.tick - this.tick < 15 && this.tick >= 0) return;
     this.tick = sim.tick;
     this.clear();

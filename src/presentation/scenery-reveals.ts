@@ -1,7 +1,7 @@
 import * as T from 'three';
 import { heightAt, type AreaDefinition } from '../content/world';
 import { contract, outward, right, up } from '../core/camera';
-import type { Simulation } from '../core/simulation';
+import type { SimulationView } from '../core/simulation-view';
 import type { ActorSprite } from './sprite';
 import { SceneryReveal, cardCoverage, type CoverageMask } from './scenery-reveal';
 import type { PreparedRegistration } from '../assets/registration';
@@ -17,7 +17,7 @@ export class SceneryReveals {
   add(sprite: ActorSprite) {
     this.reveals.push(new SceneryReveal(sprite));
   }
-  update(sim: Simulation, alpha: number, ms: number) {
+  update(sim: SimulationView, alpha: number, ms: number) {
     const actors = [sim.hero, ...sim.enemies.filter((a) => a.health > 0)];
     for (const reveal of this.reveals) {
       const s = reveal.sprite,
