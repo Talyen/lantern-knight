@@ -1,0 +1,66 @@
+{
+  "version": 5,
+  "profile": "study",
+  "id": "initiation-chamber",
+  "name": "Initiation Chamber",
+  "base": "flat",
+  "target": "draft",
+  "floor": {
+    "asset": "library-artwork-environments-complete-scenes-initiation-chamber-full-scene-a-initiation_chamber_a_full_upscaled4x",
+    "clip": "still",
+    "layout": "artwork",
+    "width": 40,
+    "depth": 26.666666666666668
+  },
+  "camera": {
+    "bounds": {
+      "minX": -10,
+      "maxX": 10,
+      "minZ": -10,
+      "maxZ": 10
+    },
+    "bias": {
+      "x": 0,
+      "z": 0
+    }
+  },
+  "proceduralAssets": [],
+  "gameplay": {
+    "spawns": [
+      {
+        "id": "initiation-chamber-skeleton-1",
+        "actor": "skeleton",
+        "x": -4,
+        "z": 0
+      },
+      {
+        "id": "initiation-chamber-skeleton-2",
+        "actor": "skeleton",
+        "x": 4,
+        "z": 0
+      },
+      {
+        "id": "initiation-chamber-skeleton-3",
+        "actor": "skeleton",
+        "x": 0,
+        "z": 4
+      }
+    ],
+    "exits": [],
+    "pickups": []
+  },
+  "paths": [],
+  "walls": [],
+  "graves": [],
+  "propOrder": [],
+  "overlaps": [],
+  "objects": [],
+  "hero": {
+    "x": 0,
+    "z": 0
+  },
+  "look": {
+    "rig": "golden",
+    "look": "diorama"
+  }
+}

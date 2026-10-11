@@ -1,0 +1,66 @@
+{
+  "version": 5,
+  "profile": "study",
+  "id": "rootwood",
+  "name": "Rootwood",
+  "base": "flat",
+  "target": "draft",
+  "floor": {
+    "asset": "library-artwork-environments-complete-scenes-rootwood-full-scene-b-rootwood_b_full_upscaled4x",
+    "clip": "still",
+    "layout": "artwork",
+    "width": 40,
+    "depth": 26.666666666666668
+  },
+  "camera": {
+    "bounds": {
+      "minX": -10,
+      "maxX": 10,
+      "minZ": -10,
+      "maxZ": 10
+    },
+    "bias": {
+      "x": 0,
+      "z": 0
+    }
+  },
+  "proceduralAssets": [],
+  "gameplay": {
+    "spawns": [
+      {
+        "id": "rootwood-skeleton-1",
+        "actor": "skeleton",
+        "x": -4,
+        "z": 0
+      },
+      {
+        "id": "rootwood-skeleton-2",
+        "actor": "skeleton",
+        "x": 4,
+        "z": 0
+      },
+      {
+        "id": "rootwood-skeleton-3",
+        "actor": "skeleton",
+        "x": 0,
+        "z": 4
+      }
+    ],
+    "exits": [],
+    "pickups": []
+  },
+  "paths": [],
+  "walls": [],
+  "graves": [],
+  "propOrder": [],
+  "overlaps": [],
+  "objects": [],
+  "hero": {
+    "x": 0,
+    "z": 0
+  },
+  "look": {
+    "rig": "golden",
+    "look": "diorama"
+  }
+}

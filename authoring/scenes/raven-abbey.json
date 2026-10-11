@@ -1,0 +1,66 @@
+{
+  "version": 5,
+  "profile": "study",
+  "id": "raven-abbey",
+  "name": "Raven Abbey",
+  "base": "flat",
+  "target": "draft",
+  "floor": {
+    "asset": "library-artwork-environments-complete-scenes-raven-abbey-raven_abbey_ai4x_master_6144x4096",
+    "clip": "still",
+    "layout": "artwork",
+    "width": 40,
+    "depth": 26.666666666666668
+  },
+  "camera": {
+    "bounds": {
+      "minX": -10,
+      "maxX": 10,
+      "minZ": -10,
+      "maxZ": 10
+    },
+    "bias": {
+      "x": 0,
+      "z": 0
+    }
+  },
+  "proceduralAssets": [],
+  "gameplay": {
+    "spawns": [
+      {
+        "id": "raven-abbey-skeleton-1",
+        "actor": "skeleton",
+        "x": -4,
+        "z": 0
+      },
+      {
+        "id": "raven-abbey-skeleton-2",
+        "actor": "skeleton",
+        "x": 4,
+        "z": 0
+      },
+      {
+        "id": "raven-abbey-skeleton-3",
+        "actor": "skeleton",
+        "x": 0,
+        "z": 4
+      }
+    ],
+    "exits": [],
+    "pickups": []
+  },
+  "paths": [],
+  "walls": [],
+  "graves": [],
+  "propOrder": [],
+  "overlaps": [],
+  "objects": [],
+  "hero": {
+    "x": 0,
+    "z": 0
+  },
+  "look": {
+    "rig": "golden",
+    "look": "diorama"
+  }
+}

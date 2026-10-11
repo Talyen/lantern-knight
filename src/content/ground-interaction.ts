@@ -31,7 +31,9 @@ export const GroundInteractionSchema = z
           .strict(),
       )
       .max(256),
-    destinations: z.array(point.extend({ name: z.string().min(1).max(80) })).default([]),
+    destinations: z
+      .array(point.extend({ name: z.string().min(1).max(80), reachable: z.boolean().optional() }))
+      .default([]),
   })
   .strict()
   .superRefine((g, ctx) => {
