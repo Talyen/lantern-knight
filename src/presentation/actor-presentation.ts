@@ -1,4 +1,5 @@
 import * as T from 'three';
+import { contactShadowMaterial } from './contact-shadows';
 import { selectDirection, selectAuthoredDirection, HEADINGS } from '../core/camera';
 import { retimeSweepClip } from './sweep-timing';
 import {
@@ -33,7 +34,7 @@ export type ActorOptions = {
 };
 export type Visual = {
   sprite: ActorSprite;
-  shadow: T.Mesh<T.CircleGeometry, T.MeshBasicMaterial>;
+  shadow: T.Mesh<T.PlaneGeometry, T.MeshBasicMaterial>;
   ring: T.Mesh;
   tag: string;
   heading: (typeof HEADINGS)[number];
@@ -66,17 +67,14 @@ export class ActorPresentation {
     );
     sprite.material.color.set(binding.tint);
     const shadow = new T.Mesh(
-      new T.CircleGeometry(sprite.manifest.asset.shadow.radius, 32),
-      new T.MeshBasicMaterial({
-        map: this.shadowTexture,
-        color: 0xffffff,
-        transparent: true,
-        opacity: sprite.manifest.asset.shadow.opacity,
-        depthTest: true,
-        depthWrite: false,
-      }),
+      new T.PlaneGeometry(
+        sprite.manifest.asset.shadow.radius * 2,
+        sprite.manifest.asset.shadow.radius * 2,
+      ),
+      contactShadowMaterial(this.shadowTexture, sprite.manifest.asset.shadow.opacity),
     );
     shadow.rotation.x = -Math.PI / 2;
+    shadow.renderOrder = -1.5;
     const ring = new T.Mesh(
       new T.RingGeometry(a.definition.radius, a.definition.radius + 0.025, 24),
       new T.MeshBasicMaterial({
