@@ -13,8 +13,91 @@ import {
   resolveScene,
 } from '../../src/content/world-art';
 import { EditorHistory } from '../../src/editor/model';
+import { EditorDocument } from '../../src/editor/document';
 import { SceneStore } from '../../tools/scene/scene-editor-store';
 describe('scene authoring contracts', () => {
+  it('commits edits and history only after view acceptance, preserving redo and replacement on failure', async () => {
+    const original = emptyScene(),
+      controller = new AbortController();
+    let displayed = original,
+      reject = false;
+    let finish: (() => void) | undefined;
+    const state = new EditorDocument(
+      original,
+      async (document) => {
+        displayed = document;
+        if (reject) {
+          reject = false;
+          await new Promise<void>((resolve) => {
+            finish = resolve;
+          });
+          throw new Error('lighting unavailable');
+        }
+      },
+      () => {},
+      controller.signal,
+    );
+    await state.edit((h) =>
+      h.change((d) => {
+        d.name = 'Accepted';
+      }),
+    );
+    await state.edit((h) => h.undo());
+    assert.equal(state.history.canRedo, true);
+    reject = true;
+    const failing = state.edit((h) => {
+      h.redo();
+      h.document.name = 'Rejected';
+    });
+    assert.equal(displayed.name, 'Rejected');
+    assert.deepEqual(state.history.document, original);
+    assert.equal(state.history.canUndo, false);
+    await assert.rejects(
+      state.edit((h) => h.redo()),
+      /in progress/,
+    );
+    finish!();
+    await assert.rejects(failing, /lighting unavailable/);
+    assert.deepEqual(displayed, original);
+    assert.equal(state.history.canRedo, true);
+    await state.edit((h) => h.redo());
+    assert.equal(state.history.document.name, 'Accepted');
+    reject = true;
+    const replacing = state.replace({ ...original, id: 'replacement' });
+    finish!();
+    await assert.rejects(replacing, /lighting unavailable/);
+    assert.equal(state.history.document.name, 'Accepted');
+    await state.edit((h) => h.undo());
+    assert.deepEqual(state.history.document, original);
+  });
+  it('discards staged edits on disposal without applying to a closed view', async () => {
+    const original = emptyScene(),
+      controller = new AbortController();
+    let finish!: () => void,
+      applies = 0;
+    const state = new EditorDocument(
+      original,
+      async () => {
+        applies++;
+        await new Promise<void>((resolve) => {
+          finish = resolve;
+        });
+      },
+      () => {},
+      controller.signal,
+    );
+    const pending = state.edit((h) =>
+      h.change((d) => {
+        d.name = 'Late';
+      }),
+    );
+    controller.abort(new Error('closed'));
+    finish();
+    await assert.rejects(pending, /closed/);
+    assert.deepEqual(state.history.document, original);
+    assert.equal(state.history.canUndo, false);
+    assert.equal(applies, 1);
+  });
   it('derives collision footprints and rejects invalid edits without changing history', () => {
     const h = new EditorHistory(sceneFixture('graveyard')),
       before = structuredClone(h.document);

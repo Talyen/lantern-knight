@@ -1,7 +1,8 @@
+import type { EditorSnapshot } from './document';
 import * as T from 'three';
 import { contentDefinitions } from '../content/game-content';
 import { type SceneDocument, type SceneObject } from '../content/scene-document';
-import { sceneItems, type EditorHistory } from './model';
+import { sceneItems } from './model';
 import type { EditorView } from './view';
 import {
   sceneCompositionFindings,
@@ -13,7 +14,7 @@ import { localOffset } from '../content/scenery-presets';
 import { heightAt } from '../content/world';
 type Data = string | number | boolean | Data[] | { [key: string]: Data | undefined };
 type Host = {
-  history: () => EditorHistory;
+  history: () => EditorSnapshot;
   view: () => EditorView;
   selected: () => string | undefined;
   locked?: () => boolean;

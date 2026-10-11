@@ -41,6 +41,7 @@ import { heightAt } from '../content/world';
 import { artworkFloorLayout } from '../content/floor-layout';
 import { applySceneryPreset } from '../content/scenery-presets';
 import { EditorHistory, sceneItems } from './model';
+import { EditorDocument } from './document';
 import { EditorView } from './view';
 
 declare global {
@@ -76,7 +77,6 @@ export function createEditorSession() {
   const canvas = $<HTMLCanvasElement>('viewport');
   let runtime: AssetRuntime,
     view: EditorView,
-    history = new EditorHistory(emptyScene()),
     selected: string | undefined,
     revision: string | null = null,
     baseRevision = '',
@@ -84,6 +84,15 @@ export function createEditorSession() {
     savedSnapshot = '',
     busy = true,
     ready = false;
+  const documents = new EditorDocument(
+    emptyScene(),
+    (document) => view.apply(document),
+    (document) => {
+      resolveAuthoredScene(document);
+      if (document.gameplay) composeDraftGameplay(document, contentDefinitions, worldVisuals);
+    },
+    lifetime.signal,
+  );
   let assetCatalog: Readonly<Record<string, string>> = {};
   let palette: {
       asset: string;
@@ -114,7 +123,7 @@ export function createEditorSession() {
     $('validation-errors').hidden = !error;
   }
   function dirty() {
-    return JSON.stringify(history.document) !== savedSnapshot;
+    return JSON.stringify(documents.history.document) !== savedSnapshot;
   }
   function recover() {
     if (!$('recovery').hidden || !recoveryKey) return;
@@ -123,7 +132,7 @@ export function createEditorSession() {
         localStorage.setItem(
           recoveryKey,
           JSON.stringify({
-            document: history.document,
+            document: documents.history.document,
             revision,
             baseRevision,
             savedSnapshot,
@@ -137,7 +146,7 @@ export function createEditorSession() {
   }
   function controls() {
     if (closed) return;
-    const d = history.document,
+    const d = documents.history.document,
       items = sceneItems(d),
       item = items.find((p) => p.placement.id === selected),
       p = item?.placement,
@@ -199,8 +208,8 @@ export function createEditorSession() {
     );
     $('rotation-label').hidden = false;
     $<HTMLInputElement>('y').disabled = item?.kind === 'decal';
-    $<HTMLButtonElement>('undo').disabled = busy || !history.canUndo;
-    $<HTMLButtonElement>('redo').disabled = busy || !history.canRedo;
+    $<HTMLButtonElement>('undo').disabled = busy || !documents.history.canUndo;
+    $<HTMLButtonElement>('redo').disabled = busy || !documents.history.canRedo;
     for (const key of ['delete', 'duplicate'])
       $<HTMLButtonElement>(key).disabled = busy || !p || locked;
     for (const key of [
@@ -272,39 +281,38 @@ export function createEditorSession() {
       }
     }
   }
-  async function refresh() {
-    recover();
-    await view.apply(history.document);
+  function rendered() {
     view.setGrid($<HTMLInputElement>('grid').checked);
     view.render();
   }
-  async function change(mutator: (d: SceneDocument) => void) {
+  async function refresh() {
+    await view.apply(documents.history.document);
+    assertActive();
+    rendered();
+  }
+  async function edit(work: (history: EditorHistory) => void, committed?: () => void) {
     await run(async () => {
-      const next = structuredClone(history.document);
-      mutator(next);
-      const valid = parseSceneDocument(next);
-      resolveAuthoredScene(valid);
-      if (valid.gameplay) composeDraftGameplay(valid, contentDefinitions, worldVisuals);
-      try {
-        await view.apply(valid);
-        assertActive();
-      } catch (error) {
-        await view.apply(history.document);
-        throw error;
-      }
-      history.change((d) => {
-        for (const key of Object.keys(d)) delete (d as unknown as Record<string, unknown>)[key];
-        Object.assign(d, valid);
-      });
-      await refresh();
-      status('Composition updated.');
+      await documents.edit(work);
+      assertActive();
+      recover();
+      rendered();
+      committed?.();
     });
+  }
+  async function change(mutator: (d: SceneDocument) => void, committed?: () => void) {
+    await edit(
+      (history) => history.change(mutator),
+      () => {
+        status('Composition updated.');
+        committed?.();
+      },
+    );
   }
   function fit() {
     const p = view.presentation;
     if (!p) return;
     const b = p.area.bounds;
-    const floor = history.document.floor;
+    const floor = documents.history.document.floor;
     const artwork =
       floor.layout === 'artwork' ? artworkFloorLayout(floor.width, floor.depth) : undefined;
     p.center.set((b.minX + b.maxX) / 2, artwork ? 0 : 1.8, (b.minZ + b.maxZ) / 2);
@@ -394,10 +402,8 @@ export function createEditorSession() {
           nextRevision = null;
         } else nextSavedSnapshot = JSON.stringify(d);
       }
-      const nextHistory = new EditorHistory(d);
-      await view.apply(nextHistory.document);
+      await documents.replace(d);
       assertActive();
-      history = nextHistory;
       recoveryKey = recoveryRoot + ':' + d.id;
       revision = nextRevision;
       baseRevision = nextBaseRevision;
@@ -420,8 +426,8 @@ export function createEditorSession() {
   async function save(copyId?: string) {
     await run(async () => {
       const document = copyId
-        ? { ...history.document, id: copyId, target: 'draft' as const }
-        : history.document;
+        ? { ...documents.history.document, id: copyId, target: 'draft' as const }
+        : documents.history.document;
       if (copyId) parseSceneDocument(document);
       const r = await fetch('/__lantern_editor', {
         signal: lifetime.signal,
@@ -430,35 +436,36 @@ export function createEditorSession() {
         body: JSON.stringify({ document, revision: copyId ? null : revision, baseRevision }),
       });
       const data = await r.json();
+      assertActive();
       if (!r.ok) {
         if (r.status === 409) $('conflict').hidden = false;
         throw new Error(data.error);
       }
       localStorage.removeItem(recoveryKey);
-      history.reidentify(data.document.id, data.document.target);
-      recoveryKey = recoveryRoot + ':' + history.document.id;
+      documents.reidentify(data.document.id, data.document.target);
+      recoveryKey = recoveryRoot + ':' + documents.history.document.id;
       revision = data.revision;
       baseRevision = data.baseRevision;
-      savedSnapshot = JSON.stringify(history.document);
+      savedSnapshot = JSON.stringify(documents.history.document);
       recover();
       $('conflict').hidden = true;
       await list();
       assertActive();
       sceneLibrary?.remember();
       status(
-        history.document.target === 'live'
+        documents.history.document.target === 'live'
           ? 'Saved. The game now uses this scenery.'
-          : 'Draft saved to authoring/scenes/' + history.document.id + '.json',
+          : 'Draft saved to authoring/scenes/' + documents.history.document.id + '.json',
       );
     });
   }
   function saveAs() {
     const input = $<HTMLInputElement>('file-id');
-    input.value = history.document.id.startsWith('live-')
+    input.value = documents.history.document.id.startsWith('live-')
       ? ''
-      : history.document.id === 'untitled'
+      : documents.history.document.id === 'untitled'
         ? ''
-        : history.document.id + '-copy';
+        : documents.history.document.id + '-copy';
     $<HTMLDialogElement>('save-dialog').showModal();
     input.focus();
   }
@@ -474,15 +481,15 @@ export function createEditorSession() {
   $('save-as').onclick = saveAs;
   $('copy-scene').onclick = () => {
     const document = {
-      ...structuredClone(history.document),
+      ...structuredClone(documents.history.document),
       id: 'untitled',
       target: 'draft' as const,
-      name: 'Copy of ' + history.document.name.slice(0, 72),
+      name: 'Copy of ' + documents.history.document.name.slice(0, 72),
     };
     void importDocument(document).catch((e) => status(e.message, true));
   };
   $('conflict-copy').onclick = saveAs;
-  $('reload').onclick = () => void open('file-' + history.document.id);
+  $('reload').onclick = () => void open('file-' + documents.history.document.id);
   $('name').onchange = () =>
     void change((d) => {
       d.name = $<HTMLInputElement>('name').value;
@@ -522,7 +529,7 @@ export function createEditorSession() {
       });
   for (const id of ['x', 'z', 'y', 'scale', 'rotation', 'mirror'])
     $(id).onchange = () =>
-      void run(async () => {
+      void edit((history) => {
         if (!selected) return;
         const value =
           id === 'mirror'
@@ -536,17 +543,14 @@ export function createEditorSession() {
         history.change((d) => {
           d.objects = temp.document.objects;
         });
-        await refresh();
       });
   $('undo').onclick = () =>
-    void run(async () => {
+    void edit((history) => {
       history.undo();
-      await refresh();
     });
   $('redo').onclick = () =>
-    void run(async () => {
+    void edit((history) => {
       history.redo();
-      await refresh();
     });
   $('duplicate').onclick = () => void composition?.duplicate();
   $('delete').onclick = () => void composition?.remove();
@@ -642,7 +646,7 @@ export function createEditorSession() {
       scope: $<HTMLSelectElement>('asset-scope').value as AssetScope,
       animated: $<HTMLInputElement>('asset-animated').checked,
     };
-    const sceneAssets = assetClosure(documentAssetRoots(history.document), assetIndex);
+    const sceneAssets = assetClosure(documentAssetRoots(documents.history.document), assetIndex);
     for (const [index, entry] of palette.entries())
       if (
         matchesAsset(entry.manifest, filter, usedAssets, sceneAssets) &&
@@ -829,48 +833,51 @@ export function createEditorSession() {
   async function place(entry: (typeof palette)[number], x: number, y: number) {
     const point = view.ground(x, y);
     if (!point) return;
-    await run(async () => {
-      const id = 'object-' + crypto.randomUUID();
-      history.change((d) =>
-        d.objects.push(
-          applySceneryPreset({
-            id,
-            kind: entry.kind as PaletteKind,
-            asset: entry.asset,
-            clip: entry.clip,
-            heading: ($<HTMLSelectElement>('place-heading').value ||
-              Object.keys(entry.manifest.asset.clips[entry.clip]!)[0]) as NonNullable<
-              SceneDocument['objects'][number]['heading']
-            >,
-            x: snapped(point.x),
-            z: snapped(point.z),
-            scale: 1,
-            zone:
-              d.profile === 'study'
-                ? undefined
-                : Object.entries(sceneDesignProfiles[d.profile].zones).find(
-                    ([, v]) =>
-                      (v.kind !== 'clear' || paletteEntry(entry)?.category === 'ground-panel') &&
-                      point.x >= v.bounds.minX &&
-                      point.x <= v.bounds.maxX &&
-                      point.z >= v.bounds.minZ &&
-                      point.z <= v.bounds.maxZ,
-                  )?.[0],
-          }),
-        ),
-      );
-      const repeat = $<HTMLInputElement>('repeat-placement').checked;
-      const heading = $<HTMLSelectElement>('place-heading').value;
-      composition.set(id);
-      rememberAsset(entry.asset);
-      if (repeat) {
-        chooseAsset(entry);
-        $<HTMLSelectElement>('place-heading').value = heading;
-        openDock('artwork');
-      }
-      await refresh();
-      status('Placed ' + entry.clip + '.');
-    });
+    const id = 'object-' + crypto.randomUUID();
+    await edit(
+      (history) => {
+        history.change((d) =>
+          d.objects.push(
+            applySceneryPreset({
+              id,
+              kind: entry.kind as PaletteKind,
+              asset: entry.asset,
+              clip: entry.clip,
+              heading: ($<HTMLSelectElement>('place-heading').value ||
+                Object.keys(entry.manifest.asset.clips[entry.clip]!)[0]) as NonNullable<
+                SceneDocument['objects'][number]['heading']
+              >,
+              x: snapped(point.x),
+              z: snapped(point.z),
+              scale: 1,
+              zone:
+                d.profile === 'study'
+                  ? undefined
+                  : Object.entries(sceneDesignProfiles[d.profile].zones).find(
+                      ([, v]) =>
+                        (v.kind !== 'clear' || paletteEntry(entry)?.category === 'ground-panel') &&
+                        point.x >= v.bounds.minX &&
+                        point.x <= v.bounds.maxX &&
+                        point.z >= v.bounds.minZ &&
+                        point.z <= v.bounds.maxZ,
+                    )?.[0],
+            }),
+          ),
+        );
+      },
+      () => {
+        const repeat = $<HTMLInputElement>('repeat-placement').checked;
+        const heading = $<HTMLSelectElement>('place-heading').value;
+        composition.set(id);
+        rememberAsset(entry.asset);
+        if (repeat) {
+          chooseAsset(entry);
+          $<HTMLSelectElement>('place-heading').value = heading;
+          openDock('artwork');
+        }
+        status('Placed ' + entry.clip + '.');
+      },
+    );
   }
   canvas.ondragover = (e) => {
     e.preventDefault();
@@ -906,7 +913,8 @@ export function createEditorSession() {
       launch(place(chosen, e.clientX, e.clientY));
       return;
     }
-    const item = e.button === 0 ? view.pick(e.clientX, e.clientY, history.document) : undefined,
+    const item =
+        e.button === 0 ? view.pick(e.clientX, e.clientY, documents.history.document) : undefined,
       hero = $<HTMLSelectElement>('tool').value === 'hero' && e.button === 0;
     let mode: Drag['mode'] = hero ? 'hero' : e.button !== 0 ? 'pan' : 'object';
     if (mode === 'object') {
@@ -918,7 +926,7 @@ export function createEditorSession() {
         composition.set(item.placement.id, e.shiftKey);
       if (e.shiftKey || composition.locked.has(item.placement.id)) return;
     }
-    const root = hero ? history.document.hero : (item?.placement ?? { x: 0, z: 0 }),
+    const root = hero ? documents.history.document.hero : (item?.placement ?? { x: 0, z: 0 }),
       height =
         mode === 'pan'
           ? 0
@@ -990,8 +998,8 @@ export function createEditorSession() {
     drag.changed = Math.abs(next.x - drag.x) + Math.abs(next.z - drag.z) > 0.001;
     if (drag.mode === 'hero') view.hero(next);
     else {
-      const items = sceneItems(history.document);
-      for (const id of history.descendants(composition.editable())) {
+      const items = sceneItems(documents.history.document);
+      for (const id of documents.history.descendants(composition.editable())) {
         const p = items.find((p) => p.placement.id === id)?.placement;
         if (p) view.previewPosition(id, p.x + next.x - drag.x, p.z + next.z - drag.z);
       }
@@ -1005,7 +1013,7 @@ export function createEditorSession() {
     if (canvas.hasPointerCapture(current.pointer)) canvas.releasePointerCapture(current.pointer);
     if (current.mode === 'pan') return;
     launch(
-      run(async () => {
+      edit((history) => {
         if (!cancel && current.changed && current.next) {
           const { x, z } = current.next;
           if (current.mode === 'hero')
@@ -1015,7 +1023,6 @@ export function createEditorSession() {
           else
             history.transformMany(composition.editable(), { x: x - current.x, z: z - current.z });
         }
-        await refresh();
       }),
     );
   }
@@ -1081,7 +1088,7 @@ export function createEditorSession() {
         const step =
           (Number.isFinite(spacing) && spacing > 0 ? spacing : 0.5) * (e.shiftKey ? 10 : 1);
         void composition
-          .edit(() =>
+          .edit((history) =>
             history.transformMany(composition.editable(), {
               x: e.key === 'ArrowLeft' ? -step : e.key === 'ArrowRight' ? step : 0,
               z: e.key === 'ArrowUp' ? -step : e.key === 'ArrowDown' ? step : 0,
@@ -1135,11 +1142,9 @@ export function createEditorSession() {
   $('restore').onclick = () =>
     void run(async () => {
       if (!recovery) return;
-      const nextHistory = new EditorHistory(recovery.document),
-        changedFoundations = recovery.baseRevision !== baseRevision;
-      await view.apply(nextHistory.document);
+      const changedFoundations = recovery.baseRevision !== baseRevision;
+      await documents.replace(recovery.document);
       assertActive();
-      history = nextHistory;
       revision = recovery.revision;
       savedSnapshot = recovery.savedSnapshot;
       selected = undefined;
@@ -1253,9 +1258,8 @@ export function createEditorSession() {
     if (dirty() && !confirm('Replace the current composition with this imported draft?')) return;
     recover();
     await run(async () => {
-      const next = new EditorHistory(document);
-      await view.apply(next.document);
-      history = next;
+      await documents.replace(document);
+      assertActive();
       revision = null;
       savedSnapshot = '';
       recoveryKey = recoveryRoot + ':' + document.id;
@@ -1282,10 +1286,11 @@ export function createEditorSession() {
     assertActive();
     view = new EditorView(canvas, runtime);
     composition = new CompositionTools({
-      history: () => history,
+      history: () => documents.history,
       view: () => view,
       run,
       refresh,
+      edit,
       select,
       thumbnail: async (asset, clip, target) => {
         const entry = palette.find((p) => p.asset === asset && p.clip === clip);
@@ -1293,7 +1298,7 @@ export function createEditorSession() {
       },
     });
     visualAuthoring = new VisualAuthoring({
-      history: () => history,
+      history: () => documents.history,
       view: () => view,
       selected: () => selected,
       locked: () =>
@@ -1302,7 +1307,7 @@ export function createEditorSession() {
       select: (id) => composition.set(id),
     });
     sceneLibrary = new SceneLibrary({
-      history: () => history,
+      history: () => documents.history,
       view: () => view,
       selection: () => composition.editable(),
       open,
@@ -1317,7 +1322,7 @@ export function createEditorSession() {
             body: JSON.stringify({
               action: 'fragment',
               fragment: { version: 1, name, objects },
-              document: history.document,
+              document: documents.history.document,
               baseRevision,
             }),
             signal: lifetime.signal,
@@ -1342,7 +1347,7 @@ export function createEditorSession() {
       },
     });
     playtest = new DraftPlaytest({
-      document: () => history.document,
+      document: () => documents.history.document,
       compose: (snapshot) => composeDraftGameplay(snapshot, contentDefinitions, worldVisuals),
       catalog: () => assetCatalog,
       status,
@@ -1371,7 +1376,7 @@ export function createEditorSession() {
         $<HTMLInputElement>('asset-animated').checked = false;
         showPalette();
       });
-    await view.apply(history.document);
+    await view.apply(documents.history.document);
     assertActive();
     fit();
     busy = false;
@@ -1383,7 +1388,7 @@ export function createEditorSession() {
   // Development-only inspection supports browser acceptance without exposing a player bridge.
   window.sceneEditor = {
     ready: () => ready,
-    state: () => ({ document: history.document, revision, dirty: dirty(), selected }),
+    state: () => ({ document: documents.history.document, revision, dirty: dirty(), selected }),
     view: () => view,
     playtest: () => playtest.state(),
     dispose,

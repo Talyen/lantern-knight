@@ -39,6 +39,49 @@ test('editor placement, experimental scale, history, recovery, save and external
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects[0]!.scale))
       .toBe(2);
+    // Reject after the view has already replaced its room. History and recovery must
+    // retain the accepted scene, and the old room must be restored for retry.
+    const accepted = await page.evaluate(() => {
+      const renderer = window.sceneEditor.view().presentation!.lookRenderer;
+      const prepare = renderer.prepare.bind(renderer);
+      renderer.prepare = async () => {
+        renderer.prepare = prepare;
+        throw new Error('Lighting update rejected');
+      };
+      return {
+        document: window.sceneEditor.state().document,
+        scale: window.sceneEditor
+          .view()
+          .presentation!.roomPresentation.inkRoom!.sprites.find(
+            (sprite) => sprite.id === window.sceneEditor.state().document.objects[0]!.id,
+          )!
+          .mesh.scale.toArray(),
+        recovery: Object.entries(localStorage).filter(([key]) =>
+          key.startsWith('lantern-scene-editor-recovery:'),
+        ),
+      };
+    });
+    await page.locator('#undo').click();
+    await expect(page.locator('#status')).toHaveText('Lighting update rejected');
+    expect(
+      await page.evaluate(() => ({
+        document: window.sceneEditor.state().document,
+        scale: window.sceneEditor
+          .view()
+          .presentation!.roomPresentation.inkRoom!.sprites.find(
+            (sprite) => sprite.id === window.sceneEditor.state().document.objects[0]!.id,
+          )!
+          .mesh.scale.toArray(),
+        recovery: Object.entries(localStorage).filter(([key]) =>
+          key.startsWith('lantern-scene-editor-recovery:'),
+        ),
+      })),
+    ).toEqual(accepted);
+    expect(
+      await page.evaluate(
+        () => window.sceneEditor.view().presentation!.visualOverride!.props[0]!.scale,
+      ),
+    ).toBe(2);
     await page.locator('#undo').click();
     expect(await page.evaluate(() => window.sceneEditor.state().document.objects[0]!.scale)).toBe(
       1,

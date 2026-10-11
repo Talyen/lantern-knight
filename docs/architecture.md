@@ -23,6 +23,8 @@ Version 5 scene documents own floor, scenery, camera, surrounds and gameplay geo
 
 Editor playtests use that resolver through `src/content/draft-gameplay.ts` and run the shared Application with a storage-free bridge. Optional enemy, exit and health-pickup placements become plain runtime definitions; core owns collection and checkpoint state. Core does not load live scene documents. Original artwork and preparation remain separate from placements and gameplay timing.
 
+EditorDocument owns committed editor history. All edits, undo/redo, imports, opening scenes and recovery restores stage a candidate and validate gameplay before applying it to EditorView. Only view acceptance commits the candidate; selection and local recovery updates follow that commit. Failed application restores the previously committed view and preserves its undo/redo history. Disposal discards pending candidates without reopening the view. Inspectors and composition tools read the committed snapshot; edit callbacks receive a separate mutable history. Saving reidentifies the accepted history without adding an undo step.
+
 Game runtime and builds share the content and asset selection in `src/content/game-content.ts`, which currently defines a built-in empty area with the hero. Saving under `authoring/scenes/` does not add a scene to Game. Authored scenes are replaceable; developer presentation fixtures and gameplay test arenas own their setup independently. Asset preparation and runtime delivery retain their curated catalog independently of scene selection.
 
 ## Runtime resources

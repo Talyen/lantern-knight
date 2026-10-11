@@ -1,3 +1,4 @@
+import type { EditorSnapshot } from './document';
 import { editorError } from './errors';
 import {
   parseSceneDocument,
@@ -8,13 +9,13 @@ import { EditorHistory, sceneItems } from './model';
 import type { EditorView } from './view';
 import * as T from 'three';
 type Host = {
-  history: () => EditorHistory;
+  history: () => EditorSnapshot;
   view: () => EditorView;
   selection: () => string[];
   open: (value: string) => Promise<void>;
   import: (document: SceneDocument) => Promise<void>;
   fragment: (name: string, objects: SceneDocument['objects']) => Promise<void>;
-  change: (mutate: (d: SceneDocument) => void) => Promise<void>;
+  change: (mutate: (d: SceneDocument) => void, committed?: () => void) => Promise<void>;
   select: (ids: string[]) => void;
   status: (message: string, error?: boolean) => void;
   recoveries: () => { key: string; name: string; time: string }[];
@@ -273,12 +274,14 @@ export class SceneLibrary {
         this.dialog.close();
         let inserted: string[] = [];
         void this.host
-          .change((d) => {
-            const temp = new EditorHistory(d);
-            inserted = temp.insertFragment(fragment.objects);
-            d.objects = temp.document.objects;
-          })
-          .then(() => this.host.select(inserted))
+          .change(
+            (d) => {
+              const temp = new EditorHistory(d);
+              inserted = temp.insertFragment(fragment.objects);
+              d.objects = temp.document.objects;
+            },
+            () => this.host.select(inserted),
+          )
           .catch((e) => this.host.status(editorError(e), true));
       };
       list.append(b);
@@ -366,14 +369,18 @@ export class SceneLibrary {
     const cx = items.reduce((a, p) => a + p.placement.x, 0) / items.length,
       cz = items.reduce((a, p) => a + p.placement.z, 0) / items.length;
     const ids: string[] = [];
-    await this.host.change((d) => {
-      const temp = new EditorHistory(d);
-      for (const p of this.points)
-        ids.push(...temp.insertFragment(this.fragmentData, p.x - cx, p.z - cz));
-      d.objects = temp.document.objects;
-    });
-    this.host.select(ids);
-    this.clearPreview();
+    await this.host.change(
+      (d) => {
+        const temp = new EditorHistory(d);
+        for (const p of this.points)
+          ids.push(...temp.insertFragment(this.fragmentData, p.x - cx, p.z - cz));
+        d.objects = temp.document.objects;
+      },
+      () => {
+        this.host.select(ids);
+        this.clearPreview();
+      },
+    );
   }
   clearPreview() {
     for (const child of [...this.preview.children]) {

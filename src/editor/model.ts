@@ -28,6 +28,12 @@ export class EditorHistory {
   constructor(document: SceneDocument) {
     this.document = parseSceneDocument(document);
   }
+  fork() {
+    const copy = new EditorHistory(this.document);
+    copy.past = [...this.past];
+    copy.future = [...this.future];
+    return copy;
+  }
   get canUndo() {
     return this.past.length > 0;
   }
@@ -58,14 +64,14 @@ export class EditorHistory {
     const previous = this.past.pop();
     if (previous) {
       this.future.push(this.document);
-      this.document = previous;
+      this.document = structuredClone(previous);
     }
   }
   redo() {
     const next = this.future.pop();
     if (next) {
       this.past.push(this.document);
-      this.document = next;
+      this.document = structuredClone(next);
     }
   }
   transform(

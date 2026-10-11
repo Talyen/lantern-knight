@@ -3,8 +3,10 @@ import { heightAt } from '../content/world';
 import { openDock } from './workspace';
 import { EditorHistory, sceneItems } from './model';
 import type { EditorView } from './view';
+import type { EditorSnapshot } from './document';
 export type CompositionHost = {
-  history: () => EditorHistory;
+  history: () => EditorSnapshot;
+  edit: (work: (history: EditorHistory) => void, committed?: () => void) => Promise<void>;
   view: () => EditorView;
   run: (work: () => Promise<void>) => Promise<void>;
   refresh: () => Promise<void>;
@@ -36,8 +38,8 @@ export class CompositionTools {
     element('focus-selection').onclick = () => this.focus();
     element('shortcuts').onclick = () => element<HTMLDialogElement>('shortcut-dialog').showModal();
     element('reset-transform').onclick = () =>
-      void this.edit(() => {
-        this.host.history().change((d) => {
+      void this.edit((history) => {
+        history.change((d) => {
           for (const p of d.objects)
             if (this.editable().includes(p.id)) {
               p.scale = 1;
@@ -79,14 +81,14 @@ export class CompositionTools {
       button.textContent = 'Align ' + axis.toUpperCase();
       button.id = 'align-' + axis;
       button.onclick = () =>
-        void this.edit(() => {
+        void this.edit((history) => {
           const ids = this.editable(),
             items = sceneItems(this.host.history().document);
           const anchor = items.find((p) => p.placement.id === ids.at(-1))?.placement[axis];
           if (anchor === undefined) return;
           const temp = new EditorHistory(this.host.history().document);
           for (const id of ids) temp.transform(id, { [axis]: anchor });
-          this.host.history().change((d) => {
+          history.change((d) => {
             d.objects = temp.document.objects;
           });
         }).catch(console.error);
@@ -127,7 +129,7 @@ export class CompositionTools {
           if (button.hasPointerCapture(e.pointerId)) button.releasePointerCapture(e.pointerId);
           view.clearTransformPreview();
           if (!cancel && changed)
-            void this.edit(() => this.host.history().transformMany(ids, validFields)).catch(
+            void this.edit((history) => history.transformMany(ids, validFields)).catch(
               console.error,
             );
           else {
@@ -253,19 +255,21 @@ export class CompositionTools {
     if (this.selection.size) openDock('object', false);
     this.host.select([...this.selection].at(-1));
   }
-  async edit(work: () => void) {
-    await this.host.run(async () => {
-      work();
-      await this.host.refresh();
-    });
+  edit(work: (history: EditorHistory) => void, committed?: () => void) {
+    return this.host.edit(work, committed);
   }
   duplicate() {
-    return this.edit(() => {
-      const ids = this.host.history().duplicateMany(this.editable());
-      this.selection.clear();
-      ids.forEach((id) => this.selection.add(id));
-      this.host.select(ids.at(-1));
-    });
+    let ids: string[] = [];
+    return this.edit(
+      (history) => {
+        ids = history.duplicateMany(this.editable());
+      },
+      () => {
+        this.selection.clear();
+        ids.forEach((id) => this.selection.add(id));
+        this.host.select(ids.at(-1));
+      },
+    );
   }
   remove() {
     const selected = this.editable();
@@ -277,11 +281,15 @@ export class CompositionTools {
     const extra = descendants.filter((id) => !selected.includes(id));
     if (extra.length && !confirm(`Delete selection and ${extra.length} attached object(s)?`))
       return;
-    return this.edit(() => {
-      this.host.history().removeMany(selected);
-      this.selection.clear();
-      this.host.select(undefined);
-    });
+    return this.edit(
+      (history) => {
+        history.removeMany(selected);
+      },
+      () => {
+        this.selection.clear();
+        this.host.select(undefined);
+      },
+    );
   }
   focus() {
     const view = this.host.view(),
