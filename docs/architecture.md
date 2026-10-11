@@ -11,6 +11,7 @@
 | Developer sessions | Editor/preview controls, temporary state, mounted requests and cancellation | `src/editor/`, `src/sandbox/` |
 | Storage adapters | Validated browser storage and atomic desktop writes through Bridge | `src/platform/`, `electron/` |
 | Asset tools | Source preparation, immutable delivery, workspaces and cache leases | `tools/assets/` |
+| Development tools | Guide discovery, checks, test selection, builds and preview processes | `tools/` (asset operations in `tools/assets/`) |
 
 Game and Dev Preview, including its effects fixture, share the Application lifecycle. Dev Preview's shell retains per-fixture state; opening an inspector is separate from entering dedicated animation/calibration rendering. Preview state uses validated session storage and storage-free bridges, never player checkpoints/settings. Mounted developer sessions dispose their requests, observers and rendering work together.
 

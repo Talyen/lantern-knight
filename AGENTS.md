@@ -2,7 +2,7 @@
 
 Prototype iteration is the default. Preserve unrelated edits. [Development](docs/development.md) owns the edit loop; small sequential edits need no task registry or evidence database.
 
-Start with the relevant [owner](docs/architecture.md#owners) or [guide](README.md#documentation) and matching [skill](.agents/skills/README.md). `npm run docs:read -- <file.md>#<heading>` reads one section; omit the heading for an outline. Search that owner's paths before opening code. [Agent context](docs/development.md#agent-context) owns discovery and output guidance.
+Start with the relevant [owner](docs/architecture.md#owners) or [guide](README.md#documentation) and matching [skill](.agents/skills/README.md). Use `npm run --silent docs:read -- --search '<phrase>'` when the guide is unknown; `<file.md>#<heading>` reads a bounded section, and a path alone lists anchors and section sizes. Follow continuation commands when needed. Search that owner's paths before opening code. [Agent context](docs/development.md#agent-context) owns discovery and output guidance.
 
 Before independent/concurrent editing, verify `git rev-parse --show-toplevel` and `git worktree list`, then use a distinct worktree with an intended common baseline and clear ownership. [Task coordination](docs/task-coordination.md) owns isolation, resource locks and integration. Task-relevant messages to other Codex chats are authorized; external messages, pushes, publication and deletion remain separately controlled.
 

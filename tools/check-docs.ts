@@ -66,7 +66,9 @@ async function checkDocumentation(root: string, files: string[]) {
     if (durable) edges.set(relativeFile, new Set());
     const report = (index: number, message: string) =>
       findings.push(`${file}:${text.slice(0, index).split('\n').length}: ${message}`);
-    for (const match of text.matchAll(/\bnpm\s+run(?:-script)?\s+(?:--\s+)?([\w:.-]+)/g))
+    for (const match of text.matchAll(
+      /\bnpm\s+run(?:-script)?\s+(?:--silent\s+)?(?:--\s+)?([\w:.-]+)/g,
+    ))
       if (!Object.hasOwn(scripts, match[1]!)) report(match.index, `unknown npm script ${match[1]}`);
     for (const match of withoutFences(text).matchAll(/`([^`\n]+)`/g)) {
       const candidate = match[1]!;
