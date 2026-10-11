@@ -531,6 +531,32 @@ body.focus-mode .toolbar {
 #playtest-dialog::backdrop {
   background: transparent;
 }
+#playtest-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+#movement-controls:not([hidden]) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  padding: 6px 12px;
+  background: #1d2b2e;
+  font-size: 12px;
+}
+#movement-controls label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+}
+#movement-controls select {
+  width: auto;
+  max-width: 220px;
+}
+#movement-route-status {
+  color: #d1ba7c;
+}
 #playtest-dialog header {
   display: flex;
   align-items: center;
@@ -545,7 +571,9 @@ body.focus-mode .toolbar {
 #playtest-viewport {
   display: block;
   width: 100%;
-  height: calc(100% - 40px);
+  flex: 1;
+  min-height: 0;
+  height: 0;
 }
 #playtest-status {
   position: absolute;

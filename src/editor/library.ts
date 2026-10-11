@@ -104,7 +104,7 @@ export class SceneLibrary {
       const file = input.files?.[0];
       if (file)
         void (async () => {
-          if (file.size > sceneBytesLimit) throw new Error('Scene exceeds 1 MiB');
+          if (file.size > sceneBytesLimit) throw new Error('Scene exceeds 4 MiB');
           const d = parseSceneDocument(JSON.parse(await file.text()));
           await host.import({
             ...d,

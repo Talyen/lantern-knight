@@ -13,7 +13,7 @@ test('ground atlas masks each actor independently and draws hidden outline pixel
       cameraPath = '/src/core/camera.ts';
     const T = await import(threePath),
       { GroundOcclusion } = await import(occlusionPath),
-      { outward, right } = await import(cameraPath);
+      { outward, right, up } = await import(cameraPath);
     const renderer = new T.WebGLRenderer({
       canvas: document.querySelector('canvas')!,
       antialias: false,
@@ -101,13 +101,23 @@ test('ground atlas masks each actor independently and draws hidden outline pixel
       return { left, right, gold, brick };
     };
     try {
-      return {
+      const proof = {
         front: render(1, 1, false),
         hidden: render(-1, -1, false),
         opposite: render(-1, 1, false),
         outlined: render(-1, -1, true),
         bytes: atlas.bytes,
       };
+      // An asymmetric mask catches top-left image / bottom-left texture inversion.
+      for (const point of ground.regions[0]!.mask[0]!.outer) if (point[1] === 1) point[1] = 0.5;
+      const upperAtlas = new GroundOcclusion(ground, 4, 4, renderer.capabilities.maxTextureSize);
+      atlas.uniforms.groundAtlas.value = upperAtlas.texture;
+      for (const s of sprites) s.mesh.position.addScaledVector(up, 0.9);
+      const upperHidden = render(-1, -1, false);
+      for (const s of sprites) s.mesh.position.addScaledVector(up, -1.8);
+      const lowerVisible = render(-1, -1, false);
+      upperAtlas.dispose();
+      return { ...proof, upperHidden, lowerVisible };
     } finally {
       atlas.dispose();
       for (const s of sprites) {
@@ -130,4 +140,7 @@ test('ground atlas masks each actor independently and draws hidden outline pixel
   expect(proof.outlined.gold).toBeGreaterThan(0);
   expect(proof.outlined.brick).toBeGreaterThan(0);
   expect(proof.bytes).toBe(64 * 64 * 4);
+  expect(proof.upperHidden.left + proof.upperHidden.right).toBe(0);
+  expect(proof.lowerVisible.left).toBeGreaterThan(300);
+  expect(proof.lowerVisible.right).toBeGreaterThan(300);
 });

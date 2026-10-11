@@ -74,6 +74,21 @@ test('artwork coordinates round trip and resize all world geometry together', ()
     b = after.uv(g.regions[0]!.footprint![0]!);
   assert.ok(a.every((v, i) => Math.abs(v - b[i]!) < 1e-12));
 });
+test('top-left image coordinates register with the actual camera projection', () => {
+  const layout = artworkFloorLayout(40, 26.666);
+  for (const [u, v] of [
+    [0, 0],
+    [1, 1],
+    [0.2, 0.7],
+  ]) {
+    const p = layout.world([u!, v!]);
+    // The camera up axis has negative XZ components: points farther away appear higher.
+    const screenUp =
+      (-Math.sin(Math.atan2(outward.y, Math.hypot(outward.x, outward.z))) * (p.x + p.z)) /
+      Math.sqrt(2);
+    assert.ok(Math.abs(screenUp - (0.5 - v!) * 26.666) < 1e-9);
+  }
+});
 test('depth boundaries interpolate across artwork columns and reject ambiguous ordering', () => {
   const g = ground(),
     layout = artworkFloorLayout(40, 26.666),
@@ -97,14 +112,14 @@ test('scene masks preserve holes through parsing; identity replacement and overs
     parseSceneDocument(JSON.parse(JSON.stringify(d))).groundInteraction,
     d.groundInteraction,
   );
-  assert.equal(sceneBytesLimit, 1024 * 1024);
+  assert.equal(sceneBytesLimit, 4 * 1024 * 1024);
   assert.equal(fragmentBytesLimit, 64 * 1024);
   d.floor.asset = 'replacement';
   assert.throws(() => parseSceneDocument(d), /original single-image/);
   d.floor.asset = 'ink-moss';
-  const dense = Array.from({ length: 60000 }, (_, i) => [i / 60000, 0.5] as [number, number]);
+  const dense = Array.from({ length: 300000 }, (_, i) => [i / 300000, 0.5] as [number, number]);
   d.groundInteraction.regions[0]!.mask![0]!.outer = dense;
-  assert.throws(() => parseSceneDocument(d), /1 MiB/);
+  assert.throws(() => parseSceneDocument(d), /4 MiB/);
 });
 test('manual mask tracing preserves separate islands, diagonal contact, and holes', () => {
   const width = 12,
@@ -173,14 +188,14 @@ test('large accepted contours survive transactional history and scene-store reop
     d.floor.layout = 'artwork';
     d.groundInteraction = ground();
     d.groundInteraction.regions[0]!.mask![0]!.outer = Array.from(
-      { length: 6000 },
+      { length: 90000 },
       (_, i) =>
         [
-          0.5 + 0.2 * Math.cos((i / 6000) * Math.PI * 2),
-          0.5 + 0.2 * Math.sin((i / 6000) * Math.PI * 2),
+          0.5 + 0.2 * Math.cos((i / 90000) * Math.PI * 2),
+          0.5 + 0.2 * Math.sin((i / 90000) * Math.PI * 2),
         ] as [number, number],
     );
-    assert.ok(Buffer.byteLength(JSON.stringify(d)) > 64 * 1024);
+    assert.ok(Buffer.byteLength(JSON.stringify(d)) > 1024 * 1024);
     const history = new EditorHistory(d);
     history.change((p) => {
       p.groundInteraction!.regions[0]!.name = 'Accepted correction';

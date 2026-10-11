@@ -1,3 +1,4 @@
+import { heroLanternPosition } from './hero-lantern';
 import { GroundOcclusion } from './ground-occlusion';
 import { imageDimensions } from '../assets/texture-delivery';
 import type { PresentationLifecycle } from './lifecycle';
@@ -281,8 +282,9 @@ export class GamePresentation implements PresentationLifecycle {
           );
         }
       }
-    this.light.position.set(sim.hero.x - 0.25, sim.hero.y + 0.85, sim.hero.z);
-    this.light.intensity = sim.hero.state === 'ability' ? 14 : 5;
+    const heroSprite = this.actorPresentation.actors.get(sim.hero.id)?.sprite;
+    const hasLantern = heroSprite && heroLanternPosition(heroSprite, this.light.position);
+    this.light.intensity = hasLantern ? (sim.hero.state === 'ability' ? 14 : 5) : 0;
     for (const m of this.roomPresentation.fadeMeshes) {
       const p = m.userData.foot as { x: number; y: number; z: number },
         delta = new T.Vector3(sim.hero.x - p.x, sim.hero.y - p.y, sim.hero.z - p.z);

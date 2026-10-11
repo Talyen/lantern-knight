@@ -1,3 +1,4 @@
+import { heroLanternPosition } from './hero-lantern';
 import { FocusMask } from './focus-mask';
 import { ShadowProxies } from './shadow-proxies';
 import { SCENE_LIGHT_CAPACITY } from '../content/world-visuals';
@@ -124,7 +125,7 @@ export class SceneLightingRenderer {
   private owned: { dispose: () => void }[] = [];
   private dust: T.Points;
   private mist = new GroundMist();
-  private glows: T.Mesh[] = [];
+  private glows: T.Mesh<T.PlaneGeometry, T.MeshBasicMaterial>[] = [];
   private generation = -1;
   private normalReady: Promise<void>;
   private size = new T.Vector2();
@@ -238,7 +239,7 @@ export class SceneLightingRenderer {
     const mistTexture = this.radialTexture();
     this.owned.push(mistTexture);
     this.extras.add(this.mist.group);
-    for (let i = 0; i < 4; i++) {
+    for (let i = 1; i < 4; i++) {
       const material = new T.MeshBasicMaterial({
         map: mistTexture,
         color: new T.Color(0xffac4d).multiplyScalar(4),
@@ -437,9 +438,12 @@ export class SceneLightingRenderer {
     if (!fx.palette) this.lighting.neutralPalette();
     const lights = this.lighting.common;
     lights.inkLightPower.value.fill(0);
-    lights.inkLightPosition.value[0]!.set(sim.hero.x - 0.25, sim.hero.y + 0.85, sim.hero.z);
-    lights.inkLightPower.value[0] = sim.hero.state === 'ability' ? 2.9 : 1.15;
+    const heroSprite = this.actors.actors.get(sim.hero.id)?.sprite;
+    const hasLantern =
+      heroSprite && heroLanternPosition(heroSprite, lights.inkLightPosition.value[0]!);
+    lights.inkLightPower.value[0] = hasLantern ? (sim.hero.state === 'ability' ? 2.9 : 1.15) : 0;
     lights.inkLightRange.value.fill(4.8);
+    lights.inkLightRange.value[0] = 7;
     for (const [i, l] of this.effects.lights(fx).slice(0, SCENE_LIGHT_CAPACITY).entries()) {
       lights.inkLightPosition.value[i + 1]!.copy(l.position);
       lights.inkLightPower.value[i + 1] = l.power;
@@ -488,13 +492,12 @@ export class SceneLightingRenderer {
       look.mist * 0.8,
       frame.visuals?.surround ? new T.Vector3(0, 0, 0) : origin,
     );
-    this.glows.forEach((mesh, i) => {
+    this.glows.forEach((mesh, index) => {
+      const i = index + 1;
       mesh.visible = s.lighting && lights.inkLightPower.value[i]! > 0;
       mesh.position.copy(lights.inkLightPosition.value[i]!);
       mesh.quaternion.copy(p.camera.quaternion);
-      mesh.scale.setScalar(
-        i === 0 && sim.hero.state === 'ability' ? 2.7 : frame.visuals?.interior ? 0.5 : 1,
-      );
+      mesh.scale.setScalar(frame.visuals?.interior ? 0.5 : 1);
     });
     if (!s.postprocessing) {
       r.autoClear = this.priorAutoClear;

@@ -9,6 +9,49 @@ import { normalPixels } from '../../src/presentation/lighting-profiles';
 import { GroundMist } from '../../src/presentation/ground-mist';
 import { heightAt } from '../../src/content/world';
 import { content } from '../fixtures/content';
+import { ActorSprite } from '../../src/presentation/sprite';
+import { heroLanternPosition } from '../../src/presentation/hero-lantern';
+import { makeCamera, right, up } from '../../src/core/camera';
+import { Vector3, Texture } from 'three';
+
+test('lantern light follows displayed socket registration, stabilization and mirrored animation', () => {
+  const manifest = manifestFixture();
+  manifest.asset.contentVersion = 'hero-directed-20261007-v03';
+  const frame = manifest.frames[0]!;
+  frame.attachments.lantern = [manifest.asset.anchor[0] + 20, manifest.asset.anchor[1] - 40];
+  frame.visualOffsetPx = [10, -5];
+  const texture = new Texture(),
+    sprite = new ActorSprite('hero', manifest, new Map([[frame.page, texture]]), {
+      frames: [frame.id],
+      durationsMs: [100],
+      loop: true,
+      notifies: [],
+    }),
+    camera = makeCamera(1),
+    foot = new Vector3(3, 0, 4),
+    position = new Vector3();
+  try {
+    sprite.show(frame.id, foot, camera);
+    assert.equal(heroLanternPosition(sprite, position), true);
+    const displacement = position.clone().sub(foot);
+    assert.ok(Math.abs(displacement.dot(right) - 30 / manifest.asset.density) < 1e-10);
+    assert.ok(Math.abs(displacement.dot(up) - 45 / manifest.asset.density) < 1e-10);
+    sprite.mesh.scale.x = -1;
+    heroLanternPosition(sprite, position);
+    assert.ok(
+      Math.abs(position.clone().sub(foot).dot(right) + 30 / manifest.asset.density) < 1e-10,
+    );
+    sprite.stabilized = false;
+    sprite.show(frame.id, foot, camera);
+    heroLanternPosition(sprite, position);
+    assert.ok(Math.abs(position.clone().sub(foot).dot(up) - 40 / manifest.asset.density) < 1e-10);
+    manifest.asset.contentVersion = 'different-drawings';
+    assert.equal(heroLanternPosition(sprite, position), false);
+  } finally {
+    sprite.dispose();
+    texture.dispose();
+  }
+});
 
 test('mist ribbons follow the raised terrain rather than intersecting its steps', () => {
   const mist = new GroundMist(),

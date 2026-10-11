@@ -76,7 +76,7 @@ export class SceneStore {
       const bytes =
         JSON.stringify(document, null, document.groundInteraction ? undefined : 2) + '\n';
       if (Buffer.byteLength(bytes) > sceneBytesLimit)
-        throw new Error('Scene exceeds the 1 MiB authored-file limit');
+        throw new Error('Scene exceeds the 4 MiB authored-file limit');
       const file = await this.location(document.id);
       let current: string | null = null;
       try {

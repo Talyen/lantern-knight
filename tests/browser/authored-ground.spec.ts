@@ -1,0 +1,94 @@
+import { test, expect } from './fixtures';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import type {} from '../../src/editor/main';
+
+test('authored ground opens and routes its actors through saved annotations', async ({
+  page,
+}, info) => {
+  const id = process.env.LANTERN_GROUND_SCENE;
+  test.skip(!id, 'Opt in with LANTERN_GROUND_SCENE and prepared local scene artwork');
+  page.on('dialog', (dialog) => void dialog.accept());
+  await page.goto('/editor.html?automated');
+  await page.waitForFunction(() => window.sceneEditor?.ready());
+  if (await page.getByRole('button', { name: 'Dismiss', exact: true }).isVisible())
+    await page.getByRole('button', { name: 'Dismiss', exact: true }).click();
+  await page.locator('#document-menu > summary').click();
+  await page.locator('#scene').selectOption('file-' + id!);
+  const started = Date.now();
+  await page.locator('#open').click();
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.id), {
+      timeout: 90_000,
+    })
+    .toBe(id);
+  await page.waitForFunction(() => window.sceneEditor.view().presentation?.groundOcclusion);
+  const openMilliseconds = Date.now() - started;
+  const original = await page.evaluate(() => JSON.stringify(window.sceneEditor.state().document));
+  const atlas = await page.evaluate(() => {
+    const p = window.sceneEditor.view().presentation!;
+    return {
+      bytes: p.groundOcclusion!.bytes,
+      maxTextureSize: p.renderer.capabilities.maxTextureSize,
+    };
+  });
+  await page.screenshot({ path: info.outputPath('editor.png') });
+  await page.locator('#test-movement').click();
+  await page.waitForFunction(() => window.sceneEditor.playtest()?.ready);
+  await expect(page.locator('#movement-actor option')).toHaveCount(4);
+  const targets = await page.locator('#movement-destination option').evaluateAll((options) =>
+    options.slice(1).map((option) => ({
+      value: (option as HTMLOptionElement).value,
+      name: option.textContent,
+    })),
+  );
+  const routes = [];
+  for (const target of targets) {
+    await page.locator('#movement-destination').selectOption(target.value);
+    await expect(page.locator('#movement-route-status')).toHaveText(
+      target.name === 'Blocked island' ? 'Destination unreachable' : 'Following route',
+    );
+    routes.push({
+      name: target.name,
+      status: await page.locator('#movement-route-status').textContent(),
+    });
+  }
+  const frameIntervals = await page.evaluate(async () => {
+    const samples: number[] = [];
+    let last = 0;
+    await new Promise<void>((resolve) => {
+      const frame = (now: number) => {
+        if (last) samples.push(now - last);
+        last = now;
+        if (samples.length < 120) requestAnimationFrame(frame);
+        else resolve();
+      };
+      requestAnimationFrame(frame);
+    });
+    return samples.sort((a, b) => a - b);
+  });
+  await page.screenshot({ path: info.outputPath('movement.png') });
+  await page.locator('#playtest-return').click();
+  expect(await page.evaluate(() => JSON.stringify(window.sceneEditor.state().document))).toBe(
+    original,
+  );
+  await fs.writeFile(
+    path.join(info.outputDir, 'metrics.json'),
+    JSON.stringify(
+      {
+        id,
+        openMilliseconds,
+        atlas,
+        routes,
+        softwareRendererFrameIntervals: {
+          count: frameIntervals.length,
+          p50: frameIntervals[60],
+          p95: frameIntervals[114],
+          max: frameIntervals.at(-1),
+        },
+      },
+      null,
+      2,
+    ),
+  );
+});

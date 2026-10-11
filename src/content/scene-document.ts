@@ -255,12 +255,12 @@ const SceneDocumentSchema = z
   });
 export type SceneDocument = z.infer<typeof SceneDocumentSchema>;
 export type SceneObject = SceneDocument['objects'][number];
-export const sceneBytesLimit = 1024 * 1024;
+export const sceneBytesLimit = 4 * 1024 * 1024;
 export const fragmentBytesLimit = 64 * 1024;
 export function parseSceneDocument(value: unknown): SceneDocument {
   const document = SceneDocumentSchema.parse(value);
   if (new TextEncoder().encode(JSON.stringify(document)).length > sceneBytesLimit)
-    throw new Error('Scene exceeds the 1 MiB authored-file limit');
+    throw new Error('Scene exceeds the 4 MiB authored-file limit');
   const ground = document.groundInteraction;
   if (
     ground &&

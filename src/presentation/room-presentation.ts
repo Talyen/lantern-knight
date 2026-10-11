@@ -152,9 +152,11 @@ export class RoomPresentation {
     }
     if (artwork) {
       const positions = floorGeometry.getAttribute('position');
-      const uvs = Array.from({ length: positions.count }, (_, i) =>
-        artwork.uv({ x: positions.getX(i), z: positions.getZ(i) }),
-      ).flat();
+      // Authored image coordinates start at the top left; texture UVs start at the bottom left.
+      const uvs = Array.from({ length: positions.count }, (_, i) => {
+        const [u, v] = artwork.uv({ x: positions.getX(i), z: positions.getZ(i) });
+        return [u, 1 - v];
+      }).flat();
       floorGeometry.setAttribute('uv', new T.Float32BufferAttribute(uvs, 2));
     }
     let outsideMap: T.Texture | undefined;

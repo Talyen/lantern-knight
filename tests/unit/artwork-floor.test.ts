@@ -18,10 +18,10 @@ test('single paintings cover one complete image and retain the displayed aspect 
   for (const [i, p] of layout.corners.entries()) {
     const [u, v] = layout.uv(p),
       expected = [
-        [0, 1],
-        [1, 1],
-        [1, 0],
         [0, 0],
+        [1, 0],
+        [1, 1],
+        [0, 1],
       ][i]!;
     assert.ok(Math.abs(u - expected[0]!) < 1e-10 && Math.abs(v - expected[1]!) < 1e-10);
   }
