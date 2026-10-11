@@ -9,7 +9,11 @@ import { resolveScene } from '../src/content/world-art';
 import { parseManifest, type Manifest } from '../src/assets/schema';
 import { readAuthoringCatalog } from './assets/authoring-catalog';
 import { GroundProfileStore } from './scene/ground-profile-store';
-export async function checkSceneDocuments(root: string, publicDirectory: string) {
+export async function checkSceneDocuments(
+  root: string,
+  publicDirectory: string,
+  options: { allowUnpreparedDraftGround?: boolean } = {},
+) {
   // Archived profiles remain valid even when their original asset is no longer prepared.
   const profileDirectory = path.join(root, 'authoring/ground-profiles');
   try {
@@ -39,14 +43,23 @@ export async function checkSceneDocuments(root: string, publicDirectory: string)
     for (const id of scene.assets) {
       if (manifests.has(id)) continue;
       const source = catalog[id];
-      if (!source) throw new Error('Unavailable scene asset: ' + id);
+      if (!source) {
+        if (
+          options.allowUnpreparedDraftGround &&
+          d.target === 'draft' &&
+          d.floor.layout === 'artwork' &&
+          id === d.floor.asset
+        )
+          continue;
+        throw new Error('Unavailable scene asset: ' + id);
+      }
       const manifest = parseManifest(
         JSON.parse(await fs.readFile(path.join(publicDirectory, source), 'utf8')),
       );
       if (manifest.asset.id !== id) throw new Error('Scene asset identity differs: ' + id);
       manifests.set(id, manifest);
     }
-    validateSceneReferences(d, manifests);
+    validateSceneReferences(d, manifests, options);
   }
   return files.length;
 }

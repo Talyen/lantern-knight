@@ -95,7 +95,9 @@ test('Game artifacts omit unused art while runtime delivery and authored scenes 
     assert.equal(game.files.includes(floor), false);
     assert.equal(runtime.files.includes(floor), true);
     assert.ok(game.bytes < runtime.bytes);
-    await checkSceneDocuments(process.cwd(), workspace.publicDirectory);
+    await checkSceneDocuments(process.cwd(), workspace.publicDirectory, {
+      allowUnpreparedDraftGround: true,
+    });
     const directory = path.join(root, 'authoring/scenes');
     await fs.mkdir(directory, { recursive: true });
     const document = emptyScene();
@@ -105,6 +107,28 @@ test('Game artifacts omit unused art while runtime delivery and authored scenes 
     await fs.writeFile(path.join(directory, document.id + '.json'), JSON.stringify(document));
     await assert.rejects(
       checkSceneDocuments(root, workspace.publicDirectory),
+      /Unavailable scene asset/,
+    );
+    const draftGround = { allowUnpreparedDraftGround: true };
+    await assert.rejects(
+      checkSceneDocuments(root, workspace.publicDirectory, draftGround),
+      /Unavailable scene asset/,
+    );
+    document.floor.layout = 'artwork';
+    document.floor.clip = 'still';
+    await fs.writeFile(path.join(directory, document.id + '.json'), JSON.stringify(document));
+    assert.equal(await checkSceneDocuments(root, workspace.publicDirectory, draftGround), 1);
+    document.proceduralAssets = ['missing-prop'];
+    await fs.writeFile(path.join(directory, document.id + '.json'), JSON.stringify(document));
+    await assert.rejects(
+      checkSceneDocuments(root, workspace.publicDirectory, draftGround),
+      /Unavailable scene asset: missing-prop/,
+    );
+    document.proceduralAssets = [];
+    document.target = 'live';
+    await fs.writeFile(path.join(directory, document.id + '.json'), JSON.stringify(document));
+    await assert.rejects(
+      checkSceneDocuments(root, workspace.publicDirectory, draftGround),
       /Unavailable scene asset/,
     );
   } finally {

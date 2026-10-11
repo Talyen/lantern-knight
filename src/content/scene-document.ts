@@ -292,11 +292,19 @@ export function floorClips(m: Manifest) {
 export function validateSceneReferences(
   d: SceneDocument,
   manifests?: ReadonlyMap<string, Manifest>,
+  options: { allowUnpreparedDraftGround?: boolean } = {},
 ) {
+  // Source-free checks may encounter unpublished draft paintings. Play/save remain strict.
+  const deferredGround =
+    options.allowUnpreparedDraftGround &&
+    d.target === 'draft' &&
+    d.floor.layout === 'artwork' &&
+    manifests &&
+    !manifests.has(d.floor.asset);
   if (d.floor.layout === 'artwork' && d.geometry && d.geometry.surface.kind !== 'flat')
     throw new Error('Artwork floors need a flat surface. Change the scene surface to Flat first.');
   const ground = d.groundInteraction;
-  if (ground && manifests) {
+  if (ground && manifests && !deferredGround) {
     const manifest = manifests.get(ground.asset);
     if (
       !manifest ||
@@ -343,7 +351,7 @@ export function validateSceneReferences(
         throw new Error('Unavailable surround: ' + layer.asset + '/' + layer.clip);
     }
   }
-  if (d.floor && manifests) {
+  if (d.floor && manifests && !deferredGround) {
     const m = manifests.get(d.floor.asset);
     if (
       !m ||
