@@ -110,7 +110,22 @@ export function resolveScene(
     ...geometry,
     playableBoundary: layout?.corners,
     ...gameplay,
-    props: churchyardColliders(visuals),
+    props: [
+      ...churchyardColliders(visuals),
+      ...(document.groundInteraction?.regions
+        .filter((r) => r.footprint)
+        .map((r) => ({
+          id: 'ground-' + r.id,
+          kind: 'wall' as const,
+          x: 0,
+          z: 0,
+          radius: 0.2,
+          height: 1,
+          shape: 'polygon' as const,
+          polygon: r.footprint!,
+          blocking: true,
+        })) ?? []),
+    ],
   };
   area = authoredGameplay(document, area, visuals.props);
   return { document, area, visuals, assets: sceneAssets(visuals) };

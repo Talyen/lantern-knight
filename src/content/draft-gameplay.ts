@@ -1,3 +1,4 @@
+import { effectiveRadius } from '../core/navigation';
 import { ContentRegistry, type ContentDefinitions, isSupportedPosition } from './world';
 import { type SceneDocument, parseSceneDocument, validateSceneReferences } from './scene-document';
 import { resolveScene } from './world-art';
@@ -24,7 +25,7 @@ export function composeDraftGameplay(
     ...area.spawns.map((p) => ({ ...p, radius: registry.actor(p.actor).radius })),
   ];
   for (const p of placements)
-    if (!isSupportedPosition(area, p, p.radius))
+    if (!isSupportedPosition(area, p, effectiveRadius(p.radius)))
       throw new Error('Gameplay placement is outside the playable surface or obstructed');
   const validationDocument = structuredClone(document);
   const scenes = composeSceneContent(registry, { ...visualsByArea, [area.id]: visuals });

@@ -1,3 +1,4 @@
+import { SegmentationService } from '../segmentation/service';
 import { FragmentStore } from './fragment-store';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -72,9 +73,10 @@ export class SceneStore {
         throw new Error('Invalid file revision');
       const document = parseSceneDocument(value);
       await this.validate(document);
-      const bytes = JSON.stringify(document, null, 2) + '\n';
+      const bytes =
+        JSON.stringify(document, null, document.groundInteraction ? undefined : 2) + '\n';
       if (Buffer.byteLength(bytes) > sceneBytesLimit)
-        throw new Error('Scene exceeds the 64 KiB authored-file limit');
+        throw new Error('Scene exceeds the 1 MiB authored-file limit');
       const file = await this.location(document.id);
       let current: string | null = null;
       try {
@@ -101,9 +103,12 @@ export class SceneStore {
 }
 /** @knip-external Loaded by Vite ssrLoadModule and generated worktree fixture configs. */
 export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin {
+  const segmentation = new SegmentationService(root, preparedPublic);
   const token = randomUUID(),
     sourceFiles = [
       'src/content/scene-document.ts',
+      'src/content/ground-interaction.ts',
+      'src/content/floor-layout.ts',
       'src/content/authored-gameplay.ts',
       'src/assets/schema.ts',
       'assets/lock.json',
@@ -151,6 +156,7 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
   return {
     name: 'lantern-scene-editor',
     configureServer(server) {
+      server.httpServer?.once('close', () => segmentation.dispose());
       initialRevision = sourceRevision();
       validateGameplay = async (d) => {
         const draft = (await server.ssrLoadModule(
@@ -193,6 +199,10 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
                   'Scene schema or pinned assets or pinned assets changed. Preserve your draft and restart the editor before saving.',
                 );
               if (req.method === 'GET') {
+                if (url.searchParams.has('segmentation')) {
+                  respond(200, await segmentation.status());
+                  return;
+                }
                 if (url.searchParams.has('fragments')) {
                   respond(200, { fragments: await fragments.list() });
                   return;
@@ -231,6 +241,14 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
                 throw new SceneConflict(
                   'Scene schema or pinned assets changed. Reload or save a separate recovered draft.',
                 );
+              if (body.action === 'segment') {
+                const abort = new AbortController();
+                res.once('close', () => {
+                  if (!res.writableEnded) abort.abort();
+                });
+                respond(200, await segmentation.select(body.selection, abort.signal));
+                return;
+              }
               if (body.action === 'fragment') {
                 const fragment = parseSceneFragment(body.fragment);
                 const document = parseSceneDocument({

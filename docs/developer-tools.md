@@ -8,7 +8,7 @@ Open `/editor.html`. The canvas-first workspace uses one right dock for Artwork,
 
 Browse artwork with optional filters, favorites and recent use. Clip/facing choices appear only when alternatives exist. Choosing artwork shows a placement ghost; placing returns to the Inspector unless Keep placing is enabled. Escape cancels placement or an active transform. Shift-click or drag empty ground selects multiple placements. Numeric fields show shared or mixed values and edit the selection in one history step. Selection-bound handles move, rotate and scale the group; arrow keys nudge. The Objects dock shows attachment hierarchy with focus, hide and lock actions; visibility and locks are editor-only.
 
-Walk hero enables a temporary WASD scale preview with camera follow and walk animation. Focus the canvas to move; movement respects the ground edge but ignores scenery collisions and does not run gameplay or change the authored spawn. Escape or Stop walking restores the hero and prior framing. View owns grid, movement constraints, overlays, framing and animation preview. Snap remains directly accessible, with spacing revealed in View while enabled. Focus hides the dock and tool strip; use its button or Tab from the canvas to restore the prior workspace. Shift+Tab retains ordinary keyboard navigation. At narrow widths the dock becomes a temporary overlay; Panel toggles it. Dock preferences are disposable browser metadata and do not change scene documents. [Scene design](scene-design.md) explains composition advice and technical protections.
+Walk hero enables a temporary WASD scale preview with camera follow and walk animation. Focus the canvas to move; movement respects the ground edge and scenery collision without running combat or changing the authored spawn. Escape or Stop walking restores the hero and prior framing. View owns grid, movement constraints, overlays, framing and animation preview. Snap remains directly accessible, with spacing revealed in View while enabled. Focus hides the dock and tool strip; use its button or Tab from the canvas to restore the prior workspace. Shift+Tab retains ordinary keyboard navigation. At narrow widths the dock becomes a temporary overlay; Panel toggles it. Dock preferences are disposable browser metadata and do not change scene documents. [Scene design](scene-design.md) explains composition advice and technical protections.
 
 Ground, camera framing and playable bounds are editable. Scene editor, dev-preview and Game constrain the entire camera viewport to the ground boundary. Camera follow stops at the edge while the hero can continue to it; movement stops with the hero’s collision radius inside the boundary. Oversized views zoom in to fit the floor, including after a viewport resize. Search ground by name or asset ID; High-res only (4K+) limits results to artwork with a longest canvas edge of at least 3840 pixels. Filtering preserves the current ground until you choose a result. Scene authoring controls expose paths, walls, graves, surfaces, entries, camera details, weather, shelters and surround layers. Geometry mode edits path/wall points and bounds in the viewport; optional overlays show collision, entries, camera limits, zones, lights and shelters. The object inspector edits appearance, attachment supports/sockets and light fixtures.
 
@@ -21,6 +21,24 @@ Gameplay controls place registered enemies, exits and health pickups linked to u
 Play starts an unsaved snapshot through the shared Application lifecycle with a storage-free bridge. WASD moves, left-click attacks, Shift dodges, right-click uses the lantern, and Escape pauses. Play uses the main workspace with a compact Return/Restart bar. Return to editor discards gameplay state and preserves the draft, selection, camera and dock. Restart creates a fresh temporary session. Current schemas are listed under [scene content](architecture.md#scene-content) and [saved-state changes](architecture.md#change-saved-state).
 
 Game launches an empty floor with the hero. Use editor Play for authored scenes. For independent rendering fixtures, open `/sandbox.html?scene=outdoor-fixture` or `/sandbox.html?scene=interior-fixture`. Reload restores preview context. Moving existing artwork requires no preparation or publication; changed artwork inputs follow [Assets](assets.md#runtime-composition-boundary).
+
+### Ground interaction
+
+Open the Scene dock → Ground interaction for single-image artwork floors on flat ground. Choose a region or New region. Draw a blocking footprint independently from its occlusion silhouette, then place a depth anchor. Use a left-to-right depth boundary for diagonal walls; split compound structures when their ordering would be ambiguous. Masks support separate islands and holes. Select / edit vertices drags accepted polygon, hole, footprint and boundary vertices. Add/erase brushes work without AI. A completed gesture or accepted proposal is one history transaction; Escape cancels the gesture first.
+
+AI box selection or include/exclude clicks produce a preview; Shift-click excludes. Run AI selection, review its device and time, correct it, then Accept mask. A mask does not infer collision. Crop selection with contextual padding and zoom in for branches and openings. A model prediction expanded to source dimensions does not establish source-pixel accuracy. Oversized edits fail visibly; save/export/recovery retain accepted vector contours up to 1 MiB. Overlays are disposable preferences. Ground resizing reprojects footprints, depth and test annotations together; clear interaction before choosing replacement artwork.
+
+Automatic scenery proposals use local text-guided detection followed by SAM masks. Find scenery scans overlapping crops for the named categories. Prepare included masks processes its boxes serially without drawing them by hand. Review proposal previews, exclude duplicates or bad detections, then Accept prepared masks in one undoable transaction. Accepted base anchors are provisional; validate depth and author collision independently. The authoring agent owns corrections and movement validation before delivering a finished scene. Proposals are never accepted merely because the model gives a high confidence score.
+
+For agent authoring, `npm run segmentation:propose -- woodland` prepares resumable whole-scene proposals under the external model directory. It preserves the scene file and records its artwork identity. Review those proposals, author footprints and depth, inspect the scene, and save accepted scene data separately. Re-running asset preparation cannot overwrite those scene files: masks, blockers, depth and annotations live in `authoring/scenes`, outside generated assets. Re-encoding delivery metadata preserves a binding to unchanged lossless artwork. Changed painting bytes, frames or dimensions require review; validation preserves the authored file instead of clearing regions.
+
+Test movement beside Play starts a storage-free fixed-step sandbox. Select Hero or an enemy, click ground for a route, and use WASD to cancel the hero route. Enemies follow the hero until assigned a destination; Follow hero resumes pursuit. Pause, Restart and Return retain the ordinary editor playtest lifecycle. The sandbox disables combat; Play uses combat and shared navigation. Toggle blockers, masks, depth, cells, routes, footprints and hidden actor outlines while testing. Scenes can retain named test destinations in their ground-interaction annotations.
+
+### Local foreground selection setup
+
+Install Python 3.11 separately, then run `npm run segmentation:setup` explicitly. The default automatic mode installs SAM 2.1 Large and Grounding DINO Base under `~/Library/Application Support/LanternKnight/segmentation`; `LANTERN_SAM_ROOT` overrides that location. Use `npm run segmentation:setup -- small` for point/box selection with the smaller SAM model, or `-- large` without the detector. Setup pins Python requirements, SAM and detector revisions, and both checkpoint SHA-256 values in `tools/segmentation/`. Run `npm run segmentation:smoke -- woodland` for separate real point/box inference against prepared local woodland artwork. Normal development, builds and checks never install the models. The CUDA extension is omitted, following [upstream installation guidance](https://github.com/facebookresearch/sam2/blob/main/INSTALL.md).
+
+The authenticated same-origin editor endpoint resolves a prepared asset/frame and lazily starts a JSON-lines Python subprocess. Requests cannot name filesystem paths. Inference is serialized and retains at most two SAM crop embeddings. SAM tries MPS and falls back to CPU with the active device shown; the detector uses CPU. Inference loads installed weights locally and never uploads artwork. New selections, document changes and disposal invalidate stale results. Cancellation kills pending inference; the worker stops after five idle minutes or server shutdown. Failures leave manual authoring available. Weights, embeddings and diagnostics stay outside Git; accepted scenes reopen and play without Python.
 
 ## Dev Preview
 
@@ -56,12 +74,12 @@ Enable Hit area guides to show the ground boundary in blue and the same boundary
 
 Timing choices share the 100 ms damage window, hit area, damage amount and Contact Shear:
 
-| Preset | First damage | Total duration |
-| --- | --- | --- |
-| Baseline | 300 ms | 900 ms |
-| Snap | 200 ms | 700 ms |
-| Weight | 250 ms | 800 ms |
-| Quick (default) | 167 ms | 600 ms |
+| Preset          | First damage | Total duration |
+| --------------- | ------------ | -------------- |
+| Baseline        | 300 ms       | 900 ms         |
+| Snap            | 200 ms       | 700 ms         |
+| Weight          | 250 ms       | 800 ms         |
+| Quick (default) | 167 ms       | 600 ms         |
 
 Timing overrides change simulation, cel holds, notifies and effect playback together at the next available action. Down-right recovery defaults to Canonical final pose: replace only the final drawing with the canonical idle frame while preserving the penultimate pose, action duration and damage beats. Original ending and Clean settle to idle remain available for comparison.
 

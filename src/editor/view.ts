@@ -1,3 +1,4 @@
+import { moveSupported, effectiveRadius } from '../core/navigation';
 import { actorVisuals } from '../content/visuals';
 import * as T from 'three';
 import { GamePresentation } from '../presentation/game-scene';
@@ -5,7 +6,7 @@ import { ActorSprite } from '../presentation/sprite';
 import { resolveClip } from '../assets/schema';
 import { resolveScene } from '../content/world-art';
 import { validateSceneReferences, type SceneDocument } from '../content/scene-document';
-import { ContentRegistry, heightAt, supportedPosition } from '../content/world';
+import { ContentRegistry, heightAt } from '../content/world';
 import { contentDefinitions } from '../content/game-content';
 import { GameSession } from '../core/session';
 import { EventHub } from '../core/events';
@@ -86,14 +87,16 @@ export class EditorView {
       hero = this.sim.hero;
     hero.state = x || y ? 'walk' : 'idle';
     if (x || y) this.walking.yaw = Math.atan2(move.x, move.z);
-    this.walking.x += (move.x * hero.definition.speed * ms) / 1000;
-    this.walking.z += (move.z * hero.definition.speed * ms) / 1000;
     Object.assign(
       this.walking,
-      supportedPosition(
-        { ...this.sim.areaDefinition, props: [] },
+      moveSupported(
+        this.sim.areaDefinition,
         this.walking,
-        hero.definition.radius,
+        {
+          x: (move.x * hero.definition.speed * ms) / 1000,
+          z: (move.z * hero.definition.speed * ms) / 1000,
+        },
+        effectiveRadius(hero.definition.radius),
       ),
     );
     this.hero(this.walking);

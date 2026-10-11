@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { parseSceneFragment, sceneBytesLimit } from '../../src/content/scene-document';
+import { parseSceneFragment, fragmentBytesLimit } from '../../src/content/scene-document';
 export class FragmentStore {
   constructor(private directory: string) {}
   private async location(id: string) {
@@ -24,7 +24,7 @@ export class FragmentStore {
   async read(id: string) {
     const file = await this.location(id);
     const stat = await fs.lstat(file);
-    if (!stat.isFile() || stat.size > sceneBytesLimit) throw new Error('Invalid fragment file');
+    if (!stat.isFile() || stat.size > fragmentBytesLimit) throw new Error('Invalid fragment file');
     return parseSceneFragment(JSON.parse(await fs.readFile(file, 'utf8')));
   }
   async create(value: unknown) {
@@ -32,7 +32,8 @@ export class FragmentStore {
       id = 'fragment-' + randomUUID(),
       file = await this.location(id);
     const bytes = JSON.stringify(fragment, null, 2) + '\n';
-    if (Buffer.byteLength(bytes) > sceneBytesLimit) throw new Error('Fragment exceeds size limit');
+    if (Buffer.byteLength(bytes) > fragmentBytesLimit)
+      throw new Error('Fragment exceeds size limit');
     const temp = file + '.tmp';
     try {
       await fs.writeFile(temp, bytes, { flag: 'wx' });

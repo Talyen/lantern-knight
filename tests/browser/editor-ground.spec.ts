@@ -1,0 +1,222 @@
+import { test, expect } from './fixtures';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { projectRoot } from '../../tools/assets/paths';
+import { emptyScene } from '../../src/editor/default-scene';
+import type {} from '../../src/editor/main';
+
+test('ground authoring accepts and corrects selection, saves contours and routes multiple actors without storage writes', async ({
+  page,
+  request,
+}) => {
+  const id = 'ground-proof-' + Date.now(),
+    file = path.join(projectRoot, 'authoring/scenes', id + '.json');
+  const mask = [
+    {
+      outer: [
+        [0.53, 0.3],
+        [0.65, 0.3],
+        [0.65, 0.6],
+        [0.53, 0.6],
+      ],
+      holes: [],
+    },
+  ];
+  let selections = 0;
+  await page.route('**/__lantern_editor', async (route) => {
+    if (
+      route.request().method() === 'POST' &&
+      route.request().postDataJSON().action === 'segment'
+    ) {
+      selections++;
+      await route.fulfill({
+        json: {
+          mask,
+          ...(route.request().postDataJSON().selection.operation === 'detect'
+            ? {
+                candidates: [{ name: 'pine tree', score: 0.91, box: [0.53, 0.3, 0.65, 0.6] }],
+              }
+            : {}),
+          device: 'deterministic fixture',
+          milliseconds: 12,
+        },
+      });
+    } else await route.continue();
+  });
+  try {
+    page.on('dialog', (dialog) => void dialog.accept());
+    await page.goto('/editor.html?automated');
+    await page.waitForFunction(() => window.sceneEditor?.ready());
+    const d = emptyScene();
+    d.floor.layout = 'artwork';
+    // The sandbox supplies three reachable enemies without changing the saved scene.
+    d.gameplay!.spawns = [];
+    await page.locator('#import-scene').setInputFiles({
+      name: 'fixture.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(d)),
+    });
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.layout), {
+        timeout: 30_000,
+      })
+      .toBe('artwork');
+    await page.locator('#scene-tab').click();
+    await page.locator('#ground-interaction-section > summary').click();
+    const clickUV = async (u: number, v: number) => {
+      const p = await page.evaluate(
+        async ([u, v]) => {
+          const floorPath = '/src/content/floor-layout.ts',
+            threePath = '/node_modules/.vite/deps/three.js';
+          const { artworkFloorLayout } = await import(floorPath),
+            T = await import(threePath),
+            d = window.sceneEditor.state().document,
+            world = artworkFloorLayout(d.floor.width, d.floor.depth).world([u, v]),
+            q = new T.Vector3(world.x, 0, world.z).project(
+              window.sceneEditor.view().presentation!.camera,
+            ),
+            rect = document.querySelector('#viewport')!.getBoundingClientRect();
+          return {
+            x: rect.left + ((q.x + 1) * rect.width) / 2,
+            y: rect.top + ((1 - q.y) * rect.height) / 2,
+          };
+        },
+        [u, v],
+      );
+      await page.mouse.click(p.x, p.y);
+    };
+    await page.locator('#ground-task').selectOption('ai-point');
+    await clickUV(0.58, 0.45);
+    await page.locator('#ground-refine').click();
+    await expect(page.locator('#ground-ai-state')).toContainText('Selection ready');
+    expect(selections).toBe(2);
+    expect(
+      await page.evaluate(() => window.sceneEditor.state().document.groundInteraction),
+    ).toBeUndefined();
+    await page.locator('#ground-accept').click();
+    await expect
+      .poll(() =>
+        page.evaluate(() => window.sceneEditor.state().document.groundInteraction?.regions.length),
+      )
+      .toBe(1);
+    const accepted = await page.evaluate(() =>
+      JSON.stringify(window.sceneEditor.state().document.groundInteraction!.regions[0]!.mask),
+    );
+    await page.locator('#ground-task').selectOption('brush-erase');
+    await clickUV(0.58, 0.45);
+    await expect
+      .poll(() =>
+        page.evaluate(() =>
+          JSON.stringify(window.sceneEditor.state().document.groundInteraction!.regions[0]!.mask),
+        ),
+      )
+      .not.toBe(accepted);
+    expect(selections).toBe(2);
+    await page.locator('#ground-task').selectOption('footprint');
+    for (const [u, v] of [
+      [0.54, 0.52],
+      [0.59, 0.52],
+      [0.59, 0.56],
+      [0.54, 0.56],
+    ])
+      await clickUV(u!, v!);
+    await page.locator('#ground-finish').click();
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () =>
+            window.sceneEditor.state().document.groundInteraction!.regions[0]!.footprint?.length,
+        ),
+      )
+      .toBe(4);
+    await page.locator('#ground-task').selectOption('anchor');
+    await clickUV(0.56, 0.58);
+    await expect.poll(() => page.evaluate(() => window.sceneEditor.state().dirty)).toBe(true);
+    const authored = await page.evaluate(
+      () => window.sceneEditor.state().document.groundInteraction,
+    );
+    await page.locator('#undo').click();
+    await page.locator('#redo').click();
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
+      .toEqual(authored);
+    await page.locator('#ground-find').click();
+    await expect(page.locator('#ground-ai-state')).toContainText('1 scenery proposals');
+    await page.locator('#ground-prepare').click();
+    await expect(page.locator('#ground-ai-state')).toContainText('1 masks prepared');
+    await page.locator('#ground-task').selectOption('brush-erase');
+    await clickUV(0.58, 0.45);
+    await page.locator('#ground-accept-batch').click();
+    await expect
+      .poll(() =>
+        page.evaluate(() => window.sceneEditor.state().document.groundInteraction?.regions.length),
+      )
+      .toBe(2);
+    expect(
+      await page.evaluate(
+        () => window.sceneEditor.state().document.groundInteraction!.regions[1]!.mask,
+      ),
+    ).not.toEqual(mask);
+    await page.locator('#undo').click();
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
+      .toEqual(authored);
+    await page.locator('#document-menu > summary').click();
+    await page.locator('#save-as').click();
+    await page.locator('#file-id').fill(id);
+    await page.locator('#confirm-save').click();
+    await expect(page.locator('#save-state')).toHaveText('Saved');
+    const saved = JSON.parse(await fs.readFile(file, 'utf8'));
+    expect(saved.groundInteraction).toEqual(authored);
+    await page.reload();
+    await page.waitForFunction(() => window.sceneEditor?.ready());
+    const data = await (await request.get('/__lantern_editor?id=' + id)).json();
+    expect(data.document.groundInteraction).toEqual(authored);
+    await page.locator('#import-scene').setInputFiles({
+      name: 'reopen.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(saved)),
+    });
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
+      .toEqual(authored);
+    const before = await page.evaluate(() => ({
+      draft: window.sceneEditor.state().document,
+      storage: Object.entries(localStorage).filter(
+        ([key]) => !key.startsWith('lantern-scene-editor'),
+      ),
+    }));
+    await page.locator('#test-movement').click();
+    await page.waitForFunction(() => window.sceneEditor.playtest()?.ready);
+    expect((await page.evaluate(() => window.sceneEditor.playtest()))!.actors.length).toBe(4);
+    const enemyId = await page.evaluate(
+      () => window.sceneEditor.playtest()!.actors.find((actor) => actor.id !== 'player')!.id,
+    );
+    await page.locator('#movement-actor').selectOption(enemyId);
+    await page.locator('#playtest-viewport').click({ position: { x: 350, y: 250 } });
+    await expect
+      .poll(() =>
+        page.evaluate(
+          (id) => window.sceneEditor.playtest()!.navigation.routes.some((r) => r.id === id),
+          enemyId,
+        ),
+      )
+      .toBe(true);
+    await page.locator('#movement-actor').selectOption('player');
+    const x = (await page.evaluate(() => window.sceneEditor.playtest()))!.hero.x;
+    await page.keyboard.down('KeyD');
+    await expect.poll(() => page.evaluate(() => window.sceneEditor.playtest()!.hero.x)).not.toBe(x);
+    await page.keyboard.up('KeyD');
+    await page.locator('#playtest-reset').click();
+    await page.waitForFunction(() => window.sceneEditor.playtest()?.ready);
+    await page.locator('#playtest-return').click();
+    expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(before.draft);
+    expect(
+      await page.evaluate(() =>
+        Object.entries(localStorage).filter(([key]) => !key.startsWith('lantern-scene-editor')),
+      ),
+    ).toEqual(before.storage);
+  } finally {
+    await fs.rm(file, { force: true });
+  }
+});

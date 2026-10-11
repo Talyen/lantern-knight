@@ -1,3 +1,4 @@
+import { GroundInteractionSchema } from './ground-interaction';
 import { AuthoredGameplaySchema } from './authored-gameplay';
 import { z } from 'zod';
 import type { ArtPlacement, WorldVisualDefinition } from './world-visuals';
@@ -178,6 +179,7 @@ const wall = z
 const SceneDocumentSchema = z
   .object({
     version: z.literal(5),
+    groundInteraction: GroundInteractionSchema.optional(),
     id,
     name: z.string().trim().min(1).max(80),
     base: id,
@@ -253,9 +255,23 @@ const SceneDocumentSchema = z
   });
 export type SceneDocument = z.infer<typeof SceneDocumentSchema>;
 export type SceneObject = SceneDocument['objects'][number];
-export const sceneBytesLimit = 64 * 1024;
+export const sceneBytesLimit = 1024 * 1024;
+export const fragmentBytesLimit = 64 * 1024;
 export function parseSceneDocument(value: unknown): SceneDocument {
-  return SceneDocumentSchema.parse(value);
+  const document = SceneDocumentSchema.parse(value);
+  if (new TextEncoder().encode(JSON.stringify(document)).length > sceneBytesLimit)
+    throw new Error('Scene exceeds the 1 MiB authored-file limit');
+  const ground = document.groundInteraction;
+  if (
+    ground &&
+    (document.floor.layout !== 'artwork' ||
+      ground.asset !== document.floor.asset ||
+      (document.geometry && document.geometry.surface.kind !== 'flat'))
+  )
+    throw new Error(
+      'Ground interaction requires its original single-image flat floor. Clear ground interaction before replacing the ground.',
+    );
+  return document;
 }
 export type PaletteKind = SceneObject['kind'];
 export function paletteKind(m: Manifest): PaletteKind {
@@ -279,6 +295,20 @@ export function validateSceneReferences(
 ) {
   if (d.floor.layout === 'artwork' && d.geometry && d.geometry.surface.kind !== 'flat')
     throw new Error('Artwork floors need a flat surface. Change the scene surface to Flat first.');
+  const ground = d.groundInteraction;
+  if (ground && manifests) {
+    const manifest = manifests.get(ground.asset);
+    if (
+      !manifest ||
+      manifest.pages.find((p) => p.id === manifest.frames.find((f) => f.id === ground.frame)?.page)
+        ?.hash !== ground.hash ||
+      manifest.asset.clips[d.floor.clip ?? 'still']?.d45?.frames[0] !== ground.frame ||
+      manifest.asset.canvas.some((v, i) => v !== ground.dimensions[i])
+    )
+      throw new Error(
+        'Ground interaction artwork identity changed. Authored regions are preserved in the scene file; review the changed ground before clearing or reauthoring them.',
+      );
+  }
   const ids = new Set<string>();
   for (const p of d.objects) {
     if (ids.has(p.id)) throw new Error('Duplicate object identity: ' + p.id);
@@ -397,6 +427,7 @@ export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
     designProfile: d.profile === 'study' ? undefined : d.profile,
     props,
     decals,
+    groundInteraction: d.groundInteraction,
     editorFloor: d.floor.clip
       ? {
           asset: d.floor.asset,

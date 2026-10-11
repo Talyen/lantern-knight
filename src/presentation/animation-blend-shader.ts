@@ -25,6 +25,7 @@ export function registeredTrim(
 // Blend premultiplied linear color and alpha, then return straight alpha. Overlaying
 // two transparent meshes instead would darken overlaps and change occlusion.
 const fragment = `
+#define HAS_WALK_BLEND 1
 varying vec2 vWalkCanvas;
 uniform float walkEnabled;
 uniform float walkMix;
@@ -50,18 +51,18 @@ vec4 walkDisplacement(vec2 q){
   vec2 uv=animationFlowRect.xy+clamp(q,0.0,1.0)*animationFlowRect.zw;
   return (texture2D(animationFlow,vec2(uv.x,1.0-uv.y))*255.0-128.0)*2.0/walkCanvasSize.xyxy;
 }
-vec4 walkComposite(){
-  vec2 a=vWalkCanvas,b=vWalkCanvas;
+vec4 walkCompositeAt(vec2 coordinate){
+  vec2 a=coordinate,b=coordinate;
   if(walkWarp>0.5){
     // Two inverse-map estimates keep both drawings registered to the same output.
     for(int i=0;i<2;i++){
-      a=vWalkCanvas-walkMix*walkDisplacement(a).xy;
-      b=vWalkCanvas-(1.0-walkMix)*walkDisplacement(b).zw;
+      a=coordinate-walkMix*walkDisplacement(a).xy;
+      b=coordinate-(1.0-walkMix)*walkDisplacement(b).zw;
     }
   }
   float blend=walkMix;
   if(walkSwordEnabled>.5){
-    vec4 rigid=swordCoordinates(vWalkCanvas*walkCanvasSize,walkSwordA,walkSwordB,walkMix,walkSwordRotation);
+    vec4 rigid=swordCoordinates(coordinate*walkCanvasSize,walkSwordA,walkSwordB,walkMix,walkSwordRotation);
     float protect=swordProtection(vec4(a,b)*walkCanvasSize.xyxy,rigid,walkSwordA,walkSwordB,walkSwordWidth);
     a=mix(a,rigid.xy/walkCanvasSize,protect);b=mix(b,rigid.zw/walkCanvasSize,protect);
     blend=mix(blend,step(.5,walkMix),protect);
@@ -111,7 +112,7 @@ export class AnimationBlendShader {
         );
         shader.fragmentShader = shader.fragmentShader.replace(
           '#include <map_fragment>',
-          `if(walkEnabled>0.5){diffuseColor*=walkComposite();}else{\n#include <map_fragment>\n}`,
+          `if(walkEnabled>0.5){diffuseColor*=walkCompositeAt(vWalkCanvas);}else{\n#include <map_fragment>\n}`,
         );
       };
       material.customProgramCacheKey = () => `${cacheKey}:walk-blend-v3-${index}`;

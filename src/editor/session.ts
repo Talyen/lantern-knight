@@ -1,3 +1,5 @@
+import { GroundAuthoring } from './ground-authoring';
+import { resizeGroundInteraction } from '../content/ground-interaction';
 import {
   assetClosure,
   matchesAsset,
@@ -70,6 +72,7 @@ export function createEditorSession() {
   const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
   document.getElementById('app')!.innerHTML = editorUI;
   const workspace = new EditorWorkspace();
+  let groundAuthoring: GroundAuthoring;
   let composition: CompositionTools;
   let visualAuthoring: VisualAuthoring;
   let sceneLibrary: SceneLibrary;
@@ -539,6 +542,14 @@ export function createEditorSession() {
             ? $<HTMLSelectElement>('floor').value.split('/')
             : [d.floor.asset, d.floor.clip ?? 'surface'];
         if (!asset || !clip) return;
+        const before = { ...d.floor };
+        if (
+          d.groundInteraction &&
+          (asset !== d.floor.asset ||
+            clip !== d.floor.clip ||
+            (id === 'floor-layout' && $<HTMLSelectElement>('floor-layout').value !== 'artwork'))
+        )
+          throw new Error('Clear ground interaction before replacing its artwork or layout.');
         d.floor = {
           asset: asset!,
           clip: clip!,
@@ -559,6 +570,7 @@ export function createEditorSession() {
           if (id === 'depth') d.floor.width = d.floor.depth * ratio;
           else d.floor.depth = d.floor.width / ratio;
         }
+        if (d.groundInteraction) resizeGroundInteraction(d.groundInteraction, before, d.floor);
       });
   for (const id of ['x', 'z', 'y', 'scale', 'rotation', 'mirror'])
     $(id).onchange = () =>
@@ -1268,6 +1280,7 @@ export function createEditorSession() {
     if (!ready || busy) return;
     const ms = last ? Math.min(50, time - last) : 0;
     last = time;
+    groundAuthoring?.setEnabled(!walkingHero);
     if (walkingHero) {
       const active = document.activeElement === canvas && !document.querySelector('dialog[open]');
       if (!active) stopWalkKeys();
@@ -1280,6 +1293,7 @@ export function createEditorSession() {
     view.render(ms);
     composition?.positionHandles();
     visualAuthoring?.draw();
+    groundAuthoring?.draw();
     if (previewEntry && previewPlaying && $<HTMLDialogElement>('art-preview').open) {
       previewTime += ms;
       const clip = Object.values(previewEntry.manifest.asset.clips[previewEntry.clip]!)[0]!;
@@ -1308,6 +1322,7 @@ export function createEditorSession() {
     composition?.dispose();
     sceneLibrary?.dispose();
     visualAuthoring?.dispose();
+    groundAuthoring?.dispose();
     view?.dispose();
     runtime?.dispose();
   }
@@ -1455,6 +1470,24 @@ export function createEditorSession() {
       compose: (snapshot) => composeDraftGameplay(snapshot, contentDefinitions, worldVisuals),
       catalog: () => assetCatalog,
       status,
+    });
+    groundAuthoring = new GroundAuthoring(canvas, {
+      document: () => documents.history.document,
+      view: () => view,
+      manifest: () => assetIndex.get(documents.history.document.floor.asset),
+      change,
+      status,
+      request: async (selection, signal) => {
+        const response = await fetch('/__lantern_editor', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-lantern-editor-token': token },
+          body: JSON.stringify({ action: 'segment', selection, baseRevision }),
+          signal,
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error ?? 'Selection failed');
+        return result;
+      },
     });
     assetIndex = await loadAssetIndex(runtime, lifetime.signal);
     usedAssets = assetClosure(usedAssetRoots(), assetIndex);

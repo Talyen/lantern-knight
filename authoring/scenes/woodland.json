@@ -1,0 +1,62 @@
+{
+  "version": 5,
+  "id": "woodland",
+  "name": "woodland",
+  "base": "flat",
+  "target": "draft",
+  "profile": "study",
+  "floor": {
+    "asset": "library-artwork-environments-complete-scenes-haunted-woodland-full-scene-c-woodland_c_full_full_upscaled4x",
+    "layout": "artwork",
+    "clip": "still",
+    "width": 40,
+    "depth": 26.666666666666668
+  },
+  "hero": {
+    "x": 0,
+    "z": 0
+  },
+  "look": {
+    "rig": "golden",
+    "look": "diorama"
+  },
+  "camera": {
+    "bounds": {
+      "minX": -10,
+      "maxX": 10,
+      "minZ": -10,
+      "maxZ": 10
+    },
+    "bias": {
+      "x": 0,
+      "z": 0
+    }
+  },
+  "gameplay": {
+    "spawns": [],
+    "exits": [],
+    "pickups": []
+  },
+  "proceduralAssets": [],
+  "paths": [],
+  "walls": [],
+  "graves": [],
+  "propOrder": [],
+  "overlaps": [],
+  "objects": [
+    {
+      "id": "object-436835a0-214e-43e5-9856-28871201be83",
+      "kind": "prop",
+      "fade": false,
+      "shadow": "contact",
+      "asset": "library-masons_tool_chest_opening",
+      "clip": "idle",
+      "x": 2.62536266409424,
+      "z": -17.102616537072542,
+      "scale": 0.6,
+      "mirror": false,
+      "rotation": 0,
+      "heading": "d45"
+    }
+  ]
+}

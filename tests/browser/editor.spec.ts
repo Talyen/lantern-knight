@@ -914,7 +914,7 @@ test('editor walking reaches the ground edge while the full camera stays inside 
     expect(hero.z).toBeLessThanOrEqual(b.maxZ - radius + 1e-8);
     expect(
       Math.min(hero.x - b.minX, b.maxX - hero.x, hero.z - b.minZ, b.maxZ - hero.z),
-    ).toBeCloseTo(radius);
+    ).toBeCloseTo(Math.max(0.3, radius));
     for (const p of corners) {
       expect(p.x).toBeGreaterThanOrEqual(b.minX - 1e-7);
       expect(p.x).toBeLessThanOrEqual(b.maxX + 1e-7);

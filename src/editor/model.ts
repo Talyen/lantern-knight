@@ -8,7 +8,7 @@ import { resolveAuthoredScene } from '../content/world-art';
 import { type ArtPlacement } from '../content/world-visuals';
 export type EditorItem = { placement: ArtPlacement; kind: SceneObject['kind'] };
 export function sceneItems(document: SceneDocument): EditorItem[] {
-  const art = resolveAuthoredScene(document),
+  const art = resolveAuthoredScene({ ...document, groundInteraction: undefined }),
     kinds = new Map(document.objects.map((p) => [p.id, p.kind]));
   return [
     ...art.props.map((placement) => ({

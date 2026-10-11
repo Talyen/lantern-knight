@@ -37,7 +37,11 @@
     "docs:check": "tsx tools/check-docs.ts",
     "repo:check": "tsx tools/check-repository.ts",
     "architecture:check": "tsx tools/check-architecture.ts",
-    "knip": "tsx tools/lint.ts knip"
+    "knip": "tsx tools/lint.ts knip",
+    "segmentation:setup": "sh tools/segmentation/setup.sh",
+    "segmentation:smoke": "tsx tools/segmentation/smoke.ts",
+    "segmentation:propose": "tsx tools/segmentation/propose.ts",
+    "segmentation:inventory": "tsx tools/segmentation/inventory.ts"
   },
   "dependencies": {
     "postprocessing": "6.39.5",

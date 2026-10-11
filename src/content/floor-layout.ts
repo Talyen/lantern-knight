@@ -27,5 +27,10 @@ export function artworkFloorLayout(width: number, depth: number) {
     (p.x * c - p.z * s) / width + 0.5,
     0.5 - (p.x * s + p.z * c) / groundDepth,
   ];
-  return { corners, bounds, uv };
+  const world = ([u, v]: readonly number[]): Point => {
+    const x = (u! - 0.5) * width,
+      z = (0.5 - v!) * groundDepth;
+    return { x: x * c + z * s, z: -x * s + z * c };
+  };
+  return { corners, bounds, uv, world };
 }

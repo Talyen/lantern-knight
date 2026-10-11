@@ -1,3 +1,4 @@
+import { sceneBytesLimit } from '../src/content/scene-document';
 import fs from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 const forbidden =
@@ -11,7 +12,10 @@ const exceptions: Readonly<Record<string, number>> = {
 function repositoryFinding(file: string, bytes: number) {
   if (forbidden.test(file))
     return 'generated, historical or bulk asset data must remain outside Git';
-  const limit = exceptions[file] ?? (/\.(json|ya?ml)$/i.test(file) ? 64 * 1024 : 256 * 1024);
+  const limit =
+    (/^authoring\/scenes\/[a-z][a-z0-9-]*\.json$/.test(file)
+      ? sceneBytesLimit
+      : exceptions[file]) ?? (/\.(json|ya?ml)$/i.test(file) ? 64 * 1024 : 256 * 1024);
   if (bytes > limit)
     return `file exceeds ${limit / 1024} KiB; use an external artifact or a documented authored-input exception`;
 }

@@ -1,3 +1,4 @@
+import { GroundOcclusion } from './ground-occlusion';
 import { imageDimensions } from '../assets/texture-delivery';
 import type { PresentationLifecycle } from './lifecycle';
 import { RoomPresentation } from './room-presentation';
@@ -39,6 +40,7 @@ import { SceneVisualEffects } from './scene-visual-effects';
 import { CombatFeedback } from './combat-feedback';
 import { SceneLightingRenderer } from './scene-lighting-renderer';
 export class GamePresentation implements PresentationLifecycle {
+  groundOcclusion?: GroundOcclusion;
   readonly roomPresentation: RoomPresentation;
   readonly actorPresentation: ActorPresentation;
   lookRenderer: SceneLightingRenderer;
@@ -183,8 +185,19 @@ export class GamePresentation implements PresentationLifecycle {
   }
   buildRoom() {
     this.roomPresentation.buildRoom(this.area, this.visuals);
+    const ground = this.visuals?.groundInteraction,
+      floor = this.visuals?.editorFloor;
+    if (ground && floor)
+      this.groundOcclusion = new GroundOcclusion(
+        ground,
+        floor.width,
+        floor.depth,
+        this.renderer.capabilities.maxTextureSize,
+      );
   }
   disposeRoom() {
+    this.groundOcclusion?.dispose();
+    this.groundOcclusion = undefined;
     this.roomPresentation.disposeScenery();
     this.actorPresentation.dispose();
     this.roomPresentation.disposeResources();
@@ -256,6 +269,18 @@ export class GamePresentation implements PresentationLifecycle {
       debug: this.debug,
       illustrated: !!this.roomPresentation.inkRoom,
     });
+    if (this.groundOcclusion)
+      for (const actor of sim.actors) {
+        const visual = this.actorPresentation.actors.get(actor.id);
+        if (visual) {
+          this.groundOcclusion.attach(visual.sprite, actor.kind);
+          this.groundOcclusion.update(
+            visual.sprite,
+            actor.px + (actor.x - actor.px) * alpha,
+            actor.pz + (actor.z - actor.pz) * alpha,
+          );
+        }
+      }
     this.light.position.set(sim.hero.x - 0.25, sim.hero.y + 0.85, sim.hero.z);
     this.light.intensity = sim.hero.state === 'ability' ? 14 : 5;
     for (const m of this.roomPresentation.fadeMeshes) {

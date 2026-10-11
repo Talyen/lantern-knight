@@ -129,8 +129,8 @@ test('content rejects duplicate/unknown IDs and invalid numbers, bounds, ramps a
     assert.equal(heavy.health, 140);
     assert.equal(heavy.definition.radius, 0.35);
     s.move(heavy, 100, 100);
-    assert.equal(heavy.x, 4.65);
-    assert.equal(heavy.z, 5.65);
+    assert.ok(Math.abs(heavy.x - 4.65) < 1e-5);
+    assert.ok(Math.abs(heavy.z - 5.65) < 1e-5);
     s.actors.reverse();
     assert.equal(s.hero.id, PLAYER_ID);
     assert.equal(s.hero.definition.id, 'lamplighter');

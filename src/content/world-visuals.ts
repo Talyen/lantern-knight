@@ -1,3 +1,5 @@
+import type { ContentSnapshot } from './snapshot';
+import type { GroundInteraction } from './ground-interaction';
 import type { Bounds, Point } from './world';
 import type { WeatherState } from './visual-effects';
 import type { Manifest } from '../assets/schema';
@@ -108,6 +110,7 @@ export type SceneSurroundDefinition = {
 };
 export type WorldVisualDefinition = {
   designProfile?: SceneProfile;
+  groundInteraction?: ContentSnapshot<GroundInteraction>;
   editorFloor?: { asset: string; clip: string; layout?: 'artwork'; width: number; depth: number };
   look?: { rig: 'golden' | 'silver'; look: 'ink' | 'diorama' | 'cinematic' };
   surround?: SceneSurroundDefinition;

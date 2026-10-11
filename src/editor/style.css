@@ -611,3 +611,20 @@ body.focus-mode .toolbar {
 #selected-name:empty {
   display: none;
 }
+
+.ground-overlay {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+.ground-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-block: 0.5rem;
+}
+#ground-interaction-section p {
+  font-size: 0.8rem;
+  line-height: 1.4;
+}

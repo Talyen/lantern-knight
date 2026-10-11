@@ -1,3 +1,5 @@
+import { NavigationOverlay } from '../presentation/navigation-overlay';
+import { walkablePoint } from '../core/camera';
 import { editorError } from './errors';
 import { Application } from '../application';
 import { GamePresentation } from '../presentation/game-scene';
@@ -5,7 +7,8 @@ import type { ContentRegistry } from '../content/world';
 import type { SceneContent } from '../content/game-content';
 import type { SceneDocument } from '../content/scene-document';
 import type { Bridge } from '../core/save';
-import { heightAt } from '../content/world';
+import { heightAt, isSupportedPosition } from '../content/world';
+import { Navigation, effectiveRadius } from '../core/navigation';
 type Host = {
   document: () => SceneDocument;
   compose: (snapshot: SceneDocument) => { registry: ContentRegistry; scenes: SceneContent };
@@ -13,6 +16,10 @@ type Host = {
   status: (message: string, error?: boolean) => void;
 };
 export class DraftPlaytest {
+  private movement = false;
+  private overlay?: NavigationOverlay;
+  private selectedActor = 'player';
+  private lifetime = new AbortController();
   private dialog: HTMLDialogElement;
   private canvas: HTMLCanvasElement;
   private app: Application<GamePresentation> | undefined;
@@ -25,6 +32,26 @@ export class DraftPlaytest {
     this.dialog.id = 'playtest-dialog';
     this.dialog.innerHTML =
       '<header><strong>Draft playtest</strong><button id="playtest-pause">Pause</button><button id="playtest-reset">Restart</button><button id="playtest-return">Return to editor</button></header><canvas id="playtest-viewport" tabindex="0" aria-label="Draft gameplay"></canvas><p id="playtest-status" role="status"></p>';
+    const movementControls = document.createElement('div');
+    movementControls.id = 'movement-controls';
+    movementControls.hidden = true;
+    movementControls.innerHTML =
+      '<label>Actor<select id="movement-actor"></select></label><button id="movement-follow">Follow hero</button><label><input id="movement-outline" type="checkbox" checked> Hidden actor outlines</label><label>Test destination<select id="movement-destination"><option value="">Choose annotation</option></select></label><span id="movement-route-status" role="status"></span>';
+    for (const key of ['blockers', 'masks', 'depth', 'cells', 'routes', 'footprints']) {
+      const label = document.createElement('label'),
+        input = document.createElement('input');
+      input.type = 'checkbox';
+      input.checked = ['blockers', 'routes', 'footprints'].includes(key);
+      input.onchange = () => {
+        if (this.overlay) {
+          Object.assign(this.overlay.options, { [key]: input.checked });
+          this.overlay.invalidate();
+        }
+      };
+      label.append(input, ' ' + key);
+      movementControls.append(label);
+    }
+    this.dialog.insertBefore(movementControls, this.dialog.querySelector('canvas'));
     document.body.append(this.dialog);
     this.canvas = this.dialog.querySelector('canvas')!;
     const button = document.createElement('button');
@@ -32,12 +59,59 @@ export class DraftPlaytest {
     button.textContent = 'Play';
     button.onclick = () => void this.start().catch((e) => host.status(editorError(e), true));
     document.getElementById('play-action')!.append(button);
+    const movementButton = document.createElement('button');
+    movementButton.id = 'test-movement';
+    movementButton.textContent = 'Test movement';
+    movementButton.onclick = () =>
+      void this.start(undefined, true).catch((e) => host.status(editorError(e), true));
+    document.getElementById('play-action')!.append(movementButton);
+    this.dialog.querySelector<HTMLSelectElement>('#movement-actor')!.onchange = (e) => {
+      this.selectedActor = (e.target as HTMLSelectElement).value;
+      this.canvas.focus();
+    };
+    this.dialog.querySelector<HTMLSelectElement>('#movement-destination')!.onchange = (e) => {
+      const value = (e.target as HTMLSelectElement).value;
+      if (value === '') return;
+      const index = Number(value);
+      const point = this.snapshot?.groundInteraction?.destinations[index];
+      if (point && this.app) this.app.sim.setMovementTarget(this.selectedActor, point);
+      this.canvas.focus();
+    };
+    this.dialog.querySelector<HTMLButtonElement>('#movement-follow')!.onclick = () => {
+      if (this.app && this.selectedActor !== this.app.sim.hero.id)
+        this.app.sim.setMovementTarget(this.selectedActor, null);
+      this.canvas.focus();
+    };
+    this.dialog.querySelector<HTMLInputElement>('#movement-outline')!.onchange = (e) => {
+      if (this.app?.presentation.groundOcclusion)
+        this.app.presentation.groundOcclusion.outlines = (e.target as HTMLInputElement).checked;
+    };
+    this.canvas.addEventListener(
+      'pointerdown',
+      (e) => {
+        if (!this.movement || !this.app || e.button !== 0) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        this.canvas.focus();
+        const point = walkablePoint(
+          this.app.presentation.camera,
+          e.clientX,
+          e.clientY,
+          this.canvas.getBoundingClientRect(),
+          this.app.sim.areaDefinition,
+        );
+        if (point) this.app.sim.setMovementTarget(this.selectedActor, point);
+      },
+      { capture: true, signal: this.lifetime.signal },
+    );
     this.dialog.querySelector<HTMLButtonElement>('#playtest-return')!.onclick = () => this.close();
     this.dialog.querySelector<HTMLButtonElement>('#playtest-pause')!.onclick = () =>
       this.app?.pause(!this.app.paused);
     this.dialog.querySelector<HTMLButtonElement>('#playtest-reset')!.onclick = () => {
       if (this.snapshot)
-        void this.start(this.snapshot).catch((e) => host.status(editorError(e), true));
+        void this.start(this.snapshot, this.movement).catch((e) =>
+          host.status(editorError(e), true),
+        );
     };
     this.dialog.addEventListener('cancel', (e) => {
       e.preventDefault();
@@ -45,15 +119,45 @@ export class DraftPlaytest {
     });
     this.dialog.addEventListener('close', () => this.close());
   }
-  async start(snapshot = this.host.document()) {
+  async start(snapshot = this.host.document(), movement = false) {
+    this.movement = movement;
+    this.dialog.querySelector<HTMLElement>('#movement-controls')!.hidden = !movement;
     if (this.closed || this.busy) return;
     this.busy = true;
+    this.overlay?.dispose();
+    this.overlay = undefined;
     this.app?.dispose();
     this.app = undefined;
     const request = ++this.request;
     try {
       this.snapshot = structuredClone(snapshot);
-      const { registry, scenes } = this.host.compose(this.snapshot);
+      let { registry, scenes } = this.host.compose(this.snapshot);
+      if (movement && registry.area(registry.definitions.initialArea).spawns.length < 3) {
+        const area = registry.area(registry.definitions.initialArea),
+          navigation = new Navigation(area),
+          radius = effectiveRadius(registry.actor('skeleton').radius);
+        this.snapshot.gameplay ??= { spawns: [], exits: [], pickups: [] };
+        const spawns = this.snapshot.gameplay.spawns;
+        for (let distance = 2; distance <= 12 && spawns.length < 3; distance += 1)
+          for (let angle = 0; angle < 16 && spawns.length < 3; angle++) {
+            const point = {
+              x: this.snapshot.hero.x + Math.cos((((angle * 5) % 16) * Math.PI) / 8) * distance,
+              z: this.snapshot.hero.z + Math.sin((((angle * 5) % 16) * Math.PI) / 8) * distance,
+            };
+            if (
+              !isSupportedPosition(area, point, radius) ||
+              spawns.some((p) => Math.hypot(p.x - point.x, p.z - point.z) < 1.5) ||
+              navigation.route(this.snapshot.hero, point, radius).status !== 'ready'
+            )
+              continue;
+            spawns.push({ id: 'movement-' + crypto.randomUUID(), actor: 'skeleton', ...point });
+          }
+        if (spawns.length < 3)
+          throw new Error(
+            'Could not place three reachable skeletons. Review the playable terrain.',
+          );
+        ({ registry, scenes } = this.host.compose(this.snapshot));
+      }
       // This bridge never touches browser or desktop storage. Unexpected writes fail.
       const bridge: Bridge = {
         automatedRun: new URLSearchParams(location.search).has('automated'),
@@ -81,7 +185,20 @@ export class DraftPlaytest {
           pause: (paused) => {
             this.dialog.querySelector('#playtest-pause')!.textContent = paused ? 'Resume' : 'Pause';
           },
-          frame: () => {},
+          frame: () => {
+            if (this.movement && this.app) {
+              this.overlay?.update(this.app.sim, this.app.presentation.visuals);
+              const route = this.app.sim
+                .navigationDebug(false)
+                .routes.find((r) => r.id === this.selectedActor);
+              this.dialog.querySelector('#movement-route-status')!.textContent =
+                route?.status === 'unreachable'
+                  ? 'Destination unreachable'
+                  : route
+                    ? 'Following route'
+                    : 'Click ground to route the selected actor';
+            }
+          },
         },
       );
       app.readOnly = true;
@@ -95,6 +212,24 @@ export class DraftPlaytest {
       const hero = this.snapshot.hero,
         y = heightAt(app.sim.areaDefinition, hero.x, hero.z);
       Object.assign(app.sim.hero, { x: hero.x, z: hero.z, px: hero.x, pz: hero.z, y, py: y });
+      app.sim.movementPreview = movement;
+      this.selectedActor = app.sim.hero.id;
+      this.dialog
+        .querySelector<HTMLSelectElement>('#movement-destination')!
+        .replaceChildren(
+          new Option('Choose annotation', ''),
+          ...(this.snapshot.groundInteraction?.destinations ?? []).map(
+            (p, i) => new Option(p.name, String(i)),
+          ),
+        );
+      const actorSelect = this.dialog.querySelector<HTMLSelectElement>('#movement-actor')!;
+      actorSelect.replaceChildren(
+        ...app.sim.actors.map((a) => new Option(a.kind === 'hero' ? 'Hero' : a.id, a.id)),
+      );
+      if (movement) {
+        this.overlay = new NavigationOverlay();
+        app.presentation.scene.add(this.overlay.group);
+      }
       app.pause(false);
       this.canvas.focus();
     } catch (error) {
@@ -106,6 +241,8 @@ export class DraftPlaytest {
   }
   close() {
     ++this.request;
+    this.overlay?.dispose();
+    this.overlay = undefined;
     this.app?.dispose();
     this.app = undefined;
     if (this.dialog.open) {
@@ -124,11 +261,15 @@ export class DraftPlaytest {
             health: this.app.sim.hero.health,
           },
           area: this.app.sim.area,
+          movement: this.movement,
+          actors: this.app.sim.actors.map((a) => ({ id: a.id, x: a.x, z: a.z, health: a.health })),
+          navigation: this.app.sim.navigationDebug(),
         }
       : undefined;
   }
   dispose() {
     this.closed = true;
+    this.lifetime.abort();
     this.close();
     this.snapshot = undefined;
     this.dialog.remove();

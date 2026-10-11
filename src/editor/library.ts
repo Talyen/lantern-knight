@@ -1,4 +1,5 @@
 import type { EditorSnapshot } from './document';
+import { sceneBytesLimit } from '../content/scene-document';
 import { editorError } from './errors';
 import {
   parseSceneDocument,
@@ -103,7 +104,7 @@ export class SceneLibrary {
       const file = input.files?.[0];
       if (file)
         void (async () => {
-          if (file.size > 65536) throw new Error('Scene exceeds 64 KiB');
+          if (file.size > sceneBytesLimit) throw new Error('Scene exceeds 1 MiB');
           const d = parseSceneDocument(JSON.parse(await file.text()));
           await host.import({
             ...d,

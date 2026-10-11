@@ -1,3 +1,11 @@
+import {
+  Navigation,
+  moveSupported,
+  effectiveRadius,
+  clearSegment,
+  type RouteResult,
+} from './navigation';
+import type { Point } from '../content/world';
 import type { ContentSnapshot } from '../content/snapshot';
 import { selectAuthoredDirection, type AuthoredHeading } from './camera';
 import type { HeroAttackKind } from '../content/hero-actions';
@@ -9,7 +17,6 @@ import {
   spawnActorId,
   contains,
   heightAt,
-  supportedPosition,
   type AreaId,
   type ActorId,
   type ActorDefinition,
@@ -57,6 +64,110 @@ export type SimEvent = GameplayEvent;
 export type StepResult = { events: readonly GameplayEvent[]; transition?: string; reset?: 'death' };
 const idleCommand: Command = { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } };
 export class Simulation {
+  movementPreview = false;
+  private navigationArea?: object;
+  private navigation?: Navigation;
+  private movementTargets = new Map<
+    string,
+    { target: Point; route: RouteResult; nextPlan: number; explicit: boolean }
+  >();
+  setMovementTarget(id: string, target: Point | null) {
+    if (!this.actors.some((a) => a.id === id)) throw new Error('Unknown movement actor');
+    if (!target) {
+      this.movementTargets.delete(id);
+      return;
+    }
+    this.movementTargets.set(id, {
+      target: { ...target },
+      route: this.navigator.route(
+        this.actors.find((a) => a.id === id)!,
+        target,
+        effectiveRadius(this.actors.find((a) => a.id === id)!.definition.radius),
+      ),
+      nextPlan: this.tick + 15,
+      explicit: true,
+    });
+  }
+  private get navigator() {
+    if (this.navigationArea !== this.areaDefinition) {
+      this.navigationArea = this.areaDefinition;
+      this.navigation = new Navigation(this.areaDefinition);
+      this.movementTargets.clear();
+    }
+    return this.navigation!;
+  }
+  navigationDebug(includeCells = true) {
+    return {
+      routes: [...this.movementTargets].map(([id, p]) => ({
+        id,
+        target: { ...p.target },
+        status: p.route.status,
+        points: p.route.points.map((v) => ({ ...v })),
+      })),
+      cells: includeCells
+        ? this.navigator.debugCells(effectiveRadius(this.hero.definition.radius))
+        : [],
+    };
+  }
+  private pursuitRoute(a: Actor, target: Point): RouteResult {
+    const radius = effectiveRadius(a.definition.radius);
+    const direct = this.navigator.route(a, target, radius);
+    if (direct.status === 'ready' || target !== this.hero) return direct;
+    // A larger enemy may not fit at the hero's feet. Find a reachable melee
+    // position with clear contact rather than treating the hero as unreachable.
+    const distance = a.definition.melee.range * 0.8;
+    const candidates = Array.from({ length: 16 }, (_, i) => ({
+      x: target.x + Math.cos((i * Math.PI) / 8) * distance,
+      z: target.z + Math.sin((i * Math.PI) / 8) * distance,
+    })).sort((p, q) => Math.hypot(p.x - a.x, p.z - a.z) - Math.hypot(q.x - a.x, q.z - a.z));
+    for (const point of candidates) {
+      if (!clearSegment(this.areaDefinition, point, target, 0.001)) continue;
+      const route = this.navigator.route(a, point, radius);
+      if (route.status === 'ready') return route;
+    }
+    return direct;
+  }
+  private follow(a: Actor, target?: Point) {
+    void this.navigator;
+    let plan = this.movementTargets.get(a.id);
+    if (!plan) {
+      if (!target) return false;
+      plan = {
+        target: { ...target },
+        route: this.pursuitRoute(a, target),
+        nextPlan: this.tick + 15,
+        explicit: false,
+      };
+      this.movementTargets.set(a.id, plan);
+    }
+    if (target && !plan.explicit && this.tick >= plan.nextPlan) {
+      plan.target = { ...target };
+      plan.route = this.pursuitRoute(a, target);
+      plan.nextPlan = this.tick + 15;
+    }
+    if (plan.route.status === 'unreachable') {
+      a.state = 'idle';
+      return false;
+    }
+    const step = a.definition.speed / 60;
+    while (
+      plan.route.points.length &&
+      Math.hypot(plan.route.points[0]!.x - a.x, plan.route.points[0]!.z - a.z) < step
+    )
+      plan.route.points.shift();
+    const p = plan.route.points[0];
+    if (!p) {
+      a.state = 'idle';
+      return false;
+    }
+    const dx = p.x - a.x,
+      dz = p.z - a.z,
+      d = Math.hypot(dx, dz);
+    a.yaw = Math.atan2(dx, dz);
+    a.state = 'walk';
+    this.move(a, (dx / d) * Math.min(step, d), (dz / d) * Math.min(step, d));
+    return true;
+  }
   tick = 0;
   seed: number;
   readonly initialSeed: number;
@@ -94,6 +205,7 @@ export class Simulation {
     const def = this.areaDefinition,
       spawn = def.entries.find((e) => e.id === (entry ?? def.baselineEntry));
     if (!spawn) throw new Error('missing entry');
+    this.movementTargets.clear();
     this.collectedPickups.clear();
     this.seed = (this.initialSeed + def.seedOffset) >>> 0;
     this.actors = [this.create(PLAYER_ID, 'hero', spawn.x, spawn.z)];
@@ -197,10 +309,11 @@ export class Simulation {
     a.dodgeCooldown = tuning.dodge.cooldown;
   }
   move(a: Actor, x: number, z: number) {
-    const position = supportedPosition(
+    const position = moveSupported(
       this.areaDefinition,
-      { x: a.x + x, z: a.z + z },
-      Math.max(0.3, a.definition.radius),
+      a,
+      { x, z },
+      effectiveRadius(a.definition.radius),
     );
     a.x = position.x;
     a.z = position.z;
@@ -208,6 +321,7 @@ export class Simulation {
   }
   damage(from: Actor, to: Actor, amount: number, generation = this.generation) {
     if (
+      this.movementPreview ||
       !Number.isFinite(amount) ||
       amount <= 0 ||
       generation !== this.generation ||
@@ -268,7 +382,8 @@ export class Simulation {
       mx = len > 1 ? command.move.x / len : command.move.x,
       mz = len > 1 ? command.move.z / len : command.move.z;
     if (h.health > 0) {
-      if (command.attack) h.attackBufferedUntil = this.tick + tuning.inputBufferTicks;
+      if (command.attack && !this.movementPreview)
+        h.attackBufferedUntil = this.tick + tuning.inputBufferTicks;
       if (command.dodge) {
         h.dashBufferedUntil = this.tick + tuning.dashBufferTicks;
         h.dashYaw = len > 0.01 ? Math.atan2(mx, mz) : h.aim;
@@ -277,16 +392,21 @@ export class Simulation {
       const canDash = available;
       if (canDash && h.dashBufferedUntil >= this.tick && h.dodgeCooldown === 0) this.startDash(h);
       else if (available) {
-        if (command.ability && h.cooldown === 0) {
+        if (command.ability && !this.movementPreview && h.cooldown === 0) {
           h.attackBufferedUntil = -1;
           this.start(h, 'ability');
           h.cooldown = tuning.ability.cooldown;
         } else if (h.attackBufferedUntil >= this.tick) {
           this.startSword(h);
         } else {
-          h.state = len > 0.01 ? 'walk' : 'idle';
-          h.yaw = h.state === 'walk' ? Math.atan2(mx, mz) : h.aim;
-          this.move(h, (mx * h.definition.speed) / 60, (mz * h.definition.speed) / 60);
+          if (len > 0.01) this.movementTargets.delete(h.id);
+          if (len <= 0.01 && this.movementTargets.has(h.id)) {
+            this.follow(h);
+          } else {
+            h.state = len > 0.01 ? 'walk' : 'idle';
+            h.yaw = h.state === 'walk' ? Math.atan2(mx, mz) : h.aim;
+            this.move(h, (mx * h.definition.speed) / 60, (mz * h.definition.speed) / 60);
+          }
         }
       }
     }
@@ -299,7 +419,7 @@ export class Simulation {
       }
       if (
         a.kind === 'enemy' &&
-        this.engaged &&
+        (this.engaged || this.movementPreview) &&
         h.health > 0 &&
         a.stun === 0 &&
         (a.state === 'idle' || a.state === 'walk')
@@ -308,12 +428,12 @@ export class Simulation {
           dz = h.z - a.z,
           d = Math.hypot(dx, dz);
         a.aim = Math.atan2(dx, dz);
-        if (d <= a.definition.melee.range) this.start(a, 'attack');
-        else if (d > 0.001) {
-          a.state = 'walk';
-          a.yaw = a.aim;
-          this.move(a, ((dx / d) * a.definition.speed) / 60, ((dz / d) * a.definition.speed) / 60);
-        }
+        const contact = clearSegment(this.areaDefinition, a, h, 0.001);
+        const explicit = this.movementTargets.get(a.id)?.explicit;
+        if (!explicit && d <= a.definition.melee.range && contact) {
+          a.state = 'idle';
+          if (!this.movementPreview) this.start(a, 'attack');
+        } else this.follow(a, h);
       }
       if (a.kind === 'enemy' && a.stun > 0 && (a.state === 'walk' || a.state === 'idle'))
         a.state = 'idle';
@@ -324,7 +444,10 @@ export class Simulation {
           for (const target of this.actors) {
             if (target.kind === a.kind || target.health <= 0 || a.hitIds.includes(target.id))
               continue;
-            if (this.withinArc(a, target, t.range, t.halfAngle)) {
+            if (
+              this.withinArc(a, target, t.range, t.halfAngle) &&
+              clearSegment(this.areaDefinition, a, target, 0.001)
+            ) {
               a.hitIds.push(target.id);
               this.damage(a, target, t.damage);
             }
