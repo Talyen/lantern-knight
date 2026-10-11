@@ -12,7 +12,7 @@ Assign distinct preview ports: integration uses 5174, worktrees can use 5175/517
 
 ## Handoff and commits
 
-The user authorizes task-scoped branch/worktree creation, commits and local integration into `main` after review and required verification. Each chat owns its task through completion. Commit only reviewed task-owned changes on the task branch. Preserve inherited edits and other owners' staged work. Pushes, PRs, publication, destructive cleanup and unrelated changes require separate authorization; explicit task restrictions take precedence.
+The user authorizes task-scoped branch/worktree creation, commits and local integration into `main` after review and required verification. Each chat owns its task through completion. Commit only reviewed task-owned changes on the task branch. Preserve inherited edits and other owners' staged work. After successful local integration, the user authorizes archiving and removing only this chat's completed worktree as described below. Pushes, PRs, publication, other destructive cleanup and unrelated changes require separate authorization; explicit task restrictions take precedence.
 
 Use `npm run integration:lock -- <command> [args...]` from the task worktree to run the complete integration command in the checkout holding local `main`. The command acquires an exclusive loopback listener derived from the repository's physical Git common directory, so all its worktrees share one lock. Hash collisions with another repository serialize harmlessly. It waits automatically for up to 30 minutes, announces contention once and starts no command on timeout or cancellation. Missing or dirty `main` fails before the command starts. Ordinary command completion, failure and interruption release the lock after owned subprocess cleanup. Nested integration commands are rejected. No permanent coordinator, task registry or chat handoff is required.
 
@@ -35,7 +35,9 @@ git merge --ff-only "$task_branch"
 
 Save the script outside tracked source and invoke `npm run integration:lock -- sh /absolute/integrate-task.sh /absolute/task-worktree codex/task-branch`. Resolve a failed merge in the task worktree, commit the resolution, then rerun the full locked sequence. Never overwrite dirty `main`, reset another chat's branch, stash its changes or weaken checks to integrate. If integration is unsafe or blocked, leave the reviewed task committed on its branch and report the concrete limitation to the user. Do not start a chat coordination loop to clear routine dirty-checkout or lock contention.
 
-Report integration status, local `main` checkout, task commit hash/subject, completed checks and unavailable coverage, then stop. Worktree checks alone do not establish main integration or remote delivery.
+Before reporting completion, archive and remove this chat's completed worktree after successful integration. For an app-managed worktree, use the app's archive operation, which retains a recoverable Git snapshot. For an ordinary Git worktree, verify that its committed work is in `main`, preserve any local-only files needed for recovery outside the checkout, then remove it with `git worktree remove`; keep the task branch. Rebuildable dependencies and build caches need no archive. Never force-remove a dirty worktree, remove another chat's worktree, or remove a worktree whose integration is blocked under this standing authorization. If cleanup cannot preserve needed files, leave the worktree and report the reason. Do not retain a completed checkout merely to preserve its branch or verification results.
+
+Report integration status, local `main` checkout, task commit hash/subject, completed checks, unavailable coverage and worktree cleanup status, then stop. Worktree checks alone do not establish main integration or remote delivery.
 
 ## Concurrent commands
 
