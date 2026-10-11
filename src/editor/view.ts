@@ -9,7 +9,7 @@ import { ContentRegistry, heightAt } from '../content/world';
 import { contentDefinitions } from '../content/game-content';
 import { GameSession } from '../core/session';
 import { EventHub } from '../core/events';
-import { outward } from '../core/camera';
+import { outward, screenMovement } from '../core/camera';
 import type { Simulation } from '../core/simulation';
 import type { AssetRuntime, PackLease, PackBatch } from '../assets/loader';
 import { sceneItems } from './model';
@@ -63,6 +63,32 @@ export class EditorView {
     { position: T.Vector3; scale: T.Vector3; quaternion: T.Quaternion }
   >();
   private appliedDocument?: SceneDocument;
+  private walking?: { x: number; z: number; yaw: number; initialYaw: number; center: T.Vector3 };
+  setHeroWalking(enabled: boolean) {
+    if (!this.sim || !this.presentation) return;
+    if (enabled && !this.walking) {
+      const { x, z, yaw } = this.sim.hero;
+      this.walking = { x, z, yaw, initialYaw: yaw, center: this.presentation.center.clone() };
+    } else if (!enabled && this.walking) {
+      this.presentation.center.copy(this.walking.center);
+      this.sim.hero.yaw = this.walking.initialYaw;
+      this.walking = undefined;
+      this.sim.hero.state = 'idle';
+      if (this.appliedDocument) this.hero(this.appliedDocument.hero);
+    }
+    this.render();
+  }
+  walkHero(x: number, y: number, ms: number) {
+    if (!this.walking || !this.sim || this.applying) return;
+    const move = screenMovement(x, y),
+      hero = this.sim.hero;
+    hero.state = x || y ? 'walk' : 'idle';
+    if (x || y) this.walking.yaw = Math.atan2(move.x, move.z);
+    this.walking.x += (move.x * hero.definition.speed * ms) / 1000;
+    this.walking.z += (move.z * hero.definition.speed * ms) / 1000;
+    this.hero(this.walking);
+    hero.yaw = this.walking.yaw;
+  }
   previewTransforms(document: SceneDocument) {
     if (!this.appliedDocument || !this.sim) return;
     const originals = new Map(
@@ -157,7 +183,7 @@ export class EditorView {
     });
     if (composition === this.composition && this.presentation && this.sim) {
       this.appliedDocument = document;
-      this.hero(document.hero);
+      this.hero(this.walking ?? document.hero);
       this.presentation.visualOverride = art;
       this.presentation.lookRenderer.setSettings(document.look);
       return;
@@ -195,7 +221,7 @@ export class EditorView {
       });
       this.composition = undefined;
       this.sim = new GameSession(registry, 142, area.id, ++this.generation).sim;
-      this.hero(document.hero);
+      this.hero(this.walking ?? document.hero);
       this.clearHelpers();
       if (!this.presentation) {
         this.presentation = new EditorPresentation(
@@ -245,7 +271,8 @@ export class EditorView {
   hero(point: { x: number; z: number }) {
     if (!this.sim) return;
     Object.assign(this.sim.hero, {
-      ...point,
+      x: point.x,
+      z: point.z,
       px: point.x,
       pz: point.z,
       y: heightAt(this.sim.areaDefinition, point.x, point.z),
@@ -254,6 +281,10 @@ export class EditorView {
   }
   render(ms = 0) {
     if (this.closed || this.applying || !this.presentation || !this.sim) return;
+    if (this.walking) {
+      const hero = this.sim.hero;
+      this.presentation.center.set(hero.x, hero.y, hero.z);
+    }
     this.presentation.update(this.sim, 1, ms, this.sim.hero);
     for (const { sprite, position, scale, quaternion } of this.transformPreview) {
       sprite.mesh.position.copy(position);

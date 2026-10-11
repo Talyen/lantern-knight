@@ -721,3 +721,142 @@ test('complete scenes retain native masters and place as one image with source c
   await page.waitForFunction(() => window.sceneEditor.playtest()?.ready);
   await page.locator('#playtest-return').click();
 });
+
+test('editor walking preview preserves authoring state, releases input and zooms faster', async ({
+  page,
+}) => {
+  await page.goto('/editor.html');
+  await page.waitForFunction(() => window.sceneEditor?.ready());
+  const initial = await page.evaluate(() => ({
+    state: window.sceneEditor.state(),
+    center: window.sceneEditor.view().presentation!.center.toArray(),
+    storage: Object.fromEntries(Object.entries(localStorage)),
+  }));
+  await page.locator('#walk-hero').click();
+  await expect(page.locator('#walk-hero')).toHaveAttribute('aria-pressed', 'true');
+  await page.keyboard.down('w');
+  await page.waitForFunction(() => window.sceneEditor.view().sim!.hero.state === 'walk');
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const hero = window.sceneEditor.view().sim!.hero;
+        const spawn = window.sceneEditor.state().document.hero;
+        return Math.hypot(hero.x - spawn.x, hero.z - spawn.z);
+      }),
+    )
+    .toBeGreaterThan(0.2);
+  await page.keyboard.up('w');
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.view().sim!.hero.state))
+    .toBe('idle');
+  await page.keyboard.down('d');
+  await page.waitForFunction(() => window.sceneEditor.view().sim!.hero.state === 'walk');
+  await page.locator('#property-search').focus();
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.view().sim!.hero.state))
+    .toBe('idle');
+  await page.keyboard.up('d');
+  const paused = await page.evaluate(() => ({
+    x: window.sceneEditor.view().sim!.hero.x,
+    z: window.sceneEditor.view().sim!.hero.z,
+  }));
+  await page.locator('#property-search').fill('wasd');
+  await page.keyboard.press('w');
+  expect(
+    await page.evaluate(() => ({
+      x: window.sceneEditor.view().sim!.hero.x,
+      z: window.sceneEditor.view().sim!.hero.z,
+    })),
+  ).toEqual(paused);
+  expect(await page.evaluate(() => window.sceneEditor.state())).toEqual(initial.state);
+  expect(await page.evaluate(() => Object.fromEntries(Object.entries(localStorage)))).toEqual(
+    initial.storage,
+  );
+  await page.locator('#viewport').focus();
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#walk-hero')).toHaveAttribute('aria-pressed', 'false');
+  expect(
+    await page.evaluate(() => {
+      const view = window.sceneEditor.view();
+      return {
+        x: view.sim!.hero.x,
+        z: view.sim!.hero.z,
+        center: view.presentation!.center.toArray(),
+        tick: view.sim!.tick,
+      };
+    }),
+  ).toEqual({ ...initial.state.document.hero, center: initial.center, tick: 0 });
+  const zoom = await page.evaluate(() => {
+    const view = window.sceneEditor.view();
+    view.presentation!.verticalSpan = 20;
+    document
+      .getElementById('viewport')!
+      .dispatchEvent(new WheelEvent('wheel', { deltaY: -100, cancelable: true }));
+    return view.presentation!.verticalSpan;
+  });
+  expect(zoom).toBeCloseTo(20 * Math.exp(-0.3), 6);
+  await page.locator('#viewport').dispatchEvent('wheel', { deltaY: 100 });
+  expect(
+    await page.evaluate(() => window.sceneEditor.view().presentation!.verticalSpan),
+  ).toBeCloseTo(20, 6);
+});
+
+test('ground search and 4K filter narrow results without changing the current ground', async ({
+  page,
+}) => {
+  await page.goto('/editor.html');
+  await page.waitForFunction(() => window.sceneEditor?.ready());
+  const initial = await page.evaluate(() => window.sceneEditor.state().document.floor);
+  await page.locator('#scene-tab').click();
+  const all = await page
+    .locator('#floor option')
+    .evaluateAll((options) => options.map((option) => (option as HTMLOptionElement).value));
+  const dimensions = await page.evaluate(async (values) => {
+    const runtime = window.sceneEditor.view().runtime;
+    return Object.fromEntries(
+      await Promise.all(
+        values.map(async (value) => {
+          const manifest = await runtime.manifest(value.split('/')[0]!);
+          return [value, manifest.asset.canvas];
+        }),
+      ),
+    );
+  }, all);
+  await page.locator('#ground-high-res').check();
+  const filtered = await page
+    .locator('#floor option')
+    .evaluateAll((options) => options.map((option) => (option as HTMLOptionElement).value));
+  expect(filtered).toEqual(all.filter((value) => Math.max(...dimensions[value]) >= 3840));
+  await page.locator('#ground-search').fill('no-such-ground-xyz');
+  await expect(page.locator('#floor option')).toHaveCount(0);
+  await expect(page.locator('#ground-results')).toContainText('No matching ground');
+  expect(await page.evaluate(() => window.sceneEditor.state().document.floor)).toEqual(initial);
+  // Dimension edits must retain the current ground even while filters hide it.
+  await page.locator('#width').fill('24');
+  await page.locator('#width').press('Tab');
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.width))
+    .toBe(24);
+  expect(await page.evaluate(() => window.sceneEditor.state().document.floor.asset)).toBe(
+    initial.asset,
+  );
+  const choice = filtered[0] ?? all[0]!;
+  if (!filtered.length) await page.locator('#ground-high-res').uncheck();
+  await page.locator('#ground-search').fill(choice.split('/')[0]!);
+  await expect(page.locator('#ground-search')).toHaveValue(choice.split('/')[0]!);
+  await page.locator('#floor').selectOption(choice);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          window.sceneEditor.state().document.floor.asset +
+          '/' +
+          window.sceneEditor.state().document.floor.clip,
+      ),
+    )
+    .toBe(choice);
+  await page.locator('#undo').click();
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.asset))
+    .toBe(initial.asset);
+});

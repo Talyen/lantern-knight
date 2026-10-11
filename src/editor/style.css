@@ -35,6 +35,7 @@ summary {
 }
 button:hover:not(:disabled),
 button.active,
+button[aria-pressed='true'],
 [aria-selected='true'] {
   border-color: #bfa269;
   background: #304044;

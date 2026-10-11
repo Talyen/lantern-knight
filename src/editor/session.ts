@@ -156,7 +156,7 @@ export function createEditorSession() {
     $('foundation').hidden = false;
     $<HTMLSelectElement>('rig').value = d.look.rig;
     $<HTMLSelectElement>('look').value = d.look.look;
-    $<HTMLSelectElement>('floor').value = d.floor.asset + '/' + (d.floor.clip ?? 'surface');
+    showGroundResults();
     $<HTMLSelectElement>('floor-layout').value = d.floor.layout ?? 'repeat';
     $<HTMLInputElement>('width').value = String(d.floor.width);
     $<HTMLInputElement>('depth').value = String(d.floor.depth);
@@ -220,6 +220,9 @@ export function createEditorSession() {
       'rig',
       'look',
       'floor',
+      'ground-search',
+      'ground-high-res',
+      'walk-hero',
       'width',
       'depth',
       'fit',
@@ -402,6 +405,7 @@ export function createEditorSession() {
           nextRevision = null;
         } else nextSavedSnapshot = JSON.stringify(d);
       }
+      setWalkingHero(false);
       await documents.replace(d);
       assertActive();
       recoveryKey = recoveryRoot + ':' + d.id;
@@ -502,10 +506,39 @@ export function createEditorSession() {
           look: $<HTMLSelectElement>('look').value as SceneDocument['look']['look'],
         };
       });
+  function showGroundResults() {
+    const query = $<HTMLInputElement>('ground-search').value.trim().toLowerCase(),
+      highRes = $<HTMLInputElement>('ground-high-res').checked,
+      floor = documents.history.document.floor,
+      select = $<HTMLSelectElement>('floor');
+    const options = [...assetIndex.values()].flatMap((manifest) => {
+      const { id, label, canvas } = manifest.asset;
+      if (highRes && Math.max(...canvas) < 3840) return [];
+      return floorClips(manifest)
+        .filter((clip) => `${label ?? ''} ${id} ${clip}`.toLowerCase().includes(query))
+        .map(
+          (clip) =>
+            new Option(`${label ?? id} / ${clip} · ${canvas[0]} × ${canvas[1]}`, id + '/' + clip),
+        );
+    });
+    select.replaceChildren(...options);
+    select.value = floor.asset + '/' + (floor.clip ?? 'surface');
+    $('ground-results').textContent = options.length
+      ? `${options.length} ground results`
+      : 'No matching ground. Try another search or turn off High-res only.';
+    $('ground-current').textContent =
+      `Current ground: ${assetIndex.get(floor.asset)?.asset.label ?? floor.asset} / ${floor.clip ?? 'surface'}`;
+  }
+  $('ground-search').oninput = showGroundResults;
+  $('ground-high-res').onchange = showGroundResults;
   for (const id of ['floor', 'floor-layout', 'width', 'depth'])
     $(id).onchange = () =>
       void change((d) => {
-        const [asset, clip] = $<HTMLSelectElement>('floor').value.split('/');
+        const [asset, clip] =
+          id === 'floor'
+            ? $<HTMLSelectElement>('floor').value.split('/')
+            : [d.floor.asset, d.floor.clip ?? 'surface'];
+        if (!asset || !clip) return;
         d.floor = {
           asset: asset!,
           clip: clip!,
@@ -555,6 +588,44 @@ export function createEditorSession() {
   $('duplicate').onclick = () => void composition?.duplicate();
   $('delete').onclick = () => void composition?.remove();
   $('fit').onclick = fit;
+  let walkingHero = false;
+  const walkKeys = new Set<string>();
+  function stopWalkKeys() {
+    walkKeys.clear();
+    view?.walkHero(0, 0, 0);
+  }
+  function setWalkingHero(enabled: boolean) {
+    if (!ready || enabled === walkingHero || (enabled && busy)) return;
+    stopWalkKeys();
+    walkingHero = enabled;
+    view.setHeroWalking(enabled);
+    $('walk-hero').setAttribute('aria-pressed', String(enabled));
+    $('walk-hero').textContent = enabled ? 'Stop walking' : 'Walk hero';
+    if (enabled) {
+      finishDrag(true);
+      composition.cancelGesture();
+      $<HTMLSelectElement>('tool').value = 'select';
+      $('tool').dispatchEvent(new Event('change'));
+      canvas.focus();
+    }
+    status(
+      enabled
+        ? 'WASD walks the hero through the scene. Escape restores the hero and camera.'
+        : 'Walking preview ended.',
+    );
+  }
+  $('walk-hero').onclick = () => setWalkingHero(!walkingHero);
+  canvas.addEventListener('blur', stopWalkKeys, { signal: lifetime.signal });
+  window.addEventListener('blur', stopWalkKeys, { signal: lifetime.signal });
+  document.addEventListener('visibilitychange', stopWalkKeys, { signal: lifetime.signal });
+  document.addEventListener(
+    'keyup',
+    (e) => {
+      walkKeys.delete(e.code);
+      if (!walkKeys.size) view?.walkHero(0, 0, 0);
+    },
+    { signal: lifetime.signal },
+  );
   let animationPlaying = true;
   $('play-animation').onclick = () => {
     animationPlaying = !animationPlaying;
@@ -809,6 +880,7 @@ export function createEditorSession() {
     $('preview-play').textContent = previewPlaying ? 'Pause preview' : 'Play preview';
   };
   $('tool').onchange = () => {
+    if ($<HTMLSelectElement>('tool').value === 'hero' && walkingHero) setWalkingHero(false);
     if ($<HTMLSelectElement>('tool').value === 'place') openDock('artwork');
     if ($<HTMLSelectElement>('tool').value === 'geometry') openDock('scene');
     if ($<HTMLSelectElement>('tool').value !== 'place') {
@@ -1051,7 +1123,15 @@ export function createEditorSession() {
     if (busy || !view?.presentation) return;
     view.presentation.verticalSpan = Math.max(
       3,
-      Math.min(100, view.presentation.verticalSpan * Math.exp(e.deltaY * 0.001)),
+      Math.min(
+        100,
+        view.presentation.verticalSpan *
+          Math.exp(
+            e.deltaY *
+              (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? canvas.clientHeight : 1) *
+              0.003,
+          ),
+      ),
     );
     view.resize();
     view.render();
@@ -1065,12 +1145,25 @@ export function createEditorSession() {
         e.target instanceof HTMLTextAreaElement;
       if ([...document.querySelectorAll<HTMLDialogElement>('dialog')].some((d) => d.open)) return;
       if (e.key === 'Escape') {
+        if (walkingHero) setWalkingHero(false);
         composition.cancelGesture();
         finishDrag(true);
         composition.set(undefined);
         return;
       }
-      if (text) return;
+      if (text || (e.target instanceof HTMLElement && e.target.isContentEditable)) return;
+      if (
+        walkingHero &&
+        e.target === canvas &&
+        !e.ctrlKey &&
+        !e.metaKey &&
+        !e.altKey &&
+        ['KeyW', 'KeyA', 'KeyS', 'KeyD'].includes(e.code)
+      ) {
+        e.preventDefault();
+        walkKeys.add(e.code);
+        return;
+      }
       if (e.key.toLowerCase() === 'f') {
         composition.focus();
         return;
@@ -1143,6 +1236,7 @@ export function createEditorSession() {
     void run(async () => {
       if (!recovery) return;
       const changedFoundations = recovery.baseRevision !== baseRevision;
+      setWalkingHero(false);
       await documents.replace(recovery.document);
       assertActive();
       revision = recovery.revision;
@@ -1174,6 +1268,15 @@ export function createEditorSession() {
     if (!ready || busy) return;
     const ms = last ? Math.min(50, time - last) : 0;
     last = time;
+    if (walkingHero) {
+      const active = document.activeElement === canvas && !document.querySelector('dialog[open]');
+      if (!active) stopWalkKeys();
+      view.walkHero(
+        Number(walkKeys.has('KeyD')) - Number(walkKeys.has('KeyA')),
+        Number(walkKeys.has('KeyW')) - Number(walkKeys.has('KeyS')),
+        ms,
+      );
+    }
     view.render(ms);
     composition?.positionHandles();
     visualAuthoring?.draw();
@@ -1258,6 +1361,7 @@ export function createEditorSession() {
     if (dirty() && !confirm('Replace the current composition with this imported draft?')) return;
     recover();
     await run(async () => {
+      setWalkingHero(false);
       await documents.replace(document);
       assertActive();
       revision = null;
@@ -1361,10 +1465,6 @@ export function createEditorSession() {
       if (kind)
         for (const clip of paletteClips(m))
           palette.push({ asset: m.asset.id, clip, kind, manifest: m });
-      for (const clip of floorClips(m))
-        $<HTMLSelectElement>('floor').add(
-          new Option(m.asset.id + ' / ' + clip, m.asset.id + '/' + clip),
-        );
     }
     palette.sort((a, b) => a.asset.localeCompare(b.asset) || a.clip.localeCompare(b.clip));
     showPalette();

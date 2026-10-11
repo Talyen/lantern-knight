@@ -228,6 +228,7 @@ export class EditorWorkspace {
       ['Fit scene', 'fit'],
       ['Focus selection', 'focus-selection'],
       ['Focus mode', 'focus-mode'],
+      ['Walk hero (WASD preview)', 'walk-hero'],
       ['Play', 'play-from-here'],
       ['Pause animations', 'play-animation'],
       ['Replay animations', 'replay-animation'],
