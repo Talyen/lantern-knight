@@ -45,6 +45,7 @@ import { artworkFloorLayout } from '../content/floor-layout';
 import { applySceneryPreset } from '../content/scenery-presets';
 import { EditorHistory, sceneItems } from './model';
 import { EditorDocument } from './document';
+import { EditorProject, EditorConflict } from './project';
 import { EditorView } from './view';
 
 declare global {
@@ -83,10 +84,6 @@ export function createEditorSession() {
   let runtime: AssetRuntime,
     view: EditorView,
     selected: string | undefined,
-    revision: string | null = null,
-    baseRevision = '',
-    token = '',
-    savedSnapshot = '',
     busy = true,
     ready = false;
   const documents = new EditorDocument(
@@ -108,18 +105,14 @@ export function createEditorSession() {
     chosen: (typeof palette)[number] | undefined;
   let assetIndex = new Map<string, Manifest>();
   let usedAssets = new Set<string>();
-  let recoveryKey = '';
-  let recoveryRoot = '';
-  const recoveryPrefix =
-    'lantern-scene-editor-recovery:' + location.origin + location.pathname + ':';
-  type Recovery = {
-    document: SceneDocument;
-    revision: string | null;
-    baseRevision: string;
-    savedSnapshot: string;
-    savedAt?: string;
-  };
-  let recovery: Recovery | undefined;
+  const project = new EditorProject(
+    documents,
+    (document) => parseSceneDocument(withGameplayDefaults(document, contentDefinitions)),
+    lifetime.signal,
+    'lantern-scene-editor-recovery:' + location.origin + location.pathname + ':',
+    () => localStorage,
+    () => status('Local recovery is unavailable. Save your scene to preserve it.', true),
+  );
   function status(message: string, error = false) {
     if (closed) return;
     workspace.notify(message, error);
@@ -128,26 +121,10 @@ export function createEditorSession() {
     $('validation-errors').hidden = !error;
   }
   function dirty() {
-    return JSON.stringify(documents.history.document) !== savedSnapshot;
+    return project.dirty;
   }
   function recover() {
-    if (!$('recovery').hidden || !recoveryKey) return;
-    try {
-      if (dirty()) {
-        localStorage.setItem(
-          recoveryKey,
-          JSON.stringify({
-            document: documents.history.document,
-            revision,
-            baseRevision,
-            savedSnapshot,
-            savedAt: new Date().toISOString(),
-          }),
-        );
-      } else localStorage.removeItem(recoveryKey);
-    } catch {
-      status('Local recovery is unavailable. Save your scene to preserve it.', true);
-    }
+    project.recover();
   }
   function controls() {
     if (closed) return;
@@ -270,7 +247,7 @@ export function createEditorSession() {
   async function run(action: () => Promise<void>, restoring = false) {
     if (closed || busy) return;
     composition?.cancelGesture();
-    if (!$('recovery').hidden && !restoring) {
+    if (project.recoveryPending && !restoring) {
       status('Restore or dismiss the previous recovery before editing.', true);
       controls();
       return;
@@ -281,6 +258,7 @@ export function createEditorSession() {
       controls();
       await pending;
     } catch (error) {
+      if (error instanceof EditorConflict) $('conflict').hidden = false;
       status(editorError(error), true);
     } finally {
       if (!closed) {
@@ -300,9 +278,8 @@ export function createEditorSession() {
   }
   async function edit(work: (history: EditorHistory) => void, committed?: () => void) {
     await run(async () => {
-      await documents.edit(work);
+      await project.edit(work);
       assertActive();
-      recover();
       rendered();
       committed?.();
     });
@@ -350,29 +327,11 @@ export function createEditorSession() {
     p.resize();
     view.render();
   }
-  async function api(id?: string) {
-    const r = await fetch('/__lantern_editor' + (id ? '?id=' + encodeURIComponent(id) : ''), {
-      signal: lifetime.signal,
-    });
-    const data = await r.json();
-    assertActive();
-    if (!r.ok) throw new Error(data.error);
-    return data;
-  }
   async function list() {
-    const data = await api();
-    token = data.token;
-    baseRevision = data.baseRevision;
-    recoveryRoot = recoveryPrefix + data.workspace;
-    if (!recoveryKey) recoveryKey = recoveryRoot + ':untitled';
+    const scenes = await project.list();
     const select = $<HTMLSelectElement>('scene');
     for (const option of [...select.options]) if (option.dataset.saved) option.remove();
-    for (const scene of data.scenes as {
-      id: string;
-      name: string;
-      target?: string;
-      error?: string;
-    }[]) {
+    for (const scene of scenes) {
       const o = new Option(
         scene.name +
           (scene.target === 'live' ? ' · LIVE' : ' · Draft') +
@@ -390,42 +349,14 @@ export function createEditorSession() {
     )
       return;
     await run(async () => {
-      let d: SceneDocument,
-        nextRevision: string | null = null,
-        nextBaseRevision = baseRevision,
-        nextSavedSnapshot = '';
-      if (value === 'new') {
-        d = emptyScene();
-      } else {
-        const id = value.startsWith('file-')
-          ? value.slice(5)
-          : value.startsWith('copy-')
-            ? 'live-' + value.slice(5)
-            : value;
-        const data = await api(id);
-        if (!data.document) throw new Error('Scene file is unavailable');
-        d = parseSceneDocument(
-          withGameplayDefaults(parseSceneDocument(data.document), contentDefinitions),
-        );
-        nextRevision = data.revision;
-        nextBaseRevision = data.baseRevision;
-        if (value.startsWith('copy-')) {
-          d = { ...d, id: 'untitled', name: 'Copy of ' + d.name, target: 'draft' };
-          nextRevision = null;
-        } else nextSavedSnapshot = JSON.stringify(d);
-      }
       setWalkingHero(false);
-      await documents.replace(d);
+      await project.open(value);
       assertActive();
-      recoveryKey = recoveryRoot + ':' + d.id;
-      revision = nextRevision;
-      baseRevision = nextBaseRevision;
-      savedSnapshot = nextSavedSnapshot;
+      const d = documents.history.document;
       selected = undefined;
       composition?.selection.clear();
       view.setGrid($<HTMLInputElement>('grid').checked);
       view.render();
-      recover();
       fit();
       $('conflict').hidden = true;
       sceneLibrary?.remember();
@@ -438,29 +369,7 @@ export function createEditorSession() {
   }
   async function save(copyId?: string) {
     await run(async () => {
-      const document = copyId
-        ? { ...documents.history.document, id: copyId, target: 'draft' as const }
-        : documents.history.document;
-      if (copyId) parseSceneDocument(document);
-      const r = await fetch('/__lantern_editor', {
-        signal: lifetime.signal,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Lantern-Editor-Token': token },
-        body: JSON.stringify({ document, revision: copyId ? null : revision, baseRevision }),
-      });
-      const data = await r.json();
-      assertActive();
-      if (!r.ok) {
-        if (r.status === 409) $('conflict').hidden = false;
-        throw new Error(data.error);
-      }
-      localStorage.removeItem(recoveryKey);
-      documents.reidentify(data.document.id, data.document.target);
-      recoveryKey = recoveryRoot + ':' + documents.history.document.id;
-      revision = data.revision;
-      baseRevision = data.baseRevision;
-      savedSnapshot = JSON.stringify(documents.history.document);
-      recover();
+      await project.save(copyId);
       $('conflict').hidden = true;
       await list();
       assertActive();
@@ -488,7 +397,7 @@ export function createEditorSession() {
   });
   $('open').onclick = () => void open($<HTMLSelectElement>('scene').value);
   $('save').onclick = () => {
-    if (revision === null) saveAs();
+    if (project.revision === null) saveAs();
     else launch(save());
   };
   $('save-as').onclick = saveAs;
@@ -995,7 +904,7 @@ export function createEditorSession() {
   let drag: Drag | undefined;
   canvas.oncontextmenu = (e) => e.preventDefault();
   canvas.onpointerdown = (e) => {
-    if (busy || !view.presentation || !$('recovery').hidden) return;
+    if (busy || !view.presentation || project.recoveryPending) return;
     canvas.focus();
     if (visualAuthoring?.pointerDown(e)) return;
     if (e.button !== 0 && e.button !== 2 && e.button !== 1) return;
@@ -1226,8 +1135,8 @@ export function createEditorSession() {
   );
   window.addEventListener('beforeunload', () => recover(), { signal: lifetime.signal });
   $('export-recovery').onclick = () => {
-    const stored = localStorage.getItem(recoveryKey);
-    if (stored === null) return;
+    const stored = project.recoverySource();
+    if (!stored) return;
     const url = URL.createObjectURL(new Blob([stored], { type: 'application/json' })),
       link = document.createElement('a');
     link.href = url;
@@ -1236,27 +1145,21 @@ export function createEditorSession() {
     URL.revokeObjectURL(url);
   };
   $('dismiss-recovery').onclick = () => {
-    recovery = undefined;
-    localStorage.removeItem(recoveryKey);
+    project.dismissRecovery();
     $('recovery').hidden = true;
   };
   $('restore').onclick = () =>
     void run(async () => {
-      if (!recovery) return;
-      const changedFoundations = recovery.baseRevision !== baseRevision;
+      if (!project.recoveryReadable) return;
       setWalkingHero(false);
-      await documents.replace(recovery.document);
+      const changedFoundations = await project.restoreRecovery();
       assertActive();
-      revision = recovery.revision;
-      savedSnapshot = recovery.savedSnapshot;
       selected = undefined;
       composition?.selection.clear();
       view.setGrid($<HTMLInputElement>('grid').checked);
       view.render();
       fit();
       $('recovery').hidden = true;
-      recovery = undefined;
-      recover();
       status(
         changedFoundations
           ? 'Recovery restored against updated foundations. Review the composition before saving.'
@@ -1325,49 +1228,15 @@ export function createEditorSession() {
   }
   window.addEventListener('pagehide', dispose, { signal: lifetime.signal });
 
-  function recoveryEntries() {
-    const entries: { key: string; name: string; time: string }[] = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i)!;
-      if (!key.startsWith(recoveryRoot)) continue;
-      try {
-        const data = JSON.parse(localStorage.getItem(key)!);
-        entries.push({
-          key,
-          name: data.document?.name ?? 'Unreadable recovery',
-          time: data.savedAt ?? 'Unknown time',
-        });
-      } catch {
-        entries.push({ key, name: 'Unreadable recovery', time: 'Unknown time' });
-      }
-    }
-    return entries.sort((a, b) => b.time.localeCompare(a.time));
-  }
   function readRecovery(key: string) {
-    recoveryKey = key;
-    recovery = undefined;
-    const stored = localStorage.getItem(key);
-    if (!stored) return;
-    $('recovery').hidden = false;
-    try {
-      const value = JSON.parse(stored);
-      recovery = {
-        document: parseSceneDocument(value.document),
-        revision: value.revision,
-        baseRevision: value.baseRevision,
-        savedSnapshot: value.savedSnapshot
-          ? JSON.stringify(parseSceneDocument(JSON.parse(value.savedSnapshot)))
-          : '',
-        savedAt: value.savedAt,
-      };
-      $<HTMLButtonElement>('restore').disabled = false;
-    } catch {
-      $<HTMLButtonElement>('restore').disabled = true;
+    project.readRecovery(key);
+    $('recovery').hidden = !project.recoveryPending;
+    $<HTMLButtonElement>('restore').disabled = !project.recoveryReadable;
+    if (project.recoveryPending && !project.recoveryReadable)
       status(
         'Saved recovery uses an unreadable or older format. Download it before adapting or dismissing it.',
         true,
       );
-    }
   }
   async function importDocument(document: SceneDocument) {
     if (
@@ -1378,16 +1247,11 @@ export function createEditorSession() {
       ))
     )
       return;
-    recover();
     await run(async () => {
       setWalkingHero(false);
-      await documents.replace(document);
+      await project.import(document);
       assertActive();
-      revision = null;
-      savedSnapshot = '';
-      recoveryKey = recoveryRoot + ':' + document.id;
       composition.set(undefined);
-      recover();
       fit();
       status('Imported draft. Save As to create a scene file.');
     });
@@ -1396,7 +1260,7 @@ export function createEditorSession() {
     await list();
     assertActive();
     try {
-      const entries = recoveryEntries();
+      const entries = project.recoveryEntries();
       if (entries[0]) readRecovery(entries[0].key);
     } catch {
       status('Local recovery is unavailable.', true);
@@ -1440,19 +1304,11 @@ export function createEditorSession() {
       status,
       fragment: async (name, objects) => {
         await run(async () => {
-          const r = await fetch('/__lantern_editor', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-Lantern-Editor-Token': token },
-            body: JSON.stringify({
-              action: 'fragment',
-              fragment: { version: 1, name, objects },
-              document: documents.history.document,
-              baseRevision,
-            }),
-            signal: lifetime.signal,
+          const data = await project.post({
+            action: 'fragment',
+            fragment: { version: 1, name, objects },
+            document: documents.history.document,
           });
-          const data = await r.json();
-          if (!r.ok) throw new Error(data.error);
           status('Fragment saved to authoring/fragments/' + data.id + '.json');
         });
       },
@@ -1463,7 +1319,7 @@ export function createEditorSession() {
         ids.forEach((id) => composition.selection.add(id));
         controls();
       },
-      recoveries: recoveryEntries,
+      recoveries: () => project.recoveryEntries(),
       restore: (key) => {
         recover();
         readRecovery(key);
@@ -1483,15 +1339,7 @@ export function createEditorSession() {
       change,
       status,
       request: async (selection, signal) => {
-        const response = await fetch('/__lantern_editor', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'x-lantern-editor-token': token },
-          body: JSON.stringify({ action: 'segment', selection, baseRevision }),
-          signal,
-        });
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.error ?? 'Selection failed');
-        return result;
+        return project.post({ action: 'segment', selection }, signal);
       },
     });
     assetIndex = await loadAssetIndex(runtime, lifetime.signal);
@@ -1520,13 +1368,18 @@ export function createEditorSession() {
     busy = false;
     controls();
     ready = true;
-    if ($('recovery').hidden) status('');
+    if (!project.recoveryPending) status('');
     frames = new FrameScheduler(animate, () => (last = 0), automated);
   }
   // Development-only inspection supports browser acceptance without exposing a player bridge.
   window.sceneEditor = {
     ready: () => ready,
-    state: () => ({ document: documents.history.document, revision, dirty: dirty(), selected }),
+    state: () => ({
+      document: documents.history.document,
+      revision: project.revision,
+      dirty: dirty(),
+      selected,
+    }),
     view: () => view,
     playtest: () => playtest.state(),
     dispose,
