@@ -152,7 +152,7 @@ export class Simulation {
     const step = a.definition.speed / 60;
     while (
       plan.route.points.length &&
-      Math.hypot(plan.route.points[0]!.x - a.x, plan.route.points[0]!.z - a.z) < step
+      Math.hypot(plan.route.points[0]!.x - a.x, plan.route.points[0]!.z - a.z) < 1e-6
     )
       plan.route.points.shift();
     const p = plan.route.points[0];
@@ -428,7 +428,9 @@ export class Simulation {
           dz = h.z - a.z,
           d = Math.hypot(dx, dz);
         a.aim = Math.atan2(dx, dz);
-        const contact = clearSegment(this.areaDefinition, a, h, 0.001);
+        const contact =
+          Math.abs(a.y - h.y) <= tuning.maxCombatHeightDifference &&
+          clearSegment(this.areaDefinition, a, h, 0.001);
         const explicit = this.movementTargets.get(a.id)?.explicit;
         if (!explicit && d <= a.definition.melee.range && contact) {
           a.state = 'idle';
@@ -468,7 +470,8 @@ export class Simulation {
             if (
               target.kind === 'enemy' &&
               target.health > 0 &&
-              this.withinArc(a, target, tuning.ability.range, tuning.ability.halfAngle)
+              this.withinArc(a, target, tuning.ability.range, tuning.ability.halfAngle) &&
+              clearSegment(this.areaDefinition, a, target, 0.001)
             ) {
               this.damage(a, target, tuning.ability.damage);
               if (target.health > 0) {
@@ -495,10 +498,13 @@ export class Simulation {
           dz = b.z - a.z,
           d = Math.hypot(dx, dz),
           r = a.definition.radius + b.definition.radius;
-        if (d < r && d > 0.001) {
-          const delta = (r - d) / 2;
-          this.move(a, (-dx / d) * delta, (-dz / d) * delta);
-          this.move(b, (dx / d) * delta, (dz / d) * delta);
+        if (d < r) {
+          // Coincident authored spawns need a stable separation direction too.
+          const nx = d > 1e-8 ? dx / d : 1,
+            nz = d > 1e-8 ? dz / d : 0,
+            delta = (r - d) / 2;
+          this.move(a, -nx * delta, -nz * delta);
+          this.move(b, nx * delta, nz * delta);
         }
       }
     const wasCleared = this.cleared;
@@ -507,6 +513,7 @@ export class Simulation {
         if (
           this.collectedPickups.has(pickup.id) ||
           Math.hypot(h.x - pickup.x, h.z - pickup.z) > pickup.radius ||
+          !clearSegment(this.areaDefinition, h, pickup, 0.001) ||
           h.health >= this.registry.actor(this.registry.definitions.player).maxHealth
         )
           continue;
