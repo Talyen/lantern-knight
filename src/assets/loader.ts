@@ -3,89 +3,7 @@ import { Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter } from 
 import { parseManifest, type Manifest } from './schema';
 import { sha256, verifiedBitmap } from './bitmap';
 import { TextureDelivery, type SourcePage, type ImageQuality } from './texture-delivery';
-type Entry<T> = {
-  refs: number;
-  promise: Promise<T>;
-  value?: T;
-  dispose: (value: T) => void;
-};
-export class ResourcePool<T> {
-  entries = new Map<string, Entry<T>>();
-  constructor(
-    private load: (id: string) => Promise<T>,
-    private dispose: (value: T) => void,
-  ) {}
-  retain(id: string) {
-    let entry = this.entries.get(id);
-    if (!entry) {
-      const created = { refs: 0, dispose: this.dispose } as Entry<T>;
-      entry = created;
-      created.promise = this.load(id).then(
-        (value) => {
-          created.value = value;
-          if (created.refs === 0) {
-            created.dispose(value);
-            if (this.entries.get(id) === created) this.entries.delete(id);
-          }
-          return value;
-        },
-        (error) => {
-          if (this.entries.get(id) === created) this.entries.delete(id);
-          throw error;
-        },
-      );
-      this.entries.set(id, created);
-    }
-    entry.refs++;
-    const held = entry;
-    let released = false;
-    return {
-      promise: entry.promise,
-      release: () => {
-        if (released) return;
-        released = true;
-        held.refs--;
-        if (held.refs === 0 && Object.hasOwn(held, 'value')) {
-          held.dispose(held.value!);
-          if (this.entries.get(id) === held) this.entries.delete(id);
-        }
-      },
-    };
-  }
-  async acquire(
-    ids: string[],
-    signal?: AbortSignal,
-    onProgress?: (done: number, total: number) => void,
-  ) {
-    if (signal?.aborted) throw new Error('load cancelled');
-    const leases = [...new Set(ids)].map((id) => [id, this.retain(id)] as const);
-    let released = false;
-    const release = () => {
-      if (released) return;
-      released = true;
-      leases.forEach(([, l]) => l.release());
-    };
-    const abort = () => release();
-    signal?.addEventListener('abort', abort, { once: true });
-    let done = 0;
-    try {
-      const results = await Promise.all(
-        leases.map(async ([id, l]) => {
-          const value = await l.promise;
-          onProgress?.(++done, leases.length);
-          return [id, value] as const;
-        }),
-      );
-      if (signal?.aborted) throw new Error('load cancelled');
-      return { resources: new Map(results), release };
-    } catch (error) {
-      release();
-      throw error;
-    } finally {
-      signal?.removeEventListener('abort', abort);
-    }
-  }
-}
+import { ResourcePool } from './resource-pool';
 export type AssetPack = {
   manifest: Manifest;
   textures: ReadonlyMap<string, Texture>;
@@ -106,9 +24,16 @@ export const pageIdentity = (
 export class AssetRuntime {
   registration!: PreparedRegistration;
   libraryInventory = false;
-  readonly manifests = new Map<string, Promise<Manifest>>();
+  private readonly manifests = new Map<string, Promise<Manifest>>();
   private pages = new Map<string, PageRequest>();
-  readonly pool: ResourcePool<Texture>;
+  private readonly pool: ResourcePool<Texture>;
+  private readonly lifetime = new AbortController();
+  private assertActive() {
+    if (this.lifetime.signal.aborted) throw new Error('Asset runtime disposed');
+  }
+  get resourceCount() {
+    return this.pool.size;
+  }
   constructor(
     public readonly catalog: Readonly<Record<string, string>>,
     private production = false,
@@ -130,7 +55,9 @@ export class AssetRuntime {
         if (!p) throw new Error('missing page descriptor');
         if (decode) return decode(p);
         if (this.delivery) return this.delivery.decode(p);
-        const bitmap = await verifiedBitmap(p.url, p, this.request);
+        const bitmap = await verifiedBitmap(p.url, p, (url, init) =>
+          this.request(url, { ...init, signal: this.lifetime.signal }),
+        );
         const texture = new Texture(bitmap);
         texture.colorSpace = SRGBColorSpace;
         texture.generateMipmaps = p.mipmaps === true;
@@ -152,14 +79,17 @@ export class AssetRuntime {
     return !this.production;
   }
   async manifest(id: string) {
+    this.assertActive();
     let promise = this.manifests.get(id);
     if (!promise) {
       const path = this.catalog[id];
       if (!path) throw new Error(`unknown asset ${id}`);
-      promise = this.request('/' + path)
+      promise = this.request('/' + path, { signal: this.lifetime.signal })
         .then(async (r) => {
           if (!r.ok) throw new Error(`manifest unavailable: ${id}`);
-          const manifest = parseManifest(await r.json(), this.production);
+          const data = await r.json();
+          this.assertActive();
+          const manifest = parseManifest(data, this.production);
           for (const page of manifest.pages) {
             const key = pageIdentity(page),
               url = '/' + path.slice(0, path.lastIndexOf('/') + 1) + page.path;
@@ -185,6 +115,7 @@ export class AssetRuntime {
     return promise;
   }
   seedManifest(id: string, data: unknown) {
+    this.assertActive();
     const file = this.catalog[id];
     if (!file) return;
     const manifest = parseManifest(data, this.production);
@@ -209,8 +140,10 @@ export class AssetRuntime {
     signal?: AbortSignal,
     progress?: (done: number, total: number) => void,
   ): Promise<PackLease> {
+    this.assertActive();
     if (signal?.aborted) throw new Error('load cancelled');
     const manifest = await this.manifest(id);
+    this.assertActive();
     if (signal?.aborted) throw new Error('load cancelled');
     const keys = manifest.pages.map((page) => {
       const original = this.pages.get(pageIdentity(page))!;
@@ -221,6 +154,13 @@ export class AssetRuntime {
       return key;
     });
     const held = await this.pool.acquire(keys, signal, progress);
+    try {
+      this.assertActive();
+      if (signal?.aborted) throw new Error('load cancelled');
+    } catch (error) {
+      held.release();
+      throw error;
+    }
     return {
       manifest,
       textures: new Map(manifest.pages.map((p, i) => [p.id, held.resources.get(keys[i]!)!])),
@@ -228,6 +168,7 @@ export class AssetRuntime {
     };
   }
   async loadPacks(ids: Iterable<string>, signal?: AbortSignal): Promise<PackBatch> {
+    this.assertActive();
     signal?.throwIfAborted();
     const selected = [...new Set(ids)],
       results = await Promise.allSettled(selected.map((id) => this.loadPack(id, signal))),
@@ -242,15 +183,21 @@ export class AssetRuntime {
       for (const pack of packs.values()) pack.release();
     };
     const failure = results.find((result) => result.status === 'rejected');
-    if (failure || signal?.aborted) {
+    if (failure || signal?.aborted || this.lifetime.signal.aborted) {
       release();
       if (failure?.status === 'rejected') throw failure.reason;
-      throw new Error('load cancelled');
+      if (signal?.aborted) throw new Error('load cancelled');
+      this.assertActive();
     }
     return { packs, release };
   }
   dispose() {
+    if (this.lifetime.signal.aborted) return;
+    this.lifetime.abort();
+    this.pool.dispose();
     this.delivery?.dispose();
+    this.manifests.clear();
+    this.pages.clear();
   }
   static async open(
     catalog: Readonly<Record<string, string>>,

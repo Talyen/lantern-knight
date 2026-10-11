@@ -1,7 +1,8 @@
+import { ResourcePool } from '../../src/assets/resource-pool';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Application } from '../../src/application';
-import { AssetRuntime, ResourcePool, type PackLease } from '../../src/assets/loader';
+import { AssetRuntime, type PackLease } from '../../src/assets/loader';
 import { presentationFixture, sceneFixture } from '../fixtures/presentation';
 import { content } from '../fixtures/content';
 import type { Bridge } from '../../src/core/save';
@@ -39,7 +40,7 @@ test('resolved zero and empty resource handles dispose once and can be acquired 
     first.release();
     first.release();
     assert.deepEqual(disposed, [value]);
-    assert.equal(pool.entries.size, 0);
+    assert.equal(pool.size, 0);
     const second = await pool.acquire(['handle']);
     assert.equal(loaded, 2);
     second.release();

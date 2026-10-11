@@ -33,6 +33,8 @@ GamePresentation coordinates RoomPresentation, ActorPresentation and SceneLighti
 
 AssetRuntime owns pack-batch acquisition for Application and the editor: deduplicate identities, settle pending peers after failure or cancellation, and release the batch once. Callers validate and install a completed batch before releasing the previous room. Application retains session assets explicitly and owns one replaceable preview pack. Presentation borrows read-only pack views without release capability. Its pack map derives from the current ownership groups, including preview overlap with a room or session asset.
 
+AssetRuntime closes its manifest requests and ResourcePool on disposal. Pool closure invalidates all leases, releases loaded textures once, and disposes late decode results before acquisition can succeed. Closed runtimes reject reads, seeding and acquisition. Failed pool batches release their claims immediately and settle pending peers before reporting failure; other consumers retain their own claims. Presentation must dispose before its runtime owner closes.
+
 Lighting loads companions only for selected packs. Replacement retains current textures until all requested companions load successfully; failed batches release only their new textures and remain retryable. Disposal also closes late acquisitions.
 
 ## Tooling and builds

@@ -1,3 +1,4 @@
+import { ResourcePool } from '../../src/assets/resource-pool';
 import { manifestFixture } from '../fixtures/manifest';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -17,7 +18,7 @@ import { Simulation, FixedClock } from '../../src/core/simulation';
 import { tuning } from '../../src/content/gameplay';
 import { type Clip } from '../../src/assets/schema';
 import { paddedPixels } from '../../tools/compiler';
-import { ResourcePool, AssetRuntime, pageIdentity } from '../../src/assets/loader';
+import { AssetRuntime, pageIdentity } from '../../src/assets/loader';
 import { validateRequest } from '../../electron/store';
 import { resourcePath, trustedSender } from '../../electron/security';
 
@@ -199,7 +200,7 @@ test('shared async resources deduplicate, cancellation cannot resurrect discarde
   current.release();
   current.release();
   assert.equal(disposed, 1);
-  assert.equal(pool.entries.size, 0);
+  assert.equal(pool.size, 0);
   const stale = pool.acquire(['hero'], signal.signal);
   await assert.rejects(stale, /cancelled/);
   assert.equal(loads, 1);
@@ -221,12 +222,12 @@ test('shared async resources deduplicate, cancellation cannot resurrect discarde
   fail = false;
   const recovered = await retry.acquire(['x']);
   recovered.release();
-  assert.equal(retry.entries.size, 0);
+  assert.equal(retry.size, 0);
   for (let i = 0; i < 10; i++) {
     const lease = await retry.acquire(['shared']);
     lease.release();
   }
-  assert.equal(retry.entries.size, 0);
+  assert.equal(retry.size, 0);
   const firstManifest = manifestFixture();
   const secondManifest = structuredClone(firstManifest);
   secondManifest.asset.id = 'second-registration';
@@ -262,11 +263,122 @@ test('shared async resources deduplicate, cancellation cannot resurrect discarde
   batch.release();
   batch.release();
   assert.equal(released, 1);
-  assert.equal(runtime.pool.entries.size, 0);
+  assert.equal(runtime.resourceCount, 0);
   assert.notEqual(
     pageIdentity(firstManifest.pages[0]!),
     pageIdentity({ ...firstManifest.pages[0]!, hash: 'c'.repeat(64) }),
   );
+});
+test('pool shutdown invalidates shared leases and disposes late results exactly once', async () => {
+  const finishes = new Map<string, (value: object) => void>(),
+    destroyed: object[] = [],
+    pool = new ResourcePool(
+      (id) => new Promise<object>((resolve) => finishes.set(id, resolve)),
+      (value) => destroyed.push(value),
+    );
+  const liveValue = {},
+    lateValue = {};
+  const first = pool.acquire(['live']),
+    second = pool.acquire(['live']);
+  finishes.get('live')!(liveValue);
+  const leases = await Promise.all([first, second]);
+  const late = pool.acquire(['late']);
+  pool.dispose();
+  pool.dispose();
+  assert.deepEqual(destroyed, [liveValue]);
+  finishes.get('late')!(lateValue);
+  await assert.rejects(late, /disposed/);
+  for (const lease of leases) lease.release();
+  assert.deepEqual(destroyed, [liveValue, lateValue]);
+  assert.equal(pool.size, 0);
+  await assert.rejects(pool.acquire(['live']), /disposed/);
+});
+
+test('failed pool batches drain late peers and synchronous loader failures remain retryable', async () => {
+  let finish!: (value: object) => void;
+  const destroyed: object[] = [],
+    value = {},
+    pool = new ResourcePool(
+      (id) => {
+        if (id === 'bad') throw new Error('decode failed');
+        return new Promise<object>((resolve) => {
+          finish = resolve;
+        });
+      },
+      (value) => destroyed.push(value),
+    );
+  let settled = false;
+  const failed = pool.acquire(['bad', 'late']).finally(() => {
+    settled = true;
+  });
+  const rejected = assert.rejects(failed, /decode failed/);
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.equal(settled, false);
+  finish(value);
+  await rejected;
+  assert.deepEqual(destroyed, [value]);
+  assert.equal(pool.size, 0);
+  const retry = pool.acquire(['late']);
+  finish({});
+  (await retry).release();
+  assert.equal(destroyed.length, 2);
+});
+
+test('runtime shutdown closes active packs, pending manifests and decodes, and rejects reuse', async () => {
+  const manifest = manifestFixture();
+  let respond!: (response: Response) => void,
+    finish!: (texture: Texture) => void,
+    requests = 0,
+    decoded = 0;
+  const destroyed: Texture[] = [],
+    runtime = new AssetRuntime(
+      { live: 'generated/live.json', late: 'generated/late.json' },
+      false,
+      () => {
+        requests++;
+        return new Promise<Response>((resolve) => {
+          respond = resolve;
+        });
+      },
+      () => {
+        decoded++;
+        return new Promise<Texture>((resolve) => {
+          finish = resolve;
+        });
+      },
+      (texture) => destroyed.push(texture),
+    );
+  manifest.asset.id = 'live';
+  runtime.seedManifest('live', manifest);
+  const live = runtime.loadPack('live');
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  const first = new Texture();
+  finish(first);
+  const held = await live;
+  // Use a distinct page so this acquisition is still decoding at shutdown.
+  const next = structuredClone(manifest);
+  next.pages[0]!.hash = 'e'.repeat(64);
+  runtime.seedManifest('live', next);
+  const pending = runtime.loadPack('live'),
+    lateManifest = runtime.loadPack('late');
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  runtime.dispose();
+  runtime.dispose();
+  assert.deepEqual(destroyed, [first]);
+  const second = new Texture();
+  finish(second);
+  respond(new Response(JSON.stringify(manifest)));
+  await assert.rejects(pending, /disposed/);
+  await assert.rejects(lateManifest, /disposed/);
+  held.release();
+  assert.deepEqual(destroyed, [first, second]);
+  assert.equal(runtime.resourceCount, 0);
+  await assert.rejects(runtime.loadPack('live'), /disposed/);
+  await assert.rejects(runtime.loadPacks([]), /disposed/);
+  await assert.rejects(runtime.manifest('late'), /disposed/);
+  assert.throws(() => runtime.seedManifest('live', manifest), /disposed/);
+  assert.equal(requests, 1);
+  assert.equal(decoded, 2);
 });
 test('IPC sender checks and protocol constrain origin, frame, slot, payload, extensions and traversal', () => {
   assert.equal(trustedSender('lantern://app/index.html', true, 1, 1), true);
