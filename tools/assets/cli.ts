@@ -83,6 +83,7 @@ async function main() {
       'pack-' + pin.sha256,
       'pack-' + pin.sha256 + '-runtime',
       'pack-' + pin.sha256 + '-authoring',
+      ...(pin.schemaVersion === 3 && pin.fileDelivery ? ['files-' + pin.fileDelivery.sha256] : []),
       ...(pin.schemaVersion === 3
         ? Object.values(pin.bundles).map((part) => 'pack-' + part.sha256)
         : []),
