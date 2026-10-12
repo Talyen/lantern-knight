@@ -1,6 +1,7 @@
 import { it } from 'node:test';
 import assert from 'node:assert/strict';
 import { EditorHistory } from '../../src/editor/model';
+import { composeDraftGameplay } from '../../src/content/draft-gameplay';
 import { emptyScene } from '../../src/editor/default-scene';
 import { sceneItems } from '../../src/editor/model';
 function assembly() {
@@ -62,7 +63,7 @@ it('fragments detach external supports while keeping world placement and insert 
   assert.equal(h.document.objects.at(-1)!.x, 1);
 });
 
-import { patternPoints } from '../../src/editor/library';
+import { SceneLibrary, patternPoints } from '../../src/editor/library';
 import { parseSceneFragment } from '../../src/content/scene-document';
 it('patterns are reproducible, bounded, and follow authored path endpoints', () => {
   const d = emptyScene();
@@ -181,4 +182,81 @@ it('editor applies transform previews before submitting the rendered frame', () 
   preview.objects[0]!.x = 3;
   view.previewTransforms(preview);
   assert.equal(renderedX, 3);
+});
+
+it('scaling an assembly scales its attachment height with its support', () => {
+  const h = assembly();
+  h.change((d) => {
+    d.objects[1]!.mount!.offset[1] = 1;
+  });
+  h.transformMany(['support'], { scale: 2 });
+  const child = sceneItems(h.document).find((p) => p.placement.id === 'child')!.placement;
+  assert.equal(child.y, 2);
+  assert.equal(child.scale, 2);
+});
+
+it('duplicating an assembly preserves its authored prop order', () => {
+  const h = assembly();
+  h.change((d) => {
+    d.propOrder = ['child', 'support'];
+  });
+  const ids = h.duplicateMany(['support']);
+  assert.deepEqual(
+    sceneItems(h.document)
+      .filter((p) => ids.includes(p.placement.id))
+      .map((p) =>
+        h.document.objects.find((o) => o.id === p.placement.id)!.mount ? 'child' : 'support',
+      ),
+    ['child', 'support'],
+  );
+});
+
+it('applying a repeat pattern preserves the copied pickups as playable health rewards', async () => {
+  const d = emptyScene();
+  d.objects = [{ id: 'potion', kind: 'prop', asset: 'ink-scenery', clip: 'lantern', x: 0, z: 0 }];
+  d.gameplay!.pickups = [
+    { id: 'health', object: 'potion', kind: 'health', amount: 25, radius: 0.5, x: 0, z: 0 },
+  ];
+  const h = new EditorHistory(d);
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'document');
+  Object.defineProperty(globalThis, 'document', {
+    configurable: true,
+    value: {
+      getElementById: () => ({ value: '' }),
+    },
+  });
+  try {
+    const library = Object.create(SceneLibrary.prototype) as {
+      host: object;
+      points: { x: number; z: number }[];
+      fragmentData: typeof d.objects;
+      snapshot: string;
+      patternSnapshot(): string;
+      applyPattern(): Promise<void>;
+      clearPreview(): void;
+    };
+    library.host = {
+      history: () => h,
+      selection: () => ['potion'],
+      select: () => {},
+      change: async (work: (candidate: typeof d) => void, committed: () => void) => {
+        h.change(work);
+        committed();
+      },
+    };
+    library.points = [{ x: 3, z: 0 }];
+    library.fragmentData = h.fragment(['potion']);
+    library.clearPreview = () => {};
+    library.snapshot = library.patternSnapshot();
+    await library.applyPattern();
+    assert.equal(h.document.gameplay!.pickups.length, 2);
+    const { registry } = composeDraftGameplay(h.document, content.definitions, {});
+    const sim = new Simulation(registry);
+    Object.assign(sim.hero, { x: 3, z: 0, health: 50 });
+    sim.step({ move: { x: 0, z: 0 }, aim: { x: 4, z: 0 } });
+    assert.equal(sim.hero.health, 75);
+  } finally {
+    if (previous) Object.defineProperty(globalThis, 'document', previous);
+    else Reflect.deleteProperty(globalThis, 'document');
+  }
 });

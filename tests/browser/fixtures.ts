@@ -1,4 +1,4 @@
-import { test as base, expect } from '@playwright/test';
+import { test as base, expect, type Page } from '@playwright/test';
 import fs from 'node:fs/promises';
 import { projectRoot } from '../../tools/assets/paths';
 export const test = base.extend<{ errors: string[] }>({
@@ -22,3 +22,19 @@ export const test = base.extend<{ errors: string[] }>({
   ],
 });
 export { expect };
+
+export async function waitForEditor(page: Page, timeout?: number) {
+  await page.waitForFunction(
+    () => {
+      const error = document.querySelector('#validation-errors')?.textContent;
+      if (error?.includes('Editor startup failed:')) throw new Error(error);
+      return window.sceneEditor?.ready();
+    },
+    undefined,
+    { timeout },
+  );
+}
+export async function openEditor(page: Page, url = '/editor.html?automated') {
+  await page.goto(url);
+  await waitForEditor(page);
+}

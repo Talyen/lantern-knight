@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { test, expect, openEditor } from './fixtures';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import type {} from '../../src/editor/main';
@@ -10,8 +10,7 @@ test('authored ground opens and routes its actors through saved annotations', as
   test.skip(!id, 'Opt in with LANTERN_GROUND_SCENE and prepared local scene artwork');
   test.setTimeout(600_000);
   page.on('dialog', (dialog) => void dialog.accept());
-  await page.goto('/editor.html?automated');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
+  await openEditor(page);
   if (await page.getByRole('button', { name: 'Dismiss', exact: true }).isVisible())
     await page.getByRole('button', { name: 'Dismiss', exact: true }).click();
   await page.locator('#document-menu > summary').click();
