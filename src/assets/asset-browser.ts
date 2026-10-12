@@ -48,10 +48,9 @@ export function matchesAsset(
   const type = filter.type;
   const typeMatches =
     type === 'all' ||
-    type === asset.type ||
+    (type === asset.type && (type !== 'prop' || asset.placement !== 'ground')) ||
     type === asset.category ||
     type === asset.imageRole ||
-    (type === 'prop' && asset.type === 'prop' && asset.placement !== 'ground') ||
     (type === 'decal' && asset.placement === 'ground');
   return (
     typeMatches &&

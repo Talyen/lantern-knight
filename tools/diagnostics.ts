@@ -36,7 +36,7 @@ if (scenario === 'record' || scenario === 'replay' || scenario === 'compare') {
 } else if (native.has(scenario)) {
   const workspace = await openWorkspace(
     flags.includes('--local') ? 'local' : 'pinned',
-    'authoring',
+    scenario === 'game' || scenario === 'preferences' ? 'runtime' : 'authoring',
   );
   try {
     await runProcess(

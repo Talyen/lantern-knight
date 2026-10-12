@@ -1,19 +1,27 @@
 import { test, expect } from './fixtures';
 import type {} from '../../src/inspection';
-test('scene fixtures reload independently and release resources across repeated switches', async ({
+test('scene selection and independent reloads release resources across repeated switches', async ({
   page,
 }) => {
+  await page.addInitScript(() => sessionStorage.setItem('lantern-author-scene', 'court'));
+  await page.goto('/sandbox.html');
+  await page.waitForFunction(() => window.foundation?.ready);
+  expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');
   for (const scene of ['outdoor-fixture', 'interior-fixture']) {
-    await page.goto('/sandbox.html?scene=' + scene);
-    await page.waitForFunction(() => window.foundation?.ready);
-    expect(await page.evaluate(() => window.foundation.sim.area)).toBe(scene);
+    if (scene === 'interior-fixture') {
+      await page.locator('#scene-select').selectOption(scene);
+      await page.waitForFunction(
+        () => window.foundation?.ready && window.foundation.sim.area === 'interior-fixture',
+      );
+    }
     await page.evaluate(() => {
       const f = window.foundation;
       f.pause(true);
       f.mode('lighting');
       f.presentation.verticalSpan = 13;
     });
-    await page.reload();
+    // Drop the URL selection so reload must restore the current workspace.
+    await page.goto('/sandbox.html');
     await page.waitForFunction(() => window.foundation?.ready);
     expect(await page.evaluate(() => window.foundation.sim.area)).toBe(scene);
     expect(await page.evaluate(() => window.foundation.presentation.verticalSpan)).toBe(13);
@@ -31,24 +39,9 @@ test('scene fixtures reload independently and release resources across repeated 
     return samples;
   });
   expect(resources[3]).toEqual(resources[2]);
-});
-
-test('preview selection uses its current workspace and rejects removed URL fixtures', async ({
-  page,
-}) => {
-  // Four scene loads exercise selection precedence under CI software rendering.
-  test.setTimeout(120_000);
-  await page.addInitScript(() => sessionStorage.setItem('lantern-author-scene', 'court'));
-  await page.goto('/sandbox.html');
+  await page.goto('/sandbox.html?scene=outdoor-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');
-  await page.locator('#scene-select').selectOption('interior-fixture');
-  await page.waitForFunction(
-    () => window.foundation?.ready && window.foundation.sim.area === 'interior-fixture',
-  );
-  await page.goto('/sandbox.html');
-  await page.waitForFunction(() => window.foundation?.ready);
-  expect(await page.evaluate(() => window.foundation.sim.area)).toBe('interior-fixture');
   await page.goto('/sandbox.html?scene=upper-landing');
   await page.waitForFunction(() => window.foundation?.ready);
   expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');

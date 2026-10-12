@@ -47,3 +47,15 @@ test('usage follows references and cyclic dependencies, while filters compose in
   );
   assert.equal(matchesAsset(maps.get('support')!, filter, used, scene), false);
 });
+
+test('Scenery and Ground details filters distinguish upright and ground props', () => {
+  const upright = manifest('pillar', {}),
+    ground = manifest('fallen-leaves', {});
+  Object.assign(upright.asset, { type: 'prop', placement: 'upright' });
+  Object.assign(ground.asset, { type: 'prop', placement: 'ground' });
+  const filter = { scope: 'all' as const, animated: false, type: 'prop' as const, search: '' };
+  assert.equal(matchesAsset(upright, filter, new Set(), new Set()), true);
+  assert.equal(matchesAsset(ground, filter, new Set(), new Set()), false);
+  assert.equal(matchesAsset(ground, { ...filter, type: 'decal' }, new Set(), new Set()), true);
+  assert.equal(matchesAsset(upright, { ...filter, type: 'decal' }, new Set(), new Set()), false);
+});
