@@ -305,12 +305,24 @@ class Importer:
             # Supplied mixed-frame registration is authoritative; a common canvas
             # must never force standalone drawings into the wrong dimensions.
             canvas = dims
+        rect = record.get("rect")
+        atlas = pick(contexts, "atlas")
+        if (
+            rect is not None
+            and list(rect[2:]) == dims
+            and isinstance(atlas, str)
+            and atlas != name
+        ):
+            # Dual exports describe atlas placement beside a standalone frame.
+            # Its native image uses local coordinates, not the atlas offset.
+            rect = [0, 0, *dims]
         return {
             **ref,
             "canvas": canvas,
             "anchor": list(pivot),
             "density": ppu,
-            **({k: record[k] for k in ["rect", "trim"] if k in record}),
+            **({"rect": rect} if rect is not None else {}),
+            **({"trim": record["trim"]} if "trim" in record else {}),
             **({"sha256": record["sha256"]} if record.get("sha256") else {}),
         }
 

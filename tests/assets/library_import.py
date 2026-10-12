@@ -28,6 +28,23 @@ def png(w, h):
 
 
 class ImportTests(unittest.TestCase):
+    def test_dual_export_uses_local_frame_bounds_and_keeps_atlas_slices(self):
+        p = package({"frame.png": png(8, 8), "atlas.png": png(16, 8)})
+        importer = Importer([p])
+        context = {
+            "atlas": "atlas.png",
+            "canvas": [8, 8],
+            "pivot_px": [4, 7],
+            "pixels_per_unit": 256,
+        }
+        record = {"file": "frame.png", "rect": [8, 0, 8, 8]}
+        frame = importer.frame(p, record, [context])
+        self.assertEqual(frame["member"], "frame.png")
+        self.assertEqual(frame["rect"], [0, 0, 8, 8])
+        self.assertEqual(frame["anchor"], [4, 7])
+        atlas = importer.frame(p, {**record, "file": "atlas.png"}, [context])
+        self.assertEqual(atlas["rect"], [8, 0, 8, 8])
+
     def test_native_camel_case_holds_preserve_events_without_guessing_frames(self):
         p = package({"frames/one.png": png(8, 8), "frames/two.png": png(8, 8)})
         meta = {
