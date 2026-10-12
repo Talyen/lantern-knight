@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { FrameScheduler } from '../../src/frame-scheduler';
 import { Application } from '../../src/application';
 import { presentationFixture, sceneFixture } from '../fixtures/presentation';
-import type { Bridge } from '../../src/core/save';
+import type { Bridge } from '../../src/platform/bridge';
 import { content } from '../fixtures/content';
 
 function environment(t: TestContext) {

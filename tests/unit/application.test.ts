@@ -5,8 +5,8 @@ import { Application } from '../../src/application';
 import { AssetRuntime, type PackLease } from '../../src/assets/loader';
 import { presentationFixture, sceneFixture } from '../fixtures/presentation';
 import { content } from '../fixtures/content';
-import type { Bridge } from '../../src/core/save';
-import { Persistence } from '../../src/core/persistence';
+import type { Bridge } from '../../src/platform/bridge';
+import { Persistence } from '../../src/persistence';
 import { GameSession } from '../../src/core/session';
 import { manifestFixture } from '../fixtures/manifest';
 

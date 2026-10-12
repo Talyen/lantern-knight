@@ -1,23 +1,24 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { content } from '../src/content/game-content';
-import { parseGame, parseSettings, SAVE_LIMITS, type LoadResult } from '../src/core/save';
-export type Slot = 'game' | 'settings';
-export function parseSlot(slot: Slot, value: unknown) {
-  return slot === 'game' ? parseGame(value, content) : parseSettings(value);
-}
-export function validateRequest(slot: Slot, value: unknown) {
-  if (!['game', 'settings'].includes(slot)) throw new Error('Unknown app-owned slot');
-  const text = JSON.stringify(value);
-  if (!text || Buffer.byteLength(text) > SAVE_LIMITS[slot])
-    throw new Error('Save payload exceeds limit');
-  return parseSlot(slot, value);
-}
+import type { ContentRegistry } from '../src/content/world';
+import type { LoadResult } from '../src/platform/bridge';
+import {
+  StorageCodec,
+  SAVE_LIMITS,
+  type Slot,
+  type StoredValues,
+} from '../src/platform/storage-codec';
 export class Store {
   queue: Promise<void> = Promise.resolve();
-  constructor(public directory: string) {}
-  async load(slot: Slot): Promise<LoadResult<ReturnType<typeof parseSlot>>> {
+  private readonly codec: StorageCodec;
+  constructor(
+    public directory: string,
+    registry: ContentRegistry,
+  ) {
+    this.codec = new StorageCodec(registry);
+  }
+  async load<S extends Slot>(slot: S): Promise<LoadResult<StoredValues[S]>> {
     await this.queue;
     let handle;
     try {
@@ -30,17 +31,13 @@ export class Store {
       if ((await handle.stat()).size > SAVE_LIMITS[slot]) return { status: 'empty' };
       const bytes = await handle.readFile();
       if (bytes.length > SAVE_LIMITS[slot]) return { status: 'empty' };
-      try {
-        return { status: 'ok', data: parseSlot(slot, JSON.parse(bytes.toString())) };
-      } catch {
-        return { status: 'empty' };
-      }
+      return this.codec.decode(slot, bytes.toString());
     } finally {
       await handle.close();
     }
   }
   save(slot: Slot, value: unknown) {
-    const snapshot = validateRequest(slot, value);
+    const snapshot = this.codec.snapshot(slot, value);
     const write = async () => {
       await fs.mkdir(this.directory, { recursive: true });
       const file = path.join(this.directory, slot + '.json'),

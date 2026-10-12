@@ -3,6 +3,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { launchEntry, checkpointDirectory } from './launch';
 import { Store } from './store';
+import { content } from '../src/content/game-content';
 import { resourcePath, trustedSender } from './security';
 declare const __DEV_APP__: boolean;
 protocol.registerSchemesAsPrivileged([
@@ -65,7 +66,7 @@ app
             : 'game';
     const profileRoot = app.getPath('userData');
     const storeFor = (selected: 'game' | 'sandbox' | 'effects' | 'editor') =>
-      new Store(checkpointDirectory(profileRoot, developer, selected));
+      new Store(checkpointDirectory(profileRoot, developer, selected), content);
     let store = storeFor(mode);
     const entry = () => launchEntry(__DEV_APP__, mode);
     window = new BrowserWindow({

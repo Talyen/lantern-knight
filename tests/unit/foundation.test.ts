@@ -21,7 +21,7 @@ import { tuning } from '../../src/content/gameplay';
 import { type Clip } from '../../src/assets/schema';
 import { paddedPixels } from '../../tools/compiler';
 import { AssetRuntime, pageIdentity } from '../../src/assets/loader';
-import { validateRequest } from '../../electron/store';
+import { StorageCodec } from '../../src/platform/storage-codec';
 import { resourcePath, trustedSender } from '../../electron/security';
 
 import { content } from '../fixtures/content';
@@ -401,7 +401,11 @@ test('IPC sender checks and protocol constrain origin, frame, slot, payload, ext
   ])
     assert.throws(() => resourcePath(url, '/app/dist'));
   assert.throws(() =>
-    validateRequest('settings', { version: 1, renderScale: 3, showDebug: false }),
+    new StorageCodec(content).snapshot('settings', {
+      version: 1,
+      renderScale: 3,
+      showDebug: false,
+    }),
   );
 });
 function duel() {

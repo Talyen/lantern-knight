@@ -4,7 +4,8 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { GameSession } from '../../src/core/session';
-import { parseGame, parseSettings } from '../../src/core/save';
+import { parseGame } from '../../src/core/save';
+import { parseSettings } from '../../src/platform/settings';
 import { content } from '../../src/content/game-content';
 import { content as fixtureContent } from '../fixtures/content';
 import { Store } from '../../electron/store';
@@ -27,7 +28,7 @@ test('current saves preserve variable actors, vitality, cooldowns and encounter 
 });
 test('obsolete and malformed prototype data reset; adapters snapshot ordered writes and expose I/O failures', async () => {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-store-')),
-    store = new Store(directory),
+    store = new Store(directory, content),
     save = new GameSession(content).captureSave();
   try {
     for (const value of [
@@ -59,8 +60,18 @@ test('obsolete and malformed prototype data reset; adapters snapshot ordered wri
     };
     await store.save('settings', settings);
     assert.deepEqual(await store.load('settings'), { status: 'ok', data: settings });
+    const custom = new Store(path.join(directory, 'custom'), fixtureContent),
+      customSave = new GameSession(fixtureContent).captureSave();
+    await custom.save('game', customSave);
+    assert.deepEqual(await custom.load('game'), { status: 'ok', data: customSave });
+    assert.throws(() => custom.save('game', save), /unknown area/);
+    assert.deepEqual(await custom.load('game'), { status: 'ok', data: customSave });
+    await fs.writeFile(path.join(directory, 'custom', 'game.json'), JSON.stringify(save));
+    assert.deepEqual(await custom.load('game'), { status: 'empty' });
+    await custom.save('settings', settings);
+    assert.deepEqual(await custom.load('settings'), { status: 'ok', data: settings });
     assert.throws(() => parseSettings({ ...settings, version: 4 }));
-    const blocked = new Store(path.join(directory, 'game.json'));
+    const blocked = new Store(path.join(directory, 'game.json'), content);
     await assert.rejects(blocked.load('game'));
     await assert.rejects(blocked.save('game', new GameSession(content).captureSave()));
   } finally {
@@ -78,9 +89,9 @@ test('browser profiles retain old namespaces, reset obsolete data and surface un
     },
   });
   try {
-    const game = createBrowserBridge(),
-      preview = createBrowserBridge('preview'),
-      sandbox = createBrowserBridge('sandbox'),
+    const game = createBrowserBridge(content),
+      preview = createBrowserBridge(content, 'preview'),
+      sandbox = createBrowserBridge(content, 'sandbox'),
       save = new GameSession(content).captureSave();
     assert.deepEqual(await game.loadGame(), { status: 'empty' });
     await game.saveGame(save);
@@ -91,6 +102,14 @@ test('browser profiles retain old namespaces, reset obsolete data and surface un
     assert.equal(((await game.loadGame()) as { data: { wins: number } }).data.wins, 0);
     assert.deepEqual(await sandbox.loadGame(), { status: 'empty' });
     await assert.rejects(sandbox.saveGame(save));
+    const custom = createBrowserBridge(fixtureContent, 'custom'),
+      customSave = new GameSession(fixtureContent).captureSave();
+    await custom.saveGame(customSave);
+    assert.deepEqual(await custom.loadGame(), { status: 'ok', data: customSave });
+    await assert.rejects(custom.saveGame(save), /unknown area/);
+    assert.deepEqual(await custom.loadGame(), { status: 'ok', data: customSave });
+    values.set('lantern-prototype-custom-game', JSON.stringify(save));
+    assert.deepEqual(await custom.loadGame(), { status: 'empty' });
     values.set('lantern-prototype-game-game', '{"version":99}');
     assert.deepEqual(await game.loadGame(), { status: 'empty' });
     await game.saveGame(save);

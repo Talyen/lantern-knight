@@ -6,7 +6,7 @@ import { GamePresentation } from '../presentation/game-scene';
 import type { ContentRegistry } from '../content/world';
 import type { SceneContent } from '../content/game-content';
 import type { SceneDocument } from '../content/scene-document';
-import type { Bridge } from '../core/save';
+import type { Bridge } from '../platform/bridge';
 import { heightAt, isSupportedPosition } from '../content/world';
 import { Navigation, effectiveRadius } from '../core/navigation';
 type Host = {
