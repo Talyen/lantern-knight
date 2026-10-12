@@ -33,7 +33,7 @@ export class EditorProject {
     private readonly recoveryPrefix: string,
     private readonly storage: () => StorageAccess,
     private readonly storageError: () => void,
-    private readonly request: typeof fetch = fetch,
+    private readonly request: typeof fetch = globalThis.fetch.bind(globalThis),
   ) {}
   get revision() {
     return this.revisionValue;
