@@ -13,7 +13,7 @@ import { verifiedOutput } from '../verified-files';
 
 const hash = z.string().regex(/^[a-f0-9]{64}$/),
   bytes = z.number().int().nonnegative();
-export const FileDeliverySchema = z
+const FileDeliverySchema = z
   .object({
     releaseTag: z.string().regex(/^assets-catalog-[a-f0-9]{16}$/),
     filename: z.literal('files.json.gz'),

@@ -254,5 +254,11 @@
       "bytes": 181918485,
       "recipeSha256": "38e4189f2286ec7a65bbaca3df1b15d5713f3faa57e6fdf7bb7c08da0be508a0"
     }
+  },
+  "fileDelivery": {
+    "releaseTag": "assets-catalog-fe4ea4ec8257770e",
+    "filename": "files.json.gz",
+    "sha256": "fe4ea4ec8257770edcf0c266d1c9e220e2cd526a9ee3b837f170f319f6a3a699",
+    "bytes": 6260425
   }
 }
