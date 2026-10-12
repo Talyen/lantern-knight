@@ -6,6 +6,7 @@ import { recipeHash, validateCachedPack, lockFile, LockSchema, type AssetLock } 
 import { shaFile } from './sources';
 import { gh } from './github';
 import type { PreparedAssets } from './prepare';
+import { publishFileDelivery } from './file-publication';
 
 export async function verifyRemote(
   lock: AssetLock,
@@ -133,6 +134,8 @@ export async function publishBundledPrepared(
   verify = verifyRemote,
   target = lockFile,
   beforePin: () => Promise<void> = async () => {},
+  request: typeof fetch = fetch,
+  cache = new AssetCache(),
 ) {
   await validateCandidate(prepared);
   if (prepared.archive) {
@@ -156,11 +159,27 @@ export async function publishBundledPrepared(
     if (plan.archives[name]) await uploadArchive(lock, plan.archives[name]!, publish);
     await verify(lock);
   }
+  const fileDelivery = await publishFileDelivery(
+    plan.pin,
+    prepared.payload,
+    cache,
+    publish,
+    request,
+  );
   await validateCandidate(prepared);
   await beforePin();
+  const current = await fs.readFile(target, 'utf8').catch((error: NodeJS.ErrnoException) => {
+    if (error.code !== 'ENOENT') throw error;
+    return undefined;
+  });
+  if (
+    JSON.stringify(current ? LockSchema.parse(JSON.parse(current)) : undefined) !==
+    JSON.stringify(previous)
+  )
+    throw new Error('Asset pin changed during publication; refusing to overwrite it');
   const temporary = target + '.' + randomUUID();
   try {
-    await fs.writeFile(temporary, JSON.stringify(plan.pin, null, 2) + '\n');
+    await fs.writeFile(temporary, JSON.stringify({ ...plan.pin, fileDelivery }, null, 2) + '\n');
     await fs.rename(temporary, target);
   } finally {
     await fs.rm(temporary, { force: true });

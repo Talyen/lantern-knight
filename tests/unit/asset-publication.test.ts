@@ -52,13 +52,53 @@ test('split publication uses downloadable filenames, frees the candidate archive
       candidate = { held, payload, archive, lock },
       uploads = new Map<string, Buffer>();
     await fs.writeFile(target, JSON.stringify(lock));
+    const remoteAssets = (tag: string) =>
+      [...uploads]
+        .filter(([key]) => key.startsWith(tag + '/'))
+        .map(([key, bytes]) => ({
+          name: key.split('/').at(-1)!,
+          size: bytes.length,
+          digest: 'sha256:' + createHash('sha256').update(bytes).digest('hex'),
+        }));
+    const releases = new Set<string>();
     const publish = async (args: string[]) => {
-      if (args[1] === 'view') throw new Error('release not found');
-      if (args[0] === 'api') return 'a'.repeat(40);
-      assert.equal(args[1], 'create');
-      const file = args[3]!.split('#')[0]!;
-      uploads.set(args[2]! + '/' + path.basename(file), await fs.readFile(file));
+      if (args[0] === 'api') {
+        if (args[1]?.includes('git/ref')) return 'a'.repeat(40);
+        if (args.includes('--paginate')) {
+          const tag = args.at(-1)!.split('/').at(-2)!;
+          return JSON.stringify([remoteAssets(tag)]);
+        }
+        const tag = args[1]!.split('/').at(-1)!;
+        if (!releases.has(tag)) throw new Error('HTTP 404');
+        return JSON.stringify({ id: tag, assets: remoteAssets(tag) });
+      }
+      const tag = args[2]!;
+      if (args[1] === 'view') {
+        if (!releases.has(tag)) throw new Error('release not found');
+        return JSON.stringify({ assets: remoteAssets(tag) });
+      }
+      assert.ok(['create', 'upload'].includes(args[1]!));
+      releases.add(tag);
+      for (const argument of args.slice(3)) {
+        if (argument.startsWith('--')) break;
+        const file = argument.split('#')[0]!;
+        uploads.set(tag + '/' + path.basename(file), await fs.readFile(file));
+      }
       return '';
+    };
+    const request: typeof fetch = async (url, init) => {
+      const parsed = new URL(url instanceof Request ? url.url : url);
+      const bytes = uploads.get(parsed.pathname.split('/').slice(-2).join('/'));
+      assert.ok(bytes);
+      const range = new Headers(init?.headers).get('Range');
+      if (range) {
+        const [start, end] = range.slice(6).split('-').map(Number) as [number, number];
+        return new Response(Uint8Array.from(bytes.subarray(start, end + 1)), {
+          status: 206,
+          headers: { 'content-range': `bytes ${start}-${end}/${bytes.length}` },
+        });
+      }
+      return new Response(Uint8Array.from(bytes));
     };
     const verify = async (part: AssetLock) => {
       const bytes = uploads.get(part.releaseTag + '/' + part.filename);
@@ -67,18 +107,35 @@ test('split publication uses downloadable filenames, frees the candidate archive
       assert.equal(createHash('sha256').update(bytes).digest('hex'), part.sha256);
     };
     await assert.rejects(
-      publishBundledPrepared(candidate, publish, verify, target, async () => {
-        throw new Error('interrupted before pin');
-      }),
+      publishBundledPrepared(
+        candidate,
+        publish,
+        verify,
+        target,
+        async () => {
+          throw new Error('interrupted before pin');
+        },
+        request,
+        cache,
+      ),
       /interrupted before pin/,
     );
     assert.deepEqual(JSON.parse(await fs.readFile(target, 'utf8')), lock);
     await assert.rejects(fs.access(archive), { code: 'ENOENT' });
     const inventoryLock = await inventoryCandidate(payload, lock.recipeSha256);
-    await publishBundledPrepared({ held, payload, lock: inventoryLock }, publish, verify, target);
+    await publishBundledPrepared(
+      { held, payload, lock: inventoryLock },
+      publish,
+      verify,
+      target,
+      async () => {},
+      request,
+      cache,
+    );
     const pin = LockSchema.parse(JSON.parse(await fs.readFile(target, 'utf8')));
     assert.equal(pin.schemaVersion, 3);
     if (pin.schemaVersion !== 3) throw new Error('Expected split pin');
+    assert.ok(pin.fileDelivery, 'individual files are verified before pinning');
     assert.ok(pin.bundles.bootstrap, 'metadata and thumbnails have their own bootstrap bundle');
     const acquired = await ensureBundlePack(pin, cache, async (url) => {
       const parsed = new URL(url instanceof Request ? url.url : url),

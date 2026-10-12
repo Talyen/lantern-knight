@@ -13,6 +13,14 @@ import { verifiedOutput } from '../verified-files';
 
 const hash = z.string().regex(/^[a-f0-9]{64}$/),
   bytes = z.number().int().nonnegative();
+export const FileDeliverySchema = z
+  .object({
+    releaseTag: z.string().regex(/^assets-catalog-[a-f0-9]{16}$/),
+    filename: z.literal('files.json.gz'),
+    sha256: hash,
+    bytes: bytes.positive().max(64 * 1024 ** 2),
+  })
+  .strict();
 const archiveFields = {
   releaseTag: z.string().regex(/^assets-[a-f0-9]{16}$/),
   filename: z.literal('lantern-assets.tar.gz'),
@@ -53,6 +61,7 @@ export const LockSchema = z.union([
       ...archiveFields,
       preparation,
       bundles: z.record(z.string().regex(/^[a-z][a-z0-9_-]*$/), ArchiveLockSchema),
+      fileDelivery: FileDeliverySchema.optional(),
     })
     .strict()
     .superRefine((pin, ctx) => {

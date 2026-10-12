@@ -14,6 +14,7 @@ import { parseManifest } from '../../src/assets/schema';
 import { checkAssets } from '../check-assets';
 import { acquireCommandLane } from '../command-lane';
 import { discoverLibrary } from './discovery';
+import { publishIndividualFiles } from './file-publication';
 
 async function main() {
   const [command, ...args] = process.argv.slice(2);
@@ -27,7 +28,12 @@ async function main() {
       gpu: { type: 'boolean' },
     },
   });
-  if (command === 'prepare' || command === 'publish') {
+  if (command === 'publish-files') {
+    if (args.length) throw new Error('Use assets:publish-files without options');
+    const pin = await readLock();
+    if (pin.schemaVersion !== 3) throw new Error('Individual delivery requires a bundled pin');
+    await publishIndividualFiles(pin);
+  } else if (command === 'prepare' || command === 'publish') {
     os.setPriority(process.pid, os.constants.priority.PRIORITY_BELOW_NORMAL);
     if (
       command === 'publish' &&
@@ -129,7 +135,7 @@ async function main() {
     } finally {
       await workspace.release();
     }
-  } else throw new Error('Use assets:prepare|inspect|publish|clean|check');
+  } else throw new Error('Use assets:prepare|inspect|publish|publish-files|clean|check');
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
   main().catch((error) => {

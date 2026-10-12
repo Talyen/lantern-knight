@@ -8,6 +8,7 @@ import { safeRelative } from './files';
 import { ensurePack, PackSchema, type AssetLock, type PackInventory } from './pack';
 import { shaFile } from './sources';
 import { fileSignature } from '../verified-files';
+import { openFileWorkspace } from './file-delivery';
 
 type BundlePin = Extract<AssetLock, { schemaVersion: 3 }>;
 const digest = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
@@ -80,6 +81,7 @@ export async function openDemandWorkspace(
   cache = new AssetCache(),
   request: typeof fetch = fetch,
 ) {
+  if (pin.fileDelivery) return openFileWorkspace(pin, cache, request);
   if (!pin.bundles.runtime) throw new Error('On-demand artwork requires a runtime bundle');
   const held = await cache.lease('demand-' + pin.sha256);
   const lifetime = new AbortController();
