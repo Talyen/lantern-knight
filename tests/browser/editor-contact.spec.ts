@@ -9,20 +9,22 @@ test('editor renders prop and hero contact shadows with directional shadows disa
   const pixels = await page.evaluate(async () => {
     const editor = window.sceneEditor,
       view = editor.view(),
-      document = structuredClone(editor.state().document);
-    document.objects = [
-      {
-        id: 'grounded-prop',
-        kind: 'prop',
-        asset: 'ink-scenery',
-        clip: 'gravestone',
-        x: 2,
-        z: 0,
-        shadow: 'contact',
-        purpose: 'Shadow fixture',
-      },
-    ];
-    document.hero = { x: -1, z: 0 };
+      document = {
+        ...structuredClone(editor.state().document),
+        objects: [
+          {
+            id: 'grounded-prop',
+            kind: 'prop' as const,
+            asset: 'ink-scenery',
+            clip: 'gravestone',
+            x: 2,
+            z: 0,
+            shadow: 'contact' as const,
+            purpose: 'Shadow fixture',
+          },
+        ],
+        hero: { x: -1, z: 0 },
+      };
     await view.apply(document);
     view.render();
     const presentation = view.presentation!,
