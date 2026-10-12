@@ -1,5 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import type { Bridge, GameSave, Settings } from '../src/core/save';
+import type { Bridge } from '../src/platform/bridge';
+import type { GameSave } from '../src/core/save';
+import type { Settings } from '../src/platform/settings';
 declare const __DEV_APP__: boolean;
 const bridge: Bridge = {
   automatedRun: process.argv.includes('--lantern-automated-run'),

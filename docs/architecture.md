@@ -9,7 +9,7 @@
 | Content | Gameplay definitions, scene parsing/resolution and explicit visual requirements | `src/content/` |
 | Presentation | Interpolation, animation, camera rendering, lighting and GPU resource disposal | `src/presentation/` |
 | Developer sessions | Editor/preview controls, temporary state, mounted requests and cancellation | `src/editor/`, `src/sandbox/` |
-| Storage adapters | Validated browser storage and atomic desktop writes through Bridge | `src/platform/`, `electron/` |
+| Storage adapters | Shared validation, browser storage and atomic desktop writes through Bridge | `src/platform/`, `electron/` |
 | Asset tools | Source preparation, immutable delivery, workspaces and cache leases | `tools/assets/` |
 | Development tools | Guide discovery, checks, test selection, builds and preview processes | `tools/` (asset operations in `tools/assets/`) |
 
@@ -65,7 +65,7 @@ Preview sessions own server acquisition, identity checks and lease release once.
 
 ### Change saved state
 
-Change the schemas and parsers in `src/core/save.ts`, session capture/restore and relevant adapters together. Prototype saves use version 6 and settings version 5; obsolete or incompatible data loads as empty. Storage failures remain visible. Adapters validate writes; Electron snapshots requests, serializes them through one queue and replaces files atomically. Browser and desktop isolate prototype profiles. Test with `npm test -- tests/unit/persistence.test.ts tests/unit/application.test.ts`. Add migrations when external players create a real compatibility need.
+Gameplay checkpoint schemas and registry validation belong to `src/core/save.ts`; renderer settings belong to `src/platform/settings.ts`. `src/platform/bridge.ts` owns the host protocol, while `src/persistence.ts` owns application write feedback. Browser and desktop adapters share `src/platform/storage-codec.ts` for detached write snapshots, payload limits and invalid-data handling. Game entry points select the content registry explicitly when creating adapters; storage never selects production content internally. Change checkpoint capture/restore and the relevant codec together. Prototype saves use version 6 and settings version 5; obsolete or incompatible data loads as empty. Storage failures remain visible. Adapters validate writes; Electron snapshots requests, serializes them through one queue and replaces files atomically. Browser and desktop isolate prototype profiles. Test with `npm test -- tests/unit/persistence.test.ts tests/unit/application.test.ts`. Add migrations when external players create a real compatibility need.
 
 ### Add an area or enemy
 

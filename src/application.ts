@@ -5,11 +5,12 @@ import type { PresentationLifecycle } from './presentation/lifecycle';
 import type { SceneContent } from './content/game-content';
 import { GameSession } from './core/session';
 import { FixedClock, type Command } from './core/simulation';
-import { Persistence } from './core/persistence';
+import { Persistence } from './persistence';
 import { EventHub, type GameplayEvent } from './core/events';
 import { Input } from './core/input';
 import { ContentRegistry } from './content/world';
-import { parseGame, type GameSave, type Bridge } from './core/save';
+import { parseGame, type GameSave } from './core/save';
+import type { Bridge } from './platform/bridge';
 import { FrameScheduler } from './frame-scheduler';
 import { SessionOperation, SessionOperationCancelled } from './session-operation';
 export type ApplicationHooks = {
