@@ -17,6 +17,7 @@ import { safeRelative } from './assets/files';
 import { hash } from './compiler';
 import { loadingVideoPath } from '../src/content/loading-media';
 import { validateLoadingVideo } from './assets/loading-media';
+import { selectDelivery } from '../src/assets/texture-delivery';
 export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirectory'>) {
   const readPublic = (file: string) =>
     fs.readFile(path.join(workspace.publicDirectory, safeRelative(file)));
@@ -37,9 +38,16 @@ export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirecto
     assert.equal(manifest.asset.id, id);
     manifests.set(id, manifest);
     for (const page of manifest.pages) {
+      const image = selectDelivery(
+        { ...page, url: path.posix.join(path.posix.dirname(file), page.path) },
+        Infinity,
+        Infinity,
+        false,
+        'source',
+      );
       assert.equal(
-        hash(await readPublic(path.posix.join(path.posix.dirname(file), page.path))),
-        page.hash,
+        hash(await readPublic(image.url.replace(/^\//, ''))),
+        image.hash,
         `Prepared page differs: ${id}/${page.id}`,
       );
       pages++;
