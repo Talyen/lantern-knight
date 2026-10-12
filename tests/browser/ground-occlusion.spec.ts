@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures';
+import { crateOcclusionFixture } from '../fixtures/crate-occlusion';
 
 test('ground atlas masks each actor independently and draws hidden outline pixels', async ({
   page,
@@ -143,4 +144,116 @@ test('ground atlas masks each actor independently and draws hidden outline pixel
   expect(proof.upperHidden.left + proof.upperHidden.right).toBe(0);
   expect(proof.lowerVisible.left).toBeGreaterThan(300);
   expect(proof.lowerVisible.right).toBeGreaterThan(300);
+});
+
+// Authored regression: the rear orchard crate used its neighbors' foreground depth.
+test('a repaired crate contact boundary removes false foreground strips and retains behind occlusion', async ({
+  page,
+}) => {
+  const { auditGroundOcclusion, contactDepthRepair } =
+    await import('../../tools/diagnostics/ground-occlusion-audit');
+  const { document: sceneDocument, crate: region } = crateOcclusionFixture();
+  const witness = auditGroundOcclusion(sceneDocument).find(
+    (f) => f.region === region.id && f.kind === 'depth-below-silhouette',
+  )!.witness!;
+  const repaired = contactDepthRepair(sceneDocument, region.id);
+  await page.route('**/crate-proof.html', (route) =>
+    route.fulfill({ contentType: 'text/html', body: '<canvas></canvas>' }),
+  );
+  await page.goto('/crate-proof.html');
+  const proof = await page.evaluate(
+    async ({ ground, width, height, repaired, witness }) => {
+      const threePath = '/node_modules/.vite/deps/three.js',
+        occlusionPath = '/src/presentation/ground-occlusion.ts',
+        cameraPath = '/src/core/camera.ts',
+        layoutPath = '/src/content/floor-layout.ts';
+      const T = await import(threePath),
+        { GroundOcclusion } = await import(occlusionPath),
+        { outward, up } = await import(cameraPath),
+        { artworkFloorLayout } = await import(layoutPath);
+      const renderer = new T.WebGLRenderer({
+        canvas: document.querySelector('canvas')!,
+        antialias: false,
+      });
+      renderer.setSize(128, 128);
+      renderer.setClearColor(0);
+      const target = new T.WebGLRenderTarget(128, 128),
+        camera = new T.OrthographicCamera(-1.2, 1.2, 1.2, -1.2, 0.1, 100),
+        scene = new T.Scene(),
+        texture = new T.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1),
+        material = new T.MeshBasicMaterial({ map: texture, color: 0xffffff, toneMapped: false }),
+        geometry = new T.PlaneGeometry(0.9, 1.8),
+        mesh = new T.Mesh(geometry, material);
+      texture.needsUpdate = true;
+      scene.add(mesh);
+      // Modest atlas resolution keeps this focused GPU proof independent of production textures.
+      ground.dimensions = [1024, 683];
+      const before = new GroundOcclusion(
+        ground,
+        width,
+        height,
+        renderer.capabilities.maxTextureSize,
+      );
+      const after = new GroundOcclusion(
+        { ...ground, regions: [{ ...ground.regions[0], depth: repaired }] },
+        width,
+        height,
+        renderer.capabilities.maxTextureSize,
+      );
+      const actor = { material };
+      before.attach(actor, 'hero');
+      before.outlines = false;
+      const layout = artworkFloorLayout(width, height);
+      const render = (uv: number[], texture: typeof before.texture) => {
+        const point = layout.world(uv),
+          foot = new T.Vector3(point.x, 0, point.z),
+          center = foot.clone().addScaledVector(up, 0.9);
+        mesh.position.copy(center);
+        camera.position.copy(center).addScaledVector(outward, 30);
+        camera.lookAt(center);
+        camera.updateMatrixWorld();
+        mesh.quaternion.copy(camera.quaternion);
+        before.update(actor, point.x, point.z);
+        before.uniforms.groundAtlas.value = texture;
+        renderer.setRenderTarget(target);
+        renderer.render(scene, camera);
+        const pixels = new Uint8Array(128 * 128 * 4);
+        renderer.readRenderTargetPixels(target, 0, 0, 128, 128, pixels);
+        let visible = 0;
+        for (let i = 0; i < pixels.length; i += 4) if (pixels[i]! > 200) visible++;
+        return visible;
+      };
+      try {
+        const front = [witness.u, witness.v],
+          behind = [0.57, 0.24];
+        return {
+          beforeFront: render(front, before.texture),
+          afterFront: render(front, after.texture),
+          beforeSliver: render([0.578, 0.286], before.texture),
+          afterSliver: render([0.578, 0.286], after.texture),
+          beforeBehind: render(behind, before.texture),
+          afterBehind: render(behind, after.texture),
+        };
+      } finally {
+        before.dispose();
+        after.dispose();
+        geometry.dispose();
+        material.dispose();
+        texture.dispose();
+        target.dispose();
+        renderer.dispose();
+      }
+    },
+    {
+      ground: { ...sceneDocument.groundInteraction!, regions: [region] },
+      width: sceneDocument.floor.width,
+      height: sceneDocument.floor.depth,
+      repaired,
+      witness,
+    },
+  );
+  expect(proof.afterFront).toBeGreaterThan(proof.beforeFront + 100);
+  expect(proof.afterSliver).toBeGreaterThan(proof.beforeSliver + 20);
+  expect(proof.afterBehind).toBeLessThan(proof.afterFront - 100);
+  expect(proof.beforeBehind).toBeLessThan(proof.afterFront - 100);
 });
