@@ -38,14 +38,15 @@ export async function selectedFiles(
     files.add(file);
     for (const page of m.pages) {
       const name = path.posix.join(path.posix.dirname(file), page.path);
-      if (hash(await read(name)) !== page.hash) throw new Error('Prepared page differs: ' + name);
       if (
         dev ||
         !page.delivery?.some(
           (v) => v.encoding === 'png' && v.width === page.width && v.height === page.height,
         )
-      )
+      ) {
+        if (hash(await read(name)) !== page.hash) throw new Error('Prepared page differs: ' + name);
         files.add(name);
+      }
       for (const image of [
         ...(page.delivery ?? []),
         ...(dev && page.preview ? [page.preview] : []),
