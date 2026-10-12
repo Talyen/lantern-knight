@@ -31,7 +31,7 @@ import {
   outward,
   contract,
 } from '../core/camera';
-import { resolveClip, type Clip } from '../assets/schema';
+import { resolveActorClip, resolveClip, type Clip } from '../assets/schema';
 import { frameAt, clipDuration } from '../core/animation';
 import type { AssetPack } from '../assets/loader';
 import type { Simulation } from '../core/simulation';
@@ -171,7 +171,7 @@ export class EffectsPlayground {
     this.prop('tomb', 'tomb', 4, -3, 0.7);
     this.prop('stone', 'gravestone', -1.4, -2.8, 0.8);
     this.hero = this.sprite('hero', 'ink-hero-current', 'idle', new T.Vector3(0, 0, 3));
-    this.target = this.sprite('target', 'ink-skeleton', 'rest', new T.Vector3(2.8, 0, -0.7));
+    this.target = this.sprite('target', 'library-sk01', 'idle', new T.Vector3(2.8, 0, -0.7));
     this.outlines = [
       new SilhouetteOutline(this.hero.mesh),
       new SilhouetteOutline(this.target.mesh),
@@ -238,7 +238,7 @@ export class EffectsPlayground {
       id,
       pack.manifest,
       pack.textures,
-      resolveClip(pack.manifest, clip, 'd45'),
+      resolveActorClip(pack.manifest, clip, 'd45'),
     );
     s.show(s.animator.frame, foot, this.camera);
     this.sprites.push(s);

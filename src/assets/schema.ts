@@ -317,6 +317,25 @@ export function resolveClip(
   if (!clip) throw new Error(`required clip unavailable: ${manifest.asset.id}/${id}/${direction}`);
   return clip;
 }
+// Supplied actor kits may provide different facings for each action. Select a
+// delivered drawing without mirroring; authored scene placements stay strict.
+export function resolveActorClip(
+  manifest: Manifest,
+  id: string,
+  heading: (typeof HEADINGS)[number],
+): Clip {
+  if (manifest.asset.viewMode !== 'supplied') return resolveClip(manifest, id, heading);
+  const key = manifest.asset.clips[id] ? id : (manifest.asset.fallbacks[id] ?? id),
+    directions = manifest.asset.clips[key],
+    requested = HEADINGS.indexOf(heading),
+    distance = (candidate: (typeof HEADINGS)[number]) => {
+      const delta = Math.abs(HEADINGS.indexOf(candidate) - requested);
+      return Math.min(delta, HEADINGS.length - delta);
+    },
+    available = HEADINGS.filter((candidate) => directions?.[candidate]);
+  available.sort((a, b) => distance(a) - distance(b));
+  return resolveClip(manifest, id, available[0] ?? heading);
+}
 export function parseSource(data: unknown, production = false) {
   const s = SourceSchema.parse(data);
   validateSemantics(s, production);

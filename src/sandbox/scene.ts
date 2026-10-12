@@ -930,7 +930,7 @@ export function mountScene(
     stopMovementReplay();
     stopSweepReplay();
     lightingReplay = false;
-    await app.retainAsset('ink-skeleton');
+    await app.retainAsset('library-sk01');
     returnSave ??= app.session.captureSave();
     const definitions = stress
       ? {

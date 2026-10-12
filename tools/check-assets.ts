@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { actorVisuals } from '../src/content/visuals';
 import { assetCatalog } from '../src/content/asset-catalog';
-import { parseManifest, resolveClip, type Manifest } from '../src/assets/schema';
+import { parseManifest, resolveActorClip, type Manifest } from '../src/assets/schema';
 import {
   HEADINGS,
   cameraCalibration as calibrationFixture,
@@ -46,7 +46,7 @@ export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirecto
     }
     for (const visual of Object.values(actorVisuals).filter((v) => v.asset === id))
       for (const clip of [...Object.values(visual.clips), ...visual.attacks])
-        for (const heading of HEADINGS) resolveClip(manifest, clip, heading);
+        for (const heading of HEADINGS) resolveActorClip(manifest, clip, heading);
   }
   const registration = parseRegistration(
     JSON.parse((await readPublic('registration.json')).toString()),

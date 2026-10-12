@@ -3,6 +3,7 @@ import { playgroundCatalog } from './effects-playground-assets';
 import { visualEffectsCatalog } from './visual-effects-assets';
 export const assetCatalog: Readonly<Record<string, string>> = {
   ...visualEffectsCatalog,
+  'library-sk01': 'generated/library/library-sk01/manifest.json',
   ...combatEffectCatalog,
   ...Object.fromEntries(
     [
@@ -36,7 +37,6 @@ export const assetCatalog: Readonly<Record<string, string>> = {
       'ink-tended-woodland-near',
       'ink-tended-woodland-far',
       'ink-hero-current',
-      'ink-skeleton',
       'ink-scenery',
       'ink-chapel-front',
       'ink-blackwood-oak',

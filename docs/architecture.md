@@ -75,6 +75,8 @@ Author scene geometry and visuals together. For Game, register the area and its 
 
 Authored hero holds, gameplay tuning and simulation own timing at 60 Hz. The hero's melee definition owns base/lunge reach and an optional `sweepRange` override, falling back to base reach; action timing owns the damage window. Sweep defaults to the Quick preset shared by simulation, retimed presentation clips and the effect clock. Preview overrides change no raster assets or persisted fields. [Sweep review](developer-tools.md#sweep-review) owns preset timings and recovery comparisons.
 
+Supplied actor kits use the nearest delivered facing for each action without mirroring. Authored scene placements still require their requested clips and headings.
+
 Animation callbacks never commit damage. Preserve generation-scoped immutable events, fixed-step outcomes and resource disposal. Use action/foundation unit tests, prepared-asset tests for registration changes, and optional native diagnostics for visual investigations.
 
 EventHub delivers gameplay and animation feedback in publication order. Reentrant publication waits behind the current batch; new subscriptions start with the next event, and unsubscribe takes effect immediately. Replacing a generation aborts old subscriber work and stops stale queued or in-flight delivery. Disposal closes the hub permanently. A subscriber exception or current-lifetime promise rejection removes that subscriber, aborts its pending work and reports one diagnostic through Application status without interrupting peers, gameplay, transitions or autosaves. Rejections from aborted lifetimes are discarded; subscribers must use the supplied AbortSignal to cancel their own asynchronous effects.
