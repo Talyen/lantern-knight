@@ -117,6 +117,9 @@ test('scene and gameplay edits use routine CI; desktop contracts select platform
     'src/core/save.ts',
     'assets/lock.json',
     'tools/package.ts',
+    'tools/diagnostics.ts',
+    'tools/smoke/game-smoke.ts',
+    'tests/fixtures/input.ts',
     'package-lock.json',
   ])
     assert.equal(requiresDesktop([file]), true);

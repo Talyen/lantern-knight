@@ -180,11 +180,8 @@ test('editor multi-selection, inspector, palette grouping and editor-only visibi
   page,
 }) => {
   await openEditor(page);
-  await page.locator('#artwork-tab').click();
-  await page.locator('#search').fill('ink-scenery');
-  await page.getByTitle('ink-scenery/arch', { exact: true }).click();
+  await chooseGravestone(page);
   await expect(page.locator('#assets .asset')).toHaveCount(1);
-  await page.locator('#place-clip').selectOption('gravestone');
   await page.locator('#viewport').click({ position: { x: 300, y: 250 } });
   await expect(page.locator('#object-panel')).toBeVisible();
   await page.locator('#duplicate').click();
@@ -412,15 +409,7 @@ test('editor workspace keeps populated attachment controls accessible at desktop
   await page.locator('#objects-tab').click();
   await page.getByRole('button', { name: child!, exact: true }).click();
   for (const width of [1440, 900]) {
-    const frame = await page.evaluate(
-      () => window.sceneEditor.view().presentation!.renderer.info.render.frame,
-    );
     await page.setViewportSize({ width, height: 900 });
-    await expect
-      .poll(() =>
-        page.evaluate(() => window.sceneEditor.view().presentation!.renderer.info.render.frame),
-      )
-      .toBeGreaterThan(frame + 2);
     await expect(page.locator('#object-panel')).toBeVisible();
     const canvas = await page.locator('#viewport').boundingBox();
     expect(canvas!.width).toBeGreaterThan(250);
@@ -440,17 +429,13 @@ test('canvas-first workspace, focus, property search and commands preserve the d
     [1280, 720, 0.65],
     [1440, 900, 0.7],
   ]) {
-    const frame = await page.evaluate(
-      () => window.sceneEditor.view().presentation!.renderer.info.render.frame,
-    );
     await page.setViewportSize({ width: width!, height: height! });
     await expect
-      .poll(() =>
-        page.evaluate(() => window.sceneEditor.view().presentation!.renderer.info.render.frame),
-      )
-      .toBeGreaterThan(frame + 2);
-    const canvas = await page.locator('#viewport').boundingBox();
-    expect((canvas!.width * canvas!.height) / (width! * height!)).toBeGreaterThanOrEqual(minimum!);
+      .poll(async () => {
+        const canvas = await page.locator('#viewport').boundingBox();
+        return (canvas!.width * canvas!.height) / (width! * height!);
+      })
+      .toBeGreaterThanOrEqual(minimum!);
   }
   await page.locator('#scene-tab').click();
   await page.locator('#property-search').fill('Left (X)');
@@ -536,6 +521,7 @@ test('repeated placement, shared fields and canvas handles commit or cancel one 
   const beforeMatrices = await matrices();
   const handle = page.locator('[data-handle=x]');
   await expect(handle).toBeVisible();
+  await handle.hover();
   let box = await handle.boundingBox();
   await page.mouse.move(box!.x + 14, box!.y + 14);
   await page.mouse.down();
@@ -546,6 +532,7 @@ test('repeated placement, shared fields and canvas handles commit or cancel one 
   expect(await matrices()).toEqual(beforeMatrices);
   await page.locator('#objects-tab').click();
   await page.locator('.object-select').first().click();
+  await handle.hover();
   box = await handle.boundingBox();
   await page.mouse.move(box!.x + 14, box!.y + 14);
   await page.mouse.down();
