@@ -110,6 +110,7 @@ export class EditorView {
     );
     this.hero(this.walking);
     hero.yaw = this.walking.yaw;
+    if (x || y) this.presentation!.center.set(hero.x, hero.y, hero.z);
   }
   previewTransforms(document: SceneSnapshot) {
     if (!this.appliedDocument || !this.sim) return;
@@ -207,7 +208,7 @@ export class EditorView {
       this.appliedDocument = document;
       this.hero(this.walking ?? document.hero);
       this.presentation.visualOverride = art;
-      this.presentation.lookRenderer.setSettings(document.look);
+      this.presentation.lookRenderer.setSettings({ ...document.look, sun: document.look.sun });
       return;
     }
     const ids = new Set(
@@ -261,7 +262,7 @@ export class EditorView {
           this.presentation.resetRoom(this.sim.areaDefinition, art);
         }
         this.presentation.generation = this.sim.generation;
-        this.presentation.lookRenderer.setSettings(document.look);
+        this.presentation.lookRenderer.setSettings({ ...document.look, sun: document.look.sun });
         const bounds = area.bounds;
         this.grid = new T.GridHelper(
           Math.max(bounds.maxX - bounds.minX, bounds.maxZ - bounds.minZ),
@@ -302,10 +303,6 @@ export class EditorView {
   }
   render(ms = 0) {
     if (this.closed || this.applying || !this.presentation || !this.sim) return;
-    if (this.walking) {
-      const hero = this.sim.hero;
-      this.presentation.center.set(hero.x, hero.y, hero.z);
-    }
     this.presentation.beforeRender = () => {
       for (const { sprite, position, scale, quaternion } of this.transformPreview) {
         sprite.mesh.position.copy(position);

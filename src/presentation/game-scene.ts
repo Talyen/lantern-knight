@@ -180,7 +180,7 @@ export class GamePresentation implements PresentationLifecycle {
       this.actorPresentation,
       this.sceneEffects,
     );
-    if (this.visuals?.look) this.lookRenderer.setSettings(this.visuals.look);
+    this.lookRenderer.setSettings({ ...this.visuals?.look, sun: this.visuals?.look?.sun });
     this.scene.add(this.sceneEffects.group);
     this.combatFeedback = new CombatFeedback(this.packs, this.camera, this.events);
     this.scene.add(this.combatFeedback.group);
@@ -215,7 +215,7 @@ export class GamePresentation implements PresentationLifecycle {
     this.disposeRoom();
     this.area = area;
     this.buildRoom();
-    if (this.visuals?.look) this.lookRenderer.setSettings(this.visuals.look);
+    this.lookRenderer.setSettings({ ...this.visuals?.look, sun: this.visuals?.look?.sun });
   }
   createVisual(a: ActorView, generation: number) {
     return this.actorPresentation.createVisual(a, generation);

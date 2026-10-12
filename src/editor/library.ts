@@ -228,7 +228,7 @@ export class SceneLibrary {
         if (!`${scene.name} ${scene.id}`.toLowerCase().includes(search)) continue;
         const b = document.createElement('button');
         b.className = 'scene-card';
-        b.textContent = `${scene.name} · ${scene.target === 'live' ? 'LIVE' : 'Draft'}${scene.error ? ' · Invalid file' : ''}`;
+        b.textContent = `${scene.name} · ${scene.target === 'live' ? 'In game' : 'Saved scene'}${scene.error ? ' · Invalid file' : ''}`;
         b.disabled = !!scene.error;
         try {
           const src = localStorage.getItem('lantern-editor-scene-thumbnail:' + scene.id);

@@ -1,4 +1,4 @@
-import { test, expect, openEditor } from './fixtures';
+import { test, expect, openEditor, waitForEditor } from './fixtures';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { projectRoot } from '../../tools/assets/paths';
@@ -47,7 +47,15 @@ test('ground authoring accepts and corrects selection, saves contours and routes
   });
   try {
     page.on('dialog', (dialog) => void dialog.accept());
+    await page.addInitScript(() =>
+      localStorage.setItem(
+        'lantern-ground-overlays',
+        JSON.stringify({ blockers: true, masks: true, depth: true }),
+      ),
+    );
     await openEditor(page);
+    for (const key of ['blockers', 'masks', 'depth'])
+      await expect(page.locator('#ground-show-' + key)).not.toBeChecked();
     const d = emptyScene();
     d.name = id;
     d.floor.layout = 'artwork';
@@ -105,6 +113,14 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     const accepted = await page.evaluate(() =>
       JSON.stringify(window.sceneEditor.state().document.groundInteraction!.regions[0]!.mask),
     );
+    await expect(page.locator('.ground-overlay path')).toHaveCount(0);
+    await page.locator('#ground-show-masks').check();
+    await expect(page.locator('.ground-overlay path')).not.toHaveCount(0);
+    // Walking must leave mask editing available.
+    await page.locator('#viewport').focus();
+    await page.keyboard.down('w');
+    await page.waitForFunction(() => window.sceneEditor.view().sim!.hero.state === 'walk');
+    await page.keyboard.up('w');
     await page.locator('#ground-task').selectOption('brush-erase');
     await clickUV(0.58, 0.45);
     await expect
@@ -236,6 +252,11 @@ test('ground authoring accepts and corrects selection, saves contours and routes
         Object.entries(localStorage).filter(([key]) => !key.startsWith('lantern-scene-editor')),
       ),
     ).toEqual(before.storage);
+    await expect(page.locator('#ground-show-masks')).toBeChecked();
+    await page.reload();
+    await waitForEditor(page);
+    for (const key of ['blockers', 'masks', 'depth'])
+      await expect(page.locator('#ground-show-' + key)).not.toBeChecked();
   } finally {
     await fs.rm(file, { force: true });
     if (profileId)
