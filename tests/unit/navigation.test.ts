@@ -7,6 +7,8 @@ import {
   isSupportedPosition,
   type AreaDefinition,
 } from '../../src/content/world';
+import { GameSession } from '../../src/core/session';
+import { parseGame } from '../../src/core/save';
 import { Simulation } from '../../src/core/simulation';
 import { tuning } from '../../src/content/gameplay';
 import { contentDefinitions } from '../../src/content/game-content';
@@ -275,4 +277,18 @@ test('actors on opposite sides of a stair height gap do not push each other', ()
   sim.step(still);
   assert.equal(sim.hero.z, 0.1);
   assert.equal(sim.enemies[0]!.z, -0.1);
+});
+
+test('a valid checkpoint near a wall can resume diagonal movement with runtime clearance', () => {
+  const a = area();
+  const registry = new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
+  const session = new GameSession(registry);
+  Object.assign(session.sim.hero, { x: -0.3, z: 0 });
+  const save = session.captureSave();
+  assert.doesNotThrow(() => parseGame(save, registry));
+  session.restoreSave(save);
+  session.step({ move: { x: -Math.SQRT1_2, z: Math.SQRT1_2 }, aim: { x: -1, z: 1 } });
+  assert.ok(session.sim.hero.x < save.player.x);
+  assert.ok(session.sim.hero.z > save.player.z);
+  assert.ok(isSupportedPosition(a, session.sim.hero, 0.3));
 });

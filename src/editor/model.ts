@@ -158,11 +158,9 @@ export class EditorHistory {
         const object = d.objects.find((p) => p.id === placement.id)!;
         const target = targets.get(object.id)!;
         const support = sceneItems(d).find((p) => p.placement.id === object.mount!.to)!.placement;
-        object.mount!.offset = localOffset(support, [
-          target.x - support.x,
-          (placement.y ?? 0) - (support.y ?? 0),
-          target.z - support.z,
-        ]);
+        const offset = localOffset(support, [target.x - support.x, 0, target.z - support.z]);
+        // Keep vertical attachment offsets local so scaled supports carry their children.
+        object.mount!.offset = [offset[0], object.mount!.offset[1], offset[2]];
         object.scale = target.scale;
         object.rotation = target.rotation;
       }
@@ -181,7 +179,9 @@ export class EditorHistory {
 
   duplicateMany(ids: readonly string[]) {
     const included = new Set(this.descendants(ids));
-    const objects = this.document.objects.filter((p) => included.has(p.id));
+    const objects = sceneItems(this.document)
+      .filter((p) => included.has(p.placement.id))
+      .map((p) => this.document.objects.find((object) => object.id === p.placement.id)!);
     return this.insertFragment(objects, 0.5, 0.5);
   }
 

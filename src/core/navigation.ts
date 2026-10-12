@@ -1,6 +1,7 @@
 import { insidePolygon } from '../content/graveyard-layout';
 import {
   boundaryContains,
+  supportedPosition,
   type AreaDefinition,
   type Point,
   type PropDefinition,
@@ -158,7 +159,9 @@ export function moveSupported(
   delta: Point,
   radius: number,
 ): Point {
-  let p = { x: start.x, z: start.z },
+  let p = positionClear(area, start, radius)
+      ? { x: start.x, z: start.z }
+      : supportedPosition(area, start, radius),
     d = { ...delta };
   for (let i = 0; i < 4; i++) {
     const hit = sweep(area, p, d, radius);

@@ -352,6 +352,7 @@ export function createEditorSession() {
       setWalkingHero(false);
       await project.open(value);
       assertActive();
+      showRecovery();
       const d = documents.history.document;
       selected = undefined;
       composition?.selection.clear();
@@ -1230,6 +1231,9 @@ export function createEditorSession() {
 
   function readRecovery(key: string) {
     project.readRecovery(key);
+    showRecovery();
+  }
+  function showRecovery() {
     $('recovery').hidden = !project.recoveryPending;
     $<HTMLButtonElement>('restore').disabled = !project.recoveryReadable;
     if (project.recoveryPending && !project.recoveryReadable)
