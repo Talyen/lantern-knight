@@ -122,8 +122,13 @@ export async function publishFileDelivery(
   publish = gh,
   request: typeof fetch = fetch,
 ) {
-  const held = await cache.lease('file-publication-' + pin.sha256, 0, true);
+  const held = await cache.lease('range-publication-' + pin.sha256, 0, true);
+  const work = { ...held, root: path.join(held.root, 'work') };
   try {
+    // Exclusive staging has no reusable source bytes. Remove only this owner's
+    // interrupted work before reserving the new operation's bounded peak.
+    await fs.rm(work.root, { recursive: true, force: true });
+    await fs.mkdir(work.root, { recursive: true });
     const inventory = PackSchema.parse(
       JSON.parse(await fs.readFile(path.join(sourceRoot, 'pack.json'), 'utf8')),
     );
@@ -163,7 +168,7 @@ export async function publishFileDelivery(
       }
       const asset = assets.find((a) => a.name === filename);
       if (!asset) {
-        const file = path.join(held.root, filename);
+        const file = path.join(work.root, filename);
         await fs.link(source, file).catch((error) => {
           if ((error as NodeJS.ErrnoException).code !== 'EEXIST') throw error;
         });
@@ -199,7 +204,7 @@ export async function publishFileDelivery(
       pin,
       inventory,
       sourceRoot,
-      held,
+      work,
       async (container, file) => {
         await upload(
           'assets-objects-' + container.sha256.slice(0, 16),
@@ -213,7 +218,7 @@ export async function publishFileDelivery(
     for (const [hash, container] of Object.entries(catalog.containers)) {
       const file = Object.values(catalog.files).find((f) => f.container === hash && f.bytes > 0);
       if (!file) continue;
-      const proof = path.join(held.root, 'range-proof');
+      const proof = path.join(work.root, 'range-proof');
       try {
         await downloadFile(containerURL(hash), file, proof, request, undefined, {
           offset: file.offset,
@@ -232,20 +237,24 @@ export async function publishFileDelivery(
       bytes: body.length,
     };
     await held.reserve(body.length * 2);
-    const file = path.join(held.root, 'catalog-candidate.gz');
+    const file = path.join(work.root, 'catalog-candidate.gz');
     await fs.writeFile(file, body);
     await upload(delivery.releaseTag, delivery.filename, delivery, file);
     await downloadFile(
       deliveryURL(delivery.releaseTag, delivery.filename),
       delivery,
-      path.join(held.root, 'verified-catalog.gz'),
+      path.join(work.root, 'verified-catalog.gz'),
       request,
     );
     await fs.rm(file, { force: true });
-    await fs.rm(path.join(held.root, 'verified-catalog.gz'), { force: true });
+    await fs.rm(path.join(work.root, 'verified-catalog.gz'), { force: true });
     return delivery;
   } finally {
-    await held.release();
+    try {
+      await fs.rm(work.root, { recursive: true, force: true });
+    } finally {
+      await held.release();
+    }
   }
 }
 
