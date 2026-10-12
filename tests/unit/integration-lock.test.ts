@@ -1,3 +1,5 @@
+import { GroundProfileStore } from '../../tools/scene/ground-profile-store';
+import { emptyScene } from '../../src/editor/default-scene';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync, spawn } from 'node:child_process';
@@ -16,6 +18,8 @@ async function fixture(t: test.TestContext) {
   const git = (args: string[], cwd = main) =>
     execFileSync('git', args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
   git(['init', '-b', 'main']);
+  git(['config', 'user.name', 'Fixture']);
+  git(['config', 'user.email', 'fixture@example.test']);
   git([
     '-c',
     'user.name=Fixture',
@@ -227,4 +231,83 @@ test('cleanup refuses dirty or locked task even after a successful integration c
   assert.equal(await locked.done, 1);
   assert.match(locked.output(), /locked/);
   assert.equal(git(['branch', '--show-current'], task).trim(), 'codex/task');
+});
+
+test('valid scene saves checkpoint under the lock before integration without changing saved bytes', async (t) => {
+  const { main, git, run } = await fixture(t);
+  const directory = path.join(main, 'authoring/scenes');
+  await fs.mkdir(directory, { recursive: true });
+  const file = path.join(directory, 'saved-scene.json');
+  const scene = { ...emptyScene(), id: 'saved-scene', name: 'Saved orchard' };
+  const body = JSON.stringify(scene) + '\n';
+  await fs.writeFile(file, body);
+  const accepted = run(
+    "require('node:child_process').execFileSync('git', ['diff', '--exit-code', 'HEAD'])",
+  );
+  assert.equal(await accepted.done, 0, accepted.output());
+  assert.match(accepted.output(), /Preserved saved scenes in/);
+  assert.equal(await fs.readFile(file, 'utf8'), body);
+  assert.equal(git(['show', 'HEAD:authoring/scenes/saved-scene.json']), body);
+  assert.equal(git(['status', '--porcelain']), '');
+  // A later failed agent command still leaves the user's save durably preserved.
+  scene.name = 'Another save';
+  const next = JSON.stringify(scene) + '\n';
+  await fs.writeFile(file, next);
+  const failed = run('process.exit(7)');
+  assert.equal(await failed.done, 1, failed.output());
+  assert.equal(git(['show', 'HEAD:authoring/scenes/saved-scene.json']), next);
+  assert.equal(await fs.readFile(file, 'utf8'), next);
+});
+
+test('invalid scenes and failed checkpoint commits preserve files and leave the index untouched', async (t) => {
+  const { root, main, git, run } = await fixture(t);
+  await fs.mkdir(path.join(main, 'authoring/scenes'), { recursive: true });
+  const file = path.join(main, 'authoring/scenes/saved-scene.json');
+  await fs.writeFile(file, '{"invalid":true}');
+  const before = git(['rev-parse', 'HEAD']);
+  const invalid = run('process.exit(0)');
+  assert.equal(await invalid.done, 1);
+  assert.equal(await fs.readFile(file, 'utf8'), '{"invalid":true}');
+  assert.equal(git(['diff', '--cached']), '');
+  const body = JSON.stringify({ ...emptyScene(), id: 'saved-scene' }) + '\n';
+  await fs.writeFile(file, body);
+  const hooks = path.join(root, 'hooks');
+  await fs.mkdir(hooks);
+  await fs.writeFile(path.join(hooks, 'pre-commit'), '#!/bin/sh\nexit 1\n', { mode: 0o755 });
+  git(['config', 'core.hooksPath', hooks]);
+  const failed = run('process.exit(0)');
+  assert.equal(await failed.done, 1);
+  assert.equal(git(['rev-parse', 'HEAD']), before);
+  assert.equal(await fs.readFile(file, 'utf8'), body);
+  assert.equal(git(['diff', '--cached']), '');
+});
+
+test('new immutable interaction revisions checkpoint with scenes, but modified revisions stop integration', async (t) => {
+  const { main, git, run } = await fixture(t);
+  const directory = path.join(main, 'authoring/ground-profiles');
+  const store = new GroundProfileStore(directory);
+  const id = await store.save({
+    version: 1,
+    name: 'Saved interaction',
+    floor: { width: 20, depth: 20 },
+    interaction: {
+      asset: 'floor',
+      frame: 'still',
+      hash: 'a'.repeat(64),
+      dimensions: [100, 100],
+      regions: [],
+      destinations: [],
+    },
+  });
+  const file = path.join(directory, id + '.json');
+  const body = await fs.readFile(file, 'utf8');
+  const saved = run('process.exit(0)');
+  assert.equal(await saved.done, 0, saved.output());
+  assert.equal(git(['show', 'HEAD:authoring/ground-profiles/' + id + '.json']), body);
+  const before = git(['rev-parse', 'HEAD']);
+  await fs.writeFile(file, body + ' ');
+  const modified = run('process.exit(0)');
+  assert.equal(await modified.done, 1);
+  assert.equal(git(['rev-parse', 'HEAD']), before);
+  assert.equal(await fs.readFile(file, 'utf8'), body + ' ');
 });

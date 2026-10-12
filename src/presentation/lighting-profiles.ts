@@ -1,8 +1,10 @@
+import type { WorldVisualDefinition } from '../content/world-visuals';
 type LightingRig = 'golden' | 'silver';
 type LookPreset = 'ink' | 'diorama' | 'cinematic';
 export type LookSettings = {
   rig: LightingRig;
   look: LookPreset;
+  sun?: NonNullable<WorldVisualDefinition['look']>['sun'];
   baseline: boolean;
   lighting: boolean;
   shadows: boolean;

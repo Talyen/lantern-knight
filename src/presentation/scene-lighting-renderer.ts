@@ -201,7 +201,7 @@ export class SceneLightingRenderer {
     this.sun.shadow.mapSize.set(2048, 2048);
     this.sun.shadow.bias = -0.00025;
     this.sun.shadow.normalBias = 0.025;
-    this.sun.shadow.radius = 4;
+    this.sun.shadow.radius = 1.5;
     this.sun.shadow.camera.near = 0.1;
     this.sun.shadow.camera.far = 75;
     this.sun.intensity = 0;
@@ -456,8 +456,8 @@ export class SceneLightingRenderer {
     for (const receiver of this.floorReceivers) {
       receiver.visible = s.shadows;
       const material = receiver.material as T.ShadowMaterial;
-      material.opacity = look.shadow;
-      material.color.set(s.rig === 'golden' ? 0x454451 : 0x293243);
+      material.opacity = Math.min(0.55, look.shadow * 1.5);
+      material.color.set(s.rig === 'golden' ? 0x182126 : 0x192331);
       if (!fx.palette) neutralColor(material.color);
     }
     const shadowOrigin = frame.visuals?.surround
@@ -466,7 +466,6 @@ export class SceneLightingRenderer {
     this.sun.target.position.copy(shadowOrigin);
     this.sun.position.copy(shadowOrigin).addScaledVector(lights.inkDirection.value, 32);
     this.sun.target.updateMatrixWorld();
-    this.sun.position.y = Math.max(this.sun.position.y, 8);
     const span = frame.visuals?.surround
         ? Math.max(
             15,

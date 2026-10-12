@@ -731,8 +731,17 @@ test('editor walking preserves state, releases input and constrains the camera a
     center: window.sceneEditor.view().presentation!.center.toArray(),
     storage: Object.fromEntries(Object.entries(localStorage)),
   }));
-  await page.locator('#walk-hero').click();
-  await expect(page.locator('#walk-hero')).toHaveAttribute('aria-pressed', 'true');
+  await page.locator('#scene-tab').click();
+  await page.locator('[data-section="category-Atmosphere"] > summary').click();
+  await page.locator('[data-section="weather"] > summary').click();
+  await page.locator('[data-field="weather.rain"]').dispatchEvent('change');
+  expect(await page.evaluate(() => window.sceneEditor.state())).toEqual(initial.state);
+  await page.locator('#sun-azimuth').dispatchEvent('change');
+  expect(await page.evaluate(() => window.sceneEditor.state())).toEqual(initial.state);
+  // Dock navigation has its own disposable preference; movement must not write storage.
+  initial.storage = await page.evaluate(() => Object.fromEntries(Object.entries(localStorage)));
+  await expect(page.locator('#walk-hero')).toHaveCount(0);
+  await page.locator('#viewport').focus();
   await page.keyboard.down('w');
   await page.waitForFunction(() => window.sceneEditor.view().sim!.hero.state === 'walk');
   await expect
@@ -771,9 +780,18 @@ test('editor walking preserves state, releases input and constrains the camera a
   expect(await page.evaluate(() => Object.fromEntries(Object.entries(localStorage)))).toEqual(
     initial.storage,
   );
+  // An idle walking preview must not recenter the camera during editing.
+  const panned = await page.evaluate(() => {
+    const view = window.sceneEditor.view();
+    view.presentation!.center.x += 1;
+    view.render();
+    return view.presentation!.center.toArray();
+  });
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.view().presentation!.center.toArray()))
+    .toEqual(panned);
   await page.locator('#viewport').focus();
   await page.keyboard.press('Escape');
-  await expect(page.locator('#walk-hero')).toHaveAttribute('aria-pressed', 'false');
   expect(
     await page.evaluate(() => {
       const view = window.sceneEditor.view();
@@ -798,6 +816,16 @@ test('editor walking preserves state, releases input and constrains the camera a
   expect(
     await page.evaluate(() => window.sceneEditor.view().presentation!.verticalSpan),
   ).toBeCloseTo(20, 6);
+  await page.locator('#view-menu > summary').click();
+  await page.getByRole('button', { name: 'Reset game zoom', exact: true }).click();
+  expect(
+    await page.evaluate(async () => {
+      const cameraPath = '/src/core/camera.ts';
+      const { contract } = await import(cameraPath);
+      return window.sceneEditor.view().presentation!.verticalSpan === contract.verticalSpan;
+    }),
+  ).toBe(true);
+  await page.locator('#view-menu > summary').click();
   const result = await page.evaluate(() => {
     const view = window.sceneEditor.view(),
       presentation = view.presentation!,
@@ -856,4 +884,39 @@ test('editor walking preserves state, releases input and constrains the camera a
   }
   expect(result.restored).toEqual(result.initial);
   expect(result.restoredCenter).toEqual(result.center);
+  await page.locator('[data-field="weather.rain"]').fill('0.2');
+  await page.locator('[data-field="weather.rain"]').dispatchEvent('change');
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.weather?.rain))
+    .toBe(0.2);
+  await page.locator('#undo').click();
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.weather))
+    .toBeUndefined();
+  await page.locator('#sun-azimuth').fill('90');
+  await page.locator('#sun-azimuth').dispatchEvent('change');
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.look.sun?.azimuthDeg))
+    .toBe(90);
+  await page.locator('#sun-elevation').fill('35');
+  await page.locator('#sun-elevation').dispatchEvent('change');
+  await expect
+    .poll(() =>
+      page.evaluate(() => window.sceneEditor.view().presentation!.lookRenderer.settings.sun),
+    )
+    .toEqual({ azimuthDeg: 90, elevationDeg: 35 });
+  await page.locator('#sun-preset').click();
+  await expect
+    .poll(() =>
+      page.evaluate(() => window.sceneEditor.view().presentation!.lookRenderer.settings.sun),
+    )
+    .toBeUndefined();
+  await page.locator('#undo').click();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => window.sceneEditor.view().presentation!.lookRenderer.settings.sun?.elevationDeg,
+      ),
+    )
+    .toBe(35);
 });

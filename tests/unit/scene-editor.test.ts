@@ -20,6 +20,28 @@ import { EditorHistory, sceneItems } from '../../src/editor/model';
 import { EditorDocument } from '../../src/editor/document';
 import { SceneStore } from '../../tools/scene/scene-editor-store';
 describe('scene authoring contracts', () => {
+  it('demands rain assets only when authored rain is enabled', () => {
+    const document = emptyScene();
+    document.weather = { rain: 0, wind: { x: 0, z: 0 } };
+    assert.equal(resolveScene(document).assets.includes('fx-splash'), false);
+    document.weather.rain = 0.2;
+    const assets = resolveScene(document).assets;
+    assert.ok(assets.includes('fx-splash'));
+    assert.ok(assets.includes('fx-ripple'));
+  });
+  it('round-trips a fixed authored sun into runtime visuals and rejects invalid angles', () => {
+    const document = emptyScene();
+    assert.equal(parseSceneDocument(document).look.sun, undefined);
+    document.look.sun = { azimuthDeg: 90, elevationDeg: 35 };
+    const parsed = parseSceneDocument(JSON.parse(JSON.stringify(document)));
+    assert.deepEqual(resolveAuthoredScene(parsed).look?.sun, document.look.sun);
+    for (const sun of [
+      { azimuthDeg: 181, elevationDeg: 35 },
+      { azimuthDeg: 90, elevationDeg: 0 },
+      { azimuthDeg: 90, elevationDeg: 90 },
+    ])
+      assert.throws(() => parseSceneDocument({ ...document, look: { ...document.look, sun } }));
+  });
   it('commits edits and history only after view acceptance, preserving redo and replacement on failure', async () => {
     const original = emptyScene(),
       controller = new AbortController();

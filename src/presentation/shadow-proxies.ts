@@ -1,5 +1,6 @@
 import * as T from 'three';
 import { ActorSprite } from './sprite';
+import { outward } from '../core/camera';
 import { AnimationBlendShader } from './animation-blend-shader';
 import { FoliageWind } from './foliage-wind';
 import { sceneryRegistration } from '../content/scenery-registration';
@@ -14,6 +15,10 @@ type Caster = {
 export class ShadowProxies {
   readonly proxies = new T.Group();
   private actorCasters = new Map<ActorId, Caster>();
+  private upright = new T.Quaternion().setFromUnitVectors(
+    new T.Vector3(0, 0, 1),
+    new T.Vector3(outward.x, 0, outward.z).normalize(),
+  );
   constructor(private sun: T.DirectionalLight) {}
   build(
     sim: SimulationView,
@@ -107,7 +112,14 @@ export class ShadowProxies {
       this.proxies.add(mesh);
     }
     entry.mesh.position.copy(sprite.mesh.position);
-    entry.mesh.quaternion.copy(sprite.mesh.quaternion);
+    // The beauty sprite leans into the camera plane. Its physical caster stands
+    // upright so the sun projects a silhouette beyond the actor's feet.
+    entry.mesh.quaternion.copy(
+      sprite.manifest.asset.projection === 'front-view' ||
+        sprite.manifest.asset.projection === 'top-down'
+        ? sprite.mesh.quaternion
+        : this.upright,
+    );
     entry.mesh.scale.copy(sprite.mesh.scale);
     entry.mesh.visible = sprite.mesh.visible;
     if (!entry.mesh.material.map) {

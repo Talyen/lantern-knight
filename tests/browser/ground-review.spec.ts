@@ -11,12 +11,6 @@ test('review authored occluders from reachable front and behind positions', asyn
   test.setTimeout(1_800_000);
   page.setDefaultTimeout(30_000);
   page.on('dialog', (dialog) => void dialog.accept());
-  await page.addInitScript(() =>
-    localStorage.setItem(
-      'lantern-ground-overlays',
-      JSON.stringify({ masks: false, blockers: false, depth: false }),
-    ),
-  );
   await page.goto('/editor.html?automated');
   await waitForEditor(page, 30_000);
   console.info('Review: editor ready');

@@ -52,7 +52,6 @@ export class GroundAuthoring {
   private lifetime = new AbortController();
   private previous?: SceneSnapshot;
   private signature = '';
-  private enabled = true;
   private mode = 'off';
   private vertex?: {
     kind: 'footprint' | 'mask' | 'hole' | 'anchor' | 'boundary';
@@ -60,17 +59,17 @@ export class GroundAuthoring {
     shape?: number;
     hole?: number;
   };
-  private overlays = { blockers: true, masks: true, depth: true };
+  private overlays = { blockers: false, masks: false, depth: false };
   constructor(
     private canvas: HTMLCanvasElement,
     private host: Host,
   ) {
     this.panel = document.createElement('details');
     this.panel.id = 'ground-interaction-section';
-    this.panel.innerHTML = `<summary>Ground interaction</summary><p>Trace ground footprints separately from scenery silhouettes.</p><label>Region<select id="ground-region"><option value="">New region</option></select></label><label>Name<input id="ground-region-name" maxlength="80" value="Ground region"></label><label>Task<select id="ground-task"><option value="off">Select / edit vertices</option><option value="footprint">Block movement polygon</option><option value="mask">Occlusion polygon</option><option value="ai-box">AI box selection</option><option value="ai-point">AI include / exclude clicks</option><option value="brush-add">Add to mask brush</option><option value="brush-erase">Erase mask brush</option><option value="anchor">Depth anchor</option><option value="boundary">Depth boundary</option></select></label><p id="ground-task-help">Choose a task, then work on the canvas. Shift-click excludes from AI selection.</p><label>Brush radius (source pixels)<input id="ground-brush-radius" type="number" min="1" max="256" value="12"></label><div class="ground-actions"><button id="ground-finish">Finish polygon / boundary</button><button id="ground-refine">Run AI selection</button><button id="ground-accept">Accept mask</button><button id="ground-cancel">Cancel selection</button><button id="ground-duplicate">Duplicate region</button><button id="ground-delete">Delete region</button><button id="ground-clear">Clear all ground interaction</button></div><fieldset><legend>Ground overlays</legend><label><input id="ground-show-blockers" type="checkbox" checked> Blocking footprints</label><label><input id="ground-show-masks" type="checkbox" checked> Occlusion masks</label><label><input id="ground-show-depth" type="checkbox" checked> Depth anchors and boundaries</label></fieldset><p id="ground-ai-state" role="status">Local selection: run npm run segmentation:setup once.</p>`;
+    this.panel.innerHTML = `<summary>Ground interaction</summary><p>Trace ground footprints separately from scenery silhouettes.</p><label>Region<select id="ground-region"><option value="">New region</option></select></label><label>Name<input id="ground-region-name" maxlength="80" value="Ground region"></label><label>Task<select id="ground-task"><option value="off">Select / edit vertices</option><option value="footprint">Block movement polygon</option><option value="mask">Occlusion polygon</option><option value="ai-box">AI box selection</option><option value="ai-point">AI include / exclude clicks</option><option value="brush-add">Add to mask brush</option><option value="brush-erase">Erase mask brush</option><option value="anchor">Depth anchor</option><option value="boundary">Depth boundary</option></select></label><p id="ground-task-help">Choose a task, then work on the canvas. Shift-click excludes from AI selection.</p><label>Brush radius (source pixels)<input id="ground-brush-radius" type="number" min="1" max="256" value="12"></label><div class="ground-actions"><button id="ground-finish">Finish polygon / boundary</button><button id="ground-refine">Run AI selection</button><button id="ground-accept">Accept mask</button><button id="ground-cancel">Cancel selection</button><button id="ground-duplicate">Duplicate region</button><button id="ground-delete">Delete region</button><button id="ground-clear">Clear all ground interaction</button></div><fieldset><legend>Ground overlays</legend><label><input id="ground-show-blockers" type="checkbox"> Blocking footprints</label><label><input id="ground-show-masks" type="checkbox"> Occlusion masks</label><label><input id="ground-show-depth" type="checkbox"> Depth anchors and boundaries</label></fieldset><p id="ground-ai-state" role="status">Local selection: run npm run segmentation:setup once.</p>`;
     document.getElementById('scene-panel')!.append(this.panel);
     const profiles = document.createElement('fieldset');
-    profiles.innerHTML = `<legend>Saved artwork interaction profiles</legend><button id="ground-load-profiles">Find saved profiles</button><label>Saved revision<select id="ground-profile"><option value="">Find saved profiles first</option></select></label><label><input id="ground-profile-review" type="checkbox"> Reassign to changed artwork and review alignment</label><button id="ground-restore-profile">Restore selected profile</button><p>Saving a scene archives an independent revision. Scene deletion and asset processing leave these revisions intact. Restoring replaces this draft’s interaction data in one undoable edit.</p>`;
+    profiles.innerHTML = `<legend>Saved artwork interaction profiles</legend><button id="ground-load-profiles">Find saved profiles</button><label>Saved revision<select id="ground-profile"><option value="">Find saved profiles first</option></select></label><label><input id="ground-profile-review" type="checkbox"> Reassign to changed artwork and review alignment</label><button id="ground-restore-profile">Restore selected profile</button><p>Saving a scene archives an independent revision. Scene deletion and asset processing leave these revisions intact. Restoring replaces this scene’s interaction data in one undoable edit.</p>`;
     this.panel.append(profiles);
     profiles.querySelector<HTMLButtonElement>('#ground-load-profiles')!.onclick = () =>
       void this.loadProfiles().catch((e) => this.host.status(String(e), true));
@@ -168,22 +167,7 @@ export class GroundAuthoring {
       $('ground-show-' + key).onchange = () => {
         this.overlays[key] = $<HTMLInputElement>('ground-show-' + key).checked;
         this.signature = '';
-        try {
-          localStorage.setItem('lantern-ground-overlays', JSON.stringify(this.overlays));
-        } catch {
-          /* Disposable preferences. */
-        }
       };
-    try {
-      const saved = JSON.parse(localStorage.getItem('lantern-ground-overlays') ?? '{}');
-      for (const key of ['blockers', 'masks', 'depth'] as const)
-        if (typeof saved[key] === 'boolean') {
-          this.overlays[key] = saved[key];
-          $<HTMLInputElement>('ground-show-' + key).checked = saved[key];
-        }
-    } catch {
-      /* Disposable preferences. */
-    }
     const signal = this.lifetime.signal;
     canvas.addEventListener('pointerdown', (e) => this.down(e), { capture: true, signal });
     canvas.addEventListener(
@@ -217,10 +201,6 @@ export class GroundAuthoring {
       { capture: true, signal },
     );
   }
-  setEnabled(value: boolean) {
-    this.enabled = value;
-    if (!value) this.cancel();
-  }
   private region() {
     return this.host.document().groundInteraction?.regions.find((r) => r.id === this.selected);
   }
@@ -239,7 +219,7 @@ export class GroundAuthoring {
     return [Math.max(0, Math.min(1, u)), Math.max(0, Math.min(1, v))];
   }
   private down(e: PointerEvent) {
-    if (!this.enabled || !this.panel.hasAttribute('open') || e.button !== 0) return;
+    if (!this.panel.hasAttribute('open') || e.button !== 0) return;
     const uv = this.uv(e);
     if (!uv) return;
     if (this.mode === 'off') {
@@ -265,19 +245,21 @@ export class GroundAuthoring {
             this.vertex = vertex;
           }
         };
-        region.footprint?.forEach((p, index) =>
-          consider(layout.uv(p), { kind: 'footprint', index }),
-        );
-        region.mask?.forEach((shape, si) => {
-          shape.outer.forEach((p, index) => consider(p, { kind: 'mask', index, shape: si }));
-          shape.holes.forEach((hole, hi) =>
-            hole.forEach((p, index) => consider(p, { kind: 'hole', index, shape: si, hole: hi })),
+        if (this.overlays.blockers)
+          region.footprint?.forEach((p, index) =>
+            consider(layout.uv(p), { kind: 'footprint', index }),
           );
-        });
-        if (region.depth?.kind === 'anchor')
+        if (this.overlays.masks)
+          region.mask?.forEach((shape, si) => {
+            shape.outer.forEach((p, index) => consider(p, { kind: 'mask', index, shape: si }));
+            shape.holes.forEach((hole, hi) =>
+              hole.forEach((p, index) => consider(p, { kind: 'hole', index, shape: si, hole: hi })),
+            );
+          });
+        if (this.overlays.depth && region.depth?.kind === 'anchor')
           consider(layout.uv(region.depth.point), { kind: 'anchor', index: 0 });
-        else
-          region.depth?.points.forEach((p, index) =>
+        else if (this.overlays.depth && region.depth?.kind === 'boundary')
+          region.depth.points.forEach((p, index) =>
             consider(layout.uv(p), { kind: 'boundary', index }),
           );
       }
@@ -635,7 +617,7 @@ export class GroundAuthoring {
     const state = this.panel.querySelector('#ground-ai-state')!;
     try {
       if (this.batchDocument !== d || !this.candidates.length)
-        throw new Error('Find scenery for this draft first.');
+        throw new Error('Find scenery for this scene first.');
       const { dimensions: _dimensions, ...identity } = this.selectionIdentity();
       const included = this.candidates.filter((c) => c.included);
       for (const [index, candidate] of included.entries()) {
@@ -676,7 +658,7 @@ export class GroundAuthoring {
       if (this.abort) throw new Error('Wait for preparation or cancel it before accepting masks.');
       const candidates = this.candidates.filter((c) => c.included && c.mask?.length);
       if (!candidates.length || this.batchDocument !== this.host.document())
-        throw new Error('Prepare scenery masks for this draft first.');
+        throw new Error('Prepare scenery masks for this scene first.');
       const identity = this.selectionIdentity();
       await this.host.change((d) => {
         d.groundInteraction ??= { ...identity, regions: [], destinations: [] };

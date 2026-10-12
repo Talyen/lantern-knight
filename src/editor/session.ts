@@ -1,3 +1,5 @@
+import { lightingRigs } from '../presentation/lighting-profiles';
+import { contract as cameraContract } from '../core/camera';
 import { GroundAuthoring } from './ground-authoring';
 import { resizeGroundInteraction } from '../content/ground-interaction';
 import {
@@ -139,6 +141,13 @@ export function createEditorSession() {
     $('foundation').hidden = false;
     $<HTMLSelectElement>('rig').value = d.look.rig;
     $<HTMLSelectElement>('look').value = d.look.look;
+    const sun = d.look.sun ?? {
+      azimuthDeg: cameraContract.azimuthDeg + lightingRigs[d.look.rig].side,
+      elevationDeg: lightingRigs[d.look.rig].elevation,
+    };
+    $<HTMLInputElement>('sun-azimuth').value = String(sun.azimuthDeg);
+    $<HTMLInputElement>('sun-elevation').value = String(sun.elevationDeg);
+    $<HTMLButtonElement>('sun-preset').disabled = busy || !d.look.sun;
     showGroundResults();
     $<HTMLSelectElement>('floor-layout').value = d.floor.layout ?? 'repeat';
     $<HTMLInputElement>('width').value = String(d.floor.width);
@@ -201,11 +210,13 @@ export function createEditorSession() {
       'open',
       'name',
       'rig',
+      'sun-azimuth',
+      'sun-elevation',
       'look',
       'floor',
       'ground-search',
       'ground-high-res',
-      'walk-hero',
+      'reset-game-zoom',
       'width',
       'depth',
       'fit',
@@ -335,7 +346,7 @@ export function createEditorSession() {
     for (const scene of scenes) {
       const o = new Option(
         scene.name +
-          (scene.target === 'live' ? ' · LIVE' : ' · Draft') +
+          (scene.target === 'live' ? ' · LIVE' : '') +
           (scene.error ? ' · invalid file' : ''),
         'file-' + scene.id,
       );
@@ -365,7 +376,7 @@ export function createEditorSession() {
       status(
         d.target === 'live'
           ? 'Live room opened. Saving changes its scenery in the game.'
-          : 'Draft opened.',
+          : 'Scene opened.',
       );
     });
   }
@@ -379,7 +390,7 @@ export function createEditorSession() {
       status(
         documents.history.document.target === 'live'
           ? 'Saved. The game now uses this scenery.'
-          : 'Draft saved to authoring/scenes/' + documents.history.document.id + '.json',
+          : 'Scene saved to authoring/scenes/' + documents.history.document.id + '.json',
       );
     });
   }
@@ -422,10 +433,32 @@ export function createEditorSession() {
     $(id).onchange = () =>
       void change((d) => {
         d.look = {
+          ...d.look,
           rig: $<HTMLSelectElement>('rig').value as SceneDocument['look']['rig'],
           look: $<HTMLSelectElement>('look').value as SceneDocument['look']['look'],
         };
       });
+  for (const id of ['sun-azimuth', 'sun-elevation'])
+    $(id).onchange = async () => {
+      const sun = {
+        azimuthDeg: Number($<HTMLInputElement>('sun-azimuth').value),
+        elevationDeg: Number($<HTMLInputElement>('sun-elevation').value),
+      };
+      const d = documents.history.document;
+      const current = d.look.sun ?? {
+        azimuthDeg: cameraContract.azimuthDeg + lightingRigs[d.look.rig].side,
+        elevationDeg: lightingRigs[d.look.rig].elevation,
+      };
+      if (sun.azimuthDeg === current.azimuthDeg && sun.elevationDeg === current.elevationDeg)
+        return;
+      await change((d) => {
+        d.look.sun = sun;
+      });
+    };
+  $('sun-preset').onclick = () =>
+    void change((d) => {
+      delete d.look.sun;
+    });
   function showGroundResults() {
     const query = $<HTMLInputElement>('ground-search').value.trim().toLowerCase(),
       highRes = $<HTMLInputElement>('ground-high-res').checked,
@@ -517,8 +550,15 @@ export function createEditorSession() {
   $('duplicate').onclick = () => void composition?.duplicate();
   $('delete').onclick = () => void composition?.remove();
   $('fit').onclick = fit;
+  $('reset-game-zoom').onclick = () => {
+    if (!view.presentation) return;
+    view.presentation.verticalSpan = cameraContract.verticalSpan;
+    view.resize();
+    view.render();
+  };
   let walkingHero = false;
   const walkKeys = new Set<string>();
+  const heldPointers = new Set<number>();
   function stopWalkKeys() {
     walkKeys.clear();
     view?.walkHero(0, 0, 0);
@@ -528,24 +568,29 @@ export function createEditorSession() {
     stopWalkKeys();
     walkingHero = enabled;
     view.setHeroWalking(enabled);
-    $('walk-hero').setAttribute('aria-pressed', String(enabled));
-    $('walk-hero').textContent = enabled ? 'Stop walking' : 'Walk hero';
-    if (enabled) {
-      finishDrag(true);
-      composition.cancelGesture();
-      $<HTMLSelectElement>('tool').value = 'select';
-      $('tool').dispatchEvent(new Event('change'));
-      canvas.focus();
-    }
-    status(
-      enabled
-        ? 'WASD walks the hero through the scene. Escape restores the hero and camera.'
-        : 'Walking preview ended.',
-    );
   }
-  $('walk-hero').onclick = () => setWalkingHero(!walkingHero);
+  canvas.addEventListener(
+    'pointerdown',
+    (e) => {
+      heldPointers.add(e.pointerId);
+      stopWalkKeys();
+    },
+    { capture: true, signal: lifetime.signal },
+  );
+  for (const type of ['pointerup', 'pointercancel'] as const)
+    window.addEventListener(type, (e) => heldPointers.delete(e.pointerId), {
+      capture: true,
+      signal: lifetime.signal,
+    });
   canvas.addEventListener('blur', stopWalkKeys, { signal: lifetime.signal });
-  window.addEventListener('blur', stopWalkKeys, { signal: lifetime.signal });
+  window.addEventListener(
+    'blur',
+    () => {
+      heldPointers.clear();
+      stopWalkKeys();
+    },
+    { signal: lifetime.signal },
+  );
   document.addEventListener('visibilitychange', stopWalkKeys, { signal: lifetime.signal });
   document.addEventListener(
     'keyup',
@@ -917,6 +962,7 @@ export function createEditorSession() {
     const item =
         e.button === 0 ? view.pick(e.clientX, e.clientY, documents.history.document) : undefined,
       hero = $<HTMLSelectElement>('tool').value === 'hero' && e.button === 0;
+    if (hero) setWalkingHero(false);
     let mode: Drag['mode'] = hero ? 'hero' : e.button !== 0 ? 'pan' : 'object';
     if (mode === 'object') {
       if (!item) {
@@ -1082,7 +1128,9 @@ export function createEditorSession() {
       }
       if (text || (e.target instanceof HTMLElement && e.target.isContentEditable)) return;
       if (
-        walkingHero &&
+        !busy &&
+        !drag &&
+        !heldPointers.size &&
         e.target === canvas &&
         !e.ctrlKey &&
         !e.metaKey &&
@@ -1090,6 +1138,7 @@ export function createEditorSession() {
         ['KeyW', 'KeyA', 'KeyS', 'KeyD'].includes(e.code)
       ) {
         e.preventDefault();
+        if (!walkingHero) setWalkingHero(true);
         walkKeys.add(e.code);
         return;
       }
@@ -1181,7 +1230,6 @@ export function createEditorSession() {
     if (!ready || busy) return;
     const ms = last ? Math.min(50, time - last) : 0;
     last = time;
-    groundAuthoring?.setEnabled(!walkingHero);
     if (walkingHero) {
       const active = document.activeElement === canvas && !document.querySelector('dialog[open]');
       if (!active) stopWalkKeys();
@@ -1247,7 +1295,7 @@ export function createEditorSession() {
     if (
       dirty() &&
       !(await confirmation.ask(
-        'Replace the current composition with this imported draft?',
+        'Replace the current composition with this imported scene?',
         'Replace composition',
       ))
     )
@@ -1258,7 +1306,7 @@ export function createEditorSession() {
       assertActive();
       composition.set(undefined);
       fit();
-      status('Imported draft. Save As to create a scene file.');
+      status('Imported scene. Save As to create a scene file.');
     });
   }
   async function start() {

@@ -103,7 +103,12 @@ export class FocusMask {
       this.scene.traverseVisible((o) => {
         if (!(o instanceof T.Mesh) || edges.has(o)) return;
         const materials = Array.isArray(o.material) ? o.material : [o.material];
-        if (materials.every((m) => m instanceof T.ShadowMaterial)) return;
+        if (materials.every((m) => m instanceof T.ShadowMaterial)) {
+          // Shadow receivers have no depth silhouette. Drawing them while shadow
+          // maps are disabled also caches a shadowless shader for the beauty pass.
+          edges.add(o);
+          return;
+        }
         const sprite = byMaterial.get(materials[0]!);
         // A faded foreground prop must not hide the focus protection of a visible actor.
         if (
