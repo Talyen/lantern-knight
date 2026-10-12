@@ -73,7 +73,7 @@ export function createEditorSession() {
   }
   const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
   document.getElementById('app')!.innerHTML = editorUI;
-  const workspace = new EditorWorkspace();
+  const workspace = new EditorWorkspace(() => composition?.selection.size ?? 0);
   const confirmation = new EditorConfirmation();
   let groundAuthoring: GroundAuthoring;
   let composition: CompositionTools;

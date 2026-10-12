@@ -263,3 +263,19 @@ it('opening a saved scene preserves an existing recovery for later restoration',
   await f.project.restoreRecovery();
   assert.equal(f.documents.history.document.name, 'Unsaved work');
 });
+
+it('copies scenes whose names already use the full allowed length', async () => {
+  const f = fixture();
+  await f.project.list();
+  f.respond(() =>
+    f.json({
+      document: { ...emptyScene(), id: 'live-court', name: 'A'.repeat(80) },
+      revision: 'original',
+      baseRevision: 'base',
+    }),
+  );
+  await f.project.open('copy-court');
+  assert.equal(f.documents.history.document.name, 'Copy of ' + 'A'.repeat(72));
+  assert.equal(f.documents.history.document.target, 'draft');
+  assert.equal(f.project.revision, null);
+});

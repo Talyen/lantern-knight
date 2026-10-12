@@ -17,7 +17,7 @@ const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 
 test('input uses the first click position, preserves pending dodge across key repeats, and disposes its listeners', () => {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'window'),
-    target = Object.assign(new EventTarget(), { matches: (): boolean => false }),
+    target = Object.assign(new EventTarget(), { matches: (_selector: string): boolean => false }),
     canvas = Object.assign(new EventTarget(), {
       getBoundingClientRect: () => ({
         left: 80,
@@ -29,7 +29,10 @@ test('input uses the first click position, preserves pending dodge across key re
       }),
     });
   Object.defineProperty(globalThis, 'window', { configurable: true, value: target });
-  const input = new Input(canvas as unknown as HTMLCanvasElement, makeCamera(4 / 3), () => {});
+  let pauses = 0;
+  const input = new Input(canvas as unknown as HTMLCanvasElement, makeCamera(4 / 3), () => {
+    pauses++;
+  });
   try {
     const sim = new Simulation(content, 142, content.definitions.initialArea, 1),
       rect = canvas.getBoundingClientRect();
@@ -55,6 +58,17 @@ test('input uses the first click position, preserves pending dodge across key re
     target.matches = () => true;
     target.dispatchEvent(new Event('focusin'));
     assert.equal(input.keys.size, 0, 'focusing a text field releases held movement');
+    target.matches = () => false;
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
+    target.matches = (selector: string) => selector.includes('button');
+    target.dispatchEvent(new Event('focusin'));
+    assert.equal(input.keys.size, 0, 'focusing a button releases held movement');
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: false }));
+    assert.equal(input.keys.size, 0, 'focused buttons cannot move the hero');
+    assert.equal(input.edges.dodge, false, 'focused buttons cannot trigger combat');
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'Escape', repeat: false }));
+    assert.equal(pauses, 1, 'Escape still toggles pause from a focused button');
     target.matches = () => false;
     input.resetAim();
     input.dispose();
