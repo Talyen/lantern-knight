@@ -1,3 +1,4 @@
+import { PropContactShadows } from './contact-shadows';
 import { sceneFixtures } from '../content/scenery-presets';
 import { type ResolvedFixture } from '../content/world-visuals';
 import type { PreparedRegistration } from '../assets/registration';
@@ -42,10 +43,14 @@ export class InkRoom {
     private packs: ReadonlyMap<string, AssetPack>,
     private room: T.Group,
     private camera: T.OrthographicCamera,
-    private shadowTexture: T.Texture | undefined,
+    shadowTexture: T.Texture | undefined,
     readonly registration: PreparedRegistration,
     readonly art: WorldVisualDefinition,
   ) {
+    if (shadowTexture) {
+      this.contactShadows = new PropContactShadows(shadowTexture, art.props.length);
+      this.room.add(this.contactShadows.mesh);
+    }
     if (!art.interior) this.sceneryReveal = new SceneryReveals(area, registration.coverage, art);
   }
 
@@ -103,7 +108,7 @@ export class InkRoom {
     sprite: ActorSprite;
     mesh: T.Mesh<T.BufferGeometry, T.MeshBasicMaterial>;
   }[] = [];
-  private staticShadows: T.Mesh<T.PlaneGeometry, T.MeshBasicMaterial>[] = [];
+  readonly contactShadows: PropContactShadows | undefined;
   private ground(p: ArtPlacement, asset = p.asset) {
     const s = this.sprite(p.id, asset, p.clip, p.heading);
     s.material.color.set(p.tint ?? 0xffffff);
@@ -232,26 +237,7 @@ export class InkRoom {
       this.castShadows.push({ sprite: s, mesh: shadow });
       this.owned.push(g, m);
     }
-    if (this.shadowTexture && p.footprint && p.shadow !== 'none') {
-      const shadow = new T.Mesh(
-        new T.PlaneGeometry(...p.footprint),
-        new T.MeshBasicMaterial({
-          map: this.shadowTexture,
-          transparent: true,
-          depthTest: true,
-          depthWrite: false,
-          opacity: 0.32,
-        }),
-      );
-      shadow.rotation.x = -Math.PI / 2;
-      shadow.position.set(p.x, heightAt(this.area, p.x, p.z) + 0.012, p.z);
-      shadow.renderOrder = -1.5;
-      this.room.add(shadow);
-      shadow.userData.sprite = s;
-      shadow.userData.baseOpacity = 0.32;
-      this.staticShadows.push(shadow);
-    }
-    return s;
+    this.contactShadows?.add(p, s, this.area);
   }
   private effect(id: string, asset: string, clip: string) {
     let s = this.effects.get(id);
@@ -308,11 +294,6 @@ export class InkRoom {
       cast.mesh.visible = cast.sprite.mesh.visible;
       cast.mesh.material.opacity = cast.mesh.userData.baseOpacity * cast.sprite.material.opacity;
     }
-    for (const shadow of this.staticShadows) {
-      const sprite = shadow.userData.sprite as ActorSprite;
-      shadow.visible = sprite.mesh.visible;
-      shadow.material.opacity = shadow.userData.baseOpacity * sprite.material.opacity;
-    }
     for (const { fixture, emission, settings } of this.flames) {
       const f = settings.flame!,
         clip = emission.animator.clip,
@@ -356,12 +337,7 @@ export class InkRoom {
     this.sceneryReveal?.dispose();
     this.owned.forEach((v) => v.dispose());
     this.owned = [];
-    for (const s of this.staticShadows) {
-      s.geometry.dispose();
-      s.material.dispose();
-      s.removeFromParent();
-    }
-    this.staticShadows = [];
+    this.contactShadows?.dispose();
     for (const s of this.sprites) s.dispose();
     this.effects.clear();
   }

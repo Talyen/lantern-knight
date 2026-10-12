@@ -118,8 +118,9 @@ export class GamePresentation implements PresentationLifecycle {
     shadowCanvas.height = 64;
     const ctx = shadowCanvas.getContext('2d')!,
       gradient = ctx.createRadialGradient(32, 32, 2, 32, 32, 32);
-    gradient.addColorStop(0, 'rgba(0,0,0,0.5)');
-    gradient.addColorStop(1, 'rgba(0,0,0,0)');
+    gradient.addColorStop(0, 'rgba(255,255,255,0.9)');
+    gradient.addColorStop(0.35, 'rgba(255,255,255,0.75)');
+    gradient.addColorStop(1, 'rgba(255,255,255,0)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 64, 64);
     this.shadowTexture = new T.CanvasTexture(shadowCanvas);
@@ -343,6 +344,7 @@ export class GamePresentation implements PresentationLifecycle {
     this.lookRenderer.setSettings({ depthOfField: value });
   }
   protected renderFrame(sim: SimulationView, ms: number) {
+    this.roomPresentation.inkRoom?.contactShadows?.update();
     this.roomPresentation.surround.update(
       this.camera,
       this.viewTarget,
