@@ -5,7 +5,11 @@ import { GamePresentation } from '../presentation/game-scene';
 import { ActorSprite } from '../presentation/sprite';
 import { resolveClip } from '../assets/schema';
 import { resolveScene } from '../content/world-art';
-import { validateSceneReferences, type SceneDocument } from '../content/scene-document';
+import {
+  validateSceneReferences,
+  type SceneDocument,
+  type SceneSnapshot,
+} from '../content/scene-document';
 import { ContentRegistry, heightAt } from '../content/world';
 import { contentDefinitions } from '../content/game-content';
 import { GameSession } from '../core/session';
@@ -69,7 +73,7 @@ export class EditorView {
     string,
     { position: T.Vector3; scale: T.Vector3; quaternion: T.Quaternion }
   >();
-  private appliedDocument?: SceneDocument;
+  private appliedDocument?: SceneSnapshot;
   private walking?: { x: number; z: number; yaw: number; initialYaw: number; center: T.Vector3 };
   setHeroWalking(enabled: boolean) {
     if (!this.sim || !this.presentation) return;
@@ -106,7 +110,7 @@ export class EditorView {
     this.hero(this.walking);
     hero.yaw = this.walking.yaw;
   }
-  previewTransforms(document: SceneDocument) {
+  previewTransforms(document: SceneSnapshot) {
     if (!this.appliedDocument || !this.sim) return;
     const originals = new Map(
       sceneItems(this.appliedDocument).map((p) => [p.placement.id, p.placement]),
@@ -177,7 +181,7 @@ export class EditorView {
     readonly canvas: HTMLCanvasElement,
     readonly runtime: AssetRuntime,
   ) {}
-  async apply(document: SceneDocument) {
+  async apply(document: SceneSnapshot) {
     if (this.closed) throw new Error('Editor closed');
     this.clearTransformPreview();
     const resolved = resolveScene(document);
@@ -355,7 +359,7 @@ export class EditorView {
       y = Math.min(sample.height - 1, Math.max(0, Math.floor(uv.y * sample.height)));
     return sample.data[y * sample.width + x]! > 32;
   }
-  pick(x: number, y: number, document: SceneDocument) {
+  pick(x: number, y: number, document: SceneSnapshot) {
     this.ray(x, y);
     const items = new Map(sceneItems(document).map((item) => [item.placement.id, item])),
       sprites = this.sprites().filter((s) => items.has(s.id) && !this.hidden.has(s.id));

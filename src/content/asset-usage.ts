@@ -3,7 +3,7 @@ import { developerVisuals } from './developer-scenes';
 import { sandboxContent, sandboxDefinitions } from './sandbox-world';
 import { playgroundCatalog } from './effects-playground-assets';
 import { resolveScene } from './world-art';
-import type { SceneDocument } from './scene-document';
+import type { SceneSnapshot } from './scene-document';
 import { actorVisuals } from './visuals';
 export function fixtureAssetRoots(area: string) {
   if (area === 'effects-playground') return new Set(Object.keys(playgroundCatalog));
@@ -23,7 +23,7 @@ export function usedAssetRoots() {
   }
   return roots;
 }
-export function documentAssetRoots(document: SceneDocument) {
+export function documentAssetRoots(document: SceneSnapshot) {
   const source = sandboxDefinitions.areas.find((area) => area.id === document.base);
   const resolved = resolveScene(
     document,

@@ -1,10 +1,16 @@
 import { artworkFloorLayout } from './floor-layout';
 import { authoredGameplay } from './authored-gameplay';
 import { resolveFixtures } from './scenery-presets';
-import { parseSceneDocument, resolveSceneDocument, type SceneDocument } from './scene-document';
+import {
+  parseSceneDocument,
+  resolveSceneDocument,
+  type SceneDocument,
+  type SceneSnapshot,
+} from './scene-document';
 import { isSupportedPosition, type AreaDefinition, type PropDefinition } from './world';
 import { sceneAssets, SCENE_LIGHT_CAPACITY, type WorldVisualDefinition } from './world-visuals';
-export function resolveAuthoredScene(document: SceneDocument): WorldVisualDefinition {
+export function resolveAuthoredScene(snapshot: SceneSnapshot): WorldVisualDefinition {
+  const document = parseSceneDocument(snapshot);
   const art = resolveSceneDocument(document);
   if (document.geometry) {
     const area: AreaDefinition = {

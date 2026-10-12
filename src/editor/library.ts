@@ -5,6 +5,7 @@ import {
   parseSceneDocument,
   parseSceneFragment,
   type SceneDocument,
+  type SceneSnapshot,
 } from '../content/scene-document';
 import { EditorHistory, sceneItems } from './model';
 import type { EditorView } from './view';
@@ -24,7 +25,7 @@ type Host = {
 };
 const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
 export function patternPoints(
-  d: SceneDocument,
+  d: SceneSnapshot,
   kind: 'scatter' | 'path',
   count: number,
   seed: number,

@@ -1,4 +1,4 @@
-import type { SceneDocument } from '../content/scene-document';
+import type { SceneDocument, SceneSnapshot } from '../content/scene-document';
 import { EditorHistory } from './model';
 
 export type EditorSnapshot = Readonly<
@@ -9,21 +9,35 @@ export type EditorSnapshot = Readonly<
 export class EditorDocument {
   private current: EditorHistory;
   private pending = false;
+  private snapshot!: EditorSnapshot;
+  private accept(history: EditorHistory) {
+    this.current = history;
+    this.snapshot = Object.freeze({
+      document: history.document,
+      canUndo: history.canUndo,
+      canRedo: history.canRedo,
+      descendants: (ids: readonly string[]) => history.descendants(ids),
+      fragment: (ids: readonly string[]) => history.fragment(ids),
+    });
+  }
   constructor(
-    document: SceneDocument,
-    private readonly apply: (document: SceneDocument) => Promise<void>,
-    private readonly validate: (document: SceneDocument) => void,
+    document: SceneSnapshot,
+    private readonly apply: (document: SceneSnapshot) => Promise<void>,
+    private readonly validate: (document: SceneSnapshot) => void,
     private readonly signal: AbortSignal,
   ) {
     this.current = new EditorHistory(document);
+    this.accept(this.current);
   }
   get history(): EditorSnapshot {
-    return this.current;
+    return this.snapshot;
   }
   reidentify(id: string, target: SceneDocument['target']) {
     if (this.pending) throw new Error('Scene update in progress');
     this.signal.throwIfAborted();
-    this.current.reidentify(id, target);
+    const next = this.current.fork();
+    next.reidentify(id, target);
+    this.accept(next);
   }
   edit(work: (candidate: EditorHistory) => void) {
     return this.update(() => {
@@ -32,7 +46,7 @@ export class EditorDocument {
       return candidate;
     });
   }
-  replace(document: SceneDocument) {
+  replace(document: SceneSnapshot) {
     return this.update(() => new EditorHistory(document));
   }
   private async update(prepare: () => EditorHistory) {
@@ -40,11 +54,11 @@ export class EditorDocument {
     if (this.pending) throw new Error('Scene update in progress');
     this.pending = true;
     try {
-      const candidate = prepare();
+      const candidate = prepare().fork();
       this.validate(candidate.document);
       await this.apply(candidate.document);
       this.signal.throwIfAborted();
-      this.current = candidate;
+      this.accept(candidate);
     } catch (error) {
       if (!this.signal.aborted) {
         try {

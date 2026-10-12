@@ -38,6 +38,7 @@ import {
   paletteClips,
   floorClips,
   type SceneDocument,
+  type SceneSnapshot,
   type PaletteKind,
 } from '../content/scene-document';
 import { heightAt } from '../content/world';
@@ -53,7 +54,7 @@ declare global {
     sceneEditor: {
       ready: () => boolean;
       state: () => {
-        document: SceneDocument;
+        document: SceneSnapshot;
         revision: string | null;
         dirty: boolean;
         selected: string | undefined;
@@ -404,7 +405,7 @@ export function createEditorSession() {
   $('save-as').onclick = saveAs;
   $('copy-scene').onclick = () => {
     const document = {
-      ...structuredClone(documents.history.document),
+      ...parseSceneDocument(documents.history.document),
       id: 'untitled',
       target: 'draft' as const,
       name: 'Copy of ' + documents.history.document.name.slice(0, 72),
@@ -502,7 +503,7 @@ export function createEditorSession() {
         const temp = new EditorHistory(history.document);
         for (const target of ids) temp.transform(target, { [id]: value });
         history.change((d) => {
-          d.objects = temp.document.objects;
+          d.objects = parseSceneDocument(temp.document).objects;
         });
       });
   $('undo').onclick = () =>

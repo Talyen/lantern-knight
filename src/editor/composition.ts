@@ -1,6 +1,7 @@
 import * as T from 'three';
 import { heightAt } from '../content/world';
 import { openDock } from './workspace';
+import { parseSceneDocument } from '../content/scene-document';
 import { EditorHistory, sceneItems } from './model';
 import type { EditorView } from './view';
 import type { EditorSnapshot } from './document';
@@ -90,7 +91,7 @@ export class CompositionTools {
           const temp = new EditorHistory(this.host.history().document);
           for (const id of ids) temp.transform(id, { [axis]: anchor });
           history.change((d) => {
-            d.objects = temp.document.objects;
+            d.objects = parseSceneDocument(temp.document).objects;
           });
         }).catch(console.error);
       element('alignment-tools').append(button);

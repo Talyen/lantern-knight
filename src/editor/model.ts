@@ -1,13 +1,15 @@
 import {
   parseSceneDocument,
   type SceneDocument,
+  type SceneSnapshot,
   type SceneObject,
 } from '../content/scene-document';
+import { contentSnapshot } from '../content/snapshot';
 import { localOffset } from '../content/scenery-presets';
 import { resolveAuthoredScene } from '../content/world-art';
 import { type ArtPlacement } from '../content/world-visuals';
 export type EditorItem = { placement: ArtPlacement; kind: SceneObject['kind'] };
-export function sceneItems(document: SceneDocument): EditorItem[] {
+export function sceneItems(document: SceneSnapshot): EditorItem[] {
   const art = resolveAuthoredScene({ ...document, groundInteraction: undefined }),
     kinds = new Map(document.objects.map((p) => [p.id, p.kind]));
   return [
@@ -22,11 +24,14 @@ export function sceneItems(document: SceneDocument): EditorItem[] {
   ];
 }
 export class EditorHistory {
-  document: SceneDocument;
-  private past: SceneDocument[] = [];
-  private future: SceneDocument[] = [];
-  constructor(document: SceneDocument) {
-    this.document = parseSceneDocument(document);
+  private current: SceneSnapshot;
+  private past: SceneSnapshot[] = [];
+  private future: SceneSnapshot[] = [];
+  constructor(document: SceneSnapshot) {
+    this.current = contentSnapshot(parseSceneDocument(document));
+  }
+  get document(): SceneSnapshot {
+    return this.current;
   }
   fork() {
     const copy = new EditorHistory(this.document);
@@ -41,37 +46,38 @@ export class EditorHistory {
     return this.future.length > 0;
   }
   reidentify(id: string, target: SceneDocument['target']) {
-    const identify = (document: SceneDocument) => parseSceneDocument({ ...document, id, target });
+    const identify = (document: SceneSnapshot) =>
+      contentSnapshot(parseSceneDocument({ ...document, id, target }));
     const document = identify(this.document),
       past = this.past.map(identify),
       future = this.future.map(identify);
-    this.document = document;
+    this.current = document;
     this.past = past;
     this.future = future;
   }
   change(mutator: (d: SceneDocument) => void) {
-    const next = structuredClone(this.document);
+    const next = parseSceneDocument(this.document);
     mutator(next);
     const valid = parseSceneDocument(next);
     resolveAuthoredScene(valid);
     if (JSON.stringify(valid) === JSON.stringify(this.document)) return;
     this.past.push(this.document);
     if (this.past.length > 100) this.past.shift();
-    this.document = valid;
+    this.current = contentSnapshot(valid);
     this.future = [];
   }
   undo() {
     const previous = this.past.pop();
     if (previous) {
       this.future.push(this.document);
-      this.document = structuredClone(previous);
+      this.current = previous;
     }
   }
   redo() {
     const next = this.future.pop();
     if (next) {
       this.past.push(this.document);
-      this.document = structuredClone(next);
+      this.current = next;
     }
   }
   transform(
@@ -179,19 +185,20 @@ export class EditorHistory {
 
   duplicateMany(ids: readonly string[]) {
     const included = new Set(this.descendants(ids));
+    const document = parseSceneDocument(this.document);
     const objects = sceneItems(this.document)
       .filter((p) => included.has(p.placement.id))
-      .map((p) => this.document.objects.find((object) => object.id === p.placement.id)!);
+      .map((p) => document.objects.find((object) => object.id === p.placement.id)!);
     return this.insertFragment(objects, 0.5, 0.5, true);
   }
 
   fragment(ids: readonly string[]) {
     const included = new Set(this.descendants(ids));
     const items = sceneItems(this.document);
-    return this.document.objects
-      .filter((p) => included.has(p.id))
+    return parseSceneDocument(this.document)
+      .objects.filter((p) => included.has(p.id))
       .map((p) => {
-        const copy = structuredClone(p);
+        const copy = p;
         if (copy.mount && !included.has(copy.mount.to)) {
           const world = items.find((v) => v.placement.id === p.id)!.placement;
           delete copy.mount;
