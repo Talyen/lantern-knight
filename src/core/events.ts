@@ -30,80 +30,150 @@ export type AnimationEvent = Readonly<
   }
 >;
 export type PresentationEvent = GameplayEvent | AnimationEvent;
+type Consumer = {
+  handler: (event: PresentationEvent, lifetime: AbortSignal) => unknown;
+  lifetime: AbortController;
+};
+// Feedback observes committed outcomes. Its callbacks cannot own gameplay progress.
 export class EventHub {
-  private consumers = new Map<
-    symbol,
-    {
-      handler: (event: PresentationEvent, lifetime: AbortSignal) => void;
-      lifetime: AbortController;
-    }
-  >();
+  private consumers = new Set<Consumer>();
   private generation = -1;
+  private epoch = 0;
   private tick = -1;
   private tickKeys = new Set<string>();
   private animations = new Map<string, { instance: number; time: number; keys: Set<string> }>();
+  private queue: PresentationEvent[] = [];
+  private dispatching = false;
+  private changingGeneration = 0;
+  private disposed = false;
   readonly history: PresentationEvent[] = [];
-  subscribe(handler: (event: PresentationEvent, lifetime: AbortSignal) => void) {
-    const key = Symbol(),
-      consumer = { handler, lifetime: new AbortController() };
-    this.consumers.set(key, consumer);
+  constructor(
+    private readonly report: (error: unknown, event: PresentationEvent) => void = (error) =>
+      console.error('Event feedback failed', error),
+  ) {}
+  subscribe(handler: Consumer['handler']) {
+    if (this.disposed) throw new Error('event hub disposed');
+    const consumer = { handler, lifetime: new AbortController() };
+    this.consumers.add(consumer);
     return () => {
+      this.consumers.delete(consumer);
       consumer.lifetime.abort();
-      this.consumers.delete(key);
     };
   }
   setGeneration(generation: number) {
-    if (generation === this.generation) return;
-    this.generation = generation;
-    for (const consumer of this.consumers.values()) {
-      consumer.lifetime.abort();
-      consumer.lifetime = new AbortController();
+    if (this.disposed || generation === this.generation) return;
+    this.changingGeneration++;
+    try {
+      this.generation = generation;
+      this.epoch++;
+      this.tick = -1;
+      this.tickKeys.clear();
+      this.animations.clear();
+      this.queue.length = 0;
+      // Replace every lifetime before abort callbacks can re-enter the hub.
+      const previous = [...this.consumers].map((consumer) => {
+        const lifetime = consumer.lifetime;
+        consumer.lifetime = new AbortController();
+        return lifetime;
+      });
+      for (const lifetime of previous) lifetime.abort();
+    } finally {
+      this.changingGeneration--;
+      this.drain();
     }
-    this.tick = -1;
-    this.tickKeys.clear();
-    this.animations.clear();
+  }
+  private accept(event: PresentationEvent) {
+    if (event.generation !== this.generation) return false;
+    if (event.kind === 'animation-notify') {
+      let cursor = this.animations.get(event.actor);
+      if (
+        cursor &&
+        (event.instance < cursor.instance ||
+          (event.instance === cursor.instance && event.timeMs < cursor.time))
+      )
+        return false;
+      if (!cursor || event.instance > cursor.instance || event.timeMs > cursor.time) {
+        cursor = { instance: event.instance, time: event.timeMs, keys: new Set() };
+        this.animations.set(event.actor, cursor);
+      }
+      if (cursor.keys.has(event.key)) return false;
+      cursor.keys.add(event.key);
+    } else {
+      if (event.tick < this.tick) return false;
+      if (event.tick > this.tick) {
+        this.tick = event.tick;
+        this.tickKeys.clear();
+      }
+      if (this.tickKeys.has(event.key)) return false;
+      this.tickKeys.add(event.key);
+    }
+    return true;
   }
   publish(events: readonly PresentationEvent[]) {
-    for (const event of events) {
-      if (event.generation !== this.generation) continue;
-      if (event.kind === 'animation-notify') {
-        let cursor = this.animations.get(event.actor);
-        if (
-          cursor &&
-          (event.instance < cursor.instance ||
-            (event.instance === cursor.instance && event.timeMs < cursor.time))
-        )
-          continue;
-        if (!cursor || event.instance > cursor.instance || event.timeMs > cursor.time) {
-          cursor = {
-            instance: event.instance,
-            time: event.timeMs,
-            keys: new Set(),
-          };
-          this.animations.set(event.actor, cursor);
+    if (this.disposed) return;
+    this.queue.push(...events);
+    this.drain();
+  }
+  private fail(
+    consumer: Consumer,
+    lifetime: AbortController,
+    event: PresentationEvent,
+    error: unknown,
+  ) {
+    // A late rejection belongs to its old lifetime, not the replacement session.
+    if (lifetime.signal.aborted || !this.consumers.has(consumer)) return;
+    this.consumers.delete(consumer);
+    lifetime.abort();
+    try {
+      this.report(error, event);
+    } catch {
+      // Diagnostics are also observers and cannot interrupt event delivery.
+    }
+  }
+  private drain() {
+    if (this.dispatching || this.changingGeneration || this.disposed) return;
+    this.dispatching = true;
+    try {
+      let event: PresentationEvent | undefined;
+      while (!this.disposed && (event = this.queue.shift())) {
+        if (!this.accept(event)) continue;
+        this.history.push(event);
+        if (this.history.length > 100) this.history.shift();
+        const epoch = this.epoch;
+        // New subscribers start with the next event; removal takes effect immediately.
+        for (const consumer of [...this.consumers]) {
+          if (this.disposed || epoch !== this.epoch) break;
+          if (!this.consumers.has(consumer)) continue;
+          const lifetime = consumer.lifetime,
+            delivered = event;
+          try {
+            const result = consumer.handler(delivered, lifetime.signal);
+            if (
+              result !== null &&
+              (typeof result === 'object' || typeof result === 'function') &&
+              'then' in result
+            )
+              void Promise.resolve(result).catch((error: unknown) =>
+                this.fail(consumer, lifetime, delivered, error),
+              );
+          } catch (error) {
+            this.fail(consumer, lifetime, delivered, error);
+          }
         }
-        if (cursor.keys.has(event.key)) continue;
-        cursor.keys.add(event.key);
-      } else {
-        if (event.tick < this.tick) continue;
-        if (event.tick > this.tick) {
-          this.tick = event.tick;
-          this.tickKeys.clear();
-        }
-        if (this.tickKeys.has(event.key)) continue;
-        this.tickKeys.add(event.key);
       }
-      this.history.push(event);
-      if (this.history.length > 100) this.history.shift();
-      for (const consumer of this.consumers.values())
-        consumer.handler(event, consumer.lifetime.signal);
+    } finally {
+      this.dispatching = false;
     }
   }
   dispose() {
-    for (const consumer of this.consumers.values()) consumer.lifetime.abort();
+    if (this.disposed) return;
+    this.disposed = true;
+    this.queue.length = 0;
+    const consumers = [...this.consumers];
     this.consumers.clear();
     this.animations.clear();
     this.tickKeys.clear();
     this.history.length = 0;
+    for (const consumer of consumers) consumer.lifetime.abort();
   }
 }

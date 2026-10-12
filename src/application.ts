@@ -25,7 +25,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   input!: Input;
   runtime!: AssetRuntime;
   persistence: Persistence;
-  events = new EventHub();
+  readonly events: EventHub;
   clock = new FixedClock();
   private packViews = new Map<string, AssetPack>();
   private previewPack?: { id: string; pack: PackLease };
@@ -88,6 +88,12 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     readonly hooks: ApplicationHooks,
     readonly extraAssets: readonly string[] = [],
   ) {
+    this.events = new EventHub((error, event) =>
+      this.hooks.status(
+        `Event feedback failed (${event.kind}): ${error instanceof Error ? error.message : String(error)}`,
+        true,
+      ),
+    );
     this.session = new GameSession(registry);
     this.persistence = new Persistence(bridge);
   }
