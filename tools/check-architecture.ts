@@ -9,6 +9,13 @@ import { inspectImports } from './import-edges';
 // These rules protect existing owners, including type imports and re-exports.
 // Three.js math and the current core/content/asset relationships remain legal.
 function importFinding(file: string, target: string) {
+  if (
+    (file === 'src/platform/browser-store.ts' ||
+      file === 'src/platform/storage-codec.ts' ||
+      file === 'electron/store.ts') &&
+    /^src\/content\/(?:game-content|sandbox-world|world-art)(?:\.|$)/.test(target)
+  )
+    return 'storage adapters receive their content registry from the host, without production scene composition imports';
   if (!file.startsWith('src/')) return;
   if (
     (file.startsWith('src/core/') || file === 'src/content/world.ts') &&
@@ -45,7 +52,9 @@ async function checkArchitecture(root: string, files: string[]) {
     const snapshot = api.updateSnapshot({ openProjects: [path.join(root, 'tsconfig.json')] }),
       project = snapshot.getProject(path.join(root, 'tsconfig.json'));
     if (!project) throw new Error('Architecture checker could not open tsconfig.json');
-    for (const file of files.filter((f) => f.startsWith('src/') && /\.[cm]?tsx?$/.test(f))) {
+    for (const file of files.filter(
+      (f) => /^(?:src|electron)\//.test(f) && /\.[cm]?tsx?$/.test(f),
+    )) {
       try {
         await fs.access(path.join(root, file));
       } catch (error) {

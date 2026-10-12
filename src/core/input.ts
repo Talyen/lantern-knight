@@ -26,11 +26,13 @@ export class Input {
       const element = target as HTMLElement;
       return element.matches('input,select,textarea') || element.isContentEditable;
     };
+    const control = (target: EventTarget | null) =>
+      (target as HTMLElement).matches('button,a[href],summary,[role=button]');
     on('focusin', (e) => {
-      if (editing(e.target)) this.clear();
+      if (editing(e.target) || control(e.target)) this.clear();
     });
     on('keydown', (e) => {
-      if (editing(e.target)) return;
+      if (editing(e.target) || (e.code !== 'Escape' && control(e.target))) return;
       this.keys.add(e.code);
       if (!e.repeat && (e.code === 'ShiftLeft' || e.code === 'ShiftRight')) this.edges.dodge = true;
       if (e.code === 'Escape' && !e.repeat) {

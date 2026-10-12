@@ -9,7 +9,7 @@
 | Content | Gameplay definitions, scene parsing/resolution and explicit visual requirements | `src/content/` |
 | Presentation | Interpolation, animation, camera rendering, lighting and GPU resource disposal | `src/presentation/` |
 | Developer sessions | Editor/preview controls, temporary state, mounted requests and cancellation | `src/editor/`, `src/sandbox/` |
-| Storage adapters | Validated browser storage and atomic desktop writes through Bridge | `src/platform/`, `electron/` |
+| Storage adapters | Shared validation, browser storage and atomic desktop writes through Bridge | `src/platform/`, `electron/` |
 | Asset tools | Source preparation, immutable delivery, workspaces and cache leases | `tools/assets/` |
 | Development tools | Guide discovery, checks, test selection, builds and preview processes | `tools/` (asset operations in `tools/assets/`) |
 
@@ -65,7 +65,7 @@ Preview sessions own server acquisition, identity checks and lease release once.
 
 ### Change saved state
 
-Change the schemas and parsers in `src/core/save.ts`, session capture/restore and relevant adapters together. Prototype saves use version 6 and settings version 5; obsolete or incompatible data loads as empty. Storage failures remain visible. Adapters validate writes; Electron snapshots requests, serializes them through one queue and replaces files atomically. Browser and desktop isolate prototype profiles. Test with `npm test -- tests/unit/persistence.test.ts tests/unit/application.test.ts`. Add migrations when external players create a real compatibility need.
+Gameplay checkpoint schemas and registry validation belong to `src/core/save.ts`; renderer settings belong to `src/platform/settings.ts`. `src/platform/bridge.ts` owns the host protocol, while `src/persistence.ts` owns application write feedback. Browser and desktop adapters share `src/platform/storage-codec.ts` for detached write snapshots, payload limits and invalid-data handling. Game entry points select the content registry explicitly when creating adapters; storage never selects production content internally. Change checkpoint capture/restore and the relevant codec together. Prototype saves use version 6 and settings version 5; obsolete or incompatible data loads as empty. Storage failures remain visible. Adapters validate writes; Electron snapshots requests, serializes them through one queue and replaces files atomically. Browser and desktop isolate prototype profiles. Test with `npm test -- tests/unit/persistence.test.ts tests/unit/application.test.ts`. Add migrations when external players create a real compatibility need.
 
 ### Add an area or enemy
 
@@ -76,6 +76,8 @@ Author scene geometry and visuals together. For Game, register the area and its 
 Authored hero holds, gameplay tuning and simulation own timing at 60 Hz. The hero's melee definition owns base/lunge reach and an optional `sweepRange` override, falling back to base reach; action timing owns the damage window. Sweep defaults to the Quick preset shared by simulation, retimed presentation clips and the effect clock. Preview overrides change no raster assets or persisted fields. [Sweep review](developer-tools.md#sweep-review) owns preset timings and recovery comparisons.
 
 Animation callbacks never commit damage. Preserve generation-scoped immutable events, fixed-step outcomes and resource disposal. Use action/foundation unit tests, prepared-asset tests for registration changes, and optional native diagnostics for visual investigations.
+
+EventHub delivers gameplay and animation feedback in publication order. Reentrant publication waits behind the current batch; new subscriptions start with the next event, and unsubscribe takes effect immediately. Replacing a generation aborts old subscriber work and stops stale queued or in-flight delivery. Disposal closes the hub permanently. A subscriber exception or current-lifetime promise rejection removes that subscriber, aborts its pending work and reports one diagnostic through Application status without interrupting peers, gameplay, transitions or autosaves. Rejections from aborted lifetimes are discarded; subscribers must use the supplied AbortSignal to cancel their own asynchronous effects.
 
 GamePresentation owns shared CombatFeedback. Application acquires its two catalog assets with initial scene assets and retains their leases; presentation reset/disposal clears effects and subscriptions before releasing those assets. Damage events queue one Contact Shear at each confirmed target, regardless of attacker kind. The sweep effect uses its original pre-painted camera-facing view and fixed registration, scale and timing; it never decides damage or changes the artwork geometry.
 

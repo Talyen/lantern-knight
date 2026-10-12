@@ -1,6 +1,7 @@
 import { it } from 'node:test';
 import assert from 'node:assert/strict';
 import { EditorHistory } from '../../src/editor/model';
+import { ContentRegistry } from '../../src/content/world';
 import { composeDraftGameplay } from '../../src/content/draft-gameplay';
 import { emptyScene } from '../../src/editor/default-scene';
 import { sceneItems } from '../../src/editor/model';
@@ -122,7 +123,7 @@ import { EditorView } from '../../src/editor/view';
 import type { AssetRuntime } from '../../src/assets/loader';
 import { Vector3, Quaternion } from 'three';
 import { Simulation } from '../../src/core/simulation';
-import { content } from '../fixtures/content';
+import { content, contentDefinitions } from '../fixtures/content';
 import { manifestFixture } from '../fixtures/manifest';
 
 it('placement ghost retries the same asset after a transient load failure', async () => {
@@ -255,6 +256,99 @@ it('applying a repeat pattern preserves the copied pickups as playable health re
     Object.assign(sim.hero, { x: 3, z: 0, health: 50 });
     sim.step({ move: { x: 0, z: 0 }, aim: { x: 4, z: 0 } });
     assert.equal(sim.hero.health, 75);
+  } finally {
+    if (previous) Object.defineProperty(globalThis, 'document', previous);
+    else Reflect.deleteProperty(globalThis, 'document');
+  }
+});
+
+import { CompositionTools } from '../../src/editor/composition';
+import { EditorWorkspace } from '../../src/editor/workspace';
+
+it('marquee selects rendered elevations and excludes descendants of hidden supports', () => {
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'document');
+  const node = {
+    hidden: false,
+    tabIndex: 0,
+    setAttribute() {},
+    classList: { contains: () => false },
+  };
+  Object.defineProperty(globalThis, 'document', {
+    configurable: true,
+    value: { getElementById: () => node, body: node },
+  });
+  try {
+    const h = assembly();
+    const sim = new Simulation(content);
+    const definitions = structuredClone(contentDefinitions);
+    definitions.areas[0]!.surface = { kind: 'flat', height: 2 };
+    const elevated = new Simulation(new ContentRegistry(definitions));
+    const tools = Object.create(CompositionTools.prototype) as CompositionTools;
+    const host = {
+      history: () => h,
+      view: () => ({ sim: elevated, screen: (p: Vector3) => ({ x: p.x * 100, y: p.y * 100 }) }),
+      select() {},
+    };
+    Object.assign(tools, {
+      host,
+      selection: new Set(),
+      hidden: new Set(['support']),
+      locked: new Set(),
+    });
+    tools.rectangle({ x: 390, y: 190 }, { x: 410, y: 210 }, false);
+    assert.deepEqual([...tools.selection], ['other'], 'select the object at its rendered height');
+    host.view = () => ({ sim, screen: (p: Vector3) => ({ x: p.x * 100, y: p.y * 100 }) });
+    tools.rectangle({ x: -10, y: -10 }, { x: 110, y: 10 }, false);
+    assert.equal(
+      tools.selection.size,
+      0,
+      'a hidden support hides its mounted children from marquee',
+    );
+  } finally {
+    if (previous) Object.defineProperty(globalThis, 'document', previous);
+    else Reflect.deleteProperty(globalThis, 'document');
+  }
+});
+
+it('workspace keeps single-object clip controls hidden for multiple selected objects', () => {
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'document');
+  const nodes = new Map<string, ReturnType<typeof node>>();
+  function node() {
+    const label = { hidden: false };
+    return {
+      hidden: false,
+      disabled: false,
+      checked: false,
+      value: '',
+      textContent: '',
+      style: {},
+      options: [{}, {}],
+      closest: () => label,
+      replaceChildren() {},
+    };
+  }
+  let selectionCount = 2;
+  Object.defineProperty(globalThis, 'document', {
+    configurable: true,
+    value: {
+      getElementById(id: string) {
+        if (!nodes.has(id)) nodes.set(id, node());
+        return nodes.get(id)!;
+      },
+      querySelector: () => ({}),
+    },
+  });
+  try {
+    for (const id of ['category', 'collection', 'asset-scope']) document.getElementById(id);
+    for (const id of ['category', 'collection', 'asset-scope']) nodes.get(id)!.value = 'all';
+    const workspace = Object.create(EditorWorkspace.prototype) as EditorWorkspace;
+    Object.assign(workspace, { selectionSize: () => selectionCount });
+    workspace.refresh();
+    for (const id of ['clip', 'heading']) assert.equal(nodes.get(id)!.closest().hidden, true);
+    assert.equal(nodes.get('place-clip')!.closest().hidden, false);
+    selectionCount = 1;
+    workspace.refresh();
+    for (const id of ['clip', 'heading']) assert.equal(nodes.get(id)!.closest().hidden, false);
   } finally {
     if (previous) Object.defineProperty(globalThis, 'document', previous);
     else Reflect.deleteProperty(globalThis, 'document');

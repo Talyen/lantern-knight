@@ -5,11 +5,12 @@ import type { PresentationLifecycle } from './presentation/lifecycle';
 import type { SceneContent } from './content/game-content';
 import { GameSession } from './core/session';
 import { FixedClock, type Command } from './core/simulation';
-import { Persistence } from './core/persistence';
+import { Persistence } from './persistence';
 import { EventHub, type GameplayEvent } from './core/events';
 import { Input } from './core/input';
 import { ContentRegistry } from './content/world';
-import { parseGame, type GameSave, type Bridge } from './core/save';
+import { parseGame, type GameSave } from './core/save';
+import type { Bridge } from './platform/bridge';
 import { FrameScheduler } from './frame-scheduler';
 import { SessionOperation, SessionOperationCancelled } from './session-operation';
 export type ApplicationHooks = {
@@ -25,7 +26,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   input!: Input;
   runtime!: AssetRuntime;
   persistence: Persistence;
-  events = new EventHub();
+  readonly events: EventHub;
   clock = new FixedClock();
   private packViews = new Map<string, AssetPack>();
   private previewPack?: { id: string; pack: PackLease };
@@ -88,6 +89,12 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     readonly hooks: ApplicationHooks,
     readonly extraAssets: readonly string[] = [],
   ) {
+    this.events = new EventHub((error, event) =>
+      this.hooks.status(
+        `Event feedback failed (${event.kind}): ${error instanceof Error ? error.message : String(error)}`,
+        true,
+      ),
+    );
     this.session = new GameSession(registry);
     this.persistence = new Persistence(bridge);
   }

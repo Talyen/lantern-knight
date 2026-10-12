@@ -86,7 +86,7 @@ export class EditorProject {
         document = {
           ...document,
           id: 'untitled',
-          name: 'Copy of ' + document.name,
+          name: 'Copy of ' + document.name.slice(0, 72),
           target: 'draft',
         };
         revision = null;

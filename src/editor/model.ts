@@ -182,7 +182,7 @@ export class EditorHistory {
     const objects = sceneItems(this.document)
       .filter((p) => included.has(p.placement.id))
       .map((p) => this.document.objects.find((object) => object.id === p.placement.id)!);
-    return this.insertFragment(objects, 0.5, 0.5);
+    return this.insertFragment(objects, 0.5, 0.5, true);
   }
 
   fragment(ids: readonly string[]) {
@@ -204,7 +204,7 @@ export class EditorHistory {
       });
   }
 
-  insertFragment(objects: readonly SceneObject[], dx = 0, dz = 0) {
+  insertFragment(objects: readonly SceneObject[], dx = 0, dz = 0, copyPickups = false) {
     const copies = structuredClone([...objects]);
     const remap = new Map(copies.map((p) => [p.id, 'object-' + crypto.randomUUID()]));
     this.change((d) => {
@@ -223,7 +223,9 @@ export class EditorHistory {
         }
         d.objects.push(p);
         const original = objects.find((o) => remap.get(o.id) === p.id)!;
-        const pickup = this.document.gameplay?.pickups.find((v) => v.object === original.id);
+        const pickup = copyPickups
+          ? this.document.gameplay?.pickups.find((v) => v.object === original.id)
+          : undefined;
         if (pickup && d.gameplay)
           d.gameplay.pickups.push({
             ...structuredClone(pickup),

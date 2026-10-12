@@ -17,7 +17,7 @@ const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 
 test('input uses the first click position, preserves pending dodge across key repeats, and disposes its listeners', () => {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'window'),
-    target = Object.assign(new EventTarget(), { matches: (): boolean => false }),
+    target = Object.assign(new EventTarget(), { matches: (_selector: string): boolean => false }),
     canvas = Object.assign(new EventTarget(), {
       getBoundingClientRect: () => ({
         left: 80,
@@ -29,7 +29,10 @@ test('input uses the first click position, preserves pending dodge across key re
       }),
     });
   Object.defineProperty(globalThis, 'window', { configurable: true, value: target });
-  const input = new Input(canvas as unknown as HTMLCanvasElement, makeCamera(4 / 3), () => {});
+  let pauses = 0;
+  const input = new Input(canvas as unknown as HTMLCanvasElement, makeCamera(4 / 3), () => {
+    pauses++;
+  });
   try {
     const sim = new Simulation(content, 142, content.definitions.initialArea, 1),
       rect = canvas.getBoundingClientRect();
@@ -55,6 +58,17 @@ test('input uses the first click position, preserves pending dodge across key re
     target.matches = () => true;
     target.dispatchEvent(new Event('focusin'));
     assert.equal(input.keys.size, 0, 'focusing a text field releases held movement');
+    target.matches = () => false;
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
+    target.matches = (selector: string) => selector.includes('button');
+    target.dispatchEvent(new Event('focusin'));
+    assert.equal(input.keys.size, 0, 'focusing a button releases held movement');
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: false }));
+    assert.equal(input.keys.size, 0, 'focused buttons cannot move the hero');
+    assert.equal(input.edges.dodge, false, 'focused buttons cannot trigger combat');
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'Escape', repeat: false }));
+    assert.equal(pauses, 1, 'Escape still toggles pause from a focused button');
     target.matches = () => false;
     input.resetAim();
     input.dispose();
@@ -341,5 +355,129 @@ test('step events are immutable captured values; catch-up delivers all once and 
   hub.setGeneration(s.generation + 1);
   hub.publish([visual]);
   assert.equal(received.length, length);
+  hub.dispose();
+});
+
+test('event delivery serializes re-entry and snapshots subscribers without losing a committed batch', () => {
+  const sim = new Simulation(content),
+    hub = new EventHub();
+  hub.setGeneration(sim.generation);
+  sim.damage(sim.hero, sim.enemies[0]!, 1000);
+  const [damage, death] = sim.events;
+  assert.ok(damage && death);
+  const nested = { ...damage, key: 'nested', tick: damage.tick + 1 };
+  const first: string[] = [],
+    second: string[] = [],
+    added: string[] = [];
+  hub.subscribe((event) => {
+    first.push(event.key);
+    if (event === damage) {
+      hub.subscribe((next) => added.push(next.key));
+      hub.publish([nested]);
+    }
+  });
+  hub.subscribe((event) => second.push(event.key));
+  hub.publish([damage, death]);
+  assert.deepEqual(first, [damage.key, death.key, nested.key]);
+  assert.deepEqual(second, first);
+  assert.deepEqual(added, [death.key, nested.key]);
+  assert.deepEqual(
+    hub.history.map((event) => event.key),
+    first,
+  );
+});
+
+test('generation replacement and disposal stop in-flight delivery and abort re-entry uses fresh lifetimes', () => {
+  const failures: unknown[] = [];
+  const sim = new Simulation(content),
+    hub = new EventHub((error) => failures.push(error));
+  hub.setGeneration(sim.generation);
+  const event = sim.emit(sim.hero, { kind: 'flare' });
+  const received: string[] = [],
+    lifetimes: AbortSignal[] = [],
+    peerLifetimes: AbortSignal[] = [];
+  const prime = { ...event, key: 'prime' };
+  const next = { ...event, key: 'next', generation: sim.generation + 1 };
+  hub.subscribe((current, lifetime) => {
+    lifetimes.push(lifetime);
+    if (current === event) {
+      lifetime.addEventListener('abort', () => hub.publish([next]), { once: true });
+      hub.setGeneration(next.generation);
+    }
+  });
+  hub.subscribe((current, lifetime) => {
+    peerLifetimes.push(lifetime);
+    received.push(current.key);
+    if (current === prime) return;
+    assert.equal(current, next);
+    assert.equal(lifetimes[0]!.aborted, true);
+    assert.equal(peerLifetimes[0]!.aborted, true);
+    assert.notEqual(lifetime, peerLifetimes[0]);
+    assert.equal(lifetime.aborted, false);
+    hub.dispose();
+    hub.publish([{ ...next, key: 'after-disposal' }]);
+    hub.setGeneration(next.generation + 1);
+  });
+  hub.subscribe((current) => {
+    if (current !== prime) assert.fail('stale or disposed delivery');
+  });
+  hub.publish([prime]);
+  hub.publish([event, { ...event, key: 'queued-old' }]);
+  assert.deepEqual(received, ['prime', 'next']);
+  assert.deepEqual(failures, []);
+  assert.ok(lifetimes.every((lifetime) => lifetime.aborted));
+  assert.deepEqual(hub.history, []);
+  assert.throws(() => hub.subscribe(() => {}), /disposed/);
+});
+
+test('failed feedback is removed once; synchronous and asynchronous failures cannot interrupt peers', async () => {
+  const sim = new Simulation(content),
+    failures: unknown[] = [];
+  const hub = new EventHub((error) => {
+    failures.push(error);
+    throw new Error('diagnostics unavailable');
+  });
+  hub.setGeneration(sim.generation);
+  const event = sim.emit(sim.hero, { kind: 'flare' });
+  const received: string[] = [],
+    lifetimes: AbortSignal[] = [];
+  const sync = new Error('UI failed'),
+    asyncError = new Error('async feedback failed');
+  hub.subscribe((_, lifetime) => {
+    lifetimes.push(lifetime);
+    throw sync;
+  });
+  hub.subscribe(async (_, lifetime) => {
+    lifetimes.push(lifetime);
+    throw asyncError;
+  });
+  hub.subscribe((current) => received.push(current.key));
+  assert.doesNotThrow(() => hub.publish([event]));
+  await Promise.resolve();
+  hub.publish([{ ...event, key: 'second' }]);
+  assert.deepEqual(received, [event.key, 'second']);
+  assert.deepEqual(failures, [sync, asyncError]);
+  assert.equal(lifetimes.length, 2);
+  assert.ok(lifetimes.every((lifetime) => lifetime.aborted));
+
+  hub.setGeneration(sim.generation + 1);
+  const old = { ...event, generation: sim.generation + 1 };
+  // Reserve pending work in one generation, then reject it after replacement.
+  let lateReject!: (error: Error) => void;
+  hub.subscribe(
+    () =>
+      new Promise<void>((_, fail) => {
+        lateReject = fail;
+      }),
+  );
+  hub.publish([old]);
+  hub.setGeneration(sim.generation + 2);
+  lateReject(new Error('obsolete feedback'));
+  await Promise.resolve();
+  assert.deepEqual(failures, [sync, asyncError]);
+  hub.publish([{ ...event, generation: sim.generation + 2, key: 'fresh' }]);
+  lateReject(new Error('current feedback'));
+  await Promise.resolve();
+  assert.equal(failures.length, 3);
   hub.dispose();
 });

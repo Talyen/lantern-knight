@@ -2,7 +2,7 @@ import { sceneFixtures } from '../content/scenery-presets';
 import { type ResolvedFixture } from '../content/world-visuals';
 import type { PreparedRegistration } from '../assets/registration';
 import * as T from 'three';
-import { ActorSprite } from './sprite';
+import { ActorSprite, setCutoutOpacity } from './sprite';
 import { OcclusionFades } from './occlusion-fades';
 import { graveyardGroundMaterial } from './graveyard-ground';
 import { SceneryReveals } from './scenery-reveals';
@@ -117,7 +117,7 @@ export class InkRoom {
     s.mesh.rotateZ(angle);
     s.mesh.renderOrder = -1.9;
     s.material.color.set(p.tint ?? 0xffffff);
-    s.material.opacity = p.opacity ?? 1;
+    setCutoutOpacity(s.material, p.opacity ?? 1);
     const vertices = s.geometry.getAttribute('position'),
       c = Math.cos(angle),
       sn = Math.sin(angle);
@@ -157,7 +157,8 @@ export class InkRoom {
             : 0;
       s.mesh.userData.emissive = true;
     }
-    if (p.tint) {
+    setCutoutOpacity(s.material, p.opacity ?? 1);
+    if (p.tint !== undefined) {
       s.material.color.set(p.tint);
       s.edgeMaterial?.color.copy(s.material.color);
     }

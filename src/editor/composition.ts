@@ -240,12 +240,20 @@ export class CompositionTools {
   }
   rectangle(a: { x: number; y: number }, b: { x: number; y: number }, additive: boolean) {
     if (!additive) this.selection.clear();
+    const hidden = new Set(this.host.history().descendants([...this.hidden]));
     for (const item of sceneItems(this.host.history().document)) {
       const p = this.host
         .view()
-        .screen(new T.Vector3(item.placement.x, item.placement.y ?? 0, item.placement.z));
+        .screen(
+          new T.Vector3(
+            item.placement.x,
+            heightAt(this.host.view().sim!.areaDefinition, item.placement.x, item.placement.z) +
+              (item.placement.y ?? 0),
+            item.placement.z,
+          ),
+        );
       if (
-        !this.hidden.has(item.placement.id) &&
+        !hidden.has(item.placement.id) &&
         p.x >= Math.min(a.x, b.x) &&
         p.x <= Math.max(a.x, b.x) &&
         p.y >= Math.min(a.y, b.y) &&

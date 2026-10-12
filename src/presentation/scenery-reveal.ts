@@ -93,8 +93,7 @@ class LocalReveal {
           count: this.count,
         };
         m.transparent = true;
-        m.depthWrite = m === materials[0];
-        m.opacity = 1;
+        m.depthWrite = m === materials[0] && m.opacity === 1;
         m.needsUpdate = true;
         m.onBeforeCompile = (shader, renderer) => {
           prior.call(m, shader, renderer);

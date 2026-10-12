@@ -7,6 +7,7 @@ import type { SiteWall } from '../content/world-visuals';
 type Point = { x: number; y: number };
 type Part = {
   mesh: Mesh;
+  baseOpacities: number[];
   left: number;
   right: number;
   bottom: number;
@@ -67,6 +68,9 @@ export class OcclusionFades {
     const vertices = mesh.geometry.getAttribute('position');
     const part: Part = {
       mesh,
+      baseOpacities: (Array.isArray(mesh.material) ? mesh.material : [mesh.material]).map(
+        (material) => material.opacity,
+      ),
       left: Infinity,
       right: -Infinity,
       bottom: Infinity,
@@ -154,10 +158,13 @@ export class OcclusionFades {
           ? group.target
           : group.from + (group.target - group.from) * ease;
       for (const part of group.parts)
-        for (const material of (Array.isArray(part.mesh.material)
-          ? part.mesh.material
-          : [part.mesh.material]) as Material[])
-          setCutoutOpacity(material, group.opacity);
+        (
+          (Array.isArray(part.mesh.material)
+            ? part.mesh.material
+            : [part.mesh.material]) as Material[]
+        ).forEach((material, index) =>
+          setCutoutOpacity(material, part.baseOpacities[index]! * group.opacity),
+        );
     }
   }
 }

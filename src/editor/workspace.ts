@@ -23,7 +23,7 @@ export class EditorWorkspace {
   private lifetime = new AbortController();
   private timer = 0;
   private navigation: HTMLElement | null = null;
-  constructor() {
+  constructor(private readonly selectionSize: () => number) {
     const signal = this.lifetime.signal;
     for (const tab of ['artwork', 'object', 'objects', 'scene'] as const) {
       element(tab + '-tab').onclick = () => {
@@ -156,9 +156,11 @@ export class EditorWorkspace {
       : element<HTMLSelectElement>('tool').value === 'hero'
         ? 'move'
         : 'default';
+    const multiple = this.selectionSize() > 1;
     for (const id of ['clip', 'heading', 'place-clip', 'place-heading']) {
       const select = element<HTMLSelectElement>(id);
-      select.closest('label')!.hidden = select.options.length < 2;
+      select.closest('label')!.hidden =
+        select.options.length < 2 || (multiple && (id === 'clip' || id === 'heading'));
     }
     const chips = element('filter-chips');
     chips.replaceChildren();

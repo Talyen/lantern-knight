@@ -374,7 +374,7 @@ export class SceneLibrary {
       (d) => {
         const temp = new EditorHistory(d);
         for (const p of this.points)
-          ids.push(...temp.insertFragment(this.fragmentData, p.x - cx, p.z - cz));
+          ids.push(...temp.insertFragment(this.fragmentData, p.x - cx, p.z - cz, true));
         Object.assign(d, temp.document);
       },
       () => {

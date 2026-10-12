@@ -5,8 +5,8 @@ import { Application } from '../../src/application';
 import { AssetRuntime, type PackLease } from '../../src/assets/loader';
 import { presentationFixture, sceneFixture } from '../fixtures/presentation';
 import { content } from '../fixtures/content';
-import type { Bridge } from '../../src/core/save';
-import { Persistence } from '../../src/core/persistence';
+import type { Bridge } from '../../src/platform/bridge';
+import { Persistence } from '../../src/persistence';
 import { GameSession } from '../../src/core/session';
 import { manifestFixture } from '../fixtures/manifest';
 
@@ -639,5 +639,38 @@ test('room rebuild failure retains both generations until a successful rebuild o
       app.dispose();
       assert.deepEqual(released, loaded, 'Every consumed batch is released exactly once');
     }
+  });
+});
+
+test('feedback failure after a transition cannot cancel its committed destination or autosave', async () => {
+  await withDOM(async () => {
+    const { app } = fixture();
+    const statuses: string[] = [],
+      saves: string[] = [];
+    app.hooks.status = (message) => statuses.push(message);
+    app.persistence = new Persistence({
+      loadGame: async () => ({ status: 'empty' }),
+      saveGame: async (save) => {
+        saves.push(save.area);
+      },
+    });
+    for (const enemy of app.sim.enemies) enemy.health = 0;
+    app.sim.cleared = true;
+    const exit = app.sim.areaDefinition.exits[0]!;
+    app.events.subscribe((event) => {
+      if (event.kind === 'area-transition') throw new Error('broken transition feedback');
+    });
+    const received: string[] = [];
+    app.events.subscribe((event) => received.push(event.kind));
+    await app.transition(exit.id);
+    assert.equal(app.sim.area, exit.destination);
+    assert.equal(app.paused, false);
+    assert.equal(app.session.loading, false);
+    assert.equal(app.busy, false);
+    assert.deepEqual(saves, [exit.destination]);
+    assert.deepEqual(received, ['transition-start', 'area-transition']);
+    assert.equal(statuses.length, 1);
+    assert.match(statuses[0]!, /broken transition feedback/);
+    app.dispose();
   });
 });
