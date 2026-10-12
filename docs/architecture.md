@@ -77,6 +77,8 @@ Authored hero holds, gameplay tuning and simulation own timing at 60 Hz. The her
 
 Animation callbacks never commit damage. Preserve generation-scoped immutable events, fixed-step outcomes and resource disposal. Use action/foundation unit tests, prepared-asset tests for registration changes, and optional native diagnostics for visual investigations.
 
+EventHub delivers gameplay and animation feedback in publication order. Reentrant publication waits behind the current batch; new subscriptions start with the next event, and unsubscribe takes effect immediately. Replacing a generation aborts old subscriber work and stops stale queued or in-flight delivery. Disposal closes the hub permanently. A subscriber exception or current-lifetime promise rejection removes that subscriber, aborts its pending work and reports one diagnostic through Application status without interrupting peers, gameplay, transitions or autosaves. Rejections from aborted lifetimes are discarded; subscribers must use the supplied AbortSignal to cancel their own asynchronous effects.
+
 GamePresentation owns shared CombatFeedback. Application acquires its two catalog assets with initial scene assets and retains their leases; presentation reset/disposal clears effects and subscriptions before releasing those assets. Damage events queue one Contact Shear at each confirmed target, regardless of attacker kind. The sweep effect uses its original pre-painted camera-facing view and fixed registration, scale and timing; it never decides damage or changes the artwork geometry.
 
 ### Change player menus or settings
