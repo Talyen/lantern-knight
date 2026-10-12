@@ -1,8 +1,6 @@
 import { test, expect } from './fixtures';
 import type {} from '../../src/inspection';
-test('scene selection survives independent reloads and invalid URL selections', async ({
-  page,
-}) => {
+test('scene selection and camera framing survive independent reloads', async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem('lantern-author-scene', 'court'));
   await page.goto('/sandbox.html');
   await page.waitForFunction(() => window.foundation?.ready);
@@ -26,6 +24,9 @@ test('scene selection survives independent reloads and invalid URL selections', 
     expect(await page.evaluate(() => window.foundation.sim.area)).toBe(scene);
     expect(await page.evaluate(() => window.foundation.presentation.verticalSpan)).toBe(13);
   }
+});
+
+test('scene URL selections accept fixtures and reject unknown scenes', async ({ page }) => {
   await page.goto('/sandbox.html?scene=outdoor-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');
