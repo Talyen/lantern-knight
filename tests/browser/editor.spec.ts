@@ -525,7 +525,9 @@ test('repeated placement, shared fields and canvas handles commit or cancel one 
   let box = await handle.boundingBox();
   await page.mouse.move(box!.x + 14, box!.y + 14);
   await page.mouse.down();
-  await page.mouse.move(box!.x + 65, box!.y + 14);
+  // Move away from the hero spawn so the transform remains valid.
+  await page.mouse.move(box!.x - 37, box!.y + 14);
+  await expect.poll(matrices).not.toEqual(beforeMatrices);
   await page.keyboard.press('Escape');
   await page.mouse.up();
   expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(before);
@@ -536,7 +538,7 @@ test('repeated placement, shared fields and canvas handles commit or cancel one 
   box = await handle.boundingBox();
   await page.mouse.move(box!.x + 14, box!.y + 14);
   await page.mouse.down();
-  await page.mouse.move(box!.x + 65, box!.y + 14);
+  await page.mouse.move(box!.x - 37, box!.y + 14);
   await page.mouse.up();
   await expect
     .poll(() => page.evaluate(() => window.sceneEditor.state().document))
