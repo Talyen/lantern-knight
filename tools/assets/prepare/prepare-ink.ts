@@ -113,17 +113,6 @@ export async function prepare(context: PreparationContext, check = false) {
     pack.asset.clips[id] = { d45: { frames: [id], durationsMs: [1000], loop: true, notifies: [] } };
   }
   const packs: Source[] = [];
-  const skeleton = source(
-    'ink-skeleton',
-    'character',
-    [1024, 1536],
-    [480, 1260],
-    (1260 - 280) / (1.7 * Math.cos((contract.elevationDeg * Math.PI) / 180)),
-  );
-  skeleton.asset.atlasSize = 2048;
-  await image(skeleton, 'rest', 'packs/02_enemies/assets/02_skeleton_halberdier.png');
-  still(skeleton, 'rest');
-  packs.push(skeleton);
   // One shared prop canvas/density; anchors shift with each uniformly resized image.
   const props = source('ink-scenery', 'prop', [3072, 3072], [1536, 2750], 356);
   props.asset.atlasSize = 4096;

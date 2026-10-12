@@ -10,7 +10,7 @@ import {
 import { ActorSprite } from './sprite';
 import { timedWalk, remapWalkTime } from '../core/locomotion-timing';
 import { Animator, clipDuration } from '../core/animation';
-import { resolveClip, type Clip } from '../assets/schema';
+import { resolveActorClip, resolveClip, type Clip } from '../assets/schema';
 import { attackDefinition, tuning } from '../content/gameplay';
 import { heightAt, surfaceGradient, type ActorId } from '../content/world';
 import { actorVisuals } from '../content/visuals';
@@ -100,7 +100,7 @@ export class ActorPresentation {
     sweepTiming: SweepTiming = defaultSweepTiming,
     sweepRecovery: SweepRecovery = defaultSweepRecovery,
   ): Clip {
-    const clip = resolveClip(manifest, id, dir);
+    const clip = resolveActorClip(manifest, id, dir);
     if (id === 'sweep' && manifest.asset.id === 'ink-hero-current')
       return retimeSweepClip(
         clip,

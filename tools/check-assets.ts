@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { actorVisuals } from '../src/content/visuals';
 import { assetCatalog } from '../src/content/asset-catalog';
-import { parseManifest, resolveClip, type Manifest } from '../src/assets/schema';
+import { parseManifest, resolveActorClip, type Manifest } from '../src/assets/schema';
 import {
   HEADINGS,
   cameraCalibration as calibrationFixture,
@@ -17,6 +17,7 @@ import { safeRelative } from './assets/files';
 import { hash } from './compiler';
 import { loadingVideoPath } from '../src/content/loading-media';
 import { validateLoadingVideo } from './assets/loading-media';
+import { selectDelivery } from '../src/assets/texture-delivery';
 export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirectory'>) {
   const readPublic = (file: string) =>
     fs.readFile(path.join(workspace.publicDirectory, safeRelative(file)));
@@ -37,16 +38,23 @@ export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirecto
     assert.equal(manifest.asset.id, id);
     manifests.set(id, manifest);
     for (const page of manifest.pages) {
+      const image = selectDelivery(
+        { ...page, url: path.posix.join(path.posix.dirname(file), page.path) },
+        Infinity,
+        Infinity,
+        false,
+        'source',
+      );
       assert.equal(
-        hash(await readPublic(path.posix.join(path.posix.dirname(file), page.path))),
-        page.hash,
+        hash(await readPublic(image.url.replace(/^\//, ''))),
+        image.hash,
         `Prepared page differs: ${id}/${page.id}`,
       );
       pages++;
     }
     for (const visual of Object.values(actorVisuals).filter((v) => v.asset === id))
       for (const clip of [...Object.values(visual.clips), ...visual.attacks])
-        for (const heading of HEADINGS) resolveClip(manifest, clip, heading);
+        for (const heading of HEADINGS) resolveActorClip(manifest, clip, heading);
   }
   const registration = parseRegistration(
     JSON.parse((await readPublic('registration.json')).toString()),

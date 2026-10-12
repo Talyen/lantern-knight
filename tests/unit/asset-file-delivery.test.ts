@@ -1,0 +1,287 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { createHash, randomBytes } from 'node:crypto';
+import { gzipSync } from 'node:zlib';
+import { AssetCache } from '../../tools/assets/cache';
+import { openDemandWorkspace } from '../../tools/assets/demand';
+import { downloadFile } from '../../tools/assets/file-delivery';
+import { buildFileCatalog } from '../../tools/assets/file-publication';
+import { payloadDigest, type AssetLock, type PackInventory } from '../../tools/assets/pack';
+
+const sha = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
+async function fixture() {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-files-'));
+  const page = randomBytes(8192),
+    neighbor = randomBytes(16384);
+  const entries = {
+    'public/generated/tree/manifest.json': Buffer.from('{"tree":true}'),
+    'public/generated/tree/page.png': page,
+    'public/generated/tree/alias.png': page,
+    'public/generated/other/page.png': neighbor,
+  };
+  const inventory: PackInventory = {
+    schemaVersion: 1,
+    recipeSha256: 'a'.repeat(64),
+    files: Object.fromEntries(
+      Object.entries(entries).map(([name, bytes]) => [
+        name,
+        { sha256: sha(bytes), bytes: bytes.length },
+      ]),
+    ),
+  };
+  const pin: Extract<AssetLock, { schemaVersion: 3 }> = {
+    schemaVersion: 3,
+    releaseTag: 'assets-' + 'a'.repeat(16),
+    filename: 'lantern-assets.tar.gz',
+    sha256: 'b'.repeat(64),
+    inventorySha256: 'c'.repeat(64),
+    recipeSha256: inventory.recipeSha256,
+    bytes: 1000,
+    preparation: {
+      recipeSha256: sha(Buffer.from('{}')),
+      inputs: {},
+      payloadSha256: payloadDigest(inventory),
+    },
+    bundles: {},
+  };
+  const cache = new AssetCache(path.join(root, 'cache'), 4 * 1024 ** 2);
+  const held = await cache.lease('builder');
+  const sourceRoot = path.join(root, 'source');
+  for (const [name, bytes] of Object.entries(entries)) {
+    await fs.mkdir(path.dirname(path.join(sourceRoot, name)), { recursive: true });
+    await fs.writeFile(path.join(sourceRoot, name), bytes);
+  }
+  const objects = new Map<string, Buffer>();
+  const catalog = await buildFileCatalog(pin, inventory, sourceRoot, held, async (info, file) => {
+    objects.set(info.sha256 + '.bin', await fs.readFile(file));
+  });
+  await held.release();
+  const body = gzipSync(Buffer.from(JSON.stringify(catalog)));
+  pin.fileDelivery = {
+    releaseTag: 'assets-catalog-' + sha(body).slice(0, 16),
+    filename: 'files.json.gz',
+    sha256: sha(body),
+    bytes: body.length,
+  };
+  const calls: { file: string; bytes: number; range?: string }[] = [];
+  const request: typeof fetch = async (url, init) => {
+    const file = new URL(url instanceof Request ? url.url : url).pathname.split('/').at(-1)!;
+    const bytes = file === 'files.json.gz' ? body : objects.get(file);
+    assert.ok(bytes, 'only catalog and individually requested hashes may be downloaded');
+    const range = new Headers(init?.headers).get('Range');
+    if (range) {
+      const [start, end] = range.slice(6).split('-').map(Number) as [number, number];
+      const selected = bytes.subarray(start, end + 1);
+      calls.push({ file, bytes: selected.length, range });
+      return new Response(Uint8Array.from(selected), {
+        status: 206,
+        headers: {
+          'content-range': `bytes ${start}-${end}/${bytes.length}`,
+          'content-length': String(selected.length),
+        },
+      });
+    }
+    calls.push({ file, bytes: bytes.length });
+    return new Response(Uint8Array.from(bytes), {
+      headers: { 'content-length': String(bytes.length) },
+    });
+  };
+  return {
+    root,
+    pin,
+    inventory,
+    catalog,
+    calls,
+    request,
+    entries,
+    body,
+    cache,
+  };
+}
+
+test('uncached artwork downloads exactly the catalog and selected file, coalesces aliases and reuses offline', async () => {
+  const f = await fixture();
+  try {
+    const workspace = await openDemandWorkspace(f.pin, f.cache, f.request);
+    assert.equal(f.calls.length, 0);
+    await workspace.ensurePublicFile('generated/tree/manifest.json');
+    const before = f.calls.length;
+    await Promise.all([
+      workspace.ensurePublicFile('generated/tree/page.png'),
+      workspace.ensurePublicFile('generated/tree/page.png'),
+      workspace.ensurePublicFile('generated/tree/alias.png'),
+    ]);
+    assert.deepEqual(f.calls.slice(before), [
+      {
+        file: f.catalog.files['public/generated/tree/page.png']!.container + '.bin',
+        bytes: 8192,
+        range: `bytes=${f.catalog.files['public/generated/tree/page.png']!.offset}-${f.catalog.files['public/generated/tree/page.png']!.offset + 8191}`,
+      },
+    ]);
+    assert.equal(await workspace.ensurePublicFile('generated/missing.png'), false);
+    await assert.rejects(
+      fs.access(path.join(workspace.publicDirectory, 'generated/other/page.png')),
+    );
+    assert.deepEqual(
+      await fs.readFile(path.join(workspace.publicDirectory, 'generated/tree/page.png')),
+      f.entries['public/generated/tree/page.png'],
+    );
+    assert.throws(() => workspace.ensurePublicFile('../escape'), /Unsafe/);
+    await workspace.release();
+    const offline = await openDemandWorkspace(f.pin, f.cache, async () => {
+      throw new Error('offline');
+    });
+    assert.equal(await offline.ensurePublicFile('generated/tree/page.png'), true);
+    await offline.release();
+    await assert.rejects(offline.ensurePublicFile('generated/tree/page.png'), /abort/i);
+  } finally {
+    await fs.rm(f.root, { recursive: true, force: true });
+  }
+});
+
+test('direct downloads reject corrupted, oversized and truncated responses without installing bytes', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-file-corrupt-'));
+  const target = path.join(root, 'page.png');
+  const good = Buffer.from('artwork');
+  try {
+    for (const bad of ['corrupt', 'artwork extra', 'short']) {
+      await assert.rejects(
+        downloadFile(
+          'https://example.test/file',
+          { bytes: good.length, sha256: sha(good) },
+          target,
+          async () => new Response(bad),
+        ),
+        /differs|exceeds/,
+      );
+      assert.deepEqual(await fs.readdir(root), []);
+    }
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
+test('catalog authenticates the complete accepted payload, not just its download hash', async () => {
+  const f = await fixture();
+  try {
+    f.pin.preparation.payloadSha256 = 'd'.repeat(64);
+    const workspace = await openDemandWorkspace(f.pin, f.cache, f.request);
+    await assert.rejects(workspace.ensurePublicFile('generated/tree/page.png'), /payload differs/);
+    await workspace.release();
+    assert.deepEqual(
+      f.calls.map((c) => c.file),
+      ['files.json.gz'],
+    );
+  } finally {
+    await fs.rm(f.root, { recursive: true, force: true });
+  }
+});
+
+test('cancelled direct download leaves no partial file and can retry', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-file-abort-'));
+  const signal = new AbortController();
+  const good = randomBytes(32),
+    target = path.join(root, 'image');
+  try {
+    const body = new ReadableStream<Uint8Array>({
+      pull(controller) {
+        controller.enqueue(good);
+        signal.abort();
+        controller.close();
+      },
+    });
+    await assert.rejects(
+      downloadFile(
+        'https://example.test/file',
+        { bytes: good.length, sha256: sha(good) },
+        target,
+        async () => new Response(body),
+        signal.signal,
+      ),
+      /abort/i,
+    );
+    assert.deepEqual(await fs.readdir(root), []);
+    await downloadFile(
+      'https://example.test/file',
+      { bytes: good.length, sha256: sha(good) },
+      target,
+      async () => new Response(Uint8Array.from(good)),
+    );
+    assert.deepEqual(await fs.readFile(target), good);
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
+test('range delivery rejects ignored ranges, wrong offsets and encoded bodies before installation', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-file-range-'));
+  const target = path.join(root, 'page');
+  const bytes = Buffer.from('image');
+  const info = { bytes: bytes.length, sha256: sha(bytes) };
+  try {
+    for (const response of [
+      new Response('entire container', { status: 200 }),
+      new Response('image', { status: 206, headers: { 'content-range': 'bytes 0-4/100' } }),
+      new Response('image', {
+        status: 206,
+        headers: { 'content-range': 'bytes 10-14/100', 'content-encoding': 'gzip' },
+      }),
+    ]) {
+      await assert.rejects(
+        downloadFile(
+          'https://example.test/container',
+          info,
+          target,
+          async () => response,
+          undefined,
+          { offset: 10, totalBytes: 100 },
+        ),
+        /exact byte range/,
+      );
+      assert.deepEqual(await fs.readdir(root), []);
+    }
+    await downloadFile(
+      'https://example.test/container',
+      info,
+      target,
+      async (_, init) => {
+        assert.equal(new Headers(init?.headers).get('range'), 'bytes=10-14');
+        return new Response('image', {
+          status: 206,
+          headers: { 'content-range': 'bytes 10-14/100', 'content-length': '5' },
+        });
+      },
+      undefined,
+      { offset: 10, totalBytes: 100 },
+    );
+    assert.deepEqual(await fs.readFile(target), bytes);
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
+test('container publication rejects source drift and deduplicates identical files', async () => {
+  const f = await fixture();
+  try {
+    const page = f.catalog.files['public/generated/tree/page.png']!;
+    const alias = f.catalog.files['public/generated/tree/alias.png']!;
+    assert.equal(page.container, alias.container);
+    assert.equal(page.offset, alias.offset);
+    await fs.writeFile(path.join(f.root, 'source/public/generated/tree/page.png'), 'changed');
+    await fs.writeFile(path.join(f.root, 'source/public/generated/tree/alias.png'), 'changed');
+    const held = await f.cache.lease('drift');
+    try {
+      await assert.rejects(
+        buildFileCatalog(f.pin, f.inventory, path.join(f.root, 'source'), held, async () => {}),
+        /Source file changed/,
+      );
+    } finally {
+      await held.release();
+    }
+  } finally {
+    await fs.rm(f.root, { recursive: true, force: true });
+  }
+});

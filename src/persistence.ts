@@ -1,4 +1,5 @@
-import type { Bridge, GameSave } from './save';
+import type { Bridge } from './platform/bridge';
+import type { GameSave } from './core/save';
 // Adapters own write ordering. The application keeps only useful operation feedback.
 export class Persistence {
   error = '';

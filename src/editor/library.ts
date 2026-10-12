@@ -5,6 +5,7 @@ import {
   parseSceneDocument,
   parseSceneFragment,
   type SceneDocument,
+  type SceneSnapshot,
 } from '../content/scene-document';
 import { EditorHistory, sceneItems } from './model';
 import type { EditorView } from './view';
@@ -24,7 +25,7 @@ type Host = {
 };
 const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
 export function patternPoints(
-  d: SceneDocument,
+  d: SceneSnapshot,
   kind: 'scatter' | 'path',
   count: number,
   seed: number,
@@ -279,7 +280,7 @@ export class SceneLibrary {
             (d) => {
               const temp = new EditorHistory(d);
               inserted = temp.insertFragment(fragment.objects);
-              d.objects = temp.document.objects;
+              Object.assign(d, temp.document);
             },
             () => this.host.select(inserted),
           )
@@ -374,8 +375,8 @@ export class SceneLibrary {
       (d) => {
         const temp = new EditorHistory(d);
         for (const p of this.points)
-          ids.push(...temp.insertFragment(this.fragmentData, p.x - cx, p.z - cz));
-        d.objects = temp.document.objects;
+          ids.push(...temp.insertFragment(this.fragmentData, p.x - cx, p.z - cz, true));
+        Object.assign(d, temp.document);
       },
       () => {
         this.host.select(ids);

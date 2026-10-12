@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { safeRelative } from './files';
 
 export const projectRoot = fileURLToPath(new URL('../../', import.meta.url));
-export const CACHE_LIMIT = Number(process.env.LANTERN_CACHE_BUDGET_GIB ?? 16) * 1024 ** 3;
+export const CACHE_LIMIT = Number(process.env.LANTERN_CACHE_BUDGET_GIB ?? 32) * 1024 ** 3;
 if (!Number.isSafeInteger(CACHE_LIMIT) || CACHE_LIMIT <= 0)
   throw new Error('LANTERN_CACHE_BUDGET_GIB must specify a positive, finite disk budget');
 export function cacheRoot() {

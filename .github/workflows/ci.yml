@@ -52,12 +52,15 @@ jobs:
       - run: npm run test:assets
       - run: npm run assets:check
       - run: npm run build
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps --only-shell chromium
       - run: npm run test:browser -- game --built
-      - run: npm run test:browser -- scene
-      - name: Authoring browser checks
-        if: steps.impact.outputs.authoring == 'true'
-        run: npm run test:browser -- editor effects
+      - name: Development browser checks
+        env:
+          AUTHORING_CHECKS: ${{ steps.impact.outputs.authoring }}
+        run: |
+          scenarios=(scene image-delivery ground-occlusion)
+          if [ "$AUTHORING_CHECKS" = true ]; then scenarios+=(editor effects); fi
+          npm run test:browser -- "${scenarios[@]}"
       - run: git diff --exit-code
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: failure()

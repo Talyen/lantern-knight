@@ -14,7 +14,7 @@ export const sandboxDefinitions: ContentDefinitions = {
       radius: tuning.heroRadius,
       speed: tuning.enemy.speed,
       melee: { ...tuning.enemy, halfAngle: 1.1 },
-      visual: 'skeleton',
+      visual: 'ossuary-thrall',
     },
     {
       id: 'heavy-warden',
@@ -30,7 +30,7 @@ export const sandboxDefinitions: ContentDefinitions = {
         halfAngle: 1.1,
         damage: 20,
       },
-      visual: 'skeleton',
+      visual: 'ossuary-thrall',
     },
   ],
   areas: [

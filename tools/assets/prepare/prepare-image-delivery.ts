@@ -17,6 +17,8 @@ export async function prepare(context: PreparationContext, check = false) {
   const index: Record<string, Manifest> = {};
   let processed = 0,
     compressed = 0,
+    reused = 0,
+    encoded = 0,
     rejected = 0,
     sourceBytes = 0,
     deliveryBytes = 0,
@@ -107,7 +109,9 @@ export async function prepare(context: PreparationContext, check = false) {
             known === page.hash
               ? await restoreImageDelivery(context, page, standalone, check)
               : undefined;
+          if (receipt) reused++;
           if (!receipt) {
+            encoded++;
             receipt = await cook(page, async () => {
               const source = await context.readAsset(sourceFile);
               if (imageHash(source) !== page.hash)
@@ -131,7 +135,7 @@ export async function prepare(context: PreparationContext, check = false) {
             p.preview = receipt.preview;
             p.delivery = receipt.delivery;
           }
-          if (++completed % 100 === 0)
+          if (++completed % 1000 === 0)
             console.log(
               `Image delivery: ${completed}/${queue.length} unique pages; ${compressed} compressed candidates accepted, ${losslessAlpha} lossless alpha variants; ${rejected} GPU candidates fall back.`,
             );
@@ -186,6 +190,6 @@ export async function prepare(context: PreparationContext, check = false) {
   };
   await write('public/generated/library/delivery-report.json', JSON.stringify(report) + '\n');
   console.log(
-    `${check ? 'Verified' : 'Prepared'} image delivery: ${processed} pages, ${compressed} compressed variants; PNG masters retained.`,
+    `${check ? 'Verified' : 'Prepared'} image delivery: ${processed} pages; ${reused} reused, ${encoded} encoded; ${compressed} compressed variants; PNG masters retained.`,
   );
 }

@@ -5,13 +5,17 @@ import { Application } from '../application';
 import { GamePresentation } from '../presentation/game-scene';
 import type { ContentRegistry } from '../content/world';
 import type { SceneContent } from '../content/game-content';
-import type { SceneDocument } from '../content/scene-document';
-import type { Bridge } from '../core/save';
+import {
+  parseSceneDocument,
+  type SceneDocument,
+  type SceneSnapshot,
+} from '../content/scene-document';
+import type { Bridge } from '../platform/bridge';
 import { heightAt, isSupportedPosition } from '../content/world';
 import { Navigation, effectiveRadius } from '../core/navigation';
 type Host = {
-  document: () => SceneDocument;
-  compose: (snapshot: SceneDocument) => { registry: ContentRegistry; scenes: SceneContent };
+  document: () => SceneSnapshot;
+  compose: (snapshot: SceneSnapshot) => { registry: ContentRegistry; scenes: SceneContent };
   catalog: () => Readonly<Record<string, string>>;
   status: (message: string, error?: boolean) => void;
 };
@@ -130,7 +134,7 @@ export class DraftPlaytest {
     this.app = undefined;
     const request = ++this.request;
     try {
-      this.snapshot = structuredClone(snapshot);
+      this.snapshot = parseSceneDocument(snapshot);
       let { registry, scenes } = this.host.compose(this.snapshot);
       if (movement && registry.area(registry.definitions.initialArea).spawns.length < 3) {
         const area = registry.area(registry.definitions.initialArea),

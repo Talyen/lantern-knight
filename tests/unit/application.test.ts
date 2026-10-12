@@ -5,8 +5,8 @@ import { Application } from '../../src/application';
 import { AssetRuntime, type PackLease } from '../../src/assets/loader';
 import { presentationFixture, sceneFixture } from '../fixtures/presentation';
 import { content } from '../fixtures/content';
-import type { Bridge } from '../../src/core/save';
-import { Persistence } from '../../src/core/persistence';
+import type { Bridge } from '../../src/platform/bridge';
+import { Persistence } from '../../src/persistence';
 import { GameSession } from '../../src/core/session';
 import { manifestFixture } from '../fixtures/manifest';
 
@@ -607,5 +607,75 @@ test('startup settles the initial asset batch and releases successful peers when
         AssetRuntime.open = open;
       }
     }
+  });
+});
+
+test('room rebuild failure retains both generations until a successful rebuild or disposal', async () => {
+  await withDOM(async () => {
+    for (const retry of [false, true]) {
+      const { app } = fixture({
+          ...sceneFixture(content),
+          area: (id) => ({ area: content.area(id), assets: [id] }),
+        }),
+        loaded: PackLease[] = [],
+        released: PackLease[] = [],
+        snapshot = new GameSession(content, 142, 'upper-landing').captureSave();
+      app.runtime = runtime(async () => {
+        const pack = { release: () => released.push(pack) } as unknown as PackLease;
+        loaded.push(pack);
+        return pack;
+      });
+      await app.replaceArea(app.sim.area, () => []);
+      app.presentation.resetRoom = () => {
+        assert.equal(app.packs.get(snapshot.area), loaded[1]);
+        throw new Error('room construction failed');
+      };
+      await assert.rejects(app.restore(snapshot), /room construction failed/);
+      assert.equal(app.sim.area, snapshot.area);
+      assert.deepEqual(released, [], 'A partial renderer may reference either generation');
+      assert.equal(app.packs.get(snapshot.area), loaded[1]);
+      if (retry) {
+        app.presentation.resetRoom = () => {};
+        await app.restore(snapshot);
+        assert.deepEqual(released, loaded.slice(0, 2));
+        assert.equal(app.packs.get(snapshot.area), loaded[2]);
+      }
+      app.dispose();
+      app.dispose();
+      assert.deepEqual(released, loaded, 'Every consumed batch is released exactly once');
+    }
+  });
+});
+
+test('feedback failure after a transition cannot cancel its committed destination or autosave', async () => {
+  await withDOM(async () => {
+    const { app } = fixture();
+    const statuses: string[] = [],
+      saves: string[] = [];
+    app.hooks.status = (message) => statuses.push(message);
+    app.persistence = new Persistence({
+      loadGame: async () => ({ status: 'empty' }),
+      saveGame: async (save) => {
+        saves.push(save.area);
+      },
+    });
+    for (const enemy of app.sim.enemies) enemy.health = 0;
+    app.sim.cleared = true;
+    const exit = app.sim.areaDefinition.exits[0]!;
+    app.events.subscribe((event) => {
+      if (event.kind === 'area-transition') throw new Error('broken transition feedback');
+    });
+    const received: string[] = [];
+    app.events.subscribe((event) => received.push(event.kind));
+    await app.transition(exit.id);
+    assert.equal(app.sim.area, exit.destination);
+    assert.equal(app.paused, false);
+    assert.equal(app.session.loading, false);
+    assert.equal(app.busy, false);
+    assert.deepEqual(saves, [exit.destination]);
+    assert.deepEqual(received, ['transition-start', 'area-transition']);
+    assert.equal(statuses.length, 1);
+    assert.match(statuses[0]!, /broken transition feedback/);
+    app.dispose();
   });
 });

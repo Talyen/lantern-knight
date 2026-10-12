@@ -167,6 +167,7 @@ export class GameSession {
         health: a.health,
         cooldown: a.cooldown,
         dodgeCooldown: a.dodgeCooldown,
+        nextAttack: a.nextAttack,
       },
       areas: structuredClone(Object.fromEntries(this.visited)),
     };

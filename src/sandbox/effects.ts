@@ -18,7 +18,7 @@ import {
   playgroundDefaults,
   type PlaygroundEffect,
 } from '../content/effects-playground';
-import type { Bridge } from '../core/save';
+import type { Bridge } from '../platform/bridge';
 import '../inspection';
 declare global {
   interface Window {

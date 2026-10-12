@@ -12,17 +12,16 @@ import { diskBytes } from './cache';
 export async function growthReservation(held: {
   root: string;
   reserve: (bytes: number) => Promise<void>;
+  reserveUpTo?: (bytes: number, preferred: number) => Promise<number>;
 }) {
   const initial = await diskBytes(held.root);
   let credit = 0;
   return async (bytes: number) => {
     if (bytes <= credit) return;
-    const next = Math.ceil(bytes / (256 * 1024 ** 2)) * 256 * 1024 ** 2;
-    try {
-      await held.reserve(initial + next);
-      credit = next;
-    } catch (error) {
-      if (!/budget|protected/.test(String(error))) throw error;
+    const next = Math.max(256 * 1024 ** 2, bytes * 2);
+    if (held.reserveUpTo) {
+      credit = (await held.reserveUpTo(initial + bytes, initial + next)) - initial;
+    } else {
       await held.reserve(initial + bytes);
       credit = bytes;
     }
@@ -48,7 +47,22 @@ export async function prepareSteps(options: {
     reserveGrowth: options.reserveGrowth,
   });
   const sourceVerified = await sourceSnapshot(options.env);
+  // Unselected dependencies are supplied by the verified base layer.
+  for (const operation of (await import('./recipe')).preparationSteps) {
+    try {
+      const receipt = JSON.parse(
+        await fs.promises.readFile(
+          path.join(options.cache, operation.file.replace(/\.[^.]+$/, ''), 'receipt.json'),
+          'utf8',
+        ),
+      );
+      digests.set(operation.file, receipt.digest);
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+    }
+  }
   for (const operation of options.steps) {
+    const started = performance.now();
     const invoke = async (args: string[], extra: NodeJS.ProcessEnv = {}) => {
       let log = '';
       const python = operation.file.endsWith('.py');
@@ -142,7 +156,8 @@ export async function prepareSteps(options: {
     await options.afterStep?.({ reused: result.reused });
     console.log(
       operation.file +
-        (result.reused ? ': reused verified outputs.' : ': prepared and source-verified.'),
+        (result.reused ? ': reused verified outputs' : ': prepared and source-verified') +
+        ` (${((performance.now() - started) / 1000).toFixed(2)}s).`,
     );
   }
   return { digests, files, checksums: context.checksums };

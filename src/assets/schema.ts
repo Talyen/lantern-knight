@@ -300,23 +300,7 @@ function validateSemantics(value: Source | Manifest, _production = false) {
       'this single-character source format requires self-contained staged inputs',
     );
 }
-export function resolveClip(
-  manifest: Manifest,
-  id: string,
-  heading: (typeof HEADINGS)[number],
-): Clip {
-  const key = manifest.asset.clips[id] ? id : (manifest.asset.fallbacks[id] ?? id);
-  const direction =
-    manifest.asset.viewMode === 'fixed-authored'
-      ? 'd45'
-      : manifest.asset.viewMode === 'four-directional' ||
-          (manifest.asset.viewMode === 'mixed-directional' && key !== 'walk')
-        ? HEADINGS[(Math.floor((HEADINGS.indexOf(heading) + 1) / 2) * 2) % 8]!
-        : heading;
-  const clip = manifest.asset.clips[key]?.[direction];
-  if (!clip) throw new Error(`required clip unavailable: ${manifest.asset.id}/${id}/${direction}`);
-  return clip;
-}
+export { resolveClip, resolveActorClip } from './clips';
 export function parseSource(data: unknown, production = false) {
   const s = SourceSchema.parse(data);
   validateSemantics(s, production);

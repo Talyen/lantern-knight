@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import { createServer, preview } from 'vite';
-import { openWorkspace, type AssetWorkspace } from './assets/workspace';
+import { openWorkspace, workspaceIdentity, type AssetWorkspace } from './assets/workspace';
 import type { AssetScope } from './assets/bundles';
 import { projectRoot } from './assets/paths';
 import { webConfig } from '../vite.config';
@@ -12,6 +12,7 @@ export type PreviewOptions = {
   port: number;
   reuse?: boolean;
   open?: boolean;
+  demand?: boolean;
 };
 export async function openPreview(options: PreviewOptions) {
   if (!Number.isInteger(options.port) || options.port < 1 || options.port > 65535)
@@ -19,7 +20,7 @@ export async function openPreview(options: PreviewOptions) {
   const origin = `http://127.0.0.1:${options.port}`;
   const artifact =
     options.output === 'built' ? await verifyBuildIdentity({ target: 'web' }) : undefined;
-  const workspace = artifact ? undefined : await openWorkspace(options.assets, options.scope);
+  let workspace: AssetWorkspace | undefined;
   let owned: { close(): Promise<void> } | undefined;
   try {
     let existing: Response | undefined;
@@ -34,14 +35,20 @@ export async function openPreview(options: PreviewOptions) {
       const identity = await existing.json();
       if (
         identity.root !== (await fs.realpath(projectRoot)) ||
-        identity.assets !== workspace?.identity ||
+        identity.assets !==
+          (artifact?.assets.sha256 ?? (await workspaceIdentity(options.assets))) ||
         identity.target !== 'development' ||
         (options.scope === 'authoring' && identity.scope !== 'authoring')
       )
         throw new Error('Preview belongs to another checkout or asset identity');
-    } else if (workspace) {
+    }
+    if (!existing && !artifact)
+      workspace = await openWorkspace(options.assets, options.scope, options.demand);
+    if (existing && !options.demand && !artifact)
+      workspace = await openWorkspace(options.assets, options.scope);
+    if (!existing && workspace) {
       owned = await developmentServer(workspace, { port: options.port, open: options.open });
-    } else {
+    } else if (!existing) {
       const identity = {
         root: await fs.realpath(projectRoot),
         assets: artifact!.assets.sha256,
@@ -78,7 +85,8 @@ export async function openPreview(options: PreviewOptions) {
       origin,
       ownsServer: owned !== undefined,
       workspace,
-      assetIdentity: workspace?.identity ?? artifact!.assets.sha256,
+      assetIdentity:
+        workspace?.identity ?? artifact?.assets.sha256 ?? (await workspaceIdentity(options.assets)),
       async close() {
         if (closed) return;
         closed = true;
@@ -107,6 +115,7 @@ async function developmentServer(
   const config = webConfig(
     workspace.publicDirectory,
     workspace.scope === 'authoring' ? 'authoring' : 'game',
+    workspace.ensurePublicFile,
   );
   const server = await createServer({
     ...config,

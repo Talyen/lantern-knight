@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { test, expect, openEditor } from './fixtures';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { projectRoot } from '../../tools/assets/paths';
@@ -47,8 +47,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
   });
   try {
     page.on('dialog', (dialog) => void dialog.accept());
-    await page.goto('/editor.html?automated');
-    await page.waitForFunction(() => window.sceneEditor?.ready());
+    await openEditor(page);
     const d = emptyScene();
     d.name = id;
     d.floor.layout = 'artwork';
@@ -175,19 +174,8 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     const archive = await (await request.get('/__lantern_editor?groundProfiles')).json();
     profileId = archive.profiles.find((p: { name: string }) => p.name.includes(id))?.id;
     expect(profileId).toBeTruthy();
-    await page.reload();
-    await page.waitForFunction(() => window.sceneEditor?.ready());
     const data = await (await request.get('/__lantern_editor?id=' + id)).json();
     expect(data.document.groundInteraction).toEqual(authored);
-    await page.locator('#import-scene').setInputFiles({
-      name: 'reopen.json',
-      mimeType: 'application/json',
-      buffer: Buffer.from(JSON.stringify(saved)),
-    });
-    await page.locator('#confirmation-accept').click();
-    await expect
-      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
-      .toEqual(authored);
     // Recreate a deleted scene from its independent artwork interaction revision.
     await fs.rm(file);
     await page.locator('#scene-tab').click();

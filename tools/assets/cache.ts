@@ -176,7 +176,12 @@ export class AssetCache {
         } catch (error) {
           if ((error as NodeJS.ErrnoException).code !== 'ENOENT' && !(error instanceof SyntaxError))
             throw error;
-          if (Date.now() - (await fs.stat(lock)).mtimeMs > 30000) {
+          const stat = await fs.stat(lock).catch((error: NodeJS.ErrnoException) => {
+            if (error.code === 'ENOENT') return undefined;
+            throw error;
+          });
+          if (!stat) continue;
+          if (Date.now() - stat.mtimeMs > 30000) {
             await fs.rm(lock, { recursive: true, force: true });
             continue;
           }
@@ -253,6 +258,7 @@ export class AssetCache {
     name: string,
     bytes: number,
     knownEntries?: Awaited<ReturnType<AssetCache['entries']>>,
+    preferred = bytes,
   ) {
     let entries = knownEntries ?? (await this.entries());
     const required = () =>
@@ -279,10 +285,20 @@ export class AssetCache {
       );
     const disk = await fs.statfs(this.root);
     const existing = entries.find((e) => e.name === name)?.bytes ?? 0;
-    if (disk.bavail * disk.bsize < Math.max(0, bytes - existing))
+    const free = disk.bavail * disk.bsize;
+    if (free < Math.max(0, bytes - existing))
       throw new Error(
         'Insufficient free disk space for the requested asset operation; existing assets are preserved',
       );
+    // Grant available headroom in one accounting pass. Near the limit, an
+    // exact-byte fallback must not turn every output into two full cache walks.
+    return Math.floor(
+      Math.min(
+        preferred,
+        Math.max(bytes, bytes + this.limit - total - 256),
+        Math.max(bytes, existing) + free,
+      ),
+    );
   }
   async lease(name: string, bytes = 0, exclusive = false) {
     safeRelative(name);
@@ -349,6 +365,22 @@ export class AssetCache {
         await this.locked(async () => {
           await this.makeRoom(name, bytes);
           await this.writeJSON(file, { ...owner(), bytes });
+        });
+      },
+      reserveUpTo: async (bytes: number, preferred: number) => {
+        if (
+          released ||
+          !Number.isSafeInteger(bytes) ||
+          bytes < 0 ||
+          bytes > this.limit ||
+          !Number.isSafeInteger(preferred) ||
+          preferred < bytes
+        )
+          throw new Error('Invalid cache reservation');
+        return this.locked(async () => {
+          const granted = await this.makeRoom(name, bytes, undefined, preferred);
+          await this.writeJSON(file, { ...owner(), bytes: granted });
+          return granted;
         });
       },
       release: async () => {

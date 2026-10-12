@@ -38,6 +38,7 @@ import {
   paletteClips,
   floorClips,
   type SceneDocument,
+  type SceneSnapshot,
   type PaletteKind,
 } from '../content/scene-document';
 import { heightAt } from '../content/world';
@@ -53,7 +54,7 @@ declare global {
     sceneEditor: {
       ready: () => boolean;
       state: () => {
-        document: SceneDocument;
+        document: SceneSnapshot;
         revision: string | null;
         dirty: boolean;
         selected: string | undefined;
@@ -73,7 +74,7 @@ export function createEditorSession() {
   }
   const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
   document.getElementById('app')!.innerHTML = editorUI;
-  const workspace = new EditorWorkspace();
+  const workspace = new EditorWorkspace(() => composition?.selection.size ?? 0);
   const confirmation = new EditorConfirmation();
   let groundAuthoring: GroundAuthoring;
   let composition: CompositionTools;
@@ -352,6 +353,7 @@ export function createEditorSession() {
       setWalkingHero(false);
       await project.open(value);
       assertActive();
+      showRecovery();
       const d = documents.history.document;
       selected = undefined;
       composition?.selection.clear();
@@ -403,7 +405,7 @@ export function createEditorSession() {
   $('save-as').onclick = saveAs;
   $('copy-scene').onclick = () => {
     const document = {
-      ...structuredClone(documents.history.document),
+      ...parseSceneDocument(documents.history.document),
       id: 'untitled',
       target: 'draft' as const,
       name: 'Copy of ' + documents.history.document.name.slice(0, 72),
@@ -501,7 +503,7 @@ export function createEditorSession() {
         const temp = new EditorHistory(history.document);
         for (const target of ids) temp.transform(target, { [id]: value });
         history.change((d) => {
-          d.objects = temp.document.objects;
+          d.objects = parseSceneDocument(temp.document).objects;
         });
       });
   $('undo').onclick = () =>
@@ -631,7 +633,7 @@ export function createEditorSession() {
           void thumbnail(entry, c).catch(() => {});
         }
     },
-    { root: $('assets') },
+    { root: $('artwork-panel') },
   );
   function showPalette() {
     observer.disconnect();
@@ -1230,6 +1232,9 @@ export function createEditorSession() {
 
   function readRecovery(key: string) {
     project.readRecovery(key);
+    showRecovery();
+  }
+  function showRecovery() {
     $('recovery').hidden = !project.recoveryPending;
     $<HTMLButtonElement>('restore').disabled = !project.recoveryReadable;
     if (project.recoveryPending && !project.recoveryReadable)

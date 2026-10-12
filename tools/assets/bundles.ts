@@ -8,11 +8,14 @@ import {
   validateCachedPack,
   ensurePack,
   installMutex,
+  installMatchingPreparation,
   preparationPin,
   recipeInputs,
   type AssetLock,
 } from './pack';
 import { makeArchive } from './archive';
+import { shaFile } from './sources';
+import { verifiedOutput } from '../verified-files';
 import { AssetCache } from './cache';
 import { diskBytes } from './cache';
 import type { PreparedAssets } from './prepare';
@@ -22,7 +25,7 @@ export type AssetScope = 'runtime' | 'authoring';
 
 type BundlePin = Extract<AssetLock, { schemaVersion: 3 }>;
 export async function prepareBundles(candidate: PreparedAssets, previous?: AssetLock) {
-  const inventory = await validatePack(candidate.payload, candidate.lock);
+  const inventory = await validateCachedPack(candidate.payload, candidate.lock);
   const selection = await selectedFiles(path.join(candidate.payload, 'public'), 'runtime');
   const runtime = new Set(
     [...selection.files, ...Object.keys(selection.generated)].map((file) => 'public/' + file),
@@ -30,7 +33,12 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
   const groups = new Map<string, string[]>();
   for (const file of Object.keys(inventory.files)) {
     if (file === 'metadata/preparation-inputs.json') continue;
-    const owner = runtime.has(file) || file.startsWith('metadata/') ? 'runtime' : 'authoring',
+    const owner =
+        runtime.has(file) || file.startsWith('metadata/')
+          ? 'runtime'
+          : file.endsWith('.json') || file.endsWith('/preview.png')
+            ? 'bootstrap'
+            : 'authoring',
       names = groups.get(owner) ?? [];
     names.push(file);
     groups.set(owner, names);
@@ -38,23 +46,8 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
   // Authoring downloads are independent parts; source eligibility is unrelated
   // to the release host's per-file transport limit.
   const authoring = groups.get('authoring') ?? [];
-  if (authoring.reduce((n, file) => n + inventory.files[file]!.bytes, 0) > 1024 ** 3) {
-    groups.delete('authoring');
-    let part = 0,
-      bytes = 0,
-      files: string[] = [];
-    for (const file of authoring.sort()) {
-      const size = inventory.files[file]!.bytes;
-      if (files.length && bytes + size > 1024 ** 3) {
-        groups.set('authoring-' + part++, files);
-        files = [];
-        bytes = 0;
-      }
-      files.push(file);
-      bytes += size;
-    }
-    if (files.length) groups.set('authoring-' + part, files);
-  }
+  groups.delete('authoring');
+  for (const [name, files] of authoringGroups(authoring, inventory.files)) groups.set(name, files);
   const bundles: BundlePin['bundles'] = {},
     archives: Record<string, string> = {};
   const root = path.join(candidate.held.root, 'bundles');
@@ -67,6 +60,25 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
     if (prior?.recipeSha256 === key) {
       bundles[name] = prior;
       continue;
+    }
+    const archive = path.join(root, name + '-archive', 'lantern-assets.tar.gz');
+    const receiptFile = path.join(root, name + '-archive', 'lock.json');
+    try {
+      const parsed = LockSchema.safeParse(JSON.parse(await fs.readFile(receiptFile, 'utf8')));
+      const cached = parsed.success ? parsed.data : undefined;
+      if (
+        cached?.schemaVersion === 1 &&
+        cached.recipeSha256 === key &&
+        (await fs.stat(archive)).size === cached.bytes &&
+        (await shaFile(archive)) === cached.sha256
+      ) {
+        bundles[name] = cached;
+        archives[name] = archive;
+        continue;
+      }
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT' && !(error instanceof SyntaxError))
+        throw error;
     }
     const payload = path.join(root, name);
     if (candidate.held.reserve)
@@ -83,9 +95,9 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
       await fs.link(path.join(candidate.payload, file), target);
     }
     // gh uploads the basename; # only supplies its display label.
-    const archive = path.join(root, name + '-archive', 'lantern-assets.tar.gz');
     await fs.mkdir(path.dirname(archive), { recursive: true });
-    const lock = await makeArchive(payload, archive, key);
+    const lock = await makeArchive(payload, archive, key, inventory.files);
+    await fs.writeFile(receiptFile, JSON.stringify(lock));
     bundles[name] = lock;
     archives[name] = archive;
     await fs.rm(payload, { recursive: true, force: true });
@@ -94,6 +106,44 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
   const pin = LockSchema.parse({ ...accepted, schemaVersion: 3, bundles }) as BundlePin;
   await fs.writeFile(path.join(root, 'plan.json'), JSON.stringify({ pin, archives }));
   return { pin, archives };
+}
+// Hash-prefix partitions keep deletions and additions local to one shard.
+// Oversized shards split further; neighboring bundles never shift boundaries.
+export function authoringGroups(
+  files: string[],
+  inventory: Record<string, { bytes: number }>,
+  limit = 1024 ** 3,
+) {
+  const groups = new Map<string, string[]>();
+  const partition = (names: string[], prefix: string, depth: number) => {
+    if (!names.length) return;
+    if (
+      names.length === 1 ||
+      names.reduce((sum, file) => sum + inventory[file]!.bytes, 0) <= limit
+    ) {
+      groups.set('authoring-' + prefix, names.sort());
+      return;
+    }
+    if (depth >= 64) throw new Error('Cannot partition authoring bundle');
+    const buckets = new Map<string, string[]>();
+    for (const file of names) {
+      const key = createHash('sha256').update(file).digest('hex')[depth]!;
+      const bucket = buckets.get(key) ?? [];
+      bucket.push(file);
+      buckets.set(key, bucket);
+    }
+    for (const [key, bucket] of buckets) partition(bucket, prefix + key, depth + 1);
+  };
+  // A fixed first partition avoids reshuffling the whole library when it grows.
+  const buckets = new Map<string, string[]>();
+  for (const file of files) {
+    const key = (createHash('sha256').update(file).digest()[0]! % 64).toString(16).padStart(2, '0');
+    const bucket = buckets.get(key) ?? [];
+    bucket.push(file);
+    buckets.set(key, bucket);
+  }
+  for (const [key, bucket] of buckets) partition(bucket, key, 2);
+  return groups;
 }
 export async function ensureBundlePack(
   pin: BundlePin,
@@ -120,12 +170,30 @@ export async function ensureBundlePack(
       } catch {
         // Missing or corrupt assemblies still rebuild from verified bundles.
       }
+      if (await installMatchingPreparation(held, pin, cache)) return held;
     }
     const files: Record<string, { sha256: string; bytes: number }> = {},
       folded = new Set<string>();
+    const acquired = new Map<string, Awaited<ReturnType<typeof ensurePack>>>();
+    let next = 0;
+    let failure: unknown;
+    await Promise.all(
+      Array.from({ length: Math.min(2, names.length) }, async () => {
+        while (!failure && next < names.length) {
+          const name = names[next++]!;
+          try {
+            const part = await ensurePack(pin.bundles[name]!, cache, request);
+            parts.push(part);
+            acquired.set(name, part);
+          } catch (error) {
+            failure = error;
+          }
+        }
+      }),
+    );
+    if (failure) throw failure;
     for (const name of names) {
-      const part = await ensurePack(pin.bundles[name]!, cache, request);
-      parts.push(part);
+      const part = acquired.get(name)!;
       const inventory = await validateCachedPack(part.root, pin.bundles[name]!);
       for (const [file, info] of Object.entries(inventory.files)) {
         safeRelative(file);
@@ -174,6 +242,12 @@ export async function ensureBundlePack(
           await fs.rm(path.join(held.root, name), { recursive: true, force: true });
           await fs.rename(path.join(incoming, name), path.join(held.root, name));
         }
+        await verifiedOutput(
+          held.root,
+          [...Object.keys(files), 'pack.json'],
+          async () => {},
+          '.verified-pack.json',
+        );
       } finally {
         await fs.rm(incoming, { recursive: true, force: true });
       }

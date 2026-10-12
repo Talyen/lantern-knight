@@ -18,10 +18,10 @@ import {
 import { Animator, frameAt } from '../../src/core/animation';
 import { Simulation, FixedClock } from '../../src/core/simulation';
 import { tuning } from '../../src/content/gameplay';
-import { type Clip } from '../../src/assets/schema';
+import { resolveActorClip, resolveClip, type Clip } from '../../src/assets/schema';
 import { paddedPixels } from '../../tools/compiler';
 import { AssetRuntime, pageIdentity } from '../../src/assets/loader';
-import { validateRequest } from '../../electron/store';
+import { StorageCodec } from '../../src/platform/storage-codec';
 import { resourcePath, trustedSender } from '../../electron/security';
 
 import { content } from '../fixtures/content';
@@ -401,7 +401,11 @@ test('IPC sender checks and protocol constrain origin, frame, slot, payload, ext
   ])
     assert.throws(() => resourcePath(url, '/app/dist'));
   assert.throws(() =>
-    validateRequest('settings', { version: 1, renderScale: 3, showDebug: false }),
+    new StorageCodec(content).snapshot('settings', {
+      version: 1,
+      renderScale: 3,
+      showDebug: false,
+    }),
   );
 });
 function duel() {
@@ -523,4 +527,26 @@ test('camera framing keeps the ground viewport inside convex boundaries', () => 
         }
     }
   }
+});
+
+test('supplied actor kits select delivered facings while authored clips stay strict', () => {
+  const manifest = manifestFixture();
+  manifest.asset.viewMode = 'supplied';
+  const first = Object.values(manifest.asset.clips)[0]!,
+    clip = Object.values(first)[0]!;
+  manifest.asset.clips.move = {
+    d00: structuredClone(clip),
+    d90: structuredClone(clip),
+    d180: structuredClone(clip),
+    d270: structuredClone(clip),
+  };
+  manifest.asset.clips.hit = { d90: structuredClone(clip) };
+  assert.equal(resolveActorClip(manifest, 'move', 'd270'), manifest.asset.clips.move.d270);
+  assert.equal(resolveActorClip(manifest, 'move', 'd315'), manifest.asset.clips.move.d00);
+  assert.equal(resolveActorClip(manifest, 'move', 'd135'), manifest.asset.clips.move.d90);
+  assert.equal(resolveActorClip(manifest, 'hit', 'd270'), manifest.asset.clips.hit.d90);
+  assert.throws(() => resolveActorClip(manifest, 'missing', 'd45'), /required clip unavailable/);
+  assert.throws(() => resolveClip(manifest, 'hit', 'd270'), /required clip unavailable/);
+  manifest.asset.viewMode = 'directional';
+  assert.throws(() => resolveActorClip(manifest, 'hit', 'd270'), /required clip unavailable/);
 });

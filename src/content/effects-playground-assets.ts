@@ -2,7 +2,7 @@ import { visualEffectsCatalog } from './visual-effects-assets';
 export const playgroundCatalog = {
   ...visualEffectsCatalog,
   'ink-hero-current': 'generated/ink/ink-hero-current/manifest.json',
-  'ink-skeleton': 'generated/ink/ink-skeleton/manifest.json',
+  'library-sk01': 'generated/library/library-sk01/manifest.json',
   'ink-scenery': 'generated/ink/ink-scenery/manifest.json',
   ...Object.fromEntries(
     ['watch', 'brazier', 'votive'].flatMap((id) => [

@@ -14,13 +14,16 @@ import {
   validateCachedPack,
   preparationPin,
   recipeHash,
+  recipeInputs,
+  LockSchema,
 } from '../../tools/assets/pack';
+import { ensureBundlePack } from '../../tools/assets/bundles';
 import { makeArchive } from '../../tools/assets/archive';
 
 import { projectRoot } from '../../tools/assets/paths';
 import { prototypeAssets } from '../../tools/assets/preview';
 
-test('runtime composition and lighting do not invalidate artwork, but bake inputs still do', async () => {
+test('recipe identity excludes runtime composition and includes preparation and publication inputs', async () => {
   const read = (name: string) => fs.readFile(path.join(projectRoot, name));
   const before = await recipeHash(read);
   for (const file of [
@@ -34,7 +37,6 @@ test('runtime composition and lighting do not invalidate artwork, but bake input
     'src/content/visuals.ts',
     'tools/run-process.ts',
     'tools/assets/pack.ts',
-    'tools/assets/prepare.ts',
     'tools/assets/paths.ts',
   ]) {
     assert.equal(
@@ -53,6 +55,9 @@ test('runtime composition and lighting do not invalidate artwork, but bake input
     'authoring/ground-overlays.json',
     'authoring/hero-actions.json',
     'tools/assets/prepare/prepare-graveyard-coverage.ts',
+    'tools/assets/prepare.ts',
+    'tools/assets/bundles.ts',
+    'tools/assets/publication.ts',
   ]) {
     assert.notEqual(
       await recipeHash((name) =>
@@ -203,9 +208,20 @@ test('exact pinned preparation can be consumed offline and survives preparation 
     const held = await ensurePack(f.lock, f.cache, (async () => {
       throw new Error('Unexpected download');
     }) as typeof fetch);
-    await validatePack(held.root, f.lock);
+    const inventory = await validatePack(held.root, f.lock);
+    const pin = LockSchema.parse({
+      ...preparationPin(f.lock, await recipeInputs(), inventory),
+      schemaVersion: 3,
+      bundles: { runtime: f.lock },
+    });
+    if (pin.schemaVersion !== 3) throw new Error('Expected bundled pin');
+    const bundled = await ensureBundlePack(pin, f.cache, async () => {
+      throw new Error('Unexpected authoring download');
+    });
     await fs.rm(payload, { recursive: true, force: true });
     await validatePack(held.root, f.lock);
+    await validateCachedPack(bundled.root, pin);
+    await bundled.release();
     await held.release();
     await preparation.release();
   } finally {
@@ -483,5 +499,57 @@ test('preview pruning preserves active readers, the current layer and other chec
     await current.release();
     await peer.release();
     await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
+test('growth reservations grant bounded headroom near a full cache and protect active readers', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-growth-'));
+  const cache = new AssetCache(root, 16384);
+  const active = await cache.lease('reader');
+  const writer = await cache.lease('writer');
+  try {
+    await fs.writeFile(path.join(active.root, 'data'), Buffer.alloc(10000));
+    const granted = await writer.reserveUpTo(1000, 256 * 1024 ** 2);
+    assert.ok(granted > 1000 && granted < 6384);
+    await fs.writeFile(path.join(writer.root, 'data'), Buffer.alloc(granted - 512));
+    assert.ok((await cache.usage()) <= cache.limit);
+    await assert.rejects(writer.reserveUpTo(8000, 9000), /protected/);
+    await fs.access(path.join(active.root, 'data'));
+  } finally {
+    await active.release();
+    await writer.release();
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
+test('single-pass installation rejects archive links and releases its peak reservation', async () => {
+  const f = await fixture();
+  try {
+    const installed = await ensurePack(
+      f.lock,
+      f.cache,
+      (async () => new Response(f.body)) as typeof fetch,
+    );
+    const leases = await fs.readdir(path.join(installed.root, '.leases'));
+    const owner = JSON.parse(
+      await fs.readFile(path.join(installed.root, '.leases', leases[0]!), 'utf8'),
+    );
+    assert.equal(owner.bytes, 0, 'completed downloads retain no temporary reservation');
+    await installed.release();
+    await fs.symlink('page.png', path.join(f.source, 'public/link.png'));
+    const archive = path.join(f.root, 'link.tar.gz');
+    await tar.c({ cwd: f.source, file: archive, gzip: true }, ['pack.json', 'public/link.png']);
+    const body = await fs.readFile(archive);
+    const lock = {
+      ...f.lock,
+      sha256: createHash('sha256').update(body).digest('hex'),
+      bytes: body.length,
+    };
+    await assert.rejects(
+      ensurePack(lock, f.cache, (async () => new Response(body)) as typeof fetch),
+      /links and special entries/,
+    );
+  } finally {
+    await f.close();
   }
 });

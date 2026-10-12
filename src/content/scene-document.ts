@@ -1,3 +1,4 @@
+import type { ContentSnapshot } from './snapshot';
 import { GroundInteractionSchema } from './ground-interaction';
 import { AuthoredGameplaySchema } from './authored-gameplay';
 import { z } from 'zod';
@@ -253,6 +254,7 @@ const SceneDocumentSchema = z
           message: 'Pickup references missing upright artwork: ' + p.object,
         });
   });
+export type SceneSnapshot = ContentSnapshot<SceneDocument>;
 export type SceneDocument = z.infer<typeof SceneDocumentSchema>;
 export type SceneObject = SceneDocument['objects'][number];
 export const sceneBytesLimit = 4 * 1024 * 1024;
@@ -290,7 +292,7 @@ export function floorClips(m: Manifest) {
     : [];
 }
 export function validateSceneReferences(
-  d: SceneDocument,
+  d: SceneSnapshot,
   manifests?: ReadonlyMap<string, Manifest>,
   options: { allowUnpreparedDraftGround?: boolean } = {},
 ) {

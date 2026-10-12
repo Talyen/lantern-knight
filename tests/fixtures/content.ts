@@ -13,7 +13,7 @@ export const contentDefinitions: ContentDefinitions = {
       radius: 0.25,
       speed: 0.9,
       melee: { windup: 39, activeEnd: 43, total: 68, range: 1.2, halfAngle: 1.1, damage: 8 },
-      visual: 'skeleton',
+      visual: 'ossuary-thrall',
     },
     {
       id: 'lamplighter',

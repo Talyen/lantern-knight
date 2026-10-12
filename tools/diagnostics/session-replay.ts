@@ -5,7 +5,7 @@ import { randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
 import { GameSession } from '../../src/core/session';
-import { Persistence } from '../../src/core/persistence';
+import { Persistence } from '../../src/persistence';
 import { parseGame } from '../../src/core/save';
 import { type ContentRegistry } from '../../src/content/world';
 import { content } from '../../src/content/game-content';

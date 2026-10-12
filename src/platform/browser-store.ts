@@ -1,43 +1,29 @@
-import { content } from '../content/game-content';
-import { parseGame, parseSettings, SAVE_LIMITS, type Bridge, type LoadResult } from '../core/save';
-export function createBrowserBridge(profile = 'game'): Bridge {
-  const prefix = 'lantern-prototype-' + profile;
+import type { ContentRegistry } from '../content/world';
+import type { Bridge } from './bridge';
+import { StorageCodec, type Slot } from './storage-codec';
+
+export function createBrowserBridge(registry: ContentRegistry, profile = 'game'): Bridge {
+  const prefix = 'lantern-prototype-' + profile,
+    codec = new StorageCodec(registry),
+    read = <S extends Slot>(slot: S) =>
+      codec.decode(slot, localStorage.getItem(prefix + '-' + slot)),
+    write = (slot: Slot, value: unknown) => {
+      const snapshot = codec.snapshot(slot, value);
+      localStorage.setItem(prefix + '-' + slot, JSON.stringify(snapshot));
+    };
   return {
     async loadSettings() {
-      return read('settings', parseSettings, prefix);
+      return read('settings');
     },
     async saveSettings(value) {
-      write('settings', parseSettings(value), prefix);
+      write('settings', value);
     },
     async loadGame() {
-      return profile === 'sandbox'
-        ? { status: 'empty' }
-        : read('game', (value) => parseGame(value, content), prefix);
+      return profile === 'sandbox' ? { status: 'empty' } : read('game');
     },
     async saveGame(value) {
       if (profile === 'sandbox') throw new Error('Sandbox checkpoint writes denied');
-      write('game', parseGame(value, content), prefix);
+      write('game', value);
     },
   };
-}
-export const browserBridge = createBrowserBridge();
-function write(slot: keyof typeof SAVE_LIMITS, value: unknown, prefix: string) {
-  const text = JSON.stringify(value);
-  if (new TextEncoder().encode(text).byteLength > SAVE_LIMITS[slot])
-    throw new Error('Save payload exceeds limit');
-  localStorage.setItem(prefix + '-' + slot, text);
-}
-function read<T>(
-  slot: keyof typeof SAVE_LIMITS,
-  parse: (value: unknown) => T,
-  prefix: string,
-): LoadResult<T> {
-  const value = localStorage.getItem(prefix + '-' + slot);
-  if (value === null || new TextEncoder().encode(value).byteLength > SAVE_LIMITS[slot])
-    return { status: 'empty' };
-  try {
-    return { status: 'ok', data: parse(JSON.parse(value)) };
-  } catch {
-    return { status: 'empty' };
-  }
 }

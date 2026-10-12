@@ -18,13 +18,8 @@ for (const record of receipt.frames) {
   assert.equal(hash(source), record.sha256);
   assert.deepEqual(await exactSource(frame.source), source);
 }
-assert.deepEqual(
-  await exactSource('ink/ink-skeleton/rest.png'),
-  await readLibrarySource('packs/02_enemies/assets/02_skeleton_halberdier.png'),
-);
 for (const id of [
   'ink-hero-current',
-  'ink-skeleton',
   'ink-scenery',
   'ink-crypt',
   'ink-chapel-altar',

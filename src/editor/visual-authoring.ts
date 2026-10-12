@@ -1,7 +1,11 @@
 import type { EditorSnapshot } from './document';
 import * as T from 'three';
 import { contentDefinitions } from '../content/game-content';
-import { type SceneDocument, type SceneObject } from '../content/scene-document';
+import {
+  type SceneDocument,
+  type SceneObject,
+  parseSceneDocument,
+} from '../content/scene-document';
 import { sceneItems } from './model';
 import type { EditorView } from './view';
 import {
@@ -377,7 +381,7 @@ export class VisualAuthoring {
     this.objectFields.replaceChildren();
     $('object-name').replaceChildren();
     const index = d.objects.findIndex((p) => p.id === this.host.selected());
-    if (index >= 0 && !multiple) this.objectForm(d.objects[index]!, index);
+    if (index >= 0 && !multiple) this.objectForm(parseSceneDocument(d).objects[index]!, index);
     for (const details of document.querySelectorAll<HTMLDetailsElement>(
       '#visual-fields details,#object-appearance details',
     ))
@@ -576,7 +580,7 @@ export class VisualAuthoring {
     presentation.overlay.add(this.group);
     this.handles = [];
     const geometry = $<HTMLSelectElement>('tool').value === 'geometry';
-    const line = (points: { x: number; z: number }[], color: number, closed = true) => {
+    const line = (points: readonly { x: number; z: number }[], color: number, closed = true) => {
       if (!points.length) return;
       const list = closed ? [...points, points[0]!] : points;
       const vertices = list.map(

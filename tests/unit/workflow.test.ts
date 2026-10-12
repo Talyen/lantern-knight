@@ -115,8 +115,12 @@ test('scene and gameplay edits use routine CI; desktop contracts select platform
   for (const file of [
     'electron/store.ts',
     'src/core/save.ts',
+    'src/platform/bridge.ts',
+    'src/platform/settings.ts',
+    'src/platform/storage-codec.ts',
     'assets/lock.json',
     'tools/package.ts',
+    'tests/fixtures/input.ts',
     'package-lock.json',
   ])
     assert.equal(requiresDesktop([file]), true);

@@ -4,7 +4,7 @@ import './style.css';
 import { LoadingScreen } from './loading-screen';
 import { Application } from './application';
 import { GamePresentation } from './presentation/game-scene';
-import { browserBridge, createBrowserBridge } from './platform/browser-store';
+import { createBrowserBridge } from './platform/browser-store';
 import { gameUI, bindGameUI, status, showPause, updateGameUI } from './game-ui';
 const loading = new LoadingScreen();
 document.querySelector('#app')!.innerHTML = gameUI;
@@ -16,7 +16,7 @@ async function start() {
     content,
     gameAssetCatalog,
     window.lantern ??
-      (import.meta.env.MODE === 'sandbox' ? createBrowserBridge('preview') : browserBridge),
+      createBrowserBridge(content, import.meta.env.MODE === 'sandbox' ? 'preview' : 'game'),
     gameScenes,
     (...args) => new GamePresentation(...args),
     {

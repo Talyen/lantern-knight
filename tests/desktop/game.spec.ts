@@ -1,9 +1,10 @@
+import { holdMovement } from '../fixtures/input';
 import { test, expect, _electron } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { verifyBuildIdentity } from '../../tools/build-identity';
-import { smokeExecutable } from '../../tools/smoke/smoke-launch';
+import { smokeExecutable, playerControls } from '../../tools/smoke/smoke-launch';
 import { extractFile } from '@electron/asar';
 test('Game package starts, accepts input and reloads current storage', async () => {
   await verifyBuildIdentity();
@@ -35,34 +36,13 @@ test('Game package starts, accepts input and reloads current storage', async () 
     );
     expect(await page.evaluate(() => 'foundation' in window)).toBe(false);
     expect(await page.evaluate(() => typeof window.lantern?.launchMode)).toBe('undefined');
+    const { save } = playerControls(page, profile);
     await page.locator('#pause').click();
     await page.locator('#render-scale').selectOption('0.5');
-    await page.locator('#save').click();
-    await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
-    const initial = JSON.parse(
-      await fs.readFile(path.join(profile, 'prototype-saves/game.json'), 'utf8'),
-    );
+    const initial = await save();
     await page.locator('#resume').click();
-    await page.locator('canvas').focus();
-    await page.keyboard.down('KeyW');
-    await page.evaluate(
-      () =>
-        new Promise<void>((resolve) => {
-          let count = 0;
-          const frame = () => {
-            if (++count === 10) resolve();
-            else requestAnimationFrame(frame);
-          };
-          requestAnimationFrame(frame);
-        }),
-    );
-    await page.keyboard.up('KeyW');
-    await page.locator('#pause').click();
-    await page.locator('#save').click();
-    await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
-    const moved = JSON.parse(
-      await fs.readFile(path.join(profile, 'prototype-saves/game.json'), 'utf8'),
-    );
+    await holdMovement(page, 'KeyW');
+    const moved = await save();
     expect(
       Math.hypot(moved.player.x - initial.player.x, moved.player.z - initial.player.z),
     ).toBeGreaterThan(0.03);

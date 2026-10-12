@@ -1,53 +1,47 @@
 import { test, expect } from './fixtures';
 import type {} from '../../src/inspection';
-for (const scene of ['outdoor-fixture', 'interior-fixture'])
-  test(`scene ${scene}: readiness, reload and resource lifetime`, async ({ page }) => {
-    // Eight fixture switches plus reload exercise software rendering on CI.
-    test.setTimeout(180_000);
-    await page.goto('/sandbox.html?scene=' + scene);
-    await page.waitForFunction(() => window.foundation?.ready);
-    expect(await page.evaluate(() => window.foundation.sim.area)).toBe(scene);
+test('scene selection and independent reloads release resources across repeated switches', async ({
+  page,
+}) => {
+  await page.addInitScript(() => sessionStorage.setItem('lantern-author-scene', 'court'));
+  await page.goto('/sandbox.html');
+  await page.waitForFunction(() => window.foundation?.ready);
+  expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');
+  for (const scene of ['outdoor-fixture', 'interior-fixture']) {
+    if (scene === 'interior-fixture') {
+      await page.locator('#scene-select').selectOption(scene);
+      await page.waitForFunction(
+        () => window.foundation?.ready && window.foundation.sim.area === 'interior-fixture',
+      );
+    }
     await page.evaluate(() => {
       const f = window.foundation;
       f.pause(true);
       f.mode('lighting');
       f.presentation.verticalSpan = 13;
     });
-    await page.reload();
+    // Drop the URL selection so reload must restore the current workspace.
+    await page.goto('/sandbox.html');
     await page.waitForFunction(() => window.foundation?.ready);
     expect(await page.evaluate(() => window.foundation.sim.area)).toBe(scene);
     expect(await page.evaluate(() => window.foundation.presentation.verticalSpan)).toBe(13);
-    const resources = await page.evaluate(async () => {
-      const f = window.foundation;
-      const samples = [];
-      for (let i = 0; i < 4; i++) {
-        await f.fixture('outdoor-fixture');
-        await f.fixture('interior-fixture');
-        f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
-        samples.push({ ...f.presentation.renderer.info.memory });
-      }
-      if (f.presentation.renderer.getContext().getError()) throw new Error('Renderer error');
-      return samples;
-    });
-    expect(resources[3]).toEqual(resources[2]);
+  }
+  const resources = await page.evaluate(async () => {
+    const f = window.foundation;
+    const samples = [];
+    for (let i = 0; i < 4; i++) {
+      await f.fixture('outdoor-fixture');
+      await f.fixture('interior-fixture');
+      f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
+      samples.push({ ...f.presentation.renderer.info.memory });
+    }
+    if (f.presentation.renderer.getContext().getError()) throw new Error('Renderer error');
+    return samples;
   });
-
-test('preview selection uses its current workspace and rejects removed URL fixtures', async ({
-  page,
-}) => {
-  // Four scene loads exercise selection precedence under CI software rendering.
-  test.setTimeout(120_000);
-  await page.addInitScript(() => sessionStorage.setItem('lantern-author-scene', 'court'));
-  await page.goto('/sandbox.html');
+  expect(resources[3]).toEqual(resources[2]);
+  await page.goto('/sandbox.html?scene=outdoor-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');
-  await page.locator('#scene-select').selectOption('interior-fixture');
-  await page.waitForFunction(
-    () => window.foundation?.ready && window.foundation.sim.area === 'interior-fixture',
-  );
-  await page.goto('/sandbox.html');
-  await page.waitForFunction(() => window.foundation?.ready);
-  expect(await page.evaluate(() => window.foundation.sim.area)).toBe('interior-fixture');
   await page.goto('/sandbox.html?scene=upper-landing');
   await page.waitForFunction(() => window.foundation?.ready);
   expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');

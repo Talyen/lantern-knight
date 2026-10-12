@@ -4,7 +4,7 @@ This is an early prototype. Prefer a short edit–play–check loop. Scenes, ass
 
 ## Start and iterate
 
-Use Node 24.18.0 and npm 11.16.0, then `npm ci` and `npm run dev`. One Vite server serves Game, Dev Preview and the scene editor. Developer navigation links connect these views. Dev Preview uses one toolbar and floating inspector for independent outdoor/interior/system fixtures, animation, visuals/effects, inspection and diagnostics; advanced controls remain collapsed until needed.
+Use Node 24.18.0 and npm 11.16.0, then `npm ci` and `npm run dev`. One Vite server serves Game, Dev Preview and the scene editor. Development acquires pinned artwork on demand and reuses a matching running server before opening an asset workspace. Use `npm run dev -- --eager` to acquire the complete authoring library upfront for offline work or startup comparisons. Developer navigation links connect these views. Dev Preview uses one toolbar and floating inspector for independent outdoor/interior/system fixtures, animation, visuals/effects, inspection and diagnostics; advanced controls remain collapsed until needed.
 
 `npm run dev:preview` starts Dev Preview and opens `/sandbox.html` in Safari on macOS. It reuses a server only after checking checkout, asset identity and authoring scope. Reusing a server opens Safari and returns to the shell; when starting a server, Ctrl+C closes only that server. Use `npm run dev:preview -- --port 5175` to select another port. On other platforms, use `npm run dev` and open `/sandbox.html` in your browser.
 

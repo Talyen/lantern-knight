@@ -1,6 +1,8 @@
 import { it } from 'node:test';
 import assert from 'node:assert/strict';
 import { EditorHistory } from '../../src/editor/model';
+import { ContentRegistry } from '../../src/content/world';
+import { composeDraftGameplay } from '../../src/content/draft-gameplay';
 import { emptyScene } from '../../src/editor/default-scene';
 import { sceneItems } from '../../src/editor/model';
 function assembly() {
@@ -62,7 +64,7 @@ it('fragments detach external supports while keeping world placement and insert 
   assert.equal(h.document.objects.at(-1)!.x, 1);
 });
 
-import { patternPoints } from '../../src/editor/library';
+import { SceneLibrary, patternPoints } from '../../src/editor/library';
 import { parseSceneFragment } from '../../src/content/scene-document';
 it('patterns are reproducible, bounded, and follow authored path endpoints', () => {
   const d = emptyScene();
@@ -121,7 +123,7 @@ import { EditorView } from '../../src/editor/view';
 import type { AssetRuntime } from '../../src/assets/loader';
 import { Vector3, Quaternion } from 'three';
 import { Simulation } from '../../src/core/simulation';
-import { content } from '../fixtures/content';
+import { content, contentDefinitions } from '../fixtures/content';
 import { manifestFixture } from '../fixtures/manifest';
 
 it('placement ghost retries the same asset after a transient load failure', async () => {
@@ -181,4 +183,174 @@ it('editor applies transform previews before submitting the rendered frame', () 
   preview.objects[0]!.x = 3;
   view.previewTransforms(preview);
   assert.equal(renderedX, 3);
+});
+
+it('scaling an assembly scales its attachment height with its support', () => {
+  const h = assembly();
+  h.change((d) => {
+    d.objects[1]!.mount!.offset[1] = 1;
+  });
+  h.transformMany(['support'], { scale: 2 });
+  const child = sceneItems(h.document).find((p) => p.placement.id === 'child')!.placement;
+  assert.equal(child.y, 2);
+  assert.equal(child.scale, 2);
+});
+
+it('duplicating an assembly preserves its authored prop order', () => {
+  const h = assembly();
+  h.change((d) => {
+    d.propOrder = ['child', 'support'];
+  });
+  const ids = h.duplicateMany(['support']);
+  assert.deepEqual(
+    sceneItems(h.document)
+      .filter((p) => ids.includes(p.placement.id))
+      .map((p) =>
+        h.document.objects.find((o) => o.id === p.placement.id)!.mount ? 'child' : 'support',
+      ),
+    ['child', 'support'],
+  );
+});
+
+it('applying a repeat pattern preserves the copied pickups as playable health rewards', async () => {
+  const d = emptyScene();
+  d.objects = [{ id: 'potion', kind: 'prop', asset: 'ink-scenery', clip: 'lantern', x: 0, z: 0 }];
+  d.gameplay!.pickups = [
+    { id: 'health', object: 'potion', kind: 'health', amount: 25, radius: 0.5, x: 0, z: 0 },
+  ];
+  const h = new EditorHistory(d);
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'document');
+  Object.defineProperty(globalThis, 'document', {
+    configurable: true,
+    value: {
+      getElementById: () => ({ value: '' }),
+    },
+  });
+  try {
+    const library = Object.create(SceneLibrary.prototype) as {
+      host: object;
+      points: { x: number; z: number }[];
+      fragmentData: typeof d.objects;
+      snapshot: string;
+      patternSnapshot(): string;
+      applyPattern(): Promise<void>;
+      clearPreview(): void;
+    };
+    library.host = {
+      history: () => h,
+      selection: () => ['potion'],
+      select: () => {},
+      change: async (work: (candidate: typeof d) => void, committed: () => void) => {
+        h.change(work);
+        committed();
+      },
+    };
+    library.points = [{ x: 3, z: 0 }];
+    library.fragmentData = h.fragment(['potion']);
+    library.clearPreview = () => {};
+    library.snapshot = library.patternSnapshot();
+    await library.applyPattern();
+    assert.equal(h.document.gameplay!.pickups.length, 2);
+    const { registry } = composeDraftGameplay(h.document, content.definitions, {});
+    const sim = new Simulation(registry);
+    Object.assign(sim.hero, { x: 3, z: 0, health: 50 });
+    sim.step({ move: { x: 0, z: 0 }, aim: { x: 4, z: 0 } });
+    assert.equal(sim.hero.health, 75);
+  } finally {
+    if (previous) Object.defineProperty(globalThis, 'document', previous);
+    else Reflect.deleteProperty(globalThis, 'document');
+  }
+});
+
+import { CompositionTools } from '../../src/editor/composition';
+import { EditorWorkspace } from '../../src/editor/workspace';
+
+it('marquee selects rendered elevations and excludes descendants of hidden supports', () => {
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'document');
+  const node = {
+    hidden: false,
+    tabIndex: 0,
+    setAttribute() {},
+    classList: { contains: () => false },
+  };
+  Object.defineProperty(globalThis, 'document', {
+    configurable: true,
+    value: { getElementById: () => node, body: node },
+  });
+  try {
+    const h = assembly();
+    const sim = new Simulation(content);
+    const definitions = structuredClone(contentDefinitions);
+    definitions.areas[0]!.surface = { kind: 'flat', height: 2 };
+    const elevated = new Simulation(new ContentRegistry(definitions));
+    const tools = Object.create(CompositionTools.prototype) as CompositionTools;
+    const host = {
+      history: () => h,
+      view: () => ({ sim: elevated, screen: (p: Vector3) => ({ x: p.x * 100, y: p.y * 100 }) }),
+      select() {},
+    };
+    Object.assign(tools, {
+      host,
+      selection: new Set(),
+      hidden: new Set(['support']),
+      locked: new Set(),
+    });
+    tools.rectangle({ x: 390, y: 190 }, { x: 410, y: 210 }, false);
+    assert.deepEqual([...tools.selection], ['other'], 'select the object at its rendered height');
+    host.view = () => ({ sim, screen: (p: Vector3) => ({ x: p.x * 100, y: p.y * 100 }) });
+    tools.rectangle({ x: -10, y: -10 }, { x: 110, y: 10 }, false);
+    assert.equal(
+      tools.selection.size,
+      0,
+      'a hidden support hides its mounted children from marquee',
+    );
+  } finally {
+    if (previous) Object.defineProperty(globalThis, 'document', previous);
+    else Reflect.deleteProperty(globalThis, 'document');
+  }
+});
+
+it('workspace keeps single-object clip controls hidden for multiple selected objects', () => {
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'document');
+  const nodes = new Map<string, ReturnType<typeof node>>();
+  function node() {
+    const label = { hidden: false };
+    return {
+      hidden: false,
+      disabled: false,
+      checked: false,
+      value: '',
+      textContent: '',
+      style: {},
+      options: [{}, {}],
+      closest: () => label,
+      replaceChildren() {},
+    };
+  }
+  let selectionCount = 2;
+  Object.defineProperty(globalThis, 'document', {
+    configurable: true,
+    value: {
+      getElementById(id: string) {
+        if (!nodes.has(id)) nodes.set(id, node());
+        return nodes.get(id)!;
+      },
+      querySelector: () => ({}),
+    },
+  });
+  try {
+    for (const id of ['category', 'collection', 'asset-scope']) document.getElementById(id);
+    for (const id of ['category', 'collection', 'asset-scope']) nodes.get(id)!.value = 'all';
+    const workspace = Object.create(EditorWorkspace.prototype) as EditorWorkspace;
+    Object.assign(workspace, { selectionSize: () => selectionCount });
+    workspace.refresh();
+    for (const id of ['clip', 'heading']) assert.equal(nodes.get(id)!.closest().hidden, true);
+    assert.equal(nodes.get('place-clip')!.closest().hidden, false);
+    selectionCount = 1;
+    workspace.refresh();
+    for (const id of ['clip', 'heading']) assert.equal(nodes.get(id)!.closest().hidden, false);
+  } finally {
+    if (previous) Object.defineProperty(globalThis, 'document', previous);
+    else Reflect.deleteProperty(globalThis, 'document');
+  }
 });

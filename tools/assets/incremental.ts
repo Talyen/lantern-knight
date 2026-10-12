@@ -46,6 +46,10 @@ export async function linkTree(source: string, destination: string, merge = fals
     );
   }
 }
+// Delivery mutates producer manifests. Retain those small documents separately
+// while native pages/media remain in the leased layer with no duplicate cache.
+const storedOutput = (name: string, cachePublic?: boolean) =>
+  cachePublic !== false || !name.startsWith('public/') || name.endsWith('.json');
 export async function cachedPreparationStep(options: {
   file: string;
   workspace: string;
@@ -70,11 +74,9 @@ export async function cachedPreparationStep(options: {
   if (prior?.version === 1 && prior.key === options.key) {
     try {
       const names = Object.keys(prior.files);
-      const stored = names.filter(
-        (name) => options.cachePublic !== false || !name.startsWith('public/'),
-      );
+      const stored = names.filter((name) => storedOutput(name, options.cachePublic));
       if (options.cachePublic === false) {
-        const publicNames = names.filter((name) => name.startsWith('public/'));
+        const publicNames = names.filter((name) => !storedOutput(name, options.cachePublic));
         const hashes = await (options.hashFiles?.(publicNames) ??
           fileChecksums(options.workspace, publicNames));
         for (const name of publicNames)
@@ -142,7 +144,7 @@ export async function cachedPreparationStep(options: {
     await fs.mkdir(path.join(temporary, 'files'), { recursive: true });
     for (const name of names) {
       safeRelative(name);
-      if (options.cachePublic === false && name.startsWith('public/')) continue;
+      if (!storedOutput(name, options.cachePublic)) continue;
       const target = path.join(temporary, 'files', name),
         original = path.join(options.workspace, name);
       await fs.mkdir(path.dirname(target), { recursive: true });
@@ -173,5 +175,39 @@ export async function cachedPreparationStep(options: {
     return { reused: false, digest, files: names, hashes: files };
   } finally {
     await fs.rm(temporary, { recursive: true, force: true });
+  }
+}
+
+// Scoped preparation retains intermediate artwork needed by catalog-wide
+// companions without invoking unrelated producers. Only receipt-verified files
+// from the leased base are linked; missing staging requires a full preparation.
+export async function restorePreparationStaging(cache: string, workspace: string) {
+  for (const step of (await import('./recipe')).preparationSteps) {
+    const directory = path.join(cache, step.file.replace(/\.[^.]+$/, ''));
+    const receipt = JSON.parse(
+      await fs.readFile(path.join(directory, 'receipt.json'), 'utf8'),
+    ) as Receipt;
+    const names = Object.keys(receipt.files).filter((name) => name.startsWith('staging/'));
+    await verifiedOutput(
+      path.join(directory, 'files'),
+      names,
+      async () => {
+        const hashes = await fileChecksums(path.join(directory, 'files'), names);
+        for (const name of names)
+          if (hashes[name] !== receipt.files[name])
+            throw new Error('Cached preparation staging differs');
+      },
+      '.verified-staging.json',
+    );
+    for (const name of names) {
+      safeRelative(name);
+      const target = path.join(workspace, name);
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      await fs
+        .link(path.join(directory, 'files', name), target)
+        .catch((error: NodeJS.ErrnoException) => {
+          if (error.code !== 'EEXIST') throw error;
+        });
+    }
   }
 }

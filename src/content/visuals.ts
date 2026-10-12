@@ -15,13 +15,19 @@ export const actorVisuals: Readonly<Record<string, ActorVisualDefinition>> = {
     attacks: ['sweep', 'lunge'],
     tint: 0xffffff,
   },
-  skeleton: {
-    id: 'skeleton',
-    asset: 'ink-skeleton',
-    clips: Object.fromEntries(
-      Object.keys(clipForState).map((state) => [state, 'rest']),
-    ) as ActorVisualDefinition['clips'],
-    attacks: ['rest'],
+  'ossuary-thrall': {
+    id: 'ossuary-thrall',
+    asset: 'library-sk01',
+    clips: {
+      idle: 'idle',
+      walk: 'move',
+      attack: 'attack',
+      dodge: 'move',
+      ability: 'idle',
+      hurt: 'hit',
+      death: 'defeat',
+    },
+    attacks: ['attack', 'attack'],
     tint: 0xffffff,
   },
 };

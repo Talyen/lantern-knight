@@ -2,7 +2,7 @@
 const policies = [
   {
     pattern:
-      /^(electron\/|package(?:-lock)?\.json$|electron-builder.*\.json$|.*\.html$|assets\/lock\.json$|src\/core\/save\.ts$|src\/content\/asset-catalog\.ts$|tools\/(?:build|package|desktop|select-runtime-assets)|tools\/assets\/(?:pack|archive|bundles|workspace|publication|paths)\.ts$|tests\/desktop\/)/,
+      /^(electron\/|package(?:-lock)?\.json$|electron-builder.*\.json$|.*\.html$|assets\/lock\.json$|src\/core\/save\.ts$|src\/platform\/(?:bridge|settings|storage-codec)\.ts$|src\/content\/asset-catalog\.ts$|tools\/(?:build|package|desktop|select-runtime-assets)|tools\/assets\/(?:pack|archive|bundles|workspace|publication|paths)\.ts$|tests\/(?:desktop\/|fixtures\/input\.ts$))/,
     desktop: true,
   },
   {

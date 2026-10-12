@@ -6,13 +6,17 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { parseSceneDocument, validateSceneReferences } from '../../src/content/scene-document';
+import {
+  parseSceneDocument,
+  validateSceneReferences,
+  type SceneDocument,
+} from '../../src/content/scene-document';
 import {
   churchyardColliders,
   resolveAuthoredScene,
   resolveScene,
 } from '../../src/content/world-art';
-import { EditorHistory } from '../../src/editor/model';
+import { EditorHistory, sceneItems } from '../../src/editor/model';
 import { EditorDocument } from '../../src/editor/document';
 import { SceneStore } from '../../tools/scene/scene-editor-store';
 describe('scene authoring contracts', () => {
@@ -25,7 +29,7 @@ describe('scene authoring contracts', () => {
     const state = new EditorDocument(
       original,
       async (document) => {
-        displayed = document;
+        displayed = parseSceneDocument(document);
         if (reject) {
           reject = false;
           await new Promise<void>((resolve) => {
@@ -47,7 +51,9 @@ describe('scene authoring contracts', () => {
     reject = true;
     const failing = state.edit((h) => {
       h.redo();
-      h.document.name = 'Rejected';
+      h.change((d) => {
+        d.name = 'Rejected';
+      });
     });
     assert.equal(displayed.name, 'Rejected');
     assert.deepEqual(state.history.document, original);
@@ -69,6 +75,60 @@ describe('scene authoring contracts', () => {
     assert.equal(state.history.document.name, 'Accepted');
     await state.edit((h) => h.undo());
     assert.deepEqual(state.history.document, original);
+  });
+  it('isolates accepted scenes and undo from retained candidates, drafts and derived fragments', async () => {
+    const original = sceneFixture('graveyard');
+    let candidate!: EditorHistory, draft!: SceneDocument, finish!: () => void;
+    const state = new EditorDocument(
+      original,
+      () =>
+        new Promise<void>((resolve) => {
+          finish = resolve;
+        }),
+      () => {},
+      new AbortController().signal,
+    );
+    const before = state.history;
+    const updating = state.edit((history) => {
+      candidate = history;
+      history.change((document) => {
+        draft = document;
+        document.name = 'Validated';
+      });
+    });
+    // The callback may retain its history while the renderer is accepting the scene.
+    candidate.change((document) => {
+      document.name = 'Changed during acceptance';
+    });
+    draft.name = 'Changed through retained draft';
+    finish();
+    await updating;
+    assert.equal(state.history.document.name, 'Validated');
+    assert.equal(before.document.name, original.name);
+    assert.equal(before.canUndo, false);
+    const accepted = state.history;
+    candidate.undo();
+    assert.equal(state.history.document.name, 'Validated');
+    // Even untyped integrations cannot bypass validation through nested snapshot data.
+    assert.throws(() => {
+      (accepted.document as SceneDocument).objects[0]!.x = 999;
+    }, TypeError);
+    const fragment = accepted.fragment(['family-tomb-west']);
+    fragment[0]!.x = 999;
+    const derived = sceneItems(accepted.document);
+    const footprint = derived.find((p) => p.placement.id === 'family-tomb-west')!.placement
+      .footprint!;
+    (footprint as [number, number])[0] = 999;
+    assert.deepEqual(accepted.document.objects, original.objects);
+    state.reidentify('saved-copy', 'draft');
+    assert.equal(accepted.document.id, original.id);
+    assert.equal(state.history.document.id, 'saved-copy');
+    const undoing = state.edit((history) => history.undo());
+    finish();
+    await undoing;
+    assert.equal(state.history.document.name, original.name);
+    assert.equal(state.history.document.id, 'saved-copy');
+    assert.deepEqual(state.history.document.objects, original.objects);
   });
   it('discards staged edits on disposal without applying to a closed view', async () => {
     const original = emptyScene(),

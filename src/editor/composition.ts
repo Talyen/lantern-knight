@@ -1,6 +1,7 @@
 import * as T from 'three';
 import { heightAt } from '../content/world';
 import { openDock } from './workspace';
+import { parseSceneDocument } from '../content/scene-document';
 import { EditorHistory, sceneItems } from './model';
 import type { EditorView } from './view';
 import type { EditorSnapshot } from './document';
@@ -33,7 +34,7 @@ export class CompositionTools {
               .catch(() => {});
           }
       },
-      { root: element('objects') },
+      { root: element('objects-panel') },
     );
     element('object-search').oninput = () => this.render();
     element('focus-selection').onclick = () => this.focus();
@@ -90,7 +91,7 @@ export class CompositionTools {
           const temp = new EditorHistory(this.host.history().document);
           for (const id of ids) temp.transform(id, { [axis]: anchor });
           history.change((d) => {
-            d.objects = temp.document.objects;
+            d.objects = parseSceneDocument(temp.document).objects;
           });
         }).catch(console.error);
       element('alignment-tools').append(button);
@@ -240,12 +241,20 @@ export class CompositionTools {
   }
   rectangle(a: { x: number; y: number }, b: { x: number; y: number }, additive: boolean) {
     if (!additive) this.selection.clear();
+    const hidden = new Set(this.host.history().descendants([...this.hidden]));
     for (const item of sceneItems(this.host.history().document)) {
       const p = this.host
         .view()
-        .screen(new T.Vector3(item.placement.x, item.placement.y ?? 0, item.placement.z));
+        .screen(
+          new T.Vector3(
+            item.placement.x,
+            heightAt(this.host.view().sim!.areaDefinition, item.placement.x, item.placement.z) +
+              (item.placement.y ?? 0),
+            item.placement.z,
+          ),
+        );
       if (
-        !this.hidden.has(item.placement.id) &&
+        !hidden.has(item.placement.id) &&
         p.x >= Math.min(a.x, b.x) &&
         p.x <= Math.max(a.x, b.x) &&
         p.y >= Math.min(a.y, b.y) &&

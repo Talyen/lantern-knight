@@ -5,7 +5,6 @@ export function needsLighting(id: string, manifest: Manifest) {
   return (
     [
       'ink-hero-current',
-      'ink-skeleton',
       'ink-scenery',
       'ink-graveyard-scenery',
       'ink-blackwood-oak',

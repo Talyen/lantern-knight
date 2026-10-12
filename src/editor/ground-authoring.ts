@@ -4,7 +4,11 @@ import * as T from 'three';
 import { groundPoint } from '../core/camera';
 import { artworkFloorLayout } from '../content/floor-layout';
 import type { GroundRegion, MaskShape } from '../content/ground-interaction';
-import type { SceneDocument } from '../content/scene-document';
+import {
+  parseSceneDocument,
+  type SceneDocument,
+  type SceneSnapshot,
+} from '../content/scene-document';
 import type { Manifest } from '../assets/schema';
 import type { EditorView } from './view';
 const ns = 'http://www.w3.org/2000/svg';
@@ -17,7 +21,7 @@ type Candidate = {
   mask?: MaskShape[];
 };
 type Host = {
-  document: () => SceneDocument;
+  document: () => SceneSnapshot;
   view: () => EditorView;
   manifest: () => Manifest | undefined;
   change: (work: (d: SceneDocument) => void) => Promise<void>;
@@ -41,12 +45,12 @@ export class GroundAuthoring {
   private box?: [number, number, number, number];
   private proposal?: MaskShape[];
   private candidates: Candidate[] = [];
-  private batchDocument?: SceneDocument;
+  private batchDocument?: SceneSnapshot;
   private gesture?: UV[];
   private abort?: AbortController;
   private request = 0;
   private lifetime = new AbortController();
-  private previous?: SceneDocument;
+  private previous?: SceneSnapshot;
   private signature = '';
   private enabled = true;
   private mode = 'off';
@@ -245,7 +249,10 @@ export class GroundAuthoring {
       const rect = this.canvas.getBoundingClientRect();
       let closest = 10;
       for (const region of d.groundInteraction?.regions ?? []) {
-        const consider = (candidate: UV, vertex: NonNullable<GroundAuthoring['vertex']>) => {
+        const consider = (
+          candidate: readonly [number, number],
+          vertex: NonNullable<GroundAuthoring['vertex']>,
+        ) => {
           const world = layout.world(candidate),
             q = new T.Vector3(world.x, 0, world.z).project(p.camera),
             distance = Math.hypot(
@@ -338,7 +345,11 @@ export class GroundAuthoring {
       this.prompts = [];
       void this.infer().catch((e) => this.host.status(String(e), true));
     } else {
-      const mask = this.proposal ?? this.region()?.mask;
+      const mask =
+        this.proposal ??
+        parseSceneDocument(this.host.document()).groundInteraction?.regions.find(
+          (r) => r.id === this.selected,
+        )?.mask;
       if (!mask) {
         this.host.status('Select or draw a mask before using the brush.', true);
         return;

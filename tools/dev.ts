@@ -11,6 +11,7 @@ async function main() {
       pinned: { type: 'boolean' },
       open: { type: 'boolean' },
       runtime: { type: 'boolean' },
+      eager: { type: 'boolean' },
       preview: { type: 'boolean' },
     },
   });
@@ -26,7 +27,8 @@ async function main() {
     scope: values.runtime ? 'runtime' : 'authoring',
     port: port ?? Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
     open: values.preview ? false : values.open,
-    reuse: values.preview,
+    reuse: true,
+    demand: !values.eager,
   });
   try {
     if (values.preview) {

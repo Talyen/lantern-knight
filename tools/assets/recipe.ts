@@ -70,8 +70,50 @@ export function preparationSelection(ids: readonly string[] = []) {
     if (!owners.length) throw new Error('No preparation owner for asset: ' + id);
     for (const owner of owners) visit(owner.file);
   }
-  visit('assets/prepare/prepare-image-delivery.ts');
+  // Finalizers read the verified base for unaffected producers. Their full
+  // dependency list orders a cold/full preparation, not a scoped refresh.
+  if (selected.has('assets/prepare/prepare-hero.ts'))
+    visit('assets/prepare/prepare-animation-flow.py');
+  if ([...selected].some((file) => !file.endsWith('prepare-loading-media.ts'))) {
+    selected.add('assets/prepare/prepare-graveyard-coverage.ts');
+    selected.add('assets/prepare/prepare-lighting.ts');
+  }
+  selected.add('assets/prepare/prepare-image-delivery.ts');
   return preparationSteps.filter((step) => selected.has(step.file));
+}
+// A scoped refresh certifies only its selected owners when global inputs change.
+// Carrying older selections forward would hide an unrefreshed library later.
+export function mergePreparationSelections(
+  previous: { recipeSha256: string; librarySha256?: string; selections?: string[] },
+  ids: readonly string[],
+  recipeSha256: string,
+  librarySha256?: string,
+) {
+  const unchanged =
+    previous.recipeSha256 === recipeSha256 && previous.librarySha256 === librarySha256;
+  return [...new Set([...(unchanged ? (previous.selections ?? []) : []), ...ids])];
+}
+export function preparationLayerKey(inputs: {
+  baseSha256: string;
+  recipeSha256: string;
+  selections: readonly string[];
+  librarySha256?: string;
+  gpu: boolean;
+  steps: readonly { file: string }[];
+}) {
+  return createHash('sha256')
+    .update(
+      JSON.stringify([
+        inputs.baseSha256,
+        inputs.recipeSha256,
+        inputs.selections,
+        inputs.librarySha256,
+        inputs.gpu,
+        inputs.steps.map((step) => step.file),
+      ]),
+    )
+    .digest('hex')
+    .slice(0, 24);
 }
 export function preparationStepKey(
   operation: (typeof preparationSteps)[number],
@@ -89,10 +131,11 @@ export function preparationStepKey(
         'preparation-step-v2',
         operation.file,
         inputs['tools/' + operation.file],
-        inputs['tools/assets/recipe.ts'],
         inputs.dependencies,
         sourceInventory,
-        owned.map((file) => [file, inputs[file] ?? null]),
+        owned
+          .filter((file) => file !== 'assets/sources.json')
+          .map((file) => [file, inputs[file] ?? null]),
         (operation.dependsOn ?? []).map((file) => [file, digests.get(file)]),
         process.version,
         process.platform,

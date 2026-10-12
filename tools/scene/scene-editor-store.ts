@@ -111,8 +111,12 @@ export class SceneStore {
   }
 }
 /** @knip-external Loaded by Vite ssrLoadModule and generated worktree fixture configs. */
-export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin {
-  const segmentation = new SegmentationService(root, preparedPublic);
+export function sceneEditorPlugin(
+  root: string,
+  preparedPublic: string,
+  ensurePublicFile?: (relative: string) => Promise<boolean>,
+): Plugin {
+  const segmentation = new SegmentationService(root, preparedPublic, ensurePublicFile);
   const token = randomUUID(),
     sourceFiles = [
       'src/content/scene-document.ts',
@@ -133,6 +137,7 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
   let loadBase: () => Promise<typeof import('../../src/content/world-art')>;
   let validateGameplay: (d: SceneDocument) => Promise<void>;
   const validate = async (d: SceneDocument) => {
+    await ensurePublicFile?.('generated/library/catalog.json');
     const catalog = await readAuthoringCatalog(preparedPublic);
     const ids = new Set([
       ...d.proceduralAssets,
@@ -145,6 +150,7 @@ export function sceneEditorPlugin(root: string, preparedPublic: string): Plugin 
         [...ids].map(async (id) => {
           const file = catalog[id];
           if (!file) throw new Error('Unknown prepared asset: ' + id);
+          await ensurePublicFile?.(file);
           return [
             id,
             parseManifest(JSON.parse(await fs.readFile(path.join(preparedPublic, file), 'utf8'))),

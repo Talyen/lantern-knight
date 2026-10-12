@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { test, expect, waitForEditor } from './fixtures';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import type {} from '../../src/editor/main';
@@ -18,7 +18,7 @@ test('review authored occluders from reachable front and behind positions', asyn
     ),
   );
   await page.goto('/editor.html?automated');
-  await page.waitForFunction(() => window.sceneEditor?.ready(), undefined, { timeout: 30_000 });
+  await waitForEditor(page, 30_000);
   console.info('Review: editor ready');
   if (await page.getByRole('button', { name: 'Dismiss', exact: true }).isVisible())
     await page.getByRole('button', { name: 'Dismiss', exact: true }).click();

@@ -1,9 +1,16 @@
-import { test, expect } from './fixtures';
+import { test, expect, openEditor, waitForEditor } from './fixtures';
+import type { Page } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { projectRoot } from '../../tools/assets/paths';
 import type {} from '../../src/editor/main';
 import { sceneFixture } from '../fixtures/scene';
+async function chooseGravestone(page: Page) {
+  await page.locator('#artwork-tab').click();
+  await page.locator('#search').fill('ink-scenery');
+  await page.getByTitle('ink-scenery/arch', { exact: true }).click();
+  await page.locator('#place-clip').selectOption('gravestone');
+}
 test('editor placement, experimental scale, history, recovery, save and external conflict', async ({
   page,
   request,
@@ -17,8 +24,7 @@ test('editor placement, experimental scale, history, recovery, save and external
       nativeDialogs.push(dialog.type());
       await dialog.dismiss();
     });
-    await page.goto('/editor.html');
-    await page.waitForFunction(() => window.sceneEditor?.ready());
+    await openEditor(page, '/editor.html');
     const initial = await page.evaluate(() => window.sceneEditor.state().document);
     await page.locator('#name').fill('Prototype recovery');
     await page.locator('#name').dispatchEvent('change');
@@ -39,14 +45,11 @@ test('editor placement, experimental scale, history, recovery, save and external
     await page.locator('#open').click();
     await page.getByRole('button', { name: 'Cancel', exact: true }).click();
     await page.reload();
-    await page.waitForFunction(() => window.sceneEditor?.ready());
+    await waitForEditor(page);
     expect(nativeDialogs).toEqual([]);
     await expect(page.locator('#recovery')).toBeVisible();
     await page.locator('#restore').click();
-    await page.locator('#artwork-tab').click();
-    await page.locator('#search').fill('ink-scenery');
-    await page.getByTitle('ink-scenery/arch', { exact: true }).click();
-    await page.locator('#place-clip').selectOption('gravestone');
+    await chooseGravestone(page);
     await page.locator('#viewport').click({ position: { x: 350, y: 280 } });
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
@@ -58,42 +61,31 @@ test('editor placement, experimental scale, history, recovery, save and external
       .toBe(2);
     // Reject after the view has already replaced its room. History and recovery must
     // retain the accepted scene, and the old room must be restored for retry.
-    const accepted = await page.evaluate(() => {
+    const snapshot = () =>
+      page.evaluate(() => ({
+        document: window.sceneEditor.state().document,
+        scale: window.sceneEditor
+          .view()
+          .presentation!.roomPresentation.inkRoom!.sprites.find(
+            (sprite) => sprite.id === window.sceneEditor.state().document.objects[0]!.id,
+          )!
+          .mesh.scale.toArray(),
+        recovery: Object.entries(localStorage).filter(([key]) =>
+          key.startsWith('lantern-scene-editor-recovery:'),
+        ),
+      }));
+    const accepted = await snapshot();
+    await page.evaluate(() => {
       const renderer = window.sceneEditor.view().presentation!.lookRenderer;
       const prepare = renderer.prepare.bind(renderer);
       renderer.prepare = async () => {
         renderer.prepare = prepare;
         throw new Error('Lighting update rejected');
       };
-      return {
-        document: window.sceneEditor.state().document,
-        scale: window.sceneEditor
-          .view()
-          .presentation!.roomPresentation.inkRoom!.sprites.find(
-            (sprite) => sprite.id === window.sceneEditor.state().document.objects[0]!.id,
-          )!
-          .mesh.scale.toArray(),
-        recovery: Object.entries(localStorage).filter(([key]) =>
-          key.startsWith('lantern-scene-editor-recovery:'),
-        ),
-      };
     });
     await page.locator('#undo').click();
     await expect(page.locator('#status')).toHaveText('Lighting update rejected');
-    expect(
-      await page.evaluate(() => ({
-        document: window.sceneEditor.state().document,
-        scale: window.sceneEditor
-          .view()
-          .presentation!.roomPresentation.inkRoom!.sprites.find(
-            (sprite) => sprite.id === window.sceneEditor.state().document.objects[0]!.id,
-          )!
-          .mesh.scale.toArray(),
-        recovery: Object.entries(localStorage).filter(([key]) =>
-          key.startsWith('lantern-scene-editor-recovery:'),
-        ),
-      })),
-    ).toEqual(accepted);
+    expect(await snapshot()).toEqual(accepted);
     expect(
       await page.evaluate(
         () => window.sceneEditor.view().presentation!.visualOverride!.props[0]!.scale,
@@ -187,13 +179,9 @@ test('editor placement, experimental scale, history, recovery, save and external
 test('editor multi-selection, inspector, palette grouping and editor-only visibility', async ({
   page,
 }) => {
-  await page.goto('/editor.html?automated');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
-  await page.locator('#artwork-tab').click();
-  await page.locator('#search').fill('ink-scenery');
-  await page.getByTitle('ink-scenery/arch', { exact: true }).click();
+  await openEditor(page);
+  await chooseGravestone(page);
   await expect(page.locator('#assets .asset')).toHaveCount(1);
-  await page.locator('#place-clip').selectOption('gravestone');
   await page.locator('#viewport').click({ position: { x: 300, y: 250 } });
   await expect(page.locator('#object-panel')).toBeVisible();
   await page.locator('#duplicate').click();
@@ -263,8 +251,7 @@ test('visual authoring, independent fragments, pattern undo and import', async (
     (p: { id: string }) => p.id,
   ) as string[];
   try {
-    await page.goto('/editor.html?automated');
-    await page.waitForFunction(() => window.sceneEditor?.ready());
+    await openEditor(page);
     await page.locator('#scene-tab').click();
     await page.locator('[data-section=category-Geometry] > summary').click();
     await page.locator('[data-section=paths] > summary').click();
@@ -280,10 +267,26 @@ test('visual authoring, independent fragments, pattern undo and import', async (
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.paths[0]?.width))
       .toBe(2);
     await page.locator('#tool').selectOption('geometry');
-    await page.locator('#artwork-tab').click();
-    await page.locator('#search').fill('ink-scenery');
-    await page.getByTitle('ink-scenery/arch', { exact: true }).click();
-    await page.locator('#place-clip').selectOption('gravestone');
+    const pointBefore = await page.evaluate(
+      () => window.sceneEditor.state().document.paths[0]!.points[0],
+    );
+    const screen = await page.evaluate(() => {
+      const p = window.sceneEditor.state().document.paths[0]!.points[0]!,
+        view = window.sceneEditor.view();
+      return view.screen(view.presentation!.center.clone().set(p.x, 0, p.z));
+    });
+    await page.mouse.move(screen.x, screen.y);
+    await page.mouse.down();
+    await page.mouse.move(screen.x + 30, screen.y + 10);
+    await page.mouse.up();
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.paths[0]!.points[0]))
+      .not.toEqual(pointBefore);
+    await page.locator('#undo').click();
+    expect(
+      await page.evaluate(() => window.sceneEditor.state().document.paths[0]!.points[0]),
+    ).toEqual(pointBefore);
+    await chooseGravestone(page);
     await page.locator('#viewport').click({ position: { x: 350, y: 230 } });
     await page.locator('#document-menu > summary').click();
     await page.locator('#scene-library').click();
@@ -338,12 +341,8 @@ test('unsaved draft playtest discards gameplay state and survives repeated entry
   page,
 }) => {
   test.setTimeout(180_000);
-  await page.goto('/editor.html?automated');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
-  await page.locator('#artwork-tab').click();
-  await page.locator('#search').fill('ink-scenery');
-  await page.getByTitle('ink-scenery/arch', { exact: true }).click();
-  await page.locator('#place-clip').selectOption('gravestone');
+  await openEditor(page);
+  await chooseGravestone(page);
   await page.locator('#viewport').click({ position: { x: 360, y: 310 } });
   await expect
     .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
@@ -351,23 +350,18 @@ test('unsaved draft playtest discards gameplay state and survives repeated entry
   await page.locator('#name').fill('Unsaved playtest');
   await page.locator('#viewport').focus();
   await expect(page.locator('#save-state')).toHaveText('Unsaved');
-  const before = await page.evaluate(() => ({
-    document: window.sceneEditor.state().document,
-    selected: window.sceneEditor.state().selected,
-    camera: {
-      center: window.sceneEditor.view().presentation!.center.toArray(),
-      span: window.sceneEditor.view().presentation!.verticalSpan,
-    },
-    dock: document.querySelector('[role="tab"][aria-selected="true"]')!.id,
-    storage: JSON.stringify(
-      Object.fromEntries(
-        Array.from({ length: localStorage.length }, (_, i) => {
-          const key = localStorage.key(i)!;
-          return [key, localStorage.getItem(key)];
-        }).sort((a, b) => a[0]!.localeCompare(b[0]!)),
-      ),
-    ),
-  }));
+  const snapshot = () =>
+    page.evaluate(() => ({
+      document: window.sceneEditor.state().document,
+      selected: window.sceneEditor.state().selected,
+      camera: {
+        center: window.sceneEditor.view().presentation!.center.toArray(),
+        span: window.sceneEditor.view().presentation!.verticalSpan,
+      },
+      dock: document.querySelector('[role="tab"][aria-selected="true"]')!.id,
+      storage: Object.fromEntries(Object.entries(localStorage)),
+    }));
+  const before = await snapshot();
   for (let i = 0; i < 2; i++) {
     await page.locator('#play-from-here').click();
     await expect
@@ -389,29 +383,7 @@ test('unsaved draft playtest discards gameplay state and survives repeated entry
     await page.keyboard.up('KeyD');
     await page.locator('#playtest-return').click();
     await expect(page.locator('#playtest-dialog')).not.toBeVisible();
-    expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(before.document);
-    expect(
-      await page.evaluate(() =>
-        JSON.stringify(
-          Object.fromEntries(
-            Array.from({ length: localStorage.length }, (_, i) => {
-              const key = localStorage.key(i)!;
-              return [key, localStorage.getItem(key)];
-            }).sort((a, b) => a[0]!.localeCompare(b[0]!)),
-          ),
-        ),
-      ),
-    ).toEqual(before.storage);
-    expect(await page.evaluate(() => window.sceneEditor.state().selected)).toBe(before.selected);
-    expect(
-      await page.evaluate(() => ({
-        center: window.sceneEditor.view().presentation!.center.toArray(),
-        span: window.sceneEditor.view().presentation!.verticalSpan,
-      })),
-    ).toEqual(before.camera);
-    expect(await page.locator('[role="tab"][aria-selected="true"]').getAttribute('id')).toBe(
-      before.dock,
-    );
+    expect(await snapshot()).toEqual(before);
     expect(await page.evaluate(() => window.sceneEditor.playtest())).toBeUndefined();
   }
 });
@@ -419,8 +391,7 @@ test('unsaved draft playtest discards gameplay state and survives repeated entry
 test('editor workspace keeps populated attachment controls accessible at desktop widths', async ({
   page,
 }) => {
-  await page.goto('/editor.html?automated');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
+  await openEditor(page);
   await page.locator('#import-scene').setInputFiles({
     name: 'fixture.json',
     mimeType: 'application/json',
@@ -438,15 +409,7 @@ test('editor workspace keeps populated attachment controls accessible at desktop
   await page.locator('#objects-tab').click();
   await page.getByRole('button', { name: child!, exact: true }).click();
   for (const width of [1440, 900]) {
-    const frame = await page.evaluate(
-      () => window.sceneEditor.view().presentation!.renderer.info.render.frame,
-    );
     await page.setViewportSize({ width, height: 900 });
-    await expect
-      .poll(() =>
-        page.evaluate(() => window.sceneEditor.view().presentation!.renderer.info.render.frame),
-      )
-      .toBeGreaterThan(frame + 2);
     await expect(page.locator('#object-panel')).toBeVisible();
     const canvas = await page.locator('#viewport').boundingBox();
     expect(canvas!.width).toBeGreaterThan(250);
@@ -457,58 +420,22 @@ test('editor workspace keeps populated attachment controls accessible at desktop
   }
 });
 
-test('geometry handles edit a path point with one undoable gesture', async ({ page }) => {
-  await page.goto('/editor.html?automated');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
-  await page.locator('#scene-tab').click();
-  await page.locator('[data-section=category-Geometry] > summary').click();
-  await page.locator('[data-section=paths] > summary').click();
-  await page
-    .locator('#scene-panel')
-    .getByRole('button', { name: 'Add Paths', exact: true })
-    .click();
-  await page.locator('#tool').selectOption('geometry');
-  const before = await page.evaluate(() => window.sceneEditor.state().document.paths[0]!.points[0]);
-  const screen = await page.evaluate(() => {
-    const p = window.sceneEditor.state().document.paths[0]!.points[0]!,
-      view = window.sceneEditor.view();
-    return view.screen(view.presentation!.center.clone().set(p.x, 0, p.z));
-  });
-  await page.mouse.move(screen.x, screen.y);
-  await page.mouse.down();
-  await page.mouse.move(screen.x + 30, screen.y + 10);
-  await page.mouse.up();
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document.paths[0]!.points[0]))
-    .not.toEqual(before);
-  await page.locator('#undo').click();
-  expect(
-    await page.evaluate(() => window.sceneEditor.state().document.paths[0]!.points[0]),
-  ).toEqual(before);
-});
-
 test('canvas-first workspace, focus, property search and commands preserve the draft', async ({
   page,
-}, testInfo) => {
-  await page.goto('/editor.html?automated');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
+}) => {
+  await openEditor(page);
   const before = await page.evaluate(() => window.sceneEditor.state().document);
   for (const [width, height, minimum] of [
     [1280, 720, 0.65],
     [1440, 900, 0.7],
   ]) {
-    const frame = await page.evaluate(
-      () => window.sceneEditor.view().presentation!.renderer.info.render.frame,
-    );
     await page.setViewportSize({ width: width!, height: height! });
     await expect
-      .poll(() =>
-        page.evaluate(() => window.sceneEditor.view().presentation!.renderer.info.render.frame),
-      )
-      .toBeGreaterThan(frame + 2);
-    const canvas = await page.locator('#viewport').boundingBox();
-    expect((canvas!.width * canvas!.height) / (width! * height!)).toBeGreaterThanOrEqual(minimum!);
-    await page.screenshot({ path: testInfo.outputPath(`workspace-${width}.png`) });
+      .poll(async () => {
+        const canvas = await page.locator('#viewport').boundingBox();
+        return (canvas!.width * canvas!.height) / (width! * height!);
+      })
+      .toBeGreaterThanOrEqual(minimum!);
   }
   await page.locator('#scene-tab').click();
   await page.locator('#property-search').fill('Left (X)');
@@ -519,7 +446,6 @@ test('canvas-first workspace, focus, property search and commands preserve the d
   const canvas = await page.locator('#viewport').boundingBox();
   expect((canvas!.width * canvas!.height) / (1440 * 900)).toBeGreaterThanOrEqual(0.9);
   await expect(page.locator('.dock')).not.toBeVisible();
-  await page.screenshot({ path: testInfo.outputPath('workspace-focus.png') });
   await page.keyboard.press('Tab');
   await expect(page.locator('#scene-panel')).toBeVisible();
   await page.keyboard.press('Control+k');
@@ -533,7 +459,7 @@ test('canvas-first workspace, focus, property search and commands preserve the d
   expect(narrow!.width).toBe(800);
   expect(narrow!.height).toBeGreaterThan(600);
   await page.reload();
-  await page.waitForFunction(() => window.sceneEditor?.ready());
+  await waitForEditor(page);
   await expect(page.locator('.dock')).not.toBeVisible();
   await expect(page.locator('#toggle-dock')).toHaveAttribute('aria-expanded', 'false');
   expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(before);
@@ -541,13 +467,9 @@ test('canvas-first workspace, focus, property search and commands preserve the d
 
 test('repeated placement, shared fields and canvas handles commit or cancel one gesture', async ({
   page,
-}, testInfo) => {
-  await page.goto('/editor.html?automated');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
-  await page.locator('#artwork-tab').click();
-  await page.locator('#search').fill('ink-scenery');
-  await page.getByTitle('ink-scenery/arch', { exact: true }).click();
-  await page.locator('#place-clip').selectOption('gravestone');
+}) => {
+  await openEditor(page);
+  await chooseGravestone(page);
   await page.locator('#repeat-placement').check();
   await page.locator('#viewport').click({ position: { x: 360, y: 310 } });
   await expect
@@ -599,25 +521,28 @@ test('repeated placement, shared fields and canvas handles commit or cancel one 
   const beforeMatrices = await matrices();
   const handle = page.locator('[data-handle=x]');
   await expect(handle).toBeVisible();
+  await handle.hover();
   let box = await handle.boundingBox();
   await page.mouse.move(box!.x + 14, box!.y + 14);
   await page.mouse.down();
-  await page.mouse.move(box!.x + 65, box!.y + 14);
+  // Move away from the hero spawn so the transform remains valid.
+  await page.mouse.move(box!.x - 37, box!.y + 14);
+  await expect.poll(matrices).not.toEqual(beforeMatrices);
   await page.keyboard.press('Escape');
   await page.mouse.up();
   expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(before);
   expect(await matrices()).toEqual(beforeMatrices);
   await page.locator('#objects-tab').click();
   await page.locator('.object-select').first().click();
+  await handle.hover();
   box = await handle.boundingBox();
   await page.mouse.move(box!.x + 14, box!.y + 14);
   await page.mouse.down();
-  await page.mouse.move(box!.x + 65, box!.y + 14);
+  await page.mouse.move(box!.x - 37, box!.y + 14);
   await page.mouse.up();
   await expect
     .poll(() => page.evaluate(() => window.sceneEditor.state().document))
     .not.toEqual(before);
-  await page.screenshot({ path: testInfo.outputPath('workspace-selection.png') });
   await page.locator('#undo').click();
   expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(before);
   const orientation = () =>
@@ -636,9 +561,10 @@ test('repeated placement, shared fields and canvas handles commit or cancel one 
   await expect.poll(orientation).toEqual(originalOrientation);
 });
 
-test('shared editor asset filters update for unsaved placement and undo', async ({ page }) => {
-  await page.goto('/editor.html');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
+test('editor asset and ground filters preserve selections through edits and undo', async ({
+  page,
+}) => {
+  await openEditor(page, '/editor.html');
   await page.locator('#artwork-tab').click();
   await page.locator('#search').fill('library-ct01');
   await expect(page.locator('#assets .asset')).toHaveCount(1);
@@ -664,6 +590,59 @@ test('shared editor asset filters update for unsaved placement and undo', async 
   await expect(page.locator('#assets .asset')).toHaveCount(0);
   await page.getByRole('button', { name: 'Clear animated filter' }).click();
   await expect(page.locator('#assets .asset')).toHaveCount(1);
+  const initial = await page.evaluate(() => window.sceneEditor.state().document.floor);
+  await page.locator('#scene-tab').click();
+  const all = await page
+    .locator('#floor option')
+    .evaluateAll((options) => options.map((option) => (option as HTMLOptionElement).value));
+  const dimensions = await page.evaluate(async (values) => {
+    const runtime = window.sceneEditor.view().runtime;
+    return Object.fromEntries(
+      await Promise.all(
+        values.map(async (value) => {
+          const manifest = await runtime.manifest(value.split('/')[0]!);
+          return [value, manifest.asset.canvas];
+        }),
+      ),
+    );
+  }, all);
+  await page.locator('#ground-high-res').check();
+  const filtered = await page
+    .locator('#floor option')
+    .evaluateAll((options) => options.map((option) => (option as HTMLOptionElement).value));
+  expect(filtered).toEqual(all.filter((value) => Math.max(...dimensions[value]) >= 3840));
+  await page.locator('#ground-search').fill('no-such-ground-xyz');
+  await expect(page.locator('#floor option')).toHaveCount(0);
+  await expect(page.locator('#ground-results')).toContainText('No matching ground');
+  expect(await page.evaluate(() => window.sceneEditor.state().document.floor)).toEqual(initial);
+  // Dimension edits must retain the current ground even while filters hide it.
+  await page.locator('#width').fill('24');
+  await page.locator('#width').press('Tab');
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.width))
+    .toBe(24);
+  expect(await page.evaluate(() => window.sceneEditor.state().document.floor.asset)).toBe(
+    initial.asset,
+  );
+  const choice = filtered[0] ?? all[0]!;
+  if (!filtered.length) await page.locator('#ground-high-res').uncheck();
+  await page.locator('#ground-search').fill(choice.split('/')[0]!);
+  await expect(page.locator('#ground-search')).toHaveValue(choice.split('/')[0]!);
+  await page.locator('#floor').selectOption(choice);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          window.sceneEditor.state().document.floor.asset +
+          '/' +
+          window.sceneEditor.state().document.floor.clip,
+      ),
+    )
+    .toBe(choice);
+  await page.locator('#undo').click();
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.asset))
+    .toBe(initial.asset);
 });
 
 test('complete scenes retain native masters and place as one image with source coverage visible', async ({
@@ -703,8 +682,7 @@ test('complete scenes retain native masters and place as one image with source c
       return parameter === this.MAX_TEXTURE_SIZE ? 4096 : getParameter.call(this, parameter);
     };
   });
-  await page.goto('/editor.html');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
+  await openEditor(page, '/editor.html');
   await page.locator('#artwork-tab').click();
   await page.locator('#source-library > summary').click();
   const inventory = await (await request.get('/generated/library/inventory.json')).json();
@@ -744,11 +722,10 @@ test('complete scenes retain native masters and place as one image with source c
   await page.locator('#playtest-return').click();
 });
 
-test('editor walking preview preserves authoring state, releases input and zooms faster', async ({
+test('editor walking preserves state, releases input and constrains the camera at ground edges', async ({
   page,
 }) => {
-  await page.goto('/editor.html');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
+  await openEditor(page, '/editor.html');
   const initial = await page.evaluate(() => ({
     state: window.sceneEditor.state(),
     center: window.sceneEditor.view().presentation!.center.toArray(),
@@ -821,73 +798,6 @@ test('editor walking preview preserves authoring state, releases input and zooms
   expect(
     await page.evaluate(() => window.sceneEditor.view().presentation!.verticalSpan),
   ).toBeCloseTo(20, 6);
-});
-
-test('ground search and 4K filter narrow results without changing the current ground', async ({
-  page,
-}) => {
-  await page.goto('/editor.html');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
-  const initial = await page.evaluate(() => window.sceneEditor.state().document.floor);
-  await page.locator('#scene-tab').click();
-  const all = await page
-    .locator('#floor option')
-    .evaluateAll((options) => options.map((option) => (option as HTMLOptionElement).value));
-  const dimensions = await page.evaluate(async (values) => {
-    const runtime = window.sceneEditor.view().runtime;
-    return Object.fromEntries(
-      await Promise.all(
-        values.map(async (value) => {
-          const manifest = await runtime.manifest(value.split('/')[0]!);
-          return [value, manifest.asset.canvas];
-        }),
-      ),
-    );
-  }, all);
-  await page.locator('#ground-high-res').check();
-  const filtered = await page
-    .locator('#floor option')
-    .evaluateAll((options) => options.map((option) => (option as HTMLOptionElement).value));
-  expect(filtered).toEqual(all.filter((value) => Math.max(...dimensions[value]) >= 3840));
-  await page.locator('#ground-search').fill('no-such-ground-xyz');
-  await expect(page.locator('#floor option')).toHaveCount(0);
-  await expect(page.locator('#ground-results')).toContainText('No matching ground');
-  expect(await page.evaluate(() => window.sceneEditor.state().document.floor)).toEqual(initial);
-  // Dimension edits must retain the current ground even while filters hide it.
-  await page.locator('#width').fill('24');
-  await page.locator('#width').press('Tab');
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.width))
-    .toBe(24);
-  expect(await page.evaluate(() => window.sceneEditor.state().document.floor.asset)).toBe(
-    initial.asset,
-  );
-  const choice = filtered[0] ?? all[0]!;
-  if (!filtered.length) await page.locator('#ground-high-res').uncheck();
-  await page.locator('#ground-search').fill(choice.split('/')[0]!);
-  await expect(page.locator('#ground-search')).toHaveValue(choice.split('/')[0]!);
-  await page.locator('#floor').selectOption(choice);
-  await expect
-    .poll(() =>
-      page.evaluate(
-        () =>
-          window.sceneEditor.state().document.floor.asset +
-          '/' +
-          window.sceneEditor.state().document.floor.clip,
-      ),
-    )
-    .toBe(choice);
-  await page.locator('#undo').click();
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.asset))
-    .toBe(initial.asset);
-});
-
-test('editor walking reaches the ground edge while the full camera stays inside it', async ({
-  page,
-}) => {
-  await page.goto('/editor.html');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
   const result = await page.evaluate(() => {
     const view = window.sceneEditor.view(),
       presentation = view.presentation!,

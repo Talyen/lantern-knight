@@ -1,13 +1,4 @@
 import { z } from 'zod';
-import { visualEffectLabels, type VisualEffects } from '../content/visual-effects';
-const VisualEffectsSchema = z
-  .object(
-    Object.fromEntries(Object.keys(visualEffectLabels).map((k) => [k, z.boolean()])) as Record<
-      keyof VisualEffects,
-      z.ZodBoolean
-    >,
-  )
-  .strict();
 import { type ContentRegistry, contains, isSupportedPosition } from '../content/world';
 import { tuning } from '../content/gameplay';
 const id = z.string().regex(/^[a-z0-9][a-z0-9_-]*$/);
@@ -27,6 +18,7 @@ const GameSchema = z
     player: point.extend({
       cooldown: z.number().int().min(0).max(tuning.ability.cooldown),
       dodgeCooldown: z.number().int().min(0).max(tuning.dodge.cooldown),
+      nextAttack: z.enum(['sweep', 'lunge']).optional(),
     }),
     areas: z.record(
       id,
@@ -41,20 +33,8 @@ const GameSchema = z
     ),
   })
   .strict();
-const SettingsSchema = z
-  .object({
-    version: z.literal(5),
-    renderScale: z.number().min(0.5).max(1),
-    showDebug: z.boolean(),
-    verticalSpan: z.number().min(9).max(15),
-    depthOfField: z.number().min(0).max(1),
-    visualEffects: VisualEffectsSchema,
-  })
-  .strict();
 export type GameSave = z.infer<typeof GameSchema>;
 export type SavedArea = GameSave['areas'][string];
-export type Settings = z.infer<typeof SettingsSchema>;
-export const SAVE_LIMITS = { game: 1024 * 1024, settings: 16 * 1024 } as const;
 export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
   const save = GameSchema.parse(value),
     resolve = (id: string) => {
@@ -102,21 +82,4 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
         throw new Error('Unsupported saved actor position');
   }
   return save;
-}
-export function parseSettings(value: unknown): Settings {
-  return SettingsSchema.parse(value);
-}
-export type LoadResult<T> = { status: 'empty' } | { status: 'ok'; data: T };
-export interface Bridge {
-  readonly automatedRun?: boolean;
-  launchMode?(mode: 'game' | 'sandbox' | 'effects' | 'editor'): Promise<void>;
-  loadSettings(): Promise<LoadResult<Settings>>;
-  saveSettings(value: Settings): Promise<void>;
-  loadGame(): Promise<LoadResult<GameSave>>;
-  saveGame(value: GameSave): Promise<void>;
-}
-declare global {
-  interface Window {
-    lantern?: Bridge;
-  }
 }

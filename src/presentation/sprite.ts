@@ -18,15 +18,21 @@ import {
 } from '../core/animation-treatment';
 import { AnimationBlendShader, type AnimationFlow } from './animation-blend-shader';
 const edgeMaterials = new WeakMap<Material, MeshBasicMaterial>();
+const opacityModes = new WeakMap<Material, { transparent: boolean; depthWrite: boolean }>();
 // Transparency changes the OPAQUE shader define; opacity alone cannot invalidate it.
 export function setCutoutOpacity(material: Material, opacity: number) {
-  const transparent = opacity < 1;
+  let mode = opacityModes.get(material);
+  if (!mode) {
+    mode = { transparent: material.transparent, depthWrite: material.depthWrite };
+    opacityModes.set(material, mode);
+  }
+  const transparent = mode.transparent || opacity < 1;
   if (material.transparent !== transparent) {
     material.transparent = transparent;
     material.needsUpdate = true;
   }
   material.opacity = opacity;
-  material.depthWrite = !transparent;
+  material.depthWrite = mode.depthWrite && opacity >= 1;
   const edge = edgeMaterials.get(material);
   if (edge) edge.opacity = opacity;
 }

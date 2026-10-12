@@ -6,7 +6,7 @@ import { previewHero } from './preview';
 import { mountShell } from './shell';
 import type { PreviewContext, SceneState, AnimationState } from './workspace';
 import { defaultVisualEffects } from '../content/visual-effects';
-import type { Bridge } from '../core/save';
+import type { Bridge } from '../platform/bridge';
 import '../style.css';
 import { LoadingScreen } from '../loading-screen';
 import { Application } from '../application';
@@ -930,7 +930,7 @@ export function mountScene(
     stopMovementReplay();
     stopSweepReplay();
     lightingReplay = false;
-    await app.retainAsset('ink-skeleton');
+    await app.retainAsset('library-sk01');
     returnSave ??= app.session.captureSave();
     const definitions = stress
       ? {

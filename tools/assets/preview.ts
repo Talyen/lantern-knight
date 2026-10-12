@@ -7,12 +7,18 @@ import type { AssetScope } from './bundles';
 import { ensureBundlePack } from './bundles';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { createHash } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { AssetCache } from './cache';
 import { projectRoot, sourceLibrary } from './paths';
-import { readLock, ensurePack, recipeHash } from './pack';
-import { preparationSelection, preparationStepKey, recipeInputs } from './recipe';
-import { linkTree } from './incremental';
+import { readLock, ensurePack, recipeHash, validateCachedPack } from './pack';
+import {
+  preparationSelection,
+  preparationStepKey,
+  recipeInputs,
+  mergePreparationSelections,
+  preparationLayerKey,
+} from './recipe';
+import { linkTree, restorePreparationStaging } from './incremental';
 import { prepareSteps, growthReservation } from './preparation';
 import { readLibrarySource } from './sources';
 
@@ -27,11 +33,17 @@ type Preview = {
   files: Record<string, string>;
   librarySha256?: string;
   gpu?: boolean;
+  complete?: boolean;
+  full?: boolean;
 };
 export async function prototypeAssets(
   cache = new AssetCache(),
   root = projectRoot,
   scope: AssetScope = 'authoring',
+  reusePrepared = false,
+  fallback?: (
+    lock: import('./pack').AssetLock,
+  ) => Promise<import('./workspace').AssetWorkspace | undefined>,
 ) {
   const index = await cache.lease(previewName(root) + '-index');
   let entry: string | undefined;
@@ -46,6 +58,23 @@ export async function prototypeAssets(
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
   } finally {
     await index.release();
+  }
+  if (!entry && reusePrepared) {
+    const shared = await cache.lease('preparation-base');
+    try {
+      const pointer = JSON.parse(await fs.readFile(path.join(shared.root, 'preview.json'), 'utf8'));
+      const pin = await readLock((name) => fs.readFile(path.join(root, name)));
+      if (
+        typeof pointer.entry !== 'string' ||
+        !/^preview-[a-f0-9]{20}-[a-f0-9]{24}$/.test(pointer.entry)
+      )
+        throw new Error('Invalid shared preparation identity');
+      if (pointer.baseSha256 === pin.sha256) entry = pointer.entry;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+    } finally {
+      await shared.release();
+    }
   }
   if (entry) {
     const held = await cache.lease(entry);
@@ -68,18 +97,59 @@ export async function prototypeAssets(
         },
         '.verified-prototype.json',
       );
-      return { held: { ...held, root: path.join(held.root, 'work') }, lock: descriptor };
+      return {
+        held: { ...held, root: path.join(held.root, 'work') },
+        lock: descriptor,
+        stepCache: path.join(held.root, 'steps'),
+        files: descriptor.files,
+      };
     } catch (error) {
       await held.release();
       if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
     }
   }
   const lock = await readLock((name) => fs.readFile(path.join(root, name)));
+  if (reusePrepared) {
+    const held = await cache.lease('preparation');
+    const payload = path.join(held.root, 'work/payload');
+    try {
+      const inventory = await validateCachedPack(payload, lock);
+      return {
+        held: { ...held, root: payload },
+        lock,
+        stepCache: path.join(held.root, 'steps'),
+        files: Object.fromEntries(
+          Object.entries(inventory.files).map(([name, file]) => [name, file.sha256]),
+        ),
+      };
+    } catch (error) {
+      await held.release();
+      if (
+        (error as NodeJS.ErrnoException).code !== 'ENOENT' &&
+        !/Prepared|Accepted/.test(String(error))
+      )
+        throw error;
+    }
+  }
+  const demand = await fallback?.(lock);
+  if (demand)
+    return {
+      held: {
+        root: demand.root,
+        release: demand.release,
+        ensurePublicFile: demand.ensurePublicFile,
+      },
+      lock,
+      stepCache: undefined,
+      files: undefined,
+    };
   return {
     held: await (lock.schemaVersion === 3
       ? ensureBundlePack(lock, cache, fetch, scope)
       : ensurePack(lock, cache)),
     lock,
+    stepCache: undefined,
+    files: undefined,
   };
 }
 export async function preparePreviewAssets(
@@ -87,21 +157,29 @@ export async function preparePreviewAssets(
   cache = new AssetCache(),
   env: NodeJS.ProcessEnv = process.env,
 ) {
-  const base = await prototypeAssets(cache);
+  const started = performance.now();
+  const base = await prototypeAssets(cache, projectRoot, 'authoring', true);
+  let indexGuard: Awaited<ReturnType<AssetCache['lease']>> | undefined;
   let checkpointLease: Awaited<ReturnType<AssetCache['lease']>> | undefined;
   try {
-    const selectedIds = [
-      ...new Set([...('selections' in base.lock ? base.lock.selections : []), ...ids]),
-    ];
-    const steps = preparationSelection(ids.length ? selectedIds : []);
+    indexGuard = await cache.lease(previewName(projectRoot) + '-index');
+    const completeBase = 'complete' in base.lock && base.lock.complete === true;
+    let steps = preparationSelection(ids.length && completeBase ? ids : []);
     const startRecipe = await recipeHash();
+    const selectedIds = mergePreparationSelections(
+      base.lock,
+      ids,
+      startRecipe,
+      env.LANTERN_LIBRARY_SHA256,
+    );
     const priorSelections = 'selections' in base.lock ? base.lock.selections : [];
     if (
       'selections' in base.lock &&
+      (ids.length > 0 || (completeBase && base.lock.full === true)) &&
       base.lock.recipeSha256 === startRecipe &&
       base.lock.librarySha256 === env.LANTERN_LIBRARY_SHA256 &&
       (env.LANTERN_IMAGE_GPU !== '1' || base.lock.gpu === true) &&
-      ids.every((id) => priorSelections.includes(id))
+      (base.lock.full === true || ids.every((id) => priorSelections.includes(id)))
     ) {
       try {
         const directory = path.dirname(base.held.root);
@@ -151,18 +229,14 @@ export async function preparePreviewAssets(
     const entry =
       previewName(projectRoot) +
       '-' +
-      createHash('sha256')
-        .update(
-          JSON.stringify([
-            baseSha256,
-            startRecipe,
-            selectedIds,
-            env.LANTERN_LIBRARY_SHA256,
-            env.LANTERN_IMAGE_GPU === '1',
-          ]),
-        )
-        .digest('hex')
-        .slice(0, 24);
+      preparationLayerKey({
+        baseSha256,
+        recipeSha256: startRecipe,
+        selections: selectedIds,
+        librarySha256: env.LANTERN_LIBRARY_SHA256,
+        gpu: env.LANTERN_IMAGE_GPU === '1',
+        steps,
+      });
     const indexLease = await cache.lease(previewName(projectRoot) + '-index');
     let checkpoint: { entry: string; baseSha256: string; librarySha256?: string } | undefined;
     try {
@@ -209,7 +283,7 @@ export async function preparePreviewAssets(
         );
       const stepRoots = [
         ...(checkpointLease ? [path.join(checkpointLease.root, 'steps')] : []),
-        path.join(path.dirname(base.held.root), 'steps'),
+        base.stepCache ?? path.join(path.dirname(base.held.root), 'steps'),
       ];
       const inputs = await recipeInputs();
       for (const oldSteps of stepRoots) {
@@ -236,7 +310,7 @@ export async function preparePreviewAssets(
                   : undefined,
             );
             digests.set(operation.file, receipt.digest);
-            if (key !== receipt.key) continue;
+            if (key !== receipt.key && steps.length === preparationSelection([]).length) continue;
             const to = path.join(held.root, 'steps', name);
             if (
               await fs.access(path.join(to, 'receipt.json')).then(
@@ -256,16 +330,32 @@ export async function preparePreviewAssets(
             ) {
               await fs.writeFile(path.join(to, 'receipt.json'), receiptBytes);
               await fs.mkdir(path.join(to, 'files'), { recursive: true });
-              const staging = path.join(from, 'files/staging');
-              if (
-                await fs.access(staging).then(
-                  () => true,
-                  () => false,
+              for (const folder of ['staging', 'public']) {
+                const source = path.join(from, 'files', folder);
+                if (
+                  await fs.access(source).then(
+                    () => true,
+                    () => false,
+                  )
                 )
-              )
-                await linkTree(staging, path.join(to, 'files/staging'));
+                  await linkTree(source, path.join(to, 'files', folder));
+              }
             } else await linkTree(from, to, true);
           }
+        }
+      }
+      if (steps.length < preparationSelection([]).length) {
+        try {
+          await restorePreparationStaging(path.join(held.root, 'steps'), work);
+        } catch (error) {
+          if (
+            (error as NodeJS.ErrnoException).code !== 'ENOENT' &&
+            !(error instanceof SyntaxError) &&
+            !/Cached preparation staging/.test(String(error))
+          )
+            throw error;
+          console.log('Complete staging is unavailable; preparing the full dependency graph.');
+          steps = preparationSelection([]);
         }
       }
       const checkpointIndex = await cache.lease(previewName(projectRoot) + '-index');
@@ -281,7 +371,7 @@ export async function preparePreviewAssets(
       }
       await checkpointLease?.release();
       checkpointLease = undefined;
-      let knownContent = 'files' in base.lock ? base.lock.files : undefined;
+      let knownContent = base.files;
       if (resumed && knownContent) {
         const unchanged: Record<string, string> = {};
         const names = Object.keys(knownContent);
@@ -354,6 +444,8 @@ export async function preparePreviewAssets(
           files,
           librarySha256: env.LANTERN_LIBRARY_SHA256,
           gpu: env.LANTERN_IMAGE_GPU === '1',
+          complete: completeBase || steps.length === preparationSelection([]).length,
+          full: steps.length === preparationSelection([]).length,
         } satisfies Preview),
       );
       // The complete new layer owns its linked files. Releasing this operation's
@@ -372,12 +464,24 @@ export async function preparePreviewAssets(
       } finally {
         await index.release();
       }
+      if (steps.length === preparationSelection([]).length) {
+        const shared = await cache.lease('preparation-base');
+        const temporary = path.join(shared.root, 'preview-' + randomUUID() + '.tmp');
+        try {
+          await fs.writeFile(temporary, JSON.stringify({ entry, baseSha256 }));
+          await fs.rename(temporary, path.join(shared.root, 'preview.json'));
+        } finally {
+          await fs.rm(temporary, { force: true });
+          await shared.release();
+        }
+      }
+      await indexGuard.release();
       await cache.prunePreviews(previewName(projectRoot), entry);
       // Final checksums already validated this exclusively owned layer. Only
       // controlled renames/unlinks followed; retain its proof for the next refresh.
       await verifiedOutput(old, Object.keys(files), async () => {}, '.verified-prototype.json');
       console.log(
-        `Prototype assets ready: ${steps.length} step(s); no unrelated baking, archive creation, packaging or publication.`,
+        `Prototype assets ready: ${steps.length} step(s) in ${((performance.now() - started) / 1000).toFixed(2)}s.`,
       );
       return { sha256: digest, steps: steps.map((step) => step.file) };
     } finally {
@@ -388,5 +492,6 @@ export async function preparePreviewAssets(
   } finally {
     await base.held.release();
     await checkpointLease?.release();
+    await indexGuard?.release();
   }
 }

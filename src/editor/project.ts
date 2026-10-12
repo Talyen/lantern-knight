@@ -48,7 +48,8 @@ export class EditorProject {
     return this.pendingRecovery?.data !== undefined;
   }
   private async api(id?: string) {
-    const response = await this.request(
+    const response = await this.request.call(
+      globalThis,
       '/__lantern_editor' + (id ? '?id=' + encodeURIComponent(id) : ''),
       { signal: this.signal },
     );
@@ -85,7 +86,7 @@ export class EditorProject {
         document = {
           ...document,
           id: 'untitled',
-          name: 'Copy of ' + document.name,
+          name: 'Copy of ' + document.name.slice(0, 72),
           target: 'draft',
         };
         revision = null;
@@ -97,6 +98,7 @@ export class EditorProject {
     this.baseRevision = baseRevision;
     this.savedSnapshot = savedSnapshot;
     this.recoveryKey = this.recoveryRoot + document.id;
+    this.readRecovery(this.recoveryKey);
     this.recover();
   }
   async edit(work: (history: EditorHistory) => void) {
@@ -115,7 +117,7 @@ export class EditorProject {
   }
   async post(body: Record<string, unknown>, signal = this.signal) {
     this.signal.throwIfAborted();
-    const response = await this.request('/__lantern_editor', {
+    const response = await this.request.call(globalThis, '/__lantern_editor', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Lantern-Editor-Token': this.token },
       body: JSON.stringify({ ...body, baseRevision: this.baseRevision }),
