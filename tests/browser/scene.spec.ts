@@ -1,6 +1,6 @@
 import { test, expect } from './fixtures';
 import type {} from '../../src/inspection';
-test('scene selection and independent reloads release resources across repeated switches', async ({
+test('scene selection survives independent reloads and invalid URL selections', async ({
   page,
 }) => {
   await page.addInitScript(() => sessionStorage.setItem('lantern-author-scene', 'court'));
@@ -26,25 +26,30 @@ test('scene selection and independent reloads release resources across repeated 
     expect(await page.evaluate(() => window.foundation.sim.area)).toBe(scene);
     expect(await page.evaluate(() => window.foundation.presentation.verticalSpan)).toBe(13);
   }
-  const resources = await page.evaluate(async () => {
-    const f = window.foundation;
-    const samples = [];
-    for (let i = 0; i < 4; i++) {
-      await f.fixture('outdoor-fixture');
-      await f.fixture('interior-fixture');
-      f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
-      samples.push({ ...f.presentation.renderer.info.memory });
-    }
-    if (f.presentation.renderer.getContext().getError()) throw new Error('Renderer error');
-    return samples;
-  });
-  expect(resources[3]).toEqual(resources[2]);
   await page.goto('/sandbox.html?scene=outdoor-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');
   await page.goto('/sandbox.html?scene=upper-landing');
   await page.waitForFunction(() => window.foundation?.ready);
   expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');
+});
+
+test('repeated scene switches release renderer resources', async ({ page }) => {
+  await page.goto('/sandbox.html?scene=interior-fixture');
+  await page.waitForFunction(() => window.foundation?.ready);
+  const resources = await page.evaluate(async () => {
+    const f = window.foundation;
+    const samples = [];
+    for (let i = 0; i < 4; i++) {
+      await f.fixture('outdoor-fixture');
+      await f.fixture('interior-fixture');
+      f.presentation.update(f.sim.view, 1, 0, { x: 0, z: 1 });
+      samples.push({ ...f.presentation.renderer.info.memory });
+    }
+    if (f.presentation.renderer.getContext().getError()) throw new Error('Renderer error');
+    return samples;
+  });
+  expect(resources[3]).toEqual(resources[2]);
 });
 
 test('preview navigation preserves playback and isolates controls from gameplay', async ({
@@ -119,11 +124,9 @@ test('preview navigation preserves playback and isolates controls from gameplay'
     .toBeGreaterThan(before.tick);
 });
 
-test('preview scene reset preserves experiments; settings reset and workspace reset are explicit', async ({
+test('preview scene reset preserves experiments and settings reset is explicit', async ({
   page,
 }) => {
-  // This journey rebuilds the preview through several full-page resets.
-  test.setTimeout(180_000);
   await page.goto('/sandbox.html?scene=outdoor-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   await page.getByRole('button', { name: 'Visuals', exact: true }).click();
@@ -140,6 +143,13 @@ test('preview scene reset preserves experiments; settings reset and workspace re
   await page.getByRole('button', { name: 'Reset scene settings', exact: true }).click();
   await page.waitForFunction(() => window.foundation?.ready);
   await expect(page.locator('#lighting-rig')).toHaveValue('golden');
+});
+
+test('workspace reset requires confirmation and clears preview experiments', async ({ page }) => {
+  await page.goto('/sandbox.html?scene=outdoor-fixture');
+  await page.waitForFunction(() => window.foundation?.ready);
+  await page.getByRole('button', { name: 'Visuals', exact: true }).click();
+  await page.selectOption('#lighting-rig', 'silver');
   await page.getByRole('button', { name: 'More options' }).click();
   await page.getByRole('button', { name: 'Reset workspace…', exact: true }).click();
   await page.getByRole('button', { name: 'Cancel', exact: true }).click();
@@ -150,6 +160,8 @@ test('preview scene reset preserves experiments; settings reset and workspace re
   await page.waitForFunction(() => window.foundation?.ready);
   await expect(page.locator('#preview-drawer')).toBeHidden();
   await expect(page.locator('.hud')).toBeHidden();
+  await page.getByRole('button', { name: 'Visuals', exact: true }).click();
+  await expect(page.locator('#lighting-rig')).toHaveValue('golden');
 });
 
 test('shared asset browser includes library enemies, separates poses and filters references', async ({
