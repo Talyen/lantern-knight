@@ -304,7 +304,7 @@ export async function ensurePack(
   }
 }
 
-async function installMatchingPreparation(
+export async function installMatchingPreparation(
   destination: Awaited<ReturnType<AssetCache['lease']>>,
   lock: AssetLock,
   cache: AssetCache,

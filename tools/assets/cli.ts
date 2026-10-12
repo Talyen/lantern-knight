@@ -43,7 +43,9 @@ async function main() {
     try {
       const cache = new AssetCache();
       await cache.initialize();
+      const started = performance.now();
       const env = await discoverLibrary(cache, process.env);
+      console.log(`Source reconciliation: ${((performance.now() - started) / 1000).toFixed(2)}s.`);
       env.LANTERN_IMAGE_GPU = '1';
       env.LANTERN_PREPARE_BUDGET = process.env.LANTERN_PREPARE_BUDGET ?? String(cache.limit);
       if (command === 'prepare' && !values.proof) {
@@ -60,6 +62,9 @@ async function main() {
           await prepared.held.release();
         }
       }
+      console.log(
+        `Asset ${command} completed in ${((performance.now() - started) / 1000).toFixed(2)}s.`,
+      );
     } finally {
       await lane.release();
     }

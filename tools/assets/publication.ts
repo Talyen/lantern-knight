@@ -1,20 +1,47 @@
 import fs from 'node:fs/promises';
+import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { AssetCache, diskBytes } from './cache';
-import { recipeHash, validatePack, lockFile, LockSchema, type AssetLock } from './pack';
+import { recipeHash, validateCachedPack, lockFile, LockSchema, type AssetLock } from './pack';
 import { shaFile } from './sources';
 import { gh } from './github';
 import type { PreparedAssets } from './prepare';
 
-async function verifyRemote(lock: AssetLock) {
-  const held = await new AssetCache().lease('publication-' + randomUUID());
+export async function verifyRemote(
+  lock: AssetLock,
+  cache = new AssetCache(),
+  request: typeof fetch = fetch,
+) {
+  const held = await cache.lease('publication-' + lock.sha256);
+  const receiptFile = path.join(held.root, 'verified.json');
+  let etag: string | undefined;
   try {
-    const response = await fetch(
+    try {
+      const prior = JSON.parse(await fs.readFile(receiptFile, 'utf8'));
+      if (
+        prior.sha256 === lock.sha256 &&
+        prior.bytes === lock.bytes &&
+        typeof prior.etag === 'string' &&
+        /^"[^"\r\n]{1,512}"$/.test(prior.etag)
+      )
+        etag = prior.etag;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT' && !(error instanceof SyntaxError))
+        throw error;
+    }
+    const url =
       'https://github.com/Talyen/lantern-knight/releases/download/' +
-        lock.releaseTag +
-        '/' +
-        lock.filename,
-    );
+      lock.releaseTag +
+      '/' +
+      lock.filename;
+    let response = await request(url, { headers: etag ? { 'If-None-Match': etag } : {} });
+    // Strong validators identify the exact response bytes already fully hashed.
+    if (etag && response.status === 304) {
+      if (response.headers.get('etag') === etag) return;
+      // If-None-Match uses weak comparison. A weak/missing response validator
+      // cannot certify identical bytes, so obtain and hash the complete body.
+      response = await request(url);
+    }
     if (!response.ok || !response.body)
       throw new Error('Published pack unavailable: HTTP ' + response.status);
     const { createHash } = await import('node:crypto'),
@@ -27,15 +54,27 @@ async function verifyRemote(lock: AssetLock) {
     }
     if (count !== lock.bytes || digest.digest('hex') !== lock.sha256)
       throw new Error('Published pack hash differs');
+    const validator = response.headers.get('etag');
+    if (validator && /^"[^"\r\n]{1,512}"$/.test(validator)) {
+      const temporary = receiptFile + '.' + randomUUID();
+      try {
+        await fs.writeFile(
+          temporary,
+          JSON.stringify({ sha256: lock.sha256, bytes: lock.bytes, etag: validator }),
+        );
+        await fs.rename(temporary, receiptFile);
+      } finally {
+        await fs.rm(temporary, { force: true });
+      }
+    } else await fs.rm(receiptFile, { force: true });
   } finally {
     await held.release();
-    await fs.rm(held.root, { recursive: true, force: true });
   }
 }
 async function validateCandidate(prepared: PreparedAssets) {
   if (prepared.lock.recipeSha256 !== (await recipeHash()))
     throw new Error('Asset recipes changed; prepare and validate again');
-  await validatePack(prepared.payload, prepared.lock);
+  await validateCachedPack(prepared.payload, prepared.lock);
 }
 async function uploadArchive(
   lock: import('./pack').AssetLock,
@@ -96,15 +135,15 @@ export async function publishBundledPrepared(
   beforePin: () => Promise<void> = async () => {},
 ) {
   await validateCandidate(prepared);
-  if (
-    (await fs.stat(prepared.archive)).size !== prepared.lock.bytes ||
-    (await shaFile(prepared.archive)) !== prepared.lock.sha256
-  )
-    throw new Error('Prepared archive differs from the reviewed candidate');
-  // The monolithic candidate establishes its identity, but only the split
-  // bundles are delivered. Release this redundant copy before compressing them.
-  await fs.rm(prepared.archive);
-  await prepared.held.reserve(await diskBytes(prepared.held.root));
+  if (prepared.archive) {
+    if (
+      (await fs.stat(prepared.archive)).size !== prepared.lock.bytes ||
+      (await shaFile(prepared.archive)) !== prepared.lock.sha256
+    )
+      throw new Error('Prepared archive differs from the reviewed candidate');
+    await fs.rm(prepared.archive);
+    await prepared.held.reserve(await diskBytes(prepared.held.root));
+  }
   let previous: import('./pack').AssetLock | undefined;
   try {
     previous = LockSchema.parse(JSON.parse(await fs.readFile(target, 'utf8')));

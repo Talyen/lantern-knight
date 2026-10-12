@@ -5,9 +5,12 @@ import { AssetCache, diskBytes } from './cache';
 import { cameraCalibration as calibrationFixture } from '../../src/assets/camera-calibration';
 import { stagePayload } from './payload';
 import { recipeHash, recipeInputs } from './pack';
-import { makeArchive } from './archive';
+import { makeArchive, inventoryCandidate } from './archive';
+import { preparePreviewAssets, prototypeAssets } from './preview';
+import { linkTree } from './incremental';
+import { verifiedOutput } from '../verified-files';
 import { prepareSteps, prepareProof, growthReservation } from './preparation';
-export async function prepareAssets(
+async function prepareProofAssets(
   cache = new AssetCache(),
   proof = false,
   environment: NodeJS.ProcessEnv = process.env,
@@ -86,4 +89,47 @@ export async function prepareAssets(
   }
 }
 
-export type PreparedAssets = Awaited<ReturnType<typeof prepareAssets>>;
+export type PreparedAssets = {
+  held: Awaited<ReturnType<AssetCache['lease']>>;
+  payload: string;
+  archive?: string;
+  lock: import('./pack').AssetLock;
+};
+export async function prepareAssets(
+  cache = new AssetCache(),
+  proof = false,
+  environment: NodeJS.ProcessEnv = process.env,
+): Promise<PreparedAssets> {
+  if (proof) return prepareProofAssets(cache, true, environment);
+  // The same complete, source-verified layer serves review and publication.
+  await preparePreviewAssets([], cache, environment);
+  const base = await prototypeAssets(cache);
+  let held: Awaited<ReturnType<AssetCache['lease']>> | undefined;
+  try {
+    held = await cache.lease('preparation', 0, true);
+    const payload = path.join(held.root, 'work/payload');
+    if (!('complete' in base.lock) || !base.lock.complete)
+      throw new Error('Publication requires complete local preparation');
+    await fs.rm(path.join(held.root, 'work'), { recursive: true, force: true });
+    await fs.rm(path.join(held.root, 'lantern-assets.tar.gz'), { force: true });
+    await linkTree(base.held.root, payload);
+    const lock = await inventoryCandidate(payload, base.lock.recipeSha256);
+    await fs.writeFile(path.join(held.root, 'prepared.json'), JSON.stringify(lock));
+    await held.reserve(await diskBytes(held.root));
+    await verifiedOutput(
+      payload,
+      [...Object.keys(base.lock.files), 'pack.json'],
+      async () => {},
+      '.verified-pack.json',
+    );
+    console.log(
+      'Prepared publication inventory from the verified local layer; no image encoding or monolithic compression.',
+    );
+    return { held, payload, lock };
+  } catch (error) {
+    await held?.release();
+    throw error;
+  } finally {
+    await base.held.release();
+  }
+}
