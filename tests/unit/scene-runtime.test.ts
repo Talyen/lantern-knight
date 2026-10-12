@@ -268,9 +268,13 @@ test('collected pickups hide their artwork and shadows on every frame', () => {
     try {
       assert.ok(group.children.length > 1, 'Fixture includes a pickup shadow');
       for (let i = 0; i < 3; i++) {
-        room.update(sim, 1, true, 100);
+        room.update(sim.view, 1, true, 100);
+        room.contactShadows!.update();
+        assert.equal(room.contactShadows!.mesh.geometry.getAttribute('contactOpacity').getX(0), 0);
         assert.ok(
-          group.children.filter((m) => m !== room.sprites[0]!.mesh).every((m) => !m.visible),
+          group.children
+            .filter((m) => m !== room.sprites[0]!.mesh && m !== room.contactShadows!.mesh)
+            .every((m) => !m.visible),
         );
         assert.equal(room.sprites[0]!.mesh.visible, false);
       }

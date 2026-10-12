@@ -67,9 +67,23 @@ test('editor renders prop and hero contact shadows with directional shadows disa
           count++;
       return count;
     };
-    return { props: darkened(props), hero: darkened(actor), error: gl.getError() };
+    view.setEditingVisibility(new Set(['grounded-prop']));
+    view.render();
+    const hiddenOpacity = contacts.mesh.geometry.getAttribute('contactOpacity').getX(0);
+    view.setEditingVisibility(new Set());
+    view.render();
+    const shownOpacity = contacts.mesh.geometry.getAttribute('contactOpacity').getX(0);
+    return {
+      props: darkened(props),
+      hero: darkened(actor),
+      hiddenOpacity,
+      shownOpacity,
+      error: gl.getError(),
+    };
   });
   expect(pixels.error).toBe(0);
+  expect(pixels.hiddenOpacity).toBe(0);
+  expect(pixels.shownOpacity).toBeGreaterThan(0);
   expect(pixels.props).toBeGreaterThan(10);
   expect(pixels.hero).toBeGreaterThan(10);
 });
