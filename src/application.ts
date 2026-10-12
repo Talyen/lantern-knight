@@ -1,3 +1,4 @@
+import { SceneAssets } from './assets/scene-assets';
 import type { PreparedRegistration } from './assets/registration';
 import { AssetRuntime, type PackLease, type PackBatch, type AssetPack } from './assets/loader';
 import type { PresentationLifecycle } from './presentation/lifecycle';
@@ -34,12 +35,12 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   private syncPacks() {
     this.packViews.clear();
-    for (const group of [this.roomAssets?.packs, this.persistentLeases])
-      for (const [id, pack] of group ?? []) this.packViews.set(id, pack);
+    for (const group of [this.roomAssets.packs, this.persistentLeases])
+      for (const [id, pack] of group) this.packViews.set(id, pack);
     if (this.previewPack) this.packViews.set(this.previewPack.id, this.previewPack.pack);
   }
   private persistentLeases = new Map<string, PackLease>();
-  private roomAssets?: PackBatch;
+  private readonly roomAssets = new SceneAssets();
   private readonly abort = new AbortController();
   private sessionOperation?: SessionOperation;
   private last = 0;
@@ -155,8 +156,9 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       room.release();
       this.assertActive();
     }
-    this.roomAssets = room;
-    this.syncPacks();
+    this.roomAssets.install(room, () => {
+      this.syncPacks();
+    });
     this.presentation = this.createPresentation(
       this.canvas,
       this.packs,
@@ -299,13 +301,16 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       await this.presentation.prepareAssets(new Set([...this.packs.keys(), ...next.packs.keys()]));
       operation.check();
       const changes = commit(),
-        old = this.roomAssets;
-      this.roomAssets = next;
-      this.syncPacks();
-      this.presentation.resetRoom(this.sim.areaDefinition, this.scenes.area(this.sim.area).visuals);
-      this.presentation.generation = this.session.generation;
-      old?.release();
-      next = undefined;
+        installing = next;
+      next = undefined; // Installation transfers ownership even if rebuilding throws.
+      this.roomAssets.install(installing, () => {
+        this.syncPacks();
+        this.presentation.resetRoom(
+          this.sim.areaDefinition,
+          this.scenes.area(this.sim.area).visuals,
+        );
+        this.presentation.generation = this.session.generation;
+      });
       await this.presentation.prepareAssets();
       operation.check();
       this.input.resetAim();
@@ -485,7 +490,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.input?.dispose();
     this.presentation?.dispose();
     this.previewPack?.pack.release();
-    this.roomAssets?.release();
+    this.roomAssets.dispose();
     for (const p of this.persistentLeases.values()) p.release();
     this.packViews.clear();
     this.runtime?.dispose?.();

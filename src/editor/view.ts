@@ -12,6 +12,7 @@ import { GameSession } from '../core/session';
 import { EventHub } from '../core/events';
 import { outward, screenMovement, constrainCamera, resizeCamera } from '../core/camera';
 import type { Simulation } from '../core/simulation';
+import { SceneAssets } from '../assets/scene-assets';
 import type { AssetRuntime, PackLease, PackBatch } from '../assets/loader';
 import { sceneItems } from './model';
 class EditorPresentation extends GamePresentation {
@@ -40,7 +41,8 @@ export class EditorView {
   presentation?: EditorPresentation;
   sim?: Simulation;
   private generation = 0;
-  private packs = new Map<string, PackLease>();
+  private readonly assets = new SceneAssets();
+  private readonly packs = this.assets.packs;
   private grid?: T.GridHelper;
   private selection?: T.BoxHelper;
   private selections: T.BoxHelper[] = [];
@@ -218,15 +220,11 @@ export class EditorView {
     let acquired: PackBatch | undefined;
     this.applying = true;
     try {
-      acquired = await this.runtime.loadPacks(
-        [...ids].filter((id) => !this.packs.has(id)),
-        this.abort.signal,
-      );
+      acquired = await this.runtime.loadPacks(ids, this.abort.signal);
       if (this.closed) throw new Error('Editor closed');
-      for (const [id, pack] of acquired.packs) this.packs.set(id, pack);
       validateSceneReferences(
         document,
-        new Map([...this.packs].map(([id, p]) => [id, p.manifest])),
+        new Map([...acquired.packs].map(([id, p]) => [id, p.manifest])),
       );
       const area = { ...resolved.area, exits: [], spawns: document.gameplay?.spawns ?? [] };
       const registry = new ContentRegistry({
@@ -234,50 +232,53 @@ export class EditorView {
         initialArea: area.id,
         areas: [area],
       });
-      this.composition = undefined;
-      this.sim = new GameSession(registry, 142, area.id, ++this.generation).sim;
-      this.hero(this.walking ?? document.hero);
-      this.clearHelpers();
-      if (!this.presentation) {
-        this.presentation = new EditorPresentation(
-          this.canvas,
-          this.packs,
-          new EventHub(),
-          this.sim.areaDefinition,
-          this.runtime.registration,
-          art,
-        );
-        this.presentation.scene.add(this.presentation.overlay);
-        await this.presentation.warm();
-        if (this.closed) throw new Error('Editor closed');
-      } else {
-        this.presentation.visualOverride = art;
-        this.presentation.resetRoom(this.sim.areaDefinition, art);
-      }
-      this.presentation.generation = this.sim.generation;
-      this.presentation.lookRenderer.setSettings(document.look);
-      const bounds = area.bounds;
-      this.grid = new T.GridHelper(
-        Math.max(bounds.maxX - bounds.minX, bounds.maxZ - bounds.minZ),
-        Math.ceil(Math.max(bounds.maxX - bounds.minX, bounds.maxZ - bounds.minZ)),
-        0xb89958,
-        0x526c6c,
-      );
-      this.grid.position.y = 0.03;
-      this.presentation.overlay.add(this.grid);
-      for (const [id, pack] of this.packs)
-        if (!ids.has(id)) {
-          pack.release();
-          this.packs.delete(id);
+      const installing = acquired;
+      acquired = undefined; // SceneAssets owns both generations from this point.
+      let created = false;
+      this.assets.install(installing, () => {
+        this.composition = undefined;
+        this.sim = new GameSession(registry, 142, area.id, ++this.generation).sim;
+        this.hero(this.walking ?? document.hero);
+        this.clearHelpers();
+        if (!this.presentation) {
+          this.presentation = new EditorPresentation(
+            this.canvas,
+            this.packs,
+            new EventHub(),
+            this.sim.areaDefinition,
+            this.runtime.registration,
+            art,
+          );
+          this.presentation.scene.add(this.presentation.overlay);
+          created = true;
+        } else {
+          this.presentation.visualOverride = art;
+          this.presentation.resetRoom(this.sim.areaDefinition, art);
         }
-      await this.presentation.lookRenderer.prepare();
+        this.presentation.generation = this.sim.generation;
+        this.presentation.lookRenderer.setSettings(document.look);
+        const bounds = area.bounds;
+        this.grid = new T.GridHelper(
+          Math.max(bounds.maxX - bounds.minX, bounds.maxZ - bounds.minZ),
+          Math.ceil(Math.max(bounds.maxX - bounds.minX, bounds.maxZ - bounds.minZ)),
+          0xb89958,
+          0x526c6c,
+        );
+        this.grid.position.y = 0.03;
+        this.presentation.overlay.add(this.grid);
+      });
+      const presentation = this.presentation!;
+      if (created) {
+        await presentation.warm();
+        if (this.closed) throw new Error('Editor closed');
+      }
+      await presentation.lookRenderer.prepare();
       if (this.closed) throw new Error('Editor closed');
       this.composition = composition;
       this.appliedDocument = document;
       this.setAnimationPlaying(this.animationPlaying);
     } catch (error) {
       acquired?.release();
-      for (const id of acquired?.packs.keys() ?? []) this.packs.delete(id);
       throw error;
     } finally {
       this.applying = false;
@@ -482,7 +483,6 @@ export class EditorView {
     this.clearPlacementGhost();
     this.clearHelpers();
     this.presentation?.dispose();
-    for (const pack of this.packs.values()) pack.release();
-    this.packs.clear();
+    this.assets.dispose();
   }
 }

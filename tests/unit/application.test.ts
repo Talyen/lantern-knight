@@ -604,3 +604,40 @@ test('startup settles the initial asset batch and releases successful peers when
     }
   });
 });
+
+test('room rebuild failure retains both generations until a successful rebuild or disposal', async () => {
+  await withDOM(async () => {
+    for (const retry of [false, true]) {
+      const { app } = fixture({
+          ...sceneFixture(content),
+          area: (id) => ({ area: content.area(id), assets: [id] }),
+        }),
+        loaded: PackLease[] = [],
+        released: PackLease[] = [],
+        snapshot = new GameSession(content, 142, 'upper-landing').captureSave();
+      app.runtime = runtime(async () => {
+        const pack = { release: () => released.push(pack) } as unknown as PackLease;
+        loaded.push(pack);
+        return pack;
+      });
+      await app.replaceArea(app.sim.area, () => []);
+      app.presentation.resetRoom = () => {
+        assert.equal(app.packs.get(snapshot.area), loaded[1]);
+        throw new Error('room construction failed');
+      };
+      await assert.rejects(app.restore(snapshot), /room construction failed/);
+      assert.equal(app.sim.area, snapshot.area);
+      assert.deepEqual(released, [], 'A partial renderer may reference either generation');
+      assert.equal(app.packs.get(snapshot.area), loaded[1]);
+      if (retry) {
+        app.presentation.resetRoom = () => {};
+        await app.restore(snapshot);
+        assert.deepEqual(released, loaded.slice(0, 2));
+        assert.equal(app.packs.get(snapshot.area), loaded[2]);
+      }
+      app.dispose();
+      app.dispose();
+      assert.deepEqual(released, loaded, 'Every consumed batch is released exactly once');
+    }
+  });
+});
