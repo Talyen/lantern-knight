@@ -633,7 +633,7 @@ export function createEditorSession() {
           void thumbnail(entry, c).catch(() => {});
         }
     },
-    { root: $('assets') },
+    { root: $('artwork-panel') },
   );
   function showPalette() {
     observer.disconnect();

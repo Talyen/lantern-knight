@@ -34,7 +34,7 @@ export class CompositionTools {
               .catch(() => {});
           }
       },
-      { root: element('objects') },
+      { root: element('objects-panel') },
     );
     element('object-search').oninput = () => this.render();
     element('focus-selection').onclick = () => this.focus();
