@@ -28,6 +28,19 @@ def png(w, h):
 
 
 class ImportTests(unittest.TestCase):
+    def test_terminal_tick_marker_rounding_keeps_strict_timeline_bounds(self):
+        importer = Importer([])
+        asset = {"id": "recovery", "clips": {}}
+        durations = [tick * 1000 / 60 for tick in [3, 4, 4, 4, 5, 8]]
+        marker = {"id": "hold", "atMs": 28 * 1000 / 60}
+        importer.clip(asset, "recovery", "d45", [{}] * 6, durations, markers=[marker])
+        clip = asset["clips"]["recovery"]["d45"]
+        self.assertEqual(clip["markers"][0]["atMs"], sum(durations))
+        self.assertEqual(clip["durationsMs"], durations)
+        with self.assertRaisesRegex(ValueError, "event outside supplied timeline"):
+            importer.clip(asset, "invalid", "d45", [{}] * 6, durations,
+                          markers=[{**marker, "atMs": marker["atMs"] + 0.001}])
+
     def test_dual_export_uses_local_frame_bounds_and_keeps_atlas_slices(self):
         p = package({"frame.png": png(8, 8), "atlas.png": png(16, 8)})
         importer = Importer([p])

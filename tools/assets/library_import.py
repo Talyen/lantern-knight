@@ -185,10 +185,11 @@ class Importer:
             or any(not isinstance(d, (int, float)) or d <= 0 for d in durations)
         ):
             raise ValueError(f"{asset['id']}/{name}: missing frames or positive timing")
+        duration = sum(durations)
         if any(
             not isinstance(m.get("atMs"), (int, float))
             or m["atMs"] < 0
-            or m["atMs"] > sum(durations) + 1e-8
+            or m["atMs"] > duration + 1e-8
             for m in (markers or [])
         ):
             raise ValueError(f"{asset['id']}/{name}: event outside supplied timeline")
@@ -197,7 +198,8 @@ class Importer:
             "durationsMs": durations,
             "loop": bool(loop),
             "endBehavior": end,
-            "markers": markers or [],
+            # Equivalent tick calculations can round just beyond the summed end.
+            "markers": [{**m, "atMs": min(m["atMs"], duration)} for m in (markers or [])],
         }
         dirs = asset["clips"].setdefault(name, {})
         if heading in dirs and dirs[heading] != c:
