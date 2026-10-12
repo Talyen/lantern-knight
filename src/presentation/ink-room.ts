@@ -22,7 +22,7 @@ export class InkRoom {
   readonly sceneryReveal: SceneryReveals | undefined;
   private time = 0;
   playing = true;
-  private animated: { sprite: ActorSprite; placement: ArtPlacement }[] = [];
+  private animated: { sprite: ActorSprite; placement: ArtPlacement; ground?: boolean }[] = [];
   replay() {
     this.time = 0;
     for (const { sprite } of this.animated) sprite.animator.start(sprite.animator.clip);
@@ -105,33 +105,34 @@ export class InkRoom {
   }[] = [];
   private staticShadows: T.Mesh<T.PlaneGeometry, T.MeshBasicMaterial>[] = [];
   private ground(p: ArtPlacement, asset = p.asset) {
-    const s = this.sprite(p.id, asset, p.clip, p.heading),
-      scale = p.scale ?? 1,
-      angle = p.rotation ?? 0;
-    s.show(
-      s.animator.frame,
-      new T.Vector3(p.x, heightAt(this.area, p.x, p.z) + 0.018, p.z),
-      this.camera,
-    );
-    s.mesh.scale.set(scale * (p.mirror ? -1 : 1), scale, scale);
-    s.mesh.rotateZ(angle);
-    s.mesh.renderOrder = -1.9;
+    const s = this.sprite(p.id, asset, p.clip, p.heading);
     s.material.color.set(p.tint ?? 0xffffff);
     setCutoutOpacity(s.material, p.opacity ?? 1);
+    this.poseGround(s, p);
+    s.mesh.renderOrder = -1.9;
+    s.mesh.userData.id = p.id;
+    if (s.animator.clip.frames.length > 1)
+      this.animated.push({ sprite: s, placement: p, ground: true });
+    return s;
+  }
+  private poseGround(s: ActorSprite, p: ArtPlacement) {
+    const scale = p.scale ?? 1,
+      angle = p.rotation ?? 0;
+    s.showAnimation(new T.Vector3(p.x, heightAt(this.area, p.x, p.z) + 0.018, p.z), this.camera);
+    s.mesh.scale.set(scale * (p.mirror ? -1 : 1), scale, scale);
+    s.mesh.rotateZ(angle);
     const vertices = s.geometry.getAttribute('position'),
       c = Math.cos(angle),
       sn = Math.sin(angle);
     for (let i = 0; i < vertices.count; i++) {
-      const lx = vertices.getX(i) * scale,
+      const lx = vertices.getX(i) * scale * (p.mirror ? -1 : 1),
         ly = vertices.getY(i) * scale,
         x = p.x + lx * c - ly * sn,
         z = p.z - lx * sn - ly * c;
       vertices.setZ(i, (heightAt(this.area, x, z) - heightAt(this.area, p.x, p.z)) / scale);
     }
-    s.mesh.userData.id = p.id;
     vertices.needsUpdate = true;
-    if (s.animator.clip.frames.length > 1) this.animated.push({ sprite: s, placement: p });
-    return s;
+    s.geometry.computeBoundingSphere();
   }
   build() {
     const art = this.art;
@@ -266,24 +267,38 @@ export class InkRoom {
   }
   update(sim: Simulation, alpha: number, visible: boolean, ms = 1000 / 60) {
     if (!this.playing) ms = 0;
-    for (const { sprite: s, placement: p } of this.animated) {
+    for (const { sprite: s, placement: p, ground } of this.animated) {
       s.animator.advance(ms);
-      s.showAnimation(
-        new T.Vector3(
-          p.x,
-          heightAt(this.area, p.x, p.z) +
-            (p.y ?? (s.manifest.asset.projection === 'top-down' ? 0.018 : 0)),
-          p.z,
-        ),
-        this.camera,
-      );
-      s.mesh.scale.set((p.scale ?? 1) * (p.mirror ? -1 : 1), p.scale ?? 1, p.scale ?? 1);
-      if (p.rotation) s.mesh.rotateZ(p.rotation);
+      if (ground) this.poseGround(s, p);
+      else {
+        s.showAnimation(
+          new T.Vector3(
+            p.x,
+            heightAt(this.area, p.x, p.z) +
+              (p.y ?? (s.manifest.asset.projection === 'top-down' ? 0.018 : 0)),
+            p.z,
+          ),
+          this.camera,
+        );
+        s.mesh.scale.set((p.scale ?? 1) * (p.mirror ? -1 : 1), p.scale ?? 1, p.scale ?? 1);
+        if (p.rotation) s.mesh.rotateZ(p.rotation);
+      }
       s.mesh.visible =
         visible &&
         !(
           s.animator.clip.endBehavior === 'hide' && s.animator.time >= clipDuration(s.animator.clip)
         );
+    }
+    for (const pickup of this.area.pickups ?? []) {
+      const sprite = this.sprites.find((s) => s.id === pickup.object);
+      if (sprite)
+        sprite.mesh.visible =
+          visible &&
+          !sim.collectedPickups.has(pickup.id) &&
+          !(
+            sprite.animator.clip.endBehavior === 'hide' &&
+            sprite.animator.time >= clipDuration(sprite.animator.clip)
+          );
     }
     for (const s of this.effects.values()) s.mesh.visible = false;
     this.sceneryReveal?.update(sim, alpha, ms);
@@ -305,7 +320,7 @@ export class InkRoom {
       foot.addScaledVector(outward, f.depthOffset);
       this.sample(emission, clip, this.time + f.phase * 1000, foot);
       emission.mesh.scale.setScalar(f.scale);
-      emission.mesh.visible = visible;
+      emission.mesh.visible = visible && fixture.mesh.visible;
       emission.material.opacity = fixture.material.opacity;
     }
     for (const g of this.gates) {

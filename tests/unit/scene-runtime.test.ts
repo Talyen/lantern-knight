@@ -7,7 +7,9 @@ import { makeCamera } from '../../src/core/camera';
 import { composeDraftGameplay } from '../../src/content/draft-gameplay';
 import { emptyScene } from '../../src/editor/default-scene';
 import { EditorHistory } from '../../src/editor/model';
+import { setCutoutOpacity } from '../../src/presentation/sprite';
 import { InkRoom } from '../../src/presentation/ink-room';
+import { ContentRegistry, heightAt } from '../../src/content/world';
 import { content, contentDefinitions } from '../fixtures/content';
 import { manifestFixture } from '../fixtures/manifest';
 import type { PreparedRegistration } from '../../src/assets/registration';
@@ -134,4 +136,179 @@ test('external arrangements cannot inherit an unrelated health reward through ma
   assert.equal(sim.hero.health, 50, 'Imported scenery must not heal the player');
   history.duplicateMany(['potion']);
   assert.equal(history.document.gameplay!.pickups.length, 2);
+});
+
+function roomFixture(
+  prepared: AssetPack,
+  art: WorldVisualDefinition,
+  sim = new Simulation(content),
+) {
+  const group = new T.Group();
+  const room = new InkRoom(
+    sim.areaDefinition,
+    new Map([[prepared.manifest.asset.id, prepared]]),
+    group,
+    makeCamera(1),
+    new T.Texture(),
+    registration,
+    art,
+  );
+  room.build();
+  return { room, group, sim };
+}
+function fixtureArt(): WorldVisualDefinition {
+  return {
+    floor: 'scenery',
+    camera: emptyScene().camera,
+    props: [],
+    decals: [],
+    walls: [],
+    paths: [],
+    graves: [],
+    proceduralAssets: [],
+    interior: content.area('court').bounds,
+  };
+}
+function animatedPack() {
+  const prepared = pack('scenery');
+  const first = prepared.manifest.frames[0]!;
+  prepared.manifest.frames.push({ ...structuredClone(first), id: 'second-frame' });
+  prepared.manifest.asset.clips.idle!.d45 = {
+    frames: [first.id, 'second-frame'],
+    durationsMs: [100, 100],
+    loop: true,
+    notifies: [],
+  };
+  return prepared;
+}
+
+test('placed effects retain alpha blending at full opacity and after an occlusion fade', () => {
+  const prepared = pack('scenery');
+  prepared.manifest.asset.type = 'effect';
+  const art = fixtureArt();
+  art.props = [
+    { id: 'effect', asset: 'scenery', clip: 'idle', x: 0, z: 0, purpose: 'Effect', fade: true },
+  ];
+  const { room, sim } = roomFixture(prepared, art);
+  try {
+    assert.equal(room.sprites[0]!.material.transparent, true);
+    assert.equal(room.sprites[0]!.material.depthWrite, false);
+    setCutoutOpacity(room.sprites[0]!.material, 0.18);
+    setCutoutOpacity(room.sprites[0]!.material, 1);
+    room.update(sim, 1, true, 1000);
+    assert.equal(room.sprites[0]!.material.transparent, true);
+    assert.equal(room.sprites[0]!.material.depthWrite, false);
+  } finally {
+    room.dispose();
+  }
+});
+
+test('collected pickups hide their artwork and shadows on every frame', () => {
+  const definitions = structuredClone(contentDefinitions);
+  definitions.areas[0]!.pickups = [
+    { id: 'health', object: 'potion', kind: 'health', amount: 25, radius: 1, x: 0, z: 0 },
+  ];
+  const sim = new Simulation(new ContentRegistry(definitions));
+  Object.assign(sim.hero, { x: 0, z: 0, health: 50 });
+  sim.enemies.forEach((a) => (a.stun = 1000));
+  sim.step(still);
+  assert.equal(sim.hero.health, 75);
+  const art = fixtureArt();
+  art.props = [
+    {
+      id: 'potion',
+      asset: 'scenery',
+      clip: 'idle',
+      x: 0,
+      z: 0,
+      purpose: 'Pickup',
+      footprint: [0.2, 0.2],
+    },
+  ];
+  for (const prepared of [pack('scenery'), animatedPack()]) {
+    const { room, group } = roomFixture(prepared, art, sim);
+    try {
+      assert.ok(group.children.length > 1, 'Fixture includes a pickup shadow');
+      for (let i = 0; i < 3; i++) {
+        room.update(sim, 1, true, 100);
+        assert.ok(
+          group.children.filter((m) => m !== room.sprites[0]!.mesh).every((m) => !m.visible),
+        );
+        assert.equal(room.sprites[0]!.mesh.visible, false);
+      }
+    } finally {
+      room.dispose();
+    }
+  }
+});
+
+test('animated ground details conform to ramps after changing drawings', () => {
+  const definitions = structuredClone(contentDefinitions);
+  definitions.areas[0]!.surface = {
+    kind: 'ramp',
+    axis: 'x',
+    start: -4,
+    end: 4,
+    startHeight: 0,
+    endHeight: 4,
+  };
+  const sim = new Simulation(new ContentRegistry(definitions));
+  const prepared = animatedPack();
+  prepared.manifest.asset.projection = 'top-down';
+  const art = fixtureArt();
+  art.decals = [
+    {
+      id: 'ground-detail',
+      asset: 'scenery',
+      clip: 'idle',
+      x: 0,
+      z: 0,
+      purpose: 'Ground detail',
+      scale: 2,
+      rotation: 0.3,
+      mirror: true,
+    },
+  ];
+  const { room } = roomFixture(prepared, art, sim);
+  try {
+    room.update(sim, 1, true, 150);
+    const sprite = room.sprites[0]!;
+    assert.equal(sprite.animator.frame, 'second-frame');
+    sprite.mesh.updateMatrixWorld(true);
+    const positions = sprite.geometry.getAttribute('position');
+    for (let i = 0; i < positions.count; i++) {
+      const p = new T.Vector3()
+        .fromBufferAttribute(positions, i)
+        .applyMatrix4(sprite.mesh.matrixWorld);
+      assert.ok(Math.abs(p.y - heightAt(sim.areaDefinition, p.x, p.z) - 0.018) < 1e-6);
+    }
+  } finally {
+    room.dispose();
+  }
+});
+
+test('static tinted ground details color both the solid drawing and its soft edge', () => {
+  const prepared = pack('scenery');
+  prepared.manifest.asset.renderStyle = 'clean-ink';
+  prepared.manifest.asset.projection = 'top-down';
+  const art = fixtureArt();
+  art.decals = [
+    {
+      id: 'ground-detail',
+      asset: 'scenery',
+      clip: 'idle',
+      x: 0,
+      z: 0,
+      purpose: 'Tinted detail',
+      tint: 0x223344,
+    },
+  ];
+  const { room } = roomFixture(prepared, art);
+  try {
+    const sprite = room.sprites[0]!;
+    assert.equal(sprite.material.color.getHex(), 0x223344);
+    assert.equal(sprite.edgeMaterial!.color.getHex(), 0x223344);
+  } finally {
+    room.dispose();
+  }
 });
