@@ -27,6 +27,7 @@ const GameSchema = z
     player: point.extend({
       cooldown: z.number().int().min(0).max(tuning.ability.cooldown),
       dodgeCooldown: z.number().int().min(0).max(tuning.dodge.cooldown),
+      nextAttack: z.enum(['sweep', 'lunge']).optional(),
     }),
     areas: z.record(
       id,
