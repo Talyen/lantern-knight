@@ -14,6 +14,7 @@ import { parseManifest, resolveClip } from '../../src/assets/schema';
 import { readAsset } from '../../tools/assets/io';
 import { ActorSprite } from '../../src/presentation/sprite';
 import { Texture, Vector3 } from 'three';
+import { heroFrameScales, scaleHeroRegistration } from '../../tools/assets/hero-scale';
 test('current hero preserves mixed native registrations and resolves all headings without mirroring', async () => {
   const registration = readRegistration();
   const m = parseManifest(
@@ -25,8 +26,36 @@ test('current hero preserves mixed native registrations and resolves all heading
   assert.equal(parseManifest(m, true).asset.status, 'proxy');
   const clip = resolveClip(m, 'sweep', 'd00'),
     frames = clip.frames.map((id) => m.frames.find((f) => f.id === id)!);
-  assert.equal(frames[0]!.registration!.density, 350);
-  assert.equal(frames[1]!.registration!.density, 243);
+  const receipt = JSON.parse(await readAsset('staging/ink/hero-receipt.json', 'utf8')) as {
+    frames: {
+      id: string;
+      sha256: string;
+      registration: NonNullable<(typeof frames)[number]['registration']>;
+    }[];
+    scale?: unknown;
+  };
+  // Shared pins can predate local calibration; each pack proves its own recipe.
+  const scales = receipt.scale
+    ? heroFrameScales(
+        receipt.scale,
+        Object.entries(m.asset.clips).flatMap(([id, headings]) =>
+          Object.entries(headings).map(([heading, clip]) => ({
+            id,
+            heading,
+            frames: clip!.frames,
+          })),
+        ),
+      )
+    : new Map<string, number>();
+  assert.equal(receipt.frames.length, m.frames.length);
+  for (const native of receipt.frames) {
+    assert.match(native.sha256, /^[a-f0-9]{64}$/);
+    const frame = m.frames.find((f) => f.id === native.id)!;
+    assert.deepEqual(
+      frame.registration,
+      scaleHeroRegistration(native.registration, scales.get(native.id) ?? 1),
+    );
+  }
   const textures = new Map(m.pages.map((p) => [p.id, new Texture()]));
   const sprite = new ActorSprite('native-hero', m, textures, clip),
     camera = makeCamera(16 / 9),

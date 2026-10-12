@@ -2,6 +2,8 @@ import { smokeLaunch } from './smoke-launch';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
+import { heroTimings } from '../../src/content/hero-actions';
+import { defaultSweepTiming, sweepTimingOverride } from '../../src/content/sweep-timing';
 import '../../src/inspection';
 
 export async function runScenario(flags: string[] = []) {
@@ -117,6 +119,7 @@ export async function runScenario(flags: string[] = []) {
     await page.getByText('Comparison & treatment', { exact: true }).click();
     await page.locator('#animation-comparison').selectOption('timing');
     await page.locator('#clip').selectOption('sweep');
+    await page.locator('#heading').selectOption('d90');
     const timing = await page.evaluate(() => {
       const p = window.foundation.presentation;
       p.update(window.foundation.sim, 1, 0, { x: 0, z: 0 });
@@ -125,7 +128,10 @@ export async function runScenario(flags: string[] = []) {
         p.secondSprite.animator.clip.durationsMs.reduce((a, b) => a + b, 0),
       ];
     });
-    assert.ok(Math.abs(timing[0]! - 900) < 0.001);
+    const expectedTiming = (
+      sweepTimingOverride(defaultSweepTiming, 'd90') ?? heroTimings.sweep!.d90
+    ).holdsMs.reduce((a, b) => a + b, 0);
+    assert.ok(Math.abs(timing[0]! - expectedTiming) < 0.001);
     assert.notEqual(timing[0], timing[1]);
     await page.locator('#pause').click();
     const comparison = await page.evaluate(() => {

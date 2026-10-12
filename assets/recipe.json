@@ -42,7 +42,8 @@
         "authoring/hero-motion.json",
         "tools/assets/hero.py",
         "assets/sources.json",
-        "src/content/hero-actions.ts"
+        "src/content/hero-actions.ts",
+        "tools/assets/hero-scale.ts"
       ],
       "dependsOn": [
         "assets/prepare/prepare-ink.ts"

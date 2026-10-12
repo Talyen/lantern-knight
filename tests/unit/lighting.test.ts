@@ -45,6 +45,20 @@ test('lantern light follows displayed socket registration, stabilization and mir
     sprite.show(frame.id, foot, camera);
     heroLanternPosition(sprite, position);
     assert.ok(Math.abs(position.clone().sub(foot).dot(up) - 40 / manifest.asset.density) < 1e-10);
+    // Registration-only scale calibration must carry the native socket with the body.
+    sprite.mesh.scale.x = 1;
+    frame.registration = { ...manifest.asset, density: manifest.asset.density / 1.16 };
+    sprite.stabilized = true;
+    sprite.show(frame.id, foot, camera);
+    assert.equal(heroLanternPosition(sprite, position), true);
+    assert.ok(
+      Math.abs(position.clone().sub(foot).dot(right) - (30 * 1.16) / manifest.asset.density) <
+        1e-10,
+    );
+    assert.ok(
+      Math.abs(position.clone().sub(foot).dot(up) - (45 * 1.16) / manifest.asset.density) < 1e-10,
+    );
+    assert.deepEqual(sprite.mesh.position, foot);
     manifest.asset.contentVersion = 'different-drawings';
     assert.equal(heroLanternPosition(sprite, position), false);
   } finally {

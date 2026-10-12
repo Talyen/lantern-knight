@@ -5,6 +5,8 @@ import { hash } from '../../compiler';
 import { parseSource, type Source } from '../../../src/assets/schema';
 import { source as definition } from '../definition';
 import { heroTimings } from '../../../src/content/hero-actions';
+import motionRecipe from '../../../authoring/hero-motion.json';
+import { heroFrameScales, scaleHeroRegistration } from '../hero-scale';
 import type { PreparationContext } from '../context';
 export async function prepare(context: PreparationContext, check = false) {
   const { writeAsset, readAsset, readLibrarySource, compile } = context;
@@ -35,6 +37,7 @@ export async function prepare(context: PreparationContext, check = false) {
     limitations: string[];
     handoffSha256: string;
   };
+  const scales = heroFrameScales(motionRecipe.scale, handoff.clips);
   async function write(file: string, data: string | Buffer) {
     if (check) {
       if (!Buffer.from(data).equals(await readAsset(file)))
@@ -52,6 +55,7 @@ export async function prepare(context: PreparationContext, check = false) {
   const asset: Source['asset'] = {
     ...base.asset,
     id: 'ink-hero-current',
+    // Native drawings and their lantern sockets retain the same handoff identity.
     contentVersion: 'hero-directed-20261007-v03',
     viewMode: 'mixed-directional',
     canvas: [632, 688],
@@ -63,7 +67,7 @@ export async function prepare(context: PreparationContext, check = false) {
       ...handoff.limitations,
     ],
     provenance: { ...base.asset.provenance, source: 'hero-handoff / ' + handoff.handoffSha256 },
-    recipe: 'prepare-hero-v2 / directed native drawings',
+    recipe: 'prepare-hero-v3 / scale-reviewed native drawings',
     requiredClips: [],
     clips: {},
   };
@@ -78,7 +82,7 @@ export async function prepare(context: PreparationContext, check = false) {
       path: file,
       origin: 'imported-study',
       attachments: {},
-      registration: record.registration,
+      registration: scaleHeroRegistration(record.registration, scales.get(record.id)!),
     });
   }
   for (const clip of handoff.clips) {
@@ -101,6 +105,7 @@ export async function prepare(context: PreparationContext, check = false) {
         handoffSha256: handoff.handoffSha256,
         frames: handoff.frames,
         originalTimings: handoff.timings,
+        scale: motionRecipe.scale,
       },
       null,
       2,
