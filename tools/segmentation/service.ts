@@ -44,6 +44,7 @@ export class SegmentationService {
   constructor(
     private root: string,
     private preparedPublic: string,
+    private ensurePublicFile?: (relative: string) => Promise<boolean>,
   ) {}
   async status() {
     return {
@@ -98,9 +99,13 @@ export class SegmentationService {
       signal.throwIfAborted();
       if (this.closed) throw new Error('Selection service closed');
       clearTimeout(this.idle);
+      await this.ensurePublicFile?.('generated/library/catalog.json');
+      signal.throwIfAborted();
       const catalog = await readAuthoringCatalog(this.preparedPublic),
         file = catalog[request.asset];
       if (!file) throw new Error('Unknown prepared selection asset');
+      await this.ensurePublicFile?.(file);
+      signal.throwIfAborted();
       const manifest = parseManifest(
         JSON.parse(await fs.readFile(path.join(this.preparedPublic, file), 'utf8')),
       );
@@ -111,6 +116,12 @@ export class SegmentationService {
       const image = path.resolve(path.dirname(path.join(this.preparedPublic, file)), page.path);
       if (!image.startsWith(path.resolve(this.preparedPublic) + path.sep))
         throw new Error('Invalid prepared image path');
+      if (
+        (await this.ensurePublicFile?.(
+          path.relative(this.preparedPublic, image).split(path.sep).join('/'),
+        )) === false
+      )
+        throw new Error('Prepared selection source is unavailable');
       const [x, y, w, h] = frame.rect,
         id = ++this.sequence;
       signal.throwIfAborted();

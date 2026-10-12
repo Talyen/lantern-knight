@@ -105,7 +105,7 @@ export function preparationPin(
     },
   });
 }
-const PackSchema = z
+export const PackSchema = z
   .object({
     schemaVersion: z.literal(1),
     recipeSha256: hash,
@@ -194,6 +194,80 @@ export async function inspectArchive(file: string, maxBytes = CACHE_LIMIT) {
   if (!names.has('pack.json')) throw new Error('Archive has no inventory');
   return total;
 }
+// Read the authenticated inventory near the front of a delivery archive. This
+// avoids a full decompression pass solely to size the upcoming extraction.
+async function archiveInventory(file: string, lock: AssetLock) {
+  const controller = new AbortController();
+  let bytes: Buffer | undefined;
+  const parser = new tar.Parser({ strict: true, maxDecompressionRatio: 1000 });
+  parser.on('entry', (entry) => {
+    if (entry.path !== 'pack.json') {
+      entry.resume();
+      return;
+    }
+    if (entry.type !== 'File' || entry.size > 64 * 1024 ** 2) {
+      parser.abort(new Error('Invalid archive inventory'));
+      return;
+    }
+    const chunks: Buffer[] = [];
+    entry.on('data', (chunk: Buffer) => chunks.push(chunk));
+    entry.on('end', () => {
+      bytes = Buffer.concat(chunks);
+      controller.abort();
+    });
+  });
+  try {
+    await pipeline(createReadStream(file), parser, { signal: controller.signal });
+  } catch (error) {
+    if (!bytes) throw error;
+  }
+  if (!bytes || createHash('sha256').update(bytes).digest('hex') !== lock.inventorySha256)
+    throw new Error('Prepared inventory hash differs');
+  const inventory = PackSchema.parse(JSON.parse(bytes.toString()));
+  if (inventory.recipeSha256 !== lock.recipeSha256) throw new Error('Prepared pack recipe differs');
+  return { inventory, bytes: bytes.length };
+}
+
+async function extractArchive(file: string, directory: string, inventory: PackInventory) {
+  const names = new Set<string>(),
+    folded = new Set<string>();
+  let failure: unknown;
+  await tar.x({
+    cwd: directory,
+    file,
+    strict: true,
+    preservePaths: false,
+    maxDecompressionRatio: 1000,
+    filter(name, entry) {
+      if (failure) return false;
+      try {
+        name = name.replace(/\/$/, '');
+        safeRelative(name);
+        if (!('type' in entry)) throw new Error('Archive extraction requires an entry');
+        if (entry.type !== 'File' && entry.type !== 'Directory')
+          throw new Error('Archive links and special entries are forbidden');
+        if (name !== 'pack.json' && !/^(public|metadata)(\/|$)/.test(name))
+          throw new Error('Unexpected archive root');
+        if (names.has(name) || folded.has(name.toLowerCase()))
+          throw new Error('Archive duplicate or case collision');
+        names.add(name);
+        folded.add(name.toLowerCase());
+        if (
+          entry.type === 'File' &&
+          name !== 'pack.json' &&
+          (!inventory.files[name] || inventory.files[name]!.bytes !== entry.size)
+        )
+          throw new Error('Archive entry differs from inventory: ' + name);
+        return true;
+      } catch (error) {
+        failure = error;
+        return false;
+      }
+    },
+  });
+  if (failure) throw failure;
+}
+
 export async function installMutex<T>(root: string, work: () => Promise<T>) {
   const file = path.join(root, '.install');
   for (let i = 0; ; i++) {
@@ -233,12 +307,13 @@ export async function ensurePack(
       try {
         await validateCachedPack(held.root, lock);
         return;
-      } catch {
+      } catch (validationError) {
         try {
           await fs.access(path.join(held.root, 'pack.json'));
           if (!(await held.sole()))
             throw new Error(
               'Corrupt prepared pack is in use; stop active commands before repairing it',
+              { cause: validationError },
             );
         } catch (error) {
           if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
@@ -269,15 +344,14 @@ export async function ensurePack(
         await pipeline(checked(), output);
         if (count !== lock.bytes || digest.digest('hex') !== lock.sha256)
           throw new Error('Prepared pack download hash or size differs');
-        const unpacked = await inspectArchive(archive, cache.limit - lock.bytes);
+        const { inventory, bytes: inventoryBytes } = await archiveInventory(archive, lock);
+        const unpacked = Object.values(inventory.files).reduce(
+          (sum, file) => sum + file.bytes,
+          inventoryBytes,
+        );
         await held.reserve(unpacked + (await diskBytes(held.root)) + 4096);
         await fs.mkdir(incoming);
-        await tar.x({
-          cwd: incoming,
-          file: archive,
-          strict: true,
-          preservePaths: false,
-        });
+        await extractArchive(archive, incoming, inventory);
         await validatePack(incoming, lock);
         await fs.mkdir(path.join(incoming, 'metadata'), { recursive: true });
         for (const name of ['public', 'metadata', 'pack.json']) {
@@ -287,6 +361,12 @@ export async function ensurePack(
           });
           await fs.rename(path.join(incoming, name), path.join(held.root, name));
         }
+        await verifiedOutput(
+          held.root,
+          [...Object.keys(inventory.files), 'pack.json'],
+          async () => {},
+          '.verified-pack.json',
+        );
       } finally {
         if (downloadOutput && !downloadOutput.closed)
           await new Promise<void>((resolve) => {
@@ -295,6 +375,7 @@ export async function ensurePack(
           });
         await fs.rm(archive, { force: true });
         await fs.rm(incoming, { recursive: true, force: true });
+        await held.reserve(0);
       }
     });
     return held;

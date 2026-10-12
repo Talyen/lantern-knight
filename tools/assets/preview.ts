@@ -41,6 +41,9 @@ export async function prototypeAssets(
   root = projectRoot,
   scope: AssetScope = 'authoring',
   reusePrepared = false,
+  fallback?: (
+    lock: import('./pack').AssetLock,
+  ) => Promise<import('./workspace').AssetWorkspace | undefined>,
 ) {
   const index = await cache.lease(previewName(root) + '-index');
   let entry: string | undefined;
@@ -128,6 +131,18 @@ export async function prototypeAssets(
         throw error;
     }
   }
+  const demand = await fallback?.(lock);
+  if (demand)
+    return {
+      held: {
+        root: demand.root,
+        release: demand.release,
+        ensurePublicFile: demand.ensurePublicFile,
+      },
+      lock,
+      stepCache: undefined,
+      files: undefined,
+    };
   return {
     held: await (lock.schemaVersion === 3
       ? ensureBundlePack(lock, cache, fetch, scope)

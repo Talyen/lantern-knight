@@ -176,7 +176,12 @@ export class AssetCache {
         } catch (error) {
           if ((error as NodeJS.ErrnoException).code !== 'ENOENT' && !(error instanceof SyntaxError))
             throw error;
-          if (Date.now() - (await fs.stat(lock)).mtimeMs > 30000) {
+          const stat = await fs.stat(lock).catch((error: NodeJS.ErrnoException) => {
+            if (error.code === 'ENOENT') return undefined;
+            throw error;
+          });
+          if (!stat) continue;
+          if (Date.now() - stat.mtimeMs > 30000) {
             await fs.rm(lock, { recursive: true, force: true });
             continue;
           }

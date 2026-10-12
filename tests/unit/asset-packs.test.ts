@@ -521,3 +521,35 @@ test('growth reservations grant bounded headroom near a full cache and protect a
     await fs.rm(root, { recursive: true, force: true });
   }
 });
+
+test('single-pass installation rejects archive links and releases its peak reservation', async () => {
+  const f = await fixture();
+  try {
+    const installed = await ensurePack(
+      f.lock,
+      f.cache,
+      (async () => new Response(f.body)) as typeof fetch,
+    );
+    const leases = await fs.readdir(path.join(installed.root, '.leases'));
+    const owner = JSON.parse(
+      await fs.readFile(path.join(installed.root, '.leases', leases[0]!), 'utf8'),
+    );
+    assert.equal(owner.bytes, 0, 'completed downloads retain no temporary reservation');
+    await installed.release();
+    await fs.symlink('page.png', path.join(f.source, 'public/link.png'));
+    const archive = path.join(f.root, 'link.tar.gz');
+    await tar.c({ cwd: f.source, file: archive, gzip: true }, ['pack.json', 'public/link.png']);
+    const body = await fs.readFile(archive);
+    const lock = {
+      ...f.lock,
+      sha256: createHash('sha256').update(body).digest('hex'),
+      bytes: body.length,
+    };
+    await assert.rejects(
+      ensurePack(lock, f.cache, (async () => new Response(body)) as typeof fetch),
+      /links and special entries/,
+    );
+  } finally {
+    await f.close();
+  }
+});

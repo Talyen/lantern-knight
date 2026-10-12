@@ -15,6 +15,7 @@ import {
 } from './pack';
 import { makeArchive } from './archive';
 import { shaFile } from './sources';
+import { verifiedOutput } from '../verified-files';
 import { AssetCache } from './cache';
 import { diskBytes } from './cache';
 import type { PreparedAssets } from './prepare';
@@ -32,7 +33,12 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
   const groups = new Map<string, string[]>();
   for (const file of Object.keys(inventory.files)) {
     if (file === 'metadata/preparation-inputs.json') continue;
-    const owner = runtime.has(file) || file.startsWith('metadata/') ? 'runtime' : 'authoring',
+    const owner =
+        runtime.has(file) || file.startsWith('metadata/')
+          ? 'runtime'
+          : file.endsWith('.json') || file.endsWith('/preview.png')
+            ? 'bootstrap'
+            : 'authoring',
       names = groups.get(owner) ?? [];
     names.push(file);
     groups.set(owner, names);
@@ -168,9 +174,26 @@ export async function ensureBundlePack(
     }
     const files: Record<string, { sha256: string; bytes: number }> = {},
       folded = new Set<string>();
+    const acquired = new Map<string, Awaited<ReturnType<typeof ensurePack>>>();
+    let next = 0;
+    let failure: unknown;
+    await Promise.all(
+      Array.from({ length: Math.min(2, names.length) }, async () => {
+        while (!failure && next < names.length) {
+          const name = names[next++]!;
+          try {
+            const part = await ensurePack(pin.bundles[name]!, cache, request);
+            parts.push(part);
+            acquired.set(name, part);
+          } catch (error) {
+            failure = error;
+          }
+        }
+      }),
+    );
+    if (failure) throw failure;
     for (const name of names) {
-      const part = await ensurePack(pin.bundles[name]!, cache, request);
-      parts.push(part);
+      const part = acquired.get(name)!;
       const inventory = await validateCachedPack(part.root, pin.bundles[name]!);
       for (const [file, info] of Object.entries(inventory.files)) {
         safeRelative(file);
@@ -219,6 +242,12 @@ export async function ensureBundlePack(
           await fs.rm(path.join(held.root, name), { recursive: true, force: true });
           await fs.rename(path.join(incoming, name), path.join(held.root, name));
         }
+        await verifiedOutput(
+          held.root,
+          [...Object.keys(files), 'pack.json'],
+          async () => {},
+          '.verified-pack.json',
+        );
       } finally {
         await fs.rm(incoming, { recursive: true, force: true });
       }

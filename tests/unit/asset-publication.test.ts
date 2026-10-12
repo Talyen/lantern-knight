@@ -45,6 +45,9 @@ test('split publication uses downloadable filenames, frees the candidate archive
     for (const file of ['lighting/manifest.json', 'visual-effects/surfaces.json'])
       await write('public/' + file, JSON.stringify({ entries: {} }));
     await write('public/authoring-only.png', 'distinct authoring artwork');
+    await write('public/generated/library/catalog.json', '{}');
+    await write('public/generated/library/index.json', '{}');
+    await write('public/generated/delivery/fixture/preview.png', 'small preview');
     const lock = await makeArchive(payload, archive, await recipeHash()),
       candidate = { held, payload, archive, lock },
       uploads = new Map<string, Buffer>();
@@ -76,6 +79,7 @@ test('split publication uses downloadable filenames, frees the candidate archive
     const pin = LockSchema.parse(JSON.parse(await fs.readFile(target, 'utf8')));
     assert.equal(pin.schemaVersion, 3);
     if (pin.schemaVersion !== 3) throw new Error('Expected split pin');
+    assert.ok(pin.bundles.bootstrap, 'metadata and thumbnails have their own bootstrap bundle');
     const acquired = await ensureBundlePack(pin, cache, async (url) => {
       const parsed = new URL(url instanceof Request ? url.url : url),
         key = parsed.pathname.split('/').slice(-2).join('/');

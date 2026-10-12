@@ -1,7 +1,11 @@
+import fs from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { AssetCache } from './cache';
+import { projectRoot } from './paths';
 import { readLock, ensurePack, type AssetLock } from './pack';
 import { ensureBundlePack, type AssetScope } from './bundles';
+import { openDemandWorkspace } from './demand';
 import { prototypeAssets } from './preview';
 
 export type AssetWorkspace = {
@@ -11,6 +15,7 @@ export type AssetWorkspace = {
   metadataDirectory: string;
   identity: string;
   recipe: string;
+  ensurePublicFile?: (relative: string) => Promise<boolean>;
   release: () => Promise<void>;
 };
 async function acquirePinnedPack(
@@ -25,10 +30,21 @@ async function acquirePinnedPack(
 export async function openWorkspace(
   mode: 'pinned' | 'local' = 'pinned',
   scope: AssetScope = 'runtime',
+  demand = false,
 ): Promise<AssetWorkspace> {
   const started = performance.now();
   const cache = new AssetCache();
-  const selected = mode === 'local' ? await prototypeAssets(cache, undefined, scope) : undefined;
+  const fallback =
+    demand && scope === 'authoring'
+      ? async (lock: AssetLock) =>
+          lock.schemaVersion === 3 ? openDemandWorkspace(lock, cache) : undefined
+      : undefined;
+  if (mode === 'pinned' && fallback) {
+    const workspace = await fallback(await readLock());
+    if (workspace) return workspace;
+  }
+  const selected =
+    mode === 'local' ? await prototypeAssets(cache, undefined, scope, false, fallback) : undefined;
   const lock = selected?.lock ?? (await readLock());
   const held = selected?.held ?? (await acquirePinnedPack(lock as AssetLock, cache, scope));
   console.log(`Asset workspace (${mode}/${scope}): ${Math.round(performance.now() - started)}ms.`);
@@ -39,6 +55,7 @@ export async function openWorkspace(
     metadataDirectory: path.join(held.root, 'metadata'),
     identity: lock.sha256,
     recipe: lock.recipeSha256,
+    ensurePublicFile: 'ensurePublicFile' in held ? held.ensurePublicFile : undefined,
     release: () => held.release(),
   };
 }
@@ -55,4 +72,36 @@ export function workspaceEnvironment(
     LANTERN_ASSET_ARCHIVE_RECIPE_SHA256: workspace.recipe,
     LANTERN_PREPARING: '0',
   };
+}
+
+// Server reuse reads identity metadata only; it acquires no payload or lease.
+export async function workspaceIdentity(mode: 'pinned' | 'local') {
+  if (mode === 'local') {
+    const cache = new AssetCache();
+    const prefix =
+      'preview-' +
+      createHash('sha256').update(path.resolve(projectRoot)).digest('hex').slice(0, 20);
+    try {
+      const pointer = JSON.parse(
+        await fs.readFile(
+          path.join(cache.root, 'entries', prefix + '-index', 'preview.json'),
+          'utf8',
+        ),
+      );
+      if (
+        typeof pointer.entry !== 'string' ||
+        !new RegExp('^' + prefix + '-[a-f0-9]{24}$').test(pointer.entry)
+      )
+        throw new Error('Invalid prototype layer identity');
+      const descriptor = JSON.parse(
+        await fs.readFile(path.join(cache.root, 'entries', pointer.entry, 'preview.json'), 'utf8'),
+      );
+      if (descriptor.version !== 1 || !/^[a-f0-9]{64}$/.test(descriptor.sha256))
+        throw new Error('Invalid prototype asset layer');
+      return descriptor.sha256 as string;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+    }
+  }
+  return (await readLock()).sha256;
 }

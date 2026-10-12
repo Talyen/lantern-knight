@@ -1,14 +1,20 @@
 import { defineConfig, type UserConfig } from 'vite';
 import path from 'node:path';
 import type { BuildProfile } from './tools/build-profile';
+import { demandArtworkPlugin } from './tools/assets/demand-plugin';
 import { openWorkspace } from './tools/assets/workspace';
-export function webConfig(publicDirectory: string, profile: BuildProfile): UserConfig {
+export function webConfig(
+  publicDirectory: string,
+  profile: BuildProfile,
+  ensurePublicFile?: (relative: string) => Promise<boolean>,
+): UserConfig {
   const authoring = profile === 'authoring';
   return {
     clearScreen: false,
     define: { __AUTHORING__: String(authoring) },
     plugins: authoring
       ? [
+          ...(ensurePublicFile ? [demandArtworkPlugin(publicDirectory, ensurePublicFile)] : []),
           {
             name: 'lantern-scene-editor',
             async configureServer(server) {
@@ -18,6 +24,7 @@ export function webConfig(publicDirectory: string, profile: BuildProfile): UserC
               const configure = sceneEditorPlugin(
                 process.cwd(),
                 server.config.publicDir,
+                ensurePublicFile,
               ).configureServer;
               if (typeof configure !== 'function')
                 throw new Error('Scene editor server hook is unavailable');
