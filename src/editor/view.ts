@@ -313,7 +313,9 @@ export class EditorView {
       }
       this.selection?.update();
       this.selections.forEach((s) => s.update());
-      this.setEditingVisibility(this.hidden);
+      // Editing can hide a drawing, but must preserve animation/pickup visibility.
+      for (const sprite of this.sprites())
+        if (this.hidden.has(sprite.id)) sprite.mesh.visible = false;
     };
     this.presentation.update(this.sim, 1, ms, this.sim.hero);
   }

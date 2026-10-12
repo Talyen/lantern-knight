@@ -7,13 +7,14 @@ import { makeCamera } from '../../src/core/camera';
 import { composeDraftGameplay } from '../../src/content/draft-gameplay';
 import { emptyScene } from '../../src/editor/default-scene';
 import { EditorHistory } from '../../src/editor/model';
+import { EditorView } from '../../src/editor/view';
 import { setCutoutOpacity } from '../../src/presentation/sprite';
 import { InkRoom } from '../../src/presentation/ink-room';
 import { ContentRegistry, heightAt } from '../../src/content/world';
 import { content, contentDefinitions } from '../fixtures/content';
 import { manifestFixture } from '../fixtures/manifest';
 import type { PreparedRegistration } from '../../src/assets/registration';
-import type { AssetPack } from '../../src/assets/loader';
+import type { AssetPack, AssetRuntime } from '../../src/assets/loader';
 import type { WorldVisualDefinition } from '../../src/content/world-visuals';
 
 const still = { move: { x: 0, z: 0 }, aim: { x: 1, z: 0 } };
@@ -181,6 +182,43 @@ function animatedPack() {
   };
   return prepared;
 }
+
+test('editor visibility preserves completed effect hiding before rendering', () => {
+  const prepared = animatedPack();
+  prepared.manifest.asset.type = 'effect';
+  Object.assign(prepared.manifest.asset.clips.idle!.d45!, { loop: false, endBehavior: 'hide' });
+  const art = fixtureArt();
+  art.props = [
+    { id: 'effect', asset: 'scenery', clip: 'idle', x: 0, z: 0, purpose: 'One-shot effect' },
+  ];
+  const { room, sim } = roomFixture(prepared, art);
+  const view = new EditorView({} as HTMLCanvasElement, {} as AssetRuntime);
+  const submitted: boolean[] = [];
+  const presentation = {
+    roomPresentation: { inkRoom: room },
+    beforeRender() {},
+    update(_sim: Simulation, alpha: number, ms: number) {
+      room.update(sim, alpha, true, ms);
+      this.beforeRender();
+      submitted.push(room.sprites[0]!.mesh.visible);
+    },
+  };
+  view.presentation = presentation as unknown as NonNullable<EditorView['presentation']>;
+  view.sim = sim;
+  try {
+    view.render(250);
+    assert.deepEqual(submitted, [false], 'A completed effect stays hidden in the submitted frame');
+    room.replay();
+    view.setEditingVisibility(new Set(['effect']));
+    view.render(50);
+    assert.equal(submitted.at(-1), false, 'Editor hiding still overrides a playing effect');
+    view.setEditingVisibility(new Set());
+    view.render(0);
+    assert.equal(submitted.at(-1), true, 'Showing a playing effect restores its visibility');
+  } finally {
+    room.dispose();
+  }
+});
 
 test('placed effects retain alpha blending at full opacity and after an occlusion fade', () => {
   const prepared = pack('scenery');
