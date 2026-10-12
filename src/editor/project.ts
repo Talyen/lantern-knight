@@ -97,6 +97,7 @@ export class EditorProject {
     this.baseRevision = baseRevision;
     this.savedSnapshot = savedSnapshot;
     this.recoveryKey = this.recoveryRoot + document.id;
+    this.readRecovery(this.recoveryKey);
     this.recover();
   }
   async edit(work: (history: EditorHistory) => void) {

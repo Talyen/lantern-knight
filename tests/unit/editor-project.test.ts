@@ -245,3 +245,16 @@ describe('editor project ownership', () => {
     assert.equal(f.values.size, 0);
   });
 });
+
+it('opening a saved scene preserves an existing recovery for later restoration', async () => {
+  const f = fixture();
+  await f.project.list();
+  const key = 'recovery:workspace:existing';
+  const raw = recovery({ ...emptyScene(), id: 'existing', name: 'Unsaved work' });
+  f.values.set(key, raw);
+  await f.project.open('file-existing');
+  assert.equal(f.values.get(key), raw);
+  f.project.readRecovery(key);
+  await f.project.restoreRecovery();
+  assert.equal(f.documents.history.document.name, 'Unsaved work');
+});
