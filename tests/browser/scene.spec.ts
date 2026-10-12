@@ -1,9 +1,9 @@
 import { test, expect } from './fixtures';
 import type {} from '../../src/inspection';
-for (const scene of ['outdoor-fixture', 'interior-fixture'])
-  test(`scene ${scene}: readiness, reload and resource lifetime`, async ({ page }) => {
-    // Eight fixture switches plus reload exercise software rendering on CI.
-    test.setTimeout(180_000);
+test('scene fixtures reload independently and release resources across repeated switches', async ({
+  page,
+}) => {
+  for (const scene of ['outdoor-fixture', 'interior-fixture']) {
     await page.goto('/sandbox.html?scene=' + scene);
     await page.waitForFunction(() => window.foundation?.ready);
     expect(await page.evaluate(() => window.foundation.sim.area)).toBe(scene);
@@ -17,20 +17,21 @@ for (const scene of ['outdoor-fixture', 'interior-fixture'])
     await page.waitForFunction(() => window.foundation?.ready);
     expect(await page.evaluate(() => window.foundation.sim.area)).toBe(scene);
     expect(await page.evaluate(() => window.foundation.presentation.verticalSpan)).toBe(13);
-    const resources = await page.evaluate(async () => {
-      const f = window.foundation;
-      const samples = [];
-      for (let i = 0; i < 4; i++) {
-        await f.fixture('outdoor-fixture');
-        await f.fixture('interior-fixture');
-        f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
-        samples.push({ ...f.presentation.renderer.info.memory });
-      }
-      if (f.presentation.renderer.getContext().getError()) throw new Error('Renderer error');
-      return samples;
-    });
-    expect(resources[3]).toEqual(resources[2]);
+  }
+  const resources = await page.evaluate(async () => {
+    const f = window.foundation;
+    const samples = [];
+    for (let i = 0; i < 4; i++) {
+      await f.fixture('outdoor-fixture');
+      await f.fixture('interior-fixture');
+      f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
+      samples.push({ ...f.presentation.renderer.info.memory });
+    }
+    if (f.presentation.renderer.getContext().getError()) throw new Error('Renderer error');
+    return samples;
   });
+  expect(resources[3]).toEqual(resources[2]);
+});
 
 test('preview selection uses its current workspace and rejects removed URL fixtures', async ({
   page,

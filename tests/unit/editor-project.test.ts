@@ -68,8 +68,13 @@ function fixture() {
     () => {
       storageErrors++;
     },
-    async (url, init) =>
-      response(typeof url === 'string' ? url : url instanceof URL ? url.href : url.url, init),
+    async function (this: unknown, url, init) {
+      assert.ok(this === globalThis, 'Fetch requires its global receiver');
+      return response(
+        typeof url === 'string' ? url : url instanceof URL ? url.href : url.url,
+        init,
+      );
+    },
   );
   return {
     project,

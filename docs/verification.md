@@ -50,7 +50,11 @@ Run `npm run docs:check` after documentation edits; `npm run check` does not inc
 
 ## E2E coverage and execution budgets
 
-Routine Linux CI runs source gates with all pure suites, all asset tests (including Python authoring/recovery fixtures), runtime asset validation, one Game web build, Game against that artifact and scene against a development preview with authoring assets. Scene checks include the shared asset browser; only Game scenarios use runtime-only assets. Authoring-tool changes additionally run editor/effects scenarios with the authoring bundle. Desktop/build/dependency/asset-delivery contract changes select macOS and Windows jobs; explicit milestone dispatch also runs them. Native jobs build and package Game once on their host, with no cross-platform restoration format or mandatory Dev package.
+Routine Linux CI runs source gates with all pure suites, all asset tests (including Python authoring/recovery fixtures), runtime asset validation, one Game web build, Game against that artifact and scene against a development preview with authoring assets. Scene checks include the shared asset browser. Focused GPU checks protect image delivery and ground occlusion without loading a complete scene. Only Game scenarios use runtime-only assets.
+
+Linux CI installs Chromium’s headless shell for browser checks. Development scenarios share one preview session and browser process. Authoring-tool changes add editor/effects scenarios to that session. Desktop/build/dependency/asset-delivery contract changes select macOS and Windows jobs; explicit milestone dispatch also runs them. Native jobs build and package Game once on their host, with no cross-platform restoration format or mandatory Dev package.
+
+Routine browser journeys leave screenshot, video and trace recording off. Opt-in authored-scene reviews retain their requested captures.
 
 [The CI workflow](../.github/workflows/ci.yml) defines the executed jobs, and [coverage policy](../tools/coverage-policy.ts) owns optional authoring/desktop selection. An unavailable comparison base selects both optional tiers. Report the jobs that actually ran; a path classification alone does not establish coverage.
 
