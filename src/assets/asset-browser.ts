@@ -19,7 +19,7 @@ export const assetFilterSchema = z.object({
   search: z.string(),
 });
 export type AssetFilter = z.infer<typeof assetFilterSchema>;
-export function animatedSequence(clip: { frames: string[] }) {
+export function animatedSequence(clip: { readonly frames: readonly string[] }) {
   return new Set(clip.frames).size > 1;
 }
 export function animatedAsset(manifest: Manifest) {

@@ -4,9 +4,10 @@ import { parseManifest, type Manifest } from './schema';
 import { sha256, verifiedBitmap } from './bitmap';
 import { TextureDelivery, type SourcePage, type ImageQuality } from './texture-delivery';
 import { ResourcePool } from './resource-pool';
+import { contentSnapshot } from '../content/snapshot';
 export type AssetPack = {
-  manifest: Manifest;
-  textures: ReadonlyMap<string, Texture>;
+  readonly manifest: Manifest;
+  readonly textures: ReadonlyMap<string, Texture>;
 };
 export type PackLease = AssetPack & { release: () => void };
 export type PackBatch = {
@@ -22,6 +23,7 @@ export const pageIdentity = (
 ) =>
   `${p.hash}:${p.width}x${p.height}:srgb-straight-${p.mipmaps ? 'terrain-mips' : 'linear-no-mips'}:${p.delivery?.map((v) => v.hash + ':' + v.mipmaps).join('|') ?? ''}`;
 export class AssetRuntime {
+  readonly catalog: Readonly<Record<string, string>>;
   registration!: PreparedRegistration;
   libraryInventory = false;
   private readonly manifests = new Map<string, Promise<Manifest>>();
@@ -35,14 +37,15 @@ export class AssetRuntime {
     return this.pool.size;
   }
   constructor(
-    public readonly catalog: Readonly<Record<string, string>>,
+    catalog: Readonly<Record<string, string>>,
     private production = false,
     private request: typeof fetch = globalThis.fetch.bind(globalThis),
     decode?: (page: PageRequest) => Promise<Texture>,
     dispose?: (texture: Texture) => void,
     private delivery?: TextureDelivery,
   ) {
-    for (const [id, url] of Object.entries(catalog))
+    this.catalog = Object.freeze({ ...catalog });
+    for (const [id, url] of Object.entries(this.catalog))
       if (
         !/^[a-z0-9][a-z0-9_-]*$/.test(id) ||
         !/^generated\/[a-zA-Z0-9_/-]+\.json$/.test(url) ||
@@ -89,22 +92,7 @@ export class AssetRuntime {
           if (!r.ok) throw new Error(`manifest unavailable: ${id}`);
           const data = await r.json();
           this.assertActive();
-          const manifest = parseManifest(data, this.production);
-          for (const page of manifest.pages) {
-            const key = pageIdentity(page),
-              url = '/' + path.slice(0, path.lastIndexOf('/') + 1) + page.path;
-            if (!this.pages.has(key))
-              this.pages.set(key, {
-                url,
-                hash: page.hash,
-                width: page.width,
-                height: page.height,
-                mipmaps: page.mipmaps,
-                delivery: page.delivery,
-                bytes: page.bytes,
-              });
-          }
-          return manifest;
+          return this.acceptManifest(id, data);
         })
         .catch((e) => {
           this.manifests.delete(id);
@@ -118,8 +106,13 @@ export class AssetRuntime {
     this.assertActive();
     const file = this.catalog[id];
     if (!file) return;
-    const manifest = parseManifest(data, this.production);
-    if (manifest.asset.id !== id) throw new Error('Prepared asset index identity differs: ' + id);
+    this.manifests.set(id, Promise.resolve(this.acceptManifest(id, data)));
+  }
+  private acceptManifest(id: string, data: unknown): Manifest {
+    const file = this.catalog[id]!;
+    const parsed = parseManifest(data, this.production);
+    if (parsed.asset.id !== id) throw new Error('Asset manifest identity differs: ' + id);
+    const manifest = contentSnapshot(parsed);
     for (const page of manifest.pages) {
       const key = pageIdentity(page);
       if (!this.pages.has(key))
@@ -133,7 +126,7 @@ export class AssetRuntime {
           bytes: page.bytes,
         });
     }
-    this.manifests.set(id, Promise.resolve(manifest));
+    return manifest;
   }
   async loadPack(
     id: string,
@@ -171,25 +164,44 @@ export class AssetRuntime {
     this.assertActive();
     signal?.throwIfAborted();
     const selected = [...new Set(ids)],
-      results = await Promise.allSettled(selected.map((id) => this.loadPack(id, signal))),
+      failure = new AbortController(),
+      batchSignal = AbortSignal.any([
+        this.lifetime.signal,
+        failure.signal,
+        ...(signal ? [signal] : []),
+      ]),
       packs = new Map<string, PackLease>();
-    results.forEach((result, i) => {
-      if (result.status === 'fulfilled') packs.set(selected[i]!, result.value);
-    });
     let released = false;
     const release = () => {
       if (released) return;
       released = true;
       for (const pack of packs.values()) pack.release();
     };
-    const failure = results.find((result) => result.status === 'rejected');
-    if (failure || signal?.aborted || this.lifetime.signal.aborted) {
-      release();
-      if (failure?.status === 'rejected') throw failure.reason;
+    // A completed pack no longer listens to acquisition cancellation. The batch
+    // owns it until transfer, including while other packs are still pending.
+    batchSignal.addEventListener('abort', release, { once: true });
+    if (batchSignal.aborted) release();
+    try {
+      await Promise.allSettled(
+        selected.map(async (id) => {
+          try {
+            const pack = await this.loadPack(id, batchSignal);
+            if (released) pack.release();
+            else packs.set(id, pack);
+          } catch (error) {
+            // Stop sibling claims immediately, but drain every acquisition so
+            // late decodes and manifests cannot escape their resource owner.
+            if (!batchSignal.aborted) failure.abort(error);
+          }
+        }),
+      );
+      if (failure.signal.aborted) throw failure.signal.reason;
       if (signal?.aborted) throw new Error('load cancelled');
       this.assertActive();
+      return { packs: new Map(selected.map((id) => [id, packs.get(id)!])), release };
+    } finally {
+      batchSignal.removeEventListener('abort', release);
     }
-    return { packs, release };
   }
   dispose() {
     if (this.lifetime.signal.aborted) return;

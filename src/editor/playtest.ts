@@ -35,7 +35,7 @@ export class DraftPlaytest {
     this.dialog = document.createElement('dialog');
     this.dialog.id = 'playtest-dialog';
     this.dialog.innerHTML =
-      '<header><strong>Draft playtest</strong><button id="playtest-pause">Pause</button><button id="playtest-reset">Restart</button><button id="playtest-return">Return to editor</button></header><canvas id="playtest-viewport" tabindex="0" aria-label="Draft gameplay"></canvas><p id="playtest-status" role="status"></p>';
+      '<header><strong>Scene playtest</strong><button id="playtest-pause">Pause</button><button id="playtest-reset">Restart</button><button id="playtest-return">Return to editor</button></header><canvas id="playtest-viewport" tabindex="0" aria-label="Scene gameplay"></canvas><p id="playtest-status" role="status"></p>';
     const movementControls = document.createElement('div');
     movementControls.id = 'movement-controls';
     movementControls.hidden = true;
@@ -109,8 +109,10 @@ export class DraftPlaytest {
       { capture: true, signal: this.lifetime.signal },
     );
     this.dialog.querySelector<HTMLButtonElement>('#playtest-return')!.onclick = () => this.close();
-    this.dialog.querySelector<HTMLButtonElement>('#playtest-pause')!.onclick = () =>
+    this.dialog.querySelector<HTMLButtonElement>('#playtest-pause')!.onclick = () => {
       this.app?.pause(!this.app.paused);
+      if (this.app && !this.app.paused) this.canvas.focus();
+    };
     this.dialog.querySelector<HTMLButtonElement>('#playtest-reset')!.onclick = () => {
       if (this.snapshot)
         void this.start(this.snapshot, this.movement).catch((e) =>

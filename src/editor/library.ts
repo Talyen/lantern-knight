@@ -24,6 +24,14 @@ type Host = {
   restore: (key: string) => void;
 };
 const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
+function recentScenes(): string[] {
+  try {
+    const stored: unknown = JSON.parse(localStorage.getItem('lantern-editor-scenes') ?? '[]');
+    return Array.isArray(stored) ? stored.filter((id): id is string => typeof id === 'string') : [];
+  } catch {
+    return [];
+  }
+}
 export function patternPoints(
   d: SceneSnapshot,
   kind: 'scatter' | 'path',
@@ -189,7 +197,7 @@ export class SceneLibrary {
   remember() {
     const d = this.host.history().document;
     try {
-      const recent = JSON.parse(localStorage.getItem('lantern-editor-scenes') ?? '[]') as string[];
+      const recent = recentScenes();
       localStorage.setItem(
         'lantern-editor-scenes',
         JSON.stringify([d.id, ...recent.filter((p) => p !== d.id)].slice(0, 20)),
@@ -209,12 +217,7 @@ export class SceneLibrary {
     this.lifetime.signal.throwIfAborted();
     if (!this.dialog.open) this.dialog.showModal();
     this.dialog.classList.toggle('arrangements-only', arrangementsOnly);
-    let recent: string[] = [];
-    try {
-      recent = JSON.parse(localStorage.getItem('lantern-editor-scenes') ?? '[]');
-    } catch {
-      /* Disposable metadata. */
-    }
+    const recent = recentScenes();
     const scenes = data.scenes as { id: string; name: string; target: string; error?: string }[];
     const render = () => {
       const list = $('library-scenes');
@@ -228,7 +231,7 @@ export class SceneLibrary {
         if (!`${scene.name} ${scene.id}`.toLowerCase().includes(search)) continue;
         const b = document.createElement('button');
         b.className = 'scene-card';
-        b.textContent = `${scene.name} · ${scene.target === 'live' ? 'LIVE' : 'Draft'}${scene.error ? ' · Invalid file' : ''}`;
+        b.textContent = `${scene.name} · ${scene.target === 'live' ? 'In game' : 'Saved scene'}${scene.error ? ' · Invalid file' : ''}`;
         b.disabled = !!scene.error;
         try {
           const src = localStorage.getItem('lantern-editor-scene-thumbnail:' + scene.id);
@@ -342,7 +345,9 @@ export class SceneLibrary {
       throw new Error('Pattern exceeds the 500-object scene limit');
     this.snapshot = this.patternSnapshot();
     const view = this.host.view();
-    view.presentation!.overlay.add(this.preview);
+    if (!view.presentation)
+      throw new Error('Scene view is unavailable; reopen the scene to recover');
+    view.presentation.overlay.add(this.preview);
     for (const p of this.points) {
       const mesh = new T.Line(
         new T.BufferGeometry().setFromPoints([

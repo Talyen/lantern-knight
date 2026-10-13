@@ -78,7 +78,8 @@ export async function executeRecipe(
       for (let tick = 0; tick < a.ticks; tick++) {
         const result = session.step(a.command);
         observe(result.events);
-        if (result.transition) {
+        if (result.reset) observe(session.resetCurrentArea(result.reset));
+        else if (result.transition) {
           const plan = session.prepareTransition(result.transition);
           observe(plan.events);
           observe(session.commitTransition(plan));

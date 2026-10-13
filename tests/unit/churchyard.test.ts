@@ -72,7 +72,9 @@ test('activation survives load/revisit and resets on death; backward passage all
   assert.ok(restored.sim.engaged);
   restored.sim.damage(restored.sim.enemies[0]!, restored.sim.hero, 1000);
   restored.sim.hero.age = 90;
-  restored.step(still);
+  const reset = restored.step(still).reset;
+  assert.equal(reset, 'death');
+  restored.resetCurrentArea(reset);
   assert.equal(restored.sim.engaged, false);
   assert.deepEqual(
     restored.sim.enemies.map((a) => a.health),

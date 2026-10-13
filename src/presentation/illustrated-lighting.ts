@@ -341,7 +341,9 @@ export class IllustratedLighting {
     u.inkKey.value.set(rig.key);
     u.inkFog.value.set(rig.fog);
     u.inkDirection.value.fromArray(
-      cameraKeyDirection(contract.azimuthDeg, rig.elevation, rig.side),
+      settings.sun
+        ? cameraKeyDirection(settings.sun.azimuthDeg, settings.sun.elevationDeg, 0)
+        : cameraKeyDirection(contract.azimuthDeg, rig.elevation, rig.side),
     );
     u.inkOrigin.value.copy(origin);
     u.inkAmbient.value = rig.ambient * (settings.look === 'cinematic' ? 0.8 : 1);

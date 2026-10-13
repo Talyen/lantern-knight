@@ -112,7 +112,12 @@ export type WorldVisualDefinition = {
   designProfile?: SceneProfile;
   groundInteraction?: ContentSnapshot<GroundInteraction>;
   editorFloor?: { asset: string; clip: string; layout?: 'artwork'; width: number; depth: number };
-  look?: { rig: 'golden' | 'silver'; look: 'ink' | 'diorama' | 'cinematic' };
+  look?: {
+    rig: 'golden' | 'silver';
+    look: 'ink' | 'diorama' | 'cinematic';
+    /** Fixed world-space direction toward the sun; 0° is +Z, 90° is +X. */
+    sun?: { azimuthDeg: number; elevationDeg: number };
+  };
   surround?: SceneSurroundDefinition;
   weather?: WeatherState;
   rainBounds?: Bounds;
@@ -151,6 +156,7 @@ export function sceneAssets(art: WorldVisualDefinition) {
       art.floor,
       'ink-cues',
       ...art.proceduralAssets,
+      ...((art.weather?.rain ?? 0) > 0 ? ['fx-splash', 'fx-ripple'] : []),
       ...art.props.map((p) => p.asset),
       ...art.decals.map((p) => p.asset),
       ...(art.surround?.layers.map((l) => l.asset) ?? []),

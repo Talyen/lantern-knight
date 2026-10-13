@@ -17,7 +17,12 @@ const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 
 test('input uses the first click position, preserves pending dodge across key repeats, and disposes its listeners', () => {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'window'),
-    target = Object.assign(new EventTarget(), { matches: (_selector: string): boolean => false }),
+    target = Object.assign(new EventTarget(), {
+      matches: (_selector: string): boolean => false,
+      closest(selector: string): object | null {
+        return this.matches(selector) ? this : null;
+      },
+    }),
     canvas = Object.assign(new EventTarget(), {
       getBoundingClientRect: () => ({
         left: 80,
@@ -48,6 +53,21 @@ test('input uses the first click position, preserves pending dodge across key re
       assert.equal(cmd.attack, button === 0);
       assert.equal(cmd.ability, button === 2);
     }
+    for (const modifier of ['ctrlKey', 'metaKey', 'altKey']) {
+      canvas.dispatchEvent(
+        Object.assign(new Event('pointerdown'), {
+          button: 0,
+          clientX: 650,
+          clientY: 320,
+          [modifier]: true,
+        }),
+      );
+      assert.equal(
+        input.consume(sim.hero, sim.areaDefinition, sim.generation).attack,
+        false,
+        'modified pointer gestures must not trigger combat',
+      );
+    }
     for (const repeat of [false, true])
       target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat }));
     assert.equal(input.consume(sim.hero, sim.areaDefinition, sim.generation).dodge, true);
@@ -69,7 +89,25 @@ test('input uses the first click position, preserves pending dodge across key re
     assert.equal(input.edges.dodge, false, 'focused buttons cannot trigger combat');
     target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'Escape', repeat: false }));
     assert.equal(pauses, 1, 'Escape still toggles pause from a focused button');
+    input.clear();
     target.matches = () => false;
+    target.closest = (selector) => (selector.includes('button') ? {} : null);
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
+    assert.equal(input.keys.size, 0, 'descendants of controls cannot move the hero');
+    input.keys.add('KeyW');
+    target.dispatchEvent(new Event('focusin'));
+    assert.equal(input.keys.size, 0, 'focus inside a control releases held movement');
+    target.closest = () => null;
+    for (const modifier of ['ctrlKey', 'metaKey', 'altKey']) {
+      target.dispatchEvent(
+        Object.assign(new Event('keydown'), {
+          code: 'KeyW',
+          repeat: false,
+          [modifier]: true,
+        }),
+      );
+      assert.equal(input.keys.size, 0, 'application shortcuts cannot move the hero');
+    }
     input.resetAim();
     input.dispose();
     target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: false }));
@@ -285,7 +323,9 @@ test('death resets only current area and failed/superseded transitions cannot co
   enter(session, 'landing');
   session.sim.damage(session.sim.enemies[0]!, session.sim.hero, 1000);
   session.sim.hero.age = tuning.deathHoldTicks;
-  session.step(still);
+  const reset = session.step(still).reset;
+  assert.equal(reset, 'death');
+  session.resetCurrentArea(reset);
   assert.equal(session.resetCount, 1);
   assert.equal(session.sim.hero.health, 100);
   assert.ok(session.sim.enemies.every((a) => a.health === 50));
@@ -480,4 +520,67 @@ test('failed feedback is removed once; synchronous and asynchronous failures can
   await Promise.resolve();
   assert.equal(failures.length, 3);
   hub.dispose();
+});
+
+test('keyboard events on a non-element target do not crash the input listener', () => {
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'window');
+  const target = new EventTarget();
+  Object.defineProperty(globalThis, 'window', { configurable: true, value: target });
+  const input = new Input(new EventTarget() as HTMLCanvasElement, makeCamera(1), () => {});
+  try {
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW' }));
+    assert.ok(input.keys.has('KeyW'));
+    target.dispatchEvent(new Event('focusin'));
+  } finally {
+    input.dispose();
+    if (previous) Object.defineProperty(globalThis, 'window', previous);
+    else Reflect.deleteProperty(globalThis, 'window');
+  }
+});
+
+test('resetting the fixed clock inside a step discards pending time without delaying the next frame', () => {
+  const clock = new FixedClock();
+  let steps = 0;
+  clock.advance(50, () => {
+    steps++;
+    clock.reset();
+  });
+  assert.equal(steps, 1);
+  assert.equal(clock.accumulator, 0);
+  clock.advance(clock.stepMs, () => {
+    steps++;
+  });
+  assert.equal(steps, 2);
+});
+
+test('invalid movement cannot corrupt the hero position or dodge heading', () => {
+  for (const value of [NaN, Infinity, -Infinity]) {
+    const sim = new Simulation(content);
+    const before = { x: sim.hero.x, z: sim.hero.z };
+    const aim = { x: before.x + 1, z: before.z };
+    sim.step({ move: { x: value, z: 1 }, aim });
+    assert.deepEqual({ x: sim.hero.x, z: sim.hero.z }, before);
+    assert.equal(sim.hero.state, 'idle');
+    sim.step({ move: { x: value, z: 1 }, aim, dodge: true });
+    assert.ok(Number.isFinite(sim.hero.yaw));
+    for (let i = 0; i < tuning.dodge.total; i++) sim.step(still);
+    assert.ok(Number.isFinite(sim.hero.x + sim.hero.y + sim.hero.z));
+  }
+});
+
+test('invalid frame deltas leave the clock usable for the next valid frame', () => {
+  const clock = new FixedClock();
+  clock.advance(clock.stepMs / 2, () => assert.fail('premature tick'));
+  for (const value of [NaN, Infinity, -Infinity]) {
+    assert.equal(
+      clock.advance(value, () => assert.fail('invalid frame tick')),
+      0.5,
+    );
+    assert.equal(clock.droppedMs, 0);
+  }
+  let ticks = 0;
+  clock.advance(clock.stepMs / 2, () => {
+    ticks++;
+  });
+  assert.equal(ticks, 1);
 });

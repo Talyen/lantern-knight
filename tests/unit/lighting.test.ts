@@ -4,15 +4,38 @@ import { manifestFixture } from '../fixtures/manifest';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { normalPixels } from '../../src/presentation/lighting-profiles';
+import {
+  normalPixels,
+  defaultLook,
+  cameraKeyDirection,
+  lightingRigs,
+} from '../../src/presentation/lighting-profiles';
+import { IllustratedLighting } from '../../src/presentation/illustrated-lighting';
 
 import { GroundMist } from '../../src/presentation/ground-mist';
 import { heightAt } from '../../src/content/world';
 import { content } from '../fixtures/content';
 import { ActorSprite } from '../../src/presentation/sprite';
 import { heroLanternPosition } from '../../src/presentation/hero-lantern';
-import { makeCamera, right, up } from '../../src/core/camera';
+import { makeCamera, right, up, contract } from '../../src/core/camera';
 import { Vector3, Texture } from 'three';
+
+test('authored sun is fixed as the view moves and removing it restores the rig', () => {
+  const lighting = new IllustratedLighting();
+  const settings = { ...defaultLook, sun: { azimuthDeg: 90, elevationDeg: 35 } };
+  lighting.configure(settings, new Vector3());
+  const direction = lighting.common.inkDirection.value.clone();
+  lighting.configure(settings, new Vector3(10, 0, -20));
+  assert.deepEqual(lighting.common.inkDirection.value, direction);
+  assert.deepEqual(direction.toArray(), cameraKeyDirection(90, 35, 0));
+  lighting.configure(defaultLook, new Vector3());
+  const rig = lightingRigs[defaultLook.rig];
+  assert.deepEqual(
+    lighting.common.inkDirection.value.toArray(),
+    cameraKeyDirection(contract.azimuthDeg, rig.elevation, rig.side),
+  );
+  lighting.dispose();
+});
 
 test('lantern light follows displayed socket registration, stabilization and mirrored animation', () => {
   const manifest = manifestFixture();

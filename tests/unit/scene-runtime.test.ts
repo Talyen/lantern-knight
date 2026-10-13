@@ -22,7 +22,7 @@ const registration = {
   animation: { clips: {}, offsets: {}, pairs: [] },
   coverage: { masks: {}, sockets: {} },
 } as unknown as PreparedRegistration;
-function pack(id: string): AssetPack {
+function pack(id: string) {
   const manifest = manifestFixture(id);
   manifest.asset.clips.rest = manifest.asset.clips.idle!;
   return { manifest, textures: new Map([['atlas-0', new T.Texture()]]) };
@@ -203,8 +203,7 @@ test('editor visibility preserves completed effect hiding before rendering', () 
       submitted.push(room.sprites[0]!.mesh.visible);
     },
   };
-  view.presentation = presentation as unknown as NonNullable<EditorView['presentation']>;
-  view.sim = sim;
+  Object.assign(view, { renderer: presentation, simulation: sim, accepted: true });
   try {
     view.render(250);
     assert.deepEqual(submitted, [false], 'A completed effect stays hidden in the submitted frame');

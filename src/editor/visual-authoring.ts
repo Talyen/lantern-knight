@@ -152,7 +152,15 @@ export class VisualAuthoring {
     };
   }
   private commit(path: (string | number)[], value: Data | undefined) {
-    void this.host.change((d) => write(d, path, value)).catch(console.error);
+    const unconfiguredWeather =
+      path[0] === 'weather' && path.length > 1 && !this.host.history().document.weather;
+    if (unconfiguredWeather && value === read(optional.weather, path.slice(1))) return;
+    void this.host
+      .change((d) => {
+        if (unconfiguredWeather && !d.weather) d.weather = structuredClone(optional.weather);
+        write(d, path, value);
+      })
+      .catch(console.error);
   }
   private button(label: string, action: () => void) {
     const b = document.createElement('button');
@@ -323,7 +331,8 @@ export class VisualAuthoring {
       this.fields.append(category);
       if (title === 'Atmosphere') category.append($('atmosphere-section'));
       for (const key of keys) {
-        const value = d[key] as Data | undefined;
+        const value = (key === 'weather' ? (d.weather ?? optional.weather) : d[key]) as
+          Data | undefined;
         if (value !== undefined) {
           let section: Element = category;
           if (keys.length === 1 && typeof value === 'object' && !Array.isArray(value)) {
@@ -333,7 +342,7 @@ export class VisualAuthoring {
             this.form(value, [key], category, fieldLabel(key));
             section = category.lastElementChild!;
           }
-          if (key in optional)
+          if (key in optional && d[key] !== undefined)
             section.append(
               this.button('Remove ' + fieldLabel(key), () => this.commit([key], undefined)),
             );
@@ -694,6 +703,7 @@ export class VisualAuthoring {
     if ($<HTMLSelectElement>('tool').value !== 'geometry' || e.button !== 0) return false;
     this.draw();
     const view = this.host.view();
+    if (!view.presentation || !view.sim) return false;
     const candidates = this.handles
       .map((h) => {
         const s = view.screen(

@@ -231,9 +231,9 @@ test('shared async resources deduplicate, cancellation cannot resurrect discarde
     lease.release();
   }
   assert.equal(retry.size, 0);
-  const firstManifest = manifestFixture();
+  const firstManifest = manifestFixture('first');
   const secondManifest = structuredClone(firstManifest);
-  secondManifest.asset.id = 'second-registration';
+  secondManifest.asset.id = 'second';
   secondManifest.asset.anchor = [100, 200];
   let decoded = 0,
     released = 0;
@@ -254,7 +254,9 @@ test('shared async resources deduplicate, cancellation cannot resurrect discarde
     },
     () => released++,
   );
-  const batch = await runtime.loadPacks(['first', 'second', 'first']);
+  const batchController = new AbortController(),
+    batch = await runtime.loadPacks(['first', 'second', 'first'], batchController.signal);
+  batchController.abort(); // Completed batches transfer ownership to their caller.
   const firstPack = batch.packs.get('first')!,
     secondPack = batch.packs.get('second')!;
   assert.equal(decoded, 1);
@@ -449,7 +451,13 @@ test('death resets current area exactly once, clears transient state, and invali
   old.hero.attackBufferedUntil = 1000;
   old.damage(oldEnemy, oldHero, 1000);
   const event = old.events.at(-1)!;
-  for (let i = 0; i < tuning.deathHoldTicks + 1; i++) session.step(still);
+  for (let i = 0; i < tuning.deathHoldTicks + 1; i++) {
+    const result = session.step(still);
+    if (result.reset) {
+      assert.equal(session.sim, old, 'Reset requests must leave replacement to the host');
+      session.resetCurrentArea(result.reset);
+    }
+  }
   const s = session.sim;
   assert.equal(session.resetCount, 1);
   assert.equal(s.area, 'upper-landing');

@@ -187,8 +187,11 @@ export class EditorProject {
             const data = JSON.parse(storage.getItem(key)!);
             entries.push({
               key,
-              name: data.document?.name ?? 'Unreadable recovery',
-              time: data.savedAt ?? 'Unknown time',
+              name:
+                typeof data.document?.name === 'string'
+                  ? data.document.name
+                  : 'Unreadable recovery',
+              time: typeof data.savedAt === 'string' ? data.savedAt : 'Unknown time',
             });
           } catch {
             entries.push({ key, name: 'Unreadable recovery', time: 'Unknown time' });

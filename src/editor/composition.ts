@@ -108,6 +108,7 @@ export class CompositionTools {
           return;
         e.preventDefault();
         const view = this.host.view();
+        if (!view.presentation) return;
         const original = structuredClone(this.host.history().document);
         const items = sceneItems(original).filter((p) => ids.includes(p.placement.id));
         const center = new T.Vector3(
@@ -188,12 +189,13 @@ export class CompositionTools {
       this.editable().includes(p.placement.id),
     );
     const handles = element('transform-handles');
+    const view = this.host.view();
     handles.hidden =
+      !view.presentation ||
       !items.length ||
       element<HTMLSelectElement>('tool').value !== 'select' ||
       document.body.classList.contains('focus-mode');
-    const view = this.host.view();
-    if (handles.hidden || !view.presentation) return;
+    if (handles.hidden) return;
     const p = view.screen(
       new T.Vector3(
         items.reduce((n, p) => n + p.placement.x, 0) / items.length,

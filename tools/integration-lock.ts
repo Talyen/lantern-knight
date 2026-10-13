@@ -7,6 +7,7 @@ import { promisify } from 'node:util';
 import { acquireCommandLane } from './command-lane';
 import { runProcess } from './run-process';
 import { archiveIntegratedWorktree } from './worktree-cleanup';
+import { checkpointSceneSaves } from './scene/checkpoint-scene-saves';
 
 const exec = promisify(execFile);
 
@@ -43,10 +44,7 @@ export async function withIntegrationLock(
       .find((field) => field.startsWith('worktree '))
       ?.slice(9);
     if (!main) throw new Error('Local main must be checked out in a worktree; no work started');
-    if ((await exec('git', ['status', '--porcelain'], { cwd: main })).stdout.trim())
-      throw new Error(
-        'Local main has unfinished changes; preserve them and leave the task committed on its branch',
-      );
+    await checkpointSceneSaves(main);
     const task = (await git('rev-parse', '--show-toplevel')).trim();
     const branch = (await git('branch', '--show-current')).trim();
     console.log(`Integration lock acquired; running in ${main}`);

@@ -17,7 +17,7 @@ export type ImageRequest = {
   sourceHash?: string;
   bytes?: number;
 };
-export type SourcePage = ImageRequest & { delivery?: Variant[] };
+export type SourcePage = ImageRequest & { delivery?: readonly Variant[] };
 export function selectDelivery(
   page: SourcePage,
   targetPixels: number,

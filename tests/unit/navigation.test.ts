@@ -283,7 +283,7 @@ test('a valid checkpoint near a wall can resume diagonal movement with runtime c
   const a = area();
   const registry = new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
   const session = new GameSession(registry);
-  Object.assign(session.sim.hero, { x: -0.3, z: 0 });
+  Object.assign(session.sim.hero, { x: -0.34, z: 0 });
   const save = session.captureSave();
   assert.doesNotThrow(() => parseGame(save, registry));
   session.restoreSave(save);
@@ -291,4 +291,105 @@ test('a valid checkpoint near a wall can resume diagonal movement with runtime c
   assert.ok(session.sim.hero.x < save.player.x);
   assert.ok(session.sim.hero.z > save.player.z);
   assert.ok(isSupportedPosition(a, session.sim.hero, 0.3));
+});
+
+test('checkpoint validation rejects boundary-trapped actors even when projection cannot move them', () => {
+  const a = area();
+  a.props = [{ id: 'trap', kind: 'pillar', x: 4.4, z: 0, radius: 0.6, height: 1 }];
+  const registry = new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
+  const session = new GameSession(registry);
+  const trapped = { x: 4.7, z: 0 };
+  assert.equal(isSupportedPosition(a, trapped, 0.3), false);
+  assert.equal(new Navigation(a).route(trapped, { x: 0, z: 0 }, 0.3).status, 'unreachable');
+  const playerSave = session.captureSave();
+  Object.assign(playerSave.player, trapped);
+  assert.throws(() => parseGame(playerSave, registry), /Unsupported saved player position/);
+  const enemySave = session.captureSave();
+  Object.assign(enemySave.areas[a.id]!.actors.enemy!, trapped);
+  assert.throws(() => parseGame(enemySave, registry), /Unsupported saved actor position/);
+});
+
+test('checkpoint clearance uses the same minimum actor radius as movement', () => {
+  const a = area();
+  const registry = new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
+  const save = new GameSession(registry).captureSave();
+  Object.assign(save.player, { x: -0.3, z: 0 });
+  assert.throws(() => parseGame(save, registry), /Unsupported saved player position/);
+});
+
+test('an explicitly routed actor replans after displacement puts a wall across its next segment', () => {
+  const a = area();
+  a.spawns = [];
+  const sim = simulate(a),
+    goal = { x: -3, z: 1 };
+  Object.assign(sim.hero, { x: -0.4, z: 2.5 });
+  sim.setMovementTarget(sim.hero.id, goal);
+  // Move around the wall's tip after planning a route down its left side.
+  sim.move(sim.hero, 0.8, 0);
+  sim.move(sim.hero, 0, -0.4);
+  for (let i = 0; i < 300; i++) sim.step(still);
+  assert.ok(Math.hypot(sim.hero.x - goal.x, sim.hero.z - goal.z) < 1e-6);
+  assert.ok(isSupportedPosition(a, sim.hero, 0.3));
+});
+
+test('registry rejects obstructed entries and spawns before a session can create invalid checkpoints', () => {
+  const makeRegistry = (a: AreaDefinition) =>
+    new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
+  const blockedEntry = area();
+  // Alternate entries are used by transitions even when the baseline is valid.
+  blockedEntry.entries = [...blockedEntry.entries, { id: 'arrival', x: 0, z: 0 }];
+  assert.throws(() => makeRegistry(blockedEntry), /unsupported entry navigation\/arrival/);
+
+  const blockedSpawn = area();
+  blockedSpawn.spawns = [{ ...blockedSpawn.spawns[0]!, x: 0, z: 0 }];
+  assert.throws(() => makeRegistry(blockedSpawn), /unsupported spawn navigation\/enemy/);
+
+  const edgeEntry = area();
+  edgeEntry.entries = [{ id: 'start', x: -4.8, z: 0 }];
+  assert.throws(() => makeRegistry(edgeEntry), /unsupported entry navigation\/start/);
+
+  const jitter = area();
+  jitter.spawns = [{ id: 'enemy', actor: 'skeleton', x: 0, z: -3, jitterZ: 6 }];
+  // Both endpoints are clear, but some seeds put the enemy inside the wall.
+  assert.throws(() => makeRegistry(jitter), /unsupported spawn navigation\/enemy/);
+
+  const valid = area();
+  valid.spawns = [{ ...valid.spawns[0]!, jitterZ: 1 }];
+  const registry = makeRegistry(valid);
+  for (const seed of [0, 142, 4294967295]) {
+    const session = new GameSession(registry, seed);
+    assert.doesNotThrow(() => parseGame(session.captureSave(), registry));
+  }
+});
+
+test('movement preview does not consume health rewards or mutate player health', () => {
+  const a = area();
+  a.props = [];
+  a.spawns = [];
+  a.pickups = [
+    { id: 'health', object: 'health-art', kind: 'health', x: -3, z: 0, radius: 1, amount: 20 },
+  ];
+  const sim = simulate(a);
+  sim.hero.health = 50;
+  sim.movementPreview = true;
+  const result = sim.step(still);
+  assert.equal(sim.hero.health, 50);
+  assert.equal(sim.collectedPickups.size, 0);
+  assert.ok(!result.events.some((e) => e.kind === 'pickup'));
+  sim.movementPreview = false;
+  sim.step(still);
+  assert.equal(sim.hero.health, 70);
+});
+
+test('content rejects a self-intersecting star masquerading as a convex playable boundary', () => {
+  const a = area();
+  const ring = Array.from({ length: 5 }, (_, i) => ({
+    x: 4 * Math.cos((i * Math.PI * 2) / 5),
+    z: 4 * Math.sin((i * Math.PI * 2) / 5),
+  }));
+  a.playableBoundary = [0, 2, 4, 1, 3].map((i) => ring[i]!);
+  assert.throws(
+    () => new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] }),
+    /convex/,
+  );
 });

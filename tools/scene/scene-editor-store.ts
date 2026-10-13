@@ -164,7 +164,7 @@ export function sceneEditorPlugin(
     validateSceneReferences(d, manifests);
     if ((await sourceRevision()) !== (await initialRevision))
       throw new SceneConflict(
-        'Scene schema or pinned assets changed while saving. Restart and review the recovered draft.',
+        'Scene schema or pinned assets changed while saving. Restart and review the recovered scene.',
       );
   };
   const profiles = new GroundProfileStore(path.join(root, 'authoring/ground-profiles'));
@@ -213,7 +213,7 @@ export function sceneEditorPlugin(
               const baseRevision = await sourceRevision();
               if (baseRevision !== (await initialRevision))
                 throw new SceneConflict(
-                  'Scene schema or pinned assets or pinned assets changed. Preserve your draft and restart the editor before saving.',
+                  'Scene schema or pinned assets changed. Preserve your scene and restart the editor before saving.',
                 );
               if (req.method === 'GET') {
                 if (url.searchParams.has('groundProfiles')) {
@@ -265,7 +265,7 @@ export function sceneEditorPlugin(
               const body = JSON.parse(Buffer.concat(chunks).toString());
               if (body.baseRevision !== baseRevision)
                 throw new SceneConflict(
-                  'Scene schema or pinned assets changed. Reload or save a separate recovered draft.',
+                  'Scene schema or pinned assets changed. Reload or save a separate recovered scene.',
                 );
               if (body.action === 'segment') {
                 const abort = new AbortController();

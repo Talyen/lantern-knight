@@ -197,7 +197,17 @@ const SceneDocumentSchema = z
       .strict(),
     hero: point,
     look: z
-      .object({ rig: z.enum(['golden', 'silver']), look: z.enum(['ink', 'diorama', 'cinematic']) })
+      .object({
+        rig: z.enum(['golden', 'silver']),
+        look: z.enum(['ink', 'diorama', 'cinematic']),
+        sun: z
+          .object({
+            azimuthDeg: z.number().finite().min(-180).max(180),
+            elevationDeg: z.number().finite().min(5).max(85),
+          })
+          .strict()
+          .optional(),
+      })
       .strict(),
     camera,
     geometry: geometry.optional(),

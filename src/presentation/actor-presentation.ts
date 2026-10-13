@@ -71,7 +71,10 @@ export class ActorPresentation {
         sprite.manifest.asset.shadow.radius * 2,
         sprite.manifest.asset.shadow.radius * 2,
       ),
-      contactShadowMaterial(this.shadowTexture, sprite.manifest.asset.shadow.opacity),
+      contactShadowMaterial(
+        this.shadowTexture,
+        Math.min(1, sprite.manifest.asset.shadow.opacity * 1.5),
+      ),
     );
     shadow.rotation.x = -Math.PI / 2;
     shadow.renderOrder = -1.5;

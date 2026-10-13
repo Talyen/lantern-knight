@@ -3,7 +3,7 @@ import path from 'node:path';
 import os from 'node:os';
 import sharp from 'sharp';
 import { source } from '../definition';
-import { parseManifest, type Manifest } from '../../../src/assets/schema';
+import { parseManifest, type ManifestDraft } from '../../../src/assets/schema';
 import { hash } from '../../compiler';
 
 import { projectRoot } from '../paths';
@@ -29,12 +29,12 @@ export async function prepare(context: PreparationContext, check = false) {
   type LibraryAsset = {
     id: string;
     label: string;
-    type: Manifest['asset']['type'];
-    projection: Manifest['asset']['projection'];
-    placement: Manifest['asset']['placement'];
-    category: Manifest['asset']['category'];
-    layer?: Manifest['asset']['layer'];
-    imageRole?: Manifest['asset']['imageRole'];
+    type: ManifestDraft['asset']['type'];
+    projection: ManifestDraft['asset']['projection'];
+    placement: ManifestDraft['asset']['placement'];
+    category: ManifestDraft['asset']['category'];
+    layer?: ManifestDraft['asset']['layer'];
+    imageRole?: ManifestDraft['asset']['imageRole'];
     mirroring?: boolean;
     limitations: string[];
     clips: Record<
@@ -110,7 +110,7 @@ export async function prepare(context: PreparationContext, check = false) {
     }
   }
   for (const item of plan.assets) {
-    let priorManifest: Manifest | undefined;
+    let priorManifest: ManifestDraft | undefined;
     try {
       priorManifest = parseManifest(
         JSON.parse(await readAsset(`public/generated/library/${item.id}/manifest.json`, 'utf8')),
@@ -148,14 +148,19 @@ export async function prepare(context: PreparationContext, check = false) {
         : item.type === 'material'
           ? 'opaque'
           : 'cutout';
-    const frames: Manifest['frames'] = [],
-      pages: Manifest['pages'] = [];
-    const pageMap = new Map<string, Manifest['pages'][number]>(),
+    const frames: ManifestDraft['frames'] = [],
+      pages: ManifestDraft['pages'] = [];
+    const pageMap = new Map<string, ManifestDraft['pages'][number]>(),
       frameMap = new Map<string, string>();
     const root = `public/generated/library/${item.id}`;
     const inputCache = new Map<
       string,
-      { hash: string; acceptedHash: string; outputHash: string; page: Manifest['pages'][number] }
+      {
+        hash: string;
+        acceptedHash: string;
+        outputHash: string;
+        page: ManifestDraft['pages'][number];
+      }
     >();
     for (const [name, directions] of Object.entries(item.clips)) {
       definition.asset.clips[name] = {};
@@ -323,7 +328,7 @@ export async function prepare(context: PreparationContext, check = false) {
         clips++;
       }
     }
-    const m: Manifest = {
+    const m: ManifestDraft = {
       schemaVersion: 2,
       contractId: definition.asset.contractId,
       bakeVersion: definition.asset.bakeVersion,

@@ -1,4 +1,4 @@
-import { insidePolygon } from './graveyard-layout';
+import { contains, clearSegment, effectiveRadius, isSupportedPosition } from './collision';
 import { contentSnapshot, type ContentSnapshot } from './snapshot';
 
 export type AreaId = string;
@@ -118,50 +118,13 @@ export function surfaceGradient(area: AreaDefinition, x: number, z: number) {
     slope = inside ? (s.endHeight - s.startHeight) / (s.end - s.start) : 0;
   return { x: s.axis === 'x' ? slope : 0, z: s.axis === 'z' ? slope : 0 };
 }
-export function contains(bounds: Bounds, p: Point) {
-  return p.x >= bounds.minX && p.x <= bounds.maxX && p.z >= bounds.minZ && p.z <= bounds.maxZ;
-}
-// Convex boundaries use counterclockwise XZ vertices. Offset each edge inward
-// by the actor radius, then project onto the resulting polygon.
-export function boundaryContains(points: readonly Point[], p: Point, radius = 0) {
-  return points.every((a, i) => {
-    const b = points[(i + 1) % points.length]!,
-      dx = b.x - a.x,
-      dz = b.z - a.z;
-    return (dx * (p.z - a.z) - dz * (p.x - a.x)) / Math.hypot(dx, dz) >= radius - 1e-8;
-  });
-}
-export function clampToBoundary(points: readonly Point[], p: Point, radius: number): Point {
-  if (boundaryContains(points, p, radius)) return p;
-  const edges = points.map((a, i) => {
-    const b = points[(i + 1) % points.length]!,
-      dx = b.x - a.x,
-      dz = b.z - a.z,
-      length = Math.hypot(dx, dz);
-    return { x: -dz / length, z: dx / length, d: (-dz * a.x + dx * a.z) / length + radius };
-  });
-  const inset = edges.map((b, i) => {
-    const a = edges[(i + edges.length - 1) % edges.length]!,
-      det = a.x * b.z - a.z * b.x;
-    return { x: (a.d * b.z - a.z * b.d) / det, z: (a.x * b.d - a.d * b.x) / det };
-  });
-  let closest = p,
-    distance = Infinity;
-  for (let i = 0; i < inset.length; i++) {
-    const a = inset[i]!,
-      b = inset[(i + 1) % inset.length]!,
-      dx = b.x - a.x,
-      dz = b.z - a.z;
-    const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.z - a.z) * dz) / (dx * dx + dz * dz)));
-    const q = { x: a.x + dx * t, z: a.z + dz * t },
-      d = Math.hypot(q.x - p.x, q.z - p.z);
-    if (d < distance) {
-      closest = q;
-      distance = d;
-    }
-  }
-  return closest;
-}
+export {
+  contains,
+  boundaryContains,
+  clampToBoundary,
+  supportedPosition,
+  isSupportedPosition,
+} from './collision';
 const ids = /^[a-z0-9][a-z0-9_-]*$/;
 export class ContentRegistry {
   readonly definitions: ContentSnapshot<ContentDefinitions>;
@@ -223,11 +186,15 @@ export class ContentRegistry {
         if (points.length < 3 || points.length > 16) fail('invalid playable boundary');
         for (const [i, p] of points.entries()) {
           finite(p.x, p.z);
-          const b = points[(i + 1) % points.length]!,
-            c = points[(i + 2) % points.length]!;
+          const b = points[(i + 1) % points.length]!;
           if (
             !contains(a.bounds, p) ||
-            (b.x - p.x) * (c.z - b.z) - (b.z - p.z) * (c.x - b.x) <= 1e-8
+            points.some(
+              (c, j) =>
+                j !== i &&
+                j !== (i + 1) % points.length &&
+                (b.x - p.x) * (c.z - p.z) - (b.z - p.z) * (c.x - p.x) <= 1e-8,
+            )
           )
             fail('playable boundary must be strictly convex and counterclockwise');
         }
@@ -297,6 +264,22 @@ export class ContentRegistry {
         )
           fail(`exit outside ${a.id}`);
       }
+      // Acceptance covers every transition entry and every possible seeded spawn,
+      // using the same actor clearance as movement and checkpoint validation.
+      const playerRadius = effectiveRadius(this.actor(definitions.player).radius);
+      for (const entry of a.entries)
+        if (!isSupportedPosition(a, entry, playerRadius))
+          fail(`unsupported entry ${a.id}/${entry.id}`);
+      for (const spawn of a.spawns)
+        if (
+          !clearSegment(
+            a,
+            spawn,
+            { x: spawn.x, z: spawn.z + (spawn.jitterZ ?? 0) },
+            effectiveRadius(this.actor(spawn.actor).radius),
+          )
+        )
+          fail(`unsupported spawn ${a.id}/${spawn.id}`);
       this.#areas.set(a.id, a);
     }
     this.area(definitions.initialArea);
@@ -316,104 +299,4 @@ export class ContentRegistry {
     if (!value) throw new Error(`content: unknown actor ${id}`);
     return value;
   }
-}
-// Resolve circular actors against authored circles/boxes, then enforce area bounds.
-export function supportedPosition(area: AreaDefinition, p: Point, radius: number): Point {
-  let x = p.x,
-    z = p.z;
-  const clamp = () => {
-    x = Math.max(area.bounds.minX + radius, Math.min(area.bounds.maxX - radius, x));
-    z = Math.max(area.bounds.minZ + radius, Math.min(area.bounds.maxZ - radius, z));
-    if (area.playableBoundary)
-      ({ x, z } = clampToBoundary(area.playableBoundary, { x, z }, radius));
-  };
-  clamp();
-  for (let pass = 0; pass < 3; pass++)
-    for (const prop of area.props) {
-      if (prop.blocking === false) continue;
-      if (prop.shape === 'polygon' && prop.polygon) {
-        const points = prop.polygon,
-          inside = insidePolygon({ x, z }, points),
-          signed = points.reduce((a, p, i) => {
-            const q = points[(i + 1) % points.length]!;
-            return a + p.x * q.z - q.x * p.z;
-          }, 0),
-          candidates = [];
-        for (let i = 0; i < points.length; i++) {
-          const a = points[i]!,
-            b = points[(i + 1) % points.length]!,
-            dx = b.x - a.x,
-            dz = b.z - a.z,
-            l = Math.hypot(dx, dz),
-            t = Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.z) * dz) / (l * l))),
-            qx = a.x + dx * t,
-            qz = a.z + dz * t,
-            d = Math.hypot(x - qx, z - qz),
-            sign = signed < 0 ? 1 : -1;
-          if (!inside && d >= radius) continue;
-          const nx = inside || d < 1e-9 ? (-dz / l) * sign : (x - qx) / Math.max(d, 1e-9),
-            nz = inside || d < 1e-9 ? (dx / l) * sign : (z - qz) / Math.max(d, 1e-9),
-            candidate = { x: qx + nx * (radius + 0.001), z: qz + nz * (radius + 0.001) };
-          if (
-            candidate.x >= area.bounds.minX + radius &&
-            candidate.x <= area.bounds.maxX - radius &&
-            candidate.z >= area.bounds.minZ + radius &&
-            candidate.z <= area.bounds.maxZ - radius &&
-            !insidePolygon(candidate, points)
-          )
-            candidates.push({ ...candidate, d: Math.hypot(candidate.x - x, candidate.z - z) });
-        }
-        if (candidates.length) {
-          candidates.sort((a, b) => a.d - b.d);
-          x = candidates[0]!.x;
-          z = candidates[0]!.z;
-        }
-      } else if (prop.shape === 'box' && prop.size) {
-        const hx = prop.size[0] / 2,
-          hz = prop.size[1] / 2,
-          c = Math.cos(prop.rotation ?? 0),
-          s = Math.sin(prop.rotation ?? 0),
-          wx = x - prop.x,
-          wz = z - prop.z,
-          dx = wx * c + wz * s,
-          dz = -wx * s + wz * c;
-        const qx = Math.max(-hx, Math.min(hx, dx)),
-          qz = Math.max(-hz, Math.min(hz, dz));
-        const vx = dx - qx,
-          vz = dz - qz,
-          d = Math.hypot(vx, vz);
-        if (d > 0 && d < radius) {
-          const shift = (radius - d) / d;
-          x += (vx * c - vz * s) * shift;
-          z += (vx * s + vz * c) * shift;
-        } else if (d === 0) {
-          let lx = dx,
-            lz = dz;
-          if (hx - Math.abs(dx) < hz - Math.abs(dz)) lx = (dx < 0 ? -1 : 1) * (hx + radius);
-          else lz = (dz < 0 ? -1 : 1) * (hz + radius);
-          x = prop.x + lx * c - lz * s;
-          z = prop.z + lx * s + lz * c;
-        }
-      } else {
-        let dx = x - prop.x,
-          dz = z - prop.z,
-          d = Math.hypot(dx, dz),
-          r = prop.radius + radius;
-        if (d < r) {
-          if (d < 1e-9) {
-            dx = 1;
-            dz = 0;
-            d = 1;
-          }
-          x = prop.x + (dx / d) * r;
-          z = prop.z + (dz / d) * r;
-        }
-      }
-      clamp();
-    }
-  return { x, z };
-}
-export function isSupportedPosition(area: AreaDefinition, p: Point, radius: number) {
-  const q = supportedPosition(area, p, radius);
-  return Math.hypot(q.x - p.x, q.z - p.z) < 1e-6;
 }

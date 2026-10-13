@@ -279,3 +279,23 @@ it('copies scenes whose names already use the full allowed length', async () => 
   assert.equal(f.documents.history.document.target, 'draft');
   assert.equal(f.project.revision, null);
 });
+
+it('keeps malformed recovery metadata from hiding other recoveries', async () => {
+  const f = fixture();
+  await f.project.list();
+  f.values.set('recovery:workspace:valid', recovery({ ...emptyScene(), name: 'Unsaved work' }));
+  f.values.set(
+    'recovery:workspace:broken',
+    JSON.stringify({ document: { name: 42 }, savedAt: 42 }),
+  );
+  f.values.set('recovery:workspace:older', JSON.stringify({ savedAt: 7 }));
+  const entries = f.project.recoveryEntries();
+  assert.equal(entries.length, 3);
+  assert.ok(entries.some((entry) => entry.name === 'Unsaved work'));
+  const broken = entries.find((entry) => entry.key.endsWith(':broken'))!;
+  assert.equal(broken.name, 'Unreadable recovery');
+  assert.equal(broken.time, 'Unknown time');
+  f.project.readRecovery(broken.key);
+  assert.equal(f.project.recoveryReadable, false);
+  assert.equal(f.project.recoverySource(), f.values.get(broken.key));
+});

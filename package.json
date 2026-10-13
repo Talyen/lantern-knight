@@ -42,7 +42,8 @@
     "segmentation:setup": "sh tools/segmentation/setup.sh",
     "segmentation:smoke": "tsx tools/segmentation/smoke.ts",
     "segmentation:propose": "tsx tools/segmentation/propose.ts",
-    "segmentation:inventory": "tsx tools/segmentation/inventory.ts"
+    "segmentation:inventory": "tsx tools/segmentation/inventory.ts",
+    "occlusion:audit": "tsx tools/ground-occlusion-audit.ts"
   },
   "dependencies": {
     "postprocessing": "6.39.5",

@@ -13,6 +13,7 @@ import { parseGame, type GameSave } from './core/save';
 import type { Bridge } from './platform/bridge';
 import { FrameScheduler } from './frame-scheduler';
 import { SessionOperation, SessionOperationCancelled } from './session-operation';
+import { readUntilAborted } from './abort';
 export type ApplicationHooks = {
   status: (message: string, error?: boolean) => void;
   pause: (paused: boolean) => void;
@@ -47,6 +48,13 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private last = 0;
   private frames: FrameScheduler | undefined;
   private disposed = false;
+  private startup?: Promise<void>;
+  // Once replacement starts committing, the renderer may be partially rebuilt.
+  // Only a fully prepared replacement can accept this session for use again.
+  private roomAccepted = true;
+  get roomReady() {
+    return this.roomAccepted;
+  }
   private loading = new Set<symbol>();
   private pauseSequence = 0;
   private aim = { x: 0, z: 1 };
@@ -129,7 +137,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       if (!this.disposed && this.loading.size === 0) {
         try {
           // Submit the destination before revealing it, even in a paused/background window.
-          if (this.ready) this.presentation.update(this.sim.view, 1, 0, this.aim);
+          if (this.ready && this.roomReady) this.presentation.update(this.sim.view, 1, 0, this.aim);
         } finally {
           this.resetFrameClock();
           this.input?.clear();
@@ -139,7 +147,16 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     }
   }
   boot() {
-    return this.withLoading(() => this.bootApplication());
+    if (this.disposed) return Promise.reject(new Error('application disposed'));
+    // Startup owns one resource graph for this application lifetime. All callers
+    // join it; a failed graph is closed rather than reused by a later attempt.
+    this.startup ??= Promise.resolve()
+      .then(() => this.withLoading(() => this.bootApplication()))
+      .catch((error) => {
+        this.dispose();
+        throw error;
+      });
+    return this.startup;
   }
   private async bootApplication() {
     this.assertActive();
@@ -177,10 +194,13 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.presentation.generation = this.session.generation;
     this.events.setGeneration(this.session.generation);
     this.input = new Input(this.canvas, this.presentation.camera, () => this.pause(!this.paused));
-    const settings = await this.bridge.loadSettings().catch((error: Error) => {
-      this.settingsError = error.message;
-      return { status: 'empty' } as const;
-    });
+    const settings = await readUntilAborted(this.bridge.loadSettings(), this.abort.signal).catch(
+      (error: Error) => {
+        this.assertActive();
+        this.settingsError = error.message;
+        return { status: 'empty' } as const;
+      },
+    );
     this.assertActive();
     if (settings.status === 'ok') {
       this.scale = settings.data.renderScale;
@@ -286,7 +306,10 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         operation.check();
         throw error;
       } finally {
-        if (this.sessionOperation === operation) this.sessionOperation = undefined;
+        if (this.sessionOperation === operation) {
+          this.sessionOperation = undefined;
+          if (!this.disposed && !this.roomReady) this.pause(true);
+        }
       }
     });
   }
@@ -307,8 +330,11 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       for (const pack of next.packs.values()) this.presentation.warmPack(pack);
       await this.presentation.prepareAssets(new Set([...this.packs.keys(), ...next.packs.keys()]));
       operation.check();
-      const changes = commit(),
-        installing = next;
+      this.roomAccepted = false;
+      const changes = commit();
+      this.events.setGeneration(this.session.generation);
+      operation.check();
+      const installing = next;
       next = undefined; // Installation transfers ownership even if rebuilding throws.
       this.roomAssets.install(installing, () => {
         this.syncPacks();
@@ -318,8 +344,10 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         );
         this.presentation.generation = this.session.generation;
       });
+      operation.check();
       await this.presentation.prepareAssets();
       operation.check();
+      this.roomAccepted = true;
       this.input.resetAim();
       this.publish(changes);
     } finally {
@@ -328,6 +356,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   pause(value: boolean) {
     this.pauseSequence++;
+    value = value || !this.roomReady;
     this.paused = value;
     this.clock.reset();
     this.input?.clear();
@@ -335,9 +364,9 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.hooks.pause(value);
   }
   safe(fn: () => Promise<unknown>) {
-    void fn().catch((error) => {
+    void (async () => fn())().catch((error: unknown) => {
       if (!(error instanceof SessionOperationCancelled))
-        this.hooks.status(String(error.message ?? error), true);
+        this.hooks.status(String((error as Error | null | undefined)?.message ?? error), true);
     });
   }
   transition(id: string) {
@@ -365,11 +394,12 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       }
     });
   }
-  reset() {
+  reset(reason: 'death' | 'manual' = 'manual') {
     return this.withSessionOperation(async (operation) => {
       const resume = this.resumeOnCompletion();
-      await this.replaceRoom(this.sim.area, () => this.session.resetCurrentArea(), operation);
+      await this.replaceRoom(this.sim.area, () => this.session.resetCurrentArea(reason), operation);
       operation.check();
+      if (reason === 'death') this.autosave();
       resume();
     });
   }
@@ -440,11 +470,14 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   async save() {
     if (this.readOnly) throw new Error('Sandbox sessions cannot write checkpoints');
+    if (!this.roomReady)
+      throw new Error('Room is not ready; reset or load a checkpoint to recover');
     await this.persistence.save(this.session.captureSave());
     await this.saveSettings();
   }
   autosave() {
-    if (!this.readOnly) this.safe(() => this.persistence.save(this.session.captureSave()));
+    if (!this.readOnly && this.roomReady)
+      this.safe(() => this.persistence.save(this.session.captureSave()));
   }
   private loop = (now: number) => {
     if (this.disposed) return;
@@ -455,7 +488,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     const idle =
         this.frames?.idle ??
         (!this.bridge.automatedRun && (document.hidden || !document.hasFocus())),
-      frozen = this.paused || this.busy || this.loading.size > 0 || idle;
+      frozen = this.paused || !this.roomReady || this.busy || this.loading.size > 0 || idle;
     if (!frozen && this.simulationEnabled)
       alpha = this.clock.advance(ms, () => {
         const sim = this.sim;
@@ -467,8 +500,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         const result = this.session.step(cmd);
         this.publish(result.events);
         if (result.reset) {
-          this.input.resetAim();
-          this.autosave();
+          this.safe(() => this.reset(result.reset));
           return false;
         }
         if (result.transition && !this.command) {
@@ -477,7 +509,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         }
         return true;
       });
-    this.presentation.update(this.sim.view, alpha, frozen ? 0 : ms, aim);
+    if (this.roomReady) this.presentation.update(this.sim.view, alpha, frozen ? 0 : ms, aim);
     this.hooks.frame();
     this.afterFrame(ms);
   };
@@ -487,6 +519,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.loading.clear();
     this.hooks.loading?.(false);
     this.ready = false;
+    delete this.canvas.dataset.ready;
     this.abort.abort();
     this.sessionOperation?.cancel('application disposed');
     this.sessionOperation = undefined;
