@@ -12,6 +12,32 @@ import { checkSceneDocuments } from '../../tools/check-scene-documents';
 import { selectedFiles } from '../../tools/select-runtime-assets';
 import { emptyScene } from '../../src/editor/default-scene';
 import { assetCatalog } from '../../src/content/asset-catalog';
+import { gameAssetCatalog } from '../../src/content/game-content';
+
+test('runtime previews resolve selected Game artwork from the full pin', async () => {
+  const reservation = net.createServer();
+  await new Promise<void>((resolve) => reservation.listen(0, '127.0.0.1', resolve));
+  const port = (reservation.address() as net.AddressInfo).port;
+  await new Promise<void>((resolve) => reservation.close(() => resolve()));
+  const session = await openPreview({
+    output: 'development',
+    assets: 'pinned',
+    scope: 'runtime',
+    port,
+  });
+  try {
+    assert.equal(session.workspace!.scope, 'runtime');
+    const identity = await (await fetch(session.origin + '/__lantern_identity')).json();
+    assert.equal(identity.scope, 'runtime');
+    for (const [id, file] of Object.entries(gameAssetCatalog)) {
+      const response = await fetch(session.origin + '/' + file);
+      assert.equal(response.status, 200, id);
+      assert.equal((await response.json()).asset.id, id);
+    }
+  } finally {
+    await session.close();
+  }
+});
 
 test('explicit pinned workspaces validate without ambient paths and failed previews release their lease', async () => {
   const workspace = await openWorkspace('pinned', 'runtime');

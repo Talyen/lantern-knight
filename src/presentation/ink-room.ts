@@ -277,17 +277,19 @@ export class InkRoom {
     }
     for (const object of this.area.interactables ?? []) {
       const sprite = this.sprites.find((s) => s.id === object.object);
-      if (!sprite) continue;
+      const placement = this.art.props.find((p) => p.id === object.object);
+      if (!sprite || !placement) continue;
+      const heading = placement.heading ?? 'd45';
       const start = sim.objectActions.get(object.id);
       const elapsed =
         start === undefined ? Infinity : Math.max(0, ((sim.tick - start + alpha) * 1000) / 60);
       const claimed = sim.claimedObjects.has(object.id);
-      const action = resolveClip(sprite.manifest, object.action, 'd45');
+      const action = resolveClip(sprite.manifest, object.action, heading);
       const active = claimed && elapsed < clipDuration(action);
       const clip = resolveClip(
         sprite.manifest,
         claimed ? (active ? object.action : object.spent) : object.idle,
-        'd45',
+        heading,
       );
       // A crate's supplied smash clip includes its intact and broken poses.
       const time = !claimed
@@ -301,8 +303,19 @@ export class InkRoom {
         sprite,
         clip,
         time,
-        new T.Vector3(object.x, heightAt(this.area, object.x, object.z), object.z),
+        new T.Vector3(
+          placement.x,
+          heightAt(this.area, placement.x, placement.z) +
+            (placement.y ?? (sprite.manifest.asset.projection === 'top-down' ? 0.018 : 0)),
+          placement.z,
+        ),
       );
+      sprite.mesh.scale.set(
+        (placement.scale ?? 1) * (placement.mirror ? -1 : 1),
+        placement.scale ?? 1,
+        placement.scale ?? 1,
+      );
+      if (placement.rotation) sprite.mesh.rotateZ(placement.rotation);
       sprite.mesh.visible = visible;
     }
     for (const pickup of this.area.pickups ?? []) {

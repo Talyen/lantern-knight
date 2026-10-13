@@ -5,7 +5,7 @@ import { hash } from '../../compiler';
 import { parseSource, type Source } from '../../../src/assets/schema';
 import { source as definition } from '../definition';
 import { heroTimings } from '../../../src/content/hero-actions';
-import motionRecipe from '../../../authoring/hero-motion.json';
+import scaleRecipe from '../../../authoring/hero-scale.json';
 import { heroFrameScales, scaleHeroRegistration } from '../hero-scale';
 import type { PreparationContext } from '../context';
 import { preparationOutput } from '../preparation-output';
@@ -39,7 +39,7 @@ export async function prepare(context: PreparationContext, check = false) {
     limitations: string[];
     handoffSha256: string;
   };
-  const scales = heroFrameScales(motionRecipe.scale, handoff.clips);
+  const scales = heroFrameScales(scaleRecipe, handoff.clips);
   const base = definition(
     'ink-hero-current',
     'character',
@@ -100,7 +100,7 @@ export async function prepare(context: PreparationContext, check = false) {
         handoffSha256: handoff.handoffSha256,
         frames: handoff.frames,
         originalTimings: handoff.timings,
-        scale: motionRecipe.scale,
+        scale: scaleRecipe,
       },
       null,
       2,

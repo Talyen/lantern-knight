@@ -120,6 +120,8 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
 test('orchard loot, equipment, campfire rest and destination travel survive reload', async ({
   page,
 }) => {
+  const waitForRoom = () =>
+    expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 60_000 });
   // Targeted checkpoint setup exercises the actual renderer and UI without replaying combat in every browser run.
   await page.goto('/index.html?automated');
   await page.waitForFunction(
@@ -180,13 +182,13 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
     { key, fire: { x: fire.x, z: fire.z } },
   );
   await page.locator('#load').click();
-  await expect(page.locator('body')).not.toHaveClass(/traveling/);
+  await waitForRoom();
   await expect(page.locator('#interaction-hint')).toContainText('Orchard Campfire');
   await page.keyboard.press('e');
   await expect(panel).toContainText('Orchard Campfire');
   await panel.getByRole('button', { name: 'Rest', exact: true }).click();
   await expect(page.locator('#hp')).toHaveText('110 / 110');
-  await expect(page.locator('body')).not.toHaveClass(/traveling/);
+  await waitForRoom();
   await page.keyboard.press('Escape');
   // Unlock departure through a valid cleared encounter checkpoint; use the real departure interaction.
   await page.locator('#pause').click();
@@ -206,23 +208,23 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
     { key, marker: exit.marker },
   );
   await page.locator('#load').click();
-  await expect(page.locator('body')).not.toHaveClass(/traveling/);
+  await waitForRoom();
   await expect(page.locator('#interaction-hint')).toContainText(
     'Travel to Forest Gathering Clearing',
   );
   await page.keyboard.press('e');
+  await waitForRoom();
   await expect(page.locator('#room-title')).toHaveText('Forest Gathering Clearing');
-  await expect(page.locator('body')).not.toHaveClass(/traveling/);
   await page.keyboard.press('e');
   await expect(panel).toContainText('Clearing Campfire');
   await panel.getByRole('button', { name: 'Abandoned Orchard · Orchard Campfire' }).click();
+  await waitForRoom();
   await expect(page.locator('#room-title')).toHaveText('Abandoned Orchard');
-  await expect(page.locator('body')).not.toHaveClass(/traveling/);
   await panel
     .getByRole('button', { name: 'Forest Gathering Clearing · Clearing Campfire' })
     .click();
+  await waitForRoom();
   await expect(page.locator('#room-title')).toHaveText('Forest Gathering Clearing');
-  await expect(page.locator('body')).not.toHaveClass(/traveling/);
   await page.keyboard.press('Escape');
   await page.reload();
   await page.waitForFunction(

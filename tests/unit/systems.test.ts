@@ -16,6 +16,22 @@ import { Input } from '../../src/core/input';
 const near = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-7);
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 
+test('encounter retries preserve elapsed session ticks across generations', () => {
+  const session = new GameSession(content);
+  let elapsed = 0;
+  for (const reason of ['manual', 'death'] as const) {
+    for (let i = 0; i < 20; i++) {
+      session.step(still);
+      elapsed++;
+    }
+    const generation = session.generation;
+    const events = session.resetCurrentArea(reason);
+    assert.equal(session.generation, generation + 1);
+    assert.equal(session.sim.tick, elapsed);
+    assert.equal(events[0]!.tick, elapsed);
+  }
+});
+
 test('input uses the first click position, preserves pending dodge across key repeats, and disposes its listeners', (t) => {
   const target = Object.assign(new EventTarget(), {
       matches: (_selector: string): boolean => false,

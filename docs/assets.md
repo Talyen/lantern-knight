@@ -39,7 +39,7 @@ Builds derive a selected inventory including manifests, pages, registration, lig
 
 ### On-demand authoring
 
-Browser authoring previews use on-demand pinned files or a complete local preparation. Library thumbnails fetch artwork as entries become visible in the scroll panel. Scene saving acquires the manifests it validates; ground selection acquires the source image before invoking its model. Verified files remain cached for offline use. Game builds and CI acquire verified selected files under an active workspace lease; live desktop development acquires the complete workspace for its selected asset scope.
+Browser authoring previews use on-demand pinned files or a complete local preparation. Library thumbnails fetch artwork as entries become visible in the scroll panel. Scene saving acquires the manifests it validates; ground selection acquires the source image before invoking its model. Verified files remain cached for offline use. Game builds and CI acquire verified selected files under an active workspace lease. Game development also resolves selected files across the full pin, including artwork in authoring bundles; live authoring desktop development acquires its complete workspace.
 
 A small compressed, hash-pinned catalog maps each file to its own SHA-256, size and exact byte range in an immutable uncompressed container. Files with identical bytes share storage. The editor requests only the selected file's range, with at most four concurrent downloads, and rejects ignored ranges, incorrect offsets, transformed responses, excess bytes and hash mismatches. Container hashes identify the hosted bytes; per-file hashes authenticate each independently downloaded image, manifest or preview. Older pins retain the archive-based fallback. Use `npm run dev -- --eager` to acquire the complete browser authoring workspace upfront.
 
@@ -64,6 +64,8 @@ Publication is sharing prepared assets, separate from shipping a game. Original 
 Scene layout, gameplay geometry, camera and lighting are runtime content. Preparation recipes own artwork-producing inputs and dependency order. Moving existing scenery does not bake or publish artwork. Changes to authored hero drawings, timing, registration or bake calibration require affected preparation; runtime timing overrides remain content. Source-free tests still verify the resulting current bindings.
 
 The current TEST hero uses supplied native drawings, eight-direction running, four-direction idle/actions, guarded treatment and rigid-sword protection. Source handoff timing and raster bytes remain preserved; gameplay uses authored 60 Hz holds. The owner-supplied Last Ferry loading video is copied unchanged and played silently during loading. These choices do not establish final art quality.
+
+`authoring/hero-scale.json` owns per-clip and per-drawing registration scale. `authoring/hero-motion.json` owns native-space motion landmarks and is hashed by animation registration. Scale-only preparation changes leave that motion identity intact; publishing newly prepared artwork remains a separate step.
 
 ## Cache and retention
 
