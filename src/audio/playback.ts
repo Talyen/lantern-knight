@@ -347,6 +347,7 @@ export class AudioPlayback {
     if (
       !this.unlocked ||
       !this.manifest ||
+      this.manifest.samples.length === 0 ||
       this.frozen ||
       this.settings.muted ||
       this.lifetime.signal.aborted

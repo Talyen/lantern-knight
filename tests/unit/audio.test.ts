@@ -452,3 +452,12 @@ test('disposal before a queued unlock does not create an audio context', async (
   await pending;
   assert.equal(contexts, 0);
 });
+
+test('a silent legacy manifest does not report missing ambience', async () => {
+  const f = fixture([]);
+  await ready(f);
+  await f.playback.setAmbience(['forest']);
+  assert.deepEqual(f.reports, []);
+  assert.equal(f.sources.length, 0);
+  f.playback.dispose();
+});
