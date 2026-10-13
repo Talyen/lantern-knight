@@ -119,3 +119,35 @@ it('draft spawn jitter cannot place an enemy inside scenery or beyond supported 
   draft.gameplay!.spawns[0]!.jitterZ = 0.5;
   assert.doesNotThrow(() => composeDraftGameplay(draft, contentDefinitions, {}));
 });
+
+it('inherited draft gameplay retains campfires and interactive rewards', () => {
+  const definitions = structuredClone(contentDefinitions),
+    draft = emptyScene();
+  const source = definitions.areas[0]!;
+  source.campfires = [{ id: 'home', name: 'Home', x: 0, z: 0, safeRadius: 1 }];
+  source.interactables = [
+    {
+      id: 'chest',
+      object: 'chest',
+      kind: 'container',
+      x: 2,
+      z: 0,
+      guards: [],
+      rewards: [{ item: 'gold', amount: 3 }],
+      idle: 'idle',
+      action: 'open',
+      spent: 'opened',
+    },
+  ];
+  draft.base = source.id;
+  draft.geometry = {
+    bounds: source.bounds,
+    surface: source.surface,
+    baselineEntry: source.baselineEntry,
+    entries: source.entries.map((entry) => ({ ...entry })),
+  };
+  delete draft.gameplay;
+  const { registry } = composeDraftGameplay(draft, definitions, {});
+  assert.deepEqual(registry.area(source.id).campfires, source.campfires);
+  assert.deepEqual(registry.area(source.id).interactables, source.interactables);
+});

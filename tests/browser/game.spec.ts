@@ -103,6 +103,10 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
   );
   await page.locator('#pause').click();
   await page.locator('#load').click();
+  // Recovery commits health before GPU preparation finishes. Wait for the room
+  // transaction to complete before asserting its autosaved checkpoint.
+  await expect(page.locator('#hp')).toHaveText('100 / 100', { timeout: 60_000 });
+  await expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 60_000 });
   await expect
     .poll(() =>
       page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).player.health, keys[0]!),

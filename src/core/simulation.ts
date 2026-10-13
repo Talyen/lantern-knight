@@ -217,45 +217,58 @@ export class Simulation {
   get inCombat() {
     return (
       this.hero.health <= 0 ||
-      this.enemies.some(
-        (a) =>
-          a.health > 0 &&
-          (this.alerted.has(a.id) ||
-            (!this.areaDefinition.spawns.find((p) => spawnActorId(this.area, p.id) === a.id)
-              ?.awareness &&
-              this.engaged)),
-      )
+      (!this.safePoint(this.hero) &&
+        this.enemies.some(
+          (a) =>
+            a.health > 0 &&
+            (this.alerted.has(a.id) ||
+              (!this.areaDefinition.spawns.find((p) => spawnActorId(this.area, p.id) === a.id)
+                ?.awareness &&
+                this.engaged)),
+        ))
     );
   }
   private safePoint(p: Point) {
     return (
-      this.areaDefinition.campfires?.some((f) => Math.hypot(p.x - f.x, p.z - f.z) < f.safeRadius) ??
-      false
+      this.areaDefinition.campfires?.some(
+        (f) =>
+          Math.hypot(p.x - f.x, p.z - f.z) < f.safeRadius &&
+          Math.abs(
+            heightAt(this.areaDefinition, p.x, p.z) - heightAt(this.areaDefinition, f.x, f.z),
+          ) <= tuning.maxCombatHeightDifference &&
+          clearSegment(this.areaDefinition, p, f, 0.001),
+      ) ?? false
     );
   }
   private alert(a: Actor) {
-    if (!this.alerted.has(a.id) && !this.movementTargets.get(a.id)?.explicit)
-      this.movementTargets.delete(a.id);
-    this.alerted.add(a.id);
     const spawn = this.areaDefinition.spawns.find((p) => spawnActorId(this.area, p.id) === a.id);
-    if (spawn?.awareness?.group)
-      for (const p of this.areaDefinition.spawns)
-        if (p.awareness?.group === spawn.awareness.group)
-          this.alerted.add(spawnActorId(this.area, p.id));
+    const ids = [
+      a.id,
+      ...this.areaDefinition.spawns
+        .filter((p) => spawn?.awareness?.group && p.awareness?.group === spawn.awareness.group)
+        .map((p) => spawnActorId(this.area, p.id)),
+    ];
+    for (const id of ids) {
+      if (!this.alerted.has(id) && !this.movementTargets.get(id)?.explicit)
+        this.movementTargets.delete(id);
+      this.alerted.add(id);
+    }
   }
+
   claimObject(id: string) {
     const object = this.areaDefinition.interactables?.find((p) => p.id === id);
     if (!object || this.claimedObjects.has(id) || !this.guardsDefeated(object.guards)) return false;
     this.claimedObjects.add(id);
     this.objectActions.set(id, this.tick);
-    this.drops.push({
-      id: 'object-' + id,
-      source: id,
-      enemy: false,
-      x: object.x,
-      z: object.z,
-      rewards: structuredClone([...object.rewards]),
-    });
+    if (object.rewards.length)
+      this.drops.push({
+        id: 'object-' + id,
+        source: id,
+        enemy: false,
+        x: object.x,
+        z: object.z,
+        rewards: structuredClone([...object.rewards]),
+      });
     this.emit(this.hero, { kind: 'object-claimed', object: id });
     return true;
   }
@@ -512,6 +525,7 @@ export class Simulation {
     if (h.health > 0) {
       if (
         command.potion &&
+        !this.movementPreview &&
         this.potionCooldown === 0 &&
         h.health < this.maxHealth &&
         (this.inventory['health-potion'] ?? 0) > 0
@@ -520,7 +534,7 @@ export class Simulation {
         h.health = Math.min(this.maxHealth, h.health + 40);
         this.potionCooldown = 60;
         this.emit(h, { kind: 'potion-used' });
-      } else if (command.potion)
+      } else if (command.potion && !this.movementPreview)
         this.emit(h, {
           kind: 'action-unavailable',
           reason:
@@ -563,6 +577,24 @@ export class Simulation {
     for (const a of this.actors) {
       if (a.health <= 0) continue;
       const home = this.areaDefinition.spawns.find((p) => spawnActorId(this.area, p.id) === a.id);
+      if (
+        a.kind === 'enemy' &&
+        home &&
+        !home.awareness &&
+        !this.movementPreview &&
+        this.safePoint(h)
+      ) {
+        this.alerted.delete(a.id);
+        const plan = this.movementTargets.get(a.id);
+        if (plan && !plan.explicit && (plan.target.x !== home.x || plan.target.z !== home.z))
+          this.movementTargets.delete(a.id);
+        if (a.state === 'attack') this.start(a, 'idle');
+        if (a.state === 'idle' || a.state === 'walk') {
+          if (a.stun === 0) this.follow(a, home);
+          else a.state = 'idle';
+          continue;
+        }
+      }
       if (a.kind === 'enemy' && home?.awareness && !this.movementPreview) {
         const policy = home.awareness;
         const safe = this.safePoint(h);
@@ -572,6 +604,7 @@ export class Simulation {
           if (a.state === 'attack') this.start(a, 'idle');
         } else if (
           Math.hypot(h.x - a.x, h.z - a.z) <= policy.radius &&
+          Math.abs(h.y - a.y) <= tuning.maxCombatHeightDifference &&
           clearSegment(this.areaDefinition, a, h, 0.001)
         )
           this.alert(a);

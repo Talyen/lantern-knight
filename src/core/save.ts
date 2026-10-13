@@ -71,6 +71,8 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
     save.player.health > player.maxHealth + healthBonus(save.adventure?.equipment ?? {})
   )
     throw new Error('invalid player state');
+  if (!save.adventure && registry.definitions.areas.some((area) => area.campfires?.length))
+    throw new Error('Missing adventure state');
   if (save.adventure) {
     const { inventory, equipment, discovered, lastFire } = save.adventure;
     for (const [item, amount] of Object.entries(inventory))

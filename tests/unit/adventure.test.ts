@@ -379,3 +379,163 @@ test('loot and interaction prompts cannot cross a stair height gap', () => {
   s.sim.hero.y = 2;
   assert.equal(s.sim.collectDrop('object-crate'), true);
 });
+
+function changedAreas(change: (area: AreaDefinition) => AreaDefinition) {
+  const original = fixture();
+  return new GameSession(
+    new ContentRegistry({
+      ...original.registry.definitions,
+      areas: original.registry.definitions.areas.map((a) =>
+        change(structuredClone(a) as AreaDefinition),
+      ),
+    }),
+  );
+}
+const stairSurface = {
+  kind: 'stairs' as const,
+  axis: 'z' as const,
+  start: 0,
+  end: 4,
+  startHeight: 0,
+  endHeight: 2,
+  steps: 1,
+};
+test('group awareness replaces a displaced ally home route immediately', () => {
+  const s = changedAreas((a) => ({
+    ...a,
+    spawns: a.spawns.map((p) => ({
+      ...p,
+      awareness: { ...p.awareness!, leash: 20, group: 'watch' },
+    })),
+  }));
+  const ally = s.sim.enemies[1]!;
+  ally.x = 2;
+  s.step(idle);
+  const before = ally.x;
+  s.sim.hero.x = -4.5;
+  s.step(idle);
+  assert.ok(ally.x < before, 'alerted ally follows the hero rather than its cached home route');
+});
+test('local awareness cannot detect a hero across an unattackable height gap', () => {
+  const s = changedAreas((a) => ({
+    ...a,
+    surface: stairSurface,
+    campfires: [],
+    spawns: [{ ...a.spawns[0]!, x: 0, z: 0.4 }],
+    exits: [],
+    interactables: [],
+  }));
+  Object.assign(s.sim.hero, { x: 0, z: -0.4, y: 0 });
+  s.step(idle);
+  assert.equal(s.sim.inCombat, false);
+  Object.assign(s.sim.hero, { z: 0.4, y: 2 });
+  s.step(idle);
+  assert.equal(s.sim.inCombat, true);
+});
+test('campfire sanctuary does not protect a different floor', () => {
+  const s = changedAreas((a) => ({
+    ...a,
+    surface: stairSurface,
+    campfires: [{ ...a.campfires![0]!, z: 0.4 }],
+    spawns: [{ ...a.spawns[0]!, x: -7, z: -0.4 }],
+    exits: [],
+    interactables: [],
+  }));
+  Object.assign(s.sim.hero, { x: -8, z: -0.4, y: 0 });
+  s.step(idle);
+  assert.equal(s.sim.inCombat, true);
+});
+test('campfire discovery, rest and travel require unobstructed contact on the same floor', () => {
+  for (const stairs of [false, true]) {
+    const s = changedAreas((a) => ({
+      ...a,
+      surface: stairs ? stairSurface : a.surface,
+      campfires: [{ ...a.campfires![0]!, z: 0.8 }],
+      props: stairs
+        ? []
+        : [
+            {
+              id: 'divider',
+              kind: 'wall',
+              x: -8,
+              z: 0.4,
+              radius: 0.1,
+              height: 2,
+              shape: 'box',
+              size: [2, 0.1],
+            },
+          ],
+    }));
+    s.discovered.add('forest/west');
+    assert.throws(() => s.discoverFire('orchard/west'));
+    assert.throws(() => s.rest('orchard/west'));
+    assert.throws(() => s.prepareFireTravel('forest/west'));
+    assert.equal(s.loading, false);
+    Object.assign(s.sim.hero, { z: 0.8, y: stairs ? 2 : 0 });
+    assert.doesNotThrow(() => s.discoverFire('orchard/west'));
+    s.cancelTransition(s.prepareFireTravel('forest/west'));
+    assert.doesNotThrow(() => s.rest('orchard/west'));
+  }
+});
+test('adventure starter equipment is present even when the starting room has no fire', () => {
+  const s = changedAreas((a) => (a.id === 'orchard' ? { ...a, campfires: [] } : a));
+  assert.equal(s.inventory.sword, 1);
+  assert.equal(s.equipment.lantern, 'lantern');
+});
+test('movement preview cannot consume or heal from inventory potions', () => {
+  const s = fixture();
+  s.sim.movementPreview = true;
+  s.inventory['health-potion'] = 1;
+  s.sim.hero.health = 50;
+  const result = s.step({ ...idle, potion: true });
+  assert.equal(s.sim.hero.health, 50);
+  assert.equal(s.inventory['health-potion'], 1);
+  assert.equal(
+    result.events.some((e) => e.kind === 'potion-used'),
+    false,
+  );
+});
+test('empty reward objects become spent without a ghost loot prompt', () => {
+  const s = changedAreas((a) => ({
+    ...a,
+    interactables: a.interactables?.map((p) => ({
+      ...p,
+      rewards: [],
+    })),
+  }));
+  assert.equal(s.sim.claimObject('crate'), true);
+  assert.equal(s.sim.claimedObjects.has('crate'), true);
+  assert.equal(s.sim.drops.length, 0);
+  assert.equal(nearbyInteraction(s.sim)?.kind, 'campfire');
+});
+test('campfire sanctuary also cancels strikes from enemies without local awareness', () => {
+  const s = changedAreas((a) => ({
+    ...a,
+    spawns: [
+      {
+        ...a.spawns[0]!,
+        x: -5.8,
+        awareness: undefined,
+      },
+    ],
+    exits: [],
+    interactables: [],
+  }));
+  Object.assign(s.sim.hero, { x: -6.1, z: 0 });
+  const enemy = s.sim.enemies[0]!;
+  enemy.aim = -Math.PI / 2;
+  s.sim.start(enemy, 'attack');
+  enemy.age = enemy.definition.melee.windup;
+  s.step(idle);
+  assert.equal(s.sim.hero.health, 100);
+  assert.equal(s.sim.inCombat, false);
+  s.sim.hero.x = -5;
+  for (let tick = 0; tick < 80; tick++) s.step(idle);
+  assert.ok(s.sim.hero.health < 100, 'leaving sanctuary restores enemy attacks');
+});
+test('adventure checkpoints cannot silently omit all inventory and discovery state', () => {
+  const s = fixture(),
+    save = s.captureSave();
+  delete save.adventure;
+  assert.throws(() => parseGame(save, s.registry));
+});

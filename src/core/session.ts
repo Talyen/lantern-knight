@@ -1,5 +1,5 @@
 import { items, type Inventory, type Equipment, type EquipmentSlot } from '../content/items';
-import { Navigation, effectiveRadius } from './navigation';
+import { Navigation, effectiveRadius, clearSegment } from './navigation';
 import {
   PLAYER_ID,
   spawnActorId,
@@ -58,7 +58,7 @@ export class GameSession {
           this.discovered.add(a.id + '/' + f.id);
           this.lastFire = a.id + '/' + f.id;
         }
-    if (this.sim.areaDefinition.campfires?.length) {
+    if (registry.definitions.areas.some((a) => a.campfires?.length)) {
       this.inventory = { sword: 1, lantern: 1, 'leather-armor': 1, gloves: 1, belt: 1, boots: 1 };
       this.equipment = {
         sword: 'sword',
@@ -197,13 +197,17 @@ export class GameSession {
     if (!definition) throw new Error('Unknown campfire');
     return { area: area!, definition };
   }
+  private canReachFire(fire: { x: number; z: number }) {
+    return (
+      Math.hypot(fire.x - this.sim.hero.x, fire.z - this.sim.hero.z) <= 1.8 &&
+      Math.abs(heightAt(this.sim.areaDefinition, fire.x, fire.z) - this.sim.hero.y) <=
+        tuning.maxCombatHeightDifference &&
+      clearSegment(this.sim.areaDefinition, this.sim.hero, fire, 0.001)
+    );
+  }
   discoverFire(key: string) {
     const { area, definition } = this.fire(key);
-    if (
-      area !== this.sim.area ||
-      Math.hypot(definition.x - this.sim.hero.x, definition.z - this.sim.hero.z) > 1.8 ||
-      this.sim.inCombat
-    )
+    if (area !== this.sim.area || !this.canReachFire(definition) || this.sim.inCombat)
       throw new Error('Campfire unavailable');
     this.discovered.add(key);
     this.lastFire = key;
@@ -213,9 +217,7 @@ export class GameSession {
       throw new Error('Travel unavailable');
     if (
       !(this.sim.areaDefinition.campfires ?? []).some(
-        (f) =>
-          this.discovered.has(this.sim.area + '/' + f.id) &&
-          Math.hypot(f.x - this.sim.hero.x, f.z - this.sim.hero.z) <= 1.8,
+        (f) => this.discovered.has(this.sim.area + '/' + f.id) && this.canReachFire(f),
       )
     )
       throw new Error('Visit a campfire to travel');

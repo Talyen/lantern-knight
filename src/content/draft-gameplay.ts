@@ -18,6 +18,8 @@ export function composeDraftGameplay(
           spawns: source.spawns,
           exits: source.exits,
           pickups: source.pickups,
+          campfires: source.campfires,
+          interactables: source.interactables,
           seedOffset: source.seedOffset,
         }
       : {},
