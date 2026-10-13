@@ -380,11 +380,12 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       }
     });
   }
-  reset() {
+  reset(reason: 'death' | 'manual' = 'manual') {
     return this.withSessionOperation(async (operation) => {
       const resume = this.resumeOnCompletion();
-      await this.replaceRoom(this.sim.area, () => this.session.resetCurrentArea(), operation);
+      await this.replaceRoom(this.sim.area, () => this.session.resetCurrentArea(reason), operation);
       operation.check();
+      if (reason === 'death') this.autosave();
       resume();
     });
   }
@@ -485,8 +486,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         const result = this.session.step(cmd);
         this.publish(result.events);
         if (result.reset) {
-          this.input.resetAim();
-          this.autosave();
+          this.safe(() => this.reset(result.reset));
           return false;
         }
         if (result.transition && !this.command) {

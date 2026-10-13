@@ -30,6 +30,22 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
   ).toBeGreaterThan(0.03);
   await page.locator('#load').click();
   await expect(page.locator('#status')).toContainText('loaded', { ignoreCase: true });
+  // A restored dead player immediately requests recovery through the real renderer.
+  await page.evaluate(
+    ({ key, save }) => {
+      save.player.health = 0;
+      localStorage.setItem(key, JSON.stringify(save));
+    },
+    { key: keys[0]!, save: moved },
+  );
+  await page.locator('#pause').click();
+  await page.locator('#load').click();
+  await expect
+    .poll(() =>
+      page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).player.health, keys[0]!),
+    )
+    .toBe(100);
+  await expect(page.locator('#objective')).toHaveText('Explore the scene');
   await page.locator('#pause').click();
   await page.locator('#new-game').click();
   await expect(page.locator('#cancel-new')).toBeFocused();

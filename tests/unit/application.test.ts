@@ -9,6 +9,7 @@ import type { Bridge } from '../../src/platform/bridge';
 import { Persistence } from '../../src/persistence';
 import { GameSession } from '../../src/core/session';
 import { manifestFixture } from '../fixtures/manifest';
+import { tuning } from '../../src/content/gameplay';
 
 async function withDOM(work: () => Promise<void>) {
   const previous = new Map(
@@ -786,5 +787,87 @@ test('superseding a committed room cannot accept it through an obsolete completi
     assert.equal(app.roomReady, true);
     assert.equal(app.paused, false);
     app.dispose();
+  });
+});
+
+test('automatic death recovery waits for room acceptance before feedback and saving, and failures block play', async () => {
+  await withDOM(async () => {
+    for (const failure of ['none', 'rebuild', 'companions'] as const) {
+      const { app } = fixture(),
+        waiting = deferred<void>(),
+        feedback: string[] = [],
+        saved: number[] = [];
+      Object.assign(app.bridge, { automatedRun: true });
+      app.ready = true;
+      app.command = () => ({ move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } });
+      app.persistence = new Persistence({
+        loadGame: async () => ({ status: 'empty' }),
+        saveGame: async () => {
+          saved.push(app.sim.generation);
+        },
+      });
+      app.events.subscribe((event) => feedback.push(event.kind));
+      let preparations = 0,
+        rebuilds = 0,
+        renders = 0;
+      app.presentation.prepareAssets = async () => {
+        if (++preparations === 1) await waiting.promise;
+        else if (failure === 'companions') throw new Error('companions failed');
+      };
+      app.presentation.resetRoom = () => {
+        rebuilds++;
+        if (failure === 'rebuild') throw new Error('rebuild failed');
+      };
+      app.presentation.update = () => {
+        renders++;
+      };
+      let recovery!: Promise<unknown>;
+      app.safe = (work) => {
+        recovery = work();
+        void recovery.catch(() => {});
+      };
+      const dead = app.sim;
+      dead.hero.health = 0;
+      dead.start(dead.hero, 'death');
+      dead.hero.age = tuning.deathHoldTicks;
+      const frame = Reflect.get(app, 'loop') as (now: number) => void;
+      frame(performance.now() + 20);
+      assert.ok(recovery, 'The frame must dispatch the reset request');
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      assert.equal(app.busy, true);
+      assert.equal(app.sim, dead, 'Acquisition and preparation precede simulation replacement');
+      assert.deepEqual(saved, []);
+      assert.deepEqual(feedback, []);
+      const tick = dead.tick;
+      frame(performance.now() + 1000);
+      assert.equal(dead.tick, tick, 'Pending recovery freezes further simulation steps');
+      waiting.resolve();
+      if (failure === 'none') {
+        await recovery;
+        assert.equal(app.roomReady, true);
+        assert.equal(app.sim.hero.health, 100);
+        assert.equal(app.session.resetCount, 1);
+        assert.equal(app.presentation.generation, app.sim.generation);
+        assert.equal(rebuilds, 1);
+        assert.deepEqual(feedback, ['room-reset']);
+        assert.deepEqual(saved, [app.sim.generation]);
+      } else {
+        await assert.rejects(recovery, /failed/);
+        assert.equal(app.roomReady, false);
+        assert.equal(app.paused, true);
+        assert.deepEqual(feedback, [], 'Unaccepted rooms cannot publish reset success');
+        assert.deepEqual(saved, [], 'A failed rebuild must not overwrite the checkpoint');
+        const acceptedRenders = renders,
+          failedTick = app.sim.tick;
+        frame(performance.now() + 2000);
+        assert.equal(app.sim.tick, failedTick);
+        assert.equal(renders, acceptedRenders, 'A partial room cannot receive render updates');
+        app.presentation.prepareAssets = async () => {};
+        app.presentation.resetRoom = () => {};
+        await app.reset();
+        assert.equal(app.roomReady, true);
+      }
+      app.dispose();
+    }
   });
 });

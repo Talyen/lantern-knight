@@ -285,7 +285,9 @@ test('death resets only current area and failed/superseded transitions cannot co
   enter(session, 'landing');
   session.sim.damage(session.sim.enemies[0]!, session.sim.hero, 1000);
   session.sim.hero.age = tuning.deathHoldTicks;
-  session.step(still);
+  const reset = session.step(still).reset;
+  assert.equal(reset, 'death');
+  session.resetCurrentArea(reset);
   assert.equal(session.resetCount, 1);
   assert.equal(session.sim.hero.health, 100);
   assert.ok(session.sim.enemies.every((a) => a.health === 50));

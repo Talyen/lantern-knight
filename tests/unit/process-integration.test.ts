@@ -8,6 +8,8 @@ import { writeBuildIdentity, verifyBuildIdentity } from '../../tools/build-ident
 import { sourceIdentity } from '../../tools/source-identity';
 import { executeRecipe, RecipeSchema, replayBundle } from '../../tools/diagnostics/session-replay';
 import { projectRoot } from '../../tools/assets/paths';
+import { GameSession } from '../../src/core/session';
+import { content } from '../../src/content/game-content';
 
 test('replay CLI matches fresh-process evidence and rejects tampered hashes or changed source identity', async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-replay-'));
@@ -166,4 +168,20 @@ test('smoke profiles never delete user-supplied directories, including on launch
   } finally {
     await fs.rm(directory, { recursive: true, force: true });
   }
+});
+
+test('headless replay commits death reset requests once and preserves save/load recovery', async () => {
+  const initialSave = new GameSession(content).captureSave();
+  initialSave.player.health = 0;
+  const result = await executeRecipe({
+    initialSave,
+    actions: [
+      { kind: 'step', ticks: 2, command: { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } } },
+      { kind: 'save' },
+      { kind: 'load' },
+    ],
+  });
+  assert.equal(result.events['room-reset'], 1);
+  assert.equal(result.finalSave.player.health, 100);
+  assert.equal(result.finalSave.area, initialSave.area);
 });

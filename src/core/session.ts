@@ -99,7 +99,8 @@ export class GameSession {
     if (this.loading) return { events: [] };
     const result = this.sim.step(command);
     if (result.events.some((e) => e.kind === 'room-clear')) this.wins++;
-    if (result.reset) return { events: this.resetCurrentArea('death'), reset: 'death' };
+    // Replacement is a host transaction: rendering must accept the new room before
+    // feedback, resume or persistence. Like transitions, reset is only an intent.
     return result;
   }
   prepareTransition(exitId: string): TransitionPlan {

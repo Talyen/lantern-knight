@@ -449,7 +449,13 @@ test('death resets current area exactly once, clears transient state, and invali
   old.hero.attackBufferedUntil = 1000;
   old.damage(oldEnemy, oldHero, 1000);
   const event = old.events.at(-1)!;
-  for (let i = 0; i < tuning.deathHoldTicks + 1; i++) session.step(still);
+  for (let i = 0; i < tuning.deathHoldTicks + 1; i++) {
+    const result = session.step(still);
+    if (result.reset) {
+      assert.equal(session.sim, old, 'Reset requests must leave replacement to the host');
+      session.resetCurrentArea(result.reset);
+    }
+  }
   const s = session.sim;
   assert.equal(session.resetCount, 1);
   assert.equal(s.area, 'upper-landing');
