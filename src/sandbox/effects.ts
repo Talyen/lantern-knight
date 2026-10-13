@@ -200,12 +200,14 @@ export function mountEffects(context: PreviewContext) {
     if (remembered) {
       const position = supportedPosition(registry.area('effects-playground'), remembered.hero, 0.3);
       const y = heightAt(registry.area('effects-playground'), position.x, position.z);
-      Object.assign(app.sim.hero, position, {
-        px: position.x,
-        pz: position.z,
-        y,
-        py: y,
-        yaw: remembered.hero.yaw,
+      app.editPreview((sim) => {
+        Object.assign(sim.hero, position, {
+          px: position.x,
+          pz: position.z,
+          y,
+          py: y,
+          yaw: remembered.hero.yaw,
+        });
       });
       app.scale = remembered.scale;
       $<HTMLInputElement>('freeze-enemies').checked = remembered.freeze;

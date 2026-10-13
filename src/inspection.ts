@@ -1,4 +1,4 @@
-import type { Simulation } from './core/simulation';
+import type { SimulationView } from './core/simulation-view';
 import type { Presentation, Mode } from './presentation/scene';
 import type { Manifest } from './assets/schema';
 import type { SessionView } from './core/session';
@@ -17,9 +17,10 @@ interface FoundationInspection {
   readonly persistence: Persistence;
   readonly eventHistory: readonly PresentationEvent[];
   readonly ready: boolean;
-  readonly sim: Simulation;
+  readonly sim: SimulationView;
   readonly presentation: Presentation;
   readonly manifest: Manifest;
+  editPreview(work: (sim: import('./core/simulation').Simulation) => undefined): void;
   fixture(area: string): Promise<void>;
   mode(mode: Mode): void;
   pause(value: boolean): void;

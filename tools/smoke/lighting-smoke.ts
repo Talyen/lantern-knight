@@ -153,8 +153,10 @@ export async function runScenario(flags: string[] = []) {
       // Freeze a moving drawing and exercise both color/normal warps and caster/mask alpha.
       await page.evaluate(() => {
         const f = window.foundation;
-        f.sim.hero.state = 'idle';
-        f.sim.hero.yaw = Math.PI / 2;
+        f.editPreview((sim) => {
+          sim.hero.state = 'idle';
+          sim.hero.yaw = Math.PI / 2;
+        });
         f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
         f.presentation.actorPresentation.actors.get('player')!.sprite.animator.seek(142.73);
       });

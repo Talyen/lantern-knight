@@ -50,7 +50,7 @@ test('repeated scene switches release renderer resources', async ({ page }) => {
     for (let i = 0; i < 4; i++) {
       await f.fixture('outdoor-fixture');
       await f.fixture('interior-fixture');
-      f.presentation.update(f.sim.view, 1, 0, { x: 0, z: 1 });
+      f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
       samples.push({ ...f.presentation.renderer.info.memory });
     }
     if (f.presentation.renderer.getContext().getError()) throw new Error('Renderer error');
@@ -71,7 +71,9 @@ test('benchmark resets keep renderer generations aligned and restore the origina
     await f.startBenchmark();
     f.pause(true);
     const generation = f.sim.generation;
-    f.sim.cleared = true;
+    f.editPreview((sim) => {
+      sim.cleared = true;
+    });
     f.pause(false);
     return { save, generation };
   });

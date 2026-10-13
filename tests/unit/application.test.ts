@@ -9,6 +9,7 @@ import { content, contentDefinitions } from '../fixtures/content';
 import { ContentRegistry } from '../../src/content/world';
 import type { Bridge } from '../../src/platform/bridge';
 import { Persistence } from '../../src/persistence';
+import type { Simulation } from '../../src/core/simulation';
 import { GameSession } from '../../src/core/session';
 import { manifestFixture } from '../fixtures/manifest';
 import { tuning } from '../../src/content/gameplay';
@@ -78,6 +79,16 @@ function fixture(scenes = sceneFixture(content), bridge = {} as Bridge) {
       return warmed;
     },
   };
+}
+// Test setup uses the same explicit developer capability as preview hosts.
+function editFixture(app: Application, work: (sim: Simulation) => undefined) {
+  const readOnly = app.readOnly;
+  app.readOnly = true;
+  try {
+    app.editPreview(work);
+  } finally {
+    app.readOnly = readOnly;
+  }
 }
 test('session replacement uses its own registry and complete scene asset requirements', async () => {
   const { app } = fixture(),
@@ -310,7 +321,7 @@ test('completed session operations preserve a pause requested while loading', as
     app.readOnly = true;
     app.ready = true;
     app.presentation.update = (view) => {
-      assert.equal(view, app.sim.view, 'The renderer receives the current simulation facade');
+      assert.equal(view, app.sim, 'The renderer receives the current simulation facade');
       assert.equal('step' in view, false, 'Rendering cannot advance the simulation');
     };
     app.presentation.prepareAssets = () => waiting.promise;
@@ -412,7 +423,9 @@ test('superseded transitions release late rooms without pausing or freezing the 
     }),
     waiting = deferred<PackLease>(),
     checkpoint = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
-  app.sim.cleared = true;
+  editFixture(app, (sim) => {
+    sim.cleared = true;
+  });
   const exit = app.sim.areaDefinition.exits[0]!;
   assert.ok(exit);
   let released = 0;
@@ -462,7 +475,9 @@ test('cancellation feedback can supersede the operation that triggered cancellat
     }),
     room = deferred<PackLease>(),
     checkpoint = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
-  app.sim.cleared = true;
+  editFixture(app, (sim) => {
+    sim.cleared = true;
+  });
   const original = app.sim;
   let released = 0,
     saves = 0;
@@ -504,7 +519,9 @@ test('disposal during cancellation closes admission before another operation can
     }),
     room = deferred<PackLease>();
   app.readOnly = true;
-  app.sim.cleared = true;
+  editFixture(app, (sim) => {
+    sim.cleared = true;
+  });
   let released = 0;
   app.runtime = runtime(() => room.promise);
   app.events.subscribe((event) => {
@@ -881,8 +898,12 @@ test('feedback failure after a transition cannot cancel its committed destinatio
       saves.push(save.area);
     },
   });
-  for (const enemy of app.sim.enemies) enemy.health = 0;
-  app.sim.cleared = true;
+  editFixture(app, (sim) => {
+    for (const enemy of sim.enemies) enemy.health = 0;
+  });
+  editFixture(app, (sim) => {
+    sim.cleared = true;
+  });
   const exit = app.sim.areaDefinition.exits[0]!;
   app.events.subscribe((event) => {
     if (event.kind === 'area-transition') throw new Error('broken transition feedback');
@@ -1045,9 +1066,11 @@ test('frame reset requests wait for room acceptance before feedback and saving, 
       };
       const previous = app.sim;
       if (trigger === 'death') {
-        previous.hero.health = 0;
-        previous.start(previous.hero, 'death');
-        previous.hero.age = tuning.deathHoldTicks;
+        editFixture(app, (sim) => {
+          sim.hero.health = 0;
+          sim.start(sim.hero, 'death');
+          sim.hero.age = tuning.deathHoldTicks;
+        });
       } else if (trigger === 'hook') app.beforeStep = () => app.safe(() => app.reset());
       const frame = Reflect.get(app, 'loop') as (now: number) => void;
       frame(performance.now() + 20);
@@ -1286,7 +1309,9 @@ test('health pickup commits an autosaved checkpoint including its consumed ident
         saves.push(save);
       },
     } as Bridge);
-  app.sim.hero.health = 50;
+  editFixture(app, (sim) => {
+    sim.hero.health = 50;
+  });
   app.command = () => ({ move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } });
   app.pause(false);
   const frame = Reflect.get(app, 'loop') as (now: number) => void;
@@ -1310,8 +1335,10 @@ test('manual adventure reset saves the restored player and enemy state', async (
         saves.push(save);
       },
     } as Bridge);
-  app.sim.hero.health = 25;
-  app.sim.enemies[0]!.health = 1;
+  editFixture(app, (sim) => {
+    sim.hero.health = 25;
+    sim.enemies[0]!.health = 1;
+  });
   await app.reset('manual');
   assert.equal(saves.length, 1);
   assert.equal(saves[0]!.player.health, 100);
@@ -1334,4 +1361,75 @@ test('rejected room preparation preserves the accepted room and starts no render
   assert.equal(preparations, 0);
   assert.equal(app.busy, false);
   app.dispose();
+});
+
+test('application inspection borrows live state without simulation command capabilities', async () => {
+  const { app } = fixture();
+  const view = app.sim;
+  for (const command of ['step', 'populate', 'damage', 'start', 'collectDrop', 'openContainer'])
+    assert.equal(command in view, false, command);
+  assert.equal(Object.isFrozen(view), true);
+  // oxlint-disable-next-line no-constant-condition -- Compile-only read boundary checks.
+  if (false) {
+    // @ts-expect-error Ordinary hosts cannot advance gameplay outside Application.
+    app.sim.step();
+    // @ts-expect-error Inspection cannot mutate actors.
+    app.sim.hero.health = 0;
+    // @ts-expect-error Inspection cannot replace actors or mutate collections.
+    app.sim.actors.push(app.sim.hero);
+    // @ts-expect-error Developer edits must complete synchronously.
+    app.editPreview(async () => {});
+  }
+  app.command = (sim) => {
+    sim.hero.health = 45;
+    return { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } };
+  };
+  Object.assign(app.bridge, { automatedRun: true });
+  app.pause(false);
+  const frame = Reflect.get(app, 'loop') as (now: number) => void;
+  frame(performance.now() + 20);
+  assert.equal(app.sim, view);
+  assert.equal(view.hero.health, 45);
+  assert.ok(view.tick > 0);
+  await app.reset();
+  assert.notEqual(app.sim, view);
+  assert.equal(app.sim.hero.health, 100);
+  assert.equal(view.hero.health, 45, 'Retained inspection still refers to its original room');
+  app.dispose();
+});
+
+test('preview edits require an accepted developer room across loading, failure and disposal', async () => {
+  const { app } = fixture();
+  let edits = 0;
+  const edit = (sim: Simulation): undefined => {
+    edits++;
+    sim.hero.health = 33;
+  };
+  assert.throws(() => app.editPreview(edit), /read-only/);
+  app.readOnly = true;
+  app.editPreview(edit);
+  assert.equal(app.sim.hero.health, 33);
+  const startup = deferred<void>();
+  const loading = app.withLoading(() => startup.promise);
+  assert.throws(() => app.editPreview(edit), /loading/);
+  startup.resolve();
+  await loading;
+  const waiting = deferred<void>();
+  app.presentation.prepareAssets = () => waiting.promise;
+  const replacing = app.reset();
+  assert.throws(() => app.editPreview(edit), /loading/);
+  waiting.resolve();
+  await replacing;
+  app.presentation.resetRoom = () => {
+    throw new Error('rebuild failed');
+  };
+  await assert.rejects(app.reset(), /rebuild failed/);
+  assert.throws(() => app.editPreview(edit), /loading/);
+  app.presentation.resetRoom = () => {};
+  await app.reset();
+  app.editPreview(edit);
+  assert.equal(app.sim.hero.health, 33);
+  app.dispose();
+  assert.throws(() => app.editPreview(edit), /disposed/);
+  assert.equal(edits, 2, 'Rejected edits must never run their callbacks');
 });
