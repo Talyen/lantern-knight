@@ -1,3 +1,5 @@
+import { createBrowserBridge } from '../platform/browser-store';
+import { bindAudioControls, bindAudioAudition } from '../audio/controls';
 import { bindEffectControls } from './effect-controls';
 import { bindLightingControls } from './lighting-controls';
 import { composeSceneContent } from '../content/game-content';
@@ -51,14 +53,15 @@ export function mountScene(
   const loading = new LoadingScreen();
   const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
   const shell = mountShell(context, sandboxUI, previewHUD);
+  const previewSettings = createBrowserBridge(sandboxContent, 'sandbox');
   const sandboxBridge: Bridge = {
     automatedRun: window.lantern?.automatedRun,
     loadGame: async () => ({ status: 'empty' }),
-    loadSettings: async () => ({ status: 'empty' }),
+    loadSettings: () => previewSettings.loadSettings(),
     saveGame: async () => {
       throw new Error('Dev Preview checkpoint writes denied');
     },
-    saveSettings: async () => {},
+    saveSettings: (value) => previewSettings.saveSettings(value),
   };
   let scenePaused = false,
     sceneSpan = 9;
@@ -200,6 +203,9 @@ export function mountScene(
 
   async function boot() {
     await app.boot();
+    bindAudioControls(app, document);
+    await app.audio.initialize();
+    bindAudioAudition(app, document);
     if (closed) return;
     presentation = app.presentation;
     applyMovementSpeed();

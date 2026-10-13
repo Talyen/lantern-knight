@@ -164,7 +164,9 @@ export async function preparePreviewAssets(
   try {
     indexGuard = await cache.lease(previewName(projectRoot) + '-index');
     const completeBase = 'complete' in base.lock && base.lock.complete === true;
-    let steps = preparationSelection(ids.length && completeBase ? ids : []);
+    const audioOnly =
+      ids.length > 0 && ids.every((id) => id === 'audio' || id.startsWith('audio-'));
+    let steps = preparationSelection(ids.length && (completeBase || audioOnly) ? ids : []);
     const startRecipe = await recipeHash();
     const selectedIds = mergePreparationSelections(
       base.lock,
@@ -174,6 +176,7 @@ export async function preparePreviewAssets(
     );
     const priorSelections = 'selections' in base.lock ? base.lock.selections : [];
     if (
+      !steps.some((operation) => operation.file.endsWith('prepare-audio.ts')) &&
       'selections' in base.lock &&
       (ids.length > 0 || (completeBase && base.lock.full === true)) &&
       base.lock.recipeSha256 === startRecipe &&
@@ -256,6 +259,7 @@ export async function preparePreviewAssets(
     } finally {
       await indexLease.release();
     }
+    if (audioOnly) checkpoint = undefined;
     checkpointLease =
       checkpoint && checkpoint.entry !== entry ? await cache.lease(checkpoint.entry) : undefined;
     const held = await cache.lease(entry, 0, true);
@@ -344,7 +348,7 @@ export async function preparePreviewAssets(
           }
         }
       }
-      if (steps.length < preparationSelection([]).length) {
+      if (!audioOnly && steps.length < preparationSelection([]).length) {
         try {
           await restorePreparationStaging(path.join(held.root, 'steps'), work);
         } catch (error) {
@@ -414,7 +418,13 @@ export async function preparePreviewAssets(
       const calibrationFile = path.join(work, 'public/generated/calibration.json');
       await fs.writeFile(calibrationFile + '.tmp', JSON.stringify(cameraCalibration()));
       await fs.rename(calibrationFile + '.tmp', calibrationFile);
-      await stagePayload(path.join(work, 'public'), path.join(work, 'staging'), work, true);
+      if (audioOnly) {
+        await fs.mkdir(path.join(work, 'metadata/audio'), { recursive: true });
+        await fs.copyFile(
+          path.join(work, 'staging/audio/receipt.json'),
+          path.join(work, 'metadata/audio/receipt.json'),
+        );
+      } else await stagePayload(path.join(work, 'public'), path.join(work, 'staging'), work, true);
       await fs.rm(path.join(work, 'staging'), { recursive: true, force: true });
       const files = await checksums(
         (await listFiles(work)).filter((name) => /^(public|metadata)\//.test(name)),

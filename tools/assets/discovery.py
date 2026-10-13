@@ -18,6 +18,7 @@ MEDIA_TYPES = {
     ".mp4",
     ".webm",
     ".wav",
+    ".flac",
     ".mp3",
     ".ogg",
     ".pdf",

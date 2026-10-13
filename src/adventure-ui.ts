@@ -50,6 +50,7 @@ function draw(app: Application) {
       message = '';
       draw(app);
     } catch (error) {
+      void app.audio.play('ui-deny', { world: false }).catch(() => {});
       message = (error as Error).message;
       draw(app);
     }
@@ -63,6 +64,7 @@ function draw(app: Application) {
         await action();
         message = '';
       } catch (error) {
+        void app.audio.play('ui-deny', { world: false }).catch(() => {});
         message = (error as Error).message;
       } finally {
         working = false;

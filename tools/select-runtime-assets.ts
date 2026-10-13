@@ -1,3 +1,4 @@
+import { audioManifestPath, parseAudioManifest } from '../src/assets/audio';
 import type { BuildProfile } from './build-profile';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -35,6 +36,14 @@ export async function selectedFiles(
     return fs.readFile(path.join(publicRoot, name));
   };
   const hash = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
+  const audio = parseAudioManifest(JSON.parse((await read(audioManifestPath)).toString()));
+  files.add(audioManifestPath);
+  for (const sample of audio.samples) {
+    const bytes = await read(sample.path);
+    if (bytes.length !== sample.bytes || hash(bytes) !== sample.hash)
+      throw new Error('Prepared audio differs: ' + sample.id);
+    files.add(sample.path);
+  }
   const manifests = new Map();
   for (const [id, file] of Object.entries(catalog)) {
     const m = parseManifest(JSON.parse((await read(file)).toString()));

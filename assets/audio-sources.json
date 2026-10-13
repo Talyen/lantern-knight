@@ -1,0 +1,607 @@
+{
+  "schemaVersion": 1,
+  "libraryDirectory": "Sounds",
+  "encoderMajor": 9,
+  "entries": [
+    {
+      "id": "step-dirt-1",
+      "cue": "step-dirt",
+      "source": "movement/dirt_walk_01__existing_library_unattributed__849c2653b3b050fe.ogg",
+      "sha256": "849c2653b3b050fe03f6bc74aa4c5b2b2fa4789382727ef5f6287b36a5e336b9",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-dirt-2",
+      "cue": "step-dirt",
+      "source": "movement/dirt_walk_02__existing_library_unattributed__e9e1ef39fbb25c65.ogg",
+      "sha256": "e9e1ef39fbb25c65e2786e5447f19e4d69fecaf5e371fcad3b71b2bbccc0c1df",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-dirt-3",
+      "cue": "step-dirt",
+      "source": "movement/dirt_walk_03__existing_library_unattributed__71d757dfce7cf652.ogg",
+      "sha256": "71d757dfce7cf6522cae93b85017ae543ef0fd2b5ac2a6c8d73e59dafa165f37",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-dirt-4",
+      "cue": "step-dirt",
+      "source": "movement/dirt_walk_04__existing_library_unattributed__60c09de0f8e5a814.ogg",
+      "sha256": "60c09de0f8e5a81479dac382f689351fc3ddc0a35bde2cf60bb15e711d8195a0",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-stone-1",
+      "cue": "step-stone",
+      "source": "movement/stone_walk_01__existing_library_unattributed__5bb86144040a681a.ogg",
+      "sha256": "5bb86144040a681a6a13968d75226851f001ec314767ed07ac1905c758609f6c",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-stone-2",
+      "cue": "step-stone",
+      "source": "movement/stone_walk_02__existing_library_unattributed__d9873321b1bc566f.ogg",
+      "sha256": "d9873321b1bc566f24d178be62952359c984f98ccb4ab69fda3278b8ec93d58a",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-stone-3",
+      "cue": "step-stone",
+      "source": "movement/stone_walk_03__existing_library_unattributed__157aa165b94daf13.ogg",
+      "sha256": "157aa165b94daf13d1690fa4c2539794114c2c13c7b0afe2392022abc06a348d",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-stone-4",
+      "cue": "step-stone",
+      "source": "movement/stone_walk_04__existing_library_unattributed__4306f9eb858ff382.ogg",
+      "sha256": "4306f9eb858ff382681d3cac12e8376a7ab05d0bd5fc68dcb935924fafdb779d",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-wood-1",
+      "cue": "step-wood",
+      "source": "movement/wood_walk_01__existing_library_unattributed__ede239ecd9fdbdca.ogg",
+      "sha256": "ede239ecd9fdbdcad6af8b56f687743903801459d133479df84c539f9b55c268",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-wood-2",
+      "cue": "step-wood",
+      "source": "movement/wood_walk_02__existing_library_unattributed__92277baab5211593.ogg",
+      "sha256": "92277baab52115931b9d44ba32dbdbe31948c6f80857fd16da7fa8f334e2a527",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-wood-3",
+      "cue": "step-wood",
+      "source": "movement/wood_walk_03__existing_library_unattributed__9f43287f385df0cf.ogg",
+      "sha256": "9f43287f385df0cfd0e86e6962b68e4c78e61fcd58bbca7748846a9672292b44",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-wood-4",
+      "cue": "step-wood",
+      "source": "movement/wood_walk_04__existing_library_unattributed__76054aaedca948b6.ogg",
+      "sha256": "76054aaedca948b613490ff48085f33cbb148f85b374a626b1d6b129d5d5979e",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-grass-1",
+      "cue": "step-grass",
+      "source": "movement/footstep_grass_light_step_01__existing_library_unattributed__347487d782a6961e.flac",
+      "sha256": "31b806bd2690f106c53029bc218dc2684fba46a475cc38467abee5a6b9b1fac8",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-grass-2",
+      "cue": "step-grass",
+      "source": "movement/footstep_grass_light_step_02__existing_library_unattributed__2949d1cd4eee7c9a.flac",
+      "sha256": "79c9a8541c4ed6143a4ec330e0440a5b71f74a2930f988922ab23d153fece633",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-grass-3",
+      "cue": "step-grass",
+      "source": "movement/footstep_grass_light_step_03__existing_library_unattributed__4bfef113ee01b00d.flac",
+      "sha256": "2780aba23841c01da824070d8a5b16bc12ae473631a0cbf5a36a8110282af1e7",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "step-grass-4",
+      "cue": "step-grass",
+      "source": "movement/footstep_grass_light_step_04__existing_library_unattributed__433447bad5e71149.flac",
+      "sha256": "29f84c5f3bcf939fe5943f6440c5169d2f270e0e9d904be1682d7db47b1ade8e",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "sword-1",
+      "cue": "sword",
+      "source": "combat/sword_attack_01__existing_library_unattributed__30f752c8bbaac9ee.ogg",
+      "sha256": "30f752c8bbaac9ee4f575a5e34612a8c87ea393371b482059ca7fe1909d30efb",
+      "start": 0,
+      "duration": 1.2,
+      "gainDb": -5,
+      "loop": false
+    },
+    {
+      "id": "sword-2",
+      "cue": "sword",
+      "source": "combat/sword_attack_02__existing_library_unattributed__1e6f03e1cd618b7d.ogg",
+      "sha256": "1e6f03e1cd618b7d466392c8612cc09043b04ff07be694a7cf4a7b7b38f9bd48",
+      "start": 0,
+      "duration": 1.2,
+      "gainDb": -5,
+      "loop": false
+    },
+    {
+      "id": "sword-3",
+      "cue": "sword",
+      "source": "combat/sword_attack_03__existing_library_unattributed__e14f7e745e05d16a.ogg",
+      "sha256": "e14f7e745e05d16a81949ef04b82074f8ba9d02b3885e2225d0ac48e53c6fa1a",
+      "start": 0,
+      "duration": 1.2,
+      "gainDb": -5,
+      "loop": false
+    },
+    {
+      "id": "impact-1",
+      "cue": "impact",
+      "source": "combat/sword_impact_01__existing_library_unattributed__3f3bdd7f3637e9bf.ogg",
+      "sha256": "3f3bdd7f3637e9bfe7d14a4cabed00f0e195eda95bdeb260233705e7e012d9c3",
+      "start": 0,
+      "duration": 1,
+      "gainDb": -5,
+      "loop": false
+    },
+    {
+      "id": "impact-2",
+      "cue": "impact",
+      "source": "combat/sword_impact_02__existing_library_unattributed__ff6d72fa1a32ac53.ogg",
+      "sha256": "ff6d72fa1a32ac5352ee65ff1945fa30951d6d1eb69e3f223b9a4cd69c825147",
+      "start": 0,
+      "duration": 1,
+      "gainDb": -5,
+      "loop": false
+    },
+    {
+      "id": "impact-3",
+      "cue": "impact",
+      "source": "combat/sword_impact_03__existing_library_unattributed__71d335075366cb76.ogg",
+      "sha256": "71d335075366cb76373c04e3c4718b1b79c209e00f8e5a4cb8ec0214f2618b4f",
+      "start": 0,
+      "duration": 1,
+      "gainDb": -5,
+      "loop": false
+    },
+    {
+      "id": "bone-1",
+      "cue": "bone",
+      "source": "combat/bone_cracking_18__membrans_bone_crackings_sound_pack_01__cbf22510e53ef270.flac",
+      "sha256": "c90235bbba1bf61fe0a639119076284799e0962bf304bd0ec752ed75b4cb9bee",
+      "start": 0,
+      "duration": 1.5,
+      "gainDb": -7,
+      "loop": false
+    },
+    {
+      "id": "bone-2",
+      "cue": "bone",
+      "source": "combat/bone_cracking_34__membrans_bone_crackings_sound_pack_01__915bcf97ef26ed1a.flac",
+      "sha256": "c71aeb747620650bf0d4592683f3de0cae9ae75f73bafa15166655d3103d6fe5",
+      "start": 0,
+      "duration": 1.5,
+      "gainDb": -7,
+      "loop": false
+    },
+    {
+      "id": "hurt-1",
+      "cue": "hurt",
+      "source": "combat/body_hit_with_grunt_01__existing_library_unattributed__3e86f23a8de7c8c0.wav",
+      "sha256": "3e86f23a8de7c8c0b46b0da44f90510e34e33c573e93b09c8890fb8e3d8e8a09",
+      "start": 0,
+      "duration": 0.9,
+      "gainDb": -8,
+      "loop": false
+    },
+    {
+      "id": "hurt-2",
+      "cue": "hurt",
+      "source": "combat/body_hit_with_grunt_02__existing_library_unattributed__5048bfd2e0864eb0.wav",
+      "sha256": "5048bfd2e0864eb0d572e2c817362ea842329b149e5a9d75d3b765aed1b94fa7",
+      "start": 0,
+      "duration": 0.9,
+      "gainDb": -8,
+      "loop": false
+    },
+    {
+      "id": "hurt-3",
+      "cue": "hurt",
+      "source": "combat/body_hit_with_grunt_03__existing_library_unattributed__f21fbd635357976b.wav",
+      "sha256": "f21fbd635357976b8a637ccf293cfc185ef664a6101f8216e101910676314f74",
+      "start": 0,
+      "duration": 0.9,
+      "gainDb": -8,
+      "loop": false
+    },
+    {
+      "id": "cloth-1",
+      "cue": "cloth",
+      "source": "movement/clothing_movement_01__existing_library_unattributed__a78079755ad778e5.flac",
+      "sha256": "32a0cf3710b76caf5f06c186e2ddc7cb2b122e39c3944af31b8c69c5494282ff",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -15,
+      "loop": false
+    },
+    {
+      "id": "cloth-2",
+      "cue": "cloth",
+      "source": "movement/clothing_movement_02__existing_library_unattributed__a78bdbdb94cef1d2.flac",
+      "sha256": "f05a6ea9dd517a179f6f0c616be4c99790192db2ca9ac8ab34fe00b482b0b702",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -15,
+      "loop": false
+    },
+    {
+      "id": "cloth-3",
+      "cue": "cloth",
+      "source": "movement/clothing_movement_03__existing_library_unattributed__7261b82f97ffe9a0.flac",
+      "sha256": "8bbc51f06b2bdfc4ed3195bc69c8164480fc89b8095c5144f3e91aefd29915a6",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -15,
+      "loop": false
+    },
+    {
+      "id": "armor-1",
+      "cue": "armor",
+      "source": "movement/leatherarmor_rustle_03__double_trouble_audio_medieval_armor_and_im__ba8ddcf091d7fdc3.flac",
+      "sha256": "6d3bc57cf5bf883ddbefa4d22f98a5156e77ca772b7da1668bc618d6f0d3d1b4",
+      "start": 0,
+      "duration": 0.93,
+      "gainDb": -13,
+      "loop": false
+    },
+    {
+      "id": "dodge-1",
+      "cue": "dodge",
+      "source": "movement/whoosh_cloth_leather_fight_174__soundbits_just_whoosh_3_whoosh_essentials__b0470976fc6f275a.flac",
+      "sha256": "99e71fe626d28110f614263eac3c7fb358b44103e593afb51bccf5de719285a3",
+      "start": 0,
+      "duration": 0.8,
+      "gainDb": -11,
+      "loop": false
+    },
+    {
+      "id": "flare-1",
+      "cue": "flare",
+      "source": "magic/fireball_01__existing_library_unattributed__7b515ce1c85396b7.ogg",
+      "sha256": "7b515ce1c85396b7ebabb9dc9876e892a0f642c8d696cf03aa69aa83cb6f30d3",
+      "start": 0,
+      "duration": 2,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "flare-2",
+      "cue": "flare",
+      "source": "magic/fireball_02__existing_library_unattributed__e587c4fab796fcfc.ogg",
+      "sha256": "e587c4fab796fcfcc190cb10a71384c506b19718aebcda50282712ba88b6a57c",
+      "start": 0,
+      "duration": 2,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "flare-3",
+      "cue": "flare",
+      "source": "magic/fireball_03__existing_library_unattributed__23180e96b24cc622.ogg",
+      "sha256": "23180e96b24cc62213ff3b901936a69653ed7117f644a0b337d5067aa009865e",
+      "start": 0,
+      "duration": 2,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "heal-1",
+      "cue": "heal",
+      "source": "magic/heal_01__existing_library_unattributed__2847537ec06e3c64.flac",
+      "sha256": "42e47c579442f3046a520ee19bf7623b9201874aa401467851cb2c3c94c734c4",
+      "start": 0,
+      "duration": 1.5,
+      "gainDb": -10,
+      "loop": false
+    },
+    {
+      "id": "potion-1",
+      "cue": "potion",
+      "source": "items/bottle_with_liquid_shaken_01__existing_library_unattributed__b37a346b0a16fc46.flac",
+      "sha256": "dc3215e55c0eee2a993f5ff7352d990b62b69ad7531f6fc4b4170b2d8dbceab5",
+      "start": 0,
+      "duration": 0.8,
+      "gainDb": -10,
+      "loop": false
+    },
+    {
+      "id": "potion-2",
+      "cue": "potion",
+      "source": "items/bottle_with_liquid_shaken_02__existing_library_unattributed__c16af25ac22ef214.flac",
+      "sha256": "a18be04966724cd25ae0b697823fe0c696c438d477e3224f3e2430915b899ddc",
+      "start": 0,
+      "duration": 0.8,
+      "gainDb": -10,
+      "loop": false
+    },
+    {
+      "id": "potion-3",
+      "cue": "potion",
+      "source": "items/bottle_with_liquid_shaken_03__existing_library_unattributed__b98d4823ce105a11.flac",
+      "sha256": "ece866f21470e01e3cdd624204e7d99b52dd30e22e8378039262c1630bb9eb50",
+      "start": 0,
+      "duration": 0.8,
+      "gainDb": -10,
+      "loop": false
+    },
+    {
+      "id": "coin-1",
+      "cue": "coin",
+      "source": "items/coins_drop_carpet_06__shapeforms_the_mint_coins_and_money__396f065a95ab129d.flac",
+      "sha256": "95472b441501ce3815d1d847fb672e97b4fc9563b9a6c0f612a961aec5db5d11",
+      "start": 0,
+      "duration": 0.65,
+      "gainDb": -8,
+      "loop": false
+    },
+    {
+      "id": "coin-2",
+      "cue": "coin",
+      "source": "items/coins_in_sack_held_by_drawstring_06__shapeforms_the_mint_coins_and_money__30fa746b5854e61e.flac",
+      "sha256": "0c7499963b4a1640403fb64919ef688074ec919092d4bab0b5c91db7abab9f30",
+      "start": 0,
+      "duration": 0.8,
+      "gainDb": -8,
+      "loop": false
+    },
+    {
+      "id": "pickup-1",
+      "cue": "pickup",
+      "source": "items/bag_handbag_clasp_01_01__soundbits_open_close_2__94c3d80c9d6817c0.flac",
+      "sha256": "7e950519e3707d116d673d558457cd6f20bb0dbcd2e73b76a638cb1730fbe064",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -10,
+      "loop": false
+    },
+    {
+      "id": "container-1",
+      "cue": "container",
+      "source": "items/chest_open_01__existing_library_unattributed__1ec2fdc0b4b430e2.ogg",
+      "sha256": "1ec2fdc0b4b430e25cd48bbc7b1fb7d6cf65f3a00418190578a54b7da5a22eaf",
+      "start": 0,
+      "duration": 1.5,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "container-2",
+      "cue": "container",
+      "source": "items/chest_open_02__existing_library_unattributed__f12ab7e53b38c3ea.ogg",
+      "sha256": "f12ab7e53b38c3ea80cb6498b4f6effa23232e5c7da96e1af875fc3a65e10ea7",
+      "start": 0,
+      "duration": 1.5,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "break-1",
+      "cue": "break",
+      "source": "crafting/wood_break__existing_library_unattributed__806bb3cf7d939192.flac",
+      "sha256": "380b826f2c2ba4a63e6e0ef178adbc33b06eff2a529c489e9a198f364ee404e6",
+      "start": 0,
+      "duration": 1.5,
+      "gainDb": -7,
+      "loop": false
+    },
+    {
+      "id": "break-2",
+      "cue": "break",
+      "source": "crafting/wood_breaking_cracking_snapping_breaking_peeling_bones_break_snap_crack_13__matt_script_you_me_debris__d8b1cf2e907a0653.flac",
+      "sha256": "ae14c1b3328c64bfb7936ff6923882698ee325f013ef74fbeb0fc2f8b016ae99",
+      "start": 0,
+      "duration": 1.5,
+      "gainDb": -7,
+      "loop": false
+    },
+    {
+      "id": "fire-1",
+      "cue": "fire",
+      "source": "Game Sources/Projects/Alchemy/Sound Effects/world/environment/fire_lighting.wav",
+      "sha256": "254ea560ab3602e61233c89db9cad89411f1854e8a2a78f0d6254c508bbb9112",
+      "start": 0,
+      "duration": 1.5,
+      "gainDb": -9,
+      "loop": false
+    },
+    {
+      "id": "travel-1",
+      "cue": "travel",
+      "source": "magic/eerie_passby_06__glitchedtones_paranormal__d585bf4ca369df08.flac",
+      "sha256": "1699508e07b1e6ccd18bb52fa132228ef360850f217b52a694d76e244dcda323",
+      "start": 0,
+      "duration": 2,
+      "gainDb": -13,
+      "loop": false
+    },
+    {
+      "id": "equip-1",
+      "cue": "equip",
+      "source": "interface/equip_01__existing_library_unattributed__786d2b95b31cfbc6.flac",
+      "sha256": "e21dd27e696bf9a1dfa4959ef005b67f72c963acd65c2afcadd76f28078bdff7",
+      "start": 0,
+      "duration": 0.8,
+      "gainDb": -12,
+      "loop": false
+    },
+    {
+      "id": "unequip-1",
+      "cue": "unequip",
+      "source": "combat/sword_sheath_01__existing_library_unattributed__df2575e32a774cc7.ogg",
+      "sha256": "df2575e32a774cc7a8e334c93a421819b079437f30f67ce4f54cd6956580c060",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -11,
+      "loop": false
+    },
+    {
+      "id": "unequip-2",
+      "cue": "unequip",
+      "source": "combat/sword_sheath_02__existing_library_unattributed__bd7b7546ccacca22.ogg",
+      "sha256": "bd7b7546ccacca22f1cc4c55ffea7b6ea85b59bee3312622e82c25c88eb7a54b",
+      "start": 0,
+      "duration": 0.7,
+      "gainDb": -11,
+      "loop": false
+    },
+    {
+      "id": "salvage-1",
+      "cue": "salvage",
+      "source": "crafting/wood_break__existing_library_unattributed__806bb3cf7d939192.flac",
+      "sha256": "380b826f2c2ba4a63e6e0ef178adbc33b06eff2a529c489e9a198f364ee404e6",
+      "start": 0,
+      "duration": 0.6,
+      "gainDb": -14,
+      "loop": false
+    },
+    {
+      "id": "ui-confirm-1",
+      "cue": "ui-confirm",
+      "source": "interface/confirm__existing_library_unattributed__09761e890ddae3ae.flac",
+      "sha256": "45357a70bccc78b4e9cbcd9a1e215ccc496d87bd496751e36fe15a152f7d49d5",
+      "start": 0,
+      "duration": 0.5,
+      "gainDb": -16,
+      "loop": false
+    },
+    {
+      "id": "ui-cancel-1",
+      "cue": "ui-cancel",
+      "source": "interface/cancel__existing_library_unattributed__05c7972f74ffcc64.flac",
+      "sha256": "cef16395951bcc688e8a5e0020a5021a603650c87aac05f0713c300cfeba0fed",
+      "start": 0,
+      "duration": 0.5,
+      "gainDb": -16,
+      "loop": false
+    },
+    {
+      "id": "ui-deny-1",
+      "cue": "ui-deny",
+      "source": "interface/denied__existing_library_unattributed__b82cdf1e4f349e68.flac",
+      "sha256": "6b323b16154d90d830bbb0d80f30dff8d07c80c1a17c006a7f8778a0bfd12361",
+      "start": 0,
+      "duration": 0.5,
+      "gainDb": -18,
+      "loop": false
+    },
+    {
+      "id": "success-1",
+      "cue": "success",
+      "source": "music_and_outcomes/harpsichord_chime_positive__existing_library_unattributed__f88163a637a68068.flac",
+      "sha256": "ba3c0410ee7d8c8c9497b2e2f7d176b48d16ae66ad6a1fca7bb7f012ac12fc6f",
+      "start": 0,
+      "duration": 1.2,
+      "gainDb": -17,
+      "loop": false
+    },
+    {
+      "id": "death-1",
+      "cue": "death",
+      "source": "music_and_outcomes/harpsichord_defeated__existing_library_unattributed__b707cf3a0eca1b4a.flac",
+      "sha256": "6539e2a42d07b2818f56367c9e96fbc95c689c55b2067cc8bd36bef22324963c",
+      "start": 0,
+      "duration": 2.5,
+      "gainDb": -14,
+      "loop": false
+    },
+    {
+      "id": "forest-1",
+      "cue": "forest",
+      "source": "world/forest_scrub_forest_ambience_with_birds__sound_spark_llc_nature_and_urban_ambiences__02295493602deef2.flac",
+      "sha256": "72fbff492c0088fdf19e92c6ca58de1fb429350c28b3e050f7e0972ed6639d87",
+      "start": 0,
+      "duration": 12,
+      "gainDb": -24,
+      "loop": true
+    },
+    {
+      "id": "wind-1",
+      "cue": "wind",
+      "source": "world/forest_cold_wind_in_alitude_the_morning_120208_00__charlie_atanasyan_indonesia_sound_library__ee88da7ad606db0d.flac",
+      "sha256": "64c4578de90e0da21e1c7cfd17adb77eacc3cc67cb3e33141855319d642fa38b",
+      "start": 0,
+      "duration": 12,
+      "gainDb": -27,
+      "loop": true
+    },
+    {
+      "id": "campfire-1",
+      "cue": "campfire",
+      "source": "world/torch_loop__existing_library_unattributed__72ccc90f25e6fee6.ogg",
+      "sha256": "72ccc90f25e6fee6209e57ae75ef826b5491721f91e2c031d56242971714e550",
+      "start": 0,
+      "duration": 8,
+      "gainDb": -24,
+      "loop": true
+    }
+  ]
+}

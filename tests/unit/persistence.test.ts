@@ -52,7 +52,8 @@ test('obsolete and malformed prototype data reset; adapters snapshot ordered wri
   await fs.writeFile(path.join(directory, 'settings.json'), 'old');
   assert.deepEqual(await store.load('settings'), { status: 'empty' });
   const settings = {
-    version: 5 as const,
+    version: 6 as const,
+    audio: { master: 0.8, effects: 0.8, ambience: 0.65, muted: false },
     renderScale: 1,
     showDebug: false,
     verticalSpan: 9,

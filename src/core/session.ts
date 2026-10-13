@@ -184,8 +184,10 @@ export class GameSession {
     const { area, definition } = this.fire(key);
     if (area !== this.sim.area || !this.canUseFire(definition.id))
       throw new Error('Campfire unavailable');
+    const first = !this.discovered.has(key);
     this.discovered.add(key);
     this.lastFire = key;
+    return first ? [this.event({ kind: 'campfire-discovered', fire: key })] : [];
   }
   prepareFireTravel(key: string): TransitionPlan {
     if (!this.discovered.has(key)) throw new Error('Travel unavailable');
@@ -284,21 +286,29 @@ export class GameSession {
     );
     this.sim.hero.health = this.sim.maxHealth;
     this.recordArea();
-    return [this.event({ kind: 'room-reset', reason: 'manual' })];
+    return [this.event({ kind: 'rested' })];
   }
   equip(item: string, slot: EquipmentSlot) {
     if (this.sim.inCombat) throw new Error('Finish combat before changing equipment');
+    const previous = this.inventoryState.equipment[slot];
     this.inventoryState.equip(item, slot);
     this.sim.hero.health = Math.min(this.sim.hero.health, this.sim.maxHealth);
+    return previous === item ? [] : [this.event({ kind: 'inventory-changed', operation: 'equip' })];
   }
   unequip(slot: EquipmentSlot) {
     if (this.sim.inCombat) throw new Error('Finish combat before changing equipment');
+    const previous = this.inventoryState.equipment[slot];
     this.inventoryState.unequip(slot);
     this.sim.hero.health = Math.min(this.sim.hero.health, this.sim.maxHealth);
+    return previous ? [this.event({ kind: 'inventory-changed', operation: 'unequip' })] : [];
   }
   salvage(item?: string) {
     if (this.sim.inCombat) throw new Error('Finish combat before salvaging');
+    const previous = JSON.stringify(this.inventoryState.inventory);
     this.inventoryState.salvage(item);
+    return previous === JSON.stringify(this.inventoryState.inventory)
+      ? []
+      : [this.event({ kind: 'inventory-changed', operation: 'salvage' })];
   }
   captureSave(): GameSave {
     this.recordArea();

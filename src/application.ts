@@ -1,3 +1,5 @@
+import { AudioPlayback } from './audio/playback';
+import { AudioFeedback } from './audio/feedback';
 import { cleanupAll, cleanupAfterFailure } from './assets/cleanup';
 import { nearbyInteraction } from './core/interaction';
 import type { EquipmentSlot } from './content/items';
@@ -54,6 +56,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   runtime!: AssetRuntime;
   persistence: Persistence;
   readonly events: EventHub;
+  readonly audio: AudioPlayback;
+  private readonly audioFeedback: AudioFeedback;
   clock = new FixedClock();
   private packViews = new Map<string, AssetPack>();
   private previewPack?: { id: string; pack: PackLease };
@@ -132,10 +136,18 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.extraAssets = [...(options.extraAssets ?? [])];
     this.current = { session: new GameSession(scenes.registry, this.initialSeed), scenes };
     this.persistence = new Persistence(bridge);
+    this.audio = new AudioPlayback((message) => this.hooks.status(message, true));
+    this.audioFeedback = new AudioFeedback(this.audio);
+    this.events.subscribe((event, signal) =>
+      this.audioFeedback.event(event, this.sim.view, signal),
+    );
   }
   get sim() {
     return this.current.session.sim;
   }
+  private unlockAudio = () => {
+    void this.audio.unlock().catch(() => {});
+  };
   private onResize = () => this.presentation?.resize(this.scale);
   private onBlur = () => {
     if (this.ready) this.pause(true);
@@ -152,6 +164,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.assertActive();
     const token = Symbol();
     this.loading.add(token);
+    this.audio.setWorldFrozen(true);
     const finish = () => {
       this.loading.delete(token);
       if (!this.disposed && this.loading.size === 0)
@@ -193,6 +206,9 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   private async bootApplication() {
     this.assertActive();
+    void this.audio.initialize().catch(() => {});
+    window.addEventListener('pointerdown', this.unlockAudio, { signal: this.abort.signal });
+    window.addEventListener('keydown', this.unlockAudio, { signal: this.abort.signal });
     this.runtime = await AssetRuntime.open(this.catalog, this.canvas);
     if (this.disposed) this.runtime.dispose?.();
     this.assertActive();
@@ -233,6 +249,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     );
     this.assertActive();
     if (settings.status === 'ok') {
+      this.audio.updateSettings(settings.data.audio);
       this.scale = settings.data.renderScale;
       this.presentation.verticalSpan = settings.data.verticalSpan;
       this.presentation.setDepthOfField(settings.data.depthOfField);
@@ -386,6 +403,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         this.current = source;
         changes = change.events;
       } else changes = change.commit();
+      this.audio.replaceSession();
       this.events.setGeneration(this.current.session.generation);
       operation.check();
       const installing = next;
@@ -411,7 +429,11 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   pause(value: boolean) {
     this.pauseSequence++;
     value = value || !this.roomReady;
+    const changed = value !== this.paused;
     this.paused = value;
+    this.audio.setWorldFrozen(value || this.loading.size > 0);
+    if (changed)
+      void this.audio.play(value ? 'ui-confirm' : 'ui-cancel', { world: false }).catch(() => {});
     this.clock.reset();
     this.input?.clear();
     this.last = performance.now();
@@ -419,8 +441,10 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   safe(fn: () => Promise<unknown>) {
     void (async () => fn())().catch((error: unknown) => {
-      if (!(error instanceof SessionOperationCancelled))
+      if (!(error instanceof SessionOperationCancelled)) {
+        void this.audio.play('ui-deny', { world: false }).catch(() => {});
         this.hooks.status(String((error as Error | null | undefined)?.message ?? error), true);
+      }
     });
   }
   transition(id: string) {
@@ -461,6 +485,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     if (target.blocked) throw new Error(target.blocked);
     if (target.kind === 'drop') {
       if (this.sim.collectDrop(target.id)) {
+        this.publish(this.sim.events);
         this.hooks.status(target.label);
         this.autosave();
       }
@@ -470,7 +495,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         this.autosave();
       }
     } else if (target.kind === 'campfire') {
-      this.current.session.discoverFire(this.sim.area + '/' + target.id);
+      this.publish(this.current.session.discoverFire(this.sim.area + '/' + target.id));
       this.autosave();
       return this.sim.area + '/' + target.id;
     } else if (target.kind === 'exit') {
@@ -479,9 +504,13 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   changeInventory(action: 'equip' | 'unequip' | 'salvage', item?: string, slot?: EquipmentSlot) {
     if (this.busy || !this.roomReady) throw new Error('Wait for the area to finish loading');
-    if (action === 'equip') this.current.session.equip(item!, slot!);
-    else if (action === 'unequip') this.current.session.unequip(slot!);
-    else this.current.session.salvage(item);
+    const events =
+      action === 'equip'
+        ? this.current.session.equip(item!, slot!)
+        : action === 'unequip'
+          ? this.current.session.unequip(slot!)
+          : this.current.session.salvage(item);
+    this.publish(events);
     this.autosave();
   }
   rest(key: string) {
@@ -572,6 +601,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       await this.restoreState(result.data, operation);
       operation.check();
       resume();
+      void this.audio.play('success', { world: false }).catch(() => {});
       return true;
     });
   }
@@ -602,7 +632,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   async saveSettings() {
     await this.bridge.saveSettings({
-      version: 5,
+      version: 6,
+      audio: this.audio.settings,
       renderScale: this.scale,
       showDebug: false,
       verticalSpan: this.presentation.verticalSpan,
@@ -617,6 +648,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       throw new Error('Room is not ready; reset or load a checkpoint to recover');
     await this.persistence.save(this.current.session.captureSave());
     await this.saveSettings();
+    void this.audio.play('success', { world: false }).catch(() => {});
   }
   autosave() {
     if (!this.readOnly && this.roomReady)
@@ -632,6 +664,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         this.frames?.idle ??
         (!this.bridge.automatedRun && (document.hidden || !document.hasFocus())),
       frozen = this.paused || !this.roomReady || this.busy || this.loading.size > 0 || idle;
+    this.audioFeedback.frame(this.sim.view, frozen || !this.simulationEnabled);
     if (!frozen && this.simulationEnabled)
       alpha = this.clock.advance(ms, () => {
         const sim = this.sim;
@@ -693,6 +726,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       () => document.removeEventListener('visibilitychange', this.onVisibility),
       () => this.hooks.loading?.(false),
       () => this.input?.dispose(),
+      () => this.audio.dispose(),
       () => this.presentation?.dispose(),
       () => preview?.pack.release(),
       () => this.roomAssets.dispose(),

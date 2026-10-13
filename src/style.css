@@ -505,3 +505,22 @@ body.game {
     transition: none;
   }
 }
+
+.audio-options {
+  margin: 1rem 0;
+  padding: 0.65rem;
+}
+.audio-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.audio-options input[type='range'] {
+  flex: 1;
+  min-width: 4rem;
+  max-width: 10rem;
+}
+.audio-options output {
+  min-width: 3ch;
+  text-align: right;
+}

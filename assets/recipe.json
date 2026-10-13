@@ -305,6 +305,20 @@
         "assets/prepare/prepare-animation-flow.py",
         "assets/prepare/prepare-loading-media.ts"
       ]
+    },
+    {
+      "file": "assets/prepare/prepare-audio.ts",
+      "freshness": true,
+      "ids": [
+        "audio",
+        "audio-*"
+      ],
+      "inputs": [
+        "assets/audio-sources.json",
+        "tools/assets/audio.ts",
+        "src/assets/audio.ts"
+      ],
+      "dependsOn": []
     }
   ],
   "inputs": [
@@ -368,6 +382,7 @@
     "src/content/graveyard-registration.ts",
     "src/content/loading-media.ts",
     "src/content/scenery-registration.ts",
-    "src/content/visual-effects-assets.ts"
+    "src/content/visual-effects-assets.ts",
+    "assets/audio-sources.json"
   ]
 }

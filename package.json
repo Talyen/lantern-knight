@@ -43,7 +43,8 @@
     "segmentation:smoke": "tsx tools/segmentation/smoke.ts",
     "segmentation:propose": "tsx tools/segmentation/propose.ts",
     "segmentation:inventory": "tsx tools/segmentation/inventory.ts",
-    "occlusion:audit": "tsx tools/ground-occlusion-audit.ts"
+    "occlusion:audit": "tsx tools/ground-occlusion-audit.ts",
+    "assets:audio-review": "tsx tools/assets/audio-review.ts"
   },
   "dependencies": {
     "postprocessing": "6.39.5",

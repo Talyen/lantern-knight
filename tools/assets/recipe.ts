@@ -71,11 +71,16 @@ export function preparationSelection(ids: readonly string[] = []) {
   // dependency list orders a cold/full preparation, not a scoped refresh.
   if (selected.has('assets/prepare/prepare-hero.ts'))
     visit('assets/prepare/prepare-animation-flow.py');
-  if ([...selected].some((file) => !file.endsWith('prepare-loading-media.ts'))) {
+  if (
+    [...selected].some(
+      (file) => !file.endsWith('prepare-loading-media.ts') && !file.endsWith('prepare-audio.ts'),
+    )
+  ) {
     selected.add('assets/prepare/prepare-graveyard-coverage.ts');
     selected.add('assets/prepare/prepare-lighting.ts');
   }
-  selected.add('assets/prepare/prepare-image-delivery.ts');
+  if ([...selected].some((file) => !file.endsWith('prepare-audio.ts')))
+    selected.add('assets/prepare/prepare-image-delivery.ts');
   return preparationSteps.filter((step) => selected.has(step.file));
 }
 // A scoped refresh certifies only its selected owners when global inputs change.

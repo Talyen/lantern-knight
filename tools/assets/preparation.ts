@@ -1,3 +1,4 @@
+import { audioTools, verifyAudioSources } from './audio';
 import { createPreparationContext, preparationOptions } from './context';
 import { preparationOperations } from './operations';
 import path from 'node:path';
@@ -118,6 +119,8 @@ export async function prepareSteps(options: {
         );
       }
     };
+    if (operation.file.endsWith('prepare-audio.ts'))
+      await verifyAudioSources(context.libraryRoot, options.env);
     const result = await cachedPreparationStep({
       file: operation.file,
       workspace: options.workspace,
@@ -126,11 +129,13 @@ export async function prepareSteps(options: {
         operation,
         inputs,
         digests,
-        operation.file.endsWith('prepare-library.ts')
-          ? options.env.LANTERN_LIBRARY_SHA256
-          : operation.file.endsWith('prepare-image-delivery.ts')
-            ? (options.env.LANTERN_IMAGE_GPU ?? '0')
-            : undefined,
+        operation.file.endsWith('prepare-audio.ts')
+          ? (await audioTools(options.env)).fingerprint
+          : operation.file.endsWith('prepare-library.ts')
+            ? options.env.LANTERN_LIBRARY_SHA256
+            : operation.file.endsWith('prepare-image-delivery.ts')
+              ? (options.env.LANTERN_IMAGE_GPU ?? '0')
+              : undefined,
       ),
       run: (env) => invoke([], env),
       validate: operation.freshness ? () => invoke(['--check']) : undefined,

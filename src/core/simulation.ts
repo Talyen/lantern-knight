@@ -124,6 +124,8 @@ export class Simulation {
     const drop = this.drops.find((p) => p.id === id);
     if (!drop || !interactionTarget(this, 'drop', id)) return false;
     this.inventoryAccess.award(drop.rewards);
+    for (const reward of drop.rewards)
+      this.emit(this.hero, { kind: 'pickup', pickup: reward.item, amount: reward.amount });
     this.drops = this.drops.filter((p) => p !== drop);
     return true;
   }

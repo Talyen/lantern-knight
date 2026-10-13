@@ -1,3 +1,4 @@
+import { audioManifestPath, parseAudioManifest } from '../../src/assets/audio';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -27,6 +28,11 @@ export async function stagePayload(
     'dev-effects/emitters.json',
     'generated/library/catalog.json',
   ]);
+  const audio = parseAudioManifest(
+    JSON.parse(await fs.readFile(path.join(sourcePublic, audioManifestPath), 'utf8')),
+  );
+  files.add(audioManifestPath);
+  for (const sample of audio.samples) files.add(sample.path);
   for (const file of Object.values({
     ...(await readAuthoringCatalog(sourcePublic)),
     ...playgroundCatalog,
@@ -128,6 +134,7 @@ export async function stagePayload(
     'effects-playground/receipt.json',
     'visual-effects/receipt.json',
     'library/receipt.json',
+    'audio/receipt.json',
   ]) {
     const target = path.join(destination, 'metadata', name);
     await fs.mkdir(path.dirname(target), { recursive: true });

@@ -49,7 +49,36 @@ test('runtime selection builds from delivery-only payloads and validates shipped
     await write(file, JSON.stringify(manifest));
     await write(delivery, image);
   }
+  const audioBytes = Buffer.from('prepared audio fixture'),
+    audioHash = createHash('sha256').update(audioBytes).digest('hex');
+  const audioPath = `audio/${audioHash}.wav`;
+  await write(audioPath, audioBytes);
+  await write(
+    'audio/manifest.json',
+    JSON.stringify({
+      schemaVersion: 1,
+      samples: [
+        {
+          id: 'sword-1',
+          cue: 'sword',
+          path: audioPath,
+          hash: audioHash,
+          bytes: audioBytes.length,
+          duration: 1,
+          channels: 1,
+          sampleRate: 44100,
+          loop: false,
+          loopStart: 0,
+          loopEnd: 1,
+        },
+      ],
+    }),
+  );
   const inventory = await selectedFiles(source, 'game');
+  assert.ok(inventory.files.includes(audioPath));
+  await write(audioPath, 'corrupt audio');
+  await assert.rejects(selectedFiles(source, 'game'), /Prepared audio differs/);
+  await write(audioPath, audioBytes);
   assert.ok(inventory.files.some((file) => file.endsWith('/delivery.png')));
   assert.ok(!inventory.files.some((file) => file.endsWith('/atlas.png')));
   await copySelectedFiles(source, path.join(root, 'output'), inventory);

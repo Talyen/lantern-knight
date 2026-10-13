@@ -47,6 +47,7 @@ export class CombatActions {
     a.attackBufferedUntil = -1;
     this.start(a, 'dodge', a.dashYaw);
     a.dodgeCooldown = tuning.dodge.cooldown;
+    this.world.emit(a, { kind: 'dodge' });
   }
   damage(from: Actor, to: Actor, amount: number, generation = this.generation) {
     if (

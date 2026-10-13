@@ -1,3 +1,4 @@
+import { audioControls, bindAudioControls } from './audio/controls';
 import { bindAdventureUI, adventurePanelOpen } from './adventure-ui';
 import { visualEffectLabels, type VisualEffect } from './content/visual-effects';
 import type { Application } from './application';
@@ -8,7 +9,7 @@ export const gameUI = `<main class="stage game-stage"><canvas aria-label="Lanter
 <p class="controls-hint">WASD move · Mouse aim · LMB sword · Shift dodge · RMB lantern · E interact · I inventory · Q potion · Esc pause</p>
 <p id="interaction-hint" aria-live="polite"></p><span id="potion-count"></span><button id="pause" aria-label="Pause / save">Ⅱ</button><p id="status" role="status"></p>
 <dialog class="modal" id="modal" aria-labelledby="pause-title"><div><div class="eyebrow">Lantern Knight</div><h2 id="pause-title">Paused</h2><div class="buttons"><button id="resume" autofocus>Resume</button><button id="reset">Reset encounter</button><button id="save">Save checkpoint</button><button id="load">Load checkpoint</button><button id="new-game">New Game</button></div><p id="menu-status" role="status" aria-live="polite"></p><p id="save-notice"></p><dialog id="new-confirm" class="confirmation" aria-labelledby="new-game-question"><p id="new-game-question">Replace the saved session with a new game?</p><p id="new-status" role="status" aria-live="polite"></p><div class="buttons"><button id="confirm-new">Confirm New Game</button><button id="cancel-new" autofocus>Cancel</button></div></dialog>
-<label>Camera distance<select id="zoom-span"><option value="9">Close</option><option value="11">Medium</option><option value="13">Wide</option><option value="15">Far</option></select></label>
+${audioControls}<label>Camera distance<select id="zoom-span"><option value="9">Close</option><option value="11">Medium</option><option value="13">Wide</option><option value="15">Far</option></select></label>
 <label for="depth-of-field">Depth of field <output id="depth-of-field-value">100%</output></label><input id="depth-of-field" type="range" min="0" max="100" step="5" value="100"><p class="muted">Foreground and distance blur. Set to 0% to turn off.</p><label>Render scale<select id="render-scale"><option value="1">100% · up to 4K</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label><fieldset class="visual-options"><legend>Visual effects</legend>${Object.entries(
   visualEffectLabels,
 )
@@ -23,6 +24,7 @@ const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
 let pending = false;
 export function bindGameUI(app: Application) {
   bindAdventureUI(app);
+  bindAudioControls(app, document);
   const modal = $<HTMLDialogElement>('#modal'),
     confirmation = $<HTMLDialogElement>('#new-confirm');
   const perform = (message: string, action: () => Promise<string>) =>
@@ -102,10 +104,12 @@ export function bindGameUI(app: Application) {
     if (!confirmation.open) {
       $('#new-status').textContent = '';
       confirmation.showModal();
+      void app.audio.play('ui-confirm', { world: false }).catch(() => {});
     }
   };
   $('#cancel-new').onclick = () => {
     confirmation.close();
+    void app.audio.play('ui-cancel', { world: false }).catch(() => {});
   };
   $('#confirm-new').onclick = () =>
     perform('Starting new game…', async () => {
