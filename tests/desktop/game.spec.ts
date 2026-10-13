@@ -1,5 +1,5 @@
 import { readJson } from '../../tools/json-file';
-import { holdMovement } from '../fixtures/input';
+import { holdMovement, loadCheckpoint } from '../fixtures/input';
 import { test, expect, _electron } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -54,8 +54,7 @@ test('Game package starts, accepts input and reloads current storage', async () 
       () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
     );
     await page.locator('#pause').click();
-    await page.locator('#load').click();
-    await expect(page.locator('#status')).toContainText('loaded', { ignoreCase: true });
+    await loadCheckpoint(page);
   } finally {
     await app.close();
     await fs.rm(profile, { recursive: true, force: true });

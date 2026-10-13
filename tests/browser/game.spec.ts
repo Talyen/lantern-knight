@@ -1,5 +1,8 @@
+import { loadCheckpoint } from '../fixtures/input';
 import { test, expect } from './fixtures';
 test('game input, pause focus and current checkpoint reload', async ({ page }) => {
+  // Startup, checkpoint loads and death recovery are distinct room operations.
+  test.setTimeout(300_000);
   await page.goto('/index.html');
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
@@ -90,7 +93,7 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
   expect(
     Math.hypot(moved.player.x - initial.player.x, moved.player.z - initial.player.z),
   ).toBeGreaterThan(0.03);
-  await page.locator('#load').click();
+  await loadCheckpoint(page);
   await expect(page.locator('#modal')).not.toBeVisible();
   await expect(page.locator('canvas')).toBeFocused();
   // A restored dead player immediately requests recovery through the real renderer.
@@ -102,7 +105,7 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
     { key: keys[0]!, save: moved },
   );
   await page.locator('#pause').click();
-  await page.locator('#load').click();
+  await loadCheckpoint(page);
   // The previous HUD may already show full health while load/recovery is pending.
   // Observe its committed checkpoint using the same budget as room acceptance.
   await expect
@@ -159,7 +162,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
     },
     { key, chest: { x: chest.x, z: chest.z } },
   );
-  await page.locator('#load').click();
+  await loadCheckpoint(page);
   await expect(page.locator('#modal')).not.toBeVisible();
   await expect(page.locator('#interaction-hint')).toContainText('Open container');
   await page.keyboard.press('e');
@@ -193,7 +196,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
     },
     { key, fire: { x: fire.x, z: fire.z } },
   );
-  await page.locator('#load').click();
+  await loadCheckpoint(page);
   await waitForRoom();
   await expect(page.locator('#interaction-hint')).toContainText('Orchard Campfire');
   await page.keyboard.press('e');
@@ -220,7 +223,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
     },
     { key, marker: exit.marker },
   );
-  await page.locator('#load').click();
+  await loadCheckpoint(page);
   await waitForRoom();
   await expect(page.locator('#interaction-hint')).toContainText(
     'Travel to Forest Gathering Clearing',

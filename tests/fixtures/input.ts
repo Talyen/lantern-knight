@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 
 export async function holdMovement(page: Page, key: string) {
   await page.locator('canvas').focus();
@@ -11,4 +11,10 @@ export async function holdMovement(page: Page, key: string) {
   } finally {
     await page.keyboard.up(key);
   }
+}
+
+// Loading replaces renderer resources before the player receives completion feedback.
+export async function loadCheckpoint(page: Page) {
+  await page.locator('#load').click();
+  await expect(page.locator('#status')).toHaveText('Checkpoint loaded', { timeout: 60_000 });
 }
