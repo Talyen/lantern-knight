@@ -1,14 +1,15 @@
-import source from './valid.json';
+import { sourceFixture } from './source';
 import { parseManifest } from '../../src/assets/schema';
 import { contract } from '../../src/core/camera';
 export function manifestFixture(id = 'ink-hero-current') {
+  const source = sourceFixture();
   return parseManifest({
     schemaVersion: 2,
     contractId: contract.id,
     bakeVersion: contract.bakeVersion,
     hash: 'a'.repeat(64),
     toolVersion: 'fixture',
-    asset: { ...structuredClone(source.asset), id },
+    asset: { ...source.asset, id },
     frames: source.frames.map(({ path, ...frame }) => ({
       ...frame,
       source: path,
