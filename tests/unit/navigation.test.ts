@@ -331,3 +331,33 @@ test('an explicitly routed actor replans after displacement puts a wall across i
   assert.ok(Math.hypot(sim.hero.x - goal.x, sim.hero.z - goal.z) < 1e-6);
   assert.ok(isSupportedPosition(a, sim.hero, 0.3));
 });
+
+test('registry rejects obstructed entries and spawns before a session can create invalid checkpoints', () => {
+  const makeRegistry = (a: AreaDefinition) =>
+    new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
+  const blockedEntry = area();
+  // Alternate entries are used by transitions even when the baseline is valid.
+  blockedEntry.entries = [...blockedEntry.entries, { id: 'arrival', x: 0, z: 0 }];
+  assert.throws(() => makeRegistry(blockedEntry), /unsupported entry navigation\/arrival/);
+
+  const blockedSpawn = area();
+  blockedSpawn.spawns = [{ ...blockedSpawn.spawns[0]!, x: 0, z: 0 }];
+  assert.throws(() => makeRegistry(blockedSpawn), /unsupported spawn navigation\/enemy/);
+
+  const edgeEntry = area();
+  edgeEntry.entries = [{ id: 'start', x: -4.8, z: 0 }];
+  assert.throws(() => makeRegistry(edgeEntry), /unsupported entry navigation\/start/);
+
+  const jitter = area();
+  jitter.spawns = [{ id: 'enemy', actor: 'skeleton', x: 0, z: -3, jitterZ: 6 }];
+  // Both endpoints are clear, but some seeds put the enemy inside the wall.
+  assert.throws(() => makeRegistry(jitter), /unsupported spawn navigation\/enemy/);
+
+  const valid = area();
+  valid.spawns = [{ ...valid.spawns[0]!, jitterZ: 1 }];
+  const registry = makeRegistry(valid);
+  for (const seed of [0, 142, 4294967295]) {
+    const session = new GameSession(registry, seed);
+    assert.doesNotThrow(() => parseGame(session.captureSave(), registry));
+  }
+});

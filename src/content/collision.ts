@@ -221,3 +221,85 @@ export function supportedPosition(area: AreaDefinition, p: Point, radius: number
     }
   return { x, z };
 }
+
+type Hit = { t: number; nx: number; nz: number };
+/** Earliest circle/segment contact along a displacement, with inward motion only. */
+export function sweepCircle(
+  area: AreaDefinition,
+  start: Point,
+  delta: Point,
+  radius: number,
+): Hit | undefined {
+  let best: Hit | undefined;
+  const accept = (t: number, nx: number, nz: number) => {
+    if (t >= -epsilon && t <= 1 && nx * delta.x + nz * delta.z < -epsilon && (!best || t < best.t))
+      best = { t: Math.max(0, t), nx, nz };
+  };
+  const circle = (p: Point, r: number) => {
+    const x = start.x - p.x,
+      z = start.z - p.z,
+      a = delta.x * delta.x + delta.z * delta.z;
+    if (a < epsilon * epsilon) return;
+    const b = x * delta.x + z * delta.z,
+      c = x * x + z * z - r * r,
+      disc = b * b - a * c;
+    if (disc < 0) return;
+    const t = (-b - Math.sqrt(disc)) / a,
+      qx = x + delta.x * t,
+      qz = z + delta.z * t,
+      len = Math.hypot(qx, qz);
+    if (len > epsilon) accept(t, qx / len, qz / len);
+  };
+  const edge = (a: Point, b: Point) => {
+    const dx = b.x - a.x,
+      dz = b.z - a.z,
+      len = Math.hypot(dx, dz);
+    if (len < epsilon) return;
+    const nx = -dz / len,
+      nz = dx / len,
+      d = (start.x - a.x) * nx + (start.z - a.z) * nz,
+      v = delta.x * nx + delta.z * nz;
+    for (const sign of [-1, 1]) {
+      if (Math.abs(v) < epsilon) continue;
+      const t = (sign * radius - d) / v,
+        qx = start.x + delta.x * t - a.x,
+        qz = start.z + delta.z * t - a.z,
+        u = (qx * dx + qz * dz) / (len * len);
+      if (u >= 0 && u <= 1) accept(t, nx * sign, nz * sign);
+    }
+    circle(a, radius);
+    circle(b, radius);
+  };
+  const bounds = area.bounds,
+    boundary = area.playableBoundary ?? [
+      { x: bounds.minX, z: bounds.minZ },
+      { x: bounds.maxX, z: bounds.minZ },
+      { x: bounds.maxX, z: bounds.maxZ },
+      { x: bounds.minX, z: bounds.maxZ },
+    ];
+  for (let i = 0; i < boundary.length; i++)
+    edge(boundary[i]!, boundary[(i + 1) % boundary.length]!);
+  for (const p of area.props) {
+    if (p.blocking === false) continue;
+    const cached = collisionShape(p);
+    if (
+      Math.max(start.x, start.x + delta.x) < cached.minX - radius ||
+      Math.min(start.x, start.x + delta.x) > cached.maxX + radius ||
+      Math.max(start.z, start.z + delta.z) < cached.minZ - radius ||
+      Math.min(start.z, start.z + delta.z) > cached.maxZ + radius
+    )
+      continue;
+    const points = cached.points;
+    if (points)
+      for (let i = 0; i < points.length; i++) edge(points[i]!, points[(i + 1) % points.length]!);
+    else circle(p, p.radius + radius);
+  }
+  return best;
+}
+export function clearSegment(area: AreaDefinition, a: Point, b: Point, radius: number) {
+  return (
+    isSupportedPosition(area, a, radius) &&
+    isSupportedPosition(area, b, radius) &&
+    !sweepCircle(area, a, { x: b.x - a.x, z: b.z - a.z }, radius)
+  );
+}

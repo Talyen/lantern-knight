@@ -1,4 +1,4 @@
-import { contains } from './collision';
+import { contains, clearSegment, effectiveRadius, isSupportedPosition } from './collision';
 import { contentSnapshot, type ContentSnapshot } from './snapshot';
 
 export type AreaId = string;
@@ -260,6 +260,22 @@ export class ContentRegistry {
         )
           fail(`exit outside ${a.id}`);
       }
+      // Acceptance covers every transition entry and every possible seeded spawn,
+      // using the same actor clearance as movement and checkpoint validation.
+      const playerRadius = effectiveRadius(this.actor(definitions.player).radius);
+      for (const entry of a.entries)
+        if (!isSupportedPosition(a, entry, playerRadius))
+          fail(`unsupported entry ${a.id}/${entry.id}`);
+      for (const spawn of a.spawns)
+        if (
+          !clearSegment(
+            a,
+            spawn,
+            { x: spawn.x, z: spawn.z + (spawn.jitterZ ?? 0) },
+            effectiveRadius(this.actor(spawn.actor).radius),
+          )
+        )
+          fail(`unsupported spawn ${a.id}/${spawn.id}`);
       this.#areas.set(a.id, a);
     }
     this.area(definitions.initialArea);

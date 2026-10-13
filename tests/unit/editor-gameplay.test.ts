@@ -105,11 +105,17 @@ it('draft spawn jitter cannot place an enemy inside scenery or beyond supported 
   draft.walls = [
     { id: 'wall', from: { x: 1, z: 2 }, to: { x: 3, z: 2 }, height: 1, thickness: 0.5 },
   ];
-  assert.throws(() => composeDraftGameplay(draft, contentDefinitions, {}), /placement|jitter/i);
+  assert.throws(
+    () => composeDraftGameplay(draft, contentDefinitions, {}),
+    /unsupported spawn|jitter/i,
+  );
   draft.walls = [];
   draft.gameplay!.spawns[0]!.z = 9;
   draft.gameplay!.spawns[0]!.jitterZ = 0.9;
-  assert.throws(() => composeDraftGameplay(draft, contentDefinitions, {}), /placement|jitter/i);
+  assert.throws(
+    () => composeDraftGameplay(draft, contentDefinitions, {}),
+    /unsupported spawn|jitter/i,
+  );
   draft.gameplay!.spawns[0]!.jitterZ = 0.5;
   assert.doesNotThrow(() => composeDraftGameplay(draft, contentDefinitions, {}));
 });
