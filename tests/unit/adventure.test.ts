@@ -27,6 +27,11 @@ function supply(session: GameSession, item: string, amount: number) {
   save.adventure!.inventory[item] = amount;
   session.restoreSave(save);
 }
+function discover(session: GameSession, key: string) {
+  const save = session.captureSave();
+  save.adventure!.discovered.push(key);
+  session.restoreSave(save);
+}
 const idle = { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } };
 function fixture() {
   const area = (id: string): AreaDefinition => ({
@@ -204,7 +209,7 @@ test('a hurt enemy completes recovery and returns home after the hero retreats t
 test('fire travel requires discovery and proximity, preserves health, and cancellation preserves the source', () => {
   const s = fixture();
   assert.throws(() => s.prepareFireTravel('forest/west'));
-  s.discovered.add('forest/west');
+  discover(s, 'forest/west');
   s.sim.hero.health = 61;
   const plan = s.prepareFireTravel('forest/west');
   s.cancelRoom(plan);
@@ -219,7 +224,7 @@ test('fire travel requires discovery and proximity, preserves health, and cancel
 });
 test('death chooses the nearest reachable discovered fire in-stage and otherwise uses the last visited fire', () => {
   const s = fixture();
-  s.discovered.add('orchard/east');
+  discover(s, 'orchard/east');
   s.sim.hero.x = 6;
   s.sim.hero.health = 0;
   assert.equal(s.respawnFire(), 'orchard/east');
@@ -229,7 +234,9 @@ test('death chooses the nearest reachable discovered fire in-stage and otherwise
   Object.assign(s.sim.hero, { x: 11, z: 0, y: 0 });
   s.commitRoom(s.prepareTransition('depart'));
   s.sim.hero.health = 0;
-  s.lastFire = 'orchard/west';
+  const checkpoint = s.captureSave();
+  checkpoint.adventure!.lastFire = 'orchard/west';
+  s.restoreSave(checkpoint);
   assert.equal(s.respawnFire(), 'orchard/west');
   s.resetCurrentArea('death');
   assert.equal(s.sim.area, 'orchard');
@@ -260,7 +267,7 @@ test('respawn compares walking routes around obstacles rather than straight-line
       })),
     }),
   );
-  s.discovered.add('orchard/east');
+  discover(s, 'orchard/east');
   s.sim.hero.x = -1;
   s.sim.hero.health = 0;
   assert.equal(s.respawnFire(), 'orchard/east');
@@ -301,7 +308,7 @@ test('nearby prompts expose guarded reasons and collected loot cannot be collect
 
 test('rest supersedes a pending fire journey and permits simulation to resume', () => {
   const s = fixture();
-  s.discovered.add('forest/west');
+  discover(s, 'forest/west');
   const plan = s.prepareFireTravel('forest/west');
   s.rest('orchard/west');
   assert.equal(s.loading, false);
@@ -500,7 +507,7 @@ test('campfire discovery, rest and travel require unobstructed contact on the sa
             },
           ],
     }));
-    s.discovered.add('forest/west');
+    discover(s, 'forest/west');
     assert.throws(() => s.discoverFire('orchard/west'));
     assert.throws(() => s.rest('orchard/west'));
     assert.throws(() => s.prepareFireTravel('forest/west'));
@@ -580,6 +587,22 @@ test('inventory reads cannot bypass equipment ownership or mutate session state'
   assert.throws(() => Object.assign(s.sim.equipment, { ring1: 'orchard-ring' }), TypeError);
   assert.equal(s.inventory.gold, undefined);
   assert.equal(s.equipment.ring1, undefined);
+  const discovered = s.view.discovered as Set<string>;
+  discovered.clear();
+  discovered.add('forest/west');
+  assert.equal(s.discovered.has('orchard/west'), true);
+  assert.equal(s.discovered.has('forest/west'), false);
+  assert.throws(() => Object.assign(s, { sim: new GameSession(s.registry).sim }), TypeError);
+  assert.throws(() => Object.assign(s, { lastFire: 'forest/west' }), TypeError);
+  // oxlint-disable-next-line no-constant-condition -- Compile-only progression ownership checks.
+  if (false) {
+    // @ts-expect-error Discovery is admitted through commands or checkpoints.
+    s.discovered.add('forest/west');
+    // @ts-expect-error Only room commit may replace the accepted simulation.
+    s.sim = new GameSession(s.registry).sim;
+    // @ts-expect-error Progression is owned by the accepted room state.
+    s.wins++;
+  }
   assert.doesNotThrow(() => parseGame(s.captureSave(), s.registry));
 });
 
@@ -615,7 +638,7 @@ for (const reenter of ['checkpoint', 'travel'] as const)
     if (reenter === 'checkpoint') {
       s.restoreSave(s.captureSave());
     } else {
-      s.discovered.add('forest/west');
+      discover(s, 'forest/west');
       s.sim.hero.x = -8;
       s.commitRoom(s.prepareFireTravel('forest/west'));
       s.commitRoom(s.prepareFireTravel('orchard/west'));
@@ -705,7 +728,7 @@ test('core commands enforce the same contact barriers as interaction prompts', (
     Object.assign(s.sim.hero, { x: obstruction === 'distance' ? -8 : 0, z: 0, y: 0 });
     if (obstruction === 'dead') s.sim.hero.health = 0;
     assert.equal(nearbyInteraction(s.sim), undefined, obstruction);
-    s.discovered.add('forest/west');
+    discover(s, 'forest/west');
     const before = s.captureSave();
     assert.throws(() => s.rest('orchard/west'), /unavailable/i, obstruction + ' rest');
     assert.throws(
@@ -765,7 +788,7 @@ test('explicit departures enforce the prompt combat restriction in headless sess
 
 test('fire travel commits the destination as the fallback death checkpoint', () => {
   const s = fixture();
-  s.discovered.add('forest/west');
+  discover(s, 'forest/west');
   const cancelled = s.prepareFireTravel('forest/west');
   s.cancelRoom(cancelled);
   assert.equal(s.lastFire, 'orchard/west');
@@ -832,7 +855,7 @@ test('a blocked chest cannot hide an available container within interaction reac
 test('room proposals preserve active progress until commit and cancellation discards the whole candidate', () => {
   for (const kind of ['rest', 'reset', 'restore', 'travel'] as const) {
     const session = fixture();
-    session.discovered.add('forest/west');
+    discover(session, 'forest/west');
     session.sim.hero.health = 25;
     session.sim.enemies[0]!.health = 1;
     const before = session.captureSave(),
@@ -900,4 +923,53 @@ test('failed candidate construction preserves active state and a previously prep
   assert.doesNotThrow(() => session.checkRoomPlan(previous));
   session.commitRoom(previous);
   assert.equal(session.sim.hero.health, session.sim.maxHealth);
+});
+
+test('retired rooms cannot award loot or consume the accepted room inventory', () => {
+  for (const kind of ['rest', 'reset', 'restore', 'travel'] as const) {
+    const session = fixture();
+    supply(session, 'health-potion', 2);
+    discover(session, 'forest/west');
+    breakCrate(session.sim);
+    const retired = session.sim;
+    const save = session.captureSave();
+    const plan =
+      kind === 'rest'
+        ? session.prepareRest('orchard/west')
+        : kind === 'reset'
+          ? session.prepareReset()
+          : kind === 'restore'
+            ? session.prepareRestore(save)
+            : session.prepareFireTravel('forest/west');
+    session.commitRoom(plan);
+    const before = session.captureSave();
+    Object.assign(retired.hero, { x: -7, z: 0, health: 20 });
+    assert.throws(() => retired.collectDrop('object-crate'), /inactive room/, kind);
+    assert.throws(() => retired.step({ ...idle, potion: true }), /inactive room/, kind);
+    assert.deepEqual(session.captureSave(), before, kind);
+    session.sim.hero.health = 20;
+    session.step({ ...idle, potion: true });
+    assert.equal(session.inventory['health-potion'], 1, kind);
+  }
+});
+
+test('prepared rooms suspend progression writes and cancellation restores the accepted owner', () => {
+  const session = fixture();
+  supply(session, 'orchard-ring', 1);
+  breakCrate(session.sim);
+  const before = session.captureSave();
+  const plan = session.prepareRest('orchard/west');
+  assert.throws(() => session.equip('orchard-ring', 'ring1'), /loading/);
+  assert.throws(() => session.unequip('sword'), /loading/);
+  assert.throws(() => session.salvage(), /loading/);
+  assert.throws(() => session.discoverFire('orchard/west'), /loading/);
+  session.sim.hero.x = -7;
+  assert.throws(() => session.sim.collectDrop('object-crate'), /loading/);
+  session.sim.hero.x = before.player.x;
+  assert.deepEqual(session.captureSave(), before);
+  session.cancelRoom(plan);
+  assert.equal(session.sim.collectDrop('object-crate'), true);
+  session.equip('orchard-ring', 'ring1');
+  assert.equal(session.inventory.gold, 3);
+  assert.equal(session.equipment.ring1, 'orchard-ring');
 });

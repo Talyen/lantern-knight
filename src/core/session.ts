@@ -1,5 +1,5 @@
 import { type Inventory, type Equipment, type EquipmentSlot } from '../content/items';
-import { InventoryState } from './inventory';
+import { InventoryState, type InventoryAccess } from './inventory';
 import { interactionTarget } from './interaction';
 import { Navigation, effectiveRadius } from './navigation';
 import { PLAYER_ID, heightAt, type ContentRegistry, type AreaId } from '../content/world';
@@ -45,19 +45,30 @@ export interface SessionView {
 }
 export class GameSession {
   readonly view: SessionView = sessionView(this);
-  sim: Simulation;
-  private inventoryState = new InventoryState();
+  private current: RoomState;
+  get sim() {
+    return this.current.sim;
+  }
   get inventory() {
-    return this.inventoryState.inventory;
+    return this.current.inventoryState.inventory;
   }
   get equipment() {
-    return this.inventoryState.equipment;
+    return this.current.inventoryState.equipment;
   }
-  discovered = new Set<string>();
-  lastFire: string | undefined;
-  wins = 0;
-  resetCount = 0;
-  private visited = new Map<AreaId, AreaState>();
+  get discovered(): ReadonlySet<string> {
+    // Unlike per-frame simulation views, this small progression collection can
+    // be detached so even untyped hosts cannot mutate the accepted owner.
+    return new Set(this.current.discovered);
+  }
+  get lastFire() {
+    return this.current.lastFire;
+  }
+  get wins() {
+    return this.current.wins;
+  }
+  get resetCount() {
+    return this.current.resetCount;
+  }
   private pending: PendingRoom | undefined;
   private eventSequence = 0;
   constructor(
@@ -66,14 +77,17 @@ export class GameSession {
     area = registry.definitions.initialArea,
     generation = 1,
   ) {
+    const discovered = new Set<string>();
+    let lastFire: string | undefined;
+    let inventoryState = new InventoryState();
     for (const a of registry.definitions.areas)
       for (const f of a.campfires ?? [])
         if (f.discovered) {
-          this.discovered.add(a.id + '/' + f.id);
-          this.lastFire = a.id + '/' + f.id;
+          discovered.add(a.id + '/' + f.id);
+          lastFire = a.id + '/' + f.id;
         }
     if (registry.definitions.areas.some((a) => a.campfires?.length)) {
-      this.inventoryState = new InventoryState({
+      inventoryState = new InventoryState({
         inventory: { sword: 1, lantern: 1, 'leather-armor': 1, gloves: 1, belt: 1, boots: 1 },
         equipment: {
           sword: 'sword',
@@ -85,8 +99,48 @@ export class GameSession {
         },
       });
     }
-    this.sim = new Simulation(registry, seed, area, generation, undefined, this.inventoryState);
+    this.current = {
+      sim: new Simulation(
+        registry,
+        seed,
+        area,
+        generation,
+        undefined,
+        this.roomInventory(inventoryState),
+      ),
+      inventoryState,
+      visited: new Map(),
+      discovered,
+      lastFire,
+      wins: 0,
+      resetCount: 0,
+    };
     this.recordArea();
+  }
+  private assertProgressionWritable(inventory = this.current.inventoryState) {
+    if (inventory !== this.current.inventoryState) throw new Error('inactive room inventory');
+    if (this.loading) throw new Error('Wait for the area to finish loading');
+  }
+  private roomInventory(inventory: InventoryState): InventoryAccess {
+    return Object.freeze<InventoryAccess>({
+      get inventory() {
+        return inventory.inventory;
+      },
+      get equipment() {
+        return inventory.equipment;
+      },
+      get healthBonus() {
+        return inventory.healthBonus;
+      },
+      award: (rewards) => {
+        this.assertProgressionWritable(inventory);
+        inventory.award(rewards);
+      },
+      consume: (item) => {
+        this.assertProgressionWritable(inventory);
+        return inventory.consume(item);
+      },
+    });
   }
   get loading() {
     return this.pending !== undefined;
@@ -109,19 +163,19 @@ export class GameSession {
     });
   }
   private recordArea() {
-    this.visited.set(this.sim.area, this.sim.captureAreaState());
+    this.current.visited.set(this.sim.area, this.sim.captureAreaState());
   }
 
   private roomState(): RoomState {
     // Saved area snapshots are detached values. Preparation replaces map entries,
     // never mutates snapshots shared with the currently accepted room.
-    const visited = new Map(this.visited);
+    const visited = new Map(this.current.visited);
     visited.set(this.sim.area, this.sim.captureAreaState());
     return {
       sim: this.sim,
-      inventoryState: this.inventoryState,
+      inventoryState: new InventoryState(this.current.inventoryState.snapshot()),
       visited,
-      discovered: new Set(this.discovered),
+      discovered: new Set(this.current.discovered),
       lastFire: this.lastFire,
       wins: this.wins,
       resetCount: this.resetCount,
@@ -139,7 +193,7 @@ export class GameSession {
       area,
       this.generation + 1,
       entry,
-      state.inventoryState,
+      this.roomInventory(state.inventoryState),
       state.visited.get(area),
     );
     sim.tick = this.sim.tick;
@@ -175,13 +229,7 @@ export class GameSession {
     const { state, outcome } = this.pending!;
     // All fallible construction and validation happened at preparation. Commit
     // only transfers ownership, before Application rebuilds its renderer.
-    this.sim = state.sim;
-    this.inventoryState = state.inventoryState;
-    this.visited = state.visited;
-    this.discovered = state.discovered;
-    this.lastFire = state.lastFire;
-    this.wins = state.wins;
-    this.resetCount = state.resetCount;
+    this.current = state;
     this.pending = undefined;
     return [this.event(outcome)];
   }
@@ -194,7 +242,7 @@ export class GameSession {
   step(command: Command): StepResult {
     if (this.loading) return { events: [] };
     const result = this.sim.step(command);
-    if (result.events.some((e) => e.kind === 'room-clear')) this.wins++;
+    if (result.events.some((e) => e.kind === 'room-clear')) this.current.wins++;
     // Replacement is a host transaction: rendering must accept the new room before
     // feedback, resume or persistence. Like transitions, reset is only an intent.
     return result;
@@ -237,17 +285,18 @@ export class GameSession {
     return !!target && !target.blocked;
   }
   discoverFire(key: string) {
+    this.assertProgressionWritable();
     const { area, definition } = this.fire(key);
     if (area !== this.sim.area || !this.canUseFire(definition.id))
       throw new Error('Campfire unavailable');
-    this.discovered.add(key);
-    this.lastFire = key;
+    this.current.discovered.add(key);
+    this.current.lastFire = key;
   }
   prepareFireTravel(key: string): RoomPlan {
-    if (!this.discovered.has(key)) throw new Error('Travel unavailable');
+    if (!this.current.discovered.has(key)) throw new Error('Travel unavailable');
     if (
       !(this.sim.areaDefinition.campfires ?? []).some(
-        (f) => this.discovered.has(this.sim.area + '/' + f.id) && this.canUseFire(f.id),
+        (f) => this.current.discovered.has(this.sim.area + '/' + f.id) && this.canUseFire(f.id),
       )
     )
       throw new Error('Visit a campfire to travel');
@@ -256,7 +305,7 @@ export class GameSession {
   }
   respawnFire() {
     const navigation = new Navigation(this.sim.areaDefinition);
-    const candidates = [...this.discovered]
+    const candidates = [...this.current.discovered]
       .filter((key) => this.fire(key).area === this.sim.area)
       .map((key) => {
         const route = navigation.route(
@@ -316,18 +365,21 @@ export class GameSession {
     return this.commitRoom(this.prepareRest(key));
   }
   equip(item: string, slot: EquipmentSlot) {
+    this.assertProgressionWritable();
     if (this.sim.inCombat) throw new Error('Finish combat before changing equipment');
-    this.inventoryState.equip(item, slot);
+    this.current.inventoryState.equip(item, slot);
     this.sim.hero.health = Math.min(this.sim.hero.health, this.sim.maxHealth);
   }
   unequip(slot: EquipmentSlot) {
+    this.assertProgressionWritable();
     if (this.sim.inCombat) throw new Error('Finish combat before changing equipment');
-    this.inventoryState.unequip(slot);
+    this.current.inventoryState.unequip(slot);
     this.sim.hero.health = Math.min(this.sim.hero.health, this.sim.maxHealth);
   }
   salvage(item?: string) {
+    this.assertProgressionWritable();
     if (this.sim.inCombat) throw new Error('Finish combat before salvaging');
-    this.inventoryState.salvage(item);
+    this.current.inventoryState.salvage(item);
   }
   captureSave(): GameSave {
     this.recordArea();
@@ -335,8 +387,8 @@ export class GameSession {
     return {
       version: 7,
       adventure: {
-        ...this.inventoryState.snapshot(),
-        discovered: [...this.discovered],
+        ...this.current.inventoryState.snapshot(),
+        discovered: [...this.current.discovered],
         ...(this.lastFire ? { lastFire: this.lastFire } : {}),
         potionCooldown: this.sim.potionCooldown,
       },
@@ -351,7 +403,7 @@ export class GameSession {
         dodgeCooldown: a.dodgeCooldown,
         nextAttack: a.nextAttack,
       },
-      areas: structuredClone(Object.fromEntries(this.visited)),
+      areas: structuredClone(Object.fromEntries(this.current.visited)),
     };
   }
   prepareRestore(value: GameSave): RoomPlan {
