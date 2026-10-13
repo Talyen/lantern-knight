@@ -274,15 +274,15 @@ export class SceneLibrary {
       fragment?: unknown;
       error?: string;
     }[]) {
+      const b = document.createElement('button');
       if (item.error) {
-        const note = document.createElement('p');
-        note.textContent = item.id + ' · Unreadable arrangement';
-        note.title = item.error;
-        list.append(note);
+        b.textContent = item.id + ' · Unavailable arrangement';
+        b.title = item.error;
+        b.disabled = true;
+        list.append(b);
         continue;
       }
-      const fragment = parseSceneFragment(item.fragment),
-        b = document.createElement('button');
+      const fragment = parseSceneFragment(item.fragment);
       b.textContent = fragment.name + ' · ' + fragment.objects.length + ' objects';
       b.onclick = () => {
         this.dialog.close();

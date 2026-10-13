@@ -25,7 +25,19 @@ npm run test:assets
 
 The fixtures invoke `python3`, which must resolve to the environment containing Pillow. Full [asset preparation](assets.md#local-preparation-review) needs additional authoring dependencies; the local selection models have [separate setup](developer-tools.md#local-foreground-selection-setup). `npm run assets:check` validates current runtime manifests, references, pages and companion registration without source-library access or visual approval.
 
-`npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`. Game covers input, pause/focus and current checkpoints; scene covers independent outdoor/interior fixtures, reload and resource lifetime; editor covers authoring/history/recovery and protected save requests; effects covers dedicated-scene controls and switching back to independent scene fixtures. `image-delivery` and `ground-occlusion` cover focused GPU behavior. Without a scenario, Playwright selects all browser suites; the [authored-ground diagnostic](developer-tools.md#ground-interaction) skips unless `LANTERN_GROUND_SCENE` opts into a prepared local scene.
+`npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`:
+
+| Selector | Coverage |
+| --- | --- |
+| `game` | Input, pause/focus and current checkpoints. |
+| `scene` | Independent outdoor/interior fixtures, reload and resource lifetime. |
+| `editor` | Authoring, history, recovery, ground interaction, contact shadows and protected save requests. |
+| `effects` | Dedicated-scene controls and switching back to independent scene fixtures. |
+| `image-delivery`, `ground-occlusion` | Focused GPU behavior. |
+| `authored-ground` | Opt-in [movement and timing capture](developer-tools.md#authored-scene-timing-capture), selected by `LANTERN_GROUND_SCENE`. |
+| `ground-review` | Opt-in [occlusion captures](developer-tools.md#authored-occlusion-captures), selected by `LANTERN_GROUND_REVIEW`. |
+
+Without a selector, Playwright selects all browser suites; both authored-scene diagnostics skip unless their scene environment variable is set. Selectors match filenames, so `editor` includes the editor regression, ground and contact suites. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion`.
 
 Development-preview browser checks prefer checkout-local prepared assets, falling back to the pin. One preview session acquires assets and starts a server, or reuses a matching Vite server after checking checkout, asset identity and required scope. It closes only its own server and lease. With `CI=true`, browser checks use pinned assets and require an unused port for their own server; use this mode for [milestone verification](release.md). Install Chromium once with `npx playwright install chromium` when needed; Linux hosts may also need Playwright's `--with-deps` installation. Add `--ui` after the scenario for continuous interactive iteration, for example `npm run test:browser -- editor --ui`.
 
@@ -51,7 +63,7 @@ Do not add retries to hide races, silently skip failures or weaken an invariant 
 
 ## Linting and unused code
 
-`npm run lint` runs Oxlint with TypeScript awareness. `npm run knip` checks live entries and dependencies. Python authoring lint is explicit: run the environment's Ruff against `tools` and `tests`. Keep entry declarations aligned with real HTML, CLI, test and preparation consumers.
+`npm run lint` runs Oxlint with TypeScript awareness. `npm run knip` checks live entries and dependencies. Python authoring lint is explicit: after installing Ruff 0.16.10 in the checkout's `.venv`, run `node --import tsx tools/lint.ts py`. This uses the repository's handwritten-file selection and Ruff configuration; `--fix` applies supported fixes. Python formatting uses [the explicit Python option](#code-formatting). Keep entry declarations aligned with real HTML, CLI, test and preparation consumers.
 
 ## Documentation checks
 

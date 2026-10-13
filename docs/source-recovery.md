@@ -20,6 +20,12 @@ Search does not follow symlinks or descend into Lantern's checkout/cache, hidden
 
 Recovery fixtures run with `npm run test:assets`, using temporary files to cover relocation, wrong revisions, cache invalidation, interruptions and concurrent recovery. No test rearranges the source library.
 
+## Importer metadata
+
+Full-library discovery maintains `.lantern/identities.json` inside the external Lantern Knight source root. Preserve this hidden directory when copying or backing up the library: the importer uses it to retain logical asset IDs, and therefore scene references, across replacements and moves. This metadata must survive cache cleanup and asset preparation. Original artwork and archive bytes remain unchanged.
+
+Logical asset IDs can survive an artwork replacement, but the new bytes have a new content identity. Ground interaction remains bound to the reviewed painting hash, frame and dimensions; a stable asset ID does not establish alignment. Follow [saved ground profile restoration](developer-tools.md#saved-ground-profiles) when reassigning or reviewing changed artwork.
+
 ## Source health and consolidation
 
 Run an explicit source health check:

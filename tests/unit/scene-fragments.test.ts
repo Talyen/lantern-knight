@@ -23,9 +23,11 @@ it('fragment recipes preserve sources, validate identities and reject symlink re
     await assert.rejects(() => store.read('linked'), /Invalid fragment/);
     await fs.writeFile(path.join(root, 'broken.json'), '{');
     const listed = await store.list();
-    assert.equal(listed.filter((entry) => entry.fragment).length, 2);
-    assert.ok(listed.find((entry) => entry.id === 'broken')?.error);
-    assert.ok(listed.find((entry) => entry.id === 'linked')?.error);
+    assert.equal(listed.filter((p) => p.fragment).length, 2);
+    assert.deepEqual(
+      listed.filter((p) => p.error).map((p) => p.id),
+      ['broken', 'linked'],
+    );
     assert.equal(await fs.readFile(path.join(root, 'broken.json'), 'utf8'), '{');
   } finally {
     await fs.rm(root, { recursive: true, force: true });

@@ -20,8 +20,10 @@ export class CompositionTools {
   readonly hidden = new Set<string>();
   readonly locked = new Set<string>();
   private cancelHandle: (() => void) | undefined;
+  private lifetime = new AbortController();
   private thumbnails: IntersectionObserver;
   constructor(private host: CompositionHost) {
+    window.addEventListener('blur', () => this.cancelGesture(), { signal: this.lifetime.signal });
     this.thumbnails = new IntersectionObserver(
       (entries) => {
         for (const entry of entries)
@@ -53,28 +55,43 @@ export class CompositionTools {
       if (!input) continue;
       label.title = 'Drag this label to adjust; edit the field for an exact value';
       label.onpointerdown = (e) => {
-        if (e.target !== label || input.disabled || input.closest('fieldset')?.disabled) return;
+        if (
+          e.button !== 0 ||
+          e.target !== label ||
+          input.disabled ||
+          input.closest('fieldset')?.disabled
+        )
+          return;
         e.preventDefault();
+        this.cancelGesture();
         label.setPointerCapture(e.pointerId);
-        const start = Number(input.value),
+        const original = input.value,
+          start = Number(original),
           x = e.clientX,
           step = Number(input.step) || 0.1;
         label.onpointermove = (move) => {
+          if (move.pointerId !== e.pointerId) return;
           input.value = String(
             Math.round((start + ((move.clientX - x) / 8) * step) * 10000) / 10000,
           );
         };
-        const finish = (event: PointerEvent) => {
+        const finish = (cancel: boolean) => {
           label.onpointermove = null;
           label.onpointerup = null;
           label.onpointercancel = null;
-          if (label.hasPointerCapture(event.pointerId))
-            label.releasePointerCapture(event.pointerId);
-          if (event.type === 'pointercancel') input.value = String(start);
+          label.onlostpointercapture = null;
+          this.cancelHandle = undefined;
+          if (label.hasPointerCapture(e.pointerId)) label.releasePointerCapture(e.pointerId);
+          if (cancel) input.value = original;
           else input.dispatchEvent(new Event('change', { bubbles: true }));
         };
-        label.onpointerup = finish;
-        label.onpointercancel = finish;
+        this.cancelHandle = () => finish(true);
+        label.onpointerup = (event) => {
+          if (event.pointerId === e.pointerId) finish(false);
+        };
+        label.onpointercancel = label.onlostpointercapture = (event) => {
+          if (event.pointerId === e.pointerId) finish(true);
+        };
       };
     }
     for (const axis of ['x', 'z'] as const) {
@@ -102,6 +119,7 @@ export class CompositionTools {
         )
           return;
         e.preventDefault();
+        this.cancelGesture();
         const view = this.host.view();
         if (!view.presentation) return;
         const original = structuredClone(this.host.history().document);
@@ -137,6 +155,7 @@ export class CompositionTools {
         };
         this.cancelHandle = () => finish(true);
         button.onpointermove = (move) => {
+          if (move.pointerId !== e.pointerId) return;
           const point = view.ground(move.clientX, move.clientY);
           if (field === 'x' || field === 'z') {
             if (!point || !start) return;
@@ -166,17 +185,27 @@ export class CompositionTools {
             /* Keep the last valid preview when a transform exceeds scene limits. */
           }
         };
-        button.onpointerup = () => finish(false);
-        button.onpointercancel = () => finish(true);
-        button.onlostpointercapture = () => finish(true);
+        button.onpointerup = (event) => {
+          if (event.pointerId === e.pointerId) finish(false);
+        };
+        button.onpointercancel = button.onlostpointercapture = (event) => {
+          if (event.pointerId === e.pointerId) finish(true);
+        };
       };
     }
   }
   cancelGesture() {
     this.cancelHandle?.();
   }
+  reset() {
+    this.cancelGesture();
+    this.selection.clear();
+    this.hidden.clear();
+    this.locked.clear();
+  }
   dispose() {
     this.cancelGesture();
+    this.lifetime.abort();
     this.thumbnails.disconnect();
   }
   positionHandles() {

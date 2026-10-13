@@ -150,7 +150,7 @@ export function showPause(paused: boolean) {
   if (paused && !modal.open) modal.showModal();
   else if (!paused && modal.open) {
     modal.close();
-    $('canvas').focus();
+    document.querySelector<HTMLCanvasElement>('.game-stage canvas')?.focus();
   }
 }
 export function updateGameUI(app: Application) {

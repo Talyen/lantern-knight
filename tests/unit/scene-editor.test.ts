@@ -20,31 +20,6 @@ import { EditorHistory, sceneItems } from '../../src/editor/model';
 import { EditorDocument } from '../../src/editor/document';
 import { SceneStore } from '../../tools/scene/scene-editor-store';
 
-it('scene saves capture their submitted document before waiting for queued validation', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'scene-snapshot-'));
-  let release!: () => void;
-  const store = new SceneStore(
-    root,
-    () =>
-      new Promise<void>((resolve) => {
-        release = resolve;
-      }),
-  );
-  try {
-    const document = emptyScene();
-    const saving = store.save(document, null);
-    document.name = 'Changed after submission';
-    // Validation starts on the queue's next microtask.
-    await Promise.resolve();
-    release();
-    const saved = await saving;
-    assert.equal(saved.document.name, emptyScene().name);
-    assert.equal((await store.read(document.id)).document!.name, emptyScene().name);
-  } finally {
-    await fs.rm(root, { recursive: true, force: true });
-  }
-});
-
 describe('scene authoring contracts', () => {
   it('demands rain assets only when authored rain is enabled', () => {
     const document = emptyScene();
@@ -273,6 +248,31 @@ describe('scene authoring contracts', () => {
   });
 });
 describe('scene file saving', () => {
+  it('snapshots queued saves before the caller can mutate their scene', async () => {
+    const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-editor-'));
+    let release!: () => void;
+    const blocked = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    const store = new SceneStore(directory, async (d) => {
+      if (d.id === 'first') await blocked;
+    });
+    try {
+      const first = store.save({ ...emptyScene(), id: 'first' }, null);
+      const candidate = { ...emptyScene(), id: 'second', name: 'Requested scene' };
+      const second = store.save(candidate, null);
+      candidate.name = 'Late mutation';
+      candidate.floor.width = 999;
+      release();
+      await Promise.all([first, second]);
+      const saved = (await store.read('second')).document!;
+      assert.equal(saved.name, 'Requested scene');
+      assert.equal(saved.floor.width, emptyScene().floor.width);
+    } finally {
+      release();
+      await fs.rm(directory, { recursive: true, force: true });
+    }
+  });
   it('round-trips, rejects simultaneous writes, and preserves malformed external files', async () => {
     const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-editor-'));
     try {
