@@ -1,24 +1,22 @@
 import sharp from 'sharp';
+import { remapAlpha } from '../pixels';
 import recipe from '../../../authoring/flat-stage-art.json';
 import { source } from '../definition';
 
 import { hash } from '../../compiler';
 import type { Source } from '../../../src/assets/schema';
 import type { PreparationContext } from '../context';
+import { preparationOutput } from '../preparation-output';
 export async function prepare(context: PreparationContext, check = false) {
-  const { readAsset, writeAsset, compile } = context;
+  const { write: output, pack } = preparationOutput(context, check);
+  const { readAsset } = context;
 
   const root = 'references/art/' + recipe.group;
   const provenance = JSON.parse(await readAsset(root + '/provenance.json', 'utf8')) as {
     selected: { id: string; nativeSha256: string; dimensions: number[] }[];
   };
   const receipt = [];
-  async function output(file: string, bytes: Buffer | string) {
-    if (check) {
-      if (!Buffer.from(bytes).equals(await readAsset(file)))
-        throw new Error('Stale flat-stage artwork: ' + file);
-    } else await writeAsset(file, bytes);
-  }
+
   for (const r of recipe.frames) {
     const original = await readAsset(root + '/' + r.file),
       native = await sharp(original).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
@@ -34,17 +32,7 @@ export async function prepare(context: PreparationContext, check = false) {
     // Registered intake removes generated low-alpha backdrop contamination only.
     // RGB, native dimensions, authored silhouette registration and originals remain intact.
     if (r.alphaRemap)
-      for (let i = 3; i < native.data.length; i += 4) {
-        const t = Math.max(
-          0,
-          Math.min(
-            1,
-            (native.data[i]! / 255 - r.alphaRemap.floor) /
-              (r.alphaRemap.ceiling - r.alphaRemap.floor),
-          ),
-        );
-        native.data[i] = Math.round(t * t * (3 - 2 * t) * 255);
-      }
+      remapAlpha(native.data, r.alphaRemap.floor, r.alphaRemap.ceiling - r.alphaRemap.floor);
     const canvas = r.canvas as [number, number],
       anchor = r.anchor as [number, number];
     const s: Source = source(r.id, r.type as Source['asset']['type'], canvas, anchor, r.density);
@@ -78,16 +66,7 @@ export async function prepare(context: PreparationContext, check = false) {
       'staging/' + s.frames[0]!.path,
       await sharp(native.data, { raw: native.info }).png().toBuffer(),
     );
-    await output(`staging/ink/${r.id}.json`, JSON.stringify(s, null, 2) + '\n');
-    const m = await compile(`ink/${r.id}.json`, `public/generated/ink/${r.id}`, false, check);
-    if (
-      check &&
-      JSON.stringify(m) !==
-        JSON.stringify(
-          JSON.parse(await readAsset(`public/generated/ink/${r.id}/manifest.json`, 'utf8')),
-        )
-    )
-      throw new Error('Stale stage manifest: ' + r.id);
+    await pack(s);
     receipt.push({
       pack: r.id,
       id: r.clip,

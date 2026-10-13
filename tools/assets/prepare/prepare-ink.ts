@@ -1,5 +1,5 @@
-import path from 'node:path';
 import sharp from 'sharp';
+import { alphaBounds } from '../pixels';
 import { source } from '../definition';
 import { hash } from '../../compiler';
 import type { Source } from '../../../src/assets/schema';
@@ -7,8 +7,10 @@ import { sceneryRegistration } from '../../../src/content/scenery-registration';
 import contract from '../../../src/assets/camera.json';
 import { HEADINGS } from '../../../src/assets/camera-calibration';
 import type { PreparationContext } from '../context';
+import { preparationOutput } from '../preparation-output';
 export async function prepare(context: PreparationContext, check = false) {
-  const { readAsset, writeAsset, mkdirAsset, compile, exactSource } = context;
+  const { write, pack } = preparationOutput(context, check);
+  const { readAsset, exactSource } = context;
 
   const collection = 'references/art/ink-collection-01';
   const staging = 'staging/ink';
@@ -19,15 +21,6 @@ export async function prepare(context: PreparationContext, check = false) {
   }
   async function json(relative: string) {
     return JSON.parse((await read(relative)).toString());
-  }
-  async function write(file: string, data: Buffer | string) {
-    if (check) {
-      if (Buffer.compare(Buffer.from(data), await readAsset(file)))
-        throw new Error(`stale prepared input: ${file}`);
-    } else {
-      await mkdirAsset(path.dirname(file), { recursive: true });
-      await writeAsset(file, data);
-    }
   }
 
   async function image(
@@ -129,17 +122,9 @@ export async function prepare(context: PreparationContext, check = false) {
         .ensureAlpha()
         .raw()
         .toBuffer({ resolveWithObject: true });
-      let min = Infinity,
-        max = -1,
-        bottom = 0;
-      for (let y = 0; y < b.info.height; y++)
-        for (let x = 0; x < b.info.width; x++)
-          if (b.data[(y * b.info.width + x) * 4 + 3]! > 128) {
-            min = Math.min(min, x);
-            max = Math.max(max, x);
-            bottom = Math.max(bottom, y);
-          }
-      pivot = [(min + max) / 2, bottom];
+      const bounds = alphaBounds(b.data, b.info.width, b.info.height, 128);
+      if (!bounds) throw new Error('Empty scenery silhouette: ' + file);
+      pivot = [(bounds.minX + bounds.maxX) / 2, bounds.maxY];
     }
     const metadata = await sharp(await read(file)).metadata(),
       scale =
@@ -285,17 +270,9 @@ export async function prepare(context: PreparationContext, check = false) {
   for (const r of cryptItems) {
     const native = await read(r.file),
       raw = await sharp(native).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-    let l = Infinity,
-      right = -1,
-      bottom = 0;
-    for (let y = 0; y < raw.info.height; y++)
-      for (let x = 0; x < raw.info.width; x++)
-        if (raw.data[(y * raw.info.width + x) * 4 + 3]! > 128) {
-          l = Math.min(l, x);
-          right = Math.max(right, x);
-          bottom = Math.max(bottom, y);
-        }
-    const pivot = r.pivot ?? ([(l + right) / 2, bottom] as [number, number]),
+    const bounds = alphaBounds(raw.data, raw.info.width, raw.info.height, 128);
+    if (!bounds) throw new Error('Empty crypt silhouette: ' + r.file);
+    const pivot = r.pivot ?? ([(bounds.minX + bounds.maxX) / 2, bounds.maxY] as [number, number]),
       scale =
         (r.height * Math.cos((contract.elevationDeg * Math.PI) / 180) * crypt.asset.density) /
         r.measurePx;
@@ -493,17 +470,7 @@ export async function prepare(context: PreparationContext, check = false) {
   );
   for (const p of packs) {
     p.asset.requiredClips = Object.keys(p.asset.clips);
-    await write(`${staging}/${p.asset.id}.json`, JSON.stringify(p, null, 2) + '\n');
-    const out = `public/generated/ink/${p.asset.id}`;
-    const compiled = await compile(`ink/${p.asset.id}.json`, out, false, check);
-    if (check) {
-      const published = JSON.parse(await readAsset(`${out}/manifest.json`, 'utf8'));
-      if (JSON.stringify(compiled) !== JSON.stringify(published))
-        throw new Error(`stale compiled pack: ${p.asset.id}`);
-      for (const page of compiled.pages)
-        if (hash(await readAsset(path.join(out, page.path))) !== page.hash)
-          throw new Error(`stale page: ${p.asset.id}/${page.id}`);
-    }
+    const compiled = await pack(p);
     console.log(
       `${check ? 'Verified' : 'Prepared'} ${p.asset.id}: ${p.frames.length} frames / ${compiled.pages.length} pages`,
     );

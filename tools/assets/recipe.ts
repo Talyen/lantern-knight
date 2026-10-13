@@ -5,30 +5,27 @@ import { safeRelative } from './files';
 import { z } from 'zod';
 import recipe from '../../assets/recipe.json';
 import { projectRoot } from './paths';
-const RecipeSchema = z
-  .object({
-    schemaVersion: z.literal(1),
-    steps: z
-      .array(
-        z
-          .object({
-            file: z.string(),
-            freshness: z.boolean(),
-            ids: z.array(z.string()).optional(),
-            inputs: z.array(z.string()).optional(),
-            dependsOn: z.array(z.string()).optional(),
-          })
-          .strict(),
-      )
-      .nonempty(),
-    inputs: z.array(z.string()),
-    sharedInputs: z.array(z.string()).default([]),
-    authoredInputs: z.array(z.string()).optional(),
-    dependencies: z
-      .object({ devDependencies: z.array(z.string()), dependencies: z.array(z.string()) })
-      .strict(),
-  })
-  .strict();
+const RecipeSchema = z.strictObject({
+  schemaVersion: z.literal(1),
+  steps: z
+    .array(
+      z.strictObject({
+        file: z.string(),
+        freshness: z.boolean(),
+        ids: z.array(z.string()).optional(),
+        inputs: z.array(z.string()).optional(),
+        dependsOn: z.array(z.string()).optional(),
+      }),
+    )
+    .nonempty(),
+  inputs: z.array(z.string()),
+  sharedInputs: z.array(z.string()).default([]),
+  authoredInputs: z.array(z.string()).optional(),
+  dependencies: z.strictObject({
+    devDependencies: z.array(z.string()),
+    dependencies: z.array(z.string()),
+  }),
+});
 const authoredSteps = RecipeSchema.parse(recipe).steps;
 // A producer may be declared after its consumer in the authored manifest.
 // Both full and scoped preparation must execute the same dependency order.

@@ -12,30 +12,27 @@ import { content } from '../../src/content/game-content';
 import { AssetCache } from '../assets/cache';
 import { digest, sourceIdentity } from '../source-identity';
 
-const point = z.object({ x: z.number().finite(), z: z.number().finite() }).strict();
-const command = z
-  .object({
-    move: point,
-    aim: point,
-    attack: z.boolean().optional(),
-    ability: z.boolean().optional(),
-    dodge: z.boolean().optional(),
-    generation: z.number().int().nonnegative().optional(),
-  })
-  .strict();
+const point = z.strictObject({ x: z.number().finite(), z: z.number().finite() });
+const command = z.strictObject({
+  move: point,
+  aim: point,
+  attack: z.boolean().optional(),
+  ability: z.boolean().optional(),
+  dodge: z.boolean().optional(),
+  generation: z.number().int().nonnegative().optional(),
+});
 const action = z.discriminatedUnion('kind', [
-  z.object({ kind: z.literal('step'), ticks: z.number().int().min(1).max(3600), command }).strict(),
-  z.object({ kind: z.literal('save') }).strict(),
-  z.object({ kind: z.literal('load') }).strict(),
-  z.object({ kind: z.literal('reset') }).strict(),
+  z.strictObject({ kind: z.literal('step'), ticks: z.number().int().min(1).max(3600), command }),
+  z.strictObject({ kind: z.literal('save') }),
+  z.strictObject({ kind: z.literal('load') }),
+  z.strictObject({ kind: z.literal('reset') }),
 ]);
 export const RecipeSchema = z
-  .object({
+  .strictObject({
     seed: z.number().int().min(0).max(0xffffffff).default(142),
     initialSave: z.unknown().optional(),
     actions: z.array(action).min(1).max(1000),
   })
-  .strict()
   .refine(
     (r) => r.actions.reduce((n, a) => n + (a.kind === 'step' ? a.ticks : 0), 0) <= 36000,
     'Replay exceeds 36,000 fixed steps',
@@ -128,40 +125,34 @@ export async function executeRecipe(
     targeted: recipe.initialSave !== undefined,
   };
 }
-const identity = z
-  .object({
-    identityVersion: z.union([z.literal(2), z.literal(3), z.literal(4)]).optional(),
-    archiveRecipeSha256: z
-      .string()
-      .regex(/^[a-f0-9]{64}$/)
-      .optional(),
-    preparationRecipeSha256: z
-      .string()
-      .regex(/^[a-f0-9]{64}$/)
-      .optional(),
-    commit: z.string().nullable(),
-    dirty: z.boolean(),
-    sha256: z.string().regex(/^[a-f0-9]{64}$/),
-    assetSha256: z.string().regex(/^[a-f0-9]{64}$/),
-  })
-  .strict();
-const BundleSchema = z
-  .object({
-    schemaVersion: z.union([z.literal(1), z.literal(2)]),
-    source: identity,
-    node: z.string(),
-    recipe: RecipeSchema,
-    result: z
-      .object({
-        hashes: z.array(z.string()),
-        events: z.record(z.string(), z.number()),
-        areas: z.array(z.string()),
-        finalSave: z.unknown(),
-        targeted: z.boolean(),
-      })
-      .strict(),
-  })
-  .strict();
+const identity = z.strictObject({
+  identityVersion: z.union([z.literal(2), z.literal(3), z.literal(4)]).optional(),
+  archiveRecipeSha256: z
+    .string()
+    .regex(/^[a-f0-9]{64}$/)
+    .optional(),
+  preparationRecipeSha256: z
+    .string()
+    .regex(/^[a-f0-9]{64}$/)
+    .optional(),
+  commit: z.string().nullable(),
+  dirty: z.boolean(),
+  sha256: z.string().regex(/^[a-f0-9]{64}$/),
+  assetSha256: z.string().regex(/^[a-f0-9]{64}$/),
+});
+const BundleSchema = z.strictObject({
+  schemaVersion: z.union([z.literal(1), z.literal(2)]),
+  source: identity,
+  node: z.string(),
+  recipe: RecipeSchema,
+  result: z.strictObject({
+    hashes: z.array(z.string()),
+    events: z.record(z.string(), z.number()),
+    areas: z.array(z.string()),
+    finalSave: z.unknown(),
+    targeted: z.boolean(),
+  }),
+});
 async function readJSON(file: string) {
   if ((await fs.stat(file)).size > 16 * 1024 * 1024) throw new Error('Replay input exceeds 16 MiB');
   return JSON.parse(await fs.readFile(file, 'utf8'));

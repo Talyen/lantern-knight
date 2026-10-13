@@ -110,7 +110,7 @@ export class AssetRuntime {
   }
   private acceptManifest(id: string, data: unknown): Manifest {
     const file = this.catalog[id]!;
-    const parsed = parseManifest(data, this.production);
+    const parsed = parseManifest(data);
     if (parsed.asset.id !== id) throw new Error('Asset manifest identity differs: ' + id);
     const manifest = contentSnapshot(parsed);
     for (const page of manifest.pages) {

@@ -1,19 +1,15 @@
 import { z } from 'zod';
 import { GroundInteractionSchema, resizeGroundInteraction } from './ground-interaction';
 
-export const GroundProfileSchema = z
-  .object({
-    version: z.literal(1),
-    name: z.string().min(1).max(80),
-    floor: z
-      .object({
-        width: z.number().positive().max(100).finite(),
-        depth: z.number().positive().max(100).finite(),
-      })
-      .strict(),
-    interaction: GroundInteractionSchema,
-  })
-  .strict();
+export const GroundProfileSchema = z.strictObject({
+  version: z.literal(1),
+  name: z.string().min(1).max(80),
+  floor: z.strictObject({
+    width: z.number().positive().max(100).finite(),
+    depth: z.number().positive().max(100).finite(),
+  }),
+  interaction: GroundInteractionSchema,
+});
 export type GroundProfile = z.infer<typeof GroundProfileSchema>;
 
 /** Reassignment is explicit; changed images need an alignment review. */
