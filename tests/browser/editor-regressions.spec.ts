@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures';
+import type { Page } from '@playwright/test';
 import type { GroundAuthoring } from '../../src/editor/ground-authoring';
 import type { SceneDocument } from '../../src/content/scene-document';
 import type { OrthographicCamera } from 'three';
@@ -10,6 +11,7 @@ declare global {
       authoring: GroundAuthoring;
       document: SceneDocument;
       camera: OrthographicCamera;
+      pointer?: number;
     };
   }
 }
@@ -118,18 +120,42 @@ test('ground overlays follow projection changes without camera translation', asy
   await expect(page.locator('.ground-overlay path')).not.toHaveAttribute('d', before!);
 });
 
-test('cancelled ground drags discard edits and release pointer capture', async ({ page }) => {
+async function beginAnchorDrag(page: Page) {
+  await page.bringToFront();
   await page.locator('#ground-show-depth').check();
-  await page.mouse.move(400, 300);
+  const canvas = page.locator('#viewport');
+  const rect = await canvas.boundingBox();
+  if (!rect) throw new Error('Ground canvas is unavailable');
+  await page.evaluate(() => {
+    window.addEventListener(
+      'pointerdown',
+      (event) => {
+        window.groundRegression.pointer = event.pointerId;
+      },
+      { capture: true, once: true },
+    );
+  });
+  await page.mouse.move(rect.x + rect.width / 2, rect.y + rect.height / 2);
   await page.mouse.down();
+  const pointerId = await page.evaluate(() => window.groundRegression.pointer);
+  if (pointerId === undefined) throw new Error('Ground drag received no pointerdown');
   await expect
-    .poll(() => page.locator('#viewport').evaluate((canvas) => canvas.hasPointerCapture(1)))
+    .poll(() => canvas.evaluate((node, pointer) => node.hasPointerCapture(pointer), pointerId))
     .toBe(true);
-  await page.locator('#viewport').dispatchEvent('pointercancel', { pointerId: 1 });
+  return { pointerId, rect };
+}
+
+test('cancelled ground drags discard edits and release pointer capture', async ({ page }) => {
+  const { pointerId, rect } = await beginAnchorDrag(page);
+  await page.locator('#viewport').dispatchEvent('pointercancel', { pointerId });
   await expect.soft
-    .poll(() => page.locator('#viewport').evaluate((canvas) => canvas.hasPointerCapture(1)))
+    .poll(() =>
+      page
+        .locator('#viewport')
+        .evaluate((canvas, pointer) => canvas.hasPointerCapture(pointer), pointerId),
+    )
     .toBe(false);
-  await page.mouse.move(435, 320);
+  await page.mouse.move(rect.x + 435, rect.y + 320);
   await page.mouse.up();
   expect(
     await page.evaluate(
@@ -139,12 +165,10 @@ test('cancelled ground drags discard edits and release pointer capture', async (
 });
 
 test('ground drags commit the release location without a final pointermove', async ({ page }) => {
-  await page.locator('#ground-show-depth').check();
-  await page.mouse.move(400, 300);
-  await page.mouse.down();
+  const { pointerId, rect } = await beginAnchorDrag(page);
   await page
     .locator('#viewport')
-    .dispatchEvent('pointerup', { pointerId: 1, clientX: 430, clientY: 315 });
+    .dispatchEvent('pointerup', { pointerId, clientX: rect.x + 430, clientY: rect.y + 315 });
   await page.mouse.up();
   const projected = await page.evaluate(async () => {
     const threePath = '/node_modules/.vite/deps/three.js';

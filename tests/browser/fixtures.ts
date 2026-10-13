@@ -38,3 +38,7 @@ export async function openEditor(page: Page, url = '/editor.html?automated') {
   await page.goto(url);
   await waitForEditor(page);
 }
+
+export async function waitForEditorIdle(page: Page) {
+  await expect(page.locator('#tool')).toBeEnabled({ timeout: 60_000 });
+}

@@ -1,5 +1,5 @@
 import { readJson, writeJson } from '../../tools/json-file';
-import { test, expect, openEditor, waitForEditor } from './fixtures';
+import { test, expect, openEditor, waitForEditor, waitForEditorIdle } from './fixtures';
 import type { Page } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -705,6 +705,7 @@ test('editor asset and ground filters preserve selections through edits and undo
   await page.locator('#ground-search').fill(choice.split('/')[0]!);
   await expect(page.locator('#ground-search')).toHaveValue(choice.split('/')[0]!);
   await page.locator(`[data-ground="${choice}"]`).click();
+  await waitForEditorIdle(page);
   await expect
     .poll(() =>
       page.evaluate(
@@ -1104,6 +1105,7 @@ test('task destinations preserve advanced data and show suitable grounds before 
     await page.locator('#ground-kind').selectOption('scene-painting');
     await page.locator('#ground-search').fill(values[0]!.split('/')[0]!);
     await page.locator(`[data-ground="${values[0]}"]`).click();
+    await waitForEditorIdle(page);
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.layout))
       .toBe('artwork');

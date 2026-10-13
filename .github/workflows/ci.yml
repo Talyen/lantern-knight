@@ -15,7 +15,9 @@ env:
 jobs:
   checks:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    # Cold asset acquisition and the full authoring suite share this job.
+    # The browser command retains its independent 30-minute deadline.
+    timeout-minutes: 45
     outputs:
       desktop: ${{ steps.impact.outputs.desktop }}
     steps:

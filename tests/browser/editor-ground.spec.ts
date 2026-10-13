@@ -1,5 +1,5 @@
 import { readJson } from '../../tools/json-file';
-import { test, expect, openEditor, waitForEditor } from './fixtures';
+import { test, expect, waitForEditorIdle, openEditor, waitForEditor } from './fixtures';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { projectRoot } from '../../tools/assets/paths';
@@ -254,6 +254,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await page.locator('#confirm-save').click();
     const response = await savedResponse;
     expect(response.ok(), await response.text()).toBe(true);
+    await waitForEditorIdle(page);
     await expect(page.locator('#save-state')).toHaveText('Saved');
     const saved = await readJson(file);
     expect(saved.groundInteraction).toEqual(authored);
