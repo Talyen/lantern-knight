@@ -24,7 +24,8 @@ Follow [Development](docs/development.md) for focused tests, preview ports and t
 | Understand owners and change contracts | [Architecture](docs/architecture.md) |
 | Prepare and share artwork | [Assets](docs/assets.md), [source recovery](docs/source-recovery.md) |
 | Run tests or measure performance | [Verification](docs/verification.md), [session replay](docs/session-replay.md) |
-| Edit scenes, lighting or effects | [Developer tools](docs/developer-tools.md), [scene design](docs/scene-design.md) |
+| Author and playtest a scene | [Scene editor](docs/developer-tools.md#scene-editor), [saved scenes](authoring/scenes/README.md), [scene design](docs/scene-design.md) |
+| Inspect animation, lighting or effects | [Dev Preview](docs/developer-tools.md#dev-preview), [diagnostics](docs/developer-tools.md#checks-and-diagnostics) |
 | Understand design and priorities | [Game design](docs/game-design.md), [roadmap](docs/roadmap.md) |
 | Package a milestone | [Delivery](docs/release.md) |
 | Run a requested investigation | [Audits](docs/audits/README.md) |

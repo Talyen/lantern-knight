@@ -33,7 +33,7 @@ After `npm run build`, `npm run test:browser -- game --built` verifies Game agai
 
 `npm run test:desktop` consumes a Game package and tests the actual executable, bundled identity, real controls and storage restart. The live-development fixture copies sources and installed dependencies into an isolated checkout, excluding generated dependency caches; CI verifies fresh installation once before these tests. Native results apply to the platform exercised. Browser results do not certify desktop integration or visible reference-hardware pacing.
 
-Non-watch test commands omit individual passing cases while streaming summaries, failure details, skips, TODOs, stdout and stderr through Node's spec reporter. `--verbose` restores passing-case output; watch mode always includes it. Reporting does not change suite selection or failure exit status.
+Non-watch `npm test` and `npm run test:assets` omit individual passing cases while streaming summaries, failure details, skips, TODOs, stdout and stderr through Node's spec reporter. `--verbose` restores passing-case output; watch mode always includes it. Reporting does not change suite selection or failure exit status. Browser and desktop tests use their own reporters.
 
 ## Test value
 
@@ -70,6 +70,8 @@ Routine browser journeys leave screenshot, video and trace recording off. Opt-in
 CI has generous hang timeouts. Local GPU tests and asset preparation share a small admission lane; static checks, pure tests and builds do not. Default unit concurrency remains two and browser concurrency one. [Coordination](task-coordination.md#concurrent-commands) owns the shared-machine details.
 
 ## Diagnostics and measurements
+
+The `benchmark` command routes several kinds of diagnostic. [Recorded session replay](session-replay.md) covers the headless `record` and `replay` modes; `compare` reads saved measurement records. `editor` runs the browser editor scenario. `quality` checks prepared asset metadata, source-density declarations and texture budgets without launching a renderer or requiring a package; it does not establish visual quality. These modes are separate from the native scenarios below.
 
 Native diagnostics consume an already packaged application; they do not build it. Prepare the matching package on the host before running a scenario:
 
