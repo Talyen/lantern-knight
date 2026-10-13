@@ -342,7 +342,9 @@ export class SceneLibrary {
       throw new Error('Pattern exceeds the 500-object scene limit');
     this.snapshot = this.patternSnapshot();
     const view = this.host.view();
-    view.presentation!.overlay.add(this.preview);
+    if (!view.presentation)
+      throw new Error('Scene view is unavailable; reopen the scene to recover');
+    view.presentation.overlay.add(this.preview);
     for (const p of this.points) {
       const mesh = new T.Line(
         new T.BufferGeometry().setFromPoints([

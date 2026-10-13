@@ -203,8 +203,7 @@ test('editor visibility preserves completed effect hiding before rendering', () 
       submitted.push(room.sprites[0]!.mesh.visible);
     },
   };
-  view.presentation = presentation as unknown as NonNullable<EditorView['presentation']>;
-  view.sim = sim;
+  Object.assign(view, { renderer: presentation, simulation: sim, accepted: true });
   try {
     view.render(250);
     assert.deepEqual(submitted, [false], 'A completed effect stays hidden in the submitted frame');

@@ -703,6 +703,7 @@ export class VisualAuthoring {
     if ($<HTMLSelectElement>('tool').value !== 'geometry' || e.button !== 0) return false;
     this.draw();
     const view = this.host.view();
+    if (!view.presentation || !view.sim) return false;
     const candidates = this.handles
       .map((h) => {
         const s = view.screen(

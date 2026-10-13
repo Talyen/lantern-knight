@@ -43,8 +43,19 @@ class EditorPresentation extends GamePresentation {
   }
 }
 export class EditorView {
-  presentation?: EditorPresentation;
-  sim?: Simulation;
+  private renderer?: EditorPresentation;
+  private simulation?: Simulation;
+  private accepted = false;
+  private warmed = false;
+  get presentation() {
+    return this.available ? this.renderer : undefined;
+  }
+  get sim() {
+    return this.available ? this.simulation : undefined;
+  }
+  private get available() {
+    return this.accepted && !this.applying && !this.closed;
+  }
   private generation = 0;
   private readonly assets = new SceneAssets();
   private readonly packs = this.assets.packs;
@@ -77,29 +88,29 @@ export class EditorView {
   private appliedDocument?: SceneSnapshot;
   private walking?: { x: number; z: number; yaw: number; initialYaw: number; center: T.Vector3 };
   setHeroWalking(enabled: boolean) {
-    if (!this.sim || !this.presentation) return;
+    if (!this.available || !this.simulation || !this.renderer) return;
     if (enabled && !this.walking) {
-      const { x, z, yaw } = this.sim.hero;
-      this.walking = { x, z, yaw, initialYaw: yaw, center: this.presentation.center.clone() };
+      const { x, z, yaw } = this.simulation.hero;
+      this.walking = { x, z, yaw, initialYaw: yaw, center: this.renderer.center.clone() };
     } else if (!enabled && this.walking) {
-      this.presentation.center.copy(this.walking.center);
-      this.sim.hero.yaw = this.walking.initialYaw;
+      this.renderer.center.copy(this.walking.center);
+      this.simulation.hero.yaw = this.walking.initialYaw;
       this.walking = undefined;
-      this.sim.hero.state = 'idle';
+      this.simulation.hero.state = 'idle';
       if (this.appliedDocument) this.hero(this.appliedDocument.hero);
     }
     this.render();
   }
   walkHero(x: number, y: number, ms: number) {
-    if (!this.walking || !this.sim || this.applying) return;
+    if (!this.available || !this.walking || !this.simulation) return;
     const move = screenMovement(x, y),
-      hero = this.sim.hero;
+      hero = this.simulation.hero;
     hero.state = x || y ? 'walk' : 'idle';
     if (x || y) this.walking.yaw = Math.atan2(move.x, move.z);
     Object.assign(
       this.walking,
       moveSupported(
-        this.sim.areaDefinition,
+        this.simulation.areaDefinition,
         this.walking,
         {
           x: (move.x * hero.definition.speed * ms) / 1000,
@@ -110,10 +121,10 @@ export class EditorView {
     );
     this.hero(this.walking);
     hero.yaw = this.walking.yaw;
-    if (x || y) this.presentation!.center.set(hero.x, hero.y, hero.z);
+    if (x || y) this.renderer!.center.set(hero.x, hero.y, hero.z);
   }
   previewTransforms(document: SceneSnapshot) {
-    if (!this.appliedDocument || !this.sim) return;
+    if (!this.available || !this.appliedDocument || !this.simulation) return;
     const originals = new Map(
       sceneItems(this.appliedDocument).map((p) => [p.placement.id, p.placement]),
     );
@@ -144,8 +155,8 @@ export class EditorView {
           .add(
             new T.Vector3(
               p.x - original.x,
-              heightAt(this.sim.areaDefinition, p.x, p.z) -
-                heightAt(this.sim.areaDefinition, original.x, original.z) +
+              heightAt(this.simulation.areaDefinition, p.x, p.z) -
+                heightAt(this.simulation.areaDefinition, original.x, original.z) +
                 (p.y ?? 0) -
                 (original.y ?? 0),
               p.z - original.z,
@@ -172,19 +183,24 @@ export class EditorView {
   }
   setAnimationPlaying(playing: boolean) {
     this.animationPlaying = playing;
-    if (this.presentation?.roomPresentation.inkRoom)
-      this.presentation.roomPresentation.inkRoom.playing = playing;
+    if (this.renderer?.roomPresentation.inkRoom)
+      this.renderer.roomPresentation.inkRoom.playing = playing;
   }
   replayAnimations() {
-    this.presentation?.roomPresentation.inkRoom?.replay();
+    if (!this.available) return;
+    this.renderer?.roomPresentation.inkRoom?.replay();
     this.render();
   }
   constructor(
     readonly canvas: HTMLCanvasElement,
     readonly runtime: AssetRuntime,
+    private readonly createPresentation: (
+      ...args: ConstructorParameters<typeof EditorPresentation>
+    ) => EditorPresentation = (...args) => new EditorPresentation(...args),
   ) {}
   async apply(document: SceneSnapshot) {
     if (this.closed) throw new Error('Editor closed');
+    if (this.applying) throw new Error('Scene update in progress');
     this.clearTransformPreview();
     const resolved = resolveScene(document);
     const art = this.hidden.size
@@ -204,11 +220,11 @@ export class EditorView {
       hero: undefined,
       look: undefined,
     });
-    if (composition === this.composition && this.presentation && this.sim) {
+    if (composition === this.composition && this.renderer && this.simulation) {
       this.appliedDocument = document;
-      this.hero(this.walking ?? document.hero);
-      this.presentation.visualOverride = art;
-      this.presentation.lookRenderer.setSettings({ ...document.look, sun: document.look.sun });
+      this.positionHero(this.walking ?? document.hero);
+      this.renderer.visualOverride = art;
+      this.renderer.lookRenderer.setSettings({ ...document.look, sun: document.look.sun });
       return;
     }
     const ids = new Set(
@@ -240,29 +256,31 @@ export class EditorView {
       });
       const installing = acquired;
       acquired = undefined; // SceneAssets owns both generations from this point.
-      let created = false;
       this.assets.install(installing, () => {
+        // From the first mutation, neither generation is safe to expose until
+        // rebuilding and asynchronous preparation have both succeeded.
+        this.accepted = false;
+        this.clearPlacementGhost();
         this.composition = undefined;
-        this.sim = new GameSession(registry, 142, area.id, ++this.generation).sim;
-        this.hero(this.walking ?? document.hero);
+        this.simulation = new GameSession(registry, 142, area.id, ++this.generation).sim;
+        this.positionHero(this.walking ?? document.hero);
         this.clearHelpers();
-        if (!this.presentation) {
-          this.presentation = new EditorPresentation(
+        if (!this.renderer) {
+          this.renderer = this.createPresentation(
             this.canvas,
             this.packs,
             new EventHub(),
-            this.sim.areaDefinition,
+            this.simulation.areaDefinition,
             this.runtime.registration,
             art,
           );
-          this.presentation.scene.add(this.presentation.overlay);
-          created = true;
+          this.renderer.scene.add(this.renderer.overlay);
         } else {
-          this.presentation.visualOverride = art;
-          this.presentation.resetRoom(this.sim.areaDefinition, art);
+          this.renderer.visualOverride = art;
+          this.renderer.resetRoom(this.simulation.areaDefinition, art);
         }
-        this.presentation.generation = this.sim.generation;
-        this.presentation.lookRenderer.setSettings({ ...document.look, sun: document.look.sun });
+        this.renderer.generation = this.simulation.generation;
+        this.renderer.lookRenderer.setSettings({ ...document.look, sun: document.look.sun });
         const bounds = area.bounds;
         this.grid = new T.GridHelper(
           Math.max(bounds.maxX - bounds.minX, bounds.maxZ - bounds.minZ),
@@ -271,17 +289,19 @@ export class EditorView {
           0x526c6c,
         );
         this.grid.position.y = 0.03;
-        this.presentation.overlay.add(this.grid);
+        this.renderer.overlay.add(this.grid);
       });
-      const presentation = this.presentation!;
-      if (created) {
+      const presentation = this.renderer!;
+      if (!this.warmed) {
         await presentation.warm();
         if (this.closed) throw new Error('Editor closed');
+        this.warmed = true;
       }
       await presentation.lookRenderer.prepare();
       if (this.closed) throw new Error('Editor closed');
       this.composition = composition;
       this.appliedDocument = document;
+      this.accepted = true;
       this.setAnimationPlaying(this.animationPlaying);
     } catch (error) {
       acquired?.release();
@@ -291,19 +311,23 @@ export class EditorView {
     }
   }
   hero(point: { x: number; z: number }) {
-    if (!this.sim) return;
-    Object.assign(this.sim.hero, {
+    if (!this.available) return;
+    this.positionHero(point);
+  }
+  private positionHero(point: { x: number; z: number }) {
+    if (!this.simulation) return;
+    Object.assign(this.simulation.hero, {
       x: point.x,
       z: point.z,
       px: point.x,
       pz: point.z,
-      y: heightAt(this.sim.areaDefinition, point.x, point.z),
-      py: heightAt(this.sim.areaDefinition, point.x, point.z),
+      y: heightAt(this.simulation.areaDefinition, point.x, point.z),
+      py: heightAt(this.simulation.areaDefinition, point.x, point.z),
     });
   }
   render(ms = 0) {
-    if (this.closed || this.applying || !this.presentation || !this.sim) return;
-    this.presentation.beforeRender = () => {
+    if (!this.available || !this.renderer || !this.simulation) return;
+    this.renderer.beforeRender = () => {
       for (const { sprite, position, scale, quaternion } of this.transformPreview) {
         sprite.mesh.position.copy(position);
         sprite.mesh.scale.copy(scale);
@@ -315,10 +339,10 @@ export class EditorView {
       for (const sprite of this.sprites())
         if (this.hidden.has(sprite.id)) sprite.mesh.visible = false;
     };
-    this.presentation.update(this.sim.view, 1, ms, this.sim.hero);
+    this.renderer.update(this.simulation.view, 1, ms, this.simulation.hero);
   }
   screen(point: T.Vector3) {
-    const p = point.clone().project(this.presentation!.camera),
+    const p = point.clone().project(this.renderer!.camera),
       r = this.canvas.getBoundingClientRect();
     return { x: r.left + ((p.x + 1) * r.width) / 2, y: r.top + ((1 - p.y) * r.height) / 2 };
   }
@@ -326,18 +350,19 @@ export class EditorView {
     const r = this.canvas.getBoundingClientRect();
     this.rays.setFromCamera(
       new T.Vector2(((x - r.left) / r.width) * 2 - 1, 1 - ((y - r.top) / r.height) * 2),
-      this.presentation!.camera,
+      this.renderer!.camera,
     );
     return this.rays.ray;
   }
   ground(x: number, y: number, height = 0) {
+    if (!this.available) return null;
     return this.ray(x, y).intersectPlane(
       new T.Plane(new T.Vector3(0, 1, 0), -height),
       new T.Vector3(),
     );
   }
   private sprites() {
-    return this.presentation?.roomPresentation.inkRoom?.sprites ?? [];
+    return (this.available ? this.renderer?.roomPresentation.inkRoom?.sprites : undefined) ?? [];
   }
   private opaque(s: ActorSprite, uv: T.Vector2) {
     const texture = s.material.map!;
@@ -360,6 +385,7 @@ export class EditorView {
     return sample.data[y * sample.width + x]! > 32;
   }
   pick(x: number, y: number, document: SceneSnapshot) {
+    if (!this.available) return undefined;
     this.ray(x, y);
     const items = new Map(sceneItems(document).map((item) => [item.placement.id, item])),
       sprites = this.sprites().filter((s) => items.has(s.id) && !this.hidden.has(s.id));
@@ -382,12 +408,13 @@ export class EditorView {
       this.selection = undefined;
     }
     const s = this.sprites().find((s) => s.id === id);
-    if (s && this.presentation) {
+    if (s && this.renderer) {
       this.selection = new T.BoxHelper(s.mesh, 0xe9bd65);
-      this.presentation.overlay.add(this.selection);
+      this.renderer.overlay.add(this.selection);
     }
   }
   async placementGhost(asset: string, clip: string, heading: string, point: T.Vector3) {
+    if (!this.available) return;
     const key = asset + '/' + clip + '/' + heading;
     if (this.ghostKey !== key) {
       const request = ++this.ghostRequest;
@@ -403,7 +430,7 @@ export class EditorView {
         if (request === this.ghostRequest) this.ghostKey = '';
         throw error;
       }
-      if (this.closed || request !== this.ghostRequest) {
+      if (!this.available || request !== this.ghostRequest) {
         pack.release();
         return;
       }
@@ -421,10 +448,10 @@ export class EditorView {
       this.ghost.material.transparent = true;
       this.ghost.material.opacity = 0.45;
       this.ghost.material.depthWrite = false;
-      this.presentation?.overlay.add(this.ghost.mesh);
+      this.renderer?.overlay.add(this.ghost.mesh);
     }
-    if (this.ghost && this.presentation) {
-      this.ghost.show(this.ghost.animator.frame, point, this.presentation.camera);
+    if (this.ghost && this.renderer) {
+      this.ghost.show(this.ghost.animator.frame, point, this.renderer.camera);
       this.render();
     }
   }
@@ -450,9 +477,9 @@ export class EditorView {
     this.select(undefined);
     for (const id of ids) {
       const s = this.sprites().find((s) => s.id === id);
-      if (s && this.presentation) {
+      if (s && this.renderer) {
         const helper = new T.BoxHelper(s.mesh, 0xe9bd65);
-        this.presentation.overlay.add(helper);
+        this.renderer.overlay.add(helper);
         this.selections.push(helper);
       }
     }
@@ -478,15 +505,16 @@ export class EditorView {
   }
   resize() {
     if (this.closed) return;
-    this.presentation?.resize();
+    this.renderer?.resize();
     this.render();
   }
   dispose() {
     this.closed = true;
+    this.accepted = false;
     this.abort.abort();
     this.clearPlacementGhost();
     this.clearHelpers();
-    this.presentation?.dispose();
+    this.renderer?.dispose();
     this.assets.dispose();
   }
 }

@@ -143,6 +143,7 @@ it('placement ghost retries the same asset after a transient load failure', asyn
     },
   };
   const view = new EditorView({} as HTMLCanvasElement, runtime as unknown as AssetRuntime);
+  Object.assign(view, { accepted: true });
   await assert.rejects(
     view.placementGhost('ink-hero-current', 'idle', 'd00', new Vector3()),
     /temporary failure/,
@@ -171,8 +172,11 @@ it('editor applies transform previews before submitting the rendered frame', () 
     },
     roomPresentation: { inkRoom: { sprites: [sprite] } },
   };
-  view.presentation = presentation as unknown as NonNullable<EditorView['presentation']>;
-  view.sim = new Simulation(content);
+  Object.assign(view, {
+    renderer: presentation,
+    simulation: new Simulation(content),
+    accepted: true,
+  });
   const accepted = emptyScene();
   accepted.objects = [
     { id: 'prop', kind: 'prop', asset: 'ink-scenery', clip: 'lantern', x: 0, z: 0 },
