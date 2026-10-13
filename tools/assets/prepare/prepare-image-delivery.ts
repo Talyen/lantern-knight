@@ -4,7 +4,7 @@ import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { readAuthoringCatalog } from '../authoring-catalog';
 import { playgroundCatalog } from '../../../src/content/effects-playground-assets';
-import { parseManifest, type Manifest } from '../../../src/assets/schema';
+import { parseManifest, type ManifestDraft } from '../../../src/assets/schema';
 import { imageHash, prepareImageDelivery, restoreImageDelivery } from '../image-delivery';
 import type { PreparationContext } from '../context';
 
@@ -14,7 +14,7 @@ export async function prepare(context: PreparationContext, check = false) {
     ...playgroundCatalog,
   };
   const cached = new Map<string, Awaited<ReturnType<typeof prepareImageDelivery>>>();
-  const index: Record<string, Manifest> = {};
+  const index: Record<string, ManifestDraft> = {};
   let processed = 0,
     compressed = 0,
     reused = 0,
@@ -32,9 +32,9 @@ export async function prepare(context: PreparationContext, check = false) {
   };
   type Job = {
     sourceFile: string;
-    page: Manifest['pages'][number];
+    page: ManifestDraft['pages'][number];
     standalone: boolean;
-    pages: Manifest['pages'][number][];
+    pages: ManifestDraft['pages'][number][];
   };
   const jobs = new Map<string, Job>();
   for (const [id, file] of Object.entries(catalog)) {
@@ -78,7 +78,7 @@ export async function prepare(context: PreparationContext, check = false) {
       next.ready();
     }
   };
-  const cook = async <T>(page: Manifest['pages'][number], action: () => Promise<T>) => {
+  const cook = async <T>(page: ManifestDraft['pages'][number], action: () => Promise<T>) => {
     const bytes = Math.min(memoryBudget, page.width * page.height * 40);
     await new Promise<void>((ready) => {
       waiting.push({ bytes, ready });

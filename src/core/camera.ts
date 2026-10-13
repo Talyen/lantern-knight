@@ -279,7 +279,10 @@ export function screenMovement(
   if (v.lengthSq() > 1) v.normalize();
   return { x: v.x, z: v.z };
 }
-export function trimmedBounds(canvas: { density: number; anchor: number[] }, trim: number[]) {
+export function trimmedBounds(
+  canvas: { density: number; anchor: readonly number[] },
+  trim: readonly number[],
+) {
   const [x, y, w, h] = trim as [number, number, number, number],
     [ax, ay] = canvas.anchor as [number, number];
   return {

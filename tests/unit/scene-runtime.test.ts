@@ -22,7 +22,7 @@ const registration = {
   animation: { clips: {}, offsets: {}, pairs: [] },
   coverage: { masks: {}, sockets: {} },
 } as unknown as PreparedRegistration;
-function pack(id: string): AssetPack {
+function pack(id: string) {
   const manifest = manifestFixture(id);
   manifest.asset.clips.rest = manifest.asset.clips.idle!;
   return { manifest, textures: new Map([['atlas-0', new T.Texture()]]) };

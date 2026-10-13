@@ -2,7 +2,7 @@ import type { PreparationContext } from './assets/context';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import sharp from 'sharp';
-import { parseSource, parseManifest, type Manifest } from '../src/assets/schema';
+import { parseSource, parseManifest, type ManifestDraft } from '../src/assets/schema';
 import contract from '../src/assets/camera.json';
 import { cameraCalibration as calibrationFixture } from '../src/assets/camera-calibration';
 const TOOL_VERSION = 'atlas-v2.2-sharp-0.35.5';
@@ -57,7 +57,7 @@ export async function compile(
   const input = await readSource(sourceFile, inputRoot),
     source = parseSource(JSON.parse(input.toString()), production);
 
-  const frames = [] as Manifest['frames'],
+  const frames = [] as ManifestDraft['frames'],
     size = source.asset.atlasSize ?? contract.atlasSize,
     pad = source.asset.type === 'material' ? 0 : 4;
   const pages: { raw: Buffer; id: string }[] = [];
@@ -172,7 +172,7 @@ export async function compile(
         .toBuffer(),
     ),
   );
-  const manifest: Manifest = {
+  const manifest: ManifestDraft = {
     schemaVersion: 2,
     contractId: contract.id,
     bakeVersion: contract.bakeVersion,

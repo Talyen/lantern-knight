@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { contract, HEADINGS } from '../core/camera';
+import type { ContentSnapshot } from '../content/snapshot';
 const finite = z.number().finite();
 const positive = finite.positive();
 const int = z.number().int().nonnegative();
@@ -172,9 +173,10 @@ const ManifestSchema = z
   })
   .strict();
 export type Source = z.infer<typeof SourceSchema>;
-export type Manifest = z.infer<typeof ManifestSchema>;
+export type ManifestDraft = z.infer<typeof ManifestSchema>;
+export type Manifest = ContentSnapshot<ManifestDraft>;
 export type Frame = Manifest['frames'][number];
-export type Clip = z.infer<typeof timing>;
+export type Clip = ContentSnapshot<z.infer<typeof timing>>;
 function validateSemantics(value: Source | Manifest, _production = false) {
   const a = value.asset;
   if (a.sampling === 'terrain-mipmapped' && a.type !== 'material')
@@ -306,7 +308,7 @@ export function parseSource(data: unknown, production = false) {
   validateSemantics(s, production);
   return s;
 }
-export function parseManifest(data: unknown, production = false) {
+export function parseManifest(data: unknown, production = false): ManifestDraft {
   const m = ManifestSchema.parse(data);
   validateSemantics(m, production);
   return m;

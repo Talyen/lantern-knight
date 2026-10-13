@@ -231,9 +231,9 @@ test('shared async resources deduplicate, cancellation cannot resurrect discarde
     lease.release();
   }
   assert.equal(retry.size, 0);
-  const firstManifest = manifestFixture();
+  const firstManifest = manifestFixture('first');
   const secondManifest = structuredClone(firstManifest);
-  secondManifest.asset.id = 'second-registration';
+  secondManifest.asset.id = 'second';
   secondManifest.asset.anchor = [100, 200];
   let decoded = 0,
     released = 0;

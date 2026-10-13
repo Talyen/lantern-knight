@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { animatedAsset, assetClosure, matchesAsset } from '../../src/assets/asset-browser';
+import { manifestFixture } from '../fixtures/manifest';
 import type { Manifest } from '../../src/assets/schema';
 const clip = (frames: string[]) => ({
   frames,
@@ -9,7 +10,8 @@ const clip = (frames: string[]) => ({
   notifies: [],
 });
 function manifest(id: string, clips: Manifest['asset']['clips'], dependencies: string[] = []) {
-  return { asset: { id, clips, dependencies, type: 'character' } } as Manifest;
+  const base = manifestFixture(id);
+  return { ...base, asset: { ...base.asset, clips, dependencies } };
 }
 test('animation classification requires distinct drawings in one sequence, not directions or holds', () => {
   assert.equal(
