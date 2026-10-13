@@ -82,7 +82,7 @@ test('alternation survives waiting, dodge and hurt; interruptions cannot complet
   session.sim.hero.nextAttack = 'lunge';
   session.sim.enemies.forEach((a) => (a.health = 0));
   session.sim.cleared = true;
-  session.commitTransition(session.prepareTransition('landing'));
+  session.commitRoom(session.prepareTransition('landing'));
   assert.equal(session.sim.hero.nextAttack, 'lunge');
   const buffered = duel();
   const attacks: string[] = [];
