@@ -31,7 +31,7 @@ declare global {
       pause(value: boolean): void;
       step(ms: number): void;
       render(): void;
-      reset(): void;
+      reset(): Promise<void>;
       stats(): ReturnType<EffectsPlayground['stats']>;
       diagnostics(): ReturnType<EffectsPlayground['diagnostics']>;
       dispose(): void;
@@ -89,18 +89,12 @@ export function mountEffects(context: PreviewContext) {
   function pause() {
     app.pause(!app.paused);
   }
-  function reset() {
-    app.session = new GameSession(
-      registry,
-      903,
-      effectsDefinitions.initialArea,
-      app.session.generation + 1,
+  async function reset() {
+    await app.replaceSession(
+      new GameSession(registry, 903, effectsDefinitions.initialArea, app.session.generation + 1),
+      app.scenes,
     );
     view.time = 0;
-    app.presentation.generation = app.session.generation;
-    app.events.setGeneration(app.session.generation);
-    app.clock.reset();
-    app.input.clear();
   }
   function dispose() {
     if (disposed) return;
@@ -130,10 +124,10 @@ export function mountEffects(context: PreviewContext) {
     };
     app = new Application(
       $('scene'),
-      registry,
       playgroundCatalog,
       bridge,
       {
+        registry,
         initialAssets: Object.keys(playgroundCatalog),
         area: (id) => ({ area: registry.area(id), assets: [] }),
         validate: () => {},
@@ -168,8 +162,8 @@ export function mountEffects(context: PreviewContext) {
         },
         loading: loading.set,
       },
+      { seed: 903 },
     );
-    app.session = new GameSession(registry, 903);
     app.readOnly = true;
     app.beforeStep = (sim) => {
       if ($<HTMLInputElement>('freeze-enemies').checked)
@@ -255,7 +249,7 @@ export function mountEffects(context: PreviewContext) {
       },
       clearInput: () => app.input?.clear(),
       togglePause: pause,
-      restart: reset,
+      restart: () => app.safe(reset),
       resize: () => app.presentation?.resize(app.scale),
       save: savePreview,
       isPaused: () => settings.paused,

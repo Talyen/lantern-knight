@@ -82,6 +82,46 @@ it('fragments detach external supports while keeping world placement and insert 
   assert.equal(h.document.objects.at(-1)!.x, 1);
 });
 
+it('saved arrangements retain the selected artwork draw order when inserted', () => {
+  const h = assembly();
+  h.change((d) => {
+    d.propOrder = ['child', 'support'];
+  });
+  const ids = h.insertFragment(h.fragment(['support']));
+  assert.deepEqual(
+    sceneItems(h.document)
+      .filter((p) => ids.includes(p.placement.id))
+      .map((p) => (p.placement.mount ? 'child' : 'support')),
+    ['child', 'support'],
+  );
+});
+
+it('duplicating artwork preserves every health reward attached to it', () => {
+  const d = emptyScene();
+  d.objects = [{ id: 'potion', kind: 'prop', asset: 'ink-scenery', clip: 'lantern', x: 0, z: 0 }];
+  d.gameplay!.pickups = [10, 20].map((amount, i) => ({
+    id: 'health-' + i,
+    object: 'potion',
+    kind: 'health',
+    amount,
+    radius: 0.5,
+    x: 0,
+    z: 0,
+  }));
+  const h = new EditorHistory(d);
+  const [copy] = h.duplicateMany(['potion']);
+  const rewards = h.document.gameplay!.pickups.filter((p) => p.object === copy);
+  assert.deepEqual(
+    rewards.map((p) => p.amount),
+    [10, 20],
+  );
+  const { registry } = composeDraftGameplay(h.document, content.definitions, {});
+  const sim = new Simulation(registry);
+  Object.assign(sim.hero, { x: 0.5, z: 0.5, health: 50 });
+  sim.step({ move: { x: 0, z: 0 }, aim: { x: 1, z: 0.5 } });
+  assert.equal(sim.hero.health, 80);
+});
+
 import { SceneLibrary, patternPoints } from '../../src/editor/library';
 import { parseSceneFragment } from '../../src/content/scene-document';
 it('patterns are reproducible, bounded, and follow authored path endpoints', () => {
@@ -113,6 +153,14 @@ it('patterns are reproducible, bounded, and follow authored path endpoints', () 
     { x: 12, z: 10 },
   ]);
   assert.throws(() => patternPoints(d, 'path', 2, 1, 2, { pathIndex: 3 }));
+  assert.deepEqual(
+    patternPoints(d, 'path', 2, NaN, 0, { pathIndex: 1 }),
+    [
+      { x: 10, z: 10 },
+      { x: 12, z: 10 },
+    ],
+    'hidden scatter inputs must not prevent path placement',
+  );
   const shifted = patternPoints(d, 'scatter', 10, 142, 2, { center: { x: 8, z: -3 } });
   assert.ok(shifted.every((p) => Math.hypot(p.x - 8, p.z + 3) <= 2));
   const points = patternPoints(d, 'scatter', 10, 142, 2);
@@ -139,7 +187,8 @@ it('patterns are reproducible, bounded, and follow authored path endpoints', () 
 
 import { EditorView } from '../../src/editor/view';
 import type { AssetRuntime } from '../../src/assets/loader';
-import { Vector3, Quaternion } from 'three';
+import { Vector3, Quaternion, Group, Texture } from 'three';
+import { makeCamera } from '../../src/core/camera';
 import { Simulation } from '../../src/core/simulation';
 import { content, contentDefinitions } from '../fixtures/content';
 import { manifestFixture } from '../fixtures/manifest';
@@ -170,6 +219,58 @@ it('placement ghost retries the same asset after a transient load failure', asyn
   assert.equal(attempts, 2);
   view.clearPlacementGhost();
   assert.equal(releases, 1);
+});
+
+it('placement ghost releases rejected clips and can retry the same selection', async () => {
+  let releases = 0;
+  const manifest = manifestFixture();
+  const runtime = {
+    async loadPack() {
+      return { manifest, textures: new Map(), release: () => releases++ };
+    },
+  };
+  const view = new EditorView({} as HTMLCanvasElement, runtime as unknown as AssetRuntime);
+  Object.assign(view, { accepted: true });
+  await assert.rejects(
+    view.placementGhost('ink-hero-current', 'missing', 'd00', new Vector3()),
+    /clip unavailable/,
+  );
+  assert.equal(releases, 1);
+  await assert.rejects(
+    view.placementGhost('ink-hero-current', 'missing', 'd00', new Vector3()),
+    /clip unavailable/,
+  );
+  assert.equal(releases, 2);
+  view.clearPlacementGhost();
+  assert.equal(releases, 2);
+});
+
+it('placement ghost uses the latest cursor position after loading', async () => {
+  let complete!: (pack: Awaited<ReturnType<AssetRuntime['loadPack']>>) => void;
+  const runtime = {
+    loadPack: () =>
+      new Promise<Awaited<ReturnType<AssetRuntime['loadPack']>>>((resolve) => {
+        complete = resolve;
+      }),
+  };
+  const view = new EditorView({} as HTMLCanvasElement, runtime as unknown as AssetRuntime);
+  Object.assign(view, {
+    accepted: true,
+    renderer: { overlay: new Group(), camera: makeCamera(1), update() {} },
+    simulation: new Simulation(content),
+  });
+  const pending = view.placementGhost('ink-hero-current', 'idle', 'd00', new Vector3(1, 0, 1));
+  await view.placementGhost('ink-hero-current', 'idle', 'd00', new Vector3(3, 0, 4));
+  complete({
+    manifest: manifestFixture(),
+    textures: new Map([['atlas-0', new Texture()]]),
+    release() {},
+  });
+  await pending;
+  const ghost = (view as unknown as { ghost: { mesh: { position: Vector3 } } }).ghost;
+  assert.equal(ghost.mesh.position.x, 3);
+  assert.equal(ghost.mesh.position.z, 4);
+  view.clearPlacementGhost();
 });
 
 it('editor applies transform previews before submitting the rendered frame', () => {
@@ -205,6 +306,13 @@ it('editor applies transform previews before submitting the rendered frame', () 
   preview.objects[0]!.x = 3;
   view.previewTransforms(preview);
   assert.equal(renderedX, 3);
+  view.clearTransformPreview();
+  view.previewPosition('prop', 4, 0);
+  view.render();
+  assert.equal(renderedX, 4, 'canvas drag previews survive the shared scene update');
+  view.clearTransformPreview();
+  view.render();
+  assert.equal(renderedX, 0);
 });
 
 it('scaling an assembly scales its attachment height with its support', () => {

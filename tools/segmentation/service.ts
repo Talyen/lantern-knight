@@ -12,20 +12,19 @@ const rect = z
   .tuple([unit, unit, unit, unit])
   .refine((v) => v[0] < v[2] && v[1] < v[3], 'Empty selection rectangle');
 const SelectionSchema = z
-  .object({
+  .strictObject({
     asset: z.string().regex(/^[a-z0-9_-]+$/),
     frame: z.string(),
     hash: z.string().regex(/^[a-f0-9]{64}$/),
     crop: rect,
     box: rect.optional(),
     points: z
-      .array(z.object({ uv, include: z.boolean() }).strict())
+      .array(z.strictObject({ uv, include: z.boolean() }))
       .max(256)
       .default([]),
     operation: z.enum(['select', 'detect']).default('select'),
     text: z.string().trim().min(1).max(300).optional(),
   })
-  .strict()
   .refine(
     (v) => (v.operation === 'detect' ? !!v.text : !!v.box || v.points.length > 0),
     'Selection needs prompts',

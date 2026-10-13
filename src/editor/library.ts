@@ -44,9 +44,7 @@ export function patternPoints(
     !Number.isInteger(count) ||
     count < 1 ||
     count > 50 ||
-    !Number.isInteger(seed) ||
-    !Number.isFinite(radius) ||
-    radius <= 0
+    (kind === 'scatter' && (!Number.isInteger(seed) || !Number.isFinite(radius) || radius <= 0))
   )
     throw new Error('Use 1–50 copies, an integer seed and a positive radius');
   let state = seed >>> 0;

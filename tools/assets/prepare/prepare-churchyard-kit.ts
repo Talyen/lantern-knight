@@ -1,10 +1,13 @@
 import sharp from 'sharp';
+import { alphaBounds } from '../pixels';
 import { hash } from '../../compiler';
 import type { Source } from '../../../src/assets/schema';
 import contract from '../../../src/assets/camera.json';
 import type { PreparationContext } from '../context';
+import { preparationOutput } from '../preparation-output';
 export async function prepare(context: PreparationContext, check = false) {
-  const { readAsset, writeAsset, mkdirAsset, compile } = context;
+  const { readAsset, writeAsset } = context;
+  const { write, pack } = preparationOutput(context, check);
 
   const root = 'references/art/blackwood-churchyard-v2',
     receipt = [];
@@ -17,18 +20,9 @@ export async function prepare(context: PreparationContext, check = false) {
   ] as const) {
     const b = await readAsset(`${root}/${file}`),
       raw = await sharp(b).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-    let minX = raw.info.width,
-      maxX = 0,
-      minY = raw.info.height,
-      maxY = 0;
-    for (let y = 0; y < raw.info.height; y++)
-      for (let x = 0; x < raw.info.width; x++)
-        if (raw.data[(y * raw.info.width + x) * 4 + 3]! > 180) {
-          minX = Math.min(minX, x);
-          maxX = Math.max(maxX, x);
-          minY = Math.min(minY, y);
-          maxY = Math.max(maxY, y);
-        }
+    const bounds = alphaBounds(raw.data, raw.info.width, raw.info.height, 180);
+    if (!bounds) throw new Error('Empty churchyard silhouette: ' + file);
+    const { minX, maxX, minY, maxY } = bounds;
     const source: Source = {
       schemaVersion: 2,
       asset: {
@@ -71,31 +65,12 @@ export async function prepare(context: PreparationContext, check = false) {
       ],
     };
     const folder = `staging/ink/${id}`;
-    await mkdirAsset(folder, { recursive: true });
     const staged = await (kind === 'roof' ? sharp(b).resize(1024, 1024) : sharp(b))
-        .ensureAlpha()
-        .png()
-        .toBuffer(),
-      json = JSON.stringify(source, null, 2) + '\n';
-    if (check) {
-      if (
-        !staged.equals(await readAsset(`${folder}/${kind}.png`)) ||
-        json !== (await readAsset(`staging/ink/${id}.json`, 'utf8'))
-      )
-        throw new Error(`stale kit ${id}`);
-    } else {
-      await writeAsset(`${folder}/${kind}.png`, staged);
-      await writeAsset(`staging/ink/${id}.json`, json);
-    }
-    const m = await compile(`ink/${id}.json`, `public/generated/ink/${id}`, false, check);
-    if (
-      check &&
-      JSON.stringify(m) !==
-        JSON.stringify(
-          JSON.parse(await readAsset(`public/generated/ink/${id}/manifest.json`, 'utf8')),
-        )
-    )
-      throw new Error(`stale kit manifest ${id}`);
+      .ensureAlpha()
+      .png()
+      .toBuffer();
+    await write(`${folder}/${kind}.png`, staged);
+    await pack(source);
     receipt.push({
       id,
       file,

@@ -104,10 +104,10 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await page.mouse.move(rect.x + 400, rect.y + 250);
     await page.evaluate(() => {
       const canvas = document.querySelector<HTMLCanvasElement>('#viewport')!,
-        capture = canvas.setPointerCapture;
+        capture = canvas.setPointerCapture.bind(canvas);
       // The synthetic second contact has no native capture; the first remains real.
       canvas.setPointerCapture = (id) => {
-        if (id !== 2) capture.call(canvas, id);
+        if (id !== 2) capture(id);
       };
       try {
         for (const [type, x, y] of [
@@ -265,7 +265,15 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
       .toBeUndefined();
+    const profileList = page.waitForResponse(
+      (response) =>
+        response.request().method() === 'GET' &&
+        new URL(response.url()).searchParams.has('groundProfiles'),
+      { timeout: 30_000 },
+    );
     await page.locator('#ground-load-profiles').click();
+    const listed = await profileList;
+    expect(listed.ok(), await listed.text()).toBe(true);
     await expect(page.locator('#ground-profile option[value="' + profileId + '"]')).toHaveCount(1);
     await page.locator('#ground-profile').selectOption(profileId!);
     await page.locator('#ground-restore-profile').click();

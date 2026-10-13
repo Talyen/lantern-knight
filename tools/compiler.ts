@@ -5,6 +5,7 @@ import sharp from 'sharp';
 import { parseSource, parseManifest, type ManifestDraft } from '../src/assets/schema';
 import contract from '../src/assets/camera.json';
 import { cameraCalibration as calibrationFixture } from '../src/assets/camera-calibration';
+import { alphaBounds } from './assets/pixels';
 const TOOL_VERSION = 'atlas-v2.2-sharp-0.35.5';
 export const hash = (v: Buffer | string) => createHash('sha256').update(v).digest('hex');
 // Dilate RGB into transparent pixels, then extrude the trim edge. Straight alpha stays unchanged.
@@ -48,14 +49,13 @@ export async function compile(
   context: Pick<PreparationContext, 'path' | 'exactSource' | 'writeAsset'>,
   sourceFile: string,
   out: string,
-  production = false,
   validateOnly = false,
   inputRoot: string,
 ) {
   out = context.path(out);
   const readSource = context.exactSource;
   const input = await readSource(sourceFile, inputRoot),
-    source = parseSource(JSON.parse(input.toString()), production);
+    source = parseSource(JSON.parse(input.toString()));
 
   const frames = [] as ManifestDraft['frames'],
     size = source.asset.atlasSize ?? contract.atlasSize,
@@ -82,25 +82,9 @@ export async function compile(
       .toBuffer({ resolveWithObject: true });
     if (info.width !== registration.canvas[0] || info.height !== registration.canvas[1])
       throw new Error(`${f.path}: dimensions ${info.width}x${info.height} differ from canvas`);
-    let minX = info.width,
-      minY = info.height,
-      maxX = -1,
-      maxY = -1;
-    for (let yy = 0; yy < info.height; yy++)
-      for (let xx = 0; xx < info.width; xx++)
-        if (data[(yy * info.width + xx) * 4 + 3]! > 0) {
-          minX = Math.min(minX, xx);
-          minY = Math.min(minY, yy);
-          maxX = Math.max(maxX, xx);
-          maxY = Math.max(maxY, yy);
-        }
-    if (maxX < 0) {
-      if (!source.asset.allowEmptyFrames) throw new Error(`${f.path}: empty frame`);
-      minX = 0;
-      minY = 0;
-      maxX = 0;
-      maxY = 0;
-    }
+    const bounds = alphaBounds(data, info.width, info.height);
+    if (!bounds && !source.asset.allowEmptyFrames) throw new Error(`${f.path}: empty frame`);
+    let { minX, minY, maxX, maxY } = bounds ?? { minX: 0, minY: 0, maxX: 0, maxY: 0 };
     // One transparent source pixel around the silhouette preserves soft-edge filtering.
     minX = Math.max(0, minX - 1);
     minY = Math.max(0, minY - 1);
@@ -197,7 +181,7 @@ export async function compile(
       room: { required: pages.map((p) => p.id), optional: [], dependencies: ['hero'] },
     },
   };
-  parseManifest(manifest, production);
+  parseManifest(manifest);
   if (validateOnly) return manifest;
   for (let i = 0; i < encoded.length; i++)
     await context.writeAsset(path.join(out, folder, `${pages[i]!.id}.png`), encoded[i]!);

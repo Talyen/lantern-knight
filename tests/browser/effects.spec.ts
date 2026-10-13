@@ -10,10 +10,18 @@ test('Dev Preview remembers separate scene experiments and preserves comparison 
   await page.locator('[data-effect="rain"]').uncheck();
   await page.locator('#baseline').check();
   expect(await page.evaluate(() => window.effectsPlayground.settings.effects.rain)).toBe(false);
-  await page.evaluate(() => {
-    const hero = window.effectsPlayground;
-    hero.pause(true);
+  const reset = await page.evaluate(async () => {
+    const effects = window.effectsPlayground;
+    effects.pause(true);
+    const objects = effects.stats().objects;
+    effects.step(400);
+    await effects.reset();
+    effects.render();
+    return { before: objects, after: effects.stats().objects, time: effects.stats().time };
   });
+  expect(reset.after).toEqual(reset.before);
+  expect(reset.time).toBe(0);
+  expect(await page.evaluate(() => window.effectsPlayground.settings.paused)).toBe(true);
   await page.selectOption('#scene-select', 'outdoor-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   await page.getByText('Individual effects', { exact: true }).click();

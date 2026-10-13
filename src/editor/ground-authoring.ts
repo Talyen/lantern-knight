@@ -154,7 +154,7 @@ export class GroundAuthoring {
         if (r) {
           const copy = structuredClone(r);
           copy.id = 'region-' + crypto.randomUUID();
-          copy.name += ' copy';
+          copy.name = copy.name.slice(0, 75) + ' copy';
           d.groundInteraction!.regions.push(copy);
           this.selected = copy.id;
         }
@@ -195,9 +195,8 @@ export class GroundAuthoring {
       canvas.addEventListener(
         type,
         (e) => {
-          if (this.pointer !== e.pointerId) return;
+          if (!this.gesture || this.pointer !== e.pointerId) return;
           this.cancel();
-          e.preventDefault();
           e.stopImmediatePropagation();
         },
         { capture: true, signal },
@@ -286,8 +285,8 @@ export class GroundAuthoring {
       }
       if (!this.vertex) return;
       this.gesture = [uv];
-      this.pointer = e.pointerId;
       this.canvas.setPointerCapture(e.pointerId);
+      this.pointer = e.pointerId;
       this.panel.querySelector<HTMLSelectElement>('#ground-region')!.value = this.selected;
       this.updateName();
       e.preventDefault();
@@ -299,8 +298,8 @@ export class GroundAuthoring {
     this.canvas.focus();
     if (this.mode === 'ai-box' || this.mode.startsWith('brush')) {
       this.gesture = [uv];
-      this.pointer = e.pointerId;
       this.canvas.setPointerCapture(e.pointerId);
+      this.pointer = e.pointerId;
     } else if (this.mode === 'anchor') {
       const d = this.host.document(),
         world = artworkFloorLayout(d.floor.width, d.floor.depth).world(uv);
@@ -731,16 +730,16 @@ export class GroundAuthoring {
     }
   }
   private cancel(clearCandidates = false) {
-    const pointer = this.pointer;
-    this.pointer = undefined;
-    if (pointer !== undefined && this.canvas.hasPointerCapture(pointer))
-      this.canvas.releasePointerCapture(pointer);
     this.request++;
     this.abort?.abort();
     this.abort = undefined;
     this.points = [];
     this.gesture = undefined;
     this.vertex = undefined;
+    const pointer = this.pointer;
+    this.pointer = undefined;
+    if (pointer !== undefined && this.canvas.hasPointerCapture(pointer))
+      this.canvas.releasePointerCapture(pointer);
     this.proposal = undefined;
     this.prompts = [];
     this.box = undefined;
@@ -780,8 +779,14 @@ export class GroundAuthoring {
       this.proposal,
       p.camera.position.toArray(),
       p.camera.zoom,
+      p.camera.projectionMatrix.elements,
+      p.camera.matrixWorld.elements,
+      rect.left,
+      rect.top,
       rect.width,
       rect.height,
+      parent.left,
+      parent.top,
     ]
       .map((v) => (typeof v === 'object' ? JSON.stringify(v) : v))
       .join('|');

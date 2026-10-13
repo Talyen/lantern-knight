@@ -9,8 +9,10 @@ import { hash } from '../../compiler';
 import { projectRoot } from '../paths';
 
 import type { PreparationContext } from '../context';
+import { preparationOutput } from '../preparation-output';
 import { runProcess } from '../../run-process';
 export async function prepare(context: PreparationContext, check = false) {
+  const { write: output } = preparationOutput(context, check);
   const { readLibrarySource, stagingFile, readAsset } = context;
 
   type Input = {
@@ -81,7 +83,6 @@ export async function prepare(context: PreparationContext, check = false) {
     };
     media?: { group: string; member: string; sha256: string; path: string }[];
   };
-  const write = check ? undefined : context.writeAsset;
   const catalog: Record<string, string> = {};
   const receipts: {
     asset: string;
@@ -101,14 +102,7 @@ export async function prepare(context: PreparationContext, check = false) {
   const priorImages = new Map(previous.map((r) => [`${r.asset}/${r.sha256}`, r]));
   let clips = 0,
     drawings = 0;
-  async function output(file: string, bytes: Buffer | string) {
-    if (check) {
-      if (!Buffer.from(bytes).equals(await readAsset(file)))
-        throw new Error('Stale prepared library file: ' + file);
-    } else {
-      await write!(file, bytes);
-    }
-  }
+
   for (const item of plan.assets) {
     let priorManifest: ManifestDraft | undefined;
     try {

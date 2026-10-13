@@ -296,6 +296,10 @@ test('visual authoring, independent fragments, pattern undo and import', async (
     ).toEqual(pointBefore);
     await chooseGravestone(page);
     await page.locator('#viewport').click({ position: { x: 350, y: 230 } });
+    await expect(page.locator('#tool')).toBeEnabled({ timeout: 30_000 });
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
+      .toBe(1);
     const document = await page.evaluate(() => window.sceneEditor.state().document);
     const metadata = await (await request.get('/__lantern_editor')).json();
     const fragment = { version: 1, name: 'Pickup isolation regression', objects: document.objects };
@@ -638,6 +642,7 @@ test('editor asset and ground filters preserve selections through edits and undo
   await expect(page.locator('#assets .asset')).toHaveCount(1);
   await page.locator('#assets .asset').click();
   await page.locator('#viewport').click({ position: { x: 300, y: 280 } });
+  await expect(page.locator('#tool')).toBeEnabled({ timeout: 30_000 });
   await expect
     .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
     .toBe(1);
@@ -948,6 +953,7 @@ test('editor walking preserves state, releases input and constrains the camera a
   expect(result.restoredCenter).toEqual(result.center);
   await page.locator('[data-field="weather.rain"]').fill('0.2');
   await page.locator('[data-field="weather.rain"]').dispatchEvent('change');
+  await expect(page.locator('#tool')).toBeEnabled({ timeout: 30_000 });
   await expect
     .poll(() => page.evaluate(() => window.sceneEditor.state().document.weather?.rain))
     .toBe(0.2);

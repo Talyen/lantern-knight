@@ -89,7 +89,8 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
     Math.hypot(moved.player.x - initial.player.x, moved.player.z - initial.player.z),
   ).toBeGreaterThan(0.03);
   await page.locator('#load').click();
-  await expect(page.locator('#status')).toContainText('loaded', { ignoreCase: true });
+  await expect(page.locator('#modal')).not.toBeVisible();
+  await expect(page.locator('canvas')).toBeFocused();
   // A restored dead player immediately requests recovery through the real renderer.
   await page.evaluate(
     ({ key, save }) => {

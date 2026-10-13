@@ -80,7 +80,6 @@ export function mountScene(
     sweepRecovery: SweepRecovery = defaultSweepRecovery;
   const app = new Application(
     $('canvas'),
-    sandboxContent,
     assetCatalog,
     sandboxBridge,
     composeSceneContent(sandboxContent, worldVisuals),
@@ -94,7 +93,7 @@ export function mountScene(
       frame: updateUI,
       loading: loading.set,
     },
-    ['ink-hero-current'],
+    { extraAssets: ['ink-hero-current'] },
   );
   app.readOnly = true;
   function status(message: string, error = false) {
@@ -587,11 +586,9 @@ export function mountScene(
     sweepGuide?.reset();
     lightingReplay = false;
     app.command = undefined;
-    await app.replaceArea(area, () => {
-      app.session = new GameSession(sandboxContent, 142, area, app.session.generation + 1);
-      prepare?.(app.sim);
-      return [];
-    });
+    const next = new GameSession(sandboxContent, 142, area, app.session.generation + 1);
+    prepare?.(next.sim);
+    await app.replaceSession(next, composeSceneContent(sandboxContent, worldVisuals));
     if (closed) return;
     $<HTMLSelectElement>('#scene-select').value = area;
     if (location.protocol === 'http:' && !window.lantern) {
@@ -690,8 +687,8 @@ export function mountScene(
       };
     };
   }
-  function applySweepRange() {
-    const hero = app.sim.hero;
+  function applySweepRange(sim = app.sim) {
+    const hero = sim.hero;
     if (hero.definition.melee.sweepRange !== sweepRange)
       hero.definition = {
         ...hero.definition,
@@ -744,7 +741,7 @@ export function mountScene(
       }
       Object.assign(sim.hero, origin);
       sim.actors = [sim.hero, ...targets.map((target) => target.actor)];
-      applySweepRange();
+      applySweepRange(sim);
     });
     if (closed) return;
     setMode('encounter');
@@ -951,15 +948,11 @@ export function mountScene(
           ),
         }
       : sandboxDefinitions;
-    await app.replaceArea('outdoor-fixture', () => {
-      app.session = new GameSession(
-        new ContentRegistry(definitions),
-        142,
-        'outdoor-fixture',
-        app.session.generation + 1,
-      );
-      return [];
-    });
+    const registry = new ContentRegistry(definitions);
+    await app.replaceSession(
+      new GameSession(registry, 142, 'outdoor-fixture', app.session.generation + 1),
+      composeSceneContent(registry, worldVisuals),
+    );
     beginBenchmarkMeasurement();
     benchmarkMeasuring = true;
     app.command = (sim) => {
@@ -1031,15 +1024,14 @@ export function mountScene(
       app.command = undefined;
       if (restoreSession && returnSave) {
         const snapshot = returnSave;
-        await app.replaceArea(snapshot.area, () => {
-          app.session = new GameSession(
-            sandboxContent,
-            snapshot.seed,
-            snapshot.area,
-            app.session.generation + 1,
-          );
-          return app.session.restoreSave(snapshot);
-        });
+        const next = new GameSession(
+          sandboxContent,
+          snapshot.seed,
+          snapshot.area,
+          app.session.generation,
+        );
+        const events = next.restoreSave(snapshot);
+        await app.replaceSession(next, composeSceneContent(sandboxContent, worldVisuals), events);
         returnSave = undefined;
       }
       return result;

@@ -1,37 +1,21 @@
 import type { ContentSnapshot } from './snapshot';
-import type { GroundInteraction } from './ground-interaction';
-import type { Bounds, Point } from './world';
-import type { WeatherState } from './visual-effects';
+import type { SceneDocument, SceneSnapshot } from './scene-document';
+import type { Point } from './world';
 import type { Manifest } from '../assets/schema';
 import { cameraContract } from '../assets/camera-contract';
 
 export const SCENE_LIGHT_CAPACITY = 3;
 export type SceneProfile = 'graveyard' | 'chapel';
-type PlacementBase = {
-  id: string;
-  clip: string;
-  heading?: (typeof import('../core/camera').HEADINGS)[number];
+type PlacementBase = Omit<
+  SceneDocument['objects'][number],
+  'kind' | 'label' | 'role' | 'mount' | 'x' | 'z' | 'purpose' | 'footprint' | 'fixture'
+> & {
   x: number;
   z: number;
-  y?: number;
-  scale?: number;
-  fade?: boolean;
-  mirror?: boolean;
-  tint?: number;
-  footprint?: readonly [number, number];
   purpose: string;
-  zone?: string;
-  door?: boolean;
-  rotation?: number;
-  asset: string;
-  footprintAngle?: number;
-  coverage?: string;
-  assembly?: string;
-  shadow?: 'contact' | 'cast' | 'none';
-  wallFace?: string;
+  footprint?: readonly [number, number];
   fixture?: FixtureDefinition;
-  emissive?: boolean;
-  opacity?: number;
+  wallFace?: string;
 };
 export type ArtPlacement = PlacementBase &
   (
@@ -41,112 +25,36 @@ export type ArtPlacement = PlacementBase &
       }
     | { role?: 'ground' | 'upright'; mount?: never }
   );
-type GroundPath = {
-  points: readonly Point[];
-  width: number;
-  widths?: readonly number[];
-};
-export type SiteWall = {
-  id: string;
-  from: Point;
-  to: Point;
-  height: number;
-  thickness: number;
-  visualHeight?: number;
-  breaks?: readonly number[];
-  cutout?: 'wall' | 'wall-x' | 'wall-z' | 'boundary-x' | 'boundary-z' | 'fence';
-  surface?: 'masonry';
-  assembly?: string;
-  fade?: boolean;
-};
-type BurialPlot = {
-  id: string;
-  x: number;
-  z: number;
-  width: number;
-  length: number;
-  age: 'kept' | 'old' | 'damaged';
-  angle?: number;
-  marker?: 'gravestone' | 'memorial' | 'fallen-marker';
-};
-export type FixtureDefinition = {
-  id: string;
-  socket: readonly [number, number, number];
-  power: number;
-  range: number;
-  phase: number;
-  smoke: boolean;
-  embersScale: number;
-  flame?: {
-    asset: string;
-    clip: string;
-    offset: readonly [number, number, number];
-    scale: number;
-    phase: number;
-    depthOffset: number;
-    decorative: boolean;
+export type SiteWall = SceneSnapshot['walls'][number];
+export type FixtureDefinition = ContentSnapshot<
+  NonNullable<SceneDocument['objects'][number]['fixture']>
+>;
+export type SceneSurroundDefinition = NonNullable<SceneSnapshot['surround']>;
+export type SurroundLayer = SceneSurroundDefinition['layers'][number];
+type SceneVisuals = { -readonly [K in keyof SceneSnapshot]: SceneSnapshot[K] };
+export type WorldVisualDefinition = Partial<
+  Pick<
+    SceneVisuals,
+    | 'groundInteraction'
+    | 'look'
+    | 'surround'
+    | 'weather'
+    | 'rainBounds'
+    | 'rainShelters'
+    | 'interior'
+    | 'propOrder'
+    | 'overlaps'
+  >
+> &
+  Pick<SceneVisuals, 'paths' | 'walls' | 'graves' | 'proceduralAssets'> & {
+    camera: SceneDocument['camera'];
+    designProfile?: SceneProfile;
+    editorFloor?: Omit<SceneSnapshot['floor'], 'clip'> & { clip: string };
+    floor: string;
+    props: readonly ArtPlacement[];
+    decals: readonly ArtPlacement[];
+    resolvedFixtures?: readonly ResolvedFixture[];
   };
-};
-type OverlapAllowance = {
-  a: string;
-  b: string;
-  region: Bounds;
-  reason: string;
-};
-export type SurroundLayer = {
-  asset: string;
-  clip: string;
-  scale: number;
-  base: number;
-  parallax: number;
-  tint: number;
-  detail: number;
-};
-export type SceneSurroundDefinition = {
-  anchor: Point;
-  color: number;
-  ground: readonly Point[];
-  layers: readonly SurroundLayer[];
-};
-export type WorldVisualDefinition = {
-  designProfile?: SceneProfile;
-  groundInteraction?: ContentSnapshot<GroundInteraction>;
-  editorFloor?: { asset: string; clip: string; layout?: 'artwork'; width: number; depth: number };
-  look?: {
-    rig: 'golden' | 'silver';
-    look: 'ink' | 'diorama' | 'cinematic';
-    /** Fixed world-space direction toward the sun; 0° is +Z, 90° is +X. */
-    sun?: { azimuthDeg: number; elevationDeg: number };
-  };
-  surround?: SceneSurroundDefinition;
-  weather?: WeatherState;
-  rainBounds?: Bounds;
-  rainShelters?: readonly Bounds[];
-  floor: string;
-  props: readonly ArtPlacement[];
-  proceduralAssets: readonly string[];
-  decals: readonly ArtPlacement[];
-  paths: readonly GroundPath[];
-  walls: readonly SiteWall[];
-  graves: readonly BurialPlot[];
-  interior?: Bounds;
-  camera: {
-    bounds: Bounds;
-    bias: Point;
-    keepHeroVisible?: boolean;
-    targetHeight?: number;
-    arrival?: {
-      start: number;
-      end: number;
-      biasZ: number;
-      span?: number;
-      targetHeight?: number;
-    };
-  };
-  propOrder?: readonly string[];
-  resolvedFixtures?: readonly ResolvedFixture[];
-  overlaps?: readonly OverlapAllowance[];
-};
 export const floorUV = (x: number, z: number): readonly [number, number] => [x / 4, -z / 4];
 export type ResolvedFixture = Omit<FixtureDefinition, 'range'> & { prop: string; radius: number };
 
