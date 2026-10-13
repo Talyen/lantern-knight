@@ -22,23 +22,40 @@ export const GameBenchmarkSchema = BenchmarkSchema.omit({
   source: true,
 })
   .extend({
-    schemaVersion: z.literal(3),
+    schemaVersion: z.union([z.literal(3), z.literal(4)]),
     source: z.object({ commit: z.string().nullable(), dirty: z.boolean(), sha256: z.string() }),
-    environment: BenchmarkSchema.shape.environment.extend({
-      scenario: z.literal('game-empty-v1'),
-      warmupMs: z.literal(0),
-    }),
+    environment: z.union([
+      BenchmarkSchema.shape.environment.extend({
+        scenario: z.literal('game-empty-v1'),
+        warmupMs: z.literal(0),
+      }),
+      BenchmarkSchema.shape.environment.extend({
+        scenario: z.literal('game-walking-v1'),
+        warmupMs: z.literal(1000),
+      }),
+    ]),
     initialCheckpoint: z.string().regex(/^[a-f0-9]{64}$/),
     startup: z.object({
       launchToReadyMs: z.number().positive(),
       rendererReadyObservationMs: z.number().positive(),
     }),
-    segments: z.array(segment).length(journeyPhases.length),
+    segments: z.array(segment).min(1).max(journeyPhases.length),
   })
   .strict()
+  .refine((record) => {
+    const walking = record.environment.scenario === 'game-walking-v1';
+    return (
+      record.schemaVersion === (walking ? 4 : 3) &&
+      record.segments.length === (walking ? 1 : journeyPhases.length) &&
+      record.segments.every((s, i) => s.name === journeyPhases[i])
+    );
+  }, 'Every production journey phase must complete in order')
   .refine(
-    (record) => record.segments.every((s, i) => s.name === journeyPhases[i]),
-    'Every production journey phase must complete in order',
+    (record) =>
+      record.schemaVersion !== 4 ||
+      (record.frames.reduce((sum, ms) => sum + ms, 0) >= 4900 &&
+        digest(record.segments[0]?.actions) === digest(['keydown:KeyW:false'])),
+    'Walking baseline requires five seconds with the fixed forward input',
   )
   .refine(
     (record) => digest(record.frames) === digest(record.segments.flatMap((s) => s.frames)),
@@ -92,13 +109,17 @@ type Samples = {
   last: number;
   request: number;
   overflow: boolean;
+  foreground: boolean;
   stop: () => void;
 };
 type SampleWindow = Window & { __lanternMeasurement?: Samples };
 export async function startGameBenchmark(
   run: Awaited<ReturnType<typeof smokeLaunch>>,
   initialCheckpoint: unknown,
+  walking = false,
 ) {
+  // tsx preserves names in functions serialized into the renderer by Playwright.
+  await run.page.evaluate(() => Reflect.set(window, '__name', (fn: Function) => fn));
   const source = await verificationIdentity(process.cwd());
   const loaded = await run.app.evaluate(({ app }) => {
     const fs = process.getBuiltinModule('fs'),
@@ -147,8 +168,9 @@ export async function startGameBenchmark(
     return {
       ...desktop,
       ...rendering,
-      scenario: 'game-empty-v1' as const,
-      warmupMs: 0 as const,
+      ...(walking
+        ? { scenario: 'game-walking-v1' as const, warmupMs: 1000 as const }
+        : { scenario: 'game-empty-v1' as const, warmupMs: 0 as const }),
       assets: loaded.assets.sha256,
     };
   };
@@ -170,9 +192,15 @@ export async function startGameBenchmark(
         m = window.__lanternMeasurement!;
       m.stop();
       delete window.__lanternMeasurement;
-      return { frames: m.frames, actions: m.actions, overflow: m.overflow };
+      return {
+        frames: m.frames,
+        actions: m.actions,
+        overflow: m.overflow,
+        foreground: m.foreground,
+      };
     });
     assert.equal(samples.overflow, false, 'Game benchmark sample budget exceeded');
+    if (walking) assert.equal(samples.foreground, true, 'Walking baseline lost foreground focus');
     segments.push(
       segment.parse({ name: active, frames: samples.frames, actions: samples.actions }),
     );
@@ -191,9 +219,11 @@ export async function startGameBenchmark(
             last: 0,
             request: 0,
             overflow: false,
+            foreground: true,
             stop: () => {},
           };
         const frame = (now: number) => {
+          m.foreground &&= document.hasFocus() && document.visibilityState === 'visible';
           if (m.last) {
             if (m.frames.length < 100000) m.frames.push(now - m.last);
             else m.overflow = true;
@@ -232,6 +262,7 @@ export async function startGameBenchmark(
         return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
       });
     },
+    stop: end,
     async finish() {
       await end();
       assert.equal(
@@ -241,7 +272,7 @@ export async function startGameBenchmark(
       );
       await requireStableInputs(process.cwd(), source);
       record = GameBenchmarkSchema.parse({
-        schemaVersion: 3,
+        schemaVersion: walking ? 4 : 3,
         recordedAt: new Date().toISOString(),
         source,
         build: {
@@ -263,7 +294,7 @@ export async function startGameBenchmark(
       const file = path.join(run.output, 'benchmark.json');
       await fs.writeFile(file, JSON.stringify(record));
       console.log(
-        `Game benchmark: ${JSON.stringify(frameSummary(record.frames))}\n${record.segments.map((s) => `${s.name}: ${JSON.stringify(frameSummary(s.frames))}`).join('\n')}\nCold startup observation: ${startup.launchToReadyMs.toFixed(0)} ms\nComparison input: ${file}`,
+        `Game benchmark: ${JSON.stringify(frameSummary(record.frames))}\n${record.segments.map((s) => `${s.name}: ${JSON.stringify(frameSummary(s.frames))}`).join('\n')}\nFresh-process startup observation: ${startup.launchToReadyMs.toFixed(0)} ms\nComparison input: ${file}`,
       );
     },
   };

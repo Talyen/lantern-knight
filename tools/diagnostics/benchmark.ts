@@ -116,7 +116,7 @@ async function main() {
   const first = await read(args[0]!),
     second = await read(args[1]!);
   const compare =
-    [2, 3].includes(first.schemaVersion) || [2, 3].includes(second.schemaVersion)
+    [2, 3, 4].includes(first.schemaVersion) || [2, 3, 4].includes(second.schemaVersion)
       ? (await import('./game-benchmark')).compareGameBenchmarks
       : compareBenchmarks;
   console.log(JSON.stringify(compare(first, second), null, 2));

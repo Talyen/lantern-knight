@@ -49,8 +49,13 @@ export function frameSummary(frames: number[]) {
     frames: frames.length,
     durationMs,
     fps: (frames.length * 1000) / durationMs,
+    p50Ms: percentile(0.5),
     p95Ms: percentile(0.95),
     p99Ms: percentile(0.99),
+    worstMs: sorted.at(-1)!,
+    over25Ms: frames.filter((n) => n > 25).length,
+    hitches: frames.filter((n) => n >= 50).length,
+    stalls: frames.filter((n) => n >= 100).length,
     hitchesPer30s: (frames.filter((n) => n >= 50).length * 30000) / durationMs,
     stallsPer30s: (frames.filter((n) => n >= 100).length * 30000) / durationMs,
   };

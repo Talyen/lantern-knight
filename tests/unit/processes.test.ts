@@ -13,7 +13,11 @@ import { execFileSync } from 'node:child_process';
 import vm from 'node:vm';
 import { desktopEnvironment } from '../../tools/diagnostics/environment';
 
-import { compareBenchmarks, type BenchmarkRecord } from '../../tools/diagnostics/benchmark-model';
+import {
+  compareBenchmarks,
+  frameSummary,
+  type BenchmarkRecord,
+} from '../../tools/diagnostics/benchmark-model';
 import { compareGameBenchmarks, journeyPhases } from '../../tools/diagnostics/game-benchmark';
 
 test('benchmark metadata crosses the serialized Electron boundary with explicit effective arguments', async () => {
@@ -183,6 +187,79 @@ test('player comparisons reject incomplete or easier journeys and separate start
       segments: record.segments.map((s) => ({ ...s, frames: [] })),
     }),
   );
+});
+
+test('walking records cannot compare against full journeys or accept incomplete movement', () => {
+  const record = {
+    schemaVersion: 4,
+    recordedAt: 'now',
+    source: { commit: 'a', dirty: false, sha256: 'a' },
+    build: { sourceCommit: 'a', dirty: false, sha256: 'a' },
+    environment: {
+      hardware: 'reference',
+      os: 'mac',
+      arch: 'arm64',
+      runtime: { electron: '44' },
+      flags: [],
+      gpu: 'gpu',
+      webgl: 'WebGL 2',
+      refreshHz: 60,
+      visible: true,
+      viewport: [2560, 1440],
+      buffer: [2560, 1440],
+      dpr: 1,
+      scenario: 'game-walking-v1',
+      warmupMs: 1000,
+      assets: 'a'.repeat(64),
+      settings: {},
+    },
+    initialCheckpoint: 'a'.repeat(64),
+    startup: { launchToReadyMs: 1000, rendererReadyObservationMs: 900 },
+    segments: [
+      { name: 'movement', frames: Array(300).fill(1000 / 60), actions: ['keydown:KeyW:false'] },
+    ],
+    frames: Array(300).fill(1000 / 60),
+  };
+  assert.equal(compareGameBenchmarks(record, record).segments.length, 1);
+  assert.throws(
+    () =>
+      compareGameBenchmarks(record, {
+        ...record,
+        frames: Array(30).fill(16),
+        segments: [{ ...record.segments[0], frames: Array(30).fill(16) }],
+      }),
+    /five seconds/,
+  );
+  assert.throws(
+    () =>
+      compareGameBenchmarks(record, {
+        ...record,
+        segments: [{ ...record.segments[0], actions: [] }],
+      }),
+    /fixed forward input/,
+  );
+  assert.throws(() => compareGameBenchmarks(record, { ...record, segments: [] }));
+  assert.throws(() => compareGameBenchmarks(record, { ...record, schemaVersion: 3 }));
+  assert.throws(
+    () =>
+      compareGameBenchmarks(record, {
+        ...record,
+        schemaVersion: 3,
+        environment: { ...record.environment, scenario: 'game-empty-v1', warmupMs: 0 },
+        segments: journeyPhases.map((name) => ({ ...record.segments[0], name })),
+        frames: Array(900).fill(1000 / 60),
+      }),
+    /Incompatible benchmark conditions/,
+  );
+});
+
+test('frame summaries expose jitter and absolute hitch counts for short samples', () => {
+  const summary = frameSummary([...Array(30).fill(16), 26, 50, 100]);
+  assert.equal(summary.p50Ms, 16);
+  assert.equal(summary.worstMs, 100);
+  assert.equal(summary.over25Ms, 3);
+  assert.equal(summary.hitches, 2);
+  assert.equal(summary.stalls, 1);
 });
 
 test('web identities need no Electron output and cannot be reused as desktop builds', async (t) => {

@@ -83,13 +83,13 @@ CI has generous hang timeouts. Local GPU tests and asset preparation share a sma
 
 ## Diagnostics and measurements
 
-The `benchmark` command routes several kinds of diagnostic. [Recorded session replay](session-replay.md) covers the headless `record` and `replay` modes; `compare` reads saved measurement records. `editor` runs the browser editor scenario. `quality` checks prepared asset metadata, source-density declarations and texture budgets without launching a renderer or requiring a package; it does not establish visual quality. These modes are separate from the native scenarios below.
+The `benchmark` command routes several kinds of diagnostic. [Recorded session replay](session-replay.md) covers the headless `record` and `replay` modes; `compare` reads saved measurement records. `walking` is the default quick native measurement; `editor` runs the browser editor scenario. `quality` checks prepared asset metadata, source-density declarations and texture budgets without launching a renderer or requiring a package; it does not establish visual quality. These modes are separate from the native scenarios below.
 
 Native diagnostics consume an already packaged application; they do not build it. Prepare the matching package on the host before running a scenario:
 
 | Scenarios after `npm run benchmark --` | Required package |
 | --- | --- |
-| `game`, `preferences` | Game: `npm run package` |
+| `walking`, `game`, `preferences` | Game: `npm run package` |
 | `sandbox` (alias `scene`), `lighting`, `animation`, `hero`, `effects`, `scenes` | Dev: `npm run package -- --dev` |
 
 Use `--local` on both packaging and the diagnostic when investigating a local asset preparation. `--visible` shows the native window; hidden/software runs do not establish visible pacing. Use `--capture` when visual evidence is wanted, or `--output /external/investigation` to retain results without requesting captures. Successful managed diagnostics normally discard their output; keep comparison records in an external directory. Native framebuffer, motion and resource assertions remain available through these scenarios; routine checks do not generate galleries.
@@ -101,6 +101,14 @@ Initial goals are three seconds for warm preview updates and ten seconds for ord
 Compare cold acquisition/startup separately from warm iteration, checks, builds and packaging. Use repeated equivalent samples; record hardware, assets, settings, sample duration, foreground/background policy and rendering quality. Count transferred bytes and repeated launches as well as elapsed time. Preserve needed baselines outside Git.
 
 `npm run benchmark -- sandbox --benchmark --output /external/renderer-baseline` retains renderer measurements in that directory’s `benchmark.json`; `npm run benchmark -- compare <baseline.json> <candidate.json>` compares retained external records. Benchmarks require a package matching current desktop build inputs and the selected asset pin; records keep source and build identities separately. Harness-only edits do not require recompilation. Renderer calculation changes require native output and exact pixel parity. Fewer submissions alone do not prove better visible pacing.
+
+## Quick walking measurements
+
+After `npm run package`, run `npm run benchmark` for one visible hardware-rendered walking sample: one second of warmup, then five seconds holding forward in the current Game starting scene at 2560 × 1440 logical resolution and render scale 1. The command retains `benchmark.json` outside Git and prints its path, actual framebuffer dimensions, GPU, refresh rate, FPS, p50/p95/p99 and worst frame intervals, intervals over 25 ms, and absolute/normalized hitch (≥50 ms) and stall (≥100 ms) counts. Use `npm run benchmark -- --output /external/walking-baseline` to choose a retained directory. `npm run benchmark -- walking` is equivalent.
+
+On macOS the quick path requests ANGLE Metal and rejects software fallback. Quick results and temporary profiles use a separate external `-measurements` cache capped at 256 MiB, avoiding artwork-cache scans on every run. The packaged executable supplies all assets; pin lookup does not acquire artwork payloads. The quick path skips the loading-media, menu and checkpoint journey checks. It verifies actual movement, hardware GPU observations, foreground sampling and stable settings/source inputs. It consumes a matching package and rejects stale builds; packaging is explicit and outside the measurement time budget. It fails immediately if the GPU lane is occupied. Its 24-second subprocess deadline leaves cleanup time within a 30-second command budget on a prepared, uncontended host. A busy machine can prevent a result within that budget; the command prints total wall time on success or failure. Do not substitute software rendering or reduced resolution to meet the time goal.
+
+At a reported 59–61 Hz refresh rate, the provisional target is at least 59 FPS, p95 ≤18 ms, p99 ≤20 ms, no hitches and no stalls. Other refresh rates report the 60 Hz target as inconclusive. Frame callbacks measure cadence, not GPU execution or display presentation; a five-second sample cannot rule out rare stutters. Repeat matching runs before claiming an improvement. `compare` accepts walking records but refuses comparisons with the full journey or different conditions.
 
 ## Packaged player journey measurements
 

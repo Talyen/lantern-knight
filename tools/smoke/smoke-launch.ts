@@ -91,16 +91,23 @@ export function smokeExecutable(dev: boolean, env: NodeJS.ProcessEnv = process.e
       : path.resolve(`${dev ? 'release-dev' : 'release'}/win-unpacked/${name}.exe`))
   );
 }
+type SmokeLaunchOptions = {
+  budget?: number;
+  retain?: boolean;
+  flags?: string[];
+  startupTimeoutMs?: number;
+  laneWaitMs?: number;
+};
 export async function smokeLaunch(
   dev: boolean,
   args: string[] = [],
-  options: { budget?: number; retain?: boolean; flags?: string[] } = {},
+  options: SmokeLaunchOptions = {},
 ) {
   const flags = options.flags ?? [];
   let lane: Awaited<ReturnType<typeof acquireTestLane>>;
   try {
     await fs.access(smokeExecutable(dev));
-    lane = await acquireTestLane();
+    lane = await acquireTestLane({ waitMs: options.laneWaitMs });
   } catch (error) {
     // A refused run never creates a profile, but an explicitly requested diagnostic
     // still records the failure. Preserve any existing diagnostic in that folder.
@@ -134,7 +141,7 @@ export async function smokeLaunch(
 async function launch(
   dev: boolean,
   args: string[],
-  options: { budget?: number; retain?: boolean; flags?: string[] },
+  options: SmokeLaunchOptions,
   releaseLane: () => Promise<void>,
 ) {
   const flags = options.flags ?? [];
@@ -154,6 +161,20 @@ async function launch(
   let app: ElectronApplication | undefined, page: Page | undefined;
   const errors: string[] = [];
   const launchStarted = performance.now();
+  const remainingStartupMs = () =>
+    options.startupTimeoutMs === undefined
+      ? 45000
+      : Math.max(1, options.startupTimeoutMs - (performance.now() - launchStarted));
+  // A deadline must also stop Electron, which Playwright launches in its own group.
+  const terminateApp = () => app?.process().kill('SIGTERM');
+  if (options.startupTimeoutMs !== undefined) {
+    process.once('SIGTERM', terminateApp);
+    process.once('SIGINT', terminateApp);
+  }
+  const removeTerminationHandlers = () => {
+    process.off('SIGTERM', terminateApp);
+    process.off('SIGINT', terminateApp);
+  };
   const launchArgs = [
     ...(process.platform === 'win32' && process.env.CI === 'true'
       ? ['--use-gl=angle', '--use-angle=swiftshader']
@@ -175,9 +196,9 @@ async function launch(
             ? '0'
             : '1',
       },
-      timeout: 30000,
+      timeout: Math.min(30000, remainingStartupMs()),
     });
-    page = await app.firstWindow();
+    page = await app.firstWindow({ timeout: remainingStartupMs() });
     page.on('pageerror', (e) => errors.push(e.message));
     page.on('console', (m) => {
       if (m.type() === 'error') errors.push(m.text());
@@ -186,7 +207,7 @@ async function launch(
       await page.waitForFunction(
         () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
         {},
-        { timeout: 45000 },
+        { timeout: remainingStartupMs() },
       );
     }
     if (dev) await observeWork(page);
@@ -224,6 +245,7 @@ async function launch(
           if (managed && (await diskBytes(held.root)) > budget)
             throw new Error('Diagnostic output exceeded cache reservation');
         } finally {
+          removeTerminationHandlers();
           await releaseLane();
           await held.release();
           if (managed && !(await fs.readdir(held.root)).some((n) => n !== '.leases'))
@@ -271,6 +293,7 @@ async function launch(
       ),
     );
     await app?.close().catch(() => {});
+    removeTerminationHandlers();
     await fs.rm(profile, { recursive: true, force: true });
     console.error('Failure diagnostics: ' + output);
     await held.release();

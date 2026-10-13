@@ -1,7 +1,10 @@
-import { openWorkspace, workspaceEnvironment } from './assets/workspace';
+import { openWorkspace, workspaceEnvironment, workspaceIdentity } from './assets/workspace';
 import { runProcess } from './run-process';
-import { projectRoot } from './assets/paths';
-const [scenario = 'game', ...flags] = process.argv.slice(2);
+import { cacheRoot, projectRoot } from './assets/paths';
+const started = performance.now();
+const args = process.argv.slice(2);
+const scenario = args[0] && !args[0].startsWith('--') ? args.shift()! : 'walking';
+const flags = args;
 const native = new Set([
   'game',
   'sandbox',
@@ -33,10 +36,44 @@ if (scenario === 'record' || scenario === 'replay' || scenario === 'compare') {
     ['--import', 'tsx', 'tools/browser-tests.ts', 'editor', ...flags],
     { cwd: projectRoot, timeoutMs: 10 * 60_000 },
   );
+} else if (scenario === 'walking') {
+  try {
+    // The executable contains its assets. Read the pin without acquiring payloads.
+    const assets = await workspaceIdentity(flags.includes('--local') ? 'local' : 'pinned');
+    await runProcess(
+      process.execPath,
+      [
+        '--import',
+        'tsx',
+        'tools/diagnostics/walking-benchmark.ts',
+        ...flags.filter((flag) => flag !== '--local'),
+      ],
+      {
+        cwd: projectRoot,
+        env: {
+          ...process.env,
+          LANTERN_ASSET_SHA256: assets,
+          // Result/profile reservations must not rescan the artwork cache each run.
+          LANTERN_CACHE_ROOT: cacheRoot() + '-measurements',
+          LANTERN_CACHE_BUDGET_GIB: '0.25',
+        },
+        timeoutMs: Math.max(1, 24000 - (performance.now() - started)),
+      },
+    );
+  } catch (error) {
+    console.error(
+      `Walking measurement did not complete: ${error instanceof Error ? error.message : String(error)}. Retry with a matching package and a free GPU lane.`,
+    );
+    process.exitCode = 1;
+  } finally {
+    console.log(
+      `Walking command wall time: ${((performance.now() - started) / 1000).toFixed(2)}s (includes pin lookup, launch and cleanup; packaging is separate).`,
+    );
+  }
 } else if (native.has(scenario)) {
   const workspace = await openWorkspace(
     flags.includes('--local') ? 'local' : 'pinned',
-    scenario === 'game' || scenario === 'preferences' ? 'runtime' : 'authoring',
+    ['game', 'preferences'].includes(scenario) ? 'runtime' : 'authoring',
   );
   try {
     await runProcess(
@@ -48,7 +85,11 @@ if (scenario === 'record' || scenario === 'replay' || scenario === 'compare') {
         scenario,
         ...flags.filter((flag) => flag !== '--local'),
       ],
-      { cwd: projectRoot, env: workspaceEnvironment(workspace), timeoutMs: 10 * 60_000 },
+      {
+        cwd: projectRoot,
+        env: workspaceEnvironment(workspace),
+        timeoutMs: 10 * 60_000,
+      },
     );
   } finally {
     await workspace.release();
