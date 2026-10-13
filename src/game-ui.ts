@@ -155,7 +155,7 @@ export function status(message: string, error = false) {
 export function showPause(paused: boolean) {
   const modal = $<HTMLDialogElement>('#modal'),
     confirmation = $<HTMLDialogElement>('#new-confirm');
-  if (confirmation.open) cancelNew();
+  if (confirmation.open) confirmation.close();
   if (paused && !adventurePanelOpen() && !modal.open) modal.showModal();
   else if (!paused && modal.open) {
     modal.close();

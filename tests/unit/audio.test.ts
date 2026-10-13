@@ -386,3 +386,17 @@ test('feedback requires accepted outcomes and distinguishes damage, rest and can
   event({ kind: 'room-reset', reason: 'manual' });
   assert.deepEqual(calls, ['hurt', 'heal', 'ui-confirm']);
 });
+
+test('a new gesture resumes a context suspended by the host without replacing its owner', async () => {
+  const f = fixture();
+  await ready(f);
+  let resumed = 0;
+  Object.assign(f.context, { state: 'suspended' });
+  f.context.resume = async () => {
+    resumed++;
+  };
+  await f.playback.unlock();
+  assert.equal(resumed, 1);
+  f.playback.dispose();
+  assert.equal(f.closed, 1);
+});

@@ -61,7 +61,7 @@ const rules: readonly [RegExp, string, string, AudioDisposition][] = [
     'future-use',
   ],
   [
-    /\b(ui|interface|alert|alerts|error|hover|hovers|scroll|select|selection|decline|fail|complete|check|ding|counter|pop|plops|transition|transitions|mechanical|low|health|gameover|gamefinish|powerup)\b/,
+    /\b(ui|interface|alert|alerts|error|hover|hovers|scroll|select|selection|decline|fail|complete|check|ding|counter|pop|plops|transition|transitions|mechanical|health|gameover|gamefinish|powerup)\b/,
     'interface-detail',
     'Interface or outcome accent candidate; audition for a restrained non-electronic treatment.',
     'alternate',

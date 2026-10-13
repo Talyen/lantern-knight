@@ -34,7 +34,12 @@ export async function audioTools(env: NodeJS.ProcessEnv) {
   ]);
   if (versions.some((v) => !new RegExp(`version ${recipes.encoderMajor}\\.`).test(v)))
     throw new Error(`Audio preparation requires FFmpeg/FFprobe ${recipes.encoderMajor}.x`);
-  return { ffmpeg, ffprobe, fingerprint: sha(versions.join('\n')) };
+  return {
+    ffmpeg,
+    ffprobe,
+    versions: versions.map((value) => value.split('\n')[0]),
+    fingerprint: sha(versions.join('\n')),
+  };
 }
 export async function verifyAudioSources(
   libraryRoot: string,
@@ -204,7 +209,7 @@ export async function prepareAudio(context: PreparationContext, check: boolean) 
       await context.writeAsset('public/' + audioManifestPath, JSON.stringify(manifest));
       await context.writeAsset(
         'staging/audio/receipt.json',
-        JSON.stringify({ schemaVersion: 1, sources: receipts }),
+        JSON.stringify({ schemaVersion: 1, tools: tools.versions, sources: receipts }),
       );
     }
   } finally {

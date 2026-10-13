@@ -54,6 +54,7 @@ export function bindAudioAudition(app: Application, root: ParentNode) {
         .then(() =>
           app.audio.play(sample.cue as AudioCue, {
             sampleId: sample.id,
+            key: sample.id,
             world: false,
             signal: controller.signal,
           }),

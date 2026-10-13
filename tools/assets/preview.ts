@@ -1,3 +1,5 @@
+import os from 'node:os';
+import { audioTools, verifyAudioSources } from './audio';
 import { discoverLibrary, sourceSnapshot } from './discovery';
 import { cameraCalibration } from '../../src/assets/camera-calibration';
 import { stagePayload } from './payload';
@@ -168,6 +170,32 @@ export async function preparePreviewAssets(
       ids.length > 0 && ids.every((id) => id === 'audio' || id.startsWith('audio-'));
     let steps = preparationSelection(ids.length && (completeBase || audioOnly) ? ids : []);
     const startRecipe = await recipeHash();
+    const audioStep = steps.find((operation) => operation.file.endsWith('prepare-audio.ts'));
+    let audioFingerprint: string | undefined,
+      audioFresh = true;
+    if (audioStep) {
+      audioFingerprint = (await audioTools(env)).fingerprint;
+      await verifyAudioSources(
+        env.ASSET_LIBRARY_ROOT ?? path.join(os.homedir(), 'Documents/Asset Library'),
+        env,
+      );
+      audioFresh = false;
+      if (base.stepCache) {
+        try {
+          const receipt = JSON.parse(
+            await fs.readFile(
+              path.join(base.stepCache, audioStep.file.replace(/\.[^.]+$/, ''), 'receipt.json'),
+              'utf8',
+            ),
+          );
+          audioFresh =
+            receipt.key ===
+            preparationStepKey(audioStep, await recipeInputs(), new Map(), audioFingerprint);
+        } catch (error) {
+          if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+        }
+      }
+    }
     const selectedIds = mergePreparationSelections(
       base.lock,
       ids,
@@ -176,12 +204,12 @@ export async function preparePreviewAssets(
     );
     const priorSelections = 'selections' in base.lock ? base.lock.selections : [];
     if (
-      !steps.some((operation) => operation.file.endsWith('prepare-audio.ts')) &&
+      audioFresh &&
       'selections' in base.lock &&
       (ids.length > 0 || (completeBase && base.lock.full === true)) &&
       base.lock.recipeSha256 === startRecipe &&
       base.lock.librarySha256 === env.LANTERN_LIBRARY_SHA256 &&
-      (env.LANTERN_IMAGE_GPU !== '1' || base.lock.gpu === true) &&
+      (audioOnly || env.LANTERN_IMAGE_GPU !== '1' || base.lock.gpu === true) &&
       (base.lock.full === true || ids.every((id) => priorSelections.includes(id)))
     ) {
       try {
@@ -234,7 +262,11 @@ export async function preparePreviewAssets(
       '-' +
       preparationLayerKey({
         baseSha256,
-        recipeSha256: startRecipe,
+        recipeSha256: audioFingerprint
+          ? createHash('sha256')
+              .update(startRecipe + audioFingerprint)
+              .digest('hex')
+          : startRecipe,
         selections: selectedIds,
         librarySha256: env.LANTERN_LIBRARY_SHA256,
         gpu: env.LANTERN_IMAGE_GPU === '1',
@@ -307,11 +339,13 @@ export async function preparePreviewAssets(
               operation,
               inputs,
               digests,
-              operation.file.endsWith('prepare-library.ts')
-                ? env.LANTERN_LIBRARY_SHA256
-                : operation.file.endsWith('prepare-image-delivery.ts')
-                  ? (env.LANTERN_IMAGE_GPU ?? '0')
-                  : undefined,
+              operation.file.endsWith('prepare-audio.ts')
+                ? audioFingerprint
+                : operation.file.endsWith('prepare-library.ts')
+                  ? env.LANTERN_LIBRARY_SHA256
+                  : operation.file.endsWith('prepare-image-delivery.ts')
+                    ? (env.LANTERN_IMAGE_GPU ?? '0')
+                    : undefined,
             );
             digests.set(operation.file, receipt.digest);
             if (key !== receipt.key && steps.length === preparationSelection([]).length) continue;
@@ -453,7 +487,9 @@ export async function preparePreviewAssets(
           selections: selectedIds,
           files,
           librarySha256: env.LANTERN_LIBRARY_SHA256,
-          gpu: env.LANTERN_IMAGE_GPU === '1',
+          gpu: audioOnly
+            ? 'gpu' in base.lock && base.lock.gpu === true
+            : env.LANTERN_IMAGE_GPU === '1',
           complete: completeBase || steps.length === preparationSelection([]).length,
           full: steps.length === preparationSelection([]).length,
         } satisfies Preview),

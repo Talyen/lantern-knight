@@ -34,7 +34,12 @@ test('prepared samples decode, mute persists, and Preview exposes every audition
   );
   await page.locator('#pause').click();
   await expect(page.locator('[data-audio="master"]')).toHaveValue('80');
-  await page.locator('[data-audio="master"]').fill('35');
+  await page.locator('[data-audio="master"]').evaluate((element) => {
+    const input = element as HTMLInputElement;
+    input.value = '35';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+  });
   await page.locator('[data-audio="muted"]').check();
   await expect
     .poll(() =>
@@ -51,6 +56,7 @@ test('prepared samples decode, mute persists, and Preview exposes every audition
   await page.locator('#pause').click();
   await expect(page.locator('[data-audio="master"]')).toHaveValue('35');
   await expect(page.locator('[data-audio="muted"]')).toBeChecked();
+  await page.screenshot({ path: test.info().outputPath('sound-settings.png') });
   await page.locator('[data-audio="muted"]').uncheck();
   await page.locator('#resume').click();
   await page.keyboard.down('KeyD');
@@ -121,9 +127,27 @@ test('prepared samples decode, mute persists, and Preview exposes every audition
   await page.locator('[data-panel="inspect"]').click();
   const select = page.getByLabel('Prepared audio sample');
   await expect(select.locator('option')).toHaveCount(60);
-  await select.selectOption('sword-1');
-  await page.getByRole('button', { name: 'Play sample', exact: true }).click();
-  await page.getByRole('button', { name: 'Stop sample', exact: true }).click();
+  await page.locator('#pause').click();
+  for (const id of await select
+    .locator('option')
+    .evaluateAll((options) => options.map((option) => (option as HTMLOptionElement).value))) {
+    await select.selectOption(id);
+    const before = await page.evaluate(
+      () => (window as unknown as { audioProbe: { starts: number } }).audioProbe.starts,
+    );
+    await page.getByRole('button', { name: 'Play sample', exact: true }).click();
+    await expect
+      .poll(
+        () =>
+          page.evaluate(
+            () => (window as unknown as { audioProbe: { starts: number } }).audioProbe.starts,
+          ),
+        { message: id },
+      )
+      .toBeGreaterThan(before);
+    await page.getByRole('button', { name: 'Stop sample', exact: true }).click();
+  }
+  await page.screenshot({ path: test.info().outputPath('sound-preview.png') });
   await page.locator('[data-audio="muted"]').check();
   await page.reload();
   await page.waitForFunction(() => window.foundation?.ready);
