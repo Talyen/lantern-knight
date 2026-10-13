@@ -29,6 +29,8 @@ test -z "$(git -C "$task_worktree" status --porcelain)"
 git -C "$task_worktree" merge --no-edit main
 npm --prefix "$task_worktree" run check
 npm --prefix "$task_worktree" run docs:check
+test "$(git -C "$task_worktree" branch --show-current)" = "$task_branch"
+test -z "$(git -C "$task_worktree" status --porcelain)"
 test -z "$(git status --porcelain)"
 git merge --ff-only "$task_branch"
 ```

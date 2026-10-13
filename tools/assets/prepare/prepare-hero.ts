@@ -8,8 +8,10 @@ import { heroTimings } from '../../../src/content/hero-actions';
 import motionRecipe from '../../../authoring/hero-motion.json';
 import { heroFrameScales, scaleHeroRegistration } from '../hero-scale';
 import type { PreparationContext } from '../context';
+import { preparationOutput } from '../preparation-output';
 export async function prepare(context: PreparationContext, check = false) {
-  const { writeAsset, readAsset, readLibrarySource, compile } = context;
+  const { write, pack } = preparationOutput(context, check);
+  const { readLibrarySource } = context;
 
   type Registration = { canvas: [number, number]; anchor: [number, number]; density: number };
   type Record = {
@@ -38,12 +40,6 @@ export async function prepare(context: PreparationContext, check = false) {
     handoffSha256: string;
   };
   const scales = heroFrameScales(motionRecipe.scale, handoff.clips);
-  async function write(file: string, data: string | Buffer) {
-    if (check) {
-      if (!Buffer.from(data).equals(await readAsset(file)))
-        throw new Error('Stale hero preparation: ' + file);
-    } else await writeAsset(file, data);
-  }
   const base = definition(
     'ink-hero-current',
     'character',
@@ -97,7 +93,6 @@ export async function prepare(context: PreparationContext, check = false) {
   }
   asset.requiredClips = Object.keys(asset.clips);
   parseSource(source);
-  await write('staging/ink/ink-hero-current.json', JSON.stringify(source, null, 2) + '\n');
   await write(
     'staging/ink/hero-receipt.json',
     JSON.stringify(
@@ -111,17 +106,7 @@ export async function prepare(context: PreparationContext, check = false) {
       2,
     ) + '\n',
   );
-  const manifest = await compile(
-    'ink/ink-hero-current.json',
-    'public/generated/ink/ink-hero-current',
-    false,
-    check,
-  );
-  if (check) {
-    const previous = await readAsset('public/generated/ink/ink-hero-current/manifest.json', 'utf8');
-    if (JSON.stringify(JSON.parse(previous)) !== JSON.stringify(manifest))
-      throw new Error('Stale hero atlas');
-  }
+  const manifest = await pack(source);
   console.log(
     `${check ? 'Verified' : 'Prepared'} current hero: ${source.frames.length} native frames / ${manifest.pages.length} pages.`,
   );
