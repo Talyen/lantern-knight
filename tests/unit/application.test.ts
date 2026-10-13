@@ -105,7 +105,7 @@ test('session replacement uses its own registry and complete scene asset require
       // @ts-expect-error Preview overrides cannot forge session generations.
       app.sim.generation++;
       // @ts-expect-error Preparation must finish before resource acquisition starts.
-      app.replaceSession(app.scenes, { kind: 'new', prepare: async () => {} });
+      await app.replaceSession(app.scenes, { kind: 'new', prepare: async () => {} });
     }
     app.readOnly = true;
     definitions.areas[0]!.spawns = [
