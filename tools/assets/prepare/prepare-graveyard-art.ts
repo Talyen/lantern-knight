@@ -1,24 +1,18 @@
-import path from 'node:path';
 import sharp from 'sharp';
+import { alphaBounds, remapAlpha } from '../pixels';
 import { hash } from '../../compiler';
 import type { Source } from '../../../src/assets/schema';
 import contract from '../../../src/assets/camera.json';
 import { graveyardExtraRegistration } from '../../../src/content/graveyard-registration';
 import type { PreparationContext } from '../context';
+import { preparationOutput } from '../preparation-output';
 export async function prepare(context: PreparationContext, check = false) {
-  const { readAsset, writeAsset, mkdirAsset, compile } = context;
+  const { write, pack: outputPack } = preparationOutput(context, check);
+  const { readAsset } = context;
 
   const collection = 'references/art/ink-collection-01';
   const receipts: Record<string, unknown>[] = [];
-  async function write(file: string, data: Buffer | string) {
-    if (check) {
-      if (!Buffer.from(data).equals(await readAsset(file)))
-        throw new Error(`stale graveyard art: ${file}`);
-    } else {
-      await mkdirAsset(path.dirname(file), { recursive: true });
-      await writeAsset(file, data);
-    }
-  }
+
   function make(template: Source, id: string): Source {
     return {
       schemaVersion: 2,
@@ -43,17 +37,12 @@ export async function prepare(context: PreparationContext, check = false) {
   ) {
     const original = await readAsset(file),
       meta = await sharp(original).metadata();
-    let image = await sharp(original)
+    const image = await sharp(original)
       .resize({ width: Math.round(meta.width! * scale), height: Math.round(meta.height! * scale) })
       .ensureAlpha()
       .raw()
       .toBuffer({ resolveWithObject: true });
-    if (matte)
-      for (let i = 3; i < image.data.length; i += 4) {
-        const a = image.data[i]! / 255,
-          t = Math.max(0, Math.min(1, (a - 0.72) / 0.2));
-        image.data[i] = Math.round(t * t * (3 - 2 * t) * 255);
-      }
+    if (matte) remapAlpha(image.data, 0.72, 0.2);
     const offset = [
       Math.round(pack.asset.anchor[0] - pivot[0] * scale),
       Math.round(pack.asset.anchor[1] - pivot[1] * scale),
@@ -110,18 +99,9 @@ export async function prepare(context: PreparationContext, check = false) {
         .ensureAlpha()
         .raw()
         .toBuffer({ resolveWithObject: true });
-    let minX = Infinity,
-      maxX = -1,
-      minY = Infinity,
-      maxY = -1;
-    for (let y = 0; y < im.info.height; y++)
-      for (let x = 0; x < im.info.width; x++)
-        if (im.data[(y * im.info.width + x) * 4 + 3]! > 200) {
-          minX = Math.min(minX, x);
-          maxX = Math.max(maxX, x);
-          minY = Math.min(minY, y);
-          maxY = Math.max(maxY, y);
-        }
+    const bounds = alphaBounds(im.data, im.info.width, im.info.height, 200);
+    if (!bounds) throw new Error('Empty graveyard silhouette: ' + file);
+    const { minX, maxX, minY, maxY } = bounds;
     const pivot: readonly [number, number] = 'pivot' in r ? r.pivot : [(minX + maxX) / 2, maxY],
       scale =
         (r.height * Math.cos((contract.elevationDeg * Math.PI) / 180) * scenery.asset.density) /
@@ -177,17 +157,7 @@ export async function prepare(context: PreparationContext, check = false) {
   }
   for (const pack of [scenery, ambient]) {
     pack.asset.requiredClips = Object.keys(pack.asset.clips);
-    const file = `ink/${pack.asset.id}.json`;
-    await write(`staging/${file}`, JSON.stringify(pack, null, 2) + '\n');
-    const expected = await compile(file, `public/generated/ink/${pack.asset.id}`, false, check);
-    if (
-      check &&
-      JSON.stringify(expected) !==
-        (await readAsset(`public/generated/ink/${pack.asset.id}/manifest.json`, 'utf8').then((t) =>
-          JSON.stringify(JSON.parse(t)),
-        ))
-    )
-      throw new Error(`stale compiled graveyard pack: ${pack.asset.id}`);
+    await outputPack(pack);
     console.log(`${check ? 'Verified' : 'Prepared'} ${pack.asset.id}`);
   }
   await write(

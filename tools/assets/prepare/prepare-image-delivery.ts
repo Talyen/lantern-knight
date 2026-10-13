@@ -7,6 +7,7 @@ import { playgroundCatalog } from '../../../src/content/effects-playground-asset
 import { parseManifest, type ManifestDraft } from '../../../src/assets/schema';
 import { imageHash, prepareImageDelivery, restoreImageDelivery } from '../image-delivery';
 import type { PreparationContext } from '../context';
+import { preparationOutput } from '../preparation-output';
 
 export async function prepare(context: PreparationContext, check = false) {
   const catalog = {
@@ -24,12 +25,7 @@ export async function prepare(context: PreparationContext, check = false) {
     deliveryBytes = 0,
     losslessAlpha = 0,
     losslessDimensions = 0;
-  const write = async (file: string, data: Buffer | string) => {
-    if (check) {
-      if (!Buffer.from(data).equals(await context.readAsset(file)))
-        throw new Error('Stale delivery output: ' + file);
-    } else await context.writeAsset(file, data);
-  };
+  const { write } = preparationOutput(context, check);
   type Job = {
     sourceFile: string;
     page: ManifestDraft['pages'][number];

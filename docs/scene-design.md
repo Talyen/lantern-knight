@@ -16,7 +16,9 @@ Use the shared development server and affected scene/editor browser scenario. St
 
 ## Authored painting scales
 
-The saved painting drafts below have immutable interaction profiles, three skeletons and repeatable movement destinations. These are starting maps for level design. World widths below keep the existing hero size; the factor compares the floor with a 40-unit-wide baseline, rather than scaling the actor. Width and depth change together to preserve the painting aspect ratio. Saved scene documents own the current dimensions; these starting scales impose no validation limits on later edits.
+Saved painting drafts and immutable interaction profiles provide starting maps for level design, with skeleton placements and repeatable movement destinations. Profiles preserve authored data; they do not certify complete collision or occlusion. An empty interaction-region list is valid and supplies no painted-prop collision or occlusion. Inspect the regions and run [movement validation](developer-tools.md#movement-validation) before relying on a draft's authored boundaries.
+
+The widths below record the starting scales. The current scene document under [authoring/scenes](../authoring/scenes/README.md) owns its editable floor dimensions, placements and interaction data. World widths keep the existing hero size; the factor compares the floor with a 40-unit-wide baseline, rather than scaling the actor. Change width and depth together to preserve the painting aspect ratio. These starting scales impose no validation limits on later edits.
 
 | Scene                     | World width | Floor scale vs 40 |
 | ------------------------- | ----------: | ----------------: |

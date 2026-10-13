@@ -6,6 +6,19 @@ Originals live in the iCloud-backed Asset Library under `Lantern Knight`, organi
 
 Git contains code, small recipes and the shared pin. Native source collections, prepared pages/catalogs, captures and logs remain outside Git. The external disk cache defaults to 32 GiB. Set `LANTERN_CACHE_BUDGET_GIB` to change it; active readers remain protected. This disk budget is separate from GPU residency.
 
+## Choose a workflow
+
+| Task | Action |
+| --- | --- |
+| Develop code using accepted artwork | `npm run dev`; pinned assets download as needed. |
+| Move existing artwork or edit scene geometry | Use the [scene editor](developer-tools.md#scene-editor); no asset preparation is needed. |
+| Refresh known artwork inputs | `npm run assets:prepare -- --ids <asset-id>...`; selected producers and their finalizers refresh locally. |
+| Reconcile additions, replacements, moves or deletions across the library | `npm run assets:prepare`; review [coverage gaps](#library-coverage-policy). |
+| Build a Game prototype with local artwork | `npm run build -- --local` or `npm run package -- --local`. |
+| Share prepared artwork | With explicit publication authorization, use [assets:publish or assets:publish-files](#preparation-and-publication). |
+
+Local preparation does not change the shared pin. Saving a scene does not register it in Game; follow [Game content registration](architecture.md#add-an-area-or-enemy).
+
 ## Local preparation review
 
 Use `npm run assets:prepare` to reconcile and prepare the complete current library with native lossless pages, previews, resolution variants and optimized game copies. The same command cooks game-ready GPU copies for opaque images and keeps alpha-sensitive artwork lossless. Unchanged derivatives are reused. `-- --gpu` remains accepted for existing scripts. `-- --ids <asset-id>...` selects its producer dependencies and affected coverage, lighting and delivery finalizers. Unselected producers come from the verified base and their checked staging receipts. A missing complete base or staging falls back to full preparation. Full preparation rechecks all producer keys and sources even after a scoped refresh. One executor handles full and scoped steps. Successful steps cache immutable outputs and source identities; changed inputs or corrupt outputs rebuild the affected step. Freshness/fidelity belong to preparation, with selected original bytes reverified on reuse.
@@ -54,7 +67,7 @@ The current TEST hero uses supplied native drawings, eight-direction running, fo
 
 `LANTERN_CACHE_ROOT` can choose an external disposable location; `ASSET_LIBRARY_ROOT` selects the parent source library. Temporary download reservations are released after installation. Unused local cache entries are evicted within the budget. `npm run assets:clean` cleans local disposable data only, preserving the current pin and active readers. Published releases and source originals are never deleted by cleanup.
 
-`npm run assets:inspect -- <asset-id>` prints bounded metadata from the shared pin. Use `npm run assets:inspect -- --local <asset-id>` to inspect checkout-local preparation, falling back to the pin when none exists. Explicit diagnostics retain output externally; normal checks do not keep passing-evidence receipts.
+`npm run assets:inspect -- <asset-id>` prints bounded metadata from the shared pin. Use `npm run assets:inspect -- --local <asset-id>` to inspect checkout-local preparation, falling back to the pin when none exists. Inspection acquires an authoring workspace and can download its complete payload on a cold cache; its output is bounded, but it is not an individual-file request. Explicit diagnostics retain output externally; normal checks do not keep passing-evidence receipts.
 
 ## Library authoring coverage
 
@@ -90,13 +103,11 @@ Explicit preparation scans loose files and ZIP members by content identity. Dupl
 
 Metadata adapters interpret animation timing, pivots and slices. Unrecognized or incomplete animation contracts are listed in the prepared inventory with their actual failure, while the supplied images and native media remain available. The editor's Source inventory & media panel exposes coverage counts, source associations, media previews/downloads and these limitations. It does not invent missing timing or convert source sheets into guessed animation. SVG originals and fonts remain downloadable; SVGs can be previewed as images. Video/audio are available media, not yet playable scene objects; GLB/Blend files require a model importer.
 
-Disk limits protect residency instead of deciding eligibility. Shared content is hardlinked and counted once, free disk space is checked, and active leases cannot be evicted. `LANTERN_PREPARE_BUDGET` overrides the preparation workspace target in bytes (default the cache limit). Large authoring releases split into approximately 1 GiB payload groups, independently acquired by the existing version 3 bundle pin. Publication remains explicit and keeps the prior pin until verification succeeds.
-
-Local preparation, Game content selection and published delivery are distinct. A complete local authoring catalog does not change the shared pin or automatically add every asset to a Game build. Browser/device verification is required for actual renderer and codec compatibility.
+Shared content is hardlinked and counted once, free disk space is checked, and active leases cannot be evicted. `LANTERN_PREPARE_BUDGET` overrides the preparation workspace target in bytes (default the cache limit). [Publication](#preparation-and-publication) owns bundle partitioning and pin updates. Browser/device verification is required for actual renderer and codec compatibility.
 
 ## Preparation guidance
 
-Import coverage and game cooking are separate responsibilities. The complete catalog retains every supplied asset/version. Build selection follows actual content dependencies, and does not remove unused assets from the authoring catalog. Preserve frame registration and animation timing when trimming/packing sprites; complete scene paintings stay standalone and never inherit a sprite-atlas page limit. Existing native sheets can be retained as delivered. Further sprite packing should reuse the compiler and prove pixel/registration parity rather than inventing frame fitting.
+Preserve frame registration and animation timing when trimming/packing sprites; complete scene paintings stay standalone and never inherit a sprite-atlas page limit. Existing native sheets can be retained as delivered. Further sprite packing should reuse the compiler and prove pixel/registration parity rather than inventing frame fitting.
 
 Use conservative content-based format profiles, and review a representative batch before expensive full-library GPU cooking. Lossless storage compression levels change preparation time and bytes on disk, not decoded image quality. Cache image derivatives by source hash and explicit encoding settings; edits to runtime loading or reporting must not force pixel encoding again. Ordinary builds consume prepared artifacts and never cook source artwork implicitly.
 

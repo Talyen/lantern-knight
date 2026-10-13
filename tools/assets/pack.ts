@@ -13,14 +13,12 @@ import { verifiedOutput } from '../verified-files';
 
 const hash = z.string().regex(/^[a-f0-9]{64}$/),
   bytes = z.number().int().nonnegative();
-const FileDeliverySchema = z
-  .object({
-    releaseTag: z.string().regex(/^assets-catalog-[a-f0-9]{16}$/),
-    filename: z.literal('files.json.gz'),
-    sha256: hash,
-    bytes: bytes.positive().max(64 * 1024 ** 2),
-  })
-  .strict();
+const FileDeliverySchema = z.strictObject({
+  releaseTag: z.string().regex(/^assets-catalog-[a-f0-9]{16}$/),
+  filename: z.literal('files.json.gz'),
+  sha256: hash,
+  bytes: bytes.positive().max(64 * 1024 ** 2),
+});
 const archiveFields = {
   releaseTag: z.string().regex(/^assets-[a-f0-9]{16}$/),
   filename: z.literal('lantern-assets.tar.gz'),
@@ -29,22 +27,21 @@ const archiveFields = {
   bytes: bytes.positive(),
   recipeSha256: hash,
 };
-export const ArchiveLockSchema = z
-  .object({ schemaVersion: z.literal(1), ...archiveFields })
-  .strict();
+export const ArchiveLockSchema = z.strictObject({ schemaVersion: z.literal(1), ...archiveFields });
 type ArchiveLock = z.infer<typeof ArchiveLockSchema>;
-const preparation = z
-  .object({ recipeSha256: hash, inputs: z.record(z.string(), hash), payloadSha256: hash })
-  .strict();
+const preparation = z.strictObject({
+  recipeSha256: hash,
+  inputs: z.record(z.string(), hash),
+  payloadSha256: hash,
+});
 export const LockSchema = z.union([
   ArchiveLockSchema,
   z
-    .object({
+    .strictObject({
       schemaVersion: z.literal(2),
       ...archiveFields,
       preparation,
     })
-    .strict()
     .superRefine((pin, ctx) => {
       if (
         createHash('sha256').update(JSON.stringify(pin.preparation.inputs)).digest('hex') !==
@@ -56,14 +53,13 @@ export const LockSchema = z.union([
         });
     }),
   z
-    .object({
+    .strictObject({
       schemaVersion: z.literal(3),
       ...archiveFields,
       preparation,
       bundles: z.record(z.string().regex(/^[a-z][a-z0-9_-]*$/), ArchiveLockSchema),
       fileDelivery: FileDeliverySchema.optional(),
     })
-    .strict()
     .superRefine((pin, ctx) => {
       if (
         !Object.keys(pin.bundles).length ||
@@ -114,13 +110,11 @@ export function preparationPin(
     },
   });
 }
-export const PackSchema = z
-  .object({
-    schemaVersion: z.literal(1),
-    recipeSha256: hash,
-    files: z.record(z.string(), z.object({ sha256: hash, bytes }).strict()),
-  })
-  .strict();
+export const PackSchema = z.strictObject({
+  schemaVersion: z.literal(1),
+  recipeSha256: hash,
+  files: z.record(z.string(), z.strictObject({ sha256: hash, bytes })),
+});
 export const lockFile = path.join(projectRoot, 'assets/lock.json');
 export const readLock = async (
   read = (name: string) => fs.readFile(path.join(projectRoot, name)),

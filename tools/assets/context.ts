@@ -288,18 +288,10 @@ export async function createPreparationContext(options: PreparationOptions) {
     compile: async (
       sourceFile: string,
       out: string,
-      production = false,
       validateOnly = false,
       inputRoot = path.join(root, 'staging'),
     ): Promise<Manifest> => {
-      const result = await compileAtlas(
-        context,
-        sourceFile,
-        out,
-        production,
-        validateOnly,
-        inputRoot,
-      );
+      const result = await compileAtlas(context, sourceFile, out, validateOnly, inputRoot);
       await context.flushReceipts();
       return result;
     },

@@ -14,170 +14,159 @@ const path = z
     (v) => !v.split('/').includes('..') && !v.startsWith('/'),
     'relative approved-root path required',
   );
-const notify = z
-  .object({ id, atMs: finite.nonnegative(), kind: z.enum(['footstep', 'whoosh', 'flash', 'dust']) })
-  .strict();
-const timing = z
-  .object({
-    frames: z.array(id).min(1),
-    durationsMs: z.array(positive).min(1),
-    loop: z.boolean(),
-    notifies: z.array(notify),
-    endBehavior: z.enum(['hold', 'hide']).optional(),
-    markers: z
-      .array(z.object({ id: z.string().min(1), atMs: finite.nonnegative() }).strict())
-      .optional(),
-  })
-  .strict();
-const metadata = z
-  .object({
-    id,
-    type: z.enum(['character', 'prop', 'material', 'effect']),
-    schemaVersion: z.literal(2),
-    contentVersion: z.string().min(1),
-    viewMode: z
-      .enum(['directional', 'four-directional', 'mixed-directional', 'fixed-authored', 'supplied'])
-      .optional(),
-    projection: z.enum(['painted-cutout', 'projected-world', 'top-down', 'front-view']).optional(),
-    allowEmptyFrames: z.boolean().optional(),
-    limitations: z.array(z.string()).optional(),
-    label: z.string().min(1).optional(),
-    category: z
-      .enum(['scenery', 'ground', 'character', 'pickup', 'effect', 'reference'])
-      .optional(),
-    mirroring: z.boolean().optional(),
-    placement: z.enum(['upright', 'ground', 'reference']).optional(),
-    layer: z.enum(['world', 'below-actor', 'overlay']).optional(),
-    imageRole: z.enum(['image', 'scene-painting']).optional(),
-    atlasSize: z.number().int().positive().optional(),
-    bundle: z.enum(['hero', 'room']),
-    status: z.enum(['diagnostic', 'proxy', 'production']),
-    provenance: z
-      .object({ creator: z.string().min(1), license: z.string().min(1), source: z.string().min(1) })
-      .strict(),
-    contractId: z.literal(contract.id),
-    bakeVersion: z.literal(contract.bakeVersion),
-    canvas: z.tuple([z.number().int().positive(), z.number().int().positive()]),
-    density: positive,
-    anchor: pair,
-    padding: int,
-    colorSpace: z.literal('srgb'),
-    alpha: z.literal('straight'),
-    recipe: z.string().min(1),
-    sampling: z.enum(['linear', 'terrain-mipmapped']).optional(),
-    designReference: z.string().min(1),
-    renderStyle: z.string().min(1),
-    canonicalReferenceHash: z.string().length(64).optional(),
-    legacyBake: z
-      .object({
-        contractId: z.string(),
-        bakeVersion: z.number().int().positive(),
-        azimuthDeg: finite,
-        elevationDeg: finite,
-        maxProjectionErrorPx: finite.nonnegative(),
-        reason: z.string(),
-      })
-      .strict()
-      .optional(),
-    renderCategory: z.enum(['cutout', 'opaque', 'translucent']),
-    shadow: z.object({ radius: positive, opacity: finite.min(0).max(1) }).strict(),
-    collisionFootprint: z.enum(['hero-circle-v1', 'actor-definition', 'none']),
-    occlusion: z.enum([
-      'vertical-plane-preserved-projection-v1',
-      'ground-plane-v1',
-      'wall-face-v1',
-      'camera-card-v1',
-    ]),
-    fallbacks: z.record(z.string(), z.string()),
-    dependencies: z.array(id),
-    requiredClips: z.array(id),
-    clips: z.record(z.string(), z.partialRecord(z.enum(HEADINGS), timing)),
-  })
-  .strict();
-const frameRegistration = z
-  .object({
-    canvas: z.tuple([z.number().int().positive(), z.number().int().positive()]),
-    density: positive,
-    anchor: pair,
-  })
-  .strict();
-const sourceFrame = z
-  .object({
-    id,
-    path,
-    origin: z.string().min(1),
-    attachments: z.record(z.string(), pair),
-    visualOffsetPx: pair.optional(),
-    registration: frameRegistration.optional(),
-  })
-  .strict();
-const SourceSchema = z
-  .object({ schemaVersion: z.literal(2), asset: metadata, frames: z.array(sourceFrame).min(1) })
-  .strict();
+const notify = z.strictObject({
+  id,
+  atMs: finite.nonnegative(),
+  kind: z.enum(['footstep', 'whoosh', 'flash', 'dust']),
+});
+const timing = z.strictObject({
+  frames: z.array(id).min(1),
+  durationsMs: z.array(positive).min(1),
+  loop: z.boolean(),
+  notifies: z.array(notify),
+  endBehavior: z.enum(['hold', 'hide']).optional(),
+  markers: z
+    .array(z.strictObject({ id: z.string().min(1), atMs: finite.nonnegative() }))
+    .optional(),
+});
+const metadata = z.strictObject({
+  id,
+  type: z.enum(['character', 'prop', 'material', 'effect']),
+  schemaVersion: z.literal(2),
+  contentVersion: z.string().min(1),
+  viewMode: z
+    .enum(['directional', 'four-directional', 'mixed-directional', 'fixed-authored', 'supplied'])
+    .optional(),
+  projection: z.enum(['painted-cutout', 'projected-world', 'top-down', 'front-view']).optional(),
+  allowEmptyFrames: z.boolean().optional(),
+  limitations: z.array(z.string()).optional(),
+  label: z.string().min(1).optional(),
+  category: z.enum(['scenery', 'ground', 'character', 'pickup', 'effect', 'reference']).optional(),
+  mirroring: z.boolean().optional(),
+  placement: z.enum(['upright', 'ground', 'reference']).optional(),
+  layer: z.enum(['world', 'below-actor', 'overlay']).optional(),
+  imageRole: z.enum(['image', 'scene-painting']).optional(),
+  atlasSize: z.number().int().positive().optional(),
+  bundle: z.enum(['hero', 'room']),
+  status: z.enum(['diagnostic', 'proxy', 'production']),
+  provenance: z.strictObject({
+    creator: z.string().min(1),
+    license: z.string().min(1),
+    source: z.string().min(1),
+  }),
+  contractId: z.literal(contract.id),
+  bakeVersion: z.literal(contract.bakeVersion),
+  canvas: z.tuple([z.number().int().positive(), z.number().int().positive()]),
+  density: positive,
+  anchor: pair,
+  padding: int,
+  colorSpace: z.literal('srgb'),
+  alpha: z.literal('straight'),
+  recipe: z.string().min(1),
+  sampling: z.enum(['linear', 'terrain-mipmapped']).optional(),
+  designReference: z.string().min(1),
+  renderStyle: z.string().min(1),
+  canonicalReferenceHash: z.string().length(64).optional(),
+  legacyBake: z
+    .strictObject({
+      contractId: z.string(),
+      bakeVersion: z.number().int().positive(),
+      azimuthDeg: finite,
+      elevationDeg: finite,
+      maxProjectionErrorPx: finite.nonnegative(),
+      reason: z.string(),
+    })
+    .optional(),
+  renderCategory: z.enum(['cutout', 'opaque', 'translucent']),
+  shadow: z.strictObject({ radius: positive, opacity: finite.min(0).max(1) }),
+  collisionFootprint: z.enum(['hero-circle-v1', 'actor-definition', 'none']),
+  occlusion: z.enum([
+    'vertical-plane-preserved-projection-v1',
+    'ground-plane-v1',
+    'wall-face-v1',
+    'camera-card-v1',
+  ]),
+  fallbacks: z.record(z.string(), z.string()),
+  dependencies: z.array(id),
+  requiredClips: z.array(id),
+  clips: z.record(z.string(), z.partialRecord(z.enum(HEADINGS), timing)),
+});
+const frameRegistration = z.strictObject({
+  canvas: z.tuple([z.number().int().positive(), z.number().int().positive()]),
+  density: positive,
+  anchor: pair,
+});
+const sourceFrame = z.strictObject({
+  id,
+  path,
+  origin: z.string().min(1),
+  attachments: z.record(z.string(), pair),
+  visualOffsetPx: pair.optional(),
+  registration: frameRegistration.optional(),
+});
+const SourceSchema = z.strictObject({
+  schemaVersion: z.literal(2),
+  asset: metadata,
+  frames: z.array(sourceFrame).min(1),
+});
 const runtimeFrame = sourceFrame
   .omit({ path: true })
-  .extend({ source: path, page: id, rect, trim: rect, rotated: z.literal(false) })
-  .strict();
-const deliveryImage = z
-  .object({
-    path,
-    hash: z.string().length(64),
-    width: z.number().int().positive(),
-    height: z.number().int().positive(),
-    bytes: int,
-    gpuBytes: int,
-    encoding: z.enum(['png', 'ktx2-uastc']),
-    mipmaps: z.boolean(),
-    quality: z
-      .object({
-        rmse: finite.nonnegative(),
-        alphaMaxError: int,
-        ssim: finite.min(0).max(1).optional(),
-      })
-      .strict()
-      .optional(),
-  })
-  .strict();
-const page = z
-  .object({
-    id,
-    path,
-    hash: z.string().length(64),
-    width: z.number().int().positive(),
-    height: z.number().int().positive(),
-    bytes: int,
-    rgbaBytes: int,
-    extrusion: int,
-    gutter: int,
-    mipmaps: z.boolean(),
-    preview: deliveryImage.optional(),
-    delivery: z.array(deliveryImage).optional(),
-  })
-  .strict();
-const ManifestSchema = z
-  .object({
-    schemaVersion: z.literal(2),
-    contractId: z.literal(contract.id),
-    bakeVersion: z.literal(contract.bakeVersion),
-    hash: z.string().length(64),
-    toolVersion: z.string(),
-    asset: metadata,
-    frames: z.array(runtimeFrame),
-    pages: z.array(page),
-    bundles: z.record(
-      z.string(),
-      z
-        .object({ required: z.array(id), optional: z.array(id), dependencies: z.array(z.string()) })
-        .strict(),
-    ),
-  })
-  .strict();
+  .extend({ source: path, page: id, rect, trim: rect, rotated: z.literal(false) });
+const deliveryImage = z.strictObject({
+  path,
+  hash: z.string().length(64),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  bytes: int,
+  gpuBytes: int,
+  encoding: z.enum(['png', 'ktx2-uastc']),
+  mipmaps: z.boolean(),
+  quality: z
+    .strictObject({
+      rmse: finite.nonnegative(),
+      alphaMaxError: int,
+      ssim: finite.min(0).max(1).optional(),
+    })
+    .optional(),
+});
+const page = z.strictObject({
+  id,
+  path,
+  hash: z.string().length(64),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  bytes: int,
+  rgbaBytes: int,
+  extrusion: int,
+  gutter: int,
+  mipmaps: z.boolean(),
+  preview: deliveryImage.optional(),
+  delivery: z.array(deliveryImage).optional(),
+});
+const ManifestSchema = z.strictObject({
+  schemaVersion: z.literal(2),
+  contractId: z.literal(contract.id),
+  bakeVersion: z.literal(contract.bakeVersion),
+  hash: z.string().length(64),
+  toolVersion: z.string(),
+  asset: metadata,
+  frames: z.array(runtimeFrame),
+  pages: z.array(page),
+  bundles: z.record(
+    z.string(),
+    z.strictObject({
+      required: z.array(id),
+      optional: z.array(id),
+      dependencies: z.array(z.string()),
+    }),
+  ),
+});
 export type Source = z.infer<typeof SourceSchema>;
 export type ManifestDraft = z.infer<typeof ManifestSchema>;
 export type Manifest = ContentSnapshot<ManifestDraft>;
 export type Frame = Manifest['frames'][number];
 export type Clip = ContentSnapshot<z.infer<typeof timing>>;
-function validateSemantics(value: Source | Manifest, _production = false) {
+function validateSemantics(value: Source | Manifest) {
   const a = value.asset;
   if (a.sampling === 'terrain-mipmapped' && a.type !== 'material')
     throw new Error('terrain mipmaps require a material');
@@ -303,13 +292,13 @@ function validateSemantics(value: Source | Manifest, _production = false) {
     );
 }
 export { resolveClip, resolveActorClip } from './clips';
-export function parseSource(data: unknown, production = false) {
+export function parseSource(data: unknown) {
   const s = SourceSchema.parse(data);
-  validateSemantics(s, production);
+  validateSemantics(s);
   return s;
 }
-export function parseManifest(data: unknown, production = false): ManifestDraft {
+export function parseManifest(data: unknown): ManifestDraft {
   const m = ManifestSchema.parse(data);
-  validateSemantics(m, production);
+  validateSemantics(m);
   return m;
 }

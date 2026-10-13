@@ -10,13 +10,11 @@ import { requireCurrentDesktopInputs } from '../build-identity';
 import type { smokeLaunch } from '../smoke/smoke-launch';
 
 export const journeyPhases = ['movement', 'actions', 'checkpoint'] as const;
-const segment = z
-  .object({
-    name: z.enum(journeyPhases),
-    frames: z.array(z.number().finite().positive()).min(30).max(100000),
-    actions: z.array(z.string()).max(20000),
-  })
-  .strict();
+const segment = z.strictObject({
+  name: z.enum(journeyPhases),
+  frames: z.array(z.number().finite().positive()).min(30).max(100000),
+  actions: z.array(z.string()).max(20000),
+});
 export const GameBenchmarkSchema = BenchmarkSchema.omit({
   requestedMs: true,
   simulatedTicks: true,
