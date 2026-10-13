@@ -1,3 +1,4 @@
+import type { AudioSample } from '../../src/assets/audio';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
@@ -59,7 +60,22 @@ export async function verifyAudioSources(
       throw new Error('Audio source changed or escaped library: ' + recipe.source);
   }
 }
-export async function prepareAudio(context: PreparationContext, check: boolean) {
+type AudioRecipe = (typeof recipes.entries)[number];
+type AudioReceipt = AudioRecipe & {
+  output: string;
+  outputHash: string;
+  processingKey: string;
+  sample: AudioSample;
+  toolFingerprint: string;
+  measuredMeanDb: number;
+  measuredPeakDb: number;
+  appliedGainDb: number;
+};
+export async function prepareAudio(
+  context: PreparationContext,
+  check: boolean,
+  selectedEntries: readonly AudioRecipe[] = recipes.entries,
+) {
   const env = context.environment,
     tools = await audioTools(env);
   const root = path.resolve(
@@ -67,9 +83,24 @@ export async function prepareAudio(context: PreparationContext, check: boolean) 
   );
   const manifest: AudioManifest = { schemaVersion: 1, samples: [] };
   const temporary = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-audio-'));
-  const receipts = [];
+  const receipts: AudioReceipt[] = [];
+  const processorHash = sha(await fs.readFile(new URL(import.meta.url)));
+  let previous: AudioReceipt[] = [];
+  for (const file of ['staging/audio/receipt.json', 'metadata/audio/receipt.json']) {
+    try {
+      previous = JSON.parse(await context.readAsset(file, 'utf8')).sources;
+      break;
+    } catch (error) {
+      if (!(error instanceof SyntaxError) && (error as NodeJS.ErrnoException).code !== 'ENOENT')
+        throw error;
+    }
+  }
+  const cached = new Map(
+    (Array.isArray(previous) ? previous : []).map((entry) => [entry.processingKey, entry]),
+  );
+  let reused = 0;
   try {
-    for (const recipe of recipes.entries) {
+    for (const recipe of selectedEntries) {
       safeRelative(recipe.source);
       const source = path.join(root, recipe.source);
       if (!(await fs.realpath(source)).startsWith((await fs.realpath(root)) + path.sep))
@@ -78,6 +109,42 @@ export async function prepareAudio(context: PreparationContext, check: boolean) 
       if (sha(original) !== recipe.sha256)
         throw new Error('Audio source changed: ' + recipe.source);
       if (check) continue;
+      const processingKey = sha(
+        JSON.stringify([
+          processorHash,
+          tools.fingerprint,
+          recipe.sha256,
+          recipe.start,
+          recipe.duration,
+          recipe.gainDb,
+          recipe.loop,
+        ]),
+      );
+      const prior = cached.get(processingKey);
+      if (prior) {
+        try {
+          const sample = parseAudioManifest({ schemaVersion: 1, samples: [prior.sample] })
+            .samples[0]!;
+          const bytes = await context.readAsset('public/' + sample.path);
+          if (bytes.length === sample.bytes && sha(bytes) === sample.hash) {
+            const rebound = { ...sample, id: recipe.id, cue: recipe.cue };
+            await context.writeAsset('public/' + sample.path, bytes);
+            manifest.samples.push(rebound);
+            receipts.push({ ...prior, ...recipe, sample: rebound });
+            reused++;
+            continue;
+          }
+        } catch (error) {
+          if (
+            (error as NodeJS.ErrnoException).code !== 'ENOENT' &&
+            !(
+              error instanceof Error &&
+              (error.name === 'ZodError' || /audio|Audio/.test(error.message))
+            )
+          )
+            throw error;
+        }
+      }
       const file = path.join(temporary, recipe.id + (recipe.loop ? '.ogg' : '.wav'));
       const analysis = await capture(
         tools.ffmpeg,
@@ -170,7 +237,7 @@ export async function prepareAudio(context: PreparationContext, check: boolean) 
         throw new Error('Empty or excessive audio: ' + recipe.id);
       const output = `audio/${hash}.${recipe.loop ? 'ogg' : 'wav'}`;
       await context.writeAsset('public/' + output, bytes);
-      manifest.samples.push({
+      const sample: AudioSample = {
         id: recipe.id,
         cue: recipe.cue,
         path: output,
@@ -182,8 +249,11 @@ export async function prepareAudio(context: PreparationContext, check: boolean) 
         loop: recipe.loop,
         loopStart: 0,
         loopEnd: duration,
-      });
+      };
+      manifest.samples.push(sample);
       receipts.push({
+        sample,
+        processingKey,
         ...recipe,
         output,
         outputHash: hash,
@@ -197,7 +267,7 @@ export async function prepareAudio(context: PreparationContext, check: boolean) 
       const prepared = parseAudioManifest(
         JSON.parse(await context.readAsset('public/' + audioManifestPath, 'utf8')),
       );
-      if (prepared.samples.length !== recipes.entries.length)
+      if (prepared.samples.length !== selectedEntries.length)
         throw new Error('Incomplete prepared audio');
       for (const sample of prepared.samples) {
         const bytes = await context.readAsset('public/' + sample.path);
@@ -209,7 +279,7 @@ export async function prepareAudio(context: PreparationContext, check: boolean) 
       await context.writeAsset('public/' + audioManifestPath, JSON.stringify(manifest));
       await context.writeAsset(
         'staging/audio/receipt.json',
-        JSON.stringify({ schemaVersion: 1, tools: tools.versions, sources: receipts }),
+        JSON.stringify({ schemaVersion: 1, tools: tools.versions, reused, sources: receipts }),
       );
     }
   } finally {

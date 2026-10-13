@@ -141,11 +141,11 @@ export function reviewFilename(relative: string): {
 } {
   if (!/\.(wav|ogg|mp3|flac)$/i.test(relative))
     return { disposition: 'non-audio', use: 'metadata', reason: 'Not a playable audio source.' };
-  const selected = recipes.entries.find((r) => r.source === relative);
-  if (selected)
+  const selected = recipes.entries.filter((r) => r.source === relative);
+  if (selected.length)
     return {
       disposition: 'selected',
-      use: selected.cue,
+      use: [...new Set(selected.map((entry) => entry.cue))].join(', '),
       reason:
         'Explicit hashed source recipe; filename fit selected. Audible approval remains separate.',
     };

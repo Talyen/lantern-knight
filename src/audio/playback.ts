@@ -301,7 +301,7 @@ export class AudioPlayback {
       const key = cue + ':' + (options.key ?? 'global');
       if ((this.cooldown.get(key) ?? -Infinity) > this.deps.now()) return;
       const distance =
-        options.x === undefined || options.z === undefined
+        !world || options.x === undefined || options.z === undefined
           ? 0
           : Math.hypot(options.x - this.listener.x, options.z - this.listener.z);
       if (distance >= 16) return;
@@ -370,6 +370,11 @@ export class AudioPlayback {
         created.push(voice);
       }
       for (const voice of created) voice.source.start();
+      // Only the latest outgoing group keeps a fade; older retiring owners
+      // cannot accumulate voices/timers during rapid successful transitions.
+      for (const timer of this.timers) this.deps.clearTimer(timer);
+      this.timers.clear();
+      for (const voice of [...this.retiring]) voice.finish();
       const outgoing = this.loops;
       this.loops = [...created];
       created.length = 0;

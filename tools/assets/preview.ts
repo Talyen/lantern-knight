@@ -160,14 +160,15 @@ export async function preparePreviewAssets(
   env: NodeJS.ProcessEnv = process.env,
 ) {
   const started = performance.now();
-  const base = await prototypeAssets(cache, projectRoot, 'authoring', true);
+  const audioOnly = ids.length > 0 && ids.every((id) => id === 'audio' || id.startsWith('audio-'));
+  // Audio has no image producers to refresh an unrelated shared staging layer.
+  // Preserve this checkout's explicit local layer, otherwise start at its pin.
+  const base = await prototypeAssets(cache, projectRoot, 'authoring', !audioOnly);
   let indexGuard: Awaited<ReturnType<AssetCache['lease']>> | undefined;
   let checkpointLease: Awaited<ReturnType<AssetCache['lease']>> | undefined;
   try {
     indexGuard = await cache.lease(previewName(projectRoot) + '-index');
     const completeBase = 'complete' in base.lock && base.lock.complete === true;
-    const audioOnly =
-      ids.length > 0 && ids.every((id) => id === 'audio' || id.startsWith('audio-'));
     let steps = preparationSelection(ids.length && (completeBase || audioOnly) ? ids : []);
     const startRecipe = await recipeHash();
     const audioStep = steps.find((operation) => operation.file.endsWith('prepare-audio.ts'));

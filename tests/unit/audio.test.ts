@@ -400,3 +400,23 @@ test('a new gesture resumes a context suspended by the host without replacing it
   f.playback.dispose();
   assert.equal(f.closed, 1);
 });
+
+test('menu feedback is non-spatial even after travel changes world coordinates', async () => {
+  const f = fixture();
+  await ready(f);
+  await f.playback.play('sword', { world: false, x: 100, z: 100 });
+  assert.equal(f.playback.diagnosticsSnapshot.voices, 1);
+  f.playback.dispose();
+});
+test('rapid ambience changes retain only one outgoing fade and timer', async () => {
+  const f = fixture([sample('forest-1', 'forest', true), sample('wind-1', 'wind', true)]);
+  await ready(f);
+  await f.playback.setAmbience(['forest']);
+  await f.playback.setAmbience(['wind']);
+  assert.equal(f.sources[0]!.stopped, false);
+  await f.playback.setAmbience(['forest']);
+  assert.equal(f.sources[0]!.stopped, true);
+  assert.equal(f.sources[1]!.stopped, false);
+  assert.equal(f.timers.size, 1);
+  f.playback.dispose();
+});
