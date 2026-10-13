@@ -460,6 +460,53 @@ test('superseded transitions release late rooms without pausing or freezing the 
   app.dispose();
 });
 
+test('a recovered room can play while an obsolete asset acquisition still drains', async () => {
+  const { app } = fixture({
+      ...sceneFixture(content),
+      area: (id) => ({ area: content.area(id), assets: [id] }),
+    }),
+    waiting = Promise.withResolvers<PackLease>();
+  Object.assign(app.bridge, { automatedRun: true });
+  app.readOnly = true;
+  app.ready = true;
+  editFixture(app, (sim) => {
+    sim.cleared = true;
+  });
+  let released = 0,
+    requests = 0,
+    clears = 0;
+  app.input.clear = () => {
+    clears++;
+  };
+  const loading: boolean[] = [];
+  app.hooks.loading = (active) => loading.push(active);
+  app.runtime = runtime(async () => {
+    if (++requests === 1) return waiting.promise;
+    return { release() {} } as unknown as PackLease;
+  });
+  const transition = app.transition(app.sim.areaDefinition.exits[0]!.id);
+  const rejected = assert.rejects(transition, /superseded/);
+  await app.newGame();
+  try {
+    assert.equal(app.roomReady, true);
+    assert.equal(app.busy, false);
+    assert.deepEqual(loading, [true, false], 'Only the current load owns the overlay');
+    app.command = () => ({ move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } });
+    const tick = app.sim.tick;
+    const frame = Reflect.get(app, 'loop') as (now: number) => void;
+    frame(performance.now() + 100);
+    assert.ok(app.sim.tick > tick, 'Late cancelled decodes cannot freeze accepted gameplay');
+  } finally {
+    waiting.resolve({ release: () => released++ } as unknown as PackLease);
+    const beforeDrain = clears;
+    await rejected;
+    assert.equal(clears, beforeDrain, 'Late cleanup cannot erase newly accepted input');
+    assert.deepEqual(loading, [true, false], 'Late cleanup cannot repeat loading feedback');
+    app.dispose();
+  }
+  assert.equal(released, 1, 'Draining still owns and releases the late asset exactly once');
+});
+
 test('cancellation feedback can supersede the operation that triggered cancellation', async () => {
   const { app } = fixture({
       ...sceneFixture(content),
