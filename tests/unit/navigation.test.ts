@@ -316,3 +316,18 @@ test('checkpoint clearance uses the same minimum actor radius as movement', () =
   Object.assign(save.player, { x: -0.3, z: 0 });
   assert.throws(() => parseGame(save, registry), /Unsupported saved player position/);
 });
+
+test('an explicitly routed actor replans after displacement puts a wall across its next segment', () => {
+  const a = area();
+  a.spawns = [];
+  const sim = simulate(a),
+    goal = { x: -3, z: 1 };
+  Object.assign(sim.hero, { x: -0.4, z: 2.5 });
+  sim.setMovementTarget(sim.hero.id, goal);
+  // Move around the wall's tip after planning a route down its left side.
+  sim.move(sim.hero, 0.8, 0);
+  sim.move(sim.hero, 0, -0.4);
+  for (let i = 0; i < 300; i++) sim.step(still);
+  assert.ok(Math.hypot(sim.hero.x - goal.x, sim.hero.z - goal.z) < 1e-6);
+  assert.ok(isSupportedPosition(a, sim.hero, 0.3));
+});

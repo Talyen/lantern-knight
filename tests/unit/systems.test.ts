@@ -17,7 +17,12 @@ const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 
 test('input uses the first click position, preserves pending dodge across key repeats, and disposes its listeners', () => {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'window'),
-    target = Object.assign(new EventTarget(), { matches: (_selector: string): boolean => false }),
+    target = Object.assign(new EventTarget(), {
+      matches: (_selector: string): boolean => false,
+      closest(selector: string): object | null {
+        return this.matches(selector) ? this : null;
+      },
+    }),
     canvas = Object.assign(new EventTarget(), {
       getBoundingClientRect: () => ({
         left: 80,
@@ -69,7 +74,25 @@ test('input uses the first click position, preserves pending dodge across key re
     assert.equal(input.edges.dodge, false, 'focused buttons cannot trigger combat');
     target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'Escape', repeat: false }));
     assert.equal(pauses, 1, 'Escape still toggles pause from a focused button');
+    input.clear();
     target.matches = () => false;
+    target.closest = (selector) => (selector.includes('button') ? {} : null);
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
+    assert.equal(input.keys.size, 0, 'descendants of controls cannot move the hero');
+    input.keys.add('KeyW');
+    target.dispatchEvent(new Event('focusin'));
+    assert.equal(input.keys.size, 0, 'focus inside a control releases held movement');
+    target.closest = () => null;
+    for (const modifier of ['ctrlKey', 'metaKey', 'altKey']) {
+      target.dispatchEvent(
+        Object.assign(new Event('keydown'), {
+          code: 'KeyW',
+          repeat: false,
+          [modifier]: true,
+        }),
+      );
+      assert.equal(input.keys.size, 0, 'application shortcuts cannot move the hero');
+    }
     input.resetAim();
     input.dispose();
     target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: false }));
@@ -482,4 +505,35 @@ test('failed feedback is removed once; synchronous and asynchronous failures can
   await Promise.resolve();
   assert.equal(failures.length, 3);
   hub.dispose();
+});
+
+test('keyboard events on a non-element target do not crash the input listener', () => {
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'window');
+  const target = new EventTarget();
+  Object.defineProperty(globalThis, 'window', { configurable: true, value: target });
+  const input = new Input(new EventTarget() as HTMLCanvasElement, makeCamera(1), () => {});
+  try {
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW' }));
+    assert.ok(input.keys.has('KeyW'));
+    target.dispatchEvent(new Event('focusin'));
+  } finally {
+    input.dispose();
+    if (previous) Object.defineProperty(globalThis, 'window', previous);
+    else Reflect.deleteProperty(globalThis, 'window');
+  }
+});
+
+test('resetting the fixed clock inside a step discards pending time without delaying the next frame', () => {
+  const clock = new FixedClock();
+  let steps = 0;
+  clock.advance(50, () => {
+    steps++;
+    clock.reset();
+  });
+  assert.equal(steps, 1);
+  assert.equal(clock.accumulator, 0);
+  clock.advance(clock.stepMs, () => {
+    steps++;
+  });
+  assert.equal(steps, 2);
 });

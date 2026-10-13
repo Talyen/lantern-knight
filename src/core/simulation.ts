@@ -152,6 +152,17 @@ export class Simulation {
       plan.route = this.pursuitRoute(a, target);
       plan.nextPlan = this.tick + 15;
     }
+    const waypoint = plan.route.points[0];
+    if (
+      waypoint &&
+      !clearSegment(this.areaDefinition, a, waypoint, effectiveRadius(a.definition.radius))
+    ) {
+      // Collisions and dashes can displace an actor from its planned route.
+      plan.route = plan.explicit
+        ? this.navigator.route(a, plan.target, effectiveRadius(a.definition.radius))
+        : this.pursuitRoute(a, target ?? plan.target);
+      plan.nextPlan = this.tick + 15;
+    }
     if (plan.route.status === 'unreachable') {
       a.state = 'idle';
       return false;
@@ -565,8 +576,8 @@ export class FixedClock {
     this.accumulator += bounded;
     let steps = 0;
     while (this.accumulator + 1e-8 >= this.stepMs && steps < 6) {
-      const keepGoing = step();
       this.accumulator -= this.stepMs;
+      const keepGoing = step();
       steps++;
       if (keepGoing === false) {
         this.accumulator = 0;
