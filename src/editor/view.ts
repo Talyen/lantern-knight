@@ -67,6 +67,7 @@ export class EditorView {
   private ghostPack?: PackLease;
   private ghostKey = '';
   private ghostRequest = 0;
+  private ghostPoint = new T.Vector3();
 
   private rays = new T.Raycaster();
   private alpha = new WeakMap<T.Texture, { data: Uint8Array; width: number; height: number }>();
@@ -415,6 +416,7 @@ export class EditorView {
   }
   async placementGhost(asset: string, clip: string, heading: string, point: T.Vector3) {
     if (!this.available) return;
+    this.ghostPoint.copy(point);
     const key = asset + '/' + clip + '/' + heading;
     if (this.ghostKey !== key) {
       const request = ++this.ghostRequest;
@@ -434,24 +436,26 @@ export class EditorView {
         pack.release();
         return;
       }
-      this.ghostPack = pack;
-      this.ghost = new ActorSprite(
-        'editor-ghost',
-        pack.manifest,
-        pack.textures,
-        resolveClip(
+      try {
+        const resolved = resolveClip(
           pack.manifest,
           clip,
           heading as NonNullable<SceneDocument['objects'][number]['heading']>,
-        ),
-      );
+        );
+        this.ghost = new ActorSprite('editor-ghost', pack.manifest, pack.textures, resolved);
+      } catch (error) {
+        pack.release();
+        this.ghostKey = '';
+        throw error;
+      }
+      this.ghostPack = pack;
       this.ghost.material.transparent = true;
       this.ghost.material.opacity = 0.45;
       this.ghost.material.depthWrite = false;
       this.renderer?.overlay.add(this.ghost.mesh);
     }
     if (this.ghost && this.renderer) {
-      this.ghost.show(this.ghost.animator.frame, point, this.renderer.camera);
+      this.ghost.show(this.ghost.animator.frame, this.ghostPoint, this.renderer.camera);
       this.render();
     }
   }
@@ -489,10 +493,37 @@ export class EditorView {
   }
   previewPosition(id: string, x: number, z: number) {
     const s = this.sprites().find((s) => s.id === id);
-    if (s) {
-      s.mesh.position.x = x;
-      s.mesh.position.z = z;
+    if (!s || !this.simulation) return;
+    let base = this.previewMatrices.get(id);
+    if (!base) {
+      base = {
+        position: s.mesh.position.clone(),
+        scale: s.mesh.scale.clone(),
+        quaternion: s.mesh.quaternion.clone(),
+      };
+      this.previewMatrices.set(id, base);
     }
+    const original =
+      this.appliedDocument &&
+      sceneItems(this.appliedDocument).find((p) => p.placement.id === id)?.placement;
+    if (!original) return;
+    const preview = {
+      sprite: s,
+      position: base.position
+        .clone()
+        .add(
+          new T.Vector3(
+            x - original.x,
+            heightAt(this.simulation.areaDefinition, x, z) -
+              heightAt(this.simulation.areaDefinition, original.x, original.z),
+            z - original.z,
+          ),
+        ),
+      scale: base.scale.clone(),
+      quaternion: base.quaternion.clone(),
+    };
+    this.transformPreview = this.transformPreview.filter((p) => p.sprite !== s);
+    this.transformPreview.push(preview);
   }
   private clearHelpers() {
     this.selectMany([]);
