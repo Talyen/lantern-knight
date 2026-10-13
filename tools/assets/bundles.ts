@@ -16,8 +16,7 @@ import {
 import { makeArchive } from './archive';
 import { shaFile } from './sources';
 import { verifiedOutput } from '../verified-files';
-import { AssetCache } from './cache';
-import { diskBytes } from './cache';
+import { AssetCache, diskBytes } from './cache';
 import type { PreparedAssets } from './prepare';
 
 import { selectedFiles } from '../select-runtime-assets';

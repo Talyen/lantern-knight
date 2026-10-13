@@ -1,3 +1,4 @@
+import { downloadFile } from './download';
 import fs from 'node:fs/promises';
 import { createReadStream } from 'node:fs';
 import path from 'node:path';
@@ -16,13 +17,7 @@ import {
 } from './pack';
 import { ensureBundlePack, authoringGroups } from './bundles';
 import { gh } from './github';
-import {
-  FileCatalogSchema,
-  type FileCatalog,
-  downloadFile,
-  deliveryURL,
-  containerURL,
-} from './file-delivery';
+import { FileCatalogSchema, type FileCatalog, deliveryURL, containerURL } from './file-delivery';
 
 type BundlePin = Extract<AssetLock, { schemaVersion: 3 }>;
 type Container = { sha256: string; bytes: number };

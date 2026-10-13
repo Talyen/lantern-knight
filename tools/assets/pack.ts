@@ -1,6 +1,7 @@
+import { downloadFile } from './download';
 export { recipeInputs, recipeHash } from './recipe';
 import fs from 'node:fs/promises';
-import { createReadStream, createWriteStream } from 'node:fs';
+import { createReadStream } from 'node:fs';
 import path from 'node:path';
 import { randomUUID, createHash } from 'node:crypto';
 import { pipeline } from 'node:stream/promises';
@@ -326,27 +327,8 @@ export async function ensurePack(
       await held.reserve(lock.bytes + (await diskBytes(held.root)));
       const archive = path.join(held.root, '.download-' + randomUUID()),
         incoming = path.join(held.root, '.incoming-' + randomUUID());
-      let downloadOutput: ReturnType<typeof createWriteStream> | undefined;
       try {
-        const response = await request(url);
-        if (!response.ok || !response.body)
-          throw new Error(`Prepared pack unavailable: HTTP ${response.status}`);
-        const output = (downloadOutput = createWriteStream(archive, {
-            flags: 'wx',
-          })),
-          digest = createHash('sha256');
-        let count = 0;
-        async function* checked() {
-          for await (const b of response.body as unknown as AsyncIterable<Uint8Array>) {
-            count += b.length;
-            if (count > lock.bytes) throw new Error('Download exceeds pinned size');
-            digest.update(b);
-            yield b;
-          }
-        }
-        await pipeline(checked(), output);
-        if (count !== lock.bytes || digest.digest('hex') !== lock.sha256)
-          throw new Error('Prepared pack download hash or size differs');
+        await downloadFile(url, lock, archive, request);
         const { inventory, bytes: inventoryBytes } = await archiveInventory(archive, lock);
         const unpacked = Object.values(inventory.files).reduce(
           (sum, file) => sum + file.bytes,
@@ -371,11 +353,6 @@ export async function ensurePack(
           '.verified-pack.json',
         );
       } finally {
-        if (downloadOutput && !downloadOutput.closed)
-          await new Promise<void>((resolve) => {
-            downloadOutput!.once('close', resolve);
-            downloadOutput!.destroy();
-          });
         await fs.rm(archive, { force: true });
         await fs.rm(incoming, { recursive: true, force: true });
         await held.reserve(0);

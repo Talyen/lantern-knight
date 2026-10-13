@@ -1,49 +1,37 @@
+import { openDemandWorkspace } from '../../tools/assets/demand';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { createHash } from 'node:crypto';
-import { makeArchive } from '../../tools/assets/archive';
+import { makeArchive, inventoryCandidate } from '../../tools/assets/archive';
 import { ensureBundlePack } from '../../tools/assets/bundles';
 import { AssetCache } from '../../tools/assets/cache';
-import { LockSchema, payloadDigest } from '../../tools/assets/pack';
+import { preparationPin, PackSchema } from '../../tools/assets/pack';
 test('runtime consumers fetch only runtime bundles; authoring reuses them and verifies its additional bytes', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-bundle-');
 
   const locks: Record<string, Awaited<ReturnType<typeof makeArchive>>> = {},
-    archives = new Map<string, Buffer>();
+    archives = new Map<string, Buffer>(),
+    combined = path.join(root, 'combined');
   for (const name of ['runtime', 'authoring']) {
     const source = path.join(root, name);
-    await fs.mkdir(path.join(source, 'public'), { recursive: true });
-    await fs.writeFile(path.join(source, 'public', name + '.txt'), name);
+    for (const directory of [source, combined]) {
+      await fs.mkdir(path.join(directory, 'public'), { recursive: true });
+      await fs.writeFile(path.join(directory, 'public', name + '.txt'), name);
+    }
     const archive = path.join(root, name + '.tar.gz');
     const lock = await makeArchive(source, archive, 'a'.repeat(64));
     locks[name] = lock;
     archives.set(lock.releaseTag, await fs.readFile(archive));
   }
-  const payloadFiles = {};
-  for (const name of ['runtime', 'authoring'])
-    Object.assign(
-      payloadFiles,
-      JSON.parse(await fs.readFile(path.join(root, name, 'pack.json'), 'utf8')).files,
-    );
-  const pin = LockSchema.parse({
-    ...locks.runtime,
-    schemaVersion: 3,
-    bundles: locks,
-    preparation: {
-      inputs: {},
-      recipeSha256: createHash('sha256').update('{}').digest('hex'),
-      payloadSha256: payloadDigest({
-        schemaVersion: 1,
-        recipeSha256: 'a'.repeat(64),
-        files: payloadFiles,
-      }),
-    },
-  });
-  assert.equal(pin.schemaVersion, 3);
-  if (pin.schemaVersion !== 3) throw new Error('Expected bundle pin');
+  const candidate = await inventoryCandidate(combined, 'a'.repeat(64));
+  const inventory = PackSchema.parse(
+    JSON.parse(await fs.readFile(path.join(combined, 'pack.json'), 'utf8')),
+  );
+  const accepted = preparationPin(candidate, {}, inventory);
+  if (accepted.schemaVersion === 1) throw new Error('Expected accepted preparation');
+  const pin = { ...accepted, schemaVersion: 3 as const, bundles: locks };
   const cache = new AssetCache(path.join(root, 'cache'), 1024 * 1024),
     requests: string[] = [];
   const fetcher = (async (url: string | URL | Request) => {
@@ -62,7 +50,12 @@ test('runtime consumers fetch only runtime bundles; authoring reuses them and ve
   } finally {
     await runtime.release();
   }
-  const authoring = await ensureBundlePack(pin, cache, fetcher, 'authoring');
+  const authoring = await openDemandWorkspace(pin, cache, fetcher);
+  assert.equal(
+    authoring.ensurePublicFile,
+    undefined,
+    'Older pins acquire complete authoring bundles',
+  );
   try {
     assert.equal(
       await fs.readFile(path.join(authoring.root, 'public/authoring.txt'), 'utf8'),

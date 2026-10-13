@@ -1,52 +1,26 @@
 import { temporaryDirectory } from '../fixtures/temporary-directory';
-import type { TestContext } from 'node:test';
-import test from 'node:test';
+import test, { type TestContext } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash, randomBytes } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
 import { AssetCache } from '../../tools/assets/cache';
-import { openDemandWorkspace } from '../../tools/assets/demand';
-import { downloadFile } from '../../tools/assets/file-delivery';
+import { openFileWorkspace } from '../../tools/assets/file-delivery';
+import { downloadFile } from '../../tools/assets/download';
 import { buildFileCatalog } from '../../tools/assets/file-publication';
-import { payloadDigest, type AssetLock, type PackInventory } from '../../tools/assets/pack';
+import { preparationPin, PackSchema, type AssetLock } from '../../tools/assets/pack';
+import { inventoryCandidate } from '../../tools/assets/archive';
 
 const sha = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
 async function fixture(t: TestContext) {
   const root = await temporaryDirectory(t, 'lantern-files-');
-  const page = randomBytes(8192),
-    neighbor = randomBytes(16384);
+  const page = randomBytes(8192);
   const entries = {
     'public/generated/tree/manifest.json': Buffer.from('{"tree":true}'),
     'public/generated/tree/page.png': page,
     'public/generated/tree/alias.png': page,
-    'public/generated/other/page.png': neighbor,
-  };
-  const inventory: PackInventory = {
-    schemaVersion: 1,
-    recipeSha256: 'a'.repeat(64),
-    files: Object.fromEntries(
-      Object.entries(entries).map(([name, bytes]) => [
-        name,
-        { sha256: sha(bytes), bytes: bytes.length },
-      ]),
-    ),
-  };
-  const pin: Extract<AssetLock, { schemaVersion: 3 }> = {
-    schemaVersion: 3,
-    releaseTag: 'assets-' + 'a'.repeat(16),
-    filename: 'lantern-assets.tar.gz',
-    sha256: 'b'.repeat(64),
-    inventorySha256: 'c'.repeat(64),
-    recipeSha256: inventory.recipeSha256,
-    bytes: 1000,
-    preparation: {
-      recipeSha256: sha(Buffer.from('{}')),
-      inputs: {},
-      payloadSha256: payloadDigest(inventory),
-    },
-    bundles: {},
+    'public/generated/other/page.png': randomBytes(16384),
   };
   const cache = new AssetCache(path.join(root, 'cache'), 4 * 1024 ** 2);
   const held = await cache.lease('builder');
@@ -55,6 +29,15 @@ async function fixture(t: TestContext) {
     await fs.mkdir(path.dirname(path.join(sourceRoot, name)), { recursive: true });
     await fs.writeFile(path.join(sourceRoot, name), bytes);
   }
+  const candidate = await inventoryCandidate(sourceRoot, 'a'.repeat(64));
+  const inventory = PackSchema.parse(
+    JSON.parse(await fs.readFile(path.join(sourceRoot, 'pack.json'), 'utf8')),
+  );
+  const pin = {
+    ...preparationPin(candidate, {}, inventory),
+    schemaVersion: 3 as const,
+    bundles: {},
+  } as Extract<AssetLock, { schemaVersion: 3 }>;
   const objects = new Map<string, Buffer>();
   const catalog = await buildFileCatalog(pin, inventory, sourceRoot, held, async (info, file) => {
     objects.set(info.sha256 + '.bin', await fs.readFile(file));
@@ -98,7 +81,6 @@ async function fixture(t: TestContext) {
     calls,
     request,
     entries,
-    body,
     cache,
   };
 }
@@ -106,7 +88,7 @@ async function fixture(t: TestContext) {
 test('uncached artwork downloads exactly the catalog and selected file, coalesces aliases and reuses offline', async (t) => {
   const f = await fixture(t);
 
-  const workspace = await openDemandWorkspace(f.pin, f.cache, f.request);
+  const workspace = await openFileWorkspace(f.pin, f.cache, f.request);
   assert.equal(f.calls.length, 0);
   await workspace.ensurePublicFile('generated/tree/manifest.json');
   const before = f.calls.length;
@@ -130,7 +112,7 @@ test('uncached artwork downloads exactly the catalog and selected file, coalesce
   );
   assert.throws(() => workspace.ensurePublicFile('../escape'), /Unsafe/);
   await workspace.release();
-  const offline = await openDemandWorkspace(f.pin, f.cache, async () => {
+  const offline = await openFileWorkspace(f.pin, f.cache, async () => {
     throw new Error('offline');
   });
   assert.equal(await offline.ensurePublicFile('generated/tree/page.png'), true);
@@ -161,7 +143,7 @@ test('catalog authenticates the complete accepted payload, not just its download
   const f = await fixture(t);
 
   f.pin.preparation.payloadSha256 = 'd'.repeat(64);
-  const workspace = await openDemandWorkspace(f.pin, f.cache, f.request);
+  const workspace = await openFileWorkspace(f.pin, f.cache, f.request);
   await assert.rejects(workspace.ensurePublicFile('generated/tree/page.png'), /payload differs/);
   await workspace.release();
   assert.deepEqual(
@@ -264,5 +246,61 @@ test('container publication rejects source drift and deduplicates identical file
     );
   } finally {
     await held.release();
+  }
+});
+
+test('disposing a development workspace aborts in-flight acquisition and releases its lease', async (t) => {
+  const f = await fixture(t);
+  let started!: () => void;
+  const fetching = new Promise<void>((resolve) => {
+    started = resolve;
+  });
+  const request = (async (_url, init) => {
+    started();
+    return new Promise<Response>((_resolve, reject) => {
+      init?.signal?.addEventListener(
+        'abort',
+        () => reject(new DOMException('Aborted', 'AbortError')),
+        { once: true },
+      );
+    });
+  }) as typeof fetch;
+
+  const workspace = await openFileWorkspace(f.pin, f.cache, request);
+  const pending = workspace.ensurePublicFile('generated/tree/page.png');
+  const rejected = assert.rejects(pending, /abort/i);
+  await fetching;
+  await workspace.release();
+  await rejected;
+  assert.deepEqual(await fs.readdir(path.join(workspace.root, '.leases')), []);
+});
+
+test('temporary cache reservation failure does not poison a later artwork retry', async (t) => {
+  const f = await fixture(t);
+  const lease = f.cache.lease.bind(f.cache);
+  let denied = true;
+  f.cache.lease = async (...args) => {
+    const held = await lease(...args);
+    return {
+      ...held,
+      reserve: async (bytes: number) => {
+        if (denied) {
+          denied = false;
+          throw new Error('Temporary cache contention');
+        }
+        await held.reserve(bytes);
+      },
+    };
+  };
+
+  const workspace = await openFileWorkspace(f.pin, f.cache, f.request);
+  try {
+    await assert.rejects(
+      workspace.ensurePublicFile('generated/tree/manifest.json'),
+      /Temporary cache contention/,
+    );
+    assert.equal(await workspace.ensurePublicFile('generated/tree/manifest.json'), true);
+  } finally {
+    await workspace.release();
   }
 });
