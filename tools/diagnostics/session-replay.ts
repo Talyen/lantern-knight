@@ -79,7 +79,7 @@ export async function executeRecipe(
         else if (result.transition) {
           const plan = session.prepareTransition(result.transition);
           observe(plan.events);
-          observe(session.commitTransition(plan));
+          observe(session.commitRoom(plan));
         }
         areas.add(session.sim.area);
       }

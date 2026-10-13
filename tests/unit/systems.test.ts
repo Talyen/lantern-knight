@@ -142,7 +142,7 @@ function clear(session: GameSession) {
   session.step(still);
 }
 function enter(session: GameSession, exit: string) {
-  return session.commitTransition(session.prepareTransition(exit));
+  return session.commitRoom(session.prepareTransition(exit));
 }
 
 test('accepted content isolates live sessions and checkpoints from later draft edits', () => {
@@ -300,7 +300,7 @@ test('partial and cleared revisits preserve enemies; player cooldowns survive; e
     s.enemies.forEach((a) => (a.health = 0));
     const result = session.step(still);
     assert.equal(result.transition, 'landing');
-    session.commitTransition(session.prepareTransition(result.transition!));
+    session.commitRoom(session.prepareTransition(result.transition!));
     s = session.sim;
     assert.equal(s.area, 'upper-landing');
     assert.equal(s.hero.health, 55);
@@ -316,7 +316,7 @@ test('partial and cleared revisits preserve enemies; player cooldowns survive; e
     s.hero.z = 8.3;
     s.enemies.forEach((a) => (a.health = 0));
     session.step(still);
-    session.commitTransition(session.prepareTransition('court'));
+    session.commitRoom(session.prepareTransition('court'));
     assert.equal(session.sim.area, 'court');
     assert.equal(session.wins, 2);
     assert.equal(session.sim.hero.z, -5.5);
@@ -329,9 +329,9 @@ test('death resets only current area and failed/superseded transitions cannot co
   const first = session.prepareTransition('landing'),
     second = session.prepareTransition('landing'),
     before = session.sim;
-  assert.throws(() => session.commitTransition(first), /stale/);
+  assert.throws(() => session.commitRoom(first), /stale/);
   assert.equal(session.sim, before);
-  session.cancelTransition(second);
+  session.cancelRoom(second);
   assert.equal(session.sim, before);
   assert.ok(!session.loading);
   enter(session, 'landing');
