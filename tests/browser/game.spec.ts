@@ -44,6 +44,16 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
             [modifier]: true,
           }),
         );
+        for (const button of [0, 2])
+          canvas.dispatchEvent(
+            new PointerEvent('pointerdown', {
+              bubbles: true,
+              button,
+              clientX: 200,
+              clientY: 200,
+              [modifier]: true,
+            }),
+          );
         for (let i = 0; i < 3; i++)
           await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
         canvas.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, code: 'KeyW' }));
