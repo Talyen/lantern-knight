@@ -305,6 +305,8 @@ export class GameSession {
   }
   rest(key: string): readonly GameplayEvent[] {
     this.discoverFire(key);
+    this.pending = undefined;
+    this.request++;
     this.resetEnemies();
     this.sim = this.restoredSimulation(
       this.sim.area,

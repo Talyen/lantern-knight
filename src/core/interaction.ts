@@ -1,5 +1,7 @@
 import type { Simulation } from './simulation';
 import { clearSegment } from './navigation';
+import { heightAt } from '../content/world';
+import { tuning } from '../content/gameplay';
 import { items } from '../content/items';
 export type Interaction = {
   kind: 'drop' | 'campfire' | 'container' | 'exit' | 'breakable';
@@ -56,6 +58,8 @@ export function nearbyInteraction(sim: Simulation): Interaction | undefined {
     .filter(
       (p) =>
         Math.hypot(p.x - sim.hero.x, p.z - sim.hero.z) <= 1.6 &&
+        Math.abs(heightAt(sim.areaDefinition, p.x, p.z) - sim.hero.y) <=
+          tuning.maxCombatHeightDifference &&
         clearSegment(sim.areaDefinition, sim.hero, p, 0.001),
     )
     .sort(

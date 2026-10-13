@@ -3,7 +3,7 @@ import { items } from './items';
 const id = z.string().regex(/^[a-z][a-z0-9-]{0,63}$/);
 const coordinate = z.number().finite().min(-1000).max(1000);
 export const rewardSchema = z.strictObject({
-  item: z.string().refine((s) => Boolean(items[s]), 'Unknown item'),
+  item: z.string().refine((s) => Object.hasOwn(items, s), 'Unknown item'),
   amount: z.number().int().positive().max(100000),
 });
 export const awarenessSchema = z.strictObject({

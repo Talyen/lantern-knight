@@ -4,6 +4,7 @@ import { ContentRegistry, type AreaDefinition } from '../../src/content/world';
 import { actors } from '../../src/content/actors';
 import { GameSession } from '../../src/core/session';
 import { parseGame } from '../../src/core/save';
+import { rewardSchema } from '../../src/content/interactions';
 import { nearbyInteraction } from '../../src/core/interaction';
 const idle = { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } };
 function fixture() {
@@ -273,4 +274,108 @@ test('nearby prompts expose guarded reasons and collected loot cannot be collect
   assert.equal(nearbyInteraction(s.sim)?.kind, 'drop');
   assert.equal(s.sim.collectDrop('object-crate'), true);
   assert.equal(s.sim.collectDrop('object-crate'), false);
+});
+
+test('rest supersedes a pending fire journey and permits simulation to resume', () => {
+  const s = fixture();
+  s.discovered.add('forest/west');
+  const plan = s.prepareFireTravel('forest/west');
+  s.rest('orchard/west');
+  assert.equal(s.loading, false);
+  assert.throws(() => s.commitTransition(plan));
+  const tick = s.sim.tick;
+  s.step(idle);
+  assert.equal(s.sim.tick, tick + 1);
+});
+test('reward validation rejects inherited object names', () => {
+  for (const item of ['constructor', 'toString', '__proto__']) {
+    assert.equal(rewardSchema.safeParse({ item, amount: 1 }).success, false);
+  }
+  for (const item of ['constructor', 'toString']) {
+    const s = fixture(),
+      save = s.captureSave();
+    Object.defineProperty(save.adventure!.inventory, item, { value: 1, enumerable: true });
+    assert.throws(() => parseGame(save, s.registry));
+  }
+});
+test('checkpoint rewards compare values independently of source property order', () => {
+  const original = fixture();
+  const s = new GameSession(
+    new ContentRegistry({
+      ...original.registry.definitions,
+      areas: original.registry.definitions.areas.map((a) => ({
+        ...a,
+        interactables: a.interactables?.map((object) => ({
+          ...object,
+          rewards: object.rewards.map((r) => ({ amount: r.amount, item: r.item })),
+        })),
+      })),
+    }),
+  );
+  s.sim.claimObject('crate');
+  assert.doesNotThrow(() => parseGame(s.captureSave(), s.registry));
+  const invalid = s.captureSave();
+  invalid.areas.orchard!.drops![0]!.rewards[0]!.amount++;
+  assert.throws(() => parseGame(invalid, s.registry));
+});
+test('stagger prevents an unalerted enemy from walking home', () => {
+  const s = fixture(),
+    enemy = s.sim.enemies[0]!;
+  enemy.x = -4;
+  enemy.stun = 20;
+  s.step(idle);
+  assert.equal(enemy.x, -4);
+});
+test('retreat to sanctuary immediately replaces the enemy pursuit route with home', () => {
+  const s = fixture(),
+    enemy = s.sim.enemies[0]!;
+  s.sim.hero.x = -4.5;
+  s.step(idle);
+  const before = enemy.x;
+  s.sim.hero.x = -8;
+  s.step(idle);
+  assert.ok(enemy.x > before, 'enemy walks toward home rather than the old pursuit target');
+});
+test('repopulation clears encounter loot, claims, alerts and object animation state', () => {
+  const s = fixture();
+  s.sim.claimObject('crate');
+  s.sim.damage(s.sim.hero, s.sim.enemies[0]!, 1);
+  s.sim.potionCooldown = 30;
+  s.sim.populate();
+  assert.equal(s.sim.drops.length, 0);
+  assert.equal(s.sim.claimedObjects.size, 0);
+  assert.equal(s.sim.objectActions.size, 0);
+  assert.equal(s.sim.potionCooldown, 0);
+  assert.equal(s.sim.inCombat, false);
+});
+test('loot and interaction prompts cannot cross a stair height gap', () => {
+  const original = fixture();
+  const s = new GameSession(
+    new ContentRegistry({
+      ...original.registry.definitions,
+      areas: original.registry.definitions.areas.map((a) => ({
+        ...a,
+        surface: {
+          kind: 'stairs',
+          axis: 'z',
+          start: 0,
+          end: 4,
+          startHeight: 0,
+          endHeight: 2,
+          steps: 1,
+        },
+        interactables: a.interactables?.map((object) =>
+          object.id === 'crate' ? { ...object, x: -8, z: 0.4 } : object,
+        ),
+      })),
+    }),
+  );
+  s.sim.hero.z = -0.4;
+  assert.equal(nearbyInteraction(s.sim)?.kind, 'campfire');
+  s.sim.claimObject('crate');
+  assert.equal(s.sim.collectDrop('object-crate'), false);
+  assert.equal(nearbyInteraction(s.sim)?.kind, 'campfire');
+  s.sim.hero.z = 0.4;
+  s.sim.hero.y = 2;
+  assert.equal(s.sim.collectDrop('object-crate'), true);
 });

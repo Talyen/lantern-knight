@@ -66,7 +66,6 @@ export type Command = {
 };
 export type SimEvent = GameplayEvent;
 export type StepResult = { events: readonly GameplayEvent[]; transition?: string; reset?: 'death' };
-const idleCommand: Command = { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } };
 export class Simulation {
   readonly #view = simulationView(this);
   get view() {
@@ -178,6 +177,8 @@ export class Simulation {
       plan.route.points.shift();
     const p = plan.route.points[0];
     if (!p) {
+      if (plan.explicit) this.movementTargets.delete(a.id);
+      a.yaw = a.aim;
       a.state = 'idle';
       return false;
     }
@@ -233,6 +234,8 @@ export class Simulation {
     );
   }
   private alert(a: Actor) {
+    if (!this.alerted.has(a.id) && !this.movementTargets.get(a.id)?.explicit)
+      this.movementTargets.delete(a.id);
     this.alerted.add(a.id);
     const spawn = this.areaDefinition.spawns.find((p) => spawnActorId(this.area, p.id) === a.id);
     if (spawn?.awareness?.group)
@@ -262,6 +265,8 @@ export class Simulation {
       !drop ||
       this.hero.health <= 0 ||
       Math.hypot(drop.x - this.hero.x, drop.z - this.hero.z) > 1.6 ||
+      Math.abs(heightAt(this.areaDefinition, drop.x, drop.z) - this.hero.y) >
+        tuning.maxCombatHeightDifference ||
       !clearSegment(this.areaDefinition, this.hero, drop, 0.001)
     )
       return false;
@@ -304,6 +309,12 @@ export class Simulation {
     if (!spawn) throw new Error('missing entry');
     this.movementTargets.clear();
     this.collectedPickups.clear();
+    this.claimedObjects.clear();
+    this.objectActions.clear();
+    this.alerted.clear();
+    this.drops = [];
+    this.tickEvents = [];
+    this.potionCooldown = 0;
     this.seed = (this.initialSeed + def.seedOffset) >>> 0;
     this.actors = [this.create(PLAYER_ID, 'hero', spawn.x, spawn.z)];
     for (const p of def.spawns)
@@ -467,10 +478,11 @@ export class Simulation {
     );
     return difference <= halfAngle + 1e-10;
   }
-  step(command: Command = idleCommand): StepResult {
+  step(command?: Command): StepResult {
     this.tick++;
     this.tickEvents = [];
     const h = this.hero;
+    command ??= { move: { x: 0, z: 0 }, aim: { x: h.x, z: h.z } };
     this.potionCooldown = Math.max(0, this.potionCooldown - 1);
     if (h.health <= 0 && h.age >= tuning.deathHoldTicks) return { events: [], reset: 'death' };
     if (command.generation !== undefined && command.generation !== this.generation)
@@ -495,8 +507,8 @@ export class Simulation {
     if (!Number.isFinite(command.move.x) || !Number.isFinite(command.move.z))
       command = { ...command, move: { x: 0, z: 0 } };
     const len = Math.hypot(command.move.x, command.move.z),
-      mx = len > 1 ? command.move.x / len : command.move.x,
-      mz = len > 1 ? command.move.z / len : command.move.z;
+      mx = len <= 0.01 ? 0 : len > 1 ? command.move.x / len : command.move.x,
+      mz = len <= 0.01 ? 0 : len > 1 ? command.move.z / len : command.move.z;
     if (h.health > 0) {
       if (
         command.potion &&
@@ -555,7 +567,8 @@ export class Simulation {
         const policy = home.awareness;
         const safe = this.safePoint(h);
         if (safe || Math.hypot(h.x - home.x, h.z - home.z) > policy.leash) {
-          this.alerted.delete(a.id);
+          if (this.alerted.delete(a.id) && !this.movementTargets.get(a.id)?.explicit)
+            this.movementTargets.delete(a.id);
           if (a.state === 'attack') this.start(a, 'idle');
         } else if (
           Math.hypot(h.x - a.x, h.z - a.z) <= policy.radius &&
@@ -564,7 +577,8 @@ export class Simulation {
           this.alert(a);
         if (!this.alerted.has(a.id)) {
           if (a.state === 'idle' || a.state === 'walk') {
-            this.follow(a, home);
+            if (a.stun === 0) this.follow(a, home);
+            else a.state = 'idle';
             continue;
           }
         }

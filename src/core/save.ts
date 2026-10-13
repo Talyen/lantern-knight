@@ -74,7 +74,8 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
   if (save.adventure) {
     const { inventory, equipment, discovered, lastFire } = save.adventure;
     for (const [item, amount] of Object.entries(inventory))
-      if (!items[item] || !Number.isSafeInteger(amount)) throw new Error('Unknown inventory item');
+      if (!Object.hasOwn(items, item) || !Number.isSafeInteger(amount))
+        throw new Error('Unknown inventory item');
     const used: Record<string, number> = {};
     for (const [slot, item] of Object.entries(equipment)) {
       if (!items[item]?.slots?.includes(slot as (typeof equipmentSlots)[number]))
@@ -122,7 +123,11 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
         if (
           !source ||
           !isSupportedPosition(area, drop, 0.01) ||
-          JSON.stringify(rewards) !== JSON.stringify(drop.rewards) ||
+          rewards?.length !== drop.rewards.length ||
+          rewards?.some(
+            (reward, i) =>
+              reward.item !== drop.rewards[i]!.item || reward.amount !== drop.rewards[i]!.amount,
+          ) ||
           drop.id !== (drop.enemy ? 'enemy-' : 'object-') + drop.source ||
           (!drop.enemy && !state.claimedObjects?.includes(drop.source)) ||
           (drop.enemy && state.actors[drop.source]?.health !== 0)

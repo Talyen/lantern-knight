@@ -393,3 +393,34 @@ test('content rejects a self-intersecting star masquerading as a convex playable
     /convex/,
   );
 });
+
+test('an omitted command preserves hero aim', () => {
+  const a = area();
+  a.props = [];
+  a.spawns = [];
+  const sim = simulate(a);
+  sim.hero.aim = 1.2;
+  sim.step();
+  assert.equal(sim.hero.aim, 1.2);
+});
+test('movement inside the deadzone does not creep', () => {
+  const a = area();
+  a.props = [];
+  a.spawns = [];
+  const sim = simulate(a),
+    before = { x: sim.hero.x, z: sim.hero.z };
+  sim.step({ ...still, move: { x: 0.005, z: 0 } });
+  assert.deepEqual({ x: sim.hero.x, z: sim.hero.z }, before);
+});
+test('completing an explicit route releases it and allows idle aiming', () => {
+  const a = area();
+  a.props = [];
+  a.spawns = [];
+  const sim = simulate(a);
+  sim.setMovementTarget(sim.hero.id, { x: sim.hero.x + 0.02, z: sim.hero.z });
+  sim.step(still);
+  sim.step(still);
+  sim.step({ ...still, aim: { x: sim.hero.x, z: sim.hero.z + 2 } });
+  assert.equal(sim.navigationDebug().routes.length, 0);
+  assert.equal(sim.hero.yaw, 0);
+});
