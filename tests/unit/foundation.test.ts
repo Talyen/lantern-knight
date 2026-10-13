@@ -239,7 +239,6 @@ test('shared async resources deduplicate, cancellation cannot resurrect discarde
     released = 0;
   const runtime = new AssetRuntime(
     { first: 'generated/first.json', second: 'generated/second.json' },
-    false,
     async (url) =>
       new Response(
         JSON.stringify(
@@ -338,7 +337,6 @@ test('runtime shutdown closes active packs, pending manifests and decodes, and r
   const destroyed: Texture[] = [],
     runtime = new AssetRuntime(
       { live: 'generated/live.json', late: 'generated/late.json' },
-      false,
       () => {
         requests++;
         return new Promise<Response>((resolve) => {
