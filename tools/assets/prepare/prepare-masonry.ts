@@ -1,8 +1,10 @@
 import sharp from 'sharp';
 import { hash } from '../../compiler';
 import type { PreparationContext } from '../context';
+import { preparationOutput } from '../preparation-output';
 export async function prepare(context: PreparationContext, check = false) {
-  const { readAsset, writeAsset, mkdirAsset } = context;
+  const { readAsset } = context;
+  const { write } = preparationOutput(context, check);
 
   const source = 'references/art/ink-collection-01/volume_02_gothic/assets/arch_gothic_wall_01.png',
     root = 'staging/rest';
@@ -58,16 +60,7 @@ export async function prepare(context: PreparationContext, check = false) {
       'Bilinear deprojection of original wall-face RGB into opaque structural material; source unchanged.',
   };
   const metadata = JSON.stringify(receipt, null, 2) + '\n';
-  if (check) {
-    if (
-      !(await readAsset(`${root}/limestone-face.png`)).equals(png) ||
-      !(await readAsset(`${root}/receipt.json`)).equals(Buffer.from(metadata))
-    )
-      throw new Error('authored masonry derivative is stale');
-  } else {
-    await mkdirAsset(root, { recursive: true });
-    await writeAsset(`${root}/limestone-face.png`, png);
-    await writeAsset(`${root}/receipt.json`, metadata);
-  }
+  await write(`${root}/limestone-face.png`, png);
+  await write(`${root}/receipt.json`, metadata);
   console.log(`${check ? 'Verified' : 'Prepared'} authored limestone wall face`);
 }

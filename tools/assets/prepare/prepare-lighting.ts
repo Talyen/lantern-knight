@@ -7,7 +7,9 @@ import { normalPixels } from '../../../src/assets/normal-pixels';
 import { readAuthoringCatalog } from '../authoring-catalog';
 import { needsLighting } from '../../lighting-bindings';
 import type { PreparationContext } from '../context';
+import { preparationOutput } from '../preparation-output';
 export async function prepare(context: PreparationContext, check = false) {
+  const { write: output } = preparationOutput(context, check);
   const { readAsset } = context;
 
   const root = 'public/lighting',
@@ -35,15 +37,7 @@ export async function prepare(context: PreparationContext, check = false) {
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
   }
-  const write = check ? undefined : context.writeAsset;
-  async function output(file: string, bytes: Buffer | string) {
-    if (check) {
-      if (!Buffer.from(bytes).equals(await readAsset(file)))
-        throw new Error(`lighting derivative stale: ${file}`);
-    } else {
-      await write!(file, bytes);
-    }
-  }
+
   const catalog = await readAuthoringCatalog(context.publicDirectory);
   for (const asset of Object.keys(catalog)) {
     const manifest = JSON.parse(

@@ -71,18 +71,16 @@ const mask = z.object({
   height: size,
   alpha: z.array(z.number().int().min(0).max(255)),
 });
-const RegistrationSchema = z
-  .object({
-    schemaVersion: z.literal(2),
-    animation,
-    coverage: z
-      .object({
-        masks: z.record(z.string(), mask),
-        sockets: z.record(z.string(), z.array(z.array(finite))),
-      })
-      .passthrough(),
-  })
-  .strict();
+const RegistrationSchema = z.strictObject({
+  schemaVersion: z.literal(2),
+  animation,
+  coverage: z
+    .object({
+      masks: z.record(z.string(), mask),
+      sockets: z.record(z.string(), z.array(z.array(finite))),
+    })
+    .passthrough(),
+});
 export type PreparedRegistration = z.infer<typeof RegistrationSchema>;
 export function parseRegistration(value: unknown) {
   const data = RegistrationSchema.parse(value);

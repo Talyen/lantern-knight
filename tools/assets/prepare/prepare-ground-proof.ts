@@ -3,8 +3,10 @@ import recipe from '../../../authoring/flat-stage-art.json';
 
 import { hash } from '../../compiler';
 import type { PreparationContext } from '../context';
+import { preparationOutput } from '../preparation-output';
 export async function prepare(context: PreparationContext, check = false) {
-  const { readAsset, writeAsset } = context;
+  const { write: output } = preparationOutput(context, check);
+  const { readAsset } = context;
 
   // Diagnostic contact proof only. Whole native ground panels remain intact;
   // production composition and joins are inspected through scene:check with requested captures.
@@ -27,12 +29,6 @@ export async function prepare(context: PreparationContext, check = false) {
     .png()
     .toBuffer();
 
-  async function output(file: string, bytes: Buffer | string) {
-    if (check) {
-      if (!Buffer.from(bytes).equals(await readAsset(file)))
-        throw new Error('Stale ground-panel proof: ' + file);
-    } else await writeAsset(file, bytes);
-  }
   await output('staging/ink/ground-panel-proof.png', proof);
   await output(
     'staging/ink/ground-panel-proof.json',

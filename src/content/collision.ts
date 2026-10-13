@@ -72,7 +72,7 @@ type Shape = ContentSnapshot<{
   maxZ: number;
 }>;
 const shapes = new WeakMap<PropDefinition, Shape>();
-export function collisionShape(p: PropDefinition): Shape {
+function collisionShape(p: PropDefinition): Shape {
   let cached = shapes.get(p);
   if (cached) return cached;
   const points = vertices(p);

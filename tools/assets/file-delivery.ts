@@ -12,35 +12,29 @@ import { type AssetLock, payloadDigest } from './pack';
 
 type BundlePin = Extract<AssetLock, { schemaVersion: 3 }>;
 const hash = z.string().regex(/^[a-f0-9]{64}$/);
-export const FileCatalogSchema = z
-  .object({
-    schemaVersion: z.literal(1),
-    payloadSha256: hash,
-    containers: z.record(
-      hash,
-      z
-        .object({
-          bytes: z
-            .number()
-            .int()
-            .positive()
-            .max(2 * 1024 ** 3 - 1),
-        })
-        .strict(),
-    ),
-    files: z.record(
-      z.string(),
-      z
-        .object({
-          sha256: hash,
-          bytes: z.number().int().nonnegative(),
-          container: hash,
-          offset: z.number().int().nonnegative(),
-        })
-        .strict(),
-    ),
-  })
-  .strict();
+export const FileCatalogSchema = z.strictObject({
+  schemaVersion: z.literal(1),
+  payloadSha256: hash,
+  containers: z.record(
+    hash,
+    z.strictObject({
+      bytes: z
+        .number()
+        .int()
+        .positive()
+        .max(2 * 1024 ** 3 - 1),
+    }),
+  ),
+  files: z.record(
+    z.string(),
+    z.strictObject({
+      sha256: hash,
+      bytes: z.number().int().nonnegative(),
+      container: hash,
+      offset: z.number().int().nonnegative(),
+    }),
+  ),
+});
 export type FileCatalog = z.infer<typeof FileCatalogSchema>;
 export const deliveryURL = (releaseTag: string, filename: string) =>
   `https://github.com/Talyen/lantern-knight/releases/download/${releaseTag}/${filename}`;

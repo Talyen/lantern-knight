@@ -23,7 +23,7 @@ test('current hero preserves mixed native registrations and resolves all heading
   assert.equal(m.asset.status, 'proxy');
   assert.equal(m.asset.viewMode, 'mixed-directional');
   // Prepared proxy status is metadata, not a separate runtime promotion gate.
-  assert.equal(parseManifest(m, true).asset.status, 'proxy');
+  assert.equal(parseManifest(m).asset.status, 'proxy');
   const clip = resolveClip(m, 'sweep', 'd00'),
     frames = clip.frames.map((id) => m.frames.find((f) => f.id === id)!);
   const receipt = JSON.parse(await readAsset('staging/ink/hero-receipt.json', 'utf8')) as {
