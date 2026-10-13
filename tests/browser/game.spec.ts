@@ -167,7 +167,12 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await expect(panel).toBeVisible();
   await panel.getByRole('button', { name: 'Equip · Ring 1', exact: true }).click();
   await expect(panel).toContainText('60 / 110 health');
-  await panel.getByRole('button', { name: 'Salvage stack' }).click();
+  const salvage = panel.getByRole('button', { name: 'Salvage stack' });
+  await salvage.focus();
+  await page.keyboard.down('Enter');
+  await page.keyboard.down('Enter');
+  await page.keyboard.up('Enter');
+  await expect(panel).toContainText('Body · Leather / Cloth: Leather Armor');
   await expect(panel).toContainText('Iron ×2');
   await page.keyboard.press('Escape');
   await page.keyboard.press('q');

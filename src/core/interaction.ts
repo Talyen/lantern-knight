@@ -82,10 +82,13 @@ export function interactionTarget(sim: InteractionState, kind: Interaction['kind
 }
 
 export function nearbyInteraction(sim: InteractionState): Interaction | undefined {
+  // Prefer available E actions; sword-only prompts and blocked targets remain fallbacks.
   return choices(sim)
     .filter((target) => interactionReachable(sim, target))
     .sort(
       (a, b) =>
+        Number(Boolean(a.blocked)) - Number(Boolean(b.blocked)) ||
+        Number(a.kind === 'breakable') - Number(b.kind === 'breakable') ||
         (a.kind === 'drop' ? -1 : 0) - (b.kind === 'drop' ? -1 : 0) ||
         Math.hypot(a.x - sim.hero.x, a.z - sim.hero.z) -
           Math.hypot(b.x - sim.hero.x, b.z - sim.hero.z),

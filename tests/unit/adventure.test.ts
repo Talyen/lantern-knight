@@ -799,3 +799,21 @@ for (const obstruction of ['floor', 'wall'] as const)
     Object.assign(s.sim.hero, { x: 0, z: 0.8, y: obstruction === 'floor' ? 2 : 0 });
     assert.equal(s.step(idle).transition, 'depart', obstruction + ' cleared');
   });
+
+test('a sword-only crate cannot hide the nearby campfire E interaction', () => {
+  const s = fixture();
+  s.sim.hero.x = -7.3;
+  assert.equal(nearbyInteraction(s.sim)?.kind, 'campfire');
+});
+
+test('a blocked chest cannot hide an available container within interaction reach', () => {
+  const s = changedAreas((a) => ({
+    ...a,
+    interactables: [
+      { ...a.interactables![1]!, x: -8, z: 0 },
+      { ...a.interactables![1]!, id: 'unguarded', x: -7, z: 0, guards: [] },
+    ],
+    campfires: [],
+  }));
+  assert.equal(nearbyInteraction(s.sim)?.id, 'unguarded');
+});
