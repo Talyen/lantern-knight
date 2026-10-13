@@ -178,7 +178,6 @@ export class DraftPlaytest {
       };
       const app = new Application(
         this.canvas,
-        registry,
         this.host.catalog(),
         bridge,
         scenes,
