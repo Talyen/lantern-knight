@@ -151,3 +151,35 @@ it('inherited draft gameplay retains campfires and interactive rewards', () => {
   assert.deepEqual(registry.area(source.id).campfires, source.campfires);
   assert.deepEqual(registry.area(source.id).interactables, source.interactables);
 });
+
+it('moving a campfire updates its existing rest and travel entry', () => {
+  const draft = emptyScene();
+  draft.geometry = {
+    bounds: { minX: -6, maxX: 6, minZ: -6, maxZ: 6 },
+    surface: { kind: 'flat', height: 0 },
+    baselineEntry: 'start',
+    entries: [
+      { id: 'start', x: 0, z: 0 },
+      { id: 'fire-home', x: -4, z: 0 },
+    ],
+  };
+  draft.gameplay!.campfires = [
+    { id: 'home', name: 'Home', x: 3, z: 0, safeRadius: 2, discovered: true },
+  ];
+  const { registry } = composeDraftGameplay(draft, contentDefinitions, {});
+  const session = new GameSession(registry);
+  Object.assign(session.sim.hero, { x: 3, z: 0 });
+  session.rest(session.sim.area + '/home');
+  assert.ok(Math.hypot(session.sim.hero.x - 3, session.sim.hero.z) <= 1.6);
+});
+
+it('rest entries stay inside small campfire sanctuaries', () => {
+  const draft = emptyScene();
+  draft.gameplay!.campfires = [
+    { id: 'home', name: 'Home', x: 0, z: 0, safeRadius: 0.5, discovered: true },
+  ];
+  const { registry } = composeDraftGameplay(draft, contentDefinitions, {});
+  const session = new GameSession(registry);
+  session.rest(session.sim.area + '/home');
+  assert.ok(Math.hypot(session.sim.hero.x, session.sim.hero.z) < 0.5);
+});

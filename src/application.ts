@@ -503,7 +503,6 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
           operation,
         );
         operation.check();
-        this.current.session.lastFire = key;
         this.autosave();
       } catch (error) {
         this.publish(this.current.session.cancelTransition(plan));

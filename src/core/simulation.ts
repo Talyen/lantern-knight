@@ -582,9 +582,22 @@ export class Simulation {
     }
     const exit =
       h.health > 0
-        ? this.areaDefinition.exits.find(
-            (e) => !e.explicit && this.exitAvailable(e.id) && contains(e.trigger, h),
-          )
+        ? this.areaDefinition.exits.find((e) => {
+            const bounds = this.areaDefinition.bounds;
+            // Boundary markers may sit beyond the walkable room. Keep the contact ray inside it.
+            const marker = {
+              x: Math.max(bounds.minX + 0.01, Math.min(bounds.maxX - 0.01, e.marker.x)),
+              z: Math.max(bounds.minZ + 0.01, Math.min(bounds.maxZ - 0.01, e.marker.z)),
+            };
+            return (
+              !e.explicit &&
+              this.exitAvailable(e.id) &&
+              contains(e.trigger, h) &&
+              Math.abs(h.y - heightAt(this.areaDefinition, marker.x, marker.z)) <=
+                tuning.maxCombatHeightDifference &&
+              clearSegment(this.areaDefinition, h, marker, 0.001)
+            );
+          })
         : undefined;
     return {
       events: Object.freeze([...this.tickEvents]),

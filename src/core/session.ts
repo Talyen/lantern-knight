@@ -158,6 +158,9 @@ export class GameSession {
     next.hero.dodgeCooldown = player.dodgeCooldown;
     next.hero.nextAttack = player.nextAttack;
     this.sim = next;
+    const fire = next.areaDefinition.campfires?.find((f) => plan.entry === 'fire-' + f.id);
+    const key = fire && next.area + '/' + fire.id;
+    if (key && this.discovered.has(key)) this.lastFire = key;
     this.pending = undefined;
     this.recordArea();
     return [this.event({ kind: 'area-transition', destination: plan.destination })];
