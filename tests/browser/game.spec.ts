@@ -103,15 +103,16 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
   );
   await page.locator('#pause').click();
   await page.locator('#load').click();
-  // Recovery commits health before GPU preparation finishes. Wait for the room
-  // transaction to complete before asserting its autosaved checkpoint.
-  await expect(page.locator('#hp')).toHaveText('100 / 100', { timeout: 60_000 });
-  await expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 60_000 });
+  // The previous HUD may already show full health while load/recovery is pending.
+  // Observe its committed checkpoint using the same budget as room acceptance.
   await expect
-    .poll(() =>
-      page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).player.health, keys[0]!),
+    .poll(
+      () => page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).player.health, keys[0]!),
+      { timeout: 60_000 },
     )
     .toBe(100);
+  await expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 60_000 });
+  await expect(page.locator('#hp')).toHaveText('100 / 100');
   await expect(page.locator('#objective')).toHaveText('');
   await page.locator('#pause').click();
   await page.locator('#new-game').click();
@@ -196,6 +197,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await page.keyboard.press('e');
   await expect(panel).toContainText('Orchard Campfire');
   await panel.getByRole('button', { name: 'Rest', exact: true }).click();
+  await expect(page.locator('#status')).toHaveText('Rested · health restored', { timeout: 60_000 });
   await expect(page.locator('#hp')).toHaveText('110 / 110');
   await waitForRoom();
   await page.keyboard.press('Escape');
