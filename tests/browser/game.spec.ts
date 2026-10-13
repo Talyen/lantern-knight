@@ -174,6 +174,8 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
     { key, fire: { x: fire.x, z: fire.z } },
   );
   await page.locator('#load').click();
+  await expect(page.locator('body')).not.toHaveClass(/traveling/);
+  await expect(page.locator('#interaction-hint')).toContainText('Orchard Campfire');
   await page.keyboard.press('e');
   await expect(panel).toContainText('Orchard Campfire');
   await panel.getByRole('button', { name: 'Rest', exact: true }).click();
@@ -198,6 +200,10 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
     { key, marker: exit.marker },
   );
   await page.locator('#load').click();
+  await expect(page.locator('body')).not.toHaveClass(/traveling/);
+  await expect(page.locator('#interaction-hint')).toContainText(
+    'Travel to Forest Gathering Clearing',
+  );
   await page.keyboard.press('e');
   await expect(page.locator('#room-title')).toHaveText('Forest Gathering Clearing');
   await expect(page.locator('body')).not.toHaveClass(/traveling/);
