@@ -92,9 +92,15 @@ export class SceneLibrary {
     const toolbar = $('document-actions');
     const button = document.createElement('button');
     button.id = 'scene-library';
-    button.textContent = 'Scene library & recovery';
+    button.textContent = 'Open scene…';
     button.onclick = () => void this.load().catch((e) => host.status(editorError(e), true));
-    toolbar.append(button);
+    toolbar.prepend(button);
+    const recovery = document.createElement('button');
+    recovery.id = 'recovery-history';
+    recovery.textContent = 'Recovery history…';
+    recovery.onclick = () =>
+      void this.load('recovery').catch((e) => host.status(editorError(e), true));
+    toolbar.append(recovery);
     const exportButton = document.createElement('button');
     exportButton.textContent = 'Export JSON';
     exportButton.id = 'export-scene';
@@ -127,7 +133,7 @@ export class SceneLibrary {
     this.dialog = document.createElement('dialog');
     this.dialog.id = 'scene-library-dialog';
     this.dialog.innerHTML =
-      '<h2>Scene library</h2><input id="library-search" type="search" aria-label="Search scenes" placeholder="Search scenes"><h3>Scenes</h3><div id="library-scenes"></div><h3>Recovery</h3><div id="library-recovery"></div><h3>Arrangements</h3><input id="fragment-name" aria-label="Fragment name" placeholder="Arrangement name" maxlength="80"><button id="save-fragment">Save selection as arrangement</button><div id="library-fragments"></div><form method="dialog"><button>Close</button></form>';
+      '<h2 id="library-title">Scene library</h2><section data-library="scenes"><input id="library-search" type="search" aria-label="Search scenes" placeholder="Search scenes"><h3>Scenes</h3><div id="library-scenes"></div></section><section data-library="recovery"><h3>Recovery</h3><div id="library-recovery"></div></section><section data-library="arrangements"><h3>Arrangements</h3><input id="fragment-name" aria-label="Fragment name" placeholder="Arrangement name" maxlength="80"><button id="save-fragment">Save selection as arrangement</button><div id="library-fragments"></div></section><form method="dialog"><button>Close</button></form>';
     document.body.append(this.dialog);
     $('save-fragment').onclick = () =>
       void (async () => {
@@ -136,7 +142,7 @@ export class SceneLibrary {
         const name = $<HTMLInputElement>('fragment-name').value.trim();
         if (!name) throw new Error('Name the fragment first');
         await host.fragment(name, objects);
-        await this.load();
+        await this.load('arrangements');
       })().catch((e) => host.status(editorError(e), true));
     const pattern = document.createElement('fieldset');
     pattern.id = 'pattern-tools';
@@ -170,7 +176,7 @@ export class SceneLibrary {
       this.clearPreview();
     };
     $('arrangements').onclick = () =>
-      void this.load(true).catch((e) => host.status(editorError(e), true));
+      void this.load('arrangements').catch((e) => host.status(editorError(e), true));
     $('pattern-preview').onclick = () => {
       try {
         this.previewPattern();
@@ -208,13 +214,20 @@ export class SceneLibrary {
       /* Thumbnails are disposable. */
     }
   }
-  async load(arrangementsOnly = false) {
+  async load(destination: 'scenes' | 'recovery' | 'arrangements' = 'scenes') {
     const response = await fetch('/__lantern_editor', { signal: this.lifetime.signal });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error);
     this.lifetime.signal.throwIfAborted();
     if (!this.dialog.open) this.dialog.showModal();
-    this.dialog.classList.toggle('arrangements-only', arrangementsOnly);
+    $('library-title').textContent =
+      destination === 'scenes'
+        ? 'Open scene'
+        : destination === 'recovery'
+          ? 'Recovery history'
+          : 'Reusable arrangements';
+    for (const section of this.dialog.querySelectorAll<HTMLElement>('[data-library]'))
+      section.hidden = section.dataset.library !== destination;
     const recent = recentScenes();
     const scenes = data.scenes as { id: string; name: string; target: string; error?: string }[];
     const render = () => {
@@ -264,6 +277,8 @@ export class SceneLibrary {
       };
       recoveries.append(b);
     }
+    if (!recoveries.children.length) recoveries.textContent = 'No recovery history is available.';
+    if (destination !== 'arrangements') return;
     const r = await fetch('/__lantern_editor?fragments', { signal: this.lifetime.signal });
     const fragments = await r.json();
     if (!r.ok) throw new Error(fragments.error);

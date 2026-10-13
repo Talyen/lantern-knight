@@ -67,23 +67,69 @@ export class GroundAuthoring {
   ) {
     this.panel = document.createElement('details');
     this.panel.id = 'ground-interaction-section';
-    this.panel.innerHTML = `<summary>Ground interaction</summary><p>Trace ground footprints separately from scenery silhouettes.</p><label>Region<select id="ground-region"><option value="">New region</option></select></label><label>Name<input id="ground-region-name" maxlength="80" value="Ground region"></label><label>Task<select id="ground-task"><option value="off">Select / edit vertices</option><option value="footprint">Block movement polygon</option><option value="mask">Occlusion polygon</option><option value="ai-box">AI box selection</option><option value="ai-point">AI include / exclude clicks</option><option value="brush-add">Add to mask brush</option><option value="brush-erase">Erase mask brush</option><option value="anchor">Depth anchor</option><option value="boundary">Depth boundary</option></select></label><p id="ground-task-help">Choose a task, then work on the canvas. Shift-click excludes from AI selection.</p><label>Brush radius (source pixels)<input id="ground-brush-radius" type="number" min="1" max="256" value="12"></label><div class="ground-actions"><button id="ground-finish">Finish polygon / boundary</button><button id="ground-refine">Run AI selection</button><button id="ground-accept">Accept mask</button><button id="ground-cancel">Cancel selection</button><button id="ground-duplicate">Duplicate region</button><button id="ground-delete">Delete region</button><button id="ground-clear">Clear all ground interaction</button></div><fieldset><legend>Ground overlays</legend><label><input id="ground-show-blockers" type="checkbox"> Blocking footprints</label><label><input id="ground-show-masks" type="checkbox"> Occlusion masks</label><label><input id="ground-show-depth" type="checkbox"> Depth anchors and boundaries</label></fieldset><p id="ground-ai-state" role="status">Local selection: run npm run segmentation:setup once.</p>`;
-    document.getElementById('scene-panel')!.append(this.panel);
+    this.panel.innerHTML = `<summary>Movement &amp; depth</summary><p>Collision blocks movement. A silhouette hides actors behind painted scenery; depth determines when they pass in front. Author and test each separately.</p><button id="ground-test-movement">Test movement</button><p id="ground-layout-help" hidden>Painted scenery regions need a single-image ground. For tiled scenes, use Surface, paths &amp; bounds below.</p><div id="ground-painting-tools"><label>Region<select id="ground-region"><option value="">New region</option></select></label><label>Name<input id="ground-region-name" maxlength="80" value="Ground region"></label><div class="ground-task-choices"><button data-ground-mode="off">Select / edit vertices</button><button data-ground-mode="footprint">Block movement</button><button data-ground-mode="mask">Hide hero behind scenery</button><button data-ground-mode="anchor">Depth ordering</button></div><label>Drawing tool<select id="ground-task"><option value="off">Select / edit vertices</option><option value="footprint">Block movement polygon</option><option value="mask">Draw silhouette</option><option value="ai-box">AI box selection</option><option value="ai-point">AI include / exclude clicks</option><option value="brush-add">Add to mask brush</option><option value="brush-erase">Erase mask brush</option><option value="anchor">Depth anchor</option><option value="boundary">Depth boundary</option></select></label><p id="ground-task-help">Choose a task, then work on the canvas. Shift-click excludes from AI selection.</p><label>Brush radius (source pixels)<input id="ground-brush-radius" type="number" min="1" max="256" value="12"></label><div class="ground-actions"><button id="ground-finish">Finish polygon / boundary</button><button id="ground-refine">Run AI selection</button><button id="ground-accept">Accept mask</button><button id="ground-cancel">Cancel selection</button><button id="ground-duplicate">Duplicate region</button><button id="ground-delete">Delete region</button><button id="ground-leave">Finish editing region</button><details class="region-menu"><summary>Region actions</summary><button id="ground-clear">Clear all ground interaction</button></details></div><fieldset><legend>Ground overlays</legend><label><input id="ground-show-blockers" type="checkbox"> Blocking footprints</label><label><input id="ground-show-masks" type="checkbox"> Occlusion masks</label><label><input id="ground-show-depth" type="checkbox"> Depth anchors and boundaries</label></fieldset><p id="ground-ai-state" role="status">Local selection: run npm run segmentation:setup once.</p></div>`;
+    this.panel.setAttribute('name', 'scene-sections');
+    const groundSection = document.getElementById('ground-section');
+    if (groundSection) groundSection.after(this.panel);
+    else document.getElementById('scene-panel')!.append(this.panel);
+    const assistance = document.createElement('details');
+    assistance.id = 'ground-assistance';
+    assistance.innerHTML =
+      '<summary>AI assistance</summary><p>Proposals need review. Accepting a silhouette does not create collision or validate depth.</p><button data-ground-mode="ai-box">Select with AI box</button><button data-ground-mode="ai-point">Select with AI clicks</button><button id="ground-refine-prepared" data-ground-mode="brush-erase">Refine prepared mask</button>';
+    this.panel.querySelector('#ground-painting-tools')!.append(assistance);
+    assistance.append(
+      this.panel.querySelector('#ground-refine')!,
+      this.panel.querySelector('#ground-ai-state')!,
+    );
+    const actions = this.panel.querySelector('.region-menu')!;
+    actions.append(
+      this.panel.querySelector('#ground-duplicate')!,
+      this.panel.querySelector('#ground-delete')!,
+    );
+    const overlays = this.panel.querySelector('#ground-show-blockers')!.closest('fieldset')!;
+    const overlayDetails = document.createElement('details');
+    overlayDetails.innerHTML = '<summary>Overlays</summary>';
+    overlays.replaceWith(overlayDetails);
+    overlayDetails.append(overlays);
     const profiles = document.createElement('fieldset');
     profiles.innerHTML = `<legend>Saved artwork interaction profiles</legend><button id="ground-load-profiles">Find saved profiles</button><label>Saved revision<select id="ground-profile"><option value="">Find saved profiles first</option></select></label><label><input id="ground-profile-review" type="checkbox"> Reassign to changed artwork and review alignment</label><button id="ground-restore-profile">Restore selected profile</button><p>Saving a scene archives an independent revision. Scene deletion and asset processing leave these revisions intact. Restoring replaces this scene’s interaction data in one undoable edit.</p>`;
-    this.panel.append(profiles);
+    const profileDetails = document.createElement('details');
+    profileDetails.innerHTML = '<summary>Saved interaction profiles</summary>';
+    profileDetails.append(profiles);
+    this.panel.querySelector('#ground-painting-tools')!.append(profileDetails);
     profiles.querySelector<HTMLButtonElement>('#ground-load-profiles')!.onclick = () =>
       void this.loadProfiles().catch((e) => this.host.status(String(e), true));
     profiles.querySelector<HTMLButtonElement>('#ground-restore-profile')!.onclick = () =>
       void this.restoreProfile().catch((e) => this.host.status(String(e), true));
     const batch = document.createElement('fieldset');
     batch.innerHTML = `<legend>Automatic scenery proposals</legend><label>Find objects<input id="ground-find-text" value="pine tree. dead tree. stone wall. large rock." maxlength="300"></label><button id="ground-find">Find scenery</button><label>Review proposal<select id="ground-candidate"><option value="">Find scenery first</option></select></label><label><input id="ground-candidate-included" type="checkbox" checked> Include this proposal</label><div class="ground-actions"><button id="ground-prepare">Prepare included masks</button><button id="ground-accept-batch">Accept prepared masks</button></div><p>AI proposes silhouettes only. Review collision footprints and depth separately. Nothing is saved until accepted.</p>`;
-    this.panel.querySelector('#ground-ai-state')!.before(batch);
+    assistance.append(batch);
     this.svg = document.createElementNS(ns, 'svg');
     this.svg.classList.add('ground-overlay');
     this.svg.setAttribute('aria-hidden', 'true');
     canvas.parentElement!.append(this.svg);
     const $ = <E extends HTMLElement>(id: string) => this.panel.querySelector<E>('#' + id)!;
+    $('ground-test-movement').onclick = () => {
+      this.cancel();
+      document.getElementById('test-movement')!.click();
+    };
+    $('ground-leave').onclick = () => {
+      $<HTMLSelectElement>('ground-task').value = 'off';
+      $<HTMLSelectElement>('ground-task').dispatchEvent(new Event('change'));
+      (this.panel as HTMLDetailsElement).open = false;
+      document.getElementById('select-tool')!.click();
+    };
+    for (const button of this.panel.querySelectorAll<HTMLButtonElement>('[data-ground-mode]'))
+      button.onclick = () => {
+        const tool = document.getElementById('tool') as HTMLSelectElement | null;
+        if (tool) {
+          tool.value = 'select';
+          tool.dispatchEvent(new Event('change'));
+        }
+        $<HTMLSelectElement>('ground-task').value = button.dataset.groundMode!;
+        $<HTMLSelectElement>('ground-task').dispatchEvent(new Event('change'));
+        this.canvas.focus();
+      };
     $('ground-find').onclick = () => void this.findScenery();
     $('ground-prepare').onclick = () => void this.prepareScenery();
     $('ground-accept-batch').onclick = () => void this.acceptScenery();
@@ -114,6 +160,7 @@ export class GroundAuthoring {
       this.cancel();
       if (refinement) Object.assign(this, refinement);
       this.mode = next;
+      this.refreshTools();
       this.host.status(
         'Ground interaction: ' +
           $<HTMLSelectElement>('ground-task').selectedOptions[0]!.textContent,
@@ -174,6 +221,18 @@ export class GroundAuthoring {
         this.signature = '';
       };
     const signal = this.lifetime.signal;
+    for (const id of ['select-tool', 'start-tool'])
+      document.getElementById(id)?.addEventListener(
+        'click',
+        () => {
+          this.cancel();
+          this.mode = 'off';
+          $<HTMLSelectElement>('ground-task').value = 'off';
+          (this.panel as HTMLDetailsElement).open = false;
+          this.refreshTools();
+        },
+        { signal },
+      );
     canvas.addEventListener('pointerdown', (e) => this.down(e), { capture: true, signal });
     canvas.addEventListener(
       'pointermove',
@@ -223,6 +282,7 @@ export class GroundAuthoring {
     const r = this.region();
     this.panel.querySelector<HTMLInputElement>('#ground-region-name')!.value =
       r?.name ?? 'Ground region';
+    this.refreshTools();
   }
   private uv(e: PointerEvent): UV | undefined {
     const p = this.host.view().presentation,
@@ -234,7 +294,13 @@ export class GroundAuthoring {
     return [Math.max(0, Math.min(1, u)), Math.max(0, Math.min(1, v))];
   }
   private down(e: PointerEvent) {
-    if (!this.panel.hasAttribute('open') || e.button !== 0) return;
+    if (
+      !this.panel.hasAttribute('open') ||
+      !this.panel.checkVisibility() ||
+      (document.getElementById('tool') as HTMLSelectElement | null)?.value === 'geometry' ||
+      e.button !== 0
+    )
+      return;
     if (this.pointer !== undefined) {
       e.preventDefault();
       e.stopImmediatePropagation();
@@ -752,7 +818,69 @@ export class GroundAuthoring {
     }
     this.signature = '';
   }
+  private refreshTools() {
+    const get = (id: string) => this.panel.querySelector<HTMLElement>('#' + id)!;
+    const active = this.mode;
+    const painted = this.host.document().floor.layout === 'artwork';
+    get('ground-layout-help').hidden = painted;
+    get('ground-painting-tools').hidden = !painted;
+    get('ground-leave').textContent =
+      this.points.length || this.proposal || this.gesture
+        ? 'Cancel and leave region'
+        : 'Done editing region';
+    const polygon = ['footprint', 'mask', 'boundary'].includes(active);
+    get('ground-brush-radius').closest('label')!.hidden = !active.startsWith('brush');
+    get('ground-finish').hidden = !polygon || !this.points.length;
+    get('ground-refine').hidden = !active.startsWith('ai-');
+    get('ground-accept').hidden = !this.proposal;
+    get('ground-refine-prepared').hidden = !this.proposal;
+    get('ground-cancel').hidden = !(
+      this.points.length ||
+      this.proposal ||
+      this.gesture ||
+      this.abort
+    );
+    get('ground-duplicate').hidden = !this.region();
+    get('ground-delete').hidden = !this.region();
+    get('ground-region-name').closest('label')!.hidden = !this.region() && active === 'off';
+    get('ground-task').closest('label')!.hidden = active === 'off';
+    for (const option of (get('ground-task') as HTMLSelectElement).options)
+      option.hidden =
+        option.value !== 'off' &&
+        option.value !== active &&
+        !(active === 'footprint'
+          ? option.value === 'footprint'
+          : ['anchor', 'boundary'].includes(active)
+            ? ['anchor', 'boundary'].includes(option.value)
+            : ['mask', 'brush-add', 'brush-erase'].includes(option.value));
+    for (const button of this.panel.querySelectorAll<HTMLElement>('[data-ground-mode]')) {
+      const mode = button.dataset.groundMode;
+      button.setAttribute(
+        'aria-pressed',
+        String(
+          mode === active ||
+            (mode === 'anchor' && active === 'boundary') ||
+            (mode === 'mask' && active.startsWith('brush')),
+        ),
+      );
+    }
+    get('ground-task-help').textContent =
+      active === 'off'
+        ? 'Choose a task above, or drag an existing vertex. Use Test movement to check your work.'
+        : active === 'footprint'
+          ? 'Click around the blocking area, then Finish. Escape cancels the unfinished polygon.'
+          : active === 'mask'
+            ? 'Click around the painted silhouette, then Finish. Collision is edited separately.'
+            : active.startsWith('brush')
+              ? 'Drag to refine the silhouette. Escape cancels the current gesture.'
+              : active.startsWith('ai-')
+                ? 'Draw a box or click to include scenery. Shift-click excludes. Run selection, review, then Accept mask.'
+                : active === 'anchor'
+                  ? 'Click the base of this scenery to set its depth anchor.'
+                  : 'Click a left-to-right depth boundary, then Finish. Escape cancels.';
+  }
   draw() {
+    this.refreshTools();
     const d = this.host.document(),
       p = this.host.view().presentation;
     if (!p) return;

@@ -39,7 +39,7 @@ test('editor placement, experimental scale, history, recovery, save and external
     );
     await page.locator('#redo').click();
     await page.locator('#document-menu > summary').click();
-    await page.locator('#open').click();
+    await page.locator('#new-scene').click();
     await expect(page.getByRole('dialog', { name: 'Confirm action' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Cancel', exact: true })).toBeFocused();
     await page.keyboard.press('Escape');
@@ -47,7 +47,7 @@ test('editor placement, experimental scale, history, recovery, save and external
       'Prototype recovery',
     );
     await page.locator('#document-menu > summary').click();
-    await page.locator('#open').click();
+    await page.locator('#new-scene').click();
     await page.getByRole('button', { name: 'Cancel', exact: true }).click();
     await page.reload();
     await waitForEditor(page);
@@ -261,6 +261,7 @@ test('visual authoring, independent fragments, pattern undo and import', async (
   try {
     await openEditor(page);
     await page.locator('#scene-tab').click();
+    await page.locator('#ground-interaction-section > summary').click();
     await page.locator('[data-section=category-Geometry] > summary').click();
     await page.locator('[data-section=paths] > summary').click();
     await page
@@ -274,7 +275,7 @@ test('visual authoring, independent fragments, pattern undo and import', async (
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.paths[0]?.width))
       .toBe(2);
-    await page.locator('#tool').selectOption('geometry');
+    await page.getByRole('button', { name: 'Edit geometry on canvas', exact: true }).click();
     const pointBefore = await page.evaluate(
       () => window.sceneEditor.state().document.paths[0]!.points[0],
     );
@@ -331,8 +332,8 @@ test('visual authoring, independent fragments, pattern undo and import', async (
       },
     });
     expect(savingFragment.ok(), await savingFragment.text()).toBe(true);
-    await page.locator('#document-menu > summary').click();
-    await page.locator('#scene-library').click();
+    await page.locator('#artwork-tab').click();
+    await page.locator('#arrangements').click();
     await page.locator('#fragment-name').fill('Browser test arrangement');
     await page.locator('#save-fragment').click();
     await expect(page.locator('#library-fragments')).toContainText('Browser test arrangement');
@@ -348,7 +349,8 @@ test('visual authoring, independent fragments, pattern undo and import', async (
         () => new Set(window.sceneEditor.state().document.objects.map((p) => p.id)).size,
       ),
     ).toBe(2);
-    await page.locator('#object-tab').click();
+    await page.locator('#objects-tab').click();
+    await page.locator('.object-select.active').first().click();
     await page.locator('#arrange-section > summary').click();
     await page.locator('#pattern-count').fill('2');
     await page.locator('#pattern-preview').click();
@@ -482,7 +484,8 @@ test('editor workspace keeps populated attachment controls accessible at desktop
     expect(canvas!.height).toBeGreaterThan(300);
     await page.locator('#objects-tab').click();
     await expect(page.locator('#object-search')).toBeVisible();
-    await page.locator('#object-tab').click();
+    await page.locator('#objects-tab').click();
+    await page.locator('.object-select.active').first().click();
   }
 });
 
@@ -504,8 +507,10 @@ test('canvas-first workspace, focus, property search and commands preserve the d
       .toBeGreaterThanOrEqual(minimum!);
   }
   await page.locator('#scene-tab').click();
-  await page.locator('#property-search').fill('Left (X)');
-  await page.locator('#property-results').getByRole('button').click();
+  await page.locator('#commands').click();
+  await page.locator('#command-search').fill('Camera');
+  await page.locator('#command-search').fill('Camera › Bounds › Left (X)');
+  await page.locator('#command-results').getByRole('button').click();
   await expect(page.locator('[data-field="camera.bounds.minX"]')).toBeFocused();
   await page.locator('#viewport').focus();
   await page.keyboard.press('Tab');
@@ -659,6 +664,9 @@ test('editor asset and ground filters preserve selections through edits and undo
   await expect(page.locator('#assets .asset')).toHaveCount(1);
   const initial = await page.evaluate(() => window.sceneEditor.state().document.floor);
   await page.locator('#scene-tab').click();
+  await page.locator('#ground-section > summary').click();
+  await page.locator('#ground-browser > summary').click();
+  await page.getByText('Filters & asset details', { exact: true }).click();
   const all = await page
     .locator('#floor option')
     .evaluateAll((options) => options.map((option) => (option as HTMLOptionElement).value));
@@ -695,7 +703,7 @@ test('editor asset and ground filters preserve selections through edits and undo
   if (!filtered.length) await page.locator('#ground-high-res').uncheck();
   await page.locator('#ground-search').fill(choice.split('/')[0]!);
   await expect(page.locator('#ground-search')).toHaveValue(choice.split('/')[0]!);
-  await page.locator('#floor').selectOption(choice);
+  await page.locator(`[data-ground="${choice}"]`).click();
   await expect
     .poll(() =>
       page.evaluate(
@@ -750,16 +758,23 @@ test('complete scenes retain native masters and place as one image with source c
     };
   });
   await openEditor(page, '/editor.html');
-  await page.locator('#artwork-tab').click();
+  await page.locator('#document-menu > summary').click();
+  await page.locator('#developer-menu > summary').click();
   await page.locator('#source-library > summary').click();
   const inventory = await (await request.get('/generated/library/inventory.json')).json();
   await expect(page.locator('#library-inventory')).toContainText(
     inventory.images.length.toLocaleString() + ' distinct images',
   );
+  await page.locator('#document-menu > summary').click();
   await page.locator('#scene-tab').click();
-  await page.locator('#floor').selectOption(master.asset.id + '/still');
+  await page.locator('#ground-section > summary').click();
+  await page.locator('#ground-browser > summary').click();
+  await page.locator('#ground-search').fill(master.asset.id);
+  await page.locator(`[data-ground="${master.asset.id}/still"]`).click();
   await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.layout))
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.layout), {
+      timeout: 30_000,
+    })
     .toBe('artwork');
   const floor = await page.evaluate(() => window.sceneEditor.state().document.floor);
   expect(floor.width / floor.depth).toBeCloseTo(1.5, 8);
@@ -826,7 +841,7 @@ test('editor walking preserves state, releases input and constrains the camera a
     .toBe('idle');
   await page.keyboard.down('d');
   await page.waitForFunction(() => window.sceneEditor.view().sim!.hero.state === 'walk');
-  await page.locator('#property-search').focus();
+  await page.locator('#name').focus();
   await expect
     .poll(() => page.evaluate(() => window.sceneEditor.view().sim!.hero.state))
     .toBe('idle');
@@ -835,7 +850,7 @@ test('editor walking preserves state, releases input and constrains the camera a
     x: window.sceneEditor.view().sim!.hero.x,
     z: window.sceneEditor.view().sim!.hero.z,
   }));
-  await page.locator('#property-search').fill('wasd');
+  await page.locator('#name').fill('wasd');
   await page.keyboard.press('w');
   expect(
     await page.evaluate(() => ({
@@ -987,4 +1002,130 @@ test('editor walking preserves state, releases input and constrains the camera a
       ),
     )
     .toBe(35);
+});
+
+test('task destinations preserve advanced data and show suitable grounds before experimental artwork', async ({
+  page,
+  request,
+}) => {
+  await openEditor(page);
+  await expect(page.getByRole('tab')).toHaveText(['Add', 'Objects', 'Scene']);
+  await page.locator('#focus-mode').click();
+  await expect(page.locator('#focus-mode')).toBeVisible();
+  await expect(page.locator('#focus-mode')).toHaveText('Exit focus');
+  await page.locator('#focus-mode').click();
+  await expect(page.locator('#scene-panel')).toBeVisible();
+  await page.locator('#ground-interaction-section > summary').click();
+  await expect(page.locator('#ground-painting-tools')).not.toBeVisible();
+  await expect(page.locator('#ground-layout-help')).toBeVisible();
+  await expect(page.locator('#ground-geometry > summary')).toBeVisible();
+  await chooseGravestone(page);
+  await page.locator('#viewport').click({ position: { x: 350, y: 300 } });
+  await expect(page.locator('#object-panel')).toBeVisible();
+  await expect(page.locator('#objects-tab')).toHaveAttribute('aria-selected', 'true');
+  const capture = async (name: string) => {
+    const directory = process.env.LANTERN_EDITOR_REVIEW_DIR;
+    if (directory) {
+      await fs.mkdir(directory, { recursive: true });
+      await page.screenshot({ path: path.join(directory, name + '.png') });
+    }
+  };
+  await capture('object-properties');
+  await page.locator('#back-to-objects').click();
+  await expect(page.locator('#objects-panel')).toBeVisible();
+  await page.locator('.object-select').first().click();
+  await expect(page.locator('#object-panel')).toBeVisible();
+  await page.locator('#scene-tab').click();
+  await page.locator('[data-section=category-Gameplay] > summary').click();
+  await page.locator('[data-section="gameplay.spawns"] > summary').click();
+  await page.getByRole('button', { name: 'Add Enemies', exact: true }).click();
+  await page.locator('[data-section="gameplay.spawns.0"] > summary').click();
+  await expect(page.locator('[data-field="gameplay.spawns.0.actor"]')).toBeVisible();
+  await expect(page.locator('[data-field="gameplay.spawns.0.awareness.radius"]')).not.toBeVisible();
+  await page.locator('[data-section="gameplay.spawns.0.advanced"] > summary').click();
+  await page.locator('[data-section="gameplay.spawns.0.awareness"] > summary').click();
+  await page.locator('[data-field="gameplay.spawns.0.awareness.radius"]').fill('4.25');
+  await page.locator('[data-field="gameplay.spawns.0.awareness.radius"]').press('Tab');
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => window.sceneEditor.state().document.gameplay!.spawns[0]!.awareness!.radius,
+      ),
+    )
+    .toBe(4.25);
+  const before = await page.evaluate(() => window.sceneEditor.state().document);
+  await page.locator('#ground-section > summary').click();
+  await page.locator('#ground-browser > summary').click();
+  const values = await page
+    .locator('#floor option')
+    .evaluateAll((nodes) => nodes.map((n) => (n as HTMLOptionElement).value));
+  for (const value of values) {
+    const manifest = await page.evaluate(
+      async (id) => window.sceneEditor.view().runtime.manifest(id),
+      value.split('/')[0]!,
+    );
+    expect(manifest.asset.imageRole).toBe('scene-painting');
+  }
+  if (values.length)
+    await expect
+      .poll(
+        () =>
+          page
+            .locator('#ground-thumbnails canvas')
+            .first()
+            .evaluate(
+              (node: HTMLCanvasElement) =>
+                node.getContext('2d')!.getImageData(node.width / 2, node.height / 2, 1, 1).data[3],
+            ),
+        { timeout: 30_000 },
+      )
+      .toBeGreaterThan(0);
+  await capture('ground-browser');
+  await page.locator('#ground-kind').selectOption('all');
+  expect(await page.locator('#floor option').count()).toBeGreaterThan(values.length);
+  await page.locator('#ground-search').fill('no-ground-matches-this');
+  await expect(page.locator('#ground-current')).not.toBeEmpty();
+  expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(before);
+  await page.locator('#document-menu > summary').click();
+  await page.locator('#recovery-history').click();
+  await expect(page.locator('[data-library=scenes]')).not.toBeVisible();
+  await expect(page.locator('[data-library=arrangements]')).not.toBeVisible();
+  await page.getByRole('button', { name: 'Close', exact: true }).click();
+  await page.locator('#artwork-tab').click();
+  await page.locator('#arrangements').click();
+  await expect(page.locator('[data-library=arrangements]')).toBeVisible();
+  await expect(page.locator('[data-library=recovery]')).not.toBeVisible();
+  await page.getByRole('button', { name: 'Close', exact: true }).click();
+  expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(before);
+  const flags = await (await request.get('/build-mode.json')).json();
+  if (flags.libraryInventory && values.length) {
+    await page.locator('#scene-tab').click();
+    await page.locator('#ground-kind').selectOption('scene-painting');
+    await page.locator('#ground-search').fill(values[0]!.split('/')[0]!);
+    await page.locator(`[data-ground="${values[0]}"]`).click();
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.layout))
+      .toBe('artwork');
+    await page.locator('#ground-interaction-section > summary').click();
+    await expect(page.locator('#ground-brush-radius')).not.toBeVisible();
+    await expect(page.locator('#ground-accept')).not.toBeVisible();
+    await expect(page.locator('#ground-finish')).not.toBeVisible();
+    await page.locator('#ground-interaction-section > summary').scrollIntoViewIfNeeded();
+    await capture('painted-scene');
+    const painted = await page.evaluate(() => window.sceneEditor.state().document);
+    await page.locator('#start-tool').click();
+    await expect(page.locator('#ground-interaction-section')).not.toHaveAttribute('open');
+    await expect(page.locator('#tool')).toHaveValue('hero');
+    await page.locator('#select-tool').click();
+    await page.locator('#commands').click();
+    await page.locator('#command-search').fill('Brush radius');
+    await page.locator('#command-results').getByRole('button').click();
+    await expect(page.locator('#ground-brush-radius')).toBeFocused();
+    await page.locator('#select-tool').click();
+    expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(painted);
+    await page.setViewportSize({ width: 600, height: 720 });
+    await page.locator('#scene-tab').click();
+    await expect(page.locator('#status')).toBeEmpty();
+    await capture('narrow-workspace');
+  }
 });

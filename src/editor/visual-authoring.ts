@@ -201,7 +201,16 @@ export class VisualAuthoring {
       details.open = false;
       details.dataset.section = path.join('.');
       const summary = document.createElement('summary');
-      summary.textContent = fieldLabel(label);
+      const itemName = !Array.isArray(value)
+        ? (value.name ?? value.actor ?? value.kind)
+        : undefined;
+      summary.textContent = Array.isArray(value)
+        ? `${fieldLabel(label)} · ${value.length}`
+        : typeof path.at(-1) === 'number' && value && 'id' in value && typeof value.id === 'string'
+          ? (typeof itemName === 'string' ? itemName : fieldLabel(label)) +
+            ' · ' +
+            value.id.slice(0, 28)
+          : fieldLabel(label);
       details.append(summary);
       parent.append(details);
       if (Array.isArray(value)) {
@@ -211,7 +220,7 @@ export class VisualAuthoring {
           details.append(row);
           this.form(v, [...path, i], row, `${label} ${i + 1}`);
           if (!tuple)
-            row.append(
+            (row.querySelector('details') ?? row).append(
               this.button('Remove ' + fieldLabel(label), () => {
                 const next = structuredClone(read(this.host.history().document, path) as Data[]);
                 next.splice(i, 1);
@@ -278,10 +287,30 @@ export class VisualAuthoring {
               this.commit(path, next);
             }),
           );
-      } else
+      } else {
+        const gameplayItem = path[0] === 'gameplay' && typeof path.at(-1) === 'number';
+        const common: Record<string, string[]> = {
+          spawns: ['actor', 'x', 'z'],
+          campfires: ['name', 'x', 'z', 'safeRadius'],
+          pickups: ['object', 'kind', 'amount', 'x', 'z', 'radius'],
+          exits: ['destination', 'entry', 'trigger', 'marker'],
+          interactables: ['object', 'kind', 'x', 'z', 'rewards'],
+        };
+        const advanced = document.createElement('details');
+        advanced.dataset.section = path.join('.') + '.advanced';
+        const title = document.createElement('summary');
+        title.textContent = 'Advanced';
+        advanced.append(title);
         for (const [name, child] of Object.entries(value))
           if (child !== undefined && [...path, name].join('.') !== 'geometry.surface.kind')
-            this.form(child, [...path, name], details, name);
+            this.form(
+              child,
+              [...path, name],
+              gameplayItem && !common[String(path.at(-2))]?.includes(name) ? advanced : details,
+              name,
+            );
+        if (advanced.children.length > 1) details.append(advanced);
+      }
       return;
     }
     const row = document.createElement('label');
@@ -339,16 +368,18 @@ export class VisualAuthoring {
     const expanded = new Map(
       [
         ...document.querySelectorAll<HTMLDetailsElement>(
-          '#visual-fields details,#object-appearance details',
+          '#visual-fields details,#ground-geometry details,#ground-geometry,#object-appearance details',
         ),
       ].map((v) => [v.dataset.section, v.open]),
     );
     const atmosphere = $('atmosphere-section');
-    $('scene-panel').append(atmosphere);
+    $('scene-panel').append(atmosphere, $('advice-section'));
+    const previousGeometry = document.getElementById('ground-geometry');
+    if (previousGeometry) this.fields.append(previousGeometry);
     this.fields.replaceChildren();
     const categories = [
-      ['Camera', ['camera']],
       ['Gameplay', ['gameplay']],
+      ['Camera', ['camera']],
       ['Geometry', ['geometry', 'paths', 'walls', 'graves', 'interior']],
       ['Atmosphere', ['surround', 'weather', 'rainBounds', 'rainShelters']],
       ['Advanced', ['propOrder', 'overlaps']],
@@ -361,6 +392,32 @@ export class VisualAuthoring {
       summary.textContent = title;
       category.append(summary);
       this.fields.append(category);
+      if (title === 'Geometry') {
+        category.id = 'ground-geometry';
+        category.removeAttribute('name');
+        summary.textContent = 'Surface, paths & bounds';
+        category.append(
+          this.button('Edit geometry on canvas', () => {
+            const tool = $<HTMLSelectElement>('tool');
+            tool.value = 'geometry';
+            tool.dispatchEvent(new Event('change'));
+            $('viewport').focus();
+          }),
+        );
+      }
+      if (title === 'Gameplay')
+        category.append(
+          this.button('Edit gameplay positions on canvas', () => {
+            const tool = $<HTMLSelectElement>('tool');
+            tool.value = 'geometry';
+            tool.dispatchEvent(new Event('change'));
+            $('viewport').focus();
+          }),
+        );
+      if (title === 'Advanced') {
+        $('advice-section').removeAttribute('name');
+        category.append($('advice-section'));
+      }
       if (title === 'Atmosphere') category.append($('atmosphere-section'));
       for (const key of keys) {
         const value = (
@@ -398,6 +455,9 @@ export class VisualAuthoring {
         }
       }
     }
+    const groundGeometry = document.getElementById('ground-geometry');
+    if (groundGeometry)
+      document.getElementById('ground-interaction-section')?.append(groundGeometry);
     // Surface alternatives have different valid fields and change atomically.
     if (d.geometry) {
       const select = document.createElement('select');
@@ -422,14 +482,14 @@ export class VisualAuthoring {
       const row = document.createElement('label');
       row.textContent = 'Surface type';
       row.append(select);
-      this.fields.querySelector('[data-section=geometry] > summary')?.after(row);
+      document.querySelector('#ground-geometry [data-section=geometry] > summary')?.after(row);
     }
     this.objectFields.replaceChildren();
     $('object-name').replaceChildren();
     const index = d.objects.findIndex((p) => p.id === this.host.selected());
     if (index >= 0 && !multiple) this.objectForm(parseSceneDocument(d).objects[index]!, index);
     for (const details of document.querySelectorAll<HTMLDetailsElement>(
-      '#visual-fields details,#object-appearance details',
+      '#visual-fields details,#ground-geometry details,#ground-geometry,#object-appearance details',
     ))
       if (expanded.has(details.dataset.section))
         details.open = expanded.get(details.dataset.section)!;
@@ -446,7 +506,9 @@ export class VisualAuthoring {
       });
       notes.append(b);
     }
-    for (const input of this.fields.querySelectorAll<HTMLInputElement>('input,select,button'))
+    for (const input of document.querySelectorAll<HTMLInputElement>(
+      '#visual-fields input,#visual-fields select,#visual-fields button,#ground-geometry input,#ground-geometry select,#ground-geometry button',
+    ))
       input.disabled = busy;
     for (const input of document.querySelectorAll<HTMLInputElement>(
       '#object-appearance input,#object-appearance select,#object-appearance button,#object-name input',

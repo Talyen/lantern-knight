@@ -120,16 +120,6 @@ main {
 .toolbar label {
   margin: 0;
 }
-.tool-choice {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.tool-choice select {
-  width: auto;
-  margin: 0;
-  padding: 3px 6px;
-}
 .toolbar-end {
   margin-left: auto;
   display: flex;
@@ -169,7 +159,6 @@ main {
   padding: 2px;
   scrollbar-width: thin;
 }
-#property-search,
 #object-search,
 #search {
   width: 100%;
@@ -487,8 +476,7 @@ dialog form > div {
 #command-search {
   width: 100%;
 }
-#command-results,
-#property-results {
+#command-results {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -496,8 +484,7 @@ dialog form > div {
   max-height: 300px;
   padding: 6px 0;
 }
-#command-results button,
-#property-results button {
+#command-results button {
   text-align: left;
 }
 .empty-state {
@@ -513,8 +500,21 @@ body.focus-mode .dock {
   display: none;
 }
 body.focus-mode .toolbar {
+  display: flex;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 4;
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+body.focus-mode .toolbar > :not(.toolbar-end),
+body.focus-mode #toggle-dock {
   display: none;
 }
+
 #playtest-dialog {
   position: fixed;
   inset: 48px 0 0;
@@ -600,7 +600,7 @@ body.focus-mode .toolbar {
     z-index: 5;
   }
   #commands {
-    display: none;
+    display: block;
   }
 }
 @media (max-width: 600px) {
@@ -619,23 +619,10 @@ body.focus-mode .toolbar {
     gap: 7px;
     padding: 4px 6px;
   }
-  .tool-choice {
-    font-size: 0;
-  }
-  .tool-choice select {
-    font-size: 12px;
-  }
   #placement-state {
     display: none;
   }
 }
-.arrangements-only #library-scenes,
-.arrangements-only #library-search,
-.arrangements-only #library-recovery,
-.arrangements-only h3:nth-of-type(-n + 2) {
-  display: none;
-}
-
 #selected-name:empty {
   display: none;
 }
@@ -655,4 +642,140 @@ body.focus-mode .toolbar {
 #ground-interaction-section p {
   font-size: 0.8rem;
   line-height: 1.4;
+}
+
+/* Task destinations share the existing canvas-first palette. */
+#play-action {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#play-action .menu-body {
+  left: auto;
+  right: 0;
+}
+#canvas-hint {
+  position: absolute;
+  bottom: 3px;
+  right: 12px;
+  margin: 0;
+  padding: 5px 8px;
+  font-size: 11px;
+  color: #c4c5b7;
+  background: #182326dc;
+  pointer-events: none;
+  z-index: 2;
+}
+#status {
+  bottom: 34px;
+}
+#validation-errors {
+  bottom: 72px;
+}
+#scene-overview {
+  color: #b9b29c;
+  margin: 0 0 14px;
+}
+#back-to-objects {
+  margin-bottom: 14px;
+}
+#ground-preview {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+  background: #101719;
+  border-radius: 5px;
+}
+.ground-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+.ground-card {
+  padding: 5px;
+  text-align: left;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.ground-card canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 5px;
+  background: #101719;
+}
+.ground-card span {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ground-task-choices {
+  display: grid;
+  gap: 5px;
+  margin: 12px 0;
+}
+.ground-task-choices button {
+  text-align: left;
+}
+.region-menu button {
+  display: block;
+  margin: 5px 0;
+}
+#scene-panel > details > summary,
+#visual-fields > details > summary {
+  color: #dac69b;
+}
+#ground-current {
+  margin: 7px 0;
+  font-weight: 600;
+}
+#ground-geometry {
+  margin-top: 10px;
+}
+#source-library {
+  max-height: 50dvh;
+  overflow: auto;
+}
+#ground-interaction-section > p {
+  color: #c4c5b7;
+}
+.focus-mode #canvas-hint {
+  display: none;
+}
+@media (max-width: 600px) {
+  #commands {
+    max-width: 64px;
+  }
+  #start-tool {
+    font-size: 11px;
+  }
+  .toolbar {
+    gap: 4px;
+  }
+  #canvas-hint {
+    font-size: 10px;
+    right: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .document-bar {
+    height: auto;
+    min-height: 48px;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+  }
+  .primary-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .toolbar {
+    overflow-x: auto;
+    flex-shrink: 0;
+  }
+}
+
+#ground-section:has(#ground-browser[open]) #ground-preview {
+  height: 72px;
 }

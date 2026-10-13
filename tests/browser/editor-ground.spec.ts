@@ -96,7 +96,8 @@ test('ground authoring accepts and corrects selection, saves contours and routes
       );
       await page.mouse.click(p.x, p.y);
     };
-    await page.locator('#ground-task').selectOption('ai-box');
+    await page.locator('#ground-assistance > summary').click();
+    await page.locator('[data-ground-mode=ai-box]').click();
     const canvas = page.locator('#viewport'),
       rect = (await canvas.boundingBox())!;
     await page.mouse.move(rect.x + 350, rect.y + 200);
@@ -135,7 +136,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
     });
     expect(selections).toBe(0);
-    await page.locator('#ground-task').selectOption('ai-point');
+    await page.locator('[data-ground-mode=ai-point]').click();
     await clickUV(0.58, 0.45);
     await page.locator('#ground-refine').click();
     await expect(page.locator('#ground-ai-state')).toContainText('Selection ready');
@@ -167,6 +168,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
       JSON.stringify(window.sceneEditor.state().document.groundInteraction!.regions[0]!.mask),
     );
     await expect(page.locator('.ground-overlay path')).toHaveCount(0);
+    await page.getByText('Overlays', { exact: true }).click();
     await page.locator('#ground-show-masks').check();
     await expect(page.locator('.ground-overlay path')).not.toHaveCount(0);
     // Walking must leave mask editing available.
@@ -184,7 +186,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
       )
       .not.toBe(accepted);
     expect(selections).toBe(2);
-    await page.locator('#ground-task').selectOption('footprint');
+    await page.locator('[data-ground-mode=footprint]').click();
     for (const [u, v] of [
       [0.54, 0.52],
       [0.565, 0.52],
@@ -203,7 +205,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
         ),
       )
       .toBe(4);
-    await page.locator('#ground-task').selectOption('anchor');
+    await page.locator('[data-ground-mode=anchor]').click();
     await clickUV(0.56, 0.58);
     await expect.poll(() => page.evaluate(() => window.sceneEditor.state().dirty)).toBe(true);
     const authored = await page.evaluate(
@@ -218,7 +220,10 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await expect(page.locator('#ground-ai-state')).toContainText('1 scenery proposals');
     await page.locator('#ground-prepare').click();
     await expect(page.locator('#ground-ai-state')).toContainText('1 masks prepared');
-    await page.locator('#ground-task').selectOption('brush-erase');
+    await page
+      .locator('#ground-assistance')
+      .getByRole('button', { name: 'Refine prepared mask' })
+      .click();
     await clickUV(0.58, 0.45);
     await page.locator('#ground-accept-batch').click();
     await expect
@@ -261,6 +266,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await page.locator('#scene-tab').click();
     if ((await page.locator('#ground-interaction-section').getAttribute('open')) === null)
       await page.locator('#ground-interaction-section > summary').click();
+    await page.locator('.region-menu > summary').click();
     await page.locator('#ground-clear').click();
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
@@ -271,6 +277,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
         new URL(response.url()).searchParams.has('groundProfiles'),
       { timeout: 30_000 },
     );
+    await page.getByText('Saved interaction profiles', { exact: true }).click();
     await page.locator('#ground-load-profiles').click();
     const listed = await profileList;
     expect(listed.ok(), await listed.text()).toBe(true);
@@ -294,7 +301,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
         ([key]) => !key.startsWith('lantern-scene-editor'),
       ),
     }));
-    await page.locator('#test-movement').click();
+    await page.locator('#ground-test-movement').click();
     await page.waitForFunction(() => window.sceneEditor.playtest()?.ready);
     expect((await page.evaluate(() => window.sceneEditor.playtest()))!.actors.length).toBe(4);
     const enemyId = await page.evaluate(

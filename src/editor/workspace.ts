@@ -4,16 +4,19 @@ export function openDock(tab: DockTab, reveal = true) {
   if (reveal) document.body.classList.remove('dock-hidden', 'focus-mode');
   for (const name of ['artwork', 'object', 'objects', 'scene'] as const) {
     element(name + '-panel').hidden = name !== tab;
+    if (name === 'object') continue;
     const button = element<HTMLButtonElement>(name + '-tab');
-    button.setAttribute('aria-selected', String(name === tab));
-    button.tabIndex = name === tab ? 0 : -1;
+    const active = name === tab || (name === 'objects' && tab === 'object');
+    button.setAttribute('aria-selected', String(active));
+    button.tabIndex = active ? 0 : -1;
   }
-  element('property-search').hidden = tab === 'artwork' || tab === 'objects';
-  element('property-results').hidden = true;
   element('focus-mode').setAttribute(
     'aria-pressed',
     String(document.body.classList.contains('focus-mode')),
   );
+  element('focus-mode').textContent = document.body.classList.contains('focus-mode')
+    ? 'Exit focus'
+    : 'Focus';
   element('toggle-dock').setAttribute(
     'aria-expanded',
     String(!document.body.classList.contains('dock-hidden')),
@@ -25,7 +28,7 @@ export class EditorWorkspace {
   private navigation: HTMLElement | null = null;
   constructor(private readonly selectionSize: () => number) {
     const signal = this.lifetime.signal;
-    for (const tab of ['artwork', 'object', 'objects', 'scene'] as const) {
+    for (const tab of ['artwork', 'objects', 'scene'] as const) {
       element(tab + '-tab').onclick = () => {
         openDock(tab);
         this.remember();
@@ -33,13 +36,13 @@ export class EditorWorkspace {
       element(tab + '-tab').onkeydown = (e) => {
         if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
         e.preventDefault();
-        const tabs: DockTab[] = ['artwork', 'object', 'objects', 'scene'];
+        const tabs = ['artwork', 'objects', 'scene'] as const;
         const next =
           e.key === 'Home'
             ? 0
             : e.key === 'End'
-              ? 3
-              : (tabs.indexOf(tab) + (e.key === 'ArrowRight' ? 1 : 3)) % 4;
+              ? 2
+              : (tabs.indexOf(tab) + (e.key === 'ArrowRight' ? 1 : 2)) % 3;
         openDock(tabs[next]!);
         element(tabs[next]! + '-tab').focus();
         this.remember();
@@ -51,7 +54,17 @@ export class EditorWorkspace {
       element<HTMLSelectElement>('scene').value = 'new';
       element('open').click();
     };
-    document.querySelector('.primary-actions')!.prepend(element('focus-mode'));
+    element('back-to-objects').onclick = () => openDock('objects');
+    for (const [id, tool] of [
+      ['select-tool', 'select'],
+      ['start-tool', 'hero'],
+    ] as const)
+      element(id).onclick = () => {
+        const select = element<HTMLSelectElement>('tool');
+        select.value = tool;
+        select.dispatchEvent(new Event('change'));
+        element('viewport').focus();
+      };
     for (const id of ['clip', 'heading'])
       element('transform').append(element(id).closest('label')!);
     element('toggle-dock').onclick = () => {
@@ -65,16 +78,21 @@ export class EditorWorkspace {
     element('focus-mode').onclick = () => {
       const focused = document.body.classList.toggle('focus-mode');
       element('focus-mode').setAttribute('aria-pressed', String(focused));
+      element('focus-mode').textContent = focused ? 'Exit focus' : 'Focus';
       element('viewport').focus();
     };
     try {
       const state = JSON.parse(localStorage.getItem('lantern-editor-workspace') ?? '{}');
       openDock(
-        ['artwork', 'object', 'objects', 'scene'].includes(state.tab) ? state.tab : 'object',
+        ['artwork', 'object', 'objects', 'scene'].includes(state.tab)
+          ? state.tab === 'object'
+            ? 'objects'
+            : state.tab
+          : 'scene',
       );
       document.body.classList.toggle('dock-hidden', !!state.hidden);
     } catch {
-      openDock('object');
+      openDock('scene');
     }
     element('toggle-dock').setAttribute(
       'aria-expanded',
@@ -128,7 +146,6 @@ export class EditorWorkspace {
     );
     element('commands').onclick = () => this.commands();
     element('command-search').oninput = () => this.renderCommands();
-    element('property-search').oninput = () => this.properties();
     element('snap').addEventListener('change', () => this.refresh(), { signal });
   }
   private remember() {
@@ -146,7 +163,15 @@ export class EditorWorkspace {
   }
   refresh() {
     element('spacing-label').hidden = !element<HTMLInputElement>('snap').checked;
-    const placing = element<HTMLSelectElement>('tool').value === 'place';
+    const tool = element<HTMLSelectElement>('tool');
+    for (const [id, value] of [
+      ['select-tool', 'select'],
+      ['start-tool', 'hero'],
+    ] as const) {
+      element<HTMLButtonElement>(id).disabled = tool.disabled;
+      element(id).setAttribute('aria-pressed', String(tool.value === value));
+    }
+    const placing = tool.value === 'place';
     element('placement-state').hidden = !placing;
     element('placement-state').textContent = element<HTMLInputElement>('repeat-placement').checked
       ? 'Keep placing'
@@ -197,7 +222,14 @@ export class EditorWorkspace {
     element('arrange-section').hidden = !hasSelection;
     const appearance = document.getElementById('object-appearance');
     if (appearance) appearance.hidden = !hasSelection;
-    if (element<HTMLInputElement>('property-search').value) this.properties();
+    element('canvas-hint').textContent =
+      tool.value === 'hero'
+        ? 'Drag the hero to set the saved player start · Select to finish'
+        : tool.value === 'geometry'
+          ? 'Drag geometry handles · Select to finish'
+          : placing
+            ? 'Click to place artwork · Esc: cancel placement'
+            : 'WASD: walking preview · Esc: restore preview';
   }
   notify(message: string, error: boolean) {
     clearTimeout(this.timer);
@@ -214,7 +246,7 @@ export class EditorWorkspace {
     element('command-search').focus();
   }
   private renderCommands() {
-    const query = element<HTMLInputElement>('command-search').value.toLowerCase();
+    const query = element<HTMLInputElement>('command-search').value.toLowerCase().trim();
     const list = element('command-results');
     list.replaceChildren();
     const actions = [
@@ -222,6 +254,10 @@ export class EditorWorkspace {
       ['Save As', 'save-as'],
       ['New scene', 'new-scene'],
       ['Open scene library', 'scene-library'],
+      ['Recovery history', 'recovery-history'],
+      ['Browse arrangements', 'arrangements'],
+      ['Select objects', 'select-tool'],
+      ['Set player start', 'start-tool'],
       ['Export JSON', 'export-scene'],
       ['Undo', 'undo'],
       ['Redo', 'redo'],
@@ -265,19 +301,21 @@ export class EditorWorkspace {
       };
       list.append(button);
     }
-    if (!list.children.length) list.textContent = 'No matching actions.';
+    this.properties(query, list);
+    if (!list.children.length) list.textContent = 'No matching actions or settings.';
   }
-  private properties() {
-    const query = element<HTMLInputElement>('property-search').value.toLowerCase().trim();
-    const results = element('property-results');
-    results.replaceChildren();
-    results.hidden = !query;
-    if (!query) return;
+  private properties(query: string, results: HTMLElement) {
+    if (!query.trim()) return;
     for (const label of document.querySelectorAll<HTMLLabelElement>(
       '#scene-panel label,#object-panel label',
     )) {
       const input = label.querySelector<HTMLInputElement>('input,select');
       if (!input || input.disabled || input.closest('fieldset')?.disabled) continue;
+      if (
+        label.closest('#ground-painting-tools[hidden]') ||
+        (label.hidden && !['ground-brush-radius', 'ground-task'].includes(input.id))
+      )
+        continue;
       const text =
         label.childNodes[0]?.textContent?.trim() ?? input.getAttribute('aria-label') ?? '';
       const groups = [...label.closest('[role="tabpanel"]')!.querySelectorAll('summary')].filter(
@@ -288,20 +326,26 @@ export class EditorWorkspace {
       const button = document.createElement('button');
       button.textContent = title;
       button.onclick = () => {
+        if (['ground-brush-radius', 'ground-task'].includes(input.id)) {
+          const canvasTool = element<HTMLSelectElement>('tool');
+          canvasTool.value = 'select';
+          canvasTool.dispatchEvent(new Event('change'));
+          const drawing = element<HTMLSelectElement>('ground-task');
+          drawing.value = input.id === 'ground-brush-radius' ? 'brush-add' : 'footprint';
+          drawing.dispatchEvent(new Event('change'));
+        }
         openDock(label.closest('#scene-panel') ? 'scene' : 'object');
         let parent = label.parentElement;
         while (parent) {
           if (parent instanceof HTMLDetailsElement) parent.open = true;
           parent = parent.parentElement;
         }
-        element<HTMLInputElement>('property-search').value = '';
-        results.hidden = true;
+        element<HTMLDialogElement>('command-dialog').close();
         input.focus();
         input.scrollIntoView({ block: 'center' });
       };
       results.append(button);
     }
-    if (!results.children.length) results.textContent = 'No matching settings.';
   }
   dispose() {
     this.lifetime.abort();

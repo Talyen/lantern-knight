@@ -438,6 +438,7 @@ it('workspace keeps single-object clip controls hidden for multiple selected obj
       options: [{}, {}],
       closest: () => label,
       replaceChildren() {},
+      setAttribute() {},
     };
   }
   let selectionCount = 2;

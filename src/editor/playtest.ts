@@ -68,7 +68,15 @@ export class DraftPlaytest {
     movementButton.textContent = 'Test movement';
     movementButton.onclick = () =>
       void this.start(undefined, true).catch((e) => host.status(editorError(e), true));
-    document.getElementById('play-action')!.append(movementButton);
+    const tests = document.createElement('details');
+    tests.className = 'menu';
+    const summary = document.createElement('summary');
+    summary.textContent = 'Test';
+    const body = document.createElement('div');
+    body.className = 'menu-body';
+    body.append(movementButton);
+    tests.append(summary, body);
+    document.getElementById('play-action')!.append(tests);
     this.dialog.querySelector<HTMLSelectElement>('#movement-actor')!.onchange = (e) => {
       this.selectedActor = (e.target as HTMLSelectElement).value;
       this.canvas.focus();

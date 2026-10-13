@@ -4,6 +4,7 @@ import { GroundAuthoring } from './ground-authoring';
 import { resizeGroundInteraction } from '../content/ground-interaction';
 import {
   assetClosure,
+  assetLabel,
   matchesAsset,
   loadAssetIndex,
   type AssetScope,
@@ -107,6 +108,8 @@ export function createEditorSession() {
     }[] = [],
     chosen: (typeof palette)[number] | undefined;
   let assetIndex = new Map<string, Manifest>();
+  let groundSignature = '';
+  let groundLimit = 24;
   let usedAssets = new Set<string>();
   const project = new EditorProject(
     documents,
@@ -223,7 +226,7 @@ export function createEditorSession() {
       'play-from-here',
       'scene-library',
       'import-scene',
-      'copy-scene',
+      'ground-kind',
       'tool',
       'snap-spacing',
       'preview-asset',
@@ -231,6 +234,8 @@ export function createEditorSession() {
       const control = document.getElementById(key) as HTMLInputElement | null;
       if (control) control.disabled = busy;
     }
+    for (const button of document.querySelectorAll<HTMLButtonElement>('.ground-card'))
+      button.disabled = busy;
     $('save-state').textContent = busy ? 'Working…' : dirty() ? 'Unsaved' : 'Saved';
     const notes = sceneCompositionFindings(resolveAuthoredScene(d));
     $('composition-notes').hidden = notes.length === 0;
@@ -240,6 +245,8 @@ export function createEditorSession() {
     composition?.render();
     visualAuthoring?.render(busy, composition?.selection.size > 1);
     $('scene-summary-text').textContent = `${d.name} · ${items.length} objects`;
+    $('scene-overview').textContent =
+      `${items.length} ${items.length === 1 ? 'object' : 'objects'} · ${Number(d.floor.width.toFixed(2))} × ${Number(d.floor.depth.toFixed(2))} ground · ${d.look.rig === 'golden' ? 'Golden hour' : 'Silver hour'}`;
     workspace.refresh();
     sceneLibrary?.refresh();
     if (ready && $<HTMLSelectElement>('asset-scope').value === 'scene') showPalette();
@@ -416,15 +423,6 @@ export function createEditorSession() {
     else launch(save());
   };
   $('save-as').onclick = saveAs;
-  $('copy-scene').onclick = () => {
-    const document = {
-      ...parseSceneDocument(documents.history.document),
-      id: 'untitled',
-      target: 'draft' as const,
-      name: 'Copy of ' + documents.history.document.name.slice(0, 72),
-    };
-    void importDocument(document).catch((e) => status(e.message, true));
-  };
   $('conflict-copy').onclick = saveAs;
   $('reload').onclick = () => void open('file-' + documents.history.document.id);
   $('name').onchange = () =>
@@ -467,7 +465,17 @@ export function createEditorSession() {
       floor = documents.history.document.floor,
       select = $<HTMLSelectElement>('floor');
     const options = [...assetIndex.values()].flatMap((manifest) => {
-      const { id, label, canvas } = manifest.asset;
+      const { id, label, canvas, imageRole, type, category } = manifest.asset;
+      const kind = $<HTMLSelectElement>('ground-kind').value;
+      if (kind === 'scene-painting' && imageRole !== 'scene-painting') return [];
+      if (
+        kind === 'material' &&
+        (imageRole ||
+          category === 'reference' ||
+          manifest.asset.placement === 'reference' ||
+          (type !== 'material' && category !== 'ground'))
+      )
+        return [];
       if (highRes && Math.max(...canvas) < 3840) return [];
       return floorClips(manifest)
         .filter((clip) => `${label ?? ''} ${id} ${clip}`.toLowerCase().includes(query))
@@ -481,11 +489,74 @@ export function createEditorSession() {
     $('ground-results').textContent = options.length
       ? `${options.length} ground results`
       : 'No matching ground. Try another search or turn off High-res only.';
-    $('ground-current').textContent =
-      `Current ground: ${assetIndex.get(floor.asset)?.asset.label ?? floor.asset} / ${floor.clip ?? 'surface'}`;
+    const manifest = assetIndex.get(floor.asset);
+    $('ground-current').textContent = manifest
+      ? assetLabel(manifest)
+      : floor.asset.replaceAll('-', ' ');
+    $('ground-identity').textContent = `${floor.asset} / ${floor.clip ?? 'surface'}`;
+    const signature = JSON.stringify([
+      query,
+      highRes,
+      $<HTMLSelectElement>('ground-kind').value,
+      floor.asset,
+      floor.clip,
+      assetIndex.size,
+      groundLimit,
+    ]);
+    if (signature === groundSignature) return;
+    groundSignature = signature;
+    const current = palette.find(
+      (p) => p.asset === floor.asset && p.clip === (floor.clip ?? 'surface'),
+    );
+    const previousPreview = $<HTMLCanvasElement>('ground-preview');
+    const preview = previousPreview.cloneNode(false) as HTMLCanvasElement;
+    previousPreview.replaceWith(preview);
+    if (current) void thumbnail(current, preview).catch(() => {});
+    const gallery = $('ground-thumbnails');
+    groundObserver.disconnect();
+    gallery.replaceChildren();
+    for (const option of options.slice(0, groundLimit)) {
+      const [asset, clip] = option.value.split('/');
+      const entry = palette.find((p) => p.asset === asset && p.clip === clip);
+      const button = document.createElement('button');
+      button.className = 'ground-card';
+      button.dataset.ground = option.value;
+      button.setAttribute('aria-pressed', String(option.value === select.value));
+      button.disabled = busy;
+      const image = document.createElement('canvas');
+      image.width = 144;
+      image.height = 90;
+      image.setAttribute('aria-hidden', 'true');
+      const label = document.createElement('span');
+      const artwork = assetIndex.get(asset!);
+      label.textContent = artwork ? assetLabel(artwork) : asset!.replaceAll('-', ' ');
+      button.title = option.text;
+      button.append(image, label);
+      button.onclick = () => {
+        select.value = option.value;
+        select.dispatchEvent(new Event('change'));
+      };
+      gallery.append(button);
+      if (entry) {
+        image.dataset.index = String(palette.indexOf(entry));
+        groundObserver.observe(image);
+      }
+    }
+    $('more-grounds').hidden = options.length <= groundLimit;
   }
-  $('ground-search').oninput = showGroundResults;
-  $('ground-high-res').onchange = showGroundResults;
+  $('more-grounds').onclick = () => {
+    groundLimit += 24;
+    showGroundResults();
+  };
+  $('ground-search').oninput = () => {
+    groundLimit = 24;
+    showGroundResults();
+  };
+  for (const id of ['ground-high-res', 'ground-kind'])
+    $(id).onchange = () => {
+      groundLimit = 24;
+      showGroundResults();
+    };
   for (const id of ['floor', 'floor-layout', 'width', 'depth'])
     $(id).onchange = () =>
       void change((d) => {
@@ -677,6 +748,18 @@ export function createEditorSession() {
         }
     },
     { root: $('artwork-panel') },
+  );
+  const groundObserver = new IntersectionObserver(
+    (entries) => {
+      for (const item of entries)
+        if (item.isIntersecting) {
+          const target = item.target as HTMLCanvasElement;
+          groundObserver.unobserve(target);
+          const entry = palette[Number(target.dataset.index)];
+          if (entry) void thumbnail(entry, target).catch(() => {});
+        }
+    },
+    { root: $('scene-panel') },
   );
   function showPalette() {
     observer.disconnect();
@@ -1279,6 +1362,7 @@ export function createEditorSession() {
     frames?.dispose();
     cancelAnimationFrame(resizeFrame);
     observer.disconnect();
+    groundObserver.disconnect();
     resizeObserver.disconnect();
     playtest?.dispose();
     composition?.dispose();

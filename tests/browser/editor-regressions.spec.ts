@@ -90,6 +90,8 @@ test.beforeEach(async ({ page }) => {
     document.querySelector('#ground-interaction-section')!.setAttribute('open', '');
   });
   await page.locator('#ground-region').selectOption('region');
+  await page.getByText('Overlays', { exact: true }).click();
+  await page.locator('.region-menu > summary').click();
 });
 
 test('ground overlays follow projection changes without camera translation', async ({ page }) => {

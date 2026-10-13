@@ -144,7 +144,10 @@ test('foreign pointer releases and lost captures cannot commit geometry or leave
 }) => {
   await openEditor(page);
   await importScene(page, 'Pointers');
-  await page.locator('#tool').selectOption('geometry');
+  await page.locator('#scene-tab').click();
+  await page.locator('#ground-interaction-section > summary').click();
+  await page.locator('#ground-geometry > summary').click();
+  await page.getByRole('button', { name: 'Edit geometry on canvas', exact: true }).click();
   const start = await page.evaluate(() => {
     const view = window.sceneEditor.view(),
       p = window.sceneEditor.state().document.paths[0]!.points[0]!;
@@ -163,7 +166,7 @@ test('foreign pointer releases and lost captures cannot commit geometry or leave
   const point = await page.evaluate(() => window.sceneEditor.state().document.paths[0]!.points[0]!);
   expect(point.x).toBeCloseTo(-1, 6);
   expect(point.z).toBeCloseTo(2, 6);
-  await page.locator('#tool').selectOption('select');
+  await page.locator('#select-tool').click();
   await canvas.click({ position: { x: 30, y: 30 } });
   await page.mouse.down();
   await page.mouse.move(start.x, start.y);

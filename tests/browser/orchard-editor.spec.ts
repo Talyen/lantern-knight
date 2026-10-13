@@ -16,6 +16,7 @@ test('editor authors campfires, local encounters, rewards and explicit departure
   await page.locator('[data-section="gameplay.spawns"] > summary').click();
   await page.getByRole('button', { name: 'Add Enemies', exact: true }).click();
   await page.locator('[data-section="gameplay.spawns.0"] > summary').click();
+  await page.locator('[data-section="gameplay.spawns.0.advanced"] > summary').click();
   await page.locator('[data-section="gameplay.spawns.0.awareness"] > summary').click();
   const group = page.locator('[data-field="gameplay.spawns.0.awareness.group"]');
   await group.fill('final-pair');
