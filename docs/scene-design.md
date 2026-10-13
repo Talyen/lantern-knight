@@ -16,7 +16,7 @@ Use the shared development server and affected scene/editor browser scenario. St
 
 ## Authored painting scales
 
-Each high-resolution painting has one saved draft scene and an immutable interaction profile. These are starting maps for level design, with three skeletons and repeatable movement destinations. World widths below keep the existing hero size; the factor compares the floor with a 40-unit-wide baseline, rather than scaling the actor. Width and depth change together to preserve the painting aspect ratio.
+The saved painting drafts below have immutable interaction profiles, three skeletons and repeatable movement destinations. These are starting maps for level design. World widths below keep the existing hero size; the factor compares the floor with a 40-unit-wide baseline, rather than scaling the actor. Width and depth change together to preserve the painting aspect ratio. Saved scene documents own the current dimensions; these starting scales impose no validation limits on later edits.
 
 | Scene                     | World width | Floor scale vs 40 |
 | ------------------------- | ----------: | ----------------: |
