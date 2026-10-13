@@ -2,7 +2,7 @@ import type { PresentationLifecycle } from '../presentation/lifecycle';
 import type { EffectsPlayground } from '../presentation/effects-playground';
 import type { PlaygroundSettings } from '../content/effects-playground';
 import { defaultVisualEffects, type VisualEffects } from '../content/visual-effects';
-import type { Simulation } from '../core/simulation';
+import type { SimulationView } from '../core/simulation-view';
 import { outward } from '../core/camera';
 
 // Application owns input, scheduling and asset leases; this adapter owns only the renderer.
@@ -35,7 +35,7 @@ export class EffectsPresentation implements PresentationLifecycle {
   warmPack() {}
   async prepareAssets() {}
   resetRoom() {}
-  update(sim: Simulation, alpha: number, ms: number) {
+  update(sim: SimulationView, alpha: number, ms: number) {
     this.view.draw(sim, alpha, Math.min(100, ms), this.settings);
   }
   dispose() {

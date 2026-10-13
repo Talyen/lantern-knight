@@ -86,12 +86,17 @@ export class DraftPlaytest {
       if (value === '') return;
       const index = Number(value);
       const point = this.snapshot?.groundInteraction?.destinations[index];
-      if (point && this.app) this.app.sim.setMovementTarget(this.selectedActor, point);
+      if (point && this.app)
+        this.app.editPreview((sim) => {
+          sim.setMovementTarget(this.selectedActor, point);
+        });
       this.canvas.focus();
     };
     this.dialog.querySelector<HTMLButtonElement>('#movement-follow')!.onclick = () => {
       if (this.app && this.selectedActor !== this.app.sim.hero.id)
-        this.app.sim.setMovementTarget(this.selectedActor, null);
+        this.app.editPreview((sim) => {
+          sim.setMovementTarget(this.selectedActor, null);
+        });
       this.canvas.focus();
     };
     this.dialog.querySelector<HTMLInputElement>('#movement-outline')!.onchange = (e) => {
@@ -112,7 +117,10 @@ export class DraftPlaytest {
           this.canvas.getBoundingClientRect(),
           this.app.sim.areaDefinition,
         );
-        if (point) this.app.sim.setMovementTarget(this.selectedActor, point);
+        if (point)
+          this.app.editPreview((sim) => {
+            sim.setMovementTarget(this.selectedActor, point);
+          });
       },
       { capture: true, signal: this.lifetime.signal },
     );
@@ -224,8 +232,10 @@ export class DraftPlaytest {
       }
       const hero = this.snapshot.hero,
         y = heightAt(app.sim.areaDefinition, hero.x, hero.z);
-      Object.assign(app.sim.hero, { x: hero.x, z: hero.z, px: hero.x, pz: hero.z, y, py: y });
-      app.sim.movementPreview = movement;
+      app.editPreview((sim) => {
+        Object.assign(sim.hero, { x: hero.x, z: hero.z, px: hero.x, pz: hero.z, y, py: y });
+        sim.movementPreview = movement;
+      });
       this.selectedActor = app.sim.hero.id;
       this.dialog
         .querySelector<HTMLSelectElement>('#movement-destination')!

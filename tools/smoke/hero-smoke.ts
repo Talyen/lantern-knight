@@ -15,88 +15,91 @@ export async function runScenario(flags: string[] = []) {
       await f.fixture('interior-fixture');
       f.pause(true);
       f.presentation.setDepthOfField(0);
-      f.sim.enemies.forEach((a) => (a.health = 0));
-      Object.assign(f.sim.hero, { x: 0, z: 1, px: 0, pz: 1 });
+      f.editPreview((sim) => {
+        sim.enemies.forEach((a) => (a.health = 0));
+        Object.assign(sim.hero, { x: 0, z: 1, px: 0, pz: 1 });
+      });
     });
     const observations = await page.evaluate(() => {
       const f = window.foundation,
-        p = f.presentation,
-        s = f.sim,
-        h = s.hero,
-        results = [];
-      for (const [heading, yaw] of [
-        ['d00', 0],
-        ['d45', Math.PI / 4],
-        ['d90', Math.PI / 2],
-        ['d135', (Math.PI * 3) / 4],
-        ['d180', Math.PI],
-        ['d225', (Math.PI * 5) / 4],
-        ['d270', -Math.PI / 2],
-        ['d315', -Math.PI / 4],
-      ] as const) {
-        for (const [state, kind] of [
-          ['idle', 'sweep'],
-          ['walk', 'sweep'],
-          ['attack', 'sweep'],
-          ['attack', 'lunge'],
-          ['dodge', 'sweep'],
-          ['ability', 'sweep'],
-          ['hurt', 'sweep'],
-          ['death', 'sweep'],
+        p = f.presentation;
+      const results: { heading: string; state: string; kind: string; drawings: number }[] = [];
+      f.editPreview((s) => {
+        const h = s.hero;
+        for (const [heading, yaw] of [
+          ['d00', 0],
+          ['d45', Math.PI / 4],
+          ['d90', Math.PI / 2],
+          ['d135', (Math.PI * 3) / 4],
+          ['d180', Math.PI],
+          ['d225', (Math.PI * 5) / 4],
+          ['d270', -Math.PI / 2],
+          ['d315', -Math.PI / 4],
         ] as const) {
-          if (!['d00', 'd90', 'd180', 'd270'].includes(heading) && state !== 'walk') continue;
-          h.aim = yaw;
-          h.health = state === 'death' ? 0 : 100;
-          if (state === 'attack') s.startSword(h, kind);
-          else s.start(h, state, yaw);
-          const clip = p.getClip(
-            state === 'attack'
-              ? kind
-              : {
-                  idle: 'idle',
-                  walk: 'walk',
-                  dodge: 'dodge',
-                  ability: 'cast_lantern_flare',
-                  hurt: 'hit',
-                  death: 'death',
-                }[state],
-            heading,
-            p.packs.get('ink-hero-current')!.manifest,
-          );
-          const expected = new Set(clip.frames),
-            seen = new Set<string>();
-          p.update(s, 1, 0, { x: 0, z: 0 });
-          let elapsed = 0;
-          for (const hold of clip.durationsMs) {
-            const time = elapsed + hold / 2;
-            elapsed += hold;
-            h.age = Math.floor((time * 60) / 1000);
-            if (state === 'idle' || state === 'walk')
-              p.actorPresentation.actors.get(h.id)!.sprite.animator.seek(time);
+          for (const [state, kind] of [
+            ['idle', 'sweep'],
+            ['walk', 'sweep'],
+            ['attack', 'sweep'],
+            ['attack', 'lunge'],
+            ['dodge', 'sweep'],
+            ['ability', 'sweep'],
+            ['hurt', 'sweep'],
+            ['death', 'sweep'],
+          ] as const) {
+            if (!['d00', 'd90', 'd180', 'd270'].includes(heading) && state !== 'walk') continue;
+            h.aim = yaw;
+            h.health = state === 'death' ? 0 : 100;
+            if (state === 'attack') s.startSword(h, kind);
+            else s.start(h, state, yaw);
+            const clip = p.getClip(
+              state === 'attack'
+                ? kind
+                : {
+                    idle: 'idle',
+                    walk: 'walk',
+                    dodge: 'dodge',
+                    ability: 'cast_lantern_flare',
+                    hurt: 'hit',
+                    death: 'death',
+                  }[state],
+              heading,
+              p.packs.get('ink-hero-current')!.manifest,
+            );
+            const expected = new Set(clip.frames),
+              seen = new Set<string>();
             p.update(s, 1, 0, { x: 0, z: 0 });
-            const sprite = p.actorPresentation.actors.get(h.id)!.sprite;
-            seen.add(sprite.lastFrame);
-            if (
-              sprite.manifest.asset.id !== 'ink-hero-current' ||
-              !expected.has(sprite.lastFrame) ||
-              Math.hypot(
-                sprite.mesh.position.x - h.x,
-                sprite.mesh.position.y - h.y,
-                sprite.mesh.position.z - h.z,
-              ) > 1e-6
-            )
-              throw new Error('Hero frame or foot binding differs');
+            let elapsed = 0;
+            for (const hold of clip.durationsMs) {
+              const time = elapsed + hold / 2;
+              elapsed += hold;
+              h.age = Math.floor((time * 60) / 1000);
+              if (state === 'idle' || state === 'walk')
+                p.actorPresentation.actors.get(h.id)!.sprite.animator.seek(time);
+              p.update(s, 1, 0, { x: 0, z: 0 });
+              const sprite = p.actorPresentation.actors.get(h.id)!.sprite;
+              seen.add(sprite.lastFrame);
+              if (
+                sprite.manifest.asset.id !== 'ink-hero-current' ||
+                !expected.has(sprite.lastFrame) ||
+                Math.hypot(
+                  sprite.mesh.position.x - h.x,
+                  sprite.mesh.position.y - h.y,
+                  sprite.mesh.position.z - h.z,
+                ) > 1e-6
+              )
+                throw new Error('Hero frame or foot binding differs');
+            }
+            if ([...expected].some((id) => !seen.has(id)))
+              throw new Error('Authored timeline drawing was skipped: ' + state + '/' + heading);
+            results.push({ heading, state, kind, drawings: seen.size });
           }
-          if ([...expected].some((id) => !seen.has(id)))
-            throw new Error('Authored timeline drawing was skipped: ' + state + '/' + heading);
-          results.push({ heading, state, kind, drawings: seen.size });
         }
-      }
-      h.health = 100;
-      h.aim = Math.PI / 2;
-      s.startSword(h, 'sweep');
-      h.age = 30;
-      p.update(s, 1, 0, { x: 0, z: 0 });
+        h.health = 100;
+        h.aim = Math.PI / 2;
+        s.startSword(h, 'sweep');
+        h.age = 30;
+        p.update(s, 1, 0, { x: 0, z: 0 });
+      });
       return { cases: results, stats: p.stats() };
     });
     assert.ok(observations.stats.atlasBytes <= 768 * 1024 ** 2);

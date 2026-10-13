@@ -134,7 +134,16 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.persistence = new Persistence(bridge);
   }
   get sim() {
-    return this.current.session.sim;
+    return this.current.session.sim.view;
+  }
+  // Developer overrides are synchronous and admitted only for an accepted,
+  // storage-free room. Ordinary hosts borrow sim without command capabilities.
+  editPreview(work: (sim: GameSession['sim']) => undefined) {
+    this.assertActive();
+    if (!this.readOnly) throw new Error('Preview edits require a read-only application');
+    if (this.busy || this.loading.size > 0 || !this.roomReady)
+      throw new Error('Wait for the area to finish loading');
+    work(this.current.session.sim);
   }
   private onResize = () => this.presentation?.resize(this.scale);
   private onBlur = () => {
@@ -158,8 +167,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         cleanupAll([
           () => {
             // Submit the destination before revealing it, even in a paused/background window.
-            if (this.ready && this.roomReady)
-              this.presentation.update(this.sim.view, 1, 0, this.aim);
+            if (this.ready && this.roomReady) this.presentation.update(this.sim, 1, 0, this.aim);
           },
           () => this.resetFrameClock(),
           () => this.input?.clear(),
@@ -456,7 +464,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     });
   }
   get interaction() {
-    return nearbyInteraction(this.sim);
+    return nearbyInteraction(this.current.session.sim);
   }
   interact() {
     if (this.busy || !this.roomReady || this.paused) return;
@@ -464,13 +472,13 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     if (!target) return;
     if (target.blocked) throw new Error(target.blocked);
     if (target.kind === 'drop') {
-      if (this.sim.collectDrop(target.id)) {
+      if (this.current.session.sim.collectDrop(target.id)) {
         this.hooks.status(target.label);
         this.autosave();
       }
     } else if (target.kind === 'container') {
-      if (this.sim.openContainer(target.id)) {
-        this.publish(this.sim.events);
+      if (this.current.session.sim.openContainer(target.id)) {
+        this.publish(this.current.session.sim.events);
         this.autosave();
       }
     } else if (target.kind === 'campfire') {
@@ -605,12 +613,14 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       frozen = this.paused || !this.roomReady || this.busy || this.loading.size > 0 || idle;
     if (!frozen && this.simulationEnabled)
       alpha = this.clock.advance(ms, () => {
-        const sim = this.sim;
+        const sim = this.current.session.sim;
         this.beforeStep(sim);
-        if (this.disposed || this.busy || !this.roomReady || sim !== this.sim) return false;
+        if (this.disposed || this.busy || !this.roomReady || sim !== this.current.session.sim)
+          return false;
         const cmd =
           this.command?.(sim) ?? this.input.consume(sim.hero, sim.areaDefinition, sim.generation);
-        if (this.disposed || this.busy || !this.roomReady || sim !== this.sim) return false;
+        if (this.disposed || this.busy || !this.roomReady || sim !== this.current.session.sim)
+          return false;
         if ('reset' in cmd) {
           this.safe(() => this.reset(cmd.reset));
           return false;
@@ -639,7 +649,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         }
         return true;
       });
-    if (this.roomReady) this.presentation.update(this.sim.view, alpha, frozen ? 0 : ms, aim);
+    if (this.roomReady) this.presentation.update(this.sim, alpha, frozen ? 0 : ms, aim);
     this.hooks.frame();
     this.afterFrame(ms);
   };
