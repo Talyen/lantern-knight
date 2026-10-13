@@ -1,3 +1,4 @@
+import { radialTexture } from './radial-texture';
 import { defaultLook } from './lighting-profiles';
 import { heroLanternPosition } from './hero-lantern';
 import { GroundOcclusion } from './ground-occlusion';
@@ -114,18 +115,7 @@ export class GamePresentation implements PresentationLifecycle {
     const sun = new T.DirectionalLight(0xe9d2ac, 2);
     sun.position.set(-4, 8, 3);
     this.scene.add(sun, this.light);
-    const shadowCanvas = document.createElement('canvas');
-    shadowCanvas.width = 64;
-    shadowCanvas.height = 64;
-    const ctx = shadowCanvas.getContext('2d')!,
-      gradient = ctx.createRadialGradient(32, 32, 2, 32, 32, 32);
-    gradient.addColorStop(0, 'rgba(255,255,255,0.9)');
-    gradient.addColorStop(0.35, 'rgba(255,255,255,0.75)');
-    gradient.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 64, 64);
-    this.shadowTexture = new T.CanvasTexture(shadowCanvas);
-    this.shadowTexture.generateMipmaps = false;
+    this.shadowTexture = radialTexture(2, 0.9, 0.75);
     this.roomPresentation = new RoomPresentation(
       packs,
       this.camera,

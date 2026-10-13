@@ -1,3 +1,4 @@
+import { mockGlobals } from '../fixtures/globals';
 import { content } from '../fixtures/content';
 import { sandboxContent } from '../../src/content/sandbox-world';
 import { test } from 'node:test';
@@ -15,9 +16,8 @@ import { Input } from '../../src/core/input';
 const near = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-7);
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 
-test('input uses the first click position, preserves pending dodge across key repeats, and disposes its listeners', () => {
-  const previous = Object.getOwnPropertyDescriptor(globalThis, 'window'),
-    target = Object.assign(new EventTarget(), {
+test('input uses the first click position, preserves pending dodge across key repeats, and disposes its listeners', (t) => {
+  const target = Object.assign(new EventTarget(), {
       matches: (_selector: string): boolean => false,
       closest(selector: string): object | null {
         return this.matches(selector) ? this : null;
@@ -33,7 +33,7 @@ test('input uses the first click position, preserves pending dodge across key re
         bottom: 670,
       }),
     });
-  Object.defineProperty(globalThis, 'window', { configurable: true, value: target });
+  mockGlobals(t, { window: target });
   let pauses = 0;
   const input = new Input(canvas as unknown as HTMLCanvasElement, makeCamera(4 / 3), () => {
     pauses++;
@@ -119,8 +119,6 @@ test('input uses the first click position, preserves pending dodge across key re
     assert.equal(input.hasPointer, false);
   } finally {
     input.dispose();
-    if (previous) Object.defineProperty(globalThis, 'window', previous);
-    else Reflect.deleteProperty(globalThis, 'window');
   }
 });
 function clear(session: GameSession) {
@@ -522,10 +520,9 @@ test('failed feedback is removed once; synchronous and asynchronous failures can
   hub.dispose();
 });
 
-test('keyboard events on a non-element target do not crash the input listener', () => {
-  const previous = Object.getOwnPropertyDescriptor(globalThis, 'window');
+test('keyboard events on a non-element target do not crash the input listener', (t) => {
   const target = new EventTarget();
-  Object.defineProperty(globalThis, 'window', { configurable: true, value: target });
+  mockGlobals(t, { window: target });
   const input = new Input(new EventTarget() as HTMLCanvasElement, makeCamera(1), () => {});
   try {
     target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW' }));
@@ -533,8 +530,6 @@ test('keyboard events on a non-element target do not crash the input listener', 
     target.dispatchEvent(new Event('focusin'));
   } finally {
     input.dispose();
-    if (previous) Object.defineProperty(globalThis, 'window', previous);
-    else Reflect.deleteProperty(globalThis, 'window');
   }
 });
 

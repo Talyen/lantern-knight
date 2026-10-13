@@ -1,8 +1,8 @@
+import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import os from 'node:os';
 import { cachedPreparationStep } from '../../tools/assets/incremental';
 import { createPreparationContext } from '../../tools/assets/context';
 import {
@@ -79,8 +79,8 @@ test('full and scoped preparation run producers before consumers, including flat
   }
 });
 
-test('incremental preparation reuses one validated step and rebuilds changed inputs or corrupt outputs', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'prototype-step-'));
+test('incremental preparation reuses one validated step and rebuilds changed inputs or corrupt outputs', async (t) => {
+  const root = await temporaryDirectory(t, 'prototype-step-');
   const workspace = path.join(root, 'work'),
     cache = path.join(root, 'steps');
   await fs.mkdir(workspace);
@@ -93,37 +93,34 @@ test('incremental preparation reuses one validated step and rebuilds changed inp
     await fs.writeFile(path.join(workspace, 'public/media/sample.mp4'), 'native source ' + runs);
     await fs.writeFile(env.LANTERN_STEP_OUTPUT_LOG!, 'public/media/sample.mp4\n');
   };
-  try {
-    const options = {
-      file: 'assets/prepare/prepare-sample.ts',
-      workspace,
-      cache,
-      key: 'one',
-      run,
-      validate: async () => {
-        checks++;
-      },
-    };
-    assert.equal((await cachedPreparationStep(options)).reused, false);
-    await fs.rm(workspace, { recursive: true, force: true });
-    await fs.mkdir(workspace);
-    assert.equal((await cachedPreparationStep(options)).reused, true);
-    assert.equal(runs, 1);
-    assert.equal(checks, 1);
-    assert.equal((await cachedPreparationStep({ ...options, key: 'two' })).reused, false);
-    await fs.writeFile(
-      path.join(cache, 'assets/prepare/prepare-sample/files/public/media/sample.mp4'),
-      'corrupt',
-    );
-    assert.equal((await cachedPreparationStep({ ...options, key: 'two' })).reused, false);
-    assert.equal(runs, 3);
-  } finally {
-    await fs.rm(root, { recursive: true, force: true });
-  }
+
+  const options = {
+    file: 'assets/prepare/prepare-sample.ts',
+    workspace,
+    cache,
+    key: 'one',
+    run,
+    validate: async () => {
+      checks++;
+    },
+  };
+  assert.equal((await cachedPreparationStep(options)).reused, false);
+  await fs.rm(workspace, { recursive: true, force: true });
+  await fs.mkdir(workspace);
+  assert.equal((await cachedPreparationStep(options)).reused, true);
+  assert.equal(runs, 1);
+  assert.equal(checks, 1);
+  assert.equal((await cachedPreparationStep({ ...options, key: 'two' })).reused, false);
+  await fs.writeFile(
+    path.join(cache, 'assets/prepare/prepare-sample/files/public/media/sample.mp4'),
+    'corrupt',
+  );
+  assert.equal((await cachedPreparationStep({ ...options, key: 'two' })).reused, false);
+  assert.equal(runs, 3);
 });
 
-test('preparation rejects changed written bytes before caching a producer', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'preparation-write-proof-'));
+test('preparation rejects changed written bytes before caching a producer', async (t) => {
+  const root = await temporaryDirectory(t, 'preparation-write-proof-');
   const workspace = path.join(root, 'work');
   const context = await createPreparationContext({
     workspace,
@@ -131,33 +128,27 @@ test('preparation rejects changed written bytes before caching a producer', asyn
     sourceRoot: root,
     libraryRoot: root,
   });
-  try {
-    await context.writeAsset('metadata/library/receipt.json', '{"sources":[]}');
-    assert.equal(
-      await context.readAsset('metadata/library/receipt.json', 'utf8'),
-      '{"sources":[]}',
-    );
-    await assert.rejects(
-      cachedPreparationStep({
-        file: 'image-delivery.ts',
-        workspace,
-        cache: path.join(root, 'cache'),
-        key: 'one',
-        run: async (env) => {
-          context.setReceipts({ outputLog: env.LANTERN_STEP_OUTPUT_LOG });
-          await context.writeAsset('public/master.png', 'native pixels');
-          await fs.writeFile(path.join(workspace, 'public/master.png'), 'corrupt pixels');
-          await context.flushReceipts();
-        },
-        verifyOutputs: (hashes) => context.verifyOutputs(hashes),
-        hashFiles: context.checksums,
-      }),
-      /Prepared output bytes differ/,
-    );
-    await assert.rejects(fs.access(path.join(root, 'cache/image-delivery/receipt.json')));
-  } finally {
-    await fs.rm(root, { recursive: true, force: true });
-  }
+
+  await context.writeAsset('metadata/library/receipt.json', '{"sources":[]}');
+  assert.equal(await context.readAsset('metadata/library/receipt.json', 'utf8'), '{"sources":[]}');
+  await assert.rejects(
+    cachedPreparationStep({
+      file: 'image-delivery.ts',
+      workspace,
+      cache: path.join(root, 'cache'),
+      key: 'one',
+      run: async (env) => {
+        context.setReceipts({ outputLog: env.LANTERN_STEP_OUTPUT_LOG });
+        await context.writeAsset('public/master.png', 'native pixels');
+        await fs.writeFile(path.join(workspace, 'public/master.png'), 'corrupt pixels');
+        await context.flushReceipts();
+      },
+      verifyOutputs: (hashes) => context.verifyOutputs(hashes),
+      hashFiles: context.checksums,
+    }),
+    /Prepared output bytes differ/,
+  );
+  await assert.rejects(fs.access(path.join(root, 'cache/image-delivery/receipt.json')));
 });
 
 test('scoped refresh uses the base for unrelated producers and includes affected companions', () => {
@@ -173,8 +164,8 @@ test('scoped refresh uses the base for unrelated producers and includes affected
   );
 });
 
-test('delivery edits do not invalidate cached producer manifests, but changed native pages do', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'producer-manifest-'));
+test('delivery edits do not invalidate cached producer manifests, but changed native pages do', async (t) => {
+  const root = await temporaryDirectory(t, 'producer-manifest-');
   const workspace = path.join(root, 'work');
   let runs = 0;
   const options = {
@@ -191,25 +182,22 @@ test('delivery edits do not invalidate cached producer manifests, but changed na
       await fs.writeFile(env.LANTERN_STEP_OUTPUT_LOG!, 'public/master.png\npublic/manifest.json\n');
     },
   };
-  try {
-    await cachedPreparationStep(options);
-    await fs.writeFile(path.join(workspace, 'public/manifest.json.tmp'), '{"delivery":true}');
-    await fs.rename(
-      path.join(workspace, 'public/manifest.json.tmp'),
-      path.join(workspace, 'public/manifest.json'),
-    );
-    assert.equal((await cachedPreparationStep(options)).reused, true);
-    assert.equal(runs, 1);
-    assert.equal(
-      await fs.readFile(path.join(workspace, 'public/manifest.json'), 'utf8'),
-      '{"delivery":false}',
-    );
-    await fs.writeFile(path.join(workspace, 'public/master.png'), 'changed pixels');
-    assert.equal((await cachedPreparationStep(options)).reused, false);
-    assert.equal(runs, 2);
-  } finally {
-    await fs.rm(root, { recursive: true, force: true });
-  }
+
+  await cachedPreparationStep(options);
+  await fs.writeFile(path.join(workspace, 'public/manifest.json.tmp'), '{"delivery":true}');
+  await fs.rename(
+    path.join(workspace, 'public/manifest.json.tmp'),
+    path.join(workspace, 'public/manifest.json'),
+  );
+  assert.equal((await cachedPreparationStep(options)).reused, true);
+  assert.equal(runs, 1);
+  assert.equal(
+    await fs.readFile(path.join(workspace, 'public/manifest.json'), 'utf8'),
+    '{"delivery":false}',
+  );
+  await fs.writeFile(path.join(workspace, 'public/master.png'), 'changed pixels');
+  assert.equal((await cachedPreparationStep(options)).reused, false);
+  assert.equal(runs, 2);
 });
 
 test('a scoped refresh cannot certify unselected owners after source or recipe changes', () => {

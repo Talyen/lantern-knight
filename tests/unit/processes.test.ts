@@ -1,3 +1,4 @@
+import { temporaryDirectory } from '../fixtures/temporary-directory';
 import {
   writeBuildIdentity,
   verifyBuildIdentity,
@@ -8,7 +9,6 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import os from 'node:os';
 import { execFileSync } from 'node:child_process';
 import vm from 'node:vm';
 import { desktopEnvironment } from '../../tools/diagnostics/environment';
@@ -185,67 +185,58 @@ test('player comparisons reject incomplete or easier journeys and separate start
   );
 });
 
-test('web identities need no Electron output and cannot be reused as desktop builds', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-web-proof-'));
+test('web identities need no Electron output and cannot be reused as desktop builds', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-web-proof-');
   const source = { commit: 'a'.repeat(40), dirty: true, sha256: 'a'.repeat(64) };
-  try {
-    await fs.mkdir(path.join(root, 'dist'));
-    await fs.writeFile(path.join(root, 'dist/index.html'), 'web');
-    const options = {
-      root,
-      source,
-      assets: { identity: 'b'.repeat(64), recipe: 'c'.repeat(64) },
-      target: 'web' as const,
-      env: { ...process.env, GITHUB_SHA: undefined },
-      report: () => {},
-    };
-    const web = await writeBuildIdentity(options);
-    assert.equal(web.bundledDependencies, false);
-    await verifyBuildIdentity(options);
-    await fs.mkdir(path.join(root, 'dist-electron'));
-    await fs.writeFile(path.join(root, 'dist-electron/main.cjs'), 'electron');
-    await assert.rejects(
-      verifyBuildIdentity({ ...options, target: 'desktop' }),
-      /desktop artifact/,
-    );
-    await writeBuildIdentity({ ...options, target: 'desktop' });
-    await verifyBuildIdentity({ ...options, target: 'desktop' });
-    await fs.writeFile(path.join(root, 'dist-electron/main.cjs'), 'tampered');
-    await assert.rejects(
-      verifyBuildIdentity({ ...options, target: 'desktop' }),
-      /artifact files differ/,
-    );
-    await assert.rejects(verifyBuildIdentity(options), /web artifact/);
-  } finally {
-    await fs.rm(root, { recursive: true, force: true });
-  }
+
+  await fs.mkdir(path.join(root, 'dist'));
+  await fs.writeFile(path.join(root, 'dist/index.html'), 'web');
+  const options = {
+    root,
+    source,
+    assets: { identity: 'b'.repeat(64), recipe: 'c'.repeat(64) },
+    target: 'web' as const,
+    env: { ...process.env, GITHUB_SHA: undefined },
+    report: () => {},
+  };
+  const web = await writeBuildIdentity(options);
+  assert.equal(web.bundledDependencies, false);
+  await verifyBuildIdentity(options);
+  await fs.mkdir(path.join(root, 'dist-electron'));
+  await fs.writeFile(path.join(root, 'dist-electron/main.cjs'), 'electron');
+  await assert.rejects(verifyBuildIdentity({ ...options, target: 'desktop' }), /desktop artifact/);
+  await writeBuildIdentity({ ...options, target: 'desktop' });
+  await verifyBuildIdentity({ ...options, target: 'desktop' });
+  await fs.writeFile(path.join(root, 'dist-electron/main.cjs'), 'tampered');
+  await assert.rejects(
+    verifyBuildIdentity({ ...options, target: 'desktop' }),
+    /artifact files differ/,
+  );
+  await assert.rejects(verifyBuildIdentity(options), /web artifact/);
 });
 
-test('web input identity ignores Electron-only edits while desktop identity observes them', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-inputs-'));
-  try {
-    execFileSync('git', ['init', '-q'], { cwd: root });
-    await fs.mkdir(path.join(root, 'src'));
-    await fs.mkdir(path.join(root, 'electron'));
-    await fs.writeFile(path.join(root, 'src/application.ts'), 'web');
-    await fs.writeFile(path.join(root, 'electron/main.ts'), 'desktop');
-    const { sourceInputHash } = await import('../../tools/source-identity');
-    const web = await sourceInputHash(root, { scope: 'web' });
-    const desktop = await sourceInputHash(root, { scope: 'desktop' });
-    await fs.writeFile(path.join(root, 'electron/main.ts'), 'changed desktop');
-    assert.equal(await sourceInputHash(root, { scope: 'web' }), web);
-    assert.notEqual(await sourceInputHash(root, { scope: 'desktop' }), desktop);
-    await fs.mkdir(path.join(root, 'tools/diagnostics'), { recursive: true });
-    const harness = path.join(root, 'tools/diagnostics/benchmark.ts');
-    await fs.writeFile(harness, 'baseline harness');
-    const built = { inputSha256: await sourceInputHash(root, { scope: 'desktop' }) };
-    await requireCurrentDesktopInputs(built, root);
-    await fs.writeFile(harness, 'changed harness');
-    await requireCurrentDesktopInputs(built, root);
-    await fs.writeFile(path.join(root, 'src/application.ts'), 'changed web');
-    assert.notEqual(await sourceInputHash(root, { scope: 'web' }), web);
-    await assert.rejects(requireCurrentDesktopInputs(built, root), /fresh desktop package/);
-  } finally {
-    await fs.rm(root, { recursive: true, force: true });
-  }
+test('web input identity ignores Electron-only edits while desktop identity observes them', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-inputs-');
+
+  execFileSync('git', ['init', '-q'], { cwd: root });
+  await fs.mkdir(path.join(root, 'src'));
+  await fs.mkdir(path.join(root, 'electron'));
+  await fs.writeFile(path.join(root, 'src/application.ts'), 'web');
+  await fs.writeFile(path.join(root, 'electron/main.ts'), 'desktop');
+  const { sourceInputHash } = await import('../../tools/source-identity');
+  const web = await sourceInputHash(root, { scope: 'web' });
+  const desktop = await sourceInputHash(root, { scope: 'desktop' });
+  await fs.writeFile(path.join(root, 'electron/main.ts'), 'changed desktop');
+  assert.equal(await sourceInputHash(root, { scope: 'web' }), web);
+  assert.notEqual(await sourceInputHash(root, { scope: 'desktop' }), desktop);
+  await fs.mkdir(path.join(root, 'tools/diagnostics'), { recursive: true });
+  const harness = path.join(root, 'tools/diagnostics/benchmark.ts');
+  await fs.writeFile(harness, 'baseline harness');
+  const built = { inputSha256: await sourceInputHash(root, { scope: 'desktop' }) };
+  await requireCurrentDesktopInputs(built, root);
+  await fs.writeFile(harness, 'changed harness');
+  await requireCurrentDesktopInputs(built, root);
+  await fs.writeFile(path.join(root, 'src/application.ts'), 'changed web');
+  assert.notEqual(await sourceInputHash(root, { scope: 'web' }), web);
+  await assert.rejects(requireCurrentDesktopInputs(built, root), /fresh desktop package/);
 });

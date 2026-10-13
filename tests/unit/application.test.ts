@@ -1,5 +1,6 @@
+import { mockGlobals } from '../fixtures/globals';
 import { ResourcePool } from '../../src/assets/resource-pool';
-import { test } from 'node:test';
+import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { Application } from '../../src/application';
 import { AssetRuntime, type PackLease } from '../../src/assets/loader';
@@ -12,20 +13,10 @@ import { GameSession } from '../../src/core/session';
 import { manifestFixture } from '../fixtures/manifest';
 import { tuning } from '../../src/content/gameplay';
 
-async function withDOM(work: () => Promise<void>) {
-  const previous = new Map(
-    ['window', 'document'].map((key) => [key, Object.getOwnPropertyDescriptor(globalThis, key)]),
-  );
-  for (const key of previous.keys())
-    Object.defineProperty(globalThis, key, { configurable: true, value: new EventTarget() });
-  try {
-    await work();
-  } finally {
-    for (const [key, descriptor] of previous)
-      if (descriptor) Object.defineProperty(globalThis, key, descriptor);
-      else Reflect.deleteProperty(globalThis, key);
-  }
-}
+beforeEach((t) => {
+  assert.ok('after' in t);
+  mockGlobals(t, { window: new EventTarget(), document: new EventTarget() });
+});
 
 test('resolved zero and empty resource handles dispose once and can be acquired again', async () => {
   for (const value of [0, undefined]) {
@@ -89,225 +80,206 @@ function fixture(scenes = sceneFixture(content)) {
   };
 }
 test('session replacement uses its own registry and complete scene asset requirements', async () => {
-  await withDOM(async () => {
-    const { app } = fixture(),
-      definitions = structuredClone(contentDefinitions);
-    app.readOnly = true;
-    definitions.areas[0]!.spawns = [
-      { ...definitions.areas[0]!.spawns[0]!, id: 'replacement-target' },
-    ];
-    const registry = new ContentRegistry(definitions),
-      scenes = {
-        ...sceneFixture(registry),
-        initialAssets: ['replacement-hero'],
-        area: (id: string) => ({ area: registry.area(id), assets: ['replacement-enemy'] }),
-      },
-      next = new GameSession(
-        registry,
-        142,
-        registry.definitions.initialArea,
-        app.session.generation,
-      ),
-      events = next.restoreSave(next.captureSave()),
-      delivered: string[] = [],
-      requested: string[] = [];
-    app.events.subscribe((event) => {
-      assert.equal(app.roomReady, true, 'Replacement feedback waits for room acceptance');
-      assert.equal(app.registry, registry);
-      delivered.push(event.kind);
-    });
-    app.runtime = runtime(async (id) => {
-      requested.push(id);
-      return { release: () => {} } as unknown as PackLease;
-    });
-    app.presentation.resetRoom = (area) => {
-      assert.equal(area, registry.area(next.sim.area));
-      assert.deepEqual([...app.packs.keys()], ['replacement-hero', 'replacement-enemy']);
-    };
-    await app.replaceSession(next, scenes, events);
-    assert.deepEqual(requested, [...scenes.initialAssets, 'replacement-enemy']);
-    assert.deepEqual(delivered, ['area-transition']);
+  const { app } = fixture(),
+    definitions = structuredClone(contentDefinitions);
+  app.readOnly = true;
+  definitions.areas[0]!.spawns = [
+    { ...definitions.areas[0]!.spawns[0]!, id: 'replacement-target' },
+  ];
+  const registry = new ContentRegistry(definitions),
+    scenes = {
+      ...sceneFixture(registry),
+      initialAssets: ['replacement-hero'],
+      area: (id: string) => ({ area: registry.area(id), assets: ['replacement-enemy'] }),
+    },
+    next = new GameSession(registry, 142, registry.definitions.initialArea, app.session.generation),
+    events = next.restoreSave(next.captureSave()),
+    delivered: string[] = [],
+    requested: string[] = [];
+  app.events.subscribe((event) => {
+    assert.equal(app.roomReady, true, 'Replacement feedback waits for room acceptance');
     assert.equal(app.registry, registry);
-    assert.equal(app.scenes, scenes);
-    await app.restore(app.session.captureSave());
-    assert.equal(app.sim.enemies[0]!.id.endsWith('/replacement-target'), true);
-    await app.newGame();
-    assert.equal(app.registry, registry);
-    assert.equal(app.sim.enemies[0]!.id.endsWith('/replacement-target'), true);
-    app.dispose();
+    delivered.push(event.kind);
   });
+  app.runtime = runtime(async (id) => {
+    requested.push(id);
+    return { release: () => {} } as unknown as PackLease;
+  });
+  app.presentation.resetRoom = (area) => {
+    assert.equal(area, registry.area(next.sim.area));
+    assert.deepEqual([...app.packs.keys()], ['replacement-hero', 'replacement-enemy']);
+  };
+  await app.replaceSession(next, scenes, events);
+  assert.deepEqual(requested, [...scenes.initialAssets, 'replacement-enemy']);
+  assert.deepEqual(delivered, ['area-transition']);
+  assert.equal(app.registry, registry);
+  assert.equal(app.scenes, scenes);
+  await app.restore(app.session.captureSave());
+  assert.equal(app.sim.enemies[0]!.id.endsWith('/replacement-target'), true);
+  await app.newGame();
+  assert.equal(app.registry, registry);
+  assert.equal(app.sim.enemies[0]!.id.endsWith('/replacement-target'), true);
+  app.dispose();
 });
 test('invalid or changed replacement candidates preserve the accepted session and release staged packs', async () => {
-  await withDOM(async () => {
-    const { app } = fixture(),
-      previous = app.session,
-      registry = new ContentRegistry(contentDefinitions),
-      scenes = {
-        ...sceneFixture(registry),
-        initialAssets: ['candidate'],
-      },
-      candidate = new GameSession(
-        registry,
-        142,
-        registry.definitions.initialArea,
-        previous.generation + 1,
-      ),
-      preparing = deferred<void>(),
-      resume = deferred<void>();
-    let acquisitions = 0,
-      releases = 0;
-    app.runtime = runtime(async () => {
-      acquisitions++;
-      return { release: () => releases++ } as unknown as PackLease;
-    });
-    await assert.rejects(app.replaceSession(candidate, app.scenes), /registries differ/);
-    await assert.rejects(app.replaceSession(candidate, scenes), /read-only/);
-    assert.equal(acquisitions, 0, 'Rejected content must not start acquisition');
-    app.readOnly = true;
-    app.presentation.prepareAssets = async () => {
-      preparing.resolve();
-      await resume.promise;
-    };
-    const replacement = app.replaceSession(candidate, scenes);
-    await preparing.promise;
-    candidate.resetCurrentArea();
-    resume.resolve();
-    await assert.rejects(replacement, /stale or changed/);
-    assert.equal(app.session, previous);
-    assert.equal(app.scenes.registry, previous.registry);
-    assert.equal(app.roomReady, true);
-    assert.equal(releases, 1);
-    app.dispose();
+  const { app } = fixture(),
+    previous = app.session,
+    registry = new ContentRegistry(contentDefinitions),
+    scenes = {
+      ...sceneFixture(registry),
+      initialAssets: ['candidate'],
+    },
+    candidate = new GameSession(
+      registry,
+      142,
+      registry.definitions.initialArea,
+      previous.generation + 1,
+    ),
+    preparing = deferred<void>(),
+    resume = deferred<void>();
+  let acquisitions = 0,
+    releases = 0;
+  app.runtime = runtime(async () => {
+    acquisitions++;
+    return { release: () => releases++ } as unknown as PackLease;
   });
+  await assert.rejects(app.replaceSession(candidate, app.scenes), /registries differ/);
+  await assert.rejects(app.replaceSession(candidate, scenes), /read-only/);
+  assert.equal(acquisitions, 0, 'Rejected content must not start acquisition');
+  app.readOnly = true;
+  app.presentation.prepareAssets = async () => {
+    preparing.resolve();
+    await resume.promise;
+  };
+  const replacement = app.replaceSession(candidate, scenes);
+  await preparing.promise;
+  candidate.resetCurrentArea();
+  resume.resolve();
+  await assert.rejects(replacement, /stale or changed/);
+  assert.equal(app.session, previous);
+  assert.equal(app.scenes.registry, previous.registry);
+  assert.equal(app.roomReady, true);
+  assert.equal(releases, 1);
+  app.dispose();
 });
 test('renderer failure after a content switch recovers with the committed registry and asset source', async () => {
-  await withDOM(async () => {
-    const { app } = fixture(),
-      registry = new ContentRegistry(contentDefinitions),
-      scenes = { ...sceneFixture(registry), initialAssets: ['replacement'] },
-      next = new GameSession(
-        registry,
-        903,
-        registry.definitions.initialArea,
-        app.session.generation + 1,
-      );
-    let releases = 0;
-    app.readOnly = true;
-    app.runtime = runtime(async () => ({ release: () => releases++ }) as unknown as PackLease);
-    app.presentation.resetRoom = () => {
-      throw new Error('renderer failed');
-    };
-    await assert.rejects(app.replaceSession(next, scenes), /renderer failed/);
-    assert.equal(app.session, next);
-    assert.equal(app.scenes, scenes);
-    assert.equal(app.roomReady, false);
-    assert.equal(releases, 0, 'The partially rebuilt renderer still owns the replacement pack');
-    app.presentation.resetRoom = (area) => assert.equal(area, registry.area(area.id));
-    await app.reset();
-    assert.equal(app.roomReady, true);
-    assert.equal(app.registry, registry);
-    assert.equal(app.sim.initialSeed, 903);
-    assert.equal(releases, 1);
-    app.dispose();
-    assert.equal(releases, 2);
-  });
+  const { app } = fixture(),
+    registry = new ContentRegistry(contentDefinitions),
+    scenes = { ...sceneFixture(registry), initialAssets: ['replacement'] },
+    next = new GameSession(
+      registry,
+      903,
+      registry.definitions.initialArea,
+      app.session.generation + 1,
+    );
+  let releases = 0;
+  app.readOnly = true;
+  app.runtime = runtime(async () => ({ release: () => releases++ }) as unknown as PackLease);
+  app.presentation.resetRoom = () => {
+    throw new Error('renderer failed');
+  };
+  await assert.rejects(app.replaceSession(next, scenes), /renderer failed/);
+  assert.equal(app.session, next);
+  assert.equal(app.scenes, scenes);
+  assert.equal(app.roomReady, false);
+  assert.equal(releases, 0, 'The partially rebuilt renderer still owns the replacement pack');
+  app.presentation.resetRoom = (area) => assert.equal(area, registry.area(area.id));
+  await app.reset();
+  assert.equal(app.roomReady, true);
+  assert.equal(app.registry, registry);
+  assert.equal(app.sim.initialSeed, 903);
+  assert.equal(releases, 1);
+  app.dispose();
+  assert.equal(releases, 2);
 });
 test('safe reports synchronous callback failures without escaping the caller', async () => {
-  await withDOM(async () => {
-    const { app } = fixture();
-    const reported = deferred<string>();
-    app.hooks.status = (message) => reported.resolve(message);
-    assert.doesNotThrow(() =>
-      app.safe(() => {
-        throw new Error('synchronous failure');
-      }),
-    );
-    assert.equal(await reported.promise, 'synchronous failure');
-    app.dispose();
-  });
+  const { app } = fixture();
+  const reported = deferred<string>();
+  app.hooks.status = (message) => reported.resolve(message);
+  assert.doesNotThrow(() =>
+    app.safe(() => {
+      throw new Error('synchronous failure');
+    }),
+  );
+  assert.equal(await reported.promise, 'synchronous failure');
+  app.dispose();
 });
 
 test('null save rejections retain the original failure and reach application feedback', async () => {
-  await withDOM(async () => {
-    const { app } = fixture();
-    const reported = deferred<string>();
-    app.hooks.status = (message) => reported.resolve(message);
-    app.persistence = new Persistence({
-      loadGame: async () => ({ status: 'empty' }),
-      saveGame: () => Promise.reject(null),
-    });
-    const saving = app.persistence.save(app.session.captureSave());
-    await assert.rejects(saving, (error: unknown) => error === null);
-    assert.equal(app.persistence.error, 'null');
-    app.safe(() => saving);
-    assert.equal(await reported.promise, 'null');
-    app.dispose();
+  const { app } = fixture();
+  const reported = deferred<string>();
+  app.hooks.status = (message) => reported.resolve(message);
+  app.persistence = new Persistence({
+    loadGame: async () => ({ status: 'empty' }),
+    saveGame: () => Promise.reject(null),
   });
+  const saving = app.persistence.save(app.session.captureSave());
+  await assert.rejects(saving, (error: unknown) => error === null);
+  assert.equal(app.persistence.error, 'null');
+  app.safe(() => saving);
+  assert.equal(await reported.promise, 'null');
+  app.dispose();
 });
 
 test('preview replacement preserves shared session assets and rolls back failed selections', async () => {
-  await withDOM(async () => {
-    const { app } = fixture(),
-      released: PackLease[] = [],
-      loaded: PackLease[] = [];
-    app.runtime = runtime(async (id) => {
-      const pack: PackLease = {
-        manifest: manifestFixture(id),
-        textures: new Map(),
-        release: () => released.push(pack),
-      };
-      loaded.push(pack);
-      return pack;
-    });
-    await app.retainAsset('shared');
-    await app.previewAsset('shared', () => {
-      assert.equal(app.packs.get('shared'), loaded[1]);
-    });
-    await app.previewAsset('second', () => {});
-    assert.deepEqual([...app.packs.keys()], ['shared', 'second']);
-    assert.equal(app.packs.get('shared'), loaded[0]);
-    assert.deepEqual(released, [loaded[1]]);
-    await assert.rejects(
-      app.previewAsset('bad', () => {
-        throw new Error('selection failed');
-      }),
-      /selection failed/,
-    );
-    assert.equal(app.packs.get('second'), loaded[2]);
-    assert.equal(app.packs.has('bad'), false);
-    assert.deepEqual(released, [loaded[1], loaded[3]]);
-    app.dispose();
-    app.dispose();
-    assert.deepEqual(released, [loaded[1], loaded[3], loaded[2], loaded[0]]);
-    assert.equal(app.packs.size, 0);
+  const { app } = fixture(),
+    released: PackLease[] = [],
+    loaded: PackLease[] = [];
+  app.runtime = runtime(async (id) => {
+    const pack: PackLease = {
+      manifest: manifestFixture(id),
+      textures: new Map(),
+      release: () => released.push(pack),
+    };
+    loaded.push(pack);
+    return pack;
   });
+  await app.retainAsset('shared');
+  await app.previewAsset('shared', () => {
+    assert.equal(app.packs.get('shared'), loaded[1]);
+  });
+  await app.previewAsset('second', () => {});
+  assert.deepEqual([...app.packs.keys()], ['shared', 'second']);
+  assert.equal(app.packs.get('shared'), loaded[0]);
+  assert.deepEqual(released, [loaded[1]]);
+  await assert.rejects(
+    app.previewAsset('bad', () => {
+      throw new Error('selection failed');
+    }),
+    /selection failed/,
+  );
+  assert.equal(app.packs.get('second'), loaded[2]);
+  assert.equal(app.packs.has('bad'), false);
+  assert.deepEqual(released, [loaded[1], loaded[3]]);
+  app.dispose();
+  app.dispose();
+  assert.deepEqual(released, [loaded[1], loaded[3], loaded[2], loaded[0]]);
+  assert.equal(app.packs.size, 0);
 });
 test('stale previews release their lease without selecting or warming; disposal rejects late acquisitions', async () => {
-  await withDOM(async () => {
-    const f = fixture(),
-      slow = deferred<PackLease>(),
-      late = deferred<PackLease>();
-    let staleReleased = 0,
-      lateReleased = 0;
-    f.app.runtime = runtime((id) =>
-      id === 'slow' ? slow.promise : id === 'late' ? late.promise : Promise.resolve(f.lease),
-    );
-    const stale = f.app.previewAsset('slow', () => assert.fail('stale selection'));
-    assert.equal(await f.app.previewAsset('fast', () => {}), true);
-    slow.resolve({ release: () => staleReleased++ } as unknown as PackLease);
-    assert.equal(await stale, false);
-    assert.equal(staleReleased, 1);
-    assert.equal(f.warmed, 1);
-    assert.equal(f.app.packs.get('fast'), f.lease);
-    const pending = f.app.previewAsset('late', () => assert.fail('disposed selection'));
-    f.app.dispose();
-    late.resolve({ release: () => lateReleased++ } as unknown as PackLease);
-    await assert.rejects(pending, /disposed/);
-    assert.equal(lateReleased, 1);
-    assert.equal(f.released, 1);
-    assert.equal(f.warmed, 1);
-    assert.equal(f.app.packs.size, 0);
-  });
+  const f = fixture(),
+    slow = deferred<PackLease>(),
+    late = deferred<PackLease>();
+  let staleReleased = 0,
+    lateReleased = 0;
+  f.app.runtime = runtime((id) =>
+    id === 'slow' ? slow.promise : id === 'late' ? late.promise : Promise.resolve(f.lease),
+  );
+  const stale = f.app.previewAsset('slow', () => assert.fail('stale selection'));
+  assert.equal(await f.app.previewAsset('fast', () => {}), true);
+  slow.resolve({ release: () => staleReleased++ } as unknown as PackLease);
+  assert.equal(await stale, false);
+  assert.equal(staleReleased, 1);
+  assert.equal(f.warmed, 1);
+  assert.equal(f.app.packs.get('fast'), f.lease);
+  const pending = f.app.previewAsset('late', () => assert.fail('disposed selection'));
+  f.app.dispose();
+  late.resolve({ release: () => lateReleased++ } as unknown as PackLease);
+  await assert.rejects(pending, /disposed/);
+  assert.equal(lateReleased, 1);
+  assert.equal(f.released, 1);
+  assert.equal(f.warmed, 1);
+  assert.equal(f.app.packs.size, 0);
 });
 test('completed session operations preserve a pause requested while loading', async () => {
   for (const operation of [
@@ -335,157 +307,149 @@ test('completed session operations preserve a pause requested while loading', as
   }
 });
 test('checkpoint reading preserves later pause requests and background state, and disposal prevents late area acquisition', async () => {
-  await withDOM(async () => {
-    const { app } = fixture(),
-      waiting = deferred<Awaited<ReturnType<Bridge['loadGame']>>>(),
-      saved = app.session.captureSave();
-    app.persistence = new Persistence({
-      loadGame: () => waiting.promise,
-      saveGame: async () => {},
-    });
-    let areas = 0;
-    app.presentation.resetRoom = () => {
-      areas++;
-    };
-    app.pause(true);
-    const loading = app.load();
-    app.pause(false);
-    app.pause(true);
-    waiting.resolve({ status: 'ok', data: saved });
-    assert.equal(await loading, true);
-    assert.equal(app.paused, true);
-    const frames = { idle: true };
-    (app as unknown as { frames: typeof frames }).frames = frames;
-    await app.load();
-    assert.equal(app.paused, true);
-    frames.idle = false;
-    await app.load();
-    assert.equal(app.paused, false);
-    assert.equal(areas, 3);
-
-    const late = fixture().app,
-      pending = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
-    late.persistence = new Persistence({
-      loadGame: () => pending.promise,
-      saveGame: async () => {},
-    });
-    const request = late.load();
-    late.dispose();
-    pending.resolve({ status: 'ok', data: saved });
-    await assert.rejects(request, /disposed/);
+  const { app } = fixture(),
+    waiting = deferred<Awaited<ReturnType<Bridge['loadGame']>>>(),
+    saved = app.session.captureSave();
+  app.persistence = new Persistence({
+    loadGame: () => waiting.promise,
+    saveGame: async () => {},
   });
+  let areas = 0;
+  app.presentation.resetRoom = () => {
+    areas++;
+  };
+  app.pause(true);
+  const loading = app.load();
+  app.pause(false);
+  app.pause(true);
+  waiting.resolve({ status: 'ok', data: saved });
+  assert.equal(await loading, true);
+  assert.equal(app.paused, true);
+  const frames = { idle: true };
+  (app as unknown as { frames: typeof frames }).frames = frames;
+  await app.load();
+  assert.equal(app.paused, true);
+  frames.idle = false;
+  await app.load();
+  assert.equal(app.paused, false);
+  assert.equal(areas, 3);
+
+  const late = fixture().app,
+    pending = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+  late.persistence = new Persistence({
+    loadGame: () => pending.promise,
+    saveGame: async () => {},
+  });
+  const request = late.load();
+  late.dispose();
+  pending.resolve({ status: 'ok', data: saved });
+  await assert.rejects(request, /disposed/);
 });
 test('newer session intent supersedes checkpoint reads before room acquisition', async () => {
-  await withDOM(async () => {
-    const { app } = fixture(),
-      waiting = deferred<Awaited<ReturnType<Bridge['loadGame']>>>(),
-      saved = new GameSession(content, 142, 'upper-landing').captureSave();
-    app.readOnly = true;
-    app.input = { clear() {}, resetAim() {}, dispose() {} } as unknown as typeof app.input;
-    app.runtime = runtime(async () => assert.fail('fixture requires no packs'));
-    app.persistence = new Persistence({
-      loadGame: () => waiting.promise,
-      saveGame: async () => {},
-    });
-    const loading = app.load();
-    const rejected = assert.rejects(loading, /superseded/);
-    await app.newGame();
-    const newest = app.sim;
-    await rejected;
-    waiting.resolve({ status: 'ok', data: saved });
-    await new Promise<void>((resolve) => setImmediate(resolve));
-    assert.equal(app.sim, newest, 'Late checkpoint data must not replace the new game');
-    assert.equal(app.busy, false);
-
-    const writing = deferred<void>(),
-      started = deferred<void>();
-    app.readOnly = false;
-    app.persistence = new Persistence({
-      loadGame: async () => ({ status: 'empty' }),
-      saveGame: () => {
-        started.resolve();
-        return writing.promise;
-      },
-    });
-    const starting = app.newGame();
-    const cancelled = assert.rejects(starting, /superseded/);
-    await started.promise;
-    await app.restore(saved);
-    app.pause(true);
-    writing.resolve();
-    await cancelled;
-    assert.equal(app.sim.area, saved.area);
-    assert.equal(app.paused, true, 'An obsolete save completion cannot resume a newer session');
-    app.dispose();
+  const { app } = fixture(),
+    waiting = deferred<Awaited<ReturnType<Bridge['loadGame']>>>(),
+    saved = new GameSession(content, 142, 'upper-landing').captureSave();
+  app.readOnly = true;
+  app.input = { clear() {}, resetAim() {}, dispose() {} } as unknown as typeof app.input;
+  app.runtime = runtime(async () => assert.fail('fixture requires no packs'));
+  app.persistence = new Persistence({
+    loadGame: () => waiting.promise,
+    saveGame: async () => {},
   });
+  const loading = app.load();
+  const rejected = assert.rejects(loading, /superseded/);
+  await app.newGame();
+  const newest = app.sim;
+  await rejected;
+  waiting.resolve({ status: 'ok', data: saved });
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.equal(app.sim, newest, 'Late checkpoint data must not replace the new game');
+  assert.equal(app.busy, false);
+
+  const writing = deferred<void>(),
+    started = deferred<void>();
+  app.readOnly = false;
+  app.persistence = new Persistence({
+    loadGame: async () => ({ status: 'empty' }),
+    saveGame: () => {
+      started.resolve();
+      return writing.promise;
+    },
+  });
+  const starting = app.newGame();
+  const cancelled = assert.rejects(starting, /superseded/);
+  await started.promise;
+  await app.restore(saved);
+  app.pause(true);
+  writing.resolve();
+  await cancelled;
+  assert.equal(app.sim.area, saved.area);
+  assert.equal(app.paused, true, 'An obsolete save completion cannot resume a newer session');
+  app.dispose();
 });
 test('superseded transitions release late rooms without pausing or freezing the newer session', async () => {
-  await withDOM(async () => {
-    const { app } = fixture({
-        ...sceneFixture(content),
-        area: (id) => ({ area: content.area(id), assets: [id] }),
-      }),
-      waiting = deferred<PackLease>(),
-      checkpoint = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
-    app.sim.cleared = true;
-    const exit = app.sim.areaDefinition.exits[0]!;
-    assert.ok(exit);
-    let released = 0;
-    const statuses: string[] = [];
-    app.hooks.status = (message) => statuses.push(message);
-    app.runtime = runtime(() => waiting.promise);
-    app.persistence = new Persistence({
-      loadGame: () => checkpoint.promise,
-      saveGame: async () => {},
-    });
-    const original = app.sim;
-    const transition = app.transition(exit.id);
-    const rejected = assert.rejects(transition, /superseded/);
-    assert.equal(app.session.loading, true);
-    const latest = app.load();
-    assert.equal(
-      app.session.loading,
-      false,
-      'Supersession must cancel the plan before assets settle',
-    );
-    waiting.resolve({ release: () => released++ } as unknown as PackLease);
-    await rejected;
-    assert.equal(app.sim, original);
-    assert.equal(
-      app.paused,
-      false,
-      'An obsolete transition failure must not pause the latest session',
-    );
-    assert.equal(released, 1);
-    assert.equal(app.busy, true, 'Old cleanup must preserve the latest operation ownership');
-    checkpoint.resolve({ status: 'empty' });
-    assert.equal(await latest, false);
-    assert.equal(app.busy, false);
-    app.safe(() => transition);
-    await new Promise<void>((resolve) => setImmediate(resolve));
-    assert.deepEqual(statuses, [], 'Expected supersession must not surface as an error');
-    app.dispose();
+  const { app } = fixture({
+      ...sceneFixture(content),
+      area: (id) => ({ area: content.area(id), assets: [id] }),
+    }),
+    waiting = deferred<PackLease>(),
+    checkpoint = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+  app.sim.cleared = true;
+  const exit = app.sim.areaDefinition.exits[0]!;
+  assert.ok(exit);
+  let released = 0;
+  const statuses: string[] = [];
+  app.hooks.status = (message) => statuses.push(message);
+  app.runtime = runtime(() => waiting.promise);
+  app.persistence = new Persistence({
+    loadGame: () => checkpoint.promise,
+    saveGame: async () => {},
   });
+  const original = app.sim;
+  const transition = app.transition(exit.id);
+  const rejected = assert.rejects(transition, /superseded/);
+  assert.equal(app.session.loading, true);
+  const latest = app.load();
+  assert.equal(
+    app.session.loading,
+    false,
+    'Supersession must cancel the plan before assets settle',
+  );
+  waiting.resolve({ release: () => released++ } as unknown as PackLease);
+  await rejected;
+  assert.equal(app.sim, original);
+  assert.equal(
+    app.paused,
+    false,
+    'An obsolete transition failure must not pause the latest session',
+  );
+  assert.equal(released, 1);
+  assert.equal(app.busy, true, 'Old cleanup must preserve the latest operation ownership');
+  checkpoint.resolve({ status: 'empty' });
+  assert.equal(await latest, false);
+  assert.equal(app.busy, false);
+  app.safe(() => transition);
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.deepEqual(statuses, [], 'Expected supersession must not surface as an error');
+  app.dispose();
 });
 
 test('session replacement preserves independent pending asset acquisitions', async () => {
-  await withDOM(async () => {
-    const { app, lease } = fixture(),
-      waiting = deferred<PackLease>();
-    let assetSignal: AbortSignal | undefined;
-    app.runtime = runtime((_id, signal) => {
-      assetSignal = signal;
-      return waiting.promise;
-    });
-    const retaining = app.retainAsset('gallery');
-    await app.reset();
-    assert.equal(assetSignal?.aborted, false, 'Room changes must not abort the asset lifetime');
-    waiting.resolve(lease);
-    await retaining;
-    assert.equal(app.packs.get('gallery'), lease);
-    app.dispose();
-    assert.equal(assetSignal?.aborted, true);
+  const { app, lease } = fixture(),
+    waiting = deferred<PackLease>();
+  let assetSignal: AbortSignal | undefined;
+  app.runtime = runtime((_id, signal) => {
+    assetSignal = signal;
+    return waiting.promise;
   });
+  const retaining = app.retainAsset('gallery');
+  await app.reset();
+  assert.equal(assetSignal?.aborted, false, 'Room changes must not abort the asset lifetime');
+  waiting.resolve(lease);
+  await retaining;
+  assert.equal(app.packs.get('gallery'), lease);
+  app.dispose();
+  assert.equal(assetSignal?.aborted, true);
 });
 
 test('session asset requests share one lease; disposal and failed warming release acquisitions', async () => {
@@ -503,75 +467,72 @@ test('session asset requests share one lease; disposal and failed warming releas
   assert.equal(loads, 1);
   assert.equal(f.warmed, 1);
   assert.equal(f.app.packs.get('gallery'), f.lease);
-  await withDOM(async () => {
-    f.app.dispose();
-    f.app.dispose();
-    assert.equal(f.released, 1);
-    await assert.rejects(f.app.retainAsset('gallery'), /disposed/);
-    const late = fixture(),
-      wait = deferred<PackLease>();
-    late.app.runtime = runtime(() => wait.promise);
-    const loading = late.app.retainAsset('gallery');
-    late.app.dispose();
-    wait.resolve(late.lease);
-    await assert.rejects(loading, /disposed/);
-    assert.equal(late.released, 1);
-    assert.equal(late.warmed, 0);
-    assert.equal(late.app.packs.size, 0);
-    const failure = fixture();
-    failure.app.runtime = runtime(async () => failure.lease);
-    failure.app.presentation.warmPack = () => {
-      throw new Error('GPU unavailable');
-    };
-    await assert.rejects(failure.app.retainAsset('gallery'), /GPU unavailable/);
-    assert.equal(failure.released, 1);
-    failure.app.presentation.warmPack = () => {};
-    await failure.app.retainAsset('gallery');
-    assert.equal(failure.app.packs.size, 1);
-    failure.app.dispose();
-  });
+
+  f.app.dispose();
+  f.app.dispose();
+  assert.equal(f.released, 1);
+  await assert.rejects(f.app.retainAsset('gallery'), /disposed/);
+  const late = fixture(),
+    wait = deferred<PackLease>();
+  late.app.runtime = runtime(() => wait.promise);
+  const loading = late.app.retainAsset('gallery');
+  late.app.dispose();
+  wait.resolve(late.lease);
+  await assert.rejects(loading, /disposed/);
+  assert.equal(late.released, 1);
+  assert.equal(late.warmed, 0);
+  assert.equal(late.app.packs.size, 0);
+  const failure = fixture();
+  failure.app.runtime = runtime(async () => failure.lease);
+  failure.app.presentation.warmPack = () => {
+    throw new Error('GPU unavailable');
+  };
+  await assert.rejects(failure.app.retainAsset('gallery'), /GPU unavailable/);
+  assert.equal(failure.released, 1);
+  failure.app.presentation.warmPack = () => {};
+  await failure.app.retainAsset('gallery');
+  assert.equal(failure.app.packs.size, 1);
+  failure.app.dispose();
 });
 test('failed room preparation keeps the current session and packs; retry replaces and disposes each batch once', async () => {
-  await withDOM(async () => {
-    const { app } = fixture({
-        ...sceneFixture(content),
-        area: (id) => ({ area: content.area(id), assets: [id] }),
-      }),
-      releases: string[] = [],
-      initial = app.sim.area,
-      destination = 'upper-landing',
-      snapshot = new GameSession(content, 142, destination).captureSave();
-    app.input = {
-      clear: () => {},
-      resetAim: () => {},
-      dispose: () => {},
-    } as unknown as typeof app.input;
-    app.runtime = runtime(
-      async (id) => ({ release: () => releases.push(id) }) as unknown as PackLease,
-    );
-    await app.reset();
-    const previous = app.sim,
-      pack = app.packs.get(initial);
-    app.presentation.prepareAssets = async () => {
-      throw new Error('companions unavailable');
-    };
-    await assert.rejects(app.restore(snapshot), /companions unavailable/);
-    assert.equal(app.sim, previous);
-    assert.equal(app.roomReady, true, 'Failure before commit preserves the accepted room');
-    assert.equal(app.packs.get(initial), pack);
-    assert.equal(app.packs.has(destination), false);
-    assert.equal(app.busy, false);
-    assert.deepEqual(releases, [destination]);
-    app.presentation.prepareAssets = async () => {};
-    await app.restore(snapshot);
-    assert.equal(app.sim.area, destination);
-    assert.equal(app.packs.has(initial), false);
-    assert.equal(app.packs.has(destination), true);
-    assert.deepEqual(releases, [destination, initial]);
-    app.dispose();
-    app.dispose();
-    assert.deepEqual(releases, [destination, initial, destination]);
-  });
+  const { app } = fixture({
+      ...sceneFixture(content),
+      area: (id) => ({ area: content.area(id), assets: [id] }),
+    }),
+    releases: string[] = [],
+    initial = app.sim.area,
+    destination = 'upper-landing',
+    snapshot = new GameSession(content, 142, destination).captureSave();
+  app.input = {
+    clear: () => {},
+    resetAim: () => {},
+    dispose: () => {},
+  } as unknown as typeof app.input;
+  app.runtime = runtime(
+    async (id) => ({ release: () => releases.push(id) }) as unknown as PackLease,
+  );
+  await app.reset();
+  const previous = app.sim,
+    pack = app.packs.get(initial);
+  app.presentation.prepareAssets = async () => {
+    throw new Error('companions unavailable');
+  };
+  await assert.rejects(app.restore(snapshot), /companions unavailable/);
+  assert.equal(app.sim, previous);
+  assert.equal(app.roomReady, true, 'Failure before commit preserves the accepted room');
+  assert.equal(app.packs.get(initial), pack);
+  assert.equal(app.packs.has(destination), false);
+  assert.equal(app.busy, false);
+  assert.deepEqual(releases, [destination]);
+  app.presentation.prepareAssets = async () => {};
+  await app.restore(snapshot);
+  assert.equal(app.sim.area, destination);
+  assert.equal(app.packs.has(initial), false);
+  assert.equal(app.packs.has(destination), true);
+  assert.deepEqual(releases, [destination, initial]);
+  app.dispose();
+  app.dispose();
+  assert.deepEqual(releases, [destination, initial, destination]);
 });
 test('startup disposed while opening its catalog cannot acquire assets or become ready', async () => {
   const f = fixture(),
@@ -579,449 +540,430 @@ test('startup disposed while opening its catalog cannot acquire assets or become
     // oxlint-disable-next-line typescript/unbound-method -- Saved for restoration, never invoked unbound.
     open = AssetRuntime.open;
   AssetRuntime.open = () => opening.promise;
-  await withDOM(async () => {
-    try {
-      const boot = f.app.boot();
-      await Promise.resolve(); // Let startup enter the pending catalog acquisition.
-      f.app.dispose();
-      opening.resolve({
-        loadPack: () => {
-          throw new Error('unexpected acquisition');
-        },
-      } as unknown as AssetRuntime);
-      await assert.rejects(boot, /disposed/);
-      assert.equal(f.app.ready, false);
-      assert.equal(f.app.canvas.dataset.ready, undefined);
-    } finally {
-      AssetRuntime.open = open;
-    }
-  });
+
+  try {
+    const boot = f.app.boot();
+    await Promise.resolve(); // Let startup enter the pending catalog acquisition.
+    f.app.dispose();
+    opening.resolve({
+      loadPack: () => {
+        throw new Error('unexpected acquisition');
+      },
+    } as unknown as AssetRuntime);
+    await assert.rejects(boot, /disposed/);
+    assert.equal(f.app.ready, false);
+    assert.equal(f.app.canvas.dataset.ready, undefined);
+  } finally {
+    AssetRuntime.open = open;
+  }
 });
 
 test('simulation enablement isolates lab policy, keeps rendering, and clears catch-up time', async () => {
-  await withDOM(async () => {
-    const { app } = fixture();
-    Object.assign(app.bridge, { automatedRun: true });
-    let steps = 0,
-      renders = 0,
-      lastRenderMs = 0;
-    app.beforeStep = () => {
-      steps++;
-    };
-    app.presentation = presentationFixture({
-      update: (_sim: unknown, _alpha: number, ms: number) => {
-        renders++;
-        lastRenderMs = ms;
-      },
-      dispose: () => {},
-    });
-    app.input = {
-      clear: () => {},
-      consume: () => ({ move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } }),
-      dispose: () => {},
-    } as unknown as typeof app.input;
-    const frame = Reflect.get(app, 'loop') as (now: number) => void;
-    app.setSimulationEnabled(false);
-    const tick = app.sim.tick;
-    frame(performance.now() + 1000);
-    assert.equal(app.sim.tick, tick);
-    assert.equal(steps, 0);
-    assert.equal(renders, 1);
-    assert.ok(lastRenderMs > 0);
-    app.setSimulationEnabled(true);
-    assert.equal(app.clock.accumulator, 0);
-    frame(performance.now() + 20);
-    assert.equal(app.sim.tick, tick + 1);
-    assert.equal(steps, 1);
-    app.pause(true);
-    frame(performance.now() + 1000);
-    assert.equal(app.sim.tick, tick + 1);
-    assert.equal(steps, 1);
-    assert.equal(lastRenderMs, 0);
-    app.dispose();
+  const { app } = fixture();
+  Object.assign(app.bridge, { automatedRun: true });
+  let steps = 0,
+    renders = 0,
+    lastRenderMs = 0;
+  app.beforeStep = () => {
+    steps++;
+  };
+  app.presentation = presentationFixture({
+    update: (_sim: unknown, _alpha: number, ms: number) => {
+      renders++;
+      lastRenderMs = ms;
+    },
+    dispose: () => {},
   });
+  app.input = {
+    clear: () => {},
+    consume: () => ({ move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } }),
+    dispose: () => {},
+  } as unknown as typeof app.input;
+  const frame = Reflect.get(app, 'loop') as (now: number) => void;
+  app.setSimulationEnabled(false);
+  const tick = app.sim.tick;
+  frame(performance.now() + 1000);
+  assert.equal(app.sim.tick, tick);
+  assert.equal(steps, 0);
+  assert.equal(renders, 1);
+  assert.ok(lastRenderMs > 0);
+  app.setSimulationEnabled(true);
+  assert.equal(app.clock.accumulator, 0);
+  frame(performance.now() + 20);
+  assert.equal(app.sim.tick, tick + 1);
+  assert.equal(steps, 1);
+  app.pause(true);
+  frame(performance.now() + 1000);
+  assert.equal(app.sim.tick, tick + 1);
+  assert.equal(steps, 1);
+  assert.equal(lastRenderMs, 0);
+  app.dispose();
 });
 
 test('overlapping loading scopes reveal a rendered destination only after every request settles', async () => {
-  await withDOM(async () => {
-    const { app } = fixture(),
-      first = deferred<void>(),
-      second = deferred<void>();
-    const states: (boolean | string)[] = [];
-    app.hooks.loading = (active) => states.push(active);
-    app.ready = true;
-    app.presentation.update = () => {
-      states.push('render');
-    };
-    const a = app.withLoading(() => first.promise);
-    const b = app.withLoading(() => second.promise);
-    assert.deepEqual(states, [true]);
-    first.resolve();
-    await a;
-    assert.deepEqual(states, [true], 'An old request must not reveal a newer pending load');
-    second.resolve();
-    await b;
-    assert.deepEqual(states, [true, 'render', false]);
-    await assert.rejects(
-      app.withLoading(async () => {
-        throw new Error('unavailable');
-      }),
-      /unavailable/,
-    );
-    assert.deepEqual(states.slice(-3), [true, 'render', false]);
-    app.presentation.update = () => {
-      throw new Error('destination render unavailable');
-    };
-    await assert.rejects(
-      app.withLoading(async () => {}),
-      /destination render unavailable/,
-    );
-    assert.deepEqual(states.slice(-2), [true, false], 'A failed render must release the overlay');
-    const late = deferred<void>();
-    const pending = app.withLoading(() => late.promise);
-    app.dispose();
-    const afterDispose = [...states];
-    late.resolve();
-    await pending;
-    assert.deepEqual(
-      states,
-      afterDispose,
-      'Late completion must not render or reopen a disposed screen',
-    );
-  });
+  const { app } = fixture(),
+    first = deferred<void>(),
+    second = deferred<void>();
+  const states: (boolean | string)[] = [];
+  app.hooks.loading = (active) => states.push(active);
+  app.ready = true;
+  app.presentation.update = () => {
+    states.push('render');
+  };
+  const a = app.withLoading(() => first.promise);
+  const b = app.withLoading(() => second.promise);
+  assert.deepEqual(states, [true]);
+  first.resolve();
+  await a;
+  assert.deepEqual(states, [true], 'An old request must not reveal a newer pending load');
+  second.resolve();
+  await b;
+  assert.deepEqual(states, [true, 'render', false]);
+  await assert.rejects(
+    app.withLoading(async () => {
+      throw new Error('unavailable');
+    }),
+    /unavailable/,
+  );
+  assert.deepEqual(states.slice(-3), [true, 'render', false]);
+  app.presentation.update = () => {
+    throw new Error('destination render unavailable');
+  };
+  await assert.rejects(
+    app.withLoading(async () => {}),
+    /destination render unavailable/,
+  );
+  assert.deepEqual(states.slice(-2), [true, false], 'A failed render must release the overlay');
+  const late = deferred<void>();
+  const pending = app.withLoading(() => late.promise);
+  app.dispose();
+  const afterDispose = [...states];
+  late.resolve();
+  await pending;
+  assert.deepEqual(
+    states,
+    afterDispose,
+    'Late completion must not render or reopen a disposed screen',
+  );
 });
 
 test('checkpoint reading freezes gameplay and recovers loading state for empty saves and storage failures', async () => {
-  await withDOM(async () => {
-    const { app } = fixture(),
-      waiting = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
-    const states: boolean[] = [];
-    app.hooks.loading = (active) => states.push(active);
-    app.persistence = new Persistence({
-      loadGame: () => waiting.promise,
-      saveGame: async () => {},
-    });
-    Object.assign(app.bridge, { automatedRun: true });
-    let steps = 0;
-    app.beforeStep = () => {
-      steps++;
-    };
-    app.presentation.update = () => {};
-    const load = app.load();
-    (app as unknown as { loop: (now: number) => void }).loop(performance.now() + 1000);
-    assert.equal(steps, 0, 'Pending checkpoint reads must block commands before area acquisition');
-    waiting.resolve({ status: 'empty' });
-    assert.equal(await load, false);
-    assert.deepEqual(states, [true, false]);
-    app.persistence = new Persistence({
-      loadGame: async () => {
-        throw new Error('storage unavailable');
-      },
-      saveGame: async () => {},
-    });
-    await assert.rejects(app.load(), /storage unavailable/);
-    assert.deepEqual(states, [true, false, true, false]);
+  const { app } = fixture(),
+    waiting = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+  const states: boolean[] = [];
+  app.hooks.loading = (active) => states.push(active);
+  app.persistence = new Persistence({
+    loadGame: () => waiting.promise,
+    saveGame: async () => {},
   });
+  Object.assign(app.bridge, { automatedRun: true });
+  let steps = 0;
+  app.beforeStep = () => {
+    steps++;
+  };
+  app.presentation.update = () => {};
+  const load = app.load();
+  (app as unknown as { loop: (now: number) => void }).loop(performance.now() + 1000);
+  assert.equal(steps, 0, 'Pending checkpoint reads must block commands before area acquisition');
+  waiting.resolve({ status: 'empty' });
+  assert.equal(await load, false);
+  assert.deepEqual(states, [true, false]);
+  app.persistence = new Persistence({
+    loadGame: async () => {
+      throw new Error('storage unavailable');
+    },
+    saveGame: async () => {},
+  });
+  await assert.rejects(app.load(), /storage unavailable/);
+  assert.deepEqual(states, [true, false, true, false]);
 });
 
 test('startup settles the initial asset batch and releases successful peers when any pack fails or boot is disposed', async () => {
-  await withDOM(async () => {
-    for (const cancelled of [false, true]) {
-      const waiting = deferred<PackLease>(),
-        requested: string[] = [];
-      let released = 0;
-      // oxlint-disable-next-line typescript/unbound-method -- Saved for restoration, never invoked unbound.
-      const open = AssetRuntime.open;
-      const app = new Application(
-        { dataset: {} } as unknown as HTMLCanvasElement,
-        { first: 'first', second: 'second' },
-        {} as Bridge,
-        { ...sceneFixture(content), initialAssets: ['first', 'second'] },
-        () => presentationFixture(),
-        { status: () => {}, pause: () => {}, frame: () => {} },
-      );
-      AssetRuntime.open = async () =>
-        runtime(async (id: string) => {
-          requested.push(id);
-          if (id === 'first') return waiting.promise;
-          if (!cancelled) throw new Error('missing pack');
-          return { release: () => released++ } as unknown as PackLease;
-        });
-      try {
-        const boot = app.boot();
-        const rejected = assert.rejects(boot, cancelled ? /cancelled/ : /missing pack/);
-        await new Promise<void>((resolve) => setImmediate(resolve));
-        assert.deepEqual(requested, ['first', 'second']);
-        if (cancelled) app.dispose();
-        waiting.resolve({ release: () => released++ } as unknown as PackLease);
-        await rejected;
-        assert.equal(released, cancelled ? 2 : 1);
-        assert.equal(app.packs.size, 0);
-        assert.equal(app.ready, false);
-      } finally {
-        app.dispose();
-        AssetRuntime.open = open;
-      }
+  for (const cancelled of [false, true]) {
+    const waiting = deferred<PackLease>(),
+      requested: string[] = [];
+    let released = 0;
+    // oxlint-disable-next-line typescript/unbound-method -- Saved for restoration, never invoked unbound.
+    const open = AssetRuntime.open;
+    const app = new Application(
+      { dataset: {} } as unknown as HTMLCanvasElement,
+      { first: 'first', second: 'second' },
+      {} as Bridge,
+      { ...sceneFixture(content), initialAssets: ['first', 'second'] },
+      () => presentationFixture(),
+      { status: () => {}, pause: () => {}, frame: () => {} },
+    );
+    AssetRuntime.open = async () =>
+      runtime(async (id: string) => {
+        requested.push(id);
+        if (id === 'first') return waiting.promise;
+        if (!cancelled) throw new Error('missing pack');
+        return { release: () => released++ } as unknown as PackLease;
+      });
+    try {
+      const boot = app.boot();
+      const rejected = assert.rejects(boot, cancelled ? /cancelled/ : /missing pack/);
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      assert.deepEqual(requested, ['first', 'second']);
+      if (cancelled) app.dispose();
+      waiting.resolve({ release: () => released++ } as unknown as PackLease);
+      await rejected;
+      assert.equal(released, cancelled ? 2 : 1);
+      assert.equal(app.packs.size, 0);
+      assert.equal(app.ready, false);
+    } finally {
+      app.dispose();
+      AssetRuntime.open = open;
     }
-  });
+  }
 });
 
 test('room rebuild failure retains both generations until a successful rebuild or disposal', async () => {
-  await withDOM(async () => {
-    for (const retry of [false, true]) {
-      const { app } = fixture({
-          ...sceneFixture(content),
-          area: (id) => ({ area: content.area(id), assets: [id] }),
-        }),
-        loaded: PackLease[] = [],
-        released: PackLease[] = [],
-        snapshot = new GameSession(content, 142, 'upper-landing').captureSave();
-      app.runtime = runtime(async () => {
-        const pack = { release: () => released.push(pack) } as unknown as PackLease;
-        loaded.push(pack);
-        return pack;
-      });
-      await app.reset();
-      app.presentation.resetRoom = () => {
-        assert.equal(app.packs.get(snapshot.area), loaded[1]);
-        throw new Error('room construction failed');
-      };
-      await assert.rejects(app.restore(snapshot), /room construction failed/);
-      assert.equal(app.sim.area, snapshot.area);
-      assert.deepEqual(released, [], 'A partial renderer may reference either generation');
+  for (const retry of [false, true]) {
+    const { app } = fixture({
+        ...sceneFixture(content),
+        area: (id) => ({ area: content.area(id), assets: [id] }),
+      }),
+      loaded: PackLease[] = [],
+      released: PackLease[] = [],
+      snapshot = new GameSession(content, 142, 'upper-landing').captureSave();
+    app.runtime = runtime(async () => {
+      const pack = { release: () => released.push(pack) } as unknown as PackLease;
+      loaded.push(pack);
+      return pack;
+    });
+    await app.reset();
+    app.presentation.resetRoom = () => {
       assert.equal(app.packs.get(snapshot.area), loaded[1]);
-      if (retry) {
-        app.presentation.resetRoom = () => {};
-        await app.restore(snapshot);
-        assert.deepEqual(released, loaded.slice(0, 2));
-        assert.equal(app.packs.get(snapshot.area), loaded[2]);
-      }
-      app.dispose();
-      app.dispose();
-      assert.deepEqual(released, loaded, 'Every consumed batch is released exactly once');
+      throw new Error('room construction failed');
+    };
+    await assert.rejects(app.restore(snapshot), /room construction failed/);
+    assert.equal(app.sim.area, snapshot.area);
+    assert.deepEqual(released, [], 'A partial renderer may reference either generation');
+    assert.equal(app.packs.get(snapshot.area), loaded[1]);
+    if (retry) {
+      app.presentation.resetRoom = () => {};
+      await app.restore(snapshot);
+      assert.deepEqual(released, loaded.slice(0, 2));
+      assert.equal(app.packs.get(snapshot.area), loaded[2]);
     }
-  });
+    app.dispose();
+    app.dispose();
+    assert.deepEqual(released, loaded, 'Every consumed batch is released exactly once');
+  }
 });
 
 test('feedback failure after a transition cannot cancel its committed destination or autosave', async () => {
-  await withDOM(async () => {
-    const { app } = fixture();
-    const statuses: string[] = [],
-      saves: string[] = [];
-    app.hooks.status = (message) => statuses.push(message);
-    app.persistence = new Persistence({
-      loadGame: async () => ({ status: 'empty' }),
-      saveGame: async (save) => {
-        saves.push(save.area);
-      },
-    });
-    for (const enemy of app.sim.enemies) enemy.health = 0;
-    app.sim.cleared = true;
-    const exit = app.sim.areaDefinition.exits[0]!;
-    app.events.subscribe((event) => {
-      if (event.kind === 'area-transition') throw new Error('broken transition feedback');
-    });
-    const received: string[] = [];
-    app.events.subscribe((event) => received.push(event.kind));
-    await app.transition(exit.id);
-    assert.equal(app.sim.area, exit.destination);
-    assert.equal(app.paused, false);
-    assert.equal(app.session.loading, false);
-    assert.equal(app.busy, false);
-    assert.deepEqual(saves, [exit.destination]);
-    assert.deepEqual(received, ['transition-start', 'area-transition']);
-    assert.equal(statuses.length, 1);
-    assert.match(statuses[0]!, /broken transition feedback/);
-    app.dispose();
+  const { app } = fixture();
+  const statuses: string[] = [],
+    saves: string[] = [];
+  app.hooks.status = (message) => statuses.push(message);
+  app.persistence = new Persistence({
+    loadGame: async () => ({ status: 'empty' }),
+    saveGame: async (save) => {
+      saves.push(save.area);
+    },
   });
+  for (const enemy of app.sim.enemies) enemy.health = 0;
+  app.sim.cleared = true;
+  const exit = app.sim.areaDefinition.exits[0]!;
+  app.events.subscribe((event) => {
+    if (event.kind === 'area-transition') throw new Error('broken transition feedback');
+  });
+  const received: string[] = [];
+  app.events.subscribe((event) => received.push(event.kind));
+  await app.transition(exit.id);
+  assert.equal(app.sim.area, exit.destination);
+  assert.equal(app.paused, false);
+  assert.equal(app.session.loading, false);
+  assert.equal(app.busy, false);
+  assert.deepEqual(saves, [exit.destination]);
+  assert.deepEqual(received, ['transition-start', 'area-transition']);
+  assert.equal(statuses.length, 1);
+  assert.match(statuses[0]!, /broken transition feedback/);
+  app.dispose();
 });
 
 test('failed room acceptance blocks rendering, gameplay and saves until recovery', async () => {
-  await withDOM(async () => {
-    for (const failure of ['rebuild', 'companions'] as const) {
-      const { app } = fixture(),
-        snapshot = new GameSession(content, 142, 'upper-landing').captureSave();
-      Object.assign(app.bridge, { automatedRun: true });
-      app.command = () => ({ move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } });
-      app.ready = true;
-      let saves = 0,
-        renders = 0,
-        preparations = 0;
-      app.persistence = new Persistence({
-        loadGame: async () => ({ status: 'empty' }),
-        saveGame: async () => {
-          saves++;
-        },
-      });
-      app.presentation.update = () => {
-        renders++;
-      };
-      const feedback = deferred<void>();
-      let lifetime: AbortSignal | undefined;
-      app.events.subscribe((_event, signal) => {
-        lifetime = signal;
-        return feedback.promise;
-      });
-      app.publish(app.session.resetCurrentArea());
-      const originalLifetime = lifetime!;
-      app.presentation.resetRoom = () => {
-        assert.equal(
-          originalLifetime.aborted,
-          true,
-          'Commit must close old feedback before rebuilding',
-        );
-        if (failure === 'rebuild') throw new Error('rebuild failed');
-      };
-      app.presentation.prepareAssets = async () => {
-        if (++preparations === 2 && failure === 'companions') throw new Error('companions failed');
-      };
-      await assert.rejects(app.restore(snapshot), /failed/);
-      assert.equal(app.sim.area, snapshot.area);
-      assert.equal(app.busy, false);
-      assert.equal(app.roomReady, false);
-      assert.equal(app.paused, true);
-      app.pause(false);
-      assert.equal(app.paused, true, 'Resume cannot bypass room recovery');
-      const tick = app.sim.tick;
-      const frame = Reflect.get(app, 'loop') as (now: number) => void;
-      frame(performance.now() + 1000);
-      assert.equal(app.sim.tick, tick);
-      assert.equal(renders, 0, 'A partial renderer must not receive simulation updates');
-      await assert.rejects(app.save(), /room.*ready/i);
-      app.autosave();
-      assert.equal(saves, 0);
-      assert.equal(await app.load(), false, 'An empty checkpoint cannot recover the renderer');
-      assert.equal(app.roomReady, false);
-      app.presentation.resetRoom = () => {};
-      app.presentation.prepareAssets = async () => {};
-      await app.reset();
-      assert.equal(app.roomReady, true);
-      assert.equal(app.paused, false);
-      assert.equal(renders, 1);
-      frame(performance.now() + 20);
-      assert.ok(app.sim.tick > tick);
-      app.bridge.saveSettings = async () => {};
-      await app.save();
-      assert.equal(saves, 1);
-      feedback.resolve();
-      app.dispose();
-    }
-  });
-});
-
-test('superseding a committed room cannot accept it through an obsolete completion or an empty load', async () => {
-  await withDOM(async () => {
+  for (const failure of ['rebuild', 'companions'] as const) {
     const { app } = fixture(),
-      preparing = deferred<void>(),
-      committed = deferred<void>();
-    app.readOnly = true;
+      snapshot = new GameSession(content, 142, 'upper-landing').captureSave();
+    Object.assign(app.bridge, { automatedRun: true });
+    app.command = () => ({ move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } });
+    app.ready = true;
+    let saves = 0,
+      renders = 0,
+      preparations = 0;
     app.persistence = new Persistence({
       loadGame: async () => ({ status: 'empty' }),
-      saveGame: async () => assert.fail('read-only'),
+      saveGame: async () => {
+        saves++;
+      },
     });
-    let preparations = 0;
-    app.presentation.prepareAssets = async () => {
-      if (++preparations === 2) {
-        committed.resolve();
-        await preparing.promise;
-      }
+    app.presentation.update = () => {
+      renders++;
     };
-    const resetting = app.reset();
-    const rejected = assert.rejects(resetting, /superseded/);
-    await committed.promise;
-    assert.equal(app.roomReady, false);
-    assert.equal(await app.load(), false);
-    assert.equal(app.roomReady, false);
-    assert.equal(app.paused, true, 'The latest operation must leave recovery accessible');
-    preparing.resolve();
-    await rejected;
-    assert.equal(app.roomReady, false, 'Obsolete preparation cannot reopen the simulation');
+    const feedback = deferred<void>();
+    let lifetime: AbortSignal | undefined;
+    app.events.subscribe((_event, signal) => {
+      lifetime = signal;
+      return feedback.promise;
+    });
+    app.publish(app.session.resetCurrentArea());
+    const originalLifetime = lifetime!;
+    app.presentation.resetRoom = () => {
+      assert.equal(
+        originalLifetime.aborted,
+        true,
+        'Commit must close old feedback before rebuilding',
+      );
+      if (failure === 'rebuild') throw new Error('rebuild failed');
+    };
+    app.presentation.prepareAssets = async () => {
+      if (++preparations === 2 && failure === 'companions') throw new Error('companions failed');
+    };
+    await assert.rejects(app.restore(snapshot), /failed/);
+    assert.equal(app.sim.area, snapshot.area);
     assert.equal(app.busy, false);
+    assert.equal(app.roomReady, false);
+    assert.equal(app.paused, true);
+    app.pause(false);
+    assert.equal(app.paused, true, 'Resume cannot bypass room recovery');
+    const tick = app.sim.tick;
+    const frame = Reflect.get(app, 'loop') as (now: number) => void;
+    frame(performance.now() + 1000);
+    assert.equal(app.sim.tick, tick);
+    assert.equal(renders, 0, 'A partial renderer must not receive simulation updates');
+    await assert.rejects(app.save(), /room.*ready/i);
+    app.autosave();
+    assert.equal(saves, 0);
+    assert.equal(await app.load(), false, 'An empty checkpoint cannot recover the renderer');
+    assert.equal(app.roomReady, false);
+    app.presentation.resetRoom = () => {};
+    app.presentation.prepareAssets = async () => {};
     await app.reset();
     assert.equal(app.roomReady, true);
     assert.equal(app.paused, false);
+    assert.equal(renders, 1);
+    frame(performance.now() + 20);
+    assert.ok(app.sim.tick > tick);
+    app.bridge.saveSettings = async () => {};
+    await app.save();
+    assert.equal(saves, 1);
+    feedback.resolve();
     app.dispose();
+  }
+});
+
+test('superseding a committed room cannot accept it through an obsolete completion or an empty load', async () => {
+  const { app } = fixture(),
+    preparing = deferred<void>(),
+    committed = deferred<void>();
+  app.readOnly = true;
+  app.persistence = new Persistence({
+    loadGame: async () => ({ status: 'empty' }),
+    saveGame: async () => assert.fail('read-only'),
   });
+  let preparations = 0;
+  app.presentation.prepareAssets = async () => {
+    if (++preparations === 2) {
+      committed.resolve();
+      await preparing.promise;
+    }
+  };
+  const resetting = app.reset();
+  const rejected = assert.rejects(resetting, /superseded/);
+  await committed.promise;
+  assert.equal(app.roomReady, false);
+  assert.equal(await app.load(), false);
+  assert.equal(app.roomReady, false);
+  assert.equal(app.paused, true, 'The latest operation must leave recovery accessible');
+  preparing.resolve();
+  await rejected;
+  assert.equal(app.roomReady, false, 'Obsolete preparation cannot reopen the simulation');
+  assert.equal(app.busy, false);
+  await app.reset();
+  assert.equal(app.roomReady, true);
+  assert.equal(app.paused, false);
+  app.dispose();
 });
 
 test('automatic death recovery waits for room acceptance before feedback and saving, and failures block play', async () => {
-  await withDOM(async () => {
-    for (const failure of ['none', 'rebuild', 'companions'] as const) {
-      const { app } = fixture(),
-        waiting = deferred<void>(),
-        feedback: string[] = [],
-        saved: number[] = [];
-      Object.assign(app.bridge, { automatedRun: true });
-      app.ready = true;
-      app.command = () => ({ move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } });
-      app.persistence = new Persistence({
-        loadGame: async () => ({ status: 'empty' }),
-        saveGame: async () => {
-          saved.push(app.sim.generation);
-        },
-      });
-      app.events.subscribe((event) => feedback.push(event.kind));
-      let preparations = 0,
-        rebuilds = 0,
-        renders = 0;
-      app.presentation.prepareAssets = async () => {
-        if (++preparations === 1) await waiting.promise;
-        else if (failure === 'companions') throw new Error('companions failed');
-      };
-      app.presentation.resetRoom = () => {
-        rebuilds++;
-        if (failure === 'rebuild') throw new Error('rebuild failed');
-      };
-      app.presentation.update = () => {
-        renders++;
-      };
-      let recovery!: Promise<unknown>;
-      app.safe = (work) => {
-        recovery = work();
-        void recovery.catch(() => {});
-      };
-      const dead = app.sim;
-      dead.hero.health = 0;
-      dead.start(dead.hero, 'death');
-      dead.hero.age = tuning.deathHoldTicks;
-      const frame = Reflect.get(app, 'loop') as (now: number) => void;
-      frame(performance.now() + 20);
-      assert.ok(recovery, 'The frame must dispatch the reset request');
-      await new Promise<void>((resolve) => setImmediate(resolve));
-      assert.equal(app.busy, true);
-      assert.equal(app.sim, dead, 'Acquisition and preparation precede simulation replacement');
-      assert.deepEqual(saved, []);
-      assert.deepEqual(feedback, []);
-      const tick = dead.tick;
-      frame(performance.now() + 1000);
-      assert.equal(dead.tick, tick, 'Pending recovery freezes further simulation steps');
-      waiting.resolve();
-      if (failure === 'none') {
-        await recovery;
-        assert.equal(app.roomReady, true);
-        assert.equal(app.sim.hero.health, 100);
-        assert.equal(app.session.resetCount, 1);
-        assert.equal(app.presentation.generation, app.sim.generation);
-        assert.equal(rebuilds, 1);
-        assert.deepEqual(feedback, ['room-reset']);
-        assert.deepEqual(saved, [app.sim.generation]);
-      } else {
-        await assert.rejects(recovery, /failed/);
-        assert.equal(app.roomReady, false);
-        assert.equal(app.paused, true);
-        assert.deepEqual(feedback, [], 'Unaccepted rooms cannot publish reset success');
-        assert.deepEqual(saved, [], 'A failed rebuild must not overwrite the checkpoint');
-        const acceptedRenders = renders,
-          failedTick = app.sim.tick;
-        frame(performance.now() + 2000);
-        assert.equal(app.sim.tick, failedTick);
-        assert.equal(renders, acceptedRenders, 'A partial room cannot receive render updates');
-        app.presentation.prepareAssets = async () => {};
-        app.presentation.resetRoom = () => {};
-        await app.reset();
-        assert.equal(app.roomReady, true);
-      }
-      app.dispose();
+  for (const failure of ['none', 'rebuild', 'companions'] as const) {
+    const { app } = fixture(),
+      waiting = deferred<void>(),
+      feedback: string[] = [],
+      saved: number[] = [];
+    Object.assign(app.bridge, { automatedRun: true });
+    app.ready = true;
+    app.command = () => ({ move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } });
+    app.persistence = new Persistence({
+      loadGame: async () => ({ status: 'empty' }),
+      saveGame: async () => {
+        saved.push(app.sim.generation);
+      },
+    });
+    app.events.subscribe((event) => feedback.push(event.kind));
+    let preparations = 0,
+      rebuilds = 0,
+      renders = 0;
+    app.presentation.prepareAssets = async () => {
+      if (++preparations === 1) await waiting.promise;
+      else if (failure === 'companions') throw new Error('companions failed');
+    };
+    app.presentation.resetRoom = () => {
+      rebuilds++;
+      if (failure === 'rebuild') throw new Error('rebuild failed');
+    };
+    app.presentation.update = () => {
+      renders++;
+    };
+    let recovery!: Promise<unknown>;
+    app.safe = (work) => {
+      recovery = work();
+      void recovery.catch(() => {});
+    };
+    const dead = app.sim;
+    dead.hero.health = 0;
+    dead.start(dead.hero, 'death');
+    dead.hero.age = tuning.deathHoldTicks;
+    const frame = Reflect.get(app, 'loop') as (now: number) => void;
+    frame(performance.now() + 20);
+    assert.ok(recovery, 'The frame must dispatch the reset request');
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(app.busy, true);
+    assert.equal(app.sim, dead, 'Acquisition and preparation precede simulation replacement');
+    assert.deepEqual(saved, []);
+    assert.deepEqual(feedback, []);
+    const tick = dead.tick;
+    frame(performance.now() + 1000);
+    assert.equal(dead.tick, tick, 'Pending recovery freezes further simulation steps');
+    waiting.resolve();
+    if (failure === 'none') {
+      await recovery;
+      assert.equal(app.roomReady, true);
+      assert.equal(app.sim.hero.health, 100);
+      assert.equal(app.session.resetCount, 1);
+      assert.equal(app.presentation.generation, app.sim.generation);
+      assert.equal(rebuilds, 1);
+      assert.deepEqual(feedback, ['room-reset']);
+      assert.deepEqual(saved, [app.sim.generation]);
+    } else {
+      await assert.rejects(recovery, /failed/);
+      assert.equal(app.roomReady, false);
+      assert.equal(app.paused, true);
+      assert.deepEqual(feedback, [], 'Unaccepted rooms cannot publish reset success');
+      assert.deepEqual(saved, [], 'A failed rebuild must not overwrite the checkpoint');
+      const acceptedRenders = renders,
+        failedTick = app.sim.tick;
+      frame(performance.now() + 2000);
+      assert.equal(app.sim.tick, failedTick);
+      assert.equal(renders, acceptedRenders, 'A partial room cannot receive render updates');
+      app.presentation.prepareAssets = async () => {};
+      app.presentation.resetRoom = () => {};
+      await app.reset();
+      assert.equal(app.roomReady, true);
     }
-  });
+    app.dispose();
+  }
 });

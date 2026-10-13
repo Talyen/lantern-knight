@@ -351,26 +351,7 @@ export function validateSceneReferences(
 }
 export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
   validateSceneReferences(d);
-  const source: WorldVisualDefinition = {
-    floor: d.floor.asset,
-    camera: d.camera,
-    surround: d.surround,
-    weather: d.weather,
-    rainBounds: d.rainBounds,
-    rainShelters: d.rainShelters,
-    paths: d.paths,
-    walls: d.walls,
-    graves: d.graves,
-    interior: d.interior,
-    proceduralAssets: d.proceduralAssets,
-    propOrder: d.propOrder,
-    overlaps: d.overlaps,
-    props: [],
-    decals: [],
-  };
-  const raw = new Map<string, ArtPlacement | SceneObject>(
-    [...source.props, ...source.decals, ...d.objects].map((p) => [p.id, p]),
-  );
+  const raw = new Map(d.objects.map((p) => [p.id, p]));
   const resolved = new Map<string, ArtPlacement>(),
     visiting = new Set<string>();
   const resolve = (id: string): ArtPlacement => {
@@ -379,7 +360,7 @@ export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
     if (!p) throw new Error('Missing attachment support: ' + id);
     if (visiting.has(id)) throw new Error('Cyclic attachment support: ' + id);
     visiting.add(id);
-    const { kind: _, ...fields } = p as SceneObject;
+    const { kind: _, ...fields } = p;
     fields.purpose ??= 'Scene editor scenery';
     let placement: ArtPlacement;
     if (p.mount) {
@@ -408,32 +389,30 @@ export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
     resolved.set(id, placement);
     return placement;
   };
-  const props = [...source.props, ...d.objects.filter((p) => p.kind !== 'decal')].map((p) =>
-    resolve(p.id),
-  );
+  const props = d.objects.filter((p) => p.kind !== 'decal').map((p) => resolve(p.id));
   const order = new Map(d.propOrder.map((id, i) => [id, i]));
   props.sort((a, b) => (order.get(a.id) ?? Infinity) - (order.get(b.id) ?? Infinity));
-  const decals = [...source.decals, ...d.objects.filter((p) => p.kind === 'decal')].map((p) =>
-    resolve(p.id),
-  );
-  const art: WorldVisualDefinition = {
-    ...source,
+  return {
+    floor: d.floor.asset,
+    camera: d.camera,
+    surround: d.surround,
+    weather: d.weather,
+    rainBounds: d.rainBounds,
+    rainShelters: d.rainShelters,
+    paths: d.paths,
+    walls: d.walls,
+    graves: d.graves,
+    interior: d.interior,
+    proceduralAssets: d.proceduralAssets,
+    propOrder: d.propOrder,
+    overlaps: d.overlaps,
     designProfile: d.profile === 'study' ? undefined : d.profile,
     props,
-    decals,
+    decals: d.objects.filter((p) => p.kind === 'decal').map((p) => resolve(p.id)),
     groundInteraction: d.groundInteraction,
-    editorFloor: d.floor.clip
-      ? {
-          asset: d.floor.asset,
-          clip: d.floor.clip,
-          layout: d.floor.layout,
-          width: d.floor.width,
-          depth: d.floor.depth,
-        }
-      : undefined,
+    editorFloor: d.floor.clip ? { ...d.floor, clip: d.floor.clip } : undefined,
     look: d.look,
   };
-  return art;
 }
 
 export function parseSceneFragment(value: unknown) {

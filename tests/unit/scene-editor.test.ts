@@ -1,10 +1,10 @@
+import { temporaryDirectory } from '../fixtures/temporary-directory';
 import { emptyScene } from '../../src/editor/default-scene';
 import { sceneFixture } from '../fixtures/scene';
 import { applySceneryPreset } from '../../src/content/scenery-presets';
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-import os from 'node:os';
 import path from 'node:path';
 import {
   parseSceneDocument,
@@ -247,51 +247,45 @@ describe('scene authoring contracts', () => {
   });
 });
 describe('scene file saving', () => {
-  it('round-trips, rejects simultaneous writes, and preserves malformed external files', async () => {
-    const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-editor-'));
-    try {
-      const store = new SceneStore(directory),
-        d = { ...emptyScene(), id: 'forest' };
-      const first = await store.save(d, null);
-      assert.deepEqual((await store.read('forest')).document, d);
-      const results = await Promise.allSettled([
-        store.save({ ...d, name: 'A' }, first.revision),
-        store.save({ ...d, name: 'B' }, first.revision),
-      ]);
-      assert.deepEqual(
-        results.map((r) => r.status),
-        ['fulfilled', 'rejected'],
-      );
-      assert.equal((await store.read('forest')).document!.name, 'A');
-      await fs.writeFile(path.join(directory, 'forest.json'), 'newer or malformed agent output');
-      await assert.rejects(store.save(d, first.revision), /changed on disk/);
-      assert.equal(
-        await fs.readFile(path.join(directory, 'forest.json'), 'utf8'),
-        'newer or malformed agent output',
-      );
-      await assert.rejects(store.read('../forest'), /identity/);
-      await fs.symlink(path.join(directory, 'forest.json'), path.join(directory, 'link.json'));
-      await assert.rejects(store.save({ ...d, id: 'link' }, null), /regular file/);
-    } finally {
-      await fs.rm(directory, { recursive: true, force: true });
-    }
+  it('round-trips, rejects simultaneous writes, and preserves malformed external files', async (t) => {
+    const directory = await temporaryDirectory(t, 'lantern-editor-');
+
+    const store = new SceneStore(directory),
+      d = { ...emptyScene(), id: 'forest' };
+    const first = await store.save(d, null);
+    assert.deepEqual((await store.read('forest')).document, d);
+    const results = await Promise.allSettled([
+      store.save({ ...d, name: 'A' }, first.revision),
+      store.save({ ...d, name: 'B' }, first.revision),
+    ]);
+    assert.deepEqual(
+      results.map((r) => r.status),
+      ['fulfilled', 'rejected'],
+    );
+    assert.equal((await store.read('forest')).document!.name, 'A');
+    await fs.writeFile(path.join(directory, 'forest.json'), 'newer or malformed agent output');
+    await assert.rejects(store.save(d, first.revision), /changed on disk/);
+    assert.equal(
+      await fs.readFile(path.join(directory, 'forest.json'), 'utf8'),
+      'newer or malformed agent output',
+    );
+    await assert.rejects(store.read('../forest'), /identity/);
+    await fs.symlink(path.join(directory, 'forest.json'), path.join(directory, 'link.json'));
+    await assert.rejects(store.save({ ...d, id: 'link' }, null), /regular file/);
   });
-  it('leaves existing bytes intact when validation fails', async () => {
-    const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-editor-'));
-    try {
-      const d = { ...emptyScene(), id: 'forest' },
-        store = new SceneStore(directory),
-        first = await store.save(d, null),
-        bytes = await fs.readFile(path.join(directory, 'forest.json'), 'utf8');
-      const rejecting = new SceneStore(directory, async () => {
-        throw new Error('Unavailable ground material');
-      });
-      await assert.rejects(rejecting.save(d, first.revision), /Unavailable/);
-      assert.equal(await fs.readFile(path.join(directory, 'forest.json'), 'utf8'), bytes);
-      assert.deepEqual(await fs.readdir(directory), ['forest.json']);
-    } finally {
-      await fs.rm(directory, { recursive: true, force: true });
-    }
+  it('leaves existing bytes intact when validation fails', async (t) => {
+    const directory = await temporaryDirectory(t, 'lantern-editor-');
+
+    const d = { ...emptyScene(), id: 'forest' },
+      store = new SceneStore(directory),
+      first = await store.save(d, null),
+      bytes = await fs.readFile(path.join(directory, 'forest.json'), 'utf8');
+    const rejecting = new SceneStore(directory, async () => {
+      throw new Error('Unavailable ground material');
+    });
+    await assert.rejects(rejecting.save(d, first.revision), /Unavailable/);
+    assert.equal(await fs.readFile(path.join(directory, 'forest.json'), 'utf8'), bytes);
+    assert.deepEqual(await fs.readdir(directory), ['forest.json']);
   });
 });
 

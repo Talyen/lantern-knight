@@ -1,4 +1,5 @@
 import test, { type TestContext } from 'node:test';
+import { mockGlobals } from '../fixtures/globals';
 import assert from 'node:assert/strict';
 import { FrameScheduler } from '../../src/frame-scheduler';
 import { Application } from '../../src/application';
@@ -8,12 +9,6 @@ import type { Bridge } from '../../src/platform/bridge';
 import { content } from '../fixtures/content';
 
 function environment(t: TestContext) {
-  const original = {
-    window: globalThis.window,
-    document: globalThis.document,
-    requestAnimationFrame: globalThis.requestAnimationFrame,
-    cancelAnimationFrame: globalThis.cancelAnimationFrame,
-  };
   const win = new EventTarget(),
     doc = new EventTarget();
   let focused = true,
@@ -23,20 +18,19 @@ function environment(t: TestContext) {
   const pending = new Map<number, FrameRequestCallback>();
   Object.assign(doc, { hasFocus: () => focused });
   Object.defineProperty(doc, 'hidden', { get: () => hidden });
-  globalThis.window = win as Window & typeof globalThis;
-  globalThis.document = doc as Document;
-  globalThis.requestAnimationFrame = (callback) => {
-    pending.set(++id, callback);
-    return id;
-  };
-  globalThis.cancelAnimationFrame = (id) => {
-    pending.delete(id);
-  };
+  mockGlobals(t, {
+    window: win,
+    document: doc,
+    requestAnimationFrame: (callback: FrameRequestCallback) => {
+      pending.set(++id, callback);
+      return id;
+    },
+    cancelAnimationFrame: (id: number) => {
+      pending.delete(id);
+    },
+  });
   t.mock.timers.enable({ apis: ['setTimeout'] });
   t.mock.method(performance, 'now', () => now);
-  t.after(() => {
-    Object.assign(globalThis, original);
-  });
   return {
     win,
     doc,

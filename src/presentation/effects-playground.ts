@@ -1,3 +1,5 @@
+import { ColorAntialiasing } from './color-antialiasing';
+import { radialTexture } from './radial-texture';
 import * as T from 'three';
 import {
   EffectComposer,
@@ -6,11 +8,6 @@ import {
   BloomEffect,
   ToneMappingEffect,
   ToneMappingMode,
-  SMAAEffect,
-  SMAAPreset,
-  EdgeDetectionMode,
-  PredicationMode,
-  EffectAttribute,
 } from 'postprocessing';
 import { ActorSprite } from './sprite';
 import { IllustratedLighting } from './illustrated-lighting';
@@ -47,16 +44,6 @@ type Lamp = {
   smoke: Animated;
   embers: Animated;
 };
-class SpatialAA extends SMAAEffect {
-  constructor() {
-    super({
-      preset: SMAAPreset.HIGH,
-      edgeDetectionMode: EdgeDetectionMode.COLOR,
-      predicationMode: PredicationMode.DISABLED,
-    });
-    this.setAttributes(EffectAttribute.CONVOLUTION);
-  }
-}
 
 export class EffectsPlayground {
   readonly renderer: T.WebGLRenderer;
@@ -125,8 +112,8 @@ export class EffectsPlayground {
     this.composer.addPass(
       new EffectPass(this.camera, new ToneMappingEffect({ mode: ToneMappingMode.NEUTRAL })),
     );
-    this.composer.addPass(new EffectPass(this.camera, new SpatialAA()));
-    this.contactTexture = this.softContactTexture();
+    this.composer.addPass(new EffectPass(this.camera, new ColorAntialiasing()));
+    this.contactTexture = radialTexture(2, 0.7, 0.35);
     this.owned.push(this.contactTexture);
     this.mesh(new T.PlaneGeometry(16, 16), this.stone.material).rotation.x = -Math.PI / 2;
     const wood = this.mesh(new T.PlaneGeometry(3.2, 3.5), this.wood.material);
@@ -277,20 +264,7 @@ export class EffectsPlayground {
     s.mesh.scale.setScalar(scale);
     if (wind) this.winds.push(new FoliageWind(s, this.winds.length * 0.8));
   }
-  private softContactTexture() {
-    const canvas = document.createElement('canvas');
-    canvas.width = canvas.height = 64;
-    const c = canvas.getContext('2d')!,
-      g = c.createRadialGradient(32, 32, 2, 32, 32, 32);
-    g.addColorStop(0, 'rgba(255,255,255,.7)');
-    g.addColorStop(0.35, 'rgba(255,255,255,.35)');
-    g.addColorStop(1, 'rgba(255,255,255,0)');
-    c.fillStyle = g;
-    c.fillRect(0, 0, 64, 64);
-    const t = new T.CanvasTexture(canvas);
-    t.generateMipmaps = false;
-    return t;
-  }
+
   private animation(id: string, asset: string, foot: T.Vector3, phase: number): Animated {
     const s = this.sprite(id, asset, 'show', foot);
     return { sprite: s, clip: resolveClip(s.manifest, 'show', 'd45'), foot, phase };

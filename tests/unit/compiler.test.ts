@@ -1,3 +1,4 @@
+import { temporaryDirectory } from '../fixtures/temporary-directory';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -102,52 +103,44 @@ test('valid supplied assets and deliberately invalid schema fixtures', async () 
   parseManifest(looping);
 });
 
-test('compiler is byte deterministic; failed build preserves prior manifest; source confinement and case', async () => {
+test('compiler is byte deterministic; failed build preserves prior manifest; source confinement and case', async (t) => {
   const { root: fixtureRoot } = await compiledFixture();
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-compiler-'));
-  try {
-    const context = await writer(dir);
-    const a = await context.compile('valid.json', 'public/generated', false, fixtureRoot);
-    const before = await readAsset(path.join(dir, 'public/generated/manifest.json'));
-    const b = await context.compile('valid.json', 'public/generated', false, fixtureRoot);
-    assert.equal(a.hash, b.hash);
-    assert.deepEqual(await readAsset(path.join(dir, 'public/generated/manifest.json')), before);
-    await fs.writeFile(path.join(dir, 'invalid.json'), fixtureTexts['invalid-duration']!);
-    await assert.rejects(context.compile('invalid.json', 'public/generated', false, dir));
-    assert.deepEqual(await readAsset(path.join(dir, 'public/generated/manifest.json')), before);
-    await assert.rejects(exactSource('../package.json', fixtureRoot));
-    await assert.rejects(exactSource('VALID.json', fixtureRoot), /case/);
-  } finally {
-    await fs.rm(dir, { recursive: true, force: true });
-  }
+  const dir = await temporaryDirectory(t, 'lantern-compiler-');
+
+  const context = await writer(dir);
+  const a = await context.compile('valid.json', 'public/generated', false, fixtureRoot);
+  const before = await readAsset(path.join(dir, 'public/generated/manifest.json'));
+  const b = await context.compile('valid.json', 'public/generated', false, fixtureRoot);
+  assert.equal(a.hash, b.hash);
+  assert.deepEqual(await readAsset(path.join(dir, 'public/generated/manifest.json')), before);
+  await fs.writeFile(path.join(dir, 'invalid.json'), fixtureTexts['invalid-duration']!);
+  await assert.rejects(context.compile('invalid.json', 'public/generated', false, dir));
+  assert.deepEqual(await readAsset(path.join(dir, 'public/generated/manifest.json')), before);
+  await assert.rejects(exactSource('../package.json', fixtureRoot));
+  await assert.rejects(exactSource('VALID.json', fixtureRoot), /case/);
 });
 
-test('compiler accepts opaque RGB artwork and supplies an opaque alpha channel', async () => {
+test('compiler accepts opaque RGB artwork and supplies an opaque alpha channel', async (t) => {
   const { root: fixtureRoot } = await compiledFixture();
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-alpha-'));
+  const dir = await temporaryDirectory(t, 'lantern-alpha-');
   const bad = structuredClone(source),
     file = path.join(dir, 'no-alpha.png'),
     input = path.join(dir, 'invalid-alpha.json');
-  try {
-    const context = await writer(dir);
-    await context.compile('valid.json', 'public/generated', false, fixtureRoot);
-    await sharp(path.join(fixtureRoot, bad.frames[0].path))
-      .flatten({ background: '#ffffff' })
-      .png()
-      .toFile(file);
-    bad.frames[0].path = 'no-alpha.png';
-    await fs.writeFile(input, JSON.stringify(bad));
-    const result = await context.compile('invalid-alpha.json', 'public/generated', false, dir);
-    assert.ok(result.frames.length > 0);
-    const page = result.pages[0]!;
-    const pixels = await sharp(await readAsset(path.join(dir, 'public/generated', page.path)))
-      .ensureAlpha()
-      .raw()
-      .toBuffer();
-    assert.ok(pixels.includes(255));
-  } finally {
-    await fs.rm(dir, { recursive: true, force: true });
-    await fs.rm(file, { force: true });
-    await fs.rm(input, { force: true });
-  }
+
+  const context = await writer(dir);
+  await context.compile('valid.json', 'public/generated', false, fixtureRoot);
+  await sharp(path.join(fixtureRoot, bad.frames[0].path))
+    .flatten({ background: '#ffffff' })
+    .png()
+    .toFile(file);
+  bad.frames[0].path = 'no-alpha.png';
+  await fs.writeFile(input, JSON.stringify(bad));
+  const result = await context.compile('invalid-alpha.json', 'public/generated', false, dir);
+  assert.ok(result.frames.length > 0);
+  const page = result.pages[0]!;
+  const pixels = await sharp(await readAsset(path.join(dir, 'public/generated', page.path)))
+    .ensureAlpha()
+    .raw()
+    .toBuffer();
+  assert.ok(pixels.includes(255));
 });

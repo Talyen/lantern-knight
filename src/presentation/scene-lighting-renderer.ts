@@ -1,3 +1,5 @@
+import { ColorAntialiasing } from './color-antialiasing';
+import { radialTexture } from './radial-texture';
 import { heroLanternPosition } from './hero-lantern';
 import { FocusMask } from './focus-mask';
 import { ShadowProxies } from './shadow-proxies';
@@ -10,13 +12,8 @@ import {
   BloomEffect,
   ToneMappingEffect,
   ToneMappingMode,
-  SMAAEffect,
-  SMAAPreset,
   Effect,
   BlendFunction,
-  EffectAttribute,
-  EdgeDetectionMode,
-  PredicationMode,
 } from 'postprocessing';
 import { IllustratedLighting } from './illustrated-lighting';
 import { GroundMist } from './ground-mist';
@@ -58,17 +55,7 @@ void mainImage(const in vec4 inputColor,const in vec2 uv,out vec4 outputColor){
  float value=dot(color,vec3(.2126,.7152,.0722));color=mix(vec3(value),color,lookSaturation);
  color=max(vec3(0.0),(color-vec3(.05))*lookContrast+vec3(.05));outputColor=vec4(color,inputColor.a);
 }`;
-class ColorAntialiasing extends SMAAEffect {
-  constructor() {
-    super({
-      preset: SMAAPreset.HIGH,
-      edgeDetectionMode: EdgeDetectionMode.COLOR,
-      predicationMode: PredicationMode.DISABLED,
-    });
-    // Color edges without depth predication need no composer depth copy.
-    this.setAttributes(EffectAttribute.CONVOLUTION);
-  }
-}
+
 function targetLedger(root: object) {
   const seen = new Set<object>(),
     targets: T.WebGLRenderTarget[] = [];
@@ -236,7 +223,7 @@ export class SceneLightingRenderer {
     this.dust = new T.Points(geometry, particle);
     this.extras.add(this.dust);
     this.owned.push(geometry, particle);
-    const mistTexture = this.radialTexture();
+    const mistTexture = radialTexture(1, 1, 0.35);
     this.owned.push(mistTexture);
     this.extras.add(this.mist.group);
     for (let i = 1; i < 4; i++) {
@@ -265,21 +252,7 @@ export class SceneLightingRenderer {
     await this.normalReady;
     await this.lighting.normals.load(assets);
   }
-  private radialTexture() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 64;
-    canvas.height = 64;
-    const ctx = canvas.getContext('2d')!,
-      gradient = ctx.createRadialGradient(32, 32, 1, 32, 32, 32);
-    gradient.addColorStop(0, 'rgba(255,255,255,1)');
-    gradient.addColorStop(0.35, 'rgba(255,255,255,.35)');
-    gradient.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 64, 64);
-    const t = new T.CanvasTexture(canvas);
-    t.generateMipmaps = false;
-    return t;
-  }
+
   private resetGpuTiming() {
     for (const query of this.queries) this.gl.deleteQuery(query);
     this.queries = [];

@@ -1,7 +1,7 @@
+import { temporaryDirectory } from '../fixtures/temporary-directory';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-import os from 'node:os';
 import path from 'node:path';
 import { content, gameScenes, gameAssetCatalog } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
@@ -45,16 +45,13 @@ test('empty Game stays playable and saveable without spurious victories or trans
   for (const id of gameScenes.initialAssets) assert.ok(gameAssetCatalog[id]);
   assert.throws(() => parseGame({ ...save, area: 'court' }, content), /unknown area/);
 });
-test('scene validation accepts an absent or empty authoring directory but rejects malformed documents', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-empty-scenes-'));
-  try {
-    assert.equal(await checkSceneDocuments(root, root), 0);
-    const directory = path.join(root, 'authoring/scenes');
-    await fs.mkdir(directory, { recursive: true });
-    assert.equal(await checkSceneDocuments(root, root), 0);
-    await fs.writeFile(path.join(directory, 'broken.json'), '{}');
-    await assert.rejects(checkSceneDocuments(root, root));
-  } finally {
-    await fs.rm(root, { recursive: true, force: true });
-  }
+test('scene validation accepts an absent or empty authoring directory but rejects malformed documents', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-empty-scenes-');
+
+  assert.equal(await checkSceneDocuments(root, root), 0);
+  const directory = path.join(root, 'authoring/scenes');
+  await fs.mkdir(directory, { recursive: true });
+  assert.equal(await checkSceneDocuments(root, root), 0);
+  await fs.writeFile(path.join(directory, 'broken.json'), '{}');
+  await assert.rejects(checkSceneDocuments(root, root));
 });

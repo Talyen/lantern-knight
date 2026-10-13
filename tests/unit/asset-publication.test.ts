@@ -1,8 +1,8 @@
+import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import os from 'node:os';
 import { createHash } from 'node:crypto';
 import { manifestFixture } from '../fixtures/manifest';
 import { assetCatalog } from '../../src/content/asset-catalog';
@@ -13,8 +13,8 @@ import { recipeHash, LockSchema, type AssetLock } from '../../tools/assets/pack'
 import { publishBundledPrepared, verifyRemote } from '../../tools/assets/publication';
 import { ensureBundlePack, authoringGroups } from '../../tools/assets/bundles';
 
-test('split publication uses downloadable filenames, frees the candidate archive and preserves the pin on failure', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-publication-')),
+test('split publication uses downloadable filenames, frees the candidate archive and preserves the pin on failure', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-publication-'),
     cache = new AssetCache(path.join(root, 'cache')),
     held = await cache.lease('preparation'),
     payload = path.join(held.root, 'payload'),
@@ -152,7 +152,6 @@ test('split publication uses downloadable filenames, frees the candidate archive
     }
   } finally {
     await held.release();
-    await fs.rm(root, { recursive: true, force: true });
   }
 });
 
@@ -183,8 +182,8 @@ test('authoring shards preserve unrelated membership and retain indivisible sour
   );
 });
 
-test('remote reuse requires previously hashed bytes and a strong validator; changed responses still fail hashing', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'remote-bundle-proof-'));
+test('remote reuse requires previously hashed bytes and a strong validator; changed responses still fail hashing', async (t) => {
+  const root = await temporaryDirectory(t, 'remote-bundle-proof-');
   const cache = new AssetCache(root);
   const body = 'immutable bundle';
   const sha256 = createHash('sha256').update(body).digest('hex');
@@ -210,29 +209,26 @@ test('remote reuse requires previously hashed bytes and a strong validator; chan
       ? new Response(null, { status: 304, headers: { etag: '"exact-bytes"' } })
       : new Response('corrupt bytes', { headers: { etag: '"changed"' } });
   };
-  try {
-    await verifyRemote(lock, cache, request);
-    await verifyRemote(lock, cache, request);
-    await assert.rejects(verifyRemote(lock, cache, request), /hash differs/);
-    assert.equal(calls, 3);
-    let weak304Calls = 0;
-    await verifyRemote(lock, cache, async (_, init) => {
-      weak304Calls++;
-      if (new Headers(init?.headers).has('If-None-Match'))
-        return new Response(null, { status: 304, headers: { etag: 'W/"exact-bytes"' } });
-      return new Response(body, { headers: { etag: 'W/"semantic-only"' } });
-    });
-    assert.equal(weak304Calls, 2);
-    const weak: typeof fetch = async (_, init) => {
-      assert.equal(new Headers(init?.headers).get('If-None-Match'), null);
-      return new Response(body, { headers: { etag: 'W/"semantic-only"' } });
-    };
-    await fs.rm(path.join(root, 'entries', 'publication-' + sha256, 'verified.json'), {
-      force: true,
-    });
-    await verifyRemote(lock, cache, weak);
-    await verifyRemote(lock, cache, weak);
-  } finally {
-    await fs.rm(root, { recursive: true, force: true });
-  }
+
+  await verifyRemote(lock, cache, request);
+  await verifyRemote(lock, cache, request);
+  await assert.rejects(verifyRemote(lock, cache, request), /hash differs/);
+  assert.equal(calls, 3);
+  let weak304Calls = 0;
+  await verifyRemote(lock, cache, async (_, init) => {
+    weak304Calls++;
+    if (new Headers(init?.headers).has('If-None-Match'))
+      return new Response(null, { status: 304, headers: { etag: 'W/"exact-bytes"' } });
+    return new Response(body, { headers: { etag: 'W/"semantic-only"' } });
+  });
+  assert.equal(weak304Calls, 2);
+  const weak: typeof fetch = async (_, init) => {
+    assert.equal(new Headers(init?.headers).get('If-None-Match'), null);
+    return new Response(body, { headers: { etag: 'W/"semantic-only"' } });
+  };
+  await fs.rm(path.join(root, 'entries', 'publication-' + sha256, 'verified.json'), {
+    force: true,
+  });
+  await verifyRemote(lock, cache, weak);
+  await verifyRemote(lock, cache, weak);
 });

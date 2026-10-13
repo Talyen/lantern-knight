@@ -1,8 +1,8 @@
+import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import os from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { selectTestFiles, ciDefaultSuites } from '../../tools/test';
 import { coverageFor } from '../../tools/coverage-policy';
@@ -10,13 +10,13 @@ const requiresDesktop = (files: readonly string[]) => coverageFor(files).desktop
 const requiresAuthoring = (files: readonly string[]) => coverageFor(files).authoring;
 import { browserSelection } from '../../tools/browser-tests';
 import { checkAssets } from '../../tools/check-assets';
-test('concise test output preserves failures, skips, TODOs and process diagnostics', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-reporter-'));
+test('concise test output preserves failures, skips, TODOs and process diagnostics', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-reporter-');
   const file = path.join(root, 'reporter.test.mjs');
-  try {
-    await fs.writeFile(
-      file,
-      `import test from 'node:test';
+
+  await fs.writeFile(
+    file,
+    `import test from 'node:test';
 import assert from 'node:assert/strict';
 console.log('stdout-marker');
 console.error('stderr-marker');
@@ -28,78 +28,72 @@ if (process.env.LANTERN_REPORTER_FAILURE === '1')
     await t.test('broken leaf', () => assert.equal(1, 2, 'failure-marker'));
   });
 `,
+  );
+  const env = { ...process.env };
+  delete env.NODE_TEST_CONTEXT;
+  for (const failure of [false, true]) {
+    const result = spawnSync(
+      process.execPath,
+      [
+        '--import',
+        import.meta.resolve('tsx'),
+        '--test',
+        '--test-reporter=./tools/test-reporter.ts',
+        file,
+      ],
+      {
+        encoding: 'utf8',
+        env: { ...env, LANTERN_REPORTER_FAILURE: failure ? '1' : '0' },
+        timeout: 10000,
+      },
     );
-    const env = { ...process.env };
-    delete env.NODE_TEST_CONTEXT;
-    for (const failure of [false, true]) {
-      const result = spawnSync(
-        process.execPath,
-        [
-          '--import',
-          import.meta.resolve('tsx'),
-          '--test',
-          '--test-reporter=./tools/test-reporter.ts',
-          file,
-        ],
-        {
-          encoding: 'utf8',
-          env: { ...env, LANTERN_REPORTER_FAILURE: failure ? '1' : '0' },
-          timeout: 10000,
-        },
-      );
-      const output = result.stdout + result.stderr;
-      assert.equal(result.status, failure ? 1 : 0, output);
-      assert.doesNotMatch(output, /passing (suite|leaf)/);
-      for (const marker of ['stdout-marker', 'stderr-marker', 'fixture skip', 'fixture todo'])
-        assert.ok(output.includes(marker), output);
-      assert.match(output, /ℹ skipped 1/);
-      assert.match(output, /ℹ todo 1/);
-      if (failure) {
-        assert.match(output, /broken leaf/);
-        assert.match(output, /failure-marker/);
-        assert.match(output, /reporter\.test\.mjs:\d+/);
-        assert.match(output, /ℹ fail [1-9]/);
-      } else assert.match(output, /ℹ fail 0/);
-    }
-  } finally {
-    await fs.rm(root, { recursive: true, force: true });
+    const output = result.stdout + result.stderr;
+    assert.equal(result.status, failure ? 1 : 0, output);
+    assert.doesNotMatch(output, /passing (suite|leaf)/);
+    for (const marker of ['stdout-marker', 'stderr-marker', 'fixture skip', 'fixture todo'])
+      assert.ok(output.includes(marker), output);
+    assert.match(output, /ℹ skipped 1/);
+    assert.match(output, /ℹ todo 1/);
+    if (failure) {
+      assert.match(output, /broken leaf/);
+      assert.match(output, /failure-marker/);
+      assert.match(output, /reporter\.test\.mjs:\d+/);
+      assert.match(output, /ℹ fail [1-9]/);
+    } else assert.match(output, /ℹ fail 0/);
   }
 });
-test('fast defaults, full coverage and explicit paths cannot silently lose CI suites', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-selection-'));
-  try {
-    await fs.mkdir(path.join(root, 'tests/unit'), { recursive: true });
-    const fast = 'tests/unit/one.test.ts',
-      integration = 'tests/unit/process-integration.test.ts';
-    for (const file of [fast, integration]) await fs.writeFile(path.join(root, file), 'export {};');
-    assert.deepEqual(await selectTestFiles([], root), [fast]);
-    assert.deepEqual(await selectTestFiles(['--full'], root), [fast, integration]);
-    assert.deepEqual(await selectTestFiles([integration, './' + integration], root), [integration]);
-    await assert.rejects(selectTestFiles(['tests/unit'], root), /Invalid test selection/);
-    await assert.rejects(selectTestFiles(['--unknown'], root), /Invalid test selection/);
-    await assert.rejects(selectTestFiles(['--full', fast], root), /Use --full/);
-    await fs.mkdir(path.join(root, 'tests/assets'));
-    await fs.writeFile(path.join(root, 'tests/assets/one.test.ts'), 'export {};');
-    assert.deepEqual(await selectTestFiles([], root, 'assets'), ['tests/assets/one.test.ts']);
-    await assert.rejects(selectTestFiles(['--full'], root, 'assets'), /Use --full/);
-    await fs.rm(path.join(root, fast));
-    await assert.rejects(selectTestFiles([], root), /No local test suites/);
-    assert.deepEqual(await selectTestFiles(['--full'], root), [integration]);
-    await fs.writeFile(path.join(root, fast), 'export {};');
-    await fs.rm(path.join(root, integration));
-    for (const args of [[], ['--full'], [fast]])
-      await assert.rejects(selectTestFiles(args, root), /Missing CI-default test suite/);
-    // Also check actual discovery: a new suite runs locally unless deliberately classified.
-    const all = await selectTestFiles(['--full']),
-      local = await selectTestFiles([]);
-    assert.deepEqual(
-      local,
-      all.filter((file) => !(file in ciDefaultSuites)),
-    );
-    for (const file of Object.keys(ciDefaultSuites)) assert.ok(all.includes(file));
-  } finally {
-    await fs.rm(root, { recursive: true, force: true });
-  }
+test('fast defaults, full coverage and explicit paths cannot silently lose CI suites', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-selection-');
+
+  await fs.mkdir(path.join(root, 'tests/unit'), { recursive: true });
+  const fast = 'tests/unit/one.test.ts',
+    integration = 'tests/unit/process-integration.test.ts';
+  for (const file of [fast, integration]) await fs.writeFile(path.join(root, file), 'export {};');
+  assert.deepEqual(await selectTestFiles([], root), [fast]);
+  assert.deepEqual(await selectTestFiles(['--full'], root), [fast, integration]);
+  assert.deepEqual(await selectTestFiles([integration, './' + integration], root), [integration]);
+  await assert.rejects(selectTestFiles(['tests/unit'], root), /Invalid test selection/);
+  await assert.rejects(selectTestFiles(['--unknown'], root), /Invalid test selection/);
+  await assert.rejects(selectTestFiles(['--full', fast], root), /Use --full/);
+  await fs.mkdir(path.join(root, 'tests/assets'));
+  await fs.writeFile(path.join(root, 'tests/assets/one.test.ts'), 'export {};');
+  assert.deepEqual(await selectTestFiles([], root, 'assets'), ['tests/assets/one.test.ts']);
+  await assert.rejects(selectTestFiles(['--full'], root, 'assets'), /Use --full/);
+  await fs.rm(path.join(root, fast));
+  await assert.rejects(selectTestFiles([], root), /No local test suites/);
+  assert.deepEqual(await selectTestFiles(['--full'], root), [integration]);
+  await fs.writeFile(path.join(root, fast), 'export {};');
+  await fs.rm(path.join(root, integration));
+  for (const args of [[], ['--full'], [fast]])
+    await assert.rejects(selectTestFiles(args, root), /Missing CI-default test suite/);
+  // Also check actual discovery: a new suite runs locally unless deliberately classified.
+  const all = await selectTestFiles(['--full']),
+    local = await selectTestFiles([]);
+  assert.deepEqual(
+    local,
+    all.filter((file) => !(file in ciDefaultSuites)),
+  );
+  for (const file of Object.keys(ciDefaultSuites)) assert.ok(all.includes(file));
 });
 test('scene and gameplay edits use routine CI; desktop contracts select platform verification', () => {
   assert.equal(requiresAuthoring(['src/editor/model.ts']), true);
@@ -136,16 +130,13 @@ test('built browser tests select only Game and remove the wrapper flag', () => {
   assert.equal(browserSelection(['editor']).scope, 'authoring');
   assert.equal(browserSelection(['scene']).scope, 'authoring');
 });
-test('asset validation reads the explicit workspace and rejects altered media', async () => {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-explicit-assets-'));
-  try {
-    const { loadingVideoPath } = await import('../../src/content/loading-media');
-    await fs.mkdir(path.dirname(path.join(root, loadingVideoPath)), { recursive: true });
-    await fs.writeFile(path.join(root, loadingVideoPath), 'altered media');
-    await assert.rejects(checkAssets({ publicDirectory: root }), /loading video differs/);
-  } finally {
-    await fs.rm(root, { recursive: true, force: true });
-  }
+test('asset validation reads the explicit workspace and rejects altered media', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-explicit-assets-');
+
+  const { loadingVideoPath } = await import('../../src/content/loading-media');
+  await fs.mkdir(path.dirname(path.join(root, loadingVideoPath)), { recursive: true });
+  await fs.writeFile(path.join(root, loadingVideoPath), 'altered media');
+  await assert.rejects(checkAssets({ publicDirectory: root }), /loading video differs/);
 });
 
 test('preview and policy changes select both optional tiers; missing comparisons fail closed', () => {

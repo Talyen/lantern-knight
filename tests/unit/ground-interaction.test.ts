@@ -1,3 +1,4 @@
+import { temporaryDirectory } from '../fixtures/temporary-directory';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { artworkFloorLayout } from '../../src/content/floor-layout';
@@ -156,75 +157,63 @@ test('manual mask tracing preserves separate islands, diagonal contact, and hole
   for (const shape of shapes) assert.ok(shape.outer.length >= 4);
 });
 
-test('asset delivery reprocessing preserves scene interactions; changed painting is flagged without deleting authored data', async () => {
+test('asset delivery reprocessing preserves scene interactions; changed painting is flagged without deleting authored data', async (t) => {
   const { SceneStore } = await import('../../tools/scene/scene-editor-store');
-  const fs = await import('node:fs/promises'),
-    os = await import('node:os'),
-    path = await import('node:path');
-  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'ground-reprocessing-'));
-  try {
-    const d = emptyScene(),
-      m = manifestFixture('ink-moss');
-    d.floor.layout = 'artwork';
-    d.groundInteraction = ground();
-    m.asset.type = 'material';
-    m.asset.projection = 'top-down';
-    m.asset.canvas = [...d.groundInteraction.dimensions];
-    m.asset.clips.surface = { d45: structuredClone(m.asset.clips.idle!.d45!) };
-    d.groundInteraction.frame = m.asset.clips.surface.d45!.frames[0]!;
-    d.groundInteraction.hash = m.pages[0]!.hash;
-    const manifests = new Map([[m.asset.id, m]]),
-      store = new SceneStore(directory);
-    await store.save(d, null);
-    const original = await store.read(d.id);
-    // Delivery metadata, version and filenames may change while lossless artwork stays identical.
-    m.hash = 'c'.repeat(64);
-    m.toolVersion = 'reprocessed-delivery';
-    m.pages[0]!.path = 'reprocessed/painting.png';
-    validateSceneReferences(d, manifests);
-    assert.deepEqual(await store.read(d.id), original);
-    m.pages[0]!.hash = 'd'.repeat(64);
-    assert.throws(() => validateSceneReferences(d, manifests), /artwork identity changed/);
-    assert.deepEqual(await store.read(d.id), original);
-  } finally {
-    await fs.rm(directory, { recursive: true, force: true });
-  }
+  const directory = await temporaryDirectory(t, 'ground-reprocessing-');
+
+  const d = emptyScene(),
+    m = manifestFixture('ink-moss');
+  d.floor.layout = 'artwork';
+  d.groundInteraction = ground();
+  m.asset.type = 'material';
+  m.asset.projection = 'top-down';
+  m.asset.canvas = [...d.groundInteraction.dimensions];
+  m.asset.clips.surface = { d45: structuredClone(m.asset.clips.idle!.d45!) };
+  d.groundInteraction.frame = m.asset.clips.surface.d45!.frames[0]!;
+  d.groundInteraction.hash = m.pages[0]!.hash;
+  const manifests = new Map([[m.asset.id, m]]),
+    store = new SceneStore(directory);
+  await store.save(d, null);
+  const original = await store.read(d.id);
+  // Delivery metadata, version and filenames may change while lossless artwork stays identical.
+  m.hash = 'c'.repeat(64);
+  m.toolVersion = 'reprocessed-delivery';
+  m.pages[0]!.path = 'reprocessed/painting.png';
+  validateSceneReferences(d, manifests);
+  assert.deepEqual(await store.read(d.id), original);
+  m.pages[0]!.hash = 'd'.repeat(64);
+  assert.throws(() => validateSceneReferences(d, manifests), /artwork identity changed/);
+  assert.deepEqual(await store.read(d.id), original);
 });
 
-test('large accepted contours survive transactional history and scene-store reopen', async () => {
+test('large accepted contours survive transactional history and scene-store reopen', async (t) => {
   const { EditorHistory } = await import('../../src/editor/model');
   const { SceneStore } = await import('../../tools/scene/scene-editor-store');
-  const fs = await import('node:fs/promises'),
-    os = await import('node:os'),
-    path = await import('node:path');
-  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'ground-contract-'));
-  try {
-    const d = sceneFixture('graveyard');
-    d.floor.layout = 'artwork';
-    d.groundInteraction = ground();
-    d.groundInteraction.regions[0]!.mask![0]!.outer = Array.from(
-      { length: 90000 },
-      (_, i) =>
-        [
-          0.5 + 0.2 * Math.cos((i / 90000) * Math.PI * 2),
-          0.5 + 0.2 * Math.sin((i / 90000) * Math.PI * 2),
-        ] as [number, number],
-    );
-    assert.ok(Buffer.byteLength(JSON.stringify(d)) > 1024 * 1024);
-    const history = new EditorHistory(d);
-    history.change((p) => {
-      p.groundInteraction!.regions[0]!.name = 'Accepted correction';
-    });
-    history.undo();
-    assert.equal(history.document.groundInteraction!.regions[0]!.name, 'Tree');
-    history.redo();
-    const store = new SceneStore(directory);
-    await store.save(history.document, null);
-    const reopened = await store.read(d.id);
-    assert.deepEqual(reopened.document, history.document);
-    const recovery = JSON.stringify({ document: history.document });
-    assert.deepEqual(parseSceneDocument(JSON.parse(recovery).document), history.document);
-  } finally {
-    await fs.rm(directory, { recursive: true, force: true });
-  }
+  const directory = await temporaryDirectory(t, 'ground-contract-');
+
+  const d = sceneFixture('graveyard');
+  d.floor.layout = 'artwork';
+  d.groundInteraction = ground();
+  d.groundInteraction.regions[0]!.mask![0]!.outer = Array.from(
+    { length: 90000 },
+    (_, i) =>
+      [
+        0.5 + 0.2 * Math.cos((i / 90000) * Math.PI * 2),
+        0.5 + 0.2 * Math.sin((i / 90000) * Math.PI * 2),
+      ] as [number, number],
+  );
+  assert.ok(Buffer.byteLength(JSON.stringify(d)) > 1024 * 1024);
+  const history = new EditorHistory(d);
+  history.change((p) => {
+    p.groundInteraction!.regions[0]!.name = 'Accepted correction';
+  });
+  history.undo();
+  assert.equal(history.document.groundInteraction!.regions[0]!.name, 'Tree');
+  history.redo();
+  const store = new SceneStore(directory);
+  await store.save(history.document, null);
+  const reopened = await store.read(d.id);
+  assert.deepEqual(reopened.document, history.document);
+  const recovery = JSON.stringify({ document: history.document });
+  assert.deepEqual(parseSceneDocument(JSON.parse(recovery).document), history.document);
 });

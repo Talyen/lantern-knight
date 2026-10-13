@@ -41,45 +41,13 @@ input:focus-visible {
   outline: 2px solid #e2ba70;
   outline-offset: 3px;
 }
-header {
-  height: 76px;
-  padding: 13px 24px;
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  border-bottom: 1px solid #4d4850;
-  background: #171c26;
-}
-h1 {
-  font:
-    24px/1.1 Georgia,
-    serif;
-  letter-spacing: 1px;
-  margin: 0;
-  color: #eee1c6;
-}
-header small {
-  font-size: 9px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #a0a9b3;
-}
 nav {
   display: flex;
   gap: 6px;
   margin-left: auto;
 }
-.badge {
-  color: #d2b677;
-  border: 1px solid #65583a;
-  padding: 4px 9px;
-  font-size: 10px;
-  letter-spacing: 1px;
-  white-space: nowrap;
-}
 .stage {
   position: relative;
-  height: calc(100% - 128px);
 }
 canvas {
   width: 100%;
@@ -106,45 +74,6 @@ canvas {
   color: #e6ddcd;
   margin: 5px 0;
 }
-.title-card p {
-  margin: 2px 0;
-  color: #a3aeb8;
-  font-size: 12px;
-}
-.panel {
-  position: absolute;
-  right: 24px;
-  top: 24px;
-  width: 282px;
-  padding: 18px;
-  background: #171d28ed;
-  border: 1px solid #4c4850;
-  box-shadow: 0 8px 28px #0005;
-  border-radius: 6px;
-  max-height: calc(100% - 40px);
-  overflow: auto;
-}
-.panel h3 {
-  font:
-    19px Georgia,
-    serif;
-  color: #e9d8b6;
-  margin: 0 0 10px;
-}
-.panel label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin: 8px 0;
-}
-.panel select {
-  max-width: 168px;
-}
-.panel input[type='range'] {
-  width: 100%;
-  accent-color: #c7a56b;
-}
 .buttons {
   display: flex;
   gap: 6px;
@@ -157,24 +86,6 @@ canvas {
 .muted {
   color: #96a2b2;
   font-size: 11px;
-}
-.timeline {
-  height: 12px;
-  background: linear-gradient(90deg, #79654c 0 28%, #c47864 28% 42%, #3f5763 42%);
-  border-radius: 2px;
-}
-.log {
-  font:
-    10px/1.5 ui-monospace,
-    monospace;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  color: #8ca7a9;
-  max-height: 86px;
-  overflow: auto;
-  border-top: 1px solid #39424d;
-  margin-top: 10px;
-  padding-top: 8px;
 }
 .hud {
   position: absolute;
@@ -235,7 +146,6 @@ canvas {
   z-index: 3;
 }
 .modal[hidden],
-.panel[hidden],
 .hud[hidden],
 .actions[hidden] {
   display: none;
@@ -256,82 +166,15 @@ canvas {
 .modal .buttons {
   flex-wrap: wrap;
 }
-footer {
-  height: 52px;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  background: #171c26;
-  border-top: 1px solid #3b424b;
-  color: #98a5b5;
-  font-size: 11px;
-}
-footer .status {
-  margin-left: auto;
-  color: #d4bb82;
-}
-.directions {
-  font:
-    11px ui-monospace,
-    monospace;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  margin: 12px 0;
-  color: #adb9c1;
-}
 .error {
   color: #f3a79a;
 }
-.swatches {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-.swatches span {
-  width: 38px;
-  height: 20px;
-  border: 1px solid #aca59c;
-}
-.stats {
-  font:
-    11px ui-monospace,
-    monospace;
-  color: #9eb0ba;
-  white-space: pre-line;
-}
 @media (max-width: 1100px) {
-  header {
-    gap: 12px;
-    padding: 12px;
-  }
-  header .badge {
-    display: none;
-  }
   nav button {
     padding: 7px;
   }
-  .panel {
-    width: 250px;
-    right: 14px;
-  }
-  .title-card h2 {
-    font-size: 24px;
-  }
   .actions {
     left: 55%;
-  }
-  .action {
-    min-width: 80px;
-    padding: 8px;
-  }
-  footer {
-    padding: 0 14px;
-    gap: 10px;
-  }
-  .title-card {
-    left: 16px;
   }
 }
 
@@ -364,7 +207,6 @@ footer .status {
 }
 /* Player presentation shares the engine, not the laboratory chrome. */
 body.game {
-  overflow: hidden;
   background: #151d22;
 }
 .game #app {
@@ -374,11 +216,6 @@ body.game {
 .game-stage {
   height: 100dvh;
   min-height: 0;
-}
-.game canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
 }
 .game .hud {
   left: 28px;
@@ -478,22 +315,6 @@ body.game {
 .confirmation::backdrop {
   background: #101722c9;
 }
-.sandbox-controls {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-.sandbox-controls label {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-.sandbox-controls select {
-  width: 170px;
-}
-.sandbox-controls button {
-  white-space: nowrap;
-}
 @keyframes location-title {
   0% {
     opacity: 0;
@@ -519,11 +340,6 @@ body.game {
   }
 }
 @media (max-width: 850px) {
-  .game .hud {
-    left: 12px;
-    bottom: 12px;
-    width: 175px;
-  }
   .game .actions {
     left: auto;
     right: 12px;
@@ -538,12 +354,6 @@ body.game {
     white-space: normal;
     width: 80%;
     text-align: center;
-  }
-  .sandbox-controls {
-    position: absolute;
-    top: 82px;
-    right: 20px;
-    z-index: 5;
   }
 }
 
@@ -567,6 +377,8 @@ body.game {
 }
 
 .timeline {
+  height: 12px;
+  border-radius: 2px;
   position: relative;
   background: #3f5763;
   overflow: hidden;
