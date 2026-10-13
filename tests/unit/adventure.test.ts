@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { ContentRegistry, type AreaDefinition } from '../../src/content/world';
 import { actors } from '../../src/content/actors';
 import { GameSession } from '../../src/core/session';
+import { Simulation } from '../../src/core/simulation';
 import { parseGame } from '../../src/core/save';
 import { rewardSchema } from '../../src/content/interactions';
 import { nearbyInteraction } from '../../src/core/interaction';
@@ -573,4 +574,77 @@ test('loot overflow preserves the ground drop and existing inventory', () => {
   assert.deepEqual(s.captureSave(), before);
   assert.ok(s.sim.drops.some((d) => d.id === 'object-crate'));
   assert.doesNotThrow(() => parseGame(s.captureSave(), s.registry));
+});
+
+// Damage alerts outside the automatic awareness radius. Re-entry must retain that
+// encounter without retaining animation, navigation or attack transient state.
+for (const reenter of ['checkpoint', 'travel'] as const)
+  test(`${reenter} retains local enemy alerts until rest resets encounters`, () => {
+    const s = fixture();
+    s.sim.hero.x = -5.5;
+    s.sim.damage(s.sim.hero, s.sim.enemies[0]!, 1);
+    assert.equal(s.sim.inCombat, true);
+    if (reenter === 'checkpoint') {
+      s.restoreSave(s.captureSave());
+    } else {
+      s.sim.damage(s.sim.hero, s.sim.enemies[1]!, 1000);
+      s.commitTransition(s.prepareTransition('depart'));
+      s.sim.damage(s.sim.hero, s.sim.enemies[1]!, 1000);
+      s.commitTransition(s.prepareTransition('depart'));
+      s.sim.hero.x = -5.5;
+    }
+    assert.equal(s.sim.inCombat, true, reenter + ' must preserve the alert');
+    assert.throws(() => s.salvage(), /Finish combat/);
+    assert.equal(s.sim.enemies[0]!.state, 'idle', 'animation remains transient');
+    s.sim.hero.x = -8;
+    s.rest('orchard/west');
+    s.sim.hero.x = -5.5;
+    assert.equal(s.sim.inCombat, false, 'rest resets alerts with enemy health');
+    assert.equal(s.sim.enemies[0]!.health, 50);
+  });
+
+test('area reconstruction detaches world progress and rejects invalid alerts at both admission boundaries', () => {
+  const s = fixture();
+  s.sim.claimObject('crate');
+  s.sim.damage(s.sim.hero, s.sim.enemies[1]!, 1000);
+  s.sim.damage(s.sim.hero, s.sim.enemies[0]!, 1);
+  s.sim.setMovementTarget(s.sim.enemies[0]!.id, { x: 0, z: 0 });
+  const state = s.sim.captureAreaState(),
+    expected = structuredClone(state);
+  const recreate = (value: typeof state) =>
+    new Simulation(
+      s.registry,
+      s.sim.initialSeed,
+      s.sim.area,
+      s.generation + 1,
+      undefined,
+      undefined,
+      value,
+    );
+  const next = recreate(state);
+  assert.deepEqual(next.captureAreaState(), expected);
+  assert.equal(next.enemies[1]!.state, 'death');
+  assert.deepEqual(next.navigationDebug().routes, [], 'movement requests are transient');
+  state.actors.first!.health = 1;
+  state.drops![0]!.rewards[0]!.amount = 99;
+  state.claimedObjects!.length = 0;
+  state.alerted!.length = 0;
+  assert.deepEqual(s.sim.captureAreaState(), expected, 'capture is detached from the live owner');
+  assert.deepEqual(next.captureAreaState(), expected, 'reconstruction detaches its input');
+  for (const alerted of [['unknown'], ['first', 'first']]) {
+    const invalid = { ...expected, alerted };
+    assert.throws(() => recreate(invalid), /alerted enemy/);
+    const save = s.captureSave();
+    save.areas[save.area] = invalid;
+    assert.throws(() => s.restoreSave(save), /alerted enemy/);
+    assert.deepEqual(s.sim.captureAreaState(), expected, 'failed admission preserves the session');
+  }
+  const legacy = s.captureSave();
+  delete legacy.areas[legacy.area]!.alerted;
+  s.restoreSave(legacy);
+  assert.deepEqual(
+    s.sim.captureAreaState().alerted,
+    [],
+    'existing version 7 saves remain readable',
+  );
 });

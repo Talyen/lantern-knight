@@ -1,6 +1,6 @@
 import { equipmentSlots, healthBonus } from '../content/items';
 import { validateInventory, MAX_ITEM_COUNT } from './inventory';
-import { rewardSchema } from '../content/interactions';
+import { AreaStateSchema, parseAreaState } from './area-state';
 import { z } from 'zod';
 import { type ContentRegistry, contains, isSupportedPosition } from '../content/world';
 import { effectiveRadius } from '../content/collision';
@@ -30,32 +30,9 @@ const GameSchema = z.strictObject({
       potionCooldown: z.number().int().min(0).max(60),
     })
     .optional(),
-  areas: z.record(
-    id,
-    z.strictObject({
-      cleared: z.boolean(),
-      engaged: z.boolean(),
-      actors: z.record(id, point),
-      collectedPickups: z.array(id).optional(),
-      claimedObjects: z.array(id).optional(),
-      drops: z
-        .array(
-          z.strictObject({
-            id,
-            source: id,
-            enemy: z.boolean(),
-            x: z.number().finite(),
-            z: z.number().finite(),
-            rewards: z.array(rewardSchema),
-          }),
-        )
-        .max(1000)
-        .optional(),
-    }),
-  ),
+  areas: z.record(id, AreaStateSchema),
 });
 export type GameSave = z.infer<typeof GameSchema>;
-export type SavedArea = GameSave['areas'][string];
 export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
   const save = GameSchema.parse(value),
     resolve = (id: string) => {
@@ -88,72 +65,11 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
       throw new Error('Unknown campfire');
   }
   if (!save.areas[save.area]) throw new Error('missing current area state');
-  for (const [areaId, state] of Object.entries(save.areas)) {
-    const area = resolve(areaId);
-    if (Object.keys(state.actors).some((id) => !area.spawns.some((s) => s.id === id)))
-      throw new Error(`unknown actor reference in ${areaId}`);
-    if (Object.keys(state.actors).length !== area.spawns.length)
-      throw new Error(`actor count differs in ${areaId}`);
-    if (
-      state.collectedPickups &&
-      (new Set(state.collectedPickups).size !== state.collectedPickups.length ||
-        state.collectedPickups.some((id) => !area.pickups?.some((p) => p.id === id)))
-    )
-      throw new Error('Unknown or duplicate collected pickup');
-    if (
-      state.claimedObjects &&
-      (new Set(state.claimedObjects).size !== state.claimedObjects.length ||
-        state.claimedObjects.some((id) => !area.interactables?.some((p) => p.id === id)))
-    )
-      throw new Error('Unknown claimed object');
-    if (state.drops) {
-      if (new Set(state.drops.map((d) => d.id)).size !== state.drops.length)
-        throw new Error('Duplicate drop');
-      for (const drop of state.drops) {
-        const source = drop.enemy
-          ? area.spawns.find((p) => p.id === drop.source)
-          : area.interactables?.find((p) => p.id === drop.source);
-        const rewards = source?.rewards;
-        if (
-          !source ||
-          !isSupportedPosition(area, drop, 0.01) ||
-          rewards?.length !== drop.rewards.length ||
-          rewards?.some(
-            (reward, i) =>
-              reward.item !== drop.rewards[i]!.item || reward.amount !== drop.rewards[i]!.amount,
-          ) ||
-          drop.id !== (drop.enemy ? 'enemy-' : 'object-') + drop.source ||
-          (!drop.enemy && !state.claimedObjects?.includes(drop.source)) ||
-          (drop.enemy && state.actors[drop.source]?.health !== 0)
-        )
-          throw new Error('Invalid drop');
-      }
-    }
-    for (const spawn of area.spawns) {
-      const actor = state.actors[spawn.id];
-      if (
-        !actor ||
-        !contains(area.bounds, actor) ||
-        actor.health > registry.actor(spawn.actor).maxHealth
-      )
-        throw new Error(`invalid actor ${areaId}/${spawn.id}`);
-    }
-    if (state.cleared !== Object.values(state.actors).every((a) => a.health === 0))
-      throw new Error(`inconsistent clear state ${areaId}`);
-  }
+  for (const [areaId, state] of Object.entries(save.areas))
+    save.areas[areaId] = parseAreaState(state, registry, areaId);
+
   if (!isSupportedPosition(active, save.player, effectiveRadius(player.radius)))
     throw new Error('Unsupported saved player position');
-  for (const [areaId, state] of Object.entries(save.areas)) {
-    const area = resolve(areaId);
-    for (const spawn of area.spawns)
-      if (
-        !isSupportedPosition(
-          area,
-          state.actors[spawn.id]!,
-          effectiveRadius(registry.actor(spawn.actor).radius),
-        )
-      )
-        throw new Error('Unsupported saved actor position');
-  }
+
   return save;
 }

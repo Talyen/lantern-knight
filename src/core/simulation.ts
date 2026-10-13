@@ -1,3 +1,4 @@
+import { parseAreaState, type AreaState } from './area-state';
 import { InventoryState, type InventoryAccess } from './inventory';
 import type { GroundDrop } from '../content/interactions';
 import { simulationView } from './simulation-view';
@@ -305,11 +306,13 @@ export class Simulation {
     generation = 1,
     entry?: string,
     private readonly inventoryAccess: InventoryAccess = new InventoryState(),
+    areaState?: ContentSnapshot<AreaState>,
   ) {
     this.initialSeed = seed;
     this.seed = seed;
     this.generation = generation;
     this.populate(entry);
+    if (areaState) this.restoreAreaState(areaState);
   }
   get events(): readonly SimEvent[] {
     return Object.freeze([...this.tickEvents]);
@@ -347,6 +350,48 @@ export class Simulation {
       );
     this.cleared = this.enemies.length === 0;
     this.engaged = !def.activation;
+  }
+  captureAreaState(): AreaState {
+    const actors = Object.fromEntries(
+      this.areaDefinition.spawns.map((spawn) => {
+        const actor = this.actors.find((actor) => actor.id === spawnActorId(this.area, spawn.id));
+        if (!actor) throw new Error(`missing spawn ${spawn.id}`);
+        return [spawn.id, { x: actor.x, z: actor.z, health: actor.health }];
+      }),
+    );
+    return {
+      actors,
+      collectedPickups: [...this.collectedPickups],
+      claimedObjects: [...this.claimedObjects],
+      drops: structuredClone(this.drops),
+      alerted: this.areaDefinition.spawns
+        .filter((spawn) => this.alerted.has(spawnActorId(this.area, spawn.id)))
+        .map((spawn) => spawn.id),
+      engaged: this.engaged,
+      // Damage can clear the encounter between fixed steps.
+      cleared: Object.values(actors).every((actor) => actor.health === 0),
+    };
+  }
+  private restoreAreaState(value: ContentSnapshot<AreaState>) {
+    const state = parseAreaState(value, this.registry, this.area);
+    for (const spawn of this.areaDefinition.spawns) {
+      const actor = this.actors.find((actor) => actor.id === spawnActorId(this.area, spawn.id))!;
+      Object.assign(actor, state.actors[spawn.id]);
+      actor.y = heightAt(this.areaDefinition, actor.x, actor.z);
+      actor.px = actor.x;
+      actor.py = actor.y;
+      actor.pz = actor.z;
+      if (actor.health === 0) {
+        this.start(actor, 'death');
+        actor.age = tuning.deathHoldTicks;
+      }
+    }
+    this.collectedPickups = new Set(state.collectedPickups ?? []);
+    this.claimedObjects = new Set(state.claimedObjects ?? []);
+    this.drops = state.drops ?? [];
+    this.alerted = new Set((state.alerted ?? []).map((id) => spawnActorId(this.area, id)));
+    this.cleared = state.cleared;
+    this.engaged = state.engaged;
   }
   create(
     id: ActorId,

@@ -47,6 +47,12 @@ Scene documents allow 4 MiB; fragments retain 64 KiB. Saved contours need no mod
 
 Parsing protects technical validity; design profiles produce advice under [scene guidance](scene-design.md).
 
+### Area state and reconstruction
+
+`src/core/area-state.ts` owns the area checkpoint schema, registry validation and encounter-respawn policy. Simulation captures detached area state and accepts saved state only during construction, through the same validator used by full checkpoint admission. It reconstructs enemy positions, health, death poses, local alerts, pickups, claims and drops together. Action clocks, movement requests and object animation ticks remain transient.
+
+GameSession retains area snapshots and selects when to revisit or respawn them; it never reconstructs enemy actors or assigns simulation collections. Rest and death combine fresh encounter state with retained claims, pickups and non-enemy drops. Room travel and checkpoint loading retain local alerts, so reconstruction cannot silently lift combat restrictions. Version 7 checkpoints without the optional `alerted` spawn-ID list remain readable and start without local alerts.
+
 ### Collision and navigation
 
 `src/content/collision.ts` owns footprint geometry, circular clearance, swept contact queries and corrective placement projection. Registry acceptance, checkpoint validation and navigation share position clearance; spawn jitter, route segments and smoothing share segment clearance. Projection is a best-effort correction and never proof that a position is valid. Checkpoints use the same minimum actor radius as movement. Footprint caches retain only immutable props.

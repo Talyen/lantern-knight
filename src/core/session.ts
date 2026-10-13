@@ -1,16 +1,11 @@
 import { type Inventory, type Equipment, type EquipmentSlot } from '../content/items';
 import { InventoryState } from './inventory';
 import { Navigation, effectiveRadius, clearSegment } from './navigation';
-import {
-  PLAYER_ID,
-  spawnActorId,
-  heightAt,
-  type ContentRegistry,
-  type AreaId,
-} from '../content/world';
+import { PLAYER_ID, heightAt, type ContentRegistry, type AreaId } from '../content/world';
 import { Simulation, type Command, type StepResult } from './simulation';
 import { tuning } from '../content/gameplay';
-import { parseGame, type GameSave, type SavedArea } from './save';
+import { respawnAreaState, type AreaState } from './area-state';
+import { parseGame, type GameSave } from './save';
 import type { GameplayEvent, EventDetails } from './events';
 export type TransitionPlan = {
   readonly token: number;
@@ -47,7 +42,7 @@ export class GameSession {
   lastFire: string | undefined;
   wins = 0;
   resetCount = 0;
-  private visited = new Map<AreaId, SavedArea>();
+  private visited = new Map<AreaId, AreaState>();
   private request = 0;
   private pending: TransitionPlan | undefined;
   private eventSequence = 0;
@@ -100,54 +95,19 @@ export class GameSession {
     });
   }
   private recordArea() {
-    const actors = Object.fromEntries(
-      this.sim.areaDefinition.spawns.map((p) => {
-        const a = this.sim.actors.find((a) => a.id === spawnActorId(this.sim.area, p.id));
-        if (!a) throw new Error(`missing spawn ${p.id}`);
-        return [p.id, { x: a.x, z: a.z, health: a.health }];
-      }),
-    );
-    this.visited.set(this.sim.area, {
-      actors,
-      ...(this.sim.collectedPickups.size
-        ? { collectedPickups: [...this.sim.collectedPickups] }
-        : {}),
-      claimedObjects: [...this.sim.claimedObjects],
-      drops: structuredClone(this.sim.drops),
-      engaged: this.sim.engaged,
-      cleared: Object.values(actors).every((a) => a.health === 0),
-    });
+    this.visited.set(this.sim.area, this.sim.captureAreaState());
   }
+
   private restoredSimulation(area: AreaId, generation: number, entry?: string) {
     const sim = new Simulation(
-        this.registry,
-        this.sim.initialSeed,
-        area,
-        generation,
-        entry,
-        this.inventoryState,
-      ),
-      state = this.visited.get(area);
-    if (state) {
-      for (const p of sim.areaDefinition.spawns) {
-        const saved = state.actors[p.id]!,
-          a = sim.actors.find((a) => a.id === spawnActorId(area, p.id))!;
-        Object.assign(a, saved);
-        a.y = heightAt(sim.areaDefinition, a.x, a.z);
-        a.px = a.x;
-        a.py = a.y;
-        a.pz = a.z;
-        if (a.health === 0) {
-          sim.start(a, 'death');
-          a.age = tuning.deathHoldTicks;
-        }
-      }
-      sim.collectedPickups = new Set(state.collectedPickups ?? []);
-      sim.claimedObjects = new Set(state.claimedObjects ?? []);
-      sim.drops = structuredClone(state.drops ?? []);
-      sim.cleared = state.cleared;
-      sim.engaged = state.engaged;
-    }
+      this.registry,
+      this.sim.initialSeed,
+      area,
+      generation,
+      entry,
+      this.inventoryState,
+      this.visited.get(area),
+    );
     sim.tick = this.sim.tick;
     sim.resetCount = this.resetCount;
     return sim;
@@ -272,15 +232,7 @@ export class GameSession {
     this.recordArea();
     for (const [area, state] of this.visited) {
       const fresh = new Simulation(this.registry, this.sim.initialSeed, area);
-      state.actors = Object.fromEntries(
-        this.registry.area(area).spawns.map((p) => {
-          const a = fresh.enemies.find((a) => a.id === spawnActorId(area, p.id))!;
-          return [p.id, { x: a.x, z: a.z, health: a.health }];
-        }),
-      );
-      state.cleared = fresh.cleared;
-      state.engaged = fresh.engaged;
-      state.drops = state.drops?.filter((d) => !d.enemy);
+      this.visited.set(area, respawnAreaState(state, fresh.captureAreaState()));
     }
   }
   resetCurrentArea(reason: 'death' | 'manual' = 'manual'): readonly GameplayEvent[] {
