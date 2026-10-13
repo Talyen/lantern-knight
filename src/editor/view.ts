@@ -1,3 +1,4 @@
+import { cleanupAll } from '../assets/cleanup';
 import { moveSupported, effectiveRadius } from '../core/navigation';
 import { actorVisuals } from '../content/visuals';
 import * as T from 'three';
@@ -479,10 +480,11 @@ export class EditorView {
   clearPlacementGhost() {
     this.ghostRequest++;
     this.ghostKey = '';
-    this.ghost?.dispose();
+    const ghost = this.ghost,
+      pack = this.ghostPack;
     this.ghost = undefined;
-    this.ghostPack?.release();
     this.ghostPack = undefined;
+    cleanupAll([() => ghost?.dispose(), () => pack?.release()]);
   }
   setEditingVisibility(ids: ReadonlySet<string>) {
     this.hidden = new Set(ids);
@@ -557,12 +559,15 @@ export class EditorView {
     this.render();
   }
   dispose() {
+    if (this.closed) return;
     this.closed = true;
     this.accepted = false;
-    this.abort.abort();
-    this.clearPlacementGhost();
-    this.clearHelpers();
-    this.renderer?.dispose();
-    this.assets.dispose();
+    cleanupAll([
+      () => this.abort.abort(),
+      () => this.clearPlacementGhost(),
+      () => this.clearHelpers(),
+      () => this.renderer?.dispose(),
+      () => this.assets.dispose(),
+    ]);
   }
 }

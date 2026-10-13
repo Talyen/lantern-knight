@@ -1,3 +1,4 @@
+import { cleanupAll, cleanupAfterFailure } from './cleanup';
 type Entry<T> = {
   refs: number;
   promise: Promise<T>;
@@ -75,9 +76,24 @@ export class ResourcePool<T> {
     const release = () => {
       if (released) return;
       released = true;
-      for (const [, lease] of leases) lease.release();
+      cleanupAll(
+        leases.map(
+          ([, lease]) =>
+            () =>
+              lease.release(),
+        ),
+      );
     };
-    signal?.addEventListener('abort', release, { once: true });
+    const cancellationErrors: unknown[] = [];
+    const cancel = () => {
+      try {
+        release();
+      } catch (error) {
+        // EventTarget listeners must not throw: report through the acquisition.
+        cancellationErrors.push(error);
+      }
+    };
+    signal?.addEventListener('abort', cancel, { once: true });
     let done = 0;
     try {
       const results = await Promise.allSettled(
@@ -89,8 +105,7 @@ export class ResourcePool<T> {
             onProgress?.(++done, leases.length);
             return [id, value] as const;
           } catch (error) {
-            release();
-            throw error;
+            cleanupAfterFailure(error, release);
           }
         }),
       );
@@ -103,15 +118,27 @@ export class ResourcePool<T> {
       }
       return { resources, release };
     } catch (error) {
-      release();
-      throw error;
+      cleanupAfterFailure(error, () =>
+        cleanupAll([
+          release,
+          ...cancellationErrors.map((failure) => () => {
+            throw failure;
+          }),
+        ]),
+      );
     } finally {
-      signal?.removeEventListener('abort', release);
+      signal?.removeEventListener('abort', cancel);
     }
   }
   dispose() {
     if (this.closed) return;
     this.closed = true;
-    for (const [id, entry] of this.entries) this.discard(id, entry);
+    cleanupAll(
+      [...this.entries].map(
+        ([id, entry]) =>
+          () =>
+            this.discard(id, entry),
+      ),
+    );
   }
 }

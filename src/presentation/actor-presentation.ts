@@ -1,3 +1,4 @@
+import { cleanupAll } from '../assets/cleanup';
 import * as T from 'three';
 import { contactShadowMaterial } from './contact-shadows';
 import { selectDirection, selectAuthoredDirection, HEADINGS } from '../core/camera';
@@ -256,13 +257,16 @@ export class ActorPresentation {
     }
   }
   dispose() {
-    for (const v of this.visuals.values()) {
-      v.sprite.dispose();
-      v.shadow.geometry.dispose();
-      v.shadow.material.dispose();
-      v.ring.geometry.dispose();
-      (v.ring.material as T.Material).dispose();
-    }
+    const visuals = [...this.visuals.values()];
     this.visuals.clear();
+    cleanupAll(
+      visuals.flatMap((v) => [
+        () => v.sprite.dispose(),
+        () => v.shadow.geometry.dispose(),
+        () => v.shadow.material.dispose(),
+        () => v.ring.geometry.dispose(),
+        () => (v.ring.material as T.Material).dispose(),
+      ]),
+    );
   }
 }
