@@ -42,7 +42,7 @@ import {
   resizeCamera,
   outward,
   groundPoint,
-} from '../../src/core/camera';
+} from '../../src/presentation/camera';
 import { resolveScene } from '../../src/content/world-art';
 import { emptyScene } from '../../src/editor/default-scene';
 

@@ -11,7 +11,7 @@ import { resolveClip, type Clip } from '../assets/schema';
 import type { AssetPack } from '../assets/loader';
 import { type WorldVisualDefinition, type ArtPlacement } from '../content/world-visuals';
 import { heightAt, type AreaDefinition } from '../content/world';
-import { outward } from '../core/camera';
+import { outward } from './camera';
 import { clipDuration, frameAt } from '../core/animation';
 import type { SimulationView } from '../core/simulation-view';
 

@@ -19,15 +19,9 @@ import { PlaygroundShafts } from './playground-shafts';
 import { GroundMist } from './ground-mist';
 import { defaultLook } from './lighting-profiles';
 import { sampleMaterial, SilhouetteOutline } from './playground-materials';
-import {
-  makeCamera,
-  resizeCamera,
-  drawingBufferSize,
-  selectAuthoredDirection,
-  right,
-  outward,
-  contract,
-} from '../core/camera';
+import { makeCamera, resizeCamera, drawingBufferSize, right, outward } from './camera';
+import { selectAuthoredDirection } from '../content/headings';
+import { cameraContract as contract } from '../assets/camera-contract';
 import { resolveActorClip, resolveClip, type Clip } from '../assets/schema';
 import { frameAt, clipDuration } from '../core/animation';
 import type { AssetPack } from '../assets/loader';

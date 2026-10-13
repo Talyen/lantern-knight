@@ -1,6 +1,7 @@
 import * as T from 'three';
 import type { ActorSprite } from './sprite';
-import { right, up, contract } from '../core/camera';
+import { right, up } from './camera';
+import { cameraContract as contract } from '../assets/camera-contract';
 export type CoverageMask = { width: number; height: number; alpha: number[] };
 export function coverageAt(mask: CoverageMask | undefined, u: number, v: number) {
   if (u < 0 || u > 1 || v < 0 || v > 1) return 0;

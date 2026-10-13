@@ -1,5 +1,5 @@
 import type { Source } from '../../src/assets/schema';
-import { contract } from '../../src/core/camera';
+import { cameraContract as contract } from '../../src/assets/camera-contract';
 const collection = 'references/art/ink-collection-01';
 const canonicalHash = '74ba2c2004e5b30da8c35f192fd725957a2a24f8b26de0ad58163608cb7dd09c';
 export function source(

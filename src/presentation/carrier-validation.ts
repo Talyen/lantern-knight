@@ -1,6 +1,6 @@
 import * as T from 'three';
 import type { ActorSprite } from './sprite';
-import { right, up } from '../core/camera';
+import { right, up } from './camera';
 import { cardCoverage, type CoverageMask } from './scenery-reveal';
 // Adjacent projected parallelograms can share a diagonal line inside overlapping
 // bounding boxes. Require positive polygon area before sampling source alpha.

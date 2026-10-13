@@ -1,6 +1,6 @@
 import * as T from 'three';
 import { ActorSprite } from './sprite';
-import { outward } from '../core/camera';
+import { outward } from './camera';
 import { AnimationBlendShader } from './animation-blend-shader';
 import { FoliageWind } from './foliage-wind';
 import { sceneryRegistration } from '../content/scenery-registration';

@@ -21,7 +21,7 @@ import {
   constrainCamera,
   resizeCamera,
   walkablePoint,
-} from '../core/camera';
+} from '../presentation/camera';
 import type { Simulation } from '../core/simulation';
 import type { SimulationView } from '../core/simulation-view';
 import { SceneAssets } from '../assets/scene-assets';

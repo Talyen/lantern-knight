@@ -2,7 +2,7 @@ import type { ActorId, ActorDefinition } from '../content/world';
 import type { ContentSnapshot } from '../content/snapshot';
 import type { HeroAttackKind } from '../content/hero-actions';
 import type { SweepTiming, SweepRecovery } from '../content/sweep-timing';
-import type { AuthoredHeading } from './camera';
+import type { AuthoredHeading } from '../content/headings';
 
 export type State = 'idle' | 'walk' | 'attack' | 'dodge' | 'ability' | 'hurt' | 'death';
 export type Actor = {

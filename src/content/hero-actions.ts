@@ -1,6 +1,6 @@
 import { defaultSweepTiming, sweepTimingOverride, type SweepTiming } from './sweep-timing';
 import timings from '../../authoring/hero-actions.json';
-import type { AuthoredHeading, Heading } from '../core/camera';
+import type { AuthoredHeading, Heading } from './headings';
 export type HeroAttackKind = 'sweep' | 'lunge';
 export type HeroTiming = { holdsMs: number[]; damageMs?: number[]; pulseMs?: number };
 export const heroTimings = timings as Record<

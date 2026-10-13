@@ -6,7 +6,7 @@ import { GameSession } from '../../src/core/session';
 import { Simulation } from '../../src/core/simulation';
 import { attackDefinition, tuning } from '../../src/content/gameplay';
 import { heroActionTiming, heroTimings } from '../../src/content/hero-actions';
-import { selectAuthoredDirection, AUTHORED_HEADINGS } from '../../src/core/camera';
+import { selectAuthoredDirection, AUTHORED_HEADINGS } from '../../src/content/headings';
 const still = { move: { x: 0, z: 0 }, aim: { x: 1, z: 0 } };
 function duel() {
   const s = new Simulation(content, 142, content.definitions.initialArea, 1);

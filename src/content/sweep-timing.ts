@@ -1,4 +1,4 @@
-import type { AuthoredHeading } from '../core/camera';
+import type { AuthoredHeading } from './headings';
 
 type Preset = {
   label: string;

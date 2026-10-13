@@ -3,13 +3,9 @@ import { timedWalk, remapWalkTime } from '../../src/core/locomotion-timing';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { heroTimings } from '../../src/content/hero-actions';
-import {
-  selectAuthoredDirection,
-  AUTHORED_HEADINGS,
-  HEADINGS,
-  makeCamera,
-  trimmedBounds,
-} from '../../src/core/camera';
+import { selectAuthoredDirection, AUTHORED_HEADINGS, HEADINGS } from '../../src/content/headings';
+import { makeCamera } from '../../src/presentation/camera';
+import { trimmedBounds } from '../../src/assets/sprite-registration';
 import { parseManifest, resolveClip } from '../../src/assets/schema';
 import { readAsset } from '../../tools/assets/io';
 import { ActorSprite } from '../../src/presentation/sprite';

@@ -1,6 +1,7 @@
 import * as T from 'three';
 import { heightAt, type AreaDefinition } from '../content/world';
-import { contract, outward, right, up } from '../core/camera';
+import { cameraContract as contract } from '../assets/camera-contract';
+import { outward, right, up } from './camera';
 import type { SimulationView } from '../core/simulation-view';
 import type { ActorSprite } from './sprite';
 import { SceneryReveal, cardCoverage, type CoverageMask } from './scenery-reveal';

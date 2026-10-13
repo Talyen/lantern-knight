@@ -10,7 +10,7 @@ import { GameSession, type RoomPlan } from './core/session';
 import { FixedClock, type Command } from './core/simulation';
 import { Persistence } from './persistence';
 import { EventHub, type GameplayEvent } from './core/events';
-import { Input } from './core/input';
+import { Input } from './input';
 import { parseGame, type GameSave } from './core/save';
 import type { Bridge } from './platform/bridge';
 import { FrameScheduler } from './frame-scheduler';

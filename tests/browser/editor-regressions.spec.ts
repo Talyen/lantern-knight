@@ -21,7 +21,7 @@ test.beforeEach(async ({ page }) => {
   );
   await page.evaluate(async () => {
     const authoringPath = '/src/editor/ground-authoring.ts',
-      cameraPath = '/src/core/camera.ts',
+      cameraPath = '/src/presentation/camera.ts',
       scenePath = '/src/content/scene-document.ts',
       defaultPath = '/src/editor/default-scene.ts',
       gesturesPath = '/src/editor/gestures.ts';

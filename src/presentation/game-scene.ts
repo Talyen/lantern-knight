@@ -10,15 +10,9 @@ import { ActorPresentation } from './actor-presentation';
 import type { PreparedRegistration } from '../assets/registration';
 import * as T from 'three';
 import { verifiedBitmap } from '../assets/bitmap';
-import {
-  contract,
-  makeCamera,
-  resizeCamera,
-  constrainCamera,
-  drawingBufferSize,
-  HEADINGS,
-  outward,
-} from '../core/camera';
+import { cameraContract as contract } from '../assets/camera-contract';
+import { makeCamera, resizeCamera, constrainCamera, drawingBufferSize, outward } from './camera';
+import { HEADINGS } from '../content/headings';
 import { setCutoutOpacity } from './sprite';
 import type { WalkTiming } from '../core/locomotion-timing';
 import type { AnimationTreatment } from '../core/animation-treatment';

@@ -1,7 +1,7 @@
 import { cleanupAll } from '../assets/cleanup';
 import * as T from 'three';
 import { contactShadowMaterial } from './contact-shadows';
-import { selectDirection, selectAuthoredDirection, HEADINGS } from '../core/camera';
+import { selectDirection, selectAuthoredDirection, HEADINGS } from '../content/headings';
 import { retimeSweepClip } from './sweep-timing';
 import {
   defaultSweepTiming,

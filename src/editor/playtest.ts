@@ -1,5 +1,5 @@
 import { NavigationOverlay } from '../presentation/navigation-overlay';
-import { walkablePoint } from '../core/camera';
+import { walkablePoint } from '../presentation/camera';
 import { editorError } from './errors';
 import { Application } from '../application';
 import { GamePresentation } from '../presentation/game-scene';

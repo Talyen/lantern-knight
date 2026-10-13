@@ -1,5 +1,5 @@
 import type { Clip } from '../assets/schema';
-import type { AuthoredHeading } from '../core/camera';
+import type { AuthoredHeading } from '../content/headings';
 import {
   defaultSweepRecovery,
   sweepTimingOverride,

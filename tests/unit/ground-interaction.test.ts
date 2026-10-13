@@ -15,7 +15,7 @@ import {
 import { sceneFixture } from '../fixtures/scene';
 import { regionDepth } from '../../src/presentation/ground-occlusion';
 import { traceMask } from '../../src/editor/mask-contours';
-import { outward } from '../../src/core/camera';
+import { outward } from '../../src/presentation/camera';
 import { manifestFixture } from '../fixtures/manifest';
 import { emptyScene } from '../../src/editor/default-scene';
 const ground = () =>

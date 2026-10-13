@@ -2,7 +2,7 @@ import type { EditorGestures, GestureLease } from './gestures';
 import { brushMask } from './mask-contours';
 import { GroundProfileSchema, restoreGroundProfile } from '../content/ground-profile';
 import * as T from 'three';
-import { groundPoint } from '../core/camera';
+import { groundPoint } from '../presentation/camera';
 import { artworkFloorLayout } from '../content/floor-layout';
 import type { GroundRegion, MaskShape } from '../content/ground-interaction';
 import {

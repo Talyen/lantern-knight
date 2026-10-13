@@ -37,6 +37,12 @@ Room replacement has a separate acceptance barrier. Before committing gameplay c
 
 ## Scene content
 
+### Direction, camera and input ownership
+
+`src/content/headings.ts` owns world-yaw heading identifiers and selection, shared by combat, authored action timing and asset clips. Gameplay never loads camera calibration or asset delivery at runtime; animation helpers may borrow type-only clip contracts. `src/assets/camera-contract.ts` binds baked projection to runtime framing, `src/assets/camera-calibration.ts` owns preparation calibration, and `src/assets/sprite-registration.ts` maps source trim rectangles around their anchors. Asset validation consumes these definitions directly.
+
+`src/presentation/camera.ts` owns Three.js camera construction, viewport constraints, projection and screen-relative movement. `src/input.ts` adapts DOM input and pointer projection into gameplay commands under Application's lifetime. Rendering and browser input do not live in the gameplay model. Camera and direction algorithms remain shared across Game, editor and preview consumers through their respective owners.
+
 ### Content acceptance
 
 ContentRegistry clones and deeply freezes gameplay definitions before validation. Its private lookup indexes and public definition snapshot share the same accepted objects; callers retain editable drafts. Scene composition separately snapshots visual definitions and freezes their derived asset requirements, so draft edits cannot change live geometry, checkpoint validation or rendering requirements. Registry acceptance validates every hero entry and the complete enemy spawn jitter segment against actor clearance, so Game, transitions, headless sessions and editor playtests cannot bypass placement validation. Replace content by constructing a new registry and scene composition. Editor renames follow scene acceptance rather than mutating the active simulation.
@@ -125,7 +131,7 @@ Preview sessions own server acquisition, identity checks and lease release once.
 
 ## Import boundaries
 
-`npm run architecture:check` protects browser/runtime imports, the pure gameplay model and presentation direction, including type imports and literal dynamic imports. Runtime code uses the Bridge/browser adapter rather than importing Node, Electron, tests or tools. Core cannot import live scenes or art composition. Keep any exception narrow and explain its actual consumer.
+`npm run architecture:check` protects browser/runtime imports, the pure gameplay model and presentation direction, including type imports and literal dynamic imports. Runtime code uses the Bridge/browser adapter rather than importing Node, Electron, tests or tools. Core cannot import live scenes or art composition. Core runtime imports cannot load asset modules; shared heading rules belong to content, while type-only animation clip contracts remain allowed. Keep any exception narrow and explain its actual consumer.
 
 ## Change recipes
 

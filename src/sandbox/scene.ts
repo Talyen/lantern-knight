@@ -16,7 +16,7 @@ import { ContentRegistry } from '../content/world';
 import type { GameSave } from '../core/save';
 import { animatedSequence, animatedAsset } from '../assets/asset-browser';
 import { bindAssetPicker } from './asset-picker';
-import { HEADINGS } from '../core/camera';
+import { HEADINGS } from '../content/headings';
 import { clipDuration } from '../core/animation';
 import { walkTimings, type WalkTiming } from '../core/locomotion-timing';
 import {

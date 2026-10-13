@@ -1,5 +1,5 @@
 import * as T from 'three';
-import { outward, right, up } from '../core/camera';
+import { outward, right, up } from './camera';
 import { resolveClip } from '../assets/schema';
 import type { AssetPack } from '../assets/loader';
 import type { Point } from '../content/world';
