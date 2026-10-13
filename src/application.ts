@@ -13,7 +13,11 @@ import { Input } from './core/input';
 import { parseGame, type GameSave } from './core/save';
 import type { Bridge } from './platform/bridge';
 import { FrameScheduler } from './frame-scheduler';
-import { SessionOperation, SessionOperationCancelled } from './session-operation';
+import {
+  SessionOperations,
+  SessionOperationCancelled,
+  type SessionOperation,
+} from './session-operation';
 import { readUntilAborted } from './abort';
 export type ApplicationHooks = {
   status: (message: string, error?: boolean) => void;
@@ -65,7 +69,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private persistentLeases = new Map<string, PackLease>();
   private readonly roomAssets = new SceneAssets();
   private readonly abort = new AbortController();
-  private sessionOperation?: SessionOperation;
+  private readonly sessionOperations = new SessionOperations();
   private last = 0;
   private frames: FrameScheduler | undefined;
   private disposed = false;
@@ -85,7 +89,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   ready = false;
   get busy() {
-    return this.sessionOperation !== undefined;
+    return this.sessionOperations.busy;
   }
   paused = false;
   readOnly = false;
@@ -315,24 +319,17 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   private async withSessionOperation<T>(work: (operation: SessionOperation) => Promise<T>) {
     this.assertActive();
-    this.sessionOperation?.cancel('session operation superseded');
-    const operation = new SessionOperation();
-    this.sessionOperation = operation;
-    return this.withLoading(async () => {
-      try {
-        const result = await work(operation);
-        operation.check();
-        return result;
-      } catch (error) {
-        operation.check();
-        throw error;
-      } finally {
-        if (this.sessionOperation === operation) {
-          this.sessionOperation = undefined;
-          if (!this.disposed && !this.roomReady) this.pause(true);
+    return this.sessionOperations.run((operation) =>
+      this.withLoading(async () => {
+        try {
+          // Loading hooks can synchronously replace this intent before work starts.
+          operation.check();
+          return await work(operation);
+        } finally {
+          if (!operation.signal.aborted && !this.disposed && !this.roomReady) this.pause(true);
         }
-      }
-    });
+      }),
+    );
   }
   // Construct the candidate before acquisition. Callers never receive the session
   // owner, choose its generation or submit feedback for an uncommitted room.
@@ -673,13 +670,12 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
+    this.sessionOperations.dispose();
     this.loading.clear();
     this.hooks.loading?.(false);
     this.ready = false;
     delete this.canvas.dataset.ready;
     this.abort.abort();
-    this.sessionOperation?.cancel('application disposed');
-    this.sessionOperation = undefined;
     this.frames?.dispose();
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('blur', this.onBlur);

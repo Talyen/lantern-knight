@@ -452,6 +452,105 @@ test('superseded transitions release late rooms without pausing or freezing the 
   app.dispose();
 });
 
+test('cancellation feedback can supersede the operation that triggered cancellation', async () => {
+  const { app } = fixture({
+      ...sceneFixture(content),
+      area: (id) => ({
+        area: content.area(id),
+        assets: id === 'upper-landing' ? ['destination'] : [],
+      }),
+    }),
+    room = deferred<PackLease>(),
+    checkpoint = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+  app.sim.cleared = true;
+  const original = app.sim;
+  let released = 0,
+    saves = 0;
+  app.runtime = runtime(() => room.promise);
+  app.persistence = new Persistence({
+    loadGame: () => checkpoint.promise,
+    saveGame: async () => {
+      saves++;
+    },
+  });
+  let latest: Promise<boolean> | undefined;
+  app.events.subscribe((event) => {
+    if (event.kind === 'transition-cancelled') {
+      latest = app.load();
+      void latest.catch(() => {});
+    }
+  });
+  const transition = app.transition(app.sim.areaDefinition.exits[0]!.id),
+    cancelled = assert.rejects(transition, /superseded/),
+    replacement = app.newGame(),
+    result = await Promise.allSettled([replacement]);
+  room.resolve({ release: () => released++ } as unknown as PackLease);
+  await cancelled;
+  assert.equal(result[0]!.status, 'rejected', 'The reentrant Load is the newest intent');
+  assert.equal(app.sim, original, 'Superseded New Game must never commit');
+  assert.equal(saves, 0, 'Superseded New Game must never overwrite the checkpoint');
+  assert.equal(app.busy, true, 'Pending Load must retain operation ownership');
+  assert.equal(released, 1, 'The obsolete transition still releases its late pack');
+  checkpoint.resolve({ status: 'empty' });
+  assert.equal(await latest, false);
+  assert.equal(app.busy, false);
+  app.dispose();
+});
+
+test('disposal during cancellation closes admission before another operation can be installed', async () => {
+  const { app } = fixture({
+      ...sceneFixture(content),
+      area: (id) => ({ area: content.area(id), assets: ['pending-room'] }),
+    }),
+    room = deferred<PackLease>();
+  app.readOnly = true;
+  app.sim.cleared = true;
+  let released = 0;
+  app.runtime = runtime(() => room.promise);
+  app.events.subscribe((event) => {
+    if (event.kind === 'transition-cancelled') app.dispose();
+  });
+  const transition = app.transition(app.sim.areaDefinition.exits[0]!.id),
+    cancelled = assert.rejects(transition, /superseded/);
+  await assert.rejects(app.newGame(), /disposed/);
+  room.resolve({ release: () => released++ } as unknown as PackLease);
+  await cancelled;
+  assert.equal(app.busy, false, 'Disposed application cannot retain a newly installed operation');
+  assert.equal(released, 1);
+});
+
+test('loading callbacks cannot run preparation for an already superseded session intent', async () => {
+  const { app } = fixture(),
+    checkpoint = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+  app.persistence = new Persistence({
+    loadGame: () => checkpoint.promise,
+    saveGame: async () => {},
+  });
+  let latest: Promise<boolean> | undefined,
+    preparations = 0;
+  app.hooks.loading = (active) => {
+    if (active) {
+      latest = app.load();
+      void latest.catch(() => {});
+    }
+  };
+  await assert.rejects(
+    app.replaceSession(app.scenes, {
+      kind: 'new',
+      prepare: () => {
+        preparations++;
+      },
+    }),
+    /superseded/,
+  );
+  assert.equal(preparations, 0, 'Cancelled preparation may have caller-owned side effects');
+  assert.equal(app.busy, true);
+  checkpoint.resolve({ status: 'empty' });
+  assert.equal(await latest, false);
+  assert.equal(app.busy, false);
+  app.dispose();
+});
+
 test('session replacement preserves independent pending asset acquisitions', async () => {
   const { app, lease } = fixture(),
     waiting = deferred<PackLease>();
