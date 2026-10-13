@@ -44,6 +44,8 @@ Automatic scenery proposals use local text-guided detection followed by SAM mask
 
 For agent authoring, `npm run segmentation:propose -- woodland` prepares resumable whole-scene proposals under the external model directory. It preserves the scene file and records its artwork identity. Review those proposals, author footprints and depth, inspect the scene, and save accepted scene data separately. Re-running asset preparation cannot overwrite those scene files: masks, blockers, depth and annotations live in `authoring/scenes`, outside generated assets. Re-encoding delivery metadata preserves a binding to unchanged lossless artwork. Changed painting bytes, frames or dimensions require review; validation preserves the authored file instead of clearing regions.
 
+The CLI defaults to pine trees, dead trees, stone walls and large rocks. Pass a quoted second argument to choose categories for another painting, for example `npm run segmentation:propose -- crypt 'stone pillar. stone coffin.'`. Categories accept 1–300 characters; changing them starts a new proposal pass for that scene and artwork identity.
+
 Draft paintings may use locally prepared ground artwork absent from the shared asset pin. Source-free CI validates their document geometry and available references, deferring only unavailable draft artwork floors. Play, editor saving, local scene validation and live scenes still require the prepared ground and matching interaction identity. Committing a draft does not publish its artwork.
 
 #### Saved ground profiles

@@ -2,7 +2,7 @@
 
 ## Regular checks
 
-`npm run check` executes fresh typechecking, JavaScript linting, handwritten web-code formatting checks and the reviewed fast pure suites. It reports actual phase timings and fails on the first broken phase. Every selected suite runs fresh; no task snapshot, affected-suite guess or previous passing receipt suppresses it.
+`npm run check` executes fresh typechecking, JavaScript/TypeScript linting, handwritten code formatting checks and the reviewed fast pure suites. It reports actual phase timings and fails on the first broken phase. Every selected suite runs fresh; no task snapshot, affected-suite guess or previous passing receipt suppresses it.
 
 `npm run check:ci` runs all pure suites with `--full` and adds documentation, repository boundaries, import boundaries and unused-code analysis. These are inexpensive source checks, separate from asset acquisition, browser checks and packaging. Ordinary commands do not install Python tooling.
 
@@ -47,7 +47,7 @@ Do not add retries to hide races, silently skip failures or weaken an invariant 
 
 ## Code formatting
 
-`npm run format` and `npm run format:check` handle handwritten web code. Authored JSON and canonical art/reference files are not reformatted. Explicit Python formatting uses `npm run format -- --python`; set up the authoring environment first.
+`npm run format` and `npm run format:check` handle handwritten JavaScript/TypeScript, CSS and HTML in the repository root, `src/`, `electron/`, `tools/` and `tests/`. Markdown, authored JSON and canonical art/reference files are not reformatted. Explicit Python formatting uses `npm run format -- --python`, which also formats the regular code selection; set up the authoring environment first. Use `npm run format:check -- --python` to check both without writing.
 
 ## Linting and unused code
 
