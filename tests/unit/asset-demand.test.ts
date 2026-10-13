@@ -123,3 +123,34 @@ test('on-demand previews acquire and serve newly published audio samples', async
     await server.close();
   }
 });
+
+test('Game previews resolve on-demand artwork before Vite can return its HTML fallback', async (t) => {
+  const { createServer } = await import('vite');
+  const { webConfig } = await import('../../vite.config');
+  const root = await temporaryDirectory(t, 'lantern-game-demand-');
+  await fs.writeFile(path.join(root, 'index.html'), '<!doctype html><title>Game</title>');
+  const file = 'generated/library/library-game-art/manifest.json';
+  const requested: string[] = [];
+  const server = await createServer({
+    ...webConfig(root, 'game', async (relative) => {
+      requested.push(relative);
+      await fs.mkdir(path.dirname(path.join(root, relative)), { recursive: true });
+      await writeJson(path.join(root, relative), { asset: { id: 'library-game-art' } });
+      return true;
+    }),
+    configFile: false,
+    root,
+    server: { host: '127.0.0.1', port: 0 },
+  });
+  try {
+    await server.listen();
+    const address = server.httpServer!.address();
+    if (!address || typeof address === 'string') throw new Error('Missing test server');
+    const response: Response = await fetch(`http://127.0.0.1:${address.port}/${file}`);
+    assert.equal(response.status, 200);
+    assert.deepEqual(await response.json(), { asset: { id: 'library-game-art' } });
+    assert.deepEqual(requested, [file]);
+  } finally {
+    await server.close();
+  }
+});

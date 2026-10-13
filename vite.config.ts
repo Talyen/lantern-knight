@@ -30,9 +30,9 @@ export function webConfig(
           });
         },
       },
+      ...(ensurePublicFile ? [demandArtworkPlugin(publicDirectory, ensurePublicFile)] : []),
       ...(authoring
         ? ([
-            ...(ensurePublicFile ? [demandArtworkPlugin(publicDirectory, ensurePublicFile)] : []),
             {
               name: 'lantern-scene-editor',
               async configureServer(server) {
