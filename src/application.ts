@@ -20,6 +20,10 @@ export type ApplicationHooks = {
   loading?: (active: boolean) => void;
 };
 type ApplicationOptions = { seed?: number; extraAssets?: readonly string[] };
+export type SessionReplacement =
+  | { kind: 'new'; seed?: number; area?: string; prepare?: (sim: GameSession['sim']) => undefined }
+  | { kind: 'save'; save: GameSave };
+export type ApplicationCommand = Command | { reset: 'death' | 'manual' };
 type SessionContent = { readonly session: GameSession; readonly scenes: SceneContent };
 type RoomChange =
   | { kind: 'session'; next: SessionContent; events: readonly GameplayEvent[] }
@@ -30,7 +34,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private readonly initialSeed: number;
   private readonly extraAssets: readonly string[];
   get session() {
-    return this.current.session;
+    return this.current.session.view;
   }
   get scenes() {
     return this.current.scenes;
@@ -93,7 +97,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.resetFrameClock();
     this.input?.clear();
   }
-  command: ((sim: GameSession['sim']) => Command) | undefined;
+  command: ((sim: GameSession['sim']) => ApplicationCommand) | undefined;
   afterFrame: (ms: number) => void = () => {};
   constructor(
     readonly canvas: HTMLCanvasElement,
@@ -123,7 +127,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.persistence = new Persistence(bridge);
   }
   get sim() {
-    return this.session.sim;
+    return this.current.session.sim;
   }
   private onResize = () => this.presentation?.resize(this.scale);
   private onBlur = () => {
@@ -204,8 +208,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       this.runtime.registration,
       this.scenes.area(this.sim.area).visuals,
     );
-    this.presentation.generation = this.session.generation;
-    this.events.setGeneration(this.session.generation);
+    this.presentation.generation = this.current.session.generation;
+    this.events.setGeneration(this.current.session.generation);
     this.input = new Input(this.canvas, this.presentation.camera, () => this.pause(!this.paused));
     const settings = await readUntilAborted(this.bridge.loadSettings(), this.abort.signal).catch(
       (error: Error) => {
@@ -304,7 +308,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     }
   }
   publish(events: readonly GameplayEvent[]) {
-    this.events.setGeneration(this.session.generation);
+    this.events.setGeneration(this.current.session.generation);
     this.events.publish(events);
   }
   private async withSessionOperation<T>(work: (operation: SessionOperation) => Promise<T>) {
@@ -328,37 +332,34 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       }
     });
   }
-  // The caller transfers a prepared session and its matching content source.
-  // No caller-owned callback runs after acquisition to choose a different room.
-  replaceSession(
-    session: GameSession,
-    scenes: SceneContent,
-    events: readonly GameplayEvent[] = [],
-  ) {
-    const change: RoomChange = { kind: 'session', next: { session, scenes }, events: [...events] };
-    return this.withSessionOperation((operation) => this.replaceRoom(change, operation));
+  // Construct the candidate before acquisition. Callers never receive the session
+  // owner, choose its generation or submit feedback for an uncommitted room.
+  replaceSession(scenes: SceneContent, replacement: SessionReplacement = { kind: 'new' }) {
+    return this.withSessionOperation(async (operation) => {
+      if (!this.readOnly && scenes.registry !== this.registry)
+        throw new Error('Changing content requires a read-only application');
+      let session: GameSession;
+      let events: readonly GameplayEvent[] = [];
+      if (replacement.kind === 'save') {
+        const save = parseGame(replacement.save, scenes.registry);
+        session = new GameSession(scenes.registry, save.seed, save.area, this.session.generation);
+        events = session.restoreSave(save);
+      } else {
+        session = new GameSession(
+          scenes.registry,
+          replacement.seed ?? this.initialSeed,
+          replacement.area ?? scenes.registry.definitions.initialArea,
+          this.session.generation + 1,
+        );
+        replacement.prepare?.(session.sim);
+      }
+      await this.replaceRoom({ kind: 'session', next: { session, scenes }, events }, operation);
+    });
   }
   private async replaceRoom(change: RoomChange, operation: SessionOperation) {
     operation.check();
     const source = change.kind === 'session' ? change.next : this.current,
-      simulation = source.session.sim,
-      area = change.kind === 'session' ? simulation.area : change.area,
-      checkCandidate = () => {
-        if (change.kind !== 'session') return;
-        if (source.session.registry !== source.scenes.registry)
-          throw new Error('Session and scene content registries differ');
-        if (!this.readOnly && source.scenes.registry !== this.registry)
-          throw new Error('Changing content requires a read-only application');
-        if (
-          source.session === this.session ||
-          source.session.generation !== this.session.generation + 1 ||
-          source.session.sim !== simulation ||
-          source.session.sim.area !== area ||
-          source.session.loading
-        )
-          throw new Error('Session replacement is stale or changed during preparation');
-      };
-    checkCandidate();
+      area = change.kind === 'session' ? source.session.sim.area : change.area;
     this.input.clear();
     let next: PackBatch | undefined;
     try {
@@ -367,14 +368,15 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       for (const pack of next.packs.values()) this.presentation.warmPack(pack);
       await this.presentation.prepareAssets(new Set([...this.packs.keys(), ...next.packs.keys()]));
       operation.check();
-      checkCandidate();
+      if (change.kind === 'session' && !this.readOnly && source.scenes.registry !== this.registry)
+        throw new Error('Changing content requires a read-only application');
       this.roomAccepted = false;
       let changes: readonly GameplayEvent[];
       if (change.kind === 'session') {
         this.current = source;
         changes = change.events;
       } else changes = change.commit();
-      this.events.setGeneration(this.session.generation);
+      this.events.setGeneration(this.current.session.generation);
       operation.check();
       const installing = next;
       next = undefined; // Installation transfers ownership even if rebuilding throws.
@@ -384,7 +386,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
           this.sim.areaDefinition,
           this.scenes.area(this.sim.area).visuals,
         );
-        this.presentation.generation = this.session.generation;
+        this.presentation.generation = this.current.session.generation;
       });
       operation.check();
       await this.presentation.prepareAssets();
@@ -413,8 +415,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   transition(id: string) {
     return this.withSessionOperation(async (operation) => {
-      const plan = this.session.prepareTransition(id);
-      const cancel = () => this.publish(this.session.cancelTransition(plan));
+      const plan = this.current.session.prepareTransition(id);
+      const cancel = () => this.publish(this.current.session.cancelTransition(plan));
       operation.signal.addEventListener('abort', cancel, { once: true });
       try {
         this.publish(plan.events);
@@ -423,14 +425,14 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
           {
             kind: 'area',
             area: plan.destination,
-            commit: () => this.session.commitTransition(plan),
+            commit: () => this.current.session.commitTransition(plan),
           },
           operation,
         );
         operation.check();
         this.autosave();
       } catch (error) {
-        this.publish(this.session.cancelTransition(plan));
+        this.publish(this.current.session.cancelTransition(plan));
         // An obsolete transition must not pause a newer session operation.
         if (!operation.signal.aborted) this.pause(true);
         throw error;
@@ -443,7 +445,11 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     return this.withSessionOperation(async (operation) => {
       const resume = this.resumeOnCompletion();
       await this.replaceRoom(
-        { kind: 'area', area: this.sim.area, commit: () => this.session.resetCurrentArea(reason) },
+        {
+          kind: 'area',
+          area: this.sim.area,
+          commit: () => this.current.session.resetCurrentArea(reason),
+        },
         operation,
       );
       operation.check();
@@ -463,7 +469,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     operation.check();
     const valid = parseGame(save, this.registry);
     await this.replaceRoom(
-      { kind: 'area', area: valid.area, commit: () => this.session.restoreSave(valid) },
+      { kind: 'area', area: valid.area, commit: () => this.current.session.restoreSave(valid) },
       operation,
     );
   }
@@ -498,7 +504,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
               this.registry,
               this.initialSeed,
               this.registry.definitions.initialArea,
-              this.session.generation + 1,
+              this.current.session.generation + 1,
             ),
             scenes: this.scenes,
           },
@@ -506,7 +512,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         operation,
       );
       operation.check();
-      if (!this.readOnly) await this.persistence.save(this.session.captureSave());
+      if (!this.readOnly) await this.persistence.save(this.current.session.captureSave());
       operation.check();
       resume();
     });
@@ -526,12 +532,12 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     if (this.readOnly) throw new Error('Sandbox sessions cannot write checkpoints');
     if (!this.roomReady)
       throw new Error('Room is not ready; reset or load a checkpoint to recover');
-    await this.persistence.save(this.session.captureSave());
+    await this.persistence.save(this.current.session.captureSave());
     await this.saveSettings();
   }
   autosave() {
     if (!this.readOnly && this.roomReady)
-      this.safe(() => this.persistence.save(this.session.captureSave()));
+      this.safe(() => this.persistence.save(this.current.session.captureSave()));
   }
   private loop = (now: number) => {
     if (this.disposed) return;
@@ -547,11 +553,17 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       alpha = this.clock.advance(ms, () => {
         const sim = this.sim;
         this.beforeStep(sim);
+        if (this.disposed || this.busy || !this.roomReady || sim !== this.sim) return false;
         const cmd =
           this.command?.(sim) ?? this.input.consume(sim.hero, sim.areaDefinition, sim.generation);
+        if (this.disposed || this.busy || !this.roomReady || sim !== this.sim) return false;
+        if ('reset' in cmd) {
+          this.safe(() => this.reset(cmd.reset));
+          return false;
+        }
         aim = cmd.aim;
         this.aim = aim;
-        const result = this.session.step(cmd);
+        const result = this.current.session.step(cmd);
         this.publish(result.events);
         if (result.reset) {
           this.safe(() => this.reset(result.reset));

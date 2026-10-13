@@ -1,7 +1,7 @@
 import type { Simulation } from './core/simulation';
 import type { Presentation, Mode } from './presentation/scene';
 import type { Manifest } from './assets/schema';
-import type { GameSession } from './core/session';
+import type { SessionView } from './core/session';
 import type { Persistence } from './persistence';
 import type { PresentationEvent } from './core/events';
 import type { GameSave } from './core/save';
@@ -13,7 +13,7 @@ type BenchmarkResult = {
   simulatedTicks: number;
 };
 interface FoundationInspection {
-  readonly session: GameSession;
+  readonly session: SessionView;
   readonly persistence: Persistence;
   readonly eventHistory: readonly PresentationEvent[];
   readonly ready: boolean;

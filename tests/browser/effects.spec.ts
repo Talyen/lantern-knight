@@ -13,8 +13,9 @@ test('Dev Preview remembers separate scene experiments and preserves comparison 
   const reset = await page.evaluate(async () => {
     const effects = window.effectsPlayground;
     effects.pause(true);
-    const objects = effects.stats().objects;
     effects.step(400);
+    // Draw the selected settings and animation frame before measuring reset's resources.
+    const objects = effects.stats().objects;
     await effects.reset();
     effects.render();
     return { before: objects, after: effects.stats().objects, time: effects.stats().time };

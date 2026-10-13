@@ -8,7 +8,6 @@ import { assetPickerUI, previewHUD } from './ui';
 import { LoadingScreen } from '../loading-screen';
 import { Application } from '../application';
 import { ContentRegistry } from '../content/world';
-import { GameSession } from '../core/session';
 import { EffectsPlayground } from '../presentation/effects-playground';
 import { EffectsPresentation } from './effects-presentation';
 import {
@@ -90,10 +89,7 @@ export function mountEffects(context: PreviewContext) {
     app.pause(!app.paused);
   }
   async function reset() {
-    await app.replaceSession(
-      new GameSession(registry, 903, effectsDefinitions.initialArea, app.session.generation + 1),
-      app.scenes,
-    );
+    await app.replaceSession(app.scenes, { kind: 'new', seed: 903 });
     view.time = 0;
   }
   function dispose() {
