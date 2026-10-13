@@ -202,8 +202,8 @@ test('death chooses the nearest reachable discovered fire in-stage and otherwise
   assert.equal(s.respawnFire(), 'orchard/east');
   s.resetCurrentArea('death');
   assert.equal(s.sim.hero.x, 8);
-  s.sim.area = 'forest';
-  s.sim.populate();
+  s.sim.damage(s.sim.hero, s.sim.enemies[1]!, 1000);
+  s.commitTransition(s.prepareTransition('depart'));
   s.sim.hero.health = 0;
   s.lastFire = 'orchard/west';
   assert.equal(s.respawnFire(), 'orchard/west');

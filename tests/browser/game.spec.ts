@@ -22,6 +22,7 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
   expect(initial.wins).toBe(0);
   await expect(page.locator('#objective')).toHaveText('');
   await page.locator('#resume').click();
+  await expect(page.locator('.game-stage canvas')).toBeFocused();
   const inputErrors: string[] = [];
   page.on('pageerror', (error) => inputErrors.push(error.message));
   await page.evaluate(async () => {

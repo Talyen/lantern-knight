@@ -152,7 +152,10 @@ export function showPause(paused: boolean) {
     confirmation = $<HTMLDialogElement>('#new-confirm');
   if (confirmation.open) confirmation.close();
   if (paused && !adventurePanelOpen() && !modal.open) modal.showModal();
-  else if (!paused && modal.open) modal.close();
+  else if (!paused && modal.open) {
+    modal.close();
+    document.querySelector<HTMLCanvasElement>('.game-stage canvas')?.focus();
+  }
 }
 export function updateGameUI(app: Application) {
   const s = app.sim;

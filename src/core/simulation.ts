@@ -272,14 +272,14 @@ export class Simulation {
 
   private tickEvents: SimEvent[] = [];
   cleared = false;
-  generation: number;
+  readonly generation: number;
   resetCount = 0;
   completedEncounters = 0;
   engaged = false;
   constructor(
     public readonly registry: ContentRegistry,
     seed = 142,
-    public area: AreaId = registry.definitions.initialArea,
+    public readonly area: AreaId = registry.definitions.initialArea,
     generation = 1,
     entry?: string,
   ) {

@@ -744,6 +744,7 @@ export class VisualAuthoring {
   }
   pointerDown(e: PointerEvent) {
     if ($<HTMLSelectElement>('tool').value !== 'geometry' || e.button !== 0) return false;
+    if (this.drag) return true;
     this.draw();
     const view = this.host.view();
     if (!view.presentation || !view.sim) return false;
@@ -768,12 +769,12 @@ export class VisualAuthoring {
   }
   pointerUp(e: PointerEvent) {
     const drag = this.drag;
-    if (!drag) return false;
+    if (!drag || drag.pointer !== e.pointerId) return false;
     this.drag = undefined;
     if (this.host.view().canvas.hasPointerCapture(e.pointerId))
       this.host.view().canvas.releasePointerCapture(e.pointerId);
     const point = this.host.view().ground(e.clientX, e.clientY);
-    if (!point || e.type === 'pointercancel') return true;
+    if (!point || e.type === 'pointercancel' || e.type === 'lostpointercapture') return true;
     const path = drag.path;
     if (path.at(-1) === 'min' || path.at(-1) === 'max') {
       const axis = path.at(-1)!;
