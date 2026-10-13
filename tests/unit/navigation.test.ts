@@ -283,7 +283,7 @@ test('a valid checkpoint near a wall can resume diagonal movement with runtime c
   const a = area();
   const registry = new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
   const session = new GameSession(registry);
-  Object.assign(session.sim.hero, { x: -0.3, z: 0 });
+  Object.assign(session.sim.hero, { x: -0.34, z: 0 });
   const save = session.captureSave();
   assert.doesNotThrow(() => parseGame(save, registry));
   session.restoreSave(save);
@@ -291,4 +291,28 @@ test('a valid checkpoint near a wall can resume diagonal movement with runtime c
   assert.ok(session.sim.hero.x < save.player.x);
   assert.ok(session.sim.hero.z > save.player.z);
   assert.ok(isSupportedPosition(a, session.sim.hero, 0.3));
+});
+
+test('checkpoint validation rejects boundary-trapped actors even when projection cannot move them', () => {
+  const a = area();
+  a.props = [{ id: 'trap', kind: 'pillar', x: 4.4, z: 0, radius: 0.6, height: 1 }];
+  const registry = new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
+  const session = new GameSession(registry);
+  const trapped = { x: 4.7, z: 0 };
+  assert.equal(isSupportedPosition(a, trapped, 0.3), false);
+  assert.equal(new Navigation(a).route(trapped, { x: 0, z: 0 }, 0.3).status, 'unreachable');
+  const playerSave = session.captureSave();
+  Object.assign(playerSave.player, trapped);
+  assert.throws(() => parseGame(playerSave, registry), /Unsupported saved player position/);
+  const enemySave = session.captureSave();
+  Object.assign(enemySave.areas[a.id]!.actors.enemy!, trapped);
+  assert.throws(() => parseGame(enemySave, registry), /Unsupported saved actor position/);
+});
+
+test('checkpoint clearance uses the same minimum actor radius as movement', () => {
+  const a = area();
+  const registry = new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
+  const save = new GameSession(registry).captureSave();
+  Object.assign(save.player, { x: -0.3, z: 0 });
+  assert.throws(() => parseGame(save, registry), /Unsupported saved player position/);
 });

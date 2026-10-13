@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { type ContentRegistry, contains, isSupportedPosition } from '../content/world';
+import { effectiveRadius } from '../content/collision';
 import { tuning } from '../content/gameplay';
 const id = z.string().regex(/^[a-z0-9][a-z0-9_-]*$/);
 const point = z
@@ -73,12 +74,18 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
     if (state.cleared !== Object.values(state.actors).every((a) => a.health === 0))
       throw new Error(`inconsistent clear state ${areaId}`);
   }
-  if (!isSupportedPosition(active, save.player, player.radius))
+  if (!isSupportedPosition(active, save.player, effectiveRadius(player.radius)))
     throw new Error('Unsupported saved player position');
   for (const [areaId, state] of Object.entries(save.areas)) {
     const area = resolve(areaId);
     for (const spawn of area.spawns)
-      if (!isSupportedPosition(area, state.actors[spawn.id]!, registry.actor(spawn.actor).radius))
+      if (
+        !isSupportedPosition(
+          area,
+          state.actors[spawn.id]!,
+          effectiveRadius(registry.actor(spawn.actor).radius),
+        )
+      )
         throw new Error('Unsupported saved actor position');
   }
   return save;

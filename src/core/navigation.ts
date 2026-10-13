@@ -1,83 +1,8 @@
-import { insidePolygon } from '../content/graveyard-layout';
-import {
-  boundaryContains,
-  supportedPosition,
-  type AreaDefinition,
-  type Point,
-  type PropDefinition,
-} from '../content/world';
-export const effectiveRadius = (radius: number) => Math.max(0.3, radius);
+import { collisionShape, isSupportedPosition, supportedPosition } from '../content/collision';
+import type { AreaDefinition, Point } from '../content/world';
+export { effectiveRadius } from '../content/collision';
 type Hit = { t: number; nx: number; nz: number };
 const epsilon = 1e-6;
-function vertices(p: PropDefinition): readonly Point[] | undefined {
-  if (p.shape === 'polygon') return p.polygon;
-  if (p.shape !== 'box' || !p.size) return;
-  const c = Math.cos(p.rotation ?? 0),
-    s = Math.sin(p.rotation ?? 0);
-  return [
-    [-1, -1],
-    [1, -1],
-    [1, 1],
-    [-1, 1],
-  ].map(([x, z]) => ({
-    x: p.x + ((x! * p.size![0]) / 2) * c - ((z! * p.size![1]) / 2) * s,
-    z: p.z + ((x! * p.size![0]) / 2) * s + ((z! * p.size![1]) / 2) * c,
-  }));
-}
-type Shape = { points?: readonly Point[]; minX: number; maxX: number; minZ: number; maxZ: number };
-const shapes = new WeakMap<PropDefinition, Shape>();
-function shape(p: PropDefinition): Shape {
-  let cached = shapes.get(p);
-  if (cached) return cached;
-  const points = vertices(p);
-  cached = points
-    ? {
-        points,
-        minX: Math.min(...points.map((v) => v.x)),
-        maxX: Math.max(...points.map((v) => v.x)),
-        minZ: Math.min(...points.map((v) => v.z)),
-        maxZ: Math.max(...points.map((v) => v.z)),
-      }
-    : { minX: p.x - p.radius, maxX: p.x + p.radius, minZ: p.z - p.radius, maxZ: p.z + p.radius };
-  shapes.set(p, cached);
-  return cached;
-}
-function positionClear(area: AreaDefinition, p: Point, radius: number) {
-  const b = area.bounds;
-  if (
-    p.x < b.minX + radius - epsilon ||
-    p.x > b.maxX - radius + epsilon ||
-    p.z < b.minZ + radius - epsilon ||
-    p.z > b.maxZ - radius + epsilon
-  )
-    return false;
-  if (area.playableBoundary && !boundaryContains(area.playableBoundary, p, radius)) return false;
-  for (const prop of area.props) {
-    if (prop.blocking === false) continue;
-    const s = shape(prop);
-    if (
-      p.x < s.minX - radius ||
-      p.x > s.maxX + radius ||
-      p.z < s.minZ - radius ||
-      p.z > s.maxZ + radius
-    )
-      continue;
-    if (!s.points) {
-      if (Math.hypot(p.x - prop.x, p.z - prop.z) < prop.radius + radius - epsilon) return false;
-      continue;
-    }
-    if (insidePolygon(p, s.points)) return false;
-    for (let i = 0; i < s.points.length; i++) {
-      const a = s.points[i]!,
-        c = s.points[(i + 1) % s.points.length]!,
-        dx = c.x - a.x,
-        dz = c.z - a.z,
-        t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.z - a.z) * dz) / (dx * dx + dz * dz)));
-      if (Math.hypot(p.x - a.x - dx * t, p.z - a.z - dz * t) < radius - epsilon) return false;
-    }
-  }
-  return true;
-}
 /** Earliest circle/segment contact along a displacement, with inward motion only. */
 function sweep(area: AreaDefinition, start: Point, delta: Point, radius: number): Hit | undefined {
   let best: Hit | undefined;
@@ -131,7 +56,7 @@ function sweep(area: AreaDefinition, start: Point, delta: Point, radius: number)
     edge(boundary[i]!, boundary[(i + 1) % boundary.length]!);
   for (const p of area.props) {
     if (p.blocking === false) continue;
-    const cached = shape(p);
+    const cached = collisionShape(p);
     if (
       Math.max(start.x, start.x + delta.x) < cached.minX - radius ||
       Math.min(start.x, start.x + delta.x) > cached.maxX + radius ||
@@ -148,8 +73,8 @@ function sweep(area: AreaDefinition, start: Point, delta: Point, radius: number)
 }
 export function clearSegment(area: AreaDefinition, a: Point, b: Point, radius: number) {
   return (
-    positionClear(area, a, radius) &&
-    positionClear(area, b, radius) &&
+    isSupportedPosition(area, a, radius) &&
+    isSupportedPosition(area, b, radius) &&
     !sweep(area, a, { x: b.x - a.x, z: b.z - a.z }, radius)
   );
 }
@@ -159,7 +84,7 @@ export function moveSupported(
   delta: Point,
   radius: number,
 ): Point {
-  let p = positionClear(area, start, radius)
+  let p = isSupportedPosition(area, start, radius)
       ? { x: start.x, z: start.z }
       : supportedPosition(area, start, radius),
     d = { ...delta };
@@ -167,7 +92,7 @@ export function moveSupported(
     const hit = sweep(area, p, d, radius);
     if (!hit) {
       const next = { x: p.x + d.x, z: p.z + d.z };
-      return positionClear(area, next, radius) ? next : p;
+      return isSupportedPosition(area, next, radius) ? next : p;
     }
     const t = Math.max(0, hit.t - epsilon / Math.max(epsilon, Math.hypot(d.x, d.z)));
     p = { x: p.x + d.x * t, z: p.z + d.z * t };
@@ -219,7 +144,10 @@ export class Navigation {
   constructor(readonly area: AreaDefinition) {}
   route(start: Point, goal: Point, radius: number): RouteResult {
     const fail: RouteResult = { status: 'unreachable', points: [] };
-    if (!positionClear(this.area, start, radius) || !positionClear(this.area, goal, radius))
+    if (
+      !isSupportedPosition(this.area, start, radius) ||
+      !isSupportedPosition(this.area, goal, radius)
+    )
       return fail;
     if (clearSegment(this.area, start, goal, radius))
       return { status: 'ready', points: [{ ...goal }] };
@@ -239,7 +167,7 @@ export class Navigation {
       if (id < 0 || id >= nx * nz) return false;
       let v = cells!.get(id);
       if (v === undefined) {
-        v = positionClear(this.area, point(id), radius);
+        v = isSupportedPosition(this.area, point(id), radius);
         cells!.set(id, v);
       }
       return v;
