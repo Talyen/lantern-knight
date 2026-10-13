@@ -15,7 +15,7 @@ for (const seeded of [false, true]) {
         catalog,
         false,
         async (url) => {
-          requests.push(String(url));
+          requests.push(url instanceof Request ? url.url : url.toString());
           return new Response(JSON.stringify(draft));
         },
         async (page) => {
