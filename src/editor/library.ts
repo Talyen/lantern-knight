@@ -24,6 +24,14 @@ type Host = {
   restore: (key: string) => void;
 };
 const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
+function recentScenes(): string[] {
+  try {
+    const stored: unknown = JSON.parse(localStorage.getItem('lantern-editor-scenes') ?? '[]');
+    return Array.isArray(stored) ? stored.filter((id): id is string => typeof id === 'string') : [];
+  } catch {
+    return [];
+  }
+}
 export function patternPoints(
   d: SceneSnapshot,
   kind: 'scatter' | 'path',
@@ -189,7 +197,7 @@ export class SceneLibrary {
   remember() {
     const d = this.host.history().document;
     try {
-      const recent = JSON.parse(localStorage.getItem('lantern-editor-scenes') ?? '[]') as string[];
+      const recent = recentScenes();
       localStorage.setItem(
         'lantern-editor-scenes',
         JSON.stringify([d.id, ...recent.filter((p) => p !== d.id)].slice(0, 20)),
@@ -209,12 +217,7 @@ export class SceneLibrary {
     this.lifetime.signal.throwIfAborted();
     if (!this.dialog.open) this.dialog.showModal();
     this.dialog.classList.toggle('arrangements-only', arrangementsOnly);
-    let recent: string[] = [];
-    try {
-      recent = JSON.parse(localStorage.getItem('lantern-editor-scenes') ?? '[]');
-    } catch {
-      /* Disposable metadata. */
-    }
+    const recent = recentScenes();
     const scenes = data.scenes as { id: string; name: string; target: string; error?: string }[];
     const render = () => {
       const list = $('library-scenes');

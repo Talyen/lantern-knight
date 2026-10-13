@@ -364,9 +364,9 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.hooks.pause(value);
   }
   safe(fn: () => Promise<unknown>) {
-    void fn().catch((error) => {
+    void (async () => fn())().catch((error: unknown) => {
       if (!(error instanceof SessionOperationCancelled))
-        this.hooks.status(String(error.message ?? error), true);
+        this.hooks.status(String((error as Error | null | undefined)?.message ?? error), true);
     });
   }
   transition(id: string) {

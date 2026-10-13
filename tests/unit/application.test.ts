@@ -88,6 +88,39 @@ function fixture(scenes = sceneFixture(content)) {
     },
   };
 }
+test('safe reports synchronous callback failures without escaping the caller', async () => {
+  await withDOM(async () => {
+    const { app } = fixture();
+    const reported = deferred<string>();
+    app.hooks.status = (message) => reported.resolve(message);
+    assert.doesNotThrow(() =>
+      app.safe(() => {
+        throw new Error('synchronous failure');
+      }),
+    );
+    assert.equal(await reported.promise, 'synchronous failure');
+    app.dispose();
+  });
+});
+
+test('null save rejections retain the original failure and reach application feedback', async () => {
+  await withDOM(async () => {
+    const { app } = fixture();
+    const reported = deferred<string>();
+    app.hooks.status = (message) => reported.resolve(message);
+    app.persistence = new Persistence({
+      loadGame: async () => ({ status: 'empty' }),
+      saveGame: () => Promise.reject(null),
+    });
+    const saving = app.persistence.save(app.session.captureSave());
+    await assert.rejects(saving, (error: unknown) => error === null);
+    assert.equal(app.persistence.error, 'null');
+    app.safe(() => saving);
+    assert.equal(await reported.promise, 'null');
+    app.dispose();
+  });
+});
+
 test('preview replacement preserves shared session assets and rolls back failed selections', async () => {
   await withDOM(async () => {
     const { app } = fixture(),

@@ -13,7 +13,7 @@ export class Persistence {
       this.error = '';
       return true;
     } catch (error) {
-      this.error = String((error as Error).message ?? error);
+      this.error = String((error as Error | null | undefined)?.message ?? error);
       throw error;
     }
   }
