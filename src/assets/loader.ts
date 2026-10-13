@@ -248,13 +248,7 @@ export class AssetRuntime {
           new URLSearchParams(location.search).get('images') === 'source' ? 'source' : quality,
         )
       : undefined;
-    const runtime = new AssetRuntime(
-      catalog,
-      undefined,
-      undefined,
-      undefined,
-      delivery,
-    );
+    const runtime = new AssetRuntime(catalog, undefined, undefined, undefined, delivery);
     runtime.libraryInventory = flags.libraryInventory === true;
     try {
       const registration = await fetch('/registration.json');
