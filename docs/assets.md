@@ -10,7 +10,9 @@ Git contains code, small recipes and the shared pin. Native source collections, 
 
 Use `npm run assets:prepare` to reconcile and prepare the complete current library with native lossless pages, previews, resolution variants and optimized game copies. The same command cooks game-ready GPU copies for opaque images and keeps alpha-sensitive artwork lossless. Unchanged derivatives are reused. `-- --gpu` remains accepted for existing scripts. `-- --ids <asset-id>...` selects its producer dependencies and affected coverage, lighting and delivery finalizers. Unselected producers come from the verified base and their checked staging receipts. A missing complete base or staging falls back to full preparation. Full preparation rechecks all producer keys and sources even after a scoped refresh. One executor handles full and scoped steps. Successful steps cache immutable outputs and source identities; changed inputs or corrupt outputs rebuild the affected step. Freshness/fidelity belong to preparation, with selected original bytes reverified on reuse.
 
-Preparation uses Node and Python for specific image/walk-field tools. For authoring, create `.venv`, install OpenCV 5.0.0, NumPy 2.0.2, Pillow and Ruff 0.16.10, and use that environment. Ordinary tests/builds do not need it. `--proof` explicitly requests full preparation and a ground contact proof. Preparation never regenerates original artwork.
+Preparation uses Node and Python for specific image/walk-field tools. For authoring, create a checkout-local `.venv`, install OpenCV 5.0.0, NumPy 2.0.2, Pillow and Ruff 0.16.10, and activate it before preparing assets so Python subprocesses use that environment. Pure tests, builds and packaging do not need this authoring environment; [asset-test setup](verification.md#test-selection) needs only Pillow. The [foreground-selection models](developer-tools.md#local-foreground-selection-setup) have their own environment and setup command. `--proof` explicitly requests full preparation and a ground contact proof. Preparation never regenerates original artwork.
+
+TypeScript recipe steps are callable operations registered in `tools/assets/operations.ts`. They receive an explicit preparation context for source access, paths, atomic output recording and incremental byte accounting. Compiler writes use the same writer. Python subprocesses receive the translated context at their launch boundary; ordinary builds never invoke preparation.
 
 Development prefers its local layer, otherwise the shared pin. Builds and CI use the pin; `npm run build -- --local` and `npm run assets:check -- --local` deliberately inspect a local preparation. No candidate/preview/publication-state protocol is needed to iterate.
 
@@ -26,7 +28,7 @@ Game content can reference any prepared library ID by its stable manifest path. 
 
 ## Preparation and publication
 
-`npm run assets:publish` explicitly prepares/reuses current source-verified outputs, validates consuming runtime references, publishes immutable runtime/authoring bundles and individual-file delivery, verifies downloadable bytes and atomically changes the pin. Failure preserves the previous pin. Previously hashed remote bundles can reuse a strong HTTP validator: an unchanged response avoids a second full download; new, changed or weakly validated responses receive the complete size and SHA-256 check. It does not package the game, require capture galleries, or claim production-art approval. Publication needs an authenticated `gh` release writer and working download access.
+Both `assets:publish` and `assets:publish-files` require explicit publication authorization. `npm run assets:publish` prepares/reuses current source-verified outputs, validates consuming runtime references, publishes immutable runtime/authoring bundles and individual-file delivery, verifies downloadable bytes and atomically changes the pin. Failure preserves the previous pin. Previously hashed remote bundles can reuse a strong HTTP validator: an unchanged response avoids a second full download; new, changed or weakly validated responses receive the complete size and SHA-256 check. It does not package the game, require capture galleries, or claim production-art approval. Publication needs an authenticated `gh` release writer and working download access.
 
 Delivery reserves compression space through the same configurable cache budget. Publication refreshes the complete local layer and links its source-verified outputs into a candidate inventory; it does not encode the images again or create a monolithic archive. The version 3 outer identity names the candidate inventory; downloadable bundle identities still hash their actual archive bytes. Older pins remain readable. Bundle compression reuses verified file hashes, and interrupted uploads reuse matching checked local archives. New authoring bundles use 64 stable path-hash shards, subdividing only oversized shards at the 1 GiB payload target (an indivisible larger source file retains its own bundle). Deleting one file cannot shift neighboring shard boundaries. The first publication with this partition scheme replaces the previous size-based authoring groups. Active readers remain protected; close unused previews if their leases prevent publication from fitting.
 
@@ -44,13 +46,7 @@ The current TEST hero uses supplied native drawings, eight-direction running, fo
 
 `LANTERN_CACHE_ROOT` can choose an external disposable location; `ASSET_LIBRARY_ROOT` selects the parent source library. Temporary download reservations are released after installation. Unused local cache entries are evicted within the budget. `npm run assets:clean` cleans local disposable data only, preserving the current pin and active readers. Published releases and source originals are never deleted by cleanup.
 
-`npm run assets:inspect -- <asset-id>` prints bounded metadata. Explicit diagnostics retain output externally; normal checks do not keep passing-evidence receipts.
-
-## Preparation ownership
-
-TypeScript recipe steps are callable operations registered in `tools/assets/operations.ts`. They receive an explicit preparation context for source access, paths, atomic output recording and incremental byte accounting. Compiler writes use the same writer. Python subprocesses receive the translated context at their launch boundary; ordinary builds never invoke preparation.
-
-Publication uses version 3 split runtime/authoring bundles. Fresh-checkout CI verifies acquisition through the shared pin without source-library access. Source artwork and published archives remain preserved.
+`npm run assets:inspect -- <asset-id>` prints bounded metadata from the shared pin. Use `npm run assets:inspect -- --local <asset-id>` to inspect checkout-local preparation, falling back to the pin when none exists. Explicit diagnostics retain output externally; normal checks do not keep passing-evidence receipts.
 
 ## Library authoring coverage
 
@@ -88,7 +84,7 @@ Metadata adapters interpret animation timing, pivots and slices. Unrecognized or
 
 Disk limits protect residency instead of deciding eligibility. Shared content is hardlinked and counted once, free disk space is checked, and active leases cannot be evicted. `LANTERN_PREPARE_BUDGET` overrides the preparation workspace target in bytes (default the cache limit). Large authoring releases split into approximately 1 GiB payload groups, independently acquired by the existing version 3 bundle pin. Publication remains explicit and keeps the prior pin until verification succeeds.
 
-Local preparation, Game content selection and published delivery are distinct. A complete local authoring catalog does not change the shared pin or automatically add every asset to a Game build. Game content can select any prepared library ID by its stable manifest path; it no longer needs a second curated promotion list. Browser/device verification is required for actual renderer and codec compatibility.
+Local preparation, Game content selection and published delivery are distinct. A complete local authoring catalog does not change the shared pin or automatically add every asset to a Game build. Browser/device verification is required for actual renderer and codec compatibility.
 
 ## Preparation guidance
 

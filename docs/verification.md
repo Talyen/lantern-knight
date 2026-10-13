@@ -14,11 +14,20 @@ Routine local testing should take roughly ten seconds including setup. This is a
 
 Authored scenes are disposable content: gameplay and rendering regressions own their setup, and authored-document validation accepts an empty scene directory.
 
-`npm run test:assets` runs `tests/assets/*.test.ts` against pinned prepared assets. Authored scene documents validate against authoring assets independently of Game selection. Python authoring/recovery fixtures belong to this tier and require Pillow. CI installs pinned Pillow in a temporary environment before the tests; test commands do not install dependencies. `npm run assets:check` validates current runtime manifests, references, pages and companion registration without source-library access or visual approval.
+`npm run test:assets` runs `tests/assets/*.test.ts` against pinned prepared assets. Authored scene documents validate against authoring assets independently of Game selection. Python authoring/recovery fixtures belong to this tier and require Pillow. CI installs Pillow 11.3.0 in a temporary environment before the tests; test commands do not install dependencies. For local asset tests on macOS/Linux, create or reuse a checkout-local environment and activate it so subprocesses find Pillow:
 
-`npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`. Game covers input, pause/focus and current checkpoints; scene covers independent outdoor/interior fixtures, reload and resource lifetime; editor covers authoring/history/recovery and protected save requests; effects covers dedicated-scene controls and switching back to independent scene fixtures. Without a scenario, all browser suites run.
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install Pillow==11.3.0
+npm run test:assets
+```
 
-Development-preview browser checks prefer checkout-local prepared assets, falling back to the pin. One preview session acquires assets and starts a server, or reuses a matching Vite server after checking checkout, asset identity and required scope. It closes only its own server and lease. With `CI=true`, browser checks use pinned assets and require an unused port for their own server; use this mode for [milestone verification](release.md). Add `--ui` after the scenario for continuous interactive iteration, for example `npm run test:browser -- editor --ui`.
+The fixtures invoke `python3`, which must resolve to the environment containing Pillow. Full [asset preparation](assets.md#local-preparation-review) needs additional authoring dependencies; the local selection models have [separate setup](developer-tools.md#local-foreground-selection-setup). `npm run assets:check` validates current runtime manifests, references, pages and companion registration without source-library access or visual approval.
+
+`npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`. Game covers input, pause/focus and current checkpoints; scene covers independent outdoor/interior fixtures, reload and resource lifetime; editor covers authoring/history/recovery and protected save requests; effects covers dedicated-scene controls and switching back to independent scene fixtures. `image-delivery` and `ground-occlusion` cover focused GPU behavior. Without a scenario, Playwright selects all browser suites; the [authored-ground diagnostic](developer-tools.md#ground-interaction) skips unless `LANTERN_GROUND_SCENE` opts into a prepared local scene.
+
+Development-preview browser checks prefer checkout-local prepared assets, falling back to the pin. One preview session acquires assets and starts a server, or reuses a matching Vite server after checking checkout, asset identity and required scope. It closes only its own server and lease. With `CI=true`, browser checks use pinned assets and require an unused port for their own server; use this mode for [milestone verification](release.md). Install Chromium once with `npx playwright install chromium` when needed; Linux hosts may also need Playwright's `--with-deps` installation. Add `--ui` after the scenario for continuous interactive iteration, for example `npm run test:browser -- editor --ui`.
 
 After `npm run build`, `npm run test:browser -- game --built` verifies Game against the production web artifact with its recorded asset identity. It checks artifact bytes before starting a dedicated preview, without reopening the asset cache. Scene/editor/effects scenarios retain development previews because production Game excludes those views. Rebuild the web artifact after packaging before using `--built`.
 
