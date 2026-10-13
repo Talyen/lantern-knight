@@ -19,6 +19,7 @@ import {
 import { EditorHistory, sceneItems } from '../../src/editor/model';
 import { EditorDocument } from '../../src/editor/document';
 import { SceneStore } from '../../tools/scene/scene-editor-store';
+
 describe('scene authoring contracts', () => {
   it('demands rain assets only when authored rain is enabled', () => {
     const document = emptyScene();
