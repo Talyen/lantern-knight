@@ -59,6 +59,40 @@ test('repeated scene switches release renderer resources', async ({ page }) => {
   expect(resources[3]).toEqual(resources[2]);
 });
 
+test('benchmark resets keep renderer generations aligned and restore the original content', async ({
+  page,
+}) => {
+  await page.goto('/sandbox.html?scene=interior-fixture');
+  await page.waitForFunction(() => window.foundation?.ready);
+  const before = await page.evaluate(async () => {
+    const f = window.foundation;
+    f.pause(true);
+    const save = f.saveValue();
+    await f.startBenchmark();
+    f.pause(true);
+    const generation = f.sim.generation;
+    f.sim.cleared = true;
+    f.pause(false);
+    return { save, generation };
+  });
+  await page.waitForFunction((generation) => {
+    const f = window.foundation;
+    return f.sim.generation > generation && f.presentation.generation === f.sim.generation;
+  }, before.generation);
+  const restored = await page.evaluate(async () => {
+    const f = window.foundation;
+    f.pause(true);
+    await f.finishBenchmark();
+    return {
+      save: f.saveValue(),
+      generation: f.sim.generation,
+      rendered: f.presentation.generation,
+    };
+  });
+  expect(restored.save).toEqual(before.save);
+  expect(restored.rendered).toBe(restored.generation);
+});
+
 test('preview navigation preserves playback and isolates controls from gameplay', async ({
   page,
 }) => {

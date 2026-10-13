@@ -5,7 +5,7 @@ import type { AreaDefinition } from '../content/world';
 import type { OrthographicCamera } from 'three';
 export class Input {
   keys = new Set<string>();
-  edges = { attack: false, dodge: false, ability: false };
+  edges = { attack: false, dodge: false, ability: false, potion: false };
   pointer = { x: 0, y: 0 };
   private lifetime = new AbortController();
   hasPointer = false;
@@ -42,6 +42,7 @@ export class Input {
         return;
       this.keys.add(e.code);
       if (!e.repeat && (e.code === 'ShiftLeft' || e.code === 'ShiftRight')) this.edges.dodge = true;
+      if (e.code === 'KeyQ' && !e.repeat) this.edges.potion = true;
       if (e.code === 'Escape' && !e.repeat) {
         e.preventDefault();
         this.pause();
@@ -89,12 +90,12 @@ export class Input {
       generation,
       ...this.edges,
     };
-    this.edges = { attack: false, dodge: false, ability: false };
+    this.edges = { attack: false, dodge: false, ability: false, potion: false };
     return cmd;
   }
   clear() {
     this.keys.clear();
-    this.edges = { attack: false, dodge: false, ability: false };
+    this.edges = { attack: false, dodge: false, ability: false, potion: false };
   }
   resetAim() {
     this.clear();

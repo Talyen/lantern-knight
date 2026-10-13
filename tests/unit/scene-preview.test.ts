@@ -2,7 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { scenePreviewSchema, previewHero } from '../../src/sandbox/preview';
 import { sandboxContent } from '../../src/content/sandbox-world';
-import { isSupportedPosition, heightAt } from '../../src/content/world';
+import {
+  ContentRegistry,
+  isSupportedPosition,
+  heightAt,
+  type ContentDefinitions,
+} from '../../src/content/world';
 import { defaultLook } from '../../src/presentation/lighting-profiles';
 
 test('preview reload reconciles blocked or moved positions without accepting corrupt state', () => {
@@ -34,4 +39,27 @@ test('preview reload reconciles blocked or moved positions without accepting cor
     { ...state, look: { ...state.look, strength: Infinity } },
   ])
     assert.equal(scenePreviewSchema.safeParse(bad).success, false);
+
+  const definitions: ContentDefinitions = structuredClone(sandboxContent.definitions);
+  const area = definitions.areas.find((area) => area.id === state.scene)!;
+  Object.assign(area, {
+    bounds: { minX: -5, maxX: 5, minZ: -5, maxZ: 5 },
+    playableBoundary: undefined,
+    surface: { kind: 'flat', height: 2 },
+    props: [],
+    spawns: [],
+    exits: [],
+    baselineEntry: 'start',
+    entries: [{ id: 'start', x: 0, z: 0 }],
+  });
+  definitions.actors.find((actor) => actor.id === definitions.player)!.radius = 0.6;
+  const larger = new ContentRegistry({ ...definitions, initialArea: area.id, areas: [area] });
+  const nearEdge = previewHero({ ...restored, hero: { x: 4.7, z: 0, yaw: 0.8 } }, larger);
+  assert.ok(isSupportedPosition(area, nearEdge, 0.6));
+  area.props = [{ id: 'trap', kind: 'pillar', x: 4.1, z: 0, radius: 0.7, height: 1 }];
+  const trapped = new ContentRegistry({ ...definitions, initialArea: area.id, areas: [area] });
+  const recovered = previewHero({ ...restored, hero: { x: 4.7, z: 0, yaw: 0.8 } }, trapped);
+  assert.ok(isSupportedPosition(area, recovered, 0.6));
+  assert.equal(recovered.x, 0);
+  assert.equal(recovered.y, 2);
 });

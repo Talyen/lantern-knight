@@ -9,14 +9,15 @@ import { projectRoot } from './assets/paths';
 import { webConfig } from '../vite.config';
 export async function buildWeb(profile: BuildProfile = 'game', local = false) {
   const started = performance.now(),
-    workspace = await openWorkspace(
-      local ? 'local' : 'pinned',
-      profile === 'authoring' ? 'authoring' : 'runtime',
-    );
+    workspace = await openWorkspace(local ? 'local' : 'pinned', 'authoring', profile === 'game');
   try {
     const source = await sourceFingerprint(projectRoot, { scope: 'web' });
     let stage = performance.now();
-    const inventory = await selectedFiles(workspace.publicDirectory, profile);
+    const inventory = await selectedFiles(
+      workspace.publicDirectory,
+      profile,
+      workspace.ensurePublicFile,
+    );
     console.log(`Asset selection: ${Math.round(performance.now() - stage)}ms.`);
     stage = performance.now();
     await viteBuild({

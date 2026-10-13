@@ -40,9 +40,9 @@ Defer full aim-facing strafing initially: it requires additional animation work.
 
 ## Equipment
 
-Use one fixed sword-and-lantern loadout while authoring and playtesting prototype scenes. Build attachment hooks to support later equipment development.
+Keep the hero artwork fixed. Equipment supports Leather/Cloth body armor, gloves, belt, boots, two rings, amulet, trinket, sword and lantern. The opening ring grants 10 maximum health without healing on equip.
 
-Equipment and loot will form part of the cohesive progression system. Slots, item effects and their relationships to stats and permanent upgrades need design before implementation. Visible armor swapping and additional weapon animation sets are not current roadmap commitments.
+Gold, Health Potions, Materials and damaged equipment form the initial reward loop. Damaged equipment is labeled Salvage only and converts to the displayed materials through inventory outside combat. Broader item effects and permanent upgrades remain to be designed. Visible armor swapping and additional weapon animation sets are not current roadmap commitments.
 
 ## Character progression
 
@@ -52,7 +52,7 @@ Begin with a minimal integrated progression loop in authored prototype content, 
 
 ## World structure
 
-Author small, connected areas in the scene editor. Prototype scenes can be replaced or deleted without changing engine verification fixtures. Game currently starts on an empty floor with the hero; scene-editor playtests run authored content in temporary sessions.
+Author small destinations in the scene editor. Game begins in Abandoned Orchard, with an explicit departure to Forest Gathering Clearing. Discovering campfires unlocks travel between them. Rest heals and resets enemies without replenishing potions or restoring claimed objects. Death retains rewards and returns to the nearest reachable discovered campfire in the current destination, or the last visited fire when none is reachable. Scene-editor playtests run authored content in temporary sessions.
 
 Traversal, combat, artwork and occlusion are capabilities independent of a particular level composition. Future destinations and encounters remain to be designed.
 
@@ -72,7 +72,7 @@ Follow this with a cohesive progression loop before expanding the adventure. Res
 
 ## Presentation and delivery defaults
 
-Silver hour / Dark cinematic with sun direction 20° and elevation 15° at 150% light response is the default in every Game area, Dev Preview and authoring scene. Both light rigs and all three looks remain available for authoring. Depth of field and saved visual preferences keep their existing behavior. The camera retains 45 degree azimuth, full-precision 35.264389682754654 degree elevation and 9 m initial vertical span.
+Game, Dev Preview and new authoring scenes default to Silver hour / Dark cinematic, sun direction 20° and elevation 15°, and 150% light response. Authored scenes can override their rig, look and sun; Dev Preview can retain experiments across reloads. Both light rigs and all three looks remain available for authoring. Depth of field and saved visual preferences keep their existing behavior. The camera retains 45 degree azimuth, full-precision 35.264389682754654 degree elevation and 9 m initial vertical span. [Lighting profiles](../src/presentation/lighting-profiles.ts) and the [camera contract](../src/assets/camera-contract.ts) own the current defaults.
 
 Use supplied eight-direction running and four-direction idle/action artwork for the immediate hero kit. Further action direction coverage and a future controlled 3D or 2D production route remain open; the original briefs do not impose an eight-direction or rig requirement. The selected animation treatment combines stabilization, guarded motion warp, rigid-sword protection, weighted walk rhythm and directed action holds. Action lengths and gameplay windows are shared across headings; preserve deliberate loading and impact holds. Artwork registration changes only presentation; simulation remains authoritative for actions, damage and movement.
 

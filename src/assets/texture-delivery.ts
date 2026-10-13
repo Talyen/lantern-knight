@@ -92,7 +92,13 @@ export class TextureDelivery {
       dxtSupported: false,
       pvrtcSupported: false,
     };
-    this.compressed = bptc || astc;
+    // The supplied Basis worker generates JS invokers. Strict pages permit WASM
+    // but forbid that glue; choose the prepared lossless image instead of hanging
+    // a decode inside a worker rejected by the page's inherited policy.
+    const policy = canvas.ownerDocument.querySelector<HTMLMetaElement>(
+      'meta[http-equiv="Content-Security-Policy"]',
+    )?.content;
+    this.compressed = (bptc || astc) && (!policy || policy.includes("'unsafe-eval'"));
   }
   choose(page: SourcePage) {
     // Screen dimensions alone do not describe projected image coverage when

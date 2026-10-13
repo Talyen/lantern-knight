@@ -115,7 +115,7 @@ test('input uses the first click position, preserves pending dodge across key re
       Object.assign(new Event('pointerdown'), { button: 0, clientX: 650, clientY: 320 }),
     );
     assert.equal(input.keys.size, 0);
-    assert.deepEqual(input.edges, { attack: false, dodge: false, ability: false });
+    assert.deepEqual(input.edges, { attack: false, dodge: false, ability: false, potion: false });
     assert.equal(input.hasPointer, false);
   } finally {
     input.dispose();

@@ -2,7 +2,11 @@ import { manifestFixture } from '../fixtures/manifest';
 import { parseManifest } from '../../src/assets/schema';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { selectDelivery, type SourcePage } from '../../src/assets/texture-delivery';
+import {
+  selectDelivery,
+  TextureDelivery,
+  type SourcePage,
+} from '../../src/assets/texture-delivery';
 import { useGpuCompression } from '../../tools/assets/image-delivery';
 
 test('delivery selects adequate full-composition variants, preserves source quality and respects GPU formats', () => {
@@ -62,6 +66,37 @@ test('alpha-sensitive artwork keeps lossless delivery and GPU formats respect bl
   assert.equal(useGpuCompression(false, 1254, 1254), false);
   assert.equal(useGpuCompression(false, 1672, 941), false);
   assert.equal(useGpuCompression(false, 2, 2), true);
+});
+
+test('strict browser policy uses lossless artwork without starting the eval-based Basis worker', () => {
+  const page: SourcePage = {
+    url: '/master.png',
+    hash: 'a'.repeat(64),
+    width: 512,
+    height: 512,
+    delivery: (['png', 'ktx2-uastc'] as const).map((encoding) => ({
+      encoding,
+      path: 'art.' + encoding,
+      hash: 'a'.repeat(64),
+      width: 512,
+      height: 512,
+      bytes: 10,
+      gpuBytes: 20,
+      mipmaps: false,
+    })),
+  };
+  const gl = { MAX_TEXTURE_SIZE: 3379, getParameter: () => 8192, getExtension: () => ({}) };
+  const canvas = {
+    getContext: () => gl,
+    ownerDocument: { querySelector: () => ({ content: "script-src 'self' 'wasm-unsafe-eval'" }) },
+  } as unknown as HTMLCanvasElement;
+  const delivery = new TextureDelivery(canvas);
+  try {
+    assert.equal(delivery.choose(page).encoding, 'png');
+    assert.equal(delivery.choose(page).width, 512);
+  } finally {
+    delivery.dispose();
+  }
 });
 
 test('wide atlas previews allow normal integer rounding without rejecting the asset', () => {

@@ -1,3 +1,4 @@
+import { AuthoredGameplaySchema } from './authored-gameplay';
 import { ContentRegistry, type ContentDefinitions } from './world';
 import { type SceneDocument, parseSceneDocument, validateSceneReferences } from './scene-document';
 import { resolveScene } from './world-art';
@@ -58,10 +59,12 @@ export function withGameplayDefaults(
   const source = definitions.areas.find((p) => p.id === document.base);
   return {
     ...document,
-    gameplay: {
+    gameplay: AuthoredGameplaySchema.parse({
       spawns: structuredClone([...(source?.spawns ?? [])]),
       exits: structuredClone([...(source?.exits ?? [])]),
       pickups: structuredClone([...(source?.pickups ?? [])]),
-    },
+      campfires: source?.campfires,
+      interactables: source?.interactables,
+    }),
   };
 }

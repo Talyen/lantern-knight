@@ -11,7 +11,7 @@ import { GameSession } from '../../src/core/session';
 import { parseGame } from '../../src/core/save';
 import { Simulation } from '../../src/core/simulation';
 import { tuning } from '../../src/content/gameplay';
-import { contentDefinitions } from '../../src/content/game-content';
+import { contentDefinitions } from '../fixtures/content';
 const area = (): AreaDefinition => ({
   ...structuredClone(contentDefinitions.areas[0]!),
   id: 'navigation',

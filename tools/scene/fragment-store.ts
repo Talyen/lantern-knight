@@ -15,10 +15,14 @@ export class FragmentStore {
     await this.location('untitled');
     const files = (await fs.readdir(this.directory)).filter((p) => p.endsWith('.json')).sort();
     return Promise.all(
-      files.map(async (file) => ({
-        id: file.slice(0, -5),
-        fragment: await this.read(file.slice(0, -5)),
-      })),
+      files.map(async (file) => {
+        const id = file.slice(0, -5);
+        try {
+          return { id, fragment: await this.read(id) };
+        } catch (error) {
+          return { id, error: String(error) };
+        }
+      }),
     );
   }
   async read(id: string) {

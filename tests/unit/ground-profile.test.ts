@@ -83,4 +83,8 @@ it('retains independent interaction revisions after scene deletion, clearing and
   await fs.writeFile(path.join(root, 'profiles', first.id + '.json'), '{}');
   await assert.rejects(profiles.read(first.id), /damaged/);
   await assert.rejects(profiles.save(original), /damaged/);
+  const revisions = await profiles.list();
+  assert.ok(revisions.find((profile) => profile.id === first.id)?.error);
+  assert.ok(revisions.some((profile) => profile.id !== first.id && !profile.error));
+  assert.equal(await fs.readFile(path.join(root, 'profiles', first.id + '.json'), 'utf8'), '{}');
 });

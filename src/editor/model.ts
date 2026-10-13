@@ -114,6 +114,21 @@ export class EditorHistory {
     return [...included];
   }
 
+  transformEach(ids: readonly string[], fields: Parameters<EditorHistory['transform']>[1]) {
+    const temp = this.fork(),
+      objects = new Map(this.document.objects.map((object) => [object.id, object])),
+      depth = (id: string): number => {
+        const object = objects.get(id);
+        return object?.mount ? 1 + depth(object.mount.to) : 0;
+      };
+    // Absolute fields must place supports before their selected attachments.
+    for (const id of [...new Set(ids)].sort((a, b) => depth(a) - depth(b)))
+      temp.transform(id, fields);
+    this.change((document) => {
+      document.objects = parseSceneDocument(temp.document).objects;
+    });
+  }
+
   transformMany(
     ids: readonly string[],
     fields: { x?: number; z?: number; rotation?: number; scale?: number },
@@ -178,6 +193,8 @@ export class EditorHistory {
     this.change((d) => {
       d.objects = d.objects.filter((p) => !removed.has(p.id));
       if (d.gameplay) d.gameplay.pickups = d.gameplay.pickups.filter((p) => !removed.has(p.object));
+      if (d.gameplay?.interactables)
+        d.gameplay.interactables = d.gameplay.interactables.filter((p) => !removed.has(p.object));
       d.propOrder = d.propOrder.filter((id) => !removed.has(id));
       d.overlaps = d.overlaps.filter((p) => !removed.has(p.a) && !removed.has(p.b));
     });
@@ -213,8 +230,9 @@ export class EditorHistory {
       });
   }
 
-  insertFragment(objects: readonly SceneObject[], dx = 0, dz = 0, copyPickups = false) {
+  insertFragment(objects: readonly SceneObject[], dx = 0, dz = 0, copyGameplay = false) {
     const copies = structuredClone([...objects]);
+    const source = parseSceneDocument(this.document);
     const remap = new Map(copies.map((p) => [p.id, 'object-' + crypto.randomUUID()]));
     this.change((d) => {
       for (const p of copies) {
@@ -232,7 +250,7 @@ export class EditorHistory {
         }
         d.objects.push(p);
         const original = objects.find((o) => remap.get(o.id) === p.id)!;
-        const pickups = copyPickups
+        const pickups = copyGameplay
           ? (this.document.gameplay?.pickups.filter((v) => v.object === original.id) ?? [])
           : [];
         for (const pickup of pickups)
@@ -244,6 +262,20 @@ export class EditorHistory {
               x: p.x ?? pickup.x,
               z: p.z ?? pickup.z,
             });
+        if (copyGameplay && d.gameplay) {
+          const interactables =
+            source.gameplay?.interactables?.filter((v) => v.object === original.id) ?? [];
+          for (const interactable of interactables) {
+            d.gameplay.interactables ??= [];
+            d.gameplay.interactables.push({
+              ...structuredClone(interactable),
+              id: 'interactable-' + crypto.randomUUID(),
+              object: p.id,
+              x: p.x ?? interactable.x,
+              z: p.z ?? interactable.z,
+            });
+          }
+        }
       }
     });
     return copies.map((p) => p.id);

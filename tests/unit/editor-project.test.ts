@@ -103,6 +103,20 @@ const recovery = (document: SceneDocument) =>
     savedSnapshot: '',
   });
 
+it('Save As preserves a pre-existing recovery at its new file identity', async () => {
+  const f = fixture();
+  await f.project.list();
+  const key = 'recovery:workspace:copy',
+    raw = recovery({ ...emptyScene(), id: 'copy', name: 'Unsaved copy edits' });
+  f.values.set(key, raw);
+  await f.project.save('copy');
+  assert.equal(f.project.revision, 'revision-1');
+  assert.equal(f.values.get(key), raw);
+  assert.equal(f.project.recoveryPending, true);
+  await f.project.restoreRecovery();
+  assert.equal(f.documents.history.document.name, 'Unsaved copy edits');
+});
+
 describe('editor project ownership', () => {
   it('accepts completed saves despite unavailable recovery storage and retains copy identity through undo', async () => {
     const f = fixture();

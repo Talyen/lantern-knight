@@ -1,3 +1,5 @@
+import { addItems, healthBonus, type Inventory, type Equipment } from '../content/items';
+import type { GroundDrop } from '../content/interactions';
 import { simulationView } from './simulation-view';
 import {
   Navigation,
@@ -60,6 +62,7 @@ export type Command = {
   dodge?: boolean;
   ability?: boolean;
   generation?: number;
+  potion?: boolean;
 };
 export type SimEvent = GameplayEvent;
 export type StepResult = { events: readonly GameplayEvent[]; transition?: string; reset?: 'death' };
@@ -191,16 +194,92 @@ export class Simulation {
   readonly initialSeed: number;
   actors: Actor[] = [];
   collectedPickups = new Set<string>();
+  inventory: Inventory = {};
+  equipment: Equipment = {};
+  claimedObjects = new Set<string>();
+  objectActions = new Map<string, number>();
+  drops: GroundDrop[] = [];
+  private alerted = new Set<string>();
+  potionCooldown = 0;
+  get maxHealth() {
+    return this.hero.definition.maxHealth + healthBonus(this.equipment);
+  }
+  guardsDefeated(ids: readonly string[] = []) {
+    return ids.every(
+      (id) => this.enemies.find((a) => a.id === spawnActorId(this.area, id))?.health === 0,
+    );
+  }
+  exitAvailable(id: string) {
+    const e = this.areaDefinition.exits.find((e) => e.id === id);
+    return Boolean(e && (!e.requiresClear || this.cleared) && this.guardsDefeated(e.guards));
+  }
+  get inCombat() {
+    return (
+      this.hero.health <= 0 ||
+      this.enemies.some(
+        (a) =>
+          a.health > 0 &&
+          (this.alerted.has(a.id) ||
+            (!this.areaDefinition.spawns.find((p) => spawnActorId(this.area, p.id) === a.id)
+              ?.awareness &&
+              this.engaged)),
+      )
+    );
+  }
+  private safePoint(p: Point) {
+    return (
+      this.areaDefinition.campfires?.some((f) => Math.hypot(p.x - f.x, p.z - f.z) < f.safeRadius) ??
+      false
+    );
+  }
+  private alert(a: Actor) {
+    this.alerted.add(a.id);
+    const spawn = this.areaDefinition.spawns.find((p) => spawnActorId(this.area, p.id) === a.id);
+    if (spawn?.awareness?.group)
+      for (const p of this.areaDefinition.spawns)
+        if (p.awareness?.group === spawn.awareness.group)
+          this.alerted.add(spawnActorId(this.area, p.id));
+  }
+  claimObject(id: string) {
+    const object = this.areaDefinition.interactables?.find((p) => p.id === id);
+    if (!object || this.claimedObjects.has(id) || !this.guardsDefeated(object.guards)) return false;
+    this.claimedObjects.add(id);
+    this.objectActions.set(id, this.tick);
+    this.drops.push({
+      id: 'object-' + id,
+      source: id,
+      enemy: false,
+      x: object.x,
+      z: object.z,
+      rewards: structuredClone([...object.rewards]),
+    });
+    this.emit(this.hero, { kind: 'object-claimed', object: id });
+    return true;
+  }
+  collectDrop(id: string) {
+    const drop = this.drops.find((p) => p.id === id);
+    if (
+      !drop ||
+      this.hero.health <= 0 ||
+      Math.hypot(drop.x - this.hero.x, drop.z - this.hero.z) > 1.6 ||
+      !clearSegment(this.areaDefinition, this.hero, drop, 0.001)
+    )
+      return false;
+    addItems(this.inventory, drop.rewards);
+    this.drops = this.drops.filter((p) => p !== drop);
+    return true;
+  }
+
   private tickEvents: SimEvent[] = [];
   cleared = false;
-  generation: number;
+  readonly generation: number;
   resetCount = 0;
   completedEncounters = 0;
   engaged = false;
   constructor(
     public readonly registry: ContentRegistry,
     seed = 142,
-    public area: AreaId = registry.definitions.initialArea,
+    public readonly area: AreaId = registry.definitions.initialArea,
     generation = 1,
     entry?: string,
   ) {
@@ -333,6 +412,7 @@ export class Simulation {
       { x, z },
       effectiveRadius(a.definition.radius),
     );
+    if (a.kind === 'enemy' && this.safePoint(position)) return;
     a.x = position.x;
     a.z = position.z;
     a.y = heightAt(this.areaDefinition, a.x, a.z);
@@ -352,14 +432,29 @@ export class Simulation {
         to.age < tuning.dodge.invulnerableEnd)
     )
       return;
-    if (to.kind === 'enemy') this.engaged = true;
+    if (to.kind === 'enemy') {
+      this.engaged = true;
+      this.alert(to);
+    }
     const actual = Math.min(to.health, amount);
     to.health -= actual;
     this.emit(from, { kind: 'damage', target: to.id, amount: actual });
     to.attackBufferedUntil = -1;
     to.dashBufferedUntil = -1;
     this.start(to, to.health <= 0 ? 'death' : 'hurt', to.yaw);
-    if (!to.health) this.emit(to, { kind: 'death' });
+    if (!to.health) {
+      this.emit(to, { kind: 'death' });
+      const spawn = this.areaDefinition.spawns.find((p) => spawnActorId(this.area, p.id) === to.id);
+      if (spawn?.rewards?.length)
+        this.drops.push({
+          id: 'enemy-' + spawn.id,
+          source: spawn.id,
+          enemy: true,
+          x: to.x,
+          z: to.z,
+          rewards: structuredClone([...spawn.rewards]),
+        });
+    }
   }
   withinArc(from: Actor, to: Actor, range: number, halfAngle: number) {
     const dx = to.x - from.x,
@@ -376,6 +471,7 @@ export class Simulation {
     this.tick++;
     this.tickEvents = [];
     const h = this.hero;
+    this.potionCooldown = Math.max(0, this.potionCooldown - 1);
     if (h.health <= 0 && h.age >= tuning.deathHoldTicks) return { events: [], reset: 'death' };
     if (command.generation !== undefined && command.generation !== this.generation)
       command = {
@@ -402,6 +498,26 @@ export class Simulation {
       mx = len > 1 ? command.move.x / len : command.move.x,
       mz = len > 1 ? command.move.z / len : command.move.z;
     if (h.health > 0) {
+      if (
+        command.potion &&
+        this.potionCooldown === 0 &&
+        h.health < this.maxHealth &&
+        (this.inventory['health-potion'] ?? 0) > 0
+      ) {
+        this.inventory['health-potion']!--;
+        h.health = Math.min(this.maxHealth, h.health + 40);
+        this.potionCooldown = 60;
+        this.emit(h, { kind: 'potion-used' });
+      } else if (command.potion)
+        this.emit(h, {
+          kind: 'action-unavailable',
+          reason:
+            h.health >= this.maxHealth
+              ? 'Health is already full'
+              : !(this.inventory['health-potion'] ?? 0)
+                ? 'No Health Potions'
+                : 'Potion is cooling down',
+        });
       if (command.attack && !this.movementPreview)
         h.attackBufferedUntil = this.tick + tuning.inputBufferTicks;
       if (command.dodge) {
@@ -434,9 +550,28 @@ export class Simulation {
       this.engaged = true;
     for (const a of this.actors) {
       if (a.health <= 0) continue;
+      const home = this.areaDefinition.spawns.find((p) => spawnActorId(this.area, p.id) === a.id);
+      if (a.kind === 'enemy' && home?.awareness && !this.movementPreview) {
+        const policy = home.awareness;
+        const safe = this.safePoint(h);
+        if (safe || Math.hypot(h.x - home.x, h.z - home.z) > policy.leash) {
+          this.alerted.delete(a.id);
+          if (a.state === 'attack') this.start(a, 'idle');
+        } else if (
+          Math.hypot(h.x - a.x, h.z - a.z) <= policy.radius &&
+          clearSegment(this.areaDefinition, a, h, 0.001)
+        )
+          this.alert(a);
+        if (!this.alerted.has(a.id)) {
+          if (a.state === 'idle' || a.state === 'walk') {
+            this.follow(a, home);
+            continue;
+          }
+        }
+      }
       if (
         a.kind === 'enemy' &&
-        (this.engaged || this.movementPreview) &&
+        (this.engaged || this.movementPreview || this.alerted.has(a.id)) &&
         h.health > 0 &&
         a.stun === 0 &&
         (a.state === 'idle' || a.state === 'walk')
@@ -471,6 +606,24 @@ export class Simulation {
               this.damage(a, target, t.damage);
             }
           }
+        if (a.kind === 'hero' && a.age >= t.windup && a.age < t.activeEnd)
+          for (const object of this.areaDefinition.interactables ?? [])
+            if (
+              object.kind === 'breakable' &&
+              this.withinArc(
+                a,
+                {
+                  ...a,
+                  x: object.x,
+                  z: object.z,
+                  y: heightAt(this.areaDefinition, object.x, object.z),
+                },
+                t.range,
+                t.halfAngle,
+              ) &&
+              clearSegment(this.areaDefinition, a, object, 0.001)
+            )
+              this.claimObject(object.id);
         if (a.age >= t.total - 1) this.start(a, 'idle');
       } else if (a.state === 'dodge') {
         if (a.age >= tuning.dodge.travelStart && a.age < tuning.dodge.travelEnd)
@@ -539,13 +692,10 @@ export class Simulation {
           Math.abs(h.y - heightAt(this.areaDefinition, pickup.x, pickup.z)) >
             tuning.maxCombatHeightDifference ||
           !clearSegment(this.areaDefinition, h, pickup, 0.001) ||
-          h.health >= this.registry.actor(this.registry.definitions.player).maxHealth
+          h.health >= this.maxHealth
         )
           continue;
-        const amount = Math.min(
-          pickup.amount,
-          this.registry.actor(this.registry.definitions.player).maxHealth - h.health,
-        );
+        const amount = Math.min(pickup.amount, this.maxHealth - h.health);
         h.health += amount;
         this.collectedPickups.add(pickup.id);
         this.emit(h, { kind: 'pickup', pickup: pickup.id, amount });
@@ -558,7 +708,7 @@ export class Simulation {
     const exit =
       h.health > 0
         ? this.areaDefinition.exits.find(
-            (e) => (!e.requiresClear || this.cleared) && contains(e.trigger, h),
+            (e) => !e.explicit && this.exitAvailable(e.id) && contains(e.trigger, h),
           )
         : undefined;
     return {

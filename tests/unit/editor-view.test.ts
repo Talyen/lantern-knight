@@ -1,11 +1,82 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { Group } from 'three';
+import { Group, Mesh, MeshBasicMaterial, PlaneGeometry, Texture, Vector3 } from 'three';
 import { EditorView } from '../../src/editor/view';
 import { EditorDocument } from '../../src/editor/document';
 import { emptyScene } from '../../src/editor/default-scene';
 import { AssetRuntime, type PackLease } from '../../src/assets/loader';
 import { manifestFixture } from '../fixtures/manifest';
+import { makeCamera, outward } from '../../src/core/camera';
+import { Simulation } from '../../src/core/simulation';
+import { ContentRegistry, heightAt } from '../../src/content/world';
+import { contentDefinitions } from '../fixtures/content';
+
+test('editor ground picking follows elevated surfaces while explicit drag planes retain their height', () => {
+  for (const surface of [
+    { kind: 'flat' as const, height: 2 },
+    { kind: 'ramp' as const, axis: 'x' as const, start: -5, end: 5, startHeight: 0, endHeight: 2 },
+  ]) {
+    const definitions = structuredClone(contentDefinitions);
+    definitions.areas[0]!.surface = surface;
+    const simulation = new Simulation(new ContentRegistry(definitions));
+    const camera = makeCamera(4 / 3, new Vector3(0, heightAt(simulation.areaDefinition, 0, 0), 0));
+    const view = new EditorView(
+      {
+        getBoundingClientRect: () => ({ left: 80, top: 70, width: 800, height: 600 }),
+      } as HTMLCanvasElement,
+      new AssetRuntime({}),
+    );
+    Object.assign(view, { accepted: true, renderer: { camera }, simulation });
+    const point = new Vector3(1, heightAt(simulation.areaDefinition, 1, 2), 2);
+    const screen = view.screen(point);
+    assert.ok(view.ground(screen.x, screen.y)!.distanceTo(point) < 1e-7);
+    assert.equal(view.ground(screen.x, screen.y, 0)!.y, 0);
+  }
+});
+
+test('invisible artwork cannot intercept selection of the visible drawing behind it', () => {
+  const camera = makeCamera(4 / 3),
+    texture = new Texture();
+  const sprites = ['visible', 'invisible'].map((id, i) => {
+    const material = new MeshBasicMaterial({ map: texture, opacity: i ? 0 : 1 });
+    const mesh = new Mesh(new PlaneGeometry(2, 2), material);
+    mesh.quaternion.copy(camera.quaternion);
+    mesh.position.copy(outward).multiplyScalar(i * 0.5);
+    return { id, mesh, material };
+  });
+  const view = new EditorView(
+    {
+      getBoundingClientRect: () => ({ left: 0, top: 0, width: 800, height: 600 }),
+    } as HTMLCanvasElement,
+    new AssetRuntime({}),
+  );
+  Object.assign(view, {
+    accepted: true,
+    renderer: { camera, roomPresentation: { inkRoom: { sprites } } },
+    alpha: new WeakMap([[texture, { data: new Uint8Array([255]), width: 1, height: 1 }]]),
+  });
+  const document = emptyScene();
+  document.objects = sprites.map(({ id }) => ({
+    id,
+    kind: 'prop',
+    asset: 'ink-scenery',
+    clip: 'lantern',
+    x: 0,
+    z: 0,
+  }));
+  try {
+    assert.equal(view.pick(400, 300, document)?.placement.id, 'visible');
+    sprites[1]!.material.opacity = 1;
+    sprites[1]!.mesh.visible = false;
+    assert.equal(view.pick(400, 300, document)?.placement.id, 'visible');
+  } finally {
+    for (const sprite of sprites) {
+      sprite.mesh.geometry.dispose();
+      sprite.material.dispose();
+    }
+    texture.dispose();
+  }
+});
 
 test('editor acceptance hides failed rebuilds, recovers and preserves installed texture lifetimes', async () => {
   const original = emptyScene();

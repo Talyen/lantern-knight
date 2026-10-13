@@ -231,7 +231,7 @@ const SceneDocumentSchema = z
       ctx.addIssue({ code: 'custom', message: 'Duplicate object identity' });
     if (d.base !== 'flat' && !d.geometry)
       ctx.addIssue({ code: 'custom', message: 'Gameplay scenes require geometry and entries' });
-    for (const p of d.gameplay?.pickups ?? [])
+    for (const p of [...(d.gameplay?.pickups ?? []), ...(d.gameplay?.interactables ?? [])])
       if (!d.objects.some((o) => o.id === p.object && o.kind !== 'decal'))
         ctx.addIssue({
           code: 'custom',

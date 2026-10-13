@@ -22,6 +22,24 @@ function assembly() {
   ];
   return new EditorHistory(d);
 }
+it('absolute alignment places selected supports before attachments regardless of selection order', () => {
+  for (const selection of [
+    ['child', 'support'],
+    ['support', 'child'],
+  ]) {
+    const history = assembly(),
+      before = history.document;
+    history.transformEach(selection, { x: 3, z: 2 });
+    const selected = sceneItems(history.document).filter((item) =>
+      selection.includes(item.placement.id),
+    );
+    assert.ok(selected.every((item) => item.placement.x === 3 && item.placement.z === 2));
+    history.undo();
+    assert.deepEqual(history.document, before);
+    assert.equal(history.canUndo, false);
+  }
+});
+
 it('batch transforms commit once, use a shared pivot, and preserve selected attachments', () => {
   const h = assembly(),
     before = structuredClone(h.document);
@@ -443,4 +461,39 @@ it('workspace keeps single-object clip controls hidden for multiple selected obj
   selectionCount = 1;
   workspace.refresh();
   for (const id of ['clip', 'heading']) assert.equal(nodes.get(id)!.closest().hidden, false);
+});
+
+it('duplicated containers retain independent rewards and follow their artwork through transforms', () => {
+  const d = emptyScene();
+  d.objects = [{ id: 'chest', kind: 'prop', asset: 'ink-scenery', clip: 'lantern', x: 0, z: 0 }];
+  d.gameplay!.interactables = [
+    {
+      id: 'reward',
+      object: 'chest',
+      kind: 'container',
+      x: 0,
+      z: 0,
+      guards: [],
+      rewards: [{ item: 'gold', amount: 5 }],
+      idle: 'lantern',
+      action: 'lantern',
+      spent: 'lantern',
+    },
+  ];
+  const h = new EditorHistory(d);
+  const [copy] = h.duplicateMany(['chest']);
+  const reward = h.document.gameplay!.interactables!.find((p) => p.object === copy)!;
+  assert.notEqual(reward.id, 'reward');
+  assert.deepEqual(reward.rewards, [{ item: 'gold', amount: 5 }]);
+  h.transform(copy!, { x: 3, z: 2 });
+  const { registry } = composeDraftGameplay(h.document, content.definitions, {});
+  const resolved = registry
+    .area(registry.definitions.initialArea)
+    .interactables!.find((p) => p.id === reward.id)!;
+  assert.equal(resolved.x, 3);
+  assert.equal(resolved.z, 2);
+  h.removeMany([copy!]);
+  assert.equal(h.document.gameplay!.interactables!.length, 1);
+  h.undo();
+  assert.equal(h.document.gameplay!.interactables!.length, 2);
 });

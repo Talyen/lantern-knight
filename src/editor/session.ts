@@ -367,7 +367,8 @@ export function createEditorSession() {
       showRecovery();
       const d = documents.history.document;
       selected = undefined;
-      composition?.selection.clear();
+      composition?.reset();
+      await refresh();
       view.setGrid($<HTMLInputElement>('grid').checked);
       view.render();
       fit();
@@ -383,6 +384,7 @@ export function createEditorSession() {
   async function save(copyId?: string) {
     await run(async () => {
       await project.save(copyId);
+      showRecovery();
       $('conflict').hidden = true;
       await list();
       assertActive();
@@ -533,11 +535,7 @@ export function createEditorSession() {
         const ids = composition.editable();
         const input = $<HTMLInputElement>(id);
         if (id !== 'mirror' && (!input.value.trim() || !Number.isFinite(value))) return;
-        const temp = new EditorHistory(history.document);
-        for (const target of ids) temp.transform(target, { [id]: value });
-        history.change((d) => {
-          d.objects = parseSceneDocument(temp.document).objects;
-        });
+        history.transformEach(ids, { [id]: value });
       });
   $('undo').onclick = () =>
     void edit((history) => {
@@ -865,9 +863,9 @@ export function createEditorSession() {
     workspace.refresh();
     composition?.positionHandles();
   };
-  let marquee: { x: number; y: number; additive: boolean } | undefined;
+  let marquee: { x: number; y: number; additive: boolean; pointer: number } | undefined;
   function startMarquee(e: PointerEvent) {
-    marquee = { x: e.clientX, y: e.clientY, additive: e.shiftKey };
+    marquee = { x: e.clientX, y: e.clientY, additive: e.shiftKey, pointer: e.pointerId };
     canvas.setPointerCapture(e.pointerId);
   }
 
@@ -952,6 +950,7 @@ export function createEditorSession() {
   canvas.oncontextmenu = (e) => e.preventDefault();
   canvas.onpointerdown = (e) => {
     if (busy || !view.presentation || project.recoveryPending) return;
+    if (drag || marquee) return;
     canvas.focus();
     if (visualAuthoring?.pointerDown(e)) return;
     if (e.button !== 0 && e.button !== 2 && e.button !== 1) return;
@@ -995,6 +994,7 @@ export function createEditorSession() {
   };
   canvas.onpointermove = (e) => {
     if (marquee) {
+      if (marquee.pointer !== e.pointerId) return;
       const box = $('marquee');
       box.hidden = false;
       Object.assign(box.style, {
@@ -1022,7 +1022,7 @@ export function createEditorSession() {
         );
       }
     }
-    if (!drag || !view.presentation) return;
+    if (!drag || drag.pointer !== e.pointerId || !view.presentation) return;
     const point = view.ground(e.clientX, e.clientY, drag.height);
     if (!point) return;
     const dx = point.x - drag.start.x,
@@ -1076,22 +1076,30 @@ export function createEditorSession() {
   canvas.onpointerup = (e) => {
     if (visualAuthoring?.pointerUp(e)) return;
     if (marquee) {
+      if (marquee.pointer !== e.pointerId) return;
       composition.rectangle(marquee, { x: e.clientX, y: e.clientY }, marquee.additive);
       marquee = undefined;
       $('marquee').hidden = true;
       if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
       return;
     }
-    finishDrag();
+    if (drag?.pointer === e.pointerId) finishDrag();
   };
   canvas.onpointercancel = (e) => {
     visualAuthoring?.pointerUp(e);
-    marquee = undefined;
-    $('marquee').hidden = true;
-    finishDrag(true);
+    if (marquee?.pointer === e.pointerId) {
+      marquee = undefined;
+      $('marquee').hidden = true;
+    }
+    if (drag?.pointer === e.pointerId) finishDrag(true);
   };
-  canvas.onlostpointercapture = () => {
-    if (drag) finishDrag(true);
+  canvas.onlostpointercapture = (e) => {
+    visualAuthoring?.pointerUp(e);
+    if (marquee?.pointer === e.pointerId) {
+      marquee = undefined;
+      $('marquee').hidden = true;
+    }
+    if (drag?.pointer === e.pointerId) finishDrag(true);
   };
   canvas.onwheel = (e) => {
     e.preventDefault();
@@ -1142,16 +1150,19 @@ export function createEditorSession() {
         walkKeys.add(e.code);
         return;
       }
-      if (e.key.toLowerCase() === 'f') {
+      if (e.key.toLowerCase() === 'f' && !e.ctrlKey && !e.metaKey && !e.altKey) {
         composition.focus();
         return;
       }
-      if (['x', 'z'].includes(e.key.toLowerCase()) && !e.ctrlKey && !e.metaKey) {
+      if (['x', 'z'].includes(e.key.toLowerCase()) && !e.ctrlKey && !e.metaKey && !e.altKey) {
         $<HTMLSelectElement>('axis').value = e.key.toLowerCase();
         return;
       }
       if (
         ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key) &&
+        !e.ctrlKey &&
+        !e.metaKey &&
+        !e.altKey &&
         composition.editable().length
       ) {
         e.preventDefault();
@@ -1206,7 +1217,8 @@ export function createEditorSession() {
       const changedFoundations = await project.restoreRecovery();
       assertActive();
       selected = undefined;
-      composition?.selection.clear();
+      composition?.reset();
+      await refresh();
       view.setGrid($<HTMLInputElement>('grid').checked);
       view.render();
       fit();
@@ -1304,6 +1316,8 @@ export function createEditorSession() {
       setWalkingHero(false);
       await project.import(document);
       assertActive();
+      composition.reset();
+      await refresh();
       composition.set(undefined);
       fit();
       status('Imported scene. Save As to create a scene file.');

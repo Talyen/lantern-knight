@@ -69,11 +69,12 @@ export class SceneStore {
       }),
     );
   }
-  save(value: unknown, revision: unknown) {
+  async save(value: unknown, revision: unknown) {
+    const snapshot = parseSceneDocument(value);
     const work = this.queue.then(async () => {
       if (revision !== null && (typeof revision !== 'string' || !/^[a-f0-9]{64}$/.test(revision)))
         throw new Error('Invalid file revision');
-      const document = parseSceneDocument(value);
+      const document = snapshot;
       await this.validate(document);
       const bytes =
         JSON.stringify(document, null, document.groundInteraction ? undefined : 2) + '\n';
@@ -277,9 +278,11 @@ export function sceneEditorPlugin(
               }
               if (body.action === 'fragment') {
                 const fragment = parseSceneFragment(body.fragment);
+                const source = parseSceneDocument(body.document);
                 const document = parseSceneDocument({
-                  ...body.document,
+                  ...source,
                   objects: fragment.objects,
+                  gameplay: source.gameplay ? { ...source.gameplay, pickups: [] } : undefined,
                 });
                 await validate(document);
                 respond(200, await fragments.create(fragment));

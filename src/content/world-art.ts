@@ -7,7 +7,12 @@ import {
   type SceneDocument,
   type SceneSnapshot,
 } from './scene-document';
-import { isSupportedPosition, type AreaDefinition, type PropDefinition } from './world';
+import {
+  supportedPosition,
+  isSupportedPosition,
+  type AreaDefinition,
+  type PropDefinition,
+} from './world';
 import { sceneAssets, SCENE_LIGHT_CAPACITY, type WorldVisualDefinition } from './world-visuals';
 export function resolveAuthoredScene(snapshot: SceneSnapshot): WorldVisualDefinition {
   const document = parseSceneDocument(snapshot);
@@ -134,5 +139,14 @@ export function resolveScene(
     ],
   };
   area = authoredGameplay(document, area, visuals.props);
+  area.entries = [
+    ...area.entries.map((e) => (e.id === area.baselineEntry ? { ...e, ...document.hero } : e)),
+    ...(area.campfires ?? [])
+      .filter((f) => !area.entries.some((e) => e.id === 'fire-' + f.id))
+      .map((f) => ({
+        id: 'fire-' + f.id,
+        ...supportedPosition(area, { x: f.x + 0.9, z: f.z }, 0.3),
+      })),
+  ];
   return { document, area, visuals, assets: sceneAssets(visuals) };
 }

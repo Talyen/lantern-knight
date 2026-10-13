@@ -1,3 +1,5 @@
+import { items, type Inventory, type Equipment, type EquipmentSlot } from '../content/items';
+import { Navigation, effectiveRadius } from './navigation';
 import {
   PLAYER_ID,
   spawnActorId,
@@ -16,8 +18,27 @@ export type TransitionPlan = {
   readonly entry: string;
   readonly events: readonly GameplayEvent[];
 };
+// Hosts may inspect a session, but only its owner may replace its simulation.
+export interface SessionView {
+  readonly registry: ContentRegistry;
+  readonly generation: number;
+  readonly loading: boolean;
+  readonly wins: number;
+  readonly resetCount: number;
+  readonly inventory: Readonly<Inventory>;
+  readonly equipment: Readonly<Equipment>;
+  readonly discovered: ReadonlySet<string>;
+  readonly lastFire: string | undefined;
+  fire: GameSession['fire'];
+  captureSave(): GameSave;
+}
 export class GameSession {
+  readonly view: SessionView = sessionView(this);
   sim: Simulation;
+  inventory: Inventory = {};
+  equipment: Equipment = {};
+  discovered = new Set<string>();
+  lastFire: string | undefined;
   wins = 0;
   resetCount = 0;
   private visited = new Map<AreaId, SavedArea>();
@@ -31,7 +52,29 @@ export class GameSession {
     generation = 1,
   ) {
     this.sim = new Simulation(registry, seed, area, generation);
+    for (const a of registry.definitions.areas)
+      for (const f of a.campfires ?? [])
+        if (f.discovered) {
+          this.discovered.add(a.id + '/' + f.id);
+          this.lastFire = a.id + '/' + f.id;
+        }
+    if (this.sim.areaDefinition.campfires?.length) {
+      this.inventory = { sword: 1, lantern: 1, 'leather-armor': 1, gloves: 1, belt: 1, boots: 1 };
+      this.equipment = {
+        sword: 'sword',
+        lantern: 'lantern',
+        body: 'leather-armor',
+        gloves: 'gloves',
+        belt: 'belt',
+        boots: 'boots',
+      };
+    }
+    this.bindInventory(this.sim);
     this.recordArea();
+  }
+  private bindInventory(sim: Simulation) {
+    sim.inventory = this.inventory;
+    sim.equipment = this.equipment;
   }
   get loading() {
     return this.pending !== undefined;
@@ -66,6 +109,8 @@ export class GameSession {
       ...(this.sim.collectedPickups.size
         ? { collectedPickups: [...this.sim.collectedPickups] }
         : {}),
+      claimedObjects: [...this.sim.claimedObjects],
+      drops: structuredClone(this.sim.drops),
       engaged: this.sim.engaged,
       cleared: Object.values(actors).every((a) => a.health === 0),
     });
@@ -88,9 +133,12 @@ export class GameSession {
         }
       }
       sim.collectedPickups = new Set(state.collectedPickups ?? []);
+      sim.claimedObjects = new Set(state.claimedObjects ?? []);
+      sim.drops = structuredClone(state.drops ?? []);
       sim.cleared = state.cleared;
       sim.engaged = state.engaged;
     }
+    this.bindInventory(sim);
     sim.tick = this.sim.tick;
     sim.resetCount = this.resetCount;
     return sim;
@@ -105,7 +153,7 @@ export class GameSession {
   }
   prepareTransition(exitId: string): TransitionPlan {
     const exit = this.sim.areaDefinition.exits.find((e) => e.id === exitId);
-    if (!exit || this.sim.hero.health <= 0 || (exit.requiresClear && !this.sim.cleared))
+    if (!exit || this.sim.hero.health <= 0 || !this.sim.exitAvailable(exitId))
       throw new Error('exit unavailable');
     this.recordArea();
     const events = [this.event({ kind: 'transition-start', destination: exit.destination })];
@@ -128,6 +176,7 @@ export class GameSession {
       throw new Error('stale transition');
     const player = this.sim.hero,
       next = this.restoredSimulation(plan.destination, this.generation + 1, plan.entry);
+    next.potionCooldown = this.sim.potionCooldown;
     next.hero.health = player.health;
     next.hero.cooldown = player.cooldown;
     next.hero.dodgeCooldown = player.dodgeCooldown;
@@ -142,23 +191,166 @@ export class GameSession {
     this.pending = undefined;
     return [this.event({ kind: 'transition-cancelled', destination: plan.destination })];
   }
+  fire(key: string) {
+    const [area, id] = key.split('/');
+    const definition = this.registry.area(area!).campfires?.find((f) => f.id === id);
+    if (!definition) throw new Error('Unknown campfire');
+    return { area: area!, definition };
+  }
+  discoverFire(key: string) {
+    const { area, definition } = this.fire(key);
+    if (
+      area !== this.sim.area ||
+      Math.hypot(definition.x - this.sim.hero.x, definition.z - this.sim.hero.z) > 1.8 ||
+      this.sim.inCombat
+    )
+      throw new Error('Campfire unavailable');
+    this.discovered.add(key);
+    this.lastFire = key;
+  }
+  prepareFireTravel(key: string): TransitionPlan {
+    if (!this.discovered.has(key) || this.sim.inCombat || this.sim.hero.health <= 0)
+      throw new Error('Travel unavailable');
+    if (
+      !(this.sim.areaDefinition.campfires ?? []).some(
+        (f) =>
+          this.discovered.has(this.sim.area + '/' + f.id) &&
+          Math.hypot(f.x - this.sim.hero.x, f.z - this.sim.hero.z) <= 1.8,
+      )
+    )
+      throw new Error('Visit a campfire to travel');
+    const { area, definition } = this.fire(key);
+    this.recordArea();
+    const plan = Object.freeze({
+      token: ++this.request,
+      sourceGeneration: this.generation,
+      destination: area,
+      entry: 'fire-' + definition.id,
+      events: [this.event({ kind: 'transition-start', destination: area })],
+    });
+    this.pending = plan;
+    return plan;
+  }
+  respawnFire() {
+    const navigation = new Navigation(this.sim.areaDefinition);
+    const candidates = [...this.discovered]
+      .filter((key) => this.fire(key).area === this.sim.area)
+      .map((key) => {
+        const route = navigation.route(
+          this.sim.hero,
+          this.fire(key).definition,
+          effectiveRadius(this.sim.hero.definition.radius),
+        );
+        let previous = this.sim.hero,
+          distance = 0;
+        for (const point of route.points) {
+          distance += Math.hypot(point.x - previous.x, point.z - previous.z);
+          previous = { ...previous, ...point };
+        }
+        return { key, distance: route.status === 'ready' ? distance : Infinity };
+      })
+      .filter((p) => Number.isFinite(p.distance))
+      .sort((a, b) => a.distance - b.distance || a.key.localeCompare(b.key));
+    return candidates[0]?.key ?? this.lastFire;
+  }
+  resetDestination(reason: 'death' | 'manual' = 'manual') {
+    const fire = reason === 'death' ? this.respawnFire() : undefined;
+    return fire ? this.fire(fire).area : this.sim.area;
+  }
+  private resetEnemies() {
+    this.recordArea();
+    for (const [area, state] of this.visited) {
+      const fresh = new Simulation(this.registry, this.sim.initialSeed, area);
+      state.actors = Object.fromEntries(
+        this.registry.area(area).spawns.map((p) => {
+          const a = fresh.enemies.find((a) => a.id === spawnActorId(area, p.id))!;
+          return [p.id, { x: a.x, z: a.z, health: a.health }];
+        }),
+      );
+      state.cleared = fresh.cleared;
+      state.engaged = fresh.engaged;
+      state.drops = state.drops?.filter((d) => !d.enemy);
+    }
+  }
   resetCurrentArea(reason: 'death' | 'manual' = 'manual'): readonly GameplayEvent[] {
+    const fire = reason === 'death' ? this.respawnFire() : undefined;
     this.pending = undefined;
     this.request++;
-    const old = this.sim;
     this.resetCount++;
-    this.visited.delete(old.area);
-    this.sim = new Simulation(this.registry, old.initialSeed, old.area, old.generation + 1);
-    this.sim.tick = old.tick;
-    this.sim.resetCount = this.resetCount;
+    const adventure = this.registry.definitions.areas.some((a) => a.campfires?.length);
+    if (!adventure) {
+      this.visited.delete(this.sim.area);
+      this.sim = new Simulation(
+        this.registry,
+        this.sim.initialSeed,
+        this.sim.area,
+        this.generation + 1,
+      );
+      this.bindInventory(this.sim);
+      this.sim.resetCount = this.resetCount;
+      this.recordArea();
+      return [this.event({ kind: 'room-reset', reason })];
+    }
+    this.resetEnemies();
+    this.sim = this.restoredSimulation(
+      fire ? this.fire(fire).area : this.sim.area,
+      this.generation + 1,
+      fire ? 'fire-' + this.fire(fire).definition.id : undefined,
+    );
+    this.sim.hero.health = this.sim.maxHealth;
     this.recordArea();
     return [this.event({ kind: 'room-reset', reason })];
+  }
+  rest(key: string): readonly GameplayEvent[] {
+    this.discoverFire(key);
+    this.resetEnemies();
+    this.sim = this.restoredSimulation(
+      this.sim.area,
+      this.generation + 1,
+      'fire-' + this.fire(key).definition.id,
+    );
+    this.sim.hero.health = this.sim.maxHealth;
+    this.recordArea();
+    return [this.event({ kind: 'room-reset', reason: 'manual' })];
+  }
+  equip(item: string, slot: EquipmentSlot) {
+    if (this.sim.inCombat) throw new Error('Finish combat before changing equipment');
+    if (!items[item]?.slots?.includes(slot) || !((this.inventory[item] ?? 0) > 0))
+      throw new Error('Item cannot be equipped here');
+    const count = Object.entries(this.equipment).filter(
+      ([s, id]) => id === item && s !== slot,
+    ).length;
+    if (count >= this.inventory[item]!) throw new Error('Already equipped');
+    this.equipment[slot] = item;
+  }
+  unequip(slot: EquipmentSlot) {
+    if (this.sim.inCombat) throw new Error('Finish combat before changing equipment');
+    delete this.equipment[slot];
+    this.sim.hero.health = Math.min(this.sim.hero.health, this.sim.maxHealth);
+  }
+  salvage(item?: string) {
+    if (this.sim.inCombat) throw new Error('Finish combat before salvaging');
+    for (const [id, count] of Object.entries(this.inventory)) {
+      if (item && item !== id) continue;
+      const yields = items[id]?.salvage;
+      if (!yields || !count) continue;
+      for (const [material, amount] of Object.entries(yields))
+        this.inventory[material] = (this.inventory[material] ?? 0) + count * amount;
+      this.inventory[id] = 0;
+    }
   }
   captureSave(): GameSave {
     this.recordArea();
     const a = this.sim.hero;
     return {
-      version: 6,
+      version: 7,
+      adventure: {
+        inventory: structuredClone(this.inventory),
+        equipment: structuredClone(this.equipment),
+        discovered: [...this.discovered],
+        ...(this.lastFire ? { lastFire: this.lastFire } : {}),
+        potionCooldown: this.sim.potionCooldown,
+      },
       seed: this.sim.initialSeed,
       wins: this.wins,
       area: this.sim.area,
@@ -178,10 +370,15 @@ export class GameSession {
     this.pending = undefined;
     this.request++;
     this.visited = new Map(Object.entries(structuredClone(save.areas)));
+    this.inventory = structuredClone(save.adventure?.inventory ?? {});
+    this.equipment = structuredClone(save.adventure?.equipment ?? {});
+    this.discovered = new Set(save.adventure?.discovered ?? []);
+    this.lastFire = save.adventure?.lastFire;
     this.wins = save.wins;
     const old = this.sim;
     this.sim = new Simulation(this.registry, save.seed, save.area, old.generation + 1);
     const next = this.restoredSimulation(save.area, this.sim.generation);
+    next.potionCooldown = save.adventure?.potionCooldown ?? 0;
     Object.assign(next.hero, save.player);
     next.hero.y = heightAt(next.areaDefinition, next.hero.x, next.hero.z);
     next.hero.px = next.hero.x;
@@ -194,4 +391,38 @@ export class GameSession {
     this.sim = next;
     return [this.event({ kind: 'area-transition', destination: save.area })];
   }
+}
+
+function sessionView(owner: GameSession): SessionView {
+  return Object.freeze({
+    get registry() {
+      return owner.registry;
+    },
+    get generation() {
+      return owner.generation;
+    },
+    get loading() {
+      return owner.loading;
+    },
+    get wins() {
+      return owner.wins;
+    },
+    get resetCount() {
+      return owner.resetCount;
+    },
+    get inventory() {
+      return owner.inventory;
+    },
+    get equipment() {
+      return owner.equipment;
+    },
+    get discovered() {
+      return owner.discovered;
+    },
+    get lastFire() {
+      return owner.lastFire;
+    },
+    fire: (key: string) => owner.fire(key),
+    captureSave: () => owner.captureSave(),
+  });
 }

@@ -2,28 +2,30 @@
 
 ## Owners
 
-| Owner | Responsibility | Main location |
-| --- | --- | --- |
-| Application | Boot, input, loading, pause, fixed-step scheduling and persistence operations | `src/application.ts` |
-| Simulation and GameSession | Gameplay outcomes, transitions, encounter state and checkpoint capture/restore | `src/core/` |
-| Content | Gameplay definitions, scene parsing/resolution and explicit visual requirements | `src/content/` |
-| Presentation | Interpolation, animation, camera rendering, lighting and GPU resource disposal | `src/presentation/` |
-| Developer sessions | Editor/preview controls, temporary state, mounted requests and cancellation | `src/editor/`, `src/sandbox/` |
-| Storage adapters | Shared validation, browser storage and atomic desktop writes through Bridge | `src/platform/`, `electron/` |
-| Asset tools | Source preparation, immutable delivery, workspaces and cache leases | `tools/assets/` |
-| Development tools | Guide discovery, checks, test selection, builds and preview processes | `tools/` (asset operations in `tools/assets/`) |
+| Owner                      | Responsibility                                                                  | Main location                                  |
+| -------------------------- | ------------------------------------------------------------------------------- | ---------------------------------------------- |
+| Application                | Boot, input, loading, pause, fixed-step scheduling and persistence operations   | `src/application.ts`                           |
+| Simulation and GameSession | Gameplay outcomes, transitions, encounter state and checkpoint capture/restore  | `src/core/`                                    |
+| Content                    | Gameplay definitions, scene parsing/resolution and explicit visual requirements | `src/content/`                                 |
+| Presentation               | Interpolation, animation, camera rendering, lighting and GPU resource disposal  | `src/presentation/`                            |
+| Developer sessions         | Editor/preview controls, temporary state, mounted requests and cancellation     | `src/editor/`, `src/sandbox/`                  |
+| Storage adapters           | Shared validation, browser storage and atomic desktop writes through Bridge     | `src/platform/`, `electron/`                   |
+| Asset tools                | Source preparation, immutable delivery, workspaces and cache leases             | `tools/assets/`                                |
+| Development tools          | Guide discovery, checks, test selection, builds and preview processes           | `tools/` (asset operations in `tools/assets/`) |
 
 ## Application lifecycle
 
 Game and Dev Preview, including its effects fixture, share the Application lifecycle. Dev Preview's shell retains per-fixture state; opening an inspector is separate from entering dedicated animation/calibration rendering. Preview state uses validated session storage and storage-free bridges, never player checkpoints/settings. Mounted developer sessions dispose their requests, observers and rendering work together.
 
-SceneContent binds scene composition and asset requirements to the ContentRegistry that produced them. Application owns the active session and SceneContent together; its registry, checkpoint validation and New Game derive from that binding. Developer replacements submit a prepared GameSession with matching SceneContent before acquisition. Mismatched registries, stale generations and candidates replaced during preparation cannot commit. Switching registries requires a read-only application; developer hosts provide storage-free bridges. Game retains the registry selected by its storage adapter.
+SceneContent binds scene composition and asset requirements to the ContentRegistry that produced them. Application owns the active session and SceneContent together; its registry, checkpoint validation and New Game derive from that binding. Switching registries requires a read-only application; developer hosts provide storage-free bridges. Game retains the registry selected by its storage adapter.
+
+Application exposes a frozen SessionView for inspection and checkpoint capture, keeping GameSession's replacement commands private to its owner. Developer replacements submit SceneContent and a new-session specification or checkpoint; Application constructs the matching GameSession, assigns its generation and creates feedback before acquisition. Checkpoints are validated and detached at admission. New-session preparation may configure preview actors synchronously; it cannot choose room identity or generation. The public API never transfers a caller-owned GameSession into the active application.
 
 Application startup owns one resource graph and frame scheduler for its lifetime. Concurrent, reentrant and repeated `boot()` calls share the same startup promise. Failure closes the application and its acquired resources; retry creates a new Application. Disposal stops waiting for host settings and observes but discards late results. Asset acquisitions still settle and release late leases.
 
 Application owns one current session operation spanning checkpoint reads, room acquisition, commit, persistence and completion. A newer Load, Restore, Reset, New Game, transition or developer room replacement supersedes the previous operation. Superseded operations cannot commit, resume play or start an autosave; expected cancellation stays out of error feedback. Transition plans cancel immediately. Storage reads stop blocking loading on cancellation and discard late results; resource acquisitions settle and release late leases. Disposal cancels session operations and the separate retained/preview asset lifetime. Writes already submitted remain ordered by the storage adapter.
 
-Simulation steps return death-reset and transition requests without replacing the session. Application executes death recovery through the same room transaction as manual reset; it publishes reset feedback and autosaves only after acceptance. Headless session replay explicitly commits reset requests without renderer preparation.
+Simulation steps return death-reset and transition requests without replacing the session. Application executes death recovery through the same room transaction as manual reset; it publishes reset feedback and autosaves only after acceptance. Developer command hooks can return an explicit reset request, which stops the current fixed step and uses the same room transaction. A hook that starts a session operation also stops that step before consuming input or advancing gameplay. Preview actor overrides remain mutable, while Simulation's area and generation are read-only. Headless session replay owns its GameSession directly and explicitly commits reset requests without renderer preparation.
 
 Room replacement has a separate acceptance barrier. Before committing gameplay changes, Application revokes room acceptance; committing a generation immediately aborts old event feedback. Acceptance returns only after renderer rebuilding and companion preparation both succeed under the current operation. A failure after commit pauses the application and blocks simulation steps, renderer updates, resume and checkpoint writes until a successful Reset, Load, Restore, New Game or developer room replacement. An empty Load does not recover the room. Failures before commit preserve the previous accepted room. Asset leases remain owned through failed rebuilding as described below; recovery does not roll back committed gameplay.
 
@@ -63,7 +65,7 @@ EditorView exposes its renderer and simulation only while an accepted room is av
 
 ### Game content selection
 
-Game runtime and builds share the content and asset selection in `src/content/game-content.ts`, which currently defines a built-in empty area with the hero. Saving under `authoring/scenes/` does not add a scene to Game; follow [Add an area or enemy](#add-an-area-or-enemy) to register it. Authored scenes are replaceable; developer presentation fixtures and gameplay test arenas own their setup independently. Asset preparation and runtime delivery retain their curated catalog independently of scene selection.
+Game runtime and builds share the content and asset selection in `src/content/game-content.ts`, which resolves the selected orchard and clearing authored documents. Saving under `authoring/scenes/` does not add a scene to Game; follow [Add an area or enemy](#add-an-area-or-enemy) to register it. Authored scenes are replaceable; developer presentation fixtures and gameplay test arenas own their setup independently. Asset preparation and runtime delivery retain their curated catalog independently of scene selection.
 
 ## Runtime resources
 
@@ -103,7 +105,7 @@ Preview sessions own server acquisition, identity checks and lease release once.
 
 ### Change saved state
 
-Gameplay checkpoint schemas and registry validation belong to `src/core/save.ts`; renderer settings belong to `src/platform/settings.ts`. `src/platform/bridge.ts` owns the host protocol, while `src/persistence.ts` owns application write feedback. Browser and desktop adapters share `src/platform/storage-codec.ts` for detached write snapshots, payload limits and invalid-data handling. Game entry points select the content registry explicitly when creating adapters; storage never selects production content internally. Change checkpoint capture/restore and the relevant codec together. Prototype saves use version 6 and settings version 5; obsolete or incompatible data loads as empty. Storage failures remain visible. Adapters validate writes; Electron snapshots requests, serializes them through one queue and replaces files atomically. Browser and desktop isolate prototype profiles. Test with `npm test -- tests/unit/persistence.test.ts tests/unit/application.test.ts`. Add migrations when external players create a real compatibility need.
+Gameplay checkpoint schemas and registry validation belong to `src/core/save.ts`; renderer settings belong to `src/platform/settings.ts`. `src/platform/bridge.ts` owns the host protocol, while `src/persistence.ts` owns application write feedback. Browser and desktop adapters share `src/platform/storage-codec.ts` for detached write snapshots, payload limits and invalid-data handling. Game entry points select the content registry explicitly when creating adapters; storage never selects production content internally. Change checkpoint capture/restore and the relevant codec together. Prototype saves use version 7 and settings version 5; obsolete or incompatible data loads as empty. Storage failures remain visible. Adapters validate writes; Electron snapshots requests, serializes them through one queue and replaces files atomically. Browser and desktop isolate prototype profiles. Test with `npm test -- tests/unit/persistence.test.ts tests/unit/application.test.ts`. Add migrations when external players create a real compatibility need.
 
 ### Add an area or enemy
 
@@ -119,7 +121,7 @@ Animation callbacks never commit damage. Preserve generation-scoped immutable ev
 
 EventHub delivers gameplay and animation feedback in publication order. Reentrant publication waits behind the current batch; new subscriptions start with the next event, and unsubscribe takes effect immediately. Replacing a generation aborts old subscriber work and stops stale queued or in-flight delivery. Disposal closes the hub permanently. A subscriber exception or current-lifetime promise rejection removes that subscriber, aborts its pending work and reports one diagnostic through Application status without interrupting peers, gameplay, transitions or autosaves. Rejections from aborted lifetimes are discarded; subscribers must use the supplied AbortSignal to cancel their own asynchronous effects.
 
-GamePresentation owns shared CombatFeedback. Its two catalog assets belong to SceneContent's initial requirements and are acquired with each room batch under [SceneAssets ownership](#asset-ownership-and-disposal). Room reset clears transient feedback before superseded batches are released; application disposal closes presentation before releasing its assets. Damage events queue one Contact Shear at each confirmed target, regardless of attacker kind. The sweep effect uses its original pre-painted camera-facing view and fixed registration, scale and timing; it never decides damage or changes the artwork geometry.
+GamePresentation owns shared CombatFeedback. Its two catalog assets belong to SceneContent's initial requirements and are acquired with each room batch under [SceneAssets ownership](#asset-ownership-and-disposal). Room reset clears active and queued effects before superseded batches release; application disposal closes presentation and its event subscription before asset release. Positive damage events queue one Contact Shear at each confirmed target, regardless of attacker kind. The sweep effect uses its original pre-painted camera-facing view and fixed registration, scale and timing; it never decides damage or changes the artwork geometry.
 
 ### Change player menus or settings
 
@@ -140,3 +142,9 @@ One-shots have pending, playing and finished lifetimes. Cancel pending work on d
 Music/ambience have one requested destination and an active owner. Superseded loads/fades cannot start late; failed destination changes preserve usable outgoing audio. Master/music/SFX settings update live playback separately from checkpoints. Choose voice limits, repeat suppression, pause, crossfade, room-loop and mute/unmute policies with the sound design.
 
 Playback failure is non-fatal and reports bounded diagnostics without blocking gameplay. Check stale loads, failed playback, mute/unmute, transitions, pause and disposal at the cheapest meaningful layer. Listen in Game and Dev Preview for overlaps, loop seams, levels, first use and cleanup; lifetime tests do not certify the mix. Keep tuning and registrations in code/content and record established behavior here when implemented.
+
+## Adventure interactions
+
+`src/content/items.ts` owns fixed equipment compatibility, rewards and salvage yields; `src/content/interactions.ts` owns authored campfires and interactive object definitions. Authored gameplay resolves their positions with scene artwork. Simulation owns local awareness, sanctuary limits, sword breakage, object claims, drops and potion timing. Presentation samples object clips from authoritative claim ticks; animation callbacks never award items.
+
+GameSession owns inventory/equipment, campfire discovery, encounter revisits and reset policy. Rest and death reset enemies across visited areas while retaining claimed objects and collected items. Death chooses the shortest reachable route to a discovered fire in the current stage, falling back to the last visited fire. Travel preserves health and encounter state. Application admits room replacement and autosaves accepted changes. Inventory and campfire dialogs use the same session operations; equipment never replaces hero artwork.

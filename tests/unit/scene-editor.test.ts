@@ -19,6 +19,7 @@ import {
 import { EditorHistory, sceneItems } from '../../src/editor/model';
 import { EditorDocument } from '../../src/editor/document';
 import { SceneStore } from '../../tools/scene/scene-editor-store';
+
 describe('scene authoring contracts', () => {
   it('demands rain assets only when authored rain is enabled', () => {
     const document = emptyScene();
@@ -247,6 +248,30 @@ describe('scene authoring contracts', () => {
   });
 });
 describe('scene file saving', () => {
+  it('snapshots queued saves before the caller can mutate their scene', async (t) => {
+    const directory = await temporaryDirectory(t, 'lantern-editor-');
+    let release!: () => void;
+    const blocked = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    const store = new SceneStore(directory, async (d) => {
+      if (d.id === 'first') await blocked;
+    });
+    try {
+      const first = store.save({ ...emptyScene(), id: 'first' }, null);
+      const candidate = { ...emptyScene(), id: 'second', name: 'Requested scene' };
+      const second = store.save(candidate, null);
+      candidate.name = 'Late mutation';
+      candidate.floor.width = 999;
+      release();
+      await Promise.all([first, second]);
+      const saved = (await store.read('second')).document!;
+      assert.equal(saved.name, 'Requested scene');
+      assert.equal(saved.floor.width, emptyScene().floor.width);
+    } finally {
+      release();
+    }
+  });
   it('round-trips, rejects simultaneous writes, and preserves malformed external files', async (t) => {
     const directory = await temporaryDirectory(t, 'lantern-editor-');
 

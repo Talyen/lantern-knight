@@ -10,6 +10,9 @@ type EventBase = {
   readonly direction: number;
 };
 export type EventDetails =
+  | { kind: 'object-claimed'; object: string }
+  | { kind: 'potion-used' }
+  | { kind: 'action-unavailable'; reason: string }
   | { kind: 'pickup'; pickup: string; amount: number }
   | { kind: 'damage'; target: ActorId; amount: number }
   | { kind: 'stagger'; target: ActorId; duration: number }

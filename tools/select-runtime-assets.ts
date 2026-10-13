@@ -13,6 +13,7 @@ export type SelectedFiles = { files: string[]; generated: Record<string, string>
 export async function selectedFiles(
   publicRoot: string,
   profile: BuildProfile | 'runtime' = 'game',
+  ensureFile?: (relative: string) => Promise<boolean>,
 ): Promise<SelectedFiles> {
   const dev = profile === 'authoring';
   const catalog = dev
@@ -28,7 +29,11 @@ export async function selectedFiles(
     loadingVideoPath,
   ]);
   const generated: Record<string, string> = {};
-  const read = (name: string) => fs.readFile(path.join(publicRoot, safeRelative(name)));
+  const read = async (name: string) => {
+    safeRelative(name);
+    await ensureFile?.(name);
+    return fs.readFile(path.join(publicRoot, name));
+  };
   const hash = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
   const manifests = new Map();
   for (const [id, file] of Object.entries(catalog)) {
@@ -137,7 +142,10 @@ export async function selectedFiles(
     generated['generated/library/catalog.json'] = JSON.stringify(libraryEntries) + '\n';
   const sorted = [...files].sort();
   let bytes = 0;
-  for (const file of sorted) bytes += (await fs.stat(path.join(publicRoot, file))).size;
+  for (const file of sorted) {
+    await ensureFile?.(file);
+    bytes += (await fs.stat(path.join(publicRoot, file))).size;
+  }
   bytes += Object.values(generated).reduce((n, text) => n + Buffer.byteLength(text), 0);
   return { files: sorted, generated, bytes };
 }

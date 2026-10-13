@@ -1,6 +1,6 @@
 # Lantern Knight
 
-An early sword-and-lantern prototype with an empty Game stage and independently authored scenes. Game and developer views share simulation, rendering and session lifecycles; production Game builds exclude developer screens.
+An early sword-and-lantern prototype with a playable orchard opening, a forest clearing destination and independently authored scenes. Game and developer views share simulation, rendering and session lifecycles; production Game builds exclude developer screens.
 
 ## Develop and verify
 
@@ -12,6 +12,8 @@ npm run dev
 ```
 
 WASD moves, mouse aims, LMB uses the sword, RMB uses the lantern, Shift dodges and Escape pauses. `npm run desktop:dev` adds live Electron development. Pinned prepared assets download automatically into an external cache; ordinary development needs no source artwork.
+
+Game opens on an empty floor. To play authored content, open `/editor.html`, choose a saved scene through Scene → Open scene, click Open, then Play. Drafts whose ground is absent from the pin need [local artwork preparation](docs/assets.md#local-preparation-review). `/sandbox.html` opens the independent Dev Preview fixtures.
 
 Follow [Development](docs/development.md) for focused tests, preview ports and the edit–play–check loop. Finish edits with `npm run check`; [Verification](docs/verification.md) explains additional checks for browser, asset and desktop changes.
 
@@ -25,6 +27,7 @@ Follow [Development](docs/development.md) for focused tests, preview ports and t
 | Prepare and share artwork | [Assets](docs/assets.md), [source recovery](docs/source-recovery.md) |
 | Run tests or measure performance | [Verification](docs/verification.md), [session replay](docs/session-replay.md) |
 | Author and playtest a scene | [Scene editor](docs/developer-tools.md#scene-editor), [saved scenes](authoring/scenes/README.md), [scene design](docs/scene-design.md) |
+| Author collision and occlusion in a painting | [Ground interaction](docs/developer-tools.md#ground-interaction), [local model setup](docs/developer-tools.md#local-foreground-selection-setup) |
 | Inspect animation, lighting or effects | [Dev Preview](docs/developer-tools.md#dev-preview), [diagnostics](docs/developer-tools.md#checks-and-diagnostics) |
 | Understand design and priorities | [Game design](docs/game-design.md), [roadmap](docs/roadmap.md) |
 | Package a milestone | [Delivery](docs/release.md) |

@@ -1,3 +1,4 @@
+import { awarenessSchema, campfireSchema, interactableSchema, rewardSchema } from './interactions';
 import { z } from 'zod';
 const id = z.string().regex(/^[a-z][a-z0-9-]{0,63}$/);
 const coordinate = z.number().finite().min(-1000).max(1000);
@@ -8,7 +9,15 @@ const bounds = z
 export const AuthoredGameplaySchema = z
   .strictObject({
     spawns: z
-      .array(point.extend({ id, actor: id, jitterZ: z.number().finite().nonnegative().optional() }))
+      .array(
+        point.extend({
+          id,
+          actor: id,
+          jitterZ: z.number().finite().nonnegative().optional(),
+          awareness: awarenessSchema.optional(),
+          rewards: z.array(rewardSchema).optional(),
+        }),
+      )
       .max(100),
     exits: z
       .array(
@@ -18,10 +27,14 @@ export const AuthoredGameplaySchema = z
           destination: id,
           entry: id,
           requiresClear: z.boolean(),
+          explicit: z.boolean().optional(),
+          guards: z.array(id).optional(),
           marker: point,
         }),
       )
       .max(50),
+    campfires: z.array(campfireSchema).max(30).optional(),
+    interactables: z.array(interactableSchema).max(100).optional(),
     pickups: z
       .array(
         point.extend({
@@ -36,7 +49,7 @@ export const AuthoredGameplaySchema = z
   })
   .superRefine((g, ctx) => {
     for (const [kind, values] of Object.entries(g))
-      if (new Set(values.map((p) => p.id)).size !== values.length)
+      if (values && new Set(values.map((p) => p.id)).size !== values.length)
         ctx.addIssue({ code: 'custom', message: 'Duplicate ' + kind + ' identity' });
   });
 
@@ -54,6 +67,11 @@ export function authoredGameplay(
     ? {
         ...area,
         spawns: gameplay.spawns,
+        campfires: gameplay.campfires,
+        interactables: gameplay.interactables?.map((p) => {
+          const object = positions.find((v) => v.id === p.object);
+          return object ? { ...p, x: object.x, z: object.z } : p;
+        }),
         exits: gameplay.exits,
         pickups: gameplay.pickups.map((p) => {
           const object = positions.find((v) => v.id === p.object);

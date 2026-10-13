@@ -1,5 +1,11 @@
 import { z } from 'zod';
-import { supportedPosition, heightAt, type ContentRegistry } from '../content/world';
+import {
+  supportedPosition,
+  isSupportedPosition,
+  heightAt,
+  type ContentRegistry,
+} from '../content/world';
+import { effectiveRadius } from '../content/collision';
 const finite = z.number().finite();
 export const scenePreviewSchema = z.object({
   version: z.literal(1),
@@ -24,9 +30,13 @@ export const scenePreviewSchema = z.object({
 type ScenePreviewState = z.infer<typeof scenePreviewSchema>;
 export function previewHero(state: ScenePreviewState, registry: ContentRegistry) {
   const area = registry.area(state.scene),
-    p = supportedPosition(area, state.hero, 0.3);
+    radius = effectiveRadius(registry.actor(registry.definitions.player).radius);
+  let p = supportedPosition(area, state.hero, radius);
+  if (!isSupportedPosition(area, p, radius))
+    p = area.entries.find((entry) => entry.id === area.baselineEntry)!;
   return {
-    ...p,
+    x: p.x,
+    z: p.z,
     y: heightAt(area, p.x, p.z),
     py: heightAt(area, p.x, p.z),
     px: p.x,

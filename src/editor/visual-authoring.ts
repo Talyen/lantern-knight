@@ -29,13 +29,36 @@ const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as 
 const point = { x: 0, z: 0 },
   bounds = { minX: -5, maxX: 5, minZ: -5, maxZ: 5 };
 const templates = {
-  spawns: { id: 'enemy', actor: 'skeleton', x: 2, z: 0 },
+  spawns: {
+    id: 'enemy',
+    actor: 'skeleton',
+    x: 2,
+    z: 0,
+    awareness: { radius: 3.3, leash: 5.8 },
+    rewards: [],
+  },
+  campfires: { id: 'campfire', name: 'Campfire', x: 0, z: 0, safeRadius: 2.6, discovered: false },
+  interactables: {
+    id: 'container',
+    object: '',
+    kind: 'container',
+    x: 0,
+    z: 0,
+    guards: [],
+    rewards: [],
+    idle: 'idle',
+    action: 'open',
+    spent: 'looted',
+  },
+  rewards: { item: 'gold', amount: 3 },
   exits: {
     id: 'exit',
     trigger: { minX: -1, maxX: 1, minZ: -3, maxZ: -2 },
     destination: 'flat',
     entry: 'start',
     requiresClear: false,
+    explicit: true,
+    guards: [],
     marker: { x: 0, z: -2.5 },
   },
   pickups: { id: 'pickup', object: '', kind: 'health', amount: 25, radius: 0.5, x: 0, z: 0 },
@@ -52,7 +75,7 @@ const templates = {
   overlaps: { a: '', b: '', region: bounds, reason: 'Intentional overlap' },
 };
 const optional = {
-  gameplay: { spawns: [], exits: [], pickups: [] },
+  gameplay: { spawns: [], exits: [], pickups: [], campfires: [], interactables: [] },
   geometry: {
     bounds,
     surface: { kind: 'flat', height: 0 },
@@ -152,6 +175,7 @@ export class VisualAuthoring {
     };
   }
   private commit(path: (string | number)[], value: Data | undefined) {
+    if (path.at(-1) === 'group' && path.at(-2) === 'awareness' && value === '') value = undefined;
     const unconfiguredWeather =
       path[0] === 'weather' && path.length > 1 && !this.host.history().document.weather;
     if (unconfiguredWeather && value === read(optional.weather, path.slice(1))) return;
@@ -170,6 +194,8 @@ export class VisualAuthoring {
     return b;
   }
   private form(value: Data, path: (string | number)[], parent: HTMLElement, label: string) {
+    if (typeof value === 'object' && !Array.isArray(value) && path.at(-1) === 'awareness')
+      value = { group: '', ...value };
     if (typeof value === 'object') {
       const details = document.createElement('details');
       details.open = false;
@@ -196,7 +222,9 @@ export class VisualAuthoring {
         if (!tuple)
           details.append(
             this.button('Add ' + fieldLabel(label), () => {
-              const next = structuredClone(read(this.host.history().document, path) as Data[]);
+              const next = structuredClone(
+                (read(this.host.history().document, path) as Data[] | undefined) ?? [],
+              );
               const field = String(path.at(-1));
               const base =
                 value[0] ??
@@ -223,7 +251,11 @@ export class VisualAuthoring {
               const item = structuredClone(base);
               if (item && typeof item === 'object' && !Array.isArray(item) && 'id' in item)
                 item.id = field.replace(/s$/, '') + '-' + crypto.randomUUID();
-              if (field === 'pickups' && typeof item === 'object' && !Array.isArray(item)) {
+              if (
+                (field === 'pickups' || field === 'interactables') &&
+                typeof item === 'object' &&
+                !Array.isArray(item)
+              ) {
                 const selected =
                   this.host
                     .history()
@@ -331,8 +363,13 @@ export class VisualAuthoring {
       this.fields.append(category);
       if (title === 'Atmosphere') category.append($('atmosphere-section'));
       for (const key of keys) {
-        const value = (key === 'weather' ? (d.weather ?? optional.weather) : d[key]) as
-          Data | undefined;
+        const value = (
+          key === 'weather'
+            ? (d.weather ?? optional.weather)
+            : key === 'gameplay' && d.gameplay
+              ? { campfires: [], interactables: [], ...d.gameplay }
+              : d[key]
+        ) as Data | undefined;
         if (value !== undefined) {
           let section: Element = category;
           if (keys.length === 1 && typeof value === 'object' && !Array.isArray(value)) {
@@ -667,6 +704,12 @@ export class VisualAuthoring {
       d.gameplay?.pickups.forEach((p, i) =>
         handle(['gameplay', 'pickups', i], p, 'Pickup ' + p.id),
       );
+      d.gameplay?.campfires?.forEach((p, i) =>
+        handle(['gameplay', 'campfires', i], p, 'Campfire ' + p.name),
+      );
+      d.gameplay?.interactables?.forEach((p, i) =>
+        handle(['gameplay', 'interactables', i], p, p.kind + ' ' + p.id),
+      );
       d.gameplay?.exits.forEach((p) => box(p.trigger, 0x66ffaa));
     }
     if (geometry) {
@@ -701,6 +744,7 @@ export class VisualAuthoring {
   }
   pointerDown(e: PointerEvent) {
     if ($<HTMLSelectElement>('tool').value !== 'geometry' || e.button !== 0) return false;
+    if (this.drag) return true;
     this.draw();
     const view = this.host.view();
     if (!view.presentation || !view.sim) return false;
@@ -725,12 +769,12 @@ export class VisualAuthoring {
   }
   pointerUp(e: PointerEvent) {
     const drag = this.drag;
-    if (!drag) return false;
+    if (!drag || drag.pointer !== e.pointerId) return false;
     this.drag = undefined;
     if (this.host.view().canvas.hasPointerCapture(e.pointerId))
       this.host.view().canvas.releasePointerCapture(e.pointerId);
     const point = this.host.view().ground(e.clientX, e.clientY);
-    if (!point || e.type === 'pointercancel') return true;
+    if (!point || e.type === 'pointercancel' || e.type === 'lostpointercapture') return true;
     const path = drag.path;
     if (path.at(-1) === 'min' || path.at(-1) === 'max') {
       const axis = path.at(-1)!;
