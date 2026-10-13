@@ -13,7 +13,7 @@ import { Application } from '../application';
 import { Presentation, type Mode } from '../presentation/scene';
 import { sandboxContent, sandboxDefinitions } from '../content/sandbox-world';
 import { ContentRegistry } from '../content/world';
-import { GameSession } from '../core/session';
+import type { GameSave } from '../core/save';
 import { animatedSequence, animatedAsset } from '../assets/asset-browser';
 import { bindAssetPicker } from './asset-picker';
 import { HEADINGS } from '../core/camera';
@@ -579,16 +579,19 @@ export function mountScene(
       $<HTMLInputElement>('#' + id).checked = checked;
   }
 
-  async function fixture(area: string, prepare?: (sim: Simulation) => void) {
+  async function fixture(area: string, prepare?: (sim: Simulation) => undefined) {
     stopMovementReplay();
     stopSweepReplay();
     presentation?.combatFeedback.reset();
     sweepGuide?.reset();
     lightingReplay = false;
     app.command = undefined;
-    const next = new GameSession(sandboxContent, 142, area, app.session.generation + 1);
-    prepare?.(next.sim);
-    await app.replaceSession(next, composeSceneContent(sandboxContent, worldVisuals));
+    await app.replaceSession(composeSceneContent(sandboxContent, worldVisuals), {
+      kind: 'new',
+      seed: 142,
+      area,
+      prepare,
+    });
     if (closed) return;
     $<HTMLSelectElement>('#scene-select').value = area;
     if (location.protocol === 'http:' && !window.lantern) {
@@ -916,7 +919,7 @@ export function mountScene(
     benchmarkMeasuring = false,
     benchmarkStartTick = 0,
     benchmarkSkipFrame = true,
-    returnSave: ReturnType<GameSession['captureSave']> | undefined;
+    returnSave: GameSave | undefined;
   function beginBenchmarkMeasurement() {
     benchmarkFrames = [];
     benchmarkStartTick = app.sim.tick;
@@ -949,14 +952,15 @@ export function mountScene(
         }
       : sandboxDefinitions;
     const registry = new ContentRegistry(definitions);
-    await app.replaceSession(
-      new GameSession(registry, 142, 'outdoor-fixture', app.session.generation + 1),
-      composeSceneContent(registry, worldVisuals),
-    );
+    await app.replaceSession(composeSceneContent(registry, worldVisuals), {
+      kind: 'new',
+      seed: 142,
+      area: 'outdoor-fixture',
+    });
     beginBenchmarkMeasurement();
     benchmarkMeasuring = true;
     app.command = (sim) => {
-      if (sim.cleared) app.publish(app.session.resetCurrentArea());
+      if (sim.cleared) return { reset: 'manual' };
       const target = sim.enemies.find((a) => a.health > 0) ?? sim.hero,
         angle = sim.tick / 120;
       return {
@@ -1024,14 +1028,10 @@ export function mountScene(
       app.command = undefined;
       if (restoreSession && returnSave) {
         const snapshot = returnSave;
-        const next = new GameSession(
-          sandboxContent,
-          snapshot.seed,
-          snapshot.area,
-          app.session.generation,
-        );
-        const events = next.restoreSave(snapshot);
-        await app.replaceSession(next, composeSceneContent(sandboxContent, worldVisuals), events);
+        await app.replaceSession(composeSceneContent(sandboxContent, worldVisuals), {
+          kind: 'save',
+          save: snapshot,
+        });
         returnSave = undefined;
       }
       return result;

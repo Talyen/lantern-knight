@@ -16,7 +16,17 @@ export type TransitionPlan = {
   readonly entry: string;
   readonly events: readonly GameplayEvent[];
 };
+// Hosts may inspect a session, but only its owner may replace its simulation.
+export interface SessionView {
+  readonly registry: ContentRegistry;
+  readonly generation: number;
+  readonly loading: boolean;
+  readonly wins: number;
+  readonly resetCount: number;
+  captureSave(): GameSave;
+}
 export class GameSession {
+  readonly view: SessionView = sessionView(this);
   sim: Simulation;
   wins = 0;
   resetCount = 0;
@@ -194,4 +204,25 @@ export class GameSession {
     this.sim = next;
     return [this.event({ kind: 'area-transition', destination: save.area })];
   }
+}
+
+function sessionView(owner: GameSession): SessionView {
+  return Object.freeze({
+    get registry() {
+      return owner.registry;
+    },
+    get generation() {
+      return owner.generation;
+    },
+    get loading() {
+      return owner.loading;
+    },
+    get wins() {
+      return owner.wins;
+    },
+    get resetCount() {
+      return owner.resetCount;
+    },
+    captureSave: () => owner.captureSave(),
+  });
 }
