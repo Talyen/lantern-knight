@@ -62,6 +62,12 @@ Run `npm run occlusion:audit -- --output /absolute/path/report.json` to scan all
 
 For visually reviewed solid props whose lower silhouette is their ground contact, generate a plan with `npm run occlusion:audit -- --contact-region scene-id:region-id --write-plan /absolute/path/repairs.json`. Repeat `--contact-region` for a batch. Inspect the proposed boundaries, then apply with `npm run occlusion:audit -- --apply-plan /absolute/path/repairs.json`. Application rejects changed scene revisions, modified proposals, duplicate selections and unsupported compound silhouettes before writing. It rebuilds only selected depth boundaries from the source-column lower envelope with a two-source-pixel simplification tolerance; masks, collision, artwork and earlier saved profiles remain intact. Re-run the audit and inspect front/behind movement in the renderer. Keep reports and plans outside Git.
 
+#### Authored occlusion captures
+
+For a visual review of a prepared local scene, run `LANTERN_GROUND_REVIEW=woodland npm run test:browser -- ground-review`. The diagnostic finds reachable front/behind actor positions for regions with masks and depth, then writes a PNG per region with a reachable approach and a `review.json` report under `.cache/browser-results/`. Inspect the images against the painting; reachable probes and successful capture do not establish correct occlusion or complete movement coverage. Scene files remain unchanged.
+
+To resume a partial capture, copy its result directory outside the browser output first, then set `LANTERN_GROUND_REVIEW_RESUME` to that copy when repeating the command. Playwright clears its output directory on a new run. Reuse captures only while the scene, artwork and renderer are unchanged; the resume option carries forward images by region ID without checking those identities.
+
 #### Authored scene timing capture
 
 For an opt-in local timing capture, run `LANTERN_TEST_GPU=hardware LANTERN_GROUND_SCENE=woodland npm run test:browser -- authored-ground` against the prepared scene. On macOS this requests ANGLE Metal, records the reported renderer and rejects software fallback. Ordinary browser checks retain deterministic SwiftShader rendering. The capture records source-size atlas memory, scene opening time (including assets), and 120 frame intervals; it is a local diagnostic sample, not a packaged-game performance benchmark or a speedup comparison. Captures and JSON metrics stay under the external/ignored browser output.

@@ -6,15 +6,27 @@ This is an early prototype. Prefer a short edit–play–check loop. Scenes, ass
 
 Use Node 24.18.0 and npm 11.16.0, then `npm ci` and `npm run dev`. One Vite server serves Game, Dev Preview and the scene editor. Development acquires pinned artwork on demand and reuses a matching running server before opening an asset workspace. Use `npm run dev -- --eager` to acquire the complete authoring library upfront for offline work or startup comparisons. Developer navigation links connect these views. Dev Preview uses one toolbar and floating inspector for independent outdoor/interior/system fixtures, animation, visuals/effects, inspection and diagnostics; advanced controls remain collapsed until needed.
 
+For Game-only browser work, use `npm run dev -- --runtime`. This selects runtime assets and omits developer navigation. Use the default authoring preview for the editor and Dev Preview.
+
 `npm run dev:preview` starts Dev Preview and opens `/sandbox.html` in Safari on macOS. It reuses a server only after checking checkout, asset identity and authoring scope. Reusing a server opens Safari and returns to the shell; when starting a server, Ctrl+C closes only that server. Use `npm run dev:preview -- --port 5175` to select another port. On other platforms, use `npm run dev` and open `/sandbox.html` in your browser.
 
-`npm run desktop:dev` starts the same server and watches Electron main/preload bundles. Renderer edits reload through Vite; main/preload edits restart the owned Electron process. `-- --game` opens Game with runtime assets and Game-only navigation; the default developer views use authoring assets. Live Game keeps its separate preview save namespace. It does not build or package the application first. Close the command to release its server and asset lease.
+`npm run desktop:dev` starts its own Vite server and watches Electron main/preload bundles. It requires an unused port; set `LANTERN_PREVIEW_PORT` if a browser preview already occupies the default. Renderer edits reload through Vite; main/preload edits restart the owned Electron process. `npm run desktop:dev -- --game` opens Game with runtime assets and Game-only navigation; the default developer views acquire the complete authoring workspace. Live Game keeps its separate preview save namespace. It does not build or package the application first. Close the command to release its server and asset lease.
 
 Lantern defaults to port 5174, including direct Vite launches. Use `-- --port 5175` for a browser worktree, or set `LANTERN_PREVIEW_PORT=5175` for browser and desktop commands. Ports are strict: an occupied port is never taken from another checkout.
 
 Development selects a checkout-local preparation when available, otherwise the immutable pin. `npm run dev -- --pinned` deliberately uses the pin. Assets are shared through an external bounded cache, so new worktrees do not copy artwork or need the source library.
 
 `npm run build` compiles Game for the browser; `-- --dev` compiles the authoring views. Both consume pinned assets unless `-- --local` selects checkout-local preparation. Web builds do not compile Electron. `npm run package` composes the matching web and Electron builds for native delivery; use `-- --local` there for a native prototype with local assets.
+
+## Setup by task
+
+| Task | Additional setup after `npm ci` |
+| --- | --- |
+| Code edits, pure tests, builds and packaging | None; prepared artwork comes from the pin. |
+| Asset tests | [Python environment with Pillow](verification.md#test-selection). |
+| Browser checks | [Playwright Chromium](verification.md#test-selection). |
+| Source artwork preparation | External source library, authoring Python environment and KTX tools under [local preparation](assets.md#local-preparation-review). |
+| AI ground selection | Separate [Python 3.11 and model setup](developer-tools.md#local-foreground-selection-setup). Manual ground authoring needs no model. |
 
 ## Verify an edit
 
