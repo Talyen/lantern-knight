@@ -1,3 +1,4 @@
+import type { EditorGestures, GestureLease } from './gestures';
 import * as T from 'three';
 import { heightAt } from '../content/world';
 import { openDock } from './workspace';
@@ -5,6 +6,7 @@ import { EditorHistory, sceneItems } from './model';
 import type { EditorView } from './view';
 import type { EditorSnapshot } from './document';
 export type CompositionHost = {
+  gestures: EditorGestures;
   confirm: (message: string, action: string) => Promise<boolean>;
   history: () => EditorSnapshot;
   edit: (work: (history: EditorHistory) => void, committed?: () => void) => Promise<void>;
@@ -19,11 +21,10 @@ export class CompositionTools {
   readonly selection = new Set<string>();
   readonly hidden = new Set<string>();
   readonly locked = new Set<string>();
-  private cancelHandle: (() => void) | undefined;
+  private gesture?: GestureLease;
   private lifetime = new AbortController();
   private thumbnails: IntersectionObserver;
   constructor(private host: CompositionHost) {
-    window.addEventListener('blur', () => this.cancelGesture(), { signal: this.lifetime.signal });
     this.thumbnails = new IntersectionObserver(
       (entries) => {
         for (const entry of entries)
@@ -64,7 +65,6 @@ export class CompositionTools {
           return;
         e.preventDefault();
         this.cancelGesture();
-        label.setPointerCapture(e.pointerId);
         const original = input.value,
           start = Number(original),
           x = e.clientX,
@@ -80,17 +80,22 @@ export class CompositionTools {
           label.onpointerup = null;
           label.onpointercancel = null;
           label.onlostpointercapture = null;
-          this.cancelHandle = undefined;
-          if (label.hasPointerCapture(e.pointerId)) label.releasePointerCapture(e.pointerId);
+          if (!cancel && !lease.finish()) return;
+          this.gesture = undefined;
           if (cancel) input.value = original;
           else input.dispatchEvent(new Event('change', { bubbles: true }));
         };
-        this.cancelHandle = () => finish(true);
+        const lease = this.host.gestures.begin(label, e.pointerId, () => finish(true));
+        this.gesture = lease;
+        if (!lease.active) {
+          finish(true);
+          return;
+        }
         label.onpointerup = (event) => {
           if (event.pointerId === e.pointerId) finish(false);
         };
-        label.onpointercancel = label.onlostpointercapture = (event) => {
-          if (event.pointerId === e.pointerId) finish(true);
+        label.onpointercancel = (event) => {
+          if (event.pointerId === e.pointerId) lease.cancel();
         };
       };
     }
@@ -135,14 +140,13 @@ export class CompositionTools {
         let fields: { x?: number; z?: number; scale?: number; rotation?: number } = {};
         let changed = false;
         let validFields = fields;
-        button.setPointerCapture(e.pointerId);
         const finish = (cancel: boolean) => {
           button.onpointermove = null;
           button.onpointerup = null;
           button.onpointercancel = null;
           button.onlostpointercapture = null;
-          this.cancelHandle = undefined;
-          if (button.hasPointerCapture(e.pointerId)) button.releasePointerCapture(e.pointerId);
+          if (!cancel && !lease.finish()) return;
+          this.gesture = undefined;
           view.clearTransformPreview();
           if (!cancel && changed)
             void this.edit((history) => history.transformMany(ids, validFields)).catch(
@@ -153,7 +157,12 @@ export class CompositionTools {
             this.positionHandles();
           }
         };
-        this.cancelHandle = () => finish(true);
+        const lease = this.host.gestures.begin(button, e.pointerId, () => finish(true));
+        this.gesture = lease;
+        if (!lease.active) {
+          finish(true);
+          return;
+        }
         button.onpointermove = (move) => {
           if (move.pointerId !== e.pointerId) return;
           const point = view.ground(move.clientX, move.clientY);
@@ -188,14 +197,14 @@ export class CompositionTools {
         button.onpointerup = (event) => {
           if (event.pointerId === e.pointerId) finish(false);
         };
-        button.onpointercancel = button.onlostpointercapture = (event) => {
-          if (event.pointerId === e.pointerId) finish(true);
+        button.onpointercancel = (event) => {
+          if (event.pointerId === e.pointerId) lease.cancel();
         };
       };
     }
   }
   cancelGesture() {
-    this.cancelHandle?.();
+    this.gesture?.cancel();
   }
   reset() {
     this.cancelGesture();
