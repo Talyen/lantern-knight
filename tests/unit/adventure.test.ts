@@ -6,6 +6,11 @@ import { GameSession } from '../../src/core/session';
 import { parseGame } from '../../src/core/save';
 import { rewardSchema } from '../../src/content/interactions';
 import { nearbyInteraction } from '../../src/core/interaction';
+function supply(session: GameSession, item: string, amount: number) {
+  const save = session.captureSave();
+  save.adventure!.inventory[item] = amount;
+  session.restoreSave(save);
+}
 const idle = { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } };
 function fixture() {
   const area = (id: string): AreaDefinition => ({
@@ -129,7 +134,7 @@ test('loot, salvage and equipment persist while rest resets enemies and discards
   s.step(idle);
   s.salvage('damaged-axe');
   assert.equal(s.inventory.iron, 2);
-  s.inventory['orchard-ring'] = 1;
+  supply(s, 'orchard-ring', 1);
   s.equip('orchard-ring', 'ring1');
   assert.equal(s.sim.maxHealth, 110);
   assert.equal(s.sim.hero.health, 100);
@@ -151,7 +156,7 @@ test('loot, salvage and equipment persist while rest resets enemies and discards
 });
 test('potions never consume at full health, heal by 40, and retain a one second cooldown', () => {
   const s = fixture();
-  s.inventory['health-potion'] = 3;
+  supply(s, 'health-potion', 3);
   s.step({ ...idle, potion: true });
   assert.equal(s.inventory['health-potion'], 3);
   s.sim.hero.health = 20;
@@ -484,8 +489,8 @@ test('adventure starter equipment is present even when the starting room has no 
 });
 test('movement preview cannot consume or heal from inventory potions', () => {
   const s = fixture();
+  supply(s, 'health-potion', 1);
   s.sim.movementPreview = true;
-  s.inventory['health-potion'] = 1;
   s.sim.hero.health = 50;
   const result = s.step({ ...idle, potion: true });
   assert.equal(s.sim.hero.health, 50);
@@ -538,4 +543,34 @@ test('adventure checkpoints cannot silently omit all inventory and discovery sta
     save = s.captureSave();
   delete save.adventure;
   assert.throws(() => parseGame(save, s.registry));
+});
+
+test('inventory reads cannot bypass equipment ownership or mutate session state', () => {
+  const s = fixture();
+  assert.throws(() => Object.assign(s.view.inventory, { gold: -1 }), TypeError);
+  assert.throws(() => Object.assign(s.sim.equipment, { ring1: 'orchard-ring' }), TypeError);
+  assert.equal(s.inventory.gold, undefined);
+  assert.equal(s.equipment.ring1, undefined);
+  assert.doesNotThrow(() => parseGame(s.captureSave(), s.registry));
+});
+
+test('salvage overflow preserves all ingredients and a loadable checkpoint', () => {
+  const s = fixture();
+  supply(s, 'damaged-axe', 100000000);
+  supply(s, 'damaged-helmet', 1);
+  const before = s.captureSave();
+  assert.throws(() => s.salvage(), /inventory/i);
+  assert.deepEqual(s.captureSave(), before);
+  assert.doesNotThrow(() => parseGame(s.captureSave(), s.registry));
+});
+
+test('loot overflow preserves the ground drop and existing inventory', () => {
+  const s = fixture();
+  supply(s, 'gold', 100000000);
+  s.sim.claimObject('crate');
+  const before = s.captureSave();
+  assert.throws(() => s.sim.collectDrop('object-crate'), /inventory/i);
+  assert.deepEqual(s.captureSave(), before);
+  assert.ok(s.sim.drops.some((d) => d.id === 'object-crate'));
+  assert.doesNotThrow(() => parseGame(s.captureSave(), s.registry));
 });

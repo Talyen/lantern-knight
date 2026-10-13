@@ -1,4 +1,5 @@
-import { items, equipmentSlots, healthBonus } from '../content/items';
+import { equipmentSlots, healthBonus } from '../content/items';
+import { validateInventory, MAX_ITEM_COUNT } from './inventory';
 import { rewardSchema } from '../content/interactions';
 import { z } from 'zod';
 import { type ContentRegistry, contains, isSupportedPosition } from '../content/world';
@@ -22,7 +23,7 @@ const GameSchema = z.strictObject({
   }),
   adventure: z
     .strictObject({
-      inventory: z.record(id, z.number().int().nonnegative().max(100000000)),
+      inventory: z.record(id, z.number().int().nonnegative().max(MAX_ITEM_COUNT)),
       equipment: z.partialRecord(z.enum(equipmentSlots), id),
       discovered: z.array(z.string()).max(1000),
       lastFire: z.string().optional(),
@@ -75,16 +76,7 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
     throw new Error('Missing adventure state');
   if (save.adventure) {
     const { inventory, equipment, discovered, lastFire } = save.adventure;
-    for (const [item, amount] of Object.entries(inventory))
-      if (!Object.hasOwn(items, item) || !Number.isSafeInteger(amount))
-        throw new Error('Unknown inventory item');
-    const used: Record<string, number> = {};
-    for (const [slot, item] of Object.entries(equipment)) {
-      if (!items[item]?.slots?.includes(slot as (typeof equipmentSlots)[number]))
-        throw new Error('Incompatible equipment');
-      used[item] = (used[item] ?? 0) + 1;
-      if (used[item]! > (inventory[item] ?? 0)) throw new Error('Equipment not owned');
-    }
+    validateInventory({ inventory, equipment });
     const fires = registry.definitions.areas.flatMap((a) =>
       (a.campfires ?? []).map((f) => a.id + '/' + f.id),
     );

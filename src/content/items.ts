@@ -39,10 +39,6 @@ export const items: Readonly<Record<string, ItemDefinition>> = {
 export type Inventory = Record<string, number>;
 export type Equipment = Partial<Record<EquipmentSlot, string>>;
 export type Reward = { item: string; amount: number };
-export function healthBonus(equipment: Equipment) {
+export function healthBonus(equipment: Readonly<Equipment>) {
   return Object.values(equipment).reduce((sum, id) => sum + (items[id]?.maxHealth ?? 0), 0);
-}
-export function addItems(inventory: Inventory, rewards: readonly Reward[]) {
-  for (const reward of rewards)
-    inventory[reward.item] = (inventory[reward.item] ?? 0) + reward.amount;
 }

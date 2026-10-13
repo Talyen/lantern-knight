@@ -1,4 +1,4 @@
-import { addItems, healthBonus, type Inventory, type Equipment } from '../content/items';
+import { InventoryState, type InventoryAccess } from './inventory';
 import type { GroundDrop } from '../content/interactions';
 import { simulationView } from './simulation-view';
 import {
@@ -195,15 +195,19 @@ export class Simulation {
   readonly initialSeed: number;
   actors: Actor[] = [];
   collectedPickups = new Set<string>();
-  inventory: Inventory = {};
-  equipment: Equipment = {};
+  get inventory() {
+    return this.inventoryAccess.inventory;
+  }
+  get equipment() {
+    return this.inventoryAccess.equipment;
+  }
   claimedObjects = new Set<string>();
   objectActions = new Map<string, number>();
   drops: GroundDrop[] = [];
   private alerted = new Set<string>();
   potionCooldown = 0;
   get maxHealth() {
-    return this.hero.definition.maxHealth + healthBonus(this.equipment);
+    return this.hero.definition.maxHealth + this.inventoryAccess.healthBonus;
   }
   guardsDefeated(ids: readonly string[] = []) {
     return ids.every(
@@ -283,7 +287,7 @@ export class Simulation {
       !clearSegment(this.areaDefinition, this.hero, drop, 0.001)
     )
       return false;
-    addItems(this.inventory, drop.rewards);
+    this.inventoryAccess.award(drop.rewards);
     this.drops = this.drops.filter((p) => p !== drop);
     return true;
   }
@@ -300,6 +304,7 @@ export class Simulation {
     public readonly area: AreaId = registry.definitions.initialArea,
     generation = 1,
     entry?: string,
+    private readonly inventoryAccess: InventoryAccess = new InventoryState(),
   ) {
     this.initialSeed = seed;
     this.seed = seed;
@@ -528,9 +533,8 @@ export class Simulation {
         !this.movementPreview &&
         this.potionCooldown === 0 &&
         h.health < this.maxHealth &&
-        (this.inventory['health-potion'] ?? 0) > 0
+        this.inventoryAccess.consume('health-potion')
       ) {
-        this.inventory['health-potion']!--;
         h.health = Math.min(this.maxHealth, h.health + 40);
         this.potionCooldown = 60;
         this.emit(h, { kind: 'potion-used' });

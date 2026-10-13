@@ -1,4 +1,5 @@
-import { items, type Inventory, type Equipment, type EquipmentSlot } from '../content/items';
+import { type Inventory, type Equipment, type EquipmentSlot } from '../content/items';
+import { InventoryState } from './inventory';
 import { Navigation, effectiveRadius, clearSegment } from './navigation';
 import {
   PLAYER_ID,
@@ -35,8 +36,13 @@ export interface SessionView {
 export class GameSession {
   readonly view: SessionView = sessionView(this);
   sim: Simulation;
-  inventory: Inventory = {};
-  equipment: Equipment = {};
+  private inventoryState = new InventoryState();
+  get inventory() {
+    return this.inventoryState.inventory;
+  }
+  get equipment() {
+    return this.inventoryState.equipment;
+  }
   discovered = new Set<string>();
   lastFire: string | undefined;
   wins = 0;
@@ -51,7 +57,6 @@ export class GameSession {
     area = registry.definitions.initialArea,
     generation = 1,
   ) {
-    this.sim = new Simulation(registry, seed, area, generation);
     for (const a of registry.definitions.areas)
       for (const f of a.campfires ?? [])
         if (f.discovered) {
@@ -59,22 +64,20 @@ export class GameSession {
           this.lastFire = a.id + '/' + f.id;
         }
     if (registry.definitions.areas.some((a) => a.campfires?.length)) {
-      this.inventory = { sword: 1, lantern: 1, 'leather-armor': 1, gloves: 1, belt: 1, boots: 1 };
-      this.equipment = {
-        sword: 'sword',
-        lantern: 'lantern',
-        body: 'leather-armor',
-        gloves: 'gloves',
-        belt: 'belt',
-        boots: 'boots',
-      };
+      this.inventoryState = new InventoryState({
+        inventory: { sword: 1, lantern: 1, 'leather-armor': 1, gloves: 1, belt: 1, boots: 1 },
+        equipment: {
+          sword: 'sword',
+          lantern: 'lantern',
+          body: 'leather-armor',
+          gloves: 'gloves',
+          belt: 'belt',
+          boots: 'boots',
+        },
+      });
     }
-    this.bindInventory(this.sim);
+    this.sim = new Simulation(registry, seed, area, generation, undefined, this.inventoryState);
     this.recordArea();
-  }
-  private bindInventory(sim: Simulation) {
-    sim.inventory = this.inventory;
-    sim.equipment = this.equipment;
   }
   get loading() {
     return this.pending !== undefined;
@@ -116,7 +119,14 @@ export class GameSession {
     });
   }
   private restoredSimulation(area: AreaId, generation: number, entry?: string) {
-    const sim = new Simulation(this.registry, this.sim.initialSeed, area, generation, entry),
+    const sim = new Simulation(
+        this.registry,
+        this.sim.initialSeed,
+        area,
+        generation,
+        entry,
+        this.inventoryState,
+      ),
       state = this.visited.get(area);
     if (state) {
       for (const p of sim.areaDefinition.spawns) {
@@ -138,7 +148,6 @@ export class GameSession {
       sim.cleared = state.cleared;
       sim.engaged = state.engaged;
     }
-    this.bindInventory(sim);
     sim.tick = this.sim.tick;
     sim.resetCount = this.resetCount;
     return sim;
@@ -288,8 +297,9 @@ export class GameSession {
         this.sim.initialSeed,
         this.sim.area,
         this.generation + 1,
+        undefined,
+        this.inventoryState,
       );
-      this.bindInventory(this.sim);
       this.sim.tick = tick;
       this.sim.resetCount = this.resetCount;
       this.recordArea();
@@ -321,29 +331,17 @@ export class GameSession {
   }
   equip(item: string, slot: EquipmentSlot) {
     if (this.sim.inCombat) throw new Error('Finish combat before changing equipment');
-    if (!items[item]?.slots?.includes(slot) || !((this.inventory[item] ?? 0) > 0))
-      throw new Error('Item cannot be equipped here');
-    const count = Object.entries(this.equipment).filter(
-      ([s, id]) => id === item && s !== slot,
-    ).length;
-    if (count >= this.inventory[item]!) throw new Error('Already equipped');
-    this.equipment[slot] = item;
+    this.inventoryState.equip(item, slot);
+    this.sim.hero.health = Math.min(this.sim.hero.health, this.sim.maxHealth);
   }
   unequip(slot: EquipmentSlot) {
     if (this.sim.inCombat) throw new Error('Finish combat before changing equipment');
-    delete this.equipment[slot];
+    this.inventoryState.unequip(slot);
     this.sim.hero.health = Math.min(this.sim.hero.health, this.sim.maxHealth);
   }
   salvage(item?: string) {
     if (this.sim.inCombat) throw new Error('Finish combat before salvaging');
-    for (const [id, count] of Object.entries(this.inventory)) {
-      if (item && item !== id) continue;
-      const yields = items[id]?.salvage;
-      if (!yields || !count) continue;
-      for (const [material, amount] of Object.entries(yields))
-        this.inventory[material] = (this.inventory[material] ?? 0) + count * amount;
-      this.inventory[id] = 0;
-    }
+    this.inventoryState.salvage(item);
   }
   captureSave(): GameSave {
     this.recordArea();
@@ -351,8 +349,7 @@ export class GameSession {
     return {
       version: 7,
       adventure: {
-        inventory: structuredClone(this.inventory),
-        equipment: structuredClone(this.equipment),
+        ...this.inventoryState.snapshot(),
         discovered: [...this.discovered],
         ...(this.lastFire ? { lastFire: this.lastFire } : {}),
         potionCooldown: this.sim.potionCooldown,
@@ -376,8 +373,7 @@ export class GameSession {
     this.pending = undefined;
     this.request++;
     this.visited = new Map(Object.entries(structuredClone(save.areas)));
-    this.inventory = structuredClone(save.adventure?.inventory ?? {});
-    this.equipment = structuredClone(save.adventure?.equipment ?? {});
+    this.inventoryState = new InventoryState(save.adventure ?? { inventory: {}, equipment: {} });
     this.discovered = new Set(save.adventure?.discovered ?? []);
     this.lastFire = save.adventure?.lastFire;
     this.wins = save.wins;
