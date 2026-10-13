@@ -19,7 +19,7 @@ import { content } from '../fixtures/content';
 import { compositionPoint, compositionSpan } from '../../src/content/world-visuals';
 import { assetCatalog } from '../../src/content/visuals';
 import { parseManifest, resolveClip } from '../../src/assets/schema';
-import { makeCamera } from '../../src/core/camera';
+import { makeCamera } from '../../src/presentation/camera';
 import { Simulation } from '../../src/core/simulation';
 
 test('alpha-aware depth gate rejects the original door/arch conflict but ignores transparent margins and separated planes', async () => {

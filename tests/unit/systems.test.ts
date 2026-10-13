@@ -11,8 +11,8 @@ import { parseGame } from '../../src/core/save';
 import { tuning, attackDefinition } from '../../src/content/gameplay';
 import { Simulation, FixedClock } from '../../src/core/simulation';
 import { EventHub, type AnimationEvent } from '../../src/core/events';
-import { makeCamera, walkablePoint } from '../../src/core/camera';
-import { Input } from '../../src/core/input';
+import { makeCamera, walkablePoint } from '../../src/presentation/camera';
+import { Input } from '../../src/input';
 const near = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-7);
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 

@@ -6,7 +6,7 @@ import { parseManifest } from '../../src/assets/schema';
 import { assetCatalog } from '../../src/content/visuals';
 import { worldVisuals } from '../fixtures/visuals';
 import { content } from '../fixtures/visuals';
-import { makeCamera, right, up, outward, resizeCamera } from '../../src/core/camera';
+import { makeCamera, right, up, outward, resizeCamera } from '../../src/presentation/camera';
 import {
   SceneSurround,
   groundFootprintGeometry,

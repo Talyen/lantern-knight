@@ -5,7 +5,8 @@ export function neutralColor(color: T.Color) {
   const v = color.r * 0.2126 + color.g * 0.7152 + color.b * 0.0722;
   return color.setRGB(v, v, v);
 }
-import { right, up, outward, contract } from '../core/camera';
+import { right, up, outward } from './camera';
+import { cameraContract as contract } from '../assets/camera-contract';
 import type { ActorSprite } from './sprite';
 import { registeredSword, rigidSwordGLSL } from './rigid-sword';
 import {

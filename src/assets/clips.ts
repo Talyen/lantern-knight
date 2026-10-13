@@ -1,4 +1,4 @@
-import { HEADINGS } from '../core/camera';
+import { HEADINGS } from '../content/headings';
 import type { Manifest, Clip } from './schema';
 
 export function resolveClip(

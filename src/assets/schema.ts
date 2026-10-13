@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { contract, HEADINGS } from '../core/camera';
+import { cameraContract as contract } from './camera-contract';
+import { HEADINGS } from '../content/headings';
 import type { ContentSnapshot } from '../content/snapshot';
 const finite = z.number().finite();
 const positive = finite.positive();

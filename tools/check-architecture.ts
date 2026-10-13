@@ -8,7 +8,9 @@ import { inspectImports } from './import-edges';
 
 // These rules protect existing owners, including type imports and re-exports.
 // Three.js math and the current core/content/asset relationships remain legal.
-function importFinding(file: string, target: string) {
+function importFinding(file: string, target: string, typeOnly = false) {
+  if (file.startsWith('src/core/') && target.startsWith('src/assets/') && !typeOnly)
+    return 'gameplay runtime cannot load asset delivery or camera calibration; share pure definitions through content and use type-only clip contracts';
   if (
     (file === 'src/platform/browser-store.ts' ||
       file === 'src/platform/storage-codec.ts' ||
@@ -73,7 +75,7 @@ async function checkArchitecture(root: string, files: string[]) {
       }
       const source = project.program.getSourceFile(path.join(root, file));
       if (!source) throw new Error(`Runtime file is outside tsconfig: ${file}`);
-      inspectImports(project, source, ({ name, resolved, line }) => {
+      inspectImports(project, source, ({ name, resolved, line, typeOnly }) => {
         if (!name) {
           findings.push(
             `${file}:${line}: module imports must have a literal target for boundary validation`,
@@ -89,7 +91,7 @@ async function checkArchitecture(root: string, files: string[]) {
                   .split(path.sep)
                   .join('/')
               : name;
-        const finding = importFinding(file, target);
+        const finding = importFinding(file, target, typeOnly);
         if (finding) findings.push(`${file}:${line}: ${name}: ${finding}`);
       });
     }

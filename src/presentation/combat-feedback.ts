@@ -8,7 +8,7 @@ import {
   type SweepTiming,
 } from '../content/sweep-timing';
 import { attackDefinition } from '../content/gameplay';
-import { selectDirection, selectAuthoredDirection } from '../core/camera';
+import { selectDirection, selectAuthoredDirection } from '../content/headings';
 import { clipDuration } from '../core/animation';
 import type { EventHub, GameplayEvent } from '../core/events';
 import type { SimulationView } from '../core/simulation-view';

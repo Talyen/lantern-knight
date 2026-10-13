@@ -1,6 +1,6 @@
 import { sourceFixture } from './source';
 import { parseManifest } from '../../src/assets/schema';
-import { contract } from '../../src/core/camera';
+import { cameraContract as contract } from '../../src/assets/camera-contract';
 export function manifestFixture(id = 'ink-hero-current') {
   const source = sourceFixture();
   return parseManifest({

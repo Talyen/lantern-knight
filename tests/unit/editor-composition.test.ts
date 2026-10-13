@@ -189,7 +189,7 @@ it('patterns are reproducible, bounded, and follow authored path endpoints', () 
 import { EditorView } from '../../src/editor/view';
 import type { AssetRuntime } from '../../src/assets/loader';
 import { Vector3, Quaternion, Group, Texture } from 'three';
-import { makeCamera } from '../../src/core/camera';
+import { makeCamera } from '../../src/presentation/camera';
 import { Simulation } from '../../src/core/simulation';
 import { content, contentDefinitions } from '../fixtures/content';
 import { manifestFixture } from '../fixtures/manifest';

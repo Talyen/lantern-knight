@@ -24,7 +24,7 @@ import { content } from '../fixtures/content';
 import { assetCatalog } from '../../src/content/visuals';
 import { parseManifest } from '../../src/assets/schema';
 import { InkRoom } from '../../src/presentation/ink-room';
-import { makeCamera } from '../../src/core/camera';
+import { makeCamera } from '../../src/presentation/camera';
 import { Simulation } from '../../src/core/simulation';
 import { cardCoverage, coverageAt } from '../../src/presentation/scenery-reveal';
 import { pageIdentity } from '../../src/assets/loader';

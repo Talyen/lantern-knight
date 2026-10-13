@@ -6,7 +6,7 @@ import { assetCatalog } from '../src/content/asset-catalog';
 import { gameAssetCatalog } from '../src/content/game-content';
 import { worldVisuals } from '../src/content/game-content';
 import { content } from '../src/content/game-content';
-import { contract } from '../src/core/camera';
+import { cameraContract as contract } from '../src/assets/camera-contract';
 const height = 2160,
   minimumSpan = contract.framingRange[0]!,
   minimumHeadroom = 1;

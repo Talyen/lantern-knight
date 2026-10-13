@@ -1,6 +1,6 @@
 import { EditorGestures, type GestureLease } from './gestures';
 import { lightingRigs } from '../presentation/lighting-profiles';
-import { contract as cameraContract } from '../core/camera';
+import { cameraContract } from '../assets/camera-contract';
 import { GroundAuthoring } from './ground-authoring';
 import { resizeGroundInteraction } from '../content/ground-interaction';
 import {

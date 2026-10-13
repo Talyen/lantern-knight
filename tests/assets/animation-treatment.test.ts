@@ -14,7 +14,8 @@ import {
   registeredTrim,
 } from '../../src/presentation/animation-blend-shader';
 import { ActorSprite } from '../../src/presentation/sprite';
-import { makeCamera, trimmedBounds } from '../../src/core/camera';
+import { makeCamera } from '../../src/presentation/camera';
+import { trimmedBounds } from '../../src/assets/sprite-registration';
 
 const m = parseManifest(
     JSON.parse(await readAsset('public/generated/ink/ink-hero-current/manifest.json', 'utf8')),

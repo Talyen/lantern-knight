@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { Texture, MeshBasicMaterial } from 'three';
 import { parseManifest, resolveClip } from '../../src/assets/schema';
 import { ActorSprite, setCutoutOpacity } from '../../src/presentation/sprite';
-import { drawingBufferSize } from '../../src/core/camera';
+import { drawingBufferSize } from '../../src/presentation/camera';
 import { sceneAssets, validateAreaArt } from '../../src/content/world-visuals';
 import { assetCatalog } from '../../src/content/asset-catalog';
 import { content } from '../fixtures/content';

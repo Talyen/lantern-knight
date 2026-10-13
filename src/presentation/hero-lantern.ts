@@ -1,6 +1,6 @@
 import { Vector3 } from 'three';
 import sockets from '../content/hero-lantern-sockets.json';
-import { contract } from '../core/camera';
+import { cameraContract as contract } from '../assets/camera-contract';
 import type { Frame } from '../assets/schema';
 import type { ActorSprite } from './sprite';
 

@@ -32,7 +32,7 @@ test('review authored occluders from reachable front and behind positions', asyn
     const floorPath = '/src/content/floor-layout.ts',
       navigationPath = '/src/core/navigation.ts',
       depthPath = '/src/presentation/ground-occlusion.ts',
-      cameraPath = '/src/core/camera.ts';
+      cameraPath = '/src/presentation/camera.ts';
     const { artworkFloorLayout } = await import(floorPath),
       { Navigation, clearSegment } = await import(navigationPath),
       { regionDepth, GroundOcclusion } = await import(depthPath),

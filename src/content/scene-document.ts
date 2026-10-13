@@ -5,7 +5,7 @@ import { z } from 'zod';
 import type { ArtPlacement, WorldVisualDefinition } from './world-visuals';
 import type { Manifest } from '../assets/schema';
 import { placementOffset } from './scenery-presets';
-import { HEADINGS } from '../core/camera';
+import { HEADINGS } from './headings';
 import { deriveScenePlacement } from './scene-design';
 const id = z.string().regex(/^[a-z][a-z0-9-]{0,63}$/);
 const coordinate = z.number().finite().min(-1000).max(1000),

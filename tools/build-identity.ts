@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileChecksums } from './verified-files';
 import assert from 'node:assert/strict';
-import { contract } from '../src/core/camera';
+import { cameraContract as contract } from '../src/assets/camera-contract';
 import { content } from '../src/content/game-content';
 import { worldVisuals } from '../src/content/game-content';
 import { webOutput, electronOutput, type BuildProfile } from './build-profile';

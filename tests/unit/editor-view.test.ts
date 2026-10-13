@@ -6,7 +6,7 @@ import { EditorDocument } from '../../src/editor/document';
 import { emptyScene } from '../../src/editor/default-scene';
 import { AssetRuntime, type PackLease } from '../../src/assets/loader';
 import { manifestFixture } from '../fixtures/manifest';
-import { makeCamera, outward } from '../../src/core/camera';
+import { makeCamera, outward } from '../../src/presentation/camera';
 import { Simulation } from '../../src/core/simulation';
 import { ContentRegistry, heightAt } from '../../src/content/world';
 import { contentDefinitions } from '../fixtures/content';

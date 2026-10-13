@@ -3,7 +3,7 @@ import type { EffectsPlayground } from '../presentation/effects-playground';
 import type { PlaygroundSettings } from '../content/effects-playground';
 import { defaultVisualEffects, type VisualEffects } from '../content/visual-effects';
 import type { SimulationView } from '../core/simulation-view';
-import { outward } from '../core/camera';
+import { outward } from '../presentation/camera';
 
 // Application owns input, scheduling and asset leases; this adapter owns only the renderer.
 export class EffectsPresentation implements PresentationLifecycle {

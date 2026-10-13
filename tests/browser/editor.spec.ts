@@ -903,8 +903,8 @@ test('editor walking preserves state, releases input and constrains the camera a
   await page.getByRole('button', { name: 'Reset game zoom', exact: true }).click();
   expect(
     await page.evaluate(async () => {
-      const cameraPath = '/src/core/camera.ts';
-      const { contract } = await import(cameraPath);
+      const contractPath = '/src/assets/camera-contract.ts';
+      const { cameraContract: contract } = await import(contractPath);
       return window.sceneEditor.view().presentation!.verticalSpan === contract.verticalSpan;
     }),
   ).toBe(true);

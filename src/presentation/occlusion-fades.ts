@@ -1,5 +1,6 @@
 import { Mesh, Vector3, type Material } from 'three';
-import { outward, right, up, contract } from '../core/camera';
+import { outward, right, up } from './camera';
+import { cameraContract as contract } from '../assets/camera-contract';
 import { setCutoutOpacity } from './sprite';
 import type { SimulationView } from '../core/simulation-view';
 import type { SiteWall } from '../content/world-visuals';

@@ -1,6 +1,6 @@
 import { heroActionTiming, heroCelTick, type HeroAttackKind } from './hero-actions';
 import type { SweepTiming } from './sweep-timing';
-import type { AuthoredHeading } from '../core/camera';
+import type { AuthoredHeading } from './headings';
 export const tuning = {
   cameraFollow: true,
   tickHz: 60,
