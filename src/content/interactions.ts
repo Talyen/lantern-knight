@@ -36,7 +36,6 @@ export type InteractableDefinition = Omit<
   z.infer<typeof interactableSchema>,
   'guards' | 'rewards'
 > & { guards: readonly string[]; rewards: readonly import('./items').Reward[] };
-export type AwarenessDefinition = z.infer<typeof awarenessSchema>;
 export type GroundDrop = {
   id: string;
   source: string;

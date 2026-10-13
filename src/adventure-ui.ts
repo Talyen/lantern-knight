@@ -19,7 +19,7 @@ let message = '';
 export function adventurePanelOpen() {
   return panel?.open ?? false;
 }
-export function closeAdventure(app: Application) {
+function closeAdventure(app: Application) {
   if (!panel?.open || working) return;
   panel.close();
   fire = undefined;
