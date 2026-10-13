@@ -428,6 +428,7 @@ test('startup disposed while opening its catalog cannot acquire assets or become
   await withDOM(async () => {
     try {
       const boot = f.app.boot();
+      await Promise.resolve(); // Let startup enter the pending catalog acquisition.
       f.app.dispose();
       opening.resolve({
         loadPack: () => {

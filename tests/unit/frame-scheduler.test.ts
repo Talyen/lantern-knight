@@ -2,6 +2,7 @@ import test, { type TestContext } from 'node:test';
 import assert from 'node:assert/strict';
 import { FrameScheduler } from '../../src/frame-scheduler';
 import { Application } from '../../src/application';
+import { AssetRuntime, type PackLease } from '../../src/assets/loader';
 import { presentationFixture, sceneFixture } from '../fixtures/presentation';
 import type { Bridge } from '../../src/platform/bridge';
 import { content } from '../fixtures/content';
@@ -196,3 +197,151 @@ test('background Application redraws cannot advance simulation, settings or chec
   scheduler.dispose();
   app.dispose();
 });
+
+test('Application startup shares one resource graph and scheduler across concurrent and repeated callers', async (t) => {
+  const e = environment(t);
+  let opened = 0,
+    created = 0,
+    closed = 0;
+  const runtime = new AssetRuntime({});
+  t.mock.method(AssetRuntime, 'open', async () => {
+    opened++;
+    return runtime;
+  });
+  let joined: Promise<void> | undefined;
+  const app = new Application(
+    Object.assign(new EventTarget(), { dataset: {} }) as HTMLCanvasElement,
+    content,
+    {},
+    { loadSettings: async () => ({ status: 'empty' }) } as Bridge,
+    sceneFixture(content),
+    () => {
+      created++;
+      return presentationFixture({ dispose: () => closed++ });
+    },
+    {
+      status: () => {},
+      pause: () => {},
+      frame: () => {},
+      loading: (active) => {
+        if (active) joined = app.boot();
+      },
+    },
+  );
+  t.after(() => app.dispose());
+  const first = app.boot();
+  assert.equal(app.boot(), first);
+  await first;
+  assert.equal(joined, first, 'Reentrant loading feedback must join the same startup');
+  assert.equal(app.boot(), first);
+  await app.boot();
+  assert.equal(opened, 1);
+  assert.equal(created, 1);
+  assert.equal(app.ready, true);
+  assert.equal(app.canvas.dataset.ready, 'true');
+  assert.equal(e.pending, 1);
+  app.dispose();
+  assert.equal(closed, 1);
+  assert.equal(e.pending, 0);
+  assert.equal(app.canvas.dataset.ready, undefined);
+  await assert.rejects(app.boot(), /disposed/);
+});
+
+test('failed Application startup releases transferred assets and closes presentation without caller cleanup', async (t) => {
+  const e = environment(t);
+  let released = 0,
+    closed = 0,
+    runtimeClosed = 0;
+  const runtime = new AssetRuntime({});
+  t.mock.method(
+    runtime,
+    'loadPack',
+    async () => ({ release: () => released++ }) as unknown as PackLease,
+  );
+  t.mock.method(runtime, 'dispose', () => runtimeClosed++);
+  t.mock.method(AssetRuntime, 'open', async () => runtime);
+  const failure = new Error('GPU preparation failed');
+  const app = new Application(
+    Object.assign(new EventTarget(), { dataset: {} }) as HTMLCanvasElement,
+    content,
+    {},
+    { loadSettings: async () => ({ status: 'empty' }) } as Bridge,
+    sceneFixture(content),
+    () =>
+      presentationFixture({
+        warm: async () => {
+          throw failure;
+        },
+        dispose: () => closed++,
+      }),
+    { status: () => {}, pause: () => {}, frame: () => {} },
+    ['startup'],
+  );
+  t.after(() => app.dispose());
+  const first = app.boot();
+  await assert.rejects(first, (error) => error === failure);
+  assert.equal(released, 1);
+  assert.equal(closed, 1);
+  assert.equal(runtimeClosed, 1);
+  assert.equal(app.packs.size, 0);
+  assert.equal(app.ready, false);
+  assert.equal(e.pending, 0);
+  // A failed lifetime cannot be resurrected with already-aborted resource owners.
+  await assert.rejects(app.boot(), /disposed/);
+  app.dispose();
+  assert.equal(released, 1);
+  assert.equal(closed, 1);
+  assert.equal(runtimeClosed, 1);
+});
+
+test(
+  'disposing Application startup stops waiting for host settings and discards late failures',
+  { timeout: 2000 },
+  async (t) => {
+    const e = environment(t);
+    let requested!: () => void,
+      rejectSettings!: (error: Error) => void,
+      warmed = 0,
+      closed = 0;
+    const reading = new Promise<void>((resolve) => {
+      requested = resolve;
+    });
+    const settings = new Promise<never>((_resolve, reject) => {
+      rejectSettings = reject;
+    });
+    t.mock.method(AssetRuntime, 'open', async () => new AssetRuntime({}));
+    const app = new Application(
+      Object.assign(new EventTarget(), { dataset: {} }) as HTMLCanvasElement,
+      content,
+      {},
+      {
+        loadSettings: () => {
+          requested();
+          return settings;
+        },
+      } as unknown as Bridge,
+      sceneFixture(content),
+      () =>
+        presentationFixture({
+          warm: async () => {
+            warmed++;
+          },
+          dispose: () => closed++,
+        }),
+      { status: () => {}, pause: () => {}, frame: () => {} },
+    );
+    t.after(() => app.dispose());
+    const boot = app.boot();
+    const rejected = assert.rejects(boot, /disposed/);
+    await reading;
+    app.dispose();
+    await rejected;
+    assert.equal(closed, 1);
+    assert.equal(warmed, 0);
+    assert.equal(e.pending, 0);
+    rejectSettings(new Error('late storage failure'));
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(app.ready, false);
+    assert.equal(app.settingsError, '', 'Late host results cannot modify the closed application');
+  },
+);

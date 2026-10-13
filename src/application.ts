@@ -13,6 +13,7 @@ import { parseGame, type GameSave } from './core/save';
 import type { Bridge } from './platform/bridge';
 import { FrameScheduler } from './frame-scheduler';
 import { SessionOperation, SessionOperationCancelled } from './session-operation';
+import { readUntilAborted } from './abort';
 export type ApplicationHooks = {
   status: (message: string, error?: boolean) => void;
   pause: (paused: boolean) => void;
@@ -47,6 +48,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private last = 0;
   private frames: FrameScheduler | undefined;
   private disposed = false;
+  private startup?: Promise<void>;
   // Once replacement starts committing, the renderer may be partially rebuilt.
   // Only a fully prepared replacement can accept this session for use again.
   private roomAccepted = true;
@@ -145,7 +147,16 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     }
   }
   boot() {
-    return this.withLoading(() => this.bootApplication());
+    if (this.disposed) return Promise.reject(new Error('application disposed'));
+    // Startup owns one resource graph for this application lifetime. All callers
+    // join it; a failed graph is closed rather than reused by a later attempt.
+    this.startup ??= Promise.resolve()
+      .then(() => this.withLoading(() => this.bootApplication()))
+      .catch((error) => {
+        this.dispose();
+        throw error;
+      });
+    return this.startup;
   }
   private async bootApplication() {
     this.assertActive();
@@ -183,10 +194,13 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.presentation.generation = this.session.generation;
     this.events.setGeneration(this.session.generation);
     this.input = new Input(this.canvas, this.presentation.camera, () => this.pause(!this.paused));
-    const settings = await this.bridge.loadSettings().catch((error: Error) => {
-      this.settingsError = error.message;
-      return { status: 'empty' } as const;
-    });
+    const settings = await readUntilAborted(this.bridge.loadSettings(), this.abort.signal).catch(
+      (error: Error) => {
+        this.assertActive();
+        this.settingsError = error.message;
+        return { status: 'empty' } as const;
+      },
+    );
     this.assertActive();
     if (settings.status === 'ok') {
       this.scale = settings.data.renderScale;
@@ -505,6 +519,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.loading.clear();
     this.hooks.loading?.(false);
     this.ready = false;
+    delete this.canvas.dataset.ready;
     this.abort.abort();
     this.sessionOperation?.cancel('application disposed');
     this.sessionOperation = undefined;
