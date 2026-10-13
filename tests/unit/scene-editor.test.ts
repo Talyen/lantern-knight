@@ -247,6 +247,31 @@ describe('scene authoring contracts', () => {
   });
 });
 describe('scene file saving', () => {
+  it('snapshots queued saves before the caller can mutate their scene', async () => {
+    const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-editor-'));
+    let release!: () => void;
+    const blocked = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    const store = new SceneStore(directory, async (d) => {
+      if (d.id === 'first') await blocked;
+    });
+    try {
+      const first = store.save({ ...emptyScene(), id: 'first' }, null);
+      const candidate = { ...emptyScene(), id: 'second', name: 'Requested scene' };
+      const second = store.save(candidate, null);
+      candidate.name = 'Late mutation';
+      candidate.floor.width = 999;
+      release();
+      await Promise.all([first, second]);
+      const saved = (await store.read('second')).document!;
+      assert.equal(saved.name, 'Requested scene');
+      assert.equal(saved.floor.width, emptyScene().floor.width);
+    } finally {
+      release();
+      await fs.rm(directory, { recursive: true, force: true });
+    }
+  });
   it('round-trips, rejects simultaneous writes, and preserves malformed external files', async () => {
     const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-editor-'));
     try {

@@ -269,9 +269,20 @@ export class SceneLibrary {
     if (!r.ok) throw new Error(fragments.error);
     const list = $('library-fragments');
     list.replaceChildren();
-    for (const item of fragments.fragments as { id: string; fragment: unknown }[]) {
-      const fragment = parseSceneFragment(item.fragment),
-        b = document.createElement('button');
+    for (const item of fragments.fragments as {
+      id: string;
+      fragment?: unknown;
+      error?: string;
+    }[]) {
+      const b = document.createElement('button');
+      if (item.error) {
+        b.textContent = item.id + ' · Unavailable arrangement';
+        b.title = item.error;
+        b.disabled = true;
+        list.append(b);
+        continue;
+      }
+      const fragment = parseSceneFragment(item.fragment);
       b.textContent = fragment.name + ' · ' + fragment.objects.length + ' objects';
       b.onclick = () => {
         this.dialog.close();
