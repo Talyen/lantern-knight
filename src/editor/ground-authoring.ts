@@ -47,6 +47,7 @@ export class GroundAuthoring {
   private candidates: Candidate[] = [];
   private batchDocument?: SceneSnapshot;
   private gesture?: UV[];
+  private pointer?: number;
   private abort?: AbortController;
   private request = 0;
   private lifetime = new AbortController();
@@ -149,7 +150,7 @@ export class GroundAuthoring {
         if (r) {
           const copy = structuredClone(r);
           copy.id = 'region-' + crypto.randomUUID();
-          copy.name += ' copy';
+          copy.name = copy.name.slice(0, 75) + ' copy';
           d.groundInteraction!.regions.push(copy);
           this.selected = copy.id;
         }
@@ -173,7 +174,7 @@ export class GroundAuthoring {
     canvas.addEventListener(
       'pointermove',
       (e) => {
-        if (this.gesture) {
+        if (this.gesture && this.pointer === e.pointerId) {
           const uv = this.uv(e);
           if (uv) {
             if (this.mode === 'ai-box') this.gesture[1] = uv;
@@ -186,6 +187,16 @@ export class GroundAuthoring {
       { capture: true, signal },
     );
     canvas.addEventListener('pointerup', (e) => this.up(e), { capture: true, signal });
+    for (const type of ['pointercancel', 'lostpointercapture'] as const)
+      canvas.addEventListener(
+        type,
+        (e) => {
+          if (!this.gesture || this.pointer !== e.pointerId) return;
+          this.cancel();
+          e.stopImmediatePropagation();
+        },
+        { capture: true, signal },
+      );
     document.addEventListener(
       'keydown',
       (e) => {
@@ -266,6 +277,7 @@ export class GroundAuthoring {
       if (!this.vertex) return;
       this.gesture = [uv];
       this.canvas.setPointerCapture(e.pointerId);
+      this.pointer = e.pointerId;
       this.panel.querySelector<HTMLSelectElement>('#ground-region')!.value = this.selected;
       this.updateName();
       e.preventDefault();
@@ -278,6 +290,7 @@ export class GroundAuthoring {
     if (this.mode === 'ai-box' || this.mode.startsWith('brush')) {
       this.gesture = [uv];
       this.canvas.setPointerCapture(e.pointerId);
+      this.pointer = e.pointerId;
     } else if (this.mode === 'anchor') {
       const d = this.host.document(),
         world = artworkFloorLayout(d.floor.width, d.floor.depth).world(uv);
@@ -291,11 +304,17 @@ export class GroundAuthoring {
     this.signature = '';
   }
   private up(e: PointerEvent) {
-    if (!this.gesture) return;
+    if (!this.gesture || this.pointer !== e.pointerId) return;
     e.preventDefault();
     e.stopImmediatePropagation();
     const points = this.gesture;
+    const final = this.uv(e);
+    if (final) {
+      if (this.mode === 'ai-box') points[1] = final;
+      else points.push(final);
+    }
     this.gesture = undefined;
+    this.pointer = undefined;
     if (this.canvas.hasPointerCapture(e.pointerId)) this.canvas.releasePointerCapture(e.pointerId);
     if (this.vertex) {
       const vertex = this.vertex,
@@ -691,6 +710,10 @@ export class GroundAuthoring {
     this.points = [];
     this.gesture = undefined;
     this.vertex = undefined;
+    const pointer = this.pointer;
+    this.pointer = undefined;
+    if (pointer !== undefined && this.canvas.hasPointerCapture(pointer))
+      this.canvas.releasePointerCapture(pointer);
     this.proposal = undefined;
     this.prompts = [];
     this.box = undefined;
@@ -730,8 +753,14 @@ export class GroundAuthoring {
       this.proposal,
       p.camera.position.toArray(),
       p.camera.zoom,
+      p.camera.projectionMatrix.elements,
+      p.camera.matrixWorld.elements,
+      rect.left,
+      rect.top,
       rect.width,
       rect.height,
+      parent.left,
+      parent.top,
     ]
       .map((v) => (typeof v === 'object' ? JSON.stringify(v) : v))
       .join('|');

@@ -158,7 +158,6 @@ test('background Application redraws cannot advance simulation, settings or chec
   } as unknown as Bridge;
   const app = new Application(
     { dataset: {} } as HTMLCanvasElement,
-    content,
     {},
     bridge,
     sceneFixture(content),
@@ -211,7 +210,6 @@ test('Application startup shares one resource graph and scheduler across concurr
   let joined: Promise<void> | undefined;
   const app = new Application(
     Object.assign(new EventTarget(), { dataset: {} }) as HTMLCanvasElement,
-    content,
     {},
     { loadSettings: async () => ({ status: 'empty' }) } as Bridge,
     sceneFixture(content),
@@ -263,7 +261,6 @@ test('failed Application startup releases transferred assets and closes presenta
   const failure = new Error('GPU preparation failed');
   const app = new Application(
     Object.assign(new EventTarget(), { dataset: {} }) as HTMLCanvasElement,
-    content,
     {},
     { loadSettings: async () => ({ status: 'empty' }) } as Bridge,
     sceneFixture(content),
@@ -275,7 +272,7 @@ test('failed Application startup releases transferred assets and closes presenta
         dispose: () => closed++,
       }),
     { status: () => {}, pause: () => {}, frame: () => {} },
-    ['startup'],
+    { extraAssets: ['startup'] },
   );
   t.after(() => app.dispose());
   const first = app.boot();
@@ -312,7 +309,6 @@ test(
     t.mock.method(AssetRuntime, 'open', async () => new AssetRuntime({}));
     const app = new Application(
       Object.assign(new EventTarget(), { dataset: {} }) as HTMLCanvasElement,
-      content,
       {},
       {
         loadSettings: () => {

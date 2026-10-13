@@ -28,6 +28,7 @@ export function presentationFixture(
 }
 export function sceneFixture(registry: ContentRegistry): SceneContent {
   return {
+    registry,
     initialAssets: [],
     area: (id) => ({ area: registry.area(id), assets: [] }),
     validate: () => {},
