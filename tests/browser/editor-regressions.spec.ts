@@ -23,14 +23,21 @@ test.beforeEach(async ({ page }) => {
     const authoringPath = '/src/editor/ground-authoring.ts',
       cameraPath = '/src/core/camera.ts',
       scenePath = '/src/content/scene-document.ts',
-      defaultPath = '/src/editor/default-scene.ts';
-    const [{ GroundAuthoring }, { makeCamera }, { parseSceneDocument }, { emptyScene }] =
-      await Promise.all([
-        import(authoringPath),
-        import(cameraPath),
-        import(scenePath),
-        import(defaultPath),
-      ]);
+      defaultPath = '/src/editor/default-scene.ts',
+      gesturesPath = '/src/editor/gestures.ts';
+    const [
+      { GroundAuthoring },
+      { makeCamera },
+      { parseSceneDocument },
+      { emptyScene },
+      { EditorGestures },
+    ] = await Promise.all([
+      import(authoringPath),
+      import(cameraPath),
+      import(scenePath),
+      import(defaultPath),
+      import(gesturesPath),
+    ]);
     const scene = emptyScene();
     scene.floor.layout = 'artwork';
     scene.groundInteraction = {
@@ -70,6 +77,7 @@ test.beforeEach(async ({ page }) => {
       },
     } as unknown as EditorView;
     state.authoring = new GroundAuthoring(document.querySelector('canvas')!, {
+      gestures: new EditorGestures(),
       document: () => state.document,
       view: () => view,
       manifest: () => undefined,

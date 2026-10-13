@@ -1,3 +1,4 @@
+import { EditorGestures, type GestureLease } from './gestures';
 import { lightingRigs } from '../presentation/lighting-profiles';
 import { contract as cameraContract } from '../core/camera';
 import { GroundAuthoring } from './ground-authoring';
@@ -71,6 +72,7 @@ declare global {
 }
 export function createEditorSession() {
   const lifetime = new AbortController();
+  const gestures = new EditorGestures();
   const automated = new URLSearchParams(location.search).has('automated');
   let closed = false;
   function assertActive() {
@@ -266,13 +268,14 @@ export function createEditorSession() {
   }
   async function run(action: () => Promise<void>, restoring = false) {
     if (closed || busy) return;
-    composition?.cancelGesture();
+    gestures.cancel();
     if (project.recoveryPending && !restoring) {
       status('Restore or dismiss the previous recovery before editing.', true);
       controls();
       return;
     }
     busy = true;
+    const resumeGestures = gestures.suspend();
     try {
       const pending = action();
       controls();
@@ -281,6 +284,7 @@ export function createEditorSession() {
       if (error instanceof EditorConflict) $('conflict').hidden = false;
       status(editorError(error), true);
     } finally {
+      resumeGestures();
       if (!closed) {
         busy = false;
         controls();
@@ -925,6 +929,7 @@ export function createEditorSession() {
     $('preview-play').textContent = previewPlaying ? 'Pause preview' : 'Play preview';
   };
   $('tool').onchange = () => {
+    gestures.cancel();
     if ($<HTMLSelectElement>('tool').value === 'hero' && walkingHero) setWalkingHero(false);
     if ($<HTMLSelectElement>('tool').value === 'place') openDock('artwork');
     if ($<HTMLSelectElement>('tool').value === 'geometry') openDock('scene');
@@ -936,10 +941,15 @@ export function createEditorSession() {
     workspace.refresh();
     composition?.positionHandles();
   };
-  let marquee: { x: number; y: number; additive: boolean; pointer: number } | undefined;
+  let marquee:
+    { x: number; y: number; additive: boolean; pointer: number; lease: GestureLease } | undefined;
   function startMarquee(e: PointerEvent) {
-    marquee = { x: e.clientX, y: e.clientY, additive: e.shiftKey, pointer: e.pointerId };
-    canvas.setPointerCapture(e.pointerId);
+    const lease = gestures.begin(canvas, e.pointerId, () => {
+      marquee = undefined;
+      $('marquee').hidden = true;
+    });
+    if (lease.active)
+      marquee = { x: e.clientX, y: e.clientY, additive: e.shiftKey, pointer: e.pointerId, lease };
   }
 
   $('search').oninput = showPalette;
@@ -1009,13 +1019,14 @@ export function createEditorSession() {
   };
   type Drag = {
     pointer: number;
+    lease: GestureLease;
     mode: 'pan' | 'object' | 'hero';
     start: T.Vector3;
     center: T.Vector3;
     x: number;
     z: number;
     height: number;
-    id?: string;
+    ids: readonly string[];
     changed?: boolean;
     next?: T.Vector3;
   };
@@ -1053,7 +1064,16 @@ export function createEditorSession() {
             (hero ? 0 : (item?.placement.y ?? 0)),
       start = view.ground(e.clientX, e.clientY, height);
     if (!start) return;
+    const lease = gestures.begin(canvas, e.pointerId, () => {
+      const previous = drag;
+      drag = undefined;
+      if (previous?.mode === 'hero') view.hero(documents.history.document.hero);
+      else if (previous?.mode === 'object') view.clearTransformPreview();
+      view.render();
+    });
+    if (!lease.active) return;
     drag = {
+      lease,
       pointer: e.pointerId,
       mode,
       start,
@@ -1061,9 +1081,8 @@ export function createEditorSession() {
       x: root.x,
       z: root.z,
       height,
-      id: item?.placement.id,
+      ids: composition.editable(),
     };
-    canvas.setPointerCapture(e.pointerId);
   };
   canvas.onpointermove = (e) => {
     if (marquee) {
@@ -1119,29 +1138,28 @@ export function createEditorSession() {
     if (drag.mode === 'hero') view.hero(next);
     else {
       const items = sceneItems(documents.history.document);
-      for (const id of documents.history.descendants(composition.editable())) {
+      for (const id of documents.history.descendants(drag.ids)) {
         const p = items.find((p) => p.placement.id === id)?.placement;
         if (p) view.previewPosition(id, p.x + next.x - drag.x, p.z + next.z - drag.z);
       }
     }
     view.render();
   };
-  function finishDrag(cancel = false) {
+  function finishDrag() {
     const current = drag;
     drag = undefined;
     if (!current) return;
-    if (canvas.hasPointerCapture(current.pointer)) canvas.releasePointerCapture(current.pointer);
+    if (!current.lease.finish()) return;
     if (current.mode === 'pan') return;
     launch(
       edit((history) => {
-        if (!cancel && current.changed && current.next) {
+        if (current.changed && current.next) {
           const { x, z } = current.next;
           if (current.mode === 'hero')
             history.change((d) => {
               d.hero = { x, z };
             });
-          else
-            history.transformMany(composition.editable(), { x: x - current.x, z: z - current.z });
+          else history.transformMany(current.ids, { x: x - current.x, z: z - current.z });
         }
       }),
     );
@@ -1150,29 +1168,18 @@ export function createEditorSession() {
     if (visualAuthoring?.pointerUp(e)) return;
     if (marquee) {
       if (marquee.pointer !== e.pointerId) return;
-      composition.rectangle(marquee, { x: e.clientX, y: e.clientY }, marquee.additive);
+      const current = marquee;
       marquee = undefined;
+      if (!current.lease.finish()) return;
+      composition.rectangle(current, { x: e.clientX, y: e.clientY }, current.additive);
       $('marquee').hidden = true;
-      if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
       return;
     }
     if (drag?.pointer === e.pointerId) finishDrag();
   };
   canvas.onpointercancel = (e) => {
-    visualAuthoring?.pointerUp(e);
-    if (marquee?.pointer === e.pointerId) {
-      marquee = undefined;
-      $('marquee').hidden = true;
-    }
-    if (drag?.pointer === e.pointerId) finishDrag(true);
-  };
-  canvas.onlostpointercapture = (e) => {
-    visualAuthoring?.pointerUp(e);
-    if (marquee?.pointer === e.pointerId) {
-      marquee = undefined;
-      $('marquee').hidden = true;
-    }
-    if (drag?.pointer === e.pointerId) finishDrag(true);
+    if (drag?.pointer === e.pointerId || marquee?.pointer === e.pointerId) gestures.cancel();
+    visualAuthoring?.pointerCancel(e);
   };
   canvas.onwheel = (e) => {
     e.preventDefault();
@@ -1202,8 +1209,7 @@ export function createEditorSession() {
       if ([...document.querySelectorAll<HTMLDialogElement>('dialog')].some((d) => d.open)) return;
       if (e.key === 'Escape') {
         if (walkingHero) setWalkingHero(false);
-        composition.cancelGesture();
-        finishDrag(true);
+        gestures.cancel();
         composition.set(undefined);
         return;
       }
@@ -1346,6 +1352,7 @@ export function createEditorSession() {
     if (closed) return;
     closed = true;
     ready = false;
+    gestures.dispose();
     lifetime.abort();
     workspace.dispose();
     confirmation.dispose();
@@ -1415,6 +1422,7 @@ export function createEditorSession() {
     assertActive();
     view = new EditorView(canvas, runtime);
     composition = new CompositionTools({
+      gestures,
       confirm: (message, action) => confirmation.ask(message, action),
       history: () => documents.history,
       view: () => view,
@@ -1428,6 +1436,7 @@ export function createEditorSession() {
       },
     });
     visualAuthoring = new VisualAuthoring({
+      gestures,
       history: () => documents.history,
       view: () => view,
       selected: () => selected,
@@ -1475,6 +1484,7 @@ export function createEditorSession() {
       status,
     });
     groundAuthoring = new GroundAuthoring(canvas, {
+      gestures,
       document: () => documents.history.document,
       view: () => view,
       manifest: () => assetIndex.get(documents.history.document.floor.asset),

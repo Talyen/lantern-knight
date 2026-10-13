@@ -174,3 +174,57 @@ test('foreign pointer releases and lost captures cannot commit geometry or leave
   await expect(page.locator('#marquee')).toBeHidden();
   await page.mouse.up();
 });
+
+test('document operations revoke geometry drags before pointer release', async ({
+  page,
+  errors,
+}) => {
+  await openEditor(page);
+  await importScene(page, 'Gesture ownership');
+  const original = await page.evaluate(() => window.sceneEditor.state().document);
+  await page.locator('#name').fill('Undo this name');
+  await page.locator('#name').dispatchEvent('change');
+  await expect(page.locator('#save-state')).not.toHaveText('Working…');
+  await page.locator('#scene-tab').click();
+  await page.locator('#ground-interaction-section > summary').click();
+  await page.locator('#ground-geometry > summary').click();
+  await page.getByRole('button', { name: 'Edit geometry on canvas', exact: true }).click();
+  const start = await page.evaluate(async () => {
+    const threePath = '/node_modules/.vite/deps/three.js';
+    const { Vector3 } = await import(threePath);
+    const view = window.sceneEditor.view();
+    const point = window.sceneEditor.state().document.paths[0]!.points[0]!;
+    return view.screen(new Vector3(point.x, 0, point.z));
+  });
+  await page.mouse.move(start.x, start.y);
+  await page.mouse.down();
+  await expect
+    .poll(() => page.locator('#viewport').evaluate((canvas) => canvas.hasPointerCapture(1)))
+    .toBe(true);
+  await page.keyboard.press('ControlOrMeta+z');
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.name))
+    .toBe(original.name);
+  await expect(page.locator('#save-state')).not.toHaveText('Working…');
+  await expect.soft
+    .poll(() => page.locator('#viewport').evaluate((canvas) => canvas.hasPointerCapture(1)))
+    .toBe(false);
+  await page.mouse.move(start.x + 40, start.y + 20);
+  await page.mouse.up();
+  await expect(page.locator('#save-state')).not.toHaveText('Working…');
+  expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(original);
+  await expect(page.locator('#redo')).toBeEnabled();
+  // The revoked gesture must not prevent the next intentional drag from committing.
+  await page.mouse.move(start.x, start.y);
+  await page.mouse.down();
+  await page.mouse.move(start.x + 40, start.y + 20);
+  await page.mouse.up();
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.paths[0]!.points[0]))
+    .not.toEqual(original.paths[0]!.points[0]);
+  await page.keyboard.press('ControlOrMeta+z');
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document))
+    .toEqual(original);
+  expect(errors).toEqual([]);
+});

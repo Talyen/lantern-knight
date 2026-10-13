@@ -1,3 +1,4 @@
+import type { EditorGestures, GestureLease } from './gestures';
 import { brushMask } from './mask-contours';
 import { GroundProfileSchema, restoreGroundProfile } from '../content/ground-profile';
 import * as T from 'three';
@@ -21,6 +22,7 @@ type Candidate = {
   mask?: MaskShape[];
 };
 type Host = {
+  gestures: EditorGestures;
   document: () => SceneSnapshot;
   view: () => EditorView;
   manifest: () => Manifest | undefined;
@@ -48,6 +50,7 @@ export class GroundAuthoring {
   private batchDocument?: SceneSnapshot;
   private gesture?: UV[];
   private pointer?: number;
+  private gestureLease?: GestureLease;
   private abort?: AbortController;
   private request = 0;
   private lifetime = new AbortController();
@@ -351,8 +354,12 @@ export class GroundAuthoring {
       }
       if (!this.vertex) return;
       this.gesture = [uv];
-      this.canvas.setPointerCapture(e.pointerId);
       this.pointer = e.pointerId;
+      this.gestureLease = this.host.gestures.begin(this.canvas, e.pointerId, () => this.cancel());
+      if (!this.gestureLease.active) {
+        this.cancel();
+        return;
+      }
       this.panel.querySelector<HTMLSelectElement>('#ground-region')!.value = this.selected;
       this.updateName();
       e.preventDefault();
@@ -364,8 +371,12 @@ export class GroundAuthoring {
     this.canvas.focus();
     if (this.mode === 'ai-box' || this.mode.startsWith('brush')) {
       this.gesture = [uv];
-      this.canvas.setPointerCapture(e.pointerId);
       this.pointer = e.pointerId;
+      this.gestureLease = this.host.gestures.begin(this.canvas, e.pointerId, () => this.cancel());
+      if (!this.gestureLease.active) {
+        this.cancel();
+        return;
+      }
     } else if (this.mode === 'anchor') {
       const d = this.host.document(),
         world = artworkFloorLayout(d.floor.width, d.floor.depth).world(uv);
@@ -390,7 +401,8 @@ export class GroundAuthoring {
     }
     this.gesture = undefined;
     this.pointer = undefined;
-    if (this.canvas.hasPointerCapture(e.pointerId)) this.canvas.releasePointerCapture(e.pointerId);
+    if (!this.gestureLease?.finish()) return;
+    this.gestureLease = undefined;
     if (this.vertex) {
       const vertex = this.vertex,
         uv = points.at(-1)!,
@@ -802,10 +814,10 @@ export class GroundAuthoring {
     this.points = [];
     this.gesture = undefined;
     this.vertex = undefined;
-    const pointer = this.pointer;
     this.pointer = undefined;
-    if (pointer !== undefined && this.canvas.hasPointerCapture(pointer))
-      this.canvas.releasePointerCapture(pointer);
+    const lease = this.gestureLease;
+    this.gestureLease = undefined;
+    lease?.cancel();
     this.proposal = undefined;
     this.prompts = [];
     this.box = undefined;

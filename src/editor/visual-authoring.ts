@@ -1,3 +1,4 @@
+import type { EditorGestures, GestureLease } from './gestures';
 import type { EditorSnapshot } from './document';
 import * as T from 'three';
 import { contentDefinitions } from '../content/game-content';
@@ -18,6 +19,7 @@ import { localOffset } from '../content/scenery-presets';
 import { heightAt } from '../content/world';
 type Data = string | number | boolean | Data[] | { [key: string]: Data | undefined };
 type Host = {
+  gestures: EditorGestures;
   history: () => EditorSnapshot;
   view: () => EditorView;
   selected: () => string | undefined;
@@ -153,7 +155,7 @@ export class VisualAuthoring {
   private key = '';
   private fields: HTMLElement;
   private objectFields: HTMLElement;
-  private drag: { path: (string | number)[]; pointer: number } | undefined;
+  private drag: { path: (string | number)[]; pointer: number; lease: GestureLease } | undefined;
   constructor(private host: Host) {
     this.fields = document.createElement('section');
     this.fields.id = 'visual-fields';
@@ -823,8 +825,10 @@ export class VisualAuthoring {
       })
       .sort((a, b) => a.d - b.d);
     if (candidates[0] && candidates[0].d < 18) {
-      this.drag = { path: candidates[0].h.path, pointer: e.pointerId };
-      view.canvas.setPointerCapture(e.pointerId);
+      const lease = this.host.gestures.begin(view.canvas, e.pointerId, () => {
+        this.drag = undefined;
+      });
+      if (lease.active) this.drag = { path: candidates[0].h.path, pointer: e.pointerId, lease };
       return true;
     }
     return true;
@@ -833,8 +837,7 @@ export class VisualAuthoring {
     const drag = this.drag;
     if (!drag || drag.pointer !== e.pointerId) return false;
     this.drag = undefined;
-    if (this.host.view().canvas.hasPointerCapture(e.pointerId))
-      this.host.view().canvas.releasePointerCapture(e.pointerId);
+    if (!drag.lease.finish()) return true;
     const point = this.host.view().ground(e.clientX, e.clientY);
     if (!point || e.type === 'pointercancel' || e.type === 'lostpointercapture') return true;
     const path = drag.path;
@@ -856,7 +859,11 @@ export class VisualAuthoring {
         .catch(console.error);
     return true;
   }
+  pointerCancel(e: PointerEvent) {
+    if (this.drag?.pointer === e.pointerId) this.drag.lease.cancel();
+  }
   dispose() {
+    this.drag?.lease.cancel();
     for (const child of this.group.children) {
       const line = child as T.Line;
       line.geometry.dispose();
