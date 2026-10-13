@@ -21,6 +21,24 @@ function assembly() {
   ];
   return new EditorHistory(d);
 }
+it('absolute alignment places selected supports before attachments regardless of selection order', () => {
+  for (const selection of [
+    ['child', 'support'],
+    ['support', 'child'],
+  ]) {
+    const history = assembly(),
+      before = history.document;
+    history.transformEach(selection, { x: 3, z: 2 });
+    const selected = sceneItems(history.document).filter((item) =>
+      selection.includes(item.placement.id),
+    );
+    assert.ok(selected.every((item) => item.placement.x === 3 && item.placement.z === 2));
+    history.undo();
+    assert.deepEqual(history.document, before);
+    assert.equal(history.canUndo, false);
+  }
+});
+
 it('batch transforms commit once, use a shared pivot, and preserve selected attachments', () => {
   const h = assembly(),
     before = structuredClone(h.document);

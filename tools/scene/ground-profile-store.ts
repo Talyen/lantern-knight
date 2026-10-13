@@ -58,16 +58,28 @@ export class GroundProfileStore {
     for (const file of (await fs.readdir(this.directory)).filter((f) =>
       /^[a-f0-9]{64}\.json$/.test(f),
     )) {
-      const id = file.slice(0, -5),
-        profile = await this.read(id);
-      result.push({
-        id,
-        name: profile.name,
-        asset: profile.interaction.asset,
-        hash: profile.interaction.hash,
-        regions: profile.interaction.regions.length,
-        time: (await fs.stat(path.join(this.directory, file))).mtimeMs,
-      });
+      const id = file.slice(0, -5);
+      try {
+        const profile = await this.read(id);
+        result.push({
+          id,
+          name: profile.name,
+          asset: profile.interaction.asset,
+          hash: profile.interaction.hash,
+          regions: profile.interaction.regions.length,
+          time: (await fs.stat(path.join(this.directory, file))).mtimeMs,
+        });
+      } catch (error) {
+        result.push({
+          id,
+          name: 'Unreadable profile',
+          asset: '',
+          hash: '',
+          regions: 0,
+          time: 0,
+          error: String(error),
+        });
+      }
     }
     return result.sort((a, b) => b.time - a.time);
   }

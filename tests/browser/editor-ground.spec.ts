@@ -96,6 +96,45 @@ test('ground authoring accepts and corrects selection, saves contours and routes
       );
       await page.mouse.click(p.x, p.y);
     };
+    await page.locator('#ground-task').selectOption('ai-box');
+    const canvas = page.locator('#viewport'),
+      rect = (await canvas.boundingBox())!;
+    await page.mouse.move(rect.x + 350, rect.y + 200);
+    await page.mouse.down();
+    await page.mouse.move(rect.x + 400, rect.y + 250);
+    await page.evaluate(() => {
+      const canvas = document.querySelector<HTMLCanvasElement>('#viewport')!,
+        capture = canvas.setPointerCapture;
+      // The synthetic second contact has no native capture; the first remains real.
+      canvas.setPointerCapture = (id) => {
+        if (id !== 2) capture.call(canvas, id);
+      };
+      try {
+        for (const [type, x, y] of [
+          ['pointerdown', 450, 300],
+          ['pointermove', 500, 350],
+          ['pointerup', 500, 350],
+        ] as const)
+          canvas.dispatchEvent(
+            new PointerEvent(type, {
+              bubbles: true,
+              pointerId: 2,
+              button: 0,
+              clientX: x,
+              clientY: y,
+            }),
+          );
+      } finally {
+        canvas.setPointerCapture = capture;
+      }
+    });
+    await canvas.dispatchEvent('pointercancel', { pointerId: 1 });
+    await page.mouse.up();
+    await page.evaluate(async () => {
+      for (let i = 0; i < 3; i++)
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    });
+    expect(selections).toBe(0);
     await page.locator('#ground-task').selectOption('ai-point');
     await clickUV(0.58, 0.45);
     await page.locator('#ground-refine').click();
@@ -104,12 +143,26 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     expect(
       await page.evaluate(() => window.sceneEditor.state().document.groundInteraction),
     ).toBeUndefined();
+    await page.locator('#ground-region-name').fill('');
+    await page.locator('#ground-accept').click();
+    await expect(page.locator('#validation-errors')).toBeVisible();
+    expect(
+      await page.evaluate(() => window.sceneEditor.state().document.groundInteraction),
+    ).toBeUndefined();
+    await page.locator('#ground-region-name').fill('Tree');
     await page.locator('#ground-accept').click();
     await expect
       .poll(() =>
         page.evaluate(() => window.sceneEditor.state().document.groundInteraction?.regions.length),
       )
       .toBe(1);
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () => window.sceneEditor.state().document.groundInteraction!.regions[0]!.mask,
+        ),
+      )
+      .toEqual(mask);
     const accepted = await page.evaluate(() =>
       JSON.stringify(window.sceneEditor.state().document.groundInteraction!.regions[0]!.mask),
     );
@@ -134,11 +187,13 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await page.locator('#ground-task').selectOption('footprint');
     for (const [u, v] of [
       [0.54, 0.52],
+      [0.565, 0.52],
       [0.59, 0.52],
-      [0.59, 0.56],
-      [0.54, 0.56],
     ])
       await clickUV(u!, v!);
+    await page.locator('#ground-finish').click();
+    await expect(page.locator('#validation-errors')).toContainText('simple nondegenerate polygon');
+    await clickUV(0.59, 0.56);
     await page.locator('#ground-finish').click();
     await expect
       .poll(() =>
@@ -183,7 +238,16 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await page.locator('#document-menu > summary').click();
     await page.locator('#save-as').click();
     await page.locator('#file-id').fill(id);
+    const savedResponse = page.waitForResponse(
+      (response) =>
+        response.url().endsWith('/__lantern_editor') &&
+        response.request().method() === 'POST' &&
+        response.request().postDataJSON().document?.id === id,
+      { timeout: 30_000 },
+    );
     await page.locator('#confirm-save').click();
+    const response = await savedResponse;
+    expect(response.ok(), await response.text()).toBe(true);
     await expect(page.locator('#save-state')).toHaveText('Saved');
     const saved = JSON.parse(await fs.readFile(file, 'utf8'));
     expect(saved.groundInteraction).toEqual(authored);

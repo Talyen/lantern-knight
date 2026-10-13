@@ -114,6 +114,21 @@ export class EditorHistory {
     return [...included];
   }
 
+  transformEach(ids: readonly string[], fields: Parameters<EditorHistory['transform']>[1]) {
+    const temp = this.fork(),
+      objects = new Map(this.document.objects.map((object) => [object.id, object])),
+      depth = (id: string): number => {
+        const object = objects.get(id);
+        return object?.mount ? 1 + depth(object.mount.to) : 0;
+      };
+    // Absolute fields must place supports before their selected attachments.
+    for (const id of [...new Set(ids)].sort((a, b) => depth(a) - depth(b)))
+      temp.transform(id, fields);
+    this.change((document) => {
+      document.objects = parseSceneDocument(temp.document).objects;
+    });
+  }
+
   transformMany(
     ids: readonly string[],
     fields: { x?: number; z?: number; rotation?: number; scale?: number },

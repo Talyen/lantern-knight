@@ -1,4 +1,3 @@
-import { holdMovement } from '../fixtures/input';
 import { test, expect } from './fixtures';
 test('game input, pause focus and current checkpoint reload', async ({ page }) => {
   await page.goto('/index.html');
@@ -20,6 +19,7 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
   expect(initial.wins).toBe(0);
   await expect(page.locator('#objective')).toHaveText('Explore the scene');
   await page.locator('#resume').click();
+  await expect(page.locator('canvas')).toBeFocused();
   const inputErrors: string[] = [];
   page.on('pageerror', (error) => inputErrors.push(error.message));
   await page.evaluate(async () => {
@@ -74,7 +74,13 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
   expect(afterControls.player).toEqual(initial.player);
   expect(inputErrors).toEqual([]);
   await page.locator('#resume').click();
-  await holdMovement(page, 'KeyW');
+  await expect(page.locator('canvas')).toBeFocused();
+  await page.keyboard.down('KeyW');
+  await page.evaluate(async () => {
+    for (let i = 0; i < 10; i++)
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+  });
+  await page.keyboard.up('KeyW');
   await page.locator('#pause').click();
   await page.locator('#save').click();
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });

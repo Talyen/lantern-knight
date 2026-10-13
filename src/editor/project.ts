@@ -148,6 +148,7 @@ export class EditorProject {
     this.recoveryKey = this.recoveryRoot + accepted.id;
     // A completed server write remains accepted even when optional local storage fails.
     this.accessStorage((storage) => storage.removeItem(previousKey));
+    if (this.recoveryKey !== previousKey) this.readRecovery(this.recoveryKey);
     this.recover();
   }
   private accessStorage<T>(work: (storage: StorageAccess) => T): T | undefined {

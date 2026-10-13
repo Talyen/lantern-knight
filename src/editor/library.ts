@@ -271,7 +271,18 @@ export class SceneLibrary {
     if (!r.ok) throw new Error(fragments.error);
     const list = $('library-fragments');
     list.replaceChildren();
-    for (const item of fragments.fragments as { id: string; fragment: unknown }[]) {
+    for (const item of fragments.fragments as {
+      id: string;
+      fragment?: unknown;
+      error?: string;
+    }[]) {
+      if (item.error) {
+        const note = document.createElement('p');
+        note.textContent = item.id + ' · Unreadable arrangement';
+        note.title = item.error;
+        list.append(note);
+        continue;
+      }
       const fragment = parseSceneFragment(item.fragment),
         b = document.createElement('button');
       b.textContent = fragment.name + ' · ' + fragment.objects.length + ' objects';

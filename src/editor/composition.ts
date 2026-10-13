@@ -1,7 +1,6 @@
 import * as T from 'three';
 import { heightAt } from '../content/world';
 import { openDock } from './workspace';
-import { parseSceneDocument } from '../content/scene-document';
 import { EditorHistory, sceneItems } from './model';
 import type { EditorView } from './view';
 import type { EditorSnapshot } from './document';
@@ -88,11 +87,7 @@ export class CompositionTools {
             items = sceneItems(this.host.history().document);
           const anchor = items.find((p) => p.placement.id === ids.at(-1))?.placement[axis];
           if (anchor === undefined) return;
-          const temp = new EditorHistory(this.host.history().document);
-          for (const id of ids) temp.transform(id, { [axis]: anchor });
-          history.change((d) => {
-            d.objects = parseSceneDocument(temp.document).objects;
-          });
+          history.transformEach(ids, { [axis]: anchor });
         }).catch(console.error);
       element('alignment-tools').append(button);
     }

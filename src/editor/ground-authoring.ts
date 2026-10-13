@@ -24,7 +24,7 @@ type Host = {
   document: () => SceneSnapshot;
   view: () => EditorView;
   manifest: () => Manifest | undefined;
-  change: (work: (d: SceneDocument) => void) => Promise<void>;
+  change: (work: (d: SceneDocument) => void, committed?: () => void) => Promise<void>;
   status: (s: string, error?: boolean) => void;
   request: (
     selection: unknown,
@@ -47,6 +47,7 @@ export class GroundAuthoring {
   private candidates: Candidate[] = [];
   private batchDocument?: SceneSnapshot;
   private gesture?: UV[];
+  private pointer?: number;
   private abort?: AbortController;
   private request = 0;
   private lifetime = new AbortController();
@@ -124,10 +125,14 @@ export class GroundAuthoring {
     $('ground-accept').onclick = () => {
       if (this.proposal) {
         const mask = this.proposal;
-        this.commit((r) => {
-          r.mask = mask;
-        });
-        this.cancel();
+        this.commit(
+          (r) => {
+            r.mask = mask;
+          },
+          () => {
+            if (this.proposal === mask) this.cancel();
+          },
+        );
       }
     };
     $('ground-cancel').onclick = () => this.cancel(true);
@@ -173,7 +178,7 @@ export class GroundAuthoring {
     canvas.addEventListener(
       'pointermove',
       (e) => {
-        if (this.gesture) {
+        if (this.gesture && this.pointer === e.pointerId) {
           const uv = this.uv(e);
           if (uv) {
             if (this.mode === 'ai-box') this.gesture[1] = uv;
@@ -186,6 +191,17 @@ export class GroundAuthoring {
       { capture: true, signal },
     );
     canvas.addEventListener('pointerup', (e) => this.up(e), { capture: true, signal });
+    for (const type of ['pointercancel', 'lostpointercapture'] as const)
+      canvas.addEventListener(
+        type,
+        (e) => {
+          if (this.pointer !== e.pointerId) return;
+          this.cancel();
+          e.preventDefault();
+          e.stopImmediatePropagation();
+        },
+        { capture: true, signal },
+      );
     document.addEventListener(
       'keydown',
       (e) => {
@@ -220,6 +236,11 @@ export class GroundAuthoring {
   }
   private down(e: PointerEvent) {
     if (!this.panel.hasAttribute('open') || e.button !== 0) return;
+    if (this.pointer !== undefined) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return;
+    }
     const uv = this.uv(e);
     if (!uv) return;
     if (this.mode === 'off') {
@@ -265,6 +286,7 @@ export class GroundAuthoring {
       }
       if (!this.vertex) return;
       this.gesture = [uv];
+      this.pointer = e.pointerId;
       this.canvas.setPointerCapture(e.pointerId);
       this.panel.querySelector<HTMLSelectElement>('#ground-region')!.value = this.selected;
       this.updateName();
@@ -277,6 +299,7 @@ export class GroundAuthoring {
     this.canvas.focus();
     if (this.mode === 'ai-box' || this.mode.startsWith('brush')) {
       this.gesture = [uv];
+      this.pointer = e.pointerId;
       this.canvas.setPointerCapture(e.pointerId);
     } else if (this.mode === 'anchor') {
       const d = this.host.document(),
@@ -291,11 +314,17 @@ export class GroundAuthoring {
     this.signature = '';
   }
   private up(e: PointerEvent) {
-    if (!this.gesture) return;
+    if (!this.gesture || this.pointer !== e.pointerId) return;
     e.preventDefault();
     e.stopImmediatePropagation();
     const points = this.gesture;
+    const final = this.uv(e);
+    if (final) {
+      if (this.mode === 'ai-box') points[1] = final;
+      else points.push(final);
+    }
     this.gesture = undefined;
+    this.pointer = undefined;
     if (this.canvas.hasPointerCapture(e.pointerId)) this.canvas.releasePointerCapture(e.pointerId);
     if (this.vertex) {
       const vertex = this.vertex,
@@ -360,72 +389,83 @@ export class GroundAuthoring {
       }
     }
   }
-  private commit(work: (r: GroundRegion) => void) {
+  private commit(work: (r: GroundRegion) => void, committed?: () => void) {
     const name = this.panel.querySelector<HTMLInputElement>('#ground-region-name')!.value;
+    const requested = this.selected;
+    let selected = requested;
     void this.host
-      .change((d) => {
-        if (!d.groundInteraction) {
-          const m = this.host.manifest();
-          if (!m) throw new Error('Ground artwork is not ready');
-          const frame = m.asset.clips[d.floor.clip ?? 'still']?.d45?.frames[0];
-          if (!frame) throw new Error('Ground needs a still frame');
-          d.groundInteraction = {
-            asset: m.asset.id,
-            frame,
-            hash: m.pages.find((p) => p.id === m.frames.find((f) => f.id === frame)?.page)!.hash,
-            dimensions: [...m.asset.canvas],
-            regions: [],
-            destinations: [],
-          };
-        }
-        let r = d.groundInteraction.regions.find((v) => v.id === this.selected);
-        if (!r) {
-          r = { id: 'region-' + crypto.randomUUID(), name };
-          this.selected = r.id;
-          d.groundInteraction.regions.push(r);
-        }
-        work(r);
-        if (r.mask?.length && !r.depth) {
-          const [u, v] = r.mask[0]!.outer.reduce(
-            ([x, y], p) => [x + p[0], Math.max(y, p[1])] as UV,
-            [0, 0] as UV,
-          );
-          r.depth = {
-            kind: 'anchor',
-            point: artworkFloorLayout(d.floor.width, d.floor.depth).world([
-              u / r.mask[0]!.outer.length,
-              v,
-            ]),
-          };
-        }
-      })
+      .change(
+        (d) => {
+          if (!d.groundInteraction) {
+            const m = this.host.manifest();
+            if (!m) throw new Error('Ground artwork is not ready');
+            const frame = m.asset.clips[d.floor.clip ?? 'still']?.d45?.frames[0];
+            if (!frame) throw new Error('Ground needs a still frame');
+            d.groundInteraction = {
+              asset: m.asset.id,
+              frame,
+              hash: m.pages.find((p) => p.id === m.frames.find((f) => f.id === frame)?.page)!.hash,
+              dimensions: [...m.asset.canvas],
+              regions: [],
+              destinations: [],
+            };
+          }
+          let r = d.groundInteraction.regions.find((v) => v.id === requested);
+          if (!r) {
+            r = { id: 'region-' + crypto.randomUUID(), name };
+            selected = r.id;
+            d.groundInteraction.regions.push(r);
+          }
+          work(r);
+          if (r.mask?.length && !r.depth) {
+            const [u, v] = r.mask[0]!.outer.reduce(
+              ([x, y], p) => [x + p[0], Math.max(y, p[1])] as UV,
+              [0, 0] as UV,
+            );
+            r.depth = {
+              kind: 'anchor',
+              point: artworkFloorLayout(d.floor.width, d.floor.depth).world([
+                u / r.mask[0]!.outer.length,
+                v,
+              ]),
+            };
+          }
+        },
+        () => {
+          this.selected = selected;
+          committed?.();
+        },
+      )
       .catch((e) => this.host.status(String(e), true));
   }
   private finish() {
     const d = this.host.document(),
       layout = artworkFloorLayout(d.floor.width, d.floor.depth),
-      points = [...this.points];
+      original = this.points,
+      points = [...original],
+      accepted = () => {
+        if (this.points === original) this.points.splice(0, points.length);
+        this.signature = '';
+      };
     if (this.mode === 'footprint' && points.length >= 3)
       this.commit((r) => {
         r.footprint = points.map((p) => layout.world(p));
-      });
+      }, accepted);
     else if (this.mode === 'mask' && points.length >= 3)
       this.commit((r) => {
         r.mask = [...(r.mask ?? []), { outer: points, holes: [] }];
-      });
+      }, accepted);
     else if (this.mode === 'boundary' && points.length >= 2)
       this.commit((r) => {
         r.depth = {
           kind: 'boundary',
           points: points.sort((a, b) => a[0] - b[0]).map((p) => layout.world(p)),
         };
-      });
+      }, accepted);
     else {
       this.host.status('Add enough points for the selected task.', true);
       return;
     }
-    this.points = [];
-    this.signature = '';
   }
   private async infer() {
     this.abort?.abort();
@@ -514,20 +554,26 @@ export class GroundAuthoring {
     const data = await response.json();
     if (!response.ok) throw new Error(data.error);
     if (d !== this.host.document()) return;
-    const profiles = data.profiles as { id: string; name: string; hash: string; regions: number }[];
+    const profiles = data.profiles as {
+      id: string;
+      name: string;
+      hash: string;
+      regions: number;
+      error?: string;
+    }[];
     profiles.sort((a, b) => Number(b.hash === identity.hash) - Number(a.hash === identity.hash));
-    this.panel
-      .querySelector<HTMLSelectElement>('#ground-profile')!
-      .replaceChildren(
-        new Option('Choose a saved revision', ''),
-        ...profiles.map(
-          (p) =>
-            new Option(
-              `${p.name} · ${p.regions} regions · ${p.id.slice(0, 8)}${p.hash === identity.hash ? ' · matching artwork' : ' · artwork differs'}`,
-              p.id,
-            ),
-        ),
-      );
+    this.panel.querySelector<HTMLSelectElement>('#ground-profile')!.replaceChildren(
+      new Option('Choose a saved revision', ''),
+      ...profiles.map((p) => {
+        const option = new Option(
+          `${p.name} · ${p.regions} regions · ${p.id.slice(0, 8)}${p.hash === identity.hash ? ' · matching artwork' : ' · artwork differs'}`,
+          p.id,
+        );
+        option.disabled = !!p.error;
+        if (p.error) option.textContent = 'Unreadable profile · ' + p.id.slice(0, 8);
+        return option;
+      }),
+    );
     this.host.status(`${profiles.length} saved interaction revisions available.`);
   }
   private async restoreProfile() {
@@ -685,6 +731,10 @@ export class GroundAuthoring {
     }
   }
   private cancel(clearCandidates = false) {
+    const pointer = this.pointer;
+    this.pointer = undefined;
+    if (pointer !== undefined && this.canvas.hasPointerCapture(pointer))
+      this.canvas.releasePointerCapture(pointer);
     this.request++;
     this.abort?.abort();
     this.abort = undefined;

@@ -296,6 +296,37 @@ test('visual authoring, independent fragments, pattern undo and import', async (
     ).toEqual(pointBefore);
     await chooseGravestone(page);
     await page.locator('#viewport').click({ position: { x: 350, y: 230 } });
+    const document = await page.evaluate(() => window.sceneEditor.state().document);
+    const metadata = await (await request.get('/__lantern_editor')).json();
+    const fragment = { version: 1, name: 'Pickup isolation regression', objects: document.objects };
+    const unrelated = { ...document.objects[0]!, id: 'unselected-potion', x: 3, z: 3 };
+    const savingFragment = await request.post('/__lantern_editor', {
+      headers: { 'X-Lantern-Editor-Token': metadata.token },
+      data: {
+        action: 'fragment',
+        baseRevision: metadata.baseRevision,
+        fragment,
+        document: {
+          ...document,
+          objects: [...document.objects, unrelated],
+          gameplay: {
+            ...document.gameplay,
+            pickups: [
+              {
+                id: 'health',
+                object: unrelated.id,
+                kind: 'health',
+                amount: 20,
+                radius: 1,
+                x: 3,
+                z: 3,
+              },
+            ],
+          },
+        },
+      },
+    });
+    expect(savingFragment.ok(), await savingFragment.text()).toBe(true);
     await page.locator('#document-menu > summary').click();
     await page.locator('#scene-library').click();
     await page.locator('#fragment-name').fill('Browser test arrangement');

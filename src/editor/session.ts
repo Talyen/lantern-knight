@@ -383,6 +383,7 @@ export function createEditorSession() {
   async function save(copyId?: string) {
     await run(async () => {
       await project.save(copyId);
+      showRecovery();
       $('conflict').hidden = true;
       await list();
       assertActive();
@@ -533,11 +534,7 @@ export function createEditorSession() {
         const ids = composition.editable();
         const input = $<HTMLInputElement>(id);
         if (id !== 'mirror' && (!input.value.trim() || !Number.isFinite(value))) return;
-        const temp = new EditorHistory(history.document);
-        for (const target of ids) temp.transform(target, { [id]: value });
-        history.change((d) => {
-          d.objects = parseSceneDocument(temp.document).objects;
-        });
+        history.transformEach(ids, { [id]: value });
       });
   $('undo').onclick = () =>
     void edit((history) => {
