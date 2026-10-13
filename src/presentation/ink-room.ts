@@ -28,9 +28,6 @@ export class InkRoom {
     this.time = 0;
     for (const { sprite } of this.animated) sprite.animator.start(sprite.animator.clip);
   }
-  get ambientTime() {
-    return this.time / 1000;
-  }
   private flames: {
     fixture: ActorSprite;
     emission: ActorSprite;

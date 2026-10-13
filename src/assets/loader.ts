@@ -39,7 +39,6 @@ export class AssetRuntime {
   }
   constructor(
     catalog: Readonly<Record<string, string>>,
-    private production = false,
     private request: typeof fetch = globalThis.fetch.bind(globalThis),
     decode?: (page: PageRequest) => Promise<Texture>,
     dispose?: (texture: Texture) => void,
@@ -80,9 +79,6 @@ export class AssetRuntime {
           ]);
         }),
     );
-  }
-  get developmentContent() {
-    return !this.production;
   }
   async manifest(id: string) {
     this.assertActive();
@@ -252,14 +248,7 @@ export class AssetRuntime {
           new URLSearchParams(location.search).get('images') === 'source' ? 'source' : quality,
         )
       : undefined;
-    const runtime = new AssetRuntime(
-      catalog,
-      flags.allowDevelopmentContent !== true,
-      undefined,
-      undefined,
-      undefined,
-      delivery,
-    );
+    const runtime = new AssetRuntime(catalog, undefined, undefined, undefined, delivery);
     runtime.libraryInventory = flags.libraryInventory === true;
     try {
       const registration = await fetch('/registration.json');

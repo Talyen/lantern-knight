@@ -58,12 +58,12 @@ test('activation survives load/revisit and resets on death; backward passage all
   assert.throws(() => session.prepareTransition('landing'), /unavailable/);
   session.sim.damage(session.sim.hero, session.sim.enemies[0]!, 100);
   session.step(still);
-  session.commitTransition(session.prepareTransition('landing'));
+  session.commitRoom(session.prepareTransition('landing'));
   assert.equal(session.sim.engaged, false);
   session.sim.damage(session.sim.hero, session.sim.enemies[0]!, 1);
-  session.commitTransition(session.prepareTransition('court'));
+  session.commitRoom(session.prepareTransition('court'));
   assert.ok(session.sim.cleared);
-  session.commitTransition(session.prepareTransition('landing'));
+  session.commitRoom(session.prepareTransition('landing'));
   assert.ok(session.sim.engaged);
   assert.equal(session.sim.enemies[0]!.health, 49);
   const save = session.captureSave(),

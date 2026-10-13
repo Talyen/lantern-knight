@@ -8,7 +8,7 @@ import type { PreparedRegistration } from './assets/registration';
 import { AssetRuntime, type PackLease, type PackBatch, type AssetPack } from './assets/loader';
 import type { PresentationLifecycle } from './presentation/lifecycle';
 import type { SceneContent } from './content/game-content';
-import { GameSession } from './core/session';
+import { GameSession, type RoomPlan } from './core/session';
 import { FixedClock, type Command } from './core/simulation';
 import { Persistence } from './persistence';
 import { EventHub, type GameplayEvent } from './core/events';
@@ -36,7 +36,7 @@ export type ApplicationCommand = Command | { reset: 'death' | 'manual' };
 type SessionContent = { readonly session: GameSession; readonly scenes: SceneContent };
 type RoomChange =
   | { kind: 'session'; next: SessionContent; events: readonly GameplayEvent[] }
-  | { kind: 'area'; area: string; commit: () => readonly GameplayEvent[] };
+  | { kind: 'area'; session: GameSession; plan: RoomPlan };
 // Both launch experiences own exactly this session/loading/input/persistence lifecycle.
 export class Application<P extends PresentationLifecycle = PresentationLifecycle> {
   private current: SessionContent;
@@ -382,7 +382,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private async replaceRoom(change: RoomChange, operation: SessionOperation) {
     operation.check();
     const source = change.kind === 'session' ? change.next : this.current,
-      area = change.kind === 'session' ? source.session.sim.area : change.area;
+      area = change.kind === 'session' ? source.session.sim.area : change.plan.destination;
     this.input.clear();
     if (this.sim.areaDefinition.campfires?.length && !this.bridge.automatedRun) {
       await new Promise<void>((resolve) => setTimeout(resolve, 160));
@@ -397,12 +397,16 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       operation.check();
       if (change.kind === 'session' && !this.readOnly && source.scenes.registry !== this.registry)
         throw new Error('Changing content requires a read-only application');
+      if (change.kind === 'area') {
+        if (change.session !== this.current.session) throw new Error('stale session');
+        change.session.checkRoomPlan(change.plan);
+      }
       this.roomAccepted = false;
       let changes: readonly GameplayEvent[];
       if (change.kind === 'session') {
         this.current = source;
         changes = change.events;
-      } else changes = change.commit();
+      } else changes = change.session.commitRoom(change.plan);
       this.audio.replaceSession();
       this.events.setGeneration(this.current.session.generation);
       operation.check();
@@ -447,31 +451,31 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       }
     });
   }
+  private async replacePlannedRoom(plan: RoomPlan, operation: SessionOperation) {
+    const session = this.current.session;
+    const cancel = () => this.publish(session.cancelRoom(plan));
+    operation.signal.addEventListener('abort', cancel, { once: true });
+    try {
+      this.publish(plan.events);
+      operation.check();
+      await this.replaceRoom({ kind: 'area', session, plan }, operation);
+      operation.check();
+    } catch (error) {
+      cancel();
+      throw error;
+    } finally {
+      operation.signal.removeEventListener('abort', cancel);
+    }
+  }
   transition(id: string) {
     return this.withSessionOperation(async (operation) => {
       const plan = this.current.session.prepareTransition(id);
-      const cancel = () => this.publish(this.current.session.cancelTransition(plan));
-      operation.signal.addEventListener('abort', cancel, { once: true });
       try {
-        this.publish(plan.events);
-        operation.check();
-        await this.replaceRoom(
-          {
-            kind: 'area',
-            area: plan.destination,
-            commit: () => this.current.session.commitTransition(plan),
-          },
-          operation,
-        );
-        operation.check();
+        await this.replacePlannedRoom(plan, operation);
         this.autosave();
       } catch (error) {
-        this.publish(this.current.session.cancelTransition(plan));
-        // An obsolete transition must not pause a newer session operation.
         if (!operation.signal.aborted) this.pause(true);
         throw error;
-      } finally {
-        operation.signal.removeEventListener('abort', cancel);
       }
     });
   }
@@ -516,49 +520,20 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   rest(key: string) {
     return this.withSessionOperation(async (operation) => {
       if (this.sim.inCombat) throw new Error('Finish combat before resting');
-      await this.replaceRoom(
-        { kind: 'area', area: this.sim.area, commit: () => this.current.session.rest(key) },
-        operation,
-      );
+      await this.replacePlannedRoom(this.current.session.prepareRest(key), operation);
       this.autosave();
     });
   }
   travel(key: string) {
     return this.withSessionOperation(async (operation) => {
-      const plan = this.current.session.prepareFireTravel(key);
-      const cancel = () => this.publish(this.current.session.cancelTransition(plan));
-      operation.signal.addEventListener('abort', cancel, { once: true });
-      try {
-        this.publish(plan.events);
-        await this.replaceRoom(
-          {
-            kind: 'area',
-            area: plan.destination,
-            commit: () => this.current.session.commitTransition(plan),
-          },
-          operation,
-        );
-        operation.check();
-        this.autosave();
-      } catch (error) {
-        this.publish(this.current.session.cancelTransition(plan));
-        throw error;
-      } finally {
-        operation.signal.removeEventListener('abort', cancel);
-      }
+      await this.replacePlannedRoom(this.current.session.prepareFireTravel(key), operation);
+      this.autosave();
     });
   }
   reset(reason: 'death' | 'manual' = 'manual') {
     return this.withSessionOperation(async (operation) => {
       const resume = this.resumeOnCompletion();
-      await this.replaceRoom(
-        {
-          kind: 'area',
-          area: this.current.session.resetDestination(reason),
-          commit: () => this.current.session.resetCurrentArea(reason),
-        },
-        operation,
-      );
+      await this.replacePlannedRoom(this.current.session.prepareReset(reason), operation);
       operation.check();
       // Adventure resets change persistent encounter progress as well as player health.
       if (
@@ -579,11 +554,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   private async restoreState(save: GameSave, operation: SessionOperation) {
     operation.check();
-    const valid = parseGame(save, this.registry);
-    await this.replaceRoom(
-      { kind: 'area', area: valid.area, commit: () => this.current.session.restoreSave(valid) },
-      operation,
-    );
+    await this.replacePlannedRoom(this.current.session.prepareRestore(save), operation);
   }
   restore(save: GameSave) {
     return this.withSessionOperation(async (operation) => {

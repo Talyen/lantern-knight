@@ -13,7 +13,6 @@ for (const seeded of [false, true]) {
       decoded: string[] = [],
       runtime = new AssetRuntime(
         catalog,
-        false,
         async (url) => {
           requests.push(url instanceof Request ? url.url : url.toString());
           return new Response(JSON.stringify(draft));
@@ -64,7 +63,6 @@ test('both manifest entry paths reject mismatched identity before decoding and p
   let decoded = 0;
   const runtime = new AssetRuntime(
     { hero: 'generated/hero.json' },
-    false,
     async () => new Response(JSON.stringify(draft)),
     async () => {
       decoded++;
@@ -111,7 +109,6 @@ for (const cancelled of [false, true]) {
       controller = new AbortController(),
       runtime = new AssetRuntime(
         { ready: 'generated/ready.json', late: 'generated/late.json', bad: 'generated/bad.json' },
-        false,
         () => pendingManifest.promise,
         async (page) => (page.hash === ready.pages[0]!.hash ? texture : pendingTexture.promise),
         (value) => destroyed.push(value),

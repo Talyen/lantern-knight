@@ -1318,3 +1318,20 @@ test('manual adventure reset saves the restored player and enemy state', async (
   assert.equal(saves[0]!.areas.court!.actors['warden-1']!.health, 50);
   app.dispose();
 });
+
+test('rejected room preparation preserves the accepted room and starts no renderer work', async () => {
+  const { app } = fixture();
+  const sim = app.sim,
+    save = app.session.captureSave();
+  let preparations = 0;
+  app.presentation.prepareAssets = async () => {
+    preparations++;
+  };
+  await assert.rejects(app.rest('court/missing'), /campfire/i);
+  assert.equal(app.roomReady, true);
+  assert.equal(app.sim, sim);
+  assert.deepEqual(app.session.captureSave(), save);
+  assert.equal(preparations, 0);
+  assert.equal(app.busy, false);
+  app.dispose();
+});
