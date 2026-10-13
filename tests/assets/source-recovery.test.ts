@@ -1,3 +1,4 @@
+import { writeJson } from '../../tools/json-file';
 import test from 'node:test';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
@@ -26,23 +27,20 @@ test('TypeScript tooling reads recover a renamed library and sidecar without a r
     const source = Buffer.from('immutable fixture source');
     const { createHash } = await import('node:crypto'),
       indexPath = path.join(home, 'sources.json');
-    await fs.writeFile(
-      indexPath,
-      JSON.stringify({
-        libraryDirectory: '2d Assets/Lantern Knight',
-        archives: {},
-        prefixes: {},
-        directories: {},
-        files: {
-          'ink-collection-01': {
-            'collection/README_Import.txt': {
-              bytes: source.length,
-              sha256: createHash('sha256').update(source).digest('hex'),
-            },
+    await writeJson(indexPath, {
+      libraryDirectory: '2d Assets/Lantern Knight',
+      archives: {},
+      prefixes: {},
+      directories: {},
+      files: {
+        'ink-collection-01': {
+          'collection/README_Import.txt': {
+            bytes: source.length,
+            sha256: createHash('sha256').update(source).digest('hex'),
           },
         },
-      }),
-    );
+      },
+    });
     await fs.writeFile(path.join(root, 'README_Import.txt'), source);
     const script = `
    import fs from 'node:fs/promises';import path from 'node:path';import { createHash } from 'node:crypto';

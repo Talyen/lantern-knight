@@ -42,15 +42,15 @@ export class CompositionTools {
     element('focus-selection').onclick = () => this.focus();
     element('shortcuts').onclick = () => element<HTMLDialogElement>('shortcut-dialog').showModal();
     element('reset-transform').onclick = () =>
-      void this.edit((history) => {
+      void this.edit((history) =>
         history.change((d) => {
           for (const p of d.objects)
             if (this.editable().includes(p.id)) {
               p.scale = 1;
               p.rotation = 0;
             }
-        });
-      });
+        }),
+      );
     for (const label of document.querySelectorAll<HTMLLabelElement>('#transform label')) {
       const input = label.querySelector<HTMLInputElement>('input[type="number"]');
       if (!input) continue;
@@ -334,9 +334,7 @@ export class CompositionTools {
     )
       return;
     return this.edit(
-      (history) => {
-        history.removeMany(selected);
-      },
+      (history) => history.removeMany(selected),
       () => {
         this.selection.clear();
         this.host.select(undefined);

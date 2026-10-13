@@ -1,3 +1,4 @@
+import { readJson } from '../json-file';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import { runProcess } from '../run-process';
@@ -66,7 +67,7 @@ export async function discoverLibrary(
     ],
     { cwd: projectRoot, env, timeoutMs: 10 * 60_000 },
   );
-  const data = JSON.parse(await fs.readFile(inventory, 'utf8'));
+  const data = await readJson(inventory);
   return {
     ...env,
     LANTERN_LIBRARY_INDEX: index,

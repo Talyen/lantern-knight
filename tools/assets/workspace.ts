@@ -1,4 +1,4 @@
-import fs from 'node:fs/promises';
+import { readJson } from '../json-file';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { AssetCache } from './cache';
@@ -82,19 +82,16 @@ export async function workspaceIdentity(mode: 'pinned' | 'local') {
       'preview-' +
       createHash('sha256').update(path.resolve(projectRoot)).digest('hex').slice(0, 20);
     try {
-      const pointer = JSON.parse(
-        await fs.readFile(
-          path.join(cache.root, 'entries', prefix + '-index', 'preview.json'),
-          'utf8',
-        ),
+      const pointer = await readJson(
+        path.join(cache.root, 'entries', prefix + '-index', 'preview.json'),
       );
       if (
         typeof pointer.entry !== 'string' ||
         !new RegExp('^' + prefix + '-[a-f0-9]{24}$').test(pointer.entry)
       )
         throw new Error('Invalid prototype layer identity');
-      const descriptor = JSON.parse(
-        await fs.readFile(path.join(cache.root, 'entries', pointer.entry, 'preview.json'), 'utf8'),
+      const descriptor = await readJson(
+        path.join(cache.root, 'entries', pointer.entry, 'preview.json'),
       );
       if (descriptor.version !== 1 || !/^[a-f0-9]{64}$/.test(descriptor.sha256))
         throw new Error('Invalid prototype asset layer');

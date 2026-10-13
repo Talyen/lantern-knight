@@ -1,3 +1,4 @@
+import { readJson } from '../../tools/json-file';
 import { test, expect, waitForEditor } from './fixtures';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -92,7 +93,7 @@ test('review authored occluders from reachable front and behind positions', asyn
   expect(report.regions.length).toBeGreaterThan(0);
   const resume = process.env.LANTERN_GROUND_REVIEW_RESUME;
   const captured: string[] = resume
-    ? JSON.parse(await fs.readFile(path.join(resume, 'review.json'), 'utf8')).captured
+    ? (await readJson(path.join(resume, 'review.json'))).captured
     : [];
   if (resume)
     for (const id of captured)

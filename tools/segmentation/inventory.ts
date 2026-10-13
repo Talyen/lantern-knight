@@ -1,3 +1,4 @@
+import { readJson } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
@@ -14,18 +15,14 @@ try {
   const scenes = new Map<string, string[]>();
   for (const file of await fs.readdir(sceneDirectory)) {
     if (!file.endsWith('.json')) continue;
-    const d = parseSceneDocument(
-      JSON.parse(await fs.readFile(path.join(sceneDirectory, file), 'utf8')),
-    );
+    const d = parseSceneDocument(await readJson(path.join(sceneDirectory, file)));
     scenes.set(d.floor.asset, [...(scenes.get(d.floor.asset) ?? []), d.id]);
   }
   const paintings = [];
   // Inventory the prepared authoring catalog, never the external source library.
   for (const [id, file] of Object.entries(catalog)) {
     if (!id.startsWith('library-')) continue;
-    const m = parseManifest(
-      JSON.parse(await fs.readFile(path.join(workspace.publicDirectory, file), 'utf8')),
-    );
+    const m = parseManifest(await readJson(path.join(workspace.publicDirectory, file)));
     if (
       m.asset.type !== 'material' ||
       m.asset.projection !== 'top-down' ||

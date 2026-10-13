@@ -1,3 +1,4 @@
+import { writeJson, readJson } from '../../tools/json-file';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import type { TestContext } from 'node:test';
 import test from 'node:test';
@@ -120,7 +121,7 @@ test('an evicted local layer falls back to the pin while a corrupt descriptor st
   const f = await fixture(t);
 
   await fs.mkdir(path.join(f.root, 'assets'));
-  await fs.writeFile(path.join(f.root, 'assets/lock.json'), JSON.stringify(f.lock));
+  await writeJson(path.join(f.root, 'assets/lock.json'), f.lock);
   const pinned = await ensurePack(
     f.lock,
     f.cache,
@@ -131,7 +132,7 @@ test('an evicted local layer falls back to the pin while a corrupt descriptor st
     'preview-' + createHash('sha256').update(path.resolve(f.root)).digest('hex').slice(0, 20);
   const entry = prefix + '-' + '0'.repeat(24);
   const index = await f.cache.lease(prefix + '-index');
-  await fs.writeFile(path.join(index.root, 'preview.json'), JSON.stringify({ entry }));
+  await writeJson(path.join(index.root, 'preview.json'), { entry });
   await index.release();
   const restored = await prototypeAssets(f.cache, f.root);
   assert.equal(restored.lock.sha256, f.lock.sha256);
@@ -192,7 +193,7 @@ test('exact pinned preparation can be consumed offline and survives preparation 
     payload = path.join(preparation.root, 'work/payload');
   await fs.mkdir(path.dirname(payload), { recursive: true });
   await fs.cp(f.source, payload, { recursive: true });
-  await fs.writeFile(path.join(preparation.root, 'prepared.json'), JSON.stringify(f.lock));
+  await writeJson(path.join(preparation.root, 'prepared.json'), f.lock);
   const held = await ensurePack(f.lock, f.cache, (async () => {
     throw new Error('Unexpected download');
   }) as typeof fetch);
@@ -222,9 +223,9 @@ test('a rewritten cache inventory cannot bless changed asset bytes', async (t) =
     (async () => new Response(f.body)) as typeof fetch,
   );
   const file = path.join(held.root, 'pack.json'),
-    data = JSON.parse(await fs.readFile(file, 'utf8'));
+    data = await readJson(file);
   data.files['public/page.png'].bytes = 1;
-  await fs.writeFile(file, JSON.stringify(data));
+  await writeJson(file, data);
   await assert.rejects(validatePack(held.root, f.lock), /inventory hash/);
   await held.release();
 });
@@ -493,9 +494,7 @@ test('single-pass installation rejects archive links and releases its peak reser
     (async () => new Response(f.body)) as typeof fetch,
   );
   const leases = await fs.readdir(path.join(installed.root, '.leases'));
-  const owner = JSON.parse(
-    await fs.readFile(path.join(installed.root, '.leases', leases[0]!), 'utf8'),
-  );
+  const owner = await readJson(path.join(installed.root, '.leases', leases[0]!));
   assert.equal(owner.bytes, 0, 'completed downloads retain no temporary reservation');
   await installed.release();
   await fs.symlink('page.png', path.join(f.source, 'public/link.png'));

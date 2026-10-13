@@ -72,12 +72,11 @@ export class AssetRuntime {
         return texture;
       },
       dispose ??
-        ((texture) => {
+        ((texture) =>
           cleanupAll([
             () => (texture.image as { close?: () => void }).close?.(),
             () => texture.dispose(),
-          ]);
-        }),
+          ])),
     );
   }
   async manifest(id: string) {

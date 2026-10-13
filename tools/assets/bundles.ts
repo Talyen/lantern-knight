@@ -1,3 +1,4 @@
+import { readJson, writeJson } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -63,7 +64,7 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
     const archive = path.join(root, name + '-archive', 'lantern-assets.tar.gz');
     const receiptFile = path.join(root, name + '-archive', 'lock.json');
     try {
-      const parsed = LockSchema.safeParse(JSON.parse(await fs.readFile(receiptFile, 'utf8')));
+      const parsed = LockSchema.safeParse(await readJson(receiptFile));
       const cached = parsed.success ? parsed.data : undefined;
       if (
         cached?.schemaVersion === 1 &&
@@ -96,14 +97,14 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
     // gh uploads the basename; # only supplies its display label.
     await fs.mkdir(path.dirname(archive), { recursive: true });
     const lock = await makeArchive(payload, archive, key, inventory.files);
-    await fs.writeFile(receiptFile, JSON.stringify(lock));
+    await writeJson(receiptFile, lock);
     bundles[name] = lock;
     archives[name] = archive;
     await fs.rm(payload, { recursive: true, force: true });
   }
   const accepted = preparationPin(candidate.lock, await recipeInputs(), inventory);
   const pin = LockSchema.parse({ ...accepted, schemaVersion: 3, bundles }) as BundlePin;
-  await fs.writeFile(path.join(root, 'plan.json'), JSON.stringify({ pin, archives }));
+  await writeJson(path.join(root, 'plan.json'), { pin, archives });
   return { pin, archives };
 }
 // Hash-prefix partitions keep deletions and additions local to one shard.
@@ -227,7 +228,7 @@ export async function ensureBundlePack(
       await fs.rm(incoming, { recursive: true, force: true });
       try {
         for (const part of parts) {
-          const data = JSON.parse(await fs.readFile(path.join(part.root, 'pack.json'), 'utf8'));
+          const data = await readJson(path.join(part.root, 'pack.json'));
           for (const file of Object.keys(data.files)) {
             const target = path.join(incoming, file);
             await fs.mkdir(path.dirname(target), { recursive: true });

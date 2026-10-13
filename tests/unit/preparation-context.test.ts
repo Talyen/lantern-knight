@@ -1,3 +1,4 @@
+import { writeJson } from '../../tools/json-file';
 import { sourceFixture } from '../fixtures/source';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test from 'node:test';
@@ -37,7 +38,7 @@ test('compiler writes share the preparation budget and record atlas output witho
 
   const source = sourceFixture();
   await fs.mkdir(path.join(root, 'staging'));
-  await fs.writeFile(path.join(root, 'staging/source.json'), JSON.stringify(source));
+  await writeJson(path.join(root, 'staging/source.json'), source);
   await sharp({
     create: {
       width: source.asset.canvas[0],

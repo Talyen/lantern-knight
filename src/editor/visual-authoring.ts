@@ -578,7 +578,7 @@ export class VisualAuthoring {
       if (!descendants.has(item.placement.id))
         attach.add(new Option(item.placement.id, item.placement.id));
     attach.value = p.mount?.to ?? '';
-    attach.onchange = () => {
+    attach.onchange = () =>
       void this.host
         .change((d) => {
           const object = d.objects[index]!,
@@ -607,7 +607,6 @@ export class VisualAuthoring {
           }
         })
         .catch(console.error);
-    };
     attachments.append(attach);
     if (p.mount) {
       const support = sceneItems(this.host.history().document).find(
@@ -806,9 +805,11 @@ export class VisualAuthoring {
       })
       .sort((a, b) => a.d - b.d);
     if (candidates[0] && candidates[0].d < 18) {
-      const lease = this.host.gestures.begin(view.canvas, e.pointerId, () => {
-        this.drag = undefined;
-      });
+      const lease = this.host.gestures.begin(
+        view.canvas,
+        e.pointerId,
+        () => (this.drag = undefined),
+      );
       if (lease.active) this.drag = { path: candidates[0].h.path, pointer: e.pointerId, lease };
     }
     return true;

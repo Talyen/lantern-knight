@@ -1,3 +1,4 @@
+import { writeJson } from '../json-file';
 import { preparationSteps } from './recipe';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -30,16 +31,15 @@ async function prepareProofAssets(
     await fs.rm(path.join(held.root, 'prepared.json'), { force: true });
     await fs.rm(workspace, { recursive: true, force: true });
     await fs.mkdir(path.join(workspace, 'public'), { recursive: true });
-    await fs.writeFile(
-      path.join(workspace, 'public/build-mode.json'),
-      JSON.stringify({ allowDevelopmentContent: true }),
-    );
+    await writeJson(path.join(workspace, 'public/build-mode.json'), {
+      allowDevelopmentContent: true,
+    });
     await fs.mkdir(path.join(workspace, 'public/generated'), {
       recursive: true,
     });
-    await fs.writeFile(
+    await writeJson(
       path.join(workspace, 'public/generated/calibration.json'),
-      JSON.stringify(calibrationFixture()),
+      calibrationFixture(),
     );
     const startRecipe = await recipeHash();
     await prepareSteps({
@@ -68,16 +68,13 @@ async function prepareProofAssets(
       await fs.rm(path.join(workspace, 'staging'), { recursive: true, force: true });
       await fs.rm(path.join(workspace, 'public'), { recursive: true, force: true });
     }
-    await fs.writeFile(
-      path.join(payload, 'metadata/preparation-inputs.json'),
-      JSON.stringify(await recipeInputs()),
-    );
+    await writeJson(path.join(payload, 'metadata/preparation-inputs.json'), await recipeInputs());
     // Generation has a smaller working budget. Delivery also needs room for
     // compressed bytes; reserve that peak through the same configurable cache owner.
     await held.reserve((await diskBytes(held.root)) + (await diskBytes(payload)) + 64 * 1024 ** 2);
     const archive = path.join(held.root, 'lantern-assets.tar.gz'),
       lock = await makeArchive(payload, archive, startRecipe);
-    await fs.writeFile(path.join(held.root, 'prepared.json'), JSON.stringify(lock));
+    await writeJson(path.join(held.root, 'prepared.json'), lock);
     await held.reserve(await diskBytes(held.root));
     console.log(
       `Prepared shared asset pack: ${(lock.bytes / 1024 ** 2).toFixed(1)} MiB; sources verified.`,
@@ -114,7 +111,7 @@ export async function prepareAssets(
     await fs.rm(path.join(held.root, 'lantern-assets.tar.gz'), { force: true });
     await linkTree(base.held.root, payload);
     const lock = await inventoryCandidate(payload, base.lock.recipeSha256);
-    await fs.writeFile(path.join(held.root, 'prepared.json'), JSON.stringify(lock));
+    await writeJson(path.join(held.root, 'prepared.json'), lock);
     await held.reserve(await diskBytes(held.root));
     await verifiedOutput(
       payload,

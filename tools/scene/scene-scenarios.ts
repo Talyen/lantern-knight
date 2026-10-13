@@ -394,9 +394,7 @@ export async function checkPreviewReload(context: SceneContext) {
   const { page, scene } = context;
   // Exercise real reload persistence, rather than certifying the parser alone.
   const other = scene === 'outdoor-fixture' ? 'interior-fixture' : 'outdoor-fixture';
-  await page.evaluate(async (other) => {
-    await window.foundation.fixture(other);
-  }, other);
+  await page.evaluate(async (other) => await window.foundation.fixture(other), other);
   await page.evaluate(() => {
     const f = window.foundation;
     f.mode('lighting');

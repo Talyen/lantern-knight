@@ -1,3 +1,4 @@
+import { writeJson } from '../json-file';
 import fs from 'node:fs/promises';
 import type { Stats } from 'node:fs';
 import path from 'node:path';
@@ -31,10 +32,7 @@ export async function makeArchive(
       throw new Error('Verified archive input differs: ' + name);
     files[name] = { sha256: proof?.sha256 ?? (await shaFile(p)), bytes: stat.size };
   }
-  await fs.writeFile(
-    path.join(root, 'pack.json'),
-    JSON.stringify({ schemaVersion: 1, recipeSha256, files }),
-  );
+  await writeJson(path.join(root, 'pack.json'), { schemaVersion: 1, recipeSha256, files });
   await tar.c(
     {
       cwd: root,

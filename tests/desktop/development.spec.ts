@@ -1,3 +1,4 @@
+import { readJson } from '../../tools/json-file';
 import net from 'node:net';
 import { test, expect, chromium, type Browser } from '@playwright/test';
 import fs from 'node:fs/promises';
@@ -88,9 +89,8 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
     await page.locator('#render-scale').selectOption('0.5');
     await page.evaluate(() => window.lantern!.loadSettings());
     expect(
-      JSON.parse(
-        await fs.readFile(path.join(root, 'profile/preview/prototype-saves/settings.json'), 'utf8'),
-      ).renderScale,
+      (await readJson(path.join(root, 'profile/preview/prototype-saves/settings.json')))
+        .renderScale,
     ).toBe(0.5);
     const renderStarted = performance.now();
     await fs.appendFile(

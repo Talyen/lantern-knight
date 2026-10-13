@@ -104,9 +104,7 @@ export function bindGameUI(app: Application) {
       confirmation.showModal();
     }
   };
-  $('#cancel-new').onclick = () => {
-    confirmation.close();
-  };
+  $('#cancel-new').onclick = () => confirmation.close();
   $('#confirm-new').onclick = () =>
     perform('Starting new game…', async () => {
       await app.newGame();

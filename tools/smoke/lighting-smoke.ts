@@ -53,9 +53,7 @@ export async function runScenario(flags: string[] = []) {
       { method: 'SMAA 1x', preset: 'High', edgeDetection: 'color' },
     );
     checks.push('single-sampled context and SMAA 1× High are the sole AA path');
-    await page.evaluate(() => {
-      window.foundation.pause(true);
-    });
+    await page.evaluate(() => window.foundation.pause(true));
     if (!benchmarkOnly) {
       for (const [resolution, width, height] of (quick
         ? [['1440p', 1280, 848]]

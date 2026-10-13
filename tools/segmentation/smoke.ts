@@ -1,4 +1,4 @@
-import fs from 'node:fs/promises';
+import { readJson } from '../json-file';
 import path from 'node:path';
 import { parseSceneDocument } from '../../src/content/scene-document';
 import { parseManifest } from '../../src/assets/schema';
@@ -10,7 +10,7 @@ const id = process.argv[2];
 if (!id || !/^[a-z][a-z0-9-]{0,63}$/.test(id))
   throw new Error('Use segmentation:smoke -- <scene-id>');
 const scene = parseSceneDocument(
-  JSON.parse(await fs.readFile(path.join(projectRoot, 'authoring/scenes', id + '.json'), 'utf8')),
+  await readJson(path.join(projectRoot, 'authoring/scenes', id + '.json')),
 );
 if (scene.floor.layout !== 'artwork') throw new Error('Scene needs a single-image artwork floor.');
 const workspace = await openWorkspace('local', 'authoring');
@@ -18,9 +18,7 @@ const service = new SegmentationService(projectRoot, workspace.publicDirectory);
 try {
   const catalog = await readAuthoringCatalog(workspace.publicDirectory);
   const manifest = parseManifest(
-    JSON.parse(
-      await fs.readFile(path.join(workspace.publicDirectory, catalog[scene.floor.asset]!), 'utf8'),
-    ),
+    await readJson(path.join(workspace.publicDirectory, catalog[scene.floor.asset]!)),
   );
   const frame = manifest.frames.find(
     (f) => f.id === manifest.asset.clips[scene.floor.clip ?? 'still']?.d45?.frames[0],

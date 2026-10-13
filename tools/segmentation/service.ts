@@ -1,3 +1,4 @@
+import { readJson } from '../json-file';
 import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -105,9 +106,7 @@ export class SegmentationService {
       if (!file) throw new Error('Unknown prepared selection asset');
       await this.ensurePublicFile?.(file);
       signal.throwIfAborted();
-      const manifest = parseManifest(
-        JSON.parse(await fs.readFile(path.join(this.preparedPublic, file), 'utf8')),
-      );
+      const manifest = parseManifest(await readJson(path.join(this.preparedPublic, file)));
       const frame = manifest.frames.find((f) => f.id === request.frame),
         page = frame && manifest.pages.find((p) => p.id === frame.page);
       if (!frame || !page) throw new Error('Missing selection frame');
