@@ -1,5 +1,4 @@
 import { smokeLaunch } from './smoke-launch';
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { heroTimings } from '../../src/content/hero-actions';
@@ -155,18 +154,12 @@ export async function runScenario(flags: string[] = []) {
       console.log('Hero visual review: ' + output);
     }
     assert.deepEqual(errors, []);
-    await fs.writeFile(
-      path.join(output, 'hero-report.json'),
-      JSON.stringify(observations, null, 2),
-    );
+    await run.writeReport('hero-report.json', observations);
     console.log(
       `PASS: ${observations.cases.length} hero action/heading journeys, exact authored frame coverage, foot registration, ${Math.round(observations.stats.atlasBytes / 1024 ** 2)} MiB resident atlases, and current animation comparison.`,
     );
   } catch (error) {
-    await fs.writeFile(
-      path.join(output, 'hero-failure.json'),
-      JSON.stringify({ error: String(error), errors }),
-    );
+    await run.writeReport('hero-failure.json', { error: String(error), errors });
     throw error;
   } finally {
     await run.close();

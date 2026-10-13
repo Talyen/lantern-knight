@@ -290,16 +290,10 @@ test(
   { timeout: 2000 },
   async (t) => {
     const e = environment(t);
-    let requested!: () => void,
-      rejectSettings!: (error: Error) => void,
-      warmed = 0,
+    let warmed = 0,
       closed = 0;
-    const reading = new Promise<void>((resolve) => {
-      requested = resolve;
-    });
-    const settings = new Promise<never>((_resolve, reject) => {
-      rejectSettings = reject;
-    });
+    const { promise: reading, resolve: requested } = Promise.withResolvers<void>();
+    const { promise: settings, reject: rejectSettings } = Promise.withResolvers<never>();
     t.mock.method(AssetRuntime, 'open', async () => new AssetRuntime({}));
     const app = new Application(
       Object.assign(new EventTarget(), { dataset: {} }) as HTMLCanvasElement,

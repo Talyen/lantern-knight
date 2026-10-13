@@ -1,6 +1,5 @@
 import sharp from 'sharp';
 import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import { smokeLaunch } from './smoke-launch';
 import '../../src/inspection';
@@ -189,20 +188,14 @@ export async function runScenario(flags: string[] = []) {
           .png()
           .toFile(path.join(output, `guarded-${phase}.png`));
       }
-      await fs.writeFile(
-        path.join(output, 'animation-review.json'),
-        JSON.stringify(report, null, 2),
-      );
+      await run.writeReport('animation-review.json', report);
       console.log('Visual review: ' + output);
     }
     console.log(
       `PASS: ${report.observations.length} native transition paths, held/guarded playback; ${report.guarded}/${report.pairs} guarded candidates.`,
     );
   } catch (error) {
-    await fs.writeFile(
-      path.join(run.output, 'animation-failure.json'),
-      JSON.stringify({ error: String(error), errors: run.errors }),
-    );
+    await run.writeReport('animation-failure.json', { error: String(error), errors: run.errors });
     throw error;
   } finally {
     await run.close();

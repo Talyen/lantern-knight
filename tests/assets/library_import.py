@@ -28,6 +28,23 @@ def png(w, h):
 
 
 class ImportTests(unittest.TestCase):
+    def test_package_rejects_duplicate_members_and_unsafe_source_paths(self):
+        stream = io.BytesIO()
+        with zipfile.ZipFile(stream, "w") as archive:
+            archive.writestr("art.png", png(8, 8))
+            with self.assertWarns(UserWarning):
+                archive.writestr("art.png", png(8, 8))
+        stream.seek(0)
+        with zipfile.ZipFile(stream) as archive:
+            with self.assertRaisesRegex(ValueError, "Duplicate archive member"):
+                Package({"archive": "duplicate.zip"}, archive)
+        p = package({"art.png": png(8, 8)})
+        for name in ["../escape", "/absolute.png", "folder/../art.png", "folder\\art.png"]:
+            with self.subTest(name=name), self.assertRaises(ValueError):
+                p.reference(name)
+        with self.assertRaisesRegex(ValueError, "missing"):
+            p.reference("missing.png")
+
     def test_terminal_tick_marker_rounding_keeps_strict_timeline_bounds(self):
         importer = Importer([])
         asset = {"id": "recovery", "clips": {}}

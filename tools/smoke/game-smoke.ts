@@ -22,10 +22,7 @@ export async function runScenario(flags: string[] = []) {
     stage = name;
     const elapsedMs = Math.round(performance.now() - journeyStarted);
     console.log(`Game journey: ${stage} (${elapsedMs}ms)`);
-    await fs.writeFile(
-      path.join(output, 'progress.json'),
-      JSON.stringify({ stage, elapsedMs, checks }),
-    );
+    await run.writeReport('progress.json', { stage, elapsedMs, checks });
   };
   try {
     await checkLoadingScreen(run, false);
@@ -236,22 +233,13 @@ export async function runScenario(flags: string[] = []) {
     assert.deepEqual(errors, []);
     await measurement?.publish();
     await fs.rm(path.join(output, 'failure.json'), { force: true });
-    await fs.writeFile(
-      path.join(output, 'report.json'),
-      JSON.stringify(
-        {
-          checks,
-          errors,
-          save,
-          platform: process.platform,
-          limitations: [
-            'Package verification covers this host; visible display pacing is unverified.',
-          ],
-        },
-        null,
-        2,
-      ),
-    );
+    await run.writeReport('report.json', {
+      checks,
+      errors,
+      save,
+      platform: process.platform,
+      limitations: ['Package verification covers this host; visible display pacing is unverified.'],
+    });
     console.log(
       `PASS: ${checks.length} Game checks; ${run.capture ? output : 'verified; successful diagnostics discarded'}`,
     );
@@ -269,10 +257,13 @@ export async function runScenario(flags: string[] = []) {
         await fs.readFile(path.join(run.profile, 'prototype-saves/game.json'), 'utf8'),
       );
     } catch {}
-    await fs.writeFile(
-      path.join(output, 'failure.json'),
-      JSON.stringify({ stage, error: String(error), errors, checks, checkpoint }, null, 2),
-    );
+    await run.writeReport('failure.json', {
+      stage,
+      error: String(error),
+      errors,
+      checks,
+      checkpoint,
+    });
     throw error;
   } finally {
     await run.close();

@@ -16,8 +16,7 @@ import { editorError } from './errors';
 import { FrameScheduler } from '../frame-scheduler';
 import { DraftPlaytest } from './playtest';
 import { composeDraftGameplay, withGameplayDefaults } from '../content/draft-gameplay';
-import { contentDefinitions } from '../content/game-content';
-import { worldVisuals } from '../content/game-content';
+import { contentDefinitions, worldVisuals } from '../content/game-content';
 import { SceneLibrary } from './library';
 import { VisualAuthoring } from './visual-authoring';
 import { CompositionTools } from './composition';
@@ -140,12 +139,6 @@ export function createEditorSession() {
     $('validation-errors').textContent = error ? 'Error: ' + message : '';
     $('validation-errors').hidden = !error;
   }
-  function dirty() {
-    return project.dirty;
-  }
-  function recover() {
-    project.recover();
-  }
   function controls() {
     if (closed) return;
     const d = documents.history.document,
@@ -239,7 +232,7 @@ export function createEditorSession() {
     }
     for (const button of document.querySelectorAll<HTMLButtonElement>('.ground-card'))
       button.disabled = busy;
-    $('save-state').textContent = busy ? 'Working…' : dirty() ? 'Unsaved' : 'Saved';
+    $('save-state').textContent = busy ? 'Working…' : project.dirty ? 'Unsaved' : 'Saved';
     const notes = sceneCompositionFindings(resolveAuthoredScene(d));
     $('composition-notes').hidden = notes.length === 0;
     $('composition-notes').textContent = notes.join('; ');
@@ -368,7 +361,7 @@ export function createEditorSession() {
   }
   async function open(value: string) {
     if (
-      dirty() &&
+      project.dirty &&
       !(await confirmation.ask('Discard unsaved edits and open another scene?', 'Discard edits'))
     )
       return;
@@ -1258,7 +1251,7 @@ export function createEditorSession() {
     },
     { signal: lifetime.signal },
   );
-  window.addEventListener('beforeunload', () => recover(), { signal: lifetime.signal });
+  window.addEventListener('beforeunload', () => project.recover(), { signal: lifetime.signal });
   $('export-recovery').onclick = () => {
     const stored = project.recoverySource();
     if (!stored) return;
@@ -1371,7 +1364,7 @@ export function createEditorSession() {
   }
   async function importDocument(document: SceneDocument) {
     if (
-      dirty() &&
+      project.dirty &&
       !(await confirmation.ask(
         'Replace the current composition with this imported scene?',
         'Replace composition',
@@ -1456,7 +1449,7 @@ export function createEditorSession() {
       },
       recoveries: () => project.recoveryEntries(),
       restore: (key) => {
-        recover();
+        project.recover();
         readRecovery(key);
         $<HTMLButtonElement>('restore').click();
       },
@@ -1513,7 +1506,7 @@ export function createEditorSession() {
     state: () => ({
       document: documents.history.document,
       revision: project.revision,
-      dirty: dirty(),
+      dirty: project.dirty,
       selected,
     }),
     view: () => view,

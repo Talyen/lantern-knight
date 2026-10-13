@@ -110,10 +110,8 @@ test('pack batch release drains peers and cancellation reports failing late rele
       released: string[] = [];
     const failure = new Error('pack release');
     const controller = new AbortController();
-    let resolve!: (pack: PackLease) => void;
-    const late = new Promise<PackLease>((done) => {
-      resolve = done;
-    });
+
+    const { promise: late, resolve } = Promise.withResolvers<PackLease>();
     const pack = (id: string) =>
       ({
         release() {
@@ -147,13 +145,9 @@ test('pack cancellation preserves cleanup errors from a still-pending texture ac
     controller = new AbortController();
   const failure = new Error('broken texture listener'),
     destroyed: string[] = [];
-  let ready!: () => void, finish!: (value: string) => void;
-  const started = new Promise<void>((resolve) => {
-    ready = resolve;
-  });
-  const late = new Promise<string>((resolve) => {
-    finish = resolve;
-  });
+
+  const { promise: started, resolve: ready } = Promise.withResolvers<void>();
+  const { promise: late, resolve: finish } = Promise.withResolvers<string>();
   const pool = new ResourcePool(
     (id) => (id === 'late' ? late : Promise.resolve(id)),
     (id) => {

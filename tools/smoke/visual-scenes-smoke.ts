@@ -83,35 +83,25 @@ export async function runScenario(flags: string[] = []) {
     assert.deepEqual(errors, []);
     if (run.capture) await page.screenshot({ path: path.join(output, 'outdoor-effects.png') });
     await fs.rm(path.join(output, 'failure.json'), { force: true });
-    await fs.writeFile(
-      path.join(output, 'report.json'),
-      JSON.stringify(
-        {
-          passed: true,
-          checks: [
-            'dry scene state',
-            'explicit weather creates linked drops and impacts',
-            'rain preference gates requested weather',
-            'stable rain resources through toggles',
-            'interior excludes ambient rain',
-            'room replacement rebuilds fixture effects',
-            'clearing weather restores dry scene',
-            'no shader or GL errors',
-          ],
-          scope:
-            'Packaged developer app using production presentation and independent presentation fixtures',
-        },
-        null,
-        2,
-      ),
-    );
+    await run.writeReport('report.json', {
+      passed: true,
+      checks: [
+        'dry scene state',
+        'explicit weather creates linked drops and impacts',
+        'rain preference gates requested weather',
+        'stable rain resources through toggles',
+        'interior excludes ambient rain',
+        'room replacement rebuilds fixture effects',
+        'clearing weather restores dry scene',
+        'no shader or GL errors',
+      ],
+      scope:
+        'Packaged developer app using production presentation and independent presentation fixtures',
+    });
     console.log('PASS: production effects, explicit weather and room replacement');
   } catch (error) {
     await page.screenshot({ path: path.join(output, 'failure.png') }).catch(() => {});
-    await fs.writeFile(
-      path.join(output, 'failure.json'),
-      JSON.stringify({ error: String(error), errors }, null, 2),
-    );
+    await run.writeReport('failure.json', { error: String(error), errors });
     throw error;
   } finally {
     await run.close();

@@ -1,5 +1,4 @@
 import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import { comparePixels } from './smoke-pixels';
 import { smokeLaunch } from './smoke-launch';
@@ -68,36 +67,26 @@ export async function runScenario(flags: string[] = []) {
     await run.reportWork();
     await page.locator('#scene-select').selectOption('outdoor-fixture');
     await page.waitForFunction(() => window.foundation?.ready);
-    await fs.writeFile(
-      path.join(output, 'report.json'),
-      JSON.stringify(
-        {
-          passed: true,
-          changes,
-          checks: [
-            'independent developer scene',
-            'all effect toggles change rendered pixels',
-            'baseline restores exact pixels without changing selection',
-            'pause and frame-step',
-            'stable resources through replay/toggles',
-            'return to Dev Preview scene',
-          ],
-          scope:
-            'Packaged macOS developer app; source art and the two production scene definitions are unchanged by this work.',
-        },
-        null,
-        2,
-      ),
-    );
+    await run.writeReport('report.json', {
+      passed: true,
+      changes,
+      checks: [
+        'independent developer scene',
+        'all effect toggles change rendered pixels',
+        'baseline restores exact pixels without changing selection',
+        'pause and frame-step',
+        'stable resources through replay/toggles',
+        'return to Dev Preview scene',
+      ],
+      scope:
+        'Packaged macOS developer app; source art and the two production scene definitions are unchanged by this work.',
+    });
     console.log(
       `PASS: ${Object.keys(changes).length} visual effect comparisons and isolated lab routing`,
     );
   } catch (error) {
     await page.screenshot({ path: path.join(output, 'failure.png') }).catch(() => {});
-    await fs.writeFile(
-      path.join(output, 'failure.json'),
-      JSON.stringify({ error: String(error), errors, changes }, null, 2),
-    );
+    await run.writeReport('failure.json', { error: String(error), errors, changes });
     throw error;
   } finally {
     await run.close();

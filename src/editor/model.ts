@@ -12,16 +12,10 @@ export type EditorItem = { placement: ArtPlacement; kind: SceneObject['kind'] };
 export function sceneItems(document: SceneSnapshot): EditorItem[] {
   const art = resolveAuthoredScene({ ...document, groundInteraction: undefined }),
     kinds = new Map(document.objects.map((p) => [p.id, p.kind]));
-  return [
-    ...art.props.map((placement) => ({
-      placement,
-      kind: kinds.get(placement.id)!,
-    })),
-    ...art.decals.map((placement) => ({
-      placement,
-      kind: 'decal' as const,
-    })),
-  ];
+  return [...art.props, ...art.decals].map((placement) => ({
+    placement,
+    kind: kinds.get(placement.id)!,
+  }));
 }
 export class EditorHistory {
   private current: SceneSnapshot;
@@ -216,10 +210,9 @@ export class EditorHistory {
     return items
       .filter((p) => included.has(p.placement.id))
       .map((p) => objects.find((object) => object.id === p.placement.id)!)
-      .map((p) => {
-        const copy = p;
+      .map((copy) => {
         if (copy.mount && !included.has(copy.mount.to)) {
-          const world = items.find((v) => v.placement.id === p.id)!.placement;
+          const world = items.find((v) => v.placement.id === copy.id)!.placement;
           delete copy.mount;
           copy.role = 'upright';
           copy.x = world.x;
@@ -250,31 +243,23 @@ export class EditorHistory {
         }
         d.objects.push(p);
         const original = objects.find((o) => remap.get(o.id) === p.id)!;
-        const pickups = copyGameplay
-          ? (this.document.gameplay?.pickups.filter((v) => v.object === original.id) ?? [])
-          : [];
-        for (const pickup of pickups)
-          if (d.gameplay)
-            d.gameplay.pickups.push({
-              ...structuredClone(pickup),
-              id: 'pickup-' + crypto.randomUUID(),
-              object: p.id,
-              x: p.x ?? pickup.x,
-              z: p.z ?? pickup.z,
-            });
         if (copyGameplay && d.gameplay) {
-          const interactables =
-            source.gameplay?.interactables?.filter((v) => v.object === original.id) ?? [];
-          for (const interactable of interactables) {
-            d.gameplay.interactables ??= [];
-            d.gameplay.interactables.push({
-              ...structuredClone(interactable),
-              id: 'interactable-' + crypto.randomUUID(),
-              object: p.id,
-              x: p.x ?? interactable.x,
-              z: p.z ?? interactable.z,
-            });
-          }
+          const copied = <P extends { id: string; object: string; x: number; z: number }>(
+            values: readonly P[] | undefined,
+            prefix: string,
+          ) =>
+            (values ?? [])
+              .filter((v) => v.object === original.id)
+              .map((value) => ({
+                ...structuredClone(value),
+                id: prefix + '-' + crypto.randomUUID(),
+                object: p.id,
+                x: p.x ?? value.x,
+                z: p.z ?? value.z,
+              }));
+          d.gameplay.pickups.push(...copied(source.gameplay?.pickups, 'pickup'));
+          const interactables = copied(source.gameplay?.interactables, 'interactable');
+          if (interactables.length) (d.gameplay.interactables ??= []).push(...interactables);
         }
       }
     });

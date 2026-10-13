@@ -41,11 +41,6 @@ test('resolved zero and empty resource handles dispose once and can be acquired 
   }
 });
 
-function deferred<T>() {
-  let resolve!: (value: T) => void;
-  const promise = new Promise<T>((done) => (resolve = done));
-  return { promise, resolve };
-}
 function runtime(loadPack: AssetRuntime['loadPack']) {
   return Object.assign(new AssetRuntime({}), { loadPack });
 }
@@ -141,8 +136,8 @@ test('replacement admission validates content and snapshots checkpoints before a
     registry = new ContentRegistry(contentDefinitions),
     scenes = { ...sceneFixture(registry), initialAssets: ['candidate'] },
     snapshot = new GameSession(registry).captureSave(),
-    preparing = deferred<void>(),
-    resume = deferred<void>();
+    preparing = Promise.withResolvers<void>(),
+    resume = Promise.withResolvers<void>();
   let acquisitions = 0,
     releases = 0;
   app.runtime = runtime(async () => {
@@ -212,7 +207,7 @@ test('renderer failure after a content switch recovers with the committed regist
 });
 test('safe reports synchronous callback failures without escaping the caller', async () => {
   const { app } = fixture();
-  const reported = deferred<string>();
+  const reported = Promise.withResolvers<string>();
   app.hooks.status = (message) => reported.resolve(message);
   assert.doesNotThrow(() =>
     app.safe(() => {
@@ -225,7 +220,7 @@ test('safe reports synchronous callback failures without escaping the caller', a
 
 test('null save rejections retain the original failure and reach application feedback', async () => {
   const { app } = fixture();
-  const reported = deferred<string>();
+  const reported = Promise.withResolvers<string>();
   app.hooks.status = (message) => reported.resolve(message);
   app.persistence = new Persistence({
     loadGame: async () => ({ status: 'empty' }),
@@ -276,8 +271,8 @@ test('preview replacement preserves shared session assets and rolls back failed 
 });
 test('stale previews release their lease without selecting or warming; disposal rejects late acquisitions', async () => {
   const f = fixture(),
-    slow = deferred<PackLease>(),
-    late = deferred<PackLease>();
+    slow = Promise.withResolvers<PackLease>(),
+    late = Promise.withResolvers<PackLease>();
   let staleReleased = 0,
     lateReleased = 0;
   f.app.runtime = runtime((id) =>
@@ -306,7 +301,7 @@ test('completed session operations preserve a pause requested while loading', as
     (app: Application) => app.newGame(),
   ]) {
     const { app } = fixture(),
-      waiting = deferred<void>();
+      waiting = Promise.withResolvers<void>();
     app.readOnly = true;
     app.ready = true;
     app.presentation.update = (view) => {
@@ -326,7 +321,7 @@ test('completed session operations preserve a pause requested while loading', as
 });
 test('checkpoint reading preserves later pause requests and background state, and disposal prevents late area acquisition', async () => {
   const { app } = fixture(),
-    waiting = deferred<Awaited<ReturnType<Bridge['loadGame']>>>(),
+    waiting = Promise.withResolvers<Awaited<ReturnType<Bridge['loadGame']>>>(),
     saved = app.session.captureSave();
   app.persistence = new Persistence({
     loadGame: () => waiting.promise,
@@ -353,7 +348,7 @@ test('checkpoint reading preserves later pause requests and background state, an
   assert.equal(areas, 3);
 
   const late = fixture().app,
-    pending = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+    pending = Promise.withResolvers<Awaited<ReturnType<Bridge['loadGame']>>>();
   late.persistence = new Persistence({
     loadGame: () => pending.promise,
     saveGame: async () => {},
@@ -365,7 +360,7 @@ test('checkpoint reading preserves later pause requests and background state, an
 });
 test('newer session intent supersedes checkpoint reads before room acquisition', async () => {
   const { app } = fixture(),
-    waiting = deferred<Awaited<ReturnType<Bridge['loadGame']>>>(),
+    waiting = Promise.withResolvers<Awaited<ReturnType<Bridge['loadGame']>>>(),
     saved = new GameSession(content, 142, 'upper-landing').captureSave();
   app.readOnly = true;
   app.input = { clear() {}, resetAim() {}, dispose() {} } as unknown as typeof app.input;
@@ -384,8 +379,8 @@ test('newer session intent supersedes checkpoint reads before room acquisition',
   assert.equal(app.sim, newest, 'Late checkpoint data must not replace the new game');
   assert.equal(app.busy, false);
 
-  const writing = deferred<void>(),
-    started = deferred<void>();
+  const writing = Promise.withResolvers<void>(),
+    started = Promise.withResolvers<void>();
   app.readOnly = false;
   app.persistence = new Persistence({
     loadGame: async () => ({ status: 'empty' }),
@@ -410,8 +405,8 @@ test('superseded transitions release late rooms without pausing or freezing the 
       ...sceneFixture(content),
       area: (id) => ({ area: content.area(id), assets: [id] }),
     }),
-    waiting = deferred<PackLease>(),
-    checkpoint = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+    waiting = Promise.withResolvers<PackLease>(),
+    checkpoint = Promise.withResolvers<Awaited<ReturnType<Bridge['loadGame']>>>();
   app.sim.cleared = true;
   const exit = app.sim.areaDefinition.exits[0]!;
   assert.ok(exit);
@@ -460,8 +455,8 @@ test('cancellation feedback can supersede the operation that triggered cancellat
         assets: id === 'upper-landing' ? ['destination'] : [],
       }),
     }),
-    room = deferred<PackLease>(),
-    checkpoint = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+    room = Promise.withResolvers<PackLease>(),
+    checkpoint = Promise.withResolvers<Awaited<ReturnType<Bridge['loadGame']>>>();
   app.sim.cleared = true;
   const original = app.sim;
   let released = 0,
@@ -502,7 +497,7 @@ test('disposal during cancellation closes admission before another operation can
       ...sceneFixture(content),
       area: (id) => ({ area: content.area(id), assets: ['pending-room'] }),
     }),
-    room = deferred<PackLease>();
+    room = Promise.withResolvers<PackLease>();
   app.readOnly = true;
   app.sim.cleared = true;
   let released = 0;
@@ -521,7 +516,7 @@ test('disposal during cancellation closes admission before another operation can
 
 test('loading callbacks cannot run preparation for an already superseded session intent', async () => {
   const { app } = fixture(),
-    checkpoint = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+    checkpoint = Promise.withResolvers<Awaited<ReturnType<Bridge['loadGame']>>>();
   app.persistence = new Persistence({
     loadGame: () => checkpoint.promise,
     saveGame: async () => {},
@@ -553,7 +548,7 @@ test('loading callbacks cannot run preparation for an already superseded session
 
 test('session replacement preserves independent pending asset acquisitions', async () => {
   const { app, lease } = fixture(),
-    waiting = deferred<PackLease>();
+    waiting = Promise.withResolvers<PackLease>();
   let assetSignal: AbortSignal | undefined;
   app.runtime = runtime((_id, signal) => {
     assetSignal = signal;
@@ -571,7 +566,7 @@ test('session replacement preserves independent pending asset acquisitions', asy
 
 test('session asset requests share one lease; disposal and failed warming release acquisitions', async () => {
   const f = fixture(),
-    pending = deferred<PackLease>();
+    pending = Promise.withResolvers<PackLease>();
   let loads = 0;
   f.app.runtime = runtime(() => {
     loads++;
@@ -590,7 +585,7 @@ test('session asset requests share one lease; disposal and failed warming releas
   assert.equal(f.released, 1);
   await assert.rejects(f.app.retainAsset('gallery'), /disposed/);
   const late = fixture(),
-    wait = deferred<PackLease>();
+    wait = Promise.withResolvers<PackLease>();
   late.app.runtime = runtime(() => wait.promise);
   const loading = late.app.retainAsset('gallery');
   late.app.dispose();
@@ -653,7 +648,7 @@ test('failed room preparation keeps the current session and packs; retry replace
 });
 test('startup disposed while opening its catalog cannot acquire assets or become ready', async () => {
   const f = fixture(),
-    opening = deferred<AssetRuntime>(),
+    opening = Promise.withResolvers<AssetRuntime>(),
     // oxlint-disable-next-line typescript/unbound-method -- Saved for restoration, never invoked unbound.
     open = AssetRuntime.open;
   AssetRuntime.open = () => opening.promise;
@@ -719,8 +714,8 @@ test('simulation enablement isolates lab policy, keeps rendering, and clears cat
 
 test('overlapping loading scopes reveal a rendered destination only after every request settles', async () => {
   const { app } = fixture(),
-    first = deferred<void>(),
-    second = deferred<void>();
+    first = Promise.withResolvers<void>(),
+    second = Promise.withResolvers<void>();
   const states: (boolean | string)[] = [];
   app.hooks.loading = (active) => states.push(active);
   app.ready = true;
@@ -751,7 +746,7 @@ test('overlapping loading scopes reveal a rendered destination only after every 
     /destination render unavailable/,
   );
   assert.deepEqual(states.slice(-2), [true, false], 'A failed render must release the overlay');
-  const late = deferred<void>();
+  const late = Promise.withResolvers<void>();
   const pending = app.withLoading(() => late.promise);
   app.dispose();
   const afterDispose = [...states];
@@ -766,7 +761,7 @@ test('overlapping loading scopes reveal a rendered destination only after every 
 
 test('checkpoint reading freezes gameplay and recovers loading state for empty saves and storage failures', async () => {
   const { app } = fixture(),
-    waiting = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+    waiting = Promise.withResolvers<Awaited<ReturnType<Bridge['loadGame']>>>();
   const states: boolean[] = [];
   app.hooks.loading = (active) => states.push(active);
   app.persistence = new Persistence({
@@ -797,7 +792,7 @@ test('checkpoint reading freezes gameplay and recovers loading state for empty s
 
 test('startup settles the initial asset batch and releases successful peers when any pack fails or boot is disposed', async () => {
   for (const cancelled of [false, true]) {
-    const waiting = deferred<PackLease>(),
+    const waiting = Promise.withResolvers<PackLease>(),
       requested: string[] = [];
     let released = 0;
     // oxlint-disable-next-line typescript/unbound-method -- Saved for restoration, never invoked unbound.
@@ -920,7 +915,7 @@ test('failed room acceptance blocks rendering, gameplay and saves until recovery
     app.presentation.update = () => {
       renders++;
     };
-    const feedback = deferred<void>();
+    const feedback = Promise.withResolvers<void>();
     let lifetime: AbortSignal | undefined;
     app.events.subscribe((_event, signal) => {
       lifetime = signal;
@@ -975,8 +970,8 @@ test('failed room acceptance blocks rendering, gameplay and saves until recovery
 
 test('superseding a committed room cannot accept it through an obsolete completion or an empty load', async () => {
   const { app } = fixture(),
-    preparing = deferred<void>(),
-    committed = deferred<void>();
+    preparing = Promise.withResolvers<void>(),
+    committed = Promise.withResolvers<void>();
   app.readOnly = true;
   app.persistence = new Persistence({
     loadGame: async () => ({ status: 'empty' }),
@@ -1010,7 +1005,7 @@ test('frame reset requests wait for room acceptance before feedback and saving, 
   for (const trigger of ['death', 'command', 'hook'] as const) {
     for (const failure of ['none', 'rebuild', 'companions'] as const) {
       const { app } = fixture(),
-        waiting = deferred<void>(),
+        waiting = Promise.withResolvers<void>(),
         feedback: string[] = [],
         saved: number[] = [];
       Object.assign(app.bridge, { automatedRun: true });
@@ -1110,8 +1105,8 @@ test('superseding campfire travel cancels its plan immediately and releases the 
     },
     { automatedRun: true } as Bridge,
   );
-  const waiting = deferred<PackLease>();
-  const checkpoint = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+  const waiting = Promise.withResolvers<PackLease>();
+  const checkpoint = Promise.withResolvers<Awaited<ReturnType<Bridge['loadGame']>>>();
   let released = 0;
   app.runtime = runtime(() => waiting.promise);
   app.persistence = new Persistence({
@@ -1188,7 +1183,7 @@ test('shutdown drains all owners after UI, renderer and lease failures and canno
 });
 
 test('resource pool closes every loaded resource despite destructor failure, including late decodes', async () => {
-  const late = deferred<string>(),
+  const late = Promise.withResolvers<string>(),
     destroyed: string[] = [];
   const pool = new ResourcePool(
     (id) => (id === 'late' ? late.promise : Promise.resolve(id)),
@@ -1244,7 +1239,7 @@ test('failed startup retains its original cause while draining a failed cleanup'
 });
 
 test('cancelling a pool acquisition reports destructor errors through its promise and drains peers', async () => {
-  const late = deferred<string>(),
+  const late = Promise.withResolvers<string>(),
     destroyed: string[] = [];
   const controller = new AbortController();
   const failure = new Error('texture cleanup');
@@ -1255,7 +1250,7 @@ test('cancelling a pool acquisition reports destructor errors through its promis
       if (id === 'broken') throw failure;
     },
   );
-  const ready = deferred<void>();
+  const ready = Promise.withResolvers<void>();
   const pending = pool.acquire(['broken', 'peer', 'late'], controller.signal, (done) => {
     if (done === 2) ready.resolve();
   });

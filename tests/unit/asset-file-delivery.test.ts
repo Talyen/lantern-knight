@@ -251,10 +251,8 @@ test('container publication rejects source drift and deduplicates identical file
 
 test('disposing a development workspace aborts in-flight acquisition and releases its lease', async (t) => {
   const f = await fixture(t);
-  let started!: () => void;
-  const fetching = new Promise<void>((resolve) => {
-    started = resolve;
-  });
+
+  const { promise: fetching, resolve: started } = Promise.withResolvers<void>();
   const request = (async (_url, init) => {
     started();
     return new Promise<Response>((_resolve, reject) => {

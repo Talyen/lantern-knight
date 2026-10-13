@@ -226,6 +226,9 @@ async function launch(
       readyMs,
       rendererReadyMs,
       reportWork: () => collectWork(page!),
+      writeReport(file: string, value: unknown) {
+        return fs.writeFile(path.join(output, file), JSON.stringify(value, null, 2));
+      },
       async close() {
         try {
           if (dev) await collectWork(page!);

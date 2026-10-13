@@ -1,11 +1,5 @@
 type ImageLoad = { promise: Promise<HTMLImageElement>; cancel: () => void };
-type Entry = {
-  source: string;
-  resolve: (image: HTMLImageElement) => void;
-  reject: (error: unknown) => void;
-  promise: Promise<HTMLImageElement>;
-  load?: ImageLoad;
-};
+type Entry = PromiseWithResolvers<HTMLImageElement> & { source: string; load?: ImageLoad };
 
 function loadImage(source: string): ImageLoad {
   const image = new Image();
@@ -79,11 +73,7 @@ export class PreviewImages {
     }
     const pending = this.pending.get(source);
     if (pending) return pending.promise;
-    let resolve!: Entry['resolve'], reject!: Entry['reject'];
-    const promise = new Promise<HTMLImageElement>((accept, fail) => {
-      resolve = accept;
-      reject = fail;
-    });
+    const { promise, resolve, reject } = Promise.withResolvers<HTMLImageElement>();
     const entry = { source, promise, resolve, reject };
     this.pending.set(source, entry);
     this.queue.push(entry);
