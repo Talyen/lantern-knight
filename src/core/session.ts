@@ -1,6 +1,7 @@
 import { type Inventory, type Equipment, type EquipmentSlot } from '../content/items';
 import { InventoryState } from './inventory';
-import { Navigation, effectiveRadius, clearSegment } from './navigation';
+import { interactionTarget } from './interaction';
+import { Navigation, effectiveRadius } from './navigation';
 import { PLAYER_ID, heightAt, type ContentRegistry, type AreaId } from '../content/world';
 import { Simulation, type Command, type StepResult } from './simulation';
 import { tuning } from '../content/gameplay';
@@ -122,7 +123,13 @@ export class GameSession {
   }
   prepareTransition(exitId: string): TransitionPlan {
     const exit = this.sim.areaDefinition.exits.find((e) => e.id === exitId);
-    if (!exit || this.sim.hero.health <= 0 || !this.sim.exitAvailable(exitId))
+    const target = exit?.explicit ? interactionTarget(this.sim, 'exit', exitId) : undefined;
+    if (
+      !exit ||
+      this.sim.hero.health <= 0 ||
+      !this.sim.exitAvailable(exitId) ||
+      (exit.explicit && (!target || target.blocked))
+    )
       throw new Error('exit unavailable');
     this.recordArea();
     const events = [this.event({ kind: 'transition-start', destination: exit.destination })];
@@ -166,27 +173,22 @@ export class GameSession {
     if (!definition) throw new Error('Unknown campfire');
     return { area: area!, definition };
   }
-  private canReachFire(fire: { x: number; z: number }) {
-    return (
-      Math.hypot(fire.x - this.sim.hero.x, fire.z - this.sim.hero.z) <= 1.8 &&
-      Math.abs(heightAt(this.sim.areaDefinition, fire.x, fire.z) - this.sim.hero.y) <=
-        tuning.maxCombatHeightDifference &&
-      clearSegment(this.sim.areaDefinition, this.sim.hero, fire, 0.001)
-    );
+  private canUseFire(id: string) {
+    const target = interactionTarget(this.sim, 'campfire', id);
+    return !!target && !target.blocked;
   }
   discoverFire(key: string) {
     const { area, definition } = this.fire(key);
-    if (area !== this.sim.area || !this.canReachFire(definition) || this.sim.inCombat)
+    if (area !== this.sim.area || !this.canUseFire(definition.id))
       throw new Error('Campfire unavailable');
     this.discovered.add(key);
     this.lastFire = key;
   }
   prepareFireTravel(key: string): TransitionPlan {
-    if (!this.discovered.has(key) || this.sim.inCombat || this.sim.hero.health <= 0)
-      throw new Error('Travel unavailable');
+    if (!this.discovered.has(key)) throw new Error('Travel unavailable');
     if (
       !(this.sim.areaDefinition.campfires ?? []).some(
-        (f) => this.discovered.has(this.sim.area + '/' + f.id) && this.canReachFire(f),
+        (f) => this.discovered.has(this.sim.area + '/' + f.id) && this.canUseFire(f.id),
       )
     )
       throw new Error('Visit a campfire to travel');

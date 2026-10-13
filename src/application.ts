@@ -418,13 +418,6 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   transition(id: string) {
     return this.withSessionOperation(async (operation) => {
-      const exit = this.sim.areaDefinition.exits.find((e) => e.id === id);
-      if (
-        exit?.explicit &&
-        (this.sim.inCombat ||
-          Math.hypot(exit.marker.x - this.sim.hero.x, exit.marker.z - this.sim.hero.z) > 1.6)
-      )
-        throw new Error('Departure unavailable');
       const plan = this.current.session.prepareTransition(id);
       const cancel = () => this.publish(this.current.session.cancelTransition(plan));
       operation.signal.addEventListener('abort', cancel, { once: true });
@@ -465,7 +458,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         this.autosave();
       }
     } else if (target.kind === 'container') {
-      if (this.sim.claimObject(target.id)) {
+      if (this.sim.openContainer(target.id)) {
         this.publish(this.sim.events);
         this.autosave();
       }

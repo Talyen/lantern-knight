@@ -225,7 +225,8 @@ test('interactive scenery retains its authored pose while idle, claimed and rest
     const scale = sprite.mesh.scale.clone();
     for (const state of ['idle', 'claimed', 'restored']) {
       if (state === 'claimed') {
-        sim.claimObject('container');
+        Object.assign(sim.hero, { x: 1, z: 1 });
+        assert.equal(sim.openContainer('container'), true);
         sim.drops = [];
       } else if (state === 'restored') sim.objectActions.clear();
       room.update(sim.view, 1, true, 0);

@@ -1,6 +1,7 @@
 import { parseAreaState, type AreaState } from './area-state';
 import { InventoryState, type InventoryAccess } from './inventory';
 import type { GroundDrop } from '../content/interactions';
+import { interactionTarget } from './interaction';
 import { simulationView } from './simulation-view';
 import { moveSupported, effectiveRadius, clearSegment } from './navigation';
 import { MovementPlans } from './movement-plans';
@@ -82,7 +83,12 @@ export class Simulation {
     return this.encounter.inCombat(this.hero, this.enemies, this.engaged);
   }
 
-  claimObject(id: string) {
+  openContainer(id: string) {
+    const target = interactionTarget(this, 'container', id);
+    if (!target || target.blocked) return false;
+    return this.claimObject(id);
+  }
+  private claimObject(id: string) {
     const object = this.areaDefinition.interactables?.find((p) => p.id === id);
     if (!object || this.claimedObjects.has(id) || !this.guardsDefeated(object.guards)) return false;
     this.claimedObjects.add(id);
@@ -101,15 +107,7 @@ export class Simulation {
   }
   collectDrop(id: string) {
     const drop = this.drops.find((p) => p.id === id);
-    if (
-      !drop ||
-      this.hero.health <= 0 ||
-      Math.hypot(drop.x - this.hero.x, drop.z - this.hero.z) > 1.6 ||
-      Math.abs(heightAt(this.areaDefinition, drop.x, drop.z) - this.hero.y) >
-        tuning.maxCombatHeightDifference ||
-      !clearSegment(this.areaDefinition, this.hero, drop, 0.001)
-    )
-      return false;
+    if (!drop || !interactionTarget(this, 'drop', id)) return false;
     this.inventoryAccess.award(drop.rewards);
     this.drops = this.drops.filter((p) => p !== drop);
     return true;

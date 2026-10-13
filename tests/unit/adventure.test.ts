@@ -1,12 +1,27 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ContentRegistry, type AreaDefinition } from '../../src/content/world';
+import { attackDefinition } from '../../src/content/gameplay';
+import { ContentRegistry, heightAt, type AreaDefinition } from '../../src/content/world';
 import { actors } from '../../src/content/actors';
 import { GameSession } from '../../src/core/session';
 import { Simulation } from '../../src/core/simulation';
 import { parseGame } from '../../src/core/save';
 import { rewardSchema } from '../../src/content/interactions';
 import { nearbyInteraction } from '../../src/core/interaction';
+function breakCrate(sim: Simulation) {
+  const hero = { ...sim.hero };
+  const crate = sim.areaDefinition.interactables!.find((o) => o.id === 'crate')!;
+  Object.assign(sim.hero, {
+    x: crate.x - 0.5,
+    z: crate.z,
+    y: heightAt(sim.areaDefinition, crate.x - 0.5, crate.z),
+    aim: Math.PI / 2,
+  });
+  sim.startSword(sim.hero);
+  sim.hero.age = attackDefinition(sim.hero).windup;
+  sim.step({ ...idle, aim: { x: crate.x, z: crate.z } });
+  Object.assign(sim.hero, hero);
+}
 function supply(session: GameSession, item: string, amount: number) {
   const save = session.captureSave();
   save.adventure!.inventory[item] = amount;
@@ -115,18 +130,19 @@ test('sword breaks an object once, guards protect containers and departure, expl
   for (let i = 0; i < 50; i++) s.step({ ...idle, aim: { x: -6, z: 0 }, attack: i === 0 });
   assert.ok(s.sim.claimedObjects.has('crate'));
   assert.equal(s.sim.drops.length, 1);
-  assert.equal(s.sim.claimObject('crate'), false);
-  assert.equal(s.sim.claimObject('chest'), false);
+  assert.equal(s.sim.openContainer('crate'), false);
+  assert.equal(s.sim.openContainer('chest'), false);
   assert.equal(s.sim.exitAvailable('depart'), false);
   s.sim.damage(s.sim.hero, s.sim.enemies[1]!, 1000);
   assert.equal(s.sim.exitAvailable('depart'), true);
-  assert.equal(s.sim.claimObject('chest'), true);
+  Object.assign(s.sim.hero, { x: 5, z: 4 });
+  assert.equal(s.sim.openContainer('chest'), true);
   s.sim.hero.x = 11;
   assert.equal(s.step(idle).transition, undefined);
 });
 test('loot, salvage and equipment persist while rest resets enemies and discards their uncollected drops', () => {
   const s = fixture();
-  s.sim.claimObject('crate');
+  breakCrate(s.sim);
   assert.equal(s.sim.collectDrop('object-crate'), true);
   s.sim.damage(s.sim.hero, s.sim.enemies[0]!, 1000);
   s.sim.hero.x = -3;
@@ -210,6 +226,7 @@ test('death chooses the nearest reachable discovered fire in-stage and otherwise
   s.resetCurrentArea('death');
   assert.equal(s.sim.hero.x, 8);
   s.sim.damage(s.sim.hero, s.sim.enemies[1]!, 1000);
+  Object.assign(s.sim.hero, { x: 11, z: 0, y: 0 });
   s.commitTransition(s.prepareTransition('depart'));
   s.sim.hero.health = 0;
   s.lastFire = 'orchard/west';
@@ -250,7 +267,7 @@ test('respawn compares walking routes around obstacles rather than straight-line
 });
 test('checkpoint validation rejects invalid gear, duplicate drops, unknown claims and unearned object drops', () => {
   const s = fixture();
-  s.sim.claimObject('crate');
+  breakCrate(s.sim);
   const saved = s.captureSave();
   assert.doesNotThrow(() => parseGame(saved, s.registry));
   for (const mutate of [
@@ -276,7 +293,7 @@ test('nearby prompts expose guarded reasons and collected loot cannot be collect
   assert.match(nearbyInteraction(s.sim)!.blocked!, /guard/);
   s.sim.hero.x = -8;
   s.sim.hero.z = 0;
-  s.sim.claimObject('crate');
+  breakCrate(s.sim);
   assert.equal(nearbyInteraction(s.sim)?.kind, 'drop');
   assert.equal(s.sim.collectDrop('object-crate'), true);
   assert.equal(s.sim.collectDrop('object-crate'), false);
@@ -318,7 +335,7 @@ test('checkpoint rewards compare values independently of source property order',
       })),
     }),
   );
-  s.sim.claimObject('crate');
+  breakCrate(s.sim);
   assert.doesNotThrow(() => parseGame(s.captureSave(), s.registry));
   const invalid = s.captureSave();
   invalid.areas.orchard!.drops![0]!.rewards[0]!.amount++;
@@ -344,7 +361,7 @@ test('retreat to sanctuary immediately replaces the enemy pursuit route with hom
 });
 test('repopulation clears encounter loot, claims, alerts and object animation state', () => {
   const s = fixture();
-  s.sim.claimObject('crate');
+  breakCrate(s.sim);
   s.sim.damage(s.sim.hero, s.sim.enemies[0]!, 1);
   s.sim.potionCooldown = 30;
   s.sim.populate();
@@ -378,7 +395,7 @@ test('loot and interaction prompts cannot cross a stair height gap', () => {
   );
   s.sim.hero.z = -0.4;
   assert.equal(nearbyInteraction(s.sim)?.kind, 'campfire');
-  s.sim.claimObject('crate');
+  breakCrate(s.sim);
   assert.equal(s.sim.collectDrop('object-crate'), false);
   assert.equal(nearbyInteraction(s.sim)?.kind, 'campfire');
   s.sim.hero.z = 0.4;
@@ -509,7 +526,7 @@ test('empty reward objects become spent without a ghost loot prompt', () => {
       rewards: [],
     })),
   }));
-  assert.equal(s.sim.claimObject('crate'), true);
+  breakCrate(s.sim);
   assert.equal(s.sim.claimedObjects.has('crate'), true);
   assert.equal(s.sim.drops.length, 0);
   assert.equal(nearbyInteraction(s.sim)?.kind, 'campfire');
@@ -568,7 +585,7 @@ test('salvage overflow preserves all ingredients and a loadable checkpoint', () 
 test('loot overflow preserves the ground drop and existing inventory', () => {
   const s = fixture();
   supply(s, 'gold', 100000000);
-  s.sim.claimObject('crate');
+  breakCrate(s.sim);
   const before = s.captureSave();
   assert.throws(() => s.sim.collectDrop('object-crate'), /inventory/i);
   assert.deepEqual(s.captureSave(), before);
@@ -587,10 +604,10 @@ for (const reenter of ['checkpoint', 'travel'] as const)
     if (reenter === 'checkpoint') {
       s.restoreSave(s.captureSave());
     } else {
-      s.sim.damage(s.sim.hero, s.sim.enemies[1]!, 1000);
-      s.commitTransition(s.prepareTransition('depart'));
-      s.sim.damage(s.sim.hero, s.sim.enemies[1]!, 1000);
-      s.commitTransition(s.prepareTransition('depart'));
+      s.discovered.add('forest/west');
+      s.sim.hero.x = -8;
+      s.commitTransition(s.prepareFireTravel('forest/west'));
+      s.commitTransition(s.prepareFireTravel('orchard/west'));
       s.sim.hero.x = -5.5;
     }
     assert.equal(s.sim.inCombat, true, reenter + ' must preserve the alert');
@@ -605,7 +622,7 @@ for (const reenter of ['checkpoint', 'travel'] as const)
 
 test('area reconstruction detaches world progress and rejects invalid alerts at both admission boundaries', () => {
   const s = fixture();
-  s.sim.claimObject('crate');
+  breakCrate(s.sim);
   s.sim.damage(s.sim.hero, s.sim.enemies[1]!, 1000);
   s.sim.damage(s.sim.hero, s.sim.enemies[0]!, 1);
   s.sim.setMovementTarget(s.sim.enemies[0]!.id, { x: 0, z: 0 });
@@ -647,4 +664,90 @@ test('area reconstruction detaches world progress and rejects invalid alerts at 
     [],
     'existing version 7 saves remain readable',
   );
+});
+
+test('core commands enforce the same contact barriers as interaction prompts', () => {
+  for (const obstruction of ['distance', 'wall', 'floor', 'dead'] as const) {
+    const s = changedAreas((a) => ({
+      ...a,
+      surface: obstruction === 'floor' ? stairSurface : a.surface,
+      campfires: [{ ...a.campfires![0]!, x: 0, z: 0.8 }],
+      spawns: [],
+      interactables: [{ ...a.interactables![1]!, x: 0, z: 0.8, guards: [] }],
+      exits: a.exits.map((e) => ({ ...e, marker: { x: 0, z: 0.8 }, guards: [] })),
+      props:
+        obstruction === 'wall'
+          ? [
+              {
+                id: 'divider',
+                kind: 'wall',
+                x: 0,
+                z: 0.4,
+                radius: 0.1,
+                height: 2,
+                shape: 'box',
+                size: [2, 0.1],
+              },
+            ]
+          : [],
+    }));
+    Object.assign(s.sim.hero, { x: obstruction === 'distance' ? -8 : 0, z: 0, y: 0 });
+    if (obstruction === 'dead') s.sim.hero.health = 0;
+    assert.equal(nearbyInteraction(s.sim), undefined, obstruction);
+    s.discovered.add('forest/west');
+    const before = s.captureSave();
+    assert.throws(() => s.rest('orchard/west'), /unavailable/i, obstruction + ' rest');
+    assert.throws(
+      () => s.prepareFireTravel('forest/west'),
+      /travel/i,
+      obstruction + ' fire travel',
+    );
+    assert.equal(s.sim.openContainer('chest'), false, obstruction + ' container');
+    assert.throws(() => s.prepareTransition('depart'), /unavailable/i, obstruction + ' exit');
+    assert.throws(() => s.discoverFire('orchard/west'), /unavailable/i, obstruction + ' fire');
+    assert.deepEqual(s.captureSave(), before, obstruction + ' preserves state');
+    assert.equal(s.loading, false);
+    Object.assign(s.sim.hero, { x: 0, z: 0.8, y: obstruction === 'floor' ? 2 : 0, health: 100 });
+    assert.equal(s.sim.openContainer('chest'), true, obstruction + ' cleared');
+    assert.equal(s.sim.openContainer('chest'), false, 'container rewards commit once');
+    assert.doesNotThrow(() => s.discoverFire('orchard/west'));
+    s.cancelTransition(s.prepareTransition('depart'));
+    assert.doesNotThrow(() => parseGame(s.captureSave(), s.registry));
+  }
+});
+
+test('breakables cannot award loot through the container command', () => {
+  const s = fixture();
+  assert.equal(s.sim.openContainer('crate'), false);
+  assert.equal(s.sim.claimedObjects.size, 0);
+  assert.equal(s.sim.drops.length, 0);
+  s.sim.hero.aim = Math.PI / 2;
+  for (let i = 0; i < 50; i++) s.step({ ...idle, aim: { x: -6, z: 0 }, attack: i === 0 });
+  assert.ok(s.sim.claimedObjects.has('crate'));
+  assert.equal(s.sim.drops.length, 1);
+});
+
+test('a displayed container prompt does not authorize a later command after contact changes', () => {
+  const s = fixture();
+  s.sim.damage(s.sim.hero, s.sim.enemies[1]!, 1000);
+  Object.assign(s.sim.hero, { x: 5, z: 4 });
+  const prompt = nearbyInteraction(s.sim)!;
+  assert.equal(prompt.kind, 'container');
+  assert.equal(prompt.blocked, undefined);
+  s.sim.hero.x = -8;
+  assert.equal(s.sim.openContainer(prompt.id), false);
+  assert.equal(s.sim.claimedObjects.size, 0);
+});
+
+test('explicit departures enforce the prompt combat restriction in headless sessions', () => {
+  const s = fixture();
+  s.sim.damage(s.sim.hero, s.sim.enemies[1]!, 1000);
+  s.sim.damage(s.sim.hero, s.sim.enemies[0]!, 1);
+  Object.assign(s.sim.hero, { x: 11, z: 0 });
+  assert.match(nearbyInteraction(s.sim)!.blocked!, /combat/i);
+  assert.throws(() => s.prepareTransition('depart'), /unavailable/i);
+  assert.equal(s.loading, false);
+  s.sim.damage(s.sim.hero, s.sim.enemies[0]!, 1000);
+  s.commitTransition(s.prepareTransition('depart'));
+  assert.equal(s.sim.area, 'forest');
 });
