@@ -83,8 +83,9 @@ export const lookPresets = {
   },
 } as const;
 export const defaultLook: LookSettings = {
-  rig: 'golden',
-  look: 'diorama',
+  rig: 'silver',
+  look: 'cinematic',
+  sun: { azimuthDeg: 20, elevationDeg: 15 },
   baseline: false,
   lighting: true,
   shadows: true,

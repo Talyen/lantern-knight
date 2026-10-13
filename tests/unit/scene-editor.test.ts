@@ -31,6 +31,12 @@ describe('scene authoring contracts', () => {
   });
   it('round-trips a fixed authored sun into runtime visuals and rejects invalid angles', () => {
     const document = emptyScene();
+    assert.deepEqual(parseSceneDocument(document).look, {
+      rig: 'silver',
+      look: 'cinematic',
+      sun: { azimuthDeg: 20, elevationDeg: 15 },
+    });
+    delete document.look.sun;
     assert.equal(parseSceneDocument(document).look.sun, undefined);
     document.look.sun = { azimuthDeg: 90, elevationDeg: 35 };
     const parsed = parseSceneDocument(JSON.parse(JSON.stringify(document)));

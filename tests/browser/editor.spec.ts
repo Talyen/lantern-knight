@@ -26,6 +26,11 @@ test('editor placement, experimental scale, history, recovery, save and external
     });
     await openEditor(page, '/editor.html');
     const initial = await page.evaluate(() => window.sceneEditor.state().document);
+    expect(initial.look).toEqual({
+      rig: 'silver',
+      look: 'cinematic',
+      sun: { azimuthDeg: 20, elevationDeg: 15 },
+    });
     await page.locator('#name').fill('Prototype recovery');
     await page.locator('#name').dispatchEvent('change');
     await page.locator('#undo').click();
@@ -49,6 +54,9 @@ test('editor placement, experimental scale, history, recovery, save and external
     expect(nativeDialogs).toEqual([]);
     await expect(page.locator('#recovery')).toBeVisible();
     await page.locator('#restore').click();
+    expect(await page.evaluate(() => window.sceneEditor.state().document.look)).toEqual(
+      initial.look,
+    );
     await chooseGravestone(page);
     await page.locator('#viewport').click({ position: { x: 350, y: 280 } });
     await expect

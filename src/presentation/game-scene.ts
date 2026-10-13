@@ -1,3 +1,4 @@
+import { defaultLook } from './lighting-profiles';
 import { heroLanternPosition } from './hero-lantern';
 import { GroundOcclusion } from './ground-occlusion';
 import { imageDimensions } from '../assets/texture-delivery';
@@ -180,7 +181,10 @@ export class GamePresentation implements PresentationLifecycle {
       this.actorPresentation,
       this.sceneEffects,
     );
-    this.lookRenderer.setSettings({ ...this.visuals?.look, sun: this.visuals?.look?.sun });
+    this.lookRenderer.setSettings({
+      ...(this.visuals?.look ?? { rig: defaultLook.rig, look: defaultLook.look }),
+      sun: this.visuals?.look ? this.visuals.look.sun : defaultLook.sun,
+    });
     this.scene.add(this.sceneEffects.group);
     this.combatFeedback = new CombatFeedback(this.packs, this.camera, this.events);
     this.scene.add(this.combatFeedback.group);
@@ -215,7 +219,10 @@ export class GamePresentation implements PresentationLifecycle {
     this.disposeRoom();
     this.area = area;
     this.buildRoom();
-    this.lookRenderer.setSettings({ ...this.visuals?.look, sun: this.visuals?.look?.sun });
+    this.lookRenderer.setSettings({
+      ...(this.visuals?.look ?? { rig: defaultLook.rig, look: defaultLook.look }),
+      sun: this.visuals?.look ? this.visuals.look.sun : defaultLook.sun,
+    });
   }
   createVisual(a: ActorView, generation: number) {
     return this.actorPresentation.createVisual(a, generation);

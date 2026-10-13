@@ -22,6 +22,12 @@ test('scene selection and camera framing survive independent reloads', async ({ 
     await page.goto('/sandbox.html');
     await page.waitForFunction(() => window.foundation?.ready);
     expect(await page.evaluate(() => window.foundation.sim.area)).toBe(scene);
+    expect(
+      await page.evaluate(() => {
+        const { rig, look, sun } = window.foundation.presentation.lookRenderer.settings;
+        return { rig, look, sun };
+      }),
+    ).toEqual({ rig: 'silver', look: 'cinematic', sun: { azimuthDeg: 20, elevationDeg: 15 } });
     expect(await page.evaluate(() => window.foundation.presentation.verticalSpan)).toBe(13);
   }
 });
@@ -131,26 +137,26 @@ test('preview scene reset preserves experiments and settings reset is explicit',
   await page.goto('/sandbox.html?scene=outdoor-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   await page.getByRole('button', { name: 'Visuals', exact: true }).click();
-  await page.selectOption('#lighting-rig', 'silver');
+  await page.selectOption('#lighting-rig', 'golden');
   await page.locator('#reset').click();
-  await expect(page.locator('#lighting-rig')).toHaveValue('silver');
+  await expect(page.locator('#lighting-rig')).toHaveValue('golden');
   await page.selectOption('#scene-select', 'interior-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
-  await expect(page.locator('#lighting-rig')).toHaveValue('golden');
+  await expect(page.locator('#lighting-rig')).toHaveValue('silver');
   await page.selectOption('#scene-select', 'outdoor-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
-  await expect(page.locator('#lighting-rig')).toHaveValue('silver');
+  await expect(page.locator('#lighting-rig')).toHaveValue('golden');
   await page.getByRole('button', { name: 'More options' }).click();
   await page.getByRole('button', { name: 'Reset scene settings', exact: true }).click();
   await page.waitForFunction(() => window.foundation?.ready);
-  await expect(page.locator('#lighting-rig')).toHaveValue('golden');
+  await expect(page.locator('#lighting-rig')).toHaveValue('silver');
 });
 
 test('workspace reset requires confirmation and clears preview experiments', async ({ page }) => {
   await page.goto('/sandbox.html?scene=outdoor-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   await page.getByRole('button', { name: 'Visuals', exact: true }).click();
-  await page.selectOption('#lighting-rig', 'silver');
+  await page.selectOption('#lighting-rig', 'golden');
   await page.getByRole('button', { name: 'More options' }).click();
   await page.getByRole('button', { name: 'Reset workspace…', exact: true }).click();
   await page.getByRole('button', { name: 'Cancel', exact: true }).click();
@@ -162,7 +168,7 @@ test('workspace reset requires confirmation and clears preview experiments', asy
   await expect(page.locator('#preview-drawer')).toBeHidden();
   await expect(page.locator('.hud')).toBeHidden();
   await page.getByRole('button', { name: 'Visuals', exact: true }).click();
-  await expect(page.locator('#lighting-rig')).toHaveValue('golden');
+  await expect(page.locator('#lighting-rig')).toHaveValue('silver');
 });
 
 test('shared asset browser includes library enemies, separates poses and filters references', async ({

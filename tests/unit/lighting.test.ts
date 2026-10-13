@@ -22,13 +22,15 @@ import { Vector3, Texture } from 'three';
 
 test('authored sun is fixed as the view moves and removing it restores the rig', () => {
   const lighting = new IllustratedLighting();
+  lighting.configure(defaultLook, new Vector3());
+  assert.deepEqual(lighting.common.inkDirection.value.toArray(), cameraKeyDirection(20, 15, 0));
   const settings = { ...defaultLook, sun: { azimuthDeg: 90, elevationDeg: 35 } };
   lighting.configure(settings, new Vector3());
   const direction = lighting.common.inkDirection.value.clone();
   lighting.configure(settings, new Vector3(10, 0, -20));
   assert.deepEqual(lighting.common.inkDirection.value, direction);
   assert.deepEqual(direction.toArray(), cameraKeyDirection(90, 35, 0));
-  lighting.configure(defaultLook, new Vector3());
+  lighting.configure({ ...defaultLook, sun: undefined }, new Vector3());
   const rig = lightingRigs[defaultLook.rig];
   assert.deepEqual(
     lighting.common.inkDirection.value.toArray(),

@@ -72,7 +72,7 @@ Follow this with a cohesive progression loop before expanding the adventure. Res
 
 ## Presentation and delivery defaults
 
-Golden hour / HD-2D Diorama at 150% light response is the default in every Game area, Dev Preview and authoring scene. Both light rigs and all three looks remain available for authoring. Depth of field and saved visual preferences keep their existing behavior. The camera retains 45 degree azimuth, full-precision 35.264389682754654 degree elevation and 9 m initial vertical span.
+Silver hour / Dark cinematic with sun direction 20° and elevation 15° at 150% light response is the default in every Game area, Dev Preview and authoring scene. Both light rigs and all three looks remain available for authoring. Depth of field and saved visual preferences keep their existing behavior. The camera retains 45 degree azimuth, full-precision 35.264389682754654 degree elevation and 9 m initial vertical span.
 
 Use supplied eight-direction running and four-direction idle/action artwork for the immediate hero kit. Further action direction coverage and a future controlled 3D or 2D production route remain open; the original briefs do not impose an eight-direction or rig requirement. Stabilization, guarded motion warp, rigid-sword protection and weighted walk rhythm and directed action holds are the selected animation treatment. Action lengths and gameplay windows are shared across headings; preserve deliberate loading and impact holds. Artwork registration changes only presentation; simulation remains authoritative for actions, damage and movement.
 
