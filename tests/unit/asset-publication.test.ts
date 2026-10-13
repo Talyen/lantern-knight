@@ -1,3 +1,4 @@
+import { writeJson, readJson } from '../../tools/json-file';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -53,7 +54,7 @@ test('split publication uses downloadable filenames, frees the candidate archive
     const lock = await makeArchive(payload, archive, await recipeHash()),
       candidate = { held, payload, archive, lock },
       uploads = new Map<string, Buffer>();
-    await fs.writeFile(target, JSON.stringify(lock));
+    await writeJson(target, lock);
     const remoteAssets = (tag: string) =>
       [...uploads]
         .filter(([key]) => key.startsWith(tag + '/'))
@@ -122,7 +123,7 @@ test('split publication uses downloadable filenames, frees the candidate archive
       ),
       /interrupted before pin/,
     );
-    assert.deepEqual(JSON.parse(await fs.readFile(target, 'utf8')), lock);
+    assert.deepEqual(await readJson(target), lock);
     await assert.rejects(fs.access(archive), { code: 'ENOENT' });
     const inventoryLock = await inventoryCandidate(payload, lock.recipeSha256);
     await publishBundledPrepared(
@@ -134,7 +135,7 @@ test('split publication uses downloadable filenames, frees the candidate archive
       request,
       cache,
     );
-    const pin = LockSchema.parse(JSON.parse(await fs.readFile(target, 'utf8')));
+    const pin = LockSchema.parse(await readJson(target));
     assert.equal(pin.schemaVersion, 3);
     if (pin.schemaVersion !== 3) throw new Error('Expected split pin');
     assert.ok(pin.fileDelivery, 'individual files are verified before pinning');

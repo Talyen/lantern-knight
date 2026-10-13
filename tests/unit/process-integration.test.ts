@@ -1,3 +1,4 @@
+import { readJson, writeJson } from '../../tools/json-file';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -30,27 +31,27 @@ test('replay CLI matches fresh-process evidence and rejects tampered hashes or c
     await fs.copyFile(path.join(projectRoot, 'authoring/session-opening.json'), recipe);
     const output = cli(['record', recipe]),
       bundlePath = /Replay bundle: (.+)/.exec(output)![1]!,
-      bundle = JSON.parse(await fs.readFile(bundlePath, 'utf8'));
+      bundle = await readJson(bundlePath);
     assert.match(cli(['replay', bundlePath]), /recorded actions matched/);
     const legacy = structuredClone(bundle);
     legacy.schemaVersion = 1;
     delete legacy.source.identityVersion;
     const legacyPath = path.join(root, 'legacy.json');
-    await fs.writeFile(legacyPath, JSON.stringify(legacy));
+    await writeJson(legacyPath, legacy);
     const source = await sourceIdentity(projectRoot);
     await assert.rejects(replayBundle(legacy, source), /source, asset pin or Node version differs/);
     assert.match(cli(['replay', legacyPath, '--experiment']), /REGRESSION EXPERIMENT/);
 
     bundle.result.hashes[0] = 'wrong';
     const bad = path.join(root, 'tampered.json');
-    await fs.writeFile(bad, JSON.stringify(bundle));
+    await writeJson(bad, bundle);
     await assert.rejects(replayBundle(bundle, source), /recorded session diverged/);
-    bundle.result.hashes[0] = JSON.parse(await fs.readFile(bundlePath, 'utf8')).result.hashes[0];
+    bundle.result.hashes[0] = (await readJson(bundlePath)).result.hashes[0];
     bundle.source.sha256 = '0'.repeat(64);
-    await fs.writeFile(bad, JSON.stringify(bundle));
+    await writeJson(bad, bundle);
     await assert.rejects(replayBundle(bundle, source), /source, asset pin or Node version differs/);
     assert.equal((await replayBundle(bundle, source, { experiment: true })).same, false);
-    await fs.writeFile(recipe, JSON.stringify({ actions: [{ kind: 'load' }] }));
+    await writeJson(recipe, { actions: [{ kind: 'load' }] });
     let failed: { stderr: string } | undefined;
     try {
       cli(['record', recipe]);
@@ -115,7 +116,7 @@ test('build proof ignores mutable Finder metadata but rejects app tampering, mis
     assert.equal(run().status, 0);
     assert.equal(run(['--write']).status, 1, 'Only supervised builds write identities');
     const identityPath = path.join(directory, 'dist/build-identity.json'),
-      identity = JSON.parse(await fs.readFile(identityPath, 'utf8'));
+      identity = await readJson(identityPath);
     assert.equal(identity.files['dist/.DS_Store'], undefined);
     await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-two');
     await proof();
@@ -124,13 +125,13 @@ test('build proof ignores mutable Finder metadata but rejects app tampering, mis
     await fs.writeFile(path.join(directory, 'dist/app.js'), 'original');
     identity.sourceCommit = 'a'.repeat(40);
     identity.dirty = false;
-    await fs.writeFile(identityPath, JSON.stringify(identity));
+    await writeJson(identityPath, identity);
     await assert.rejects(proof({ GITHUB_SHA: 'b'.repeat(40) }), /another commit/);
     identity.dirty = true;
-    await fs.writeFile(identityPath, JSON.stringify(identity));
+    await writeJson(identityPath, identity);
     await assert.rejects(proof({ GITHUB_SHA: identity.sourceCommit }), /clean source identity/);
     identity.dirty = false;
-    await fs.writeFile(identityPath, JSON.stringify(identity));
+    await writeJson(identityPath, identity);
     await proof({ GITHUB_SHA: identity.sourceCommit });
   } finally {
     await fs.rm(directory, { recursive: true, force: true });

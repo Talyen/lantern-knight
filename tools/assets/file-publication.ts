@@ -1,3 +1,4 @@
+import { readJson, writeJsonAtomic } from '../json-file';
 import { downloadFile } from './download';
 import fs from 'node:fs/promises';
 import { createReadStream } from 'node:fs';
@@ -124,9 +125,7 @@ export async function publishFileDelivery(
     // interrupted work before reserving the new operation's bounded peak.
     await fs.rm(work.root, { recursive: true, force: true });
     await fs.mkdir(work.root, { recursive: true });
-    const inventory = PackSchema.parse(
-      JSON.parse(await fs.readFile(path.join(sourceRoot, 'pack.json'), 'utf8')),
-    );
+    const inventory = PackSchema.parse(await readJson(path.join(sourceRoot, 'pack.json')));
     const commit = (
       await publish([
         'api',
@@ -200,14 +199,13 @@ export async function publishFileDelivery(
       inventory,
       sourceRoot,
       work,
-      async (container, file) => {
+      async (container, file) =>
         await upload(
           'assets-objects-' + container.sha256.slice(0, 16),
           container.sha256 + '.bin',
           container,
           file,
-        );
-      },
+        ),
     );
     // Prove range support on every published container before switching readers.
     for (const [hash, container] of Object.entries(catalog.containers)) {
@@ -265,18 +263,9 @@ export async function publishIndividualFiles(
   try {
     const fileDelivery = await publishFileDelivery(pin, source.root, cache, publish, request);
     const next = LockSchema.parse({ ...pin, fileDelivery });
-    if (
-      JSON.stringify(LockSchema.parse(JSON.parse(await fs.readFile(target, 'utf8')))) !==
-      JSON.stringify(pin)
-    )
+    if (JSON.stringify(LockSchema.parse(await readJson(target))) !== JSON.stringify(pin))
       throw new Error('Asset pin changed during file publication; refusing to overwrite it');
-    const temporary = target + '.' + randomUUID();
-    try {
-      await fs.writeFile(temporary, JSON.stringify(next, null, 2) + '\n');
-      await fs.rename(temporary, target);
-    } finally {
-      await fs.rm(temporary, { force: true });
-    }
+    await writeJsonAtomic(target, next, true);
     console.log('Published and pinned individually downloadable asset files.');
   } finally {
     await source.release();

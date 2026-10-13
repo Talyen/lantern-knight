@@ -1,3 +1,4 @@
+import { readJson } from '../json-file';
 import { checkLoadingScreen } from './loading-screen';
 import { startGameBenchmark } from '../diagnostics/game-benchmark';
 import { heroTimings } from '../../src/content/hero-actions';
@@ -38,12 +39,14 @@ export async function runScenario(flags: string[] = []) {
       return info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : 'unavailable';
     });
     console.log('Game renderer: ' + renderer);
-    await app.evaluate(({ BrowserWindow }, benchmark) => {
-      BrowserWindow.getAllWindows()[0]!.setContentSize(
-        benchmark ? 2560 : 1280,
-        benchmark ? 1440 : 800,
-      );
-    }, benchmark);
+    await app.evaluate(
+      ({ BrowserWindow }, benchmark) =>
+        BrowserWindow.getAllWindows()[0]!.setContentSize(
+          benchmark ? 2560 : 1280,
+          benchmark ? 1440 : 800,
+        ),
+      benchmark,
+    );
     assert.equal(await page.evaluate(() => 'foundation' in window), false);
     assert.equal(await page.evaluate(() => typeof window.lantern?.launchMode), 'undefined');
     checks.push('player package exposes no inspection API or developer launch bridge');
@@ -126,7 +129,7 @@ export async function runScenario(flags: string[] = []) {
     await page.waitForFunction(
       () => !document.querySelector<HTMLDialogElement>('#new-confirm')!.open,
     );
-    assert.equal(JSON.parse(await fs.readFile(checkpoint, 'utf8')).version, 6);
+    assert.equal((await readJson(checkpoint)).version, 6);
     await pause();
     checks.push('New Game replaces obsolete prototype data with the current format');
     let save = await observe();
@@ -253,9 +256,7 @@ export async function runScenario(flags: string[] = []) {
       await page.waitForFunction(
         () => document.querySelector('#status')?.textContent === 'Checkpoint saved',
       );
-      checkpoint = JSON.parse(
-        await fs.readFile(path.join(run.profile, 'prototype-saves/game.json'), 'utf8'),
-      );
+      checkpoint = await readJson(path.join(run.profile, 'prototype-saves/game.json'));
     } catch {}
     await run.writeReport('failure.json', {
       stage,

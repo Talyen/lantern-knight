@@ -1,4 +1,4 @@
-import fs from 'node:fs/promises';
+import { readJson } from '../json-file';
 import os from 'node:os';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
@@ -113,9 +113,7 @@ async function main() {
         else {
           if (!Object.hasOwn(catalog, id)) throw new Error('Unknown asset: ' + id);
           const m = parseManifest(
-            JSON.parse(
-              await fs.readFile(path.join(workspace.publicDirectory, catalog[id]!), 'utf8'),
-            ),
+            await readJson(path.join(workspace.publicDirectory, catalog[id]!)),
           );
           console.log(
             JSON.stringify(

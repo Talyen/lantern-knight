@@ -1,3 +1,4 @@
+import { readJson } from './json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {
@@ -35,7 +36,7 @@ export async function checkSceneDocuments(
     const location = path.join(directory, file);
     if (!(await fs.lstat(location)).isFile() || (await fs.stat(location)).size > sceneBytesLimit)
       throw new Error('Scene document must be a small regular file: ' + file);
-    const d = parseSceneDocument(JSON.parse(await fs.readFile(location, 'utf8')));
+    const d = parseSceneDocument(await readJson(location));
     if (file !== d.id + '.json')
       throw new Error('Scene filename differs from its identity: ' + file);
     const scene = resolveScene(d);
@@ -53,9 +54,7 @@ export async function checkSceneDocuments(
           continue;
         throw new Error('Unavailable scene asset: ' + id);
       }
-      const manifest = parseManifest(
-        JSON.parse(await fs.readFile(path.join(publicDirectory, source), 'utf8')),
-      );
+      const manifest = parseManifest(await readJson(path.join(publicDirectory, source)));
       if (manifest.asset.id !== id) throw new Error('Scene asset identity differs: ' + id);
       manifests.set(id, manifest);
     }

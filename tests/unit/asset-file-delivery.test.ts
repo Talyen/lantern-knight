@@ -1,3 +1,4 @@
+import { readJson } from '../../tools/json-file';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test, { type TestContext } from 'node:test';
 import assert from 'node:assert/strict';
@@ -30,9 +31,7 @@ async function fixture(t: TestContext) {
     await fs.writeFile(path.join(sourceRoot, name), bytes);
   }
   const candidate = await inventoryCandidate(sourceRoot, 'a'.repeat(64));
-  const inventory = PackSchema.parse(
-    JSON.parse(await fs.readFile(path.join(sourceRoot, 'pack.json'), 'utf8')),
-  );
+  const inventory = PackSchema.parse(await readJson(path.join(sourceRoot, 'pack.json')));
   const pin = {
     ...preparationPin(candidate, {}, inventory),
     schemaVersion: 3 as const,

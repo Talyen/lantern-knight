@@ -1,3 +1,4 @@
+import { readJson } from './json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
@@ -37,7 +38,7 @@ function markdownLinks(text: string) {
 }
 
 async function checkDocumentation(root: string, files: string[]) {
-  const { scripts } = JSON.parse(await fs.readFile(path.join(root, 'package.json'), 'utf8')) as {
+  const { scripts } = (await readJson(path.join(root, 'package.json'))) as {
     scripts: Record<string, string>;
   };
   const findings: string[] = [],

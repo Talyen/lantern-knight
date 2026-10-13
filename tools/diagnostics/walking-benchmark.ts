@@ -1,5 +1,5 @@
+import { writeJson } from '../json-file';
 import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { smokeLaunch, playerControls } from '../smoke/smoke-launch';
@@ -119,10 +119,7 @@ async function runWalkingBenchmark(flags: string[] = []) {
       'One five-second sample supports quick iteration, not absence of rare stutters or a performance improvement claim.',
     );
   } catch (error) {
-    await fs.writeFile(
-      path.join(run.output, 'failure.json'),
-      JSON.stringify({ error: String(error), errors }),
-    );
+    await writeJson(path.join(run.output, 'failure.json'), { error: String(error), errors });
     throw error;
   } finally {
     await run.close();

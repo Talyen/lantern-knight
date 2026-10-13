@@ -22,9 +22,7 @@ export async function nativeScene(flags: string[]) {
   const run = await smokeLaunch(true, [], { flags }),
     held = await new AssetCache().lease('scene-native-' + process.pid);
   try {
-    await run.page.evaluate(async (scene) => {
-      await window.foundation.fixture(scene);
-    }, scene);
+    await run.page.evaluate(async (scene) => await window.foundation.fixture(scene), scene);
     const context = {
       page: run.page,
       browser: run.app,

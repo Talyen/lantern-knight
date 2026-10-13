@@ -1,3 +1,4 @@
+import { readJson, writeJson } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
@@ -66,7 +67,7 @@ export async function cachedPreparationStep(options: {
   const directory = path.join(options.cache, options.file.replace(/\.[^.]+$/, ''));
   let prior: Receipt | undefined;
   try {
-    prior = JSON.parse(await fs.readFile(path.join(directory, 'receipt.json'), 'utf8')) as Receipt;
+    prior = (await readJson(path.join(directory, 'receipt.json'))) as Receipt;
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT' && !(error instanceof SyntaxError))
       throw error;
@@ -158,16 +159,13 @@ export async function cachedPreparationStep(options: {
       ...new Map(sourceReads.map((source) => [JSON.stringify(source), source])).values(),
     ];
     const digest = createHash('sha256').update(JSON.stringify(files)).digest('hex');
-    await fs.writeFile(
-      path.join(temporary, 'receipt.json'),
-      JSON.stringify({
-        version: 1,
-        key: options.key,
-        digest,
-        files,
-        sources: unique,
-      } satisfies Receipt),
-    );
+    await writeJson(path.join(temporary, 'receipt.json'), {
+      version: 1,
+      key: options.key,
+      digest,
+      files,
+      sources: unique,
+    } satisfies Receipt);
     await fs.rm(outputs, { force: true });
     await fs.rm(sources, { force: true });
     await fs.rm(directory, { recursive: true, force: true });
@@ -184,9 +182,7 @@ export async function cachedPreparationStep(options: {
 export async function restorePreparationStaging(cache: string, workspace: string) {
   for (const step of (await import('./recipe')).preparationSteps) {
     const directory = path.join(cache, step.file.replace(/\.[^.]+$/, ''));
-    const receipt = JSON.parse(
-      await fs.readFile(path.join(directory, 'receipt.json'), 'utf8'),
-    ) as Receipt;
+    const receipt = (await readJson(path.join(directory, 'receipt.json'))) as Receipt;
     const names = Object.keys(receipt.files).filter((name) => name.startsWith('staging/'));
     await verifiedOutput(
       path.join(directory, 'files'),

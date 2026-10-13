@@ -16,6 +16,7 @@ import { Input } from './input';
 import { parseGame, type GameSave } from './core/save';
 import type { Bridge } from './platform/bridge';
 import { FrameScheduler } from './frame-scheduler';
+import { LoadingScopes } from './loading-scopes';
 import {
   SessionOperations,
   SessionOperationCancelled,
@@ -85,7 +86,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   get roomReady() {
     return this.roomAccepted;
   }
-  private loading = new Set<symbol>();
+  private readonly loading: LoadingScopes;
   private pauseSequence = 0;
   private aim = { x: 0, z: 1 };
   private assetLoads = new Map<string, Promise<void>>();
@@ -126,6 +127,29 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     readonly hooks: ApplicationHooks,
     options: ApplicationOptions = {},
   ) {
+    this.loading = new LoadingScopes(
+      () => {
+        this.audio.setWorldFrozen(true);
+        this.clock.reset();
+        this.input?.clear();
+        this.hooks.loading?.(true);
+      },
+      () => {
+        if (this.disposed) return;
+        cleanupAll([
+          () => {
+            // Submit the destination before revealing a paused/background window.
+            if (this.ready && this.roomReady) this.presentation.update(this.sim, 1, 0, this.aim);
+          },
+          () => this.resetFrameClock(),
+          () => this.input?.clear(),
+          () => {
+            if (!this.disposed && !this.loading.busy) this.hooks.loading?.(false);
+          },
+        ]);
+      },
+      (error) => this.hooks.status(`Loading feedback failed: ${String(error)}`, true),
+    );
     this.events = new EventHub((error, event) =>
       this.hooks.status(
         `Event feedback failed (${event.kind}): ${error instanceof Error ? error.message : String(error)}`,
@@ -148,7 +172,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   editPreview(work: (sim: GameSession['sim']) => undefined) {
     this.assertActive();
     if (!this.readOnly) throw new Error('Preview edits require a read-only application');
-    if (this.busy || this.loading.size > 0 || !this.roomReady)
+    if (this.busy || this.loading.busy || !this.roomReady)
       throw new Error('Wait for the area to finish loading');
     work(this.current.session.sim);
   }
@@ -167,37 +191,9 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.clock.reset();
     this.last = performance.now();
   };
-  async withLoading<T>(work: () => Promise<T>): Promise<T> {
+  async withLoading<T>(work: () => Promise<T>, signal?: AbortSignal): Promise<T> {
     this.assertActive();
-    const token = Symbol();
-    this.loading.add(token);
-    this.audio.setWorldFrozen(true);
-    const finish = () => {
-      this.loading.delete(token);
-      if (!this.disposed && this.loading.size === 0)
-        cleanupAll([
-          () => {
-            // Submit the destination before revealing it, even in a paused/background window.
-            if (this.ready && this.roomReady) this.presentation.update(this.sim, 1, 0, this.aim);
-          },
-          () => this.resetFrameClock(),
-          () => this.input?.clear(),
-          () => this.hooks.loading?.(false),
-        ]);
-    };
-    let result: T;
-    try {
-      if (this.loading.size === 1) {
-        this.clock.reset();
-        this.input?.clear();
-        this.hooks.loading?.(true);
-      }
-      result = await work();
-    } catch (error) {
-      cleanupAfterFailure(error, finish);
-    }
-    finish();
-    return result;
+    return this.loading.run(work, signal);
   }
   boot() {
     if (this.disposed) return Promise.reject(new Error('application disposed'));
@@ -358,7 +354,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         } finally {
           if (!operation.signal.aborted && !this.disposed && !this.roomReady) this.pause(true);
         }
-      }),
+      }, operation.signal),
     );
   }
   // Construct the candidate before acquisition. Callers never receive the session
@@ -441,7 +437,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     value = value || !this.roomReady;
     const changed = value !== this.paused;
     this.paused = value;
-    this.audio.setWorldFrozen(value || this.loading.size > 0);
+    this.audio.setWorldFrozen(value || this.loading.busy);
     if (changed)
       void this.audio.play(value ? 'ui-confirm' : 'ui-cancel', { world: false }).catch(() => {});
     this.clock.reset();
@@ -641,7 +637,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     const idle =
         this.frames?.idle ??
         (!this.bridge.automatedRun && (document.hidden || !document.hasFocus())),
-      frozen = this.paused || !this.roomReady || this.busy || this.loading.size > 0 || idle;
+      frozen = this.paused || !this.roomReady || this.busy || this.loading.busy || idle;
     this.audioFeedback.frame(this.sim, frozen || !this.simulationEnabled);
     if (!frozen && this.simulationEnabled)
       alpha = this.clock.advance(ms, () => {
@@ -696,7 +692,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     const retained = [...this.persistentLeases.values()];
     this.previewPack = undefined;
     this.persistentLeases.clear();
-    this.loading.clear();
+    this.loading.dispose();
     cleanupAll([
       () => this.sessionOperations.dispose(),
       () => this.abort.abort(),

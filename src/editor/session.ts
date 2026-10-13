@@ -606,14 +606,8 @@ export function createEditorSession() {
         if (id !== 'mirror' && (!input.value.trim() || !Number.isFinite(value))) return;
         history.transformEach(ids, { [id]: value });
       });
-  $('undo').onclick = () =>
-    void edit((history) => {
-      history.undo();
-    });
-  $('redo').onclick = () =>
-    void edit((history) => {
-      history.redo();
-    });
+  $('undo').onclick = () => void edit((history) => history.undo());
+  $('redo').onclick = () => void edit((history) => history.redo());
   $('duplicate').onclick = () => void composition?.duplicate();
   $('delete').onclick = () => void composition?.remove();
   $('fit').onclick = fit;
@@ -939,7 +933,7 @@ export function createEditorSession() {
     if (!point) return;
     const id = 'object-' + crypto.randomUUID();
     await edit(
-      (history) => {
+      (history) =>
         history.change((d) =>
           d.objects.push(
             applySceneryPreset({
@@ -967,8 +961,7 @@ export function createEditorSession() {
                     )?.[0],
             }),
           ),
-        );
-      },
+        ),
       () => {
         const repeat = $<HTMLInputElement>('repeat-placement').checked;
         const heading = $<HTMLSelectElement>('place-heading').value;
@@ -1430,7 +1423,7 @@ export function createEditorSession() {
       import: importDocument,
       change,
       status,
-      fragment: async (name, objects) => {
+      fragment: async (name, objects) =>
         await run(async () => {
           const data = await project.post({
             action: 'fragment',
@@ -1438,8 +1431,7 @@ export function createEditorSession() {
             document: documents.history.document,
           });
           status('Fragment saved to authoring/fragments/' + data.id + '.json');
-        });
-      },
+        }),
       select: (ids) => {
         composition.selection.clear();
         ids.forEach((id) => composition.selection.add(id));
@@ -1467,9 +1459,7 @@ export function createEditorSession() {
       manifest: () => assetIndex.get(documents.history.document.floor.asset),
       change,
       status,
-      request: async (selection, signal) => {
-        return project.post({ action: 'segment', selection }, signal);
-      },
+      request: async (selection, signal) => project.post({ action: 'segment', selection }, signal),
     });
     assetIndex = await loadAssetIndex(runtime, lifetime.signal);
     usedAssets = assetClosure(usedAssetRoots(), assetIndex);

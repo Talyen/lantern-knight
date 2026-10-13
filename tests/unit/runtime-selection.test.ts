@@ -1,3 +1,4 @@
+import { readJson } from '../../tools/json-file';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -88,7 +89,7 @@ test('runtime selection builds from delivery-only payloads and validates shipped
   await write(delivery, 'corrupt');
   await assert.rejects(selectedFiles(source, 'game'), /Prepared delivery image differs/);
   await write(delivery, image);
-  const manifest = JSON.parse(await fs.readFile(path.join(source, first), 'utf8'));
+  const manifest = await readJson(path.join(source, first));
   delete manifest.pages[0].delivery;
   await write(first, JSON.stringify(manifest));
   await assert.rejects(selectedFiles(source, 'game'), /ENOENT/);

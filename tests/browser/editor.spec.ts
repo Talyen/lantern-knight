@@ -1,3 +1,4 @@
+import { readJson, writeJson } from '../../tools/json-file';
 import { test, expect, openEditor, waitForEditor } from './fixtures';
 import type { Page } from '@playwright/test';
 import fs from 'node:fs/promises';
@@ -116,11 +117,11 @@ test('editor placement, experimental scale, history, recovery, save and external
     expect((await saving).status()).toBe(200);
     // Saving also refreshes the scene list before releasing the editor's busy state.
     await expect(page.locator('#save-state')).toHaveText('Saved', { timeout: 30000 });
-    const saved = JSON.parse(await fs.readFile(file, 'utf8'));
+    const saved = await readJson(file);
     expect(saved.objects[0].scale).toBe(2);
     expect(saved.version).toBe(5);
     expect(errors).toEqual([]);
-    await fs.writeFile(file, JSON.stringify({ ...saved, name: 'External change' }));
+    await writeJson(file, { ...saved, name: 'External change' });
     await page.locator('#name').fill('Preserved draft');
     await page.locator('#name').dispatchEvent('change');
     await page.locator('#save').click();
@@ -129,7 +130,7 @@ test('editor placement, experimental scale, history, recovery, save and external
       'Failed to load resource: the server responded with a status of 409 (Conflict)';
     await expect.poll(() => errors.filter((error) => error === expectedConflict).length).toBe(1);
     errors.splice(errors.indexOf(expectedConflict), 1);
-    expect(JSON.parse(await fs.readFile(file, 'utf8')).name).toBe('External change');
+    expect((await readJson(file)).name).toBe('External change');
     expect((await page.evaluate(() => window.sceneEditor.state().document)).name).toBe(
       'Preserved draft',
     );

@@ -1,3 +1,4 @@
+import { readJson } from '../../tools/json-file';
 import { test, expect, openEditor, waitForEditor } from './fixtures';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -254,7 +255,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     const response = await savedResponse;
     expect(response.ok(), await response.text()).toBe(true);
     await expect(page.locator('#save-state')).toHaveText('Saved');
-    const saved = JSON.parse(await fs.readFile(file, 'utf8'));
+    const saved = await readJson(file);
     expect(saved.groundInteraction).toEqual(authored);
     const archive = await (await request.get('/__lantern_editor?groundProfiles')).json();
     profileId = archive.profiles.find((p: { name: string }) => p.name.includes(id))?.id;

@@ -1,5 +1,5 @@
+import { writeJson } from '../json-file';
 import { desktopEnvironment } from './environment';
-import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { z } from 'zod';
@@ -293,7 +293,7 @@ export async function startGameBenchmark(
       assert.ok(record, 'Game benchmark did not finish');
       await requireStableInputs(process.cwd(), source);
       const file = path.join(run.output, 'benchmark.json');
-      await fs.writeFile(file, JSON.stringify(record));
+      await writeJson(file, record);
       console.log(
         `Game benchmark: ${JSON.stringify(frameSummary(record.frames))}\n${record.segments.map((s) => `${s.name}: ${JSON.stringify(frameSummary(s.frames))}`).join('\n')}\nFresh-process startup observation: ${startup.launchToReadyMs.toFixed(0)} ms\nComparison input: ${file}`,
       );

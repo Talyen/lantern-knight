@@ -1,3 +1,4 @@
+import { readJson, writeJson } from '../json-file';
 import type { GameSave } from '../../src/core/save';
 import { AssetCache, diskBytes } from '../assets/cache';
 import { randomUUID } from 'node:crypto';
@@ -25,9 +26,7 @@ export function playerControls(page: Page, profile: string) {
     await page.waitForFunction(
       () => document.querySelector('#status')?.textContent === 'Checkpoint saved',
     );
-    return JSON.parse(
-      await fs.readFile(path.join(profile, 'prototype-saves/game.json'), 'utf8'),
-    ) as GameSave;
+    return (await readJson(path.join(profile, 'prototype-saves/game.json'))) as GameSave;
   };
   const frames = () =>
     page.evaluate(
@@ -241,10 +240,7 @@ async function launch(
             await fs.rm(output, { recursive: true, force: true });
           else if (failure) console.error('Failure diagnostics: ' + output);
           if (capture && !failure && !errors.length && process.env.LANTERN_TASK_RESULT)
-            await fs.writeFile(
-              process.env.LANTERN_TASK_RESULT,
-              JSON.stringify({ captureDirectories: [output] }),
-            );
+            await writeJson(process.env.LANTERN_TASK_RESULT, { captureDirectories: [output] });
           if (managed && (await diskBytes(held.root)) > budget)
             throw new Error('Diagnostic output exceeded cache reservation');
         } finally {

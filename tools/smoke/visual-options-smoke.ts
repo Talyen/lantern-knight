@@ -1,3 +1,4 @@
+import { readJson } from '../json-file';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -56,7 +57,7 @@ export async function runScenario(flags: string[] = []) {
         saved.data.renderScale === 0.75
       );
     });
-    const persisted = JSON.parse(await fs.readFile(settingsFile, 'utf8'));
+    const persisted = await readJson(settingsFile);
     assert.deepEqual((persisted as { visualEffects: unknown }).visualEffects, {
       ...defaultVisualEffects(),
       smoke: false,

@@ -1,5 +1,6 @@
 import os from 'node:os';
 import { audioTools, verifyAudioSources } from './audio';
+import { readJson, writeJson } from '../json-file';
 import { discoverLibrary, sourceSnapshot } from './discovery';
 import { cameraCalibration } from '../../src/assets/camera-calibration';
 import { stagePayload } from './payload';
@@ -50,7 +51,7 @@ export async function prototypeAssets(
   const index = await cache.lease(previewName(root) + '-index');
   let entry: string | undefined;
   try {
-    entry = JSON.parse(await fs.readFile(path.join(index.root, 'preview.json'), 'utf8')).entry;
+    entry = (await readJson(path.join(index.root, 'preview.json'))).entry;
     if (
       typeof entry !== 'string' ||
       !new RegExp('^' + previewName(root) + '-[a-f0-9]{24}$').test(entry)
@@ -64,7 +65,7 @@ export async function prototypeAssets(
   if (!entry && reusePrepared) {
     const shared = await cache.lease('preparation-base');
     try {
-      const pointer = JSON.parse(await fs.readFile(path.join(shared.root, 'preview.json'), 'utf8'));
+      const pointer = await readJson(path.join(shared.root, 'preview.json'));
       const pin = await readLock((name) => fs.readFile(path.join(root, name)));
       if (
         typeof pointer.entry !== 'string' ||
@@ -81,9 +82,7 @@ export async function prototypeAssets(
   if (entry) {
     const held = await cache.lease(entry);
     try {
-      const descriptor = JSON.parse(
-        await fs.readFile(path.join(held.root, 'preview.json'), 'utf8'),
-      ) as Preview;
+      const descriptor = (await readJson(path.join(held.root, 'preview.json'))) as Preview;
       if (descriptor.version !== 1 || !descriptor.sha256 || !descriptor.files)
         throw new Error('Invalid prototype asset layer');
       await verifiedOutput(
@@ -217,12 +216,9 @@ export async function preparePreviewAssets(
         const directory = path.dirname(base.held.root);
         const sourceVerified = await sourceSnapshot(env);
         for (const operation of steps) {
-          const receipt = JSON.parse(
-            await fs.readFile(
-              path.join(directory, 'steps', operation.file.replace(/\.[^.]+$/, ''), 'receipt.json'),
-              'utf8',
-            ),
-          ) as {
+          const receipt = (await readJson(
+            path.join(directory, 'steps', operation.file.replace(/\.[^.]+$/, ''), 'receipt.json'),
+          )) as {
             sources: {
               member: string;
               group: string;
@@ -276,9 +272,7 @@ export async function preparePreviewAssets(
     const indexLease = await cache.lease(previewName(projectRoot) + '-index');
     let checkpoint: { entry: string; baseSha256: string; librarySha256?: string } | undefined;
     try {
-      checkpoint = JSON.parse(
-        await fs.readFile(path.join(indexLease.root, 'checkpoint.json'), 'utf8'),
-      );
+      checkpoint = await readJson(path.join(indexLease.root, 'checkpoint.json'));
       if (
         !checkpoint ||
         !new RegExp('^' + previewName(projectRoot) + '-[a-f0-9]{24}$').test(checkpoint.entry)
@@ -400,10 +394,11 @@ export async function preparePreviewAssets(
       const checkpointIndex = await cache.lease(previewName(projectRoot) + '-index');
       try {
         const target = path.join(checkpointIndex.root, 'checkpoint.json');
-        await fs.writeFile(
-          target + '.tmp',
-          JSON.stringify({ entry, baseSha256, librarySha256: env.LANTERN_LIBRARY_SHA256 }),
-        );
+        await writeJson(target + '.tmp', {
+          entry,
+          baseSha256,
+          librarySha256: env.LANTERN_LIBRARY_SHA256,
+        });
         await fs.rename(target + '.tmp', target);
       } finally {
         await checkpointIndex.release();
@@ -451,7 +446,7 @@ export async function preparePreviewAssets(
         reserveGrowth: await growthReservation(held),
       });
       const calibrationFile = path.join(work, 'public/generated/calibration.json');
-      await fs.writeFile(calibrationFile + '.tmp', JSON.stringify(cameraCalibration()));
+      await writeJson(calibrationFile + '.tmp', cameraCalibration());
       await fs.rename(calibrationFile + '.tmp', calibrationFile);
       if (audioOnly) {
         await fs.mkdir(path.join(work, 'metadata/audio'), { recursive: true });
@@ -478,23 +473,20 @@ export async function preparePreviewAssets(
         .digest('hex');
       await fs.rm(old, { recursive: true, force: true });
       await fs.rename(work, old);
-      await fs.writeFile(
-        path.join(held.root, 'preview.json'),
-        JSON.stringify({
-          version: 1,
-          sha256: digest,
-          baseSha256,
-          recipeSha256: startRecipe,
-          selections: selectedIds,
-          files,
-          librarySha256: env.LANTERN_LIBRARY_SHA256,
-          gpu: audioOnly
-            ? 'gpu' in base.lock && base.lock.gpu === true
-            : env.LANTERN_IMAGE_GPU === '1',
-          complete: completeBase || steps.length === preparationSelection([]).length,
-          full: steps.length === preparationSelection([]).length,
-        } satisfies Preview),
-      );
+      await writeJson(path.join(held.root, 'preview.json'), {
+        version: 1,
+        sha256: digest,
+        baseSha256,
+        recipeSha256: startRecipe,
+        selections: selectedIds,
+        files,
+        librarySha256: env.LANTERN_LIBRARY_SHA256,
+        gpu: audioOnly
+          ? 'gpu' in base.lock && base.lock.gpu === true
+          : env.LANTERN_IMAGE_GPU === '1',
+        complete: completeBase || steps.length === preparationSelection([]).length,
+        full: steps.length === preparationSelection([]).length,
+      } satisfies Preview);
       // The complete new layer owns its linked files. Releasing this operation's
       // base lease lets the cache evict an unused predecessor before publishing
       // the index; other readers retain their own independent leases.
@@ -502,7 +494,7 @@ export async function preparePreviewAssets(
       await held.reserve(await (await import('./cache')).diskBytes(held.root));
       const index = await cache.lease(previewName(projectRoot) + '-index');
       try {
-        await fs.writeFile(path.join(index.root, 'preview.json.tmp'), JSON.stringify({ entry }));
+        await writeJson(path.join(index.root, 'preview.json.tmp'), { entry });
         await fs.rename(
           path.join(index.root, 'preview.json.tmp'),
           path.join(index.root, 'preview.json'),
@@ -515,7 +507,7 @@ export async function preparePreviewAssets(
         const shared = await cache.lease('preparation-base');
         const temporary = path.join(shared.root, 'preview-' + randomUUID() + '.tmp');
         try {
-          await fs.writeFile(temporary, JSON.stringify({ entry, baseSha256 }));
+          await writeJson(temporary, { entry, baseSha256 });
           await fs.rename(temporary, path.join(shared.root, 'preview.json'));
         } finally {
           await fs.rm(temporary, { force: true });
