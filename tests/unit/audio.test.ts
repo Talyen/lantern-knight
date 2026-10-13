@@ -309,16 +309,18 @@ test('movement foley requires traveled distance, not idle animation or frozen fr
       calls.push(cue);
     },
   } as unknown as AudioPlayback);
-  feedback.frame(session.sim.view, false);
-  session.sim.hero.state = 'walk';
-  feedback.frame(session.sim.view, false);
+  const hero = { ...session.sim.hero };
+  const sim = { ...session.sim.view, hero, actors: [hero], enemies: [] };
+  feedback.frame(sim, false);
+  hero.state = 'walk';
+  feedback.frame(sim, false);
   assert.equal(calls.length, 0);
-  session.sim.hero.x += 0.7;
-  feedback.frame(session.sim.view, false);
+  hero.x += 0.7;
+  feedback.frame(sim, false);
   assert.ok(calls.includes('step-stone'));
   const before = calls.length;
-  session.sim.hero.x += 0.7;
-  feedback.frame(session.sim.view, true);
+  hero.x += 0.7;
+  feedback.frame(sim, true);
   assert.equal(calls.length, before);
 });
 
@@ -419,4 +421,16 @@ test('rapid ambience changes retain only one outgoing fade and timer', async () 
   assert.equal(f.sources[1]!.stopped, false);
   assert.equal(f.timers.size, 1);
   f.playback.dispose();
+});
+
+test('opening a paused menu preserves its accepted feedback while cancelling pending world cues', async () => {
+  for (const world of [true, false]) {
+    const f = fixture();
+    await ready(f);
+    const pending = f.playback.play('sword', { world });
+    f.playback.setWorldFrozen(true);
+    await pending;
+    assert.equal(f.playback.diagnosticsSnapshot.voices, world ? 0 : 1);
+    f.playback.dispose();
+  }
 });

@@ -65,7 +65,7 @@ export class AudioFeedback {
         break;
       }
       case 'campfire-discovered':
-        play('fire');
+        play('fire', false);
         break;
       case 'rested':
         play('heal', false);

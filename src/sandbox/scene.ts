@@ -57,7 +57,22 @@ export function mountScene(
   const sandboxBridge: Bridge = {
     automatedRun: window.lantern?.automatedRun,
     loadGame: async () => ({ status: 'empty' }),
-    loadSettings: () => previewSettings.loadSettings(),
+    loadSettings: async () => {
+      const saved = await previewSettings.loadSettings();
+      if (saved.status !== 'ok') return saved;
+      // Workspace/scene controls retain ownership of the preview's look. Only
+      // sound preferences are restored from this independent settings profile.
+      return {
+        status: 'ok',
+        data: {
+          ...saved.data,
+          renderScale: app.scale,
+          verticalSpan: app.presentation.verticalSpan,
+          depthOfField: app.presentation.depthOfField,
+          visualEffects: { ...app.presentation.visualEffects },
+        },
+      };
+    },
     saveGame: async () => {
       throw new Error('Dev Preview checkpoint writes denied');
     },

@@ -55,6 +55,7 @@ export class AudioPlayback {
   private cooldown = new Map<string, number>();
   private lifetime = new AbortController();
   private epoch = 0;
+  private sessionEpoch = 0;
   private ambienceRequest = 0;
   private destination: readonly AudioCue[] = [];
   private activeDestination = '';
@@ -134,6 +135,7 @@ export class AudioPlayback {
     if (this.ambience) this.ambience.gain.value = settings.ambience;
     if (settings.muted) {
       this.epoch++;
+      this.sessionEpoch++;
       this.cooldown.clear();
       for (const voice of [...this.voices]) voice.finish();
       this.stopAmbience();
@@ -150,6 +152,7 @@ export class AudioPlayback {
   }
   replaceSession() {
     this.epoch++;
+    this.sessionEpoch++;
     this.cooldown.clear();
     for (const voice of [...this.voices]) if (voice.world) voice.finish();
   }
@@ -272,11 +275,13 @@ export class AudioPlayback {
   ) {
     const world = options.world ?? true,
       epoch = this.epoch,
+      sessionEpoch = this.sessionEpoch,
       requested = this.deps.now();
     const allowed = () =>
       !this.lifetime.signal.aborted &&
       !options.signal?.aborted &&
-      epoch === this.epoch &&
+      sessionEpoch === this.sessionEpoch &&
+      (!world || epoch === this.epoch) &&
       this.unlocked &&
       !this.settings.muted &&
       this.settings.master > 0 &&
