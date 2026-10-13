@@ -375,7 +375,10 @@ test('unsaved draft playtest discards gameplay state and survives repeated entry
         { timeout: 60000 },
       )
       .toBe('ready');
-    await page.locator('#playtest-viewport').focus();
+    await page.locator('#playtest-pause').click();
+    await expect(page.locator('#playtest-pause')).toHaveText('Resume');
+    await page.locator('#playtest-pause').click();
+    await expect(page.locator('#playtest-viewport')).toBeFocused();
     await page.keyboard.down('KeyD');
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.playtest()?.hero.x))
@@ -386,6 +389,26 @@ test('unsaved draft playtest discards gameplay state and survives repeated entry
     expect(await snapshot()).toEqual(before);
     expect(await page.evaluate(() => window.sceneEditor.playtest())).toBeUndefined();
   }
+});
+
+test('scene library tolerates malformed recent-scene metadata', async ({ page }) => {
+  await openEditor(page);
+  await page.route('**/__lantern_editor', (route) =>
+    route.fulfill({
+      json: {
+        scenes: [
+          { id: 'first', name: 'First fixture', target: 'draft' },
+          { id: 'second', name: 'Second fixture', target: 'draft' },
+        ],
+      },
+    }),
+  );
+  await page.evaluate(() => localStorage.setItem('lantern-editor-scenes', '{"unexpected":true}'));
+  await page.locator('#document-menu > summary').click();
+  await page.locator('#scene-library').click();
+  await expect(page.locator('#scene-library-dialog')).toBeVisible();
+  await expect(page.locator('#library-scenes')).toContainText('First fixture');
+  await expect(page.locator('#library-scenes')).toContainText('Second fixture');
 });
 
 test('editor workspace keeps populated attachment controls accessible at desktop widths', async ({

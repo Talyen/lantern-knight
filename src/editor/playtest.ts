@@ -109,8 +109,10 @@ export class DraftPlaytest {
       { capture: true, signal: this.lifetime.signal },
     );
     this.dialog.querySelector<HTMLButtonElement>('#playtest-return')!.onclick = () => this.close();
-    this.dialog.querySelector<HTMLButtonElement>('#playtest-pause')!.onclick = () =>
+    this.dialog.querySelector<HTMLButtonElement>('#playtest-pause')!.onclick = () => {
       this.app?.pause(!this.app.paused);
+      if (this.app && !this.app.paused) this.canvas.focus();
+    };
     this.dialog.querySelector<HTMLButtonElement>('#playtest-reset')!.onclick = () => {
       if (this.snapshot)
         void this.start(this.snapshot, this.movement).catch((e) =>

@@ -20,6 +20,50 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
   expect(initial.wins).toBe(0);
   await expect(page.locator('#objective')).toHaveText('Explore the scene');
   await page.locator('#resume').click();
+  const inputErrors: string[] = [];
+  page.on('pageerror', (error) => inputErrors.push(error.message));
+  await page.evaluate(async () => {
+    const canvas = document.querySelector('canvas')!;
+    const button = document.createElement('button');
+    const child = document.createElement('span');
+    child.tabIndex = 0;
+    button.append(child);
+    document.body.append(button);
+    try {
+      child.focus();
+      child.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, code: 'KeyW' }));
+      for (let i = 0; i < 10; i++)
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      child.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, code: 'KeyW' }));
+      canvas.focus();
+      for (const modifier of ['ctrlKey', 'metaKey', 'altKey']) {
+        canvas.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            bubbles: true,
+            code: 'KeyW',
+            [modifier]: true,
+          }),
+        );
+        for (let i = 0; i < 3; i++)
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        canvas.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, code: 'KeyW' }));
+      }
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyZ' }));
+      window.dispatchEvent(new KeyboardEvent('keyup', { code: 'KeyZ' }));
+    } finally {
+      button.remove();
+    }
+  });
+  await page.locator('#pause').click();
+  await page.locator('#save').click();
+  await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
+  const afterControls = await page.evaluate(
+    (key) => JSON.parse(localStorage.getItem(key)!),
+    keys[0]!,
+  );
+  expect(afterControls.player).toEqual(initial.player);
+  expect(inputErrors).toEqual([]);
+  await page.locator('#resume').click();
   await holdMovement(page, 'KeyW');
   await page.locator('#pause').click();
   await page.locator('#save').click();
