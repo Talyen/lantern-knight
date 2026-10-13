@@ -34,7 +34,7 @@ import { tuning } from '../content/gameplay';
 import { heightAt, type AreaDefinition } from '../content/world';
 import { pageIdentity, type AssetPack } from '../assets/loader';
 import { EventHub } from '../core/events';
-import type { ActorView, SimulationView } from '../core/simulation-view';
+import type { SimulationView } from '../core/simulation-view';
 import {
   defaultVisualEffects,
   type VisualEffects,
@@ -217,9 +217,6 @@ export class GamePresentation implements PresentationLifecycle {
       ...(this.visuals?.look ?? { rig: defaultLook.rig, look: defaultLook.look }),
       sun: this.visuals?.look ? this.visuals.look.sun : defaultLook.sun,
     });
-  }
-  createVisual(a: ActorView, generation: number) {
-    return this.actorPresentation.createVisual(a, generation);
   }
   getClip(id: string, dir: (typeof HEADINGS)[number], manifest = this.manifest): Clip {
     return this.actorPresentation.getClip(id, dir, manifest, this.walkTiming);

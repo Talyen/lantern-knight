@@ -11,15 +11,11 @@ import { type AssetPack } from '../assets/loader';
 import { EventHub } from '../core/events';
 import type { SimulationView } from '../core/simulation-view';
 import { GamePresentation } from './game-scene';
-import { captureArtDiagnostics } from './art-diagnostics';
 import { ArtConstructionOverlay } from './art-construction-overlay';
 export type Mode = 'encounter' | 'calibration' | 'animation' | 'occlusion' | 'lighting';
 export class Presentation extends GamePresentation {
   beforeSceneRender?: (sim: SimulationView, ms: number) => void;
   mode: Mode = 'encounter';
-  captureArtDiagnostics() {
-    return captureArtDiagnostics(this);
-  }
   readonly artConstruction = new ArtConstructionOverlay(this.registration.coverage);
   get lightingLab() {
     return this.lookRenderer;
@@ -43,7 +39,6 @@ export class Presentation extends GamePresentation {
   labSprite: ActorSprite;
   secondSprite: ActorSprite;
   labAnimator: Animator;
-  frameMap = new Map<string, Frame>();
   lastLabOverlay = '';
   labZoom = 2;
   labPanelInset = 330;
@@ -87,7 +82,6 @@ export class Presentation extends GamePresentation {
     );
     this.labAnimator = this.labSprite.animator;
     this.scene.add(this.labSprite.mesh, this.secondSprite.mesh);
-    this.frameMap = new Map(manifest.frames.map((f) => [f.id, f]));
     this.buildCalibration();
     this.resize();
   }
@@ -175,7 +169,6 @@ export class Presentation extends GamePresentation {
       labSprite: this.labSprite,
       secondSprite: this.secondSprite,
       labAnimator: this.labAnimator,
-      frameMap: this.frameMap,
       lastLabOverlay: this.lastLabOverlay,
       notifyLog: this.notifyLog,
     };
@@ -186,7 +179,6 @@ export class Presentation extends GamePresentation {
     this.secondSprite = second;
     this.labAnimator = lab.animator;
     this.scene.add(lab.mesh, second.mesh);
-    this.frameMap = new Map(pack.manifest.frames.map((f) => [f.id, f]));
     this.lastLabOverlay = '';
     this.notifyLog = [];
     try {
