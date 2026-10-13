@@ -8,8 +8,8 @@ import { MovementPlans } from './movement-plans';
 import { EncounterBehavior } from './encounter-behavior';
 import type { Point } from '../content/world';
 import type { ContentSnapshot } from '../content/snapshot';
-import { selectAuthoredDirection } from './camera';
-import { tuning, attackDefinition } from '../content/gameplay';
+import { CombatActions } from './combat-actions';
+import { tuning } from '../content/gameplay';
 import {
   ContentRegistry,
   PLAYER_ID,
@@ -41,6 +41,7 @@ export class Simulation {
   movementPreview = false;
   private readonly movement: MovementPlans;
   private readonly encounter: EncounterBehavior;
+  readonly #combat: CombatActions;
   setMovementTarget(id: string, target: Point | null) {
     const actor = this.actors.find((a) => a.id === id);
     if (!actor) throw new Error('Unknown movement actor');
@@ -105,6 +106,20 @@ export class Simulation {
     this.emit(this.hero, { kind: 'object-claimed', object: id });
     return true;
   }
+  private dropEnemyRewards(actor: Actor) {
+    const spawn = this.areaDefinition.spawns.find(
+      (p) => spawnActorId(this.area, p.id) === actor.id,
+    );
+    if (spawn?.rewards?.length)
+      this.drops.push({
+        id: 'enemy-' + spawn.id,
+        source: spawn.id,
+        enemy: true,
+        x: actor.x,
+        z: actor.z,
+        rewards: structuredClone([...spawn.rewards]),
+      });
+  }
   collectDrop(id: string) {
     const drop = this.drops.find((p) => p.id === id);
     if (!drop || !interactionTarget(this, 'drop', id)) return false;
@@ -130,6 +145,20 @@ export class Simulation {
   ) {
     this.movement = new MovementPlans(this.areaDefinition);
     this.encounter = new EncounterBehavior(this.areaDefinition);
+    this.#combat = new CombatActions(this.areaDefinition, generation, {
+      actors: () => this.actors,
+      movementPreview: () => this.movementPreview,
+      emit: (actor, details) => this.emit(actor, details),
+      move: (actor, x, z) => this.move(actor, x, z),
+      enemyHit: (actor) => {
+        this.engaged = true;
+        this.encounter.alert(actor);
+      },
+      enemyDefeated: (actor) => this.dropEnemyRewards(actor),
+      breakObject: (id) => {
+        this.claimObject(id);
+      },
+    });
     this.initialSeed = seed;
     this.seed = seed;
     this.generation = generation;
@@ -280,24 +309,10 @@ export class Simulation {
     return event.generation === this.generation;
   }
   start(a: Actor, state: State, yaw = a.aim) {
-    a.state = state;
-    a.age = 0;
-    a.action++;
-    a.yaw = yaw;
-    a.actionHeading = selectAuthoredDirection(yaw);
-    a.hitIds = [];
+    this.#combat.start(a, state, yaw);
   }
   startSword(a: Actor, kind = a.nextAttack) {
-    a.attackKind = kind;
-    a.nextAttack = kind === 'sweep' ? 'lunge' : 'sweep';
-    a.attackBufferedUntil = -1;
-    this.start(a, 'attack');
-  }
-  startDash(a: Actor) {
-    a.dashBufferedUntil = -1;
-    a.attackBufferedUntil = -1;
-    this.start(a, 'dodge', a.dashYaw);
-    a.dodgeCooldown = tuning.dodge.cooldown;
+    this.#combat.startSword(a, kind);
   }
   move(a: Actor, x: number, z: number) {
     const position = moveSupported(
@@ -312,54 +327,7 @@ export class Simulation {
     a.y = heightAt(this.areaDefinition, a.x, a.z);
   }
   damage(from: Actor, to: Actor, amount: number, generation = this.generation) {
-    if (
-      this.movementPreview ||
-      !Number.isFinite(amount) ||
-      amount <= 0 ||
-      generation !== this.generation ||
-      !this.actors.includes(from) ||
-      !this.actors.includes(to) ||
-      to.health <= 0 ||
-      (to.kind === 'hero' &&
-        to.state === 'dodge' &&
-        to.age >= tuning.dodge.invulnerableStart &&
-        to.age < tuning.dodge.invulnerableEnd)
-    )
-      return;
-    if (to.kind === 'enemy') {
-      this.engaged = true;
-      this.encounter.alert(to);
-    }
-    const actual = Math.min(to.health, amount);
-    to.health -= actual;
-    this.emit(from, { kind: 'damage', target: to.id, amount: actual });
-    to.attackBufferedUntil = -1;
-    to.dashBufferedUntil = -1;
-    this.start(to, to.health <= 0 ? 'death' : 'hurt', to.yaw);
-    if (!to.health) {
-      this.emit(to, { kind: 'death' });
-      const spawn = this.areaDefinition.spawns.find((p) => spawnActorId(this.area, p.id) === to.id);
-      if (spawn?.rewards?.length)
-        this.drops.push({
-          id: 'enemy-' + spawn.id,
-          source: spawn.id,
-          enemy: true,
-          x: to.x,
-          z: to.z,
-          rewards: structuredClone([...spawn.rewards]),
-        });
-    }
-  }
-  withinArc(from: Actor, to: Actor, range: number, halfAngle: number) {
-    const dx = to.x - from.x,
-      dz = to.z - from.z,
-      d = Math.hypot(dx, dz);
-    if (d > range || Math.abs(to.y - from.y) > tuning.maxCombatHeightDifference) return false;
-    if (d < 0.001) return true;
-    const difference = Math.abs(
-      Math.atan2(Math.sin(Math.atan2(dx, dz) - from.yaw), Math.cos(Math.atan2(dx, dz) - from.yaw)),
-    );
-    return difference <= halfAngle + 1e-10;
+    this.#combat.damage(from, to, amount, generation);
   }
   step(command?: Command): StepResult {
     this.tick++;
@@ -413,31 +381,16 @@ export class Simulation {
                 ? 'No Health Potions'
                 : 'Potion is cooling down',
         });
-      if (command.attack && !this.movementPreview)
-        h.attackBufferedUntil = this.tick + tuning.inputBufferTicks;
-      if (command.dodge) {
-        h.dashBufferedUntil = this.tick + tuning.dashBufferTicks;
-        h.dashYaw = len > 0.01 ? Math.atan2(mx, mz) : h.aim;
-      }
-      const available = h.state === 'idle' || h.state === 'walk';
-      const canDash = available;
-      if (canDash && h.dashBufferedUntil >= this.tick && h.dodgeCooldown === 0) this.startDash(h);
-      else if (available) {
-        if (command.ability && !this.movementPreview && h.cooldown === 0) {
-          h.attackBufferedUntil = -1;
-          this.start(h, 'ability');
-          h.cooldown = tuning.ability.cooldown;
-        } else if (h.attackBufferedUntil >= this.tick) {
-          this.startSword(h);
+      if (
+        this.#combat.admitHero(h, command, this.tick, len > 0.01 ? Math.atan2(mx, mz) : undefined)
+      ) {
+        if (len > 0.01) this.movement.cancel(h.id);
+        if (len <= 0.01 && this.movement.has(h.id)) {
+          this.follow(h);
         } else {
-          if (len > 0.01) this.movement.cancel(h.id);
-          if (len <= 0.01 && this.movement.has(h.id)) {
-            this.follow(h);
-          } else {
-            h.state = len > 0.01 ? 'walk' : 'idle';
-            h.yaw = h.state === 'walk' ? Math.atan2(mx, mz) : h.aim;
-            this.move(h, (mx * h.definition.speed) / 60, (mz * h.definition.speed) / 60);
-          }
+          h.state = len > 0.01 ? 'walk' : 'idle';
+          h.yaw = h.state === 'walk' ? Math.atan2(mx, mz) : h.aim;
+          this.move(h, (mx * h.definition.speed) / 60, (mz * h.definition.speed) / 60);
         }
       }
     }
@@ -466,72 +419,7 @@ export class Simulation {
         }
         if (a.stun > 0 && (a.state === 'walk' || a.state === 'idle')) a.state = 'idle';
       }
-      if (a.state === 'attack') {
-        const t = attackDefinition(a);
-        if (a.age === t.windup) this.emit(a, { kind: 'strike' });
-        if (a.age >= t.windup && a.age < t.activeEnd)
-          for (const target of this.actors) {
-            if (target.kind === a.kind || target.health <= 0 || a.hitIds.includes(target.id))
-              continue;
-            if (
-              this.withinArc(a, target, t.range, t.halfAngle) &&
-              clearSegment(this.areaDefinition, a, target, 0.001)
-            ) {
-              a.hitIds.push(target.id);
-              this.damage(a, target, t.damage);
-            }
-          }
-        if (a.kind === 'hero' && a.age >= t.windup && a.age < t.activeEnd)
-          for (const object of this.areaDefinition.interactables ?? [])
-            if (
-              object.kind === 'breakable' &&
-              this.withinArc(
-                a,
-                {
-                  ...a,
-                  x: object.x,
-                  z: object.z,
-                  y: heightAt(this.areaDefinition, object.x, object.z),
-                },
-                t.range,
-                t.halfAngle,
-              ) &&
-              clearSegment(this.areaDefinition, a, object, 0.001)
-            )
-              this.claimObject(object.id);
-        if (a.age >= t.total - 1) this.start(a, 'idle');
-      } else if (a.state === 'dodge') {
-        if (a.age >= tuning.dodge.travelStart && a.age < tuning.dodge.travelEnd)
-          this.move(
-            a,
-            (Math.sin(a.yaw) * tuning.dodge.speed) / 60,
-            (Math.cos(a.yaw) * tuning.dodge.speed) / 60,
-          );
-        if (a.age >= tuning.dodge.total - 1) this.start(a, 'idle');
-      } else if (a.state === 'ability') {
-        if (a.age === tuning.ability.windup) {
-          this.emit(a, { kind: 'flare' });
-          for (const target of this.actors)
-            if (
-              target.kind === 'enemy' &&
-              target.health > 0 &&
-              this.withinArc(a, target, tuning.ability.range, tuning.ability.halfAngle) &&
-              clearSegment(this.areaDefinition, a, target, 0.001)
-            ) {
-              this.damage(a, target, tuning.ability.damage);
-              if (target.health > 0) {
-                target.stun = tuning.ability.stun;
-                this.emit(a, { kind: 'stagger', target: target.id, duration: tuning.ability.stun });
-              }
-              a.hitIds.push(target.id);
-            }
-        }
-        if (a.age >= tuning.ability.total - 1) this.start(a, 'idle');
-      } else if (
-        a.state === 'hurt' &&
-        a.age >= (a.kind === 'hero' ? tuning.hurt.total : tuning.enemyHurt.total) - 1
-      )
-        this.start(a, 'idle', a.yaw);
+      this.#combat.advance(a);
     }
     // Every actor observes the same action tick during combat, including dodge protection.
     for (const a of this.actors) a.age++;
