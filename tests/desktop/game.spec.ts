@@ -1,3 +1,4 @@
+import { readJson } from '../../tools/json-file';
 import { holdMovement } from '../fixtures/input';
 import { test, expect, _electron } from '@playwright/test';
 import fs from 'node:fs/promises';
@@ -15,7 +16,7 @@ test('Game package starts, accepts input and reloads current storage', async () 
       ? path.resolve(path.dirname(executable), '../Resources/app.asar')
       : path.join(path.dirname(executable), 'resources/app.asar');
   expect(JSON.parse(extractFile(archive, 'dist/build-identity.json').toString())).toEqual(
-    JSON.parse(await fs.readFile('dist/build-identity.json', 'utf8')),
+    await readJson('dist/build-identity.json'),
   );
   const launch = () =>
     _electron.launch({

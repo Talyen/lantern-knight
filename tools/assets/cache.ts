@@ -1,3 +1,4 @@
+import { readJson, writeJson } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
@@ -92,7 +93,7 @@ export class AssetCache {
           throw error;
         });
         for (const file of names)
-          if (alive(JSON.parse(await fs.readFile(path.join(directory, file), 'utf8')))) return true;
+          if (alive(await readJson(path.join(directory, file)))) return true;
         return false;
       };
       if (await active(prefix + '-index')) return;
@@ -135,7 +136,7 @@ export class AssetCache {
     await fs.mkdir(this.root, { recursive: true });
     const marker = path.join(this.root, '.cache-owner.json');
     try {
-      const value = JSON.parse(await fs.readFile(marker, 'utf8'));
+      const value = await readJson(marker);
       if (value.project !== 'lantern-knight' || value.schemaVersion !== 1)
         throw new Error('Invalid cache ownership marker');
     } catch (error) {
@@ -163,12 +164,12 @@ export class AssetCache {
     for (let n = 0; ; n++) {
       try {
         await fs.mkdir(lock);
-        await fs.writeFile(path.join(lock, 'owner.json'), JSON.stringify(owner()));
+        await writeJson(path.join(lock, 'owner.json'), owner());
         break;
       } catch (error) {
         if ((error as NodeJS.ErrnoException).code !== 'EEXIST') throw error;
         try {
-          const held = JSON.parse(await fs.readFile(path.join(lock, 'owner.json'), 'utf8'));
+          const held = await readJson(path.join(lock, 'owner.json'));
           if (!alive(held)) {
             await fs.rm(lock, { recursive: true, force: true });
             continue;
@@ -210,7 +211,7 @@ export class AssetCache {
       await fs.mkdir(leaseDir, { recursive: true });
       for (const lease of await this.leaseFiles(leaseDir)) {
         const file = path.join(leaseDir, lease),
-          value = JSON.parse(await fs.readFile(file, 'utf8')) as Owner & { bytes: number };
+          value = (await readJson(file)) as Owner & { bytes: number };
         if (alive(value)) {
           used = true;
           reserved = Math.max(reserved, value.bytes);
@@ -239,7 +240,7 @@ export class AssetCache {
   }
   private async writeJSON(file: string, value: unknown, temporary = file + '.tmp') {
     try {
-      await fs.writeFile(temporary, JSON.stringify(value));
+      await writeJson(temporary, value);
       await fs.rename(temporary, file);
     } finally {
       await fs.rm(temporary, { force: true });
@@ -326,9 +327,7 @@ export class AssetCache {
           },
         );
         for (const lease of leases) {
-          const value = JSON.parse(
-            await fs.readFile(path.join(root, '.leases', lease), 'utf8'),
-          ) as Owner;
+          const value = (await readJson(path.join(root, '.leases', lease))) as Owner;
           if (alive(value)) throw new Error('Asset preparation is already in use');
         }
       }
@@ -347,18 +346,15 @@ export class AssetCache {
     let released = false;
     return {
       root,
-      sole: async () => {
-        return this.locked(async () => {
+      sole: async () =>
+        this.locked(async () => {
           for (const entry of await this.leaseFiles(path.dirname(file)))
             if (entry !== path.basename(file)) {
-              const peer = JSON.parse(
-                await fs.readFile(path.join(path.dirname(file), entry), 'utf8'),
-              );
+              const peer = await readJson(path.join(path.dirname(file), entry));
               if (alive(peer)) return false;
             }
           return true;
-        });
-      },
+        }),
       reserve: async (bytes: number) => {
         if (released || !Number.isSafeInteger(bytes) || bytes < 0 || bytes > this.limit)
           throw new Error('Invalid cache reservation');

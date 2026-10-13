@@ -1,3 +1,4 @@
+import { readJson, writeJson } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { parseSceneDocument } from '../../src/content/scene-document';
@@ -15,7 +16,7 @@ if (!id || !/^[a-z][a-z0-9-]{0,63}$/.test(id))
 if (!text.trim() || text.length > 300)
   throw new Error('Use 1–300 characters of object categories.');
 const scene = parseSceneDocument(
-  JSON.parse(await fs.readFile(path.join(projectRoot, 'authoring/scenes', id + '.json'), 'utf8')),
+  await readJson(path.join(projectRoot, 'authoring/scenes', id + '.json')),
 );
 if (scene.floor.layout !== 'artwork') throw new Error('Scene needs a single-image artwork floor.');
 const workspace = await openWorkspace('local', 'authoring');
@@ -35,9 +36,7 @@ type Result = { mask: MaskShape[]; candidates?: Candidate[]; milliseconds: numbe
 try {
   const catalog = await readAuthoringCatalog(workspace.publicDirectory);
   const manifest = parseManifest(
-    JSON.parse(
-      await fs.readFile(path.join(workspace.publicDirectory, catalog[scene.floor.asset]!), 'utf8'),
-    ),
+    await readJson(path.join(workspace.publicDirectory, catalog[scene.floor.asset]!)),
   );
   const frame = manifest.frames.find(
     (f) => f.id === manifest.asset.clips[scene.floor.clip ?? 'still']?.d45?.frames[0],
@@ -45,16 +44,14 @@ try {
   const page = manifest.pages.find((p) => p.id === frame?.page);
   if (!frame || !page) throw new Error('Missing ground frame');
   const identity = { asset: manifest.asset.id, frame: frame.id, hash: page.hash };
-  const settings = JSON.parse(
-    await fs.readFile(path.join(service.modelRoot, 'settings.json'), 'utf8'),
-  );
+  const settings = await readJson(path.join(service.modelRoot, 'settings.json'));
   const folder = path.join(service.modelRoot, 'jobs', id + '-' + page.hash.slice(0, 12));
   await fs.mkdir(folder, { recursive: true });
   const file = path.join(folder, 'proposals.json');
   const signature = JSON.stringify({ identity, settings, text, algorithm: 1 });
   let candidates: Candidate[];
   try {
-    const old = JSON.parse(await fs.readFile(file, 'utf8'));
+    const old = await readJson(file);
     const previous = JSON.parse(old.signature);
     previous.text ??= 'pine tree. dead tree. stone wall. large rock.';
     if (
@@ -81,10 +78,12 @@ try {
     );
   }
   const save = async () => {
-    await fs.writeFile(
-      file + '.tmp',
-      JSON.stringify({ signature, identity, dimensions: manifest.asset.canvas, candidates }),
-    );
+    await writeJson(file + '.tmp', {
+      signature,
+      identity,
+      dimensions: manifest.asset.canvas,
+      candidates,
+    });
     await fs.rename(file + '.tmp', file);
   };
   await save();

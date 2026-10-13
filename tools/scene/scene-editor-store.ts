@@ -1,3 +1,4 @@
+import { readJson, writeFileAtomic } from '../json-file';
 import { SegmentationService } from '../segmentation/service';
 import { FragmentStore } from './fragment-store';
 import { GroundProfileStore } from './ground-profile-store';
@@ -98,13 +99,7 @@ export class SceneStore {
           floor: { width: document.floor.width, depth: document.floor.depth },
           interaction: document.groundInteraction,
         });
-      const temporary = file + '.' + randomUUID() + '.tmp';
-      try {
-        await fs.writeFile(temporary, bytes, { flag: 'wx' });
-        await fs.rename(temporary, file);
-      } finally {
-        await fs.rm(temporary, { force: true });
-      }
+      await writeFileAtomic(file, bytes);
       return { document, revision: digest(bytes) };
     });
     this.queue = work.catch(() => {});
@@ -152,10 +147,7 @@ export function sceneEditorPlugin(
           const file = catalog[id];
           if (!file) throw new Error('Unknown prepared asset: ' + id);
           await ensurePublicFile?.(file);
-          return [
-            id,
-            parseManifest(JSON.parse(await fs.readFile(path.join(preparedPublic, file), 'utf8'))),
-          ] as const;
+          return [id, parseManifest(await readJson(path.join(preparedPublic, file)))] as const;
         }),
       ),
     );

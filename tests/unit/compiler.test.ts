@@ -1,3 +1,4 @@
+import { writeJson } from '../../tools/json-file';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
@@ -27,7 +28,7 @@ function compiledFixture() {
   return (fixture ??= (async () => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-source-fixture-'));
     fixtureDirectory = root;
-    await fs.writeFile(path.join(root, 'valid.json'), JSON.stringify(source));
+    await writeJson(path.join(root, 'valid.json'), source);
     await sharp({
       create: {
         width: source.asset.canvas[0],
@@ -133,7 +134,7 @@ test('compiler accepts opaque RGB artwork and supplies an opaque alpha channel',
     .png()
     .toFile(file);
   bad.frames[0]!.path = 'no-alpha.png';
-  await fs.writeFile(input, JSON.stringify(bad));
+  await writeJson(input, bad);
   const result = await context.compile('invalid-alpha.json', 'public/generated', false, dir);
   assert.ok(result.frames.length > 0);
   const page = result.pages[0]!;

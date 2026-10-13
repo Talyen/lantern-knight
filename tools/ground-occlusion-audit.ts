@@ -1,3 +1,4 @@
+import { readJson } from './json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
@@ -65,7 +66,7 @@ if (values['write-plan']) {
 }
 let repaired = 0;
 if (values['apply-plan']) {
-  const plan = JSON.parse(await fs.readFile(values['apply-plan'], 'utf8'));
+  const plan = await readJson(values['apply-plan']);
   if (plan.version !== 1 || !Array.isArray(plan.repairs) || !plan.repairs.length)
     throw new Error('Invalid repair plan');
   const updated = new Map<

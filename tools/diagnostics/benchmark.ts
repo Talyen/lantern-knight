@@ -1,3 +1,4 @@
+import { writeJson, readJson } from '../json-file';
 import { desktopEnvironment } from './environment';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -98,7 +99,7 @@ export async function captureBenchmark(run: Awaited<ReturnType<typeof smokeLaunc
     simulatedTicks: result.simulatedTicks,
   });
   const output = path.join(run.output, 'benchmark.json');
-  await fs.writeFile(output, JSON.stringify(record));
+  await writeJson(output, record);
   console.log(
     `Benchmark: ${JSON.stringify(frameSummary(record.frames))}\nComparison input: ${output}`,
   );
@@ -111,7 +112,7 @@ async function main() {
   const read = async (file: string) => {
     if ((await fs.stat(file)).size > 16 * 1024 * 1024)
       throw new Error('Benchmark input exceeds 16 MiB');
-    return JSON.parse(await fs.readFile(file, 'utf8'));
+    return await readJson(file);
   };
   const first = await read(args[0]!),
     second = await read(args[1]!);

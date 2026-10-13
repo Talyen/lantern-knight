@@ -16,12 +16,8 @@ export class Input {
     public pause: () => void,
   ) {
     const signal = this.lifetime.signal;
-    const on = <K extends keyof WindowEventMap>(
-      type: K,
-      fn: (event: WindowEventMap[K]) => void,
-    ) => {
+    const on = <K extends keyof WindowEventMap>(type: K, fn: (event: WindowEventMap[K]) => void) =>
       window.addEventListener(type, fn, { signal });
-    };
     const editing = (target: EventTarget | null) => {
       const element = target as HTMLElement | null;
       return Boolean(element?.closest?.('input,select,textarea') || element?.isContentEditable);

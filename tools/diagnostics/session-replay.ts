@@ -1,3 +1,4 @@
+import { readJson, writeJson } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -155,7 +156,7 @@ const BundleSchema = z.strictObject({
 });
 async function readJSON(file: string) {
   if ((await fs.stat(file)).size > 16 * 1024 * 1024) throw new Error('Replay input exceeds 16 MiB');
-  return JSON.parse(await fs.readFile(file, 'utf8'));
+  return await readJson(file);
 }
 export async function replayBundle(
   input: unknown,
@@ -201,28 +202,21 @@ async function main() {
       20 * 1024 * 1024,
     );
     try {
-      await fs.writeFile(path.join(held.root, 'recipe.json'), JSON.stringify(recipe));
-      await fs.writeFile(
-        path.join(held.root, 'source.json'),
-        JSON.stringify({ source, node: process.version }),
-      );
+      await writeJson(path.join(held.root, 'recipe.json'), recipe);
+      await writeJson(path.join(held.root, 'source.json'), { source, node: process.version });
       const result = await executeRecipe(recipe, content, (entry) =>
         fs.appendFile(path.join(held.root, 'actions.jsonl'), JSON.stringify(entry) + '\n'),
       );
       assert.deepEqual(await sourceIdentity(root), source, 'source changed while recording');
       const output = path.join(held.root, 'session.json');
-      await fs.writeFile(
-        output,
-        JSON.stringify({ schemaVersion: 2, source, node: process.version, recipe, result }),
-      );
+      await writeJson(output, { schemaVersion: 2, source, node: process.version, recipe, result });
       console.log(
         `PASS: ${recipe.actions.length} actions; ${result.targeted ? 'targeted checkpoint' : 'fresh session'}; areas ${result.areas.join(', ')}. Replay bundle: ${output}`,
       );
     } catch (error) {
-      await fs.writeFile(
-        path.join(held.root, 'failure.json'),
-        JSON.stringify({ error: String((error as Error).stack ?? error).slice(0, 16000) }),
-      );
+      await writeJson(path.join(held.root, 'failure.json'), {
+        error: String((error as Error).stack ?? error).slice(0, 16000),
+      });
       console.error('Replay failure diagnostics: ' + held.root);
       throw error;
     } finally {

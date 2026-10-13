@@ -1,3 +1,4 @@
+import { readJson } from '../../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
@@ -73,7 +74,7 @@ export async function prepare(context: PreparationContext, check = false) {
   } finally {
     await fs.rm(temporary, { recursive: true, force: true });
   }
-  const plan = JSON.parse(await fs.readFile(planFile, 'utf8')) as {
+  const plan = (await readJson(planFile)) as {
     assets: LibraryAsset[];
     dispositions: unknown[];
     inventory?: {

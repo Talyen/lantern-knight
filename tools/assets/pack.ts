@@ -1,3 +1,4 @@
+import { readJson } from '../json-file';
 import { downloadFile } from './download';
 export { recipeInputs, recipeHash } from './recipe';
 import fs from 'node:fs/promises';
@@ -144,9 +145,7 @@ export async function validatePack(root: string, lock: AssetLock) {
   return data;
 }
 export async function validateCachedPack(root: string, lock: AssetLock) {
-  const inventory = PackSchema.parse(
-    JSON.parse(await fs.readFile(path.join(root, 'pack.json'), 'utf8')),
-  );
+  const inventory = PackSchema.parse(await readJson(path.join(root, 'pack.json')));
   const names = [...Object.keys(inventory.files), 'pack.json'];
   const actual = (await listFiles(root)).filter((name) => !name.startsWith('.')).sort();
   if (actual.join('\n') !== names.sort().join('\n'))
@@ -373,9 +372,7 @@ export async function installMatchingPreparation(
   const root = path.join(cache.root, 'entries', 'preparation');
   let prepared: ArchiveLock;
   try {
-    prepared = ArchiveLockSchema.parse(
-      JSON.parse(await fs.readFile(path.join(root, 'prepared.json'), 'utf8')),
-    );
+    prepared = ArchiveLockSchema.parse(await readJson(path.join(root, 'prepared.json')));
   } catch {
     return false;
   }

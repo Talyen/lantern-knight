@@ -1,3 +1,4 @@
+import { readJson, writeJson } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -32,7 +33,7 @@ export async function stagePayload(
     ...playgroundCatalog,
   })) {
     files.add(file);
-    const m = parseManifest(JSON.parse(await fs.readFile(path.join(sourcePublic, file), 'utf8')));
+    const m = parseManifest(await readJson(path.join(sourcePublic, file)));
     for (const page of m.pages) {
       files.add(path.posix.join(path.posix.dirname(file), page.path));
       for (const image of [...(page.delivery ?? []), ...(page.preview ? [page.preview] : [])])
@@ -56,25 +57,17 @@ export async function stagePayload(
     )
       files.add(file);
   try {
-    const inventory = JSON.parse(
-      await fs.readFile(path.join(sourcePublic, 'generated/library/inventory.json'), 'utf8'),
-    );
+    const inventory = await readJson(path.join(sourcePublic, 'generated/library/inventory.json'));
     for (const media of inventory.media ?? []) files.add(safeRelative(media.file));
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
   }
   for (const folder of ['lighting', 'visual-effects']) {
-    const data = JSON.parse(
-      await fs.readFile(
-        path.join(
-          sourcePublic,
-          folder,
-          'manifest.json'.replace(
-            'manifest',
-            folder === 'visual-effects' ? 'surfaces' : 'manifest',
-          ),
-        ),
-        'utf8',
+    const data = await readJson(
+      path.join(
+        sourcePublic,
+        folder,
+        'manifest.json'.replace('manifest', folder === 'visual-effects' ? 'surfaces' : 'manifest'),
       ),
     );
     for (const entry of Object.values(data.entries) as { file: string }[])
@@ -94,21 +87,15 @@ export async function stagePayload(
     await fs.writeFile(file + '.finalize-tmp', bytes);
     await fs.rename(file + '.finalize-tmp', file);
   };
-  const animation = JSON.parse(
-      await fs.readFile(path.join(staging, 'animation/flow.json'), 'utf8'),
-    ),
-    coverage = JSON.parse(
-      await fs.readFile(path.join(staging, 'ink/graveyard-coverage.json'), 'utf8'),
-    );
+  const animation = await readJson(path.join(staging, 'animation/flow.json')),
+    coverage = await readJson(path.join(staging, 'ink/graveyard-coverage.json'));
   const registration = JSON.stringify(parseRegistration({ schemaVersion: 2, animation, coverage }));
   await atomic(path.join(destination, 'public/registration.json'), registration);
   files.add('registration.json');
-  const flags = JSON.parse(
-    await fs.readFile(path.join(destination, 'public/build-mode.json'), 'utf8'),
-  );
+  const flags = await readJson(path.join(destination, 'public/build-mode.json'));
   flags.registrationHash = createHash('sha256').update(registration).digest('hex');
   const flagsFile = path.join(destination, 'public/build-mode.json');
-  await fs.writeFile(flagsFile + '.tmp', JSON.stringify(flags));
+  await writeJson(flagsFile + '.tmp', flags);
   await fs.rename(flagsFile + '.tmp', flagsFile);
   await fs.mkdir(path.join(destination, 'public/animation'), { recursive: true });
   await atomic(

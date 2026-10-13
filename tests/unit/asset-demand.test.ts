@@ -1,3 +1,4 @@
+import { writeJson } from '../../tools/json-file';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -58,9 +59,9 @@ test('ground selection acquires its original source image before invoking segmen
     calls.push(relative);
     if (relative === source) throw new Error('Source requested before model execution');
     await fs.mkdir(path.dirname(path.join(publicRoot, relative)), { recursive: true });
-    await fs.writeFile(
+    await writeJson(
       path.join(publicRoot, relative),
-      JSON.stringify(relative === file ? manifest : { 'library-tree': file }),
+      relative === file ? manifest : { 'library-tree': file },
     );
     return true;
   });

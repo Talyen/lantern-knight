@@ -1,3 +1,4 @@
+import { readJson } from '../../tools/json-file';
 import { openDemandWorkspace } from '../../tools/assets/demand';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test from 'node:test';
@@ -26,9 +27,7 @@ test('runtime consumers fetch only runtime bundles; authoring reuses them and ve
     archives.set(lock.releaseTag, await fs.readFile(archive));
   }
   const candidate = await inventoryCandidate(combined, 'a'.repeat(64));
-  const inventory = PackSchema.parse(
-    JSON.parse(await fs.readFile(path.join(combined, 'pack.json'), 'utf8')),
-  );
+  const inventory = PackSchema.parse(await readJson(path.join(combined, 'pack.json')));
   const accepted = preparationPin(candidate, {}, inventory);
   if (accepted.schemaVersion === 1) throw new Error('Expected accepted preparation');
   const pin = { ...accepted, schemaVersion: 3 as const, bundles: locks };

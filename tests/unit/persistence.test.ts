@@ -1,3 +1,4 @@
+import { writeJson } from '../../tools/json-file';
 import { mockGlobals } from '../fixtures/globals';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test from 'node:test';
@@ -67,7 +68,7 @@ test('obsolete and malformed prototype data reset; adapters snapshot ordered wri
   assert.deepEqual(await custom.load('game'), { status: 'ok', data: customSave });
   assert.throws(() => custom.save('game', save), /unknown area/);
   assert.deepEqual(await custom.load('game'), { status: 'ok', data: customSave });
-  await fs.writeFile(path.join(directory, 'custom', 'game.json'), JSON.stringify(save));
+  await writeJson(path.join(directory, 'custom', 'game.json'), save);
   assert.deepEqual(await custom.load('game'), { status: 'empty' });
   await custom.save('settings', settings);
   assert.deepEqual(await custom.load('settings'), { status: 'ok', data: settings });

@@ -1,3 +1,4 @@
+import { readJson } from './json-file';
 import { fileURLToPath } from 'node:url';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -101,7 +102,7 @@ export async function verifyBuildIdentity(
   const { root, report, target, identityPath, names, checksums } = await artifactFiles(options),
     env = options.env ?? process.env;
 
-  const identity = JSON.parse(await fs.readFile(path.join(root, identityPath), 'utf8'));
+  const identity = await readJson(path.join(root, identityPath));
   assert.equal(identity.target, target, `Rebuild the ${target} artifact before verification`);
   if (target === 'desktop')
     assert.equal(

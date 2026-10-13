@@ -44,12 +44,8 @@ async function selectScene(scene: Fixture, reset = false) {
       }
     },
     changed: save,
-    select: (next) => {
-      void selectScene(next).catch(launchFailure);
-    },
-    resetScene: () => {
-      void selectScene(scene, true).catch(launchFailure);
-    },
+    select: (next) => void selectScene(next).catch(launchFailure),
+    resetScene: () => void selectScene(scene, true).catch(launchFailure),
     resetWorkspace: () => {
       dispose?.();
       dispose = undefined;
@@ -101,8 +97,6 @@ function launchFailure(error: Error) {
   message.textContent = error.message;
   const retry = document.createElement('button');
   retry.textContent = 'Retry';
-  retry.onclick = () => {
-    void selectScene(store.state.selected).catch(launchFailure);
-  };
+  retry.onclick = () => void selectScene(store.state.selected).catch(launchFailure);
   root.replaceChildren(message, retry);
 }

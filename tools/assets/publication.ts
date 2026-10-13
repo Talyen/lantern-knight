@@ -1,6 +1,6 @@
+import { readJson, writeJsonAtomic } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { randomUUID } from 'node:crypto';
 import { AssetCache, diskBytes } from './cache';
 import { recipeHash, validateCachedPack, lockFile, LockSchema, type AssetLock } from './pack';
 import { shaFile } from './sources';
@@ -18,7 +18,7 @@ export async function verifyRemote(
   let etag: string | undefined;
   try {
     try {
-      const prior = JSON.parse(await fs.readFile(receiptFile, 'utf8'));
+      const prior = await readJson(receiptFile);
       if (
         prior.sha256 === lock.sha256 &&
         prior.bytes === lock.bytes &&
@@ -57,16 +57,11 @@ export async function verifyRemote(
       throw new Error('Published pack hash differs');
     const validator = response.headers.get('etag');
     if (validator && /^"[^"\r\n]{1,512}"$/.test(validator)) {
-      const temporary = receiptFile + '.' + randomUUID();
-      try {
-        await fs.writeFile(
-          temporary,
-          JSON.stringify({ sha256: lock.sha256, bytes: lock.bytes, etag: validator }),
-        );
-        await fs.rename(temporary, receiptFile);
-      } finally {
-        await fs.rm(temporary, { force: true });
-      }
+      await writeJsonAtomic(receiptFile, {
+        sha256: lock.sha256,
+        bytes: lock.bytes,
+        etag: validator,
+      });
     } else await fs.rm(receiptFile, { force: true });
   } finally {
     await held.release();
@@ -149,7 +144,7 @@ export async function publishBundledPrepared(
   }
   let previous: import('./pack').AssetLock | undefined;
   try {
-    previous = LockSchema.parse(JSON.parse(await fs.readFile(target, 'utf8')));
+    previous = LockSchema.parse(await readJson(target));
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
   }
@@ -177,12 +172,6 @@ export async function publishBundledPrepared(
     JSON.stringify(previous)
   )
     throw new Error('Asset pin changed during publication; refusing to overwrite it');
-  const temporary = target + '.' + randomUUID();
-  try {
-    await fs.writeFile(temporary, JSON.stringify({ ...plan.pin, fileDelivery }, null, 2) + '\n');
-    await fs.rename(temporary, target);
-  } finally {
-    await fs.rm(temporary, { force: true });
-  }
+  await writeJsonAtomic(target, { ...plan.pin, fileDelivery }, true);
   console.log('Published and pinned immutable bundles; unchanged bundles were reused.');
 }
