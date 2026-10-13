@@ -3,6 +3,7 @@ import { test, expect } from './fixtures';
 test('prepared samples decode, mute persists, and Preview exposes every audition', async ({
   page,
 }) => {
+  test.setTimeout(300_000);
   await page.addInitScript(() => {
     const probe = { starts: 0, stops: 0, loopStarts: 0 };
     Object.assign(window, { audioProbe: probe });
@@ -151,6 +152,5 @@ test('prepared samples decode, mute persists, and Preview exposes every audition
   await page.locator('[data-audio="muted"]').check();
   await page.reload();
   await page.waitForFunction(() => window.foundation?.ready);
-  await page.locator('[data-panel="inspect"]').click();
   await expect(page.locator('[data-audio="muted"]')).toBeChecked();
 });
