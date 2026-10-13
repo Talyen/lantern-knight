@@ -531,7 +531,12 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         operation,
       );
       operation.check();
-      if (reason === 'death') this.autosave();
+      // Adventure resets change persistent encounter progress as well as player health.
+      if (
+        reason === 'death' ||
+        this.registry.definitions.areas.some((area) => area.campfires?.length)
+      )
+        this.autosave();
       resume();
     });
   }
@@ -647,6 +652,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
           result.events.some(
             (e) =>
               e.kind === 'potion-used' ||
+              e.kind === 'pickup' ||
               e.kind === 'object-claimed' ||
               (e.kind === 'death' && e.actor !== 'player'),
           )

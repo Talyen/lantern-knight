@@ -191,6 +191,11 @@ export function bindAdventureUI(app: Application) {
       )
         return;
       if (panel?.open) {
+        if (event.repeat && (event.key === 'Enter' || event.key === ' ')) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          return;
+        }
         if (['Escape', 'KeyI', 'KeyE', 'KeyQ'].includes(event.code)) {
           event.preventDefault();
           event.stopImmediatePropagation();

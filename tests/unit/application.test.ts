@@ -1272,3 +1272,49 @@ test('cancelling a pool acquisition reports destructor errors through its promis
   assert.deepEqual(destroyed, ['broken', 'peer', 'late']);
   pool.dispose();
 });
+
+test('health pickup commits an autosaved checkpoint including its consumed identity', async () => {
+  const definitions = structuredClone(contentDefinitions),
+    area = definitions.areas[0]!;
+  area.pickups = [
+    { id: 'healing', object: 'healing', kind: 'health', x: 0, z: 6.65, radius: 1, amount: 20 },
+  ];
+  const saves: ReturnType<GameSession['captureSave']>[] = [],
+    { app } = fixture(sceneFixture(new ContentRegistry(definitions)), {
+      automatedRun: true,
+      saveGame: async (save) => {
+        saves.push(save);
+      },
+    } as Bridge);
+  app.sim.hero.health = 50;
+  app.command = () => ({ move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } });
+  app.pause(false);
+  const frame = Reflect.get(app, 'loop') as (now: number) => void;
+  frame(performance.now() + 20);
+  await Promise.resolve();
+  assert.equal(app.sim.hero.health, 70);
+  assert.equal(saves.length, 1);
+  assert.deepEqual(saves[0]!.areas.court!.collectedPickups, ['healing']);
+  assert.equal(saves[0]!.player.health, 70);
+  app.dispose();
+});
+
+test('manual adventure reset saves the restored player and enemy state', async () => {
+  const definitions = structuredClone(contentDefinitions);
+  definitions.areas[0]!.campfires = [
+    { id: 'home', name: 'Home', x: 0, z: 6.65, safeRadius: 1, discovered: true },
+  ];
+  const saves: ReturnType<GameSession['captureSave']>[] = [],
+    { app } = fixture(sceneFixture(new ContentRegistry(definitions)), {
+      saveGame: async (save) => {
+        saves.push(save);
+      },
+    } as Bridge);
+  app.sim.hero.health = 25;
+  app.sim.enemies[0]!.health = 1;
+  await app.reset('manual');
+  assert.equal(saves.length, 1);
+  assert.equal(saves[0]!.player.health, 100);
+  assert.equal(saves[0]!.areas.court!.actors['warden-1']!.health, 50);
+  app.dispose();
+});
