@@ -202,6 +202,7 @@ export class CompositionTools {
     this.selection.clear();
     this.hidden.clear();
     this.locked.clear();
+    this.host.view().setEditingVisibility(this.hidden);
   }
   dispose() {
     this.cancelGesture();

@@ -282,7 +282,9 @@ export function sceneEditorPlugin(
                 const document = parseSceneDocument({
                   ...source,
                   objects: fragment.objects,
-                  gameplay: source.gameplay ? { ...source.gameplay, pickups: [] } : undefined,
+                  gameplay: source.gameplay
+                    ? { ...source.gameplay, pickups: [], interactables: [] }
+                    : undefined,
                 });
                 await validate(document);
                 respond(200, await fragments.create(fragment));

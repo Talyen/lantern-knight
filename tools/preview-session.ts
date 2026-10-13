@@ -43,9 +43,16 @@ export async function openPreview(options: PreviewOptions) {
         throw new Error('Preview belongs to another checkout or asset identity');
     }
     if (!existing && !artifact)
-      workspace = await openWorkspace(options.assets, options.scope, options.demand);
+      workspace = await openWorkspace(
+        options.assets,
+        'authoring',
+        options.scope === 'runtime' || options.demand,
+      );
     if (existing && !options.demand && !artifact)
-      workspace = await openWorkspace(options.assets, options.scope);
+      workspace = await openWorkspace(options.assets, 'authoring', options.scope === 'runtime');
+    // Game can select art added to an older pin's authoring bundles. The server
+    // still exposes the requested experience while delivery resolves the full pin.
+    if (workspace) workspace = { ...workspace, scope: options.scope };
     if (!existing && workspace) {
       owned = await developmentServer(workspace, { port: options.port, open: options.open });
     } else if (!existing) {

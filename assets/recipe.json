@@ -39,7 +39,7 @@
       ],
       "inputs": [
         "authoring/hero-actions.json",
-        "authoring/hero-motion.json",
+        "authoring/hero-scale.json",
         "tools/assets/hero.py",
         "assets/sources.json",
         "src/content/hero-actions.ts",
@@ -360,6 +360,7 @@
     "authoring/ground-overlays.json",
     "authoring/hero-actions.json",
     "authoring/hero-motion.json",
+    "authoring/hero-scale.json",
     "authoring/surface-depth.json",
     "src/assets/camera.json",
     "src/content/asset-catalog.ts",

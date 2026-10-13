@@ -59,7 +59,26 @@ test('editor scopes visibility and locks to the opened scene, respects shortcuts
       data: {
         action: 'fragment',
         baseRevision: metadata.baseRevision,
-        document: source,
+        document: {
+          ...source,
+          gameplay: {
+            ...source.gameplay,
+            interactables: [
+              {
+                id: 'container',
+                object: 'reward',
+                kind: 'container',
+                x: -2,
+                z: 0,
+                guards: [],
+                rewards: [{ item: 'gold', amount: 3 }],
+                idle: 'gravestone',
+                action: 'gravestone',
+                spent: 'gravestone',
+              },
+            ],
+          },
+        },
         fragment: {
           version: 1,
           name: 'Partial selection with unrelated reward',

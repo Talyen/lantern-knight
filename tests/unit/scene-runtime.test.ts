@@ -183,6 +183,61 @@ function animatedPack() {
   return prepared;
 }
 
+test('interactive scenery retains its authored pose while idle, claimed and restored', () => {
+  const prepared = animatedPack();
+  const definitions = structuredClone(contentDefinitions);
+  const area = definitions.areas.find((area) => area.id === 'court')!;
+  area.interactables = [
+    {
+      id: 'container',
+      object: 'prop',
+      kind: 'container',
+      x: 1,
+      z: 1,
+      guards: [],
+      rewards: [],
+      idle: 'idle',
+      action: 'idle',
+      spent: 'idle',
+    },
+  ];
+  const sim = new Simulation(new ContentRegistry(definitions));
+  const art = fixtureArt();
+  art.props = [
+    {
+      id: 'prop',
+      asset: 'scenery',
+      clip: 'idle',
+      x: 1,
+      z: 1,
+      y: 0.8,
+      rotation: 0.4,
+      scale: 0.7,
+      mirror: true,
+      purpose: 'Interactive scenery',
+    },
+  ];
+  const { room } = roomFixture(prepared, art, sim);
+  try {
+    const sprite = room.sprites[0]!;
+    const position = sprite.mesh.position.clone();
+    const quaternion = sprite.mesh.quaternion.clone();
+    const scale = sprite.mesh.scale.clone();
+    for (const state of ['idle', 'claimed', 'restored']) {
+      if (state === 'claimed') {
+        sim.claimObject('container');
+        sim.drops = [];
+      } else if (state === 'restored') sim.objectActions.clear();
+      room.update(sim.view, 1, true, 0);
+      assert.deepEqual(sprite.mesh.position, position, state + ' position');
+      assert.deepEqual(sprite.mesh.quaternion.toArray(), quaternion.toArray(), state + ' rotation');
+      assert.deepEqual(sprite.mesh.scale, scale, state + ' scale');
+    }
+  } finally {
+    room.dispose();
+  }
+});
+
 test('editor visibility preserves completed effect hiding before rendering', () => {
   const prepared = animatedPack();
   prepared.manifest.asset.type = 'effect';

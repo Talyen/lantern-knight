@@ -30,7 +30,7 @@ Gameplay controls place registered enemies, exits and health pickups linked to u
 
 Play starts an unsaved snapshot through the shared Application lifecycle with a storage-free bridge. WASD moves, left-click attacks, Shift dodges, right-click uses the lantern, and Escape pauses. Play uses the main workspace with a compact Return/Restart bar. Return to editor discards gameplay state and preserves the scene, selection, camera and dock. Restart creates a fresh temporary session. Current schemas are listed under [scene content](architecture.md#scene-content) and [saved-state changes](architecture.md#change-saved-state).
 
-Game launches an empty floor with the hero. Use editor Play for authored scenes. For independent rendering fixtures, open `/sandbox.html?scene=outdoor-fixture` or `/sandbox.html?scene=interior-fixture`. Reload restores preview context. Moving existing artwork requires no preparation or publication; changed artwork inputs follow [Assets](assets.md#runtime-composition-boundary).
+Game launches the abandoned orchard and connects to the forest clearing. Use editor Play to test other authored scenes. For independent rendering fixtures, open `/sandbox.html?scene=outdoor-fixture` or `/sandbox.html?scene=interior-fixture`. Reload restores preview context. Moving existing artwork requires no preparation or publication; changed artwork inputs follow [Assets](assets.md#runtime-composition-boundary).
 
 ### Ground interaction
 

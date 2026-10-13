@@ -279,6 +279,7 @@ export class GameSession {
     this.resetCount++;
     const adventure = this.registry.definitions.areas.some((a) => a.campfires?.length);
     if (!adventure) {
+      const tick = this.sim.tick;
       this.visited.delete(this.sim.area);
       this.sim = new Simulation(
         this.registry,
@@ -287,6 +288,7 @@ export class GameSession {
         this.generation + 1,
       );
       this.bindInventory(this.sim);
+      this.sim.tick = tick;
       this.sim.resetCount = this.resetCount;
       this.recordArea();
       return [this.event({ kind: 'room-reset', reason })];
