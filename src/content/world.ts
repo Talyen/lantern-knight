@@ -1,3 +1,13 @@
+import {
+  awarenessSchema,
+  campfireSchema,
+  interactableSchema,
+  rewardSchema,
+  type CampfireDefinition,
+  type InteractableDefinition,
+  type AwarenessDefinition,
+} from './interactions';
+import type { Reward } from './items';
 import { contains, clearSegment, effectiveRadius, isSupportedPosition } from './collision';
 import { contentSnapshot, type ContentSnapshot } from './snapshot';
 
@@ -40,6 +50,8 @@ type SpawnDefinition = Point & {
   id: string;
   actor: string;
   jitterZ?: number;
+  awareness?: AwarenessDefinition;
+  rewards?: readonly Reward[];
 };
 type EntryDefinition = Point & { id: string };
 type ExitDefinition = {
@@ -48,6 +60,8 @@ type ExitDefinition = {
   destination: string;
   entry: string;
   requiresClear: boolean;
+  explicit?: boolean;
+  guards?: readonly string[];
   marker: Point;
 };
 export type PropDefinition = Point & {
@@ -75,6 +89,8 @@ export type AreaDefinition = {
   spawns: readonly SpawnDefinition[];
   exits: readonly ExitDefinition[];
   props: readonly PropDefinition[];
+  campfires?: readonly CampfireDefinition[];
+  interactables?: readonly InteractableDefinition[];
   pickups?: readonly {
     id: string;
     object: string;
@@ -206,6 +222,21 @@ export class ContentRegistry {
       unique(a.exits, 'exit');
       unique(a.props, 'prop');
       unique(a.pickups ?? [], 'pickup');
+      unique(a.campfires ?? [], 'campfire');
+      unique(a.interactables ?? [], 'interactable');
+      for (const fire of a.campfires ?? []) {
+        campfireSchema.parse(fire);
+        if (!isSupportedPosition(a, fire, 0.3)) fail('Unsupported campfire ' + fire.id);
+      }
+      for (const object of a.interactables ?? []) {
+        interactableSchema.parse(object);
+        if (!isSupportedPosition(a, object, 0.1)) fail('Unsupported interactable ' + object.id);
+        if (object.guards.some((id) => !a.spawns.some((p) => p.id === id)))
+          fail('Unknown object guard');
+      }
+      for (const exit of a.exits)
+        if (exit.guards?.some((id) => !a.spawns.some((p) => p.id === id)))
+          fail('Unknown exit guard');
       for (const p of a.pickups ?? []) {
         finite(p.x, p.z, p.amount, p.radius);
         if (
@@ -240,6 +271,8 @@ export class ContentRegistry {
       }
       for (const p of a.spawns) {
         if (this.actor(p.actor).kind !== 'enemy') fail('encounter spawn must be an enemy');
+        if (p.awareness) awarenessSchema.parse(p.awareness);
+        p.rewards?.forEach((r) => rewardSchema.parse(r));
         finite(p.jitterZ ?? 0);
         if ((p.jitterZ ?? 0) < 0 || p.z + (p.jitterZ ?? 0) > a.bounds.maxZ)
           fail('invalid spawn jitter');

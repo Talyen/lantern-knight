@@ -1,3 +1,6 @@
+import orchard from '../../authoring/scenes/abandoned-orchard.json';
+import clearing from '../../authoring/scenes/forest-gathering-clearing.json';
+import { resolveScene } from './world-art';
 import { contentSnapshot, type ContentSnapshot } from './snapshot';
 import { ContentRegistry, type ContentDefinitions } from './world';
 import { sceneAssets, validateAreaArt, type WorldVisualDefinition } from './world-visuals';
@@ -7,27 +10,15 @@ import type { AreaDefinition } from './world';
 import type { Manifest } from '../assets/schema';
 import { actors } from './actors';
 import { actorVisuals, assetCatalog } from './visuals';
-export const worldVisuals: Readonly<Record<string, WorldVisualDefinition>> = {};
+const playableScenes = [orchard, clearing].map((document) => resolveScene(document));
+export const worldVisuals: Readonly<Record<string, WorldVisualDefinition>> = Object.fromEntries(
+  playableScenes.map((scene) => [scene.area.id, scene.visuals]),
+);
 export const contentDefinitions: ContentDefinitions = {
-  initialArea: 'empty',
+  initialArea: 'abandoned-orchard',
   player: 'lamplighter',
   actors,
-  areas: [
-    {
-      id: 'empty',
-      name: 'Empty scene',
-      subtitle: 'A blank space for prototype development.',
-      bounds: { minX: -10, maxX: 10, minZ: -10, maxZ: 10 },
-      surface: { kind: 'flat', height: 0 },
-      seedOffset: 0,
-      baselineEntry: 'start',
-      entries: [{ id: 'start', x: 0, z: 0 }],
-      spawns: [],
-      props: [],
-      exits: [],
-      floorColor: 0x34434a,
-    },
-  ],
+  areas: playableScenes.map((scene) => scene.area),
 };
 for (const actor of contentDefinitions.actors) {
   const visual = actorVisuals[actor.visual];
@@ -65,6 +56,9 @@ export function composeSceneContent(
           assets: Object.freeze([
             ...new Set([
               ...(visuals ? sceneAssets(visuals) : []),
+              ...(area.interactables?.length || area.spawns.some((s) => s.rewards?.length)
+                ? ['library-lantern_concept_item_12_coin_purse']
+                : []),
               ...area.spawns.map(
                 (spawn) => actorVisuals[registry.actor(spawn.actor).visual]!.asset,
               ),
@@ -89,6 +83,15 @@ export function composeSceneContent(
     },
     validate: ({ area, visuals }, packs) => {
       validateAreaArt(packs, visuals);
+      for (const object of area.interactables ?? []) {
+        const placement = visuals?.props.find((p) => p.id === object.object);
+        const manifest = placement && packs.get(placement.asset)?.manifest;
+        if (
+          !manifest ||
+          [object.idle, object.action, object.spent].some((c) => !manifest.asset.clips[c])
+        )
+          throw new Error('Missing interaction animation: ' + object.id);
+      }
       for (const spawn of area.spawns) {
         const visual = actorVisuals[registry.actor(spawn.actor).visual]!,
           manifest = packs.get(visual.asset)!.manifest;

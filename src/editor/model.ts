@@ -178,6 +178,8 @@ export class EditorHistory {
     this.change((d) => {
       d.objects = d.objects.filter((p) => !removed.has(p.id));
       if (d.gameplay) d.gameplay.pickups = d.gameplay.pickups.filter((p) => !removed.has(p.object));
+      if (d.gameplay?.interactables)
+        d.gameplay.interactables = d.gameplay.interactables.filter((p) => !removed.has(p.object));
       d.propOrder = d.propOrder.filter((id) => !removed.has(id));
       d.overlaps = d.overlaps.filter((p) => !removed.has(p.a) && !removed.has(p.b));
     });

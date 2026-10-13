@@ -26,12 +26,25 @@ async function start() {
         loading.raise();
       },
       frame: () => updateGameUI(application),
-      loading: loading.set,
+      loading: (active) => {
+        if (!application.ready) loading.set(active);
+        else {
+          loading.set(false);
+          document.body.classList.toggle('traveling', active);
+        }
+      },
     },
   );
   app = application;
   await application.boot();
+  application.canvas.dataset.ready = 'false';
+  try {
+    await application.load();
+  } catch (error) {
+    status(`Checkpoint unavailable: ${(error as Error).message}`, true);
+  }
   bindGameUI(application);
+  application.canvas.dataset.ready = 'true';
   if (window.lantern?.launchMode) {
     const button = document.createElement('button');
     button.textContent = 'Return to Sandbox';

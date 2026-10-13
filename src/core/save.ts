@@ -1,3 +1,5 @@
+import { items, equipmentSlots, healthBonus } from '../content/items';
+import { rewardSchema } from '../content/interactions';
 import { z } from 'zod';
 import { type ContentRegistry, contains, isSupportedPosition } from '../content/world';
 import { effectiveRadius } from '../content/collision';
@@ -12,7 +14,7 @@ const point = z
   .strict();
 const GameSchema = z
   .object({
-    version: z.literal(6),
+    version: z.literal(7),
     seed: z.number().int().min(0).max(4294967295),
     wins: z.number().int().nonnegative().max(100000),
     area: id,
@@ -21,6 +23,16 @@ const GameSchema = z
       dodgeCooldown: z.number().int().min(0).max(tuning.dodge.cooldown),
       nextAttack: z.enum(['sweep', 'lunge']).optional(),
     }),
+    adventure: z
+      .object({
+        inventory: z.record(id, z.number().int().nonnegative().max(100000000)),
+        equipment: z.partialRecord(z.enum(equipmentSlots), id),
+        discovered: z.array(z.string()).max(1000),
+        lastFire: z.string().optional(),
+        potionCooldown: z.number().int().min(0).max(60),
+      })
+      .strict()
+      .optional(),
     areas: z.record(
       id,
       z
@@ -29,6 +41,22 @@ const GameSchema = z
           engaged: z.boolean(),
           actors: z.record(id, point),
           collectedPickups: z.array(id).optional(),
+          claimedObjects: z.array(id).optional(),
+          drops: z
+            .array(
+              z
+                .object({
+                  id,
+                  source: id,
+                  enemy: z.boolean(),
+                  x: z.number().finite(),
+                  z: z.number().finite(),
+                  rewards: z.array(rewardSchema),
+                })
+                .strict(),
+            )
+            .max(1000)
+            .optional(),
         })
         .strict(),
     ),
@@ -47,8 +75,32 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
     },
     active = resolve(save.area),
     player = registry.actor(registry.definitions.player);
-  if (!contains(active.bounds, save.player) || save.player.health > player.maxHealth)
+  if (
+    !contains(active.bounds, save.player) ||
+    save.player.health > player.maxHealth + healthBonus(save.adventure?.equipment ?? {})
+  )
     throw new Error('invalid player state');
+  if (save.adventure) {
+    const { inventory, equipment, discovered, lastFire } = save.adventure;
+    for (const [item, amount] of Object.entries(inventory))
+      if (!items[item] || !Number.isSafeInteger(amount)) throw new Error('Unknown inventory item');
+    const used: Record<string, number> = {};
+    for (const [slot, item] of Object.entries(equipment)) {
+      if (!items[item]?.slots?.includes(slot as (typeof equipmentSlots)[number]))
+        throw new Error('Incompatible equipment');
+      used[item] = (used[item] ?? 0) + 1;
+      if (used[item]! > (inventory[item] ?? 0)) throw new Error('Equipment not owned');
+    }
+    const fires = registry.definitions.areas.flatMap((a) =>
+      (a.campfires ?? []).map((f) => a.id + '/' + f.id),
+    );
+    if (
+      new Set(discovered).size !== discovered.length ||
+      discovered.some((f) => !fires.includes(f)) ||
+      (lastFire && !discovered.includes(lastFire))
+    )
+      throw new Error('Unknown campfire');
+  }
   if (!save.areas[save.area]) throw new Error('missing current area state');
   for (const [areaId, state] of Object.entries(save.areas)) {
     const area = resolve(areaId);
@@ -62,6 +114,31 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
         state.collectedPickups.some((id) => !area.pickups?.some((p) => p.id === id)))
     )
       throw new Error('Unknown or duplicate collected pickup');
+    if (
+      state.claimedObjects &&
+      (new Set(state.claimedObjects).size !== state.claimedObjects.length ||
+        state.claimedObjects.some((id) => !area.interactables?.some((p) => p.id === id)))
+    )
+      throw new Error('Unknown claimed object');
+    if (state.drops) {
+      if (new Set(state.drops.map((d) => d.id)).size !== state.drops.length)
+        throw new Error('Duplicate drop');
+      for (const drop of state.drops) {
+        const source = drop.enemy
+          ? area.spawns.find((p) => p.id === drop.source)
+          : area.interactables?.find((p) => p.id === drop.source);
+        const rewards = source?.rewards;
+        if (
+          !source ||
+          !isSupportedPosition(area, drop, 0.01) ||
+          JSON.stringify(rewards) !== JSON.stringify(drop.rewards) ||
+          drop.id !== (drop.enemy ? 'enemy-' : 'object-') + drop.source ||
+          (!drop.enemy && !state.claimedObjects?.includes(drop.source)) ||
+          (drop.enemy && state.actors[drop.source]?.health !== 0)
+        )
+          throw new Error('Invalid drop');
+      }
+    }
     for (const spawn of area.spawns) {
       const actor = state.actors[spawn.id];
       if (

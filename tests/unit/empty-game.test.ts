@@ -9,7 +9,7 @@ import { parseGame } from '../../src/core/save';
 import { checkSceneDocuments } from '../../tools/check-scene-documents';
 
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } };
-test('empty Game stays playable and saveable without spurious victories or transitions', () => {
+test('authored Game arrival stays safe and saveable without spurious victories or transitions', () => {
   const session = new GameSession(content);
   let victories = 0;
   for (let i = 0; i < 600; i++) {
@@ -36,11 +36,11 @@ test('empty Game stays playable and saveable without spurious victories or trans
   restored.restoreSave(save);
   assert.equal(restored.sim.hero.x, session.sim.hero.x);
   restored.resetCurrentArea();
-  assert.equal(restored.sim.hero.x, 0);
-  assert.equal(restored.sim.hero.z, 0);
-  const scene = gameScenes.area('empty');
-  assert.equal(scene.visuals, undefined);
-  assert.deepEqual(scene.assets, []);
+  assert.equal(restored.sim.hero.x, content.area(content.definitions.initialArea).entries[0]!.x);
+  assert.equal(restored.sim.hero.z, content.area(content.definitions.initialArea).entries[0]!.z);
+  const scene = gameScenes.area(content.definitions.initialArea);
+  assert.ok(scene.visuals?.editorFloor);
+  assert.ok(scene.assets.length > 0);
   assert.equal('ink-moss' in gameAssetCatalog, false);
   for (const id of gameScenes.initialAssets) assert.ok(gameAssetCatalog[id]);
   assert.throws(() => parseGame({ ...save, area: 'court' }, content), /unknown area/);

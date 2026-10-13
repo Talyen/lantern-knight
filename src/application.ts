@@ -1,3 +1,5 @@
+import { nearbyInteraction } from './core/interaction';
+import type { EquipmentSlot } from './content/items';
 import { SceneAssets } from './assets/scene-assets';
 import type { PreparedRegistration } from './assets/registration';
 import { AssetRuntime, type PackLease, type PackBatch, type AssetPack } from './assets/loader';
@@ -323,6 +325,10 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   ) {
     operation.check();
     this.input.clear();
+    if (this.sim.areaDefinition.campfires?.length && !this.bridge.automatedRun) {
+      await new Promise<void>((resolve) => setTimeout(resolve, 160));
+      operation.check();
+    }
     let next: PackBatch | undefined;
     try {
       next = await this.acquireArea(area, operation.signal);
@@ -371,6 +377,13 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   transition(id: string) {
     return this.withSessionOperation(async (operation) => {
+      const exit = this.sim.areaDefinition.exits.find((e) => e.id === id);
+      if (
+        exit?.explicit &&
+        (this.sim.inCombat ||
+          Math.hypot(exit.marker.x - this.sim.hero.x, exit.marker.z - this.sim.hero.z) > 1.6)
+      )
+        throw new Error('Departure unavailable');
       const plan = this.session.prepareTransition(id);
       const cancel = () => this.publish(this.session.cancelTransition(plan));
       operation.signal.addEventListener('abort', cancel, { once: true });
@@ -394,10 +407,73 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       }
     });
   }
+  get interaction() {
+    return nearbyInteraction(this.sim);
+  }
+  interact() {
+    if (this.busy || !this.roomReady || this.paused) return;
+    const target = this.interaction;
+    if (!target) return;
+    if (target.blocked) throw new Error(target.blocked);
+    if (target.kind === 'drop') {
+      if (this.sim.collectDrop(target.id)) {
+        this.hooks.status(target.label);
+        this.autosave();
+      }
+    } else if (target.kind === 'container') {
+      if (this.sim.claimObject(target.id)) {
+        this.publish(this.sim.events);
+        this.autosave();
+      }
+    } else if (target.kind === 'campfire') {
+      this.session.discoverFire(this.sim.area + '/' + target.id);
+      this.autosave();
+      return this.sim.area + '/' + target.id;
+    } else if (target.kind === 'exit') {
+      this.safe(() => this.transition(target.id));
+    }
+  }
+  changeInventory(action: 'equip' | 'unequip' | 'salvage', item?: string, slot?: EquipmentSlot) {
+    if (this.busy || !this.roomReady) throw new Error('Wait for the area to finish loading');
+    if (action === 'equip') this.session.equip(item!, slot!);
+    else if (action === 'unequip') this.session.unequip(slot!);
+    else this.session.salvage(item);
+    this.autosave();
+  }
+  rest(key: string) {
+    return this.withSessionOperation(async (operation) => {
+      if (this.sim.inCombat) throw new Error('Finish combat before resting');
+      await this.replaceRoom(this.sim.area, () => this.session.rest(key), operation);
+      this.autosave();
+    });
+  }
+  travel(key: string) {
+    return this.withSessionOperation(async (operation) => {
+      const plan = this.session.prepareFireTravel(key);
+      try {
+        this.publish(plan.events);
+        await this.replaceRoom(
+          plan.destination,
+          () => this.session.commitTransition(plan),
+          operation,
+        );
+        operation.check();
+        this.session.lastFire = key;
+        this.autosave();
+      } catch (error) {
+        this.publish(this.session.cancelTransition(plan));
+        throw error;
+      }
+    });
+  }
   reset(reason: 'death' | 'manual' = 'manual') {
     return this.withSessionOperation(async (operation) => {
       const resume = this.resumeOnCompletion();
-      await this.replaceRoom(this.sim.area, () => this.session.resetCurrentArea(reason), operation);
+      await this.replaceRoom(
+        this.session.resetDestination(reason),
+        () => this.session.resetCurrentArea(reason),
+        operation,
+      );
       operation.check();
       if (reason === 'death') this.autosave();
       resume();
@@ -499,6 +575,15 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         this.aim = aim;
         const result = this.session.step(cmd);
         this.publish(result.events);
+        if (
+          result.events.some(
+            (e) =>
+              e.kind === 'potion-used' ||
+              e.kind === 'object-claimed' ||
+              (e.kind === 'death' && e.actor !== 'player'),
+          )
+        )
+          this.autosave();
         if (result.reset) {
           this.safe(() => this.reset(result.reset));
           return false;

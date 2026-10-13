@@ -5,6 +5,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { createHash } from 'node:crypto';
 import { manifestFixture } from '../fixtures/manifest';
+import { gameAssetCatalog } from '../../src/content/game-content';
 import { assetCatalog } from '../../src/content/asset-catalog';
 import { loadingVideoPath } from '../../src/content/loading-media';
 import { AssetCache } from '../../tools/assets/cache';
@@ -28,7 +29,7 @@ test('split publication uses downloadable filenames, frees the candidate archive
     await fs.writeFile(file, bytes);
   };
   try {
-    for (const [id, file] of Object.entries(assetCatalog)) {
+    for (const [id, file] of Object.entries({ ...assetCatalog, ...gameAssetCatalog })) {
       const manifest = manifestFixture(id);
       manifest.pages[0]!.hash = hash;
       await write('public/' + file, JSON.stringify(manifest));

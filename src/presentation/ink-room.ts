@@ -275,6 +275,36 @@ export class InkRoom {
           s.animator.clip.endBehavior === 'hide' && s.animator.time >= clipDuration(s.animator.clip)
         );
     }
+    for (const object of this.area.interactables ?? []) {
+      const sprite = this.sprites.find((s) => s.id === object.object);
+      if (!sprite) continue;
+      const start = sim.objectActions.get(object.id);
+      const elapsed =
+        start === undefined ? Infinity : Math.max(0, ((sim.tick - start + alpha) * 1000) / 60);
+      const claimed = sim.claimedObjects.has(object.id);
+      const action = resolveClip(sprite.manifest, object.action, 'd45');
+      const active = claimed && elapsed < clipDuration(action);
+      const clip = resolveClip(
+        sprite.manifest,
+        claimed ? (active ? object.action : object.spent) : object.idle,
+        'd45',
+      );
+      // A crate's supplied smash clip includes its intact and broken poses.
+      const time = !claimed
+        ? 0
+        : active
+          ? elapsed
+          : clip === action
+            ? clipDuration(clip) - 0.001
+            : 0;
+      this.sample(
+        sprite,
+        clip,
+        time,
+        new T.Vector3(object.x, heightAt(this.area, object.x, object.z), object.z),
+      );
+      sprite.mesh.visible = visible;
+    }
     for (const pickup of this.area.pickups ?? []) {
       const sprite = this.sprites.find((s) => s.id === pickup.object);
       if (sprite)
@@ -317,6 +347,21 @@ export class InkRoom {
       }
     }
     if (!visible) return;
+    for (const drop of sim.drops) {
+      const sprite = this.effect(
+        'drop-' + drop.id,
+        'library-lantern_concept_item_12_coin_purse',
+        'still',
+      );
+      sprite.mesh.visible = true;
+      sprite.mesh.scale.setScalar(0.28);
+      this.sample(
+        sprite,
+        resolveClip(sprite.manifest, 'still', 'd45'),
+        0,
+        new T.Vector3(drop.x, heightAt(this.area, drop.x, drop.z) + 0.03, drop.z),
+      );
+    }
 
     for (const a of sim.enemies)
       if (a.health > 0 && a.state === 'attack') {

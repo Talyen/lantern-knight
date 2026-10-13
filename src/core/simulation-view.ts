@@ -13,6 +13,9 @@ export interface SimulationView {
   readonly actors: readonly ActorView[];
   readonly enemies: readonly ActorView[];
   readonly cleared: boolean;
+  readonly claimedObjects: ReadonlySet<string>;
+  readonly objectActions: ReadonlyMap<string, number>;
+  readonly drops: readonly import('../content/interactions').GroundDrop[];
   readonly collectedPickups: ReadonlySet<string>;
   navigationDebug(includeCells?: boolean): ReturnType<Simulation['navigationDebug']>;
 }
@@ -44,6 +47,15 @@ export function simulationView(sim: Simulation): SimulationView {
     },
     get cleared() {
       return sim.cleared;
+    },
+    get claimedObjects() {
+      return sim.claimedObjects;
+    },
+    get objectActions() {
+      return sim.objectActions;
+    },
+    get drops() {
+      return sim.drops;
     },
     get collectedPickups() {
       return sim.collectedPickups;

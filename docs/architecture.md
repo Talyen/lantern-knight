@@ -2,16 +2,16 @@
 
 ## Owners
 
-| Owner | Responsibility | Main location |
-| --- | --- | --- |
-| Application | Boot, input, loading, pause, fixed-step scheduling and persistence operations | `src/application.ts` |
-| Simulation and GameSession | Gameplay outcomes, transitions, encounter state and checkpoint capture/restore | `src/core/` |
-| Content | Gameplay definitions, scene parsing/resolution and explicit visual requirements | `src/content/` |
-| Presentation | Interpolation, animation, camera rendering, lighting and GPU resource disposal | `src/presentation/` |
-| Developer sessions | Editor/preview controls, temporary state, mounted requests and cancellation | `src/editor/`, `src/sandbox/` |
-| Storage adapters | Shared validation, browser storage and atomic desktop writes through Bridge | `src/platform/`, `electron/` |
-| Asset tools | Source preparation, immutable delivery, workspaces and cache leases | `tools/assets/` |
-| Development tools | Guide discovery, checks, test selection, builds and preview processes | `tools/` (asset operations in `tools/assets/`) |
+| Owner                      | Responsibility                                                                  | Main location                                  |
+| -------------------------- | ------------------------------------------------------------------------------- | ---------------------------------------------- |
+| Application                | Boot, input, loading, pause, fixed-step scheduling and persistence operations   | `src/application.ts`                           |
+| Simulation and GameSession | Gameplay outcomes, transitions, encounter state and checkpoint capture/restore  | `src/core/`                                    |
+| Content                    | Gameplay definitions, scene parsing/resolution and explicit visual requirements | `src/content/`                                 |
+| Presentation               | Interpolation, animation, camera rendering, lighting and GPU resource disposal  | `src/presentation/`                            |
+| Developer sessions         | Editor/preview controls, temporary state, mounted requests and cancellation     | `src/editor/`, `src/sandbox/`                  |
+| Storage adapters           | Shared validation, browser storage and atomic desktop writes through Bridge     | `src/platform/`, `electron/`                   |
+| Asset tools                | Source preparation, immutable delivery, workspaces and cache leases             | `tools/assets/`                                |
+| Development tools          | Guide discovery, checks, test selection, builds and preview processes           | `tools/` (asset operations in `tools/assets/`) |
 
 Game and Dev Preview, including its effects fixture, share the Application lifecycle. Dev Preview's shell retains per-fixture state; opening an inspector is separate from entering dedicated animation/calibration rendering. Preview state uses validated session storage and storage-free bridges, never player checkpoints/settings. Mounted developer sessions dispose their requests, observers and rendering work together.
 
@@ -39,7 +39,7 @@ EditorDocument owns committed editor history. EditorHistory stores deeply frozen
 
 `src/editor/project.ts` owns scene file revisions, dirty-state baselines, authenticated writes and workspace-scoped local recovery. Open, import and recovery restore change file metadata only after EditorDocument accepts the replacement. Selecting a recovery leaves the active file identity intact until restoration succeeds; unreadable recoveries remain available for export or dismissal. Successful server saves accept their revision before optional recovery cleanup, so unavailable browser storage cannot leave the editor using an obsolete revision. The saved baseline records the document actually written, preserving later edits as dirty. The UI owns confirmation, operation admission and feedback; the project owner receives its request, storage and cancellation dependencies explicitly.
 
-Game runtime and builds share the content and asset selection in `src/content/game-content.ts`, which currently defines a built-in empty area with the hero. Saving under `authoring/scenes/` does not add a scene to Game. Authored scenes are replaceable; developer presentation fixtures and gameplay test arenas own their setup independently. Asset preparation and runtime delivery retain their curated catalog independently of scene selection.
+Game runtime and builds share the content and asset selection in `src/content/game-content.ts`, which resolves the selected orchard and clearing authored documents. Saving under `authoring/scenes/` does not add a scene to Game. Authored scenes are replaceable; developer presentation fixtures and gameplay test arenas own their setup independently. Asset preparation and runtime delivery retain their curated catalog independently of scene selection.
 
 ## Runtime resources
 
@@ -75,7 +75,7 @@ Preview sessions own server acquisition, identity checks and lease release once.
 
 ### Change saved state
 
-Gameplay checkpoint schemas and registry validation belong to `src/core/save.ts`; renderer settings belong to `src/platform/settings.ts`. `src/platform/bridge.ts` owns the host protocol, while `src/persistence.ts` owns application write feedback. Browser and desktop adapters share `src/platform/storage-codec.ts` for detached write snapshots, payload limits and invalid-data handling. Game entry points select the content registry explicitly when creating adapters; storage never selects production content internally. Change checkpoint capture/restore and the relevant codec together. Prototype saves use version 6 and settings version 5; obsolete or incompatible data loads as empty. Storage failures remain visible. Adapters validate writes; Electron snapshots requests, serializes them through one queue and replaces files atomically. Browser and desktop isolate prototype profiles. Test with `npm test -- tests/unit/persistence.test.ts tests/unit/application.test.ts`. Add migrations when external players create a real compatibility need.
+Gameplay checkpoint schemas and registry validation belong to `src/core/save.ts`; renderer settings belong to `src/platform/settings.ts`. `src/platform/bridge.ts` owns the host protocol, while `src/persistence.ts` owns application write feedback. Browser and desktop adapters share `src/platform/storage-codec.ts` for detached write snapshots, payload limits and invalid-data handling. Game entry points select the content registry explicitly when creating adapters; storage never selects production content internally. Change checkpoint capture/restore and the relevant codec together. Prototype saves use version 7 and settings version 5; obsolete or incompatible data loads as empty. Storage failures remain visible. Adapters validate writes; Electron snapshots requests, serializes them through one queue and replaces files atomically. Browser and desktop isolate prototype profiles. Test with `npm test -- tests/unit/persistence.test.ts tests/unit/application.test.ts`. Add migrations when external players create a real compatibility need.
 
 ### Add an area or enemy
 
@@ -112,3 +112,9 @@ One-shots have pending, playing and finished lifetimes. Cancel pending work on d
 Music/ambience have one requested destination and an active owner. Superseded loads/fades cannot start late; failed destination changes preserve usable outgoing audio. Master/music/SFX settings update live playback separately from checkpoints. Choose voice limits, repeat suppression, pause, crossfade, room-loop and mute/unmute policies with the sound design.
 
 Playback failure is non-fatal and reports bounded diagnostics without blocking gameplay. Check stale loads, failed playback, mute/unmute, transitions, pause and disposal at the cheapest meaningful layer. Listen in Game and Dev Preview for overlaps, loop seams, levels, first use and cleanup; lifetime tests do not certify the mix. Keep tuning and registrations in code/content and record established behavior here when implemented.
+
+## Adventure interactions
+
+`src/content/items.ts` owns fixed equipment compatibility, rewards and salvage yields; `src/content/interactions.ts` owns authored campfires and interactive object definitions. Authored gameplay resolves their positions with scene artwork. Simulation owns local awareness, sanctuary limits, sword breakage, object claims, drops and potion timing. Presentation samples object clips from authoritative claim ticks; animation callbacks never award items.
+
+GameSession owns inventory/equipment, campfire discovery, encounter revisits and reset policy. Rest and death reset enemies across visited areas while retaining claimed objects and collected items. Death chooses the shortest reachable route to a discovered fire in the current stage, falling back to the last visited fire. Travel preserves health and encounter state. Application admits room replacement and autosaves accepted changes. Inventory and campfire dialogs use the same session operations; equipment never replaces hero artwork.
