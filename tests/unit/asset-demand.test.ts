@@ -84,3 +84,42 @@ test('ground selection acquires its original source image before invoking segmen
     service.dispose();
   }
 });
+
+test('on-demand previews acquire and serve newly published audio samples', async (t) => {
+  const { createServer } = await import('vite');
+  const { demandArtworkPlugin } = await import('../../tools/assets/demand-plugin');
+  const root = await temporaryDirectory(t, 'lantern-demand-audio-');
+  const requested: string[] = [];
+  const server = await createServer({
+    configFile: false,
+    root,
+    publicDir: root,
+    server: { host: '127.0.0.1', port: 0 },
+    plugins: [
+      demandArtworkPlugin(root, async (file) => {
+        requested.push(file);
+        await fs.mkdir(path.dirname(path.join(root, file)), { recursive: true });
+        await fs.writeFile(path.join(root, file), 'prepared sample');
+        return true;
+      }),
+    ],
+  });
+  try {
+    await server.listen();
+    const address = server.httpServer!.address();
+    if (!address || typeof address === 'string') throw new Error('Missing test server');
+    for (const extension of ['wav', 'ogg']) {
+      const file = `audio/${'a'.repeat(64)}.${extension}`;
+      const response: Response = await fetch(`http://127.0.0.1:${address.port}/${file}`);
+      assert.equal(response.status, 200);
+      assert.equal(await response.text(), 'prepared sample');
+      assert.equal(
+        response.headers.get('content-type'),
+        extension === 'wav' ? 'audio/wav' : 'audio/ogg',
+      );
+    }
+    assert.equal(requested.length, 2);
+  } finally {
+    await server.close();
+  }
+});

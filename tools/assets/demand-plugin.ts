@@ -21,7 +21,7 @@ export function demandArtworkPlugin(
           return;
         }
         if (
-          !/^(generated|lighting|visual-effects|dev-effects|animation|decoders|media)\//.test(
+          !/^(generated|lighting|visual-effects|dev-effects|animation|decoders|media|audio)\//.test(
             relative,
           ) &&
           !['build-mode.json', 'registration.json'].includes(relative)
@@ -46,6 +46,8 @@ export function demandArtworkPlugin(
             '.js': 'text/javascript',
             '.mp4': 'video/mp4',
             '.webm': 'video/webm',
+            '.wav': 'audio/wav',
+            '.ogg': 'audio/ogg',
           };
           res.setHeader('Content-Type', types[path.extname(file)] ?? 'application/octet-stream');
           res.setHeader('Cache-Control', 'no-cache');

@@ -1,4 +1,4 @@
-import { audioManifestPath, parseAudioManifest } from '../src/assets/audio';
+import { readPreparedAudio } from './assets/prepared-audio';
 import { validateLightingBindings, type LightingBinding } from './lighting-bindings';
 import assert from 'node:assert/strict';
 import path from 'node:path';
@@ -21,7 +21,7 @@ export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirecto
   const readPublic = (file: string) =>
     fs.readFile(path.join(workspace.publicDirectory, safeRelative(file)));
   validateLoadingVideo(await readPublic(loadingVideoPath));
-  const audio = parseAudioManifest(JSON.parse((await readPublic(audioManifestPath)).toString()));
+  const audio = await readPreparedAudio(readPublic);
   for (const sample of audio.samples) {
     const bytes = await readPublic(sample.path);
     assert.equal(bytes.length, sample.bytes);

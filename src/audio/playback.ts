@@ -102,6 +102,7 @@ export class AudioPlayback {
     this.unlocking ??= (async () => {
       // Install the in-flight handle before synchronous constructor failures can finish.
       await Promise.resolve();
+      if (this.lifetime.signal.aborted) return;
       try {
         this.context ??= this.deps.context();
         if (!this.master) {

@@ -1,4 +1,6 @@
-import { defineConfig, type UserConfig } from 'vite';
+import fs from 'node:fs/promises';
+import { readPreparedAudio } from './tools/assets/prepared-audio';
+import { defineConfig, type UserConfig, type Plugin } from 'vite';
 import path from 'node:path';
 import type { BuildProfile } from './tools/build-profile';
 import { demandArtworkPlugin } from './tools/assets/demand-plugin';
@@ -12,27 +14,44 @@ export function webConfig(
   return {
     clearScreen: false,
     define: { __AUTHORING__: String(authoring) },
-    plugins: authoring
-      ? [
-          ...(ensurePublicFile ? [demandArtworkPlugin(publicDirectory, ensurePublicFile)] : []),
-          {
-            name: 'lantern-scene-editor',
-            async configureServer(server) {
-              const { sceneEditorPlugin } = (await server.ssrLoadModule(
-                '/tools/scene/scene-editor-store.ts',
-              )) as typeof import('./tools/scene/scene-editor-store.ts');
-              const configure = sceneEditorPlugin(
-                process.cwd(),
-                server.config.publicDir,
-                ensurePublicFile,
-              ).configureServer;
-              if (typeof configure !== 'function')
-                throw new Error('Scene editor server hook is unavailable');
-              return configure.call(this, server);
+    plugins: [
+      {
+        name: 'lantern-prepared-audio',
+        configureServer(server) {
+          server.middlewares.use('/audio/manifest.json', (_req, res, next) => {
+            void readPreparedAudio(async (file) => {
+              await ensurePublicFile?.(file);
+              return fs.readFile(path.join(server.config.publicDir, file));
+            }).then((manifest) => {
+              res.setHeader('content-type', 'application/json');
+              res.setHeader('cache-control', 'no-store');
+              res.end(JSON.stringify(manifest));
+            }, next);
+          });
+        },
+      },
+      ...(authoring
+        ? ([
+            ...(ensurePublicFile ? [demandArtworkPlugin(publicDirectory, ensurePublicFile)] : []),
+            {
+              name: 'lantern-scene-editor',
+              async configureServer(server) {
+                const { sceneEditorPlugin } = (await server.ssrLoadModule(
+                  '/tools/scene/scene-editor-store.ts',
+                )) as typeof import('./tools/scene/scene-editor-store.ts');
+                const configure = sceneEditorPlugin(
+                  process.cwd(),
+                  server.config.publicDir,
+                  ensurePublicFile,
+                ).configureServer;
+                if (typeof configure !== 'function')
+                  throw new Error('Scene editor server hook is unavailable');
+                return configure.call(this, server);
+              },
             },
-          },
-        ]
-      : [],
+          ] satisfies Plugin[])
+        : []),
+    ],
     publicDir: publicDirectory,
     server: {
       port: Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),

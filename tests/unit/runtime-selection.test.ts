@@ -50,6 +50,18 @@ test('runtime selection builds from delivery-only payloads and validates shipped
     await write(file, JSON.stringify(manifest));
     await write(delivery, image);
   }
+  const legacy = await selectedFiles(source, 'game');
+  assert.deepEqual(JSON.parse(legacy.generated['audio/manifest.json']!), {
+    schemaVersion: 1,
+    samples: [],
+  });
+  await copySelectedFiles(source, path.join(root, 'legacy-output'), legacy);
+  assert.deepEqual(await readJson(path.join(root, 'legacy-output/audio/manifest.json')), {
+    schemaVersion: 1,
+    samples: [],
+  });
+  await write('audio/manifest.json', 'invalid JSON');
+  await assert.rejects(selectedFiles(source, 'game'), SyntaxError);
   const audioBytes = Buffer.from('prepared audio fixture'),
     audioHash = createHash('sha256').update(audioBytes).digest('hex');
   const audioPath = `audio/${audioHash}.wav`;

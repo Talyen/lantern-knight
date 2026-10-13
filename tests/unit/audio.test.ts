@@ -438,3 +438,17 @@ test('opening a paused menu preserves its accepted feedback while cancelling pen
     f.playback.dispose();
   }
 });
+
+test('disposal before a queued unlock does not create an audio context', async () => {
+  let contexts = 0;
+  const playback = new AudioPlayback(() => {}, {
+    context: () => {
+      contexts++;
+      throw new Error('Context created after disposal');
+    },
+  });
+  const pending = playback.unlock();
+  playback.dispose();
+  await pending;
+  assert.equal(contexts, 0);
+});

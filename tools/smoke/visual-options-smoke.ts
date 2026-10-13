@@ -63,7 +63,7 @@ export async function runScenario(flags: string[] = []) {
       smoke: false,
       bloom: false,
     });
-    assert.equal((persisted as { version: number }).version, 5);
+    assert.equal((persisted as { version: number }).version, 6);
     assert.equal((persisted as { depthOfField: number }).depthOfField, 1);
     await assert.rejects(fs.access(path.join(run.profile, 'prototype-saves/game.json')));
     await page.reload();

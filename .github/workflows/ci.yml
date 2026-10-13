@@ -58,7 +58,7 @@ jobs:
         env:
           AUTHORING_CHECKS: ${{ steps.impact.outputs.authoring }}
         run: |
-          scenarios=(scene image-delivery ground-occlusion)
+          scenarios=(scene image-delivery ground-occlusion audio)
           if [ "$AUTHORING_CHECKS" = true ]; then scenarios+=(editor effects); fi
           npm run test:browser -- "${scenarios[@]}"
       - run: git diff --exit-code

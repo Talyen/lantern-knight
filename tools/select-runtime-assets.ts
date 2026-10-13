@@ -1,4 +1,5 @@
-import { audioManifestPath, parseAudioManifest } from '../src/assets/audio';
+import { audioManifestPath } from '../src/assets/audio';
+import { readPreparedAudio } from './assets/prepared-audio';
 import type { BuildProfile } from './build-profile';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -36,8 +37,8 @@ export async function selectedFiles(
     return fs.readFile(path.join(publicRoot, name));
   };
   const hash = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
-  const audio = parseAudioManifest(JSON.parse((await read(audioManifestPath)).toString()));
-  files.add(audioManifestPath);
+  const audio = await readPreparedAudio(read);
+  generated[audioManifestPath] = JSON.stringify(audio) + '\n';
   for (const sample of audio.samples) {
     const bytes = await read(sample.path);
     if (bytes.length !== sample.bytes || hash(bytes) !== sample.hash)

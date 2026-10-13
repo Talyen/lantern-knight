@@ -129,7 +129,7 @@ export async function runScenario(flags: string[] = []) {
     await page.waitForFunction(
       () => !document.querySelector<HTMLDialogElement>('#new-confirm')!.open,
     );
-    assert.equal((await readJson(checkpoint)).version, 6);
+    assert.equal((await readJson(checkpoint)).version, 7);
     await pause();
     checks.push('New Game replaces obsolete prototype data with the current format');
     let save = await observe();
