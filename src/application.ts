@@ -47,6 +47,12 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private last = 0;
   private frames: FrameScheduler | undefined;
   private disposed = false;
+  // Once replacement starts committing, the renderer may be partially rebuilt.
+  // Only a fully prepared replacement can accept this session for use again.
+  private roomAccepted = true;
+  get roomReady() {
+    return this.roomAccepted;
+  }
   private loading = new Set<symbol>();
   private pauseSequence = 0;
   private aim = { x: 0, z: 1 };
@@ -129,7 +135,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       if (!this.disposed && this.loading.size === 0) {
         try {
           // Submit the destination before revealing it, even in a paused/background window.
-          if (this.ready) this.presentation.update(this.sim.view, 1, 0, this.aim);
+          if (this.ready && this.roomReady) this.presentation.update(this.sim.view, 1, 0, this.aim);
         } finally {
           this.resetFrameClock();
           this.input?.clear();
@@ -286,7 +292,10 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         operation.check();
         throw error;
       } finally {
-        if (this.sessionOperation === operation) this.sessionOperation = undefined;
+        if (this.sessionOperation === operation) {
+          this.sessionOperation = undefined;
+          if (!this.disposed && !this.roomReady) this.pause(true);
+        }
       }
     });
   }
@@ -307,8 +316,11 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       for (const pack of next.packs.values()) this.presentation.warmPack(pack);
       await this.presentation.prepareAssets(new Set([...this.packs.keys(), ...next.packs.keys()]));
       operation.check();
-      const changes = commit(),
-        installing = next;
+      this.roomAccepted = false;
+      const changes = commit();
+      this.events.setGeneration(this.session.generation);
+      operation.check();
+      const installing = next;
       next = undefined; // Installation transfers ownership even if rebuilding throws.
       this.roomAssets.install(installing, () => {
         this.syncPacks();
@@ -318,8 +330,10 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         );
         this.presentation.generation = this.session.generation;
       });
+      operation.check();
       await this.presentation.prepareAssets();
       operation.check();
+      this.roomAccepted = true;
       this.input.resetAim();
       this.publish(changes);
     } finally {
@@ -328,6 +342,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   pause(value: boolean) {
     this.pauseSequence++;
+    value = value || !this.roomReady;
     this.paused = value;
     this.clock.reset();
     this.input?.clear();
@@ -440,11 +455,14 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   async save() {
     if (this.readOnly) throw new Error('Sandbox sessions cannot write checkpoints');
+    if (!this.roomReady)
+      throw new Error('Room is not ready; reset or load a checkpoint to recover');
     await this.persistence.save(this.session.captureSave());
     await this.saveSettings();
   }
   autosave() {
-    if (!this.readOnly) this.safe(() => this.persistence.save(this.session.captureSave()));
+    if (!this.readOnly && this.roomReady)
+      this.safe(() => this.persistence.save(this.session.captureSave()));
   }
   private loop = (now: number) => {
     if (this.disposed) return;
@@ -455,7 +473,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     const idle =
         this.frames?.idle ??
         (!this.bridge.automatedRun && (document.hidden || !document.hasFocus())),
-      frozen = this.paused || this.busy || this.loading.size > 0 || idle;
+      frozen = this.paused || !this.roomReady || this.busy || this.loading.size > 0 || idle;
     if (!frozen && this.simulationEnabled)
       alpha = this.clock.advance(ms, () => {
         const sim = this.sim;
@@ -477,7 +495,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         }
         return true;
       });
-    this.presentation.update(this.sim.view, alpha, frozen ? 0 : ms, aim);
+    if (this.roomReady) this.presentation.update(this.sim.view, alpha, frozen ? 0 : ms, aim);
     this.hooks.frame();
     this.afterFrame(ms);
   };

@@ -402,6 +402,7 @@ test('failed room preparation keeps the current session and packs; retry replace
       /companions unavailable/,
     );
     assert.equal(app.sim, previous);
+    assert.equal(app.roomReady, true, 'Failure before commit preserves the accepted room');
     assert.equal(app.packs.get(initial), pack);
     assert.equal(app.packs.has(destination), false);
     assert.equal(app.busy, false);
@@ -676,6 +677,114 @@ test('feedback failure after a transition cannot cancel its committed destinatio
     assert.deepEqual(received, ['transition-start', 'area-transition']);
     assert.equal(statuses.length, 1);
     assert.match(statuses[0]!, /broken transition feedback/);
+    app.dispose();
+  });
+});
+
+test('failed room acceptance blocks rendering, gameplay and saves until recovery', async () => {
+  await withDOM(async () => {
+    for (const failure of ['rebuild', 'companions'] as const) {
+      const { app } = fixture(),
+        snapshot = new GameSession(content, 142, 'upper-landing').captureSave();
+      Object.assign(app.bridge, { automatedRun: true });
+      app.command = () => ({ move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } });
+      app.ready = true;
+      let saves = 0,
+        renders = 0,
+        preparations = 0;
+      app.persistence = new Persistence({
+        loadGame: async () => ({ status: 'empty' }),
+        saveGame: async () => {
+          saves++;
+        },
+      });
+      app.presentation.update = () => {
+        renders++;
+      };
+      const feedback = deferred<void>();
+      let lifetime: AbortSignal | undefined;
+      app.events.subscribe((_event, signal) => {
+        lifetime = signal;
+        return feedback.promise;
+      });
+      app.publish(app.session.resetCurrentArea());
+      const originalLifetime = lifetime!;
+      app.presentation.resetRoom = () => {
+        assert.equal(
+          originalLifetime.aborted,
+          true,
+          'Commit must close old feedback before rebuilding',
+        );
+        if (failure === 'rebuild') throw new Error('rebuild failed');
+      };
+      app.presentation.prepareAssets = async () => {
+        if (++preparations === 2 && failure === 'companions') throw new Error('companions failed');
+      };
+      await assert.rejects(app.restore(snapshot), /failed/);
+      assert.equal(app.sim.area, snapshot.area);
+      assert.equal(app.busy, false);
+      assert.equal(app.roomReady, false);
+      assert.equal(app.paused, true);
+      app.pause(false);
+      assert.equal(app.paused, true, 'Resume cannot bypass room recovery');
+      const tick = app.sim.tick;
+      const frame = Reflect.get(app, 'loop') as (now: number) => void;
+      frame(performance.now() + 1000);
+      assert.equal(app.sim.tick, tick);
+      assert.equal(renders, 0, 'A partial renderer must not receive simulation updates');
+      await assert.rejects(app.save(), /room.*ready/i);
+      app.autosave();
+      assert.equal(saves, 0);
+      assert.equal(await app.load(), false, 'An empty checkpoint cannot recover the renderer');
+      assert.equal(app.roomReady, false);
+      app.presentation.resetRoom = () => {};
+      app.presentation.prepareAssets = async () => {};
+      await app.reset();
+      assert.equal(app.roomReady, true);
+      assert.equal(app.paused, false);
+      assert.equal(renders, 1);
+      frame(performance.now() + 20);
+      assert.ok(app.sim.tick > tick);
+      app.bridge.saveSettings = async () => {};
+      await app.save();
+      assert.equal(saves, 1);
+      feedback.resolve();
+      app.dispose();
+    }
+  });
+});
+
+test('superseding a committed room cannot accept it through an obsolete completion or an empty load', async () => {
+  await withDOM(async () => {
+    const { app } = fixture(),
+      preparing = deferred<void>(),
+      committed = deferred<void>();
+    app.readOnly = true;
+    app.persistence = new Persistence({
+      loadGame: async () => ({ status: 'empty' }),
+      saveGame: async () => assert.fail('read-only'),
+    });
+    let preparations = 0;
+    app.presentation.prepareAssets = async () => {
+      if (++preparations === 2) {
+        committed.resolve();
+        await preparing.promise;
+      }
+    };
+    const resetting = app.reset();
+    const rejected = assert.rejects(resetting, /superseded/);
+    await committed.promise;
+    assert.equal(app.roomReady, false);
+    assert.equal(await app.load(), false);
+    assert.equal(app.roomReady, false);
+    assert.equal(app.paused, true, 'The latest operation must leave recovery accessible');
+    preparing.resolve();
+    await rejected;
+    assert.equal(app.roomReady, false, 'Obsolete preparation cannot reopen the simulation');
+    assert.equal(app.busy, false);
+    await app.reset();
+    assert.equal(app.roomReady, true);
+    assert.equal(app.paused, false);
     app.dispose();
   });
 });

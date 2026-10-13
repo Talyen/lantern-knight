@@ -180,7 +180,12 @@ export function updateGameUI(app: Application) {
   const unavailable = app.busy || pending;
   for (const id of ['save', 'reset', 'load', 'new-game', 'confirm-new'])
     $<HTMLButtonElement>('#' + id).disabled = unavailable;
+  $<HTMLButtonElement>('#resume').disabled = !app.roomReady;
+  $<HTMLButtonElement>('#save').disabled = unavailable || !app.roomReady;
   $('#save-notice').textContent =
+    (!app.roomReady
+      ? 'Room unavailable. Reset, load a checkpoint, or start a new game to recover.'
+      : '') ||
     app.persistence.error ||
     app.settingsError ||
     'Prototype checkpoints may reset when the game changes.';
