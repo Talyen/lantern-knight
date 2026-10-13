@@ -2,18 +2,12 @@ import { parseAreaState, type AreaState } from './area-state';
 import { InventoryState, type InventoryAccess } from './inventory';
 import type { GroundDrop } from '../content/interactions';
 import { simulationView } from './simulation-view';
-import {
-  Navigation,
-  moveSupported,
-  effectiveRadius,
-  clearSegment,
-  type RouteResult,
-} from './navigation';
+import { moveSupported, effectiveRadius, clearSegment } from './navigation';
+import { MovementPlans } from './movement-plans';
+import { EncounterBehavior } from './encounter-behavior';
 import type { Point } from '../content/world';
 import type { ContentSnapshot } from '../content/snapshot';
-import { selectAuthoredDirection, type AuthoredHeading } from './camera';
-import type { HeroAttackKind } from '../content/hero-actions';
-import type { SweepTiming, SweepRecovery } from '../content/sweep-timing';
+import { selectAuthoredDirection } from './camera';
 import { tuning, attackDefinition } from '../content/gameplay';
 import {
   ContentRegistry,
@@ -23,39 +17,10 @@ import {
   heightAt,
   type AreaId,
   type ActorId,
-  type ActorDefinition,
 } from '../content/world';
 import type { GameplayEvent, EventDetails } from './events';
-export type State = 'idle' | 'walk' | 'attack' | 'dodge' | 'ability' | 'hurt' | 'death';
-export type Actor = {
-  id: ActorId;
-  definition: ContentSnapshot<ActorDefinition>;
-  kind: 'hero' | 'enemy';
-  x: number;
-  y: number;
-  z: number;
-  px: number;
-  py: number;
-  pz: number;
-  yaw: number;
-  aim: number;
-  state: State;
-  age: number;
-  action: number;
-  health: number;
-  cooldown: number;
-  dodgeCooldown: number;
-  stun: number;
-  hitIds: ActorId[];
-  attackKind: HeroAttackKind;
-  sweepTiming?: SweepTiming;
-  sweepRecovery?: SweepRecovery;
-  nextAttack: HeroAttackKind;
-  actionHeading: AuthoredHeading;
-  attackBufferedUntil: number;
-  dashBufferedUntil: number;
-  dashYaw: number;
-};
+import type { Actor, State } from './actor';
+export type { Actor, State } from './actor';
 export type Command = {
   move: { x: number; z: number };
   aim: { x: number; z: number };
@@ -73,123 +38,18 @@ export class Simulation {
     return this.#view;
   }
   movementPreview = false;
-  private navigationArea?: object;
-  private navigation?: Navigation;
-  private movementTargets = new Map<
-    string,
-    { target: Point; route: RouteResult; nextPlan: number; explicit: boolean }
-  >();
+  private readonly movement: MovementPlans;
+  private readonly encounter: EncounterBehavior;
   setMovementTarget(id: string, target: Point | null) {
-    if (!this.actors.some((a) => a.id === id)) throw new Error('Unknown movement actor');
-    if (!target) {
-      this.movementTargets.delete(id);
-      return;
-    }
-    this.movementTargets.set(id, {
-      target: { ...target },
-      route: this.navigator.route(
-        this.actors.find((a) => a.id === id)!,
-        target,
-        effectiveRadius(this.actors.find((a) => a.id === id)!.definition.radius),
-      ),
-      nextPlan: this.tick + 15,
-      explicit: true,
-    });
-  }
-  private get navigator() {
-    if (this.navigationArea !== this.areaDefinition) {
-      this.navigationArea = this.areaDefinition;
-      this.navigation = new Navigation(this.areaDefinition);
-      this.movementTargets.clear();
-    }
-    return this.navigation!;
+    const actor = this.actors.find((a) => a.id === id);
+    if (!actor) throw new Error('Unknown movement actor');
+    this.movement.setManual(actor, target, this.tick);
   }
   navigationDebug(includeCells = true) {
-    // Diagnostics must not initialize the gameplay navigator or clear movement targets.
-    return {
-      routes: [...this.movementTargets].map(([id, p]) => ({
-        id,
-        target: { ...p.target },
-        status: p.route.status,
-        points: p.route.points.map((v) => ({ ...v })),
-      })),
-      cells:
-        includeCells && this.navigationArea === this.areaDefinition
-          ? this.navigation!.debugCells(effectiveRadius(this.hero.definition.radius))
-          : [],
-    };
+    return this.movement.debug(effectiveRadius(this.hero.definition.radius), includeCells);
   }
-  private pursuitRoute(a: Actor, target: Point): RouteResult {
-    const radius = effectiveRadius(a.definition.radius);
-    const direct = this.navigator.route(a, target, radius);
-    if (direct.status === 'ready' || target !== this.hero) return direct;
-    // A larger enemy may not fit at the hero's feet. Find a reachable melee
-    // position with clear contact rather than treating the hero as unreachable.
-    const distance = a.definition.melee.range * 0.8;
-    const candidates = Array.from({ length: 16 }, (_, i) => ({
-      x: target.x + Math.cos((i * Math.PI) / 8) * distance,
-      z: target.z + Math.sin((i * Math.PI) / 8) * distance,
-    })).sort((p, q) => Math.hypot(p.x - a.x, p.z - a.z) - Math.hypot(q.x - a.x, q.z - a.z));
-    for (const point of candidates) {
-      if (!clearSegment(this.areaDefinition, point, target, 0.001)) continue;
-      const route = this.navigator.route(a, point, radius);
-      if (route.status === 'ready') return route;
-    }
-    return direct;
-  }
-  private follow(a: Actor, target?: Point) {
-    void this.navigator;
-    let plan = this.movementTargets.get(a.id);
-    if (!plan) {
-      if (!target) return false;
-      plan = {
-        target: { ...target },
-        route: this.pursuitRoute(a, target),
-        nextPlan: this.tick + 15,
-        explicit: false,
-      };
-      this.movementTargets.set(a.id, plan);
-    }
-    if (target && !plan.explicit && this.tick >= plan.nextPlan) {
-      plan.target = { ...target };
-      plan.route = this.pursuitRoute(a, target);
-      plan.nextPlan = this.tick + 15;
-    }
-    const waypoint = plan.route.points[0];
-    if (
-      waypoint &&
-      !clearSegment(this.areaDefinition, a, waypoint, effectiveRadius(a.definition.radius))
-    ) {
-      // Collisions and dashes can displace an actor from its planned route.
-      plan.route = plan.explicit
-        ? this.navigator.route(a, plan.target, effectiveRadius(a.definition.radius))
-        : this.pursuitRoute(a, target ?? plan.target);
-      plan.nextPlan = this.tick + 15;
-    }
-    if (plan.route.status === 'unreachable') {
-      a.state = 'idle';
-      return false;
-    }
-    const step = a.definition.speed / 60;
-    while (
-      plan.route.points.length &&
-      Math.hypot(plan.route.points[0]!.x - a.x, plan.route.points[0]!.z - a.z) < 1e-6
-    )
-      plan.route.points.shift();
-    const p = plan.route.points[0];
-    if (!p) {
-      if (plan.explicit) this.movementTargets.delete(a.id);
-      a.yaw = a.aim;
-      a.state = 'idle';
-      return false;
-    }
-    const dx = p.x - a.x,
-      dz = p.z - a.z,
-      d = Math.hypot(dx, dz);
-    a.yaw = Math.atan2(dx, dz);
-    a.state = 'walk';
-    this.move(a, (dx / d) * Math.min(step, d), (dz / d) * Math.min(step, d));
-    return true;
+  private follow(actor: Actor, intent?: { kind: 'home' | 'pursuit'; target: Point }) {
+    return this.movement.follow(actor, this.tick, (a, x, z) => this.move(a, x, z), intent);
   }
   tick = 0;
   seed: number;
@@ -205,7 +65,6 @@ export class Simulation {
   claimedObjects = new Set<string>();
   objectActions = new Map<string, number>();
   drops: GroundDrop[] = [];
-  private alerted = new Set<string>();
   potionCooldown = 0;
   get maxHealth() {
     return this.hero.definition.maxHealth + this.inventoryAccess.healthBonus;
@@ -220,44 +79,7 @@ export class Simulation {
     return Boolean(e && (!e.requiresClear || this.cleared) && this.guardsDefeated(e.guards));
   }
   get inCombat() {
-    return (
-      this.hero.health <= 0 ||
-      (!this.safePoint(this.hero) &&
-        this.enemies.some(
-          (a) =>
-            a.health > 0 &&
-            (this.alerted.has(a.id) ||
-              (!this.areaDefinition.spawns.find((p) => spawnActorId(this.area, p.id) === a.id)
-                ?.awareness &&
-                this.engaged)),
-        ))
-    );
-  }
-  private safePoint(p: Point) {
-    return (
-      this.areaDefinition.campfires?.some(
-        (f) =>
-          Math.hypot(p.x - f.x, p.z - f.z) < f.safeRadius &&
-          Math.abs(
-            heightAt(this.areaDefinition, p.x, p.z) - heightAt(this.areaDefinition, f.x, f.z),
-          ) <= tuning.maxCombatHeightDifference &&
-          clearSegment(this.areaDefinition, p, f, 0.001),
-      ) ?? false
-    );
-  }
-  private alert(a: Actor) {
-    const spawn = this.areaDefinition.spawns.find((p) => spawnActorId(this.area, p.id) === a.id);
-    const ids = [
-      a.id,
-      ...this.areaDefinition.spawns
-        .filter((p) => spawn?.awareness?.group && p.awareness?.group === spawn.awareness.group)
-        .map((p) => spawnActorId(this.area, p.id)),
-    ];
-    for (const id of ids) {
-      if (!this.alerted.has(id) && !this.movementTargets.get(id)?.explicit)
-        this.movementTargets.delete(id);
-      this.alerted.add(id);
-    }
+    return this.encounter.inCombat(this.hero, this.enemies, this.engaged);
   }
 
   claimObject(id: string) {
@@ -308,6 +130,8 @@ export class Simulation {
     private readonly inventoryAccess: InventoryAccess = new InventoryState(),
     areaState?: ContentSnapshot<AreaState>,
   ) {
+    this.movement = new MovementPlans(this.areaDefinition);
+    this.encounter = new EncounterBehavior(this.areaDefinition);
     this.initialSeed = seed;
     this.seed = seed;
     this.generation = generation;
@@ -328,11 +152,11 @@ export class Simulation {
     const def = this.areaDefinition,
       spawn = def.entries.find((e) => e.id === (entry ?? def.baselineEntry));
     if (!spawn) throw new Error('missing entry');
-    this.movementTargets.clear();
+    this.movement.clear();
     this.collectedPickups.clear();
     this.claimedObjects.clear();
     this.objectActions.clear();
-    this.alerted.clear();
+    this.encounter.reset();
     this.drops = [];
     this.tickEvents = [];
     this.potionCooldown = 0;
@@ -364,9 +188,7 @@ export class Simulation {
       collectedPickups: [...this.collectedPickups],
       claimedObjects: [...this.claimedObjects],
       drops: structuredClone(this.drops),
-      alerted: this.areaDefinition.spawns
-        .filter((spawn) => this.alerted.has(spawnActorId(this.area, spawn.id)))
-        .map((spawn) => spawn.id),
+      alerted: this.encounter.captureAlerts(),
       engaged: this.engaged,
       // Damage can clear the encounter between fixed steps.
       cleared: Object.values(actors).every((actor) => actor.health === 0),
@@ -389,7 +211,7 @@ export class Simulation {
     this.collectedPickups = new Set(state.collectedPickups ?? []);
     this.claimedObjects = new Set(state.claimedObjects ?? []);
     this.drops = state.drops ?? [];
-    this.alerted = new Set((state.alerted ?? []).map((id) => spawnActorId(this.area, id)));
+    this.encounter.restoreAlerts(state.alerted ?? []);
     this.cleared = state.cleared;
     this.engaged = state.engaged;
   }
@@ -486,7 +308,7 @@ export class Simulation {
       { x, z },
       effectiveRadius(a.definition.radius),
     );
-    if (a.kind === 'enemy' && this.safePoint(position)) return;
+    if (a.kind === 'enemy' && this.encounter.safePoint(position)) return;
     a.x = position.x;
     a.z = position.z;
     a.y = heightAt(this.areaDefinition, a.x, a.z);
@@ -508,7 +330,7 @@ export class Simulation {
       return;
     if (to.kind === 'enemy') {
       this.engaged = true;
-      this.alert(to);
+      this.encounter.alert(to);
     }
     const actual = Math.min(to.health, amount);
     to.health -= actual;
@@ -610,8 +432,8 @@ export class Simulation {
         } else if (h.attackBufferedUntil >= this.tick) {
           this.startSword(h);
         } else {
-          if (len > 0.01) this.movementTargets.delete(h.id);
-          if (len <= 0.01 && this.movementTargets.has(h.id)) {
+          if (len > 0.01) this.movement.cancel(h.id);
+          if (len <= 0.01 && this.movement.has(h.id)) {
             this.follow(h);
           } else {
             h.state = len > 0.01 ? 'walk' : 'idle';
@@ -625,68 +447,27 @@ export class Simulation {
       this.engaged = true;
     for (const a of this.actors) {
       if (a.health <= 0) continue;
-      const home = this.areaDefinition.spawns.find((p) => spawnActorId(this.area, p.id) === a.id);
-      if (
-        a.kind === 'enemy' &&
-        home &&
-        !home.awareness &&
-        !this.movementPreview &&
-        this.safePoint(h)
-      ) {
-        this.alerted.delete(a.id);
-        const plan = this.movementTargets.get(a.id);
-        if (plan && !plan.explicit && (plan.target.x !== home.x || plan.target.z !== home.z))
-          this.movementTargets.delete(a.id);
-        if (a.state === 'attack') this.start(a, 'idle');
-        if (a.state === 'idle' || a.state === 'walk') {
-          if (a.stun === 0) this.follow(a, home);
+      if (a.kind === 'enemy') {
+        const intent = this.encounter.decide(a, h, this.engaged, this.movementPreview);
+        if (intent.cancelAttack && a.state === 'attack') this.start(a, 'idle');
+        if (intent.kind === 'home' && (a.state === 'idle' || a.state === 'walk')) {
+          if (a.stun === 0) this.follow(a, { kind: 'home', target: intent.target });
           else a.state = 'idle';
           continue;
         }
-      }
-      if (a.kind === 'enemy' && home?.awareness && !this.movementPreview) {
-        const policy = home.awareness;
-        const safe = this.safePoint(h);
-        if (safe || Math.hypot(h.x - home.x, h.z - home.z) > policy.leash) {
-          if (this.alerted.delete(a.id) && !this.movementTargets.get(a.id)?.explicit)
-            this.movementTargets.delete(a.id);
-          if (a.state === 'attack') this.start(a, 'idle');
-        } else if (
-          Math.hypot(h.x - a.x, h.z - a.z) <= policy.radius &&
-          Math.abs(h.y - a.y) <= tuning.maxCombatHeightDifference &&
-          clearSegment(this.areaDefinition, a, h, 0.001)
-        )
-          this.alert(a);
-        if (!this.alerted.has(a.id)) {
-          if (a.state === 'idle' || a.state === 'walk') {
-            if (a.stun === 0) this.follow(a, home);
-            else a.state = 'idle';
-            continue;
-          }
+        if (
+          intent.kind === 'pursuit' &&
+          a.stun === 0 &&
+          (a.state === 'idle' || a.state === 'walk')
+        ) {
+          a.aim = Math.atan2(h.x - a.x, h.z - a.z);
+          if (intent.attack && !this.movement.manual(a.id)) {
+            a.state = 'idle';
+            if (!this.movementPreview) this.start(a, 'attack');
+          } else this.follow(a, { kind: 'pursuit', target: h });
         }
+        if (a.stun > 0 && (a.state === 'walk' || a.state === 'idle')) a.state = 'idle';
       }
-      if (
-        a.kind === 'enemy' &&
-        (this.engaged || this.movementPreview || this.alerted.has(a.id)) &&
-        h.health > 0 &&
-        a.stun === 0 &&
-        (a.state === 'idle' || a.state === 'walk')
-      ) {
-        const dx = h.x - a.x,
-          dz = h.z - a.z,
-          d = Math.hypot(dx, dz);
-        a.aim = Math.atan2(dx, dz);
-        const contact =
-          Math.abs(a.y - h.y) <= tuning.maxCombatHeightDifference &&
-          clearSegment(this.areaDefinition, a, h, 0.001);
-        const explicit = this.movementTargets.get(a.id)?.explicit;
-        if (!explicit && d <= a.definition.melee.range && contact) {
-          a.state = 'idle';
-          if (!this.movementPreview) this.start(a, 'attack');
-        } else this.follow(a, h);
-      }
-      if (a.kind === 'enemy' && a.stun > 0 && (a.state === 'walk' || a.state === 'idle'))
-        a.state = 'idle';
       if (a.state === 'attack') {
         const t = attackDefinition(a);
         if (a.age === t.windup) this.emit(a, { kind: 'strike' });

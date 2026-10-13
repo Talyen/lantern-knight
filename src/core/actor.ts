@@ -1,0 +1,36 @@
+import type { ActorId, ActorDefinition } from '../content/world';
+import type { ContentSnapshot } from '../content/snapshot';
+import type { HeroAttackKind } from '../content/hero-actions';
+import type { SweepTiming, SweepRecovery } from '../content/sweep-timing';
+import type { AuthoredHeading } from './camera';
+
+export type State = 'idle' | 'walk' | 'attack' | 'dodge' | 'ability' | 'hurt' | 'death';
+export type Actor = {
+  id: ActorId;
+  definition: ContentSnapshot<ActorDefinition>;
+  kind: 'hero' | 'enemy';
+  x: number;
+  y: number;
+  z: number;
+  px: number;
+  py: number;
+  pz: number;
+  yaw: number;
+  aim: number;
+  state: State;
+  age: number;
+  action: number;
+  health: number;
+  cooldown: number;
+  dodgeCooldown: number;
+  stun: number;
+  hitIds: ActorId[];
+  attackKind: HeroAttackKind;
+  sweepTiming?: SweepTiming;
+  sweepRecovery?: SweepRecovery;
+  nextAttack: HeroAttackKind;
+  actionHeading: AuthoredHeading;
+  attackBufferedUntil: number;
+  dashBufferedUntil: number;
+  dashYaw: number;
+};

@@ -1,0 +1,105 @@
+import { heightAt, spawnActorId, type AreaDefinition, type Point } from '../content/world';
+import type { ContentSnapshot } from '../content/snapshot';
+import { tuning } from '../content/gameplay';
+import { clearSegment } from './navigation';
+import type { Actor } from './actor';
+
+type EnemyIntent =
+  | { kind: 'home'; target: Point; cancelAttack: boolean }
+  | { kind: 'pursuit'; attack: boolean; cancelAttack: boolean }
+  | { kind: 'none'; cancelAttack: boolean };
+
+// Awareness persists with area state; routes and action clocks do not. This owner
+// chooses intent without starting actions, dealing damage or moving actors.
+export class EncounterBehavior {
+  private alerted = new Set<string>();
+  constructor(private readonly area: ContentSnapshot<AreaDefinition>) {}
+  reset() {
+    this.alerted.clear();
+  }
+  captureAlerts() {
+    return this.area.spawns
+      .filter((s) => this.alerted.has(spawnActorId(this.area.id, s.id)))
+      .map((s) => s.id);
+  }
+  restoreAlerts(ids: readonly string[]) {
+    this.alerted = new Set(ids.map((id) => spawnActorId(this.area.id, id)));
+  }
+  safePoint(p: Point) {
+    return (
+      this.area.campfires?.some(
+        (f) =>
+          Math.hypot(p.x - f.x, p.z - f.z) < f.safeRadius &&
+          Math.abs(heightAt(this.area, p.x, p.z) - heightAt(this.area, f.x, f.z)) <=
+            tuning.maxCombatHeightDifference &&
+          clearSegment(this.area, p, f, 0.001),
+      ) ?? false
+    );
+  }
+  inCombat(
+    hero: ContentSnapshot<Actor>,
+    enemies: readonly ContentSnapshot<Actor>[],
+    engaged: boolean,
+  ) {
+    return (
+      hero.health <= 0 ||
+      (!this.safePoint(hero) &&
+        enemies.some(
+          (a) => a.health > 0 && (this.alerted.has(a.id) || (!this.home(a)?.awareness && engaged)),
+        ))
+    );
+  }
+  private home(actor: ContentSnapshot<Actor>) {
+    return this.area.spawns.find((p) => spawnActorId(this.area.id, p.id) === actor.id);
+  }
+  alert(actor: ContentSnapshot<Actor>) {
+    const group = this.home(actor)?.awareness?.group;
+    const ids = [
+      actor.id,
+      ...this.area.spawns
+        .filter((p) => group && p.awareness?.group === group)
+        .map((p) => spawnActorId(this.area.id, p.id)),
+    ];
+    for (const id of ids) this.alerted.add(id);
+  }
+  decide(
+    actor: ContentSnapshot<Actor>,
+    hero: ContentSnapshot<Actor>,
+    engaged: boolean,
+    preview: boolean,
+  ): EnemyIntent {
+    const home = this.home(actor);
+    let cancelAttack = false;
+    if (home && !preview) {
+      const safe = this.safePoint(hero);
+      if (!home.awareness && safe) {
+        this.alerted.delete(actor.id);
+        return { kind: 'home', target: home, cancelAttack: true };
+      }
+      if (home.awareness) {
+        if (safe || Math.hypot(hero.x - home.x, hero.z - home.z) > home.awareness.leash) {
+          this.alerted.delete(actor.id);
+          cancelAttack = true;
+        } else if (
+          Math.hypot(hero.x - actor.x, hero.z - actor.z) <= home.awareness.radius &&
+          Math.abs(hero.y - actor.y) <= tuning.maxCombatHeightDifference &&
+          clearSegment(this.area, actor, hero, 0.001)
+        )
+          this.alert(actor);
+        if (!this.alerted.has(actor.id)) return { kind: 'home', target: home, cancelAttack };
+      }
+    }
+    if ((engaged || preview || this.alerted.has(actor.id)) && hero.health > 0) {
+      const contact =
+        Math.abs(actor.y - hero.y) <= tuning.maxCombatHeightDifference &&
+        clearSegment(this.area, actor, hero, 0.001);
+      return {
+        kind: 'pursuit',
+        cancelAttack,
+        attack:
+          Math.hypot(hero.x - actor.x, hero.z - actor.z) <= actor.definition.melee.range && contact,
+      };
+    }
+    return { kind: 'none', cancelAttack };
+  }
+}

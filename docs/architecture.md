@@ -59,6 +59,10 @@ GameSession retains area snapshots and selects when to revisit or respawn them; 
 
 `src/core/navigation.ts` owns movement sliding over those swept contacts and deterministic eight-neighbor A* at 0.2 world units. Route diagonals cannot cut corners. Walking, dodging, separation and editor Walk hero use the same sweep. Enemy pursuit replans at most every 15 ticks and requires unobstructed melee contact. Transient targets and route diagnostics never enter checkpoints.
 
+`src/core/encounter-behavior.ts` owns local awareness, group alerts, sanctuary/leash policy and enemy intents. It borrows read-only actors and never moves them or starts combat actions. Simulation applies those intents and retains action timing, damage and event ordering. The shared actor model lives in `src/core/actor.ts`.
+
+`src/core/movement-plans.ts` owns room-local navigation and transient routes for manual commands, home return and pursuit. Switching automatic intent replaces its route immediately; moving targets within the same intent retain the 15-tick planning cadence. Manual targets take priority until completion or cancellation. Awareness never edits route caches. Simulation creates both owners for its immutable area, clears both on repopulation, and captures/restores only awareness through area state. Navigation diagnostics borrow detached route data without initializing the planner.
+
 ### Editor documents and playtests
 
 Editor playtests use the world-art resolver through `src/content/draft-gameplay.ts` and run the shared Application with a storage-free bridge. Optional enemy, exit and health-pickup placements become plain runtime definitions; core owns collection and checkpoint state. Core does not load live scene documents. Original artwork and preparation remain separate from placements and gameplay timing.

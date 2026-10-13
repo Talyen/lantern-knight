@@ -10,6 +10,7 @@ import {
 import { GameSession } from '../../src/core/session';
 import { parseGame } from '../../src/core/save';
 import { Simulation } from '../../src/core/simulation';
+import { MovementPlans } from '../../src/core/movement-plans';
 import { tuning } from '../../src/content/gameplay';
 import { contentDefinitions } from '../fixtures/content';
 const area = (): AreaDefinition => ({
@@ -423,4 +424,29 @@ test('completing an explicit route releases it and allows idle aiming', () => {
   sim.step({ ...still, aim: { x: sim.hero.x, z: sim.hero.z + 2 } });
   assert.equal(sim.navigationDebug().routes.length, 0);
   assert.equal(sim.hero.yaw, 0);
+});
+
+test('route ownership switches automatic intent immediately and preserves manual priority', () => {
+  const a = area();
+  a.props = [];
+  const sim = simulate(a),
+    enemy = sim.enemies[0]!,
+    plans = new MovementPlans(sim.areaDefinition),
+    move = (actor: typeof enemy, x: number, z: number) => sim.move(actor, x, z),
+    pursuit = { kind: 'pursuit' as const, target: { x: -2, z: 0 } },
+    home = { kind: 'home' as const, target: { x: 4, z: 0 } };
+  plans.follow(enemy, 1, move, pursuit);
+  const pursuing = enemy.x;
+  plans.follow(enemy, 2, move, home);
+  assert.ok(enemy.x > pursuing, 'home intent replaces pursuit before its replan deadline');
+  const returning = enemy.x;
+  plans.follow(enemy, 3, move, pursuit);
+  assert.ok(enemy.x < returning, 'pursuit replaces home without an awareness cache callback');
+
+  plans.setManual(enemy, { x: 4, z: 0 }, 4);
+  const commanded = enemy.x;
+  plans.follow(enemy, 5, move, pursuit);
+  assert.ok(enemy.x > commanded, 'automatic pursuit cannot override a manual command');
+  plans.clear();
+  assert.deepEqual(plans.debug(enemy.definition.radius, false).routes, []);
 });
