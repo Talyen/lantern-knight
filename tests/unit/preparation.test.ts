@@ -36,13 +36,15 @@ test('preparation reuse invalidates registration and lighting-owner changes with
       preparationStepKey(step('assets/prepare/prepare-loading-media.ts'), changed, digests),
     );
   }
-  const confined = { ...inputs, 'tools/assets/files.ts': 'changed' };
-  for (const operation of preparationSteps)
-    assert.notEqual(
-      preparationStepKey(operation, inputs, digests),
-      preparationStepKey(operation, confined, digests),
-      `${operation.file} must invalidate changed source confinement`,
-    );
+  for (const file of ['files', 'preparation-output', 'effect-preparation', 'pixels']) {
+    const confined = { ...inputs, ['tools/assets/' + file + '.ts']: 'changed' };
+    for (const operation of preparationSteps)
+      assert.notEqual(
+        preparationStepKey(operation, inputs, digests),
+        preparationStepKey(operation, confined, digests),
+        `${operation.file} must invalidate changed ${file}`,
+      );
+  }
   for (const helper of [
     'tools/assets/context.ts',
     'tools/assets/incremental.ts',

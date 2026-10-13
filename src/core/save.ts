@@ -5,63 +5,54 @@ import { type ContentRegistry, contains, isSupportedPosition } from '../content/
 import { effectiveRadius } from '../content/collision';
 import { tuning } from '../content/gameplay';
 const id = z.string().regex(/^[a-z0-9][a-z0-9_-]*$/);
-const point = z
-  .object({
-    x: z.number().finite(),
-    z: z.number().finite(),
-    health: z.number().int().nonnegative(),
-  })
-  .strict();
-const GameSchema = z
-  .object({
-    version: z.literal(7),
-    seed: z.number().int().min(0).max(4294967295),
-    wins: z.number().int().nonnegative().max(100000),
-    area: id,
-    player: point.extend({
-      cooldown: z.number().int().min(0).max(tuning.ability.cooldown),
-      dodgeCooldown: z.number().int().min(0).max(tuning.dodge.cooldown),
-      nextAttack: z.enum(['sweep', 'lunge']).optional(),
+const point = z.strictObject({
+  x: z.number().finite(),
+  z: z.number().finite(),
+  health: z.number().int().nonnegative(),
+});
+const GameSchema = z.strictObject({
+  version: z.literal(7),
+  seed: z.number().int().min(0).max(4294967295),
+  wins: z.number().int().nonnegative().max(100000),
+  area: id,
+  player: point.extend({
+    cooldown: z.number().int().min(0).max(tuning.ability.cooldown),
+    dodgeCooldown: z.number().int().min(0).max(tuning.dodge.cooldown),
+    nextAttack: z.enum(['sweep', 'lunge']).optional(),
+  }),
+  adventure: z
+    .strictObject({
+      inventory: z.record(id, z.number().int().nonnegative().max(100000000)),
+      equipment: z.partialRecord(z.enum(equipmentSlots), id),
+      discovered: z.array(z.string()).max(1000),
+      lastFire: z.string().optional(),
+      potionCooldown: z.number().int().min(0).max(60),
+    })
+    .optional(),
+  areas: z.record(
+    id,
+    z.strictObject({
+      cleared: z.boolean(),
+      engaged: z.boolean(),
+      actors: z.record(id, point),
+      collectedPickups: z.array(id).optional(),
+      claimedObjects: z.array(id).optional(),
+      drops: z
+        .array(
+          z.strictObject({
+            id,
+            source: id,
+            enemy: z.boolean(),
+            x: z.number().finite(),
+            z: z.number().finite(),
+            rewards: z.array(rewardSchema),
+          }),
+        )
+        .max(1000)
+        .optional(),
     }),
-    adventure: z
-      .object({
-        inventory: z.record(id, z.number().int().nonnegative().max(100000000)),
-        equipment: z.partialRecord(z.enum(equipmentSlots), id),
-        discovered: z.array(z.string()).max(1000),
-        lastFire: z.string().optional(),
-        potionCooldown: z.number().int().min(0).max(60),
-      })
-      .strict()
-      .optional(),
-    areas: z.record(
-      id,
-      z
-        .object({
-          cleared: z.boolean(),
-          engaged: z.boolean(),
-          actors: z.record(id, point),
-          collectedPickups: z.array(id).optional(),
-          claimedObjects: z.array(id).optional(),
-          drops: z
-            .array(
-              z
-                .object({
-                  id,
-                  source: id,
-                  enemy: z.boolean(),
-                  x: z.number().finite(),
-                  z: z.number().finite(),
-                  rewards: z.array(rewardSchema),
-                })
-                .strict(),
-            )
-            .max(1000)
-            .optional(),
-        })
-        .strict(),
-    ),
-  })
-  .strict();
+  ),
+});
 export type GameSave = z.infer<typeof GameSchema>;
 export type SavedArea = GameSave['areas'][string];
 export function parseGame(value: unknown, registry: ContentRegistry): GameSave {

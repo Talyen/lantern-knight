@@ -4,7 +4,8 @@ import assert from 'node:assert/strict';
 import { Application } from '../../src/application';
 import { AssetRuntime, type PackLease } from '../../src/assets/loader';
 import { presentationFixture, sceneFixture } from '../fixtures/presentation';
-import { content } from '../fixtures/content';
+import { content, contentDefinitions } from '../fixtures/content';
+import { ContentRegistry } from '../../src/content/world';
 import type { Bridge } from '../../src/platform/bridge';
 import { Persistence } from '../../src/persistence';
 import { GameSession } from '../../src/core/session';
@@ -60,7 +61,6 @@ function runtime(loadPack: AssetRuntime['loadPack']) {
 function fixture(scenes = sceneFixture(content)) {
   const app = new Application(
     { dataset: {} } as unknown as HTMLCanvasElement,
-    content,
     {},
     {} as Bridge,
     scenes,
@@ -88,6 +88,130 @@ function fixture(scenes = sceneFixture(content)) {
     },
   };
 }
+test('session replacement uses its own registry and complete scene asset requirements', async () => {
+  await withDOM(async () => {
+    const { app } = fixture(),
+      definitions = structuredClone(contentDefinitions);
+    app.readOnly = true;
+    definitions.areas[0]!.spawns = [
+      { ...definitions.areas[0]!.spawns[0]!, id: 'replacement-target' },
+    ];
+    const registry = new ContentRegistry(definitions),
+      scenes = {
+        ...sceneFixture(registry),
+        initialAssets: ['replacement-hero'],
+        area: (id: string) => ({ area: registry.area(id), assets: ['replacement-enemy'] }),
+      },
+      next = new GameSession(
+        registry,
+        142,
+        registry.definitions.initialArea,
+        app.session.generation,
+      ),
+      events = next.restoreSave(next.captureSave()),
+      delivered: string[] = [],
+      requested: string[] = [];
+    app.events.subscribe((event) => {
+      assert.equal(app.roomReady, true, 'Replacement feedback waits for room acceptance');
+      assert.equal(app.registry, registry);
+      delivered.push(event.kind);
+    });
+    app.runtime = runtime(async (id) => {
+      requested.push(id);
+      return { release: () => {} } as unknown as PackLease;
+    });
+    app.presentation.resetRoom = (area) => {
+      assert.equal(area, registry.area(next.sim.area));
+      assert.deepEqual([...app.packs.keys()], ['replacement-hero', 'replacement-enemy']);
+    };
+    await app.replaceSession(next, scenes, events);
+    assert.deepEqual(requested, [...scenes.initialAssets, 'replacement-enemy']);
+    assert.deepEqual(delivered, ['area-transition']);
+    assert.equal(app.registry, registry);
+    assert.equal(app.scenes, scenes);
+    await app.restore(app.session.captureSave());
+    assert.equal(app.sim.enemies[0]!.id.endsWith('/replacement-target'), true);
+    await app.newGame();
+    assert.equal(app.registry, registry);
+    assert.equal(app.sim.enemies[0]!.id.endsWith('/replacement-target'), true);
+    app.dispose();
+  });
+});
+test('invalid or changed replacement candidates preserve the accepted session and release staged packs', async () => {
+  await withDOM(async () => {
+    const { app } = fixture(),
+      previous = app.session,
+      registry = new ContentRegistry(contentDefinitions),
+      scenes = {
+        ...sceneFixture(registry),
+        initialAssets: ['candidate'],
+      },
+      candidate = new GameSession(
+        registry,
+        142,
+        registry.definitions.initialArea,
+        previous.generation + 1,
+      ),
+      preparing = deferred<void>(),
+      resume = deferred<void>();
+    let acquisitions = 0,
+      releases = 0;
+    app.runtime = runtime(async () => {
+      acquisitions++;
+      return { release: () => releases++ } as unknown as PackLease;
+    });
+    await assert.rejects(app.replaceSession(candidate, app.scenes), /registries differ/);
+    await assert.rejects(app.replaceSession(candidate, scenes), /read-only/);
+    assert.equal(acquisitions, 0, 'Rejected content must not start acquisition');
+    app.readOnly = true;
+    app.presentation.prepareAssets = async () => {
+      preparing.resolve();
+      await resume.promise;
+    };
+    const replacement = app.replaceSession(candidate, scenes);
+    await preparing.promise;
+    candidate.resetCurrentArea();
+    resume.resolve();
+    await assert.rejects(replacement, /stale or changed/);
+    assert.equal(app.session, previous);
+    assert.equal(app.scenes.registry, previous.registry);
+    assert.equal(app.roomReady, true);
+    assert.equal(releases, 1);
+    app.dispose();
+  });
+});
+test('renderer failure after a content switch recovers with the committed registry and asset source', async () => {
+  await withDOM(async () => {
+    const { app } = fixture(),
+      registry = new ContentRegistry(contentDefinitions),
+      scenes = { ...sceneFixture(registry), initialAssets: ['replacement'] },
+      next = new GameSession(
+        registry,
+        903,
+        registry.definitions.initialArea,
+        app.session.generation + 1,
+      );
+    let releases = 0;
+    app.readOnly = true;
+    app.runtime = runtime(async () => ({ release: () => releases++ }) as unknown as PackLease);
+    app.presentation.resetRoom = () => {
+      throw new Error('renderer failed');
+    };
+    await assert.rejects(app.replaceSession(next, scenes), /renderer failed/);
+    assert.equal(app.session, next);
+    assert.equal(app.scenes, scenes);
+    assert.equal(app.roomReady, false);
+    assert.equal(releases, 0, 'The partially rebuilt renderer still owns the replacement pack');
+    app.presentation.resetRoom = (area) => assert.equal(area, registry.area(area.id));
+    await app.reset();
+    assert.equal(app.roomReady, true);
+    assert.equal(app.registry, registry);
+    assert.equal(app.sim.initialSeed, 903);
+    assert.equal(releases, 1);
+    app.dispose();
+    assert.equal(releases, 2);
+  });
+});
 test('safe reports synchronous callback failures without escaping the caller', async () => {
   await withDOM(async () => {
     const { app } = fixture();
@@ -425,16 +549,13 @@ test('failed room preparation keeps the current session and packs; retry replace
     app.runtime = runtime(
       async (id) => ({ release: () => releases.push(id) }) as unknown as PackLease,
     );
-    await app.replaceArea(initial, () => []);
+    await app.reset();
     const previous = app.sim,
       pack = app.packs.get(initial);
     app.presentation.prepareAssets = async () => {
       throw new Error('companions unavailable');
     };
-    await assert.rejects(
-      app.replaceArea(destination, () => app.session.restoreSave(snapshot)),
-      /companions unavailable/,
-    );
+    await assert.rejects(app.restore(snapshot), /companions unavailable/);
     assert.equal(app.sim, previous);
     assert.equal(app.roomReady, true, 'Failure before commit preserves the accepted room');
     assert.equal(app.packs.get(initial), pack);
@@ -442,7 +563,7 @@ test('failed room preparation keeps the current session and packs; retry replace
     assert.equal(app.busy, false);
     assert.deepEqual(releases, [destination]);
     app.presentation.prepareAssets = async () => {};
-    await app.replaceArea(destination, () => app.session.restoreSave(snapshot));
+    await app.restore(snapshot);
     assert.equal(app.sim.area, destination);
     assert.equal(app.packs.has(initial), false);
     assert.equal(app.packs.has(destination), true);
@@ -613,7 +734,6 @@ test('startup settles the initial asset batch and releases successful peers when
       const open = AssetRuntime.open;
       const app = new Application(
         { dataset: {} } as unknown as HTMLCanvasElement,
-        content,
         { first: 'first', second: 'second' },
         {} as Bridge,
         { ...sceneFixture(content), initialAssets: ['first', 'second'] },
@@ -661,7 +781,7 @@ test('room rebuild failure retains both generations until a successful rebuild o
         loaded.push(pack);
         return pack;
       });
-      await app.replaceArea(app.sim.area, () => []);
+      await app.reset();
       app.presentation.resetRoom = () => {
         assert.equal(app.packs.get(snapshot.area), loaded[1]);
         throw new Error('room construction failed');

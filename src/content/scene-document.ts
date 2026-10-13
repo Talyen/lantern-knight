@@ -24,42 +24,37 @@ const transform = {
     .max(Math.PI * 2)
     .optional(),
 };
-const placementSchema = z
-  .object({
-    id,
-    kind: z.enum(['prop', 'decal']),
-    tint: z.number().int().min(0).max(0xffffff).optional(),
-    opacity: z.number().finite().min(0).max(1).optional(),
-    fade: z.boolean().optional(),
-    shadow: z.enum(['none', 'contact', 'cast']).optional(),
-    asset: z.string().regex(/^[a-z0-9_-]+$/),
-    clip: z.string().regex(/^[a-zA-Z0-9_-]+$/),
-    ...transform,
-  })
-  .strict();
-const fixture = z
-  .object({
-    id,
-    socket: vector,
-    power: positive,
-    range: positive,
-    phase: z.number().finite(),
-    smoke: z.boolean(),
-    embersScale: positive,
-    flame: z
-      .object({
-        asset: z.string(),
-        clip: z.string(),
-        offset: vector,
-        scale: positive,
-        phase: z.number().finite(),
-        depthOffset: coordinate,
-        decorative: z.boolean(),
-      })
-      .strict()
-      .optional(),
-  })
-  .strict();
+const placementSchema = z.strictObject({
+  id,
+  kind: z.enum(['prop', 'decal']),
+  tint: z.number().int().min(0).max(0xffffff).optional(),
+  opacity: z.number().finite().min(0).max(1).optional(),
+  fade: z.boolean().optional(),
+  shadow: z.enum(['none', 'contact', 'cast']).optional(),
+  asset: z.string().regex(/^[a-z0-9_-]+$/),
+  clip: z.string().regex(/^[a-zA-Z0-9_-]+$/),
+  ...transform,
+});
+const fixture = z.strictObject({
+  id,
+  socket: vector,
+  power: positive,
+  range: positive,
+  phase: z.number().finite(),
+  smoke: z.boolean(),
+  embersScale: positive,
+  flame: z
+    .strictObject({
+      asset: z.string(),
+      clip: z.string(),
+      offset: vector,
+      scale: positive,
+      phase: z.number().finite(),
+      depthOffset: coordinate,
+      decorative: z.boolean(),
+    })
+    .optional(),
+});
 const object = placementSchema
   .extend({
     kind: z.enum(['prop', 'decal', 'character', 'effect']),
@@ -76,7 +71,7 @@ const object = placementSchema
     emissive: z.boolean().optional(),
     door: z.boolean().optional(),
     role: z.enum(['ground', 'upright', 'attachment']).optional(),
-    mount: z.object({ to: id, offset: vector, socket: z.string().optional() }).strict().optional(),
+    mount: z.strictObject({ to: id, offset: vector, socket: z.string().optional() }).optional(),
     fixture: fixture.optional(),
   })
   .superRefine((p, ctx) => {
@@ -92,34 +87,30 @@ const object = placementSchema
     if (p.kind === 'decal' && (p.mount || p.fixture))
       ctx.addIssue({ code: 'custom', message: 'Ground details cannot carry fixtures or mounts' });
   });
-const point = z.object({ x: coordinate, z: coordinate }).strict();
+const point = z.strictObject({ x: coordinate, z: coordinate });
 const bounds = z
-  .object({ minX: coordinate, maxX: coordinate, minZ: coordinate, maxZ: coordinate })
-  .strict()
+  .strictObject({ minX: coordinate, maxX: coordinate, minZ: coordinate, maxZ: coordinate })
   .refine((b) => b.minX < b.maxX && b.minZ < b.maxZ, 'Bounds must have positive dimensions');
-const camera = z
-  .object({
-    bounds,
-    bias: point,
-    keepHeroVisible: z.boolean().optional(),
-    targetHeight: coordinate.optional(),
-    arrival: z
-      .object({
-        start: coordinate,
-        end: coordinate,
-        biasZ: coordinate,
-        span: positive.optional(),
-        targetHeight: coordinate.optional(),
-      })
-      .strict()
-      .refine((a) => a.start < a.end, 'Camera arrival needs a nonempty range')
-      .optional(),
-  })
-  .strict();
+const camera = z.strictObject({
+  bounds,
+  bias: point,
+  keepHeroVisible: z.boolean().optional(),
+  targetHeight: coordinate.optional(),
+  arrival: z
+    .strictObject({
+      start: coordinate,
+      end: coordinate,
+      biasZ: coordinate,
+      span: positive.optional(),
+      targetHeight: coordinate.optional(),
+    })
+    .refine((a) => a.start < a.end, 'Camera arrival needs a nonempty range')
+    .optional(),
+});
 const surface = z.union([
-  z.object({ kind: z.literal('flat'), height: coordinate }).strict(),
+  z.strictObject({ kind: z.literal('flat'), height: coordinate }),
   z
-    .object({
+    .strictObject({
       kind: z.enum(['ramp', 'stairs']),
       steps: z.number().int().positive().optional(),
       terraceBounds: bounds.optional(),
@@ -130,55 +121,46 @@ const surface = z.union([
       startHeight: coordinate,
       endHeight: coordinate,
     })
-    .strict()
     .refine((s) => s.start !== s.end, 'Surface needs a nonempty range'),
 ]);
-const geometry = z
-  .object({
-    bounds,
-    surface,
-    activation: bounds.optional(),
-    baselineEntry: id,
-    entries: z.array(point.extend({ id }).strict()).min(1),
-  })
-  .strict();
-const surround = z
-  .object({
-    anchor: point,
-    color: z.number().int().min(0).max(0xffffff),
-    ground: z.array(point).min(3),
-    layers: z.array(
-      z
-        .object({
-          asset: z.string(),
-          clip: z.string(),
-          scale: positive,
-          base: coordinate,
-          parallax: z.number().finite().min(0).max(1),
-          tint: z.number().int().min(0).max(0xffffff),
-          detail: z.number().finite().min(0).max(1),
-        })
-        .strict(),
-    ),
-  })
-  .strict();
-const wall = z
-  .object({
-    id,
-    from: point,
-    to: point,
-    height: positive,
-    thickness: positive,
-    visualHeight: positive.optional(),
-    breaks: z.array(coordinate).optional(),
-    cutout: z.enum(['wall', 'wall-x', 'wall-z', 'boundary-x', 'boundary-z', 'fence']).optional(),
-    surface: z.literal('masonry').optional(),
-    assembly: z.string().optional(),
-    fade: z.boolean().optional(),
-  })
-  .strict();
+const geometry = z.strictObject({
+  bounds,
+  surface,
+  activation: bounds.optional(),
+  baselineEntry: id,
+  entries: z.array(point.extend({ id })).min(1),
+});
+const surround = z.strictObject({
+  anchor: point,
+  color: z.number().int().min(0).max(0xffffff),
+  ground: z.array(point).min(3),
+  layers: z.array(
+    z.strictObject({
+      asset: z.string(),
+      clip: z.string(),
+      scale: positive,
+      base: coordinate,
+      parallax: z.number().finite().min(0).max(1),
+      tint: z.number().int().min(0).max(0xffffff),
+      detail: z.number().finite().min(0).max(1),
+    }),
+  ),
+});
+const wall = z.strictObject({
+  id,
+  from: point,
+  to: point,
+  height: positive,
+  thickness: positive,
+  visualHeight: positive.optional(),
+  breaks: z.array(coordinate).optional(),
+  cutout: z.enum(['wall', 'wall-x', 'wall-z', 'boundary-x', 'boundary-z', 'fence']).optional(),
+  surface: z.literal('masonry').optional(),
+  assembly: z.string().optional(),
+  fade: z.boolean().optional(),
+});
 const SceneDocumentSchema = z
-  .object({
+  .strictObject({
     version: z.literal(5),
     groundInteraction: GroundInteractionSchema.optional(),
     id,
@@ -186,72 +168,64 @@ const SceneDocumentSchema = z
     base: id,
     target: z.enum(['draft', 'live']),
     profile: z.enum(['graveyard', 'chapel', 'study']),
-    floor: z
-      .object({
-        asset: z.string(),
-        layout: z.literal('artwork').optional(),
-        clip: z.string().optional(),
-        width: positive.max(100),
-        depth: positive.max(100),
-      })
-      .strict(),
+    floor: z.strictObject({
+      asset: z.string(),
+      layout: z.literal('artwork').optional(),
+      clip: z.string().optional(),
+      width: positive.max(100),
+      depth: positive.max(100),
+    }),
     hero: point,
-    look: z
-      .object({
-        rig: z.enum(['golden', 'silver']),
-        look: z.enum(['ink', 'diorama', 'cinematic']),
-        sun: z
-          .object({
-            azimuthDeg: z.number().finite().min(-180).max(180),
-            elevationDeg: z.number().finite().min(5).max(85),
-          })
-          .strict()
-          .optional(),
-      })
-      .strict(),
+    look: z.strictObject({
+      rig: z.enum(['golden', 'silver']),
+      look: z.enum(['ink', 'diorama', 'cinematic']),
+      /** Fixed world-space direction toward the sun; 0 degrees is +Z, 90 degrees is +X. */
+      sun: z
+        .strictObject({
+          azimuthDeg: z.number().finite().min(-180).max(180),
+          elevationDeg: z.number().finite().min(5).max(85),
+        })
+        .optional(),
+    }),
     camera,
     geometry: geometry.optional(),
     gameplay: AuthoredGameplaySchema.optional(),
     surround: surround.optional(),
-    weather: z
-      .object({ rain: z.number().min(0).max(1), wind: point })
-      .strict()
-      .optional(),
+    weather: z.strictObject({ rain: z.number().min(0).max(1), wind: point }).optional(),
     rainBounds: bounds.optional(),
     rainShelters: z.array(bounds).optional(),
     proceduralAssets: z.array(z.string()).default([]),
     paths: z
       .array(
-        z
-          .object({ points: z.array(point), width: positive, widths: z.array(positive).optional() })
-          .strict(),
+        z.strictObject({
+          points: z.array(point),
+          width: positive,
+          widths: z.array(positive).optional(),
+        }),
       )
       .default([]),
     walls: z.array(wall).default([]),
     graves: z
       .array(
-        z
-          .object({
-            id,
-            x: coordinate,
-            z: coordinate,
-            width: positive,
-            length: positive,
-            age: z.enum(['kept', 'old', 'damaged']),
-            angle: coordinate.optional(),
-            marker: z.enum(['gravestone', 'memorial', 'fallen-marker']).optional(),
-          })
-          .strict(),
+        z.strictObject({
+          id,
+          x: coordinate,
+          z: coordinate,
+          width: positive,
+          length: positive,
+          age: z.enum(['kept', 'old', 'damaged']),
+          angle: coordinate.optional(),
+          marker: z.enum(['gravestone', 'memorial', 'fallen-marker']).optional(),
+        }),
       )
       .default([]),
     interior: bounds.optional(),
     propOrder: z.array(id).default([]),
     overlaps: z
-      .array(z.object({ a: id, b: id, region: bounds, reason: z.string() }).strict())
+      .array(z.strictObject({ a: id, b: id, region: bounds, reason: z.string() }))
       .default([]),
     objects: z.array(object).max(500),
   })
-  .strict()
   .superRefine((d, ctx) => {
     if (new Set(d.objects.map((p) => p.id)).size !== d.objects.length)
       ctx.addIssue({ code: 'custom', message: 'Duplicate object identity' });
@@ -464,12 +438,11 @@ export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
 
 export function parseSceneFragment(value: unknown) {
   const fragment = z
-    .object({
+    .strictObject({
       version: z.literal(1),
       name: z.string().trim().min(1).max(80),
       objects: z.array(object).min(1).max(500),
     })
-    .strict()
     .parse(value);
   const objects = new Map(fragment.objects.map((p) => [p.id, p]));
   if (objects.size !== fragment.objects.length)

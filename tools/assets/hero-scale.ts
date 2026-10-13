@@ -1,14 +1,12 @@
 import { z } from 'zod';
 
 const factor = z.number().finite().positive();
-const HeroScaleSchema = z
-  .object({
-    baseline: z.string().min(1),
-    notes: z.string().min(1),
-    clips: z.record(z.string(), factor),
-    frames: z.record(z.string(), factor),
-  })
-  .strict();
+const HeroScaleSchema = z.strictObject({
+  baseline: z.string().min(1),
+  notes: z.string().min(1),
+  clips: z.record(z.string(), factor),
+  frames: z.record(z.string(), factor),
+});
 
 export function heroFrameScales(
   recipe: unknown,

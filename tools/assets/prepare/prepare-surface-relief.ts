@@ -5,22 +5,16 @@ import { normalPixels } from '../../../src/assets/normal-pixels';
 import { assetCatalog } from '../../../src/content/asset-catalog';
 import type { Manifest } from '../../../src/assets/schema';
 import type { PreparationContext } from '../context';
+import { preparationOutput } from '../preparation-output';
 export async function prepare(context: PreparationContext, check = false) {
-  const { readAsset, writeAsset, mkdirAsset, exactSource } = context;
+  const { write } = preparationOutput(context, check);
+  const { readAsset, exactSource } = context;
 
   const root = 'references/art/ink-collection-01',
     recipeBytes = await readAsset('authoring/surface-depth.json'),
     recipe = JSON.parse(recipeBytes.toString()),
     entries: Record<string, unknown> = {};
-  async function write(file: string, bytes: Buffer | string) {
-    if (check) {
-      if (!Buffer.from(bytes).equals(await readAsset(file)))
-        throw new Error(`stale surface companion: ${file}`);
-    } else {
-      await mkdirAsset(path.dirname(file), { recursive: true });
-      await writeAsset(file, bytes);
-    }
-  }
+
   for (const [id, s] of Object.entries(recipe.surfaces) as [
     string,
     { source: string; asset: string; frame: string; polygons: number[][][] },

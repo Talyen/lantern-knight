@@ -1,47 +1,43 @@
 import { z } from 'zod';
 import { digest } from '../source-identity';
 const pair = z.tuple([z.number().positive(), z.number().positive()]);
-export const BenchmarkSchema = z
-  .object({
-    schemaVersion: z.literal(1),
-    recordedAt: z.string(),
-    source: z.object({
-      commit: z.string(),
-      dirty: z.boolean(),
-      sha256: z.string(),
-      assetSha256: z.string(),
-    }),
-    build: z.object({
-      sourceCommit: z.string().nullable(),
-      dirty: z.boolean(),
-      sha256: z.string(),
-    }),
-    environment: z
-      .object({
-        hardware: z.string().min(1),
-        os: z.string(),
-        arch: z.string(),
-        runtime: z.record(z.string(), z.string()),
-        flags: z.array(z.string()),
-        gpu: z.string(),
-        webgl: z.string(),
-        refreshHz: z.number().nonnegative(),
-        visible: z.boolean(),
-        viewport: pair,
-        buffer: pair,
-        dpr: z.number().positive(),
-        scenario: z.literal('opening-loop-v1'),
-        warmupMs: z.number().nonnegative(),
-        assets: z.string().regex(/^[a-f0-9]{64}$/),
-        settings: z.record(z.string(), z.unknown()),
-      })
-      .strict(),
-    requestedMs: z.number().positive(),
-    frames: z.array(z.number().finite().positive()).min(30).max(100000),
-    droppedMs: z.number().nonnegative(),
-    simulatedTicks: z.number().int().nonnegative(),
-  })
-  .strict();
+export const BenchmarkSchema = z.strictObject({
+  schemaVersion: z.literal(1),
+  recordedAt: z.string(),
+  source: z.object({
+    commit: z.string(),
+    dirty: z.boolean(),
+    sha256: z.string(),
+    assetSha256: z.string(),
+  }),
+  build: z.object({
+    sourceCommit: z.string().nullable(),
+    dirty: z.boolean(),
+    sha256: z.string(),
+  }),
+  environment: z.strictObject({
+    hardware: z.string().min(1),
+    os: z.string(),
+    arch: z.string(),
+    runtime: z.record(z.string(), z.string()),
+    flags: z.array(z.string()),
+    gpu: z.string(),
+    webgl: z.string(),
+    refreshHz: z.number().nonnegative(),
+    visible: z.boolean(),
+    viewport: pair,
+    buffer: pair,
+    dpr: z.number().positive(),
+    scenario: z.literal('opening-loop-v1'),
+    warmupMs: z.number().nonnegative(),
+    assets: z.string().regex(/^[a-f0-9]{64}$/),
+    settings: z.record(z.string(), z.unknown()),
+  }),
+  requestedMs: z.number().positive(),
+  frames: z.array(z.number().finite().positive()).min(30).max(100000),
+  droppedMs: z.number().nonnegative(),
+  simulatedTicks: z.number().int().nonnegative(),
+});
 export type BenchmarkRecord = z.infer<typeof BenchmarkSchema>;
 export function frameSummary(frames: number[]) {
   if (frames.length < 30 || frames.some((n) => !Number.isFinite(n) || n <= 0))

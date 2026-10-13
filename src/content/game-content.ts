@@ -33,6 +33,7 @@ type ResolvedArea = ContentSnapshot<{
   assets: readonly string[];
 }>;
 export type SceneContent = {
+  readonly registry: ContentRegistry;
   readonly initialAssets: readonly string[];
   readonly area: (id: string) => ResolvedArea;
   readonly validate: (
@@ -69,6 +70,7 @@ export function composeSceneContent(
     }),
   );
   return Object.freeze<SceneContent>({
+    registry,
     initialAssets: Object.freeze([
       ...new Set([
         actorVisuals[registry.actor(registry.definitions.player).visual]!.asset,

@@ -13,7 +13,6 @@ let app: Application | undefined;
 async function start() {
   const application = new Application(
     document.querySelector('canvas')!,
-    content,
     gameAssetCatalog,
     window.lantern ??
       createBrowserBridge(content, import.meta.env.MODE === 'sandbox' ? 'preview' : 'game'),

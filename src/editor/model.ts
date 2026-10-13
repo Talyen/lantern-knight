@@ -197,8 +197,10 @@ export class EditorHistory {
   fragment(ids: readonly string[]) {
     const included = new Set(this.descendants(ids));
     const items = sceneItems(this.document);
-    return parseSceneDocument(this.document)
-      .objects.filter((p) => included.has(p.id))
+    const objects = parseSceneDocument(this.document).objects;
+    return items
+      .filter((p) => included.has(p.placement.id))
+      .map((p) => objects.find((object) => object.id === p.placement.id)!)
       .map((p) => {
         const copy = p;
         if (copy.mount && !included.has(copy.mount.to)) {
@@ -213,8 +215,9 @@ export class EditorHistory {
       });
   }
 
-  insertFragment(objects: readonly SceneObject[], dx = 0, dz = 0, copyPickups = false) {
+  insertFragment(objects: readonly SceneObject[], dx = 0, dz = 0, copyGameplay = false) {
     const copies = structuredClone([...objects]);
+    const source = parseSceneDocument(this.document);
     const remap = new Map(copies.map((p) => [p.id, 'object-' + crypto.randomUUID()]));
     this.change((d) => {
       for (const p of copies) {
@@ -232,17 +235,32 @@ export class EditorHistory {
         }
         d.objects.push(p);
         const original = objects.find((o) => remap.get(o.id) === p.id)!;
-        const pickup = copyPickups
-          ? this.document.gameplay?.pickups.find((v) => v.object === original.id)
-          : undefined;
-        if (pickup && d.gameplay)
-          d.gameplay.pickups.push({
-            ...structuredClone(pickup),
-            id: 'pickup-' + crypto.randomUUID(),
-            object: p.id,
-            x: p.x ?? pickup.x,
-            z: p.z ?? pickup.z,
-          });
+        const pickups = copyGameplay
+          ? (this.document.gameplay?.pickups.filter((v) => v.object === original.id) ?? [])
+          : [];
+        for (const pickup of pickups)
+          if (d.gameplay)
+            d.gameplay.pickups.push({
+              ...structuredClone(pickup),
+              id: 'pickup-' + crypto.randomUUID(),
+              object: p.id,
+              x: p.x ?? pickup.x,
+              z: p.z ?? pickup.z,
+            });
+        if (copyGameplay && d.gameplay) {
+          const interactables =
+            source.gameplay?.interactables?.filter((v) => v.object === original.id) ?? [];
+          for (const interactable of interactables) {
+            d.gameplay.interactables ??= [];
+            d.gameplay.interactables.push({
+              ...structuredClone(interactable),
+              id: 'interactable-' + crypto.randomUUID(),
+              object: p.id,
+              x: p.x ?? interactable.x,
+              z: p.z ?? interactable.z,
+            });
+          }
+        }
       }
     });
     return copies.map((p) => p.id);

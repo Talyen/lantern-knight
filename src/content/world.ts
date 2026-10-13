@@ -5,11 +5,11 @@ import {
   rewardSchema,
   type CampfireDefinition,
   type InteractableDefinition,
-  type AwarenessDefinition,
 } from './interactions';
 import type { Reward } from './items';
 import { contains, clearSegment, effectiveRadius, isSupportedPosition } from './collision';
 import { contentSnapshot, type ContentSnapshot } from './snapshot';
+import type { AuthoredGameplay } from './authored-gameplay';
 
 export type AreaId = string;
 export type ActorId = string;
@@ -46,24 +46,6 @@ export type ActorDefinition = {
   melee: MeleeDefinition;
   visual: string;
 };
-type SpawnDefinition = Point & {
-  id: string;
-  actor: string;
-  jitterZ?: number;
-  awareness?: AwarenessDefinition;
-  rewards?: readonly Reward[];
-};
-type EntryDefinition = Point & { id: string };
-type ExitDefinition = {
-  id: string;
-  trigger: Bounds;
-  destination: string;
-  entry: string;
-  requiresClear: boolean;
-  explicit?: boolean;
-  guards?: readonly string[];
-  marker: Point;
-};
 export type PropDefinition = Point & {
   id: string;
   kind: 'pillar' | 'tree' | 'wall' | 'foreground' | 'border';
@@ -85,21 +67,17 @@ export type AreaDefinition = {
   seedOffset: number;
   activation?: Bounds;
   baselineEntry: string;
-  entries: readonly EntryDefinition[];
-  spawns: readonly SpawnDefinition[];
-  exits: readonly ExitDefinition[];
+  entries: readonly (Point & { id: string })[];
+  spawns: readonly (Omit<AuthoredGameplay['spawns'][number], 'rewards'> & {
+    rewards?: readonly Reward[];
+  })[];
+  exits: readonly (Omit<AuthoredGameplay['exits'][number], 'guards'> & {
+    guards?: readonly string[];
+  })[];
   props: readonly PropDefinition[];
   campfires?: readonly CampfireDefinition[];
   interactables?: readonly InteractableDefinition[];
-  pickups?: readonly {
-    id: string;
-    object: string;
-    kind: 'health';
-    amount: number;
-    radius: number;
-    x: number;
-    z: number;
-  }[];
+  pickups?: readonly AuthoredGameplay['pickups'][number][];
   floorColor: number;
 };
 export type ContentDefinitions = {

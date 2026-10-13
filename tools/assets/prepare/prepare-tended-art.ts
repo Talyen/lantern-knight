@@ -1,10 +1,13 @@
 import sharp from 'sharp';
+import { remapAlpha } from '../pixels';
 
 import { hash } from '../../compiler';
 import type { Source } from '../../../src/assets/schema';
 import type { PreparationContext } from '../context';
+import { preparationOutput } from '../preparation-output';
 export async function prepare(context: PreparationContext, check = false) {
-  const { readAsset, writeAsset, compile } = context;
+  const { write: output, pack } = preparationOutput(context, check);
+  const { readAsset } = context;
 
   const recipe = JSON.parse(await readAsset('authoring/graveyard-art.json', 'utf8')) as {
     group: string;
@@ -18,12 +21,6 @@ export async function prepare(context: PreparationContext, check = false) {
     selected: { id: string; nativeSha256: string; dimensions: number[] }[];
   };
   const receipts = [];
-  async function output(file: string, bytes: Buffer | string) {
-    if (check) {
-      if (!Buffer.from(bytes).equals(await readAsset(file)))
-        throw new Error(`stale tended artwork: ${file}`);
-    } else await writeAsset(file, bytes);
-  }
   for (const r of recipe.frames) {
     const file = `${r.id}-v1.png`,
       original = await readAsset(`${root}/${file}`),
@@ -39,17 +36,11 @@ export async function prepare(context: PreparationContext, check = false) {
       throw new Error(`tended native source differs: ${r.id}`);
     // Generated soft backdrop is confined to low alpha. Preserve native RGB and
     // restore the solid silhouette; transparent padding adds no invented detail.
-    for (let i = 3; i < native.data.length; i += 4) {
-      const t = Math.max(
-        0,
-        Math.min(
-          1,
-          (native.data[i]! / 255 - recipe.alphaRemap.floor) /
-            (recipe.alphaRemap.ceiling - recipe.alphaRemap.floor),
-        ),
-      );
-      native.data[i] = Math.round(t * t * (3 - 2 * t) * 255);
-    }
+    remapAlpha(
+      native.data,
+      recipe.alphaRemap.floor,
+      recipe.alphaRemap.ceiling - recipe.alphaRemap.floor,
+    );
     const pad = recipe.padding,
       canvas: [number, number] = [r.canvas[0] + pad * 2, r.canvas[1] + pad * 2],
       anchor: [number, number] = [r.anchor[0] + pad, r.anchor[1] + pad],
@@ -91,16 +82,7 @@ export async function prepare(context: PreparationContext, check = false) {
       ],
     };
     await output(`staging/ink/${id}/${r.id}.png`, png);
-    await output(`staging/ink/${id}.json`, JSON.stringify(source, null, 2) + '\n');
-    const compiled = await compile(`ink/${id}.json`, `public/generated/ink/${id}`, false, check);
-    if (
-      check &&
-      JSON.stringify(compiled) !==
-        JSON.stringify(
-          JSON.parse(await readAsset(`public/generated/ink/${id}/manifest.json`, 'utf8')),
-        )
-    )
-      throw new Error(`stale tended manifest: ${id}`);
+    await pack(source);
     receipts.push({
       pack: id,
       id: r.id,

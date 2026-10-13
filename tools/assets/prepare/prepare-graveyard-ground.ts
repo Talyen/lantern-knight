@@ -1,11 +1,12 @@
-import path from 'node:path';
 import sharp from 'sharp';
 import { hash } from '../../compiler';
 import overlayClips from '../../../authoring/ground-overlays.json';
 import type { Source } from '../../../src/assets/schema';
 import type { PreparationContext } from '../context';
+import { preparationOutput } from '../preparation-output';
 export async function prepare(context: PreparationContext, check = false) {
-  const { readAsset, writeAsset, mkdirAsset, compile } = context;
+  const { write, pack } = preparationOutput(context, check);
+  const { readAsset } = context;
 
   const root = 'references/art/ink-collection-01';
   const inputs: Record<string, string> = {};
@@ -40,15 +41,7 @@ export async function prepare(context: PreparationContext, check = false) {
       ),
     })),
   );
-  async function write(file: string, b: Buffer | string) {
-    if (check) {
-      if (!Buffer.from(b).equals(await readAsset(file)))
-        throw new Error(`stale graveyard ground: ${file}`);
-    } else {
-      await mkdirAsset(path.dirname(file), { recursive: true });
-      await writeAsset(file, b);
-    }
-  }
+
   const template = JSON.parse(await readAsset('staging/ink/ink-moss.json', 'utf8')) as Source;
   const materials: Source = {
     schemaVersion: 2,
@@ -85,26 +78,7 @@ export async function prepare(context: PreparationContext, check = false) {
     };
     materials.asset.requiredClips.push(id);
   }
-  await write(
-    'staging/ink/ink-graveyard-materials.json',
-    JSON.stringify(materials, null, 2) + '\n',
-  );
-  const materialManifest = await compile(
-    'ink/ink-graveyard-materials.json',
-    'public/generated/ink/ink-graveyard-materials',
-    false,
-    check,
-  );
-  if (
-    check &&
-    JSON.stringify(materialManifest) !==
-      JSON.stringify(
-        JSON.parse(
-          await readAsset('public/generated/ink/ink-graveyard-materials/manifest.json', 'utf8'),
-        ),
-      )
-  )
-    throw new Error('stale graveyard materials');
+  await pack(materials);
   const overlayPack: Source = {
     schemaVersion: 2,
     asset: {
@@ -134,26 +108,7 @@ export async function prepare(context: PreparationContext, check = false) {
     };
     overlayPack.asset.requiredClips.push(p.clip);
   }
-  await write(
-    'staging/ink/ink-graveyard-overlays.json',
-    JSON.stringify(overlayPack, null, 2) + '\n',
-  );
-  const overlayManifest = await compile(
-    'ink/ink-graveyard-overlays.json',
-    'public/generated/ink/ink-graveyard-overlays',
-    false,
-    check,
-  );
-  if (
-    check &&
-    JSON.stringify(overlayManifest) !==
-      JSON.stringify(
-        JSON.parse(
-          await readAsset('public/generated/ink/ink-graveyard-overlays/manifest.json', 'utf8'),
-        ),
-      )
-  )
-    throw new Error('stale graveyard overlays');
+  await pack(overlayPack);
   await write(
     'staging/ink/graveyard-ground-receipt.json',
     JSON.stringify(

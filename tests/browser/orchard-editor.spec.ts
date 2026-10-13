@@ -6,8 +6,6 @@ test('editor authors campfires, local encounters, rewards and explicit departure
   await openEditor(page);
   await page.locator('#scene-tab').click();
   await page.locator('[data-section="category-Gameplay"] > summary').click();
-  await page.locator('[data-section="gameplay"] > summary').click();
-  await page.getByRole('button', { name: 'Add Gameplay', exact: true }).click();
   await page.locator('[data-section="gameplay.campfires"] > summary').click();
   await page.getByRole('button', { name: 'Add Campfires', exact: true }).click();
   await expect

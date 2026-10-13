@@ -17,16 +17,17 @@ Follow [Development](docs/development.md) for focused tests, preview ports and t
 
 ## Documentation
 
-| Task                                   | Guide                                                                            |
-| -------------------------------------- | -------------------------------------------------------------------------------- |
-| Set up and iterate                     | [Development](docs/development.md)                                               |
-| Review and integrate changes           | [Contributing](CONTRIBUTING.md), [task coordination](docs/task-coordination.md)  |
-| Understand owners and change contracts | [Architecture](docs/architecture.md)                                             |
-| Prepare and share artwork              | [Assets](docs/assets.md), [source recovery](docs/source-recovery.md)             |
-| Run tests or measure performance       | [Verification](docs/verification.md), [session replay](docs/session-replay.md)   |
-| Edit scenes, lighting or effects       | [Developer tools](docs/developer-tools.md), [scene design](docs/scene-design.md) |
-| Understand design and priorities       | [Game design](docs/game-design.md), [roadmap](docs/roadmap.md)                   |
-| Package a milestone                    | [Delivery](docs/release.md)                                                      |
-| Run a requested investigation          | [Audits](docs/audits/README.md)                                                  |
+| Task                                   | Guide                                                                                                                                  |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Set up and iterate                     | [Development](docs/development.md)                                                                                                     |
+| Review and integrate changes           | [Contributing](CONTRIBUTING.md), [task coordination](docs/task-coordination.md)                                                        |
+| Understand owners and change contracts | [Architecture](docs/architecture.md)                                                                                                   |
+| Prepare and share artwork              | [Assets](docs/assets.md), [source recovery](docs/source-recovery.md)                                                                   |
+| Run tests or measure performance       | [Verification](docs/verification.md), [session replay](docs/session-replay.md)                                                         |
+| Author and playtest a scene            | [Scene editor](docs/developer-tools.md#scene-editor), [saved scenes](authoring/scenes/README.md), [scene design](docs/scene-design.md) |
+| Inspect animation, lighting or effects | [Dev Preview](docs/developer-tools.md#dev-preview), [diagnostics](docs/developer-tools.md#checks-and-diagnostics)                      |
+| Understand design and priorities       | [Game design](docs/game-design.md), [roadmap](docs/roadmap.md)                                                                         |
+| Package a milestone                    | [Delivery](docs/release.md)                                                                                                            |
+| Run a requested investigation          | [Audits](docs/audits/README.md)                                                                                                        |
 
 [Agent guidance](AGENTS.md) owns source preservation and [skill routing](.agents/skills/README.md). [Canonical references](references/canon/README.md) identify the hero and [Clean INK style](references/canon/clean-ink-style-sources.md). `package.json` lists available commands.

@@ -1,11 +1,11 @@
 import { z } from 'zod';
 import { artworkFloorLayout } from './floor-layout';
 import type { Point } from './world';
-const point = z.object({ x: z.number().finite(), z: z.number().finite() }).strict();
+const point = z.strictObject({ x: z.number().finite(), z: z.number().finite() });
 const uv = z.tuple([z.number().min(0).max(1), z.number().min(0).max(1)]);
 const ring = z.array(uv).min(3);
 export const GroundInteractionSchema = z
-  .object({
+  .strictObject({
     asset: z.string(),
     frame: z.string(),
     hash: z.string().regex(/^[a-f0-9]{64}$/),
@@ -15,27 +15,24 @@ export const GroundInteractionSchema = z
     ]),
     regions: z
       .array(
-        z
-          .object({
-            id: z.string().regex(/^[a-z][a-z0-9-]{0,63}$/),
-            name: z.string().trim().min(1).max(80),
-            footprint: z.array(point).min(3).optional(),
-            mask: z.array(z.object({ outer: ring, holes: z.array(ring) }).strict()).optional(),
-            depth: z
-              .union([
-                z.object({ kind: z.literal('anchor'), point }).strict(),
-                z.object({ kind: z.literal('boundary'), points: z.array(point).min(2) }).strict(),
-              ])
-              .optional(),
-          })
-          .strict(),
+        z.strictObject({
+          id: z.string().regex(/^[a-z][a-z0-9-]{0,63}$/),
+          name: z.string().trim().min(1).max(80),
+          footprint: z.array(point).min(3).optional(),
+          mask: z.array(z.strictObject({ outer: ring, holes: z.array(ring) })).optional(),
+          depth: z
+            .union([
+              z.strictObject({ kind: z.literal('anchor'), point }),
+              z.strictObject({ kind: z.literal('boundary'), points: z.array(point).min(2) }),
+            ])
+            .optional(),
+        }),
       )
       .max(256),
     destinations: z
       .array(point.extend({ name: z.string().min(1).max(80), reachable: z.boolean().optional() }))
       .default([]),
   })
-  .strict()
   .superRefine((g, ctx) => {
     const ids = new Set<string>();
     for (const r of g.regions) {

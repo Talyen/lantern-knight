@@ -6,6 +6,7 @@ import os from 'node:os';
 import sharp from 'sharp';
 import { diskBytes } from '../../tools/assets/cache';
 import { createPreparationContext } from '../../tools/assets/context';
+import { preparationOutput } from '../../tools/assets/preparation-output';
 
 test('one explicit writer accounts for replacement/concurrent writes and confines output', async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-context-'));
@@ -65,6 +66,29 @@ test('compiler writes share the preparation budget and record atlas output witho
         ),
       );
       const before = await fs.readFile(path.join(root, 'public/generated/manifest.json'));
+      const check = preparationOutput(
+        {
+          ...context,
+          writeAsset: async () => {
+            throw new Error('Check must not write');
+          },
+        },
+        true,
+      );
+      await check.write('staging/source.json', JSON.stringify(source));
+      await assert.rejects(check.write('staging/source.json', 'changed'), /Stale prepared output/);
+      await check.compile('source.json', 'public/generated');
+      const page = path.join(root, 'public/generated', manifest.pages[0]!.path);
+      const pixels = await fs.readFile(page);
+      await fs.writeFile(page, 'corrupt');
+      await assert.rejects(check.compile('source.json', 'public/generated'), /Stale prepared page/);
+      await fs.writeFile(page, pixels);
+      await fs.writeFile(path.join(root, 'public/generated/manifest.json'), '{}');
+      await assert.rejects(
+        check.compile('source.json', 'public/generated'),
+        /Stale prepared manifest/,
+      );
+      await fs.writeFile(path.join(root, 'public/generated/manifest.json'), before);
       const limited = await createPreparationContext({ ...options, budget: 1 });
       await assert.rejects(
         limited.compile('source.json', 'public/generated'),
