@@ -51,6 +51,7 @@ import { EditorHistory, sceneItems } from './model';
 import { EditorDocument } from './document';
 import { EditorProject, EditorConflict } from './project';
 import { EditorView } from './view';
+import { PreviewImages } from './preview-images';
 
 declare global {
   interface Window {
@@ -691,7 +692,7 @@ export function createEditorSession() {
       if (p) p.heading = $<HTMLSelectElement>('heading').value as NonNullable<typeof p.heading>;
     });
   $('grid').onchange = () => view?.setGrid($<HTMLInputElement>('grid').checked);
-  const images = new Map<string, Promise<HTMLImageElement>>();
+  const images = new PreviewImages();
   async function thumbnail(entry: (typeof palette)[number], target: HTMLCanvasElement) {
     const m = entry.manifest,
       f = m.frames.find((f) => f.id === Object.values(m.asset.clips[entry.clip]!)[0]!.frames[0])!;
@@ -708,34 +709,23 @@ export function createEditorSession() {
       src = preview
         ? '/' + preview.path
         : '/' + assetCatalog[entry.asset]!.replace(/manifest\.json$/, page.path);
-    let promise = images.get(src);
-    if (!promise) {
-      promise = new Promise((resolve, reject) => {
-        const image = new Image();
-        image.onload = () => resolve(image);
-        image.onerror = reject;
-        image.src = src;
-      });
-      images.set(src, promise);
-      if (images.size > 48) images.delete(images.keys().next().value!);
-    }
-    const image = await promise;
-    if (!target.isConnected) return;
-    const ctx = target.getContext('2d')!,
-      [x, y, w, h] = f.rect,
-      ratio = Math.min(target.width / w, target.height / h);
-    ctx.clearRect(0, 0, target.width, target.height);
-    ctx.drawImage(
-      image,
-      x * (preview ? preview.width / page.width : 1),
-      y * (preview ? preview.height / page.height : 1),
-      w * (preview ? preview.width / page.width : 1),
-      h * (preview ? preview.height / page.height : 1),
-      (target.width - w * ratio) / 2,
-      (target.height - h * ratio) / 2,
-      w * ratio,
-      h * ratio,
-    );
+    await images.draw(target, src, (image) => {
+      const ctx = target.getContext('2d')!,
+        [x, y, w, h] = f.rect,
+        ratio = Math.min(target.width / w, target.height / h);
+      ctx.clearRect(0, 0, target.width, target.height);
+      ctx.drawImage(
+        image,
+        x * (preview ? preview.width / page.width : 1),
+        y * (preview ? preview.height / page.height : 1),
+        w * (preview ? preview.width / page.width : 1),
+        h * (preview ? preview.height / page.height : 1),
+        (target.width - w * ratio) / 2,
+        (target.height - h * ratio) / 2,
+        w * ratio,
+        h * ratio,
+      );
+    });
   }
   const observer = new IntersectionObserver(
     (entries) => {
@@ -1363,6 +1353,7 @@ export function createEditorSession() {
     cancelAnimationFrame(resizeFrame);
     observer.disconnect();
     groundObserver.disconnect();
+    images.dispose();
     resizeObserver.disconnect();
     playtest?.dispose();
     composition?.dispose();
@@ -1539,8 +1530,7 @@ export function createEditorSession() {
   void start().catch((error) => {
     if (!closed) {
       status('Editor startup failed: ' + editorError(error), true);
-      view?.dispose();
-      runtime?.dispose();
+      dispose();
     }
   });
   return window.sceneEditor;
