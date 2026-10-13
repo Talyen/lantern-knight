@@ -106,7 +106,11 @@ export async function prepareAudio(context: PreparationContext, check: boolean) 
         `atrim=duration=${recipe.duration}`,
         `volume=${gainDb}dB`,
         'alimiter=limit=0.89:level=false:latency=true',
-        'afade=t=out:st=' + Math.max(0, recipe.duration - 0.03) + ':d=0.03',
+        // Fade the actual terminal samples even when leading-silence removal
+        // shortened the segment. Reverse operates only on bounded one-shots.
+        'areverse',
+        'afade=t=in:d=0.015',
+        'areverse',
       ];
       // Use a simple filtergraph for one-shots and a named graph for loop seams.
       const loopGraph = recipe.loop

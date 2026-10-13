@@ -598,6 +598,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       operation.check();
       if (!this.readOnly) await this.persistence.save(this.current.session.captureSave());
       operation.check();
+      void this.audio.play('success', { world: false }).catch(() => {});
       resume();
     });
   }

@@ -42,6 +42,10 @@ export function bindGameUI(app: Application) {
       }
       status(result);
     });
+  const cancelNew = () => {
+    confirmation.close();
+    void app.audio.play('ui-cancel', { world: false }).catch(() => {});
+  };
   modal.oncancel = (event) => {
     event.preventDefault();
     app.pause(false);
@@ -54,7 +58,7 @@ export function bindGameUI(app: Application) {
         event.preventDefault();
         event.stopPropagation();
         if (!event.repeat) {
-          if (confirmation.open) confirmation.close();
+          if (confirmation.open) cancelNew();
           else app.pause(false);
         }
       } else if (event.repeat && (event.key === 'Enter' || event.key === ' ')) {
@@ -107,10 +111,7 @@ export function bindGameUI(app: Application) {
       void app.audio.play('ui-confirm', { world: false }).catch(() => {});
     }
   };
-  $('#cancel-new').onclick = () => {
-    confirmation.close();
-    void app.audio.play('ui-cancel', { world: false }).catch(() => {});
-  };
+  $('#cancel-new').onclick = cancelNew;
   $('#confirm-new').onclick = () =>
     perform('Starting new game…', async () => {
       await app.newGame();
@@ -154,7 +155,7 @@ export function status(message: string, error = false) {
 export function showPause(paused: boolean) {
   const modal = $<HTMLDialogElement>('#modal'),
     confirmation = $<HTMLDialogElement>('#new-confirm');
-  if (confirmation.open) confirmation.close();
+  if (confirmation.open) cancelNew();
   if (paused && !adventurePanelOpen() && !modal.open) modal.showModal();
   else if (!paused && modal.open) {
     modal.close();

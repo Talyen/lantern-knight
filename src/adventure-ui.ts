@@ -223,6 +223,7 @@ export function bindAdventureUI(app: Application) {
         draw(app);
         panel!.showModal();
       } catch (error) {
+        void app.audio.play('ui-deny', { world: false }).catch(() => {});
         app.hooks.status((error as Error).message, true);
       }
     },
