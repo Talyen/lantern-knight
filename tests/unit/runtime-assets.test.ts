@@ -88,3 +88,69 @@ test('both manifest entry paths reject mismatched identity before decoding and p
     runtime.dispose();
   }
 });
+
+function deferred<T>() {
+  let resolve!: (value: T) => void, reject!: (reason: Error) => void;
+  const promise = new Promise<T>((done, fail) => {
+    resolve = done;
+    reject = fail;
+  });
+  return { promise, resolve, reject };
+}
+
+for (const cancelled of [false, true]) {
+  test(`${cancelled ? 'cancelled' : 'failed'} pack batches release claims before late peers settle`, async () => {
+    const ready = manifestFixture('ready'),
+      late = manifestFixture('late');
+    late.pages[0]!.hash = 'c'.repeat(64);
+    const pendingTexture = deferred<Texture>(),
+      pendingManifest = deferred<Response>(),
+      destroyed: Texture[] = [],
+      texture = new Texture(),
+      lateTexture = new Texture(),
+      controller = new AbortController(),
+      runtime = new AssetRuntime(
+        { ready: 'generated/ready.json', late: 'generated/late.json', bad: 'generated/bad.json' },
+        false,
+        () => pendingManifest.promise,
+        async (page) => (page.hash === ready.pages[0]!.hash ? texture : pendingTexture.promise),
+        (value) => destroyed.push(value),
+      );
+    runtime.seedManifest('ready', ready);
+    runtime.seedManifest('late', late);
+    let settled = false;
+    const loading = runtime.loadPacks(
+      cancelled ? ['ready', 'late'] : ['ready', 'late', 'bad'],
+      controller.signal,
+    );
+    const rejected = assert.rejects(
+      loading.finally(() => {
+        settled = true;
+      }),
+      cancelled ? /cancelled/ : /manifest failed/,
+    );
+    try {
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      // Another consumer owns its own claim on the completed pack's texture.
+      const peer = await runtime.loadPack('ready');
+      assert.equal(runtime.resourceCount, 2);
+      if (cancelled) controller.abort();
+      else pendingManifest.reject(new Error('manifest failed'));
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      assert.equal(settled, false, 'Late results must still be observed');
+      assert.equal(runtime.resourceCount, 1, 'Only the independent consumer retains a claim');
+      assert.deepEqual(destroyed, []);
+      peer.release();
+      assert.deepEqual(destroyed, [texture], 'Completed packs release before pending peers settle');
+      pendingTexture.resolve(lateTexture);
+      await rejected;
+      assert.deepEqual(destroyed, [texture, lateTexture]);
+      assert.equal(runtime.resourceCount, 0);
+    } finally {
+      pendingTexture.resolve(lateTexture);
+      if (!cancelled) pendingManifest.reject(new Error('manifest failed'));
+      await rejected;
+      runtime.dispose();
+    }
+  });
+}

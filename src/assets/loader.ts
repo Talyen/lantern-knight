@@ -164,25 +164,44 @@ export class AssetRuntime {
     this.assertActive();
     signal?.throwIfAborted();
     const selected = [...new Set(ids)],
-      results = await Promise.allSettled(selected.map((id) => this.loadPack(id, signal))),
+      failure = new AbortController(),
+      batchSignal = AbortSignal.any([
+        this.lifetime.signal,
+        failure.signal,
+        ...(signal ? [signal] : []),
+      ]),
       packs = new Map<string, PackLease>();
-    results.forEach((result, i) => {
-      if (result.status === 'fulfilled') packs.set(selected[i]!, result.value);
-    });
     let released = false;
     const release = () => {
       if (released) return;
       released = true;
       for (const pack of packs.values()) pack.release();
     };
-    const failure = results.find((result) => result.status === 'rejected');
-    if (failure || signal?.aborted || this.lifetime.signal.aborted) {
-      release();
-      if (failure?.status === 'rejected') throw failure.reason;
+    // A completed pack no longer listens to acquisition cancellation. The batch
+    // owns it until transfer, including while other packs are still pending.
+    batchSignal.addEventListener('abort', release, { once: true });
+    if (batchSignal.aborted) release();
+    try {
+      await Promise.allSettled(
+        selected.map(async (id) => {
+          try {
+            const pack = await this.loadPack(id, batchSignal);
+            if (released) pack.release();
+            else packs.set(id, pack);
+          } catch (error) {
+            // Stop sibling claims immediately, but drain every acquisition so
+            // late decodes and manifests cannot escape their resource owner.
+            if (!batchSignal.aborted) failure.abort(error);
+          }
+        }),
+      );
+      if (failure.signal.aborted) throw failure.signal.reason;
       if (signal?.aborted) throw new Error('load cancelled');
       this.assertActive();
+      return { packs: new Map(selected.map((id) => [id, packs.get(id)!])), release };
+    } finally {
+      batchSignal.removeEventListener('abort', release);
     }
-    return { packs, release };
   }
   dispose() {
     if (this.lifetime.signal.aborted) return;

@@ -254,7 +254,9 @@ test('shared async resources deduplicate, cancellation cannot resurrect discarde
     },
     () => released++,
   );
-  const batch = await runtime.loadPacks(['first', 'second', 'first']);
+  const batchController = new AbortController(),
+    batch = await runtime.loadPacks(['first', 'second', 'first'], batchController.signal);
+  batchController.abort(); // Completed batches transfer ownership to their caller.
   const firstPack = batch.packs.get('first')!,
     secondPack = batch.packs.get('second')!;
   assert.equal(decoded, 1);
