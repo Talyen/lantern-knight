@@ -1,3 +1,4 @@
+import { CleanupFailure, cleanupAll, cleanupAfterFailure } from './cleanup';
 import { parseRegistration, type PreparedRegistration } from './registration';
 import { Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter } from 'three';
 import { parseManifest, type Manifest } from './schema';
@@ -73,8 +74,10 @@ export class AssetRuntime {
       },
       dispose ??
         ((texture) => {
-          (texture.image as { close?: () => void }).close?.();
-          texture.dispose();
+          cleanupAll([
+            () => (texture.image as { close?: () => void }).close?.(),
+            () => texture.dispose(),
+          ]);
         }),
     );
   }
@@ -151,8 +154,7 @@ export class AssetRuntime {
       this.assertActive();
       if (signal?.aborted) throw new Error('load cancelled');
     } catch (error) {
-      held.release();
-      throw error;
+      cleanupAfterFailure(error, held.release);
     }
     return {
       manifest,
@@ -175,23 +177,37 @@ export class AssetRuntime {
     const release = () => {
       if (released) return;
       released = true;
-      for (const pack of packs.values()) pack.release();
+      cleanupAll([...packs.values()].map((pack) => () => pack.release()));
+    };
+    const cancellationErrors: unknown[] = [];
+    const cancel = () => {
+      try {
+        release();
+      } catch (error) {
+        cancellationErrors.push(error);
+      }
     };
     // A completed pack no longer listens to acquisition cancellation. The batch
     // owns it until transfer, including while other packs are still pending.
-    batchSignal.addEventListener('abort', release, { once: true });
-    if (batchSignal.aborted) release();
+    batchSignal.addEventListener('abort', cancel, { once: true });
+    if (batchSignal.aborted) cancel();
     try {
       await Promise.allSettled(
         selected.map(async (id) => {
           try {
             const pack = await this.loadPack(id, batchSignal);
-            if (released) pack.release();
-            else packs.set(id, pack);
+            if (released) {
+              try {
+                pack.release();
+              } catch (error) {
+                cancellationErrors.push(error);
+              }
+            } else packs.set(id, pack);
           } catch (error) {
             // Stop sibling claims immediately, but drain every acquisition so
             // late decodes and manifests cannot escape their resource owner.
             if (!batchSignal.aborted) failure.abort(error);
+            else if (error instanceof CleanupFailure) cancellationErrors.push(error);
           }
         }),
       );
@@ -199,17 +215,28 @@ export class AssetRuntime {
       if (signal?.aborted) throw new Error('load cancelled');
       this.assertActive();
       return { packs: new Map(selected.map((id) => [id, packs.get(id)!])), release };
+    } catch (error) {
+      cleanupAfterFailure(error, () =>
+        cleanupAll([
+          release,
+          ...cancellationErrors.map((failure) => () => {
+            throw failure;
+          }),
+        ]),
+      );
     } finally {
-      batchSignal.removeEventListener('abort', release);
+      batchSignal.removeEventListener('abort', cancel);
     }
   }
   dispose() {
     if (this.lifetime.signal.aborted) return;
     this.lifetime.abort();
-    this.pool.dispose();
-    this.delivery?.dispose();
-    this.manifests.clear();
-    this.pages.clear();
+    cleanupAll([
+      () => this.pool.dispose(),
+      () => this.delivery?.dispose(),
+      () => this.manifests.clear(),
+      () => this.pages.clear(),
+    ]);
   }
   static async open(
     catalog: Readonly<Record<string, string>>,
@@ -243,8 +270,7 @@ export class AssetRuntime {
       runtime.registration = parseRegistration(JSON.parse(new TextDecoder().decode(bytes)));
       return runtime;
     } catch (error) {
-      runtime.dispose();
-      throw error;
+      cleanupAfterFailure(error, () => runtime.dispose());
     }
   }
 }

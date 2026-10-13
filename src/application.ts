@@ -1,3 +1,4 @@
+import { cleanupAll, cleanupAfterFailure } from './assets/cleanup';
 import { nearbyInteraction } from './core/interaction';
 import type { EquipmentSlot } from './content/items';
 import { SceneAssets } from './assets/scene-assets';
@@ -151,26 +152,33 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.assertActive();
     const token = Symbol();
     this.loading.add(token);
-    if (this.loading.size === 1) {
-      this.clock.reset();
-      this.input?.clear();
-      this.hooks.loading?.(true);
-    }
-    try {
-      return await work();
-    } finally {
+    const finish = () => {
       this.loading.delete(token);
-      if (!this.disposed && this.loading.size === 0) {
-        try {
-          // Submit the destination before revealing it, even in a paused/background window.
-          if (this.ready && this.roomReady) this.presentation.update(this.sim.view, 1, 0, this.aim);
-        } finally {
-          this.resetFrameClock();
-          this.input?.clear();
-          this.hooks.loading?.(false);
-        }
+      if (!this.disposed && this.loading.size === 0)
+        cleanupAll([
+          () => {
+            // Submit the destination before revealing it, even in a paused/background window.
+            if (this.ready && this.roomReady)
+              this.presentation.update(this.sim.view, 1, 0, this.aim);
+          },
+          () => this.resetFrameClock(),
+          () => this.input?.clear(),
+          () => this.hooks.loading?.(false),
+        ]);
+    };
+    let result: T;
+    try {
+      if (this.loading.size === 1) {
+        this.clock.reset();
+        this.input?.clear();
+        this.hooks.loading?.(true);
       }
+      result = await work();
+    } catch (error) {
+      cleanupAfterFailure(error, finish);
     }
+    finish();
+    return result;
   }
   boot() {
     if (this.disposed) return Promise.reject(new Error('application disposed'));
@@ -179,8 +187,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.startup ??= Promise.resolve()
       .then(() => this.withLoading(() => this.bootApplication()))
       .catch((error) => {
-        this.dispose();
-        throw error;
+        cleanupAfterFailure(error, () => this.dispose());
       });
     return this.startup;
   }
@@ -668,23 +675,31 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
-    this.sessionOperations.dispose();
-    this.loading.clear();
-    this.hooks.loading?.(false);
+    // Close admission and frame visibility before invoking host or renderer code.
     this.ready = false;
+    this.roomAccepted = false;
     delete this.canvas.dataset.ready;
-    this.abort.abort();
-    this.frames?.dispose();
-    window.removeEventListener('resize', this.onResize);
-    window.removeEventListener('blur', this.onBlur);
-    document.removeEventListener('visibilitychange', this.onVisibility);
-    this.input?.dispose();
-    this.presentation?.dispose();
-    this.previewPack?.pack.release();
-    this.roomAssets.dispose();
-    for (const p of this.persistentLeases.values()) p.release();
-    this.packViews.clear();
-    this.runtime?.dispose?.();
-    this.events.dispose();
+    const preview = this.previewPack;
+    const retained = [...this.persistentLeases.values()];
+    this.previewPack = undefined;
+    this.persistentLeases.clear();
+    this.loading.clear();
+    cleanupAll([
+      () => this.sessionOperations.dispose(),
+      () => this.abort.abort(),
+      () => this.frames?.dispose(),
+      () => window.removeEventListener('resize', this.onResize),
+      () => window.removeEventListener('blur', this.onBlur),
+      () => document.removeEventListener('visibilitychange', this.onVisibility),
+      () => this.hooks.loading?.(false),
+      () => this.input?.dispose(),
+      () => this.presentation?.dispose(),
+      () => preview?.pack.release(),
+      () => this.roomAssets.dispose(),
+      ...retained.map((pack) => () => pack.release()),
+      () => this.packViews.clear(),
+      () => this.runtime?.dispose?.(),
+      () => this.events.dispose(),
+    ]);
   }
 }

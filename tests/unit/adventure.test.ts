@@ -359,8 +359,10 @@ test('retreat to sanctuary immediately replaces the enemy pursuit route with hom
   s.step(idle);
   assert.ok(enemy.x > before, 'enemy walks toward home rather than the old pursuit target');
 });
-test('repopulation clears encounter loot, claims, alerts and object animation state', () => {
-  const s = fixture();
+test('repopulation clears encounter state and replaces combat actors', () => {
+  const s = fixture(),
+    retiredHero = s.sim.hero,
+    retiredEnemy = s.sim.enemies[0]!;
   breakCrate(s.sim);
   s.sim.damage(s.sim.hero, s.sim.enemies[0]!, 1);
   s.sim.potionCooldown = 30;
@@ -370,6 +372,15 @@ test('repopulation clears encounter loot, claims, alerts and object animation st
   assert.equal(s.sim.objectActions.size, 0);
   assert.equal(s.sim.potionCooldown, 0);
   assert.equal(s.sim.inCombat, false);
+  const enemy = s.sim.enemies[0]!,
+    health = enemy.health,
+    retiredHealth = retiredEnemy.health;
+  s.sim.damage(retiredHero, enemy, 1);
+  s.sim.damage(s.sim.hero, retiredEnemy, 1);
+  assert.equal(enemy.health, health);
+  assert.equal(retiredEnemy.health, retiredHealth);
+  s.sim.damage(s.sim.hero, enemy, 1);
+  assert.equal(enemy.health, health - 1);
 });
 test('loot and interaction prompts cannot cross a stair height gap', () => {
   const original = fixture();

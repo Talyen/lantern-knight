@@ -1,3 +1,4 @@
+import { cleanupAll } from '../assets/cleanup';
 import { artworkFloorLayout } from '../content/floor-layout';
 import * as T from 'three';
 import { InkRoom } from './ink-room';
@@ -314,14 +315,14 @@ export class RoomPresentation {
     this.roomOwned.push(gridGeometry, gridMaterial);
   }
   disposeScenery() {
-    this.surround.dispose();
-    this.inkRoom?.dispose();
+    const inkRoom = this.inkRoom;
     this.inkRoom = undefined;
+    cleanupAll([() => this.surround.dispose(), () => inkRoom?.dispose()]);
   }
   disposeResources() {
-    for (const r of this.roomOwned) r.dispose();
+    const owned = this.roomOwned;
     this.roomOwned = [];
-    this.room.clear();
     this.fadeMeshes = [];
+    cleanupAll([...owned.map((resource) => () => resource.dispose()), () => this.room.clear()]);
   }
 }

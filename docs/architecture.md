@@ -61,9 +61,15 @@ GameSession retains area snapshots and selects when to revisit or respawn them; 
 
 `src/core/navigation.ts` owns movement sliding over those swept contacts and deterministic eight-neighbor A* at 0.2 world units. Route diagonals cannot cut corners. Walking, dodging, separation and editor Walk hero use the same sweep. Enemy pursuit replans at most every 15 ticks and requires unobstructed melee contact. Transient targets and route diagnostics never enter checkpoints.
 
-`src/core/encounter-behavior.ts` owns local awareness, group alerts, sanctuary/leash policy and enemy intents. It borrows read-only actors and never moves them or starts combat actions. Simulation applies those intents and retains action timing, damage and event ordering. The shared actor model lives in `src/core/actor.ts`.
+`src/core/encounter-behavior.ts` owns local awareness, group alerts, sanctuary/leash policy and enemy intents. It borrows read-only actors and never moves them or starts combat actions. Simulation applies those intents and coordinates action resolution and event ordering. The shared actor model lives in `src/core/actor.ts`.
 
 `src/core/movement-plans.ts` owns room-local navigation and transient routes for manual commands, home return and pursuit. Switching automatic intent replaces its route immediately; moving targets within the same intent retain the 15-tick planning cadence. Manual targets take priority until completion or cancellation. Awareness never edits route caches. Simulation creates both owners for its immutable area, clears both on repopulation, and captures/restores only awareness through area state. Navigation diagnostics borrow detached route data without initializing the planner.
+
+### Combat actions and fixed-step ordering
+
+`src/core/combat-actions.ts` owns attack/dodge/ability admission, input buffers, action entry and interruption, hit geometry, damage, invulnerability, stagger and recovery. Each Simulation constructs one combat owner for its immutable area and generation. The owner borrows current actors through a live capability view, so repopulation and developer actor replacement cannot leave it targeting retired actors. It does not retain a second actor collection or advance action clocks.
+
+Simulation owns the fixed-step sequence: cooldowns and previous positions, hero command admission and locomotion, then each enemy's intent followed by that actor's action resolution. All actor ages advance together after combat, preserving dodge protection at the same action tick regardless of actor iteration order. Separation, pickups, room-clear detection and exit requests follow. Combat uses explicit room capabilities for supported movement, event emission, enemy awareness, death drops and breakable claims; inventory, navigation plans, checkpoints and room replacement remain outside its contract. The existing Simulation action commands delegate to this owner for developer setup and headless callers.
 
 ### Editor documents and playtests
 
@@ -86,6 +92,8 @@ GamePresentation coordinates RoomPresentation, ActorPresentation and SceneLighti
 Presentation borrows `SimulationView` from `src/core/simulation-view.ts`, with read-only actors, collections and current-tick fields; it cannot call simulation commands. Application and editor pass the stable `Simulation.view` facade. Views are live borrows, not retained snapshots, and TypeScript protects nested state from writes. Navigation diagnostics return detached data without initializing gameplay navigation. Developer render hooks use the same view; deliberate gameplay overrides remain in the application step hooks.
 
 ### Asset ownership and disposal
+
+Application and EditorView revoke availability before shutdown callbacks. Their teardown, GamePresentation and the asset owners attempt each peer cleanup in dependency order. Renderer disposal is attempted before borrowed asset leases release; pool closure invalidates all claims, including pending decodes. `src/assets/cleanup.ts` owns synchronous cleanup fault containment: one failure is rethrown unchanged, multiple failures form an AggregateError, and unwinding an operation preserves its original error as the cause. Cancellation listeners report cleanup failures through the pending acquisition promise rather than throwing from EventTarget dispatch. Failed shutdown remains terminal; repeating disposal does not rerun consumed ownership. This guarantees cleanup attempts, not successful destruction by a failing external callback.
 
 AssetRuntime snapshots its catalog and accepts fetched and seeded manifests through one identity-checked boundary. Accepted manifests, frames and clips are deeply frozen and exposed as read-only data; parsing and preparation retain mutable `ManifestDraft` values. Consumers cannot change validated page identities, geometry or timing.
 

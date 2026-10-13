@@ -1,3 +1,4 @@
+import { cleanupAll } from '../assets/cleanup';
 import { radialTexture } from './radial-texture';
 import { defaultLook } from './lighting-profiles';
 import { heroLanternPosition } from './hero-lantern';
@@ -192,11 +193,14 @@ export class GamePresentation implements PresentationLifecycle {
       );
   }
   disposeRoom() {
-    this.groundOcclusion?.dispose();
+    const ground = this.groundOcclusion;
     this.groundOcclusion = undefined;
-    this.roomPresentation.disposeScenery();
-    this.actorPresentation.dispose();
-    this.roomPresentation.disposeResources();
+    cleanupAll([
+      () => ground?.dispose(),
+      () => this.roomPresentation.disposeScenery(),
+      () => this.actorPresentation.dispose(),
+      () => this.roomPresentation.disposeResources(),
+    ]);
   }
   prepareAssets(ids?: ReadonlySet<string>) {
     return this.lookRenderer.prepare(ids);
@@ -483,17 +487,19 @@ export class GamePresentation implements PresentationLifecycle {
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
-    this.combatFeedback.dispose();
-    this.sceneEffects?.dispose();
-    this.lookRenderer?.dispose();
-    this.disposeRoom();
-    for (const m of [this.aim, this.flare]) {
-      m.geometry.dispose();
-      (m.material as T.Material).dispose();
-    }
-    this.animationFlow?.texture.dispose();
-    this.flowBitmap?.close();
-    this.shadowTexture.dispose();
-    this.renderer.dispose();
+    cleanupAll([
+      () => this.combatFeedback.dispose(),
+      () => this.sceneEffects?.dispose(),
+      () => this.lookRenderer?.dispose(),
+      () => this.disposeRoom(),
+      ...[this.aim, this.flare].flatMap((mesh) => [
+        () => mesh.geometry.dispose(),
+        () => (mesh.material as T.Material).dispose(),
+      ]),
+      () => this.animationFlow?.texture.dispose(),
+      () => this.flowBitmap?.close(),
+      () => this.shadowTexture.dispose(),
+      () => this.renderer.dispose(),
+    ]);
   }
 }

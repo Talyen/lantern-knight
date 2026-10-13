@@ -1135,6 +1135,144 @@ test('superseding campfire travel cancels its plan immediately and releases the 
   app.dispose();
 });
 
+test('shutdown drains all owners after UI, renderer and lease failures and cannot run twice', async () => {
+  const { app } = fixture();
+  const calls: string[] = [];
+  const failure = (name: string) => () => {
+    calls.push(name);
+    throw new Error(name);
+  };
+  app.runtime = runtime(async (id) => ({
+    manifest: manifestFixture(id),
+    textures: new Map(),
+    release: failure(id),
+  }));
+  await app.retainAsset('retained');
+  await app.previewAsset('preview', () => {});
+  app.hooks.loading = failure('loading');
+  app.input.dispose = () => {
+    calls.push('input');
+  };
+  app.presentation.dispose = failure('presentation');
+  app.runtime.dispose = () => {
+    calls.push('runtime');
+  };
+  let aborted = false;
+  app.events.subscribe((_event, signal) => {
+    signal.addEventListener('abort', () => {
+      aborted = true;
+    });
+  });
+  app.publish([
+    {
+      kind: 'room-clear',
+      key: 'close',
+      tick: 1,
+      generation: app.session.generation,
+      actor: 'player',
+      action: 0,
+      area: app.sim.area,
+      position: [0, 0, 0],
+      direction: 0,
+    },
+  ]);
+  assert.throws(() => app.dispose(), AggregateError);
+  assert.deepEqual(calls, ['loading', 'input', 'presentation', 'preview', 'retained', 'runtime']);
+  assert.equal(aborted, true);
+  assert.equal(app.packs.size, 0);
+  assert.equal(app.ready, false);
+  assert.equal(app.roomReady, false);
+  assert.throws(() => app.changeInventory('salvage'), /loading/);
+  app.dispose();
+  assert.equal(calls.length, 6);
+});
+
+test('resource pool closes every loaded resource despite destructor failure, including late decodes', async () => {
+  const late = deferred<string>(),
+    destroyed: string[] = [];
+  const pool = new ResourcePool(
+    (id) => (id === 'late' ? late.promise : Promise.resolve(id)),
+    (id) => {
+      destroyed.push(id);
+      if (id === 'broken') throw new Error('texture listener failed');
+    },
+  );
+  const held = await pool.acquire(['broken', 'peer']);
+  const pending = pool.acquire(['late']);
+  assert.throws(() => pool.dispose(), /texture listener failed/);
+  assert.equal(pool.size, 0);
+  assert.deepEqual(destroyed, ['broken', 'peer']);
+  late.resolve('late');
+  await assert.rejects(pending, /disposed/);
+  held.release();
+  pool.dispose();
+  assert.deepEqual(destroyed, ['broken', 'peer', 'late']);
+});
+
+test('failed startup retains its original cause while draining a failed cleanup', async () => {
+  const { app } = fixture();
+  const primary = new Error('catalog unavailable'),
+    secondary = new Error('loading UI failed');
+  let closed = 0;
+  // oxlint-disable-next-line typescript/unbound-method -- Saved for restoration, never invoked unbound.
+  const open = AssetRuntime.open;
+  AssetRuntime.open = async () => {
+    throw primary;
+  };
+  app.hooks.loading = (active) => {
+    if (!active) throw secondary;
+  };
+  app.runtime.dispose = () => {
+    closed++;
+  };
+  try {
+    await assert.rejects(app.boot(), (error: unknown) => {
+      assert.ok(error instanceof AggregateError);
+      const operation = error.cause;
+      assert.ok(operation instanceof AggregateError);
+      assert.equal(operation.cause, primary);
+      assert.deepEqual(operation.errors, [primary, secondary]);
+      assert.equal(error.errors[1], secondary);
+      return true;
+    });
+    assert.equal(closed, 1);
+    app.dispose();
+    assert.equal(closed, 1);
+  } finally {
+    AssetRuntime.open = open;
+  }
+});
+
+test('cancelling a pool acquisition reports destructor errors through its promise and drains peers', async () => {
+  const late = deferred<string>(),
+    destroyed: string[] = [];
+  const controller = new AbortController();
+  const failure = new Error('texture cleanup');
+  const pool = new ResourcePool(
+    (id) => (id === 'late' ? late.promise : Promise.resolve(id)),
+    (id) => {
+      destroyed.push(id);
+      if (id === 'broken') throw failure;
+    },
+  );
+  const ready = deferred<void>();
+  const pending = pool.acquire(['broken', 'peer', 'late'], controller.signal, (done) => {
+    if (done === 2) ready.resolve();
+  });
+  await ready.promise;
+  controller.abort();
+  assert.deepEqual(destroyed, ['broken', 'peer']);
+  assert.equal(pool.size, 0);
+  late.resolve('late');
+  await assert.rejects(pending, (error: unknown) => {
+    assert.ok(error instanceof AggregateError);
+    assert.equal(error.errors[1], failure);
+    return true;
+  });
+  assert.deepEqual(destroyed, ['broken', 'peer', 'late']);
+  pool.dispose();
+});
+
 test('health pickup commits an autosaved checkpoint including its consumed identity', async () => {
   const definitions = structuredClone(contentDefinitions),
     area = definitions.areas[0]!;

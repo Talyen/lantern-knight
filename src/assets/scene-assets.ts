@@ -1,3 +1,4 @@
+import { cleanupAll } from './cleanup';
 import type { AssetPack, PackBatch } from './loader';
 
 // A renderer borrows this stable view. Installation consumes the batch even when
@@ -19,17 +20,16 @@ export class SceneAssets {
     this.view.clear();
     for (const [id, pack] of next.packs) this.view.set(id, pack);
     rebuild();
-    for (const previous of this.held)
-      if (previous !== next) {
-        this.held.delete(previous);
-        previous.release();
-      }
+    const previous = [...this.held].filter((batch) => batch !== next);
+    for (const batch of previous) this.held.delete(batch);
+    cleanupAll(previous.map((batch) => () => batch.release()));
   }
   dispose() {
     if (this.closed) return;
     this.closed = true;
     this.view.clear();
-    for (const batch of this.held) batch.release();
+    const held = [...this.held];
     this.held.clear();
+    cleanupAll(held.map((batch) => () => batch.release()));
   }
 }

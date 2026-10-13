@@ -26,9 +26,14 @@ function importFinding(file: string, target: string) {
     return 'gameplay models require an explicit registry, without production scene or visual composition imports';
   if (
     file.startsWith('src/presentation/') &&
-    /^src\/core\/(?:simulation|session)(?:\.|$)/.test(target)
+    /^src\/core\/(?:simulation|session|combat-actions)(?:\.|$)/.test(target)
   )
     return 'presentation borrows simulation-view; mutable gameplay owners stay behind the application boundary';
+  if (
+    file === 'src/core/combat-actions.ts' &&
+    /^src\/core\/(?:simulation|session)(?:\.|$)/.test(target)
+  )
+    return 'combat borrows room capabilities and actor state; it cannot depend on the simulation or session owner';
   if (
     file.startsWith('src/presentation/') &&
     /^src\/content\/(?:world-art|scene-document)(?:\.|$)/.test(target)
