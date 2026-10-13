@@ -331,3 +331,35 @@ test('an explicitly routed actor replans after displacement puts a wall across i
   assert.ok(Math.hypot(sim.hero.x - goal.x, sim.hero.z - goal.z) < 1e-6);
   assert.ok(isSupportedPosition(a, sim.hero, 0.3));
 });
+
+test('movement preview does not consume health rewards or mutate player health', () => {
+  const a = area();
+  a.props = [];
+  a.spawns = [];
+  a.pickups = [
+    { id: 'health', object: 'health-art', kind: 'health', x: -3, z: 0, radius: 1, amount: 20 },
+  ];
+  const sim = simulate(a);
+  sim.hero.health = 50;
+  sim.movementPreview = true;
+  const result = sim.step(still);
+  assert.equal(sim.hero.health, 50);
+  assert.equal(sim.collectedPickups.size, 0);
+  assert.ok(!result.events.some((e) => e.kind === 'pickup'));
+  sim.movementPreview = false;
+  sim.step(still);
+  assert.equal(sim.hero.health, 70);
+});
+
+test('content rejects a self-intersecting star masquerading as a convex playable boundary', () => {
+  const a = area();
+  const ring = Array.from({ length: 5 }, (_, i) => ({
+    x: 4 * Math.cos((i * Math.PI * 2) / 5),
+    z: 4 * Math.sin((i * Math.PI * 2) / 5),
+  }));
+  a.playableBoundary = [0, 2, 4, 1, 3].map((i) => ring[i]!);
+  assert.throws(
+    () => new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] }),
+    /convex/,
+  );
+});

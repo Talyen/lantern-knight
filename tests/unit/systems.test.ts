@@ -53,6 +53,21 @@ test('input uses the first click position, preserves pending dodge across key re
       assert.equal(cmd.attack, button === 0);
       assert.equal(cmd.ability, button === 2);
     }
+    for (const modifier of ['ctrlKey', 'metaKey', 'altKey']) {
+      canvas.dispatchEvent(
+        Object.assign(new Event('pointerdown'), {
+          button: 0,
+          clientX: 650,
+          clientY: 320,
+          [modifier]: true,
+        }),
+      );
+      assert.equal(
+        input.consume(sim.hero, sim.areaDefinition, sim.generation).attack,
+        false,
+        'modified pointer gestures must not trigger combat',
+      );
+    }
     for (const repeat of [false, true])
       target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat }));
     assert.equal(input.consume(sim.hero, sim.areaDefinition, sim.generation).dodge, true);
@@ -536,4 +551,36 @@ test('resetting the fixed clock inside a step discards pending time without dela
     steps++;
   });
   assert.equal(steps, 2);
+});
+
+test('invalid movement cannot corrupt the hero position or dodge heading', () => {
+  for (const value of [NaN, Infinity, -Infinity]) {
+    const sim = new Simulation(content);
+    const before = { x: sim.hero.x, z: sim.hero.z };
+    const aim = { x: before.x + 1, z: before.z };
+    sim.step({ move: { x: value, z: 1 }, aim });
+    assert.deepEqual({ x: sim.hero.x, z: sim.hero.z }, before);
+    assert.equal(sim.hero.state, 'idle');
+    sim.step({ move: { x: value, z: 1 }, aim, dodge: true });
+    assert.ok(Number.isFinite(sim.hero.yaw));
+    for (let i = 0; i < tuning.dodge.total; i++) sim.step(still);
+    assert.ok(Number.isFinite(sim.hero.x + sim.hero.y + sim.hero.z));
+  }
+});
+
+test('invalid frame deltas leave the clock usable for the next valid frame', () => {
+  const clock = new FixedClock();
+  clock.advance(clock.stepMs / 2, () => assert.fail('premature tick'));
+  for (const value of [NaN, Infinity, -Infinity]) {
+    assert.equal(
+      clock.advance(value, () => assert.fail('invalid frame tick')),
+      0.5,
+    );
+    assert.equal(clock.droppedMs, 0);
+  }
+  let ticks = 0;
+  clock.advance(clock.stepMs / 2, () => {
+    ticks++;
+  });
+  assert.equal(ticks, 1);
 });

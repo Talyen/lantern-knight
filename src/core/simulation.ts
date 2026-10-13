@@ -396,6 +396,8 @@ export class Simulation {
       Math.hypot(command.aim.x - h.x, command.aim.z - h.z) > 0.001
     )
       h.aim = Math.atan2(command.aim.x - h.x, command.aim.z - h.z);
+    if (!Number.isFinite(command.move.x) || !Number.isFinite(command.move.z))
+      command = { ...command, move: { x: 0, z: 0 } };
     const len = Math.hypot(command.move.x, command.move.z),
       mx = len > 1 ? command.move.x / len : command.move.x,
       mz = len > 1 ? command.move.z / len : command.move.z;
@@ -529,7 +531,7 @@ export class Simulation {
         }
       }
     const wasCleared = this.cleared;
-    if (h.health > 0)
+    if (h.health > 0 && !this.movementPreview)
       for (const pickup of this.areaDefinition.pickups ?? []) {
         if (
           this.collectedPickups.has(pickup.id) ||
@@ -571,6 +573,7 @@ export class FixedClock {
   droppedMs = 0;
   readonly stepMs = 1000 / 60;
   advance(ms: number, step: () => void | boolean) {
+    if (!Number.isFinite(ms)) return Math.max(0, this.accumulator / this.stepMs);
     const bounded = Math.min(Math.max(ms, 0), maximumFrameMs);
     this.droppedMs += Math.max(0, ms - bounded);
     this.accumulator += bounded;

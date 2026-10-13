@@ -186,11 +186,15 @@ export class ContentRegistry {
         if (points.length < 3 || points.length > 16) fail('invalid playable boundary');
         for (const [i, p] of points.entries()) {
           finite(p.x, p.z);
-          const b = points[(i + 1) % points.length]!,
-            c = points[(i + 2) % points.length]!;
+          const b = points[(i + 1) % points.length]!;
           if (
             !contains(a.bounds, p) ||
-            (b.x - p.x) * (c.z - b.z) - (b.z - p.z) * (c.x - b.x) <= 1e-8
+            points.some(
+              (c, j) =>
+                j !== i &&
+                j !== (i + 1) % points.length &&
+                (b.x - p.x) * (c.z - p.z) - (b.z - p.z) * (c.x - p.x) <= 1e-8,
+            )
           )
             fail('playable boundary must be strictly convex and counterclockwise');
         }

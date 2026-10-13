@@ -54,6 +54,7 @@ export class Input {
       this.hasPointer = true;
     });
     const down = (e: PointerEvent) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       this.pointer = { x: e.clientX, y: e.clientY };
       this.hasPointer = true;
       if (e.button === 0) this.edges.attack = true;
