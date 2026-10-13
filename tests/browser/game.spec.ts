@@ -125,6 +125,8 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
 test('orchard loot, equipment, campfire rest and destination travel survive reload', async ({
   page,
 }) => {
+  // This full journey includes several renderer replacements and a final reload.
+  test.setTimeout(300_000);
   const waitForRoom = () =>
     expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 60_000 });
   // Targeted checkpoint setup exercises the actual renderer and UI without replaying combat in every browser run.
