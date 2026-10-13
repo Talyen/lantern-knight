@@ -1,12 +1,13 @@
 import { temporaryDirectory } from '../fixtures/temporary-directory';
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import sharp from 'sharp';
+import { sourceFixture } from '../fixtures/source';
 import { readAsset } from '../../tools/assets/io';
-import { parseSource, parseManifest } from '../../src/assets/schema';
+import { parseSource, parseManifest, type ManifestDraft } from '../../src/assets/schema';
 import { exactSource } from '../../tools/assets/files';
 import { createPreparationContext } from '../../tools/assets/context';
 const writer = (workspace: string) =>
@@ -16,12 +17,16 @@ const writer = (workspace: string) =>
     sourceRoot: workspace,
     libraryRoot: workspace,
   });
-const read = async (p: string) => JSON.parse(await readAsset(p, 'utf8'));
-const source = await read('tests/fixtures/valid.json');
-let fixture: Promise<{ root: string; manifest: any }> | undefined;
+const source = sourceFixture();
+let fixtureDirectory: string | undefined;
+after(async () => {
+  if (fixtureDirectory) await fs.rm(fixtureDirectory, { recursive: true, force: true });
+});
+let fixture: Promise<{ root: string; manifest: ManifestDraft }> | undefined;
 function compiledFixture() {
   return (fixture ??= (async () => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-source-fixture-'));
+    fixtureDirectory = root;
     await fs.writeFile(path.join(root, 'valid.json'), JSON.stringify(source));
     await sharp({
       create: {
@@ -38,8 +43,8 @@ function compiledFixture() {
       const context = await writer(output);
       return {
         root,
-        manifest: JSON.parse(
-          JSON.stringify(await context.compile('valid.json', 'public/generated', false, root)),
+        manifest: parseManifest(
+          await context.compile('valid.json', 'public/generated', false, root),
         ),
       };
     } finally {
@@ -47,16 +52,13 @@ function compiledFixture() {
     }
   })());
 }
-import { after } from 'node:test';
-after(async () => {
-  if (fixture) await fs.rm((await fixture).root, { recursive: true, force: true });
-});
 const fixtureTexts: Record<string, string> = {};
 for (const name of ['invalid-duration', 'invalid-camera', 'invalid-heading']) {
   const invalid = structuredClone(source);
-  if (name === 'invalid-duration') invalid.asset.clips.walk.d45.durationsMs = [0];
-  if (name === 'invalid-camera') invalid.asset.contractId = 'unapproved-other-camera';
-  if (name === 'invalid-heading') delete invalid.asset.clips.walk.d225;
+  if (name === 'invalid-duration') invalid.asset.clips.walk!.d45!.durationsMs = [0];
+  if (name === 'invalid-camera')
+    Reflect.set(invalid.asset, 'contractId', 'unapproved-other-camera');
+  if (name === 'invalid-heading') delete invalid.asset.clips.walk!.d225;
   fixtureTexts[name] = JSON.stringify(invalid);
 }
 
@@ -68,25 +70,22 @@ test('valid supplied assets and deliberately invalid schema fixtures', async () 
     8192,
   );
   for (const name of ['invalid-duration', 'invalid-camera', 'invalid-heading'])
-    assert.throws(() => parseSource(JSON.parse(requireText(name))));
-  function requireText(name: string) {
-    return fixtureTexts[name]!;
-  }
+    assert.throws(() => parseSource(JSON.parse(fixtureTexts[name]!)));
   const duplicate = structuredClone(source);
-  duplicate.frames.push(duplicate.frames[0]);
+  duplicate.frames.push(duplicate.frames[0]!);
   assert.throws(() => parseSource(duplicate), /duplicate/);
   const invalid = structuredClone(manifest);
   const standalone = structuredClone(manifest);
-  standalone.pages[0].width = 6144;
-  standalone.pages[0].height = 4096;
-  standalone.pages[0].rgbaBytes = 6144 * 4096 * 4;
+  standalone.pages[0]!.width = 6144;
+  standalone.pages[0]!.height = 4096;
+  standalone.pages[0]!.rgbaBytes = 6144 * 4096 * 4;
   assert.equal(parseManifest(standalone).pages[0]!.width, 6144);
-  standalone.pages[0].rgbaBytes--;
+  standalone.pages[0]!.rgbaBytes--;
   assert.throws(() => parseManifest(standalone), /byte estimate/);
-  invalid.frames[0].rect[2] = 99999;
+  invalid.frames[0]!.rect[2] = 99999;
   assert.throws(() => parseManifest(invalid), /bounds/);
-  invalid.frames[0].rect[2] = 1;
-  invalid.frames[0].rotated = true;
+  invalid.frames[0]!.rect[2] = 1;
+  Reflect.set(invalid.frames[0]!, 'rotated', true);
   assert.throws(() => parseManifest(invalid));
   const nonFinite = structuredClone(source);
   nonFinite.asset.density = Infinity;
@@ -99,7 +98,7 @@ test('valid supplied assets and deliberately invalid schema fixtures', async () 
   ];
   assert.throws(() => parseManifest(missingDep), /cyclic/);
   const looping = structuredClone(manifest);
-  looping.asset.clips.death.d00.loop = true;
+  looping.asset.clips.death!.d00!.loop = true;
   parseManifest(looping);
 });
 
@@ -129,11 +128,11 @@ test('compiler accepts opaque RGB artwork and supplies an opaque alpha channel',
 
   const context = await writer(dir);
   await context.compile('valid.json', 'public/generated', false, fixtureRoot);
-  await sharp(path.join(fixtureRoot, bad.frames[0].path))
+  await sharp(path.join(fixtureRoot, bad.frames[0]!.path))
     .flatten({ background: '#ffffff' })
     .png()
     .toFile(file);
-  bad.frames[0].path = 'no-alpha.png';
+  bad.frames[0]!.path = 'no-alpha.png';
   await fs.writeFile(input, JSON.stringify(bad));
   const result = await context.compile('invalid-alpha.json', 'public/generated', false, dir);
   assert.ok(result.frames.length > 0);

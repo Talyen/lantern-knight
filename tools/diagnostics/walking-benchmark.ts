@@ -9,7 +9,7 @@ import { content } from '../../src/content/game-content';
 import { visualEffectLabels } from '../../src/content/visual-effects';
 
 // Keep menu checks, loading-media proofs and checkpoint journeys in game-smoke.
-export async function runWalkingBenchmark(flags: string[] = []) {
+async function runWalkingBenchmark(flags: string[] = []) {
   if (flags.includes('--software') || flags.includes('--render-scale'))
     throw new Error('Walking baseline requires hardware rendering at render scale 1');
   const visible = flags.includes('--visible');

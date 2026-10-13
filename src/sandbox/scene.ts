@@ -249,20 +249,15 @@ export function mountScene(
       app.command = undefined;
       $('#lighting-stop').hidden = true;
     };
-    const blendControls = ['walk-blend'];
-    for (const id of blendControls) {
-      $('#' + id).innerHTML = Object.entries(animationTreatments)
-        .map(([key, value]) => `<option value="${key}">${value.label}</option>`)
-        .join('');
-      $('#' + id).onchange = () => {
-        presentation.animationTreatment = $<HTMLSelectElement>('#' + id)
-          .value as AnimationTreatment;
-        for (const control of blendControls)
-          $<HTMLSelectElement>('#' + control).value = presentation.animationTreatment;
-        $('#walk-blend-help').textContent =
-          animationTreatments[presentation.animationTreatment].description;
-      };
-    }
+    $('#walk-blend').innerHTML = Object.entries(animationTreatments)
+      .map(([key, value]) => `<option value="${key}">${value.label}</option>`)
+      .join('');
+    $('#walk-blend').onchange = () => {
+      presentation.animationTreatment = $<HTMLSelectElement>('#walk-blend')
+        .value as AnimationTreatment;
+      $('#walk-blend-help').textContent =
+        animationTreatments[presentation.animationTreatment].description;
+    };
     $<HTMLSelectElement>('#walk-blend').value = presentation.animationTreatment;
     $('#walk-blend-help').textContent =
       animationTreatments[presentation.animationTreatment].description;
@@ -271,31 +266,21 @@ export function mountScene(
         'treatment' | 'timing';
       presentation.restartLab();
     };
-    for (const id of ['walk-stabilized'])
-      $('#' + id).onchange = () => {
-        presentation.stabilized = $<HTMLInputElement>('#' + id).checked;
-        for (const control of ['walk-stabilized'])
-          $<HTMLInputElement>('#' + control).checked = presentation.stabilized;
-        presentation.lastLabOverlay = '';
-      };
-    for (const id of ['walk-rigid-sword'])
-      $('#' + id).onchange = () => {
-        presentation.rigidSword = $<HTMLInputElement>('#' + id).checked;
-        for (const control of ['walk-rigid-sword'])
-          $<HTMLInputElement>('#' + control).checked = presentation.rigidSword;
-      };
-    for (const id of ['locomotion-timing']) {
-      $('#' + id).innerHTML = Object.entries(walkTimings)
-        .map(([key, value]) => `<option value="${key}">${value.label}</option>`)
-        .join('');
-      $<HTMLSelectElement>('#' + id).value = presentation.walkTiming;
-      $('#' + id).onchange = () => {
-        presentation.walkTiming = $<HTMLSelectElement>('#' + id).value as WalkTiming;
-        for (const control of ['locomotion-timing'])
-          $<HTMLSelectElement>('#' + control).value = presentation.walkTiming;
-        $('#locomotion-timing-help').textContent = walkTimings[presentation.walkTiming].description;
-      };
-    }
+    $('#walk-stabilized').onchange = () => {
+      presentation.stabilized = $<HTMLInputElement>('#walk-stabilized').checked;
+      presentation.lastLabOverlay = '';
+    };
+    $('#walk-rigid-sword').onchange = () => {
+      presentation.rigidSword = $<HTMLInputElement>('#walk-rigid-sword').checked;
+    };
+    $('#locomotion-timing').innerHTML = Object.entries(walkTimings)
+      .map(([key, value]) => `<option value="${key}">${value.label}</option>`)
+      .join('');
+    $<HTMLSelectElement>('#locomotion-timing').value = presentation.walkTiming;
+    $('#locomotion-timing').onchange = () => {
+      presentation.walkTiming = $<HTMLSelectElement>('#locomotion-timing').value as WalkTiming;
+      $('#locomotion-timing-help').textContent = walkTimings[presentation.walkTiming].description;
+    };
     $('#locomotion-timing-help').textContent = walkTimings[presentation.walkTiming].description;
     $('#walk-compare').onclick = () =>
       app.safe(() =>

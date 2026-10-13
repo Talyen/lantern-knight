@@ -70,6 +70,17 @@ declare global {
     };
   }
 }
+const headingNames: Record<string, string> = {
+  d00: 'Down-left',
+  d45: 'Down',
+  d90: 'Down-right',
+  d135: 'Right',
+  d180: 'Up-right',
+  d225: 'Up',
+  d270: 'Up-left',
+  d315: 'Left',
+};
+
 export function createEditorSession() {
   const lifetime = new AbortController();
   const gestures = new EditorGestures();
@@ -185,18 +196,7 @@ export function createEditorSession() {
         new Option(
           manifest?.asset.viewMode === 'fixed-authored'
             ? 'Authored view'
-            : ((
-                {
-                  d00: 'Down-left',
-                  d45: 'Down',
-                  d90: 'Down-right',
-                  d135: 'Right',
-                  d180: 'Up-right',
-                  d225: 'Up',
-                  d270: 'Up-left',
-                  d315: 'Left',
-                } as Record<string, string>
-              )[heading] ?? heading),
+            : (headingNames[heading] ?? heading),
           heading,
         ),
       );
@@ -862,23 +862,7 @@ export function createEditorSession() {
     headings.replaceChildren();
     if (chosen)
       for (const h of Object.keys(chosen.manifest.asset.clips[chosen.clip]!))
-        headings.add(
-          new Option(
-            (
-              {
-                d00: 'Down-left',
-                d45: 'Down',
-                d90: 'Down-right',
-                d135: 'Right',
-                d180: 'Up-right',
-                d225: 'Up',
-                d270: 'Up-left',
-                d315: 'Left',
-              } as Record<string, string>
-            )[h] ?? h,
-            h,
-          ),
-        );
+        headings.add(new Option(headingNames[h] ?? h, h));
     workspace.refresh();
   }
   $('place-clip').onchange = () => {

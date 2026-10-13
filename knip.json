@@ -17,6 +17,7 @@
     "tools/check-source-assets.ts",
     "tools/format.ts",
     "tools/diagnostics/game-benchmark.ts",
+    "tools/diagnostics/walking-benchmark.ts",
     "tools/lint.ts",
     "tools/package-bundled.cjs",
     "tools/scene/scene-editor-store.ts",
