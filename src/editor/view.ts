@@ -14,7 +14,13 @@ import { ContentRegistry, heightAt } from '../content/world';
 import { contentDefinitions } from '../content/game-content';
 import { GameSession } from '../core/session';
 import { EventHub } from '../core/events';
-import { outward, screenMovement, constrainCamera, resizeCamera } from '../core/camera';
+import {
+  outward,
+  screenMovement,
+  constrainCamera,
+  resizeCamera,
+  walkablePoint,
+} from '../core/camera';
 import type { Simulation } from '../core/simulation';
 import type { SimulationView } from '../core/simulation-view';
 import { SceneAssets } from '../assets/scene-assets';
@@ -355,8 +361,16 @@ export class EditorView {
     );
     return this.rays.ray;
   }
-  ground(x: number, y: number, height = 0) {
+  ground(x: number, y: number, height?: number) {
     if (!this.available) return null;
+    if (height === undefined)
+      return walkablePoint(
+        this.renderer!.camera,
+        x,
+        y,
+        this.canvas.getBoundingClientRect(),
+        this.simulation!.areaDefinition,
+      );
     return this.ray(x, y).intersectPlane(
       new T.Plane(new T.Vector3(0, 1, 0), -height),
       new T.Vector3(),
@@ -389,7 +403,10 @@ export class EditorView {
     if (!this.available) return undefined;
     this.ray(x, y);
     const items = new Map(sceneItems(document).map((item) => [item.placement.id, item])),
-      sprites = this.sprites().filter((s) => items.has(s.id) && !this.hidden.has(s.id));
+      sprites = this.sprites().filter(
+        (s) =>
+          items.has(s.id) && !this.hidden.has(s.id) && s.mesh.visible && s.material.opacity > 0,
+      );
     for (const s of sprites) s.mesh.updateMatrixWorld(true);
     const hits = this.rays.intersectObjects(
       sprites.map((s) => s.mesh),
