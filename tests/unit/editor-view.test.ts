@@ -97,7 +97,7 @@ test('editor acceptance hides failed rebuilds, recovers and preserves installed 
     view.render();
     assert.equal(frames, 1);
 
-    const loadPack = runtime.loadPack;
+    const loadPack = runtime.loadPack.bind(runtime);
     runtime.loadPack = async () => {
       throw new Error('pack unavailable');
     };
