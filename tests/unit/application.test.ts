@@ -1025,3 +1025,45 @@ test('automatic death recovery waits for room acceptance before feedback and sav
     }
   });
 });
+
+test('superseding campfire travel cancels its plan immediately and releases the late destination', async () => {
+  await withDOM(async () => {
+    const definitions = structuredClone(contentDefinitions);
+    for (const area of definitions.areas) {
+      const entry = area.entries[0]!;
+      area.campfires = [
+        { id: 'fire', name: 'Fire', x: entry.x, z: entry.z, safeRadius: 1, discovered: true },
+      ];
+      area.entries = [...area.entries, { ...entry, id: 'fire-fire' }];
+    }
+    const registry = new ContentRegistry(definitions);
+    const { app } = fixture({
+      ...sceneFixture(registry),
+      area: (id) => ({ area: registry.area(id), assets: [id] }),
+    });
+    app.bridge.automatedRun = true;
+    const waiting = deferred<PackLease>();
+    const checkpoint = deferred<Awaited<ReturnType<Bridge['loadGame']>>>();
+    let released = 0;
+    app.runtime = runtime(() => waiting.promise);
+    app.persistence = new Persistence({
+      loadGame: () => checkpoint.promise,
+      saveGame: async () => {},
+    });
+    const original = app.sim;
+    const travel = app.travel('upper-landing/fire');
+    const rejected = assert.rejects(travel, /superseded/);
+    assert.equal(app.session.loading, true);
+    const latest = app.load();
+    assert.equal(app.session.loading, false);
+    waiting.resolve({ release: () => released++ } as unknown as PackLease);
+    await rejected;
+    assert.equal(app.sim, original);
+    assert.equal(released, 1);
+    assert.equal(app.busy, true);
+    checkpoint.resolve({ status: 'empty' });
+    assert.equal(await latest, false);
+    assert.equal(app.busy, false);
+    app.dispose();
+  });
+});

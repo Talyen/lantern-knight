@@ -498,6 +498,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   travel(key: string) {
     return this.withSessionOperation(async (operation) => {
       const plan = this.session.prepareFireTravel(key);
+      const cancel = () => this.publish(this.session.cancelTransition(plan));
+      operation.signal.addEventListener('abort', cancel, { once: true });
       try {
         this.publish(plan.events);
         await this.replaceRoom(
@@ -514,6 +516,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       } catch (error) {
         this.publish(this.session.cancelTransition(plan));
         throw error;
+      } finally {
+        operation.signal.removeEventListener('abort', cancel);
       }
     });
   }
