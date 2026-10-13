@@ -1,3 +1,5 @@
+import { clearSegment } from './collision';
+import { tuning } from './gameplay';
 import { artworkFloorLayout } from './floor-layout';
 import { authoredGameplay } from './authored-gameplay';
 import { resolveFixtures } from './scenery-presets';
@@ -9,6 +11,7 @@ import {
 } from './scene-document';
 import {
   supportedPosition,
+  heightAt,
   isSupportedPosition,
   type AreaDefinition,
   type PropDefinition,
@@ -150,13 +153,25 @@ export function resolveScene(
   };
   area = authoredGameplay(document, area, visuals.props);
   area.entries = [
-    ...area.entries.map((e) => (e.id === area.baselineEntry ? { ...e, ...document.hero } : e)),
-    ...(area.campfires ?? [])
-      .filter((f) => !area.entries.some((e) => e.id === 'fire-' + f.id))
-      .map((f) => ({
-        id: 'fire-' + f.id,
-        ...supportedPosition(area, { x: f.x + 0.9, z: f.z }, 0.3),
-      })),
+    ...area.entries
+      .filter((e) => !area.campfires?.some((f) => e.id === 'fire-' + f.id))
+      .map((e) => (e.id === area.baselineEntry ? { ...e, ...document.hero } : e)),
+    ...(area.campfires ?? []).map((f) => {
+      const candidate = supportedPosition(
+        area,
+        { x: f.x + Math.min(0.9, f.safeRadius / 2), z: f.z },
+        0.3,
+      );
+      const safe = (point: { x: number; z: number }) =>
+        Math.hypot(point.x - f.x, point.z - f.z) < Math.min(f.safeRadius, 1.6) &&
+        isSupportedPosition(area, point, 0.3) &&
+        Math.abs(heightAt(area, point.x, point.z) - heightAt(area, f.x, f.z)) <=
+          tuning.maxCombatHeightDifference &&
+        clearSegment(area, point, f, 0.001);
+      const existing = area.entries.find((e) => e.id === 'fire-' + f.id);
+      const point = existing && safe(existing) ? existing : safe(candidate) ? candidate : f;
+      return { id: 'fire-' + f.id, x: point.x, z: point.z };
+    }),
   ];
   return { document, area, visuals, assets: sceneAssets(visuals) };
 }

@@ -751,3 +751,51 @@ test('explicit departures enforce the prompt combat restriction in headless sess
   s.commitTransition(s.prepareTransition('depart'));
   assert.equal(s.sim.area, 'forest');
 });
+
+test('fire travel commits the destination as the fallback death checkpoint', () => {
+  const s = fixture();
+  s.discovered.add('forest/west');
+  const cancelled = s.prepareFireTravel('forest/west');
+  s.cancelTransition(cancelled);
+  assert.equal(s.lastFire, 'orchard/west');
+  s.commitTransition(s.prepareFireTravel('forest/west'));
+  assert.equal(s.lastFire, 'forest/west');
+  assert.equal(s.captureSave().adventure!.lastFire, 'forest/west');
+});
+
+for (const obstruction of ['floor', 'wall'] as const)
+  test(`automatic exits cannot cross a ${obstruction} barrier`, () => {
+    const s = changedAreas((a) => ({
+      ...a,
+      surface: obstruction === 'floor' ? stairSurface : a.surface,
+      spawns: [],
+      campfires: [],
+      interactables: [],
+      exits: a.exits.map((e) => ({
+        ...e,
+        explicit: false,
+        guards: [],
+        trigger: { minX: -1, maxX: 1, minZ: -1, maxZ: 1 },
+        marker: { x: 0, z: 0.8 },
+      })),
+      props:
+        obstruction === 'wall'
+          ? [
+              {
+                id: 'divider',
+                kind: 'wall',
+                x: 0,
+                z: 0.4,
+                radius: 0.1,
+                height: 2,
+                shape: 'box',
+                size: [2, 0.1],
+              },
+            ]
+          : [],
+    }));
+    Object.assign(s.sim.hero, { x: 0, z: -0.4, y: 0 });
+    assert.equal(s.step(idle).transition, undefined, obstruction);
+    Object.assign(s.sim.hero, { x: 0, z: 0.8, y: obstruction === 'floor' ? 2 : 0 });
+    assert.equal(s.step(idle).transition, 'depart', obstruction + ' cleared');
+  });

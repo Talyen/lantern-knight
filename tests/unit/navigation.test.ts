@@ -450,3 +450,10 @@ test('route ownership switches automatic intent immediately and preserves manual
   plans.clear();
   assert.deepEqual(plans.debug(enemy.definition.radius, false).routes, []);
 });
+
+test('automatic boundary departures still work when their marker is beyond the walking bounds', () => {
+  const registry = new ContentRegistry(structuredClone(contentDefinitions));
+  const sim = new Simulation(registry, 142, 'upper-landing');
+  Object.assign(sim.hero, { x: 0, z: 8.3, y: 0 });
+  assert.equal(sim.step().transition, 'court');
+});
