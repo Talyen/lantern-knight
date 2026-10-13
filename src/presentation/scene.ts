@@ -1,7 +1,10 @@
 import { animatedSequence } from '../assets/asset-browser';
 import type { PreparedRegistration } from '../assets/registration';
 import * as T from 'three';
-import { contract, trimmedBounds, HEADINGS, right, up, outward } from '../core/camera';
+import { cameraContract as contract } from '../assets/camera-contract';
+import { trimmedBounds } from '../assets/sprite-registration';
+import { HEADINGS } from '../content/headings';
+import { right, up, outward } from './camera';
 import { ActorSprite } from './sprite';
 import { remapWalkTime } from '../core/locomotion-timing';
 import { Animator } from '../core/animation';

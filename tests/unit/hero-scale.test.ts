@@ -4,7 +4,7 @@ import { heroFrameScales, scaleHeroRegistration } from '../../tools/assets/hero-
 import motion from '../../authoring/hero-motion.json';
 import scaleRecipe from '../../authoring/hero-scale.json';
 import { heroTimings } from '../../src/content/hero-actions';
-import { trimmedBounds } from '../../src/core/camera';
+import { trimmedBounds } from '../../src/assets/sprite-registration';
 
 test('hero review covers every clip/direction and leaves idle at its current size', () => {
   const clips = Object.entries(heroTimings).flatMap(([id, headings]) =>

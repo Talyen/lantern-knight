@@ -2,7 +2,7 @@ import * as T from 'three';
 import type { ContentSnapshot } from '../content/snapshot';
 import type { GroundInteraction, GroundRegion } from '../content/ground-interaction';
 import { artworkFloorLayout } from '../content/floor-layout';
-import { outward, right, up } from '../core/camera';
+import { outward, right, up } from './camera';
 import type { ActorSprite } from './sprite';
 type Ground = ContentSnapshot<GroundInteraction>;
 export function regionDepth(

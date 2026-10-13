@@ -250,10 +250,8 @@ describe('scene authoring contracts', () => {
 describe('scene file saving', () => {
   it('snapshots queued saves before the caller can mutate their scene', async (t) => {
     const directory = await temporaryDirectory(t, 'lantern-editor-');
-    let release!: () => void;
-    const blocked = new Promise<void>((resolve) => {
-      release = resolve;
-    });
+
+    const { promise: blocked, resolve: release } = Promise.withResolvers<void>();
     const store = new SceneStore(directory, async (d) => {
       if (d.id === 'first') await blocked;
     });

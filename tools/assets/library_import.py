@@ -1140,15 +1140,10 @@ class Importer:
                         "d90",
                         {
                             "pixels_per_unit": 256,
-                            "pivot_px": [320, 608]
-                            if actor["enemy_id"] == "CT04"
-                            else [416, 584]
-                            if actor["enemy_id"] == "CT01"
-                            else [204, 554]
-                            if actor["enemy_id"] == "SK03"
-                            else [448, 488]
-                            if actor["enemy_id"] == "ZB04"
-                            else [320, 500],
+                            "pivot_px": {
+                                "CT04": [320, 608], "CT01": [416, 584],
+                                "SK03": [204, 554], "ZB04": [448, 488],
+                            }.get(actor["enemy_id"], [320, 500]),
                         },
                     )
             self.dispositions.append(
@@ -1191,6 +1186,13 @@ class Importer:
                 continue
             runtime = self.by_name[pack["runtime_artifacts"][0]["file_name"]]
             asset = self.assets["library-" + slug(pack["actor_id"])]
+
+            def animation(data, heading):
+                self.animation(
+                    runtime, member, data, pack["actor_id"], pack["actor_name"],
+                    "character", heading, asset["clips"]["move"]["d90"]["frames"][0],
+                )
+
             # Heading metadata files are authoritative even when the handoff has no local copy.
             count = 0
             for member in sorted(runtime.names):
@@ -1206,58 +1208,19 @@ class Importer:
                     heading = next(
                         (h for h in HEADINGS if re.search(r"\b" + h + r"\b", facing)), None
                     )
-                if heading:
-                    self.animation(
-                        runtime,
-                        member,
-                        data,
-                        pack["actor_id"],
-                        pack["actor_name"],
-                        "character",
-                        HEADINGS[heading],
-                        asset["clips"]["move"]["d90"]["frames"][0],
-                    )
-                    count += 1
-                elif pack["category"] == "DR_reaction_extension":
-                    self.animation(
-                        runtime,
-                        member,
-                        data,
-                        pack["actor_id"],
-                        pack["actor_name"],
-                        "character",
-                        "d90",
-                        asset["clips"]["move"]["d90"]["frames"][0],
-                    )
+                if heading or pack["category"] == "DR_reaction_extension":
+                    animation(data, HEADINGS[heading] if heading else "d90")
                     count += 1
                 elif "directions" in data or "headings" in data:
                     for heading, hd in data.get("directions", data.get("headings")).items():
-                        self.animation(
-                            runtime,
-                            member,
-                            {**data, **hd},
-                            pack["actor_id"],
-                            pack["actor_name"],
-                            "character",
-                            HEADINGS[heading],
-                            asset["clips"]["move"]["d90"]["frames"][0],
-                        )
+                        animation({**data, **hd}, HEADINGS[heading])
                         count += 1
                 else:
                     for name, c in data["clips"].items():
                         heading = c.get("facing", name.split("_")[0])
                         if heading in HEADINGS:
                             action = c.get("action", name.removeprefix(heading + "_"))
-                            self.animation(
-                                runtime,
-                                member,
-                                {**data, "clips": {action: c}},
-                                pack["actor_id"],
-                                pack["actor_name"],
-                                "character",
-                                HEADINGS[heading],
-                                asset["clips"]["move"]["d90"]["frames"][0],
-                            )
+                            animation({**data, "clips": {action: c}}, HEADINGS[heading])
                             count += 1
             if not count:
                 raise ValueError("Unclassified enemy extension: " + runtime.spec["archive"])

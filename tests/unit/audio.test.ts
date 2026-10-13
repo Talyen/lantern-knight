@@ -387,6 +387,10 @@ test('feedback requires accepted outcomes and distinguishes damage, rest and can
   event({ kind: 'rested' });
   event({ kind: 'room-reset', reason: 'manual' });
   assert.deepEqual(calls, ['hurt', 'heal', 'ui-confirm']);
+  event({ kind: 'strike', actor: session.sim.enemies[0]!.id });
+  assert.equal(calls.at(-1), 'dodge');
+  event({ kind: 'strike' });
+  assert.equal(calls.at(-1), 'sword');
 });
 
 test('a new gesture resumes a context suspended by the host without replacing its owner', async () => {

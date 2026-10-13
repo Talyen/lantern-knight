@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import * as T from 'three';
 import { GameSession } from '../../src/core/session';
 import { Simulation } from '../../src/core/simulation';
-import { makeCamera } from '../../src/core/camera';
+import { makeCamera } from '../../src/presentation/camera';
 import { composeDraftGameplay } from '../../src/content/draft-gameplay';
 import { emptyScene } from '../../src/editor/default-scene';
 import { EditorHistory } from '../../src/editor/model';

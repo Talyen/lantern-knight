@@ -1,6 +1,6 @@
 import { OrthographicCamera, Vector3 } from 'three';
 import contract from './camera.json';
-export const HEADINGS = ['d00', 'd45', 'd90', 'd135', 'd180', 'd225', 'd270', 'd315'] as const;
+import { HEADINGS } from '../content/headings';
 export function cameraAxes(selected = contract) {
   const a = (selected.azimuthDeg * Math.PI) / 180,
     e = (selected.elevationDeg * Math.PI) / 180;

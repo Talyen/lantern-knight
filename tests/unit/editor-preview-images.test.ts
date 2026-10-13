@@ -10,11 +10,7 @@ function fixture() {
     cancelled: boolean;
   }[] = [];
   const images = new PreviewImages((source) => {
-    let resolve!: (image: HTMLImageElement) => void, reject!: (error: Error) => void;
-    const promise = new Promise<HTMLImageElement>((accept, fail) => {
-      resolve = accept;
-      reject = fail;
-    });
+    const { promise, resolve, reject } = Promise.withResolvers<HTMLImageElement>();
     const request = { source, resolve, reject, cancelled: false };
     requests.push(request);
     return {

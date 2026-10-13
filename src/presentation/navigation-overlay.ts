@@ -1,3 +1,4 @@
+import { overlayLine, clearOverlay } from './overlay-lines';
 import * as T from 'three';
 import type { SimulationView } from '../core/simulation-view';
 import type { WorldVisualDefinition } from '../content/world-visuals';
@@ -16,21 +17,12 @@ export class NavigationOverlay {
   update(sim: SimulationView, visuals?: WorldVisualDefinition) {
     if (sim.tick - this.tick < 15 && this.tick >= 0) return;
     this.tick = sim.tick;
-    this.clear();
+    clearOverlay(this.group);
     const lines = (points: readonly { x: number; z: number }[], color: number, closed = false) => {
       if (!points.length) return;
       const vertices = points.map((p) => new T.Vector3(p.x, 0.04, p.z));
       if (closed) vertices.push(vertices[0]!.clone());
-      const geometry = new T.BufferGeometry().setFromPoints(vertices),
-        material = new T.LineBasicMaterial({
-          color,
-          depthTest: false,
-          transparent: true,
-          opacity: 0.8,
-        }),
-        line = new T.Line(geometry, material);
-      line.renderOrder = 1001;
-      this.group.add(line);
+      overlayLine(this.group, vertices, color, 1001, 0.8);
     };
     if (this.options.blockers)
       for (const p of sim.areaDefinition.props) {
@@ -102,17 +94,8 @@ export class NavigationOverlay {
   invalidate() {
     this.tick = -1;
   }
-  private clear() {
-    for (const child of [...this.group.children]) {
-      this.group.remove(child);
-      if (child instanceof T.Line || child instanceof T.Points) {
-        child.geometry.dispose();
-        (child.material as T.Material).dispose();
-      }
-    }
-  }
   dispose() {
-    this.clear();
+    clearOverlay(this.group);
     this.group.removeFromParent();
   }
 }

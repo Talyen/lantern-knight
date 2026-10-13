@@ -33,34 +33,36 @@ export async function traverseScene(context: SceneContext) {
       const f = window.foundation;
       f.mode('encounter');
       f.pause(true);
-      f.sim.enemies.forEach((actor) => (actor.health = 0));
-      const h = f.sim.hero;
-      Object.assign(h, points[0], { px: points[0]!.x, pz: points[0]!.z });
-      f.sim.move(h, 0, 0);
-      for (const target of points.slice(1)) {
-        let reached = false;
-        for (let i = 0; i < 1500; i++) {
-          const dx = target.x - h.x,
-            dz = target.z - h.z,
-            d = Math.hypot(dx, dz);
-          if (d < 0.12) {
-            reached = true;
-            break;
+      f.editPreview((sim) => {
+        sim.enemies.forEach((actor) => (actor.health = 0));
+        const h = sim.hero;
+        Object.assign(h, points[0], { px: points[0]!.x, pz: points[0]!.z });
+        sim.move(h, 0, 0);
+        for (const target of points.slice(1)) {
+          let reached = false;
+          for (let i = 0; i < 1500; i++) {
+            const dx = target.x - h.x,
+              dz = target.z - h.z,
+              d = Math.hypot(dx, dz);
+            if (d < 0.12) {
+              reached = true;
+              break;
+            }
+            sim.step({ move: { x: dx / d, z: dz / d }, aim: target });
+            if (i % 30 === 0) f.presentation.update(f.sim, 1, 1000 / 60, target);
           }
-          f.sim.step({ move: { x: dx / d, z: dz / d }, aim: target });
-          if (i % 30 === 0) f.presentation.update(f.sim, 1, 1000 / 60, target);
+          if (!reached) throw new Error(`Traversal blocked before ${target.x}/${target.z}`);
         }
-        if (!reached) throw new Error(`Traversal blocked before ${target.x}/${target.z}`);
-      }
-      f.presentation.update(f.sim, 1, 0, { x: h.x + 1, z: h.z });
-      f.presentation.artConstruction.update(
-        f.sim.areaDefinition,
-        f.presentation.roomPresentation.inkRoom,
-        f.sim.generation,
-        true,
-      );
-      if (f.presentation.artConstruction.findings.length)
-        throw new Error(JSON.stringify(f.presentation.artConstruction.findings));
+        f.presentation.update(f.sim, 1, 0, { x: h.x + 1, z: h.z });
+        f.presentation.artConstruction.update(
+          f.sim.areaDefinition,
+          f.presentation.roomPresentation.inkRoom,
+          f.sim.generation,
+          true,
+        );
+        if (f.presentation.artConstruction.findings.length)
+          throw new Error(JSON.stringify(f.presentation.artConstruction.findings));
+      });
     },
     route.map(({ x, z }) => ({ x, z })),
   );
@@ -71,35 +73,37 @@ export async function checkForeground(context: SceneContext) {
   if (!art) return;
   await page.evaluate((position) => {
     const f = window.foundation;
-    Object.assign(f.sim.hero, position, { px: position.x, pz: position.z });
-    f.sim.move(f.sim.hero, 0, 0);
-    for (let i = 0; i < 30; i++)
-      f.presentation.update(f.sim, 1, 1000 / 60, {
-        x: position.x + 1,
-        z: position.z,
-      });
-    const room = f.presentation.roomPresentation.inkRoom!;
-    const materials = room.sprites.map((s) => [
-      s.material.version,
-      s.material.transparent,
-      s.material.depthWrite,
-    ]);
-    for (const delta of [0.04, 0, 0.04, 0]) {
-      f.sim.hero.z = position.z + delta;
-      f.sim.hero.pz = f.sim.hero.z;
-      f.presentation.update(f.sim, 1, 1000 / 60, {
-        x: position.x + 1,
-        z: f.sim.hero.z,
-      });
-    }
-    const current = room.sprites.map((s) => [
-      s.material.version,
-      s.material.transparent,
-      s.material.depthWrite,
-    ]);
-    if (JSON.stringify(materials) !== JSON.stringify(current))
-      throw new Error('Small foreground reversals changed shader/depth policy');
-    if (f.presentation.renderer.getContext().getError() !== 0) throw new Error('WebGL error');
+    f.editPreview((sim) => {
+      Object.assign(sim.hero, position, { px: position.x, pz: position.z });
+      sim.move(sim.hero, 0, 0);
+      for (let i = 0; i < 30; i++)
+        f.presentation.update(f.sim, 1, 1000 / 60, {
+          x: position.x + 1,
+          z: position.z,
+        });
+      const room = f.presentation.roomPresentation.inkRoom!;
+      const materials = room.sprites.map((s) => [
+        s.material.version,
+        s.material.transparent,
+        s.material.depthWrite,
+      ]);
+      for (const delta of [0.04, 0, 0.04, 0]) {
+        sim.hero.z = position.z + delta;
+        sim.hero.pz = sim.hero.z;
+        f.presentation.update(f.sim, 1, 1000 / 60, {
+          x: position.x + 1,
+          z: f.sim.hero.z,
+        });
+      }
+      const current = room.sprites.map((s) => [
+        s.material.version,
+        s.material.transparent,
+        s.material.depthWrite,
+      ]);
+      if (JSON.stringify(materials) !== JSON.stringify(current))
+        throw new Error('Small foreground reversals changed shader/depth policy');
+      if (f.presentation.renderer.getContext().getError() !== 0) throw new Error('WebGL error');
+    });
   }, foreground);
 }
 
@@ -505,8 +509,10 @@ export async function captureScene(context: SceneContext) {
           f.pause(true);
           f.presentation.verticalSpan = span;
           f.presentation.resize();
-          Object.assign(f.sim.hero, pose, { px: pose.x, pz: pose.z });
-          f.sim.move(f.sim.hero, 0, 0);
+          f.editPreview((sim) => {
+            Object.assign(sim.hero, pose, { px: pose.x, pz: pose.z });
+            sim.move(sim.hero, 0, 0);
+          });
           for (const selector of ['#modal', '.title-card', '.hud', '.actions'])
             document.querySelector<HTMLElement>(selector)!.hidden = true;
           for (let i = 0; i < 24; i++)

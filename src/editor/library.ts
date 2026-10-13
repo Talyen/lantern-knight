@@ -1,3 +1,4 @@
+import { overlayLine, clearOverlay } from '../presentation/overlay-lines';
 import type { EditorSnapshot } from './document';
 import { sceneBytesLimit } from '../content/scene-document';
 import { editorError } from './errors';
@@ -373,17 +374,17 @@ export class SceneLibrary {
       throw new Error('Scene view is unavailable; reopen the scene to recover');
     view.presentation.overlay.add(this.preview);
     for (const p of this.points) {
-      const mesh = new T.Line(
-        new T.BufferGeometry().setFromPoints([
+      overlayLine(
+        this.preview,
+        [
           new T.Vector3(p.x - 0.2, 0.12, p.z),
           new T.Vector3(p.x + 0.2, 0.12, p.z),
           new T.Vector3(p.x, 0.12, p.z),
           new T.Vector3(p.x, 0.12, p.z - 0.2),
           new T.Vector3(p.x, 0.12, p.z + 0.2),
-        ]),
-        new T.LineBasicMaterial({ color: 0x77eebb, depthTest: false }),
+        ],
+        0x77eebb,
       );
-      this.preview.add(mesh);
     }
     $<HTMLButtonElement>('pattern-apply').disabled = false;
     view.render();
@@ -414,12 +415,7 @@ export class SceneLibrary {
     );
   }
   clearPreview() {
-    for (const child of [...this.preview.children]) {
-      const line = child as T.Line;
-      line.geometry.dispose();
-      (line.material as T.Material).dispose();
-      this.preview.remove(child);
-    }
+    clearOverlay(this.preview);
     this.points = [];
     this.snapshot = '';
     this.host.view()?.render();

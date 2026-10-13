@@ -10,6 +10,7 @@
     "skipLibCheck": true,
     "lib": [
       "ES2022",
+      "ES2024.Promise",
       "DOM"
     ],
     "types": [

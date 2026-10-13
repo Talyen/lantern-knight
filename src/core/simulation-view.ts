@@ -5,6 +5,9 @@ import type { Actor, Simulation } from './simulation';
 // Simulation owns all writes; presentation may retain only its own derived state.
 export type ActorView = ContentSnapshot<Actor>;
 export interface SimulationView {
+  readonly initialSeed: number;
+  readonly maxHealth: number;
+  readonly inCombat: boolean;
   readonly tick: number;
   readonly generation: number;
   readonly area: Simulation['area'];
@@ -15,7 +18,7 @@ export interface SimulationView {
   readonly cleared: boolean;
   readonly claimedObjects: ReadonlySet<string>;
   readonly objectActions: ReadonlyMap<string, number>;
-  readonly drops: readonly import('../content/interactions').GroundDrop[];
+  readonly drops: ContentSnapshot<import('../content/interactions').GroundDrop[]>;
   readonly collectedPickups: ReadonlySet<string>;
   navigationDebug(includeCells?: boolean): ReturnType<Simulation['navigationDebug']>;
 }
@@ -24,6 +27,15 @@ export interface SimulationView {
 // Actor/collection immutability is enforced by TypeScript, as with asset pack views.
 export function simulationView(sim: Simulation): SimulationView {
   return Object.freeze({
+    get initialSeed() {
+      return sim.initialSeed;
+    },
+    get maxHealth() {
+      return sim.maxHealth;
+    },
+    get inCombat() {
+      return sim.inCombat;
+    },
     get tick() {
       return sim.tick;
     },

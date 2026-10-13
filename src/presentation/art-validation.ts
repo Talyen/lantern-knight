@@ -1,6 +1,6 @@
 import { placementOffset } from '../content/scenery-presets';
 import { Vector3, type Mesh } from 'three';
-import { right, up } from '../core/camera';
+import { right, up } from './camera';
 import type { WorldVisualDefinition } from '../content/world-visuals';
 import { isSupportedPosition, type AreaDefinition } from '../content/world';
 

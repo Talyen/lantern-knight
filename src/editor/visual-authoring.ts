@@ -1,3 +1,4 @@
+import { overlayLine, clearOverlay } from '../presentation/overlay-lines';
 import type { EditorGestures, GestureLease } from './gestures';
 import type { EditorSnapshot } from './document';
 import * as T from 'three';
@@ -681,12 +682,7 @@ export class VisualAuthoring {
       key = JSON.stringify([d, enabled, $<HTMLSelectElement>('tool').value]);
     if (key === this.key) return;
     this.key = key;
-    for (const child of [...this.group.children]) {
-      const line = child as T.Line;
-      line.geometry.dispose();
-      (line.material as T.Material).dispose();
-      this.group.remove(child);
-    }
+    clearOverlay(this.group);
     presentation.overlay.add(this.group);
     this.handles = [];
     const geometry = $<HTMLSelectElement>('tool').value === 'geometry';
@@ -696,31 +692,16 @@ export class VisualAuthoring {
       const vertices = list.map(
         (p) => new T.Vector3(p.x, heightAt(view.sim!.areaDefinition, p.x, p.z) + 0.06, p.z),
       );
-      const mesh = new T.Line(
-        new T.BufferGeometry().setFromPoints(vertices),
-        new T.LineBasicMaterial({ color, depthTest: false, transparent: true, opacity: 0.8 }),
-      );
-      mesh.renderOrder = 100;
-      this.group.add(mesh);
+      overlayLine(this.group, vertices, color, 100, 0.8);
     };
     const handle = (path: (string | number)[], p: { x: number; z: number }, label: string) => {
       this.handles.push({ path, point: p, label });
-      line(
-        [
-          { x: p.x - 0.1, z: p.z },
-          { x: p.x + 0.1, z: p.z },
-        ],
-        0xffffff,
-        false,
-      );
-      line(
-        [
-          { x: p.x, z: p.z - 0.1 },
-          { x: p.x, z: p.z + 0.1 },
-        ],
-        0xffffff,
-        false,
-      );
+      for (const axis of ['x', 'z'] as const)
+        line(
+          [-0.1, 0.1].map((offset) => ({ ...p, [axis]: p[axis] + offset })),
+          0xffffff,
+          false,
+        );
     };
     const box = (b: typeof bounds, color: number) =>
       line(
@@ -829,7 +810,6 @@ export class VisualAuthoring {
         this.drag = undefined;
       });
       if (lease.active) this.drag = { path: candidates[0].h.path, pointer: e.pointerId, lease };
-      return true;
     }
     return true;
   }
@@ -841,22 +821,15 @@ export class VisualAuthoring {
     const point = this.host.view().ground(e.clientX, e.clientY);
     if (!point || e.type === 'pointercancel' || e.type === 'lostpointercapture') return true;
     const path = drag.path;
-    if (path.at(-1) === 'min' || path.at(-1) === 'max') {
-      const axis = path.at(-1)!;
-      const base = path.slice(0, -1);
-      void this.host
-        .change((d) => {
-          write(d, [...base, axis + 'X'], point.x);
-          write(d, [...base, axis + 'Z'], point.z);
-        })
-        .catch(console.error);
-    } else
-      void this.host
-        .change((d) => {
-          write(d, [...path, 'x'], point.x);
-          write(d, [...path, 'z'], point.z);
-        })
-        .catch(console.error);
+    const edge = path.at(-1),
+      bounds = edge === 'min' || edge === 'max',
+      base = bounds ? path.slice(0, -1) : path;
+    void this.host
+      .change((d) => {
+        write(d, [...base, bounds ? edge + 'X' : 'x'], point.x);
+        write(d, [...base, bounds ? edge + 'Z' : 'z'], point.z);
+      })
+      .catch(console.error);
     return true;
   }
   pointerCancel(e: PointerEvent) {
@@ -864,11 +837,7 @@ export class VisualAuthoring {
   }
   dispose() {
     this.drag?.lease.cancel();
-    for (const child of this.group.children) {
-      const line = child as T.Line;
-      line.geometry.dispose();
-      (line.material as T.Material).dispose();
-    }
+    clearOverlay(this.group);
     this.group.removeFromParent();
   }
 }

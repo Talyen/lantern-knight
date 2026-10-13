@@ -2,48 +2,16 @@ import { worldVisuals } from '../fixtures/visuals';
 import { readAsset } from '../../tools/assets/io';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { execFileSync } from 'node:child_process';
 import { Texture, MeshBasicMaterial } from 'three';
 import { parseManifest, resolveClip } from '../../src/assets/schema';
 import { ActorSprite, setCutoutOpacity } from '../../src/presentation/sprite';
-import { drawingBufferSize } from '../../src/core/camera';
+import { drawingBufferSize } from '../../src/presentation/camera';
 import { sceneAssets, validateAreaArt } from '../../src/content/world-visuals';
 import { assetCatalog } from '../../src/content/asset-catalog';
 import { content } from '../fixtures/content';
 async function manifest(id: string) {
   return parseManifest(JSON.parse(await readAsset('public/' + assetCatalog[id]!, 'utf8')));
 }
-
-test('collection importer checks hashes, identical duplicates, unsafe paths and conflicts before writing', () => {
-  const script = `import sys,importlib.util,tempfile,pathlib,json,zipfile,hashlib
-sys.dont_write_bytecode=True
-spec=importlib.util.spec_from_file_location('importer','tools/assets/import-ink.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
-with tempfile.TemporaryDirectory() as tmp:
- p=pathlib.Path(tmp).resolve();m.DEST=p/'out'
- def setup(names):
-  archives=[]
-  for i,members in enumerate(names):
-   name=f'pack{i}.zip'
-   with zipfile.ZipFile(p/name,'w') as z:
-    for key,data in members.items():z.writestr(key,data)
-   data=(p/name).read_bytes();archives.append({'file_name':name,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()})
-  with zipfile.ZipFile(p/'Lantern_Revision02_Quality_Notes.zip','w'):pass
-  (p/'Lantern_Revision02_Asset_Index.json').write_text(json.dumps({'frozen':True,'archives':archives}))
- setup([{'art/test.txt':b'same'},{'art/test.txt':b'same'}]);_,_,entries=m.collect(p);assert len(entries['art/test.txt']['archives'])==2;assert not m.DEST.exists()
- for members in [[{'../escape':b'bad'}],[{'art/test.txt':b'a'},{'art/test.txt':b'b'}],[{'art/Test.txt':b'a'},{'art/test.txt':b'a'}]]:
-  setup(members)
-  try:m.collect(p)
-  except ValueError:pass
-  else:raise AssertionError('unsafe archive accepted')
-  assert not m.DEST.exists()
- setup([{'art/test.txt':b'valid'}]);(p/'pack0.zip').write_bytes(b'changed')
- try:m.collect(p)
- except ValueError:pass
- else:raise AssertionError('hash mismatch accepted')
- assert not m.DEST.exists()
-`;
-  execFileSync('python3', ['-c', script], { stdio: 'pipe' });
-});
 
 test('room visuals validate their dependencies and clips before a transition commits', async () => {
   const area = content.area('court'),

@@ -1,7 +1,8 @@
-import type { Command } from './simulation';
-import { walkablePoint, screenMovement, contract } from './camera';
-import type { Actor } from './simulation';
-import type { AreaDefinition } from '../content/world';
+import { cameraContract as contract } from './assets/camera-contract';
+import type { Command } from './core/simulation';
+import { walkablePoint, screenMovement } from './presentation/camera';
+import type { Actor } from './core/simulation';
+import type { AreaDefinition } from './content/world';
 import type { OrthographicCamera } from 'three';
 export class Input {
   keys = new Set<string>();

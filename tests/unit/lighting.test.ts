@@ -17,7 +17,8 @@ import { heightAt } from '../../src/content/world';
 import { content } from '../fixtures/content';
 import { ActorSprite } from '../../src/presentation/sprite';
 import { heroLanternPosition } from '../../src/presentation/hero-lantern';
-import { makeCamera, right, up, contract } from '../../src/core/camera';
+import { makeCamera, right, up } from '../../src/presentation/camera';
+import { cameraContract as contract } from '../../src/assets/camera-contract';
 import { Vector3, Texture } from 'three';
 
 test('authored sun is fixed as the view moves and removing it restores the rig', () => {

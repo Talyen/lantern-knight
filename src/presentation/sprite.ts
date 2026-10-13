@@ -8,7 +8,8 @@ import {
   type Texture,
   type Material,
 } from 'three';
-import { trimmedBounds, contract } from '../core/camera';
+import { trimmedBounds } from '../assets/sprite-registration';
+import { cameraContract as contract } from '../assets/camera-contract';
 import { Animator } from '../core/animation';
 import type { Manifest, Frame, Clip } from '../assets/schema';
 import {

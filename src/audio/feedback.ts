@@ -31,7 +31,8 @@ export class AudioFeedback {
       // Strike is the fixed action-contact time for both supplied hero clips and
       // enemies. Do not also play their visual whoosh notify.
       case 'strike':
-        play('sword');
+        // The current ossuary thrall is unarmed; its motion has no metal ring.
+        play(actor?.kind === 'enemy' ? 'dodge' : 'sword');
         break;
       case 'flare':
         play('flare');

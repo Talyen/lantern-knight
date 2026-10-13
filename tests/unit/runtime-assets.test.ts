@@ -87,22 +87,13 @@ test('both manifest entry paths reject mismatched identity before decoding and p
   }
 });
 
-function deferred<T>() {
-  let resolve!: (value: T) => void, reject!: (reason: Error) => void;
-  const promise = new Promise<T>((done, fail) => {
-    resolve = done;
-    reject = fail;
-  });
-  return { promise, resolve, reject };
-}
-
 for (const cancelled of [false, true]) {
   test(`${cancelled ? 'cancelled' : 'failed'} pack batches release claims before late peers settle`, async () => {
     const ready = manifestFixture('ready'),
       late = manifestFixture('late');
     late.pages[0]!.hash = 'c'.repeat(64);
-    const pendingTexture = deferred<Texture>(),
-      pendingManifest = deferred<Response>(),
+    const pendingTexture = Promise.withResolvers<Texture>(),
+      pendingManifest = Promise.withResolvers<Response>(),
       destroyed: Texture[] = [],
       texture = new Texture(),
       lateTexture = new Texture(),

@@ -9,12 +9,12 @@ import {
   outward,
   resizeCamera,
   groundPoint,
-  selectDirection,
   screenMovement,
-  trimmedBounds,
-  calibrationFixture,
-  contract,
-} from '../../src/core/camera';
+} from '../../src/presentation/camera';
+import { selectDirection } from '../../src/content/headings';
+import { trimmedBounds } from '../../src/assets/sprite-registration';
+import { cameraCalibration } from '../../src/assets/camera-calibration';
+import { cameraContract as contract } from '../../src/assets/camera-contract';
 import { Animator, frameAt } from '../../src/core/animation';
 import { Simulation, FixedClock } from '../../src/core/simulation';
 import { tuning } from '../../src/content/gameplay';
@@ -50,7 +50,7 @@ test('camera projection/unprojection accounts for canvas offset and both aspect 
     }
     approx(camera.top - camera.bottom, contract.verticalSpan);
   }
-  const fixture = calibrationFixture();
+  const fixture = cameraCalibration(contract);
   assert.ok(fixture.headings[1]!.screenVector[1]! > 0);
   assert.ok(fixture.headings[5]!.screenVector[1]! < 0);
   assert.equal(fixture.view.length, 16);

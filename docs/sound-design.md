@@ -7,7 +7,7 @@ Grounded dark fantasy: natural foley, restrained lantern magic, quiet woodland a
 | Game behavior | Prepared cue families | Source direction |
 | --- | --- | --- |
 | Actual walking | step-grass, step-dirt, step-stone, step-wood, cloth | Four variants per surface; quiet clothing rustle. Orchard uses grass, clearing uses dirt; developer interiors default to stone. |
-| Sweep/lunge and enemy attacks | sword | Three supplied sword attacks at the fixed action-contact tick, including misses. |
+| Sweep/lunge and enemy attacks | sword, dodge | Three supplied sword attacks at the fixed action-contact tick, including misses; dry cloth motion for the unarmed thrall. |
 | Confirmed hits, stagger, death | impact, hurt, bone, death | Three sword contacts, hero body-hit grunts, two bone cracks; restrained harpsichord defeat accent for the hero. |
 | Dodge and equipment | dodge, armor, equip, unequip | Cloth/leather movement and sheath foley; inventory cues only after a real accepted change. |
 | Lantern flare and potion | flare, potion, heal | Three fireball accents, three small liquid movements, subtle healing accent. |

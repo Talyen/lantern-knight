@@ -83,33 +83,23 @@ export async function runScenario(flags: string[] = []) {
     assert.deepEqual(errors, []);
     if (run.capture) await page.screenshot({ path: path.join(output, 'player-options.png') });
     await fs.rm(path.join(output, 'failure.json'), { force: true });
-    await fs.writeFile(
-      path.join(output, 'report.json'),
-      JSON.stringify(
-        {
-          passed: true,
-          changes,
-          checks: [
-            'zoom, render quality and effect preferences survive reload',
-            'dry weather independent of rain preference',
-            'effect preferences accept changes in an empty scene',
-            'settings persist without checkpoint',
-            'reload restores preferences',
-            'no experiment controls or inspection API',
-          ],
-          limitations: ['Hidden-window package smoke does not measure visible display pacing'],
-        },
-        null,
-        2,
-      ),
-    );
+    await run.writeReport('report.json', {
+      passed: true,
+      changes,
+      checks: [
+        'zoom, render quality and effect preferences survive reload',
+        'dry weather independent of rain preference',
+        'effect preferences accept changes in an empty scene',
+        'settings persist without checkpoint',
+        'reload restores preferences',
+        'no experiment controls or inspection API',
+      ],
+      limitations: ['Hidden-window package smoke does not measure visible display pacing'],
+    });
     console.log('PASS: player visual options, persistence and dry-weather behavior');
   } catch (error) {
     await page.screenshot({ path: path.join(output, 'failure.png') }).catch(() => {});
-    await fs.writeFile(
-      path.join(output, 'failure.json'),
-      JSON.stringify({ error: String(error), errors, changes }, null, 2),
-    );
+    await run.writeReport('failure.json', { error: String(error), errors, changes });
     throw error;
   } finally {
     await run.close();

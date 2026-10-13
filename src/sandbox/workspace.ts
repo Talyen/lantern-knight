@@ -5,7 +5,7 @@ import { effectLabels } from '../content/effects-playground';
 import { visualEffectLabels } from '../content/visual-effects';
 import { animationTreatments } from '../core/animation-treatment';
 import { walkTimings } from '../core/locomotion-timing';
-import { HEADINGS } from '../core/camera';
+import { HEADINGS } from '../content/headings';
 
 export const fixtures = [
   'outdoor-fixture',

@@ -2,7 +2,7 @@ import * as T from 'three';
 import { ActorSprite } from './sprite';
 import { resolveClip } from '../assets/schema';
 import { frameAt, clipDuration } from '../core/animation';
-import { right, up } from '../core/camera';
+import { right, up } from './camera';
 import type { AssetPack } from '../assets/loader';
 import type { Bounds } from '../content/world';
 import { normalizeWeather, type WeatherState } from '../content/visual-effects';

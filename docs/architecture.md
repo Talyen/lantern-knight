@@ -21,7 +21,7 @@ Editor startup failure uses the same complete shutdown path as normal disposal. 
 
 SceneContent binds scene composition and asset requirements to the ContentRegistry that produced them. Application owns the active session and SceneContent together; its registry, checkpoint validation and New Game derive from that binding. Switching registries requires a read-only application; developer hosts provide storage-free bridges. Game retains the registry selected by its storage adapter.
 
-Application exposes a frozen SessionView for inspection and checkpoint capture, keeping GameSession's replacement commands private to its owner. Developer replacements submit SceneContent and a new-session specification or checkpoint; Application constructs the matching GameSession, assigns its generation and creates feedback before acquisition. Checkpoints are validated and detached at admission. New-session preparation may configure preview actors synchronously; it cannot choose room identity or generation. The public API never transfers a caller-owned GameSession into the active application.
+Application exposes a frozen SessionView for inspection and checkpoint capture, keeping GameSession's replacement commands private to its owner. Its `sim` property borrows the stable SimulationView, with no gameplay command methods and deeply read-only actor, drop and collection types. Ordinary hosts execute gameplay through Application, which steps its owned Simulation and executes player interactions. Developer controls and inspection tools use synchronous `editPreview` callbacks, admitted only in a read-only application with an accepted room and no loading work or pending session operation; disposal closes that admission. Developer step hooks and new-session preparation retain explicit mutable access for fixture setup and replay. Borrowed views remain tied to their original room after replacement. Developer replacements submit SceneContent and a new-session specification or checkpoint; Application constructs the matching GameSession, assigns its generation and creates feedback before acquisition. Checkpoints are validated and detached at admission. New-session preparation may configure preview actors synchronously; it cannot choose room identity or generation. The public API never transfers a caller-owned GameSession into the active application.
 
 Application startup owns one resource graph and frame scheduler for its lifetime. Concurrent, reentrant and repeated `boot()` calls share the same startup promise. Failure closes the application and its acquired resources; retry creates a new Application. Disposal stops waiting for host settings and observes but discards late results. Asset acquisitions still settle and release late leases.
 
@@ -36,6 +36,12 @@ GameSession owns simulation, inventory, visited areas, discovery and counters in
 Room replacement has a separate acceptance barrier. Before committing gameplay changes, Application revokes room acceptance; committing a generation immediately aborts old event feedback. Acceptance returns only after renderer rebuilding and companion preparation both succeed under the current operation. A failure after commit pauses the application and blocks simulation steps, renderer updates, resume and checkpoint writes until a successful Reset, Load, Restore, New Game or developer room replacement. An empty Load does not recover the room. Failures before commit preserve the previous accepted room. Asset leases remain owned through failed rebuilding as described below; recovery does not roll back committed gameplay.
 
 ## Scene content
+
+### Direction, camera and input ownership
+
+`src/content/headings.ts` owns world-yaw heading identifiers and selection, shared by combat, authored action timing and asset clips. Gameplay never loads camera calibration or asset delivery at runtime; animation helpers may borrow type-only clip contracts. `src/assets/camera-contract.ts` binds baked projection to runtime framing, `src/assets/camera-calibration.ts` owns preparation calibration, and `src/assets/sprite-registration.ts` maps source trim rectangles around their anchors. Asset validation consumes these definitions directly.
+
+`src/presentation/camera.ts` owns Three.js camera construction, viewport constraints, projection and screen-relative movement. `src/input.ts` adapts DOM input and pointer projection into gameplay commands under Application's lifetime. Rendering and browser input do not live in the gameplay model. Camera and direction algorithms remain shared across Game, editor and preview consumers through their respective owners.
 
 ### Content acceptance
 
@@ -125,7 +131,7 @@ Preview sessions own server acquisition, identity checks and lease release once.
 
 ## Import boundaries
 
-`npm run architecture:check` protects browser/runtime imports, the pure gameplay model and presentation direction, including type imports and literal dynamic imports. Runtime code uses the Bridge/browser adapter rather than importing Node, Electron, tests or tools. Core cannot import live scenes or art composition. Keep any exception narrow and explain its actual consumer.
+`npm run architecture:check` protects browser/runtime imports, the pure gameplay model and presentation direction, including type imports and literal dynamic imports. Runtime code uses the Bridge/browser adapter rather than importing Node, Electron, tests or tools. Core cannot import live scenes or art composition. Core runtime imports cannot load asset modules; shared heading rules belong to content, while type-only animation clip contracts remain allowed. Keep any exception narrow and explain its actual consumer.
 
 ## Change recipes
 

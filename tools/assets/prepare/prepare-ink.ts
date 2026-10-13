@@ -5,7 +5,7 @@ import { hash } from '../../compiler';
 import type { Source } from '../../../src/assets/schema';
 import { sceneryRegistration } from '../../../src/content/scenery-registration';
 import contract from '../../../src/assets/camera.json';
-import { HEADINGS } from '../../../src/assets/camera-calibration';
+import { HEADINGS } from '../../../src/content/headings';
 import type { PreparationContext } from '../context';
 import { preparationOutput } from '../preparation-output';
 export async function prepare(context: PreparationContext, check = false) {

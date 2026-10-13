@@ -1,7 +1,6 @@
 """Filesystem recovery integration tests; all rearrangements stay in temp fixtures."""
 
 import hashlib
-import importlib.util
 import io
 import json
 import os
@@ -335,44 +334,14 @@ class Recovery(unittest.TestCase):
             child.stdout.close()
             child.stderr.close()
 
-    def test_moved_archive_import_preflight_preserves_logical_receipt(self):
-        spec = importlib.util.spec_from_file_location(
-            "importer", PROJECT / "tools/assets/import-ink.py"
-        )
-        importer = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(importer)
-        importer.DEST = self.base / "out"
-        frozen = json.dumps(
-            {"frozen": True, "archives": [{"file_name": "pack.zip", **identity(self.archive)}]}
-        ).encode()
-        quality = io.BytesIO()
-        with zipfile.ZipFile(quality, "w"):
-            pass
-        self.index["archives"]["Lantern_Revision02_Quality_Notes.zip"] = identity(
-            quality.getvalue()
-        )
-        self.index["files"]["ink-collection-01"] = {
-            "collection/Lantern_Revision02_Asset_Index.json": identity(frozen)
-        }
-        (self.root / "Lantern_Revision02_Asset_Index.json").write_bytes(frozen)
-        (self.root / "Lantern_Revision02_Quality_Notes.zip").write_bytes(quality.getvalue())
-        before = importer.collect(self.root, self.resolver())
-        self.move(self.root / "pack.zip", self.documents / "moved/archive.bin")
-        self.move(
-            self.root / "Lantern_Revision02_Asset_Index.json",
-            self.documents / "moved/index-renamed",
-        )
-        self.move(
-            self.root / "Lantern_Revision02_Quality_Notes.zip",
-            self.documents / "moved/quality-renamed",
-        )
-        after = importer.collect(self.root, self.resolver())
-        self.assertEqual(before, after)
-        self.assertFalse(importer.DEST.exists())
-        self.assertEqual(
-            hashlib.sha256((self.documents / "moved/archive.bin").read_bytes()).hexdigest(),
-            identity(self.archive)["sha256"],
-        )
+    def test_moved_archive_health_check_preserves_registered_identities(self):
+        before = self.index.copy()
+        self.assertEqual(check_sources(self.root, self.index), 3)
+        moved = self.move(self.root / "pack.zip", self.documents / "moved/archive.bin")
+        resolver = self.resolver()
+        self.assertEqual(resolver.read("archive:pack.zip"), self.archive)
+        self.assertEqual(self.index, before)
+        self.assertEqual(identity(moved.read_bytes()), identity(self.archive))
 
 
 if __name__ == "__main__":

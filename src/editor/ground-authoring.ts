@@ -2,7 +2,7 @@ import type { EditorGestures, GestureLease } from './gestures';
 import { brushMask } from './mask-contours';
 import { GroundProfileSchema, restoreGroundProfile } from '../content/ground-profile';
 import * as T from 'three';
-import { groundPoint } from '../core/camera';
+import { groundPoint } from '../presentation/camera';
 import { artworkFloorLayout } from '../content/floor-layout';
 import type { GroundRegion, MaskShape } from '../content/ground-interaction';
 import {
@@ -14,6 +14,14 @@ import type { Manifest } from '../assets/schema';
 import type { EditorView } from './view';
 const ns = 'http://www.w3.org/2000/svg';
 type UV = [number, number];
+function paddedBox([a, b, c, d]: readonly number[], padding: number) {
+  return [
+    Math.max(0, a! - padding),
+    Math.max(0, b! - padding),
+    Math.min(1, c! + padding),
+    Math.min(1, d! + padding),
+  ];
+}
 type Candidate = {
   name: string;
   box: [number, number, number, number];
@@ -79,17 +87,11 @@ export class GroundAuthoring {
     assistance.id = 'ground-assistance';
     assistance.innerHTML =
       '<summary>AI assistance</summary><p>Proposals need review. Accepting a silhouette does not create collision or validate depth.</p><button data-ground-mode="ai-box">Select with AI box</button><button data-ground-mode="ai-point">Select with AI clicks</button><button id="ground-refine-prepared" data-ground-mode="brush-erase">Refine prepared mask</button>';
-    this.panel.querySelector('#ground-painting-tools')!.append(assistance);
-    assistance.append(
-      this.panel.querySelector('#ground-refine')!,
-      this.panel.querySelector('#ground-ai-state')!,
-    );
-    const actions = this.panel.querySelector('.region-menu')!;
-    actions.append(
-      this.panel.querySelector('#ground-duplicate')!,
-      this.panel.querySelector('#ground-delete')!,
-    );
-    const overlays = this.panel.querySelector('#ground-show-blockers')!.closest('fieldset')!;
+    this.field('#ground-painting-tools').append(assistance);
+    assistance.append(this.field('#ground-refine'), this.field('#ground-ai-state'));
+    const actions = this.field('.region-menu');
+    actions.append(this.field('#ground-duplicate'), this.field('#ground-delete'));
+    const overlays = this.field('#ground-show-blockers').closest('fieldset')!;
     const overlayDetails = document.createElement('details');
     overlayDetails.innerHTML = '<summary>Overlays</summary>';
     overlays.replaceWith(overlayDetails);
@@ -99,7 +101,7 @@ export class GroundAuthoring {
     const profileDetails = document.createElement('details');
     profileDetails.innerHTML = '<summary>Saved interaction profiles</summary>';
     profileDetails.append(profiles);
-    this.panel.querySelector('#ground-painting-tools')!.append(profileDetails);
+    this.field('#ground-painting-tools').append(profileDetails);
     profiles.querySelector<HTMLButtonElement>('#ground-load-profiles')!.onclick = () =>
       void this.loadProfiles().catch((e) => this.host.status(String(e), true));
     profiles.querySelector<HTMLButtonElement>('#ground-restore-profile')!.onclick = () =>
@@ -111,7 +113,7 @@ export class GroundAuthoring {
     this.svg.classList.add('ground-overlay');
     this.svg.setAttribute('aria-hidden', 'true');
     canvas.parentElement!.append(this.svg);
-    const $ = <E extends HTMLElement>(id: string) => this.panel.querySelector<E>('#' + id)!;
+    const $ = <E extends HTMLElement>(id: string) => this.field<E>('#' + id);
     $('ground-test-movement').onclick = () => {
       this.cancel();
       document.getElementById('test-movement')!.click();
@@ -278,13 +280,38 @@ export class GroundAuthoring {
       { capture: true, signal },
     );
   }
+  private field<E extends HTMLElement = HTMLElement>(selector: string) {
+    return this.panel.querySelector<E>(selector)!;
+  }
+  private async selectionJob(
+    work: (signal: AbortSignal, current: () => boolean, state: HTMLElement) => Promise<void>,
+    report = false,
+  ) {
+    this.abort?.abort();
+    const abort = new AbortController(),
+      request = ++this.request,
+      document = this.host.document(),
+      state = this.field('#ground-ai-state');
+    this.abort = abort;
+    const current = () =>
+      request === this.request && !abort.signal.aborted && document === this.host.document();
+    try {
+      await work(abort.signal, current, state);
+    } catch (error) {
+      if (current()) {
+        state.textContent = String(error);
+        if (report) this.host.status(String(error), true);
+      }
+    } finally {
+      if (request === this.request) this.abort = undefined;
+    }
+  }
   private region() {
     return this.host.document().groundInteraction?.regions.find((r) => r.id === this.selected);
   }
   private updateName() {
     const r = this.region();
-    this.panel.querySelector<HTMLInputElement>('#ground-region-name')!.value =
-      r?.name ?? 'Ground region';
+    this.field<HTMLInputElement>('#ground-region-name').value = r?.name ?? 'Ground region';
     this.refreshTools();
   }
   private uv(e: PointerEvent): UV | undefined {
@@ -295,6 +322,14 @@ export class GroundAuthoring {
     if (!world) return;
     const [u, v] = artworkFloorLayout(d.floor.width, d.floor.depth).uv(world);
     return [Math.max(0, Math.min(1, u)), Math.max(0, Math.min(1, v))];
+  }
+  private beginGesture(e: PointerEvent, uv: UV) {
+    this.gesture = [uv];
+    this.pointer = e.pointerId;
+    this.gestureLease = this.host.gestures.begin(this.canvas, e.pointerId, () => this.cancel());
+    if (this.gestureLease.active) return true;
+    this.cancel();
+    return false;
   }
   private down(e: PointerEvent) {
     if (
@@ -353,14 +388,8 @@ export class GroundAuthoring {
           );
       }
       if (!this.vertex) return;
-      this.gesture = [uv];
-      this.pointer = e.pointerId;
-      this.gestureLease = this.host.gestures.begin(this.canvas, e.pointerId, () => this.cancel());
-      if (!this.gestureLease.active) {
-        this.cancel();
-        return;
-      }
-      this.panel.querySelector<HTMLSelectElement>('#ground-region')!.value = this.selected;
+      if (!this.beginGesture(e, uv)) return;
+      this.field<HTMLSelectElement>('#ground-region').value = this.selected;
       this.updateName();
       e.preventDefault();
       e.stopImmediatePropagation();
@@ -370,13 +399,7 @@ export class GroundAuthoring {
     e.stopImmediatePropagation();
     this.canvas.focus();
     if (this.mode === 'ai-box' || this.mode.startsWith('brush')) {
-      this.gesture = [uv];
-      this.pointer = e.pointerId;
-      this.gestureLease = this.host.gestures.begin(this.canvas, e.pointerId, () => this.cancel());
-      if (!this.gestureLease.active) {
-        this.cancel();
-        return;
-      }
+      if (!this.beginGesture(e, uv)) return;
     } else if (this.mode === 'anchor') {
       const d = this.host.document(),
         world = artworkFloorLayout(d.floor.width, d.floor.depth).world(uv);
@@ -449,7 +472,7 @@ export class GroundAuthoring {
           mask,
           dimensions,
           points,
-          Number(this.panel.querySelector<HTMLInputElement>('#ground-brush-radius')!.value),
+          Number(this.field<HTMLInputElement>('#ground-brush-radius').value),
           this.mode === 'brush-erase',
         );
         if (this.proposal) {
@@ -467,26 +490,13 @@ export class GroundAuthoring {
     }
   }
   private commit(work: (r: GroundRegion) => void, committed?: () => void) {
-    const name = this.panel.querySelector<HTMLInputElement>('#ground-region-name')!.value;
+    const name = this.field<HTMLInputElement>('#ground-region-name').value;
     const requested = this.selected;
     let selected = requested;
     void this.host
       .change(
         (d) => {
-          if (!d.groundInteraction) {
-            const m = this.host.manifest();
-            if (!m) throw new Error('Ground artwork is not ready');
-            const frame = m.asset.clips[d.floor.clip ?? 'still']?.d45?.frames[0];
-            if (!frame) throw new Error('Ground needs a still frame');
-            d.groundInteraction = {
-              asset: m.asset.id,
-              frame,
-              hash: m.pages.find((p) => p.id === m.frames.find((f) => f.id === frame)?.page)!.hash,
-              dimensions: [...m.asset.canvas],
-              regions: [],
-              destinations: [],
-            };
-          }
+          d.groundInteraction ??= { ...this.selectionIdentity(), regions: [], destinations: [] };
           let r = d.groundInteraction.regions.find((v) => v.id === requested);
           if (!r) {
             r = { id: 'region-' + crypto.randomUUID(), name };
@@ -544,66 +554,32 @@ export class GroundAuthoring {
       return;
     }
   }
-  private async infer() {
-    this.abort?.abort();
-    const abort = new AbortController();
-    this.abort = abort;
-    const request = ++this.request,
-      d = this.host.document(),
-      m = this.host.manifest();
-    if (!m) return;
-    const frame = m.asset.clips[d.floor.clip ?? 'still']?.d45?.frames[0];
-    const focus =
-      this.box ??
-      (this.prompts.length
-        ? [
-            this.prompts[0]!.uv[0] - 0.1,
-            this.prompts[0]!.uv[1] - 0.1,
-            this.prompts[0]!.uv[0] + 0.1,
-            this.prompts[0]!.uv[1] + 0.1,
-          ]
-        : undefined);
-    if (!focus) {
-      this.host.status('Draw an AI box or add a selection point first.', true);
-      this.abort = undefined;
-      return;
-    }
-    const crop = focus
-      ? [
-          Math.max(0, focus[0]! - 0.03),
-          Math.max(0, focus[1]! - 0.03),
-          Math.min(1, focus[2]! + 0.03),
-          Math.min(1, focus[3]! + 0.03),
-        ]
-      : [0, 0, 1, 1];
-    const state = this.panel.querySelector('#ground-ai-state')!;
-    state.textContent = 'Local selection: loading / processing…';
-    try {
+  private infer() {
+    return this.selectionJob(async (signal, current, state) => {
+      const { dimensions: _dimensions, ...identity } = this.selectionIdentity();
+      const focus =
+        this.box ??
+        (this.prompts.length
+          ? paddedBox([...this.prompts[0]!.uv, ...this.prompts[0]!.uv], 0.1)
+          : undefined);
+      if (!focus) throw new Error('Draw an AI box or add a selection point first.');
+      state.textContent = 'Local selection: loading / processing…';
       const result = await this.host.request(
         {
-          asset: m.asset.id,
-          frame,
-          hash: m.pages.find((p) => p.id === m.frames.find((f) => f.id === frame)?.page)!.hash,
-          crop,
+          ...identity,
+          crop: paddedBox(focus, 0.03),
           box: this.box,
           points: this.prompts,
         },
-        abort.signal,
+        signal,
       );
-      if (request !== this.request || abort.signal.aborted || d !== this.host.document()) return;
+      if (!current()) return;
       const candidate = this.candidates.find((c) => c.box === this.box);
       if (candidate) candidate.mask = result.mask;
       this.proposal = result.mask;
       state.textContent = `Selection ready · ${result.device} · ${Math.round(result.milliseconds)} ms. Review, then accept.`;
       this.signature = '';
-    } catch (e) {
-      if (!abort.signal.aborted) {
-        state.textContent = String(e);
-        this.host.status(String(e), true);
-      }
-    } finally {
-      if (request === this.request) this.abort = undefined;
-    }
+    }, true);
   }
   private selectionIdentity() {
     const d = this.host.document(),
@@ -639,7 +615,7 @@ export class GroundAuthoring {
       error?: string;
     }[];
     profiles.sort((a, b) => Number(b.hash === identity.hash) - Number(a.hash === identity.hash));
-    this.panel.querySelector<HTMLSelectElement>('#ground-profile')!.replaceChildren(
+    this.field<HTMLSelectElement>('#ground-profile').replaceChildren(
       new Option('Choose a saved revision', ''),
       ...profiles.map((p) => {
         const option = new Option(
@@ -654,7 +630,7 @@ export class GroundAuthoring {
     this.host.status(`${profiles.length} saved interaction revisions available.`);
   }
   private async restoreProfile() {
-    const id = this.panel.querySelector<HTMLSelectElement>('#ground-profile')!.value;
+    const id = this.field<HTMLSelectElement>('#ground-profile').value;
     if (!id) throw new Error('Choose a saved interaction revision first.');
     const d = this.host.document(),
       identity = this.selectionIdentity();
@@ -668,7 +644,7 @@ export class GroundAuthoring {
       GroundProfileSchema.parse(data.profile),
       identity,
       d.floor,
-      this.panel.querySelector<HTMLInputElement>('#ground-profile-review')!.checked,
+      this.field<HTMLInputElement>('#ground-profile-review').checked,
     );
     await this.host.change((draft) => {
       draft.groundInteraction = interaction;
@@ -679,17 +655,15 @@ export class GroundAuthoring {
   }
   private reviewCandidate() {
     const candidate =
-      this.candidates[
-        Number(this.panel.querySelector<HTMLSelectElement>('#ground-candidate')!.value)
-      ];
+      this.candidates[Number(this.field<HTMLSelectElement>('#ground-candidate').value)];
     this.proposal = candidate?.mask;
     this.box = candidate?.box;
-    this.panel.querySelector<HTMLInputElement>('#ground-candidate-included')!.checked =
+    this.field<HTMLInputElement>('#ground-candidate-included').checked =
       candidate?.included ?? false;
     this.signature = '';
   }
   private refreshCandidates() {
-    const select = this.panel.querySelector<HTMLSelectElement>('#ground-candidate')!;
+    const select = this.field<HTMLSelectElement>('#ground-candidate');
     select.replaceChildren(
       ...this.candidates.map(
         (c, i) =>
@@ -701,67 +675,46 @@ export class GroundAuthoring {
     );
     this.reviewCandidate();
   }
-  private async findScenery() {
+  private findScenery() {
     this.cancel(true);
-    const abort = new AbortController(),
-      request = ++this.request,
-      d = this.host.document();
-    this.abort = abort;
-    const state = this.panel.querySelector('#ground-ai-state')!;
-    state.textContent = 'Finding scenery locally… Cancel selection stops this job.';
-    try {
+    return this.selectionJob(async (signal, current, state) => {
+      state.textContent = 'Finding scenery locally… Cancel selection stops this job.';
+      const document = this.host.document();
       const { dimensions: _dimensions, ...identity } = this.selectionIdentity();
       const result = await this.host.request(
         {
           ...identity,
           crop: [0, 0, 1, 1],
           operation: 'detect',
-          text: this.panel.querySelector<HTMLInputElement>('#ground-find-text')!.value,
+          text: this.field<HTMLInputElement>('#ground-find-text').value,
         },
-        abort.signal,
+        signal,
       );
-      if (request !== this.request || abort.signal.aborted || d !== this.host.document()) return;
+      if (!current()) return;
       this.candidates = (result.candidates ?? []).map((c) => ({ ...c, included: true }));
-      this.batchDocument = d;
+      this.batchDocument = document;
       this.refreshCandidates();
       state.textContent = `${this.candidates.length} scenery proposals · ${result.device} · ${result.milliseconds} ms. Prepare masks, review duplicates and missed objects.`;
-    } catch (e) {
-      if (!abort.signal.aborted) state.textContent = String(e);
-    } finally {
-      if (request === this.request) this.abort = undefined;
-    }
+    });
   }
-  private async prepareScenery() {
-    this.abort?.abort();
-    const abort = new AbortController(),
-      request = ++this.request,
-      d = this.host.document();
-    this.abort = abort;
-    const state = this.panel.querySelector('#ground-ai-state')!;
-    try {
-      if (this.batchDocument !== d || !this.candidates.length)
+  private prepareScenery() {
+    return this.selectionJob(async (signal, current, state) => {
+      if (this.batchDocument !== this.host.document() || !this.candidates.length)
         throw new Error('Find scenery for this scene first.');
       const { dimensions: _dimensions, ...identity } = this.selectionIdentity();
       const included = this.candidates.filter((c) => c.included);
       for (const [index, candidate] of included.entries()) {
         if (candidate.mask) continue;
         state.textContent = `Preparing mask ${index + 1}/${included.length} · ${candidate.name}. Cancel selection stops this job.`;
-        const [a, b, c, e] = candidate.box,
-          pad = 0.025;
         const result = await this.host.request(
           {
             ...identity,
-            crop: [
-              Math.max(0, a - pad),
-              Math.max(0, b - pad),
-              Math.min(1, c + pad),
-              Math.min(1, e + pad),
-            ],
+            crop: paddedBox(candidate.box, 0.025),
             box: candidate.box,
           },
-          abort.signal,
+          signal,
         );
-        if (request !== this.request || abort.signal.aborted || d !== this.host.document()) return;
+        if (!current()) return;
         if (!result.mask.length)
           throw new Error(
             `No silhouette for ${candidate.name}. Exclude it or refine its selection.`,
@@ -770,11 +723,7 @@ export class GroundAuthoring {
         this.refreshCandidates();
       }
       state.textContent = `${included.filter((c) => c.mask).length} masks prepared. Review proposals before accepting. Collision and depth require separate validation.`;
-    } catch (e) {
-      if (!abort.signal.aborted) state.textContent = String(e);
-    } finally {
-      if (request === this.request) this.abort = undefined;
-    }
+    });
   }
   private async acceptScenery() {
     try {
@@ -831,7 +780,7 @@ export class GroundAuthoring {
     this.signature = '';
   }
   private refreshTools() {
-    const get = (id: string) => this.panel.querySelector<HTMLElement>('#' + id)!;
+    const get = (id: string) => this.field<HTMLElement>('#' + id)!;
     const active = this.mode;
     const painted = this.host.document().floor.layout === 'artwork';
     get('ground-layout-help').hidden = painted;
@@ -856,40 +805,43 @@ export class GroundAuthoring {
     get('ground-delete').hidden = !this.region();
     get('ground-region-name').closest('label')!.hidden = !this.region() && active === 'off';
     get('ground-task').closest('label')!.hidden = active === 'off';
+    const family =
+      active === 'footprint'
+        ? ['footprint']
+        : ['anchor', 'boundary'].includes(active)
+          ? ['anchor', 'boundary']
+          : ['mask', 'brush-add', 'brush-erase'];
     for (const option of (get('ground-task') as HTMLSelectElement).options)
-      option.hidden =
-        option.value !== 'off' &&
-        option.value !== active &&
-        !(active === 'footprint'
-          ? option.value === 'footprint'
-          : ['anchor', 'boundary'].includes(active)
-            ? ['anchor', 'boundary'].includes(option.value)
-            : ['mask', 'brush-add', 'brush-erase'].includes(option.value));
-    for (const button of this.panel.querySelectorAll<HTMLElement>('[data-ground-mode]')) {
-      const mode = button.dataset.groundMode;
+      option.hidden = !['off', active, ...family].includes(option.value);
+    const task = active === 'boundary' ? 'anchor' : active.startsWith('brush') ? 'mask' : active;
+    for (const button of this.panel.querySelectorAll<HTMLElement>('[data-ground-mode]'))
       button.setAttribute(
         'aria-pressed',
-        String(
-          mode === active ||
-            (mode === 'anchor' && active === 'boundary') ||
-            (mode === 'mask' && active.startsWith('brush')),
-        ),
+        String([active, task].includes(button.dataset.groundMode!)),
       );
-    }
+    const help: Record<string, string> = {
+      off: 'Choose a task above, or drag an existing vertex. Use Test movement to check your work.',
+      footprint:
+        'Click around the blocking area, then Finish. Escape cancels the unfinished polygon.',
+      mask: 'Click around the painted silhouette, then Finish. Collision is edited separately.',
+      brush: 'Drag to refine the silhouette. Escape cancels the current gesture.',
+      ai: 'Draw a box or click to include scenery. Shift-click excludes. Run selection, review, then Accept mask.',
+      anchor: 'Click the base of this scenery to set its depth anchor.',
+    };
     get('ground-task-help').textContent =
-      active === 'off'
-        ? 'Choose a task above, or drag an existing vertex. Use Test movement to check your work.'
-        : active === 'footprint'
-          ? 'Click around the blocking area, then Finish. Escape cancels the unfinished polygon.'
-          : active === 'mask'
-            ? 'Click around the painted silhouette, then Finish. Collision is edited separately.'
-            : active.startsWith('brush')
-              ? 'Drag to refine the silhouette. Escape cancels the current gesture.'
-              : active.startsWith('ai-')
-                ? 'Draw a box or click to include scenery. Shift-click excludes. Run selection, review, then Accept mask.'
-                : active === 'anchor'
-                  ? 'Click the base of this scenery to set its depth anchor.'
-                  : 'Click a left-to-right depth boundary, then Finish. Escape cancels.';
+      help[active.split('-')[0]!] ??
+      'Click a left-to-right depth boundary, then Finish. Escape cancels.';
+  }
+  private circle(point: readonly number[], radius: number, color: string) {
+    const circle = document.createElementNS(ns, 'circle');
+    for (const [key, value] of Object.entries({
+      cx: point[0],
+      cy: point[1],
+      r: radius,
+      fill: color,
+    }))
+      circle.setAttribute(key, String(value));
+    this.svg.append(circle);
   }
   draw() {
     this.refreshTools();
@@ -898,10 +850,10 @@ export class GroundAuthoring {
     if (!p) return;
     if (this.previous !== d) {
       this.signature = '';
-      this.panel.querySelector<HTMLInputElement>('#ground-profile-review')!.checked = false;
+      this.field<HTMLInputElement>('#ground-profile-review').checked = false;
       if (this.previous) this.cancel(true);
       this.previous = d;
-      const select = this.panel.querySelector<HTMLSelectElement>('#ground-region')!;
+      const select = this.field<HTMLSelectElement>('#ground-region');
       select.replaceChildren(
         new Option('New region', ''),
         ...(d.groundInteraction?.regions.map((r) => new Option(r.name, r.id)) ?? []),
@@ -912,7 +864,6 @@ export class GroundAuthoring {
     const rect = this.canvas.getBoundingClientRect(),
       parent = this.canvas.parentElement!.getBoundingClientRect();
     const signature = [
-      this.previous === d ? 'current' : 'changed',
       this.selected,
       this.points,
       this.gesture,
@@ -972,15 +923,7 @@ export class GroundAuthoring {
       this.svg.append(el);
       if (this.mode === 'off' && handles)
         for (const ring of rings)
-          for (const uv of ring) {
-            const [x, y] = project(layout.world(uv)),
-              handle = document.createElementNS(ns, 'circle');
-            handle.setAttribute('cx', String(x));
-            handle.setAttribute('cy', String(y));
-            handle.setAttribute('r', '2');
-            handle.setAttribute('fill', color);
-            this.svg.append(handle);
-          }
+          for (const uv of ring) this.circle(project(layout.world(uv)), 2, color);
     };
     for (const r of d.groundInteraction?.regions ?? []) {
       if (this.overlays.blockers && r.footprint)
@@ -996,15 +939,7 @@ export class GroundAuthoring {
       if (this.overlays.depth && r.depth) {
         if (r.depth.kind === 'boundary')
           path([r.depth.points.map((v) => layout.uv(v))], '#78d6bf', false, r.id === this.selected);
-        else {
-          const [x, y] = project(r.depth.point),
-            circle = document.createElementNS(ns, 'circle');
-          circle.setAttribute('cx', String(x));
-          circle.setAttribute('cy', String(y));
-          circle.setAttribute('r', '5');
-          circle.setAttribute('fill', '#78d6bf');
-          this.svg.append(circle);
-        }
+        else this.circle(project(r.depth.point), 5, '#78d6bf');
       }
     }
     for (const shape of this.proposal ?? []) path([shape.outer, ...shape.holes], '#ffe38a', true);

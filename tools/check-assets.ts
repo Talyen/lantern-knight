@@ -5,10 +5,8 @@ import path from 'node:path';
 import { actorVisuals } from '../src/content/visuals';
 import { assetCatalog } from '../src/content/asset-catalog';
 import { parseManifest, resolveActorClip, type Manifest } from '../src/assets/schema';
-import {
-  HEADINGS,
-  cameraCalibration as calibrationFixture,
-} from '../src/assets/camera-calibration';
+import { HEADINGS } from '../src/content/headings';
+import { cameraCalibration as calibrationFixture } from '../src/assets/camera-calibration';
 import fs from 'node:fs/promises';
 import { parseRegistration } from '../src/assets/registration';
 import { projectRoot } from './assets/paths';

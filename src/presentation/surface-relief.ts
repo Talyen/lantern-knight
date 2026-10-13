@@ -1,7 +1,7 @@
 import * as T from 'three';
 import type { AssetPack } from '../assets/loader';
 import type { VisualEffects } from '../content/visual-effects';
-import { outward } from '../core/camera';
+import { outward } from './camera';
 import { verifiedBitmap } from '../assets/bitmap';
 type SurfaceSource = { asset: string; frame: string; pageHash: string };
 /** Companions describe traced structure, and never modify the original paintings. */

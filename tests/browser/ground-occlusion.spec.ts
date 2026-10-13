@@ -11,7 +11,7 @@ test('ground atlas masks each actor independently and draws hidden outline pixel
   const proof = await page.evaluate(async () => {
     const threePath = '/node_modules/.vite/deps/three.js',
       occlusionPath = '/src/presentation/ground-occlusion.ts',
-      cameraPath = '/src/core/camera.ts';
+      cameraPath = '/src/presentation/camera.ts';
     const T = await import(threePath),
       { GroundOcclusion } = await import(occlusionPath),
       { outward, right, up } = await import(cameraPath);
@@ -165,7 +165,7 @@ test('a repaired crate contact boundary removes false foreground strips and reta
     async ({ ground, width, height, repaired, witness }) => {
       const threePath = '/node_modules/.vite/deps/three.js',
         occlusionPath = '/src/presentation/ground-occlusion.ts',
-        cameraPath = '/src/core/camera.ts',
+        cameraPath = '/src/presentation/camera.ts',
         layoutPath = '/src/content/floor-layout.ts';
       const T = await import(threePath),
         { GroundOcclusion } = await import(occlusionPath),

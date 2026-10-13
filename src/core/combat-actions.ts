@@ -2,7 +2,7 @@ import { tuning, attackDefinition } from '../content/gameplay';
 import { heightAt, type AreaDefinition, type Point } from '../content/world';
 import type { Actor, State } from './actor';
 import type { EventDetails } from './events';
-import { selectAuthoredDirection } from './camera';
+import { selectAuthoredDirection } from '../content/headings';
 import { clearSegment } from './navigation';
 
 // Borrow current actors and room capabilities; combat cannot replace the room,

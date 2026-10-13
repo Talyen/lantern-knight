@@ -18,7 +18,7 @@ import { ContentRegistry } from '../content/world';
 import type { GameSave } from '../core/save';
 import { animatedSequence, animatedAsset } from '../assets/asset-browser';
 import { bindAssetPicker } from './asset-picker';
-import { HEADINGS } from '../core/camera';
+import { HEADINGS } from '../content/headings';
 import { clipDuration } from '../core/animation';
 import { walkTimings, type WalkTiming } from '../core/locomotion-timing';
 import {
@@ -405,7 +405,9 @@ export function mountScene(
           { ...captureState(), hero: { x: -4, z, yaw: app.sim.hero.yaw } },
           sandboxContent,
         );
-        Object.assign(app.sim.hero, position);
+        app.editPreview((sim) => {
+          Object.assign(sim.hero, position);
+        });
         savePreview();
       };
     $('#return-scene').onclick = () =>
@@ -461,7 +463,9 @@ export function mountScene(
     if (context.fixture !== app.sim.area) await fixture(context.fixture);
     if (closed) return;
     if (remembered) {
-      Object.assign(app.sim.hero, previewHero(remembered, sandboxContent));
+      app.editPreview((sim) => {
+        Object.assign(sim.hero, previewHero(remembered, sandboxContent));
+      });
       presentation.verticalSpan = remembered.span;
       app.scale = remembered.scale;
       presentation.lightingLab.setSettings(remembered.look);
@@ -639,9 +643,11 @@ export function mountScene(
     };
   }
   function applyMovementSpeed() {
-    const hero = app.sim.hero;
-    if (hero.definition.speed !== movementSpeed)
-      hero.definition = { ...hero.definition, speed: movementSpeed };
+    app.editPreview((sim) => {
+      const hero = sim.hero;
+      if (hero.definition.speed !== movementSpeed)
+        hero.definition = { ...hero.definition, speed: movementSpeed };
+    });
     const label = `${movementReplay ? 'Replay' : 'Free play'} · ${movementSpeed.toFixed(1)} m/s · fixed run cadence`;
     if ($('#movement-status').textContent !== label) $('#movement-status').textContent = label;
   }
@@ -661,7 +667,9 @@ export function mountScene(
       { ...captureState(), hero: { x: route === 'blocked' ? 6.5 : -2, z: 4, yaw: Math.PI / 2 } },
       sandboxContent,
     );
-    Object.assign(app.sim.hero, position);
+    app.editPreview((sim) => {
+      Object.assign(sim.hero, position);
+    });
     movementReplay = true;
     const start = app.sim.tick;
     $('#movement-stop').hidden = false;
@@ -696,7 +704,13 @@ export function mountScene(
       };
     };
   }
-  function applySweepRange(sim = app.sim) {
+  function applySweepRange(sim?: Simulation) {
+    if (!sim) {
+      app.editPreview((current) => {
+        applySweepRange(current);
+      });
+      return;
+    }
     const hero = sim.hero;
     if (hero.definition.melee.sweepRange !== sweepRange)
       hero.definition = {
@@ -988,6 +1002,7 @@ export function mountScene(
     }
   };
   window.foundation = {
+    editPreview: (work) => app.editPreview(work),
     get ready() {
       return !closed && app.ready && previewReady;
     },

@@ -153,8 +153,10 @@ export async function runScenario(flags: string[] = []) {
       // Freeze a moving drawing and exercise both color/normal warps and caster/mask alpha.
       await page.evaluate(() => {
         const f = window.foundation;
-        f.sim.hero.state = 'idle';
-        f.sim.hero.yaw = Math.PI / 2;
+        f.editPreview((sim) => {
+          sim.hero.state = 'idle';
+          sim.hero.yaw = Math.PI / 2;
+        });
         f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
         f.presentation.actorPresentation.actors.get('player')!.sprite.animator.seek(142.73);
       });
@@ -337,34 +339,24 @@ export async function runScenario(flags: string[] = []) {
         `<!doctype html><meta charset="utf-8"><title>Lantern lighting comparisons</title><style>body{background:#141923;color:#e4e1d9;font:16px system-ui;margin:24px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:20px}img{width:100%;height:auto}figure{margin:0}figcaption{padding:8px 0}h1{font-family:Georgia}a{color:#dfc397}</style><h1>Golden hour / Silver hour</h1><p>Native renderer captures. Source artwork and the selected orthographic camera are unchanged. Each area/resolution includes the original rendering and six live lab combinations.</p><main>${gallery.map((g) => `<figure><a href="${g.file}"><img loading="lazy" src="${g.file}" alt="${g.area} ${g.rig} ${g.look}"></a><figcaption>${g.area} · ${g.resolution} · ${g.rig} · ${g.look}</figcaption></figure>`).join('')}</main>`,
       );
     const asar = path.resolve(path.dirname(launch.executable), '../Resources/app.asar');
-    await fs.writeFile(
-      path.join(output, 'lighting-smoke.json'),
-      JSON.stringify(
-        {
-          passed: true,
-          quick,
-          packageSha256: createHash('sha256')
-            .update(await fs.readFile(asar))
-            .digest('hex'),
-          checks,
-          gallery,
-          benchmarks,
-          errors,
-          scope:
-            'Packaged macOS arm64, hidden WebGL2 window. Frame intervals include display scheduling; visible pacing and Windows hardware are unverified.',
-        },
-        null,
-        2,
-      ),
-    );
+    await launch.writeReport('lighting-smoke.json', {
+      passed: true,
+      quick,
+      packageSha256: createHash('sha256')
+        .update(await fs.readFile(asar))
+        .digest('hex'),
+      checks,
+      gallery,
+      benchmarks,
+      errors,
+      scope:
+        'Packaged macOS arm64, hidden WebGL2 window. Frame intervals include display scheduling; visible pacing and Windows hardware are unverified.',
+    });
     console.log(
       `PASS: ${checks.length} lighting checks; ${launch.capture ? output + '/index.html' : 'verified; successful diagnostics discarded'}`,
     );
   } catch (error) {
-    await fs.writeFile(
-      path.join(output, 'failure.json'),
-      JSON.stringify({ error: String(error), errors, checks, benchmarks }, null, 2),
-    );
+    await launch.writeReport('failure.json', { error: String(error), errors, checks, benchmarks });
     throw error;
   } finally {
     await launch.close();
