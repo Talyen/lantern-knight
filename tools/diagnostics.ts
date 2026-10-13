@@ -57,7 +57,11 @@ if (scenario === 'record' || scenario === 'replay' || scenario === 'compare') {
           LANTERN_CACHE_ROOT: cacheRoot() + '-measurements',
           LANTERN_CACHE_BUDGET_GIB: '0.25',
         },
-        timeoutMs: Math.max(1, 24000 - (performance.now() - started)),
+        timeoutMs: Math.max(
+          1,
+          (flags.includes('--visible') ? 60000 : 27000) - (performance.now() - started),
+        ),
+        shutdownGraceMs: 1000,
       },
     );
   } catch (error) {

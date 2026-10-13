@@ -47,3 +47,36 @@ test('cancellation terminates the owned process tree and does not hold the calle
   }
   assert.fail('Owned child survived cancellation');
 });
+
+test('a short shutdown grace bounds cancellation of an uncooperative owned process', async () => {
+  const controller = new AbortController();
+  let ready = false;
+  const run = runProcess(
+    process.execPath,
+    ['-e', `process.on('SIGTERM',()=>{}); console.log('ready'); setInterval(()=>{},1000);`],
+    {
+      cwd: process.cwd(),
+      signal: controller.signal,
+      shutdownGraceMs: 50,
+      output: () => {
+        ready = true;
+      },
+    },
+  );
+  const deadline = Date.now() + 5000;
+  while (!ready) {
+    if (Date.now() > deadline) {
+      controller.abort();
+      await run.catch(() => {});
+      assert.fail('Owned process did not start');
+    }
+    await new Promise((resolve) => setTimeout(resolve, 10));
+  }
+  const started = Date.now();
+  controller.abort();
+  await assert.rejects(run, /cancelled/);
+  assert.ok(
+    Date.now() - started < 3000,
+    'Custom shutdown grace must not wait the default five seconds',
+  );
+});

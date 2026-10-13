@@ -6,16 +6,19 @@ import { smokeLaunch, playerControls } from '../smoke/smoke-launch';
 import { startGameBenchmark } from './game-benchmark';
 import { frameSummary } from './benchmark-model';
 import { content } from '../../src/content/game-content';
+import { visualEffectLabels } from '../../src/content/visual-effects';
 
 // Keep menu checks, loading-media proofs and checkpoint journeys in game-smoke.
 export async function runWalkingBenchmark(flags: string[] = []) {
   if (flags.includes('--software') || flags.includes('--render-scale'))
     throw new Error('Walking baseline requires hardware rendering at render scale 1');
+  const visible = flags.includes('--visible');
+  console.log(`Walking mode: ${visible ? 'visible fullscreen' : 'hidden'}.`);
   const run = await smokeLaunch(
     false,
     process.platform === 'darwin' ? ['--use-gl=angle', '--use-angle=metal'] : [],
     {
-      flags: [...flags, '--visible'],
+      flags,
       retain: true,
       startupTimeoutMs: 16000,
       laneWaitMs: 0,
@@ -25,14 +28,23 @@ export async function runWalkingBenchmark(flags: string[] = []) {
   const { page, app, errors } = run;
   const { pause, resume, save } = playerControls(page, run.profile);
   try {
-    await app.evaluate(({ BrowserWindow }) => {
+    await app.evaluate(({ BrowserWindow, screen }, visible) => {
       const window = BrowserWindow.getAllWindows()[0]!;
-      window.setContentSize(2560, 1440);
-      window.show();
-      window.focus();
-    });
+      const display = screen.getDisplayMatching(window.getBounds());
+      window.setContentSize(display.bounds.width, display.bounds.height);
+      if (visible) {
+        window.show();
+        if (process.platform === 'darwin') window.setSimpleFullScreen(true);
+        else window.setFullScreen(true);
+        window.focus();
+      }
+    }, visible);
     await pause();
     await page.locator('#render-scale').selectOption('1');
+    await page.locator('#depth-of-field').fill('100');
+    await page.locator('#depth-of-field').dispatchEvent('input');
+    const effects = page.locator('#modal input[data-visual-effect]');
+    for (const effect of await effects.all()) await effect.setChecked(true);
     const initial = await save();
     assert.equal(initial.area, content.definitions.initialArea);
     await resume();
@@ -41,6 +53,7 @@ export async function runWalkingBenchmark(flags: string[] = []) {
     await page.waitForTimeout(1000);
     const measurement = await startGameBenchmark(run, initial, true);
     await measurement.phase('movement');
+    console.log(`Walking sample: five seconds (${visible ? 'visible fullscreen' : 'hidden'}).`);
     await page.keyboard.down('KeyW');
     try {
       await page.waitForTimeout(5000);
@@ -57,18 +70,32 @@ export async function runWalkingBenchmark(flags: string[] = []) {
       Math.hypot(final.player.x - initial.player.x, final.player.z - initial.player.z) > 0.1,
       'Walking measurement must complete real player movement',
     );
-    assert.equal(record.environment.visible, true);
+    assert.equal(record.environment.visible, visible);
+    assert.equal(record.environment.settings['render-scale'], '1');
+    assert.equal(record.environment.settings['depth-of-field'], '100');
+    for (const effect of Object.keys(visualEffectLabels))
+      assert.equal(record.environment.settings[effect], true, `${effect} must be enabled`);
+    if (visible)
+      assert.equal(
+        await app.evaluate(({ BrowserWindow }) => {
+          const window = BrowserWindow.getAllWindows()[0]!;
+          return window.isFullScreen() || window.isSimpleFullScreen();
+        }),
+        true,
+        'Visible confirmation must be fullscreen',
+      );
     assert.ok(record.environment.refreshHz > 0, 'Display refresh rate is unavailable');
     assert.doesNotMatch(
       record.environment.gpu,
       /swiftshader|llvmpipe|software|unavailable/i,
       'Walking baseline requires an observed hardware GPU',
     );
-    assert.equal(
-      await page.evaluate(() => document.hasFocus() && document.visibilityState === 'visible'),
-      true,
-      'Walking baseline lost foreground focus',
-    );
+    if (visible)
+      assert.equal(
+        await page.evaluate(() => document.hasFocus() && document.visibilityState === 'visible'),
+        true,
+        'Walking baseline lost foreground focus',
+      );
     assert.deepEqual(errors, []);
     await measurement.publish();
     const summary = frameSummary(record.frames);
@@ -81,11 +108,13 @@ export async function runWalkingBenchmark(flags: string[] = []) {
       summary.p99Ms <= 20 &&
       summary.hitches === 0 &&
       summary.stalls === 0;
-    console.log(
-      record.environment.refreshHz >= 59 && record.environment.refreshHz <= 61
-        ? `Provisional 60 Hz walking target: ${pacing ? 'met' : 'missed'}.`
-        : '60 Hz target: inconclusive on this display refresh rate.',
-    );
+    if (!visible) console.log('Hidden renderer sample: confirm the 60 Hz target with --visible.');
+    else
+      console.log(
+        record.environment.refreshHz >= 59 && record.environment.refreshHz <= 61
+          ? `Provisional 60 Hz walking target: ${pacing ? 'met' : 'missed'}.`
+          : '60 Hz target: inconclusive on this display refresh rate.',
+      );
     console.log(
       'One five-second sample supports quick iteration, not absence of rare stutters or a performance improvement claim.',
     );

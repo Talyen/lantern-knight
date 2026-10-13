@@ -200,7 +200,8 @@ export async function startGameBenchmark(
       };
     });
     assert.equal(samples.overflow, false, 'Game benchmark sample budget exceeded');
-    if (walking) assert.equal(samples.foreground, true, 'Walking baseline lost foreground focus');
+    if (walking && before.visible)
+      assert.equal(samples.foreground, true, 'Walking baseline lost foreground focus');
     segments.push(
       segment.parse({ name: active, frames: samples.frames, actions: samples.actions }),
     );

@@ -7,6 +7,7 @@ export async function runProcess(
     cwd: string;
     env?: NodeJS.ProcessEnv;
     timeoutMs?: number;
+    shutdownGraceMs?: number;
     output?: (chunk: Buffer) => void;
     signal?: AbortSignal;
   },
@@ -48,7 +49,7 @@ export async function runProcess(
     if (stopped) return;
     stopped = reason;
     kill('SIGTERM');
-    force = setTimeout(() => kill('SIGKILL'), 5000);
+    force = setTimeout(() => kill('SIGKILL'), options.shutdownGraceMs ?? 5000);
     force.unref();
   };
   const interrupt = () => stop('interrupted'),

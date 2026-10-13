@@ -225,6 +225,14 @@ test('walking records cannot compare against full journeys or accept incomplete 
     () =>
       compareGameBenchmarks(record, {
         ...record,
+        environment: { ...record.environment, visible: false },
+      }),
+    /Incompatible benchmark conditions/,
+  );
+  assert.throws(
+    () =>
+      compareGameBenchmarks(record, {
+        ...record,
         frames: Array(30).fill(16),
         segments: [{ ...record.segments[0], frames: Array(30).fill(16) }],
       }),
