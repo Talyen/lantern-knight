@@ -8,6 +8,15 @@ import { attackDefinition, tuning } from '../../src/content/gameplay';
 import { heroActionTiming, heroTimings } from '../../src/content/hero-actions';
 import { selectAuthoredDirection, AUTHORED_HEADINGS } from '../../src/content/headings';
 const still = { move: { x: 0, z: 0 }, aim: { x: 1, z: 0 } };
+test('directional input during an attack cancels the previous movement destination', () => {
+  const s = new Simulation(content);
+  s.setMovementTarget(s.hero.id, { x: 2, z: 6 });
+  s.startSword(s.hero);
+  s.step({ ...still, move: { x: -1, z: 0 } });
+  assert.equal(s.navigationDebug(false).routes.length, 0);
+  for (let i = 0; i < 80; i++) s.step(still);
+  assert.equal(s.hero.x, 0);
+});
 function duel() {
   const s = new Simulation(content, 142, content.definitions.initialArea, 1);
   s.actors = [s.hero, s.enemies[0]!];

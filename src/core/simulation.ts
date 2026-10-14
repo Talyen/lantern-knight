@@ -349,7 +349,6 @@ export class Simulation {
       a.pz = a.z;
       a.cooldown = Math.max(0, a.cooldown - 1);
       a.dodgeCooldown = Math.max(0, a.dodgeCooldown - 1);
-      a.stun = Math.max(0, a.stun - 1);
     }
     if (
       Number.isFinite(command.aim.x) &&
@@ -363,6 +362,7 @@ export class Simulation {
       mx = len <= 0.01 ? 0 : len > 1 ? command.move.x / len : command.move.x,
       mz = len <= 0.01 ? 0 : len > 1 ? command.move.z / len : command.move.z;
     if (h.health > 0) {
+      if (len > 0.01) this.movement.cancel(h.id);
       if (
         command.potion &&
         !this.movementPreview &&
@@ -386,7 +386,6 @@ export class Simulation {
       if (
         this.#combat.admitHero(h, command, this.tick, len > 0.01 ? Math.atan2(mx, mz) : undefined)
       ) {
-        if (len > 0.01) this.movement.cancel(h.id);
         if (len <= 0.01 && this.movement.has(h.id)) {
           this.follow(h);
         } else {
@@ -424,7 +423,10 @@ export class Simulation {
       this.#combat.advance(a);
     }
     // Every actor observes the same action tick during combat, including dodge protection.
-    for (const a of this.actors) a.age++;
+    for (const a of this.actors) {
+      a.age++;
+      a.stun = Math.max(0, a.stun - 1);
+    }
     for (let i = 0; i < this.actors.length; i++)
       for (let j = i + 1; j < this.actors.length; j++) {
         const a = this.actors[i]!,

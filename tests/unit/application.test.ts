@@ -1368,6 +1368,10 @@ test('health pickup commits an autosaved checkpoint including its consumed ident
 
 test('manual adventure reset saves the restored player and enemy state', async () => {
   const definitions = structuredClone(contentDefinitions);
+  definitions.areas[0]!.entries = [
+    ...definitions.areas[0]!.entries,
+    { id: 'fire-home', x: 0, z: 6.65 },
+  ];
   definitions.areas[0]!.campfires = [
     { id: 'home', name: 'Home', x: 0, z: 6.65, safeRadius: 1, discovered: true },
   ];
