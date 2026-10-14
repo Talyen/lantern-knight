@@ -19,6 +19,6 @@ export function emptyScene(): SceneDocument {
     overlaps: [],
     objects: [],
     hero: { x: 0, z: 0 },
-    look: { rig: 'silver', look: 'cinematic', sun: { azimuthDeg: 20, elevationDeg: 15 } },
+    look: { rig: 'lantern', look: 'cinematic', sun: { azimuthDeg: 20, elevationDeg: 15 } },
   };
 }

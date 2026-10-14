@@ -181,7 +181,7 @@ const SceneDocumentSchema = z
     }),
     hero: point,
     look: z.strictObject({
-      rig: z.enum(['golden', 'silver']),
+      rig: z.enum(['golden', 'silver', 'lantern']),
       look: z.enum(['ink', 'diorama', 'cinematic']),
       /** Ambient shade already painted into the floor; applied to placed surfaces only. */
       shadeZones: z

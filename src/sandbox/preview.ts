@@ -16,7 +16,7 @@ export const scenePreviewSchema = z.object({
   paused: z.boolean(),
   mode: z.enum(['encounter', 'calibration', 'animation', 'occlusion', 'lighting']),
   look: z.object({
-    rig: z.enum(['golden', 'silver']),
+    rig: z.enum(['golden', 'silver', 'lantern']),
     look: z.enum(['ink', 'diorama', 'cinematic']),
     baseline: z.boolean(),
     lighting: z.boolean(),

@@ -453,7 +453,7 @@ export class SceneLightingRenderer {
     const heroSprite = this.actors.actors.get(sim.hero.id)?.sprite;
     const hasLantern =
       heroSprite && heroLanternPosition(heroSprite, lights.inkLightPosition.value[0]!);
-    lights.inkLightPower.value[0] = hasLantern ? (sim.hero.state === 'ability' ? 3.1 : 1.8) : 0;
+    lights.inkLightPower.value[0] = hasLantern ? 1.8 : 0;
     lights.inkLightRange.value.fill(4.8);
     lights.inkLightRange.value[0] = 10.5;
     for (const [i, l] of this.effects.lights(fx).slice(0, SCENE_LIGHT_CAPACITY).entries()) {

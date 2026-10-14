@@ -1,3 +1,4 @@
+import type { LookSettings } from '../presentation/lighting-profiles';
 import type { Presentation } from '../presentation/scene';
 const toggles = [
   ['lighting-baseline', 'baseline'],
@@ -28,7 +29,7 @@ export function bindLightingControls(presentation: Presentation, saveSettings: (
   element('#lighting-dof').onchange = saveSettings;
   element('#lighting-rig').onchange = () =>
     presentation.lightingLab.setSettings({
-      rig: element<HTMLSelectElement>('#lighting-rig').value as 'golden' | 'silver',
+      rig: element<HTMLSelectElement>('#lighting-rig').value as LookSettings['rig'],
     });
   element('#lighting-look').onchange = () =>
     presentation.lightingLab.setSettings({

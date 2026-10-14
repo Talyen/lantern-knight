@@ -22,7 +22,7 @@ function fixture(interior: boolean) {
         entries: [{ id: 'start', x: 0, z: 5 }],
       },
       hero: { x: 0, z: 5 },
-      look: { rig: 'silver', look: 'cinematic', sun: { azimuthDeg: 20, elevationDeg: 15 } },
+      look: { rig: 'lantern', look: 'cinematic', sun: { azimuthDeg: 20, elevationDeg: 15 } },
       camera: {
         bounds: { minX: -2, maxX: 2, minZ: -6, maxZ: 6 },
         bias: { x: 0, z: -1.5 },

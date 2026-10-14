@@ -27,7 +27,7 @@ test('scene selection and camera framing survive independent reloads', async ({ 
         const { rig, look, sun } = window.foundation.presentation.lookRenderer.settings;
         return { rig, look, sun };
       }),
-    ).toEqual({ rig: 'silver', look: 'cinematic', sun: { azimuthDeg: 20, elevationDeg: 15 } });
+    ).toEqual({ rig: 'lantern', look: 'cinematic', sun: { azimuthDeg: 20, elevationDeg: 15 } });
     expect(await page.evaluate(() => window.foundation.presentation.verticalSpan)).toBe(13);
   }
 });
@@ -181,7 +181,7 @@ test('preview scene reset preserves experiments and settings reset is explicit',
   await page.getByRole('button', { name: 'More options' }).click();
   await page.getByRole('button', { name: 'Reset scene settings', exact: true }).click();
   await page.waitForFunction(() => window.foundation?.ready);
-  await expect(page.locator('#lighting-rig')).toHaveValue('silver');
+  await expect(page.locator('#lighting-rig')).toHaveValue('lantern');
 });
 
 test('workspace reset requires confirmation and clears preview experiments', async ({ page }) => {
@@ -200,7 +200,7 @@ test('workspace reset requires confirmation and clears preview experiments', asy
   await expect(page.locator('#preview-drawer')).toBeHidden();
   await expect(page.locator('.hud')).toBeHidden();
   await page.getByRole('button', { name: 'Visuals', exact: true }).click();
-  await expect(page.locator('#lighting-rig')).toHaveValue('silver');
+  await expect(page.locator('#lighting-rig')).toHaveValue('lantern');
 });
 
 test('shared asset browser includes library enemies, separates poses and filters references', async ({
