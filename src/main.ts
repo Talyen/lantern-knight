@@ -1,3 +1,4 @@
+import { cleanupAll } from './assets/cleanup';
 import './developer-nav';
 import { content, gameScenes, gameAssetCatalog } from './content/game-content';
 import './style.css';
@@ -5,10 +6,11 @@ import { LoadingScreen } from './loading-screen';
 import { Application } from './application';
 import { GamePresentation } from './presentation/game-scene';
 import { createBrowserBridge } from './platform/browser-store';
-import { gameUI, bindGameUI, status, showPause, updateGameUI } from './game-ui';
+import { gameUI, createGameUI } from './game-ui';
 const loading = new LoadingScreen();
 document.querySelector('#app')!.innerHTML = gameUI;
 document.body.classList.add('game');
+const ui = createGameUI(document.querySelector<HTMLElement>('.game-stage')!);
 let app: Application | undefined;
 async function start() {
   const application = new Application(
@@ -19,12 +21,12 @@ async function start() {
     gameScenes,
     (...args) => new GamePresentation(...args),
     {
-      status,
+      status: ui.status,
       pause: (value) => {
-        showPause(value);
+        ui.showPause(value);
         loading.raise();
       },
-      frame: () => updateGameUI(application),
+      frame: () => ui.update(application),
       loading: (active) => {
         if (!application.ready) loading.set(active);
         else {
@@ -40,27 +42,17 @@ async function start() {
   try {
     await application.load();
   } catch (error) {
-    status(`Checkpoint unavailable: ${(error as Error).message}`, true);
+    ui.status(`Checkpoint unavailable: ${(error as Error).message}`, true);
   }
-  bindGameUI(application);
+  ui.bind(application);
   application.canvas.dataset.ready = 'true';
-  if (window.lantern?.launchMode) {
-    const button = document.createElement('button');
-    button.textContent = 'Return to Sandbox';
-    button.onclick = () => {
-      application.pause(true);
-      application.safe(() => window.lantern!.launchMode!('sandbox'));
-    };
-    document.querySelector('#dev-return')!.append(button);
-  }
 }
-window.addEventListener('beforeunload', () => {
-  app?.dispose();
-  loading.dispose();
-});
+function shutdown() {
+  cleanupAll([() => ui.dispose(), () => app?.dispose(), () => loading.dispose()]);
+}
+window.addEventListener('beforeunload', shutdown);
 void start().catch((error: Error) => {
-  app?.dispose();
-  loading.dispose();
-  status(`Unable to open the game: ${error.message}`, true);
+  ui.status(`Unable to open the game: ${error.message}`, true);
+  shutdown();
   console.error(error);
 });

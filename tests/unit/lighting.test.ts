@@ -265,7 +265,7 @@ test('lighting replacement preserves the current room on failure, retries, and r
     await lateStarted;
     library.dispose();
     finish(new Response(bytes));
-    await late;
+    await assert.rejects(late, /aborted/);
     assert.equal(library.textures.size, 0);
     assert.equal(library.bytes, 0);
   } finally {
@@ -273,5 +273,5 @@ test('lighting replacement preserves the current room on failure, retries, and r
     globalThis.fetch = priorFetch;
     globalThis.createImageBitmap = priorBitmap;
   }
-  assert.equal(closed, 5);
+  assert.equal(closed, 4, 'Cancellation before decode avoids allocating another bitmap');
 });

@@ -9,16 +9,23 @@ export async function verifiedBitmap(
   url: string,
   expected: { hash: string; width: number; height: number },
   request: typeof fetch = fetch,
+  signal?: AbortSignal,
 ) {
-  const response = await request(url);
+  signal?.throwIfAborted();
+  const response = await request(url, { signal });
   if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
   const bytes = await response.arrayBuffer();
   if ((await sha256(bytes)) !== expected.hash) throw new Error(`${url}: hash mismatch`);
+  signal?.throwIfAborted();
   const bitmap = await createImageBitmap(new Blob([bytes], { type: 'image/png' }), {
     imageOrientation: 'flipY',
     premultiplyAlpha: 'none',
     colorSpaceConversion: 'none',
   });
+  if (signal?.aborted) {
+    bitmap.close();
+    signal.throwIfAborted();
+  }
   if (bitmap.width !== expected.width || bitmap.height !== expected.height) {
     bitmap.close();
     throw new Error(`${url}: image dimensions differ`);

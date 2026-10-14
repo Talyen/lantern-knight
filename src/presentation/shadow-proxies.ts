@@ -1,3 +1,4 @@
+import { cleanupAll } from '../assets/cleanup';
 import * as T from 'three';
 import { ActorSprite } from './sprite';
 import { outward } from './camera';
@@ -144,15 +145,19 @@ export class ShadowProxies {
     } else if (entry.blend) entry.blend.uniforms.walkEnabled.value = 0;
   }
   reset() {
+    const actions: (() => void)[] = [];
     this.proxies.traverse((o) => {
       if (o instanceof T.Mesh) {
         if (!o.userData.sharedGeometry && !this.actorCasters.has(o.userData.actor))
-          o.geometry.dispose();
-        (o.material as T.Material).dispose();
-        o.customDepthMaterial?.dispose();
+          actions.push(() => o.geometry.dispose());
+        actions.push(
+          () => (o.material as T.Material).dispose(),
+          () => o.customDepthMaterial?.dispose(),
+        );
       }
     });
     this.proxies.clear();
     this.actorCasters.clear();
+    cleanupAll(actions);
   }
 }

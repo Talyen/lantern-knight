@@ -4,6 +4,7 @@ import { Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 import { ResourcePool } from '../../src/assets/resource-pool';
 import { SceneAssets } from '../../src/assets/scene-assets';
 import { AssetRuntime, type PackBatch, type PackLease } from '../../src/assets/loader';
+import { DisposalScope, cleanupAfterFailure } from '../../src/assets/cleanup';
 import { GamePresentation } from '../../src/presentation/game-scene';
 import { EditorView } from '../../src/editor/view';
 
@@ -52,15 +53,25 @@ test('presentation tears down peer owners and its WebGL renderer after a Three d
     shadowTexture: { dispose: record('shadow') },
     renderer: { dispose: record('WebGL') },
   });
+  const resources = new DisposalScope();
+  Object.assign(presentation, { resources });
+  resources.own(presentation.renderer);
+  resources.own(presentation.shadowTexture);
+  resources.defer(() => presentation.disposeRoom());
+  resources.own(mesh.geometry);
+  resources.own(mesh.material);
+  resources.own(presentation.lookRenderer);
+  resources.own(presentation.sceneEffects);
+  resources.own(presentation.combatFeedback);
   assert.throws(() => presentation.dispose(), /geometry listener/);
   assert.deepEqual(calls, [
     'feedback',
     'effects',
     'lighting',
+    'material',
     'scenery',
     'actors',
     'room',
-    'material',
     'shadow',
     'WebGL',
   ]);
@@ -272,4 +283,44 @@ test('reentrant acquisition survives cancellation of the batch that started its 
   assert.deepEqual(destroyed, [value]);
   assert.equal(pool.size, 0);
   pool.dispose();
+});
+
+test('failed construction drains a consumed scope, preserves the cause and rejects reentrant ownership', () => {
+  const scope = new DisposalScope(),
+    calls: string[] = [];
+  scope.own({
+    dispose() {
+      calls.push('renderer');
+    },
+  });
+  scope.own({
+    dispose() {
+      calls.push('material');
+      throw new Error('listener');
+    },
+  });
+  scope.defer(() => {
+    calls.push('closing');
+    assert.throws(
+      () =>
+        scope.own({
+          dispose() {
+            calls.push('reentrant');
+          },
+        }),
+      /scope closed/,
+    );
+    scope.dispose();
+  });
+  const failure = new Error('construction');
+  assert.throws(
+    () => cleanupAfterFailure(failure, () => scope.dispose()),
+    (error: unknown) => {
+      assert.ok(error instanceof AggregateError);
+      assert.equal(error.cause, failure);
+      return true;
+    },
+  );
+  scope.dispose();
+  assert.deepEqual(calls, ['closing', 'reentrant', 'material', 'renderer']);
 });

@@ -2,20 +2,36 @@ import * as T from 'three';
 import type { AssetPack } from '../assets/loader';
 import type { VisualEffects } from '../content/visual-effects';
 import { outward } from './camera';
+import { BitmapTexture } from './bitmap-texture';
 import { verifiedBitmap } from '../assets/bitmap';
 type SurfaceSource = { asset: string; frame: string; pageHash: string };
 /** Companions describe traced structure, and never modify the original paintings. */
 export class SurfaceRelief {
-  private texture?: T.Texture;
+  private get texture() {
+    return this.companion.value;
+  }
   private source?: SurfaceSource;
   private packs?: ReadonlyMap<string, AssetPack>;
   private bindings: { normal: T.Uniform<number>; relief: T.Uniform<number> }[] = [];
-  private disposed = false;
+  private readonly companion = new BitmapTexture(
+    (signal) => this.decode(signal),
+    (texture) => {
+      texture.flipY = false;
+      texture.wrapS = texture.wrapT = T.RepeatWrapping;
+      texture.generateMipmaps = true;
+      texture.minFilter = T.LinearMipmapLinearFilter;
+      texture.needsUpdate = true;
+    },
+  );
   async load(packs: ReadonlyMap<string, AssetPack>) {
     this.packs = packs;
     // Curated flat-stage artwork has no procedural apron or height/UV companion.
     if (!packs.has('ink-graveyard-materials')) return;
-    const response = await fetch('/visual-effects/surfaces.json');
+    await this.companion.load();
+    this.validate();
+  }
+  private async decode(signal: AbortSignal) {
+    const response = await fetch('/visual-effects/surfaces.json', { signal });
     if (!response.ok) throw new Error('Surface companions unavailable');
     const data = await response.json();
     if (data.recipe !== 'hand-authored-stone-height-v1')
@@ -31,18 +47,7 @@ export class SurfaceRelief {
     if (!entry) throw new Error('Graveyard surface companion unavailable');
     this.source = entry;
     this.validate();
-    const bitmap = await verifiedBitmap('/visual-effects/' + entry.file, entry);
-    if (this.disposed) {
-      bitmap.close();
-      return;
-    }
-    const texture = new T.Texture(bitmap);
-    texture.flipY = false;
-    texture.wrapS = texture.wrapT = T.RepeatWrapping;
-    texture.generateMipmaps = true;
-    texture.minFilter = T.LinearMipmapLinearFilter;
-    texture.needsUpdate = true;
-    this.texture = texture;
+    return verifiedBitmap('/visual-effects/' + entry.file, entry, fetch, signal);
   }
   private validate() {
     const source = this.source!,
@@ -104,12 +109,7 @@ vec2 fxReliefUV(vec2 q){vec2 uv=vec2(q.x,-q.y)/4.;float h=texture2D(surfaceCompa
     this.bindings = [];
   }
   dispose() {
-    this.disposed = true;
-    if (this.texture) {
-      (this.texture.image as ImageBitmap).close();
-      this.texture.dispose();
-      this.texture = undefined;
-    }
+    this.companion.dispose();
     this.reset();
   }
 }

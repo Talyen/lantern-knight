@@ -1,3 +1,4 @@
+import { cleanupAll } from '../assets/cleanup';
 import * as T from 'three';
 import { ActorSprite } from './sprite';
 import { attachRevealMask } from './scenery-reveal';
@@ -166,11 +167,11 @@ export class FocusMask {
     return { protectedPixels, groundPixels, width: this.target.width, height: this.target.height };
   }
   reset() {
-    for (const entry of this.depths.values()) entry.material.dispose();
+    const entries = [...this.depths.values()];
     this.depths.clear();
+    cleanupAll(entries.map((entry) => () => entry.material.dispose()));
   }
   dispose() {
-    this.reset();
-    this.target.dispose();
+    cleanupAll([() => this.reset(), () => this.target.dispose()]);
   }
 }

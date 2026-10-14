@@ -1,3 +1,4 @@
+import { cleanupAll } from '../assets/cleanup';
 import { registeredTrim } from './animation-blend-shader';
 import { verifiedBitmap } from '../assets/bitmap';
 import * as T from 'three';
@@ -25,30 +26,32 @@ type Companion = {
   height: number;
 };
 function disposeNormal(texture: T.Texture) {
-  (texture.image as ImageBitmap).close();
-  texture.dispose();
+  cleanupAll([() => texture.dispose(), () => (texture.image as ImageBitmap).close()]);
 }
 export class NormalLibrary {
   entries: Record<string, Companion> = {};
   textures = new Map<string, T.Texture>();
   bytes = 0;
   private disposed = false;
+  private readonly lifetime = new AbortController();
   private inventory?: Promise<void>;
   private pending = Promise.resolve();
   load(assets: Iterable<string>) {
+    if (this.disposed) return Promise.reject(new Error('lighting companions disposed'));
     const selected = [...assets];
     const operation = this.pending.then(() => this.loadSelected(selected));
     this.pending = operation.catch(() => {});
     return operation;
   }
   private async loadSelected(assets: Iterable<string>) {
-    if (this.disposed) return;
+    this.lifetime.signal.throwIfAborted();
     this.inventory ??= (async () => {
-      const response = await fetch('/lighting/manifest.json');
+      const response = await fetch('/lighting/manifest.json', { signal: this.lifetime.signal });
       if (!response.ok) throw new Error('Lighting companions unavailable.');
       const manifest = await response.json();
       if (manifest.recipe !== 'alpha-volume-v1')
         throw new Error('Lighting companion recipe differs');
+      this.lifetime.signal.throwIfAborted();
       this.entries = manifest.entries;
     })().catch((error) => {
       this.inventory = undefined;
@@ -66,7 +69,12 @@ export class NormalLibrary {
       Array.from({ length: Math.min(8, missing.length) }, async () => {
         while (!this.disposed && index < missing.length) {
           const [key, entry] = missing[index++]!;
-          const bitmap = await verifiedBitmap('/lighting/' + entry.file, entry);
+          const bitmap = await verifiedBitmap(
+            '/lighting/' + entry.file,
+            entry,
+            fetch,
+            this.lifetime.signal,
+          );
           if (this.disposed) {
             bitmap.close();
             return;
@@ -113,10 +121,13 @@ export class NormalLibrary {
     return this.textures.get(key);
   }
   dispose() {
+    if (this.disposed) return;
     this.disposed = true;
-    for (const texture of this.textures.values()) disposeNormal(texture);
+    this.lifetime.abort();
+    const textures = [...this.textures.values()];
     this.textures.clear();
     this.bytes = 0;
+    cleanupAll(textures.map((texture) => () => disposeNormal(texture)));
   }
 }
 const shader = `

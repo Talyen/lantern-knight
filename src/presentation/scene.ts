@@ -1,3 +1,4 @@
+import { cleanupAll, cleanupAfterFailure } from '../assets/cleanup';
 import { animatedSequence } from '../assets/asset-browser';
 import type { PreparedRegistration } from '../assets/registration';
 import * as T from 'three';
@@ -19,19 +20,15 @@ export type Mode = 'encounter' | 'calibration' | 'animation' | 'occlusion' | 'li
 export class Presentation extends GamePresentation {
   beforeSceneRender?: (sim: SimulationView, ms: number) => void;
   mode: Mode = 'encounter';
-  readonly artConstruction = new ArtConstructionOverlay(this.registration.coverage);
+  readonly artConstruction: ArtConstructionOverlay;
   get lightingLab() {
     return this.lookRenderer;
   }
   calibration = new T.Group();
   overlay = new T.Group();
   rootMarkers = new T.Group();
-  private rootGeometry = new T.CircleGeometry(0.035, 16);
-  private rootMaterial = new T.MeshBasicMaterial({
-    color: 0x77e4b3,
-    depthTest: false,
-    depthWrite: false,
-  });
+  private rootGeometry: T.CircleGeometry;
+  private rootMaterial: T.MeshBasicMaterial;
   overlayOwned: { dispose: () => void }[] = [];
   labTime = 0;
   labClip = 'walk';
@@ -64,29 +61,58 @@ export class Presentation extends GamePresentation {
     visuals: import('../content/world-visuals').WorldVisualDefinition | undefined,
   ) {
     super(canvas, packs, events, initialArea, registration, visuals);
-    this.scene.add(this.calibration, this.overlay, this.rootMarkers, this.artConstruction.group);
-    for (const side of [-1, 1]) {
-      const marker = new T.Mesh(this.rootGeometry, this.rootMaterial);
-      marker.position.addScaledVector(right, side * 1.2).addScaledVector(outward, 0.03);
-      marker.quaternion.copy(this.camera.quaternion);
-      marker.renderOrder = 1000;
-      this.rootMarkers.add(marker);
+    try {
+      this.artConstruction = this.resources.own(
+        new ArtConstructionOverlay(this.registration.coverage),
+      );
+      this.rootGeometry = this.resources.own(new T.CircleGeometry(0.035, 16));
+      this.rootMaterial = this.resources.own(
+        new T.MeshBasicMaterial({ color: 0x77e4b3, depthTest: false, depthWrite: false }),
+      );
+      this.resources.defer(() =>
+        cleanupAll([
+          () => this.labSprite?.dispose(),
+          () => this.secondSprite?.dispose(),
+          ...this.overlayOwned.map((v) => () => v.dispose()),
+          ...this.calibration.children.flatMap((object) => {
+            const actions: (() => void)[] = [];
+            object.traverse((o) => {
+              if (o instanceof T.Mesh || o instanceof T.LineSegments || o instanceof T.Line) {
+                actions.push(() => o.geometry.dispose());
+                for (const m of Array.isArray(o.material) ? o.material : [o.material])
+                  actions.push(() => m.dispose());
+              }
+            });
+            return actions;
+          }),
+        ]),
+      );
+      this.scene.add(this.calibration, this.overlay, this.rootMarkers, this.artConstruction.group);
+      for (const side of [-1, 1]) {
+        const marker = new T.Mesh(this.rootGeometry, this.rootMaterial);
+        marker.position.addScaledVector(right, side * 1.2).addScaledVector(outward, 0.03);
+        marker.quaternion.copy(this.camera.quaternion);
+        marker.renderOrder = 1000;
+        this.rootMarkers.add(marker);
+      }
+      this.rootMarkers.visible = false;
+      const manifest = this.manifest,
+        textures = this.textures,
+        c = this.getClip(this.labClip, this.labHeading, manifest);
+      this.labSprite = new ActorSprite('lab-a', manifest, textures, c);
+      this.secondSprite = new ActorSprite(
+        'lab-b',
+        manifest,
+        textures,
+        this.getClip('sweep', this.labHeading, manifest),
+      );
+      this.labAnimator = this.labSprite.animator;
+      this.scene.add(this.labSprite.mesh, this.secondSprite.mesh);
+      this.buildCalibration();
+      this.resize();
+    } catch (error) {
+      cleanupAfterFailure(error, () => this.dispose());
     }
-    this.rootMarkers.visible = false;
-    const manifest = this.manifest,
-      textures = this.textures,
-      c = this.getClip(this.labClip, this.labHeading, manifest);
-    this.labSprite = new ActorSprite('lab-a', manifest, textures, c);
-    this.secondSprite = new ActorSprite(
-      'lab-b',
-      manifest,
-      textures,
-      this.getClip('sweep', this.labHeading, manifest),
-    );
-    this.labAnimator = this.labSprite.animator;
-    this.scene.add(this.labSprite.mesh, this.secondSprite.mesh);
-    this.buildCalibration();
-    this.resize();
   }
   buildCalibration() {
     this.calibration.add(new T.GridHelper(14, 14, 0xbfae82, 0x58626b));
@@ -432,21 +458,5 @@ export class Presentation extends GamePresentation {
       labZoom: this.labZoom,
       lightingLab: this.lightingLab?.stats(),
     };
-  }
-  override dispose() {
-    if (this.disposed) return;
-    this.artConstruction.dispose();
-    this.rootGeometry.dispose();
-    this.rootMaterial.dispose();
-    this.labSprite.dispose();
-    this.secondSprite.dispose();
-    this.overlayOwned.forEach((v) => v.dispose());
-    this.calibration.traverse((o) => {
-      if (o instanceof T.Mesh || o instanceof T.LineSegments || o instanceof T.Line) {
-        o.geometry.dispose();
-        for (const m of Array.isArray(o.material) ? o.material : [o.material]) m.dispose();
-      }
-    });
-    super.dispose();
   }
 }

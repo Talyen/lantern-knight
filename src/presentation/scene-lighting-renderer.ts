@@ -1,3 +1,4 @@
+import { cleanupAll, cleanupAfterFailure, DisposalScope } from '../assets/cleanup';
 import { ColorAntialiasing } from './color-antialiasing';
 import { radialTexture } from './radial-texture';
 import { heroLanternPosition } from './hero-lantern';
@@ -87,11 +88,13 @@ function targetLedger(root: object) {
   }));
 }
 export class SceneLightingRenderer {
+  private readonly lifetime = new DisposalScope();
+  private disposed = false;
   settings: LookSettings = { ...defaultLook };
   ready = false;
   time = 0;
-  readonly lighting = new IllustratedLighting();
-  private surfaces = new SurfaceRelief();
+  readonly lighting: IllustratedLighting;
+  private surfaces: SurfaceRelief;
   private composer: EffectComposer;
   private bloom: BloomEffect;
   private finish: Effect;
@@ -109,12 +112,10 @@ export class SceneLightingRenderer {
     return this.shadowProxies.proxies;
   }
   private floorReceivers: T.Mesh[] = [];
-  private owned: { dispose: () => void }[] = [];
   private dust: T.Points;
-  private mist = new GroundMist();
+  private mist: GroundMist;
   private glows: T.Mesh<T.PlaneGeometry, T.MeshBasicMaterial>[] = [];
   private generation = -1;
-  private normalReady: Promise<void>;
   private size = new T.Vector2();
   private shadowWasEnabled: boolean;
   private priorAutoClear: boolean;
@@ -144,113 +145,134 @@ export class SceneLightingRenderer {
     private actors: ActorPresentation,
     private effects: SceneVisualEffects,
   ) {
-    this.shadowProxies = new ShadowProxies(this.sun);
-    const { renderer, scene, camera } = resources;
-    this.focusMask = new FocusMask(
-      renderer,
-      scene,
-      camera,
-      this.uniforms,
-      this.extras,
-      this.proxies,
-    );
-    this.priorAutoClear = renderer.autoClear;
-    this.shadowWasEnabled = renderer.shadowMap.enabled;
-    this.shadowType = renderer.shadowMap.type;
-    this.gl = renderer.getContext() as WebGL2RenderingContext;
-    this.timer = this.gl.getExtension('EXT_disjoint_timer_query_webgl2');
-    this.composer = new EffectComposer(renderer, { frameBufferType: T.HalfFloatType });
-    const surroundPass = new RenderPass(this.room.surround.scene, camera);
-    surroundPass.skipShadowMapUpdate = true;
-    this.composer.addPass(surroundPass);
-    const worldPass = new RenderPass(scene, camera);
-    worldPass.clearPass.setClearFlags(false, true, false);
-    this.composer.addPass(worldPass);
-    this.bloom = new BloomEffect({
-      intensity: 0.25,
-      luminanceThreshold: 1,
-      luminanceSmoothing: 0.12,
-      mipmapBlur: true,
-      resolutionScale: 0.5,
-    });
-    this.glowPass = new EffectPass(camera, this.bloom);
-    this.composer.addPass(this.glowPass);
-    this.finish = new Effect('IllustratedFinish', finishShader, {
-      blendFunction: BlendFunction.NORMAL,
-      uniforms: new Map(Object.entries(this.uniforms)),
-    });
-    this.tone = new ToneMappingEffect({ mode: ToneMappingMode.NEUTRAL });
-    this.finishPass = new EffectPass(camera, this.finish, this.tone);
-    this.composer.addPass(this.finishPass);
-    this.composer.addPass(new EffectPass(camera, new ColorAntialiasing()));
-    renderer.autoClear = this.priorAutoClear;
-    this.sun.castShadow = true;
-    this.sun.shadow.mapSize.set(2048, 2048);
-    this.sun.shadow.bias = -0.00025;
-    this.sun.shadow.normalBias = 0.025;
-    this.sun.shadow.radius = 1.5;
-    this.sun.shadow.camera.near = 0.1;
-    this.sun.shadow.camera.far = 75;
-    this.sun.intensity = 0;
-    const fallback = new T.DepthTexture(1, 1, T.UnsignedIntType);
-    fallback.compareFunction = T.LessEqualCompare;
-    fallback.needsUpdate = true;
-    this.owned.push(fallback);
-    Object.defineProperty(this.lighting.common.inkShadowMap, 'value', {
-      get: () => this.sun.shadow.map?.depthTexture ?? fallback,
-    });
-    this.lighting.common.inkShadowMatrix.value = this.sun.shadow.matrix;
-    scene.add(this.sun, this.sun.target, this.extras, this.proxies);
-    this.extras.visible = this.proxies.visible = false;
-    this.sun.castShadow = false;
-    const positions: number[] = [];
-    for (let i = 0; i < 100; i++)
-      positions.push(Math.sin(i * 12.9898) * 17, 0.2 + (i % 13) / 7, Math.cos(i * 4.1414) * 17);
-    const geometry = new T.BufferGeometry();
-    geometry.setAttribute('position', new T.Float32BufferAttribute(positions, 3));
-    const particle = new T.ShaderMaterial({
-      transparent: true,
-      depthTest: true,
-      depthWrite: false,
-      uniforms: { t: { value: 0 }, tint: { value: new T.Color(0xffd7a0) } },
-      vertexShader:
-        'uniform float t;void main(){vec3 p=position;p.x+=sin(t*.25+position.z)*.18;p.y+=sin(t*.16+position.x)*.12;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);gl_PointSize=2.0;}',
-      fragmentShader:
-        'uniform vec3 tint;void main(){float a=1.0-smoothstep(.05,.5,length(gl_PointCoord-.5));gl_FragColor=vec4(tint,a*.32);#include <colorspace_fragment>\n}',
-    });
-    // Includes must start on their own line for the shader preprocessor.
-    particle.fragmentShader = particle.fragmentShader.replace(';#include', ';\n#include');
-    this.dust = new T.Points(geometry, particle);
-    this.extras.add(this.dust);
-    this.owned.push(geometry, particle);
-    const mistTexture = radialTexture(1, 1, 0.35);
-    this.owned.push(mistTexture);
-    this.extras.add(this.mist.group);
-    for (let i = 1; i < 4; i++) {
-      const material = new T.MeshBasicMaterial({
-        map: mistTexture,
-        color: new T.Color(0xffac4d).multiplyScalar(4),
-        transparent: true,
-        depthWrite: false,
-        toneMapped: false,
-        blending: T.AdditiveBlending,
-        opacity: 0.5,
+    try {
+      this.lighting = this.lifetime.own(new IllustratedLighting());
+      this.surfaces = this.lifetime.own(new SurfaceRelief());
+      this.mist = this.lifetime.own(new GroundMist());
+      this.shadowProxies = new ShadowProxies(this.sun);
+      const { renderer, scene, camera } = resources;
+      this.focusMask = new FocusMask(
+        renderer,
+        scene,
+        camera,
+        this.uniforms,
+        this.extras,
+        this.proxies,
+      );
+      this.lifetime.own(this.focusMask);
+      this.priorAutoClear = renderer.autoClear;
+      this.shadowWasEnabled = renderer.shadowMap.enabled;
+      this.shadowType = renderer.shadowMap.type;
+      this.lifetime.defer(() => this.deactivate());
+      this.gl = renderer.getContext() as WebGL2RenderingContext;
+      this.timer = this.gl.getExtension('EXT_disjoint_timer_query_webgl2');
+      this.composer = this.lifetime.own(
+        new EffectComposer(renderer, { frameBufferType: T.HalfFloatType }),
+      );
+      const surroundPass = new RenderPass(this.room.surround.scene, camera);
+      surroundPass.skipShadowMapUpdate = true;
+      this.composer.addPass(surroundPass);
+      const worldPass = new RenderPass(scene, camera);
+      worldPass.clearPass.setClearFlags(false, true, false);
+      this.composer.addPass(worldPass);
+      this.bloom = new BloomEffect({
+        intensity: 0.25,
+        luminanceThreshold: 1,
+        luminanceSmoothing: 0.12,
+        mipmapBlur: true,
+        resolutionScale: 0.5,
       });
-      const glow = new T.Mesh(new T.PlaneGeometry(0.45, 0.45), material);
-      this.extras.add(glow);
-      this.glows.push(glow);
-      this.owned.push(glow.geometry, material);
+      this.glowPass = new EffectPass(camera, this.bloom);
+      this.composer.addPass(this.glowPass);
+      this.finish = new Effect('IllustratedFinish', finishShader, {
+        blendFunction: BlendFunction.NORMAL,
+        uniforms: new Map(Object.entries(this.uniforms)),
+      });
+      this.tone = new ToneMappingEffect({ mode: ToneMappingMode.NEUTRAL });
+      this.finishPass = new EffectPass(camera, this.finish, this.tone);
+      this.composer.addPass(this.finishPass);
+      this.composer.addPass(new EffectPass(camera, new ColorAntialiasing()));
+      renderer.autoClear = this.priorAutoClear;
+      this.sun.castShadow = true;
+      this.sun.shadow.mapSize.set(2048, 2048);
+      this.sun.shadow.bias = -0.00025;
+      this.sun.shadow.normalBias = 0.025;
+      this.sun.shadow.radius = 1.5;
+      this.sun.shadow.camera.near = 0.1;
+      this.sun.shadow.camera.far = 75;
+      this.sun.intensity = 0;
+      const fallback = new T.DepthTexture(1, 1, T.UnsignedIntType);
+      fallback.compareFunction = T.LessEqualCompare;
+      fallback.needsUpdate = true;
+      this.lifetime.own(fallback);
+      Object.defineProperty(this.lighting.common.inkShadowMap, 'value', {
+        get: () => this.sun.shadow.map?.depthTexture ?? fallback,
+      });
+      this.lighting.common.inkShadowMatrix.value = this.sun.shadow.matrix;
+      scene.add(this.sun, this.sun.target, this.extras, this.proxies);
+      this.lifetime.defer(() =>
+        cleanupAll([
+          () => this.resetRoom(),
+          () => this.sun.shadow.dispose(),
+          () => this.sun.removeFromParent(),
+          () => this.sun.target.removeFromParent(),
+          () => this.extras.removeFromParent(),
+          () => this.proxies.removeFromParent(),
+        ]),
+      );
+      this.extras.visible = this.proxies.visible = false;
+      this.sun.castShadow = false;
+      const positions: number[] = [];
+      for (let i = 0; i < 100; i++)
+        positions.push(Math.sin(i * 12.9898) * 17, 0.2 + (i % 13) / 7, Math.cos(i * 4.1414) * 17);
+      const geometry = this.lifetime.own(new T.BufferGeometry());
+      geometry.setAttribute('position', new T.Float32BufferAttribute(positions, 3));
+      const particle = this.lifetime.own(
+        new T.ShaderMaterial({
+          transparent: true,
+          depthTest: true,
+          depthWrite: false,
+          uniforms: { t: { value: 0 }, tint: { value: new T.Color(0xffd7a0) } },
+          vertexShader:
+            'uniform float t;void main(){vec3 p=position;p.x+=sin(t*.25+position.z)*.18;p.y+=sin(t*.16+position.x)*.12;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);gl_PointSize=2.0;}',
+          fragmentShader:
+            'uniform vec3 tint;void main(){float a=1.0-smoothstep(.05,.5,length(gl_PointCoord-.5));gl_FragColor=vec4(tint,a*.32);#include <colorspace_fragment>\n}',
+        }),
+      );
+      // Includes must start on their own line for the shader preprocessor.
+      particle.fragmentShader = particle.fragmentShader.replace(';#include', ';\n#include');
+      this.dust = new T.Points(geometry, particle);
+      this.extras.add(this.dust);
+      const mistTexture = this.lifetime.own(radialTexture(1, 1, 0.35));
+      this.extras.add(this.mist.group);
+      for (let i = 1; i < 4; i++) {
+        const material = this.lifetime.own(
+          new T.MeshBasicMaterial({
+            map: mistTexture,
+            color: new T.Color(0xffac4d).multiplyScalar(4),
+            transparent: true,
+            depthWrite: false,
+            toneMapped: false,
+            blending: T.AdditiveBlending,
+            opacity: 0.5,
+          }),
+        );
+        const glow = new T.Mesh(this.lifetime.own(new T.PlaneGeometry(0.45, 0.45)), material);
+        this.extras.add(glow);
+        this.glows.push(glow);
+      }
+    } catch (error) {
+      cleanupAfterFailure(error, () => this.dispose());
     }
-    this.normalReady = Promise.all([
-      this.lighting.normals.load(resources.packs.keys()),
-      this.surfaces.load(resources.packs),
-    ]).then(() => {
-      this.ready = true;
-    });
   }
   async prepare(assets: Iterable<string> = this.resources.packs.keys()) {
-    await this.normalReady;
-    await this.lighting.normals.load(assets);
+    if (this.disposed) throw new Error('lighting renderer disposed');
+    await Promise.all([
+      this.lighting.normals.load(assets),
+      this.surfaces.load(this.resources.packs),
+    ]);
+    if (this.disposed) throw new Error('lighting renderer disposed');
+    this.ready = true;
   }
 
   private resetGpuTiming() {
@@ -277,17 +299,20 @@ export class SceneLightingRenderer {
     r.autoClear = this.priorAutoClear;
   }
   resetRoom() {
-    this.surfaces.reset();
-    this.resetGpuTiming();
-    for (const receiver of this.floorReceivers) {
-      receiver.geometry.dispose();
-      (receiver.material as T.Material).dispose();
-      receiver.removeFromParent();
-    }
+    const receivers = this.floorReceivers;
     this.floorReceivers = [];
-    this.shadowProxies.reset();
-    this.focusMask.reset();
     this.generation = -1;
+    cleanupAll([
+      () => this.surfaces.reset(),
+      () => this.resetGpuTiming(),
+      ...receivers.flatMap((receiver) => [
+        () => receiver.geometry.dispose(),
+        () => (receiver.material as T.Material).dispose(),
+        () => receiver.removeFromParent(),
+      ]),
+      () => this.shadowProxies.reset(),
+      () => this.focusMask.reset(),
+    ]);
   }
   private buildRoom(sim: SimulationView, visuals: WorldVisualDefinition | undefined) {
     this.mist.setArea(sim.areaDefinition);
@@ -534,20 +559,9 @@ export class SceneLightingRenderer {
     };
   }
   dispose() {
-    this.deactivate();
-    this.resetRoom();
-    this.composer.dispose();
-    this.focusMask.dispose();
-    this.sun.shadow.dispose();
-    this.sun.removeFromParent();
-    this.sun.target.removeFromParent();
-    this.extras.removeFromParent();
-    this.proxies.removeFromParent();
-    this.mist.dispose();
-    for (const owned of this.owned) owned.dispose();
-    for (const query of this.queries) this.gl.deleteQuery(query);
-    this.queries = [];
-    this.surfaces.dispose();
-    this.lighting.dispose();
+    if (this.disposed) return;
+    this.disposed = true;
+    this.ready = false;
+    this.lifetime.dispose();
   }
 }

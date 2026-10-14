@@ -27,3 +27,28 @@ export function cleanupAfterFailure(error: unknown, cleanup: () => void): never 
   }
   throw error;
 }
+
+// Construction and shutdown share one owner. Register immediately after allocation;
+// later allocations borrow earlier resources, so destruction runs in reverse order.
+export class DisposalScope {
+  private actions: (() => void)[] = [];
+  private closed = false;
+  defer(action: () => void) {
+    if (this.closed) {
+      action();
+      throw new Error('resource scope closed');
+    }
+    this.actions.push(action);
+  }
+  own<T extends { dispose(): void }>(resource: T): T {
+    this.defer(() => resource.dispose());
+    return resource;
+  }
+  dispose() {
+    if (this.closed) return;
+    this.closed = true;
+    const actions = this.actions;
+    this.actions = [];
+    cleanupAll(actions.reverse());
+  }
+}

@@ -4,7 +4,7 @@ export const audioControls = `<fieldset class="audio-options"><legend>Sound</leg
 <label>Mute<input type="checkbox" data-audio="muted"></label>
 ${(['master', 'effects', 'ambience'] as const).map((key) => `<label>${key === 'master' ? 'Master volume' : key === 'effects' ? 'Sound effects' : 'Ambience'}<input type="range" min="0" max="100" step="1" data-audio="${key}"><output data-audio-value="${key}"></output></label>`).join('')}
 </fieldset>`;
-export function bindAudioControls(app: Application, root: ParentNode) {
+export function bindAudioControls(app: Application, root: ParentNode, signal?: AbortSignal) {
   for (const input of root.querySelectorAll<HTMLInputElement>('[data-audio]')) {
     const key = input.dataset.audio as keyof AudioSettings;
     const output = root.querySelector<HTMLOutputElement>(`[data-audio-value="${key}"]`);
@@ -16,14 +16,18 @@ export function bindAudioControls(app: Application, root: ParentNode) {
       }
     };
     sync();
-    input.oninput = () => {
-      app.audio.updateSettings({
-        ...app.audio.settings,
-        [key]: key === 'muted' ? input.checked : Number(input.value) / 100,
-      });
-      sync();
-    };
-    input.onchange = () => app.safe(() => app.saveSettings());
+    input.addEventListener(
+      'input',
+      () => {
+        app.audio.updateSettings({
+          ...app.audio.settings,
+          [key]: key === 'muted' ? input.checked : Number(input.value) / 100,
+        });
+        sync();
+      },
+      { signal },
+    );
+    input.addEventListener('change', () => app.safe(() => app.saveSettings()), { signal });
   }
 }
 

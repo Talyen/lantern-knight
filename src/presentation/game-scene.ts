@@ -1,4 +1,4 @@
-import { cleanupAll } from '../assets/cleanup';
+import { cleanupAll, cleanupAfterFailure, DisposalScope } from '../assets/cleanup';
 import { radialTexture } from './radial-texture';
 import { defaultLook } from './lighting-profiles';
 import { heroLanternPosition } from './hero-lantern';
@@ -9,6 +9,7 @@ import { RoomPresentation } from './room-presentation';
 import { ActorPresentation } from './actor-presentation';
 import type { PreparedRegistration } from '../assets/registration';
 import * as T from 'three';
+import { BitmapTexture } from './bitmap-texture';
 import { verifiedBitmap } from '../assets/bitmap';
 import { cameraContract as contract } from '../assets/camera-contract';
 import { makeCamera, resizeCamera, constrainCamera, drawingBufferSize, outward } from './camera';
@@ -38,6 +39,7 @@ import { SceneVisualEffects } from './scene-visual-effects';
 import { CombatFeedback } from './combat-feedback';
 import { SceneLightingRenderer } from './scene-lighting-renderer';
 export class GamePresentation implements PresentationLifecycle {
+  protected readonly resources = new DisposalScope();
   groundOcclusion?: GroundOcclusion;
   readonly roomPresentation: RoomPresentation;
   readonly actorPresentation: ActorPresentation;
@@ -60,7 +62,27 @@ export class GamePresentation implements PresentationLifecycle {
   rigidSword = true;
   walkTiming: WalkTiming = 'weighted';
   animationFlow: AnimationFlow | undefined;
-  private flowBitmap: ImageBitmap | undefined;
+  private readonly flow = new BitmapTexture(
+    (signal) =>
+      verifiedBitmap(
+        '/animation/flow.png',
+        {
+          hash: this.registration.animation.sha256,
+          width: this.registration.animation.width,
+          height: this.registration.animation.height,
+        },
+        fetch,
+        signal,
+      ),
+    (texture) => {
+      texture.flipY = false;
+      texture.generateMipmaps = false;
+      texture.minFilter = T.LinearFilter;
+      texture.magFilter = T.LinearFilter;
+      texture.needsUpdate = true;
+      this.renderer.initTexture(texture);
+    },
+  );
   protected disposed = false;
   shadowTexture: T.CanvasTexture;
   cameraTarget = new T.Vector3();
@@ -89,90 +111,106 @@ export class GamePresentation implements PresentationLifecycle {
     public visualOverride?: WorldVisualDefinition,
   ) {
     this.area = initialArea;
-    this.renderer = new T.WebGLRenderer({
-      canvas,
-      antialias: false,
-      alpha: false,
-    });
-    this.renderer.outputColorSpace = T.SRGBColorSpace;
-    this.renderer.setPixelRatio(contract.pixelRatioCap);
-    this.renderer.setClearColor(0x151923);
-    if (
-      this.renderer.capabilities.maxTextureSize <
-      Math.max(
-        ...[...this.textures.values()].map((t) =>
-          Math.max(imageDimensions(t.image).width, imageDimensions(t.image).height),
-        ),
-      )
-    )
-      throw new Error('GPU maximum texture size below compiled atlas dimensions');
-    this.scene.add(new T.HemisphereLight(0xc5d4e1, 0x392b30, 2));
-    const sun = new T.DirectionalLight(0xe9d2ac, 2);
-    sun.position.set(-4, 8, 3);
-    this.scene.add(sun, this.light);
-    this.shadowTexture = radialTexture(2, 0.9, 0.75);
-    this.roomPresentation = new RoomPresentation(
-      packs,
-      this.camera,
-      this.shadowTexture,
-      registration,
-    );
-    this.actorPresentation = new ActorPresentation(
-      this.roomPresentation.room,
-      packs,
-      this.camera,
-      this.shadowTexture,
-      registration,
-      events,
-    );
-    this.scene.add(this.roomPresentation.room);
-    this.flare = new T.Mesh(
-      new T.RingGeometry(
-        0.02,
-        tuning.ability.range,
-        48,
-        6,
-        -tuning.ability.halfAngle,
-        tuning.ability.halfAngle * 2,
-      ),
-      new T.MeshBasicMaterial({
-        color: 0xf4c575,
-        transparent: true,
-        opacity: 0.35,
-        depthTest: true,
-        depthWrite: false,
-        side: T.DoubleSide,
-      }),
-    );
-    this.flare.rotation.x = -Math.PI / 2;
-    this.flare.frustumCulled = false;
-    this.scene.add(this.flare);
-    const aimGeo = new T.RingGeometry(0.16, 0.19, 32),
-      aimMat = new T.MeshBasicMaterial({
-        color: 0xe5bd77,
-        transparent: true,
-        opacity: 0.9,
-        depthWrite: false,
+    try {
+      this.renderer = new T.WebGLRenderer({
+        canvas,
+        antialias: false,
+        alpha: false,
       });
-    this.aim = new T.Mesh(aimGeo, aimMat);
-    this.aim.rotation.x = -Math.PI / 2;
-    this.scene.add(this.aim);
-    this.buildRoom();
-    this.resize();
-    this.sceneEffects = new SceneVisualEffects(this.packs, this.camera);
-    this.lookRenderer = new SceneLightingRenderer(
-      { renderer: this.renderer, scene: this.scene, camera: this.camera, packs: this.packs },
-      this.roomPresentation,
-      this.actorPresentation,
-      this.sceneEffects,
-    );
-    this.lookRenderer.setSettings({
-      ...(this.visuals?.look ?? { rig: defaultLook.rig, look: defaultLook.look }),
-      sun: this.visuals?.look ? this.visuals.look.sun : defaultLook.sun,
-    });
-    this.scene.add(this.sceneEffects.group);
-    this.combatFeedback = new CombatFeedback(this.packs, this.camera, this.events);
-    this.scene.add(this.combatFeedback.group);
+      this.resources.own(this.renderer);
+      this.resources.own(this.flow);
+      this.renderer.outputColorSpace = T.SRGBColorSpace;
+      this.renderer.setPixelRatio(contract.pixelRatioCap);
+      this.renderer.setClearColor(0x151923);
+      if (
+        this.renderer.capabilities.maxTextureSize <
+        Math.max(
+          ...[...this.textures.values()].map((t) =>
+            Math.max(imageDimensions(t.image).width, imageDimensions(t.image).height),
+          ),
+        )
+      )
+        throw new Error('GPU maximum texture size below compiled atlas dimensions');
+      this.scene.add(new T.HemisphereLight(0xc5d4e1, 0x392b30, 2));
+      const sun = new T.DirectionalLight(0xe9d2ac, 2);
+      sun.position.set(-4, 8, 3);
+      this.scene.add(sun, this.light);
+      this.shadowTexture = this.resources.own(radialTexture(2, 0.9, 0.75));
+      this.roomPresentation = new RoomPresentation(
+        packs,
+        this.camera,
+        this.shadowTexture,
+        registration,
+      );
+      this.resources.defer(() => this.disposeRoom());
+      this.actorPresentation = new ActorPresentation(
+        this.roomPresentation.room,
+        packs,
+        this.camera,
+        this.shadowTexture,
+        registration,
+        events,
+      );
+      this.scene.add(this.roomPresentation.room);
+      this.flare = new T.Mesh(
+        this.resources.own(
+          new T.RingGeometry(
+            0.02,
+            tuning.ability.range,
+            48,
+            6,
+            -tuning.ability.halfAngle,
+            tuning.ability.halfAngle * 2,
+          ),
+        ),
+        this.resources.own(
+          new T.MeshBasicMaterial({
+            color: 0xf4c575,
+            transparent: true,
+            opacity: 0.35,
+            depthTest: true,
+            depthWrite: false,
+            side: T.DoubleSide,
+          }),
+        ),
+      );
+      this.flare.rotation.x = -Math.PI / 2;
+      this.flare.frustumCulled = false;
+      this.scene.add(this.flare);
+      const aimGeo = this.resources.own(new T.RingGeometry(0.16, 0.19, 32)),
+        aimMat = this.resources.own(
+          new T.MeshBasicMaterial({
+            color: 0xe5bd77,
+            transparent: true,
+            opacity: 0.9,
+            depthWrite: false,
+          }),
+        );
+      this.aim = new T.Mesh(aimGeo, aimMat);
+      this.aim.rotation.x = -Math.PI / 2;
+      this.scene.add(this.aim);
+      this.buildRoom();
+      this.resize();
+      this.sceneEffects = this.resources.own(new SceneVisualEffects(this.packs, this.camera));
+      this.lookRenderer = new SceneLightingRenderer(
+        { renderer: this.renderer, scene: this.scene, camera: this.camera, packs: this.packs },
+        this.roomPresentation,
+        this.actorPresentation,
+        this.sceneEffects,
+      );
+      this.resources.own(this.lookRenderer);
+      this.lookRenderer.setSettings({
+        ...(this.visuals?.look ?? { rig: defaultLook.rig, look: defaultLook.look }),
+        sun: this.visuals?.look ? this.visuals.look.sun : defaultLook.sun,
+      });
+      this.scene.add(this.sceneEffects.group);
+      this.combatFeedback = this.resources.own(
+        new CombatFeedback(this.packs, this.camera, this.events),
+      );
+      this.scene.add(this.combatFeedback.group);
+    } catch (error) {
+      cleanupAfterFailure(error, () => this.dispose());
+    }
   }
   buildRoom() {
     this.roomPresentation.buildRoom(this.area, this.visuals);
@@ -192,7 +230,7 @@ export class GamePresentation implements PresentationLifecycle {
     cleanupAll([
       () => ground?.dispose(),
       () => this.roomPresentation.disposeScenery(),
-      () => this.actorPresentation.dispose(),
+      () => this.actorPresentation?.dispose(),
       () => this.roomPresentation.disposeResources(),
     ]);
   }
@@ -378,25 +416,9 @@ export class GamePresentation implements PresentationLifecycle {
     }
   }
   async loadAnimationFlow() {
-    const animationFlowData = this.registration.animation;
-    const bitmap = await verifiedBitmap('/animation/flow.png', {
-      hash: animationFlowData.sha256,
-      width: animationFlowData.width,
-      height: animationFlowData.height,
-    });
-    if (this.disposed) {
-      bitmap.close();
-      throw new Error('presentation disposed');
-    }
-    const texture = new T.Texture(bitmap);
-    texture.flipY = false;
-    texture.generateMipmaps = false;
-    texture.minFilter = T.LinearFilter;
-    texture.magFilter = T.LinearFilter;
-    texture.needsUpdate = true;
-    this.flowBitmap = bitmap;
-    this.animationFlow = { texture, ...animationFlowData };
-    this.renderer.initTexture(texture);
+    const texture = await this.flow.load();
+    if (this.disposed) throw new Error('presentation disposed');
+    this.animationFlow = { texture, ...this.registration.animation };
   }
   async warm() {
     await this.lookRenderer.prepare();
@@ -478,19 +500,6 @@ export class GamePresentation implements PresentationLifecycle {
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
-    cleanupAll([
-      () => this.combatFeedback.dispose(),
-      () => this.sceneEffects?.dispose(),
-      () => this.lookRenderer?.dispose(),
-      () => this.disposeRoom(),
-      ...[this.aim, this.flare].flatMap((mesh) => [
-        () => mesh.geometry.dispose(),
-        () => (mesh.material as T.Material).dispose(),
-      ]),
-      () => this.animationFlow?.texture.dispose(),
-      () => this.flowBitmap?.close(),
-      () => this.shadowTexture.dispose(),
-      () => this.renderer.dispose(),
-    ]);
+    this.resources.dispose();
   }
 }
