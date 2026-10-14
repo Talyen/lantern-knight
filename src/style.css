@@ -250,18 +250,37 @@ body.game {
 .location-enter {
   animation: location-title 6s both;
 }
-.game .controls-hint {
+.game .opening-hint {
   position: absolute;
-  bottom: 112px;
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  color: #d4ccb7;
+  top: 104px;
+  left: 28px;
+  width: min(390px, calc(100% - 56px));
+  box-sizing: border-box;
+  padding: 14px 16px;
+  border-left: 2px solid #c9ab6c;
+  background: rgba(17, 24, 27, 0.9);
+  color: #eee5cf;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.game .opening-hint[hidden] {
+  display: none;
+}
+.opening-hint p {
+  margin: 0 0 8px;
+}
+.opening-hint button {
+  padding: 4px 8px;
   font-size: 12px;
-  padding: 12px;
-  background: rgba(17, 24, 27, 0.65);
-  animation: opening-hint 12s forwards;
-  pointer-events: none;
+}
+.controls-help {
+  margin: 18px 0;
+}
+.controls-help summary {
+  cursor: pointer;
+}
+.controls-help p {
+  line-height: 1.7;
 }
 .game #pause {
   position: absolute;
@@ -330,15 +349,6 @@ body.game {
     transform: none;
   }
 }
-@keyframes opening-hint {
-  0%,
-  70% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
 @media (max-width: 850px) {
   .game .actions {
     left: auto;
@@ -349,11 +359,6 @@ body.game {
   .game .action {
     min-width: 55px;
     padding: 8px;
-  }
-  .game .controls-hint {
-    white-space: normal;
-    width: 80%;
-    text-align: center;
   }
 }
 
@@ -434,11 +439,10 @@ body.game {
   display: none;
 }
 #potion-count {
-  position: absolute;
-  bottom: 86px;
-  left: 28px;
+  display: block;
+  margin-top: 8px;
   color: #dfc99f;
-  font-size: 14px;
+  font-size: 12px;
 }
 .adventure-panel {
   width: min(900px, 90vw);

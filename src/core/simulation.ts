@@ -21,6 +21,7 @@ import {
 } from '../content/world';
 import type { GameplayEvent, EventDetails } from './events';
 import type { Actor, State } from './actor';
+import type { HeroAction } from './actor';
 export type { Actor, State } from './actor';
 export type Command = {
   move: { x: number; z: number };
@@ -28,11 +29,17 @@ export type Command = {
   attack?: boolean;
   dodge?: boolean;
   ability?: boolean;
+  actions?: readonly HeroAction[];
   generation?: number;
   potion?: boolean;
 };
 export type SimEvent = GameplayEvent;
-export type StepResult = { events: readonly GameplayEvent[]; transition?: string; reset?: 'death' };
+export type StepResult = {
+  events: readonly GameplayEvent[];
+  transition?: string;
+  onboardingChanged?: boolean;
+  reset?: 'death';
+};
 export class Simulation {
   readonly #view = simulationView(this);
   get view() {
@@ -209,7 +216,15 @@ export class Simulation {
       this.areaDefinition.spawns.map((spawn) => {
         const actor = this.actors.find((actor) => actor.id === spawnActorId(this.area, spawn.id));
         if (!actor) throw new Error(`missing spawn ${spawn.id}`);
-        return [spawn.id, { x: actor.x, z: actor.z, health: actor.health }];
+        return [
+          spawn.id,
+          {
+            x: actor.x,
+            z: actor.z,
+            health: actor.health,
+            ...(actor.burn ? { burn: { ...actor.burn } } : {}),
+          },
+        ];
       }),
     );
     return {
@@ -279,9 +294,6 @@ export class Simulation {
       attackKind: 'sweep',
       nextAttack: 'sweep',
       actionHeading: 'd90',
-      attackBufferedUntil: -1,
-      dashBufferedUntil: -1,
-      dashYaw: 0,
     };
   }
   get hero() {
@@ -383,9 +395,7 @@ export class Simulation {
                 ? 'No Health Potions'
                 : 'Potion is cooling down',
         });
-      if (
-        this.#combat.admitHero(h, command, this.tick, len > 0.01 ? Math.atan2(mx, mz) : undefined)
-      ) {
+      if (this.#combat.admitHero(h, command, len > 0.01 ? Math.atan2(mx, mz) : undefined)) {
         if (len <= 0.01 && this.movement.has(h.id)) {
           this.follow(h);
         } else {
@@ -395,6 +405,7 @@ export class Simulation {
         }
       }
     }
+    this.#combat.advanceBurn(h);
     if (this.areaDefinition.activation && contains(this.areaDefinition.activation, h))
       this.engaged = true;
     for (const a of this.actors) {

@@ -1609,10 +1609,19 @@ test('frame admission is revoked by hooks and disposal before gameplay or furthe
       };
     if (boundary === 'feedback') app.events.subscribe(() => app.dispose());
     if (boundary === 'pause-feedback') app.events.subscribe(() => app.pause(true));
+    editFixture(app, (sim) => {
+      sim.enemies[0]!.burn = { remaining: 180, nextTick: 60 };
+      return undefined;
+    });
     const tick = app.sim.tick;
     const frame = Reflect.get(app, 'loop') as (now: number) => void;
     frame(performance.now() + 100);
     assert.equal(app.sim.tick, tick + steps, boundary);
+    assert.equal(
+      app.sim.enemies[0]!.burn?.nextTick,
+      60 - steps,
+      'Burn advances only admitted simulation ticks',
+    );
     assert.equal(renders, boundary === 'feedback' ? 0 : 1, boundary);
     assert.equal(frames, boundary === 'feedback' || boundary === 'render' ? 0 : 1, boundary);
     assert.equal(after, boundary === 'frame' ? 0 : frames, boundary);

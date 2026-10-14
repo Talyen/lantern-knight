@@ -417,11 +417,11 @@ function duel() {
 }
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 
-test('flare tests the aimed cone boundary, range, one damage/stagger per cast and cooldown', () => {
+test('flare tests the circular burst boundary, range, one damage/stagger per cast and cooldown', () => {
   for (const [angle, range, hit] of [
     [0, 2.5, true],
-    [tuning.ability.halfAngle, 2.5, true],
-    [tuning.ability.halfAngle + 0.001, 2.5, false],
+    [Math.PI, 2.5, true],
+    [Math.PI / 2, 2.501, false],
     [0, 3.01, false],
   ] as const) {
     const s = duel();
@@ -429,7 +429,7 @@ test('flare tests the aimed cone boundary, range, one damage/stagger per cast an
     const target = s.actors[1]!;
     Object.assign(target, { x: Math.sin(angle) * range, z: Math.cos(angle) * range, health: 70 });
     let flares = 0;
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < tuning.ability.total - 1; i++) {
       s.step({ move: { x: 0, z: 0 }, aim: { x: 0, z: 5 }, ability: true });
       flares += s.events.filter((e) => e.kind === 'flare').length;
     }
@@ -446,7 +446,7 @@ test('death resets current area exactly once, clears transient state, and invali
     oldEnemy = old.enemies[0]!,
     generation = old.generation;
   old.hero.cooldown = 100;
-  old.hero.attackBufferedUntil = 1000;
+  old.hero.pendingAction = { kind: 'sword', yaw: 0 };
   old.damage(oldEnemy, oldHero, 1000);
   const event = old.events.at(-1)!;
   for (let i = 0; i < tuning.deathHoldTicks + 1; i++) {
@@ -461,7 +461,7 @@ test('death resets current area exactly once, clears transient state, and invali
   assert.equal(s.area, 'upper-landing');
   assert.equal(s.hero.health, 100);
   assert.equal(s.hero.cooldown, 0);
-  assert.equal(s.hero.attackBufferedUntil, -1);
+  assert.equal(s.hero.pendingAction, undefined);
   assert.equal(s.accepts(event), false);
   s.damage(oldEnemy, s.hero, 1000, generation);
   assert.equal(s.hero.health, 100);

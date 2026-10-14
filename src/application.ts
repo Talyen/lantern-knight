@@ -1,3 +1,4 @@
+import type { Lesson } from './core/onboarding';
 import { AudioPlayback } from './audio/playback';
 import { AudioFeedback } from './audio/feedback';
 import { cleanupAll, cleanupAfterFailure } from './assets/cleanup';
@@ -533,6 +534,13 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.publish(events);
     this.autosave();
   }
+  changeHints(action: 'dismiss' | 'replay', lesson?: Lesson) {
+    this.assertActive();
+    if (this.busy || !this.roomReady) return;
+    if (action === 'replay') this.current.session.replayHints();
+    else if (lesson) this.current.session.dismissLesson(lesson);
+    this.autosave();
+  }
   rest(key: string) {
     return this.withSessionOperation(async (operation) => {
       if (this.sim.inCombat) throw new Error('Finish combat before resting');
@@ -681,6 +689,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         // Do not capture, reset or transition a successor on behalf of this tick.
         if (this.disposed || session !== this.current.session || !this.roomReady) return false;
         if (
+          result.onboardingChanged ||
           result.events.some(
             (e) =>
               e.kind === 'potion-used' ||

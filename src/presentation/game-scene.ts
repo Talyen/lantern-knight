@@ -93,6 +93,8 @@ export class GamePresentation implements PresentationLifecycle {
   area: AreaDefinition;
   generation = -1;
   flare: T.Mesh;
+  private burst:
+    { tick: number; generation: number; position: readonly [number, number, number] } | undefined;
   get visuals() {
     return this.visualOverride;
   }
@@ -154,14 +156,7 @@ export class GamePresentation implements PresentationLifecycle {
       this.scene.add(this.roomPresentation.room);
       this.flare = new T.Mesh(
         this.resources.own(
-          new T.RingGeometry(
-            0.02,
-            tuning.ability.range,
-            48,
-            6,
-            -tuning.ability.halfAngle,
-            tuning.ability.halfAngle * 2,
-          ),
+          new T.RingGeometry(tuning.ability.range * 0.94, tuning.ability.range, 64, 2),
         ),
         this.resources.own(
           new T.MeshBasicMaterial({
@@ -177,6 +172,16 @@ export class GamePresentation implements PresentationLifecycle {
       this.flare.rotation.x = -Math.PI / 2;
       this.flare.frustumCulled = false;
       this.scene.add(this.flare);
+      this.resources.defer(
+        events.subscribe((event) => {
+          if (event.kind === 'flare')
+            this.burst = {
+              tick: event.tick,
+              generation: event.generation,
+              position: event.position,
+            };
+        }),
+      );
       const aimGeo = this.resources.own(new T.RingGeometry(0.16, 0.19, 32)),
         aimMat = this.resources.own(
           new T.MeshBasicMaterial({
@@ -264,17 +269,16 @@ export class GamePresentation implements PresentationLifecycle {
     }
     this.roomPresentation.room.visible = true;
     this.updateCamera(sim, alpha);
-    this.flare.visible =
-      (!this.roomPresentation.inkRoom || this.debug) &&
-      ((sim.hero.state === 'ability' && sim.hero.age >= tuning.ability.windup) || this.debug);
-    this.flare.position.set(sim.hero.x, sim.hero.y + 0.06, sim.hero.z);
-    this.flare.rotation.z =
-      (sim.hero.state === 'ability' ? sim.hero.yaw : sim.hero.aim) - Math.PI / 2;
+    const burst = this.burst?.generation === sim.generation ? this.burst : undefined;
+    const elapsed = burst ? sim.tick - burst.tick + alpha : 21;
+    this.flare.visible = (elapsed < 21 && !!burst) || this.debug;
+    const origin = burst?.position ?? [sim.hero.x, sim.hero.y, sim.hero.z];
+    this.flare.position.set(origin[0], origin[1] + 0.06, origin[2]);
+    this.flare.rotation.z = 0;
     this.flare.scale.setScalar(1);
-    (this.flare.material as T.MeshBasicMaterial).opacity =
-      sim.hero.state === 'ability'
-        ? Math.max(0, 1 - sim.hero.age / tuning.ability.total) * 0.6
-        : 0.12;
+    (this.flare.material as T.MeshBasicMaterial).opacity = burst
+      ? 0.55 * Math.max(0, 1 - elapsed / 21)
+      : 0.12;
     if (this.flare.visible) {
       const points = this.flare.geometry.getAttribute('position'),
         a = this.flare.rotation.z,
@@ -283,9 +287,9 @@ export class GamePresentation implements PresentationLifecycle {
       for (let i = 0; i < points.count; i++) {
         const x = points.getX(i),
           y = points.getY(i),
-          wx = sim.hero.x + x * c - y * s,
-          wz = sim.hero.z - x * s - y * c;
-        points.setZ(i, heightAt(sim.areaDefinition, wx, wz) - sim.hero.y);
+          wx = origin[0] + x * c - y * s,
+          wz = origin[2] - x * s - y * c;
+        points.setZ(i, heightAt(sim.areaDefinition, wx, wz) - origin[1]);
       }
       points.needsUpdate = true;
     }

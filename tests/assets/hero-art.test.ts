@@ -2,6 +2,8 @@ import { readRegistration } from '../../tools/assets/data';
 import { timedWalk, remapWalkTime } from '../../src/core/locomotion-timing';
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { retimeLanternClip } from '../../src/presentation/lantern-timing';
+import { frameAt } from '../../src/core/animation';
 import { heroTimings } from '../../src/content/hero-actions';
 import { selectAuthoredDirection, AUTHORED_HEADINGS, HEADINGS } from '../../src/content/headings';
 import { makeCamera } from '../../src/presentation/camera';
@@ -68,6 +70,14 @@ test('current hero preserves mixed native registrations and resolves all heading
     for (const heading of name === 'walk' ? HEADINGS : AUTHORED_HEADINGS) {
       const c = resolveClip(m, name, heading);
       assert.deepEqual(c.durationsMs, heroTimings[name]![heading]!.holdsMs);
+      if (name === 'cast_lantern_flare') {
+        const retimed = retimeLanternClip(
+          c,
+          selectAuthoredDirection((HEADINGS.indexOf(heading) * Math.PI) / 4),
+        );
+        assert.deepEqual(retimed.frames, c.frames);
+        assert.equal(frameAt(retimed, 200), c.frames[4]);
+      }
       assert.ok(c.frames.every((id) => m.frames.some((f) => f.id === id)));
       assert.equal(c.loop, ['ready', 'idle', 'walk'].includes(name));
       const data = registration.animation.clips[`${name}:${heading}`]!;

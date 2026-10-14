@@ -107,14 +107,14 @@ test('alternation survives waiting, dodge and hurt; interruptions cannot complet
   assert.equal(buffered.enemies[0]!.health, 22);
   const early = duel();
   for (let tick = 0; tick < 100; tick++) early.step({ ...still, attack: tick === 0 || tick === 2 });
-  assert.equal(early.hero.attackKind, 'sweep');
-  early.step({ ...still, attack: true });
   assert.equal(early.hero.attackKind, 'lunge');
+  early.step({ ...still, attack: true });
+  assert.equal(early.hero.attackKind, 'sweep');
   const queued = duel();
   queued.startSword(queued.hero, 'sweep');
   queued.hero.age = attackDefinition(queued.hero).total - 3;
   queued.step({ ...still, move: { x: 1, z: 0 }, dodge: true });
-  assert.equal(queued.hero.state, 'attack');
+  assert.equal(queued.hero.state, 'dodge');
 });
 test('dodge invulnerability and distance are confined to travel cels; lantern pulses once and death completes', () => {
   const s = duel();

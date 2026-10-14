@@ -38,7 +38,8 @@ export class CombatFeedback {
     events: EventHub,
   ) {
     this.unsubscribe = events.subscribe((event) => {
-      if (event.kind === 'damage' && event.amount > 0) this.pending.push(event);
+      if (event.kind === 'damage' && event.amount > 0 && event.phase !== 'over-time')
+        this.pending.push(event);
     });
   }
   private emit(

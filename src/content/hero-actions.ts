@@ -7,6 +7,13 @@ export const heroTimings = timings as Record<
   string,
   Record<AuthoredHeading, HeroTiming> & Partial<Record<Heading, HeroTiming>>
 >;
+export function lanternTiming(heading: AuthoredHeading): HeroTiming {
+  const source = heroTimings.cast_lantern_flare![heading];
+  return {
+    holdsMs: source.holdsMs.map((hold, index) => (index < 4 ? hold / 2 : hold)),
+    pulseMs: source.pulseMs! / 2,
+  };
+}
 const tick = (ms: number) => Math.ceil((ms * 60) / 1000 - 1e-8);
 export function heroActionTiming(
   clip: string,
@@ -14,8 +21,11 @@ export function heroActionTiming(
   sweepTiming: SweepTiming = defaultSweepTiming,
 ) {
   const recipe: HeroTiming | undefined =
-    (clip === 'sweep' ? sweepTimingOverride(sweepTiming, heading) : undefined) ??
-    heroTimings[clip]?.[heading];
+    (clip === 'sweep'
+      ? sweepTimingOverride(sweepTiming, heading)
+      : clip === 'cast_lantern_flare'
+        ? lanternTiming(heading)
+        : undefined) ?? heroTimings[clip]?.[heading];
   if (!recipe) throw new Error(`Missing hero action timing: ${clip}/${heading}`);
   return {
     total: tick(recipe.holdsMs.reduce((sum, ms) => sum + ms, 0)),
