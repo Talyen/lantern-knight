@@ -1,3 +1,4 @@
+import { cleanupAll, cleanupAfterFailure } from './cleanup';
 import { KTX2Loader } from 'three/addons/loaders/KTX2Loader.js';
 import { Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter } from 'three';
 import type { Manifest } from './schema';
@@ -77,6 +78,7 @@ export class TextureDelivery {
     canvas: HTMLCanvasElement,
     private quality: ImageQuality = 'delivery',
     private request: typeof fetch = globalThis.fetch.bind(globalThis),
+    private prepareTexture?: (texture: Texture) => void,
   ) {
     const gl = canvas.getContext('webgl2', { alpha: false, antialias: false });
     if (!gl) throw new Error('WebGL 2 is unavailable');
@@ -179,6 +181,17 @@ export class TextureDelivery {
       sourceHash: page.sourceHash ?? page.hash,
     };
     texture.needsUpdate = true;
+    try {
+      this.prepareTexture?.(texture);
+      if (this.closed) throw new Error('Image loader disposed');
+    } catch (error) {
+      cleanupAfterFailure(error, () =>
+        cleanupAll([
+          () => texture.dispose(),
+          () => (texture.image as { close?: () => void }).close?.(),
+        ]),
+      );
+    }
     return texture;
   }
   dispose() {

@@ -42,6 +42,12 @@ export class ShadowProxies {
         h = (registration?.height ?? 1) * (prop.scale ?? 1),
         size = prop.footprint ?? [Math.min(1.5, h * 0.35), Math.min(1.5, h * 0.35)];
       const sprite = sprites.find((s) => s.id === prop.id);
+      if (
+        sprite?.manifest.asset.type === 'effect' ||
+        prop.role === 'ground' ||
+        prop.role === 'attachment'
+      )
+        continue;
       if (sprite) {
         const material = new T.MeshBasicMaterial({
           map: sprite.material.map,

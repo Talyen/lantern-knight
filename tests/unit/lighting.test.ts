@@ -352,3 +352,41 @@ test('companion replacement consumes removed ownership before attempting every c
   }
   assert.deepEqual(closed, ['1', '2', '4', '5', '3']);
 });
+
+test('painted shade zones round-trip through content, enforce capacity, and clear on scene replacement', async () => {
+  const { emptyScene } = await import('../../src/editor/default-scene'),
+    { parseSceneDocument } = await import('../../src/content/scene-document'),
+    { resolveAuthoredScene } = await import('../../src/content/world-art'),
+    { SCENE_SHADE_CAPACITY } = await import('../../src/content/world-visuals');
+  const document = emptyScene();
+  const zones = [{ x: 2, z: 3, radius: 4, strength: 0.4 }];
+  document.look.shadeZones = zones;
+  const roundTrip = parseSceneDocument(JSON.parse(JSON.stringify(document)));
+  assert.deepEqual(resolveAuthoredScene(roundTrip).look?.shadeZones, zones);
+  for (const invalid of [
+    { ...zones[0], radius: 0 },
+    { ...zones[0], strength: 1 },
+    { ...zones[0], x: NaN },
+  ])
+    assert.throws(() =>
+      parseSceneDocument({ ...document, look: { ...document.look, shadeZones: [invalid] } }),
+    );
+  assert.throws(() =>
+    parseSceneDocument({
+      ...document,
+      look: {
+        ...document.look,
+        shadeZones: Array.from({ length: SCENE_SHADE_CAPACITY + 1 }, () => zones[0]),
+      },
+    }),
+  );
+  const lighting = new IllustratedLighting();
+  try {
+    lighting.configure({ ...defaultLook, shadeZones: zones }, new Vector3());
+    assert.deepEqual(lighting.common.inkShadeZones.value[0]!.toArray(), [2, 3, 4, 0.4]);
+    lighting.configure(defaultLook, new Vector3());
+    assert.ok(lighting.common.inkShadeZones.value.every((zone) => zone.w === 0));
+  } finally {
+    lighting.dispose();
+  }
+});

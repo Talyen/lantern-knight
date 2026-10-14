@@ -27,15 +27,15 @@ The fixtures invoke `python3`, which must resolve to the environment containing 
 
 `npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`:
 
-| Selector | Coverage |
-| --- | --- |
-| `game` | Input, pause/focus and current checkpoints. |
-| `scene` | Independent outdoor/interior fixtures, reload and resource lifetime. |
-| `editor` | Authoring, history, recovery, ground interaction, contact shadows and protected save requests. |
-| `effects` | Dedicated-scene controls and switching back to independent scene fixtures. |
-| `image-delivery`, `ground-occlusion` | Focused GPU behavior. |
-| `authored-ground` | Opt-in [movement and timing capture](developer-tools.md#authored-scene-timing-capture), selected by `LANTERN_GROUND_SCENE`. |
-| `ground-review` | Opt-in [occlusion captures](developer-tools.md#authored-occlusion-captures), selected by `LANTERN_GROUND_REVIEW`. |
+| Selector                             | Coverage                                                                                                                    |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `game`                               | Input, pause/focus and current checkpoints.                                                                                 |
+| `scene`                              | Independent outdoor/interior fixtures, reload and resource lifetime.                                                        |
+| `editor`                             | Authoring, history, recovery, ground interaction, contact shadows and protected save requests.                              |
+| `effects`                            | Dedicated-scene controls and switching back to independent scene fixtures.                                                  |
+| `image-delivery`, `ground-occlusion` | Focused GPU behavior.                                                                                                       |
+| `authored-ground`                    | Opt-in [movement and timing capture](developer-tools.md#authored-scene-timing-capture), selected by `LANTERN_GROUND_SCENE`. |
+| `ground-review`                      | Opt-in [occlusion captures](developer-tools.md#authored-occlusion-captures), selected by `LANTERN_GROUND_REVIEW`.           |
 
 Without a selector, Playwright selects all browser suites; both authored-scene diagnostics skip unless their scene environment variable is set. Selectors match filenames, so `editor` includes the editor regression, ground and contact suites. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion`.
 
@@ -89,9 +89,9 @@ The `benchmark` command routes several kinds of diagnostic. [Recorded session re
 
 Native diagnostics consume an already packaged application; they do not build it. Prepare the matching package on the host before running a scenario:
 
-| Scenarios after `npm run benchmark --` | Required package |
-| --- | --- |
-| `startup`, `walking`, `game`, `preferences` | Game: `npm run package` |
+| Scenarios after `npm run benchmark --`                                          | Required package                |
+| ------------------------------------------------------------------------------- | ------------------------------- |
+| `startup`, `walking`, `game`, `preferences`                                     | Game: `npm run package -- --unsigned`         |
 | `sandbox` (alias `scene`), `lighting`, `animation`, `hero`, `effects`, `scenes` | Dev: `npm run package -- --dev` |
 
 Use `--local` on both packaging and the diagnostic when investigating a local asset preparation. `--visible` shows the native window; hidden/software runs do not establish visible pacing. Use `--capture` when visual evidence is wanted, or `--output /external/investigation` to retain results without requesting captures. Successful managed diagnostics normally discard their output; keep comparison records in an external directory. Native framebuffer, motion and resource assertions remain available through these scenarios; routine checks do not generate galleries.
@@ -106,7 +106,7 @@ Compare cold acquisition/startup separately from warm iteration, checks, builds 
 
 ## Quick walking measurements
 
-After `npm run package`, run `npm run benchmark` for one hidden hardware-rendered walking sample: one second of warmup, then five seconds holding forward in the current Game starting scene at the display’s logical dimensions and render scale 1, with depth of field at 100% and every player visual-effect toggle enabled. The command retains `benchmark.json` outside Git and prints its path, actual framebuffer dimensions, GPU, refresh rate, FPS, p50/p95/p99 and worst frame intervals, intervals over 25 ms, and absolute/normalized hitch (≥50 ms) and stall (≥100 ms) counts. Use `npm run benchmark -- --output /external/walking-baseline` to choose a retained directory. `npm run benchmark -- walking` is equivalent. Add `--visible` for a borderless fullscreen confirmation run (simple fullscreen on macOS), with the complete viewport fitted to the display. Hidden and visible records cannot compare with each other.
+After `npm run package -- --unsigned`, run `npm run benchmark` for one hidden hardware-rendered walking sample: one second of warmup, then five seconds holding forward in the current Game starting scene at the display’s logical dimensions and render scale 1, with depth of field at 100% and every player visual-effect toggle enabled. The command retains `benchmark.json` outside Git and prints its path, actual framebuffer dimensions, GPU, refresh rate, FPS, p50/p95/p99 and worst frame intervals, intervals over 25 ms, and absolute/normalized hitch (≥50 ms) and stall (≥100 ms) counts. Use `npm run benchmark -- --output /external/walking-baseline` to choose a retained directory. `npm run benchmark -- walking` is equivalent. Add `--visible` for a borderless fullscreen confirmation run (simple fullscreen on macOS), with the complete viewport fitted to the display. Hidden and visible records cannot compare with each other.
 
 On macOS the quick path requests ANGLE Metal and rejects software fallback. Quick results and temporary profiles use a separate external `-measurements` cache capped at 256 MiB, avoiding artwork-cache scans on every run. The packaged executable supplies all assets; pin lookup does not acquire artwork payloads. The quick path skips the loading-media, menu and checkpoint journey checks. It verifies actual movement, hardware GPU observations, foreground sampling for visible runs and stable settings/source inputs. It consumes a matching package and rejects stale builds; packaging is explicit and outside the measurement time budget. It fails immediately if the GPU lane is occupied. The hidden default has a 27-second subprocess deadline and one-second termination grace for a 30-second command budget on a prepared, uncontended host. Visible confirmation permits up to 60 seconds for fullscreen setup and validation. A busy machine can prevent a result within that budget; the command prints total wall time on success or failure. Do not substitute software rendering or reduced resolution to meet the time goal.
 
@@ -114,6 +114,6 @@ For a visible run at a reported 59–61 Hz refresh rate, the provisional target 
 
 ## Packaged player journey measurements
 
-`npm run benchmark -- startup --samples 5 --visible --output /external/startup` measures fresh-process Game startup for empty storage and checkpoints in each current area, then verifies immediate dodge, attack input and movement. It records launch and document observations, overlapping registration/image/companion/GPU stages, resource timings, build identity, hardware and first-action frame cadence. `--baseline-executable /path/to/baseline` alternates matching baseline/candidate samples. Baseline packages must use the same asset pin; candidates must match current desktop inputs. Use 20 samples per scenario for a p95 below 10 seconds acceptance claim on reference Windows hardware. Fresh profiles do not establish an OS-cold disk cache, and macOS observations do not qualify Windows. Full quality and real input acceptance remain required.
+`npm run benchmark -- startup --samples 5 --visible --output /external/startup` measures fresh-process Game startup for empty storage and checkpoints in each current area, then verifies immediate attack, dodge, movement and lantern activation through the saved gameplay state. `--scenario fresh` restricts the run to empty storage. It records launch and document observations, overlapping registration/image/companion/GPU stages, resource timings, build identity, hardware and first-action frame cadence. `--baseline-executable /path/to/baseline` alternates matching baseline/candidate samples. Baseline packages must use the same asset pin; candidates must match current desktop inputs. Use 20 samples per scenario for a p95 below 10 seconds acceptance claim on reference Windows hardware. Fresh profiles do not establish an OS-cold disk cache, and macOS observations do not qualify Windows. Full quality and real input acceptance remain required.
 
 `npm run benchmark -- game --benchmark` exercises movement, action inputs and checkpoint operations in the selected Game package after explicit packaging. It does not measure encounters, connected-area traversal or death/retry. Its fixed movement and action journey does not establish combat performance for the authored encounters. Preserve gameplay, animation timing, sound behavior and visual fidelity. Hidden/software runs do not certify 60 FPS on reference hardware or visible polish. See [Delivery](release.md) for packaging and [session replay](session-replay.md) for headless reproduction.

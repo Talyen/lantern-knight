@@ -10,6 +10,7 @@ import {
 } from '../content/scene-document';
 import { sceneItems } from './model';
 import type { EditorView } from './view';
+import { SCENE_SHADE_CAPACITY } from '../content/world-visuals';
 import {
   sceneCompositionFindings,
   sceneDesignProfiles,
@@ -32,6 +33,7 @@ const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as 
 const point = { x: 0, z: 0 },
   bounds = { minX: -5, maxX: 5, minZ: -5, maxZ: 5 };
 const templates = {
+  shadeZones: { x: 0, z: 0, radius: 3, strength: 0.3 },
   spawns: {
     id: 'enemy',
     actor: 'skeleton',
@@ -129,6 +131,8 @@ function fieldLabel(name: string) {
     fade: 'Fade behind hero',
     spawns: 'Enemies',
     ground: 'Ground outline',
+    shadeZones: 'Painted shade zones',
+    strength: 'Shade amount',
   };
   return (
     names[name] ??
@@ -231,7 +235,7 @@ export class VisualAuthoring {
               }),
             );
         });
-        if (!tuple)
+        if (!tuple && !(path.at(-1) === 'shadeZones' && value.length >= SCENE_SHADE_CAPACITY))
           details.append(
             this.button('Add ' + fieldLabel(label), () => {
               const next = structuredClone(
@@ -341,6 +345,18 @@ export class VisualAuthoring {
               : 'number'
             : 'text';
       input.step = 'any';
+      if (path[0] === 'look' && path[1] === 'shadeZones') {
+        if (field === 'strength') {
+          input.min = '0';
+          input.max = '0.75';
+          input.step = '0.05';
+        }
+        if (field === 'radius') {
+          input.min = '0.1';
+          input.max = '100';
+          input.step = '0.1';
+        }
+      }
       if (typeof value === 'boolean') input.checked = value;
     }
     input.value =
@@ -421,7 +437,14 @@ export class VisualAuthoring {
         $('advice-section').removeAttribute('name');
         category.append($('advice-section'));
       }
-      if (title === 'Atmosphere') category.append($('atmosphere-section'));
+      if (title === 'Atmosphere') {
+        category.append($('atmosphere-section'));
+        const advice = document.createElement('p');
+        advice.textContent =
+          'Match shade painted into the ground. Characters and objects dim smoothly inside each zone; flames and local lights stay luminous. View → Zones shows the area.';
+        category.append(advice);
+        this.form([...(d.look.shadeZones ?? [])], ['look', 'shadeZones'], category, 'shadeZones');
+      }
       for (const key of keys) {
         const value = (
           key === 'weather'
@@ -727,6 +750,17 @@ export class VisualAuthoring {
     if (enabled.includes('zones') && d.profile !== 'study')
       for (const zone of Object.values(sceneDesignProfiles[d.profile].zones))
         box(zone.bounds, zone.kind === 'clear' ? 0x99ffaa : 0xaa99dd);
+    if (enabled.includes('zones') || geometry)
+      d.look.shadeZones?.forEach((zone, i) => {
+        line(
+          Array.from({ length: 32 }, (_, j) => ({
+            x: zone.x + Math.cos((j * Math.PI) / 16) * zone.radius,
+            z: zone.z + Math.sin((j * Math.PI) / 16) * zone.radius,
+          })),
+          0x869bab,
+        );
+        if (geometry) handle(['look', 'shadeZones', i], zone, 'Painted shade');
+      });
     if (enabled.includes('collision'))
       for (const item of sceneItems(d)) {
         const p = item.placement;

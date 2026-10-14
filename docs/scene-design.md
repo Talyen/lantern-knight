@@ -10,6 +10,14 @@ Measure native dimensions and density. Prefer quiet beds and coordinated intact 
 
 Choose each complete painting's world width with the hero visible beside human-scale landmarks: doorways, benches, tables, stair treads and passages. Image resolution alone does not determine world size. Inspect gameplay captures before accepting the scale, then validate actor clearance and navigation at that size. Later floor resizing reprojects accepted interaction geometry and test destinations with the artwork in one undoable edit; repeat the clearance and visual checks after resizing.
 
+## Scene cohesion
+
+Match the fixed sun direction and elevation to the shadows painted into the scene. The shared lighting rig owns directional casting; grounded props and actors also receive tighter independent contact shadows. Painted occlusion masks keep ground shadows off illustrated upright scenery. Interior bounds disable outdoor sun casting while retaining contact shadows and local illumination.
+
+Use Atmosphere → Painted shade zones for canopy or architectural shade depicted in a floor painting. Each zone has world X/Z, a radius and a shade amount from 0 to 0.75. Its edge fades smoothly, and overlapping zones use the strongest shade. Actors and props respond at their foot registration; the painting keeps its existing shade, while flames and local lights remain luminous. View → Zones shows the circles; geometry mode moves their centers. Painting resizes reproject zone centers and scale their radii with the painting width. Review zones after replacing ground artwork.
+
+Production defaults preserve painted contrast with restrained lighting and no depth-of-field blur. Keep stronger bloom, atmosphere and defocus as deliberate experiments. Compare identical camera positions and poses with lighting, casting and finishing toggled before accepting a treatment; inspect heroes, enemies, props and transparent edges at gameplay scale.
+
 ## Verification
 
 Use the shared development server and affected scene/editor browser scenario. Stable fixtures protect engine and registration behavior without freezing production counts/routes. Original art preparation and explicit sharing follow [assets](assets.md); [verification](verification.md) owns evidence boundaries.

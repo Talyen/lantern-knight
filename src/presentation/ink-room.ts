@@ -101,10 +101,6 @@ export class InkRoom {
     return graveyardGroundMaterial(this.packs, this.art);
   }
   private owned: { dispose: () => void }[] = [];
-  private castShadows: {
-    sprite: ActorSprite;
-    mesh: T.Mesh<T.BufferGeometry, T.MeshBasicMaterial>;
-  }[] = [];
   readonly contactShadows: PropContactShadows | undefined;
   private ground(p: ArtPlacement, asset = p.asset) {
     const s = this.sprite(p.id, asset, p.clip, p.heading);
@@ -191,48 +187,6 @@ export class InkRoom {
       emission.mesh.userData.emissive = true;
       emission.mesh.userData.decorative = settings.decorative;
       this.flames.push({ fixture: s, emission, placement: p, settings: fixture });
-    }
-    if (
-      s.manifest.asset.type !== 'effect' &&
-      s.animator.clip.frames.length === 1 &&
-      (p.shadow === undefined || p.shadow === 'cast') &&
-      !['lantern', 'cresset', 'votive', 'roots', 'fern', 'bramble'].includes(p.clip)
-    ) {
-      const g = s.geometry.clone(),
-        position = g.getAttribute('position');
-      s.mesh.updateMatrixWorld(true);
-      for (let i = 0; i < position.count; i++) {
-        const v = new T.Vector3().fromBufferAttribute(position, i).applyMatrix4(s.mesh.matrixWorld),
-          h = Math.max(0, v.y - heightAt(this.area, p.x, p.z));
-        v.x += h * 0.6;
-        v.z += h * 0.45;
-        v.y = heightAt(this.area, v.x, v.z) + 0.012;
-        position.setXYZ(i, v.x, v.y, v.z);
-      }
-      position.needsUpdate = true;
-      g.computeBoundingSphere();
-      const m = new T.MeshBasicMaterial({
-        map: s.material.map,
-        transparent: true,
-        opacity: p.clip === 'yew' ? 0.22 : 0.26,
-        alphaTest: 0.8,
-        depthWrite: false,
-        side: T.DoubleSide,
-        color: 0x142122,
-      });
-      m.onBeforeCompile = (shader) => {
-        shader.fragmentShader = shader.fragmentShader.replace(
-          '#include <map_fragment>',
-          '#ifdef USE_MAP\ndiffuseColor.a*=texture2D(map,vMapUv).a;\n#endif',
-        );
-      };
-      m.customProgramCacheKey = () => 'rest-silhouette-shadow-v1';
-      const shadow = new T.Mesh(g, m);
-      shadow.renderOrder = -1.5;
-      this.room.add(shadow);
-      shadow.userData.baseOpacity = m.opacity;
-      this.castShadows.push({ sprite: s, mesh: shadow });
-      this.owned.push(g, m);
     }
     this.contactShadows?.add(p, s, this.area);
   }
@@ -330,10 +284,6 @@ export class InkRoom {
     this.sceneryReveal?.update(sim, alpha, ms);
     this.time += Math.max(0, ms);
     this.occlusion.update(sim, alpha, ms);
-    for (const cast of this.castShadows) {
-      cast.mesh.visible = cast.sprite.mesh.visible;
-      cast.mesh.material.opacity = cast.mesh.userData.baseOpacity * cast.sprite.material.opacity;
-    }
     for (const { fixture, emission, settings } of this.flames) {
       const f = settings.flame!,
         clip = emission.animator.clip,

@@ -23,7 +23,15 @@ async function startupBenchmark(flags: string[]) {
     : undefined;
   const conditions = baseline ? (['baseline', 'candidate'] as const) : (['candidate'] as const);
   const records: Record<string, unknown>[] = [];
-  for (const scenario of ['fresh', ...content.definitions.areas.map((a) => a.id)]) {
+  const scenarios = ['fresh', ...content.definitions.areas.map((a) => a.id)];
+  const selectedScenario = option('--scenario', 'all', flags);
+  assert.ok(
+    selectedScenario === 'all' || scenarios.includes(selectedScenario),
+    'Unknown startup scenario',
+  );
+  for (const scenario of scenarios.filter(
+    (scenario) => selectedScenario === 'all' || scenario === selectedScenario,
+  )) {
     const expected = new GameSession(
       content,
       142,
@@ -63,6 +71,11 @@ async function startupBenchmark(flags: string[]) {
             process.env.LANTERN_ASSET_SHA256,
             'Startup package uses a different asset pin',
           );
+          await run.app.evaluate(({ BrowserWindow, app }) => {
+            app.focus({ steal: true });
+            BrowserWindow.getAllWindows()[0]?.focus();
+          });
+          await run.page.bringToFront();
           await run.page.evaluate(() => Reflect.set(window, '__name', (fn: Function) => fn));
           const observation = await run.page.evaluate(() => {
             const canvas = document.querySelector('canvas')!,
@@ -109,22 +122,32 @@ async function startupBenchmark(flags: string[]) {
             const sample = (now: number) => {
               if (last) frames.push(now - last);
               last = now;
-              if (frames.length < 120) requestAnimationFrame(sample);
+              if (frames.length < 600 && Reflect.get(window, '__startupFrames') === frames)
+                requestAnimationFrame(sample);
             };
             requestAnimationFrame(sample);
           });
+          let focusInterruptions = 0;
+          const focusGame = async () => {
+            await run.app.evaluate(({ BrowserWindow, app }) => {
+              app.focus({ steal: true });
+              BrowserWindow.getAllWindows()[0]?.focus();
+            });
+            if (await run.page.locator('#modal').isVisible()) {
+              focusInterruptions++;
+              await run.page.getByRole('button', { name: 'Resume', exact: true }).click();
+            }
+            await run.page.locator('canvas').focus();
+          };
+          await focusGame();
           // First inputs occur immediately after readiness, with no texture warmup delay.
           await run.page.locator('canvas').focus();
           await run.page.locator('canvas').click();
           // Let the real attack finish before testing dodge admission.
           await run.page.waitForTimeout((tuning.attack.total * 1000) / 60 + 100);
+          await focusGame();
           await run.page.keyboard.down('KeyW');
           await run.page.keyboard.press('Shift');
-          await run.page.waitForFunction(
-            () => / s$/.test(document.querySelector('#dodge-status')?.textContent ?? ''),
-            {},
-            { timeout: 2000 },
-          );
           await run.page.waitForTimeout(600);
           await run.page.keyboard.up('KeyW');
           await run.page.waitForFunction(
@@ -132,13 +155,32 @@ async function startupBenchmark(flags: string[]) {
             {},
             { timeout: 10000 },
           );
-          const frames = await run.page.evaluate(
-            () => Reflect.get(window, '__startupFrames') as number[],
-          );
+          await focusGame();
+          await run.page.locator('canvas').click({ button: 'right' });
+          await run.page.waitForTimeout(700);
+          await focusGame();
+          await run.page.keyboard.down('KeyD');
+          await run.page.waitForTimeout(700);
+          await run.page.keyboard.up('KeyD');
+          const frames = await run.page.evaluate(() => {
+            const frames = Reflect.get(window, '__startupFrames') as number[];
+            Reflect.set(window, '__startupFrames', undefined);
+            return frames;
+          });
           if (run.capture)
             await run.page.screenshot({ path: path.join(directory, 'first-actions.png') });
           const saved = await playerControls(run.page, run.profile).save();
           assert.equal(saved.area, expected.area);
+          assert.equal(
+            saved.player.nextAttack,
+            expected.player.nextAttack === 'lunge' ? 'sweep' : 'lunge',
+            'Startup must accept the first real sword action',
+          );
+          assert.ok(saved.player.cooldown > 0, 'Startup must accept a real lantern action');
+          assert.ok(
+            saved.adventure?.onboarding?.completed.includes('dodge'),
+            'Startup must accept a real dodge',
+          );
           assert.ok(
             Math.hypot(saved.player.x - expected.player.x, saved.player.z - expected.player.z) >
               0.05,
@@ -159,6 +201,7 @@ async function startupBenchmark(flags: string[]) {
             checkpoint: digest(expected),
             launchToReadyMs: run.readyMs,
             ...observation,
+            focusInterruptions,
             firstActions: frameSummary(frames),
           };
           records.push(record);
@@ -167,12 +210,22 @@ async function startupBenchmark(flags: string[]) {
             `${scenario} ${condition} ${sample + 1}: ${run.readyMs.toFixed(0)} ms; first-action worst frame ${record.firstActions.worstMs.toFixed(0)} ms`,
           );
         } catch (error) {
+          if (run.capture) await run.page.screenshot({ path: path.join(directory, 'failure.png') });
           await run.writeReport('failure.json', {
             scenario,
             condition,
             sample: sample + 1,
             error: String(error),
             errors: run.errors,
+            state: await run.page.evaluate(() => ({
+              focused: document.hasFocus(),
+              hidden: document.hidden,
+              paused: document.querySelector('#modal')?.getAttribute('open'),
+              status: document.querySelector('#status')?.textContent,
+              sword: document.querySelector('#sword-status')?.textContent,
+              dodge: document.querySelector('#dodge-status')?.textContent,
+              ability: document.querySelector('#ability-status')?.textContent,
+            })),
           });
           throw error;
         } finally {
@@ -220,6 +273,7 @@ async function startupBenchmark(flags: string[]) {
       'Reference Windows hardware qualification is separate from macOS results.',
       'Stage durations overlap and must not be summed.',
       'First-action frame callbacks are not GPU presentation timing.',
+      'Runs with focusInterruptions do not qualify foreground gameplay pacing.',
     ],
     records,
   });

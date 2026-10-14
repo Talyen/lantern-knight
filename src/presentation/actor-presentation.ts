@@ -70,8 +70,8 @@ export class ActorPresentation {
     sprite.material.color.set(binding.tint);
     const shadow = new T.Mesh(
       new T.PlaneGeometry(
-        sprite.manifest.asset.shadow.radius * 2,
-        sprite.manifest.asset.shadow.radius * 2,
+        sprite.manifest.asset.shadow.radius * 1.5,
+        sprite.manifest.asset.shadow.radius * 1.1,
       ),
       contactShadowMaterial(
         this.shadowTexture,
