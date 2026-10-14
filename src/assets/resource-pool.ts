@@ -2,6 +2,7 @@ import { cleanupAll, cleanupAfterFailure } from './cleanup';
 type Entry<T> = {
   refs: number;
   promise: Promise<T>;
+  start: () => void;
   state: { kind: 'pending' } | { kind: 'ready'; value: T } | { kind: 'disposed' };
 };
 
@@ -29,12 +30,27 @@ export class ResourcePool<T> {
     this.assertActive();
     let entry = this.entries.get(id);
     if (!entry) {
-      // The async wrapper also turns synchronous loader failures into rejected leases.
-      const loading = (async () => this.load(id))();
+      // Admission creates ownership without calling external code. Every batch
+      // claim and its cancellation listener must exist before any loader runs.
+      const loading = Promise.withResolvers<T>();
+      let started = false;
       const created: Entry<T> = {
         refs: 0,
         state: { kind: 'pending' },
-        promise: loading.then(
+        start: () => {
+          if (started) return;
+          started = true;
+          if (this.closed || created.state.kind === 'disposed') {
+            loading.reject(new Error(this.closed ? 'Resource pool disposed' : 'load cancelled'));
+            return;
+          }
+          try {
+            loading.resolve(this.load(id));
+          } catch (error) {
+            loading.reject(error);
+          }
+        },
+        promise: loading.promise.then(
           (value) => {
             if (created.state.kind === 'disposed' || created.refs === 0 || this.closed) {
               this.discard(id, created);
@@ -56,6 +72,7 @@ export class ResourcePool<T> {
     let released = false;
     return {
       promise: entry.promise,
+      start: entry.start,
       release: () => {
         if (released) return;
         released = true;
@@ -96,7 +113,7 @@ export class ResourcePool<T> {
     signal?.addEventListener('abort', cancel, { once: true });
     let done = 0;
     try {
-      const results = await Promise.allSettled(
+      const settling = Promise.allSettled(
         leases.map(async ([id, lease]) => {
           try {
             const value = await lease.promise;
@@ -109,6 +126,10 @@ export class ResourcePool<T> {
           }
         }),
       );
+      // Observe every admitted promise before reentrant loader callbacks can
+      // cancel, close the pool, or acquire these same identities again.
+      for (const [, lease] of leases) lease.start();
+      const results = await settling;
       this.assertActive();
       if (signal?.aborted) throw new Error('load cancelled');
       const resources = new Map<string, T>();
