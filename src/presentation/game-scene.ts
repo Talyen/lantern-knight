@@ -1,4 +1,5 @@
 import { cleanupAll, cleanupAfterFailure, DisposalScope } from '../assets/cleanup';
+import { GuidingWind } from './guiding-wind';
 import { radialTexture } from './radial-texture';
 import { defaultLook } from './lighting-profiles';
 import { heroLanternPosition } from './hero-lantern';
@@ -50,11 +51,12 @@ export class GamePresentation implements PresentationLifecycle {
   visualEffects = defaultVisualEffects();
   sceneEffects: SceneVisualEffects;
   readonly combatFeedback: CombatFeedback;
+  private guidingWind: GuidingWind;
   renderer: T.WebGLRenderer;
   camera = makeCamera(16 / 9);
   scene = new T.Scene();
   aim: T.Mesh;
-  light = new T.PointLight(0xf7b862, 5, 5, 2);
+  light = new T.PointLight(0xf7b862, 8, 9, 1.4);
   debug = false;
   background = 'dark';
   animationTreatment: AnimationTreatment = 'guarded';
@@ -220,6 +222,8 @@ export class GamePresentation implements PresentationLifecycle {
         new CombatFeedback(this.packs, this.camera, this.events),
       );
       this.scene.add(this.combatFeedback.group);
+      this.guidingWind = this.resources.own(new GuidingWind(this.packs, this.camera));
+      this.scene.add(this.guidingWind.group);
     } catch (error) {
       cleanupAfterFailure(error, () => this.dispose());
     }
@@ -302,6 +306,10 @@ export class GamePresentation implements PresentationLifecycle {
     }
     this.renderer.setClearColor(this.background === 'light' ? 0xd1c9b4 : 0x151923);
     this.aim.visible = true;
+    this.aim.scale.setScalar(sim.hero.pendingAction ? 1.15 + Math.sin(sim.tick * 0.3) * 0.1 : 1);
+    (this.aim.material as T.MeshBasicMaterial).color.set(
+      sim.hero.pendingAction ? 0xf2e4bb : 0xe5bd77,
+    );
     this.aim.position.set(aim.x, heightAt(sim.areaDefinition, aim.x, aim.z) + 0.035, aim.z);
     this.actorPresentation.update(sim, alpha, ms, {
       walkTiming: this.walkTiming,
@@ -326,7 +334,7 @@ export class GamePresentation implements PresentationLifecycle {
       }
     const heroSprite = this.actorPresentation.actors.get(sim.hero.id)?.sprite;
     const hasLantern = heroSprite && heroLanternPosition(heroSprite, this.light.position);
-    this.light.intensity = hasLantern ? (sim.hero.state === 'ability' ? 14 : 5) : 0;
+    this.light.intensity = hasLantern ? (sim.hero.state === 'ability' ? 16 : 8) : 0;
     for (const m of this.roomPresentation.fadeMeshes) {
       const p = m.userData.foot as { x: number; y: number; z: number },
         delta = new T.Vector3(sim.hero.x - p.x, sim.hero.y - p.y, sim.hero.z - p.z);
@@ -341,6 +349,11 @@ export class GamePresentation implements PresentationLifecycle {
       ms,
       this.visualEffects,
       this.visuals,
+    );
+    this.guidingWind.update(
+      sim,
+      ms,
+      this.visualEffects.wind && !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     );
     this.combatFeedback.update(sim);
     this.renderFrame(sim, ms);

@@ -1,4 +1,3 @@
-import type { Lesson } from './core/onboarding';
 import { AudioPlayback } from './audio/playback';
 import { AudioFeedback } from './audio/feedback';
 import { cleanupAll, cleanupAfterFailure } from './assets/cleanup';
@@ -579,7 +578,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     if (target.kind === 'drop') {
       if (this.current.session.sim.collectDrop(target.id)) {
         this.publish(this.current.session.sim.events);
-        this.hooks.status(target.label);
+        this.hooks.status(target.label.replace(/^Collect /, 'Collected '));
         this.autosave();
       }
     } else if (target.kind === 'container') {
@@ -604,13 +603,6 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
           ? this.current.session.unequip(slot!)
           : this.current.session.salvage(item);
     this.publish(events);
-    this.autosave();
-  }
-  changeHints(action: 'dismiss' | 'replay', lesson?: Lesson) {
-    this.assertActive();
-    if (this.busy || !this.roomReady) return;
-    if (action === 'replay') this.current.session.replayHints();
-    else if (lesson) this.current.session.dismissLesson(lesson);
     this.autosave();
   }
   rest(key: string) {

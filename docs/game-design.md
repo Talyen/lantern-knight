@@ -64,11 +64,15 @@ Keep full dynamic relighting optional. The initial visual direction should work 
 
 ## Opening guidance
 
-Introduce the journey with: “Beyond the abandoned orchard, another fire still burns. Find the forest path.” The orchard objective is to find the forest path. Keep the ring detour optional and departure tied to its specific guards. The clearing introduces another surviving fire, exploration of the ruins and a return to a campfire for rest or travel.
+Let the environment introduce the journey: abandoned belongings and surviving fires suggest the way forward. Keep the ring detour optional and departure tied to its specific guards. The clearing offers another fire, ruins to explore, and a reason to return for rest or travel.
 
-Use a gentle combat ramp and one nonblocking contextual hint at a time: sword near a crate, dodge before an isolated fight, lantern near paired enemies, inventory after finding the ring, and potions when owned with at least 40 health missing. Complete hints through demonstrated actions, allow dismissal, and remember their state within the saved game. Guidance starts after room readiness; pause/help retains full controls and a replay option that preserves earned progress.
+Keep gameplay UI quiet: health and owned potion counts, a short interaction cue anchored near the usable object, and brief outcome or failure feedback. Remove tutorial windows, persistent objective text and action/control strips. Full controls remain in pause/help. Existing checkpoint hint history remains compatible, without an onscreen hint replay flow.
 
-Enemy cues use supplied animation with a restrained windup accent, without ground attack zones. Show the burst radius and a subdued persistent Burn cue. Queued and unavailable actions remain distinguishable with sound muted. Burn ticks do not repeat full contact effects or impact sounds.
+Guide with clustered supplies, open walking space, warm resting-place light, enemy staging and occasional low drifting leaves. The opening wind suggests the nearby supplies or forest path; in the clearing it suggests the ruins, then the fire. It follows walkable routes, pauses during combat, and respects the wind setting and reduced motion. It neither steers the hero nor closes optional routes. Test whether players notice the direction without mistaking the leaves for loot or a mandatory trail.
+
+Barrels belong with orchard storage; household pottery belongs by the ruined storehouse. Resting fires gather a bedroll and kindling. Keep loot amounts, guard conditions and encounter counts intact. Use the supplied dark fire bowl and animation, preserving source artwork. The hero's continuous lantern light uses a stronger, wider pool with a soft falloff; keep enemy silhouettes and painted scenery readable within it.
+
+Enemy cues use supplied animation with a restrained windup accent, without ground attack zones. Show the burst radius and a subdued persistent Burn cue. Burn ticks do not repeat full contact effects or impact sounds.
 
 ## Prototype priorities
 

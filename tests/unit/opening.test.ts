@@ -5,7 +5,7 @@ import { content as fixture } from '../fixtures/content';
 import { GameSession } from '../../src/core/session';
 import { Simulation } from '../../src/core/simulation';
 import { attackDefinition, tuning } from '../../src/content/gameplay';
-import { openingGuidance } from '../../src/opening-guidance';
+import { windDestination } from '../../src/presentation/guiding-wind';
 import { parseGame } from '../../src/core/save';
 import { retimeLanternClip } from '../../src/presentation/lantern-timing';
 import { heroActionTiming } from '../../src/content/hero-actions';
@@ -267,26 +267,6 @@ test('Burn timers and onboarding survive save/load and inactive destinations; re
   session.resetCurrentArea('death');
   assert.equal(session.sim.enemies[0]!.burn, undefined);
 });
-test('hints complete through real outcomes, can be dismissed/replayed, and replay preserves earned state', () => {
-  const session = new GameSession(registry());
-  session.sim.enemies.forEach((a) => (a.stun = 10000));
-  session.step({ ...still, dodge: true });
-  assert.ok(session.onboarding.completed.includes('dodge'));
-  session.dismissLesson('lantern');
-  assert.notEqual(openingGuidance(session.sim.view, session.view).hint?.id, 'lantern');
-  const before = session.captureSave();
-  session.replayHints();
-  const after = session.captureSave();
-  assert.deepEqual(after.adventure!.inventory, before.adventure!.inventory);
-  assert.deepEqual(after.areas, before.areas);
-  assert.deepEqual(session.onboarding, { completed: [], dismissed: [] });
-  assert.equal(openingGuidance(session.sim.view, session.view).hint?.id, 'lantern');
-  session.sim.enemies.forEach((a) => (a.health = 0));
-  Object.assign(session.sim.hero, { x: 0, z: 0, state: 'idle' });
-  assert.equal(openingGuidance(session.sim.view, session.view).hint?.id, 'sword');
-  Object.assign(session.sim.hero, { x: -8, z: -8 });
-  assert.equal(openingGuidance(session.sim.view, session.view).hint?.id, 'hook');
-});
 test('all cast directions share the 200ms pulse and retain the delivered raised pose', () => {
   for (const heading of AUTHORED_HEADINGS) {
     const frames = Array.from({ length: 8 }, (_, i) => `${heading}-${i}`);
@@ -306,35 +286,6 @@ test('all cast directions share the 200ms pulse and retain the delivered raised 
   }
 });
 
-test('potion and inventory hints require earned supplies, and equipment mastery follows successful equip', () => {
-  const session = new GameSession(registry());
-  session.sim.enemies.forEach((a) => (a.health = 0));
-  session.sim.hero.health = 60;
-  assert.notEqual(openingGuidance(session.sim.view, session.view).hint?.id, 'potion');
-  Object.assign(session.sim.hero, { aim: 0, z: 0.5 });
-  session.sim.startSword(session.sim.hero);
-  for (let i = 0; i < attackDefinition(session.sim.hero).activeEnd; i++)
-    session.step({ ...still, aim: { x: 0, z: 2 } });
-  Object.assign(session.sim.hero, { x: 0, z: 2, state: 'idle' });
-  assert.equal(session.sim.collectDrop('object-crate'), true);
-  assert.equal(openingGuidance(session.sim.view, session.view).hint?.id, 'potion');
-  session.step({ ...still, potion: true });
-  assert.ok(session.onboarding.completed.includes('potion'));
-  const save = session.captureSave();
-  save.adventure!.inventory['orchard-ring'] = 1;
-  session.restoreSave(save);
-  assert.equal(openingGuidance(session.sim.view, session.view).hint?.id, 'inventory');
-  const health = session.sim.hero.health;
-  session.equip('orchard-ring', 'ring1');
-  assert.equal(session.sim.hero.health, health);
-  assert.equal(session.sim.maxHealth, 110);
-  assert.ok(session.onboarding.completed.includes('inventory'));
-  assert.throws(
-    () => (session.onboarding.completed as unknown as string[]).push('sword'),
-    /not extensible|read only|frozen/,
-  );
-});
-
 test('malformed saved Burn timers and duplicate hint histories cannot enter a session', () => {
   const session = new GameSession(registry());
   const before = session.captureSave();
@@ -345,4 +296,53 @@ test('malformed saved Burn timers and duplicate hint histories cannot enter a se
   duplicate.adventure!.onboarding = { completed: ['sword'], dismissed: ['sword'] };
   assert.throws(() => session.restoreSave(duplicate));
   assert.deepEqual(session.captureSave(), before);
+});
+
+test('environmental guidance suggests nearby supplies and the path, yields during combat and death', () => {
+  const defs = registry().definitions;
+  const r = new ContentRegistry({
+    ...defs,
+    areas: defs.areas.map((a) => ({
+      ...a,
+      spawns: a.spawns.map((s) => ({ ...s, awareness: { radius: 3, leash: 5 } })),
+    })),
+  });
+  const s = new Simulation(r);
+  s.enemies.forEach((a) => Object.assign(a, { x: 8, z: 8 }));
+  assert.equal(windDestination(s.view)?.z, 2);
+  s.claimedObjects.add('crate');
+  assert.equal(windDestination(s.view)?.x, 5);
+  s.enemies[0]!.x = s.hero.x;
+  s.enemies[0]!.z = s.hero.z;
+  s.engaged = true;
+  s.step(still);
+  assert.equal(windDestination(s.view), undefined);
+  s.hero.health = 0;
+  assert.equal(windDestination(s.view), undefined);
+});
+
+test('clearing wind suggests the ruins, their dropped reward, then the resting fire', () => {
+  const defs = registry().definitions;
+  const r = new ContentRegistry({
+    ...defs,
+    areas: defs.areas.map((a) => ({
+      ...a,
+      spawns: [],
+      interactables: a.interactables?.map((o) => ({ ...o, kind: 'container' as const })),
+    })),
+  });
+  const s = new Simulation(r, 142, 'forest-gathering-clearing');
+  assert.equal(windDestination(s.view)?.z, 2);
+  s.claimedObjects.add('crate');
+  s.drops.push({
+    id: 'object-crate',
+    source: 'crate',
+    enemy: false,
+    x: 1,
+    z: 2,
+    rewards: [{ item: 'health-potion', amount: 1 }],
+  });
+  assert.equal(windDestination(s.view)?.x, 1);
+  s.drops.length = 0;
+  assert.equal(windDestination(s.view)?.x, 5);
 });
