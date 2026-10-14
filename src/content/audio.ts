@@ -43,10 +43,10 @@ export type AreaAudio = {
 };
 // Explicit production defaults; unknown developer fixtures use quiet stone foley.
 const areas: Readonly<Record<string, AreaAudio>> = {
-  'outdoor-fixture': { surface: 'grass', ambience: ['forest', 'wind'] },
+  'outdoor-fixture': { surface: 'grass', ambience: [] },
   'interior-fixture': { surface: 'stone', ambience: [] },
-  'abandoned-orchard': { surface: 'grass', ambience: ['wind', 'forest'] },
-  'forest-gathering-clearing': { surface: 'dirt', ambience: ['forest', 'wind'] },
+  'abandoned-orchard': { surface: 'grass', ambience: [] },
+  'forest-gathering-clearing': { surface: 'dirt', ambience: [] },
 };
 export function areaAudio(id: string): AreaAudio {
   return areas[id] ?? { surface: 'stone', ambience: [] };
