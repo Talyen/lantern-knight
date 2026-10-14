@@ -3,6 +3,8 @@ import { playgroundCatalog } from './effects-playground-assets';
 import { visualEffectsCatalog } from './visual-effects-assets';
 export const assetCatalog: Readonly<Record<string, string>> = {
   ...visualEffectsCatalog,
+  'fx-brazier-body': 'generated/dev-effects/fx-brazier-body/manifest.json',
+  'fx-brazier-flame': 'generated/dev-effects/fx-brazier-flame/manifest.json',
   'library-sk01': 'generated/library/library-sk01/manifest.json',
   ...combatEffectCatalog,
   ...Object.fromEntries(
