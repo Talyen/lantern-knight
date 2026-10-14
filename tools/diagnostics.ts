@@ -36,6 +36,23 @@ if (scenario === 'record' || scenario === 'replay' || scenario === 'compare') {
     ['--import', 'tsx', 'tools/browser-tests.ts', 'editor', ...flags],
     { cwd: projectRoot, timeoutMs: 10 * 60_000 },
   );
+} else if (scenario === 'startup') {
+  await runProcess(
+    process.execPath,
+    ['--import', 'tsx', 'tools/diagnostics/startup-benchmark.ts', ...flags],
+    {
+      cwd: projectRoot,
+      env: {
+        ...process.env,
+        LANTERN_ASSET_SHA256: await workspaceIdentity(
+          flags.includes('--local') ? 'local' : 'pinned',
+        ),
+        LANTERN_CACHE_ROOT: cacheRoot() + '-measurements',
+        LANTERN_CACHE_BUDGET_GIB: '0.25',
+      },
+      timeoutMs: 30 * 60_000,
+    },
+  );
 } else if (scenario === 'walking') {
   try {
     // The executable contains its assets. Read the pin without acquiring payloads.

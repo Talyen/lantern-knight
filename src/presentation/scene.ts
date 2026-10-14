@@ -59,8 +59,9 @@ export class Presentation extends GamePresentation {
     initialArea: import('../content/world').AreaDefinition,
     registration: PreparedRegistration,
     visuals: import('../content/world-visuals').WorldVisualDefinition | undefined,
+    imageRequest?: typeof fetch,
   ) {
-    super(canvas, packs, events, initialArea, registration, visuals);
+    super(canvas, packs, events, initialArea, registration, visuals, imageRequest);
     try {
       this.artConstruction = this.resources.own(
         new ArtConstructionOverlay(this.registration.coverage),

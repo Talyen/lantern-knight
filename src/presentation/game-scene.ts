@@ -109,6 +109,7 @@ export class GamePresentation implements PresentationLifecycle {
     initialArea: AreaDefinition,
     readonly registration: PreparedRegistration,
     public visualOverride?: WorldVisualDefinition,
+    imageRequest: typeof fetch = globalThis.fetch.bind(globalThis),
   ) {
     this.area = initialArea;
     try {
@@ -193,7 +194,13 @@ export class GamePresentation implements PresentationLifecycle {
       this.resize();
       this.sceneEffects = this.resources.own(new SceneVisualEffects(this.packs, this.camera));
       this.lookRenderer = new SceneLightingRenderer(
-        { renderer: this.renderer, scene: this.scene, camera: this.camera, packs: this.packs },
+        {
+          renderer: this.renderer,
+          scene: this.scene,
+          camera: this.camera,
+          packs: this.packs,
+          imageRequest,
+        },
         this.roomPresentation,
         this.actorPresentation,
         this.sceneEffects,

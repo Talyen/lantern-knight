@@ -140,13 +140,14 @@ export class SceneLightingRenderer {
       scene: T.Scene;
       camera: T.OrthographicCamera;
       packs: ReadonlyMap<string, AssetPack>;
+      imageRequest?: typeof fetch;
     },
     private room: RoomPresentation,
     private actors: ActorPresentation,
     private effects: SceneVisualEffects,
   ) {
     try {
-      this.lighting = this.lifetime.own(new IllustratedLighting());
+      this.lighting = this.lifetime.own(new IllustratedLighting(resources.imageRequest));
       this.surfaces = this.lifetime.own(new SurfaceRelief());
       this.mist = this.lifetime.own(new GroundMist());
       this.shadowProxies = new ShadowProxies(this.sun);

@@ -65,7 +65,10 @@ vec3 inkIlluminate(vec3 base){
 }
 `;
 export class IllustratedLighting {
-  readonly normals = new NormalLibrary();
+  readonly normals: NormalLibrary;
+  constructor(request?: typeof fetch) {
+    this.normals = new NormalLibrary(request);
+  }
   readonly common = {
     inkShadowEnabled: { value: 0 },
     inkShadowMap: { value: null as T.DepthTexture | null },

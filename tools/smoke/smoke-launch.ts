@@ -91,6 +91,8 @@ export function smokeExecutable(dev: boolean, env: NodeJS.ProcessEnv = process.e
   );
 }
 type SmokeLaunchOptions = {
+  initialSave?: GameSave;
+  executable?: string;
   budget?: number;
   retain?: boolean;
   flags?: string[];
@@ -105,7 +107,7 @@ export async function smokeLaunch(
   const flags = options.flags ?? [];
   let lane: Awaited<ReturnType<typeof acquireTestLane>>;
   try {
-    await fs.access(smokeExecutable(dev));
+    await fs.access(options.executable ?? smokeExecutable(dev));
     lane = await acquireTestLane({ waitMs: options.laneWaitMs });
   } catch (error) {
     // A refused run never creates a profile, but an explicitly requested diagnostic
@@ -155,7 +157,11 @@ async function launch(
   const parent = path.resolve(option('--profile', held.root, flags));
   await fs.mkdir(parent, { recursive: true });
   const profile = await fs.mkdtemp(path.join(parent, 'lantern-smoke-'));
-  const executable = smokeExecutable(dev);
+  if (options.initialSave) {
+    await fs.mkdir(path.join(profile, 'prototype-saves'), { recursive: true });
+    await writeJson(path.join(profile, 'prototype-saves/game.json'), options.initialSave);
+  }
+  const executable = options.executable ?? smokeExecutable(dev);
   console.log(`Smoke launch: ${dev ? 'Dev' : 'Game'} (${args.join(' ') || 'default'}).`);
   let app: ElectronApplication | undefined, page: Page | undefined;
   const errors: string[] = [];

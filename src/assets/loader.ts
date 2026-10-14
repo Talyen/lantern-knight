@@ -6,6 +6,8 @@ import { sha256, verifiedBitmap } from './bitmap';
 import { TextureDelivery, type SourcePage, type ImageQuality } from './texture-delivery';
 import { ResourcePool } from './resource-pool';
 import { contentSnapshot } from '../content/snapshot';
+import { AssetByteSource } from './byte-source';
+import { startupStage } from './startup-timing';
 export type AssetPack = {
   readonly manifest: Manifest;
   readonly textures: ReadonlyMap<string, Texture>;
@@ -31,6 +33,10 @@ export class AssetRuntime {
   private pages = new Map<string, PageRequest>();
   private readonly pool: ResourcePool<Texture>;
   private readonly lifetime = new AbortController();
+  private byteSource?: AssetByteSource;
+  get imageRequest() {
+    return this.byteSource?.request ?? this.request;
+  }
   private assertActive() {
     if (this.lifetime.signal.aborted) throw new Error('Asset runtime disposed');
   }
@@ -229,6 +235,7 @@ export class AssetRuntime {
     cleanupAll([
       () => this.pool.dispose(),
       () => this.delivery?.dispose(),
+      () => this.byteSource?.dispose(),
       () => this.manifests.clear(),
       () => this.pages.clear(),
     ]);
@@ -237,25 +244,32 @@ export class AssetRuntime {
     catalog: Readonly<Record<string, string>>,
     canvas?: HTMLCanvasElement,
     quality: Exclude<ImageQuality, 'source'> = 'delivery',
+    profile: 'game' | 'authoring' = 'authoring',
   ) {
-    const response = await fetch('/build-mode.json');
+    const response = await fetch(profile === 'game' ? '/game-build-mode.json' : '/build-mode.json');
     if (!response.ok) throw new Error('missing build-mode policy');
     const flags = await response.json();
+    const byteSource = new AssetByteSource(flags.assetBundles);
     const delivery = canvas
       ? new TextureDelivery(
           canvas,
           new URLSearchParams(location.search).get('images') === 'source' ? 'source' : quality,
+          byteSource.request,
         )
       : undefined;
-    const runtime = new AssetRuntime(catalog, undefined, undefined, undefined, delivery);
+    const runtime = new AssetRuntime(catalog, byteSource.request, undefined, undefined, delivery);
+    runtime.byteSource = byteSource;
     runtime.libraryInventory = flags.libraryInventory === true;
     try {
-      const registration = await fetch('/registration.json');
-      if (!registration.ok) throw new Error('Prepared registration unavailable');
-      const bytes = await registration.arrayBuffer(),
-        digest = await sha256(bytes);
-      if (digest !== flags.registrationHash) throw new Error('Prepared registration hash differs');
-      runtime.registration = parseRegistration(JSON.parse(new TextDecoder().decode(bytes)));
+      runtime.registration = await startupStage('registration', async () => {
+        const registration = await fetch(flags.registrationUrl ?? '/registration.json');
+        if (!registration.ok) throw new Error('Prepared registration unavailable');
+        const bytes = await registration.arrayBuffer(),
+          digest = await sha256(bytes);
+        if (digest !== flags.registrationHash)
+          throw new Error('Prepared registration hash differs');
+        return parseRegistration(JSON.parse(new TextDecoder().decode(bytes)));
+      });
       return runtime;
     } catch (error) {
       cleanupAfterFailure(error, () => runtime.dispose());

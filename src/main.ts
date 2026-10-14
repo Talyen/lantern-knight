@@ -7,6 +7,7 @@ import { Application } from './application';
 import { GamePresentation } from './presentation/game-scene';
 import { createBrowserBridge } from './platform/browser-store';
 import { gameUI, createGameUI } from './game-ui';
+import { finishStartupTiming } from './assets/startup-timing';
 const loading = new LoadingScreen();
 document.querySelector('#app')!.innerHTML = gameUI;
 document.body.classList.add('game');
@@ -35,17 +36,14 @@ async function start() {
         }
       },
     },
+    { startup: 'checkpoint', assetProfile: 'game' },
   );
   app = application;
   await application.boot();
-  application.canvas.dataset.ready = 'false';
-  try {
-    await application.load();
-  } catch (error) {
-    ui.status(`Checkpoint unavailable: ${(error as Error).message}`, true);
-  }
   ui.bind(application);
   application.canvas.dataset.ready = 'true';
+  performance.mark('lantern-startup:ready');
+  finishStartupTiming();
 }
 function shutdown() {
   cleanupAll([() => ui.dispose(), () => app?.dispose(), () => loading.dispose()]);

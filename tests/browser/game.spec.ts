@@ -417,7 +417,15 @@ test('renderer construction lifetime closes WebGL after early and late startup f
       }
       buildRoom() {}
     }
-    const presentation = new EmptyRoom(canvas, packs, new EventHub(), { id: 'room' }, {});
+    const presentation = new EmptyRoom(
+      canvas,
+      packs,
+      new EventHub(),
+      { id: 'room' },
+      {},
+      undefined,
+      (...args: Parameters<typeof fetch>) => window.fetch(...args),
+    );
     const request = window.fetch;
     let requests = 0,
       companionsClosed = false;

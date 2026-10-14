@@ -82,6 +82,33 @@ const RegistrationSchema = z.strictObject({
     .passthrough(),
 });
 export type PreparedRegistration = z.infer<typeof RegistrationSchema>;
+// Project before validating the expensive coverage arrays. Source bytes are authenticated
+// by the asset tools; selected masks retain the same runtime validation and pixels.
+export function selectRegistration(value: unknown, assets: Iterable<string>) {
+  const source = z
+    .object({
+      schemaVersion: z.literal(2),
+      animation: z.unknown(),
+      coverage: z
+        .object({
+          masks: z.record(z.string(), z.unknown()),
+          sockets: z.record(z.string(), z.unknown()),
+        })
+        .passthrough(),
+    })
+    .parse(value);
+  const selected = new Set(assets);
+  const select = (entries: Record<string, unknown>) =>
+    Object.fromEntries(Object.entries(entries).filter(([key]) => selected.has(key.split(':')[0]!)));
+  return parseRegistration({
+    ...source,
+    coverage: {
+      ...source.coverage,
+      masks: select(source.coverage.masks),
+      sockets: select(source.coverage.sockets),
+    },
+  });
+}
 export function parseRegistration(value: unknown) {
   const data = RegistrationSchema.parse(value);
   for (const m of Object.values(data.coverage.masks))

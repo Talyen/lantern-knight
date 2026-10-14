@@ -821,6 +821,100 @@ test('startup disposed while opening its catalog cannot acquire assets or become
   }
 });
 
+test('checkpoint startup selects one room and shares boot while all companions gate the first frame', async (t) => {
+  mockGlobals(t, {
+    document: Object.assign(new EventTarget(), { hasFocus: () => true, hidden: false }),
+    requestAnimationFrame: () => 1,
+    cancelAnimationFrame: () => {},
+  });
+  // oxlint-disable-next-line typescript/unbound-method -- Saved for restoration, never invoked unbound.
+  const open = AssetRuntime.open;
+  t.after(() => {
+    AssetRuntime.open = open;
+  });
+  for (const mode of ['saved', 'empty', 'invalid', 'error', 'new'] as const) {
+    const save = new GameSession(content, 99, 'upper-landing').captureSave();
+    const areas: string[] = [],
+      messages: string[] = [],
+      calls: string[] = [];
+    const flow = Promise.withResolvers<void>(),
+      normals = Promise.withResolvers<void>();
+    const scenes = {
+      ...sceneFixture(content),
+      area: (id: string) => {
+        areas.push(id);
+        return { area: content.area(id), assets: [] };
+      },
+    };
+    const bridge: Bridge = {
+      automatedRun: true,
+      loadSettings: async () => ({ status: 'empty' }),
+      saveSettings: async () => {},
+      saveGame: async () => {},
+      loadGame: async () => {
+        calls.push('checkpoint');
+        if (mode === 'error') throw new Error('storage unavailable');
+        if (mode === 'invalid') return { status: 'ok', data: { ...save, area: 'missing' } };
+        return mode === 'empty' ? { status: 'empty' } : { status: 'ok', data: save };
+      },
+    };
+    AssetRuntime.open = async () => runtime(async () => assert.fail('no packs needed'));
+    const canvas = Object.assign(new EventTarget(), {
+      dataset: {},
+    }) as unknown as HTMLCanvasElement;
+    const app = new Application(
+      canvas,
+      {},
+      bridge,
+      scenes,
+      () =>
+        presentationFixture({
+          loadAnimationFlow: () => {
+            calls.push('flow');
+            return flow.promise;
+          },
+          prepareAssets: () => {
+            calls.push('normals');
+            return normals.promise;
+          },
+          warm: async () => {
+            calls.push('warm');
+          },
+          update: () => {
+            calls.push('frame');
+          },
+        }),
+      { status: (message) => messages.push(message), frame: () => {}, pause: () => {} },
+      { startup: mode === 'new' ? 'new' : 'checkpoint' },
+    );
+    t.after(() => app.dispose());
+    const boot = app.boot();
+    assert.equal(app.boot(), boot);
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.deepEqual(areas, [
+      mode === 'saved' ? 'upper-landing' : 'court',
+      mode === 'saved' ? 'upper-landing' : 'court',
+    ]);
+    assert.equal(calls.includes('flow') && calls.includes('normals'), true);
+    flow.resolve();
+    await Promise.resolve();
+    assert.equal(app.ready, false);
+    assert.equal(calls.includes('warm'), false);
+    await assert.rejects(app.load(), /startup/);
+    normals.resolve();
+    await boot;
+    assert.equal(app.sim.area, mode === 'saved' ? 'upper-landing' : 'court');
+    assert.equal(calls.filter((c) => c === 'warm').length, 1);
+    assert.ok(calls.indexOf('frame') > calls.indexOf('warm'));
+    assert.equal(calls.filter((c) => c === 'checkpoint').length, mode === 'new' ? 0 : 1);
+    assert.equal(
+      messages.some((message) => message.startsWith('Checkpoint unavailable:')),
+      mode === 'error' || mode === 'invalid',
+    );
+    app.dispose();
+  }
+});
+
 test('simulation enablement isolates lab policy, keeps rendering, and clears catch-up time', async () => {
   const { app } = fixture();
   Object.assign(app.bridge, { automatedRun: true });

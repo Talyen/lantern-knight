@@ -10,8 +10,14 @@ import { playgroundCatalog } from '../src/content/effects-playground-assets';
 import { loadingVideoPath } from '../src/content/loading-media';
 import { readAuthoringCatalog } from './assets/authoring-catalog';
 import { assetCatalog } from '../src/content/asset-catalog';
+import { gameRegistration, runtimeBundles } from './build-runtime-delivery';
 
-export type SelectedFiles = { files: string[]; generated: Record<string, string>; bytes: number };
+export type SelectedFiles = {
+  files: string[];
+  generated: Record<string, string>;
+  binary?: Record<string, Buffer>;
+  bytes: number;
+};
 export async function selectedFiles(
   publicRoot: string,
   profile: BuildProfile | 'runtime' = 'game',
@@ -31,6 +37,13 @@ export async function selectedFiles(
     loadingVideoPath,
   ]);
   const generated: Record<string, string> = {};
+  const groups = new Map<string, Set<string>>();
+  const bundleFile = (id: string, file: string) => {
+    if (profile !== 'game') return;
+    const files = groups.get(id) ?? new Set<string>();
+    files.add(file);
+    groups.set(id, files);
+  };
   const read = async (name: string) => {
     safeRelative(name);
     await ensureFile?.(name);
@@ -61,6 +74,7 @@ export async function selectedFiles(
       ) {
         if (hash(await read(name)) !== page.hash) throw new Error('Prepared page differs: ' + name);
         files.add(name);
+        if (page.bytes <= 512 * 1024) bundleFile(id, name);
       }
       for (const image of [
         ...(page.delivery ?? []),
@@ -69,6 +83,7 @@ export async function selectedFiles(
         if (hash(await read(image.path)) !== image.hash)
           throw new Error('Prepared delivery image differs: ' + image.path);
         files.add(image.path);
+        if (image.encoding === 'png' && image.bytes <= 512 * 1024) bundleFile(id, image.path);
       }
     }
   }
@@ -129,6 +144,7 @@ export async function selectedFiles(
     const file = 'lighting/' + safeRelative(e.file);
     if (hash(await read(file)) !== e.hash) throw new Error('Lighting companion differs: ' + file);
     files.add(file);
+    bundleFile(id, file);
   }
   generated['lighting/manifest.json'] = JSON.stringify(lighting) + '\n';
   const surfaces = JSON.parse((await read('visual-effects/surfaces.json')).toString());
@@ -150,6 +166,24 @@ export async function selectedFiles(
   );
   if (dev || Object.keys(libraryEntries).length)
     generated['generated/library/catalog.json'] = JSON.stringify(libraryEntries) + '\n';
+  let binary: Record<string, Buffer> | undefined;
+  if (profile === 'game') {
+    const projection = gameRegistration(
+      await read('registration.json'),
+      await read('build-mode.json'),
+      Object.keys(catalog),
+    );
+    generated['registration.json'] = projection.registration;
+    const delivery = await runtimeBundles(groups, read);
+    binary = delivery.binary;
+    generated['build-mode.json'] = JSON.stringify({
+      ...projection.policy,
+      assetBundles: delivery.bundles,
+    });
+    generated['game-build-mode.json'] = generated['build-mode.json']!;
+    files.delete('registration.json');
+    files.delete('build-mode.json');
+  }
   const sorted = [...files].sort();
   let bytes = 0;
   for (const file of sorted) {
@@ -157,7 +191,8 @@ export async function selectedFiles(
     bytes += (await fs.stat(path.join(publicRoot, file))).size;
   }
   bytes += Object.values(generated).reduce((n, text) => n + Buffer.byteLength(text), 0);
-  return { files: sorted, generated, bytes };
+  bytes += Object.values(binary ?? {}).reduce((n, value) => n + value.length, 0);
+  return { files: sorted, generated, binary, bytes };
 }
 export async function copySelectedFiles(
   source: string,
@@ -173,5 +208,10 @@ export async function copySelectedFiles(
     const target = path.join(destination, safeRelative(file));
     await fs.mkdir(path.dirname(target), { recursive: true });
     await fs.writeFile(target, text);
+  }
+  for (const [file, bytes] of Object.entries(inventory.binary ?? {})) {
+    const target = path.join(destination, safeRelative(file));
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    await fs.writeFile(target, bytes);
   }
 }
