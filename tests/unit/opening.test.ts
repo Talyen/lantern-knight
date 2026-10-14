@@ -337,6 +337,7 @@ test('clearing wind suggests the ruins, their dropped reward, then the resting f
   s.drops.push({
     id: 'object-crate',
     source: 'crate',
+    enemy: false,
     x: 1,
     z: 2,
     rewards: [{ item: 'health-potion', amount: 1 }],
