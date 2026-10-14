@@ -14,9 +14,9 @@ Grounded dark fantasy: natural foley, restrained lantern magic, quiet woodland a
 | Loot and world interactions | coin, pickup, container, break | Two coin textures, bag clasp, two chest openings and two wood fractures. |
 | Campfire/rest and travel | fire, campfire, heal, travel | Lighting accent, localized torch loop, healing on accepted rest and quiet eerie passage on completed transition. |
 | Menus and outcomes | ui-confirm, ui-cancel, ui-deny, success, salvage | Low interface accents, throttled denial, restrained completion accent; autosaves stay quiet. |
-| Environmental atmosphere | forest, wind | Quiet forest birds and cold woodland wind; up to two layers, swapped for campfire near a fire. |
+| Environmental atmosphere | — | Outdoor ambience is quiet after the forest and wind originals were removed; localized campfire audio remains. |
 
-The recipes select 60 samples from 59 distinct source paths across 31 cue families. Source identifiers and exact choices live in `assets/audio-sources.json`. Filename matches are provisional candidates. The exhaustive external review retains every numeric variant and explains alternates, future uses, exclusions and uncertain filenames; modern machines, science-fiction effects and overt comic recordings are excluded from the current palette. Additional weapons, creatures, journals, crafting, weather and music remain future candidates rather than unused runtime payload.
+The recipes select 58 samples from 57 distinct source paths across 29 cue families. Source identifiers and exact choices live in `assets/audio-sources.json`. Filename matches are provisional candidates. The exhaustive external review retains every numeric variant and explains alternates, future uses, exclusions and uncertain filenames; modern machines, science-fiction effects and overt comic recordings are excluded from the current palette. Additional weapons, creatures, journals, crafting, weather and music remain future candidates rather than unused runtime payload.
 
 ## Listening and tuning
 

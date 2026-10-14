@@ -574,26 +574,6 @@
       "loop": false
     },
     {
-      "id": "forest-1",
-      "cue": "forest",
-      "source": "world/forest_scrub_forest_ambience_with_birds__sound_spark_llc_nature_and_urban_ambiences__02295493602deef2.flac",
-      "sha256": "72fbff492c0088fdf19e92c6ca58de1fb429350c28b3e050f7e0972ed6639d87",
-      "start": 0,
-      "duration": 12,
-      "gainDb": -24,
-      "loop": true
-    },
-    {
-      "id": "wind-1",
-      "cue": "wind",
-      "source": "world/forest_cold_wind_in_alitude_the_morning_120208_00__charlie_atanasyan_indonesia_sound_library__ee88da7ad606db0d.flac",
-      "sha256": "64c4578de90e0da21e1c7cfd17adb77eacc3cc67cb3e33141855319d642fa38b",
-      "start": 0,
-      "duration": 12,
-      "gainDb": -27,
-      "loop": true
-    },
-    {
       "id": "campfire-1",
       "cue": "campfire",
       "source": "world/torch_loop__existing_library_unattributed__72ccc90f25e6fee6.ogg",
