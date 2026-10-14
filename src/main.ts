@@ -5,6 +5,7 @@ import './style.css';
 import { LoadingScreen } from './loading-screen';
 import { Application } from './application';
 import { GamePresentation } from './presentation/game-scene';
+import type { PresentationFactory } from './presentation/lifecycle';
 import { createBrowserBridge } from './platform/browser-store';
 import { gameUI, createGameUI } from './game-ui';
 import { finishStartupTiming } from './assets/startup-timing';
@@ -20,7 +21,10 @@ async function start() {
     window.lantern ??
       createBrowserBridge(content, import.meta.env.MODE === 'sandbox' ? 'preview' : 'game'),
     gameScenes,
-    (...args) => new GamePresentation(...args),
+    Object.assign(
+      (...args: Parameters<PresentationFactory<GamePresentation>>) => new GamePresentation(...args),
+      { prepare: (canvas: HTMLCanvasElement) => GamePresentation.prepare(canvas) },
+    ),
     {
       status: ui.status,
       pause: (value) => {

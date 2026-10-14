@@ -1730,3 +1730,137 @@ test('frame admission is revoked by hooks and disposal before gameplay or furthe
     app.dispose();
   }
 });
+
+test('startup owns one prepared renderer and revokes it on failure or disposal', async (t) => {
+  // oxlint-disable-next-line typescript/unbound-method -- Saved for restoration, never invoked unbound.
+  const open = AssetRuntime.open;
+  t.after(() => {
+    AssetRuntime.open = open;
+  });
+  for (const failure of ['catalog', 'disposed'] as const) {
+    const { app } = fixture();
+    let preparations = 0,
+      closed = 0,
+      factories = 0;
+    const upload = () => {};
+    app.createPresentation.prepare = () => {
+      preparations++;
+      return {
+        prepareTexture: upload,
+        create: () => {
+          factories++;
+          return presentationFixture();
+        },
+        dispose: () => closed++,
+      };
+    };
+    const opening = Promise.withResolvers<AssetRuntime>();
+    const started = Promise.withResolvers<void>();
+    AssetRuntime.open = (...args) => {
+      assert.equal(args[4], upload);
+      started.resolve();
+      return opening.promise;
+    };
+    const boot = app.boot();
+    assert.equal(app.boot(), boot);
+    const rejected = assert.rejects(boot, /failed|disposed/);
+    await started.promise;
+    if (failure === 'catalog') opening.reject(new Error('catalog failed'));
+    else {
+      app.dispose();
+      opening.resolve(runtime(async () => assert.fail('acquisition after disposal')));
+    }
+    await rejected;
+    assert.equal(preparations, 1);
+    assert.equal(closed, 1);
+    assert.equal(factories, 0);
+    app.dispose();
+    assert.equal(closed, 1);
+  }
+});
+
+test('renderer preparation returned after reentrant shutdown is consumed before acquisition', async () => {
+  const { app } = fixture();
+  let closed = 0;
+  app.createPresentation.prepare = () => {
+    app.dispose();
+    return {
+      prepareTexture: () => assert.fail('upload after shutdown'),
+      create: () => assert.fail('construction after shutdown'),
+      dispose: () => closed++,
+    };
+  };
+  await assert.rejects(app.boot(), /disposed/);
+  assert.equal(closed, 1);
+  app.dispose();
+  assert.equal(closed, 1);
+});
+
+test('startup transfers the prepared renderer factory and revokes uploads before presentation shutdown', async (t) => {
+  mockGlobals(t, {
+    document: Object.assign(new EventTarget(), { hasFocus: () => true, hidden: false }),
+    requestAnimationFrame: () => 1,
+    cancelAnimationFrame: () => {},
+  });
+  // oxlint-disable-next-line typescript/unbound-method -- Saved for restoration, never invoked unbound.
+  const open = AssetRuntime.open;
+  t.after(() => {
+    AssetRuntime.open = open;
+  });
+  const calls: string[] = [];
+  const canvas = Object.assign(new EventTarget(), { dataset: {} }) as unknown as HTMLCanvasElement;
+  const bridge = {
+    automatedRun: true,
+    loadSettings: async () => ({ status: 'empty' }),
+    saveSettings: async () => {},
+    loadGame: async () => ({ status: 'empty' }),
+    saveGame: async () => {},
+  } as Bridge;
+  let closed = false;
+  const upload = () => {
+    if (closed) throw new Error('revoked');
+    calls.push('upload');
+  };
+  const factory = Object.assign(() => assert.fail('unprepared factory'), {
+    prepare: () => {
+      calls.push('prepare');
+      return {
+        prepareTexture: upload,
+        create: () => {
+          calls.push('create');
+          return presentationFixture({
+            update: () => calls.push('frame'),
+            dispose: () => {
+              assert.equal(closed, true);
+              calls.push('presentation-dispose');
+            },
+          });
+        },
+        dispose: () => {
+          closed = true;
+          calls.push('graphics-dispose');
+        },
+      };
+    },
+  });
+  AssetRuntime.open = async (...args) => {
+    calls.push('open');
+    assert.equal(args[4], upload);
+    upload();
+    return runtime(async () => assert.fail('no assets required'));
+  };
+  const app = new Application(canvas, {}, bridge, sceneFixture(content), factory, {
+    status: () => {},
+    pause: () => {},
+    frame: () => {},
+  });
+  t.after(() => app.dispose());
+  const boot = app.boot();
+  assert.equal(app.boot(), boot);
+  await boot;
+  assert.deepEqual(calls.slice(0, 5), ['prepare', 'open', 'upload', 'create', 'frame']);
+  assert.equal(calls.filter((call) => call === 'create').length, 1);
+  app.dispose();
+  assert.deepEqual(calls.slice(-2), ['graphics-dispose', 'presentation-dispose']);
+  assert.throws(upload, /revoked/);
+});

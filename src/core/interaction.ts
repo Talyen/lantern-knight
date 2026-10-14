@@ -42,7 +42,7 @@ function choices(sim: InteractionState): Interaction[] {
       .map((o) => ({
         kind: o.kind,
         id: o.id,
-        label: o.kind === 'breakable' ? 'LMB · Break crate' : 'Open container',
+        label: o.kind === 'breakable' ? 'LMB · Break' : 'Open container',
         blocked: !sim.guardsDefeated(o.guards) ? 'Defeat the guard to open' : undefined,
         x: o.x,
         z: o.z,

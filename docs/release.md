@@ -21,4 +21,48 @@ Packaging builds the web and Electron outputs once, then records and verifies th
 
 Packages retain source commit, asset identity and output checksums. Native jobs build directly from the checked-out commit and pin; no cross-platform build-restoration protocol is needed. Follow hosted CI to final conclusions only after an authorized push. Local macOS validation does not establish Windows or hosted success.
 
-Current output is an unsigned unpacked macOS arm64/Windows x64 application. Public signing, notarization, installers, licenses/notices and a distribution channel are future requirements to choose when an actual release is requested. [Assets](assets.md) owns explicit pin publication; [verification](verification.md) owns checks and evidence.
+Ordinary output is an unsigned unpacked macOS arm64/Windows x64 application. [Signed Mac packages](#signed-mac-packages-for-steam) opt into Developer ID signing and Apple notarization. Windows signing, installers, licenses/notices and Steam depot delivery remain separate release work. [Assets](assets.md) owns explicit pin publication; [verification](verification.md) owns checks and evidence.
+
+## Signed Mac packages for Steam
+
+Steam's [macOS requirements](https://partner.steamgames.com/doc/store/application/platforms?l=english#apple-macos) require new Mac applications to be 64-bit and notarized. Our current Mac package targets Apple silicon only; signing does not add Intel support. Use `npm run desktop:dev` for everyday iteration and signed Game packages for release testing.
+
+### One-time account setup
+
+1. Install full Xcode and select its developer tools with `xcode-select` if necessary. Verify `xcrun --find notarytool` and `xcrun --find stapler`.
+2. In Xcode Settings, open Accounts, select the developer team, then Manage Certificates. Create **Developer ID Application**, not Apple Development, Apple Distribution or Developer ID Installer. Creation requires the Account Holder. Apple's [certificate guide](https://developer.apple.com/help/account/certificates/create-developer-id-certificates/) describes the website/CSR alternative. Keep the private key in Keychain; a downloaded certificate alone cannot sign without its matching private key.
+3. Run `security find-identity -v -p codesigning` and copy the full `Developer ID Application: NAME (TEAMID)` identity. Use its release team's ID for notarization; another Apple Development identity may belong to a different team.
+4. At [Apple Account](https://account.apple.com/), create an app-specific password under Sign-In and Security. Run the following in your own Terminal, supplying your release team ID. Enter the developer account email and app-specific password at the interactive prompts. Do not put passwords, certificate exports or private keys in Git, chat or command arguments.
+
+```sh
+xcrun notarytool store-credentials lantern-knight-notary --team-id YOUR_TEAM_ID
+```
+
+The command validates credentials and stores them in Keychain. Use an app-specific password, not the normal account password. Apple's [notarization guide](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution) describes the process. For a future CI release job, provision a temporary signing keychain and notarization credentials through the CI secret store; ordinary CI packaging stays unsigned.
+
+### Build and verify
+
+Replace the identity below with the full identity from `security find-identity`. From the intended checkout:
+
+```sh
+npm run package -- --platform mac --signed \
+  --identity 'Developer ID Application: NAME (TEAMID)' \
+  --notary-profile lantern-knight-notary
+npm run test:desktop -- game
+```
+
+`--signed` is macOS-host-only and Game-only; it rejects `--dev` and `--local`. It checks the requested certificate/private key and notarization credentials before building from pinned assets. `--prebuilt` may select already verified desktop outputs. Signing uses hardened runtime, secure timestamps and the JIT entitlement needed by Electron. The top-level app and nested binaries also receive the library-validation and DYLD exceptions required by Steamworks and the overlay. These are hardened-runtime exceptions, not App Sandbox; Steam's documentation says not to enable App Sandbox.
+
+Packaging verifies the Developer ID signature, creates a submission ZIP under ignored `release/`, uploads it to Apple and requires an **Accepted** response. It then staples and validates the ticket and runs Gatekeeper assessment. A failed stage fails the command; a package is not ready merely because signing succeeded. The command changes no asset pin and performs no Steam upload.
+
+The deliverable is `release/mac-arm64/Lantern Knight.app`. The ZIP is the pre-stapling submission artifact; upload the validated `.app` to the Steam depot. Keep the bundle unchanged after signing. New executable builds require signing and notarization again. Test an actual Steam beta installation, launch, update and overlay on supported Macs before marking the Steamworks **App Bundles Are Notarized** checkbox. Direct executable desktop tests do not prove the Steam launch path or guarantee that macOS never shows a verification dialog.
+
+### Apple rejection or timeout
+
+Retrieve Apple's detailed log using the submission ID printed by packaging:
+
+```sh
+xcrun notarytool log SUBMISSION_ID --keychain-profile lantern-knight-notary
+```
+
+Apple may continue processing after the 30-minute wait expires. Before submitting again, inspect `notarytool history` or `notarytool info SUBMISSION_ID` with the same `--keychain-profile`. If that submission is Accepted and the bundle still matches it, run `xcrun stapler staple`, `xcrun stapler validate` and `spctl --assess --type execute --verbose=2` on the `.app`, followed by the desktop test. If rejected, fix the logged issue and rebuild. First-time developer submissions may require more time; do not disable Gatekeeper to make a release pass.

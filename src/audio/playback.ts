@@ -83,6 +83,7 @@ export class AudioPlayback {
     this.initialization ??= Promise.resolve()
       .then(async () => {
         this.lifetime.signal.throwIfAborted();
+        this.prepareContext();
         const response = await this.deps.request('/' + audioManifestPath, {
           signal: this.lifetime.signal,
         });
@@ -96,6 +97,29 @@ export class AudioPlayback {
       });
     return this.initialization;
   }
+  private prepareContext() {
+    this.context ??= this.deps.context();
+    if (!this.master) {
+      const nodes: GainNode[] = [];
+      try {
+        const master = this.context.createGain();
+        nodes.push(master);
+        const effects = this.context.createGain();
+        nodes.push(effects);
+        const ambience = this.context.createGain();
+        nodes.push(ambience);
+        effects.connect(master);
+        ambience.connect(master);
+        master.connect(this.context.destination);
+        this.master = master;
+        this.effects = effects;
+        this.ambience = ambience;
+      } catch (error) {
+        cleanupAfterFailure(error, () => cleanupAll(nodes.map((node) => () => node.disconnect())));
+      }
+      this.updateSettings(this.settings);
+    }
+  }
   unlock() {
     if (this.lifetime.signal.aborted) return Promise.resolve();
     if (this.unlocked && this.manifest)
@@ -107,30 +131,8 @@ export class AudioPlayback {
       await Promise.resolve();
       if (this.lifetime.signal.aborted) return;
       try {
-        this.context ??= this.deps.context();
-        if (!this.master) {
-          const nodes: GainNode[] = [];
-          try {
-            const master = this.context.createGain();
-            nodes.push(master);
-            const effects = this.context.createGain();
-            nodes.push(effects);
-            const ambience = this.context.createGain();
-            nodes.push(ambience);
-            effects.connect(master);
-            ambience.connect(master);
-            master.connect(this.context.destination);
-            this.master = master;
-            this.effects = effects;
-            this.ambience = ambience;
-          } catch (error) {
-            cleanupAfterFailure(error, () =>
-              cleanupAll(nodes.map((node) => () => node.disconnect())),
-            );
-          }
-          this.updateSettings(this.settings);
-        }
-        await this.context.resume();
+        this.prepareContext();
+        await this.context!.resume();
         if (this.lifetime.signal.aborted) return;
         this.unlocked = true;
         await this.initialize();

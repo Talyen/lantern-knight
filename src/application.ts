@@ -1,13 +1,15 @@
-import type { Lesson } from './core/onboarding';
 import { AudioPlayback } from './audio/playback';
 import { AudioFeedback } from './audio/feedback';
 import { cleanupAll, cleanupAfterFailure } from './assets/cleanup';
 import { nearbyInteraction } from './core/interaction';
 import type { EquipmentSlot } from './content/items';
 import { SceneAssets } from './assets/scene-assets';
-import type { PreparedRegistration } from './assets/registration';
 import { AssetRuntime, type PackLease, type PackBatch, type AssetPack } from './assets/loader';
-import type { PresentationLifecycle } from './presentation/lifecycle';
+import type {
+  PresentationLifecycle,
+  PresentationFactory,
+  PresentationPreparation,
+} from './presentation/lifecycle';
 import type { SceneContent } from './content/game-content';
 import { GameSession, type RoomPlan } from './core/session';
 import { FixedClock, type Command } from './core/simulation';
@@ -89,6 +91,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private frames: FrameScheduler | undefined;
   private disposed = false;
   private startup?: Promise<void>;
+  private graphics?: PresentationPreparation<P>;
   // Once replacement starts committing, the renderer may be partially rebuilt.
   // Only a fully prepared replacement can accept this session for use again.
   private roomAccepted = true;
@@ -125,15 +128,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     readonly catalog: Readonly<Record<string, string>>,
     readonly bridge: Bridge,
     scenes: SceneContent,
-    readonly createPresentation: (
-      canvas: HTMLCanvasElement,
-      packs: ReadonlyMap<string, AssetPack>,
-      events: EventHub,
-      area: import('./content/world').AreaDefinition,
-      registration: PreparedRegistration,
-      visuals: import('./content/world-visuals').WorldVisualDefinition | undefined,
-      imageRequest: typeof fetch,
-    ) => P,
+    readonly createPresentation: PresentationFactory<P>,
     readonly hooks: ApplicationHooks,
     options: ApplicationOptions = {},
   ) {
@@ -255,8 +250,17 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     void this.audio.initialize().catch(() => {});
     window.addEventListener('pointerdown', this.unlockAudio, { signal: this.abort.signal });
     window.addEventListener('keydown', this.unlockAudio, { signal: this.abort.signal });
+    this.graphics = this.createPresentation.prepare?.(this.canvas);
+    if (this.disposed) this.graphics?.dispose();
+    this.assertActive();
     this.runtime = await startupStage('runtime', () =>
-      AssetRuntime.open(this.catalog, this.canvas, 'delivery', this.assetProfile),
+      AssetRuntime.open(
+        this.catalog,
+        this.canvas,
+        'delivery',
+        this.assetProfile,
+        this.graphics?.prepareTexture,
+      ),
     );
     if (this.disposed) this.runtime.dispose?.();
     this.assertActive();
@@ -298,7 +302,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.roomAssets.install(room, () => {
       this.syncPacks();
     });
-    this.presentation = this.createPresentation(
+    this.presentation = (this.graphics?.create ?? this.createPresentation)(
       this.canvas,
       this.packs,
       this.events,
@@ -579,7 +583,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     if (target.kind === 'drop') {
       if (this.current.session.sim.collectDrop(target.id)) {
         this.publish(this.current.session.sim.events);
-        this.hooks.status(target.label);
+        this.hooks.status(target.label.replace(/^Collect /, 'Collected '));
         this.autosave();
       }
     } else if (target.kind === 'container') {
@@ -604,13 +608,6 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
           ? this.current.session.unequip(slot!)
           : this.current.session.salvage(item);
     this.publish(events);
-    this.autosave();
-  }
-  changeHints(action: 'dismiss' | 'replay', lesson?: Lesson) {
-    this.assertActive();
-    if (this.busy || !this.roomReady) return;
-    if (action === 'replay') this.current.session.replayHints();
-    else if (lesson) this.current.session.dismissLesson(lesson);
     this.autosave();
   }
   rest(key: string) {
@@ -812,6 +809,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       () => this.hooks.loading?.(false),
       () => this.input?.dispose(),
       () => this.audio.dispose(),
+      () => this.graphics?.dispose(),
       () => this.presentation?.dispose(),
       () => this.previewAssets.dispose(),
       () => this.roomAssets.dispose(),

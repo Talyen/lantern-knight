@@ -76,6 +76,7 @@ export function composeSceneContent(
         actorVisuals[registry.actor(registry.definitions.player).visual]!.asset,
         ...visualEffectsAssets,
         ...combatEffectAssets,
+        'library-tumbling_leaf',
       ]),
     ]),
     area: (id) => {
