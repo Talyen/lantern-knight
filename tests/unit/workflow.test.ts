@@ -140,12 +140,33 @@ test('asset validation reads the explicit workspace and rejects altered media', 
 });
 
 test('preview and policy changes select both optional tiers; missing comparisons fail closed', () => {
-  assert.deepEqual(coverageFor(), { desktop: true, authoring: true });
+  assert.deepEqual(coverageFor(), { desktop: true, authoring: true, assets: true });
   for (const file of [
     'tools/preview-session.ts',
     'tools/coverage-policy.ts',
     'playwright.config.ts',
   ])
-    assert.deepEqual(coverageFor([file]), { desktop: true, authoring: true });
-  assert.deepEqual(coverageFor(['docs/development.md']), { desktop: false, authoring: false });
+    assert.deepEqual(coverageFor([file]), { desktop: true, authoring: true, assets: true });
+  assert.deepEqual(coverageFor(['docs/development.md']), {
+    desktop: false,
+    authoring: false,
+    assets: false,
+  });
+});
+
+test('full asset coverage follows asset consumers, not unrelated editor or gameplay edits', () => {
+  for (const file of [
+    'assets/lock.json',
+    'authoring/hero-actions.json',
+    'src/presentation/sprite.ts',
+    'src/assets/schema.ts',
+    'src/content/hero-actions.ts',
+    'src/core/animation-treatment.ts',
+    'tools/assets/file-delivery.ts',
+    'tests/assets/workspace.test.ts',
+    'package-lock.json',
+  ])
+    assert.equal(coverageFor([file]).assets, true, file);
+  for (const file of ['src/editor/model.ts', 'src/core/simulation.ts', 'docs/development.md'])
+    assert.equal(coverageFor([file]).assets, false, file);
 });

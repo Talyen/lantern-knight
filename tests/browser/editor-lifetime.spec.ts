@@ -21,7 +21,11 @@ test('failed editor startup closes the complete mounted session', async ({ page,
   await page.route('**/generated/library/index.json', (route) =>
     route.fulfill({ contentType: 'application/json', body: '{' }),
   );
+  // Startup can still be fetching assets when navigation finishes. Wait for
+  // the injected failure before asserting that its cleanup has completed.
+  const failedIndex = page.waitForResponse('**/generated/library/index.json', { timeout: 60_000 });
   await page.goto('/editor.html?automated');
+  await failedIndex;
   await expect(page.locator('#status')).toContainText('Editor startup failed:');
   expect(await page.evaluate(() => window.sceneEditor.ready())).toBe(false);
   expect(

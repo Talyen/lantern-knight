@@ -30,6 +30,7 @@ async function browserTests(args: string[]) {
       scope,
       port: Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
       reuse: !built && !process.env.CI,
+      demand: true,
     });
     const workspace = session.workspace;
     try {

@@ -71,15 +71,17 @@ Run `npm run docs:check` after documentation edits; `npm run check` does not inc
 
 ## E2E coverage and execution budgets
 
-Routine Linux CI runs source gates with all pure suites, all asset tests (including Python authoring/recovery fixtures), runtime asset validation, one Game web build, Game against that artifact and scene against a development preview with authoring assets. Scene checks include the shared asset browser. Focused GPU checks protect image delivery and ground occlusion without loading a complete scene. Only Game scenarios use runtime-only assets.
+Routine Linux CI runs all pure suites and source gates first, then starts independent Game, development-browser and selected asset/native jobs. Two Game shards each build the production web artifact and exercise one complete player journey. Twelve development-browser shards cover scene, audio, image delivery and ground occlusion; authoring-tool changes also select editor/effects journeys. Each runner keeps one browser worker and uses Playwright test-level sharding, so long files split across isolated runners without concurrent scene saves in one checkout.
 
-Linux CI installs Chromium’s headless shell for browser checks. Development scenarios share one preview session and browser process. Authoring-tool changes add editor/effects scenarios to that session. Desktop/build/dependency/asset-delivery contract changes select macOS and Windows jobs; explicit milestone dispatch also runs them. Native jobs build and package Game once on their host, with no cross-platform restoration format or mandatory Dev package.
+Browser previews acquire verified pinned files on demand instead of downloading the complete authoring library. Game builds retain their verified selected-file delivery. Full asset tests (including Python authoring/recovery fixtures) and runtime asset validation run for asset, content, presentation, animation, authored-data, dependency and delivery-tool changes. Unrelated editor, gameplay and prose changes omit this full-library tier. Every Game build still verifies its selected assets. Manual workflow dispatch runs all optional tiers.
 
-Routine browser journeys leave screenshot, video and trace recording off. Opt-in authored-scene reviews retain their requested captures.
+Desktop/build/dependency/asset-delivery contract changes select macOS and Windows jobs. Native jobs start after source gates, alongside browser jobs, and build/package Game once on their host. They retain packaged player storage/input and live-development reload/restart coverage.
 
-[The CI workflow](../.github/workflows/ci.yml) defines the executed jobs, and [coverage policy](../tools/coverage-policy.ts) owns optional authoring/desktop selection. An unavailable comparison base selects both optional tiers. Report the jobs that actually ran; a path classification alone does not establish coverage.
+Routine browser journeys leave screenshot, video and trace recording off. Opt-in authored-scene reviews retain their requested captures. Failure artifacts include the job and shard in their names.
 
-CI has generous hang timeouts. Local GPU tests and asset preparation share a small admission lane; static checks, pure tests and builds do not. Default unit concurrency remains two and browser concurrency one. [Coordination](task-coordination.md#concurrent-commands) owns the shared-machine details.
+[The CI workflow](../.github/workflows/ci.yml) defines the executed jobs, and [coverage policy](../tools/coverage-policy.ts) owns optional asset/authoring/desktop selection. An unavailable comparison base selects all optional tiers. The final `checks` job fails when any selected job fails or is cancelled; intentionally omitted tiers may skip. Report the jobs that actually ran; path classification alone does not establish coverage.
+
+The target is under ten minutes of routine elapsed CI time; sharding does not establish that result until measured on hosted runners. Cold full-library validation, native packaging and runner queue delays may exceed it. Hang deadlines remain separate from that target. Local GPU tests and asset preparation share a small admission lane; static checks, pure tests and builds do not. Default unit concurrency remains two and browser concurrency one. [Coordination](task-coordination.md#concurrent-commands) owns the shared-machine details.
 
 ## Diagnostics and measurements
 

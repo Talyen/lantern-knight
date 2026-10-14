@@ -13,13 +13,42 @@ env:
   NODE_VERSION: '24.18.0'
   NPM_VERSION: '11.16.0'
 jobs:
-  checks:
+  source:
     runs-on: ubuntu-24.04
-    # Cold asset acquisition and the full authoring suite share this job.
-    # The browser command retains its independent 30-minute deadline.
-    timeout-minutes: 45
+    timeout-minutes: 10
     outputs:
       desktop: ${{ steps.impact.outputs.desktop }}
+      authoring: ${{ steps.impact.outputs.authoring }}
+      assets: ${{ steps.impact.outputs.assets }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - name: Ensure pinned npm
+        shell: bash
+        run: |
+          if [ "$(npm --version)" != "$NPM_VERSION" ]; then
+            npm install --global "npm@$NPM_VERSION" --no-audit --no-fund
+          fi
+      - run: npm ci
+      - name: Fetch comparison base
+        env:
+          COMPARISON_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: git fetch --no-tags --depth=1 origin "$COMPARISON_BASE" || true
+      - name: Select optional coverage
+        id: impact
+        env:
+          LANTERN_CI_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: node --import tsx tools/ci-impact.ts
+      - run: npm run check:ci
+      - run: git diff --exit-code
+  assets:
+    needs: source
+    if: needs.source.outputs.assets == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -39,41 +68,90 @@ jobs:
           python3 -m venv "$RUNNER_TEMP/asset-test-python"
           "$RUNNER_TEMP/asset-test-python/bin/pip" install --disable-pip-version-check Pillow==11.3.0
           echo "$RUNNER_TEMP/asset-test-python/bin" >> "$GITHUB_PATH"
-      - name: Fetch comparison base
-        env:
-          COMPARISON_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: git fetch --no-tags --depth=1 origin "$COMPARISON_BASE" || true
-      - name: Select desktop coverage
-        id: impact
-        env:
-          LANTERN_CI_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: node --import tsx tools/ci-impact.ts
       - name: Configure external cache
+        shell: bash
         run: echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
-      - run: npm run check:ci
       - run: npm run test:assets
       - run: npm run assets:check
+      - run: git diff --exit-code
+  game:
+    needs: source
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - name: Ensure pinned npm
+        shell: bash
+        run: |
+          if [ "$(npm --version)" != "$NPM_VERSION" ]; then
+            npm install --global "npm@$NPM_VERSION" --no-audit --no-fund
+          fi
+      - run: npm ci
+      - name: Configure external cache
+        shell: bash
+        run: echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
       - run: npm run build
       - run: npx playwright install --with-deps --only-shell chromium
-      - run: npm run test:browser -- game --built
-      - name: Development browser checks
-        env:
-          AUTHORING_CHECKS: ${{ steps.impact.outputs.authoring }}
-        run: |
-          scenarios=(scene image-delivery ground-occlusion audio)
-          if [ "$AUTHORING_CHECKS" = true ]; then scenarios+=(editor effects); fi
-          npm run test:browser -- "${scenarios[@]}"
+      - run: npm run test:browser -- game --built --fully-parallel --shard=${{ matrix.shard }}/2
       - run: git diff --exit-code
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: failure()
         with:
-          name: browser-failure-${{ github.sha }}
+          name: browser-failure-${{ github.sha }}-${{ github.job }}-${{ matrix.shard }}
+          path: .cache/browser-results/
+          retention-days: 3
+          if-no-files-found: ignore
+  browser:
+    needs: source
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - name: Ensure pinned npm
+        shell: bash
+        run: |
+          if [ "$(npm --version)" != "$NPM_VERSION" ]; then
+            npm install --global "npm@$NPM_VERSION" --no-audit --no-fund
+          fi
+      - run: npm ci
+      - name: Configure external cache
+        shell: bash
+        run: echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
+      - run: npx playwright install --with-deps --only-shell chromium
+      - name: Development browser checks
+        env:
+          AUTHORING_CHECKS: ${{ needs.source.outputs.authoring }}
+        run: |
+          scenarios=(scene image-delivery ground-occlusion audio)
+          if [ "$AUTHORING_CHECKS" = true ] || [ "${{ github.event_name }}" = workflow_dispatch ]; then scenarios+=(editor effects); fi
+          npm run test:browser -- "${scenarios[@]}" --fully-parallel --shard=${{ matrix.shard }}/12
+      - run: git diff --exit-code
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: failure()
+        with:
+          name: browser-failure-${{ github.sha }}-${{ github.job }}-${{ matrix.shard }}
           path: .cache/browser-results/
           retention-days: 3
           if-no-files-found: ignore
   desktop:
-    needs: checks
-    if: needs.checks.outputs.desktop == 'true' || github.event_name == 'workflow_dispatch'
+    needs: source
+    if: needs.source.outputs.desktop == 'true' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
       matrix:
@@ -111,3 +189,13 @@ jobs:
           path: .cache/browser-results/
           retention-days: 3
           if-no-files-found: ignore
+  checks:
+    if: always()
+    needs: [source, assets, game, browser, desktop]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Require selected coverage
+        env:
+          SOURCE_RESULT: ${{ needs.source.result }}
+          FAILED: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+        run: test "$SOURCE_RESULT" = success && test "$FAILED" = false
