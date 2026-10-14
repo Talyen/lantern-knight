@@ -4,7 +4,7 @@ import { defaultLook } from './lighting-profiles';
 import { heroLanternPosition } from './hero-lantern';
 import { GroundOcclusion } from './ground-occlusion';
 import { imageDimensions } from '../assets/texture-delivery';
-import type { PresentationLifecycle } from './lifecycle';
+import type { PresentationLifecycle, PresentationPreparation } from './lifecycle';
 import { RoomPresentation } from './room-presentation';
 import { ActorPresentation } from './actor-presentation';
 import type { PreparedRegistration } from '../assets/registration';
@@ -39,6 +39,35 @@ import { SceneVisualEffects } from './scene-visual-effects';
 import { CombatFeedback } from './combat-feedback';
 import { SceneLightingRenderer } from './scene-lighting-renderer';
 export class GamePresentation implements PresentationLifecycle {
+  static prepare(canvas: HTMLCanvasElement): PresentationPreparation<GamePresentation> {
+    const renderer = new T.WebGLRenderer({ canvas, antialias: false, alpha: false });
+    let closed = false,
+      transferred = false;
+    return {
+      create: (...args) => {
+        if (closed || transferred) throw new Error('presentation preparation unavailable');
+        transferred = true;
+        return new GamePresentation(...args, renderer);
+      },
+      prepareTexture: (texture) => {
+        if (closed) throw new Error('presentation preparation disposed');
+        GamePresentation.uploadTexture(renderer, texture);
+      },
+      dispose: () => {
+        if (closed) return;
+        closed = true;
+        if (!transferred) renderer.dispose();
+      },
+    };
+  }
+  private static uploadTexture(renderer: T.WebGLRenderer, texture: T.Texture) {
+    const dimensions = imageDimensions(texture.image);
+    if (renderer.capabilities.maxTextureSize < Math.max(dimensions.width, dimensions.height))
+      throw new Error('GPU maximum texture size below atlas dimensions');
+    if (texture.generateMipmaps)
+      texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+    renderer.initTexture(texture);
+  }
   protected readonly resources = new DisposalScope();
   groundOcclusion?: GroundOcclusion;
   readonly roomPresentation: RoomPresentation;
@@ -112,14 +141,17 @@ export class GamePresentation implements PresentationLifecycle {
     readonly registration: PreparedRegistration,
     public visualOverride?: WorldVisualDefinition,
     imageRequest: typeof fetch = globalThis.fetch.bind(globalThis),
+    preparedRenderer?: T.WebGLRenderer,
   ) {
     this.area = initialArea;
     try {
-      this.renderer = new T.WebGLRenderer({
-        canvas,
-        antialias: false,
-        alpha: false,
-      });
+      this.renderer =
+        preparedRenderer ??
+        new T.WebGLRenderer({
+          canvas,
+          antialias: false,
+          alpha: false,
+        });
       this.resources.own(this.renderer);
       this.resources.own(this.flow);
       this.renderer.outputColorSpace = T.SRGBColorSpace;
@@ -421,9 +453,7 @@ export class GamePresentation implements PresentationLifecycle {
     )
       throw new Error('GPU maximum texture size below atlas dimensions');
     for (const texture of pack.textures.values()) {
-      if (texture.generateMipmaps)
-        texture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
-      this.renderer.initTexture(texture);
+      GamePresentation.uploadTexture(this.renderer, texture);
     }
   }
   async loadAnimationFlow() {

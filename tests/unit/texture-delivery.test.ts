@@ -117,3 +117,50 @@ test('wide atlas previews allow normal integer rounding without rejecting the as
   };
   parseManifest(manifest);
 });
+
+test('delivery prepares a verified texture before transfer and closes failed uploads', async (t) => {
+  const { mockGlobals } = await import('../fixtures/globals');
+  let closed = 0,
+    disposed = 0,
+    prepared = 0;
+  mockGlobals(t, {
+    createImageBitmap: async () => ({ width: 2, height: 3, close: () => closed++ }),
+  });
+  const canvas = {
+    getContext: () => ({ MAX_TEXTURE_SIZE: 1, getParameter: () => 8192, getExtension: () => null }),
+    ownerDocument: { querySelector: () => null },
+  } as unknown as HTMLCanvasElement;
+  const page = {
+    url: '/test.png',
+    hash: 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad',
+    width: 2,
+    height: 3,
+  };
+  const delivery = new TextureDelivery(
+    canvas,
+    'delivery',
+    async () => new Response('abc'),
+    (texture) => {
+      prepared++;
+      assert.equal(texture.colorSpace, 'srgb');
+      assert.equal(texture.flipY, false);
+      assert.equal(texture.premultiplyAlpha, false);
+      assert.equal(texture.version, 1);
+      texture.addEventListener('dispose', () => disposed++);
+      if (prepared === 2) throw new Error('upload failed');
+    },
+  );
+  try {
+    const texture = await delivery.decode(page);
+    assert.equal(prepared, 1);
+    assert.equal(closed, 0);
+    await assert.rejects(delivery.decode(page), /upload failed/);
+    assert.equal(closed, 1);
+    assert.equal(disposed, 1);
+    texture.dispose();
+    (texture.image as ImageBitmap).close();
+    assert.equal(closed, 2);
+  } finally {
+    delivery.dispose();
+  }
+});

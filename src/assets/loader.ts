@@ -245,6 +245,7 @@ export class AssetRuntime {
     canvas?: HTMLCanvasElement,
     quality: Exclude<ImageQuality, 'source'> = 'delivery',
     profile: 'game' | 'authoring' = 'authoring',
+    prepareTexture?: (texture: Texture) => void,
   ) {
     const response = await fetch(profile === 'game' ? '/game-build-mode.json' : '/build-mode.json');
     if (!response.ok) throw new Error('missing build-mode policy');
@@ -255,6 +256,7 @@ export class AssetRuntime {
           canvas,
           new URLSearchParams(location.search).get('images') === 'source' ? 'source' : quality,
           byteSource.request,
+          prepareTexture,
         )
       : undefined;
     const runtime = new AssetRuntime(catalog, byteSource.request, undefined, undefined, delivery);

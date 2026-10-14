@@ -43,7 +43,9 @@ function fixture(samples = [sample('sword-1'), sample('forest-1', 'forest', true
   }[] = [];
   let now = 0,
     closed = 0,
-    requests = 0;
+    requests = 0,
+    contexts = 0,
+    resumes = 0;
   const reports: string[] = [];
   const timers = new Set<() => void>();
   let pending: (() => Promise<Response>) | undefined;
@@ -60,7 +62,9 @@ function fixture(samples = [sample('sword-1'), sample('forest-1', 'forest', true
   const context = {
     destination: {},
     currentTime: 0,
-    resume: async () => {},
+    resume: async () => {
+      resumes++;
+    },
     close: async () => {
       closed++;
     },
@@ -91,7 +95,10 @@ function fixture(samples = [sample('sword-1'), sample('forest-1', 'forest', true
     },
   };
   const playback = new AudioPlayback((message) => reports.push(message), {
-    context: () => context as unknown as AudioContext,
+    context: () => {
+      contexts++;
+      return context as unknown as AudioContext;
+    },
     now: () => now,
     random: () => 0,
     request: async (url) => {
@@ -114,6 +121,12 @@ function fixture(samples = [sample('sword-1'), sample('forest-1', 'forest', true
     reports,
     timers,
     context,
+    get contexts() {
+      return contexts;
+    },
+    get resumes() {
+      return resumes;
+    },
     get closed() {
       return closed;
     },
@@ -744,4 +757,30 @@ test('pause releases world siblings and reports cleanup failure without interrup
   assert.equal(f.playback.diagnosticsSnapshot.voices, 0);
   assert.equal(f.reports.length, 1);
   f.playback.dispose();
+});
+
+test('startup prepares the shared audio graph without activating playback', async () => {
+  const f = fixture();
+  const first = f.playback.initialize();
+  assert.equal(f.playback.initialize(), first);
+  await first;
+  assert.equal(f.contexts, 1);
+  assert.equal(f.resumes, 0);
+  assert.equal(f.playback.diagnosticsSnapshot.unlocked, false);
+  assert.equal(f.sources.length, 0);
+  await f.playback.unlock();
+  assert.equal(f.contexts, 1, 'first input reuses the prepared context');
+  assert.equal(f.resumes, 1);
+  f.playback.dispose();
+  assert.equal(f.closed, 1);
+});
+
+test('disposal before queued initialization prevents audio allocation', async () => {
+  const f = fixture();
+  const pending = f.playback.initialize();
+  f.playback.dispose();
+  await pending;
+  assert.equal(f.contexts, 0);
+  assert.equal(f.requests, 0);
+  assert.equal(f.reports.length, 0);
 });
