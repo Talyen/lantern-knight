@@ -2,6 +2,7 @@ import { KTX2Loader } from 'three/addons/loaders/KTX2Loader.js';
 import { Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter } from 'three';
 import type { Manifest } from './schema';
 import { sha256, verifiedBitmap } from './bitmap';
+import { DecodeQueue } from './decode-queue';
 
 export type ImageQuality = 'source' | 'delivery' | 'lossless';
 
@@ -65,6 +66,7 @@ export function selectDelivery(
   return { ...v, url: '/' + v.path, sourceHash: page.hash };
 }
 export class TextureDelivery {
+  private readonly decodes = new DecodeQueue();
   private loader = new KTX2Loader().setTranscoderPath('/decoders/').setWorkerLimit(1);
   private abort = new AbortController();
   private pending = new Set<(error: Error) => void>();
@@ -112,7 +114,10 @@ export class TextureDelivery {
       !this.loader.workerConfig.astcSupported && this.loader.workerConfig.bptcSupported,
     );
   }
-  async decode(page: ImageRequest): Promise<Texture> {
+  decode(page: ImageRequest): Promise<Texture> {
+    return this.decodes.run(() => this.decodePage(page));
+  }
+  private async decodePage(page: ImageRequest): Promise<Texture> {
     if (this.closed) throw new Error('Image loader disposed');
     let texture: Texture;
     if (page.encoding === 'ktx2-uastc') {
@@ -179,6 +184,7 @@ export class TextureDelivery {
   dispose() {
     if (this.closed) return;
     this.closed = true;
+    this.decodes.dispose();
     this.abort.abort();
     for (const reject of this.pending) reject(new Error('Image loader disposed'));
     this.pending.clear();

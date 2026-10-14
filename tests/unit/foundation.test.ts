@@ -388,6 +388,8 @@ test('IPC sender checks and protocol constrain origin, frame, slot, payload, ext
   assert.equal(trustedSender('https://evil.test', true, 1, 1), false);
   assert.equal(trustedSender('lantern://app/index.html', false, 1, 1), false);
   assert.equal(resourcePath('lantern://app/index.html', '/app/dist'), '/app/dist/index.html');
+  const bundle = 'runtime-assets/hero-0-' + 'a'.repeat(64) + '.bin';
+  assert.equal(resourcePath('lantern://app/' + bundle, '/app/dist'), '/app/dist/' + bundle);
   assert.equal(
     resourcePath('lantern://app/media/last-ferry.mp4', '/app/dist'),
     '/app/dist/media/last-ferry.mp4',
@@ -397,6 +399,9 @@ test('IPC sender checks and protocol constrain origin, frame, slot, payload, ext
     'lantern://app/%2e%2e%2fsecret.mp4',
     'lantern://app/%2e%2e%2fsecret.json',
     'lantern://app/package.exe',
+    'lantern://app/arbitrary.bin',
+    'lantern://app/runtime-assets/unverified.bin',
+    'lantern://app/%2e%2e%2fruntime-assets/hero-0-' + 'a'.repeat(64) + '.bin',
     'lantern://app/%5csecret.json',
   ])
     assert.throws(() => resourcePath(url, '/app/dist'));

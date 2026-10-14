@@ -5,6 +5,7 @@ import path from 'node:path';
 import type { BuildProfile } from './tools/build-profile';
 import { demandArtworkPlugin } from './tools/assets/demand-plugin';
 import { openWorkspace } from './tools/assets/workspace';
+import { gamePolicyPlugin } from './tools/build-game-policy';
 export function webConfig(
   publicDirectory: string,
   profile: BuildProfile,
@@ -15,6 +16,7 @@ export function webConfig(
     clearScreen: false,
     define: { __AUTHORING__: String(authoring) },
     plugins: [
+      gamePolicyPlugin(ensurePublicFile),
       {
         name: 'lantern-prepared-audio',
         configureServer(server) {

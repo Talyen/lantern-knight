@@ -1,3 +1,4 @@
+import { startupStage } from './startup-timing';
 export async function sha256(bytes: BufferSource) {
   return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)))
     .map((value) => value.toString(16).padStart(2, '0'))
@@ -17,11 +18,13 @@ export async function verifiedBitmap(
   const bytes = await response.arrayBuffer();
   if ((await sha256(bytes)) !== expected.hash) throw new Error(`${url}: hash mismatch`);
   signal?.throwIfAborted();
-  const bitmap = await createImageBitmap(new Blob([bytes], { type: 'image/png' }), {
-    imageOrientation: 'flipY',
-    premultiplyAlpha: 'none',
-    colorSpaceConversion: 'none',
-  });
+  const bitmap = await startupStage('image-decode', () =>
+    createImageBitmap(new Blob([bytes], { type: 'image/png' }), {
+      imageOrientation: 'flipY',
+      premultiplyAlpha: 'none',
+      colorSpaceConversion: 'none',
+    }),
+  );
   if (signal?.aborted) {
     bitmap.close();
     signal.throwIfAborted();

@@ -91,7 +91,7 @@ Native diagnostics consume an already packaged application; they do not build it
 
 | Scenarios after `npm run benchmark --` | Required package |
 | --- | --- |
-| `walking`, `game`, `preferences` | Game: `npm run package` |
+| `startup`, `walking`, `game`, `preferences` | Game: `npm run package` |
 | `sandbox` (alias `scene`), `lighting`, `animation`, `hero`, `effects`, `scenes` | Dev: `npm run package -- --dev` |
 
 Use `--local` on both packaging and the diagnostic when investigating a local asset preparation. `--visible` shows the native window; hidden/software runs do not establish visible pacing. Use `--capture` when visual evidence is wanted, or `--output /external/investigation` to retain results without requesting captures. Successful managed diagnostics normally discard their output; keep comparison records in an external directory. Native framebuffer, motion and resource assertions remain available through these scenarios; routine checks do not generate galleries.
@@ -113,5 +113,7 @@ On macOS the quick path requests ANGLE Metal and rejects software fallback. Quic
 For a visible run at a reported 59–61 Hz refresh rate, the provisional target is at least 59 FPS, p95 ≤18 ms, p99 ≤20 ms, no hitches and no stalls. Hidden runs and other refresh rates report the 60 Hz target as inconclusive. Frame callbacks measure cadence, not GPU execution or display presentation; a five-second sample cannot rule out rare stutters. Repeat matching runs before claiming an improvement. `compare` accepts walking records but refuses comparisons with the full journey or different conditions.
 
 ## Packaged player journey measurements
+
+`npm run benchmark -- startup --samples 5 --visible --output /external/startup` measures fresh-process Game startup for empty storage and checkpoints in each current area, then verifies immediate dodge, attack input and movement. It records launch and document observations, overlapping registration/image/companion/GPU stages, resource timings, build identity, hardware and first-action frame cadence. `--baseline-executable /path/to/baseline` alternates matching baseline/candidate samples. Baseline packages must use the same asset pin; candidates must match current desktop inputs. Use 20 samples per scenario for a p95 below 10 seconds acceptance claim on reference Windows hardware. Fresh profiles do not establish an OS-cold disk cache, and macOS observations do not qualify Windows. Full quality and real input acceptance remain required.
 
 `npm run benchmark -- game --benchmark` exercises movement, action inputs and checkpoint operations in the selected Game package after explicit packaging. It does not measure encounters, connected-area traversal or death/retry. Its fixed movement and action journey does not establish combat performance for the authored encounters. Preserve gameplay, animation timing, sound behavior and visual fidelity. Hidden/software runs do not certify 60 FPS on reference hardware or visible polish. See [Delivery](release.md) for packaging and [session replay](session-replay.md) for headless reproduction.

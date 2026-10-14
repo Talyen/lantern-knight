@@ -293,6 +293,7 @@ test(
     let warmed = 0,
       closed = 0;
     const { promise: reading, resolve: requested } = Promise.withResolvers<void>();
+    const constructed = Promise.withResolvers<void>();
     const { promise: settings, reject: rejectSettings } = Promise.withResolvers<never>();
     t.mock.method(AssetRuntime, 'open', async () => new AssetRuntime({}));
     const app = new Application(
@@ -305,19 +306,22 @@ test(
         },
       } as unknown as Bridge,
       sceneFixture(content),
-      () =>
-        presentationFixture({
+      () => {
+        constructed.resolve();
+        return presentationFixture({
           warm: async () => {
             warmed++;
           },
           dispose: () => closed++,
-        }),
+        });
+      },
       { status: () => {}, pause: () => {}, frame: () => {} },
     );
     t.after(() => app.dispose());
     const boot = app.boot();
     const rejected = assert.rejects(boot, /disposed/);
     await reading;
+    await constructed.promise;
     app.dispose();
     await rejected;
     assert.equal(closed, 1);

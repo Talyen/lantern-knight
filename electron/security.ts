@@ -12,7 +12,8 @@ export function resourcePath(url: string, root: string) {
   if (
     !/\.(html|js|css|png|json|ico|glb|mp4|ktx2|wasm|jpg|jpeg|webp|gif|apng|webm|wav|mp3|ogg|pdf|blend|svg|ttf)$/.test(
       file,
-    )
+    ) &&
+    !/^runtime-assets\/[a-z0-9_-]+-\d+-[a-f0-9]{64}\.bin$/.test(relative.split(path.sep).join('/'))
   )
     throw new Error('unsupported app resource');
   return file;

@@ -23,13 +23,19 @@ import {
   type SessionOperation,
 } from './session-operation';
 import { readUntilAborted } from './abort';
+import { startupStage } from './assets/startup-timing';
 export type ApplicationHooks = {
   status: (message: string, error?: boolean) => void;
   pause: (paused: boolean) => void;
   frame: () => void;
   loading?: (active: boolean) => void;
 };
-type ApplicationOptions = { seed?: number; extraAssets?: readonly string[] };
+type ApplicationOptions = {
+  seed?: number;
+  extraAssets?: readonly string[];
+  startup?: 'new' | 'checkpoint';
+  assetProfile?: 'game' | 'authoring';
+};
 export type SessionReplacement =
   | { kind: 'new'; seed?: number; area?: string; prepare?: (sim: GameSession['sim']) => undefined }
   | { kind: 'save'; save: GameSave };
@@ -43,6 +49,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private current: SessionContent;
   private readonly initialSeed: number;
   private readonly extraAssets: readonly string[];
+  private readonly startupMode: 'new' | 'checkpoint';
+  private readonly assetProfile: 'game' | 'authoring';
   get session() {
     return this.current.session.view;
   }
@@ -123,6 +131,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       area: import('./content/world').AreaDefinition,
       registration: PreparedRegistration,
       visuals: import('./content/world-visuals').WorldVisualDefinition | undefined,
+      imageRequest: typeof fetch,
     ) => P,
     readonly hooks: ApplicationHooks,
     options: ApplicationOptions = {},
@@ -158,6 +167,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     );
     this.initialSeed = options.seed ?? 142;
     this.extraAssets = [...(options.extraAssets ?? [])];
+    this.startupMode = options.startup ?? 'new';
+    this.assetProfile = options.assetProfile ?? 'authoring';
     this.current = { session: new GameSession(scenes.registry, this.initialSeed), scenes };
     this.persistence = new Persistence(bridge);
     this.audio = new AudioPlayback((message) => this.hooks.status(message, true));
@@ -209,26 +220,80 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   private async bootApplication() {
     this.assertActive();
+    const settingsPromise = startupStage('settings', async () => {
+      try {
+        return await readUntilAborted(this.bridge.loadSettings(), this.abort.signal);
+      } catch (error) {
+        this.assertActive();
+        this.settingsError = String((error as Error).message);
+        return { status: 'empty' } as const;
+      }
+    });
+    const checkpointPromise = startupStage('checkpoint', async () => {
+      if (this.startupMode !== 'checkpoint') return;
+      try {
+        const result = await readUntilAborted(this.persistence.load(), this.abort.signal);
+        this.assertActive();
+        if (result.status === 'empty') return;
+        const save = parseGame(result.data, this.registry);
+        const session = new GameSession(
+          this.registry,
+          save.seed,
+          save.area,
+          this.session.generation,
+        );
+        const events = session.restoreSave(save);
+        return { session, events };
+      } catch (error) {
+        this.assertActive();
+        this.hooks.status(`Checkpoint unavailable: ${(error as Error).message}`, true);
+      }
+    });
+    void settingsPromise.catch(() => {});
+    void checkpointPromise.catch(() => {});
     void this.audio.initialize().catch(() => {});
     window.addEventListener('pointerdown', this.unlockAudio, { signal: this.abort.signal });
     window.addEventListener('keydown', this.unlockAudio, { signal: this.abort.signal });
-    this.runtime = await AssetRuntime.open(this.catalog, this.canvas);
+    this.runtime = await startupStage('runtime', () =>
+      AssetRuntime.open(this.catalog, this.canvas, 'delivery', this.assetProfile),
+    );
     if (this.disposed) this.runtime.dispose?.();
     this.assertActive();
-    const initial = await this.runtime.loadPacks(this.extraAssets, this.abort.signal);
-    if (this.disposed) {
-      initial.release();
-      this.assertActive();
+    const checkpoint = await checkpointPromise;
+    this.assertActive();
+    if (checkpoint) this.current = { session: checkpoint.session, scenes: this.scenes };
+    const failure = new AbortController(),
+      signal = AbortSignal.any([this.abort.signal, failure.signal]);
+    const acquisitions = await startupStage('images', () =>
+      Promise.allSettled([
+        this.runtime.loadPacks(this.extraAssets, signal).catch((error) => {
+          failure.abort(error);
+          throw error;
+        }),
+        this.acquireArea(this.sim.area, signal).catch((error) => {
+          failure.abort(error);
+          throw error;
+        }),
+      ]),
+    );
+    if (failure.signal.aborted || this.disposed) {
+      const error = failure.signal.aborted
+        ? failure.signal.reason
+        : new Error('application disposed');
+      cleanupAfterFailure(error, () =>
+        cleanupAll(
+          acquisitions.flatMap((result) =>
+            result.status === 'fulfilled' ? [() => result.value.release()] : [],
+          ),
+        ),
+      );
     }
+    const initial = (acquisitions[0] as PromiseFulfilledResult<PackBatch>).value;
+    const room = (acquisitions[1] as PromiseFulfilledResult<PackBatch>).value;
     for (const [id, pack] of initial.packs) {
       this.persistentLeases.set(id, pack);
     }
     this.syncPacks();
-    const room = await this.acquireArea(this.sim.area, this.abort.signal);
-    if (this.disposed) {
-      room.release();
-      this.assertActive();
-    }
     this.roomAssets.install(room, () => {
       this.syncPacks();
     });
@@ -239,17 +304,12 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       this.sim.areaDefinition,
       this.runtime.registration,
       this.scenes.area(this.sim.area).visuals,
+      this.runtime.imageRequest,
     );
     this.presentation.generation = this.current.session.generation;
     this.events.setGeneration(this.current.session.generation);
     this.input = new Input(this.canvas, this.presentation.camera, () => this.pause(!this.paused));
-    const settings = await readUntilAborted(this.bridge.loadSettings(), this.abort.signal).catch(
-      (error: Error) => {
-        this.assertActive();
-        this.settingsError = error.message;
-        return { status: 'empty' } as const;
-      },
-    );
+    const settings = await settingsPromise;
     this.assertActive();
     if (settings.status === 'ok') {
       this.audio.updateSettings(settings.data.audio);
@@ -260,14 +320,25 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     }
     this.assertActive();
     this.presentation.resize(this.scale);
-    await this.presentation.loadAnimationFlow();
+    await startupStage('companions', () =>
+      Promise.all([this.presentation.loadAnimationFlow(), this.presentation.prepareAssets()]),
+    );
     this.assertActive();
-    await this.presentation.warm();
+    await startupStage('gpu', () => this.presentation.warm());
+    this.assertActive();
+    await startupStage('first-frame', async () =>
+      this.presentation.update(this.sim, 1, 0, this.aim),
+    );
     this.assertActive();
     window.addEventListener('resize', this.onResize);
     window.addEventListener('blur', this.onBlur);
     document.addEventListener('visibilitychange', this.onVisibility);
     this.ready = true;
+    if (checkpoint) {
+      this.input.resetAim();
+      this.publish(checkpoint.events);
+    }
+    this.assertActive();
     this.canvas.dataset.ready = 'true';
     if (!this.bridge.automatedRun && (document.hidden || !document.hasFocus())) this.pause(true);
     this.frames = new FrameScheduler(this.loop, this.resetFrameClock, this.bridge.automatedRun);
@@ -360,6 +431,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   private async withSessionOperation<T>(work: (operation: SessionOperation) => Promise<T>) {
     this.assertActive();
+    if (this.startup && !this.ready) throw new Error('Wait for startup to finish loading');
     return this.sessionOperations.run((operation) =>
       this.withLoading(async () => {
         try {

@@ -29,6 +29,35 @@ test('runtime selection builds from delivery-only payloads and validates shipped
     loadingVideoPath,
   ])
     await write(name, '{}');
+  const selectedId = Object.keys(gameAssetCatalog)[0]!;
+  const registration = JSON.stringify({
+    schemaVersion: 2,
+    animation: {
+      width: 1,
+      height: 1,
+      canvas: [1, 1],
+      bytes: 1,
+      sha256: hash,
+      tuningHash: hash,
+      stagedSourceHash: hash,
+      preparedHashes: {},
+      pairs: [],
+      offsets: {},
+      clips: {},
+    },
+    coverage: {
+      masks: {
+        [selectedId + ':frame']: { width: 1, height: 1, alpha: [255] },
+        'unused:frame': { width: 1, height: 1, alpha: [0] },
+      },
+      sockets: {},
+    },
+  });
+  await write('registration.json', registration);
+  await write(
+    'build-mode.json',
+    JSON.stringify({ registrationHash: createHash('sha256').update(registration).digest('hex') }),
+  );
   await write('lighting/manifest.json', JSON.stringify({ entries: {} }));
   await write('visual-effects/surfaces.json', JSON.stringify({ entries: {} }));
   for (const [id, file] of Object.entries(gameAssetCatalog)) {
@@ -51,6 +80,15 @@ test('runtime selection builds from delivery-only payloads and validates shipped
     await write(delivery, image);
   }
   const legacy = await selectedFiles(source, 'game');
+  assert.deepEqual(Object.keys(JSON.parse(legacy.generated['registration.json']!).coverage.masks), [
+    selectedId + ':frame',
+  ]);
+  assert.ok(Object.keys(legacy.binary ?? {}).length > 0);
+  const policy = JSON.parse(legacy.generated['build-mode.json']!);
+  assert.equal(
+    policy.registrationHash,
+    createHash('sha256').update(legacy.generated['registration.json']!).digest('hex'),
+  );
   assert.deepEqual(JSON.parse(legacy.generated['audio/manifest.json']!), {
     schemaVersion: 1,
     samples: [],

@@ -16,6 +16,7 @@ function disposeNormal(texture: T.Texture) {
   cleanupAll([() => texture.dispose(), () => (texture.image as ImageBitmap).close()]);
 }
 export class NormalLibrary {
+  constructor(private readonly request: typeof fetch = globalThis.fetch.bind(globalThis)) {}
   private entries: Record<string, Companion> = {};
   private current = { textures: new Map<string, T.Texture>(), bytes: 0 };
   get textures(): ReadonlyMap<string, T.Texture> {
@@ -38,7 +39,9 @@ export class NormalLibrary {
   private async loadSelected(assets: Iterable<string>) {
     this.lifetime.signal.throwIfAborted();
     this.inventory ??= (async () => {
-      const response = await fetch('/lighting/manifest.json', { signal: this.lifetime.signal });
+      const response = await this.request('/lighting/manifest.json', {
+        signal: this.lifetime.signal,
+      });
       if (!response.ok) throw new Error('Lighting companions unavailable.');
       const manifest = await response.json();
       if (manifest.recipe !== 'alpha-volume-v1')
@@ -64,7 +67,7 @@ export class NormalLibrary {
           const bitmap = await verifiedBitmap(
             '/lighting/' + entry.file,
             entry,
-            fetch,
+            this.request,
             this.lifetime.signal,
           );
           if (this.disposed) {

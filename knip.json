@@ -18,6 +18,7 @@
     "tools/format.ts",
     "tools/diagnostics/game-benchmark.ts",
     "tools/diagnostics/walking-benchmark.ts",
+    "tools/diagnostics/startup-benchmark.ts",
     "tools/lint.ts",
     "tools/package-bundled.cjs",
     "tools/scene/scene-editor-store.ts",
@@ -59,23 +60,12 @@
     "duplicates"
   ],
   "includeEntryExports": true,
-  "ignoreDependencies": [
-    "prettier",
-    "electron-builder"
-  ],
+  "ignoreDependencies": ["prettier", "electron-builder"],
   "ignoreIssues": {
-    "vite.config.ts": [
-      "exports"
-    ],
-    "tools/package-bundled.cjs": [
-      "exports"
-    ],
-    "playwright.config.ts": [
-      "exports"
-    ]
+    "vite.config.ts": ["exports"],
+    "tools/package-bundled.cjs": ["exports"],
+    "playwright.config.ts": ["exports"]
   },
   "ignoreExportsUsedInFile": false,
-  "tags": [
-    "-knip-external"
-  ]
+  "tags": ["-knip-external"]
 }
