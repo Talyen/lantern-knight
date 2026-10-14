@@ -114,6 +114,7 @@
       "inputs": [
         "assets/library-packs.json",
         "tools/assets/library_import.py",
+        "tools/assets/library_sequences.py",
         "tools/assets/authoring-catalog.ts",
         "assets/sources.json",
         "assets/library-sources.json",
