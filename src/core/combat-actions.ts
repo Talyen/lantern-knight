@@ -1,7 +1,7 @@
 import { tuning, attackDefinition } from '../content/gameplay';
 import { heightAt, type AreaDefinition, type Point } from '../content/world';
-import type { Actor, State } from './actor';
-import type { EventDetails } from './events';
+import type { Actor, State, HeroAction } from './actor';
+import type { EventDetails, DamageType, DamagePhase } from './events';
 import { selectAuthoredDirection } from '../content/headings';
 import { clearSegment } from './navigation';
 
@@ -17,7 +17,12 @@ interface CombatWorld {
   breakObject(id: string): void;
 }
 
-type ActionCommand = { attack?: boolean; dodge?: boolean; ability?: boolean };
+type ActionCommand = {
+  attack?: boolean;
+  dodge?: boolean;
+  ability?: boolean;
+  actions?: readonly HeroAction[];
+};
 
 // One room-local owner for action admission, interruption, damage and recovery.
 // Actor clocks remain on actors; the fixed-step coordinator advances them once,
@@ -36,20 +41,27 @@ export class CombatActions {
     a.actionHeading = selectAuthoredDirection(yaw);
     a.hitIds = [];
   }
-  startSword(a: Actor, kind = a.nextAttack) {
+  startSword(a: Actor, kind = a.nextAttack, yaw = a.aim) {
     a.attackKind = kind;
     a.nextAttack = kind === 'sweep' ? 'lunge' : 'sweep';
-    a.attackBufferedUntil = -1;
-    this.start(a, 'attack');
+    a.pendingAction = undefined;
+    this.start(a, 'attack', yaw);
   }
   private startDash(a: Actor) {
-    a.dashBufferedUntil = -1;
-    a.attackBufferedUntil = -1;
-    this.start(a, 'dodge', a.dashYaw);
+    const yaw = a.pendingAction?.yaw ?? a.aim;
+    a.pendingAction = undefined;
+    this.start(a, 'dodge', yaw);
     a.dodgeCooldown = tuning.dodge.cooldown;
     this.world.emit(a, { kind: 'dodge' });
   }
-  damage(from: Actor, to: Actor, amount: number, generation = this.generation) {
+  damage(
+    from: Actor,
+    to: Actor,
+    amount: number,
+    generation = this.generation,
+    damageType: DamageType = 'physical',
+    phase: DamagePhase = 'direct',
+  ) {
     if (
       this.world.movementPreview() ||
       !Number.isFinite(amount) ||
@@ -67,11 +79,13 @@ export class CombatActions {
     if (to.kind === 'enemy') this.world.enemyHit(to);
     const actual = Math.min(to.health, amount);
     to.health -= actual;
-    this.world.emit(from, { kind: 'damage', target: to.id, amount: actual });
-    to.attackBufferedUntil = -1;
-    to.dashBufferedUntil = -1;
-    this.start(to, to.health <= 0 ? 'death' : 'hurt', to.yaw);
+    this.world.emit(from, { kind: 'damage', target: to.id, amount: actual, damageType, phase });
+    if (phase === 'direct' || !to.health) {
+      to.pendingAction = undefined;
+      this.start(to, to.health <= 0 ? 'death' : 'hurt', to.yaw);
+    }
     if (!to.health) {
+      to.burn = undefined;
       this.world.emit(to, { kind: 'death' });
       if (to.kind === 'enemy') this.world.enemyDefeated(to);
     }
@@ -92,26 +106,77 @@ export class CombatActions {
     );
     return difference <= halfAngle + 1e-10;
   }
+  private cancellable(h: Actor) {
+    switch (h.state) {
+      case 'idle':
+      case 'walk':
+        return true;
+      case 'attack':
+        return h.age >= attackDefinition(h).activeEnd;
+      // The pulse tick must be advanced before admission can replace casting.
+      case 'ability':
+        return h.age > tuning.ability.windup;
+      case 'dodge':
+        return h.age >= Math.max(tuning.dodge.travelEnd, tuning.dodge.invulnerableEnd);
+      default:
+        return false;
+    }
+  }
   // True only when locomotion may run instead of an action this tick.
-  admitHero(h: Actor, command: ActionCommand, tick: number, movementYaw?: number): boolean {
-    if (command.attack && !this.world.movementPreview())
-      h.attackBufferedUntil = tick + tuning.inputBufferTicks;
-    if (command.dodge) {
-      h.dashBufferedUntil = tick + tuning.dashBufferTicks;
-      h.dashYaw = movementYaw ?? h.aim;
+  admitHero(h: Actor, command: ActionCommand, movementYaw?: number): boolean {
+    const requests = command.actions ?? [
+      ...(command.attack ? ['sword' as const] : []),
+      ...(command.ability ? ['lantern' as const] : []),
+      ...(command.dodge ? ['dodge' as const] : []),
+    ];
+    for (const kind of requests) {
+      if (this.world.movementPreview() && kind !== 'dodge') continue;
+      const cooldown = kind === 'lantern' ? h.cooldown : kind === 'dodge' ? h.dodgeCooldown : 0;
+      if (cooldown > 0) {
+        this.world.emit(h, {
+          kind: 'action-unavailable',
+          reason: `${kind === 'lantern' ? 'Lantern' : 'Dodge'} is cooling down`,
+        });
+        continue;
+      }
+      h.pendingAction = { kind, yaw: kind === 'dodge' ? (movementYaw ?? h.aim) : h.aim };
     }
-    const available = h.state === 'idle' || h.state === 'walk';
-    if (available && h.dashBufferedUntil >= tick && h.dodgeCooldown === 0) this.startDash(h);
-    else if (available) {
-      if (command.ability && !this.world.movementPreview() && h.cooldown === 0) {
-        h.attackBufferedUntil = -1;
-        this.start(h, 'ability');
-        h.cooldown = tuning.ability.cooldown;
-      } else if (h.attackBufferedUntil >= tick) {
-        this.startSword(h);
-      } else return true;
+    if (!this.cancellable(h)) return false;
+    const pending = h.pendingAction;
+    if (pending) {
+      if (pending.kind === 'dodge') this.startDash(h);
+      else {
+        h.pendingAction = undefined;
+        if (pending.kind === 'sword') this.startSword(h, h.nextAttack, pending.yaw);
+        else {
+          this.start(h, 'ability', pending.yaw);
+          h.cooldown = tuning.ability.cooldown;
+        }
+      }
+      return false;
     }
-    return false;
+    return h.state === 'idle' || h.state === 'walk' || movementYaw !== undefined;
+  }
+  advanceBurn(source: Actor) {
+    if (this.world.movementPreview()) return;
+    for (const target of this.world.actors()) {
+      const burn = target.burn;
+      if (!burn || target.health <= 0) continue;
+      burn.remaining--;
+      burn.nextTick--;
+      if (burn.nextTick === 0) {
+        this.damage(
+          source,
+          target,
+          tuning.ability.burnDamage,
+          this.generation,
+          'burn',
+          'over-time',
+        );
+        burn.nextTick = tuning.ability.burnCadence;
+      }
+      if (burn.remaining === 0) target.burn = undefined;
+    }
   }
   advance(a: Actor) {
     if (a.state === 'attack') {
@@ -162,12 +227,16 @@ export class CombatActions {
           if (
             target.kind === 'enemy' &&
             target.health > 0 &&
-            this.withinArc(a, target, tuning.ability.range, tuning.ability.halfAngle) &&
+            this.withinArc(a, target, tuning.ability.range, Math.PI) &&
             clearSegment(this.area, a, target, 0.001)
           ) {
-            this.damage(a, target, tuning.ability.damage);
+            this.damage(a, target, tuning.ability.damage, this.generation, 'burn');
             if (target.health > 0) {
               target.stun = tuning.ability.stun;
+              target.burn = {
+                remaining: tuning.ability.burnDuration,
+                nextTick: target.burn?.nextTick ?? tuning.ability.burnCadence,
+              };
               this.world.emit(a, {
                 kind: 'stagger',
                 target: target.id,

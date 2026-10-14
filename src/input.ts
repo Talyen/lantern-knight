@@ -1,4 +1,5 @@
 import { cameraContract as contract } from './assets/camera-contract';
+import type { HeroAction } from './core/actor';
 import type { Command } from './core/simulation';
 import { walkablePoint, screenMovement } from './presentation/camera';
 import type { Actor } from './core/simulation';
@@ -7,6 +8,7 @@ import type { OrthographicCamera } from 'three';
 export class Input {
   keys = new Set<string>();
   edges = { attack: false, dodge: false, ability: false, potion: false };
+  private actions: HeroAction[] = [];
   pointer = { x: 0, y: 0 };
   private lifetime = new AbortController();
   hasPointer = false;
@@ -38,7 +40,10 @@ export class Input {
       )
         return;
       this.keys.add(e.code);
-      if (!e.repeat && (e.code === 'ShiftLeft' || e.code === 'ShiftRight')) this.edges.dodge = true;
+      if (!e.repeat && (e.code === 'ShiftLeft' || e.code === 'ShiftRight')) {
+        this.edges.dodge = true;
+        this.actions.push('dodge');
+      }
       if (e.code === 'KeyQ' && !e.repeat) this.edges.potion = true;
       if (e.code === 'Escape' && !e.repeat) {
         e.preventDefault();
@@ -55,8 +60,14 @@ export class Input {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       this.pointer = { x: e.clientX, y: e.clientY };
       this.hasPointer = true;
-      if (e.button === 0) this.edges.attack = true;
-      if (e.button === 2) this.edges.ability = true;
+      if (e.button === 0) {
+        this.edges.attack = true;
+        this.actions.push('sword');
+      }
+      if (e.button === 2) {
+        this.edges.ability = true;
+        this.actions.push('lantern');
+      }
     };
     canvas.addEventListener('pointerdown', down, { signal });
     canvas.addEventListener('contextmenu', (e) => e.preventDefault(), { signal });
@@ -86,13 +97,16 @@ export class Input {
       aim: this.lastAim ?? { x: actor.x + Math.sin(actor.aim), z: actor.z + Math.cos(actor.aim) },
       generation,
       ...this.edges,
+      actions: this.actions,
     };
     this.edges = { attack: false, dodge: false, ability: false, potion: false };
+    this.actions = [];
     return cmd;
   }
   clear() {
     this.keys.clear();
     this.edges = { attack: false, dodge: false, ability: false, potion: false };
+    this.actions = [];
   }
   resetAim() {
     this.clear();

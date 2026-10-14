@@ -6,7 +6,7 @@ This document records the intended direction for the prototype and first playabl
 
 Combat should feel deliberate but responsive. Basic sword attacks alternate between sweep and lunge, with readable commitment and clear opportunities to react between actions.
 
-The current implementation completes an attack before allowing a dodge. Confirm that policy through playtesting, or define an allowed cancellation window before changing it. Recovery cancellation is not yet an agreed requirement.
+Sword windups and active damage windows stay committed. Sword, lantern, dodge and movement can interrupt recovery after impact resolves. One queued action preserves the newest usable request; unavailable requests and movement do not replace it. Dodge travel and invulnerability remain protected, while requests during hurt wait for the reaction to finish. Incoming interruption, death, load and room replacement clear queued input.
 
 Start without a stamina system. Tune attack timing, input buffering, dodge timing and aiming together with the action animations.
 
@@ -20,17 +20,17 @@ For delayed operations such as save/load, acknowledge pending work promptly, the
 
 ## Damage types and Burn
 
-For the planned damage system, basic sword attacks deal Physical damage. The lantern special deals Burn damage immediately and applies Burn damage over time as a status effect. Some enemies can be weak to particular damage types. The current prototype uses numeric damage without damage types, weaknesses or Burn status.
+Sword and enemy melee deal Physical damage. The lantern deals an initial Burn hit and applies a Burn status. Opening enemies are neutral to both types; weaknesses wait for a later, visibly distinct enemy.
 
-Repeated Burn applications refresh one DoT rather than adding stacks. Enemy weakness modifies both the initial Burn hit and subsequent DoT ticks. Duration, tick cadence, refresh timing and weakness values require design and playtesting.
+Repeated Burn applications refresh one DoT without stacking or postponing its next tick. Initial tuning is 4 damage each second for 3 seconds. Ticks never cause hurt reactions or stagger; a Burn defeat awards ordinary rewards once. Status timers freeze while paused or in an inactive destination, survive checkpoints and revisits, and clear when encounters reset. Future weakness modifiers should affect the initial hit and ticks together.
 
 ## Lantern ability
 
-Develop the lantern as an AoE special attack that complements the basic sword attacks through immediate Burn damage and a refreshing Burn DoT.
+The lantern is a circular burst centered on the hero at impact. Mouse aim selects the supplied casting animation's facing, independently of targeting. Preserve obstruction and height checks; only enemies receive the burst, while crates retain their sword interaction.
 
-The existing prototype is a mouse-aimed cone that deals immediate damage and brief stagger on a cooldown. Its animation hookup and current directional cast integration support development; they do not establish the final ability design.
+Start with a 2.5 m radius, a four-second cooldown beginning when casting starts, a 0.2-second visible lift, 16 initial Burn damage and half a second of stagger. Fire once when the lantern reaches its raised pose. Recovery becomes cancellable only after that pulse resolves. Keep gameplay and runtime animation timing together without regenerating the supplied artwork.
 
-Choose the AoE shape, range, targeting, cooldown/resource policy and whether stagger remains before implementing the Burn special. The prototype cone and cooldown are not final commitments.
+These are playtest defaults, not balance approval. The burst creates room to reposition and supports a sword follow-up; damage over time does not repeatedly interrupt enemies. Use cooldown only, without consumable charges.
 
 ## Movement and facing
 
@@ -62,13 +62,21 @@ Use painted environmental lighting, simple contact shadows and selective glow fr
 
 Keep full dynamic relighting optional. The initial visual direction should work with the painted lighting approach, with selective glow supporting readability and atmosphere.
 
+## Opening guidance
+
+Introduce the journey with: “Beyond the abandoned orchard, another fire still burns. Find the forest path.” The orchard objective is to find the forest path. Keep the ring detour optional and departure tied to its specific guards. The clearing introduces another surviving fire, exploration of the ruins and a return to a campfire for rest or travel.
+
+Use a gentle combat ramp and one nonblocking contextual hint at a time: sword near a crate, dodge before an isolated fight, lantern near paired enemies, inventory after finding the ring, and potions when owned with at least 40 health missing. Complete hints through demonstrated actions, allow dismissal, and remember their state within the saved game. Guidance starts after room readiness; pause/help retains full controls and a replay option that preserves earned progress.
+
+Enemy cues use supplied animation with a restrained windup accent, without ground attack zones. Show the burst radius and a subdued persistent Burn cue. Queued and unavailable actions remain distinguishable with sound muted. Burn ticks do not repeat full contact effects or impact sounds.
+
 ## Prototype priorities
 
 Polish alternating sweep/lunge attacks, dodge, the Burn lantern special and movement/action facing transitions together in authored prototype areas. Complete enemy action animation and attack cues, coherent hit/Burn feedback, sound and music, basic onboarding and settings usability.
 
 Art validation should establish that elevation, occlusion, contact shadows and selective glow work coherently. Visible playtesting should confirm that a new player understands the controls, reads enemy actions, uses both attacks meaningfully, traverses connected authored areas, retries after death and saves/resumes reliably.
 
-Follow this with a cohesive progression loop before expanding the adventure. Resolve lantern, Burn, dodge and progression decisions in their sections above before implementation; the [roadmap](roadmap.md) tracks the work.
+Follow this with a cohesive progression loop before expanding the adventure. Validate the lantern, Burn and cancellation defaults through visible playtesting, then resolve progression relationships before implementation; the [roadmap](roadmap.md) tracks the work.
 
 ## Presentation and delivery defaults
 

@@ -1,3 +1,5 @@
+import { mkdir } from 'node:fs/promises';
+import path from 'node:path';
 import { loadCheckpoint } from '../fixtures/input';
 import { test, expect } from './fixtures';
 test('game input, pause focus and current checkpoint reload', async ({ page }) => {
@@ -8,6 +10,16 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
   );
   expect(await page.evaluate(() => 'foundation' in window)).toBe(false);
+  await expect(page.locator('#opening-hint')).toBeVisible();
+  await expect(page.locator('#opening-hint-text')).toContainText('another fire still burns');
+  if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY) {
+    await mkdir(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, { recursive: true });
+    await page.screenshot({
+      path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'orchard-opening.png'),
+    });
+  }
+  await page.getByRole('button', { name: 'Dismiss this hint' }).click();
+  await expect(page.locator('#opening-hint-text')).not.toContainText('another fire still burns');
   await page.locator('#pause').click();
   await expect(page.locator('#resume')).toBeFocused();
   await page.locator('#save').click();
@@ -18,12 +30,17 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
   expect(keys.length).toBe(1);
   const initial = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), keys[0]!);
   expect(initial.area).toBe('abandoned-orchard');
+  expect(initial.adventure.onboarding.dismissed).toContain('hook');
   expect(Object.values(initial.areas[initial.area].actors).every((a: any) => a.health > 0)).toBe(
     true,
   );
   expect(initial.wins).toBe(0);
-  await expect(page.locator('#objective')).toHaveText('');
+  await expect(page.locator('#objective')).toHaveText('Find the forest path.');
+  await page.getByText('Controls & help', { exact: true }).click();
+  await expect(page.locator('.controls-help')).toContainText('RMB · Lantern burst');
+  await page.getByRole('button', { name: 'Show hints again' }).click();
   await page.locator('#resume').click();
+  await expect(page.locator('#opening-hint')).toBeVisible();
   await expect(page.locator('.game-stage canvas')).toBeFocused();
   const inputErrors: string[] = [];
   page.on('pageerror', (error) => inputErrors.push(error.message));
@@ -116,7 +133,7 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
     .toBe(100);
   await expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 60_000 });
   await expect(page.locator('#hp')).toHaveText('100 / 100');
-  await expect(page.locator('#objective')).toHaveText('');
+  await expect(page.locator('#objective')).toHaveText('Find the forest path.');
   await page.locator('#pause').click();
   await page.locator('#new-game').click();
   await expect(page.locator('#cancel-new')).toBeFocused();

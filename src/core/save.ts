@@ -2,6 +2,7 @@ import { equipmentSlots, healthBonus } from '../content/items';
 import { validateInventory, MAX_ITEM_COUNT } from './inventory';
 import { AreaStateSchema, parseAreaState } from './area-state';
 import { z } from 'zod';
+import { OnboardingSchema } from './onboarding';
 import { type ContentRegistry, contains, isSupportedPosition } from '../content/world';
 import { effectiveRadius } from '../content/collision';
 import { tuning } from '../content/gameplay';
@@ -28,6 +29,7 @@ const GameSchema = z.strictObject({
       discovered: z.array(z.string()).max(1000),
       lastFire: z.string().optional(),
       potionCooldown: z.number().int().min(0).max(60),
+      onboarding: OnboardingSchema.optional(),
     })
     .optional(),
   areas: z.record(id, AreaStateSchema),

@@ -5,6 +5,8 @@ import type { SweepTiming, SweepRecovery } from '../content/sweep-timing';
 import type { AuthoredHeading } from '../content/headings';
 
 export type State = 'idle' | 'walk' | 'attack' | 'dodge' | 'ability' | 'hurt' | 'death';
+export type HeroAction = 'sword' | 'lantern' | 'dodge';
+type Burn = { remaining: number; nextTick: number };
 export type Actor = {
   id: ActorId;
   definition: ContentSnapshot<ActorDefinition>;
@@ -30,7 +32,6 @@ export type Actor = {
   sweepRecovery?: SweepRecovery;
   nextAttack: HeroAttackKind;
   actionHeading: AuthoredHeading;
-  attackBufferedUntil: number;
-  dashBufferedUntil: number;
-  dashYaw: number;
+  pendingAction?: { kind: HeroAction; yaw: number };
+  burn?: Burn;
 };

@@ -41,7 +41,8 @@ export class AudioFeedback {
         play('dodge');
         break;
       case 'damage':
-        if (event.amount > 0) play(target?.kind === 'hero' ? 'hurt' : 'impact');
+        if (event.amount > 0 && event.phase !== 'over-time')
+          play(target?.kind === 'hero' ? 'hurt' : 'impact');
         break;
       case 'stagger':
         play('bone');

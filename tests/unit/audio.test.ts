@@ -502,6 +502,13 @@ test('feedback requires accepted outcomes and distinguishes damage, rest and can
   const event = (details: object) =>
     feedback.event({ ...base, ...details } as PresentationEvent, session.sim.view, signal);
   event({ kind: 'damage', target: session.sim.hero.id, amount: 0 });
+  event({
+    kind: 'damage',
+    target: session.sim.enemies[0]!.id,
+    amount: 4,
+    damageType: 'burn',
+    phase: 'over-time',
+  });
   event({ kind: 'transition-cancelled', destination: session.sim.area });
   assert.deepEqual(calls, []);
   event({ kind: 'damage', target: session.sim.hero.id, amount: 1 });

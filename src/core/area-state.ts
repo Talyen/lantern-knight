@@ -3,11 +3,18 @@ import { rewardSchema } from '../content/interactions';
 import { type ContentRegistry, contains, isSupportedPosition } from '../content/world';
 import { effectiveRadius } from '../content/collision';
 import type { ContentSnapshot } from '../content/snapshot';
+import { tuning } from '../content/gameplay';
 const id = z.string().regex(/^[a-z0-9][a-z0-9_-]*$/);
 const point = z.strictObject({
   x: z.number().finite(),
   z: z.number().finite(),
   health: z.number().int().nonnegative(),
+  burn: z
+    .strictObject({
+      remaining: z.number().int().positive().max(tuning.ability.burnDuration),
+      nextTick: z.number().int().positive().max(tuning.ability.burnCadence),
+    })
+    .optional(),
 });
 export const AreaStateSchema = z.strictObject({
   cleared: z.boolean(),
@@ -86,7 +93,8 @@ export function parseAreaState(
     if (
       !actor ||
       !contains(area.bounds, actor) ||
-      actor.health > registry.actor(spawn.actor).maxHealth
+      actor.health > registry.actor(spawn.actor).maxHealth ||
+      (actor.burn && (actor.health === 0 || actor.burn.nextTick > actor.burn.remaining))
     )
       throw new Error(`invalid actor ${area.id}/${spawn.id}`);
   }

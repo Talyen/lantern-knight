@@ -1,4 +1,5 @@
 import { type Inventory, type Equipment, type EquipmentSlot } from '../content/items';
+import { onboardingState, type OnboardingState, type Lesson } from './onboarding';
 import { InventoryState, type InventoryAccess } from './inventory';
 import { interactionTarget } from './interaction';
 import { Navigation, effectiveRadius } from './navigation';
@@ -22,6 +23,7 @@ type RoomState = {
   lastFire: string | undefined;
   wins: number;
   resetCount: number;
+  onboarding: OnboardingState;
 };
 type PendingRoom = {
   plan: RoomPlan;
@@ -40,6 +42,7 @@ export interface SessionView {
   readonly equipment: Readonly<Equipment>;
   readonly discovered: ReadonlySet<string>;
   readonly lastFire: string | undefined;
+  readonly onboarding: OnboardingState;
   fire: GameSession['fire'];
   captureSave(): GameSave;
 }
@@ -59,6 +62,9 @@ export class GameSession {
     // Unlike per-frame simulation views, this small progression collection can
     // be detached so even untyped hosts cannot mutate the accepted owner.
     return new Set(this.current.discovered);
+  }
+  get onboarding() {
+    return this.current.onboarding;
   }
   get lastFire() {
     return this.current.lastFire;
@@ -114,6 +120,7 @@ export class GameSession {
       lastFire,
       wins: 0,
       resetCount: 0,
+      onboarding: onboardingState(),
     };
     this.recordArea();
   }
@@ -179,6 +186,7 @@ export class GameSession {
       lastFire: this.lastFire,
       wins: this.wins,
       resetCount: this.resetCount,
+      onboarding: this.onboarding,
     };
   }
   private restoredSimulation(
@@ -241,11 +249,53 @@ export class GameSession {
   }
   step(command: Command): StepResult {
     if (this.loading) return { events: [] };
+    const previousOnboarding = this.onboarding;
     const result = this.sim.step(command);
     if (result.events.some((e) => e.kind === 'room-clear')) this.current.wins++;
     // Replacement is a host transaction: rendering must accept the new room before
     // feedback, resume or persistence. Like transitions, reset is only an intent.
-    return result;
+    for (const event of result.events) {
+      if (event.actor !== PLAYER_ID) continue;
+      if (
+        event.kind === 'object-claimed' &&
+        this.sim.areaDefinition.interactables?.some(
+          (o) => o.id === event.object && o.kind === 'breakable',
+        )
+      )
+        this.completeLesson('sword');
+      if (event.kind === 'damage' && event.amount > 0)
+        this.completeLesson(event.damageType === 'physical' ? 'sword' : 'lantern');
+      if (event.kind === 'dodge') this.completeLesson('dodge');
+      if (event.kind === 'potion-used') this.completeLesson('potion');
+    }
+    const entry = this.sim.areaDefinition.entries.find(
+      (e) => e.id === this.sim.areaDefinition.baselineEntry,
+    )!;
+    if (Math.hypot(this.sim.hero.x - entry.x, this.sim.hero.z - entry.z) >= 2)
+      this.completeLesson('hook');
+    return previousOnboarding === this.onboarding ? result : { ...result, onboardingChanged: true };
+  }
+  completeLesson(lesson: Lesson) {
+    this.assertProgressionWritable();
+    if (this.onboarding.completed.includes(lesson)) return false;
+    this.current.onboarding = onboardingState({
+      completed: [...this.onboarding.completed, lesson],
+      dismissed: this.onboarding.dismissed.filter((id) => id !== lesson),
+    });
+    return true;
+  }
+  dismissLesson(lesson: Lesson) {
+    this.assertProgressionWritable();
+    if (this.onboarding.completed.includes(lesson) || this.onboarding.dismissed.includes(lesson))
+      return;
+    this.current.onboarding = onboardingState({
+      completed: [...this.onboarding.completed],
+      dismissed: [...this.onboarding.dismissed, lesson],
+    });
+  }
+  replayHints() {
+    this.assertProgressionWritable();
+    this.current.onboarding = onboardingState();
   }
   prepareTransition(exitId: string): RoomPlan {
     const exit = this.sim.areaDefinition.exits.find((e) => e.id === exitId);
@@ -292,6 +342,7 @@ export class GameSession {
     const first = !this.current.discovered.has(key);
     this.current.discovered.add(key);
     this.current.lastFire = key;
+    this.completeLesson('campfire');
     return first ? [this.event({ kind: 'campfire-discovered', fire: key })] : [];
   }
   prepareFireTravel(key: string): RoomPlan {
@@ -303,7 +354,12 @@ export class GameSession {
     )
       throw new Error('Visit a campfire to travel');
     const { area, definition } = this.fire(key);
-    return this.prepareTravel(area, 'fire-' + definition.id);
+    const plan = this.prepareTravel(area, 'fire-' + definition.id);
+    this.pending!.state.onboarding = onboardingState({
+      completed: [...this.onboarding.completed.filter((id) => id !== 'travel'), 'travel'],
+      dismissed: this.onboarding.dismissed.filter((id) => id !== 'travel'),
+    });
+    return plan;
   }
   respawnFire() {
     const navigation = new Navigation(this.sim.areaDefinition);
@@ -371,6 +427,7 @@ export class GameSession {
     if (this.sim.inCombat) throw new Error('Finish combat before changing equipment');
     const previous = this.current.inventoryState.equipment[slot];
     this.current.inventoryState.equip(item, slot);
+    if (item === 'orchard-ring') this.completeLesson('inventory');
     this.sim.hero.health = Math.min(this.sim.hero.health, this.sim.maxHealth);
     return previous === item ? [] : [this.event({ kind: 'inventory-changed', operation: 'equip' })];
   }
@@ -401,6 +458,10 @@ export class GameSession {
         discovered: [...this.current.discovered],
         ...(this.lastFire ? { lastFire: this.lastFire } : {}),
         potionCooldown: this.sim.potionCooldown,
+        onboarding: {
+          completed: [...this.onboarding.completed],
+          dismissed: [...this.onboarding.dismissed],
+        },
       },
       seed: this.sim.initialSeed,
       wins: this.wins,
@@ -426,6 +487,7 @@ export class GameSession {
       lastFire: save.adventure?.lastFire,
       wins: save.wins,
       resetCount: this.resetCount,
+      onboarding: onboardingState(save.adventure?.onboarding),
     };
     const next = this.restoredSimulation(state, save.area, undefined, save.seed);
     // Checkpoint loading starts a fresh action clock, as before.
@@ -473,6 +535,9 @@ function sessionView(owner: GameSession): SessionView {
     },
     get discovered() {
       return owner.discovered;
+    },
+    get onboarding() {
+      return owner.onboarding;
     },
     get lastFire() {
       return owner.lastFire;

@@ -1,15 +1,17 @@
+import { openingGuidance } from './opening-guidance';
+import type { Lesson } from './core/onboarding';
 import { audioControls, bindAudioControls } from './audio/controls';
 import { bindAdventureUI } from './adventure-ui';
 import { visualEffectLabels, type VisualEffect } from './content/visual-effects';
 import type { Application } from './application';
 export const gameUI = `<main class="stage game-stage"><canvas aria-label="Lantern Knight game" tabindex="0"></canvas>
 <div class="travel-veil" aria-hidden="true"></div><div class="title-card"><div class="eyebrow">Lantern Knight</div><h2 id="room-title"></h2></div>
-<section class="hud"><div class="row"><span>THE LAMPLIGHTER</span><span id="hp"></span></div><div class="health"><span id="health-fill"></span></div><p id="objective"></p></section>
-<div class="actions"><div class="action">Sword<small>LMB · Sweep / Lunge</small></div><div class="action">Dodge<small id="dodge-status"></small></div><div class="action">Lantern<small id="ability-status"></small></div></div>
-<p class="controls-hint">WASD move · Mouse aim · LMB sword · Shift dodge · RMB lantern · E interact · I inventory · Q potion · Esc pause</p>
-<p id="interaction-hint" aria-live="polite"></p><span id="potion-count"></span><button id="pause" aria-label="Pause / save">Ⅱ</button><p id="status" role="status"></p>
+<section class="hud"><div class="row"><span>THE LAMPLIGHTER</span><span id="hp"></span></div><div class="health"><span id="health-fill"></span></div><p id="objective"></p><span id="potion-count"></span></section>
+<div class="actions"><div class="action">Sword<small id="sword-status">LMB · Sweep / Lunge</small></div><div class="action">Dodge<small id="dodge-status"></small></div><div class="action">Lantern<small id="ability-status"></small></div></div>
+<aside id="opening-hint" class="opening-hint" hidden><p id="opening-hint-text" role="status" aria-live="polite"></p><button id="dismiss-hint" aria-label="Dismiss this hint">Dismiss</button></aside>
+<p id="interaction-hint" aria-live="polite"></p><button id="pause" aria-label="Pause / save">Ⅱ</button><p id="status" role="status"></p>
 <dialog class="modal" id="modal" aria-labelledby="pause-title"><div><div class="eyebrow">Lantern Knight</div><h2 id="pause-title">Paused</h2><div class="buttons"><button id="resume" autofocus>Resume</button><button id="reset">Reset encounter</button><button id="save">Save checkpoint</button><button id="load">Load checkpoint</button><button id="new-game">New Game</button></div><p id="menu-status" role="status" aria-live="polite"></p><p id="save-notice"></p><dialog id="new-confirm" class="confirmation" aria-labelledby="new-game-question"><p id="new-game-question">Replace the saved session with a new game?</p><p id="new-status" role="status" aria-live="polite"></p><div class="buttons"><button id="confirm-new">Confirm New Game</button><button id="cancel-new" autofocus>Cancel</button></div></dialog>
-${audioControls}<label>Camera distance<select id="zoom-span"><option value="9">Close</option><option value="11">Medium</option><option value="13">Wide</option><option value="15">Far</option></select></label>
+<details class="controls-help"><summary>Controls &amp; help</summary><p>WASD · Move<br>Mouse · Aim sword<br>LMB · Sweep / Lunge<br>Shift · Dodge<br>RMB · Lantern burst<br>E · Interact / collect / campfire<br>I · Inventory<br>Q · Health Potion<br>Esc · Pause / resume</p><p>Windups and strikes finish before queued actions start. Move or use another action to interrupt recovery. Rest heals and resets enemies; loot stays yours and potions do not refill.</p><button id="replay-hints">Show hints again</button></details>${audioControls}<label>Camera distance<select id="zoom-span"><option value="9">Close</option><option value="11">Medium</option><option value="13">Wide</option><option value="15">Far</option></select></label>
 <label for="depth-of-field">Depth of field <output id="depth-of-field-value">100%</output></label><input id="depth-of-field" type="range" min="0" max="100" step="5" value="100"><p class="muted">Foreground and distance blur. Set to 0% to turn off.</p><label>Render scale<select id="render-scale"><option value="1">100% · up to 4K</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label><fieldset class="visual-options"><legend>Visual effects</legend>${Object.entries(
   visualEffectLabels,
 )
@@ -34,6 +36,7 @@ export function createGameUI(root: HTMLElement) {
   let unsubscribe: (() => void) | undefined;
   let bound = false;
   let pending = false;
+  let currentHint: Lesson | undefined;
   function bind(app: Application) {
     if (closed || bound) throw new Error('Game UI already bound or disposed');
     bound = true;
@@ -102,6 +105,16 @@ export function createGameUI(root: HTMLElement) {
       syncDof();
     });
     on(dof, 'change', () => app.safe(() => app.saveSettings()));
+    on($('#dismiss-hint'), 'click', () => {
+      if (currentHint) app.changeHints('dismiss', currentHint);
+      update(app);
+      root.querySelector<HTMLCanvasElement>('canvas')?.focus();
+    });
+    on($('#replay-hints'), 'click', () => {
+      app.changeHints('replay');
+      status('Hints will appear again during play');
+      update(app);
+    });
     on($('#pause'), 'click', () => app.pause(!app.paused));
     on($('#resume'), 'click', () => app.pause(false));
     on($('#reset'), 'click', () =>
@@ -159,6 +172,8 @@ export function createGameUI(root: HTMLElement) {
     unsubscribe = app.events.subscribe((event) => {
       if (event.kind === 'action-unavailable') status(event.reason);
       if (event.kind === 'potion-used') status('Health Potion · restored health');
+      if (event.kind === 'campfire-discovered')
+        status('Campfire discovered · travel available between discovered fires');
       if (event.kind === 'room-clear')
         status(
           app.sim.areaDefinition.exits.length
@@ -207,13 +222,27 @@ export function createGameUI(root: HTMLElement) {
       `Q · Health Potion ×${app.session.inventory['health-potion'] ?? 0}`;
     $('#hp').textContent = `${s.hero.health} / ${s.maxHealth}`;
     $('#health-fill').style.width = `${(s.hero.health / s.maxHealth) * 100}%`;
-    $('#objective').textContent = '';
-    $('#dodge-status').textContent = s.hero.dodgeCooldown
-      ? `${(s.hero.dodgeCooldown / 60).toFixed(1)} s`
-      : 'Shift · ready';
-    $('#ability-status').textContent = s.hero.cooldown
-      ? `${(s.hero.cooldown / 60).toFixed(1)} s`
-      : 'RMB · ready';
+    const guidance = openingGuidance(s, app.session);
+    $('#objective').textContent = guidance.objective;
+    currentHint = app.roomReady && !app.busy && !app.paused ? guidance.hint?.id : undefined;
+    $('#opening-hint').hidden = !currentHint;
+    const hintText = currentHint ? guidance.hint!.text : '';
+    if ($('#opening-hint-text').textContent !== hintText)
+      $('#opening-hint-text').textContent = hintText;
+    const queued = s.hero.pendingAction?.kind;
+    $('#sword-status').textContent = queued === 'sword' ? 'LMB · Queued' : 'LMB · Sweep / Lunge';
+    $('#dodge-status').textContent =
+      queued === 'dodge'
+        ? 'Shift · Queued'
+        : s.hero.dodgeCooldown
+          ? `${(s.hero.dodgeCooldown / 60).toFixed(1)} s`
+          : 'Shift · ready';
+    $('#ability-status').textContent =
+      queued === 'lantern'
+        ? 'RMB · Queued'
+        : s.hero.cooldown
+          ? `${(s.hero.cooldown / 60).toFixed(1)} s`
+          : 'RMB · ready';
     if (lastArea !== s.area) {
       lastArea = s.area;
       $('#room-title').textContent = s.areaDefinition.name;

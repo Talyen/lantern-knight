@@ -78,7 +78,10 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     if (fire) {
       const key = fire;
       panel.append(
-        text('p', 'Rest restores health and resets enemies. Collected loot stays yours.'),
+        text(
+          'p',
+          'Rest restores health and resets enemies. Collected loot stays yours. Potions do not refill.',
+        ),
         button('Rest', () =>
           run(async () => {
             await app.rest(key);

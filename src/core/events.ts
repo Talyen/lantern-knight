@@ -1,4 +1,6 @@
 import type { ActorId, AreaId } from '../content/world';
+export type DamageType = 'physical' | 'burn';
+export type DamagePhase = 'direct' | 'over-time';
 type EventBase = {
   readonly key: string;
   readonly tick: number;
@@ -16,7 +18,7 @@ export type EventDetails =
   | { kind: 'inventory-changed'; operation: 'equip' | 'unequip' | 'salvage' }
   | { kind: 'action-unavailable'; reason: string }
   | { kind: 'pickup'; pickup: string; amount: number }
-  | { kind: 'damage'; target: ActorId; amount: number }
+  | { kind: 'damage'; target: ActorId; amount: number; damageType: DamageType; phase: DamagePhase }
   | { kind: 'stagger'; target: ActorId; duration: number }
   | { kind: 'strike' | 'flare' | 'death' | 'room-clear' }
   | { kind: 'room-reset'; reason: 'death' | 'manual' }

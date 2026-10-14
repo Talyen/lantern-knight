@@ -2,6 +2,7 @@ import { cleanupAll } from '../assets/cleanup';
 import * as T from 'three';
 import { contactShadowMaterial } from './contact-shadows';
 import { selectDirection, selectAuthoredDirection, HEADINGS } from '../content/headings';
+import { retimeLanternClip } from './lantern-timing';
 import { retimeSweepClip } from './sweep-timing';
 import {
   defaultSweepTiming,
@@ -103,6 +104,11 @@ export class ActorPresentation {
     sweepRecovery: SweepRecovery = defaultSweepRecovery,
   ): Clip {
     const clip = resolveActorClip(manifest, id, dir);
+    if (id === 'cast_lantern_flare' && manifest.asset.id === 'ink-hero-current')
+      return retimeLanternClip(
+        clip,
+        selectAuthoredDirection((HEADINGS.indexOf(dir) * Math.PI) / 4),
+      );
     if (id === 'sweep' && manifest.asset.id === 'ink-hero-current')
       return retimeSweepClip(
         clip,
@@ -245,15 +251,13 @@ export class ActorPresentation {
       v.shadow.position.set(foot.x, foot.y + 0.03, foot.z);
       v.shadow.visible = a.health > 0;
       v.ring.position.set(foot.x, foot.y + 0.035, foot.z);
-      v.ring.visible =
-        options.debug ||
-        (!options.illustrated && a.kind === 'enemy' && (a.state === 'attack' || a.stun > 0));
-      if (a.kind === 'enemy' && a.state === 'attack') {
-        v.ring.scale.setScalar(1 + (a.age / Math.max(1, a.definition.melee.windup)) * 2);
-        (v.ring.material as T.MeshBasicMaterial).color.set(
-          a.age < a.definition.melee.windup ? 0xc66e55 : 0xe5c37d,
-        );
-      } else v.ring.scale.setScalar(1);
+      const winding =
+        a.kind === 'enemy' && a.state === 'attack' && a.age < a.definition.melee.windup;
+      v.ring.visible = options.debug || winding || !!a.burn;
+      v.ring.scale.setScalar(winding ? 1 + (0.4 * a.age) / a.definition.melee.windup : 1);
+      const material = v.ring.material as T.MeshBasicMaterial;
+      material.color.set(a.burn ? 0xe9a45f : winding ? 0xe5c37d : 0xc1645f);
+      material.opacity = a.burn ? (a.burn.nextTick < 8 ? 0.55 : 0.3) : 0.5;
     }
   }
   dispose() {
