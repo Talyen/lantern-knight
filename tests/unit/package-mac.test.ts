@@ -1,13 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { macSigning, notarizeMacApp } from '../../tools/package-mac';
+import { macSigning, prepareMacSigning, notarizeMacApp } from '../../tools/package-mac';
 import type { runProcess } from '../../tools/run-process';
 
 const identity = 'Developer ID Application: Example Studio (ABCDEFGHIJ)';
 const signed = { platform: 'mac' as const, signed: true, identity, 'notary-profile': 'example' };
 
 test('release signing rejects development identities and unsupported modes before packaging', () => {
-  assert.equal(macSigning({ platform: 'mac' }, 'darwin'), undefined);
+  assert.deepEqual(macSigning({ platform: 'mac' }, 'darwin'), {
+    identity: undefined,
+    keychainProfile: 'lantern-knight-notary',
+  });
+  for (const options of [
+    { platform: 'win' as const },
+    { platform: 'mac' as const, dev: true },
+    { platform: 'mac' as const, local: true },
+    { platform: 'mac' as const, unsigned: true },
+  ])
+    assert.equal(macSigning(options, 'darwin'), undefined);
   assert.deepEqual(macSigning(signed, 'darwin'), { identity, keychainProfile: 'example' });
   for (const options of [
     { ...signed, platform: 'win' as const },
@@ -16,10 +26,56 @@ test('release signing rejects development identities and unsupported modes befor
     { ...signed, identity: 'Apple Development: Example Studio (ABCDEFGHIJ)' },
     { ...signed, identity: '-' },
     { ...signed, 'notary-profile': '' },
-    { ...signed, signed: false },
+    { ...signed, unsigned: true },
+    { ...signed, signed: false, unsigned: true },
   ])
     assert.throws(() => macSigning(options, 'darwin'));
   assert.throws(() => macSigning(signed, 'win32'));
+});
+
+test('automatic signing selects only a unique valid release certificate and checks saved credentials', async () => {
+  const line = (name: string) => `  1) ${'A'.repeat(40)} "${name}"\n`;
+  const development = line('Apple Development: Example Studio (ABCDEFGHIJ)');
+  const second = 'Developer ID Application: Another Studio (1234567890)';
+  const automatic = macSigning({ platform: 'mac' }, 'darwin')!;
+  for (const inventory of ['', development, line(identity) + line(second)]) {
+    const commands: string[] = [];
+    const run: typeof runProcess = async (command, _args, options) => {
+      commands.push(command);
+      options.output?.(Buffer.from(inventory));
+    };
+    await assert.rejects(prepareMacSigning(automatic, '/example', run), /exactly one/);
+    assert.deepEqual(commands, ['security']);
+  }
+  const calls: string[][] = [];
+  const run: typeof runProcess = async (command, args, options) => {
+    calls.push([command, ...args]);
+    if (command === 'security') options.output?.(Buffer.from(development + line(identity)));
+  };
+  assert.deepEqual(await prepareMacSigning(automatic, '/example', run), {
+    identity,
+    keychainProfile: 'lantern-knight-notary',
+  });
+  assert.ok(calls[1]!.includes('lantern-knight-notary'));
+  const ambiguous: typeof runProcess = async (command, _args, options) => {
+    if (command === 'security') options.output?.(Buffer.from(line(identity) + line(second)));
+  };
+  assert.equal(
+    (await prepareMacSigning({ ...automatic, identity: second }, '/example', ambiguous)).identity,
+    second,
+  );
+  await assert.rejects(
+    prepareMacSigning({ ...automatic, identity: second }, '/example', run),
+    /Install the requested/,
+  );
+  const invalidCredentials: typeof runProcess = async (command, _args, options) => {
+    if (command === 'security') options.output?.(Buffer.from(line(identity)));
+    else throw new Error('credential fixture failure');
+  };
+  await assert.rejects(
+    prepareMacSigning(automatic, '/example', invalidCredentials),
+    /credential check failed/,
+  );
 });
 
 test('rejected or malformed Apple responses cannot advance to stapling or Gatekeeper acceptance', async () => {

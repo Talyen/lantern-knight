@@ -15,7 +15,7 @@ async function packageApp(
 ) {
   if (prebuilt && local)
     throw new Error('--local cannot select assets for an existing package build');
-  if (signing) await prepareMacSigning(signing, projectRoot);
+  const releaseSigning = signing ? await prepareMacSigning(signing, projectRoot) : undefined;
   if (!prebuilt) await buildDesktop(profile, local);
   await verifyBuildIdentity({ profile });
   await runProcess(
@@ -26,9 +26,9 @@ async function packageApp(
       '--' + platform,
       platform === 'mac' ? '--arm64' : '--x64',
       '--dir',
-      ...(signing
+      ...(releaseSigning
         ? [
-            '-c.mac.identity=' + signing.identity.replace(/^Developer ID Application: /, ''),
+            '-c.mac.identity=' + releaseSigning.identity.replace(/^Developer ID Application: /, ''),
             '-c.mac.type=distribution',
             '-c.forceCodeSigning=true',
             '-c.mac.hardenedRuntime=true',
@@ -40,7 +40,7 @@ async function packageApp(
     ],
     { cwd: projectRoot, timeoutMs: 10 * 60_000 },
   );
-  if (signing) await notarizeMacApp(signing, projectRoot);
+  if (releaseSigning) await notarizeMacApp(releaseSigning, projectRoot);
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const { values } = parseArgs({
@@ -50,6 +50,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       prebuilt: { type: 'boolean' },
       local: { type: 'boolean' },
       signed: { type: 'boolean' },
+      unsigned: { type: 'boolean' },
       identity: { type: 'string' },
       'notary-profile': { type: 'string' },
     },
