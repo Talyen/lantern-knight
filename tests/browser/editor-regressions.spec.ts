@@ -17,10 +17,16 @@ declare global {
 }
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('/__lantern_identity');
-  await page.setContent(
-    '<style>body{margin:0}#scene-panel{position:absolute;left:820px;top:0;width:440px;height:780px;overflow:auto}canvas{width:800px;height:600px}#stage{position:relative;width:800px;height:600px}</style><section id="scene-panel"></section><div id="stage"><canvas id="viewport" width="800" height="600"></canvas></div><p id="feedback"></p>',
+  // setContent after the JSON identity endpoint retains application/json and
+  // its browser viewer. Mount a real HTML document on the Vite origin.
+  await page.route('**/__ground_regression', (route) =>
+    route.fulfill({
+      contentType: 'text/html',
+      body: '<!doctype html><style>body{margin:0}#scene-panel{position:absolute;left:820px;top:0;width:440px;height:780px;overflow:auto}canvas{width:800px;height:600px}#stage{position:relative;width:800px;height:600px}.ground-overlay{position:absolute;pointer-events:none}</style><section id="scene-panel"></section><div id="stage"><canvas id="viewport" width="800" height="600"></canvas></div><p id="feedback"></p>',
+    }),
   );
+  await page.goto('/__ground_regression');
+  expect(await page.evaluate(() => document.contentType)).toBe('text/html');
   await page.evaluate(async () => {
     const authoringPath = '/src/editor/ground-authoring.ts',
       cameraPath = '/src/presentation/camera.ts',
