@@ -11,10 +11,12 @@ function fixture() {
   let rejectView = false,
     storageFails = false,
     storageErrors = 0;
+  let apply: (() => Promise<void>) | undefined;
   let response: (url: string, init?: RequestInit) => Response | Promise<Response>;
   const documents = new EditorDocument(
     emptyScene(),
     async () => {
+      await apply?.();
       if (rejectView) {
         rejectView = false;
         throw new Error('view rejected');
@@ -90,6 +92,9 @@ function fixture() {
       storageFails = true;
     },
     storageErrors: () => storageErrors,
+    apply: (work?: () => Promise<void>) => {
+      apply = work;
+    },
     respond: (work: typeof response) => {
       response = work;
     },
@@ -312,4 +317,89 @@ it('keeps malformed recovery metadata from hiding other recoveries', async () =>
   f.project.readRecovery(broken.key);
   assert.equal(f.project.recoveryReadable, false);
   assert.equal(f.project.recoverySource(), f.values.get(broken.key));
+});
+
+it('owns file identity from request admission through save acceptance', async () => {
+  const f = fixture();
+  await f.project.list();
+  const result = Promise.withResolvers<Response>();
+  f.respond(() => result.promise);
+  const opening = f.project.open('file-existing');
+  await assert.rejects(f.project.open('new'), /in progress/);
+  assert.throws(() => f.project.readRecovery('recovery:workspace:other'), /in progress/);
+  await assert.rejects(f.project.save('copy'), /in progress/);
+  await assert.rejects(
+    f.project.edit((h) =>
+      h.change((d) => {
+        d.name = 'Lost edit';
+      }),
+    ),
+    /in progress/,
+  );
+  result.resolve(
+    f.json({
+      document: { ...emptyScene(), id: 'existing' },
+      revision: 'disk',
+      baseRevision: 'base',
+    }),
+  );
+  await opening;
+  assert.equal(f.documents.history.document.id, 'existing');
+  assert.equal(f.project.revision, 'disk');
+  assert.equal(f.project.dirty, false);
+});
+it('waits for an admitted edit before accepting save metadata and blocks replacement', async () => {
+  const f = fixture();
+  await f.project.list();
+  const result = Promise.withResolvers<Response>();
+  let written!: SceneDocument;
+  f.respond((_url, init) => {
+    written = JSON.parse(init!.body as string).document;
+    return result.promise;
+  });
+  const saving = f.project.save('copy');
+  const rendering = Promise.withResolvers<void>();
+  f.apply(() => rendering.promise);
+  const editing = f.project.edit((h) =>
+    h.change((d) => {
+      d.name = 'Later edit';
+    }),
+  );
+  await assert.rejects(f.project.import({ ...emptyScene(), id: 'different' }), /in progress/);
+  result.resolve(f.json({ document: written, revision: 'saved', baseRevision: 'base' }));
+  await new Promise((resolve) => setImmediate(resolve));
+  rendering.resolve();
+  await editing;
+  await saving;
+  assert.equal(f.documents.history.document.id, 'copy');
+  assert.equal(f.documents.history.document.name, 'Later edit');
+  assert.equal(f.project.revision, 'saved');
+  assert.equal(f.project.dirty, true);
+});
+
+it('cancels save acceptance while an admitted view update is still pending', async () => {
+  const f = fixture();
+  await f.project.list();
+  const response = Promise.withResolvers<Response>();
+  let written!: SceneDocument;
+  f.respond((_url, init) => {
+    written = JSON.parse(init!.body as string).document;
+    return response.promise;
+  });
+  const saving = f.project.save('copy');
+  const rendering = Promise.withResolvers<void>();
+  f.apply(() => rendering.promise);
+  const editing = f.project.edit((h) =>
+    h.change((d) => {
+      d.name = 'Pending';
+    }),
+  );
+  const editRejected = assert.rejects(editing, /closed/);
+  response.resolve(f.json({ document: written, revision: 'saved', baseRevision: 'base' }));
+  await new Promise((resolve) => setImmediate(resolve));
+  f.lifetime.abort(new Error('closed'));
+  await assert.rejects(saving, /closed/);
+  assert.equal(f.project.revision, null);
+  rendering.resolve();
+  await editRejected;
 });

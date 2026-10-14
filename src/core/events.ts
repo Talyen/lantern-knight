@@ -51,7 +51,10 @@ export class EventHub {
   private dispatching = false;
   private changingGeneration = 0;
   private disposed = false;
-  readonly history: PresentationEvent[] = [];
+  private readonly acceptedHistory: PresentationEvent[] = [];
+  get history(): readonly PresentationEvent[] {
+    return Object.freeze([...this.acceptedHistory]);
+  }
   constructor(
     private readonly report: (error: unknown, event: PresentationEvent) => void = (error) =>
       console.error('Event feedback failed', error),
@@ -116,7 +119,15 @@ export class EventHub {
   }
   publish(events: readonly PresentationEvent[]) {
     if (this.disposed) return;
-    this.queue.push(...events);
+    // Capture the complete batch before any observer can re-enter publication.
+    this.queue.push(
+      ...events.map((event) =>
+        Object.freeze({
+          ...event,
+          position: Object.freeze([...event.position]) as EventBase['position'],
+        }),
+      ),
+    );
     this.drain();
   }
   private fail(
@@ -142,8 +153,8 @@ export class EventHub {
       let event: PresentationEvent | undefined;
       while (!this.disposed && (event = this.queue.shift())) {
         if (!this.accept(event)) continue;
-        this.history.push(event);
-        if (this.history.length > 100) this.history.shift();
+        this.acceptedHistory.push(event);
+        if (this.acceptedHistory.length > 100) this.acceptedHistory.shift();
         const epoch = this.epoch;
         // New subscribers start with the next event; removal takes effect immediately.
         for (const consumer of [...this.consumers]) {
@@ -178,7 +189,7 @@ export class EventHub {
     this.consumers.clear();
     this.animations.clear();
     this.tickKeys.clear();
-    this.history.length = 0;
+    this.acceptedHistory.length = 0;
     for (const consumer of consumers) consumer.lifetime.abort();
   }
 }

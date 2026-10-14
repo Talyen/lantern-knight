@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { readUntilAborted } from '../abort';
 import { parseSceneDocument, type SceneDocument } from '../content/scene-document';
 import type { EditorDocument } from './document';
 import type { EditorHistory } from './model';
@@ -19,6 +20,8 @@ type StorageAccess = Pick<Storage, 'length' | 'key' | 'getItem' | 'setItem' | 'r
 
 // File identity and recovery belong to the accepted document, independent of its controls.
 export class EditorProject {
+  private operation: 'replacement' | 'saving' | 'accepting-save' | undefined;
+  private editing?: Promise<void>;
   private revisionValue: string | null = null;
   private baseRevision = '';
   private token = '';
@@ -35,6 +38,31 @@ export class EditorProject {
     private readonly storageError: () => void,
     private readonly request: typeof fetch = globalThis.fetch.bind(globalThis),
   ) {}
+  private async run<T>(kind: 'replacement' | 'saving', work: () => Promise<T>): Promise<T> {
+    this.signal.throwIfAborted();
+    if (this.operation || this.editing) throw new Error('Scene project operation in progress');
+    this.operation = kind;
+    try {
+      return await work();
+    } finally {
+      this.operation = undefined;
+    }
+  }
+  list() {
+    return this.run('replacement', () => this.listOwned());
+  }
+  open(value: string) {
+    return this.run('replacement', () => this.openOwned(value));
+  }
+  import(document: SceneDocument) {
+    return this.run('replacement', () => this.importOwned(document));
+  }
+  save(copyId?: string) {
+    return this.run('saving', () => this.saveOwned(copyId));
+  }
+  restoreRecovery() {
+    return this.run('replacement', () => this.restoreRecoveryOwned());
+  }
   get revision() {
     return this.revisionValue;
   }
@@ -58,7 +86,7 @@ export class EditorProject {
     if (!response.ok) throw new Error(data.error);
     return data;
   }
-  async list() {
+  private async listOwned() {
     const data = await this.api();
     this.token = data.token;
     this.baseRevision = data.baseRevision;
@@ -66,7 +94,7 @@ export class EditorProject {
     if (!this.recoveryKey) this.recoveryKey = this.recoveryRoot + 'untitled';
     return data.scenes as { id: string; name: string; target?: string; error?: string }[];
   }
-  async open(value: string) {
+  private async openOwned(value: string) {
     let document = emptyScene(),
       revision: string | null = null,
       baseRevision = this.baseRevision,
@@ -98,15 +126,26 @@ export class EditorProject {
     this.baseRevision = baseRevision;
     this.savedSnapshot = savedSnapshot;
     this.recoveryKey = this.recoveryRoot + document.id;
-    this.readRecovery(this.recoveryKey);
+    this.readRecoveryOwned(this.recoveryKey);
     this.recover();
   }
   async edit(work: (history: EditorHistory) => void) {
-    await this.documents.edit(work);
     this.signal.throwIfAborted();
-    this.recover();
+    if ((this.operation && this.operation !== 'saving') || this.editing)
+      throw new Error('Scene project operation in progress');
+    // Register before invoking a caller-owned edit callback.
+    const completion = Promise.withResolvers<void>();
+    this.editing = completion.promise;
+    try {
+      await this.documents.edit(work);
+      this.signal.throwIfAborted();
+      this.recover();
+    } finally {
+      this.editing = undefined;
+      completion.resolve();
+    }
   }
-  async import(document: SceneDocument) {
+  private async importOwned(document: SceneDocument) {
     this.recover();
     await this.documents.replace(document);
     this.signal.throwIfAborted();
@@ -132,7 +171,7 @@ export class EditorProject {
     }
     return data;
   }
-  async save(copyId?: string) {
+  private async saveOwned(copyId?: string) {
     const document = parseSceneDocument(
       copyId
         ? { ...this.documents.history.document, id: copyId, target: 'draft' }
@@ -140,6 +179,11 @@ export class EditorProject {
     );
     const data = await this.post({ document, revision: copyId ? null : this.revisionValue });
     const accepted = parseSceneDocument(data.document);
+    // Keep edits admitted during transport, but close admission before accepting
+    // file metadata. Reidentification must follow their view commit or rollback.
+    this.operation = 'accepting-save';
+    if (this.editing) await readUntilAborted(this.editing, this.signal);
+    this.signal.throwIfAborted();
     const previousKey = this.recoveryKey;
     this.documents.reidentify(accepted.id, accepted.target);
     this.revisionValue = data.revision;
@@ -148,7 +192,7 @@ export class EditorProject {
     this.recoveryKey = this.recoveryRoot + accepted.id;
     // A completed server write remains accepted even when optional local storage fails.
     this.accessStorage((storage) => storage.removeItem(previousKey));
-    if (this.recoveryKey !== previousKey) this.readRecovery(this.recoveryKey);
+    if (this.recoveryKey !== previousKey) this.readRecoveryOwned(this.recoveryKey);
     this.recover();
   }
   private accessStorage<T>(work: (storage: StorageAccess) => T): T | undefined {
@@ -203,6 +247,10 @@ export class EditorProject {
     );
   }
   readRecovery(key: string) {
+    if (this.operation) throw new Error('Scene project operation in progress');
+    this.readRecoveryOwned(key);
+  }
+  private readRecoveryOwned(key: string) {
     if (!this.recoveryRoot || !key.startsWith(this.recoveryRoot))
       throw new Error('Recovery belongs to another workspace');
     this.pendingRecovery = undefined;
@@ -221,12 +269,13 @@ export class EditorProject {
     return this.accessStorage((storage) => storage.getItem(key));
   }
   dismissRecovery() {
+    if (this.operation) throw new Error('Scene project operation in progress');
     const pending = this.pendingRecovery;
     if (!pending) return;
     this.accessStorage((storage) => storage.removeItem(pending.key));
     this.pendingRecovery = undefined;
   }
-  async restoreRecovery() {
+  private async restoreRecoveryOwned() {
     const pending = this.pendingRecovery;
     if (!pending?.data) throw new Error('Recovery is unreadable');
     const recovery = pending.data;

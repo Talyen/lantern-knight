@@ -589,3 +589,69 @@ test('closing the buffer owner rejects shared late decodes and further admission
   await assert.rejects(buffers.acquire(selected), /abort/i);
   assert.equal(buffers.decodedBytes, 0);
 });
+
+test('audio disposal releases sibling voices and closes context after a disconnect failure', async () => {
+  const f = fixture();
+  await ready(f);
+  await f.playback.play('sword');
+  f.now = 1;
+  await f.playback.play('sword');
+  Object.assign(f.sources[0]!, {
+    disconnect: () => {
+      throw new Error('disconnect failure');
+    },
+  });
+  assert.throws(() => f.playback.dispose(), /disconnect failure/);
+  assert.equal(
+    f.sources.every((source) => source.stopped),
+    true,
+  );
+  assert.equal(f.playback.diagnosticsSnapshot.voices, 0);
+  assert.equal(f.playback.diagnosticsSnapshot.decodedBytes, 0);
+  assert.equal(f.closed, 1);
+  f.playback.dispose();
+});
+test('voice cancellation releases its listener as well as its decoded lease', async () => {
+  const f = fixture();
+  await ready(f);
+  const controller = new AbortController();
+  let listeners = 0;
+  const add = controller.signal.addEventListener.bind(controller.signal);
+  const remove = controller.signal.removeEventListener.bind(controller.signal);
+  controller.signal.addEventListener = (...args: Parameters<AbortSignal['addEventListener']>) => {
+    listeners++;
+    add(...args);
+  };
+  controller.signal.removeEventListener = (
+    ...args: Parameters<AbortSignal['removeEventListener']>
+  ) => {
+    listeners--;
+    remove(...args);
+  };
+  await f.playback.play('sword', { signal: controller.signal });
+  controller.abort();
+  assert.equal(listeners, 0);
+  assert.equal(f.playback.diagnosticsSnapshot.voices, 0);
+  f.playback.dispose();
+});
+
+test('pause releases world siblings and reports cleanup failure without interrupting gameplay', async () => {
+  const f = fixture();
+  await ready(f);
+  await f.playback.play('sword');
+  f.now = 1;
+  await f.playback.play('sword');
+  Object.assign(f.sources[0]!, {
+    disconnect: () => {
+      throw new Error('disconnect failure');
+    },
+  });
+  assert.doesNotThrow(() => f.playback.setWorldFrozen(true));
+  assert.equal(
+    f.sources.every((source) => source.stopped),
+    true,
+  );
+  assert.equal(f.playback.diagnosticsSnapshot.voices, 0);
+  assert.equal(f.reports.length, 1);
+  f.playback.dispose();
+});

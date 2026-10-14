@@ -425,7 +425,7 @@ test('event delivery serializes re-entry and snapshots subscribers without losin
     added: string[] = [];
   hub.subscribe((event) => {
     first.push(event.key);
-    if (event === damage) {
+    if (event.key === damage.key) {
       hub.subscribe((next) => added.push(next.key));
       hub.publish([nested]);
     }
@@ -454,7 +454,7 @@ test('generation replacement and disposal stop in-flight delivery and abort re-e
   const next = { ...event, key: 'next', generation: sim.generation + 1 };
   hub.subscribe((current, lifetime) => {
     lifetimes.push(lifetime);
-    if (current === event) {
+    if (current.key === event.key) {
       lifetime.addEventListener('abort', () => hub.publish([next]), { once: true });
       hub.setGeneration(next.generation);
     }
@@ -462,8 +462,8 @@ test('generation replacement and disposal stop in-flight delivery and abort re-e
   hub.subscribe((current, lifetime) => {
     peerLifetimes.push(lifetime);
     received.push(current.key);
-    if (current === prime) return;
-    assert.equal(current, next);
+    if (current.key === prime.key) return;
+    assert.deepEqual(current, next);
     assert.equal(lifetimes[0]!.aborted, true);
     assert.equal(peerLifetimes[0]!.aborted, true);
     assert.notEqual(lifetime, peerLifetimes[0]);
@@ -473,7 +473,7 @@ test('generation replacement and disposal stop in-flight delivery and abort re-e
     hub.setGeneration(next.generation + 1);
   });
   hub.subscribe((current) => {
-    if (current !== prime) assert.fail('stale or disposed delivery');
+    if (current.key !== prime.key) assert.fail('stale or disposed delivery');
   });
   hub.publish([prime]);
   hub.publish([event, { ...event, key: 'queued-old' }]);
@@ -594,4 +594,50 @@ test('invalid frame deltas leave the clock usable for the next valid frame', () 
     ticks++;
   });
   assert.equal(ticks, 1);
+});
+
+test('feedback owns immutable event batches across reentrant publication and history', () => {
+  const failures: unknown[] = [];
+  const hub = new EventHub((error) => failures.push(error));
+  hub.setGeneration(1);
+  const make = (key: string): AnimationEvent => ({
+    key,
+    tick: 0,
+    generation: 1,
+    actor: 'hero',
+    action: 0,
+    area: 'court',
+    position: [1, 2, 3],
+    direction: 0,
+    kind: 'animation-notify',
+    notify: 'footstep',
+    clip: 'walk',
+    instance: 1,
+    timeMs: 0,
+  });
+  const first = make('first'),
+    queued = make('queued');
+  const seen: string[] = [];
+  hub.subscribe((event) => {
+    if (event.key === 'first') {
+      hub.publish([queued]);
+      Reflect.set(queued, 'key', 'corrupted');
+      Reflect.set(queued.position, '0', 99);
+    }
+    assert.equal(Reflect.set(event, 'notify', 'corrupted'), false);
+    assert.equal(Reflect.set(event.position, '0', 99), false);
+  });
+  hub.subscribe((event) => {
+    seen.push(event.key);
+    assert.equal(event.position[0], 1);
+  });
+  hub.publish([first]);
+  assert.deepEqual(failures, []);
+  assert.deepEqual(seen, ['first', 'queued']);
+  assert.deepEqual(
+    hub.history.map((event) => event.key),
+    seen,
+  );
+  assert.equal(Reflect.set(hub.history, '0', queued), false);
+  hub.dispose();
 });

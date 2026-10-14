@@ -8,13 +8,7 @@ import {
   type AudioSettings,
 } from '../content/audio';
 
-type Voice = {
-  source: AudioBufferSourceNode;
-  gain: GainNode;
-  world: boolean;
-  critical: boolean;
-  finish: () => void;
-};
+import { AudioVoice } from './voice';
 export type AudioDependencies = {
   request: typeof fetch;
   context: () => AudioContext;
@@ -41,9 +35,9 @@ export class AudioPlayback {
   private manifest?: AudioManifest;
   private initialization?: Promise<void>;
   private readonly buffers: AudioBuffers;
-  private voices = new Set<Voice>();
-  private loops: Voice[] = [];
-  private retiring = new Set<Voice>();
+  private voices = new Set<AudioVoice>();
+  private loops: AudioVoice[] = [];
+  private retiring = new Set<AudioVoice>();
   private timers = new Set<ReturnType<typeof setTimeout>>();
   private lastVariant = new Map<string, string>();
   private cooldown = new Map<string, number>();
@@ -140,8 +134,7 @@ export class AudioPlayback {
       this.epoch++;
       this.sessionEpoch++;
       this.cooldown.clear();
-      for (const voice of [...this.voices]) voice.finish();
-      this.stopAmbience();
+      this.cleanupObserved([() => this.finishVoices(() => true), () => this.stopAmbience()]);
     } else if (this.unlocked) void this.setAmbience(this.destination).catch(() => {});
   }
   setWorldFrozen(frozen: boolean) {
@@ -149,15 +142,17 @@ export class AudioPlayback {
     this.frozen = frozen;
     if (frozen) {
       this.epoch++;
-      for (const voice of [...this.voices]) if (voice.world) voice.finish();
-      this.stopAmbience();
+      this.cleanupObserved([
+        () => this.finishVoices((voice) => voice.world),
+        () => this.stopAmbience(),
+      ]);
     } else void this.setAmbience(this.destination).catch(() => {});
   }
   replaceSession() {
     this.epoch++;
     this.sessionEpoch++;
     this.cooldown.clear();
-    for (const voice of [...this.voices]) if (voice.world) voice.finish();
+    this.cleanupObserved([() => this.finishVoices((voice) => voice.world && !voice.loop)]);
   }
   setListener(x: number, z: number) {
     this.listener = { x, z };
@@ -179,7 +174,7 @@ export class AudioPlayback {
     critical: boolean,
     loop: boolean,
     level: number,
-  ): Voice {
+  ): AudioVoice {
     const context = this.context!,
       source = context.createBufferSource();
     let gain: GainNode;
@@ -195,28 +190,31 @@ export class AudioPlayback {
         cleanupAll([() => source.disconnect(), () => gain?.disconnect()]),
       );
     }
-    let finished = false;
-    const voice: Voice = {
+    const voice = new AudioVoice(
       source,
       gain,
       world,
       critical,
-      finish: () => {
-        if (finished) return;
-        finished = true;
-        source.onended = null;
-        try {
-          source.stop();
-        } catch {
-          /* already ended or never started */
-        }
-        this.voices.delete(voice);
-        this.retiring.delete(voice);
-        cleanupAll([() => source.disconnect(), () => gain.disconnect(), () => lease.release()]);
+      loop,
+      lease,
+      (retired) => {
+        this.voices.delete(retired);
+        this.retiring.delete(retired);
       },
-    };
-    source.onended = voice.finish;
+      (error) => this.fail(error),
+    );
+    this.voices.add(voice);
     return voice;
+  }
+  private cleanupObserved(actions: Iterable<() => void>) {
+    try {
+      cleanupAll(actions);
+    } catch (error) {
+      this.fail(error);
+    }
+  }
+  private finishVoices(predicate: (voice: AudioVoice) => boolean) {
+    cleanupAll([...this.voices].filter(predicate).map((voice) => voice.finish));
   }
   get samples() {
     return this.manifest?.samples.map(({ id, cue }) => ({ id, cue })) ?? [];
@@ -248,7 +246,7 @@ export class AudioPlayback {
       this.settings.effects > 0 &&
       (!world || !this.frozen);
     if (!allowed()) return;
-    let voice: Voice | undefined;
+    let voice: AudioVoice | undefined;
     let lease: AudioBufferLease | undefined;
     try {
       const variants =
@@ -270,29 +268,22 @@ export class AudioPlayback {
       if (distance >= 16) return;
       const critical = options.critical ?? false;
       if (
-        (!critical && [...this.voices].filter((v) => !v.critical).length >= 20) ||
-        this.voices.size >= 24
+        (!critical && [...this.voices].filter((v) => !v.loop && !v.critical).length >= 20) ||
+        [...this.voices].filter((v) => !v.loop).length >= 24
       ) {
         if (!critical) return;
-        const victim = [...this.voices].find((v) => !v.critical);
+        const victim = [...this.voices].find((v) => !v.loop && !v.critical);
         if (!victim) return;
         victim.finish();
       }
       voice = this.createVoice(lease, world, critical, false, 1 / (1 + distance * 0.25));
       lease = undefined;
-      this.voices.add(voice);
-      options.signal?.addEventListener('abort', voice.finish, { once: true });
-      const finish = voice.finish;
-      voice.finish = () => {
-        options.signal?.removeEventListener('abort', finish);
-        finish();
-      };
-      voice.source.onended = voice.finish;
+      voice.cancelWith(options.signal);
       voice.source.start();
       this.lastVariant.set(cue, sample.id);
       this.cooldown.set(key, this.deps.now() + cueCooldown(cue));
     } catch (error) {
-      voice?.finish();
+      this.cleanupObserved([() => voice?.finish()]);
       this.fail(error);
     } finally {
       lease?.release();
@@ -312,7 +303,7 @@ export class AudioPlayback {
     )
       return;
     if (key === this.activeDestination) return;
-    const created: Voice[] = [];
+    const created: AudioVoice[] = [];
     try {
       const samples = this.destination.map((cue) => {
         const sample = this.manifest!.samples.find((s) => s.cue === cue && s.loop);
@@ -346,7 +337,7 @@ export class AudioPlayback {
       // cannot accumulate voices/timers during rapid successful transitions.
       for (const timer of this.timers) this.deps.clearTimer(timer);
       this.timers.clear();
-      for (const voice of [...this.retiring]) voice.finish();
+      cleanupAll([...this.retiring].map((voice) => voice.finish));
       const outgoing = this.loops;
       this.loops = [...created];
       created.length = 0;
@@ -361,28 +352,32 @@ export class AudioPlayback {
       }
       const timer = this.deps.timer(() => {
         this.timers.delete(timer);
-        for (const voice of outgoing) voice.finish();
+        this.cleanupObserved(outgoing.map((voice) => voice.finish));
       }, 1000);
       this.timers.add(timer);
     } catch (error) {
       this.fail(error);
     } finally {
-      for (const voice of created) voice.finish();
+      this.cleanupObserved(created.map((voice) => voice.finish));
     }
   }
   private stopAmbience() {
     this.ambienceRequest++;
     this.activeDestination = '';
-    for (const timer of this.timers) this.deps.clearTimer(timer);
+    const timers = [...this.timers],
+      voices = [...this.loops, ...this.retiring];
     this.timers.clear();
-    for (const voice of [...this.loops, ...this.retiring]) voice.finish();
     this.loops = [];
     this.retiring.clear();
+    cleanupAll([
+      ...timers.map((timer) => () => this.deps.clearTimer(timer)),
+      ...voices.map((voice) => voice.finish),
+    ]);
   }
   get diagnosticsSnapshot() {
     return {
       unlocked: this.unlocked,
-      voices: this.voices.size,
+      voices: [...this.voices].filter((voice) => !voice.loop).length,
       loops: this.loops.length,
       decodedBytes: this.buffers.decodedBytes,
       destination: this.activeDestination,
@@ -393,13 +388,17 @@ export class AudioPlayback {
     if (this.lifetime.signal.aborted) return;
     this.lifetime.abort();
     this.epoch++;
-    for (const voice of [...this.voices]) voice.finish();
-    this.stopAmbience();
-    this.buffers.dispose();
     this.cooldown.clear();
-    this.master?.disconnect();
-    this.effects?.disconnect();
-    this.ambience?.disconnect();
-    if (this.context) void this.context.close().catch(() => {});
+    cleanupAll([
+      () => this.buffers.dispose(),
+      () => this.finishVoices(() => true),
+      () => this.stopAmbience(),
+      () => this.master?.disconnect(),
+      () => this.effects?.disconnect(),
+      () => this.ambience?.disconnect(),
+      () => {
+        if (this.context) void this.context.close().catch(() => {});
+      },
+    ]);
   }
 }
