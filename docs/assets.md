@@ -29,6 +29,8 @@ TypeScript recipe steps are callable operations registered in `tools/assets/oper
 
 Development prefers its local layer, otherwise the shared pin. Builds and CI use the pin; `npm run build -- --local` and `npm run assets:check -- --local` deliberately inspect a local preparation. No candidate/preview/publication-state protocol is needed to iterate.
 
+A source-verified preparation that reuses another checkout's immutable snapshot still selects that snapshot for the calling checkout's next preview.
+
 ## Consumption
 
 Consumers acquire an explicit workspace with its root, identity and release operation. Legacy preparation/test subprocesses receive paths at their process boundary. Missing or corrupt pinned downloads are verified before installation; valid cached assets work offline. Safe extraction, inventory checks, exact bytes and active leases remain required.
@@ -68,6 +70,8 @@ Scene layout, gameplay geometry, camera and lighting are runtime content. Prepar
 The current TEST hero uses supplied native drawings, eight-direction running, four-direction idle/actions, guarded treatment and rigid-sword protection. Source handoff timing and raster bytes remain preserved; gameplay uses authored 60 Hz holds. The owner-supplied Last Ferry loading video is copied unchanged and played silently during loading. These choices do not establish final art quality.
 
 `authoring/hero-scale.json` owns per-clip and per-drawing registration scale. `authoring/hero-motion.json` owns native-space motion landmarks and is hashed by animation registration. Scale-only preparation changes leave that motion identity intact; publishing newly prepared artwork remains a separate step.
+
+Calibrate hero size against the current idle's head and upper-torso proportions at equal world scale. Use the matching diagonal idle or both neighboring idles for cardinal runs, then inspect every drawing, loop seam and action join. Silhouette height and width include pose compression, weapons and coat tails; they cannot determine anatomical scale. Prefer uniform clip corrections about the native pivot, reserving drawing overrides for confirmed size outliers. Inspect registration drift separately and preserve deliberate bob, lean and airborne poses.
 
 ## Cache and retention
 

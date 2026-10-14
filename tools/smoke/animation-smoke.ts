@@ -73,19 +73,42 @@ export async function runScenario(flags: string[] = []) {
     });
     assert.deepEqual(run.errors, []);
     if (run.capture) {
+      let capturedDrawings = 0;
       const clips = await page.evaluate(() =>
         Object.keys(window.foundation.presentation.manifest.asset.clips),
       );
       for (const name of clips) {
         const tiles: { input: Buffer; left: number; top: number }[] = [];
+        const labels: string[] = [];
+        let columns = 1;
         const dirs = await page.evaluate(
           (name) => Object.keys(window.foundation.presentation.manifest.asset.clips[name]!),
           name,
         );
-        for (const [row, heading] of dirs.entries())
-          for (const [column, phase] of [0.1, 0.35, 0.6, 0.85].entries()) {
+        for (const [row, heading] of dirs.entries()) {
+          const samples = await page.evaluate(
+            ({ name, heading }) => {
+              const c = window.foundation.presentation.getClip(
+                  name,
+                  heading as typeof window.foundation.presentation.labHeading,
+                ),
+                seen = new Set<string>(),
+                samples: { frame: string; time: number }[] = [];
+              let elapsed = 0;
+              for (const [i, frame] of c.frames.entries()) {
+                if (!seen.has(frame))
+                  samples.push({ frame, time: elapsed + c.durationsMs[i]! / 2 });
+                seen.add(frame);
+                elapsed += c.durationsMs[i]!;
+              }
+              return samples;
+            },
+            { name, heading },
+          );
+          columns = Math.max(columns, samples.length);
+          for (const [column, sample] of samples.entries()) {
             const bytes = await page.evaluate(
-              ({ name, heading, phase }) => {
+              ({ name, heading, time, frame }) => {
                 const f = window.foundation,
                   p = f.presentation;
                 p.labClip = name;
@@ -93,33 +116,49 @@ export async function runScenario(flags: string[] = []) {
                 p.animationTreatment = 'guarded';
                 p.stabilized = true;
                 p.rigidSword = true;
-                const c = p.getClip(name, p.labHeading),
-                  duration = c.durationsMs.reduce((a, b) => a + b, 0);
+                const c = p.getClip(name, p.labHeading);
                 p.labAnimator.start(c);
-                p.labAnimator.seek(duration * phase);
+                p.labAnimator.seek(time);
                 p.labTime = p.labAnimator.time;
                 p.update(f.sim, 1, 0, { x: 0, z: 0 });
+                if (p.labSprite.lastFrame !== frame)
+                  throw new Error('Animation review skipped drawing: ' + frame);
                 const copy = document.createElement('canvas');
                 copy.width = p.canvas.width;
                 copy.height = p.canvas.height;
                 copy.getContext('2d')!.drawImage(p.canvas, 0, 0);
                 return copy.toDataURL('image/png').split(',')[1]!;
               },
-              { name, heading, phase },
+              { name, heading, time: sample.time, frame: sample.frame },
             );
             const input = await sharp(Buffer.from(bytes, 'base64'))
               .resize(560, 320, { fit: 'contain', background: '#151923' })
               .png()
               .toBuffer();
-            tiles.push({ input, left: column * 560, top: row * 320 });
+            const left = column * 560,
+              top = row * 340;
+            tiles.push({ input, left, top: top + 20 });
+            labels.push(
+              `<text x="${left + 8}" y="${top + 15}" fill="#ddd" font-size="12">${sample.frame}</text>`,
+            );
+            capturedDrawings++;
           }
+        }
+        const width = columns * 560,
+          height = dirs.length * 340;
+        tiles.push({
+          input: Buffer.from(`<svg width="${width}" height="${height}">${labels.join('')}</svg>`),
+          left: 0,
+          top: 0,
+        });
         await sharp({
-          create: { width: 2240, height: dirs.length * 320, channels: 4, background: '#151923' },
+          create: { width, height, channels: 4, background: '#151923' },
         })
           .composite(tiles)
           .png()
           .toFile(path.join(output, `${name}-comparison.png`));
       }
+      console.log(`Captured ${capturedDrawings} authored drawings across ${clips.length} clips.`);
       const approved = await page.evaluate(() =>
         window.foundation.presentation
           .animationFlow!.pairs.filter((p) => p.supported)
@@ -188,7 +227,7 @@ export async function runScenario(flags: string[] = []) {
           .png()
           .toFile(path.join(output, `guarded-${phase}.png`));
       }
-      await run.writeReport('animation-review.json', report);
+      await run.writeReport('animation-review.json', { ...report, capturedDrawings });
       console.log('Visual review: ' + output);
     }
     console.log(

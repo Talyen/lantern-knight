@@ -87,7 +87,7 @@ export async function workspaceIdentity(mode: 'pinned' | 'local') {
       );
       if (
         typeof pointer.entry !== 'string' ||
-        !new RegExp('^' + prefix + '-[a-f0-9]{24}$').test(pointer.entry)
+        !/^preview-[a-f0-9]{20}-[a-f0-9]{24}$/.test(pointer.entry)
       )
         throw new Error('Invalid prototype layer identity');
       const descriptor = await readJson(

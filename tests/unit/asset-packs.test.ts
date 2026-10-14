@@ -24,6 +24,7 @@ import { makeArchive } from '../../tools/assets/archive';
 
 import { projectRoot } from '../../tools/assets/paths';
 import { prototypeAssets } from '../../tools/assets/preview';
+import { workspaceIdentity } from '../../tools/assets/workspace';
 
 test('recipe identity excludes runtime composition and includes preparation and publication inputs', async () => {
   const read = (name: string) => fs.readFile(path.join(projectRoot, name));
@@ -145,6 +146,50 @@ test('an evicted local layer falls back to the pin while a corrupt descriptor st
   await fs.writeFile(path.join(corrupt.root, 'preview.json'), '{');
   await corrupt.release();
   await assert.rejects(prototypeAssets(f.cache, f.root), SyntaxError);
+});
+test('a checkout can select verified shared preparation without reverting to its pin', async (t) => {
+  const f = await fixture(t),
+    entry = 'preview-' + 'a'.repeat(20) + '-' + 'b'.repeat(24),
+    prepared = await f.cache.lease(entry),
+    sha256 = 'c'.repeat(64),
+    prefix = (root: string) =>
+      'preview-' + createHash('sha256').update(path.resolve(root)).digest('hex').slice(0, 20);
+  const priorCache = process.env.LANTERN_CACHE_ROOT;
+  try {
+    await fs.mkdir(path.join(prepared.root, 'work/public'), { recursive: true });
+    const bytes = 'calibrated hero';
+    await fs.writeFile(path.join(prepared.root, 'work/public/hero.json'), bytes);
+    await writeJson(path.join(prepared.root, 'preview.json'), {
+      version: 1,
+      sha256,
+      recipeSha256: f.lock.recipeSha256,
+      files: { 'public/hero.json': createHash('sha256').update(bytes).digest('hex') },
+    });
+    for (const root of [f.root, projectRoot]) {
+      const index = await f.cache.lease(prefix(root) + '-index');
+      try {
+        await writeJson(path.join(index.root, 'preview.json'), { entry });
+      } finally {
+        await index.release();
+      }
+    }
+    const selected = await prototypeAssets(f.cache, f.root);
+    try {
+      assert.equal(selected.lock.sha256, sha256);
+      assert.equal(
+        await fs.readFile(path.join(selected.held.root, 'public/hero.json'), 'utf8'),
+        bytes,
+      );
+    } finally {
+      await selected.held.release();
+    }
+    process.env.LANTERN_CACHE_ROOT = f.cache.root;
+    assert.equal(await workspaceIdentity('local'), sha256);
+  } finally {
+    if (priorCache === undefined) delete process.env.LANTERN_CACHE_ROOT;
+    else process.env.LANTERN_CACHE_ROOT = priorCache;
+    await prepared.release();
+  }
 });
 test('corrupt caches are repaired by pinned bytes; active users are protected', async (t) => {
   const f = await fixture(t);

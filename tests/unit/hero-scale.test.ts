@@ -18,11 +18,11 @@ test('hero review covers every clip/direction and leaves idle at its current siz
   assert.equal(scales.size, Object.keys(motion.frames).length);
   for (const [id, scale] of scales) {
     if (id.startsWith('idle-') || id.startsWith('ready-')) assert.equal(scale, 1);
-    assert.ok(scale >= 0.9 && scale <= 1.2, id);
+    assert.ok(scale >= 0.85 && scale <= 1.2, id);
   }
   assert.equal(scales.get('walk-d00-00'), 1.16);
   assert.equal(scales.get('death-d270-04'), 1);
-  assert.equal(scales.get('sweep-d90-00'), 1.06 * 1.06);
+  assert.ok(Math.abs(scales.get('sweep-d90-00')! - 1.06 * 1.06) < 1e-12);
   assert.throws(() => heroFrameScales(scaleRecipe, clips.slice(1)), /exactly/);
   assert.throws(
     () => heroFrameScales({ ...scaleRecipe, frames: { 'absent-00': 1.1 } }, clips),
@@ -38,14 +38,16 @@ test('scale changes world geometry uniformly about the native foot pivot', () =>
     density: 320,
   };
   const trim: [number, number, number, number] = [70, 40, 480, 620];
-  const corrected = scaleHeroRegistration(native, 1.16);
-  assert.equal(native.density, 320);
-  assert.deepEqual(corrected.anchor, native.anchor);
-  assert.deepEqual(corrected.canvas, native.canvas);
-  const before = trimmedBounds(native, trim),
-    after = trimmedBounds(corrected, trim);
-  for (const side of ['left', 'right', 'top', 'bottom'] as const)
-    assert.ok(Math.abs(after[side] - before[side] * 1.16) < 1e-12);
+  const before = trimmedBounds(native, trim);
+  for (const scale of [0.88, 1, 1.16]) {
+    const corrected = scaleHeroRegistration(native, scale),
+      after = trimmedBounds(corrected, trim);
+    assert.equal(native.density, 320);
+    assert.deepEqual(corrected.anchor, native.anchor);
+    assert.deepEqual(corrected.canvas, native.canvas);
+    for (const side of ['left', 'right', 'top', 'bottom'] as const)
+      assert.ok(Math.abs(after[side] - before[side] * scale) < 1e-12);
+  }
   for (const scale of [0, -1, NaN, Infinity])
     assert.throws(() => scaleHeroRegistration(native, scale), /Invalid hero scale/);
 });

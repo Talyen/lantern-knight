@@ -52,10 +52,7 @@ export async function prototypeAssets(
   let entry: string | undefined;
   try {
     entry = (await readJson(path.join(index.root, 'preview.json'))).entry;
-    if (
-      typeof entry !== 'string' ||
-      !new RegExp('^' + previewName(root) + '-[a-f0-9]{24}$').test(entry)
-    )
+    if (typeof entry !== 'string' || !/^preview-[a-f0-9]{20}-[a-f0-9]{24}$/.test(entry))
       throw new Error('Invalid prototype layer identity');
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
@@ -247,6 +244,15 @@ export async function preparePreviewAssets(
           throw new Error(
             'External library changed during refresh; retry with the current inventory',
           );
+        // Reuse can come from another checkout's immutable preparation. Select
+        // it locally as well, so the next preview does not fall back to the pin.
+        await writeJson(path.join(indexGuard.root, 'preview.json.tmp'), {
+          entry: path.basename(directory),
+        });
+        await fs.rename(
+          path.join(indexGuard.root, 'preview.json.tmp'),
+          path.join(indexGuard.root, 'preview.json'),
+        );
         console.log('Prototype assets reused: selected source bytes and immutable outputs match.');
         return { sha256: base.lock.sha256, steps: steps.map((step) => step.file) };
       } finally {
