@@ -6,6 +6,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { AudioPlayback } from '../../src/audio/playback';
+import { AudioBuffers } from '../../src/audio/buffers';
 import { AudioFeedback } from '../../src/audio/feedback';
 import { parseAudioManifest, type AudioManifest } from '../../src/assets/audio';
 import { defaultAudioSettings } from '../../src/content/audio';
@@ -189,6 +190,11 @@ test('pause stops world sounds but menu feedback remains available', async () =>
 });
 test('source failures are non-fatal, bounded and release playback reservations', async () => {
   const f = fixture();
+  f.context.decodeAudioData = async () => ({
+    length: 10 * 1024 ** 2,
+    numberOfChannels: 1,
+    duration: 0.5,
+  });
   await ready(f);
   const original = f.context.createBufferSource;
   f.context.createBufferSource = () => {
@@ -200,6 +206,11 @@ test('source failures are non-fatal, bounded and release playback reservations',
   await f.playback.play('sword');
   assert.equal(f.playback.diagnosticsSnapshot.voices, 0);
   assert.equal(f.reports.length, 1);
+  assert.equal(
+    f.playback.diagnosticsSnapshot.decodedBytes,
+    0,
+    'failed voices release their leases',
+  );
   f.context.createBufferSource = original;
   await f.playback.play('sword');
   assert.equal(f.playback.diagnosticsSnapshot.voices, 1);
@@ -343,13 +354,19 @@ test('an aborted waiter cannot consume cooldown or stop a newer waiter sharing i
   await ready(f);
   (f.playback as unknown as { manifest: AudioManifest }).manifest.samples.push(sample('late-1'));
   let resolve!: (response: Response) => void;
+  let started!: () => void;
+  const requested = new Promise<void>((done) => {
+    started = done;
+  });
   f.pending = () =>
     new Promise<Response>((done) => {
       resolve = done;
+      started();
     });
   const controller = new AbortController();
   const old = f.playback.play('sword', { signal: controller.signal });
   const next = f.playback.play('sword');
+  await requested;
   controller.abort();
   resolve(new Response(bytes));
   await Promise.all([old, next]);
@@ -460,4 +477,115 @@ test('a silent legacy manifest does not report missing ambience', async () => {
   assert.deepEqual(f.reports, []);
   assert.equal(f.sources.length, 0);
   f.playback.dispose();
+});
+
+test('preload cannot evict a decoded buffer borrowed by pending playback', async () => {
+  const f = fixture([sample('sword-1')]);
+  const decodedBytes = 40 * 1024 ** 2;
+  let decode!: () => void;
+  let started!: () => void;
+  const decoding = new Promise<void>((resolve) => {
+    started = resolve;
+  });
+  let decodes = 0;
+  f.context.decodeAudioData = async () => {
+    decodes++;
+    started();
+    await new Promise<void>((resolve) => {
+      decode = resolve;
+    });
+    return { length: decodedBytes / 4, numberOfChannels: 1, duration: 0.5 };
+  };
+  const unlocking = f.playback.unlock();
+  await decoding;
+  f.playback.setWorldFrozen(false);
+  const playing = f.playback.play('sword');
+  decode();
+  await Promise.all([unlocking, playing]);
+  assert.equal(f.sources.length, 1);
+  assert.equal(f.playback.diagnosticsSnapshot.decodedBytes, decodedBytes);
+  await f.playback.play('sword', { key: 'second' });
+  assert.equal(decodes, 1, 'a live buffer must remain shared');
+  assert.equal(f.sources.length, 2);
+  f.sources[0]!.onended?.();
+  assert.equal(f.playback.diagnosticsSnapshot.decodedBytes, decodedBytes);
+  f.sources[1]!.onended?.();
+  assert.equal(f.playback.diagnosticsSnapshot.decodedBytes, 0);
+  f.playback.dispose();
+});
+
+test('buffer eviction counts all borrowers and removes only unleased decoded resources', async () => {
+  const payloads = [1, 2, 3].map((value) => new Uint8Array([value]));
+  const samples = parseAudioManifest({
+    schemaVersion: 1,
+    samples: payloads.map((payload, i) => {
+      const hash = createHash('sha256').update(payload).digest('hex');
+      return { ...sample('sample-' + i), hash, path: `audio/${hash}.wav`, bytes: 1 };
+    }),
+  }).samples;
+  let requests = 0;
+  let now = 0;
+  const size = 20 * 1024 ** 2;
+  const buffers = new AudioBuffers(
+    async (url) => {
+      requests++;
+      const requested = url instanceof Request ? url.url : url.toString();
+      const index = samples.findIndex((sample) => '/' + sample.path === requested);
+      return new Response(payloads[index]!);
+    },
+    async () => ({ length: size / 4, numberOfChannels: 1 }) as AudioBuffer,
+    () => now++,
+  );
+  const first = await buffers.acquire(samples[0]!);
+  const shared = await buffers.acquire(samples[0]!);
+  const second = await buffers.acquire(samples[1]!);
+  assert.equal(buffers.decodedBytes, size * 2);
+  first.release();
+  first.release();
+  assert.equal(buffers.decodedBytes, size * 2, 'the other borrower still pins the first buffer');
+  second.release();
+  assert.equal(buffers.decodedBytes, size);
+  const third = await buffers.acquire(samples[2]!);
+  third.release();
+  assert.equal(buffers.decodedBytes, size);
+  const again = await buffers.acquire(samples[0]!);
+  assert.equal(again.buffer, shared.buffer);
+  assert.equal(requests, 3, 'eviction must not reload an actively borrowed resource');
+  shared.release();
+  again.release();
+  buffers.dispose();
+  assert.equal(buffers.decodedBytes, 0);
+});
+
+test('closing the buffer owner rejects shared late decodes and further admission', async () => {
+  let complete!: (buffer: AudioBuffer) => void;
+  let started!: () => void;
+  const decoding = new Promise<void>((resolve) => {
+    started = resolve;
+  });
+  let requestSignal: AbortSignal | undefined;
+  const buffers = new AudioBuffers(
+    async (_url, options) => {
+      requestSignal = options?.signal ?? undefined;
+      return new Response(bytes);
+    },
+    () =>
+      new Promise<AudioBuffer>((resolve) => {
+        complete = resolve;
+        started();
+      }),
+    () => 0,
+  );
+  const selected = parseAudioManifest({ schemaVersion: 1, samples: [sample('sword-1')] })
+    .samples[0]!;
+  const first = buffers.acquire(selected);
+  const second = buffers.acquire(selected);
+  await decoding;
+  buffers.dispose();
+  assert.equal(requestSignal?.aborted, true);
+  complete({ length: 22050, numberOfChannels: 1 } as AudioBuffer);
+  await assert.rejects(first, /abort/i);
+  await assert.rejects(second, /abort/i);
+  await assert.rejects(buffers.acquire(selected), /abort/i);
+  assert.equal(buffers.decodedBytes, 0);
 });

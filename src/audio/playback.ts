@@ -1,9 +1,6 @@
-import {
-  audioManifestPath,
-  parseAudioManifest,
-  type AudioManifest,
-  type AudioSample,
-} from '../assets/audio';
+import { AudioBuffers, type AudioBufferLease } from './buffers';
+import { cleanupAll, cleanupAfterFailure } from '../assets/cleanup';
+import { audioManifestPath, parseAudioManifest, type AudioManifest } from '../assets/audio';
 import {
   cueCooldown,
   defaultAudioSettings,
@@ -11,11 +8,9 @@ import {
   type AudioSettings,
 } from '../content/audio';
 
-type BufferEntry = { buffer: AudioBuffer; bytes: number; refs: number; used: number };
 type Voice = {
   source: AudioBufferSourceNode;
   gain: GainNode;
-  entry: BufferEntry;
   world: boolean;
   critical: boolean;
   finish: () => void;
@@ -45,8 +40,7 @@ export class AudioPlayback {
   private ambience?: GainNode;
   private manifest?: AudioManifest;
   private initialization?: Promise<void>;
-  private buffers = new Map<string, BufferEntry>();
-  private loading = new Map<string, Promise<BufferEntry>>();
+  private readonly buffers: AudioBuffers;
   private voices = new Set<Voice>();
   private loops: Voice[] = [];
   private retiring = new Set<Voice>();
@@ -70,6 +64,14 @@ export class AudioPlayback {
     deps: Partial<AudioDependencies> = {},
   ) {
     this.deps = { ...defaults, ...deps };
+    this.buffers = new AudioBuffers(
+      this.deps.request,
+      (bytes) => {
+        if (!this.context) throw new Error('audio closed');
+        return this.context.decodeAudioData(bytes);
+      },
+      this.deps.now,
+    );
   }
   private fail(error: unknown) {
     if (this.lifetime.signal.aborted) return;
@@ -160,83 +162,43 @@ export class AudioPlayback {
   setListener(x: number, z: number) {
     this.listener = { x, z };
   }
-  private evict() {
-    let bytes = [...this.buffers.values()].reduce((n, entry) => n + entry.bytes, 0);
-    for (const [key, entry] of [...this.buffers].sort((a, b) => a[1].used - b[1].used)) {
-      if (bytes <= 32 * 1024 ** 2) break;
-      if (entry.refs) continue;
-      this.buffers.delete(key);
-      bytes -= entry.bytes;
-    }
-  }
-  private async load(sample: AudioSample): Promise<BufferEntry> {
-    const cached = this.buffers.get(sample.hash);
-    if (cached) {
-      cached.used = this.deps.now();
-      return cached;
-    }
-    let pending = this.loading.get(sample.hash);
-    if (!pending) {
-      pending = (async () => {
-        const response = await this.deps.request('/' + sample.path, {
-          signal: this.lifetime.signal,
-        });
-        if (!response.ok) throw new Error('sample missing: ' + sample.id);
-        const bytes = await response.arrayBuffer();
-        const digest = await crypto.subtle.digest('SHA-256', bytes);
-        const hash = [...new Uint8Array(digest)]
-          .map((v) => v.toString(16).padStart(2, '0'))
-          .join('');
-        if (hash !== sample.hash || bytes.byteLength !== sample.bytes)
-          throw new Error('sample integrity: ' + sample.id);
-        if (this.lifetime.signal.aborted || !this.context) throw new Error('audio closed');
-        const buffer = await this.context.decodeAudioData(bytes);
-        if (this.lifetime.signal.aborted) throw new Error('audio closed');
-        const entry = {
-          buffer,
-          bytes: buffer.length * buffer.numberOfChannels * 4,
-          refs: 0,
-          used: this.deps.now(),
-        };
-        this.buffers.set(sample.hash, entry);
-        return entry;
-      })().finally(() => this.loading.delete(sample.hash));
-      this.loading.set(sample.hash, pending);
-    }
-    return pending;
-  }
   private async preload() {
     for (const sample of this.manifest?.samples ?? []) {
       if (sample.loop || this.lifetime.signal.aborted || this.settings.muted) continue;
       try {
-        await this.load(sample);
-        this.evict();
+        const lease = await this.buffers.acquire(sample);
+        lease.release();
       } catch (error) {
         this.fail(error);
       }
     }
   }
   private createVoice(
-    entry: BufferEntry,
+    lease: AudioBufferLease,
     world: boolean,
     critical: boolean,
     loop: boolean,
     level: number,
   ): Voice {
     const context = this.context!,
-      source = context.createBufferSource(),
+      source = context.createBufferSource();
+    let gain: GainNode;
+    try {
       gain = context.createGain();
-    source.buffer = entry.buffer;
-    source.loop = loop;
-    gain.gain.value = level;
-    source.connect(gain);
-    gain.connect(loop ? this.ambience! : this.effects!);
-    entry.refs++;
+      source.buffer = lease.buffer;
+      source.loop = loop;
+      gain.gain.value = level;
+      source.connect(gain);
+      gain.connect(loop ? this.ambience! : this.effects!);
+    } catch (error) {
+      cleanupAfterFailure(error, () =>
+        cleanupAll([() => source.disconnect(), () => gain?.disconnect()]),
+      );
+    }
     let finished = false;
     const voice: Voice = {
       source,
       gain,
-      entry,
       world,
       critical,
       finish: () => {
@@ -248,12 +210,9 @@ export class AudioPlayback {
         } catch {
           /* already ended or never started */
         }
-        source.disconnect();
-        gain.disconnect();
-        entry.refs--;
         this.voices.delete(voice);
         this.retiring.delete(voice);
-        this.evict();
+        cleanupAll([() => source.disconnect(), () => gain.disconnect(), () => lease.release()]);
       },
     };
     source.onended = voice.finish;
@@ -290,6 +249,7 @@ export class AudioPlayback {
       (!world || !this.frozen);
     if (!allowed()) return;
     let voice: Voice | undefined;
+    let lease: AudioBufferLease | undefined;
     try {
       const variants =
         this.manifest?.samples.filter((s) =>
@@ -299,11 +259,8 @@ export class AudioPlayback {
       const pool = choices.length ? choices : variants;
       const sample = pool[Math.min(pool.length - 1, Math.floor(this.deps.random() * pool.length))];
       if (!sample) return;
-      const entry = await this.load(sample);
-      if (!allowed() || this.deps.now() - requested > 0.25) {
-        this.evict();
-        return;
-      }
+      lease = await this.buffers.acquire(sample);
+      if (!allowed() || this.deps.now() - requested > 0.25) return;
       const key = cue + ':' + (options.key ?? 'global');
       if ((this.cooldown.get(key) ?? -Infinity) > this.deps.now()) return;
       const distance =
@@ -321,7 +278,8 @@ export class AudioPlayback {
         if (!victim) return;
         victim.finish();
       }
-      voice = this.createVoice(entry, world, critical, false, 1 / (1 + distance * 0.25));
+      voice = this.createVoice(lease, world, critical, false, 1 / (1 + distance * 0.25));
+      lease = undefined;
       this.voices.add(voice);
       options.signal?.addEventListener('abort', voice.finish, { once: true });
       const finish = voice.finish;
@@ -337,7 +295,7 @@ export class AudioPlayback {
       voice?.finish();
       this.fail(error);
     } finally {
-      this.evict();
+      lease?.release();
     }
   }
   async setAmbience(destination: readonly AudioCue[]) {
@@ -363,18 +321,25 @@ export class AudioPlayback {
       });
       // Pin each decoded layer while awaiting the next one.
       for (const sample of samples) {
-        const entry = await this.load(sample);
+        const lease = await this.buffers.acquire(sample);
         if (
           request !== this.ambienceRequest ||
           this.lifetime.signal.aborted ||
           this.frozen ||
           this.settings.muted
-        )
+        ) {
+          lease.release();
           return;
-        const voice = this.createVoice(entry, true, false, true, 0);
-        voice.source.loopStart = sample.loopStart;
-        voice.source.loopEnd = Math.min(sample.loopEnd, entry.buffer.duration);
-        created.push(voice);
+        }
+        try {
+          const voice = this.createVoice(lease, true, false, true, 0);
+          created.push(voice);
+          voice.source.loopStart = sample.loopStart;
+          voice.source.loopEnd = Math.min(sample.loopEnd, lease.buffer.duration);
+        } catch (error) {
+          lease.release();
+          throw error;
+        }
       }
       for (const voice of created) voice.source.start();
       // Only the latest outgoing group keeps a fade; older retiring owners
@@ -403,7 +368,6 @@ export class AudioPlayback {
       this.fail(error);
     } finally {
       for (const voice of created) voice.finish();
-      this.evict();
     }
   }
   private stopAmbience() {
@@ -420,7 +384,7 @@ export class AudioPlayback {
       unlocked: this.unlocked,
       voices: this.voices.size,
       loops: this.loops.length,
-      decodedBytes: [...this.buffers.values()].reduce((n, e) => n + e.bytes, 0),
+      decodedBytes: this.buffers.decodedBytes,
       destination: this.activeDestination,
       errors: this.diagnostics.size,
     };
@@ -431,9 +395,8 @@ export class AudioPlayback {
     this.epoch++;
     for (const voice of [...this.voices]) voice.finish();
     this.stopAmbience();
-    this.buffers.clear();
+    this.buffers.dispose();
     this.cooldown.clear();
-    this.loading.clear();
     this.master?.disconnect();
     this.effects?.disconnect();
     this.ambience?.disconnect();
