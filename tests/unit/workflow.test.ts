@@ -146,7 +146,11 @@ test('preview and policy changes select both optional tiers; missing comparisons
     'tools/coverage-policy.ts',
     'playwright.config.ts',
   ])
-    assert.deepEqual(coverageFor([file]), { desktop: true, authoring: true, assets: true });
+    assert.deepEqual(coverageFor([file]), {
+      desktop: true,
+      authoring: true,
+      assets: file === 'tools/preview-session.ts',
+    });
   assert.deepEqual(coverageFor(['docs/development.md']), {
     desktop: false,
     authoring: false,
@@ -167,6 +171,14 @@ test('full asset coverage follows asset consumers, not unrelated editor or gamep
     'package-lock.json',
   ])
     assert.equal(coverageFor([file]).assets, true, file);
-  for (const file of ['src/editor/model.ts', 'src/core/simulation.ts', 'docs/development.md'])
+  for (const file of [
+    'src/editor/model.ts',
+    'src/core/simulation.ts',
+    'docs/development.md',
+    '.github/workflows/ci.yml',
+    'tools/coverage-policy.ts',
+    'playwright.config.ts',
+    'tools/browser-tests.ts',
+  ])
     assert.equal(coverageFor([file]).assets, false, file);
 });

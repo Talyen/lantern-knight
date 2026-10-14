@@ -176,12 +176,8 @@ test('preview scene reset preserves experiments and settings reset is explicit',
   await page.selectOption('#lighting-rig', 'golden');
   await page.locator('#reset').click();
   await expect(page.locator('#lighting-rig')).toHaveValue('golden');
-  await page.selectOption('#scene-select', 'interior-fixture');
-  await page.waitForFunction(() => window.foundation?.ready);
-  await expect(page.locator('#lighting-rig')).toHaveValue('silver');
-  await page.selectOption('#scene-select', 'outdoor-fixture');
-  await page.waitForFunction(() => window.foundation?.ready);
-  await expect(page.locator('#lighting-rig')).toHaveValue('golden');
+  // Independent fixture persistence is covered above. Keep this journey focused
+  // on reset semantics instead of rebuilding both scenes again.
   await page.getByRole('button', { name: 'More options' }).click();
   await page.getByRole('button', { name: 'Reset scene settings', exact: true }).click();
   await page.waitForFunction(() => window.foundation?.ready);

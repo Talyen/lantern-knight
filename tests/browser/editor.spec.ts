@@ -60,6 +60,7 @@ test('editor placement, experimental scale, history, recovery, save and external
     );
     await chooseGravestone(page);
     await page.locator('#viewport').click({ position: { x: 350, y: 280 } });
+    await waitForEditorIdle(page);
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
       .toBe(1);
@@ -192,6 +193,7 @@ test('editor multi-selection, inspector, palette grouping and editor-only visibi
   await chooseGravestone(page);
   await expect(page.locator('#assets .asset')).toHaveCount(1);
   await page.locator('#viewport').click({ position: { x: 300, y: 250 } });
+  await waitForEditorIdle(page);
   await expect(page.locator('#object-panel')).toBeVisible();
   await page.locator('#duplicate').click();
   await expect(page.locator('.object-row')).toHaveCount(2);
@@ -298,7 +300,7 @@ test('visual authoring, independent fragments, pattern undo and import', async (
     ).toEqual(pointBefore);
     await chooseGravestone(page);
     await page.locator('#viewport').click({ position: { x: 350, y: 230 } });
-    await expect(page.locator('#tool')).toBeEnabled({ timeout: 30_000 });
+    await waitForEditorIdle(page);
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
       .toBe(1);
@@ -390,6 +392,7 @@ test('unsaved draft playtest discards gameplay state and survives repeated entry
   await openEditor(page);
   await chooseGravestone(page);
   await page.locator('#viewport').click({ position: { x: 360, y: 310 } });
+  await waitForEditorIdle(page);
   await expect
     .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
     .toBe(1);
@@ -544,6 +547,7 @@ test('repeated placement, shared fields and canvas handles commit or cancel one 
   await chooseGravestone(page);
   await page.locator('#repeat-placement').check();
   await page.locator('#viewport').click({ position: { x: 360, y: 310 } });
+  await waitForEditorIdle(page);
   await expect
     .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
     .toBe(1);
@@ -1023,6 +1027,7 @@ test('task destinations preserve advanced data and show suitable grounds before 
   await expect(page.locator('#ground-geometry > summary')).toBeVisible();
   await chooseGravestone(page);
   await page.locator('#viewport').click({ position: { x: 350, y: 300 } });
+  await waitForEditorIdle(page);
   await expect(page.locator('#object-panel')).toBeVisible();
   await expect(page.locator('#objects-tab')).toHaveAttribute('aria-selected', 'true');
   const capture = async (name: string) => {

@@ -2,7 +2,7 @@
 const policies = [
   {
     pattern:
-      /^(assets\/|authoring\/|references\/canon\/|src\/(?:assets|content|presentation)\/|src\/core\/(?:animation|locomotion)|tools\/(?:assets\/|check-assets|check-scene-documents|select-runtime-assets|compiler)|tests\/assets\/|package(?:-lock)?\.json$)/,
+      /^(assets\/|authoring\/|references\/canon\/|src\/(?:assets|content|presentation)\/|src\/core\/(?:animation|locomotion)|tools\/(?:assets\/|check-assets|check-scene-documents|select-runtime-assets|compiler|preview-session)|tests\/assets\/|package(?:-lock)?\.json$)/,
     assets: true,
   },
   {
@@ -20,7 +20,6 @@ const policies = [
       /^(vite\.config|playwright\.config|tools\/(?:preview-session|coverage-policy|ci-impact|browser-tests|dev|run-process|command-lane)|\.github\/workflows\/)/,
     desktop: true,
     authoring: true,
-    assets: true,
   },
 ] as const;
 export function coverageFor(files?: readonly string[]) {
