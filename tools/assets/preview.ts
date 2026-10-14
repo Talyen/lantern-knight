@@ -200,12 +200,7 @@ export async function preparePreviewAssets(
       env.LANTERN_LIBRARY_SHA256,
     );
     const priorSelections = 'selections' in base.lock ? base.lock.selections : [];
-    // A borrowed complete base still needs this checkout's indexed local layer.
-    const checkoutLayer = path
-      .basename(path.dirname(base.held.root))
-      .startsWith(previewName(projectRoot) + '-');
     if (
-      checkoutLayer &&
       audioFresh &&
       'selections' in base.lock &&
       (ids.length > 0 || (completeBase && base.lock.full === true)) &&
