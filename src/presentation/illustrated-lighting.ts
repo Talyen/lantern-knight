@@ -6,6 +6,7 @@ export function neutralColor(color: T.Color) {
   return color.setRGB(v, v, v);
 }
 import { right, up, outward } from './camera';
+import { SCENE_SHADE_CAPACITY } from '../content/world-visuals';
 import { cameraContract as contract } from '../assets/camera-contract';
 import type { ActorSprite } from './sprite';
 import { registeredSword, rigidSwordGLSL } from './rigid-sword';
@@ -18,7 +19,8 @@ import {
 const shader = `
 ${rigidSwordGLSL}
 varying vec3 inkWorld; varying vec3 inkSurface; varying vec2 inkUV;
-uniform float inkEnabled,inkStrength,inkAmbient,inkKeyStrength,inkRim,inkHaze,inkIsGround,inkEmissive,inkHasNormal,inkBlend,inkWarp,inkMix,inkMirror,inkFootY,inkBodyHeight,inkShadowEnabled;
+uniform float inkEnabled,inkStrength,inkAmbient,inkKeyStrength,inkRim,inkHaze,inkIsGround,inkEmissive,inkHasNormal,inkBlend,inkWarp,inkMix,inkMirror,inkFootY,inkBodyHeight,inkShadowEnabled,inkIsSprite;
+uniform vec3 inkFootPosition;uniform vec4 inkShadeZones[${SCENE_SHADE_CAPACITY}];
 uniform vec3 inkSky,inkGround,inkKey,inkDirection,inkFog,inkOrigin;
 uniform vec3 inkLightPosition[4]; uniform vec3 inkLightColor[4]; uniform float inkLightPower[4],inkLightRange[4];
 uniform sampler2D inkNormalA,inkNormalB,inkFlow;
@@ -46,6 +48,12 @@ vec3 inkNormal(){
  }else{vec2 q=(inkUV-inkRectA.xy)/inkRectA.zw;n=normalize(texture2D(inkNormalA,q).rgb*2.0-1.0);}
  n.x*=inkMirror;return normalize(vec3(${right.x},${right.y},${right.z})*n.x+vec3(${up.x},${up.y},${up.z})*n.y+vec3(${outward.x},${outward.y},${outward.z})*n.z);
 }
+float inkShade(){
+ if(inkIsGround>.5)return 1.0;
+ vec2 point=inkIsSprite>.5?inkFootPosition.xz:inkWorld.xz;float shade=0.0;
+ for(int i=0;i<${SCENE_SHADE_CAPACITY};i++){vec4 zone=inkShadeZones[i];float radius=max(.001,zone.z);shade=max(shade,zone.w*(1.0-smoothstep(radius*.55,radius,length(point-zone.xy))));}
+ return 1.0-shade;
+}
 vec3 inkIlluminate(vec3 base){
  if(inkEnabled<.5)return base;
  if(inkEmissive>.5)return base*2.8;
@@ -55,6 +63,7 @@ vec3 inkIlluminate(vec3 base){
  // Broad silhouettes supply stylized relief; texture luminance is never treated as height.
  vec3 local=vec3(0.0);
  for(int i=0;i<4;i++){vec3 delta=inkLightPosition[i]-inkWorld;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.22+.78*max(0.0,dot(n,normalize(delta+vec3(.0001)))));}
+ illumination*=inkShade();
  float value=dot(base,vec3(.2126,.7152,.0722)),inkProtection=smoothstep(.006,.13,value);
  vec3 response=max(vec3(.08),mix(vec3(1.0),clamp(illumination+local,vec3(.28),vec3(2.5)),inkStrength));
  vec3 result=base*response;
@@ -70,6 +79,7 @@ export class IllustratedLighting {
     this.normals = new NormalLibrary(request);
   }
   readonly common = {
+    inkShadeZones: { value: Array.from({ length: SCENE_SHADE_CAPACITY }, () => new T.Vector4()) },
     inkShadowEnabled: { value: 0 },
     inkShadowMap: { value: null as T.DepthTexture | null },
     inkShadowMatrix: { value: new T.Matrix4() },
@@ -100,6 +110,8 @@ export class IllustratedLighting {
       inkIsGround: { value: ground ? 1 : 0 },
       inkEmissive: { value: emissive ? 1 : 0 },
       inkFootY: { value: 0 },
+      inkIsSprite: { value: 0 },
+      inkFootPosition: { value: new T.Vector3() },
       inkBodyHeight: { value: 1 },
       inkHasNormal: { value: 0 },
       inkMirror: { value: 1 },
@@ -143,7 +155,7 @@ export class IllustratedLighting {
         'outgoingLight=inkIlluminate(outgoingLight);\n#include <opaque_fragment>',
       );
     };
-    material.customProgramCacheKey = () => `${key}:illustrated-lighting-v2`;
+    material.customProgramCacheKey = () => `${key}:illustrated-lighting-v3`;
     material.needsUpdate = true;
     this.attached.set(material, uniforms);
     return uniforms;
@@ -157,6 +169,8 @@ export class IllustratedLighting {
           a = this.normals.get(sprite),
           b = sample.next ? this.normals.get(sprite, sample.next) : a;
         u.inkFootY.value = sprite.mesh.position.y;
+        u.inkIsSprite.value = 1;
+        u.inkFootPosition.value.copy(sprite.mesh.position);
         u.inkBodyHeight.value = Math.max(
           0.1,
           (sample.frame.trim[3] / (sample.frame.registration ?? sprite.manifest.asset).density) *
@@ -236,6 +250,10 @@ export class IllustratedLighting {
       u = this.common;
     u.inkEnabled.value = !settings.baseline && settings.lighting ? 1 : 0;
     u.inkStrength.value = settings.strength;
+    for (const [i, target] of u.inkShadeZones.value.entries()) {
+      const zone = settings.shadeZones?.[i];
+      target.set(zone?.x ?? 0, zone?.z ?? 0, zone?.radius ?? 0, zone?.strength ?? 0);
+    }
     u.inkSky.value.set(rig.sky);
     u.inkGround.value.set(rig.ground);
     u.inkKey.value.set(rig.key);

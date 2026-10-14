@@ -5,6 +5,7 @@ import type { Manifest } from '../assets/schema';
 import { cameraContract } from '../assets/camera-contract';
 
 export const SCENE_LIGHT_CAPACITY = 3;
+export const SCENE_SHADE_CAPACITY = 8;
 export type SceneProfile = 'graveyard' | 'chapel';
 type PlacementBase = Omit<
   SceneDocument['objects'][number],

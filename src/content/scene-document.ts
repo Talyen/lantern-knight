@@ -2,7 +2,11 @@ import type { ContentSnapshot } from './snapshot';
 import { GroundInteractionSchema } from './ground-interaction';
 import { AuthoredGameplaySchema } from './authored-gameplay';
 import { z } from 'zod';
-import type { ArtPlacement, WorldVisualDefinition } from './world-visuals';
+import {
+  SCENE_SHADE_CAPACITY,
+  type ArtPlacement,
+  type WorldVisualDefinition,
+} from './world-visuals';
 import type { Manifest } from '../assets/schema';
 import { placementOffset } from './scenery-presets';
 import { HEADINGS } from './headings';
@@ -179,6 +183,18 @@ const SceneDocumentSchema = z
     look: z.strictObject({
       rig: z.enum(['golden', 'silver']),
       look: z.enum(['ink', 'diorama', 'cinematic']),
+      /** Ambient shade already painted into the floor; applied to placed surfaces only. */
+      shadeZones: z
+        .array(
+          z.strictObject({
+            x: coordinate,
+            z: coordinate,
+            radius: positive.max(100),
+            strength: z.number().finite().min(0).max(0.75),
+          }),
+        )
+        .max(SCENE_SHADE_CAPACITY)
+        .optional(),
       /** Fixed world-space direction toward the sun; 0 degrees is +Z, 90 degrees is +X. */
       sun: z
         .strictObject({

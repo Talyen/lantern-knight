@@ -121,6 +121,42 @@ export class GroundOcclusion {
       groundUp: { value: up },
     };
   }
+  private shadowMaterials = new WeakSet<T.Material>();
+  /** Ground shadows must not stain upright scenery baked into the floor painting. */
+  attachShadow(material: T.MeshBasicMaterial | T.ShadowMaterial) {
+    if (this.shadowMaterials.has(material)) return;
+    this.shadowMaterials.add(material);
+    const previous = material.onBeforeCompile.bind(material),
+      key = material.customProgramCacheKey();
+    material.onBeforeCompile = (shader, renderer) => {
+      previous(shader, renderer);
+      Object.assign(shader.uniforms, this.uniforms);
+      shader.vertexShader = 'varying vec3 shadowGroundWorld;\n' + shader.vertexShader;
+      shader.vertexShader = shader.vertexShader.replace(
+        '#include <project_vertex>',
+        `#include <project_vertex>
+vec4 shadowWorld=vec4(transformed,1.0);
+#ifdef USE_INSTANCING
+shadowWorld=instanceMatrix*shadowWorld;
+#endif
+shadowGroundWorld=(modelMatrix*shadowWorld).xyz;`,
+      );
+      shader.fragmentShader =
+        `varying vec3 shadowGroundWorld;
+uniform sampler2D groundAtlas;
+uniform float groundWidth,groundHeight;
+uniform vec3 groundRight,groundUp;
+` + shader.fragmentShader;
+      shader.fragmentShader = shader.fragmentShader.replace(
+        '#include <colorspace_fragment>',
+        `vec2 shadowUV=vec2(dot(shadowGroundWorld,groundRight)/groundWidth+.5,.5-dot(shadowGroundWorld,groundUp)/groundHeight);
+if(all(greaterThanEqual(shadowUV,vec2(0.0)))&&all(lessThanEqual(shadowUV,vec2(1.0)))&&texture2D(groundAtlas,shadowUV).b>.1)discard;
+#include <colorspace_fragment>`,
+      );
+    };
+    material.customProgramCacheKey = () => key + ':painted-shadow-mask-v1';
+    material.needsUpdate = true;
+  }
   attach(sprite: ActorSprite, kind: 'hero' | 'enemy') {
     if (this.actorUniforms.has(sprite)) return;
     const actor = {

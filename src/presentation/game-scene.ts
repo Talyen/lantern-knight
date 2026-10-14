@@ -214,6 +214,7 @@ export class GamePresentation implements PresentationLifecycle {
       this.lookRenderer.setSettings({
         ...(this.visuals?.look ?? { rig: defaultLook.rig, look: defaultLook.look }),
         sun: this.visuals?.look ? this.visuals.look.sun : defaultLook.sun,
+        shadeZones: this.visuals?.look?.shadeZones,
       });
       this.scene.add(this.sceneEffects.group);
       this.combatFeedback = this.resources.own(
@@ -260,6 +261,7 @@ export class GamePresentation implements PresentationLifecycle {
     this.lookRenderer.setSettings({
       ...(this.visuals?.look ?? { rig: defaultLook.rig, look: defaultLook.look }),
       sun: this.visuals?.look ? this.visuals.look.sun : defaultLook.sun,
+      shadeZones: this.visuals?.look?.shadeZones,
     });
   }
   getClip(id: string, dir: (typeof HEADINGS)[number], manifest = this.manifest): Clip {
@@ -317,6 +319,7 @@ export class GamePresentation implements PresentationLifecycle {
         const visual = this.actorPresentation.actors.get(actor.id);
         if (visual) {
           this.groundOcclusion.attach(visual.sprite, actor.kind);
+          this.groundOcclusion.attachShadow(visual.shadow.material);
           this.groundOcclusion.update(
             visual.sprite,
             actor.px + (actor.x - actor.px) * alpha,
@@ -385,7 +388,9 @@ export class GamePresentation implements PresentationLifecycle {
     this.lookRenderer.setSettings({ depthOfField: value });
   }
   protected renderFrame(sim: SimulationView, ms: number) {
-    this.roomPresentation.inkRoom?.contactShadows?.update();
+    const contacts = this.roomPresentation.inkRoom?.contactShadows;
+    contacts?.update();
+    if (contacts) this.groundOcclusion?.attachShadow(contacts.mesh.material);
     this.roomPresentation.surround.update(
       this.camera,
       this.viewTarget,
@@ -395,6 +400,7 @@ export class GamePresentation implements PresentationLifecycle {
     this.lookRenderer.render(sim, ms, {
       visuals: this.visuals,
       visualEffects: this.visualEffects,
+      groundOcclusion: this.groundOcclusion,
       cameraTarget: this.cameraTarget,
       viewSpan: this.viewSpan,
     });

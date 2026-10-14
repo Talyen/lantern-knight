@@ -63,7 +63,7 @@ The optional `groundInteraction` block binds normalized image contours to an exa
 
 Scene documents allow 4 MiB; fragments retain 64 KiB. Saved contours need no model to load. Editor saves additionally retain immutable authored revisions in `authoring/ground-profiles`, independently of scene and asset-library lifetimes. `src/content/ground-profile.ts` owns explicit artwork reassignment and floor reprojection; changed image content requires alignment review. Ground replacement requires clearing or reauthoring interaction data.
 
-`src/presentation/ground-occlusion.ts` owns the source-sized coverage/depth atlas and actor fragment masking, including hidden silhouette outlines. GPU size limits reject unsupported scenes explicitly.
+`src/presentation/ground-occlusion.ts` owns the source-sized coverage/depth atlas, actor fragment masking with hidden silhouette outlines, and clipping ground shadows away from upright scenery baked into the painting. Contact and cast shadows multiply the receiving colors so they cannot brighten black ink. GPU size limits reject unsupported scenes explicitly.
 
 Parsing protects technical validity; design profiles produce advice under [scene guidance](scene-design.md).
 
@@ -130,6 +130,8 @@ AssetRuntime closes its manifest requests and ResourcePool on disposal. Resource
 ### Lighting resources
 
 Lighting preparation begins through `prepare`, rather than constructor-started promises. Failed preparation remains retryable. `BitmapTexture` owns each animation-flow or surface companion: concurrent and repeated reads share one texture, failed decode or upload releases acquired resources, and disposal cancels transport, settles waiters and releases late decodes without upload. Lighting manifest and bitmap requests also carry their renderer lifetime signal. `src/presentation/normal-library.ts` owns the selected normal textures and their byte accounting together. Replacement retains current textures until all requested companions load successfully; failed batches attempt cleanup of every new texture and preserve acquisition errors if cleanup also fails. Successful replacement transfers the complete selection before retiring removed textures, so cleanup failure cannot leave disposed resources installed or stale byte accounting. Disposal consumes ownership before callbacks and closes late acquisitions.
+
+Optional `look.shadeZones` describe up to eight world-space circular patches of ambient shade already painted into a floor. The shared illustrated-lighting shader applies their smooth falloff to placed scenery and actors, using each sprite's foot registration. Overlaps use the strongest shade; the painted floor is not shaded twice, and local light and emissive artwork remain luminous. Scene replacement clears prior zones. Interior scenes retain contact shadows without directional outdoor casting.
 
 The hero lantern illuminates nearby scene surfaces with broad distance falloff, without a billboard glow. Its source follows reviewed native drawing sockets in `src/content/hero-lantern-sockets.json`, transformed with the displayed frame's registration, stabilization, animation blend and mesh transform. These coordinates belong to the current hero handoff; a changed handoff disables the fallback until its sockets are reviewed. Asset preparation preserves this authored content.
 

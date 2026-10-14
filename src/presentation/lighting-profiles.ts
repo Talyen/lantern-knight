@@ -5,6 +5,7 @@ export type LookSettings = {
   rig: LightingRig;
   look: LookPreset;
   sun?: NonNullable<WorldVisualDefinition['look']>['sun'];
+  shadeZones?: NonNullable<WorldVisualDefinition['look']>['shadeZones'];
   baseline: boolean;
   lighting: boolean;
   shadows: boolean;
@@ -72,14 +73,14 @@ export const lookPresets = {
   },
   cinematic: {
     label: 'Dark cinematic',
-    contrast: 1.14,
-    saturation: 0.83,
-    bloom: 0.4,
-    mist: 0.16,
-    haze: 0.2,
-    shadow: 0.36,
+    contrast: 1.06,
+    saturation: 0.94,
+    bloom: 0.18,
+    mist: 0.06,
+    haze: 0.08,
+    shadow: 0.24,
     defocus: 0,
-    rim: 0.3,
+    rim: 0.12,
   },
 } as const;
 export const defaultLook: LookSettings = {
@@ -91,7 +92,7 @@ export const defaultLook: LookSettings = {
   shadows: true,
   atmosphere: true,
   postprocessing: true,
-  strength: 1.5,
-  depthOfField: 1,
+  strength: 0.85,
+  depthOfField: 0,
 };
 export { normalPixels } from '../assets/normal-pixels';

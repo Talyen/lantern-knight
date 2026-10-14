@@ -1,4 +1,6 @@
 import { cleanupAll, cleanupAfterFailure, DisposalScope } from '../assets/cleanup';
+import type { GroundOcclusion } from './ground-occlusion';
+import { multiplyGroundShadow } from './ground-shadow-material';
 import { ColorAntialiasing } from './color-antialiasing';
 import { radialTexture } from './radial-texture';
 import { heroLanternPosition } from './hero-lantern';
@@ -32,6 +34,7 @@ import type { VisualEffects } from '../content/visual-effects';
 type LightingFrame = {
   visuals: WorldVisualDefinition | undefined;
   visualEffects: VisualEffects;
+  groundOcclusion?: GroundOcclusion;
   cameraTarget: T.Vector3;
   viewSpan: number;
 };
@@ -315,7 +318,8 @@ export class SceneLightingRenderer {
       () => this.focusMask.reset(),
     ]);
   }
-  private buildRoom(sim: SimulationView, visuals: WorldVisualDefinition | undefined) {
+  private buildRoom(sim: SimulationView, frame: LightingFrame) {
+    const { visuals, groundOcclusion } = frame;
     this.mist.setArea(sim.areaDefinition);
     const spriteGeometries = new Set(
       [
@@ -349,8 +353,16 @@ export class SceneLightingRenderer {
           return;
         const receiver = new T.Mesh(
           o.geometry.clone(),
-          new T.ShadowMaterial({ opacity: 0.3, depthWrite: false, color: 0x182238 }),
+          multiplyGroundShadow(
+            new T.ShadowMaterial({
+              opacity: 0.3,
+              depthWrite: false,
+              color: 0x182238,
+              toneMapped: false,
+            }),
+          ),
         );
+        groundOcclusion?.attachShadow(receiver.material as T.ShadowMaterial);
         receiver.position.copy(o.position);
         receiver.quaternion.copy(o.quaternion);
         receiver.scale.copy(o.scale);
@@ -413,7 +425,7 @@ export class SceneLightingRenderer {
     }
     if (this.generation !== sim.generation) {
       this.resetRoom();
-      this.buildRoom(sim, frame.visuals);
+      this.buildRoom(sim, frame);
     }
     this.surfaces.update(fx);
     this.time += ms / 1000;
@@ -422,7 +434,8 @@ export class SceneLightingRenderer {
       origin = frame.cameraTarget;
     this.lighting.configure(s, origin, !!frame.visuals?.interior);
     if (frame.visuals?.interior || !fx.atmosphere) this.lighting.common.inkHaze.value = 0;
-    this.lighting.common.inkShadowEnabled.value = s.shadows ? 1 : 0;
+    const castShadows = s.shadows && !frame.visuals?.interior;
+    this.lighting.common.inkShadowEnabled.value = castShadows ? 1 : 0;
     const sprites = [
       ...(this.room.inkRoom?.sprites ?? []),
       ...[...this.actors.actors.values()].map((v) => v.sprite),
@@ -440,22 +453,22 @@ export class SceneLightingRenderer {
     const heroSprite = this.actors.actors.get(sim.hero.id)?.sprite;
     const hasLantern =
       heroSprite && heroLanternPosition(heroSprite, lights.inkLightPosition.value[0]!);
-    lights.inkLightPower.value[0] = hasLantern ? (sim.hero.state === 'ability' ? 2.9 : 1.15) : 0;
+    lights.inkLightPower.value[0] = hasLantern ? (sim.hero.state === 'ability' ? 2.3 : 0.85) : 0;
     lights.inkLightRange.value.fill(4.8);
-    lights.inkLightRange.value[0] = 7;
+    lights.inkLightRange.value[0] = 4.8;
     for (const [i, l] of this.effects.lights(fx).slice(0, SCENE_LIGHT_CAPACITY).entries()) {
       lights.inkLightPosition.value[i + 1]!.copy(l.position);
       lights.inkLightPower.value[i + 1] = l.power;
       lights.inkLightRange.value[i + 1] = l.range;
     }
-    r.shadowMap.enabled = s.shadows;
+    r.shadowMap.enabled = castShadows;
     r.shadowMap.type = T.PCFShadowMap;
-    this.sun.castShadow = s.shadows;
-    this.proxies.visible = s.shadows;
+    this.sun.castShadow = castShadows;
+    this.proxies.visible = castShadows;
     for (const receiver of this.floorReceivers) {
-      receiver.visible = s.shadows;
+      receiver.visible = castShadows;
       const material = receiver.material as T.ShadowMaterial;
-      material.opacity = Math.min(0.55, look.shadow * 1.5);
+      material.opacity = Math.min(0.4, look.shadow);
       material.color.set(s.rig === 'golden' ? 0x182126 : 0x192331);
       if (!fx.palette) neutralColor(material.color);
     }

@@ -232,7 +232,11 @@ export class EditorView {
       this.appliedDocument = document;
       this.positionHero(this.walking ?? document.hero);
       this.renderer.visualOverride = art;
-      this.renderer.lookRenderer.setSettings({ ...document.look, sun: document.look.sun });
+      this.renderer.lookRenderer.setSettings({
+        ...document.look,
+        sun: document.look.sun,
+        shadeZones: document.look.shadeZones,
+      });
       return;
     }
     const ids = new Set(
@@ -288,7 +292,11 @@ export class EditorView {
           this.renderer.resetRoom(this.simulation.areaDefinition, art);
         }
         this.renderer.generation = this.simulation.generation;
-        this.renderer.lookRenderer.setSettings({ ...document.look, sun: document.look.sun });
+        this.renderer.lookRenderer.setSettings({
+          ...document.look,
+          sun: document.look.sun,
+          shadeZones: document.look.shadeZones,
+        });
         const bounds = area.bounds;
         this.grid = new T.GridHelper(
           Math.max(bounds.maxX - bounds.minX, bounds.maxZ - bounds.minZ),

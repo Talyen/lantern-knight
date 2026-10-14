@@ -593,6 +593,14 @@ export function createEditorSession() {
           else d.floor.depth = d.floor.width / ratio;
         }
         if (d.groundInteraction) resizeGroundInteraction(d.groundInteraction, before, d.floor);
+        if (d.floor.layout === 'artwork' && d.look.shadeZones) {
+          const old = artworkFloorLayout(before.width, before.depth),
+            next = artworkFloorLayout(d.floor.width, d.floor.depth);
+          for (const zone of d.look.shadeZones) {
+            Object.assign(zone, next.world(old.uv(zone)));
+            zone.radius *= d.floor.width / before.width;
+          }
+        }
       });
   for (const id of ['x', 'z', 'y', 'scale', 'rotation', 'mirror'])
     $(id).onchange = () =>

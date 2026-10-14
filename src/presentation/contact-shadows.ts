@@ -1,19 +1,22 @@
 import * as T from 'three';
+import { multiplyGroundShadow } from './ground-shadow-material';
 import type { ArtPlacement } from '../content/world-visuals';
 import { heightAt, surfaceGradient, type AreaDefinition } from '../content/world';
 import type { ActorSprite } from './sprite';
 
 // Grounding is independent of directional lighting and never writes depth.
 export function contactShadowMaterial(texture: T.Texture, opacity: number) {
-  return new T.MeshBasicMaterial({
-    map: texture,
-    color: 0x182126,
-    transparent: true,
-    opacity,
-    depthTest: true,
-    depthWrite: false,
-    toneMapped: false,
-  });
+  return multiplyGroundShadow(
+    new T.MeshBasicMaterial({
+      map: texture,
+      color: 0x182126,
+      transparent: true,
+      opacity,
+      depthTest: true,
+      depthWrite: false,
+      toneMapped: false,
+    }),
+  );
 }
 
 export function contactFootprint(
@@ -39,7 +42,7 @@ export function contactFootprint(
     registration = frame.registration ?? asset,
     width = (frame.trim[2] / registration.density) * (p.scale ?? 1);
   // Trimmed artwork gives unregistered props a bounded, scale-aware base.
-  return [width * 0.8, width * 0.45];
+  return [width * 0.65, width * 0.3];
 }
 
 export class PropContactShadows {
@@ -52,7 +55,9 @@ export class PropContactShadows {
     this.opacity = new T.InstancedBufferAttribute(new Float32Array(capacity), 1);
     this.opacity.setUsage(T.DynamicDrawUsage);
     geometry.setAttribute('contactOpacity', this.opacity);
-    material.onBeforeCompile = (shader) => {
+    const previous = material.onBeforeCompile.bind(material);
+    material.onBeforeCompile = (shader, renderer) => {
+      previous(shader, renderer);
       shader.vertexShader =
         'attribute float contactOpacity;\nvarying float vContactOpacity;\n' + shader.vertexShader;
       shader.vertexShader = shader.vertexShader.replace(
@@ -65,7 +70,7 @@ export class PropContactShadows {
         '#include <map_fragment>\ndiffuseColor.a*=vContactOpacity;',
       );
     };
-    material.customProgramCacheKey = () => 'prop-contact-shadow-v1';
+    material.customProgramCacheKey = () => 'prop-contact-shadow-multiply-v2';
     this.mesh = new T.InstancedMesh(geometry, material, capacity);
     this.mesh.count = 0;
     this.mesh.renderOrder = -1.5;

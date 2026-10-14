@@ -257,3 +257,176 @@ test('a repaired crate contact boundary removes false foreground strips and reta
   expect(proof.afterBehind).toBeLessThan(proof.afterFront - 100);
   expect(proof.beforeBehind).toBeLessThan(proof.afterFront - 100);
 });
+
+test('ground shadows preserve black ink and mask painted scenery for actors, instances and cast receivers', async ({
+  page,
+}) => {
+  await page.route('**/shadow-ground-proof.html', (route) =>
+    route.fulfill({ contentType: 'text/html', body: '<canvas></canvas>' }),
+  );
+  await page.goto('/shadow-ground-proof.html');
+  const proof = await page.evaluate(async () => {
+    const threePath = '/node_modules/.vite/deps/three.js',
+      atlasPath = '/src/presentation/ground-occlusion.ts',
+      contactPath = '/src/presentation/contact-shadows.ts',
+      multiplyPath = '/src/presentation/ground-shadow-material.ts',
+      cameraPath = '/src/presentation/camera.ts';
+    const T = await import(threePath),
+      { GroundOcclusion } = await import(atlasPath),
+      { contactShadowMaterial } = await import(contactPath),
+      { multiplyGroundShadow } = await import(multiplyPath),
+      { outward } = await import(cameraPath);
+    const renderer = new T.WebGLRenderer({ canvas: document.querySelector('canvas')! });
+    renderer.setSize(96, 96);
+    renderer.shadowMap.enabled = true;
+    const target = new T.WebGLRenderTarget(96, 96),
+      scene = new T.Scene(),
+      camera = new T.OrthographicCamera(-2, 2, 2, -2, 0.1, 100),
+      groundMaterial = new T.MeshBasicMaterial({ color: 0xb0a080, toneMapped: false }),
+      geometry = new T.PlaneGeometry(6, 6),
+      floor = new T.Mesh(geometry, groundMaterial),
+      texture = new T.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1);
+    texture.needsUpdate = true;
+    floor.rotation.x = -Math.PI / 2;
+    scene.add(floor);
+    camera.position.copy(outward).multiplyScalar(30);
+    camera.lookAt(0, 0, 0);
+    camera.updateMatrixWorld();
+    const atlas = new GroundOcclusion(
+      {
+        asset: 'fixture',
+        frame: 'fixture',
+        hash: 'a'.repeat(64),
+        dimensions: [64, 64],
+        destinations: [],
+        regions: [
+          {
+            id: 'wall',
+            name: 'Painted wall',
+            mask: [
+              {
+                outer: [
+                  [0, 0],
+                  [0.5, 0],
+                  [0.5, 1],
+                  [0, 1],
+                ],
+                holes: [],
+              },
+            ],
+            depth: { kind: 'anchor', point: { x: 0, z: 0 } },
+          },
+        ],
+      },
+      4,
+      4,
+      renderer.capabilities.maxTextureSize,
+    );
+    const capture = () => {
+      renderer.setRenderTarget(target);
+      renderer.render(scene, camera);
+      const pixels = new Uint8Array(96 * 96 * 4);
+      renderer.readRenderTargetPixels(target, 0, 0, 96, 96, pixels);
+      return pixels;
+    };
+    const changed = (a: Uint8Array, b: Uint8Array) => {
+      let left = 0,
+        right = 0,
+        brightened = 0;
+      for (let i = 0; i < a.length; i += 4) {
+        const delta = a[i]! + a[i + 1]! + a[i + 2]! - b[i]! - b[i + 1]! - b[i + 2]!;
+        if (delta > 3) {
+          if ((i / 4) % 96 < 48) left++;
+          else right++;
+        }
+        if (delta < -3) brightened++;
+      }
+      return { left, right, brightened };
+    };
+    const material = contactShadowMaterial(texture, 0.5),
+      actor = new T.Mesh(new T.PlaneGeometry(3, 3), material);
+    actor.rotation.x = -Math.PI / 2;
+    actor.position.y = 0.03;
+    const baseline = capture();
+    scene.add(actor);
+    const unmasked = capture();
+    groundMaterial.color.set(0);
+    const blackBaseline = (() => {
+      actor.visible = false;
+      const p = capture();
+      actor.visible = true;
+      return p;
+    })();
+    const black = capture();
+    groundMaterial.color.set(0xb0a080);
+    atlas.attachShadow(material);
+    const masked = capture();
+    scene.remove(actor);
+    // Translation in instanceMatrix must participate in artwork registration.
+    const instances = new T.InstancedMesh(
+      new T.PlaneGeometry(1.5, 1.5),
+      contactShadowMaterial(texture, 0.5),
+      2,
+    );
+    for (const [i, side] of [-1, 1].entries()) {
+      const pose = new T.Object3D();
+      pose.position.set(side * 0.8, 0.03, -side * 0.8);
+      pose.rotation.x = -Math.PI / 2;
+      pose.updateMatrix();
+      instances.setMatrixAt(i, pose.matrix);
+    }
+    atlas.attachShadow(instances.material);
+    scene.add(instances);
+    const instanced = capture();
+    scene.remove(instances);
+    const receiverMaterial = multiplyGroundShadow(
+        new T.ShadowMaterial({ opacity: 0.5, toneMapped: false }),
+      ),
+      receiver = new T.Mesh(geometry.clone(), receiverMaterial),
+      caster = new T.Mesh(new T.BoxGeometry(3, 0.2, 3), new T.MeshBasicMaterial()),
+      sun = new T.DirectionalLight(0xffffff, 1);
+    receiver.rotation.x = -Math.PI / 2;
+    receiver.position.y = 0.02;
+    receiver.receiveShadow = true;
+    caster.position.y = 1;
+    caster.castShadow = true;
+    caster.material.colorWrite = false;
+    sun.position.set(0, 8, 0);
+    sun.castShadow = true;
+    scene.add(sun, sun.target, receiver, caster);
+    const cast = capture();
+    atlas.attachShadow(receiverMaterial);
+    const maskedCast = capture();
+    const result = {
+      unmasked: changed(baseline, unmasked),
+      black: changed(blackBaseline, black),
+      masked: changed(baseline, masked),
+      instanced: changed(baseline, instanced),
+      cast: changed(baseline, cast),
+      maskedCast: changed(baseline, maskedCast),
+      error: renderer.getContext().getError(),
+    };
+    for (const mesh of [actor, instances, receiver, caster]) {
+      mesh.geometry.dispose();
+      mesh.material.dispose();
+    }
+    geometry.dispose();
+    groundMaterial.dispose();
+    texture.dispose();
+    atlas.dispose();
+    sun.shadow.dispose();
+    target.dispose();
+    renderer.dispose();
+    return result;
+  });
+  expect(proof.error).toBe(0);
+  expect(proof.black.brightened).toBe(0);
+  expect(proof.unmasked.left).toBeGreaterThan(100);
+  expect(proof.unmasked.right).toBeGreaterThan(100);
+  for (const pixels of [proof.masked, proof.instanced, proof.maskedCast]) {
+    expect(pixels.left).toBe(0);
+    expect(pixels.right).toBeGreaterThan(100);
+    expect(pixels.brightened).toBe(0);
+  }
+  expect(proof.cast.left).toBeGreaterThan(100);
+});
