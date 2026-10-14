@@ -205,6 +205,8 @@ export class ContentRegistry {
       for (const fire of a.campfires ?? []) {
         campfireSchema.parse(fire);
         if (!isSupportedPosition(a, fire, 0.3)) fail('Unsupported campfire ' + fire.id);
+        if (!a.entries.some((entry) => entry.id === 'fire-' + fire.id))
+          fail('Missing campfire entry ' + fire.id);
       }
       for (const object of a.interactables ?? []) {
         interactableSchema.parse(object);
@@ -219,6 +221,7 @@ export class ContentRegistry {
         finite(p.x, p.z, p.amount, p.radius);
         if (
           !contains(a.bounds, p) ||
+          !isSupportedPosition(a, p, 0.01) ||
           p.kind !== 'health' ||
           !Number.isInteger(p.amount) ||
           p.amount <= 0 ||
@@ -269,6 +272,8 @@ export class ContentRegistry {
       for (const e of a.exits) {
         bounds(e.trigger);
         finite(e.marker.x, e.marker.z);
+        if (e.explicit && !isSupportedPosition(a, e.marker, 0.01))
+          fail('Unsupported exit marker ' + e.id);
         if (
           !contains(a.bounds, { x: e.trigger.minX, z: e.trigger.minZ }) ||
           !contains(a.bounds, { x: e.trigger.maxX, z: e.trigger.maxZ })

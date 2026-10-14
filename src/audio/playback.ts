@@ -79,19 +79,26 @@ export class AudioPlayback {
     }
   }
   initialize() {
-    this.initialization ??= (async () => {
-      const response = await this.deps.request('/' + audioManifestPath, {
-        signal: this.lifetime.signal,
+    if (this.lifetime.signal.aborted) return Promise.resolve();
+    this.initialization ??= Promise.resolve()
+      .then(async () => {
+        this.lifetime.signal.throwIfAborted();
+        const response = await this.deps.request('/' + audioManifestPath, {
+          signal: this.lifetime.signal,
+        });
+        if (!response.ok) throw new Error('prepared audio manifest missing');
+        const manifest = parseAudioManifest(await response.json());
+        if (!this.lifetime.signal.aborted) this.manifest = manifest;
+      })
+      .catch((error: unknown) => {
+        this.initialization = undefined;
+        this.fail(error);
       });
-      if (!response.ok) throw new Error('prepared audio manifest missing');
-      const manifest = parseAudioManifest(await response.json());
-      if (!this.lifetime.signal.aborted) this.manifest = manifest;
-    })().catch((error: unknown) => this.fail(error));
     return this.initialization;
   }
   unlock() {
     if (this.lifetime.signal.aborted) return Promise.resolve();
-    if (this.unlocked)
+    if (this.unlocked && this.manifest)
       return this.context?.state === 'suspended'
         ? this.context.resume().catch((error: unknown) => this.fail(error))
         : Promise.resolve();
@@ -102,12 +109,25 @@ export class AudioPlayback {
       try {
         this.context ??= this.deps.context();
         if (!this.master) {
-          this.master = this.context.createGain();
-          this.effects = this.context.createGain();
-          this.ambience = this.context.createGain();
-          this.effects.connect(this.master);
-          this.ambience.connect(this.master);
-          this.master.connect(this.context.destination);
+          const nodes: GainNode[] = [];
+          try {
+            const master = this.context.createGain();
+            nodes.push(master);
+            const effects = this.context.createGain();
+            nodes.push(effects);
+            const ambience = this.context.createGain();
+            nodes.push(ambience);
+            effects.connect(master);
+            ambience.connect(master);
+            master.connect(this.context.destination);
+            this.master = master;
+            this.effects = effects;
+            this.ambience = ambience;
+          } catch (error) {
+            cleanupAfterFailure(error, () =>
+              cleanupAll(nodes.map((node) => () => node.disconnect())),
+            );
+          }
           this.updateSettings(this.settings);
         }
         await this.context.resume();
@@ -152,7 +172,11 @@ export class AudioPlayback {
     this.epoch++;
     this.sessionEpoch++;
     this.cooldown.clear();
-    this.cleanupObserved([() => this.finishVoices((voice) => voice.world && !voice.loop)]);
+    this.destination = [];
+    this.cleanupObserved([
+      () => this.finishVoices((voice) => voice.world),
+      () => this.stopAmbience(),
+    ]);
   }
   setListener(x: number, z: number) {
     this.listener = { x, z };
@@ -343,7 +367,10 @@ export class AudioPlayback {
       created.length = 0;
       this.activeDestination = key;
       const time = this.context!.currentTime;
-      for (const voice of this.loops) voice.gain.gain.linearRampToValueAtTime(1, time + 1);
+      for (const voice of this.loops) {
+        voice.gain.gain.setValueAtTime(0, time);
+        voice.gain.gain.linearRampToValueAtTime(1, time + 1);
+      }
       for (const voice of outgoing) {
         voice.gain.gain.cancelScheduledValues(time);
         voice.gain.gain.setValueAtTime(voice.gain.gain.value, time);
@@ -390,9 +417,9 @@ export class AudioPlayback {
     this.epoch++;
     this.cooldown.clear();
     cleanupAll([
-      () => this.buffers.dispose(),
       () => this.finishVoices(() => true),
       () => this.stopAmbience(),
+      () => this.buffers.dispose(),
       () => this.master?.disconnect(),
       () => this.effects?.disconnect(),
       () => this.ambience?.disconnect(),

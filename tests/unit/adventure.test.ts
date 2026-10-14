@@ -432,6 +432,46 @@ function changedAreas(change: (area: AreaDefinition) => AreaDefinition) {
     }),
   );
 }
+test('campfires must have a supported travel/rest entry', () => {
+  assert.throws(
+    () => changedAreas((a) => ({ ...a, entries: a.entries.filter((e) => e.id !== 'fire-west') })),
+    /campfire.*entry/i,
+  );
+});
+test('explicit departures cannot use markers inside blocking scenery', () => {
+  assert.throws(
+    () =>
+      changedAreas((a) => ({
+        ...a,
+        props: [{ id: 'wall', kind: 'wall', x: 11, z: 0, radius: 1, height: 2 }],
+      })),
+    /exit.*marker/i,
+  );
+});
+test('health pickups cannot be placed inside blocking scenery', () => {
+  assert.throws(
+    () =>
+      changedAreas((a) => ({
+        ...a,
+        pickups: [
+          { id: 'heal', object: 'heal-art', kind: 'health', x: 0, z: 0, radius: 1, amount: 20 },
+        ],
+        props: [{ id: 'wall', kind: 'wall', x: 0, z: 0, radius: 2, height: 2 }],
+      })),
+    /pickup/i,
+  );
+});
+test('the final stagger tick still prevents enemy movement', () => {
+  const s = fixture(),
+    enemy = s.sim.enemies[0]!;
+  enemy.x = -4;
+  enemy.stun = 1;
+  s.step(idle);
+  assert.equal(enemy.x, -4);
+  assert.equal(enemy.stun, 0);
+  s.step(idle);
+  assert.ok(enemy.x > -4);
+});
 const stairSurface = {
   kind: 'stairs' as const,
   axis: 'z' as const,

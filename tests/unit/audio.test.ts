@@ -132,6 +132,110 @@ async function ready(f: ReturnType<typeof fixture>) {
   await f.playback.unlock();
   f.playback.setWorldFrozen(false);
 }
+test('session replacement cancels pending ambience and closes the previous room loops', async () => {
+  const f = fixture([sample('forest-1', 'forest', true)]);
+  await ready(f);
+  let resolve!: (value: Response) => void;
+  let started!: () => void;
+  const requested = new Promise<void>((done) => {
+    started = done;
+  });
+  f.pending = () =>
+    new Promise<Response>((done) => {
+      resolve = done;
+      started();
+    });
+  const pending = f.playback.setAmbience(['forest']);
+  await requested;
+  f.playback.replaceSession();
+  resolve(new Response(bytes));
+  await pending;
+  assert.equal(f.sources.length, 0);
+  f.pending = undefined;
+  await f.playback.setAmbience(['forest']);
+  f.playback.replaceSession();
+  assert.equal(f.sources[0]!.stopped, true);
+  assert.equal(f.playback.diagnosticsSnapshot.loops, 0);
+  f.playback.dispose();
+});
+test('audio shutdown releases peer voices, ambience and context after a disconnect failure', async () => {
+  const f = fixture();
+  await ready(f);
+  await f.playback.play('sword', { key: 'one' });
+  await f.playback.play('sword', { key: 'two' });
+  await f.playback.setAmbience(['forest']);
+  Object.assign(f.sources[0]!, {
+    disconnect() {
+      throw new Error('disconnect failed');
+    },
+  });
+  assert.throws(() => f.playback.dispose(), /disconnect failed/);
+  assert.ok(f.sources.every((s) => s.stopped));
+  assert.equal(f.closed, 1);
+  assert.equal(f.playback.diagnosticsSnapshot.decodedBytes, 0);
+  assert.equal(f.timers.size, 0);
+  f.playback.dispose();
+});
+test('a failed audio graph setup can recover on the next gesture', async () => {
+  const f = fixture();
+  const gain = f.context.createGain;
+  let calls = 0,
+    connections = 0;
+  f.context.createGain = () => {
+    if (++calls === 2) throw new Error('gain failed');
+    const node = gain();
+    node.connect = () => {
+      connections++;
+    };
+    return node;
+  };
+  await f.playback.unlock();
+  await ready(f);
+  assert.equal(connections, 3);
+  await f.playback.play('sword');
+  assert.equal(f.sources[0]!.started, true);
+  f.playback.dispose();
+});
+test('a transient manifest failure retries on a later gesture', async () => {
+  const f = fixture();
+  let requests = 0;
+  const playback = new AudioPlayback(() => {}, {
+    context: () => f.context as unknown as AudioContext,
+    request: async (url) => {
+      if (!(url instanceof Request ? url.url : url.toString()).endsWith('manifest.json'))
+        return new Response(bytes);
+      if (++requests === 1) throw new Error('offline');
+      return Response.json({ schemaVersion: 1, samples: [sample('sword-1')] });
+    },
+  });
+  await playback.unlock();
+  assert.equal(playback.samples.length, 0);
+  await playback.unlock();
+  assert.equal(playback.samples.length, 1);
+  playback.setWorldFrozen(false);
+  await playback.play('sword');
+  assert.equal(f.sources[0]!.started, true);
+  playback.dispose();
+});
+test('incoming ambience anchors its fade at the current audio time', async () => {
+  const f = fixture();
+  await ready(f);
+  f.context.currentTime = 100;
+  const gain = f.context.createGain;
+  const anchors: number[][] = [];
+  f.context.createGain = () => {
+    const node = gain();
+    Object.assign(node.gain, {
+      setValueAtTime(value: number, time: number) {
+        anchors.push([value, time]);
+      },
+    });
+    return node;
+  };
+  await f.playback.setAmbience(['forest']);
+  assert.deepEqual(anchors, [[0, 100]]);
+  f.playback.dispose();
+});
 
 test('audio manifests reject duplicate IDs, unsafe paths and out-of-range loop points', () => {
   const manifest: AudioManifest = { schemaVersion: 1, samples: [sample('sword-1')] };
@@ -590,27 +694,6 @@ test('closing the buffer owner rejects shared late decodes and further admission
   assert.equal(buffers.decodedBytes, 0);
 });
 
-test('audio disposal releases sibling voices and closes context after a disconnect failure', async () => {
-  const f = fixture();
-  await ready(f);
-  await f.playback.play('sword');
-  f.now = 1;
-  await f.playback.play('sword');
-  Object.assign(f.sources[0]!, {
-    disconnect: () => {
-      throw new Error('disconnect failure');
-    },
-  });
-  assert.throws(() => f.playback.dispose(), /disconnect failure/);
-  assert.equal(
-    f.sources.every((source) => source.stopped),
-    true,
-  );
-  assert.equal(f.playback.diagnosticsSnapshot.voices, 0);
-  assert.equal(f.playback.diagnosticsSnapshot.decodedBytes, 0);
-  assert.equal(f.closed, 1);
-  f.playback.dispose();
-});
 test('voice cancellation releases its listener as well as its decoded lease', async () => {
   const f = fixture();
   await ready(f);
