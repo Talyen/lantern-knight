@@ -16,7 +16,7 @@ Lantern defaults to port 5174, including direct Vite launches. Use `-- --port 51
 
 Development selects a checkout-local preparation when available, otherwise the immutable pin. `npm run dev -- --pinned` deliberately uses the pin. Assets are shared through an external bounded cache, so new worktrees do not copy artwork or need the source library.
 
-`npm run build` compiles Game for the browser; `-- --dev` compiles the authoring views. Both consume pinned assets unless `-- --local` selects checkout-local preparation. Web builds do not compile Electron. `npm run package` composes the matching web and Electron builds for native delivery; use `-- --local` there for a native prototype with local assets.
+`npm run build` compiles Game for the browser; `-- --dev` compiles the authoring views. Both consume pinned assets unless `-- --local` selects checkout-local preparation. Web builds do not compile Electron. `npm run package` composes the matching web and Electron builds for native delivery; use `-- --local` there for an unsigned native prototype with local assets. On macOS, Game release packaging signs and notarizes by default using the saved Keychain setup in [delivery](release.md#signed-mac-packages-for-steam); add `-- --unsigned` for a development Game package without notarization.
 
 ## Setup by task
 
