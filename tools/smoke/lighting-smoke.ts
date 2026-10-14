@@ -100,6 +100,7 @@ export async function runScenario(flags: string[] = []) {
                   ['golden', 'diorama'],
                   ['silver', 'ink'],
                   ['golden', 'cinematic'],
+                  ['lantern', 'cinematic'],
                 ] as const)
               : ([['golden', 'diorama']] as const);
           const baseline = await comparePixels(
@@ -257,7 +258,7 @@ export async function runScenario(flags: string[] = []) {
                   await f.startBenchmark();
                   f.mode('lighting');
                   f.presentation.lightingLab.setSettings({
-                    rig: rig as 'golden' | 'silver',
+                    rig: rig as 'golden' | 'silver' | 'lantern',
                     look: look as 'ink' | 'diorama' | 'cinematic',
                   });
                 },

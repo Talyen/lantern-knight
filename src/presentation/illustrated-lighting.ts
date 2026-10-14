@@ -19,7 +19,7 @@ import {
 const shader = `
 ${rigidSwordGLSL}
 varying vec3 inkWorld; varying vec3 inkSurface; varying vec2 inkUV;
-uniform float inkEnabled,inkStrength,inkAmbient,inkKeyStrength,inkRim,inkHaze,inkIsGround,inkEmissive,inkHasNormal,inkBlend,inkWarp,inkMix,inkMirror,inkFootY,inkBodyHeight,inkShadowEnabled,inkIsSprite;
+uniform float inkEnabled,inkStrength,inkAmbient,inkMinimumLight,inkKeyStrength,inkRim,inkHaze,inkIsGround,inkEmissive,inkHasNormal,inkBlend,inkWarp,inkMix,inkMirror,inkFootY,inkBodyHeight,inkShadowEnabled,inkIsSprite;
 uniform vec3 inkFootPosition;uniform vec4 inkShadeZones[${SCENE_SHADE_CAPACITY}];
 uniform vec3 inkSky,inkGround,inkKey,inkDirection,inkFog,inkOrigin;
 uniform vec3 inkLightPosition[4]; uniform vec3 inkLightColor[4]; uniform float inkLightPower[4],inkLightRange[4];
@@ -65,7 +65,7 @@ vec3 inkIlluminate(vec3 base){
  for(int i=0;i<4;i++){vec3 delta=inkLightPosition[i]-inkWorld;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.22+.78*max(0.0,dot(n,normalize(delta+vec3(.0001)))));}
  illumination*=inkShade();
  float value=dot(base,vec3(.2126,.7152,.0722)),inkProtection=smoothstep(.006,.13,value);
- vec3 response=max(vec3(.08),mix(vec3(1.0),clamp(illumination+local,vec3(.28),vec3(2.5)),inkStrength));
+ vec3 response=max(vec3(.08),mix(vec3(1.0),clamp(illumination+local,vec3(inkMinimumLight),vec3(2.5)),inkStrength));
  vec3 result=base*response;
  float edge=pow(1.0-max(0.0,dot(n,vec3(${outward.x},${outward.y},${outward.z}))),2.0);
  result+=(inkKey*key*edge*inkRim+local*.09)*inkProtection*inkStrength*(1.0-inkIsGround);
@@ -86,6 +86,7 @@ export class IllustratedLighting {
     inkEnabled: { value: 0 },
     inkStrength: { value: 1 },
     inkAmbient: { value: 1 },
+    inkMinimumLight: { value: 0.28 },
     inkKeyStrength: { value: 1 },
     inkRim: { value: 0 },
     inkHaze: { value: 0 },
@@ -265,6 +266,7 @@ export class IllustratedLighting {
     );
     u.inkOrigin.value.copy(origin);
     u.inkAmbient.value = rig.ambient * (settings.look === 'cinematic' ? 0.8 : 1);
+    u.inkMinimumLight.value = rig.minimumLight;
     u.inkKeyStrength.value = rig.keyStrength;
     u.inkRim.value = look.rim;
     u.inkHaze.value = settings.atmosphere ? look.haze * 0.5 : 0;

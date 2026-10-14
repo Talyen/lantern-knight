@@ -369,7 +369,7 @@ export class GamePresentation implements PresentationLifecycle {
       }
     const heroSprite = this.actorPresentation.actors.get(sim.hero.id)?.sprite;
     const hasLantern = heroSprite && heroLanternPosition(heroSprite, this.light.position);
-    this.light.intensity = hasLantern ? (sim.hero.state === 'ability' ? 16 : 8) : 0;
+    this.light.intensity = hasLantern ? 8 : 0;
     for (const m of this.roomPresentation.fadeMeshes) {
       const p = m.userData.foot as { x: number; y: number; z: number },
         delta = new T.Vector3(sim.hero.x - p.x, sim.hero.y - p.y, sim.hero.z - p.z);

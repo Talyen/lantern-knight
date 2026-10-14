@@ -1,5 +1,5 @@
 import type { WorldVisualDefinition } from '../content/world-visuals';
-type LightingRig = 'golden' | 'silver';
+type LightingRig = NonNullable<WorldVisualDefinition['look']>['rig'];
 type LookPreset = 'ink' | 'diorama' | 'cinematic';
 export type LookSettings = {
   rig: LightingRig;
@@ -33,6 +33,7 @@ export const lightingRigs = {
     elevation: 42,
     side: -35,
     ambient: 1,
+    minimumLight: 0.28,
     keyStrength: 0.95,
     fog: 0xb9a385,
   },
@@ -44,8 +45,21 @@ export const lightingRigs = {
     elevation: 48,
     side: -35,
     ambient: 0.95,
+    minimumLight: 0.28,
     keyStrength: 0.45,
     fog: 0x869bab,
+  },
+  lantern: {
+    label: 'Lantern night',
+    key: 0xb6c9e2,
+    sky: 0x90a3bb,
+    ground: 0x8b96a8,
+    elevation: 15,
+    side: -35,
+    ambient: 0.38,
+    minimumLight: 0.08,
+    keyStrength: 0.1,
+    fog: 0x475568,
   },
 } as const;
 export const lookPresets = {
@@ -84,7 +98,7 @@ export const lookPresets = {
   },
 } as const;
 export const defaultLook: LookSettings = {
-  rig: 'silver',
+  rig: 'lantern',
   look: 'cinematic',
   sun: { azimuthDeg: 20, elevationDeg: 15 },
   baseline: false,
@@ -92,7 +106,7 @@ export const defaultLook: LookSettings = {
   shadows: true,
   atmosphere: true,
   postprocessing: true,
-  strength: 0.85,
+  strength: 1,
   depthOfField: 0,
 };
 export { normalPixels } from '../assets/normal-pixels';

@@ -243,7 +243,7 @@ export function createEditorSession() {
     visualAuthoring?.render(busy, composition?.selection.size > 1);
     $('scene-summary-text').textContent = `${d.name} · ${items.length} objects`;
     $('scene-overview').textContent =
-      `${items.length} ${items.length === 1 ? 'object' : 'objects'} · ${Number(d.floor.width.toFixed(2))} × ${Number(d.floor.depth.toFixed(2))} ground · ${d.look.rig === 'golden' ? 'Golden hour' : 'Silver hour'}`;
+      `${items.length} ${items.length === 1 ? 'object' : 'objects'} · ${Number(d.floor.width.toFixed(2))} × ${Number(d.floor.depth.toFixed(2))} ground · ${lightingRigs[d.look.rig].label}`;
     workspace.refresh();
     sceneLibrary?.refresh();
     if (ready && $<HTMLSelectElement>('asset-scope').value === 'scene') showPalette();

@@ -63,12 +63,13 @@ test('painted shade grounds characters and props without double-shading the floo
     scene.add(floor);
     const settings = {
       ...defaultLook,
+      rig: 'silver' as const,
       atmosphere: false,
       shadeZones: [{ x: 0, z: 0, radius: 5, strength: 0.65 }],
     };
-    const capture = (shade: boolean, local: boolean) => {
+    const capture = (shade: boolean, local: boolean, rig: 'silver' | 'lantern' = 'silver') => {
       lighting.configure(
-        { ...settings, shadeZones: shade ? settings.shadeZones : undefined },
+        { ...settings, rig, shadeZones: shade ? settings.shadeZones : undefined },
         new T.Vector3(),
       );
       lighting.common.inkShadowEnabled.value = 0;
@@ -84,11 +85,18 @@ test('painted shade grounds characters and props without double-shading the floo
     const base = capture(false, false),
       shade = capture(true, false),
       lit = capture(true, true),
-      reset = capture(false, false);
+      reset = capture(false, false),
+      night = capture(false, false, 'lantern'),
+      lantern = capture(false, true, 'lantern');
     const darkened = [0, 0, 0],
-      brightened = [0, 0, 0];
+      brightened = [0, 0, 0],
+      nightDarkened = [0, 0, 0],
+      lanternLit = [0, 0, 0];
     let floorChanges = 0,
-      resetChanges = 0;
+      resetChanges = 0,
+      lanternFloor = 0,
+      warmRed = 0,
+      warmBlue = 0;
     for (let i = 0; i < base.length; i += 4) {
       const x = (i / 4) % 160,
         y = Math.floor(i / 4 / 160),
@@ -96,6 +104,14 @@ test('painted shade grounds characters and props without double-shading the floo
         value = (p: Uint8Array) => p[i]! + p[i + 1]! + p[i + 2]!;
       if (value(base) - value(shade) > 3) darkened[slot]!++;
       if (value(lit) - value(shade) > 3) brightened[slot]!++;
+      const spritePixel = y >= 52 && y < 72 && Math.abs(x - (32 + slot * 48)) < 8;
+      if (spritePixel && value(base) - value(night) > 3) nightDarkened[slot]!++;
+      if (spritePixel && value(lantern) - value(night) > 3) lanternLit[slot]!++;
+      if (y < 20 && value(lantern) - value(night) > 3) {
+        lanternFloor++;
+        warmRed += lantern[i]! - night[i]!;
+        warmBlue += lantern[i + 2]! - night[i + 2]!;
+      }
       if (y < 20 && value(base) !== value(shade)) floorChanges++;
       if (value(reset) !== value(base)) resetChanges++;
     }
@@ -104,6 +120,11 @@ test('painted shade grounds characters and props without double-shading the floo
       brightened,
       floorChanges,
       resetChanges,
+      nightDarkened,
+      lanternLit,
+      lanternFloor,
+      warmRed,
+      warmBlue,
       error: renderer.getContext().getError(),
     };
     sprites.forEach((s) => s.dispose());
@@ -124,6 +145,14 @@ test('painted shade grounds characters and props without double-shading the floo
   expect(proof.brightened[1]).toBeGreaterThan(100);
   expect(proof.floorChanges).toBe(0);
   expect(proof.resetChanges).toBe(0);
+  expect(proof.nightDarkened[0]).toBeGreaterThan(100);
+  expect(proof.nightDarkened[1]).toBeGreaterThan(100);
+  expect(proof.nightDarkened[2]).toBe(0);
+  expect(proof.lanternLit[0]).toBeGreaterThan(100);
+  expect(proof.lanternLit[1]).toBeGreaterThan(100);
+  expect(proof.lanternLit[2]).toBe(0);
+  expect(proof.lanternFloor).toBeGreaterThan(100);
+  expect(proof.warmRed).toBeGreaterThan(proof.warmBlue);
 });
 
 test('editor shade zones can be authored, previewed and undone without saving a scene', async ({

@@ -28,7 +28,7 @@ test('editor placement, experimental scale, history, recovery, save and external
     await openEditor(page, '/editor.html');
     const initial = await page.evaluate(() => window.sceneEditor.state().document);
     expect(initial.look).toEqual({
-      rig: 'silver',
+      rig: 'lantern',
       look: 'cinematic',
       sun: { azimuthDeg: 20, elevationDeg: 15 },
     });
