@@ -37,16 +37,9 @@ test('Dev Preview remembers separate scene experiments and preserves comparison 
   await expect(page.locator('[data-effect="rain"]')).not.toBeChecked();
   await page.locator('#baseline').uncheck();
   expect(await page.evaluate(() => window.effectsPlayground.settings.effects.rain)).toBe(false);
-  await page.reload();
-  await page.waitForFunction(() => window.effectsPlayground?.ready);
-  await expect(page.locator('[data-effect="rain"]')).not.toBeChecked();
+  // Storage roundtrips and interior selection have dedicated coverage. Keep
+  // this journey on effects/scene isolation and comparison controls.
   await page.getByRole('button', { name: 'Animation', exact: true }).click();
   await expect(page.getByText('Animation requires Outdoor, Interior or Systems.')).toBeVisible();
   expect(await page.locator('#scene-select').inputValue()).toBe('effects-playground');
-  await page.selectOption('#scene-select', 'interior-fixture');
-  await page.waitForFunction(
-    () => window.foundation?.ready && window.foundation.sim.area === 'interior-fixture',
-  );
-  await page.getByRole('button', { name: 'Visuals', exact: true }).click();
-  await expect(page.locator('[data-scene-effect="rain"]')).toBeChecked();
 });

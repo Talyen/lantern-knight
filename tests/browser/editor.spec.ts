@@ -336,14 +336,31 @@ test('visual authoring, independent fragments, pattern undo and import', async (
     });
     expect(savingFragment.ok(), await savingFragment.text()).toBe(true);
     await page.locator('#artwork-tab').click();
+    const initialFragments = page.waitForResponse('**/__lantern_editor?fragments');
     await page.locator('#arrangements').click();
+    await initialFragments;
+    await expect(page.locator('#library-fragments')).toContainText('Pickup isolation regression');
     await page.locator('#fragment-name').fill('Browser test arrangement');
+    await waitForEditorIdle(page);
+    const fragmentSaved = page.waitForResponse(
+      (response) =>
+        new URL(response.url()).pathname === '/__lantern_editor' &&
+        response.request().method() === 'POST' &&
+        response.request().postDataJSON().action === 'fragment',
+      { timeout: 60_000 },
+    );
+    const fragmentsRefreshed = page.waitForResponse('**/__lantern_editor?fragments', {
+      timeout: 60_000,
+    });
     await page.locator('#save-fragment').click();
+    expect((await fragmentSaved).ok()).toBe(true);
+    await fragmentsRefreshed;
     await expect(page.locator('#library-fragments')).toContainText('Browser test arrangement');
     await page
       .locator('#library-fragments')
       .getByRole('button', { name: 'Browser test arrangement · 1 objects', exact: true })
       .click();
+    await waitForEditorIdle(page);
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
       .toBe(2);
@@ -358,6 +375,7 @@ test('visual authoring, independent fragments, pattern undo and import', async (
     await page.locator('#pattern-count').fill('2');
     await page.locator('#pattern-preview').click();
     await page.locator('#pattern-apply').click();
+    await waitForEditorIdle(page);
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.objects.length))
       .toBe(4);
@@ -372,6 +390,7 @@ test('visual authoring, independent fragments, pattern undo and import', async (
       buffer: Buffer.from(JSON.stringify(imported)),
     });
     await page.locator('#confirmation-accept').click();
+    await waitForEditorIdle(page);
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().document.name))
       .toContain('Imported');
