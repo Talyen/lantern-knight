@@ -148,11 +148,6 @@ async function startupBenchmark(flags: string[]) {
           await focusGame();
           await run.page.keyboard.down('KeyW');
           await run.page.keyboard.press('Shift');
-          await run.page.waitForFunction(
-            () => / s$/.test(document.querySelector('#dodge-status')?.textContent ?? ''),
-            {},
-            { timeout: 2000 },
-          );
           await run.page.waitForTimeout(600);
           await run.page.keyboard.up('KeyW');
           await run.page.waitForFunction(
@@ -162,14 +157,8 @@ async function startupBenchmark(flags: string[]) {
           );
           await focusGame();
           await run.page.locator('canvas').click({ button: 'right' });
-          await run.page.waitForFunction(
-            () => / s$/.test(document.querySelector('#ability-status')?.textContent ?? ''),
-            {},
-            { timeout: 2000 },
-          );
           await run.page.waitForTimeout(700);
           await focusGame();
-          await run.page.locator('canvas').click();
           await run.page.keyboard.down('KeyD');
           await run.page.waitForTimeout(700);
           await run.page.keyboard.up('KeyD');
@@ -182,6 +171,16 @@ async function startupBenchmark(flags: string[]) {
             await run.page.screenshot({ path: path.join(directory, 'first-actions.png') });
           const saved = await playerControls(run.page, run.profile).save();
           assert.equal(saved.area, expected.area);
+          assert.equal(
+            saved.player.nextAttack,
+            expected.player.nextAttack === 'lunge' ? 'sweep' : 'lunge',
+            'Startup must accept the first real sword action',
+          );
+          assert.ok(saved.player.cooldown > 0, 'Startup must accept a real lantern action');
+          assert.ok(
+            saved.adventure?.onboarding?.completed.includes('dodge'),
+            'Startup must accept a real dodge',
+          );
           assert.ok(
             Math.hypot(saved.player.x - expected.player.x, saved.player.z - expected.player.z) >
               0.05,
