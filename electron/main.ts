@@ -3,6 +3,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { launchEntry, checkpointDirectory } from './launch';
 import { Store } from './store';
+import { DesktopSession } from './session';
 import { content } from '../src/content/game-content';
 import { resourcePath, trustedSender } from './security';
 declare const __DEV_APP__: boolean;
@@ -56,7 +57,7 @@ app
       callback(false),
     );
     session.defaultSession.setPermissionCheckHandler(() => false);
-    let mode: 'game' | 'sandbox' | 'effects' | 'editor' =
+    const mode: 'game' | 'sandbox' | 'effects' | 'editor' =
       __DEV_APP__ && process.argv.includes('--editor')
         ? 'editor'
         : __DEV_APP__ && process.argv.includes('--effects')
@@ -67,8 +68,6 @@ app
     const profileRoot = app.getPath('userData');
     const storeFor = (selected: 'game' | 'sandbox' | 'effects' | 'editor') =>
       new Store(checkpointDirectory(profileRoot, developer, selected), content);
-    let store = storeFor(mode);
-    const entry = () => launchEntry(__DEV_APP__, mode);
     window = new BrowserWindow({
       width: 1280,
       height: 800,
@@ -86,6 +85,15 @@ app
         nodeIntegration: false,
         webSecurity: true,
       },
+    });
+    const desktop = new DesktopSession(mode, storeFor, async (selected) => {
+      if (!window) throw new Error('Desktop window closed');
+      await window.loadURL(pageURL(launchEntry(__DEV_APP__, selected)));
+    });
+    const entry = () => launchEntry(__DEV_APP__, desktop.mode);
+    window.on('closed', () => {
+      desktop.dispose();
+      window = undefined;
     });
     window.on('blur', () => {
       window?.webContents
@@ -117,12 +125,8 @@ app
           )
         )
           throw new Error('untrusted IPC sender');
-        if (mode !== 'game' && slot === 'game') {
-          if (write) throw new Error('Sandbox checkpoint writes denied');
-          return { status: 'empty' };
-        }
         if (!write && value !== undefined) throw new Error('load takes no payload');
-        return write ? store.save(slot, value) : store.load(slot);
+        return write ? desktop.save(slot, value) : desktop.load(slot);
       });
     powerMonitor.on('suspend', () => {
       window?.webContents
@@ -145,12 +149,9 @@ app
           !['game', 'sandbox', 'effects', 'editor'].includes(next)
         )
           throw new Error('invalid development launch');
-        await store.drain();
-        mode = next;
-        store = storeFor(mode);
-        await window.loadURL(pageURL(entry()));
+        await desktop.launch(next);
       });
-    await window.loadURL(pageURL(entry()));
+    await desktop.launch(mode);
   })
   .catch((error) => {
     console.error('Unable to start Lantern Knight:', error);

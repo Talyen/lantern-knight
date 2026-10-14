@@ -11,6 +11,7 @@ import { parseSettings } from '../../src/platform/settings';
 import { content } from '../../src/content/game-content';
 import { content as fixtureContent } from '../fixtures/content';
 import { Store } from '../../electron/store';
+import { DesktopSession } from '../../electron/session';
 import { createBrowserBridge } from '../../src/platform/browser-store';
 import { defaultVisualEffects } from '../../src/content/visual-effects';
 test('current saves preserve variable actors, vitality, cooldowns and encounter progress', () => {
@@ -164,4 +165,147 @@ test('desktop reads participate in admission order and failures do not poison la
   await fs.rm(directory);
   await store.save('game', save);
   assert.equal((await store.load('game')).status, 'ok');
+});
+
+test('desktop navigation closes old storage admission and serializes launch ownership', async (t) => {
+  const directory = await temporaryDirectory(t, 'lantern-desktop-session-'),
+    navigated: string[] = [],
+    session = new DesktopSession(
+      'game',
+      (mode) => new Store(path.join(directory, mode), fixtureContent),
+      async (mode) => {
+        navigated.push(mode);
+      },
+    );
+  await session.launch('game');
+  const writing = Promise.withResolvers<void>(),
+    resume = Promise.withResolvers<void>(),
+    originalMkdir = fs.mkdir;
+  t.mock.method(fs, 'mkdir', async (...args: Parameters<typeof fs.mkdir>) => {
+    writing.resolve();
+    await resume.promise;
+    return originalMkdir(...args);
+  });
+  const save = new GameSession(fixtureContent).captureSave(),
+    admitted = session.save('game', save);
+  await writing.promise;
+  const switching = session.launch('sandbox');
+  try {
+    assert.throws(() => session.save('game', { ...save, wins: 99 }), /not available/);
+    assert.throws(() => session.load('settings'), /not available/);
+    await assert.rejects(session.launch('editor'), /launch in progress/);
+    assert.deepEqual(navigated, ['game'], 'Navigation waits for the closed old queue');
+  } finally {
+    resume.resolve();
+  }
+  await admitted;
+  await switching;
+  assert.deepEqual(navigated, ['game', 'sandbox']);
+  assert.deepEqual(await session.load('game'), { status: 'empty' });
+  assert.throws(() => session.save('game', save), /writes denied/);
+  const original = await new Store(path.join(directory, 'game'), fixtureContent).load('game');
+  assert.deepEqual(original, { status: 'ok', data: save });
+  session.dispose();
+  await assert.rejects(session.launch('game'), /disposed/);
+  assert.throws(() => session.load('settings'), /disposed/);
+});
+
+test('destination boot may read settings and failed navigation restores the previous profile', async (t) => {
+  const directory = await temporaryDirectory(t, 'lantern-desktop-recovery-'),
+    navigated: string[] = [],
+    bootReads: string[] = [],
+    writing = Promise.withResolvers<void>(),
+    resume = Promise.withResolvers<void>(),
+    settings = parseSettings({
+      version: 5,
+      renderScale: 1,
+      showDebug: false,
+      verticalSpan: 9,
+      depthOfField: 0,
+      visualEffects: defaultVisualEffects(),
+    });
+  let fail = false;
+  let destinationWrite: Promise<void> | undefined;
+  const session = new DesktopSession(
+    'game',
+    (mode) => new Store(path.join(directory, mode), fixtureContent),
+    async (mode) => {
+      navigated.push(mode);
+      bootReads.push((await session.load('settings')).status);
+      if (fail) {
+        fail = false;
+        destinationWrite = session.save('settings', settings);
+        throw new Error('Navigation failed');
+      }
+    },
+  );
+  await session.launch('game');
+  const save = new GameSession(fixtureContent).captureSave();
+  await session.save('game', save);
+  const originalMkdir = fs.mkdir;
+  t.mock.method(fs, 'mkdir', async (...args: Parameters<typeof fs.mkdir>) => {
+    if (args[0] === path.join(directory, 'editor')) {
+      writing.resolve();
+      await resume.promise;
+    }
+    return originalMkdir(...args);
+  });
+  fail = true;
+  const failed = assert.rejects(session.launch('editor'), /Navigation failed/);
+  await writing.promise;
+  try {
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.throws(() => session.load('settings'), /not available/);
+    assert.deepEqual(navigated, ['game', 'editor'], 'Recovery drains admitted destination writes');
+  } finally {
+    resume.resolve();
+  }
+  await failed;
+  await destinationWrite;
+  assert.equal(session.mode, 'game');
+  assert.deepEqual(navigated, ['game', 'editor', 'game']);
+  assert.deepEqual(await session.load('game'), { status: 'ok', data: save });
+  await session.launch('editor');
+  assert.equal(session.mode, 'editor');
+  assert.deepEqual(bootReads, ['empty', 'empty', 'empty', 'ok']);
+  assert.deepEqual(await session.load('settings'), { status: 'ok', data: settings });
+  session.dispose();
+});
+
+test('failed desktop recovery blocks storage; shutdown prevents late navigation', async (t) => {
+  const directory = await temporaryDirectory(t, 'lantern-desktop-closed-');
+  let fail = false;
+  const session = new DesktopSession(
+    'game',
+    (mode) => new Store(path.join(directory, mode), fixtureContent),
+    async () => {
+      if (fail) throw new Error('Cannot navigate');
+    },
+  );
+  await session.launch('game');
+  fail = true;
+  await assert.rejects(session.launch('editor'), /launch and recovery failed/);
+  assert.throws(() => session.load('settings'), /not available/);
+  fail = false;
+  await session.launch('sandbox');
+  assert.equal(session.mode, 'sandbox');
+  session.dispose();
+
+  const draining = Promise.withResolvers<void>();
+  let navigation = 0;
+  const closing = new DesktopSession(
+    'game',
+    (mode) =>
+      Object.assign(new Store(path.join(directory, mode), fixtureContent), {
+        drain: () => draining.promise,
+      }),
+    async () => {
+      navigation++;
+    },
+  );
+  const pending = closing.launch('editor');
+  closing.dispose();
+  draining.resolve();
+  await assert.rejects(pending, /disposed/);
+  assert.equal(navigation, 0);
 });

@@ -20,6 +20,9 @@ import { heroLanternPosition } from '../../src/presentation/hero-lantern';
 import { makeCamera, right, up } from '../../src/presentation/camera';
 import { cameraContract as contract } from '../../src/assets/camera-contract';
 import { Vector3, Texture } from 'three';
+import { mockGlobals } from '../fixtures/globals';
+import { NormalLibrary } from '../../src/presentation/normal-library';
+import { createHash } from 'node:crypto';
 
 test('authored sun is fixed as the view moves and removing it restores the rig', () => {
   const lighting = new IllustratedLighting();
@@ -177,7 +180,6 @@ test('alpha-derived normals point outward with an unchanged coverage channel', (
 });
 
 test('lighting replacement preserves the current room on failure, retries, and releases late or removed companions', async () => {
-  const { NormalLibrary } = await import('../../src/presentation/illustrated-lighting');
   const { createHash } = await import('node:crypto'),
     bytes = Buffer.from('verified companion'),
     hash = createHash('sha256').update(bytes).digest('hex');
@@ -274,4 +276,79 @@ test('lighting replacement preserves the current room on failure, retries, and r
     globalThis.createImageBitmap = priorBitmap;
   }
   assert.equal(closed, 4, 'Cancellation before decode avoids allocating another bitmap');
+});
+
+test('companion replacement consumes removed ownership before attempting every cleanup', async (t) => {
+  const bytes = Buffer.from('companion'),
+    hash = createHash('sha256').update(bytes).digest('hex'),
+    closed: string[] = [],
+    unavailable = Promise.withResolvers<Response>();
+  let decoded = 0;
+  mockGlobals(t, {
+    fetch: async (url: string) =>
+      url.endsWith('manifest.json')
+        ? new Response(
+            JSON.stringify({
+              recipe: 'alpha-volume-v1',
+              entries: Object.fromEntries(
+                ['old-a', 'old-b', 'new', 'unavailable'].map((id) => [
+                  id + ':pose',
+                  {
+                    file: id + '.png',
+                    hash,
+                    width: 2,
+                    height: 2,
+                    sourceHash: 'a'.repeat(64),
+                    rect: [0, 0, 2, 2],
+                    trim: [0, 0, 2, 2],
+                  },
+                ]),
+              ),
+            }),
+          )
+        : url.endsWith('unavailable.png')
+          ? unavailable.promise
+          : new Response(bytes),
+    createImageBitmap: async () => {
+      const id = String(++decoded);
+      if (decoded === 5) unavailable.resolve(new Response('', { status: 503 }));
+      return {
+        width: 2,
+        height: 2,
+        close: () => {
+          closed.push(id);
+          if (id === '4') throw new Error('Bitmap cleanup failed');
+        },
+      } as unknown as ImageBitmap;
+    },
+  });
+  const library = new NormalLibrary();
+  await library.load(['old-a', 'old-b']);
+  const failure = new Error('GPU cleanup failed');
+  library.textures.get('old-a:pose')!.addEventListener('dispose', () => {
+    throw failure;
+  });
+  try {
+    await assert.rejects(library.load(['new']), (error) => error === failure);
+    assert.deepEqual([...library.textures.keys()], ['new:pose']);
+    assert.deepEqual(closed, ['1', '2'], 'A failing GPU cleanup cannot strand sibling bitmaps');
+    assert.equal(library.bytes, 16);
+    await library.load(['new']);
+    assert.equal(decoded, 3, 'The accepted selection remains usable after cleanup failure');
+    await assert.rejects(library.load(['new', 'old-a', 'old-b', 'unavailable']), (error) => {
+      assert.ok(error instanceof AggregateError);
+      assert.match(String(error.cause), /HTTP 503/);
+      return true;
+    });
+    assert.deepEqual([...library.textures.keys()], ['new:pose']);
+    assert.equal(library.bytes, 16);
+    assert.deepEqual(
+      closed,
+      ['1', '2', '4', '5'],
+      'Failed acquisitions drain all staged companions',
+    );
+  } finally {
+    library.dispose();
+  }
+  assert.deepEqual(closed, ['1', '2', '4', '5', '3']);
 });

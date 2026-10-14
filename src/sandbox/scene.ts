@@ -117,16 +117,16 @@ export function mountScene(
   function status(message: string, error = false) {
     if (!closed) shell.status(message, error);
   }
-  function selectAnimationAsset(id: string) {
-    return app.withLoading(async () => {
-      const accepted = await app.previewAsset(id, () => {
-        presentation.selectLabAsset(id);
-      });
-      if (!accepted || closed) return;
-      updateLabClips();
-      picker.selected(id);
-      savePreview();
+  async function selectAnimationAsset(id: string) {
+    // Preview admission owns its cancellable loading scope. An outer scope
+    // would keep obsolete selections blocking input while their decodes settle.
+    const accepted = await app.previewAsset(id, () => {
+      presentation.selectLabAsset(id);
     });
+    if (!accepted || closed) return;
+    updateLabClips();
+    picker.selected(id);
+    savePreview();
   }
   function syncLabZoom() {
     const percent = Math.round(presentation.labZoom * 100);

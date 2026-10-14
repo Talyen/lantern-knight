@@ -61,16 +61,15 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private readonly audioFeedback: AudioFeedback;
   clock = new FixedClock();
   private packViews = new Map<string, AssetPack>();
-  private previewPack?: { id: string; pack: PackLease };
-  private previewRequest = 0;
+  private readonly previewAssets = new SceneAssets();
+  private readonly previewOperations = new SessionOperations();
   get packs(): ReadonlyMap<string, AssetPack> {
     return this.packViews;
   }
   private syncPacks() {
     this.packViews.clear();
-    for (const group of [this.roomAssets.packs, this.persistentLeases])
+    for (const group of [this.roomAssets.packs, this.persistentLeases, this.previewAssets.packs])
       for (const [id, pack] of group) this.packViews.set(id, pack);
-    if (this.previewPack) this.packViews.set(this.previewPack.id, this.previewPack.pack);
   }
   private persistentLeases = new Map<string, PackLease>();
   private readonly roomAssets = new SceneAssets();
@@ -287,6 +286,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       try {
         this.assertActive();
         this.presentation.warmPack(pack);
+        this.assertActive();
       } catch (error) {
         pack.release();
         throw error;
@@ -301,32 +301,45 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       this.assetLoads.delete(id);
     }
   }
-  previewAsset(id: string, select: () => undefined) {
-    return this.withLoading(async () => {
-      const request = ++this.previewRequest;
-      const pack = await this.runtime.loadPack(id, this.abort.signal);
-      let installed = false;
-      try {
-        this.assertActive();
-        if (request !== this.previewRequest) return false;
-        this.presentation.warmPack(pack);
-        const previous = this.previewPack;
-        this.previewPack = { id, pack };
-        this.syncPacks();
-        try {
-          select();
-        } catch (error) {
-          this.previewPack = previous;
-          this.syncPacks();
-          throw error;
-        }
-        installed = true;
-        previous?.pack.release();
-        return true;
-      } finally {
-        if (!installed) pack.release();
-      }
-    });
+  async previewAsset(id: string, select: () => undefined) {
+    this.assertActive();
+    try {
+      // Admit before loading feedback can synchronously submit a newer selection.
+      return await this.previewOperations.run((operation) =>
+        this.withLoading(async () => {
+          operation.check();
+          let pack: PackLease | undefined = await this.runtime.loadPack(id, operation.signal);
+          try {
+            operation.check();
+            this.presentation.warmPack(pack);
+            operation.check();
+            const installed = pack;
+            pack = undefined;
+            // Selection can partially rebuild a renderer before failing. Retain
+            // both batches until a successful successor or renderer shutdown.
+            try {
+              this.previewAssets.install(
+                { packs: new Map([[id, installed]]), release: () => installed.release() },
+                () => {
+                  this.syncPacks();
+                  select();
+                  operation.check();
+                },
+              );
+            } catch (error) {
+              if (!this.disposed) this.syncPacks();
+              throw error;
+            }
+            return true;
+          } finally {
+            pack?.release();
+          }
+        }, operation.signal),
+      );
+    } catch (error) {
+      if (error instanceof SessionOperationCancelled && !this.disposed) return false;
+      throw error;
+    }
   }
   private async acquireArea(area: string, signal: AbortSignal, scenes = this.scenes) {
     const scene = scenes.area(area);
@@ -704,13 +717,12 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.ready = false;
     this.roomAccepted = false;
     delete this.canvas.dataset.ready;
-    const preview = this.previewPack;
     const retained = [...this.persistentLeases.values()];
-    this.previewPack = undefined;
     this.persistentLeases.clear();
     this.loading.dispose();
     cleanupAll([
       () => this.sessionOperations.dispose(),
+      () => this.previewOperations.dispose(),
       () => this.abort.abort(),
       () => this.frames?.dispose(),
       () => window.removeEventListener('resize', this.onResize),
@@ -720,7 +732,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       () => this.input?.dispose(),
       () => this.audio.dispose(),
       () => this.presentation?.dispose(),
-      () => preview?.pack.release(),
+      () => this.previewAssets.dispose(),
       () => this.roomAssets.dispose(),
       ...retained.map((pack) => () => pack.release()),
       () => this.packViews.clear(),

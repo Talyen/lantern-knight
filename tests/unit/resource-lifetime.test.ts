@@ -8,6 +8,23 @@ import { DisposalScope, cleanupAfterFailure } from '../../src/assets/cleanup';
 import { GamePresentation } from '../../src/presentation/game-scene';
 import { EditorView } from '../../src/editor/view';
 
+test('reentrant installation cannot retire the successor batch', () => {
+  const assets = new SceneAssets(),
+    released: number[] = [];
+  const batch = (id: number): PackBatch => ({
+    packs: new Map(),
+    release: () => {
+      released.push(id);
+    },
+  });
+  assets.install(batch(1), () => {
+    assets.install(batch(2), () => {});
+  });
+  assert.deepEqual(released, [1]);
+  assets.dispose();
+  assert.deepEqual(released, [1, 2]);
+});
+
 test('room asset ownership drains failed generations even when an older batch cannot release cleanly', () => {
   const assets = new SceneAssets(),
     released: number[] = [];

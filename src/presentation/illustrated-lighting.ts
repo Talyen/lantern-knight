@@ -1,6 +1,5 @@
-import { cleanupAll } from '../assets/cleanup';
 import { registeredTrim } from './animation-blend-shader';
-import { verifiedBitmap } from '../assets/bitmap';
+import { NormalLibrary } from './normal-library';
 import * as T from 'three';
 export function neutralColor(color: T.Color) {
   const v = color.r * 0.2126 + color.g * 0.7152 + color.b * 0.0722;
@@ -16,120 +15,6 @@ import {
   cameraKeyDirection,
   type LookSettings,
 } from './lighting-profiles';
-type Companion = {
-  file: string;
-  hash: string;
-  sourceHash: string;
-  rect: number[];
-  trim: number[];
-  width: number;
-  height: number;
-};
-function disposeNormal(texture: T.Texture) {
-  cleanupAll([() => texture.dispose(), () => (texture.image as ImageBitmap).close()]);
-}
-export class NormalLibrary {
-  entries: Record<string, Companion> = {};
-  textures = new Map<string, T.Texture>();
-  bytes = 0;
-  private disposed = false;
-  private readonly lifetime = new AbortController();
-  private inventory?: Promise<void>;
-  private pending = Promise.resolve();
-  load(assets: Iterable<string>) {
-    if (this.disposed) return Promise.reject(new Error('lighting companions disposed'));
-    const selected = [...assets];
-    const operation = this.pending.then(() => this.loadSelected(selected));
-    this.pending = operation.catch(() => {});
-    return operation;
-  }
-  private async loadSelected(assets: Iterable<string>) {
-    this.lifetime.signal.throwIfAborted();
-    this.inventory ??= (async () => {
-      const response = await fetch('/lighting/manifest.json', { signal: this.lifetime.signal });
-      if (!response.ok) throw new Error('Lighting companions unavailable.');
-      const manifest = await response.json();
-      if (manifest.recipe !== 'alpha-volume-v1')
-        throw new Error('Lighting companion recipe differs');
-      this.lifetime.signal.throwIfAborted();
-      this.entries = manifest.entries;
-    })().catch((error) => {
-      this.inventory = undefined;
-      throw error;
-    });
-    await this.inventory;
-    if (this.disposed) return;
-    const selected = new Set(assets),
-      wanted = Object.entries(this.entries).filter(([key]) => selected.has(key.split(':')[0]!)),
-      keep = new Set(wanted.map(([key]) => key)),
-      missing = wanted.filter(([key]) => !this.textures.has(key)),
-      acquired = new Map<string, T.Texture>();
-    let index = 0;
-    const results = await Promise.allSettled(
-      Array.from({ length: Math.min(8, missing.length) }, async () => {
-        while (!this.disposed && index < missing.length) {
-          const [key, entry] = missing[index++]!;
-          const bitmap = await verifiedBitmap(
-            '/lighting/' + entry.file,
-            entry,
-            fetch,
-            this.lifetime.signal,
-          );
-          if (this.disposed) {
-            bitmap.close();
-            return;
-          }
-          const texture = new T.Texture(bitmap);
-          texture.flipY = false;
-          texture.generateMipmaps = false;
-          texture.minFilter = T.LinearFilter;
-          texture.magFilter = T.LinearFilter;
-          texture.needsUpdate = true;
-          acquired.set(key, texture);
-        }
-      }),
-    );
-    const failure = results.find((result) => result.status === 'rejected');
-    if (failure || this.disposed) {
-      for (const texture of acquired.values()) disposeNormal(texture);
-      if (failure?.status === 'rejected') throw failure.reason;
-      return;
-    }
-    for (const [key, texture] of acquired) this.textures.set(key, texture);
-    for (const [key, texture] of this.textures)
-      if (!keep.has(key)) {
-        disposeNormal(texture);
-        this.textures.delete(key);
-      }
-    this.bytes = [...this.textures.values()].reduce((sum, texture) => {
-      const image = texture.image as ImageBitmap;
-      return sum + image.width * image.height * 4;
-    }, 0);
-  }
-  get(sprite: ActorSprite, frame = sprite.lightingSample?.frame) {
-    if (!frame) return undefined;
-    const key = `${sprite.manifest.asset.id}:${frame.id}`,
-      entry = this.entries[key];
-    if (!entry) return undefined;
-    const page = sprite.manifest.pages.find((p) => p.id === frame.page)!;
-    if (
-      entry.sourceHash !== page.hash ||
-      entry.rect.join() !== frame.rect.join() ||
-      entry.trim.join() !== frame.trim.join()
-    )
-      throw new Error(`stale lighting companion: ${key}`);
-    return this.textures.get(key);
-  }
-  dispose() {
-    if (this.disposed) return;
-    this.disposed = true;
-    this.lifetime.abort();
-    const textures = [...this.textures.values()];
-    this.textures.clear();
-    this.bytes = 0;
-    cleanupAll(textures.map((texture) => () => disposeNormal(texture)));
-  }
-}
 const shader = `
 ${rigidSwordGLSL}
 varying vec3 inkWorld; varying vec3 inkSurface; varying vec2 inkUV;

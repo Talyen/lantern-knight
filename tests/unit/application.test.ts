@@ -245,7 +245,7 @@ test('null save rejections retain the original failure and reach application fee
   app.dispose();
 });
 
-test('preview replacement preserves shared session assets and rolls back failed selections', async () => {
+test('preview replacement preserves shared assets and retains partially failed selections', async () => {
   const { app } = fixture(),
     released: PackLease[] = [],
     loaded: PackLease[] = [];
@@ -272,12 +272,16 @@ test('preview replacement preserves shared session assets and rolls back failed 
     }),
     /selection failed/,
   );
-  assert.equal(app.packs.get('second'), loaded[2]);
-  assert.equal(app.packs.has('bad'), false);
-  assert.deepEqual(released, [loaded[1], loaded[3]]);
+  assert.equal(app.packs.get('bad'), loaded[3]);
+  assert.equal(
+    app.packs.get('second'),
+    loaded[2],
+    'A rolled-back renderer can still resolve its pack',
+  );
+  assert.deepEqual(released, [loaded[1]], 'Failed selection may still borrow either batch');
   app.dispose();
   app.dispose();
-  assert.deepEqual(released, [loaded[1], loaded[3], loaded[2], loaded[0]]);
+  assert.deepEqual(released, [loaded[1], loaded[2], loaded[3], loaded[0]]);
   assert.equal(app.packs.size, 0);
 });
 test('stale previews release their lease without selecting or warming; disposal rejects late acquisitions', async () => {
@@ -304,6 +308,89 @@ test('stale previews release their lease without selecting or warming; disposal 
   assert.equal(f.released, 1);
   assert.equal(f.warmed, 1);
   assert.equal(f.app.packs.size, 0);
+});
+test('superseded previews retire loading before obsolete transport settles', async () => {
+  const { app, lease } = fixture(),
+    slow = Promise.withResolvers<PackLease>(),
+    loading: boolean[] = [];
+  app.hooks.loading = (active) => loading.push(active);
+  app.runtime = runtime((id) => (id === 'slow' ? slow.promise : Promise.resolve(lease)));
+  let released = 0;
+  const stale = app.previewAsset('slow', () => assert.fail('obsolete selection'));
+  try {
+    assert.equal(await app.previewAsset('fast', () => {}), true);
+    assert.equal(loading.at(-1), false, 'Only the current selection may block interaction');
+  } finally {
+    slow.resolve({ release: () => released++ } as unknown as PackLease);
+    await stale;
+    app.dispose();
+  }
+  assert.equal(released, 1);
+});
+test('preview callbacks cannot install released leases after shutdown', async () => {
+  for (const phase of ['warm', 'select']) {
+    const { app, lease } = fixture();
+    let releases = 0;
+    lease.release = () => releases++;
+    app.runtime = runtime(async () => lease);
+    if (phase === 'warm') app.presentation.warmPack = () => app.dispose();
+    await assert.rejects(
+      app.previewAsset('candidate', () => {
+        if (phase === 'select') app.dispose();
+      }),
+      /disposed/,
+    );
+    assert.equal(releases, 1);
+    assert.equal(app.packs.size, 0);
+  }
+});
+test('preview callback failure retains every borrowed batch until a successful successor', async () => {
+  const { app } = fixture(),
+    released: string[] = [];
+  app.runtime = runtime(
+    async (id) =>
+      ({
+        release: () => {
+          released.push(id);
+        },
+      }) as unknown as PackLease,
+  );
+  await app.previewAsset('source', () => {});
+  let borrowed: PackLease | undefined;
+  await assert.rejects(
+    app.previewAsset('partial', () => {
+      borrowed = app.packs.get('partial') as PackLease;
+      throw new Error('Renderer adopted the candidate then failed');
+    }),
+    /adopted/,
+  );
+  assert.ok(borrowed);
+  assert.equal(app.packs.has('source'), true);
+  assert.equal(app.packs.has('partial'), true);
+  assert.deepEqual(released, []);
+  await app.previewAsset('successor', () => {
+    assert.deepEqual(released, [], 'Rebuild completes before prior borrows retire');
+  });
+  assert.deepEqual(released, ['source', 'partial']);
+  app.dispose();
+  assert.deepEqual(released, ['source', 'partial', 'successor']);
+});
+
+test('a selection submitted from loading feedback supersedes the admitting preview', async () => {
+  const { app, lease } = fixture();
+  const requested: string[] = [];
+  app.runtime = runtime(async (id) => {
+    requested.push(id);
+    return lease;
+  });
+  let successor: Promise<boolean> | undefined;
+  app.hooks.loading = (active) => {
+    if (active && !successor) successor = app.previewAsset('successor', () => {});
+  };
+  assert.equal(await app.previewAsset('obsolete', () => assert.fail('obsolete selection')), false);
+  assert.equal(await successor, true);
+  assert.deepEqual(requested, ['successor']);
+  app.dispose();
 });
 test('completed session operations preserve a pause requested while loading', async () => {
   for (const operation of [
