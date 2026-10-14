@@ -9,7 +9,8 @@ import unittest
 import zipfile
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2] / "tools/assets"))
-from library_import import Package, Importer
+from library_import import Package, Importer, LoosePackage
+from library_sequences import supplied_sequences
 
 
 def package(files):
@@ -28,6 +29,164 @@ def png(w, h):
 
 
 class ImportTests(unittest.TestCase):
+    def test_loot_sequences_keep_baked_motion_fixed_pivot_contact_and_terminal_hold(self):
+        p = package(
+            {
+                f"loot/runtime/{name}.png": png(8, 8)
+                for name in ["drop0", "drop1", "idle0", "idle1", "rest"]
+            }
+        )
+        data = {
+            "canvas": [8, 8],
+            "pivot_px": [4, 7],
+            "rest": {"file": "rest.png", "persistent": True},
+            "drop": {
+                "loop": False,
+                "terminal": "Hold last sprite. Do not clear or hide the item.",
+                "events": [{"name": "first_ground_contact", "tick": 2}],
+                "frames": [
+                    {
+                        "file": "drop0.png",
+                        "duration_ticks": 2,
+                        "ground_anchor_on_canvas_px": [1, 1],
+                    },
+                    {"file": "drop1.png", "duration_ticks": 3},
+                ],
+            },
+            "idle": {
+                "loop": True,
+                "frames": [
+                    {"file": "idle0.png", "duration_ms": 40},
+                    {"file": "idle1.png", "duration_ms": 80},
+                ],
+            },
+        }
+        original = json.dumps(data, sort_keys=True)
+        normalized = supplied_sequences(p, "loot/runtime/animation.json", data)
+        asset = Importer([p]).animation(
+            p, "loot/runtime/animation.json", normalized, "loot", defaults={"pixels_per_unit": 256}
+        )
+        drop = asset["clips"]["drop"]["d45"]
+        self.assertEqual(drop["durationsMs"], [2 * 1000 / 60, 3 * 1000 / 60])
+        self.assertEqual(drop["frames"][0]["anchor"], [4, 7])
+        self.assertEqual(drop["frames"][0]["member"], "loot/runtime/drop0.png")
+        self.assertEqual(drop["endBehavior"], "hold")
+        self.assertFalse(drop["loop"])
+        self.assertEqual(drop["markers"], [{"id": "first_ground_contact", "atMs": 2 * 1000 / 60}])
+        self.assertTrue(asset["clips"]["idle"]["d45"]["loop"])
+        self.assertEqual(asset["clips"]["idle"]["d45"]["durationsMs"], [40, 80])
+        self.assertEqual(
+            asset["clips"]["rest"]["d45"]["frames"][0]["member"], "loot/runtime/rest.png"
+        )
+        self.assertEqual(json.dumps(data, sort_keys=True), original)
+
+    def test_loose_loot_atlas_exports_use_verified_sibling_identities_and_local_rectangles(self):
+        data = {
+            "canvas": [8, 8],
+            "pivot_px": [4, 7],
+            "rest": {"file": "rest.png"},
+            "drop": {
+                "loop": False,
+                "atlas": {"file": "atlas.png"},
+                "frames": [
+                    {"file": "absent/drop0.png", "atlas_rect": [8, 0, 8, 8], "duration_ticks": 3}
+                ],
+            },
+            "idle": {
+                "loop": True,
+                "atlas": {"file": "atlas.png"},
+                "frames": [{"atlas_rect": [0, 0, 8, 8], "duration_ticks": 6}],
+            },
+        }
+        records = [
+            {"path": "icons/item/" + name, "sha256": name, "kind": "source"}
+            for name in ["animation.json", "atlas.png", "rest.png"]
+        ]
+        records.append({"path": "icons/other/atlas.png", "sha256": "outside", "kind": "source"})
+        locators = {r["sha256"]: ("fixture", r["sha256"]) for r in records}
+        values = {
+            "file:fixture/animation.json": json.dumps(data).encode(),
+            "file:fixture/atlas.png": png(16, 8),
+            "file:fixture/rest.png": png(8, 8),
+        }
+
+        class Reader:
+            def read(self, ref):
+                return values[ref]
+
+        p = LoosePackage(records[0], records, locators, Reader())
+        normalized = supplied_sequences(p, records[0]["path"], p.json(records[0]["path"]))
+        asset = Importer([]).animation(
+            p, records[0]["path"], normalized, "icon", defaults={"pixels_per_unit": 256}
+        )
+        frame = asset["clips"]["drop"]["d45"]["frames"][0]
+        self.assertEqual(frame["group"], "fixture")
+        self.assertEqual(frame["member"], "atlas.png")
+        self.assertEqual(frame["rect"], [8, 0, 8, 8])
+        self.assertEqual(frame["canvas"], [8, 8])
+        self.assertEqual(frame["anchor"], [4, 7])
+        self.assertEqual(frame["trim"], [0, 0, 8, 8])
+        self.assertNotIn("icons/other/atlas.png", p.names)
+        with self.assertRaises(ValueError):
+            p.reference("../other/atlas.png", "icons/item")
+
+    def test_numbered_fire_preserves_order_holds_pivot_and_off_state_without_atlas_offsets(self):
+        for filename in ["frame_00.png", "frame-00.png", "00.png"]:
+            with self.subTest(filename=filename):
+                second = filename.replace("00", "01")
+                p = package(
+                    {
+                        "fire/frames/" + filename: png(8, 8),
+                        "fire/frames/" + second: png(8, 8),
+                        "fire/unlit.png": png(8, 8),
+                    }
+                )
+                data = {
+                    "runtime_size": [8, 8],
+                    "pivot_px": [4, 7],
+                    "loop_ticks": 15,
+                    "frames": [
+                        {"frame": 1, "rect": [8, 8, 8, 8], "hold_60hz": 9},
+                        {"frame": 0, "rect": [24, 8, 8, 8], "hold_60hz": 6},
+                    ],
+                }
+                normalized = supplied_sequences(p, "fire/metadata.json", data)
+                asset = Importer([p]).animation(
+                    p, "fire/metadata.json", normalized, "fire", defaults={"pixels_per_unit": 256}
+                )
+                clip = asset["clips"]["loop"]["d45"]
+                self.assertTrue(clip["loop"])
+                self.assertEqual(clip["durationsMs"], [150, 100])
+                self.assertEqual(clip["frames"][0]["member"], "fire/frames/" + second)
+                self.assertEqual(clip["frames"][0]["anchor"], [4, 7])
+                self.assertNotIn("rect", clip["frames"][0])
+                self.assertEqual(
+                    asset["clips"]["unlit"]["d45"]["frames"][0]["member"], "fire/unlit.png"
+                )
+                data["frames"].pop()
+                with self.assertRaisesRegex(ValueError, "timing does not cover exact"):
+                    supplied_sequences(p, "fire/metadata.json", data)
+
+    def test_numbered_fire_normalized_pivot_uses_native_frame_dimensions(self):
+        p = package({"frames/frame_00.png": png(16, 16), "frames/frame_01.png": png(16, 16)})
+        data = {
+            "frame_size": [16, 16],
+            "pivot_normalized": [0.5, 0.875],
+            "composite_order": ["illumination", "rear", "front"],
+            "frames": [{"index": 0, "hold_ticks": 7}, {"index": 1, "hold_ticks": 7}],
+        }
+        asset = Importer([p]).animation(
+            p,
+            "metadata.json",
+            supplied_sequences(p, "metadata.json", data),
+            "native-fire",
+            defaults={"pixels_per_unit": 256},
+        )
+        clip = asset["clips"]["loop"]["d45"]
+        self.assertEqual(clip["frames"][0]["anchor"], [8, 14])
+        self.assertTrue(clip["loop"])
+        self.assertEqual(clip["durationsMs"], [7 * 1000 / 60] * 2)
+
     def test_package_rejects_duplicate_members_and_unsafe_source_paths(self):
         stream = io.BytesIO()
         with zipfile.ZipFile(stream, "w") as archive:

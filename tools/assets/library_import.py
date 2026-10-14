@@ -12,6 +12,7 @@ import struct
 import zipfile
 from contextlib import ExitStack
 from resolver import PROJECT, SourceResolver, load_index, safe_relative
+from library_sequences import supplied_sequences
 
 HEADINGS = {"DR": "d90", "DL": "d00", "UL": "d270", "UR": "d180"}
 
@@ -131,6 +132,44 @@ class Package:
             peer, member = candidates[0]
             return {"group": peer.spec["group"], "member": member, **fields}
         return {"group": self.spec["group"], "member": member, **fields}
+
+
+class LoosePackage(Package):
+    """Resolve sibling exports through verified file identities, without packing them."""
+
+    def __init__(self, metadata, records, locators, resolver):
+        self.spec = {"archive": metadata["path"], "group": "library-discovered"}
+        parent = pathlib.PurePosixPath(metadata["path"]).parent
+        self.references = {
+            r["path"]: locators[r["sha256"]]
+            for r in records
+            if r["kind"] != "archive"
+            and r["sha256"] in locators
+            and pathlib.PurePosixPath(r["path"]).is_relative_to(parent)
+        }
+        self.names = set(self.references)
+        self.cache = {}
+        self.resolver = resolver
+
+    def reference(self, name, base="", **fields):
+        group, member = self.references[self.locate(name, base)]
+        return {"group": group, "member": member, **fields}
+
+    def json(self, name):
+        if name not in self.cache:
+            group, member = self.references[name]
+            self.cache[name] = json.loads(self.resolver.read("file:" + group + "/" + member))
+        return self.cache[name]
+
+    def dimensions(self, member):
+        groups = {group for group, name in self.references.values() if name == member}
+        if len(groups) != 1:
+            raise ValueError("Ambiguous loose frame identity: " + member)
+        group = groups.pop()
+        b = self.resolver.read("file:" + group + "/" + member)[:24]
+        if b[:8] != b"\x89PNG\r\n\x1a\n":
+            raise ValueError("Expected native PNG: " + member)
+        return list(struct.unpack(">II", b[16:24]))
 
 
 class Importer:
@@ -1311,6 +1350,13 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                         continue
                     if not isinstance(data, dict):
                         continue
+                    try:
+                        data = supplied_sequences(package, member, data)
+                    except (ValueError, KeyError, TypeError, IndexError) as error:
+                        unresolved_animations.append({
+                            'archive': archive_identity['pathHint'], 'metadata': member,
+                            'reason': str(error)})
+                        continue
                     if not animation_contract(data):
                         continue
                     clips = data.get("clips")
@@ -1376,6 +1422,59 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                         if conflicts:
                             raise ValueError("Conflicting discovered animation identities: " + ", ".join(sorted(conflicts)))
                         importer.assets.update(trial.assets)
+            locators = {
+                info["sha256"]: (group, member)
+                for group, records in sorted(index["files"].items())
+                for member, info in records.items()
+            }
+            locators.update(
+                {
+                    info["sha256"]: ("library-discovered", member)
+                    for member, info in index["files"].get("library-discovered", {}).items()
+                }
+            )
+            for record in inventory["files"]:
+                if record["kind"] != "source" or not record["path"].endswith(".json"):
+                    continue
+                package = LoosePackage(record, inventory["files"], locators, resolver)
+                member = record["path"]
+                try:
+                    original = package.json(member)
+                    data = supplied_sequences(package, member, original)
+                except (ValueError, UnicodeDecodeError) as error:
+                    unresolved_animations.append(
+                        {"archive": member, "metadata": member, "reason": str(error)}
+                    )
+                    continue
+                if data is original or not isinstance(data, dict) or not animation_contract(data):
+                    continue
+                trial = Importer([])
+                try:
+                    trial.animation(
+                        package,
+                        member,
+                        data,
+                        "animation-loose-" + record["sha256"][:24],
+                        label=data.get("label", member),
+                        defaults={"pixels_per_unit": 256},
+                    )
+                    for a in trial.assets.values():
+                        for directions in a["clips"].values():
+                            for clip in directions.values():
+                                for frame in clip["frames"]:
+                                    if any(
+                                        n < 0 or n > frame["canvas"][i]
+                                        for i, n in enumerate(frame["anchor"])
+                                    ):
+                                        raise ValueError(
+                                            "supplied registration requires an adapter"
+                                        )
+                except (ValueError, KeyError, TypeError, IndexError, AttributeError) as error:
+                    unresolved_animations.append(
+                        {"archive": member, "metadata": member, "reason": str(error)}
+                    )
+                else:
+                    importer.assets.update(trial.assets)
         used = {
             f["group"]
             for a in importer.assets.values()
