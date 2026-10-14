@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { test, expect, openEditor } from './fixtures';
 
 // Failure happens after the workspace, renderer and authoring tools have mounted.
 // A failed startup must close their observers just like leaving a ready editor.
@@ -37,4 +37,91 @@ test('failed editor startup closes the complete mounted session', async ({ page,
   await expect(page.locator('#command-dialog')).not.toBeVisible();
   await page.evaluate(() => window.sceneEditor.dispose());
   expect(errors).toEqual([]);
+});
+
+test('editor shutdown drains renderer and runtime ownership after a renderer exception', async ({
+  page,
+}) => {
+  await openEditor(page);
+  const result = await page.evaluate(async () => {
+    const moduleURL = '/src/editor/playtest.ts';
+    const { DraftPlaytest } = (await import(
+      moduleURL
+    )) as typeof import('../../src/editor/playtest');
+    const playtest = new DraftPlaytest({
+      document: () => window.sceneEditor.state().document,
+      compose: () => {
+        throw new Error('unused composition');
+      },
+      catalog: () => ({}),
+      status: () => {},
+    });
+    let overlayCalls = 0,
+      appCalls = 0;
+    Object.assign(playtest, {
+      overlay: {
+        dispose: () => {
+          overlayCalls++;
+          throw new Error('injected overlay shutdown');
+        },
+      },
+      app: {
+        dispose: () => {
+          appCalls++;
+        },
+      },
+    });
+    let previewError = '';
+    try {
+      playtest.dispose();
+    } catch (failure) {
+      previewError = String(failure);
+    }
+    playtest.dispose();
+    const previewRemoved = !Reflect.get(playtest, 'dialog').isConnected;
+    const editor = window.sceneEditor,
+      view = editor.view(),
+      runtime = view.runtime;
+    const presentation = view.presentation!;
+    const original = presentation.dispose.bind(presentation);
+    let calls = 0;
+    presentation.dispose = () => {
+      calls++;
+      original();
+      throw new Error('injected renderer shutdown');
+    };
+    let error = '';
+    try {
+      editor.dispose();
+    } catch (failure) {
+      error = String(failure);
+    }
+    editor.dispose();
+    let closed = false;
+    try {
+      runtime.seedManifest('unused', {});
+    } catch {
+      closed = true;
+    }
+    return {
+      error,
+      closed,
+      resources: runtime.resourceCount,
+      ready: editor.ready(),
+      calls,
+      previewError,
+      previewRemoved,
+      overlayCalls,
+      appCalls,
+    };
+  });
+  expect(result.previewError).toContain('injected overlay shutdown');
+  expect(result.previewRemoved).toBe(true);
+  expect(result.overlayCalls).toBe(1);
+  expect(result.appCalls).toBe(1);
+  expect(result.error).toContain('injected renderer shutdown');
+  expect(result.closed).toBe(true);
+  expect(result.resources).toBe(0);
+  expect(result.ready).toBe(false);
+  expect(result.calls).toBe(1);
 });

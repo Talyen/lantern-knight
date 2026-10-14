@@ -120,3 +120,48 @@ test('browser profiles retain old namespaces, reset obsolete data and surface un
   });
   await assert.rejects(game.loadGame(), /storage unavailable/);
 });
+
+test('desktop reads participate in admission order and failures do not poison later operations', async (t) => {
+  const directory = await temporaryDirectory(t, 'lantern-store-order-');
+  const store = new Store(directory, fixtureContent);
+  const save = new GameSession(fixtureContent).captureSave();
+  await store.save('game', save);
+  const opened = Promise.withResolvers<void>(),
+    resume = Promise.withResolvers<void>();
+  const originalOpen = fs.open,
+    originalMkdir = fs.mkdir;
+  const admitted: string[] = [];
+  t.mock.method(fs, 'open', async (...args: Parameters<typeof fs.open>) => {
+    if (args[1] === 'r') {
+      admitted.push('read');
+      opened.resolve();
+      await resume.promise;
+    }
+    return originalOpen(...args);
+  });
+  t.mock.method(fs, 'mkdir', (...args: Parameters<typeof fs.mkdir>) => {
+    admitted.push('write');
+    return originalMkdir(...args);
+  });
+  const reading = store.load('game');
+  await opened.promise;
+  const writing = store.save('game', { ...save, wins: 7 });
+  try {
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.deepEqual(admitted, ['read'], 'A later write must wait for the admitted read');
+  } finally {
+    resume.resolve();
+  }
+  const result = await reading;
+  await writing;
+  assert.equal(result.status, 'ok');
+  if (result.status === 'ok') assert.equal(result.data.wins, 0);
+  assert.deepEqual(admitted, ['read', 'write']);
+  t.mock.restoreAll();
+  await fs.rm(directory, { recursive: true });
+  await fs.writeFile(directory, 'blocked directory');
+  await assert.rejects(store.load('game'));
+  await fs.rm(directory);
+  await store.save('game', save);
+  assert.equal((await store.load('game')).status, 'ok');
+});

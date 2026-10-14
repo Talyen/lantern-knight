@@ -77,6 +77,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private readonly abort = new AbortController();
   private readonly sessionOperations = new SessionOperations();
   private last = 0;
+  private frameEpoch = 0;
   private frames: FrameScheduler | undefined;
   private disposed = false;
   private startup?: Promise<void>;
@@ -130,7 +131,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.loading = new LoadingScopes(
       () => {
         this.audio.setWorldFrozen(true);
-        this.clock.reset();
+        this.resetFrameClock();
         this.input?.clear();
         this.hooks.loading?.(true);
       },
@@ -188,6 +189,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.resetFrameClock();
   };
   private resetFrameClock = () => {
+    this.frameEpoch++;
     this.clock.reset();
     this.last = performance.now();
   };
@@ -440,9 +442,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.audio.setWorldFrozen(value || this.loading.busy);
     if (changed)
       void this.audio.play(value ? 'ui-confirm' : 'ui-cancel', { world: false }).catch(() => {});
-    this.clock.reset();
+    this.resetFrameClock();
     this.input?.clear();
-    this.last = performance.now();
     this.hooks.pause(value);
   }
   safe(fn: () => Promise<unknown>) {
@@ -628,27 +629,33 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     if (!this.readOnly && this.roomReady)
       this.safe(() => this.persistence.save(this.current.session.captureSave()));
   }
+  private get frameFrozen() {
+    const idle =
+      this.frames?.idle ?? (!this.bridge.automatedRun && (document.hidden || !document.hasFocus()));
+    return this.paused || !this.roomReady || this.busy || this.loading.busy || idle;
+  }
   private loop = (now: number) => {
     if (this.disposed) return;
     const ms = Math.max(0, now - this.last);
     this.last = now;
     let alpha = 1;
     let aim = this.aim;
-    const idle =
-        this.frames?.idle ??
-        (!this.bridge.automatedRun && (document.hidden || !document.hasFocus())),
-      frozen = this.paused || !this.roomReady || this.busy || this.loading.busy || idle;
-    this.audioFeedback.frame(this.sim, frozen || !this.simulationEnabled);
-    if (!frozen && this.simulationEnabled)
+    const epoch = this.frameEpoch;
+    // Every external callback may revoke this frame, even if it immediately
+    // resumes play. A reset starts a new clock admission on the next frame.
+    const admitted = () =>
+      !this.disposed && epoch === this.frameEpoch && !this.frameFrozen && this.simulationEnabled;
+    this.audioFeedback.frame(this.sim, this.frameFrozen || !this.simulationEnabled);
+    if (admitted())
       alpha = this.clock.advance(ms, () => {
-        const sim = this.current.session.sim;
+        if (!admitted()) return false;
+        const session = this.current.session,
+          sim = session.sim;
         this.beforeStep(sim);
-        if (this.disposed || this.busy || !this.roomReady || sim !== this.current.session.sim)
-          return false;
+        if (!admitted() || session !== this.current.session) return false;
         const cmd =
           this.command?.(sim) ?? this.input.consume(sim.hero, sim.areaDefinition, sim.generation);
-        if (this.disposed || this.busy || !this.roomReady || sim !== this.current.session.sim)
-          return false;
+        if (!admitted() || session !== this.current.session) return false;
         if ('reset' in cmd) {
           this.safe(() => this.reset(cmd.reset));
           return false;
@@ -657,6 +664,9 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         this.aim = aim;
         const result = this.current.session.step(cmd);
         this.publish(result.events);
+        // Feedback can close the application or start a different room intent.
+        // Do not capture, reset or transition a successor on behalf of this tick.
+        if (this.disposed || session !== this.current.session || !this.roomReady) return false;
         if (
           result.events.some(
             (e) =>
@@ -667,6 +677,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
           )
         )
           this.autosave();
+        if (!admitted()) return false;
         if (result.reset) {
           this.safe(() => this.reset(result.reset));
           return false;
@@ -677,9 +688,14 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         }
         return true;
       });
-    if (this.roomReady) this.presentation.update(this.sim, alpha, frozen ? 0 : ms, aim);
+    if (this.disposed) return;
+    if (this.roomReady) {
+      const frozen = this.frameFrozen || epoch !== this.frameEpoch;
+      this.presentation.update(this.sim, frozen ? 1 : alpha, frozen ? 0 : ms, aim);
+    }
+    if (this.disposed) return;
     this.hooks.frame();
-    this.afterFrame(ms);
+    if (!this.disposed) this.afterFrame(ms);
   };
   dispose() {
     if (this.disposed) return;

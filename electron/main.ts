@@ -145,7 +145,7 @@ app
           !['game', 'sandbox', 'effects', 'editor'].includes(next)
         )
           throw new Error('invalid development launch');
-        await store.queue;
+        await store.drain();
         mode = next;
         store = storeFor(mode);
         await window.loadURL(pageURL(entry()));

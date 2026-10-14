@@ -1479,3 +1479,64 @@ test('preview edits require an accepted developer room across loading, failure a
   assert.throws(() => app.editPreview(edit), /disposed/);
   assert.equal(edits, 2, 'Rejected edits must never run their callbacks');
 });
+
+test('frame admission is revoked by hooks and disposal before gameplay or further callbacks', () => {
+  for (const [boundary, steps] of [
+    ['step', 0],
+    ['resume', 0],
+    ['command', 0],
+    ['feedback', 1],
+    ['pause-feedback', 1],
+    ['render', 6],
+    ['frame', 6],
+  ] as const) {
+    const { app } = fixture();
+    Object.assign(app.bridge, { automatedRun: true });
+    let renders = 0,
+      frames = 0,
+      after = 0,
+      renderMs = -1,
+      renderAlpha = -1;
+    app.hooks.frame = () => {
+      frames++;
+      if (boundary === 'frame') app.dispose();
+    };
+    app.afterFrame = () => {
+      after++;
+    };
+    app.presentation.update = (_sim, alpha, ms) => {
+      renders++;
+      renderAlpha = alpha;
+      renderMs = ms;
+      if (boundary === 'render') app.dispose();
+    };
+    app.command = () => {
+      if (boundary === 'command') app.setSimulationEnabled(false);
+      return { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 }, dodge: true };
+    };
+    if (boundary === 'step') app.beforeStep = () => app.pause(true);
+    if (boundary === 'resume')
+      app.beforeStep = () => {
+        app.pause(true);
+        app.pause(false);
+      };
+    if (boundary === 'feedback') app.events.subscribe(() => app.dispose());
+    if (boundary === 'pause-feedback') app.events.subscribe(() => app.pause(true));
+    const tick = app.sim.tick;
+    const frame = Reflect.get(app, 'loop') as (now: number) => void;
+    frame(performance.now() + 100);
+    assert.equal(app.sim.tick, tick + steps, boundary);
+    assert.equal(renders, boundary === 'feedback' ? 0 : 1, boundary);
+    assert.equal(frames, boundary === 'feedback' || boundary === 'render' ? 0 : 1, boundary);
+    assert.equal(after, boundary === 'frame' ? 0 : frames, boundary);
+    if (boundary === 'step' || boundary === 'resume' || boundary === 'pause-feedback') {
+      assert.equal(renderMs, 0, boundary);
+      assert.equal(
+        renderAlpha,
+        1,
+        'Revoked frames show the committed position without interpolation',
+      );
+    }
+    app.dispose();
+  }
+});

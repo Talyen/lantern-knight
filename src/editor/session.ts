@@ -1,3 +1,4 @@
+import { cleanupAll, CleanupFailure } from '../assets/cleanup';
 import { EditorGestures, type GestureLease } from './gestures';
 import { lightingRigs } from '../presentation/lighting-profiles';
 import { cameraContract } from '../assets/camera-contract';
@@ -1322,23 +1323,27 @@ export function createEditorSession() {
     if (closed) return;
     closed = true;
     ready = false;
-    gestures.dispose();
-    lifetime.abort();
-    workspace.dispose();
-    confirmation.dispose();
-    frames?.dispose();
-    cancelAnimationFrame(resizeFrame);
-    observer.disconnect();
-    groundObserver.disconnect();
-    images.dispose();
-    resizeObserver.disconnect();
-    playtest?.dispose();
-    composition?.dispose();
-    sceneLibrary?.dispose();
-    visualAuthoring?.dispose();
-    groundAuthoring?.dispose();
-    view?.dispose();
-    runtime?.dispose();
+    // Revoke session admission first, then attempt the entire dependency graph.
+    // A tool or renderer failure must not strand observers or borrowed assets.
+    cleanupAll([
+      () => lifetime.abort(),
+      () => gestures.dispose(),
+      () => frames?.dispose(),
+      () => cancelAnimationFrame(resizeFrame),
+      () => observer.disconnect(),
+      () => groundObserver.disconnect(),
+      () => resizeObserver.disconnect(),
+      () => workspace.dispose(),
+      () => confirmation.dispose(),
+      () => images.dispose(),
+      () => playtest?.dispose(),
+      () => composition?.dispose(),
+      () => sceneLibrary?.dispose(),
+      () => visualAuthoring?.dispose(),
+      () => groundAuthoring?.dispose(),
+      () => view?.dispose(),
+      () => runtime?.dispose(),
+    ]);
   }
   window.addEventListener('pagehide', dispose, { signal: lifetime.signal });
 
@@ -1507,7 +1512,17 @@ export function createEditorSession() {
   void start().catch((error) => {
     if (!closed) {
       status('Editor startup failed: ' + editorError(error), true);
-      dispose();
+      try {
+        dispose();
+      } catch (cleanup) {
+        // The startup rejection is already visible in status. Preserve both
+        // failures without creating an unobserved rejection from this handler.
+        console.error(
+          new CleanupFailure([error, cleanup], 'Editor startup and cleanup failed', {
+            cause: error,
+          }),
+        );
+      }
     }
   });
   return window.sceneEditor;

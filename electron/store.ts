@@ -10,7 +10,7 @@ import {
   type StoredValues,
 } from '../src/platform/storage-codec';
 export class Store {
-  queue: Promise<void> = Promise.resolve();
+  private queue: Promise<void> = Promise.resolve();
   private readonly codec: StorageCodec;
   constructor(
     public directory: string,
@@ -18,8 +18,21 @@ export class Store {
   ) {
     this.codec = new StorageCodec(registry);
   }
-  async load<S extends Slot>(slot: S): Promise<LoadResult<StoredValues[S]>> {
-    await this.queue;
+  private enqueue<T>(operation: () => Promise<T>): Promise<T> {
+    const result = this.queue.then(operation);
+    this.queue = result.then(
+      () => {},
+      () => {},
+    );
+    return result;
+  }
+  drain() {
+    return this.queue;
+  }
+  load<S extends Slot>(slot: S): Promise<LoadResult<StoredValues[S]>> {
+    return this.enqueue(() => this.read(slot));
+  }
+  private async read<S extends Slot>(slot: S): Promise<LoadResult<StoredValues[S]>> {
     let handle;
     try {
       handle = await fs.open(path.join(this.directory, slot + '.json'), 'r');
@@ -55,8 +68,6 @@ export class Store {
         await fs.rm(temporary, { force: true });
       }
     };
-    const result = this.queue.then(write);
-    this.queue = result.catch(() => {});
-    return result;
+    return this.enqueue(write);
   }
 }

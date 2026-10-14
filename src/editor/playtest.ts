@@ -1,3 +1,4 @@
+import { cleanupAll, cleanupAfterFailure } from '../assets/cleanup';
 import { NavigationOverlay } from '../presentation/navigation-overlay';
 import { walkablePoint } from '../presentation/camera';
 import { editorError } from './errors';
@@ -142,16 +143,13 @@ export class DraftPlaytest {
     this.dialog.addEventListener('close', () => this.close());
   }
   async start(snapshot = this.host.document(), movement = false) {
+    if (this.closed || this.busy) return;
     this.movement = movement;
     this.dialog.querySelector<HTMLElement>('#movement-controls')!.hidden = !movement;
-    if (this.closed || this.busy) return;
     this.busy = true;
-    this.overlay?.dispose();
-    this.overlay = undefined;
-    this.app?.dispose();
-    this.app = undefined;
     const request = ++this.request;
     try {
+      this.releasePreview();
       this.snapshot = parseSceneDocument(snapshot);
       let { registry, scenes } = this.host.compose(this.snapshot);
       if (movement && registry.area(registry.definitions.initialArea).spawns.length < 3) {
@@ -256,22 +254,32 @@ export class DraftPlaytest {
       app.pause(false);
       this.canvas.focus();
     } catch (error) {
-      if (request === this.request) this.close();
-      throw error;
+      cleanupAfterFailure(error, () => {
+        if (request === this.request) this.close();
+      });
     } finally {
       this.busy = false;
     }
   }
+  private releasePreview() {
+    const overlay = this.overlay,
+      app = this.app;
+    // Consume capabilities before external destruction can fail or re-enter.
+    this.overlay = undefined;
+    this.app = undefined;
+    cleanupAll([() => overlay?.dispose(), () => app?.dispose()]);
+  }
   close() {
     ++this.request;
-    this.overlay?.dispose();
-    this.overlay = undefined;
-    this.app?.dispose();
-    this.app = undefined;
-    if (this.dialog.open) {
-      this.dialog.close();
-      document.getElementById('viewport')?.focus();
-    }
+    cleanupAll([
+      () => this.releasePreview(),
+      () => {
+        if (this.dialog.open) {
+          this.dialog.close();
+          document.getElementById('viewport')?.focus();
+        }
+      },
+    ]);
   }
   state() {
     return this.app
@@ -291,10 +299,9 @@ export class DraftPlaytest {
       : undefined;
   }
   dispose() {
+    if (this.closed) return;
     this.closed = true;
-    this.lifetime.abort();
-    this.close();
     this.snapshot = undefined;
-    this.dialog.remove();
+    cleanupAll([() => this.lifetime.abort(), () => this.close(), () => this.dialog.remove()]);
   }
 }
