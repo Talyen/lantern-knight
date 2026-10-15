@@ -5,7 +5,6 @@ import { workspaceEnvironment } from './assets/workspace';
 import { acquireCommandLane } from './command-lane';
 import { runProcess } from './run-process';
 import { projectRoot } from './assets/paths';
-import { openPreview } from './preview-session';
 // Explicit diagnostics stay opt-in; every other suite must belong to a CI tier.
 export function ciDevelopmentFiles(files: readonly string[], authoring: boolean) {
   return files
@@ -24,14 +23,14 @@ export function browserSelection(args: string[]) {
   const built = args.includes('--built');
   const forwarded = args.filter((arg) => arg !== '--built');
   const selections = forwarded.filter((arg) => !arg.startsWith('--'));
-  if (built && (!selections.length || selections.some((arg) => !/^game(\.spec\.ts)?$/.test(arg))))
+  const gameOnly =
+    selections.length > 0 &&
+    selections.every((arg) => /^(?:tests\/browser\/)?game(?:-[a-z-]+)?(?:\.spec\.ts)?$/.test(arg));
+  if (built && !gameOnly)
     throw new Error(
       'Built browser tests require the Game scenario; scene/editor/effects use development previews',
     );
-  const scope =
-    selections.length && selections.every((arg) => /^game(\.spec\.ts)?$/.test(arg))
-      ? 'runtime'
-      : 'authoring';
+  const scope = gameOnly ? 'runtime' : 'authoring';
   return { built, forwarded, scope } as const;
 }
 async function browserTests(args: string[]) {
@@ -49,8 +48,22 @@ async function browserTests(args: string[]) {
   } else if (args.includes('--authoring')) throw new Error('Use --authoring with --ci-development');
   const mode = process.env.CI === 'true' ? 'pinned' : 'local';
   const { built, forwarded, scope } = browserSelection(args);
+  // Discovery does not execute fixtures, render, or consume prepared artwork.
+  if (forwarded.includes('--list')) {
+    await runProcess(
+      process.execPath,
+      ['--import', 'tsx', 'node_modules/@playwright/test/cli.js', 'test', ...forwarded],
+      {
+        cwd: projectRoot,
+        env: { ...process.env, LANTERN_TEST_TARGET: 'browser', LANTERN_TEST_BUILT: String(built) },
+        timeoutMs: 60_000,
+      },
+    );
+    return;
+  }
   const lane = await acquireCommandLane({ command: 'test:browser' });
   try {
+    const { openPreview } = await import('./preview-session');
     const session = await openPreview({
       output: built ? 'built' : 'development',
       assets: mode,

@@ -29,6 +29,8 @@ export function sourceFixture(): Source {
       },
       contractId: 'lantern-camera-v2',
       bakeVersion: 2,
+      // Exercise the real encoder without compressing mostly empty production-size pages.
+      atlasSize: 512,
       canvas: [384, 432],
       density: 192,
       anchor: [192, 348],
