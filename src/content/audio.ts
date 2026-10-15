@@ -49,7 +49,7 @@ const areas: Readonly<Record<string, AreaAudio>> = {
   'forest-gathering-clearing': { surface: 'dirt', ambience: [] },
 };
 export function areaAudio(id: string): AreaAudio {
-  return areas[id] ?? { surface: 'stone', ambience: [] };
+  return Object.hasOwn(areas, id) ? areas[id]! : { surface: 'stone', ambience: [] };
 }
 export function cueCooldown(cue: AudioCue) {
   return cue === 'ui-deny'

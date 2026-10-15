@@ -53,14 +53,16 @@ export class EditorDocument {
     this.signal.throwIfAborted();
     if (this.pending) throw new Error('Scene update in progress');
     this.pending = true;
+    let applying = false;
     try {
       const candidate = prepare().fork();
       this.validate(candidate.document);
+      applying = true;
       await this.apply(candidate.document);
       this.signal.throwIfAborted();
       this.accept(candidate);
     } catch (error) {
-      if (!this.signal.aborted) {
+      if (applying && !this.signal.aborted) {
         try {
           await this.apply(this.current.document);
         } catch (rollback) {

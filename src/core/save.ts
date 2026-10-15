@@ -66,7 +66,7 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
     )
       throw new Error('Unknown campfire');
   }
-  if (!save.areas[save.area]) throw new Error('missing current area state');
+  if (!Object.hasOwn(save.areas, save.area)) throw new Error('missing current area state');
   for (const [areaId, state] of Object.entries(save.areas))
     save.areas[areaId] = parseAreaState(state, registry, areaId);
 

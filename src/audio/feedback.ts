@@ -58,9 +58,11 @@ export class AudioFeedback {
         break;
       case 'pickup':
         play(
-          event.pickup === 'gold' || sim.areaDefinition.pickups?.some((p) => p.id === event.pickup)
+          event.pickup === 'gold'
             ? 'coin'
-            : 'pickup',
+            : sim.areaDefinition.pickups?.some((p) => p.id === event.pickup)
+              ? 'heal'
+              : 'pickup',
         );
         break;
       case 'object-claimed': {

@@ -21,10 +21,12 @@ export class PickupPlan {
     const navigation = new Navigation(sim.areaDefinition);
     const candidates = [
       drop,
-      ...Array.from({ length: 16 }, (_, i) => ({
-        x: drop.x + Math.cos((i * Math.PI) / 8) * 1.15,
-        z: drop.z + Math.sin((i * Math.PI) / 8) * 1.15,
-      })),
+      ...[0.5, 1.15, 1.5].flatMap((radius) =>
+        Array.from({ length: 16 }, (_, i) => ({
+          x: drop.x + Math.cos((i * Math.PI) / 8) * radius,
+          z: drop.z + Math.sin((i * Math.PI) / 8) * radius,
+        })),
+      ),
     ].sort(
       (a, b) =>
         Math.hypot(a.x - sim.hero.x, a.z - sim.hero.z) -

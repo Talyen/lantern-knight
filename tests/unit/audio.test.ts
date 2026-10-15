@@ -784,3 +784,59 @@ test('disposal before queued initialization prevents audio allocation', async ()
   assert.equal(f.requests, 0);
   assert.equal(f.reports.length, 0);
 });
+
+test('unknown prototype-named areas use quiet fallback audio without breaking frames', () => {
+  const s = new GameSession(content);
+  const feedback = new AudioFeedback({
+    setListener() {},
+    setWorldFrozen() {},
+    setAmbience: async () => {},
+    play: async () => {},
+  } as unknown as AudioPlayback);
+  feedback.frame({ ...s.sim.view, area: 'constructor' }, false);
+});
+
+test('collecting a world health reward plays healing feedback', () => {
+  const s = new GameSession(content),
+    calls: string[] = [];
+  const feedback = new AudioFeedback({
+    play: async (cue: string) => {
+      calls.push(cue);
+    },
+  } as unknown as AudioPlayback);
+  const view = {
+    ...s.sim.view,
+    areaDefinition: {
+      ...s.sim.areaDefinition,
+      pickups: [
+        {
+          id: 'healing',
+          object: 'bottle',
+          kind: 'health' as const,
+          x: 0,
+          z: 0,
+          amount: 20,
+          radius: 1,
+        },
+      ],
+    },
+  };
+  feedback.event(
+    {
+      key: 'health',
+      kind: 'pickup',
+      tick: 1,
+      generation: s.generation,
+      actor: s.sim.hero.id,
+      action: 0,
+      area: s.sim.area,
+      position: [0, 0, 0],
+      direction: 0,
+      pickup: 'healing',
+      amount: 20,
+    },
+    view,
+    new AbortController().signal,
+  );
+  assert.deepEqual(calls, ['heal']);
+});
