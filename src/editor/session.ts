@@ -52,7 +52,7 @@ import { EditorHistory, sceneItems } from './model';
 import { EditorDocument } from './document';
 import { EditorProject, EditorConflict } from './project';
 import { EditorView } from './view';
-import { PreviewImages } from './preview-images';
+import { PreviewImages, type PreviewPlayback } from './preview-images';
 
 declare global {
   interface Window {
@@ -693,15 +693,20 @@ export function createEditorSession() {
     });
   $('grid').onchange = () => view?.setGrid($<HTMLInputElement>('grid').checked);
   const images = new PreviewImages();
-  async function thumbnail(entry: (typeof palette)[number], target: HTMLCanvasElement) {
+  async function thumbnail(
+    entry: (typeof palette)[number],
+    target: HTMLCanvasElement,
+    playback?: PreviewPlayback,
+  ) {
     const m = entry.manifest,
       f = m.frames.find((f) => f.id === Object.values(m.asset.clips[entry.clip]!)[0]!.frames[0])!;
-    await drawFrame(entry, f, target);
+    await drawFrame(entry, f, target, playback);
   }
   async function drawFrame(
     entry: (typeof palette)[number],
     f: Manifest['frames'][number],
     target: HTMLCanvasElement,
+    playback?: PreviewPlayback,
   ) {
     const m = entry.manifest,
       page = m.pages.find((p) => p.id === f.page)!,
@@ -709,7 +714,7 @@ export function createEditorSession() {
       src = preview
         ? '/' + preview.path
         : '/' + assetCatalog[entry.asset]!.replace(/manifest\.json$/, page.path);
-    await images.draw(target, src, (image) => {
+    const paint = (image: HTMLImageElement) => {
       const ctx = target.getContext('2d')!,
         [x, y, w, h] = f.rect,
         ratio = Math.min(target.width / w, target.height / h);
@@ -725,7 +730,8 @@ export function createEditorSession() {
         w * ratio,
         h * ratio,
       );
-    });
+    };
+    await (playback ? playback.draw(src, paint) : images.draw(target, src, paint));
   }
   const observer = new IntersectionObserver(
     (entries) => {
@@ -884,11 +890,24 @@ export function createEditorSession() {
     $('favorite-asset').textContent = favorites.has(chosen.asset) ? 'Unfavorite' : 'Favorite';
     showPalette();
   };
+  let previewPlayback: PreviewPlayback | undefined;
+  $('art-preview').addEventListener(
+    'close',
+    () => {
+      if ($<HTMLDialogElement>('art-preview').open) return;
+      previewPlayback?.dispose();
+      previewPlayback = undefined;
+      previewEntry = undefined;
+    },
+    { signal: lifetime.signal },
+  );
   let previewEntry: (typeof palette)[number] | undefined,
     previewPlaying = true,
     previewTime = 0;
   $('preview-asset').onclick = () => {
     if (!chosen) return;
+    previewPlayback?.dispose();
+    previewPlayback = images.playback($<HTMLCanvasElement>('art-preview-canvas'));
     previewEntry = chosen;
     previewTime = 0;
     $('art-preview-label').textContent = chosen.manifest.asset.label ?? chosen.asset;
@@ -902,7 +921,7 @@ export function createEditorSession() {
       ).toFixed(2) +
       ' units.';
     $<HTMLDialogElement>('art-preview').showModal();
-    launch(thumbnail(chosen, $<HTMLCanvasElement>('art-preview-canvas')));
+    launch(thumbnail(chosen, $<HTMLCanvasElement>('art-preview-canvas'), previewPlayback));
   };
   $('preview-play').onclick = () => {
     previewPlaying = !previewPlaying;
@@ -1313,7 +1332,12 @@ export function createEditorSession() {
     composition?.positionHandles();
     visualAuthoring?.draw();
     groundAuthoring?.draw();
-    if (previewEntry && previewPlaying && $<HTMLDialogElement>('art-preview').open) {
+    if (
+      previewEntry &&
+      previewPlayback &&
+      previewPlaying &&
+      $<HTMLDialogElement>('art-preview').open
+    ) {
       previewTime += ms;
       const clip = Object.values(previewEntry.manifest.asset.clips[previewEntry.clip]!)[0]!;
       const total = clip.durationsMs.reduce((a, b) => a + b, 0);
@@ -1324,7 +1348,15 @@ export function createEditorSession() {
         index++;
       }
       const frame = previewEntry.manifest.frames.find((f) => f.id === clip.frames[index]);
-      if (frame) launch(drawFrame(previewEntry, frame, $<HTMLCanvasElement>('art-preview-canvas')));
+      if (frame)
+        launch(
+          drawFrame(
+            previewEntry,
+            frame,
+            $<HTMLCanvasElement>('art-preview-canvas'),
+            previewPlayback,
+          ),
+        );
     }
   }
   function dispose() {
