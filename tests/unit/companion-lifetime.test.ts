@@ -8,6 +8,63 @@ import { mockGlobals } from '../fixtures/globals';
 
 const hash = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad';
 
+test('failed normal batches retire staging and admit recovery while a native decode remains pending', async (t) => {
+  const decoding = Promise.withResolvers<void>(),
+    late = Promise.withResolvers<ImageBitmap>(),
+    closed: string[] = [];
+  const bitmap = (id: string) =>
+    ({ width: 2, height: 3, close: () => closed.push(id) }) as ImageBitmap;
+  let decodes = 0;
+  mockGlobals(t, {
+    createImageBitmap: async () => {
+      if (++decodes === 2) {
+        decoding.resolve();
+        return late.promise;
+      }
+      return bitmap(String(decodes));
+    },
+  });
+  const library = new NormalLibrary(async (url) => {
+    const file = url instanceof Request ? url.url : url.toString();
+    if (file.endsWith('manifest.json'))
+      return Response.json({
+        recipe: 'alpha-volume-v1',
+        entries: Object.fromEntries(
+          ['current', 'late', 'missing', 'recovery'].map((id) => [
+            id + ':pose',
+            { file: id + '.png', hash, width: 2, height: 3 },
+          ]),
+        ),
+      });
+    if (file.endsWith('missing.png')) {
+      await decoding.promise;
+      return new Response('', { status: 503 });
+    }
+    return new Response('abc');
+  });
+  t.after(() => {
+    library.dispose();
+    late.resolve(bitmap('late'));
+  });
+  await library.load(['current']);
+  const current = library.textures.get('current:pose');
+  let failed = false;
+  const failure = assert.rejects(library.load(['late', 'missing']), /HTTP 503/).then(() => {
+    failed = true;
+  });
+  await decoding.promise;
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.equal(failed, true, 'One failed companion must retire its unfinished peers');
+  await failure;
+  assert.equal(library.textures.get('current:pose'), current);
+  await library.load(['recovery']);
+  const recovery = library.textures.get('recovery:pose');
+  late.resolve(bitmap('late'));
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.equal(library.textures.get('recovery:pose'), recovery);
+  assert.deepEqual(closed, ['1', 'late']);
+});
+
 test('cancelled normal selections release staging and unblock recovery before native decode settles', async (t) => {
   const decoding = Promise.withResolvers<void>(),
     late = Promise.withResolvers<ImageBitmap>(),

@@ -1,4 +1,4 @@
-import { cleanupAll, cleanupAfterFailure } from './cleanup';
+import { CleanupFailure, cleanupAll, cleanupAfterFailure } from './cleanup';
 type Entry<T> = {
   lifetime: AbortController;
   refs: number;
@@ -88,7 +88,6 @@ export class ResourcePool<T> {
     ids: string[],
     signal?: AbortSignal,
     onProgress?: (done: number, total: number) => void,
-    cancelOnFailure = true,
   ) {
     this.assertActive();
     if (signal?.aborted) throw new Error('load cancelled');
@@ -116,6 +115,7 @@ export class ResourcePool<T> {
     };
     signal?.addEventListener('abort', cancel, { once: true });
     let done = 0;
+    let failure: { error: unknown } | undefined;
     try {
       const settling = Promise.allSettled(
         leases.map(async ([id, lease]) => {
@@ -126,7 +126,21 @@ export class ResourcePool<T> {
             onProgress?.(++done, leases.length);
             return [id, value] as const;
           } catch (error) {
-            if (cancelOnFailure) cleanupAfterFailure(error, release);
+            // The first failure owns cancellation. Peers may reject because
+            // releasing their last claim aborts them; preserve the cause that
+            // actually made this batch fail, regardless of identity order.
+            if (!failure) {
+              failure = { error };
+              try {
+                release();
+              } catch (cleanup) {
+                failure.error = new CleanupFailure(
+                  [error, cleanup],
+                  'Operation and resource cleanup failed',
+                  { cause: error },
+                );
+              }
+            }
             throw error;
           }
         }),
@@ -137,6 +151,7 @@ export class ResourcePool<T> {
       const results = await settling;
       this.assertActive();
       if (signal?.aborted) throw new Error('load cancelled');
+      if (failure) throw failure.error;
       const resources = new Map<string, T>();
       for (const result of results) {
         if (result.status === 'rejected') throw result.reason;

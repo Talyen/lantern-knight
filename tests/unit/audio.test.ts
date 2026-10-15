@@ -356,13 +356,15 @@ test(
       const manifest = (f.playback as unknown as { manifest: AudioManifest }).manifest;
       manifest.samples.push(sample('late-1', 'sword'));
       let resolve!: (response: Response) => void;
+      const requested = Promise.withResolvers<void>();
       f.pending = () =>
         new Promise<Response>((done) => {
           resolve = done;
+          requested.resolve();
         });
       const controller = new AbortController();
       const pending = f.playback.play('sword', { signal: controller.signal });
-      await Promise.resolve();
+      await requested.promise;
       if (action === 'replace') f.playback.replaceSession();
       if (action === 'expire') f.now = 1;
       if (action === 'mute') f.playback.updateSettings({ ...defaultAudioSettings, muted: true });
@@ -389,12 +391,14 @@ test('stale ambience loads cannot start and a failed destination retains outgoin
   ]);
   await ready(f);
   let resolve!: (response: Response) => void;
+  const requested = Promise.withResolvers<void>();
   f.pending = () =>
     new Promise<Response>((done) => {
       resolve = done;
+      requested.resolve();
     });
   const stale = f.playback.setAmbience(['forest']);
-  await Promise.resolve();
+  await requested.promise;
   await f.playback.setAmbience([]);
   resolve(new Response(bytes));
   await stale;
@@ -765,6 +769,65 @@ test('audio claims cancel independently and the last cancellation permits recove
   );
   recovered.release();
   buffers.dispose();
+});
+
+test('audio admission bounds transport and native decodes across queued cancellation and retry', async () => {
+  const payloads = Array.from({ length: 10 }, (_, i) => new Uint8Array([i])),
+    samples = payloads.map((payload, i) => {
+      const hash = createHash('sha256').update(payload).digest('hex');
+      return { ...sample('burst-' + i), hash, path: `audio/${hash}.wav`, bytes: 1 };
+    }),
+    native = Promise.withResolvers<void>(),
+    started = Promise.withResolvers<void>(),
+    signals: AbortSignal[] = [];
+  let decodes = 0;
+  const buffers = new AudioBuffers(
+    async (url, options) => {
+      signals.push(options!.signal!);
+      const file = url instanceof Request ? url.url : url.toString();
+      const index = samples.findIndex((s) => '/' + s.path === file);
+      return new Response(payloads[index]!);
+    },
+    async () => {
+      decodes++;
+      if (decodes === 2) started.resolve();
+      await native.promise;
+      return { length: 20, numberOfChannels: 1 } as AudioBuffer;
+    },
+    () => 0,
+  );
+  const controllers = samples.map(() => new AbortController()),
+    claims = samples.map((sample, i) => buffers.acquire(sample, controllers[i]!.signal)),
+    shared = buffers.acquire(samples[1]!),
+    settling = Promise.allSettled([...claims, shared]);
+  let retry: ReturnType<AudioBuffers['acquire']> | undefined;
+  try {
+    await started.promise;
+    assert.equal(signals.length, 2, 'Voice limits must also bound work before voice construction');
+    assert.equal(decodes, 2);
+    controllers[2]!.abort();
+    await assert.rejects(claims[2]!, /abort/i);
+    controllers[0]!.abort();
+    await assert.rejects(claims[0]!, /abort/i);
+    retry = buffers.acquire(samples[0]!);
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(signals.length, 2, 'Cancelled native decodes retain their admission slots');
+    assert.equal(signals[0]!.aborted, true);
+    controllers[1]!.abort();
+    await assert.rejects(claims[1]!, /abort/i);
+    assert.equal(signals[1]!.aborted, false, 'A shared borrower keeps its acquisition alive');
+    native.resolve();
+    const results = await settling;
+    const recovered = await retry;
+    assert.equal(signals.length, 10, 'A cancelled queued sample never reaches transport');
+    for (const result of results) if (result.status === 'fulfilled') result.value.release();
+    recovered.release();
+  } finally {
+    buffers.dispose();
+    native.resolve();
+    await settling;
+    await retry?.catch(() => {});
+  }
 });
 
 test('voice cancellation releases its listener as well as its decoded lease', async () => {
