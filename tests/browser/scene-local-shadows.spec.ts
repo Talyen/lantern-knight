@@ -172,6 +172,23 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
       litTotal += litProp[i]! + litProp[i + 1]! + litProp[i + 2]!;
       shadowedTotal += shadowedProp[i]! + shadowedProp[i + 1]! + shadowedProp[i + 2]!;
     }
+    sprite.mesh.visible = false;
+    ground.visible = true;
+    const flat = capture(-1, false),
+      paintedPixels = new Uint8Array(32 * 32 * 4);
+    for (let i = 0; i < paintedPixels.length; i += 4) paintedPixels.set([128, 0, 255, 255], i);
+    const paintedMask = new T.DataTexture(paintedPixels, 32, 32);
+    paintedMask.needsUpdate = true;
+    lighting.setGroundOcclusion(
+      { texture: paintedMask, range: new T.Vector2(0, 4) },
+      { width: 10, depth: 10 },
+    );
+    const painted = capture(-1, false);
+    paintedPixels.fill(0, (16 * 32 + 16) * 4, (16 * 32 + 17) * 4);
+    paintedMask.needsUpdate = true;
+    const pinhole = capture(-1, false),
+      paintedResponse = differences(flat, painted).count + differences(painted, flat).count,
+      pinholeChanges = differences(painted, pinhole).count + differences(pinhole, painted).count;
     const maps = local.bytes();
     local.reset();
     const cleared = local.bytes();
@@ -192,6 +209,8 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
       cleared,
       active,
       casters: proxies.proxies.children.length,
+      paintedResponse,
+      pinholeChanges,
       error: renderer.getContext().getError(),
     };
     proxies.reset();
@@ -204,6 +223,7 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
     groundMaterial.dispose();
     texture.dispose();
     groundTexture.dispose();
+    paintedMask.dispose();
     target.dispose();
     renderer.dispose();
     return result;
@@ -220,4 +240,6 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
   expect(proof.maps).toBeGreaterThan(0);
   expect(proof.cleared).toBe(0);
   expect(proof.active).toBe(false);
+  expect(proof.paintedResponse).toBeGreaterThan(20);
+  expect(proof.pinholeChanges).toBe(0);
 });

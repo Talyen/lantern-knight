@@ -20,8 +20,11 @@ import {
 } from './lighting-profiles';
 const localShadowShader = `
 ${Array.from({ length: 5 }, (_, i) => `uniform samplerCubeShadow inkLocalShadowMap${i};`).join('\n')}
-float inkLocalVisibility(int i,vec3 receiver){
+float inkLocalVisibility(int i,vec3 receiver,vec3 normal){
  if(inkLocalShadowEnabled[i]<.5)return 1.0;
+ // Offset toward the light-facing side of thin surfaces. A depth-only bias
+ // leaves grazing painted leaves comparing against their own raster texels.
+ receiver+=normal*(dot(inkLightPosition[i]-receiver,normal)<0.0?-.035:.035);
  vec3 delta=receiver-inkLightPosition[i];
  float d=max(max(abs(delta.x),abs(delta.y)),abs(delta.z)),near=.05,far=inkLocalShadowFar[i];
  if(d<=near||d>=far)return 1.0;
@@ -48,8 +51,18 @@ uniform sampler2D inkPaintedMask;uniform vec2 inkPaintedSize,inkPaintedRange;uni
 vec4 inkPaintedSample(){
  if(inkIsGround<.5||inkHasPaintedMask<.5)return vec4(0.0);
  vec2 uv=vec2(dot(inkWorld,vec3(${right.x},${right.y},${right.z}))/inkPaintedSize.x+.5,.5-dot(inkWorld,vec3(${up.x},${up.y},${up.z}))/inkPaintedSize.y);
+ vec2 stepUV=max(1.0/vec2(textureSize(inkPaintedMask,0)),fwidth(uv)*.5);
  if(any(lessThan(uv,vec2(0.0)))||any(greaterThan(uv,vec2(1.0))))return vec4(0.0);
- return texture2D(inkPaintedMask,uv);
+ vec4 center=texture2D(inkPaintedMask,uv);
+ if(center.b>.1)return center;
+ // Native contour holes smaller than a screen pixel must not alternate
+ // ground and upright illumination inside a painted leaf or stone.
+ float covered=0.0;vec4 nearest=center;
+ for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){
+  vec4 candidate=texture2D(inkPaintedMask,uv+vec2(float(x),float(y))*stepUV);
+  if(candidate.b>.9){covered+=1.0;if(candidate.r*256.0+candidate.g>nearest.r*256.0+nearest.g)nearest=candidate;}
+ }
+ return covered>=5.0?nearest:center;
 }
 vec3 inkReceiverPoint(vec4 painted){
  if(painted.b<.1)return inkShadowWorld;
@@ -94,7 +107,7 @@ vec3 inkIlluminate(vec3 base){
  float key=max(0.0,dot(n,inkDirection))*inkVisibility(receiver);illumination+=inkKey*(.16+key*.84)*inkKeyStrength;
  // Broad silhouettes supply stylized relief; texture luminance is never treated as height.
  vec3 local=vec3(0.0);
- for(int i=0;i<5;i++){vec3 delta=inkLightPosition[i]-receiver;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.35+.65*max(0.0,dot(n,normalize(delta+vec3(.0001)))))*inkLocalVisibility(i,receiver);}
+ for(int i=0;i<5;i++){vec3 delta=inkLightPosition[i]-receiver;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.35+.65*max(0.0,dot(n,normalize(delta+vec3(.0001)))))*inkLocalVisibility(i,receiver,n);}
  illumination*=inkShade();
  float value=dot(base,vec3(.2126,.7152,.0722)),inkProtection=smoothstep(.006,.13,value);
  vec3 response=max(vec3(.08),mix(vec3(1.0),clamp(illumination+local,vec3(inkMinimumLight),vec3(2.5)),inkStrength));
@@ -202,7 +215,7 @@ export class IllustratedLighting {
           'LOCAL_SHADOW_FUNCTION',
           this.localShadowMaps[0]!.value
             ? localShadowShader
-            : 'float inkLocalVisibility(int i,vec3 receiver){return 1.0;}',
+            : 'float inkLocalVisibility(int i,vec3 receiver,vec3 normal){return 1.0;}',
         ) + program.fragmentShader;
       program.fragmentShader = program.fragmentShader.replace(
         '#include <opaque_fragment>',
