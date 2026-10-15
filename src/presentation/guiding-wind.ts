@@ -4,7 +4,7 @@ import { resolveClip } from '../assets/schema';
 import { frameAt, clipDuration } from '../core/animation';
 import { Navigation, effectiveRadius, clearSegment } from '../core/navigation';
 import type { SimulationView } from '../core/simulation-view';
-import { heightAt, type Point } from '../content/world';
+import { heightAt, spawnActorId, type Point } from '../content/world';
 import {
   guidingWindAssets,
   guidingWindTiming as timing,
@@ -16,6 +16,32 @@ import { ActorSprite, setCutoutOpacity } from './sprite';
 export function windDestination(sim: SimulationView): Point | undefined {
   if (sim.hero.health <= 0 || sim.inCombat) return;
   if (sim.area === 'abandoned-orchard') {
+    const press = sim.areaDefinition.interactables?.find((o) => o.id === 'guarded-chest');
+    const departure = sim.areaDefinition.exits.find((e) => e.id === 'depart')?.marker;
+    if (press) {
+      // Accepted world state owns progress, including reload and campfire resets.
+      // These are suggestions: walking past the camp never sends the player back.
+      if (sim.claimedObjects.has(press.id))
+        return sim.drops.find((d) => d.source === press.id) ?? departure;
+      const camp = sim.areaDefinition.interactables?.find((o) => o.id === 'southern-cache');
+      const firstHome = sim.areaDefinition.spawns.find((s) => s.id === 'first');
+      const distance = (p: Point) => Math.hypot(p.x - sim.hero.x, p.z - sim.hero.z);
+      if (
+        camp &&
+        distance(camp) < 7 &&
+        distance(camp) < distance(press) &&
+        (!firstHome || distance(camp) < distance(firstHome))
+      ) {
+        if (!sim.claimedObjects.has(camp.id)) return camp;
+        const drop = sim.drops.find((d) => d.source === camp.id);
+        if (drop) return drop;
+      }
+      const first = sim.enemies.find(
+        (a) => a.id === spawnActorId(sim.area, 'first') && a.health > 0,
+      );
+      if (first && distance(first) < distance(press)) return first;
+      return press;
+    }
     const supplies = sim.areaDefinition.interactables
       ?.filter((o) => o.kind === 'breakable' && !sim.claimedObjects.has(o.id))
       .sort(
@@ -25,7 +51,7 @@ export function windDestination(sim: SimulationView): Point | undefined {
       )[0];
     if (supplies && Math.hypot(supplies.x - sim.hero.x, supplies.z - sim.hero.z) < 5)
       return supplies;
-    return sim.areaDefinition.exits.find((e) => e.id === 'depart')?.marker;
+    return departure;
   }
   if (sim.area === 'forest-gathering-clearing') {
     const chest = sim.areaDefinition.interactables?.find((o) => o.kind === 'container');

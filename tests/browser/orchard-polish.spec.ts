@@ -41,7 +41,9 @@ test('clicking a distant label routes to one stack and preserves its siblings on
     { chest, key },
   );
   await loadCheckpoint(page);
-  await expect(page.locator('.ground-loot-label')).toHaveCount(3);
+  const rewardCount = chest.rewards.length;
+  expect(rewardCount).toBeGreaterThan(1);
+  await expect(page.locator('.ground-loot-label')).toHaveCount(rewardCount);
   if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY)
     await page.screenshot({
       path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'ground-item-labels.png'),
@@ -51,17 +53,17 @@ test('clicking a distant label routes to one stack and preserves its siblings on
     0,
     { timeout: 20_000 },
   );
-  await expect(page.locator('.ground-loot-label')).toHaveCount(2);
+  await expect(page.locator('.ground-loot-label')).toHaveCount(rewardCount - 1);
   await page.locator('#pause').click();
   await page.locator('#save').click();
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
   const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), key);
   expect(saved.adventure.inventory['orchard-ring']).toBe(1);
-  expect(saved.areas[saved.area].drops).toHaveLength(2);
+  expect(saved.areas[saved.area].drops).toHaveLength(rewardCount - 1);
   await loadCheckpoint(page);
-  await expect(page.locator('.ground-loot-label')).toHaveCount(2);
+  await expect(page.locator('.ground-loot-label')).toHaveCount(rewardCount - 1);
   await page.keyboard.press('e');
-  await expect(page.locator('.ground-loot-label')).toHaveCount(1);
+  await expect(page.locator('.ground-loot-label')).toHaveCount(rewardCount - 2);
 });
 
 test('requested supplied-artwork comparison captures', async ({ page }) => {

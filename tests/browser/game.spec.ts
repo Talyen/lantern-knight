@@ -9,6 +9,7 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
   );
+  await expect(page.locator('#loading-screen')).not.toBeVisible();
   expect(await page.evaluate(() => 'foundation' in window)).toBe(false);
   await expect(page.locator('#opening-hint, .actions, .controls-hint, #objective')).toHaveCount(0);
   if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY) {
@@ -167,6 +168,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
         a.health = 0;
       save.areas[save.area].cleared = true;
       save.adventure.inventory['damaged-axe'] = 1;
+      save.adventure.inventory['health-potion'] = 1;
       localStorage.setItem(key, JSON.stringify(save));
     },
     { key, chest: { x: chest.x, z: chest.z } },

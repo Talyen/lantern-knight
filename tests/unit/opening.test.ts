@@ -321,6 +321,59 @@ test('environmental guidance suggests nearby supplies and the path, yields durin
   assert.equal(windDestination(s.view), undefined);
 });
 
+test('orchard wind follows discoveries, allows bypasses and preserves progress across respawns', () => {
+  const defs = registry().definitions;
+  const r = new ContentRegistry({
+    ...defs,
+    areas: defs.areas.map((a) => ({
+      ...a,
+      spawns: [{ id: 'first', actor: 'skeleton', x: 1, z: -2, awareness: { radius: 2, leash: 4 } }],
+      interactables: [
+        { ...a.interactables![0]!, id: 'southern-cache', kind: 'container' as const, x: 0, z: 2 },
+        { ...a.interactables![0]!, id: 'guarded-chest', kind: 'container' as const, x: 0, z: -6 },
+      ],
+    })),
+  });
+  const s = new Simulation(r);
+  const destination = () => windDestination(s.view);
+  assert.equal(destination()?.z, 2);
+  s.claimedObjects.add('southern-cache');
+  s.drops.push({
+    id: 'camp-reward',
+    source: 'southern-cache',
+    enemy: false,
+    x: 0,
+    z: 2,
+    rewards: [{ item: 'travellers-charm', amount: 1 }],
+  });
+  assert.equal(destination()?.z, 2, 'opening the satchel still guides to its reward');
+  s.drops.length = 0;
+  assert.equal(destination()?.z, -2);
+  s.enemies[0]!.health = 0;
+  assert.equal(destination()?.z, -6);
+  s.claimedObjects.add('guarded-chest');
+  s.drops.push({
+    id: 'press-reward',
+    source: 'guarded-chest',
+    enemy: false,
+    x: 0,
+    z: -6,
+    rewards: [{ item: 'orchard-ring', amount: 1 }],
+  });
+  assert.equal(destination()?.z, -6);
+  s.drops.length = 0;
+  s.enemies[0]!.health = 50;
+  assert.equal(destination()?.x, 5, 'respawning enemies do not rewind the completed route');
+
+  const bypass = new Simulation(r);
+  bypass.hero.z = -0.5;
+  assert.equal(windDestination(bypass.view)?.z, -2, 'the first encounter leads onward past camp');
+  bypass.enemies[0]!.health = 0;
+  assert.equal(windDestination(bypass.view)?.z, -6, 'an unclaimed satchel does not rewind combat');
+  bypass.hero.z = -5;
+  assert.equal(windDestination(bypass.view)?.z, -6, 'passing the camp does not guide backward');
+});
+
 test('clearing wind suggests the ruins, their dropped reward, then the resting fire', () => {
   const defs = registry().definitions;
   const r = new ContentRegistry({

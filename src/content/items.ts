@@ -25,6 +25,12 @@ export const items: Readonly<Record<string, ItemDefinition>> = {
   'health-potion': { name: 'Health Potion', kind: 'potion' },
   'damaged-axe': { name: 'Damaged Axe', kind: 'salvage', salvage: { iron: 2 } },
   'damaged-helmet': { name: 'Damaged Helmet', kind: 'salvage', salvage: { iron: 1, bone: 1 } },
+  'travellers-charm': {
+    name: 'Traveller’s Charm',
+    kind: 'gear',
+    slots: ['trinket'],
+    maxHealth: 5,
+  },
   'orchard-ring': { name: 'Orchard Ring', kind: 'gear', slots: ['ring1', 'ring2'], maxHealth: 10 },
   'cloth-armor': { name: 'Cloth Armor', kind: 'gear', slots: ['body'] },
   'leather-armor': { name: 'Leather Armor', kind: 'gear', slots: ['body'] },

@@ -458,7 +458,7 @@ export class SceneLightingRenderer {
       heroSprite && heroLanternPosition(heroSprite, lights.inkLightPosition.value[0]!);
     lights.inkLightPower.value[0] = hasLantern ? 1.8 : 0;
     lights.inkLightRange.value.fill(4.8);
-    lights.inkLightRange.value[0] = 10.5;
+    lights.inkLightRange.value[0] = 6.8;
     for (const [i, l] of this.effects.lights(fx).slice(0, SCENE_LIGHT_CAPACITY).entries()) {
       lights.inkLightPosition.value[i + 1]!.copy(l.position);
       lights.inkLightPower.value[i + 1] = l.power;
