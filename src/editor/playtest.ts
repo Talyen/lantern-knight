@@ -257,9 +257,10 @@ export class DraftPlaytest {
       app.pause(false);
       this.canvas.focus();
     } catch (error) {
-      cleanupAfterFailure(error, () => {
-        if (request === this.request) this.close();
-      });
+      // Closing retires the request and disposes its Application. Its rejected
+      // boot is expected cancellation, not feedback for the editor or a new run.
+      if (request !== this.request) return;
+      cleanupAfterFailure(error, () => this.close());
     } finally {
       this.busy = false;
     }

@@ -125,3 +125,50 @@ test('editor shutdown drains renderer and runtime ownership after a renderer exc
   expect(result.ready).toBe(false);
   expect(result.calls).toBe(1);
 });
+
+test('closing a stalled playtest releases startup admission without late error feedback', async ({
+  page,
+}) => {
+  await openEditor(page);
+  await page.evaluate(async () => {
+    const moduleURL = '/src/assets/loader.ts';
+    const { AssetRuntime } = (await import(moduleURL)) as typeof import('../../src/assets/loader');
+    const original = AssetRuntime.open.bind(AssetRuntime);
+    const pending: ReturnType<typeof Promise.withResolvers<InstanceType<typeof AssetRuntime>>>[] =
+      [];
+    AssetRuntime.open = () => {
+      const opening = Promise.withResolvers<InstanceType<typeof AssetRuntime>>();
+      pending.push(opening);
+      return opening.promise;
+    };
+    Object.assign(window, {
+      playtestOpeningCount: () => pending.length,
+      restorePlaytestOpening: () => {
+        AssetRuntime.open = original;
+        for (const opening of pending) opening.reject(new Error('late cancelled catalog'));
+      },
+    });
+  });
+  try {
+    for (let count = 1; count <= 2; count++) {
+      await page.locator('#play-from-here').click();
+      await expect
+        .poll(() =>
+          page.evaluate(() =>
+            (window as unknown as { playtestOpeningCount: () => number }).playtestOpeningCount(),
+          ),
+        )
+        .toBe(count);
+      await expect(page.locator('#playtest-dialog')).toBeVisible();
+      await page.locator('#playtest-return').click();
+      await expect(page.locator('#playtest-dialog')).not.toBeVisible();
+      expect(await page.evaluate(() => window.sceneEditor.playtest())).toBeUndefined();
+      await expect(page.locator('#validation-errors')).toHaveText('');
+    }
+  } finally {
+    await page.evaluate(() =>
+      (window as unknown as { restorePlaytestOpening: () => void }).restorePlaytestOpening(),
+    );
+  }
+  await expect(page.locator('#validation-errors')).toHaveText('');
+});
