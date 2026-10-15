@@ -244,6 +244,8 @@ test('editor multi-selection, inspector, palette grouping and editor-only visibi
   await page.mouse.move(box!.x + box!.width - 5, box!.y + box!.height - 5);
   await page.mouse.up();
   await expect(page.locator('#selected-name')).toContainText('2 objects selected');
+  for (const id of ['clip', 'heading'])
+    await expect(page.locator('#' + id).locator('..')).toBeHidden();
 });
 
 test('visual authoring, independent fragments, pattern undo and import', async ({
@@ -458,6 +460,16 @@ test('editor workspace keeps populated attachment controls accessible at desktop
   expect(child).toBeTruthy();
   await page.locator('#objects-tab').click();
   await page.getByRole('button', { name: child!, exact: true }).click();
+  const before = await readEditorDocument(
+    page,
+    (document) => document.objects.find((p) => p.mount)!.mount!,
+  );
+  await page.locator('[data-section="object-Attachments"] > summary').click();
+  await page.getByRole('combobox', { name: 'Attachment socket', exact: true }).selectOption('');
+  await expectEditorDocument(
+    page,
+    (document) => document.objects.find((p) => p.mount)!.mount,
+  ).toEqual({ to: before.to, offset: before.offset });
   for (const width of [1440, 900]) {
     await page.setViewportSize({ width, height: 900 });
     await expect(page.locator('#object-panel')).toBeVisible();

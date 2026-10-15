@@ -1,3 +1,4 @@
+import { html } from '../dom';
 import type { EditorGestures, GestureLease } from './gestures';
 import * as T from 'three';
 import { heightAt } from '../content/world';
@@ -416,40 +417,24 @@ export class CompositionTools {
           .includes(filter)
       )
         continue;
-      const row = document.createElement('div');
-      row.className = 'object-row';
-      row.setAttribute('role', 'listitem');
-      row.style.paddingLeft = depth(p.id) * 12 + 'px';
-      const thumbnail = document.createElement('canvas');
-      thumbnail.width = 56;
-      thumbnail.height = 48;
-      thumbnail.setAttribute('aria-hidden', 'true');
-      const select = document.createElement('button');
-      select.className = 'object-select';
-      select.textContent =
+      const thumbnail = html<HTMLCanvasElement>`<canvas width="56" height="48" aria-hidden="true" data-asset="${p.asset}" data-clip="${p.clip}"></canvas>`;
+      const name =
         documents.get(p.id)?.label ??
         (p.id.startsWith('object-') ? p.clip.replaceAll('_', ' ') + ' · ' + p.id.slice(-4) : p.id);
-      select.title = p.asset + '/' + p.clip;
-      select.classList.toggle('active', this.selection.has(p.id));
+      const select = html<HTMLButtonElement>`<button class="object-select${this.selection.has(p.id) ? ' active' : ''}" title="${p.asset}/${p.clip}">${name}</button>`;
       select.onclick = (e) => this.set(p.id, e.shiftKey);
-      const focus = document.createElement('button');
-      focus.textContent = '⌖';
-      focus.className = 'object-action';
-      focus.setAttribute('aria-label', 'Focus ' + p.id);
+      const focus = html<HTMLButtonElement>`<button class="object-action" aria-label="Focus ${p.id}">⌖</button>`;
       focus.onclick = () => {
         this.set(p.id);
         this.focus();
       };
-      row.append(thumbnail, select, focus);
+      const row = html`<div class="object-row" role="listitem" style="padding-left: ${depth(p.id) * 12}px">${thumbnail}${select}${focus}</div>`;
       for (const [label, set] of [
         ['Hide', this.hidden],
         ['Lock', this.locked],
       ] as const) {
-        const button = document.createElement('button');
-        button.textContent = set.has(p.id) ? (label === 'Hide' ? 'Show' : 'Unlock') : label;
-        button.className = 'object-action';
-        button.classList.toggle('active', set.has(p.id));
-        button.setAttribute('aria-label', button.textContent + ' ' + p.id);
+        const action = set.has(p.id) ? (label === 'Hide' ? 'Show' : 'Unlock') : label;
+        const button = html<HTMLButtonElement>`<button class="object-action${set.has(p.id) ? ' active' : ''}" aria-label="${action} ${p.id}">${action}</button>`;
         button.onclick = () => {
           if (set.has(p.id)) set.delete(p.id);
           else set.add(p.id);
@@ -459,18 +444,12 @@ export class CompositionTools {
         row.append(button);
       }
       list.append(row);
-      thumbnail.dataset.asset = p.asset;
-      thumbnail.dataset.clip = p.clip;
       this.thumbnails.observe(thumbnail);
     }
-    if (!list.children.length) {
-      const empty = document.createElement('p');
-      empty.className = 'empty-state';
-      empty.textContent = filter
-        ? 'No objects match this search.'
-        : 'Place artwork to start composing.';
-      list.append(empty);
-    }
+    if (!list.children.length)
+      list.append(
+        html`<p class="empty-state">${filter ? 'No objects match this search.' : 'Place artwork to start composing.'}</p>`,
+      );
     const hidden = new Set(this.host.history().descendants([...this.hidden]));
     this.host.view()?.setEditingVisibility(hidden);
     this.host.view()?.selectMany([...this.selection].filter((id) => !hidden.has(id)));

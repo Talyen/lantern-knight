@@ -1,3 +1,4 @@
+import { html } from '../dom';
 import { overlayLine, clearOverlay } from '../presentation/overlay-lines';
 import type { EditorSnapshot } from './document';
 import { sceneBytesLimit } from '../content/scene-document';
@@ -167,10 +168,7 @@ export class SceneLibrary {
     const url = URL.createObjectURL(
       new Blob([JSON.stringify(value, null, 2) + '\n'], { type: 'application/json' }),
     );
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = name;
-    link.click();
+    html<HTMLAnchorElement>`<a href="${url}" download="${name}"></a>`.click();
     URL.revokeObjectURL(url);
   }
   remember() {
@@ -220,18 +218,11 @@ export class SceneLibrary {
         return (ai < 0 ? 999 : ai) - (bi < 0 ? 999 : bi) || a.name.localeCompare(b.name);
       })) {
         if (!`${scene.name} ${scene.id}`.toLowerCase().includes(search)) continue;
-        const b = document.createElement('button');
-        b.className = 'scene-card';
-        b.textContent = `${scene.name} · ${scene.target === 'live' ? 'In game' : 'Saved scene'}${scene.error ? ' · Invalid file' : ''}`;
+        const b = html<HTMLButtonElement>`<button class="scene-card">${scene.name} · ${scene.target === 'live' ? 'In game' : 'Saved scene'}${scene.error ? ' · Invalid file' : ''}</button>`;
         b.disabled = !!scene.error;
         try {
           const src = localStorage.getItem('lantern-editor-scene-thumbnail:' + scene.id);
-          if (src) {
-            const img = document.createElement('img');
-            img.src = src;
-            img.alt = '';
-            b.prepend(img);
-          }
+          if (src) b.prepend(html`<img src="${src}" alt="">`);
         } catch {
           /* Disposable preview. */
         }
@@ -249,8 +240,7 @@ export class SceneLibrary {
     const recoveries = $('library-recovery');
     recoveries.replaceChildren();
     for (const recovery of this.host.recoveries()) {
-      const b = document.createElement('button');
-      b.textContent = recovery.name + ' · ' + recovery.time;
+      const b = html<HTMLButtonElement>`<button>${recovery.name} · ${recovery.time}</button>`;
       b.onclick = () => {
         this.dialog.close();
         this.host.restore(recovery.key);
@@ -270,16 +260,14 @@ export class SceneLibrary {
       fragment?: unknown;
       error?: string;
     }[]) {
-      const b = document.createElement('button');
       if (item.error) {
-        b.textContent = item.id + ' · Unavailable arrangement';
-        b.title = item.error;
-        b.disabled = true;
-        list.append(b);
+        list.append(
+          html`<button title="${item.error}" disabled>${item.id} · Unavailable arrangement</button>`,
+        );
         continue;
       }
       const fragment = parseSceneFragment(item.fragment);
-      b.textContent = fragment.name + ' · ' + fragment.objects.length + ' objects';
+      const b = html<HTMLButtonElement>`<button>${fragment.name} · ${fragment.objects.length} objects</button>`;
       b.onclick = () => {
         this.dialog.close();
         let inserted: string[] = [];

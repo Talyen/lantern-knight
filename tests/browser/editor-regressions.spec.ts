@@ -1,5 +1,5 @@
-import { changeField } from './editor-driver';
-import { expectPageValue, test, expect } from './fixtures';
+import { changeField, importEditorScene, expectEditorDocument } from './editor-driver';
+import { expectPageValue, test, expect, openEditor } from './fixtures';
 import type { Page } from '@playwright/test';
 import type { GroundAuthoring } from '../../src/editor/ground-authoring';
 import type { SceneDocument } from '../../src/content/scene-document';
@@ -208,4 +208,93 @@ test('ground regions with maximum-length names can be duplicated', async ({ page
   );
   expect(name).toHaveLength(80);
   expect(name.endsWith(' copy')).toBe(true);
+});
+
+test('native templates preserve text, attributes and live controls without parsing authored markup', async ({
+  page,
+}) => {
+  await openEditor(page);
+  expect(
+    await page.evaluate(async () => {
+      const moduleURL = '/src/dom.ts';
+      const { html } = (await import(moduleURL)) as typeof import('../../src/dom');
+      const name = '<img src=x onerror="throw 1"> & "quoted"';
+      const button = html<HTMLButtonElement>`<button>${name}</button>`;
+      let clicks = 0;
+      button.onclick = () => clicks++;
+      const node = html`<section title="${name}">${[button, html`<span>${name}</span>`]}${false}${undefined}</section>`;
+      button.click();
+      return {
+        title: node.title,
+        text: node.textContent,
+        images: node.querySelectorAll('img').length,
+        same: node.firstChild === button,
+        clicks,
+      };
+    }),
+  ).toEqual({
+    title: '<img src=x onerror="throw 1"> & "quoted"',
+    text: '<img src=x onerror="throw 1"> & "quoted"'.repeat(2),
+    images: 0,
+    same: true,
+    clicks: 1,
+  });
+});
+
+test('authoring controls preserve draw order, elevated focus and collision footprints', async ({
+  page,
+}) => {
+  await openEditor(page);
+  const moduleURL = '/src/editor/default-scene.ts';
+  const scene = await page.evaluate(async (url) => {
+    const { emptyScene } = await import(url);
+    const d = emptyScene();
+    d.objects = ['supplies', 'other'].map((id, i) => ({
+      id,
+      kind: 'prop',
+      asset: 'ink-scenery',
+      clip: 'lantern',
+      x: i * 3,
+      z: 1,
+    }));
+    d.objects[0] = {
+      ...d.objects[0],
+      x: 3,
+      z: 3,
+      y: 3,
+      footprint: [4, 1],
+      footprintAngle: Math.PI / 2,
+    };
+    d.geometry = {
+      bounds: d.camera.bounds,
+      surface: { kind: 'flat', height: 5 },
+      baselineEntry: 'start',
+      entries: [{ id: 'start', x: 0, z: 0 }],
+    };
+    d.propOrder = ['supplies'];
+    return d;
+  }, moduleURL);
+  await importEditorScene(page, scene);
+  await expectEditorDocument(page, (d) => d.objects.length).toBe(2);
+  await page.locator('#scene-tab').click();
+  await page.locator('[data-section="category-Advanced"] > summary').click();
+  await page.locator('[data-section="propOrder"] > summary').click();
+  await page.getByRole('button', { name: 'Add Draw order', exact: true }).click();
+  await expectEditorDocument(page, (d) => d.propOrder).toEqual(['supplies', 'other']);
+  await page.locator('#objects-tab').click();
+  await page.getByRole('button', { name: 'Focus supplies', exact: true }).click();
+  expect(await page.evaluate(() => window.sceneEditor.view().presentation!.center.y)).toBe(9.8);
+  await page.locator('#view-menu > summary').click();
+  await page.locator('[data-overlay="collision"]').check();
+  const extent = await page.evaluate(() => {
+    const overlay = window.sceneEditor.view().presentation!.overlay;
+    const line = overlay.children
+      .flatMap((group) => group.children)
+      .find((child) => child.type === 'Line') as import('three').Line;
+    const points = line.geometry.getAttribute('position');
+    const xs = Array.from({ length: points.count }, (_, i) => points.getX(i));
+    const zs = Array.from({ length: points.count }, (_, i) => points.getZ(i));
+    return [Math.max(...xs) - Math.min(...xs), Math.max(...zs) - Math.min(...zs)];
+  });
+  expect(extent).toEqual([1, 4]);
 });

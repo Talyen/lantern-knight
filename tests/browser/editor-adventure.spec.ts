@@ -58,8 +58,14 @@ test('gameplay inspector moves linked artwork and creates valid container and gu
   await page.locator('[data-section="gameplay.pickups"] > summary').click();
   await page.locator('[data-section="gameplay.pickups.0"] > summary').click();
   const x = page.locator('[data-field="gameplay.pickups.0.x"]');
+  await expect(page.locator('[data-field="gameplay.pickups.0.z"]')).toHaveValue('1');
   await changeField(x, '3');
   await expectEditorDocument(page, (document) => document.objects[0]!.x).toBe(3);
+  expect(
+    await page.evaluate(() => window.sceneEditor.view().sim!.areaDefinition.pickups![0]!.x),
+  ).toBe(3);
+  await page.locator('#undo').click();
+  await expectEditorDocument(page, (document) => document.objects[0]!.x).toBe(1);
   await page.locator('[data-section="gameplay.interactables"] > summary').click();
   await page.getByRole('button', { name: 'Add Interactables', exact: true }).click();
   await expectEditorDocument(page, (document) => document.gameplay!.interactables?.length).toBe(1);
@@ -75,6 +81,13 @@ test('gameplay inspector moves linked artwork and creates valid container and gu
     page,
     (document) => document.gameplay!.interactables![0]!,
   );
+  await changeField(page.locator('[data-field="gameplay.interactables.0.x"]'), '3');
+  await expectEditorDocument(page, (document) => document.objects[0]!.x).toBe(3);
+  expect(
+    await page.evaluate(() => window.sceneEditor.view().sim!.areaDefinition.interactables![0]!.x),
+  ).toBe(3);
+  await page.locator('#undo').click();
+  await expectEditorDocument(page, (document) => document.objects[0]!.x).toBe(1);
   expect([interaction.idle, interaction.action, interaction.spent]).toEqual([
     'lantern',
     'lantern',
