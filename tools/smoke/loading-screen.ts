@@ -25,7 +25,7 @@ export async function checkLoadingScreen(
     window.fetch = async (...args) => {
       const resource =
         args[0] instanceof Request ? args[0].url : args[0] instanceof URL ? args[0].href : args[0];
-      if (resource.endsWith('/build-mode.json')) {
+      if (resource.endsWith('/build-mode.json') || resource.endsWith('/game-build-mode.json')) {
         await new Promise<void>((resolve) => Reflect.set(window, 'releaseLoadingProof', resolve));
       }
       return request(...args);
