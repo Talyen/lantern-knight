@@ -173,3 +173,64 @@ test('closing a stalled playtest releases startup admission without late error f
   }
   await expect(page.locator('#validation-errors')).toHaveText('');
 });
+
+test('art preview leases end on dialog close and editor shutdown', async ({ page, errors }) => {
+  await openEditor(page);
+  await page.evaluate(async () => {
+    const moduleURL = '/src/editor/preview-images.ts';
+    const { PreviewImages } = (await import(
+      moduleURL
+    )) as typeof import('../../src/editor/preview-images');
+    const owners = new Set<InstanceType<typeof PreviewImages>>();
+    const original: typeof PreviewImages.prototype.playback = Reflect.get(
+      PreviewImages.prototype,
+      'playback',
+    );
+    PreviewImages.prototype.playback = function (target) {
+      owners.add(this);
+      return original.call(this, target);
+    };
+    Object.assign(window, {
+      activePreviewLeases: () =>
+        [...owners].reduce((sum, owner) => sum + Reflect.get(owner, 'playbacks').size, 0),
+    });
+  });
+  const leaseCount = () =>
+    page.evaluate(() =>
+      (window as unknown as { activePreviewLeases: () => number }).activePreviewLeases(),
+    );
+  await page.locator('#artwork-tab').click();
+  await page.locator('#search').fill('ink-scenery');
+  await page.getByTitle('ink-scenery/arch', { exact: true }).click();
+  await expect.poll(leaseCount).toBe(0);
+  const dialog = page.locator('#art-preview');
+  await page.locator('#preview-asset').click();
+  await expect(dialog).toBeVisible();
+  await expect.poll(leaseCount).toBe(1);
+  await expect
+    .poll(
+      () =>
+        page.locator('#art-preview-canvas').evaluate((target: HTMLCanvasElement) => {
+          const pixels = target
+            .getContext('2d')!
+            .getImageData(0, 0, target.width, target.height).data;
+          return pixels.some((value, index) => index % 4 === 3 && value > 0);
+        }),
+      // Full-size authoring pages can require a cold delivery download.
+      { timeout: 60_000 },
+    )
+    .toBe(true);
+  await page.locator('#preview-play').click();
+  await dialog.getByRole('button', { name: 'Close', exact: true }).click();
+  await expect.poll(leaseCount).toBe(0);
+  await page.locator('#preview-asset').click();
+  await expect.poll(leaseCount).toBe(1);
+  await page.keyboard.press('Escape');
+  await expect(dialog).not.toBeVisible();
+  await expect.poll(leaseCount).toBe(0);
+  await page.locator('#preview-asset').click();
+  await expect.poll(leaseCount).toBe(1);
+  await page.evaluate(() => window.sceneEditor.dispose());
+  expect(await leaseCount()).toBe(0);
+  expect(errors).toEqual([]);
+});
