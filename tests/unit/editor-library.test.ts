@@ -76,9 +76,9 @@ test('a late library listing cannot replace a more recent recovery view', async 
   const f = fixture(t);
   const first = f.library.load('scenes'),
     second = f.library.load('recovery');
-  f.respond(1, { scenes: [] });
+  await f.respond(1, { scenes: [] });
   await second;
-  f.respond(0, { scenes: [] });
+  await f.respond(0, { scenes: [] });
   await first;
   assert.equal(f.get('library-title').textContent, 'Recovery history');
   assert.equal(f.sections.find((section) => section.dataset.library === 'recovery')!.hidden, false);
@@ -88,7 +88,7 @@ test('a late arrangement body cannot paint after the library is disposed', async
   const f = fixture(t);
   const loading = f.library.load('arrangements');
   const cancelled = assert.rejects(loading, { name: 'AbortError' });
-  f.respond(0, { scenes: [] });
+  await f.respond(0, { scenes: [] });
   await f.whenRequested(1);
   const body = Promise.withResolvers<unknown>();
   await f.respond(1, body.promise);
