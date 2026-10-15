@@ -150,27 +150,6 @@
       ]
     },
     {
-      "file": "assets/prepare/prepare-surface-relief.ts",
-      "freshness": true,
-      "ids": [
-        "surface-relief"
-      ],
-      "inputs": [
-        "authoring/surface-depth.json",
-        "src/assets/normal-pixels.ts",
-        "assets/sources.json",
-        "src/content/asset-catalog.ts"
-      ],
-      "dependsOn": [
-        "assets/prepare/prepare-ink.ts",
-        "assets/prepare/prepare-graveyard-art.ts",
-        "assets/prepare/prepare-graveyard-ground.ts",
-        "assets/prepare/prepare-churchyard-kit.ts",
-        "assets/prepare/prepare-tended-art.ts",
-        "assets/prepare/prepare-flat-stage.ts"
-      ]
-    },
-    {
       "file": "assets/prepare/prepare-effects-playground.ts",
       "freshness": true,
       "ids": [
@@ -244,7 +223,6 @@
         "assets/prepare/prepare-flat-stage.ts",
         "assets/prepare/prepare-library.ts",
         "assets/prepare/prepare-visual-effects.ts",
-        "assets/prepare/prepare-surface-relief.ts",
         "assets/prepare/prepare-effects-playground.ts"
       ]
     },
@@ -298,7 +276,6 @@
         "assets/prepare/prepare-tended-art.ts",
         "assets/prepare/prepare-library.ts",
         "assets/prepare/prepare-visual-effects.ts",
-        "assets/prepare/prepare-surface-relief.ts",
         "assets/prepare/prepare-effects-playground.ts",
         "assets/prepare/prepare-flat-stage.ts",
         "assets/prepare/prepare-graveyard-coverage.ts",

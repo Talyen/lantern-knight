@@ -33,7 +33,6 @@ export type ActorOptions = {
   animationTreatment: AnimationTreatment;
   animationFlow?: AnimationFlow;
   debug: boolean;
-  illustrated: boolean;
 };
 export type Visual = {
   sprite: ActorSprite;

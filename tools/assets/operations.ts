@@ -13,7 +13,6 @@ import { prepare as operation9 } from './prepare/prepare-library';
 import { prepare as operation10 } from './prepare/prepare-lighting';
 import { prepare as operation11 } from './prepare/prepare-loading-media';
 import { prepare as operation12 } from './prepare/prepare-masonry';
-import { prepare as operation13 } from './prepare/prepare-surface-relief';
 import { prepare as operation14 } from './prepare/prepare-tended-art';
 import { prepare as operation15 } from './prepare/prepare-visual-effects';
 import type { PreparationContext } from './context';
@@ -35,7 +34,6 @@ export const preparationOperations: Readonly<
   'assets/prepare/prepare-lighting.ts': operation10,
   'assets/prepare/prepare-loading-media.ts': operation11,
   'assets/prepare/prepare-masonry.ts': operation12,
-  'assets/prepare/prepare-surface-relief.ts': operation13,
   'assets/prepare/prepare-tended-art.ts': operation14,
   'assets/prepare/prepare-visual-effects.ts': operation15,
 };

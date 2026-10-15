@@ -25,7 +25,6 @@ export async function stagePayload(
     loadingVideoPath,
     'generated/calibration.json',
     'lighting/manifest.json',
-    'visual-effects/surfaces.json',
     'dev-effects/emitters.json',
     'generated/library/catalog.json',
   ]);
@@ -68,17 +67,9 @@ export async function stagePayload(
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
   }
-  for (const folder of ['lighting', 'visual-effects']) {
-    const data = await readJson(
-      path.join(
-        sourcePublic,
-        folder,
-        'manifest.json'.replace('manifest', folder === 'visual-effects' ? 'surfaces' : 'manifest'),
-      ),
-    );
-    for (const entry of Object.values(data.entries) as { file: string }[])
-      files.add(folder + '/' + safeRelative(entry.file));
-  }
+  const lighting = await readJson(path.join(sourcePublic, 'lighting/manifest.json'));
+  for (const entry of Object.values(lighting.entries) as { file: string }[])
+    files.add('lighting/' + safeRelative(entry.file));
   await fs.mkdir(path.join(destination, 'metadata'), { recursive: true });
   if (!inPlace)
     for (const file of [...files].sort()) {

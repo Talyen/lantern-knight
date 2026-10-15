@@ -1,3 +1,4 @@
+import { RoomPresentation } from '../../src/presentation/room-presentation';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
@@ -27,6 +28,29 @@ function pack(id: string) {
   manifest.asset.clips.rest = manifest.asset.clips.idle!;
   return { manifest, textures: new Map([['atlas-0', new T.Texture()]]) };
 }
+
+test('untextured diagnostics render terrain but require explicit visuals for scenery and exits', () => {
+  const area = { ...content.area('court'), props: [], exits: [] };
+  const texture = new T.CanvasTexture({} as HTMLCanvasElement);
+  const room = new RoomPresentation(new Map(), makeCamera(1), texture, registration);
+  try {
+    room.buildRoom(area, undefined);
+    assert.equal(room.inkRoom, undefined);
+    assert.equal(room.room.children.length, 2, 'Diagnostic terrain and grid remain available');
+    for (const fields of [
+      { props: content.area('court').props },
+      { exits: content.area('court').exits },
+    ])
+      assert.throws(
+        () => room.buildRoom({ ...area, ...fields }, undefined),
+        /authored visual definition/,
+      );
+  } finally {
+    room.disposeScenery();
+    room.disposeResources();
+    texture.dispose();
+  }
+});
 
 test('checkpoint restore preserves the next alternating sword attack', () => {
   const session = new GameSession(content);

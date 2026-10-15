@@ -34,7 +34,6 @@ export class InkRoom {
     placement: ArtPlacement;
     settings: ResolvedFixture;
   }[] = [];
-  private gates: { sprite: ActorSprite; seal: ActorSprite; x: number; z: number }[] = [];
   constructor(
     readonly area: AreaDefinition,
     private packs: ReadonlyMap<string, AssetPack>,
@@ -293,18 +292,6 @@ export class InkRoom {
       emission.mesh.scale.setScalar(f.scale);
       emission.mesh.visible = visible && fixture.mesh.visible;
       emission.material.opacity = fixture.material.opacity;
-    }
-    for (const g of this.gates) {
-      g.seal.mesh.visible = visible && !sim.cleared;
-      if (g.seal.mesh.visible) {
-        const c = resolveClip(g.seal.manifest, 'door_seal_dissolve', 'd45');
-        this.sample(
-          g.seal,
-          c,
-          clipDuration(c) * 0.4,
-          new T.Vector3(g.x, heightAt(this.area, g.x, g.z) + 0.02, g.z),
-        );
-      }
     }
     if (!visible) return;
     for (const drop of sim.drops) {
