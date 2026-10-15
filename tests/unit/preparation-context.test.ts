@@ -1,5 +1,5 @@
 import { writeJson } from '../../tools/json-file';
-import { sourceFixture } from '../fixtures/source';
+import { compilerSourceFixture } from '../fixtures/source';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -36,7 +36,7 @@ test('one explicit writer accounts for replacement/concurrent writes and confine
 test('compiler writes share the preparation budget and record atlas output without ambient state', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-context-compiler-');
 
-  const source = sourceFixture();
+  const source = compilerSourceFixture();
   await fs.mkdir(path.join(root, 'staging'));
   await writeJson(path.join(root, 'staging/source.json'), source);
   await sharp({

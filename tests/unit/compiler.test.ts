@@ -6,7 +6,7 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import sharp from 'sharp';
-import { sourceFixture } from '../fixtures/source';
+import { compilerSourceFixture } from '../fixtures/source';
 import { readAsset } from '../../tools/assets/io';
 import { parseSource, parseManifest, type ManifestDraft } from '../../src/assets/schema';
 import { exactSource } from '../../tools/assets/files';
@@ -18,7 +18,7 @@ const writer = (workspace: string) =>
     sourceRoot: workspace,
     libraryRoot: workspace,
   });
-const source = sourceFixture();
+const source = compilerSourceFixture();
 let fixtureDirectory: string | undefined;
 after(async () => {
   if (fixtureDirectory) await fs.rm(fixtureDirectory, { recursive: true, force: true });
@@ -144,7 +144,7 @@ test('compiler is byte deterministic; failed build preserves prior manifest; sou
 
 test('atlas rollover preserves asymmetric pixels and supplies alpha for RGB artwork', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-atlas-packing-');
-  const input = sourceFixture();
+  const input = compilerSourceFixture();
   Object.assign(input.asset, { canvas: [8, 8], anchor: [4, 7], density: 4, atlasSize: 32 });
   input.frames = Array.from({ length: 5 }, (_, i) => ({
     id: i === 0 ? 'sample-frame' : 'drawing-' + i,
