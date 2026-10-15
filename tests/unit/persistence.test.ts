@@ -210,7 +210,7 @@ test('desktop navigation closes old storage admission and serializes launch owne
   assert.throws(() => session.save('game', save), /writes denied/);
   const original = await new Store(path.join(directory, 'game'), fixtureContent).load('game');
   assert.deepEqual(original, { status: 'ok', data: save });
-  session.dispose();
+  await session.dispose();
   await assert.rejects(session.launch('game'), /disposed/);
   assert.throws(() => session.load('settings'), /disposed/);
 });
@@ -274,7 +274,7 @@ test('destination boot may read settings and failed navigation restores the prev
   assert.equal(session.mode, 'editor');
   assert.deepEqual(bootReads, ['empty', 'empty', 'empty', 'ok']);
   assert.deepEqual(await session.load('settings'), { status: 'ok', data: settings });
-  session.dispose();
+  await session.dispose();
 });
 
 test('failed desktop recovery blocks storage; shutdown prevents late navigation', async (t) => {
@@ -294,7 +294,7 @@ test('failed desktop recovery blocks storage; shutdown prevents late navigation'
   fail = false;
   await session.launch('sandbox');
   assert.equal(session.mode, 'sandbox');
-  session.dispose();
+  await session.dispose();
 
   const draining = Promise.withResolvers<void>();
   let navigation = 0;
@@ -309,8 +309,53 @@ test('failed desktop recovery blocks storage; shutdown prevents late navigation'
     },
   );
   const pending = closing.launch('editor');
-  closing.dispose();
+  const disposed = closing.dispose();
   draining.resolve();
+  await disposed;
   await assert.rejects(pending, /disposed/);
   assert.equal(navigation, 0);
+});
+
+test('desktop shutdown revokes admission immediately and waits for every admitted atomic write', async (t) => {
+  const directory = await temporaryDirectory(t, 'lantern-desktop-shutdown-'),
+    session = new DesktopSession(
+      'game',
+      () => new Store(directory, fixtureContent),
+      async () => {},
+    );
+  await session.launch('game');
+  const replacing = Promise.withResolvers<void>(),
+    resume = Promise.withResolvers<void>(),
+    originalRename = fs.rename;
+  t.mock.method(fs, 'rename', async (...args: Parameters<typeof fs.rename>) => {
+    replacing.resolve();
+    await resume.promise;
+    return originalRename(...args);
+  });
+  const first = new GameSession(fixtureContent).captureSave(),
+    last = { ...first, wins: 9 },
+    admitted = Promise.all([session.save('game', first), session.save('game', last)]);
+  await replacing.promise;
+  let drained = false;
+  const closing = session.dispose();
+  const observed = closing.then(() => {
+    drained = true;
+  });
+  try {
+    assert.equal(session.dispose(), closing, 'Repeated shutdown shares the captured queue');
+    assert.throws(() => session.save('game', first), /disposed/);
+    assert.throws(() => session.load('settings'), /disposed/);
+    await assert.rejects(session.launch('editor'), /disposed/);
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(drained, false, 'Process exit must wait for file replacement');
+  } finally {
+    resume.resolve();
+    await admitted;
+    await observed;
+  }
+  assert.deepEqual(await new Store(directory, fixtureContent).load('game'), {
+    status: 'ok',
+    data: last,
+  });
+  assert.deepEqual(await fs.readdir(directory), ['game.json']);
 });

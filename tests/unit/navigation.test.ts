@@ -11,6 +11,7 @@ import { GameSession } from '../../src/core/session';
 import { parseGame } from '../../src/core/save';
 import { Simulation } from '../../src/core/simulation';
 import { MovementPlans } from '../../src/core/movement-plans';
+import { EncounterBehavior } from '../../src/core/encounter-behavior';
 import { tuning } from '../../src/content/gameplay';
 import { contentDefinitions } from '../fixtures/content';
 const area = (): AreaDefinition => ({
@@ -123,6 +124,146 @@ function simulate(a: AreaDefinition) {
     new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] }),
   );
 }
+
+test('enemy pursuit and home routes avoid campfire sanctuary while hero routes remain open', () => {
+  const a = area();
+  a.props = [];
+  a.entries = [...a.entries, { id: 'fire-center', x: 0, z: 0 }];
+  a.campfires = [{ id: 'center', name: 'Campfire', x: 0, z: 0, safeRadius: 1.5 }];
+  const sim = simulate(a),
+    enemy = sim.enemies[0]!;
+  let furthest = 0;
+  for (let i = 0; i < 600 && sim.hero.health === sim.maxHealth; i++) {
+    sim.step(still);
+    furthest = Math.max(furthest, Math.abs(enemy.z));
+    assert.ok(Math.hypot(enemy.x, enemy.z) >= 1.5, 'Pursuit cannot enter sanctuary');
+  }
+  assert.ok(sim.hero.health < sim.maxHealth, 'An open route around the sanctuary reaches combat');
+  assert.ok(furthest >= 1.5);
+
+  Object.assign(sim.hero, { x: 0, z: 0 });
+  for (let i = 0; i < 600; i++) {
+    sim.step(still);
+    assert.ok(Math.hypot(enemy.x, enemy.z) >= 1.5, 'Returning home cannot enter sanctuary');
+  }
+  assert.ok(Math.hypot(enemy.x - 3, enemy.z) < 1e-6, 'Home return uses the same detour');
+  sim.setMovementTarget(sim.hero.id, { x: -3, z: 0 });
+  for (let i = 0; i < 100; i++) sim.step(still);
+  assert.ok(Math.hypot(sim.hero.x + 3, sim.hero.z) < 1e-6, 'Hero navigation crosses sanctuary');
+});
+
+test('enemy traversal preserves sanctuary topology and permits an outward escape from old placements', () => {
+  const a = area();
+  a.props = [];
+  a.entries = [...a.entries, { id: 'fire-center', x: 0, z: 0 }];
+  a.campfires = [{ id: 'center', name: 'Campfire', x: 0, z: 0, safeRadius: 1.5 }];
+  const sim = simulate(a),
+    enemy = sim.enemies[0]!;
+  sim.move(enemy, -6, 0);
+  assert.equal(enemy.x, 3, 'A long movement cannot tunnel through sanctuary');
+  Object.assign(enemy, { x: 0.2, z: 0 });
+  sim.move(enemy, -0.1, 0);
+  assert.equal(enemy.x, 0.2, 'An existing inside placement cannot move deeper');
+  sim.movementPreview = true;
+  sim.setMovementTarget(enemy.id, { x: 3, z: 0 });
+  for (let i = 0; i < 200 && Math.abs(enemy.x - 3) > 1e-6; i++) sim.step(still);
+  assert.ok(Math.abs(enemy.x - 3) < 1e-6, 'The existing placement can escape outward');
+
+  a.surface = {
+    kind: 'stairs',
+    axis: 'z',
+    start: 0,
+    end: 4,
+    startHeight: 0,
+    endHeight: 2,
+    steps: 1,
+  };
+  a.entries = [a.entries[0]!, { id: 'fire-center', x: 0, z: 0.4 }];
+  a.campfires = [{ ...a.campfires[0]!, z: 0.4 }];
+  a.spawns = [{ id: 'enemy', actor: 'skeleton', x: 1, z: -0.4 }];
+  const lower = simulate(a);
+  lower.move(lower.enemies[0]!, -2, 0);
+  assert.equal(lower.enemies[0]!.x, -1, 'Sanctuary does not block a different elevation');
+  a.campfires = [{ ...a.campfires[0]!, safeRadius: 1e-12 }];
+  a.spawns = [{ id: 'enemy', actor: 'skeleton', x: 1, z: 0.4 }];
+  const tiny = simulate(a);
+  tiny.move(tiny.enemies[0]!, -2, 0);
+  assert.equal(tiny.enemies[0]!.x, 1, 'Even a tiny sanctuary blocks a crossing');
+  a.surface = {
+    ...a.surface,
+    terraceBounds: { minX: -2, maxX: 2, minZ: 0, maxZ: 3 },
+    stairWidth: 1,
+  };
+  a.entries = [a.entries[0]!, { id: 'fire-center', x: 0, z: 5e-13 }];
+  a.campfires = [{ ...a.campfires[0]!, x: 0, z: 5e-13 }];
+  a.spawns = [{ id: 'enemy', actor: 'skeleton', x: 1, z: -5e-13 }];
+  const tinyAbove = simulate(a);
+  tinyAbove.move(tinyAbove.enemies[0]!, -2, 0);
+  assert.equal(tinyAbove.enemies[0]!.x, -1, 'A tiny fire on another floor stays traversable');
+
+  a.surface = { kind: 'flat', height: 0 };
+  a.props = [
+    { id: 'wall', kind: 'wall', x: 0, z: 0, radius: 0.2, height: 1, shape: 'box', size: [0.08, 4] },
+  ];
+  a.entries = [a.entries[0]!, { id: 'fire-center', x: 0.5, z: 0 }];
+  a.campfires = [{ ...a.campfires[0]!, x: 0.5, z: 0, safeRadius: 1.5 }];
+  a.spawns = [{ id: 'enemy', actor: 'skeleton', x: -0.6, z: -1 }];
+  const occluded = simulate(a);
+  occluded.move(occluded.enemies[0]!, 0, 2);
+  assert.equal(occluded.enemies[0]!.z, 1, 'Sanctuary does not extend through blocking scenery');
+});
+
+test('sanctuary traversal detects narrow terrace and visibility fragments regardless of segment length', () => {
+  const a = area();
+  a.props = [];
+  a.bounds = { minX: -6, maxX: 6, minZ: -6, maxZ: 6 };
+  a.surface = {
+    kind: 'stairs',
+    axis: 'z',
+    start: 1.5,
+    end: 5.5,
+    startHeight: 0,
+    endHeight: 2,
+    steps: 1,
+    stairWidth: 0.5,
+    terraceBounds: { minX: 0, maxX: 1, minZ: 0, maxZ: 1 },
+  };
+  a.campfires = [{ id: 'center', name: 'Campfire', x: 0.9, z: 0.01, safeRadius: 1.5 }];
+  a.entries = [...a.entries, { id: 'fire-center', x: 0.9, z: 0.01 }];
+  const terrace = new EncounterBehavior(simulate(a).areaDefinition);
+  assert.equal(terrace.safePoint({ x: 0.005, z: 0.005 }), true);
+  assert.equal(terrace.traversal.segment({ x: -0.001, z: 0.011 }, { x: 0.001, z: 0.009 }), false);
+  assert.equal(terrace.traversal.segment({ x: -2, z: 2.01 }, { x: 2, z: -1.99 }), false);
+
+  a.surface = { kind: 'flat', height: 0 };
+  a.campfires = [{ ...a.campfires[0]!, x: 0, z: 0, safeRadius: 3 }];
+  a.entries = [a.entries[0]!, { id: 'fire-center', x: 0, z: 0 }];
+  a.props = [
+    {
+      id: 'left',
+      kind: 'wall',
+      x: -2.4995,
+      z: 0.5,
+      radius: 0.1,
+      height: 1,
+      shape: 'box',
+      size: [5.001, 0.02],
+    },
+    {
+      id: 'right',
+      kind: 'wall',
+      x: 2.5045,
+      z: 0.5,
+      radius: 0.1,
+      height: 1,
+      shape: 'box',
+      size: [4.991, 0.02],
+    },
+  ];
+  const slit = new EncounterBehavior(simulate(a).areaDefinition);
+  assert.equal(slit.safePoint({ x: 0.01, z: 1 }), true);
+  assert.equal(slit.traversal.segment({ x: -2, z: 1 }, { x: 2, z: 1 }), false);
+});
 
 test('lantern flare cannot damage or stagger an enemy through blocking scenery', () => {
   const a = area();

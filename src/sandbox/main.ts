@@ -1,9 +1,13 @@
+import { cleanupAll } from '../assets/cleanup';
 import { authoringCatalog } from '../assets/authoring-catalog';
 import '../developer-nav';
 import '../style.css';
 import { createWorkspaceStore, fixtures, type Fixture, type PreviewContext } from './workspace';
 let dispose: (() => void) | undefined;
+let mountedGeneration: number | undefined;
+let retiringGeneration: number | undefined;
 let request = 0;
+let closed = false;
 let assetToPreview: string | undefined;
 let catalogRequest: AbortController | undefined;
 const store = createWorkspaceStore({
@@ -14,10 +18,9 @@ function save() {
   store.save();
 }
 async function selectScene(scene: Fixture, reset = false) {
-  dispose?.();
-  dispose = undefined;
-  catalogRequest?.abort();
+  if (closed) return;
   const generation = ++request;
+  retireFixture();
   if (reset) delete store.state.scenes[scene];
   store.state.selected = scene;
   save();
@@ -31,6 +34,7 @@ async function selectScene(scene: Fixture, reset = false) {
     fixture: scene,
     assetToPreview,
     previewAsset: (id) => {
+      if (closed || generation !== request) return;
       assetToPreview = id;
       store.state.ui.panel = 'animation';
       void selectScene('outdoor-fixture').catch(launchFailure);
@@ -38,17 +42,25 @@ async function selectScene(scene: Fixture, reset = false) {
     remembered: store.state.scenes[scene],
     ui: store.state.ui,
     remember: (state) => {
-      if (generation === request) {
+      if ((!closed && generation === request) || generation === retiringGeneration) {
         store.state.scenes[scene] = state;
         save();
       }
     },
-    changed: save,
-    select: (next) => void selectScene(next).catch(launchFailure),
-    resetScene: () => void selectScene(scene, true).catch(launchFailure),
+    changed: () => {
+      if (!closed && generation === request) save();
+    },
+    select: (next) => {
+      if (!closed && generation === request) void selectScene(next).catch(launchFailure);
+    },
+    resetScene: () => {
+      if (!closed && generation === request) void selectScene(scene, true).catch(launchFailure);
+    },
     resetWorkspace: () => {
-      dispose?.();
-      dispose = undefined;
+      if (closed || generation !== request) return;
+      // Retire before clearing the workspace so its final snapshot cannot return.
+      request++;
+      retireFixture();
       store.reset();
       void selectScene('outdoor-fixture').catch(launchFailure);
     },
@@ -57,13 +69,19 @@ async function selectScene(scene: Fixture, reset = false) {
   try {
     if (scene === 'effects-playground') {
       const { mountEffects } = await import('./effects');
-      if (generation === request) dispose = mountEffects(context);
+      if (generation === request) {
+        dispose = mountEffects(context);
+        mountedGeneration = generation;
+      }
     } else {
       const { mountScene } = await import('./scene');
       if (generation !== request) return;
       catalogRequest = new AbortController();
       const catalog = await authoringCatalog(catalogRequest.signal);
-      if (generation === request) dispose = mountScene(context, catalog);
+      if (generation === request) {
+        dispose = mountScene(context, catalog);
+        mountedGeneration = generation;
+      }
     }
   } catch (error) {
     if (generation === request) throw error;
@@ -78,18 +96,33 @@ const initialScene = fixtures.includes(selected as Fixture)
   ? (selected as Fixture)
   : 'outdoor-fixture';
 void selectScene(initialScene).catch(launchFailure);
-window.addEventListener('beforeunload', () => {
-  dispose?.();
+function retireFixture() {
+  const previous = dispose,
+    pending = catalogRequest;
+  dispose = undefined;
+  catalogRequest = undefined;
+  // The outgoing owner may publish its last synchronous snapshot while closing.
+  // This capability ends before any pending callback or successor can run.
+  retiringGeneration = mountedGeneration;
+  mountedGeneration = undefined;
+  try {
+    cleanupAll([() => pending?.abort(), () => previous?.()]);
+  } finally {
+    retiringGeneration = undefined;
+  }
+}
+function close() {
+  if (closed) return;
+  closed = true;
   request++;
-  catalogRequest?.abort();
-});
-if (import.meta.hot)
-  import.meta.hot.dispose(() => {
-    dispose?.();
-    request++;
-  });
+  window.removeEventListener('beforeunload', close);
+  retireFixture();
+}
+window.addEventListener('beforeunload', close);
+if (import.meta.hot) import.meta.hot.dispose(close);
 
 function launchFailure(error: Error) {
+  if (closed) return;
   if (error.name === 'AbortError') return;
   const root = document.getElementById('app')!;
   const message = document.createElement('p');

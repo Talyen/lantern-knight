@@ -104,6 +104,47 @@ export function heightAt(area: AreaDefinition, x: number, z: number) {
   const supported = s.kind === 'stairs' ? Math.ceil(t * (s.steps ?? 3) - 1e-9) / (s.steps ?? 3) : t;
   return s.startHeight + (s.endHeight - s.startHeight) * supported;
 }
+// Segment parameters at surface discontinuities and requested height levels.
+// Between these cuts, comparisons against those levels have a constant result.
+export function heightBreakpoints(
+  area: AreaDefinition,
+  start: Point,
+  end: Point,
+  levels: readonly number[],
+) {
+  const cuts: number[] = [],
+    s = area.surface;
+  if (s.kind === 'flat') return cuts;
+  const axis = (name: 'x' | 'z', value: number) => {
+    const delta = end[name] - start[name];
+    if (!delta) return;
+    const t = (value - start[name]) / delta;
+    if (Number.isFinite(t) && t > 0 && t < 1) cuts.push(t);
+  };
+  axis(s.axis, s.start);
+  axis(s.axis, s.end);
+  if (s.kind === 'ramp') {
+    if (s.endHeight !== s.startHeight)
+      for (const level of levels)
+        axis(
+          s.axis,
+          s.start + ((level - s.startHeight) * (s.end - s.start)) / (s.endHeight - s.startHeight),
+        );
+  } else {
+    const steps = s.steps ?? 3;
+    for (let i = 0; i < steps; i++)
+      axis(s.axis, s.start + ((i + 1e-9) * (s.end - s.start)) / steps);
+    if (s.terraceBounds) {
+      axis('x', s.terraceBounds.minX);
+      axis('x', s.terraceBounds.maxX);
+      axis('z', s.terraceBounds.minZ);
+      axis('z', s.terraceBounds.maxZ);
+      axis('x', -(s.stairWidth ?? 3.2) / 2);
+      axis('x', (s.stairWidth ?? 3.2) / 2);
+    }
+  }
+  return cuts;
+}
 export function surfaceGradient(area: AreaDefinition, x: number, z: number) {
   const s = area.surface;
   if (s.kind === 'flat' || s.kind === 'stairs') return { x: 0, z: 0 };

@@ -35,6 +35,11 @@ export function moveSupported(
 }
 export type RouteResult =
   { status: 'ready'; points: Point[] } | { status: 'unreachable'; points: [] };
+// Extra room policy belongs to its gameplay owner; all route phases use it.
+export interface TraversalPolicy {
+  position(point: Point): boolean;
+  segment(start: Point, end: Point): boolean;
+}
 class Heap {
   entries: { id: number; score: number }[] = [];
   push(id: number, score: number) {
@@ -70,16 +75,27 @@ class Heap {
 export class Navigation {
   readonly spacing = 0.2;
   private grids = new Map<number, Map<number, boolean>>();
-  constructor(readonly area: AreaDefinition) {}
+  readonly #policy: TraversalPolicy | undefined;
+  constructor(
+    readonly area: AreaDefinition,
+    policy?: TraversalPolicy,
+  ) {
+    this.#policy = policy;
+  }
+  clear(start: Point, end: Point, radius: number) {
+    return (
+      clearSegment(this.area, start, end, radius) && (this.#policy?.segment(start, end) ?? true)
+    );
+  }
   route(start: Point, goal: Point, radius: number): RouteResult {
     const fail: RouteResult = { status: 'unreachable', points: [] };
     if (
       !isSupportedPosition(this.area, start, radius) ||
-      !isSupportedPosition(this.area, goal, radius)
+      !isSupportedPosition(this.area, goal, radius) ||
+      this.#policy?.position(goal) === false
     )
       return fail;
-    if (clearSegment(this.area, start, goal, radius))
-      return { status: 'ready', points: [{ ...goal }] };
+    if (this.clear(start, goal, radius)) return { status: 'ready', points: [{ ...goal }] };
     const b = this.area.bounds,
       nx = Math.ceil((b.maxX - b.minX) / this.spacing) + 1,
       nz = Math.ceil((b.maxZ - b.minZ) / this.spacing) + 1;
@@ -96,21 +112,31 @@ export class Navigation {
       if (id < 0 || id >= nx * nz) return false;
       let v = cells!.get(id);
       if (v === undefined) {
-        v = isSupportedPosition(this.area, point(id), radius);
+        v =
+          isSupportedPosition(this.area, point(id), radius) &&
+          (this.#policy?.position(point(id)) ?? true);
         cells!.set(id, v);
       }
       return v;
     };
-    const nearest = (p: Point) => {
+    const nearest = (p: Point, arriving = false) => {
       const ix = Math.round((p.x - b.minX) / this.spacing),
         iz = Math.round((p.z - b.minZ) / this.spacing);
-      for (let r = 0; r <= 4; r++) {
+      // A saved actor may start within a newly authored forbidden region. Find
+      // an admissible outward connection instead of trapping it at that point.
+      const limit = this.#policy?.position(p) === false ? Math.max(nx, nz) : 4;
+      for (let r = 0; r <= limit; r++) {
         const found: number[] = [];
         for (let z = iz - r; z <= iz + r; z++)
           for (let x = ix - r; x <= ix + r; x++) {
+            if (r && x !== ix - r && x !== ix + r && z !== iz - r && z !== iz + r) continue;
             if (x < 0 || x >= nx || z < 0 || z >= nz) continue;
             const id = z * nx + x;
-            if (valid(id) && clearSegment(this.area, p, point(id), radius)) found.push(id);
+            if (
+              valid(id) &&
+              (arriving ? this.clear(point(id), p, radius) : this.clear(p, point(id), radius))
+            )
+              found.push(id);
           }
         if (found.length)
           return found.sort(
@@ -121,7 +147,7 @@ export class Navigation {
       }
     };
     const from = nearest(start),
-      to = nearest(goal);
+      to = nearest(goal, true);
     if (from === undefined || to === undefined) return fail;
     const heap = new Heap(),
       scores = new Map<number, number>([[from, 0]]),
@@ -149,7 +175,7 @@ export class Navigation {
         let origin = start;
         for (let i = 0; i < raw.length;) {
           let j = raw.length - 1;
-          while (j > i && !clearSegment(this.area, origin, raw[j]!, radius)) j--;
+          while (j > i && !this.clear(origin, raw[j]!, radius)) j--;
           smooth.push(raw[j]!);
           origin = raw[j]!;
           i = j + 1;
@@ -170,7 +196,7 @@ export class Navigation {
             (dx && dz && (!valid(current + dx) || !valid(current + dz * nx)))
           )
             continue;
-          if (!clearSegment(this.area, point(current), point(next), radius)) continue;
+          if (!this.clear(point(current), point(next), radius)) continue;
           const cost = scores.get(current)! + Math.hypot(dx, dz) * this.spacing;
           if (cost >= (scores.get(next) ?? Infinity)) continue;
           scores.set(next, cost);
