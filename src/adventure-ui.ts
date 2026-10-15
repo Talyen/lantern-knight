@@ -139,6 +139,10 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
           text('p', 'Your permanent kit is strengthened. This workshop temper has been used.'),
           text('p', `Edge ${current.edge}% · Ember ${current.ember}%`, 'forge-result'),
           text('p', 'Kept through rest, death and save/resume. A second purchase is unavailable.'),
+          text(
+            'p',
+            'Return to the campfire, rest, then try your strengthened kit against the courtyard guards.',
+          ),
         );
       } else {
         content.append(
@@ -155,7 +159,11 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
           const option = document.createElement('section');
           option.className = 'forge-option';
           option.append(
-            text('span', `${forgeChoices[upgrade].attribute} 100% → 115%`, 'adventure-eyebrow'),
+            text(
+              'span',
+              `${forgeChoices[upgrade].attribute} 100% → ${next[upgrade === 'sword' ? 'edge' : 'ember']}%`,
+              'adventure-eyebrow',
+            ),
             text('h3', forgeChoices[upgrade].name),
             text(
               'p',
@@ -167,8 +175,8 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
             text(
               'p',
               upgrade === 'sword'
-                ? 'Lantern damage stays the same.'
-                : 'Sword damage stays the same.',
+                ? 'Strike decisively. One clean sword hit fells a thrall.'
+                : 'Burn the whole group. One Flare fells thralls after all three Burn ticks.',
             ),
             text('p', 'Cost: 20 Gold · 4 Iron · 1 Workshop Temper'),
           );

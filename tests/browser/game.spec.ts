@@ -315,7 +315,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   );
   await loadCheckpoint(page);
   await waitForRoom();
-  await expect(page.locator('#interaction-hint')).toHaveText('E · Path');
+  await expect(page.locator('#interaction-hint')).toHaveText(/^E · Travel to /);
   await page.keyboard.press('e');
   await waitForRoom();
   await expect(page.locator('#room-title')).toHaveText('Forest Gathering Clearing');

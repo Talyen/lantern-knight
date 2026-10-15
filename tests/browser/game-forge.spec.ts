@@ -73,7 +73,7 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   const onward = await saveCurrent();
   Object.assign(onward.player, forward.marker);
   await restore(onward);
-  await expect(page.locator('#interaction-hint')).toHaveText('E · Path');
+  await expect(page.locator('#interaction-hint')).toHaveText(/^E · Travel to /);
   await page.keyboard.press('e');
   await expect(page.locator('#room-title')).toHaveText(forge.name, { timeout: 60_000 });
   await settled();
@@ -98,7 +98,7 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   expect(collected.areas[forge.id]!.claimedObjects).toContain(tools.id);
   Object.assign(collected.player, forge.exits[0]!.marker);
   await restore(collected);
-  await expect(page.locator('#interaction-hint')).toHaveText('E · Path');
+  await expect(page.locator('#interaction-hint')).toHaveText(/^E · Travel to /);
   await page.keyboard.press('e');
   await expect(page.locator('#room-title')).toHaveText(clearing.name, { timeout: 60_000 });
   await settled();

@@ -383,6 +383,6 @@ test('desktop storage round-trips either permanent forge choice with its paid ba
     const target = resumed.sim.enemies[0]!;
     const health = target.health;
     resumed.sim.damage(resumed.sim.hero, target, 26);
-    assert.equal(health - target.health, choice === 'sword' ? 30 : 26);
+    assert.equal(health - target.health, choice === 'sword' ? 52 : 26);
   }
 });
