@@ -6,7 +6,7 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import sharp from 'sharp';
-import { sourceFixture } from '../fixtures/source';
+import { compilerSourceFixture } from '../fixtures/source';
 import { readAsset } from '../../tools/assets/io';
 import { parseSource, parseManifest, type ManifestDraft } from '../../src/assets/schema';
 import { exactSource } from '../../tools/assets/files';
@@ -18,7 +18,7 @@ const writer = (workspace: string) =>
     sourceRoot: workspace,
     libraryRoot: workspace,
   });
-const source = sourceFixture();
+const source = compilerSourceFixture();
 let fixtureDirectory: string | undefined;
 after(async () => {
   if (fixtureDirectory) await fs.rm(fixtureDirectory, { recursive: true, force: true });
@@ -110,47 +110,41 @@ test('compiler is byte deterministic; failed build preserves prior manifest; sou
   const context = await writer(dir);
   const a = await context.compile('valid.json', 'public/generated', false, fixtureRoot);
   const before = await readAsset(path.join(dir, 'public/generated/manifest.json'));
+  const pages = await Promise.all(
+    a.pages.map((page) => readAsset(path.join(dir, 'public/generated', page.path))),
+  );
+  const unchanged = async () => {
+    assert.deepEqual(await readAsset(path.join(dir, 'public/generated/manifest.json')), before);
+    assert.deepEqual(
+      await Promise.all(
+        a.pages.map((page) => readAsset(path.join(dir, 'public/generated', page.path))),
+      ),
+      pages,
+    );
+  };
   const b = await context.compile('valid.json', 'public/generated', false, fixtureRoot);
   assert.equal(a.hash, b.hash);
-  assert.deepEqual(await readAsset(path.join(dir, 'public/generated/manifest.json')), before);
+  await unchanged();
   await fs.writeFile(path.join(dir, 'invalid.json'), fixtureTexts['invalid-duration']!);
   await assert.rejects(context.compile('invalid.json', 'public/generated', false, dir));
-  assert.deepEqual(await readAsset(path.join(dir, 'public/generated/manifest.json')), before);
+  await unchanged();
+  // A later frame fails after the first image was decoded and packed.
+  const missing = structuredClone(source);
+  missing.frames.push({ ...missing.frames[0]!, id: 'missing', path: 'missing.png' });
+  await writeJson(path.join(dir, 'missing.json'), missing);
+  await fs.copyFile(path.join(fixtureRoot, 'sample.png'), path.join(dir, 'sample.png'));
+  await assert.rejects(
+    context.compile('missing.json', 'public/generated', false, dir),
+    /missing file: missing.png/,
+  );
+  await unchanged();
   await assert.rejects(exactSource('../package.json', fixtureRoot));
   await assert.rejects(exactSource('VALID.json', fixtureRoot), /case/);
 });
 
-test('compiler accepts opaque RGB artwork and supplies an opaque alpha channel', async (t) => {
-  const { root: fixtureRoot } = await compiledFixture();
-  const dir = await temporaryDirectory(t, 'lantern-alpha-');
-  const bad = structuredClone(source),
-    file = path.join(dir, 'no-alpha.png'),
-    input = path.join(dir, 'invalid-alpha.json');
-
-  const context = await writer(dir);
-  await sharp(path.join(fixtureRoot, bad.frames[0]!.path))
-    .flatten({ background: '#ffffff' })
-    .png()
-    .toFile(file);
-  bad.frames[0]!.path = 'no-alpha.png';
-  await writeJson(input, bad);
-  const result = await context.compile('invalid-alpha.json', 'public/generated', false, dir);
-  const frame = result.frames[0]!,
-    page = result.pages[0]!,
-    [left, top, width, height] = frame.rect;
-  assert.deepEqual(frame.trim, [0, 0, ...source.asset.canvas]);
-  const pixels = await sharp(await readAsset(path.join(dir, 'public/generated', page.path)))
-    .extract({ left, top, width, height })
-    .raw()
-    .toBuffer();
-  const expected = Buffer.alloc(width * height * 4);
-  for (let i = 0; i < expected.length; i += 4) expected.set([170, 70, 20, 255], i);
-  assert.ok(pixels.equals(expected), 'Compiler must preserve every source RGBA pixel');
-});
-
-test('atlas row and page rollover preserve every drawing at its published rectangle', async (t) => {
+test('atlas rollover preserves asymmetric pixels and supplies alpha for RGB artwork', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-atlas-packing-');
-  const input = sourceFixture();
+  const input = compilerSourceFixture();
   Object.assign(input.asset, { canvas: [8, 8], anchor: [4, 7], density: 4, atlasSize: 32 });
   input.frames = Array.from({ length: 5 }, (_, i) => ({
     id: i === 0 ? 'sample-frame' : 'drawing-' + i,
@@ -161,9 +155,12 @@ test('atlas row and page rollover preserve every drawing at its published rectan
   const drawings: Buffer[] = [];
   for (let i = 0; i < input.frames.length; i++) {
     const pixels = Buffer.alloc(8 * 8 * 4);
-    for (let p = 0; p < pixels.length; p += 4) pixels.set([30 + i * 40, 70, 170, 255], p);
+    for (let y = 0; y < 8; y++)
+      for (let x = 0; x < 8; x++) pixels.set([30 + i * 40, y * 30, x * 30, 255], (y * 8 + x) * 4);
     drawings.push(pixels);
-    await sharp(pixels, { raw: { width: 8, height: 8, channels: 4 } })
+    const image = sharp(pixels, { raw: { width: 8, height: 8, channels: 4 } });
+    // One RGB source protects alpha synthesis in the same real encoding pass.
+    await (i === 0 ? image.removeAlpha() : image)
       .png()
       .toFile(path.join(root, input.frames[i]!.path));
   }
@@ -173,6 +170,7 @@ test('atlas row and page rollover preserve every drawing at its published rectan
   assert.equal(result.pages.length, 2);
   assert.equal(result.frames.length, input.frames.length);
   for (const [i, frame] of result.frames.entries()) {
+    assert.deepEqual(frame.trim, [0, 0, 8, 8]);
     const page = result.pages.find((page) => page.id === frame.page)!;
     const [left, top, width, height] = frame.rect;
     const pixels = await sharp(await readAsset(path.join(root, 'public/generated', page.path)))
