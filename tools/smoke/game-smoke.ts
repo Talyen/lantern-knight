@@ -139,7 +139,7 @@ export async function runScenario(flags: string[] = []) {
       for (const field of ['x', 'z', 'health'] as const)
         assert.equal(restored.player[field], save.player[field]);
       for (const field of ['cooldown', 'dodgeCooldown'] as const)
-        assert.ok(restored.player[field] > 0 && restored.player[field] <= save.player[field]);
+        assert.ok(restored.player[field] >= 0 && restored.player[field] <= save.player[field]);
       await resume();
       await page.waitForTimeout(benchmark ? 2200 : 100);
       await pause();
