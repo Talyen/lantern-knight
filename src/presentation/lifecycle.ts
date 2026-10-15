@@ -19,7 +19,9 @@ export interface PresentationLifecycle {
   loadAnimationFlow(): Promise<void>;
   warm(): Promise<void>;
   warmPack(pack: AssetPack): void;
-  prepareAssets(ids?: ReadonlySet<string>): Promise<void>;
+  // Cancellation releases candidate work; late preparation cannot change the
+  // accepted selection or hold up a successor room transaction.
+  prepareAssets(ids?: ReadonlySet<string>, signal?: AbortSignal): Promise<void>;
   resetRoom(area: AreaDefinition, visuals: WorldVisualDefinition | undefined): void;
   update(sim: SimulationView, alpha: number, ms: number, aim: { x: number; z: number }): void;
   dispose(): void;

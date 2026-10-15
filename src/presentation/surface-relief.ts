@@ -4,6 +4,7 @@ import type { VisualEffects } from '../content/visual-effects';
 import { outward } from './camera';
 import { BitmapTexture } from './bitmap-texture';
 import { verifiedBitmap } from '../assets/bitmap';
+import { readUntilAborted } from '../abort';
 type SurfaceSource = { asset: string; frame: string; pageHash: string };
 /** Companions describe traced structure, and never modify the original paintings. */
 export class SurfaceRelief {
@@ -23,11 +24,16 @@ export class SurfaceRelief {
       texture.needsUpdate = true;
     },
   );
-  async load(packs: ReadonlyMap<string, AssetPack>) {
+  async load(packs: ReadonlyMap<string, AssetPack>, signal?: AbortSignal) {
+    signal?.throwIfAborted();
     this.packs = packs;
     // Curated flat-stage artwork has no procedural apron or height/UV companion.
     if (!packs.has('ink-graveyard-materials')) return;
-    await this.companion.load();
+    // The immutable texture belongs to this renderer; a cancelled room drops
+    // only its wait, while the shared owner retains and cleans up the result.
+    const pending = this.companion.load();
+    await (signal ? readUntilAborted(pending, signal) : pending);
+    signal?.throwIfAborted();
     this.validate();
   }
   private async decode(signal: AbortSignal) {

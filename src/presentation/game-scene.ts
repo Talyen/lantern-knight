@@ -293,8 +293,8 @@ export class GamePresentation implements PresentationLifecycle {
       () => this.roomPresentation.disposeResources(),
     ]);
   }
-  prepareAssets(ids?: ReadonlySet<string>) {
-    return this.lookRenderer.prepare(ids);
+  prepareAssets(ids?: ReadonlySet<string>, signal?: AbortSignal) {
+    return this.lookRenderer.prepare(ids, signal);
   }
   resetRoom(area: AreaDefinition, visuals: WorldVisualDefinition | undefined) {
     this.visualOverride = visuals;

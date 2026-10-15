@@ -8,7 +8,6 @@ import { presentationFixture, sceneFixture } from '../fixtures/presentation';
 import { content, contentDefinitions } from '../fixtures/content';
 import { ContentRegistry } from '../../src/content/world';
 import type { Bridge } from '../../src/platform/bridge';
-import { Persistence } from '../../src/persistence';
 import type { Simulation } from '../../src/core/simulation';
 import { GameSession } from '../../src/core/session';
 import { manifestFixture } from '../fixtures/manifest';
@@ -45,11 +44,17 @@ test('resolved zero and empty resource handles dispose once and can be acquired 
 function runtime(loadPack: AssetRuntime['loadPack']) {
   return Object.assign(new AssetRuntime({}), { loadPack });
 }
-function fixture(scenes = sceneFixture(content), bridge = {} as Bridge) {
+function fixture(scenes = sceneFixture(content), bridge: Partial<Bridge> = {}) {
   const app = new Application(
     { dataset: {} } as unknown as HTMLCanvasElement,
     {},
-    bridge,
+    {
+      loadGame: async () => ({ status: 'empty' }),
+      loadSettings: async () => ({ status: 'empty' }),
+      saveGame: async () => {},
+      saveSettings: async () => {},
+      ...bridge,
+    },
     scenes,
     () => presentationFixture(),
     { status: () => {}, pause: () => {}, frame: () => {} },
@@ -268,16 +273,122 @@ test('null save rejections retain the original failure and reach application fee
   const { app } = fixture();
   const reported = Promise.withResolvers<string>();
   app.hooks.status = (message) => reported.resolve(message);
-  app.persistence = new Persistence({
+  Object.assign(app.bridge, {
     loadGame: async () => ({ status: 'empty' }),
     saveGame: () => Promise.reject(null),
   });
-  const saving = app.persistence.save(app.session.captureSave());
+  const saving = app.save();
   await assert.rejects(saving, (error: unknown) => error === null);
   assert.equal(app.persistence.error, 'null');
   app.safe(() => saving);
   assert.equal(await reported.promise, 'null');
   app.dispose();
+});
+
+test('shutdown revokes retained checkpoint and settings commands before cleanup callbacks', async () => {
+  const writes: string[] = [],
+    { app } = fixture(sceneFixture(content), {
+      loadGame: async () => ({ status: 'empty' }),
+      loadSettings: async () => ({ status: 'empty' }),
+      saveGame: async () => {
+        writes.push('game');
+      },
+      saveSettings: async () => {
+        writes.push('settings');
+      },
+    }),
+    save = () => app.save(),
+    settings = () => app.saveSettings(),
+    autosave = () => app.autosave();
+  assert.equal(Object.isFrozen(app.persistence), true);
+  assert.equal('save' in app.persistence, false);
+  assert.equal('load' in app.persistence, false);
+  // oxlint-disable-next-line no-constant-condition -- Compile-only ownership checks.
+  if (false) {
+    // @ts-expect-error Hosts inspect feedback, never borrow storage commands.
+    app.persistence.save(app.session.captureSave());
+    // @ts-expect-error Hosts cannot replace the persistence owner.
+    app.persistence = { error: '' };
+  }
+  let reentrant: Promise<void> | undefined;
+  app.presentation.dispose = () => {
+    reentrant = settings();
+    autosave();
+  };
+  app.dispose();
+  await assert.rejects(reentrant!, /disposed/);
+  await assert.rejects(save(), /disposed/);
+  await assert.rejects(settings(), /disposed/);
+  autosave();
+  assert.deepEqual(writes, []);
+});
+
+test(
+  'shutdown stops a pending manual save before it can submit settings or late feedback',
+  { timeout: 1000 },
+  async () => {
+    for (const fail of [false, true]) {
+      const pending = Promise.withResolvers<void>(),
+        writes: string[] = [],
+        statuses: string[] = [],
+        { app } = fixture(sceneFixture(content), {
+          loadGame: async () => ({ status: 'empty' }),
+          loadSettings: async () => ({ status: 'empty' }),
+          saveGame: () => {
+            writes.push('game');
+            return pending.promise;
+          },
+          saveSettings: async () => {
+            writes.push('settings');
+          },
+        });
+      app.hooks.status = (message) => statuses.push(message);
+      const saving = app.save(),
+        closed = assert.rejects(saving, /disposed/);
+      app.safe(() => saving);
+      assert.deepEqual(writes, ['game']);
+      app.dispose();
+      // Disposal settles the caller even if the adapter never completes. Already
+      // admitted writes remain owned and ordered by that adapter.
+      await closed;
+      if (fail) pending.reject(new Error('late disk failure'));
+      else pending.resolve();
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      assert.deepEqual(writes, ['game']);
+      assert.equal(app.persistence.error, '');
+      assert.deepEqual(statuses, []);
+    }
+  },
+);
+
+test('shutdown discards pending settings feedback and synchronous transport reentry', async () => {
+  const pending = Promise.withResolvers<void>(),
+    statuses: string[] = [],
+    { app } = fixture(sceneFixture(content), { saveSettings: () => pending.promise });
+  app.hooks.status = (message) => statuses.push(message);
+  app.settingsError = 'existing diagnostic';
+  const saving = app.saveSettings(),
+    closed = assert.rejects(saving, /disposed/);
+  app.safe(() => saving);
+  app.dispose();
+  await closed;
+  pending.resolve();
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.equal(app.settingsError, 'existing diagnostic');
+  assert.deepEqual(statuses, []);
+  let called = false;
+  app.safe(async () => {
+    called = true;
+  });
+  assert.equal(called, false);
+
+  const reentrant = fixture().app;
+  reentrant.bridge.saveGame = () => {
+    reentrant.dispose();
+    return Promise.reject(new Error('obsolete transport failure'));
+  };
+  await assert.rejects(reentrant.save(), /disposed/);
+  assert.equal(reentrant.persistence.error, '');
 });
 
 test('preview replacement preserves shared assets and retains partially failed selections', async () => {
@@ -456,7 +567,7 @@ test('checkpoint reading preserves later pause requests and background state, an
   const { app } = fixture(),
     waiting = Promise.withResolvers<Awaited<ReturnType<Bridge['loadGame']>>>(),
     saved = app.session.captureSave();
-  app.persistence = new Persistence({
+  Object.assign(app.bridge, {
     loadGame: () => waiting.promise,
     saveGame: async () => {},
   });
@@ -482,7 +593,7 @@ test('checkpoint reading preserves later pause requests and background state, an
 
   const late = fixture().app,
     pending = Promise.withResolvers<Awaited<ReturnType<Bridge['loadGame']>>>();
-  late.persistence = new Persistence({
+  Object.assign(late.bridge, {
     loadGame: () => pending.promise,
     saveGame: async () => {},
   });
@@ -498,7 +609,7 @@ test('newer session intent supersedes checkpoint reads before room acquisition',
   app.readOnly = true;
   app.input = { clear() {}, resetAim() {}, dispose() {} } as unknown as typeof app.input;
   app.runtime = runtime(async () => assert.fail('fixture requires no packs'));
-  app.persistence = new Persistence({
+  Object.assign(app.bridge, {
     loadGame: () => waiting.promise,
     saveGame: async () => {},
   });
@@ -515,7 +626,7 @@ test('newer session intent supersedes checkpoint reads before room acquisition',
   const writing = Promise.withResolvers<void>(),
     started = Promise.withResolvers<void>();
   app.readOnly = false;
-  app.persistence = new Persistence({
+  Object.assign(app.bridge, {
     loadGame: async () => ({ status: 'empty' }),
     saveGame: () => {
       started.resolve();
@@ -549,7 +660,7 @@ test('superseded transitions release late rooms without pausing or freezing the 
   const statuses: string[] = [];
   app.hooks.status = (message) => statuses.push(message);
   app.runtime = runtime(() => waiting.promise);
-  app.persistence = new Persistence({
+  Object.assign(app.bridge, {
     loadGame: () => checkpoint.promise,
     saveGame: async () => {},
   });
@@ -646,7 +757,7 @@ test('cancellation feedback can supersede the operation that triggered cancellat
   let released = 0,
     saves = 0;
   app.runtime = runtime(() => room.promise);
-  app.persistence = new Persistence({
+  Object.assign(app.bridge, {
     loadGame: () => checkpoint.promise,
     saveGame: async () => {
       saves++;
@@ -703,7 +814,7 @@ test('disposal during cancellation closes admission before another operation can
 test('loading callbacks cannot run preparation for an already superseded session intent', async () => {
   const { app } = fixture(),
     checkpoint = Promise.withResolvers<Awaited<ReturnType<Bridge['loadGame']>>>();
-  app.persistence = new Persistence({
+  Object.assign(app.bridge, {
     loadGame: () => checkpoint.promise,
     saveGame: async () => {},
   });
@@ -1044,7 +1155,7 @@ test('checkpoint reading freezes gameplay and recovers loading state for empty s
     waiting = Promise.withResolvers<Awaited<ReturnType<Bridge['loadGame']>>>();
   const states: boolean[] = [];
   app.hooks.loading = (active) => states.push(active);
-  app.persistence = new Persistence({
+  Object.assign(app.bridge, {
     loadGame: () => waiting.promise,
     saveGame: async () => {},
   });
@@ -1060,7 +1171,7 @@ test('checkpoint reading freezes gameplay and recovers loading state for empty s
   waiting.resolve({ status: 'empty' });
   assert.equal(await load, false);
   assert.deepEqual(states, [true, false]);
-  app.persistence = new Persistence({
+  Object.assign(app.bridge, {
     loadGame: async () => {
       throw new Error('storage unavailable');
     },
@@ -1150,9 +1261,9 @@ test('feedback failure after a transition cannot cancel its committed destinatio
   const statuses: string[] = [],
     saves: string[] = [];
   app.hooks.status = (message) => statuses.push(message);
-  app.persistence = new Persistence({
+  Object.assign(app.bridge, {
     loadGame: async () => ({ status: 'empty' }),
-    saveGame: async (save) => {
+    saveGame: async (save: Parameters<Bridge['saveGame']>[0]) => {
       saves.push(save.area);
     },
   });
@@ -1190,7 +1301,7 @@ test('failed room acceptance blocks rendering, gameplay and saves until recovery
     let saves = 0,
       renders = 0,
       preparations = 0;
-    app.persistence = new Persistence({
+    Object.assign(app.bridge, {
       loadGame: async () => ({ status: 'empty' }),
       saveGame: async () => {
         saves++;
@@ -1257,13 +1368,15 @@ test('superseding a committed room cannot accept it through an obsolete completi
     preparing = Promise.withResolvers<void>(),
     committed = Promise.withResolvers<void>();
   app.readOnly = true;
-  app.persistence = new Persistence({
+  Object.assign(app.bridge, {
     loadGame: async () => ({ status: 'empty' }),
     saveGame: async () => assert.fail('read-only'),
   });
   let preparations = 0;
-  app.presentation.prepareAssets = async () => {
+  let preparationSignal: AbortSignal | undefined;
+  app.presentation.prepareAssets = async (_ids, signal) => {
     if (++preparations === 2) {
+      preparationSignal = signal;
       committed.resolve();
       await preparing.promise;
     }
@@ -1275,13 +1388,18 @@ test('superseding a committed room cannot accept it through an obsolete completi
   assert.equal(await app.load(), false);
   assert.equal(app.roomReady, false);
   assert.equal(app.paused, true, 'The latest operation must leave recovery accessible');
-  preparing.resolve();
   await rejected;
+  assert.equal(preparationSignal?.aborted, true, 'Companion work receives room cancellation');
   assert.equal(app.roomReady, false, 'Obsolete preparation cannot reopen the simulation');
   assert.equal(app.busy, false);
   await app.reset();
   assert.equal(app.roomReady, true);
   assert.equal(app.paused, false);
+  const generation = app.session.generation;
+  preparing.resolve();
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.equal(app.session.generation, generation);
+  assert.equal(app.roomReady, true, 'Late obsolete completion cannot revoke the recovered room');
   app.dispose();
 });
 
@@ -1296,7 +1414,7 @@ test('frame reset requests wait for room acceptance before feedback and saving, 
       app.ready = true;
       app.command = () =>
         trigger === 'command' ? { reset: 'manual' } : { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } };
-      app.persistence = new Persistence({
+      Object.assign(app.bridge, {
         loadGame: async () => ({ status: 'empty' }),
         saveGame: async () => {
           saved.push(app.sim.generation);
@@ -1395,7 +1513,7 @@ test('superseding campfire travel cancels its plan immediately and releases the 
   const checkpoint = Promise.withResolvers<Awaited<ReturnType<Bridge['loadGame']>>>();
   let released = 0;
   app.runtime = runtime(() => waiting.promise);
-  app.persistence = new Persistence({
+  Object.assign(app.bridge, {
     loadGame: () => checkpoint.promise,
     saveGame: async () => {},
   });
