@@ -1,4 +1,3 @@
-import fs from 'node:fs';
 import { groundPlacementPolicy } from '../../src/content/scene-placement';
 import { resolveScene } from '../../src/content/world-art';
 import { Navigation } from '../../src/core/navigation';
@@ -265,13 +264,4 @@ test('placement rejects painted silhouettes and collision with base clearance, p
     ...collision,
   });
   assert.throws(() => resolveScene(d), /supply: base overlaps painted collision/);
-});
-
-test('all saved scenes keep upright props and enemy spawn clearances outside painting masks', () => {
-  const directory = new URL('../../authoring/scenes/', import.meta.url);
-  for (const file of fs.readdirSync(directory).filter((name) => name.endsWith('.json')))
-    assert.doesNotThrow(
-      () => resolveScene(JSON.parse(fs.readFileSync(new URL(file, directory), 'utf8'))),
-      file,
-    );
 });

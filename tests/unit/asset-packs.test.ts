@@ -27,7 +27,12 @@ import { prototypeAssets } from '../../tools/assets/preview';
 import { workspaceIdentity } from '../../tools/assets/workspace';
 
 test('recipe identity excludes runtime composition and includes preparation and publication inputs', async () => {
-  const read = (name: string) => fs.readFile(path.join(projectRoot, name));
+  // Each variant changes one input in the same immutable source snapshot.
+  const inputs = new Map<string, Promise<Buffer<ArrayBuffer>>>();
+  const read = (name: string) => {
+    if (!inputs.has(name)) inputs.set(name, fs.readFile(path.join(projectRoot, name)));
+    return inputs.get(name)!;
+  };
   const before = await recipeHash(read);
   for (const file of [
     'src/content/developer-scenes.ts',
@@ -72,7 +77,6 @@ test('recipe identity excludes runtime composition and includes preparation and 
   }
 });
 
-let fixtureRecipe: Promise<string> | undefined;
 async function fixture(t: TestContext) {
   const root = await temporaryDirectory(t, 'lantern-packs-'),
     source = path.join(root, 'source'),
@@ -82,7 +86,7 @@ async function fixture(t: TestContext) {
   await fs.writeFile(path.join(source, 'public/page.png'), 'unchanged texture');
   await fs.link(path.join(source, 'public/page.png'), path.join(source, 'public/native.png'));
   await fs.writeFile(path.join(source, 'metadata/receipt.json'), '{}');
-  const lock = await makeArchive(source, archive, await (fixtureRecipe ??= recipeHash())),
+  const lock = await makeArchive(source, archive, 'a'.repeat(64)),
     body = await fs.readFile(archive),
     cache = new AssetCache(path.join(root, 'cache'), 256 * 1024);
   return {
