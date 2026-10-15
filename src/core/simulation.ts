@@ -489,7 +489,7 @@ export class Simulation {
       this.emit(h, { kind: 'room-clear' });
     }
     const exit =
-      h.health > 0
+      h.health > 0 && !this.movementPreview
         ? this.areaDefinition.exits.find((e) => {
             const bounds = this.areaDefinition.bounds;
             // Boundary markers may sit beyond the walkable room. Keep the contact ray inside it.

@@ -853,6 +853,15 @@ test('editor walking preserves state, releases input and constrains the camera a
   await page.waitForFunction(() => window.sceneEditor.view().sim!.hero.state === 'walk');
   await expect
     .poll(() =>
+      page.evaluate(
+        () =>
+          window.sceneEditor.view().presentation!.actorPresentation.actors.get('player')!.sprite
+            .animator.time,
+      ),
+    )
+    .toBeGreaterThan(50);
+  await expect
+    .poll(() =>
       page.evaluate(() => {
         const hero = window.sceneEditor.view().sim!.hero;
         const spawn = window.sceneEditor.state().document.hero;
