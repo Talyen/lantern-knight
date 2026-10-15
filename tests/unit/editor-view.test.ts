@@ -208,3 +208,61 @@ test('editor acceptance hides failed rebuilds, recovers and preserves installed 
     runtime.dispose();
   }
 });
+
+test(
+  'placement selection and clearing cancel obsolete claims without waiting for asset transport',
+  { timeout: 2000 },
+  async () => {
+    const requests: { signal: AbortSignal; resolve: (pack: PackLease) => void }[] = [];
+    const runtime = new AssetRuntime({});
+    runtime.loadPack = (_id, signal) => {
+      const pending = Promise.withResolvers<PackLease>();
+      requests.push({ signal: signal!, resolve: pending.resolve });
+      return pending.promise;
+    };
+    const view = new EditorView({} as HTMLCanvasElement, runtime);
+    Object.assign(view, { accepted: true });
+    const old = view.placementGhost('old', 'idle', '0', new Vector3());
+    const next = view.placementGhost('next', 'idle', '0', new Vector3());
+    assert.equal(requests[0]!.signal.aborted, true);
+    view.clearPlacementGhost();
+    assert.equal(requests[1]!.signal.aborted, true);
+    await Promise.all([old, next]);
+    let releases = 0;
+    for (const request of requests)
+      request.resolve({ release: () => releases++ } as unknown as PackLease);
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(releases, 2);
+    view.dispose();
+  },
+);
+
+test('reentrant ghost cancellation keeps the newest selection as the only admitted request', async () => {
+  const requests: { id: string; signal: AbortSignal; resolve: (pack: PackLease) => void }[] = [];
+  const runtime = new AssetRuntime({});
+  runtime.loadPack = (id, signal) => {
+    const pending = Promise.withResolvers<PackLease>();
+    requests.push({ id, signal: signal!, resolve: pending.resolve });
+    return pending.promise;
+  };
+  const view = new EditorView({} as HTMLCanvasElement, runtime);
+  Object.assign(view, { accepted: true });
+  const old = view.placementGhost('old', 'idle', '0', new Vector3());
+  let newest: Promise<void> | undefined;
+  requests[0]!.signal.addEventListener(
+    'abort',
+    () => {
+      newest = view.placementGhost('newest', 'idle', '0', new Vector3());
+    },
+    { once: true },
+  );
+  const superseded = view.placementGhost('superseded', 'idle', '0', new Vector3());
+  assert.deepEqual(
+    requests.map((r) => r.id),
+    ['old', 'newest'],
+  );
+  view.clearPlacementGhost();
+  for (const request of requests) request.resolve({ release() {} } as unknown as PackLease);
+  await Promise.all([old, superseded, newest]);
+  view.dispose();
+});

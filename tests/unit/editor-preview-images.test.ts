@@ -24,7 +24,7 @@ function fixture() {
   const target = () => ({ isConnected: true }) as HTMLCanvasElement;
   const image = { naturalWidth: 16, naturalHeight: 16 } as HTMLImageElement;
   const flush = async () => {
-    for (let i = 0; i < 8; i++) await Promise.resolve();
+    await new Promise<void>((resolve) => setImmediate(resolve));
   };
   return { images, requests, target, image, flush };
 }
@@ -153,4 +153,77 @@ it('leases oversized animation pages only until playback closes and rejects late
   await reopened.draw('oversized', () => paints++);
   assert.equal(paints, 3);
   assert.equal(f.requests.length, 3);
+});
+
+it('replacing canvases and closing playback retire unshared work without waiting for transport', async () => {
+  const f = fixture(),
+    canvas = f.target();
+  const old = f.images.draw(canvas, 'obsolete', () => assert.fail('obsolete paint'));
+  await f.flush();
+  f.requests[0]!.reject = () => {};
+  const current = f.images.draw(canvas, 'current', () => {});
+  await f.flush();
+  assert.equal(f.requests[0]!.cancelled, true);
+  await old;
+  f.requests[1]!.resolve(f.image);
+  await current;
+  const playback = f.images.playback(canvas);
+  const pending = playback.draw('closed', () => assert.fail('closed paint'));
+  await f.flush();
+  playback.dispose();
+  await pending;
+  assert.equal(f.requests[2]!.cancelled, true);
+  const reopened = f.images.draw(canvas, 'closed', () => {});
+  await f.flush();
+  assert.equal(f.requests.length, 4);
+  f.requests[2]!.resolve(f.image);
+  f.requests[3]!.resolve(f.image);
+  await reopened;
+  f.images.dispose();
+});
+
+it('retiring queued previews starts only their current successors and keeps shared readers alive', async () => {
+  const f = fixture();
+  const canvases = Array.from({ length: 12 }, () => f.target());
+  const stale = canvases.map((canvas, i) => f.images.draw(canvas, 'old-' + i, () => {}));
+  await f.flush();
+  const peer = f.images.draw(f.target(), 'old-0', () => {});
+  const latest = canvases.map((canvas, i) => f.images.draw(canvas, 'new-' + i, () => {}));
+  await f.flush();
+  assert.equal(f.requests[0]!.cancelled, false, 'A surviving reader owns the shared load');
+  assert.equal(
+    f.requests.some((r) => r.source === 'old-6'),
+    false,
+  );
+  f.requests[0]!.resolve(f.image);
+  await peer;
+  await f.flush();
+  for (let i = 0; i < 3; i++) {
+    for (const request of f.requests)
+      if (request.source.startsWith('new-')) request.resolve(f.image);
+    await f.flush();
+  }
+  await Promise.all([...stale, ...latest]);
+  assert.equal(f.requests.filter((r) => r.source.startsWith('new-')).length, 12);
+  assert.equal(
+    f.requests.some((r) => /^old-(6|7|8|9|10|11)$/.test(r.source)),
+    false,
+  );
+  f.images.dispose();
+});
+
+it('a pending animation source survives repeated frame requests on the same canvas', async () => {
+  const f = fixture(),
+    canvas = f.target();
+  let paints = 0;
+  const old = f.images.draw(canvas, 'shared', () => assert.fail('old paint'));
+  await f.flush();
+  const latest = f.images.draw(canvas, 'shared', () => paints++);
+  await old;
+  assert.equal(f.requests.length, 1);
+  assert.equal(f.requests[0]!.cancelled, false);
+  f.requests[0]!.resolve(f.image);
+  await latest;
+  assert.equal(paints, 1);
+  f.images.dispose();
 });

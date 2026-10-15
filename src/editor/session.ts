@@ -1542,7 +1542,20 @@ export function createEditorSession() {
     controls();
     ready = true;
     if (!project.recoveryPending) status('');
-    frames = new FrameScheduler(animate, () => (last = 0), automated);
+    frames = new FrameScheduler(
+      animate,
+      () => (last = 0),
+      automated,
+      (error) => {
+        cleanupAll([
+          () => dispose(),
+          () => {
+            $('status').textContent = 'Editor stopped: ' + editorError(error);
+            $('status').classList.add('error');
+          },
+        ]);
+      },
+    );
   }
   // Development-only inspection supports browser acceptance without exposing a player bridge.
   window.sceneEditor = {
