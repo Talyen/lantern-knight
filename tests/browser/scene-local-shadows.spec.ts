@@ -104,7 +104,7 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
       lighting.common.inkLightPosition.value[slot]
         .copy(right)
         .multiplyScalar(side * 2)
-        .add(new T.Vector3(0, 1.3, 0));
+        .add(new T.Vector3(outward.x * 1.5, 1.3, outward.z * 1.5));
       lighting.common.inkLightPower.value.fill(0);
       lighting.common.inkLightPower.value[slot] = day || !lit ? 0 : 2;
       lighting.common.inkLightRange.value[slot] = 7;
@@ -210,7 +210,7 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
   });
   expect(proof.error).toBe(0);
   expect(proof.casters).toBe(1);
-  expect(proof.change.count).toBeGreaterThan(20);
+  expect(proof.change.count, JSON.stringify(proof)).toBeGreaterThan(20);
   expect(proof.moving.count).toBeGreaterThan(20);
   expect(proof.sunProof.count).toBeGreaterThan(20);
   for (const count of proof.perSlot) expect(count).toBeGreaterThan(20);

@@ -41,8 +41,52 @@ export class ShadowProxies {
           shape.holes = mask.holes.map(
             (hole) => new T.Path(hole.map(([u, v]) => new T.Vector2(u, v))),
           );
-          const geometry = new T.ShapeGeometry(shape),
-            positions = geometry.getAttribute('position');
+          const geometry = new T.ShapeGeometry(shape);
+          // A contact boundary is piecewise linear in image X. Split triangles
+          // at every bend so the caster and per-pixel receiver agree between
+          // contour vertices, including broad canopy interiors.
+          if (region.depth.kind === 'boundary') {
+            const source = geometry.getAttribute('position'),
+              indices = geometry.getIndex()!,
+              cuts = region.depth.points.map((p) => layout.uv(p)[0]),
+              vertices: number[] = [];
+            for (let i = 0; i < indices.count; i += 3) {
+              let pieces = [
+                [0, 1, 2].map((j) => {
+                  const index = indices.getX(i + j);
+                  return new T.Vector2(source.getX(index), source.getY(index));
+                }),
+              ];
+              for (const cut of cuts) {
+                pieces = pieces.flatMap((polygon) => {
+                  if (!polygon.some((p) => p.x < cut) || !polygon.some((p) => p.x > cut))
+                    return [polygon];
+                  const halves: T.Vector2[][] = [[], []];
+                  for (let j = 0; j < polygon.length; j++) {
+                    const a = polygon[j]!,
+                      b = polygon[(j + 1) % polygon.length]!;
+                    if (a.x <= cut) halves[0]!.push(a);
+                    if (a.x >= cut) halves[1]!.push(a);
+                    if ((a.x < cut && b.x > cut) || (a.x > cut && b.x < cut)) {
+                      const p = a.clone().lerp(b, (cut - a.x) / (b.x - a.x));
+                      halves[0]!.push(p);
+                      halves[1]!.push(p);
+                    }
+                  }
+                  return halves;
+                });
+              }
+              for (const polygon of pieces)
+                for (let j = 1; j < polygon.length - 1; j++)
+                  for (const p of [polygon[0]!, polygon[j]!, polygon[j + 1]!])
+                    vertices.push(p.x, p.y, 0);
+            }
+            geometry.setIndex(null);
+            geometry.setAttribute('position', new T.Float32BufferAttribute(vertices, 3));
+            geometry.deleteAttribute('normal');
+            geometry.deleteAttribute('uv');
+          }
+          const positions = geometry.getAttribute('position');
           for (let i = 0; i < positions.count; i++) {
             const u = positions.getX(i),
               point = layout.world([u, positions.getY(i)]);

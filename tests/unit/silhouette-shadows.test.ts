@@ -5,7 +5,8 @@ import { ShadowProxies } from '../../src/presentation/shadow-proxies';
 import { silhouetteMatrix } from '../../src/presentation/silhouette-pose';
 import { ActorSprite } from '../../src/presentation/sprite';
 import { manifestFixture } from '../fixtures/manifest';
-import { makeCamera, outward } from '../../src/presentation/camera';
+import { makeCamera, outward, right } from '../../src/presentation/camera';
+import { regionDepth } from '../../src/presentation/ground-occlusion';
 import { emptyScene } from '../../src/editor/default-scene';
 import { resolveScene } from '../../src/content/world-art';
 import { Simulation } from '../../src/core/simulation';
@@ -141,4 +142,30 @@ test('painted masks produce physical silhouette geometry at their authored depth
   mesh.geometry.addEventListener('dispose', () => disposed++);
   proxies.reset();
   assert.equal(disposed, 1);
+  art.groundInteraction = {
+    ...art.groundInteraction,
+    regions: [
+      {
+        ...art.groundInteraction.regions[0]!,
+        depth: {
+          kind: 'boundary',
+          points: [layout.world([0.4, 0.7]), layout.world([0.5, 0.9]), layout.world([0.6, 0.7])],
+        },
+      },
+    ],
+  };
+  const region = art.groundInteraction.regions[0]!;
+  proxies.build(new Simulation(content).view, art, []);
+  const curved = (proxies.proxies.children[0] as T.Mesh).geometry.getAttribute('position');
+  for (let i = 0; i < curved.count; i += 3) {
+    const center = new T.Vector3();
+    for (let j = 0; j < 3; j++)
+      center.add(new T.Vector3().fromBufferAttribute(curved, i + j).multiplyScalar(1 / 3));
+    const u = center.dot(right) / art.editorFloor!.width + 0.5;
+    assert.ok(
+      Math.abs(center.x * outward.x + center.z * outward.z - regionDepth(region, u, layout)) < 1e-5,
+      'Triangle interiors follow every bend in the receiver depth boundary',
+    );
+  }
+  proxies.reset();
 });
