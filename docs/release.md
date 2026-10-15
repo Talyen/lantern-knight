@@ -10,7 +10,7 @@ npm run test:assets
 npm run assets:check
 npm run build
 CI=true LANTERN_PREVIEW_PORT=5175 npm run test:browser -- game --built
-CI=true LANTERN_PREVIEW_PORT=5175 npm run test:browser -- scene image-delivery ground-occlusion editor effects
+CI=true LANTERN_PREVIEW_PORT=5175 npm run test:browser -- scene image-delivery ground-occlusion audio editor effects
 ```
 
 In PowerShell, set `$env:CI = 'true'` and `$env:LANTERN_PREVIEW_PORT = '5175'` before the browser commands and omit their inline environment prefixes. This sequence includes the routine CI browser coverage and optional authoring scenarios. The [authored-ground diagnostic](developer-tools.md#ground-interaction) remains an explicit local scene review. [Verification](verification.md) explains what each tier establishes.

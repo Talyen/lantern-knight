@@ -90,7 +90,7 @@ The scene fills the window below a slim toolbar. Choose Outdoor, Interior, Syste
 
 Pause/Resume and Restart apply to the current scene or animation cycle.
 
-The editor's Artwork browser and Dev Preview's Animation browser share the prepared artwork catalog, including enemy, breakable and loot/container animations. Usage filters offer All assets, In use and In this scene; Animated and type filters combine with search. In use follows game/fixture references and transitive asset dependencies, not catalog membership or loaded textures. In this scene follows the current fixture or unsaved editor document; placement and undo update it immediately. The editor starts with All assets, while Animation starts with Animated enabled. Animated clips and Still poses are separate clip groups. Non-hero artwork previews as one centered subject.
+The editor's Add browser and Dev Preview's Animation browser share the prepared artwork catalog, including enemy, breakable and loot/container animations. Usage filters offer All assets, In use and In this scene; Animated and type filters combine with search. In use follows game/fixture references and transitive asset dependencies, not catalog membership or loaded textures. In this scene follows the current fixture or unsaved editor document; placement and undo update it immediately. The editor starts with All assets, while Animation starts with Animated enabled. Animated clips and Still poses are separate clip groups. Non-hero artwork previews as one centered subject.
 
 Animation enters dedicated asset playback; Return to scene restores the scene's pause and camera context. Timeline seeking and frame stepping are silent. Comparison supports treatment and original/directed timing; advanced controls expose stabilization, rigid sword, locomotion timing, zoom, backdrop and registration. Narrow windows frame comparison actors within the uncovered canvas strip.
 
@@ -127,7 +127,7 @@ Timing choices share the 100 ms damage window, hit area, damage amount and Conta
 
 Timing overrides change simulation, cel holds, notifies and effect playback together at the next available action. Down-right recovery defaults to Canonical final pose: replace only the final drawing with the canonical idle frame while preserving the penultimate pose, action duration and damage beats. Original ending and Clean settle to idle remain available for comparison.
 
-Game and Dev Preview share the Quick timing and Canonical final pose defaults. Preview overrides reset on reload and are excluded from checkpoints. Contact Shear appears for every positive damage event, including hero sword/lantern attacks and incoming enemy damage. Stop, Restart, fixture changes and dedicated animation review clear transient feedback.
+Game and Dev Preview share the Quick timing and Canonical final pose defaults. Preview overrides reset on reload and are excluded from checkpoints. Contact Shear appears for positive direct damage, including hero sword/lantern hits and incoming enemy hits. Burn ticks retain their persistent cue without replaying Contact Shear or impact sounds. Stop, Restart, fixture changes and dedicated animation review clear transient feedback.
 
 ### Automated diagnostics
 
