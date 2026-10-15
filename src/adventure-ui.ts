@@ -65,8 +65,10 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         draw(app);
         try {
           await action();
+          if (disposed) return;
           message = '';
         } catch (error) {
+          if (disposed) return;
           void app.audio.play('ui-deny', { world: false }).catch(() => {});
           message = (error as Error).message;
         } finally {
@@ -85,7 +87,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         button('Rest', () =>
           run(async () => {
             await app.rest(key);
-            app.hooks.status('Rested · health restored');
+            if (!disposed) app.hooks.status('Rested · health restored');
           }),
         ),
       );
@@ -98,7 +100,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
           () =>
             run(async () => {
               await app.travel(destination);
-              fire = destination;
+              if (!disposed) fire = destination;
             }),
         );
         b.disabled = current || working;

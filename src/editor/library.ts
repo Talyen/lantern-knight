@@ -216,6 +216,7 @@ export class SceneLibrary {
     }
   }
   async load(destination: 'scenes' | 'recovery' | 'arrangements' = 'scenes') {
+    this.lifetime.signal.throwIfAborted();
     const response = await fetch('/__lantern_editor', { signal: this.lifetime.signal });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error);
@@ -282,6 +283,7 @@ export class SceneLibrary {
     if (destination !== 'arrangements') return;
     const r = await fetch('/__lantern_editor?fragments', { signal: this.lifetime.signal });
     const fragments = await r.json();
+    this.lifetime.signal.throwIfAborted();
     if (!r.ok) throw new Error(fragments.error);
     const list = $('library-fragments');
     list.replaceChildren();

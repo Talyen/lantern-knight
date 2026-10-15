@@ -1,7 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { attackDefinition } from '../../src/content/gameplay';
-import { ContentRegistry, heightAt, type AreaDefinition } from '../../src/content/world';
+import {
+  ContentRegistry,
+  heightAt,
+  type AreaDefinition,
+  type ContentDefinitions,
+} from '../../src/content/world';
 import { actors } from '../../src/content/actors';
 import { GameSession } from '../../src/core/session';
 import { Simulation } from '../../src/core/simulation';
@@ -1057,4 +1062,17 @@ test('prepared rooms suspend progression writes and cancellation restores the ac
   session.equip('orchard-ring', 'ring1');
   assert.equal(session.inventory.gold, 3);
   assert.equal(session.equipment.ring1, 'orchard-ring');
+});
+
+test('a prototype-named destination still requires its own current area checkpoint', () => {
+  const source = fixture();
+  const definitions = structuredClone(source.registry.definitions) as ContentDefinitions;
+  definitions.areas[0]!.id = 'constructor';
+  definitions.initialArea = 'constructor';
+  definitions.areas[1]!.exits[0]!.destination = 'constructor';
+  const registry = new ContentRegistry(definitions);
+  const save = new GameSession(registry).captureSave();
+  assert.doesNotThrow(() => parseGame(save, registry));
+  delete save.areas['constructor'];
+  assert.throws(() => parseGame(save, registry), /current area/);
 });

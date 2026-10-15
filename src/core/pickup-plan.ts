@@ -57,6 +57,7 @@ export class PickupPlan {
     return true;
   }
   beforeStep(sim: Simulation, command: Command) {
+    if (command.generation !== undefined && command.generation !== sim.generation) return;
     if (
       this.pending &&
       (this.pending.generation !== sim.generation ||

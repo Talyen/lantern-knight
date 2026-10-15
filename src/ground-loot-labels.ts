@@ -46,27 +46,29 @@ export class GroundLootLabels {
         button.dataset.drop = drop.id;
         button.textContent = `${items[reward.item]!.name}${reward.amount > 1 ? ` ×${reward.amount}` : ''}`;
         button.setAttribute('aria-label', `Collect ${button.textContent}`);
+        let hovered = false;
+        const highlight = () => {
+          if (hovered || document.activeElement === button) this.app.highlightedDrop = drop.id;
+          else if (this.app.highlightedDrop === drop.id) this.app.highlightedDrop = undefined;
+        };
         button.addEventListener(
           'pointerenter',
           () => {
-            this.app.highlightedDrop = drop.id;
+            hovered = true;
+            highlight();
           },
           { signal: this.signal },
         );
         button.addEventListener(
           'pointerleave',
           () => {
-            if (this.app.highlightedDrop === drop.id) this.app.highlightedDrop = undefined;
+            hovered = false;
+            highlight();
           },
           { signal: this.signal },
         );
-        button.addEventListener(
-          'focus',
-          () => {
-            this.app.highlightedDrop = drop.id;
-          },
-          { signal: this.signal },
-        );
+        button.addEventListener('focus', highlight, { signal: this.signal });
+        button.addEventListener('blur', highlight, { signal: this.signal });
         button.addEventListener(
           'click',
           (event) => {

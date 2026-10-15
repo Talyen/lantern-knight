@@ -10,9 +10,10 @@ import {
 import { GameSession } from '../../src/core/session';
 import { parseGame } from '../../src/core/save';
 import { Simulation } from '../../src/core/simulation';
+import { PickupPlan } from '../../src/core/pickup-plan';
 import { MovementPlans } from '../../src/core/movement-plans';
 import { tuning } from '../../src/content/gameplay';
-import { contentDefinitions } from '../fixtures/content';
+import { content, contentDefinitions } from '../fixtures/content';
 const area = (): AreaDefinition => ({
   ...structuredClone(contentDefinitions.areas[0]!),
   id: 'navigation',
@@ -456,4 +457,25 @@ test('automatic boundary departures still work when their marker is beyond the w
   const sim = new Simulation(registry, 142, 'upper-landing');
   Object.assign(sim.hero, { x: 0, z: 8.3, y: 0 });
   assert.equal(sim.step().transition, 'court');
+});
+
+test('obsolete commands cannot cancel the current pickup route', () => {
+  const sim = new Simulation(content);
+  sim.drops.push({
+    id: 'loot',
+    source: 'test',
+    enemy: false,
+    x: 3,
+    z: 5,
+    rewards: [{ item: 'gold', amount: 1 }],
+  });
+  const plan = new PickupPlan();
+  assert.equal(plan.request(sim, 'loot'), true);
+  plan.beforeStep(sim, {
+    move: { x: 1, z: 0 },
+    aim: { x: 0, z: 0 },
+    attack: true,
+    generation: sim.generation - 1,
+  });
+  assert.equal(sim.navigationDebug(false).routes.length, 1);
 });

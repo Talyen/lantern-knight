@@ -279,12 +279,19 @@ export class AudioPlayback {
         this.manifest?.samples.filter((s) =>
           options.sampleId ? s.id === options.sampleId : s.cue === cue && !s.loop,
         ) ?? [];
-      const choices = variants.filter((s) => s.id !== this.lastVariant.get(cue));
-      const pool = choices.length ? choices : variants;
-      const sample = pool[Math.min(pool.length - 1, Math.floor(this.deps.random() * pool.length))];
-      if (!sample) return;
-      lease = await this.buffers.acquire(sample);
-      if (!allowed() || this.deps.now() - requested > 0.25) return;
+      let sample: (typeof variants)[number] | undefined;
+      // Loading yields to sibling cues. Select again if a sibling played this
+      // variant in the meantime, so actual playback never repeats it immediately.
+      do {
+        lease?.release();
+        lease = undefined;
+        const choices = variants.filter((s) => s.id !== this.lastVariant.get(cue));
+        const pool = choices.length ? choices : variants;
+        sample = pool[Math.min(pool.length - 1, Math.floor(this.deps.random() * pool.length))];
+        if (!sample) return;
+        lease = await this.buffers.acquire(sample);
+        if (!allowed() || this.deps.now() - requested > 0.25) return;
+      } while (!options.sampleId && variants.length > 1 && sample.id === this.lastVariant.get(cue));
       const key = cue + ':' + (options.key ?? 'global');
       if ((this.cooldown.get(key) ?? -Infinity) > this.deps.now()) return;
       const distance =
