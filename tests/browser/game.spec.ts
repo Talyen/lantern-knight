@@ -51,6 +51,22 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
       for (let i = 0; i < 10; i++)
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
       child.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, code: 'KeyW' }));
+      for (const code of ['KeyI', 'KeyE'])
+        child.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, code }));
+      if (document.querySelector<HTMLDialogElement>('.adventure-panel')?.open)
+        throw new Error('Adventure hotkeys must ignore focused controls');
+      const editable = document.createElement('div');
+      editable.contentEditable = 'true';
+      document.body.append(editable);
+      try {
+        editable.focus();
+        for (const code of ['KeyI', 'KeyE'])
+          editable.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, code }));
+        if (document.querySelector<HTMLDialogElement>('.adventure-panel')?.open)
+          throw new Error('Typing in editable content must not open adventure panels');
+      } finally {
+        editable.remove();
+      }
       canvas.focus();
       for (const modifier of ['ctrlKey', 'metaKey', 'altKey']) {
         canvas.dispatchEvent(

@@ -290,7 +290,7 @@ test('malformed saved Burn timers and duplicate hint histories cannot enter a se
   const session = new GameSession(registry());
   const before = session.captureSave();
   const invalidBurn = structuredClone(before);
-  invalidBurn.areas[invalidBurn.area]!.actors.a!.burn = { remaining: 1, nextTick: 60 };
+  invalidBurn.areas[invalidBurn.area]!.actors.a!.burn = { remaining: 1, nextTick: 0 };
   assert.throws(() => session.restoreSave(invalidBurn));
   const duplicate = structuredClone(before);
   duplicate.adventure!.onboarding = { completed: ['sword'], dismissed: ['sword'] };

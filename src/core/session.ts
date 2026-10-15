@@ -90,7 +90,7 @@ export class GameSession {
       for (const f of a.campfires ?? [])
         if (f.discovered) {
           discovered.add(a.id + '/' + f.id);
-          lastFire = a.id + '/' + f.id;
+          if (!lastFire || a.id === area) lastFire = a.id + '/' + f.id;
         }
     if (registry.definitions.areas.some((a) => a.campfires?.length)) {
       inventoryState = new InventoryState({
@@ -325,7 +325,8 @@ export class GameSession {
     return this.prepareRoom(state, { kind: 'area-transition', destination }, true);
   }
   fire(key: string) {
-    const [area, id] = key.split('/');
+    const [area, id, extra] = key.split('/');
+    if (!area || !id || extra !== undefined) throw new Error('Unknown campfire');
     const definition = this.registry.area(area!).campfires?.find((f) => f.id === id);
     if (!definition) throw new Error('Unknown campfire');
     return { area: area!, definition };
@@ -402,6 +403,7 @@ export class GameSession {
       fire ? 'fire-' + this.fire(fire).definition.id : undefined,
     );
     state.sim.hero.health = state.sim.maxHealth;
+    if (fire) state.lastFire = fire;
     return this.prepareRoom(state, { kind: 'room-reset', reason });
   }
   resetCurrentArea(reason: 'death' | 'manual' = 'manual'): readonly GameplayEvent[] {

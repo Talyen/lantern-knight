@@ -2,6 +2,8 @@ import { mockGlobals } from '../fixtures/globals';
 import { it } from 'node:test';
 import assert from 'node:assert/strict';
 import { EditorHistory } from '../../src/editor/model';
+import { sceneArtFindings } from '../../src/content/scene-art-validation';
+import { resolveAuthoredScene } from '../../src/content/world-art';
 import { ContentRegistry } from '../../src/content/world';
 import { composeDraftGameplay } from '../../src/content/draft-gameplay';
 import { emptyScene } from '../../src/editor/default-scene';
@@ -341,6 +343,43 @@ it('duplicating an assembly preserves its authored prop order', () => {
       ),
     ['child', 'support'],
   );
+});
+
+it('duplicating an assembly preserves intentional overlap allowances between its copied objects', () => {
+  const h = assembly();
+  h.change((d) => {
+    d.objects.find((o) => o.id === 'support')!.footprint = [2, 2];
+    const other = d.objects.find((o) => o.id === 'other')!;
+    other.x = 0.4;
+    other.footprint = [2, 2];
+    d.overlaps = [
+      {
+        a: 'support',
+        b: 'other',
+        region: { minX: -1, maxX: 2, minZ: -1, maxZ: 1 },
+        reason: 'Intentional assembled join',
+      },
+    ];
+  });
+  const before = h.document;
+  const [support, , other] = h.duplicateMany(['support', 'other']);
+  const overlap = h.document.overlaps.find((o) => o.a === support && o.b === other);
+  assert.deepEqual(overlap, {
+    a: support,
+    b: other,
+    region: { minX: -0.5, maxX: 2.5, minZ: -0.5, maxZ: 1.5 },
+    reason: 'Intentional assembled join',
+  });
+  assert.equal(
+    sceneArtFindings(resolveAuthoredScene(h.document)).some(
+      (f) =>
+        f.kind === 'solid-intersection' &&
+        ((f.a === support && f.b === other) || (f.a === other && f.b === support)),
+    ),
+    false,
+  );
+  h.undo();
+  assert.deepEqual(h.document, before);
 });
 
 it('applying a repeat pattern preserves the copied pickups as playable health rewards', async (t) => {
