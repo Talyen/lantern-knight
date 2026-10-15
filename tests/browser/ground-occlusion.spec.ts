@@ -139,7 +139,26 @@ test('ground atlas masks each actor independently and draws hidden outline pixel
       const dropFront = render(-1, -1, true);
       dropMaterial.dispose();
       scene.remove(drop.mesh);
-      return { ...proof, upperHidden, lowerVisible, dropHidden, dropFront };
+      const propMaterial = new T.MeshBasicMaterial({
+        map: texture,
+        alphaTest: 0.05,
+        toneMapped: false,
+      });
+      const prop = {
+        material: propMaterial,
+        geometry: sprites[0]!.geometry,
+        mesh: new T.Mesh(sprites[0]!.geometry, propMaterial),
+      };
+      prop.mesh.quaternion.copy(camera.quaternion);
+      scene.add(prop.mesh);
+      atlas.attach(prop, 'prop');
+      atlas.update(prop, -1, -1);
+      const propHidden = render(-1, -1, true);
+      atlas.update(prop, 1, 1);
+      const propFront = render(-1, -1, true);
+      propMaterial.dispose();
+      scene.remove(prop.mesh);
+      return { ...proof, upperHidden, lowerVisible, dropHidden, dropFront, propHidden, propFront };
     } finally {
       atlas.dispose();
       for (const s of sprites) {
@@ -164,6 +183,8 @@ test('ground atlas masks each actor independently and draws hidden outline pixel
   expect(proof.bytes).toBe(64 * 64 * 4);
   expect(proof.dropHidden.left + proof.dropHidden.right).toBe(0);
   expect(proof.dropFront.left + proof.dropFront.right).toBeGreaterThan(300);
+  expect(proof.propHidden.left + proof.propHidden.right).toBe(0);
+  expect(proof.propFront.left + proof.propFront.right).toBeGreaterThan(300);
   expect(proof.upperHidden.left + proof.upperHidden.right).toBe(0);
   expect(proof.lowerVisible.left).toBeGreaterThan(300);
   expect(proof.lowerVisible.right).toBeGreaterThan(300);

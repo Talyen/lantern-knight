@@ -237,7 +237,26 @@ test('placement rejects painted silhouettes and collision with base clearance, p
   assert.match(policy(layout.world([0.405, 0.5]), 0.3)!, /Tree/);
   assert.equal(new Navigation(scene.area).route(masked, hole, 0.3).status, 'ready');
   d.objects.push({ id: 'barrel', kind: 'prop', asset: 'ink-scenery', clip: 'barrel', ...masked });
-  assert.throws(() => resolveScene(d), /barrel: base overlaps painted scenery/);
+  assert.doesNotThrow(() => resolveScene(d), 'Scenery may be tucked behind painted foliage');
+  d.gameplay!.interactables = [
+    {
+      id: 'supply',
+      object: 'barrel',
+      kind: 'container',
+      ...masked,
+      guards: [],
+      rewards: [],
+      idle: 'barrel',
+      action: 'barrel',
+      spent: 'barrel',
+    },
+  ];
+  assert.throws(
+    () => resolveScene(d),
+    /barrel: base overlaps painted scenery/,
+    'Gameplay targets must begin visible',
+  );
+  d.gameplay!.interactables = [];
   d.objects[0]!.role = 'ground';
   assert.doesNotThrow(() => resolveScene(d), 'Ground overlays are intentional artwork');
   d.objects = [];

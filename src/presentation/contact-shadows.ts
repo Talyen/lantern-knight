@@ -30,10 +30,9 @@ export function contactFootprint(
     p.role === 'ground' ||
     p.mount ||
     p.wallFace ||
-    asset.type === 'effect' ||
+    (asset.type === 'effect' && !p.fixture) ||
     asset.placement === 'ground' ||
     asset.placement === 'reference' ||
-    asset.projection === 'top-down' ||
     (p.y ?? 0) > 0.05
   )
     return;

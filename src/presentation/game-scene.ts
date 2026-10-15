@@ -387,6 +387,7 @@ export class GamePresentation implements PresentationLifecycle {
       setCutoutOpacity(m.material, fade ? 0.38 : 1);
     }
     this.roomPresentation.inkRoom?.update(sim, alpha, true, ms);
+    if (this.groundOcclusion) this.roomPresentation.inkRoom?.occlude(this.groundOcclusion);
     if (this.groundOcclusion)
       for (const drop of sim.drops) {
         const sprite = this.roomPresentation.inkRoom?.effects.get('drop-' + drop.id);

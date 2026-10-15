@@ -1,11 +1,11 @@
 import { cleanupAll, cleanupAfterFailure, DisposalScope } from '../assets/cleanup';
 import type { GroundOcclusion } from './ground-occlusion';
-import { multiplyGroundShadow } from './ground-shadow-material';
 import { ColorAntialiasing } from './color-antialiasing';
 import { radialTexture } from './radial-texture';
 import { heroLanternPosition } from './hero-lantern';
 import { FocusMask } from './focus-mask';
 import { ShadowProxies } from './shadow-proxies';
+import { LocalLightShadows } from './local-light-shadows';
 import { SCENE_LIGHT_CAPACITY } from '../content/world-visuals';
 import * as T from 'three';
 import {
@@ -21,7 +21,6 @@ import {
 import { IllustratedLighting } from './illustrated-lighting';
 import { GroundMist } from './ground-mist';
 import { defaultLook, lightingRigs, lookPresets, type LookSettings } from './lighting-profiles';
-import { neutralColor } from './illustrated-lighting';
 import { SurfaceRelief } from './surface-relief';
 import { heightAt } from '../content/world';
 import type { SimulationView } from '../core/simulation-view';
@@ -112,10 +111,10 @@ export class SceneLightingRenderer {
   private sun = new T.DirectionalLight(0xffffff, 1);
   private extras = new T.Group();
   private shadowProxies: ShadowProxies;
+  private localShadows: LocalLightShadows;
   private get proxies() {
     return this.shadowProxies.proxies;
   }
-  private floorReceivers: T.Mesh[] = [];
   private dust: T.Points;
   private mist: GroundMist;
   private glows: T.Mesh<T.PlaneGeometry, T.MeshBasicMaterial>[] = [];
@@ -154,8 +153,9 @@ export class SceneLightingRenderer {
       this.lighting = this.lifetime.own(new IllustratedLighting(resources.imageRequest));
       this.surfaces = this.lifetime.own(new SurfaceRelief());
       this.mist = this.lifetime.own(new GroundMist());
-      this.shadowProxies = new ShadowProxies(this.sun);
       const { renderer, scene, camera } = resources;
+      this.localShadows = this.lifetime.own(new LocalLightShadows(scene, renderer, this.lighting));
+      this.shadowProxies = new ShadowProxies(this.sun, this.localShadows.lights);
       this.focusMask = new FocusMask(
         renderer,
         scene,
@@ -298,7 +298,7 @@ export class SceneLightingRenderer {
   deactivate() {
     this.lighting.common.inkEnabled.value = 0;
     this.extras.visible = this.proxies.visible = false;
-    for (const mesh of this.floorReceivers) mesh.visible = false;
+    this.localShadows.update(false);
     this.sun.castShadow = false;
     const r = this.resources.renderer;
     r.shadowMap.enabled = this.shadowWasEnabled;
@@ -306,23 +306,17 @@ export class SceneLightingRenderer {
     r.autoClear = this.priorAutoClear;
   }
   resetRoom() {
-    const receivers = this.floorReceivers;
-    this.floorReceivers = [];
     this.generation = -1;
     cleanupAll([
       () => this.surfaces.reset(),
       () => this.resetGpuTiming(),
-      ...receivers.flatMap((receiver) => [
-        () => receiver.geometry.dispose(),
-        () => (receiver.material as T.Material).dispose(),
-        () => receiver.removeFromParent(),
-      ]),
+      () => this.localShadows.reset(),
       () => this.shadowProxies.reset(),
       () => this.focusMask.reset(),
     ]);
   }
   private buildRoom(sim: SimulationView, frame: LightingFrame) {
-    const { visuals, groundOcclusion } = frame;
+    const { visuals } = frame;
     this.mist.setArea(sim.areaDefinition);
     const spriteGeometries = new Set(
       [
@@ -352,28 +346,6 @@ export class SceneLightingRenderer {
             o.castShadow = true;
           return;
         }
-        if (!materials.some((m) => m instanceof T.MeshBasicMaterial && !m.transparent && m.map))
-          return;
-        const receiver = new T.Mesh(
-          o.geometry.clone(),
-          multiplyGroundShadow(
-            new T.ShadowMaterial({
-              opacity: 0.3,
-              depthWrite: false,
-              color: 0x182238,
-              toneMapped: false,
-            }),
-          ),
-        );
-        groundOcclusion?.attachShadow(receiver.material as T.ShadowMaterial);
-        receiver.position.copy(o.position);
-        receiver.quaternion.copy(o.quaternion);
-        receiver.scale.copy(o.scale);
-        receiver.position.y += 0.024;
-        receiver.renderOrder = -1.6;
-        receiver.receiveShadow = true;
-        this.room.room.add(receiver);
-        this.floorReceivers.push(receiver);
       }
     });
     this.shadowProxies.build(sim, visuals, this.room.inkRoom?.sprites ?? []);
@@ -436,6 +408,7 @@ export class SceneLightingRenderer {
       look = lookPresets[s.look],
       origin = frame.cameraTarget;
     this.lighting.configure(s, origin, !!frame.visuals?.interior);
+    this.lighting.setGroundOcclusion(frame.groundOcclusion, frame.visuals?.editorFloor);
     if (frame.visuals?.interior || !fx.atmosphere) this.lighting.common.inkHaze.value = 0;
     const castShadows = s.shadows && !frame.visuals?.interior;
     this.lighting.common.inkShadowEnabled.value = castShadows ? 1 : 0;
@@ -470,17 +443,11 @@ export class SceneLightingRenderer {
       lights.inkLightPower.value[4] = flash.power;
       lights.inkLightRange.value[4] = flash.range;
     }
-    r.shadowMap.enabled = castShadows;
+    this.localShadows.update(s.shadows && s.lighting);
+    r.shadowMap.enabled = s.shadows;
     r.shadowMap.type = T.PCFShadowMap;
     this.sun.castShadow = castShadows;
-    this.proxies.visible = castShadows;
-    for (const receiver of this.floorReceivers) {
-      receiver.visible = castShadows;
-      const material = receiver.material as T.ShadowMaterial;
-      material.opacity = Math.min(0.4, look.shadow);
-      material.color.set(s.rig === 'golden' ? 0x182126 : 0x192331);
-      if (!fx.palette) neutralColor(material.color);
-    }
+    this.proxies.visible = s.shadows;
     const shadowOrigin = frame.visuals?.surround
       ? new T.Vector3(0, heightAt(sim.areaDefinition, 0, 0), 0)
       : origin;
@@ -499,6 +466,7 @@ export class SceneLightingRenderer {
     shadow.right = shadow.top = span;
     shadow.updateProjectionMatrix();
     for (const [id, v] of this.actors.actors) this.shadowProxies.updateActor(id, v.sprite);
+    this.shadowProxies.updateScenery(this.room.inkRoom?.sprites ?? []);
     this.extras.visible = s.atmosphere || s.lighting;
     this.dust.visible = fx.atmosphere && s.atmosphere && !frame.visuals?.interior;
     (this.dust.material as T.ShaderMaterial).uniforms.t!.value = this.time;
@@ -574,7 +542,7 @@ export class SceneLightingRenderer {
         height: h,
         colorBytes: main,
         focusColorAndDepthBytes: mask,
-        shadowBytes: 2048 * 2048 * 8,
+        shadowBytes: 2048 * 2048 * 8 + this.localShadows.bytes(),
         composerEstimatedBytes: targetsBytes,
         ledger,
       },

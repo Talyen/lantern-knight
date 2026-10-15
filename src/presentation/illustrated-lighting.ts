@@ -10,27 +10,58 @@ import { SCENE_SHADE_CAPACITY } from '../content/world-visuals';
 import { cameraContract as contract } from '../assets/camera-contract';
 import type { ActorSprite } from './sprite';
 import { registeredSword, rigidSwordGLSL } from './rigid-sword';
+import { silhouetteMatrix } from './silhouette-pose';
+import type { GroundOcclusion } from './ground-occlusion';
 import {
   lightingRigs,
   lookPresets,
   cameraKeyDirection,
   type LookSettings,
 } from './lighting-profiles';
+const localShadowShader = `
+${Array.from({ length: 5 }, (_, i) => `uniform samplerCubeShadow inkLocalShadowMap${i};`).join('\n')}
+float inkLocalVisibility(int i,vec3 receiver){
+ if(inkLocalShadowEnabled[i]<.5)return 1.0;
+ vec3 delta=receiver-inkLightPosition[i];
+ float d=max(max(abs(delta.x),abs(delta.y)),abs(delta.z)),near=.05,far=inkLocalShadowFar[i];
+ if(d<=near||d>=far)return 1.0;
+ float biased=max(near,d-.025);float depth=far*(biased-near)/(biased*(far-near));
+ vec4 samplePoint=vec4(normalize(delta),depth);
+ ${Array.from({ length: 5 }, (_, i) => `if(i==${i})return texture(inkLocalShadowMap${i},samplePoint);`).join('\n')}
+ return 1.0;
+}
+`;
 const shader = `
 ${rigidSwordGLSL}
-varying vec3 inkWorld; varying vec3 inkSurface; varying vec2 inkUV;
+varying vec3 inkWorld,inkShadowWorld; varying vec3 inkSurface; varying vec2 inkUV;
 uniform float inkEnabled,inkStrength,inkAmbient,inkMinimumLight,inkKeyStrength,inkRim,inkHaze,inkIsGround,inkEmissive,inkHasNormal,inkBlend,inkWarp,inkMix,inkMirror,inkFootY,inkBodyHeight,inkShadowEnabled,inkIsSprite;
 uniform vec3 inkFootPosition;uniform vec4 inkShadeZones[${SCENE_SHADE_CAPACITY}];
 uniform vec3 inkSky,inkGround,inkKey,inkDirection,inkFog,inkOrigin;
 uniform vec3 inkLightPosition[5]; uniform vec3 inkLightColor[5]; uniform float inkLightPower[5],inkLightRange[5];
+uniform float inkLocalShadowEnabled[5],inkLocalShadowFar[5];
 uniform sampler2D inkNormalA,inkNormalB,inkFlow;
 uniform vec4 inkTrimA,inkTrimB,inkRectA,inkFlowRect;
 uniform vec2 inkCanvas;
 uniform float inkSwordEnabled,inkSwordWidth,inkSwordRotation;uniform vec4 inkSwordA,inkSwordB;
 uniform sampler2DShadow inkShadowMap; uniform mat4 inkShadowMatrix;
-float inkVisibility(){
- if(inkShadowEnabled<.5||inkIsGround>.5)return 1.0;
- vec4 q=inkShadowMatrix*vec4(inkWorld+vec3(0.0,.035,0.0),1.0);q.xyz/=q.w;
+uniform sampler2D inkPaintedMask;uniform vec2 inkPaintedSize,inkPaintedRange;uniform float inkHasPaintedMask;
+vec4 inkPaintedSample(){
+ if(inkIsGround<.5||inkHasPaintedMask<.5)return vec4(0.0);
+ vec2 uv=vec2(dot(inkWorld,vec3(${right.x},${right.y},${right.z}))/inkPaintedSize.x+.5,.5-dot(inkWorld,vec3(${up.x},${up.y},${up.z}))/inkPaintedSize.y);
+ if(any(lessThan(uv,vec2(0.0)))||any(greaterThan(uv,vec2(1.0))))return vec4(0.0);
+ return texture2D(inkPaintedMask,uv);
+}
+vec3 inkReceiverPoint(vec4 painted){
+ if(painted.b<.1)return inkShadowWorld;
+ vec3 ray=vec3(${outward.x},${outward.y},${outward.z});
+ float depth=inkPaintedRange.x+(painted.r*255.0*256.0+painted.g*255.0)/65535.0*inkPaintedRange.y;
+ float lift=max(0.0,(depth-dot(inkWorld.xz,ray.xz))/dot(ray.xz,ray.xz));
+ return inkWorld+ray*lift;
+}
+LOCAL_SHADOW_FUNCTION
+float inkVisibility(vec3 receiver){
+ if(inkShadowEnabled<.5)return 1.0;
+ vec4 q=inkShadowMatrix*vec4(receiver+inkDirection*.035,1.0);q.xyz/=q.w;
  if(any(lessThan(q.xyz,vec3(0.0)))||any(greaterThan(q.xyz,vec3(1.0))))return 1.0;
  float result=0.0;
  for(int i=0;i<4;i++){vec2 offset=vec2(float(i%2)*2.0-1.0,float(i/2)*2.0-1.0)*.001;result+=texture(inkShadowMap,vec3(q.xy+offset,q.z-.0012));}
@@ -55,14 +86,15 @@ float inkShade(){
  return 1.0-shade;
 }
 vec3 inkIlluminate(vec3 base){
- if(inkEnabled<.5)return base;
- if(inkEmissive>.5)return base*2.8;
- vec3 n=inkNormal();float skyWeight=inkIsGround>.5?.85:clamp(.30+.45*(inkWorld.y-inkFootY)/inkBodyHeight+n.y*.15,0.0,1.0);
+ if(inkEmissive>.5)return inkEnabled<.5?base:base*2.8;
+ vec4 painted=inkPaintedSample();vec3 receiver=inkReceiverPoint(painted);
+ if(inkEnabled<.5)return base*(.7+.3*inkVisibility(receiver));
+ vec3 n=painted.b>.1?normalize(vec3(${outward.x},0.0,${outward.z})):inkNormal();float skyWeight=inkIsGround>.5?.85:clamp(.30+.45*(inkWorld.y-inkFootY)/inkBodyHeight+n.y*.15,0.0,1.0);
  vec3 illumination=mix(inkGround,inkSky,skyWeight)*inkAmbient;
- float key=max(0.0,dot(n,inkDirection))*inkVisibility();illumination+=inkKey*(.16+key*.84)*inkKeyStrength;
+ float key=max(0.0,dot(n,inkDirection))*inkVisibility(receiver);illumination+=inkKey*(.16+key*.84)*inkKeyStrength;
  // Broad silhouettes supply stylized relief; texture luminance is never treated as height.
  vec3 local=vec3(0.0);
- for(int i=0;i<5;i++){vec3 delta=inkLightPosition[i]-inkWorld;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.22+.78*max(0.0,dot(n,normalize(delta+vec3(.0001)))));}
+ for(int i=0;i<5;i++){vec3 delta=inkLightPosition[i]-receiver;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.35+.65*max(0.0,dot(n,normalize(delta+vec3(.0001)))))*inkLocalVisibility(i,receiver);}
  illumination*=inkShade();
  float value=dot(base,vec3(.2126,.7152,.0722)),inkProtection=smoothstep(.006,.13,value);
  vec3 response=max(vec3(.08),mix(vec3(1.0),clamp(illumination+local,vec3(inkMinimumLight),vec3(2.5)),inkStrength));
@@ -74,11 +106,25 @@ vec3 inkIlluminate(vec3 base){
 }
 `;
 export class IllustratedLighting {
+  readonly localShadowMaps = Array.from({ length: 5 }, () => ({ value: null as T.Texture | null }));
+  private paintedFallback = new T.DataTexture(new Uint8Array(4), 1, 1);
   readonly normals: NormalLibrary;
   constructor(request?: typeof fetch) {
     this.normals = new NormalLibrary(request);
+    this.paintedFallback.needsUpdate = true;
   }
   readonly common = {
+    inkPaintedMask: { value: this.paintedFallback as T.Texture },
+    inkPaintedSize: { value: new T.Vector2(1, 1) },
+    inkPaintedRange: { value: new T.Vector2(0, 1) },
+    inkHasPaintedMask: { value: 0 },
+    inkLocalShadowMap0: this.localShadowMaps[0]!,
+    inkLocalShadowMap1: this.localShadowMaps[1]!,
+    inkLocalShadowMap2: this.localShadowMaps[2]!,
+    inkLocalShadowMap3: this.localShadowMaps[3]!,
+    inkLocalShadowMap4: this.localShadowMaps[4]!,
+    inkLocalShadowEnabled: { value: [0, 0, 0, 0, 0] },
+    inkLocalShadowFar: { value: [10, 10, 10, 10, 10] },
     inkShadeZones: { value: Array.from({ length: SCENE_SHADE_CAPACITY }, () => new T.Vector4()) },
     inkShadowEnabled: { value: 0 },
     inkShadowMap: { value: null as T.DepthTexture | null },
@@ -108,6 +154,7 @@ export class IllustratedLighting {
   private uniformsFor(ground: boolean, emissive: boolean) {
     return {
       ...this.common,
+      inkCasterTransform: { value: new T.Matrix4() },
       inkIsGround: { value: ground ? 1 : 0 },
       inkEmissive: { value: emissive ? 1 : 0 },
       inkFootY: { value: 0 },
@@ -144,19 +191,26 @@ export class IllustratedLighting {
       previous.call(material, program, renderer);
       Object.assign(program.uniforms, uniforms);
       program.vertexShader =
-        'varying vec3 inkWorld; varying vec3 inkSurface; varying vec2 inkUV;\n' +
+        'varying vec3 inkWorld,inkShadowWorld; varying vec3 inkSurface; varying vec2 inkUV; uniform mat4 inkCasterTransform; uniform float inkIsSprite;\n' +
         program.vertexShader;
       program.vertexShader = program.vertexShader.replace(
         '#include <project_vertex>',
-        '#include <project_vertex>\ninkWorld=(modelMatrix*vec4(transformed,1.0)).xyz;inkSurface=normalize(mat3(modelMatrix)*normal);inkUV=uv;',
+        '#include <project_vertex>\ninkWorld=(modelMatrix*vec4(transformed,1.0)).xyz;inkShadowWorld=inkIsSprite>.5?(inkCasterTransform*vec4(transformed,1.0)).xyz:inkWorld;inkSurface=normalize(mat3(modelMatrix)*normal);inkUV=uv;',
       );
-      program.fragmentShader = shader + program.fragmentShader;
+      program.fragmentShader =
+        shader.replace(
+          'LOCAL_SHADOW_FUNCTION',
+          this.localShadowMaps[0]!.value
+            ? localShadowShader
+            : 'float inkLocalVisibility(int i,vec3 receiver){return 1.0;}',
+        ) + program.fragmentShader;
       program.fragmentShader = program.fragmentShader.replace(
         '#include <opaque_fragment>',
         'outgoingLight=inkIlluminate(outgoingLight);\n#include <opaque_fragment>',
       );
     };
-    material.customProgramCacheKey = () => `${key}:illustrated-lighting-v3`;
+    material.customProgramCacheKey = () =>
+      `${key}:illustrated-lighting-v4:${!!this.localShadowMaps[0]!.value}`;
     material.needsUpdate = true;
     this.attached.set(material, uniforms);
     return uniforms;
@@ -172,6 +226,7 @@ export class IllustratedLighting {
         u.inkFootY.value = sprite.mesh.position.y;
         u.inkIsSprite.value = 1;
         u.inkFootPosition.value.copy(sprite.mesh.position);
+        silhouetteMatrix(sprite, u.inkCasterTransform.value);
         u.inkBodyHeight.value = Math.max(
           0.1,
           (sample.frame.trim[3] / (sample.frame.registration ?? sprite.manifest.asset).density) *
@@ -279,6 +334,15 @@ export class IllustratedLighting {
       u.inkHaze.value = 0;
     }
   }
+  setGroundOcclusion(
+    ground: GroundOcclusion | undefined,
+    floor: { width: number; depth: number } | undefined,
+  ) {
+    this.common.inkPaintedMask.value = ground?.texture ?? this.paintedFallback;
+    this.common.inkHasPaintedMask.value = ground && floor ? 1 : 0;
+    this.common.inkPaintedRange.value.copy(ground?.range ?? new T.Vector2(0, 1));
+    this.common.inkPaintedSize.value.set(floor?.width ?? 1, floor?.depth ?? 1);
+  }
   neutralPalette() {
     const u = this.common;
     for (const c of [
@@ -294,6 +358,7 @@ export class IllustratedLighting {
     for (const c of this.common.inkLightColor.value) c.set(0xffad57);
   }
   dispose() {
+    this.paintedFallback.dispose();
     this.normals.dispose();
   }
 }
