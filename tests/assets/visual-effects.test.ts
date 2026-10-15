@@ -13,47 +13,9 @@ import {
 import { inPuddle } from '../../src/presentation/playground-surfaces';
 import { FoliageWind } from '../../src/presentation/foliage-wind';
 import { ActorSprite } from '../../src/presentation/sprite';
-import { SurfaceRelief } from '../../src/presentation/surface-relief';
-import { graveyardGroundMaterial } from '../../src/presentation/graveyard-ground';
-import { assetCatalog } from '../../src/content/asset-catalog';
-import { worldVisuals } from '../fixtures/visuals';
-import type { PackLease } from '../../src/assets/loader';
 import { MeshDepthMaterial, MeshBasicMaterial, Texture, WebGLRenderer } from 'three';
 import fs from 'node:fs';
 import type { Manifest } from '../../src/assets/schema';
-
-test('curated ground never fetches obsolete height companions or installs UV relief', async () => {
-  const request = globalThis.fetch,
-    surfaces = new SurfaceRelief();
-  const id = 'ink-stage-earth',
-    manifest = JSON.parse(
-      fs.readFileSync(assetFile('public/' + assetCatalog[id]), 'utf8'),
-    ) as Manifest;
-  const packs = new Map<string, PackLease>([
-    [
-      id,
-      {
-        manifest,
-        textures: new Map(manifest.pages.map((p) => [p.id, new Texture()])),
-        release() {},
-      },
-    ],
-  ]);
-  globalThis.fetch = () => {
-    throw new Error('Obsolete ground companion requested');
-  };
-  const material = graveyardGroundMaterial(packs, worldVisuals.court!);
-  try {
-    await surfaces.load(packs);
-    surfaces.attach(material);
-    assert.equal(material.userData.surfaceRelief, undefined);
-  } finally {
-    globalThis.fetch = request;
-    material.dispose();
-    surfaces.dispose();
-    for (const p of packs.values()) for (const t of p.textures.values()) t.dispose();
-  }
-});
 
 test('a seeded drop owns an invariant endpoint and triggers its splash at impact', () => {
   assert.equal(dryWeather().rain, 0);

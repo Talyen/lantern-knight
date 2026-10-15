@@ -147,19 +147,6 @@ export async function selectedFiles(
     bundleFile(id, file);
   }
   generated['lighting/manifest.json'] = JSON.stringify(lighting) + '\n';
-  const surfaces = JSON.parse((await read('visual-effects/surfaces.json')).toString());
-  surfaces.entries = Object.fromEntries(
-    Object.entries(surfaces.entries as Record<string, { asset: string }>).filter(
-      ([, entry]) => entry.asset in catalog,
-    ),
-  );
-  generated['visual-effects/surfaces.json'] = JSON.stringify(surfaces) + '\n';
-  for (const entry of Object.values(surfaces.entries) as { file: string; hash: string }[]) {
-    const file = 'visual-effects/' + safeRelative(entry.file);
-    if (hash(await read(file)) !== entry.hash)
-      throw new Error('Surface companion differs: ' + file);
-    files.add(file);
-  }
   if (dev) files.add('dev-effects/emitters.json');
   const libraryEntries = Object.fromEntries(
     Object.entries(catalog).filter(([id]) => id.startsWith('library-')),

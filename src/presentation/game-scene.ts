@@ -15,7 +15,6 @@ import { verifiedBitmap } from '../assets/bitmap';
 import { cameraContract as contract } from '../assets/camera-contract';
 import { makeCamera, resizeCamera, constrainCamera, drawingBufferSize, outward } from './camera';
 import { HEADINGS } from '../content/headings';
-import { setCutoutOpacity } from './sprite';
 import type { WalkTiming } from '../core/locomotion-timing';
 import type { AnimationTreatment } from '../core/animation-treatment';
 import type { AnimationFlow } from './animation-blend-shader';
@@ -362,7 +361,6 @@ export class GamePresentation implements PresentationLifecycle {
       animationTreatment: this.animationTreatment,
       animationFlow: this.animationFlow,
       debug: this.debug,
-      illustrated: !!this.roomPresentation.inkRoom,
     });
     if (this.groundOcclusion)
       for (const actor of sim.actors) {
@@ -380,12 +378,6 @@ export class GamePresentation implements PresentationLifecycle {
     const heroSprite = this.actorPresentation.actors.get(sim.hero.id)?.sprite;
     const hasLantern = heroSprite && heroLanternPosition(heroSprite, this.light.position);
     this.light.intensity = hasLantern ? 8 : 0;
-    for (const m of this.roomPresentation.fadeMeshes) {
-      const p = m.userData.foot as { x: number; y: number; z: number },
-        delta = new T.Vector3(sim.hero.x - p.x, sim.hero.y - p.y, sim.hero.z - p.z);
-      const fade = delta.length() < 1.65 && delta.dot(outward) < 0;
-      setCutoutOpacity(m.material, fade ? 0.38 : 1);
-    }
     this.roomPresentation.inkRoom?.update(sim, alpha, true, ms);
     if (this.groundOcclusion)
       for (const drop of sim.drops) {

@@ -1,4 +1,4 @@
-import { sceneFixtures } from './scenery-presets';
+import { placementOffset, sceneFixtures } from './scenery-presets';
 import type { Bounds, Point } from './world';
 import type { ArtPlacement, WorldVisualDefinition, SiteWall } from './world-visuals';
 export type ArtFinding = {
@@ -88,6 +88,21 @@ export function sceneArtFindings(art: WorldVisualDefinition): ArtFinding[] {
     if (ids.has(p.id))
       findings.push({ kind: 'invalid-registration', a: p.id, message: 'Duplicate placement ID' });
     ids.add(p.id);
+  }
+  for (const p of art.props) {
+    if (!p.mount) continue;
+    const support = art.props.find((s) => s.id === p.mount!.to);
+    const [x, y, z] = placementOffset(support ?? {}, p.mount.offset);
+    if (
+      !support ||
+      Math.hypot(p.x - support.x - x, p.z - support.z - z) > 1e-6 ||
+      Math.abs((p.y ?? 0) - (support.y ?? 0) - y) > 1e-6
+    )
+      findings.push({
+        kind: 'invalid-registration',
+        a: p.id,
+        message: 'Attachment mount differs from its support socket',
+      });
   }
   for (const allowance of art.overlaps ?? [])
     if (

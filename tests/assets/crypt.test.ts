@@ -1,3 +1,4 @@
+import { cameraContract } from '../../src/assets/camera-contract';
 import { worldVisuals } from '../fixtures/visuals';
 import { InkRoom } from '../../src/presentation/ink-room';
 import { resolveAuthoredScene } from '../../src/content/world-art';
@@ -5,15 +6,14 @@ import { sceneAssets } from '../../src/content/world-visuals';
 import { sceneFixture } from '../fixtures/scene';
 import { readRegistration } from '../../tools/assets/data';
 import type { PackLease } from '../../src/assets/loader';
-import { assetFile } from '../../tools/assets/paths';
 import { readAsset } from '../../tools/assets/io';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import sharp from 'sharp';
 import * as T from 'three';
 import { ActorSprite } from '../../src/presentation/sprite';
 import { OcclusionFades } from '../../src/presentation/occlusion-fades';
-import { findDepthConflicts, validateConstruction } from '../../src/presentation/art-validation';
+import { coplanarArtConflicts } from '../../src/presentation/carrier-validation';
+import { sceneArtFindings } from '../../src/content/scene-art-validation';
 import { heightAt } from '../../src/content/world';
 import { content } from '../fixtures/content';
 import { compositionPoint, compositionSpan } from '../../src/content/world-visuals';
@@ -26,10 +26,10 @@ test('alpha-aware depth gate rejects the original door/arch conflict but ignores
   const area = content.area('upper-landing'),
     art = resolveAuthoredScene(sceneFixture('chapel'));
   assert.ok(
-    validateConstruction(area, {
+    sceneArtFindings({
       ...art,
       props: art.props.map((prop) => (prop.mount ? { ...prop, y: 99 } : prop)),
-    }).some((error) => error.includes('mount')),
+    }).some((finding) => finding.message.includes('mount')),
   );
   const packs = new Map<string, PackLease>();
   for (const id of sceneAssets(art)) {
@@ -70,30 +70,13 @@ test('alpha-aware depth gate rejects the original door/arch conflict but ignores
   try {
     arch.show(arch.animator.frame, new T.Vector3(), camera);
     door.show(door.animator.frame, new T.Vector3(), camera);
-    const images = new Map<T.Mesh, { width: number; height: number; data: Uint8Array }>();
-    const decoded = new Map<string, { width: number; height: number; data: Uint8Array }>();
-    for (const [sprite, file] of [
-      [arch, 'arch'],
-      [door, 'door-closed'],
-    ] as const) {
-      const frame = sprite.frameIndex.get(sprite.lastFrame)!,
-        page = m.pages.find((page) => page.id === frame.page)!;
-      if (!decoded.has(page.id)) {
-        const raw = await sharp(assetFile(`public/generated/ink/ink-scenery/${page.path}`))
-          .ensureAlpha()
-          .raw()
-          .toBuffer({ resolveWithObject: true });
-        decoded.set(page.id, { width: raw.info.width, height: raw.info.height, data: raw.data });
-      }
-      images.set(sprite.mesh, decoded.get(page.id)!);
-      sprite.mesh.userData.artPart = { id: file };
-    }
-    assert.equal(findDepthConflicts([arch.mesh, door.mesh], images).length, 1);
+    const masks = structuredClone(readRegistration().coverage.masks);
+    assert.equal(coplanarArtConflicts([arch, door], masks).length, 1);
     door.mesh.position.x = 0.05;
-    assert.deepEqual(findDepthConflicts([arch.mesh, door.mesh], images), []);
+    assert.deepEqual(coplanarArtConflicts([arch, door], masks), []);
     door.mesh.position.set(0, 0, 0);
-    for (const im of images.values()) im.data.fill(0);
-    assert.deepEqual(findDepthConflicts([arch.mesh, door.mesh], images), []);
+    for (const mask of Object.values(masks)) mask.alpha.fill(0);
+    assert.deepEqual(coplanarArtConflicts([arch, door], masks), []);
   } finally {
     arch.dispose();
     door.dispose();
@@ -143,12 +126,15 @@ test('assembly fades ease, use interpolated fighters, freeze on pause, and resto
 });
 
 test('authored arrival camera preserves player distance and a continuous follow handoff', () => {
-  assert.equal(compositionSpan({ x: 0, z: 7.5 }, 9, worldVisuals['upper-landing']), 11);
-  assert.equal(compositionSpan({ x: 0, z: 3 }, 9, worldVisuals['upper-landing']), 9);
+  const span = cameraContract.verticalSpan;
+  assert.equal(compositionSpan({ x: 0, z: 7.5 }, span, worldVisuals['upper-landing']), 11);
+  assert.equal(compositionSpan({ x: 0, z: 3 }, span, worldVisuals['upper-landing']), span);
+  assert.equal(compositionSpan({ x: 0, z: 7.5 }, 9, worldVisuals['upper-landing']), 9);
   assert.equal(compositionSpan({ x: 0, z: 7.5 }, 13, worldVisuals['upper-landing']), 13);
   assert.equal(compositionSpan({ x: 0, z: 7.5 }, 9, worldVisuals['court']), 9);
   assert.ok(
-    Math.abs(compositionSpan({ x: 0, z: 3.00001 }, 9, worldVisuals['upper-landing']) - 9) < 1e-8,
+    Math.abs(compositionSpan({ x: 0, z: 3.00001 }, span, worldVisuals['upper-landing']) - span) <
+      1e-8,
   );
   const before = compositionPoint({ x: 0, z: 3.00001 }, undefined, worldVisuals['upper-landing']),
     after = compositionPoint({ x: 0, z: 2.99999 }, undefined, worldVisuals['upper-landing']);

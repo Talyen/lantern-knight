@@ -21,7 +21,6 @@ export class RoomPresentation {
   readonly surround: SceneSurround;
   inkRoom: InkRoom | undefined;
   private roomOwned: { dispose: () => void }[] = [];
-  fadeMeshes: T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>[] = [];
   constructor(
     private packs: ReadonlyMap<string, AssetPack>,
     private camera: T.OrthographicCamera,
@@ -35,6 +34,8 @@ export class RoomPresentation {
     return new T.Mesh(geometry, material);
   }
   buildRoom(area: AreaDefinition, art: WorldVisualDefinition | undefined) {
+    if (!art && (area.props.length || area.exits.length))
+      throw new Error('Scenery and exits require an authored visual definition');
     const artwork =
       art?.editorFloor?.layout === 'artwork'
         ? artworkFloorLayout(art.editorFloor.width, art.editorFloor.depth)
@@ -227,68 +228,6 @@ export class RoomPresentation {
       this.inkRoom.build();
       return;
     }
-    for (const p of area.props) {
-      const ground = heightAt(area, p.x, p.z);
-      const material = new T.MeshStandardMaterial({
-        color: p.kind === 'border' ? 0x4d5260 : p.kind === 'tree' ? 0x495452 : 0x6b6770,
-        roughness: 1,
-      });
-      const geometry =
-        p.kind === 'border'
-          ? new T.BoxGeometry(p.size![0], p.height, p.size![1])
-          : p.kind === 'wall'
-            ? new T.BoxGeometry(1.4, p.height, 0.6)
-            : new T.CylinderGeometry(p.radius * 0.85, p.radius, p.height, 6);
-      const base = this.ownedMesh(geometry, material) as T.Mesh<
-        T.BufferGeometry,
-        T.MeshStandardMaterial
-      >;
-      base.position.set(p.x, ground + p.height / 2, p.z);
-      base.userData.foot = { x: p.x, y: ground, z: p.z };
-      base.userData.id = p.id;
-      if (p.kind !== 'border') this.fadeMeshes.push(base);
-      this.room.add(base);
-      if (p.kind === 'tree' || p.kind === 'foreground') {
-        const crown = this.ownedMesh(
-          new T.IcosahedronGeometry(1.1, 0),
-          new T.MeshStandardMaterial({
-            color: p.kind === 'tree' ? 0x43524c : 0x55414c,
-            roughness: 1,
-          }),
-        ) as T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>;
-        crown.position.set(p.x, ground + p.height, p.z);
-        crown.scale.set(1.35, 0.48, 1.1);
-        crown.userData.foot = { x: p.x, y: ground, z: p.z };
-        this.fadeMeshes.push(crown);
-        this.room.add(crown);
-      } else if (p.kind === 'pillar') {
-        const cap = this.ownedMesh(
-          new T.CylinderGeometry(0.65, 0.65, 0.18, 6),
-          new T.MeshStandardMaterial({ color: 0x97908c, roughness: 1 }),
-        ) as T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>;
-        cap.position.set(p.x, ground + p.height, p.z);
-        cap.userData.foot = { x: p.x, y: ground, z: p.z };
-        this.fadeMeshes.push(cap);
-        this.room.add(cap);
-      }
-    }
-    for (const exit of area.exits) {
-      const shrine = this.ownedMesh(
-        new T.TorusGeometry(0.6, 0.08, 6, 24),
-        new T.MeshStandardMaterial({
-          color: 0xd2ac63,
-          emissive: 0x7b461f,
-          emissiveIntensity: 0.4,
-        }),
-      );
-      shrine.position.set(
-        exit.marker.x,
-        heightAt(area, exit.marker.x, exit.marker.z) + 1,
-        exit.marker.z,
-      );
-      this.room.add(shrine);
-    }
-
     const gridPoints: T.Vector3[] = [],
       gx = axis(bounds.minX, bounds.maxX, 'x'),
       gz = axis(bounds.minZ, bounds.maxZ, 'z');
@@ -322,7 +261,6 @@ export class RoomPresentation {
   disposeResources() {
     const owned = this.roomOwned;
     this.roomOwned = [];
-    this.fadeMeshes = [];
     cleanupAll([...owned.map((resource) => () => resource.dispose()), () => this.room.clear()]);
   }
 }

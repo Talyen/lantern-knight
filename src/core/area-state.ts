@@ -94,7 +94,7 @@ export function parseAreaState(
       !actor ||
       !contains(area.bounds, actor) ||
       actor.health > registry.actor(spawn.actor).maxHealth ||
-      (actor.burn && (actor.health === 0 || actor.burn.nextTick > actor.burn.remaining))
+      (actor.burn && actor.health === 0)
     )
       throw new Error(`invalid actor ${area.id}/${spawn.id}`);
   }

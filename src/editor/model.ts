@@ -262,6 +262,23 @@ export class EditorHistory {
           if (interactables.length) (d.gameplay.interactables ??= []).push(...interactables);
         }
       }
+      if (copyGameplay)
+        for (const overlap of source.overlaps) {
+          const a = remap.get(overlap.a),
+            b = remap.get(overlap.b);
+          if (!a || !b) continue;
+          d.overlaps.push({
+            ...overlap,
+            a,
+            b,
+            region: {
+              minX: overlap.region.minX + dx,
+              maxX: overlap.region.maxX + dx,
+              minZ: overlap.region.minZ + dz,
+              maxZ: overlap.region.maxZ + dz,
+            },
+          });
+        }
     });
     return copies.map((p) => p.id);
   }
