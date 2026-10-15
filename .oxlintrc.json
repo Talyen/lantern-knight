@@ -24,7 +24,8 @@
         "argsIgnorePattern": "^_",
         "caughtErrors": "all",
         "caughtErrorsIgnorePattern": "^_",
-        "ignoreRestSiblings": true
+        "ignoreRestSiblings": true,
+        "ignoreUsingDeclarations": true
       }
     ],
     "typescript/no-floating-promises": [

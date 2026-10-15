@@ -1,3 +1,4 @@
+import { onAsyncExit } from './scope-exit';
 import { execFile } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { realpath } from 'node:fs/promises';
@@ -34,36 +35,31 @@ export async function withIntegrationLock(
     cwd,
     waitMs: 30 * 60_000,
   });
-  try {
-    // Discover main after admission: its checkout may have changed while waiting.
-    const entry = (await git('worktree', 'list', '--porcelain', '-z'))
-      .split('\0\0')
-      .find((entry) => entry.split('\0').includes('branch refs/heads/main'));
-    const main = entry
-      ?.split('\0')
-      .find((field) => field.startsWith('worktree '))
-      ?.slice(9);
-    if (!main) throw new Error('Local main must be checked out in a worktree; no work started');
-    await checkpointSceneSaves(main);
-    const task = (await git('rev-parse', '--show-toplevel')).trim();
-    const branch = (await git('branch', '--show-current')).trim();
-    console.log(`Integration lock acquired; running in ${main}`);
-    await runProcess(command, args, {
-      cwd: main,
-      env: { ...process.env, LANTERN_INTEGRATION_LOCK: common },
-    });
-    if (!keepWorktree && task !== main && branch.startsWith('codex/')) {
-      try {
-        const head = (await git('rev-parse', 'HEAD')).trim();
-        removeIntegratedWorktree(main, task, branch, head);
-      } catch (error) {
-        throw new Error(
-          `Integration command completed; worktree cleanup blocked: ${String(error)}`,
-        );
-      }
+  await using _cleanup1 = onAsyncExit(() => lane.release());
+  // Discover main after admission: its checkout may have changed while waiting.
+  const entry = (await git('worktree', 'list', '--porcelain', '-z'))
+    .split('\0\0')
+    .find((entry) => entry.split('\0').includes('branch refs/heads/main'));
+  const main = entry
+    ?.split('\0')
+    .find((field) => field.startsWith('worktree '))
+    ?.slice(9);
+  if (!main) throw new Error('Local main must be checked out in a worktree; no work started');
+  await checkpointSceneSaves(main);
+  const task = (await git('rev-parse', '--show-toplevel')).trim();
+  const branch = (await git('branch', '--show-current')).trim();
+  console.log(`Integration lock acquired; running in ${main}`);
+  await runProcess(command, args, {
+    cwd: main,
+    env: { ...process.env, LANTERN_INTEGRATION_LOCK: common },
+  });
+  if (!keepWorktree && task !== main && branch.startsWith('codex/')) {
+    try {
+      const head = (await git('rev-parse', 'HEAD')).trim();
+      removeIntegratedWorktree(main, task, branch, head);
+    } catch (error) {
+      throw new Error(`Integration command completed; worktree cleanup blocked: ${String(error)}`);
     }
-  } finally {
-    await lane.release();
   }
 }
 

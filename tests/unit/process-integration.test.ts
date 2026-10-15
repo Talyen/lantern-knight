@@ -1,3 +1,4 @@
+import { onAsyncExit } from '../../tools/scope-exit';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import { readJson, writeJson } from '../../tools/json-file';
 import test from 'node:test';
@@ -96,80 +97,74 @@ test('build proof ignores mutable Finder metadata but rejects app tampering, mis
       env,
       encoding: 'utf8',
     });
-  try {
-    await fs.mkdir(path.join(directory, 'dist'));
-    await fs.mkdir(path.join(directory, 'dist-electron'));
-    await fs.writeFile(path.join(directory, 'dist/app.js'), 'original');
-    await fs.writeFile(path.join(directory, 'dist-electron/main.cjs'), 'main');
-    await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-one');
-    const proof = (overrides: NodeJS.ProcessEnv = {}) =>
-      verifyBuildIdentity({
-        root: directory,
-        env: { ...env, ...overrides },
-        report: () => {},
-      });
-    await writeBuildIdentity({
+  await using _cleanup2 = onAsyncExit(() => fs.rm(directory, { recursive: true, force: true }));
+  await fs.mkdir(path.join(directory, 'dist'));
+  await fs.mkdir(path.join(directory, 'dist-electron'));
+  await fs.writeFile(path.join(directory, 'dist/app.js'), 'original');
+  await fs.writeFile(path.join(directory, 'dist-electron/main.cjs'), 'main');
+  await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-one');
+  const proof = (overrides: NodeJS.ProcessEnv = {}) =>
+    verifyBuildIdentity({
       root: directory,
-      source: { commit: '0'.repeat(40), dirty: true, sha256: '0'.repeat(64) },
-      assets: { identity: '1'.repeat(64), recipe: '2'.repeat(64) },
+      env: { ...env, ...overrides },
       report: () => {},
     });
-    assert.equal(run().status, 0);
-    assert.equal(run(['--write']).status, 1, 'Only supervised builds write identities');
-    const identityPath = path.join(directory, 'dist/build-identity.json'),
-      identity = await readJson(identityPath);
-    assert.equal(identity.files['dist/.DS_Store'], undefined);
-    await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-two');
-    await proof();
-    await fs.writeFile(path.join(directory, 'dist/app.js'), 'tampered');
-    await assert.rejects(proof(), /build artifact files differ/);
-    await fs.writeFile(path.join(directory, 'dist/app.js'), 'original');
-    identity.sourceCommit = 'a'.repeat(40);
-    identity.dirty = false;
-    await writeJson(identityPath, identity);
-    await assert.rejects(proof({ GITHUB_SHA: 'b'.repeat(40) }), /another commit/);
-    identity.dirty = true;
-    await writeJson(identityPath, identity);
-    await assert.rejects(proof({ GITHUB_SHA: identity.sourceCommit }), /clean source identity/);
-    identity.dirty = false;
-    await writeJson(identityPath, identity);
-    await proof({ GITHUB_SHA: identity.sourceCommit });
-  } finally {
-    await fs.rm(directory, { recursive: true, force: true });
-  }
+  await writeBuildIdentity({
+    root: directory,
+    source: { commit: '0'.repeat(40), dirty: true, sha256: '0'.repeat(64) },
+    assets: { identity: '1'.repeat(64), recipe: '2'.repeat(64) },
+    report: () => {},
+  });
+  assert.equal(run().status, 0);
+  assert.equal(run(['--write']).status, 1, 'Only supervised builds write identities');
+  const identityPath = path.join(directory, 'dist/build-identity.json'),
+    identity = await readJson(identityPath);
+  assert.equal(identity.files['dist/.DS_Store'], undefined);
+  await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-two');
+  await proof();
+  await fs.writeFile(path.join(directory, 'dist/app.js'), 'tampered');
+  await assert.rejects(proof(), /build artifact files differ/);
+  await fs.writeFile(path.join(directory, 'dist/app.js'), 'original');
+  identity.sourceCommit = 'a'.repeat(40);
+  identity.dirty = false;
+  await writeJson(identityPath, identity);
+  await assert.rejects(proof({ GITHUB_SHA: 'b'.repeat(40) }), /another commit/);
+  identity.dirty = true;
+  await writeJson(identityPath, identity);
+  await assert.rejects(proof({ GITHUB_SHA: identity.sourceCommit }), /clean source identity/);
+  identity.dirty = false;
+  await writeJson(identityPath, identity);
+  await proof({ GITHUB_SHA: identity.sourceCommit });
 });
 test('smoke profiles never delete user-supplied directories, including on launch failure', async () => {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-profile-review-'));
-  try {
-    await fs.writeFile(path.join(directory, 'game.json'), 'existing player save');
-    const result = spawnSync(
-      process.execPath,
-      [
-        '--import',
-        import.meta.resolve('tsx'),
-        path.resolve('tools/diagnostics/run-diagnostic.ts'),
-        'game',
-        '--profile',
-        directory,
-        '--output',
-        path.join(directory, 'evidence'),
-      ],
-      {
-        env: { ...process.env, LANTERN_EXECUTABLE: path.join(directory, 'missing-executable') },
-        encoding: 'utf8',
-        timeout: 30000,
-      },
-    );
-    assert.equal(result.status, 1, result.stderr);
-    assert.equal(
-      await fs.readFile(path.join(directory, 'game.json'), 'utf8'),
-      'existing player save',
-    );
-    assert.ok(!(await fs.readdir(directory)).some((name) => name.startsWith('lantern-smoke-')));
-    assert.ok(await fs.stat(path.join(directory, 'evidence/failure.json')));
-  } finally {
-    await fs.rm(directory, { recursive: true, force: true });
-  }
+  await using _cleanup1 = onAsyncExit(() => fs.rm(directory, { recursive: true, force: true }));
+  await fs.writeFile(path.join(directory, 'game.json'), 'existing player save');
+  const result = spawnSync(
+    process.execPath,
+    [
+      '--import',
+      import.meta.resolve('tsx'),
+      path.resolve('tools/diagnostics/run-diagnostic.ts'),
+      'game',
+      '--profile',
+      directory,
+      '--output',
+      path.join(directory, 'evidence'),
+    ],
+    {
+      env: { ...process.env, LANTERN_EXECUTABLE: path.join(directory, 'missing-executable') },
+      encoding: 'utf8',
+      timeout: 30000,
+    },
+  );
+  assert.equal(result.status, 1, result.stderr);
+  assert.equal(
+    await fs.readFile(path.join(directory, 'game.json'), 'utf8'),
+    'existing player save',
+  );
+  assert.ok(!(await fs.readdir(directory)).some((name) => name.startsWith('lantern-smoke-')));
+  assert.ok(await fs.stat(path.join(directory, 'evidence/failure.json')));
 });
 
 test('headless replay commits death reset requests once and preserves save/load recovery', async () => {

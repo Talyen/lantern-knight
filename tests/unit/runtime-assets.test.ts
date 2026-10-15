@@ -1,3 +1,4 @@
+import { onAsyncExit, onExit } from '../../tools/scope-exit';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Texture } from 'three';
@@ -120,26 +121,25 @@ test('retiring a room cancels obsolete image work so the next room can decode', 
   const loading = runtime.loadPacks(ids, obsolete.signal),
     rejected = assert.rejects(loading, /cancelled/);
   let next: Promise<PackLease> | undefined;
-  try {
-    await started.promise;
-    next = runtime.loadPack('next');
-    obsolete.abort();
-    await new Promise<void>((resolve) => setImmediate(resolve));
-    assert.ok(
-      signals.every((signal) => signal.aborted),
-      'Last claims must cancel downloads',
-    );
-    const held = await next;
-    await rejected;
-    assert.equal(uploads, 1, 'Only the accepted room uploads an image');
-    held.release();
-    assert.equal(runtime.resourceCount, 0);
-  } finally {
+  await using _scopeExit2 = onAsyncExit(async () => {
     for (const stall of stalls) stall.reject(new Error('test cleanup'));
     await Promise.allSettled([loading, ...(next ? [next.then((pack) => pack.release())] : [])]);
     runtime.dispose();
     source.dispose();
-  }
+  });
+  await started.promise;
+  next = runtime.loadPack('next');
+  obsolete.abort();
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.ok(
+    signals.every((signal) => signal.aborted),
+    'Last claims must cancel downloads',
+  );
+  const held = await next;
+  await rejected;
+  assert.equal(uploads, 1, 'Only the accepted room uploads an image');
+  held.release();
+  assert.equal(runtime.resourceCount, 0);
 });
 
 test('cancelling a manifest wait leaves shared transport available to another room', async () => {
@@ -158,18 +158,17 @@ test('cancelling a manifest wait leaves shared transport available to another ro
   const obsolete = runtime.loadPacks(['hero'], controller.signal),
     rejected = assert.rejects(obsolete, /cancelled/),
     surviving = runtime.loadPack('hero');
-  try {
-    controller.abort();
-    await rejected;
-    response.resolve(new Response(JSON.stringify(manifestFixture('hero'))));
-    const held = await surviving;
-    assert.equal(requests, 1);
-    held.release();
-  } finally {
+  await using _scopeExit1 = onAsyncExit(async () => {
     response.resolve(new Response(JSON.stringify(manifestFixture('hero'))));
     await surviving.then((held) => held.release());
     runtime.dispose();
-  }
+  });
+  controller.abort();
+  await rejected;
+  response.resolve(new Response(JSON.stringify(manifestFixture('hero'))));
+  const held = await surviving;
+  assert.equal(requests, 1);
+  held.release();
 });
 
 for (const seeded of [false, true]) {
@@ -190,37 +189,34 @@ for (const seeded of [false, true]) {
         },
         (texture) => texture.dispose(),
       );
-    try {
-      if (seeded) runtime.seedManifest('hero', draft);
-      catalog.hero = 'generated/changed.json';
-      const manifest = await runtime.manifest('hero'),
-        clip = resolveClip(manifest, 'idle', 'd45');
-      assert.equal(Reflect.set(manifest.pages[0]!, 'hash', 'c'.repeat(64)), false);
-      assert.equal(Reflect.set(manifest.frames[0]!.trim, '0', 99), false);
-      assert.equal(Reflect.set(clip.durationsMs, '0', 9999), false);
-      assert.equal(Reflect.set(runtime.catalog, 'hero', 'generated/changed.json'), false);
-      draft.pages[0]!.hash = 'd'.repeat(64);
-      draft.frames[0]!.trim[0] = 99;
-      draft.asset.clips.idle!.d45!.durationsMs[0] = 9999;
-      const pack = await runtime.loadPack('hero');
-      assert.equal(pack.manifest, manifest);
-      assert.deepEqual(decoded, ['b'.repeat(64)]);
-      assert.equal(pack.manifest.frames[0]!.trim[0], 0);
-      assert.notEqual(clip.durationsMs[0], 9999);
-      assert.deepEqual(requests, seeded ? [] : ['/generated/hero.json']);
-      pack.release();
+    using _cleanup2 = onExit(() => runtime.dispose());
+    if (seeded) runtime.seedManifest('hero', draft);
+    catalog.hero = 'generated/changed.json';
+    const manifest = await runtime.manifest('hero'),
+      clip = resolveClip(manifest, 'idle', 'd45');
+    assert.equal(Reflect.set(manifest.pages[0]!, 'hash', 'c'.repeat(64)), false);
+    assert.equal(Reflect.set(manifest.frames[0]!.trim, '0', 99), false);
+    assert.equal(Reflect.set(clip.durationsMs, '0', 9999), false);
+    assert.equal(Reflect.set(runtime.catalog, 'hero', 'generated/changed.json'), false);
+    draft.pages[0]!.hash = 'd'.repeat(64);
+    draft.frames[0]!.trim[0] = 99;
+    draft.asset.clips.idle!.d45!.durationsMs[0] = 9999;
+    const pack = await runtime.loadPack('hero');
+    assert.equal(pack.manifest, manifest);
+    assert.deepEqual(decoded, ['b'.repeat(64)]);
+    assert.equal(pack.manifest.frames[0]!.trim[0], 0);
+    assert.notEqual(clip.durationsMs[0], 9999);
+    assert.deepEqual(requests, seeded ? [] : ['/generated/hero.json']);
+    pack.release();
 
-      // oxlint-disable-next-line no-constant-condition -- Compile-only checks for descriptor consumers.
-      if (false) {
-        // @ts-expect-error Accepted atlas identities cannot change.
-        manifest.pages[0]!.hash = 'changed';
-        // @ts-expect-error Accepted geometry cannot change.
-        manifest.frames[0]!.trim[0] = 99;
-        // @ts-expect-error Animation consumers borrow immutable timing.
-        clip.durationsMs.push(100);
-      }
-    } finally {
-      runtime.dispose();
+    // oxlint-disable-next-line no-constant-condition -- Compile-only checks for descriptor consumers.
+    if (false) {
+      // @ts-expect-error Accepted atlas identities cannot change.
+      manifest.pages[0]!.hash = 'changed';
+      // @ts-expect-error Accepted geometry cannot change.
+      manifest.frames[0]!.trim[0] = 99;
+      // @ts-expect-error Animation consumers borrow immutable timing.
+      clip.durationsMs.push(100);
     }
   });
 }
@@ -237,21 +233,18 @@ test('both manifest entry paths reject mismatched identity before decoding and p
     },
     (texture) => texture.dispose(),
   );
-  try {
-    assert.throws(() => runtime.seedManifest('hero', draft), /identity differs/);
-    await assert.rejects(runtime.loadPack('hero'), /identity differs/);
-    assert.equal(decoded, 0);
-    assert.equal(runtime.resourceCount, 0);
-    draft.asset.id = 'hero';
-    const held = await runtime.loadPack('hero');
-    assert.equal(held.manifest.asset.id, 'hero');
-    assert.equal(decoded, 1);
-    assert.throws(() => runtime.seedManifest('hero', manifestFixture('wrong')), /identity differs/);
-    assert.equal(await runtime.manifest('hero'), held.manifest);
-    held.release();
-  } finally {
-    runtime.dispose();
-  }
+  using _cleanup1 = onExit(() => runtime.dispose());
+  assert.throws(() => runtime.seedManifest('hero', draft), /identity differs/);
+  await assert.rejects(runtime.loadPack('hero'), /identity differs/);
+  assert.equal(decoded, 0);
+  assert.equal(runtime.resourceCount, 0);
+  draft.asset.id = 'hero';
+  const held = await runtime.loadPack('hero');
+  assert.equal(held.manifest.asset.id, 'hero');
+  assert.equal(decoded, 1);
+  assert.throws(() => runtime.seedManifest('hero', manifestFixture('wrong')), /identity differs/);
+  assert.equal(await runtime.manifest('hero'), held.manifest);
+  held.release();
 });
 
 for (const cancelled of [false, true]) {
@@ -284,28 +277,27 @@ for (const cancelled of [false, true]) {
       }),
       cancelled ? /cancelled/ : /manifest failed/,
     );
-    try {
-      await new Promise<void>((resolve) => setImmediate(resolve));
-      // Another consumer owns its own claim on the completed pack's texture.
-      const peer = await runtime.loadPack('ready');
-      assert.equal(runtime.resourceCount, 2);
-      if (cancelled) controller.abort();
-      else pendingManifest.reject(new Error('manifest failed'));
-      await new Promise<void>((resolve) => setImmediate(resolve));
-      assert.equal(settled, false, 'Late results must still be observed');
-      assert.equal(runtime.resourceCount, 1, 'Only the independent consumer retains a claim');
-      assert.deepEqual(destroyed, []);
-      peer.release();
-      assert.deepEqual(destroyed, [texture], 'Completed packs release before pending peers settle');
-      pendingTexture.resolve(lateTexture);
-      await rejected;
-      assert.deepEqual(destroyed, [texture, lateTexture]);
-      assert.equal(runtime.resourceCount, 0);
-    } finally {
+    await using _scopeExit3 = onAsyncExit(async () => {
       pendingTexture.resolve(lateTexture);
       if (!cancelled) pendingManifest.reject(new Error('manifest failed'));
       await rejected;
       runtime.dispose();
-    }
+    });
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    // Another consumer owns its own claim on the completed pack's texture.
+    const peer = await runtime.loadPack('ready');
+    assert.equal(runtime.resourceCount, 2);
+    if (cancelled) controller.abort();
+    else pendingManifest.reject(new Error('manifest failed'));
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(settled, false, 'Late results must still be observed');
+    assert.equal(runtime.resourceCount, 1, 'Only the independent consumer retains a claim');
+    assert.deepEqual(destroyed, []);
+    peer.release();
+    assert.deepEqual(destroyed, [texture], 'Completed packs release before pending peers settle');
+    pendingTexture.resolve(lateTexture);
+    await rejected;
+    assert.deepEqual(destroyed, [texture, lateTexture]);
+    assert.equal(runtime.resourceCount, 0);
   });
 }

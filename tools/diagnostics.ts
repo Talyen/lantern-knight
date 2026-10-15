@@ -1,3 +1,4 @@
+import { onAsyncExit } from './scope-exit';
 import { openWorkspace, workspaceEnvironment, workspaceIdentity } from './assets/workspace';
 import { runProcess } from './run-process';
 import { cacheRoot, projectRoot } from './assets/paths';
@@ -96,23 +97,20 @@ if (scenario === 'record' || scenario === 'replay' || scenario === 'compare') {
     flags.includes('--local') ? 'local' : 'pinned',
     ['game', 'preferences'].includes(scenario) ? 'runtime' : 'authoring',
   );
-  try {
-    await runProcess(
-      process.execPath,
-      [
-        '--import',
-        'tsx',
-        'tools/diagnostics/run-diagnostic.ts',
-        scenario,
-        ...flags.filter((flag) => flag !== '--local'),
-      ],
-      {
-        cwd: projectRoot,
-        env: workspaceEnvironment(workspace),
-        timeoutMs: 10 * 60_000,
-      },
-    );
-  } finally {
-    await workspace.release();
-  }
+  await using _cleanup1 = onAsyncExit(() => workspace.release());
+  await runProcess(
+    process.execPath,
+    [
+      '--import',
+      'tsx',
+      'tools/diagnostics/run-diagnostic.ts',
+      scenario,
+      ...flags.filter((flag) => flag !== '--local'),
+    ],
+    {
+      cwd: projectRoot,
+      env: workspaceEnvironment(workspace),
+      timeoutMs: 10 * 60_000,
+    },
+  );
 } else throw new Error('Unknown diagnostic: ' + scenario);

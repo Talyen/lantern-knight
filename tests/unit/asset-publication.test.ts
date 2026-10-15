@@ -1,3 +1,4 @@
+import { onAsyncExit } from '../../tools/scope-exit';
 import { writeJson, readJson } from '../../tools/json-file';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test from 'node:test';
@@ -29,132 +30,126 @@ test('split publication uses downloadable filenames, frees the candidate archive
     await fs.mkdir(path.dirname(file), { recursive: true });
     await fs.writeFile(file, bytes);
   };
-  try {
-    for (const [id, file] of Object.entries({ ...assetCatalog, ...gameAssetCatalog })) {
-      const manifest = manifestFixture(id);
-      manifest.pages[0]!.hash = hash;
-      await write('public/' + file, JSON.stringify(manifest));
-      await write('public/' + path.posix.join(path.posix.dirname(file), 'atlas.png'), page);
+  await using _cleanup2 = onAsyncExit(() => held.release());
+  for (const [id, file] of Object.entries({ ...assetCatalog, ...gameAssetCatalog })) {
+    const manifest = manifestFixture(id);
+    manifest.pages[0]!.hash = hash;
+    await write('public/' + file, JSON.stringify(manifest));
+    await write('public/' + path.posix.join(path.posix.dirname(file), 'atlas.png'), page);
+  }
+  for (const file of [
+    'build-mode.json',
+    'generated/calibration.json',
+    'registration.json',
+    'animation/flow.png',
+    loadingVideoPath,
+  ])
+    await write('public/' + file, '{}');
+  await write('public/lighting/manifest.json', JSON.stringify({ entries: {} }));
+  await write('public/audio/manifest.json', JSON.stringify({ schemaVersion: 1, samples: [] }));
+  await write('public/authoring-only.png', 'distinct authoring artwork');
+  await write('public/generated/library/catalog.json', '{}');
+  await write('public/generated/library/index.json', '{}');
+  await write('public/generated/delivery/fixture/preview.png', 'small preview');
+  const lock = await makeArchive(payload, archive, await recipeHash()),
+    candidate = { held, payload, archive, lock },
+    uploads = new Map<string, Buffer>();
+  await writeJson(target, lock);
+  const remoteAssets = (tag: string) =>
+    [...uploads]
+      .filter(([key]) => key.startsWith(tag + '/'))
+      .map(([key, bytes]) => ({
+        name: key.split('/').at(-1)!,
+        size: bytes.length,
+        digest: 'sha256:' + createHash('sha256').update(bytes).digest('hex'),
+      }));
+  const releases = new Set<string>();
+  const publish = async (args: string[]) => {
+    if (args[0] === 'api') {
+      if (args[1]?.includes('git/ref')) return 'a'.repeat(40);
+      if (args.includes('--paginate')) {
+        const tag = args.at(-1)!.split('/').at(-2)!;
+        return JSON.stringify([remoteAssets(tag)]);
+      }
+      const tag = args[1]!.split('/').at(-1)!;
+      if (!releases.has(tag)) throw new Error('HTTP 404');
+      return JSON.stringify({ id: tag, assets: remoteAssets(tag) });
     }
-    for (const file of [
-      'build-mode.json',
-      'generated/calibration.json',
-      'registration.json',
-      'animation/flow.png',
-      loadingVideoPath,
-    ])
-      await write('public/' + file, '{}');
-    await write('public/lighting/manifest.json', JSON.stringify({ entries: {} }));
-    await write('public/audio/manifest.json', JSON.stringify({ schemaVersion: 1, samples: [] }));
-    await write('public/authoring-only.png', 'distinct authoring artwork');
-    await write('public/generated/library/catalog.json', '{}');
-    await write('public/generated/library/index.json', '{}');
-    await write('public/generated/delivery/fixture/preview.png', 'small preview');
-    const lock = await makeArchive(payload, archive, await recipeHash()),
-      candidate = { held, payload, archive, lock },
-      uploads = new Map<string, Buffer>();
-    await writeJson(target, lock);
-    const remoteAssets = (tag: string) =>
-      [...uploads]
-        .filter(([key]) => key.startsWith(tag + '/'))
-        .map(([key, bytes]) => ({
-          name: key.split('/').at(-1)!,
-          size: bytes.length,
-          digest: 'sha256:' + createHash('sha256').update(bytes).digest('hex'),
-        }));
-    const releases = new Set<string>();
-    const publish = async (args: string[]) => {
-      if (args[0] === 'api') {
-        if (args[1]?.includes('git/ref')) return 'a'.repeat(40);
-        if (args.includes('--paginate')) {
-          const tag = args.at(-1)!.split('/').at(-2)!;
-          return JSON.stringify([remoteAssets(tag)]);
-        }
-        const tag = args[1]!.split('/').at(-1)!;
-        if (!releases.has(tag)) throw new Error('HTTP 404');
-        return JSON.stringify({ id: tag, assets: remoteAssets(tag) });
-      }
-      const tag = args[2]!;
-      if (args[1] === 'view') {
-        if (!releases.has(tag)) throw new Error('release not found');
-        return JSON.stringify({ assets: remoteAssets(tag) });
-      }
-      assert.ok(['create', 'upload'].includes(args[1]!));
-      releases.add(tag);
-      for (const argument of args.slice(3)) {
-        if (argument.startsWith('--')) break;
-        const file = argument.split('#')[0]!;
-        uploads.set(tag + '/' + path.basename(file), await fs.readFile(file));
-      }
-      return '';
-    };
-    const request: typeof fetch = async (url, init) => {
-      const parsed = new URL(url instanceof Request ? url.url : url);
-      const bytes = uploads.get(parsed.pathname.split('/').slice(-2).join('/'));
-      assert.ok(bytes);
-      const range = new Headers(init?.headers).get('Range');
-      if (range) {
-        const [start, end] = range.slice(6).split('-').map(Number) as [number, number];
-        return new Response(Uint8Array.from(bytes.subarray(start, end + 1)), {
-          status: 206,
-          headers: { 'content-range': `bytes ${start}-${end}/${bytes.length}` },
-        });
-      }
-      return new Response(Uint8Array.from(bytes));
-    };
-    const verify = async (part: AssetLock) => {
-      const bytes = uploads.get(part.releaseTag + '/' + part.filename);
-      assert.ok(bytes, 'the pinned download filename must exist');
-      assert.equal(bytes.length, part.bytes);
-      assert.equal(createHash('sha256').update(bytes).digest('hex'), part.sha256);
-    };
-    await assert.rejects(
-      publishBundledPrepared(
-        candidate,
-        publish,
-        verify,
-        target,
-        async () => {
-          throw new Error('interrupted before pin');
-        },
-        request,
-        cache,
-      ),
-      /interrupted before pin/,
-    );
-    assert.deepEqual(await readJson(target), lock);
-    await assert.rejects(fs.access(archive), { code: 'ENOENT' });
-    const inventoryLock = await inventoryCandidate(payload, lock.recipeSha256);
-    await publishBundledPrepared(
-      { held, payload, lock: inventoryLock },
+    const tag = args[2]!;
+    if (args[1] === 'view') {
+      if (!releases.has(tag)) throw new Error('release not found');
+      return JSON.stringify({ assets: remoteAssets(tag) });
+    }
+    assert.ok(['create', 'upload'].includes(args[1]!));
+    releases.add(tag);
+    for (const argument of args.slice(3)) {
+      if (argument.startsWith('--')) break;
+      const file = argument.split('#')[0]!;
+      uploads.set(tag + '/' + path.basename(file), await fs.readFile(file));
+    }
+    return '';
+  };
+  const request: typeof fetch = async (url, init) => {
+    const parsed = new URL(url instanceof Request ? url.url : url);
+    const bytes = uploads.get(parsed.pathname.split('/').slice(-2).join('/'));
+    assert.ok(bytes);
+    const range = new Headers(init?.headers).get('Range');
+    if (range) {
+      const [start, end] = range.slice(6).split('-').map(Number) as [number, number];
+      return new Response(Uint8Array.from(bytes.subarray(start, end + 1)), {
+        status: 206,
+        headers: { 'content-range': `bytes ${start}-${end}/${bytes.length}` },
+      });
+    }
+    return new Response(Uint8Array.from(bytes));
+  };
+  const verify = async (part: AssetLock) => {
+    const bytes = uploads.get(part.releaseTag + '/' + part.filename);
+    assert.ok(bytes, 'the pinned download filename must exist');
+    assert.equal(bytes.length, part.bytes);
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), part.sha256);
+  };
+  await assert.rejects(
+    publishBundledPrepared(
+      candidate,
       publish,
       verify,
       target,
-      async () => {},
+      async () => {
+        throw new Error('interrupted before pin');
+      },
       request,
       cache,
-    );
-    const pin = LockSchema.parse(await readJson(target));
-    assert.equal(pin.schemaVersion, 3);
-    if (pin.schemaVersion !== 3) throw new Error('Expected split pin');
-    assert.ok(pin.fileDelivery, 'individual files are verified before pinning');
-    assert.ok(pin.bundles.bootstrap, 'metadata and thumbnails have their own bootstrap bundle');
-    const acquired = await ensureBundlePack(pin, cache, async (url) => {
-      const parsed = new URL(url instanceof Request ? url.url : url),
-        key = parsed.pathname.split('/').slice(-2).join('/');
-      return new Response(Uint8Array.from(uploads.get(key)!));
-    });
-    try {
-      assert.equal(
-        await fs.readFile(path.join(acquired.root, 'public/authoring-only.png'), 'utf8'),
-        'distinct authoring artwork',
-      );
-    } finally {
-      await acquired.release();
-    }
-  } finally {
-    await held.release();
-  }
+    ),
+    /interrupted before pin/,
+  );
+  assert.deepEqual(await readJson(target), lock);
+  await assert.rejects(fs.access(archive), { code: 'ENOENT' });
+  const inventoryLock = await inventoryCandidate(payload, lock.recipeSha256);
+  await publishBundledPrepared(
+    { held, payload, lock: inventoryLock },
+    publish,
+    verify,
+    target,
+    async () => {},
+    request,
+    cache,
+  );
+  const pin = LockSchema.parse(await readJson(target));
+  assert.equal(pin.schemaVersion, 3);
+  if (pin.schemaVersion !== 3) throw new Error('Expected split pin');
+  assert.ok(pin.fileDelivery, 'individual files are verified before pinning');
+  assert.ok(pin.bundles.bootstrap, 'metadata and thumbnails have their own bootstrap bundle');
+  const acquired = await ensureBundlePack(pin, cache, async (url) => {
+    const parsed = new URL(url instanceof Request ? url.url : url),
+      key = parsed.pathname.split('/').slice(-2).join('/');
+    return new Response(Uint8Array.from(uploads.get(key)!));
+  });
+  await using _cleanup1 = onAsyncExit(() => acquired.release());
+  assert.equal(
+    await fs.readFile(path.join(acquired.root, 'public/authoring-only.png'), 'utf8'),
+    'distinct authoring artwork',
+  );
 });
 
 test('authoring shards preserve unrelated membership and retain indivisible sources', () => {

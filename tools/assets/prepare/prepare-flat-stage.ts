@@ -1,7 +1,7 @@
 import sharp from 'sharp';
 import { remapAlpha } from '../pixels';
 import recipe from '../../../authoring/flat-stage-art.json';
-import { source } from '../definition';
+import { source, stillFrame } from '../definition';
 
 import { hash } from '../../compiler';
 import type { Source } from '../../../src/assets/schema';
@@ -54,16 +54,9 @@ export async function prepare(context: PreparationContext, check = false) {
         license: 'Owner-authorized project artwork',
         source: root,
       },
-      requiredClips: [r.clip],
-      clips: {
-        [r.clip]: { d45: { frames: [r.clip], durationsMs: [1000], loop: true, notifies: [] } },
-      },
     });
-    s.frames = [
-      { id: r.clip, path: `ink/${r.id}/${r.clip}.png`, origin: 'imported-study', attachments: {} },
-    ];
     await output(
-      'staging/' + s.frames[0]!.path,
+      stillFrame(s, r.clip),
       await sharp(native.data, { raw: native.info }).png().toBuffer(),
     );
     await pack(s);

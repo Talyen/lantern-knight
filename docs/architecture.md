@@ -177,6 +177,8 @@ The hero lantern illuminates nearby scene surfaces with broad distance falloff, 
 
 ## Tooling and builds
 
+Node tools use `using`/`await using` with [scope-exit](../tools/scope-exit.ts) for borrowed cleanup contracts; native disposable temporary directories register deletion at acquisition. Scope exit preserves both operation and cleanup failures. [Diagnostic scenarios](../tools/smoke/scenario.ts) own reporting and shutdown through that same boundary.
+
 Tool entry points call workflows; workflows call process, asset and file helpers. Helpers do not dispatch npm commands or import their callers. Standard tools run directly. Tests/checks execute fresh; immutable prepared assets cache expensive production work.
 
 AssetWorkspace owns the selected asset root, resolved public/metadata paths, identity and release. Development, web compilation and runtime validation receive those paths explicitly. TypeScript preparation operations receive an explicit context with source access, paths, output recording and one budgeted writer. Atlas compilation requires that context; its pages, calibration, report and manifest use the same writer and budget as other preparation outputs. Source reads share exact-case and root-confinement validation. Environment translation remains at command, Python and legacy diagnostic subprocess boundaries.

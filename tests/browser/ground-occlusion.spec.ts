@@ -9,63 +9,44 @@ test('ground atlas masks each actor independently and draws hidden outline pixel
   );
   await page.goto('/ground-proof.html');
   const proof = await page.evaluate(async () => {
-    const threePath = '/node_modules/.vite/deps/three.js',
+    const gpuPath = '/tests/fixtures/gpu.ts',
       occlusionPath = '/src/presentation/ground-occlusion.ts',
       cameraPath = '/src/presentation/camera.ts';
-    const T = await import(threePath),
+    const { T, gpuFixture, rectangle, groundFixture } = await import(gpuPath),
       { GroundOcclusion } = await import(occlusionPath),
-      { outward, right, up } = await import(cameraPath);
-    const renderer = new T.WebGLRenderer({
-      canvas: document.querySelector('canvas')!,
-      antialias: false,
-    });
-    renderer.setSize(96, 96);
+      { right, up } = await import(cameraPath);
+    const gpu = gpuFixture(96),
+      { renderer, scene, camera, own } = gpu;
     renderer.setClearColor(0);
-    const target = new T.WebGLRenderTarget(96, 96),
-      camera = new T.OrthographicCamera(-2, 2, 2, -2, 0.1, 100),
-      scene = new T.Scene();
-    camera.position.copy(outward).multiplyScalar(30);
-    camera.lookAt(0, 0, 0);
-    camera.updateMatrixWorld();
-    const ground = {
-      asset: 'fixture',
-      frame: 'fixture',
-      hash: 'a'.repeat(64),
-      dimensions: [64, 64],
-      destinations: [],
-      regions: [
-        {
-          id: 'canopy',
-          name: 'Canopy',
-          mask: [
-            {
-              outer: [
-                [0, 0],
-                [1, 0],
-                [1, 1],
-                [0, 1],
-              ],
-              holes: [],
-            },
-          ],
-          depth: { kind: 'anchor', point: { x: 0, z: 0 } },
-        },
-      ],
-    };
-    const atlas = new GroundOcclusion(ground, 4, 4, renderer.capabilities.maxTextureSize);
+    const ground = groundFixture([
+      {
+        id: 'canopy',
+        name: 'Canopy',
+        mask: [
+          {
+            outer: rectangle(0, 0, 1, 1),
+            holes: [],
+          },
+        ],
+        depth: { kind: 'anchor', point: { x: 0, z: 0 } },
+      },
+    ]);
+    const atlas = own(new GroundOcclusion(ground, 4, 4, renderer.capabilities.maxTextureSize));
     const pixels = new Uint8Array(16 * 16 * 4);
     for (let y = 3; y < 13; y++)
       for (let x = 3; x < 13; x++) pixels.fill(255, (y * 16 + x) * 4, (y * 16 + x + 1) * 4);
-    const texture = new T.DataTexture(pixels, 16, 16);
+    const texture = own(new T.DataTexture(pixels, 16, 16));
     texture.needsUpdate = true;
     texture.magFilter = texture.minFilter = T.NearestFilter;
     const sprites = [-1, 1].map((side) => {
-      const material = new T.MeshBasicMaterial({
-          map: texture,
-          alphaTest: 0.05,
-          toneMapped: false,
-        }),
-        geometry = new T.PlaneGeometry(1.5, 1.5),
+      const material = own(
+          new T.MeshBasicMaterial({
+            map: texture,
+            alphaTest: 0.05,
+            toneMapped: false,
+          }),
+        ),
+        geometry = own(new T.PlaneGeometry(1.5, 1.5)),
         mesh = new T.Mesh(geometry, material);
       mesh.position.copy(right).multiplyScalar(side * 0.85);
       mesh.quaternion.copy(camera.quaternion);
@@ -78,10 +59,7 @@ test('ground atlas masks each actor independently and draws hidden outline pixel
       atlas.outlines = outlines;
       atlas.update(sprites[0], hero, hero);
       atlas.update(sprites[1], enemy, enemy);
-      renderer.setRenderTarget(target);
-      renderer.render(scene, camera);
-      const out = new Uint8Array(96 * 96 * 4);
-      renderer.readRenderTargetPixels(target, 0, 0, 96, 96, out);
+      const out = gpu.capture();
       let left = 0,
         right = 0,
         gold = 0,
@@ -160,14 +138,7 @@ test('ground atlas masks each actor independently and draws hidden outline pixel
       scene.remove(prop.mesh);
       return { ...proof, upperHidden, lowerVisible, dropHidden, dropFront, propHidden, propFront };
     } finally {
-      atlas.dispose();
-      for (const s of sprites) {
-        s.material.dispose();
-        s.geometry.dispose();
-      }
-      texture.dispose();
-      target.dispose();
-      renderer.dispose();
+      gpu.dispose();
     }
   });
   expect(proof.front.left).toBeGreaterThan(300);
@@ -207,42 +178,37 @@ test('a repaired crate contact boundary removes false foreground strips and reta
   await page.goto('/crate-proof.html');
   const proof = await page.evaluate(
     async ({ ground, width, height, repaired, witness }) => {
-      const threePath = '/node_modules/.vite/deps/three.js',
+      const gpuPath = '/tests/fixtures/gpu.ts',
         occlusionPath = '/src/presentation/ground-occlusion.ts',
         cameraPath = '/src/presentation/camera.ts',
         layoutPath = '/src/content/floor-layout.ts';
-      const T = await import(threePath),
+      const { T, gpuFixture } = await import(gpuPath),
         { GroundOcclusion } = await import(occlusionPath),
         { outward, up } = await import(cameraPath),
         { artworkFloorLayout } = await import(layoutPath);
-      const renderer = new T.WebGLRenderer({
-        canvas: document.querySelector('canvas')!,
-        antialias: false,
-      });
-      renderer.setSize(128, 128);
+      const gpu = gpuFixture(128, 128, 2.4),
+        { renderer, scene, camera, own } = gpu;
       renderer.setClearColor(0);
-      const target = new T.WebGLRenderTarget(128, 128),
-        camera = new T.OrthographicCamera(-1.2, 1.2, 1.2, -1.2, 0.1, 100),
-        scene = new T.Scene(),
-        texture = new T.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1),
-        material = new T.MeshBasicMaterial({ map: texture, color: 0xffffff, toneMapped: false }),
-        geometry = new T.PlaneGeometry(0.9, 1.8),
+      const texture = own(new T.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1)),
+        material = own(
+          new T.MeshBasicMaterial({ map: texture, color: 0xffffff, toneMapped: false }),
+        ),
+        geometry = own(new T.PlaneGeometry(0.9, 1.8)),
         mesh = new T.Mesh(geometry, material);
       texture.needsUpdate = true;
       scene.add(mesh);
       // Modest atlas resolution keeps this focused GPU proof independent of production textures.
       ground.dimensions = [1024, 683];
-      const before = new GroundOcclusion(
-        ground,
-        width,
-        height,
-        renderer.capabilities.maxTextureSize,
+      const before = own(
+        new GroundOcclusion(ground, width, height, renderer.capabilities.maxTextureSize),
       );
-      const after = new GroundOcclusion(
-        { ...ground, regions: [{ ...ground.regions[0], depth: repaired }] },
-        width,
-        height,
-        renderer.capabilities.maxTextureSize,
+      const after = own(
+        new GroundOcclusion(
+          { ...ground, regions: [{ ...ground.regions[0], depth: repaired }] },
+          width,
+          height,
+          renderer.capabilities.maxTextureSize,
+        ),
       );
       const actor = { material };
       before.attach(actor, 'hero');
@@ -259,10 +225,7 @@ test('a repaired crate contact boundary removes false foreground strips and reta
         mesh.quaternion.copy(camera.quaternion);
         before.update(actor, point.x, point.z);
         before.uniforms.groundAtlas.value = texture;
-        renderer.setRenderTarget(target);
-        renderer.render(scene, camera);
-        const pixels = new Uint8Array(128 * 128 * 4);
-        renderer.readRenderTargetPixels(target, 0, 0, 128, 128, pixels);
+        const pixels = gpu.capture();
         let visible = 0;
         for (let i = 0; i < pixels.length; i += 4) if (pixels[i]! > 200) visible++;
         return visible;
@@ -279,13 +242,7 @@ test('a repaired crate contact boundary removes false foreground strips and reta
           afterBehind: render(behind, after.texture),
         };
       } finally {
-        before.dispose();
-        after.dispose();
-        geometry.dispose();
-        material.dispose();
-        texture.dispose();
-        target.dispose();
-        renderer.dispose();
+        gpu.dispose();
       }
     },
     {
@@ -310,69 +267,44 @@ test('ground shadows preserve black ink and mask painted scenery for actors, ins
   );
   await page.goto('/shadow-ground-proof.html');
   const proof = await page.evaluate(async () => {
-    const threePath = '/node_modules/.vite/deps/three.js',
+    const gpuPath = '/tests/fixtures/gpu.ts',
       atlasPath = '/src/presentation/ground-occlusion.ts',
       contactPath = '/src/presentation/contact-shadows.ts',
-      multiplyPath = '/src/presentation/ground-shadow-material.ts',
-      cameraPath = '/src/presentation/camera.ts';
-    const T = await import(threePath),
+      multiplyPath = '/src/presentation/ground-shadow-material.ts';
+    const { T, gpuFixture, rectangle, groundFixture } = await import(gpuPath),
       { GroundOcclusion } = await import(atlasPath),
       { contactShadowMaterial } = await import(contactPath),
-      { multiplyGroundShadow } = await import(multiplyPath),
-      { outward } = await import(cameraPath);
-    const renderer = new T.WebGLRenderer({ canvas: document.querySelector('canvas')! });
-    renderer.setSize(96, 96);
+      { multiplyGroundShadow } = await import(multiplyPath);
+    const gpu = gpuFixture(96),
+      { renderer, scene, own, capture } = gpu;
     renderer.shadowMap.enabled = true;
-    const target = new T.WebGLRenderTarget(96, 96),
-      scene = new T.Scene(),
-      camera = new T.OrthographicCamera(-2, 2, 2, -2, 0.1, 100),
-      groundMaterial = new T.MeshBasicMaterial({ color: 0xb0a080, toneMapped: false }),
-      geometry = new T.PlaneGeometry(6, 6),
+    const groundMaterial = own(new T.MeshBasicMaterial({ color: 0xb0a080, toneMapped: false })),
+      geometry = own(new T.PlaneGeometry(6, 6)),
       floor = new T.Mesh(geometry, groundMaterial),
-      texture = new T.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1);
+      texture = own(new T.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1));
     texture.needsUpdate = true;
     floor.rotation.x = -Math.PI / 2;
     scene.add(floor);
-    camera.position.copy(outward).multiplyScalar(30);
-    camera.lookAt(0, 0, 0);
-    camera.updateMatrixWorld();
-    const atlas = new GroundOcclusion(
-      {
-        asset: 'fixture',
-        frame: 'fixture',
-        hash: 'a'.repeat(64),
-        dimensions: [64, 64],
-        destinations: [],
-        regions: [
+    const atlas = own(
+      new GroundOcclusion(
+        groundFixture([
           {
             id: 'wall',
             name: 'Painted wall',
             mask: [
               {
-                outer: [
-                  [0, 0],
-                  [0.5, 0],
-                  [0.5, 1],
-                  [0, 1],
-                ],
+                outer: rectangle(0, 0, 0.5, 1),
                 holes: [],
               },
             ],
             depth: { kind: 'anchor', point: { x: 0, z: 0 } },
           },
-        ],
-      },
-      4,
-      4,
-      renderer.capabilities.maxTextureSize,
+        ]),
+        4,
+        4,
+        renderer.capabilities.maxTextureSize,
+      ),
     );
-    const capture = () => {
-      renderer.setRenderTarget(target);
-      renderer.render(scene, camera);
-      const pixels = new Uint8Array(96 * 96 * 4);
-      renderer.readRenderTargetPixels(target, 0, 0, 96, 96, pixels);
-      return pixels;
-    };
     const changed = (a: Uint8Array, b: Uint8Array) => {
       let left = 0,
         right = 0,
@@ -387,8 +319,8 @@ test('ground shadows preserve black ink and mask painted scenery for actors, ins
       }
       return { left, right, brightened };
     };
-    const material = contactShadowMaterial(texture, 0.5),
-      actor = new T.Mesh(new T.PlaneGeometry(3, 3), material);
+    const material = own(contactShadowMaterial(texture, 0.5)),
+      actor = new T.Mesh(own(new T.PlaneGeometry(3, 3)), material);
     actor.rotation.x = -Math.PI / 2;
     actor.position.y = 0.03;
     const baseline = capture();
@@ -408,8 +340,8 @@ test('ground shadows preserve black ink and mask painted scenery for actors, ins
     scene.remove(actor);
     // Translation in instanceMatrix must participate in artwork registration.
     const instances = new T.InstancedMesh(
-      new T.PlaneGeometry(1.5, 1.5),
-      contactShadowMaterial(texture, 0.5),
+      own(new T.PlaneGeometry(1.5, 1.5)),
+      own(contactShadowMaterial(texture, 0.5)),
       2,
     );
     for (const [i, side] of [-1, 1].entries()) {
@@ -424,10 +356,10 @@ test('ground shadows preserve black ink and mask painted scenery for actors, ins
     const instanced = capture();
     scene.remove(instances);
     const receiverMaterial = multiplyGroundShadow(
-        new T.ShadowMaterial({ opacity: 0.5, toneMapped: false }),
+        own(new T.ShadowMaterial({ opacity: 0.5, toneMapped: false })),
       ),
-      receiver = new T.Mesh(geometry.clone(), receiverMaterial),
-      caster = new T.Mesh(new T.BoxGeometry(3, 0.2, 3), new T.MeshBasicMaterial()),
+      receiver = new T.Mesh(own(geometry.clone()), receiverMaterial),
+      caster = new T.Mesh(own(new T.BoxGeometry(3, 0.2, 3)), own(new T.MeshBasicMaterial())),
       sun = new T.DirectionalLight(0xffffff, 1);
     receiver.rotation.x = -Math.PI / 2;
     receiver.position.y = 0.02;
@@ -450,17 +382,9 @@ test('ground shadows preserve black ink and mask painted scenery for actors, ins
       maskedCast: changed(baseline, maskedCast),
       error: renderer.getContext().getError(),
     };
-    for (const mesh of [actor, instances, receiver, caster]) {
-      mesh.geometry.dispose();
-      mesh.material.dispose();
-    }
-    geometry.dispose();
-    groundMaterial.dispose();
-    texture.dispose();
-    atlas.dispose();
-    sun.shadow.dispose();
-    target.dispose();
-    renderer.dispose();
+
+    own(sun.shadow);
+    gpu.dispose();
     return result;
   });
   expect(proof.error).toBe(0);

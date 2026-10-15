@@ -65,3 +65,18 @@ export function source(
     frames: [],
   };
 }
+
+// Derived packs inherit registration policy, but own their frames and bindings.
+export function derivedSource(template: Source, asset: Partial<Source['asset']>): Source {
+  return {
+    schemaVersion: 2,
+    asset: { ...template.asset, requiredClips: [], clips: {}, ...asset },
+    frames: [],
+  };
+}
+export function stillFrame(pack: Source, id: string, file = `ink/${pack.asset.id}/${id}.png`) {
+  pack.frames.push({ id, path: file, origin: 'imported-study', attachments: {} });
+  pack.asset.clips[id] = { d45: { frames: [id], durationsMs: [1000], loop: true, notifies: [] } };
+  pack.asset.requiredClips = Object.keys(pack.asset.clips);
+  return 'staging/' + file;
+}

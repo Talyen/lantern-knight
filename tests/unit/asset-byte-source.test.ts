@@ -1,3 +1,4 @@
+import { onAsyncExit } from '../../tools/scope-exit';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runtimeBundles } from '../../tools/build-runtime-delivery';
@@ -100,52 +101,47 @@ test('the last cancelled bundle reader retires stalled transport so a successor 
           assert.rejects(lastRead, /obsolete/),
         ]);
       let next: Promise<Response> | undefined, shared: Promise<Response> | undefined;
-      try {
-        await new Promise<void>((resolve) => setImmediate(resolve));
-        assert.equal(downloads.length, 1);
-        first.abort(new Error('obsolete first reader'));
-        assert.equal(
-          downloads[0]!.signal.aborted,
-          false,
-          'A surviving reader retains the download',
-        );
-        last.abort(new Error('obsolete last reader'));
-        await rejected;
-        assert.equal(
-          downloads[0]!.signal.aborted,
-          true,
-          'No reader remains to own the stalled download',
-        );
-
-        await new Promise<void>((resolve) => setImmediate(resolve));
-        assert.equal(downloads.length, 2, 'Reentrant recovery must start fresh transport');
-        let bodyReads = 0;
-        if (outcome === 'failure')
-          downloads[0]!.response.reject(new Error('late obsolete transport failure'));
-        else
-          downloads[0]!.response.resolve(
-            Object.assign(new Response('a'), {
-              arrayBuffer: async () => {
-                bodyReads++;
-                return new Uint8Array([97]).buffer;
-              },
-            }),
-          );
-        await new Promise<void>((resolve) => setImmediate(resolve));
-        assert.equal(bodyReads, 0, 'Abandoned transport must not consume or cache a late response');
-        shared = source.request('/lighting/a.png');
-        await new Promise<void>((resolve) => setImmediate(resolve));
-        assert.equal(downloads.length, 2, 'Late completion cannot unregister a successor download');
-        downloads[1]!.response.resolve(new Response('a'));
-        assert.ok(next);
-        for (const response of await Promise.all([next, shared]))
-          assert.equal(await response.text(), 'a');
-      } finally {
+      await using _scopeExit1 = onAsyncExit(async () => {
         source.dispose();
         for (const download of downloads) download.response.reject(new Error('test cleanup'));
         await Promise.allSettled([next, shared]);
         await rejected;
-      }
+      });
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      assert.equal(downloads.length, 1);
+      first.abort(new Error('obsolete first reader'));
+      assert.equal(downloads[0]!.signal.aborted, false, 'A surviving reader retains the download');
+      last.abort(new Error('obsolete last reader'));
+      await rejected;
+      assert.equal(
+        downloads[0]!.signal.aborted,
+        true,
+        'No reader remains to own the stalled download',
+      );
+
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      assert.equal(downloads.length, 2, 'Reentrant recovery must start fresh transport');
+      let bodyReads = 0;
+      if (outcome === 'failure')
+        downloads[0]!.response.reject(new Error('late obsolete transport failure'));
+      else
+        downloads[0]!.response.resolve(
+          Object.assign(new Response('a'), {
+            arrayBuffer: async () => {
+              bodyReads++;
+              return new Uint8Array([97]).buffer;
+            },
+          }),
+        );
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      assert.equal(bodyReads, 0, 'Abandoned transport must not consume or cache a late response');
+      shared = source.request('/lighting/a.png');
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      assert.equal(downloads.length, 2, 'Late completion cannot unregister a successor download');
+      downloads[1]!.response.resolve(new Response('a'));
+      assert.ok(next);
+      for (const response of await Promise.all([next, shared]))
+        assert.equal(await response.text(), 'a');
     });
 });
 

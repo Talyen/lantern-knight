@@ -1,3 +1,4 @@
+import { onAsyncExit } from '../scope-exit';
 import { readJson, writeJson } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -33,89 +34,88 @@ type Candidate = {
   device?: string;
 };
 type Result = { mask: MaskShape[]; candidates?: Candidate[]; milliseconds: number; device: string };
-try {
-  const catalog = await readAuthoringCatalog(workspace.publicDirectory);
-  const manifest = parseManifest(
-    await readJson(path.join(workspace.publicDirectory, catalog[scene.floor.asset]!)),
-  );
-  const frame = manifest.frames.find(
-    (f) => f.id === manifest.asset.clips[scene.floor.clip ?? 'still']?.d45?.frames[0],
-  );
-  const page = manifest.pages.find((p) => p.id === frame?.page);
-  if (!frame || !page) throw new Error('Missing ground frame');
-  const identity = { asset: manifest.asset.id, frame: frame.id, hash: page.hash };
-  const settings = await readJson(path.join(service.modelRoot, 'settings.json'));
-  const folder = path.join(service.modelRoot, 'jobs', id + '-' + page.hash.slice(0, 12));
-  await fs.mkdir(folder, { recursive: true });
-  const file = path.join(folder, 'proposals.json');
-  const signature = JSON.stringify({ identity, settings, text, algorithm: 1 });
-  let candidates: Candidate[];
-  try {
-    const old = await readJson(file);
-    const previous = JSON.parse(old.signature);
-    previous.text ??= 'pine tree. dead tree. stone wall. large rock.';
-    if (
-      JSON.stringify(previous.identity) !== JSON.stringify(identity) ||
-      JSON.stringify(previous.settings) !== JSON.stringify(settings) ||
-      previous.text !== text ||
-      previous.algorithm !== 1
-    )
-      throw new Error('Proposal inputs changed');
-    candidates = old.candidates;
-  } catch {
-    const result = (await service.select(
-      {
-        ...identity,
-        crop: [0, 0, 1, 1],
-        operation: 'detect',
-        text,
-      },
-      abort.signal,
-    )) as Result;
-    candidates = result.candidates ?? [];
-    console.log(
-      `Found ${candidates.length} candidates in ${result.milliseconds} ms · ${result.device}`,
-    );
-  }
-  const save = async () => {
-    await writeJson(file + '.tmp', {
-      signature,
-      identity,
-      dimensions: manifest.asset.canvas,
-      candidates,
-    });
-    await fs.rename(file + '.tmp', file);
-  };
-  await save();
-  for (const [index, candidate] of candidates.entries()) {
-    abort.signal.throwIfAborted();
-    if (candidate.mask) continue;
-    const [a, b, c, d] = candidate.box,
-      padding = 0.025;
-    const result = (await service.select(
-      {
-        ...identity,
-        box: candidate.box,
-        crop: [
-          Math.max(0, a - padding),
-          Math.max(0, b - padding),
-          Math.min(1, c + padding),
-          Math.min(1, d + padding),
-        ],
-      },
-      abort.signal,
-    )) as Result;
-    candidate.mask = result.mask;
-    candidate.device = result.device;
-    candidate.milliseconds = result.milliseconds;
-    await save();
-    console.log(
-      `${index + 1}/${candidates.length} ${candidate.name}: ${result.mask.length} islands · ${result.milliseconds} ms · ${result.device}`,
-    );
-  }
-  console.log(`Proposals ready for agent review: ${file}. Authored scene unchanged.`);
-} finally {
+await using _scopeExit1 = onAsyncExit(async () => {
   process.removeListener('SIGINT', cancel);
   service.dispose();
   await workspace.release();
+});
+const catalog = await readAuthoringCatalog(workspace.publicDirectory);
+const manifest = parseManifest(
+  await readJson(path.join(workspace.publicDirectory, catalog[scene.floor.asset]!)),
+);
+const frame = manifest.frames.find(
+  (f) => f.id === manifest.asset.clips[scene.floor.clip ?? 'still']?.d45?.frames[0],
+);
+const page = manifest.pages.find((p) => p.id === frame?.page);
+if (!frame || !page) throw new Error('Missing ground frame');
+const identity = { asset: manifest.asset.id, frame: frame.id, hash: page.hash };
+const settings = await readJson(path.join(service.modelRoot, 'settings.json'));
+const folder = path.join(service.modelRoot, 'jobs', id + '-' + page.hash.slice(0, 12));
+await fs.mkdir(folder, { recursive: true });
+const file = path.join(folder, 'proposals.json');
+const signature = JSON.stringify({ identity, settings, text, algorithm: 1 });
+let candidates: Candidate[];
+try {
+  const old = await readJson(file);
+  const previous = JSON.parse(old.signature);
+  previous.text ??= 'pine tree. dead tree. stone wall. large rock.';
+  if (
+    JSON.stringify(previous.identity) !== JSON.stringify(identity) ||
+    JSON.stringify(previous.settings) !== JSON.stringify(settings) ||
+    previous.text !== text ||
+    previous.algorithm !== 1
+  )
+    throw new Error('Proposal inputs changed');
+  candidates = old.candidates;
+} catch {
+  const result = (await service.select(
+    {
+      ...identity,
+      crop: [0, 0, 1, 1],
+      operation: 'detect',
+      text,
+    },
+    abort.signal,
+  )) as Result;
+  candidates = result.candidates ?? [];
+  console.log(
+    `Found ${candidates.length} candidates in ${result.milliseconds} ms · ${result.device}`,
+  );
 }
+const save = async () => {
+  await writeJson(file + '.tmp', {
+    signature,
+    identity,
+    dimensions: manifest.asset.canvas,
+    candidates,
+  });
+  await fs.rename(file + '.tmp', file);
+};
+await save();
+for (const [index, candidate] of candidates.entries()) {
+  abort.signal.throwIfAborted();
+  if (candidate.mask) continue;
+  const [a, b, c, d] = candidate.box,
+    padding = 0.025;
+  const result = (await service.select(
+    {
+      ...identity,
+      box: candidate.box,
+      crop: [
+        Math.max(0, a - padding),
+        Math.max(0, b - padding),
+        Math.min(1, c + padding),
+        Math.min(1, d + padding),
+      ],
+    },
+    abort.signal,
+  )) as Result;
+  candidate.mask = result.mask;
+  candidate.device = result.device;
+  candidate.milliseconds = result.milliseconds;
+  await save();
+  console.log(
+    `${index + 1}/${candidates.length} ${candidate.name}: ${result.mask.length} islands · ${result.milliseconds} ms · ${result.device}`,
+  );
+}
+console.log(`Proposals ready for agent review: ${file}. Authored scene unchanged.`);

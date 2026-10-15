@@ -1,3 +1,4 @@
+import { withDiagnostic } from '../../tools/smoke/scenario';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runProcess } from '../../tools/run-process';
@@ -79,4 +80,38 @@ test('a short shutdown grace bounds cancellation of an uncooperative owned proce
     Date.now() - started < 3000,
     'Custom shutdown grace must not wait the default five seconds',
   );
+});
+
+test('diagnostic shutdown retains operation and report failures even if cleanup fails', async () => {
+  const [work, report, close] = ['work', 'report', 'close'].map((message) => new Error(message));
+  const calls: string[] = [];
+  await assert.rejects(
+    withDiagnostic(
+      {
+        errors: [],
+        writeReport: async () => {
+          calls.push('report');
+          throw report;
+        },
+        close: async () => {
+          await Promise.resolve();
+          calls.push('close');
+          throw close;
+        },
+      },
+      async () => {
+        calls.push('work');
+        throw work;
+      },
+    ),
+    (error: unknown) => {
+      assert.ok(error instanceof SuppressedError);
+      assert.equal(error.error, close);
+      assert.ok(error.suppressed instanceof AggregateError);
+      assert.equal(error.suppressed.cause, work);
+      assert.deepEqual(error.suppressed.errors, [work, report]);
+      return true;
+    },
+  );
+  assert.deepEqual(calls, ['work', 'report', 'close']);
 });

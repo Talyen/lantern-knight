@@ -1,3 +1,4 @@
+import { onAsyncExit } from '../../tools/scope-exit';
 import { readJson } from '../../tools/json-file';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test, { type TestContext } from 'node:test';
@@ -238,14 +239,11 @@ test('container publication rejects source drift and deduplicates identical file
   await fs.writeFile(path.join(f.root, 'source/public/generated/tree/page.png'), 'changed');
   await fs.writeFile(path.join(f.root, 'source/public/generated/tree/alias.png'), 'changed');
   const held = await f.cache.lease('drift');
-  try {
-    await assert.rejects(
-      buildFileCatalog(f.pin, f.inventory, path.join(f.root, 'source'), held, async () => {}),
-      /Source file changed/,
-    );
-  } finally {
-    await held.release();
-  }
+  await using _cleanup1 = onAsyncExit(() => held.release());
+  await assert.rejects(
+    buildFileCatalog(f.pin, f.inventory, path.join(f.root, 'source'), held, async () => {}),
+    /Source file changed/,
+  );
 });
 
 test('disposing a development workspace aborts in-flight acquisition and releases its lease', async (t) => {
@@ -291,13 +289,10 @@ test('temporary cache reservation failure does not poison a later artwork retry'
   };
 
   const workspace = await openFileWorkspace(f.pin, f.cache, f.request);
-  try {
-    await assert.rejects(
-      workspace.ensurePublicFile('generated/tree/manifest.json'),
-      /Temporary cache contention/,
-    );
-    assert.equal(await workspace.ensurePublicFile('generated/tree/manifest.json'), true);
-  } finally {
-    await workspace.release();
-  }
+  await using _cleanup2 = onAsyncExit(() => workspace.release());
+  await assert.rejects(
+    workspace.ensurePublicFile('generated/tree/manifest.json'),
+    /Temporary cache contention/,
+  );
+  assert.equal(await workspace.ensurePublicFile('generated/tree/manifest.json'), true);
 });

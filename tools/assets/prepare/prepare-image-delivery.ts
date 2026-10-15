@@ -1,3 +1,4 @@
+import { onExit } from '../../scope-exit';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
@@ -80,12 +81,11 @@ export async function prepare(context: PreparationContext, check = false) {
       waiting.push({ bytes, ready });
       drain();
     });
-    try {
-      return await action();
-    } finally {
+    using _scopeExit1 = onExit(() => {
       memoryUsed -= bytes;
       drain();
-    }
+    });
+    return await action();
   };
   let next = 0,
     completed = 0,

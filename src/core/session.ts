@@ -1,5 +1,5 @@
 import { borrowedView } from '../content/snapshot';
-import { type Inventory, type Equipment, type EquipmentSlot } from '../content/items';
+import { type EquipmentSlot } from '../content/items';
 import { onboardingState, type OnboardingState, type Lesson } from './onboarding';
 import { InventoryState, type InventoryAccess } from './inventory';
 import { interactionTarget } from './interaction';
@@ -33,20 +33,21 @@ type PendingRoom = {
   cancellation?: EventDetails;
 };
 // Hosts may inspect a session, but only its owner may replace its simulation.
-export interface SessionView {
-  readonly registry: ContentRegistry;
-  readonly generation: number;
-  readonly loading: boolean;
-  readonly wins: number;
-  readonly resetCount: number;
-  readonly inventory: Readonly<Inventory>;
-  readonly equipment: Readonly<Equipment>;
-  readonly discovered: ReadonlySet<string>;
-  readonly lastFire: string | undefined;
-  readonly onboarding: OnboardingState;
-  fire: GameSession['fire'];
-  captureSave(): GameSave;
-}
+const sessionProperties = [
+  'registry',
+  'generation',
+  'loading',
+  'wins',
+  'resetCount',
+  'inventory',
+  'equipment',
+  'discovered',
+  'onboarding',
+  'lastFire',
+] as const;
+export type SessionView = Readonly<
+  Pick<GameSession, (typeof sessionProperties)[number] | 'fire' | 'captureSave'>
+>;
 export class GameSession {
   readonly view: SessionView = sessionView(this);
   private current: RoomState;
@@ -514,23 +515,8 @@ export class GameSession {
 }
 
 function sessionView(owner: GameSession): SessionView {
-  return borrowedView(
-    owner,
-    [
-      'registry',
-      'generation',
-      'loading',
-      'wins',
-      'resetCount',
-      'inventory',
-      'equipment',
-      'discovered',
-      'onboarding',
-      'lastFire',
-    ],
-    {
-      fire: (key: string) => owner.fire(key),
-      captureSave: () => owner.captureSave(),
-    },
-  );
+  return borrowedView(owner, sessionProperties, {
+    fire: (key: string) => owner.fire(key),
+    captureSave: () => owner.captureSave(),
+  });
 }

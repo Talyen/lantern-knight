@@ -26,6 +26,7 @@
     "tools/diagnostics/session-replay.ts",
     "vite.config.ts",
     "tests/**/*.test.ts",
+    "tests/fixtures/gpu.ts",
     "tests/**/*.spec.ts",
     "tools/diagnostics/run-diagnostic.ts",
     "tools/ci-impact.ts",

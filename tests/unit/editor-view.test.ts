@@ -1,3 +1,4 @@
+import { onExit } from '../../tools/scope-exit';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Group, Mesh, MeshBasicMaterial, PlaneGeometry, Texture, Vector3 } from 'three';
@@ -64,18 +65,17 @@ test('invisible artwork cannot intercept selection of the visible drawing behind
     x: 0,
     z: 0,
   }));
-  try {
-    assert.equal(view.pick(400, 300, document)?.placement.id, 'visible');
-    sprites[1]!.material.opacity = 1;
-    sprites[1]!.mesh.visible = false;
-    assert.equal(view.pick(400, 300, document)?.placement.id, 'visible');
-  } finally {
+  using _scopeExit1 = onExit(() => {
     for (const sprite of sprites) {
       sprite.mesh.geometry.dispose();
       sprite.material.dispose();
     }
     texture.dispose();
-  }
+  });
+  assert.equal(view.pick(400, 300, document)?.placement.id, 'visible');
+  sprites[1]!.material.opacity = 1;
+  sprites[1]!.mesh.visible = false;
+  assert.equal(view.pick(400, 300, document)?.placement.id, 'visible');
 });
 
 test('editor acceptance hides failed rebuilds, recovers and preserves installed texture lifetimes', async () => {
@@ -147,64 +147,61 @@ test('editor acceptance hides failed rebuilds, recovers and preserves installed 
     () => {},
     new AbortController().signal,
   );
-  try {
-    await assert.rejects(view.apply(original), /warm failed/);
-    assert.equal(view.presentation, undefined);
-    await view.apply(original);
-    assert.equal(warmCalls, 2, 'Recovery retries incomplete renderer warming');
-    failLighting = 1;
-    await assert.rejects(
-      documents.edit((history) =>
-        history.change((d) => {
-          d.floor.asset = 'ink-mud';
-        }),
-      ),
-      /lighting failed/,
-    );
-    assert.equal(documents.history.document.floor.asset, original.floor.asset);
-    assert.equal(loaded.length, 4, 'Rollback reacquires the accepted document before rebuilding');
-    assert.deepEqual(released, loaded.slice(0, 3));
-    assert.equal(view.presentation, presentation);
-    view.render();
-    assert.equal(frames, 1);
+  using _cleanup1 = onExit(() => runtime.dispose());
+  await assert.rejects(view.apply(original), /warm failed/);
+  assert.equal(view.presentation, undefined);
+  await view.apply(original);
+  assert.equal(warmCalls, 2, 'Recovery retries incomplete renderer warming');
+  failLighting = 1;
+  await assert.rejects(
+    documents.edit((history) =>
+      history.change((d) => {
+        d.floor.asset = 'ink-mud';
+      }),
+    ),
+    /lighting failed/,
+  );
+  assert.equal(documents.history.document.floor.asset, original.floor.asset);
+  assert.equal(loaded.length, 4, 'Rollback reacquires the accepted document before rebuilding');
+  assert.deepEqual(released, loaded.slice(0, 3));
+  assert.equal(view.presentation, presentation);
+  view.render();
+  assert.equal(frames, 1);
 
-    const loadPack = runtime.loadPack.bind(runtime);
-    runtime.loadPack = async () => {
-      throw new Error('pack unavailable');
-    };
-    const replacing = view.apply({ ...original, floor: { ...original.floor, asset: 'ink-mud' } });
-    assert.equal(view.presentation, undefined, 'Pending replacement suspends borrowing');
-    await assert.rejects(view.apply(original), /Scene update in progress/);
-    await assert.rejects(replacing, /pack unavailable/);
-    runtime.loadPack = loadPack;
-    assert.equal(view.presentation, presentation, 'Precommit failure preserves room acceptance');
+  const loadPack = runtime.loadPack.bind(runtime);
+  runtime.loadPack = async () => {
+    throw new Error('pack unavailable');
+  };
+  const replacing = view.apply({ ...original, floor: { ...original.floor, asset: 'ink-mud' } });
+  assert.equal(view.presentation, undefined, 'Pending replacement suspends borrowing');
+  await assert.rejects(view.apply(original), /Scene update in progress/);
+  await assert.rejects(replacing, /pack unavailable/);
+  runtime.loadPack = loadPack;
+  assert.equal(view.presentation, presentation, 'Precommit failure preserves room acceptance');
 
-    failLighting = 2;
-    await assert.rejects(
-      documents.edit((history) =>
-        history.change((d) => {
-          d.floor.asset = 'ink-mud';
-        }),
-      ),
-      /Scene update and view recovery failed/,
-    );
-    assert.equal(documents.history.document.floor.asset, original.floor.asset);
-    assert.equal(view.presentation, undefined, 'Failed rollback cannot expose a partial renderer');
-    assert.equal(view.sim, undefined, 'Rejected gameplay geometry stays behind the same barrier');
-    view.render();
-    assert.equal(frames, 1, 'Frame scheduling cannot resume the rejected scene');
-    assert.equal(view.ground(0, 0), null);
-    assert.equal(view.pick(0, 0, original), undefined);
-    await view.apply(original);
-    assert.equal(view.presentation, presentation);
-    view.render();
-    assert.equal(frames, 2, 'A successful rebuild reopens the view');
-    view.dispose();
-    assert.equal(view.presentation, undefined);
-    view.render();
-    assert.equal(frames, 2);
-    assert.deepEqual(released, loaded);
-  } finally {
-    runtime.dispose();
-  }
+  failLighting = 2;
+  await assert.rejects(
+    documents.edit((history) =>
+      history.change((d) => {
+        d.floor.asset = 'ink-mud';
+      }),
+    ),
+    /Scene update and view recovery failed/,
+  );
+  assert.equal(documents.history.document.floor.asset, original.floor.asset);
+  assert.equal(view.presentation, undefined, 'Failed rollback cannot expose a partial renderer');
+  assert.equal(view.sim, undefined, 'Rejected gameplay geometry stays behind the same barrier');
+  view.render();
+  assert.equal(frames, 1, 'Frame scheduling cannot resume the rejected scene');
+  assert.equal(view.ground(0, 0), null);
+  assert.equal(view.pick(0, 0, original), undefined);
+  await view.apply(original);
+  assert.equal(view.presentation, presentation);
+  view.render();
+  assert.equal(frames, 2, 'A successful rebuild reopens the view');
+  view.dispose();
+  assert.equal(view.presentation, undefined);
+  view.render();
+  assert.equal(frames, 2);
+  assert.deepEqual(released, loaded);
 });

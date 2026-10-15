@@ -1,3 +1,4 @@
+import { onAsyncExit } from './scope-exit';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -50,27 +51,26 @@ async function main() {
   const requested = args.filter((arg) => !['--assets', '--watch', '--verbose'].includes(arg));
   const files = await selectTestFiles(requested, projectRoot, assets ? 'assets' : 'unit');
   const workspace = assets ? await openWorkspace('pinned', 'authoring') : undefined;
-  try {
-    await runProcess(
-      process.execPath,
-      [
-        '--import',
-        'tsx',
-        '--test',
-        '--test-concurrency=2',
-        '--test-reporter=' + (watch || verbose ? 'spec' : './tools/test-reporter.ts'),
-        ...(watch ? ['--watch'] : []),
-        ...files,
-      ],
-      {
-        cwd: projectRoot,
-        env: workspace ? workspaceEnvironment(workspace) : process.env,
-        timeoutMs: watch ? undefined : 5 * 60_000,
-      },
-    );
-  } finally {
+  await using _scopeExit1 = onAsyncExit(async () => {
     await workspace?.release();
-  }
+  });
+  await runProcess(
+    process.execPath,
+    [
+      '--import',
+      'tsx',
+      '--test',
+      '--test-concurrency=2',
+      '--test-reporter=' + (watch || verbose ? 'spec' : './tools/test-reporter.ts'),
+      ...(watch ? ['--watch'] : []),
+      ...files,
+    ],
+    {
+      cwd: projectRoot,
+      env: workspace ? workspaceEnvironment(workspace) : process.env,
+      timeoutMs: watch ? undefined : 5 * 60_000,
+    },
+  );
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
   main().catch((error) => {

@@ -1,3 +1,4 @@
+import { onAsyncExit } from './scope-exit';
 import { createRequire } from 'node:module';
 import { context } from 'esbuild';
 import { untilInterrupted } from './run-process';
@@ -39,35 +40,34 @@ const restart = () => {
     });
   }, 100);
 };
-const builders = [];
-try {
-  for (const name of ['main', 'preload'] as const) {
-    const builder = await context({
-      ...electronConfig(name, process.argv.includes('--game') ? 'game' : 'authoring'),
-      outfile: `dist-electron-dev/${name}.cjs`,
-      plugins: [
-        {
-          name: 'restart-electron',
-          setup(build) {
-            build.onEnd((result) => {
-              if (!result.errors.length) {
-                ready.add(name);
-                restart();
-              }
-            });
-          },
-        },
-      ],
-    });
-    builders.push(builder);
-    await builder.watch();
-  }
-  await untilInterrupted();
-} finally {
+const builders: import('esbuild').BuildContext[] = [];
+await using _scopeExit1 = onAsyncExit(async () => {
   closed = true;
   clearTimeout(timer);
   active?.abort();
   await Promise.all(builders.map((builder) => builder.dispose()));
   await running;
   await session.close();
+});
+for (const name of ['main', 'preload'] as const) {
+  const builder = await context({
+    ...electronConfig(name, process.argv.includes('--game') ? 'game' : 'authoring'),
+    outfile: `dist-electron-dev/${name}.cjs`,
+    plugins: [
+      {
+        name: 'restart-electron',
+        setup(build) {
+          build.onEnd((result) => {
+            if (!result.errors.length) {
+              ready.add(name);
+              restart();
+            }
+          });
+        },
+      },
+    ],
+  });
+  builders.push(builder);
+  await builder.watch();
 }
+await untilInterrupted();

@@ -1,242 +1,84 @@
-import sharp from 'sharp';
-import assert from 'node:assert/strict';
-import path from 'node:path';
-import { smokeLaunch } from './smoke-launch';
+import { captureAnimationReview } from './animation-review';
+import { scenario } from './scenario';
 import '../../src/inspection';
 
 export async function runScenario(flags: string[] = []) {
-  const run = await smokeLaunch(true, [], { flags, budget: 256 * 1024 ** 2 });
-  try {
-    const { page, output } = run;
-    await page.waitForFunction(() => window.foundation?.ready, {}, { timeout: 60000 });
-    await page.getByRole('button', { name: 'Animation', exact: true }).click();
-    await page.getByText('Comparison & treatment', { exact: true }).click();
-    await page.locator('#walk-compare').click();
-    await page.locator('#pause').click();
-    const report = await page.evaluate(() => {
-      const p = window.foundation.presentation,
-        observations = [];
-      p.debug = false;
-      p.labPaused = true;
-      const flow = p.animationFlow!;
-      const supported = flow.pairs.filter((pair) => pair.supported);
-      const representatives = [
-        supported.find((pair) => pair.weaponVisibility === 'visible'),
-        supported.find((pair) => pair.weaponVisibility === 'hidden'),
-      ];
-      if (representatives.some((pair) => !pair))
-        throw new Error('Required visible/hidden weapon transition unavailable');
-      for (const pair of representatives) {
-        p.labClip = pair!.clip;
-        p.labHeading = pair!.heading as typeof p.labHeading;
-        const clip = p.getClip(p.labClip, p.labHeading);
-        const index = clip.frames.findIndex(
-          (id, i) => id === pair!.from && clip.frames[(i + 1) % clip.frames.length] === pair!.to,
-        );
-        if (index < 0) throw new Error('Accepted transition is not bound to its authored clip');
-        const hold = pair!.holdFraction ?? 0;
-        const time =
-          clip.durationsMs.slice(0, index).reduce((a, b) => a + b, 0) +
-          clip.durationsMs[index]! * (hold + (1 - hold) * 0.5);
-        p.labAnimator.start(clip);
-        p.labAnimator.seek(time);
-        p.labTime = time;
-        for (const mode of ['original', 'guarded'] as const) {
-          p.animationTreatment = mode;
-          p.update(window.foundation.sim, 1, 0, { x: 0, z: 0 });
-          if (mode === 'guarded' && !p.labSprite.lightingSample?.blend)
-            throw new Error('Accepted transition did not reach the renderer');
-        }
-        observations.push({
-          name: pair!.clip,
-          heading: pair!.heading,
-          from: pair!.from,
-          to: pair!.to,
-        });
-      }
-      const pairs = flow.pairs;
-      try {
-        flow.pairs = pairs.map((pair) => ({ ...pair, supported: false }));
-        p.animationTreatment = 'guarded';
-        p.update(window.foundation.sim, 1, 0, { x: 0, z: 0 });
-        if (p.labSprite.lightingSample?.blend)
-          throw new Error('Unsupported transition must use native held rendering');
-      } finally {
-        flow.pairs = pairs;
-      }
-      if (p.renderer.getContext().getError() !== 0) throw new Error('Animation shader failed');
-      return {
-        observations,
-        pairs: p.animationFlow!.pairs.length,
-        guarded: p.animationFlow!.pairs.filter((v) => v.supported).length,
-      };
-    });
-    assert.deepEqual(run.errors, []);
-    if (run.capture) {
-      let capturedDrawings = 0;
-      const clips = await page.evaluate(() =>
-        Object.keys(window.foundation.presentation.manifest.asset.clips),
-      );
-      for (const name of clips) {
-        const tiles: { input: Buffer; left: number; top: number }[] = [];
-        const labels: string[] = [];
-        let columns = 1;
-        const dirs = await page.evaluate(
-          (name) => Object.keys(window.foundation.presentation.manifest.asset.clips[name]!),
-          name,
-        );
-        for (const [row, heading] of dirs.entries()) {
-          const samples = await page.evaluate(
-            ({ name, heading }) => {
-              const c = window.foundation.presentation.getClip(
-                  name,
-                  heading as typeof window.foundation.presentation.labHeading,
-                ),
-                seen = new Set<string>(),
-                samples: { frame: string; time: number }[] = [];
-              let elapsed = 0;
-              for (const [i, frame] of c.frames.entries()) {
-                if (!seen.has(frame))
-                  samples.push({ frame, time: elapsed + c.durationsMs[i]! / 2 });
-                seen.add(frame);
-                elapsed += c.durationsMs[i]!;
-              }
-              return samples;
-            },
-            { name, heading },
+  await scenario(
+    true,
+    flags,
+    async (run) => {
+      const { page, output } = run;
+      await page.getByRole('button', { name: 'Animation', exact: true }).click();
+      await page.getByText('Comparison & treatment', { exact: true }).click();
+      await page.locator('#walk-compare').click();
+      await page.locator('#pause').click();
+      const report = await page.evaluate(() => {
+        const p = window.foundation.presentation,
+          observations = [];
+        p.debug = false;
+        p.labPaused = true;
+        const flow = p.animationFlow!;
+        const supported = flow.pairs.filter((pair) => pair.supported);
+        const representatives = [
+          supported.find((pair) => pair.weaponVisibility === 'visible'),
+          supported.find((pair) => pair.weaponVisibility === 'hidden'),
+        ];
+        if (representatives.some((pair) => !pair))
+          throw new Error('Required visible/hidden weapon transition unavailable');
+        for (const pair of representatives) {
+          p.labClip = pair!.clip;
+          p.labHeading = pair!.heading as typeof p.labHeading;
+          const clip = p.getClip(p.labClip, p.labHeading);
+          const index = clip.frames.findIndex(
+            (id, i) => id === pair!.from && clip.frames[(i + 1) % clip.frames.length] === pair!.to,
           );
-          columns = Math.max(columns, samples.length);
-          for (const [column, sample] of samples.entries()) {
-            const bytes = await page.evaluate(
-              ({ name, heading, time, frame }) => {
-                const f = window.foundation,
-                  p = f.presentation;
-                p.labClip = name;
-                p.labHeading = heading as typeof p.labHeading;
-                p.animationTreatment = 'guarded';
-                p.stabilized = true;
-                p.rigidSword = true;
-                const c = p.getClip(name, p.labHeading);
-                p.labAnimator.start(c);
-                p.labAnimator.seek(time);
-                p.labTime = p.labAnimator.time;
-                p.update(f.sim, 1, 0, { x: 0, z: 0 });
-                if (p.labSprite.lastFrame !== frame)
-                  throw new Error('Animation review skipped drawing: ' + frame);
-                const copy = document.createElement('canvas');
-                copy.width = p.canvas.width;
-                copy.height = p.canvas.height;
-                copy.getContext('2d')!.drawImage(p.canvas, 0, 0);
-                return copy.toDataURL('image/png').split(',')[1]!;
-              },
-              { name, heading, time: sample.time, frame: sample.frame },
-            );
-            const input = await sharp(Buffer.from(bytes, 'base64'))
-              .resize(560, 320, { fit: 'contain', background: '#151923' })
-              .png()
-              .toBuffer();
-            const left = column * 560,
-              top = row * 340;
-            tiles.push({ input, left, top: top + 20 });
-            labels.push(
-              `<text x="${left + 8}" y="${top + 15}" fill="#ddd" font-size="12">${sample.frame}</text>`,
-            );
-            capturedDrawings++;
+          if (index < 0) throw new Error('Accepted transition is not bound to its authored clip');
+          const hold = pair!.holdFraction ?? 0;
+          const time =
+            clip.durationsMs.slice(0, index).reduce((a, b) => a + b, 0) +
+            clip.durationsMs[index]! * (hold + (1 - hold) * 0.5);
+          p.labAnimator.start(clip);
+          p.labAnimator.seek(time);
+          p.labTime = time;
+          for (const mode of ['original', 'guarded'] as const) {
+            p.animationTreatment = mode;
+            p.update(window.foundation.sim, 1, 0, { x: 0, z: 0 });
+            if (mode === 'guarded' && !p.labSprite.lightingSample?.blend)
+              throw new Error('Accepted transition did not reach the renderer');
           }
-        }
-        const width = columns * 560,
-          height = dirs.length * 340;
-        tiles.push({
-          input: Buffer.from(`<svg width="${width}" height="${height}">${labels.join('')}</svg>`),
-          left: 0,
-          top: 0,
-        });
-        await sharp({
-          create: { width, height, channels: 4, background: '#151923' },
-        })
-          .composite(tiles)
-          .png()
-          .toFile(path.join(output, `${name}-comparison.png`));
-      }
-      console.log(`Captured ${capturedDrawings} authored drawings across ${clips.length} clips.`);
-      const approved = await page.evaluate(() =>
-        window.foundation.presentation
-          .animationFlow!.pairs.filter((p) => p.supported)
-          .map((p) => ({
-            clip: p.clip,
-            heading: p.heading,
-            from: p.from,
-            to: p.to,
-            holdFraction: p.holdFraction ?? 0,
-          })),
-      );
-      for (const phase of [0.25, 0.75]) {
-        const tiles: { input: Buffer; left: number; top: number }[] = [],
-          labels: string[] = [];
-        for (const [i, pair] of approved.entries()) {
-          const bytes = await page.evaluate(
-            ({ pair, phase }) => {
-              const f = window.foundation,
-                p = f.presentation;
-              p.labClip = pair.clip;
-              p.labHeading = pair.heading as typeof p.labHeading;
-              p.animationTreatment = 'guarded';
-              p.stabilized = true;
-              p.rigidSword = true;
-              const c = p.getClip(p.labClip, p.labHeading),
-                index = c.frames.findIndex(
-                  (id, i) => id === pair.from && c.frames[(i + 1) % c.frames.length] === pair.to,
-                ),
-                time =
-                  c.durationsMs.slice(0, index).reduce((a, b) => a + b, 0) +
-                  c.durationsMs[index]! * (pair.holdFraction + (1 - pair.holdFraction) * phase);
-              p.labAnimator.start(c);
-              p.labAnimator.seek(time);
-              p.labTime = time;
-              p.update(f.sim, 1, 0, { x: 0, z: 0 });
-              if (!p.labSprite.lightingSample?.blend)
-                throw new Error('Approved transition did not render');
-              const copy = document.createElement('canvas');
-              copy.width = p.canvas.width;
-              copy.height = p.canvas.height;
-              copy.getContext('2d')!.drawImage(p.canvas, 0, 0);
-              return copy.toDataURL('image/png').split(',')[1]!;
-            },
-            { pair, phase },
-          );
-          const left = (i % 5) * 480,
-            top = Math.floor(i / 5) * 300;
-          tiles.push({
-            input: await sharp(Buffer.from(bytes, 'base64')).resize(480, 280).png().toBuffer(),
-            left,
-            top: top + 20,
+          observations.push({
+            name: pair!.clip,
+            heading: pair!.heading,
+            from: pair!.from,
+            to: pair!.to,
           });
-          labels.push(
-            `<text x="${left + 8}" y="${top + 15}" fill="#ddd" font-size="12">${pair.from} → ${pair.to}</text>`,
-          );
         }
-        const width = 2400,
-          height = Math.ceil(approved.length / 5) * 300;
-        tiles.push({
-          input: Buffer.from(`<svg width="${width}" height="${height}">${labels.join('')}</svg>`),
-          left: 0,
-          top: 0,
-        });
-        await sharp({ create: { width, height, channels: 4, background: '#151923' } })
-          .composite(tiles)
-          .png()
-          .toFile(path.join(output, `guarded-${phase}.png`));
+        const pairs = flow.pairs;
+        try {
+          flow.pairs = pairs.map((pair) => ({ ...pair, supported: false }));
+          p.animationTreatment = 'guarded';
+          p.update(window.foundation.sim, 1, 0, { x: 0, z: 0 });
+          if (p.labSprite.lightingSample?.blend)
+            throw new Error('Unsupported transition must use native held rendering');
+        } finally {
+          flow.pairs = pairs;
+        }
+        if (p.renderer.getContext().getError() !== 0) throw new Error('Animation shader failed');
+        return {
+          observations,
+          pairs: p.animationFlow!.pairs.length,
+          guarded: p.animationFlow!.pairs.filter((v) => v.supported).length,
+        };
+      });
+      if (run.capture) {
+        const capturedDrawings = await captureAnimationReview(page, output);
+        await run.writeReport('animation-review.json', { ...report, capturedDrawings });
+        console.log('Visual review: ' + output);
       }
-      await run.writeReport('animation-review.json', { ...report, capturedDrawings });
-      console.log('Visual review: ' + output);
-    }
-    console.log(
-      `PASS: ${report.observations.length} native transition paths, held/guarded playback; ${report.guarded}/${report.pairs} guarded candidates.`,
-    );
-  } catch (error) {
-    await run.writeReport('animation-failure.json', { error: String(error), errors: run.errors });
-    throw error;
-  } finally {
-    await run.close();
-  }
+      console.log(
+        `PASS: ${report.observations.length} native transition paths, held/guarded playback; ${report.guarded}/${report.pairs} guarded candidates.`,
+      );
+    },
+    { budget: flags.includes('--capture') ? 1024 ** 3 : 256 * 1024 ** 2 },
+  );
 }

@@ -271,13 +271,11 @@ describe('editor project ownership', () => {
   it('keeps edits made during a save dirty against the document actually written', async () => {
     const f = fixture();
     await f.project.list();
-    let finish!: (response: Response) => void;
+    const { promise: response, resolve: finish } = Promise.withResolvers<Response>();
     let written!: SceneDocument;
     f.respond((_url, init) => {
       written = JSON.parse(init!.body as string).document;
-      return new Promise<Response>((resolve) => {
-        finish = resolve;
-      });
+      return response;
     });
     const saving = f.project.save('copy');
     await f.project.edit((history) =>
@@ -300,13 +298,8 @@ describe('editor project ownership', () => {
   it('discards late file reads after disposal without replacing the accepted document', async () => {
     const f = fixture();
     await f.project.list();
-    let finish!: (response: Response) => void;
-    f.respond(
-      () =>
-        new Promise<Response>((resolve) => {
-          finish = resolve;
-        }),
-    );
+    const { promise: response, resolve: finish } = Promise.withResolvers<Response>();
+    f.respond(() => response);
     const opening = f.project.open('file-existing');
     f.lifetime.abort(new Error('closed'));
     finish(

@@ -1,3 +1,4 @@
+import { onExit } from '../../tools/scope-exit';
 import { validateLightingBindings } from '../../tools/lighting-bindings';
 import { manifestFixture } from '../fixtures/manifest';
 
@@ -59,41 +60,37 @@ test('lantern light follows displayed socket registration, stabilization and mir
     camera = makeCamera(1),
     foot = new Vector3(3, 0, 4),
     position = new Vector3();
-  try {
-    sprite.show(frame.id, foot, camera);
-    assert.equal(heroLanternPosition(sprite, position), true);
-    const displacement = position.clone().sub(foot);
-    assert.ok(Math.abs(displacement.dot(right) - 30 / manifest.asset.density) < 1e-10);
-    assert.ok(Math.abs(displacement.dot(up) - 45 / manifest.asset.density) < 1e-10);
-    sprite.mesh.scale.x = -1;
-    heroLanternPosition(sprite, position);
-    assert.ok(
-      Math.abs(position.clone().sub(foot).dot(right) + 30 / manifest.asset.density) < 1e-10,
-    );
-    sprite.stabilized = false;
-    sprite.show(frame.id, foot, camera);
-    heroLanternPosition(sprite, position);
-    assert.ok(Math.abs(position.clone().sub(foot).dot(up) - 40 / manifest.asset.density) < 1e-10);
-    // Registration-only scale calibration must carry the native socket with the body.
-    sprite.mesh.scale.x = 1;
-    frame.registration = { ...manifest.asset, density: manifest.asset.density / 1.16 };
-    sprite.stabilized = true;
-    sprite.show(frame.id, foot, camera);
-    assert.equal(heroLanternPosition(sprite, position), true);
-    assert.ok(
-      Math.abs(position.clone().sub(foot).dot(right) - (30 * 1.16) / manifest.asset.density) <
-        1e-10,
-    );
-    assert.ok(
-      Math.abs(position.clone().sub(foot).dot(up) - (45 * 1.16) / manifest.asset.density) < 1e-10,
-    );
-    assert.deepEqual(sprite.mesh.position, foot);
-    manifest.asset.contentVersion = 'different-drawings';
-    assert.equal(heroLanternPosition(sprite, position), false);
-  } finally {
+  using _scopeExit2 = onExit(() => {
     sprite.dispose();
     texture.dispose();
-  }
+  });
+  sprite.show(frame.id, foot, camera);
+  assert.equal(heroLanternPosition(sprite, position), true);
+  const displacement = position.clone().sub(foot);
+  assert.ok(Math.abs(displacement.dot(right) - 30 / manifest.asset.density) < 1e-10);
+  assert.ok(Math.abs(displacement.dot(up) - 45 / manifest.asset.density) < 1e-10);
+  sprite.mesh.scale.x = -1;
+  heroLanternPosition(sprite, position);
+  assert.ok(Math.abs(position.clone().sub(foot).dot(right) + 30 / manifest.asset.density) < 1e-10);
+  sprite.stabilized = false;
+  sprite.show(frame.id, foot, camera);
+  heroLanternPosition(sprite, position);
+  assert.ok(Math.abs(position.clone().sub(foot).dot(up) - 40 / manifest.asset.density) < 1e-10);
+  // Registration-only scale calibration must carry the native socket with the body.
+  sprite.mesh.scale.x = 1;
+  frame.registration = { ...manifest.asset, density: manifest.asset.density / 1.16 };
+  sprite.stabilized = true;
+  sprite.show(frame.id, foot, camera);
+  assert.equal(heroLanternPosition(sprite, position), true);
+  assert.ok(
+    Math.abs(position.clone().sub(foot).dot(right) - (30 * 1.16) / manifest.asset.density) < 1e-10,
+  );
+  assert.ok(
+    Math.abs(position.clone().sub(foot).dot(up) - (45 * 1.16) / manifest.asset.density) < 1e-10,
+  );
+  assert.deepEqual(sprite.mesh.position, foot);
+  manifest.asset.contentVersion = 'different-drawings';
+  assert.equal(heroLanternPosition(sprite, position), false);
 });
 
 test('Lunge effect sockets follow enlarged and mirrored native blade drawings', () => {
@@ -112,25 +109,24 @@ test('Lunge effect sockets follow enlarged and mirrored native blade drawings', 
   const base = new Vector3(),
     tip = new Vector3(),
     foot = new Vector3(3, 0, 4);
-  try {
-    sprite.mesh.scale.setScalar(1.1);
-    sprite.show(frame.id, foot, makeCamera(1));
-    assert.equal(heroSwordPosition(sprite, base, tip), true);
-    const blade = tip.clone().sub(base);
-    assert.ok(Math.abs(blade.dot(right) - ((294 - 218) / manifest.asset.density) * 1.1) < 1e-10);
-    assert.ok(Math.abs(blade.dot(up) - ((310 - 459) / manifest.asset.density) * 1.1) < 1e-10);
-    sprite.mesh.scale.x = -1.1;
-    heroSwordPosition(sprite, base, tip);
-    assert.ok(
-      Math.abs(tip.clone().sub(base).dot(right) + ((294 - 218) / manifest.asset.density) * 1.1) <
-        1e-10,
-    );
-    manifest.asset.contentVersion = 'different-drawings';
-    assert.equal(heroSwordPosition(sprite, base, tip), false);
-  } finally {
+  using _scopeExit1 = onExit(() => {
     sprite.dispose();
     texture.dispose();
-  }
+  });
+  sprite.mesh.scale.setScalar(1.1);
+  sprite.show(frame.id, foot, makeCamera(1));
+  assert.equal(heroSwordPosition(sprite, base, tip), true);
+  const blade = tip.clone().sub(base);
+  assert.ok(Math.abs(blade.dot(right) - ((294 - 218) / manifest.asset.density) * 1.1) < 1e-10);
+  assert.ok(Math.abs(blade.dot(up) - ((310 - 459) / manifest.asset.density) * 1.1) < 1e-10);
+  sprite.mesh.scale.x = -1.1;
+  heroSwordPosition(sprite, base, tip);
+  assert.ok(
+    Math.abs(tip.clone().sub(base).dot(right) + ((294 - 218) / manifest.asset.density) * 1.1) <
+      1e-10,
+  );
+  manifest.asset.contentVersion = 'different-drawings';
+  assert.equal(heroSwordPosition(sprite, base, tip), false);
 });
 
 test('mist ribbons follow the raised terrain rather than intersecting its steps', () => {
@@ -418,12 +414,9 @@ test('painted shade zones round-trip through content, enforce capacity, and clea
     }),
   );
   const lighting = new IllustratedLighting();
-  try {
-    lighting.configure({ ...defaultLook, shadeZones: zones }, new Vector3());
-    assert.deepEqual(lighting.common.inkShadeZones.value[0]!.toArray(), [2, 3, 4, 0.4]);
-    lighting.configure(defaultLook, new Vector3());
-    assert.ok(lighting.common.inkShadeZones.value.every((zone) => zone.w === 0));
-  } finally {
-    lighting.dispose();
-  }
+  using _cleanup1 = onExit(() => lighting.dispose());
+  lighting.configure({ ...defaultLook, shadeZones: zones }, new Vector3());
+  assert.deepEqual(lighting.common.inkShadeZones.value[0]!.toArray(), [2, 3, 4, 0.4]);
+  lighting.configure(defaultLook, new Vector3());
+  assert.ok(lighting.common.inkShadeZones.value.every((zone) => zone.w === 0));
 });

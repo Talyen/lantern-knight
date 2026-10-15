@@ -1,3 +1,4 @@
+import { onAsyncExit, onExit } from '../../tools/scope-exit';
 import { writeJson, readJson } from '../../tools/json-file';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import type { TestContext } from 'node:test';
@@ -159,41 +160,37 @@ test('a checkout can select verified shared preparation without reverting to its
     prefix = (root: string) =>
       'preview-' + createHash('sha256').update(path.resolve(root)).digest('hex').slice(0, 20);
   const priorCache = process.env.LANTERN_CACHE_ROOT;
-  try {
-    await fs.mkdir(path.join(prepared.root, 'work/public'), { recursive: true });
-    const bytes = 'calibrated hero';
-    await fs.writeFile(path.join(prepared.root, 'work/public/hero.json'), bytes);
-    await writeJson(path.join(prepared.root, 'preview.json'), {
-      version: 1,
-      sha256,
-      recipeSha256: f.lock.recipeSha256,
-      files: { 'public/hero.json': createHash('sha256').update(bytes).digest('hex') },
-    });
-    for (const root of [f.root, projectRoot]) {
-      const index = await f.cache.lease(prefix(root) + '-index');
-      try {
-        await writeJson(path.join(index.root, 'preview.json'), { entry });
-      } finally {
-        await index.release();
-      }
-    }
-    const selected = await prototypeAssets(f.cache, f.root);
-    try {
-      assert.equal(selected.lock.sha256, sha256);
-      assert.equal(
-        await fs.readFile(path.join(selected.held.root, 'public/hero.json'), 'utf8'),
-        bytes,
-      );
-    } finally {
-      await selected.held.release();
-    }
-    process.env.LANTERN_CACHE_ROOT = f.cache.root;
-    assert.equal(await workspaceIdentity('local'), sha256);
-  } finally {
+  await using _scopeExit5 = onAsyncExit(async () => {
     if (priorCache === undefined) delete process.env.LANTERN_CACHE_ROOT;
     else process.env.LANTERN_CACHE_ROOT = priorCache;
     await prepared.release();
+  });
+  await fs.mkdir(path.join(prepared.root, 'work/public'), { recursive: true });
+  const bytes = 'calibrated hero';
+  await fs.writeFile(path.join(prepared.root, 'work/public/hero.json'), bytes);
+  await writeJson(path.join(prepared.root, 'preview.json'), {
+    version: 1,
+    sha256,
+    recipeSha256: f.lock.recipeSha256,
+    files: { 'public/hero.json': createHash('sha256').update(bytes).digest('hex') },
+  });
+  for (const root of [f.root, projectRoot]) {
+    const index = await f.cache.lease(prefix(root) + '-index');
+    await using _cleanup1 = onAsyncExit(() => index.release());
+    await writeJson(path.join(index.root, 'preview.json'), { entry });
   }
+  const selected = await prototypeAssets(f.cache, f.root);
+  try {
+    assert.equal(selected.lock.sha256, sha256);
+    assert.equal(
+      await fs.readFile(path.join(selected.held.root, 'public/hero.json'), 'utf8'),
+      bytes,
+    );
+  } finally {
+    await selected.held.release();
+  }
+  process.env.LANTERN_CACHE_ROOT = f.cache.root;
+  assert.equal(await workspaceIdentity('local'), sha256);
 });
 test('corrupt caches are repaired by pinned bytes; active users are protected', async (t) => {
   const f = await fixture(t);
@@ -219,21 +216,18 @@ test('warm pack validation still checks each accepted payload identity', async (
     f.cache,
     (async () => new Response(f.body)) as typeof fetch,
   );
-  try {
-    const pin = preparationPin(f.lock, {}, await validatePack(held.root, f.lock));
-    await validateCachedPack(held.root, pin);
-    assert.notEqual(pin.schemaVersion, 1);
-    if (pin.schemaVersion !== 1)
-      await assert.rejects(
-        validateCachedPack(held.root, {
-          ...pin,
-          preparation: { ...pin.preparation, payloadSha256: '0'.repeat(64) },
-        }),
-        /Accepted preparation payload differs/,
-      );
-  } finally {
-    await held.release();
-  }
+  await using _cleanup2 = onAsyncExit(() => held.release());
+  const pin = preparationPin(f.lock, {}, await validatePack(held.root, f.lock));
+  await validateCachedPack(held.root, pin);
+  assert.notEqual(pin.schemaVersion, 1);
+  if (pin.schemaVersion !== 1)
+    await assert.rejects(
+      validateCachedPack(held.root, {
+        ...pin,
+        preparation: { ...pin.preparation, payloadSha256: '0'.repeat(64) },
+      }),
+      /Accepted preparation payload differs/,
+    );
 });
 test('exact pinned preparation can be consumed offline and survives preparation cleanup', async (t) => {
   const f = await fixture(t);
@@ -358,66 +352,61 @@ test('failed lease metadata writes preserve live reservations and do not wedge s
       return write(...args);
     };
   };
-  try {
-    failWrite();
-    try {
-      await assert.rejects(held.reserve(4000), /disk full/);
-    } finally {
-      fs.writeFile = write;
-    }
-    assert.equal(await fs.readFile(file, 'utf8'), before);
-    await assert.rejects(cache.lease('cannot-fit', 6000), /protected/);
-    failWrite();
-    try {
-      await assert.rejects(cache.lease('failed'), /disk full/);
-    } finally {
-      fs.writeFile = write;
-    }
-    assert.ok((await cache.usage()) <= 8192);
-    await fs.writeFile(path.join(directory, 'abandoned.json.tmp'), '{"pid":');
-    assert.equal(await held.sole(), true);
-    await assert.rejects(fs.access(path.join(directory, 'abandoned.json.tmp')));
-    const peer = await cache.lease('active');
-    assert.equal(await held.sole(), false);
-    await peer.release();
-    const next = await cache.lease('next', 1000);
-    await next.release();
-  } finally {
+  await using _scopeExit3 = onAsyncExit(async () => {
     fs.writeFile = write;
     await held.release();
+  });
+  failWrite();
+  try {
+    await assert.rejects(held.reserve(4000), /disk full/);
+  } finally {
+    fs.writeFile = write;
   }
+  assert.equal(await fs.readFile(file, 'utf8'), before);
+  await assert.rejects(cache.lease('cannot-fit', 6000), /protected/);
+  failWrite();
+  try {
+    await assert.rejects(cache.lease('failed'), /disk full/);
+  } finally {
+    fs.writeFile = write;
+  }
+  assert.ok((await cache.usage()) <= 8192);
+  await fs.writeFile(path.join(directory, 'abandoned.json.tmp'), '{"pid":');
+  assert.equal(await held.sole(), true);
+  await assert.rejects(fs.access(path.join(directory, 'abandoned.json.tmp')));
+  const peer = await cache.lease('active');
+  assert.equal(await held.sole(), false);
+  await peer.release();
+  const next = await cache.lease('next', 1000);
+  await next.release();
 });
 test('failed initial cache ownership publication leaves the directory recoverable and still rejects unrelated files', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-owner-write-'),
     cache = new AssetCache(root, 8192),
     write = fs.writeFile;
-  try {
-    fs.writeFile = async (...args: Parameters<typeof fs.writeFile>) => {
-      if (typeof args[0] === 'string' && args[0].includes('.cache-owner')) {
-        await write(args[0], '{"schemaVersion":');
-        throw new Error('disk full during owner write');
-      }
-      return write(...args);
-    };
-    try {
-      await assert.rejects(cache.lease('first'), /disk full/);
-    } finally {
-      fs.writeFile = write;
+  using _scopeExit4 = onExit(() => {
+    fs.writeFile = write;
+  });
+  fs.writeFile = async (...args: Parameters<typeof fs.writeFile>) => {
+    if (typeof args[0] === 'string' && args[0].includes('.cache-owner')) {
+      await write(args[0], '{"schemaVersion":');
+      throw new Error('disk full during owner write');
     }
-    await assert.rejects(fs.access(path.join(root, '.cache-owner.json')));
-    await fs.writeFile(
-      path.join(root, '.cache-owner-aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa.tmp'),
-      '{',
-    );
-    await fs.writeFile(path.join(root, 'unrelated.txt'), 'preserve this');
-    await assert.rejects(cache.lease('next'), /unrelated/);
-    assert.equal(await fs.readFile(path.join(root, 'unrelated.txt'), 'utf8'), 'preserve this');
-    await fs.rm(path.join(root, 'unrelated.txt'));
-    const held = await cache.lease('next');
-    await held.release();
+    return write(...args);
+  };
+  try {
+    await assert.rejects(cache.lease('first'), /disk full/);
   } finally {
     fs.writeFile = write;
   }
+  await assert.rejects(fs.access(path.join(root, '.cache-owner.json')));
+  await fs.writeFile(path.join(root, '.cache-owner-aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa.tmp'), '{');
+  await fs.writeFile(path.join(root, 'unrelated.txt'), 'preserve this');
+  await assert.rejects(cache.lease('next'), /unrelated/);
+  assert.equal(await fs.readFile(path.join(root, 'unrelated.txt'), 'utf8'), 'preserve this');
+  await fs.rm(path.join(root, 'unrelated.txt'));
+  const held = await cache.lease('next');
+  await held.release();
 });
 
 test('equivalence excludes only preparation provenance and binds the accepted recipe to unchanged archive bytes', async (t) => {
@@ -493,26 +482,25 @@ test('preview pruning preserves active readers, the current layer and other chec
   const current = await cache.lease(prefix + '-current');
   const active = await cache.lease(prefix + '-active');
   const peer = await cache.lease('preview-' + 'b'.repeat(20) + '-old');
-  try {
-    await old.release();
-    await current.release();
-    await peer.release();
-    const index = await cache.lease(prefix + '-index');
-    await cache.prunePreviews(prefix, prefix + '-current');
-    await fs.access(old.root);
-    await index.release();
-    await cache.prunePreviews(prefix, prefix + '-current');
-    await assert.rejects(fs.access(old.root), { code: 'ENOENT' });
-    await Promise.all([current, active, peer].map((held) => fs.access(held.root)));
-    await active.release();
-    await cache.prunePreviews(prefix, prefix + '-current');
-    await assert.rejects(fs.access(active.root), { code: 'ENOENT' });
-  } finally {
+  await using _scopeExit2 = onAsyncExit(async () => {
     await active.release();
     await old.release();
     await current.release();
     await peer.release();
-  }
+  });
+  await old.release();
+  await current.release();
+  await peer.release();
+  const index = await cache.lease(prefix + '-index');
+  await cache.prunePreviews(prefix, prefix + '-current');
+  await fs.access(old.root);
+  await index.release();
+  await cache.prunePreviews(prefix, prefix + '-current');
+  await assert.rejects(fs.access(old.root), { code: 'ENOENT' });
+  await Promise.all([current, active, peer].map((held) => fs.access(held.root)));
+  await active.release();
+  await cache.prunePreviews(prefix, prefix + '-current');
+  await assert.rejects(fs.access(active.root), { code: 'ENOENT' });
 });
 
 test('growth reservations grant bounded headroom near a full cache and protect active readers', async (t) => {
@@ -520,18 +508,17 @@ test('growth reservations grant bounded headroom near a full cache and protect a
   const cache = new AssetCache(root, 16384);
   const active = await cache.lease('reader');
   const writer = await cache.lease('writer');
-  try {
-    await fs.writeFile(path.join(active.root, 'data'), Buffer.alloc(10000));
-    const granted = await writer.reserveUpTo(1000, 256 * 1024 ** 2);
-    assert.ok(granted > 1000 && granted < 6384);
-    await fs.writeFile(path.join(writer.root, 'data'), Buffer.alloc(granted - 512));
-    assert.ok((await cache.usage()) <= cache.limit);
-    await assert.rejects(writer.reserveUpTo(8000, 9000), /protected/);
-    await fs.access(path.join(active.root, 'data'));
-  } finally {
+  await using _scopeExit1 = onAsyncExit(async () => {
     await active.release();
     await writer.release();
-  }
+  });
+  await fs.writeFile(path.join(active.root, 'data'), Buffer.alloc(10000));
+  const granted = await writer.reserveUpTo(1000, 256 * 1024 ** 2);
+  assert.ok(granted > 1000 && granted < 6384);
+  await fs.writeFile(path.join(writer.root, 'data'), Buffer.alloc(granted - 512));
+  assert.ok((await cache.usage()) <= cache.limit);
+  await assert.rejects(writer.reserveUpTo(8000, 9000), /protected/);
+  await fs.access(path.join(active.root, 'data'));
 });
 
 test('single-pass installation rejects archive links and releases its peak reservation', async (t) => {

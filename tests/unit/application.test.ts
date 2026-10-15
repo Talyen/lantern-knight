@@ -1,3 +1,4 @@
+import { onExit } from '../../tools/scope-exit';
 import { mockGlobals } from '../fixtures/globals';
 import { ResourcePool } from '../../src/assets/resource-pool';
 import { test, beforeEach } from 'node:test';
@@ -84,11 +85,10 @@ function fixture(scenes = sceneFixture(content), bridge: Partial<Bridge> = {}) {
 function editFixture(app: Application, work: (sim: Simulation) => undefined) {
   const readOnly = app.readOnly;
   app.readOnly = true;
-  try {
-    app.editPreview(work);
-  } finally {
+  using _scopeExit1 = onExit(() => {
     app.readOnly = readOnly;
-  }
+  });
+  app.editPreview(work);
 }
 test('interacting with a different stack cancels a pending label pickup route', () => {
   const { app } = fixture();
@@ -1318,22 +1318,21 @@ test('startup settles the initial asset batch and releases successful peers when
         if (!cancelled) throw new Error('missing pack');
         return { release: () => released++ } as unknown as PackLease;
       });
-    try {
-      const boot = app.boot();
-      const rejected = assert.rejects(boot, cancelled ? /disposed/ : /missing pack/);
-      await new Promise<void>((resolve) => setImmediate(resolve));
-      assert.deepEqual(requested, ['first', 'second']);
-      if (cancelled) app.dispose();
-      waiting.resolve({ release: () => released++ } as unknown as PackLease);
-      await rejected;
-      await new Promise<void>((resolve) => setImmediate(resolve));
-      assert.equal(released, cancelled ? 2 : 1);
-      assert.equal(app.packs.size, 0);
-      assert.equal(app.ready, false);
-    } finally {
+    using _scopeExit3 = onExit(() => {
       app.dispose();
       AssetRuntime.open = open;
-    }
+    });
+    const boot = app.boot();
+    const rejected = assert.rejects(boot, cancelled ? /disposed/ : /missing pack/);
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.deepEqual(requested, ['first', 'second']);
+    if (cancelled) app.dispose();
+    waiting.resolve({ release: () => released++ } as unknown as PackLease);
+    await rejected;
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(released, cancelled ? 2 : 1);
+    assert.equal(app.packs.size, 0);
+    assert.equal(app.ready, false);
   }
 });
 
@@ -1740,22 +1739,21 @@ test('failed startup retains its original cause while draining a failed cleanup'
   app.runtime.dispose = () => {
     closed++;
   };
-  try {
-    await assert.rejects(app.boot(), (error: unknown) => {
-      assert.ok(error instanceof AggregateError);
-      const operation = error.cause;
-      assert.ok(operation instanceof AggregateError);
-      assert.equal(operation.cause, primary);
-      assert.deepEqual(operation.errors, [primary, secondary]);
-      assert.equal(error.errors[1], secondary);
-      return true;
-    });
-    assert.equal(closed, 1);
-    app.dispose();
-    assert.equal(closed, 1);
-  } finally {
+  using _scopeExit2 = onExit(() => {
     AssetRuntime.open = open;
-  }
+  });
+  await assert.rejects(app.boot(), (error: unknown) => {
+    assert.ok(error instanceof AggregateError);
+    const operation = error.cause;
+    assert.ok(operation instanceof AggregateError);
+    assert.equal(operation.cause, primary);
+    assert.deepEqual(operation.errors, [primary, secondary]);
+    assert.equal(error.errors[1], secondary);
+    return true;
+  });
+  assert.equal(closed, 1);
+  app.dispose();
+  assert.equal(closed, 1);
 });
 
 test('cancelling a pool acquisition reports destructor errors through its promise and drains peers', async () => {

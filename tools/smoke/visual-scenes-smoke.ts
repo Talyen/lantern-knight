@@ -1,14 +1,13 @@
 import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
 import path from 'node:path';
-import { smokeLaunch } from './smoke-launch';
+import { scenario } from './scenario';
 import type {} from '../../src/inspection';
 
 export async function runScenario(flags: string[] = []) {
-  const run = await smokeLaunch(true, [], { flags }),
-    { page, output, errors } = run;
-  try {
-    await page.waitForFunction(() => window.foundation?.ready, {}, { timeout: 60000 });
+  await scenario(true, flags, async (run) => {
+    const { page, output } = run;
+    const rain = () =>
+      page.evaluate(() => window.foundation.presentation.sceneEffects.stats().rain);
     await page.evaluate(async () => {
       await window.foundation.fixture('outdoor-fixture');
       window.foundation.mode('encounter');
@@ -19,10 +18,7 @@ export async function runScenario(flags: string[] = []) {
         const f = window.foundation;
         f.presentation.update(f.sim, 1, ms, { x: 0, z: 0 });
       }, ms);
-    assert.equal(
-      await page.evaluate(() => window.foundation.presentation.sceneEffects.stats().rain.visible),
-      false,
-    );
+    assert.equal((await rain()).visible, false);
     await page.evaluate(() =>
       window.foundation.presentation.setWeather({ rain: 1, wind: { x: 0.3, z: 0.1 } }),
     );
@@ -31,24 +27,15 @@ export async function runScenario(flags: string[] = []) {
       const f = window.foundation;
       for (let i = 0; i < 14; i++) f.presentation.update(f.sim, 1, 250, { x: 0, z: 0 });
     });
-    assert.equal(
-      await page.evaluate(() => window.foundation.presentation.sceneEffects.stats().rain.visible),
-      true,
-    );
-    assert.ok(
-      (await page.evaluate(() => window.foundation.presentation.sceneEffects.stats().rain.drops)) >
-        0,
-    );
+    assert.equal((await rain()).visible, true);
+    assert.ok((await rain()).drops > 0);
     const warm = await page.evaluate(() => ({
       ...window.foundation.presentation.renderer.info.memory,
     }));
     for (let i = 0; i < 6; i++) {
       await page.evaluate(() => window.foundation.presentation.setVisualEffects({ rain: false }));
       await step(0);
-      assert.equal(
-        await page.evaluate(() => window.foundation.presentation.sceneEffects.stats().rain.visible),
-        false,
-      );
+      assert.equal((await rain()).visible, false);
       await page.evaluate(() => window.foundation.presentation.setVisualEffects({ rain: true }));
       await step(0);
     }
@@ -61,10 +48,7 @@ export async function runScenario(flags: string[] = []) {
       window.foundation.pause(true);
     });
     await step(0);
-    assert.equal(
-      await page.evaluate(() => window.foundation.presentation.sceneEffects.stats().rain.visible),
-      false,
-    );
+    assert.equal((await rain()).visible, false);
     if (run.capture) await page.screenshot({ path: path.join(output, 'interior-effects.png') });
     await page.evaluate(async () => {
       await window.foundation.fixture('outdoor-fixture');
@@ -72,17 +56,12 @@ export async function runScenario(flags: string[] = []) {
       window.foundation.presentation.setWeather(null);
     });
     await step(0);
-    assert.equal(
-      await page.evaluate(() => window.foundation.presentation.sceneEffects.stats().rain.visible),
-      false,
-    );
+    assert.equal((await rain()).visible, false);
     assert.equal(
       await page.evaluate(() => window.foundation.presentation.renderer.getContext().getError()),
       0,
     );
-    assert.deepEqual(errors, []);
     if (run.capture) await page.screenshot({ path: path.join(output, 'outdoor-effects.png') });
-    await fs.rm(path.join(output, 'failure.json'), { force: true });
     await run.writeReport('report.json', {
       passed: true,
       checks: [
@@ -99,11 +78,5 @@ export async function runScenario(flags: string[] = []) {
         'Packaged developer app using production presentation and independent presentation fixtures',
     });
     console.log('PASS: production effects, explicit weather and room replacement');
-  } catch (error) {
-    await page.screenshot({ path: path.join(output, 'failure.png') }).catch(() => {});
-    await run.writeReport('failure.json', { error: String(error), errors });
-    throw error;
-  } finally {
-    await run.close();
-  }
+  });
 }

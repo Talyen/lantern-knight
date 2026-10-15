@@ -1,3 +1,4 @@
+import { onAsyncExit } from '../scope-exit';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
@@ -49,23 +50,22 @@ export async function downloadFile(
   let bytes = 0;
   await fs.mkdir(path.dirname(target), { recursive: true });
   const output = await fs.open(temporary, 'wx');
-  try {
-    async function* checked() {
-      for await (const chunk of response.body as unknown as AsyncIterable<Uint8Array>) {
-        signal?.throwIfAborted();
-        bytes += chunk.length;
-        if (bytes > info.bytes) throw new Error('Asset file exceeds pinned size');
-        hash.update(chunk);
-        yield chunk;
-      }
-    }
-    await pipeline(checked(), output.createWriteStream());
-    signal?.throwIfAborted();
-    if (bytes !== info.bytes || hash.digest('hex') !== info.sha256)
-      throw new Error('Asset file hash or size differs from pin');
-    await fs.rename(temporary, target);
-  } finally {
+  await using _scopeExit1 = onAsyncExit(async () => {
     await output.close();
     await fs.rm(temporary, { force: true });
+  });
+  async function* checked() {
+    for await (const chunk of response.body as unknown as AsyncIterable<Uint8Array>) {
+      signal?.throwIfAborted();
+      bytes += chunk.length;
+      if (bytes > info.bytes) throw new Error('Asset file exceeds pinned size');
+      hash.update(chunk);
+      yield chunk;
+    }
   }
+  await pipeline(checked(), output.createWriteStream());
+  signal?.throwIfAborted();
+  if (bytes !== info.bytes || hash.digest('hex') !== info.sha256)
+    throw new Error('Asset file hash or size differs from pin');
+  await fs.rename(temporary, target);
 }

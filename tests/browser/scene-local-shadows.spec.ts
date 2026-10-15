@@ -8,7 +8,7 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
   );
   await page.goto('/local-shadow-proof.html');
   const proof = await page.evaluate(async () => {
-    const threePath = '/node_modules/.vite/deps/three.js',
+    const gpuPath = '/tests/fixtures/gpu.ts',
       lightingPath = '/src/presentation/illustrated-lighting.ts',
       localPath = '/src/presentation/local-light-shadows.ts',
       proxiesPath = '/src/presentation/shadow-proxies.ts',
@@ -16,32 +16,20 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
       fixturePath = '/tests/fixtures/manifest.ts',
       cameraPath = '/src/presentation/camera.ts',
       profilesPath = '/src/presentation/lighting-profiles.ts';
-    const T = await import(threePath),
+    const { T, gpuFixture } = await import(gpuPath),
       { IllustratedLighting } = await import(lightingPath),
       { LocalLightShadows } = await import(localPath),
       { ShadowProxies } = await import(proxiesPath),
       { ActorSprite } = await import(spritePath),
       { manifestFixture } = await import(fixturePath),
-      { makeCamera, right, outward } = await import(cameraPath),
+      { right, outward } = await import(cameraPath),
       { defaultLook } = await import(profilesPath);
-    const renderer = new T.WebGLRenderer({
-      canvas: document.querySelector('canvas')!,
-      antialias: false,
-    });
-    renderer.setSize(192, 192);
+    const gpu = gpuFixture(192, 192, 6),
+      { renderer, scene, camera, own } = gpu;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = T.PCFShadowMap;
-    const scene = new T.Scene(),
-      camera = makeCamera(1);
-    camera.position.copy(outward).multiplyScalar(30);
-    camera.lookAt(0, 0, 0);
-    camera.updateMatrixWorld();
-    camera.left = camera.bottom = -3;
-    camera.right = camera.top = 3;
-    camera.updateProjectionMatrix();
-    const target = new T.WebGLRenderTarget(192, 192),
-      lighting = new IllustratedLighting(),
-      local = new LocalLightShadows(scene, renderer, lighting),
+    const lighting = own(new IllustratedLighting()),
+      local = own(new LocalLightShadows(scene, renderer, lighting)),
       sun = new T.DirectionalLight(0xffffff, 0);
     sun.castShadow = true;
     sun.shadow.camera.left = sun.shadow.camera.bottom = -5;
@@ -51,7 +39,7 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
     sun.shadow.mapSize.set(512, 512);
     sun.position.set(-4, 6, 3);
     scene.add(sun, sun.target);
-    const fallback = new T.DepthTexture(1, 1, T.UnsignedIntType);
+    const fallback = own(new T.DepthTexture(1, 1, T.UnsignedIntType));
     fallback.compareFunction = T.LessEqualCompare;
     fallback.needsUpdate = true;
     Object.defineProperty(lighting.common.inkShadowMap, 'value', {
@@ -62,7 +50,7 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
     for (let y = 2; y < 31; y++)
       for (let x = 3; x < 29; x++)
         if (y < 17 || (x >= 12 && x < 20)) mask.fill(255, (y * 32 + x) * 4, (y * 32 + x + 1) * 4);
-    const texture = new T.DataTexture(mask, 32, 32);
+    const texture = own(new T.DataTexture(mask, 32, 32));
     texture.needsUpdate = true;
     texture.magFilter = texture.minFilter = T.NearestFilter;
     const m = manifestFixture('solid-prop');
@@ -71,19 +59,16 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
     m.asset.anchor = [16, 32];
     m.asset.density = 20;
     m.pages[0]!.width = m.pages[0]!.height = 32;
-    const sprite = new ActorSprite(
-      'solid-prop',
-      m,
-      new Map([['atlas-0', texture]]),
-      m.asset.clips.idle.d45,
+    const sprite = own(
+      new ActorSprite('solid-prop', m, new Map([['atlas-0', texture]]), m.asset.clips.idle.d45),
     );
     sprite.show(m.frames[0].id, new T.Vector3(), camera);
     scene.add(sprite.mesh);
     lighting.sprite(sprite);
-    const groundTexture = new T.DataTexture(new Uint8Array([190, 190, 190, 255]), 1, 1);
+    const groundTexture = own(new T.DataTexture(new Uint8Array([190, 190, 190, 255]), 1, 1));
     groundTexture.needsUpdate = true;
-    const groundMaterial = new T.MeshBasicMaterial({ map: groundTexture, toneMapped: false }),
-      ground = new T.Mesh(new T.PlaneGeometry(10, 10), groundMaterial);
+    const groundMaterial = own(new T.MeshBasicMaterial({ map: groundTexture, toneMapped: false })),
+      ground = new T.Mesh(own(new T.PlaneGeometry(10, 10)), groundMaterial);
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -0.015;
     lighting.attach(groundMaterial, true);
@@ -113,11 +98,7 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
       proxies.proxies.visible = shadows;
       if (day) lighting.common.inkKeyStrength.value = 1;
       else lighting.common.inkKeyStrength.value = 0;
-      renderer.setRenderTarget(target);
-      renderer.render(scene, camera);
-      const pixels = new Uint8Array(192 * 192 * 4);
-      renderer.readRenderTargetPixels(target, 0, 0, 192, 192, pixels);
-      return pixels;
+      return gpu.capture();
     };
     const left = capture(-1, false),
       leftShadow = capture(-1, true),
@@ -176,7 +157,7 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
     const flat = capture(-1, false),
       paintedPixels = new Uint8Array(32 * 32 * 4);
     for (let i = 0; i < paintedPixels.length; i += 4) paintedPixels.set([128, 0, 255, 255], i);
-    const paintedMask = new T.DataTexture(paintedPixels, 32, 32);
+    const paintedMask = own(new T.DataTexture(paintedPixels, 32, 32));
     paintedMask.needsUpdate = true;
     lighting.setGroundOcclusion(
       { texture: paintedMask, range: new T.Vector2(0, 4) },
@@ -213,18 +194,10 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
       error: renderer.getContext().getError(),
     };
     proxies.reset();
-    local.dispose();
-    lighting.dispose();
-    sun.shadow.dispose();
-    fallback.dispose();
-    sprite.dispose();
-    ground.geometry.dispose();
-    groundMaterial.dispose();
-    texture.dispose();
-    groundTexture.dispose();
-    paintedMask.dispose();
-    target.dispose();
-    renderer.dispose();
+
+    own(sun.shadow);
+
+    gpu.dispose();
     return result;
   });
   expect(proof.error).toBe(0);

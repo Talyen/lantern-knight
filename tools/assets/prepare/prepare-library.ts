@@ -58,21 +58,21 @@ export async function prepare(context: PreparationContext, check = false) {
   };
 
   const planFile = stagingFile('library/plan.json');
-  const temporary = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-library-plan-'));
-  try {
+  {
+    await using temporary = await fs.mkdtempDisposable(
+      path.join(os.tmpdir(), 'lantern-library-plan-'),
+    );
     await runProcess(
       'python3',
       [
         '-B',
         path.join(projectRoot, 'tools/assets/library_import.py'),
         '--output',
-        path.join(temporary, 'plan.json'),
+        path.join(temporary.path, 'plan.json'),
       ],
       { cwd: projectRoot, env: context.environment, timeoutMs: 120000 },
     );
-    await context.writeAsset(planFile, await fs.readFile(path.join(temporary, 'plan.json')));
-  } finally {
-    await fs.rm(temporary, { recursive: true, force: true });
+    await context.writeAsset(planFile, await fs.readFile(path.join(temporary.path, 'plan.json')));
   }
   const plan = (await readJson(planFile)) as {
     assets: LibraryAsset[];

@@ -41,11 +41,8 @@ function fixture(samples = [sample('sword-1'), sample('forest-1', 'forest', true
     start: () => void;
     stop: () => void;
   }[] = [];
-  let now = 0,
-    closed = 0,
-    requests = 0,
-    contexts = 0,
-    resumes = 0;
+  let now = 0;
+  const counts = { closed: 0, requests: 0, contexts: 0, resumes: 0 };
   const reports: string[] = [];
   const timers = new Set<() => void>();
   let pending: (() => Promise<Response>) | undefined;
@@ -63,10 +60,10 @@ function fixture(samples = [sample('sword-1'), sample('forest-1', 'forest', true
     destination: {},
     currentTime: 0,
     resume: async () => {
-      resumes++;
+      counts.resumes++;
     },
     close: async () => {
-      closed++;
+      counts.closed++;
     },
     decodeAudioData: async () => ({ length: 22050, numberOfChannels: 1, duration: 0.5 }),
     createGain: gain,
@@ -96,13 +93,13 @@ function fixture(samples = [sample('sword-1'), sample('forest-1', 'forest', true
   };
   const playback = new AudioPlayback((message) => reports.push(message), {
     context: () => {
-      contexts++;
+      counts.contexts++;
       return context as unknown as AudioContext;
     },
     now: () => now,
     random: () => 0,
     request: async (url) => {
-      requests++;
+      counts.requests++;
       if ((url instanceof Request ? url.url : url.toString()).endsWith('manifest.json'))
         return Response.json({ schemaVersion: 1, samples });
       return pending ? pending() : new Response(bytes);
@@ -117,22 +114,11 @@ function fixture(samples = [sample('sword-1'), sample('forest-1', 'forest', true
   });
   return {
     playback,
+    counts,
     sources,
     reports,
     timers,
     context,
-    get contexts() {
-      return contexts;
-    },
-    get resumes() {
-      return resumes;
-    },
-    get closed() {
-      return closed;
-    },
-    get requests() {
-      return requests;
-    },
     set now(value: number) {
       now = value;
     },
@@ -148,16 +134,12 @@ async function ready(f: ReturnType<typeof fixture>) {
 test('session replacement cancels pending ambience and closes the previous room loops', async () => {
   const f = fixture([sample('forest-1', 'forest', true)]);
   await ready(f);
-  let resolve!: (value: Response) => void;
-  let started!: () => void;
-  const requested = new Promise<void>((done) => {
-    started = done;
-  });
-  f.pending = () =>
-    new Promise<Response>((done) => {
-      resolve = done;
-      started();
-    });
+  const { promise: response, resolve } = Promise.withResolvers<Response>();
+  const { promise: requested, resolve: started } = Promise.withResolvers<void>();
+  f.pending = () => {
+    started();
+    return response;
+  };
   const pending = f.playback.setAmbience(['forest']);
   await requested;
   f.playback.replaceSession();
@@ -184,7 +166,7 @@ test('audio shutdown releases peer voices, ambience and context after a disconne
   });
   assert.throws(() => f.playback.dispose(), /disconnect failed/);
   assert.ok(f.sources.every((s) => s.stopped));
-  assert.equal(f.closed, 1);
+  assert.equal(f.counts.closed, 1);
   assert.equal(f.playback.diagnosticsSnapshot.decodedBytes, 0);
   assert.equal(f.timers.size, 0);
   f.playback.dispose();
@@ -279,7 +261,7 @@ test('first gesture unlocks once, mute and disposal release live sounds', async 
   assert.equal(f.sources.length, 1);
   f.playback.dispose();
   f.playback.dispose();
-  assert.equal(f.closed, 1);
+  assert.equal(f.counts.closed, 1);
 });
 test('cooldowns begin on playback and ended voices release their resources', async () => {
   const f = fixture();
@@ -352,11 +334,8 @@ test('pending playback is discarded after generation replacement or its deadline
     // Add a one-shot after preload so its fetch can be controlled.
     const manifest = (f.playback as unknown as { manifest: AudioManifest }).manifest;
     manifest.samples.push(sample('late-1', 'sword'));
-    let resolve!: (response: Response) => void;
-    f.pending = () =>
-      new Promise<Response>((done) => {
-        resolve = done;
-      });
+    const { promise: response, resolve } = Promise.withResolvers<Response>();
+    f.pending = () => response;
     const controller = new AbortController();
     const pending = f.playback.play('sword', { signal: controller.signal });
     await Promise.resolve();
@@ -381,11 +360,8 @@ test('stale ambience loads cannot start and a failed destination retains outgoin
     },
   ]);
   await ready(f);
-  let resolve!: (response: Response) => void;
-  f.pending = () =>
-    new Promise<Response>((done) => {
-      resolve = done;
-    });
+  const { promise: response, resolve } = Promise.withResolvers<Response>();
+  f.pending = () => response;
   const stale = f.playback.setAmbience(['forest']);
   await Promise.resolve();
   await f.playback.setAmbience([]);
@@ -470,16 +446,12 @@ test('an aborted waiter cannot consume cooldown or stop a newer waiter sharing i
   const f = fixture([sample('forest-1', 'forest', true)]);
   await ready(f);
   (f.playback as unknown as { manifest: AudioManifest }).manifest.samples.push(sample('late-1'));
-  let resolve!: (response: Response) => void;
-  let started!: () => void;
-  const requested = new Promise<void>((done) => {
-    started = done;
-  });
-  f.pending = () =>
-    new Promise<Response>((done) => {
-      resolve = done;
-      started();
-    });
+  const { promise: response, resolve } = Promise.withResolvers<Response>();
+  const { promise: requested, resolve: started } = Promise.withResolvers<void>();
+  f.pending = () => {
+    started();
+    return response;
+  };
   const controller = new AbortController();
   const old = f.playback.play('sword', { signal: controller.signal });
   const next = f.playback.play('sword');
@@ -545,7 +517,7 @@ test('a new gesture resumes a context suspended by the host without replacing it
   await f.playback.unlock();
   assert.equal(resumed, 1);
   f.playback.dispose();
-  assert.equal(f.closed, 1);
+  assert.equal(f.counts.closed, 1);
 });
 
 test('menu feedback is non-spatial even after travel changes world coordinates', async () => {
@@ -606,18 +578,13 @@ test('a silent legacy manifest does not report missing ambience', async () => {
 test('preload cannot evict a decoded buffer borrowed by pending playback', async () => {
   const f = fixture([sample('sword-1')]);
   const decodedBytes = 40 * 1024 ** 2;
-  let decode!: () => void;
-  let started!: () => void;
-  const decoding = new Promise<void>((resolve) => {
-    started = resolve;
-  });
+  const { promise: decoded, resolve: decode } = Promise.withResolvers<void>();
+  const { promise: decoding, resolve: started } = Promise.withResolvers<void>();
   let decodes = 0;
   f.context.decodeAudioData = async () => {
     decodes++;
     started();
-    await new Promise<void>((resolve) => {
-      decode = resolve;
-    });
+    await decoded;
     return { length: decodedBytes / 4, numberOfChannels: 1, duration: 0.5 };
   };
   const unlocking = f.playback.unlock();
@@ -682,22 +649,18 @@ test('buffer eviction counts all borrowers and removes only unleased decoded res
 });
 
 test('closing the buffer owner rejects shared late decodes and further admission', async () => {
-  let complete!: (buffer: AudioBuffer) => void;
-  let started!: () => void;
-  const decoding = new Promise<void>((resolve) => {
-    started = resolve;
-  });
+  const { promise: decoded, resolve: complete } = Promise.withResolvers<AudioBuffer>();
+  const { promise: decoding, resolve: started } = Promise.withResolvers<void>();
   let requestSignal: AbortSignal | undefined;
   const buffers = new AudioBuffers(
     async (_url, options) => {
       requestSignal = options?.signal ?? undefined;
       return new Response(bytes);
     },
-    () =>
-      new Promise<AudioBuffer>((resolve) => {
-        complete = resolve;
-        started();
-      }),
+    () => {
+      started();
+      return decoded;
+    },
     () => 0,
   );
   const selected = parseAudioManifest({ schemaVersion: 1, samples: [sample('sword-1')] })
@@ -764,15 +727,15 @@ test('startup prepares the shared audio graph without activating playback', asyn
   const first = f.playback.initialize();
   assert.equal(f.playback.initialize(), first);
   await first;
-  assert.equal(f.contexts, 1);
-  assert.equal(f.resumes, 0);
+  assert.equal(f.counts.contexts, 1);
+  assert.equal(f.counts.resumes, 0);
   assert.equal(f.playback.diagnosticsSnapshot.unlocked, false);
   assert.equal(f.sources.length, 0);
   await f.playback.unlock();
-  assert.equal(f.contexts, 1, 'first input reuses the prepared context');
-  assert.equal(f.resumes, 1);
+  assert.equal(f.counts.contexts, 1, 'first input reuses the prepared context');
+  assert.equal(f.counts.resumes, 1);
   f.playback.dispose();
-  assert.equal(f.closed, 1);
+  assert.equal(f.counts.closed, 1);
 });
 
 test('disposal before queued initialization prevents audio allocation', async () => {
@@ -780,7 +743,7 @@ test('disposal before queued initialization prevents audio allocation', async ()
   const pending = f.playback.initialize();
   f.playback.dispose();
   await pending;
-  assert.equal(f.contexts, 0);
-  assert.equal(f.requests, 0);
+  assert.equal(f.counts.contexts, 0);
+  assert.equal(f.counts.requests, 0);
   assert.equal(f.reports.length, 0);
 });

@@ -1,3 +1,4 @@
+import { derivedSource, stillFrame } from '../definition';
 import sharp from 'sharp';
 import { remapAlpha } from '../pixels';
 
@@ -55,33 +56,22 @@ export async function prepare(context: PreparationContext, check = false) {
       })
       .png()
       .toBuffer();
-    const source: Source = {
-      schemaVersion: 2,
-      asset: {
-        ...template.asset,
-        id,
-        canvas,
-        anchor,
-        density: r.density,
-        atlasSize: 4096,
-        contentVersion: 'last-tended-light-v1',
-        recipe: 'tended-native-cutouts-v1',
-        provenance: {
-          creator:
-            'Built-in image_gen; canonical Clean INK; requested gpt-image-2.5 sunburst; routing not exposed',
-          license: 'Owner-authorized project artwork',
-          source: root,
-        },
-        requiredClips: [r.id],
-        clips: {
-          [r.id]: { d45: { frames: [r.id], durationsMs: [1000], loop: true, notifies: [] } },
-        },
+    const source = derivedSource(template, {
+      id,
+      canvas,
+      anchor,
+      density: r.density,
+      atlasSize: 4096,
+      contentVersion: 'last-tended-light-v1',
+      recipe: 'tended-native-cutouts-v1',
+      provenance: {
+        creator:
+          'Built-in image_gen; canonical Clean INK; requested gpt-image-2.5 sunburst; routing not exposed',
+        license: 'Owner-authorized project artwork',
+        source: root,
       },
-      frames: [
-        { id: r.id, path: `ink/${id}/${r.id}.png`, origin: 'imported-study', attachments: {} },
-      ],
-    };
-    await output(`staging/ink/${id}/${r.id}.png`, png);
+    });
+    await output(stillFrame(source, r.id), png);
     await pack(source);
     receipts.push({
       pack: id,

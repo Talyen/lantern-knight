@@ -1,3 +1,4 @@
+import { onAsyncExit, onExit } from '../../tools/scope-exit';
 import { writeJson } from '../../tools/json-file';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import test from 'node:test';
@@ -21,40 +22,39 @@ test('matching development server reuse acquires no asset workspace', async () =
     res.end(JSON.stringify(identity));
   });
   await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
-  try {
-    const address = server.address();
-    if (!address || typeof address === 'string') throw new Error('Missing test server');
-    const options = {
-      output: 'development' as const,
-      assets: 'pinned' as const,
-      scope: 'authoring' as const,
-      port: address.port,
-      reuse: true,
-      demand: true,
-    };
-    const session = await openPreview(options);
-    assert.equal(session.ownsServer, false);
-    assert.equal(session.workspace, undefined);
-    assert.equal(session.assetIdentity, identity.assets);
-    await session.close();
-    await assert.rejects(openPreview({ ...options, reuse: false }), /already occupied/);
-    for (const patch of [
-      { assets: '0'.repeat(64) },
-      { root: '/another-checkout' },
-      { target: 'built' },
-      { scope: 'runtime' },
-    ]) {
-      const accepted = { ...identity };
-      Object.assign(identity, patch);
-      await assert.rejects(openPreview(options), /another checkout or asset identity/);
-      Object.assign(identity, accepted);
-    }
-  } finally {
+  await using _scopeExit1 = onAsyncExit(async () => {
     // Every identity response has settled; do not wait for fetch keep-alive expiry.
     server.closeAllConnections();
     await new Promise<void>((resolve, reject) =>
       server.close((error) => (error ? reject(error) : resolve())),
     );
+  });
+  const address = server.address();
+  if (!address || typeof address === 'string') throw new Error('Missing test server');
+  const options = {
+    output: 'development' as const,
+    assets: 'pinned' as const,
+    scope: 'authoring' as const,
+    port: address.port,
+    reuse: true,
+    demand: true,
+  };
+  const session = await openPreview(options);
+  assert.equal(session.ownsServer, false);
+  assert.equal(session.workspace, undefined);
+  assert.equal(session.assetIdentity, identity.assets);
+  await session.close();
+  await assert.rejects(openPreview({ ...options, reuse: false }), /already occupied/);
+  for (const patch of [
+    { assets: '0'.repeat(64) },
+    { root: '/another-checkout' },
+    { target: 'built' },
+    { scope: 'runtime' },
+  ]) {
+    const accepted = { ...identity };
+    Object.assign(identity, patch);
+    await assert.rejects(openPreview(options), /another checkout or asset identity/);
+    Object.assign(identity, accepted);
   }
 });
 
@@ -77,24 +77,21 @@ test('ground selection acquires its original source image before invoking segmen
     );
     return true;
   });
-  try {
-    await assert.rejects(
-      service.select(
-        {
-          asset: 'library-tree',
-          frame: manifest.frames[0]!.id,
-          hash: manifest.pages[0]!.hash,
-          crop: [0, 0, 1, 1],
-          box: [0, 0, 1, 1],
-        },
-        new AbortController().signal,
-      ),
-      /Source requested before model execution/,
-    );
-    assert.deepEqual(calls, ['generated/library/catalog.json', file, source]);
-  } finally {
-    service.dispose();
-  }
+  using _cleanup2 = onExit(() => service.dispose());
+  await assert.rejects(
+    service.select(
+      {
+        asset: 'library-tree',
+        frame: manifest.frames[0]!.id,
+        hash: manifest.pages[0]!.hash,
+        crop: [0, 0, 1, 1],
+        box: [0, 0, 1, 1],
+      },
+      new AbortController().signal,
+    ),
+    /Source requested before model execution/,
+  );
+  assert.deepEqual(calls, ['generated/library/catalog.json', file, source]);
 });
 
 test('on-demand previews acquire and serve newly published audio samples', async (t) => {
@@ -116,24 +113,21 @@ test('on-demand previews acquire and serve newly published audio samples', async
       }),
     ],
   });
-  try {
-    await server.listen();
-    const address = server.httpServer!.address();
-    if (!address || typeof address === 'string') throw new Error('Missing test server');
-    for (const extension of ['wav', 'ogg']) {
-      const file = `audio/${'a'.repeat(64)}.${extension}`;
-      const response: Response = await fetch(`http://127.0.0.1:${address.port}/${file}`);
-      assert.equal(response.status, 200);
-      assert.equal(await response.text(), 'prepared sample');
-      assert.equal(
-        response.headers.get('content-type'),
-        extension === 'wav' ? 'audio/wav' : 'audio/ogg',
-      );
-    }
-    assert.equal(requested.length, 2);
-  } finally {
-    await server.close();
+  await using _cleanup3 = onAsyncExit(() => server.close());
+  await server.listen();
+  const address = server.httpServer!.address();
+  if (!address || typeof address === 'string') throw new Error('Missing test server');
+  for (const extension of ['wav', 'ogg']) {
+    const file = `audio/${'a'.repeat(64)}.${extension}`;
+    const response: Response = await fetch(`http://127.0.0.1:${address.port}/${file}`);
+    assert.equal(response.status, 200);
+    assert.equal(await response.text(), 'prepared sample');
+    assert.equal(
+      response.headers.get('content-type'),
+      extension === 'wav' ? 'audio/wav' : 'audio/ogg',
+    );
   }
+  assert.equal(requested.length, 2);
 });
 
 test('Game previews resolve on-demand artwork before Vite can return its HTML fallback', async (t) => {
@@ -154,15 +148,12 @@ test('Game previews resolve on-demand artwork before Vite can return its HTML fa
     root,
     server: { host: '127.0.0.1', port: 0 },
   });
-  try {
-    await server.listen();
-    const address = server.httpServer!.address();
-    if (!address || typeof address === 'string') throw new Error('Missing test server');
-    const response: Response = await fetch(`http://127.0.0.1:${address.port}/${file}`);
-    assert.equal(response.status, 200);
-    assert.deepEqual(await response.json(), { asset: { id: 'library-game-art' } });
-    assert.deepEqual(requested, [file]);
-  } finally {
-    await server.close();
-  }
+  await using _cleanup1 = onAsyncExit(() => server.close());
+  await server.listen();
+  const address = server.httpServer!.address();
+  if (!address || typeof address === 'string') throw new Error('Missing test server');
+  const response: Response = await fetch(`http://127.0.0.1:${address.port}/${file}`);
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { asset: { id: 'library-game-art' } });
+  assert.deepEqual(requested, [file]);
 });

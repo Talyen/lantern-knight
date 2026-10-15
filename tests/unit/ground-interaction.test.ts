@@ -1,3 +1,4 @@
+import { rectangle, groundFixture } from '../fixtures/ground';
 import { groundPlacementPolicy } from '../../src/content/scene-placement';
 import { resolveScene } from '../../src/content/world-art';
 import { Navigation } from '../../src/core/navigation';
@@ -22,43 +23,41 @@ import { outward } from '../../src/presentation/camera';
 import { manifestFixture } from '../fixtures/manifest';
 import { emptyScene } from '../../src/editor/default-scene';
 const ground = () =>
-  GroundInteractionSchema.parse({
-    asset: 'ink-moss',
-    frame: 'frame',
-    hash: 'a'.repeat(64),
-    dimensions: [6144, 4096],
-    regions: [
-      {
-        id: 'tree',
-        name: 'Tree',
-        footprint: [
-          { x: -1, z: 0 },
-          { x: 0, z: 1 },
-          { x: 1, z: 0 },
-        ],
-        mask: [
-          {
-            outer: [
-              [0.2, 0.2],
-              [0.8, 0.2],
-              [0.8, 0.8],
-              [0.2, 0.8],
-            ],
-            holes: [
-              [
-                [0.4, 0.4],
-                [0.4, 0.6],
-                [0.6, 0.6],
-                [0.6, 0.4],
+  GroundInteractionSchema.parse(
+    groundFixture(
+      [
+        {
+          id: 'tree',
+          name: 'Tree',
+          footprint: [
+            { x: -1, z: 0 },
+            { x: 0, z: 1 },
+            { x: 1, z: 0 },
+          ],
+          mask: [
+            {
+              outer: rectangle(0.2, 0.2, 0.8, 0.8),
+              holes: [
+                [
+                  [0.4, 0.4],
+                  [0.4, 0.6],
+                  [0.6, 0.6],
+                  [0.6, 0.4],
+                ],
               ],
-            ],
-          },
-        ],
-        depth: { kind: 'anchor', point: { x: 0, z: 1 } },
+            },
+          ],
+          depth: { kind: 'anchor', point: { x: 0, z: 1 } },
+        },
+      ],
+      {
+        asset: 'ink-moss',
+        frame: 'frame',
+        dimensions: [6144, 4096],
+        destinations: [{ name: 'test', x: 0, z: 0 }],
       },
-    ],
-    destinations: [{ name: 'test', x: 0, z: 0 }],
-  });
+    ),
+  );
 test('artwork coordinates round trip and resize all world geometry together', () => {
   const before = artworkFloorLayout(40, 26.666),
     after = artworkFloorLayout(20, 30);

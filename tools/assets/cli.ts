@@ -1,3 +1,4 @@
+import { onAsyncExit } from '../scope-exit';
 import { readJson } from '../json-file';
 import os from 'node:os';
 import path from 'node:path';
@@ -46,34 +47,28 @@ async function main() {
     )
       throw new Error('Use assets:prepare, --ids <asset-id>... or --proof');
     const lane = await acquireCommandLane({ command: 'assets:' + command });
-    try {
-      const cache = new AssetCache();
-      await cache.initialize();
-      const started = performance.now();
-      const env = await discoverLibrary(cache, process.env);
-      console.log(`Source reconciliation: ${((performance.now() - started) / 1000).toFixed(2)}s.`);
-      env.LANTERN_IMAGE_GPU = '1';
-      env.LANTERN_PREPARE_BUDGET = process.env.LANTERN_PREPARE_BUDGET ?? String(cache.limit);
-      if (command === 'prepare' && !values.proof) {
-        if (values.proof) throw new Error('Use --ids or --proof');
-        await preparePreviewAssets(positionals, cache, env);
-      } else {
-        const prepared = await prepareAssets(cache, !!values.proof, env);
-        try {
-          if (command === 'publish') {
-            await checkAssets({ publicDirectory: path.join(prepared.payload, 'public') });
-            await publishBundledPrepared(prepared);
-          }
-        } finally {
-          await prepared.held.release();
-        }
+    await using _cleanup3 = onAsyncExit(() => lane.release());
+    const cache = new AssetCache();
+    await cache.initialize();
+    const started = performance.now();
+    const env = await discoverLibrary(cache, process.env);
+    console.log(`Source reconciliation: ${((performance.now() - started) / 1000).toFixed(2)}s.`);
+    env.LANTERN_IMAGE_GPU = '1';
+    env.LANTERN_PREPARE_BUDGET = process.env.LANTERN_PREPARE_BUDGET ?? String(cache.limit);
+    if (command === 'prepare' && !values.proof) {
+      if (values.proof) throw new Error('Use --ids or --proof');
+      await preparePreviewAssets(positionals, cache, env);
+    } else {
+      const prepared = await prepareAssets(cache, !!values.proof, env);
+      await using _cleanup1 = onAsyncExit(() => prepared.held.release());
+      if (command === 'publish') {
+        await checkAssets({ publicDirectory: path.join(prepared.payload, 'public') });
+        await publishBundledPrepared(prepared);
       }
-      console.log(
-        `Asset ${command} completed in ${((performance.now() - started) / 1000).toFixed(2)}s.`,
-      );
-    } finally {
-      await lane.release();
     }
+    console.log(
+      `Asset ${command} completed in ${((performance.now() - started) / 1000).toFixed(2)}s.`,
+    );
   } else if (command === 'clean') {
     if (args.length) throw new Error('Use assets:clean without options');
     const cache = new AssetCache();
@@ -101,35 +96,30 @@ async function main() {
     )
       throw new Error('Invalid asset inspection/check arguments');
     const workspace = await openWorkspace(values.local ? 'local' : 'pinned', 'authoring');
-    try {
-      if (command === 'check') await checkAssets(workspace);
+    await using _cleanup2 = onAsyncExit(() => workspace.release());
+    if (command === 'check') await checkAssets(workspace);
+    else {
+      const catalog = await readAuthoringCatalog(workspace.publicDirectory),
+        id = positionals[0];
+      if (!id) console.log(`${Object.keys(catalog).length} assets. Supply an asset ID.`);
       else {
-        const catalog = await readAuthoringCatalog(workspace.publicDirectory),
-          id = positionals[0];
-        if (!id) console.log(`${Object.keys(catalog).length} assets. Supply an asset ID.`);
-        else {
-          if (!Object.hasOwn(catalog, id)) throw new Error('Unknown asset: ' + id);
-          const m = parseManifest(
-            await readJson(path.join(workspace.publicDirectory, catalog[id]!)),
-          );
-          console.log(
-            JSON.stringify(
-              {
-                id,
-                canvas: m.asset.canvas,
-                density: m.asset.density,
-                frames: m.frames.length,
-                pages: m.pages.length,
-                clips: Object.keys(m.asset.clips),
-              },
-              null,
-              2,
-            ),
-          );
-        }
+        if (!Object.hasOwn(catalog, id)) throw new Error('Unknown asset: ' + id);
+        const m = parseManifest(await readJson(path.join(workspace.publicDirectory, catalog[id]!)));
+        console.log(
+          JSON.stringify(
+            {
+              id,
+              canvas: m.asset.canvas,
+              density: m.asset.density,
+              frames: m.frames.length,
+              pages: m.pages.length,
+              clips: Object.keys(m.asset.clips),
+            },
+            null,
+            2,
+          ),
+        );
       }
-    } finally {
-      await workspace.release();
     }
   } else throw new Error('Use assets:prepare|inspect|publish|publish-files|clean|check');
 }
