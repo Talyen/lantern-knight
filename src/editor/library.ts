@@ -418,7 +418,7 @@ export class SceneLibrary {
     clearOverlay(this.preview);
     this.points = [];
     this.snapshot = '';
-    this.host.view()?.render();
+    if (!this.lifetime.signal.aborted) this.host.view()?.render();
     $<HTMLButtonElement>('pattern-apply').disabled = true;
   }
   dispose() {

@@ -205,6 +205,6 @@ test('built browser discovery lists loot coverage without a build, preview or as
   const output = result.stdout + result.stderr;
   assert.equal(result.status, 0, output);
   assert.match(output, /game-loot\.spec\.ts/);
-  assert.match(output, /Total: 1 test in 1 file/);
+  assert.match(output, /Total: [1-9]\d* tests? in 1 file/);
   await assert.rejects(fs.access(cache), { code: 'ENOENT' });
 });

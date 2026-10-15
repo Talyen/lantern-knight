@@ -9,7 +9,7 @@ import {
   type SceneObject,
   parseSceneDocument,
 } from '../content/scene-document';
-import { sceneItems } from './model';
+import { EditorHistory, sceneItems } from './model';
 import type { EditorView } from './view';
 import { SCENE_SHADE_CAPACITY } from '../content/world-visuals';
 import {
@@ -148,7 +148,35 @@ function read(root: unknown, path: readonly (string | number)[]): Data | undefin
   for (const key of path) value = (value as Record<string, Data>)[key]!;
   return value;
 }
-function write(root: unknown, path: readonly (string | number)[], value: Data | undefined) {
+function moveGameplayArtwork(
+  root: SceneDocument,
+  path: readonly (string | number)[],
+  position: { x?: number; z?: number },
+) {
+  if (
+    path[0] === 'gameplay' &&
+    (path[1] === 'pickups' || path[1] === 'interactables') &&
+    path.length === 3
+  ) {
+    const target = root.gameplay?.[path[1]]?.[Number(path[2])];
+    if (target) {
+      const history = new EditorHistory(root);
+      history.transform(target.object, position);
+      root.objects = parseSceneDocument(history.document).objects;
+    }
+  }
+}
+function write(root: SceneDocument, path: readonly (string | number)[], value: Data | undefined) {
+  const axis = path.at(-1);
+  if ((axis === 'x' || axis === 'z') && typeof value === 'number')
+    moveGameplayArtwork(root, path.slice(0, -1), { [axis]: value });
+  writeField(root, path, value);
+}
+function writeField(
+  root: SceneDocument,
+  path: readonly (string | number)[],
+  value: Data | undefined,
+) {
   let target = root as Record<string, Data | undefined>;
   for (const key of path.slice(0, -1)) target = target[key] as Record<string, Data | undefined>;
   if (value === undefined) delete target[path.at(-1)!];
@@ -202,6 +230,19 @@ export class VisualAuthoring {
     return b;
   }
   private form(value: Data, path: (string | number)[], parent: HTMLElement, label: string) {
+    if (
+      path[0] === 'gameplay' &&
+      (path[1] === 'pickups' || path[1] === 'interactables') &&
+      path.length === 3 &&
+      typeof value === 'object' &&
+      !Array.isArray(value)
+    ) {
+      const object = value.object;
+      const placement = sceneItems(this.host.history().document).find(
+        (p) => p.placement.id === object,
+      )?.placement;
+      if (placement) value = { ...value, x: placement.x, z: placement.z };
+    }
     if (typeof value === 'object' && !Array.isArray(value) && path.at(-1) === 'awareness')
       value = { group: '', ...value };
     if (typeof value === 'object') {
@@ -243,28 +284,36 @@ export class VisualAuthoring {
                 (read(this.host.history().document, path) as Data[] | undefined) ?? [],
               );
               const field = String(path.at(-1));
+              const reference =
+                field === 'propOrder'
+                  ? this.host.history().document.objects.find((p) => !next.includes(p.id))?.id
+                  : field === 'guards'
+                    ? this.host
+                        .history()
+                        .document.gameplay?.spawns.find((p) => !next.includes(p.id))?.id
+                    : undefined;
+              if ((field === 'propOrder' || field === 'guards') && reference === undefined) return;
               const base =
+                reference ??
                 value[0] ??
                 (templates as Record<string, Data>)[field] ??
-                (field === 'propOrder'
-                  ? (this.host.history().document.objects[0]?.id ?? 'object')
-                  : field === 'layers'
-                    ? {
-                        asset: 'ink-blackwood-woodland',
-                        clip: 'woodland',
-                        scale: 1,
-                        base: 0,
-                        parallax: 0.1,
-                        tint: 0xffffff,
-                        detail: 0,
-                      }
-                    : field === 'entries'
-                      ? { id: 'entry', x: 0, z: 0 }
-                      : field === 'points' || field === 'ground'
-                        ? point
-                        : field === 'widths'
-                          ? 1
-                          : '');
+                (field === 'layers'
+                  ? {
+                      asset: 'ink-blackwood-woodland',
+                      clip: 'woodland',
+                      scale: 1,
+                      base: 0,
+                      parallax: 0.1,
+                      tint: 0xffffff,
+                      detail: 0,
+                    }
+                  : field === 'entries'
+                    ? { id: 'entry', x: 0, z: 0 }
+                    : field === 'points' || field === 'ground'
+                      ? point
+                      : field === 'widths'
+                        ? 1
+                        : '');
               const item = structuredClone(base);
               if (item && typeof item === 'object' && !Array.isArray(item) && 'id' in item)
                 item.id = field.replace(/s$/, '') + '-' + crypto.randomUUID();
@@ -280,7 +329,13 @@ export class VisualAuthoring {
                       (p) => p.id === this.host.selected() && p.kind !== 'decal',
                     ) ?? this.host.history().document.objects.find((p) => p.kind !== 'decal');
                 if (!selected) throw new Error('Place pickup artwork first');
-                (item as Record<string, Data>).object = selected.id;
+                const linked = item as Record<string, Data>;
+                if (field === 'interactables' && linked.object !== selected.id) {
+                  linked.idle = selected.clip;
+                  linked.action = selected.clip;
+                  linked.spent = selected.clip;
+                }
+                linked.object = selected.id;
                 item.x = selected.x ?? 0;
                 item.z = selected.z ?? 0;
               }
@@ -647,15 +702,15 @@ export class VisualAuthoring {
           if (s.accepts.includes(p.asset + ':' + p.clip)) socket.add(new Option(name, name));
         socket.value = p.mount.socket ?? '';
         socket.onchange = () => {
-          if (socket.value) {
-            const setting = sockets[socket.value]!;
-            void this.host
-              .change((d) => {
+          void this.host
+            .change((d) => {
+              if (socket.value) {
+                const setting = sockets[socket.value]!;
                 d.objects[index]!.mount!.socket = socket.value;
                 d.objects[index]!.mount!.offset = [...setting.offset];
-              })
-              .catch(console.error);
-          }
+              } else delete d.objects[index]!.mount!.socket;
+            })
+            .catch(console.error);
         };
         attachments.append(socket);
       }
@@ -758,29 +813,35 @@ export class VisualAuthoring {
     if (enabled.includes('collision'))
       for (const item of sceneItems(d)) {
         const p = item.placement;
-        if (p.footprint)
-          box(
-            {
-              minX: p.x - p.footprint[0] / 2,
-              maxX: p.x + p.footprint[0] / 2,
-              minZ: p.z - p.footprint[1] / 2,
-              maxZ: p.z + p.footprint[1] / 2,
-            },
+        if (p.footprint) {
+          const angle = p.footprintAngle ?? 0;
+          line(
+            boundsCorners({
+              minX: -p.footprint[0] / 2,
+              maxX: p.footprint[0] / 2,
+              minZ: -p.footprint[1] / 2,
+              maxZ: p.footprint[1] / 2,
+            }).map((q) => ({
+              x: p.x + q.x * Math.cos(angle) - q.z * Math.sin(angle),
+              z: p.z + q.x * Math.sin(angle) + q.z * Math.cos(angle),
+            })),
             0xff7777,
           );
+        }
       }
     if (enabled.includes('entries') || geometry)
       d.geometry?.entries.forEach((p, i) => handle(['geometry', 'entries', i], p, 'Entry ' + p.id));
     if (geometry || enabled.includes('gameplay')) {
+      const positions = new Map(sceneItems(d).map((o) => [o.placement.id, o.placement]));
       d.gameplay?.spawns.forEach((p, i) => handle(['gameplay', 'spawns', i], p, 'Enemy ' + p.id));
       d.gameplay?.pickups.forEach((p, i) =>
-        handle(['gameplay', 'pickups', i], p, 'Pickup ' + p.id),
+        handle(['gameplay', 'pickups', i], positions.get(p.object)!, 'Pickup ' + p.id),
       );
       d.gameplay?.campfires?.forEach((p, i) =>
         handle(['gameplay', 'campfires', i], p, 'Campfire ' + p.name),
       );
       d.gameplay?.interactables?.forEach((p, i) =>
-        handle(['gameplay', 'interactables', i], p, p.kind + ' ' + p.id),
+        handle(['gameplay', 'interactables', i], positions.get(p.object)!, p.kind + ' ' + p.id),
       );
       d.gameplay?.exits.forEach((p) => box(p.trigger, 0x66ffaa));
     }
@@ -855,8 +916,9 @@ export class VisualAuthoring {
       base = bounds ? path.slice(0, -1) : path;
     void this.host
       .change((d) => {
-        write(d, [...base, bounds ? edge + 'X' : 'x'], point.x);
-        write(d, [...base, bounds ? edge + 'Z' : 'z'], point.z);
+        if (!bounds) moveGameplayArtwork(d, base, point);
+        writeField(d, [...base, bounds ? edge + 'X' : 'x'], point.x);
+        writeField(d, [...base, bounds ? edge + 'Z' : 'z'], point.z);
       })
       .catch(console.error);
     return true;

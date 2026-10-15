@@ -347,10 +347,18 @@ export class CompositionTools {
     const items = sceneItems(this.host.history().document).filter((v) =>
       this.selection.has(v.placement.id),
     );
-    if (!p || !items.length) return;
+    if (!p || !items.length || !view.sim) return;
     p.center.set(
       items.reduce((v, p) => v + p.placement.x, 0) / items.length,
-      1.8,
+      items.reduce(
+        (v, p) =>
+          v +
+          heightAt(view.sim!.areaDefinition, p.placement.x, p.placement.z) +
+          (p.placement.y ?? 0),
+        0,
+      ) /
+        items.length +
+        1.8,
       items.reduce((v, p) => v + p.placement.z, 0) / items.length,
     );
     view.render();

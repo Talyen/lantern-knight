@@ -383,7 +383,17 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.assertActive();
     this.canvas.dataset.ready = 'true';
     if (!this.bridge.automatedRun && (document.hidden || !document.hasFocus())) this.pause(true);
-    this.frames = new FrameScheduler(this.loop, this.resetFrameClock, this.bridge.automatedRun);
+    this.frames = new FrameScheduler(
+      this.loop,
+      this.resetFrameClock,
+      this.bridge.automatedRun,
+      (error) => {
+        cleanupAll([
+          () => this.dispose(),
+          () => this.hooks.status(`Application stopped: ${String(error)}`, true),
+        ]);
+      },
+    );
   }
   retainAsset(id: string) {
     if (!this.disposed && this.persistentLeases.has(id)) return Promise.resolve();

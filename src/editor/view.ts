@@ -1,3 +1,4 @@
+import { readUntilAborted } from '../abort';
 import { groundPlacementPolicy } from '../content/scene-placement';
 import { paintedEnvelopePolicy, spritePlacementEnvelope } from '../content/placement-envelope';
 import { cleanupAll } from '../assets/cleanup';
@@ -76,6 +77,7 @@ export class EditorView {
   private ghostPack?: PackLease;
   private ghostKey = '';
   private ghostRequest = 0;
+  private ghostLoad?: AbortController;
   private ghostPoint = new T.Vector3();
   private placementCheck?: ReturnType<typeof groundPlacementPolicy>;
   private envelopeCheck?: ReturnType<typeof paintedEnvelopePolicy>;
@@ -131,7 +133,11 @@ export class EditorView {
         effectiveRadius(hero.definition.radius),
       ),
     );
+    const previous = { x: hero.x, y: hero.y, z: hero.z };
     this.hero(this.walking);
+    hero.px = previous.x;
+    hero.py = previous.y;
+    hero.pz = previous.z;
     hero.yaw = this.walking.yaw;
     if (x || y) this.renderer!.center.set(hero.x, hero.y, hero.z);
   }
@@ -451,18 +457,31 @@ export class EditorView {
     this.ghostPoint.copy(point);
     const key = asset + '/' + clip + '/' + heading;
     if (this.ghostKey !== key) {
-      const request = ++this.ghostRequest;
+      const request = this.ghostRequest + 1;
+      this.clearPlacementGhost();
+      // Destruction and abort listeners can synchronously select a successor.
+      if (request !== this.ghostRequest || !this.available) return;
+      const loading = new AbortController();
+      this.ghostLoad = loading;
       this.ghostKey = key;
-      this.ghost?.dispose();
-      this.ghost = undefined;
-      this.ghostPack?.release();
-      this.ghostPack = undefined;
       let pack: PackLease;
       try {
-        pack = await this.runtime.loadPack(asset, this.abort.signal);
+        // The acquisition retains responsibility for late results; cancellation
+        // stops the mounted caller even if a transport ignores its signal.
+        const acquiring = this.runtime.loadPack(asset, loading.signal).then((pack) => {
+          if (loading.signal.aborted) {
+            pack.release();
+            loading.signal.throwIfAborted();
+          }
+          return pack;
+        });
+        pack = await readUntilAborted(acquiring, loading.signal);
       } catch (error) {
+        if (loading.signal.aborted) return;
         if (request === this.ghostRequest) this.ghostKey = '';
         throw error;
+      } finally {
+        if (this.ghostLoad === loading) this.ghostLoad = undefined;
       }
       if (!this.available || request !== this.ghostRequest) {
         pack.release();
@@ -507,10 +526,16 @@ export class EditorView {
     this.ghostRequest++;
     this.ghostKey = '';
     const ghost = this.ghost,
-      pack = this.ghostPack;
+      pack = this.ghostPack,
+      loading = this.ghostLoad;
+    this.ghostLoad = undefined;
     this.ghost = undefined;
     this.ghostPack = undefined;
-    cleanupAll([() => ghost?.dispose(), () => pack?.release()]);
+    cleanupAll([
+      () => loading?.abort(new Error('Placement preview replaced')),
+      () => ghost?.dispose(),
+      () => pack?.release(),
+    ]);
   }
   setEditingVisibility(ids: ReadonlySet<string>) {
     this.hidden = new Set(ids);
