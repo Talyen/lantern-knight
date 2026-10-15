@@ -10,7 +10,7 @@
 
 `npm test` and `npm run test:watch` default to fast `tests/unit/*.test.ts` suites. `npm test -- --full` runs all pure suites; `npm run test:watch -- --full` watches them all. The small explicit CI-default list in `tools/test.ts` keeps fresh-process replay/build proofs and real-Git integration-lock proofs in full CI coverage; it records each reason, and missing entries fail selection rather than silently losing coverage. New pure suites run locally unless deliberately classified. Arguments name exact files, including CI-default suites; duplicates run once and invalid selections fail before setup. Use `--full` without exact files or `--assets`. Pure tests use small fixtures and require no source artwork or prepared pack.
 
-Compiler fixtures set a small atlas size; pixel assertions and a tiny multi-page packing case protect encoding and row/page rollover without repeatedly compressing empty production-size pages.
+Compiler fixtures use a 32 × 36 canvas and 64-pixel atlas. One tiny multi-page packing case checks RGB alpha synthesis and asymmetric pixels at every published rectangle, protecting row/page rollover, orientation and channel order in a single encoding pass. Determinism and failed builds compare both manifest and page bytes, including a missing later frame after an earlier frame has been packed. Keep these behavioral checks when changing fixture sizes; large uniform images add cost without exercising more encoding behavior. HTTP identity fixtures close their completed connections explicitly instead of waiting for keep-alive expiry.
 
 Routine local testing should take roughly ten seconds including setup. This is a guideline, not a timeout or permission to omit failures. Optimize useful slow tests or route them to CI by default. Asset, browser and desktop checks are explicit integration commands, outside routine local checks. Agents may run full or slow coverage locally for a specific reproduction, diagnosis or validation need: state the reason, choose the smallest relevant scope and avoid repeating unchanged successful runs. Changed browser behavior needs appropriate CI scenarios; report whether they actually ran, including pending or unavailable coverage.
 
@@ -94,10 +94,10 @@ The `benchmark` command routes several kinds of diagnostic. [Recorded session re
 
 Native diagnostics consume an already packaged application; they do not build it. Prepare the matching package on the host before running a scenario:
 
-| Scenarios after `npm run benchmark --`                                          | Required package                |
-| ------------------------------------------------------------------------------- | ------------------------------- |
-| `startup`, `walking`, `game`, `preferences`                                     | Game: `npm run package -- --unsigned`         |
-| `sandbox` (alias `scene`), `lighting`, `animation`, `hero`, `effects`, `scenes` | Dev: `npm run package -- --dev` |
+| Scenarios after `npm run benchmark --`                                          | Required package                      |
+| ------------------------------------------------------------------------------- | ------------------------------------- |
+| `startup`, `walking`, `game`, `preferences`                                     | Game: `npm run package -- --unsigned` |
+| `sandbox` (alias `scene`), `lighting`, `animation`, `hero`, `effects`, `scenes` | Dev: `npm run package -- --dev`       |
 
 Use `--local` on both packaging and the diagnostic when investigating a local asset preparation. `--visible` shows the native window; hidden/software runs do not establish visible pacing. Use `--capture` when visual evidence is wanted, or `--output /external/investigation` to retain results without requesting captures. Successful managed diagnostics normally discard their output; keep comparison records in an external directory. Native framebuffer, motion and resource assertions remain available through these scenarios; routine checks do not generate galleries.
 

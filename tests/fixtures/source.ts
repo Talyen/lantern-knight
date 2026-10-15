@@ -30,10 +30,10 @@ export function sourceFixture(): Source {
       contractId: 'lantern-camera-v2',
       bakeVersion: 2,
       // Exercise the real encoder without compressing mostly empty production-size pages.
-      atlasSize: 512,
-      canvas: [384, 432],
-      density: 192,
-      anchor: [192, 348],
+      atlasSize: 64,
+      canvas: [32, 36],
+      density: 16,
+      anchor: [16, 29],
       padding: 0,
       colorSpace: 'srgb',
       alpha: 'straight',
@@ -69,7 +69,7 @@ export function sourceFixture(): Source {
         id: 'sample-frame',
         path: 'sample.png',
         origin: 'diagnostic',
-        attachments: { lantern: [132.48000240325928, 202.31778001785278] },
+        attachments: { lantern: [11.04, 16.86] },
       },
     ],
   };
