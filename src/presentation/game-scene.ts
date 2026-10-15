@@ -379,6 +379,7 @@ export class GamePresentation implements PresentationLifecycle {
     const hasLantern = heroSprite && heroLanternPosition(heroSprite, this.light.position);
     this.light.intensity = hasLantern ? 8 : 0;
     this.roomPresentation.inkRoom?.update(sim, alpha, true, ms);
+    if (this.groundOcclusion) this.roomPresentation.inkRoom?.occlude(this.groundOcclusion);
     if (this.groundOcclusion)
       for (const drop of sim.drops) {
         const sprite = this.roomPresentation.inkRoom?.effects.get('drop-' + drop.id);
