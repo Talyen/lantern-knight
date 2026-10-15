@@ -33,11 +33,14 @@ The fixtures invoke `python3`, which must resolve to the environment containing 
 | `scene`                              | Independent outdoor/interior fixtures, reload and resource lifetime.                                                        |
 | `editor`                             | Authoring, history, recovery, ground interaction, contact shadows and protected save requests.                              |
 | `effects`                            | Dedicated-scene controls and switching back to independent scene fixtures.                                                  |
+| `audio`                              | Game audio-setting persistence, prepared-sample decoding and Dev Preview audition controls.                                 |
 | `image-delivery`, `ground-occlusion` | Focused GPU behavior.                                                                                                       |
 | `authored-ground`                    | Opt-in [movement and timing capture](developer-tools.md#authored-scene-timing-capture), selected by `LANTERN_GROUND_SCENE`. |
 | `ground-review`                      | Opt-in [occlusion captures](developer-tools.md#authored-occlusion-captures), selected by `LANTERN_GROUND_REVIEW`.           |
 
-Without a selector, Playwright selects all browser suites; both authored-scene diagnostics skip unless their scene environment variable is set. Selectors match filenames, so `editor` includes the editor regression, ground and contact suites. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion`.
+Without a selector, Playwright selects all browser suites; both authored-scene diagnostics skip unless their scene environment variable is set. Selectors match filenames, so `editor` includes the editor regression, ground and contact suites. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion audio`.
+
+The `audio` suite always checks Game settings. Its decoding and audition test skips when the selected assets contain no prepared samples. To validate unpublished sounds locally, use a checkout-local [audio preparation](assets.md#audio-preparation) and leave `CI` unset; pinned CI cannot establish coverage for those samples. Browser decoding and playback assertions do not establish an audible mix; follow [listening and tuning](sound-design.md#listening-and-tuning).
 
 Development-preview browser checks prefer checkout-local prepared assets, falling back to the pin. One preview session acquires assets and starts a server, or reuses a matching Vite server after checking checkout, asset identity and required scope. It closes only its own server and lease. With `CI=true`, browser checks use pinned assets and require an unused port for their own server; use this mode for [milestone verification](release.md). Install Chromium once with `npx playwright install chromium` when needed; Linux hosts may also need Playwright's `--with-deps` installation. Add `--ui` after the scenario for continuous interactive iteration, for example `npm run test:browser -- editor --ui`.
 
@@ -77,7 +80,7 @@ Browser previews acquire verified pinned files on demand instead of downloading 
 
 Desktop/build/dependency/asset-delivery contract changes select macOS and Windows jobs. Native jobs start after source gates, alongside browser jobs, and build/package Game once on their host. They retain packaged player storage/input and live-development reload/restart coverage.
 
-Routine browser journeys leave screenshot, video and trace recording off. Opt-in authored-scene reviews retain their requested captures. Failure artifacts include the job and shard in their names.
+Automatic screenshot, video and trace recording is off. Individual suites can still write explicit screenshots and attachments; opt-in authored-scene reviews retain their requested captures. These outputs live under `.cache/browser-results/`, which Playwright clears at the next run. Copy evidence needed across runs to an external directory first. Failure artifacts include the job and shard in their names.
 
 [The CI workflow](../.github/workflows/ci.yml) defines the executed jobs, and [coverage policy](../tools/coverage-policy.ts) owns optional asset/authoring/desktop selection. An unavailable comparison base selects all optional tiers. The final `checks` job fails when any selected job fails or is cancelled; intentionally omitted tiers may skip. Report the jobs that actually ran; path classification alone does not establish coverage.
 
