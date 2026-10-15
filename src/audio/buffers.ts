@@ -1,5 +1,6 @@
 import type { AudioSample } from '../assets/audio';
 import { readUntilAborted } from '../abort';
+import { DecodeQueue } from '../assets/decode-queue';
 
 type Entry = {
   lifetime: AbortController;
@@ -18,6 +19,7 @@ export type AudioBufferLease = {
 export class AudioBuffers {
   private readonly entries = new Map<string, Entry>();
   private readonly lifetime = new AbortController();
+  private readonly decodes = new DecodeQueue(2, 'Audio buffers disposed');
   constructor(
     private readonly request: typeof fetch,
     private readonly decode: (bytes: ArrayBuffer) => Promise<AudioBuffer>,
@@ -62,7 +64,12 @@ export class AudioBuffers {
         bytes: 0,
         refs: 0,
         used: this.now(),
-        promise: Promise.resolve().then(() => this.load(sample, created.lifetime.signal)),
+        promise: Promise.resolve().then(() =>
+          this.decodes.run(
+            () => this.load(sample, created.lifetime.signal),
+            created.lifetime.signal,
+          ),
+        ),
       };
       created.promise = created.promise.then(
         (buffer) => {
@@ -119,5 +126,6 @@ export class AudioBuffers {
     const entries = [...this.entries.values()];
     this.entries.clear();
     for (const entry of entries) entry.lifetime.abort();
+    this.decodes.dispose();
   }
 }

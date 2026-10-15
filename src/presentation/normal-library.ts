@@ -95,8 +95,9 @@ export class NormalLibrary {
     signal.throwIfAborted();
     const selected = new Set(assets);
     const keys = Object.keys(this.entries).filter((key) => selected.has(key.split(':')[0]!));
-    // Normal replacements retain the accepted selection until all staging settles.
-    const held = await this.pool.acquire(keys, signal, undefined, false);
+    // Failed staging revokes sibling claims immediately. The accepted selection
+    // has independent claims and stays available while late native work drains.
+    const held = await this.pool.acquire(keys, signal);
     if (signal.aborted) cleanupAfterFailure(signal.reason, held.release);
     const previous = this.current;
     this.current = {
