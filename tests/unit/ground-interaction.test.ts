@@ -1,3 +1,7 @@
+import fs from 'node:fs';
+import { groundPlacementPolicy } from '../../src/content/scene-placement';
+import { resolveScene } from '../../src/content/world-art';
+import { Navigation } from '../../src/core/navigation';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -216,4 +220,58 @@ test('large accepted contours survive transactional history and scene-store reop
   assert.deepEqual(reopened.document, history.document);
   const recovery = JSON.stringify({ document: history.document });
   assert.deepEqual(parseSceneDocument(JSON.parse(recovery).document), history.document);
+});
+
+test('placement rejects painted silhouettes and collision with base clearance, preserves holes and canopy walking', () => {
+  const d = emptyScene();
+  d.floor.layout = 'artwork';
+  d.groundInteraction = ground();
+  delete d.groundInteraction.regions[0]!.footprint;
+  const layout = artworkFloorLayout(d.floor.width, d.floor.depth);
+  const masked = layout.world([0.3, 0.3]),
+    hole = layout.world([0.5, 0.5]);
+  const scene = resolveScene(d),
+    policy = groundPlacementPolicy(scene.document, scene.area);
+  assert.match(policy(masked, 0.3)!, /Tree/);
+  assert.equal(policy(hole, 0.3), undefined);
+  assert.match(policy(layout.world([0.405, 0.5]), 0.3)!, /Tree/);
+  assert.equal(new Navigation(scene.area).route(masked, hole, 0.3).status, 'ready');
+  d.objects.push({ id: 'barrel', kind: 'prop', asset: 'ink-scenery', clip: 'barrel', ...masked });
+  assert.throws(() => resolveScene(d), /barrel: base overlaps painted scenery/);
+  d.objects[0]!.role = 'ground';
+  assert.doesNotThrow(() => resolveScene(d), 'Ground overlays are intentional artwork');
+  d.objects = [];
+  d.gameplay!.spawns.push({ id: 'guard', actor: 'skeleton', ...masked });
+  assert.throws(() => resolveScene(d), /guard: base overlaps painted scenery/);
+  d.gameplay!.spawns = [{ id: 'jittering-guard', actor: 'skeleton', ...hole, jitterZ: 4 }];
+  assert.throws(() => resolveScene(d), /jittering-guard: base overlaps painted scenery/);
+  d.gameplay!.spawns = [];
+  const collision = layout.world([0.1, 0.1]);
+  d.groundInteraction.regions.push({
+    id: 'rock',
+    name: 'Rock',
+    footprint: [
+      { x: collision.x - 0.2, z: collision.z - 0.2 },
+      { x: collision.x + 0.2, z: collision.z - 0.2 },
+      { x: collision.x + 0.2, z: collision.z + 0.2 },
+      { x: collision.x - 0.2, z: collision.z + 0.2 },
+    ],
+  });
+  d.objects.push({
+    id: 'supply',
+    kind: 'prop',
+    asset: 'ink-scenery',
+    clip: 'barrel',
+    ...collision,
+  });
+  assert.throws(() => resolveScene(d), /supply: base overlaps painted collision/);
+});
+
+test('all saved scenes keep upright props and enemy spawn clearances outside painting masks', () => {
+  const directory = new URL('../../authoring/scenes/', import.meta.url);
+  for (const file of fs.readdirSync(directory).filter((name) => name.endsWith('.json')))
+    assert.doesNotThrow(
+      () => resolveScene(JSON.parse(fs.readFileSync(new URL(file, directory), 'utf8'))),
+      file,
+    );
 });

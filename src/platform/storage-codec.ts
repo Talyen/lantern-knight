@@ -24,7 +24,10 @@ export class StorageCodec {
     if (text === null || new TextEncoder().encode(text).byteLength > SAVE_LIMITS[slot])
       return { status: 'empty' };
     try {
-      return { status: 'ok', data: this.parse(slot, JSON.parse(text)) };
+      const value = JSON.parse(text);
+      if (slot === 'game' && value?.version !== 8)
+        return { status: 'empty', reason: 'incompatible' };
+      return { status: 'ok', data: this.parse(slot, value) };
     } catch {
       return { status: 'empty' };
     }

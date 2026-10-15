@@ -1,7 +1,10 @@
 import { AudioPlayback } from './audio/playback';
 import { AudioFeedback } from './audio/feedback';
 import { cleanupAll, cleanupAfterFailure } from './assets/cleanup';
-import { nearbyInteraction } from './core/interaction';
+import { Vector3 } from 'three';
+import { MotionProbe } from './motion-probe';
+import { PickupPlan } from './core/pickup-plan';
+import { interactionTarget, nearbyInteraction } from './core/interaction';
 import type { EquipmentSlot } from './content/items';
 import { SceneAssets } from './assets/scene-assets';
 import { AssetRuntime, type PackLease, type PackBatch, type AssetPack } from './assets/loader';
@@ -38,6 +41,7 @@ type ApplicationOptions = {
   extraAssets?: readonly string[];
   startup?: 'new' | 'checkpoint';
   assetProfile?: 'game' | 'authoring';
+  motionProbe?: boolean;
 };
 export type SessionReplacement =
   | { kind: 'new'; seed?: number; area?: string; prepare?: (sim: GameSession['sim']) => undefined }
@@ -70,7 +74,11 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   readonly events: EventHub;
   readonly audio: AudioPlayback;
   private readonly audioFeedback: AudioFeedback;
+  readonly motionProbe: MotionProbe | undefined;
+  private motionLandmark = new Vector3();
   clock = new FixedClock();
+  private pickupPlan = new PickupPlan();
+  highlightedDrop: string | undefined;
   private packViews = new Map<string, AssetPack>();
   private readonly previewAssets = new SceneAssets();
   private readonly previewOperations = new SessionOperations();
@@ -164,6 +172,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.initialSeed = options.seed ?? 142;
     this.extraAssets = [...(options.extraAssets ?? [])];
     this.startupMode = options.startup ?? 'new';
+    this.motionProbe = options.motionProbe ? new MotionProbe() : undefined;
     this.assetProfile = options.assetProfile ?? 'authoring';
     this.current = { session: new GameSession(scenes.registry, this.initialSeed), scenes };
     this.persistence = new Persistence(bridge);
@@ -197,6 +206,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private resetFrameClock = () => {
     this.frameEpoch++;
     this.clock.reset();
+    this.pickupPlan.cancel(this.current.session.sim);
+    this.highlightedDrop = undefined;
     this.last = performance.now();
   };
   async withLoading<T>(work: () => Promise<T>, signal?: AbortSignal): Promise<T> {
@@ -230,7 +241,13 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       try {
         const result = await readUntilAborted(this.persistence.load(), this.abort.signal);
         this.assertActive();
-        if (result.status === 'empty') return;
+        if (result.status === 'empty') {
+          if (result.reason === 'incompatible')
+            this.hooks.status(
+              'This prototype update needs a fresh run. New Game starts in the expanded Orchard.',
+            );
+          return;
+        }
         const save = parseGame(result.data, this.registry);
         const session = new GameSession(
           this.registry,
@@ -575,12 +592,38 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   get interaction() {
     return nearbyInteraction(this.current.session.sim);
   }
+  requestPickup(id: string) {
+    if (this.busy || !this.roomReady || this.paused || this.disposed) return;
+    if (!this.pickupPlan.request(this.current.session.sim, id)) {
+      this.hooks.status('Cannot reach that item');
+      return;
+    }
+    this.finishPickup();
+  }
+  private finishPickup() {
+    const sim = this.current.session.sim;
+    const id = this.pickupPlan.ready(sim);
+    if (!id) return;
+    const before = sim.events.length;
+    try {
+      if (sim.collectDrop(id)) {
+        this.publish(sim.events.slice(before));
+        this.autosave();
+      }
+    } catch (error) {
+      this.hooks.status((error as Error).message, true);
+    }
+  }
   interact() {
     if (this.busy || !this.roomReady || this.paused) return;
-    const target = this.interaction;
+    const target =
+      (this.highlightedDrop &&
+        interactionTarget(this.current.session.sim, 'drop', this.highlightedDrop)) ||
+      this.interaction;
     if (!target) return;
     if (target.blocked) throw new Error(target.blocked);
     if (target.kind === 'drop') {
+      this.pickupPlan.cancel(this.current.session.sim);
       if (this.current.session.sim.collectDrop(target.id)) {
         this.publish(this.current.session.sim.events);
         this.hooks.status(target.label.replace(/^Collect /, 'Collected '));
@@ -728,6 +771,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     if (this.disposed) return;
     const ms = Math.max(0, now - this.last);
     this.last = now;
+    const previousTick = this.sim.tick;
     let alpha = 1;
     let aim = this.aim;
     const epoch = this.frameEpoch;
@@ -735,7 +779,11 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     // resumes play. A reset starts a new clock admission on the next frame.
     const admitted = () =>
       !this.disposed && epoch === this.frameEpoch && !this.frameFrozen && this.simulationEnabled;
-    this.audioFeedback.frame(this.sim, this.frameFrozen || !this.simulationEnabled);
+    this.audioFeedback.frame(
+      this.sim,
+      this.frameFrozen || !this.simulationEnabled,
+      this.presentation.footstepActors,
+    );
     if (admitted())
       alpha = this.clock.advance(ms, () => {
         if (!admitted()) return false;
@@ -752,8 +800,10 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         }
         aim = cmd.aim;
         this.aim = aim;
+        this.pickupPlan.beforeStep(sim, cmd);
         const result = this.current.session.step(cmd);
         this.publish(result.events);
+        if (admitted() && session === this.current.session) this.finishPickup();
         // Feedback can close the application or start a different room intent.
         // Do not capture, reset or transition a successor on behalf of this tick.
         if (this.disposed || session !== this.current.session || !this.roomReady) return false;
@@ -785,6 +835,23 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       this.presentation.update(this.sim, frozen ? 1 : alpha, frozen ? 0 : ms, aim);
     }
     if (this.disposed) return;
+    if (this.motionProbe && !this.frameFrozen) {
+      const hero = this.sim.hero,
+        camera = this.presentation.camera;
+      this.motionLandmark.set(0, 0, 0).project(camera);
+      this.motionProbe.record({
+        ms,
+        tick: this.sim.tick,
+        steps: this.sim.tick - previousTick,
+        alpha,
+        heroX: hero.px + (hero.x - hero.px) * alpha,
+        heroZ: hero.pz + (hero.z - hero.pz) * alpha,
+        cameraX: camera.position.x,
+        cameraZ: camera.position.z,
+        landmarkX: (this.motionLandmark.x * this.canvas.clientWidth) / 2,
+        landmarkY: (this.motionLandmark.y * this.canvas.clientHeight) / 2,
+      });
+    }
     this.hooks.frame();
     if (!this.disposed) this.afterFrame(ms);
   };

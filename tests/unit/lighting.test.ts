@@ -16,7 +16,7 @@ import { GroundMist } from '../../src/presentation/ground-mist';
 import { heightAt } from '../../src/content/world';
 import { content } from '../fixtures/content';
 import { ActorSprite } from '../../src/presentation/sprite';
-import { heroLanternPosition } from '../../src/presentation/hero-lantern';
+import { heroLanternPosition, heroSwordPosition } from '../../src/presentation/hero-lantern';
 import { makeCamera, right, up } from '../../src/presentation/camera';
 import { cameraContract as contract } from '../../src/assets/camera-contract';
 import { Vector3, Texture } from 'three';
@@ -90,6 +90,43 @@ test('lantern light follows displayed socket registration, stabilization and mir
     assert.deepEqual(sprite.mesh.position, foot);
     manifest.asset.contentVersion = 'different-drawings';
     assert.equal(heroLanternPosition(sprite, position), false);
+  } finally {
+    sprite.dispose();
+    texture.dispose();
+  }
+});
+
+test('Lunge effect sockets follow enlarged and mirrored native blade drawings', () => {
+  const manifest = manifestFixture();
+  manifest.asset.contentVersion = 'hero-directed-20261007-v03';
+  const frame = manifest.frames[0]!;
+  frame.id = 'lunge-d90-00';
+  frame.visualOffsetPx = [10, -5];
+  const texture = new Texture();
+  const sprite = new ActorSprite('hero', manifest, new Map([[frame.page, texture]]), {
+    frames: [frame.id],
+    durationsMs: [100],
+    loop: false,
+    notifies: [],
+  });
+  const base = new Vector3(),
+    tip = new Vector3(),
+    foot = new Vector3(3, 0, 4);
+  try {
+    sprite.mesh.scale.setScalar(1.1);
+    sprite.show(frame.id, foot, makeCamera(1));
+    assert.equal(heroSwordPosition(sprite, base, tip), true);
+    const blade = tip.clone().sub(base);
+    assert.ok(Math.abs(blade.dot(right) - ((294 - 218) / manifest.asset.density) * 1.1) < 1e-10);
+    assert.ok(Math.abs(blade.dot(up) - ((310 - 459) / manifest.asset.density) * 1.1) < 1e-10);
+    sprite.mesh.scale.x = -1.1;
+    heroSwordPosition(sprite, base, tip);
+    assert.ok(
+      Math.abs(tip.clone().sub(base).dot(right) + ((294 - 218) / manifest.asset.density) * 1.1) <
+        1e-10,
+    );
+    manifest.asset.contentVersion = 'different-drawings';
+    assert.equal(heroSwordPosition(sprite, base, tip), false);
   } finally {
     sprite.dispose();
     texture.dispose();

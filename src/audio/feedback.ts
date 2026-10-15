@@ -1,5 +1,6 @@
 import type { PresentationEvent } from '../core/events';
 import type { SimulationView } from '../core/simulation-view';
+import { actorVisuals } from '../content/visuals';
 import { areaAudio, type AudioCue } from '../content/audio';
 import type { AudioPlayback } from './playback';
 
@@ -7,6 +8,7 @@ export class AudioFeedback {
   private generation = -1;
   private ambienceKey = '';
   private ambienceGeneration = -1;
+  private authored = new Set<string>();
   private movement = new Map<string, { x: number; z: number; distance: number }>();
   constructor(private playback: AudioPlayback) {}
   event(event: PresentationEvent, sim: SimulationView, signal: AbortSignal) {
@@ -88,15 +90,16 @@ export class AudioFeedback {
       case 'room-reset':
         if (event.reason === 'manual') play('ui-confirm', false);
         break;
-      // Authored footsteps reinforce real movement. Distance-based fallback
-      // covers supplied kits without notifies; shared cooldown suppresses overlap.
+      // Authored contacts require real movement. Only unmarked kits use distance fallback.
       case 'animation-notify':
         if (
           event.notify === 'footstep' &&
           actor?.state === 'walk' &&
           Math.hypot(actor.x - actor.px, actor.z - actor.pz) > 0.001
         ) {
+          this.authored.add(actor.id);
           play(`step-${areaAudio(sim.area).surface}`);
+          if (actor.kind === 'hero') play('cloth');
           const movement = this.movement.get(actor.id);
           if (movement) movement.distance = 0;
         }
@@ -106,12 +109,13 @@ export class AudioFeedback {
         break;
     }
   }
-  frame(sim: SimulationView, frozen: boolean) {
+  frame(sim: SimulationView, frozen: boolean, contacts: ReadonlySet<string> = this.authored) {
     this.playback.setListener(sim.hero.x, sim.hero.z);
     this.playback.setWorldFrozen(frozen);
     if (this.generation !== sim.generation) {
       this.generation = sim.generation;
       this.movement.clear();
+      this.authored.clear();
     }
     const profile = areaAudio(sim.area);
     const nearFire = sim.areaDefinition.campfires?.some(
@@ -130,7 +134,15 @@ export class AudioFeedback {
       const previous = this.movement.get(actor.id),
         next = { x: actor.x, z: actor.z, distance: 0 };
       this.movement.set(actor.id, next);
-      if (!previous || frozen || actor.state !== 'walk') continue;
+      if (
+        !previous ||
+        frozen ||
+        actor.state !== 'walk' ||
+        contacts.has(actor.id) ||
+        this.authored.has(actor.id) ||
+        actorVisuals[actor.definition.visual]?.asset === 'ink-hero-current'
+      )
+        continue;
       const moved = Math.hypot(actor.x - previous.x, actor.z - previous.z);
       if (moved > 1) continue; // teleport/reset, rather than a stride
       next.distance = previous.distance + moved;

@@ -1,3 +1,4 @@
+import { scenePlacementFindings } from './scene-placement';
 import { clearSegment } from './collision';
 import { tuning } from './gameplay';
 import { artworkFloorLayout } from './floor-layout';
@@ -173,5 +174,8 @@ export function resolveScene(
       return { id: 'fire-' + f.id, x: point.x, z: point.z };
     }),
   ];
+  const placements = scenePlacementFindings(document, area, visuals);
+  if (placements.length)
+    throw new Error('Placement needs clear ground: ' + placements.map((p) => p.message).join('; '));
   return { document, area, visuals, assets: sceneAssets(visuals) };
 }

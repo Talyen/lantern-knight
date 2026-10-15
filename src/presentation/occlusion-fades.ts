@@ -1,3 +1,4 @@
+import { tuning } from '../content/gameplay';
 import { Mesh, Vector3, type Material } from 'three';
 import { outward, right, up } from './camera';
 import { cameraContract as contract } from '../assets/camera-contract';
@@ -131,7 +132,10 @@ export class OcclusionFades {
               );
             foot.set(w.from.x + dx * t, a.y, w.from.z + dz * t);
           } else foot.y = a.y;
-          const top = y + (a.kind === 'hero' ? contract.heroHeight : 1.7) * cos + margin;
+          const top =
+            y +
+            (a.kind === 'hero' ? contract.heroHeight * tuning.heroVisualScale : 1.7) * cos +
+            margin;
           return (
             root.clone().sub(foot).dot(outward) < 0.1 + margin &&
             x + 0.4 + margin > p.left &&

@@ -335,7 +335,7 @@ test('clearing wind suggests the ruins, their dropped reward, then the resting f
   assert.equal(windDestination(s.view)?.z, 2);
   s.claimedObjects.add('crate');
   s.drops.push({
-    id: 'object-crate',
+    id: 'object-crate-0',
     source: 'crate',
     enemy: false,
     x: 1,

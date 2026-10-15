@@ -1,0 +1,73 @@
+import { insidePolygon } from './graveyard-layout';
+import { isSupportedPosition } from './collision';
+import { artworkFloorLayout } from './floor-layout';
+import type { SceneSnapshot } from './scene-document';
+import type { AreaDefinition, Point } from './world';
+import type { WorldVisualDefinition } from './world-visuals';
+
+export type PlacementFinding = { id: string; message: string };
+function edgeDistance(point: Point, ring: readonly Point[]) {
+  let nearest = Infinity;
+  for (let i = 0; i < ring.length; i++) {
+    const a = ring[i]!,
+      b = ring[(i + 1) % ring.length]!;
+    const dx = b.x - a.x,
+      dz = b.z - a.z;
+    const t = Math.max(
+      0,
+      Math.min(1, ((point.x - a.x) * dx + (point.z - a.z) * dz) / (dx * dx + dz * dz || 1)),
+    );
+    nearest = Math.min(nearest, Math.hypot(point.x - a.x - t * dx, point.z - a.z - t * dz));
+  }
+  return nearest;
+}
+// Authoring placement is stricter than movement: characters may walk beneath a
+// canopy, but a spawn or upright prop must begin on visibly clear ground.
+export function groundPlacementPolicy(document: SceneSnapshot, area: AreaDefinition) {
+  const ground = document.groundInteraction;
+  const layout = artworkFloorLayout(document.floor.width, document.floor.depth);
+  const masks =
+    ground?.regions.flatMap((region) =>
+      (region.mask ?? []).map((shape) => ({
+        name: region.name,
+        outer: shape.outer.map(layout.world),
+        holes: shape.holes.map((ring) => ring.map(layout.world)),
+      })),
+    ) ?? [];
+  const paintedColliders = new Set(
+    ground?.regions.filter((r) => r.footprint).map((r) => 'ground-' + r.id),
+  );
+  const terrain = { ...area, props: area.props.filter((p) => paintedColliders.has(p.id)) };
+  return (point: Point, radius: number): string | undefined => {
+    if (!ground) return;
+    if (!isSupportedPosition(terrain, point, radius))
+      return 'base overlaps painted collision or the floor edge';
+    const mask = masks.find(
+      (m) =>
+        (insidePolygon(point, m.outer) || edgeDistance(point, m.outer) <= radius) &&
+        !m.holes.some((h) => insidePolygon(point, h) && edgeDistance(point, h) > radius),
+    );
+    if (mask) return `base overlaps painted scenery “${mask.name}”`;
+  };
+}
+export function scenePlacementFindings(
+  document: SceneSnapshot,
+  area: AreaDefinition,
+  art: WorldVisualDefinition,
+): PlacementFinding[] {
+  const inspect = groundPlacementPolicy(document, area);
+  const findings: PlacementFinding[] = [];
+  const check = (id: string, point: Point, radius: number) => {
+    const message = inspect(point, radius);
+    if (message) findings.push({ id, message: `${id}: ${message}` });
+  };
+  for (const prop of art.props) {
+    const object = document.objects.find((o) => o.id === prop.id);
+    if (object?.kind !== 'prop' && object?.kind !== 'character') continue;
+    if (prop.role === 'ground' || prop.role === 'attachment') continue;
+    const radius = prop.footprint ? Math.hypot(...prop.footprint) / 2 : 0.3 * (prop.scale ?? 1);
+    check(prop.id, prop, radius);
+  }
+  for (const spawn of area.spawns) check(spawn.id, spawn, 0.3 + (spawn.jitterZ ?? 0));
+  return findings;
+}

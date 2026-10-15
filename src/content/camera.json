@@ -1,5 +1,5 @@
 {
-  "verticalSpan": 9,
+  "verticalSpan": 8.55,
   "baseline": {
     "width": 3840,
     "height": 2160
@@ -13,7 +13,7 @@
     "maxEffects": 32
   },
   "framingRange": [
-    9,
+    8.55,
     15
   ]
 }

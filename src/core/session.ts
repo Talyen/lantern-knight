@@ -452,7 +452,7 @@ export class GameSession {
     this.recordArea();
     const a = this.sim.hero;
     return {
-      version: 7,
+      version: 8,
       adventure: {
         ...this.current.inventoryState.snapshot(),
         discovered: [...this.current.discovered],

@@ -1,4 +1,17 @@
 export const combatFeedback = {
+  flare: {
+    asset: 'library-animation-09492a7b61152c09-b72d9dc365fb',
+    clip: 'lantern_flare_fx',
+    sourceOrigin: [1130, 400],
+    scale: 0.8,
+  },
+  lunge: { asset: 'library-combat-wickline-thrust', clip: 'show', scale: 1.0 },
+  dodge: { asset: 'library-dash_wake', scale: 0.3 },
+  dodgeLeaves: {
+    asset: 'library-animation-b65209c1cfb1b9d5-246e63be11f4',
+    clip: '05_footstep_leaves',
+    scale: 0.65,
+  },
   contact: {
     asset: 'library-blocked_contact_shear',
     clip: 'blocked_contact_shear',
@@ -18,9 +31,8 @@ export const combatFeedback = {
   },
 } as const;
 export const combatEffectCatalog = Object.fromEntries(
-  [combatFeedback.contact.asset, combatFeedback.sweep.asset].map((id) => [
-    id,
-    `generated/library/${id}/manifest.json`,
-  ]),
+  Object.values(combatFeedback)
+    .map(({ asset }) => asset)
+    .map((id) => [id, `generated/library/${id}/manifest.json`]),
 );
 export const combatEffectAssets = Object.keys(combatEffectCatalog);

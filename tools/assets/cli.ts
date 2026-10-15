@@ -100,10 +100,7 @@ async function main() {
       values.gpu
     )
       throw new Error('Invalid asset inspection/check arguments');
-    const workspace = await openWorkspace(
-      values.local ? 'local' : 'pinned',
-      command === 'inspect' ? 'authoring' : 'runtime',
-    );
+    const workspace = await openWorkspace(values.local ? 'local' : 'pinned', 'authoring');
     try {
       if (command === 'check') await checkAssets(workspace);
       else {

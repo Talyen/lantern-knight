@@ -1,3 +1,4 @@
+import { GroundLootLabels } from './ground-loot-labels';
 import { Vector3 } from 'three';
 import { heightAt } from './content/world';
 import { audioControls, bindAudioControls } from './audio/controls';
@@ -7,9 +8,9 @@ import type { Application } from './application';
 export const gameUI = `<main class="stage game-stage"><canvas aria-label="Lantern Knight game" tabindex="0"></canvas>
 <div class="travel-veil" aria-hidden="true"></div><div class="title-card"><div class="eyebrow">Lantern Knight</div><h2 id="room-title"></h2></div>
 <section class="hud" aria-label="Health and supplies"><span id="hp"></span><div class="health"><span id="health-fill"></span></div><span id="potion-count"></span></section>
-<p id="interaction-hint" aria-live="polite"></p><button id="pause" aria-label="Pause / save">Ⅱ</button><p id="status" role="status"></p>
+<div class="ground-loot-labels" aria-label="Ground items"></div><p id="interaction-hint" aria-live="polite"></p><button id="pause" aria-label="Pause / save">Ⅱ</button><p id="status" role="status"></p>
 <dialog class="modal" id="modal" aria-labelledby="pause-title"><div><div class="eyebrow">Lantern Knight</div><h2 id="pause-title">Paused</h2><div class="buttons"><button id="resume" autofocus>Resume</button><button id="reset">Reset encounter</button><button id="save">Save checkpoint</button><button id="load">Load checkpoint</button><button id="new-game">New Game</button></div><p id="menu-status" role="status" aria-live="polite"></p><p id="save-notice"></p><dialog id="new-confirm" class="confirmation" aria-labelledby="new-game-question"><p id="new-game-question">Replace the saved session with a new game?</p><p id="new-status" role="status" aria-live="polite"></p><div class="buttons"><button id="confirm-new">Confirm New Game</button><button id="cancel-new" autofocus>Cancel</button></div></dialog>
-<details class="controls-help"><summary>Controls &amp; help</summary><p>WASD · Move<br>Mouse · Aim sword<br>LMB · Sweep / Lunge<br>Shift · Dodge<br>RMB · Lantern burst<br>E · Interact / collect / campfire<br>I · Inventory<br>Q · Health Potion<br>Esc · Pause / resume</p><p>Windups and strikes finish before queued actions start. Move or use another action to interrupt recovery. Rest heals and resets enemies; loot stays yours and potions do not refill.</p></details>${audioControls}<label>Camera distance<select id="zoom-span"><option value="9">Close</option><option value="11">Medium</option><option value="13">Wide</option><option value="15">Far</option></select></label>
+<details class="controls-help"><summary>Controls &amp; help</summary><p>WASD · Move<br>Mouse · Aim sword<br>LMB · Sweep / Lunge<br>Shift · Dodge<br>RMB · Lantern burst<br>E · Interact / collect / campfire<br>I · Inventory<br>Q · Health Potion<br>Esc · Pause / resume</p><p>Windups and strikes finish before queued actions start. Move or use another action to interrupt recovery. Rest heals and resets enemies; loot stays yours and potions do not refill.</p></details>${audioControls}<label>Camera distance<select id="zoom-span"><option value="8.55">Close</option><option value="9">9 m</option><option value="11">Medium</option><option value="13">Wide</option><option value="15">Far</option></select></label>
 <label for="depth-of-field">Depth of field <output id="depth-of-field-value">100%</output></label><input id="depth-of-field" type="range" min="0" max="100" step="5" value="100"><p class="muted">Foreground and distance blur. Set to 0% to turn off.</p><label>Render scale<select id="render-scale"><option value="1">100% · up to 4K</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label><fieldset class="visual-options"><legend>Visual effects</legend>${Object.entries(
   visualEffectLabels,
 )
@@ -35,9 +36,11 @@ export function createGameUI(root: HTMLElement) {
   let bound = false;
   let pending = false;
   const cuePosition = new Vector3();
+  let lootLabels: GroundLootLabels | undefined;
   function bind(app: Application) {
     if (closed || bound) throw new Error('Game UI already bound or disposed');
     bound = true;
+    lootLabels = new GroundLootLabels($('.ground-loot-labels'), app, lifetime.signal);
     adventure = bindAdventureUI(app, root, lifetime.signal);
     bindAudioControls(app, root, lifetime.signal);
     const modal = $<HTMLDialogElement>('#modal'),
@@ -119,7 +122,7 @@ export function createGameUI(root: HTMLElement) {
     );
     on($('#load'), 'click', () =>
       perform('Loading checkpoint…', async () =>
-        (await app.load()) ? 'Checkpoint loaded' : 'No saved checkpoint',
+        (await app.load()) ? 'Checkpoint loaded' : 'No compatible checkpoint. Start a New Game.',
       ),
     );
     on($('#new-game'), 'click', () => {
@@ -191,6 +194,7 @@ export function createGameUI(root: HTMLElement) {
   function update(app: Application) {
     if (closed) return;
     const s = app.sim;
+    lootLabels?.update(app.roomReady && !app.busy && !app.paused && !adventure?.isOpen());
     if (adventure?.isOpen() && $<HTMLDialogElement>('#modal').open)
       $<HTMLDialogElement>('#modal').close();
     const interaction = app.roomReady && !app.busy && !app.paused ? app.interaction : undefined;

@@ -437,7 +437,7 @@ test('movement foley requires traveled distance, not idle animation or frozen fr
       calls.push(cue);
     },
   } as unknown as AudioPlayback);
-  const hero = { ...session.sim.hero };
+  const hero = { ...session.sim.hero, definition: session.sim.enemies[0]!.definition };
   const sim = { ...session.sim.view, hero, actors: [hero], enemies: [] };
   feedback.frame(sim, false);
   hero.state = 'walk';

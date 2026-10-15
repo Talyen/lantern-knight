@@ -1,4 +1,9 @@
 import * as T from 'three';
+import { right, up } from './camera';
+import { cameraContract } from '../assets/camera-contract';
+import { heroLanternPosition, heroSwordPosition } from './hero-lantern';
+import { flareLightEnvelope } from '../content/ability-effects';
+import { tuning } from '../content/gameplay';
 import { ActorSprite } from './sprite';
 import { combatFeedback as settings } from '../content/combat-feedback';
 import {
@@ -21,12 +26,17 @@ type ActiveEffect = {
   position: T.Vector3;
   reverse: boolean;
   scale: number;
-  kind: 'sweep' | 'contact';
+  kind: 'sweep' | 'contact' | 'flare' | 'lunge' | 'dodge';
+  rotation?: number;
+  action?: number;
   sweepTiming?: SweepTiming;
 };
 export class CombatFeedback {
   readonly group = new T.Group();
   sweepEnabled = true;
+  dodgeTreatment: 'dust' | 'leaves' | 'combined' = 'combined';
+  readonly flareLight = { position: new T.Vector3(), power: 0, range: 7 };
+  private pulse: { tick: number; generation: number; action: number } | undefined;
   private active: ActiveEffect[] = [];
   private pending: (GameplayEvent & { kind: 'damage' })[] = [];
   private generation = -1;
@@ -62,11 +72,12 @@ export class CombatFeedback {
     this.group.add(sprite.mesh);
     this.active.push({ ...effect, sprite, duration: effect.duration ?? clipDuration(clip) });
   }
-  update(sim: SimulationView) {
+  update(sim: SimulationView, alpha = 1, heroSprite?: ActorSprite) {
     if (this.generation !== sim.generation) {
       for (const effect of this.active) effect.sprite.dispose();
       this.active = [];
       this.castTag = '';
+      this.pulse = undefined;
       this.generation = sim.generation;
     }
     for (const event of this.pending) {
@@ -117,21 +128,140 @@ export class CombatFeedback {
         kind: 'sweep',
       });
     }
+    const age = hero.age - 1 + alpha;
+    const actionStart = sim.tick - hero.age;
+    const foot = new T.Vector3(
+      hero.px + (hero.x - hero.px) * alpha,
+      hero.y,
+      hero.pz + (hero.z - hero.pz) * alpha,
+    );
+    const heading = selectDirection(hero.yaw + Math.PI / 4)
+      .slice(1)
+      .padStart(3, '0');
+    const forward = new T.Vector3(Math.sin(hero.yaw), 0, Math.cos(hero.yaw));
+    const rotation = Math.atan2(forward.dot(up), forward.dot(right));
+    if (hero.state === 'ability' && age >= tuning.ability.windup - 6 && this.castTag !== tag) {
+      this.castTag = tag;
+      this.pulse = {
+        tick: actionStart + tuning.ability.windup,
+        generation: sim.generation,
+        action: hero.action,
+      };
+      const position = foot.clone().add(new T.Vector3(0, 0.7, 0));
+      if (heroSprite) heroLanternPosition(heroSprite, position);
+      this.flareLight.position.copy(position);
+      this.emit(settings.flare.asset, settings.flare.clip, {
+        kind: 'flare',
+        start: this.pulse.tick - 6,
+        position,
+        rotation,
+        duration: 350,
+        scale: settings.flare.scale,
+        reverse: false,
+      });
+    }
+    if (
+      hero.state === 'attack' &&
+      hero.attackKind === 'lunge' &&
+      age >= timing.windup - 5 &&
+      age < timing.activeEnd &&
+      this.castTag !== tag
+    ) {
+      this.castTag = tag;
+      this.emit(settings.lunge.asset, settings.lunge.clip, {
+        kind: 'lunge',
+        action: hero.action,
+        start: actionStart + timing.windup - 5,
+        position: foot
+          .clone()
+          .addScaledVector(forward, 0.6)
+          .add(new T.Vector3(0, 0.65, 0)),
+        duration: ((timing.activeEnd - timing.windup + 13) * 1000) / 60,
+        scale: settings.lunge.scale,
+        reverse: false,
+        rotation,
+      });
+    }
+    if (hero.state === 'dodge' && age >= tuning.dodge.travelStart && this.castTag !== tag) {
+      this.castTag = tag;
+      const base = {
+        kind: 'dodge' as const,
+        start: actionStart + tuning.dodge.travelStart,
+        position: foot,
+        duration: ((tuning.dodge.travelEnd - tuning.dodge.travelStart + 10) * 1000) / 60,
+        reverse: false,
+      };
+      if (this.dodgeTreatment !== 'leaves')
+        this.emit(settings.dodge.asset, `dash_wake__d${heading}`, {
+          ...base,
+          scale: settings.dodge.scale,
+        });
+      if (this.dodgeTreatment !== 'dust')
+        this.emit(settings.dodgeLeaves.asset, settings.dodgeLeaves.clip, {
+          ...base,
+          scale: settings.dodgeLeaves.scale,
+        });
+    }
+    if (this.pulse && sim.tick - 1 + alpha < this.pulse.tick) {
+      if (hero.action !== this.pulse.action || hero.health <= 0) {
+        this.pulse = undefined;
+        for (const effect of this.active.filter((e) => e.kind === 'flare')) effect.sprite.dispose();
+        this.active = this.active.filter((e) => e.kind !== 'flare');
+      } else if (heroSprite && heroLanternPosition(heroSprite, this.flareLight.position)) {
+        for (const effect of this.active)
+          if (effect.kind === 'flare') effect.position.copy(this.flareLight.position);
+      }
+    }
+    this.flareLight.power =
+      this.pulse?.generation === sim.generation
+        ? 3.8 * flareLightEnvelope(((sim.tick - 1 + alpha - this.pulse.tick) * 1000) / 60)
+        : 0;
     for (let i = this.active.length - 1; i >= 0; i--) {
       const effect = this.active[i]!,
-        elapsed = ((sim.tick - effect.start) * 1000) / 60;
+        elapsed = Math.max(0, ((sim.tick - 1 + alpha - effect.start) * 1000) / 60);
       if (elapsed >= effect.duration || (effect.kind === 'sweep' && !this.sweepEnabled)) {
         effect.sprite.dispose();
         this.active.splice(i, 1);
       } else {
-        const phase = effect.sweepTiming
-          ? sweepEffectPhase(effect.sweepTiming, elapsed)
-          : elapsed / effect.duration;
+        const phase =
+          effect.kind === 'flare'
+            ? elapsed < 100
+              ? (elapsed / 100) * 0.57
+              : 0.57 + ((elapsed - 100) / 250) * 0.43
+            : effect.sweepTiming
+              ? sweepEffectPhase(effect.sweepTiming, elapsed)
+              : elapsed / effect.duration;
         effect.sprite.animator.seek(
           (effect.reverse ? 1 - phase : phase) * clipDuration(effect.sprite.animator.clip),
         );
         effect.sprite.mesh.scale.setScalar(effect.scale);
+        if (effect.kind === 'lunge' && heroSprite && hero.action === effect.action) {
+          const tip = new T.Vector3();
+          if (heroSwordPosition(heroSprite, effect.position, tip)) {
+            const blade = tip.sub(effect.position);
+            effect.rotation = Math.atan2(blade.dot(up), blade.dot(right));
+          }
+        }
         effect.sprite.showAnimation(effect.position, this.camera);
+        if (effect.rotation !== undefined) effect.sprite.mesh.rotateZ(effect.rotation);
+        if (effect.kind === 'flare') {
+          const frame = effect.sprite.lightingSample!.frame;
+          const registration = frame.registration ?? effect.sprite.manifest.asset;
+          const x =
+            (settings.flare.sourceOrigin[0] - registration.anchor[0]) / registration.density;
+          const y =
+            (registration.anchor[1] - settings.flare.sourceOrigin[1]) / registration.density;
+          const offset = new T.Vector3(
+            x,
+            y,
+            y * Math.tan((cameraContract.elevationDeg * Math.PI) / 180),
+          )
+            .multiplyScalar(effect.scale)
+            .applyQuaternion(effect.sprite.mesh.quaternion);
+          effect.sprite.mesh.position.sub(offset);
+        }
+        effect.sprite.material.opacity =
+          effect.kind === 'dodge' ? 0.55 * Math.min(1, (effect.duration - elapsed) / 100) : 1;
       }
     }
   }
@@ -140,6 +270,8 @@ export class CombatFeedback {
     this.active = [];
     this.pending = [];
     this.castTag = '';
+    this.pulse = undefined;
+    this.flareLight.power = 0;
   }
   dispose() {
     this.unsubscribe();

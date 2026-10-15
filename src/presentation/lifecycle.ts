@@ -12,6 +12,7 @@ export interface PresentationLifecycle {
   verticalSpan: number;
   readonly depthOfField: number;
   readonly visualEffects: VisualEffects;
+  readonly footstepActors?: ReadonlySet<string>;
   setDepthOfField(value: number): void;
   setVisualEffects(value: Partial<VisualEffects>): void;
   resize(scale: number): void;

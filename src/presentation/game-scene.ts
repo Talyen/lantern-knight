@@ -77,14 +77,24 @@ export class GamePresentation implements PresentationLifecycle {
   get depthOfField() {
     return this.lookRenderer.settings.depthOfField;
   }
+  get footstepActors(): ReadonlySet<string> {
+    return new Set(
+      [...this.actorPresentation.actors]
+        .filter(([, visual]) =>
+          visual.sprite.animator.clip.notifies.some((n) => n.kind === 'footstep'),
+        )
+        .map(([id]) => id),
+    );
+  }
   visualEffects = defaultVisualEffects();
   sceneEffects: SceneVisualEffects;
   readonly combatFeedback: CombatFeedback;
-  private guidingWind: GuidingWind;
+  readonly guidingWind: GuidingWind;
   renderer: T.WebGLRenderer;
   camera = makeCamera(16 / 9);
   scene = new T.Scene();
   aim: T.Mesh;
+  flareLight = new T.PointLight(0xffbb65, 0, 7, 1.4);
   light = new T.PointLight(0xf7b862, 8, 9, 1.4);
   debug = false;
   background = 'dark';
@@ -171,7 +181,7 @@ export class GamePresentation implements PresentationLifecycle {
       this.scene.add(new T.HemisphereLight(0xc5d4e1, 0x392b30, 2));
       const sun = new T.DirectionalLight(0xe9d2ac, 2);
       sun.position.set(-4, 8, 3);
-      this.scene.add(sun, this.light);
+      this.scene.add(sun, this.light, this.flareLight);
       this.shadowTexture = this.resources.own(radialTexture(2, 0.9, 0.75));
       this.roomPresentation = new RoomPresentation(
         packs,
@@ -322,7 +332,7 @@ export class GamePresentation implements PresentationLifecycle {
     this.flare.rotation.z = 0;
     this.flare.scale.setScalar(1);
     (this.flare.material as T.MeshBasicMaterial).opacity = burst
-      ? 0.55 * Math.max(0, 1 - elapsed / 21)
+      ? 0.2 * Math.max(0, 1 - elapsed / 21)
       : 0.12;
     if (this.flare.visible) {
       const points = this.flare.geometry.getAttribute('position'),
@@ -377,6 +387,20 @@ export class GamePresentation implements PresentationLifecycle {
       setCutoutOpacity(m.material, fade ? 0.38 : 1);
     }
     this.roomPresentation.inkRoom?.update(sim, alpha, true, ms);
+    if (this.groundOcclusion)
+      for (const drop of sim.drops) {
+        const sprite = this.roomPresentation.inkRoom?.effects.get('drop-' + drop.id);
+        if (sprite) {
+          this.groundOcclusion.attach(sprite, 'drop');
+          this.groundOcclusion.update(sprite, drop.x, drop.z);
+        }
+      }
+    this.guidingWind.update(
+      sim,
+      ms,
+      this.visualEffects.wind,
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    );
     this.sceneEffects.update(
       sim.areaDefinition,
       sim.generation,
@@ -384,13 +408,11 @@ export class GamePresentation implements PresentationLifecycle {
       ms,
       this.visualEffects,
       this.visuals,
+      this.guidingWind.breeze,
     );
-    this.guidingWind.update(
-      sim,
-      ms,
-      this.visualEffects.wind && !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-    );
-    this.combatFeedback.update(sim);
+    this.combatFeedback.update(sim, alpha, heroSprite);
+    this.flareLight.position.copy(this.combatFeedback.flareLight.position);
+    this.flareLight.intensity = this.combatFeedback.flareLight.power * 4;
     this.renderFrame(sim, ms);
   }
   setVisualEffects(options: Partial<VisualEffects>) {
@@ -448,6 +470,7 @@ export class GamePresentation implements PresentationLifecycle {
       groundOcclusion: this.groundOcclusion,
       cameraTarget: this.cameraTarget,
       viewSpan: this.viewSpan,
+      transientLight: this.combatFeedback.flareLight,
     });
   }
   resize(scale = contract.renderScale) {
@@ -517,6 +540,7 @@ export class GamePresentation implements PresentationLifecycle {
       ],
       verticalSpan: this.verticalSpan,
       viewSpan: this.viewSpan,
+      transientLight: this.combatFeedback.flareLight,
       area: this.area.id,
       generation: this.generation,
       renderScale: this.requestedRenderScale,

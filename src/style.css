@@ -520,3 +520,41 @@ body.game {
   margin-bottom: 6px;
   font-size: 12px;
 }
+
+.ground-loot-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  overflow: hidden;
+}
+.ground-loot-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  white-space: nowrap;
+  padding: 3px 8px;
+  min-height: 23px;
+  border: 1px solid #9b967455;
+  border-radius: 2px;
+  background: #111619e8;
+  color: #e0ddce;
+  font: 12px/16px var(--font-body, sans-serif);
+  cursor: pointer;
+}
+.ground-loot-label[data-kind='currency'] {
+  color: #dec486;
+}
+.ground-loot-label[data-kind='potion'] {
+  color: #bcd0b0;
+}
+.ground-loot-label[data-kind='gear'] {
+  color: #d6c1ec;
+}
+.ground-loot-label:hover,
+.ground-loot-label:focus-visible {
+  border-color: #e1c88e;
+  background: #292c26f5;
+  outline: 1px solid #e1c88e;
+  outline-offset: 1px;
+}

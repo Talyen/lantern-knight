@@ -157,11 +157,12 @@ if(all(greaterThanEqual(shadowUV,vec2(0.0)))&&all(lessThanEqual(shadowUV,vec2(1.
     material.customProgramCacheKey = () => key + ':painted-shadow-mask-v1';
     material.needsUpdate = true;
   }
-  attach(sprite: ActorSprite, kind: 'hero' | 'enemy') {
+  attach(sprite: ActorSprite, kind: 'hero' | 'enemy' | 'drop') {
     if (this.actorUniforms.has(sprite)) return;
+    if (kind === 'drop') sprite.mesh.userData.groundDrop = true;
     const actor = {
       groundFoot: { value: 0 },
-      groundOutline: { value: 1 },
+      groundOutline: { value: kind === 'drop' ? 0 : 1 },
       groundColor: { value: new T.Color(kind === 'hero' ? 0xd1ba7c : 0xa77368) },
     };
     this.actorUniforms.set(sprite, actor);
@@ -222,7 +223,7 @@ if(insideGround&&occlusion.b>.1&&groundFoot<sceneryDepth-.001){
     const uniforms = this.actorUniforms.get(sprite);
     if (uniforms) {
       uniforms.groundFoot.value = x * outward.x + z * outward.z;
-      uniforms.groundOutline.value = this.outlines ? 1 : 0;
+      uniforms.groundOutline.value = this.outlines && !sprite.mesh.userData.groundDrop ? 1 : 0;
     }
   }
   dispose() {

@@ -32,6 +32,7 @@ import type { AssetPack } from '../assets/loader';
 import type { WorldVisualDefinition } from '../content/world-visuals';
 import type { VisualEffects } from '../content/visual-effects';
 type LightingFrame = {
+  transientLight?: { position: T.Vector3; power: number; range: number };
   visuals: WorldVisualDefinition | undefined;
   visualEffects: VisualEffects;
   groundOcclusion?: GroundOcclusion;
@@ -460,6 +461,12 @@ export class SceneLightingRenderer {
       lights.inkLightPosition.value[i + 1]!.copy(l.position);
       lights.inkLightPower.value[i + 1] = l.power;
       lights.inkLightRange.value[i + 1] = l.range;
+    }
+    if (frame.transientLight) {
+      const flash = frame.transientLight;
+      lights.inkLightPosition.value[4]!.copy(flash.position);
+      lights.inkLightPower.value[4] = flash.power;
+      lights.inkLightRange.value[4] = flash.range;
     }
     r.shadowMap.enabled = castShadows;
     r.shadowMap.type = T.PCFShadowMap;

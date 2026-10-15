@@ -16,17 +16,17 @@ Lantern defaults to port 5174, including direct Vite launches. Use `-- --port 51
 
 Development selects a checkout-local preparation when available, otherwise the immutable pin. `npm run dev -- --pinned` deliberately uses the pin. Assets are shared through an external bounded cache, so new worktrees do not copy artwork or need the source library.
 
-`npm run build` compiles Game for the browser; `-- --dev` compiles the authoring views. Both consume pinned assets unless `-- --local` selects checkout-local preparation. Web builds do not compile Electron. `npm run package` composes the matching web and Electron builds for native delivery; use `-- --local` there for an unsigned native prototype with local assets. On macOS, Game release packaging signs and notarizes by default using the saved Keychain setup in [delivery](release.md#signed-mac-packages-for-steam); add `-- --unsigned` for a development Game package without notarization.
+`npm run build` compiles Game for the browser; `-- --dev` compiles the authoring views. Both consume pinned assets unless `-- --local` selects checkout-local preparation. Use `npm run build -- --eager` to acquire the complete verified pin before selecting the same Game files when individual-file delivery is unavailable. Web builds do not compile Electron. `npm run package` composes the matching web and Electron builds for native delivery; use `-- --local` there for an unsigned native prototype with local assets. On macOS, Game release packaging signs and notarizes by default using the saved Keychain setup in [delivery](release.md#signed-mac-packages-for-steam); add `-- --unsigned` for a development Game package without notarization.
 
 ## Setup by task
 
-| Task | Additional setup after `npm ci` |
-| --- | --- |
-| Code edits, pure tests, builds and packaging | None; prepared artwork comes from the pin. |
-| Asset tests | [Python environment with Pillow](verification.md#test-selection). |
-| Browser checks | [Playwright Chromium](verification.md#test-selection). |
-| Source artwork preparation | External source library, authoring Python environment and KTX tools under [local preparation](assets.md#local-preparation-review). |
-| AI ground selection | Separate [Python 3.11 and model setup](developer-tools.md#local-foreground-selection-setup). Manual ground authoring needs no model. |
+| Task                                         | Additional setup after `npm ci`                                                                                                      |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Code edits, pure tests, builds and packaging | None; prepared artwork comes from the pin.                                                                                           |
+| Asset tests                                  | [Python environment with Pillow](verification.md#test-selection).                                                                    |
+| Browser checks                               | [Playwright Chromium](verification.md#test-selection).                                                                               |
+| Source artwork preparation                   | External source library, authoring Python environment and KTX tools under [local preparation](assets.md#local-preparation-review).   |
+| AI ground selection                          | Separate [Python 3.11 and model setup](developer-tools.md#local-foreground-selection-setup). Manual ground authoring needs no model. |
 
 ## Verify an edit
 

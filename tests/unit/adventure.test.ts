@@ -148,10 +148,11 @@ test('sword breaks an object once, guards protect containers and departure, expl
 test('loot, salvage and equipment persist while rest resets enemies and discards their uncollected drops', () => {
   const s = fixture();
   breakCrate(s.sim);
-  assert.equal(s.sim.collectDrop('object-crate'), true);
+  assert.equal(s.sim.collectDrop('object-crate-0'), true);
   s.sim.damage(s.sim.hero, s.sim.enemies[0]!, 1000);
   s.sim.hero.x = -3;
-  assert.equal(s.sim.collectDrop('enemy-first'), true);
+  assert.equal(s.sim.collectDrop('enemy-first-0'), true);
+  assert.equal(s.sim.collectDrop('enemy-first-1'), true);
   s.sim.hero.x = -8;
   s.step(idle);
   s.salvage('damaged-axe');
@@ -302,8 +303,8 @@ test('nearby prompts expose guarded reasons and collected loot cannot be collect
   s.sim.hero.z = 0;
   breakCrate(s.sim);
   assert.equal(nearbyInteraction(s.sim)?.kind, 'drop');
-  assert.equal(s.sim.collectDrop('object-crate'), true);
-  assert.equal(s.sim.collectDrop('object-crate'), false);
+  assert.equal(s.sim.collectDrop('object-crate-0'), true);
+  assert.equal(s.sim.collectDrop('object-crate-0'), false);
 });
 
 test('rest supersedes a pending fire journey and permits simulation to resume', () => {
@@ -414,11 +415,11 @@ test('loot and interaction prompts cannot cross a stair height gap', () => {
   s.sim.hero.z = -0.4;
   assert.equal(nearbyInteraction(s.sim)?.kind, 'campfire');
   breakCrate(s.sim);
-  assert.equal(s.sim.collectDrop('object-crate'), false);
+  assert.equal(s.sim.collectDrop('object-crate-0'), false);
   assert.equal(nearbyInteraction(s.sim)?.kind, 'campfire');
   s.sim.hero.z = 0.4;
   s.sim.hero.y = 2;
-  assert.equal(s.sim.collectDrop('object-crate'), true);
+  assert.equal(s.sim.collectDrop('object-crate-0'), true);
 });
 
 function changedAreas(change: (area: AreaDefinition) => AreaDefinition) {
@@ -661,9 +662,9 @@ test('loot overflow preserves the ground drop and existing inventory', () => {
   supply(s, 'gold', 100000000);
   breakCrate(s.sim);
   const before = s.captureSave();
-  assert.throws(() => s.sim.collectDrop('object-crate'), /inventory/i);
+  assert.throws(() => s.sim.collectDrop('object-crate-0'), /inventory/i);
   assert.deepEqual(s.captureSave(), before);
-  assert.ok(s.sim.drops.some((d) => d.id === 'object-crate'));
+  assert.ok(s.sim.drops.some((d) => d.id === 'object-crate-0'));
   assert.doesNotThrow(() => parseGame(s.captureSave(), s.registry));
 });
 
@@ -736,7 +737,7 @@ test('area reconstruction detaches world progress and rejects invalid alerts at 
   assert.deepEqual(
     s.sim.captureAreaState().alerted,
     [],
-    'existing version 7 saves remain readable',
+    'optional fields remain backward compatible within version 8',
   );
 });
 
@@ -984,7 +985,7 @@ test('retired rooms cannot award loot or consume the accepted room inventory', (
     session.commitRoom(plan);
     const before = session.captureSave();
     Object.assign(retired.hero, { x: -7, z: 0, health: 20 });
-    assert.throws(() => retired.collectDrop('object-crate'), /inactive room/, kind);
+    assert.throws(() => retired.collectDrop('object-crate-0'), /inactive room/, kind);
     assert.throws(() => retired.step({ ...idle, potion: true }), /inactive room/, kind);
     assert.deepEqual(session.captureSave(), before, kind);
     session.sim.hero.health = 20;
@@ -1004,11 +1005,11 @@ test('prepared rooms suspend progression writes and cancellation restores the ac
   assert.throws(() => session.salvage(), /loading/);
   assert.throws(() => session.discoverFire('orchard/west'), /loading/);
   session.sim.hero.x = -7;
-  assert.throws(() => session.sim.collectDrop('object-crate'), /loading/);
+  assert.throws(() => session.sim.collectDrop('object-crate-0'), /loading/);
   session.sim.hero.x = before.player.x;
   assert.deepEqual(session.captureSave(), before);
   session.cancelRoom(plan);
-  assert.equal(session.sim.collectDrop('object-crate'), true);
+  assert.equal(session.sim.collectDrop('object-crate-0'), true);
   session.equip('orchard-ring', 'ring1');
   assert.equal(session.inventory.gold, 3);
   assert.equal(session.equipment.ring1, 'orchard-ring');

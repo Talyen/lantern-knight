@@ -17,7 +17,7 @@ const SettingsSchema = z.strictObject({
   }),
   renderScale: z.number().min(0.5).max(1),
   showDebug: z.boolean(),
-  verticalSpan: z.number().min(9).max(15),
+  verticalSpan: z.number().min(8.55).max(15),
   depthOfField: z.number().min(0).max(1),
   visualEffects: VisualEffectsSchema,
 });

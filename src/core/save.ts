@@ -13,7 +13,7 @@ const point = z.strictObject({
   health: z.number().int().nonnegative(),
 });
 const GameSchema = z.strictObject({
-  version: z.literal(7),
+  version: z.literal(8),
   seed: z.number().int().min(0).max(4294967295),
   wins: z.number().int().nonnegative().max(100000),
   area: id,

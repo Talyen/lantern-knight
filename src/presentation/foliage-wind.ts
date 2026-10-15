@@ -4,6 +4,7 @@ import type { ActorSprite } from './sprite';
 export class FoliageWind {
   readonly time = new T.Uniform(0);
   readonly strength = new T.Uniform(0);
+  private direction = new T.Uniform(1);
   private root = new T.Uniform(0);
   private phase = new T.Uniform(0);
   constructor(sprite: ActorSprite, phase = 0) {
@@ -23,22 +24,24 @@ export class FoliageWind {
       Object.assign(shader.uniforms, {
         foliageTime: this.time,
         foliageStrength: this.strength,
+        foliageDirection: this.direction,
         foliageRoot: this.root,
         foliagePhase: this.phase,
       });
       shader.vertexShader =
-        'uniform float foliageTime,foliageStrength,foliageRoot,foliagePhase;\n' +
+        'uniform float foliageTime,foliageStrength,foliageRoot,foliagePhase,foliageDirection;\n' +
         shader.vertexShader;
       shader.vertexShader = shader.vertexShader.replace(
         '#include <begin_vertex>',
-        '#include <begin_vertex>\nfloat swayHeight=max(0.,position.y-foliageRoot);transformed.x+=(sin(foliageTime*1.2+position.y*1.6+foliagePhase)+.25*sin(foliageTime*2.7+foliagePhase))*swayHeight*foliageStrength;',
+        '#include <begin_vertex>\nfloat swayHeight=max(0.,position.y-foliageRoot);transformed.x+=(sin(foliageTime*1.2+position.y*1.6+foliagePhase)+.25*sin(foliageTime*2.7+foliagePhase))*swayHeight*foliageStrength*foliageDirection;',
       );
     };
     material.customProgramCacheKey = () => `${key}:foliage-wind-v1`;
     material.userData.foliageWind = this;
     material.needsUpdate = true;
   }
-  update(time: number, enabled: boolean, strength = 0.012) {
+  update(time: number, enabled: boolean, strength = 0.012, direction = { x: 1, z: 0 }) {
+    this.direction.value = (direction.x - direction.z) / Math.SQRT2 || 0.4;
     this.time.value = time;
     this.strength.value = enabled ? strength : 0;
   }

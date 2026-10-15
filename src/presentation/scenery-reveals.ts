@@ -1,3 +1,4 @@
+import { tuning } from '../content/gameplay';
 import * as T from 'three';
 import { heightAt, type AreaDefinition } from '../content/world';
 import { cameraContract as contract } from '../assets/camera-contract';
@@ -31,7 +32,8 @@ export class SceneryReveals {
           z = a.pz + (a.z - a.pz) * alpha,
           root = new T.Vector3(x, heightAt(this.area, x, z), z),
           height =
-            (a.kind === 'hero' ? 1.8 : 1.7) * Math.cos((contract.elevationDeg * Math.PI) / 180),
+            (a.kind === 'hero' ? 1.8 * tuning.heroVisualScale : 1.7) *
+            Math.cos((contract.elevationDeg * Math.PI) / 180),
           base = s.mesh.position.clone();
         if (wall) {
           const dx = wall.to.x - wall.from.x,

@@ -102,14 +102,16 @@ export class Simulation {
     this.claimedObjects.add(id);
     this.objectActions.set(id, this.tick);
     if (object.rewards.length)
-      this.drops.push({
-        id: 'object-' + id,
-        source: id,
-        enemy: false,
-        x: object.x,
-        z: object.z,
-        rewards: structuredClone([...object.rewards]),
-      });
+      this.drops.push(
+        ...object.rewards.map((reward, index) => ({
+          id: 'object-' + id + '-' + index,
+          source: id,
+          enemy: false,
+          x: object.x,
+          z: object.z,
+          rewards: [structuredClone(reward)],
+        })),
+      );
     this.emit(this.hero, { kind: 'object-claimed', object: id });
     return true;
   }
@@ -118,14 +120,16 @@ export class Simulation {
       (p) => spawnActorId(this.area, p.id) === actor.id,
     );
     if (spawn?.rewards?.length)
-      this.drops.push({
-        id: 'enemy-' + spawn.id,
-        source: spawn.id,
-        enemy: true,
-        x: actor.x,
-        z: actor.z,
-        rewards: structuredClone([...spawn.rewards]),
-      });
+      this.drops.push(
+        ...spawn.rewards.map((reward, index) => ({
+          id: 'enemy-' + spawn.id + '-' + index,
+          source: spawn.id,
+          enemy: true,
+          x: actor.x,
+          z: actor.z,
+          rewards: [structuredClone(reward)],
+        })),
+      );
   }
   collectDrop(id: string) {
     const drop = this.drops.find((p) => p.id === id);

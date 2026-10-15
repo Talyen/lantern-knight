@@ -1,6 +1,7 @@
 import type { GameSave } from '../core/save';
 import type { Settings } from './settings';
-export type LoadResult<T> = { status: 'empty' } | { status: 'ok'; data: T };
+export type LoadResult<T> =
+  { status: 'empty'; reason?: 'incompatible' } | { status: 'ok'; data: T };
 export interface Bridge {
   readonly automatedRun?: boolean;
   launchMode?(mode: 'game' | 'sandbox' | 'effects' | 'editor'): Promise<void>;

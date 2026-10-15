@@ -31,7 +31,7 @@ export const AreaStateSchema = z.strictObject({
         enemy: z.boolean(),
         x: z.number().finite(),
         z: z.number().finite(),
-        rewards: z.array(rewardSchema),
+        rewards: z.array(rewardSchema).length(1),
       }),
     )
     .max(1000)
@@ -72,16 +72,16 @@ export function parseAreaState(
       const source = drop.enemy
         ? area.spawns.find((p) => p.id === drop.source)
         : area.interactables?.find((p) => p.id === drop.source);
-      const rewards = source?.rewards;
+      const prefix = (drop.enemy ? 'enemy-' : 'object-') + drop.source + '-';
+      const index = drop.id.startsWith(prefix) ? Number(drop.id.slice(prefix.length)) : -1;
+      const reward = Number.isInteger(index) && index >= 0 ? source?.rewards?.[index] : undefined;
       if (
         !source ||
         !isSupportedPosition(area, drop, 0.01) ||
-        rewards?.length !== drop.rewards.length ||
-        rewards?.some(
-          (reward, i) =>
-            reward.item !== drop.rewards[i]!.item || reward.amount !== drop.rewards[i]!.amount,
-        ) ||
-        drop.id !== (drop.enemy ? 'enemy-' : 'object-') + drop.source ||
+        !reward ||
+        reward.item !== drop.rewards[0]!.item ||
+        reward.amount !== drop.rewards[0]!.amount ||
+        drop.id !== prefix + index ||
         (!drop.enemy && !state.claimedObjects?.includes(drop.source)) ||
         (drop.enemy && state.actors[drop.source]?.health !== 0)
       )

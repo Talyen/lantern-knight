@@ -4,7 +4,8 @@ import type { AuthoredHeading } from './headings';
 export const tuning = {
   cameraFollow: true,
   tickHz: 60,
-  moveSpeed: 3,
+  moveSpeed: 3.9,
+  heroVisualScale: 1.1,
   heroRadius: 0.25,
   heroMaxHealth: 100,
   attack: { ...heroActionTiming('sweep', 'd90'), range: 1.65, halfAngle: 0.95, damage: 26 },

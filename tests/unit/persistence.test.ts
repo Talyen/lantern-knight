@@ -41,7 +41,12 @@ test('obsolete and malformed prototype data reset; adapters snapshot ordered wri
     JSON.stringify({ ...save, area: 'missing' }),
   ]) {
     await fs.writeFile(path.join(directory, 'game.json'), value);
-    assert.deepEqual(await store.load('game'), { status: 'empty' });
+    assert.deepEqual(
+      await store.load('game'),
+      value === '{' || JSON.parse(value).version === save.version
+        ? { status: 'empty' }
+        : { status: 'empty', reason: 'incompatible' },
+    );
   }
   const first = store.save('game', save);
   save.wins = 2;
@@ -111,7 +116,7 @@ test('browser profiles retain old namespaces, reset obsolete data and surface un
   values.set('lantern-prototype-custom-game', JSON.stringify(save));
   assert.deepEqual(await custom.loadGame(), { status: 'empty' });
   values.set('lantern-prototype-game-game', '{"version":99}');
-  assert.deepEqual(await game.loadGame(), { status: 'empty' });
+  assert.deepEqual(await game.loadGame(), { status: 'empty', reason: 'incompatible' });
   await game.saveGame(save);
   Object.defineProperty(globalThis, 'localStorage', {
     configurable: true,

@@ -56,9 +56,9 @@ export const lightingRigs = {
     ground: 0x8b96a8,
     elevation: 15,
     side: -35,
-    ambient: 0.38,
-    minimumLight: 0.08,
-    keyStrength: 0.1,
+    ambient: 0.28,
+    minimumLight: 0.06,
+    keyStrength: 0.06,
     fog: 0x475568,
   },
 } as const;

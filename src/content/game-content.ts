@@ -1,3 +1,4 @@
+import { guidingWindAssets } from './guiding-wind';
 import orchard from '../../authoring/scenes/abandoned-orchard.json';
 import clearing from '../../authoring/scenes/forest-gathering-clearing.json';
 import { resolveScene } from './world-art';
@@ -76,7 +77,7 @@ export function composeSceneContent(
         actorVisuals[registry.actor(registry.definitions.player).visual]!.asset,
         ...visualEffectsAssets,
         ...combatEffectAssets,
-        'library-tumbling_leaf',
+        ...guidingWindAssets,
       ]),
     ]),
     area: (id) => {

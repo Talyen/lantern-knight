@@ -181,6 +181,8 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   }
   await page.keyboard.press('e');
   await expect(page.locator('#interaction-hint')).toHaveText('E · Take');
+  await page.getByRole('button', { name: 'Collect Orchard Ring', exact: true }).click();
+  await page.keyboard.press('e');
   await page.keyboard.press('e');
   await page.keyboard.press('i');
   const panel = page.locator('.adventure-panel');
@@ -304,6 +306,7 @@ test('Game UI lifetime isolates remounts, pending saves and retired input', asyn
       session: { inventory: {}, equipment: {}, discovered: new Set() },
       sim: {
         area: 'room',
+        drops: [],
         areaDefinition: { name: 'Room', exits: [] },
         hero: { health: 100 },
         maxHealth: 100,

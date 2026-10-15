@@ -7,9 +7,13 @@ import { writeBuildIdentity } from './build-identity';
 import { sourceFingerprint, sourceInputHash } from './source-identity';
 import { projectRoot } from './assets/paths';
 import { webConfig } from '../vite.config';
-export async function buildWeb(profile: BuildProfile = 'game', local = false) {
+export async function buildWeb(profile: BuildProfile = 'game', local = false, eager = false) {
   const started = performance.now(),
-    workspace = await openWorkspace(local ? 'local' : 'pinned', 'authoring', profile === 'game');
+    workspace = await openWorkspace(
+      local ? 'local' : 'pinned',
+      'authoring',
+      profile === 'game' && !eager,
+    );
   try {
     const source = await sourceFingerprint(projectRoot, { scope: 'web' });
     let stage = performance.now();

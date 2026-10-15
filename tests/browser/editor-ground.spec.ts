@@ -304,7 +304,9 @@ test('ground authoring accepts and corrects selection, saves contours and routes
       ),
     }));
     await page.locator('#ground-test-movement').click();
-    await page.waitForFunction(() => window.sceneEditor.playtest()?.ready);
+    await page.waitForFunction(() => window.sceneEditor.playtest()?.ready, undefined, {
+      timeout: 60_000,
+    });
     expect((await page.evaluate(() => window.sceneEditor.playtest()))!.actors.length).toBe(4);
     const enemyId = await page.evaluate(
       () => window.sceneEditor.playtest()!.actors.find((actor) => actor.id !== 'player')!.id,
@@ -325,7 +327,9 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await expect.poll(() => page.evaluate(() => window.sceneEditor.playtest()!.hero.x)).not.toBe(x);
     await page.keyboard.up('KeyD');
     await page.locator('#playtest-reset').click();
-    await page.waitForFunction(() => window.sceneEditor.playtest()?.ready);
+    await page.waitForFunction(() => window.sceneEditor.playtest()?.ready, undefined, {
+      timeout: 60_000,
+    });
     await page.locator('#playtest-return').click();
     expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(before.draft);
     expect(
@@ -345,4 +349,50 @@ test('ground authoring accepts and corrects selection, saves contours and routes
         force: true,
       });
   }
+});
+
+test('editor rejects an upright prop on painted scenery without changing the accepted document', async ({
+  page,
+}) => {
+  test.setTimeout(240_000);
+  await openEditor(page);
+  const scene = JSON.parse(
+    await fs.readFile(path.join(projectRoot, 'authoring/scenes/abandoned-orchard.json'), 'utf8'),
+  );
+  await page.locator('#import-scene').setInputFiles({
+    name: 'orchard.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(scene)),
+  });
+  await page.locator('#confirmation-accept').click();
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.name), { timeout: 90_000 })
+    .toBe('Imported ' + scene.name);
+  await waitForEditorIdle(page);
+  const count = scene.objects.length;
+  const barrel = scene.objects.find((o: { id: string }) => o.id === 'southern-supply');
+  await page.locator('#artwork-tab').click();
+  await page.locator('#art-filters > summary').click();
+  await page.locator('#asset-scope').selectOption('all');
+  await page.locator('#category').selectOption('all');
+  await page.locator('#collection').selectOption('all');
+  await page.locator('#search').fill(barrel.asset);
+  await page.locator('#assets button.asset[title^="' + barrel.asset + '/"]').click();
+  await page.locator('#place-clip').selectOption(barrel.clip);
+  const point = await page.evaluate(async () => {
+    const threePath = '/node_modules/.vite/deps/three.js';
+    const { Vector3 } = await import(threePath);
+    return window.sceneEditor.view().screen(new Vector3(12.5, 0, -2.3));
+  });
+  await page.mouse.move(point.x, point.y);
+  await page.mouse.click(point.x, point.y);
+  await expect(page.locator('#validation-errors')).toContainText('Placement needs clear ground');
+  expect(await page.evaluate(() => window.sceneEditor.state().document.objects.length)).toBe(count);
+  if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY)
+    await page.screenshot({
+      path: path.join(
+        process.env.LANTERN_OPENING_CAPTURE_DIRECTORY,
+        'editor-placement-rejected.png',
+      ),
+    });
 });

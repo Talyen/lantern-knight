@@ -1,3 +1,4 @@
+import { groundPlacementPolicy } from '../content/scene-placement';
 import { cleanupAll, cleanupAfterFailure } from '../assets/cleanup';
 import { NavigationOverlay } from '../presentation/navigation-overlay';
 import { walkablePoint } from '../presentation/camera';
@@ -155,7 +156,8 @@ export class DraftPlaytest {
       if (movement && registry.area(registry.definitions.initialArea).spawns.length < 3) {
         const area = registry.area(registry.definitions.initialArea),
           navigation = new Navigation(area),
-          radius = effectiveRadius(registry.actor('skeleton').radius);
+          radius = effectiveRadius(registry.actor('skeleton').radius),
+          placementIssue = groundPlacementPolicy(this.snapshot, area);
         this.snapshot.gameplay ??= { spawns: [], exits: [], pickups: [] };
         const spawns = this.snapshot.gameplay.spawns;
         for (let distance = 2; distance <= 12 && spawns.length < 3; distance += 1)
@@ -166,6 +168,7 @@ export class DraftPlaytest {
             };
             if (
               !isSupportedPosition(area, point, radius) ||
+              placementIssue(point, radius) ||
               spawns.some((p) => Math.hypot(p.x - point.x, p.z - point.z) < 1.5) ||
               navigation.route(this.snapshot.hero, point, radius).status !== 'ready'
             )

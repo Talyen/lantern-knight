@@ -315,6 +315,13 @@ export class InkRoom {
       );
       sprite.mesh.visible = true;
       sprite.mesh.scale.setScalar(0.28);
+      // Keep depth testing in the world pass; settle coincident stacks by identity.
+      const order =
+        (drop.id.split('').reduce((hash, char) => (hash * 31 + char.charCodeAt(0)) >>> 0, 0) /
+          2 ** 32) *
+        0.0001;
+      sprite.mesh.renderOrder = order;
+      if (sprite.edgeMesh) sprite.edgeMesh.renderOrder = order;
       this.sample(
         sprite,
         resolveClip(sprite.manifest, 'still', 'd45'),

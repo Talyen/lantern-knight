@@ -1,3 +1,4 @@
+import { groundPlacementPolicy } from '../content/scene-placement';
 import { cleanupAll } from '../assets/cleanup';
 import { moveSupported, effectiveRadius } from '../core/navigation';
 import { actorVisuals } from '../content/visuals';
@@ -75,6 +76,7 @@ export class EditorView {
   private ghostKey = '';
   private ghostRequest = 0;
   private ghostPoint = new T.Vector3();
+  private placementCheck?: ReturnType<typeof groundPlacementPolicy>;
 
   private rays = new T.Raycaster();
   private alpha = new WeakMap<T.Texture, { data: Uint8Array; width: number; height: number }>();
@@ -211,6 +213,7 @@ export class EditorView {
     if (this.applying) throw new Error('Scene update in progress');
     this.clearTransformPreview();
     const resolved = resolveScene(document);
+    this.placementCheck = groundPlacementPolicy(resolved.document, resolved.area);
     const art = this.hidden.size
       ? {
           ...resolved.visuals,
@@ -481,6 +484,12 @@ export class EditorView {
       this.renderer?.overlay.add(this.ghost.mesh);
     }
     if (this.ghost && this.renderer) {
+      const asset = this.ghost.manifest.asset;
+      const issue =
+        (asset.type === 'prop' || asset.type === 'character') && asset.placement !== 'ground'
+          ? this.placementCheck?.(this.ghostPoint, 0.3)
+          : undefined;
+      this.ghost.material.color.set(issue ? 0xe35f58 : 0xffffff);
       this.ghost.show(this.ghost.animator.frame, this.ghostPoint, this.renderer.camera);
       this.render();
     }

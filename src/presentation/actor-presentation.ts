@@ -1,3 +1,4 @@
+import { footstepClip } from '../content/footsteps';
 import { cleanupAll } from '../assets/cleanup';
 import * as T from 'three';
 import { contactShadowMaterial } from './contact-shadows';
@@ -68,6 +69,7 @@ export class ActorPresentation {
       this.getClip(binding.clips.idle, 'd45', pack.manifest),
     );
     sprite.material.color.set(binding.tint);
+    if (a.kind === 'hero') sprite.mesh.scale.setScalar(tuning.heroVisualScale);
     const shadow = new T.Mesh(
       new T.PlaneGeometry(
         sprite.manifest.asset.shadow.radius * 1.5,
@@ -79,6 +81,7 @@ export class ActorPresentation {
       ),
     );
     shadow.rotation.x = -Math.PI / 2;
+    if (a.kind === 'hero') shadow.scale.setScalar(tuning.heroVisualScale);
     shadow.renderOrder = -1.5;
     const ring = new T.Mesh(
       new T.RingGeometry(a.definition.radius, a.definition.radius + 0.025, 24),
@@ -117,12 +120,15 @@ export class ActorPresentation {
         resolveClip(manifest, 'idle', dir).frames[0],
       );
     return id === 'walk' && manifest.asset.id === 'ink-hero-current'
-      ? timedWalk(
-          clip,
-          walkTiming,
-          this.registration.animation.clips[
-            `walk:${Object.keys(manifest.asset.clips.walk!).find((h) => manifest.asset.clips.walk![h as (typeof HEADINGS)[number]] === clip)}`
-          ]?.weightedHoldsMs,
+      ? footstepClip(
+          timedWalk(
+            clip,
+            walkTiming,
+            this.registration.animation.clips[
+              `walk:${Object.keys(manifest.asset.clips.walk!).find((h) => manifest.asset.clips.walk![h as (typeof HEADINGS)[number]] === clip)}`
+            ]?.weightedHoldsMs,
+          ),
+          dir,
         )
       : clip;
   }
@@ -210,7 +216,16 @@ export class ActorPresentation {
         notifies = v.sprite.animator.advance(
           Math.max(0, (a.age / total) * clipDuration(clip) - v.sprite.animator.time),
         );
-      } else notifies = v.sprite.animator.advance(ms);
+      } else {
+        const moving = Math.hypot(a.x - a.px, a.z - a.pz) > 0.00001;
+        notifies = v.sprite.animator.advance(
+          a.state === 'walk'
+            ? moving
+              ? ms * (a.kind === 'hero' ? tuning.moveSpeed / 3 : 1)
+              : 0
+            : ms,
+        );
+      }
       this.events.publish(
         notifies.map(
           (n) =>

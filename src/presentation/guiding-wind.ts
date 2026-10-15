@@ -2,9 +2,14 @@ import * as T from 'three';
 import type { AssetPack } from '../assets/loader';
 import { resolveClip } from '../assets/schema';
 import { frameAt, clipDuration } from '../core/animation';
-import { Navigation, effectiveRadius } from '../core/navigation';
+import { Navigation, effectiveRadius, clearSegment } from '../core/navigation';
 import type { SimulationView } from '../core/simulation-view';
 import { heightAt, type Point } from '../content/world';
+import {
+  guidingWindAssets,
+  guidingWindTiming as timing,
+  type WindTreatment,
+} from '../content/guiding-wind';
 import { ActorSprite, setCutoutOpacity } from './sprite';
 
 // A suggestion through scenery, never movement input or a required route.
@@ -29,97 +34,169 @@ export function windDestination(sim: SimulationView): Point | undefined {
   }
 }
 
+function routePoint(route: readonly Point[], distance: number): Point {
+  let p = route[0]!;
+  for (const next of route.slice(1)) {
+    const length = Math.hypot(next.x - p.x, next.z - p.z);
+    if (distance <= length && length > 0) {
+      const t = Math.max(0, distance / length);
+      return { x: p.x + (next.x - p.x) * t, z: p.z + (next.z - p.z) * t };
+    }
+    distance -= length;
+    p = next;
+  }
+  return p;
+}
+
+type Stream = { route: Point[]; fade: number; sprites: ActorSprite[] };
 export class GuidingWind {
   readonly group = new T.Group();
-  private leaves: ActorSprite[] = [];
+  treatment: WindTreatment = 'combined';
+  readonly breeze = { x: 0, z: 0, strength: 0 };
   private time = 0;
-  private cycle = -1;
   private generation = -1;
-  private route: Point[] = [];
   private navigation?: Navigation;
+  private streams: Stream[] = [];
+  private source?: Point;
+  private destination?: Point;
+  private nextPlan = 0;
+  private current = 0;
   constructor(
     packs: ReadonlyMap<string, AssetPack>,
     private camera: T.OrthographicCamera,
   ) {
-    const pack = packs.get('library-tumbling_leaf');
     this.group.name = 'guiding-wind';
-    if (!pack) return;
-    for (let i = 0; i < 9; i++) {
-      const leaf = new ActorSprite(
-        `guiding-leaf-${i}`,
-        pack.manifest,
-        pack.textures,
-        resolveClip(pack.manifest, 'tumbling_leaf', 'd45'),
-      );
-      leaf.mesh.userData.decorative = true;
-      this.leaves.push(leaf);
-      this.group.add(leaf.mesh);
+    for (let batch = 0; batch < 2; batch++) {
+      const stream: Stream = { route: [], fade: 0, sprites: [] };
+      for (let i = 0; i < 12; i++) {
+        const leaves = i % 3 === 2;
+        const pack = packs.get(guidingWindAssets[leaves ? 1 : 0]);
+        if (!pack) continue;
+        const sprite = new ActorSprite(
+          `guiding-${batch}-${i}`,
+          pack.manifest,
+          pack.textures,
+          resolveClip(pack.manifest, leaves ? 'animation' : 'autumn_leaf_gust', 'd45'),
+        );
+        sprite.mesh.userData.decorative = true;
+        sprite.mesh.userData.leafVariation = leaves;
+        stream.sprites.push(sprite);
+        this.group.add(sprite.mesh);
+      }
+      this.streams.push(stream);
     }
   }
-  update(sim: SimulationView, ms: number, enabled: boolean) {
+  update(sim: SimulationView, ms: number, enabled: boolean, reduced = false) {
     if (this.generation !== sim.generation) {
       this.generation = sim.generation;
       this.navigation = new Navigation(sim.areaDefinition);
       this.time = 0;
-      this.cycle = -1;
-      this.route = [];
-    }
-    this.time += Math.max(0, ms) / 1000;
-    const candidate = enabled ? windDestination(sim) : undefined;
-    const target =
-      candidate && Math.hypot(candidate.x - sim.hero.x, candidate.z - sim.hero.z) > 2
-        ? candidate
-        : undefined;
-    const cycle = Math.floor(this.time / 9);
-    if (cycle !== this.cycle) {
-      this.cycle = cycle;
-      const route =
-        target &&
-        this.navigation!.route(sim.hero, target, effectiveRadius(sim.hero.definition.radius));
-      this.route =
-        route?.status === 'ready' ? [{ x: sim.hero.x, z: sim.hero.z }, ...route.points] : [];
-    }
-    this.group.visible = !!target && this.route.length > 1 && this.time % 9 < 3.4;
-    if (!this.group.visible) return;
-    for (const [i, leaf] of this.leaves.entries()) {
-      const age = (this.time % 9) - i * 0.09;
-      const fade = Math.min(1, Math.max(0, age * 3), Math.max(0, (3.4 - age) * 2));
-      let distance = 0.4 + Math.max(0, age) * 1.5;
-      let p = this.route[0]!,
-        direction = { x: 0, z: 0 };
-      for (const next of this.route.slice(1)) {
-        const length = Math.hypot(next.x - p.x, next.z - p.z);
-        direction = { x: (next.x - p.x) / (length || 1), z: (next.z - p.z) / (length || 1) };
-        if (distance <= length) {
-          p = { x: p.x + direction.x * distance, z: p.z + direction.z * distance };
-          break;
-        }
-        distance -= length;
-        p = next;
+      this.nextPlan = 0;
+      this.source = this.destination = undefined;
+      for (const stream of this.streams) {
+        stream.route = [];
+        stream.fade = 0;
       }
-      const spread = Math.sin(i * 2.4 + age * 1.8) * 0.35;
-      const x = p.x - direction.z * spread,
-        z = p.z + direction.x * spread;
-      setCutoutOpacity(leaf.material, fade * 0.55);
-      leaf.show(
-        frameAt(
-          leaf.animator.clip,
-          (age * 1000 + i * 113 + clipDuration(leaf.animator.clip)) %
-            clipDuration(leaf.animator.clip),
-        ),
-        new T.Vector3(
-          x,
-          heightAt(sim.areaDefinition, x, z) + 0.1 + Math.sin(i + age * 3) * 0.08,
-          z,
-        ),
-        this.camera,
+    }
+    const dt = Math.max(0, ms) / 1000;
+    this.time += dt;
+    const target = enabled ? windDestination(sim) : undefined;
+    const active = target && Math.hypot(target.x - sim.hero.x, target.z - sim.hero.z) > 2;
+    if (
+      active &&
+      this.time >= this.nextPlan &&
+      (!this.source ||
+        !this.destination ||
+        Math.hypot(this.source.x - sim.hero.x, this.source.z - sim.hero.z) > 1 ||
+        Math.hypot(this.destination.x - target.x, this.destination.z - target.z) > 0.5)
+    ) {
+      const route = this.navigation!.route(
+        sim.hero,
+        target,
+        effectiveRadius(sim.hero.definition.radius),
       );
-      leaf.mesh.scale.setScalar(0.75);
+      this.nextPlan = this.time + 0.5;
+      this.source = { x: sim.hero.x, z: sim.hero.z };
+      this.destination = { ...target };
+      this.current = 1 - this.current;
+      const stream = this.streams[this.current]!;
+      stream.route = route.status === 'ready' ? [this.source, ...route.points] : [];
+      stream.fade = 0;
+    }
+    const age = this.time % timing.period;
+    const envelope = active
+      ? Math.min(1, age / 0.8, Math.max(0, (timing.duration - age) / 1.2))
+      : 0;
+    this.breeze.x = this.breeze.z = this.breeze.strength = 0;
+    for (const [batch, stream] of this.streams.entries()) {
+      stream.fade = Math.max(
+        0,
+        Math.min(1, stream.fade + (batch === this.current ? 1 : -1) * dt * 3),
+      );
+      const route = stream.route;
+      if (batch === this.current && route.length > 1) {
+        const near = routePoint(route, 1),
+          origin = route[0]!;
+        const length = Math.hypot(near.x - origin.x, near.z - origin.z) || 1;
+        this.breeze.x = (near.x - origin.x) / length;
+        this.breeze.z = (near.z - origin.z) / length;
+        this.breeze.strength = envelope * stream.fade;
+      }
+      for (const [i, sprite] of stream.sprites.entries()) {
+        const leaves = !!sprite.mesh.userData.leafVariation;
+        const selected = this.treatment === 'combined' || (this.treatment === 'leaves') === leaves;
+        sprite.mesh.visible =
+          selected &&
+          envelope > 0 &&
+          stream.fade > 0 &&
+          route.length > 1 &&
+          (!reduced || i % 4 === 0);
+        if (!sprite.mesh.visible) continue;
+        const length = route
+          .slice(1)
+          .reduce((sum, p, i) => sum + Math.hypot(p.x - route[i]!.x, p.z - route[i]!.z), 0);
+        const reach = Math.min(timing.reach, length);
+        if (reach < 0.5) {
+          sprite.mesh.visible = false;
+          continue;
+        }
+        const travel = (this.time * (reduced ? 1.4 : 5.4) + i * 0.91) % reach;
+        const before = routePoint(route, travel - 0.35);
+        const after = routePoint(route, travel + 0.35);
+        const center = routePoint(route, travel);
+        // Average neighboring samples to round corners only where floor clearance permits.
+        const smooth = { x: (before.x + after.x) / 2, z: (before.z + after.z) / 2 };
+        const p = clearSegment(sim.areaDefinition, center, smooth, 0.08) ? smooth : center;
+        const span = Math.hypot(after.x - before.x, after.z - before.z) || 1;
+        const direction = { x: (after.x - before.x) / span, z: (after.z - before.z) / span };
+        const spread = Math.sin(i * 2.4 + this.time * 0.8) * 0.65;
+        const offset = { x: p.x - direction.z * spread, z: p.z + direction.x * spread };
+        const { x, z } = clearSegment(sim.areaDefinition, p, offset, 0.08) ? offset : p;
+        const opacity =
+          envelope *
+          stream.fade *
+          Math.min(1, travel / 0.6, (reach - travel) / 1.2) *
+          (reduced ? 0.22 : 0.48);
+        setCutoutOpacity(sprite.material, opacity);
+        sprite.show(
+          frameAt(
+            sprite.animator.clip,
+            (this.time * 1000 + i * 313) % clipDuration(sprite.animator.clip),
+          ),
+          new T.Vector3(
+            x,
+            heightAt(sim.areaDefinition, x, z) + 0.25 + 0.15 * Math.sin(i + this.time),
+            z,
+          ),
+          this.camera,
+        );
+        sprite.mesh.scale.setScalar(leaves ? 0.4 : 0.85);
+      }
     }
   }
   dispose() {
-    for (const leaf of this.leaves) leaf.dispose();
-    this.leaves = [];
+    for (const stream of this.streams) for (const sprite of stream.sprites) sprite.dispose();
+    this.streams = [];
     this.group.clear();
   }
 }

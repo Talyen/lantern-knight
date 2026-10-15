@@ -1,3 +1,4 @@
+import { tuning } from './gameplay';
 import type { ContentSnapshot } from './snapshot';
 import type { SceneDocument, SceneSnapshot } from './scene-document';
 import type { Point } from './world';
@@ -159,7 +160,8 @@ export function compositionPoint(
         -((hero.x - target.x) * s + (hero.z - target.z) * c) * sine -
         compositionHeight(hero, art) * Math.cos(e),
       low = -frame.halfHeight + 0.6,
-      high = frame.halfHeight - cameraContract.heroHeight * Math.cos(e) - 0.6,
+      high =
+        frame.halfHeight - cameraContract.heroHeight * tuning.heroVisualScale * Math.cos(e) - 0.6,
       correction = vertical - Math.max(low, Math.min(high, vertical));
     target.x -= (correction * s) / sine;
     target.z -= (correction * c) / sine;
@@ -175,7 +177,7 @@ export function compositionSpan(
 ): number {
   const f = art?.camera,
     a = f?.arrival;
-  if (!a?.span || requested !== 9) return requested;
+  if (!a?.span || requested !== cameraContract.verticalSpan) return requested;
   const t = Math.max(0, Math.min(1, (hero.z - a.start) / (a.end - a.start))),
     ease = t * t * (3 - 2 * t);
   return requested + (a.span - requested) * ease;

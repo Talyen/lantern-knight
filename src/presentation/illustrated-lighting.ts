@@ -22,7 +22,7 @@ varying vec3 inkWorld; varying vec3 inkSurface; varying vec2 inkUV;
 uniform float inkEnabled,inkStrength,inkAmbient,inkMinimumLight,inkKeyStrength,inkRim,inkHaze,inkIsGround,inkEmissive,inkHasNormal,inkBlend,inkWarp,inkMix,inkMirror,inkFootY,inkBodyHeight,inkShadowEnabled,inkIsSprite;
 uniform vec3 inkFootPosition;uniform vec4 inkShadeZones[${SCENE_SHADE_CAPACITY}];
 uniform vec3 inkSky,inkGround,inkKey,inkDirection,inkFog,inkOrigin;
-uniform vec3 inkLightPosition[4]; uniform vec3 inkLightColor[4]; uniform float inkLightPower[4],inkLightRange[4];
+uniform vec3 inkLightPosition[5]; uniform vec3 inkLightColor[5]; uniform float inkLightPower[5],inkLightRange[5];
 uniform sampler2D inkNormalA,inkNormalB,inkFlow;
 uniform vec4 inkTrimA,inkTrimB,inkRectA,inkFlowRect;
 uniform vec2 inkCanvas;
@@ -62,7 +62,7 @@ vec3 inkIlluminate(vec3 base){
  float key=max(0.0,dot(n,inkDirection))*inkVisibility();illumination+=inkKey*(.16+key*.84)*inkKeyStrength;
  // Broad silhouettes supply stylized relief; texture luminance is never treated as height.
  vec3 local=vec3(0.0);
- for(int i=0;i<4;i++){vec3 delta=inkLightPosition[i]-inkWorld;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.22+.78*max(0.0,dot(n,normalize(delta+vec3(.0001)))));}
+ for(int i=0;i<5;i++){vec3 delta=inkLightPosition[i]-inkWorld;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.22+.78*max(0.0,dot(n,normalize(delta+vec3(.0001)))));}
  illumination*=inkShade();
  float value=dot(base,vec3(.2126,.7152,.0722)),inkProtection=smoothstep(.006,.13,value);
  vec3 response=max(vec3(.08),mix(vec3(1.0),clamp(illumination+local,vec3(inkMinimumLight),vec3(2.5)),inkStrength));
@@ -96,10 +96,10 @@ export class IllustratedLighting {
     inkDirection: { value: new T.Vector3() },
     inkFog: { value: new T.Color() },
     inkOrigin: { value: new T.Vector3() },
-    inkLightPosition: { value: Array.from({ length: 4 }, () => new T.Vector3()) },
-    inkLightColor: { value: Array.from({ length: 4 }, () => new T.Color(0xffad57)) },
-    inkLightRange: { value: [4.8, 4.8, 4.8, 4.8] },
-    inkLightPower: { value: [0, 0, 0, 0] },
+    inkLightPosition: { value: Array.from({ length: 5 }, () => new T.Vector3()) },
+    inkLightColor: { value: Array.from({ length: 5 }, () => new T.Color(0xffad57)) },
+    inkLightRange: { value: [4.8, 4.8, 4.8, 4.8, 7] },
+    inkLightPower: { value: [0, 0, 0, 0, 0] },
   };
   private attached = new WeakMap<
     T.MeshBasicMaterial,

@@ -85,6 +85,41 @@ function editFixture(app: Application, work: (sim: Simulation) => undefined) {
     app.readOnly = readOnly;
   }
 }
+test('interacting with a different stack cancels a pending label pickup route', () => {
+  const { app } = fixture();
+  app.readOnly = true;
+  editFixture(app, (sim) => {
+    sim.drops.push(
+      {
+        id: 'far',
+        source: 'test',
+        enemy: false,
+        x: 3,
+        z: 5,
+        rewards: [{ item: 'gold', amount: 1 }],
+      },
+      {
+        id: 'near',
+        source: 'test',
+        enemy: false,
+        x: 0,
+        z: 6,
+        rewards: [{ item: 'gold', amount: 2 }],
+      },
+    );
+  });
+  app.requestPickup('far');
+  assert.equal(app.sim.navigationDebug(false).routes.length, 1);
+  app.highlightedDrop = 'near';
+  app.interact();
+  assert.deepEqual(
+    app.sim.drops.map((d) => d.id),
+    ['far'],
+  );
+  assert.equal(app.sim.navigationDebug(false).routes.length, 0);
+  app.dispose();
+});
+
 test('session replacement uses its own registry and complete scene asset requirements', async () => {
   const { app } = fixture(),
     definitions = structuredClone(contentDefinitions);

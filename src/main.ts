@@ -40,11 +40,57 @@ async function start() {
         }
       },
     },
-    { startup: 'checkpoint', assetProfile: 'game' },
+    {
+      startup: 'checkpoint',
+      assetProfile: 'game',
+      motionProbe: import.meta.env.DEV && new URLSearchParams(location.search).has('motion-probe'),
+    },
   );
   app = application;
   await application.boot();
   ui.bind(application);
+  if (import.meta.env.DEV) {
+    const params = new URLSearchParams(location.search),
+      wind = params.get('wind-preview'),
+      dodge = params.get('dodge-preview'),
+      lighting = params.get('lighting-preview');
+    if (lighting === 'lantern' || lighting === 'golden' || lighting === 'silver')
+      application.presentation.lookRenderer.setSettings({ rig: lighting });
+    if (wind === 'gust' || wind === 'leaves' || wind === 'combined')
+      application.presentation.guidingWind.treatment = wind;
+    if (dodge === 'dust' || dodge === 'leaves' || dodge === 'combined')
+      application.presentation.combatFeedback.dodgeTreatment = dodge;
+  }
+  if (application.motionProbe) {
+    const output = document.createElement('output');
+    output.id = 'motion-probe';
+    output.style.cssText =
+      'position:fixed;bottom:4px;left:4px;background:#111c;color:#ddd;font:11px monospace;z-index:20;pointer-events:none';
+    const download = document.createElement('button');
+    download.textContent = 'Save motion trace';
+    download.style.cssText = 'position:fixed;bottom:28px;left:4px;z-index:20;font:11px monospace';
+    document.body.append(output, download);
+    download.addEventListener('click', () => {
+      const url = URL.createObjectURL(
+        new Blob([JSON.stringify(application.motionProbe!.snapshot())], {
+          type: 'application/json',
+        }),
+      );
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'lantern-motion.json';
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      application.canvas.focus();
+    });
+    const probe = application.motionProbe;
+    const timer = setInterval(() => {
+      const result = probe.snapshot();
+      output.textContent = `${result.frames} frames · ${result.fps.toFixed(1)} fps · frame p50/p95/p99 ${result.p50.toFixed(1)}/${result.p95.toFixed(1)}/${result.p99.toFixed(1)} ms`;
+      output.dataset.recording = JSON.stringify(result);
+    }, 500);
+    window.addEventListener('beforeunload', () => clearInterval(timer), { once: true });
+  }
   application.canvas.dataset.ready = 'true';
   performance.mark('lantern-startup:ready');
   finishStartupTiming();

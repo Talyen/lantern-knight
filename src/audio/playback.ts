@@ -302,7 +302,14 @@ export class AudioPlayback {
         if (!victim) return;
         victim.finish();
       }
-      voice = this.createVoice(lease, world, critical, false, 1 / (1 + distance * 0.25));
+      voice = this.createVoice(
+        lease,
+        world,
+        critical,
+        false,
+        (cue.startsWith('step-') ? 10 ** (-8 / 20) : cue === 'cloth' ? 10 ** (-10 / 20) : 1) /
+          (1 + distance * 0.25),
+      );
       lease = undefined;
       voice.cancelWith(options.signal);
       voice.source.start();
