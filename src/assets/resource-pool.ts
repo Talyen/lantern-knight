@@ -1,4 +1,5 @@
-import { CleanupFailure, cleanupAll, cleanupAfterFailure } from './cleanup';
+import { acquireBatch } from './acquire-batch';
+import { cleanupAll, cleanupAfterFailure } from './cleanup';
 type Entry<T> = {
   lifetime: AbortController;
   refs: number;
@@ -11,6 +12,7 @@ type Entry<T> = {
 export class ResourcePool<T> {
   private entries = new Map<string, Entry<T>>();
   private closed = false;
+  private readonly lifetime = new AbortController();
   constructor(
     private load: (id: string, signal: AbortSignal) => Promise<T>,
     private destroy: (value: T) => void,
@@ -91,89 +93,38 @@ export class ResourcePool<T> {
   ) {
     this.assertActive();
     if (signal?.aborted) throw new Error('load cancelled');
-    const leases = [...new Set(ids)].map((id) => [id, this.retain(id)] as const);
-    let released = false;
-    const release = () => {
-      if (released) return;
-      released = true;
-      cleanupAll(
-        leases.map(
-          ([, lease]) =>
-            () =>
-              lease.release(),
-        ),
-      );
-    };
-    const cancellationErrors: unknown[] = [];
-    const cancel = () => {
-      try {
-        release();
-      } catch (error) {
-        // EventTarget listeners must not throw: report through the acquisition.
-        cancellationErrors.push(error);
-      }
-    };
-    signal?.addEventListener('abort', cancel, { once: true });
-    let done = 0;
-    let failure: { error: unknown } | undefined;
+    const leases = new Map([...new Set(ids)].map((id) => [id, this.retain(id)]));
     try {
-      const settling = Promise.allSettled(
-        leases.map(async ([id, lease]) => {
-          try {
-            const value = await lease.promise;
-            this.assertActive();
-            if (signal?.aborted) throw new Error('load cancelled');
-            onProgress?.(++done, leases.length);
-            return [id, value] as const;
-          } catch (error) {
-            // The first failure owns cancellation. Peers may reject because
-            // releasing their last claim aborts them; preserve the cause that
-            // actually made this batch fail, regardless of identity order.
-            if (!failure) {
-              failure = { error };
-              try {
-                release();
-              } catch (cleanup) {
-                failure.error = new CleanupFailure(
-                  [error, cleanup],
-                  'Operation and resource cleanup failed',
-                  { cause: error },
-                );
-              }
-            }
-            throw error;
-          }
-        }),
+      const held = await acquireBatch(
+        leases.keys(),
+        async (id, signal) => {
+          const lease = leases.get(id)!;
+          signal.throwIfAborted();
+          lease.start();
+          const value = await lease.promise;
+          signal.throwIfAborted();
+          return { value, release: lease.release };
+        },
+        (lease) => lease.release(),
+        AbortSignal.any([this.lifetime.signal, ...(signal ? [signal] : [])]),
+        onProgress,
+        () => cleanupAll([...leases.values()].map((lease) => lease.release)),
       );
-      // Observe every admitted promise before reentrant loader callbacks can
-      // cancel, close the pool, or acquire these same identities again.
-      for (const [, lease] of leases) lease.start();
-      const results = await settling;
-      this.assertActive();
-      if (signal?.aborted) throw new Error('load cancelled');
-      if (failure) throw failure.error;
-      const resources = new Map<string, T>();
-      for (const result of results) {
-        if (result.status === 'rejected') throw result.reason;
-        resources.set(...result.value);
-      }
-      return { resources, release };
+      return {
+        resources: new Map([...held.resources].map(([id, lease]) => [id, lease.value])),
+        release: held.release,
+      };
     } catch (error) {
       cleanupAfterFailure(error, () =>
-        cleanupAll([
-          release,
-          ...cancellationErrors.map((failure) => () => {
-            throw failure;
-          }),
-        ]),
+        cleanupAll([...leases.values()].map((lease) => lease.release)),
       );
-    } finally {
-      signal?.removeEventListener('abort', cancel);
     }
   }
+
   dispose() {
     if (this.closed) return;
     this.closed = true;
+    this.lifetime.abort(new Error('Resource pool disposed'));
     cleanupAll(
       [...this.entries].map(
         ([id, entry]) =>

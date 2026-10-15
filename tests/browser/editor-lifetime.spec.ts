@@ -1,4 +1,4 @@
-import { test, expect, openEditor } from './fixtures';
+import { expectPageValue, test, expect, openEditor } from './fixtures';
 
 // Failure happens after the workspace, renderer and authoring tools have mounted.
 // A failed startup must close their observers just like leaving a ready editor.
@@ -153,13 +153,9 @@ test('closing a stalled playtest releases startup admission without late error f
   try {
     for (let count = 1; count <= 2; count++) {
       await page.locator('#play-from-here').click();
-      await expect
-        .poll(() =>
-          page.evaluate(() =>
-            (window as unknown as { playtestOpeningCount: () => number }).playtestOpeningCount(),
-          ),
-        )
-        .toBe(count);
+      await expectPageValue(page, () =>
+        (window as unknown as { playtestOpeningCount: () => number }).playtestOpeningCount(),
+      ).toBe(count);
       await expect(page.locator('#playtest-dialog')).toBeVisible();
       await page.locator('#playtest-return').click();
       await expect(page.locator('#playtest-dialog')).not.toBeVisible();
@@ -298,9 +294,7 @@ test('editor remount closes its predecessor and shutdown revokes retained DOM co
     old.dispose();
     if (window.sceneEditor !== next) throw new Error('Old shutdown changed successor inspection');
   });
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.ready()), { timeout: 60_000 })
-    .toBe(true);
+  await expectPageValue(page, () => window.sceneEditor.ready(), { timeout: 60_000 }).toBe(true);
   const result = await page.evaluate(() => {
     const commands = document.getElementById('commands') as HTMLButtonElement;
     const focus = document.getElementById('focus-mode') as HTMLButtonElement;

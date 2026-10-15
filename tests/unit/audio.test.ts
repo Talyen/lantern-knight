@@ -630,7 +630,6 @@ test('buffer eviction counts all borrowers and removes only unleased decoded res
     }),
   }).samples;
   let requests = 0;
-  let now = 0;
   const size = 20 * 1024 ** 2;
   const buffers = new AudioBuffers(
     async (url) => {
@@ -640,7 +639,6 @@ test('buffer eviction counts all borrowers and removes only unleased decoded res
       return new Response(payloads[index]!);
     },
     async () => ({ length: size / 4, numberOfChannels: 1 }) as AudioBuffer,
-    () => now++,
   );
   const first = await buffers.acquire(samples[0]!);
   const shared = await buffers.acquire(samples[0]!);
@@ -676,7 +674,6 @@ test('closing the buffer owner rejects shared late decodes and further admission
       started();
       return decoded;
     },
-    () => 0,
   );
   const selected = parseAudioManifest({ schemaVersion: 1, samples: [sample('sword-1')] })
     .samples[0]!;
@@ -709,7 +706,6 @@ test('audio claims cancel independently and the last cancellation permits recove
       }
       return { length: 20, numberOfChannels: 1 } as AudioBuffer;
     },
-    () => 0,
   );
   const selected = parseAudioManifest({ schemaVersion: 1, samples: [sample('sword-1')] })
     .samples[0]!;
@@ -761,7 +757,6 @@ test('audio admission bounds transport and native decodes across queued cancella
       await native.promise;
       return { length: 20, numberOfChannels: 1 } as AudioBuffer;
     },
-    () => 0,
   );
   const controllers = samples.map(() => new AbortController()),
     claims = samples.map((sample, i) => buffers.acquire(sample, controllers[i]!.signal)),

@@ -42,3 +42,11 @@ export async function openEditor(page: Page, url = '/editor.html?automated') {
 export async function waitForEditorIdle(page: Page) {
   await expect(page.locator('#tool')).toBeEnabled({ timeout: 60_000 });
 }
+
+export function expectPageValue<T>(
+  page: Page,
+  read: () => T,
+  options?: Parameters<typeof expect.poll>[1],
+) {
+  return expect.poll(() => page.evaluate(read), options);
+}

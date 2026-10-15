@@ -1,10 +1,18 @@
+import { rectangle } from '../fixtures/ground';
+import {
+  expectPageValue,
+  test,
+  expect,
+  waitForEditorIdle,
+  openEditor,
+  waitForEditor,
+} from './fixtures';
+import { importEditorScene, readEditorDocument, expectEditorDocument } from './editor-driver';
 import { readJson } from '../../tools/json-file';
-import { test, expect, waitForEditorIdle, openEditor, waitForEditor } from './fixtures';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { projectRoot } from '../../tools/assets/paths';
 import { emptyScene } from '../../src/editor/default-scene';
-import type {} from '../../src/editor/main';
 
 test('ground authoring accepts and corrects selection, saves contours and routes multiple actors without storage writes', async ({
   page,
@@ -15,12 +23,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     file = path.join(projectRoot, 'authoring/scenes', id + '.json');
   const mask = [
     {
-      outer: [
-        [0.53, 0.3],
-        [0.65, 0.3],
-        [0.65, 0.6],
-        [0.53, 0.6],
-      ],
+      outer: rectangle(0.53, 0.3, 0.65, 0.6),
       holes: [],
     },
   ];
@@ -62,17 +65,10 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     d.floor.layout = 'artwork';
     // The sandbox supplies three reachable enemies without changing the saved scene.
     d.gameplay!.spawns = [];
-    await page.locator('#import-scene').setInputFiles({
-      name: 'fixture.json',
-      mimeType: 'application/json',
-      buffer: Buffer.from(JSON.stringify(d)),
-    });
-    await page.locator('#confirmation-accept').click();
-    await expect
-      .poll(() => page.evaluate(() => window.sceneEditor.state().document.floor.layout), {
-        timeout: 30_000,
-      })
-      .toBe('artwork');
+    await importEditorScene(page, d, 'fixture.json');
+    await expectEditorDocument(page, (document) => document.floor.layout, {
+      timeout: 30_000,
+    }).toBe('artwork');
     await page.locator('#scene-tab').click();
     await page.locator('#ground-interaction-section > summary').click();
     const clickUV = async (u: number, v: number) => {
@@ -143,30 +139,25 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await expect(page.locator('#ground-ai-state')).toContainText('Selection ready');
     expect(selections).toBe(2);
     expect(
-      await page.evaluate(() => window.sceneEditor.state().document.groundInteraction),
+      await readEditorDocument(page, (document) => document.groundInteraction),
     ).toBeUndefined();
     await page.locator('#ground-region-name').fill('');
     await page.locator('#ground-accept').click();
     await expect(page.locator('#validation-errors')).toBeVisible();
     expect(
-      await page.evaluate(() => window.sceneEditor.state().document.groundInteraction),
+      await readEditorDocument(page, (document) => document.groundInteraction),
     ).toBeUndefined();
     await page.locator('#ground-region-name').fill('Tree');
     await page.locator('#ground-accept').click();
-    await expect
-      .poll(() =>
-        page.evaluate(() => window.sceneEditor.state().document.groundInteraction?.regions.length),
-      )
-      .toBe(1);
-    await expect
-      .poll(() =>
-        page.evaluate(
-          () => window.sceneEditor.state().document.groundInteraction!.regions[0]!.mask,
-        ),
-      )
-      .toEqual(mask);
-    const accepted = await page.evaluate(() =>
-      JSON.stringify(window.sceneEditor.state().document.groundInteraction!.regions[0]!.mask),
+    await expectEditorDocument(page, (document) => document.groundInteraction?.regions.length).toBe(
+      1,
+    );
+    await expectEditorDocument(
+      page,
+      (document) => document.groundInteraction!.regions[0]!.mask,
+    ).toEqual(mask);
+    const accepted = await readEditorDocument(page, (document) =>
+      JSON.stringify(document.groundInteraction!.regions[0]!.mask),
     );
     await expect(page.locator('.ground-overlay path')).toHaveCount(0);
     await page.getByText('Overlays', { exact: true }).click();
@@ -179,13 +170,9 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await page.keyboard.up('w');
     await page.locator('#ground-task').selectOption('brush-erase');
     await clickUV(0.58, 0.45);
-    await expect
-      .poll(() =>
-        page.evaluate(() =>
-          JSON.stringify(window.sceneEditor.state().document.groundInteraction!.regions[0]!.mask),
-        ),
-      )
-      .not.toBe(accepted);
+    await expectEditorDocument(page, (document) =>
+      JSON.stringify(document.groundInteraction!.regions[0]!.mask),
+    ).not.toBe(accepted);
     expect(selections).toBe(2);
     await page.locator('[data-ground-mode=footprint]').click();
     for (const [u, v] of [
@@ -198,25 +185,17 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await expect(page.locator('#validation-errors')).toContainText('simple nondegenerate polygon');
     await clickUV(0.59, 0.56);
     await page.locator('#ground-finish').click();
-    await expect
-      .poll(() =>
-        page.evaluate(
-          () =>
-            window.sceneEditor.state().document.groundInteraction!.regions[0]!.footprint?.length,
-        ),
-      )
-      .toBe(4);
+    await expectEditorDocument(
+      page,
+      (document) => document.groundInteraction!.regions[0]!.footprint?.length,
+    ).toBe(4);
     await page.locator('[data-ground-mode=anchor]').click();
     await clickUV(0.56, 0.58);
-    await expect.poll(() => page.evaluate(() => window.sceneEditor.state().dirty)).toBe(true);
-    const authored = await page.evaluate(
-      () => window.sceneEditor.state().document.groundInteraction,
-    );
+    await expectPageValue(page, () => window.sceneEditor.state().dirty).toBe(true);
+    const authored = await readEditorDocument(page, (document) => document.groundInteraction);
     await page.locator('#undo').click();
     await page.locator('#redo').click();
-    await expect
-      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
-      .toEqual(authored);
+    await expectEditorDocument(page, (document) => document.groundInteraction).toEqual(authored);
     await page.locator('#ground-find').click();
     await expect(page.locator('#ground-ai-state')).toContainText('1 scenery proposals');
     await page.locator('#ground-prepare').click();
@@ -227,20 +206,14 @@ test('ground authoring accepts and corrects selection, saves contours and routes
       .click();
     await clickUV(0.58, 0.45);
     await page.locator('#ground-accept-batch').click();
-    await expect
-      .poll(() =>
-        page.evaluate(() => window.sceneEditor.state().document.groundInteraction?.regions.length),
-      )
-      .toBe(2);
+    await expectEditorDocument(page, (document) => document.groundInteraction?.regions.length).toBe(
+      2,
+    );
     expect(
-      await page.evaluate(
-        () => window.sceneEditor.state().document.groundInteraction!.regions[1]!.mask,
-      ),
+      await readEditorDocument(page, (document) => document.groundInteraction!.regions[1]!.mask),
     ).not.toEqual(mask);
     await page.locator('#undo').click();
-    await expect
-      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
-      .toEqual(authored);
+    await expectEditorDocument(page, (document) => document.groundInteraction).toEqual(authored);
     await page.locator('#document-menu > summary').click();
     await page.locator('#save-as').click();
     await page.locator('#file-id').fill(id);
@@ -270,9 +243,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
       await page.locator('#ground-interaction-section > summary').click();
     await page.locator('.region-menu > summary').click();
     await page.locator('#ground-clear').click();
-    await expect
-      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
-      .toBeUndefined();
+    await expectEditorDocument(page, (document) => document.groundInteraction).toBeUndefined();
     const profileList = page.waitForResponse(
       (response) =>
         response.request().method() === 'GET' &&
@@ -286,19 +257,13 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await expect(page.locator('#ground-profile option[value="' + profileId + '"]')).toHaveCount(1);
     await page.locator('#ground-profile').selectOption(profileId!);
     await page.locator('#ground-restore-profile').click();
-    await expect
-      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
-      .toEqual(authored);
+    await expectEditorDocument(page, (document) => document.groundInteraction).toEqual(authored);
     await page.locator('#undo').click();
-    await expect
-      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
-      .toBeUndefined();
+    await expectEditorDocument(page, (document) => document.groundInteraction).toBeUndefined();
     await page.locator('#redo').click();
-    await expect
-      .poll(() => page.evaluate(() => window.sceneEditor.state().document.groundInteraction))
-      .toEqual(authored);
-    const before = await page.evaluate(() => ({
-      draft: window.sceneEditor.state().document,
+    await expectEditorDocument(page, (document) => document.groundInteraction).toEqual(authored);
+    const before = await readEditorDocument(page, (document) => ({
+      draft: document,
       storage: Object.entries(localStorage).filter(
         ([key]) => !key.startsWith('lantern-scene-editor'),
       ),
@@ -324,14 +289,14 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await page.locator('#movement-actor').selectOption('player');
     const x = (await page.evaluate(() => window.sceneEditor.playtest()))!.hero.x;
     await page.keyboard.down('KeyD');
-    await expect.poll(() => page.evaluate(() => window.sceneEditor.playtest()!.hero.x)).not.toBe(x);
+    await expectPageValue(page, () => window.sceneEditor.playtest()!.hero.x).not.toBe(x);
     await page.keyboard.up('KeyD');
     await page.locator('#playtest-reset').click();
     await page.waitForFunction(() => window.sceneEditor.playtest()?.ready, undefined, {
       timeout: 60_000,
     });
     await page.locator('#playtest-return').click();
-    expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(before.draft);
+    expect(await readEditorDocument(page)).toEqual(before.draft);
     expect(
       await page.evaluate(() =>
         Object.entries(localStorage).filter(([key]) => !key.startsWith('lantern-scene-editor')),
@@ -351,7 +316,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
   }
 });
 
-test('editor rejects an upright prop on painted scenery without changing the accepted document', async ({
+test('editor rejects an upright prop on painted collision without changing the accepted document', async ({
   page,
 }) => {
   test.setTimeout(240_000);
@@ -359,38 +324,33 @@ test('editor rejects an upright prop on painted scenery without changing the acc
   const scene = JSON.parse(
     await fs.readFile(path.join(projectRoot, 'authoring/scenes/abandoned-orchard.json'), 'utf8'),
   );
-  await page.locator('#import-scene').setInputFiles({
-    name: 'orchard.json',
-    mimeType: 'application/json',
-    buffer: Buffer.from(JSON.stringify(scene)),
+  scene.groundInteraction.regions.push({
+    id: 'blocked-placement',
+    name: 'Blocked placement',
+    footprint: rectangle(12.4, -2.4, 12.6, -2.2).map(([x, z]) => ({ x, z })),
   });
-  await page.locator('#confirmation-accept').click();
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document.name), { timeout: 90_000 })
-    .toBe('Imported ' + scene.name);
+  await importEditorScene(page, scene, 'orchard.json');
+  await expectEditorDocument(page, (document) => document.name, { timeout: 90_000 }).toBe(
+    'Imported ' + scene.name,
+  );
   await waitForEditorIdle(page);
   const count = scene.objects.length;
-  const breakable = scene.gameplay.interactables.find(
-    (o: { kind: string }) => o.kind === 'breakable',
-  );
-  const barrel = scene.objects.find((o: { id: string }) => o.id === breakable.object);
   await page.locator('#artwork-tab').click();
   await page.locator('#art-filters > summary').click();
   await page.locator('#asset-scope').selectOption('all');
   await page.locator('#category').selectOption('all');
   await page.locator('#collection').selectOption('all');
-  await page.locator('#search').fill(barrel.asset);
-  await page.locator('#assets button.asset[title^="' + barrel.asset + '/"]').click();
-  await page.locator('#place-clip').selectOption(barrel.clip);
+  await page.locator('#search').fill('ink-blackwood-oak');
+  await page.locator('#assets button.asset[title^="ink-blackwood-oak/"]').click();
+  await expect(page.locator('#place-clip')).toHaveValue('oak');
   const point = await page.evaluate(async () => {
     const threePath = '/node_modules/.vite/deps/three.js';
     const { Vector3 } = await import(threePath);
     return window.sceneEditor.view().screen(new Vector3(12.5, 0, -2.3));
   });
-  await page.mouse.move(point.x, point.y);
   await page.mouse.click(point.x, point.y);
   await expect(page.locator('#validation-errors')).toContainText('Placement needs clear ground');
-  expect(await page.evaluate(() => window.sceneEditor.state().document.objects.length)).toBe(count);
+  expect(await readEditorDocument(page, (document) => document.objects.length)).toBe(count);
   if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY)
     await page.screenshot({
       path: path.join(

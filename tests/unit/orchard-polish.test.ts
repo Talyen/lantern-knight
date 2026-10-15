@@ -1,3 +1,4 @@
+import { boxProp, interactable } from '../fixtures/world';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { contentDefinitions } from '../fixtures/content';
@@ -26,36 +27,19 @@ function fixture(blocked = false) {
         exits: [],
         spawns: [],
         props: blocked
-          ? [
-              {
-                id: 'divider',
-                kind: 'wall',
-                shape: 'box',
-                size: [0.8, 30],
-                x: 0,
-                z: 0,
-                height: 2,
-                radius: 0.2,
-                blocking: true,
-              },
-            ]
+          ? [boxProp({ id: 'divider', size: [0.8, 30], height: 2, radius: 0.2, blocking: true })]
           : [],
         interactables: [
-          {
+          interactable({
             id: 'cache',
             object: 'cache',
-            kind: 'container',
             x: 3,
-            z: 0,
-            guards: [],
-            idle: 'idle',
-            action: 'open',
             spent: 'spent',
             rewards: [
               { item: 'gold', amount: 5 },
               { item: 'health-potion', amount: 1 },
             ],
-          },
+          }),
         ],
       },
     ],

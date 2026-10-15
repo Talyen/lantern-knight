@@ -2,14 +2,12 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { supportedPosition, isSupportedPosition, heightAt } from '../../src/content/world';
 import { content, contentDefinitions } from '../fixtures/content';
-import { content as visualContent } from '../fixtures/visuals';
+import { content as visualContent, worldVisuals } from '../fixtures/visuals';
 import { Simulation } from '../../src/core/simulation';
 import { GameSession } from '../../src/core/session';
 
 import { composeSceneContent } from '../../src/content/game-content';
-import { sceneAssets } from '../../src/content/world-visuals';
-import { worldVisuals } from '../fixtures/visuals';
-import { compositionPoint, compositionHeight } from '../../src/content/world-visuals';
+import { sceneAssets, compositionPoint, compositionHeight } from '../../src/content/world-visuals';
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: -1 } };
 test('encounters remain dormant until activation and damage wakes their peers', () => {
   assert.deepEqual(

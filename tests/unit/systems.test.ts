@@ -1,12 +1,11 @@
 import { onExit } from '../../tools/scope-exit';
 import { mockGlobals } from '../fixtures/globals';
-import { content } from '../fixtures/content';
+import { content, contentDefinitions } from '../fixtures/content';
 import { sandboxContent } from '../../src/content/sandbox-world';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Vector3 } from 'three';
 import { ContentRegistry, PLAYER_ID, heightAt, surfaceGradient } from '../../src/content/world';
-import { contentDefinitions } from '../fixtures/content';
 import { GameSession } from '../../src/core/session';
 import { parseGame } from '../../src/core/save';
 import { tuning, attackDefinition } from '../../src/content/gameplay';

@@ -1,3 +1,4 @@
+import { boxProp, interactable } from '../fixtures/world';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { attackDefinition, tuning } from '../../src/content/gameplay';
@@ -71,18 +72,7 @@ test('death routes to the actual fire entry when its center is too tight for the
   const definitions = structuredClone(original.registry.definitions) as ContentDefinitions;
   definitions.actors.find((actor) => actor.kind === 'hero')!.radius = 0.6;
   const a = definitions.areas[0]!;
-  a.props = [
-    {
-      id: 'wall',
-      kind: 'wall',
-      x: -8,
-      z: -0.5,
-      radius: 0.1,
-      height: 1,
-      shape: 'box',
-      size: [1, 0.1],
-    },
-  ];
+  a.props = [boxProp({ id: 'wall', x: -8, z: -0.5, size: [1, 0.1] })];
   a.entries = a.entries.map((entry) =>
     entry.id === 'fire-west' || entry.id === 'start' ? { ...entry, z: 0.5 } : entry,
   );
@@ -141,30 +131,24 @@ function fixture() {
       },
     ],
     interactables: [
-      {
+      interactable({
         id: 'crate',
         object: 'crate',
         kind: 'breakable',
         x: -7,
-        z: 0,
-        guards: [],
         rewards: [{ item: 'gold', amount: 3 }],
-        idle: 'idle',
         action: 'break',
         spent: 'broken',
-      },
-      {
+      }),
+      interactable({
         id: 'chest',
         object: 'chest',
-        kind: 'container',
         x: 5,
         z: 4,
         guards: ['guard'],
         rewards: [{ item: 'orchard-ring', amount: 1 }],
-        idle: 'idle',
-        action: 'open',
         spent: 'opened',
-      },
+      }),
     ],
   });
   return new GameSession(
@@ -640,20 +624,7 @@ test('campfire discovery, rest and travel require unobstructed contact on the sa
       surface: stairs ? stairSurface : a.surface,
       campfires: [{ ...a.campfires![0]!, z: 0.8 }],
       entries: a.entries.map((entry) => (entry.id === 'fire-west' ? { ...entry, z: 0.8 } : entry)),
-      props: stairs
-        ? []
-        : [
-            {
-              id: 'divider',
-              kind: 'wall',
-              x: -8,
-              z: 0.4,
-              radius: 0.1,
-              height: 2,
-              shape: 'box',
-              size: [2, 0.1],
-            },
-          ],
+      props: stairs ? [] : [boxProp({ id: 'divider', x: -8, z: 0.4, height: 2, size: [2, 0.1] })],
     }));
     discover(s, 'forest/west');
     assert.throws(() => s.discoverFire('orchard/west'));
@@ -862,18 +833,7 @@ test('core commands enforce the same contact barriers as interaction prompts', (
       exits: a.exits.map((e) => ({ ...e, marker: { x: 0, z: 0.8 }, guards: [] })),
       props:
         obstruction === 'wall'
-          ? [
-              {
-                id: 'divider',
-                kind: 'wall',
-                x: 0,
-                z: 0.4,
-                radius: 0.1,
-                height: 2,
-                shape: 'box',
-                size: [2, 0.1],
-              },
-            ]
+          ? [boxProp({ id: 'divider', z: 0.4, height: 2, size: [2, 0.1] })]
           : [],
     }));
     Object.assign(s.sim.hero, { x: obstruction === 'distance' ? -8 : 0, z: 0, y: 0 });
@@ -965,18 +925,7 @@ for (const obstruction of ['floor', 'wall'] as const)
       })),
       props:
         obstruction === 'wall'
-          ? [
-              {
-                id: 'divider',
-                kind: 'wall',
-                x: 0,
-                z: 0.4,
-                radius: 0.1,
-                height: 2,
-                shape: 'box',
-                size: [2, 0.1],
-              },
-            ]
+          ? [boxProp({ id: 'divider', z: 0.4, height: 2, size: [2, 0.1] })]
           : [],
     }));
     Object.assign(s.sim.hero, { x: 0, z: -0.4, y: 0 });

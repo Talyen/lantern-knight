@@ -1,7 +1,7 @@
+import { readEditorDocument, expectEditorDocument } from './editor-driver';
 import { test, expect, openEditor } from './fixtures';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import type {} from '../../src/editor/main';
 
 test('authored ground opens and routes its actors through saved annotations', async ({
   page,
@@ -18,14 +18,12 @@ test('authored ground opens and routes its actors through saved annotations', as
   const started = Date.now();
   await page.locator('#open').click();
   await page.locator('#confirmation-accept').click();
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document.id), {
-      timeout: 90_000,
-    })
-    .toBe(id);
+  await expectEditorDocument(page, (document) => document.id, {
+    timeout: 90_000,
+  }).toBe(id);
   await page.waitForFunction(() => window.sceneEditor.view().presentation?.groundOcclusion);
   const openMilliseconds = Date.now() - started;
-  const original = await page.evaluate(() => JSON.stringify(window.sceneEditor.state().document));
+  const original = await readEditorDocument(page, (document) => JSON.stringify(document));
   const atlas = await page.evaluate(() => {
     const p = window.sceneEditor.view().presentation!;
     const gl = p.renderer.getContext(),
@@ -44,8 +42,8 @@ test('authored ground opens and routes its actors through saved annotations', as
   await page.locator('#test-movement').click();
   await page.waitForFunction(() => window.sceneEditor.playtest()?.ready);
   await expect(page.locator('#movement-actor option')).toHaveCount(4);
-  const targets = await page.evaluate(() =>
-    window.sceneEditor.state().document.groundInteraction!.destinations.map((p, i) => ({
+  const targets = await readEditorDocument(page, (document) =>
+    document.groundInteraction!.destinations.map((p, i) => ({
       value: String(i),
       name: p.name,
       reachable: p.reachable ?? p.name !== 'Blocked island',
@@ -79,9 +77,7 @@ test('authored ground opens and routes its actors through saved annotations', as
   });
   await page.screenshot({ path: info.outputPath('movement.png') });
   await page.locator('#playtest-return').click();
-  expect(await page.evaluate(() => JSON.stringify(window.sceneEditor.state().document))).toBe(
-    original,
-  );
+  expect(await readEditorDocument(page, (document) => JSON.stringify(document))).toBe(original);
   await fs.writeFile(
     path.join(info.outputDir, 'metrics.json'),
     JSON.stringify(

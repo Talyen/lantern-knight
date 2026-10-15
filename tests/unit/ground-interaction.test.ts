@@ -37,14 +37,7 @@ const ground = () =>
           mask: [
             {
               outer: rectangle(0.2, 0.2, 0.8, 0.8),
-              holes: [
-                [
-                  [0.4, 0.4],
-                  [0.4, 0.6],
-                  [0.6, 0.6],
-                  [0.6, 0.4],
-                ],
-              ],
+              holes: [rectangle(0.4, 0.4, 0.6, 0.6, true)],
             },
           ],
           depth: { kind: 'anchor', point: { x: 0, z: 1 } },

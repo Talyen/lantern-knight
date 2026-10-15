@@ -1,3 +1,4 @@
+import { interactable } from '../fixtures/world';
 import { onExit } from '../../tools/scope-exit';
 import { RoomPresentation } from '../../src/presentation/room-presentation';
 import { test } from 'node:test';
@@ -219,18 +220,7 @@ test('interactive scenery retains its authored pose while idle, claimed and rest
   const definitions = structuredClone(contentDefinitions);
   const area = definitions.areas.find((area) => area.id === 'court')!;
   area.interactables = [
-    {
-      id: 'container',
-      object: 'prop',
-      kind: 'container',
-      x: 1,
-      z: 1,
-      guards: [],
-      rewards: [],
-      idle: 'idle',
-      action: 'idle',
-      spent: 'idle',
-    },
+    interactable({ id: 'container', object: 'prop', x: 1, z: 1, action: 'idle', spent: 'idle' }),
   ];
   const sim = new Simulation(new ContentRegistry(definitions));
   const art = fixtureArt();

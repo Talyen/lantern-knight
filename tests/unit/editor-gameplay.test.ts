@@ -1,3 +1,4 @@
+import { interactable } from '../fixtures/world';
 import { it } from 'node:test';
 import assert from 'node:assert/strict';
 import { emptyScene } from '../../src/editor/default-scene';
@@ -126,18 +127,13 @@ it('inherited draft gameplay retains campfires and interactive rewards', () => {
   const source = definitions.areas[0]!;
   source.campfires = [{ id: 'home', name: 'Home', x: 0, z: 0, safeRadius: 1 }];
   source.interactables = [
-    {
+    interactable({
       id: 'chest',
       object: 'chest',
-      kind: 'container',
       x: 2,
-      z: 0,
-      guards: [],
       rewards: [{ item: 'gold', amount: 3 }],
-      idle: 'idle',
-      action: 'open',
       spent: 'opened',
-    },
+    }),
   ];
   draft.base = source.id;
   draft.geometry = {

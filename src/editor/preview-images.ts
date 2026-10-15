@@ -1,65 +1,57 @@
-import { readUntilAborted } from '../assets/abort';
+import { ResourceCache } from '../assets/resource-cache';
 import { DecodeQueue } from '../assets/decode-queue';
-import { cleanupAfterFailure } from '../assets/cleanup';
-type ImageLoad = { promise: Promise<HTMLImageElement>; cancel: () => void };
 type Playback = {
   active: boolean;
   requests: Set<AbortController>;
   displayed?: { source: string; image: HTMLImageElement };
-};
-type PendingImage = {
-  controller: AbortController;
-  readers: number;
-  promise: Promise<HTMLImageElement>;
 };
 export type PreviewPlayback = {
   draw(source: string, paint: (image: HTMLImageElement) => void): Promise<void>;
   dispose(): void;
 };
 
-function loadImage(source: string): ImageLoad {
-  const image = new Image();
-  let reject!: (error: unknown) => void;
-  const clear = () => {
-    image.onload = null;
-    image.onerror = null;
-  };
-  const promise = new Promise<HTMLImageElement>((resolve, fail) => {
-    reject = fail;
+function loadImage(source: string, signal: AbortSignal): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    const clear = () => {
+      image.onload = image.onerror = null;
+      signal.removeEventListener('abort', cancel);
+    };
+    const cancel = () => {
+      clear();
+      image.removeAttribute('src');
+      reject(signal.reason);
+    };
     image.onload = () => {
       clear();
       resolve(image);
     };
     image.onerror = () => {
       clear();
-      fail(new Error(`Preview image unavailable: ${source}`));
+      reject(new Error(`Preview image unavailable: ${source}`));
     };
-    image.src = source;
+    signal.addEventListener('abort', cancel, { once: true });
+    if (signal.aborted) cancel();
+    else image.src = source;
   });
-  return {
-    promise,
-    cancel: () => {
-      clear();
-      image.removeAttribute('src');
-      reject(new Error('Preview images disposed'));
-    },
-  };
 }
 
 // All editor thumbnails and animated previews share one decode/cache lifetime.
 // A canvas accepts only its latest request, even when pages finish out of order.
 export class PreviewImages {
-  private readonly ready = new Map<string, HTMLImageElement>();
-  private readonly pending = new Map<string, PendingImage>();
+  private readonly cache = new ResourceCache<HTMLImageElement>(
+    (image) => image.naturalWidth * image.naturalHeight * 4,
+    64 * 1024 ** 2,
+    48,
+  );
   private readonly decodes = new DecodeQueue(6);
   private latest = new WeakMap<HTMLCanvasElement, AbortController>();
   private readonly playbacks = new Set<Playback>();
-  private readyBytes = 0;
   private readonly lifetime = new AbortController();
   private get closed() {
     return this.lifetime.signal.aborted;
   }
-  constructor(private readonly load: (source: string) => ImageLoad = loadImage) {}
+  constructor(private readonly load = loadImage) {}
 
   // Only an open animation owns a displayed source outside the bounded cache.
   // Thumbnails already contain their painted pixels and need no source lease.
@@ -117,76 +109,14 @@ export class PreviewImages {
     }
   }
 
-  private acquire(source: string, signal: AbortSignal) {
-    const cached = this.ready.get(source);
-    if (cached) {
-      this.ready.delete(source);
-      this.ready.set(source, cached);
-      return Promise.resolve(cached);
-    }
-    let pending = this.pending.get(source);
-    if (!pending) {
-      const controller = new AbortController(),
-        lifetime = AbortSignal.any([controller.signal, this.lifetime.signal]);
-      const created: PendingImage = {
-        controller,
-        readers: 0,
-        promise: this.decodes
-          .run(async () => {
-            lifetime.throwIfAborted();
-            const load = this.load(source);
-            let cancellationFailure: unknown;
-            const cancel = () => {
-              try {
-                load.cancel();
-              } catch (error) {
-                cancellationFailure = error;
-              }
-            };
-            lifetime.addEventListener('abort', cancel, { once: true });
-            try {
-              if (lifetime.aborted) cancel();
-              const image = await readUntilAborted(load.promise, lifetime);
-              lifetime.throwIfAborted();
-              this.ready.set(source, image);
-              this.readyBytes += image.naturalWidth * image.naturalHeight * 4;
-              while (this.ready.size > 48 || this.readyBytes > 64 * 1024 * 1024) {
-                const oldest = this.ready.keys().next().value!;
-                const removed = this.ready.get(oldest)!;
-                this.ready.delete(oldest);
-                this.readyBytes -= removed.naturalWidth * removed.naturalHeight * 4;
-              }
-              return image;
-            } catch (error) {
-              cleanupAfterFailure(error, () => {
-                if (cancellationFailure !== undefined) throw cancellationFailure;
-              });
-            } finally {
-              lifetime.removeEventListener('abort', cancel);
-            }
-          }, lifetime)
-          .finally(() => {
-            if (this.pending.get(source) === created) this.pending.delete(source);
-          }),
-      };
-      this.pending.set(source, created);
-      pending = created;
-    }
-    const owned = pending;
-    owned.readers++;
-    let released = false;
-    const release = () => {
-      if (released) return;
-      released = true;
-      signal.removeEventListener('abort', release);
-      if (--owned.readers === 0 && this.pending.get(source) === owned) {
-        this.pending.delete(source);
-        owned.controller.abort();
-      }
-    };
-    signal.addEventListener('abort', release, { once: true });
-    if (signal.aborted) release();
-    return readUntilAborted(owned.promise, signal).finally(release);
+  private async acquire(source: string, signal: AbortSignal) {
+    const held = await this.cache.acquire(
+      source,
+      (lifetime) => this.decodes.run(() => this.load(source, lifetime), lifetime),
+      signal,
+    );
+    held.release();
+    return held.value;
   }
 
   dispose() {
@@ -198,9 +128,7 @@ export class PreviewImages {
       playback.displayed = undefined;
     }
     this.playbacks.clear();
-    this.ready.clear();
-    this.readyBytes = 0;
+    this.cache.dispose();
     this.decodes.dispose();
-    this.pending.clear();
   }
 }

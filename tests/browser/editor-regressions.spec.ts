@@ -1,4 +1,5 @@
-import { test, expect } from './fixtures';
+import { changeField } from './editor-driver';
+import { expectPageValue, test, expect } from './fixtures';
 import type { Page } from '@playwright/test';
 import type { GroundAuthoring } from '../../src/editor/ground-authoring';
 import type { SceneDocument } from '../../src/content/scene-document';
@@ -33,7 +34,8 @@ test.beforeEach(async ({ page }) => {
       scenePath = '/src/content/scene-document.ts',
       defaultPath = '/src/editor/default-scene.ts',
       uiPath = '/src/editor/ui.ts',
-      gesturesPath = '/src/editor/gestures.ts';
+      gesturesPath = '/src/editor/gestures.ts',
+      groundPath = '/tests/fixtures/ground.ts';
     const [
       { GroundAuthoring },
       { makeCamera },
@@ -41,6 +43,7 @@ test.beforeEach(async ({ page }) => {
       { emptyScene },
       { editorUI },
       { EditorGestures },
+      { rectangle },
     ] = await Promise.all([
       import(authoringPath),
       import(cameraPath),
@@ -48,6 +51,7 @@ test.beforeEach(async ({ page }) => {
       import(defaultPath),
       import(uiPath),
       import(gesturesPath),
+      import(groundPath),
     ]);
     const template = document.createElement('template');
     template.innerHTML = editorUI;
@@ -68,12 +72,7 @@ test.beforeEach(async ({ page }) => {
           name: 'Region',
           mask: [
             {
-              outer: [
-                [0.48, 0.48],
-                [0.52, 0.48],
-                [0.52, 0.52],
-                [0.48, 0.52],
-              ],
+              outer: rectangle(0.48, 0.48, 0.52, 0.52),
               holes: [],
             },
           ],
@@ -198,14 +197,12 @@ test('ground drags commit the release location without a final pointermove', asy
 });
 
 test('ground regions with maximum-length names can be duplicated', async ({ page }) => {
-  await page.locator('#ground-region-name').fill('R'.repeat(80));
-  await page.locator('#ground-region-name').dispatchEvent('change');
+  await changeField(page.locator('#ground-region-name'), 'R'.repeat(80));
   await page.locator('#ground-duplicate').click();
-  await expect
-    .poll(() =>
-      page.evaluate(() => window.groundRegression.document.groundInteraction!.regions.length),
-    )
-    .toBe(2);
+  await expectPageValue(
+    page,
+    () => window.groundRegression.document.groundInteraction!.regions.length,
+  ).toBe(2);
   const name = await page.evaluate(
     () => window.groundRegression.document.groundInteraction!.regions[1]!.name,
   );

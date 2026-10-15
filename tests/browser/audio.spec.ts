@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { expectPageValue, test, expect } from './fixtures';
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
@@ -38,14 +38,10 @@ test('audio settings persist independently in Game', async ({ page }) => {
     input.dispatchEvent(new Event('change', { bubbles: true }));
   });
   await page.locator('[data-audio="muted"]').check();
-  await expect
-    .poll(() =>
-      page.evaluate(() => {
-        const key = Object.keys(localStorage).find((key) => key.endsWith('-settings'));
-        return key ? JSON.parse(localStorage.getItem(key)!).audio : undefined;
-      }),
-    )
-    .toEqual({ master: 0.35, effects: 0.8, ambience: 0.65, muted: true });
+  await expectPageValue(page, () => {
+    const key = Object.keys(localStorage).find((key) => key.endsWith('-settings'));
+    return key ? JSON.parse(localStorage.getItem(key)!).audio : undefined;
+  }).toEqual({ master: 0.35, effects: 0.8, ambience: 0.65, muted: true });
   await page.reload();
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
@@ -77,20 +73,14 @@ test('prepared samples decode and Preview exposes every audition', async ({ page
   await page.keyboard.down('KeyD');
   await page.waitForTimeout(500);
   await page.keyboard.up('KeyD');
-  await expect
-    .poll(() =>
-      page.evaluate(
-        () => (window as unknown as { audioProbe: { starts: number } }).audioProbe.starts,
-      ),
-    )
-    .toBeGreaterThan(0);
-  await expect
-    .poll(() =>
-      page.evaluate(
-        () => (window as unknown as { audioProbe: { loopStarts: number } }).audioProbe.loopStarts,
-      ),
-    )
-    .toBeGreaterThan(0);
+  await expectPageValue(
+    page,
+    () => (window as unknown as { audioProbe: { starts: number } }).audioProbe.starts,
+  ).toBeGreaterThan(0);
+  await expectPageValue(
+    page,
+    () => (window as unknown as { audioProbe: { loopStarts: number } }).audioProbe.loopStarts,
+  ).toBeGreaterThan(0);
   await expect
     .poll(() => requested.filter((url) => url.endsWith('.wav')).length)
     .toBeGreaterThan(0);
@@ -151,15 +141,11 @@ test('prepared samples decode and Preview exposes every audition', async ({ page
       () => (window as unknown as { audioProbe: { starts: number } }).audioProbe.starts,
     );
     await page.getByRole('button', { name: 'Play sample', exact: true }).click();
-    await expect
-      .poll(
-        () =>
-          page.evaluate(
-            () => (window as unknown as { audioProbe: { starts: number } }).audioProbe.starts,
-          ),
-        { message: id },
-      )
-      .toBeGreaterThan(before);
+    await expectPageValue(
+      page,
+      () => (window as unknown as { audioProbe: { starts: number } }).audioProbe.starts,
+      { message: id },
+    ).toBeGreaterThan(before);
     await page.getByRole('button', { name: 'Stop sample', exact: true }).click();
   }
   await page.screenshot({ path: test.info().outputPath('sound-preview.png') });

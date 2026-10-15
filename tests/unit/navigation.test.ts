@@ -1,3 +1,4 @@
+import { boxProp, interactable } from '../fixtures/world';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Navigation, moveSupported, clearSegment } from '../../src/core/navigation';
@@ -25,23 +26,12 @@ const area = (): AreaDefinition => ({
   baselineEntry: 'start',
   spawns: [{ id: 'enemy', actor: 'skeleton', x: 3, z: 0 }],
   exits: [],
-  props: [
-    { id: 'wall', kind: 'wall', x: 0, z: 0, radius: 0.2, height: 1, shape: 'box', size: [0.08, 4] },
-  ],
+  props: [boxProp({ id: 'wall', radius: 0.2, size: [0.08, 4] })],
 });
 test('loot routing can use the full interaction reach beyond a deep narrow recess', () => {
   const a = area();
   a.spawns = [];
-  a.props = [-0.25, 0.25].map((z, i) => ({
-    id: 'recess-' + i,
-    kind: 'wall',
-    x: 0,
-    z,
-    radius: 0.1,
-    height: 1,
-    shape: 'box',
-    size: [2.7, 0.1],
-  }));
+  a.props = [-0.25, 0.25].map((z, i) => boxProp({ id: 'recess-' + i, z, size: [2.7, 0.1] }));
   const sim = new Simulation(
     new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] }),
   );
@@ -82,36 +72,9 @@ test('navigation connects endpoints beyond a disconnected nearest grid node', ()
   const a = area();
   a.bounds = { minX: -3, maxX: 3, minZ: -3, maxZ: 3 };
   a.props = [
-    {
-      id: 'right',
-      kind: 'wall',
-      x: 1.88,
-      z: -1.61,
-      radius: 0.1,
-      height: 1,
-      shape: 'box',
-      size: [2.06, 1.88],
-    },
-    {
-      id: 'left',
-      kind: 'wall',
-      x: -1.93,
-      z: 1.11,
-      radius: 0.1,
-      height: 1,
-      shape: 'box',
-      size: [1.74, 0.12],
-    },
-    {
-      id: 'middle',
-      kind: 'wall',
-      x: -0.27,
-      z: 0.24,
-      radius: 0.1,
-      height: 1,
-      shape: 'box',
-      size: [1.26, 0.76],
-    },
+    boxProp({ id: 'right', x: 1.88, z: -1.61, size: [2.06, 1.88] }),
+    boxProp({ id: 'left', x: -1.93, z: 1.11, size: [1.74, 0.12] }),
+    boxProp({ id: 'middle', x: -0.27, z: 0.24, size: [1.26, 0.76] }),
   ];
   const start = { x: 1.89, z: 1.37 },
     goal = { x: -0.02, z: -1.13 },
@@ -180,26 +143,8 @@ test('a diagonal cannot cut a polygon corner and different actor radii change pa
   const p = moveSupported(a, { x: -2, z: -2 }, { x: 4, z: 4 }, 0.3);
   assert.ok(p.x < -1 && p.z < -1);
   a.props = [
-    {
-      id: 'upper',
-      kind: 'wall',
-      x: 0,
-      z: 2.2,
-      radius: 0.2,
-      height: 1,
-      shape: 'box',
-      size: [10, 3.5],
-    },
-    {
-      id: 'lower',
-      kind: 'wall',
-      x: 0,
-      z: -2.2,
-      radius: 0.2,
-      height: 1,
-      shape: 'box',
-      size: [10, 3.5],
-    },
+    boxProp({ id: 'upper', z: 2.2, radius: 0.2, size: [10, 3.5] }),
+    boxProp({ id: 'lower', z: -2.2, radius: 0.2, size: [10, 3.5] }),
   ];
   assert.equal(new Navigation(a).route({ x: -3, z: 0 }, { x: 3, z: 0 }, 0.3).status, 'ready');
   assert.equal(new Navigation(a).route({ x: -3, z: 0 }, { x: 3, z: 0 }, 0.5).status, 'unreachable');
@@ -305,9 +250,7 @@ test('enemy traversal preserves sanctuary topology and permits an outward escape
   assert.equal(tinyAbove.enemies[0]!.x, -1, 'A tiny fire on another floor stays traversable');
 
   a.surface = { kind: 'flat', height: 0 };
-  a.props = [
-    { id: 'wall', kind: 'wall', x: 0, z: 0, radius: 0.2, height: 1, shape: 'box', size: [0.08, 4] },
-  ];
+  a.props = [boxProp({ id: 'wall', radius: 0.2, size: [0.08, 4] })];
   a.entries = [a.entries[0]!, { id: 'fire-center', x: 0.5, z: 0 }];
   a.campfires = [{ ...a.campfires[0]!, x: 0.5, z: 0, safeRadius: 1.5 }];
   a.spawns = [{ id: 'enemy', actor: 'skeleton', x: -0.6, z: -1 }];
@@ -342,26 +285,8 @@ test('sanctuary traversal detects narrow terrace and visibility fragments regard
   a.campfires = [{ ...a.campfires[0]!, x: 0, z: 0, safeRadius: 3 }];
   a.entries = [a.entries[0]!, { id: 'fire-center', x: 0, z: 0 }];
   a.props = [
-    {
-      id: 'left',
-      kind: 'wall',
-      x: -2.4995,
-      z: 0.5,
-      radius: 0.1,
-      height: 1,
-      shape: 'box',
-      size: [5.001, 0.02],
-    },
-    {
-      id: 'right',
-      kind: 'wall',
-      x: 2.5045,
-      z: 0.5,
-      radius: 0.1,
-      height: 1,
-      shape: 'box',
-      size: [4.991, 0.02],
-    },
+    boxProp({ id: 'left', x: -2.4995, z: 0.5, size: [5.001, 0.02] }),
+    boxProp({ id: 'right', x: 2.5045, z: 0.5, size: [4.991, 0.02] }),
   ];
   const slit = new EncounterBehavior(simulate(a).areaDefinition);
   assert.equal(slit.safePoint({ x: 0.01, z: 1 }), true);
@@ -726,29 +651,14 @@ test('automatic boundary departures still work when their marker is beyond the w
 test('loot routing uses the outer interaction reach at a narrow recess', () => {
   const a = area();
   a.spawns = [];
-  a.props = [-0.25, 0.25].map((z, i) => ({
-    id: 'recess-' + i,
-    kind: 'wall',
-    x: 0,
-    z,
-    radius: 0.1,
-    height: 1,
-    shape: 'box',
-    size: [2.2, 0.1],
-  }));
+  a.props = [-0.25, 0.25].map((z, i) => boxProp({ id: 'recess-' + i, z, size: [2.2, 0.1] }));
   a.interactables = [
-    {
+    interactable({
       id: 'crate',
       object: 'crate',
-      kind: 'container',
-      x: 0,
-      z: 0,
-      guards: [],
       rewards: [{ item: 'gold', amount: 1 }],
-      idle: 'idle',
-      action: 'open',
       spent: 'opened',
-    },
+    }),
   ];
   const registry = new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
   const sim = new Simulation(registry);

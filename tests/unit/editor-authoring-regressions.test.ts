@@ -1,3 +1,4 @@
+import { interactable } from '../fixtures/world';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Vector3, Group, Line } from 'three';
@@ -126,18 +127,15 @@ for (const kind of ['pickups', 'interactables'] as const)
         ];
       else
         d.gameplay!.interactables = [
-          {
+          interactable({
             id: 'chest',
             object: 'supplies',
-            kind: 'container',
             x: -2,
             z: -2,
-            guards: [],
-            rewards: [],
             idle: 'lantern',
             action: 'lantern',
             spent: 'lantern',
-          },
+          }),
         ];
     });
     f.api.form(f.history.document.gameplay![kind]![0], ['gameplay', kind, 0], f.root, kind);
@@ -157,18 +155,15 @@ test('adding an empty guard list selects an existing enemy identity', (t) => {
   const f = fixture(t, (d) => {
     d.gameplay!.spawns = [{ id: 'warden', actor: 'skeleton', x: -3, z: -3 }];
     d.gameplay!.interactables = [
-      {
+      interactable({
         id: 'chest',
         object: 'supplies',
-        kind: 'container',
         x: 1,
         z: 1,
-        guards: [],
-        rewards: [],
         idle: 'lantern',
         action: 'lantern',
         spent: 'lantern',
-      },
+      }),
     ];
   });
   f.add(['gameplay', 'interactables', 0, 'guards'], [], 'Guards');

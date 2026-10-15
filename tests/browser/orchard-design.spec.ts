@@ -1,3 +1,4 @@
+import { importEditorScene, expectEditorDocument } from './editor-driver';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { test, expect, openEditor, waitForEditorIdle } from './fixtures';
@@ -16,15 +17,10 @@ test('Orchard rejects a hidden-body placement and preserves its accepted composi
     await fs.readFile(path.join(projectRoot, 'authoring/scenes/abandoned-orchard.json'), 'utf8'),
   );
   await openEditor(page);
-  await page.locator('#import-scene').setInputFiles({
-    name: 'orchard.json',
-    mimeType: 'application/json',
-    buffer: Buffer.from(JSON.stringify(scene)),
-  });
-  await page.locator('#confirmation-accept').click();
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document.name), { timeout: 90_000 })
-    .toBe('Imported ' + scene.name);
+  await importEditorScene(page, scene, 'orchard.json');
+  await expectEditorDocument(page, (document) => document.name, { timeout: 90_000 }).toBe(
+    'Imported ' + scene.name,
+  );
   await waitForEditorIdle(page);
   const result = await page.evaluate(async () => {
     const source = '/src/content/floor-layout.ts';

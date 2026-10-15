@@ -1,3 +1,4 @@
+import { rectangle } from '../fixtures/ground';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { emptyScene } from '../../src/editor/default-scene';
@@ -25,20 +26,8 @@ function fixture() {
         depth: { kind: 'anchor', point: { x: 0, z: 0 } },
         mask: [
           {
-            outer: [
-              [0.2, 0.2],
-              [0.8, 0.2],
-              [0.8, 0.8],
-              [0.2, 0.8],
-            ],
-            holes: [
-              [
-                [0.4, 0.4],
-                [0.4, 0.6],
-                [0.6, 0.6],
-                [0.6, 0.4],
-              ],
-            ],
+            outer: rectangle(0.2, 0.2, 0.8, 0.8),
+            holes: [rectangle(0.4, 0.4, 0.6, 0.6, true)],
           },
         ],
       },

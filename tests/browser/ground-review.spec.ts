@@ -2,7 +2,6 @@ import { readJson } from '../../tools/json-file';
 import { test, expect, waitForEditor } from './fixtures';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import type {} from '../../src/editor/main';
 
 test('review authored occluders from reachable front and behind positions', async ({
   page,

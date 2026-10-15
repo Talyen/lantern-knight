@@ -1,3 +1,9 @@
+import {
+  changeField,
+  importEditorScene,
+  readEditorDocument,
+  expectEditorDocument,
+} from './editor-driver';
 import { test, expect, openEditor } from './fixtures';
 import type { Page } from '@playwright/test';
 import fs from 'node:fs/promises';
@@ -12,7 +18,7 @@ function scene(name: string) {
     id,
     kind: 'prop',
     asset: 'ink-scenery',
-    clip: 'gravestone',
+    clip: i ? 'lantern' : 'gravestone',
     x: i ? -2 : 2,
     z: 0,
   }));
@@ -32,15 +38,8 @@ function scene(name: string) {
 }
 
 async function importScene(page: Page, name: string) {
-  await page.locator('#import-scene').setInputFiles({
-    name: 'scene.json',
-    mimeType: 'application/json',
-    buffer: Buffer.from(JSON.stringify(scene(name))),
-  });
-  await page.locator('#confirmation-accept').click();
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document.name))
-    .toBe('Imported ' + name);
+  await importEditorScene(page, scene(name), 'scene.json');
+  await expectEditorDocument(page, (document) => document.name).toBe('Imported ' + name);
   await expect(page.locator('#save-state')).not.toHaveText('Working…');
 }
 
@@ -50,7 +49,7 @@ test('editor scopes visibility and locks to the opened scene, respects shortcuts
 }) => {
   await openEditor(page);
   await importScene(page, 'First');
-  const source = await page.evaluate(() => window.sceneEditor.state().document);
+  const source = await readEditorDocument(page);
   const metadata = await (await request.get('/__lantern_editor')).json();
   let fragmentId: string | undefined;
   try {
@@ -129,7 +128,7 @@ test('editor scopes visibility and locks to the opened scene, respects shortcuts
     await page.evaluate(() => window.dispatchEvent(new Event('blur')));
     await expect(input).toHaveValue(original);
     await page.mouse.up();
-    expect(await page.evaluate(() => window.sceneEditor.state().document.objects[0]!.x)).toBe(2);
+    expect(await readEditorDocument(page, (document) => document.objects[0]!.x)).toBe(2);
     await page.screenshot({ path: path.join(projectRoot, '.cache/bug-fixes-editor.png') });
   } finally {
     if (fragmentId)
@@ -163,7 +162,7 @@ test('foreign pointer releases and lost captures cannot commit geometry or leave
   });
   await page.mouse.up();
   await expect(page.locator('#save-state')).not.toHaveText('Working…');
-  const point = await page.evaluate(() => window.sceneEditor.state().document.paths[0]!.points[0]!);
+  const point = await readEditorDocument(page, (document) => document.paths[0]!.points[0]!);
   expect(point.x).toBeCloseTo(-1, 6);
   expect(point.z).toBeCloseTo(2, 6);
   await page.locator('#select-tool').click();
@@ -181,9 +180,8 @@ test('document operations revoke geometry drags before pointer release', async (
 }) => {
   await openEditor(page);
   await importScene(page, 'Gesture ownership');
-  const original = await page.evaluate(() => window.sceneEditor.state().document);
-  await page.locator('#name').fill('Undo this name');
-  await page.locator('#name').dispatchEvent('change');
+  const original = await readEditorDocument(page);
+  await changeField(page.locator('#name'), 'Undo this name');
   await expect(page.locator('#save-state')).not.toHaveText('Working…');
   await page.locator('#scene-tab').click();
   await page.locator('#ground-interaction-section > summary').click();
@@ -202,9 +200,7 @@ test('document operations revoke geometry drags before pointer release', async (
     .poll(() => page.locator('#viewport').evaluate((canvas) => canvas.hasPointerCapture(1)))
     .toBe(true);
   await page.keyboard.press('ControlOrMeta+z');
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document.name))
-    .toBe(original.name);
+  await expectEditorDocument(page, (document) => document.name).toBe(original.name);
   await expect(page.locator('#save-state')).not.toHaveText('Working…');
   await expect.soft
     .poll(() => page.locator('#viewport').evaluate((canvas) => canvas.hasPointerCapture(1)))
@@ -212,19 +208,17 @@ test('document operations revoke geometry drags before pointer release', async (
   await page.mouse.move(start.x + 40, start.y + 20);
   await page.mouse.up();
   await expect(page.locator('#save-state')).not.toHaveText('Working…');
-  expect(await page.evaluate(() => window.sceneEditor.state().document)).toEqual(original);
+  expect(await readEditorDocument(page)).toEqual(original);
   await expect(page.locator('#redo')).toBeEnabled();
   // The revoked gesture must not prevent the next intentional drag from committing.
   await page.mouse.move(start.x, start.y);
   await page.mouse.down();
   await page.mouse.move(start.x + 40, start.y + 20);
   await page.mouse.up();
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document.paths[0]!.points[0]))
-    .not.toEqual(original.paths[0]!.points[0]);
+  await expectEditorDocument(page, (document) => document.paths[0]!.points[0]).not.toEqual(
+    original.paths[0]!.points[0],
+  );
   await page.keyboard.press('ControlOrMeta+z');
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document))
-    .toEqual(original);
+  await expectEditorDocument(page, (document) => document).toEqual(original);
   expect(errors).toEqual([]);
 });

@@ -58,14 +58,10 @@ export class AudioPlayback {
     deps: Partial<AudioDependencies> = {},
   ) {
     this.deps = { ...defaults, ...deps };
-    this.buffers = new AudioBuffers(
-      this.deps.request,
-      (bytes) => {
-        if (!this.context) throw new Error('audio closed');
-        return this.context.decodeAudioData(bytes);
-      },
-      this.deps.now,
-    );
+    this.buffers = new AudioBuffers(this.deps.request, (bytes) => {
+      if (!this.context) throw new Error('audio closed');
+      return this.context.decodeAudioData(bytes);
+    });
   }
   private fail(error: unknown) {
     if (this.lifetime.signal.aborted) return;

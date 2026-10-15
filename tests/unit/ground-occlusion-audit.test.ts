@@ -1,3 +1,4 @@
+import { rectangle } from '../fixtures/ground';
 import { test } from 'node:test';
 import { crateOcclusionFixture } from '../fixtures/crate-occlusion';
 import assert from 'node:assert/strict';
@@ -37,18 +38,8 @@ test('reviewed contact repair follows the lower silhouette and preserves collisi
   assert.throws(() => contactDepthRepair(document, crate.id), /requires a depth-below/);
 });
 test('mask column coverage respects holes, vertical edges and separate islands', () => {
-  const outer: [number, number][] = [
-    [0.1, 0.1],
-    [0.9, 0.1],
-    [0.9, 0.9],
-    [0.1, 0.9],
-  ];
-  const hole: [number, number][] = [
-    [0.3, 0.3],
-    [0.7, 0.3],
-    [0.7, 0.7],
-    [0.3, 0.7],
-  ];
+  const outer: [number, number][] = rectangle(0.1, 0.1, 0.9, 0.9);
+  const hole: [number, number][] = rectangle(0.3, 0.3, 0.7, 0.7);
   const mask = [{ outer, holes: [hole] }];
   assert.deepEqual(maskIntervals(mask, 0.5), [
     [0.1, 0.3],

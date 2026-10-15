@@ -1,4 +1,5 @@
-import { test, expect } from './fixtures';
+import { expectPageValue, test, expect } from './fixtures';
+import { expectEditorDocument } from './editor-driver';
 
 // GPU proof with small real sprites: painted shade affects overlays, while local
 // illumination remains additive and the already-shaded painting stays unchanged.
@@ -151,39 +152,23 @@ test('editor shade zones can be authored, previewed and undone without saving a 
   const x = page.locator('[data-field="look.shadeZones.0.x"]');
   await x.fill('2');
   await x.blur();
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document.look.shadeZones?.[0]?.x))
-    .toBe(2);
-  await expect
-    .poll(() =>
-      page.evaluate(
-        () =>
-          window.sceneEditor.view().presentation!.lookRenderer.lighting.common.inkShadeZones
-            .value[0]!.x,
-      ),
-    )
-    .toBe(2);
+  await expectEditorDocument(page, (document) => document.look.shadeZones?.[0]?.x).toBe(2);
+  await expectPageValue(
+    page,
+    () =>
+      window.sceneEditor.view().presentation!.lookRenderer.lighting.common.inkShadeZones.value[0]!
+        .x,
+  ).toBe(2);
   await page.locator('#undo').click();
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document.look.shadeZones?.[0]?.x))
-    .toBe(0);
+  await expectEditorDocument(page, (document) => document.look.shadeZones?.[0]?.x).toBe(0);
   await page.locator('#undo').click();
-  await expect
-    .poll(() =>
-      page.evaluate(() => window.sceneEditor.state().document.look.shadeZones?.length ?? 0),
-    )
-    .toBe(0);
-  await expect
-    .poll(() =>
-      page.evaluate(
-        () =>
-          window.sceneEditor.view().presentation!.lookRenderer.lighting.common.inkShadeZones
-            .value[0]!.w,
-      ),
-    )
-    .toBe(0);
+  await expectEditorDocument(page, (document) => document.look.shadeZones?.length ?? 0).toBe(0);
+  await expectPageValue(
+    page,
+    () =>
+      window.sceneEditor.view().presentation!.lookRenderer.lighting.common.inkShadeZones.value[0]!
+        .w,
+  ).toBe(0);
   await page.locator('#redo').click();
-  await expect
-    .poll(() => page.evaluate(() => window.sceneEditor.state().document.look.shadeZones?.length))
-    .toBe(1);
+  await expectEditorDocument(page, (document) => document.look.shadeZones?.length).toBe(1);
 });

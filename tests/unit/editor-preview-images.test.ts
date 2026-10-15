@@ -9,17 +9,19 @@ function fixture() {
     reject: (error: Error) => void;
     cancelled: boolean;
   }[] = [];
-  const images = new PreviewImages((source) => {
+  const images = new PreviewImages((source, signal) => {
     const { promise, resolve, reject } = Promise.withResolvers<HTMLImageElement>();
     const request = { source, resolve, reject, cancelled: false };
     requests.push(request);
-    return {
-      promise,
-      cancel: () => {
+    signal.addEventListener(
+      'abort',
+      () => {
         request.cancelled = true;
         request.reject(new Error('cancelled'));
       },
-    };
+      { once: true },
+    );
+    return promise;
   });
   const target = () => ({ isConnected: true }) as HTMLCanvasElement;
   const image = { naturalWidth: 16, naturalHeight: 16 } as HTMLImageElement;

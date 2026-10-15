@@ -1,3 +1,4 @@
+import { interactable } from '../fixtures/world';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ContentRegistry, type AreaDefinition } from '../../src/content/world';
@@ -45,18 +46,13 @@ function registry() {
     ],
     campfires: [{ id: 'arrival', name: 'Fire', x: 5, z: 5, safeRadius: 1, discovered: i === 0 }],
     interactables: [
-      {
+      interactable({
         id: 'crate',
         object: 'crate',
         kind: 'breakable',
-        x: 0,
         z: 2,
-        guards: [],
         rewards: [{ item: 'health-potion', amount: 1 }],
-        idle: 'idle',
-        action: 'open',
-        spent: 'looted',
-      },
+      }),
     ],
   }));
   return new ContentRegistry({ ...fixture.definitions, initialArea: ids[0]!, areas });

@@ -1,4 +1,5 @@
-import { CleanupFailure, cleanupAll, cleanupAfterFailure } from './cleanup';
+import { acquireBatch } from './acquire-batch';
+import { cleanupAll, cleanupAfterFailure } from './cleanup';
 import { parseRegistration, type PreparedRegistration } from './registration';
 import { Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter } from 'three';
 import { parseManifest, type Manifest } from './schema';
@@ -174,71 +175,15 @@ export class AssetRuntime {
     };
   }
   async loadPacks(ids: Iterable<string>, signal?: AbortSignal): Promise<PackBatch> {
-    this.assertActive();
-    signal?.throwIfAborted();
-    const selected = [...new Set(ids)],
-      failure = new AbortController(),
-      batchSignal = AbortSignal.any([
-        this.lifetime.signal,
-        failure.signal,
-        ...(signal ? [signal] : []),
-      ]),
-      packs = new Map<string, PackLease>();
-    let released = false;
-    const release = () => {
-      if (released) return;
-      released = true;
-      cleanupAll([...packs.values()].map((pack) => () => pack.release()));
-    };
-    const cancellationErrors: unknown[] = [];
-    const cancel = () => {
-      try {
-        release();
-      } catch (error) {
-        cancellationErrors.push(error);
-      }
-    };
-    // A completed pack no longer listens to acquisition cancellation. The batch
-    // owns it until transfer, including while other packs are still pending.
-    batchSignal.addEventListener('abort', cancel, { once: true });
-    if (batchSignal.aborted) cancel();
-    try {
-      await Promise.allSettled(
-        selected.map(async (id) => {
-          try {
-            const pack = await this.loadPack(id, batchSignal);
-            if (released) {
-              try {
-                pack.release();
-              } catch (error) {
-                cancellationErrors.push(error);
-              }
-            } else packs.set(id, pack);
-          } catch (error) {
-            // Stop sibling claims immediately, but drain every acquisition so
-            // late decodes and manifests cannot escape their resource owner.
-            if (!batchSignal.aborted) failure.abort(error);
-            else if (error instanceof CleanupFailure) cancellationErrors.push(error);
-          }
-        }),
-      );
-      if (failure.signal.aborted) throw failure.signal.reason;
-      if (signal?.aborted) throw new Error('load cancelled');
-      this.assertActive();
-      return { packs: new Map(selected.map((id) => [id, packs.get(id)!])), release };
-    } catch (error) {
-      cleanupAfterFailure(error, () =>
-        cleanupAll([
-          release,
-          ...cancellationErrors.map((failure) => () => {
-            throw failure;
-          }),
-        ]),
-      );
-    } finally {
-      batchSignal.removeEventListener('abort', cancel);
-    }
+    const held = await acquireBatch(
+      ids,
+      (id, signal) => this.loadPack(id, signal),
+      (pack) => pack.release(),
+      AbortSignal.any([this.lifetime.signal, ...(signal ? [signal] : [])]),
+    );
+    return { packs: held.resources, release: held.release };
   }
+
   dispose() {
     if (this.lifetime.signal.aborted) return;
     this.lifetime.abort(new Error('Asset runtime disposed'));

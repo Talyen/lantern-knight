@@ -1,5 +1,4 @@
-import { test, expect } from './fixtures';
-import type {} from '../../src/inspection';
+import { expectPageValue, test, expect } from './fixtures';
 test('scene selection and camera framing survive independent reloads', async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem('lantern-author-scene', 'court'));
   await page.goto('/sandbox.html');
@@ -181,9 +180,7 @@ test('preview navigation preserves playback and isolates controls from gameplay'
   await page.locator('canvas').focus();
   await page.keyboard.press('Escape');
   await expect(page.locator('#pause')).toHaveText('Pause');
-  await expect
-    .poll(() => page.evaluate(() => window.foundation.sim.tick))
-    .toBeGreaterThan(before.tick);
+  await expectPageValue(page, () => window.foundation.sim.tick).toBeGreaterThan(before.tick);
 });
 
 test('preview scene reset preserves experiments and settings reset is explicit', async ({
@@ -232,9 +229,9 @@ test('shared asset browser includes library enemies, separates poses and filters
   await expect(page.locator('#asset option[value="ink-stage-earth"]')).toHaveCount(0);
   await page.locator('#asset').selectOption('library-ct01');
   // Decode/upload can outlast the default 5 s assertion window on CI software rendering.
-  await expect
-    .poll(() => page.evaluate(() => window.foundation.presentation.labAsset), { timeout: 30_000 })
-    .toBe('library-ct01');
+  await expectPageValue(page, () => window.foundation.presentation.labAsset, {
+    timeout: 30_000,
+  }).toBe('library-ct01');
   expect(
     await page.evaluate(() => {
       const p = window.foundation.presentation;
@@ -255,9 +252,9 @@ test('shared asset browser includes library enemies, separates poses and filters
   await page.locator('#asset-animated').uncheck();
   await expect(page.locator('#asset option[value="ink-stage-earth"]')).toHaveCount(1);
   await page.locator('#asset').selectOption('ink-stage-earth');
-  await expect
-    .poll(() => page.evaluate(() => window.foundation.presentation.labAsset), { timeout: 30_000 })
-    .toBe('ink-stage-earth');
+  await expectPageValue(page, () => window.foundation.presentation.labAsset, {
+    timeout: 30_000,
+  }).toBe('ink-stage-earth');
   await expect(page.locator('#clip optgroup[label="Still poses"] option')).toHaveCount(1);
   expect(await page.evaluate(() => window.foundation.presentation.packs.has('library-ct01'))).toBe(
     false,
@@ -265,7 +262,7 @@ test('shared asset browser includes library enemies, separates poses and filters
   await page.locator('#asset-search').fill('library-loot_pickup');
   await expect(page.locator('#asset option')).toHaveCount(1);
   await page.locator('#asset').selectOption('library-loot_pickup');
-  await expect
-    .poll(() => page.evaluate(() => window.foundation.presentation.labAsset), { timeout: 30_000 })
-    .toBe('library-loot_pickup');
+  await expectPageValue(page, () => window.foundation.presentation.labAsset, {
+    timeout: 30_000,
+  }).toBe('library-loot_pickup');
 });

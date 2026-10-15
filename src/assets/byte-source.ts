@@ -1,6 +1,5 @@
-import { ResourcePool } from './resource-pool';
+import { ResourceCache } from './resource-cache';
 import { z } from 'zod';
-import { readUntilAborted } from './abort';
 import { sha256 } from './bitmap';
 
 const localPath = z
@@ -30,31 +29,21 @@ export class AssetByteSource {
     string,
     { bundle: RuntimeBundles[number]; offset: number; bytes: number }
   >();
-  private readonly bundles = new Map<string, RuntimeBundles[number]>();
-  private readonly downloads = new ResourcePool(
-    async (id, signal) => {
-      const bundle = this.bundles.get(id)!;
-      const response = await this.transport('/' + id, { signal });
-      signal.throwIfAborted();
-      if (!response.ok) throw new Error('Runtime asset bundle unavailable: ' + response.status);
-      const bytes = await response.arrayBuffer();
-      signal.throwIfAborted();
-      if (bytes.byteLength !== bundle.bytes || (await sha256(bytes)) !== bundle.hash)
-        throw new Error('Runtime asset bundle hash or size differs');
-      signal.throwIfAborted();
-      this.cache.set(id, bytes);
-      this.cachedBytes += bytes.byteLength;
-      while (this.cachedBytes > 32 * 1024 ** 2) {
-        const [oldest, data] = this.cache.entries().next().value!;
-        this.cache.delete(oldest);
-        this.cachedBytes -= data.byteLength;
-      }
-      return bytes;
-    },
-    () => {}, // ArrayBuffers have no external resources; the bounded cache owns retention.
+  private readonly cache = new ResourceCache<ArrayBuffer>(
+    (bytes) => bytes.byteLength,
+    32 * 1024 ** 2,
   );
-  private readonly cache = new Map<string, ArrayBuffer>();
-  private cachedBytes = 0;
+  private async download(bundle: RuntimeBundles[number], signal: AbortSignal) {
+    const response = await this.transport('/' + bundle.path, { signal });
+    signal.throwIfAborted();
+    if (!response.ok) throw new Error('Runtime asset bundle unavailable: ' + response.status);
+    const bytes = await response.arrayBuffer();
+    signal.throwIfAborted();
+    if (bytes.byteLength !== bundle.bytes || (await sha256(bytes)) !== bundle.hash)
+      throw new Error('Runtime asset bundle hash or size differs');
+    signal.throwIfAborted();
+    return bytes;
+  }
   constructor(
     bundles: unknown = [],
     private readonly transport: typeof fetch = globalThis.fetch.bind(globalThis),
@@ -63,7 +52,6 @@ export class AssetByteSource {
     for (const bundle of RuntimeBundlesSchema.parse(bundles)) {
       if (paths.has(bundle.path)) throw new Error('Duplicate runtime asset bundle');
       paths.add(bundle.path);
-      this.bundles.set(bundle.path, bundle);
       let end = 0;
       for (const [path, file] of Object.entries(bundle.files).sort(
         (a, b) => a[1].offset - b[1].offset,
@@ -88,34 +76,20 @@ export class AssetByteSource {
     signal.throwIfAborted();
     if (!file) return this.transport(input, { ...init, signal });
     if (init?.method && init.method !== 'GET') throw new Error('Runtime assets require GET');
-    const cached = this.cache.get(file.bundle.path);
-    if (cached) {
-      this.cache.delete(file.bundle.path);
-      this.cache.set(file.bundle.path, cached);
-      const bytes = await readUntilAborted(Promise.resolve(cached), signal);
-      signal.throwIfAborted();
-      return new Response(bytes.slice(file.offset, file.offset + file.bytes));
-    }
-    // The pool owns every reader claim and retires the last claim before abort
-    // callbacks can acquire a successor. Only a copied response crosses this wait.
-    return readUntilAborted(
-      this.downloads.acquire([file.bundle.path], signal).then((held) => {
-        try {
-          signal.throwIfAborted();
-          return new Response(
-            held.resources.get(file.bundle.path)!.slice(file.offset, file.offset + file.bytes),
-          );
-        } finally {
-          held.release();
-        }
-      }),
+    const held = await this.cache.acquire(
+      file.bundle.path,
+      (signal) => this.download(file.bundle, signal),
       signal,
     );
+    try {
+      signal.throwIfAborted();
+      return new Response(held.value.slice(file.offset, file.offset + file.bytes));
+    } finally {
+      held.release();
+    }
   };
   dispose() {
     this.lifetime.abort();
-    this.downloads.dispose();
-    this.cache.clear();
-    this.cachedBytes = 0;
+    this.cache.dispose();
   }
 }

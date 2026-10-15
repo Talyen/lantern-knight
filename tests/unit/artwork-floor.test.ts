@@ -1,3 +1,4 @@
+import { rectangle } from '../fixtures/ground';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { artworkFloorLayout } from '../../src/content/floor-layout';
@@ -17,12 +18,7 @@ test('single paintings cover one complete image and retain the displayed aspect 
   assert.ok(Math.abs(width / height - 1.5) < 1e-10);
   for (const [i, p] of layout.corners.entries()) {
     const [u, v] = layout.uv(p),
-      expected = [
-        [0, 0],
-        [1, 0],
-        [1, 1],
-        [0, 1],
-      ][i]!;
+      expected = rectangle(0, 0, 1, 1)[i]!;
     assert.ok(Math.abs(u - expected[0]!) < 1e-10 && Math.abs(v - expected[1]!) < 1e-10);
   }
   for (const p of [

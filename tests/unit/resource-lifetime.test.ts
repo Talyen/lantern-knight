@@ -268,105 +268,70 @@ test('pack cancellation preserves cleanup errors from a still-pending texture ac
   pool.dispose();
 });
 
-test('reentrant loaders share the admitted resource owner', async () => {
-  let nested: ReturnType<ResourcePool<object>['acquire']> | undefined;
-  let loads = 0;
-  const destroyed: object[] = [];
-  const pool = new ResourcePool<object>(
-    () => {
-      loads++;
-      if (loads === 1) nested = pool.acquire(['shared']);
-      return Promise.resolve({});
-    },
-    (value) => destroyed.push(value),
-  );
-  const first = await pool.acquire(['shared']);
-  const second = await nested!;
-  assert.equal(loads, 1);
-  assert.equal(first.resources.get('shared'), second.resources.get('shared'));
-  first.release();
-  assert.equal(destroyed.length, 0);
-  second.release();
-  assert.deepEqual(destroyed, [first.resources.get('shared')]);
-  assert.equal(pool.size, 0);
-  pool.dispose();
-});
+for (const closing of ['cancellation', 'disposal'] as const) {
+  test(`loader ${closing} retires every admitted claim before starting peers`, async () => {
+    const controller = new AbortController(),
+      late = Promise.withResolvers<string>();
+    const loads: string[] = [],
+      destroyed: string[] = [];
+    const pool = new ResourcePool(
+      (id) => {
+        loads.push(id);
+        if (closing === 'cancellation') controller.abort();
+        else pool.dispose();
+        return late.promise;
+      },
+      (value) => destroyed.push(value),
+    );
+    const pending = pool.acquire(['first', 'peer'], controller.signal);
+    const rejected = assert.rejects(pending, closing === 'cancellation' ? /cancelled/ : /disposed/);
+    assert.equal(pool.size, 0, 'Retirement releases claims before decodes settle');
+    late.resolve('late');
+    await rejected;
+    assert.deepEqual(loads, ['first']);
+    assert.deepEqual(destroyed, ['late']);
+    pool.dispose();
+  });
+}
 
-test('loader cancellation retires the whole admitted batch before starting peers', async () => {
-  const controller = new AbortController();
-  const late = Promise.withResolvers<string>();
-  const loads: string[] = [];
-  const destroyed: string[] = [];
-  const pool = new ResourcePool(
-    (id) => {
-      loads.push(id);
-      controller.abort();
-      return late.promise;
-    },
-    (value) => destroyed.push(value),
-  );
-  const pending = pool.acquire(['first', 'peer'], controller.signal);
-  const rejected = assert.rejects(pending, /cancelled/);
-  assert.equal(pool.size, 0, 'Cancellation releases claims before decodes settle');
-  late.resolve('late');
-  await rejected;
-  assert.deepEqual(loads, ['first']);
-  assert.deepEqual(destroyed, ['late']);
-  pool.dispose();
-});
-
-test('loader disposal closes all admitted owners and prevents unstarted work', async () => {
-  const late = Promise.withResolvers<string>();
-  const loads: string[] = [];
-  const destroyed: string[] = [];
-  const pool = new ResourcePool(
-    (id) => {
-      loads.push(id);
-      pool.dispose();
-      return late.promise;
-    },
-    (value) => destroyed.push(value),
-  );
-  const pending = pool.acquire(['first', 'peer']);
-  const rejected = assert.rejects(pending, /disposed/);
-  assert.equal(pool.size, 0);
-  late.resolve('late');
-  await rejected;
-  assert.deepEqual(loads, ['first']);
-  assert.deepEqual(destroyed, ['late']);
-  pool.dispose();
-});
-
-test('reentrant acquisition survives cancellation of the batch that started its shared load', async () => {
-  const controller = new AbortController();
-  let nested: ReturnType<ResourcePool<object>['acquire']> | undefined;
-  const value = {};
-  const loads: string[] = [];
-  const destroyed: object[] = [];
-  let loadSignal: AbortSignal | undefined;
-  const pool = new ResourcePool<object>(
-    (id, signal) => {
-      loadSignal = signal;
-      loads.push(id);
-      if (loads.length === 1) nested = pool.acquire(['shared']);
-      controller.abort();
-      return Promise.resolve(value);
-    },
-    (value) => destroyed.push(value),
-  );
-  await assert.rejects(pool.acquire(['shared', 'peer'], controller.signal), /cancelled/);
-  const surviving = await nested!;
-  assert.deepEqual(loads, ['shared']);
-  assert.equal(surviving.resources.get('shared'), value);
-  assert.equal(pool.size, 1);
-  assert.equal(loadSignal!.aborted, false, 'The independent consumer still needs the decode');
-  assert.deepEqual(destroyed, []);
-  surviving.release();
-  assert.equal(loadSignal!.aborted, true, 'Only the final release revokes the resource lifetime');
-  assert.deepEqual(destroyed, [value]);
-  assert.equal(pool.size, 0);
-  pool.dispose();
-});
+for (const cancelled of [false, true]) {
+  test(`reentrant acquisition shares its owner with a ${cancelled ? 'cancelled' : 'completed'} initiating batch`, async () => {
+    const controller = new AbortController(),
+      value = {};
+    let nested: ReturnType<ResourcePool<object>['acquire']> | undefined;
+    const loads: string[] = [],
+      destroyed: object[] = [];
+    let loadSignal: AbortSignal | undefined;
+    const pool = new ResourcePool<object>(
+      (id, signal) => {
+        loadSignal = signal;
+        loads.push(id);
+        if (loads.length === 1) nested = pool.acquire(['shared']);
+        if (cancelled) controller.abort();
+        return Promise.resolve(value);
+      },
+      (value) => destroyed.push(value),
+    );
+    const pending = pool.acquire(cancelled ? ['shared', 'peer'] : ['shared'], controller.signal);
+    if (cancelled) await assert.rejects(pending, /cancelled/);
+    else {
+      const first = await pending;
+      assert.equal(first.resources.get('shared'), value);
+      first.release();
+    }
+    const surviving = await nested!;
+    assert.deepEqual(loads, ['shared']);
+    assert.equal(surviving.resources.get('shared'), value);
+    assert.equal(pool.size, 1);
+    assert.equal(loadSignal!.aborted, false, 'The independent consumer still needs the decode');
+    assert.deepEqual(destroyed, []);
+    surviving.release();
+    assert.equal(loadSignal!.aborted, true, 'Only the final release revokes the resource lifetime');
+    assert.deepEqual(destroyed, [value]);
+    assert.equal(pool.size, 0);
+    pool.dispose();
+  });
+}
 
 test('failed construction drains a consumed scope, preserves the cause and rejects reentrant ownership', () => {
   const scope = new DisposalScope(),

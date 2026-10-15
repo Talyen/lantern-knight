@@ -1,13 +1,13 @@
+import { interactable } from '../fixtures/world';
 import { mockGlobals } from '../fixtures/globals';
 import { it } from 'node:test';
 import assert from 'node:assert/strict';
-import { EditorHistory } from '../../src/editor/model';
+import { EditorHistory, sceneItems } from '../../src/editor/model';
 import { sceneArtFindings } from '../../src/content/scene-art-validation';
 import { resolveAuthoredScene } from '../../src/content/world-art';
 import { ContentRegistry } from '../../src/content/world';
 import { composeDraftGameplay } from '../../src/content/draft-gameplay';
 import { emptyScene } from '../../src/editor/default-scene';
-import { sceneItems } from '../../src/editor/model';
 function assembly() {
   const d = emptyScene();
   d.objects = [
@@ -534,18 +534,14 @@ it('duplicated containers retain independent rewards and follow their artwork th
   const d = emptyScene();
   d.objects = [{ id: 'chest', kind: 'prop', asset: 'ink-scenery', clip: 'lantern', x: 0, z: 0 }];
   d.gameplay!.interactables = [
-    {
+    interactable({
       id: 'reward',
       object: 'chest',
-      kind: 'container',
-      x: 0,
-      z: 0,
-      guards: [],
       rewards: [{ item: 'gold', amount: 5 }],
       idle: 'lantern',
       action: 'lantern',
       spent: 'lantern',
-    },
+    }),
   ];
   const h = new EditorHistory(d);
   const [copy] = h.duplicateMany(['chest']);
