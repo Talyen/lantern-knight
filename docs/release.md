@@ -23,6 +23,14 @@ Packages retain source commit, asset identity and output checksums. Native jobs 
 
 Mac Game release packages use [Developer ID signing and Apple notarization](#signed-mac-packages-for-steam) by default. Output remains an unpacked macOS arm64/Windows x64 application; Windows packages are unsigned. Windows signing, installers, licenses/notices and Steam depot delivery remain separate release work. [Assets](assets.md) owns explicit pin publication; [verification](verification.md) owns checks and evidence.
 
+## Opening Windows acceptance
+
+Run on the intended Windows reference PC. Record CPU, GPU and driver, RAM, Windows version, display resolution/refresh rate, package source commit and asset identity. Choose a 2560 × 1440 display mode and verify the actual framebuffer; a browser viewport or macOS cross-build does not qualify. Reference hardware remains unnamed until supplied and exercised.
+
+Build with `npm run package -- --platform win`, then run `npm run test:desktop`. Follow the [opening playtest](verification.md#opening-playtest) in the packaged Game with real input, both kit choices, death/retry and process restart after saving. Check audible playback, focus/pause behavior and the return to Orchard Campfire.
+
+For pacing, warm up and measure roughly one minute of a representative linked encounter plus a modest stress fixture at full visual quality, recording median/p95 frame time, stalls and the actual framebuffer. Review visible play against the 60 FPS target. Follow [performance comparisons](verification.md#performance-comparisons); five-second walking samples, software rendering and non-Windows results do not certify this target. Keep records outside Git and leave acceptance open if the host, hardware identity or required measurement is unavailable.
+
 ## Signed Mac packages for Steam
 
 Steam's [macOS requirements](https://partner.steamgames.com/doc/store/application/platforms?l=english#apple-macos) require new Mac applications to be 64-bit and notarized. Our current Mac package targets Apple silicon only; signing does not add Intel support. Use `npm run desktop:dev` for everyday iteration and signed Game packages for release testing.

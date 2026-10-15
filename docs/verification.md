@@ -61,6 +61,16 @@ After `npm run build`, `npm run test:browser -- game --built` verifies Game agai
 
 Non-watch `npm test` and `npm run test:assets` omit individual passing cases while streaming summaries, failure details, skips, TODOs, stdout and stderr through Node's spec reporter. `--verbose` restores passing-case output; watch mode always includes it. Reporting does not change suite selection or failure exit status. Browser and desktop tests use their own reporters.
 
+## Opening playtest
+
+Use a fresh player profile and the production Game view with default visual/audio settings. Have a first-time player begin without coaching; controls remain available in pause/help. An agent-driven journey, seeded checkpoint or editor preview can diagnose problems but cannot establish first-time human acceptance.
+
+Observe the complete orchard → clearing → forge → chapel → orchard route. Record where the player pauses, backtracks, misses an interaction, takes an unreadable hit or mistakes scenery for a usable path. In particular, check the orchard supplies and lantern, the clearing's blocked stairs and forge turn, recognition of the smithing station before its prompt, understanding of the one-choice upgrade, the warden's physical poise and lantern stagger, and the matching return paths. Ask what the player understood after play rather than explaining it during play.
+
+Cover sword and lantern choices in separate fresh journeys. Earn encounters and resources through ordinary play; do not seed victories, grant items, teleport or change combat defaults. After choosing, compare the upgraded kit against restored encounters. Exercise death/retry and save/resume without losing the earned choice or rewards. Preserve observations and requested captures outside Git, including source/asset identity, choice, settings, interruptions and any coaching. Fix the largest observed friction before expanding the adventure; distinguish observed defects from design hypotheses.
+
+Run the [audio listening pass](sound-design.md#listening-and-tuning) in context and [Windows acceptance](release.md#opening-windows-acceptance) on the named target host. Report these separately from functional browser coverage. A pending human, audible or target-hardware check keeps the corresponding roadmap acceptance open.
+
 ## Test value
 
 Write and retain only high-value tests: detecting a plausible, significant failure must justify the effort to write and maintain the test and the time to run it, including setup. This applies across gameplay, saves, rendering, assets, tooling and delivery. There is no test-count quota or line-coverage target.

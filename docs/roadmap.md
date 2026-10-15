@@ -1,6 +1,6 @@
 # Roadmap
 
-Author new prototype scenes and build a cohesive progression loop. [Game design](game-design.md) owns design intent; this page tracks capability, priorities and acceptance.
+Finish and playtest the connected opening before extending the adventure. [Game design](game-design.md) owns design intent; this page tracks capability, priorities and acceptance.
 
 Implemented means reachable in source, in progress means unfinished, planned means agreed direction, and needs design means a decision or playtest is required. These statuses do not certify current checks, visual polish or release availability. Supplied hero animation artwork remains TEST material pending visible playtesting.
 
@@ -21,20 +21,21 @@ Implemented means reachable in source, in progress means unfinished, planned mea
 
 ## Now
 
-| Work                           | Status      | Remaining outcome                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| ------------------------------ | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Combat feel and aiming         | In progress | Playtest commitment, buffering, dodge timing and movement/action facing. Validate protected impacts, recovery cancellation, newest-request queuing and movement/action transitions under [combat feel](game-design.md#combat-feel).                                                                                                                                                                                                          |
-| Damage types and lantern Burn  | In progress | Physical melee, circular Burn burst, refreshing DoT and initial-hit stagger are implemented. Playtest the chosen defaults under [damage](game-design.md#damage-types-and-burn) and [lantern design](game-design.md#lantern-ability); opening enemies stay neutral.                                                                                                                                                                           |
-| Enemy actions and cues         | In progress | Validate readable movement, attacks, hurt, death and the restrained windup accent. Ossuary Thrall states use supplied movement, attack, hit and defeat clips in [visual mappings](../src/content/visuals.ts).                                                                                                                                                                                                                                |
-| Combat feedback and audio      | In progress | Supplied sweep, Lunge, Flare, Dodge and contact effects are integrated; action/effect joins and Burn readability still need visible playtesting. Sound effects and localized campfire audio use local prepared assets; audible mix approval and immutable audio publication remain pending. Music and weakness feedback remain deferred. Follow [action feedback](game-design.md#player-action-feedback) and [audio](architecture.md#audio). |
-| Onboarding and settings        | In progress | Minimal object-anchored interactions and pause/help controls are implemented. A leaf-gust guidance prototype, clustered supplies and wider lantern light need new-player playtesting; validate discovery without tutorial text. [Player UI](../src/game-ui.ts).                                                                                                                                                                              |
-| Area and presentation cohesion | In progress | Playtest the connected opening and chapel vigil, including the forge choice, side-aisle convergence, warden windup and reward return. Raised altar and workshop floors remain blocked; author elevation before opening them. Polish routes, collision, composition and combat visibility. [Content](../src/content/game-content.ts), [world art](../src/content/world-art.ts).                                                               |
+**Opening loop accepted through visible playtesting — in progress.** Finish the connected orchard → clearing → forge → chapel → orchard journey before extending the adventure. [Opening playtest](verification.md#opening-playtest) owns the review procedure; source implementation and seeded browser fixtures do not establish new-player acceptance.
 
-Acceptance: a new player understands the controls, reads enemy actions, uses sword and lantern meaningfully, traverses connected authored areas, retries after death and saves/resumes reliably. Confirm through visible playtesting and applicable automated checks. Authored playable areas are part of this acceptance target; independent preview fixtures alone do not satisfy it. The opening does not need a chapter ending.
+Acceptance requires an unprompted new player to:
+
+- Discover the orchard supplies, controls and lantern without tutorial windows, and read paired enemy attacks, Burn and recovery opportunities.
+- Follow the clearing's usable paths, find the courtyard workbench, understand its single-choice limit and confirm the exact costs and damage change.
+- Reach the chapel, distinguish the warden from its attendants, recognize that sword hits do not interrupt its windup and use the lantern's stagger and Burn meaningfully.
+- Collect the Vigil Amulet, return on foot to Orchard Campfire and recognize the chosen upgrade's payoff against restored encounters. Cover both upgrade choices across separate fresh journeys.
+- Recover from death and save/resume with resources, rewards and the permanent choice retained.
+
+Keep the [combat](game-design.md#combat-feel), [Burn](game-design.md#damage-types-and-burn) and [progression](game-design.md#character-progression) defaults until observed play supports a change. Review movement/action facing, buffering, dodge timing, action/effect joins and object-anchored cues in that same journey. Preserve the blocked raised workshop and altar until elevation is authored. The opening does not need a chapter ending.
 
 ## Next
 
-Run an unprompted new-player playtest of the connected opening and its on-foot return. Check discovery of the courtyard workbench, understanding of its one-choice limit, readable paired encounters and whether the sword’s one-impact defeat or the lantern’s one-Flare, full-Burn defeat makes the return satisfying. Keep the [progression brief](game-design.md#character-progression) defaults until that playtest supports a change; then playtest discovery of the northern chapel route, the warden’s resistance to sword interruption and use of the lantern to gather and defeat its attendants.
+Address the largest observed playtest friction, then complete the contextual [audio listening pass](sound-design.md#listening-and-tuning) and [packaged Windows acceptance](release.md#opening-windows-acceptance). Audio preparation and browser decoding are implemented; audible mix approval and immutable audio publication remain pending. Music and weaknesses remain deferred. Name the Windows reference hardware before claiming packaged 1440p/60 FPS acceptance.
 
 ## Later
 

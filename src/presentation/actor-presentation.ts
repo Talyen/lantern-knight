@@ -47,6 +47,7 @@ export class ActorPresentation {
   }
   private groundNormal = new T.Vector3(0, 1, 0);
   private planeNormal = new T.Vector3(0, 0, 1);
+  private poisedWindup = new T.Color(0xffffff);
   constructor(
     private room: T.Group,
     private packs: ReadonlyMap<string, AssetPack>,
@@ -249,6 +250,14 @@ export class ActorPresentation {
         foot = new T.Vector3(x, heightAt(sim.areaDefinition, x, z), z);
       v.sprite.stabilized = a.kind === 'hero' ? options.stabilized : true;
       v.sprite.rigidSword = options.rigidSword;
+      const winding =
+        a.kind === 'enemy' && a.state === 'attack' && a.age < a.definition.melee.windup;
+      // A single late ivory lift follows the committed pose; no blinking or attack zone.
+      const poisedAccent =
+        winding && a.definition.poise
+          ? Math.max(0, (a.age / a.definition.melee.windup - 0.5) * 2)
+          : 0;
+      v.sprite.material.color.set(binding.tint).lerp(this.poisedWindup, poisedAccent);
       v.sprite.showAnimation(
         foot,
         this.camera,
@@ -264,13 +273,11 @@ export class ActorPresentation {
       v.shadow.position.set(foot.x, foot.y + 0.03, foot.z);
       v.shadow.visible = a.health > 0;
       v.ring.position.set(foot.x, foot.y + 0.035, foot.z);
-      const winding =
-        a.kind === 'enemy' && a.state === 'attack' && a.age < a.definition.melee.windup;
       v.ring.visible = options.debug || winding || !!a.burn;
       v.ring.scale.setScalar(winding ? 1 + (0.4 * a.age) / a.definition.melee.windup : 1);
       const material = v.ring.material as T.MeshBasicMaterial;
       material.color.set(a.burn ? 0xe9a45f : winding ? 0xe5c37d : 0xc1645f);
-      material.opacity = a.burn ? (a.burn.nextTick < 8 ? 0.55 : 0.3) : 0.5;
+      material.opacity = a.burn ? (a.burn.nextTick < 8 ? 0.55 : 0.3) : 0.5 + poisedAccent * 0.2;
     }
     return events;
   }

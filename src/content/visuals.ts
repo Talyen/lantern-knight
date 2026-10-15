@@ -45,7 +45,7 @@ export const actorVisuals: Readonly<Record<string, ActorVisualDefinition>> = {
       death: 'defeat',
     },
     attacks: ['attack', 'attack'],
-    tint: 0xe1b6ba,
+    tint: 0xffdfad,
     scale: 1.35,
   },
 };

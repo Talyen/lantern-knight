@@ -41,6 +41,7 @@ import {
 } from '../content/sweep-timing';
 import { SweepAreaGuide } from './sweep-area-guide';
 import { tuning } from '../content/gameplay';
+import type { AudioSettings } from '../content/audio';
 import { spawnActorId, heightAt } from '../content/world';
 import type { Actor, Simulation } from '../core/simulation';
 
@@ -55,24 +56,17 @@ export function mountScene(
   const shell = mountShell(context, sandboxUI, previewHUD);
   const $ = <T extends HTMLElement>(s: string) => shell.root.querySelector<T>(s)!;
   const previewSettings = createBrowserBridge(sandboxContent, 'sandbox');
+  let restoredAudio: AudioSettings | undefined;
   const sandboxBridge: Bridge = {
     automatedRun: window.lantern?.automatedRun,
     loadGame: async () => ({ status: 'empty' }),
     loadSettings: async () => {
       const saved = await previewSettings.loadSettings();
       if (saved.status !== 'ok') return saved;
-      // Workspace/scene controls retain ownership of the preview's look. Only
-      // sound preferences are restored from this independent settings profile.
-      return {
-        status: 'ok',
-        data: {
-          ...saved.data,
-          renderScale: app.scale,
-          verticalSpan: app.presentation.verticalSpan,
-          depthOfField: app.presentation.depthOfField,
-          visualEffects: { ...app.presentation.visualEffects },
-        },
-      };
+      // Startup reads settings before constructing presentation. Restore only
+      // sound after boot; the workspace retains ownership of every visual option.
+      restoredAudio = saved.data.audio;
+      return { status: 'empty' };
     },
     saveGame: async () => {
       throw new Error('Dev Preview checkpoint writes denied');
@@ -221,6 +215,7 @@ export function mountScene(
   async function boot() {
     await app.boot();
     lifetime.signal.throwIfAborted();
+    if (restoredAudio) app.audio.updateSettings(restoredAudio);
     bindAudioControls(app, shell.root, lifetime.signal);
     await app.audio.initialize();
     if (closed) return;

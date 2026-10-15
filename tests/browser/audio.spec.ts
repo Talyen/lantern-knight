@@ -70,16 +70,22 @@ test('prepared samples decode and Preview exposes every audition', async ({ page
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
   );
   await page.locator('#menu-start').click();
-  await page.keyboard.down('KeyD');
-  await page.waitForTimeout(500);
-  await page.keyboard.up('KeyD');
+  // The quiet entrance starts outside the localized campfire's audible reach.
+  // Approach through the open path before expecting its loop to begin.
+  await page.locator('canvas').focus();
+  await page.keyboard.down('KeyW');
+  try {
+    await expectPageValue(
+      page,
+      () => (window as unknown as { audioProbe: { loopStarts: number } }).audioProbe.loopStarts,
+      { timeout: 30_000 },
+    ).toBeGreaterThan(0);
+  } finally {
+    await page.keyboard.up('KeyW');
+  }
   await expectPageValue(
     page,
     () => (window as unknown as { audioProbe: { starts: number } }).audioProbe.starts,
-  ).toBeGreaterThan(0);
-  await expectPageValue(
-    page,
-    () => (window as unknown as { audioProbe: { loopStarts: number } }).audioProbe.loopStarts,
   ).toBeGreaterThan(0);
   await expect
     .poll(() => requested.filter((url) => url.endsWith('.wav')).length)
