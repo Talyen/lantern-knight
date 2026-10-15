@@ -30,6 +30,7 @@ export class GroundOcclusion {
   readonly uniforms;
   readonly bytes: number;
   outlines = true;
+  private outlinedSprites = new WeakSet<ActorSprite>();
   private actorUniforms = new WeakMap<
     ActorSprite,
     {
@@ -157,12 +158,13 @@ if(all(greaterThanEqual(shadowUV,vec2(0.0)))&&all(lessThanEqual(shadowUV,vec2(1.
     material.customProgramCacheKey = () => key + ':painted-shadow-mask-v1';
     material.needsUpdate = true;
   }
-  attach(sprite: ActorSprite, kind: 'hero' | 'enemy' | 'drop') {
+  attach(sprite: ActorSprite, kind: 'hero' | 'enemy' | 'drop' | 'prop') {
     if (this.actorUniforms.has(sprite)) return;
-    if (kind === 'drop') sprite.mesh.userData.groundDrop = true;
+    const outlined = kind === 'hero' || kind === 'enemy';
+    if (outlined) this.outlinedSprites.add(sprite);
     const actor = {
       groundFoot: { value: 0 },
-      groundOutline: { value: kind === 'drop' ? 0 : 1 },
+      groundOutline: { value: outlined ? 1 : 0 },
       groundColor: { value: new T.Color(kind === 'hero' ? 0xd1ba7c : 0xa77368) },
     };
     this.actorUniforms.set(sprite, actor);
@@ -223,7 +225,7 @@ if(insideGround&&occlusion.b>.1&&groundFoot<sceneryDepth-.001){
     const uniforms = this.actorUniforms.get(sprite);
     if (uniforms) {
       uniforms.groundFoot.value = x * outward.x + z * outward.z;
-      uniforms.groundOutline.value = this.outlines && !sprite.mesh.userData.groundDrop ? 1 : 0;
+      uniforms.groundOutline.value = this.outlines && this.outlinedSprites.has(sprite) ? 1 : 0;
     }
   }
   dispose() {

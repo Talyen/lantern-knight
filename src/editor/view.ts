@@ -490,11 +490,13 @@ export class EditorView {
       const asset = this.ghost.manifest.asset;
       const issue =
         (asset.type === 'prop' || asset.type === 'character') && asset.placement !== 'ground'
-          ? (this.placementCheck?.(this.ghostPoint, 0.3) ??
-            this.envelopeCheck?.(
-              this.ghostPoint,
-              spritePlacementEnvelope(this.ghost.manifest, [clip]),
-            ))
+          ? (this.placementCheck?.(this.ghostPoint, 0.3, asset.type === 'prop') ??
+            (asset.type === 'character'
+              ? this.envelopeCheck?.(
+                  this.ghostPoint,
+                  spritePlacementEnvelope(this.ghost.manifest, [clip]),
+                )
+              : undefined))
           : undefined;
       this.ghost.material.color.set(issue ? 0xe35f58 : 0xffffff);
       this.ghost.show(this.ghost.animator.frame, this.ghostPoint, this.renderer.camera);

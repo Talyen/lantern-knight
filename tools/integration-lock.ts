@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { acquireCommandLane } from './command-lane';
 import { runProcess } from './run-process';
-import { archiveIntegratedWorktree } from './worktree-cleanup';
+import { removeIntegratedWorktree } from './worktree-cleanup';
 import { checkpointSceneSaves } from './scene/checkpoint-scene-saves';
 
 const exec = promisify(execFile);
@@ -55,7 +55,7 @@ export async function withIntegrationLock(
     if (!keepWorktree && task !== main && branch.startsWith('codex/')) {
       try {
         const head = (await git('rev-parse', 'HEAD')).trim();
-        archiveIntegratedWorktree(main, task, branch, head);
+        removeIntegratedWorktree(main, task, branch, head);
       } catch (error) {
         throw new Error(
           `Integration command completed; worktree cleanup blocked: ${String(error)}`,

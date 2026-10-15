@@ -37,8 +37,18 @@ test('matching development server reuse acquires no asset workspace', async () =
     assert.equal(session.workspace, undefined);
     assert.equal(session.assetIdentity, identity.assets);
     await session.close();
-    identity.assets = '0'.repeat(64);
-    await assert.rejects(openPreview(options), /another checkout or asset identity/);
+    await assert.rejects(openPreview({ ...options, reuse: false }), /already occupied/);
+    for (const patch of [
+      { assets: '0'.repeat(64) },
+      { root: '/another-checkout' },
+      { target: 'built' },
+      { scope: 'runtime' },
+    ]) {
+      const accepted = { ...identity };
+      Object.assign(identity, patch);
+      await assert.rejects(openPreview(options), /another checkout or asset identity/);
+      Object.assign(identity, accepted);
+    }
   } finally {
     await new Promise<void>((resolve, reject) =>
       server.close((error) => (error ? reject(error) : resolve())),

@@ -1,3 +1,4 @@
+import { temporaryDirectory } from '../fixtures/temporary-directory';
 import { readJson, writeJson } from '../../tools/json-file';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -185,4 +186,30 @@ test('headless replay commits death reset requests once and preserves save/load 
   assert.equal(result.events['room-reset'], 1);
   assert.equal(result.finalSave.player.health, 100);
   assert.equal(result.finalSave.area, initialSave.area);
+});
+
+test('built browser discovery lists loot coverage without a build, preview or asset acquisition', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-browser-discovery-');
+  const cache = path.join(root, 'absent-cache');
+  const result = spawnSync(
+    process.execPath,
+    [
+      '--import',
+      import.meta.resolve('tsx'),
+      'tools/browser-tests.ts',
+      'game-loot',
+      '--built',
+      '--list',
+    ],
+    {
+      encoding: 'utf8',
+      timeout: 15000,
+      env: { ...process.env, LANTERN_CACHE_ROOT: cache, LANTERN_PREVIEW_PORT: 'invalid' },
+    },
+  );
+  const output = result.stdout + result.stderr;
+  assert.equal(result.status, 0, output);
+  assert.match(output, /game-loot\.spec\.ts/);
+  assert.match(output, /Total: 1 test in 1 file/);
+  await assert.rejects(fs.access(cache), { code: 'ENOENT' });
 });

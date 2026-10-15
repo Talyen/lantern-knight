@@ -156,6 +156,9 @@ test('incoming interruption and stale commands cannot replay a queued action', (
 test('burst is circular, bounded by range, obstruction and height, with one direct hit', () => {
   for (const [x, z, y, hit] of [
     [-2.5, 0, 0, true],
+    [2.5, 0, 0, true],
+    [0, -2.5, 0, true],
+    [0, 2.5, 0, true],
     [0, 2.501, 0, false],
     [1, 0, 1, false],
   ] as const) {
@@ -167,7 +170,9 @@ test('burst is circular, bounded by range, obstruction and height, with one dire
     steps(s, tuning.ability.windup);
     assert.equal(a.health, health - (hit ? 16 : 0));
     assert.equal(s.events.filter((e) => e.kind === 'flare').length, 1);
-    steps(s, 10);
+    assert.equal(s.hero.hitIds.filter((id) => id === a.id).length, hit ? 1 : 0);
+    assert.ok(s.hero.cooldown > 0);
+    steps(s, tuning.ability.total - tuning.ability.windup);
     assert.equal(a.health, health - (hit ? 16 : 0));
   }
   const definitions = registry().definitions;

@@ -428,37 +428,8 @@ test('IPC sender checks and protocol constrain origin, frame, slot, payload, ext
     }),
   );
 });
-function duel() {
-  const s = new Simulation(content, 142, content.definitions.initialArea, 1);
-  s.actors = s.actors.slice(0, 2);
-  Object.assign(s.hero, { x: 0, z: 1, px: 0, pz: 1 });
-  Object.assign(s.actors[1]!, { x: 0, z: 0, px: 0, pz: 0, health: 100, stun: 10000 });
-  return s;
-}
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 
-test('flare tests the circular burst boundary, range, one damage/stagger per cast and cooldown', () => {
-  for (const [angle, range, hit] of [
-    [0, 2.5, true],
-    [Math.PI, 2.5, true],
-    [Math.PI / 2, 2.501, false],
-    [0, 3.01, false],
-  ] as const) {
-    const s = duel();
-    Object.assign(s.hero, { x: 0, z: 0 });
-    const target = s.actors[1]!;
-    Object.assign(target, { x: Math.sin(angle) * range, z: Math.cos(angle) * range, health: 70 });
-    let flares = 0;
-    for (let i = 0; i < tuning.ability.total - 1; i++) {
-      s.step({ move: { x: 0, z: 0 }, aim: { x: 0, z: 5 }, ability: true });
-      flares += s.events.filter((e) => e.kind === 'flare').length;
-    }
-    assert.equal(flares, 1);
-    assert.equal(target.health, hit ? 70 - tuning.ability.damage : 70);
-    assert.equal(s.hero.hitIds.length, hit ? 1 : 0);
-    assert.ok(s.hero.cooldown > 0);
-  }
-});
 test('death resets current area exactly once, clears transient state, and invalidates old events/commands/actor references', () => {
   const session = new GameSession(content, 142, 'upper-landing'),
     old = session.sim,
