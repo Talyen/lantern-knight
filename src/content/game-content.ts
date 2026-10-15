@@ -11,6 +11,7 @@ import type { AreaDefinition } from './world';
 import type { Manifest } from '../assets/schema';
 import { actors } from './actors';
 import { actorVisuals, assetCatalog } from './visuals';
+import { validateSceneReferences } from './scene-document';
 const playableScenes = [orchard, clearing].map((document) => resolveScene(document));
 export const worldVisuals: Readonly<Record<string, WorldVisualDefinition>> = Object.fromEntries(
   playableScenes.map((scene) => [scene.area.id, scene.visuals]),
@@ -106,7 +107,18 @@ export function composeSceneContent(
   });
 }
 
-export const gameScenes = composeSceneContent(content, worldVisuals);
+const composedGameScenes = composeSceneContent(content, worldVisuals);
+export const gameScenes: SceneContent = Object.freeze({
+  ...composedGameScenes,
+  validate(scene, packs) {
+    composedGameScenes.validate(scene, packs);
+    const source = playableScenes.find((s) => s.area.id === scene.area.id)!;
+    validateSceneReferences(
+      source.document,
+      new Map([...packs].map(([id, p]) => [id, p.manifest])),
+    );
+  },
+});
 export const gameAssetCatalog: Readonly<Record<string, string>> = Object.fromEntries(
   [
     ...new Set([

@@ -1,4 +1,6 @@
 import { groundPlacementPolicy } from '../content/scene-placement';
+import { paintedEnvelopePolicy, spritePlacementEnvelope } from '../content/placement-envelope';
+import type { Manifest } from '../assets/schema';
 import { cleanupAll, cleanupAfterFailure } from '../assets/cleanup';
 import { NavigationOverlay } from '../presentation/navigation-overlay';
 import { walkablePoint } from '../presentation/camera';
@@ -19,6 +21,7 @@ type Host = {
   document: () => SceneSnapshot;
   compose: (snapshot: SceneSnapshot) => { registry: ContentRegistry; scenes: SceneContent };
   catalog: () => Readonly<Record<string, string>>;
+  manifest: (asset: string) => Manifest | undefined;
   status: (message: string, error?: boolean) => void;
 };
 export class DraftPlaytest {
@@ -158,6 +161,10 @@ export class DraftPlaytest {
           navigation = new Navigation(area),
           radius = effectiveRadius(registry.actor('skeleton').radius),
           placementIssue = groundPlacementPolicy(this.snapshot, area);
+        const manifest = this.host.manifest('library-sk01');
+        if (!manifest) throw new Error('Movement test needs skeleton artwork');
+        const envelope = spritePlacementEnvelope(manifest, ['idle', 'move']);
+        const envelopeIssue = paintedEnvelopePolicy(this.snapshot);
         this.snapshot.gameplay ??= { spawns: [], exits: [], pickups: [] };
         const spawns = this.snapshot.gameplay.spawns;
         for (let distance = 2; distance <= 12 && spawns.length < 3; distance += 1)
@@ -169,16 +176,13 @@ export class DraftPlaytest {
             if (
               !isSupportedPosition(area, point, radius) ||
               placementIssue(point, radius) ||
+              envelopeIssue(point, envelope) ||
               spawns.some((p) => Math.hypot(p.x - point.x, p.z - point.z) < 1.5) ||
               navigation.route(this.snapshot.hero, point, radius).status !== 'ready'
             )
               continue;
             spawns.push({ id: 'movement-' + crypto.randomUUID(), actor: 'skeleton', ...point });
           }
-        if (spawns.length < 3)
-          throw new Error(
-            'Could not place three reachable skeletons. Review the playable terrain.',
-          );
         ({ registry, scenes } = this.host.compose(this.snapshot));
       }
       // This bridge never touches browser or desktop storage. Unexpected writes fail.

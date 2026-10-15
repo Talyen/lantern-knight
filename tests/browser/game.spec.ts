@@ -206,7 +206,8 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await page.evaluate(
     ({ key, fire }) => {
       const save = JSON.parse(localStorage.getItem(key)!);
-      save.player.x = fire.x + 0.8;
+      // Approach from the clear side opposite the traveller's nearby belongings.
+      save.player.x = fire.x - 0.8;
       save.player.z = fire.z;
       localStorage.setItem(key, JSON.stringify(save));
     },

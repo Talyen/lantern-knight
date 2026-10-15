@@ -54,6 +54,7 @@ test('editor shutdown drains renderer and runtime ownership after a renderer exc
         throw new Error('unused composition');
       },
       catalog: () => ({}),
+      manifest: () => undefined,
       status: () => {},
     });
     let overlayCalls = 0,
