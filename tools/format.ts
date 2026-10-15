@@ -1,5 +1,4 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { runCli } from './cli';
 import { codeFiles, quietRun, withRuff } from './code-tools';
 async function formatCode(check: boolean) {
   const files = await codeFiles();
@@ -19,12 +18,13 @@ async function formatCode(check: boolean) {
     `PASS: ${web.length + python.length} handwritten files ${check ? 'formatted consistently' : 'formatted'}.`,
   );
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const args = process.argv.slice(2);
-  if (args.some((a) => a !== '--check' && a !== '--python'))
-    throw new Error('Use format [--check]');
-  formatCode(args.includes('--check')).catch((error) => {
-    console.error(error.message);
-    process.exitCode = 1;
-  });
-}
+runCli(
+  import.meta.url,
+  () => {
+    const args = process.argv.slice(2);
+    if (args.some((a) => a !== '--check' && a !== '--python'))
+      throw new Error('Use format [--check]');
+    return formatCode(args.includes('--check'));
+  },
+  'message',
+);

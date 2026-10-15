@@ -1,7 +1,7 @@
+import { runCli } from './cli';
 import { onAsyncExit } from './scope-exit';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { workspaceEnvironment } from './assets/workspace';
 import { acquireCommandLane } from './command-lane';
 import { runProcess } from './run-process';
@@ -93,8 +93,4 @@ async function browserTests(args: string[]) {
     },
   );
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
-  browserTests(process.argv.slice(2)).catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
+runCli(import.meta.url, (args) => browserTests(args));

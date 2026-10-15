@@ -81,7 +81,7 @@ Calibrate hero size against the current idle's head and upper-torso proportions 
 
 ## Library authoring coverage
 
-The authoring catalog includes delivered townsfolk, wildlife, searchable containers, portal clips and hero interactions. `assets/library-packs.json` supplies adapters for their original metadata contracts; `assets/library-artwork.json` supplies registration for intact paintings and loose artwork. Discovery also covers additional loose files and archive members. These recipes do not restrict library eligibility. Source identities and locations remain in the source indices. No file discovery runs in Game, builds or CI.
+The authoring catalog includes delivered townsfolk, wildlife, searchable containers, portal clips and hero interactions. `assets/library-packs.json` supplies adapters for their original metadata contracts; `assets/library-artwork.json` supplies registration for intact paintings and loose artwork. Discovery also covers additional loose files and archive members. These recipes do not restrict library eligibility. `tools/assets/library_import.py` owns ordered metadata alias policies for registration and timing; adapters select those policies without changing source precedence. Source identities and locations remain in the source indices. No file discovery runs in Game, builds or CI.
 
 Use `npm run assets:prepare -- --ids library-all` to refresh this catalog locally. Intact scene paintings are placeable ground panels where registered, with editable provisional world scale. Supplied resolution variants belong in the prepared catalog at their original dimensions. Preview media remains available source material; video scene objects require a media renderer. Existing Game bindings and the published pin do not change.
 

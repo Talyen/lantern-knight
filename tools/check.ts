@@ -1,5 +1,4 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { runCli } from './cli';
 import { runProcess } from './run-process';
 import { projectRoot } from './assets/paths';
 
@@ -44,10 +43,7 @@ export async function check(ci = false) {
   }
   console.log(`PASS: ${phases.length} fresh phases; ${Math.round(performance.now() - started)}ms.`);
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+runCli(import.meta.url, () => {
   if (process.argv.slice(2).some((arg) => arg !== '--ci')) throw new Error('Use check [--ci]');
-  check(process.argv.includes('--ci')).catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
-}
+  return check(process.argv.includes('--ci'));
+});

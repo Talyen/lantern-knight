@@ -1,7 +1,7 @@
+import { runCli } from './cli';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { projectRoot } from './assets/paths';
 import { markdownHeadings, withoutComments } from './markdown';
@@ -159,8 +159,4 @@ async function main() {
     );
   }
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
-  main().catch((error) => {
-    console.error(error.message);
-    process.exitCode = 1;
-  });
+runCli(import.meta.url, () => main(), 'message');

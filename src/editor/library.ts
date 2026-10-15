@@ -92,30 +92,13 @@ export class SceneLibrary {
   private snapshot = '';
   private fragmentData: SceneDocument['objects'] = [];
   constructor(private host: Host) {
-    const toolbar = $('document-actions');
-    const button = document.createElement('button');
-    button.id = 'scene-library';
-    button.textContent = 'Open scene…';
-    button.onclick = () => void this.load().catch((e) => host.status(editorError(e), true));
-    toolbar.prepend(button);
-    const recovery = document.createElement('button');
-    recovery.id = 'recovery-history';
-    recovery.textContent = 'Recovery history…';
-    recovery.onclick = () =>
+    $('scene-library').onclick = () =>
+      void this.load().catch((e) => host.status(editorError(e), true));
+    $('recovery-history').onclick = () =>
       void this.load('recovery').catch((e) => host.status(editorError(e), true));
-    toolbar.append(recovery);
-    const exportButton = document.createElement('button');
-    exportButton.textContent = 'Export JSON';
-    exportButton.id = 'export-scene';
-    exportButton.onclick = () =>
+    $('export-scene').onclick = () =>
       this.download(host.history().document, host.history().document.id + '.json');
-    toolbar.append(exportButton);
-    const importLabel = document.createElement('label');
-    importLabel.textContent = 'Import JSON';
-    const input = document.createElement('input');
-    input.id = 'import-scene';
-    input.type = 'file';
-    input.accept = '.json,application/json';
+    const input = $<HTMLInputElement>('import-scene');
     input.onchange = () => {
       const file = input.files?.[0];
       if (file)
@@ -131,13 +114,7 @@ export class SceneLibrary {
         })().catch((e) => host.status(editorError(e), true));
       input.value = '';
     };
-    importLabel.append(input);
-    toolbar.append(importLabel);
-    this.dialog = document.createElement('dialog');
-    this.dialog.id = 'scene-library-dialog';
-    this.dialog.innerHTML =
-      '<h2 id="library-title">Scene library</h2><section data-library="scenes"><input id="library-search" type="search" aria-label="Search scenes" placeholder="Search scenes"><h3>Scenes</h3><div id="library-scenes"></div></section><section data-library="recovery"><h3>Recovery</h3><div id="library-recovery"></div></section><section data-library="arrangements"><h3>Arrangements</h3><input id="fragment-name" aria-label="Fragment name" placeholder="Arrangement name" maxlength="80"><button id="save-fragment">Save selection as arrangement</button><div id="library-fragments"></div></section><form method="dialog"><button>Close</button></form>';
-    document.body.append(this.dialog);
+    this.dialog = $<HTMLDialogElement>('scene-library-dialog');
     $('save-fragment').onclick = () =>
       void (async () => {
         const objects = host.history().fragment(host.selection());
@@ -147,11 +124,6 @@ export class SceneLibrary {
         await host.fragment(name, objects);
         await this.load('arrangements');
       })().catch((e) => host.status(editorError(e), true));
-    const pattern = document.createElement('fieldset');
-    pattern.id = 'pattern-tools';
-    pattern.innerHTML =
-      '<legend>Repeat selection</legend><label>Pattern<select id="pattern-kind"><option value="path">Along path</option><option value="scatter">Scatter in region</option></select></label><label id="pattern-path-label">Path<select id="pattern-path"></select></label><div id="scatter-region"><label>Center X<input id="pattern-x" type="number" step=".1" value="0"></label><label>Center Z<input id="pattern-z" type="number" step=".1" value="0"></label><button id="pattern-center">Center on selection</button></div><label>Copies<input id="pattern-count" type="number" min="1" max="50" value="5"></label><label>Seed<input id="pattern-seed" type="number" value="142"></label><label>Scatter radius<input id="pattern-radius" type="number" min=".1" step=".1" value="3"></label><button id="pattern-preview">Preview pattern</button><button id="pattern-apply" disabled>Apply pattern</button><button id="pattern-cancel">Cancel preview</button>';
-    $('arrange-section').append(pattern);
     for (const id of [
       'pattern-kind',
       'pattern-path',

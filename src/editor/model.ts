@@ -78,23 +78,7 @@ export class EditorHistory {
     id: string,
     fields: Partial<Pick<SceneObject, 'x' | 'z' | 'y' | 'scale' | 'mirror' | 'rotation'>>,
   ) {
-    const item = sceneItems(this.document).find((p) => p.placement.id === id);
-    if (!item) throw new Error('Unknown scene object: ' + id);
-    this.change((d) => {
-      const object = d.objects.find((p) => p.id === id)!;
-      if (object.mount) {
-        const { x, y, z, ...other } = fields;
-        const offset = object.mount.offset;
-        const support = sceneItems(d).find((p) => p.placement.id === object.mount!.to)!.placement;
-        const delta = localOffset(support, [
-          x === undefined ? 0 : x - item.placement.x,
-          y === undefined ? 0 : y - (item.placement.y ?? 0),
-          z === undefined ? 0 : z - item.placement.z,
-        ]);
-        for (let i = 0; i < 3; i++) offset[i]! += delta[i]!;
-        Object.assign(object, other);
-      } else Object.assign(object, fields);
-    });
+    this.transformEach([id], fields);
   }
 
   descendants(ids: readonly string[]) {
@@ -109,17 +93,37 @@ export class EditorHistory {
   }
 
   transformEach(ids: readonly string[], fields: Parameters<EditorHistory['transform']>[1]) {
-    const temp = this.fork(),
-      objects = new Map(this.document.objects.map((object) => [object.id, object])),
+    this.applyTransforms(new Map(ids.map((id) => [id, fields])));
+  }
+
+  private applyTransforms(targets: ReadonlyMap<string, Parameters<EditorHistory['transform']>[1]>) {
+    const objects = new Map(this.document.objects.map((object) => [object.id, object])),
       depth = (id: string): number => {
         const object = objects.get(id);
         return object?.mount ? 1 + depth(object.mount.to) : 0;
       };
-    // Absolute fields must place supports before their selected attachments.
-    for (const id of [...new Set(ids)].sort((a, b) => depth(a) - depth(b)))
-      temp.transform(id, fields);
     this.change((document) => {
-      document.objects = parseSceneDocument(temp.document).objects;
+      // Supports move before attachments; the complete batch owns one undo entry.
+      for (const id of [...targets.keys()].sort((a, b) => depth(a) - depth(b))) {
+        const fields = targets.get(id)!;
+        const item = sceneItems(document).find((p) => p.placement.id === id);
+        if (!item) throw new Error('Unknown scene object: ' + id);
+        const object = document.objects.find((p) => p.id === id)!;
+        if (object.mount) {
+          const { x, y, z, ...other } = fields;
+          const offset = object.mount.offset;
+          const support = sceneItems(document).find(
+            (p) => p.placement.id === object.mount!.to,
+          )!.placement;
+          const delta = localOffset(support, [
+            x === undefined ? 0 : x - item.placement.x,
+            y === undefined ? 0 : y - (item.placement.y ?? 0),
+            z === undefined ? 0 : z - item.placement.z,
+          ]);
+          for (let i = 0; i < 3; i++) offset[i]! += delta[i]!;
+          Object.assign(object, other);
+        } else Object.assign(object, fields);
+      }
     });
   }
 
@@ -157,29 +161,7 @@ export class EditorHistory {
         ];
       }),
     );
-    this.change((d) => {
-      for (const { placement } of items) {
-        const object = d.objects.find((p) => p.id === placement.id)!;
-        const target = targets.get(object.id)!;
-        if (!object.mount) Object.assign(object, target);
-      }
-      const mounted = items.filter((p) => d.objects.find((v) => v.id === p.placement.id)?.mount);
-      const depth = (id: string): number => {
-        const p = d.objects.find((p) => p.id === id);
-        return p?.mount ? 1 + depth(p.mount.to) : 0;
-      };
-      mounted.sort((a, b) => depth(a.placement.id) - depth(b.placement.id));
-      for (const { placement } of mounted) {
-        const object = d.objects.find((p) => p.id === placement.id)!;
-        const target = targets.get(object.id)!;
-        const support = sceneItems(d).find((p) => p.placement.id === object.mount!.to)!.placement;
-        const offset = localOffset(support, [target.x - support.x, 0, target.z - support.z]);
-        // Keep vertical attachment offsets local so scaled supports carry their children.
-        object.mount!.offset = [offset[0], object.mount!.offset[1], offset[2]];
-        object.scale = target.scale;
-        object.rotation = target.rotation;
-      }
-    });
+    this.applyTransforms(targets);
   }
 
   removeMany(ids: readonly string[]) {

@@ -1,3 +1,4 @@
+import { runCli } from './cli';
 import { onExit } from './scope-exit';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -152,8 +153,4 @@ async function main() {
     'PASS: runtime import boundaries and acyclic tooling dependencies, including literal dynamic imports.',
   );
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
-  main().catch((error) => {
-    console.error(error.message);
-    process.exitCode = 1;
-  });
+runCli(import.meta.url, () => main(), 'message');

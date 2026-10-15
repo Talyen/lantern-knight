@@ -32,20 +32,28 @@ test.beforeEach(async ({ page }) => {
       cameraPath = '/src/presentation/camera.ts',
       scenePath = '/src/content/scene-document.ts',
       defaultPath = '/src/editor/default-scene.ts',
+      uiPath = '/src/editor/ui.ts',
       gesturesPath = '/src/editor/gestures.ts';
     const [
       { GroundAuthoring },
       { makeCamera },
       { parseSceneDocument },
       { emptyScene },
+      { editorUI },
       { EditorGestures },
     ] = await Promise.all([
       import(authoringPath),
       import(cameraPath),
       import(scenePath),
       import(defaultPath),
+      import(uiPath),
       import(gesturesPath),
     ]);
+    const template = document.createElement('template');
+    template.innerHTML = editorUI;
+    document
+      .querySelector('#scene-panel')!
+      .append(template.content.querySelector('#ground-interaction-section')!);
     const scene = emptyScene();
     scene.floor.layout = 'artwork';
     scene.groundInteraction = {

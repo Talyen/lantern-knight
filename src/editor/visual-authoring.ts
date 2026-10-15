@@ -187,24 +187,18 @@ export class VisualAuthoring {
   private handles: { path: (string | number)[]; point: { x: number; z: number }; label: string }[] =
     [];
   private key = '';
-  private fields: HTMLElement;
   private objectFields: HTMLElement;
   private drag: { path: (string | number)[]; pointer: number; lease: GestureLease } | undefined;
   constructor(private host: Host) {
-    this.fields = document.createElement('section');
-    this.fields.id = 'visual-fields';
-    $('scene-panel').insertBefore(this.fields, $('advice-section'));
-    this.objectFields = document.createElement('section');
-    this.objectFields.id = 'object-appearance';
-    $('object-panel').append(this.objectFields);
-    const overlays = document.createElement('fieldset');
-    overlays.id = 'overlays';
-    overlays.innerHTML =
-      '<legend>Viewport overlays</legend>' +
-      ['camera', 'bounds', 'collision', 'entries', 'zones', 'lights', 'shelters', 'gameplay']
-        .map((id) => `<label><input type="checkbox" data-overlay="${id}"> ${id}</label>`)
-        .join('');
-    $('overlay-options').append(overlays);
+    this.objectFields = $('object-appearance');
+    for (const button of document.querySelectorAll<HTMLButtonElement>('[data-editor-tool]'))
+      button.onclick = () => {
+        const tool = $<HTMLSelectElement>('tool');
+        tool.value = button.dataset.editorTool!;
+        tool.dispatchEvent(new Event('change'));
+        $('viewport').focus();
+      };
+    const overlays = $('overlays');
     overlays.onchange = () => {
       this.key = '';
       this.draw();
@@ -449,11 +443,6 @@ export class VisualAuthoring {
         ),
       ].map((v) => [v.dataset.section, v.open]),
     );
-    const atmosphere = $('atmosphere-section');
-    $('scene-panel').append(atmosphere, $('advice-section'));
-    const previousGeometry = document.getElementById('ground-geometry');
-    if (previousGeometry) this.fields.append(previousGeometry);
-    this.fields.replaceChildren();
     const categories = [
       ['Gameplay', ['gameplay']],
       ['Camera', ['camera']],
@@ -462,47 +451,15 @@ export class VisualAuthoring {
       ['Advanced', ['propOrder', 'overlaps']],
     ] as const;
     for (const [title, keys] of categories) {
-      const category = document.createElement('details');
-      category.name = 'scene-sections';
-      category.dataset.section = 'category-' + title;
-      const summary = document.createElement('summary');
-      summary.textContent = title;
-      category.append(summary);
-      this.fields.append(category);
-      if (title === 'Geometry') {
-        category.id = 'ground-geometry';
-        category.removeAttribute('name');
-        summary.textContent = 'Surface, paths & bounds';
-        category.append(
-          this.button('Edit geometry on canvas', () => {
-            const tool = $<HTMLSelectElement>('tool');
-            tool.value = 'geometry';
-            tool.dispatchEvent(new Event('change'));
-            $('viewport').focus();
-          }),
-        );
-      }
-      if (title === 'Gameplay')
-        category.append(
-          this.button('Edit gameplay positions on canvas', () => {
-            const tool = $<HTMLSelectElement>('tool');
-            tool.value = 'geometry';
-            tool.dispatchEvent(new Event('change'));
-            $('viewport').focus();
-          }),
-        );
-      if (title === 'Advanced') {
-        $('advice-section').removeAttribute('name');
-        category.append($('advice-section'));
-      }
-      if (title === 'Atmosphere') {
-        category.append($('atmosphere-section'));
-        const advice = document.createElement('p');
-        advice.textContent =
-          'Match shade painted into the ground. Characters and objects dim smoothly inside each zone; flames and local lights stay luminous. View → Zones shows the area.';
-        category.append(advice);
+      const category =
+        title === 'Geometry'
+          ? $('ground-geometry')
+          : document.querySelector<HTMLElement>(`[data-visual-category="${title}"]`)!;
+      for (const child of [...category.children])
+        if (child.tagName !== 'SUMMARY' && !child.hasAttribute('data-visual-static'))
+          child.remove();
+      if (title === 'Atmosphere')
         this.form([...(d.look.shadeZones ?? [])], ['look', 'shadeZones'], category, 'shadeZones');
-      }
       for (const key of keys) {
         const value = (
           key === 'weather'
@@ -539,9 +496,6 @@ export class VisualAuthoring {
         }
       }
     }
-    const groundGeometry = document.getElementById('ground-geometry');
-    if (groundGeometry)
-      document.getElementById('ground-interaction-section')?.append(groundGeometry);
     // Surface alternatives have different valid fields and change atomically.
     if (d.geometry) {
       const select = document.createElement('select');

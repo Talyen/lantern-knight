@@ -76,39 +76,11 @@ export class GroundAuthoring {
     private canvas: HTMLCanvasElement,
     private host: Host,
   ) {
-    this.panel = document.createElement('details');
-    this.panel.id = 'ground-interaction-section';
-    this.panel.innerHTML = `<summary>Movement &amp; depth</summary><p>Collision blocks movement. A silhouette hides actors behind painted scenery; depth determines when they pass in front. Author and test each separately.</p><button id="ground-test-movement">Test movement</button><p id="ground-layout-help" hidden>Painted scenery regions need a single-image ground. For tiled scenes, use Surface, paths &amp; bounds below.</p><div id="ground-painting-tools"><label>Region<select id="ground-region"><option value="">New region</option></select></label><label>Name<input id="ground-region-name" maxlength="80" value="Ground region"></label><div class="ground-task-choices"><button data-ground-mode="off">Select / edit vertices</button><button data-ground-mode="footprint">Block movement</button><button data-ground-mode="mask">Hide hero behind scenery</button><button data-ground-mode="anchor">Depth ordering</button></div><label>Drawing tool<select id="ground-task"><option value="off">Select / edit vertices</option><option value="footprint">Block movement polygon</option><option value="mask">Draw silhouette</option><option value="ai-box">AI box selection</option><option value="ai-point">AI include / exclude clicks</option><option value="brush-add">Add to mask brush</option><option value="brush-erase">Erase mask brush</option><option value="anchor">Depth anchor</option><option value="boundary">Depth boundary</option></select></label><p id="ground-task-help">Choose a task, then work on the canvas. Shift-click excludes from AI selection.</p><label>Brush radius (source pixels)<input id="ground-brush-radius" type="number" min="1" max="256" value="12"></label><div class="ground-actions"><button id="ground-finish">Finish polygon / boundary</button><button id="ground-refine">Run AI selection</button><button id="ground-accept">Accept mask</button><button id="ground-cancel">Cancel selection</button><button id="ground-duplicate">Duplicate region</button><button id="ground-delete">Delete region</button><button id="ground-leave">Finish editing region</button><details class="region-menu"><summary>Region actions</summary><button id="ground-clear">Clear all ground interaction</button></details></div><fieldset><legend>Ground overlays</legend><label><input id="ground-show-blockers" type="checkbox"> Blocking footprints</label><label><input id="ground-show-masks" type="checkbox"> Occlusion masks</label><label><input id="ground-show-depth" type="checkbox"> Depth anchors and boundaries</label></fieldset><p id="ground-ai-state" role="status">Local selection: run npm run segmentation:setup once.</p></div>`;
-    this.panel.setAttribute('name', 'scene-sections');
-    const groundSection = document.getElementById('ground-section');
-    if (groundSection) groundSection.after(this.panel);
-    else document.getElementById('scene-panel')!.append(this.panel);
-    const assistance = document.createElement('details');
-    assistance.id = 'ground-assistance';
-    assistance.innerHTML =
-      '<summary>AI assistance</summary><p>Proposals need review. Accepting a silhouette does not create collision or validate depth.</p><button data-ground-mode="ai-box">Select with AI box</button><button data-ground-mode="ai-point">Select with AI clicks</button><button id="ground-refine-prepared" data-ground-mode="brush-erase">Refine prepared mask</button>';
-    this.field('#ground-painting-tools').append(assistance);
-    assistance.append(this.field('#ground-refine'), this.field('#ground-ai-state'));
-    const actions = this.field('.region-menu');
-    actions.append(this.field('#ground-duplicate'), this.field('#ground-delete'));
-    const overlays = this.field('#ground-show-blockers').closest('fieldset')!;
-    const overlayDetails = document.createElement('details');
-    overlayDetails.innerHTML = '<summary>Overlays</summary>';
-    overlays.replaceWith(overlayDetails);
-    overlayDetails.append(overlays);
-    const profiles = document.createElement('fieldset');
-    profiles.innerHTML = `<legend>Saved artwork interaction profiles</legend><button id="ground-load-profiles">Find saved profiles</button><label>Saved revision<select id="ground-profile"><option value="">Find saved profiles first</option></select></label><label><input id="ground-profile-review" type="checkbox"> Reassign to changed artwork and review alignment</label><button id="ground-restore-profile">Restore selected profile</button><p>Saving a scene archives an independent revision. Scene deletion and asset processing leave these revisions intact. Restoring replaces this scene’s interaction data in one undoable edit.</p>`;
-    const profileDetails = document.createElement('details');
-    profileDetails.innerHTML = '<summary>Saved interaction profiles</summary>';
-    profileDetails.append(profiles);
-    this.field('#ground-painting-tools').append(profileDetails);
-    profiles.querySelector<HTMLButtonElement>('#ground-load-profiles')!.onclick = () =>
+    this.panel = document.getElementById('ground-interaction-section')!;
+    this.field('#ground-load-profiles').onclick = () =>
       void this.loadProfiles().catch((e) => this.host.status(String(e), true));
-    profiles.querySelector<HTMLButtonElement>('#ground-restore-profile')!.onclick = () =>
+    this.field('#ground-restore-profile').onclick = () =>
       void this.restoreProfile().catch((e) => this.host.status(String(e), true));
-    const batch = document.createElement('fieldset');
-    batch.innerHTML = `<legend>Automatic scenery proposals</legend><label>Find objects<input id="ground-find-text" value="pine tree. dead tree. stone wall. large rock." maxlength="300"></label><button id="ground-find">Find scenery</button><label>Review proposal<select id="ground-candidate"><option value="">Find scenery first</option></select></label><label><input id="ground-candidate-included" type="checkbox" checked> Include this proposal</label><div class="ground-actions"><button id="ground-prepare">Prepare included masks</button><button id="ground-accept-batch">Accept prepared masks</button></div><p>AI proposes silhouettes only. Review collision footprints and depth separately. Nothing is saved until accepted.</p>`;
-    assistance.append(batch);
     this.svg = document.createElementNS(ns, 'svg');
     this.svg.classList.add('ground-overlay');
     this.svg.setAttribute('aria-hidden', 'true');

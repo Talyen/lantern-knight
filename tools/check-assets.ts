@@ -1,3 +1,4 @@
+import { runCli } from './cli';
 import { onAsyncExit } from './scope-exit';
 import { readPreparedAudio } from './assets/prepared-audio';
 import { validateLightingBindings, type LightingBinding } from './lighting-bindings';
@@ -12,7 +13,6 @@ import fs from 'node:fs/promises';
 import { parseRegistration } from '../src/assets/registration';
 import { projectRoot } from './assets/paths';
 import { openWorkspace, type AssetWorkspace } from './assets/workspace';
-import { fileURLToPath } from 'node:url';
 import { safeRelative } from './assets/files';
 import { hash } from './compiler';
 import { loadingVideoPath } from '../src/content/loading-media';
@@ -90,8 +90,8 @@ export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirecto
     `PASS: ${Object.keys(catalog).length} runtime assets / ${pages} pages; current references and registration verified.`,
   );
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+runCli(import.meta.url, async () => {
   const workspace = await openWorkspace();
   await using _cleanup1 = onAsyncExit(() => workspace.release());
   await checkAssets(workspace);
-}
+});

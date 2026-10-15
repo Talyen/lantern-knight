@@ -1,7 +1,6 @@
+import { runCli } from './cli';
 import { coverageFor } from './coverage-policy';
 import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 async function main() {
   const base = process.env.LANTERN_CI_BASE;
@@ -29,8 +28,4 @@ async function main() {
       `desktop=${desktop}\nauthoring=${authoring}\nassets=${assets}\n`,
     );
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
-  main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
+runCli(import.meta.url, () => main());

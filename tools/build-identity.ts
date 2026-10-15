@@ -1,5 +1,5 @@
+import { runCli } from './cli';
 import { readJson } from './json-file';
-import { fileURLToPath } from 'node:url';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileChecksums } from './verified-files';
@@ -129,14 +129,15 @@ export async function verifyBuildIdentity(
   report(`PASS: build artifact identity and ${names.length} checksums.`);
   return identity;
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  if (process.argv.slice(2).some((arg) => arg !== '--dev' && arg !== '--web'))
-    throw new Error('Use build-identity [--dev] [--web]; build/package writes identities');
-  verifyBuildIdentity({
-    profile: process.argv.includes('--dev') ? 'authoring' : 'game',
-    target: process.argv.includes('--web') ? 'web' : 'desktop',
-  }).catch((error) => {
-    console.error(error.message);
-    process.exitCode = 1;
-  });
-}
+runCli(
+  import.meta.url,
+  () => {
+    if (process.argv.slice(2).some((arg) => arg !== '--dev' && arg !== '--web'))
+      throw new Error('Use build-identity [--dev] [--web]; build/package writes identities');
+    return verifyBuildIdentity({
+      profile: process.argv.includes('--dev') ? 'authoring' : 'game',
+      target: process.argv.includes('--web') ? 'web' : 'desktop',
+    });
+  },
+  'message',
+);

@@ -1,9 +1,9 @@
+import { runCli } from '../cli';
 import { writeJson, readJson } from '../json-file';
 import { desktopEnvironment } from './environment';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-import { fileURLToPath } from 'node:url';
 import { option, type smokeLaunch } from '../smoke/smoke-launch';
 import { digest, sourceIdentity } from '../source-identity';
 import { requireCurrentDesktopInputs } from '../build-identity';
@@ -122,8 +122,4 @@ async function main() {
       : compareBenchmarks;
   console.log(JSON.stringify(compare(first, second), null, 2));
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
-  main().catch((error) => {
-    console.error(error.message);
-    process.exitCode = 1;
-  });
+runCli(import.meta.url, () => main(), 'message');
