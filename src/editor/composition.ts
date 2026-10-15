@@ -100,9 +100,7 @@ export class CompositionTools {
       };
     }
     for (const axis of ['x', 'z'] as const) {
-      const button = document.createElement('button');
-      button.textContent = 'Align ' + axis.toUpperCase();
-      button.id = 'align-' + axis;
+      const button = element('align-' + axis);
       button.onclick = () =>
         void this.edit((history) => {
           const ids = this.editable(),
@@ -111,7 +109,6 @@ export class CompositionTools {
           if (anchor === undefined) return;
           history.transformEach(ids, { [axis]: anchor });
         }).catch(console.error);
-      element('alignment-tools').append(button);
     }
     for (const button of document.querySelectorAll<HTMLButtonElement>('[data-handle]')) {
       button.onpointerdown = (e) => {

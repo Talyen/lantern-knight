@@ -32,24 +32,58 @@ def pick(contexts, *keys, default=None):
     return default
 
 
+# Source formats keep their ordered aliases at this admission boundary. Adapters
+# select a field policy instead of repeating registration and timing vocabularies.
+METADATA_FIELDS = {
+    "density": (
+        "native_pixels_per_unit pixels_per_unit estimated_pixels_per_unit estimated_ppu "
+        "suggested_pixels_per_unit suggestedPixelsPerUnit clip_pixels_per_metre "
+        "source_density_px_per_m source_texels_per_metre world_density_px_per_metre "
+        "render_density_px_per_m recommended_pixels_per_unit density"
+    ).split(),
+    "frame_file": "runtime_archive_member file png sprite path image revised_image".split(),
+    "canvas": (
+        "canvas_px cell_px cell_size native_cell_size canvas_pixels canvas frame_dimensions "
+        "source_canvas runtimeCanvasPx runtime_canvas frame_canvas"
+    ).split(),
+    "still_file": "png file path revised_image image".split(),
+    "still_pivot": "ground_pivot_px pivot_pixels pivot_px anchor_pixels pivot".split(),
+    "paint_bounds": (
+        "alpha_bounds_ge128 visible_alpha_bbox_threshold_16 alpha_bounds_px paint_bounds_pixels"
+    ).split(),
+    "pivot": (
+        "pivot_pixels_top_left pivot_top_left_px pivot_px_top_left pivot_pixels "
+        "root_origin_pixels root_pixels root_px_top_left fixed_root_pixels "
+        "fixed_pivot_top_left_px pivot_top_left pivot_px pivotPx ground_pivot_px "
+        "native_pivot_top_left_px fixed_pivot_pixels_top_left pivotPixels default_root "
+        "anchor_pixels anchor pivot root"
+    ).split(),
+    "pivot_value": "top_left_px pixels_top_left pixel_top_left pixels".split(),
+    "frame_density": (
+        "pixels_per_unit native_pixels_per_unit estimated_pixels_per_unit estimated_ppu "
+        "recommended_pixels_per_unit source_density_px_per_m source_texels_per_metre "
+        "world_density_px_per_metre render_density_px_per_m density"
+    ).split(),
+    "holds": (
+        "holds_60hz holds_ticks hold_ticks hold_ticks_in_order frame_hold_ticks duration_ticks "
+        "durations_ticks_60hz"
+    ).split(),
+    "frame_ticks": (
+        "hold_ticks_60hz hold_ticks holdTicks duration_ticks durationTicks hold_ticks_60 ticks "
+        "ticks_60hz"
+    ).split(),
+    "clock_rate": "tick_rate_hz tick_rate tick_hz clock_hz timebase_hz".split(),
+    "end_behavior": "endBehavior finishBehavior end_behavior terminal completion".split(),
+}
+
+
+def metadata(contexts, field, default=None):
+    return pick(contexts, *METADATA_FIELDS[field], default=default)
+
+
 def density_of(contexts, default=256):
-    keys = (
-        "native_pixels_per_unit",
-        "pixels_per_unit",
-        "estimated_pixels_per_unit",
-        "estimated_ppu",
-        "suggested_pixels_per_unit",
-        "suggestedPixelsPerUnit",
-        "clip_pixels_per_metre",
-        "source_density_px_per_m",
-        "source_texels_per_metre",
-        "world_density_px_per_metre",
-        "render_density_px_per_m",
-        "recommended_pixels_per_unit",
-        "density",
-    )
     for context in contexts:
-        for key in keys:
+        for key in METADATA_FIELDS["density"]:
             value = context.get(key) if isinstance(context, dict) else None
             if isinstance(value, (int, float)) and value > 0:
                 return value
@@ -247,61 +281,15 @@ class Importer:
 
     def frame(self, p, record, contexts, base="", density=None, anchor=None):
         contexts = [record, *contexts]
-        name = pick(
-            [record],
-            "runtime_archive_member",
-            "file",
-            "png",
-            "sprite",
-            "path",
-            "image",
-            "revised_image",
-        )
+        name = metadata([record], "frame_file")
         if not isinstance(name, str):
             raise ValueError("Missing frame filename: " + str(record)[:160])
         ref = p.reference(name, base)
         dims = p.dimensions(ref["member"])
-        canvas = pick(
-            contexts,
-            "canvas_px",
-            "cell_px",
-            "cell_size",
-            "native_cell_size",
-            "canvas_pixels",
-            "canvas",
-            "frame_dimensions",
-            "source_canvas",
-            "runtimeCanvasPx",
-            "runtime_canvas",
-            "frame_canvas",
-            default=dims,
-        )
+        canvas = metadata(contexts, "canvas", default=dims)
         if isinstance(canvas, dict):
             canvas = [canvas.get("width"), canvas.get("height")]
-        pivot = anchor or pick(
-            contexts,
-            "pivot_pixels_top_left",
-            "pivot_top_left_px",
-            "pivot_px_top_left",
-            "pivot_pixels",
-            "root_origin_pixels",
-            "root_pixels",
-            "root_px_top_left",
-            "fixed_root_pixels",
-            "fixed_pivot_top_left_px",
-            "pivot_top_left",
-            "pivot_px",
-            "pivotPx",
-            "ground_pivot_px",
-            "native_pivot_top_left_px",
-            "fixed_pivot_pixels_top_left",
-            "pivotPixels",
-            "default_root",
-            "anchor_pixels",
-            "anchor",
-            "pivot",
-            "root",
-        )
+        pivot = anchor or metadata(contexts, "pivot")
         if pivot is None:
             normalized = pick(
                 contexts,
@@ -319,27 +307,8 @@ class Importer:
                     (1 - normalized[1] if bottom else normalized[1]) * dims[1],
                 ]
         if isinstance(pivot, dict):
-            pivot = pick(
-                [pivot],
-                "top_left_px",
-                "pixels_top_left",
-                "pixel_top_left",
-                "pixels",
-                default=pick([contexts[-1]], "pivot_px"),
-            )
-        ppu = density or pick(
-            contexts,
-            "pixels_per_unit",
-            "native_pixels_per_unit",
-            "estimated_pixels_per_unit",
-            "estimated_ppu",
-            "recommended_pixels_per_unit",
-            "source_density_px_per_m",
-            "source_texels_per_metre",
-            "world_density_px_per_metre",
-            "render_density_px_per_m",
-            "density",
-        )
+            pivot = metadata([pivot], "pivot_value", default=pick([contexts[-1]], "pivot_px"))
+        ppu = density or metadata(contexts, "frame_density")
         if pivot is None or not isinstance(ppu, (int, float)):
             raise ValueError(f"{p.spec['archive']}/{ref['member']}: unresolved pivot/density")
         if list(canvas) != dims and "rect" not in record:
@@ -376,7 +345,7 @@ class Importer:
             "id",
             "old_id",
             default=pathlib.PurePosixPath(
-                pick([record], "png", "file", "path", "revised_image", "image")
+                metadata([record], "still_file")
             ).stem,
         )
         if "library-" + slug(identity or name) in self.assets:
@@ -384,27 +353,13 @@ class Importer:
         asset = self.asset(
             identity or name, record.get("name", str(name).replace("_", " ")), kind, projection
         )
-        filename = pick([record], "png", "file", "path", "revised_image", "image")
+        filename = metadata([record], "still_file")
         member = p.locate(filename, base)
         dims = p.dimensions(member)
-        pivot = pick(
-            [record, *contexts],
-            "ground_pivot_px",
-            "pivot_pixels",
-            "pivot_px",
-            "anchor_pixels",
-            "pivot",
-        )
+        pivot = metadata([record, *contexts], "still_pivot")
         if pivot is None and record.get("pivot_normalized"):
             pivot = [v * dims[i] for i, v in enumerate(record["pivot_normalized"])]
-        bbox = pick(
-            [record],
-            "alpha_bounds_ge128",
-            "visible_alpha_bbox_threshold_16",
-            "alpha_bounds_px",
-            "paint_bounds_pixels",
-            default=[0, 0, *dims],
-        )
+        bbox = metadata([record], "paint_bounds", default=[0, 0, *dims])
         if not isinstance(bbox, list):
             bbox = [0, 0, *dims]
         pivot = pivot or (
@@ -493,16 +448,7 @@ class Importer:
             if not isinstance(fs, list):
                 raise ValueError(f"{member}/{name}: no explicit frame list")
             records = [{"file": f} if isinstance(f, str) else f for f in fs]
-            holds = pick(
-                contexts,
-                "holds_60hz",
-                "holds_ticks",
-                "hold_ticks",
-                "hold_ticks_in_order",
-                "frame_hold_ticks",
-                "duration_ticks",
-                "durations_ticks_60hz",
-            )
+            holds = metadata(contexts, "holds")
             timeline = c.get("timeline")
             if timeline and all("cel" in t for t in timeline):
                 # Index origin follows the supplied first cel index; no sorting.
@@ -521,17 +467,8 @@ class Importer:
                     if duration is not None:
                         duration *= 1000
                 if duration is None:
-                    h = pick(
-                        [f],
-                        "hold_ticks_60hz",
-                        "hold_ticks",
-                        "holdTicks",
-                        "duration_ticks",
-                        "durationTicks",
-                        "hold_ticks_60",
-                        "ticks",
-                        "ticks_60hz",
-                        default=holds[i] if isinstance(holds, list) else None,
+                    h = metadata(
+                        [f], "frame_ticks", default=holds[i] if isinstance(holds, list) else None
                     )
                     if h is None and (
                         f.get("hold_indefinitely")
@@ -544,15 +481,7 @@ class Importer:
                         duration = (
                             h
                             * 1000
-                            / pick(
-                                contexts,
-                                "tick_rate_hz",
-                                "tick_rate",
-                                "tick_hz",
-                                "clock_hz",
-                                "timebase_hz",
-                                default=60,
-                            )
+                            / metadata(contexts, "clock_rate", default=60)
                         )
                 if duration is None:
                     fps = pick(contexts, "fps", "source_fps", "sourceFPS")
@@ -568,15 +497,7 @@ class Importer:
                 if any(
                     t
                     in str(
-                        pick(
-                            contexts,
-                            "endBehavior",
-                            "finishBehavior",
-                            "end_behavior",
-                            "terminal",
-                            "completion",
-                            default="",
-                        )
+                        metadata(contexts, "end_behavior", default="")
                     ).lower()
                     for t in ["remove", "disable_renderer", "hide", "clear"]
                 )

@@ -1,5 +1,4 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { runCli } from './cli';
 import { parseArgs } from 'node:util';
 import { buildDesktop } from './build-workflow';
 import { verifyBuildIdentity } from './build-identity';
@@ -42,7 +41,7 @@ async function packageApp(
   );
   if (releaseSigning) await notarizeMacApp(releaseSigning, projectRoot);
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+runCli(import.meta.url, () => {
   const { values } = parseArgs({
     options: {
       platform: { type: 'string' },
@@ -60,14 +59,11 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     (process.platform === 'darwin' ? 'mac' : process.platform === 'win32' ? 'win' : undefined);
   if (platform !== 'mac' && platform !== 'win') throw new Error('Supply --platform mac|win');
   const signing = macSigning({ ...values, platform });
-  packageApp(
+  return packageApp(
     platform,
     values.dev ? 'authoring' : 'game',
     values.prebuilt,
     values.local,
     signing,
-  ).catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
-}
+  );
+});

@@ -40,7 +40,7 @@ export const gameMenu = `<dialog class="modal game-menu is-title" id="modal" ari
     </section>
     <section id="settings-page" class="menu-page" aria-label="Settings" hidden>
       <p class="page-intro">Make yourself comfortable. Changes are saved automatically.</p>
-      <div class="settings-columns"><div>${audioControls}
+      <div class="settings-columns"><div>${audioControls()}
         <fieldset class="display-options"><legend>Display</legend><label>Camera distance<select id="zoom-span"><option value="8.55">Close</option><option value="9">9 m</option><option value="11">Medium</option><option value="13">Wide</option><option value="15">Far</option></select></label>
         <label>Render scale<select id="render-scale"><option value="1">100% · up to 4K</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label>
         <label for="depth-of-field">Depth of field <output id="depth-of-field-value">100%</output></label><input id="depth-of-field" type="range" min="0" max="100" step="5" value="100"><p class="muted">Foreground and distance blur. Set to 0% to turn off.</p></fieldset></div>

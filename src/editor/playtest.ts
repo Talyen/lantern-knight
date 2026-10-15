@@ -37,51 +37,19 @@ export class DraftPlaytest {
   private closed = false;
   private snapshot: SceneDocument | undefined;
   constructor(private host: Host) {
-    this.dialog = document.createElement('dialog');
-    this.dialog.id = 'playtest-dialog';
-    this.dialog.innerHTML =
-      '<header><strong>Scene playtest</strong><button id="playtest-pause">Pause</button><button id="playtest-reset">Restart</button><button id="playtest-return">Return to editor</button></header><canvas id="playtest-viewport" tabindex="0" aria-label="Scene gameplay"></canvas><p id="playtest-status" role="status"></p>';
-    const movementControls = document.createElement('div');
-    movementControls.id = 'movement-controls';
-    movementControls.hidden = true;
-    movementControls.innerHTML =
-      '<label>Actor<select id="movement-actor"></select></label><button id="movement-follow">Follow hero</button><label><input id="movement-outline" type="checkbox" checked> Hidden actor outlines</label><label>Test destination<select id="movement-destination"><option value="">Choose annotation</option></select></label><span id="movement-route-status" role="status"></span>';
-    for (const key of ['blockers', 'masks', 'depth', 'cells', 'routes', 'footprints']) {
-      const label = document.createElement('label'),
-        input = document.createElement('input');
-      input.type = 'checkbox';
-      input.checked = ['blockers', 'routes', 'footprints'].includes(key);
+    this.dialog = document.getElementById('playtest-dialog') as HTMLDialogElement;
+    this.canvas = this.dialog.querySelector('canvas')!;
+    for (const input of this.dialog.querySelectorAll<HTMLInputElement>('[data-movement-overlay]'))
       input.onchange = () => {
         if (this.overlay) {
-          Object.assign(this.overlay.options, { [key]: input.checked });
+          Object.assign(this.overlay.options, { [input.dataset.movementOverlay!]: input.checked });
           this.overlay.invalidate();
         }
       };
-      label.append(input, ' ' + key);
-      movementControls.append(label);
-    }
-    this.dialog.insertBefore(movementControls, this.dialog.querySelector('canvas'));
-    document.body.append(this.dialog);
-    this.canvas = this.dialog.querySelector('canvas')!;
-    const button = document.createElement('button');
-    button.id = 'play-from-here';
-    button.textContent = 'Play';
-    button.onclick = () => void this.start().catch((e) => host.status(editorError(e), true));
-    document.getElementById('play-action')!.append(button);
-    const movementButton = document.createElement('button');
-    movementButton.id = 'test-movement';
-    movementButton.textContent = 'Test movement';
-    movementButton.onclick = () =>
+    document.getElementById('play-from-here')!.onclick = () =>
+      void this.start().catch((e) => host.status(editorError(e), true));
+    document.getElementById('test-movement')!.onclick = () =>
       void this.start(undefined, true).catch((e) => host.status(editorError(e), true));
-    const tests = document.createElement('details');
-    tests.className = 'menu';
-    const summary = document.createElement('summary');
-    summary.textContent = 'Test';
-    const body = document.createElement('div');
-    body.className = 'menu-body';
-    body.append(movementButton);
-    tests.append(summary, body);
-    document.getElementById('play-action')!.append(tests);
     this.dialog.querySelector<HTMLSelectElement>('#movement-actor')!.onchange = (e) => {
       this.selectedActor = (e.target as HTMLSelectElement).value;
       this.canvas.focus();

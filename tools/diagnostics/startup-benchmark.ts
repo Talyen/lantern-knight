@@ -1,7 +1,7 @@
+import { runCli } from '../cli';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { smokeLaunch, smokeExecutable, playerControls, option } from '../smoke/smoke-launch';
 import { desktopEnvironment } from './environment';
 import { frameSummary } from './benchmark-model';
@@ -281,8 +281,4 @@ async function startupBenchmark(flags: string[]) {
   });
   console.log(JSON.stringify(summaries, null, 2));
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
-  startupBenchmark(process.argv.slice(2)).catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
+runCli(import.meta.url, (args) => startupBenchmark(args));

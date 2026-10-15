@@ -1,3 +1,4 @@
+import { runCli } from './cli';
 import { onAsyncExit } from './scope-exit';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -47,8 +48,4 @@ async function main() {
   );
   if (session.ownsServer) await untilInterrupted();
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
-  main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
+runCli(import.meta.url, () => main());

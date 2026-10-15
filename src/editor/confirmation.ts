@@ -1,14 +1,8 @@
 export class EditorConfirmation {
-  private dialog = document.createElement('dialog');
+  private dialog = document.getElementById('editor-confirmation') as HTMLDialogElement;
   private resolve: ((accepted: boolean) => void) | undefined;
 
   constructor() {
-    this.dialog.id = 'editor-confirmation';
-    this.dialog.setAttribute('aria-labelledby', 'confirmation-title');
-    this.dialog.setAttribute('aria-describedby', 'confirmation-message');
-    this.dialog.innerHTML =
-      '<form method="dialog"><h2 id="confirmation-title">Confirm action</h2><p id="confirmation-message"></p><div><button value="cancel" autofocus>Cancel</button><button id="confirmation-accept" value="accept"></button></div></form>';
-    document.getElementById('app')!.append(this.dialog);
     this.dialog.addEventListener('close', () => {
       const resolve = this.resolve;
       this.resolve = undefined;

@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { runCli } from './cli';
 import { fileURLToPath } from 'node:url';
 
 import { codeFiles, quietRun, withRuff } from './code-tools';
@@ -57,12 +57,13 @@ async function lintCode(mode: string, fix = false) {
   }
   console.log('PASS: ' + (mode === 'knip' ? 'unused-code checks' : mode + ' lint checks') + '.');
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const [mode = 'all', ...args] = process.argv.slice(2);
-  if (args.length > 1 || args.some((arg) => arg !== '--fix'))
-    throw new Error('Unknown lint arguments');
-  lintCode(mode, args.includes('--fix')).catch((error) => {
-    console.error(error.message);
-    process.exitCode = 1;
-  });
-}
+runCli(
+  import.meta.url,
+  () => {
+    const [mode = 'all', ...args] = process.argv.slice(2);
+    if (args.length > 1 || args.some((arg) => arg !== '--fix'))
+      throw new Error('Unknown lint arguments');
+    return lintCode(mode, args.includes('--fix'));
+  },
+  'message',
+);

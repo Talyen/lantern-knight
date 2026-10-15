@@ -1,9 +1,9 @@
+import { runCli } from '../cli';
 import { onAsyncExit } from '../scope-exit';
 import { readJson } from '../json-file';
 import os from 'node:os';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
-import { fileURLToPath } from 'node:url';
 import { AssetCache } from './cache';
 import { openWorkspace } from './workspace';
 import { readLock } from './pack';
@@ -123,8 +123,4 @@ async function main() {
     }
   } else throw new Error('Use assets:prepare|inspect|publish|publish-files|clean|check');
 }
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
-  main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
+runCli(import.meta.url, () => main());
