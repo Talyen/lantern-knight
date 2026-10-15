@@ -11,7 +11,7 @@ test('a mouse click on a nearby enemy torso directs the live lunge toward its fe
     f.pause(true);
     f.editPreview((sim) => {
       Object.assign(sim.hero, { x: 0, px: 0, z: 0, pz: 0, nextAttack: 'lunge' });
-      Object.assign(sim.enemies[0]!, { x: 1.2, px: 1.2, z: 0, pz: 0, health: 100, stun: 10000 });
+      Object.assign(sim.enemies[0]!, { x: 1.2, px: 1.2, z: 0, pz: 0, health: 50, stun: 10000 });
     });
     for (let i = 0; i < 60; i++) f.presentation.update(f.sim, 1, 1000 / 60, { x: 1.2, z: 0 });
     const p = f.presentation.camera.position
@@ -27,6 +27,6 @@ test('a mouse click on a nearby enemy torso directs the live lunge toward its fe
   });
   await page.locator('canvas').focus();
   await page.mouse.click(pointer.x, pointer.y);
-  await expect.poll(() => page.evaluate(() => window.foundation.sim.enemies[0]!.health)).toBe(74);
+  await expect.poll(() => page.evaluate(() => window.foundation.sim.enemies[0]!.health)).toBe(24);
   expect(await page.evaluate(() => window.foundation.sim.hero.attackKind)).toBe('lunge');
 });
