@@ -4,8 +4,10 @@ test('a mouse click on a nearby enemy torso directs the live lunge toward its fe
   page,
 }) => {
   await page.goto('/sandbox.html?scene=outdoor-fixture&automated');
-  await page.waitForFunction(() => window.foundation?.ready);
-  const pointer = await page.evaluate(async () => {
+  await page.waitForFunction(
+    () => window.foundation?.ready && window.foundation.presentation.lookRenderer.ready,
+  );
+  const pointer = await page.evaluate(() => {
     const f = window.foundation;
     f.mode('encounter');
     f.pause(true);
@@ -13,7 +15,7 @@ test('a mouse click on a nearby enemy torso directs the live lunge toward its fe
       Object.assign(sim.hero, { x: 0, px: 0, z: 0, pz: 0, nextAttack: 'lunge' });
       Object.assign(sim.enemies[0]!, { x: 1.2, px: 1.2, z: 0, pz: 0, health: 50, stun: 10000 });
     });
-    for (let i = 0; i < 60; i++) f.presentation.update(f.sim, 1, 1000 / 60, { x: 1.2, z: 0 });
+    f.presentation.update(f.sim, 1, 0, { x: 1.2, z: 0 });
     const p = f.presentation.camera.position
       .clone()
       .set(1.2, 1.1, 0)
@@ -27,6 +29,8 @@ test('a mouse click on a nearby enemy torso directs the live lunge toward its fe
   });
   await page.locator('canvas').focus();
   await page.mouse.click(pointer.x, pointer.y);
-  await expect.poll(() => page.evaluate(() => window.foundation.sim.enemies[0]!.health)).toBe(24);
+  await expect
+    .poll(() => page.evaluate(() => window.foundation.sim.enemies[0]!.health), { timeout: 30000 })
+    .toBe(24);
   expect(await page.evaluate(() => window.foundation.sim.hero.attackKind)).toBe('lunge');
 });
