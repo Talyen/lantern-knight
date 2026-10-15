@@ -372,7 +372,9 @@ export class GameSession {
       .map((key) => {
         const route = navigation.route(
           this.sim.hero,
-          this.fire(key).definition,
+          this.sim.areaDefinition.entries.find(
+            (entry) => entry.id === 'fire-' + this.fire(key).definition.id,
+          )!,
           effectiveRadius(this.sim.hero.definition.radius),
         );
         let previous = this.sim.hero,

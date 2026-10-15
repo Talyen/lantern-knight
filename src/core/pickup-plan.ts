@@ -21,7 +21,7 @@ export class PickupPlan {
     const navigation = new Navigation(sim.areaDefinition);
     const candidates = [
       drop,
-      ...[0.5, 1.15, 1.5].flatMap((radius) =>
+      ...[0.5, 1.15, 1.5, 1.6].flatMap((radius) =>
         Array.from({ length: 16 }, (_, i) => ({
           x: drop.x + Math.cos((i * Math.PI) / 8) * radius,
           z: drop.z + Math.sin((i * Math.PI) / 8) * radius,

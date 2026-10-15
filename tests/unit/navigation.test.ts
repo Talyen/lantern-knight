@@ -29,6 +29,108 @@ const area = (): AreaDefinition => ({
     { id: 'wall', kind: 'wall', x: 0, z: 0, radius: 0.2, height: 1, shape: 'box', size: [0.08, 4] },
   ],
 });
+test('loot routing can use the full interaction reach beyond a deep narrow recess', () => {
+  const a = area();
+  a.spawns = [];
+  a.props = [-0.25, 0.25].map((z, i) => ({
+    id: 'recess-' + i,
+    kind: 'wall',
+    x: 0,
+    z,
+    radius: 0.1,
+    height: 1,
+    shape: 'box',
+    size: [2.7, 0.1],
+  }));
+  const sim = new Simulation(
+    new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] }),
+  );
+  sim.drops.push({
+    id: 'loot',
+    source: 'crate',
+    enemy: false,
+    x: 0,
+    z: 0,
+    rewards: [{ item: 'gold', amount: 1 }],
+  });
+  const plan = new PickupPlan();
+  assert.equal(plan.request(sim, 'loot'), true);
+  let ready: string | undefined;
+  for (let tick = 0; tick < 100 && !ready; tick++) {
+    sim.step();
+    ready = plan.ready(sim);
+  }
+  assert.equal(ready, 'loot');
+  assert.equal(sim.collectDrop(ready!), true);
+  assert.equal(sim.inventory.gold, 1);
+});
+
+test('an unreachable manual route retries after displacement opens a route to its destination', () => {
+  const a = area();
+  a.props = [{ ...a.props[0]!, size: [0.08, 10] }];
+  const sim = new Simulation(
+    new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] }),
+  );
+  sim.setMovementTarget(sim.hero.id, { x: 3, z: 0 });
+  assert.equal(sim.navigationDebug(false).routes[0]!.status, 'unreachable');
+  Object.assign(sim.hero, { x: 2, z: 0 });
+  for (let i = 0; i < 60; i++) sim.step();
+  assert.ok(sim.hero.x >= 2.99);
+});
+
+test('navigation connects endpoints beyond a disconnected nearest grid node', () => {
+  const a = area();
+  a.bounds = { minX: -3, maxX: 3, minZ: -3, maxZ: 3 };
+  a.props = [
+    {
+      id: 'right',
+      kind: 'wall',
+      x: 1.88,
+      z: -1.61,
+      radius: 0.1,
+      height: 1,
+      shape: 'box',
+      size: [2.06, 1.88],
+    },
+    {
+      id: 'left',
+      kind: 'wall',
+      x: -1.93,
+      z: 1.11,
+      radius: 0.1,
+      height: 1,
+      shape: 'box',
+      size: [1.74, 0.12],
+    },
+    {
+      id: 'middle',
+      kind: 'wall',
+      x: -0.27,
+      z: 0.24,
+      radius: 0.1,
+      height: 1,
+      shape: 'box',
+      size: [1.26, 0.76],
+    },
+  ];
+  const start = { x: 1.89, z: 1.37 },
+    goal = { x: -0.02, z: -1.13 },
+    via = { x: 2.61, z: 1.67 };
+  a.entries = [{ id: 'start', ...start }];
+  a.spawns = [];
+  const registry = new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
+  const navigation = new Navigation(registry.area(a.id));
+  assert.ok(navigation.clear(start, via, 0.3));
+  assert.ok(navigation.clear(via, goal, 0.3));
+  const route = navigation.route(start, goal, 0.3);
+  assert.equal(route.status, 'ready');
+  let previous = start;
+  for (const point of route.points) {
+    assert.ok(navigation.clear(previous, point, 0.3));
+    previous = point;
+  }
+  assert.deepEqual(previous, goal);
+});
 test('swept movement stops a fast dash at a thin wall and slides along its face', () => {
   const a = area(),
     p = moveSupported(a, { x: -3, z: 0 }, { x: 6, z: 1 }, 0.3);

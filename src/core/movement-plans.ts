@@ -123,6 +123,10 @@ export class MovementPlans {
       plan.route = this.pursuitRoute(a, target, kind);
       plan.nextPlan = tick + 15;
     }
+    if (plan.kind === 'manual' && plan.route.status === 'unreachable' && tick >= plan.nextPlan) {
+      plan.route = navigation.route(a, plan.target, effectiveRadius(a.definition.radius));
+      plan.nextPlan = tick + 15;
+    }
     const waypoint = plan.route.points[0];
     if (waypoint && !navigation.clear(a, waypoint, effectiveRadius(a.definition.radius))) {
       // Collisions and dashes can displace an actor from its planned route.

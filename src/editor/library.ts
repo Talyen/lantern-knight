@@ -2,6 +2,7 @@ import { overlayLine, clearOverlay } from '../presentation/overlay-lines';
 import type { EditorSnapshot } from './document';
 import { sceneBytesLimit } from '../content/scene-document';
 import { editorError } from './errors';
+import { readUntilAborted } from '../abort';
 import {
   parseSceneDocument,
   parseSceneFragment,
@@ -85,6 +86,7 @@ export function patternPoints(
 export class SceneLibrary {
   private dialog: HTMLDialogElement;
   private lifetime = new AbortController();
+  private loadSequence = 0;
   private preview = new T.Group();
   private points: { x: number; z: number }[] = [];
   private snapshot = '';
@@ -216,8 +218,13 @@ export class SceneLibrary {
     }
   }
   async load(destination: 'scenes' | 'recovery' | 'arrangements' = 'scenes') {
-    const response = await fetch('/__lantern_editor', { signal: this.lifetime.signal });
-    const data = await response.json();
+    const request = ++this.loadSequence;
+    const signal = this.lifetime.signal;
+    const current = () => !signal.aborted && request === this.loadSequence;
+    signal.throwIfAborted();
+    const response = await readUntilAborted(fetch('/__lantern_editor', { signal }), signal);
+    const data = await readUntilAborted(response.json(), signal);
+    if (!current()) return;
     if (!response.ok) throw new Error(data.error);
     this.lifetime.signal.throwIfAborted();
     if (!this.dialog.open) this.dialog.showModal();
@@ -280,8 +287,9 @@ export class SceneLibrary {
     }
     if (!recoveries.children.length) recoveries.textContent = 'No recovery history is available.';
     if (destination !== 'arrangements') return;
-    const r = await fetch('/__lantern_editor?fragments', { signal: this.lifetime.signal });
-    const fragments = await r.json();
+    const r = await readUntilAborted(fetch('/__lantern_editor?fragments', { signal }), signal);
+    const fragments = await readUntilAborted(r.json(), signal);
+    if (!current()) return;
     if (!r.ok) throw new Error(fragments.error);
     const list = $('library-fragments');
     list.replaceChildren();

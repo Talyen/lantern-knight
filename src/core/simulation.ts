@@ -417,6 +417,10 @@ export class Simulation {
       this.#combat.advanceRecoil(a);
       if (a.kind === 'enemy') {
         const intent = this.encounter.decide(a, h, this.engaged, this.movementPreview);
+        if (intent.kind === 'none' && !this.movement.manual(a.id)) {
+          this.movement.cancel(a.id);
+          if (a.state === 'walk') this.start(a, 'idle');
+        }
         if (intent.cancelAttack && a.state === 'attack') this.start(a, 'idle');
         if (intent.kind === 'home' && (a.state === 'idle' || a.state === 'walk')) {
           if (a.stun === 0) this.follow(a, { kind: 'home', target: intent.target });
