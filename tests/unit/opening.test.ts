@@ -524,7 +524,7 @@ test('either permanent kit choice guides the return journey after outstanding ca
   }
 });
 
-test('forge guidance opens the chapel after either upgrade and returns to shelter with its reward', () => {
+test('forge guidance opens the chapel after either upgrade and chapel spoils suggest its return path', () => {
   const base = registry().definitions.areas[0]!;
   const ids = ['ruined-forge', 'desecrated-chapel'];
   const r = new ContentRegistry({
@@ -557,7 +557,98 @@ test('forge guidance opens the chapel after either upgrade and returns to shelte
     assert.deepEqual(windDestination(chapel.view), chapel.view.drops[0]);
     inventory.award([{ item: 'vigil-amulet', amount: 1 }]);
     chapel.drops.length = 0;
-    assert.deepEqual(windDestination(chapel.view), chapel.areaDefinition.campfires![0]);
+    assert.deepEqual(windDestination(chapel.view), chapel.areaDefinition.exits[0]!.marker);
     assert.deepEqual(windDestination(forge.view), forge.areaDefinition.campfires![0]);
   }
+});
+
+test('chapel reward guides the complete return past skipped caches, including after reload', () => {
+  const base = registry().definitions.areas[0]!;
+  const ids = [
+    'abandoned-orchard',
+    'forest-gathering-clearing',
+    'ruined-forge',
+    'desecrated-chapel',
+  ];
+  const r = new ContentRegistry({
+    ...fixture.definitions,
+    initialArea: ids[0]!,
+    areas: ids.map((id, i) => ({
+      ...base,
+      id,
+      spawns: [],
+      exits: [
+        ...(i
+          ? [
+              {
+                ...base.exits[0]!,
+                id: 'return',
+                destination: ids[i - 1]!,
+                entry: 'start',
+                marker: { x: -5, z: 0 },
+              },
+            ]
+          : []),
+        ...(i < ids.length - 1
+          ? [
+              {
+                ...base.exits[0]!,
+                id: 'forward',
+                destination: ids[i + 1]!,
+                entry: 'start',
+                marker: { x: 5, z: 0 },
+              },
+            ]
+          : []),
+      ],
+      interactables: [interactable({ id: 'cache', object: 'cache', z: 2 })],
+    })),
+  });
+  for (const forgeUpgrade of ['sword', 'lantern'] as const)
+    for (const id of ids) {
+      const session = new GameSession(r, 142, id),
+        save = session.captureSave();
+      save.adventure!.forgeUpgrade = forgeUpgrade;
+      save.adventure!.inventory['vigil-amulet'] = 1;
+      session.restoreSave(save);
+      const sim = session.sim,
+        home =
+          sim.areaDefinition.exits.find((e) => e.id === 'return')?.marker ??
+          sim.areaDefinition.campfires![0];
+      assert.deepEqual(
+        windDestination(sim.view),
+        home,
+        'unclaimed optional caches do not restart the outward journey',
+      );
+      sim.claimedObjects.add('cache');
+      sim.drops.push({
+        id: 'cache-reward',
+        source: 'cache',
+        enemy: false,
+        x: 1,
+        z: 2,
+        rewards: [{ item: 'gold', amount: 1 }],
+      });
+      assert.deepEqual(
+        windDestination(sim.view),
+        sim.view.drops[0],
+        'finish an opened cache before leaving',
+      );
+      sim.drops.length = 0;
+      sim.drops.push({
+        id: 'enemy-reward',
+        source: 'a',
+        enemy: true,
+        x: 2,
+        z: 1,
+        rewards: [{ item: 'gold', amount: 1 }],
+      });
+      assert.deepEqual(
+        windDestination(sim.view),
+        home,
+        'ordinary enemy coins do not redirect the return',
+      );
+      sim.hero.health = 0;
+      assert.equal(windDestination(sim.view), undefined);
+    }
 });

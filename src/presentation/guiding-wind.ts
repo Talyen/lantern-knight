@@ -15,6 +15,29 @@ import { ActorSprite, setCutoutOpacity } from './sprite';
 // A suggestion through scenery, never movement input or a required route.
 export function windDestination(sim: SimulationView): Point | undefined {
   if (sim.hero.health <= 0 || sim.inCombat) return;
+  const homeward =
+    sim.area === 'desecrated-chapel'
+      ? 'ruined-forge'
+      : sim.area === 'ruined-forge'
+        ? 'forest-gathering-clearing'
+        : sim.area === 'forest-gathering-clearing'
+          ? 'abandoned-orchard'
+          : undefined;
+  if (sim.inventory['vigil-amulet'] && (homeward || sim.area === 'abandoned-orchard')) {
+    // Collected chapel spoils mark the return journey even when optional caches
+    // were bypassed. Finish loose container rewards, then follow matching paths.
+    return (
+      sim.drops.find(
+        (drop) =>
+          !drop.enemy &&
+          sim.areaDefinition.interactables?.some(
+            (object) => object.kind === 'container' && object.id === drop.source,
+          ),
+      ) ??
+      sim.areaDefinition.exits.find((exit) => exit.destination === homeward)?.marker ??
+      sim.areaDefinition.campfires?.[0]
+    );
+  }
   if (sim.area === 'abandoned-orchard') {
     const press = sim.areaDefinition.interactables?.find((o) => o.id === 'guarded-chest');
     const departure = sim.areaDefinition.exits.find((e) => e.id === 'depart')?.marker;
