@@ -751,6 +751,13 @@ body.game {
   pointer-events: none;
   white-space: nowrap;
 }
+#interaction-hint {
+  width: max-content;
+  max-width: min(264px, calc(100vw - 24px));
+  box-sizing: border-box;
+  white-space: normal;
+  text-align: center;
+}
 #lantern-hint {
   left: 50%;
   bottom: 28px;

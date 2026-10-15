@@ -60,7 +60,7 @@ for (const choice of ['sword', 'lantern'] as const) {
       await ready();
     };
     await restore(seed);
-    await expect(page.locator('#interaction-hint')).toHaveText('E · Forge');
+    await expect(page.locator('#interaction-hint')).toHaveText('E · Improve sword or lantern');
     await capture('courtyard');
     await page.keyboard.press('e');
     const panel = page.getByRole('dialog', { name: 'Forge workbench', exact: true });
@@ -85,8 +85,8 @@ for (const choice of ['sword', 'lantern'] as const) {
     await page.keyboard.press('e');
     await expect(sword).toBeEnabled();
     await expect(lantern).toBeEnabled();
-    await expect(panel).toContainText('Sword damage 26 → 30');
-    await expect(panel).toContainText('Lantern hit 16 → 18 · Burn 4 → 5 per tick (3 ticks)');
+    await expect(panel).toContainText('Sword damage 26 → 52');
+    await expect(panel).toContainText('Lantern hit 16 → 32 · Burn 4 → 8 per tick (3 ticks)');
     await capture('choices');
     if (choice === 'sword') {
       await page.setViewportSize({ width: 640, height: 800 });
@@ -142,7 +142,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     await page.locator('#menu-start').click();
     await page.keyboard.press('i');
     await expect(page.locator('.adventure-panel')).toContainText(
-      choice === 'sword' ? 'Edge 115% · Ember 100%' : 'Edge 100% · Ember 115%',
+      choice === 'sword' ? 'Edge 200% · Ember 100%' : 'Edge 100% · Ember 200%',
     );
     await page.keyboard.press('Escape');
     const dead = await stored();
@@ -153,7 +153,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     await ready();
     await page.keyboard.press('i');
     await expect(page.locator('.adventure-panel')).toContainText(
-      choice === 'sword' ? 'Edge 115% · Ember 100%' : 'Edge 100% · Ember 115%',
+      choice === 'sword' ? 'Edge 200% · Ember 100%' : 'Edge 100% · Ember 200%',
     );
     await page.keyboard.press('Escape');
     const recovered = await stored();
@@ -165,5 +165,42 @@ for (const choice of ['sword', 'lantern'] as const) {
         d.rewards.some((r) => r.item === 'workshop-temper'),
       ),
     ).toBe(false);
+
+    // Replay one live courtyard opponent with the persisted kit. The checkpoint
+    // isolates combat from route timing; attack input and damage stay real.
+    const guard = area.spawns.find((spawn) => spawn.awareness?.group === 'courtyard')!;
+    const rematch = new GameSession(content, 142, area.id).captureSave();
+    rematch.adventure = recovered.adventure;
+    rematch.areas[area.id]!.claimedObjects = recovered.areas[area.id]!.claimedObjects;
+    for (const [id, actor] of Object.entries(rematch.areas[area.id]!.actors))
+      if (id !== guard.id) actor.health = 0;
+    const opponent = rematch.areas[area.id]!.actors[guard.id]!;
+    const approach = new Navigation(area).route(fire, opponent, effectiveRadius(0.25));
+    expect(approach.status).toBe('ready');
+    const beforeGuard = approach.points[approach.points.length - 2] ?? fire;
+    const distance = Math.hypot(beforeGuard.x - opponent.x, beforeGuard.z - opponent.z);
+    Object.assign(rematch.player, {
+      x: opponent.x + ((beforeGuard.x - opponent.x) / distance) * 1.1,
+      z: opponent.z + ((beforeGuard.z - opponent.z) / distance) * 1.1,
+    });
+    await page.locator('#pause').click();
+    await restore(rematch);
+    const canvas = page.locator('canvas');
+    const bounds = (await canvas.boundingBox())!;
+    await canvas.focus();
+    // The guard is ahead of the approach, above and to the right on screen.
+    await page.mouse.click(bounds.x + bounds.width * 0.75, bounds.y + bounds.height * 0.2, {
+      button: choice === 'sword' ? 'left' : 'right',
+    });
+    await expect(page.locator('.ground-loot-label').filter({ hasText: 'Gold ×4' })).toBeVisible({
+      timeout: 30_000,
+    });
+    await capture('payoff');
+    await page.locator('#pause').click();
+    await page.locator('#save').click();
+    await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
+    const won = await stored();
+    expect(won.areas[area.id]!.actors[guard.id]!.health).toBe(0);
+    expect(won.adventure!.forgeUpgrade).toBe(choice);
   });
 }

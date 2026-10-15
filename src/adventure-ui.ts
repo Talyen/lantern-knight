@@ -88,6 +88,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         <p>Your permanent kit is strengthened. This workshop temper has been used.</p>
         <p class="forge-result">Edge ${current.edge}% · Ember ${current.ember}%</p>
         <p>Kept through rest, death and save/resume. A second purchase is unavailable.</p>
+        <p>Return to the campfire, rest, then try your strengthened kit against the courtyard guards.</p>
       </div>`;
     const affordable = Object.entries(forgeCost).every(
       ([id, amount]) => (app.session.inventory[id] ?? 0) >= amount,
@@ -109,14 +110,14 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
             working || !affordable,
           );
         return html`<section class="forge-option">
-          <span class="adventure-eyebrow">${forgeChoices[upgrade].attribute} 100% → 115%</span>
+          <span class="adventure-eyebrow">${forgeChoices[upgrade].attribute} 100% → ${next[upgrade === 'sword' ? 'edge' : 'ember']}%</span>
           <h3>${forgeChoices[upgrade].name}</h3>
           <p class="forge-result">${
             upgrade === 'sword'
               ? `Sword damage ${scaledDamage(tuning.attack.damage, current.edge)} → ${scaledDamage(tuning.attack.damage, next.edge)}`
               : `Lantern hit ${scaledDamage(tuning.ability.damage, current.ember)} → ${scaledDamage(tuning.ability.damage, next.ember)} · Burn ${scaledDamage(tuning.ability.burnDamage, current.ember)} → ${scaledDamage(tuning.ability.burnDamage, next.ember)} per tick (3 ticks)`
           }</p>
-          <p>${upgrade === 'sword' ? 'Lantern damage stays the same.' : 'Sword damage stays the same.'}</p>
+          <p>${upgrade === 'sword' ? 'Strike decisively. One clean sword hit fells a thrall.' : 'Burn the whole group. One Flare fells thralls after all three Burn ticks.'}</p>
           <p>Cost: 20 Gold · 4 Iron · 1 Workshop Temper</p>${select}
         </section>`;
       });

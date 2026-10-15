@@ -32,7 +32,7 @@ Acceptance: a new player understands the controls, reads enemy actions, uses swo
 
 ## Next
 
-Playtest both permanent forge choices through the connected opening: compare sword damage against lantern initial-hit and Burn damage, then rest and revisit encounters to judge the payoff. Verify discovery of the courtyard workbench and its one-choice limit under the [progression brief](game-design.md#character-progression) before extending the adventure.
+Playtest both permanent forge choices through the connected opening: compare the sword’s one-impact defeat against the lantern’s one-Flare, full-Burn defeat on opening thralls, then rest and revisit encounters to judge the payoff. Verify discovery of the courtyard workbench and its one-choice limit under the [progression brief](game-design.md#character-progression) before extending the adventure.
 
 ## Later
 

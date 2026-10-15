@@ -73,13 +73,13 @@ for (const choice of ['sword', 'lantern'] as const) {
       s.sim.hero.age = attackDefinition(s.sim.hero).windup;
       const events = s.step(idle).events.filter((e) => e.kind === 'damage');
       assert.equal(events.length, 1);
-      assert.equal(events[0]!.amount, choice === 'sword' ? 30 : 26);
+      assert.equal(events[0]!.amount, choice === 'sword' ? 52 : 26);
     }
     Object.assign(target, { x: 1, z: 0, health: 1000, stun: 1000 });
     s.sim.start(s.sim.hero, 'ability');
     s.sim.hero.age = tuning.ability.windup;
     const direct = s.step(idle).events.find((e) => e.kind === 'damage')!;
-    assert.equal(direct.amount, choice === 'lantern' ? 18 : 16);
+    assert.equal(direct.amount, choice === 'lantern' ? 32 : 16);
     assert.equal(target.stun, tuning.ability.stun - 1);
     assert.equal(target.burn!.remaining, tuning.ability.burnDuration);
     const ticks = [];
@@ -92,7 +92,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     }
     assert.deepEqual(
       ticks,
-      [60, 120, 180].map((tick) => ({ tick, amount: choice === 'lantern' ? 5 : 4 })),
+      [60, 120, 180].map((tick) => ({ tick, amount: choice === 'lantern' ? 8 : 4 })),
     );
     s.sim.hero.health = 100;
     s.sim.damage(target, s.sim.hero, 8);
@@ -217,4 +217,36 @@ test('forge wind guides cache collection, the unused workbench and then the fire
   assert.equal(windDestination(s.sim.view), s.sim.areaDefinition.interactables![0]);
   s.prepareForgePurchase('bench', 'sword').commit();
   assert.equal(windDestination(s.sim.view), s.sim.areaDefinition.campfires![0]);
+});
+
+test('the first forge choice changes a thrall encounter: one sword impact or one complete Burn', () => {
+  for (const choice of [undefined, 'sword', 'lantern'] as const) {
+    for (const action of ['sword', 'lantern'] as const) {
+      const s = forgeFixture();
+      if (choice) {
+        supplyForge(s);
+        s.prepareForgePurchase('bench', choice).commit();
+      }
+      const target = s.sim.enemies[0]!;
+      Object.assign(target, { x: 1, z: 0, health: 50, stun: 1000 });
+      s.sim.hero.aim = Math.PI / 2;
+      if (action === 'sword') {
+        s.sim.startSword(s.sim.hero, 'sweep');
+        s.sim.hero.age = attackDefinition(s.sim.hero).windup;
+        s.step(idle);
+        assert.equal(target.health, choice === 'sword' ? 0 : 24);
+      } else {
+        s.sim.start(s.sim.hero, 'ability');
+        s.sim.hero.age = tuning.ability.windup;
+        s.step(idle);
+        assert.ok(target.health > 0, 'the lantern still needs its Burn');
+        Object.assign(s.sim.hero, { x: -5, z: 0 });
+        for (let tick = 0; tick < tuning.ability.burnDuration; tick++) {
+          target.stun = 1000;
+          s.step(idle);
+        }
+        assert.equal(target.health, choice === 'lantern' ? 0 : 22);
+      }
+    }
+  }
 });

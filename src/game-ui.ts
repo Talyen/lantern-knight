@@ -305,7 +305,7 @@ export function createGameUI(root: HTMLElement) {
       lanternText = lanternReady ? 'RMB · Repel with lantern' : '';
     if (lanternHint.textContent !== lanternText) lanternHint.textContent = lanternText;
     const cue = $('#interaction-hint');
-    cue.textContent = interaction
+    const cueText = interaction
       ? interaction.blocked
         ? s.inCombat
           ? 'In combat'
@@ -315,12 +315,16 @@ export function createGameUI(root: HTMLElement) {
               drop: 'E · Take',
               campfire: 'E · Rest',
               container: 'E · Open',
-              workbench: 'E · Forge',
-              exit: 'E · Path',
+              workbench: 'E · Improve sword or lantern',
+              exit: `E · ${interaction.label}`,
               breakable: 'LMB · Break',
             } as const
           )[interaction.kind]
       : '';
+    if (cue.textContent !== cueText) {
+      cue.textContent = cueText;
+      cue.style.setProperty('--cue-margin', `${Math.ceil(cue.offsetWidth / 2 + 12)}px`);
+    }
     if (interaction) {
       cue.setAttribute('aria-label', interaction.blocked ?? interaction.label);
       cuePosition
@@ -330,7 +334,7 @@ export function createGameUI(root: HTMLElement) {
           interaction.z,
         )
         .project(app.presentation.camera);
-      cue.style.left = `${(cuePosition.x + 1) * 50}%`;
+      cue.style.left = `clamp(var(--cue-margin), ${(cuePosition.x + 1) * 50}%, calc(100% - var(--cue-margin)))`;
       cue.style.top = `${(1 - cuePosition.y) * 50}%`;
     } else cue.removeAttribute('aria-label');
     const potions = app.session.inventory['health-potion'] ?? 0;
