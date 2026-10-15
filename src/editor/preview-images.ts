@@ -1,6 +1,11 @@
 import { readUntilAborted } from '../assets/abort';
 import { DecodeQueue } from '../assets/decode-queue';
 type ImageLoad = { promise: Promise<HTMLImageElement>; cancel: () => void };
+type Playback = { active: boolean; displayed?: { source: string; image: HTMLImageElement } };
+export type PreviewPlayback = {
+  draw(source: string, paint: (image: HTMLImageElement) => void): Promise<void>;
+  dispose(): void;
+};
 
 function loadImage(source: string): ImageLoad {
   const image = new Image();
@@ -39,7 +44,7 @@ export class PreviewImages {
   private readonly activeLoads = new Set<ImageLoad>();
   private readonly decodes = new DecodeQueue(6);
   private latest = new WeakMap<HTMLCanvasElement, object>();
-  private displayed = new WeakMap<HTMLCanvasElement, { source: string; image: HTMLImageElement }>();
+  private readonly playbacks = new Set<Playback>();
   private readyBytes = 0;
   private readonly lifetime = new AbortController();
   private get closed() {
@@ -47,24 +52,47 @@ export class PreviewImages {
   }
   constructor(private readonly load: (source: string) => ImageLoad = loadImage) {}
 
-  async draw(target: HTMLCanvasElement, source: string, paint: (image: HTMLImageElement) => void) {
-    if (this.closed) return;
+  // Only an open animation owns a displayed source outside the bounded cache.
+  // Thumbnails already contain their painted pixels and need no source lease.
+  playback(target: HTMLCanvasElement): PreviewPlayback {
+    const playback: Playback = { active: !this.closed };
+    if (playback.active) this.playbacks.add(playback);
+    return {
+      draw: (source, paint) => this.paint(target, source, paint, playback),
+      dispose: () => {
+        playback.active = false;
+        playback.displayed = undefined;
+        this.playbacks.delete(playback);
+      },
+    };
+  }
+
+  draw(target: HTMLCanvasElement, source: string, paint: (image: HTMLImageElement) => void) {
+    return this.paint(target, source, paint);
+  }
+
+  private async paint(
+    target: HTMLCanvasElement,
+    source: string,
+    paint: (image: HTMLImageElement) => void,
+    playback?: Playback,
+  ) {
+    const active = () => !this.closed && (!playback || playback.active);
+    if (!active()) return;
     const request = {};
     this.latest.set(target, request);
     try {
-      // Keep the displayed page with its canvas: an atlas larger than the cache
-      // budget must not reload on every animation frame. Weak keys do not retain
-      // removed palette canvases, and shutdown clears the whole displayed set.
-      const displayed = this.displayed.get(target);
+      // A leased atlas larger than the cache budget must not reload each frame.
+      const displayed = playback?.displayed;
       const image = await (displayed?.source === source
         ? Promise.resolve(displayed.image)
         : this.acquire(source));
-      if (!this.closed && target.isConnected && this.latest.get(target) === request) {
-        this.displayed.set(target, { source, image });
+      if (active() && target.isConnected && this.latest.get(target) === request) {
+        if (playback) playback.displayed = { source, image };
         paint(image);
       }
     } catch (error) {
-      if (!this.closed && this.latest.get(target) === request) throw error;
+      if (active() && this.latest.get(target) === request) throw error;
     }
   }
 
@@ -108,7 +136,11 @@ export class PreviewImages {
     if (this.closed) return;
     this.lifetime.abort();
     this.latest = new WeakMap();
-    this.displayed = new WeakMap();
+    for (const playback of this.playbacks) {
+      playback.active = false;
+      playback.displayed = undefined;
+    }
+    this.playbacks.clear();
     this.ready.clear();
     this.readyBytes = 0;
     this.decodes.dispose();

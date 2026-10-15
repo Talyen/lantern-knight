@@ -67,10 +67,12 @@ test('fast defaults, full coverage and explicit paths cannot silently lose CI su
 
   await fs.mkdir(path.join(root, 'tests/unit'), { recursive: true });
   const fast = 'tests/unit/one.test.ts',
-    integration = 'tests/unit/process-integration.test.ts';
-  for (const file of [fast, integration]) await fs.writeFile(path.join(root, file), 'export {};');
+    integrations = Object.keys(ciDefaultSuites);
+  const integration = integrations[0]!;
+  for (const file of [fast, ...integrations])
+    await fs.writeFile(path.join(root, file), 'export {};');
   assert.deepEqual(await selectTestFiles([], root), [fast]);
-  assert.deepEqual(await selectTestFiles(['--full'], root), [fast, integration]);
+  assert.deepEqual(await selectTestFiles(['--full'], root), [fast, ...integrations].sort());
   assert.deepEqual(await selectTestFiles([integration, './' + integration], root), [integration]);
   await assert.rejects(selectTestFiles(['tests/unit'], root), /Invalid test selection/);
   await assert.rejects(selectTestFiles(['--unknown'], root), /Invalid test selection/);
@@ -81,11 +83,14 @@ test('fast defaults, full coverage and explicit paths cannot silently lose CI su
   await assert.rejects(selectTestFiles(['--full'], root, 'assets'), /Use --full/);
   await fs.rm(path.join(root, fast));
   await assert.rejects(selectTestFiles([], root), /No local test suites/);
-  assert.deepEqual(await selectTestFiles(['--full'], root), [integration]);
+  assert.deepEqual(await selectTestFiles(['--full'], root), integrations.sort());
   await fs.writeFile(path.join(root, fast), 'export {};');
-  await fs.rm(path.join(root, integration));
-  for (const args of [[], ['--full'], [fast]])
-    await assert.rejects(selectTestFiles(args, root), /Missing CI-default test suite/);
+  for (const file of integrations) {
+    await fs.rm(path.join(root, file));
+    for (const args of [[], ['--full'], [fast]])
+      await assert.rejects(selectTestFiles(args, root), /Missing CI-default test suite/);
+    await fs.writeFile(path.join(root, file), 'export {};');
+  }
   // Also check actual discovery: a new suite runs locally unless deliberately classified.
   const all = await selectTestFiles(['--full']),
     local = await selectTestFiles([]);
@@ -126,6 +131,15 @@ test('built browser tests select only Game and remove the wrapper flag', () => {
     forwarded: ['game', '--ui'],
     scope: 'runtime',
   });
+  for (const selector of ['game-loot', 'game-loot.spec.ts', 'tests/browser/game.spec.ts']) {
+    assert.equal(browserSelection([selector]).scope, 'runtime');
+    assert.deepEqual(browserSelection([selector, '--built']), {
+      built: true,
+      forwarded: [selector],
+      scope: 'runtime',
+    });
+  }
+  assert.throws(() => browserSelection(['game', 'editor', '--built']), /Game scenario/);
   assert.throws(() => browserSelection(['scene', '--built']), /Game scenario/);
   assert.throws(() => browserSelection(['--built']), /Game scenario/);
   assert.equal(browserSelection(['editor']).scope, 'authoring');

@@ -75,45 +75,20 @@ export class SceneryReveal {
   private count = { value: 0 };
   private held = Array.from({ length: contract.budgets.maxActors + 1 }, () => 0);
   constructor(readonly sprite: ActorSprite) {
-    const mesh = sprite.mesh,
-      materials = [sprite.material, sprite.edgeMaterial];
-    for (const m of materials)
-      if (m) {
-        const prior = m.onBeforeCompile.bind(m),
-          key = m.customProgramCacheKey();
-        m.userData.revealData = {
-          centers: this.centers,
-          sizes: this.sizes,
-          strengths: this.strengths,
-          count: this.count,
-        };
-        m.transparent = true;
-        m.needsUpdate = true;
-        m.onBeforeCompile = (shader, renderer) => {
-          prior.call(m, shader, renderer);
-          Object.assign(shader.uniforms, {
-            revealCenters: { value: this.centers },
-            revealStrengths: { value: this.strengths },
-            revealSizes: { value: this.sizes },
-            revealCount: this.count,
-          });
-          shader.vertexShader = 'varying vec2 revealPosition;\n' + shader.vertexShader;
-          shader.vertexShader = shader.vertexShader.replace(
-            '#include <project_vertex>',
-            `#include <project_vertex>\nvec3 revealWorld=(modelMatrix*vec4(transformed,1.)).xyz;revealPosition=vec2(dot(revealWorld,vec3(${right.x},${right.y},${right.z})),dot(revealWorld,vec3(${up.x},${up.y},${up.z})));`,
-          );
-          shader.fragmentShader =
-            `varying vec2 revealPosition;uniform vec2 revealCenters[${this.centers.length}],revealSizes[${this.centers.length}];uniform float revealStrengths[${this.centers.length}];uniform int revealCount;\n` +
-            shader.fragmentShader;
-          // Both source coverage tests finish before opacity is reduced: core and soft edge remain disjoint.
-          shader.fragmentShader = shader.fragmentShader.replace(
-            '#include <opaque_fragment>',
-            `float reveal=0.;for(int i=0;i<${this.centers.length};i++){if(i>=revealCount)break;if(revealStrengths[i]<.001)continue;float d=length((revealPosition-revealCenters[i])/revealSizes[i]);reveal=max(reveal,revealStrengths[i]*(1.-smoothstep(.68,1.14,d)));}diffuseColor.a*=1.-reveal*.84;\n#include <opaque_fragment>`,
-          );
-        };
-        m.customProgramCacheKey = () => `${key}:local-scenery-reveal-v2`;
+    const data: RevealData = {
+      centers: this.centers,
+      sizes: this.sizes,
+      strengths: this.strengths,
+      count: this.count,
+    };
+    for (const material of [sprite.material, sprite.edgeMaterial])
+      if (material) {
+        material.userData.revealData = data;
+        material.transparent = true;
+        material.needsUpdate = true;
+        attachReveal(material, data);
       }
-    mesh.userData.stableReveal = true;
+    sprite.mesh.userData.stableReveal = true;
   }
 
   update(points: { center: T.Vector2; size: T.Vector2; obscures: boolean }[], ms: number) {
@@ -141,10 +116,16 @@ export class SceneryReveal {
 // Auxiliary focus masks must discard the same local reveal, rather than treating the
 // still-opaque material setting as a wall covering the fighter behind it.
 export function attachRevealMask(material: T.MeshBasicMaterial, source: T.Material) {
-  const data = source.userData.revealData as
-    | { centers: T.Vector2[]; sizes: T.Vector2[]; strengths: number[]; count: { value: number } }
-    | undefined;
-  if (!data) return;
+  const data = source.userData.revealData as RevealData | undefined;
+  if (data) attachReveal(material, data, true);
+}
+type RevealData = {
+  centers: T.Vector2[];
+  sizes: T.Vector2[];
+  strengths: number[];
+  count: { value: number };
+};
+function attachReveal(material: T.Material, data: RevealData, mask = false) {
   const prior = material.onBeforeCompile.bind(material),
     key = material.customProgramCacheKey(),
     length = data.centers.length;
@@ -164,10 +145,15 @@ export function attachRevealMask(material: T.MeshBasicMaterial, source: T.Materi
     shader.fragmentShader =
       `varying vec2 revealPosition;uniform vec2 revealCenters[${length}],revealSizes[${length}];uniform float revealStrengths[${length}];uniform int revealCount;\n` +
       shader.fragmentShader;
+    // Source coverage finishes before the reveal: core and soft edge stay disjoint.
+    const effect = mask
+      ? `for(int i=0;i<${length};i++){if(i>=revealCount)break;if(revealStrengths[i]<.001)continue;float d=length((revealPosition-revealCenters[i])/revealSizes[i]);if(revealStrengths[i]*(1.-smoothstep(.68,1.14,d))>.05)discard;}`
+      : `float reveal=0.;for(int i=0;i<${length};i++){if(i>=revealCount)break;if(revealStrengths[i]<.001)continue;float d=length((revealPosition-revealCenters[i])/revealSizes[i]);reveal=max(reveal,revealStrengths[i]*(1.-smoothstep(.68,1.14,d)));}diffuseColor.a*=1.-reveal*.84;`;
     shader.fragmentShader = shader.fragmentShader.replace(
       '#include <opaque_fragment>',
-      `for(int i=0;i<${length};i++){if(i>=revealCount)break;if(revealStrengths[i]<.001)continue;float d=length((revealPosition-revealCenters[i])/revealSizes[i]);if(revealStrengths[i]*(1.-smoothstep(.68,1.14,d))>.05)discard;}\n#include <opaque_fragment>`,
+      effect + '\n#include <opaque_fragment>',
     );
   };
-  material.customProgramCacheKey = () => `${key}:local-reveal-mask-v1`;
+  material.customProgramCacheKey = () =>
+    `${key}:${mask ? 'local-reveal-mask-v1' : 'local-scenery-reveal-v2'}`;
 }

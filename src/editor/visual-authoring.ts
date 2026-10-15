@@ -104,7 +104,7 @@ const optional = {
   },
 };
 const choices: Record<string, string[]> = {
-  shadow: ['none', 'contact', 'cast'],
+  shadow: ['none', 'cast'],
   role: ['ground', 'upright', 'attachment'],
   age: ['kept', 'old', 'damaged'],
   axis: ['x', 'z'],
@@ -365,7 +365,9 @@ export class VisualAuthoring {
         ? '#' + Number(value).toString(16).padStart(6, '0')
         : typeof value === 'number'
           ? String(Number(value.toFixed(3)))
-          : String(value);
+          : field === 'shadow' && value === 'contact'
+            ? 'cast'
+            : String(value);
     input.dataset.field = path.join('.');
     input.onchange = () =>
       this.commit(
@@ -568,7 +570,7 @@ export class VisualAuthoring {
     for (const [key, fallback] of Object.entries({
       tint: 0xffffff,
       opacity: 1,
-      shadow: 'contact',
+      shadow: 'cast',
       fade: false,
     }))
       this.form(

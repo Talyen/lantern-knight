@@ -8,7 +8,9 @@
 
 ## Test selection
 
-`npm test` and `npm run test:watch` default to fast `tests/unit/*.test.ts` suites. `npm test -- --full` runs all pure suites; `npm run test:watch -- --full` watches them all. The small explicit CI-default list in `tools/test.ts` records expensive suites and their reasons; missing entries fail selection rather than silently losing coverage. New pure suites run locally unless deliberately classified. Arguments name exact files, including CI-default suites; duplicates run once and invalid selections fail before setup. Use `--full` without exact files or `--assets`. Pure tests use small fixtures and require no source artwork or prepared pack.
+`npm test` and `npm run test:watch` default to fast `tests/unit/*.test.ts` suites. `npm test -- --full` runs all pure suites; `npm run test:watch -- --full` watches them all. The small explicit CI-default list in `tools/test.ts` keeps fresh-process replay/build proofs and real-Git integration-lock proofs in full CI coverage; it records each reason, and missing entries fail selection rather than silently losing coverage. New pure suites run locally unless deliberately classified. Arguments name exact files, including CI-default suites; duplicates run once and invalid selections fail before setup. Use `--full` without exact files or `--assets`. Pure tests use small fixtures and require no source artwork or prepared pack.
+
+Compiler fixtures use a 32 × 36 canvas and 64-pixel atlas. One tiny multi-page packing case checks RGB alpha synthesis and asymmetric pixels at every published rectangle, protecting row/page rollover, orientation and channel order in a single encoding pass. Determinism and failed builds compare both manifest and page bytes, including a missing later frame after an earlier frame has been packed. Keep these behavioral checks when changing fixture sizes; large uniform images add cost without exercising more encoding behavior. HTTP identity fixtures close their completed connections explicitly instead of waiting for keep-alive expiry.
 
 Routine local testing should take roughly ten seconds including setup. This is a guideline, not a timeout or permission to omit failures. Optimize useful slow tests or route them to CI by default. Asset, browser and desktop checks are explicit integration commands, outside routine local checks. Agents may run full or slow coverage locally for a specific reproduction, diagnosis or validation need: state the reason, choose the smallest relevant scope and avoid repeating unchanged successful runs. Changed browser behavior needs appropriate CI scenarios; report whether they actually ran, including pending or unavailable coverage.
 
@@ -29,7 +31,7 @@ The fixtures invoke `python3`, which must resolve to the environment containing 
 
 | Selector                             | Coverage                                                                                                                    |
 | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| `game`                               | Input, pause/focus, current checkpoints and distant loot-label routing.                                                     |
+| `game` (or `game-loot` for labels)   | Input, pause/focus, current checkpoints and distant loot-label routing.                                                     |
 | `scene`                              | Independent outdoor/interior fixtures, reload and resource lifetime.                                                        |
 | `editor`                             | Authoring, history, recovery, ground interaction, contact shadows and protected save requests.                              |
 | `effects`                            | Dedicated-scene controls and switching back to independent scene fixtures.                                                  |
@@ -38,7 +40,7 @@ The fixtures invoke `python3`, which must resolve to the environment containing 
 | `authored-ground`                    | Opt-in [movement and timing capture](developer-tools.md#authored-scene-timing-capture), selected by `LANTERN_GROUND_SCENE`. |
 | `ground-review`                      | Opt-in [occlusion captures](developer-tools.md#authored-occlusion-captures), selected by `LANTERN_GROUND_REVIEW`.           |
 
-Without a selector, Playwright selects all browser suites; both authored-scene diagnostics skip unless their scene environment variable is set. Selectors match filenames, so `editor` includes the editor regression, ground, contact and gameplay-authoring suites. Development-only UI and renderer lifetime regressions belong to `scene`; the built Game runs cannot import their failure-injection modules. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion audio`.
+Without a selector, Playwright selects all browser suites; both authored-scene diagnostics skip unless their scene environment variable is set. Selectors match filenames, so `editor` includes the editor regression, ground, contact and gameplay-authoring suites. Development-only UI and renderer lifetime regressions belong to `scene`; the built Game runs cannot import their failure-injection modules. Add `--list` to inspect the selected cases without acquiring assets, taking the GPU lane or starting a preview; built-Game discovery needs no existing build. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion audio`.
 
 The `audio` suite always checks Game settings. Its decoding and audition test skips when the selected assets contain no prepared samples. To validate unpublished sounds locally, use a checkout-local [audio preparation](assets.md#audio-preparation) and leave `CI` unset; pinned CI cannot establish coverage for those samples. Browser decoding and playback assertions do not establish an audible mix; follow [listening and tuning](sound-design.md#listening-and-tuning).
 
@@ -92,10 +94,10 @@ The `benchmark` command routes several kinds of diagnostic. [Recorded session re
 
 Native diagnostics consume an already packaged application; they do not build it. Prepare the matching package on the host before running a scenario:
 
-| Scenarios after `npm run benchmark --`                                          | Required package                |
-| ------------------------------------------------------------------------------- | ------------------------------- |
-| `startup`, `walking`, `game`, `preferences`                                     | Game: `npm run package -- --unsigned`         |
-| `sandbox` (alias `scene`), `lighting`, `animation`, `hero`, `effects`, `scenes` | Dev: `npm run package -- --dev` |
+| Scenarios after `npm run benchmark --`                                          | Required package                      |
+| ------------------------------------------------------------------------------- | ------------------------------------- |
+| `startup`, `walking`, `game`, `preferences`                                     | Game: `npm run package -- --unsigned` |
+| `sandbox` (alias `scene`), `lighting`, `animation`, `hero`, `effects`, `scenes` | Dev: `npm run package -- --dev`       |
 
 Use `--local` on both packaging and the diagnostic when investigating a local asset preparation. `--visible` shows the native window; hidden/software runs do not establish visible pacing. Use `--capture` when visual evidence is wanted, or `--output /external/investigation` to retain results without requesting captures. Successful managed diagnostics normally discard their output; keep comparison records in an external directory. Native framebuffer, motion and resource assertions remain available through these scenarios; routine checks do not generate galleries.
 

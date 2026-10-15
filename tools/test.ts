@@ -8,6 +8,8 @@ import { openWorkspace, workspaceEnvironment } from './assets/workspace';
 // These integration proofs launch multiple CLIs and hash repository inputs; keep them off the edit loop.
 export const ciDefaultSuites: Readonly<Record<string, string>> = {
   'tests/unit/process-integration.test.ts': 'Fresh CLI replay, build proof and diagnostic launch',
+  'tests/unit/integration-lock.test.ts':
+    'Real Git worktrees and multiple integration CLI processes',
 };
 
 export async function selectTestFiles(args: string[], root = projectRoot, group = 'unit') {

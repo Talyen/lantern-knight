@@ -11,6 +11,7 @@ import { type WorldVisualDefinition, type ArtPlacement } from '../content/world-
 import { heightAt, type AreaDefinition } from '../content/world';
 import { clipDuration, frameAt } from '../core/animation';
 import type { SimulationView } from '../core/simulation-view';
+import type { GroundOcclusion } from './ground-occlusion';
 
 export class InkRoom {
   readonly sprites: ActorSprite[] = [];
@@ -19,6 +20,7 @@ export class InkRoom {
   readonly sceneryReveal: SceneryReveals;
   playing = true;
   private animated: { sprite: ActorSprite; placement: ArtPlacement; ground?: boolean }[] = [];
+  private occluded = new Map<ActorSprite, ArtPlacement>();
   replay() {
     for (const { sprite } of this.animated) sprite.animator.start(sprite.animator.clip);
   }
@@ -32,7 +34,11 @@ export class InkRoom {
     readonly art: WorldVisualDefinition,
   ) {
     if (shadowTexture) {
-      this.contactShadows = new PropContactShadows(shadowTexture, art.props.length);
+      const drops = [...(area.interactables ?? []), ...area.spawns].reduce(
+        (sum, source) => sum + (source.rewards?.length ?? 0),
+        0,
+      );
+      this.contactShadows = new PropContactShadows(shadowTexture, art.props.length + drops);
       this.room.add(this.contactShadows.mesh);
     }
     this.sceneryReveal = new SceneryReveals(area, registration.coverage);
@@ -127,6 +133,7 @@ export class InkRoom {
   private place(p: ArtPlacement) {
     const s = this.sprite(p.id, p.asset, p.clip, p.heading),
       scale = p.scale ?? 1;
+    this.occluded.set(s, p);
     s.show(
       s.animator.frame,
       new T.Vector3(p.x, heightAt(this.area, p.x, p.z) + (p.y ?? 0), p.z),
@@ -141,8 +148,9 @@ export class InkRoom {
           : s.manifest.asset.layer === 'overlay'
             ? 1
             : 0;
-      s.mesh.userData.emissive = true;
+      s.mesh.userData.emissive = !p.fixture;
     }
+    if (p.emissive !== undefined) s.mesh.userData.emissive = p.emissive;
     setCutoutOpacity(s.material, p.opacity ?? 1);
     if (p.tint !== undefined) {
       s.material.color.set(p.tint);
@@ -159,20 +167,33 @@ export class InkRoom {
         emission = this.sprite(fixture.id, settings.asset, settings.clip);
       emission.mesh.userData.emissive = true;
       emission.mesh.userData.decorative = settings.decorative;
+      this.occluded.set(emission, p);
     }
     this.contactShadows?.add(p, s, this.area);
   }
-  private effect(id: string, asset: string, clip: string) {
+  private effect(id: string, asset: string, clip: string, foot?: { x: number; z: number }) {
     let s = this.effects.get(id);
     if (!s) {
       s = this.sprite(id, asset, clip);
       s.mesh.renderOrder = -0.5;
       this.effects.set(id, s);
+      if (foot && id.startsWith('drop-'))
+        this.contactShadows?.add(
+          { id, asset, clip, ...foot, scale: 0.28, purpose: 'Dropped item' },
+          s,
+          this.area,
+        );
     }
     return s;
   }
   private sample(s: ActorSprite, clip: Clip, time: number, foot: T.Vector3) {
     s.show(frameAt(clip, time), foot, this.camera);
+  }
+  occlude(ground: GroundOcclusion) {
+    for (const [sprite, placement] of this.occluded) {
+      ground.attach(sprite, 'prop');
+      ground.update(sprite, placement.x, placement.z);
+    }
   }
   update(sim: SimulationView, alpha: number, visible: boolean, ms = 1000 / 60) {
     if (!this.playing) ms = 0;
@@ -260,6 +281,7 @@ export class InkRoom {
         'drop-' + drop.id,
         'library-lantern_concept_item_12_coin_purse',
         'still',
+        drop,
       );
       sprite.mesh.visible = true;
       sprite.mesh.scale.setScalar(0.28);

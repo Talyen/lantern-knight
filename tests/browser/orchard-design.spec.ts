@@ -96,4 +96,25 @@ test('Orchard rejects a hidden-body placement and preserves its accepted composi
       });
     }
   }
+  for (const [name, dx, dz] of [
+    ['wagon-lantern-left', -2, 0],
+    ['wagon-lantern-right', 0.6, -2.1],
+  ] as const) {
+    await page.evaluate(
+      ({ dx, dz }) => {
+        const view = window.sceneEditor.view(),
+          document = window.sceneEditor.state().document,
+          p = view.presentation!;
+        const cart = document.objects.find((o) => o.id === 'harvest-handcart')!;
+        view.hero({ x: cart.x! + dx, z: cart.z! + dz });
+        p.center.set(cart.x!, 0, cart.z!);
+        p.verticalSpan = 8.55;
+        p.resize();
+        p.lookRenderer.setSettings({ rig: 'lantern' });
+        view.render();
+      },
+      { dx, dz },
+    );
+    await page.screenshot({ path: path.join(directory, `${name}.png`) });
+  }
 });

@@ -1,4 +1,5 @@
-import { segmentsIntersect } from './polygon';
+import { boundsCorners, polygonBounds, segmentsIntersect } from './polygon';
+import { contains } from './collision';
 import type { Manifest } from '../assets/schema';
 import { trimmedBounds } from '../assets/sprite-registration';
 import { artworkFloorLayout } from './floor-layout';
@@ -70,10 +71,7 @@ export function paintedEnvelopePolicy(
     ]) ?? []
   ).map((mask) => ({
     ...mask,
-    minX: Math.min(...mask.outer.map((p) => p.x)),
-    maxX: Math.max(...mask.outer.map((p) => p.x)),
-    minY: Math.min(...mask.outer.map((p) => p.z)),
-    maxY: Math.max(...mask.outer.map((p) => p.z)),
+    ...polygonBounds(mask.outer),
   }));
   return (
     foot: Point,
@@ -117,23 +115,18 @@ export function paintedEnvelopePolicy(
     const bottom = Math.max(...samples.map((p) => p.z), v) + py;
     if (left < 0 || right > 1 || top < 0 || bottom > 1)
       return 'registered artwork extends beyond the painting';
-    const rectangle = [
-      { x: left, z: top },
-      { x: right, z: top },
-      { x: right, z: bottom },
-      { x: left, z: bottom },
-    ];
-    const contains = (p: Point) => p.x >= left && p.x <= right && p.z >= top && p.z <= bottom;
+    const region = { minX: left, maxX: right, minZ: top, maxZ: bottom };
+    const rectangle = boundsCorners(region);
     const hit = masks.find(
       (m) =>
         m.minX <= right &&
         m.maxX >= left &&
-        m.minY <= bottom &&
-        m.maxY >= top &&
+        m.minZ <= bottom &&
+        m.maxZ >= top &&
         (rectangle.some(
           (p) => insidePolygon(p, m.outer) && !m.holes.some((h) => insidePolygon(p, h)),
         ) ||
-          m.outer.some(contains) ||
+          m.outer.some((p) => contains(region, p)) ||
           [m.outer, ...m.holes].some((ring) =>
             ring.some((a, i) =>
               rectangle.some((b, j) =>

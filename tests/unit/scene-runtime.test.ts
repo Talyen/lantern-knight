@@ -11,6 +11,7 @@ import { EditorHistory } from '../../src/editor/model';
 import { EditorView } from '../../src/editor/view';
 import { setCutoutOpacity } from '../../src/presentation/sprite';
 import { InkRoom } from '../../src/presentation/ink-room';
+import type { GroundOcclusion } from '../../src/presentation/ground-occlusion';
 import { ContentRegistry, heightAt } from '../../src/content/world';
 import { content, contentDefinitions } from '../fixtures/content';
 import { manifestFixture } from '../fixtures/manifest';
@@ -138,6 +139,22 @@ test('black is an accepted upright scenery tint', () => {
   const room = scenery(1, 0, false, false);
   try {
     assert.equal(room.sprites[0]!.material.color.getHex(), 0);
+  } finally {
+    room.dispose();
+  }
+});
+
+test('placed sprites retain their authored occlusion roots without mesh metadata', () => {
+  const room = scenery(1, 0xffffff, false, false),
+    roots: unknown[] = [];
+  try {
+    room.occlude({
+      attach() {},
+      update(sprite, x, z) {
+        roots.push([sprite.id, x, z]);
+      },
+    } as GroundOcclusion);
+    assert.deepEqual(roots, [['prop', 0, 0]]);
   } finally {
     room.dispose();
   }
