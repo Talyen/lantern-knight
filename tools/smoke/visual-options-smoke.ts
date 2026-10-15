@@ -16,16 +16,13 @@ export async function runScenario(flags: string[] = []) {
       {},
       { timeout: 60000 },
     );
-    if (await page.locator('#modal').isVisible())
-      await page.getByRole('button', { name: 'Resume', exact: true }).click();
     await page.evaluate(
       () =>
         new Promise<void>((resolve) =>
           requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
         ),
     );
-    if (!(await page.locator('#modal').isVisible()))
-      await page.getByRole('button', { name: 'Pause / save' }).click();
+    await page.locator('#menu-settings').click();
     await page.locator('#zoom-span').selectOption('15');
     for (const key of Object.keys(visualEffectLabels)) {
       const box = page.locator(`[data-visual-effect="${key}"]`);
@@ -72,7 +69,7 @@ export async function runScenario(flags: string[] = []) {
       {},
       { timeout: 60000 },
     );
-    await page.getByRole('button', { name: 'Pause / save' }).click();
+    await page.locator('#menu-settings').click();
     assert.equal(await page.locator('[data-visual-effect="smoke"]').isChecked(), false);
     assert.equal(await page.locator('[data-visual-effect="bloom"]').isChecked(), false);
     assert.equal(await page.locator('#zoom-span').inputValue(), '13');

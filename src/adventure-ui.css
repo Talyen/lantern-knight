@@ -1,0 +1,283 @@
+.game .adventure-panel {
+  width: min(980px, calc(100vw - 48px));
+  max-width: none;
+  max-height: min(820px, calc(100dvh - 64px));
+  padding: 0;
+  overflow: hidden;
+  color: #f1e7d2;
+  background: #121a1b;
+  border: 1px solid #d8b47766;
+  border-radius: 3px;
+  box-shadow: 0 28px 100px #0009;
+  font:
+    14px/1.6 system-ui,
+    sans-serif;
+}
+.adventure-panel[open] {
+  display: flex;
+  flex-direction: column;
+}
+.adventure-panel::backdrop {
+  background: #060c0ddd;
+  backdrop-filter: blur(5px);
+}
+.adventure-panel .adventure-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px 32px 24px;
+  border-bottom: 1px solid #a9b6ab29;
+}
+.adventure-panel .adventure-eyebrow {
+  display: block;
+  margin: 0 0 5px;
+  color: #d8b477;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.adventure-panel h2 {
+  margin: 0;
+  font:
+    34px/1.15 Georgia,
+    serif;
+  letter-spacing: -0.02em;
+}
+.adventure-panel h3 {
+  margin: 0 0 5px;
+  color: #f1e7d2;
+  font:
+    24px/1.25 Georgia,
+    serif;
+}
+.adventure-panel button {
+  min-height: 38px;
+  margin: 8px 8px 0 0;
+  padding: 7px 12px;
+  color: #f1e7d2;
+  background: #1b2525;
+  border: 1px solid #a9b6ab45;
+  border-radius: 2px;
+  font-size: 12px;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease;
+}
+.adventure-panel button:hover:not(:disabled) {
+  color: #fff1d5;
+  background: #2b3430;
+  border-color: #d8b477;
+}
+.adventure-panel button:focus-visible {
+  outline: 2px solid #d8b477;
+  outline-offset: 4px;
+}
+.adventure-panel button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.adventure-panel .adventure-close {
+  flex-shrink: 0;
+  margin: 0;
+  background: transparent;
+}
+.adventure-panel .adventure-content {
+  min-height: 0;
+  padding: 0 32px 30px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: #56605a #121a1b;
+  scrollbar-width: thin;
+}
+.adventure-panel .inventory-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 30px;
+  padding: 17px 0;
+  margin-bottom: 26px;
+  color: #d8b477;
+  border-bottom: 1px solid #a9b6ab29;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.adventure-panel .inventory-summary span + span {
+  color: #a9b6ab;
+}
+.adventure-panel .inventory-columns {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.85fr) minmax(0, 1.15fr);
+  gap: 38px;
+}
+.adventure-panel .section-note {
+  margin: 0 0 19px;
+  color: #a9b6ab;
+  font-size: 12px;
+}
+.adventure-panel .inventory-slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 62px;
+  padding: 11px 0;
+  border-bottom: 1px solid #a9b6ab20;
+}
+.adventure-panel .inventory-slot-name {
+  display: block;
+  color: #a9b6ab;
+  font-size: 10px;
+}
+.adventure-panel .inventory-slot strong {
+  color: #7e8a82;
+  font-size: 13px;
+  font-weight: 400;
+}
+.adventure-panel .inventory-slot.occupied strong {
+  color: #f1e7d2;
+}
+.adventure-panel .inventory-slot button {
+  min-height: 32px;
+  margin: 0;
+  padding: 4px 9px;
+  font-size: 11px;
+}
+.adventure-panel .inventory-row {
+  margin-bottom: 12px;
+  padding: 17px 18px;
+  border: 1px solid #a9b6ab29;
+  background: #1b2525;
+}
+.adventure-panel .inventory-item-kind {
+  display: block;
+  color: #a9b6ab;
+  font-size: 10px;
+  text-transform: capitalize;
+}
+.adventure-panel .inventory-row strong {
+  display: block;
+  color: #f1e7d2;
+  font-size: 15px;
+  font-weight: 500;
+}
+.adventure-panel .inventory-row.gear strong {
+  color: #e7c995;
+}
+.adventure-panel .inventory-row p {
+  margin: 7px 0 0;
+  color: #a9b6ab;
+  font-size: 12px;
+}
+.adventure-panel .adventure-empty {
+  padding: 18px 0;
+  color: #a9b6ab;
+  font-size: 13px;
+}
+.adventure-panel .adventure-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 32px;
+  color: #a9b6ab;
+  background: #0e1617;
+  border-top: 1px solid #a9b6ab29;
+  font-size: 11px;
+}
+.adventure-panel .adventure-footer p {
+  margin: 0;
+}
+.adventure-panel .adventure-footer .adventure-feedback {
+  color: #e7c995;
+}
+.adventure-panel .adventure-key-hint {
+  flex-shrink: 0;
+}
+.adventure-panel .campfire-content {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 42px;
+  padding-top: 32px;
+}
+.adventure-panel .campfire-rest {
+  padding: 26px;
+  background: #1b2525;
+  border-top: 2px solid #d8b477;
+}
+.adventure-panel .campfire-rest h3 {
+  margin: 10px 0 20px;
+  font-size: 32px;
+}
+.adventure-panel .campfire-content p {
+  color: #a9b6ab;
+  font-size: 13px;
+}
+.adventure-panel .campfire-rest .campfire-health {
+  color: #f1e7d2;
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+}
+.adventure-panel .campfire-rest button {
+  width: 100%;
+  margin-top: 24px;
+  color: #18201e;
+  background: #d8b477;
+  border-color: #d8b477;
+  font-size: 14px;
+  font-weight: 600;
+}
+.adventure-panel .campfire-rest button:hover:not(:disabled) {
+  color: #18201e;
+  background: #ead0a0;
+}
+.adventure-panel .campfire-destination {
+  display: block;
+  width: 100%;
+  min-height: 58px;
+  padding: 14px 16px;
+  text-align: left;
+}
+.adventure-panel .campfire-destination.current {
+  color: #d8b477;
+  border-color: #d8b47755;
+  opacity: 1;
+}
+@media (max-width: 700px) {
+  .game .adventure-panel {
+    width: calc(100vw - 24px);
+    max-height: calc(100dvh - 24px);
+  }
+  .adventure-panel .adventure-header {
+    padding: 20px;
+    gap: 16px;
+  }
+  .adventure-panel h2 {
+    font-size: 27px;
+  }
+  .adventure-panel .adventure-content {
+    padding: 0 20px 24px;
+  }
+  .adventure-panel .inventory-columns,
+  .adventure-panel .campfire-content {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .adventure-panel .inventory-bag {
+    order: -1;
+  }
+  .adventure-panel .campfire-content {
+    padding-top: 24px;
+  }
+  .adventure-panel .adventure-footer {
+    padding: 14px 20px;
+  }
+  .adventure-panel .adventure-key-hint {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .adventure-panel button {
+    transition: none;
+  }
+}

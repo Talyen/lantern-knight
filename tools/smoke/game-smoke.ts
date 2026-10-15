@@ -59,12 +59,18 @@ export async function runScenario(flags: string[] = []) {
       save: observe,
       frames: renderedFrames,
     } = playerControls(page, run.profile);
+    assert.equal(await page.locator('#menu-start').isVisible(), true);
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('#menu-start').isVisible(), true);
+    await capture('main-menu');
     // Interaction checks use the player's existing quality setting on software-rendered CI.
-    if (!(await page.locator('#modal').isVisible()))
-      await page.getByRole('button', { name: 'Pause / save' }).click();
+    await page.locator('#menu-settings').click();
     await page
       .locator('#render-scale')
       .selectOption(benchmark ? option('--render-scale', '1', flags) : '0.5');
+    await page.locator('#menu-back').click();
+    await page.locator('#menu-start').click();
+    await pause();
     if (process.platform === 'win32' && !benchmark) {
       const gaps = await page.evaluate(
         () =>
@@ -110,15 +116,15 @@ export async function runScenario(flags: string[] = []) {
     assert.equal(await focused(), 'new-game');
     await page.keyboard.press('Escape');
     assert.equal(await page.locator('#modal').isVisible(), false);
-    assert.equal(await focused(), 'pause');
+    assert.equal(await page.evaluate(() => document.activeElement?.tagName), 'CANVAS');
     await page.locator('canvas').focus();
     await page.keyboard.press('Escape');
     assert.equal(await focused(), 'resume');
     await page.keyboard.press('Escape');
     assert.equal(await page.evaluate(() => document.activeElement?.tagName), 'CANVAS');
-    await page.getByRole('button', { name: 'Pause / save' }).click();
+    await page.locator('#pause').click();
     checks.push(
-      'pause contains focus, restores its opener, and Escape cancels confirmation before resuming',
+      'main menu blocks Escape and starts play; pause contains focus and cancels confirmation before resuming',
     );
     const checkpoint = path.join(run.profile, 'prototype-saves/game.json'),
       newerSave = JSON.stringify({ version: 99 });
@@ -250,9 +256,8 @@ export async function runScenario(flags: string[] = []) {
     let checkpoint: unknown;
     try {
       await page.screenshot({ path: path.join(output, 'failure.png') });
-      if (!(await page.locator('#modal').isVisible()))
-        await page.getByRole('button', { name: 'Pause / save' }).click();
-      await page.getByRole('button', { name: 'Save checkpoint', exact: true }).click();
+      if (!(await page.locator('#modal').isVisible())) await page.locator('#pause').click();
+      await page.locator('#save').click();
       await page.waitForFunction(
         () => document.querySelector('#status')?.textContent === 'Checkpoint saved',
       );

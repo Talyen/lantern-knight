@@ -40,11 +40,13 @@ async function runWalkingBenchmark(flags: string[] = []) {
       }
     }, visible);
     await pause();
+    await page.locator('#menu-settings').click();
     await page.locator('#render-scale').selectOption('1');
     await page.locator('#depth-of-field').fill('100');
     await page.locator('#depth-of-field').dispatchEvent('input');
     const effects = page.locator('#modal input[data-visual-effect]');
     for (const effect of await effects.all()) await effect.setChecked(true);
+    await page.locator('#menu-back').click();
     const initial = await save();
     assert.equal(initial.area, content.definitions.initialArea);
     await resume();

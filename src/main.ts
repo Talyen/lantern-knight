@@ -102,5 +102,6 @@ window.addEventListener('beforeunload', shutdown);
 void start().catch((error: Error) => {
   ui.status(`Unable to open the game: ${error.message}`, true);
   shutdown();
+  ui.failure(error.message);
   console.error(error);
 });

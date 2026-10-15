@@ -1,26 +1,20 @@
 import { GroundLootLabels } from './ground-loot-labels';
 import { Vector3 } from 'three';
 import { heightAt } from './content/world';
-import { audioControls, bindAudioControls } from './audio/controls';
+import { bindAudioControls } from './audio/controls';
+import { gameMenu } from './game-menu';
+import './game-ui.css';
+import './adventure-ui.css';
 import { bindAdventureUI } from './adventure-ui';
-import { visualEffectLabels, type VisualEffect } from './content/visual-effects';
+import { type VisualEffect } from './content/visual-effects';
 import type { Application } from './application';
 export const gameUI = `<main class="stage game-stage"><canvas aria-label="Lantern Knight game" tabindex="0"></canvas>
 <div class="travel-veil" aria-hidden="true"></div><div class="title-card"><div class="eyebrow">Lantern Knight</div><h2 id="room-title"></h2></div>
-<section class="hud" aria-label="Health and supplies"><span id="hp"></span><div class="health"><span id="health-fill"></span></div><span id="potion-count"></span></section>
-<div class="ground-loot-labels" aria-label="Ground items"></div><p id="interaction-hint" aria-live="polite"></p><button id="pause" aria-label="Pause / save">Ⅱ</button><p id="status" role="status"></p>
-<dialog class="modal" id="modal" aria-labelledby="pause-title"><div><div class="eyebrow">Lantern Knight</div><h2 id="pause-title">Paused</h2><div class="buttons"><button id="resume" autofocus>Resume</button><button id="reset">Reset encounter</button><button id="save">Save checkpoint</button><button id="load">Load checkpoint</button><button id="new-game">New Game</button></div><p id="menu-status" role="status" aria-live="polite"></p><p id="save-notice"></p><dialog id="new-confirm" class="confirmation" aria-labelledby="new-game-question"><p id="new-game-question">Replace the saved session with a new game?</p><p id="new-status" role="status" aria-live="polite"></p><div class="buttons"><button id="confirm-new">Confirm New Game</button><button id="cancel-new" autofocus>Cancel</button></div></dialog>
-<details class="controls-help"><summary>Controls &amp; help</summary><p>WASD · Move<br>Mouse · Aim sword<br>LMB · Sweep / Lunge<br>Shift · Dodge<br>RMB · Lantern burst<br>E · Interact / collect / campfire<br>I · Inventory<br>Q · Health Potion<br>Esc · Pause / resume</p><p>Windups and strikes finish before queued actions start. Move or use another action to interrupt recovery. Rest heals and resets enemies; loot stays yours and potions do not refill.</p></details>${audioControls}<label>Camera distance<select id="zoom-span"><option value="8.55">Close</option><option value="9">9 m</option><option value="11">Medium</option><option value="13">Wide</option><option value="15">Far</option></select></label>
-<label for="depth-of-field">Depth of field <output id="depth-of-field-value">100%</output></label><input id="depth-of-field" type="range" min="0" max="100" step="5" value="100"><p class="muted">Foreground and distance blur. Set to 0% to turn off.</p><label>Render scale<select id="render-scale"><option value="1">100% · up to 4K</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label><fieldset class="visual-options"><legend>Visual effects</legend>${Object.entries(
-  visualEffectLabels,
-)
-  .map(
-    ([key, label]) =>
-      `<label>${label}<input type="checkbox" data-visual-effect="${key}" checked></label>`,
-  )
-  .join(
-    '',
-  )}<p class="muted">Rain appears only when the scene or weather calls for it.</p></fieldset><div id="dev-return"></div></div></dialog></main>`;
+<section class="hud" aria-label="Health and supplies"><div class="health-heading"><span>Vitality</span><span id="hp"></span></div><div class="health" role="meter" aria-label="Health" aria-valuemin="0"><span id="health-fill"></span></div><div class="supply-row"><span><kbd>Q</kbd> Health Potion</span><span id="potion-count"></span></div></section>
+<div class="ground-loot-labels" aria-label="Ground items"></div><p id="interaction-hint" aria-live="polite"></p>
+<div class="game-toolbar"><button id="open-inventory">Inventory <kbd>I</kbd></button><button id="pause" aria-label="Pause / save">Menu <kbd>Esc</kbd></button></div>
+<div class="combat-guide" aria-label="Combat controls"><span><kbd>LMB</kbd> Sword</span><span><kbd>Shift</kbd> Dodge</span><span><kbd>RMB</kbd> Lantern</span></div>
+<p id="status" role="status"></p><section id="startup-error" class="startup-failure" aria-labelledby="startup-error-title" hidden><p class="eyebrow">Lantern Knight</p><h1 id="startup-error-title">The path could not be opened.</h1><p id="startup-error-detail" role="alert"></p><a href="./index.html">Try again</a></section>${gameMenu}</main>`;
 // The mounted Game owns its controls, async feedback and adventure dialog.
 export function createGameUI(root: HTMLElement) {
   const lifetime = new AbortController();
@@ -35,11 +29,17 @@ export function createGameUI(root: HTMLElement) {
   let unsubscribe: (() => void) | undefined;
   let bound = false;
   let pending = false;
+  let atTitle = true;
+  let journeyStarted = false;
+  let page: 'home' | 'settings' | 'help' = 'home';
+  let application: Application | undefined;
   const cuePosition = new Vector3();
   let lootLabels: GroundLootLabels | undefined;
   function bind(app: Application) {
     if (closed || bound) throw new Error('Game UI already bound or disposed');
     bound = true;
+    application = app;
+    journeyStarted = app.startedFromCheckpoint;
     lootLabels = new GroundLootLabels($('.ground-loot-labels'), app, lifetime.signal);
     adventure = bindAdventureUI(app, root, lifetime.signal);
     bindAudioControls(app, root, lifetime.signal);
@@ -48,6 +48,7 @@ export function createGameUI(root: HTMLElement) {
     const perform = (message: string, action: () => Promise<string>) =>
       app.safe(async () => {
         if (closed || pending) return;
+        const trigger = document.activeElement as HTMLElement | null;
         pending = true;
         status(message);
         update(app);
@@ -57,16 +58,22 @@ export function createGameUI(root: HTMLElement) {
         } finally {
           pending = false;
           update(app);
+          if (!closed && modal.open) {
+            if (confirmation.open) $('#cancel-new').focus();
+            else if (atTitle && page === 'home') $('#menu-start').focus();
+            else if (trigger?.getClientRects().length) trigger.focus();
+          }
         }
         status(result);
       });
     const cancelNew = () => {
+      if (pending) return;
       confirmation.close();
       void app.audio.play('ui-cancel', { world: false }).catch(() => {});
     };
     on(modal, 'cancel', (event) => {
       event.preventDefault();
-      app.pause(false);
+      navigateBack();
     });
     document.addEventListener(
       'keydown',
@@ -77,7 +84,7 @@ export function createGameUI(root: HTMLElement) {
           event.stopPropagation();
           if (!event.repeat) {
             if (confirmation.open) cancelNew();
-            else app.pause(false);
+            else navigateBack();
           }
         } else if (event.repeat && (event.key === 'Enter' || event.key === ' ')) {
           event.preventDefault();
@@ -106,6 +113,26 @@ export function createGameUI(root: HTMLElement) {
       syncDof();
     });
     on(dof, 'change', () => app.safe(() => app.saveSettings()));
+    on($('#menu-start'), 'click', () => {
+      journeyStarted = true;
+      app.pause(false);
+    });
+    on($('#menu-settings'), 'click', () => showPage('settings'));
+    on($('#menu-help'), 'click', () => showPage('help'));
+    on($('#menu-back'), 'click', navigateBack);
+    on($('#open-inventory'), 'click', () => adventure?.openInventory());
+    on($('#return-title'), 'click', () =>
+      perform('Saving your journey…', async () => {
+        await app.save();
+        if (!closed) {
+          journeyStarted = true;
+          atTitle = true;
+          showPage('home');
+          app.pause(true);
+        }
+        return 'Journey saved';
+      }),
+    );
     on($('#pause'), 'click', () => app.pause(!app.paused));
     on($('#resume'), 'click', () => app.pause(false));
     on($('#reset'), 'click', () =>
@@ -136,6 +163,7 @@ export function createGameUI(root: HTMLElement) {
     on($('#confirm-new'), 'click', () =>
       perform('Starting new game…', async () => {
         await app.newGame();
+        journeyStarted = true;
         return 'New game started';
       }),
     );
@@ -163,7 +191,56 @@ export function createGameUI(root: HTMLElement) {
     unsubscribe = app.events.subscribe((event) => {
       if (event.kind === 'action-unavailable') status(event.reason);
       if (event.kind === 'potion-used') status('Health Potion · restored health');
+      if (event.kind === 'room-reset' && event.reason === 'death')
+        status('A new breath · returned to your checkpoint');
+      if (event.kind === 'room-clear') status('The way is clear');
     });
+    showPage('home');
+    app.pause(true);
+    update(app);
+  }
+  function showPage(next: typeof page) {
+    if (closed) return;
+    page = next;
+    const home = page === 'home';
+    const modal = $('#modal');
+    modal.classList.toggle('is-title', atTitle && home);
+    modal.classList.toggle('is-subpage', !home);
+    $('#menu-home').hidden = !home;
+    $('#settings-page').hidden = page !== 'settings';
+    $('#help-page').hidden = page !== 'help';
+    $('#menu-back').hidden = home;
+    $('#menu-start').hidden = !atTitle;
+    $('#resume').hidden = atTitle;
+    $('#new-game').hidden = atTitle && !journeyStarted;
+    $('#checkpoint-actions').hidden = atTitle;
+    $('#menu-eyebrow').textContent =
+      atTitle && home ? 'A sword. A lantern. A way forward.' : 'Lantern Knight';
+    $('#pause-title').innerHTML = home
+      ? atTitle
+        ? 'Lantern<br>Knight'
+        : 'A moment of quiet.'
+      : page === 'settings'
+        ? 'Settings'
+        : 'Find your way.';
+    $('#menu-description').textContent = home
+      ? atTitle
+        ? 'Carry a little light into the unknown.'
+        : 'Your journey will be here when you are ready.'
+      : '';
+    $('#start-label').textContent = journeyStarted ? 'Continue journey' : 'Begin journey';
+    $('#journey-label').textContent = journeyStarted ? 'Your journey' : 'Your journey begins';
+    $('#journey-area').textContent = application?.sim.areaDefinition.name ?? '';
+    const focus = home ? (atTitle ? '#menu-start' : '#resume') : '#menu-back';
+    $(focus).focus();
+  }
+  function navigateBack() {
+    if (pending) return;
+    if (page !== 'home') {
+      const previous = page;
+      showPage('home');
+      $(previous === 'settings' ? '#menu-settings' : '#menu-help').focus();
+    } else if (!atTitle) application?.pause(false);
   }
   let lastArea = '';
   let statusTimeout: ReturnType<typeof setTimeout> | undefined;
@@ -184,12 +261,19 @@ export function createGameUI(root: HTMLElement) {
     if (closed) return;
     const modal = $<HTMLDialogElement>('#modal'),
       confirmation = $<HTMLDialogElement>('#new-confirm');
-    if (confirmation.open) confirmation.close();
-    if (paused && !adventure?.isOpen() && !modal.open) modal.showModal();
-    else if (!paused && modal.open) {
-      modal.close();
+    if (paused && !adventure?.isOpen()) {
+      if (!modal.open) {
+        showPage('home');
+        modal.showModal();
+        $(atTitle ? '#menu-start' : '#resume').focus();
+      }
+    } else if (!paused) {
+      atTitle = false;
+      if (confirmation.open) confirmation.close();
+      if (modal.open) modal.close();
       root.querySelector<HTMLCanvasElement>('canvas')?.focus();
     }
+    root.classList.toggle('menu-open', paused);
   }
   function update(app: Application) {
     if (closed) return;
@@ -227,8 +311,12 @@ export function createGameUI(root: HTMLElement) {
       cue.style.top = `${(1 - cuePosition.y) * 50}%`;
     } else cue.removeAttribute('aria-label');
     const potions = app.session.inventory['health-potion'] ?? 0;
-    $('#potion-count').textContent = potions ? `Potions ×${potions}` : '';
+    $('#potion-count').textContent = `×${potions}`;
+    $('.supply-row').classList.toggle('empty', potions === 0);
     $('#hp').textContent = `${s.hero.health} / ${s.maxHealth}`;
+    $('.health').setAttribute('aria-valuenow', String(s.hero.health));
+    $('.health').setAttribute('aria-valuemax', String(s.maxHealth));
+    $('.hud').classList.toggle('low-health', s.hero.health <= s.maxHealth * 0.3);
     $('#health-fill').style.width = `${(s.hero.health / s.maxHealth) * 100}%`;
     if (lastArea !== s.area) {
       lastArea = s.area;
@@ -239,9 +327,22 @@ export function createGameUI(root: HTMLElement) {
       title.classList.add('location-enter');
     }
     const unavailable = app.busy || pending;
-    for (const id of ['save', 'reset', 'load', 'new-game', 'confirm-new'])
+    for (const id of [
+      'save',
+      'reset',
+      'load',
+      'new-game',
+      'confirm-new',
+      'return-title',
+      'menu-start',
+      'menu-settings',
+      'menu-help',
+      'menu-back',
+      'cancel-new',
+    ])
       $<HTMLButtonElement>('#' + id).disabled = unavailable;
-    $<HTMLButtonElement>('#resume').disabled = !app.roomReady;
+    $<HTMLButtonElement>('#resume').disabled = unavailable || !app.roomReady;
+    $<HTMLButtonElement>('#menu-start').disabled = unavailable || !app.roomReady;
     $<HTMLButtonElement>('#save').disabled = unavailable || !app.roomReady;
     $('#save-notice').textContent =
       (!app.roomReady
@@ -249,11 +350,18 @@ export function createGameUI(root: HTMLElement) {
         : '') ||
       app.persistence.error ||
       app.settingsError ||
-      'Prototype checkpoints may reset when the game changes.';
+      (atTitle
+        ? 'Progress saves as you explore. Prototype checkpoints may reset with updates.'
+        : 'Progress saves as you explore. Save a checkpoint before leaving.');
   }
 
   return {
     bind,
+    failure(message: string) {
+      $('#startup-error-detail').textContent = message;
+      $('#startup-error').hidden = false;
+      root.querySelector<HTMLAnchorElement>('#startup-error a')?.focus();
+    },
     status,
     showPause,
     update,

@@ -11,6 +11,7 @@ test('requested supplied-artwork comparison captures', async ({ page }) => {
   for (const treatment of ['gust', 'leaves', 'combined']) {
     await page.goto(`/index.html?automated&wind-preview=${treatment}`);
     await page.locator('canvas[data-ready="true"]').waitFor();
+    await page.locator('#menu-start').click();
     await page.locator('#pause').click();
     await page.locator('#save').click();
     await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
@@ -46,6 +47,7 @@ test('requested supplied-artwork comparison captures', async ({ page }) => {
   for (const treatment of ['dust', 'leaves', 'combined']) {
     await page.goto(`/index.html?automated&dodge-preview=${treatment}`);
     await page.locator('canvas[data-ready="true"]').waitFor();
+    await page.locator('#menu-start').click();
     await page.locator('#pause').click();
     await page.evaluate(() => {
       const key = Object.keys(localStorage).find((k) => k.endsWith('-game'))!;
@@ -103,6 +105,7 @@ test('requested lighting and Lunge facing captures', async ({ page }) => {
   await mkdir(directory!, { recursive: true });
   await page.goto('/index.html?automated');
   await page.locator('canvas[data-ready="true"]').waitFor();
+  await page.locator('#menu-start').click();
   await page.locator('#pause').click();
   await page.locator('#save').click();
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
@@ -120,6 +123,7 @@ test('requested lighting and Lunge facing captures', async ({ page }) => {
   for (const rig of ['golden', 'silver', 'lantern']) {
     await page.goto(`/index.html?automated&lighting-preview=${rig}`);
     await page.locator('canvas[data-ready="true"]').waitFor();
+    await page.locator('#menu-start').click();
     await page.waitForTimeout(600);
     await page.screenshot({ path: path.join(directory!, `lighting-${rig}.png`) });
   }
@@ -144,6 +148,7 @@ test('requested corrected Orchard placement captures', async ({ page }) => {
   test.setTimeout(240_000);
   await page.goto('/index.html?automated');
   await page.locator('canvas[data-ready="true"]').waitFor();
+  await page.locator('#menu-start').click();
   await page.locator('#pause').click();
   await page.locator('#save').click();
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
