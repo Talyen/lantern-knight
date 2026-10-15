@@ -430,6 +430,37 @@ it('applying a repeat pattern preserves the copied pickups as playable health re
 import { CompositionTools } from '../../src/editor/composition';
 import { EditorWorkspace } from '../../src/editor/workspace';
 
+it('delete confirmation cannot delete replacement document objects with reused identities', async () => {
+  let history = assembly();
+  let accept!: (answer: boolean) => void;
+  const tools = Object.create(CompositionTools.prototype) as CompositionTools;
+  Object.assign(tools, {
+    lifetime: new AbortController(),
+    selection: new Set(['support']),
+    hidden: new Set(),
+    locked: new Set(),
+    host: {
+      history: () => history,
+      confirm: () =>
+        new Promise<boolean>((resolve) => {
+          accept = resolve;
+        }),
+      edit: async (work: (h: EditorHistory) => void, committed?: () => void) => {
+        work(history);
+        committed?.();
+      },
+      select() {},
+    },
+  });
+  const deletion = tools.remove();
+  history = assembly();
+  history.transform('support', { x: 3 });
+  const replacement = history.document;
+  accept(true);
+  await deletion;
+  assert.deepEqual(history.document, replacement);
+});
+
 it('marquee selects rendered elevations and excludes descendants of hidden supports', (t) => {
   const node = {
     hidden: false,

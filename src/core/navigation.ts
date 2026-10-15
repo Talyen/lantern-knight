@@ -98,16 +98,20 @@ export class Navigation {
     if (this.clear(start, goal, radius)) return { status: 'ready', points: [{ ...goal }] };
     const b = this.area.bounds,
       nx = Math.ceil((b.maxX - b.minX) / this.spacing) + 1,
-      nz = Math.ceil((b.maxZ - b.minZ) / this.spacing) + 1;
+      nz = Math.ceil((b.maxZ - b.minZ) / this.spacing) + 1,
+      destination = nx * nz;
     let cells = this.grids.get(radius);
     if (!cells) {
       cells = new Map();
       this.grids.set(radius, cells);
     }
-    const point = (id: number): Point => ({
-      x: b.minX + (id % nx) * this.spacing,
-      z: b.minZ + Math.floor(id / nx) * this.spacing,
-    });
+    const point = (id: number): Point =>
+      id === destination
+        ? goal
+        : {
+            x: b.minX + (id % nx) * this.spacing,
+            z: b.minZ + Math.floor(id / nx) * this.spacing,
+          };
     const valid = (id: number) => {
       if (id < 0 || id >= nx * nz) return false;
       let v = cells!.get(id);
@@ -119,57 +123,54 @@ export class Navigation {
       }
       return v;
     };
-    const nearest = (p: Point, arriving = false) => {
+    const connections = (p: Point) => {
       const ix = Math.round((p.x - b.minX) / this.spacing),
         iz = Math.round((p.z - b.minZ) / this.spacing);
       // A saved actor may start within a newly authored forbidden region. Find
       // an admissible outward connection instead of trapping it at that point.
       const limit = this.#policy?.position(p) === false ? Math.max(nx, nz) : 4;
+      const found: number[] = [];
       for (let r = 0; r <= limit; r++) {
-        const found: number[] = [];
         for (let z = iz - r; z <= iz + r; z++)
           for (let x = ix - r; x <= ix + r; x++) {
             if (r && x !== ix - r && x !== ix + r && z !== iz - r && z !== iz + r) continue;
             if (x < 0 || x >= nx || z < 0 || z >= nz) continue;
             const id = z * nx + x;
-            if (
-              valid(id) &&
-              (arriving ? this.clear(point(id), p, radius) : this.clear(p, point(id), radius))
-            )
-              found.push(id);
+            if (valid(id) && this.clear(p, point(id), radius)) found.push(id);
           }
-        if (found.length)
-          return found.sort(
-            (a, c) =>
-              Math.hypot(point(a).x - p.x, point(a).z - p.z) -
-              Math.hypot(point(c).x - p.x, point(c).z - p.z),
-          )[0];
+        // A nearest node can belong to a disconnected pocket. Keep every
+        // local connection; forbidden starts search outward until they escape.
+        if (found.length && r >= 4) break;
       }
+      return found;
     };
-    const from = nearest(start),
-      to = nearest(goal, true);
-    if (from === undefined || to === undefined) return fail;
+    const from = connections(start);
+    if (!from.length) return fail;
     const heap = new Heap(),
-      scores = new Map<number, number>([[from, 0]]),
+      scores = new Map<number, number>(),
       parents = new Map<number, number>(),
       closed = new Set<number>();
     const h = (id: number) => {
       const p = point(id),
-        g = point(to);
+        g = goal;
       return Math.hypot(p.x - g.x, p.z - g.z);
     };
-    heap.push(from, h(from));
+    for (const id of from) {
+      const p = point(id),
+        cost = Math.hypot(p.x - start.x, p.z - start.z);
+      scores.set(id, cost);
+      heap.push(id, cost + h(id));
+    }
     while (heap.entries.length) {
       const current = heap.pop()!.id;
       if (closed.has(current)) continue;
-      if (current === to) {
+      if (current === destination) {
         const raw: Point[] = [{ ...goal }];
-        let id = to;
-        while (id !== from) {
+        let id = parents.get(destination);
+        while (id !== undefined) {
           raw.push(point(id));
-          id = parents.get(id)!;
+          id = parents.get(id);
         }
-        raw.push(point(from));
         raw.reverse();
         const smooth: Point[] = [];
         let origin = start;
@@ -183,6 +184,17 @@ export class Navigation {
         return { status: 'ready', points: smooth };
       }
       closed.add(current);
+      // Connect the actual endpoint wherever it becomes visible. A narrow
+      // recess may have no connected grid cell beside its goal.
+      if (this.clear(point(current), goal, radius)) {
+        const cost = scores.get(current)! + h(current);
+        if (cost < (scores.get(destination) ?? Infinity)) {
+          scores.set(destination, cost);
+          parents.set(destination, current);
+          heap.push(destination, cost);
+        }
+        continue;
+      }
       const x = current % nx,
         z = Math.floor(current / nx);
       for (let dz = -1; dz <= 1; dz++)
