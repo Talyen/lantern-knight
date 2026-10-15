@@ -28,7 +28,6 @@ import {
   SessionOperationCancelled,
   type SessionOperation,
 } from './session-operation';
-import { readUntilAborted } from './abort';
 import { startupStage } from './assets/startup-timing';
 export type ApplicationHooks = {
   status: (message: string, error?: boolean) => void;
@@ -70,7 +69,10 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   presentation!: P;
   input!: Input;
   runtime!: AssetRuntime;
-  persistence: Persistence;
+  private readonly persistenceOwner: Persistence;
+  get persistence() {
+    return this.persistenceOwner.view;
+  }
   readonly events: EventHub;
   readonly audio: AudioPlayback;
   private readonly audioFeedback: AudioFeedback;
@@ -175,7 +177,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.motionProbe = options.motionProbe ? new MotionProbe() : undefined;
     this.assetProfile = options.assetProfile ?? 'authoring';
     this.current = { session: new GameSession(scenes.registry, this.initialSeed), scenes };
-    this.persistence = new Persistence(bridge);
+    this.persistenceOwner = new Persistence(bridge, () => this.assertCheckpointWritable());
     this.audio = new AudioPlayback((message) => this.hooks.status(message, true));
     this.audioFeedback = new AudioFeedback(this.audio);
     this.events.subscribe((event, signal) => this.audioFeedback.event(event, this.sim, signal));
@@ -229,7 +231,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.assertActive();
     const settingsPromise = startupStage('settings', async () => {
       try {
-        return await readUntilAborted(this.bridge.loadSettings(), this.abort.signal);
+        return await this.persistenceOwner.loadSettings();
       } catch (error) {
         this.assertActive();
         this.settingsError = String((error as Error).message);
@@ -239,7 +241,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     const checkpointPromise = startupStage('checkpoint', async () => {
       if (this.startupMode !== 'checkpoint') return;
       try {
-        const result = await readUntilAborted(this.persistence.load(), this.abort.signal);
+        const result = await this.persistenceOwner.load();
         this.assertActive();
         if (result.status === 'empty') {
           if (result.reason === 'incompatible')
@@ -554,8 +556,9 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.hooks.pause(value);
   }
   safe(fn: () => Promise<unknown>) {
+    if (this.disposed) return;
     void (async () => fn())().catch((error: unknown) => {
-      if (!(error instanceof SessionOperationCancelled)) {
+      if (!this.disposed && !(error instanceof SessionOperationCancelled)) {
         void this.audio.play('ui-deny', { world: false }).catch(() => {});
         this.hooks.status(String((error as Error | null | undefined)?.message ?? error), true);
       }
@@ -703,7 +706,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   load() {
     return this.withSessionOperation(async (operation) => {
       const resume = this.resumeOnCompletion(),
-        result = await operation.read(this.persistence.load());
+        result = await operation.read(this.persistenceOwner.load());
       if (result.status === 'empty') return false;
       await this.restoreState(result.data, operation);
       operation.check();
@@ -732,14 +735,16 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         operation,
       );
       operation.check();
-      if (!this.readOnly) await this.persistence.save(this.current.session.captureSave());
+      if (!this.readOnly)
+        await operation.read(this.persistenceOwner.save(this.current.session.captureSave()));
       operation.check();
       void this.audio.play('success', { world: false }).catch(() => {});
       resume();
     });
   }
   async saveSettings() {
-    await this.bridge.saveSettings({
+    this.assertActive();
+    await this.persistenceOwner.saveSettings({
       version: 6,
       audio: this.audio.settings,
       renderScale: this.scale,
@@ -748,19 +753,25 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       depthOfField: this.presentation.depthOfField,
       visualEffects: this.presentation.visualEffects,
     });
+    this.assertActive();
     this.settingsError = '';
   }
-  async save() {
+  private assertCheckpointWritable() {
+    this.assertActive();
     if (this.readOnly) throw new Error('Sandbox sessions cannot write checkpoints');
     if (!this.roomReady)
       throw new Error('Room is not ready; reset or load a checkpoint to recover');
-    await this.persistence.save(this.current.session.captureSave());
+  }
+  async save() {
+    this.assertCheckpointWritable();
+    await this.persistenceOwner.save(this.current.session.captureSave());
     await this.saveSettings();
+    this.assertActive();
     void this.audio.play('success', { world: false }).catch(() => {});
   }
   autosave() {
-    if (!this.readOnly && this.roomReady)
-      this.safe(() => this.persistence.save(this.current.session.captureSave()));
+    if (!this.disposed && !this.readOnly && this.roomReady)
+      this.safe(() => this.persistenceOwner.save(this.current.session.captureSave()));
   }
   private get frameFrozen() {
     const idle =
@@ -861,6 +872,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     // Close admission and frame visibility before invoking host or renderer code.
     this.ready = false;
     this.roomAccepted = false;
+    this.persistenceOwner.dispose();
     delete this.canvas.dataset.ready;
     const retained = [...this.persistentLeases.values()];
     this.persistentLeases.clear();

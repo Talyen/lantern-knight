@@ -14,7 +14,7 @@ type BenchmarkResult = {
 };
 interface FoundationInspection {
   readonly session: SessionView;
-  readonly persistence: Persistence;
+  readonly persistence: Persistence['view'];
   readonly eventHistory: readonly PresentationEvent[];
   readonly ready: boolean;
   readonly sim: SimulationView;
