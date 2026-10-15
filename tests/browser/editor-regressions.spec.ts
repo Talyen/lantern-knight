@@ -51,9 +51,9 @@ test.beforeEach(async ({ page }) => {
     ]);
     const template = document.createElement('template');
     template.innerHTML = editorUI;
-    document.querySelector('#scene-panel')!.append(
-      template.content.querySelector('#ground-interaction-section')!,
-    );
+    document
+      .querySelector('#scene-panel')!
+      .append(template.content.querySelector('#ground-interaction-section')!);
     const scene = emptyScene();
     scene.floor.layout = 'artwork';
     scene.groundInteraction = {
