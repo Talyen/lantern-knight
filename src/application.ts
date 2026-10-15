@@ -506,7 +506,12 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       next = await this.acquireArea(area, operation.signal, source.scenes);
       operation.check();
       for (const pack of next.packs.values()) this.presentation.warmPack(pack);
-      await this.presentation.prepareAssets(new Set([...this.packs.keys(), ...next.packs.keys()]));
+      await operation.read(
+        this.presentation.prepareAssets(
+          new Set([...this.packs.keys(), ...next.packs.keys()]),
+          operation.signal,
+        ),
+      );
       operation.check();
       if (change.kind === 'session' && !this.readOnly && source.scenes.registry !== this.registry)
         throw new Error('Changing content requires a read-only application');
@@ -534,7 +539,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         this.presentation.generation = this.current.session.generation;
       });
       operation.check();
-      await this.presentation.prepareAssets();
+      await operation.read(this.presentation.prepareAssets(undefined, operation.signal));
       operation.check();
       this.roomAccepted = true;
       this.input.resetAim();

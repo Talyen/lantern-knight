@@ -270,12 +270,14 @@ export class SceneLightingRenderer {
       cleanupAfterFailure(error, () => this.dispose());
     }
   }
-  async prepare(assets: Iterable<string> = this.resources.packs.keys()) {
+  async prepare(assets: Iterable<string> = this.resources.packs.keys(), signal?: AbortSignal) {
     if (this.disposed) throw new Error('lighting renderer disposed');
+    signal?.throwIfAborted();
     await Promise.all([
-      this.lighting.normals.load(assets),
-      this.surfaces.load(this.resources.packs),
+      this.lighting.normals.load(assets, signal),
+      this.surfaces.load(this.resources.packs, signal),
     ]);
+    signal?.throwIfAborted();
     if (this.disposed) throw new Error('lighting renderer disposed');
     this.ready = true;
   }

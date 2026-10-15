@@ -1373,8 +1373,10 @@ test('superseding a committed room cannot accept it through an obsolete completi
     saveGame: async () => assert.fail('read-only'),
   });
   let preparations = 0;
-  app.presentation.prepareAssets = async () => {
+  let preparationSignal: AbortSignal | undefined;
+  app.presentation.prepareAssets = async (_ids, signal) => {
     if (++preparations === 2) {
+      preparationSignal = signal;
       committed.resolve();
       await preparing.promise;
     }
@@ -1386,13 +1388,18 @@ test('superseding a committed room cannot accept it through an obsolete completi
   assert.equal(await app.load(), false);
   assert.equal(app.roomReady, false);
   assert.equal(app.paused, true, 'The latest operation must leave recovery accessible');
-  preparing.resolve();
   await rejected;
+  assert.equal(preparationSignal?.aborted, true, 'Companion work receives room cancellation');
   assert.equal(app.roomReady, false, 'Obsolete preparation cannot reopen the simulation');
   assert.equal(app.busy, false);
   await app.reset();
   assert.equal(app.roomReady, true);
   assert.equal(app.paused, false);
+  const generation = app.session.generation;
+  preparing.resolve();
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.equal(app.session.generation, generation);
+  assert.equal(app.roomReady, true, 'Late obsolete completion cannot revoke the recovered room');
   app.dispose();
 });
 
