@@ -1,4 +1,5 @@
 import { PropContactShadows } from './contact-shadows';
+import { cleanupAll } from '../assets/cleanup';
 import { sceneFixtures } from '../content/scenery-presets';
 import type { PreparedRegistration } from '../assets/registration';
 import * as T from 'three';
@@ -14,6 +15,7 @@ import type { SimulationView } from '../core/simulation-view';
 import type { GroundOcclusion } from './ground-occlusion';
 
 export class InkRoom {
+  private closed = false;
   readonly sprites: ActorSprite[] = [];
   readonly effects = new Map<string, ActorSprite>();
   readonly fades: ActorSprite[] = [];
@@ -50,6 +52,7 @@ export class InkRoom {
     clip: string,
     heading: ArtPlacement['heading'] = 'd45',
   ) {
+    if (this.closed) throw new Error('scenery disposed');
     const p = this.packs.get(asset);
     if (!p) throw new Error(`room art not acquired: ${asset}`);
     const s = new ActorSprite(id, p.manifest, p.textures, resolveClip(p.manifest, clip, heading));
@@ -58,6 +61,7 @@ export class InkRoom {
     return s;
   }
   floorMaterial() {
+    if (this.closed) throw new Error('scenery disposed');
     if (this.art.editorFloor) {
       const f = this.art.editorFloor,
         pack = this.packs.get(f.asset)!,
@@ -126,6 +130,7 @@ export class InkRoom {
     s.geometry.computeBoundingSphere();
   }
   build() {
+    if (this.closed) throw new Error('scenery disposed');
     const art = this.art;
     for (const p of art.props) this.place(p);
     for (const p of art.decals) this.ground(p);
@@ -316,11 +321,20 @@ export class InkRoom {
       }
   }
   dispose() {
-    this.sceneryReveal.dispose();
-    this.owned.forEach((v) => v.dispose());
+    if (this.closed) return;
+    this.closed = true;
+    const owned = this.owned,
+      sprites = this.sprites.splice(0);
     this.owned = [];
-    this.contactShadows?.dispose();
-    for (const s of this.sprites) s.dispose();
     this.effects.clear();
+    this.fades.length = 0;
+    this.animated = [];
+    this.occluded.clear();
+    cleanupAll([
+      () => this.sceneryReveal.dispose(),
+      ...owned.map((resource) => () => resource.dispose()),
+      () => this.contactShadows?.dispose(),
+      ...sprites.map((sprite) => () => sprite.dispose()),
+    ]);
   }
 }

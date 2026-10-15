@@ -22,7 +22,6 @@ import type { AnimationEvent } from '../core/events';
 import type { ActorView, SimulationView } from '../core/simulation-view';
 import type { AssetPack } from '../assets/loader';
 import type { PreparedRegistration } from '../assets/registration';
-import type { EventHub } from '../core/events';
 import type { WalkTiming } from '../core/locomotion-timing';
 import type { AnimationTreatment } from '../core/animation-treatment';
 import type { AnimationFlow } from './animation-blend-shader';
@@ -54,7 +53,6 @@ export class ActorPresentation {
     private camera: T.OrthographicCamera,
     private shadowTexture: T.CanvasTexture,
     private registration: PreparedRegistration,
-    private events: EventHub,
   ) {}
   createVisual(a: ActorView, generation: number) {
     const binding = actorVisuals[a.definition.visual];
@@ -132,6 +130,7 @@ export class ActorPresentation {
       : clip;
   }
   update(sim: SimulationView, alpha: number, ms: number, options: ActorOptions) {
+    const events: AnimationEvent[] = [];
     for (const a of sim.actors) {
       const v = this.visuals.get(a.id) ?? this.createVisual(a, sim.generation),
         heading =
@@ -225,8 +224,8 @@ export class ActorPresentation {
             : ms,
         );
       }
-      this.events.publish(
-        notifies.map(
+      events.push(
+        ...notifies.map(
           (n) =>
             ({
               key: `visual:${n.key}`,
@@ -273,6 +272,7 @@ export class ActorPresentation {
       material.color.set(a.burn ? 0xe9a45f : winding ? 0xe5c37d : 0xc1645f);
       material.opacity = a.burn ? (a.burn.nextTick < 8 ? 0.55 : 0.3) : 0.5;
     }
+    return events;
   }
   dispose() {
     const visuals = [...this.visuals.values()];

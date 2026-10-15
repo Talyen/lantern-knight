@@ -345,32 +345,39 @@ test('voice budget reserves four slots for player-critical feedback', async () =
   assert.equal(f.sources[0]!.stopped, true);
   f.playback.dispose();
 });
-test('pending playback is discarded after generation replacement or its deadline', async () => {
-  for (const action of ['replace', 'expire', 'mute', 'dispose', 'abort']) {
-    const f = fixture([sample('forest-1', 'forest', true)]);
-    await ready(f);
-    // Add a one-shot after preload so its fetch can be controlled.
-    const manifest = (f.playback as unknown as { manifest: AudioManifest }).manifest;
-    manifest.samples.push(sample('late-1', 'sword'));
-    let resolve!: (response: Response) => void;
-    f.pending = () =>
-      new Promise<Response>((done) => {
-        resolve = done;
-      });
-    const controller = new AbortController();
-    const pending = f.playback.play('sword', { signal: controller.signal });
-    await Promise.resolve();
-    if (action === 'replace') f.playback.replaceSession();
-    if (action === 'expire') f.now = 1;
-    if (action === 'mute') f.playback.updateSettings({ ...defaultAudioSettings, muted: true });
-    if (action === 'dispose') f.playback.dispose();
-    if (action === 'abort') controller.abort();
-    resolve(new Response(bytes));
-    await pending;
-    assert.equal(f.sources.length, 0, action);
-    f.playback.dispose();
-  }
-});
+test(
+  'pending playback cancels before transport settles and expired cues never start',
+  { timeout: 2000 },
+  async () => {
+    for (const action of ['replace', 'expire', 'mute', 'dispose', 'abort', 'freeze']) {
+      const f = fixture([sample('forest-1', 'forest', true)]);
+      await ready(f);
+      // Add a one-shot after preload so its fetch can be controlled.
+      const manifest = (f.playback as unknown as { manifest: AudioManifest }).manifest;
+      manifest.samples.push(sample('late-1', 'sword'));
+      let resolve!: (response: Response) => void;
+      f.pending = () =>
+        new Promise<Response>((done) => {
+          resolve = done;
+        });
+      const controller = new AbortController();
+      const pending = f.playback.play('sword', { signal: controller.signal });
+      await Promise.resolve();
+      if (action === 'replace') f.playback.replaceSession();
+      if (action === 'expire') f.now = 1;
+      if (action === 'mute') f.playback.updateSettings({ ...defaultAudioSettings, muted: true });
+      if (action === 'dispose') f.playback.dispose();
+      if (action === 'abort') controller.abort();
+      if (action === 'freeze') f.playback.setWorldFrozen(true);
+      if (action !== 'expire') await pending;
+      resolve(new Response(bytes));
+      await pending;
+      assert.equal(f.sources.length, 0, action);
+      assert.equal(f.reports.length, 0, 'Expected cancellation stays out of diagnostics');
+      f.playback.dispose();
+    }
+  },
+);
 test('stale ambience loads cannot start and a failed destination retains outgoing audio', async () => {
   const f = fixture([
     sample('forest-1', 'forest', true),
@@ -707,11 +714,57 @@ test('closing the buffer owner rejects shared late decodes and further admission
   await decoding;
   buffers.dispose();
   assert.equal(requestSignal?.aborted, true);
-  complete({ length: 22050, numberOfChannels: 1 } as AudioBuffer);
   await assert.rejects(first, /abort/i);
   await assert.rejects(second, /abort/i);
+  complete({ length: 22050, numberOfChannels: 1 } as AudioBuffer);
   await assert.rejects(buffers.acquire(selected), /abort/i);
   assert.equal(buffers.decodedBytes, 0);
+});
+
+test('audio claims cancel independently and the last cancellation permits recovery before native decode settles', async () => {
+  const started = Promise.withResolvers<void>();
+  const late = Promise.withResolvers<AudioBuffer>();
+  const signals: AbortSignal[] = [];
+  let decodes = 0;
+  const buffers = new AudioBuffers(
+    async (_url, options) => {
+      signals.push(options!.signal!);
+      return new Response(bytes);
+    },
+    async () => {
+      if (++decodes === 1) {
+        started.resolve();
+        return late.promise;
+      }
+      return { length: 20, numberOfChannels: 1 } as AudioBuffer;
+    },
+    () => 0,
+  );
+  const selected = parseAudioManifest({ schemaVersion: 1, samples: [sample('sword-1')] })
+    .samples[0]!;
+  const a = new AbortController(),
+    b = new AbortController();
+  const first = buffers.acquire(selected, a.signal),
+    second = buffers.acquire(selected, b.signal);
+  await started.promise;
+  a.abort();
+  await assert.rejects(first, /abort/i);
+  assert.equal(signals[0]!.aborted, false, 'The surviving borrower keeps shared work alive');
+  b.abort();
+  const recovery = buffers.acquire(selected);
+  await assert.rejects(second, /abort/i);
+  assert.equal(signals[0]!.aborted, true);
+  const recovered = await recovery;
+  assert.equal(signals.length, 2);
+  late.resolve({ length: 1000, numberOfChannels: 1 } as AudioBuffer);
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.equal(
+    buffers.decodedBytes,
+    80,
+    'Late native work cannot overwrite the recovered cache entry',
+  );
+  recovered.release();
+  buffers.dispose();
 });
 
 test('voice cancellation releases its listener as well as its decoded lease', async () => {
