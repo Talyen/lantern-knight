@@ -134,6 +134,7 @@ export async function checkLoadingScreen(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
   );
   if (dev) await observeWork(page);
+  else assert.equal(await page.locator('#menu-start').isVisible(), true);
   assert.equal(
     await page.locator('#loading-screen video').evaluate((el) => (el as HTMLVideoElement).paused),
     true,

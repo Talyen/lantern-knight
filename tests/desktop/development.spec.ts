@@ -85,7 +85,7 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
     await expect(page.locator('nav[aria-label="Developer tools"]')).toHaveCount(0);
     page.on('console', (message) => console.log('Development browser: ' + message.text()));
     console.log('Live Game ready');
-    await page.locator('#pause').click();
+    await page.locator('#menu-settings').click();
     await page.locator('#render-scale').selectOption('0.5');
     await page.evaluate(() => window.lantern!.loadSettings());
     expect(

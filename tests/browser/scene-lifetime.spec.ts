@@ -12,6 +12,7 @@ test('Game UI lifetime isolates remounts, pending saves and retired input', asyn
     let saves = 0,
       pauses = 0,
       finish!: () => void;
+    let pauseHook: (paused: boolean) => void = () => {};
     const delayed = new Promise<void>((resolve) => {
       finish = resolve;
     });
@@ -41,6 +42,7 @@ test('Game UI lifetime isolates remounts, pending saves and retired input', asyn
       pause(value: boolean) {
         pauses++;
         app.paused = value;
+        pauseHook(value);
       },
       safe(action: () => Promise<unknown>) {
         pending.push(action());
@@ -56,6 +58,7 @@ test('Game UI lifetime isolates remounts, pending saves and retired input', asyn
     host.innerHTML = gameUI;
     const firstRoot = host.firstElementChild as HTMLElement;
     const first = createGameUI(firstRoot);
+    pauseHook = first.showPause;
     first.bind(app);
     first.update(app);
     const oldSave = firstRoot.querySelector<HTMLButtonElement>('#save')!;
@@ -66,6 +69,7 @@ test('Game UI lifetime isolates remounts, pending saves and retired input', asyn
     host.innerHTML = gameUI;
     const secondRoot = host.firstElementChild as HTMLElement;
     const second = createGameUI(secondRoot);
+    pauseHook = second.showPause;
     second.bind(app);
     second.update(app);
     secondRoot.querySelector<HTMLButtonElement>('#save')!.click();
@@ -75,26 +79,36 @@ test('Game UI lifetime isolates remounts, pending saves and retired input', asyn
     finish();
     await Promise.all(pending);
     const afterLateSave = secondRoot.querySelector('#status')!.textContent;
+    secondRoot.querySelector<HTMLButtonElement>('#menu-start')!.click();
+    app.canvas = secondRoot.querySelector('canvas');
+    app.hooks = { status: second.status };
+    app.sim.inCombat = true;
+    secondRoot.querySelector<HTMLButtonElement>('#open-inventory')!.click();
+    const deniedInventoryRestoredFocus = document.activeElement === app.canvas;
+    app.sim.inCombat = false;
+    const pausesBeforeRetiredInput = pauses;
     oldSave.disabled = false;
     oldSave.click();
     oldPause.click();
     document.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyI', bubbles: true }));
     const dialogs = secondRoot.querySelectorAll('dialog.adventure-panel[open]').length;
     second.dispose();
-    const beforeRetiredKey = pauses;
+    const beforeRetiredKey = pauses - pausesBeforeRetiredInput;
     document.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyI', bubbles: true }));
     return {
       saves,
+      deniedInventoryRestoredFocus,
       freshTitle,
       afterLateSave,
       dialogs,
       beforeRetiredKey,
-      pauses,
+      pauses: pauses - pausesBeforeRetiredInput,
       remainingPanels: host.querySelectorAll('.adventure-panel').length,
     };
   });
   expect(result).toEqual({
     saves: 2,
+    deniedInventoryRestoredFocus: true,
     freshTitle: 'Room',
     afterLateSave: 'Current mount',
     dialogs: 1,
