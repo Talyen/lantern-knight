@@ -1,5 +1,6 @@
+import { readUntilAborted } from '../assets/abort';
+import { DecodeQueue } from '../assets/decode-queue';
 type ImageLoad = { promise: Promise<HTMLImageElement>; cancel: () => void };
-type Entry = PromiseWithResolvers<HTMLImageElement> & { source: string; load?: ImageLoad };
 
 function loadImage(source: string): ImageLoad {
   const image = new Image();
@@ -34,13 +35,16 @@ function loadImage(source: string): ImageLoad {
 // A canvas accepts only its latest request, even when pages finish out of order.
 export class PreviewImages {
   private readonly ready = new Map<string, HTMLImageElement>();
-  private readonly pending = new Map<string, Entry>();
-  private readonly queue: Entry[] = [];
+  private readonly pending = new Map<string, Promise<HTMLImageElement>>();
+  private readonly activeLoads = new Set<ImageLoad>();
+  private readonly decodes = new DecodeQueue(6);
   private latest = new WeakMap<HTMLCanvasElement, object>();
   private displayed = new WeakMap<HTMLCanvasElement, { source: string; image: HTMLImageElement }>();
-  private active = 0;
   private readyBytes = 0;
-  private closed = false;
+  private readonly lifetime = new AbortController();
+  private get closed() {
+    return this.lifetime.signal.aborted;
+  }
   constructor(private readonly load: (source: string) => ImageLoad = loadImage) {}
 
   async draw(target: HTMLCanvasElement, source: string, paint: (image: HTMLImageElement) => void) {
@@ -72,67 +76,44 @@ export class PreviewImages {
       return Promise.resolve(cached);
     }
     const pending = this.pending.get(source);
-    if (pending) return pending.promise;
-    const { promise, resolve, reject } = Promise.withResolvers<HTMLImageElement>();
-    const entry = { source, promise, resolve, reject };
-    this.pending.set(source, entry);
-    this.queue.push(entry);
-    this.pump();
-    return promise;
-  }
-
-  private pump() {
-    while (!this.closed && this.active < 6 && this.queue.length) {
-      const entry = this.queue.shift()!;
-      this.active++;
-      // Invoke injected loaders inside a promise so synchronous failures settle too.
-      void Promise.resolve()
-        .then(() => {
-          if (this.closed) throw new Error('Preview images disposed');
-          entry.load = this.load(entry.source);
-          return entry.load.promise;
-        })
-        .then(
-          (image) => {
-            if (!this.closed) {
-              this.ready.set(entry.source, image);
-              this.readyBytes += image.naturalWidth * image.naturalHeight * 4;
-              // Count decoded pixels, not compressed transfer bytes. Full-resolution
-              // preview atlases can be far larger than palette thumbnails.
-              while (this.ready.size > 48 || this.readyBytes > 64 * 1024 * 1024) {
-                const oldest = this.ready.keys().next().value!;
-                const removed = this.ready.get(oldest)!;
-                this.ready.delete(oldest);
-                this.readyBytes -= removed.naturalWidth * removed.naturalHeight * 4;
-              }
+    if (pending) return pending;
+    const promise = this.decodes
+      .run(async () => {
+        if (this.closed) throw new Error('Preview images disposed');
+        const load = this.load(source);
+        this.activeLoads.add(load);
+        try {
+          const image = await readUntilAborted(load.promise, this.lifetime.signal);
+          if (!this.closed) {
+            this.ready.set(source, image);
+            this.readyBytes += image.naturalWidth * image.naturalHeight * 4;
+            while (this.ready.size > 48 || this.readyBytes > 64 * 1024 * 1024) {
+              const oldest = this.ready.keys().next().value!;
+              const removed = this.ready.get(oldest)!;
+              this.ready.delete(oldest);
+              this.readyBytes -= removed.naturalWidth * removed.naturalHeight * 4;
             }
-            this.pending.delete(entry.source);
-            entry.resolve(image);
-          },
-          (error: unknown) => {
-            this.pending.delete(entry.source);
-            entry.reject(error);
-          },
-        )
-        .finally(() => {
-          this.active--;
-          this.pump();
-        });
-    }
+          }
+          return image;
+        } finally {
+          this.activeLoads.delete(load);
+        }
+      })
+      .finally(() => this.pending.delete(source));
+    this.pending.set(source, promise);
+    return promise;
   }
 
   dispose() {
     if (this.closed) return;
-    this.closed = true;
+    this.lifetime.abort();
     this.latest = new WeakMap();
     this.displayed = new WeakMap();
     this.ready.clear();
     this.readyBytes = 0;
-    this.queue.length = 0;
-    for (const entry of this.pending.values()) {
-      entry.reject(new Error('Preview images disposed'));
-      entry.load?.cancel();
-    }
+    this.decodes.dispose();
+    for (const load of this.activeLoads) load.cancel();
+    this.activeLoads.clear();
     this.pending.clear();
   }
 }

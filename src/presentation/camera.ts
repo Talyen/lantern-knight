@@ -1,3 +1,4 @@
+import { boundsCorners } from '../content/polygon';
 import { OrthographicCamera, Plane, Raycaster, Vector2, Vector3 } from 'three';
 import { cameraContract as contract } from '../assets/camera-contract';
 import { heightAt, type AreaDefinition, type Point } from '../content/world';
@@ -133,12 +134,7 @@ function constrainRectangularCamera(
   area: AreaDefinition,
 ) {
   const b = area.bounds,
-    corners = area.playableBoundary ?? [
-      { x: b.minX, z: b.minZ },
-      { x: b.maxX, z: b.minZ },
-      { x: b.maxX, z: b.maxZ },
-      { x: b.minX, z: b.maxZ },
-    ],
+    corners = area.playableBoundary ?? boundsCorners(b),
     origin = corners[0]!,
     edge = corners[1]!,
     opposite = corners[3]!,

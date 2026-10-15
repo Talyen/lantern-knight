@@ -29,7 +29,6 @@ export function contactFootprint(
     p.role === 'attachment' ||
     p.role === 'ground' ||
     p.mount ||
-    p.wallFace ||
     asset.type === 'effect' ||
     asset.placement === 'ground' ||
     asset.placement === 'reference' ||

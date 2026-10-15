@@ -368,7 +368,7 @@ export class SceneLightingRenderer {
         this.floorReceivers.push(receiver);
       }
     });
-    this.shadowProxies.build(sim, visuals, this.room.inkRoom?.sprites ?? []);
+    this.shadowProxies.build(visuals, this.room.inkRoom?.sprites ?? []);
     this.generation = sim.generation;
   }
   render(sim: SimulationView, ms: number, frame: LightingFrame) {

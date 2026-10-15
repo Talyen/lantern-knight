@@ -1,13 +1,13 @@
+import { segmentsIntersect } from './polygon';
 import type { Manifest } from '../assets/schema';
 import { trimmedBounds } from '../assets/sprite-registration';
 import { artworkFloorLayout } from './floor-layout';
 import { insidePolygon } from './graveyard-layout';
 import type { SceneSnapshot } from './scene-document';
 import type { Point } from './world';
-import { placementRegistration } from './placement-registration';
+import { placementRegistration, type PlacementEnvelope } from './placement-registration';
+export type { PlacementEnvelope } from './placement-registration';
 import { cameraContract } from '../assets/camera-contract';
-
-export type PlacementEnvelope = { left: number; right: number; top: number; bottom: number };
 
 // Reserve measured native alpha extents, falling back to the full registered
 // trim for an unmeasured or changed kit. Reserve every drawing of the supplied
@@ -16,17 +16,7 @@ export function spritePlacementEnvelope(
   manifest: Manifest,
   clips: readonly string[],
 ): PlacementEnvelope {
-  const measured = (
-    placementRegistration as Readonly<
-      Record<
-        string,
-        {
-          hash: string;
-          clips: Readonly<Record<string, PlacementEnvelope>>;
-        }
-      >
-    >
-  )[manifest.asset.id];
+  const measured = placementRegistration[manifest.asset.id];
   const registered = measured?.hash === manifest.hash ? measured.clips : {};
   const ids = new Set(
     clips
@@ -60,19 +50,6 @@ export function spritePlacementEnvelope(
     top: Math.max(...bounds.map((b) => b.top)),
     bottom: Math.min(...bounds.map((b) => b.bottom)),
   };
-}
-
-const cross = (a: Point, b: Point, p: Point) =>
-  (b.x - a.x) * (p.z - a.z) - (b.z - a.z) * (p.x - a.x);
-function intersects(a: Point, b: Point, c: Point, d: Point) {
-  return (
-    Math.max(a.x, b.x) >= Math.min(c.x, d.x) &&
-    Math.max(c.x, d.x) >= Math.min(a.x, b.x) &&
-    Math.max(a.z, b.z) >= Math.min(c.z, d.z) &&
-    Math.max(c.z, d.z) >= Math.min(a.z, b.z) &&
-    cross(a, b, c) * cross(a, b, d) <= 0 &&
-    cross(c, d, a) * cross(c, d, b) <= 0
-  );
 }
 
 export function paintedEnvelopePolicy(
@@ -160,7 +137,7 @@ export function paintedEnvelopePolicy(
           [m.outer, ...m.holes].some((ring) =>
             ring.some((a, i) =>
               rectangle.some((b, j) =>
-                intersects(a, ring[(i + 1) % ring.length]!, b, rectangle[(j + 1) % 4]!),
+                segmentsIntersect(a, ring[(i + 1) % ring.length]!, b, rectangle[(j + 1) % 4]!),
               ),
             ),
           )),

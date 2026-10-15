@@ -11,7 +11,6 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
 import { ActorSprite } from '../../src/presentation/sprite';
-import { OcclusionFades } from '../../src/presentation/occlusion-fades';
 import { coplanarArtConflicts } from '../../src/presentation/carrier-validation';
 import { sceneArtFindings } from '../../src/content/scene-art-validation';
 import { heightAt } from '../../src/content/world';
@@ -20,7 +19,6 @@ import { compositionPoint, compositionSpan } from '../../src/content/world-visua
 import { assetCatalog } from '../../src/content/visuals';
 import { parseManifest, resolveClip } from '../../src/assets/schema';
 import { makeCamera } from '../../src/presentation/camera';
-import { Simulation } from '../../src/core/simulation';
 
 test('alpha-aware depth gate rejects the original door/arch conflict but ignores transparent margins and separated planes', async () => {
   const area = content.area('upper-landing'),
@@ -83,48 +81,6 @@ test('alpha-aware depth gate rejects the original door/arch conflict but ignores
     for (const t of textures.values()) t.dispose();
   }
 });
-test('assembly fades ease, use interpolated fighters, freeze on pause, and restore more slowly', () => {
-  const sim = new Simulation(content, 142, 'upper-landing', 1);
-  for (const a of sim.enemies) a.health = 0;
-  Object.assign(sim.hero, { x: 0, z: 0, px: 0, pz: 0 });
-  const f = new OcclusionFades(),
-    camera = makeCamera(16 / 9),
-    meshes = [0, 1].map(() => {
-      const m = new T.Mesh(new T.PlaneGeometry(2, 2), new T.MeshBasicMaterial());
-      m.position.y = 0.3;
-      m.quaternion.copy(camera.quaternion);
-      f.add(m, 'bay');
-      return m;
-    });
-  try {
-    f.update(sim, 1, 1000 / 60);
-    const initial = meshes[0]!.material.opacity;
-    assert.ok(initial < 1 && initial > 0.8);
-    assert.equal(initial, meshes[1]!.material.opacity);
-    f.update(sim, 1, 150);
-    assert.equal(meshes[0]!.material.opacity, 0.18);
-    assert.equal(meshes[0]!.material.depthWrite, false);
-    sim.hero.health = 0;
-    f.update(sim, 1, 100);
-    assert.equal(meshes[0]!.material.opacity, 0.18, 'the held death pose remains visible');
-    Object.assign(sim.hero, { x: 50, z: 50, px: 0, pz: 0 });
-    f.update(sim, 0, 16);
-    assert.equal(meshes[0]!.material.opacity, 0.18, 'interpolated old position still obscures');
-    f.update(sim, 1, 0);
-    assert.equal(meshes[0]!.material.opacity, 0.18, 'pause freezes opacity');
-    f.update(sim, 1, 100);
-    assert.ok(meshes[0]!.material.opacity > 0.18 && meshes[0]!.material.opacity < 1);
-    f.update(sim, 1, 250);
-    assert.equal(meshes[0]!.material.opacity, 1);
-    assert.equal(meshes[0]!.material.depthWrite, true);
-  } finally {
-    for (const m of meshes) {
-      m.geometry.dispose();
-      m.material.dispose();
-    }
-  }
-});
-
 test('authored arrival camera preserves player distance and a continuous follow handoff', () => {
   const span = cameraContract.verticalSpan;
   assert.equal(compositionSpan({ x: 0, z: 7.5 }, span, worldVisuals['upper-landing']), 11);

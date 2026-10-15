@@ -17,7 +17,7 @@ function fixture() {
       promise,
       cancel: () => {
         request.cancelled = true;
-        reject(new Error('cancelled'));
+        request.reject(new Error('cancelled'));
       },
     };
   });
@@ -64,6 +64,8 @@ it('bounds concurrent decoding and closes active and queued work without late pa
   await f.flush();
   assert.equal(f.requests.length, 7);
   assert.equal(paints, 1);
+  // A transport that ignores cancellation must not retain a mounted caller.
+  f.requests[1]!.reject = () => {};
   f.images.dispose();
   f.images.dispose();
   await Promise.all(work);

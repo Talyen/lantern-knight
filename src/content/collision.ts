@@ -1,3 +1,9 @@
+import {
+  closestPointOnSegment,
+  polygonBounds,
+  polygonEdgeDistance,
+  boundsCorners,
+} from './polygon';
 import { insidePolygon } from './graveyard-layout';
 import type { AreaDefinition, Bounds, Point, PropDefinition } from './world';
 import type { ContentSnapshot } from './snapshot';
@@ -36,11 +42,8 @@ export function clampToBoundary(points: readonly Point[], p: Point, radius: numb
     distance = Infinity;
   for (let i = 0; i < inset.length; i++) {
     const a = inset[i]!,
-      b = inset[(i + 1) % inset.length]!,
-      dx = b.x - a.x,
-      dz = b.z - a.z;
-    const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.z - a.z) * dz) / (dx * dx + dz * dz)));
-    const q = { x: a.x + dx * t, z: a.z + dz * t },
+      b = inset[(i + 1) % inset.length]!;
+    const q = closestPointOnSegment(p, a, b),
       d = Math.hypot(q.x - p.x, q.z - p.z);
     if (d < distance) {
       closest = q;
@@ -77,13 +80,7 @@ function collisionShape(p: PropDefinition): Shape {
   if (cached) return cached;
   const points = vertices(p);
   cached = points
-    ? {
-        points,
-        minX: Math.min(...points.map((v) => v.x)),
-        maxX: Math.max(...points.map((v) => v.x)),
-        minZ: Math.min(...points.map((v) => v.z)),
-        maxZ: Math.max(...points.map((v) => v.z)),
-      }
+    ? { points, ...polygonBounds(points) }
     : { minX: p.x - p.radius, maxX: p.x + p.radius, minZ: p.z - p.radius, maxZ: p.z + p.radius };
   if (Object.isFrozen(p)) shapes.set(p, cached);
   return cached;
@@ -113,14 +110,7 @@ export function isSupportedPosition(area: AreaDefinition, p: Point, radius: numb
       continue;
     }
     if (insidePolygon(p, s.points)) return false;
-    for (let i = 0; i < s.points.length; i++) {
-      const a = s.points[i]!,
-        c = s.points[(i + 1) % s.points.length]!,
-        dx = c.x - a.x,
-        dz = c.z - a.z,
-        t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.z - a.z) * dz) / (dx * dx + dz * dz)));
-      if (Math.hypot(p.x - a.x - dx * t, p.z - a.z - dz * t) < radius - epsilon) return false;
-    }
+    if (polygonEdgeDistance(p, s.points) < radius - epsilon) return false;
   }
   return true;
 }
@@ -271,12 +261,7 @@ export function sweepCircle(
     circle(b, radius);
   };
   const bounds = area.bounds,
-    boundary = area.playableBoundary ?? [
-      { x: bounds.minX, z: bounds.minZ },
-      { x: bounds.maxX, z: bounds.minZ },
-      { x: bounds.maxX, z: bounds.maxZ },
-      { x: bounds.minX, z: bounds.maxZ },
-    ];
+    boundary = area.playableBoundary ?? boundsCorners(bounds);
   for (let i = 0; i < boundary.length; i++)
     edge(boundary[i]!, boundary[(i + 1) % boundary.length]!);
   for (const p of area.props) {

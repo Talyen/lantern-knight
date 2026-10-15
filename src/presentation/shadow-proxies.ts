@@ -4,9 +4,7 @@ import { ActorSprite } from './sprite';
 import { outward } from './camera';
 import { AnimationBlendShader } from './animation-blend-shader';
 import { FoliageWind } from './foliage-wind';
-import { sceneryRegistration } from '../content/scenery-registration';
-import { heightAt, type ActorId } from '../content/world';
-import type { SimulationView } from '../core/simulation-view';
+import type { ActorId } from '../content/world';
 import type { WorldVisualDefinition } from '../content/world-visuals';
 type Caster = {
   mesh: T.Mesh<T.BufferGeometry, T.MeshBasicMaterial>;
@@ -21,26 +19,18 @@ export class ShadowProxies {
     new T.Vector3(outward.x, 0, outward.z).normalize(),
   );
   constructor(private sun: T.DirectionalLight) {}
-  build(
-    sim: SimulationView,
-    visuals: WorldVisualDefinition | undefined,
-    sprites: readonly ActorSprite[],
-  ) {
+  build(visuals: WorldVisualDefinition | undefined, sprites: readonly ActorSprite[]) {
     for (const prop of visuals?.props ?? []) {
       if (
         prop.shadow === 'none' ||
         prop.shadow === 'contact' ||
         prop.fixture ||
-        prop.wallFace ||
         prop.clip === 'lantern' ||
         prop.clip === 'stairs' ||
         prop.clip === 'fern' ||
         prop.clip === 'rubble'
       )
         continue;
-      const registration = sceneryRegistration.find((r) => r.id === prop.clip),
-        h = (registration?.height ?? 1) * (prop.scale ?? 1),
-        size = prop.footprint ?? [Math.min(1.5, h * 0.35), Math.min(1.5, h * 0.35)];
       const sprite = sprites.find((s) => s.id === prop.id);
       if (
         sprite?.manifest.asset.type === 'effect' ||
@@ -60,7 +50,6 @@ export class ShadowProxies {
         mesh.position.copy(sprite.mesh.position);
         mesh.quaternion.copy(sprite.mesh.quaternion);
         mesh.scale.copy(sprite.mesh.scale);
-        mesh.userData.sharedGeometry = true;
         this.shadowOnly(mesh);
         const wind = sprite.material.userData.foliageWind as FoliageWind | undefined;
         if (wind) {
@@ -76,15 +65,7 @@ export class ShadowProxies {
         this.proxies.add(mesh);
         continue;
       }
-      const geometry =
-        prop.clip.includes('tree') || prop.clip === 'yew'
-          ? new T.CylinderGeometry(size[0] * 0.8, size[0] * 0.3, h, 7)
-          : new T.BoxGeometry(size[0], h, size[1]);
-      const material = new T.MeshBasicMaterial({ colorWrite: false, depthWrite: false });
-      const mesh = new T.Mesh(geometry, material);
-      mesh.position.set(prop.x, heightAt(sim.areaDefinition, prop.x, prop.z) + h / 2, prop.z);
-      this.shadowOnly(mesh);
-      this.proxies.add(mesh);
+      throw new Error('Missing shadow caster artwork: ' + prop.id);
     }
   }
   private shadowOnly(mesh: T.Mesh) {
@@ -113,7 +94,6 @@ export class ShadowProxies {
       const mesh = new T.Mesh(sprite.geometry, material);
       mesh.customDepthMaterial = depth;
       this.shadowOnly(mesh);
-      mesh.userData.actor = id;
       entry = { mesh, depth };
       this.actorCasters.set(id, entry);
       this.proxies.add(mesh);
@@ -154,8 +134,6 @@ export class ShadowProxies {
     const actions: (() => void)[] = [];
     this.proxies.traverse((o) => {
       if (o instanceof T.Mesh) {
-        if (!o.userData.sharedGeometry && !this.actorCasters.has(o.userData.actor))
-          actions.push(() => o.geometry.dispose());
         actions.push(
           () => (o.material as T.Material).dispose(),
           () => o.customDepthMaterial?.dispose(),

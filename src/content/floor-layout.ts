@@ -1,5 +1,6 @@
+import { polygonBounds } from './polygon';
 import { cameraContract } from '../assets/camera-contract';
-import type { Bounds, Point } from './world';
+import type { Point } from './world';
 
 /** Width and depth are the visible artwork dimensions, before ground foreshortening. */
 export function artworkFloorLayout(width: number, depth: number) {
@@ -17,12 +18,7 @@ export function artworkFloorLayout(width: number, depth: number) {
     x: ((u! * width) / 2) * c + ((v! * groundDepth) / 2) * s,
     z: ((-u! * width) / 2) * s + ((v! * groundDepth) / 2) * c,
   }));
-  const bounds: Bounds = {
-    minX: Math.min(...corners.map((p) => p.x)),
-    maxX: Math.max(...corners.map((p) => p.x)),
-    minZ: Math.min(...corners.map((p) => p.z)),
-    maxZ: Math.max(...corners.map((p) => p.z)),
-  };
+  const bounds = polygonBounds(corners);
   const uv = (p: Point): [number, number] => [
     (p.x * c - p.z * s) / width + 0.5,
     0.5 + (p.x * s + p.z * c) / groundDepth,

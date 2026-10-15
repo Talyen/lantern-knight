@@ -1,3 +1,4 @@
+import { ResourcePool } from './resource-pool';
 import { z } from 'zod';
 import { readUntilAborted } from './abort';
 import { sha256 } from './bitmap';
@@ -21,12 +22,6 @@ const RuntimeBundlesSchema = z.array(
   }),
 );
 export type RuntimeBundles = z.infer<typeof RuntimeBundlesSchema>;
-type BundleDownload = {
-  lifetime: AbortController;
-  readers: number;
-  promise: Promise<ArrayBuffer>;
-};
-
 // Readers share a download while at least one claim remains. Only verified bytes
 // outlive those claims, in the runtime's bounded cache.
 export class AssetByteSource {
@@ -35,7 +30,29 @@ export class AssetByteSource {
     string,
     { bundle: RuntimeBundles[number]; offset: number; bytes: number }
   >();
-  private readonly pending = new Map<string, BundleDownload>();
+  private readonly bundles = new Map<string, RuntimeBundles[number]>();
+  private readonly downloads = new ResourcePool(
+    async (id, signal) => {
+      const bundle = this.bundles.get(id)!;
+      const response = await this.transport('/' + id, { signal });
+      signal.throwIfAborted();
+      if (!response.ok) throw new Error('Runtime asset bundle unavailable: ' + response.status);
+      const bytes = await response.arrayBuffer();
+      signal.throwIfAborted();
+      if (bytes.byteLength !== bundle.bytes || (await sha256(bytes)) !== bundle.hash)
+        throw new Error('Runtime asset bundle hash or size differs');
+      signal.throwIfAborted();
+      this.cache.set(id, bytes);
+      this.cachedBytes += bytes.byteLength;
+      while (this.cachedBytes > 32 * 1024 ** 2) {
+        const [oldest, data] = this.cache.entries().next().value!;
+        this.cache.delete(oldest);
+        this.cachedBytes -= data.byteLength;
+      }
+      return bytes;
+    },
+    () => {}, // ArrayBuffers have no external resources; the bounded cache owns retention.
+  );
   private readonly cache = new Map<string, ArrayBuffer>();
   private cachedBytes = 0;
   constructor(
@@ -46,6 +63,7 @@ export class AssetByteSource {
     for (const bundle of RuntimeBundlesSchema.parse(bundles)) {
       if (paths.has(bundle.path)) throw new Error('Duplicate runtime asset bundle');
       paths.add(bundle.path);
+      this.bundles.set(bundle.path, bundle);
       let end = 0;
       for (const [path, file] of Object.entries(bundle.files).sort(
         (a, b) => a[1].offset - b[1].offset,
@@ -78,70 +96,25 @@ export class AssetByteSource {
       signal.throwIfAborted();
       return new Response(bytes.slice(file.offset, file.offset + file.bytes));
     }
-    const bundle = file.bundle;
-    let download = this.pending.get(bundle.path);
-    if (!download) {
-      const lifetime = new AbortController(),
-        signal = AbortSignal.any([this.lifetime.signal, lifetime.signal]);
-      const created: BundleDownload = {
-        lifetime,
-        readers: 0,
-        // Defer transport until its owner and the first reader's cancellation
-        // are registered. Transport callbacks may reenter this byte source.
-        promise: Promise.resolve()
-          .then(async () => {
-            signal.throwIfAborted();
-            const response = await this.transport('/' + bundle.path, { signal });
-            signal.throwIfAborted();
-            if (!response.ok)
-              throw new Error('Runtime asset bundle unavailable: ' + response.status);
-            const bytes = await response.arrayBuffer();
-            signal.throwIfAborted();
-            if (bytes.byteLength !== bundle.bytes || (await sha256(bytes)) !== bundle.hash)
-              throw new Error('Runtime asset bundle hash or size differs');
-            signal.throwIfAborted();
-            this.cache.set(bundle.path, bytes);
-            this.cachedBytes += bytes.byteLength;
-            while (this.cachedBytes > 32 * 1024 ** 2) {
-              const [path, data] = this.cache.entries().next().value!;
-              this.cache.delete(path);
-              this.cachedBytes -= data.byteLength;
-            }
-            return bytes;
-          })
-          .finally(() => {
-            if (this.pending.get(bundle.path) === created) this.pending.delete(bundle.path);
-          }),
-      };
-      this.pending.set(bundle.path, created);
-      download = created;
-    }
-    const held = download;
-    held.readers++;
-    let released = false;
-    const release = () => {
-      if (released) return;
-      released = true;
-      held.readers--;
-      if (held.readers === 0 && this.pending.get(bundle.path) === held) {
-        // Retire before abort callbacks can synchronously request a successor.
-        this.pending.delete(bundle.path);
-        held.lifetime.abort(new Error('Runtime asset bundle no longer requested'));
-      }
-    };
-    signal.addEventListener('abort', release, { once: true });
-    try {
-      const bytes = await readUntilAborted(held.promise, signal);
-      signal.throwIfAborted();
-      return new Response(bytes.slice(file.offset, file.offset + file.bytes));
-    } finally {
-      signal.removeEventListener('abort', release);
-      release();
-    }
+    // The pool owns every reader claim and retires the last claim before abort
+    // callbacks can acquire a successor. Only a copied response crosses this wait.
+    return readUntilAborted(
+      this.downloads.acquire([file.bundle.path], signal).then((held) => {
+        try {
+          signal.throwIfAborted();
+          return new Response(
+            held.resources.get(file.bundle.path)!.slice(file.offset, file.offset + file.bytes),
+          );
+        } finally {
+          held.release();
+        }
+      }),
+      signal,
+    );
   };
   dispose() {
     this.lifetime.abort();
-    this.pending.clear();
+    this.downloads.dispose();
     this.cache.clear();
     this.cachedBytes = 0;
   }

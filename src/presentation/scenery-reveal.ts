@@ -59,15 +59,10 @@ export function cardCoverage(sprite: ActorSprite, point: T.Vector3, mask?: Cover
     u = (dx * p.cy - dy * p.cx) / p.det,
     v = (p.bx * dy - p.by * dx) / p.det;
   if (u < 0 || u > 1 || v < 0 || v > 1) return 0;
-  const q = sprite.mesh.userData.coverageCorners as number[][] | undefined;
-  if (!q) return coverageAt(mask, u, v);
-  const sample = (axis: number) =>
-    (q[0]![axis]! * (1 - u) + q[1]![axis]! * u) * (1 - v) +
-    (q[2]![axis]! * (1 - u) + q[3]![axis]! * u) * v;
-  return coverageAt(mask, sample(0), sample(1));
+  return coverageAt(mask, u, v);
 }
 
-class LocalReveal {
+export class SceneryReveal {
   readonly centers = Array.from(
     { length: contract.budgets.maxActors + 1 },
     () => new T.Vector2(1e5, 1e5),
@@ -79,10 +74,9 @@ class LocalReveal {
   );
   private count = { value: 0 };
   private held = Array.from({ length: contract.budgets.maxActors + 1 }, () => 0);
-  constructor(
-    readonly mesh: T.Mesh,
-    materials: (T.Material | undefined)[],
-  ) {
+  constructor(readonly sprite: ActorSprite) {
+    const mesh = sprite.mesh,
+      materials = [sprite.material, sprite.edgeMaterial];
     for (const m of materials)
       if (m) {
         const prior = m.onBeforeCompile.bind(m),
@@ -94,7 +88,6 @@ class LocalReveal {
           count: this.count,
         };
         m.transparent = true;
-        m.depthWrite = m === materials[0] && m.opacity === 1;
         m.needsUpdate = true;
         m.onBeforeCompile = (shader, renderer) => {
           prior.call(m, shader, renderer);
@@ -141,13 +134,7 @@ class LocalReveal {
           ? target
           : this.strengths[i]! + (target - this.strengths[i]!) * weight;
     }
-    this.mesh.userData.revealStrength = Math.max(...this.strengths);
-  }
-}
-
-export class SceneryReveal extends LocalReveal {
-  constructor(readonly sprite: ActorSprite) {
-    super(sprite.mesh, [sprite.material, sprite.edgeMaterial]);
+    this.sprite.mesh.userData.revealStrength = Math.max(...this.strengths);
   }
 }
 

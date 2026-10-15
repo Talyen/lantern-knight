@@ -1,17 +1,14 @@
 import { PropContactShadows } from './contact-shadows';
 import { sceneFixtures } from '../content/scenery-presets';
-import { type ResolvedFixture } from '../content/world-visuals';
 import type { PreparedRegistration } from '../assets/registration';
 import * as T from 'three';
 import { ActorSprite, setCutoutOpacity } from './sprite';
-import { OcclusionFades } from './occlusion-fades';
 import { graveyardGroundMaterial } from './graveyard-ground';
 import { SceneryReveals } from './scenery-reveals';
 import { resolveClip, type Clip } from '../assets/schema';
 import type { AssetPack } from '../assets/loader';
 import { type WorldVisualDefinition, type ArtPlacement } from '../content/world-visuals';
 import { heightAt, type AreaDefinition } from '../content/world';
-import { outward } from './camera';
 import { clipDuration, frameAt } from '../core/animation';
 import type { SimulationView } from '../core/simulation-view';
 
@@ -19,21 +16,12 @@ export class InkRoom {
   readonly sprites: ActorSprite[] = [];
   readonly effects = new Map<string, ActorSprite>();
   readonly fades: ActorSprite[] = [];
-  readonly occlusion = new OcclusionFades();
-  readonly sceneryReveal: SceneryReveals | undefined;
-  private time = 0;
+  readonly sceneryReveal: SceneryReveals;
   playing = true;
   private animated: { sprite: ActorSprite; placement: ArtPlacement; ground?: boolean }[] = [];
   replay() {
-    this.time = 0;
     for (const { sprite } of this.animated) sprite.animator.start(sprite.animator.clip);
   }
-  private flames: {
-    fixture: ActorSprite;
-    emission: ActorSprite;
-    placement: ArtPlacement;
-    settings: ResolvedFixture;
-  }[] = [];
   constructor(
     readonly area: AreaDefinition,
     private packs: ReadonlyMap<string, AssetPack>,
@@ -47,7 +35,7 @@ export class InkRoom {
       this.contactShadows = new PropContactShadows(shadowTexture, art.props.length);
       this.room.add(this.contactShadows.mesh);
     }
-    if (!art.interior) this.sceneryReveal = new SceneryReveals(area, registration.coverage, art);
+    this.sceneryReveal = new SceneryReveals(area, registration.coverage);
   }
 
   private sprite(
@@ -160,24 +148,10 @@ export class InkRoom {
       s.material.color.set(p.tint);
       s.edgeMaterial?.color.copy(s.material.color);
     }
-    // Reversible runtime matte rejects generated backdrop residue without changing sources.
-
-    s.mesh.userData.artPart = {
-      id: p.id,
-      role: p.wallFace ? 'mounted-face' : p.mount ? 'mounted-fixture' : 'prop',
-      assembly: p.assembly,
-      mount: p.mount,
-      footprint: p.footprint,
-    };
-    if (p.wallFace) {
-      const wall = this.art.walls.find((w) => w.id === p.wallFace)!;
-      s.mesh.rotation.y = Math.atan2(-(wall.to.z - wall.from.z), wall.to.x - wall.from.x);
-    }
     if (p.rotation) s.mesh.rotateZ(p.rotation);
     if (p.fade) {
       this.fades.push(s);
-      if (this.sceneryReveal) this.sceneryReveal.add(s);
-      else this.occlusion.add(s.mesh, p.assembly ?? p.id);
+      this.sceneryReveal.add(s);
     }
     const fixture = sceneFixtures(this.art).find((f) => f.prop === p.id);
     if (fixture?.flame) {
@@ -185,7 +159,6 @@ export class InkRoom {
         emission = this.sprite(fixture.id, settings.asset, settings.clip);
       emission.mesh.userData.emissive = true;
       emission.mesh.userData.decorative = settings.decorative;
-      this.flames.push({ fixture: s, emission, placement: p, settings: fixture });
     }
     this.contactShadows?.add(p, s, this.area);
   }
@@ -280,19 +253,7 @@ export class InkRoom {
           );
     }
     for (const s of this.effects.values()) s.mesh.visible = false;
-    this.sceneryReveal?.update(sim, alpha, ms);
-    this.time += Math.max(0, ms);
-    this.occlusion.update(sim, alpha, ms);
-    for (const { fixture, emission, settings } of this.flames) {
-      const f = settings.flame!,
-        clip = emission.animator.clip,
-        foot = fixture.mesh.position.clone().add(new T.Vector3(...f.offset));
-      foot.addScaledVector(outward, f.depthOffset);
-      this.sample(emission, clip, this.time + f.phase * 1000, foot);
-      emission.mesh.scale.setScalar(f.scale);
-      emission.mesh.visible = visible && fixture.mesh.visible;
-      emission.material.opacity = fixture.material.opacity;
-    }
+    this.sceneryReveal.update(sim, alpha, ms);
     if (!visible) return;
     for (const drop of sim.drops) {
       const sprite = this.effect(
@@ -333,7 +294,7 @@ export class InkRoom {
       }
   }
   dispose() {
-    this.sceneryReveal?.dispose();
+    this.sceneryReveal.dispose();
     this.owned.forEach((v) => v.dispose());
     this.owned = [];
     this.contactShadows?.dispose();

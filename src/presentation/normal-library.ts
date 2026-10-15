@@ -1,5 +1,7 @@
 import * as T from 'three';
 import { cleanupAll, cleanupAfterFailure } from '../assets/cleanup';
+import { ResourcePool } from '../assets/resource-pool';
+import { BitmapTexture } from './bitmap-texture';
 import { verifiedBitmap } from '../assets/bitmap';
 import { readUntilAborted } from '../abort';
 import { DecodeQueue } from '../assets/decode-queue';
@@ -14,18 +16,49 @@ type Companion = {
   width: number;
   height: number;
 };
-function disposeNormal(texture: T.Texture) {
-  cleanupAll([() => texture.dispose(), () => (texture.image as ImageBitmap).close()]);
-}
 export class NormalLibrary {
   constructor(private readonly request: typeof fetch = globalThis.fetch.bind(globalThis)) {}
   private entries: Record<string, Companion> = {};
-  private current = { textures: new Map<string, T.Texture>(), bytes: 0 };
+  private current = { textures: new Map<string, T.Texture>(), release: () => {} };
+  private readonly pool = new ResourcePool(
+    async (key, signal) => {
+      const entry = this.entries[key]!;
+      const owner = new BitmapTexture(
+        (signal) =>
+          this.decodes.run(
+            () => verifiedBitmap('/lighting/' + entry.file, entry, this.request, signal),
+            signal,
+          ),
+        (texture) => {
+          texture.flipY = false;
+          texture.generateMipmaps = false;
+          texture.minFilter = texture.magFilter = T.LinearFilter;
+          texture.needsUpdate = true;
+        },
+      );
+      const cancel = () => owner.dispose();
+      signal.addEventListener('abort', cancel, { once: true });
+      try {
+        signal.throwIfAborted();
+        await owner.load();
+        signal.throwIfAborted();
+        return owner;
+      } catch (error) {
+        cleanupAfterFailure(error, cancel);
+      } finally {
+        signal.removeEventListener('abort', cancel);
+      }
+    },
+    (owner) => owner.dispose(),
+  );
   get textures(): ReadonlyMap<string, T.Texture> {
     return this.current.textures;
   }
   get bytes() {
-    return this.current.bytes;
+    return [...this.current.textures.values()].reduce((sum, texture) => {
+      const image = texture.image as ImageBitmap;
+      return sum + image.width * image.height * 4;
+    }, 0);
   }
   private disposed = false;
   private readonly lifetime = new AbortController();
@@ -60,69 +93,17 @@ export class NormalLibrary {
     });
     await readUntilAborted(this.inventory, signal);
     signal.throwIfAborted();
-    const selected = new Set(assets),
-      wanted = Object.entries(this.entries).filter(([key]) => selected.has(key.split(':')[0]!)),
-      keep = new Set(wanted.map(([key]) => key)),
-      missing = wanted.filter(([key]) => !this.current.textures.has(key)),
-      acquired = new Map<string, T.Texture>();
-    let index = 0;
-    const results = await Promise.allSettled(
-      Array.from({ length: Math.min(8, missing.length) }, async () => {
-        while (!signal.aborted && index < missing.length) {
-          const [key, entry] = missing[index++]!;
-          const acquisition = (async () => {
-            const bitmap = await this.decodes.run(
-              () => verifiedBitmap('/lighting/' + entry.file, entry, this.request, signal),
-              signal,
-            );
-            // Native decode cannot be interrupted. Its continuation retains
-            // ownership and closes late images before they enter staging.
-            if (signal.aborted) {
-              bitmap.close();
-              signal.throwIfAborted();
-            }
-            const texture = new T.Texture(bitmap);
-            acquired.set(key, texture);
-            texture.flipY = false;
-            texture.generateMipmaps = false;
-            texture.minFilter = T.LinearFilter;
-            texture.magFilter = T.LinearFilter;
-            texture.needsUpdate = true;
-          })();
-          // No resource transfers through this wait: the continuation above
-          // owns late results, and this selection owns all completed staging.
-          await readUntilAborted(acquisition, signal);
-        }
-      }),
-    );
-    const failure = results.find((result) => result.status === 'rejected');
-    if (failure || signal.aborted) {
-      const error = failure?.status === 'rejected' ? failure.reason : signal.reason;
-      cleanupAfterFailure(error, () =>
-        cleanupAll([...acquired.values()].map((texture) => () => disposeNormal(texture))),
-      );
-    }
-    const removed = [...this.current.textures].filter(([key]) => !keep.has(key));
-    // Transfer the complete selection before calling external dispose listeners.
-    // Failed retirement cannot leave disposed textures installed or bytes stale.
-    const textures = new Map([
-      ...[...this.current.textures].filter(([key]) => keep.has(key)),
-      ...acquired,
-    ]);
+    const selected = new Set(assets);
+    const keys = Object.keys(this.entries).filter((key) => selected.has(key.split(':')[0]!));
+    // Normal replacements retain the accepted selection until all staging settles.
+    const held = await this.pool.acquire(keys, signal, undefined, false);
+    if (signal.aborted) cleanupAfterFailure(signal.reason, held.release);
+    const previous = this.current;
     this.current = {
-      textures,
-      bytes: [...textures.values()].reduce((sum, texture) => {
-        const image = texture.image as ImageBitmap;
-        return sum + image.width * image.height * 4;
-      }, 0),
+      textures: new Map([...held.resources].map(([key, owner]) => [key, owner.value!])),
+      release: held.release,
     };
-    cleanupAll(
-      removed.map(
-        ([, texture]) =>
-          () =>
-            disposeNormal(texture),
-      ),
-    );
+    previous.release();
   }
   get(sprite: ActorSprite, frame = sprite.lightingSample?.frame) {
     if (!frame) return undefined;
@@ -141,10 +122,8 @@ export class NormalLibrary {
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
-    const textures = [...this.current.textures.values()];
-    this.current = { textures: new Map(), bytes: 0 };
+    this.current = { textures: new Map(), release: () => {} };
     this.lifetime.abort();
-    this.decodes.dispose();
-    cleanupAll(textures.map((texture) => () => disposeNormal(texture)));
+    cleanupAll([() => this.decodes.dispose(), () => this.pool.dispose()]);
   }
 }

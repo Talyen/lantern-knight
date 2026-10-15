@@ -1,3 +1,5 @@
+import { clipPolygon, polygonBounds } from './polygon';
+import { contains } from './collision';
 import { placementOffset, sceneFixtures } from './scenery-presets';
 import type { Bounds, Point } from './world';
 import type { ArtPlacement, WorldVisualDefinition, SiteWall } from './world-visuals';
@@ -44,43 +46,9 @@ export function solidIntersection(a: Solid, b: Solid): Bounds | undefined {
     )
       return undefined;
   }
-  let polygon = ac;
-  // Compute the actual intersection polygon; overlapping bounding boxes can extend far
-  // beyond a short butt join when retaining edges run diagonally.
-  const cross = (a: Point, b: Point, p: Point) =>
-    (b.x - a.x) * (p.z - a.z) - (b.z - a.z) * (p.x - a.x);
-  for (let k = 0; k < bc.length; k++) {
-    const u = bc[k]!,
-      v = bc[(k + 1) % bc.length]!,
-      input = polygon;
-    polygon = [];
-    for (let i = 0; i < input.length; i++) {
-      const p = input[i]!,
-        q = input[(i + 1) % input.length]!,
-        cp = cross(u, v, p),
-        cq = cross(u, v, q),
-        pin = cp >= -1e-9,
-        qin = cq >= -1e-9;
-      if (pin) polygon.push(p);
-      if (pin !== qin) {
-        const t = cp / (cp - cq);
-        polygon.push({ x: p.x + (q.x - p.x) * t, z: p.z + (q.z - p.z) * t });
-      }
-    }
-  }
-  if (!polygon.length) return undefined;
-  return {
-    minX: Math.min(...polygon.map((p) => p.x)),
-    maxX: Math.max(...polygon.map((p) => p.x)),
-    minZ: Math.min(...polygon.map((p) => p.z)),
-    maxZ: Math.max(...polygon.map((p) => p.z)),
-  };
+  const polygon = clipPolygon(ac, bc, 1e-9);
+  return polygon.length ? polygonBounds(polygon) : undefined;
 }
-const within = (region: Bounds, point: Point) =>
-  point.x >= region.minX &&
-  point.x <= region.maxX &&
-  point.z >= region.minZ &&
-  point.z <= region.maxZ;
 export function sceneArtFindings(art: WorldVisualDefinition): ArtFinding[] {
   const findings: ArtFinding[] = [],
     ids = new Set<string>();
@@ -180,8 +148,8 @@ export function sceneArtFindings(art: WorldVisualDefinition): ArtFinding[] {
       const allowance = art.overlaps?.find(
         (v) =>
           ((v.a === a.id && v.b === b.id) || (v.a === b.id && v.b === a.id)) &&
-          within(v.region, { x: hit.minX, z: hit.minZ }) &&
-          within(v.region, { x: hit.maxX, z: hit.maxZ }),
+          contains(v.region, { x: hit.minX, z: hit.minZ }) &&
+          contains(v.region, { x: hit.maxX, z: hit.maxZ }),
       );
       if (allowance) continue;
       findings.push({
