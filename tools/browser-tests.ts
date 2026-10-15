@@ -1,3 +1,4 @@
+import { onAsyncExit } from './scope-exit';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -62,41 +63,35 @@ async function browserTests(args: string[]) {
     return;
   }
   const lane = await acquireCommandLane({ command: 'test:browser' });
-  try {
-    const { openPreview } = await import('./preview-session');
-    const session = await openPreview({
-      output: built ? 'built' : 'development',
-      assets: mode,
-      scope,
-      port: Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
-      reuse: !built && !process.env.CI,
-      demand: true,
-    });
-    const workspace = session.workspace;
-    try {
-      await runProcess(
-        process.execPath,
-        ['--import', 'tsx', 'node_modules/@playwright/test/cli.js', 'test', ...forwarded],
-        {
-          cwd: projectRoot,
-          env: {
-            ...(workspace ? workspaceEnvironment(workspace) : process.env),
-            LANTERN_ASSET_SHA256: session.assetIdentity,
-            LANTERN_MANAGED_PREVIEW: '1',
-            LANTERN_TEST_BUILT: String(built),
-            LANTERN_TEST_ASSETS: mode,
-            LANTERN_TEST_SCOPE: scope,
-            LANTERN_TEST_TARGET: 'browser',
-          },
-          timeoutMs: args.includes('--ui') ? undefined : 30 * 60_000,
-        },
-      );
-    } finally {
-      await session.close();
-    }
-  } finally {
-    await lane.release();
-  }
+  await using _cleanup2 = onAsyncExit(() => lane.release());
+  const { openPreview } = await import('./preview-session');
+  const session = await openPreview({
+    output: built ? 'built' : 'development',
+    assets: mode,
+    scope,
+    port: Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
+    reuse: !built && !process.env.CI,
+    demand: true,
+  });
+  const workspace = session.workspace;
+  await using _cleanup1 = onAsyncExit(() => session.close());
+  await runProcess(
+    process.execPath,
+    ['--import', 'tsx', 'node_modules/@playwright/test/cli.js', 'test', ...forwarded],
+    {
+      cwd: projectRoot,
+      env: {
+        ...(workspace ? workspaceEnvironment(workspace) : process.env),
+        LANTERN_ASSET_SHA256: session.assetIdentity,
+        LANTERN_MANAGED_PREVIEW: '1',
+        LANTERN_TEST_BUILT: String(built),
+        LANTERN_TEST_ASSETS: mode,
+        LANTERN_TEST_SCOPE: scope,
+        LANTERN_TEST_TARGET: 'browser',
+      },
+      timeoutMs: args.includes('--ui') ? undefined : 30 * 60_000,
+    },
+  );
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
   browserTests(process.argv.slice(2)).catch((error) => {

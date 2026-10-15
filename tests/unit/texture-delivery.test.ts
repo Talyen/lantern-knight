@@ -1,3 +1,4 @@
+import { onExit } from '../../tools/scope-exit';
 import { manifestFixture } from '../fixtures/manifest';
 import { parseManifest } from '../../src/assets/schema';
 import test from 'node:test';
@@ -91,12 +92,9 @@ test('strict browser policy uses lossless artwork without starting the eval-base
     ownerDocument: { querySelector: () => ({ content: "script-src 'self' 'wasm-unsafe-eval'" }) },
   } as unknown as HTMLCanvasElement;
   const delivery = new TextureDelivery(canvas);
-  try {
-    assert.equal(delivery.choose(page).encoding, 'png');
-    assert.equal(delivery.choose(page).width, 512);
-  } finally {
-    delivery.dispose();
-  }
+  using _cleanup1 = onExit(() => delivery.dispose());
+  assert.equal(delivery.choose(page).encoding, 'png');
+  assert.equal(delivery.choose(page).width, 512);
 });
 
 test('wide atlas previews allow normal integer rounding without rejecting the asset', () => {
@@ -150,19 +148,16 @@ test('delivery prepares a verified texture before transfer and closes failed upl
       if (prepared === 2) throw new Error('upload failed');
     },
   );
-  try {
-    const texture = await delivery.decode(page);
-    assert.equal(prepared, 1);
-    assert.equal(closed, 0);
-    await assert.rejects(delivery.decode(page), /upload failed/);
-    assert.equal(closed, 1);
-    assert.equal(disposed, 1);
-    texture.dispose();
-    (texture.image as ImageBitmap).close();
-    assert.equal(closed, 2);
-  } finally {
-    delivery.dispose();
-  }
+  using _cleanup3 = onExit(() => delivery.dispose());
+  const texture = await delivery.decode(page);
+  assert.equal(prepared, 1);
+  assert.equal(closed, 0);
+  await assert.rejects(delivery.decode(page), /upload failed/);
+  assert.equal(closed, 1);
+  assert.equal(disposed, 1);
+  texture.dispose();
+  (texture.image as ImageBitmap).close();
+  assert.equal(closed, 2);
 });
 
 test('cancelled native bitmap decodes retain ownership until completion and never upload', async (t) => {
@@ -200,20 +195,17 @@ test('cancelled native bitmap decodes retain ownership until completion and neve
     controller.signal,
   );
   const rejected = assert.rejects(pending, /cancelled/);
-  try {
-    await started.promise;
-    controller.abort(new Error('cancelled'));
-    bitmap.resolve({
-      width: 2,
-      height: 3,
-      close: () => {
-        closed++;
-      },
-    } as ImageBitmap);
-    await rejected;
-    assert.equal(closed, 1);
-    assert.equal(uploaded, 0);
-  } finally {
-    delivery.dispose();
-  }
+  using _cleanup2 = onExit(() => delivery.dispose());
+  await started.promise;
+  controller.abort(new Error('cancelled'));
+  bitmap.resolve({
+    width: 2,
+    height: 3,
+    close: () => {
+      closed++;
+    },
+  } as ImageBitmap);
+  await rejected;
+  assert.equal(closed, 1);
+  assert.equal(uploaded, 0);
 });

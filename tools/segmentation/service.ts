@@ -1,3 +1,4 @@
+import { onExit } from '../scope-exit';
 import { readJson } from '../json-file';
 import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process';
 import fs from 'node:fs/promises';
@@ -129,27 +130,26 @@ export class SegmentationService {
         180000,
       );
       signal.addEventListener('abort', onAbort, { once: true });
-      try {
-        return await new Promise<unknown>((resolve, reject) => {
-          this.pending = { id, resolve, reject };
-          this.start().stdin.write(
-            JSON.stringify({
-              ...request,
-              id,
-              image,
-              identity: page.hash,
-              frameRect: [x, y, x + w, y + h],
-              canvas: manifest.asset.canvas,
-              trim: frame.trim,
-            }) + '\n',
-          );
-        });
-      } finally {
+      using _scopeExit1 = onExit(() => {
         clearTimeout(timer);
         signal.removeEventListener('abort', onAbort);
         this.idle = setTimeout(() => this.stop(), 300000);
         this.idle.unref();
-      }
+      });
+      return await new Promise<unknown>((resolve, reject) => {
+        this.pending = { id, resolve, reject };
+        this.start().stdin.write(
+          JSON.stringify({
+            ...request,
+            id,
+            image,
+            identity: page.hash,
+            frameRect: [x, y, x + w, y + h],
+            canvas: manifest.asset.canvas,
+            trim: frame.trim,
+          }) + '\n',
+        );
+      });
     });
     this.queue = work.catch(() => {});
     return work;

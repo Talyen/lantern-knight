@@ -1,3 +1,4 @@
+import { onExit } from '../scope-exit';
 import { downloadFile } from './download';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -59,14 +60,13 @@ export async function openFileWorkspace(
   const slot = async <T>(work: () => Promise<T>) => {
     if (active >= 4) await new Promise<void>((resolve) => waiting.push(resolve));
     else active++;
-    try {
-      lifetime.signal.throwIfAborted();
-      return await work();
-    } finally {
+    using _scopeExit1 = onExit(() => {
       const next = waiting.shift();
       if (next) next();
       else active--;
-    }
+    });
+    lifetime.signal.throwIfAborted();
+    return await work();
   };
   const valid = async (file: string, info: { bytes: number; sha256: string }) => {
     try {

@@ -1,3 +1,4 @@
+import { onAsyncExit } from '../scope-exit';
 import { captureBenchmark } from '../diagnostics/benchmark';
 import { smokeLaunch, option } from '../smoke/smoke-launch';
 import { AssetCache } from '../assets/cache';
@@ -21,36 +22,35 @@ export async function nativeScene(flags: string[]) {
     fixture = sceneFixture(scene, area.entries[0]!);
   const run = await smokeLaunch(true, [], { flags }),
     held = await new AssetCache().lease('scene-native-' + process.pid);
-  try {
-    await run.page.evaluate(async (scene) => await window.foundation.fixture(scene), scene);
-    const context = {
-      page: run.page,
-      browser: run.app,
-      scene,
-      area,
-      art,
-      route: fixture.route,
-      foreground: fixture.foreground,
-      held,
-      initialLook: await run.page.evaluate(() => ({
-        ...window.foundation.presentation.lookRenderer.settings,
-      })),
-      capture: flags.includes('--capture'),
-      benchmark: flags.includes('--benchmark'),
-    };
-    await traverseScene(context);
-    await checkForeground(context);
-    if (art?.props.some((p) => p.fade) && !art.interior) await checkCutoutCoverage(run.page);
-    await checkSurround(context);
-    await checkRoomLifetime(context);
-    await checkPreviewReload(context);
-    if (context.benchmark) {
-      console.log(await benchmarkSurround(context));
-      await captureBenchmark(run);
-    }
-    await captureScene(context);
-  } finally {
+  await using _scopeExit1 = onAsyncExit(async () => {
     await run.close();
     await held.release();
+  });
+  await run.page.evaluate(async (scene) => await window.foundation.fixture(scene), scene);
+  const context = {
+    page: run.page,
+    browser: run.app,
+    scene,
+    area,
+    art,
+    route: fixture.route,
+    foreground: fixture.foreground,
+    held,
+    initialLook: await run.page.evaluate(() => ({
+      ...window.foundation.presentation.lookRenderer.settings,
+    })),
+    capture: flags.includes('--capture'),
+    benchmark: flags.includes('--benchmark'),
+  };
+  await traverseScene(context);
+  await checkForeground(context);
+  if (art?.props.some((p) => p.fade) && !art.interior) await checkCutoutCoverage(run.page);
+  await checkSurround(context);
+  await checkRoomLifetime(context);
+  await checkPreviewReload(context);
+  if (context.benchmark) {
+    console.log(await benchmarkSurround(context));
+    await captureBenchmark(run);
   }
+  await captureScene(context);
 }

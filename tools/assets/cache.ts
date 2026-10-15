@@ -1,3 +1,4 @@
+import { onAsyncExit } from '../scope-exit';
 import { readJson, writeJson } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -191,11 +192,8 @@ export class AssetCache {
         await new Promise((done) => setTimeout(done, 50));
       }
     }
-    try {
-      return await work();
-    } finally {
-      await fs.rm(lock, { recursive: true, force: true });
-    }
+    await using _cleanup1 = onAsyncExit(() => fs.rm(lock, { recursive: true, force: true }));
+    return await work();
   }
   private async entries() {
     const directory = path.join(this.root, 'entries');
@@ -239,12 +237,9 @@ export class AssetCache {
     return names.filter((name) => !name.endsWith('.json.tmp'));
   }
   private async writeJSON(file: string, value: unknown, temporary = file + '.tmp') {
-    try {
-      await writeJson(temporary, value);
-      await fs.rename(temporary, file);
-    } finally {
-      await fs.rm(temporary, { force: true });
-    }
+    await using _cleanup2 = onAsyncExit(() => fs.rm(temporary, { force: true }));
+    await writeJson(temporary, value);
+    await fs.rename(temporary, file);
   }
   private async overheadBytes() {
     let overhead = 0;

@@ -234,3 +234,35 @@ test('art preview leases end on dialog close and editor shutdown', async ({ page
   expect(await leaseCount()).toBe(0);
   expect(errors).toEqual([]);
 });
+
+test('a frame fault closes editor ownership and leaves visible failure feedback', async ({
+  page,
+  errors,
+}) => {
+  await openEditor(page);
+  await page.evaluate(() => {
+    const view = window.sceneEditor.view();
+    Object.assign(window, { failedFrameRuntime: view.runtime });
+    view.render = () => {
+      throw new Error('injected frame failure');
+    };
+  });
+  await expect(page.locator('#status')).toContainText('Editor stopped: injected frame failure');
+  expect(
+    await page.evaluate(() => {
+      const runtime = (
+        window as unknown as { failedFrameRuntime: import('../../src/assets/loader').AssetRuntime }
+      ).failedFrameRuntime;
+      let closed = false;
+      try {
+        runtime.seedManifest('unused', {});
+      } catch {
+        closed = true;
+      }
+      return { ready: window.sceneEditor.ready(), closed, resources: runtime.resourceCount };
+    }),
+  ).toEqual({ ready: false, closed: true, resources: 0 });
+  await page.keyboard.press('ControlOrMeta+k');
+  await expect(page.locator('#command-dialog')).not.toBeVisible();
+  expect(errors).toEqual([]);
+});

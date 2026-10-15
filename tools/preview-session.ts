@@ -1,3 +1,4 @@
+import { onAsyncExit } from './scope-exit';
 import fs from 'node:fs/promises';
 import { createServer, preview } from 'vite';
 import { openWorkspace, workspaceIdentity, type AssetWorkspace } from './assets/workspace';
@@ -97,11 +98,10 @@ export async function openPreview(options: PreviewOptions) {
       async close() {
         if (closed) return;
         closed = true;
-        try {
-          await owned?.close();
-        } finally {
+        await using _scopeExit1 = onAsyncExit(async () => {
           await workspace?.release();
-        }
+        });
+        await owned?.close();
       },
     };
   } catch (error) {

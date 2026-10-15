@@ -1,3 +1,4 @@
+import { derivedSource, stillFrame } from '../definition';
 import sharp from 'sharp';
 import { alphaBounds } from '../pixels';
 import { hash } from '../../compiler';
@@ -23,53 +24,40 @@ export async function prepare(context: PreparationContext, check = false) {
     const bounds = alphaBounds(raw.data, raw.info.width, raw.info.height, 180);
     if (!bounds) throw new Error('Empty churchyard silhouette: ' + file);
     const { minX, maxX, minY, maxY } = bounds;
-    const source: Source = {
-      schemaVersion: 2,
-      asset: {
-        ...template.asset,
-        id,
-        type: kind === 'roof' ? 'material' : 'prop',
-        canvas: kind === 'roof' ? [1024, 1024] : [raw.info.width, raw.info.height],
-        sampling: kind === 'roof' ? 'terrain-mipmapped' : undefined,
-        anchor:
-          kind === 'roof'
-            ? [512, 512]
-            : kind === 'oak' || kind === 'woodland'
-              ? [(minX + maxX) / 2, maxY]
-              : [raw.info.width / 2, raw.info.height],
-        density:
-          kind === 'oak' || kind === 'woodland'
-            ? (maxY - minY) /
-              ((kind === 'woodland' ? 4.1 : 5.8) *
-                Math.cos((contract.elevationDeg * Math.PI) / 180))
-            : 256,
-        atlasSize: kind === 'roof' ? 1024 : 2048,
-        projection:
-          kind === 'roof' ? 'top-down' : kind === 'facade' ? 'front-view' : 'painted-cutout',
-        renderCategory: kind === 'roof' ? 'opaque' : 'cutout',
-        contentVersion: 'blackwood-v2',
-        provenance: {
-          creator:
-            'Built-in image_gen; canonical Clean INK prompt; model requested gpt-image-2.5 sunburst; routing not exposed',
-          license: 'Owner-authorized project artwork',
-          source: root,
-        },
-        recipe: 'blackwood-kit-v2',
-        requiredClips: [kind],
-        clips: {
-          [kind]: { d45: { frames: [kind], durationsMs: [1000], loop: true, notifies: [] } },
-        },
+    const source = derivedSource(template, {
+      id,
+      type: kind === 'roof' ? 'material' : 'prop',
+      canvas: kind === 'roof' ? [1024, 1024] : [raw.info.width, raw.info.height],
+      sampling: kind === 'roof' ? 'terrain-mipmapped' : undefined,
+      anchor:
+        kind === 'roof'
+          ? [512, 512]
+          : kind === 'oak' || kind === 'woodland'
+            ? [(minX + maxX) / 2, maxY]
+            : [raw.info.width / 2, raw.info.height],
+      density:
+        kind === 'oak' || kind === 'woodland'
+          ? (maxY - minY) /
+            ((kind === 'woodland' ? 4.1 : 5.8) * Math.cos((contract.elevationDeg * Math.PI) / 180))
+          : 256,
+      atlasSize: kind === 'roof' ? 1024 : 2048,
+      projection:
+        kind === 'roof' ? 'top-down' : kind === 'facade' ? 'front-view' : 'painted-cutout',
+      renderCategory: kind === 'roof' ? 'opaque' : 'cutout',
+      contentVersion: 'blackwood-v2',
+      provenance: {
+        creator:
+          'Built-in image_gen; canonical Clean INK prompt; model requested gpt-image-2.5 sunburst; routing not exposed',
+        license: 'Owner-authorized project artwork',
+        source: root,
       },
-      frames: [
-        { id: kind, path: `ink/${id}/${kind}.png`, origin: 'imported-study', attachments: {} },
-      ],
-    };
-    const folder = `staging/ink/${id}`;
+      recipe: 'blackwood-kit-v2',
+    });
     const staged = await (kind === 'roof' ? sharp(b).resize(1024, 1024) : sharp(b))
       .ensureAlpha()
       .png()
       .toBuffer();
-    await write(`${folder}/${kind}.png`, staged);
+    await write(stillFrame(source, kind), staged);
     await pack(source);
     receipt.push({
       id,

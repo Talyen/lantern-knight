@@ -249,13 +249,9 @@ it('placement ghost releases rejected clips and can retry the same selection', a
 });
 
 it('placement ghost uses the latest cursor position after loading', async () => {
-  let complete!: (pack: Awaited<ReturnType<AssetRuntime['loadPack']>>) => void;
-  const runtime = {
-    loadPack: () =>
-      new Promise<Awaited<ReturnType<AssetRuntime['loadPack']>>>((resolve) => {
-        complete = resolve;
-      }),
-  };
+  const { promise: loaded, resolve: complete } =
+    Promise.withResolvers<Awaited<ReturnType<AssetRuntime['loadPack']>>>();
+  const runtime = { loadPack: () => loaded };
   const view = new EditorView({} as HTMLCanvasElement, runtime as unknown as AssetRuntime);
   Object.assign(view, {
     accepted: true,

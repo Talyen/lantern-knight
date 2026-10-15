@@ -1,3 +1,4 @@
+import { onAsyncExit } from './scope-exit';
 import { spawn } from 'node:child_process';
 // Each invocation owns one process group; cancellation asks its command to close first.
 export async function runProcess(
@@ -62,16 +63,7 @@ export async function runProcess(
     options.timeoutMs === undefined
       ? undefined
       : setTimeout(() => stop('deadline exceeded'), options.timeoutMs);
-  try {
-    await new Promise<void>((resolve, reject) => {
-      child.once('error', reject);
-      child.once('exit', (code, signal) =>
-        code === 0 && !stopped
-          ? resolve()
-          : reject(new Error(`${command} ${stopped ?? `exited ${code ?? signal}`}`)),
-      );
-    });
-  } finally {
+  await using _scopeExit1 = onAsyncExit(async () => {
     clearTimeout(timer);
     clearTimeout(force);
     process.off('SIGINT', interrupt);
@@ -82,7 +74,15 @@ export async function runProcess(
     await Promise.all(cleanup);
     child.stdout?.destroy();
     child.stderr?.destroy();
-  }
+  });
+  await new Promise<void>((resolve, reject) => {
+    child.once('error', reject);
+    child.once('exit', (code, signal) =>
+      code === 0 && !stopped
+        ? resolve()
+        : reject(new Error(`${command} ${stopped ?? `exited ${code ?? signal}`}`)),
+    );
+  });
 }
 
 export async function untilInterrupted() {

@@ -1,3 +1,4 @@
+import { onAsyncExit } from '../../tools/scope-exit';
 import { writeJson } from '../../tools/json-file';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import { test, after } from 'node:test';
@@ -40,17 +41,12 @@ function compiledFixture() {
       .png()
       .toFile(path.join(root, 'sample.png'));
     const output = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-manifest-fixture-'));
-    try {
-      const context = await writer(output);
-      return {
-        root,
-        manifest: parseManifest(
-          await context.compile('valid.json', 'public/generated', false, root),
-        ),
-      };
-    } finally {
-      await fs.rm(output, { recursive: true, force: true });
-    }
+    await using _cleanup1 = onAsyncExit(() => fs.rm(output, { recursive: true, force: true }));
+    const context = await writer(output);
+    return {
+      root,
+      manifest: parseManifest(await context.compile('valid.json', 'public/generated', false, root)),
+    };
   })());
 }
 const fixtureTexts: Record<string, string> = {};

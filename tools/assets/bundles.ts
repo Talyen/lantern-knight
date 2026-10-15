@@ -1,3 +1,4 @@
+import { onAsyncExit } from '../scope-exit';
 import { readJson, writeJson } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -226,31 +227,28 @@ export async function ensureBundlePack(
         throw new Error('Bundle assembly is in use; stop its readers before repairing it');
       const incoming = path.join(held.root, '.bundle-incoming');
       await fs.rm(incoming, { recursive: true, force: true });
-      try {
-        for (const part of parts) {
-          const data = await readJson(path.join(part.root, 'pack.json'));
-          for (const file of Object.keys(data.files)) {
-            const target = path.join(incoming, file);
-            await fs.mkdir(path.dirname(target), { recursive: true });
-            await fs.link(path.join(part.root, file), target);
-          }
+      await using _cleanup1 = onAsyncExit(() => fs.rm(incoming, { recursive: true, force: true }));
+      for (const part of parts) {
+        const data = await readJson(path.join(part.root, 'pack.json'));
+        for (const file of Object.keys(data.files)) {
+          const target = path.join(incoming, file);
+          await fs.mkdir(path.dirname(target), { recursive: true });
+          await fs.link(path.join(part.root, file), target);
         }
-        await fs.mkdir(path.join(incoming, 'metadata'), { recursive: true });
-        await fs.writeFile(path.join(incoming, 'pack.json'), inventory);
-        await validatePack(incoming, assembly);
-        for (const name of ['public', 'metadata', 'pack.json']) {
-          await fs.rm(path.join(held.root, name), { recursive: true, force: true });
-          await fs.rename(path.join(incoming, name), path.join(held.root, name));
-        }
-        await verifiedOutput(
-          held.root,
-          [...Object.keys(files), 'pack.json'],
-          async () => {},
-          '.verified-pack.json',
-        );
-      } finally {
-        await fs.rm(incoming, { recursive: true, force: true });
       }
+      await fs.mkdir(path.join(incoming, 'metadata'), { recursive: true });
+      await fs.writeFile(path.join(incoming, 'pack.json'), inventory);
+      await validatePack(incoming, assembly);
+      for (const name of ['public', 'metadata', 'pack.json']) {
+        await fs.rm(path.join(held.root, name), { recursive: true, force: true });
+        await fs.rename(path.join(incoming, name), path.join(held.root, name));
+      }
+      await verifiedOutput(
+        held.root,
+        [...Object.keys(files), 'pack.json'],
+        async () => {},
+        '.verified-pack.json',
+      );
     });
     return held;
   } catch (error) {

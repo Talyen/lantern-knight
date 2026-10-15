@@ -333,3 +333,116 @@ test(
     assert.equal(app.settingsError, '', 'Late host results cannot modify the closed application');
   },
 );
+
+test('a failed frame closes cadence before reporting even after reentrant focus changes', (t) => {
+  const e = environment(t);
+  const failure = new Error('render failed');
+  let reports = 0;
+  const scheduler = new FrameScheduler(
+    () => {
+      e.blur();
+      throw failure;
+    },
+    () => {},
+    false,
+    (error) => {
+      assert.equal(error, failure);
+      reports++;
+      e.focus();
+      assert.equal(e.pending, 0);
+    },
+  );
+  e.raf();
+  e.time(2000);
+  assert.equal(reports, 1);
+  assert.equal(e.pending, 0);
+  scheduler.dispose();
+});
+
+test('Application frame failure revokes readiness, releases assets and reports after cleanup', async (t) => {
+  const e = environment(t),
+    runtime = new AssetRuntime({});
+  let released = 0,
+    disposed = 0,
+    fail = false;
+  t.mock.method(AssetRuntime, 'open', async () => runtime);
+  t.mock.method(
+    runtime,
+    'loadPack',
+    async () => ({ release: () => released++ }) as unknown as PackLease,
+  );
+  const app = new Application(
+    Object.assign(new EventTarget(), { dataset: {} }) as HTMLCanvasElement,
+    {},
+    { automatedRun: true, loadSettings: async () => ({ status: 'empty' }) } as Bridge,
+    sceneFixture(content),
+    () =>
+      presentationFixture({
+        update: () => {
+          if (fail) throw new Error('frame GPU failure');
+        },
+        dispose: () => disposed++,
+      }),
+    {
+      status: (message) => {
+        assert.match(message, /Application stopped:.*frame GPU failure/);
+        assert.equal(app.ready, false);
+        assert.equal(disposed, 1);
+        assert.equal(released, 1);
+      },
+      pause: () => {},
+      frame: () => {},
+    },
+    { extraAssets: ['frame-asset'] },
+  );
+  await app.boot();
+  fail = true;
+  e.raf();
+  assert.equal(app.ready, false);
+  assert.equal(app.roomReady, false);
+  assert.equal(app.canvas.dataset.ready, undefined);
+  assert.equal(app.packs.size, 0);
+  assert.equal(e.pending, 0);
+  await assert.rejects(app.newGame(), /disposed/);
+  app.dispose();
+  assert.equal(disposed, 1);
+});
+
+test('scheduler construction and focus-reset faults remove listeners and revoke cadence', (t) => {
+  const e = environment(t);
+  let resets = 0;
+  assert.throws(
+    () =>
+      new FrameScheduler(
+        () => {},
+        () => {
+          resets++;
+          throw new Error('initial reset failed');
+        },
+      ),
+    /initial reset failed/,
+  );
+  e.blur();
+  e.focus();
+  assert.equal(resets, 1);
+  assert.equal(e.pending, 0);
+  let reported = 0;
+  const scheduler = new FrameScheduler(
+    () => {},
+    () => {
+      if (++resets === 3) throw new Error('focus reset failed');
+    },
+    false,
+    (error) => {
+      assert.match(String(error), /focus reset failed/);
+      reported++;
+    },
+  );
+  e.blur();
+  e.focus();
+  e.raf();
+  assert.equal(reported, 1);
+  assert.equal(resets, 3);
+  assert.equal(e.pending, 0);
+  scheduler.dispose();
+});

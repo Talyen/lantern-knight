@@ -1,3 +1,4 @@
+import { groundFixture } from '../fixtures/ground';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import { it } from 'node:test';
 import assert from 'node:assert/strict';
@@ -15,12 +16,8 @@ it('retains independent interaction revisions after scene deletion, clearing and
     scenes = new SceneStore(path.join(root, 'scenes'), undefined, profiles),
     d = emptyScene();
   d.floor.layout = 'artwork';
-  d.groundInteraction = {
-    asset: d.floor.asset,
-    frame: 'frame',
-    hash: 'a'.repeat(64),
-    dimensions: [4096, 4096],
-    regions: [
+  d.groundInteraction = groundFixture(
+    [
       {
         id: 'tree',
         name: 'Tree',
@@ -48,8 +45,13 @@ it('retains independent interaction revisions after scene deletion, clearing and
         depth: { kind: 'anchor', point: { x: 2, z: 2 } },
       },
     ],
-    destinations: [{ name: 'Gap', x: 3, z: 3 }],
-  };
+    {
+      asset: d.floor.asset,
+      frame: 'frame',
+      dimensions: [4096, 4096],
+      destinations: [{ name: 'Gap', x: 3, z: 3 }],
+    },
+  );
   const saved = await scenes.save(d, null),
     first = (await profiles.list())[0]!;
   const original = await profiles.read(first.id);

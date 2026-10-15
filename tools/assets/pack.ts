@@ -1,3 +1,4 @@
+import { onAsyncExit } from '../scope-exit';
 import { readJson } from '../json-file';
 import { downloadFile } from './download';
 export { recipeInputs, recipeHash } from './recipe';
@@ -292,11 +293,8 @@ export async function installMutex<T>(root: string, work: () => Promise<T>) {
       await new Promise((done) => setTimeout(done, 50));
     }
   }
-  try {
-    return await work();
-  } finally {
-    await fs.rm(file, { force: true });
-  }
+  await using _cleanup1 = onAsyncExit(() => fs.rm(file, { force: true }));
+  return await work();
 }
 export async function ensurePack(
   lock: AssetLock,
@@ -326,36 +324,35 @@ export async function ensurePack(
       await held.reserve(lock.bytes + (await diskBytes(held.root)));
       const archive = path.join(held.root, '.download-' + randomUUID()),
         incoming = path.join(held.root, '.incoming-' + randomUUID());
-      try {
-        await downloadFile(url, lock, archive, request);
-        const { inventory, bytes: inventoryBytes } = await archiveInventory(archive, lock);
-        const unpacked = Object.values(inventory.files).reduce(
-          (sum, file) => sum + file.bytes,
-          inventoryBytes,
-        );
-        await held.reserve(unpacked + (await diskBytes(held.root)) + 4096);
-        await fs.mkdir(incoming);
-        await extractArchive(archive, incoming, inventory);
-        await validatePack(incoming, lock);
-        await fs.mkdir(path.join(incoming, 'metadata'), { recursive: true });
-        for (const name of ['public', 'metadata', 'pack.json']) {
-          await fs.rm(path.join(held.root, name), {
-            recursive: true,
-            force: true,
-          });
-          await fs.rename(path.join(incoming, name), path.join(held.root, name));
-        }
-        await verifiedOutput(
-          held.root,
-          [...Object.keys(inventory.files), 'pack.json'],
-          async () => {},
-          '.verified-pack.json',
-        );
-      } finally {
+      await using _scopeExit2 = onAsyncExit(async () => {
         await fs.rm(archive, { force: true });
         await fs.rm(incoming, { recursive: true, force: true });
         await held.reserve(0);
+      });
+      await downloadFile(url, lock, archive, request);
+      const { inventory, bytes: inventoryBytes } = await archiveInventory(archive, lock);
+      const unpacked = Object.values(inventory.files).reduce(
+        (sum, file) => sum + file.bytes,
+        inventoryBytes,
+      );
+      await held.reserve(unpacked + (await diskBytes(held.root)) + 4096);
+      await fs.mkdir(incoming);
+      await extractArchive(archive, incoming, inventory);
+      await validatePack(incoming, lock);
+      await fs.mkdir(path.join(incoming, 'metadata'), { recursive: true });
+      for (const name of ['public', 'metadata', 'pack.json']) {
+        await fs.rm(path.join(held.root, name), {
+          recursive: true,
+          force: true,
+        });
+        await fs.rename(path.join(incoming, name), path.join(held.root, name));
       }
+      await verifiedOutput(
+        held.root,
+        [...Object.keys(inventory.files), 'pack.json'],
+        async () => {},
+        '.verified-pack.json',
+      );
     });
     return held;
   } catch (error) {
@@ -380,34 +377,33 @@ export async function installMatchingPreparation(
     return false;
   const held = await cache.lease('preparation');
   const incoming = path.join(destination.root, '.incoming-' + randomUUID());
-  try {
-    const payload = path.join(held.root, 'work/payload');
-    let inventory: Awaited<ReturnType<typeof validatePack>>;
-    try {
-      inventory = await validatePack(payload, lock);
-    } catch {
-      return false;
-    }
-    await destination.reserve(
-      Object.values(inventory.files).reduce((n, f) => n + f.bytes, 0) +
-        64 * 1024 +
-        (await diskBytes(destination.root)),
-    );
-    for (const file of [...Object.keys(inventory.files), 'pack.json']) {
-      safeRelative(file);
-      const target = path.join(incoming, file);
-      await fs.mkdir(path.dirname(target), { recursive: true });
-      await fs.link(path.join(payload, file), target);
-    }
-    await validatePack(incoming, lock);
-    for (const name of ['public', 'metadata', 'pack.json']) {
-      await fs.rm(path.join(destination.root, name), { recursive: true, force: true });
-      await fs.rename(path.join(incoming, name), path.join(destination.root, name));
-    }
-    console.log('Reused exact pinned preparation payload; no download or extraction.');
-    return true;
-  } finally {
+  await using _scopeExit1 = onAsyncExit(async () => {
     await fs.rm(incoming, { recursive: true, force: true });
     await held.release();
+  });
+  const payload = path.join(held.root, 'work/payload');
+  let inventory: Awaited<ReturnType<typeof validatePack>>;
+  try {
+    inventory = await validatePack(payload, lock);
+  } catch {
+    return false;
   }
+  await destination.reserve(
+    Object.values(inventory.files).reduce((n, f) => n + f.bytes, 0) +
+      64 * 1024 +
+      (await diskBytes(destination.root)),
+  );
+  for (const file of [...Object.keys(inventory.files), 'pack.json']) {
+    safeRelative(file);
+    const target = path.join(incoming, file);
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    await fs.link(path.join(payload, file), target);
+  }
+  await validatePack(incoming, lock);
+  for (const name of ['public', 'metadata', 'pack.json']) {
+    await fs.rm(path.join(destination.root, name), { recursive: true, force: true });
+    await fs.rename(path.join(incoming, name), path.join(destination.root, name));
+  }
+  console.log('Reused exact pinned preparation payload; no download or extraction.');
+  return true;
 }

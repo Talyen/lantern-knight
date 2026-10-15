@@ -1,3 +1,4 @@
+import { onExit } from '../../tools/scope-exit';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import { emptyScene } from '../../src/editor/default-scene';
 import { sceneFixture } from '../fixtures/scene';
@@ -255,20 +256,19 @@ describe('scene file saving', () => {
     const store = new SceneStore(directory, async (d) => {
       if (d.id === 'first') await blocked;
     });
-    try {
-      const first = store.save({ ...emptyScene(), id: 'first' }, null);
-      const candidate = { ...emptyScene(), id: 'second', name: 'Requested scene' };
-      const second = store.save(candidate, null);
-      candidate.name = 'Late mutation';
-      candidate.floor.width = 999;
+    using _scopeExit1 = onExit(() => {
       release();
-      await Promise.all([first, second]);
-      const saved = (await store.read('second')).document!;
-      assert.equal(saved.name, 'Requested scene');
-      assert.equal(saved.floor.width, emptyScene().floor.width);
-    } finally {
-      release();
-    }
+    });
+    const first = store.save({ ...emptyScene(), id: 'first' }, null);
+    const candidate = { ...emptyScene(), id: 'second', name: 'Requested scene' };
+    const second = store.save(candidate, null);
+    candidate.name = 'Late mutation';
+    candidate.floor.width = 999;
+    release();
+    await Promise.all([first, second]);
+    const saved = (await store.read('second')).document!;
+    assert.equal(saved.name, 'Requested scene');
+    assert.equal(saved.floor.width, emptyScene().floor.width);
   });
   it('round-trips, rejects simultaneous writes, and preserves malformed external files', async (t) => {
     const directory = await temporaryDirectory(t, 'lantern-editor-');

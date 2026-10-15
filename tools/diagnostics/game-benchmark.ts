@@ -22,11 +22,11 @@ export const GameBenchmarkSchema = BenchmarkSchema.omit({
   source: true,
 })
   .extend({
-    schemaVersion: z.union([z.literal(3), z.literal(4)]),
+    schemaVersion: z.union([z.literal(3), z.literal(4), z.literal(5)]),
     source: z.object({ commit: z.string().nullable(), dirty: z.boolean(), sha256: z.string() }),
     environment: z.union([
       BenchmarkSchema.shape.environment.extend({
-        scenario: z.literal('game-empty-v1'),
+        scenario: z.enum(['game-empty-v1', 'game-authored-v1']),
         warmupMs: z.literal(0),
       }),
       BenchmarkSchema.shape.environment.extend({
@@ -45,7 +45,8 @@ export const GameBenchmarkSchema = BenchmarkSchema.omit({
   .refine((record) => {
     const walking = record.environment.scenario === 'game-walking-v1';
     return (
-      record.schemaVersion === (walking ? 4 : 3) &&
+      record.schemaVersion ===
+        (walking ? 4 : record.environment.scenario === 'game-authored-v1' ? 5 : 3) &&
       record.segments.length === (walking ? 1 : journeyPhases.length) &&
       record.segments.every((s, i) => s.name === journeyPhases[i])
     );
@@ -170,7 +171,7 @@ export async function startGameBenchmark(
       ...rendering,
       ...(walking
         ? { scenario: 'game-walking-v1' as const, warmupMs: 1000 as const }
-        : { scenario: 'game-empty-v1' as const, warmupMs: 0 as const }),
+        : { scenario: 'game-authored-v1' as const, warmupMs: 0 as const }),
       assets: loaded.assets.sha256,
     };
   };
@@ -273,7 +274,7 @@ export async function startGameBenchmark(
       );
       await requireStableInputs(process.cwd(), source);
       record = GameBenchmarkSchema.parse({
-        schemaVersion: walking ? 4 : 3,
+        schemaVersion: walking ? 4 : 5,
         recordedAt: new Date().toISOString(),
         source,
         build: {

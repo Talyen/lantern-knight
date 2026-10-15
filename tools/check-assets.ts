@@ -1,3 +1,4 @@
+import { onAsyncExit } from './scope-exit';
 import { readPreparedAudio } from './assets/prepared-audio';
 import { validateLightingBindings, type LightingBinding } from './lighting-bindings';
 import assert from 'node:assert/strict';
@@ -91,9 +92,6 @@ export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirecto
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const workspace = await openWorkspace();
-  try {
-    await checkAssets(workspace);
-  } finally {
-    await workspace.release();
-  }
+  await using _cleanup1 = onAsyncExit(() => workspace.release());
+  await checkAssets(workspace);
 }

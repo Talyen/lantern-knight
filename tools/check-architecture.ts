@@ -1,3 +1,4 @@
+import { onExit } from './scope-exit';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { API } from 'typescript/unstable/sync';
@@ -60,75 +61,70 @@ function importFinding(file: string, target: string, typeOnly = false) {
 async function checkArchitecture(root: string, files: string[]) {
   const api = new API({ cwd: root }),
     findings: string[] = [];
-  try {
-    const snapshot = api.updateSnapshot({ openProjects: [path.join(root, 'tsconfig.json')] }),
-      project = snapshot.getProject(path.join(root, 'tsconfig.json'));
-    if (!project) throw new Error('Architecture checker could not open tsconfig.json');
-    for (const file of files.filter(
-      (f) => /^(?:src|electron)\//.test(f) && /\.[cm]?tsx?$/.test(f),
-    )) {
-      try {
-        await fs.access(path.join(root, file));
-      } catch (error) {
-        if ((error as NodeJS.ErrnoException).code === 'ENOENT') continue;
-        throw error;
-      }
-      const source = project.program.getSourceFile(path.join(root, file));
-      if (!source) throw new Error(`Runtime file is outside tsconfig: ${file}`);
-      inspectImports(project, source, ({ name, resolved, line, typeOnly }) => {
-        if (!name) {
-          findings.push(
-            `${file}:${line}: module imports must have a literal target for boundary validation`,
-          );
-          return;
-        }
-        const target =
-          resolved && !resolved.replaceAll('\\', '/').includes('/node_modules/')
-            ? path.relative(root, resolved).split(path.sep).join('/')
-            : name.startsWith('.')
-              ? path
-                  .relative(root, path.resolve(root, path.dirname(file), name))
-                  .split(path.sep)
-                  .join('/')
-              : name;
-        const finding = importFinding(file, target, typeOnly);
-        if (finding) findings.push(`${file}:${line}: ${name}: ${finding}`);
-      });
+  using _cleanup1 = onExit(() => api.close());
+  const snapshot = api.updateSnapshot({ openProjects: [path.join(root, 'tsconfig.json')] }),
+    project = snapshot.getProject(path.join(root, 'tsconfig.json'));
+  if (!project) throw new Error('Architecture checker could not open tsconfig.json');
+  for (const file of files.filter((f) => /^(?:src|electron)\//.test(f) && /\.[cm]?tsx?$/.test(f))) {
+    try {
+      await fs.access(path.join(root, file));
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === 'ENOENT') continue;
+      throw error;
     }
-    const edges = new Map<string, string[]>();
-    for (const file of files.filter((file) => file.startsWith('tools/') && /\.ts$/.test(file))) {
-      const source = project.program.getSourceFile(path.join(root, file));
-      if (!source) continue;
-      const targets: string[] = [];
-      inspectImports(project, source, ({ resolved, typeOnly }) => {
-        if (typeOnly || !resolved || resolved.replaceAll('\\', '/').includes('/node_modules/'))
-          return;
-        const target = path.relative(root, resolved).split(path.sep).join('/');
-        if (target.startsWith('tools/')) targets.push(target);
-      });
-      edges.set(file, targets);
-    }
-    const visited = new Set<string>(),
-      active: string[] = [];
-    const visit = (file: string) => {
-      if (active.includes(file)) {
+    const source = project.program.getSourceFile(path.join(root, file));
+    if (!source) throw new Error(`Runtime file is outside tsconfig: ${file}`);
+    inspectImports(project, source, ({ name, resolved, line, typeOnly }) => {
+      if (!name) {
         findings.push(
-          'Tool dependency cycle: ' + [...active.slice(active.indexOf(file)), file].join(' → '),
+          `${file}:${line}: module imports must have a literal target for boundary validation`,
         );
         return;
       }
-      if (visited.has(file)) return;
-      active.push(file);
-      for (const target of edges.get(file) ?? []) visit(target);
-      active.pop();
-      visited.add(file);
-    };
-    for (const file of edges.keys()) visit(file);
-    snapshot.dispose();
-    return findings;
-  } finally {
-    api.close();
+      const target =
+        resolved && !resolved.replaceAll('\\', '/').includes('/node_modules/')
+          ? path.relative(root, resolved).split(path.sep).join('/')
+          : name.startsWith('.')
+            ? path
+                .relative(root, path.resolve(root, path.dirname(file), name))
+                .split(path.sep)
+                .join('/')
+            : name;
+      const finding = importFinding(file, target, typeOnly);
+      if (finding) findings.push(`${file}:${line}: ${name}: ${finding}`);
+    });
   }
+  const edges = new Map<string, string[]>();
+  for (const file of files.filter((file) => file.startsWith('tools/') && /\.ts$/.test(file))) {
+    const source = project.program.getSourceFile(path.join(root, file));
+    if (!source) continue;
+    const targets: string[] = [];
+    inspectImports(project, source, ({ resolved, typeOnly }) => {
+      if (typeOnly || !resolved || resolved.replaceAll('\\', '/').includes('/node_modules/'))
+        return;
+      const target = path.relative(root, resolved).split(path.sep).join('/');
+      if (target.startsWith('tools/')) targets.push(target);
+    });
+    edges.set(file, targets);
+  }
+  const visited = new Set<string>(),
+    active: string[] = [];
+  const visit = (file: string) => {
+    if (active.includes(file)) {
+      findings.push(
+        'Tool dependency cycle: ' + [...active.slice(active.indexOf(file)), file].join(' → '),
+      );
+      return;
+    }
+    if (visited.has(file)) return;
+    active.push(file);
+    for (const target of edges.get(file) ?? []) visit(target);
+    active.pop();
+    visited.add(file);
+  };
+  for (const file of edges.keys()) visit(file);
+  snapshot.dispose();
+  return findings;
 }
 async function main() {
   const root = fileURLToPath(new URL('../', import.meta.url)),

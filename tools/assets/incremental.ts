@@ -1,3 +1,4 @@
+import { onAsyncExit } from '../scope-exit';
 import { readJson, writeJson } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -126,54 +127,50 @@ export async function cachedPreparationStep(options: {
   await fs.mkdir(temporary, { recursive: true });
   const outputs = path.join(temporary, 'outputs.log'),
     sources = path.join(temporary, 'sources.log');
-  try {
-    await options.run({ LANTERN_STEP_OUTPUT_LOG: outputs, LANTERN_STEP_INPUT_LOG: sources });
-    await options.validate?.();
-    const readLog = (file: string) =>
-      fs.readFile(file, 'utf8').catch((error: NodeJS.ErrnoException) => {
-        if (error.code === 'ENOENT') return '';
-        throw error;
-      });
-    const names = [...new Set((await readLog(outputs)).split('\n').filter(Boolean))];
-    if (options.file.endsWith('.py'))
-      names.push('staging/animation/flow.json', 'staging/animation/flow.png');
-    if (!names.length)
-      throw new Error('Preparation step recorded no owned output: ' + options.file);
-    names.sort();
-    const files = await (options.hashFiles?.(names) ?? fileChecksums(options.workspace, names));
-    await options.verifyOutputs?.(files);
-    await fs.mkdir(path.join(temporary, 'files'), { recursive: true });
-    for (const name of names) {
-      safeRelative(name);
-      if (!storedOutput(name, options.cachePublic)) continue;
-      const target = path.join(temporary, 'files', name),
-        original = path.join(options.workspace, name);
-      await fs.mkdir(path.dirname(target), { recursive: true });
-      await fs.link(original, target);
-    }
-    const sourceReads = (await readLog(sources))
-      .split('\n')
-      .filter(Boolean)
-      .map((line) => JSON.parse(line) as SourceRead);
-    const unique = [
-      ...new Map(sourceReads.map((source) => [JSON.stringify(source), source])).values(),
-    ];
-    const digest = createHash('sha256').update(JSON.stringify(files)).digest('hex');
-    await writeJson(path.join(temporary, 'receipt.json'), {
-      version: 1,
-      key: options.key,
-      digest,
-      files,
-      sources: unique,
-    } satisfies Receipt);
-    await fs.rm(outputs, { force: true });
-    await fs.rm(sources, { force: true });
-    await fs.rm(directory, { recursive: true, force: true });
-    await fs.rename(temporary, directory);
-    return { reused: false, digest, files: names, hashes: files };
-  } finally {
-    await fs.rm(temporary, { recursive: true, force: true });
+  await using _cleanup1 = onAsyncExit(() => fs.rm(temporary, { recursive: true, force: true }));
+  await options.run({ LANTERN_STEP_OUTPUT_LOG: outputs, LANTERN_STEP_INPUT_LOG: sources });
+  await options.validate?.();
+  const readLog = (file: string) =>
+    fs.readFile(file, 'utf8').catch((error: NodeJS.ErrnoException) => {
+      if (error.code === 'ENOENT') return '';
+      throw error;
+    });
+  const names = [...new Set((await readLog(outputs)).split('\n').filter(Boolean))];
+  if (options.file.endsWith('.py'))
+    names.push('staging/animation/flow.json', 'staging/animation/flow.png');
+  if (!names.length) throw new Error('Preparation step recorded no owned output: ' + options.file);
+  names.sort();
+  const files = await (options.hashFiles?.(names) ?? fileChecksums(options.workspace, names));
+  await options.verifyOutputs?.(files);
+  await fs.mkdir(path.join(temporary, 'files'), { recursive: true });
+  for (const name of names) {
+    safeRelative(name);
+    if (!storedOutput(name, options.cachePublic)) continue;
+    const target = path.join(temporary, 'files', name),
+      original = path.join(options.workspace, name);
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    await fs.link(original, target);
   }
+  const sourceReads = (await readLog(sources))
+    .split('\n')
+    .filter(Boolean)
+    .map((line) => JSON.parse(line) as SourceRead);
+  const unique = [
+    ...new Map(sourceReads.map((source) => [JSON.stringify(source), source])).values(),
+  ];
+  const digest = createHash('sha256').update(JSON.stringify(files)).digest('hex');
+  await writeJson(path.join(temporary, 'receipt.json'), {
+    version: 1,
+    key: options.key,
+    digest,
+    files,
+    sources: unique,
+  } satisfies Receipt);
+  await fs.rm(outputs, { force: true });
+  await fs.rm(sources, { force: true });
+  await fs.rm(directory, { recursive: true, force: true });
+  await fs.rename(temporary, directory);
+  return { reused: false, digest, files: names, hashes: files };
 }
 
 // Scoped preparation retains intermediate artwork needed by catalog-wide

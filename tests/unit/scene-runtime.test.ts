@@ -1,3 +1,4 @@
+import { onExit } from '../../tools/scope-exit';
 import { RoomPresentation } from '../../src/presentation/room-presentation';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -33,23 +34,22 @@ test('untextured diagnostics render terrain but require explicit visuals for sce
   const area = { ...content.area('court'), props: [], exits: [] };
   const texture = new T.CanvasTexture({} as HTMLCanvasElement);
   const room = new RoomPresentation(new Map(), makeCamera(1), texture, registration);
-  try {
-    room.buildRoom(area, undefined);
-    assert.equal(room.inkRoom, undefined);
-    assert.equal(room.room.children.length, 2, 'Diagnostic terrain and grid remain available');
-    for (const fields of [
-      { props: content.area('court').props },
-      { exits: content.area('court').exits },
-    ])
-      assert.throws(
-        () => room.buildRoom({ ...area, ...fields }, undefined),
-        /authored visual definition/,
-      );
-  } finally {
+  using _scopeExit1 = onExit(() => {
     room.disposeScenery();
     room.disposeResources();
     texture.dispose();
-  }
+  });
+  room.buildRoom(area, undefined);
+  assert.equal(room.inkRoom, undefined);
+  assert.equal(room.room.children.length, 2, 'Diagnostic terrain and grid remain available');
+  for (const fields of [
+    { props: content.area('court').props },
+    { exits: content.area('court').exits },
+  ])
+    assert.throws(
+      () => room.buildRoom({ ...area, ...fields }, undefined),
+      /authored visual definition/,
+    );
 });
 
 test('checkpoint restore preserves the next alternating sword attack', () => {
@@ -120,43 +120,34 @@ test('authored upright opacity survives both outdoor reveal and interior fade up
   for (const interior of [false, true])
     for (const fade of [false, true]) {
       const room = scenery(0.4, 0xffffff, fade, interior);
-      try {
-        const sprite = room.sprites[0]!;
-        assert.equal(sprite.material.opacity, 0.4);
-        assert.equal(sprite.material.transparent, true);
-        assert.equal(sprite.material.depthWrite, false);
-        const sim = new Simulation(content);
-        room.update(sim, 1, true, 1000);
-        assert.equal(sprite.material.opacity, 0.4);
-      } finally {
-        room.dispose();
-      }
+      using _cleanup4 = onExit(() => room.dispose());
+      const sprite = room.sprites[0]!;
+      assert.equal(sprite.material.opacity, 0.4);
+      assert.equal(sprite.material.transparent, true);
+      assert.equal(sprite.material.depthWrite, false);
+      const sim = new Simulation(content);
+      room.update(sim, 1, true, 1000);
+      assert.equal(sprite.material.opacity, 0.4);
     }
 });
 
 test('black is an accepted upright scenery tint', () => {
   const room = scenery(1, 0, false, false);
-  try {
-    assert.equal(room.sprites[0]!.material.color.getHex(), 0);
-  } finally {
-    room.dispose();
-  }
+  using _cleanup1 = onExit(() => room.dispose());
+  assert.equal(room.sprites[0]!.material.color.getHex(), 0);
 });
 
 test('placed sprites retain their authored occlusion roots without mesh metadata', () => {
   const room = scenery(1, 0xffffff, false, false),
     roots: unknown[] = [];
-  try {
-    room.occlude({
-      attach() {},
-      update(sprite, x, z) {
-        roots.push([sprite.id, x, z]);
-      },
-    });
-    assert.deepEqual(roots, [['prop', 0, 0]]);
-  } finally {
-    room.dispose();
-  }
+  using _cleanup3 = onExit(() => room.dispose());
+  room.occlude({
+    attach() {},
+    update(sprite, x, z) {
+      roots.push([sprite.id, x, z]);
+    },
+  });
+  assert.deepEqual(roots, [['prop', 0, 0]]);
 });
 
 test('external arrangements cannot inherit an unrelated health reward through matching object IDs', () => {
@@ -258,24 +249,21 @@ test('interactive scenery retains its authored pose while idle, claimed and rest
     },
   ];
   const { room } = roomFixture(prepared, art, sim);
-  try {
-    const sprite = room.sprites[0]!;
-    const position = sprite.mesh.position.clone();
-    const quaternion = sprite.mesh.quaternion.clone();
-    const scale = sprite.mesh.scale.clone();
-    for (const state of ['idle', 'claimed', 'restored']) {
-      if (state === 'claimed') {
-        Object.assign(sim.hero, { x: 1, z: 1 });
-        assert.equal(sim.openContainer('container'), true);
-        sim.drops = [];
-      } else if (state === 'restored') sim.objectActions.clear();
-      room.update(sim.view, 1, true, 0);
-      assert.deepEqual(sprite.mesh.position, position, state + ' position');
-      assert.deepEqual(sprite.mesh.quaternion.toArray(), quaternion.toArray(), state + ' rotation');
-      assert.deepEqual(sprite.mesh.scale, scale, state + ' scale');
-    }
-  } finally {
-    room.dispose();
+  using _cleanup9 = onExit(() => room.dispose());
+  const sprite = room.sprites[0]!;
+  const position = sprite.mesh.position.clone();
+  const quaternion = sprite.mesh.quaternion.clone();
+  const scale = sprite.mesh.scale.clone();
+  for (const state of ['idle', 'claimed', 'restored']) {
+    if (state === 'claimed') {
+      Object.assign(sim.hero, { x: 1, z: 1 });
+      assert.equal(sim.openContainer('container'), true);
+      sim.drops = [];
+    } else if (state === 'restored') sim.objectActions.clear();
+    room.update(sim.view, 1, true, 0);
+    assert.deepEqual(sprite.mesh.position, position, state + ' position');
+    assert.deepEqual(sprite.mesh.quaternion.toArray(), quaternion.toArray(), state + ' rotation');
+    assert.deepEqual(sprite.mesh.scale, scale, state + ' scale');
   }
 });
 
@@ -300,19 +288,16 @@ test('editor visibility preserves completed effect hiding before rendering', () 
     },
   };
   Object.assign(view, { renderer: presentation, simulation: sim, accepted: true });
-  try {
-    view.render(250);
-    assert.deepEqual(submitted, [false], 'A completed effect stays hidden in the submitted frame');
-    room.replay();
-    view.setEditingVisibility(new Set(['effect']));
-    view.render(50);
-    assert.equal(submitted.at(-1), false, 'Editor hiding still overrides a playing effect');
-    view.setEditingVisibility(new Set());
-    view.render(0);
-    assert.equal(submitted.at(-1), true, 'Showing a playing effect restores its visibility');
-  } finally {
-    room.dispose();
-  }
+  using _cleanup6 = onExit(() => room.dispose());
+  view.render(250);
+  assert.deepEqual(submitted, [false], 'A completed effect stays hidden in the submitted frame');
+  room.replay();
+  view.setEditingVisibility(new Set(['effect']));
+  view.render(50);
+  assert.equal(submitted.at(-1), false, 'Editor hiding still overrides a playing effect');
+  view.setEditingVisibility(new Set());
+  view.render(0);
+  assert.equal(submitted.at(-1), true, 'Showing a playing effect restores its visibility');
 });
 
 test('placed effects retain alpha blending at full opacity and after an occlusion fade', () => {
@@ -323,17 +308,14 @@ test('placed effects retain alpha blending at full opacity and after an occlusio
     { id: 'effect', asset: 'scenery', clip: 'idle', x: 0, z: 0, purpose: 'Effect', fade: true },
   ];
   const { room, sim } = roomFixture(prepared, art);
-  try {
-    assert.equal(room.sprites[0]!.material.transparent, true);
-    assert.equal(room.sprites[0]!.material.depthWrite, false);
-    setCutoutOpacity(room.sprites[0]!.material, 0.18);
-    setCutoutOpacity(room.sprites[0]!.material, 1);
-    room.update(sim, 1, true, 1000);
-    assert.equal(room.sprites[0]!.material.transparent, true);
-    assert.equal(room.sprites[0]!.material.depthWrite, false);
-  } finally {
-    room.dispose();
-  }
+  using _cleanup5 = onExit(() => room.dispose());
+  assert.equal(room.sprites[0]!.material.transparent, true);
+  assert.equal(room.sprites[0]!.material.depthWrite, false);
+  setCutoutOpacity(room.sprites[0]!.material, 0.18);
+  setCutoutOpacity(room.sprites[0]!.material, 1);
+  room.update(sim, 1, true, 1000);
+  assert.equal(room.sprites[0]!.material.transparent, true);
+  assert.equal(room.sprites[0]!.material.depthWrite, false);
 });
 
 test('collected pickups hide their artwork and shadows on every frame', () => {
@@ -360,21 +342,18 @@ test('collected pickups hide their artwork and shadows on every frame', () => {
   ];
   for (const prepared of [pack('scenery'), animatedPack()]) {
     const { room, group } = roomFixture(prepared, art, sim);
-    try {
-      assert.ok(group.children.length > 1, 'Fixture includes a pickup shadow');
-      for (let i = 0; i < 3; i++) {
-        room.update(sim.view, 1, true, 100);
-        room.contactShadows!.update();
-        assert.equal(room.contactShadows!.mesh.geometry.getAttribute('contactOpacity').getX(0), 0);
-        assert.ok(
-          group.children
-            .filter((m) => m !== room.sprites[0]!.mesh && m !== room.contactShadows!.mesh)
-            .every((m) => !m.visible),
-        );
-        assert.equal(room.sprites[0]!.mesh.visible, false);
-      }
-    } finally {
-      room.dispose();
+    using _cleanup8 = onExit(() => room.dispose());
+    assert.ok(group.children.length > 1, 'Fixture includes a pickup shadow');
+    for (let i = 0; i < 3; i++) {
+      room.update(sim.view, 1, true, 100);
+      room.contactShadows!.update();
+      assert.equal(room.contactShadows!.mesh.geometry.getAttribute('contactOpacity').getX(0), 0);
+      assert.ok(
+        group.children
+          .filter((m) => m !== room.sprites[0]!.mesh && m !== room.contactShadows!.mesh)
+          .every((m) => !m.visible),
+      );
+      assert.equal(room.sprites[0]!.mesh.visible, false);
     }
   }
 });
@@ -407,20 +386,17 @@ test('animated ground details conform to ramps after changing drawings', () => {
     },
   ];
   const { room } = roomFixture(prepared, art, sim);
-  try {
-    room.update(sim, 1, true, 150);
-    const sprite = room.sprites[0]!;
-    assert.equal(sprite.animator.frame, 'second-frame');
-    sprite.mesh.updateMatrixWorld(true);
-    const positions = sprite.geometry.getAttribute('position');
-    for (let i = 0; i < positions.count; i++) {
-      const p = new T.Vector3()
-        .fromBufferAttribute(positions, i)
-        .applyMatrix4(sprite.mesh.matrixWorld);
-      assert.ok(Math.abs(p.y - heightAt(sim.areaDefinition, p.x, p.z) - 0.018) < 1e-6);
-    }
-  } finally {
-    room.dispose();
+  using _cleanup7 = onExit(() => room.dispose());
+  room.update(sim, 1, true, 150);
+  const sprite = room.sprites[0]!;
+  assert.equal(sprite.animator.frame, 'second-frame');
+  sprite.mesh.updateMatrixWorld(true);
+  const positions = sprite.geometry.getAttribute('position');
+  for (let i = 0; i < positions.count; i++) {
+    const p = new T.Vector3()
+      .fromBufferAttribute(positions, i)
+      .applyMatrix4(sprite.mesh.matrixWorld);
+    assert.ok(Math.abs(p.y - heightAt(sim.areaDefinition, p.x, p.z) - 0.018) < 1e-6);
   }
 });
 
@@ -441,11 +417,8 @@ test('static tinted ground details color both the solid drawing and its soft edg
     },
   ];
   const { room } = roomFixture(prepared, art);
-  try {
-    const sprite = room.sprites[0]!;
-    assert.equal(sprite.material.color.getHex(), 0x223344);
-    assert.equal(sprite.edgeMaterial!.color.getHex(), 0x223344);
-  } finally {
-    room.dispose();
-  }
+  using _cleanup2 = onExit(() => room.dispose());
+  const sprite = room.sprites[0]!;
+  assert.equal(sprite.material.color.getHex(), 0x223344);
+  assert.equal(sprite.edgeMaterial!.color.getHex(), 0x223344);
 });

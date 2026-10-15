@@ -1,3 +1,4 @@
+import { onExit } from '../scope-exit';
 import { readJson, writeJson } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -77,65 +78,62 @@ export async function executeRecipe(
     for (const event of values) events[event.kind] = (events[event.kind] ?? 0) + 1;
     if (values.length) eventDigest = digest([eventDigest, values]);
   };
-  try {
-    for (const [index, a] of recipe.actions.entries()) {
-      await journal?.({ index, phase: 'attempted' });
-      if (a.kind === 'step')
-        for (let tick = 0; tick < a.ticks; tick++) {
-          const result = session.step(a.command);
-          observe(result.events);
-          if (result.reset) observe(session.resetCurrentArea(result.reset));
-          else if (result.transition) {
-            const plan = session.prepareTransition(result.transition);
-            observe(plan.events);
-            observe(session.commitRoom(plan));
-          }
-          areas.add(session.sim.area);
+  using _cleanup1 = onExit(() => persistence.dispose());
+  for (const [index, a] of recipe.actions.entries()) {
+    await journal?.({ index, phase: 'attempted' });
+    if (a.kind === 'step')
+      for (let tick = 0; tick < a.ticks; tick++) {
+        const result = session.step(a.command);
+        observe(result.events);
+        if (result.reset) observe(session.resetCurrentArea(result.reset));
+        else if (result.transition) {
+          const plan = session.prepareTransition(result.transition);
+          observe(plan.events);
+          observe(session.commitRoom(plan));
         }
-      else if (a.kind === 'reset') observe(session.resetCurrentArea());
-      else if (a.kind === 'save') {
-        const snapshot = session.captureSave();
-        await persistence.save(snapshot);
-        assert.deepEqual(
-          parseGame(JSON.parse(bytes!), registry),
-          snapshot,
-          'shipping save parser changed the checkpoint',
-        );
-      } else {
-        const loaded = await persistence.load();
-        if (loaded.status !== 'ok')
-          throw new Error('Replay Load requires a previously saved checkpoint');
-        observe(session.restoreSave(loaded.data));
         areas.add(session.sim.area);
-        assert.deepEqual(
-          session.captureSave(),
-          loaded.data,
-          'session did not restore supported checkpoint fields',
-        );
       }
-      // Include transient simulation state as well as persisted bytes; save-only hashes
-      // would miss divergence in action buffers, RNG and damage/event ordering.
-      hashes.push(
-        digest({
-          save: session.captureSave(),
-          sim: session.sim,
-          events,
-          eventDigest,
-          bytes: bytes ?? null,
-        }),
+    else if (a.kind === 'reset') observe(session.resetCurrentArea());
+    else if (a.kind === 'save') {
+      const snapshot = session.captureSave();
+      await persistence.save(snapshot);
+      assert.deepEqual(
+        parseGame(JSON.parse(bytes!), registry),
+        snapshot,
+        'shipping save parser changed the checkpoint',
       );
-      await journal?.({ index, phase: 'completed', hash: hashes.at(-1)! });
+    } else {
+      const loaded = await persistence.load();
+      if (loaded.status !== 'ok')
+        throw new Error('Replay Load requires a previously saved checkpoint');
+      observe(session.restoreSave(loaded.data));
+      areas.add(session.sim.area);
+      assert.deepEqual(
+        session.captureSave(),
+        loaded.data,
+        'session did not restore supported checkpoint fields',
+      );
     }
-    return {
-      hashes,
-      events,
-      areas: [...areas],
-      finalSave: session.captureSave(),
-      targeted: recipe.initialSave !== undefined,
-    };
-  } finally {
-    persistence.dispose();
+    // Include transient simulation state as well as persisted bytes; save-only hashes
+    // would miss divergence in action buffers, RNG and damage/event ordering.
+    hashes.push(
+      digest({
+        save: session.captureSave(),
+        sim: session.sim,
+        events,
+        eventDigest,
+        bytes: bytes ?? null,
+      }),
+    );
+    await journal?.({ index, phase: 'completed', hash: hashes.at(-1)! });
   }
+  return {
+    hashes,
+    events,
+    areas: [...areas],
+    finalSave: session.captureSave(),
+    targeted: recipe.initialSave !== undefined,
+  };
 }
 const identity = z.strictObject({
   identityVersion: z.union([z.literal(2), z.literal(3), z.literal(4)]).optional(),

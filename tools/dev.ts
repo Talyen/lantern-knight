@@ -1,3 +1,4 @@
+import { onAsyncExit } from './scope-exit';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
@@ -30,24 +31,21 @@ async function main() {
     reuse: true,
     demand: !values.eager,
   });
-  try {
-    if (values.preview) {
-      const url = session.origin + '/sandbox.html';
-      await runProcess('open', ['-a', 'Safari', url], {
-        cwd: path.dirname(fileURLToPath(import.meta.url)),
-      });
-      console.log('Dev Preview in Safari: ' + url);
-    }
-    console.log(session.origin);
-    console.log(
-      values.runtime
-        ? 'Game /index.html'
-        : 'Game /index.html · Dev Preview /sandbox.html · Editor /editor.html · Effects /effects.html',
-    );
-    if (session.ownsServer) await untilInterrupted();
-  } finally {
-    await session.close();
+  await using _cleanup1 = onAsyncExit(() => session.close());
+  if (values.preview) {
+    const url = session.origin + '/sandbox.html';
+    await runProcess('open', ['-a', 'Safari', url], {
+      cwd: path.dirname(fileURLToPath(import.meta.url)),
+    });
+    console.log('Dev Preview in Safari: ' + url);
   }
+  console.log(session.origin);
+  console.log(
+    values.runtime
+      ? 'Game /index.html'
+      : 'Game /index.html · Dev Preview /sandbox.html · Editor /editor.html · Effects /effects.html',
+  );
+  if (session.ownsServer) await untilInterrupted();
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
   main().catch((error) => {

@@ -140,7 +140,9 @@ export async function prepareImageDelivery(
   const receiptFile = `public/${root}/receipt.json`;
   const restored = await restoreImageDelivery(context, page, standalone, check);
   if (restored) return restored;
-  const temporary = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-image-delivery-'));
+  await using temporary = await fs.mkdtempDisposable(
+    path.join(os.tmpdir(), 'lantern-image-delivery-'),
+  );
   const files: Record<string, string> = {};
   const store = async (file: string, bytes: Buffer) => {
     await context.writeAsset('public/' + file, bytes);
@@ -168,162 +170,156 @@ export async function prepareImageDelivery(
   };
   let rejected = 0;
   const decisions: Receipt['decisions'] = [];
-  try {
-    const disk = await fs.statfs(temporary);
-    if (disk.bavail * disk.bsize < page.width * page.height * 16 + source.length * 2)
-      throw new Error('Insufficient temporary disk space for full-fidelity image encoding');
-    const transparent = metadata.hasAlpha
-      ? (await sharp(source).extractChannel('alpha').raw().toBuffer()).some((v) => v !== 255)
-      : false;
-    const previewBytes = await sharp(source)
-      .resize({ width: 512, height: 512, fit: 'inside', withoutEnlargement: true })
-      .ensureAlpha()
-      .png({ compressionLevel: recipeSettings.pngCompression })
-      .toBuffer();
-    const pm = await sharp(previewBytes).metadata();
-    const preview = await pngVariant(pm.width!, pm.height!, 'preview', previewBytes, false);
-    const sizes = standalone
-      ? [
-          ...new Set(
-            [2048, 4096, Math.max(page.width, page.height)].filter(
-              (n) => n <= Math.max(page.width, page.height),
-            ),
+  const disk = await fs.statfs(temporary.path);
+  if (disk.bavail * disk.bsize < page.width * page.height * 16 + source.length * 2)
+    throw new Error('Insufficient temporary disk space for full-fidelity image encoding');
+  const transparent = metadata.hasAlpha
+    ? (await sharp(source).extractChannel('alpha').raw().toBuffer()).some((v) => v !== 255)
+    : false;
+  const previewBytes = await sharp(source)
+    .resize({ width: 512, height: 512, fit: 'inside', withoutEnlargement: true })
+    .ensureAlpha()
+    .png({ compressionLevel: recipeSettings.pngCompression })
+    .toBuffer();
+  const pm = await sharp(previewBytes).metadata();
+  const preview = await pngVariant(pm.width!, pm.height!, 'preview', previewBytes, false);
+  const sizes = standalone
+    ? [
+        ...new Set(
+          [2048, 4096, Math.max(page.width, page.height)].filter(
+            (n) => n <= Math.max(page.width, page.height),
           ),
-        ]
-      : [Math.max(page.width, page.height)];
-    const delivery: Delivery[] = [];
-    for (const size of sizes) {
-      const scale = Math.min(1, size / Math.max(page.width, page.height));
-      const gcd = (a: number, b: number): number => (b ? gcd(b, a % b) : a);
-      const divisor = gcd(page.width, page.height),
-        unitWidth = page.width / divisor,
-        unitHeight = page.height / divisor;
-      const factor = Math.floor(size / Math.max(unitWidth, unitHeight) / 4) * 4;
-      const width =
-        scale < 1 && factor > 0 ? unitWidth * factor : Math.max(1, Math.round(page.width * scale));
-      const height =
-        scale < 1 && factor > 0
-          ? unitHeight * factor
-          : Math.max(1, Math.round(page.height * scale));
-      const mipmaps = page.mipmaps || (standalone && !transparent);
-      const png =
-        scale === 1
-          ? source
-          : await sharp(source)
-              .ensureAlpha()
-              .resize(width, height, { kernel: 'lanczos3', fit: 'fill' })
-              .png({ compressionLevel: recipeSettings.pngCompression })
-              .toBuffer();
-      delivery.push(await pngVariant(width, height, String(size), png, mipmaps));
-      // The renderer requests native detail. Reduced PNGs already cover devices
-      // with smaller texture limits; do not encode unused GPU tiers on every edit.
-      if (cookGpu && scale < 1) {
-        decisions.push({ width, height, reason: 'lossless-resolution-variant' });
-        continue;
-      }
-      if (!cookGpu || !useGpuCompression(transparent, width, height)) {
-        decisions.push({
-          width,
-          height,
-          reason: transparent
-            ? 'lossless-alpha'
-            : !cookGpu
-              ? 'lossless-preparation'
-              : 'lossless-block-dimensions',
-        });
-        continue;
-      }
-      const input = path.join(temporary, 'input.png'),
-        encoded = path.join(temporary, 'image.ktx2');
-      await fs.writeFile(input, png);
-      const tool =
-        context.environment.LANTERN_KTX ??
-        (await fs.access(fallbackTool).then(
-          () => fallbackTool,
-          () => 'ktx',
-        ));
-      let log = '';
-      const run = async (args: string[]) => {
-        try {
-          await runProcess(tool, args, {
-            cwd: temporary,
-            env: context.environment,
-            timeoutMs: 5 * 60_000,
-            output: (b) => {
-              log = (log + b.toString()).slice(-3000);
-            },
-          });
-        } catch (error) {
-          throw new Error(
-            'Khronos KTX encoder failed. Install KTX-Software 4.4.2 or set LANTERN_KTX. ' + log,
-            { cause: error },
-          );
-        }
-      };
-      await run([
-        'create',
-        '--format',
-        rgb ? 'R8G8B8_SRGB' : 'R8G8B8A8_SRGB',
-        '--assign-tf',
-        'srgb',
-        '--encode',
-        'uastc',
-        '--uastc-quality',
-        String(recipeSettings.uastcQuality),
-        '--threads',
-        '2',
-        '--zstd',
-        String(recipeSettings.zstdLevel),
-        '--convert-texcoord-origin',
-        'bottom-left',
-        '--testrun',
-        ...(mipmaps ? ['--generate-mipmap'] : []),
-        input,
-        encoded,
-      ]);
-      const bytes = await fs.readFile(encoded);
-      if (
-        bytes.length < 80 ||
-        !bytes.subarray(0, 12).equals(Buffer.from('ab4b5458203230bb0d0a1a0a', 'hex')) ||
-        bytes.readUInt32LE(20) !== width ||
-        bytes.readUInt32LE(24) !== height
-      )
-        throw new Error('Encoder produced an invalid image container');
-      if (bytes.length < png.length || blockGpuBytes(width, height, mipmaps) < width * height * 2) {
-        const file = `${root}/${size}.ktx2`;
-        await store(file, bytes);
-        delivery.push({
-          path: file,
-          hash: imageHash(bytes),
-          width,
-          height,
-          bytes: bytes.length,
-          gpuBytes: blockGpuBytes(width, height, mipmaps),
-          encoding: 'ktx2-uastc',
-          mipmaps,
-        });
-        decisions.push({ width, height, reason: 'gpu-high-quality' });
-      } else {
-        rejected++;
-        decisions.push({
-          width,
-          height,
-          reason: 'no-size-or-memory-benefit',
-        });
-      }
+        ),
+      ]
+    : [Math.max(page.width, page.height)];
+  const delivery: Delivery[] = [];
+  for (const size of sizes) {
+    const scale = Math.min(1, size / Math.max(page.width, page.height));
+    const gcd = (a: number, b: number): number => (b ? gcd(b, a % b) : a);
+    const divisor = gcd(page.width, page.height),
+      unitWidth = page.width / divisor,
+      unitHeight = page.height / divisor;
+    const factor = Math.floor(size / Math.max(unitWidth, unitHeight) / 4) * 4;
+    const width =
+      scale < 1 && factor > 0 ? unitWidth * factor : Math.max(1, Math.round(page.width * scale));
+    const height =
+      scale < 1 && factor > 0 ? unitHeight * factor : Math.max(1, Math.round(page.height * scale));
+    const mipmaps = page.mipmaps || (standalone && !transparent);
+    const png =
+      scale === 1
+        ? source
+        : await sharp(source)
+            .ensureAlpha()
+            .resize(width, height, { kernel: 'lanczos3', fit: 'fill' })
+            .png({ compressionLevel: recipeSettings.pngCompression })
+            .toBuffer();
+    delivery.push(await pngVariant(width, height, String(size), png, mipmaps));
+    // The renderer requests native detail. Reduced PNGs already cover devices
+    // with smaller texture limits; do not encode unused GPU tiers on every edit.
+    if (cookGpu && scale < 1) {
+      decisions.push({ width, height, reason: 'lossless-resolution-variant' });
+      continue;
     }
-    const receipt: Receipt = {
-      recipe,
-      sourceHash: page.hash,
-      preview,
-      delivery,
-      files,
-      rejected,
-      decisions,
+    if (!cookGpu || !useGpuCompression(transparent, width, height)) {
+      decisions.push({
+        width,
+        height,
+        reason: transparent
+          ? 'lossless-alpha'
+          : !cookGpu
+            ? 'lossless-preparation'
+            : 'lossless-block-dimensions',
+      });
+      continue;
+    }
+    const input = path.join(temporary.path, 'input.png'),
+      encoded = path.join(temporary.path, 'image.ktx2');
+    await fs.writeFile(input, png);
+    const tool =
+      context.environment.LANTERN_KTX ??
+      (await fs.access(fallbackTool).then(
+        () => fallbackTool,
+        () => 'ktx',
+      ));
+    let log = '';
+    const run = async (args: string[]) => {
+      try {
+        await runProcess(tool, args, {
+          cwd: temporary.path,
+          env: context.environment,
+          timeoutMs: 5 * 60_000,
+          output: (b) => {
+            log = (log + b.toString()).slice(-3000);
+          },
+        });
+      } catch (error) {
+        throw new Error(
+          'Khronos KTX encoder failed. Install KTX-Software 4.4.2 or set LANTERN_KTX. ' + log,
+          { cause: error },
+        );
+      }
     };
-    await context.writeAsset(receiptFile, JSON.stringify(receipt) + '\n');
-    return receipt;
-  } finally {
-    await fs.rm(temporary, { recursive: true, force: true });
+    await run([
+      'create',
+      '--format',
+      rgb ? 'R8G8B8_SRGB' : 'R8G8B8A8_SRGB',
+      '--assign-tf',
+      'srgb',
+      '--encode',
+      'uastc',
+      '--uastc-quality',
+      String(recipeSettings.uastcQuality),
+      '--threads',
+      '2',
+      '--zstd',
+      String(recipeSettings.zstdLevel),
+      '--convert-texcoord-origin',
+      'bottom-left',
+      '--testrun',
+      ...(mipmaps ? ['--generate-mipmap'] : []),
+      input,
+      encoded,
+    ]);
+    const bytes = await fs.readFile(encoded);
+    if (
+      bytes.length < 80 ||
+      !bytes.subarray(0, 12).equals(Buffer.from('ab4b5458203230bb0d0a1a0a', 'hex')) ||
+      bytes.readUInt32LE(20) !== width ||
+      bytes.readUInt32LE(24) !== height
+    )
+      throw new Error('Encoder produced an invalid image container');
+    if (bytes.length < png.length || blockGpuBytes(width, height, mipmaps) < width * height * 2) {
+      const file = `${root}/${size}.ktx2`;
+      await store(file, bytes);
+      delivery.push({
+        path: file,
+        hash: imageHash(bytes),
+        width,
+        height,
+        bytes: bytes.length,
+        gpuBytes: blockGpuBytes(width, height, mipmaps),
+        encoding: 'ktx2-uastc',
+        mipmaps,
+      });
+      decisions.push({ width, height, reason: 'gpu-high-quality' });
+    } else {
+      rejected++;
+      decisions.push({
+        width,
+        height,
+        reason: 'no-size-or-memory-benefit',
+      });
+    }
   }
+  const receipt: Receipt = {
+    recipe,
+    sourceHash: page.hash,
+    preview,
+    delivery,
+    files,
+    rejected,
+    decisions,
+  };
+  await context.writeAsset(receiptFile, JSON.stringify(receipt) + '\n');
+  return receipt;
 }

@@ -1,3 +1,4 @@
+import { onExit } from '../../tools/scope-exit';
 import { mockGlobals } from '../fixtures/globals';
 import { content } from '../fixtures/content';
 import { sandboxContent } from '../../src/content/sandbox-world';
@@ -41,21 +42,20 @@ test('adventure hotkeys ignore editable content and descendants of focused contr
   } as unknown as Application;
   const lifetime = new AbortController();
   bindAdventureUI(app, { append() {} } as unknown as HTMLElement, lifetime.signal);
-  try {
-    for (const target of [
-      { isContentEditable: true, closest: () => null },
-      { closest: (selector: string) => (selector.includes('button') ? {} : null) },
-    ]) {
-      const event = Object.assign(new Event('keydown'), { code: 'KeyE' });
-      Object.defineProperty(event, 'target', { value: target });
-      doc.dispatchEvent(event);
-    }
-    assert.equal(interactions, 0);
-    doc.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyE' }));
-    assert.equal(interactions, 1, 'canvas and window shortcuts remain available');
-  } finally {
+  using _scopeExit1 = onExit(() => {
     lifetime.abort();
+  });
+  for (const target of [
+    { isContentEditable: true, closest: () => null },
+    { closest: (selector: string) => (selector.includes('button') ? {} : null) },
+  ]) {
+    const event = Object.assign(new Event('keydown'), { code: 'KeyE' });
+    Object.defineProperty(event, 'target', { value: target });
+    doc.dispatchEvent(event);
   }
+  assert.equal(interactions, 0);
+  doc.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyE' }));
+  assert.equal(interactions, 1, 'canvas and window shortcuts remain available');
 });
 
 test('encounter retries preserve elapsed session ticks across generations', () => {
@@ -96,88 +96,85 @@ test('input uses the first click position, preserves pending dodge across key re
   const input = new Input(canvas as unknown as HTMLCanvasElement, makeCamera(4 / 3), () => {
     pauses++;
   });
-  try {
-    const sim = new Simulation(content, 142, content.definitions.initialArea, 1),
-      rect = canvas.getBoundingClientRect();
-    for (const button of [0, 2]) {
-      input.resetAim();
-      const clientX = 650,
-        clientY = 320;
-      canvas.dispatchEvent(Object.assign(new Event('pointerdown'), { button, clientX, clientY }));
-      const cmd = input.consume(sim.hero, sim.areaDefinition, sim.generation),
-        point = walkablePoint(input.camera, clientX, clientY, rect, sim.areaDefinition)!;
-      assert.ok(Math.abs(cmd.aim.x - point.x) < 1e-7);
-      assert.ok(Math.abs(cmd.aim.z - point.z) < 1e-7);
-      assert.equal(cmd.attack, button === 0);
-      assert.equal(cmd.ability, button === 2);
-    }
-    for (const modifier of ['ctrlKey', 'metaKey', 'altKey']) {
-      canvas.dispatchEvent(
-        Object.assign(new Event('pointerdown'), {
-          button: 0,
-          clientX: 650,
-          clientY: 320,
-          [modifier]: true,
-        }),
-      );
-      assert.equal(
-        input.consume(sim.hero, sim.areaDefinition, sim.generation).attack,
-        false,
-        'modified pointer gestures must not trigger combat',
-      );
-    }
-    for (const repeat of [false, true])
-      target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat }));
-    assert.equal(input.consume(sim.hero, sim.areaDefinition, sim.generation).dodge, true);
-    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: true }));
-    assert.equal(input.consume(sim.hero, sim.areaDefinition, sim.generation).dodge, false);
-    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
-    assert.ok(input.keys.has('KeyW'));
-    target.matches = () => true;
-    target.dispatchEvent(new Event('focusin'));
-    assert.equal(input.keys.size, 0, 'focusing a text field releases held movement');
-    target.matches = () => false;
-    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
-    target.matches = (selector: string) => selector.includes('button');
-    target.dispatchEvent(new Event('focusin'));
-    assert.equal(input.keys.size, 0, 'focusing a button releases held movement');
-    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
-    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: false }));
-    assert.equal(input.keys.size, 0, 'focused buttons cannot move the hero');
-    assert.equal(input.edges.dodge, false, 'focused buttons cannot trigger combat');
-    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'Escape', repeat: false }));
-    assert.equal(pauses, 1, 'Escape still toggles pause from a focused button');
-    input.clear();
-    target.matches = () => false;
-    target.closest = (selector) => (selector.includes('button') ? {} : null);
-    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
-    assert.equal(input.keys.size, 0, 'descendants of controls cannot move the hero');
-    input.keys.add('KeyW');
-    target.dispatchEvent(new Event('focusin'));
-    assert.equal(input.keys.size, 0, 'focus inside a control releases held movement');
-    target.closest = () => null;
-    for (const modifier of ['ctrlKey', 'metaKey', 'altKey']) {
-      target.dispatchEvent(
-        Object.assign(new Event('keydown'), {
-          code: 'KeyW',
-          repeat: false,
-          [modifier]: true,
-        }),
-      );
-      assert.equal(input.keys.size, 0, 'application shortcuts cannot move the hero');
-    }
+  using _cleanup2 = onExit(() => input.dispose());
+  const sim = new Simulation(content, 142, content.definitions.initialArea, 1),
+    rect = canvas.getBoundingClientRect();
+  for (const button of [0, 2]) {
     input.resetAim();
-    input.dispose();
-    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: false }));
-    canvas.dispatchEvent(
-      Object.assign(new Event('pointerdown'), { button: 0, clientX: 650, clientY: 320 }),
-    );
-    assert.equal(input.keys.size, 0);
-    assert.deepEqual(input.edges, { attack: false, dodge: false, ability: false, potion: false });
-    assert.equal(input.hasPointer, false);
-  } finally {
-    input.dispose();
+    const clientX = 650,
+      clientY = 320;
+    canvas.dispatchEvent(Object.assign(new Event('pointerdown'), { button, clientX, clientY }));
+    const cmd = input.consume(sim.hero, sim.areaDefinition, sim.generation),
+      point = walkablePoint(input.camera, clientX, clientY, rect, sim.areaDefinition)!;
+    assert.ok(Math.abs(cmd.aim.x - point.x) < 1e-7);
+    assert.ok(Math.abs(cmd.aim.z - point.z) < 1e-7);
+    assert.equal(cmd.attack, button === 0);
+    assert.equal(cmd.ability, button === 2);
   }
+  for (const modifier of ['ctrlKey', 'metaKey', 'altKey']) {
+    canvas.dispatchEvent(
+      Object.assign(new Event('pointerdown'), {
+        button: 0,
+        clientX: 650,
+        clientY: 320,
+        [modifier]: true,
+      }),
+    );
+    assert.equal(
+      input.consume(sim.hero, sim.areaDefinition, sim.generation).attack,
+      false,
+      'modified pointer gestures must not trigger combat',
+    );
+  }
+  for (const repeat of [false, true])
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat }));
+  assert.equal(input.consume(sim.hero, sim.areaDefinition, sim.generation).dodge, true);
+  target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: true }));
+  assert.equal(input.consume(sim.hero, sim.areaDefinition, sim.generation).dodge, false);
+  target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
+  assert.ok(input.keys.has('KeyW'));
+  target.matches = () => true;
+  target.dispatchEvent(new Event('focusin'));
+  assert.equal(input.keys.size, 0, 'focusing a text field releases held movement');
+  target.matches = () => false;
+  target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
+  target.matches = (selector: string) => selector.includes('button');
+  target.dispatchEvent(new Event('focusin'));
+  assert.equal(input.keys.size, 0, 'focusing a button releases held movement');
+  target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
+  target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: false }));
+  assert.equal(input.keys.size, 0, 'focused buttons cannot move the hero');
+  assert.equal(input.edges.dodge, false, 'focused buttons cannot trigger combat');
+  target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'Escape', repeat: false }));
+  assert.equal(pauses, 1, 'Escape still toggles pause from a focused button');
+  input.clear();
+  target.matches = () => false;
+  target.closest = (selector) => (selector.includes('button') ? {} : null);
+  target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
+  assert.equal(input.keys.size, 0, 'descendants of controls cannot move the hero');
+  input.keys.add('KeyW');
+  target.dispatchEvent(new Event('focusin'));
+  assert.equal(input.keys.size, 0, 'focus inside a control releases held movement');
+  target.closest = () => null;
+  for (const modifier of ['ctrlKey', 'metaKey', 'altKey']) {
+    target.dispatchEvent(
+      Object.assign(new Event('keydown'), {
+        code: 'KeyW',
+        repeat: false,
+        [modifier]: true,
+      }),
+    );
+    assert.equal(input.keys.size, 0, 'application shortcuts cannot move the hero');
+  }
+  input.resetAim();
+  input.dispose();
+  target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: false }));
+  canvas.dispatchEvent(
+    Object.assign(new Event('pointerdown'), { button: 0, clientX: 650, clientY: 320 }),
+  );
+  assert.equal(input.keys.size, 0);
+  assert.deepEqual(input.edges, { attack: false, dodge: false, ability: false, potion: false });
+  assert.equal(input.hasPointer, false);
 });
 function clear(session: GameSession) {
   session.sim.enemies.forEach((a) => session.sim.damage(session.sim.hero, a, 10000));
@@ -559,13 +556,8 @@ test('failed feedback is removed once; synchronous and asynchronous failures can
   hub.setGeneration(sim.generation + 1);
   const old = { ...event, generation: sim.generation + 1 };
   // Reserve pending work in one generation, then reject it after replacement.
-  let lateReject!: (error: Error) => void;
-  hub.subscribe(
-    () =>
-      new Promise<void>((_, fail) => {
-        lateReject = fail;
-      }),
-  );
+  const { promise: late, reject: lateReject } = Promise.withResolvers<void>();
+  hub.subscribe(() => late);
   hub.publish([old]);
   hub.setGeneration(sim.generation + 2);
   lateReject(new Error('obsolete feedback'));
@@ -582,13 +574,10 @@ test('keyboard events on a non-element target do not crash the input listener', 
   const target = new EventTarget();
   mockGlobals(t, { window: target });
   const input = new Input(new EventTarget() as HTMLCanvasElement, makeCamera(1), () => {});
-  try {
-    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW' }));
-    assert.ok(input.keys.has('KeyW'));
-    target.dispatchEvent(new Event('focusin'));
-  } finally {
-    input.dispose();
-  }
+  using _cleanup1 = onExit(() => input.dispose());
+  target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW' }));
+  assert.ok(input.keys.has('KeyW'));
+  target.dispatchEvent(new Event('focusin'));
 });
 
 test('resetting the fixed clock inside a step discards pending time without delaying the next frame', () => {

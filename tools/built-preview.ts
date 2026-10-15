@@ -1,3 +1,4 @@
+import { onAsyncExit } from './scope-exit';
 import { openPreview } from './preview-session';
 import { untilInterrupted } from './run-process';
 const session = await openPreview({
@@ -6,9 +7,6 @@ const session = await openPreview({
   scope: 'runtime',
   port: Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
 });
-try {
-  console.log(session.origin);
-  await untilInterrupted();
-} finally {
-  await session.close();
-}
+await using _cleanup1 = onAsyncExit(() => session.close());
+console.log(session.origin);
+await untilInterrupted();

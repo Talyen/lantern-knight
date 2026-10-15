@@ -1,3 +1,4 @@
+import { rectangle, groundFixture } from '../fixtures/ground';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
@@ -91,38 +92,22 @@ test('painted masks produce physical silhouette geometry at their authored depth
   const art = resolveScene(emptyScene()).visuals,
     layout = artworkFloorLayout(art.editorFloor!.width, art.editorFloor!.depth);
   const point = layout.world([0.5, 0.7]);
-  art.groundInteraction = {
-    asset: 'test',
-    frame: 'test',
-    hash: 'a'.repeat(64),
-    dimensions: [64, 64],
-    destinations: [],
-    regions: [
+  art.groundInteraction = groundFixture(
+    [
       {
         id: 'tree',
         name: 'Tree',
         depth: { kind: 'anchor', point },
         mask: [
           {
-            outer: [
-              [0.4, 0.3],
-              [0.6, 0.3],
-              [0.6, 0.6],
-              [0.4, 0.6],
-            ],
-            holes: [
-              [
-                [0.48, 0.4],
-                [0.52, 0.4],
-                [0.52, 0.45],
-                [0.48, 0.45],
-              ],
-            ],
+            outer: rectangle(0.4, 0.3, 0.6, 0.6),
+            holes: [rectangle(0.48, 0.4, 0.52, 0.45)],
           },
         ],
       },
     ],
-  };
+    { asset: 'test', frame: 'test' },
+  );
   const proxies = new ShadowProxies(new T.DirectionalLight());
   proxies.build(art, []);
   assert.equal(proxies.proxies.children.length, 1);

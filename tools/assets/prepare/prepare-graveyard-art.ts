@@ -1,3 +1,4 @@
+import { derivedSource, stillFrame } from '../definition';
 import sharp from 'sharp';
 import { alphaBounds, remapAlpha } from '../pixels';
 import { hash } from '../../compiler';
@@ -13,20 +14,6 @@ export async function prepare(context: PreparationContext, check = false) {
   const collection = 'references/art/ink-collection-01';
   const receipts: Record<string, unknown>[] = [];
 
-  function make(template: Source, id: string): Source {
-    return {
-      schemaVersion: 2,
-      asset: {
-        ...template.asset,
-        id,
-        contentVersion: 'graveyard-v1',
-        recipe: 'graveyard-art-v1',
-        requiredClips: [],
-        clips: {},
-      },
-      frames: [],
-    };
-  }
   async function still(
     pack: Source,
     id: string,
@@ -66,8 +53,7 @@ export async function prepare(context: PreparationContext, check = false) {
       .toBuffer();
     const name = `ink/${pack.asset.id}/${id}.png`;
     await write(`staging/${name}`, png);
-    pack.frames.push({ id, path: name, origin: 'imported-study', attachments: {} });
-    pack.asset.clips[id] = { d45: { frames: [id], durationsMs: [1000], loop: true, notifies: [] } };
+    stillFrame(pack, id, name);
     receipts.push({
       pack: pack.asset.id,
       id,
@@ -92,7 +78,11 @@ export async function prepare(context: PreparationContext, check = false) {
     });
   }
   const template = JSON.parse(await readAsset('staging/ink/ink-scenery.json', 'utf8')) as Source;
-  const scenery = make(template, 'ink-graveyard-scenery');
+  const scenery = derivedSource(template, {
+    id: 'ink-graveyard-scenery',
+    contentVersion: 'graveyard-v1',
+    recipe: 'graveyard-art-v1',
+  });
   for (const r of graveyardExtraRegistration) {
     const file = `${collection}/${r.file}`,
       im = await sharp(await readAsset(file))
@@ -116,7 +106,11 @@ export async function prepare(context: PreparationContext, check = false) {
     (await readAsset(`${collection}/ambient_pack_v1/manifest.json`)).toString(),
   );
   const effectTemplate = JSON.parse(await readAsset('staging/ink/ink-cues.json', 'utf8')) as Source,
-    ambient = make(effectTemplate, 'ink-ambient');
+    ambient = derivedSource(effectTemplate, {
+      id: 'ink-ambient',
+      contentVersion: 'graveyard-v1',
+      recipe: 'graveyard-art-v1',
+    });
   for (const clip of data.clips) {
     const id = clip.effect ?? clip.id.split('__')[0];
     if (!['lamp_flame', 'quiet_smoke', 'tumbling_leaf'].includes(id)) continue;

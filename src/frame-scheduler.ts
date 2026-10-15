@@ -9,13 +9,21 @@ export class FrameScheduler {
     private draw: (now: number) => void,
     private reset: () => void,
     private automated = false,
+    private readonly failed: (error: unknown) => void = (error) => {
+      throw error;
+    },
   ) {
     window.addEventListener('focus', this.onFocus);
     window.addEventListener('blur', this.onBlur);
     document.addEventListener('visibilitychange', this.refresh);
     this.background = this.isBackground();
-    this.reset();
-    this.schedule();
+    try {
+      this.reset();
+      this.schedule();
+    } catch (error) {
+      this.dispose();
+      throw error;
+    }
   }
   get idle() {
     return this.background;
@@ -44,8 +52,10 @@ export class FrameScheduler {
     if (background === this.background) return;
     this.background = background;
     this.cancel();
-    this.reset();
-    this.schedule();
+    this.run(() => {
+      this.reset();
+      this.schedule();
+    });
   };
   private schedule() {
     if (this.disposed || this.frame || this.timer !== undefined) return;
@@ -56,9 +66,20 @@ export class FrameScheduler {
     if (this.disposed) return;
     this.frame = 0;
     this.timer = undefined;
-    this.draw(now);
-    this.schedule();
+    this.run(() => {
+      this.draw(now);
+      this.schedule();
+    });
   };
+  private run(work: () => void) {
+    try {
+      work();
+    } catch (error) {
+      // Close cadence and listeners before failure feedback can reenter.
+      this.dispose();
+      this.failed(error);
+    }
+  }
   dispose() {
     if (this.disposed) return;
     this.disposed = true;

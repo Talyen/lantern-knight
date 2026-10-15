@@ -3,19 +3,14 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { comparePixels } from './smoke-pixels';
-import { smokeLaunch } from './smoke-launch';
+import { scenario } from './scenario';
 import { visualEffectLabels, defaultVisualEffects } from '../../src/content/visual-effects';
 
 export async function runScenario(flags: string[] = []) {
-  const run = await smokeLaunch(false, [], { flags }),
-    { page, errors, output } = run,
-    changes: Record<string, number> = {};
-  try {
-    await page.waitForFunction(
-      () => document.querySelector('canvas')?.dataset.ready === 'true',
-      {},
-      { timeout: 60000 },
-    );
+  await scenario(false, flags, async (run, details) => {
+    const { page, output } = run;
+    const changes: Record<string, number> = {};
+    details.changes = changes;
     await page.evaluate(
       () =>
         new Promise<void>((resolve) =>
@@ -78,9 +73,7 @@ export async function runScenario(flags: string[] = []) {
       await page.evaluate(() => 'foundation' in window || 'effectsPlayground' in window),
       false,
     );
-    assert.deepEqual(errors, []);
     if (run.capture) await page.screenshot({ path: path.join(output, 'player-options.png') });
-    await fs.rm(path.join(output, 'failure.json'), { force: true });
     await run.writeReport('report.json', {
       passed: true,
       changes,
@@ -95,11 +88,5 @@ export async function runScenario(flags: string[] = []) {
       limitations: ['Hidden-window package smoke does not measure visible display pacing'],
     });
     console.log('PASS: player visual options, persistence and dry-weather behavior');
-  } catch (error) {
-    await page.screenshot({ path: path.join(output, 'failure.png') }).catch(() => {});
-    await run.writeReport('failure.json', { error: String(error), errors, changes });
-    throw error;
-  } finally {
-    await run.close();
-  }
+  });
 }
