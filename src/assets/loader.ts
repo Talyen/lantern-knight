@@ -8,6 +8,7 @@ import { ResourcePool } from './resource-pool';
 import { contentSnapshot } from '../content/snapshot';
 import { AssetByteSource } from './byte-source';
 import { startupStage } from './startup-timing';
+import { readUntilAborted } from './abort';
 export type AssetPack = {
   readonly manifest: Manifest;
   readonly textures: ReadonlyMap<string, Texture>;
@@ -46,7 +47,7 @@ export class AssetRuntime {
   constructor(
     catalog: Readonly<Record<string, string>>,
     private request: typeof fetch = globalThis.fetch.bind(globalThis),
-    decode?: (page: PageRequest) => Promise<Texture>,
+    decode?: (page: PageRequest, signal: AbortSignal) => Promise<Texture>,
     dispose?: (texture: Texture) => void,
     private delivery?: TextureDelivery,
   ) {
@@ -59,14 +60,12 @@ export class AssetRuntime {
       )
         throw new Error('invalid local asset catalog');
     this.pool = new ResourcePool(
-      async (key) => {
+      async (key, signal) => {
         const p = this.pages.get(key);
         if (!p) throw new Error('missing page descriptor');
-        if (decode) return decode(p);
-        if (this.delivery) return this.delivery.decode(p);
-        const bitmap = await verifiedBitmap(p.url, p, (url, init) =>
-          this.request(url, { ...init, signal: this.lifetime.signal }),
-        );
+        if (decode) return decode(p, signal);
+        if (this.delivery) return this.delivery.decode(p, signal);
+        const bitmap = await verifiedBitmap(p.url, p, this.request, signal);
         const texture = new Texture(bitmap);
         texture.colorSpace = SRGBColorSpace;
         texture.generateMipmaps = p.mipmaps === true;
@@ -139,7 +138,12 @@ export class AssetRuntime {
   ): Promise<PackLease> {
     this.assertActive();
     if (signal?.aborted) throw new Error('load cancelled');
-    const manifest = await this.manifest(id);
+    // Manifest bytes are shared for this runtime, but an obsolete consumer must
+    // not keep a room operation waiting for that shared transport.
+    const manifest = await readUntilAborted(
+      this.manifest(id),
+      AbortSignal.any([this.lifetime.signal, ...(signal ? [signal] : [])]),
+    );
     this.assertActive();
     if (signal?.aborted) throw new Error('load cancelled');
     const keys = manifest.pages.map((page) => {
@@ -231,7 +235,7 @@ export class AssetRuntime {
   }
   dispose() {
     if (this.lifetime.signal.aborted) return;
-    this.lifetime.abort();
+    this.lifetime.abort(new Error('Asset runtime disposed'));
     cleanupAll([
       () => this.pool.dispose(),
       () => this.delivery?.dispose(),

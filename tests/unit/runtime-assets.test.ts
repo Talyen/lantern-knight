@@ -1,9 +1,111 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Texture } from 'three';
-import { AssetRuntime } from '../../src/assets/loader';
+import { AssetRuntime, type PackLease } from '../../src/assets/loader';
 import { resolveClip } from '../../src/assets/schema';
 import { manifestFixture } from '../fixtures/manifest';
+import { TextureDelivery } from '../../src/assets/texture-delivery';
+import { mockGlobals } from '../fixtures/globals';
+
+test('retiring a room cancels obsolete image work so the next room can decode', async (t) => {
+  mockGlobals(t, {
+    createImageBitmap: async () => ({ width: 64, height: 64, close() {} }),
+  });
+  const canvas = {
+    getContext: () => ({ MAX_TEXTURE_SIZE: 1, getParameter: () => 8192, getExtension: () => null }),
+    ownerDocument: { querySelector: () => null },
+  } as unknown as HTMLCanvasElement;
+  const started = Promise.withResolvers<void>(),
+    signals: AbortSignal[] = [],
+    stalls: ReturnType<typeof Promise.withResolvers<Response>>[] = [],
+    obsolete = new AbortController();
+  let uploads = 0;
+  const delivery = new TextureDelivery(
+    canvas,
+    'delivery',
+    async (url, init) => {
+      if (url === '/generated/next/atlas.png') return new Response('abc');
+      const stall = Promise.withResolvers<Response>();
+      stalls.push(stall);
+      const signal = init!.signal!;
+      signals.push(signal);
+      signal.addEventListener('abort', () => stall.reject(signal.reason), { once: true });
+      if (signals.length === 6) started.resolve();
+      return stall.promise;
+    },
+    () => {
+      uploads++;
+    },
+  );
+  const ids = Array.from({ length: 6 }, (_, i) => 'old-' + i),
+    runtime = new AssetRuntime(
+      Object.fromEntries([...ids, 'next'].map((id) => [id, `generated/${id}/manifest.json`])),
+      undefined,
+      undefined,
+      undefined,
+      delivery,
+    );
+  for (const [i, id] of [...ids, 'next'].entries()) {
+    const manifest = manifestFixture(id);
+    manifest.pages[0]!.hash =
+      id === 'next'
+        ? 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'
+        : String(i).repeat(64);
+    runtime.seedManifest(id, manifest);
+  }
+  const loading = runtime.loadPacks(ids, obsolete.signal),
+    rejected = assert.rejects(loading, /cancelled/);
+  let next: Promise<PackLease> | undefined;
+  try {
+    await started.promise;
+    next = runtime.loadPack('next');
+    obsolete.abort();
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.ok(
+      signals.every((signal) => signal.aborted),
+      'Last claims must cancel downloads',
+    );
+    const held = await next;
+    await rejected;
+    assert.equal(uploads, 1, 'Only the accepted room uploads an image');
+    held.release();
+    assert.equal(runtime.resourceCount, 0);
+  } finally {
+    for (const stall of stalls) stall.reject(new Error('test cleanup'));
+    await Promise.allSettled([loading, ...(next ? [next.then((pack) => pack.release())] : [])]);
+    runtime.dispose();
+  }
+});
+
+test('cancelling a manifest wait leaves shared transport available to another room', async () => {
+  const response = Promise.withResolvers<Response>(),
+    controller = new AbortController();
+  let requests = 0;
+  const runtime = new AssetRuntime(
+    { hero: 'generated/hero.json' },
+    () => {
+      requests++;
+      return response.promise;
+    },
+    async () => new Texture(),
+    (texture) => texture.dispose(),
+  );
+  const obsolete = runtime.loadPacks(['hero'], controller.signal),
+    rejected = assert.rejects(obsolete, /cancelled/),
+    surviving = runtime.loadPack('hero');
+  try {
+    controller.abort();
+    await rejected;
+    response.resolve(new Response(JSON.stringify(manifestFixture('hero'))));
+    const held = await surviving;
+    assert.equal(requests, 1);
+    held.release();
+  } finally {
+    response.resolve(new Response(JSON.stringify(manifestFixture('hero'))));
+    await surviving.then((held) => held.release());
+    runtime.dispose();
+  }
+});
 
 for (const seeded of [false, true]) {
   test(`${seeded ? 'seeded' : 'fetched'} manifests keep validated pages, geometry and timing immutable`, async () => {

@@ -4,13 +4,31 @@ export class DecodeQueue {
   private closed = false;
   private waiting: { start: () => void; reject: (error: Error) => void }[] = [];
   constructor(private readonly limit = 6) {}
-  run<T>(work: () => Promise<T>): Promise<T> {
+  run<T>(work: () => Promise<T>, signal?: AbortSignal): Promise<T> {
     if (this.closed) return Promise.reject(new Error('Image loader disposed'));
+    if (signal?.aborted) return Promise.reject(signal.reason);
     return new Promise<T>((resolve, reject) => {
+      const cleanup = () => signal?.removeEventListener('abort', cancel);
+      const item = {
+        start: () => start(),
+        reject: (error: Error) => {
+          cleanup();
+          reject(error);
+        },
+      };
+      const cancel = () => {
+        this.waiting = this.waiting.filter((queued) => queued !== item);
+        cleanup();
+        reject(signal!.reason);
+      };
       const start = () => {
+        cleanup();
         this.active++;
         void Promise.resolve()
-          .then(work)
+          .then(() => {
+            signal?.throwIfAborted();
+            return work();
+          })
           .then(resolve, reject)
           .finally(() => {
             this.active--;
@@ -18,7 +36,10 @@ export class DecodeQueue {
           });
       };
       if (this.active < this.limit) start();
-      else this.waiting.push({ start, reject });
+      else {
+        this.waiting.push(item);
+        signal?.addEventListener('abort', cancel, { once: true });
+      }
     });
   }
   dispose() {
