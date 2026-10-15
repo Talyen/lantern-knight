@@ -1,3 +1,4 @@
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { workspaceEnvironment } from './assets/workspace';
@@ -5,6 +6,20 @@ import { acquireCommandLane } from './command-lane';
 import { runProcess } from './run-process';
 import { projectRoot } from './assets/paths';
 import { openPreview } from './preview-session';
+// Explicit diagnostics stay opt-in; every other suite must belong to a CI tier.
+export function ciDevelopmentFiles(files: readonly string[], authoring: boolean) {
+  return files
+    .filter((file) => {
+      if (/^(authored-ground|ground-review|orchard-design|orchard-polish)\.spec\.ts$/.test(file))
+        return false;
+      if (/^game(?:-[a-z-]+)?\.spec\.ts$/.test(file)) return false;
+      if (/^(editor(?:-[a-z-]+)?|effects)\.spec\.ts$/.test(file)) return authoring;
+      if (/^(scene(?:-[a-z-]+)?|audio|image-delivery|ground-occlusion)\.spec\.ts$/.test(file))
+        return true;
+      throw new Error('Browser suite has no CI tier: ' + file);
+    })
+    .sort();
+}
 export function browserSelection(args: string[]) {
   const built = args.includes('--built');
   const forwarded = args.filter((arg) => arg !== '--built');
@@ -20,6 +35,18 @@ export function browserSelection(args: string[]) {
   return { built, forwarded, scope } as const;
 }
 async function browserTests(args: string[]) {
+  if (args.includes('--ci-development')) {
+    if (args.includes('--built') || args.some((arg) => !arg.startsWith('--')))
+      throw new Error('Use --ci-development [--authoring] without scenario selectors or --built');
+    const files = (await fs.readdir(path.join(projectRoot, 'tests/browser'))).filter((file) =>
+      file.endsWith('.spec.ts'),
+    );
+    const selected = ciDevelopmentFiles(files, args.includes('--authoring'));
+    args = [
+      ...selected,
+      ...args.filter((arg) => !['--ci-development', '--authoring'].includes(arg)),
+    ];
+  } else if (args.includes('--authoring')) throw new Error('Use --authoring with --ci-development');
   const mode = process.env.CI === 'true' ? 'pinned' : 'local';
   const { built, forwarded, scope } = browserSelection(args);
   const lane = await acquireCommandLane({ command: 'test:browser' });
