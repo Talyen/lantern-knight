@@ -1,11 +1,14 @@
-// Bound transient image decode memory; shutdown settles queued callers immediately.
+// Bound acquisition/decode work; active native work retains its slot until settlement.
 export class DecodeQueue {
   private active = 0;
   private closed = false;
   private waiting: { start: () => void; reject: (error: Error) => void }[] = [];
-  constructor(private readonly limit = 6) {}
+  constructor(
+    private readonly limit = 6,
+    private readonly disposedMessage = 'Image loader disposed',
+  ) {}
   run<T>(work: () => Promise<T>, signal?: AbortSignal): Promise<T> {
-    if (this.closed) return Promise.reject(new Error('Image loader disposed'));
+    if (this.closed) return Promise.reject(new Error(this.disposedMessage));
     if (signal?.aborted) return Promise.reject(signal.reason);
     return new Promise<T>((resolve, reject) => {
       const cleanup = () => signal?.removeEventListener('abort', cancel);
@@ -44,6 +47,6 @@ export class DecodeQueue {
   }
   dispose() {
     this.closed = true;
-    for (const item of this.waiting.splice(0)) item.reject(new Error('Image loader disposed'));
+    for (const item of this.waiting.splice(0)) item.reject(new Error(this.disposedMessage));
   }
 }

@@ -386,3 +386,29 @@ it('attachment cycles and missing supports reject without changing history', () 
     assert.deepEqual(h.document, before);
   }
 });
+
+it('rejecting an invalid edit leaves the mounted scene untouched', async () => {
+  let applications = 0;
+  const state = new EditorDocument(
+    emptyScene(),
+    async () => {
+      applications++;
+    },
+    () => {
+      throw new Error('Unsupported placement');
+    },
+    new AbortController().signal,
+  );
+  const before = state.history.document;
+  await assert.rejects(
+    state.edit((h) =>
+      h.change((d) => {
+        d.name = 'Rejected';
+      }),
+    ),
+    /Unsupported placement/,
+  );
+  assert.equal(applications, 0, 'validation failures must not rebuild the accepted renderer');
+  assert.equal(state.history.document, before);
+  assert.equal(state.history.canUndo, false);
+});

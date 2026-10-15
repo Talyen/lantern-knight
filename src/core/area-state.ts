@@ -34,7 +34,6 @@ export const AreaStateSchema = z.strictObject({
         rewards: z.array(rewardSchema).length(1),
       }),
     )
-    .max(1000)
     .optional(),
 });
 export type AreaState = z.infer<typeof AreaStateSchema>;

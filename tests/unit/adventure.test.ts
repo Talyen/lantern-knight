@@ -1,7 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { attackDefinition } from '../../src/content/gameplay';
-import { ContentRegistry, heightAt, type AreaDefinition } from '../../src/content/world';
+import {
+  ContentRegistry,
+  heightAt,
+  type AreaDefinition,
+  type ContentDefinitions,
+} from '../../src/content/world';
 import { actors } from '../../src/content/actors';
 import { GameSession } from '../../src/core/session';
 import { Simulation } from '../../src/core/simulation';
@@ -1057,4 +1062,56 @@ test('prepared rooms suspend progression writes and cancellation restores the ac
   session.equip('orchard-ring', 'ring1');
   assert.equal(session.inventory.gold, 3);
   assert.equal(session.equipment.ring1, 'orchard-ring');
+});
+
+test('a completed lantern pulse teaches the action even when no enemy is hit', () => {
+  const s = fixture();
+  s.step({ ...idle, ability: true });
+  for (let i = 0; i < 60; i++) s.step(idle);
+  assert.ok(s.onboarding.completed.includes('lantern'));
+});
+
+test('encounter reset retains permanent loot claims in rooms without campfires', () => {
+  const original = fixture();
+  const definitions: ContentDefinitions = structuredClone(original.registry.definitions);
+  for (const area of definitions.areas) delete area.campfires;
+  const s = new GameSession(new ContentRegistry(definitions));
+  breakCrate(s.sim);
+  assert.equal(s.sim.collectDrop('object-crate-0'), true);
+  s.resetCurrentArea('death');
+  assert.ok(s.sim.claimedObjects.has('crate'));
+  breakCrate(s.sim);
+  assert.equal(s.sim.collectDrop('object-crate-0'), false);
+  assert.equal(s.inventory.gold, 3);
+});
+
+test('valid reward-rich rooms can save and restore more than one thousand ground stacks', () => {
+  const definitions: ContentDefinitions = structuredClone(fixture().registry.definitions);
+  const area = definitions.areas[0]!;
+  area.interactables = Array.from({ length: 51 }, (_, i) => ({
+    ...area.interactables![0]!,
+    id: 'crate-' + i,
+    rewards: Array.from({ length: 20 }, () => ({ item: 'gold', amount: 1 })),
+  }));
+  const s = new GameSession(new ContentRegistry(definitions));
+  s.sim.hero.aim = Math.PI / 2;
+  s.sim.startSword(s.sim.hero);
+  s.sim.hero.age = attackDefinition(s.sim.hero).windup;
+  s.step({ ...idle, aim: { x: -7, z: 0 } });
+  assert.equal(s.sim.drops.length, 1020);
+  const save = s.captureSave();
+  s.restoreSave(save);
+  assert.equal(s.sim.drops.length, 1020);
+  assert.equal(parseGame(s.captureSave(), s.registry).areas[s.sim.area]!.drops!.length, 1020);
+});
+
+test('checkpoints require an own current-room snapshot for prototype-named areas', () => {
+  const definitions: ContentDefinitions = structuredClone(fixture().registry.definitions);
+  definitions.areas[0]!.id = 'constructor';
+  definitions.initialArea = 'constructor';
+  definitions.areas[1]!.exits[0]!.destination = 'constructor';
+  const s = new GameSession(new ContentRegistry(definitions));
+  const save = s.captureSave();
+  Reflect.deleteProperty(save.areas, 'constructor');
+  assert.throws(() => parseGame(save, s.registry), /current area/);
 });

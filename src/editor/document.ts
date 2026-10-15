@@ -1,5 +1,6 @@
 import type { SceneDocument, SceneSnapshot } from '../content/scene-document';
 import { EditorHistory } from './model';
+import { readUntilAborted } from '../abort';
 
 export type EditorSnapshot = Readonly<
   Pick<EditorHistory, 'document' | 'canUndo' | 'canRedo' | 'descendants' | 'fragment'>
@@ -49,18 +50,27 @@ export class EditorDocument {
   replace(document: SceneSnapshot) {
     return this.update(() => new EditorHistory(document));
   }
-  private async update(prepare: () => EditorHistory) {
+  private update(prepare: () => EditorHistory) {
+    // EditorView owns acquisition/draining. This caller borrows only completion;
+    // closing the editor must settle it even if rendering never returns.
+    return readUntilAborted(this.updateOwned(prepare), this.signal);
+  }
+  private async updateOwned(prepare: () => EditorHistory) {
     this.signal.throwIfAborted();
     if (this.pending) throw new Error('Scene update in progress');
     this.pending = true;
+    let applying = false;
     try {
       const candidate = prepare().fork();
+      this.signal.throwIfAborted();
       this.validate(candidate.document);
+      this.signal.throwIfAborted();
+      applying = true;
       await this.apply(candidate.document);
       this.signal.throwIfAborted();
       this.accept(candidate);
     } catch (error) {
-      if (!this.signal.aborted) {
+      if (applying && !this.signal.aborted) {
         try {
           await this.apply(this.current.document);
         } catch (rollback) {

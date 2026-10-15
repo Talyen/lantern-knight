@@ -43,7 +43,7 @@ export class EditorProject {
     if (this.operation || this.editing) throw new Error('Scene project operation in progress');
     this.operation = kind;
     try {
-      return await work();
+      return await readUntilAborted(work(), this.signal);
     } finally {
       this.operation = undefined;
     }
@@ -75,19 +75,28 @@ export class EditorProject {
   get recoveryReadable() {
     return this.pendingRecovery?.data !== undefined;
   }
-  private async api(id?: string) {
-    const response = await this.request.call(
-      globalThis,
-      '/__lantern_editor' + (id ? '?id=' + encodeURIComponent(id) : ''),
-      { signal: this.signal },
+  private async json(url: string, init: RequestInit = {}) {
+    const signal = AbortSignal.any([this.signal, ...(init.signal ? [init.signal] : [])]);
+    signal.throwIfAborted();
+    const response = await readUntilAborted(
+      this.request.call(globalThis, url, { ...init, signal }),
+      signal,
     );
-    const data = await response.json();
-    this.signal.throwIfAborted();
-    if (!response.ok) throw new Error(data.error);
+    signal.throwIfAborted();
+    const data = await readUntilAborted(response.json(), signal);
+    signal.throwIfAborted();
+    if (!response.ok) {
+      if (response.status === 409) throw new EditorConflict(data.error);
+      throw new Error(data.error);
+    }
     return data;
+  }
+  private api(id?: string) {
+    return this.json('/__lantern_editor' + (id ? '?id=' + encodeURIComponent(id) : ''));
   }
   private async listOwned() {
     const data = await this.api();
+    this.signal.throwIfAborted();
     this.token = data.token;
     this.baseRevision = data.baseRevision;
     this.recoveryRoot = this.recoveryPrefix + data.workspace + ':';
@@ -106,6 +115,7 @@ export class EditorProject {
           ? 'live-' + value.slice(5)
           : value;
       const data = await this.api(id);
+      this.signal.throwIfAborted();
       if (!data.document) throw new Error('Scene file is unavailable');
       document = this.normalize(parseSceneDocument(data.document));
       revision = data.revision;
@@ -161,20 +171,13 @@ export class EditorProject {
   }
   async post(body: Record<string, unknown>, signal = this.signal) {
     this.signal.throwIfAborted();
-    const response = await this.request.call(globalThis, '/__lantern_editor', {
+    signal.throwIfAborted();
+    return this.json('/__lantern_editor', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Lantern-Editor-Token': this.token },
       body: JSON.stringify({ ...body, baseRevision: this.baseRevision }),
       signal,
     });
-    const data = await response.json();
-    this.signal.throwIfAborted();
-    signal.throwIfAborted();
-    if (!response.ok) {
-      if (response.status === 409) throw new EditorConflict(data.error);
-      throw new Error(data.error);
-    }
-    return data;
   }
   private async saveOwned(copyId?: string) {
     const document = parseSceneDocument(
@@ -183,6 +186,7 @@ export class EditorProject {
         : this.documents.history.document,
     );
     const data = await this.post({ document, revision: copyId ? null : this.revisionValue });
+    this.signal.throwIfAborted();
     const accepted = parseSceneDocument(data.document);
     // Keep edits admitted during transport, but close admission before accepting
     // file metadata. Reidentification must follow their view commit or rollback.
@@ -201,6 +205,7 @@ export class EditorProject {
     this.recover();
   }
   private accessStorage<T>(work: (storage: StorageAccess) => T): T | undefined {
+    if (this.signal.aborted) return undefined;
     try {
       return work(this.storage());
     } catch {
@@ -252,6 +257,7 @@ export class EditorProject {
     );
   }
   readRecovery(key: string) {
+    this.signal.throwIfAborted();
     if (this.operation) throw new Error('Scene project operation in progress');
     this.readRecoveryOwned(key);
   }
@@ -274,6 +280,7 @@ export class EditorProject {
     return this.accessStorage((storage) => storage.getItem(key));
   }
   dismissRecovery() {
+    this.signal.throwIfAborted();
     if (this.operation) throw new Error('Scene project operation in progress');
     const pending = this.pendingRecovery;
     if (!pending) return;

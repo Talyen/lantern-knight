@@ -1,12 +1,74 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
+import { Group, Mesh, MeshBasicMaterial, PlaneGeometry, OrthographicCamera, Texture } from 'three';
 import { ResourcePool } from '../../src/assets/resource-pool';
 import { SceneAssets } from '../../src/assets/scene-assets';
 import { AssetRuntime, type PackBatch, type PackLease } from '../../src/assets/loader';
 import { DisposalScope, cleanupAfterFailure } from '../../src/assets/cleanup';
 import { GamePresentation } from '../../src/presentation/game-scene';
 import { EditorView } from '../../src/editor/view';
+import { InkRoom } from '../../src/presentation/ink-room';
+import type { PreparedRegistration } from '../../src/assets/registration';
+import { manifestFixture } from '../fixtures/manifest';
+import { content } from '../fixtures/content';
+
+test('scenery teardown consumes every sprite and shadow even when a sprite destructor fails', () => {
+  const manifest = manifestFixture(),
+    texture = new Texture(),
+    group = new Group();
+  const room = new InkRoom(
+    content.area('court'),
+    new Map([['ink-hero-current', { manifest, textures: new Map([['atlas-0', texture]]) }]]),
+    group,
+    new OrthographicCamera(),
+    texture,
+    {} as PreparedRegistration,
+    {
+      floor: '',
+      camera: { bounds: content.area('court').bounds, bias: { x: 0, z: 0 } },
+      paths: [],
+      walls: [],
+      graves: [],
+      proceduralAssets: [],
+      decals: [],
+      props: ['one', 'two'].map((id) => ({
+        id,
+        purpose: 'regression scenery',
+        asset: 'ink-hero-current',
+        clip: 'idle',
+        x: 0,
+        z: 0,
+      })),
+    },
+  );
+  room.build();
+  const calls: string[] = [];
+  for (const sprite of room.sprites) {
+    sprite.geometry.addEventListener('dispose', () => {
+      calls.push(sprite.id + ':geometry');
+      if (sprite.id === 'one') throw new Error('sprite listener');
+    });
+    sprite.material.addEventListener('dispose', () => {
+      calls.push(sprite.id + ':material');
+    });
+  }
+  room.contactShadows!.mesh.geometry.addEventListener('dispose', () => {
+    calls.push('shadows');
+  });
+  assert.throws(() => room.dispose(), /sprite listener/);
+  assert.deepEqual(
+    new Set(calls),
+    new Set(['one:geometry', 'one:material', 'two:geometry', 'two:material', 'shadows']),
+  );
+  assert.equal(group.children.length, 0);
+  room.dispose();
+  assert.equal(
+    calls.length,
+    5,
+    'Failed teardown is terminal and does not retry consumed resources',
+  );
+  texture.dispose();
+});
 
 test('reentrant installation cannot retire the successor batch', () => {
   const assets = new SceneAssets(),

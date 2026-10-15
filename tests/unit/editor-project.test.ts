@@ -108,6 +108,86 @@ const recovery = (document: SceneDocument) =>
     savedSnapshot: '',
   });
 
+it('editor shutdown settles transport, response-body and view callers before their work drains', async () => {
+  for (const phase of ['transport', 'body', 'view', 'rollback', 'post'] as const) {
+    const f = fixture();
+    await f.project.list();
+    const waiting = Promise.withResolvers<void>();
+    let applications = 0;
+    f.respond(async () => {
+      if (phase === 'transport' || phase === 'post') await waiting.promise;
+      return {
+        ok: true,
+        json: async () => {
+          if (phase === 'body') await waiting.promise;
+          return {
+            document: { ...emptyScene(), id: 'late' },
+            revision: 'late',
+            baseRevision: 'base',
+          };
+        },
+      } as Response;
+    });
+    f.apply(async () => {
+      applications++;
+      if (phase === 'rollback' && applications === 1) throw new Error('render failure');
+      await waiting.promise;
+    });
+    const pending =
+      phase === 'post'
+        ? f.project.post({ action: 'fragment' })
+        : phase === 'view' || phase === 'rollback'
+          ? f.project.edit((history) =>
+              history.change((d) => {
+                d.name = 'Pending';
+              }),
+            )
+          : f.project.open('file-existing');
+    let cancelled = false;
+    const rejected = assert.rejects(pending, /closed/).then(() => {
+      cancelled = true;
+    });
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    f.lifetime.abort(new Error('closed'));
+    try {
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      assert.equal(cancelled, true, phase);
+      assert.throws(() => f.project.dismissRecovery(), /closed/);
+      assert.throws(() => f.project.readRecovery('recovery:workspace:untitled'), /closed/);
+    } finally {
+      waiting.resolve();
+      await rejected;
+    }
+    assert.equal(f.documents.history.document.name, emptyScene().name, phase);
+    assert.equal(f.project.revision, null, phase);
+    assert.equal(f.values.size, 0, phase);
+  }
+});
+
+it('cancelling an individual editor request settles it without closing its project', async () => {
+  const f = fixture(),
+    controller = new AbortController(),
+    late = Promise.withResolvers<Response>();
+  await f.project.list();
+  let transportSignal: AbortSignal | undefined;
+  f.respond((_url, init) => {
+    transportSignal = init?.signal ?? undefined;
+    return late.promise;
+  });
+  const pending = f.project.post({ action: 'segment' }, controller.signal);
+  controller.abort(new Error('selection changed'));
+  await assert.rejects(pending, /selection changed/);
+  assert.equal(transportSignal?.aborted, true);
+  assert.equal(f.lifetime.signal.aborted, false);
+  f.respond(() =>
+    f.json({ scenes: [], token: 'next', workspace: 'workspace', baseRevision: 'base' }),
+  );
+  await f.project.list();
+  late.reject(new Error('late transport failure'));
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.equal(f.project.revision, null);
+});
+
 it('import switches pending recovery to its own identity and preserves older drafts', async () => {
   const f = fixture();
   await f.project.list();

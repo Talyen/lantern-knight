@@ -195,7 +195,6 @@ export class GamePresentation implements PresentationLifecycle {
         this.camera,
         this.shadowTexture,
         registration,
-        events,
       );
       this.scene.add(this.roomPresentation.room);
       this.flare = new T.Mesh(
@@ -317,6 +316,7 @@ export class GamePresentation implements PresentationLifecycle {
     return compositionSpan({ x: 0, z: this.framingZ }, this.verticalSpan, this.visuals);
   }
   update(sim: SimulationView, alpha: number, ms: number, aim: { x: number; z: number }) {
+    if (this.disposed) return;
     if (this.generation !== sim.generation) {
       this.resetRoom(sim.areaDefinition, this.visuals);
       this.generation = sim.generation;
@@ -354,7 +354,7 @@ export class GamePresentation implements PresentationLifecycle {
       sim.hero.pendingAction ? 0xf2e4bb : 0xe5bd77,
     );
     this.aim.position.set(aim.x, heightAt(sim.areaDefinition, aim.x, aim.z) + 0.035, aim.z);
-    this.actorPresentation.update(sim, alpha, ms, {
+    const events = this.actorPresentation.update(sim, alpha, ms, {
       walkTiming: this.walkTiming,
       stabilized: this.stabilized,
       rigidSword: this.rigidSword,
@@ -407,6 +407,9 @@ export class GamePresentation implements PresentationLifecycle {
     this.flareLight.position.copy(this.combatFeedback.flareLight.position);
     this.flareLight.intensity = this.combatFeedback.flareLight.power * 4;
     this.renderFrame(sim, ms);
+    // Observers may dispose or replace the room. Publish only after every
+    // borrower has finished touching this frame's resources.
+    if (!this.disposed && this.generation === sim.generation) this.events.publish(events);
   }
   setVisualEffects(options: Partial<VisualEffects>) {
     this.visualEffects = { ...this.visualEffects, ...options };
@@ -501,6 +504,7 @@ export class GamePresentation implements PresentationLifecycle {
     if (this.disposed) throw new Error('presentation disposed');
     for (const pack of this.packs.values()) this.warmPack(pack);
     await this.renderer.compileAsync(this.scene, this.camera);
+    if (this.disposed) throw new Error('presentation disposed');
     this.roomPresentation.surround.update(
       this.camera,
       this.viewTarget,

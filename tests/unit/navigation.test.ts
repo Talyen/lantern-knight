@@ -10,6 +10,7 @@ import {
 import { GameSession } from '../../src/core/session';
 import { parseGame } from '../../src/core/save';
 import { Simulation } from '../../src/core/simulation';
+import { PickupPlan } from '../../src/core/pickup-plan';
 import { MovementPlans } from '../../src/core/movement-plans';
 import { EncounterBehavior } from '../../src/core/encounter-behavior';
 import { tuning } from '../../src/content/gameplay';
@@ -618,4 +619,54 @@ test('automatic boundary departures still work when their marker is beyond the w
   const sim = new Simulation(registry, 142, 'upper-landing');
   Object.assign(sim.hero, { x: 0, z: 8.3, y: 0 });
   assert.equal(sim.step().transition, 'court');
+});
+
+test('loot routing uses the outer interaction reach at a narrow recess', () => {
+  const a = area();
+  a.spawns = [];
+  a.props = [-0.25, 0.25].map((z, i) => ({
+    id: 'recess-' + i,
+    kind: 'wall',
+    x: 0,
+    z,
+    radius: 0.1,
+    height: 1,
+    shape: 'box',
+    size: [2.2, 0.1],
+  }));
+  a.interactables = [
+    {
+      id: 'crate',
+      object: 'crate',
+      kind: 'container',
+      x: 0,
+      z: 0,
+      guards: [],
+      rewards: [{ item: 'gold', amount: 1 }],
+      idle: 'idle',
+      action: 'open',
+      spent: 'opened',
+    },
+  ];
+  const registry = new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
+  const sim = new Simulation(registry);
+  sim.claimedObjects.add('crate');
+  sim.drops.push({
+    id: 'object-crate-0',
+    source: 'crate',
+    enemy: false,
+    x: 0,
+    z: 0,
+    rewards: [{ item: 'gold', amount: 1 }],
+  });
+  const plan = new PickupPlan();
+  assert.equal(plan.request(sim, 'object-crate-0'), true);
+  let ready: string | undefined;
+  for (let tick = 0; tick < 100 && !ready; tick++) {
+    sim.step();
+    ready = plan.ready(sim);
+  }
+  assert.equal(ready, 'object-crate-0');
+  assert.equal(sim.collectDrop(ready!), true);
+  assert.equal(sim.inventory.gold, 1);
 });

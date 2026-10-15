@@ -267,6 +267,7 @@ export class GameSession {
         this.completeLesson('sword');
       if (event.kind === 'damage' && event.amount > 0)
         this.completeLesson(event.damageType === 'physical' ? 'sword' : 'lantern');
+      if (event.kind === 'flare') this.completeLesson('lantern');
       if (event.kind === 'dodge') this.completeLesson('dodge');
       if (event.kind === 'potion-used') this.completeLesson('potion');
     }
@@ -397,8 +398,13 @@ export class GameSession {
     const state = this.roomState();
     state.resetCount++;
     const adventure = this.registry.definitions.areas.some((a) => a.campfires?.length);
-    if (!adventure) state.visited.delete(this.sim.area);
-    else this.resetEnemies(state);
+    if (!adventure) {
+      const fresh = new Simulation(this.registry, this.sim.initialSeed, this.sim.area);
+      state.visited.set(this.sim.area, {
+        ...respawnAreaState(state.visited.get(this.sim.area)!, fresh.captureAreaState()),
+        collectedPickups: [],
+      });
+    } else this.resetEnemies(state);
     state.sim = this.restoredSimulation(
       state,
       fire ? this.fire(fire).area : this.sim.area,

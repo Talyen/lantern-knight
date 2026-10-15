@@ -9,6 +9,7 @@ import {
   type Material,
 } from 'three';
 import { trimmedBounds } from '../assets/sprite-registration';
+import { cleanupAll } from '../assets/cleanup';
 import { cameraContract as contract } from '../assets/camera-contract';
 import { Animator } from '../core/animation';
 import type { Manifest, Frame, Clip } from '../assets/schema';
@@ -38,6 +39,7 @@ export function setCutoutOpacity(material: Material, opacity: number) {
   if (edge) edge.opacity = opacity;
 }
 export class ActorSprite {
+  private disposed = false;
   lightingSample:
     { frame: Frame; next?: Frame; blend?: FrameBlend; flow?: AnimationFlow } | undefined;
   geometry = new PlaneGeometry(1, 1);
@@ -234,10 +236,14 @@ export class ActorSprite {
     return f;
   }
   dispose() {
+    if (this.disposed) return;
+    this.disposed = true;
     edgeMaterials.delete(this.material);
-    this.geometry.dispose();
-    this.edgeMaterial?.dispose();
-    this.material.dispose();
-    this.mesh.removeFromParent();
+    cleanupAll([
+      () => this.mesh.removeFromParent(),
+      () => this.geometry.dispose(),
+      () => this.edgeMaterial?.dispose(),
+      () => this.material.dispose(),
+    ]);
   }
 }

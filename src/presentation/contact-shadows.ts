@@ -1,4 +1,5 @@
 import * as T from 'three';
+import { cleanupAll } from '../assets/cleanup';
 import { multiplyGroundShadow } from './ground-shadow-material';
 import type { ArtPlacement } from '../content/world-visuals';
 import { heightAt, surfaceGradient, type AreaDefinition } from '../content/world';
@@ -44,6 +45,7 @@ export function contactFootprint(
 }
 
 export class PropContactShadows {
+  private disposed = false;
   readonly mesh: T.InstancedMesh<T.PlaneGeometry, T.MeshBasicMaterial>;
   private opacity: T.InstancedBufferAttribute;
   private entries: { sprite: ActorSprite; opacity: number }[] = [];
@@ -107,9 +109,14 @@ export class PropContactShadows {
     }
   }
   dispose() {
-    this.mesh.removeFromParent();
-    this.mesh.dispose();
-    this.mesh.geometry.dispose();
-    this.mesh.material.dispose();
+    if (this.disposed) return;
+    this.disposed = true;
+    this.entries = [];
+    cleanupAll([
+      () => this.mesh.removeFromParent(),
+      () => this.mesh.dispose(),
+      () => this.mesh.geometry.dispose(),
+      () => this.mesh.material.dispose(),
+    ]);
   }
 }

@@ -280,17 +280,18 @@ test('lighting replacement preserves the current room on failure, retries, and r
       settled = true;
     });
     await started;
-    assert.equal(settled, false, 'Failed batches must settle and release successful late peers');
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(settled, true, 'Failed batches cancel unfinished peers before advancing');
     assert.equal(library.textures.get('library-a:pose'), current);
     finish(new Response(bytes));
     await rejected;
-    assert.equal(closed, 1);
+    assert.equal(closed, 0, 'Cancelled transport must not start a decode');
     assert.equal(library.textures.get('library-a:pose'), current);
     assert.equal(library.bytes, 32);
     assert.equal(library.textures.has('library-c:pose'), false);
     fail = '';
     await load('library-b');
-    assert.equal(closed, 2);
+    assert.equal(closed, 1);
     assert.equal(library.bytes, 32);
     assert.equal(library.textures.has('library-a:pose'), false);
 
@@ -308,7 +309,7 @@ test('lighting replacement preserves the current room on failure, retries, and r
     globalThis.fetch = priorFetch;
     globalThis.createImageBitmap = priorBitmap;
   }
-  assert.equal(closed, 4, 'Cancellation before decode avoids allocating another bitmap');
+  assert.equal(closed, 3, 'Cancellation before decode avoids allocating another bitmap');
 });
 
 test('companion replacement consumes removed ownership before attempting every cleanup', async (t) => {
