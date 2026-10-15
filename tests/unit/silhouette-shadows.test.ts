@@ -9,8 +9,6 @@ import { makeCamera, outward, right } from '../../src/presentation/camera';
 import { regionDepth } from '../../src/presentation/ground-occlusion';
 import { emptyScene } from '../../src/editor/default-scene';
 import { resolveScene } from '../../src/content/world-art';
-import { Simulation } from '../../src/core/simulation';
-import { content } from '../fixtures/content';
 import { artworkFloorLayout } from '../../src/content/floor-layout';
 
 test('contact-marked props cast live alpha silhouettes without owning their drawing resources', () => {
@@ -29,8 +27,7 @@ test('contact-marked props cast live alpha silhouettes without owning their draw
   sprite.show(manifest.frames[0]!.id, new T.Vector3(2, 0, 3), makeCamera(1));
   sprite.mesh.scale.set(-2, 2, 2);
   sprite.mesh.rotateZ(0.2);
-  const sim = new Simulation(content),
-    art = resolveScene(emptyScene()).visuals;
+  const art = resolveScene(emptyScene()).visuals;
   art.props = [
     {
       id: sprite.id,
@@ -52,7 +49,7 @@ test('contact-marked props cast live alpha silhouettes without owning their draw
     },
   ];
   const proxies = new ShadowProxies(new T.DirectionalLight());
-  proxies.build(sim.view, art, [sprite]);
+  proxies.build(art, [sprite]);
   proxies.updateScenery([sprite]);
   assert.equal(proxies.proxies.children.length, 1);
   const caster = proxies.proxies.children[0] as T.Mesh<T.BufferGeometry, T.MeshBasicMaterial>;
@@ -127,7 +124,7 @@ test('painted masks produce physical silhouette geometry at their authored depth
     ],
   };
   const proxies = new ShadowProxies(new T.DirectionalLight());
-  proxies.build(new Simulation(content).view, art, []);
+  proxies.build(art, []);
   assert.equal(proxies.proxies.children.length, 1);
   const mesh = proxies.proxies.children[0] as T.Mesh,
     positions = mesh.geometry.getAttribute('position'),
@@ -155,7 +152,7 @@ test('painted masks produce physical silhouette geometry at their authored depth
     ],
   };
   const region = art.groundInteraction.regions[0]!;
-  proxies.build(new Simulation(content).view, art, []);
+  proxies.build(art, []);
   const curved = (proxies.proxies.children[0] as T.Mesh).geometry.getAttribute('position');
   for (let i = 0; i < curved.count; i += 3) {
     const center = new T.Vector3();

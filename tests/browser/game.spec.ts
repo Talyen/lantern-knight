@@ -2,7 +2,7 @@ import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { loadCheckpoint } from '../fixtures/input';
 import { test, expect } from './fixtures';
-test('game input, pause focus and current checkpoint reload', async ({ page }) => {
+test('main menu, game input, pause focus and current checkpoint reload', async ({ page }) => {
   // Startup, checkpoint loads and death recovery are distinct room operations.
   test.setTimeout(300_000);
   await page.goto('/index.html');
@@ -11,6 +11,33 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
   );
   await expect(page.locator('#loading-screen')).not.toBeVisible();
   expect(await page.evaluate(() => 'foundation' in window)).toBe(false);
+  await expect(page.locator('#modal')).toHaveClass(/is-title/);
+  await expect(page.locator('#menu-start')).toHaveAccessibleName('Begin journey');
+  await expect(page.locator('#menu-start')).toBeFocused();
+  if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY) {
+    await mkdir(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, { recursive: true });
+    await page.screenshot({
+      path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'main-menu.png'),
+    });
+  }
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#menu-start')).toBeVisible();
+  await page.locator('#menu-settings').click();
+  await expect(page.locator('#render-scale')).toBeVisible();
+  if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY)
+    await page.screenshot({
+      path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'settings.png'),
+    });
+  await page.locator('#menu-back').click();
+  await expect(page.locator('#menu-start')).toBeVisible();
+  await page.locator('#menu-help').click();
+  await expect(
+    page.locator('.control-grid > div').filter({ hasText: 'Lantern burst' }),
+  ).toContainText('RMB');
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#menu-start')).toBeVisible();
+  await page.locator('#menu-start').click();
+  await expect(page.locator('canvas')).toBeFocused();
   await expect(page.locator('#opening-hint, .actions, .controls-hint, #objective')).toHaveCount(0);
   if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY) {
     await mkdir(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, { recursive: true });
@@ -32,8 +59,11 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
     true,
   );
   expect(initial.wins).toBe(0);
-  await page.getByText('Controls & help', { exact: true }).click();
-  await expect(page.locator('.controls-help')).toContainText('RMB · Lantern burst');
+  await page.locator('#menu-help').click();
+  await expect(
+    page.locator('.control-grid > div').filter({ hasText: 'Lantern burst' }),
+  ).toContainText('RMB');
+  await page.locator('#menu-back').click();
   await page.locator('#resume').click();
   await expect(page.locator('.game-stage canvas')).toBeFocused();
   const inputErrors: string[] = [];
@@ -149,6 +179,17 @@ test('game input, pause focus and current checkpoint reload', async ({ page }) =
   await page.keyboard.press('Escape');
   await expect(page.locator('#new-confirm')).not.toBeVisible();
   await expect(page.locator('#modal')).toBeVisible();
+  await page.locator('#return-title').click();
+  await expect(page.locator('#modal')).toHaveClass(/is-title/);
+  await expect(page.locator('#menu-start')).toHaveAccessibleName('Continue journey');
+  await expect(page.locator('#menu-start')).toBeFocused();
+  await page.locator('#new-game').click();
+  await page.locator('#confirm-new').click();
+  await expect(page.locator('#new-confirm')).not.toBeVisible();
+  await expect(page.locator('canvas')).toBeFocused();
+  const restarted = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), keys[0]!);
+  expect(restarted.player.health).toBe(100);
+  expect(restarted.area).toBe('abandoned-orchard');
 });
 
 test('orchard loot, equipment, campfire rest and destination travel survive reload', async ({
@@ -165,6 +206,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
     undefined,
     { timeout: 180000 },
   );
+  await page.locator('#menu-start').click();
   await page.locator('#pause').click();
   await page.locator('#save').click();
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
@@ -202,7 +244,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await page.getByRole('button', { name: 'Collect Orchard Ring', exact: true }).click();
   await page.keyboard.press('e');
   await page.keyboard.press('e');
-  await page.keyboard.press('i');
+  await page.locator('#open-inventory').click();
   const panel = page.locator('.adventure-panel');
   await expect(panel).toBeVisible();
   await panel.getByRole('button', { name: 'Equip · Ring 1', exact: true }).click();
@@ -212,9 +254,18 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await page.keyboard.down('Enter');
   await page.keyboard.down('Enter');
   await page.keyboard.up('Enter');
-  await expect(panel).toContainText('Body · Leather / Cloth: Leather Armor');
+  await expect(
+    panel.locator('.inventory-slot').filter({ hasText: 'Body · Leather / Cloth' }),
+  ).toContainText('Leather Armor');
   await expect(panel).toContainText('Iron ×2');
+  if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY)
+    await page.screenshot({
+      path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'inventory.png'),
+    });
   await page.keyboard.press('Escape');
+  await page.keyboard.press('i');
+  await expect(panel).toBeVisible();
+  await panel.getByRole('button', { name: 'Return to game', exact: true }).click();
   await page.keyboard.press('q');
   await expect(page.locator('#hp')).toHaveText('100 / 110');
   await page.locator('#pause').click();
@@ -236,6 +287,10 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await expect(page.locator('#interaction-hint')).toHaveText('E · Rest');
   await page.keyboard.press('e');
   await expect(panel).toContainText('Orchard Campfire');
+  if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY)
+    await page.screenshot({
+      path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'campfire.png'),
+    });
   await panel.getByRole('button', { name: 'Rest', exact: true }).click();
   await expect(page.locator('#status')).toHaveText('Rested · health restored', { timeout: 60_000 });
   await expect(page.locator('#hp')).toHaveText('110 / 110');
@@ -281,6 +336,8 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
     undefined,
     { timeout: 180000 },
   );
+  await expect(page.locator('#menu-start')).toHaveAccessibleName('Continue journey');
+  await page.locator('#menu-start').click();
   await expect(page.locator('#hp')).toHaveText('110 / 110');
   if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY) {
     await page.screenshot({

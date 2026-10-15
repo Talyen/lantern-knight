@@ -1,3 +1,4 @@
+import { polygonEdgeDistance } from './polygon';
 import { insidePolygon } from './graveyard-layout';
 import { isSupportedPosition } from './collision';
 import { artworkFloorLayout } from './floor-layout';
@@ -70,21 +71,6 @@ export function sceneEnvelopeFindings(
   }
   return findings;
 }
-function edgeDistance(point: Point, ring: readonly Point[]) {
-  let nearest = Infinity;
-  for (let i = 0; i < ring.length; i++) {
-    const a = ring[i]!,
-      b = ring[(i + 1) % ring.length]!;
-    const dx = b.x - a.x,
-      dz = b.z - a.z;
-    const t = Math.max(
-      0,
-      Math.min(1, ((point.x - a.x) * dx + (point.z - a.z) * dz) / (dx * dx + dz * dz || 1)),
-    );
-    nearest = Math.min(nearest, Math.hypot(point.x - a.x - t * dx, point.z - a.z - t * dz));
-  }
-  return nearest;
-}
 // Authoring placement is stricter than movement: characters may walk beneath a
 // canopy, but a spawn or upright prop must begin on visibly clear ground.
 export function groundPlacementPolicy(document: SceneSnapshot, area: AreaDefinition) {
@@ -109,8 +95,8 @@ export function groundPlacementPolicy(document: SceneSnapshot, area: AreaDefinit
     if (allowPaintedOcclusion) return;
     const mask = masks.find(
       (m) =>
-        (insidePolygon(point, m.outer) || edgeDistance(point, m.outer) <= radius) &&
-        !m.holes.some((h) => insidePolygon(point, h) && edgeDistance(point, h) > radius),
+        (insidePolygon(point, m.outer) || polygonEdgeDistance(point, m.outer) <= radius) &&
+        !m.holes.some((h) => insidePolygon(point, h) && polygonEdgeDistance(point, h) > radius),
     );
     if (mask) return `base overlaps painted scenery “${mask.name}”`;
   };

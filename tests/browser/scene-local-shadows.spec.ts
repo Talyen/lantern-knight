@@ -90,7 +90,6 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
     scene.add(ground);
     const proxies = new ShadowProxies(sun, local.lights);
     proxies.build(
-      { areaDefinition: { surface: { kind: 'flat', height: 0 } } },
       {
         props: [{ id: sprite.id, asset: m.asset.id, clip: 'idle', x: 0, z: 0, shadow: 'contact' }],
       },

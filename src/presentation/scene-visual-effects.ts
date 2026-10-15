@@ -1,3 +1,4 @@
+import { outward } from './camera';
 import { sceneFixtures } from '../content/scenery-presets';
 import * as T from 'three';
 import { ActorSprite } from './sprite';
@@ -18,6 +19,7 @@ import type { AssetPack } from '../assets/loader';
 type Fixture = {
   body?: ActorSprite;
   flame?: ActorSprite;
+  flameSettings?: import('../content/world-visuals').ResolvedFixture['flame'];
   position: T.Vector3;
   phase: number;
   power: number;
@@ -76,11 +78,10 @@ export class SceneVisualEffects {
         embers = this.effect(`${p.id}-embers-fx`, 'fx-embers');
       if (smoke) smoke.mesh.scale.setScalar(0.26);
       embers.mesh.scale.setScalar(f.embersScale);
-      const prior = sprites.find((s) => s.id === `${f.id}-smoke`);
-      if (prior) prior.mesh.userData.replacedAmbient = true;
       this.fixtures.push({
         body,
         flame,
+        flameSettings: f.flame,
         position,
         phase: f.phase,
         power: f.power,
@@ -114,14 +115,13 @@ export class SceneVisualEffects {
     this.time += Math.max(0, ms) / 1000;
     for (const wind of this.winds)
       wind.update(this.time, options.wind, 0.012 + breeze.strength * 0.018, breeze);
-    for (const s of sprites) if (s.mesh.userData.replacedAmbient) s.mesh.visible = false;
     for (const f of this.fixtures) {
       const opacity = f.body?.material.opacity ?? 1,
         visible = f.body?.mesh.visible ?? true;
-      if (f.flame) {
+      if (f.flame && f.flameSettings && f.body) {
         const clip = f.flame.animator.clip,
-          position = f.flame.mesh.position.clone(),
-          scale = f.flame.mesh.scale.clone();
+          position = f.body.mesh.position.clone().add(new T.Vector3(...f.flameSettings.offset));
+        position.addScaledVector(outward, f.flameSettings.depthOffset);
         f.flame.show(
           frameAt(
             clip,
@@ -130,7 +130,7 @@ export class SceneVisualEffects {
           position,
           this.camera,
         );
-        f.flame.mesh.scale.copy(scale);
+        f.flame.mesh.scale.setScalar(f.flameSettings.scale);
         f.flame.mesh.visible = visible;
         f.flame.material.opacity = opacity;
         f.flame.material.color.setScalar(

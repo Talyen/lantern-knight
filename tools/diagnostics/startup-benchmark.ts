@@ -133,9 +133,11 @@ async function startupBenchmark(flags: string[]) {
               app.focus({ steal: true });
               BrowserWindow.getAllWindows()[0]?.focus();
             });
-            if (await run.page.locator('#modal').isVisible()) {
+            if (await run.page.locator('#menu-start').isVisible())
+              await run.page.locator('#menu-start').click();
+            else if (await run.page.locator('#modal').isVisible()) {
               focusInterruptions++;
-              await run.page.getByRole('button', { name: 'Resume', exact: true }).click();
+              await run.page.locator('#resume').click();
             }
             await run.page.locator('canvas').focus();
           };

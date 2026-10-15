@@ -9,6 +9,7 @@ test('clicking a distant label routes to one stack and preserves its siblings on
   test.setTimeout(240_000);
   await page.goto('/index.html?automated');
   await page.locator('canvas[data-ready="true"]').waitFor();
+  await page.locator('#menu-start').click();
   await page.locator('#pause').click();
   await page.locator('#save').click();
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });

@@ -17,7 +17,6 @@ type PlacementBase = Omit<
   purpose: string;
   footprint?: readonly [number, number];
   fixture?: FixtureDefinition;
-  wallFace?: string;
 };
 export type ArtPlacement = PlacementBase &
   (

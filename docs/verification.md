@@ -2,15 +2,21 @@
 
 ## Regular checks
 
-`npm run check` executes fresh typechecking, JavaScript/TypeScript linting, handwritten code formatting checks and the reviewed fast pure suites. It reports actual phase timings and fails on the first broken phase. Every selected suite runs fresh; no task snapshot, affected-suite guess or previous passing receipt suppresses it.
+Choose the command for the evidence needed:
 
-`npm run check:ci` runs all pure suites with `--full` and adds documentation, repository boundaries, import boundaries and unused-code analysis. These are inexpensive source checks, separate from asset acquisition, browser checks and packaging. Ordinary commands do not install Python tooling.
+| Command | Coverage |
+| --- | --- |
+| `npm run check` | Typechecking, JavaScript/TypeScript linting, handwritten code formatting and fast pure suites. Required after edits stabilize. |
+| `npm run docs:check` | Documentation links, anchors, script names, file references and guide reachability. Also required for prose edits. |
+| `npm run check:ci` | All regular source checks, all pure suites, documentation, repository/import boundaries and unused-code analysis. |
+
+`check` and `check:ci` run each selected phase fresh, report timings and fail on the first broken phase. Previous passing results never suppress a selected suite. These commands do not acquire artwork, run browser or desktop checks, package the application or install Python tooling. `check:ci` can run locally; it does not establish a hosted CI result. Follow [test selection](#test-selection) for those integration tiers and [documentation checks](#documentation-checks) for prose accuracy limits.
 
 ## Test selection
 
 `npm test` and `npm run test:watch` default to fast `tests/unit/*.test.ts` suites. `npm test -- --full` runs all pure suites; `npm run test:watch -- --full` watches them all. The small explicit CI-default list in `tools/test.ts` keeps fresh-process replay/build proofs and real-Git integration-lock proofs in full CI coverage; it records each reason, and missing entries fail selection rather than silently losing coverage. New pure suites run locally unless deliberately classified. Arguments name exact files, including CI-default suites; duplicates run once and invalid selections fail before setup. Use `--full` without exact files or `--assets`. Pure tests use small fixtures and require no source artwork or prepared pack.
 
-Compiler fixtures set a small atlas size; pixel assertions and a tiny multi-page packing case protect encoding and row/page rollover without repeatedly compressing empty production-size pages.
+Compiler fixtures use a 32 × 36 canvas and 64-pixel atlas. One tiny multi-page packing case checks RGB alpha synthesis and asymmetric pixels at every published rectangle, protecting row/page rollover, orientation and channel order in a single encoding pass. Determinism and failed builds compare both manifest and page bytes, including a missing later frame after an earlier frame has been packed. Keep these behavioral checks when changing fixture sizes; large uniform images add cost without exercising more encoding behavior. HTTP identity fixtures close their completed connections explicitly instead of waiting for keep-alive expiry.
 
 Routine local testing should take roughly ten seconds including setup. This is a guideline, not a timeout or permission to omit failures. Optimize useful slow tests or route them to CI by default. Asset, browser and desktop checks are explicit integration commands, outside routine local checks. Agents may run full or slow coverage locally for a specific reproduction, diagnosis or validation need: state the reason, choose the smallest relevant scope and avoid repeating unchanged successful runs. Changed browser behavior needs appropriate CI scenarios; report whether they actually ran, including pending or unavailable coverage.
 
@@ -39,8 +45,11 @@ The fixtures invoke `python3`, which must resolve to the environment containing 
 | `image-delivery`, `ground-occlusion` | Focused GPU behavior.                                                                                                       |
 | `authored-ground`                    | Opt-in [movement and timing capture](developer-tools.md#authored-scene-timing-capture), selected by `LANTERN_GROUND_SCENE`. |
 | `ground-review`                      | Opt-in [occlusion captures](developer-tools.md#authored-occlusion-captures), selected by `LANTERN_GROUND_REVIEW`.           |
+| `orchard-design`, `orchard-polish`   | Opt-in [opening composition and effect captures](developer-tools.md#opening-comparison-captures), with external output directories. |
 
-Without a selector, Playwright selects all browser suites; both authored-scene diagnostics skip unless their scene environment variable is set. Selectors match filenames, so `editor` includes the editor regression, ground, contact and gameplay-authoring suites. Development-only UI and renderer lifetime regressions belong to `scene`; the built Game runs cannot import their failure-injection modules. Add `--list` to inspect the selected cases without acquiring assets, taking the GPU lane or starting a preview; built-Game discovery needs no existing build. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion audio`.
+Without a selector, Playwright selects all browser suites; the four capture suites skip unless their opt-in environment variables are set. Selectors match filenames, so `editor` includes the editor regression, ground, contact and gameplay-authoring suites. Development-only UI and renderer lifetime regressions belong to `scene`; the built Game runs cannot import their failure-injection modules. Add `--list` to inspect the selected cases without acquiring assets, taking the GPU lane or starting a preview; built-Game discovery needs no existing build. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion audio`.
+
+Use `npm run test:browser -- --ci-development` for the complete development-browser CI tier, adding `--authoring` to include editor/effects suites. This selection excludes Game and opt-in captures; run `game --built` separately against a production web build. The same `--list` discovery option works with tier selection.
 
 The `audio` suite always checks Game settings. Its decoding and audition test skips when the selected assets contain no prepared samples. To validate unpublished sounds locally, use a checkout-local [audio preparation](assets.md#audio-preparation) and leave `CI` unset; pinned CI cannot establish coverage for those samples. Browser decoding and playback assertions do not establish an audible mix; follow [listening and tuning](sound-design.md#listening-and-tuning).
 
@@ -94,10 +103,10 @@ The `benchmark` command routes several kinds of diagnostic. [Recorded session re
 
 Native diagnostics consume an already packaged application; they do not build it. Prepare the matching package on the host before running a scenario:
 
-| Scenarios after `npm run benchmark --`                                          | Required package                |
-| ------------------------------------------------------------------------------- | ------------------------------- |
-| `startup`, `walking`, `game`, `preferences`                                     | Game: `npm run package -- --unsigned`         |
-| `sandbox` (alias `scene`), `lighting`, `animation`, `hero`, `effects`, `scenes` | Dev: `npm run package -- --dev` |
+| Scenarios after `npm run benchmark --`                                          | Required package                      |
+| ------------------------------------------------------------------------------- | ------------------------------------- |
+| `startup`, `walking`, `game`, `preferences`                                     | Game: `npm run package -- --unsigned` |
+| `sandbox` (alias `scene`), `lighting`, `animation`, `hero`, `effects`, `scenes` | Dev: `npm run package -- --dev`       |
 
 Use `--local` on both packaging and the diagnostic when investigating a local asset preparation. `--visible` shows the native window; hidden/software runs do not establish visible pacing. Use `--capture` when visual evidence is wanted, or `--output /external/investigation` to retain results without requesting captures. Successful managed diagnostics normally discard their output; keep comparison records in an external directory. Native framebuffer, motion and resource assertions remain available through these scenarios; routine checks do not generate galleries.
 

@@ -1,3 +1,4 @@
+import { borrowedView } from '../content/snapshot';
 import { type Inventory, type Equipment, type EquipmentSlot } from '../content/items';
 import { onboardingState, type OnboardingState, type Lesson } from './onboarding';
 import { InventoryState, type InventoryAccess } from './inventory';
@@ -513,38 +514,23 @@ export class GameSession {
 }
 
 function sessionView(owner: GameSession): SessionView {
-  return Object.freeze({
-    get registry() {
-      return owner.registry;
+  return borrowedView(
+    owner,
+    [
+      'registry',
+      'generation',
+      'loading',
+      'wins',
+      'resetCount',
+      'inventory',
+      'equipment',
+      'discovered',
+      'onboarding',
+      'lastFire',
+    ],
+    {
+      fire: (key: string) => owner.fire(key),
+      captureSave: () => owner.captureSave(),
     },
-    get generation() {
-      return owner.generation;
-    },
-    get loading() {
-      return owner.loading;
-    },
-    get wins() {
-      return owner.wins;
-    },
-    get resetCount() {
-      return owner.resetCount;
-    },
-    get inventory() {
-      return owner.inventory;
-    },
-    get equipment() {
-      return owner.equipment;
-    },
-    get discovered() {
-      return owner.discovered;
-    },
-    get onboarding() {
-      return owner.onboarding;
-    },
-    get lastFire() {
-      return owner.lastFire;
-    },
-    fire: (key: string) => owner.fire(key),
-    captureSave: () => owner.captureSave(),
-  });
+  );
 }

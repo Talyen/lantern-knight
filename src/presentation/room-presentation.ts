@@ -1,3 +1,4 @@
+import { boundsCorners } from '../content/polygon';
 import { cleanupAll } from '../assets/cleanup';
 import { artworkFloorLayout } from '../content/floor-layout';
 import * as T from 'three';
@@ -45,20 +46,10 @@ export class RoomPresentation {
     const footprint = artwork
       ? artwork.corners
       : art?.editorFloor
-        ? [
-            { x: area.bounds.minX, z: area.bounds.minZ },
-            { x: area.bounds.maxX, z: area.bounds.minZ },
-            { x: area.bounds.maxX, z: area.bounds.maxZ },
-            { x: area.bounds.minX, z: area.bounds.maxZ },
-          ]
+        ? boundsCorners(area.bounds)
         : surround
           ? art?.interior
-            ? [
-                { x: art.interior.minX, z: art.interior.minZ },
-                { x: art.interior.maxX, z: art.interior.minZ },
-                { x: art.interior.maxX, z: art.interior.maxZ },
-                { x: art.interior.minX, z: art.interior.maxZ },
-              ]
+            ? boundsCorners(art.interior)
             : surround.ground
           : undefined;
     if (art)

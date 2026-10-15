@@ -33,7 +33,6 @@ test('contact grounding derives unregistered sizes and respects explicit exclusi
   for (const excluded of [
     { ...p, shadow: 'none' as const },
     { ...p, y: 1 },
-    { ...p, wallFace: 'wall' },
     { ...p, role: 'attachment' as const, mount: { to: 'table', offset: [0, 1, 0] as const } },
   ])
     assert.equal(contactFootprint(excluded, sprite), undefined);

@@ -40,7 +40,7 @@ Defer full aim-facing strafing initially: it requires additional animation work.
 
 ## Equipment
 
-Keep the hero artwork fixed. Equipment supports Leather/Cloth body armor, gloves, belt, boots, two rings, amulet, trinket, sword and lantern. The opening ring grants 10 maximum health without healing on equip.
+Keep the hero artwork fixed. Equipment supports Leather/Cloth body armor, gloves, belt, boots, two rings, amulet, trinket, sword and lantern. The opening Orchard Ring grants 10 maximum health; the Traveller’s Charm grants 5 in the trinket slot. Neither heals on equip.
 
 Gold, Health Potions, Materials and damaged equipment form the initial reward loop. Damaged equipment is labeled Salvage only and converts to the displayed materials through inventory outside combat. Broader item effects and permanent upgrades remain to be designed. Visible armor swapping and additional weapon animation sets are not current roadmap commitments.
 

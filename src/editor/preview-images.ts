@@ -1,5 +1,11 @@
+import { readUntilAborted } from '../assets/abort';
+import { DecodeQueue } from '../assets/decode-queue';
 type ImageLoad = { promise: Promise<HTMLImageElement>; cancel: () => void };
-type Entry = PromiseWithResolvers<HTMLImageElement> & { source: string; load?: ImageLoad };
+type Playback = { active: boolean; displayed?: { source: string; image: HTMLImageElement } };
+export type PreviewPlayback = {
+  draw(source: string, paint: (image: HTMLImageElement) => void): Promise<void>;
+  dispose(): void;
+};
 
 function loadImage(source: string): ImageLoad {
   const image = new Image();
@@ -34,33 +40,59 @@ function loadImage(source: string): ImageLoad {
 // A canvas accepts only its latest request, even when pages finish out of order.
 export class PreviewImages {
   private readonly ready = new Map<string, HTMLImageElement>();
-  private readonly pending = new Map<string, Entry>();
-  private readonly queue: Entry[] = [];
+  private readonly pending = new Map<string, Promise<HTMLImageElement>>();
+  private readonly activeLoads = new Set<ImageLoad>();
+  private readonly decodes = new DecodeQueue(6);
   private latest = new WeakMap<HTMLCanvasElement, object>();
-  private displayed = new WeakMap<HTMLCanvasElement, { source: string; image: HTMLImageElement }>();
-  private active = 0;
+  private readonly playbacks = new Set<Playback>();
   private readyBytes = 0;
-  private closed = false;
+  private readonly lifetime = new AbortController();
+  private get closed() {
+    return this.lifetime.signal.aborted;
+  }
   constructor(private readonly load: (source: string) => ImageLoad = loadImage) {}
 
-  async draw(target: HTMLCanvasElement, source: string, paint: (image: HTMLImageElement) => void) {
-    if (this.closed) return;
+  // Only an open animation owns a displayed source outside the bounded cache.
+  // Thumbnails already contain their painted pixels and need no source lease.
+  playback(target: HTMLCanvasElement): PreviewPlayback {
+    const playback: Playback = { active: !this.closed };
+    if (playback.active) this.playbacks.add(playback);
+    return {
+      draw: (source, paint) => this.paint(target, source, paint, playback),
+      dispose: () => {
+        playback.active = false;
+        playback.displayed = undefined;
+        this.playbacks.delete(playback);
+      },
+    };
+  }
+
+  draw(target: HTMLCanvasElement, source: string, paint: (image: HTMLImageElement) => void) {
+    return this.paint(target, source, paint);
+  }
+
+  private async paint(
+    target: HTMLCanvasElement,
+    source: string,
+    paint: (image: HTMLImageElement) => void,
+    playback?: Playback,
+  ) {
+    const active = () => !this.closed && (!playback || playback.active);
+    if (!active()) return;
     const request = {};
     this.latest.set(target, request);
     try {
-      // Keep the displayed page with its canvas: an atlas larger than the cache
-      // budget must not reload on every animation frame. Weak keys do not retain
-      // removed palette canvases, and shutdown clears the whole displayed set.
-      const displayed = this.displayed.get(target);
+      // A leased atlas larger than the cache budget must not reload each frame.
+      const displayed = playback?.displayed;
       const image = await (displayed?.source === source
         ? Promise.resolve(displayed.image)
         : this.acquire(source));
-      if (!this.closed && target.isConnected && this.latest.get(target) === request) {
-        this.displayed.set(target, { source, image });
+      if (active() && target.isConnected && this.latest.get(target) === request) {
+        if (playback) playback.displayed = { source, image };
         paint(image);
       }
     } catch (error) {
-      if (!this.closed && this.latest.get(target) === request) throw error;
+      if (active() && this.latest.get(target) === request) throw error;
     }
   }
 
@@ -72,67 +104,48 @@ export class PreviewImages {
       return Promise.resolve(cached);
     }
     const pending = this.pending.get(source);
-    if (pending) return pending.promise;
-    const { promise, resolve, reject } = Promise.withResolvers<HTMLImageElement>();
-    const entry = { source, promise, resolve, reject };
-    this.pending.set(source, entry);
-    this.queue.push(entry);
-    this.pump();
-    return promise;
-  }
-
-  private pump() {
-    while (!this.closed && this.active < 6 && this.queue.length) {
-      const entry = this.queue.shift()!;
-      this.active++;
-      // Invoke injected loaders inside a promise so synchronous failures settle too.
-      void Promise.resolve()
-        .then(() => {
-          if (this.closed) throw new Error('Preview images disposed');
-          entry.load = this.load(entry.source);
-          return entry.load.promise;
-        })
-        .then(
-          (image) => {
-            if (!this.closed) {
-              this.ready.set(entry.source, image);
-              this.readyBytes += image.naturalWidth * image.naturalHeight * 4;
-              // Count decoded pixels, not compressed transfer bytes. Full-resolution
-              // preview atlases can be far larger than palette thumbnails.
-              while (this.ready.size > 48 || this.readyBytes > 64 * 1024 * 1024) {
-                const oldest = this.ready.keys().next().value!;
-                const removed = this.ready.get(oldest)!;
-                this.ready.delete(oldest);
-                this.readyBytes -= removed.naturalWidth * removed.naturalHeight * 4;
-              }
+    if (pending) return pending;
+    const promise = this.decodes
+      .run(async () => {
+        if (this.closed) throw new Error('Preview images disposed');
+        const load = this.load(source);
+        this.activeLoads.add(load);
+        try {
+          const image = await readUntilAborted(load.promise, this.lifetime.signal);
+          if (!this.closed) {
+            this.ready.set(source, image);
+            this.readyBytes += image.naturalWidth * image.naturalHeight * 4;
+            while (this.ready.size > 48 || this.readyBytes > 64 * 1024 * 1024) {
+              const oldest = this.ready.keys().next().value!;
+              const removed = this.ready.get(oldest)!;
+              this.ready.delete(oldest);
+              this.readyBytes -= removed.naturalWidth * removed.naturalHeight * 4;
             }
-            this.pending.delete(entry.source);
-            entry.resolve(image);
-          },
-          (error: unknown) => {
-            this.pending.delete(entry.source);
-            entry.reject(error);
-          },
-        )
-        .finally(() => {
-          this.active--;
-          this.pump();
-        });
-    }
+          }
+          return image;
+        } finally {
+          this.activeLoads.delete(load);
+        }
+      })
+      .finally(() => this.pending.delete(source));
+    this.pending.set(source, promise);
+    return promise;
   }
 
   dispose() {
     if (this.closed) return;
-    this.closed = true;
+    this.lifetime.abort();
     this.latest = new WeakMap();
-    this.displayed = new WeakMap();
+    for (const playback of this.playbacks) {
+      playback.active = false;
+      playback.displayed = undefined;
+    }
+    this.playbacks.clear();
     this.ready.clear();
     this.readyBytes = 0;
-    this.queue.length = 0;
-    for (const entry of this.pending.values()) {
-      entry.reject(new Error('Preview images disposed'));
-      entry.load?.cancel();
-    }
+    this.decodes.dispose();
+    for (const load of this.activeLoads) load.cancel();
+    this.activeLoads.clear();
     this.pending.clear();
   }
 }

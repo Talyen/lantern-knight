@@ -7,14 +7,12 @@ import type { SimulationView } from '../core/simulation-view';
 import type { ActorSprite } from './sprite';
 import { SceneryReveal, cardCoverage, type CoverageMask } from './scenery-reveal';
 import type { PreparedRegistration } from '../assets/registration';
-import type { WorldVisualDefinition } from '../content/world-visuals';
 
 export class SceneryReveals {
   private reveals: SceneryReveal[] = [];
   constructor(
     private area: AreaDefinition,
     private coverage: PreparedRegistration['coverage'],
-    private art: WorldVisualDefinition,
   ) {}
   add(sprite: ActorSprite) {
     this.reveals.push(new SceneryReveal(sprite));
@@ -23,7 +21,6 @@ export class SceneryReveals {
     const actors = [sim.hero, ...sim.enemies.filter((a) => a.health > 0)];
     for (const reveal of this.reveals) {
       const s = reveal.sprite,
-        wall = this.art.walls.find((w) => w.id === s.mesh.userData.siteWall),
         mask = (this.coverage.masks as Record<string, CoverageMask>)[
           `${s.manifest.asset.id}:${s.animator.frame}`
         ];
@@ -35,15 +32,6 @@ export class SceneryReveals {
             (a.kind === 'hero' ? 1.8 * tuning.heroVisualScale : 1.7) *
             Math.cos((contract.elevationDeg * Math.PI) / 180),
           base = s.mesh.position.clone();
-        if (wall) {
-          const dx = wall.to.x - wall.from.x,
-            dz = wall.to.z - wall.from.z,
-            t = Math.max(
-              0,
-              Math.min(1, ((x - wall.from.x) * dx + (z - wall.from.z) * dz) / (dx * dx + dz * dz)),
-            );
-          base.set(wall.from.x + dx * t, root.y, wall.from.z + dz * t);
-        }
         const ahead = root.clone().sub(base).dot(outward) < 0.1,
           hit =
             ahead &&

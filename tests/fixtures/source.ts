@@ -74,3 +74,16 @@ export function sourceFixture(): Source {
     ],
   };
 }
+
+// Encoding tests need the registration contract, not the native-sized placeholder.
+export function compilerSourceFixture(): Source {
+  const source = sourceFixture();
+  Object.assign(source.asset, {
+    atlasSize: 64,
+    canvas: [32, 36],
+    density: 16,
+    anchor: [16, 29],
+  });
+  source.frames[0]!.attachments.lantern = [11.04, 16.86];
+  return source;
+}
