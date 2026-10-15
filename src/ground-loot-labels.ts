@@ -1,3 +1,4 @@
+import { html } from './dom';
 import { Vector3 } from 'three';
 import { items } from './content/items';
 import { heightAt } from './content/world';
@@ -39,41 +40,24 @@ export class GroundLootLabels {
       const reward = drop.rewards[0]!;
       let label = this.labels.get(drop.id);
       if (!label) {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'ground-loot-label';
-        button.dataset.kind = items[reward.item]!.kind;
-        button.dataset.drop = drop.id;
-        button.textContent = `${items[reward.item]!.name}${reward.amount > 1 ? ` ×${reward.amount}` : ''}`;
-        button.setAttribute('aria-label', `Collect ${button.textContent}`);
-        button.addEventListener(
-          'pointerenter',
-          () => {
-            this.app.highlightedDrop = drop.id;
-          },
-          { signal: this.signal },
-        );
-        button.addEventListener(
-          'pointerleave',
-          () => {
-            if (this.app.highlightedDrop === drop.id) this.app.highlightedDrop = undefined;
-          },
-          { signal: this.signal },
-        );
-        button.addEventListener(
-          'focus',
-          () => {
-            this.app.highlightedDrop = drop.id;
-          },
-          { signal: this.signal },
-        );
-        button.addEventListener(
-          'blur',
-          () => {
-            if (this.app.highlightedDrop === drop.id) this.app.highlightedDrop = undefined;
-          },
-          { signal: this.signal },
-        );
+        const name = `${items[reward.item]!.name}${reward.amount > 1 ? ` ×${reward.amount}` : ''}`;
+        const button = html<HTMLButtonElement>`<button type="button" class="ground-loot-label" data-kind="${items[reward.item]!.kind}" data-drop="${drop.id}" aria-label="Collect ${name}">${name}</button>`;
+        for (const type of ['pointerenter', 'focus'])
+          button.addEventListener(
+            type,
+            () => {
+              this.app.highlightedDrop = drop.id;
+            },
+            { signal: this.signal },
+          );
+        for (const type of ['pointerleave', 'blur'])
+          button.addEventListener(
+            type,
+            () => {
+              if (this.app.highlightedDrop === drop.id) this.app.highlightedDrop = undefined;
+            },
+            { signal: this.signal },
+          );
         button.addEventListener(
           'click',
           (event) => {

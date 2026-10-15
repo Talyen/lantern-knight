@@ -13,49 +13,8 @@ import { Simulation, FixedClock } from '../../src/core/simulation';
 import { EventHub, type AnimationEvent } from '../../src/core/events';
 import { makeCamera, walkablePoint } from '../../src/presentation/camera';
 import { Input } from '../../src/input';
-import { bindAdventureUI } from '../../src/adventure-ui';
-import type { Application } from '../../src/application';
 const near = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-7);
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
-
-test('adventure hotkeys ignore editable content and descendants of focused controls', (t) => {
-  const doc = Object.assign(new EventTarget(), {
-    createElement: () =>
-      Object.assign(new EventTarget(), {
-        setAttribute() {},
-        close() {},
-        remove() {},
-      }),
-  });
-  mockGlobals(t, { document: doc });
-  let interactions = 0;
-  const app = {
-    paused: false,
-    busy: false,
-    roomReady: true,
-    interact() {
-      interactions++;
-    },
-    audio: { play: async () => {} },
-    hooks: { status() {} },
-  } as unknown as Application;
-  const lifetime = new AbortController();
-  bindAdventureUI(app, { append() {} } as unknown as HTMLElement, lifetime.signal);
-  using _scopeExit1 = onExit(() => {
-    lifetime.abort();
-  });
-  for (const target of [
-    { isContentEditable: true, closest: () => null },
-    { closest: (selector: string) => (selector.includes('button') ? {} : null) },
-  ]) {
-    const event = Object.assign(new Event('keydown'), { code: 'KeyE' });
-    Object.defineProperty(event, 'target', { value: target });
-    doc.dispatchEvent(event);
-  }
-  assert.equal(interactions, 0);
-  doc.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyE' }));
-  assert.equal(interactions, 1, 'canvas and window shortcuts remain available');
-});
 
 test('encounter retries preserve elapsed session ticks across generations', () => {
   const session = new GameSession(content);

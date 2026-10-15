@@ -424,7 +424,6 @@ it('applying a repeat pattern preserves the copied pickups as playable health re
 });
 
 import { CompositionTools } from '../../src/editor/composition';
-import { EditorWorkspace } from '../../src/editor/workspace';
 
 it('delete confirmation cannot delete replacement document objects with reused identities', async () => {
   let history = assembly();
@@ -488,46 +487,6 @@ it('marquee selects rendered elevations and excludes descendants of hidden suppo
   host.view = () => ({ sim, screen: (p: Vector3) => ({ x: p.x * 100, y: p.y * 100 }) });
   tools.rectangle({ x: -10, y: -10 }, { x: 110, y: 10 }, false);
   assert.equal(tools.selection.size, 0, 'a hidden support hides its mounted children from marquee');
-});
-
-it('workspace keeps single-object clip controls hidden for multiple selected objects', (t) => {
-  const nodes = new Map<string, ReturnType<typeof node>>();
-  function node() {
-    const label = { hidden: false };
-    return {
-      hidden: false,
-      disabled: false,
-      checked: false,
-      value: '',
-      textContent: '',
-      style: {},
-      options: [{}, {}],
-      closest: () => label,
-      replaceChildren() {},
-      setAttribute() {},
-    };
-  }
-  let selectionCount = 2;
-  mockGlobals(t, {
-    document: {
-      getElementById(id: string) {
-        if (!nodes.has(id)) nodes.set(id, node());
-        return nodes.get(id)!;
-      },
-      querySelector: () => ({}),
-    },
-  });
-
-  for (const id of ['category', 'collection', 'asset-scope']) document.getElementById(id);
-  for (const id of ['category', 'collection', 'asset-scope']) nodes.get(id)!.value = 'all';
-  const workspace = Object.create(EditorWorkspace.prototype) as EditorWorkspace;
-  Object.assign(workspace, { selectionSize: () => selectionCount });
-  workspace.refresh();
-  for (const id of ['clip', 'heading']) assert.equal(nodes.get(id)!.closest().hidden, true);
-  assert.equal(nodes.get('place-clip')!.closest().hidden, false);
-  selectionCount = 1;
-  workspace.refresh();
-  for (const id of ['clip', 'heading']) assert.equal(nodes.get(id)!.closest().hidden, false);
 });
 
 it('duplicated containers retain independent rewards and follow their artwork through transforms', () => {

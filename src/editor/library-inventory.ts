@@ -1,3 +1,4 @@
+import { html } from '../dom';
 type RecordEntry = { path: string; sha256: string; kind: string; assets: string[] };
 type Media = { path: string; file: string; sha256: string; bytes: number };
 type Inventory = {
@@ -20,16 +21,11 @@ export async function libraryInventory(
   }
   if (!response.ok) throw new Error('Library inventory unavailable');
   const data = (await response.json()) as Inventory;
-  const summary = document.createElement('p');
-  summary.textContent = `${data.files.length.toLocaleString()} source files · ${data.images.length.toLocaleString()} distinct images · ${data.media.length.toLocaleString()} media files`;
-  const search = document.createElement('input');
-  search.type = 'search';
-  search.placeholder = 'Search sources and media…';
-  search.setAttribute('aria-label', 'Search source inventory');
-  const list = document.createElement('div'),
-    count = document.createElement('p'),
-    more = document.createElement('button');
-  more.textContent = 'Show more';
+  const summary = html`<p>${data.files.length.toLocaleString()} source files · ${data.images.length.toLocaleString()} distinct images · ${data.media.length.toLocaleString()} media files</p>`;
+  const search = html<HTMLInputElement>`<input type="search" placeholder="Search sources and media…" aria-label="Search source inventory">`;
+  const list = html`<div></div>`,
+    count = html`<p></p>`,
+    more = html<HTMLButtonElement>`<button>Show more</button>`;
   const byHash = new Map(data.media.map((m) => [m.sha256, m]));
   const loose = new Set(data.files.map((r) => r.sha256));
   const rows = [
@@ -62,13 +58,9 @@ export async function libraryInventory(
       matches = rows.filter((r) => r.path.toLocaleLowerCase().includes(query));
     count.textContent = `Showing ${Math.min(limit, matches.length).toLocaleString()} of ${matches.length.toLocaleString()}`;
     for (const row of matches.slice(0, limit)) {
-      const item = document.createElement('p'),
-        label = document.createElement('span');
-      label.textContent = row.path + ' ';
-      item.append(label);
+      const item = html`<p><span>${row.path} </span></p>`;
       if (row.assets[0]) {
-        const button = document.createElement('button');
-        button.textContent = 'Show artwork';
+        const button = html<HTMLButtonElement>`<button>Show artwork</button>`;
         button.onclick = () => show(row.assets[0]!);
         item.append(button);
       }
@@ -76,19 +68,14 @@ export async function libraryInventory(
         row.media &&
         /^generated\/library\/media\/[a-f0-9]{64}\.[a-z0-9]+$/.test(row.media.file)
       ) {
-        const link = document.createElement('a');
-        link.href = '/' + row.media.file;
-        link.download = row.media.path.split('/').at(-1) ?? 'asset';
-        link.textContent = 'Download original';
-        item.append(link);
+        item.append(
+          html`<a href="/${row.media.file}" download="${row.media.path.split('/').at(-1) ?? 'asset'}">Download original</a>`,
+        );
         const ext = row.media.file.split('.').at(-1);
         if (
           ['mp4', 'webm', 'wav', 'mp3', 'ogg', 'gif', 'apng', 'png', 'webp', 'svg'].includes(ext!)
         ) {
-          const details = document.createElement('details'),
-            title = document.createElement('summary');
-          title.textContent = 'Preview';
-          details.append(title);
+          const details = html<HTMLDetailsElement>`<details><summary>Preview</summary></details>`;
           details.ontoggle = () => {
             if (!details.open) return;
             if (details.children.length > 1) return;
@@ -124,21 +111,11 @@ export async function libraryInventory(
     render();
   };
   host.append(summary, search, count, list, more);
-  if (data.unresolvedAnimations.length) {
-    const details = document.createElement('details'),
-      title = document.createElement('summary');
-    title.textContent = `${data.unresolvedAnimations.length} metadata records need animation adapters`;
-    details.append(title);
-    const note = document.createElement('p');
-    note.textContent =
-      'Their supplied images and media remain available. These metadata records could not establish a complete playable animation.';
-    details.append(note);
-    for (const issue of data.unresolvedAnimations) {
-      const row = document.createElement('p');
-      row.textContent = `${issue.archive} / ${issue.metadata}: ${issue.reason}`;
-      details.append(row);
-    }
-    host.append(details);
-  }
+  if (data.unresolvedAnimations.length)
+    host.append(html`<details>
+      <summary>${data.unresolvedAnimations.length} metadata records need animation adapters</summary>
+      <p>Their supplied images and media remain available. These metadata records could not establish a complete playable animation.</p>
+      ${data.unresolvedAnimations.map((issue) => html`<p>${issue.archive} / ${issue.metadata}: ${issue.reason}</p>`)}
+    </details>`);
   render();
 }

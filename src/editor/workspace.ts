@@ -1,3 +1,4 @@
+import { html } from '../dom';
 const element = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
 export type DockTab = 'artwork' | 'object' | 'objects' | 'scene';
 export function openDock(tab: DockTab, reveal = true) {
@@ -192,9 +193,7 @@ export class EditorWorkspace {
     for (const id of ['category', 'collection', 'asset-scope']) {
       const select = element<HTMLSelectElement>(id);
       if (select.value === 'all') continue;
-      const button = document.createElement('button');
-      button.textContent = select.selectedOptions[0]!.text + ' ×';
-      button.setAttribute('aria-label', 'Clear ' + select.getAttribute('aria-label'));
+      const button = html<HTMLButtonElement>`<button aria-label="Clear ${select.getAttribute('aria-label')}">${select.selectedOptions[0]!.text} ×</button>`;
       button.onclick = () => {
         select.value = 'all';
         select.dispatchEvent(new Event('change'));
@@ -204,9 +203,7 @@ export class EditorWorkspace {
     }
     const animated = element<HTMLInputElement>('asset-animated');
     if (animated.checked) {
-      const button = document.createElement('button');
-      button.textContent = 'Animated ×';
-      button.ariaLabel = 'Clear animated filter';
+      const button = html<HTMLButtonElement>`<button aria-label="Clear animated filter">Animated ×</button>`;
       button.onclick = () => {
         animated.checked = false;
         animated.dispatchEvent(new Event('change'));
@@ -278,8 +275,7 @@ export class EditorWorkspace {
     for (const [name, id] of actions) {
       const target = element<HTMLButtonElement>(id!);
       if (!target || !name!.toLowerCase().includes(query)) continue;
-      const button = document.createElement('button');
-      button.textContent = name!;
+      const button = html<HTMLButtonElement>`<button>${name}</button>`;
       button.disabled = target.disabled;
       button.onclick = () => {
         element<HTMLDialogElement>('command-dialog').close();
@@ -293,8 +289,7 @@ export class EditorWorkspace {
       ['scene', 'Scene settings'],
     ] as const) {
       if (!name.toLowerCase().includes(query)) continue;
-      const button = document.createElement('button');
-      button.textContent = name;
+      const button = html<HTMLButtonElement>`<button>${name}</button>`;
       button.onclick = () => {
         element<HTMLDialogElement>('command-dialog').close();
         openDock(tab);
@@ -323,8 +318,7 @@ export class EditorWorkspace {
       );
       const title = [...groups.map((s) => s.textContent?.trim()), text].join(' › ');
       if (!title.toLowerCase().includes(query)) continue;
-      const button = document.createElement('button');
-      button.textContent = title;
+      const button = html<HTMLButtonElement>`<button>${title}</button>`;
       button.onclick = () => {
         if (['ground-brush-radius', 'ground-task'].includes(input.id)) {
           const canvasTool = element<HTMLSelectElement>('tool');

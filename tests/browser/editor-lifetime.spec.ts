@@ -310,3 +310,67 @@ test('editor remount closes its predecessor and shutdown revokes retained DOM co
   expect(result).toEqual({ modal: false, focused: false, inert: true });
   expect(errors).toEqual([]);
 });
+
+test('library rendering ignores superseded listings and cancelled arrangement bodies', async ({
+  page,
+}) => {
+  await openEditor(page);
+  const result = await page.evaluate(async () => {
+    const moduleURL = '/src/editor/library.ts';
+    const { SceneLibrary } = (await import(moduleURL)) as typeof import('../../src/editor/library');
+    const requests: ReturnType<typeof Promise.withResolvers<Response>>[] = [];
+    const requestedBody = Promise.withResolvers<void>();
+    const original = window.fetch;
+    window.fetch = () => {
+      const request = Promise.withResolvers<Response>();
+      requests.push(request);
+      if (requests.length === 4) requestedBody.resolve();
+      return request.promise;
+    };
+    const library = Object.create(SceneLibrary.prototype) as InstanceType<typeof SceneLibrary>;
+    const fragments = document.getElementById('library-fragments')!;
+    Object.assign(library, {
+      lifetime: new AbortController(),
+      loadSequence: 0,
+      dialog: document.getElementById('scene-library-dialog'),
+      preview: window.sceneEditor.view().presentation!.overlay.clone(false),
+      host: {
+        recoveries: () => [{ name: '<recovery>', time: 'now', key: 'recovery' }],
+        view: () => ({ render() {} }),
+      },
+    });
+    try {
+      const first = library.load(),
+        second = library.load('recovery');
+      requests[1]!.resolve(Response.json({ scenes: [] }));
+      await second;
+      requests[0]!.resolve(
+        Response.json({ scenes: [{ id: 'old', name: 'Old listing', target: 'draft' }] }),
+      );
+      await first;
+      const title = document.getElementById('library-title')!.textContent;
+      const recovery = document.getElementById('library-recovery')!.textContent;
+      const body = Promise.withResolvers<unknown>();
+      const loading = library.load('arrangements').then(
+        () => 'accepted',
+        () => 'cancelled',
+      );
+      requests[2]!.resolve(Response.json({ scenes: [] }));
+      await requestedBody.promise;
+      requests[3]!.resolve(Object.assign(Response.json(null), { json: () => body.promise }));
+      await Promise.resolve();
+      library.dispose();
+      body.resolve({ fragments: [{ id: 'late', error: 'Late arrangement' }] });
+      return { title, recovery, outcome: await loading, fragments: fragments.children.length };
+    } finally {
+      window.fetch = original;
+      library.dispose();
+    }
+  });
+  expect(result).toEqual({
+    title: 'Recovery history',
+    recovery: '<recovery> · now',
+    outcome: 'cancelled',
+    fragments: 0,
+  });
+});

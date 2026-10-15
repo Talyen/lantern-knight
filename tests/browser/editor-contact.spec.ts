@@ -32,7 +32,14 @@ for (const layout of ['repeat', 'artwork'] as const)
         };
       await view.apply(document);
       view.setHeroWalking(true);
+      const previous = { x: view.sim!.hero.x, z: view.sim!.hero.z };
       view.walkHero(1, 0, 200);
+      if (
+        view.sim!.hero.px !== previous.x ||
+        view.sim!.hero.pz !== previous.z ||
+        Math.hypot(view.sim!.hero.x - previous.x, view.sim!.hero.z - previous.z) === 0
+      )
+        throw new Error('Walking must retain its preceding position for locomotion');
       view.render();
       const presentation = view.presentation!,
         contacts = presentation.roomPresentation.inkRoom!.contactShadows!,

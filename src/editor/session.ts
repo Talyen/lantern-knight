@@ -1,3 +1,4 @@
+import { html } from '../dom';
 import { cleanupAll, CleanupFailure } from '../assets/cleanup';
 import { EditorGestures, type GestureLease } from './gestures';
 import { lightingRigs } from '../presentation/lighting-profiles';
@@ -533,20 +534,10 @@ export function createEditorSession() {
     for (const option of options.slice(0, groundLimit)) {
       const [asset, clip] = option.value.split('/');
       const entry = palette.find((p) => p.asset === asset && p.clip === clip);
-      const button = document.createElement('button');
-      button.className = 'ground-card';
-      button.dataset.ground = option.value;
-      button.setAttribute('aria-pressed', String(option.value === select.value));
-      button.disabled = busy;
-      const image = document.createElement('canvas');
-      image.width = 144;
-      image.height = 90;
-      image.setAttribute('aria-hidden', 'true');
-      const label = document.createElement('span');
       const artwork = assetIndex.get(asset!);
-      label.textContent = artwork ? assetLabel(artwork) : asset!.replaceAll('-', ' ');
-      button.title = option.text;
-      button.append(image, label);
+      const image = html<HTMLCanvasElement>`<canvas width="144" height="90" aria-hidden="true"></canvas>`;
+      const button = html<HTMLButtonElement>`<button class="ground-card" data-ground="${option.value}" aria-pressed="${String(option.value === select.value)}" title="${option.text}">${image}<span>${artwork ? assetLabel(artwork) : asset!.replaceAll('-', ' ')}</span></button>`;
+      button.disabled = busy;
       button.onclick = () => {
         select.value = option.value;
         select.dispatchEvent(new Event('change'));
@@ -792,30 +783,16 @@ export function createEditorSession() {
         assetVisible(entry)
       ) {
         shown.add(entry.asset);
-        const button = document.createElement('button');
-        button.className = 'asset';
-        button.title = entry.asset + '/' + entry.clip;
-        button.classList.toggle('active', entry.asset === chosen?.asset);
-        button.draggable = true;
-        const c = document.createElement('canvas');
-        c.width = 112;
-        c.height = 80;
-        c.dataset.index = String(index);
-        c.setAttribute('aria-hidden', 'true');
-        const label = document.createElement('span');
-        label.textContent = (
-          entry.manifest.asset.label ?? entry.asset.replace(/^(ink|library)-/, '')
-        )
+        const c = html<HTMLCanvasElement>`<canvas width="112" height="80" data-index="${index}" aria-hidden="true"></canvas>`;
+        const name = (entry.manifest.asset.label ?? entry.asset.replace(/^(ink|library)-/, ''))
           .replaceAll('_', ' ')
           .replaceAll('-', ' ');
-        const badge = document.createElement('span');
-        badge.className = 'asset-status';
-        badge.textContent = sceneAssets.has(entry.asset)
+        const badge = sceneAssets.has(entry.asset)
           ? 'In this scene'
           : usedAssets.has(entry.asset)
             ? 'In use'
             : 'Library';
-        button.append(c, label, badge);
+        const button = html<HTMLButtonElement>`<button class="asset${entry.asset === chosen?.asset ? ' active' : ''}" title="${entry.asset}/${entry.clip}" draggable="true">${c}<span>${name}</span><span class="asset-status">${badge}</span></button>`;
         button.onclick = () => {
           chooseAsset(entry);
           selected = undefined;

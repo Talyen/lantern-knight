@@ -1,3 +1,4 @@
+import { html } from '../dom';
 import { boundsCorners } from '../content/polygon';
 import { overlayLine, clearOverlay } from '../presentation/overlay-lines';
 import type { EditorGestures, GestureLease } from './gestures';
@@ -217,9 +218,7 @@ export class VisualAuthoring {
       .catch(console.error);
   }
   private button(label: string, action: () => void) {
-    const b = document.createElement('button');
-    b.textContent = label;
-    b.type = 'button';
+    const b = html<HTMLButtonElement>`<button type="button">${label}</button>`;
     b.onclick = action;
     return b;
   }
@@ -240,21 +239,17 @@ export class VisualAuthoring {
     if (typeof value === 'object' && !Array.isArray(value) && path.at(-1) === 'awareness')
       value = { group: '', ...value };
     if (typeof value === 'object') {
-      const details = document.createElement('details');
-      details.open = false;
-      details.dataset.section = path.join('.');
-      const summary = document.createElement('summary');
       const itemName = !Array.isArray(value)
         ? (value.name ?? value.actor ?? value.kind)
         : undefined;
-      summary.textContent = Array.isArray(value)
+      const title = Array.isArray(value)
         ? `${fieldLabel(label)} · ${value.length}`
         : typeof path.at(-1) === 'number' && value && 'id' in value && typeof value.id === 'string'
           ? (typeof itemName === 'string' ? itemName : fieldLabel(label)) +
             ' · ' +
             value.id.slice(0, 28)
           : fieldLabel(label);
-      details.append(summary);
+      const details = html<HTMLDetailsElement>`<details data-section="${path.join('.')}"><summary>${title}</summary></details>`;
       parent.append(details);
       if (Array.isArray(value)) {
         const tuple = ['offset', 'socket', 'footprint'].includes(String(path.at(-1)));
@@ -353,11 +348,7 @@ export class VisualAuthoring {
           exits: ['destination', 'entry', 'trigger', 'marker'],
           interactables: ['object', 'kind', 'x', 'z', 'rewards'],
         };
-        const advanced = document.createElement('details');
-        advanced.dataset.section = path.join('.') + '.advanced';
-        const title = document.createElement('summary');
-        title.textContent = 'Advanced';
-        advanced.append(title);
+        const advanced = html`<details data-section="${path.join('.')}.advanced"><summary>Advanced</summary></details>`;
         for (const [name, child] of Object.entries(value))
           if (child !== undefined && [...path, name].join('.') !== 'geometry.surface.kind')
             this.form(
@@ -370,8 +361,7 @@ export class VisualAuthoring {
       }
       return;
     }
-    const row = document.createElement('label');
-    row.textContent = fieldLabel(label);
+    const row = html`<label>${fieldLabel(label)}</label>`;
     const field = String(path.at(-1));
     const options =
       field === 'actor'
@@ -482,24 +472,15 @@ export class VisualAuthoring {
               this.button('Remove ' + fieldLabel(key), () => this.commit([key], undefined)),
             );
         } else {
-          const section = document.createElement('details');
-          section.dataset.section = key;
-          const summary = document.createElement('summary');
-          summary.textContent = fieldLabel(key);
-          section.append(
-            summary,
-            this.button('Add ' + fieldLabel(key), () =>
-              this.commit([key], structuredClone(optional[key as keyof typeof optional])),
-            ),
-          );
-          category.append(section);
+          category.append(html`<details data-section="${key}"><summary>${fieldLabel(key)}</summary>
+            ${this.button('Add ' + fieldLabel(key), () => this.commit([key], structuredClone(optional[key as keyof typeof optional])))}
+          </details>`);
         }
       }
     }
     // Surface alternatives have different valid fields and change atomically.
     if (d.geometry) {
-      const select = document.createElement('select');
-      select.setAttribute('aria-label', 'Surface type');
+      const select = html<HTMLSelectElement>`<select aria-label="Surface type"></select>`;
       for (const kind of ['flat', 'ramp', 'stairs']) select.add(new Option(kind, kind));
       select.value = d.geometry.surface.kind;
       select.onchange = () =>
@@ -517,10 +498,9 @@ export class VisualAuthoring {
                 ...(select.value === 'stairs' ? { steps: 3 } : {}),
               },
         );
-      const row = document.createElement('label');
-      row.textContent = 'Surface type';
-      row.append(select);
-      document.querySelector('#ground-geometry [data-section=geometry] > summary')?.after(row);
+      document
+        .querySelector('#ground-geometry [data-section=geometry] > summary')
+        ?.after(html`<label>Surface type${select}</label>`);
     }
     this.objectFields.replaceChildren();
     $('object-name').replaceChildren();
@@ -567,11 +547,7 @@ export class VisualAuthoring {
     const path = ['objects', index];
     this.form(p.label ?? p.clip.replaceAll('_', ' '), [...path, 'label'], $('object-name'), 'Name');
     const section = (label: string) => {
-      const details = document.createElement('details');
-      details.dataset.section = 'object-' + label;
-      const summary = document.createElement('summary');
-      summary.textContent = label;
-      details.append(summary);
+      const details = html`<details data-section="object-${label}"><summary>${label}</summary></details>`;
       this.objectFields.append(details);
       return details;
     };
@@ -605,8 +581,7 @@ export class VisualAuthoring {
       );
     if (p.kind === 'decal') return;
     const attachments = section('Attachments');
-    const attach = document.createElement('select');
-    attach.setAttribute('aria-label', 'Attachment support');
+    const attach = html<HTMLSelectElement>`<select aria-label="Attachment support"></select>`;
     attach.add(new Option('Free object', ''));
     const descendants = new Set(this.host.history().descendants([p.id]));
     for (const item of sceneItems(this.host.history().document))
@@ -649,8 +624,7 @@ export class VisualAuthoring {
       )?.placement;
       const sockets = support ? paletteEntry(support)?.sockets : undefined;
       if (sockets) {
-        const socket = document.createElement('select');
-        socket.setAttribute('aria-label', 'Attachment socket');
+        const socket = html<HTMLSelectElement>`<select aria-label="Attachment socket"></select>`;
         socket.add(new Option('Custom offset', ''));
         for (const [name, s] of Object.entries(sockets))
           if (s.accepts.includes(p.asset + ':' + p.clip)) socket.add(new Option(name, name));

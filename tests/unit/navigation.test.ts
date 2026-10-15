@@ -15,7 +15,7 @@ import { PickupPlan } from '../../src/core/pickup-plan';
 import { MovementPlans } from '../../src/core/movement-plans';
 import { EncounterBehavior } from '../../src/core/encounter-behavior';
 import { tuning } from '../../src/content/gameplay';
-import { contentDefinitions } from '../fixtures/content';
+import { content, contentDefinitions } from '../fixtures/content';
 const area = (): AreaDefinition => ({
   ...structuredClone(contentDefinitions.areas[0]!),
   id: 'navigation',
@@ -681,4 +681,17 @@ test('loot routing uses the outer interaction reach at a narrow recess', () => {
   assert.equal(ready, 'object-crate-0');
   assert.equal(sim.collectDrop(ready!), true);
   assert.equal(sim.inventory.gold, 1);
+});
+
+test('movement preview stays in its room when walking onto an automatic exit', () => {
+  const sim = new Simulation(content);
+  sim.movementPreview = true;
+  sim.enemies.forEach((enemy) => {
+    enemy.health = 0;
+  });
+  sim.cleared = true;
+  Object.assign(sim.hero, { x: 0, z: -5.9 });
+  assert.equal(sim.step().transition, undefined);
+  sim.movementPreview = false;
+  assert.equal(sim.step().transition, 'landing');
 });
