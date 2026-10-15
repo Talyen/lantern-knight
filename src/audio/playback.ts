@@ -42,9 +42,9 @@ export class AudioPlayback {
   private lastVariant = new Map<string, string>();
   private cooldown = new Map<string, number>();
   private lifetime = new AbortController();
-  private epoch = 0;
-  private sessionEpoch = 0;
-  private ambienceRequest = 0;
+  private worldLifetime = new AbortController();
+  private sessionLifetime = new AbortController();
+  private ambienceLifetime = new AbortController();
   private destination: readonly AudioCue[] = [];
   private activeDestination = '';
   private frozen = true;
@@ -153,9 +153,8 @@ export class AudioPlayback {
     if (this.effects) this.effects.gain.value = settings.effects;
     if (this.ambience) this.ambience.gain.value = settings.ambience;
     if (settings.muted) {
-      this.epoch++;
-      this.sessionEpoch++;
       this.cooldown.clear();
+      this.cancelPending(false);
       this.cleanupObserved([() => this.finishVoices(() => true), () => this.stopAmbience()]);
     } else if (this.unlocked) void this.setAmbience(this.destination).catch(() => {});
   }
@@ -163,7 +162,7 @@ export class AudioPlayback {
     if (this.frozen === frozen) return;
     this.frozen = frozen;
     if (frozen) {
-      this.epoch++;
+      this.cancelPending(true);
       this.cleanupObserved([
         () => this.finishVoices((voice) => voice.world),
         () => this.stopAmbience(),
@@ -171,9 +170,8 @@ export class AudioPlayback {
     } else void this.setAmbience(this.destination).catch(() => {});
   }
   replaceSession() {
-    this.epoch++;
-    this.sessionEpoch++;
     this.cooldown.clear();
+    this.cancelPending(false);
     this.destination = [];
     this.cleanupObserved([
       () => this.finishVoices((voice) => voice.world),
@@ -182,6 +180,14 @@ export class AudioPlayback {
   }
   setListener(x: number, z: number) {
     this.listener = { x, z };
+  }
+  private cancelPending(worldOnly: boolean) {
+    const world = this.worldLifetime,
+      session = this.sessionLifetime;
+    this.worldLifetime = new AbortController();
+    if (!worldOnly) this.sessionLifetime = new AbortController();
+    world.abort();
+    if (!worldOnly) session.abort();
   }
   private async preload() {
     for (const sample of this.manifest?.samples ?? []) {
@@ -258,14 +264,16 @@ export class AudioPlayback {
     } = {},
   ) {
     const world = options.world ?? true,
-      epoch = this.epoch,
-      sessionEpoch = this.sessionEpoch,
+      signal = AbortSignal.any([
+        this.lifetime.signal,
+        this.sessionLifetime.signal,
+        ...(world ? [this.worldLifetime.signal] : []),
+        ...(options.signal ? [options.signal] : []),
+      ]),
       requested = this.deps.now();
     const allowed = () =>
       !this.lifetime.signal.aborted &&
-      !options.signal?.aborted &&
-      sessionEpoch === this.sessionEpoch &&
-      (!world || epoch === this.epoch) &&
+      !signal.aborted &&
       this.unlocked &&
       !this.settings.muted &&
       this.settings.master > 0 &&
@@ -283,7 +291,7 @@ export class AudioPlayback {
       const pool = choices.length ? choices : variants;
       const sample = pool[Math.min(pool.length - 1, Math.floor(this.deps.random() * pool.length))];
       if (!sample) return;
-      lease = await this.buffers.acquire(sample);
+      lease = await this.buffers.acquire(sample, signal);
       if (!allowed() || this.deps.now() - requested > 0.25) return;
       const key = cue + ':' + (options.key ?? 'global');
       if ((this.cooldown.get(key) ?? -Infinity) > this.deps.now()) return;
@@ -317,16 +325,21 @@ export class AudioPlayback {
       this.cooldown.set(key, this.deps.now() + cueCooldown(cue));
     } catch (error) {
       this.cleanupObserved([() => voice?.finish()]);
-      this.fail(error);
+      if (!signal.aborted) this.fail(error);
     } finally {
       lease?.release();
     }
   }
   async setAmbience(destination: readonly AudioCue[]) {
-    this.destination = destination.slice(0, 2);
-    const key = this.destination.join('/'),
-      request = ++this.ambienceRequest;
+    const previous = this.ambienceLifetime;
+    this.ambienceLifetime = new AbortController();
+    const signal = AbortSignal.any([this.lifetime.signal, this.ambienceLifetime.signal]);
+    const cues = destination.slice(0, 2);
+    this.destination = cues;
+    const key = cues.join('/');
+    previous.abort();
     if (
+      signal.aborted ||
       !this.unlocked ||
       !this.manifest ||
       this.manifest.samples.length === 0 ||
@@ -338,20 +351,15 @@ export class AudioPlayback {
     if (key === this.activeDestination) return;
     const created: AudioVoice[] = [];
     try {
-      const samples = this.destination.map((cue) => {
+      const samples = cues.map((cue) => {
         const sample = this.manifest!.samples.find((s) => s.cue === cue && s.loop);
         if (!sample) throw new Error('ambience missing: ' + cue);
         return sample;
       });
       // Pin each decoded layer while awaiting the next one.
       for (const sample of samples) {
-        const lease = await this.buffers.acquire(sample);
-        if (
-          request !== this.ambienceRequest ||
-          this.lifetime.signal.aborted ||
-          this.frozen ||
-          this.settings.muted
-        ) {
+        const lease = await this.buffers.acquire(sample, signal);
+        if (signal.aborted || this.lifetime.signal.aborted || this.frozen || this.settings.muted) {
           lease.release();
           return;
         }
@@ -392,13 +400,13 @@ export class AudioPlayback {
       }, 1000);
       this.timers.add(timer);
     } catch (error) {
-      this.fail(error);
+      if (!signal.aborted) this.fail(error);
     } finally {
       this.cleanupObserved(created.map((voice) => voice.finish));
     }
   }
   private stopAmbience() {
-    this.ambienceRequest++;
+    this.ambienceLifetime.abort();
     this.activeDestination = '';
     const timers = [...this.timers],
       voices = [...this.loops, ...this.retiring];
@@ -423,7 +431,6 @@ export class AudioPlayback {
   dispose() {
     if (this.lifetime.signal.aborted) return;
     this.lifetime.abort();
-    this.epoch++;
     this.cooldown.clear();
     cleanupAll([
       () => this.finishVoices(() => true),
