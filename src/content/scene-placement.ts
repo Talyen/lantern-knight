@@ -4,8 +4,68 @@ import { artworkFloorLayout } from './floor-layout';
 import type { SceneSnapshot } from './scene-document';
 import type { AreaDefinition, Point } from './world';
 import type { WorldVisualDefinition } from './world-visuals';
+import type { Manifest } from '../assets/schema';
+import { paintedEnvelopePolicy, spritePlacementEnvelope } from './placement-envelope';
+import { actors } from './actors';
+import { actorVisuals } from './visuals';
 
 export type PlacementFinding = { id: string; message: string };
+export function spawnPlacementAssets(document: SceneSnapshot): string[] {
+  return [
+    ...new Set(
+      (document.gameplay?.spawns ?? []).map((spawn) => {
+        const actor = actors.find((a) => a.id === spawn.actor);
+        const visual = actor && actorVisuals[actor.visual];
+        if (!visual) throw new Error('Unknown spawn artwork: ' + spawn.id);
+        return visual.asset;
+      }),
+    ),
+  ];
+}
+
+export function sceneEnvelopeFindings(
+  document: SceneSnapshot,
+  manifests: ReadonlyMap<string, Manifest>,
+): PlacementFinding[] {
+  if (!document.groundInteraction) return [];
+  const inspect = paintedEnvelopePolicy(document);
+  const findings: PlacementFinding[] = [];
+  for (const object of document.objects) {
+    const interaction = document.gameplay?.interactables?.find((p) => p.object === object.id);
+    if (
+      (object.kind !== 'prop' && object.kind !== 'character') ||
+      (!interaction && object.role === 'ground') ||
+      object.role === 'attachment'
+    )
+      continue;
+    const manifest = manifests.get(object.asset);
+    if (!manifest || (!interaction && manifest.asset.placement === 'ground')) continue;
+    const message = inspect(
+      { x: object.x!, z: object.z! },
+      spritePlacementEnvelope(
+        manifest,
+        interaction?.kind === 'container'
+          ? [...new Set([object.clip, interaction.idle, interaction.action, interaction.spent])]
+          : [object.clip],
+      ),
+      object,
+    );
+    if (message) findings.push({ id: object.id, message: `${object.id}: ${message}` });
+  }
+  for (const spawn of document.gameplay?.spawns ?? []) {
+    const actor = actors.find((a) => a.id === spawn.actor);
+    const visual = actor && actorVisuals[actor.visual];
+    const manifest = visual && manifests.get(visual.asset);
+    if (!manifest || !visual) throw new Error('Missing spawn artwork: ' + spawn.id);
+    const message = inspect(
+      spawn,
+      spritePlacementEnvelope(manifest, [visual.clips.idle, visual.clips.walk]),
+      spawn,
+    );
+    if (message) findings.push({ id: spawn.id, message: `${spawn.id}: ${message}` });
+  }
+  return findings;
+}
 function edgeDistance(point: Point, ring: readonly Point[]) {
   let nearest = Infinity;
   for (let i = 0; i < ring.length; i++) {

@@ -11,6 +11,7 @@ import type { Manifest } from '../assets/schema';
 import { placementOffset } from './scenery-presets';
 import { HEADINGS } from './headings';
 import { deriveScenePlacement } from './scene-design';
+import { sceneEnvelopeFindings } from './scene-placement';
 const id = z.string().regex(/^[a-z][a-z0-9-]{0,63}$/);
 const coordinate = z.number().finite().min(-1000).max(1000),
   positive = z.number().finite().positive();
@@ -340,6 +341,13 @@ export function validateSceneReferences(
       if (manifests && f && !manifests.get(f.asset)?.asset.clips[f.clip]?.d45)
         throw new Error(`Unavailable flame: ${f.asset}/${f.clip}`);
     }
+  if (manifests && !deferredGround) {
+    const findings = sceneEnvelopeFindings(d, manifests);
+    if (findings.length)
+      throw new Error(
+        'Placement needs clear artwork: ' + findings.map((f) => f.message).join('; '),
+      );
+  }
   if (manifests) {
     for (const asset of d.proceduralAssets)
       if (!manifests.has(asset)) throw new Error('Unavailable scene asset: ' + asset);

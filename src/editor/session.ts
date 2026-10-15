@@ -1470,6 +1470,7 @@ export function createEditorSession() {
       document: () => documents.history.document,
       compose: (snapshot) => composeDraftGameplay(snapshot, contentDefinitions, worldVisuals),
       catalog: () => assetCatalog,
+      manifest: (asset) => assetIndex.get(asset),
       status,
     });
     groundAuthoring = new GroundAuthoring(canvas, {

@@ -370,7 +370,10 @@ test('editor rejects an upright prop on painted scenery without changing the acc
     .toBe('Imported ' + scene.name);
   await waitForEditorIdle(page);
   const count = scene.objects.length;
-  const barrel = scene.objects.find((o: { id: string }) => o.id === 'southern-supply');
+  const breakable = scene.gameplay.interactables.find(
+    (o: { kind: string }) => o.kind === 'breakable',
+  );
+  const barrel = scene.objects.find((o: { id: string }) => o.id === breakable.object);
   await page.locator('#artwork-tab').click();
   await page.locator('#art-filters > summary').click();
   await page.locator('#asset-scope').selectOption('all');

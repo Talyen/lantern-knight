@@ -1,0 +1,95 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { test, expect, openEditor, waitForEditorIdle } from './fixtures';
+import { projectRoot } from '../../tools/assets/paths';
+import type { SceneDocument } from '../../src/content/scene-document';
+
+test('Orchard rejects a hidden-body placement and preserves its accepted composition', async ({
+  page,
+}) => {
+  test.setTimeout(240_000);
+  const scene = JSON.parse(
+    await fs.readFile(path.join(projectRoot, 'authoring/scenes/abandoned-orchard.json'), 'utf8'),
+  );
+  await openEditor(page);
+  await page.locator('#import-scene').setInputFiles({
+    name: 'orchard.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(scene)),
+  });
+  await page.locator('#confirmation-accept').click();
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.state().document.name), { timeout: 90_000 })
+    .toBe('Imported ' + scene.name);
+  await waitForEditorIdle(page);
+  const result = await page.evaluate(async () => {
+    const source = '/src/content/floor-layout.ts';
+    const { artworkFloorLayout } = await import(source);
+    const original = window.sceneEditor.state().document;
+    const bad = structuredClone(original) as SceneDocument;
+    // Feet were accepted here by the old policy; the head intersects the apple canopy.
+    bad.gameplay!.spawns[0]!.x = -9.5;
+    bad.gameplay!.spawns[0]!.z = 5.75;
+    let error = '';
+    try {
+      await window.sceneEditor.view().apply(bad);
+    } catch (e) {
+      error = (e as Error).message;
+    }
+    const view = window.sceneEditor.view();
+    return {
+      error,
+      available: !!view.presentation,
+      unchanged: JSON.stringify(original) === JSON.stringify(window.sceneEditor.state().document),
+      foot: artworkFloorLayout(original.floor.width, original.floor.depth).uv({ x: -9.5, z: 5.75 }),
+    };
+  });
+  expect(result.error).toContain('registered artwork overlaps painted scenery');
+  expect(result.available).toBe(true);
+  expect(result.unchanged).toBe(true);
+  const directory = process.env.LANTERN_ORCHARD_DESIGN_CAPTURES;
+  if (!directory) return;
+  await fs.mkdir(directory, { recursive: true });
+  await page.locator('#viewport').focus();
+  await page.keyboard.press('Tab');
+  await page.evaluate(() => {
+    window.sceneEditor.view().setGrid(false);
+    window.sceneEditor.view().setAnimationPlaying(false);
+  });
+  for (const [name, u, v, span] of [
+    ['whole-orchard', 0.5, 0.5, 21.3333333333333],
+    ['camp-verge', 0.455, 0.76, 8.55],
+    ['western-picking', 0.35, 0.51, 8.55],
+    ['press-apron', 0.61, 0.36, 8.55],
+    ['harvest-apron', 0.68, 0.72, 8.55],
+    ['eastern-passage', 0.79, 0.6, 8.55],
+  ] as const) {
+    await page.evaluate(
+      async ({ u, v, span }) => {
+        const source = '/src/content/floor-layout.ts';
+        const { artworkFloorLayout } = await import(source);
+        const view = window.sceneEditor.view(),
+          d = window.sceneEditor.state().document,
+          p = view.presentation!;
+        const center = artworkFloorLayout(d.floor.width, d.floor.depth).world([u, v]);
+        view.hero(d.hero);
+        p.center.set(center.x, 0, center.z);
+        p.verticalSpan = span;
+        p.resize();
+        view.render();
+      },
+      { u, v, span },
+    );
+    for (const rig of ['lantern', 'silver'] as const) {
+      await page.evaluate((rig) => {
+        const view = window.sceneEditor.view();
+        view.presentation!.lookRenderer.setSettings({ rig });
+        view.render();
+      }, rig);
+      await page.waitForTimeout(250);
+      await page.screenshot({
+        path: path.join(directory, `${name}${rig === 'silver' ? '-silver' : ''}.png`),
+      });
+    }
+  }
+});

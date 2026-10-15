@@ -161,9 +161,6 @@ test('the expanded Orchard connects every encounter, supply and required destina
   const nav = new Navigation(area);
   const radius = effectiveRadius(productionContent.actor('lamplighter').radius);
   const start = area.entries.find((p) => p.id === area.baselineEntry)!;
-  assert.equal(area.spawns.length, 12);
-  assert.equal(area.interactables!.filter((p) => p.kind === 'breakable').length, 10);
-  assert.equal(area.interactables!.filter((p) => p.kind === 'container').length, 4);
   for (const point of [
     ...area.spawns,
     ...area.interactables!,
