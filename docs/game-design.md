@@ -64,6 +64,8 @@ Persist the chosen upgrade, unique temper ownership and resource balances atomic
 
 Author small destinations in the scene editor. Game begins in Abandoned Orchard, with explicit departures through Forest Gathering Clearing to Ruined Craftsman Forge. Discovering campfires unlocks travel between them. Rest heals and resets enemies without replenishing potions or restoring claimed objects. Death retains rewards and returns to the nearest reachable discovered campfire in the current destination, or the last visited fire when none is reachable. Scene-editor playtests run authored content in temporary sessions.
 
+On-foot returns arrive at the matching path rather than skipping to the destination campfire. Rest before retracing the opening to try the permanent upgrade against restored encounters. Campfire travel remains the direct route between discovered fires.
+
 Traversal, combat, artwork and occlusion are capabilities independent of a particular level composition. Future destinations and encounters remain to be designed.
 
 ## Lighting

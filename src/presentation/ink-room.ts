@@ -304,21 +304,6 @@ export class InkRoom {
         new T.Vector3(drop.x, heightAt(this.area, drop.x, drop.z) + 0.03, drop.z),
       );
     }
-
-    for (const a of sim.enemies)
-      if (a.health > 0 && a.state === 'attack') {
-        const s = this.effect(`telegraph-${a.id}`, 'ink-cues', 'enemy_ring'),
-          c = resolveClip(s.manifest, 'enemy_ring', 'd45');
-        s.mesh.visible = true;
-        // Ring radius follows authoritative reach; artwork is only a cue.
-        s.mesh.scale.setScalar(a.definition.melee.range / 2);
-        this.sample(
-          s,
-          c,
-          Math.min(0.99, a.age / a.definition.melee.total) * clipDuration(c),
-          new T.Vector3(a.px + (a.x - a.px) * alpha, a.y + 0.025, a.pz + (a.z - a.pz) * alpha),
-        );
-      }
   }
   dispose() {
     if (this.closed) return;

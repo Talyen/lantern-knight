@@ -11,6 +11,7 @@ import { parseGame } from '../../src/core/save';
 import { retimeLanternClip } from '../../src/presentation/lantern-timing';
 import { heroActionTiming } from '../../src/content/hero-actions';
 import { AUTHORED_HEADINGS } from '../../src/content/headings';
+import { InventoryState } from '../../src/core/inventory';
 const still = { move: { x: 0, z: 0 }, aim: { x: 1, z: 0 } };
 function registry() {
   const ids = ['abandoned-orchard', 'forest-gathering-clearing'];
@@ -482,4 +483,43 @@ test('clearing guidance leads onward after collection; forge guidance ends at it
   assert.equal(windDestination(forge.view)?.z, 2);
   forge.claimedObjects.add('crate');
   assert.equal(windDestination(forge.view)?.x, 5);
+});
+
+test('either permanent kit choice guides the return journey after outstanding cache rewards', () => {
+  const defs = registry().definitions;
+  const r = new ContentRegistry({
+    ...defs,
+    areas: defs.areas.map((area) => ({
+      ...area,
+      spawns: [],
+      interactables: area.interactables?.map((object) => ({
+        ...object,
+        id: area.id === 'abandoned-orchard' ? 'guarded-chest' : object.id,
+        kind: 'container' as const,
+      })),
+    })),
+  });
+  for (const forgeUpgrade of ['sword', 'lantern'] as const) {
+    const inventory = new InventoryState({ inventory: {}, equipment: {}, forgeUpgrade });
+    for (const area of r.definitions.areas) {
+      const sim = new Simulation(r, 142, area.id, 1, undefined, inventory);
+      const cache = area.interactables![0]!;
+      assert.deepEqual(windDestination(sim.view), cache);
+      sim.claimedObjects.add(cache.id);
+      sim.drops.push({
+        id: 'outstanding-reward',
+        source: cache.id,
+        enemy: false,
+        x: 1,
+        z: 2,
+        rewards: [{ item: 'gold', amount: 1 }],
+      });
+      assert.deepEqual(windDestination(sim.view), sim.view.drops[0]);
+      sim.drops.length = 0;
+      assert.deepEqual(
+        windDestination(sim.view),
+        area.id === 'abandoned-orchard' ? area.campfires![0] : area.exits[0]!.marker,
+      );
+    }
+  }
 });

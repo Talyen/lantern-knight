@@ -22,7 +22,10 @@ export function windDestination(sim: SimulationView): Point | undefined {
       // Accepted world state owns progress, including reload and campfire resets.
       // These are suggestions: walking past the camp never sends the player back.
       if (sim.claimedObjects.has(press.id))
-        return sim.drops.find((d) => d.source === press.id) ?? departure;
+        return (
+          sim.drops.find((d) => d.source === press.id) ??
+          (sim.forgeUpgrade ? sim.areaDefinition.campfires?.[0] : departure)
+        );
       const camp = sim.areaDefinition.interactables?.find((o) => o.id === 'southern-cache');
       const firstHome = sim.areaDefinition.spawns.find((s) => s.id === 'first');
       const distance = (p: Point) => Math.hypot(p.x - sim.hero.x, p.z - sim.hero.z);
@@ -66,7 +69,9 @@ export function windDestination(sim: SimulationView): Point | undefined {
     }
     return (
       sim.drops.find((d) => d.source === chest?.id) ??
-      sim.areaDefinition.exits.find((e) => e.destination === 'ruined-forge')?.marker ??
+      sim.areaDefinition.exits.find(
+        (e) => e.destination === (sim.forgeUpgrade ? 'abandoned-orchard' : 'ruined-forge'),
+      )?.marker ??
       sim.areaDefinition.campfires?.[0]
     );
   }

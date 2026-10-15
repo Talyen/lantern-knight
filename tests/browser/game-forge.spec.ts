@@ -102,6 +102,40 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   await page.keyboard.press('e');
   await expect(page.locator('#room-title')).toHaveText(clearing.name, { timeout: 60_000 });
   await settled();
+  await capture('clearing-return-path');
+  const returned = await saveCurrent();
+  expect(
+    Math.hypot(returned.player.x - forward.marker.x, returned.player.z - forward.marker.z),
+  ).toBeLessThan(4);
+  expect(
+    Math.hypot(returned.player.x - forward.marker.x, returned.player.z - forward.marker.z),
+  ).toBeGreaterThan(1.6);
+  expect(
+    Math.hypot(
+      returned.player.x - clearing.campfires![0]!.x,
+      returned.player.z - clearing.campfires![0]!.z,
+    ),
+  ).toBeGreaterThan(1.6);
+
+  // Exercise the other on-foot boundary without coupling this persistence case to route timing.
+  const back = clearing.exits.find((exit) => exit.destination === 'abandoned-orchard')!;
+  Object.assign(returned.player, back.marker);
+  await restore(returned);
+  await page.keyboard.press('e');
+  await expect(page.locator('#room-title')).toHaveText('Abandoned Orchard', { timeout: 60_000 });
+  await settled();
+  await capture('orchard-return-path');
+  const orchardReturn = await saveCurrent();
+  const orchardPath = content.area('abandoned-orchard').exits[0]!.marker;
+  expect(
+    Math.hypot(orchardReturn.player.x - orchardPath.x, orchardReturn.player.z - orchardPath.z),
+  ).toBeLessThan(4);
+  expect(
+    Math.hypot(orchardReturn.player.x - orchardPath.x, orchardReturn.player.z - orchardPath.z),
+  ).toBeGreaterThan(1.6);
+
+  Object.assign(returned.player, { x: clearing.campfires![0]!.x, z: clearing.campfires![0]!.z });
+  await restore(returned);
   await page.keyboard.press('e');
   await panel.getByRole('button', { name: forge.name + ' · ' + fire.name }).click();
   await expect(page.locator('#room-title')).toHaveText(forge.name, { timeout: 60_000 });
