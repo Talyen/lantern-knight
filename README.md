@@ -29,6 +29,7 @@ Follow [Development](docs/development.md) for focused tests, preview ports and t
 | Author and playtest a scene | [Scene editor](docs/developer-tools.md#scene-editor), [saved scenes](authoring/scenes/README.md), [scene design](docs/scene-design.md) |
 | Author collision and occlusion in a painting | [Ground interaction](docs/developer-tools.md#ground-interaction), [local model setup](docs/developer-tools.md#local-foreground-selection-setup) |
 | Inspect animation, lighting or effects | [Dev Preview](docs/developer-tools.md#dev-preview), [diagnostics](docs/developer-tools.md#checks-and-diagnostics) |
+| Audition and tune sound | [Sound design](docs/sound-design.md), [audio preparation](docs/assets.md#audio-preparation) |
 | Understand design and priorities | [Game design](docs/game-design.md), [roadmap](docs/roadmap.md) |
 | Package a milestone | [Delivery](docs/release.md) |
 | Run a requested investigation | [Audits](docs/audits/README.md) |
