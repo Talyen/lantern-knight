@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { attackDefinition } from '../../src/content/gameplay';
+import { attackDefinition, tuning } from '../../src/content/gameplay';
 import {
   ContentRegistry,
   heightAt,
@@ -38,6 +38,62 @@ function discover(session: GameSession, key: string) {
   session.restoreSave(save);
 }
 const idle = { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } };
+test('movement preview cannot resolve an in-flight lantern into burns or stagger', () => {
+  const s = fixture();
+  Object.assign(s.sim.hero, { x: -4, z: 0 });
+  s.sim.start(s.sim.hero, 'ability');
+  // Resolve the pulse on exactly its authored contact tick.
+  s.sim.hero.age = tuning.ability.windup;
+  s.sim.movementPreview = true;
+  const result = s.step(idle);
+  assert.equal(s.sim.enemies[0]!.burn, undefined);
+  assert.equal(s.sim.enemies[0]!.stun, 0);
+  assert.equal(
+    result.events.some((event) => event.kind === 'flare'),
+    false,
+  );
+  assert.equal(s.onboarding.completed.includes('lantern'), false);
+});
+
+test('campfire entries must allow immediate contact inside their sanctuary', () => {
+  assert.throws(
+    () =>
+      changedAreas((a) => ({
+        ...a,
+        entries: a.entries.map((entry) => (entry.id === 'fire-west' ? { ...entry, x: -1 } : entry)),
+      })),
+    /campfire.*entry/i,
+  );
+});
+
+test('death routes to the actual fire entry when its center is too tight for the hero', () => {
+  const original = fixture();
+  const definitions = structuredClone(original.registry.definitions) as ContentDefinitions;
+  definitions.actors.find((actor) => actor.kind === 'hero')!.radius = 0.6;
+  const a = definitions.areas[0]!;
+  a.props = [
+    {
+      id: 'wall',
+      kind: 'wall',
+      x: -8,
+      z: -0.5,
+      radius: 0.1,
+      height: 1,
+      shape: 'box',
+      size: [1, 0.1],
+    },
+  ];
+  a.entries = a.entries.map((entry) =>
+    entry.id === 'fire-west' || entry.id === 'start' ? { ...entry, z: 0.5 } : entry,
+  );
+  const s = new GameSession(new ContentRegistry(definitions));
+  discover(s, 'orchard/east');
+  const save = s.captureSave();
+  save.adventure!.lastFire = 'orchard/east';
+  s.restoreSave(save);
+  Object.assign(s.sim.hero, { x: -6, z: 0.5, health: 0 });
+  assert.equal(s.respawnFire(), 'orchard/west');
+});
 function fixture() {
   const area = (id: string): AreaDefinition => ({
     id,
@@ -568,6 +624,7 @@ test('campfire sanctuary does not protect a different floor', () => {
     ...a,
     surface: stairSurface,
     campfires: [{ ...a.campfires![0]!, z: 0.4 }],
+    entries: a.entries.map((entry) => (entry.id === 'fire-west' ? { ...entry, z: 0.4 } : entry)),
     spawns: [{ ...a.spawns[0]!, x: -7, z: -0.4 }],
     exits: [],
     interactables: [],
@@ -582,6 +639,7 @@ test('campfire discovery, rest and travel require unobstructed contact on the sa
       ...a,
       surface: stairs ? stairSurface : a.surface,
       campfires: [{ ...a.campfires![0]!, z: 0.8 }],
+      entries: a.entries.map((entry) => (entry.id === 'fire-west' ? { ...entry, z: 0.8 } : entry)),
       props: stairs
         ? []
         : [
@@ -796,6 +854,9 @@ test('core commands enforce the same contact barriers as interaction prompts', (
       ...a,
       surface: obstruction === 'floor' ? stairSurface : a.surface,
       campfires: [{ ...a.campfires![0]!, x: 0, z: 0.8 }],
+      entries: a.entries.map((entry) =>
+        entry.id === 'fire-west' ? { ...entry, x: 0, z: 0.8 } : entry,
+      ),
       spawns: [],
       interactables: [{ ...a.interactables![1]!, x: 0, z: 0.8, guards: [] }],
       exits: a.exits.map((e) => ({ ...e, marker: { x: 0, z: 0.8 }, guards: [] })),

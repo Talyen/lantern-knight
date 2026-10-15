@@ -365,7 +365,11 @@ test('companion replacement consumes removed ownership before attempting every c
   try {
     await assert.rejects(library.load(['new']), (error) => error === failure);
     assert.deepEqual([...library.textures.keys()], ['new:pose']);
-    assert.deepEqual(closed, ['1', '2'], 'A failing GPU cleanup cannot strand sibling bitmaps');
+    assert.deepEqual(
+      [...closed].sort(),
+      ['1', '2'],
+      'A failing GPU cleanup cannot strand sibling bitmaps regardless of decode order',
+    );
     assert.equal(library.bytes, 16);
     await library.load(['new']);
     assert.equal(decoded, 3, 'The accepted selection remains usable after cleanup failure');
@@ -377,14 +381,15 @@ test('companion replacement consumes removed ownership before attempting every c
     assert.deepEqual([...library.textures.keys()], ['new:pose']);
     assert.equal(library.bytes, 16);
     assert.deepEqual(
-      closed,
+      [...closed].sort(),
       ['1', '2', '4', '5'],
       'Failed acquisitions drain all staged companions',
     );
   } finally {
     library.dispose();
   }
-  assert.deepEqual(closed, ['1', '2', '4', '5', '3']);
+  assert.deepEqual([...closed].sort(), ['1', '2', '3', '4', '5']);
+  assert.equal(closed.at(-1), '3', 'The accepted companion stays alive until disposal');
 });
 
 test('painted shade zones round-trip through content, enforce capacity, and clear on scene replacement', async () => {

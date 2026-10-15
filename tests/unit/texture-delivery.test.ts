@@ -209,3 +209,49 @@ test('cancelled native bitmap decodes retain ownership until completion and neve
   assert.equal(closed, 1);
   assert.equal(uploaded, 0);
 });
+
+test('compressed decode owns invalid textures and retires synchronous parser failures', async () => {
+  const { Texture } = await import('three');
+  const canvas = {
+    getContext: () => ({ MAX_TEXTURE_SIZE: 1, getParameter: () => 8192, getExtension: () => ({}) }),
+    ownerDocument: { querySelector: () => null },
+  } as unknown as HTMLCanvasElement;
+  const delivery = new TextureDelivery(canvas, 'delivery', async () => new Response('abc'));
+  using cleanup = onExit(() => delivery.dispose());
+  const loader = Reflect.get(delivery, 'loader');
+  const page = {
+    url: '/test.ktx2',
+    hash: 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad',
+    width: 2,
+    height: 3,
+    encoding: 'ktx2-uastc' as const,
+  };
+  let disposed = 0,
+    closed = 0;
+  const texture = new Texture({ close: () => closed++ } as unknown as ImageBitmap);
+  texture.addEventListener('dispose', () => disposed++);
+  loader.parse = (_bytes: ArrayBuffer, loaded: (texture: InstanceType<typeof Texture>) => void) =>
+    loaded(texture);
+  await assert.rejects(delivery.decode(page), /no dimensions/);
+  assert.equal(disposed, 1, 'Validation failure must destroy the staged compressed texture');
+  assert.equal(closed, 1, 'Validation failure closes staged image ownership too');
+  loader.parse = () => {
+    throw new Error('parser initialization failed');
+  };
+  await assert.rejects(delivery.decode(page), /parser initialization failed/);
+  assert.equal(Reflect.get(delivery, 'pending').size, 0, 'Failed parse retains no shutdown waiter');
+  const initialization = Promise.withResolvers<void>();
+  loader.transcoderPending = initialization.promise;
+  let shutdowns = 0;
+  loader.dispose = () => {
+    if (++shutdowns === 1) throw new Error('worker shutdown failed');
+  };
+  assert.throws(() => delivery.dispose(), /worker shutdown failed/);
+  initialization.resolve();
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.equal(
+    shutdowns,
+    2,
+    'Initialization completing after failed shutdown still closes workers',
+  );
+});

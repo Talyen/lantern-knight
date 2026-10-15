@@ -8,6 +8,21 @@ import { attackDefinition, tuning } from '../../src/content/gameplay';
 import { heroActionTiming, heroTimings } from '../../src/content/hero-actions';
 import { selectAuthoredDirection, AUTHORED_HEADINGS } from '../../src/content/headings';
 const still = { move: { x: 0, z: 0 }, aim: { x: 1, z: 0 } };
+test('enemies stop their walking pose when death removes their pursuit target', () => {
+  const s = new Simulation(content);
+  Object.assign(s.hero, { x: 0, z: 0 });
+  Object.assign(s.enemies[0]!, { x: 3, z: 0 });
+  s.engaged = true;
+  s.step(still);
+  assert.equal(s.enemies[0]!.state, 'walk');
+  s.damage(s.enemies[0]!, s.hero, 1000);
+  s.step(still);
+  assert.equal(s.enemies[0]!.state, 'idle');
+  assert.equal(
+    s.navigationDebug(false).routes.some((route) => route.id === s.enemies[0]!.id),
+    false,
+  );
+});
 test('directional input during an attack cancels the previous movement destination', () => {
   const s = new Simulation(content);
   s.setMovementTarget(s.hero.id, { x: 2, z: 6 });

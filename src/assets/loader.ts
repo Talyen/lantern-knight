@@ -90,7 +90,11 @@ export class AssetRuntime {
     if (!promise) {
       const path = this.catalog[id];
       if (!path) throw new Error(`unknown asset ${id}`);
-      promise = this.request('/' + path, { signal: this.lifetime.signal })
+      promise = Promise.resolve()
+        .then(() => {
+          this.assertActive();
+          return this.request('/' + path, { signal: this.lifetime.signal });
+        })
         .then(async (r) => {
           if (!r.ok) throw new Error(`manifest unavailable: ${id}`);
           const data = await r.json();
@@ -98,12 +102,14 @@ export class AssetRuntime {
           return this.acceptManifest(id, data);
         })
         .catch((e) => {
-          this.manifests.delete(id);
+          if (this.manifests.get(id) === promise) this.manifests.delete(id);
           throw e;
         });
       this.manifests.set(id, promise);
     }
-    return promise;
+    // Metadata transfers no resource ownership. Closing the runtime settles
+    // readers while the observed transport continues toward its lifetime check.
+    return readUntilAborted(promise, this.lifetime.signal);
   }
   seedManifest(id: string, data: unknown) {
     this.assertActive();

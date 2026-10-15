@@ -10,6 +10,7 @@ import type { Reward } from './items';
 import { contains, clearSegment, effectiveRadius, isSupportedPosition } from './collision';
 import { contentSnapshot, type ContentSnapshot } from './snapshot';
 import type { AuthoredGameplay } from './authored-gameplay';
+import { tuning } from './gameplay';
 
 export type AreaId = string;
 export type ActorId = string;
@@ -246,8 +247,16 @@ export class ContentRegistry {
       for (const fire of a.campfires ?? []) {
         campfireSchema.parse(fire);
         if (!isSupportedPosition(a, fire, 0.3)) fail('Unsupported campfire ' + fire.id);
-        if (!a.entries.some((entry) => entry.id === 'fire-' + fire.id))
-          fail('Missing campfire entry ' + fire.id);
+        const entry = a.entries.find((entry) => entry.id === 'fire-' + fire.id);
+        if (
+          !entry ||
+          Math.hypot(entry.x - fire.x, entry.z - fire.z) >= fire.safeRadius ||
+          Math.hypot(entry.x - fire.x, entry.z - fire.z) > 1.6 ||
+          Math.abs(heightAt(a, entry.x, entry.z) - heightAt(a, fire.x, fire.z)) >
+            tuning.maxCombatHeightDifference ||
+          !clearSegment(a, entry, fire, 0.001)
+        )
+          fail('Invalid campfire entry ' + fire.id);
       }
       for (const object of a.interactables ?? []) {
         interactableSchema.parse(object);

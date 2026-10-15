@@ -81,7 +81,22 @@ const headingNames: Record<string, string> = {
   d315: 'Left',
 };
 
+// A host can be remounted by development reload or recovery. Close its previous
+// graph before replacing the DOM that its tools and callbacks borrow.
+const mountedEditors = new WeakMap<HTMLElement, Window['sceneEditor']>();
 export function createEditorSession() {
+  const previousRoot = document.getElementById('app')!;
+  mountedEditors.get(previousRoot)?.dispose();
+  const currentRoot = document.getElementById('app')!;
+  if (currentRoot !== previousRoot) {
+    // A destructor can synchronously mount a newer editor. The returning
+    // predecessor must not replace that host or its inspection capability.
+    const successor = mountedEditors.get(currentRoot);
+    if (!successor) throw new Error('Editor host replaced during shutdown');
+    return successor;
+  }
+  const root = previousRoot.cloneNode(false) as HTMLElement;
+  previousRoot.replaceWith(root);
   const lifetime = new AbortController();
   const gestures = new EditorGestures();
   const automated = new URLSearchParams(location.search).has('automated');
@@ -89,8 +104,9 @@ export function createEditorSession() {
   function assertActive() {
     lifetime.signal.throwIfAborted();
   }
-  const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
-  document.getElementById('app')!.innerHTML = editorUI;
+  const $ = <E extends HTMLElement>(id: string) => root.querySelector<E>('#' + id)!;
+  root.innerHTML = editorUI;
+  root.inert = false;
   const workspace = new EditorWorkspace(() => composition?.selection.size ?? 0);
   const confirmation = new EditorConfirmation();
   let groundAuthoring: GroundAuthoring;
@@ -1366,6 +1382,17 @@ export function createEditorSession() {
     // Revoke session admission first, then attempt the entire dependency graph.
     // A tool or renderer failure must not strand observers or borrowed assets.
     cleanupAll([
+      () => {
+        // Property handlers are capabilities too; AbortController only removes
+        // addEventListener registrations. Revoke them before peer destructors.
+        root.inert = true;
+        for (const element of [root, ...root.querySelectorAll<HTMLElement>('*')])
+          for (const key in element)
+            if (key.startsWith('on') && typeof Reflect.get(element, key) === 'function')
+              Reflect.set(element, key, null);
+        for (const dialog of root.querySelectorAll('dialog[open]'))
+          (dialog as HTMLDialogElement).close();
+      },
       () => lifetime.abort(),
       () => gestures.dispose(),
       () => frames?.dispose(),
@@ -1558,7 +1585,7 @@ export function createEditorSession() {
     );
   }
   // Development-only inspection supports browser acceptance without exposing a player bridge.
-  window.sceneEditor = {
+  const inspection = Object.freeze({
     ready: () => ready,
     state: () => ({
       document: documents.history.document,
@@ -1567,9 +1594,11 @@ export function createEditorSession() {
       selected,
     }),
     view: () => view,
-    playtest: () => playtest.state(),
+    playtest: () => playtest?.state(),
     dispose,
-  };
+  });
+  window.sceneEditor = inspection;
+  mountedEditors.set(root, inspection);
   controls();
   void start().catch((error) => {
     if (!closed) {
@@ -1587,5 +1616,5 @@ export function createEditorSession() {
       }
     }
   });
-  return window.sceneEditor;
+  return inspection;
 }

@@ -128,6 +128,8 @@ export class CombatActions {
   }
   // True only when locomotion may run instead of an action this tick.
   admitHero(h: Actor, command: ActionCommand, movementYaw?: number): boolean {
+    if (this.world.movementPreview() && h.pendingAction?.kind !== 'dodge')
+      h.pendingAction = undefined;
     const requests = command.actions ?? [
       ...(command.attack ? ['sword' as const] : []),
       ...(command.ability ? ['lantern' as const] : []),
@@ -196,6 +198,10 @@ export class CombatActions {
     if (--recoil.ticks === 0) this.recoils.delete(actor);
   }
   advance(a: Actor) {
+    if (this.world.movementPreview() && (a.state === 'attack' || a.state === 'ability')) {
+      this.start(a, 'idle');
+      return;
+    }
     if (a.state === 'attack') {
       const t = attackDefinition(a);
       if (a.age === t.windup) this.world.emit(a, { kind: 'strike' });

@@ -315,6 +315,7 @@ export class CompositionTools {
     );
   }
   async remove() {
+    const document = this.host.history().document;
     const selected = this.editable();
     const descendants = this.host.history().descendants(selected);
     if (descendants.some((id) => this.locked.has(id)))
@@ -330,6 +331,7 @@ export class CompositionTools {
       ))
     )
       return;
+    if (this.lifetime.signal.aborted || this.host.history().document !== document) return;
     return this.edit(
       (history) => history.removeMany(selected),
       () => {
