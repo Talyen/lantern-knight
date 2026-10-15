@@ -8,6 +8,7 @@ const properties = [
   'initialSeed',
   'maxHealth',
   'forgeUpgrade',
+  'inventory',
   'inCombat',
   'tick',
   'generation',

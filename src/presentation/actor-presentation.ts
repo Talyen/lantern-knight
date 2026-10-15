@@ -66,7 +66,7 @@ export class ActorPresentation {
       this.getClip(binding.clips.idle, 'd45', pack.manifest),
     );
     sprite.material.color.set(binding.tint);
-    if (a.kind === 'hero') sprite.mesh.scale.setScalar(tuning.heroVisualScale);
+    sprite.mesh.scale.setScalar(binding.scale ?? 1);
     const shadow = new T.Mesh(
       new T.PlaneGeometry(
         sprite.manifest.asset.shadow.radius * 1.5,
@@ -78,7 +78,7 @@ export class ActorPresentation {
       ),
     );
     shadow.rotation.x = -Math.PI / 2;
-    if (a.kind === 'hero') shadow.scale.setScalar(tuning.heroVisualScale);
+    shadow.scale.setScalar(binding.scale ?? 1);
     shadow.renderOrder = -1.5;
     const ring = new T.Mesh(
       new T.RingGeometry(a.definition.radius, a.definition.radius + 0.025, 24),

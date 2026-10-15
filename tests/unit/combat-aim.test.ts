@@ -80,3 +80,13 @@ test('body aiming preserves free ground aim and ignores dead, obstructed and dif
   };
   assert.equal(enemyAimPoint(camera, pointer, rect, sim.hero, sim.enemies, blocked), undefined);
 });
+
+test('body aiming follows the head of a larger enemy visual', () => {
+  const { sim, enemy } = duel();
+  const pointer = cursor(enemy.x, 2.2, enemy.z);
+  const pick = () =>
+    enemyAimPoint(camera, pointer, rect, sim.hero, sim.enemies, sim.areaDefinition);
+  assert.equal(pick(), undefined, 'the ordinary silhouette does not capture empty space above it');
+  enemy.definition = { ...enemy.definition, visual: 'chapel-warden' };
+  assert.deepEqual(pick(), { x: enemy.x, z: enemy.z });
+});

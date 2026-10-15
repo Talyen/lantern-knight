@@ -65,7 +65,7 @@ export function sceneEnvelopeFindings(
     const message = inspect(
       spawn,
       spritePlacementEnvelope(manifest, [visual.clips.idle, visual.clips.walk]),
-      spawn,
+      { ...spawn, scale: visual.scale ?? 1 },
     );
     if (message) findings.push({ id: spawn.id, message: `${spawn.id}: ${message}` });
   }

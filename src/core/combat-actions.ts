@@ -87,7 +87,7 @@ export class CombatActions {
     const actual = Math.min(to.health, resolved);
     to.health -= actual;
     this.world.emit(from, { kind: 'damage', target: to.id, amount: actual, damageType, phase });
-    if (phase === 'direct' || !to.health) {
+    if (!to.health || (phase === 'direct' && (damageType === 'burn' || !to.definition.poise))) {
       to.pendingAction = undefined;
       this.start(to, to.health <= 0 ? 'death' : 'hurt', to.yaw);
     }

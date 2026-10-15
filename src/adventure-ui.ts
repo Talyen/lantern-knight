@@ -88,7 +88,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         <p>Your permanent kit is strengthened. This workshop temper has been used.</p>
         <p class="forge-result">Edge ${current.edge}% · Ember ${current.ember}%</p>
         <p>Kept through rest, death and save/resume. A second purchase is unavailable.</p>
-        <p>Return to the campfire, rest, then try your strengthened kit against the courtyard guards.</p>
+        <p>The northern street leads to Desecrated Chapel. Rest at a campfire before setting out.</p>
       </div>`;
     const affordable = Object.entries(forgeCost).every(
       ([id, amount]) => (app.session.inventory[id] ?? 0) >= amount,

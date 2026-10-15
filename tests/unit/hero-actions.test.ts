@@ -210,3 +210,34 @@ test('sweep and lunge apply the accepted hero melee damage', () => {
     assert.equal(s.enemies[0]!.health, 43);
   }
 });
+
+test('poise preserves a physical-hit windup, while lantern stagger and death interrupt it', () => {
+  const registry = new ContentRegistry({
+    ...contentDefinitions,
+    actors: contentDefinitions.actors.map((a) =>
+      a.kind === 'enemy' ? { ...a, poise: true, maxHealth: 200 } : a,
+    ),
+  });
+  const s = new Simulation(registry);
+  const enemy = s.enemies[0]!;
+  Object.assign(s.hero, { x: 0, z: 0 });
+  Object.assign(enemy, { x: 1, z: 0 });
+  s.startSword(enemy);
+  enemy.age = 20;
+  const action = enemy.action;
+  s.damage(s.hero, enemy, 26);
+  assert.equal(enemy.health, 174);
+  assert.equal(enemy.state, 'attack');
+  assert.equal(enemy.age, 20);
+  assert.equal(enemy.action, action);
+  s.step({ ...still, ability: true });
+  for (let i = 0; i < tuning.ability.windup; i++) s.step(still);
+  assert.equal(enemy.state, 'hurt');
+  assert.ok(enemy.stun > 0);
+  assert.ok(enemy.burn);
+  s.startSword(enemy);
+  enemy.age = 20;
+  s.damage(s.hero, enemy, 1000);
+  assert.equal(enemy.state, 'death');
+  assert.equal(enemy.health, 0);
+});

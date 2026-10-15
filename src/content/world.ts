@@ -46,6 +46,8 @@ export type ActorDefinition = {
   speed: number;
   melee: MeleeDefinition;
   visual: string;
+  // Physical hits cannot interrupt this actor; the lantern pulse still can.
+  poise?: boolean;
 };
 export type PropDefinition = Point & {
   id: string;
@@ -204,6 +206,7 @@ export class ContentRegistry {
         a.maxHealth <= 0 ||
         a.radius <= 0 ||
         a.speed <= 0 ||
+        (a.poise !== undefined && typeof a.poise !== 'boolean') ||
         !ids.test(a.visual)
       )
         fail(`invalid actor ${a.id}`);

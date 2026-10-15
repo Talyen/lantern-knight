@@ -523,3 +523,41 @@ test('either permanent kit choice guides the return journey after outstanding ca
     }
   }
 });
+
+test('forge guidance opens the chapel after either upgrade and returns to shelter with its reward', () => {
+  const base = registry().definitions.areas[0]!;
+  const ids = ['ruined-forge', 'desecrated-chapel'];
+  const r = new ContentRegistry({
+    ...fixture.definitions,
+    initialArea: ids[0]!,
+    areas: ids.map((id, i) => ({
+      ...base,
+      id,
+      spawns: [],
+      exits: [{ ...base.exits[0]!, destination: ids[1 - i]!, entry: 'start' }],
+      interactables: [interactable({ id: 'cache', object: 'cache' })],
+    })),
+  });
+  for (const forgeUpgrade of ['sword', 'lantern'] as const) {
+    const inventory = new InventoryState({ inventory: {}, equipment: {}, forgeUpgrade });
+    const forge = new Simulation(r, 142, ids[0]!, 1, undefined, inventory);
+    forge.claimedObjects.add('cache');
+    assert.deepEqual(windDestination(forge.view), forge.areaDefinition.exits[0]!.marker);
+    const chapel = new Simulation(r, 142, ids[1]!, 1, undefined, inventory);
+    assert.deepEqual(windDestination(chapel.view), chapel.areaDefinition.interactables![0]);
+    chapel.claimedObjects.add('cache');
+    chapel.drops.push({
+      id: 'reward',
+      source: 'cache',
+      enemy: false,
+      x: 1,
+      z: 2,
+      rewards: [{ item: 'vigil-amulet', amount: 1 }],
+    });
+    assert.deepEqual(windDestination(chapel.view), chapel.view.drops[0]);
+    inventory.award([{ item: 'vigil-amulet', amount: 1 }]);
+    chapel.drops.length = 0;
+    assert.deepEqual(windDestination(chapel.view), chapel.areaDefinition.campfires![0]);
+    assert.deepEqual(windDestination(forge.view), forge.areaDefinition.campfires![0]);
+  }
+});

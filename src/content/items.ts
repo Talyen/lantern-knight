@@ -39,6 +39,7 @@ export const items: Readonly<Record<string, ItemDefinition>> = {
     maxHealth: 10,
   },
   'orchard-ring': { name: 'Orchard Ring', kind: 'gear', slots: ['ring1', 'ring2'], maxHealth: 10 },
+  'vigil-amulet': { name: 'Vigil Amulet', kind: 'gear', slots: ['amulet'], maxHealth: 15 },
   'cloth-armor': { name: 'Cloth Armor', kind: 'gear', slots: ['body'] },
   'leather-armor': { name: 'Leather Armor', kind: 'gear', slots: ['body'] },
   gloves: { name: 'Leather Gloves', kind: 'gear', slots: ['gloves'] },

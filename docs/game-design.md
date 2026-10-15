@@ -66,7 +66,11 @@ Author small destinations in the scene editor. Game begins in Abandoned Orchard,
 
 On-foot returns arrive at the matching path rather than skipping to the destination campfire. Rest before retracing the opening to try the permanent upgrade against restored encounters. Campfire travel remains the direct route between discovered fires.
 
-Traversal, combat, artwork and occlusion are capabilities independent of a particular level composition. Future destinations and encounters remain to be designed.
+The forge’s northern street leads to Desecrated Chapel. Its entrance fire anchors an optional encounter in the nave: a large, rose-tinted altar warden and two faster attendants share awareness across the side aisles. The warden has 130 health, a one-second windup and an 18-damage swing. Physical hits deal full damage without interrupting its action; the lantern pulse still staggers it. Attendants retain 50 health and close faster than the warden. All three guard a one-time reliquary containing the Vigil Amulet (+15 maximum health in the amulet slot), two potions and Gold. The raised altar remains blocked.
+
+Temper Sword defeats an attendant in one impact and reduces the warden from five sword impacts to three. Rekindle Lantern defeats gathered attendants with one complete Burn and creates an opening against the warden. Neither choice is required for entry, and neither damage type gains a weakness multiplier. Keep the threshold retreat open: rest resets the vigil while retaining claimed rewards, and death uses the discovered threshold fire. The return arrives inside the forge’s northern street.
+
+Traversal, combat, artwork and occlusion are capabilities independent of a particular level composition. Further destinations and encounters remain to be designed.
 
 ## Lighting
 
@@ -80,7 +84,7 @@ Let the environment introduce the journey: abandoned belongings and surviving fi
 
 Keep gameplay UI quiet: health and owned potion counts, a short interaction cue anchored near the usable object, and brief outcome or failure feedback. Remove tutorial windows, persistent objective text and action/control strips. Full controls remain in pause/help. Existing checkpoint hint history remains compatible, without an onscreen hint replay flow.
 
-Guide with clustered supplies, open walking space, warm resting-place light, enemy staging and occasional low drifting leaves. The opening wind suggests the nearby supplies or forest path; in the clearing it suggests the ruins, then the forge path. At the forge it suggests the guarded tool chest and its dropped rewards, then the courtyard workbench until an upgrade is chosen, then the fire. It follows walkable routes, pauses during combat, and respects the wind setting and reduced motion. It neither steers the hero nor closes optional routes. Test whether players notice the direction without mistaking the leaves for loot or a mandatory trail.
+Guide with clustered supplies, open walking space, warm resting-place light, enemy staging and occasional low drifting leaves. The opening wind suggests the nearby supplies or forest path; in the clearing it suggests the ruins, then the forge path. At the forge it suggests the guarded tool chest and its dropped rewards, then the courtyard workbench until an upgrade is chosen, then the chapel path until the Vigil Amulet is collected. Chapel wind suggests the reliquary and its dropped rewards, then the threshold fire; returning to the forge with the amulet suggests its fire. It follows walkable routes, pauses during combat, and respects the wind setting and reduced motion. It neither steers the hero nor closes optional routes. Test whether players notice the direction without mistaking the leaves for loot or a mandatory trail.
 
 Barrels belong with orchard storage; household pottery belongs by the ruined storehouse. Resting fires gather a bedroll and kindling. Tie caches and forward paths to named local guards; keep the return path available. Use the supplied dark fire bowl and animation, preserving source artwork. The hero's continuous lantern light uses a stronger, wider pool with a soft falloff; keep enemy silhouettes and painted scenery readable within it.
 

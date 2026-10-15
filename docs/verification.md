@@ -4,11 +4,11 @@
 
 Choose the command for the evidence needed:
 
-| Command | Coverage |
-| --- | --- |
-| `npm run check` | Typechecking, JavaScript/TypeScript linting, handwritten code formatting and fast pure suites. Required after edits stabilize. |
-| `npm run docs:check` | Documentation links, anchors, script names, file references and guide reachability. Also required for prose edits. |
-| `npm run check:ci` | All regular source checks, all pure suites, documentation, repository/import boundaries and unused-code analysis. |
+| Command              | Coverage                                                                                                                       |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `npm run check`      | Typechecking, JavaScript/TypeScript linting, handwritten code formatting and fast pure suites. Required after edits stabilize. |
+| `npm run docs:check` | Documentation links, anchors, script names, file references and guide reachability. Also required for prose edits.             |
+| `npm run check:ci`   | All regular source checks, all pure suites, documentation, repository/import boundaries and unused-code analysis.              |
 
 `check` and `check:ci` run each selected phase fresh, report timings and fail on the first broken phase. Previous passing results never suppress a selected suite. These commands do not acquire artwork, run browser or desktop checks, package the application or install Python tooling. `check:ci` can run locally; it does not establish a hosted CI result. Follow [test selection](#test-selection) for those integration tiers and [documentation checks](#documentation-checks) for prose accuracy limits.
 
@@ -35,17 +35,17 @@ The fixtures invoke `python3`, which must resolve to the environment containing 
 
 `npm run test:browser -- [scenario]` runs Playwright scenarios in `tests/browser`:
 
-| Selector                             | Coverage                                                                                                                    |
-| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| `game` (or `game-loot` for labels)   | Input, pause/focus, checkpoints, orchard rewards, clearing/forge travel and reward persistence, and distant loot-label routing.                                                     |
-| `scene`                              | Independent outdoor/interior fixtures, reload and resource lifetime.                                                        |
-| `editor`                             | Authoring, history, recovery, ground interaction, contact shadows and protected save requests.                              |
-| `effects`                            | Dedicated-scene controls and switching back to independent scene fixtures.                                                  |
-| `audio`                              | Game audio-setting persistence, prepared-sample decoding and Dev Preview audition controls.                                 |
-| `image-delivery`, `ground-occlusion` | Focused GPU behavior.                                                                                                       |
-| `authored-ground`                    | Opt-in [movement and timing capture](developer-tools.md#authored-scene-timing-capture), selected by `LANTERN_GROUND_SCENE`. |
-| `ground-review`                      | Opt-in [occlusion captures](developer-tools.md#authored-occlusion-captures), selected by `LANTERN_GROUND_REVIEW`.           |
-| `orchard-design`, `orchard-polish`   | Opt-in [opening composition and effect captures](developer-tools.md#opening-comparison-captures), with external output directories. |
+| Selector                             | Coverage                                                                                                                                                                                                               |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `game` (or `game-loot` for labels)   | Input, pause/focus, checkpoints, orchard rewards, clearing/forge travel and reward persistence, distant loot-label routing, and chapel entry, reward retention, retry and matching forge return with both kit choices. |
+| `scene`                              | Independent outdoor/interior fixtures, reload and resource lifetime.                                                                                                                                                   |
+| `editor`                             | Authoring, history, recovery, ground interaction, contact shadows and protected save requests.                                                                                                                         |
+| `effects`                            | Dedicated-scene controls and switching back to independent scene fixtures.                                                                                                                                             |
+| `audio`                              | Game audio-setting persistence, prepared-sample decoding and Dev Preview audition controls.                                                                                                                            |
+| `image-delivery`, `ground-occlusion` | Focused GPU behavior.                                                                                                                                                                                                  |
+| `authored-ground`                    | Opt-in [movement and timing capture](developer-tools.md#authored-scene-timing-capture), selected by `LANTERN_GROUND_SCENE`.                                                                                            |
+| `ground-review`                      | Opt-in [occlusion captures](developer-tools.md#authored-occlusion-captures), selected by `LANTERN_GROUND_REVIEW`.                                                                                                      |
+| `orchard-design`, `orchard-polish`   | Opt-in [opening composition and effect captures](developer-tools.md#opening-comparison-captures), with external output directories.                                                                                    |
 
 Without a selector, Playwright selects all browser suites; the four capture suites skip unless their opt-in environment variables are set. Selectors match filenames, so `editor` includes the editor regression, ground, contact and gameplay-authoring suites. Development-only UI and renderer lifetime regressions belong to `scene`; the built Game runs cannot import their failure-injection modules. Add `--list` to inspect the selected cases without acquiring assets, taking the GPU lane or starting a preview; built-Game discovery needs no existing build. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion audio`.
 
@@ -85,7 +85,7 @@ Run `npm run docs:check` after documentation edits; `npm run check` does not inc
 
 ## E2E coverage and execution budgets
 
-Routine Linux CI runs all pure suites and source gates first, then starts independent Game, development-browser and selected asset/native jobs. Two Game shards each build the production web artifact and split complete player journeys covering controls, adventure travel, clearing/forge rewards and distant loot-label routing. Twelve development-browser shards use `--ci-development` to cover scene, audio, image delivery and ground occlusion; authoring-tool and shared browser-fixture changes add `--authoring` for editor/effects journeys. The wrapper discovers every browser suite and rejects names without a CI tier before starting a preview, preventing new regression files from silently falling outside the workflow. The four explicit capture suites (`authored-ground`, `ground-review`, `orchard-design`, `orchard-polish`) remain opt-in. Each runner keeps one browser worker and uses Playwright test-level sharding, so long files split across isolated runners without concurrent scene saves in one checkout.
+Routine Linux CI runs all pure suites and source gates first, then starts independent Game, development-browser and selected asset/native jobs. Two Game shards each build the production web artifact and split complete player journeys covering controls, adventure travel, clearing/forge rewards distant loot-label routing, and chapel entry, reward retention, retry and matching forge return with both kit choices. Twelve development-browser shards use `--ci-development` to cover scene, audio, image delivery and ground occlusion; authoring-tool and shared browser-fixture changes add `--authoring` for editor/effects journeys. The wrapper discovers every browser suite and rejects names without a CI tier before starting a preview, preventing new regression files from silently falling outside the workflow. The four explicit capture suites (`authored-ground`, `ground-review`, `orchard-design`, `orchard-polish`) remain opt-in. Each runner keeps one browser worker and uses Playwright test-level sharding, so long files split across isolated runners without concurrent scene saves in one checkout.
 
 Browser previews acquire verified pinned files on demand instead of downloading the complete authoring library. Game builds retain their verified selected-file delivery. Full asset tests (including Python authoring/recovery fixtures) and runtime asset validation run for asset, content, presentation, animation, authored-data, dependency and delivery-tool changes. Unrelated editor, gameplay, prose and CI-policy changes omit this full-library tier. Every Game build still verifies its selected assets. Manual workflow dispatch runs all optional tiers.
 

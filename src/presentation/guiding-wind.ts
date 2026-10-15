@@ -56,6 +56,12 @@ export function windDestination(sim: SimulationView): Point | undefined {
       return supplies;
     return departure;
   }
+  if (sim.area === 'desecrated-chapel') {
+    const reliquary = sim.areaDefinition.interactables?.find((o) => o.kind === 'container');
+    return reliquary && !sim.claimedObjects.has(reliquary.id)
+      ? reliquary
+      : (sim.drops.find((d) => d.source === reliquary?.id) ?? sim.areaDefinition.campfires?.[0]);
+  }
   if (sim.area === 'forest-gathering-clearing' || sim.area === 'ruined-forge') {
     const chest = sim.areaDefinition.interactables?.find((o) => o.kind === 'container');
     if (chest && !sim.claimedObjects.has(chest.id)) return chest;
@@ -69,6 +75,9 @@ export function windDestination(sim: SimulationView): Point | undefined {
     }
     return (
       sim.drops.find((d) => d.source === chest?.id) ??
+      (sim.area === 'ruined-forge' && sim.forgeUpgrade && !sim.inventory['vigil-amulet']
+        ? sim.areaDefinition.exits.find((e) => e.destination === 'desecrated-chapel')?.marker
+        : undefined) ??
       sim.areaDefinition.exits.find(
         (e) => e.destination === (sim.forgeUpgrade ? 'abandoned-orchard' : 'ruined-forge'),
       )?.marker ??
