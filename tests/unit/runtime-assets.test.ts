@@ -6,6 +6,8 @@ import { resolveClip } from '../../src/assets/schema';
 import { manifestFixture } from '../fixtures/manifest';
 import { TextureDelivery } from '../../src/assets/texture-delivery';
 import { mockGlobals } from '../fixtures/globals';
+import { AssetByteSource } from '../../src/assets/byte-source';
+import { runtimeBundles } from '../../tools/build-runtime-delivery';
 
 test('retiring a room cancels obsolete image work so the next room can decode', async (t) => {
   mockGlobals(t, {
@@ -19,12 +21,14 @@ test('retiring a room cancels obsolete image work so the next room can decode', 
     signals: AbortSignal[] = [],
     stalls: ReturnType<typeof Promise.withResolvers<Response>>[] = [],
     obsolete = new AbortController();
-  let uploads = 0;
-  const delivery = new TextureDelivery(
-    canvas,
-    'delivery',
-    async (url, init) => {
-      if (url === '/generated/next/atlas.png') return new Response('abc');
+  const ids = Array.from({ length: 6 }, (_, i) => 'old-' + i),
+    built = await runtimeBundles(
+      new Map([...ids, 'next'].map((id) => [id, new Set([`generated/${id}/atlas.png`])])),
+      async () => Buffer.from('abc'),
+    ),
+    source = new AssetByteSource(built.bundles, async (url, init) => {
+      if (typeof url === 'string' && url.startsWith('/runtime-assets/next-'))
+        return new Response('abc');
       const stall = Promise.withResolvers<Response>();
       stalls.push(stall);
       const signal = init!.signal!;
@@ -32,19 +36,18 @@ test('retiring a room cancels obsolete image work so the next room can decode', 
       signal.addEventListener('abort', () => stall.reject(signal.reason), { once: true });
       if (signals.length === 6) started.resolve();
       return stall.promise;
-    },
-    () => {
-      uploads++;
-    },
+    });
+  let uploads = 0;
+  const delivery = new TextureDelivery(canvas, 'delivery', source.request, () => {
+    uploads++;
+  });
+  const runtime = new AssetRuntime(
+    Object.fromEntries([...ids, 'next'].map((id) => [id, `generated/${id}/manifest.json`])),
+    undefined,
+    undefined,
+    undefined,
+    delivery,
   );
-  const ids = Array.from({ length: 6 }, (_, i) => 'old-' + i),
-    runtime = new AssetRuntime(
-      Object.fromEntries([...ids, 'next'].map((id) => [id, `generated/${id}/manifest.json`])),
-      undefined,
-      undefined,
-      undefined,
-      delivery,
-    );
   for (const [i, id] of [...ids, 'next'].entries()) {
     const manifest = manifestFixture(id);
     manifest.pages[0]!.hash =
@@ -74,6 +77,7 @@ test('retiring a room cancels obsolete image work so the next room can decode', 
     for (const stall of stalls) stall.reject(new Error('test cleanup'));
     await Promise.allSettled([loading, ...(next ? [next.then((pack) => pack.release())] : [])]);
     runtime.dispose();
+    source.dispose();
   }
 });
 

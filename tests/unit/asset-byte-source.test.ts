@@ -33,6 +33,10 @@ test('bundled prepared images retain exact bytes, deduplicate transport and isol
     Buffer.from(await (await source.request('/lighting/first.png')).arrayBuffer()),
     images.get('lighting/first.png'),
   );
+  const cachedCancellation = new AbortController(),
+    cachedRead = source.request('/lighting/first.png', { signal: cachedCancellation.signal });
+  cachedCancellation.abort(new Error('cached read cancelled'));
+  await assert.rejects(cachedRead, /cached read cancelled/);
   assert.equal(requests, 1);
   source.dispose();
   await assert.rejects(source.request('/lighting/first.png'), /aborted/);
@@ -61,6 +65,88 @@ test('corrupt bundles and byte ranges fail before any decoder receives bytes; di
   late.dispose();
   pending.resolve(new Response('a'));
   await rejected;
+});
+
+test('the last cancelled bundle reader retires stalled transport so a successor can recover', async (t) => {
+  for (const outcome of ['success', 'failure'])
+    await t.test('late ' + outcome, async () => {
+      const built = await runtimeBundles(
+        new Map([['hero', new Set(['lighting/a.png'])]]),
+        async () => Buffer.from('a'),
+      );
+      const downloads: {
+          signal: AbortSignal;
+          response: ReturnType<typeof Promise.withResolvers<Response>>;
+        }[] = [],
+        source = new AssetByteSource(built.bundles, async (_url, init) => {
+          const response = Promise.withResolvers<Response>();
+          downloads.push({ signal: init!.signal!, response });
+          if (downloads.length === 1)
+            init!.signal!.addEventListener(
+              'abort',
+              () => {
+                next = source.request('/lighting/a.png');
+              },
+              { once: true },
+            );
+          return response.promise; // Deliberately ignores abort to exercise late completion.
+        }),
+        first = new AbortController(),
+        last = new AbortController(),
+        firstRead = source.request('/lighting/a.png', { signal: first.signal }),
+        lastRead = source.request('/lighting/a.png', { signal: last.signal }),
+        rejected = Promise.all([
+          assert.rejects(firstRead, /obsolete/),
+          assert.rejects(lastRead, /obsolete/),
+        ]);
+      let next: Promise<Response> | undefined, shared: Promise<Response> | undefined;
+      try {
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        assert.equal(downloads.length, 1);
+        first.abort(new Error('obsolete first reader'));
+        assert.equal(
+          downloads[0]!.signal.aborted,
+          false,
+          'A surviving reader retains the download',
+        );
+        last.abort(new Error('obsolete last reader'));
+        await rejected;
+        assert.equal(
+          downloads[0]!.signal.aborted,
+          true,
+          'No reader remains to own the stalled download',
+        );
+
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        assert.equal(downloads.length, 2, 'Reentrant recovery must start fresh transport');
+        let bodyReads = 0;
+        if (outcome === 'failure')
+          downloads[0]!.response.reject(new Error('late obsolete transport failure'));
+        else
+          downloads[0]!.response.resolve(
+            Object.assign(new Response('a'), {
+              arrayBuffer: async () => {
+                bodyReads++;
+                return new Uint8Array([97]).buffer;
+              },
+            }),
+          );
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        assert.equal(bodyReads, 0, 'Abandoned transport must not consume or cache a late response');
+        shared = source.request('/lighting/a.png');
+        await new Promise<void>((resolve) => setImmediate(resolve));
+        assert.equal(downloads.length, 2, 'Late completion cannot unregister a successor download');
+        downloads[1]!.response.resolve(new Response('a'));
+        assert.ok(next);
+        for (const response of await Promise.all([next, shared]))
+          assert.equal(await response.text(), 'a');
+      } finally {
+        source.dispose();
+        for (const download of downloads) download.response.reject(new Error('test cleanup'));
+        await Promise.allSettled([next, shared]);
+        await rejected;
+      }
+    });
 });
 
 test('decode admission bounds work and shutdown settles queued work without starting it', async () => {
