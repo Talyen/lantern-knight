@@ -1,3 +1,4 @@
+import { kitAttributes } from '../content/progression';
 import { parseAreaState, type AreaState } from './area-state';
 import { InventoryState, type InventoryAccess } from './inventory';
 import type { GroundDrop } from '../content/interactions';
@@ -68,6 +69,9 @@ export class Simulation {
   get inventory() {
     return this.inventoryAccess.inventory;
   }
+  get forgeUpgrade() {
+    return this.inventoryAccess.forgeUpgrade;
+  }
   get equipment() {
     return this.inventoryAccess.equipment;
   }
@@ -98,7 +102,13 @@ export class Simulation {
   }
   private claimObject(id: string) {
     const object = this.areaDefinition.interactables?.find((p) => p.id === id);
-    if (!object || this.claimedObjects.has(id) || !this.guardsDefeated(object.guards)) return false;
+    if (
+      !object ||
+      object.kind === 'workbench' ||
+      this.claimedObjects.has(id) ||
+      !this.guardsDefeated(object.guards)
+    )
+      return false;
     this.claimedObjects.add(id);
     this.objectActions.set(id, this.tick);
     if (object.rewards.length)
@@ -161,6 +171,10 @@ export class Simulation {
     this.#combat = new CombatActions(this.areaDefinition, generation, {
       actors: () => this.actors,
       movementPreview: () => this.movementPreview,
+      damagePercent: (type) => {
+        const attributes = kitAttributes(this.inventoryAccess.forgeUpgrade);
+        return type === 'physical' ? attributes.edge : attributes.ember;
+      },
       emit: (actor, details) => this.emit(actor, details),
       move: (actor, x, z) => this.move(actor, x, z),
       enemyHit: (actor) => {

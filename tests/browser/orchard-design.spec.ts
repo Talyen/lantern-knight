@@ -5,14 +5,14 @@ import { test, expect, openEditor, waitForEditorIdle } from './fixtures';
 import { projectRoot } from '../../tools/assets/paths';
 import type { SceneDocument } from '../../src/content/scene-document';
 
-test('Orchard rejects a hidden-body placement and preserves its accepted composition', async ({
+test('opening scene composition rejects hidden bodies and preserves readable placements', async ({
   page,
 }) => {
   test.skip(
     !process.env.LANTERN_ORCHARD_DESIGN_CAPTURES,
-    'Explicit Orchard composition captures only',
+    'Explicit opening composition captures only',
   );
-  test.setTimeout(240_000);
+  test.setTimeout(360_000);
   const scene = JSON.parse(
     await fs.readFile(path.join(projectRoot, 'authoring/scenes/abandoned-orchard.json'), 'utf8'),
   );
@@ -112,5 +112,38 @@ test('Orchard rejects a hidden-body placement and preserves its accepted composi
       { dx, dz },
     );
     await page.screenshot({ path: path.join(directory, `${name}.png`) });
+  }
+  for (const id of ['forest-gathering-clearing', 'ruined-forge']) {
+    const destination = JSON.parse(
+      await fs.readFile(path.join(projectRoot, 'authoring/scenes', id + '.json'), 'utf8'),
+    );
+    await page.locator('#import-scene').setInputFiles({
+      name: id + '.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify(destination)),
+    });
+    await page.locator('#confirmation-accept').click();
+    await expect
+      .poll(() => page.evaluate(() => window.sceneEditor.state().document.name), {
+        timeout: 90_000,
+      })
+      .toBe('Imported ' + destination.name);
+    await waitForEditorIdle(page);
+    await page.evaluate(async () => {
+      const source = '/src/content/floor-layout.ts';
+      const { artworkFloorLayout } = await import(source);
+      const view = window.sceneEditor.view(),
+        d = window.sceneEditor.state().document,
+        p = view.presentation!;
+      view.setGrid(false);
+      view.setAnimationPlaying(false);
+      view.hero(d.hero);
+      const center = artworkFloorLayout(d.floor.width, d.floor.depth).world([0.5, 0.5]);
+      p.center.set(center.x, 0, center.z);
+      p.verticalSpan = d.floor.depth * 1.1;
+      p.resize();
+      view.render();
+    });
+    await page.screenshot({ path: path.join(directory, id + '-composition.png') });
   }
 });

@@ -436,3 +436,50 @@ test('clearing wind suggests the ruins, their dropped reward, then the resting f
   s.drops.length = 0;
   assert.equal(windDestination(s.view)?.x, 5);
 });
+
+test('clearing guidance leads onward after collection; forge guidance ends at its fire', () => {
+  const defs = registry().definitions;
+  const clearing = defs.areas[1]!;
+  const forward = {
+    ...clearing.exits[0]!,
+    id: 'onward',
+    destination: 'ruined-forge',
+    marker: { x: -5, z: 4 },
+  };
+  const r = new ContentRegistry({
+    ...defs,
+    areas: [
+      defs.areas[0]!,
+      {
+        ...clearing,
+        spawns: [],
+        exits: [...clearing.exits, forward],
+        interactables: clearing.interactables?.map((o) => ({ ...o, kind: 'container' as const })),
+      },
+      {
+        ...clearing,
+        id: 'ruined-forge',
+        spawns: [],
+        interactables: clearing.interactables?.map((o) => ({ ...o, kind: 'container' as const })),
+      },
+    ],
+  });
+  const s = new Simulation(r, 142, clearing.id);
+  assert.equal(windDestination(s.view)?.z, 2);
+  s.claimedObjects.add('crate');
+  s.drops.push({
+    id: 'reward',
+    source: 'crate',
+    enemy: false,
+    x: 1,
+    z: 2,
+    rewards: [{ item: 'gold', amount: 1 }],
+  });
+  assert.equal(windDestination(s.view)?.x, 1);
+  s.drops.length = 0;
+  assert.deepEqual(windDestination(s.view), forward.marker);
+  const forge = new Simulation(r, 142, 'ruined-forge');
+  assert.equal(windDestination(forge.view)?.z, 2);
+  forge.claimedObjects.add('crate');
+  assert.equal(windDestination(forge.view)?.x, 5);
+});

@@ -77,7 +77,7 @@ export class AudioFeedback {
         play('heal', false);
         break;
       case 'inventory-changed':
-        play(event.operation, false);
+        play(event.operation === 'upgrade' ? 'success' : event.operation, false);
         if (event.operation === 'equip') play('armor', false);
         break;
       case 'action-unavailable':

@@ -5,7 +5,7 @@ import { heightAt } from '../content/world';
 import { tuning } from '../content/gameplay';
 import { items } from '../content/items';
 export type Interaction = {
-  kind: 'drop' | 'campfire' | 'container' | 'exit' | 'breakable';
+  kind: 'drop' | 'campfire' | 'container' | 'exit' | 'breakable' | 'workbench';
   id: string;
   label: string;
   blocked?: string;
@@ -42,8 +42,18 @@ function choices(sim: InteractionState): Interaction[] {
       .map((o) => ({
         kind: o.kind,
         id: o.id,
-        label: o.kind === 'breakable' ? 'LMB · Break' : 'Open container',
-        blocked: !sim.guardsDefeated(o.guards) ? 'Defeat the guard to open' : undefined,
+        label:
+          o.kind === 'workbench'
+            ? 'Forge workbench'
+            : o.kind === 'breakable'
+              ? 'LMB · Break'
+              : 'Open container',
+        blocked:
+          o.kind === 'workbench' && sim.inCombat
+            ? 'Finish combat to use the workbench'
+            : !sim.guardsDefeated(o.guards)
+              ? 'Defeat the guard to open'
+              : undefined,
         x: o.x,
         z: o.z,
       })),

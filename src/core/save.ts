@@ -13,7 +13,7 @@ const point = z.strictObject({
   health: z.number().int().nonnegative(),
 });
 const GameSchema = z.strictObject({
-  version: z.literal(8),
+  version: z.literal(9),
   seed: z.number().int().min(0).max(4294967295),
   wins: z.number().int().nonnegative().max(100000),
   area: id,
@@ -26,6 +26,7 @@ const GameSchema = z.strictObject({
     .strictObject({
       inventory: z.record(id, z.number().int().nonnegative().max(MAX_ITEM_COUNT)),
       equipment: z.partialRecord(z.enum(equipmentSlots), id),
+      forgeUpgrade: z.enum(['sword', 'lantern']).optional(),
       discovered: z.array(z.string()).max(1000),
       lastFire: z.string().optional(),
       potionCooldown: z.number().int().min(0).max(60),
@@ -54,8 +55,8 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
   if (!save.adventure && registry.definitions.areas.some((area) => area.campfires?.length))
     throw new Error('Missing adventure state');
   if (save.adventure) {
-    const { inventory, equipment, discovered, lastFire } = save.adventure;
-    validateInventory({ inventory, equipment });
+    const { discovered, lastFire } = save.adventure;
+    validateInventory(save.adventure);
     const fires = registry.definitions.areas.flatMap((a) =>
       (a.campfires ?? []).map((f) => a.id + '/' + f.id),
     );

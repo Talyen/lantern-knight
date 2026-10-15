@@ -1,6 +1,7 @@
 import { guidingWindAssets } from './guiding-wind';
 import orchard from '../../authoring/scenes/abandoned-orchard.json';
 import clearing from '../../authoring/scenes/forest-gathering-clearing.json';
+import forge from '../../authoring/scenes/ruined-forge.json';
 import { resolveScene } from './world-art';
 import { contentSnapshot, type ContentSnapshot } from './snapshot';
 import { ContentRegistry, type ContentDefinitions } from './world';
@@ -12,7 +13,7 @@ import type { Manifest } from '../assets/schema';
 import { actors } from './actors';
 import { actorVisuals, assetCatalog } from './visuals';
 import { validateSceneReferences } from './scene-document';
-const playableScenes = [orchard, clearing].map((document) => resolveScene(document));
+const playableScenes = [orchard, clearing, forge].map((document) => resolveScene(document));
 export const worldVisuals: Readonly<Record<string, WorldVisualDefinition>> = Object.fromEntries(
   playableScenes.map((scene) => [scene.area.id, scene.visuals]),
 );

@@ -25,7 +25,7 @@ export class StorageCodec {
       return { status: 'empty' };
     try {
       const value = JSON.parse(text);
-      if (slot === 'game' && value?.version !== 8)
+      if (slot === 'game' && value?.version !== 9)
         return { status: 'empty', reason: 'incompatible' };
       return { status: 'ok', data: this.parse(slot, value) };
     } catch {

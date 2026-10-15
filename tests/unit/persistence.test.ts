@@ -359,3 +359,30 @@ test('desktop shutdown revokes admission immediately and waits for every admitte
   });
   assert.deepEqual(await fs.readdir(directory), ['game.json']);
 });
+
+test('desktop storage round-trips either permanent forge choice with its paid balances', async (t) => {
+  const { forgeFixture, supplyForge } = await import('../fixtures/forge');
+  const directory = await temporaryDirectory(t, 'lantern-forge-save-');
+  for (const choice of ['sword', 'lantern'] as const) {
+    const session = forgeFixture();
+    supplyForge(session);
+    const purchase = session.prepareForgePurchase('bench', choice);
+    const store = new Store(path.join(directory, choice), session.registry);
+    await store.save('game', purchase.save);
+    purchase.commit();
+    const saved = await store.load('game');
+    assert.equal(saved.status, 'ok');
+    if (saved.status !== 'ok') assert.fail('Expected purchased checkpoint');
+    const resumed = new GameSession(session.registry);
+    resumed.restoreSave(saved.data);
+    assert.equal(resumed.forgeUpgrade, choice);
+    resumed.sim.hero.health = 0;
+    resumed.resetCurrentArea('death');
+    assert.equal(resumed.forgeUpgrade, choice);
+    assert.deepEqual(resumed.inventory, session.inventory);
+    const target = resumed.sim.enemies[0]!;
+    const health = target.health;
+    resumed.sim.damage(resumed.sim.hero, target, 26);
+    assert.equal(health - target.health, choice === 'sword' ? 30 : 26);
+  }
+});

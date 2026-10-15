@@ -186,6 +186,15 @@ export class ContentRegistry {
       finite(b.minX, b.maxX, b.minZ, b.maxZ);
       if (b.minX >= b.maxX || b.minZ >= b.maxZ) fail('invalid bounds');
     };
+    const tempers = definitions.areas.flatMap((a) =>
+      (a.interactables ?? []).flatMap((o) =>
+        o.rewards
+          .filter((r) => r.item === 'workshop-temper')
+          .map((r) => ({ object: o, amount: r.amount })),
+      ),
+    );
+    if (tempers.length > 1 || tempers.some((t) => t.object.kind !== 'container' || t.amount !== 1))
+      fail('Workshop Temper must be one unique container reward');
     unique(definitions.actors, 'actor');
     unique(definitions.areas, 'area');
     for (const a of definitions.actors) {
@@ -303,7 +312,10 @@ export class ContentRegistry {
       for (const p of a.spawns) {
         if (this.actor(p.actor).kind !== 'enemy') fail('encounter spawn must be an enemy');
         if (p.awareness) awarenessSchema.parse(p.awareness);
-        p.rewards?.forEach((r) => rewardSchema.parse(r));
+        p.rewards?.forEach((r) => {
+          rewardSchema.parse(r);
+          if (r.item === 'workshop-temper') fail('Enemies cannot supply Workshop Tempers');
+        });
         finite(p.jitterZ ?? 0);
         if ((p.jitterZ ?? 0) < 0 || p.z + (p.jitterZ ?? 0) > a.bounds.maxZ)
           fail('invalid spawn jitter');

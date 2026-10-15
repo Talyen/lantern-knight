@@ -1,3 +1,5 @@
+import { forgeFixture, supplyForge } from '../fixtures/forge';
+import type { GameSave } from '../../src/core/save';
 import { onExit } from '../../tools/scope-exit';
 import { mockGlobals } from '../fixtures/globals';
 import { ResourcePool } from '../../src/assets/resource-pool';
@@ -2130,4 +2132,59 @@ test('startup transfers the prepared renderer factory and revokes uploads before
   app.dispose();
   assert.deepEqual(calls.slice(-2), ['graphics-dispose', 'presentation-dispose']);
   assert.throws(upload, /revoked/);
+});
+
+test('forge purchase saves one atomic candidate, blocks overlapping commands and spends nothing on failure', async () => {
+  const session = forgeFixture();
+  supplyForge(session);
+  const writes: GameSave[] = [];
+  let resolveWrite!: () => void;
+  let rejectWrite!: (error: Error) => void;
+  const { app } = fixture(sceneFixture(session.registry), {
+    saveGame: (save) => {
+      writes.push(structuredClone(save));
+      return new Promise<void>((resolve, reject) => {
+        resolveWrite = resolve;
+        rejectWrite = reject;
+      });
+    },
+  });
+  using _cleanup = onExit(() => app.dispose());
+  await app.restore(session.captureSave());
+  const before = app.session.captureSave();
+  const failed = app.purchaseForgeUpgrade('bench', 'sword');
+  assert.equal(app.busy, true);
+  assert.equal(writes.length, 1);
+  assert.equal(writes[0]!.adventure!.forgeUpgrade, 'sword');
+  assert.equal(writes[0]!.adventure!.inventory.gold, 8);
+  assert.equal(writes[0]!.adventure!.inventory.iron, 6);
+  assert.equal(writes[0]!.adventure!.inventory['workshop-temper'], 0);
+  assert.deepEqual(
+    app.session.captureSave(),
+    before,
+    'candidate is not live while storage is pending',
+  );
+  await assert.rejects(app.purchaseForgeUpgrade('bench', 'lantern'), /current operation/);
+  await assert.rejects(app.load(), /purchase/);
+  await assert.rejects(app.reset('death'), /purchase/);
+  assert.throws(() => app.changeInventory('salvage'), /loading/);
+  await assert.rejects(app.save(), /purchase/);
+  app.autosave();
+  assert.equal(writes.length, 1, 'a stale autosave cannot overwrite the purchase');
+  rejectWrite(new Error('Disk full'));
+  await assert.rejects(failed, /Disk full/);
+  assert.deepEqual(app.session.captureSave(), before);
+  assert.equal(app.busy, false);
+  assert.equal(
+    app.events.history.some((e) => e.kind === 'inventory-changed'),
+    false,
+  );
+  const successful = app.purchaseForgeUpgrade('bench', 'lantern');
+  resolveWrite();
+  await successful;
+  assert.equal(app.session.forgeUpgrade, 'lantern');
+  assert.deepEqual(app.session.captureSave(), writes[1]);
+  assert.equal(app.events.history.filter((e) => e.kind === 'inventory-changed').length, 1);
+  await assert.rejects(app.purchaseForgeUpgrade('bench', 'sword'), /already/);
+  assert.equal(writes.length, 2);
 });
