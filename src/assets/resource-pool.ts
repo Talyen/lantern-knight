@@ -1,5 +1,6 @@
 import { cleanupAll, cleanupAfterFailure } from './cleanup';
 type Entry<T> = {
+  lifetime: AbortController;
   refs: number;
   promise: Promise<T>;
   start: () => void;
@@ -11,7 +12,7 @@ export class ResourcePool<T> {
   private entries = new Map<string, Entry<T>>();
   private closed = false;
   constructor(
-    private load: (id: string) => Promise<T>,
+    private load: (id: string, signal: AbortSignal) => Promise<T>,
     private destroy: (value: T) => void,
   ) {}
   get size() {
@@ -24,6 +25,7 @@ export class ResourcePool<T> {
     const state = entry.state;
     entry.state = { kind: 'disposed' };
     if (this.entries.get(id) === entry) this.entries.delete(id);
+    entry.lifetime.abort(new Error(this.closed ? 'Resource pool disposed' : 'load cancelled'));
     if (state.kind === 'ready') this.destroy(state.value);
   }
   private retain(id: string) {
@@ -35,6 +37,7 @@ export class ResourcePool<T> {
       const loading = Promise.withResolvers<T>();
       let started = false;
       const created: Entry<T> = {
+        lifetime: new AbortController(),
         refs: 0,
         state: { kind: 'pending' },
         start: () => {
@@ -45,7 +48,7 @@ export class ResourcePool<T> {
             return;
           }
           try {
-            loading.resolve(this.load(id));
+            loading.resolve(this.load(id, created.lifetime.signal));
           } catch (error) {
             loading.reject(error);
           }

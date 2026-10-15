@@ -84,3 +84,24 @@ test('decode admission bounds work and shutdown settles queued work without star
   await rejected;
   assert.equal(started, 1);
 });
+
+test('cancelled queued decodes settle without waiting for active work or starting downloads', async () => {
+  const queue = new DecodeQueue(1),
+    active = Promise.withResolvers<number>(),
+    controller = new AbortController();
+  const first = queue.run(() => active.promise);
+  let obsoleteStarts = 0;
+  const obsolete = queue.run(async () => {
+      obsoleteStarts++;
+      return 2;
+    }, controller.signal),
+    rejected = assert.rejects(obsolete, /obsolete/),
+    next = queue.run(async () => 3);
+  controller.abort(new Error('obsolete'));
+  await rejected;
+  active.resolve(1);
+  assert.equal(await first, 1);
+  assert.equal(await next, 3);
+  assert.equal(obsoleteStarts, 0);
+  queue.dispose();
+});

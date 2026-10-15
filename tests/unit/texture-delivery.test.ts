@@ -164,3 +164,56 @@ test('delivery prepares a verified texture before transfer and closes failed upl
     delivery.dispose();
   }
 });
+
+test('cancelled native bitmap decodes retain ownership until completion and never upload', async (t) => {
+  const { mockGlobals } = await import('../fixtures/globals');
+  const started = Promise.withResolvers<void>(),
+    bitmap = Promise.withResolvers<ImageBitmap>(),
+    controller = new AbortController();
+  let closed = 0,
+    uploaded = 0;
+  mockGlobals(t, {
+    createImageBitmap: () => {
+      started.resolve();
+      return bitmap.promise;
+    },
+  });
+  const canvas = {
+    getContext: () => ({ MAX_TEXTURE_SIZE: 1, getParameter: () => 8192, getExtension: () => null }),
+    ownerDocument: { querySelector: () => null },
+  } as unknown as HTMLCanvasElement;
+  const delivery = new TextureDelivery(
+    canvas,
+    'delivery',
+    async () => new Response('abc'),
+    () => {
+      uploaded++;
+    },
+  );
+  const pending = delivery.decode(
+    {
+      url: '/test.png',
+      hash: 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad',
+      width: 2,
+      height: 3,
+    },
+    controller.signal,
+  );
+  const rejected = assert.rejects(pending, /cancelled/);
+  try {
+    await started.promise;
+    controller.abort(new Error('cancelled'));
+    bitmap.resolve({
+      width: 2,
+      height: 3,
+      close: () => {
+        closed++;
+      },
+    } as ImageBitmap);
+    await rejected;
+    assert.equal(closed, 1);
+    assert.equal(uploaded, 0);
+  } finally {
+    delivery.dispose();
+  }
+});

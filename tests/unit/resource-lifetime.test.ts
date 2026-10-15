@@ -281,8 +281,10 @@ test('reentrant acquisition survives cancellation of the batch that started its 
   const value = {};
   const loads: string[] = [];
   const destroyed: object[] = [];
+  let loadSignal: AbortSignal | undefined;
   const pool = new ResourcePool<object>(
-    (id) => {
+    (id, signal) => {
+      loadSignal = signal;
       loads.push(id);
       if (loads.length === 1) nested = pool.acquire(['shared']);
       controller.abort();
@@ -295,8 +297,10 @@ test('reentrant acquisition survives cancellation of the batch that started its 
   assert.deepEqual(loads, ['shared']);
   assert.equal(surviving.resources.get('shared'), value);
   assert.equal(pool.size, 1);
+  assert.equal(loadSignal!.aborted, false, 'The independent consumer still needs the decode');
   assert.deepEqual(destroyed, []);
   surviving.release();
+  assert.equal(loadSignal!.aborted, true, 'Only the final release revokes the resource lifetime');
   assert.deepEqual(destroyed, [value]);
   assert.equal(pool.size, 0);
   pool.dispose();

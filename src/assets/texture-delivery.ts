@@ -116,17 +116,20 @@ export class TextureDelivery {
       !this.loader.workerConfig.astcSupported && this.loader.workerConfig.bptcSupported,
     );
   }
-  decode(page: ImageRequest): Promise<Texture> {
-    return this.decodes.run(() => this.decodePage(page));
+  decode(page: ImageRequest, signal?: AbortSignal): Promise<Texture> {
+    const lifetime = AbortSignal.any([this.abort.signal, ...(signal ? [signal] : [])]);
+    return this.decodes.run(() => this.decodePage(page, lifetime), lifetime);
   }
-  private async decodePage(page: ImageRequest): Promise<Texture> {
+  private async decodePage(page: ImageRequest, signal: AbortSignal): Promise<Texture> {
     if (this.closed) throw new Error('Image loader disposed');
+    signal.throwIfAborted();
     let texture: Texture;
     if (page.encoding === 'ktx2-uastc') {
-      const response = await this.request(page.url, { signal: this.abort.signal });
+      const response = await this.request(page.url, { signal });
       if (!response.ok) throw new Error(`${page.url}: HTTP ${response.status}`);
       const bytes = await response.arrayBuffer();
       if ((await sha256(bytes)) !== page.hash) throw new Error(`${page.url}: hash mismatch`);
+      signal.throwIfAborted();
       texture = await new Promise<Texture>((resolve, reject) => {
         const fail = (e: Error) => {
           this.pending.delete(fail);
@@ -156,9 +159,7 @@ export class TextureDelivery {
       }
       texture.generateMipmaps = false;
     } else {
-      const bitmap = await verifiedBitmap(page.url, page, (url, init) =>
-        this.request(url, { ...init, signal: this.abort.signal }),
-      );
+      const bitmap = await verifiedBitmap(page.url, page, this.request, signal);
       if (this.closed) {
         bitmap.close();
         throw new Error('Image loader disposed');
@@ -182,8 +183,10 @@ export class TextureDelivery {
     };
     texture.needsUpdate = true;
     try {
+      signal.throwIfAborted();
       this.prepareTexture?.(texture);
       if (this.closed) throw new Error('Image loader disposed');
+      signal.throwIfAborted();
     } catch (error) {
       cleanupAfterFailure(error, () =>
         cleanupAll([
