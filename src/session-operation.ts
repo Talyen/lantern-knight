@@ -38,7 +38,11 @@ export class SessionOperations {
     return this.current !== undefined;
   }
 
-  async run<T>(work: (operation: SessionOperation) => Promise<T>): Promise<T> {
+  // Command completion transfers only an outcome. The body retains acquisition
+  // ownership and must check admission before committing or invoking host code.
+  async run<T extends void | boolean>(
+    work: (operation: SessionOperation) => Promise<T>,
+  ): Promise<T> {
     if (this.disposed) throw new SessionOperationCancelled('application disposed');
     const previous = this.current,
       operation = new OwnedSessionOperation();
@@ -47,7 +51,10 @@ export class SessionOperations {
     try {
       previous?.cancel('session operation superseded');
       operation.check();
-      const result = await work(operation);
+      // Cancellation settles the caller even if a native decode never settles.
+      // Observe the body through its eventual cleanup; its guards still revoke
+      // commit, and its finally blocks still release resources arriving later.
+      const result = await operation.read(work(operation));
       operation.check();
       return result;
     } catch (error) {
