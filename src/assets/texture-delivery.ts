@@ -123,92 +123,104 @@ export class TextureDelivery {
   private async decodePage(page: ImageRequest, signal: AbortSignal): Promise<Texture> {
     if (this.closed) throw new Error('Image loader disposed');
     signal.throwIfAborted();
-    let texture: Texture;
-    if (page.encoding === 'ktx2-uastc') {
-      const response = await this.request(page.url, { signal });
-      if (!response.ok) throw new Error(`${page.url}: HTTP ${response.status}`);
-      const bytes = await response.arrayBuffer();
-      if ((await sha256(bytes)) !== page.hash) throw new Error(`${page.url}: hash mismatch`);
-      signal.throwIfAborted();
-      texture = await new Promise<Texture>((resolve, reject) => {
-        const fail = (e: Error) => {
-          this.pending.delete(fail);
-          reject(e);
-        };
-        if (this.closed) {
-          fail(new Error('Image loader disposed'));
-          return;
-        }
-        this.pending.add(fail);
-        this.loader.parse(
-          bytes,
-          (value) => {
-            this.pending.delete(fail);
-            if (this.closed) {
-              value.dispose();
-              reject(new Error('Image loader disposed'));
-            } else resolve(value);
-          },
-          (error) => fail(error instanceof Error ? error : new Error(String(error))),
-        );
-      });
-      const dimensions = imageDimensions(texture.image);
-      if (dimensions.width !== page.width || dimensions.height !== page.height) {
-        texture.dispose();
-        throw new Error('Compressed image dimensions differ');
-      }
-      texture.generateMipmaps = false;
-    } else {
-      const bitmap = await verifiedBitmap(page.url, page, this.request, signal);
-      if (this.closed) {
-        bitmap.close();
-        throw new Error('Image loader disposed');
-      }
-      texture = new Texture(bitmap);
-      texture.generateMipmaps = page.mipmaps === true;
-    }
-    texture.colorSpace = SRGBColorSpace;
-    texture.minFilter = page.mipmaps ? LinearMipmapLinearFilter : LinearFilter;
-    texture.magFilter = LinearFilter;
-    texture.flipY = false;
-    texture.premultiplyAlpha = false;
-    texture.userData.delivery = {
-      encoding: page.encoding ?? 'png',
-      width: page.width,
-      height: page.height,
-      bytes: page.bytes ?? 0,
-      gpuBytes:
-        page.gpuBytes ?? Math.ceil(page.width * page.height * 4 * (page.mipmaps ? 4 / 3 : 1)),
-      sourceHash: page.sourceHash ?? page.hash,
-    };
-    texture.needsUpdate = true;
+    let texture: Texture | undefined;
     try {
+      if (page.encoding === 'ktx2-uastc') {
+        const response = await this.request(page.url, { signal });
+        if (!response.ok) throw new Error(`${page.url}: HTTP ${response.status}`);
+        const bytes = await response.arrayBuffer();
+        if ((await sha256(bytes)) !== page.hash) throw new Error(`${page.url}: hash mismatch`);
+        signal.throwIfAborted();
+        texture = await new Promise<Texture>((resolve, reject) => {
+          const fail = (e: Error) => {
+            this.pending.delete(fail);
+            reject(e);
+          };
+          if (this.closed) {
+            fail(new Error('Image loader disposed'));
+            return;
+          }
+          this.pending.add(fail);
+          try {
+            this.loader.parse(
+              bytes,
+              (value) => {
+                this.pending.delete(fail);
+                if (this.closed) {
+                  value.dispose();
+                  reject(new Error('Image loader disposed'));
+                } else resolve(value);
+              },
+              (error) => fail(error instanceof Error ? error : new Error(String(error))),
+            );
+          } catch (error) {
+            fail(error instanceof Error ? error : new Error(String(error)));
+          }
+        });
+        const dimensions = imageDimensions(texture.image);
+        if (dimensions.width !== page.width || dimensions.height !== page.height) {
+          throw new Error('Compressed image dimensions differ');
+        }
+        texture.generateMipmaps = false;
+      } else {
+        const bitmap = await verifiedBitmap(page.url, page, this.request, signal);
+        if (this.closed) {
+          bitmap.close();
+          throw new Error('Image loader disposed');
+        }
+        texture = new Texture(bitmap);
+        texture.generateMipmaps = page.mipmaps === true;
+      }
+      texture.colorSpace = SRGBColorSpace;
+      texture.minFilter = page.mipmaps ? LinearMipmapLinearFilter : LinearFilter;
+      texture.magFilter = LinearFilter;
+      texture.flipY = false;
+      texture.premultiplyAlpha = false;
+      texture.userData.delivery = {
+        encoding: page.encoding ?? 'png',
+        width: page.width,
+        height: page.height,
+        bytes: page.bytes ?? 0,
+        gpuBytes:
+          page.gpuBytes ?? Math.ceil(page.width * page.height * 4 * (page.mipmaps ? 4 / 3 : 1)),
+        sourceHash: page.sourceHash ?? page.hash,
+      };
+      texture.needsUpdate = true;
       signal.throwIfAborted();
       this.prepareTexture?.(texture);
       if (this.closed) throw new Error('Image loader disposed');
       signal.throwIfAborted();
+      return texture;
     } catch (error) {
       cleanupAfterFailure(error, () =>
         cleanupAll([
-          () => texture.dispose(),
-          () => (texture.image as { close?: () => void }).close?.(),
+          () => texture?.dispose(),
+          () => (texture?.image as { close?: () => void } | undefined)?.close?.(),
         ]),
       );
     }
-    return texture;
   }
   dispose() {
     if (this.closed) return;
     this.closed = true;
-    this.decodes.dispose();
-    this.abort.abort();
-    for (const reject of this.pending) reject(new Error('Image loader disposed'));
+    const pending = [...this.pending];
     this.pending.clear();
-    this.loader.dispose();
-    void this.loader.transcoderPending?.then(
+    cleanupAll([
+      () => this.decodes.dispose(),
+      () => this.abort.abort(),
+      ...pending.map((reject) => () => reject(new Error('Image loader disposed'))),
+      () => {
+        // Initialization may create workers after shutdown; register before
+        // invoking a destructor that can itself fail.
+        void this.loader.transcoderPending
+          ?.then(
+            () => this.loader.dispose(),
+            () => {},
+          )
+          .catch(() => {});
+      },
       () => this.loader.dispose(),
-      () => {},
-    );
+    ]);
   }
 }
 

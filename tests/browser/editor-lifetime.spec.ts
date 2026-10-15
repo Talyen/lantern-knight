@@ -266,3 +266,53 @@ test('a frame fault closes editor ownership and leaves visible failure feedback'
   await expect(page.locator('#command-dialog')).not.toBeVisible();
   expect(errors).toEqual([]);
 });
+
+test('editor remount closes its predecessor and shutdown revokes retained DOM controls', async ({
+  page,
+  errors,
+}) => {
+  await openEditor(page);
+  await page.evaluate(async () => {
+    const old = window.sceneEditor,
+      runtime = old.view().runtime;
+    const moduleURL = '/src/editor/session.ts';
+    const { createEditorSession } = (await import(
+      moduleURL
+    )) as typeof import('../../src/editor/session');
+    const presentation = old.view().presentation!,
+      disposePresentation = presentation.dispose.bind(presentation);
+    let successor: ReturnType<typeof createEditorSession> | undefined;
+    presentation.dispose = () => {
+      disposePresentation();
+      successor = createEditorSession();
+    };
+    const next = createEditorSession();
+    if (next !== successor) throw new Error('Returning remount replaced its reentrant successor');
+    let closed = false;
+    try {
+      runtime.seedManifest('unused', {});
+    } catch {
+      closed = true;
+    }
+    if (!closed || old.ready()) throw new Error('Remount retained the old editor resource graph');
+    old.dispose();
+    if (window.sceneEditor !== next) throw new Error('Old shutdown changed successor inspection');
+  });
+  await expect
+    .poll(() => page.evaluate(() => window.sceneEditor.ready()), { timeout: 60_000 })
+    .toBe(true);
+  const result = await page.evaluate(() => {
+    const commands = document.getElementById('commands') as HTMLButtonElement;
+    const focus = document.getElementById('focus-mode') as HTMLButtonElement;
+    window.sceneEditor.dispose();
+    commands.click();
+    focus.click();
+    return {
+      modal: (document.getElementById('command-dialog') as HTMLDialogElement).open,
+      focused: document.body.classList.contains('focus-mode'),
+      inert: document.getElementById('app')!.inert,
+    };
+  });
+  expect(result).toEqual({ modal: false, focused: false, inert: true });
+  expect(errors).toEqual([]);
+});

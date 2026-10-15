@@ -301,3 +301,55 @@ for (const cancelled of [false, true]) {
     assert.equal(runtime.resourceCount, 0);
   });
 }
+
+test('manifest admission shares reentrant transport and stale failures preserve seeded successors', async () => {
+  const response = Promise.withResolvers<Response>();
+  let requests = 0;
+  let reentrant: Promise<unknown> | undefined;
+  const runtime = new AssetRuntime({ hero: 'generated/hero.json' }, () => {
+    requests++;
+    if (requests === 1) reentrant = runtime.manifest('hero');
+    return response.promise;
+  });
+  using cleanup = onExit(() => runtime.dispose());
+  const first = runtime.manifest('hero');
+  const rejected = assert.rejects(first, /old transport/);
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  const reentrantRejected = assert.rejects(reentrant!, /old transport/);
+  assert.equal(requests, 1, 'Transport re-entry must join the already admitted request');
+  runtime.seedManifest('hero', manifestFixture('hero'));
+  const seeded = await runtime.manifest('hero');
+  response.reject(new Error('old transport'));
+  await Promise.all([rejected, reentrantRejected]);
+  assert.equal(await runtime.manifest('hero'), seeded, 'Failed old work cannot evict a successor');
+  assert.equal(requests, 1);
+});
+
+test('runtime shutdown settles metadata readers while ignored transport remains observed', async () => {
+  const response = Promise.withResolvers<Response>(),
+    started = Promise.withResolvers<void>();
+  const runtime = new AssetRuntime({ hero: 'generated/hero.json' }, () => {
+    started.resolve();
+    return response.promise;
+  });
+  const pending = runtime.manifest('hero');
+  const settled = pending.then(
+    () => false,
+    () => true,
+  );
+  await started.promise;
+  runtime.dispose();
+  assert.equal(
+    await Promise.race([settled, new Promise((resolve) => setImmediate(() => resolve(false)))]),
+    true,
+    'Retired metadata readers must not wait for transport',
+  );
+  response.resolve(new Response(JSON.stringify(manifestFixture('hero'))));
+  await assert.rejects(pending, /disposed/);
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.equal(
+    Reflect.get(runtime, 'pages').size,
+    0,
+    'Late metadata cannot revive page registration',
+  );
+});
