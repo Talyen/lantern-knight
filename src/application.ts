@@ -861,7 +861,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         this.beforeStep(sim);
         if (!admitted() || session !== this.current.session) return false;
         const cmd =
-          this.command?.(sim) ?? this.input.consume(sim.hero, sim.areaDefinition, sim.generation);
+          this.command?.(sim) ??
+          this.input.consume(sim.hero, sim.areaDefinition, sim.generation, sim.enemies);
         if (!admitted() || session !== this.current.session) return false;
         if ('reset' in cmd) {
           this.safe(() => this.reset(cmd.reset));

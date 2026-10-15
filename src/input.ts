@@ -2,6 +2,8 @@ import { cameraContract as contract } from './assets/camera-contract';
 import type { HeroAction } from './core/actor';
 import type { Command } from './core/simulation';
 import { walkablePoint, screenMovement } from './presentation/camera';
+import { enemyAimPoint } from './presentation/combat-aim';
+import type { ActorView } from './core/simulation-view';
 import type { Actor } from './core/simulation';
 import type { AreaDefinition } from './content/world';
 import type { OrthographicCamera } from 'three';
@@ -73,9 +75,10 @@ export class Input {
     canvas.addEventListener('contextmenu', (e) => e.preventDefault(), { signal });
   }
   consume(
-    actor: Pick<Actor, 'x' | 'z' | 'aim'>,
+    actor: Pick<Actor, 'x' | 'z' | 'aim'> & { y?: number },
     area: AreaDefinition,
     generation: number,
+    enemies: readonly ActorView[] = [],
   ): Command {
     const rect = this.canvas.getBoundingClientRect(),
       inside =
@@ -85,7 +88,8 @@ export class Input {
         this.pointer.y >= rect.top &&
         this.pointer.y <= rect.bottom;
     const p = inside
-      ? walkablePoint(this.camera, this.pointer.x, this.pointer.y, rect, area)
+      ? (enemyAimPoint(this.camera, this.pointer, rect, actor, enemies, area) ??
+        walkablePoint(this.camera, this.pointer.x, this.pointer.y, rect, area))
       : null;
     if (p && Math.hypot(p.x - actor.x, p.z - actor.z) > 0.001) this.lastAim = { x: p.x, z: p.z };
     const cmd = {

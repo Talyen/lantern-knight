@@ -136,6 +136,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     await expect(lantern).toHaveCount(0);
     await capture('complete');
     await page.keyboard.press('Escape');
+    await expect(page.locator('#interaction-hint')).toHaveText('E · Inspect workbench');
     await page.reload();
     await ready();
     await expect(page.locator('#menu-start')).toHaveAccessibleName('Continue journey');

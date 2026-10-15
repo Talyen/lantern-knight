@@ -217,6 +217,8 @@ Author scene geometry and visuals together. For Game, register the area and its 
 
 ### Change action timing or presentation
 
+Input receives the current room's read-only enemy views for body aiming. Its narrow projected humanoid capsule resolves a cursor on a living, unobstructed, same-elevation enemy to that enemy's feet; other cursor positions project onto the walking surface. This supplies an aim point only, without changing simulation reach, damage, attack arcs or action commitment. No target identity survives room replacement.
+
 Authored hero holds, gameplay tuning and simulation own timing at 60 Hz. The hero's melee definition owns base/lunge reach and an optional `sweepRange` override, falling back to base reach; action timing owns the damage window. Sweep defaults to the Quick preset shared by simulation, retimed presentation clips and the effect clock. Preview overrides change no raster assets or persisted fields. [Sweep review](developer-tools.md#sweep-review) owns preset timings and recovery comparisons.
 
 Supplied actor kits use the nearest delivered facing for each action without mirroring. Authored scene placements still require their requested clips and headings.

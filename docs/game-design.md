@@ -36,6 +36,8 @@ These are playtest defaults, not balance approval. The burst creates room to rep
 
 Face the direction of travel while moving. Face the mouse aim direction for sword attacks and lantern casting.
 
+A cursor over a living enemy's body aims toward that enemy's feet, rather than projecting its torso onto the floor behind it. Use a narrow upright body capsule, excluding weapons; dead enemies, obstructed enemies and enemies on a different walking elevation do not capture aim. Empty ground retains free mouse aiming. This changes facing only: combat still enforces range, attack arcs, obstruction and elevation.
+
 Defer full aim-facing strafing initially: it requires additional animation work. The first playable should make the transition between movement-facing and action-facing clear and natural.
 
 ## Equipment

@@ -38,7 +38,9 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
   await expect(page.locator('#menu-start')).toBeVisible();
   await page.locator('#menu-start').click();
   await expect(page.locator('canvas')).toBeFocused();
-  await expect(page.locator('#opening-hint, .actions, .controls-hint, #objective')).toHaveCount(0);
+  await expect(
+    page.locator('#opening-hint, .actions, .controls-hint, .combat-guide, #objective'),
+  ).toHaveCount(0);
   if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY) {
     await mkdir(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, { recursive: true });
     await page.screenshot({

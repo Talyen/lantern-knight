@@ -545,25 +545,8 @@ body.game {
 .game .supply-row.empty #potion-count {
   color: #dcaa94;
 }
-.game .combat-guide {
-  position: absolute;
-  right: 28px;
-  bottom: 32px;
-  display: flex;
-  gap: 20px;
-  padding: 10px 14px;
-  color: #f2e6cf;
-  font-size: 11px;
-  background: #101b1dd9;
-  border-radius: 2px;
-  pointer-events: none;
-}
-.game .combat-guide kbd {
-  margin-right: 6px;
-}
 .game .menu-open > .hud,
 .game .menu-open > .game-toolbar,
-.game .menu-open > .combat-guide,
 .game .menu-open > .title-card,
 .game .menu-open > #status {
   visibility: hidden;
@@ -625,11 +608,6 @@ body.game {
   .game .journey-summary h2 {
     font-size: 24px;
   }
-  .game .combat-guide {
-    gap: 12px;
-    right: 16px;
-    bottom: 25px;
-  }
   .game .hud {
     left: 16px;
     bottom: 20px;
@@ -660,9 +638,6 @@ body.game {
   .game .field-notes {
     grid-template-columns: 1fr;
     gap: 12px;
-  }
-  .game .combat-guide {
-    display: none;
   }
   .game .title-card {
     top: 74px;

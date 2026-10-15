@@ -15,7 +15,6 @@ export const gameUI = `<main class="stage game-stage"><canvas aria-label="Lanter
 <section class="hud" aria-label="Health and supplies"><div class="health-heading"><span>Vitality</span><span id="hp"></span></div><div class="health" role="meter" aria-label="Health" aria-valuemin="0"><span id="health-fill"></span></div><div class="supply-row"><span><kbd>Q</kbd> Health Potion</span><span id="potion-count"></span></div></section>
 <div class="ground-loot-labels" aria-label="Ground items"></div><p id="interaction-hint" aria-live="polite"></p><p id="lantern-hint" aria-live="polite"></p>
 <div class="game-toolbar"><button id="open-inventory">Inventory <kbd>I</kbd></button><button id="pause" aria-label="Pause / save">Menu <kbd>Esc</kbd></button></div>
-<div class="combat-guide" aria-label="Combat controls"><span><kbd>LMB</kbd> Sword</span><span><kbd>Shift</kbd> Dodge</span><span><kbd>RMB</kbd> Lantern</span></div>
 <p id="status" role="status"></p><section id="startup-error" class="startup-failure" aria-labelledby="startup-error-title" hidden><p class="eyebrow">Lantern Knight</p><h1 id="startup-error-title">The path could not be opened.</h1><p id="startup-error-detail" role="alert"></p><a href="./index.html">Try again</a></section>${gameMenu}</main>`;
 // The mounted Game owns its controls, async feedback and adventure dialog.
 export function createGameUI(root: HTMLElement) {
@@ -315,7 +314,9 @@ export function createGameUI(root: HTMLElement) {
               drop: 'E · Take',
               campfire: 'E · Rest',
               container: 'E · Open',
-              workbench: 'E · Improve sword or lantern',
+              workbench: app.session.forgeUpgrade
+                ? 'E · Inspect workbench'
+                : 'E · Improve sword or lantern',
               exit: `E · ${interaction.label}`,
               breakable: 'LMB · Break',
             } as const
