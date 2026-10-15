@@ -1400,7 +1400,14 @@ export function createEditorSession() {
     assetCatalog = await authoringCatalog(lifetime.signal);
     assertActive();
     // Picking reads texture alpha on a 2D canvas, so editor delivery stays PNG.
-    runtime = await AssetRuntime.open(assetCatalog, canvas, 'lossless');
+    runtime = await AssetRuntime.open(
+      assetCatalog,
+      canvas,
+      'lossless',
+      'authoring',
+      undefined,
+      lifetime.signal,
+    );
     if (closed) runtime.dispose();
     assertActive();
     view = new EditorView(canvas, runtime);

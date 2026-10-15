@@ -9,6 +9,67 @@ import { mockGlobals } from '../fixtures/globals';
 import { AssetByteSource } from '../../src/assets/byte-source';
 import { runtimeBundles } from '../../tools/build-runtime-delivery';
 
+for (const phase of ['policy', 'registration-body'] as const) {
+  test(`cancelling runtime opening during ${phase} settles without transport and closes staged ownership`, async (t) => {
+    const controller = new AbortController(),
+      response = Promise.withResolvers<Response>(),
+      body = Promise.withResolvers<ArrayBuffer>(),
+      started = Promise.withResolvers<void>(),
+      signals: AbortSignal[] = [];
+    let settled = false,
+      requests = 0;
+    const dispose = t.mock.method(AssetRuntime.prototype, 'dispose');
+    mockGlobals(t, {
+      fetch: async (_url: unknown, init: RequestInit) => {
+        requests++;
+        signals.push(init.signal!);
+        if (phase === 'policy') {
+          started.resolve();
+          return response.promise;
+        }
+        if (requests === 1) return new Response('{}');
+        return Object.assign(new Response(), {
+          arrayBuffer: () => {
+            started.resolve();
+            return body.promise;
+          },
+        });
+      },
+    });
+    const opening = AssetRuntime.open(
+      {},
+      undefined,
+      'delivery',
+      'authoring',
+      undefined,
+      controller.signal,
+    );
+    const result = opening.catch((error: unknown) => {
+      settled = true;
+      return error;
+    });
+    try {
+      await started.promise;
+      controller.abort(new Error('opening cancelled'));
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      assert.equal(settled, true, 'Transport may ignore abort indefinitely');
+      assert.match(String(await result), /opening cancelled/);
+      assert.ok(signals.every((signal) => signal.aborted));
+      assert.equal(dispose.mock.callCount(), phase === 'policy' ? 0 : 1);
+    } finally {
+      // A late transport failure must stay observed and cannot reopen resources.
+      if (phase === 'policy') response.reject(new Error('late transport failure'));
+      else response.resolve(new Response());
+      // This body is only observed in the registration case.
+      body.resolve(new ArrayBuffer(0));
+      await result;
+      await new Promise<void>((resolve) => setImmediate(resolve));
+    }
+    assert.equal(requests, phase === 'policy' ? 1 : 2);
+    assert.equal(dispose.mock.callCount(), phase === 'policy' ? 0 : 1);
+  });
+}
+
 test('retiring a room cancels obsolete image work so the next room can decode', async (t) => {
   mockGlobals(t, {
     createImageBitmap: async () => ({ width: 64, height: 64, close() {} }),

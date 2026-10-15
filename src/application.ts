@@ -1,3 +1,4 @@
+import { readUntilAborted } from './abort';
 import { AudioPlayback } from './audio/playback';
 import { AudioFeedback } from './audio/feedback';
 import { cleanupAll, cleanupAfterFailure } from './assets/cleanup';
@@ -220,11 +221,14 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     if (this.disposed) return Promise.reject(new Error('application disposed'));
     // Startup owns one resource graph for this application lifetime. All callers
     // join it; a failed graph is closed rather than reused by a later attempt.
-    this.startup ??= Promise.resolve()
-      .then(() => this.withLoading(() => this.bootApplication()))
-      .catch((error) => {
-        cleanupAfterFailure(error, () => this.dispose());
-      });
+    // The graph keeps ownership of acquisitions after the caller stops waiting.
+    // Late results still reach bootApplication's disposal checks.
+    this.startup ??= readUntilAborted(
+      Promise.resolve().then(() => this.withLoading(() => this.bootApplication())),
+      this.abort.signal,
+    ).catch((error) => {
+      cleanupAfterFailure(error, () => this.dispose());
+    });
     return this.startup;
   }
   private async bootApplication() {
@@ -279,6 +283,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         'delivery',
         this.assetProfile,
         this.graphics?.prepareTexture,
+        this.abort.signal,
       ),
     );
     if (this.disposed) this.runtime.dispose?.();
@@ -321,7 +326,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.roomAssets.install(room, () => {
       this.syncPacks();
     });
-    this.presentation = (this.graphics?.create ?? this.createPresentation)(
+    const presentation = (this.graphics?.create ?? this.createPresentation)(
       this.canvas,
       this.packs,
       this.events,
@@ -330,8 +335,14 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       this.scenes.area(this.sim.area).visuals,
       this.runtime.imageRequest,
     );
+    // Construction may synchronously close the application before ownership
+    // can transfer. The returned renderer must not escape that shutdown.
+    if (this.disposed)
+      cleanupAfterFailure(new Error('application disposed'), () => presentation.dispose());
+    this.presentation = presentation;
     this.presentation.generation = this.current.session.generation;
     this.events.setGeneration(this.current.session.generation);
+    this.assertActive();
     this.input = new Input(this.canvas, this.presentation.camera, () => this.pause(!this.paused));
     const settings = await settingsPromise;
     this.assertActive();
@@ -885,7 +896,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     cleanupAll([
       () => this.sessionOperations.dispose(),
       () => this.previewOperations.dispose(),
-      () => this.abort.abort(),
+      () => this.abort.abort(new Error('application disposed')),
       () => this.frames?.dispose(),
       () => window.removeEventListener('resize', this.onResize),
       () => window.removeEventListener('blur', this.onBlur),

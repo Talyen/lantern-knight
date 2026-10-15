@@ -943,28 +943,116 @@ test('failed room preparation keeps the current session and packs; retry replace
   app.dispose();
   assert.deepEqual(releases, [destination, initial, destination]);
 });
-test('startup disposed while opening its catalog cannot acquire assets or become ready', async () => {
-  const f = fixture(),
+test('shutdown settles boot before a stalled catalog returns and disposes the late runtime', async (t) => {
+  const { app } = fixture(),
     opening = Promise.withResolvers<AssetRuntime>(),
-    // oxlint-disable-next-line typescript/unbound-method -- Saved for restoration, never invoked unbound.
-    open = AssetRuntime.open;
-  AssetRuntime.open = () => opening.promise;
-
+    started = Promise.withResolvers<void>();
+  let closed = 0,
+    settled = false,
+    acquisitions = 0;
+  t.mock.method(AssetRuntime, 'open', () => {
+    started.resolve();
+    return opening.promise;
+  });
+  const late = runtime(async () => {
+    acquisitions++;
+    assert.fail('acquisition after shutdown');
+  });
+  t.mock.method(late, 'dispose', () => closed++);
+  const boot = app.boot();
+  const result = boot.catch((error: unknown) => {
+    settled = true;
+    return error;
+  });
   try {
-    const boot = f.app.boot();
-    await Promise.resolve(); // Let startup enter the pending catalog acquisition.
-    f.app.dispose();
-    opening.resolve({
-      loadPack: () => {
-        throw new Error('unexpected acquisition');
-      },
-    } as unknown as AssetRuntime);
-    await assert.rejects(boot, /disposed/);
-    assert.equal(f.app.ready, false);
-    assert.equal(f.app.canvas.dataset.ready, undefined);
+    await started.promise;
+    app.dispose();
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(settled, true, 'Shutdown must not wait for catalog transport');
+    assert.match(String(await result), /disposed/);
   } finally {
-    AssetRuntime.open = open;
+    opening.resolve(late);
+    await result;
+    await new Promise<void>((resolve) => setImmediate(resolve));
   }
+  assert.equal(closed, 1, 'The acquisition still owns and closes its late result');
+  assert.equal(acquisitions, 0);
+  assert.equal(app.ready, false);
+  assert.equal(app.canvas.dataset.ready, undefined);
+});
+
+test('shutdown settles boot while renderer warmup is stalled and discards late completion', async (t) => {
+  const warming = Promise.withResolvers<void>(),
+    started = Promise.withResolvers<void>();
+  let settled = false,
+    closed = 0,
+    frames = 0;
+  mockGlobals(t, {
+    document: Object.assign(new EventTarget(), { hasFocus: () => true, hidden: false }),
+  });
+  t.mock.method(AssetRuntime, 'open', async () => runtime(async () => assert.fail('no packs')));
+  const app = new Application(
+    Object.assign(new EventTarget(), { dataset: {} }) as HTMLCanvasElement,
+    {},
+    { loadSettings: async () => ({ status: 'empty' }) } as Bridge,
+    sceneFixture(content),
+    () =>
+      presentationFixture({
+        warm: () => {
+          started.resolve();
+          return warming.promise;
+        },
+        update: () => frames++,
+        dispose: () => closed++,
+      }),
+    { status() {}, pause() {}, frame() {} },
+  );
+  const result = app.boot().catch((error: unknown) => {
+    settled = true;
+    return error;
+  });
+  try {
+    await started.promise;
+    app.dispose();
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(settled, true, 'Shutdown must not wait for GPU work');
+    assert.match(String(await result), /disposed/);
+  } finally {
+    warming.resolve();
+    await result;
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    app.dispose();
+  }
+  assert.equal(closed, 1);
+  assert.equal(frames, 0);
+  assert.equal(app.ready, false);
+});
+
+test('a renderer returned by a factory that shuts down the application is disposed before input mounts', async (t) => {
+  let closed = 0,
+    mounts = 0;
+  t.mock.method(AssetRuntime, 'open', async () => runtime(async () => assert.fail('no packs')));
+  const app = new Application(
+    {
+      dataset: {},
+      addEventListener: () => mounts++,
+    } as unknown as HTMLCanvasElement,
+    {},
+    { loadSettings: async () => ({ status: 'empty' }) } as Bridge,
+    sceneFixture(content),
+    () => {
+      app.dispose();
+      return presentationFixture({ dispose: () => closed++ });
+    },
+    { status() {}, pause() {}, frame() {} },
+  );
+  await assert.rejects(app.boot(), /disposed/);
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.equal(closed, 1);
+  assert.equal(mounts, 0);
+  assert.equal(app.ready, false);
+  app.dispose();
+  assert.equal(closed, 1);
 });
 
 test('checkpoint startup selects one room and shares boot while all companions gate the first frame', async (t) => {
@@ -1205,12 +1293,13 @@ test('startup settles the initial asset batch and releases successful peers when
       });
     try {
       const boot = app.boot();
-      const rejected = assert.rejects(boot, cancelled ? /cancelled/ : /missing pack/);
+      const rejected = assert.rejects(boot, cancelled ? /disposed/ : /missing pack/);
       await new Promise<void>((resolve) => setImmediate(resolve));
       assert.deepEqual(requested, ['first', 'second']);
       if (cancelled) app.dispose();
       waiting.resolve({ release: () => released++ } as unknown as PackLease);
       await rejected;
+      await new Promise<void>((resolve) => setImmediate(resolve));
       assert.equal(released, cancelled ? 2 : 1);
       assert.equal(app.packs.size, 0);
       assert.equal(app.ready, false);

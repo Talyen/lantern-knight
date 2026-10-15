@@ -244,16 +244,23 @@ export class AssetRuntime {
       () => this.pages.clear(),
     ]);
   }
+  // The host signal governs opening only. After transfer, the caller owns disposal.
   static async open(
     catalog: Readonly<Record<string, string>>,
     canvas?: HTMLCanvasElement,
     quality: Exclude<ImageQuality, 'source'> = 'delivery',
     profile: 'game' | 'authoring' = 'authoring',
     prepareTexture?: (texture: Texture) => void,
+    signal = new AbortController().signal,
   ) {
-    const response = await fetch(profile === 'game' ? '/game-build-mode.json' : '/build-mode.json');
+    signal.throwIfAborted();
+    const response = await readUntilAborted(
+      fetch(profile === 'game' ? '/game-build-mode.json' : '/build-mode.json', { signal }),
+      signal,
+    );
     if (!response.ok) throw new Error('missing build-mode policy');
-    const flags = await response.json();
+    const flags = await readUntilAborted(response.json(), signal);
+    signal.throwIfAborted();
     const byteSource = new AssetByteSource(flags.assetBundles);
     const delivery = canvas
       ? new TextureDelivery(
@@ -267,15 +274,21 @@ export class AssetRuntime {
     runtime.byteSource = byteSource;
     runtime.libraryInventory = flags.libraryInventory === true;
     try {
+      signal.throwIfAborted();
       runtime.registration = await startupStage('registration', async () => {
-        const registration = await fetch(flags.registrationUrl ?? '/registration.json');
+        const registration = await readUntilAborted(
+          fetch(flags.registrationUrl ?? '/registration.json', { signal }),
+          signal,
+        );
         if (!registration.ok) throw new Error('Prepared registration unavailable');
-        const bytes = await registration.arrayBuffer(),
-          digest = await sha256(bytes);
+        const bytes = await readUntilAborted(registration.arrayBuffer(), signal),
+          digest = await readUntilAborted(sha256(bytes), signal);
+        signal.throwIfAborted();
         if (digest !== flags.registrationHash)
           throw new Error('Prepared registration hash differs');
         return parseRegistration(JSON.parse(new TextDecoder().decode(bytes)));
       });
+      signal.throwIfAborted();
       return runtime;
     } catch (error) {
       cleanupAfterFailure(error, () => runtime.dispose());
