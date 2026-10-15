@@ -131,7 +131,11 @@ export class EditorView {
         effectiveRadius(hero.definition.radius),
       ),
     );
+    const previous = { x: hero.x, y: hero.y, z: hero.z };
     this.hero(this.walking);
+    hero.px = previous.x;
+    hero.py = previous.y;
+    hero.pz = previous.z;
     hero.yaw = this.walking.yaw;
     if (x || y) this.renderer!.center.set(hero.x, hero.y, hero.z);
   }
