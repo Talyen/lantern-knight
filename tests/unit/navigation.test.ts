@@ -147,6 +147,27 @@ test('lantern flare cannot damage or stagger an enemy through blocking scenery',
   assert.equal(open.enemies[0]!.health, enemy.definition.maxHealth - tuning.ability.damage);
   assert.ok(open.enemies[0]!.stun > 0);
 });
+test('lantern recoil stops at a blocking wall and the walkable floor boundary', () => {
+  for (const obstruction of ['wall', 'edge'] as const) {
+    const a = area();
+    a.entries = [{ id: 'start', x: -2, z: 0 }];
+    a.spawns = [{ id: 'enemy', actor: 'skeleton', x: -0.8, z: 0 }];
+    if (obstruction === 'edge') {
+      a.props = [];
+      a.bounds.maxX = 0;
+    }
+    const sim = simulate(a),
+      enemy = sim.enemies[0]!;
+    sim.start(sim.hero, 'ability');
+    sim.hero.age = tuning.ability.windup;
+    for (let tick = 0; tick < tuning.ability.recoilTicks; tick++) {
+      sim.step(still);
+      assert.ok(isSupportedPosition(a, enemy, 0.3));
+    }
+    assert.ok(enemy.x > -0.8 && enemy.x <= -0.3);
+    assert.equal(enemy.health, enemy.definition.maxHealth - tuning.ability.damage);
+  }
+});
 
 test('health pickups remain available when scenery blocks contact', () => {
   const a = area();

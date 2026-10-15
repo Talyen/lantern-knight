@@ -52,8 +52,8 @@ export const lightingRigs = {
   lantern: {
     label: 'Lantern night',
     key: 0xb6c9e2,
-    sky: 0x829fcf,
-    ground: 0x7184a8,
+    sky: 0x86a8dc,
+    ground: 0x768db5,
     elevation: 15,
     side: -35,
     ambient: 0.4,

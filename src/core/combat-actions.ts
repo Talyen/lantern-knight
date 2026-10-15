@@ -28,6 +28,9 @@ type ActionCommand = {
 // Actor clocks remain on actors; the fixed-step coordinator advances them once,
 // after every actor has resolved combat against the same action tick.
 export class CombatActions {
+  // Displacement belongs to this combat owner and the struck actor instance.
+  // Checkpoints retain the resulting position, never an unfinished impulse.
+  private readonly recoils = new WeakMap<Actor, { x: number; z: number; ticks: number }>();
   constructor(
     private readonly area: AreaDefinition,
     private readonly generation: number,
@@ -85,6 +88,7 @@ export class CombatActions {
       this.start(to, to.health <= 0 ? 'death' : 'hurt', to.yaw);
     }
     if (!to.health) {
+      this.recoils.delete(to);
       to.burn = undefined;
       this.world.emit(to, { kind: 'death' });
       if (to.kind === 'enemy') this.world.enemyDefeated(to);
@@ -178,6 +182,19 @@ export class CombatActions {
       if (burn.remaining === 0) target.burn = undefined;
     }
   }
+  advanceRecoil(actor: Actor) {
+    const recoil = this.recoils.get(actor);
+    if (!recoil) return;
+    if (actor.health <= 0 || this.world.movementPreview()) {
+      this.recoils.delete(actor);
+      return;
+    }
+    const step =
+      (2 * tuning.ability.recoilDistance * recoil.ticks) /
+      (tuning.ability.recoilTicks * (tuning.ability.recoilTicks + 1));
+    this.world.move(actor, recoil.x * step, recoil.z * step);
+    if (--recoil.ticks === 0) this.recoils.delete(actor);
+  }
   advance(a: Actor) {
     if (a.state === 'attack') {
       const t = attackDefinition(a);
@@ -232,6 +249,14 @@ export class CombatActions {
           ) {
             this.damage(a, target, tuning.ability.damage, this.generation, 'burn');
             if (target.health > 0) {
+              const dx = target.x - a.x,
+                dz = target.z - a.z,
+                distance = Math.hypot(dx, dz);
+              this.recoils.set(target, {
+                x: distance > 0.001 ? dx / distance : Math.sin(a.yaw),
+                z: distance > 0.001 ? dz / distance : Math.cos(a.yaw),
+                ticks: tuning.ability.recoilTicks,
+              });
               target.stun = tuning.ability.stun;
               target.burn = {
                 remaining: tuning.ability.burnDuration,

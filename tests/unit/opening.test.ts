@@ -123,6 +123,42 @@ test('the lantern pulse is protected and survives immediate recovery cancellatio
   assert.equal(s.hero.state, 'dodge');
   assert.equal(s.events.filter((e) => e.kind === 'flare').length, 0);
 });
+test('a lantern burst drives nearby undead back while interrupting their attack', () => {
+  const s = duel(),
+    [first, second] = s.enemies;
+  s.start(first!, 'attack');
+  first!.age = first!.definition.melee.windup;
+  s.start(s.hero, 'ability');
+  s.hero.age = tuning.ability.windup;
+  s.step(still);
+  assert.equal(first!.state, 'hurt');
+  assert.equal(s.hero.health, tuning.heroMaxHealth);
+  assert.ok(first!.x > 1 && second!.x < -1);
+  steps(s, tuning.ability.recoilTicks - 1);
+  assert.ok(Math.abs(first!.x - (1 + tuning.ability.recoilDistance)) < 1e-8);
+  assert.ok(Math.abs(second!.x + (1 + tuning.ability.recoilDistance)) < 1e-8);
+  const settled = first!.x;
+  steps(s, 3);
+  assert.equal(first!.x, settled);
+  assert.ok(first!.stun > 0 && first!.burn);
+});
+test('loading a checkpoint keeps the displaced position without replaying lantern recoil', () => {
+  const session = new GameSession(registry());
+  session.sim.enemies.forEach((actor) => (actor.stun = 10000));
+  session.sim.start(session.sim.hero, 'ability');
+  session.sim.hero.age = tuning.ability.windup;
+  session.step(still);
+  const save = session.captureSave(),
+    position = { x: session.sim.enemies[0]!.x, z: session.sim.enemies[0]!.z };
+  assert.ok(session.onboarding.completed.includes('lantern'));
+  session.restoreSave(save);
+  const enemy = session.sim.enemies[0]!;
+  enemy.stun = 100;
+  steps(session.sim, tuning.ability.recoilTicks);
+  assert.deepEqual({ x: enemy.x, z: enemy.z }, position);
+  assert.ok(enemy.burn);
+  assert.ok(session.onboarding.completed.includes('lantern'));
+});
 test('dodge travel/invulnerability is protected; recovery yields and hurt queues until finished', () => {
   const s = duel();
   s.step({ ...still, dodge: true });

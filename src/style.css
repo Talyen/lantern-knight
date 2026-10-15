@@ -399,7 +399,8 @@ body.game {
   }
 }
 
-#interaction-hint {
+#interaction-hint,
+#lantern-hint {
   position: absolute;
   transform: translate(-50%, -100%);
   margin: -12px 0 0;
@@ -414,7 +415,14 @@ body.game {
   pointer-events: none;
   white-space: nowrap;
 }
-#interaction-hint:empty {
+#lantern-hint {
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  font-size: 13px;
+}
+#interaction-hint:empty,
+#lantern-hint:empty {
   display: none;
 }
 #potion-count {

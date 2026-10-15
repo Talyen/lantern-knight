@@ -31,6 +31,8 @@ export const tuning = {
     range: 2.5,
     damage: 16,
     stun: 30,
+    recoilDistance: 0.75,
+    recoilTicks: 12,
     burnDuration: 180,
     burnCadence: 60,
     burnDamage: 4,

@@ -1,5 +1,94 @@
 import { test, expect } from './fixtures';
 
+test('lantern cue appears for a reachable threat and clears with play and session state', async ({
+  page,
+}) => {
+  await page.goto('/__lantern_identity');
+  const result = await page.evaluate(async () => {
+    const uiPath = '/src/game-ui.ts',
+      sessionPath = '/src/core/session.ts',
+      contentPath = '/tests/fixtures/content.ts',
+      gameplayPath = '/src/content/gameplay.ts';
+    const { createGameUI, gameUI } = await import(uiPath);
+    const { GameSession } = await import(sessionPath);
+    const { content } = await import(contentPath);
+    const { tuning } = await import(gameplayPath);
+    const session = new GameSession(content);
+    Object.assign(session.sim.hero, { x: 0, z: 0 });
+    Object.assign(session.sim.enemies[0], { x: 2, z: 0 });
+    session.sim.engaged = true;
+    const app: any = {
+      paused: false,
+      busy: false,
+      roomReady: true,
+      persistence: { error: '' },
+      settingsError: '',
+      session,
+      get sim() {
+        return session.sim.view;
+      },
+    };
+    const host = document.createElement('div');
+    host.innerHTML = gameUI;
+    document.body.append(host);
+    const root = host.firstElementChild as HTMLElement,
+      ui = createGameUI(root),
+      read = () => {
+        ui.update(app);
+        return root.querySelector('#lantern-hint')!.textContent;
+      },
+      states: Record<string, string | null> = {};
+    states.nearby = read();
+    for (const property of ['paused', 'busy'] as const) {
+      app[property] = true;
+      states[property] = read();
+      app[property] = false;
+    }
+    app.roomReady = false;
+    states.transition = read();
+    app.roomReady = true;
+    session.sim.hero.health = 0;
+    states.dead = read();
+    session.sim.hero.health = tuning.heroMaxHealth;
+    session.sim.enemies[0].x = tuning.ability.range + 0.01;
+    states.distant = read();
+    session.sim.enemies[0].x = 2;
+    session.sim.enemies[0].y = tuning.maxCombatHeightDifference + 0.01;
+    states.otherHeight = read();
+    session.sim.enemies[0].y = 0;
+    session.dismissLesson('lantern');
+    states.dismissed = read();
+    session.replayHints();
+    states.replayed = read();
+    const still = { move: { x: 0, z: 0 }, aim: { x: 2, z: 0 } };
+    session.step({ ...still, ability: true });
+    states.casting = read();
+    session.sim.hero.age = tuning.ability.windup;
+    session.step(still);
+    session.sim.hero.cooldown = 0;
+    states.learned = read();
+    session.restoreSave(session.captureSave());
+    states.restored = read();
+    ui.dispose();
+    host.remove();
+    return states;
+  });
+  expect(result).toEqual({
+    nearby: 'RMB · Repel with lantern',
+    paused: '',
+    busy: '',
+    transition: '',
+    dead: '',
+    distant: '',
+    otherHeight: '',
+    dismissed: '',
+    replayed: 'RMB · Repel with lantern',
+    casting: '',
+    learned: '',
+    restored: '',
+  });
+});
+
 test('Game UI lifetime isolates remounts, pending saves and retired input', async ({ page }) => {
   await page.goto('/__lantern_identity');
   const result = await page.evaluate(async () => {

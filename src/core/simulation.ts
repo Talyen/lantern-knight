@@ -414,6 +414,7 @@ export class Simulation {
       this.engaged = true;
     for (const a of this.actors) {
       if (a.health <= 0) continue;
+      this.#combat.advanceRecoil(a);
       if (a.kind === 'enemy') {
         const intent = this.encounter.decide(a, h, this.engaged, this.movementPreview);
         if (intent.cancelAttack && a.state === 'attack') this.start(a, 'idle');
