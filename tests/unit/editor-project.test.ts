@@ -108,6 +108,55 @@ const recovery = (document: SceneDocument) =>
     savedSnapshot: '',
   });
 
+it('import switches pending recovery to its own identity and preserves older drafts', async () => {
+  const f = fixture();
+  await f.project.list();
+  const oldKey = 'recovery:workspace:existing';
+  const newKey = 'recovery:workspace:untitled';
+  const oldRaw = recovery({ ...emptyScene(), id: 'existing', name: 'Old recovered work' });
+  const newRaw = recovery({ ...emptyScene(), name: 'Earlier imported work' });
+  f.values.set(oldKey, oldRaw);
+  f.values.set(newKey, newRaw);
+  await f.project.open('file-existing');
+  await f.project.import({ ...emptyScene(), name: 'New import' });
+  assert.equal(f.values.get(oldKey), oldRaw);
+  assert.equal(f.values.get(newKey), newRaw);
+  assert.equal(f.project.recoveryPending, true);
+  await f.project.restoreRecovery();
+  assert.equal(f.documents.history.document.name, 'Earlier imported work');
+});
+
+it('confirmed imports at the current identity replace its recovery and remain editable', async () => {
+  const f = fixture();
+  await f.project.list();
+  await f.project.open('new');
+  await f.project.edit((h) =>
+    h.change((d) => {
+      d.name = 'Before import';
+    }),
+  );
+  await f.project.import({ ...emptyScene(), name: 'Accepted import' });
+  assert.equal(f.project.recoveryPending, false);
+  const key = 'recovery:workspace:untitled';
+  assert.equal(JSON.parse(f.values.get(key)!).document.name, 'Accepted import');
+});
+
+it('dismissing an older recovery immediately protects the current unsaved document', async () => {
+  const f = fixture();
+  await f.project.list();
+  const key = 'recovery:workspace:untitled';
+  f.values.set(key, recovery({ ...emptyScene(), name: 'Older work' }));
+  await f.project.open('new');
+  await f.project.edit((h) =>
+    h.change((d) => {
+      d.name = 'Current work';
+    }),
+  );
+  f.project.dismissRecovery();
+  assert.equal(f.project.recoveryPending, false);
+  assert.equal(JSON.parse(f.values.get(key)!).document.name, 'Current work');
+});
+
 it('Save As preserves a pre-existing recovery at its new file identity', async () => {
   const f = fixture();
   await f.project.list();

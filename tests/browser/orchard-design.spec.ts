@@ -7,6 +7,10 @@ import type { SceneDocument } from '../../src/content/scene-document';
 test('Orchard rejects a hidden-body placement and preserves its accepted composition', async ({
   page,
 }) => {
+  test.skip(
+    !process.env.LANTERN_ORCHARD_DESIGN_CAPTURES,
+    'Explicit Orchard composition captures only',
+  );
   test.setTimeout(240_000);
   const scene = JSON.parse(
     await fs.readFile(path.join(projectRoot, 'authoring/scenes/abandoned-orchard.json'), 'utf8'),

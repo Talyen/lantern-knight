@@ -107,6 +107,21 @@ const clip: Clip = {
     { id: 'swing', atMs: 150, kind: 'whoosh' },
   ],
 };
+test('invalid animation deltas and seeks leave playback and notifications usable', () => {
+  const animation = new Animator('hero', clip);
+  animation.advance(50);
+  animation.advance(NaN);
+  assert.equal(animation.time, 50);
+  for (const invalid of [NaN, Infinity, -Infinity]) {
+    assert.deepEqual(animation.advance(invalid), []);
+    animation.seek(invalid);
+    assert.equal(animation.time, 50);
+  }
+  assert.deepEqual(
+    animation.advance(30).map((e) => e.kind),
+    ['footstep'],
+  );
+});
 test('notifies survive skipped frames/loops, have unique identities, interruption restarts; scrub silent; death holds', () => {
   const a = new Animator('hero', clip);
   assert.equal(a.advance(650).length, 4);

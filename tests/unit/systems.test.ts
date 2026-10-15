@@ -13,8 +13,50 @@ import { Simulation, FixedClock } from '../../src/core/simulation';
 import { EventHub, type AnimationEvent } from '../../src/core/events';
 import { makeCamera, walkablePoint } from '../../src/presentation/camera';
 import { Input } from '../../src/input';
+import { bindAdventureUI } from '../../src/adventure-ui';
+import type { Application } from '../../src/application';
 const near = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-7);
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
+
+test('adventure hotkeys ignore editable content and descendants of focused controls', (t) => {
+  const doc = Object.assign(new EventTarget(), {
+    createElement: () =>
+      Object.assign(new EventTarget(), {
+        setAttribute() {},
+        close() {},
+        remove() {},
+      }),
+  });
+  mockGlobals(t, { document: doc });
+  let interactions = 0;
+  const app = {
+    paused: false,
+    busy: false,
+    roomReady: true,
+    interact() {
+      interactions++;
+    },
+    audio: { play: async () => {} },
+    hooks: { status() {} },
+  } as unknown as Application;
+  const lifetime = new AbortController();
+  bindAdventureUI(app, { append() {} } as unknown as HTMLElement, lifetime.signal);
+  try {
+    for (const target of [
+      { isContentEditable: true, closest: () => null },
+      { closest: (selector: string) => (selector.includes('button') ? {} : null) },
+    ]) {
+      const event = Object.assign(new Event('keydown'), { code: 'KeyE' });
+      Object.defineProperty(event, 'target', { value: target });
+      doc.dispatchEvent(event);
+    }
+    assert.equal(interactions, 0);
+    doc.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyE' }));
+    assert.equal(interactions, 1, 'canvas and window shortcuts remain available');
+  } finally {
+    lifetime.abort();
+  }
+});
 
 test('encounter retries preserve elapsed session ticks across generations', () => {
   const session = new GameSession(content);
@@ -577,6 +619,19 @@ test('invalid movement cannot corrupt the hero position or dodge heading', () =>
     for (let i = 0; i < tuning.dodge.total; i++) sim.step(still);
     assert.ok(Number.isFinite(sim.hero.x + sim.hero.y + sim.hero.z));
   }
+});
+
+test('invalid movement destinations preserve the existing route and a loadable checkpoint', () => {
+  const session = new GameSession(content),
+    sim = session.sim;
+  sim.setMovementTarget(sim.hero.id, { x: 1, z: 6 });
+  const routes = sim.navigationDebug(false).routes;
+  for (const value of [NaN, Infinity, -Infinity]) {
+    assert.throws(() => sim.setMovementTarget(sim.hero.id, { x: value, z: 6 }), /finite/i);
+    assert.deepEqual(sim.navigationDebug(false).routes, routes);
+  }
+  session.step(still);
+  assert.doesNotThrow(() => parseGame(session.captureSave(), content));
 });
 
 test('invalid frame deltas leave the clock usable for the next valid frame', () => {
