@@ -2,9 +2,15 @@
 
 ## Regular checks
 
-`npm run check` executes fresh typechecking, JavaScript/TypeScript linting, handwritten code formatting checks and the reviewed fast pure suites. It reports actual phase timings and fails on the first broken phase. Every selected suite runs fresh; no task snapshot, affected-suite guess or previous passing receipt suppresses it.
+Choose the command for the evidence needed:
 
-`npm run check:ci` runs all pure suites with `--full` and adds documentation, repository boundaries, import boundaries and unused-code analysis. These are inexpensive source checks, separate from asset acquisition, browser checks and packaging. Ordinary commands do not install Python tooling.
+| Command | Coverage |
+| --- | --- |
+| `npm run check` | Typechecking, JavaScript/TypeScript linting, handwritten code formatting and fast pure suites. Required after edits stabilize. |
+| `npm run docs:check` | Documentation links, anchors, script names, file references and guide reachability. Also required for prose edits. |
+| `npm run check:ci` | All regular source checks, all pure suites, documentation, repository/import boundaries and unused-code analysis. |
+
+`check` and `check:ci` run each selected phase fresh, report timings and fail on the first broken phase. Previous passing results never suppress a selected suite. These commands do not acquire artwork, run browser or desktop checks, package the application or install Python tooling. `check:ci` can run locally; it does not establish a hosted CI result. Follow [test selection](#test-selection) for those integration tiers and [documentation checks](#documentation-checks) for prose accuracy limits.
 
 ## Test selection
 
@@ -39,8 +45,11 @@ The fixtures invoke `python3`, which must resolve to the environment containing 
 | `image-delivery`, `ground-occlusion` | Focused GPU behavior.                                                                                                       |
 | `authored-ground`                    | Opt-in [movement and timing capture](developer-tools.md#authored-scene-timing-capture), selected by `LANTERN_GROUND_SCENE`. |
 | `ground-review`                      | Opt-in [occlusion captures](developer-tools.md#authored-occlusion-captures), selected by `LANTERN_GROUND_REVIEW`.           |
+| `orchard-design`, `orchard-polish`   | Opt-in [opening composition and effect captures](developer-tools.md#opening-comparison-captures), with external output directories. |
 
-Without a selector, Playwright selects all browser suites; both authored-scene diagnostics skip unless their scene environment variable is set. Selectors match filenames, so `editor` includes the editor regression, ground, contact and gameplay-authoring suites. Development-only UI and renderer lifetime regressions belong to `scene`; the built Game runs cannot import their failure-injection modules. Add `--list` to inspect the selected cases without acquiring assets, taking the GPU lane or starting a preview; built-Game discovery needs no existing build. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion audio`.
+Without a selector, Playwright selects all browser suites; the four capture suites skip unless their opt-in environment variables are set. Selectors match filenames, so `editor` includes the editor regression, ground, contact and gameplay-authoring suites. Development-only UI and renderer lifetime regressions belong to `scene`; the built Game runs cannot import their failure-injection modules. Add `--list` to inspect the selected cases without acquiring assets, taking the GPU lane or starting a preview; built-Game discovery needs no existing build. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion audio`.
+
+Use `npm run test:browser -- --ci-development` for the complete development-browser CI tier, adding `--authoring` to include editor/effects suites. This selection excludes Game and opt-in captures; run `game --built` separately against a production web build. The same `--list` discovery option works with tier selection.
 
 The `audio` suite always checks Game settings. Its decoding and audition test skips when the selected assets contain no prepared samples. To validate unpublished sounds locally, use a checkout-local [audio preparation](assets.md#audio-preparation) and leave `CI` unset; pinned CI cannot establish coverage for those samples. Browser decoding and playback assertions do not establish an audible mix; follow [listening and tuning](sound-design.md#listening-and-tuning).
 

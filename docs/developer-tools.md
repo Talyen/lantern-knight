@@ -140,3 +140,14 @@ For explicit native investigations, `npm run benchmark -- scene` checks fixture 
 Development Game accepts `?motion-probe` to show frame p50/p95/p99 and retain a bounded recording in the diagnostic output's `data-recording` attribute. Samples include frame intervals, simulation steps, interpolation alpha, interpolated hero position, camera position and a stationary landmark's projected position. Compare straight runs, collisions and camera edges with matching viewport, resolution and effects; average FPS alone does not establish uniform motion. Run actual Safari visibly without another GPU test competing for the machine.
 
 Development Game query parameters `wind-preview=gust|leaves|combined` and `dodge-preview=dust|leaves|combined` select supplied-artwork comparisons. `lighting-preview=lantern|golden|silver` compares the shared lighting rigs in Game. Dev Preview's Scene effects controls expose the wind and Dodge treatments. Production Game ignores these review parameters. Captures and recordings stay outside Git.
+
+### Opening comparison captures
+
+Two opt-in browser suites capture the current opening and supplied effects. Replace `/external/...` below with your own absolute output directories outside the repository. Choose an unused preview port and run the relevant suite:
+
+```sh
+LANTERN_PREVIEW_PORT=5175 LANTERN_ORCHARD_DESIGN_CAPTURES=/external/orchard-composition npm run test:browser -- orchard-design
+LANTERN_PREVIEW_PORT=5175 LANTERN_OPENING_CAPTURE_DIRECTORY=/external/opening-effects npm run test:browser -- orchard-polish
+```
+
+`orchard-design` checks rejected hidden-body placement and captures the orchard's work areas and lighting comparisons. `orchard-polish` captures wind, Dodge, lantern/Lunge effects, run-contact drawings and placements. Both use development previews and skip without their output variable. These are diagnostics tied to current authored content; successful captures do not certify composition, animation or visual quality. Inspect the images and retain only the evidence needed outside Git.
