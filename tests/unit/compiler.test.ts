@@ -128,7 +128,6 @@ test('compiler accepts opaque RGB artwork and supplies an opaque alpha channel',
     input = path.join(dir, 'invalid-alpha.json');
 
   const context = await writer(dir);
-  await context.compile('valid.json', 'public/generated', false, fixtureRoot);
   await sharp(path.join(fixtureRoot, bad.frames[0]!.path))
     .flatten({ background: '#ffffff' })
     .png()
@@ -136,11 +135,50 @@ test('compiler accepts opaque RGB artwork and supplies an opaque alpha channel',
   bad.frames[0]!.path = 'no-alpha.png';
   await writeJson(input, bad);
   const result = await context.compile('invalid-alpha.json', 'public/generated', false, dir);
-  assert.ok(result.frames.length > 0);
-  const page = result.pages[0]!;
+  const frame = result.frames[0]!,
+    page = result.pages[0]!,
+    [left, top, width, height] = frame.rect;
+  assert.deepEqual(frame.trim, [0, 0, ...source.asset.canvas]);
   const pixels = await sharp(await readAsset(path.join(dir, 'public/generated', page.path)))
-    .ensureAlpha()
+    .extract({ left, top, width, height })
     .raw()
     .toBuffer();
-  assert.ok(pixels.includes(255));
+  const expected = Buffer.alloc(width * height * 4);
+  for (let i = 0; i < expected.length; i += 4) expected.set([170, 70, 20, 255], i);
+  assert.ok(pixels.equals(expected), 'Compiler must preserve every source RGBA pixel');
+});
+
+test('atlas row and page rollover preserve every drawing at its published rectangle', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-atlas-packing-');
+  const input = sourceFixture();
+  Object.assign(input.asset, { canvas: [8, 8], anchor: [4, 7], density: 4, atlasSize: 32 });
+  input.frames = Array.from({ length: 5 }, (_, i) => ({
+    id: i === 0 ? 'sample-frame' : 'drawing-' + i,
+    path: i + '.png',
+    origin: 'diagnostic' as const,
+    attachments: {},
+  }));
+  const drawings: Buffer[] = [];
+  for (let i = 0; i < input.frames.length; i++) {
+    const pixels = Buffer.alloc(8 * 8 * 4);
+    for (let p = 0; p < pixels.length; p += 4) pixels.set([30 + i * 40, 70, 170, 255], p);
+    drawings.push(pixels);
+    await sharp(pixels, { raw: { width: 8, height: 8, channels: 4 } })
+      .png()
+      .toFile(path.join(root, input.frames[i]!.path));
+  }
+  await writeJson(path.join(root, 'source.json'), input);
+  const context = await writer(root);
+  const result = await context.compile('source.json', 'public/generated', false, root);
+  assert.equal(result.pages.length, 2);
+  assert.equal(result.frames.length, input.frames.length);
+  for (const [i, frame] of result.frames.entries()) {
+    const page = result.pages.find((page) => page.id === frame.page)!;
+    const [left, top, width, height] = frame.rect;
+    const pixels = await sharp(await readAsset(path.join(root, 'public/generated', page.path)))
+      .extract({ left, top, width, height })
+      .raw()
+      .toBuffer();
+    assert.deepEqual(pixels, drawings[i], frame.id);
+  }
 });
