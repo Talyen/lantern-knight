@@ -1273,7 +1273,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                         continue
                     try:
                         data = supplied_sequences(package, member, data)
-                    except (ValueError, KeyError, TypeError, IndexError) as error:
+                    except (ValueError, KeyError, TypeError, IndexError, AttributeError) as error:
                         unresolved_animations.append({
                             'archive': archive_identity['pathHint'], 'metadata': member,
                             'reason': str(error)})
@@ -1362,7 +1362,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                 try:
                     original = package.json(member)
                     data = supplied_sequences(package, member, original)
-                except (ValueError, UnicodeDecodeError) as error:
+                except (ValueError, KeyError, TypeError, IndexError, AttributeError) as error:
                     unresolved_animations.append(
                         {"archive": member, "metadata": member, "reason": str(error)}
                     )

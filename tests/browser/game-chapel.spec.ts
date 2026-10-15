@@ -83,19 +83,24 @@ for (const choice of ['sword', 'lantern'] as const) {
     const gathering = structuredClone(arrived);
     Object.assign(gathering.player, { x: -7, z: 5.2 });
     await restore(gathering);
-    await page.waitForTimeout(4000);
+    const vigil = chapel.spawns.filter((spawn) => spawn.awareness?.group === 'vigil');
+    const farAttendant = vigil.find((spawn) => spawn.id === 'east-attendant')!;
+    // Software rendering can advance fewer simulation ticks in four seconds.
+    // Observe pursuit through real checkpoint controls until it has progressed.
+    await expect(async () => {
+      const alarm = await checkpoint();
+      try {
+        for (const member of vigil) expect(alarm.areas[chapel.id]!.alerted).toContain(member.id);
+        const responding = alarm.areas[chapel.id]!.actors[farAttendant.id]!;
+        expect(
+          Math.hypot(responding.x - farAttendant.x, responding.z - farAttendant.z),
+        ).toBeGreaterThan(1);
+      } finally {
+        await page.locator('#resume').click();
+      }
+    }).toPass({ timeout: 60_000, intervals: [1000] });
     await capture('vigil');
     await page.locator('#pause').click();
-    await page.locator('#save').click();
-    await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
-    const alarm = await stored();
-    const vigil = chapel.spawns.filter((spawn) => spawn.awareness?.group === 'vigil');
-    for (const member of vigil) expect(alarm.areas[chapel.id]!.alerted).toContain(member.id);
-    const farAttendant = vigil.find((spawn) => spawn.id === 'east-attendant')!;
-    const responding = alarm.areas[chapel.id]!.actors[farAttendant.id]!;
-    expect(
-      Math.hypot(responding.x - farAttendant.x, responding.z - farAttendant.z),
-    ).toBeGreaterThan(1);
 
     // Reward ownership uses the same real UI after an independently seeded victory.
     const victory = structuredClone(arrived);

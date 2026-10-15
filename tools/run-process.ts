@@ -1,5 +1,5 @@
 import { onAsyncExit } from './scope-exit';
-import { spawn } from 'node:child_process';
+import { execFileSync, spawn } from 'node:child_process';
 // Each invocation owns one process group; cancellation asks its command to close first.
 export async function runProcess(
   command: string,
@@ -43,7 +43,26 @@ export async function runProcess(
     try {
       process.kill(-child.pid, signal);
     } catch (error) {
-      if ((error as NodeJS.ErrnoException).code !== 'ESRCH') throw error;
+      const code = (error as NodeJS.ErrnoException).code;
+      if (code === 'ESRCH') return;
+      if (code === 'EPERM' && (child.exitCode !== null || child.signalCode !== null)) {
+        // macOS can refuse signals to an orphaned group of zombies. Only
+        // tolerate that after the command exits and no live group member remains.
+        try {
+          const groups = execFileSync('ps', ['-axo', 'pgid=,stat='], {
+            encoding: 'utf8',
+            timeout: 5000,
+          });
+          const live = groups.split('\n').some((line) => {
+            const [group, state] = line.trim().split(/\s+/);
+            return Number(group) === child.pid && state && !state.startsWith('Z');
+          });
+          if (!live) return;
+        } catch {
+          // An unavailable process inventory cannot establish safe retirement.
+        }
+      }
+      throw error;
     }
   };
   const stop = (reason: string) => {

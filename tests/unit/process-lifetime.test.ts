@@ -2,6 +2,67 @@ import { withDiagnostic } from '../../tools/smoke/scenario';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runProcess } from '../../tools/run-process';
+for (const code of [0, 7])
+  test(
+    `cleanup tolerates an unsignalable retired group without changing command exit ${code}`,
+    { skip: process.platform === 'win32' },
+    async (t) => {
+      const kill = process.kill.bind(process);
+      t.mock.method(process, 'kill', (pid: number, signal?: NodeJS.Signals | number) => {
+        if (pid < 0 && signal === 'SIGKILL')
+          throw Object.assign(new Error('retired process group'), { code: 'EPERM' });
+        return kill(pid, signal);
+      });
+      const run = runProcess(process.execPath, ['-e', `process.exit(${code})`], {
+        cwd: process.cwd(),
+        output: () => {},
+      });
+      if (code) await assert.rejects(run, /exited 7/);
+      else await run;
+    },
+  );
+
+test(
+  'cleanup still reports permission failures for a live owned descendant',
+  { skip: process.platform === 'win32' },
+  async (t) => {
+    const kill = process.kill.bind(process);
+    let group = 0;
+    t.after(() => {
+      if (group) {
+        try {
+          kill(-group, 'SIGKILL');
+        } catch (error) {
+          if ((error as NodeJS.ErrnoException).code !== 'ESRCH') throw error;
+        }
+      }
+    });
+    t.mock.method(process, 'kill', (pid: number, signal?: NodeJS.Signals | number) => {
+      if (pid < 0 && signal === 'SIGKILL')
+        throw Object.assign(new Error('live process group denied'), { code: 'EPERM' });
+      return kill(pid, signal);
+    });
+    const run = runProcess(
+      process.execPath,
+      [
+        '-e',
+        `
+    require('node:child_process').spawn(process.execPath, ['-e', 'setInterval(()=>{},1000)'], {stdio:'ignore'}).unref();
+    console.log(process.pid);
+  `,
+      ],
+      {
+        cwd: process.cwd(),
+        output: (chunk) => {
+          group = Number(chunk.toString().trim());
+        },
+      },
+    );
+    await assert.rejects(run, /live process group denied/);
+    assert.ok(group > 0);
+  },
+);
+
 test('cancellation terminates the owned process tree and does not hold the caller open', async () => {
   const controller = new AbortController();
   let output = '';

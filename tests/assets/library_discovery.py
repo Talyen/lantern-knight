@@ -17,6 +17,40 @@ from resolver import SourceResolver
 
 
 class DiscoveryTests(unittest.TestCase):
+    def test_malformed_discovered_sequences_preserve_sibling_artwork_and_report_diagnostics(self):
+        malformed = [
+            {'atlas': {'file': 'atlas.png', 'rects': []}, 'frames': [{'duration_ticks': 1}]},
+            {'atlas': None, 'frames': [{'duration_ticks': 1}]},
+            {'frames': [None]},
+        ]
+        for archived in [False, True]:
+            for clip in malformed:
+                with self.subTest(archived=archived, clip=clip), tempfile.TemporaryDirectory() as temporary:
+                    root = pathlib.Path(temporary).resolve()
+                    output = io.BytesIO()
+                    Image.new('RGBA', (8, 8), 'red').save(output, format='PNG')
+                    data = {
+                        'canvas': [8, 8], 'pivot_px': [4, 7],
+                        'rest': {'file': 'atlas.png'}, 'drop': clip,
+                        'idle': {'frames': [{'file': 'atlas.png', 'duration_ms': 100}]},
+                    }
+                    files = {'animation.json': json.dumps(data).encode(), 'atlas.png': output.getvalue()}
+                    if archived:
+                        with zipfile.ZipFile(root / 'supplied.zip', 'w') as archive:
+                            for name, value in files.items():
+                                archive.writestr(name, value)
+                    else:
+                        for name, value in files.items():
+                            (root / name).write_bytes(value)
+                    original = {'libraryDirectory': 'Test', 'archives': {}, 'files': {}, 'prefixes': {}}
+                    index, inventory = discover(root, original)
+                    result = build(root, [], index, inventory=inventory, index_path=root / 'index.json')
+                    self.assertEqual(len(inventory['unresolvedAnimations']), 1)
+                    self.assertEqual(inventory['unresolvedAnimations'][0]['metadata'], 'animation.json')
+                    self.assertTrue(inventory['unresolvedAnimations'][0]['reason'])
+                    self.assertTrue(inventory['images'][0]['assets'])
+                    self.assertEqual(len(result['assets']), 1)
+
     def test_animated_png_and_webp_remain_native_media_after_cached_refresh(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary).resolve()
