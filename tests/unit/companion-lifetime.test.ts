@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { BitmapTexture } from '../../src/presentation/bitmap-texture';
-import { SurfaceRelief } from '../../src/presentation/surface-relief';
 import { GamePresentation } from '../../src/presentation/game-scene';
 import { NormalLibrary } from '../../src/presentation/normal-library';
 import { verifiedBitmap } from '../../src/assets/bitmap';
@@ -76,31 +75,15 @@ test('cancelled normal selections release staging and unblock recovery before na
   assert.equal(library.textures.size, 1);
 });
 
-test('animation flow and surface companions share repeated acquisitions and release each bitmap once', async (t) => {
+test('animation flow shares repeated acquisitions and releases its bitmap once', async (t) => {
   let fetches = 0,
     closed = 0,
     uploads = 0;
   mockGlobals(t, {
     fetch: async (url: string) => {
       fetches++;
-      return url.endsWith('surfaces.json')
-        ? new Response(
-            JSON.stringify({
-              recipe: 'hand-authored-stone-height-v1',
-              entries: {
-                apron: {
-                  asset: 'ink-graveyard-materials',
-                  frame: 'frame',
-                  pageHash: hash,
-                  file: 'surface.png',
-                  hash,
-                  width: 2,
-                  height: 3,
-                },
-              },
-            }),
-          )
-        : new Response('abc');
+      assert.equal(url, '/animation/flow.png');
+      return new Response('abc');
     },
     createImageBitmap: async () => ({
       width: 2,
@@ -135,20 +118,6 @@ test('animation flow and surface companions share repeated acquisitions and rele
   flow.dispose();
   flow.dispose();
   assert.equal(closed, 1);
-
-  const surface = new SurfaceRelief();
-  const packs = new Map([
-    [
-      'ink-graveyard-materials',
-      { manifest: { frames: [{ id: 'frame', page: 'page' }], pages: [{ id: 'page', hash }] } },
-    ],
-  ]) as never;
-  await Promise.all([surface.load(packs), surface.load(packs)]);
-  await surface.load(packs);
-  assert.equal(fetches, 3, 'One metadata request and one bitmap request for the surface');
-  surface.dispose();
-  surface.dispose();
-  assert.equal(closed, 2);
 });
 
 test('companion failure retries, disposal settles waiters and late decodes release without upload', async () => {

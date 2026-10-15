@@ -146,12 +146,17 @@ export class EditorProject {
     }
   }
   private async importOwned(document: SceneDocument) {
+    const previousKey = this.recoveryKey;
+    const pendingKey = this.pendingRecovery?.key;
     this.recover();
     await this.documents.replace(document);
     this.signal.throwIfAborted();
     this.revisionValue = null;
     this.savedSnapshot = '';
     this.recoveryKey = this.recoveryRoot + document.id;
+    this.pendingRecovery = undefined;
+    if (this.recoveryKey !== previousKey || pendingKey === this.recoveryKey)
+      this.readRecoveryOwned(this.recoveryKey);
     this.recover();
   }
   async post(body: Record<string, unknown>, signal = this.signal) {
@@ -274,6 +279,7 @@ export class EditorProject {
     if (!pending) return;
     this.accessStorage((storage) => storage.removeItem(pending.key));
     this.pendingRecovery = undefined;
+    this.recover();
   }
   private async restoreRecoveryOwned() {
     const pending = this.pendingRecovery;

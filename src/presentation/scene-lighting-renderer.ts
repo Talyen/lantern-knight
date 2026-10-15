@@ -21,7 +21,6 @@ import {
 import { IllustratedLighting } from './illustrated-lighting';
 import { GroundMist } from './ground-mist';
 import { defaultLook, lightingRigs, lookPresets, type LookSettings } from './lighting-profiles';
-import { SurfaceRelief } from './surface-relief';
 import { heightAt } from '../content/world';
 import type { SimulationView } from '../core/simulation-view';
 import type { RoomPresentation } from './room-presentation';
@@ -97,7 +96,6 @@ export class SceneLightingRenderer {
   ready = false;
   time = 0;
   readonly lighting: IllustratedLighting;
-  private surfaces: SurfaceRelief;
   private composer: EffectComposer;
   private bloom: BloomEffect;
   private finish: Effect;
@@ -151,7 +149,6 @@ export class SceneLightingRenderer {
   ) {
     try {
       this.lighting = this.lifetime.own(new IllustratedLighting(resources.imageRequest));
-      this.surfaces = this.lifetime.own(new SurfaceRelief());
       this.mist = this.lifetime.own(new GroundMist());
       const { renderer, scene, camera } = resources;
       this.localShadows = this.lifetime.own(new LocalLightShadows(scene, renderer, this.lighting));
@@ -273,10 +270,7 @@ export class SceneLightingRenderer {
   async prepare(assets: Iterable<string> = this.resources.packs.keys(), signal?: AbortSignal) {
     if (this.disposed) throw new Error('lighting renderer disposed');
     signal?.throwIfAborted();
-    await Promise.all([
-      this.lighting.normals.load(assets, signal),
-      this.surfaces.load(this.resources.packs, signal),
-    ]);
+    await this.lighting.normals.load(assets, signal);
     signal?.throwIfAborted();
     if (this.disposed) throw new Error('lighting renderer disposed');
     this.ready = true;
@@ -308,7 +302,6 @@ export class SceneLightingRenderer {
   resetRoom() {
     this.generation = -1;
     cleanupAll([
-      () => this.surfaces.reset(),
       () => this.resetGpuTiming(),
       () => this.localShadows.reset(),
       () => this.shadowProxies.reset(),
@@ -339,7 +332,6 @@ export class SceneLightingRenderer {
             material.map
           ) {
             this.lighting.attach(material, ground);
-            if (ground) this.surfaces.attach(material);
           }
         if (!ground) {
           if (materials.some((m) => !m.transparent) && !o.userData.noCastShadow)
@@ -402,7 +394,6 @@ export class SceneLightingRenderer {
       this.resetRoom();
       this.buildRoom(sim, frame);
     }
-    this.surfaces.update(fx);
     this.time += ms / 1000;
     const rig = lightingRigs[s.rig],
       look = lookPresets[s.look],

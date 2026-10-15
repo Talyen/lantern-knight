@@ -59,7 +59,6 @@ test('runtime selection builds from delivery-only payloads and validates shipped
     JSON.stringify({ registrationHash: createHash('sha256').update(registration).digest('hex') }),
   );
   await write('lighting/manifest.json', JSON.stringify({ entries: {} }));
-  await write('visual-effects/surfaces.json', JSON.stringify({ entries: {} }));
   for (const [id, file] of Object.entries(gameAssetCatalog)) {
     const manifest = manifestFixture(id),
       page = manifest.pages[0]!,

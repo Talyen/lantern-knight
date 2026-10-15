@@ -22,7 +22,6 @@ test('preparation reuse invalidates registration and lighting-owner changes with
     ['assets/prepare/prepare-hero.ts', 'src/content/hero-actions.ts'],
     ['assets/prepare/prepare-lighting.ts', 'tools/lighting-bindings.ts'],
     ['assets/prepare/prepare-graveyard-coverage.ts', 'tools/assets/authoring-catalog.ts'],
-    ['assets/prepare/prepare-surface-relief.ts', 'src/content/asset-catalog.ts'],
     ['assets/prepare/prepare-library.ts', 'assets/library-sources.json'],
   ]) {
     const changed = { ...inputs, [input!]: 'changed' };
@@ -65,8 +64,8 @@ test('preparation reuse invalidates registration and lighting-owner changes with
       );
 });
 
-test('full and scoped preparation run producers before consumers, including flat-stage relief inputs', () => {
-  for (const steps of [preparationSteps, preparationSelection(['surface-relief'])]) {
+test('full and scoped preparation run producers before consumers, including flat-stage lighting inputs', () => {
+  for (const steps of [preparationSteps, preparationSelection(['ink-stage-earth'])]) {
     const completed = new Set<string>();
     for (const step of steps) {
       for (const dependency of step.dependsOn ?? [])
@@ -75,7 +74,7 @@ test('full and scoped preparation run producers before consumers, including flat
       completed.add(step.file);
     }
     assert.ok(completed.has('assets/prepare/prepare-flat-stage.ts'));
-    assert.ok(completed.has('assets/prepare/prepare-surface-relief.ts'));
+    assert.ok(completed.has('assets/prepare/prepare-lighting.ts'));
   }
 });
 

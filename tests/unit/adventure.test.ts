@@ -318,6 +318,50 @@ test('rest supersedes a pending fire journey and permits simulation to resume', 
   s.step(idle);
   assert.equal(s.sim.tick, tick + 1);
 });
+
+test('campfire commands reject aliases without poisoning checkpoint identities', () => {
+  const s = fixture();
+  const before = s.captureSave();
+  for (const key of ['orchard/west/extra', 'orchard/west/']) {
+    assert.throws(() => s.discoverFire(key), /campfire/i);
+    assert.throws(() => s.prepareRest(key), /campfire/i);
+  }
+  assert.deepEqual(s.captureSave(), before);
+  assert.doesNotThrow(() => parseGame(s.captureSave(), s.registry));
+});
+
+test('new games prefer a discovered checkpoint in their starting area', () => {
+  const s = changedAreas((a) => ({
+    ...a,
+    campfires: a.campfires?.map((f) => ({ ...f, discovered: f.id === 'west' })),
+  }));
+  assert.equal(s.lastFire, 'orchard/west');
+});
+
+test('death at a nearer discovered fire updates the fallback checkpoint', () => {
+  const s = fixture();
+  discover(s, 'orchard/east');
+  Object.assign(s.sim.hero, { x: 8, health: 0 });
+  s.resetCurrentArea('death');
+  assert.equal(s.sim.hero.x, 8);
+  assert.equal(s.lastFire, 'orchard/east');
+  assert.equal(s.captureSave().adventure!.lastFire, 'orchard/east');
+});
+
+test('burns may expire before their next damage tick and still produce loadable saves', () => {
+  const s = fixture();
+  // A refreshed burn can leave a final partial cadence. This state is admitted
+  // by the checkpoint parser before ordinary simulation ticks advance it.
+  s.sim.enemies[0]!.burn = { remaining: 60, nextTick: 20 };
+  s.restoreSave(s.captureSave());
+  for (let i = 0; i < 21; i++) s.step(idle);
+  assert.deepEqual(s.sim.enemies[0]!.burn, { remaining: 39, nextTick: 59 });
+  const save = s.captureSave();
+  assert.doesNotThrow(() => parseGame(save, s.registry));
+  s.restoreSave(save);
+  for (let i = 0; i < 39; i++) s.step(idle);
+  assert.equal(s.sim.enemies[0]!.burn, undefined);
+});
 test('reward validation rejects inherited object names', () => {
   for (const item of ['constructor', 'toString', '__proto__']) {
     assert.equal(rewardSchema.safeParse({ item, amount: 1 }).success, false);

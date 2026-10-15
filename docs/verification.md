@@ -12,7 +12,7 @@
 
 Routine local testing should take roughly ten seconds including setup. This is a guideline, not a timeout or permission to omit failures. Optimize useful slow tests or route them to CI by default. Asset, browser and desktop checks are explicit integration commands, outside routine local checks. Agents may run full or slow coverage locally for a specific reproduction, diagnosis or validation need: state the reason, choose the smallest relevant scope and avoid repeating unchanged successful runs. Changed browser behavior needs appropriate CI scenarios; report whether they actually ran, including pending or unavailable coverage.
 
-Authored scenes are disposable content: gameplay and rendering regressions own their setup, and authored-document validation accepts an empty scene directory.
+Authored scenes are disposable content: gameplay and rendering regressions own their setup, and authored-document validation accepts an empty scene directory. The asset tier validates saved documents through `checkSceneDocuments`; pure tests cover placement rejection with small fixtures instead of repeating a sweep of mutable editor saves.
 
 `npm run test:assets` runs `tests/assets/*.test.ts` against pinned prepared assets. Authored scene documents validate against authoring assets independently of Game selection. Python authoring/recovery fixtures belong to this tier and require Pillow. CI installs Pillow 11.3.0 in a temporary environment before the tests; test commands do not install dependencies. For local asset tests on macOS/Linux, create or reuse a checkout-local environment and activate it so subprocesses find Pillow:
 
@@ -29,7 +29,7 @@ The fixtures invoke `python3`, which must resolve to the environment containing 
 
 | Selector                             | Coverage                                                                                                                    |
 | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| `game`                               | Input, pause/focus and current checkpoints.                                                                                 |
+| `game`                               | Input, pause/focus, current checkpoints and distant loot-label routing.                                                     |
 | `scene`                              | Independent outdoor/interior fixtures, reload and resource lifetime.                                                        |
 | `editor`                             | Authoring, history, recovery, ground interaction, contact shadows and protected save requests.                              |
 | `effects`                            | Dedicated-scene controls and switching back to independent scene fixtures.                                                  |
@@ -38,7 +38,7 @@ The fixtures invoke `python3`, which must resolve to the environment containing 
 | `authored-ground`                    | Opt-in [movement and timing capture](developer-tools.md#authored-scene-timing-capture), selected by `LANTERN_GROUND_SCENE`. |
 | `ground-review`                      | Opt-in [occlusion captures](developer-tools.md#authored-occlusion-captures), selected by `LANTERN_GROUND_REVIEW`.           |
 
-Without a selector, Playwright selects all browser suites; both authored-scene diagnostics skip unless their scene environment variable is set. Selectors match filenames, so `editor` includes the editor regression, ground and contact suites. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion audio`.
+Without a selector, Playwright selects all browser suites; both authored-scene diagnostics skip unless their scene environment variable is set. Selectors match filenames, so `editor` includes the editor regression, ground, contact and gameplay-authoring suites. Development-only UI and renderer lifetime regressions belong to `scene`; the built Game runs cannot import their failure-injection modules. Multiple selectors can share one run, for example `npm run test:browser -- scene image-delivery ground-occlusion audio`.
 
 The `audio` suite always checks Game settings. Its decoding and audition test skips when the selected assets contain no prepared samples. To validate unpublished sounds locally, use a checkout-local [audio preparation](assets.md#audio-preparation) and leave `CI` unset; pinned CI cannot establish coverage for those samples. Browser decoding and playback assertions do not establish an audible mix; follow [listening and tuning](sound-design.md#listening-and-tuning).
 
@@ -74,7 +74,7 @@ Run `npm run docs:check` after documentation edits; `npm run check` does not inc
 
 ## E2E coverage and execution budgets
 
-Routine Linux CI runs all pure suites and source gates first, then starts independent Game, development-browser and selected asset/native jobs. Two Game shards each build the production web artifact and exercise one complete player journey. Twelve development-browser shards cover scene, audio, image delivery and ground occlusion; authoring-tool changes also select editor/effects journeys. Each runner keeps one browser worker and uses Playwright test-level sharding, so long files split across isolated runners without concurrent scene saves in one checkout.
+Routine Linux CI runs all pure suites and source gates first, then starts independent Game, development-browser and selected asset/native jobs. Two Game shards each build the production web artifact and split three complete player journeys covering controls, adventure travel and distant loot-label routing. Twelve development-browser shards use `--ci-development` to cover scene, audio, image delivery and ground occlusion; authoring-tool and shared browser-fixture changes add `--authoring` for editor/effects journeys. The wrapper discovers every browser suite and rejects names without a CI tier before starting a preview, preventing new regression files from silently falling outside the workflow. The four explicit capture suites (`authored-ground`, `ground-review`, `orchard-design`, `orchard-polish`) remain opt-in. Each runner keeps one browser worker and uses Playwright test-level sharding, so long files split across isolated runners without concurrent scene saves in one checkout.
 
 Browser previews acquire verified pinned files on demand instead of downloading the complete authoring library. Game builds retain their verified selected-file delivery. Full asset tests (including Python authoring/recovery fixtures) and runtime asset validation run for asset, content, presentation, animation, authored-data, dependency and delivery-tool changes. Unrelated editor, gameplay, prose and CI-policy changes omit this full-library tier. Every Game build still verifies its selected assets. Manual workflow dispatch runs all optional tiers.
 

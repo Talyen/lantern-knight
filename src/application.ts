@@ -464,7 +464,9 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.events.setGeneration(this.current.session.generation);
     this.events.publish(events);
   }
-  private async withSessionOperation<T>(work: (operation: SessionOperation) => Promise<T>) {
+  private async withSessionOperation<T extends void | boolean>(
+    work: (operation: SessionOperation) => Promise<T>,
+  ) {
     this.assertActive();
     if (this.startup && !this.ready) throw new Error('Wait for startup to finish loading');
     return this.sessionOperations.run((operation) =>

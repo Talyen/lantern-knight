@@ -38,10 +38,12 @@ export class Animator {
     this.instance++;
   }
   seek(time: number) {
+    if (!Number.isFinite(time)) return;
     this.time = Math.max(0, time);
     this.notifiedThrough = Math.max(this.notifiedThrough, this.time);
   } // silent; rewinding cannot replay already crossed notifies
   advance(ms: number) {
+    if (!Number.isFinite(ms)) return [];
     const from =
         this.notifiedThrough < 0 ? this.notifiedThrough : Math.max(this.time, this.notifiedThrough),
       to = this.time + Math.max(0, ms),

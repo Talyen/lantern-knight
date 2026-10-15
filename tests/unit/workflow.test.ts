@@ -8,7 +8,7 @@ import { selectTestFiles, ciDefaultSuites } from '../../tools/test';
 import { coverageFor } from '../../tools/coverage-policy';
 const requiresDesktop = (files: readonly string[]) => coverageFor(files).desktop;
 const requiresAuthoring = (files: readonly string[]) => coverageFor(files).authoring;
-import { browserSelection } from '../../tools/browser-tests';
+import { browserSelection, ciDevelopmentFiles } from '../../tools/browser-tests';
 import { checkAssets } from '../../tools/check-assets';
 test('concise test output preserves failures, skips, TODOs and process diagnostics', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-reporter-');
@@ -97,6 +97,7 @@ test('fast defaults, full coverage and explicit paths cannot silently lose CI su
 });
 test('scene and gameplay edits use routine CI; desktop contracts select platform verification', () => {
   assert.equal(requiresAuthoring(['src/editor/model.ts']), true);
+  assert.equal(requiresAuthoring(['tests/browser/fixtures.ts']), true);
   assert.equal(requiresAuthoring(['src/core/simulation.ts']), false);
   assert.equal(
     requiresDesktop([
@@ -181,4 +182,21 @@ test('full asset coverage follows asset consumers, not unrelated editor or gamep
     'tools/browser-tests.ts',
   ])
     assert.equal(coverageFor([file]).assets, false, file);
+});
+
+test('CI accounts for every browser suite and runs development lifetime regressions', async () => {
+  const files = (await fs.readdir('tests/browser')).filter((file) => file.endsWith('.spec.ts'));
+  const routine = ciDevelopmentFiles(files, false);
+  const authoring = ciDevelopmentFiles(files, true);
+  assert.ok(routine.includes('scene-lifetime.spec.ts'));
+  assert.ok(authoring.includes('editor-adventure.spec.ts'));
+  assert.ok(!routine.includes('editor-adventure.spec.ts'));
+  assert.ok(files.includes('game-loot.spec.ts'));
+  assert.ok(!authoring.some((file) => file.startsWith('game') || file.startsWith('orchard')));
+  assert.deepEqual(
+    ciDevelopmentFiles(['game-loot.spec.ts', 'editor-regressions.spec.ts', 'scene.spec.ts'], false),
+    ['scene.spec.ts'],
+  );
+  assert.throws(() => ciDevelopmentFiles([...files, 'unclassified.spec.ts'], false), /no CI tier/);
+  assert.throws(() => ciDevelopmentFiles([...files, 'unclassified.spec.ts'], true), /no CI tier/);
 });

@@ -1381,6 +1381,7 @@ export function createEditorSession() {
       setWalkingHero(false);
       await project.import(document);
       assertActive();
+      showRecovery();
       composition.reset();
       await refresh();
       composition.set(undefined);

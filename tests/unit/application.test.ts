@@ -447,9 +447,20 @@ test('stale previews release their lease without selecting or warming; disposal 
   assert.equal(f.warmed, 1);
   assert.equal(f.app.packs.get('fast'), f.lease);
   const pending = f.app.previewAsset('late', () => assert.fail('disposed selection'));
+  let cancelled = false;
+  const rejected = assert.rejects(pending, /disposed/).then(() => {
+    cancelled = true;
+  });
   f.app.dispose();
-  late.resolve({ release: () => lateReleased++ } as unknown as PackLease);
-  await assert.rejects(pending, /disposed/);
+  try {
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(cancelled, true, 'Shutdown settles the command before acquisition drains');
+    assert.equal(lateReleased, 0);
+  } finally {
+    late.resolve({ release: () => lateReleased++ } as unknown as PackLease);
+    await rejected;
+    await new Promise<void>((resolve) => setImmediate(resolve));
+  }
   assert.equal(lateReleased, 1);
   assert.equal(f.released, 1);
   assert.equal(f.warmed, 1);
@@ -462,13 +473,22 @@ test('superseded previews retire loading before obsolete transport settles', asy
   app.hooks.loading = (active) => loading.push(active);
   app.runtime = runtime((id) => (id === 'slow' ? slow.promise : Promise.resolve(lease)));
   let released = 0;
-  const stale = app.previewAsset('slow', () => assert.fail('obsolete selection'));
+  let obsoleteResult: boolean | undefined;
+  const stale = app
+    .previewAsset('slow', () => assert.fail('obsolete selection'))
+    .then((result) => {
+      obsoleteResult = result;
+    });
   try {
     assert.equal(await app.previewAsset('fast', () => {}), true);
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(obsoleteResult, false, 'Supersession settles the obsolete caller immediately');
+    assert.equal(released, 0, 'The unfinished acquisition still owns its late result');
     assert.equal(loading.at(-1), false, 'Only the current selection may block interaction');
   } finally {
     slow.resolve({ release: () => released++ } as unknown as PackLease);
     await stale;
+    await new Promise<void>((resolve) => setImmediate(resolve));
     app.dispose();
   }
   assert.equal(released, 1);
@@ -718,9 +738,15 @@ test('a recovered room can play while an obsolete asset acquisition still drains
     return { release() {} } as unknown as PackLease;
   });
   const transition = app.transition(app.sim.areaDefinition.exits[0]!.id);
-  const rejected = assert.rejects(transition, /superseded/);
+  let cancelled = false;
+  const rejected = assert.rejects(transition, /superseded/).then(() => {
+    cancelled = true;
+  });
   await app.newGame();
   try {
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(cancelled, true, 'The obsolete command cannot wait for an uncancellable decode');
+    assert.equal(released, 0);
     assert.equal(app.roomReady, true);
     assert.equal(app.busy, false);
     assert.deepEqual(loading, [true, false], 'Only the current load owns the overlay');
@@ -733,6 +759,7 @@ test('a recovered room can play while an obsolete asset acquisition still drains
     waiting.resolve({ release: () => released++ } as unknown as PackLease);
     const beforeDrain = clears;
     await rejected;
+    await new Promise<void>((resolve) => setImmediate(resolve));
     assert.equal(clears, beforeDrain, 'Late cleanup cannot erase newly accepted input');
     assert.deepEqual(loading, [true, false], 'Late cleanup cannot repeat loading feedback');
     app.dispose();

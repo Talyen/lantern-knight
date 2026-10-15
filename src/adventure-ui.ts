@@ -201,7 +201,10 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         event.ctrlKey ||
         event.metaKey ||
         event.altKey ||
-        (event.target as HTMLElement)?.closest?.('input,select,textarea')
+        (event.target as HTMLElement)?.closest?.('input,select,textarea') ||
+        (event.target as HTMLElement)?.isContentEditable ||
+        (!panel.open &&
+          (event.target as Element)?.closest?.('button,a[href],summary,[role=button]'))
       )
         return;
       if (panel?.open) {

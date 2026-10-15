@@ -44,8 +44,7 @@ test('split publication uses downloadable filenames, frees the candidate archive
       loadingVideoPath,
     ])
       await write('public/' + file, '{}');
-    for (const file of ['lighting/manifest.json', 'visual-effects/surfaces.json'])
-      await write('public/' + file, JSON.stringify({ entries: {} }));
+    await write('public/lighting/manifest.json', JSON.stringify({ entries: {} }));
     await write('public/audio/manifest.json', JSON.stringify({ schemaVersion: 1, samples: [] }));
     await write('public/authoring-only.png', 'distinct authoring artwork');
     await write('public/generated/library/catalog.json', '{}');

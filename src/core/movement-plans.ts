@@ -16,6 +16,8 @@ export class MovementPlans {
       this.plans.delete(actor.id);
       return;
     }
+    if (!Number.isFinite(target.x) || !Number.isFinite(target.z))
+      throw new Error('Movement destination must be finite');
     this.plans.set(actor.id, {
       kind: 'manual',
       target: { ...target },
