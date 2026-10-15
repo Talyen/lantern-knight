@@ -315,6 +315,7 @@ export function createGameUI(root: HTMLElement) {
               drop: 'E · Take',
               campfire: 'E · Rest',
               container: 'E · Open',
+              workbench: 'E · Forge',
               exit: 'E · Path',
               breakable: 'LMB · Break',
             } as const

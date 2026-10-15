@@ -1,3 +1,4 @@
+import { scaledDamage } from '../content/progression';
 import { tuning, attackDefinition } from '../content/gameplay';
 import { heightAt, type AreaDefinition, type Point } from '../content/world';
 import type { Actor, State, HeroAction } from './actor';
@@ -10,6 +11,7 @@ import { clearSegment } from './navigation';
 interface CombatWorld {
   actors(): readonly Actor[];
   movementPreview(): boolean;
+  damagePercent(type: DamageType): number;
   emit(actor: Actor, details: EventDetails): unknown;
   move(actor: Actor, x: number, z: number): void;
   enemyHit(actor: Actor): void;
@@ -80,7 +82,9 @@ export class CombatActions {
     )
       return;
     if (to.kind === 'enemy') this.world.enemyHit(to);
-    const actual = Math.min(to.health, amount);
+    const resolved =
+      from.kind === 'hero' ? scaledDamage(amount, this.world.damagePercent(damageType)) : amount;
+    const actual = Math.min(to.health, resolved);
     to.health -= actual;
     this.world.emit(from, { kind: 'damage', target: to.id, amount: actual, damageType, phase });
     if (phase === 'direct' || !to.health) {

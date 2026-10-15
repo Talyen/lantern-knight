@@ -844,7 +844,7 @@ test('area reconstruction detaches world progress and rejects invalid alerts at 
   assert.deepEqual(
     s.sim.captureAreaState().alerted,
     [],
-    'optional fields remain backward compatible within version 8',
+    'optional fields remain backward compatible within version 9',
   );
 });
 

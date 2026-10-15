@@ -8,11 +8,21 @@ import {
   type Reward,
 } from '../content/items';
 
+import { forgeCost, type ForgeUpgrade } from '../content/progression';
+
 export const MAX_ITEM_COUNT = 100000000;
-export type InventorySnapshot = { inventory: Inventory; equipment: Equipment };
+export type InventorySnapshot = {
+  inventory: Inventory;
+  equipment: Equipment;
+  forgeUpgrade?: ForgeUpgrade;
+};
 
 // Save admission and live commands enforce the same ownership/count contract.
-export function validateInventory({ inventory, equipment }: InventorySnapshot) {
+export function validateInventory({ inventory, equipment, forgeUpgrade }: InventorySnapshot) {
+  if (forgeUpgrade !== undefined && forgeUpgrade !== 'sword' && forgeUpgrade !== 'lantern')
+    throw new Error('Unknown forge upgrade');
+  if ((inventory['workshop-temper'] ?? 0) > (forgeUpgrade ? 0 : 1))
+    throw new Error('Invalid workshop temper ownership');
   for (const [item, amount] of Object.entries(inventory))
     if (
       !Object.hasOwn(items, item) ||
@@ -39,6 +49,7 @@ export interface InventoryAccess {
   readonly inventory: Readonly<Inventory>;
   readonly equipment: Readonly<Equipment>;
   readonly healthBonus: number;
+  readonly forgeUpgrade?: ForgeUpgrade;
   award(rewards: readonly Reward[]): void;
   consume(item: string): boolean;
 }
@@ -49,7 +60,11 @@ export class InventoryState implements InventoryAccess {
     this.state = this.accept(snapshot);
   }
   private accept(snapshot: InventorySnapshot): InventorySnapshot {
-    const next = structuredClone({ inventory: snapshot.inventory, equipment: snapshot.equipment });
+    const next = structuredClone({
+      inventory: snapshot.inventory,
+      equipment: snapshot.equipment,
+      ...(snapshot.forgeUpgrade !== undefined ? { forgeUpgrade: snapshot.forgeUpgrade } : {}),
+    });
     validateInventory(next);
     Object.freeze(next.inventory);
     Object.freeze(next.equipment);
@@ -60,6 +75,29 @@ export class InventoryState implements InventoryAccess {
   }
   get equipment(): Readonly<Equipment> {
     return this.state.equipment;
+  }
+  get forgeUpgrade() {
+    return this.state.forgeUpgrade;
+  }
+  prepareForgePurchase(choice: ForgeUpgrade) {
+    if (choice !== 'sword' && choice !== 'lantern') throw new Error('Unknown forge upgrade');
+    if (this.forgeUpgrade) throw new Error('Your workshop temper has already been used');
+    const previous = this.state;
+    const draft = this.snapshot();
+    for (const [item, amount] of Object.entries(forgeCost)) {
+      if ((draft.inventory[item] ?? 0) < amount)
+        throw new Error('Requires 20 Gold, 4 Iron and 1 Workshop Temper');
+      draft.inventory[item]! -= amount;
+    }
+    draft.forgeUpgrade = choice;
+    const accepted = this.accept(draft);
+    return {
+      snapshot: structuredClone(accepted),
+      commit: () => {
+        if (this.state !== previous) throw new Error('Stale forge purchase');
+        this.state = accepted;
+      },
+    };
   }
   get healthBonus() {
     return healthBonus(this.equipment);

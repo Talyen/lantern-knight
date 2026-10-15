@@ -22,6 +22,7 @@ export const items: Readonly<Record<string, ItemDefinition>> = {
   gold: { name: 'Gold', kind: 'currency' },
   iron: { name: 'Iron', kind: 'material' },
   bone: { name: 'Bone', kind: 'material' },
+  'workshop-temper': { name: 'Workshop Temper', kind: 'material' },
   'health-potion': { name: 'Health Potion', kind: 'potion' },
   'damaged-axe': { name: 'Damaged Axe', kind: 'salvage', salvage: { iron: 2 } },
   'damaged-helmet': { name: 'Damaged Helmet', kind: 'salvage', salvage: { iron: 1, bone: 1 } },

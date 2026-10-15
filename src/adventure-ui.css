@@ -281,3 +281,33 @@
     transition: none;
   }
 }
+
+.adventure-panel .forge-content {
+  padding-bottom: 32px;
+}
+.adventure-panel .forge-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 24px;
+  margin: 24px 0;
+}
+.adventure-panel .forge-option {
+  padding: 24px;
+  border-top: 2px solid #d8b477;
+  background: #1b2525;
+}
+.adventure-panel .forge-content p {
+  color: #a9b6ab;
+}
+.adventure-panel .forge-content .forge-result {
+  color: #f1e7d2;
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+}
+.adventure-panel .forge-option button,
+.adventure-panel [data-action='confirm-upgrade'] {
+  color: #18201e;
+  background: #d8b477;
+  border-color: #d8b477;
+  font-weight: 600;
+}

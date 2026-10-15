@@ -6,6 +6,7 @@ import { Vector3 } from 'three';
 import { MotionProbe } from './motion-probe';
 import { PickupPlan } from './core/pickup-plan';
 import { interactionTarget, nearbyInteraction } from './core/interaction';
+import type { ForgeUpgrade } from './content/progression';
 import type { EquipmentSlot } from './content/items';
 import { SceneAssets } from './assets/scene-assets';
 import { AssetRuntime, type PackLease, type PackBatch, type AssetPack } from './assets/loader';
@@ -101,6 +102,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private frameEpoch = 0;
   private frames: FrameScheduler | undefined;
   private disposed = false;
+  private purchasing = false;
   private startup?: Promise<void>;
   private graphics?: PresentationPreparation<P>;
   // Once replacement starts committing, the renderer may be partially rebuilt.
@@ -486,6 +488,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   ) {
     this.assertActive();
     if (this.startup && !this.ready) throw new Error('Wait for startup to finish loading');
+    if (this.purchasing) throw new Error('Wait for the forge purchase to finish saving');
     return this.sessionOperations.run((operation) =>
       this.withLoading(async () => {
         try {
@@ -675,7 +678,9 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     } else if (target.kind === 'campfire') {
       this.publish(this.current.session.discoverFire(this.sim.area + '/' + target.id));
       this.autosave();
-      return this.sim.area + '/' + target.id;
+      return { kind: 'campfire' as const, id: this.sim.area + '/' + target.id };
+    } else if (target.kind === 'workbench') {
+      return { kind: 'workbench' as const, id: target.id };
     } else if (target.kind === 'exit') {
       this.safe(() => this.transition(target.id));
     }
@@ -690,6 +695,23 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
           : this.current.session.salvage(item);
     this.publish(events);
     this.autosave();
+  }
+  purchaseForgeUpgrade(id: string, choice: ForgeUpgrade) {
+    if (this.busy || !this.roomReady)
+      return Promise.reject(new Error('Wait for the current operation to finish'));
+    return this.withSessionOperation(async (operation) => {
+      const purchase = this.current.session.prepareForgePurchase(id, choice);
+      this.purchasing = true;
+      try {
+        // Save the complete candidate before accepting it. Failed writes spend nothing.
+        // Admitted purchases cannot be superseded by a load, reset or stale autosave.
+        if (!this.readOnly) await operation.read(this.persistenceOwner.save(purchase.save));
+        operation.check();
+        this.publish(purchase.commit());
+      } finally {
+        this.purchasing = false;
+      }
+    });
   }
   rest(key: string) {
     return this.withSessionOperation(async (operation) => {
@@ -798,6 +820,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       throw new Error('Room is not ready; reset or load a checkpoint to recover');
   }
   async save() {
+    if (this.purchasing) throw new Error('Wait for the forge purchase to finish saving');
     this.assertCheckpointWritable();
     await this.persistenceOwner.save(this.current.session.captureSave());
     await this.saveSettings();
@@ -805,7 +828,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     void this.audio.play('success', { world: false }).catch(() => {});
   }
   autosave() {
-    if (!this.disposed && !this.readOnly && this.roomReady)
+    if (!this.disposed && !this.readOnly && this.roomReady && !this.purchasing)
       this.safe(() => this.persistenceOwner.save(this.current.session.captureSave()));
   }
   private get frameFrozen() {

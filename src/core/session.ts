@@ -1,3 +1,4 @@
+import type { ForgeUpgrade } from '../content/progression';
 import { borrowedView } from '../content/snapshot';
 import { type EquipmentSlot } from '../content/items';
 import { onboardingState, type OnboardingState, type Lesson } from './onboarding';
@@ -41,6 +42,7 @@ const sessionProperties = [
   'resetCount',
   'inventory',
   'equipment',
+  'forgeUpgrade',
   'discovered',
   'onboarding',
   'lastFire',
@@ -56,6 +58,9 @@ export class GameSession {
   }
   get inventory() {
     return this.current.inventoryState.inventory;
+  }
+  get forgeUpgrade() {
+    return this.current.inventoryState.forgeUpgrade;
   }
   get equipment() {
     return this.current.inventoryState.equipment;
@@ -137,6 +142,9 @@ export class GameSession {
       },
       get equipment() {
         return inventory.equipment;
+      },
+      get forgeUpgrade() {
+        return inventory.forgeUpgrade;
       },
       get healthBonus() {
         return inventory.healthBonus;
@@ -460,11 +468,32 @@ export class GameSession {
       ? []
       : [this.event({ kind: 'inventory-changed', operation: 'salvage' })];
   }
+  prepareForgePurchase(id: string, choice: ForgeUpgrade) {
+    this.assertProgressionWritable();
+    const target = interactionTarget(this.sim, 'workbench', id);
+    if (!target || target.blocked) throw new Error(target?.blocked ?? 'Visit the forge workbench');
+    const owner = this.current.inventoryState;
+    const generation = this.generation;
+    const tick = this.sim.tick;
+    const purchase = owner.prepareForgePurchase(choice);
+    const save = this.captureSave();
+    Object.assign(save.adventure!, purchase.snapshot);
+    return {
+      save,
+      commit: () => {
+        this.assertProgressionWritable(owner);
+        if (this.generation !== generation || this.sim.tick !== tick)
+          throw new Error('Stale forge purchase');
+        purchase.commit();
+        return [this.event({ kind: 'inventory-changed', operation: 'upgrade' })];
+      },
+    };
+  }
   captureSave(): GameSave {
     this.recordArea();
     const a = this.sim.hero;
     return {
-      version: 8,
+      version: 9,
       adventure: {
         ...this.current.inventoryState.snapshot(),
         discovered: [...this.current.discovered],

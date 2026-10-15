@@ -61,7 +61,9 @@ export function parseAreaState(
   if (
     state.claimedObjects &&
     (new Set(state.claimedObjects).size !== state.claimedObjects.length ||
-      state.claimedObjects.some((id) => !area.interactables?.some((p) => p.id === id)))
+      state.claimedObjects.some(
+        (id) => !area.interactables?.some((p) => p.id === id && p.kind !== 'workbench'),
+      ))
   )
     throw new Error('Unknown claimed object');
   if (state.drops) {
