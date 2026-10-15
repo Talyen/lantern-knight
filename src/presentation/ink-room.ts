@@ -189,7 +189,7 @@ export class InkRoom {
   private sample(s: ActorSprite, clip: Clip, time: number, foot: T.Vector3) {
     s.show(frameAt(clip, time), foot, this.camera);
   }
-  occlude(ground: GroundOcclusion) {
+  occlude(ground: Pick<GroundOcclusion, 'attach' | 'update'>) {
     for (const [sprite, placement] of this.occluded) {
       ground.attach(sprite, 'prop');
       ground.update(sprite, placement.x, placement.z);

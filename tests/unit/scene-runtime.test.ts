@@ -11,7 +11,6 @@ import { EditorHistory } from '../../src/editor/model';
 import { EditorView } from '../../src/editor/view';
 import { setCutoutOpacity } from '../../src/presentation/sprite';
 import { InkRoom } from '../../src/presentation/ink-room';
-import type { GroundOcclusion } from '../../src/presentation/ground-occlusion';
 import { ContentRegistry, heightAt } from '../../src/content/world';
 import { content, contentDefinitions } from '../fixtures/content';
 import { manifestFixture } from '../fixtures/manifest';
@@ -153,7 +152,7 @@ test('placed sprites retain their authored occlusion roots without mesh metadata
       update(sprite, x, z) {
         roots.push([sprite.id, x, z]);
       },
-    } as GroundOcclusion);
+    });
     assert.deepEqual(roots, [['prop', 0, 0]]);
   } finally {
     room.dispose();
