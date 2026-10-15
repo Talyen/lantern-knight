@@ -3,14 +3,9 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-// Move the entire checkout before unregistering it: ignored evidence and late writes
-// remain recoverable. Only installed dependencies are discarded; branches stay.
-export function archiveIntegratedWorktree(
-  main: string,
-  task: string,
-  branch: string,
-  head: string,
-) {
+// Stage the checkout for rollback if unregistration fails. Successful cleanup
+// deletes the complete checkout, including local-only files, and retains its branch.
+export function removeIntegratedWorktree(main: string, task: string, branch: string, head: string) {
   const git = (...args: string[]) =>
     execFileSync('git', args, { cwd: main, encoding: 'utf8' }).trim();
   if (task === main || fs.lstatSync(task).isSymbolicLink())
@@ -42,7 +37,6 @@ export function archiveIntegratedWorktree(
       throw new Error('Unfinished Git operation preserved');
   if (/^160000 /m.test(git('-C', task, 'ls-files', '--stage')))
     throw new Error('Submodule worktree preserved');
-  const dependenciesTracked = !!git('-C', task, 'ls-files', '--', 'node_modules');
   const root = path.resolve(
     process.env.CODEX_WORKTREE_ARCHIVE_ROOT ??
       path.join(os.homedir(), '.codex', 'worktree-archives', path.basename(main)),
@@ -69,7 +63,11 @@ export function archiveIntegratedWorktree(
     throw error;
   }
   fs.unlinkSync(path.join(checkout, '.git'));
-  if (!dependenciesTracked)
-    fs.rmSync(path.join(checkout, 'node_modules'), { recursive: true, force: true });
-  console.log('Archived completed worktree to ' + recovery + '; retained branch ' + branch);
+  fs.rmSync(recovery, { recursive: true });
+  console.log(
+    'Removed completed worktree ' +
+      task +
+      ', including local-only files; retained branch ' +
+      branch,
+  );
 }

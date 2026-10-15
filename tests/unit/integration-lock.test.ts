@@ -172,7 +172,7 @@ test(
   },
 );
 
-test('successful task integration archives local evidence and dependencies without touching peers', async (t) => {
+test('successful task integration deletes local evidence and dependencies without touching peers', async (t) => {
   const { root, task, git, run } = await fixture(t);
   git(['branch', '-m', 'codex/task'], task);
   await fs.writeFile(path.join(task, '.gitignore'), 'node_modules/\nevidence\n');
@@ -187,6 +187,7 @@ test('successful task integration archives local evidence and dependencies witho
   const peer = path.join(root, 'peer');
   git(['worktree', 'add', '-b', 'codex/peer', peer]);
   await fs.writeFile(path.join(peer, 'unfinished'), 'peer work');
+  await fs.symlink(peer, path.join(task, 'node_modules', 'peer'), 'dir');
   const failed = run('process.exit(7)');
   assert.equal(await failed.done, 1);
   assert.equal(await fs.readFile(path.join(task, 'evidence'), 'utf8'), 'local evidence');
@@ -204,16 +205,8 @@ test('successful task integration archives local evidence and dependencies witho
     ),
     false,
   );
-  const [name] = await fs.readdir(path.join(root, 'archives'));
-  const archived = path.join(root, 'archives', name!, 'checkout');
-  assert.equal(await fs.readFile(path.join(archived, 'evidence'), 'utf8'), 'local evidence');
-  assert.equal(
-    await fs.stat(path.join(archived, 'node_modules')).then(
-      () => true,
-      () => false,
-    ),
-    false,
-  );
+  assert.deepEqual(await fs.readdir(path.join(root, 'archives')), []);
+  assert.ok(!git(['worktree', 'list', '--porcelain']).includes(task));
   assert.equal(await fs.readFile(path.join(peer, 'unfinished'), 'utf8'), 'peer work');
   assert.equal(git(['rev-parse', 'main']), git(['rev-parse', 'codex/task']));
 });
