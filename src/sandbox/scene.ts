@@ -1,3 +1,4 @@
+import { cleanupAll } from '../assets/cleanup';
 import { createBrowserBridge } from '../platform/browser-store';
 import { bindAudioControls, bindAudioAudition } from '../audio/controls';
 import { bindEffectControls } from './effect-controls';
@@ -51,8 +52,8 @@ export function mountScene(
   const lifetime = new AbortController();
   let picker: ReturnType<typeof bindAssetPicker>;
   const loading = new LoadingScreen();
-  const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
   const shell = mountShell(context, sandboxUI, previewHUD);
+  const $ = <T extends HTMLElement>(s: string) => shell.root.querySelector<T>(s)!;
   const previewSettings = createBrowserBridge(sandboxContent, 'sandbox');
   const sandboxBridge: Bridge = {
     automatedRun: window.lantern?.automatedRun,
@@ -147,6 +148,7 @@ export function mountScene(
     presentation.resize(app.scale);
   }
   function setMode(next: Mode) {
+    lifetime.signal.throwIfAborted();
     stopMovementReplay();
     stopSweepReplay();
     presentation?.combatFeedback.reset();
@@ -218,10 +220,11 @@ export function mountScene(
 
   async function boot() {
     await app.boot();
-    bindAudioControls(app, document);
+    lifetime.signal.throwIfAborted();
+    bindAudioControls(app, shell.root, lifetime.signal);
     await app.audio.initialize();
-    bindAudioAudition(app, document);
     if (closed) return;
+    bindAudioAudition(app, shell.root);
     presentation = app.presentation;
     applyMovementSpeed();
     $<HTMLSelectElement>('#sweep-timing').replaceChildren(
@@ -253,12 +256,16 @@ export function mountScene(
     $<HTMLSelectElement>('#movement-speed').value = String(movementSpeed);
     $<HTMLSelectElement>('#render-scale').value = String(app.scale);
     $<HTMLSelectElement>('#zoom-span').value = String(presentation.verticalSpan);
-    lightingControls = bindLightingControls(presentation, savePreview);
-    bindEffectControls(presentation, (key, enabled) => {
-      selectedEffects[key] = enabled;
-      applyEffects();
-      savePreview();
-    });
+    lightingControls = bindLightingControls(presentation, savePreview, shell.root);
+    bindEffectControls(
+      presentation,
+      (key, enabled) => {
+        selectedEffects[key] = enabled;
+        applyEffects();
+        savePreview();
+      },
+      shell.root,
+    );
     $('#scene-baseline').onchange = () => {
       effectsBaseline = $<HTMLInputElement>('#scene-baseline').checked;
       applyEffects();
@@ -338,7 +345,7 @@ export function mountScene(
           (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? $('canvas').clientHeight : 1);
         zoomPreview(presentation.labZoom * Math.exp(-pixels * 0.0015));
       },
-      { passive: false },
+      { passive: false, signal: lifetime.signal },
     );
     picker = bindAssetPicker(
       app.runtime,
@@ -346,6 +353,7 @@ export function mountScene(
       () => app.sim.area,
       selectAnimationAsset,
       context.ui.assetFilters,
+      shell.root,
     );
     updateLabClips();
     $('#clip').onchange = () => {
@@ -590,6 +598,7 @@ export function mountScene(
   }
 
   async function fixture(area: string, prepare?: (sim: Simulation) => undefined) {
+    lifetime.signal.throwIfAborted();
     stopMovementReplay();
     stopSweepReplay();
     presentation?.combatFeedback.reset();
@@ -818,7 +827,7 @@ export function mountScene(
         `${presentation.renderer.domElement.width} × ${presentation.renderer.domElement.height}\n${lab.companions} generated companions · ${(lab.normalBytes / 1048576).toFixed(1)} MiB\nHDR color buffers ${(lab.targets.colorBytes / 1048576).toFixed(0)} MiB`;
     }
     if (mode === 'occlusion') {
-      const label = document.querySelector<HTMLElement>('#art-registration-status');
+      const label = shell.root.querySelector<HTMLElement>('#art-registration-status');
       if (label)
         label.textContent = presentation.artConstruction.findings.length
           ? presentation.artConstruction.findings
@@ -848,7 +857,7 @@ export function mountScene(
     $<HTMLInputElement>('#scrub').value = String(elapsed);
     $('#visual-time').textContent =
       `${Math.round(elapsed)} / ${Math.round(span)} ms · ${new Set(c.frames).size} drawings`;
-    document.querySelector<HTMLDetailsElement>('[data-section="animation-comparison"]')!.hidden =
+    shell.root.querySelector<HTMLDetailsElement>('[data-section="animation-comparison"]')!.hidden =
       presentation.labAsset !== 'ink-hero-current';
     const hero = presentation.labAsset === 'ink-hero-current',
       heading = c.frames[0]!.split('-')[1] as (typeof HEADINGS)[number],
@@ -941,16 +950,19 @@ export function mountScene(
     benchmarkSkipFrame = true,
     returnSave: GameSave | undefined;
   function beginBenchmarkMeasurement() {
+    lifetime.signal.throwIfAborted();
     benchmarkFrames = [];
     benchmarkStartTick = app.sim.tick;
     benchmarkSkipFrame = true;
     app.clock.droppedMs = 0;
   }
   async function startBenchmark(stress = false) {
+    lifetime.signal.throwIfAborted();
     stopMovementReplay();
     stopSweepReplay();
     lightingReplay = false;
     await app.retainAsset('library-sk01');
+    lifetime.signal.throwIfAborted();
     returnSave ??= app.session.captureSave();
     const definitions = stress
       ? {
@@ -977,6 +989,7 @@ export function mountScene(
       seed: 142,
       area: 'outdoor-fixture',
     });
+    lifetime.signal.throwIfAborted();
     beginBenchmarkMeasurement();
     benchmarkMeasuring = true;
     app.command = (sim) => {
@@ -1001,8 +1014,11 @@ export function mountScene(
       else benchmarkFrames.push(ms);
     }
   };
-  window.foundation = {
-    editPreview: (work) => app.editPreview(work),
+  const inspection: Window['foundation'] = {
+    editPreview: (work) => {
+      lifetime.signal.throwIfAborted();
+      app.editPreview(work);
+    },
     get ready() {
       return !closed && app.ready && previewReady;
     },
@@ -1026,8 +1042,12 @@ export function mountScene(
     },
     fixture,
     mode: setMode,
-    pause: (value) => app.pause(value),
+    pause: (value) => {
+      lifetime.signal.throwIfAborted();
+      app.pause(value);
+    },
     reset: () => {
+      lifetime.signal.throwIfAborted();
       stopMovementReplay();
       stopSweepReplay();
       presentation?.combatFeedback.reset();
@@ -1039,6 +1059,7 @@ export function mountScene(
     startBenchmark,
     beginBenchmarkMeasurement,
     async finishBenchmark(restoreSession = true) {
+      lifetime.signal.throwIfAborted();
       const result = {
         frames: benchmarkFrames,
         stats: presentation.stats(),
@@ -1096,27 +1117,40 @@ export function mountScene(
       },
     };
   }
-  window.addEventListener('pagehide', savePreview);
+  window.foundation = inspection;
+  window.addEventListener('pagehide', savePreview, { signal: lifetime.signal });
   function dispose() {
     if (closed) return;
-    savePreview();
+    const remember = previewReady;
     closed = true;
-    sweepGuide?.dispose();
-    if (presentation) presentation.beforeSceneRender = undefined;
-    lifetime.abort();
     previewReady = false;
-    app.dispose();
-    loading.dispose();
-    shell.dispose();
-    Reflect.deleteProperty(window, 'foundation');
-    window.removeEventListener('beforeunload', dispose);
-    window.removeEventListener('pagehide', savePreview);
+    cleanupAll([
+      () => lifetime.abort(),
+      () => shell.dispose(),
+      () => {
+        if (remember && app.ready && !app.busy) context.remember(captureState());
+      },
+      () => {
+        if (window.foundation === inspection) Reflect.deleteProperty(window, 'foundation');
+      },
+      () => {
+        if (presentation) presentation.beforeSceneRender = undefined;
+      },
+      () => sweepGuide?.dispose(),
+      () => app.dispose(),
+      () => loading.dispose(),
+    ]);
   }
-  window.addEventListener('beforeunload', dispose);
+  window.addEventListener('beforeunload', dispose, { signal: lifetime.signal });
   void boot().catch((error) => {
-    if (!closed) status('Dev Preview failed: ' + error.message, true);
-    app.dispose();
-    loading.dispose();
+    if (closed) return;
+    let message = 'Dev Preview failed: ' + error.message;
+    try {
+      dispose();
+    } catch (cleanupError) {
+      message += '; shutdown failed: ' + String(cleanupError);
+    }
+    shell.status(message, true);
   });
   return dispose;
 }

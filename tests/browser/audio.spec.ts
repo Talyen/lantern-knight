@@ -29,7 +29,7 @@ test('audio settings persist independently in Game', async ({ page }) => {
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
   );
-  await page.locator('#pause').click();
+  await page.locator('#menu-settings').click();
   await expect(page.locator('[data-audio="master"]')).toHaveValue('80');
   await page.locator('[data-audio="master"]').evaluate((element) => {
     const input = element as HTMLInputElement;
@@ -50,12 +50,13 @@ test('audio settings persist independently in Game', async ({ page }) => {
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
   );
-  await page.locator('#pause').click();
+  await page.locator('#menu-settings').click();
   await expect(page.locator('[data-audio="master"]')).toHaveValue('35');
   await expect(page.locator('[data-audio="muted"]')).toBeChecked();
   await page.screenshot({ path: test.info().outputPath('sound-settings.png') });
   await page.locator('[data-audio="muted"]').uncheck();
-  await page.locator('#resume').click();
+  await page.locator('#menu-back').click();
+  await page.locator('#menu-start').click();
 });
 
 test('prepared samples decode and Preview exposes every audition', async ({ page, request }) => {
@@ -72,8 +73,7 @@ test('prepared samples decode and Preview exposes every audition', async ({ page
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
   );
-  await page.locator('#pause').click();
-  await page.locator('#resume').click();
+  await page.locator('#menu-start').click();
   await page.keyboard.down('KeyD');
   await page.waitForTimeout(500);
   await page.keyboard.up('KeyD');

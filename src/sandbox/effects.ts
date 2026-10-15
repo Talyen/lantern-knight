@@ -1,3 +1,4 @@
+import { cleanupAll } from '../assets/cleanup';
 import { authoringCatalog } from '../assets/authoring-catalog';
 import { AssetRuntime } from '../assets/loader';
 import { bindAssetPicker } from './asset-picker';
@@ -40,8 +41,7 @@ declare global {
 
 export function mountEffects(context: PreviewContext) {
   const loading = new LoadingScreen();
-  const settings = playgroundDefaults(),
-    $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const settings = playgroundDefaults();
   const shell = mountShell(
     context,
     `<section data-preview-panel="visuals" hidden>
@@ -60,6 +60,7 @@ export function mountEffects(context: PreviewContext) {
     <section data-preview-panel="inspect" hidden><label>Freeze enemies<input id="freeze-enemies" type="checkbox"></label><p>Calibration, registration and occlusion inspection require Outdoor, Interior or Systems.</p><button data-fixture="outdoor-fixture">Open Outdoor fixture</button></section>`,
     previewHUD,
   );
+  const $ = <T extends HTMLElement>(id: string) => shell.root.querySelector<T>('#' + id)!;
   const registry = new ContentRegistry(effectsDefinitions);
   let app: Application<EffectsPresentation>;
   let view: EffectsPlayground;
@@ -69,9 +70,11 @@ export function mountEffects(context: PreviewContext) {
   if (remembered) Object.assign(settings, structuredClone(remembered.settings));
   const abort = new AbortController();
   let picker: ReturnType<typeof bindAssetPicker> | undefined;
+  let pickerRuntime: AssetRuntime | undefined;
   let selectedAsset = 'ink-hero-current';
   function synchronize() {
-    for (const box of document.querySelectorAll<HTMLInputElement>('[data-effect]'))
+    if (disposed) return;
+    for (const box of shell.root.querySelectorAll<HTMLInputElement>('[data-effect]'))
       box.checked = settings.effects[box.dataset.effect as PlaygroundEffect];
     $('baseline').classList.toggle('active', settings.baseline);
     $<HTMLInputElement>('baseline').checked = settings.baseline;
@@ -89,20 +92,29 @@ export function mountEffects(context: PreviewContext) {
     app.pause(!app.paused);
   }
   async function reset() {
+    abort.signal.throwIfAborted();
     await app.replaceSession(app.scenes, { kind: 'new', seed: 903 });
-    view.time = 0;
+    if (!disposed) view.time = 0;
   }
   function dispose() {
     if (disposed) return;
-    savePreview();
+    const remember = previewReady;
     disposed = true;
-    abort.abort();
-    shell.dispose();
-    Reflect.deleteProperty(window, 'effectsPlayground');
-    app?.dispose();
-    loading.dispose();
-    window.removeEventListener('beforeunload', dispose);
-    window.removeEventListener('pagehide', savePreview);
+    previewReady = false;
+    cleanupAll([
+      () => abort.abort(),
+      () => shell.dispose(),
+      () => {
+        if (remember && app?.ready && !app.busy) context.remember(captureState());
+      },
+      () => {
+        if (window.effectsPlayground === inspection)
+          Reflect.deleteProperty(window, 'effectsPlayground');
+      },
+      () => pickerRuntime?.dispose(),
+      () => app?.dispose(),
+      () => loading.dispose(),
+    ]);
   }
   async function boot() {
     const response = await fetch('/dev-effects/emitters.json', { signal: abort.signal });
@@ -169,7 +181,7 @@ export function mountEffects(context: PreviewContext) {
     };
     await app.boot();
     abort.signal.throwIfAborted();
-    for (const box of document.querySelectorAll<HTMLInputElement>('[data-effect]'))
+    for (const box of shell.root.querySelectorAll<HTMLInputElement>('[data-effect]'))
       box.onchange = () => (settings.effects[box.dataset.effect as PlaygroundEffect] = box.checked);
     $('baseline').onchange = () => {
       settings.baseline = $<HTMLInputElement>('baseline').checked;
@@ -219,7 +231,7 @@ export function mountEffects(context: PreviewContext) {
       app.scale = Number($<HTMLSelectElement>('render-scale').value);
       app.presentation.resize(app.scale);
     };
-    document
+    shell.root
       .querySelectorAll<HTMLElement>('[data-fixture]')
       .forEach((el) => (el.onclick = () => context.select('outdoor-fixture')));
     shell.bind({
@@ -230,8 +242,9 @@ export function mountEffects(context: PreviewContext) {
             if (!picker) {
               const catalog = await authoringCatalog(abort.signal);
               if (disposed) return;
+              pickerRuntime ??= new AssetRuntime(catalog);
               picker = bindAssetPicker(
-                new AssetRuntime(catalog),
+                pickerRuntime,
                 abort.signal,
                 () => 'effects-playground',
                 async (id) => {
@@ -239,6 +252,7 @@ export function mountEffects(context: PreviewContext) {
                   picker!.selected(id);
                 },
                 context.ui.assetFilters,
+                shell.root,
               );
               $('preview-library-asset').onclick = () => context.previewAsset(selectedAsset);
             }
@@ -257,7 +271,7 @@ export function mountEffects(context: PreviewContext) {
     shell.status('Ready');
     synchronize();
   }
-  window.effectsPlayground = {
+  const inspection: Window['effectsPlayground'] = {
     get ready() {
       return !disposed && previewReady && (app?.ready ?? false);
     },
@@ -265,25 +279,31 @@ export function mountEffects(context: PreviewContext) {
       return structuredClone(settings);
     },
     setEffect(key: PlaygroundEffect, value: boolean) {
+      abort.signal.throwIfAborted();
       settings.effects[key] = value;
       synchronize();
     },
     setBaseline(value: boolean) {
+      abort.signal.throwIfAborted();
       settings.baseline = value;
       synchronize();
     },
     setTreatment(value: 'quiet' | 'rich') {
+      abort.signal.throwIfAborted();
       settings.treatment = value;
       synchronize();
     },
     pause(value: boolean) {
+      abort.signal.throwIfAborted();
       app.pause(value);
       savePreview();
     },
     step(ms: number) {
+      abort.signal.throwIfAborted();
       view.draw(app.sim, 1, ms, { ...settings, paused: false });
     },
     render() {
+      abort.signal.throwIfAborted();
       view.draw(app.sim, 1, 0, settings);
     },
     reset,
@@ -293,24 +313,29 @@ export function mountEffects(context: PreviewContext) {
   };
   function savePreview() {
     if (disposed || !previewReady || !app?.ready || app.busy) return;
-    const state: EffectsState = {
+    context.remember(captureState());
+  }
+  function captureState(): EffectsState {
+    return {
       kind: 'effects',
       settings: structuredClone(settings),
       scale: app.scale as EffectsState['scale'],
       freeze: $<HTMLInputElement>('freeze-enemies').checked,
       hero: { x: app.sim.hero.x, z: app.sim.hero.z, yaw: app.sim.hero.yaw },
     };
-    context.remember(state);
   }
-  window.addEventListener('pagehide', savePreview);
-  window.addEventListener('beforeunload', dispose);
+  window.effectsPlayground = inspection;
+  window.addEventListener('pagehide', savePreview, { signal: abort.signal });
+  window.addEventListener('beforeunload', dispose, { signal: abort.signal });
   void boot().catch((error) => {
-    if (!disposed) {
-      shell.status(`Effects failed: ${error.message}`, true);
-      console.error(error);
+    if (disposed) return;
+    let message = `Effects failed: ${error.message}`;
+    try {
+      dispose();
+    } catch (cleanupError) {
+      message += '; shutdown failed: ' + String(cleanupError);
     }
-    app?.dispose();
-    loading.dispose();
+    shell.status(message, true);
   });
   return dispose;
 }

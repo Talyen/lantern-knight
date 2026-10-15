@@ -12,17 +12,17 @@ export const option = (name: string, fallback: string, flags: string[] = []) => 
 };
 export function playerControls(page: Page, profile: string) {
   const pause = async () => {
-    if (!(await page.locator('#modal').isVisible()))
-      await page.getByRole('button', { name: 'Pause / save' }).click();
+    if (await page.locator('#menu-start').isVisible()) await page.locator('#menu-start').click();
+    if (!(await page.locator('#modal').isVisible())) await page.locator('#pause').click();
   };
   const resume = async () => {
-    if (await page.locator('#modal').isVisible())
-      await page.getByRole('button', { name: 'Resume', exact: true }).click();
+    if (await page.locator('#menu-start').isVisible()) await page.locator('#menu-start').click();
+    else if (await page.locator('#modal').isVisible()) await page.locator('#resume').click();
     await page.locator('canvas').focus();
   };
   const save = async () => {
     await pause();
-    await page.getByRole('button', { name: 'Save checkpoint', exact: true }).click();
+    await page.locator('#save').click();
     await page.waitForFunction(
       () => document.querySelector('#status')?.textContent === 'Checkpoint saved',
     );

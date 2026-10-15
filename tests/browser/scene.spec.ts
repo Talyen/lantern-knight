@@ -53,6 +53,25 @@ test('repeated scene switches release renderer resources', async ({ page }) => {
       f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
       samples.push({ ...f.presentation.renderer.info.memory });
     }
+    const room = f.presentation.roomPresentation.inkRoom!,
+      sprite = room.sprites.find((s) => s.id === 'support')!;
+    room.sceneryReveal.add(sprite);
+    f.pause(true);
+    f.editPreview((sim) => {
+      sim.enemies.forEach((enemy) => {
+        enemy.health = 0;
+      });
+      Object.assign(sim.hero, { x: -3, px: -3, z: -3.2, pz: -3.2 });
+    });
+    for (let i = 0; i < 30; i++) f.presentation.update(f.sim, 1, 1000 / 60, { x: 0, z: 1 });
+    if (
+      !(Number(sprite.mesh.userData.revealStrength) > 0.5) ||
+      sprite.material.opacity !== 1 ||
+      !sprite.material.depthWrite
+    )
+      throw new Error(
+        'Interior cutout must reveal locally while retaining its opaque depth policy',
+      );
     if (f.presentation.renderer.getContext().getError()) throw new Error('Renderer error');
     return samples;
   });

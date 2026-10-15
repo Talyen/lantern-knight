@@ -7,8 +7,12 @@ const toggles = [
   ['lighting-atmosphere', 'atmosphere'],
   ['lighting-post', 'postprocessing'],
 ] as const;
-const element = <T extends HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
-export function bindLightingControls(presentation: Presentation, saveSettings: () => void) {
+export function bindLightingControls(
+  presentation: Presentation,
+  saveSettings: () => void,
+  root: HTMLElement,
+) {
+  const element = <T extends HTMLElement>(selector: string) => root.querySelector<T>(selector)!;
   const syncLook = () => {
     const look = presentation.lookRenderer.settings;
     element<HTMLSelectElement>('#lighting-look').value = look.look;

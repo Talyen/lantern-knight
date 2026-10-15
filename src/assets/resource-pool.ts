@@ -88,6 +88,7 @@ export class ResourcePool<T> {
     ids: string[],
     signal?: AbortSignal,
     onProgress?: (done: number, total: number) => void,
+    cancelOnFailure = true,
   ) {
     this.assertActive();
     if (signal?.aborted) throw new Error('load cancelled');
@@ -125,7 +126,8 @@ export class ResourcePool<T> {
             onProgress?.(++done, leases.length);
             return [id, value] as const;
           } catch (error) {
-            cleanupAfterFailure(error, release);
+            if (cancelOnFailure) cleanupAfterFailure(error, release);
+            throw error;
           }
         }),
       );

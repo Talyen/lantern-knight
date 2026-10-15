@@ -1,0 +1,73 @@
+import { test, expect, _electron } from '@playwright/test';
+import { build } from 'esbuild';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import os from 'node:os';
+import { electronConfig } from '../../tools/build-electron';
+import { parseSettings } from '../../src/platform/settings';
+import { defaultVisualEffects } from '../../src/content/visual-effects';
+
+test('window close and application quit finish an admitted atomic save', async () => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-shutdown-'));
+  try {
+    await fs.mkdir(path.join(root, 'dist'));
+    await fs.writeFile(
+      path.join(root, 'dist/index.html'),
+      '<!doctype html><title>Shutdown</title>',
+    );
+    for (const name of ['main', 'preload'] as const)
+      await build({ ...electronConfig(name, 'game'), outfile: path.join(root, `${name}.cjs`) });
+    const settings = parseSettings({
+      version: 5,
+      renderScale: 0.5,
+      showDebug: false,
+      verticalSpan: 9,
+      depthOfField: 0,
+      visualEffects: defaultVisualEffects(),
+    });
+    for (const method of ['window', 'application'] as const) {
+      const profile = path.join(root, method),
+        file = path.join(profile, 'prototype-saves/settings.json'),
+        application = await _electron.launch({
+          args: [path.join(root, 'main.cjs')],
+          cwd: root,
+          env: {
+            ...process.env,
+            LANTERN_DEV_URL: '',
+            LANTERN_USER_DATA: profile,
+            LANTERN_TEST_HIDDEN: '1',
+            LANTERN_AUTOMATED_RUN: '1',
+          },
+        });
+      try {
+        const child = application.process();
+        const page = await application.firstWindow();
+        await page.waitForLoadState();
+        await application.evaluate(({ app, BrowserWindow }, method) => {
+          const storage = process.getBuiltinModule('fs').promises,
+            rename = storage.rename;
+          storage.rename = async (...args) => {
+            if (method === 'window') BrowserWindow.getAllWindows()[0]!.close();
+            else app.quit();
+            // Closing at the atomic replacement boundary must retain the host
+            // through the pending write, even after its renderer has gone away.
+            await new Promise<void>((resolve) => setTimeout(resolve, 150));
+            return rename(...args);
+          };
+        }, method);
+        const closed = application.waitForEvent('close');
+        await page.evaluate((value) => {
+          void window.lantern!.saveSettings(value).catch(() => {});
+        }, settings);
+        await closed;
+        expect(child.exitCode).toBe(0);
+        expect(JSON.parse(await fs.readFile(file, 'utf8'))).toEqual(settings);
+        expect(await fs.readdir(path.dirname(file))).toEqual(['settings.json']);
+      } finally {
+        await application.close().catch(() => {});
+      }
+    }
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
+  }
+});

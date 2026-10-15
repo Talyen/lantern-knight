@@ -116,6 +116,10 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private assertActive() {
     if (this.disposed) throw new Error('application disposed');
   }
+  private startupCheckpoint = false;
+  get startedFromCheckpoint() {
+    return this.startupCheckpoint;
+  }
   ready = false;
   get busy() {
     return this.sessionOperations.busy;
@@ -290,7 +294,10 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.assertActive();
     const checkpoint = await checkpointPromise;
     this.assertActive();
-    if (checkpoint) this.current = { session: checkpoint.session, scenes: this.scenes };
+    if (checkpoint) {
+      this.current = { session: checkpoint.session, scenes: this.scenes };
+      this.startupCheckpoint = true;
+    }
     const failure = new AbortController(),
       signal = AbortSignal.any([this.abort.signal, failure.signal]);
     const acquisitions = await startupStage('images', () =>

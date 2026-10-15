@@ -1,12 +1,24 @@
-import { Navigation, effectiveRadius, clearSegment, type RouteResult } from './navigation';
+import {
+  Navigation,
+  effectiveRadius,
+  clearSegment,
+  type RouteResult,
+  type TraversalPolicy,
+} from './navigation';
 import type { Point, AreaDefinition } from '../content/world';
 import type { ContentSnapshot } from '../content/snapshot';
 import type { Actor } from './actor';
 
 // One room owns one planner. Routes are transient and never part of checkpoints.
 export class MovementPlans {
-  constructor(private readonly area: ContentSnapshot<AreaDefinition>) {}
-  private navigation?: Navigation;
+  readonly #enemyTraversal: TraversalPolicy | undefined;
+  constructor(
+    private readonly area: ContentSnapshot<AreaDefinition>,
+    enemyTraversal?: TraversalPolicy,
+  ) {
+    this.#enemyTraversal = enemyTraversal;
+  }
+  private navigation = new Map<Actor['kind'], Navigation>();
   private plans = new Map<
     string,
     { target: Point; route: RouteResult; nextPlan: number; kind: 'manual' | 'home' | 'pursuit' }
@@ -21,7 +33,7 @@ export class MovementPlans {
     this.plans.set(actor.id, {
       kind: 'manual',
       target: { ...target },
-      route: this.navigator.route(actor, target, effectiveRadius(actor.definition.radius)),
+      route: this.navigator(actor).route(actor, target, effectiveRadius(actor.definition.radius)),
       nextPlan: tick + 15,
     });
   }
@@ -37,8 +49,16 @@ export class MovementPlans {
   cancel(id: string) {
     this.plans.delete(id);
   }
-  private get navigator() {
-    return (this.navigation ??= new Navigation(this.area));
+  private navigator(actor: Actor) {
+    let navigation = this.navigation.get(actor.kind);
+    if (!navigation) {
+      navigation = new Navigation(
+        this.area,
+        actor.kind === 'enemy' ? this.#enemyTraversal : undefined,
+      );
+      this.navigation.set(actor.kind, navigation);
+    }
+    return navigation;
   }
   debug(radius: number, includeCells = true) {
     // Diagnostics must not initialize the gameplay navigator or clear movement targets.
@@ -49,12 +69,14 @@ export class MovementPlans {
         status: p.route.status,
         points: p.route.points.map((v) => ({ ...v })),
       })),
-      cells: includeCells && this.navigation ? this.navigation.debugCells(radius) : [],
+      // The overlay describes hero clearance; enemy-only restrictions have their
+      // own cache and must not publish contradictory cells at the same position.
+      cells: includeCells ? (this.navigation.get('hero')?.debugCells(radius) ?? []) : [],
     };
   }
   private pursuitRoute(a: Actor, target: Point, kind: 'home' | 'pursuit'): RouteResult {
     const radius = effectiveRadius(a.definition.radius);
-    const direct = this.navigator.route(a, target, radius);
+    const direct = this.navigator(a).route(a, target, radius);
     if (direct.status === 'ready' || kind !== 'pursuit') return direct;
     // A larger enemy may not fit at the hero's feet. Find a reachable melee
     // position with clear contact rather than treating the hero as unreachable.
@@ -65,7 +87,7 @@ export class MovementPlans {
     })).sort((p, q) => Math.hypot(p.x - a.x, p.z - a.z) - Math.hypot(q.x - a.x, q.z - a.z));
     for (const point of candidates) {
       if (!clearSegment(this.area, point, target, 0.001)) continue;
-      const route = this.navigator.route(a, point, radius);
+      const route = this.navigator(a).route(a, point, radius);
       if (route.status === 'ready') return route;
     }
     return direct;
@@ -78,7 +100,7 @@ export class MovementPlans {
   ) {
     const target = intent?.target;
     const kind = intent?.kind ?? 'home';
-    void this.navigator;
+    const navigation = this.navigator(a);
     let plan = this.plans.get(a.id);
     // An intent change invalidates automatic routes immediately. Moving pursuit
     // targets still replan on the normal cadence; manual commands retain priority.
@@ -102,11 +124,11 @@ export class MovementPlans {
       plan.nextPlan = tick + 15;
     }
     const waypoint = plan.route.points[0];
-    if (waypoint && !clearSegment(this.area, a, waypoint, effectiveRadius(a.definition.radius))) {
+    if (waypoint && !navigation.clear(a, waypoint, effectiveRadius(a.definition.radius))) {
       // Collisions and dashes can displace an actor from its planned route.
       plan.route =
         plan.kind === 'manual'
-          ? this.navigator.route(a, plan.target, effectiveRadius(a.definition.radius))
+          ? navigation.route(a, plan.target, effectiveRadius(a.definition.radius))
           : this.pursuitRoute(a, target ?? plan.target, kind);
       plan.nextPlan = tick + 15;
     }

@@ -1,3 +1,4 @@
+import { boundsCorners } from '../content/polygon';
 import { overlayLine, clearOverlay } from '../presentation/overlay-lines';
 import type { EditorGestures, GestureLease } from './gestures';
 import type { EditorSnapshot } from './document';
@@ -727,16 +728,7 @@ export class VisualAuthoring {
           false,
         );
     };
-    const box = (b: typeof bounds, color: number) =>
-      line(
-        [
-          { x: b.minX, z: b.minZ },
-          { x: b.maxX, z: b.minZ },
-          { x: b.maxX, z: b.maxZ },
-          { x: b.minX, z: b.maxZ },
-        ],
-        color,
-      );
+    const box = (b: typeof bounds, color: number) => line(boundsCorners(b), color);
     if (enabled.includes('camera') || geometry) box(d.camera.bounds, 0x66cfff);
     if (enabled.includes('bounds') || geometry)
       box(d.geometry?.bounds ?? view.sim!.areaDefinition.bounds, 0xffd46c);

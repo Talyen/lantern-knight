@@ -1,3 +1,9 @@
+import {
+  closestPointOnSegment,
+  polygonBounds,
+  polygonEdgeDistance,
+  boundsCorners,
+} from './polygon';
 import { insidePolygon } from './graveyard-layout';
 import type { AreaDefinition, Bounds, Point, PropDefinition } from './world';
 import type { ContentSnapshot } from './snapshot';
@@ -36,11 +42,8 @@ export function clampToBoundary(points: readonly Point[], p: Point, radius: numb
     distance = Infinity;
   for (let i = 0; i < inset.length; i++) {
     const a = inset[i]!,
-      b = inset[(i + 1) % inset.length]!,
-      dx = b.x - a.x,
-      dz = b.z - a.z;
-    const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.z - a.z) * dz) / (dx * dx + dz * dz)));
-    const q = { x: a.x + dx * t, z: a.z + dz * t },
+      b = inset[(i + 1) % inset.length]!;
+    const q = closestPointOnSegment(p, a, b),
       d = Math.hypot(q.x - p.x, q.z - p.z);
     if (d < distance) {
       closest = q;
@@ -77,13 +80,7 @@ function collisionShape(p: PropDefinition): Shape {
   if (cached) return cached;
   const points = vertices(p);
   cached = points
-    ? {
-        points,
-        minX: Math.min(...points.map((v) => v.x)),
-        maxX: Math.max(...points.map((v) => v.x)),
-        minZ: Math.min(...points.map((v) => v.z)),
-        maxZ: Math.max(...points.map((v) => v.z)),
-      }
+    ? { points, ...polygonBounds(points) }
     : { minX: p.x - p.radius, maxX: p.x + p.radius, minZ: p.z - p.radius, maxZ: p.z + p.radius };
   if (Object.isFrozen(p)) shapes.set(p, cached);
   return cached;
@@ -113,14 +110,7 @@ export function isSupportedPosition(area: AreaDefinition, p: Point, radius: numb
       continue;
     }
     if (insidePolygon(p, s.points)) return false;
-    for (let i = 0; i < s.points.length; i++) {
-      const a = s.points[i]!,
-        c = s.points[(i + 1) % s.points.length]!,
-        dx = c.x - a.x,
-        dz = c.z - a.z,
-        t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.z - a.z) * dz) / (dx * dx + dz * dz)));
-      if (Math.hypot(p.x - a.x - dx * t, p.z - a.z - dz * t) < radius - epsilon) return false;
-    }
+    if (polygonEdgeDistance(p, s.points) < radius - epsilon) return false;
   }
   return true;
 }
@@ -271,12 +261,7 @@ export function sweepCircle(
     circle(b, radius);
   };
   const bounds = area.bounds,
-    boundary = area.playableBoundary ?? [
-      { x: bounds.minX, z: bounds.minZ },
-      { x: bounds.maxX, z: bounds.minZ },
-      { x: bounds.maxX, z: bounds.maxZ },
-      { x: bounds.minX, z: bounds.maxZ },
-    ];
+    boundary = area.playableBoundary ?? boundsCorners(bounds);
   for (let i = 0; i < boundary.length; i++)
     edge(boundary[i]!, boundary[(i + 1) % boundary.length]!);
   for (const p of area.props) {
@@ -302,4 +287,96 @@ export function clearSegment(area: AreaDefinition, a: Point, b: Point, radius: n
     isSupportedPosition(area, b, radius) &&
     !sweepCircle(area, a, { x: b.x - a.x, z: b.z - a.z }, radius)
   );
+}
+
+// Partition a moving endpoint wherever its clearance or visibility to a fixed
+// observer can change. Reuse collision footprints and their rounded clearance:
+// offset edges, endpoint circles, and rays tangent to those circles. Callers
+// classify the resulting intervals with clearSegment rather than sampling space.
+export function visibilityBreakpoints(
+  area: AreaDefinition,
+  observer: Point,
+  start: Point,
+  end: Point,
+  radius: number,
+): number[] {
+  const cuts: number[] = [],
+    dx = end.x - start.x,
+    dz = end.z - start.z,
+    length = Math.hypot(dx, dz);
+  if (!length) return cuts;
+  const add = (t: number) => {
+    if (Number.isFinite(t) && t > 0 && t < 1) cuts.push(t);
+  };
+  const line = (origin: Point, x: number, z: number) => {
+    const determinant = dx * z - dz * x;
+    if (determinant) add(((origin.x - start.x) * z - (origin.z - start.z) * x) / determinant);
+  };
+  const circle = (center: Point, r: number, silhouette: boolean) => {
+    const x = center.x - start.x,
+      z = center.z - start.z,
+      along = (x * dx + z * dz) / length,
+      across = (x * dz - z * dx) / length,
+      square = r * r - across * across;
+    if (square >= 0) {
+      const half = Math.sqrt(square);
+      add((along - half) / length);
+      add((along + half) / length);
+    }
+    if (!silhouette) return;
+    const ox = center.x - observer.x,
+      oz = center.z - observer.z,
+      distance = Math.hypot(ox, oz);
+    if (distance <= r) return;
+    const sine = r / distance,
+      cosine = Math.sqrt(1 - sine * sine);
+    for (const sign of [-1, 1])
+      line(observer, ox * cosine - sign * oz * sine, oz * cosine + sign * ox * sine);
+  };
+  const polygon = (points: readonly Point[]) => {
+    for (let i = 0; i < points.length; i++) {
+      const a = points[i]!,
+        b = points[(i + 1) % points.length]!,
+        x = b.x - a.x,
+        z = b.z - a.z,
+        edgeLength = Math.hypot(x, z);
+      if (!edgeLength) continue;
+      for (const offset of [radius, Math.max(0, radius - epsilon), 0]) {
+        for (const sign of [-1, 1])
+          line(
+            {
+              x: a.x - (sign * z * offset) / edgeLength,
+              z: a.z + (sign * x * offset) / edgeLength,
+            },
+            x,
+            z,
+          );
+        circle(a, offset, offset === radius);
+      }
+    }
+  };
+  const bounds = area.bounds;
+  polygon(
+    area.playableBoundary ?? [
+      { x: bounds.minX, z: bounds.minZ },
+      { x: bounds.maxX, z: bounds.minZ },
+      { x: bounds.maxX, z: bounds.maxZ },
+      { x: bounds.minX, z: bounds.maxZ },
+    ],
+  );
+  const minX = Math.min(observer.x, start.x, end.x) - radius,
+    maxX = Math.max(observer.x, start.x, end.x) + radius,
+    minZ = Math.min(observer.z, start.z, end.z) - radius,
+    maxZ = Math.max(observer.z, start.z, end.z) + radius;
+  for (const prop of area.props) {
+    if (prop.blocking === false) continue;
+    const shape = collisionShape(prop);
+    if (shape.maxX < minX || shape.minX > maxX || shape.maxZ < minZ || shape.minZ > maxZ) continue;
+    if (shape.points) polygon(shape.points);
+    else {
+      circle(prop, prop.radius + radius, true);
+      circle(prop, Math.max(0, prop.radius + radius - epsilon), false);
+    }
+  }
+  return cuts;
 }

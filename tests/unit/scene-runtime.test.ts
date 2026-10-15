@@ -143,6 +143,22 @@ test('black is an accepted upright scenery tint', () => {
   }
 });
 
+test('placed sprites retain their authored occlusion roots without mesh metadata', () => {
+  const room = scenery(1, 0xffffff, false, false),
+    roots: unknown[] = [];
+  try {
+    room.occlude({
+      attach() {},
+      update(sprite, x, z) {
+        roots.push([sprite.id, x, z]);
+      },
+    });
+    assert.deepEqual(roots, [['prop', 0, 0]]);
+  } finally {
+    room.dispose();
+  }
+});
+
 test('external arrangements cannot inherit an unrelated health reward through matching object IDs', () => {
   const draft = emptyScene();
   draft.objects = [{ id: 'potion', kind: 'prop', asset: 'scenery', clip: 'idle', x: 0, z: 0 }];

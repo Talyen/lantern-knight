@@ -13,7 +13,8 @@ export type PreviewControls = {
   isAnimation(): boolean;
 };
 export function mountShell(context: PreviewContext, panels: string, hud = '') {
-  const root = document.getElementById('app')!;
+  const root = document.createElement('div');
+  document.getElementById('app')!.replaceChildren(root);
   root.className = 'dev-preview';
   root.innerHTML = `<header class="preview-toolbar"><strong>Dev Preview</strong>
     <select id="scene-select" aria-label="Scene">${fixtures.map((id, i) => `<option value="${id}">${fixtureNames[i]}</option>`).join('')}</select>
@@ -35,6 +36,7 @@ export function mountShell(context: PreviewContext, panels: string, hud = '') {
   const navNext = developerNav?.nextSibling;
   if (developerNav) $('#preview-navigation').append(developerNav);
   function persist() {
+    if (abort.signal.aborted) return;
     controls?.save();
     context.changed();
   }
@@ -43,6 +45,7 @@ export function mountShell(context: PreviewContext, panels: string, hud = '') {
     $('#preview-more').setAttribute('aria-expanded', 'false');
   }
   function layout() {
+    if (abort.signal.aborted) return;
     root.classList.toggle('controls-hidden', context.ui.hidden);
     $('#preview-drawer').hidden = context.ui.panel === null || context.ui.hidden;
     $('#drawer-title').textContent = context.ui.panel
@@ -66,6 +69,7 @@ export function mountShell(context: PreviewContext, panels: string, hud = '') {
     controls?.resize();
   }
   function show(panel: Panel, source?: HTMLElement) {
+    if (abort.signal.aborted) return;
     opener = source ?? root.querySelector<HTMLElement>(`[data-panel="${panel}"]`) ?? undefined;
     context.ui.panel = context.ui.panel === panel ? null : panel;
     closeMenu();
@@ -122,7 +126,9 @@ export function mountShell(context: PreviewContext, panels: string, hud = '') {
     $<HTMLDialogElement>('#preview-reset-dialog').showModal();
   };
   $('#confirm-workspace-reset').onclick = () => context.resetWorkspace();
-  $('#preview-retry').onclick = () => context.select(context.fixture);
+  $('#preview-retry').onclick = () => {
+    if (root.isConnected) context.select(context.fixture);
+  };
   root.querySelectorAll<HTMLDetailsElement>('details[data-section]').forEach((el) => {
     el.open = context.ui.sections[el.dataset.section!] ?? false;
     el.addEventListener(
@@ -210,6 +216,7 @@ export function mountShell(context: PreviewContext, panels: string, hud = '') {
   );
   window.addEventListener('resize', () => controls?.resize(), { signal: abort.signal });
   function sync() {
+    if (abort.signal.aborted) return;
     $('#pause').textContent = controls?.isPaused() ? 'Resume' : 'Pause';
     $('#reset').title = controls?.isAnimation() ? 'Restart animation cycle' : 'Restart scene';
     root
@@ -218,7 +225,9 @@ export function mountShell(context: PreviewContext, panels: string, hud = '') {
   }
   layout();
   return {
+    root,
     bind(value: PreviewControls) {
+      if (abort.signal.aborted) throw new Error('Preview shell disposed');
       controls = value;
       if (context.ui.panel) value.open(context.ui.panel);
       $('[data-panel="animation"]').title = value.capabilities.animation
@@ -242,12 +251,28 @@ export function mountShell(context: PreviewContext, panels: string, hud = '') {
       $('#preview-error span').textContent = message;
     },
     diagnostics(value: () => unknown) {
+      if (abort.signal.aborted) return;
       if (context.ui.panel === 'diagnostics' && !context.ui.hidden)
         $('#preview-diagnostics').textContent = JSON.stringify(value(), null, 2);
     },
     dispose() {
+      if (abort.signal.aborted) return;
+      controls = undefined;
       abort.abort();
-      if (developerNav && navParent)
+      // A failed fixture leaves a static error and retry; all retired fixture
+      // handlers lose their capability, including retained detached elements.
+      for (const element of root.querySelectorAll<HTMLElement>('*')) {
+        if (element.id === 'preview-retry' || developerNav?.contains(element)) continue;
+        element.onclick = element.oninput = element.onchange = null;
+        if (element instanceof HTMLDialogElement && element.open) element.close();
+        if (
+          element instanceof HTMLButtonElement ||
+          element instanceof HTMLInputElement ||
+          element instanceof HTMLSelectElement
+        )
+          element.disabled = true;
+      }
+      if (developerNav && navParent && root.contains(developerNav))
         navParent.insertBefore(developerNav, navNext?.parentNode === navParent ? navNext : null);
     },
   };

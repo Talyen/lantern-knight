@@ -37,9 +37,13 @@ test('Game package starts, accepts input and reloads current storage', async () 
     );
     expect(await page.evaluate(() => 'foundation' in window)).toBe(false);
     expect(await page.evaluate(() => typeof window.lantern?.launchMode)).toBe('undefined');
+    await expect(page.locator('#menu-start')).toHaveAccessibleName('Begin journey');
+    await page.locator('#menu-start').click();
     const { save } = playerControls(page, profile);
     await page.locator('#pause').click();
+    await page.locator('#menu-settings').click();
     await page.locator('#render-scale').selectOption('0.5');
+    await page.locator('#menu-back').click();
     const initial = await save();
     await page.locator('#resume').click();
     await holdMovement(page, 'KeyW');
@@ -53,6 +57,8 @@ test('Game package starts, accepts input and reloads current storage', async () 
     await page.waitForFunction(
       () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
     );
+    await expect(page.locator('#menu-start')).toHaveAccessibleName('Continue journey');
+    await page.locator('#menu-start').click();
     await page.locator('#pause').click();
     await loadCheckpoint(page);
   } finally {

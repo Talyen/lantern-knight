@@ -14,6 +14,7 @@ export class DesktopSession {
   private phase: Phase = 'unavailable';
   private changing = false;
   private closed = false;
+  private closing: Promise<void> | undefined;
   constructor(
     initial: LaunchMode,
     private readonly storeFor: (mode: LaunchMode) => Profile,
@@ -23,6 +24,9 @@ export class DesktopSession {
   }
   get mode() {
     return this.current.mode;
+  }
+  get disposed() {
+    return this.closed;
   }
   private checkLifetime() {
     if (this.closed) throw new Error('Desktop session disposed');
@@ -88,5 +92,6 @@ export class DesktopSession {
   dispose() {
     this.closed = true;
     this.phase = 'unavailable';
+    return (this.closing ??= this.current.store.drain());
   }
 }

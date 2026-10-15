@@ -14,8 +14,9 @@ export function bindAssetPicker(
   area: () => string,
   select: (id: string) => Promise<void>,
   preference: AssetFilter,
+  root: HTMLElement,
 ) {
-  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const $ = <T extends HTMLElement>(id: string) => root.querySelector<T>('#' + id)!;
   let current = 'ink-hero-current';
   let index: Awaited<ReturnType<typeof loadAssetIndex>> | undefined;
   let pending: Promise<void> | undefined;

@@ -1,3 +1,4 @@
+import { polygonArea, segmentsIntersect } from './polygon';
 import { z } from 'zod';
 import { artworkFloorLayout } from './floor-layout';
 import type { Point } from './world';
@@ -63,30 +64,18 @@ export type GroundInteraction = z.infer<typeof GroundInteractionSchema>;
 export type GroundRegion = GroundInteraction['regions'][number];
 export type MaskShape = NonNullable<GroundRegion['mask']>[number];
 function simplePolygon(points: readonly Point[]) {
-  let area = 0;
-  const cross = (a: Point, b: Point, c: Point) =>
-    (b.x - a.x) * (c.z - a.z) - (b.z - a.z) * (c.x - a.x);
   for (let i = 0; i < points.length; i++) {
     const a = points[i]!,
       b = points[(i + 1) % points.length]!;
     if (Math.hypot(a.x - b.x, a.z - b.z) < 1e-8) return false;
-    area += a.x * b.z - b.x * a.z;
     for (let j = i + 1; j < points.length; j++) {
       if (j === i + 1 || (i === 0 && j === points.length - 1)) continue;
       const c = points[j]!,
         d = points[(j + 1) % points.length]!;
-      if (
-        cross(a, b, c) * cross(a, b, d) <= 0 &&
-        cross(c, d, a) * cross(c, d, b) <= 0 &&
-        Math.max(Math.min(a.x, b.x), Math.min(c.x, d.x)) <=
-          Math.min(Math.max(a.x, b.x), Math.max(c.x, d.x)) &&
-        Math.max(Math.min(a.z, b.z), Math.min(c.z, d.z)) <=
-          Math.min(Math.max(a.z, b.z), Math.max(c.z, d.z))
-      )
-        return false;
+      if (segmentsIntersect(a, b, c, d)) return false;
     }
   }
-  return Math.abs(area) > 1e-8;
+  return Math.abs(polygonArea(points)) > 0.5e-8;
 }
 export function resizeGroundInteraction(
   g: GroundInteraction,

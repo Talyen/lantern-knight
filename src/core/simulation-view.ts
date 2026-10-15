@@ -1,4 +1,4 @@
-import type { ContentSnapshot } from '../content/snapshot';
+import { borrowedView, type ContentSnapshot } from '../content/snapshot';
 import type { Actor, Simulation } from './simulation';
 
 // A borrowed view of the current tick, not a checkpoint or retained snapshot.
@@ -26,52 +26,27 @@ export interface SimulationView {
 // Keep identity stable and read live state without copying actors every frame.
 // Actor/collection immutability is enforced by TypeScript, as with asset pack views.
 export function simulationView(sim: Simulation): SimulationView {
-  return Object.freeze({
-    get initialSeed() {
-      return sim.initialSeed;
+  return borrowedView(
+    sim,
+    [
+      'initialSeed',
+      'maxHealth',
+      'inCombat',
+      'tick',
+      'generation',
+      'area',
+      'areaDefinition',
+      'hero',
+      'actors',
+      'enemies',
+      'cleared',
+      'claimedObjects',
+      'objectActions',
+      'drops',
+      'collectedPickups',
+    ],
+    {
+      navigationDebug: (includeCells?: boolean) => sim.navigationDebug(includeCells),
     },
-    get maxHealth() {
-      return sim.maxHealth;
-    },
-    get inCombat() {
-      return sim.inCombat;
-    },
-    get tick() {
-      return sim.tick;
-    },
-    get generation() {
-      return sim.generation;
-    },
-    get area() {
-      return sim.area;
-    },
-    get areaDefinition() {
-      return sim.areaDefinition;
-    },
-    get hero() {
-      return sim.hero;
-    },
-    get actors() {
-      return sim.actors;
-    },
-    get enemies() {
-      return sim.enemies;
-    },
-    get cleared() {
-      return sim.cleared;
-    },
-    get claimedObjects() {
-      return sim.claimedObjects;
-    },
-    get objectActions() {
-      return sim.objectActions;
-    },
-    get drops() {
-      return sim.drops;
-    },
-    get collectedPickups() {
-      return sim.collectedPickups;
-    },
-    navigationDebug: (includeCells?: boolean) => sim.navigationDebug(includeCells),
-  });
+  );
 }

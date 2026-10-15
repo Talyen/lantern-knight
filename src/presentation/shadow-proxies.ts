@@ -3,9 +3,7 @@ import * as T from 'three';
 import { ActorSprite } from './sprite';
 import { AnimationBlendShader } from './animation-blend-shader';
 import { FoliageWind } from './foliage-wind';
-import { sceneryRegistration } from '../content/scenery-registration';
-import { heightAt, type ActorId } from '../content/world';
-import type { SimulationView } from '../core/simulation-view';
+import type { ActorId } from '../content/world';
 import type { WorldVisualDefinition } from '../content/world-visuals';
 import { silhouetteQuaternion } from './silhouette-pose';
 import { artworkFloorLayout } from '../content/floor-layout';
@@ -25,11 +23,7 @@ export class ShadowProxies {
     private sun: T.DirectionalLight,
     private localLights: readonly T.PointLight[] = [],
   ) {}
-  build(
-    sim: SimulationView,
-    visuals: WorldVisualDefinition | undefined,
-    sprites: readonly ActorSprite[],
-  ) {
+  build(visuals: WorldVisualDefinition | undefined, sprites: readonly ActorSprite[]) {
     const floor = visuals?.editorFloor,
       ground = visuals?.groundInteraction;
     if (floor && ground) {
@@ -126,20 +120,7 @@ export class ShadowProxies {
         this.scenery.push(sprite);
         continue;
       }
-      const registration = sceneryRegistration.find((r) => r.id === prop.clip),
-        h = (registration?.height ?? 1) * (prop.scale ?? 1),
-        size = prop.footprint ?? [Math.min(1.5, h * 0.35), Math.min(1.5, h * 0.35)];
-      const geometry =
-        prop.clip.includes('tree') || prop.clip === 'yew'
-          ? new T.CylinderGeometry(size[0] * 0.8, size[0] * 0.3, h, 7)
-          : new T.BoxGeometry(size[0], h, size[1]);
-      const mesh = new T.Mesh(
-        geometry,
-        new T.MeshBasicMaterial({ colorWrite: false, depthWrite: false }),
-      );
-      mesh.position.set(prop.x, heightAt(sim.areaDefinition, prop.x, prop.z) + h / 2, prop.z);
-      this.shadowOnly(mesh);
-      this.proxies.add(mesh);
+      throw new Error('Missing shadow caster artwork: ' + prop.id);
     }
   }
   private shadowOnly(mesh: T.Mesh) {

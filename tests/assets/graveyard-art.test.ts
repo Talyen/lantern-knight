@@ -41,7 +41,7 @@ const manifests = new Map(
     ),
   ]),
 );
-async function fixture() {
+async function fixture(interior = false) {
   const packs = new Map<string, AssetPack>();
   for (const id of sceneAssets(graveyardArt)) {
     const manifest = await manifests.get(id)!;
@@ -57,7 +57,7 @@ async function fixture() {
     makeCamera(16 / 9),
     undefined,
     readRegistration(),
-    graveyardArt,
+    interior ? { ...graveyardArt, interior: content.area('court').bounds } : graveyardArt,
   );
   room.build();
   return {
@@ -119,47 +119,48 @@ test('oriented footprint collision follows the visible long axis rather than its
   assert.ok(isSupportedPosition(area, q, 0.3));
   assert.ok(Math.abs(q.x + q.z) < 1e-8);
 });
-test('four-centimetre reversals behind a near tree retains one shader/depth policy and a continuous local reveal', async () => {
-  const f = await fixture(),
-    sim = new Simulation(content, 142, content.definitions.initialArea, 1);
-  sim.enemies.forEach((a) => (a.health = 0));
-  try {
-    assert.ok(graveyardArt.props.every((p) => f.room.sprites.some((s) => s.id === p.id)));
-    const tree = graveyardArt.props.find((p) => p.id === 'boundary-oak')!;
-    Object.assign(sim.hero, { x: tree.x, z: tree.z - 0.2, px: tree.x, pz: tree.z - 0.2 });
-    for (let i = 0; i < 30; i++) f.room.update(sim, 1, false, 1000 / 60);
-    const wall = f.room.sprites.filter((s) => s.id === 'boundary-oak'),
-      versions = wall.map((s) => s.material.version);
-    const before = f.room.sceneryReveal!.revealStats();
-    for (const z of [tree.z - 0.16, tree.z - 0.2, tree.z - 0.16, tree.z - 0.2]) {
-      Object.assign(sim.hero, { z, pz: z });
-      f.room.update(sim, 1, false, 1000 / 60);
+for (const interior of [false, true])
+  test(`${interior ? 'interior' : 'exterior'} cutouts retain shader/depth policy through local reveal, reversal and pause`, async () => {
+    const f = await fixture(interior),
+      sim = new Simulation(content, 142, content.definitions.initialArea, 1);
+    sim.enemies.forEach((a) => (a.health = 0));
+    try {
+      assert.ok(graveyardArt.props.every((p) => f.room.sprites.some((s) => s.id === p.id)));
+      const tree = graveyardArt.props.find((p) => p.id === 'boundary-oak')!;
+      Object.assign(sim.hero, { x: tree.x, z: tree.z - 0.2, px: tree.x, pz: tree.z - 0.2 });
+      for (let i = 0; i < 30; i++) f.room.update(sim, 1, false, 1000 / 60);
+      const wall = f.room.sprites.filter((s) => s.id === 'boundary-oak'),
+        versions = wall.map((s) => s.material.version);
+      const before = f.room.sceneryReveal!.revealStats();
+      for (const z of [tree.z - 0.16, tree.z - 0.2, tree.z - 0.16, tree.z - 0.2]) {
+        Object.assign(sim.hero, { z, pz: z });
+        f.room.update(sim, 1, false, 1000 / 60);
+        assert.ok(
+          wall.every(
+            (s) => s.material.opacity === 1 && s.material.transparent && s.material.depthWrite,
+          ),
+        );
+        assert.deepEqual(
+          wall.map((s) => s.material.version),
+          versions,
+        );
+      }
+      const after = f.room.sceneryReveal!.revealStats();
+      assert.ok(after.some((s) => s.strength > 0.5));
       assert.ok(
-        wall.every(
-          (s) => s.material.opacity === 1 && s.material.transparent && s.material.depthWrite,
-        ),
+        after.every((s, i) => Math.abs(s.strength - before[i]!.strength) < 0.3),
+        'tiny reversals must not jump a whole module between solid and invisible',
       );
+      const paused = after.map((s) => s.strength);
+      f.room.update(sim, 1, false, 0);
       assert.deepEqual(
-        wall.map((s) => s.material.version),
-        versions,
+        f.room.sceneryReveal!.revealStats().map((s) => s.strength),
+        paused,
       );
+    } finally {
+      f.dispose();
     }
-    const after = f.room.sceneryReveal!.revealStats();
-    assert.ok(after.some((s) => s.strength > 0.5));
-    assert.ok(
-      after.every((s, i) => Math.abs(s.strength - before[i]!.strength) < 0.3),
-      'tiny reversals must not jump a whole module between solid and invisible',
-    );
-    const paused = after.map((s) => s.strength);
-    f.room.update(sim, 1, false, 0);
-    assert.deepEqual(
-      f.room.sceneryReveal!.revealStats().map((s) => s.strength),
-      paused,
-    );
-  } finally {
-    f.dispose();
-  }
-});
+  });
 test('alpha-aware validation distinguishes a real duplicated card from empty carrier overlap', async () => {
   assert.equal(coverageAt({ width: 2, height: 1, alpha: [255, 0] }, 0.75, 0.5), 0);
   const f = await fixture();

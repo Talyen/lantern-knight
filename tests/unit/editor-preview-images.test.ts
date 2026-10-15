@@ -17,7 +17,7 @@ function fixture() {
       promise,
       cancel: () => {
         request.cancelled = true;
-        reject(new Error('cancelled'));
+        request.reject(new Error('cancelled'));
       },
     };
   });
@@ -64,6 +64,8 @@ it('bounds concurrent decoding and closes active and queued work without late pa
   await f.flush();
   assert.equal(f.requests.length, 7);
   assert.equal(paints, 1);
+  // A transport that ignores cancellation must not retain a mounted caller.
+  f.requests[1]!.reject = () => {};
   f.images.dispose();
   f.images.dispose();
   await Promise.all(work);
@@ -98,7 +100,8 @@ it('failed pages remain retryable and detached canvases cannot receive delayed p
 it('evicts decoded atlas pixels by memory budget rather than only counting page URLs', async () => {
   const f = fixture();
   const atlas = { naturalWidth: 4096, naturalHeight: 4096 } as HTMLImageElement;
-  const first = f.images.draw(f.target(), 'first', () => {});
+  const canvas = f.target();
+  const first = f.images.draw(canvas, 'first', () => {});
   await f.flush();
   f.requests[0]!.resolve(atlas);
   await first;
@@ -106,7 +109,8 @@ it('evicts decoded atlas pixels by memory budget rather than only counting page 
   await f.flush();
   f.requests[1]!.resolve(atlas);
   await second;
-  const reload = f.images.draw(f.target(), 'first', () => {});
+  // The painted canvas stays mounted while users scroll through the palette.
+  const reload = f.images.draw(canvas, 'first', () => {});
   await f.flush();
   assert.equal(f.requests.length, 3);
   f.requests[2]!.resolve(atlas);
@@ -114,14 +118,39 @@ it('evicts decoded atlas pixels by memory budget rather than only counting page 
   f.images.dispose();
 });
 
-it('reuses a displayed oversized page across animation frames without retaining removed canvases', async () => {
+it('leases oversized animation pages only until playback closes and rejects late paints', async () => {
   const f = fixture(),
-    canvas = f.target();
-  const first = f.images.draw(canvas, 'oversized', () => {});
+    canvas = f.target(),
+    playback = f.images.playback(canvas),
+    atlas = { naturalWidth: 8192, naturalHeight: 8192 } as HTMLImageElement;
+  let paints = 0;
+  const first = playback.draw('oversized', () => paints++);
   await f.flush();
-  f.requests[0]!.resolve({ naturalWidth: 8192, naturalHeight: 8192 } as HTMLImageElement);
+  f.requests[0]!.resolve(atlas);
   await first;
-  await f.images.draw(canvas, 'oversized', () => {});
+  await playback.draw('oversized', () => paints++);
   assert.equal(f.requests.length, 1);
+  assert.equal(paints, 2);
+
+  const pending = playback.draw('next-page', () => paints++);
+  await f.flush();
+  playback.dispose();
+  playback.dispose();
+  await playback.draw('closed', () => paints++);
+  f.requests[1]!.resolve(atlas);
+  await pending;
+  assert.equal(paints, 2);
+
+  // Neither a new playback nor the still-mounted canvas owns the closed lease.
+  const reopened = f.images.playback(canvas);
+  const reload = reopened.draw('oversized', () => paints++);
+  await f.flush();
+  assert.equal(f.requests.length, 3);
+  f.requests[2]!.resolve(atlas);
+  await reload;
+  assert.equal(paints, 3);
   f.images.dispose();
+  await reopened.draw('oversized', () => paints++);
+  assert.equal(paints, 3);
+  assert.equal(f.requests.length, 3);
 });

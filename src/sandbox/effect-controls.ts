@@ -4,6 +4,7 @@ import { visualEffectLabels, type VisualEffect } from '../content/visual-effects
 export function bindEffectControls(
   presentation: Presentation,
   change: (key: VisualEffect, enabled: boolean) => void,
+  root: HTMLElement,
 ) {
   const panel = document.createElement('fieldset');
   panel.innerHTML = '<legend>Scene effects</legend>';
@@ -56,5 +57,5 @@ export function bindEffectControls(
   };
   dodgeLabel.append(dodgeSelect);
   panel.append(dodgeLabel);
-  document.querySelector('#scene-effects')!.append(panel);
+  root.querySelector('#scene-effects')!.append(panel);
 }

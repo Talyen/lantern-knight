@@ -156,8 +156,8 @@ export class Simulation {
     private readonly inventoryAccess: InventoryAccess = new InventoryState(),
     areaState?: ContentSnapshot<AreaState>,
   ) {
-    this.movement = new MovementPlans(this.areaDefinition);
     this.encounter = new EncounterBehavior(this.areaDefinition);
+    this.movement = new MovementPlans(this.areaDefinition, this.encounter.traversal);
     this.#combat = new CombatActions(this.areaDefinition, generation, {
       actors: () => this.actors,
       movementPreview: () => this.movementPreview,
@@ -339,7 +339,7 @@ export class Simulation {
       { x, z },
       effectiveRadius(a.definition.radius),
     );
-    if (a.kind === 'enemy' && this.encounter.safePoint(position)) return;
+    if (a.kind === 'enemy' && !this.encounter.traversal.segment(a, position)) return;
     a.x = position.x;
     a.z = position.z;
     a.y = heightAt(this.areaDefinition, a.x, a.z);

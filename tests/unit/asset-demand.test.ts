@@ -50,6 +50,8 @@ test('matching development server reuse acquires no asset workspace', async () =
       Object.assign(identity, accepted);
     }
   } finally {
+    // Every identity response has settled; do not wait for fetch keep-alive expiry.
+    server.closeAllConnections();
     await new Promise<void>((resolve, reject) =>
       server.close((error) => (error ? reject(error) : resolve())),
     );

@@ -4,6 +4,7 @@ import { pathToFileURL } from 'node:url';
 import { launchEntry, checkpointDirectory } from './launch';
 import { Store } from './store';
 import { DesktopSession } from './session';
+import { DesktopShutdown } from './shutdown';
 import { content } from '../src/content/game-content';
 import { resourcePath, trustedSender } from './security';
 declare const __DEV_APP__: boolean;
@@ -38,9 +39,20 @@ const pageURL = (entry: string) =>
 const hiddenTest = process.env.LANTERN_TEST_HIDDEN === '1';
 const automatedRun = process.env.LANTERN_AUTOMATED_RUN === '1';
 let window: BrowserWindow | undefined;
+let desktop: DesktopSession | undefined;
+let exitCode = 0;
+const shutdown = new DesktopShutdown(
+  () => desktop?.dispose() ?? Promise.resolve(),
+  () => {
+    if (exitCode) app.exit(exitCode);
+    else app.quit();
+  },
+);
+app.on('before-quit', (event) => shutdown.request(event));
 app
   .whenReady()
   .then(async () => {
+    if (shutdown.requested) return;
     if (hiddenTest && process.platform === 'darwin') app.setActivationPolicy('accessory');
     Menu.setApplicationMenu(null);
     const applicationRoot = app.isPackaged ? app.getAppPath() : process.cwd();
@@ -86,13 +98,16 @@ app
         webSecurity: true,
       },
     });
-    const desktop = new DesktopSession(mode, storeFor, async (selected) => {
+    const desktopSession = new DesktopSession(mode, storeFor, async (selected) => {
       if (!window) throw new Error('Desktop window closed');
       await window.loadURL(pageURL(launchEntry(__DEV_APP__, selected)));
     });
-    const entry = () => launchEntry(__DEV_APP__, desktop.mode);
+    desktop = desktopSession;
+    const entry = () => launchEntry(__DEV_APP__, desktopSession.mode);
     window.on('closed', () => {
-      desktop.dispose();
+      desktopSession.dispose().catch((error: unknown) => {
+        console.error('Unable to drain the closed desktop session:', error);
+      });
       window = undefined;
     });
     window.on('blur', () => {
@@ -126,7 +141,7 @@ app
         )
           throw new Error('untrusted IPC sender');
         if (!write && value !== undefined) throw new Error('load takes no payload');
-        return write ? desktop.save(slot, value) : desktop.load(slot);
+        return write ? desktopSession.save(slot, value) : desktopSession.load(slot);
       });
     powerMonitor.on('suspend', () => {
       window?.webContents
@@ -149,12 +164,14 @@ app
           !['game', 'sandbox', 'effects', 'editor'].includes(next)
         )
           throw new Error('invalid development launch');
-        await desktop.launch(next);
+        await desktopSession.launch(next);
       });
-    await desktop.launch(mode);
+    await desktopSession.launch(mode);
   })
   .catch((error) => {
+    if (desktop?.disposed) return;
     console.error('Unable to start Lantern Knight:', error);
-    app.exit(1);
+    exitCode = 1;
+    app.quit();
   });
 app.on('window-all-closed', () => app.quit());

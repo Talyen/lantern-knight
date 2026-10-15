@@ -1,0 +1,587 @@
+/* Player chrome is scoped away from the editor and effects workbench. */
+.game {
+  --ink: #121a1b;
+  --panel: #1b2525;
+  --ivory: #f1e7d2;
+  --sage: #a9b6ab;
+  --amber: #d8b477;
+  --rule: #b8bf9d2b;
+  color: var(--ivory);
+  font-size: 14px;
+}
+.game button,
+.game select {
+  border-radius: 2px;
+  background: #202b2b;
+  border-color: #89958655;
+  color: var(--ivory);
+  transition:
+    background 140ms,
+    border-color 140ms,
+    color 140ms;
+}
+.game button:hover:not(:disabled) {
+  background: #34403a;
+  border-color: var(--amber);
+  color: #fff4da;
+}
+.game button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+.game button:focus-visible,
+.game select:focus-visible,
+.game input:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 5px;
+}
+.game [hidden] {
+  display: none !important;
+}
+.game kbd {
+  display: inline-block;
+  min-width: 22px;
+  padding: 2px 5px;
+  border: 1px solid #c1c7b640;
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  font:
+    11px/1.4 system-ui,
+    sans-serif;
+  color: var(--ivory);
+  text-align: center;
+}
+.game .eyebrow {
+  color: var(--amber);
+  letter-spacing: 0.18em;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.game .muted {
+  color: var(--sage);
+  font-size: 12px;
+}
+.game .game-menu {
+  align-items: center;
+  justify-content: flex-start;
+  padding: clamp(24px, 5vh, 60px) clamp(28px, 8vw, 130px);
+  background: linear-gradient(90deg, #0c1517fa 0%, #101b1af0 42%, #0c171ab3 100%);
+  overflow-y: auto;
+}
+.game .game-menu.is-title {
+  background: linear-gradient(90deg, #0b1417fc 0%, #0d1719f0 31%, #101b1bb5 56%, #111b1c40 100%);
+}
+.game .game-menu > .menu-shell {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  width: min(470px, 100%);
+  max-height: none;
+  overflow: visible;
+}
+.game .menu-heading h1 {
+  font:
+    44px/1.08 Georgia,
+    'Times New Roman',
+    serif;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  margin: 12px 0 18px;
+  color: var(--ivory);
+}
+.game .is-title .menu-heading h1 {
+  font-size: clamp(72px, 8.5vw, 122px);
+  line-height: 0.86;
+  margin: 28px 0;
+  letter-spacing: -0.055em;
+  text-shadow: 0 3px 40px #060c0f45;
+}
+.game #menu-description {
+  color: var(--sage);
+  margin: 0 0 32px;
+  font-size: 14px;
+}
+.game #menu-description:empty {
+  display: none;
+}
+.game .menu-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: min(320px, 100%);
+  gap: 3px;
+}
+.game .menu-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  text-align: left;
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 15px;
+}
+.game .menu-actions button > span[aria-hidden] {
+  color: var(--sage);
+}
+.game .menu-actions .primary-action {
+  background: var(--amber);
+  color: #182020;
+  border-color: var(--amber);
+  font-weight: 600;
+  margin: 0 0 10px;
+  min-height: 53px;
+}
+.game .menu-actions .primary-action > span[aria-hidden] {
+  color: inherit;
+  font-size: 22px;
+}
+.game .menu-actions .primary-action:hover:not(:disabled) {
+  color: #101818;
+  background: #ead09b;
+}
+.game .checkpoint-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  border-top: 1px solid var(--rule);
+  padding-top: 20px;
+  margin-top: 18px;
+  max-width: 360px;
+}
+.game .checkpoint-actions button {
+  padding: 10px 8px;
+  font-size: 12px;
+  background: #172323;
+}
+.game .menu-footer {
+  margin-top: 24px;
+  max-width: 480px;
+}
+.game #menu-back {
+  padding: 8px 14px;
+  margin-bottom: 18px;
+}
+.game #save-notice {
+  color: var(--sage);
+  font-size: 11px;
+  line-height: 1.7;
+  max-width: 300px;
+  margin: 20px 0 0;
+}
+.game #menu-status {
+  color: var(--amber);
+  font-size: 13px;
+  margin: 0;
+}
+.game #menu-status:not(:empty) {
+  margin: 16px 0;
+}
+.game #menu-status.error,
+.game #new-status.error {
+  color: #f4a698;
+}
+.game .journey-summary {
+  position: absolute;
+  right: clamp(32px, 6vw, 100px);
+  bottom: 8vh;
+  max-width: 320px;
+  text-shadow: 0 2px 12px #0b1417;
+}
+.game .journey-summary h2 {
+  font:
+    30px/1.2 Georgia,
+    serif;
+  margin: 14px 0;
+}
+.game .journey-summary p {
+  color: #dedfcb;
+  font-size: 12px;
+}
+.game .journey-rule {
+  display: block;
+  width: 40px;
+  border-top: 1px solid var(--amber);
+  margin-top: 24px;
+}
+.game .journey-summary .journey-edition {
+  font-size: 10px;
+  color: #b7c2b3;
+  letter-spacing: 0.05em;
+}
+.game .game-menu.is-subpage {
+  align-items: flex-start;
+}
+.game .is-subpage > .menu-shell {
+  width: min(900px, 100%);
+  margin: auto;
+}
+.game .is-subpage .journey-summary {
+  display: none;
+}
+.game .page-intro {
+  color: var(--sage);
+  margin: 0 0 28px;
+}
+.game .settings-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+.game .menu-page fieldset {
+  margin: 0 0 24px;
+  padding: 14px 0 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+  min-width: 0;
+}
+.game .menu-page legend {
+  padding: 0 14px 0 0;
+  color: var(--ivory);
+  font:
+    22px Georgia,
+    serif;
+}
+.game .menu-page label {
+  min-height: 28px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #d6dbcd;
+}
+.game .menu-page input {
+  accent-color: var(--amber);
+}
+.game .menu-page input[type='range'] {
+  height: 24px;
+}
+.game .audio-options label {
+  display: grid;
+  grid-template-columns: 115px 1fr 42px;
+  gap: 8px;
+}
+.game .audio-options input[type='checkbox'] {
+  grid-column: 3;
+  justify-self: end;
+}
+.game .audio-options input[type='range'] {
+  width: 100%;
+  max-width: none;
+  min-width: 40px;
+}
+.game #depth-of-field {
+  width: 100%;
+}
+.game .control-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 40px;
+  margin: 0;
+}
+.game .control-grid > div {
+  padding: 13px 0;
+  border-top: 1px solid var(--rule);
+}
+.game .control-grid dt {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.game .control-grid kbd {
+  min-width: 65px;
+  padding: 5px 8px;
+}
+.game .control-grid strong {
+  font-weight: 500;
+}
+.game .control-grid dd {
+  margin: 6px 0 0 79px;
+  font-size: 12px;
+  color: var(--sage);
+}
+.game .field-notes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding-top: 14px;
+  margin-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+.game .field-notes p {
+  color: var(--sage);
+  font-size: 12px;
+  margin: 0;
+}
+.game .field-notes strong {
+  color: var(--ivory);
+  font-weight: 500;
+}
+.game .confirmation {
+  border: 1px solid #b7a57a66;
+  background: var(--ink);
+  padding: 32px;
+  box-shadow: 0 20px 100px #0008;
+}
+.game .confirmation h2 {
+  font:
+    28px/1.2 Georgia,
+    serif;
+  color: var(--ivory);
+  margin: 12px 0;
+}
+.game .confirmation p {
+  color: var(--sage);
+}
+.game .confirmation .buttons {
+  margin: 26px 0 0;
+  gap: 12px;
+}
+.game .confirmation .buttons button {
+  min-height: 44px;
+  padding: 8px;
+}
+.game #confirm-new {
+  border-color: #b88965;
+}
+.game .game-toolbar {
+  position: absolute;
+  top: 26px;
+  right: 28px;
+  display: flex;
+  gap: 10px;
+}
+.game .game-toolbar button {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 12px;
+  background: #101b1de8;
+  border-color: #c0c3a933;
+  font-size: 12px;
+}
+.game .game-toolbar #pause {
+  position: static;
+  width: auto;
+  height: auto;
+}
+.game .hud {
+  width: 238px;
+  left: 28px;
+  bottom: 28px;
+  padding: 15px 18px;
+  background: #101b1deb;
+  border: 1px solid #c0c3a92b;
+  border-radius: 2px;
+}
+.game .health-heading,
+.game .supply-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+}
+.game .health-heading > :first-child {
+  color: var(--sage);
+}
+.game #hp {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.game .health {
+  height: 5px;
+  margin: 10px 0 13px;
+  background: #36403a;
+}
+.game #health-fill {
+  background: #b3bd8b;
+  transition: width 180ms ease;
+}
+.game .low-health #health-fill {
+  background: #e09379;
+}
+.game .supply-row {
+  color: #d2cfb4;
+  font-size: 11px;
+}
+.game .supply-row kbd {
+  margin-right: 6px;
+}
+.game #potion-count {
+  font-size: 12px;
+  color: var(--ivory);
+  margin: 0;
+}
+.game .supply-row.empty #potion-count {
+  color: #dcaa94;
+}
+.game .combat-guide {
+  position: absolute;
+  right: 28px;
+  bottom: 32px;
+  display: flex;
+  gap: 20px;
+  padding: 10px 14px;
+  color: #f2e6cf;
+  font-size: 11px;
+  background: #101b1dd9;
+  border-radius: 2px;
+  pointer-events: none;
+}
+.game .combat-guide kbd {
+  margin-right: 6px;
+}
+.game .menu-open > .hud,
+.game .menu-open > .game-toolbar,
+.game .menu-open > .combat-guide,
+.game .menu-open > .title-card,
+.game .menu-open > #status {
+  visibility: hidden;
+}
+.game #status {
+  top: auto;
+  bottom: 145px;
+  padding: 11px 18px;
+  border: 1px solid var(--rule);
+  background: #101b1def;
+  color: var(--ivory);
+  font-size: 13px;
+  max-width: calc(100% - 48px);
+  width: max-content;
+  border-radius: 2px;
+}
+.game #lantern-hint {
+  bottom: 196px;
+}
+.game #interaction-hint:not(:empty),
+.game #lantern-hint:not(:empty) {
+  background: #142020e8;
+  border: 1px solid #d8b47766;
+  padding: 6px 11px;
+  border-radius: 3px;
+  text-shadow: none;
+}
+.game .title-card {
+  top: 28px;
+  left: 30px;
+  padding: 12px 18px;
+  border-left: 2px solid var(--amber);
+  background: #101b1dc9;
+}
+.game .title-card h2 {
+  font-size: 25px;
+}
+@media (max-width: 800px) {
+  .game .game-menu {
+    padding: 32px;
+  }
+  .game .journey-summary {
+    max-width: 220px;
+    right: 28px;
+    bottom: 40px;
+  }
+  .game .journey-summary h2 {
+    font-size: 24px;
+  }
+  .game .combat-guide {
+    gap: 12px;
+    right: 16px;
+    bottom: 25px;
+  }
+  .game .hud {
+    left: 16px;
+    bottom: 20px;
+    width: 220px;
+  }
+  .game .game-toolbar {
+    top: 16px;
+    right: 16px;
+  }
+  .game .settings-columns,
+  .game .control-grid,
+  .game .field-notes {
+    gap: 20px;
+  }
+}
+@media (max-width: 600px) {
+  .game .game-menu {
+    padding: 30px 24px;
+  }
+  .game .journey-summary {
+    display: none;
+  }
+  .game .menu-heading h1 {
+    font-size: 36px;
+  }
+  .game .settings-columns,
+  .game .control-grid,
+  .game .field-notes {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .game .combat-guide {
+    display: none;
+  }
+  .game .title-card {
+    top: 74px;
+    left: 16px;
+  }
+}
+@media (max-height: 700px) and (min-width: 601px) {
+  .game .game-menu {
+    align-items: flex-start;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  .game .is-title .menu-heading h1 {
+    font-size: 76px;
+    margin: 18px 0;
+  }
+  .game #menu-description {
+    margin-bottom: 22px;
+  }
+  .game .menu-footer {
+    margin-top: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game *,
+  .game *::before,
+  .game *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .game .location-enter {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+.game .startup-failure {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 8vw;
+  background: var(--ink);
+}
+.game .startup-failure h1 {
+  max-width: 600px;
+  font:
+    48px/1.15 Georgia,
+    serif;
+}
+.game .startup-failure p {
+  max-width: 600px;
+  color: var(--sage);
+  overflow-wrap: anywhere;
+}
+.game .startup-failure a {
+  margin-top: 24px;
+  padding: 12px 24px;
+  background: var(--amber);
+  color: var(--ink);
+  text-decoration: none;
+}

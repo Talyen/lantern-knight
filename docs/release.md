@@ -10,10 +10,10 @@ npm run test:assets
 npm run assets:check
 npm run build
 CI=true LANTERN_PREVIEW_PORT=5175 npm run test:browser -- game --built
-CI=true LANTERN_PREVIEW_PORT=5175 npm run test:browser -- scene image-delivery ground-occlusion audio editor effects
+CI=true LANTERN_PREVIEW_PORT=5175 npm run test:browser -- --ci-development --authoring
 ```
 
-In PowerShell, set `$env:CI = 'true'` and `$env:LANTERN_PREVIEW_PORT = '5175'` before the browser commands and omit their inline environment prefixes. This sequence includes the routine CI browser coverage and optional authoring scenarios. The [authored-ground diagnostic](developer-tools.md#ground-interaction) remains an explicit local scene review. [Verification](verification.md) explains what each tier establishes.
+In PowerShell, set `$env:CI = 'true'` and `$env:LANTERN_PREVIEW_PORT = '5175'` before the browser commands and omit their inline environment prefixes. Tier selection includes all development-browser CI suites and optional authoring scenarios. [Authored-scene and opening captures](verification.md#test-selection) remain explicit local reviews. [Verification](verification.md) explains what each tier establishes.
 
 On the target host, run `npm run package -- --platform mac` or `npm run package -- --platform win`, then `npm run test:desktop` against the resulting Game package. Game output is `release/mac-arm64/Lantern Knight.app` on macOS or `release/win-unpacked/Lantern Knight.exe` on Windows.
 
