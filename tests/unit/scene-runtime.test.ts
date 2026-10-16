@@ -446,3 +446,49 @@ test('static tinted ground details color both the solid drawing and its soft edg
   assert.equal(sprite.material.color.getHex(), 0x223344);
   assert.equal(sprite.edgeMaterial!.color.getHex(), 0x223344);
 });
+
+test('artwork with several health rewards stays visible until every reward is taken', () => {
+  const room = scenery(1, 0xffffff, false, false);
+  using cleanup = onExit(() => room.dispose());
+  const definitions = structuredClone(contentDefinitions);
+  const area = definitions.areas[0]!;
+  area.pickups = [
+    { id: 'small', object: 'prop', kind: 'health', amount: 20, radius: 0.4, x: 0, z: 0 },
+    { id: 'wide', object: 'prop', kind: 'health', amount: 20, radius: 1, x: 0, z: 0 },
+  ];
+  const sim = new Simulation(new ContentRegistry(definitions));
+  // The wider pickup can be taken before entering the smaller pickup's radius.
+  Object.assign(sim.hero, { x: 0.8, z: 0, health: 80 });
+  sim.step();
+  assert.deepEqual([...sim.collectedPickups], ['wide']);
+  Object.assign(room, { area: sim.areaDefinition });
+  room.update(sim.view, 1, true);
+  assert.equal(room.sprites[0]!.mesh.visible, true);
+  sim.collectedPickups.add('small');
+  room.update(sim.view, 1, true);
+  assert.equal(room.sprites[0]!.mesh.visible, false);
+});
+
+test('completed breakable animations honor their hide ending after play and restore', () => {
+  const prepared = animatedPack();
+  Object.assign(prepared.manifest.asset.clips.idle!.d45!, { loop: false, endBehavior: 'hide' });
+  const definitions = structuredClone(contentDefinitions);
+  definitions.areas[0]!.interactables = [
+    interactable({ id: 'crate', object: 'prop', kind: 'breakable', action: 'idle', spent: 'idle' }),
+  ];
+  const sim = new Simulation(new ContentRegistry(definitions));
+  const art = fixtureArt();
+  art.props = [{ id: 'prop', asset: 'scenery', clip: 'idle', x: 0, z: 0, purpose: 'Breakable' }];
+  const { room } = roomFixture(prepared, art, sim);
+  using cleanup = onExit(() => room.dispose());
+  sim.claimedObjects.add('crate');
+  sim.objectActions.set('crate', 0);
+  room.update(sim.view, 0, true);
+  assert.equal(room.sprites[0]!.mesh.visible, true, 'the action remains visible while playing');
+  sim.tick = 12;
+  room.update(sim.view, 1, true);
+  assert.equal(room.sprites[0]!.mesh.visible, false, 'the terminal drawing must disappear');
+  sim.objectActions.clear();
+  room.update(sim.view, 1, true);
+  assert.equal(room.sprites[0]!.mesh.visible, false, 'loading cannot revive spent artwork');
+});

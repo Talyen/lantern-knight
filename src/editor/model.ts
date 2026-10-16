@@ -4,6 +4,7 @@ import {
   type SceneSnapshot,
   type SceneObject,
 } from '../content/scene-document';
+import { boundsCorners, polygonBounds } from '../content/polygon';
 import { contentSnapshot } from '../content/snapshot';
 import { localOffset } from '../content/scenery-presets';
 import { resolveAuthoredScene } from '../content/world-art';
@@ -96,7 +97,10 @@ export class EditorHistory {
     this.applyTransforms(new Map(ids.map((id) => [id, fields])));
   }
 
-  private applyTransforms(targets: ReadonlyMap<string, Parameters<EditorHistory['transform']>[1]>) {
+  private applyTransforms(
+    targets: ReadonlyMap<string, Parameters<EditorHistory['transform']>[1]>,
+    after?: (document: SceneDocument) => void,
+  ) {
     const objects = new Map(this.document.objects.map((object) => [object.id, object])),
       depth = (id: string): number => {
         const object = objects.get(id);
@@ -124,6 +128,7 @@ export class EditorHistory {
           Object.assign(object, other);
         } else Object.assign(object, fields);
       }
+      after?.(document);
     });
   }
 
@@ -161,7 +166,22 @@ export class EditorHistory {
         ];
       }),
     );
-    this.applyTransforms(targets);
+    // Move registered joins in the same history transaction as their assembly.
+    const transformed = new Set(this.descendants(items.map((item) => item.placement.id)));
+    this.applyTransforms(targets, (document) => {
+      for (const overlap of document.overlaps) {
+        if (!transformed.has(overlap.a) || !transformed.has(overlap.b)) continue;
+        const corners = boundsCorners(overlap.region).map((point) => {
+          const dx = (point.x - cx) * factor,
+            dz = (point.z - cz) * factor;
+          return {
+            x: cx + dx * Math.cos(angle) - dz * Math.sin(angle) + (fields.x ?? 0),
+            z: cz + dx * Math.sin(angle) + dz * Math.cos(angle) + (fields.z ?? 0),
+          };
+        });
+        overlap.region = polygonBounds(corners);
+      }
+    });
   }
 
   removeMany(ids: readonly string[]) {

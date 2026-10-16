@@ -519,3 +519,29 @@ it('duplicated containers retain independent rewards and follow their artwork th
   h.undo();
   assert.equal(h.document.gameplay!.interactables!.length, 2);
 });
+
+it('moving an assembled join carries its overlap allowance and retains undo', () => {
+  const h = assembly();
+  h.change((d) => {
+    d.objects[0]!.footprint = [2, 2];
+    d.objects[2]!.x = 0.4;
+    d.objects[2]!.footprint = [2, 2];
+    d.overlaps = [
+      {
+        a: 'support',
+        b: 'other',
+        region: { minX: -1, maxX: 2, minZ: -1, maxZ: 1 },
+        reason: 'Assembled join',
+      },
+    ];
+  });
+  const before = h.document;
+  h.transformMany(['support', 'other'], { x: 3, z: 2 });
+  assert.equal(
+    sceneArtFindings(resolveAuthoredScene(h.document)).some((f) => f.kind === 'solid-intersection'),
+    false,
+  );
+  assert.deepEqual(h.document.overlaps[0]!.region, { minX: 2, maxX: 5, minZ: 1, maxZ: 3 });
+  h.undo();
+  assert.deepEqual(h.document, before);
+});

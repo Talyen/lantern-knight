@@ -20,44 +20,38 @@ const RecipeSchema = z.strictObject({
     .nonempty(),
   inputs: z.array(z.string()),
   sharedInputs: z.array(z.string()).default([]),
-  authoredInputs: z.array(z.string()).optional(),
   dependencies: z.strictObject({
     devDependencies: z.array(z.string()),
     dependencies: z.array(z.string()),
   }),
 });
-const authoredSteps = RecipeSchema.parse(recipe).steps;
-// A producer may be declared after its consumer in the authored manifest.
-// Both full and scoped preparation must execute the same dependency order.
-function orderedSteps() {
-  const ordered: typeof authoredSteps = [];
-  const visiting = new Set<string>();
-  const visited = new Set<string>();
-  const visit = (file: string) => {
-    if (visited.has(file)) return;
+type PreparationStep = z.infer<typeof RecipeSchema>['steps'][number];
+
+// Full and scoped preparation share one traversal and producer index, including
+// producers declared after their consumers in the authored recipe.
+export function preparationGraph(steps: readonly PreparationStep[]) {
+  const index = new Map(steps.map((step) => [step.file, step]));
+  if (index.size !== steps.length) throw new Error('Duplicate preparation producer');
+  const ordered = new Set<string>(),
+    visiting = new Set<string>();
+  const include = (file: string, selected: Set<string>) => {
+    if (selected.has(file)) return;
     if (visiting.has(file)) throw new Error('Cyclic preparation dependency: ' + file);
-    const step = authoredSteps.find((step) => step.file === file);
+    const step = index.get(file);
     if (!step) throw new Error('Unknown preparation dependency: ' + file);
     visiting.add(file);
-    for (const dependency of step.dependsOn ?? []) visit(dependency);
+    for (const dependency of step.dependsOn ?? []) include(dependency, selected);
     visiting.delete(file);
-    visited.add(file);
-    ordered.push(step);
+    selected.add(file);
   };
-  for (const step of authoredSteps) visit(step.file);
-  return ordered;
+  for (const step of steps) include(step.file, ordered);
+  return { steps: [...ordered].map((file) => index.get(file)!), include };
 }
-export const preparationSteps = orderedSteps();
+const graph = preparationGraph(RecipeSchema.parse(recipe).steps);
+export const preparationSteps = graph.steps;
 export function preparationSelection(ids: readonly string[] = []) {
   if (!ids.length) return preparationSteps;
   const selected = new Set<string>();
-  const visit = (file: string) => {
-    if (selected.has(file)) return;
-    const step = preparationSteps.find((step) => step.file === file);
-    if (!step) throw new Error('Unknown preparation dependency: ' + file);
-    for (const dependency of step.dependsOn ?? []) visit(dependency);
-    selected.add(file);
-  };
   for (const id of ids) {
     const owners = preparationSteps.filter((step) =>
       step.ids?.some((pattern) =>
@@ -65,12 +59,12 @@ export function preparationSelection(ids: readonly string[] = []) {
       ),
     );
     if (!owners.length) throw new Error('No preparation owner for asset: ' + id);
-    for (const owner of owners) visit(owner.file);
+    for (const owner of owners) graph.include(owner.file, selected);
   }
   // Finalizers read the verified base for unaffected producers. Their full
   // dependency list orders a cold/full preparation, not a scoped refresh.
   if (selected.has('assets/prepare/prepare-hero.ts'))
-    visit('assets/prepare/prepare-animation-flow.py');
+    graph.include('assets/prepare/prepare-animation-flow.py', selected);
   if (
     [...selected].some(
       (file) => !file.endsWith('prepare-loading-media.ts') && !file.endsWith('prepare-audio.ts'),

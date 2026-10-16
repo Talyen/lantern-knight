@@ -82,7 +82,7 @@ Keep full dynamic relighting optional. The initial visual direction should work 
 
 Let the environment introduce the journey: abandoned belongings and surviving fires suggest the way forward. Keep the ring detour optional and departure tied to its specific guards. The clearing offers another fire and a paired encounter at the foot of the ritual ruins. Its guarded cache holds a Gatherer’s Seal, and defeating the pair opens the northwestern route to the forge. The central island splits the approach, encouraging positioning and a lantern burst when the pair closes in. The forge offers a surviving courtyard fire, guarded salvage and a reachable workbench for the first permanent kit choice; the raised workshop remains blocked pending authored elevation.
 
-Keep gameplay UI quiet: health and owned potion counts, a short interaction cue anchored near the usable object, and brief outcome or failure feedback. Remove tutorial windows, persistent objective text and action/control strips. Full controls remain in pause/help. Existing checkpoint hint history remains compatible, without an onscreen hint replay flow.
+Keep gameplay UI quiet: health and owned potion counts, a short interaction cue anchored near the usable object, and brief outcome or failure feedback. Before the player first uses the lantern, show its contextual prompt only during combat with a reachable enemy in burst range and the ability ready. Hide it during pause, loading, death or an open adventure dialog. Avoid tutorial windows, persistent objective text and action/control strips. Full controls remain in pause/help. Existing checkpoint hint history remains compatible, without an onscreen hint replay flow.
 
 Guide with clustered supplies, open walking space, warm resting-place light, enemy staging and occasional low drifting leaves. The opening wind suggests the nearby supplies or forest path; in the clearing it suggests the ruins, then the forge path. At the forge it suggests the guarded tool chest and its dropped rewards, then the courtyard workbench until an upgrade is chosen, then the chapel path until the Vigil Amulet is collected. Chapel wind suggests the reliquary and its dropped rewards. Once the Vigil Amulet is collected, it follows the matching return paths through forge and clearing to Orchard Campfire, even if optional caches were skipped. Loose rewards from already opened containers take precedence; ordinary enemy coins do not turn the journey around. It follows walkable routes, pauses during combat, and respects the wind setting and reduced motion. It neither steers the hero nor closes optional routes. Test whether players notice the direction without mistaking the leaves for loot or a mandatory trail.
 
@@ -92,11 +92,11 @@ Enemy cues use supplied animation with a restrained windup accent, without groun
 
 ## Prototype priorities
 
-Polish alternating sweep/lunge attacks, dodge, the Burn lantern special and movement/action facing transitions together in authored prototype areas. Complete enemy action animation and attack cues, coherent hit/Burn feedback, sound and music, basic onboarding and settings usability.
+Polish alternating sweep/lunge attacks, dodge, the Burn lantern special and movement/action facing transitions together in the connected opening. Review enemy action animation and attack cues, hit/Burn feedback, contextual guidance and settings usability during the [opening playtest](verification.md#opening-playtest). Complete the [audio listening pass](sound-design.md#listening-and-tuning); music remains deferred.
 
 Art validation should establish that elevation, occlusion, contact shadows and selective glow work coherently. Visible playtesting should confirm that a new player understands the controls, reads enemy actions, uses both attacks meaningfully, traverses connected authored areas, retries after death and saves/resumes reliably.
 
-Follow this with a cohesive progression loop before expanding the adventure. Validate the lantern, Burn and cancellation defaults through visible playtesting, then resolve progression relationships before implementation; the [roadmap](roadmap.md) tracks the work.
+Validate the implemented forge choice through ordinary play, including earning its resources, comparing both choices across separate journeys, and retaining the purchase through death and save/resume. Use observed play to revisit the lantern, Burn and cancellation defaults before expanding progression or the adventure; the [roadmap](roadmap.md) tracks acceptance.
 
 ## Presentation and delivery defaults
 

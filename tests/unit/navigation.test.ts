@@ -695,3 +695,50 @@ test('movement preview stays in its room when walking onto an automatic exit', (
   sim.movementPreview = false;
   assert.equal(sim.step().transition, 'landing');
 });
+
+test('obsolete commands cannot cancel the current pickup route', () => {
+  const sim = new Simulation(content);
+  sim.drops.push({
+    id: 'loot',
+    source: 'test',
+    enemy: false,
+    x: 3,
+    z: 5,
+    rewards: [{ item: 'gold', amount: 1 }],
+  });
+  const plan = new PickupPlan();
+  assert.equal(plan.request(sim, 'loot'), true);
+  plan.beforeStep(sim, {
+    move: { x: 1, z: 0 },
+    aim: { x: 0, z: 0 },
+    attack: true,
+    generation: sim.generation - 1,
+  });
+  assert.equal(sim.navigationDebug(false).routes.length, 1);
+});
+
+test('large enemies choose melee positions within the hero height range', () => {
+  const a = area();
+  a.surface = { kind: 'ramp', axis: 'x', start: -5, end: 5, startHeight: 0, endHeight: 5 };
+  a.entries = [{ id: 'start', x: 0, z: 0 }];
+  a.spawns = [{ id: 'enemy', actor: 'skeleton', x: -4, z: 0 }];
+  a.props = [-0.55, 0.55].map((z, i) => ({
+    id: 'post-' + i,
+    kind: 'pillar' as const,
+    x: 0,
+    z,
+    radius: 0.15,
+    height: 1,
+  }));
+  const definitions = structuredClone(contentDefinitions);
+  definitions.actors[0]!.radius = 0.7;
+  definitions.actors[0]!.melee.range = 2;
+  const sim = new Simulation(
+    new ContentRegistry({ ...definitions, initialArea: a.id, areas: [a] }),
+  );
+  for (let i = 0; i < 700 && sim.hero.health === sim.maxHealth; i++) sim.step();
+  assert.ok(
+    sim.hero.health < sim.maxHealth,
+    'a reachable position beside the recess permits melee',
+  );
+});
