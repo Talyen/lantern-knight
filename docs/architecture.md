@@ -139,7 +139,7 @@ EditorView exposes its renderer and simulation only while an accepted room is av
 
 ### Game content selection
 
-Game runtime and builds share the content and asset selection in `src/content/game-content.ts`, which resolves the selected orchard and clearing authored documents. Saving under `authoring/scenes/` does not add a scene to Game; follow [Add an area or enemy](#add-an-area-or-enemy) to register it. Authored scenes are replaceable; developer presentation fixtures and gameplay test arenas own their setup independently. Asset preparation and runtime delivery retain their curated catalog independently of scene selection.
+Game runtime and builds share the content and asset selection in `src/content/game-content.ts`, which resolves the selected orchard, clearing, forge and chapel authored documents. Saving under `authoring/scenes/` does not add a scene to Game; follow [Add an area or enemy](#add-an-area-or-enemy) to register it. Authored scenes are replaceable; developer presentation fixtures and gameplay test arenas own their setup independently. Asset preparation and runtime delivery retain their curated catalog independently of scene selection.
 
 ## Runtime resources
 

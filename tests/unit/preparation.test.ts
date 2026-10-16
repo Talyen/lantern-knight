@@ -7,12 +7,46 @@ import { cachedPreparationStep } from '../../tools/assets/incremental';
 import { createPreparationContext } from '../../tools/assets/context';
 import {
   preparationSteps,
+  preparationGraph,
   mergePreparationSelections,
   preparationLayerKey,
   preparationSelection,
   preparationStepKey,
   recipeInputs,
 } from '../../tools/assets/recipe';
+
+test('preparation planning resolves forward and shared dependencies and rejects ambiguous graphs', () => {
+  const step = (file: string, ...dependsOn: string[]) => ({ file, freshness: false, dependsOn });
+  const graph = preparationGraph([
+    step('delivery', 'lighting', 'coverage'),
+    step('lighting', 'pixels'),
+    step('coverage', 'pixels'),
+    step('pixels'),
+    step('audio'),
+  ]);
+  assert.deepEqual(
+    graph.steps.map((step) => step.file),
+    ['pixels', 'lighting', 'coverage', 'delivery', 'audio'],
+  );
+  const selected = new Set<string>();
+  graph.include('coverage', selected);
+  graph.include('lighting', selected);
+  assert.deepEqual([...selected], ['pixels', 'coverage', 'lighting']);
+  selected.clear();
+  graph.include('delivery', selected);
+  assert.deepEqual([...selected], ['pixels', 'lighting', 'coverage', 'delivery']);
+  assert.throws(() => graph.include('missing', selected), /Unknown preparation dependency/);
+  assert.throws(() => preparationGraph([step('pixels'), step('pixels')]), /Duplicate preparation/);
+  assert.throws(
+    () => preparationGraph([step('delivery', 'missing')]),
+    /Unknown preparation dependency/,
+  );
+  assert.throws(
+    () => preparationGraph([step('delivery', 'lighting'), step('lighting', 'delivery')]),
+    /Cyclic preparation dependency/,
+  );
+});
+
 test('preparation reuse invalidates registration and lighting-owner changes without rebaking media', async () => {
   const inputs = await recipeInputs(),
     digests = new Map<string, string>();
