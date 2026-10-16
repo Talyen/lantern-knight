@@ -19,6 +19,8 @@ import { defaultVisualEffects } from '../../src/content/visual-effects';
 import { content } from '../fixtures/content';
 import { manifestFixture } from '../fixtures/manifest';
 import { mockGlobals } from '../fixtures/globals';
+import { ContentRegistry, type ContentDefinitions } from '../../src/content/world';
+import { actors as actorDefinitions } from '../../src/content/actors';
 
 test('shader preparation cannot resume borrowing scenery after presentation shutdown', async () => {
   const started = Promise.withResolvers<void>(),
@@ -138,5 +140,82 @@ test('animation observers can shut down presentation only after the complete fra
     calls,
     ['render', 'notify', 'dispose'],
     'Closed presentations cannot render again',
+  );
+});
+
+test('the armored warden holds its hammer windup until the damage tick in every supplied facing', (t) => {
+  mockGlobals(t, { window: { matchMedia: () => ({ matches: false }) } });
+  const definitions = structuredClone(content.definitions) as ContentDefinitions;
+  definitions.actors = definitions.actors.map((actor) =>
+    actor.id === 'skeleton'
+      ? {
+          ...actorDefinitions.find((definition) => definition.id === 'chapel-warden')!,
+          id: actor.id,
+        }
+      : actor,
+  );
+  const sim = new Simulation(new ContentRegistry(definitions)),
+    enemy = sim.enemies[0]!,
+    manifest = manifestFixture(),
+    warden = manifestFixture('library-sk02'),
+    texture = new CanvasTexture({} as HTMLCanvasElement),
+    camera = new OrthographicCamera();
+  warden.frames = ['windup', 'contact', 'recovery'].map((id) => ({ ...warden.frames[0]!, id }));
+  for (const clips of Object.values(warden.asset.clips))
+    for (const clip of Object.values(clips)) if (clip) clip.frames = ['windup'];
+  const headings = ['d00', 'd90', 'd180', 'd270'] as const;
+  const frames = ['windup', 'windup', 'windup', 'contact', 'recovery', 'recovery'],
+    durationsMs = [100, 200, 100, 150, 150, 200];
+  warden.asset.clips.attack = Object.fromEntries(
+    headings.map((heading) => [heading, { frames, durationsMs, loop: false, notifies: [] }]),
+  );
+  const presentation = new ActorPresentation(
+    new Group(),
+    new Map([
+      ['ink-hero-current', { manifest, textures: new Map([['atlas-0', texture]]) }],
+      ['library-sk02', { manifest: warden, textures: new Map([['atlas-0', texture]]) }],
+    ]),
+    camera,
+    texture,
+    {} as PreparedRegistration,
+  );
+  const options = {
+    walkTiming: 'supplied' as const,
+    stabilized: false,
+    rigidSword: false,
+    animationTreatment: 'original' as const,
+    debug: false,
+  };
+  t.after(() => {
+    presentation.dispose();
+    texture.dispose();
+  });
+  for (const [index, heading] of headings.entries()) {
+    enemy.state = 'attack';
+    enemy.action++;
+    enemy.yaw = (index * Math.PI) / 2;
+    enemy.actionHeading = heading;
+    enemy.age = enemy.definition.melee.windup / 2;
+    presentation.update(sim.view, 1, 0, options);
+    const visual = presentation.actors.get(enemy.id)!;
+    const quiet = visual.sprite.material.color.r;
+    enemy.age = enemy.definition.melee.windup - 1;
+    presentation.update(sim.view, 1, 0, options);
+    assert.equal(visual.sprite.animator.frame, 'windup', heading);
+    assert.ok(
+      visual.sprite.material.color.r > quiet,
+      'neutral armor still acknowledges the committed windup',
+    );
+    enemy.age++;
+    presentation.update(sim.view, 1, 0, options);
+    assert.equal(visual.sprite.animator.frame, 'contact', heading);
+    enemy.age = enemy.definition.melee.total - 1;
+    presentation.update(sim.view, 1, 0, options);
+    assert.equal(visual.sprite.animator.frame, 'recovery', heading);
+  }
+  assert.deepEqual(
+    warden.asset.clips.attack.d90!.durationsMs,
+    durationsMs,
+    'runtime mapping preserves the supplied timeline',
   );
 });

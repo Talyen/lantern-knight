@@ -113,7 +113,7 @@ test('opening scene composition rejects hidden bodies and preserves readable pla
     );
     await page.screenshot({ path: path.join(directory, `${name}.png`) });
   }
-  for (const id of ['forest-gathering-clearing', 'ruined-forge']) {
+  for (const id of ['forest-gathering-clearing', 'ruined-forge', 'desecrated-chapel']) {
     const destination = JSON.parse(
       await fs.readFile(path.join(projectRoot, 'authoring/scenes', id + '.json'), 'utf8'),
     );
@@ -145,5 +145,41 @@ test('opening scene composition rejects hidden bodies and preserves readable pla
       view.render();
     });
     await page.screenshot({ path: path.join(directory, id + '-composition.png') });
+    if (id !== 'desecrated-chapel') continue;
+    for (const [index, heading] of ['d00', 'd90', 'd180', 'd270'].entries()) {
+      for (const [state, age] of [
+        ['idle', 0],
+        ['walk', 0],
+        ['attack', 59],
+        ['attack', 60],
+        ['hurt', 5],
+        ['death', 25],
+      ] as const) {
+        await page.evaluate(
+          ({ index, heading, state, age }) => {
+            const view = window.sceneEditor.view(),
+              p = view.presentation!,
+              warden = view.sim!.enemies.find((a) => a.definition.id === 'chapel-warden')!;
+            view.hero({ x: warden.x + 2, z: warden.z + 1.5 });
+            Object.assign(warden, {
+              state,
+              age,
+              health: state === 'death' ? 0 : 130,
+              action: warden.action + 1,
+              yaw: (index * Math.PI) / 2,
+              actionHeading: heading,
+            });
+            p.center.set(warden.x, 0, warden.z);
+            p.verticalSpan = 7;
+            p.resize();
+            view.render(state === 'walk' ? 150 : 0);
+          },
+          { index, heading, state, age },
+        );
+        await page.screenshot({
+          path: path.join(directory, `warden-${heading}-${state}-${age}.png`),
+        });
+      }
+    }
   }
 });

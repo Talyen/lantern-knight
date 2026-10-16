@@ -6,6 +6,7 @@ export const assetCatalog: Readonly<Record<string, string>> = {
   'fx-brazier-body': 'generated/dev-effects/fx-brazier-body/manifest.json',
   'fx-brazier-flame': 'generated/dev-effects/fx-brazier-flame/manifest.json',
   'library-sk01': 'generated/library/library-sk01/manifest.json',
+  'library-sk02': 'generated/library/library-sk02/manifest.json',
   ...combatEffectCatalog,
   ...Object.fromEntries(
     [

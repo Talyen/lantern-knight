@@ -47,7 +47,6 @@ export class ActorPresentation {
   }
   private groundNormal = new T.Vector3(0, 1, 0);
   private planeNormal = new T.Vector3(0, 0, 1);
-  private poisedWindup = new T.Color(0xffffff);
   constructor(
     private room: T.Group,
     private packs: ReadonlyMap<string, AssetPack>,
@@ -181,7 +180,12 @@ export class ActorPresentation {
         const t = attackDefinition(a),
           duration = clipDuration(clip),
           strike =
-            clip.notifies.find((n) => n.kind === 'whoosh')?.atMs ?? (duration * t.windup) / t.total,
+            binding.attackContactDrawing === undefined
+              ? (clip.notifies.find((n) => n.kind === 'whoosh')?.atMs ??
+                (duration * t.windup) / t.total)
+              : clip.durationsMs
+                  .slice(0, binding.attackContactDrawing - 1)
+                  .reduce((sum, hold) => sum + hold, 0),
           end = strike + (duration * (t.activeEnd - t.windup)) / t.total;
         const visual =
           a.age <= t.windup
@@ -252,12 +256,12 @@ export class ActorPresentation {
       v.sprite.rigidSword = options.rigidSword;
       const winding =
         a.kind === 'enemy' && a.state === 'attack' && a.age < a.definition.melee.windup;
-      // A single late ivory lift follows the committed pose; no blinking or attack zone.
+      // A single late lift preserves the supplied palette, including neutral armor.
       const poisedAccent =
         winding && a.definition.poise
           ? Math.max(0, (a.age / a.definition.melee.windup - 0.5) * 2)
           : 0;
-      v.sprite.material.color.set(binding.tint).lerp(this.poisedWindup, poisedAccent);
+      v.sprite.material.color.set(binding.tint).multiplyScalar(1 + poisedAccent * 0.35);
       v.sprite.showAnimation(
         foot,
         this.camera,

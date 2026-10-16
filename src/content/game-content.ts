@@ -104,6 +104,18 @@ export function composeSceneContent(
           manifest = packs.get(visual.asset)!.manifest;
         for (const name of [...Object.values(visual.clips), ...visual.attacks])
           if (!manifest.asset.clips[name]) throw new Error(`missing clip ${name}`);
+        const contact = visual.attackContactDrawing;
+        if (
+          contact !== undefined &&
+          (!Number.isInteger(contact) ||
+            contact < 1 ||
+            visual.attacks.some((name) =>
+              Object.values(manifest.asset.clips[name]!).some(
+                (clip) => clip && contact > clip.frames.length,
+              ),
+            ))
+        )
+          throw new Error(`Missing attack contact drawing: ${visual.asset}/${contact}`);
       }
     },
   });

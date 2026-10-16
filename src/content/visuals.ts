@@ -5,6 +5,8 @@ export type ActorVisualDefinition = {
   asset: string;
   clips: Record<keyof typeof clipForState, string>;
   attacks: readonly string[];
+  // One-based supplied drawing that first shows weapon contact.
+  attackContactDrawing?: number;
   tint: number;
   scale?: number;
 };
@@ -34,7 +36,7 @@ export const actorVisuals: Readonly<Record<string, ActorVisualDefinition>> = {
   },
   'chapel-warden': {
     id: 'chapel-warden',
-    asset: 'library-sk01',
+    asset: 'library-sk02',
     clips: {
       idle: 'idle',
       walk: 'move',
@@ -45,7 +47,8 @@ export const actorVisuals: Readonly<Record<string, ActorVisualDefinition>> = {
       death: 'defeat',
     },
     attacks: ['attack', 'attack'],
-    tint: 0xffdfad,
+    attackContactDrawing: 4,
+    tint: 0xffffff,
     scale: 1.35,
   },
 };

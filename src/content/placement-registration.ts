@@ -29,6 +29,13 @@ export const placementRegistration: Readonly<
       move: envelope(-0.5704, 0.7188, 1.7969, -0.2227),
     },
   },
+  'library-sk02': {
+    hash: '5e3fdf31d3cc91f169d21317302be78723a5d275f77b42493b163e5bd05bbe0b',
+    clips: {
+      idle: envelope(-0.5782, 0.5352, 1.7696, -0.2344),
+      move: envelope(-0.7969, 0.7383, 1.8399, -0.2813),
+    },
+  },
   'fx-brazier-body': {
     hash: '627aeff0a2647e4014d74540affa5122e8e977b8862468445791868288af57b6',
     clips: {
