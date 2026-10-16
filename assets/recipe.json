@@ -341,27 +341,5 @@
     "tools/assets/sources.ts",
     "tools/compiler.ts",
     "tools/assets/operations.ts"
-  ],
-  "authoredInputs": [
-    "assets/library-packs.json",
-    "assets/library-sources.json",
-    "assets/loading-sources.json",
-    "assets/sources.json",
-    "authoring/chapel-art.json",
-    "authoring/flat-stage-art.json",
-    "authoring/graveyard-art.json",
-    "authoring/ground-overlays.json",
-    "authoring/hero-actions.json",
-    "authoring/hero-motion.json",
-    "authoring/hero-scale.json",
-    "authoring/surface-depth.json",
-    "src/assets/camera.json",
-    "src/content/asset-catalog.ts",
-    "src/content/effects-playground-assets.ts",
-    "src/content/graveyard-registration.ts",
-    "src/content/loading-media.ts",
-    "src/content/scenery-registration.ts",
-    "src/content/visual-effects-assets.ts",
-    "assets/audio-sources.json"
   ]
 }
