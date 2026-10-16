@@ -87,6 +87,38 @@ test('room build failure releases the unattached grid and can rebuild cleanly', 
   }
 });
 
+test('failed scenery construction releases contact shadows before room ownership transfers', (t) => {
+  const area = { ...content.area('court'), props: [], exits: [] },
+    texture = new T.CanvasTexture({} as HTMLCanvasElement),
+    room = new RoomPresentation(new Map(), makeCamera(1), texture, registration),
+    destroyed = new Set<object>();
+  for (const prototype of [T.BufferGeometry.prototype, T.Material.prototype]) {
+    const dispose = prototype.dispose;
+    t.mock.method(prototype, 'dispose', function (this: T.BufferGeometry | T.Material) {
+      destroyed.add(this);
+      dispose.call(this);
+    });
+  }
+  const add = room.room.add.bind(room.room);
+  room.room.add = function (...objects) {
+    add(...objects);
+    throw new Error('contact attachment failed');
+  };
+  try {
+    assert.throws(() => room.buildRoom(area, fixtureArt()), /contact attachment failed/);
+    assert.equal(room.inkRoom, undefined);
+    assert.equal(room.room.children.length, 0);
+    assert.equal(destroyed.size, 2, 'staged contact geometry and material must be destroyed');
+    room.room.add = add;
+    room.buildRoom(area, undefined);
+    assert.equal(room.room.children.length, 2, 'a failed scenery constructor permits retry');
+  } finally {
+    room.disposeScenery();
+    room.disposeResources();
+    texture.dispose();
+  }
+});
+
 test('checkpoint restore preserves the next alternating sword attack', () => {
   const session = new GameSession(content);
   session.step({ ...still, attack: true });

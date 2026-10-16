@@ -1,5 +1,5 @@
 import { PropContactShadows } from './contact-shadows';
-import { cleanupAll } from '../assets/cleanup';
+import { cleanupAll, cleanupAfterFailure } from '../assets/cleanup';
 import { sceneFixtures } from '../content/scenery-presets';
 import type { PreparedRegistration } from '../assets/registration';
 import * as T from 'three';
@@ -35,15 +35,20 @@ export class InkRoom {
     readonly registration: PreparedRegistration,
     readonly art: WorldVisualDefinition,
   ) {
-    if (shadowTexture) {
-      const drops = [...(area.interactables ?? []), ...area.spawns].reduce(
-        (sum, source) => sum + (source.rewards?.length ?? 0),
-        0,
-      );
-      this.contactShadows = new PropContactShadows(shadowTexture, art.props.length + drops);
-      this.room.add(this.contactShadows.mesh);
-    }
     this.sceneryReveal = new SceneryReveals(area, registration.coverage);
+    try {
+      if (shadowTexture) {
+        const drops = [...(area.interactables ?? []), ...area.spawns].reduce(
+          (sum, source) => sum + (source.rewards?.length ?? 0),
+          0,
+        );
+        this.contactShadows = new PropContactShadows(shadowTexture, art.props.length + drops);
+        this.room.add(this.contactShadows.mesh);
+      }
+    } catch (error) {
+      // A throwing constructor never transfers its resources to RoomPresentation.
+      cleanupAfterFailure(error, () => this.dispose());
+    }
   }
 
   private sprite(
