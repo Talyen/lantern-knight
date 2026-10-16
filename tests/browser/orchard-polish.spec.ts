@@ -1,7 +1,62 @@
-import { mkdir } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { test, expect } from './fixtures';
 import { loadCheckpoint } from '../fixtures/input';
+
+test('requested cohesion render cost comparison', async ({ page }) => {
+  const directory = process.env.LANTERN_COHESION_MEASUREMENTS;
+  test.skip(!directory, 'Explicit renderer measurement only');
+  test.setTimeout(240_000);
+  await page.goto('/sandbox.html?scene=orchard-fixture');
+  await page.waitForFunction(() => window.foundation?.ready);
+  const record = await page.evaluate(() => {
+    const f = window.foundation,
+      p = f.presentation;
+    f.pause(true);
+    f.editPreview((sim) => {
+      Object.assign(sim.hero, { x: -0.7, px: -0.7, z: 4.8, pz: 4.8, yaw: Math.PI / 2 });
+    });
+    const gl = p.renderer.getContext(),
+      samples = [];
+    const render = () => p.update(f.sim, 1, 0, { x: 0.3, z: 4.8 });
+    for (let pair = 0; pair < 5; pair++)
+      for (const enabled of pair % 2 ? [true, false] : [false, true]) {
+        p.lookRenderer.setSettings({
+          paintedValues: enabled,
+          paintedFinish: enabled,
+          groundBounce: enabled,
+          tightContacts: enabled,
+        });
+        const coldStart = performance.now();
+        render();
+        gl.finish();
+        const firstRenderMs = performance.now() - coldStart;
+        for (let i = 0; i < 15; i++) render();
+        gl.finish();
+        const frames = [];
+        for (let i = 0; i < 30; i++) {
+          const start = performance.now();
+          render();
+          gl.finish();
+          frames.push(performance.now() - start);
+        }
+        samples.push({ enabled, firstRenderMs, frames, cost: p.lookRenderer.stats().frameCost });
+      }
+    return {
+      samples,
+      stats: p.stats(),
+      error: gl.getError(),
+      userAgent: navigator.userAgent,
+      limitations: [
+        'Frozen-pose synchronous rendering includes CPU submission and GPU completion, not display presentation or gameplay simulation.',
+      ],
+    };
+  });
+  await mkdir(directory!, { recursive: true });
+  await writeFile(path.join(directory!, 'render-cost.json'), JSON.stringify(record, null, 2));
+  expect(record.error).toBe(0);
+  for (const sample of record.samples) expect(sample.frames.length).toBe(30);
+});
 
 test('requested orchard cohesion comparisons', async ({ page }) => {
   const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
@@ -30,13 +85,21 @@ test('requested orchard cohesion comparisons', async ({ page }) => {
       { x, z },
     );
     for (const rig of ['lantern', 'silver'] as const)
-      for (const treatment of ['before', 'values', 'bounce', 'contacts', 'combined'] as const) {
+      for (const treatment of [
+        'before',
+        'values',
+        'bounce',
+        'contacts',
+        'finish',
+        'combined',
+      ] as const) {
         await page.evaluate(
           ({ rig, treatment }) => {
             const f = window.foundation;
             f.presentation.lookRenderer.setSettings({
               rig,
               paintedValues: treatment === 'values' || treatment === 'combined',
+              paintedFinish: treatment === 'finish' || treatment === 'combined',
               groundBounce: treatment === 'bounce' || treatment === 'combined',
               tightContacts: treatment === 'contacts' || treatment === 'combined',
             });
@@ -46,6 +109,54 @@ test('requested orchard cohesion comparisons', async ({ page }) => {
         );
         await page.screenshot({
           path: path.join(directory!, `cohesion-${view}-${rig}-${treatment}.png`),
+        });
+      }
+  }
+});
+
+test('requested forge and chapel cohesion comparisons', async ({ page }) => {
+  const directory = process.env.LANTERN_COHESION_INTERIORS;
+  test.skip(!directory, 'Explicit production-art review only');
+  test.setTimeout(240_000);
+  await mkdir(directory!, { recursive: true });
+  for (const [fixture, x, z] of [
+    ['forge', 3.5, 3],
+    ['chapel', -0.5, -1.5],
+  ] as const) {
+    await page.goto(`/sandbox.html?scene=${fixture}-fixture`);
+    await page.waitForFunction(() => window.foundation?.ready);
+    if (!(await page.getByRole('button', { name: 'More options', exact: true }).isVisible()))
+      await page.keyboard.press('Escape');
+    await page.evaluate(
+      ({ x, z }) => {
+        const f = window.foundation;
+        f.pause(true);
+        f.editPreview((sim) => {
+          Object.assign(sim.hero, { x, px: x, z, pz: z, yaw: Math.PI / 2 });
+        });
+      },
+      { x, z },
+    );
+    await page.getByRole('button', { name: 'More options', exact: true }).click();
+    await page.getByRole('button', { name: 'Hide controls', exact: true }).click();
+    for (const rig of ['lantern', 'silver'] as const)
+      for (const enabled of [false, true]) {
+        await page.evaluate(
+          ({ rig, enabled }) => {
+            const f = window.foundation;
+            f.presentation.lookRenderer.setSettings({
+              rig,
+              paintedValues: enabled,
+              paintedFinish: enabled,
+              groundBounce: enabled,
+              tightContacts: enabled,
+            });
+            f.presentation.update(f.sim, 1, 0, { x: f.sim.hero.x + 1, z: f.sim.hero.z });
+          },
+          { rig, enabled },
+        );
+        await page.screenshot({
+          path: path.join(directory!, `${fixture}-${rig}-${enabled ? 'after' : 'before'}.png`),
         });
       }
   }

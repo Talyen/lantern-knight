@@ -7,6 +7,7 @@ const toggles = [
   ['lighting-atmosphere', 'atmosphere'],
   ['lighting-post', 'postprocessing'],
   ['cohesion-values', 'paintedValues'],
+  ['cohesion-finish', 'paintedFinish'],
   ['cohesion-bounce', 'groundBounce'],
   ['cohesion-contacts', 'tightContacts'],
 ] as const;

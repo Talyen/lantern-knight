@@ -41,6 +41,17 @@ export const sandboxDefinitions: ContentDefinitions = {
       id: 'orchard-fixture',
       exits: [],
     },
+    ...(['ruined-forge', 'desecrated-chapel'] as const).map((id, index) => {
+      const area = contentDefinitions.areas.find((candidate) => candidate.id === id)!;
+      return {
+        ...area,
+        id: index === 0 ? 'forge-fixture' : 'chapel-fixture',
+        exits: [],
+        // Comparison copies cannot duplicate the adventure's unique rewards.
+        interactables: area.interactables?.map((object) => ({ ...object, rewards: [] })),
+        spawns: area.spawns.map((spawn) => ({ ...spawn, rewards: [] })),
+      };
+    }),
     {
       id: 'systems-fixture',
       name: 'Systems verification fixture',

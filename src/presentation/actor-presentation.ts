@@ -51,7 +51,7 @@ export class ActorPresentation {
     private room: T.Group,
     private packs: ReadonlyMap<string, AssetPack>,
     private camera: T.OrthographicCamera,
-    readonly shadowTexture: T.CanvasTexture,
+    private shadowTexture: T.CanvasTexture,
     private registration: PreparedRegistration,
   ) {}
   createVisual(a: ActorView, generation: number) {

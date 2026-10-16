@@ -4,6 +4,7 @@ import { resolveClip } from '../assets/schema';
 import type { AssetPack } from '../assets/loader';
 import type { WorldVisualDefinition } from '../content/world-visuals';
 import type { GroundOcclusion } from './ground-occlusion';
+import { right, up } from './camera';
 
 // A small, room-owned field samples the unlit painting, never the rendered frame.
 // Upright painted scenery and black ink contribute no reflected ground color.
@@ -46,6 +47,9 @@ void main(){
   private scene = new T.Scene();
   private camera = new T.Camera();
   available = false;
+  configured = false;
+  private pixels = new Uint8Array();
+  private size = new T.Vector2();
   constructor() {
     this.fallback.needsUpdate = true;
     this.scene.add(new T.Mesh(this.geometry, this.material));
@@ -58,6 +62,7 @@ void main(){
   ) {
     if (this.disposed) throw new Error('painted environment disposed');
     this.reset();
+    this.configured = true;
     const floor = visuals?.editorFloor;
     if (!floor || floor.layout !== 'artwork') return;
     const pack = packs.get(floor.asset)!;
@@ -76,6 +81,7 @@ void main(){
     u.paintedMask!.value = occlusion?.texture ?? this.fallback;
     u.hasMask!.value = occlusion ? 1 : 0;
     u.sampleStep!.value.set(0.18 / floor.width, 0.18 / floor.depth);
+    this.size.set(floor.width, floor.depth);
     this.target.setSize(
       128,
       Math.max(16, Math.min(128, Math.round((128 * floor.depth) / floor.width))),
@@ -88,6 +94,15 @@ void main(){
       renderer.setRenderTarget(this.target);
       renderer.setScissorTest(false);
       renderer.render(this.scene, this.camera);
+      this.pixels = new Uint8Array(this.target.width * this.target.height * 4);
+      renderer.readRenderTargetPixels(
+        this.target,
+        0,
+        0,
+        this.target.width,
+        this.target.height,
+        this.pixels,
+      );
       this.available = true;
     } finally {
       renderer.setRenderTarget(previous);
@@ -96,8 +111,41 @@ void main(){
       renderer.setScissorTest(scissorTest);
     }
   }
+  sample(position: T.Vector3, result: T.Vector4) {
+    if (!this.available) return result.set(0.5, 0.5, 0.5, 0);
+    const u = position.dot(right) / this.size.x + 0.5,
+      v = 0.5 + position.dot(up) / this.size.y;
+    if (u < 0 || u > 1 || v < 0 || v > 1) return result.set(0.5, 0.5, 0.5, 0);
+    const w = this.target.width,
+      h = this.target.height,
+      x = Math.max(0, Math.min(w - 1, u * w - 0.5)),
+      y = Math.max(0, Math.min(h - 1, v * h - 0.5)),
+      x0 = Math.floor(x),
+      y0 = Math.floor(y),
+      x1 = Math.min(w - 1, x0 + 1),
+      y1 = Math.min(h - 1, y0 + 1),
+      fx = x - x0,
+      fy = y - y0;
+    for (let channel = 0; channel < 4; channel++) {
+      const a = this.pixels[(y0 * w + x0) * 4 + channel]!,
+        b = this.pixels[(y0 * w + x1) * 4 + channel]!,
+        c = this.pixels[(y1 * w + x0) * 4 + channel]!,
+        d = this.pixels[(y1 * w + x1) * 4 + channel]!;
+      result.setComponent(channel, ((a + (b - a) * fx) * (1 - fy) + (c + (d - c) * fx) * fy) / 255);
+    }
+    return result;
+  }
+  stats() {
+    return {
+      configured: this.configured,
+      available: this.available,
+      sampleBytes: this.pixels.byteLength,
+    };
+  }
   reset() {
     this.available = false;
+    this.configured = false;
+    this.pixels = new Uint8Array();
     this.material.uniforms.source!.value = null;
     this.material.uniforms.paintedMask!.value = this.fallback;
   }

@@ -21,7 +21,7 @@ import {
 import { IllustratedLighting } from './illustrated-lighting';
 import { GroundMist } from './ground-mist';
 import { PaintedEnvironment } from './painted-environment';
-import { CutoutContacts } from './cutout-contacts';
+import { setContactCore } from './contact-shadows';
 import { defaultLook, lightingRigs, lookPresets, type LookSettings } from './lighting-profiles';
 import { heightAt } from '../content/world';
 import type { SimulationView } from '../core/simulation-view';
@@ -41,7 +41,7 @@ type LightingFrame = {
 };
 
 const finishShader = `
-uniform float lookContrast,lookSaturation,lookDefocus,lookFocus,lookNear,lookFar;
+uniform float lookContrast,lookSaturation,lookDefocus,lookFocus,lookNear,lookFar,lookInkFinish;
 uniform vec2 lookTexel; uniform sampler2D lookMask;
 void mainImage(const in vec4 inputColor,const in vec2 uv,out vec4 outputColor){
  vec3 color=inputColor.rgb;
@@ -57,7 +57,13 @@ void mainImage(const in vec4 inputColor,const in vec2 uv,out vec4 outputColor){
   }
   if(total>.01)color=mix(color,blurred/total,blur*.8);
  }
- float value=dot(color,vec3(.2126,.7152,.0722));color=mix(vec3(value),color,lookSaturation);
+ float value=dot(color,vec3(.2126,.7152,.0722));
+ if(lookInkFinish>.5){
+  color=mix(vec3(value),color,.9);
+  color*=mix(vec3(.91,.98,1.07),vec3(1.035,1.0,.94),smoothstep(.025,.65,value));
+  color/=vec3(1.0)+max(vec3(0.0),color-vec3(.3))*.12;
+ }
+ value=dot(color,vec3(.2126,.7152,.0722));color=mix(vec3(value),color,lookSaturation);
  color=max(vec3(0.0),(color-vec3(.05))*lookContrast+vec3(.05));outputColor=vec4(color,inputColor.a);
 }`;
 
@@ -99,7 +105,7 @@ export class SceneLightingRenderer {
   time = 0;
   readonly lighting: IllustratedLighting;
   private environment: PaintedEnvironment;
-  private contacts: CutoutContacts;
+  private environmentColor = new T.Vector4();
   private composer: EffectComposer;
   private bloom: BloomEffect;
   private finish: Effect;
@@ -131,6 +137,7 @@ export class SceneLightingRenderer {
   private queries: WebGLQuery[] = [];
   private uniforms = {
     lookContrast: new T.Uniform(1),
+    lookInkFinish: new T.Uniform(0),
     lookSaturation: new T.Uniform(1),
     lookDefocus: new T.Uniform(0),
     lookFocus: new T.Uniform(30),
@@ -154,8 +161,6 @@ export class SceneLightingRenderer {
     try {
       this.lighting = this.lifetime.own(new IllustratedLighting(resources.imageRequest));
       this.environment = this.lifetime.own(new PaintedEnvironment());
-      this.contacts = this.lifetime.own(new CutoutContacts(actors.shadowTexture));
-      resources.scene.add(this.contacts.group);
       this.mist = this.lifetime.own(new GroundMist());
       const { renderer, scene, camera } = resources;
       this.localShadows = this.lifetime.own(new LocalLightShadows(scene, renderer, this.lighting));
@@ -298,7 +303,7 @@ export class SceneLightingRenderer {
   }
   deactivate() {
     this.lighting.common.inkEnabled.value = 0;
-    this.contacts.group.visible = false;
+    this.configureContacts(false);
     this.extras.visible = this.proxies.visible = false;
     this.localShadows.update(false);
     this.sun.castShadow = false;
@@ -309,11 +314,9 @@ export class SceneLightingRenderer {
   }
   resetRoom() {
     this.generation = -1;
-    this.lighting.common.inkHasEnvironment.value = 0;
-    this.lighting.common.inkEnvironment.value = this.environment.target.texture;
+    this.lighting.setEnvironment();
     cleanupAll([
       () => this.environment.reset(),
-      () => this.contacts.reset(),
       () => this.resetGpuTiming(),
       () => this.localShadows.reset(),
       () => this.shadowProxies.reset(),
@@ -322,14 +325,6 @@ export class SceneLightingRenderer {
   }
   private buildRoom(sim: SimulationView, frame: LightingFrame) {
     const { visuals } = frame;
-    this.environment.build(
-      this.resources.renderer,
-      this.resources.packs,
-      visuals,
-      frame.groundOcclusion,
-    );
-    this.lighting.common.inkEnvironment.value = this.environment.target.texture;
-    this.lighting.common.inkHasEnvironment.value = this.environment.available ? 1 : 0;
     this.mist.setArea(sim.areaDefinition);
     const spriteGeometries = new Set(
       [
@@ -420,16 +415,11 @@ export class SceneLightingRenderer {
       origin = frame.cameraTarget;
     this.lighting.configure(s, origin, !!frame.visuals?.interior);
     this.lighting.setGroundOcclusion(frame.groundOcclusion, frame.visuals?.editorFloor);
-    this.contacts.group.visible = s.tightContacts;
-    if (s.tightContacts)
-      this.contacts.update(
-        [
-          ...(this.room.inkRoom?.contactShadows?.sprites() ?? []),
-          ...[...this.actors.actors.values()].filter((v) => v.shadow.visible).map((v) => v.sprite),
-        ],
-        sim.areaDefinition,
-        frame.groundOcclusion,
-      );
+    if (s.groundBounce && !this.environment.configured) {
+      this.environment.build(r, p.packs, frame.visuals, frame.groundOcclusion);
+      this.lighting.setEnvironment(this.environment.available);
+    }
+    this.configureContacts(s.tightContacts);
     if (frame.visuals?.interior || !fx.atmosphere) this.lighting.common.inkHaze.value = 0;
     const castShadows = s.shadows && !frame.visuals?.interior;
     this.lighting.common.inkShadowEnabled.value = castShadows ? 1 : 0;
@@ -438,7 +428,12 @@ export class SceneLightingRenderer {
       ...[...this.actors.actors.values()].map((v) => v.sprite),
     ];
     for (const sprite of sprites) {
-      this.lighting.sprite(sprite);
+      this.lighting.sprite(
+        sprite,
+        s.groundBounce
+          ? this.environment.sample(sprite.mesh.position, this.environmentColor)
+          : undefined,
+      );
       if (!fx.surfaceDepth)
         for (const m of [sprite.material, sprite.edgeMaterial])
           if (m) this.lighting.attach(m).inkHasNormal.value = 0;
@@ -517,6 +512,7 @@ export class SceneLightingRenderer {
     this.glowPass.enabled = fx.bloom;
     this.bloom.intensity = fx.bloom ? look.bloom : 0;
     this.uniforms.lookContrast.value = look.contrast;
+    this.uniforms.lookInkFinish.value = s.paintedFinish ? 1 : 0;
     this.uniforms.lookSaturation.value = look.saturation;
     this.uniforms.lookDefocus.value = (look.defocus || 1) * s.depthOfField;
     this.uniforms.lookNear.value = p.camera.near;
@@ -540,6 +536,12 @@ export class SceneLightingRenderer {
     this.uniforms.lookMask.value = this.mask.texture;
     this.uniforms.lookTexel.value.set(1 / size.x, 1 / size.y).multiplyScalar(size.y / 1440);
   }
+  private configureContacts(enabled: boolean) {
+    for (const visual of this.actors.actors.values())
+      setContactCore(visual.shadow.material, enabled);
+    const props = this.room.inkRoom?.contactShadows;
+    if (props) setContactCore(props.mesh.material, enabled);
+  }
   focusMaskStats() {
     return this.focusMask.stats();
   }
@@ -555,6 +557,7 @@ export class SceneLightingRenderer {
       antiAliasing: { method: 'SMAA 1x', preset: 'High', edgeDetection: 'color' },
       ...this.settings,
       time: this.time,
+      environment: this.environment.stats(),
       companions: this.lighting.normals.textures.size,
       normalBytes: this.lighting.normals.bytes,
       frameCost: { ...this.frameCost, gpuTiming: this.timer ? 'available' : 'unavailable' },

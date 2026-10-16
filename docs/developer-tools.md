@@ -86,7 +86,7 @@ The authenticated same-origin editor endpoint resolves a prepared asset/frame an
 
 ## Dev Preview
 
-The scene fills the window below a slim toolbar. Choose Outdoor, Interior, Systems or Effects, then open Animation, Visuals or Inspect. One floating inspector contains essential controls followed by collapsed advanced sections. Opening Visuals or Inspect preserves scene playback, camera and pause state. Clicking the active tool or closing the inspector hides its controls without leaving the current view.
+The scene fills the window below a slim toolbar. Choose Outdoor, Interior, Systems, Orchard, Forge, Chapel or Effects, then open Animation, Visuals or Inspect. One floating inspector contains essential controls followed by collapsed advanced sections. Opening Visuals or Inspect preserves scene playback, camera and pause state. Clicking the active tool or closing the inspector hides its controls without leaving the current view.
 
 Pause/Resume and Restart apply to the current scene or animation cycle.
 
@@ -96,7 +96,7 @@ Animation enters dedicated asset playback; Return to scene restores the scene's 
 
 Visuals exposes production light rigs and looks, original rendering and a separate all-effects-off comparison. Nested controls cover lighting response, depth of field, individual effects, scripted replay and render scale. The Effects fixture keeps Quiet ink/Richer HD-2D treatments, individual effects and outline experiments; it does not reinterpret them as production lighting looks. Comparisons preserve selected options. Controls requiring another fixture name it and offer an explicit switch.
 
-Choose the **Orchard** fixture for production-art cohesion comparisons without adventure travel or checkpoint writes. Visuals → Scene cohesion independently selects Painted values, Ground color bounce and Tight ground contacts. Painted values gently groups cutout tones; it does not redraw contours. Ground bounce samples the original unlit floor painting into a small room-owned color field, excluding masked upright scenery and black ink; it changes ambient color most strongly near object bases without interpreting dark materials as shade. Tight contacts project only the current drawing's lowest alpha band beneath feet and prop bases, retaining gaps, fading and painted foreground masking. The original soft contact bed remains. These experiments start off and persist separately per fixture. Compare identical poses in Lantern night and Silver hour, then walk through painted shade and behind foreground scenery before selecting a treatment.
+Choose **Orchard**, **Forge** or **Chapel** for production-art cohesion comparisons without adventure travel or checkpoint writes. Visuals → Scene cohesion independently selects Ink harmonization, Shared palette finish, Ground color bounce and Dense contact cores. The [scene treatment](scene-design.md#scene-cohesion) preserves source artwork. All four start enabled in new previews; existing saved choices persist per fixture. Compare identical poses under Lantern night and Silver hour, then walk through painted shade and behind foreground scenery. Forge and Chapel comparison copies omit unique rewards.
 
 Inspect groups registration/collision overlays, camera framing, calibration reference view, occlusion positioning and an explicit enemy-freeze control. Calibration preserves scene context; Return to scene restores it. Opening Inspect alone never freezes enemies.
 

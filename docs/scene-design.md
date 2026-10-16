@@ -20,7 +20,11 @@ Production scenes use **Lantern night** (ambient 0.40, minimum light 0.06, key s
 
 ## Verification
 
-Dev Preview's Orchard fixture offers independent painted-value, ground-bounce and tight-contact experiments under Visuals → Scene cohesion. They preserve source pixels and start disabled. Value grouping cannot correct incompatible contour weight or perspective; judge that separately against the canonical artwork at gameplay scale. The bounce field supplies reflected color, while authored painted shade zones retain ownership of ambient darkening. Contact cores supplement the existing soft bed and respect foreground masks.
+Game and new previews enable Ink harmonization, Shared palette finish, Ground color bounce and Dense contact cores. Dev Preview → Visuals → Scene cohesion can toggle them independently; saved preview choices remain respected. Harmonization groups cutout values, reduces artificial rim highlights and quiets isolated interior flecks in props while preserving deep ink and alpha contours. The shared finishing pass brings the ground painting and cutouts into one restrained palette. These treatments preserve source artwork and registration; they do not change drawn perspective or poses.
+
+Ground bounce samples the original unlit painting once per room into a small color field, excluding masked upright scenery and black ink. Each sprite receives a smooth sample at its foot registration, strongest toward its base; authored shade zones retain ownership of ambient darkening. Dense cores strengthen the center of existing soft contact shadows, retaining their fade and foreground masks. They reuse the existing shadow draws and add no silhouette projection pass.
+
+Compare identical poses in the Orchard, Forge and Chapel fixtures under Lantern night and Silver hour, including painted shade, foreground occlusion and moving actors. Judge the treatment at gameplay scale as well as in crops.
 
 Use the shared development server and affected scene/editor browser scenario. Stable fixtures protect engine and registration behavior without freezing production counts/routes. Original art preparation and explicit sharing follow [assets](assets.md); [verification](verification.md) owns evidence boundaries.
 

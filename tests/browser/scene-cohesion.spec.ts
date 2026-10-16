@@ -173,7 +173,7 @@ test('editor shade zones can be authored, previewed and undone without saving a 
   await expectEditorDocument(page, (document) => document.look.shadeZones?.length).toBe(1);
 });
 
-test('painting bounce excludes upright scenery and contacts disappear with lifted or hidden feet', async ({
+test('painting bounce excludes scenery and dense cores reuse the original shadow draw', async ({
   page,
 }) => {
   await page.route('**/cohesion-proof.html', (route) =>
@@ -183,18 +183,16 @@ test('painting bounce excludes upright scenery and contacts disappear with lifte
   const proof = await page.evaluate(async () => {
     const gpuPath = '/tests/fixtures/gpu.ts',
       environmentPath = '/src/presentation/painted-environment.ts',
-      contactsPath = '/src/presentation/cutout-contacts.ts',
+      contactsPath = '/src/presentation/contact-shadows.ts',
       spritePath = '/src/presentation/sprite.ts',
       manifestPath = '/tests/fixtures/manifest.ts',
-      contentPath = '/tests/fixtures/content.ts',
       lightingPath = '/src/presentation/illustrated-lighting.ts',
       profilesPath = '/src/presentation/lighting-profiles.ts';
     const { T, gpuFixture } = await import(gpuPath),
       { PaintedEnvironment } = await import(environmentPath),
-      { CutoutContacts } = await import(contactsPath),
+      { contactShadowMaterial, setContactCore } = await import(contactsPath),
       { ActorSprite } = await import(spritePath),
       { manifestFixture } = await import(manifestPath),
-      { content } = await import(contentPath),
       { IllustratedLighting } = await import(lightingPath),
       { defaultLook } = await import(profilesPath);
     const gpu = gpuFixture(128, 128, 3),
@@ -235,6 +233,23 @@ test('painting bounce excludes upright scenery and contacts disappear with lifte
     read();
     const left = [...pixels.slice((32 * 128 + 20) * 4, (32 * 128 + 20) * 4 + 4)],
       right = [...pixels.slice((32 * 128 + 108) * 4, (32 * 128 + 108) * 4 + 4)];
+    const cameraPath = '/src/presentation/camera.ts',
+      axes = await import(cameraPath),
+      position = axes.right
+        .clone()
+        .multiplyScalar((20.5 / 128 - 0.5) * 20)
+        .addScaledVector(axes.up, (32.5 / 64 - 0.5) * 10),
+      cached = environment.sample(position, new T.Vector4()).toArray(),
+      midpoint = environment.sample(new T.Vector3(), new T.Vector4()).toArray(),
+      expectedMidpoint = [0, 1, 2, 3].map(
+        (channel) =>
+          [31 * 128 + 63, 31 * 128 + 64, 32 * 128 + 63, 32 * 128 + 64].reduce(
+            (sum, pixel) => sum + pixels[pixel * 4 + channel]!,
+            0,
+          ) /
+          (4 * 255),
+      ),
+      outside = environment.sample(new T.Vector3(100, 0, 100), new T.Vector4()).toArray();
     const mask = new Uint8Array(8 * 4 * 4);
     for (let y = 0; y < 4; y++) for (let x = 4; x < 8; x++) mask[(y * 8 + x) * 4 + 2] = 255;
     const maskTexture = own(new T.DataTexture(mask, 8, 4));
@@ -243,7 +258,8 @@ test('painting bounce excludes upright scenery and contacts disappear with lifte
     read();
     const masked = pixels[(32 * 128 + 108) * 4 + 3];
     environment.build(renderer, packs, undefined, undefined);
-    const reset = !environment.available;
+    const reset = !environment.available && environment.stats().sampleBytes === 0,
+      neutral = environment.sample(new T.Vector3(), new T.Vector4()).toArray();
     renderer.setViewport(0, 0, 128, 128);
     const drawing = new Uint8Array(32 * 32 * 4);
     // Runtime images have already been flipped on decode; DataTexture rows use that orientation.
@@ -265,31 +281,36 @@ test('painting bounce excludes upright scenery and contacts disappear with lifte
     sprite.show(m.frames[0].id, new T.Vector3(), camera);
     const shadow = own(new T.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1));
     shadow.needsUpdate = true;
-    const contacts = own(new CutoutContacts(shadow));
-    const ground = new T.Mesh(
-      own(new T.PlaneGeometry(10, 10)),
-      own(new T.MeshBasicMaterial({ color: 0x888888 })),
-    );
-    ground.rotation.x = -Math.PI / 2;
+    const material = own(contactShadowMaterial(shadow, 0.6)),
+      contact = new T.Mesh(own(new T.PlaneGeometry(1.2, 0.4)), material),
+      ground = new T.Mesh(
+        own(new T.PlaneGeometry(10, 10)),
+        own(new T.MeshBasicMaterial({ color: 0x888888 })),
+      );
+    ground.rotation.x = contact.rotation.x = -Math.PI / 2;
+    contact.position.y = 0.04;
     ground.renderOrder = -2;
-    scene.add(ground, contacts.group);
+    contact.renderOrder = -1.5;
+    scene.add(ground, contact);
+    contact.visible = false;
     const flat = gpu.capture();
-    contacts.update([sprite], content.area('court'));
-    const planted = gpu.capture();
-    const changed = (image: Uint8Array) => {
+    contact.visible = true;
+    const planted = gpu.capture(),
+      beforeCalls = renderer.info.render.calls;
+    setContactCore(material, true);
+    const denser = gpu.capture(),
+      afterCalls = renderer.info.render.calls;
+    const differences = (a: Uint8Array, b: Uint8Array) => {
       let count = 0;
-      for (let i = 0; i < image.length; i += 4) if (flat[i]! - image[i]! > 3) count++;
+      for (let i = 0; i < a.length; i += 4) if (a[i]! - b[i]! > 3) count++;
       return count;
     };
-    drawing.fill(0);
-    drawing.fill(255, 16 * 32 * 4);
-    texture.needsUpdate = true;
-    const lifted = gpu.capture();
-    sprite.material.opacity = 0;
-    contacts.update([sprite], content.area('court'));
+    material.opacity = 0;
     const hidden = gpu.capture();
-    contacts.update([], content.area('court'));
-    const retired = contacts.group.children.length;
+    material.opacity = 0.6;
+    setContactCore(material, false);
+    const restored = gpu.capture();
+    contact.visible = false;
     // Compile the actual shared lighting shader with both treatments enabled.
     const lighting = own(new IllustratedLighting());
     const shadowFallback = own(new T.DepthTexture(1, 1, T.UnsignedIntType));
@@ -301,22 +322,28 @@ test('painting bounce excludes upright scenery and contacts disappear with lifte
       new T.Vector3(),
     );
     lighting.setGroundOcclusion(undefined, { width: 20, depth: 10 });
-    lighting.common.inkEnvironment.value = environment.target.texture;
-    lighting.common.inkHasEnvironment.value = 1;
+    lighting.setEnvironment(true);
     sprite.material.opacity = 1;
-    lighting.sprite(sprite);
+    lighting.sprite(sprite, new T.Vector4(0.4, 0.7, 0.4, 1));
     scene.add(sprite.mesh);
     gpu.capture();
     const result = {
       left,
       right,
+      cached,
+      midpoint,
+      expectedMidpoint,
+      outside,
+      neutral,
       masked,
       reset,
       viewport,
-      planted: changed(planted),
-      lifted: changed(lifted),
-      hidden: changed(hidden),
-      retired,
+      planted: differences(flat, planted),
+      denser: differences(planted, denser),
+      hidden: differences(flat, hidden),
+      restored: differences(planted, restored) + differences(restored, planted),
+      beforeCalls,
+      afterCalls,
       error: renderer.getContext().getError(),
     };
     gpu.dispose();
@@ -325,13 +352,20 @@ test('painting bounce excludes upright scenery and contacts disappear with lifte
   expect(proof.left[1]!).toBeGreaterThan(proof.left[0]!);
   expect(proof.right[0]!).toBeGreaterThan(proof.right[1]!);
   expect(proof.left[3]).toBe(255);
+  for (let channel = 0; channel < 4; channel++) {
+    expect(proof.cached[channel]).toBeCloseTo(proof.left[channel]! / 255, 5);
+    expect(proof.midpoint[channel]).toBeCloseTo(proof.expectedMidpoint[channel]!, 5);
+  }
+  expect(proof.outside).toEqual([0.5, 0.5, 0.5, 0]);
+  expect(proof.neutral).toEqual(proof.outside);
   expect(proof.masked).toBe(0);
   expect(proof.reset).toBe(true);
   expect(proof.viewport).toEqual([2, 3, 100, 90]);
   expect(proof.planted).toBeGreaterThan(10);
-  expect(proof.lifted).toBe(0);
+  expect(proof.denser).toBeGreaterThan(10);
+  expect(proof.afterCalls).toBe(proof.beforeCalls);
   expect(proof.hidden).toBe(0);
-  expect(proof.retired).toBe(0);
+  expect(proof.restored).toBe(0);
   expect(proof.error).toBe(0);
 });
 
@@ -340,6 +374,8 @@ test('orchard cohesion controls survive reload independently', async ({ page }) 
   await page.waitForFunction(() => window.foundation?.ready);
   await page.getByRole('button', { name: 'Visuals', exact: true }).click();
   await page.getByText('Scene cohesion', { exact: true }).click();
+  await page.locator('#cohesion-values').uncheck();
+  await page.locator('#cohesion-finish').uncheck();
   await page.locator('#cohesion-bounce').check();
   await page.locator('#cohesion-contacts').check();
   await page.reload();
@@ -347,5 +383,27 @@ test('orchard cohesion controls survive reload independently', async ({ page }) 
   await expect(page.locator('#cohesion-bounce')).toBeChecked();
   await expect(page.locator('#cohesion-contacts')).toBeChecked();
   await expect(page.locator('#cohesion-values')).not.toBeChecked();
+  await expect(page.locator('#cohesion-finish')).not.toBeChecked();
   expect(await page.evaluate(() => window.foundation.sim.area)).toBe('orchard-fixture');
+  const field = await page.evaluate(async () => {
+    const f = window.foundation,
+      p = f.presentation;
+    p.lookRenderer.setSettings({ groundBounce: false });
+    await f.fixture('orchard-fixture');
+    f.pause(true);
+    p.update(f.sim, 1, 0, { x: 0, z: 0 });
+    const disabled = p.lookRenderer.stats().environment;
+    p.lookRenderer.setSettings({ groundBounce: true });
+    p.update(f.sim, 1, 0, { x: 0, z: 0 });
+    const enabled = p.lookRenderer.stats().environment;
+    await f.fixture('outdoor-fixture');
+    p.update(f.sim, 1, 0, { x: 0, z: 0 });
+    return { disabled, enabled, replaced: p.lookRenderer.stats().environment };
+  });
+  expect(field.disabled).toEqual({ configured: false, available: false, sampleBytes: 0 });
+  expect(field.enabled.configured).toBe(true);
+  expect(field.enabled.available).toBe(true);
+  expect(field.enabled.sampleBytes).toBeGreaterThan(0);
+  expect(field.enabled.sampleBytes).toBeLessThanOrEqual(128 * 128 * 4);
+  expect(field.replaced).toEqual({ configured: true, available: false, sampleBytes: 0 });
 });

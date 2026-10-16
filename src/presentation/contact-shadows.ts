@@ -5,9 +5,15 @@ import type { ArtPlacement } from '../content/world-visuals';
 import { heightAt, surfaceGradient, type AreaDefinition } from '../content/world';
 import type { ActorSprite } from './sprite';
 
+const contactCores = new WeakMap<T.Material, { value: number }>();
+export function setContactCore(material: T.Material, enabled: boolean) {
+  const core = contactCores.get(material);
+  if (core) core.value = enabled ? 1 : 0;
+}
+
 // Grounding is independent of directional lighting and never writes depth.
 export function contactShadowMaterial(texture: T.Texture, opacity: number) {
-  return multiplyGroundShadow(
+  const material = multiplyGroundShadow(
     new T.MeshBasicMaterial({
       map: texture,
       color: 0x182126,
@@ -18,6 +24,32 @@ export function contactShadowMaterial(texture: T.Texture, opacity: number) {
       toneMapped: false,
     }),
   );
+  const core = { value: 0 },
+    previous = material.onBeforeCompile.bind(material),
+    key = material.customProgramCacheKey();
+  contactCores.set(material, core);
+  material.onBeforeCompile = (shader, renderer) => {
+    previous(shader, renderer);
+    shader.uniforms.contactCore = core;
+    shader.fragmentShader = 'uniform float contactCore;\n' + shader.fragmentShader;
+    shader.fragmentShader = shader.fragmentShader.replace(
+      '#include <map_fragment>',
+      `#include <map_fragment>
+float contactCoverage=clamp(diffuseColor.a/max(opacity,.001),0.0,1.0);
+// contact-opacity`,
+    );
+    shader.fragmentShader = shader.fragmentShader.replace(
+      '#include <colorspace_fragment>',
+      `#include <colorspace_fragment>
+if(contactCore>.5){
+ float core=contactCoverage*contactCoverage;core*=core*contactCoverage;
+ core*=diffuseColor.a*.95;
+ gl_FragColor.rgb*=linearToOutputTexel(vec4(mix(vec3(1.0),diffuse,core),1.0)).rgb;
+}`,
+    );
+  };
+  material.customProgramCacheKey = () => key + ':contact-core-v1';
+  return material;
 }
 
 export function contactFootprint(
@@ -66,8 +98,8 @@ export class PropContactShadows {
       );
       shader.fragmentShader = 'varying float vContactOpacity;\n' + shader.fragmentShader;
       shader.fragmentShader = shader.fragmentShader.replace(
-        '#include <map_fragment>',
-        '#include <map_fragment>\ndiffuseColor.a*=vContactOpacity;',
+        '// contact-opacity',
+        'diffuseColor.a*=vContactOpacity;',
       );
     };
     material.customProgramCacheKey = () => 'prop-contact-shadow-multiply-v2';
@@ -107,9 +139,6 @@ export class PropContactShadows {
         this.opacity.needsUpdate = true;
       }
     }
-  }
-  *sprites() {
-    for (const entry of this.entries) yield entry.sprite;
   }
   dispose() {
     if (this.disposed) return;

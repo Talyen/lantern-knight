@@ -12,6 +12,7 @@ export type LookSettings = {
   atmosphere: boolean;
   postprocessing: boolean;
   paintedValues: boolean;
+  paintedFinish: boolean;
   groundBounce: boolean;
   tightContacts: boolean;
   strength: number;
@@ -109,9 +110,10 @@ export const defaultLook: LookSettings = {
   shadows: true,
   atmosphere: true,
   postprocessing: true,
-  paintedValues: false,
-  groundBounce: false,
-  tightContacts: false,
+  paintedValues: true,
+  paintedFinish: true,
+  groundBounce: true,
+  tightContacts: true,
   strength: 1,
   depthOfField: 0,
 };

@@ -48,6 +48,8 @@ import type { Actor, Simulation } from '../core/simulation';
 const worldVisuals = {
   ...developerVisuals,
   'orchard-fixture': productionVisuals['abandoned-orchard']!,
+  'forge-fixture': productionVisuals['ruined-forge']!,
+  'chapel-fixture': productionVisuals['desecrated-chapel']!,
 };
 
 export function mountScene(

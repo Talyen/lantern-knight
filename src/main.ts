@@ -60,6 +60,7 @@ async function start() {
     if (cohesion)
       application.presentation.lookRenderer.setSettings({
         paintedValues: cohesion.includes('values'),
+        paintedFinish: cohesion.includes('finish'),
         groundBounce: cohesion.includes('bounce'),
         tightContacts: cohesion.includes('contacts'),
       });

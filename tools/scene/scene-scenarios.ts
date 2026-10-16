@@ -428,7 +428,7 @@ export async function checkPreviewReload(context: SceneContext) {
       span: window.foundation.presentation.verticalSpan,
       rig: window.foundation.presentation.lightingLab.settings.rig,
       strength: window.foundation.presentation.lightingLab.settings.strength,
-      paused: !document.querySelector<HTMLElement>('#modal')!.hidden,
+      paused: document.querySelector('#pause')?.textContent === 'Resume',
     })),
     { scene: other, span: 11, rig: 'silver', strength: 0.8, paused: true },
   );
@@ -511,8 +511,10 @@ export async function captureScene(context: SceneContext) {
             Object.assign(sim.hero, pose, { px: pose.x, pz: pose.z });
             sim.move(sim.hero, 0, 0);
           });
-          for (const selector of ['#modal', '.title-card', '.hud', '.actions'])
-            document.querySelector<HTMLElement>(selector)!.hidden = true;
+          for (const selector of ['#modal', '.title-card', '.hud', '.actions']) {
+            const element = document.querySelector<HTMLElement>(selector);
+            if (element) element.hidden = true;
+          }
           for (let i = 0; i < 24; i++)
             f.presentation.update(f.sim, 1, 1000 / 60, {
               x: pose.x + 1,
