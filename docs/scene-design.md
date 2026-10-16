@@ -10,6 +10,8 @@ Measure native dimensions and density. Prefer quiet beds and coordinated intact 
 
 Choose each complete painting's world width with the hero visible beside human-scale landmarks: doorways, benches, tables, stair treads and passages. Image resolution alone does not determine world size. Inspect gameplay captures before accepting the scale, then validate actor clearance and navigation at that size. Later floor resizing reprojects accepted interaction geometry and test destinations with the artwork in one undoable edit; repeat the clearance and visual checks after resizing.
 
+Gameplay cameras must keep every viewport corner inside the rendered scene. Whole paintings reserve an inner playable margin for the hero's full silhouette; camera framing fits that silhouette and the upper controls without exposing the painting's outer edge. Stage exits and arrivals inside this margin. Camera bounds, bias and hero visibility preferences cannot override scene coverage.
+
 ## Scene cohesion
 
 Match the fixed sun direction and elevation to the shadows painted into the scene. The shared lighting rig owns directional casting; grounded props and actors also receive tighter independent contact shadows. Painted silhouettes cast and receive shadows using their authored depths; their contact masks keep ground blobs off upright scenery. Interior bounds disable outdoor sun casting while retaining contact shadows and local-light silhouettes. Solid props, actors and dropped items share animated alpha silhouettes; flames and decorative ground artwork do not cast. Nearby lights illuminate the same physical surfaces that receive their shadows.

@@ -126,7 +126,7 @@ function fieldLabel(name: string) {
     maxX: 'Right (X)',
     minZ: 'Near (Z)',
     maxZ: 'Far (Z)',
-    keepHeroVisible: 'Keep hero visible',
+    keepHeroVisible: 'Bias framing toward hero',
     x: 'X',
     z: 'Z',
     y: 'Height',

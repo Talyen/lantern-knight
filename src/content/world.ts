@@ -65,6 +65,8 @@ export type AreaDefinition = {
   name: string;
   subtitle: string;
   bounds: Bounds;
+  /** Finite rendered floor; camera coverage never extends beyond it. */
+  sceneBoundary?: readonly Point[];
   playableBoundary?: readonly Point[];
   surface: Surface;
   seedOffset: number;
@@ -229,8 +231,8 @@ export class ContentRegistry {
     for (const a of definitions.areas) {
       bounds(a.bounds);
       if (a.activation) bounds(a.activation);
-      if (a.playableBoundary) {
-        const points = a.playableBoundary;
+      for (const points of [a.sceneBoundary, a.playableBoundary]) {
+        if (!points) continue;
         if (points.length < 3 || points.length > 16) fail('invalid playable boundary');
         for (const [i, p] of points.entries()) {
           finite(p.x, p.z);

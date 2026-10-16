@@ -1,4 +1,4 @@
-import { boundsCorners } from '../content/polygon';
+import { boundsCorners, clipPolygon, closestPointOnSegment, polygonArea } from '../content/polygon';
 import { OrthographicCamera, Plane, Raycaster, Vector2, Vector3 } from 'three';
 import { cameraContract as contract } from '../assets/camera-contract';
 import { heightAt, type AreaDefinition, type Point } from '../content/world';
@@ -33,159 +33,86 @@ export function resizeCamera(
   camera.bottom = -half;
   camera.updateProjectionMatrix();
 }
-/** Fit the floor first; an explicit focus keeps its silhouette visible at the edges. */
+/** Solve scene coverage and silhouette framing together. Coverage always wins. */
 export function constrainCamera(
   camera: OrthographicCamera,
   target: Vector3,
   area: AreaDefinition,
   focus?: { position: Vector3; height: number },
 ) {
-  constrainFloor(camera, target, area);
-  if (!focus) return;
-  const halfWidth = (camera.right - camera.left) / (2 * camera.zoom),
-    halfHeight = (camera.top - camera.bottom) / (2 * camera.zoom),
-    delta = focus.position.clone().sub(target),
-    limit = Math.max(0, halfWidth - 0.75),
-    lateral = delta.dot(right),
-    vertical = delta.dot(up),
-    low = -halfHeight + 0.6,
-    high = halfHeight - focus.height * up.y - Math.max(0.6, halfHeight * 0.24),
-    // If an unusually tight zoom cannot fit the silhouette, center it.
-    root = low <= high ? Math.max(low, Math.min(high, vertical)) : (low + high) / 2;
-  target.addScaledVector(right, lateral - Math.max(-limit, Math.min(limit, lateral)));
-  target.addScaledVector(up.clone().addScaledVector(outward, -up.y / outward.y), vertical - root);
-}
-function constrainFloor(camera: OrthographicCamera, target: Vector3, area: AreaDefinition) {
-  const boundary = area.playableBoundary;
-  if (
-    !boundary ||
-    (boundary.length === 4 &&
-      boundary.every((a, i) => {
-        const b = boundary[(i + 1) % 4]!,
-          c = boundary[(i + 2) % 4]!;
-        return Math.abs((b.x - a.x) * (c.x - b.x) + (b.z - a.z) * (c.z - b.z)) < 1e-8;
-      }))
-  ) {
-    constrainRectangularCamera(camera, target, area);
-    return;
-  }
-  const corners = boundary,
+  const groundHeight = heightAt(area, target.x, target.z) - 0.01,
+    boundary = area.sceneBoundary ?? area.playableBoundary ?? boundsCorners(area.bounds),
+    project = (p: Vector3): Point => ({ x: p.dot(right), z: p.dot(up) }),
+    floor = boundary.map((p) => project(new Vector3(p.x, groundHeight, p.z))),
+    desired = project(target),
     halfWidth = (camera.right - camera.left) / 2,
     halfHeight = (camera.top - camera.bottom) / 2,
-    groundUp = up.clone().addScaledVector(outward, -up.y / outward.y),
-    edges = corners.map((a, i) => {
-      const next = corners[(i + 1) % corners.length]!,
-        length = Math.hypot(next.x - a.x, next.z - a.z),
-        x = (a.z - next.z) / length,
-        z = (next.x - a.x) / length;
-      return {
-        x,
-        z,
-        d: x * a.x + z * a.z,
-        extent:
-          Math.abs(right.x * x + right.z * z) * halfWidth +
-          Math.abs(groundUp.x * x + groundUp.z * z) * halfHeight,
-      };
-    }),
-    // Clip possible viewport centers against each edge inset by the viewport's
-    // projected extent. This also handles triangles and nonrectangular quads.
-    inset = (scale: number) => {
-      let polygon: readonly Point[] = corners;
-      for (const edge of edges) {
-        const clipped: Point[] = [],
-          distance = (p: Point) => edge.x * p.x + edge.z * p.z - edge.d - edge.extent * scale;
-        for (let i = 0; i < polygon.length; i++) {
-          const a = polygon[i]!,
-            next = polygon[(i + 1) % polygon.length]!,
-            da = distance(a),
-            db = distance(next);
-          if (da >= 0) clipped.push(a);
-          if (da >= 0 !== db >= 0) {
-            const t = da / (da - db);
-            clipped.push({ x: a.x + (next.x - a.x) * t, z: a.z + (next.z - a.z) * t });
-          }
-        }
-        polygon = clipped;
+    foot = focus && project(focus.position),
+    silhouette = (focus?.height ?? 0) * up.y,
+    inset = (scale: number, frameHero: boolean) => {
+      let polygon = floor;
+      // A viewport fits only if all four corners remain on the painted floor.
+      for (const x of [-halfWidth * scale, halfWidth * scale])
+        for (const z of [-halfHeight * scale, halfHeight * scale])
+          polygon = clipPolygon(
+            polygon,
+            floor.map((p) => ({ x: p.x - x, z: p.z - z })),
+          );
+      if (frameHero && foot) {
+        const bounds = {
+          minX: foot.x - halfWidth * scale + 0.75,
+          maxX: foot.x + halfWidth * scale - 0.75,
+          minZ: foot.z + silhouette - halfHeight * scale + Math.max(0.3, halfHeight * scale * 0.24),
+          maxZ: foot.z + halfHeight * scale - 0.3,
+        };
+        if (bounds.minX > bounds.maxX || bounds.minZ > bounds.maxZ) return [];
+        polygon = clipPolygon(polygon, boundsCorners(bounds));
       }
       return polygon;
     };
-  let scale = 1;
-  if (!inset(scale).length) {
-    let low = 0,
+  // The focus imposes a minimum viewport size. Its feasible scales form an
+  // interval; find the largest one that also fits inside the scene.
+  const minimum =
+      Math.max(
+        0.75 / halfWidth,
+        (silhouette + 0.6) / (2 * halfHeight),
+        (silhouette + 0.3) / (1.76 * halfHeight),
+      ) *
+      (1 + 1e-8),
+    frameHero = !!focus && minimum <= 1 && inset(minimum, true).length > 0;
+  let scale = 1,
+    polygon = inset(scale, frameHero);
+  if (!polygon.length) {
+    let low = frameHero ? minimum : 0,
       high = 1;
-    for (let i = 0; i < 48; i++) {
+    for (let i = 0; i < 40; i++) {
       const mid = (low + high) / 2;
-      if (inset(mid).length) low = mid;
+      if (inset(mid, frameHero).length) low = mid;
       else high = mid;
     }
-    scale = low * (1 - 1e-10);
+    scale = low * (1 - 1e-8);
+    polygon = inset(scale, frameHero);
   }
   camera.zoom = 1 / scale;
   camera.updateProjectionMatrix();
-  // The rendered floor sits 1 cm below the logical walking surface.
-  const groundHeight = heightAt(area, target.x, target.z) - 0.01,
-    offset = (target.y - groundHeight) / outward.y,
-    center = { x: target.x - outward.x * offset, z: target.z - outward.z * offset };
-  if (edges.every((e) => e.x * center.x + e.z * center.z >= e.d + e.extent * scale)) return;
-  const polygon = inset(scale);
-  let closest = center,
+  const within =
+    Math.abs(polygonArea(polygon)) > 1e-12 && clipPolygon([desired], polygon).length > 0;
+  if (within) return;
+  let closest = desired,
     distance = Infinity;
   for (let i = 0; i < polygon.length; i++) {
-    const a = polygon[i]!,
-      next = polygon[(i + 1) % polygon.length]!,
-      dx = next.x - a.x,
-      dz = next.z - a.z,
-      lengthSquared = dx * dx + dz * dz,
-      t = lengthSquared
-        ? Math.max(0, Math.min(1, ((center.x - a.x) * dx + (center.z - a.z) * dz) / lengthSquared))
-        : 0,
-      p = { x: a.x + dx * t, z: a.z + dz * t },
-      d = Math.hypot(p.x - center.x, p.z - center.z);
+    const p = closestPointOnSegment(desired, polygon[i]!, polygon[(i + 1) % polygon.length]!),
+      d = Math.hypot(p.x - desired.x, p.z - desired.z);
     if (d < distance) {
       closest = p;
       distance = d;
     }
   }
-  target.x = closest.x + outward.x * offset;
-  target.z = closest.z + outward.z * offset;
-}
-function constrainRectangularCamera(
-  camera: OrthographicCamera,
-  target: Vector3,
-  area: AreaDefinition,
-) {
-  const b = area.bounds,
-    corners = area.playableBoundary ?? boundsCorners(b),
-    origin = corners[0]!,
-    edge = corners[1]!,
-    opposite = corners[3]!,
-    width = Math.hypot(edge.x - origin.x, edge.z - origin.z),
-    depth = Math.hypot(opposite.x - origin.x, opposite.z - origin.z),
-    u = { x: (edge.x - origin.x) / width, z: (edge.z - origin.z) / width },
-    v = { x: (opposite.x - origin.x) / depth, z: (opposite.z - origin.z) / depth },
-    halfWidth = (camera.right - camera.left) / 2,
-    halfHeight = (camera.top - camera.bottom) / 2,
-    // Project screen up onto the ground along the viewing ray.
-    groundUp = up.clone().addScaledVector(outward, -up.y / outward.y),
-    extent = (axis: { x: number; z: number }) =>
-      Math.abs(right.x * axis.x + right.z * axis.z) * halfWidth +
-      Math.abs(groundUp.x * axis.x + groundUp.z * axis.z) * halfHeight,
-    spanU = extent(u),
-    spanV = extent(v),
-    scale = Math.min(1, width / (2 * spanU), depth / (2 * spanV));
-  camera.zoom = 1 / scale;
-  camera.updateProjectionMatrix();
-  // The rendered floor sits 1 cm below the logical walking surface.
-  const groundHeight = heightAt(area, target.x, target.z) - 0.01,
-    offset = (target.y - groundHeight) / outward.y,
-    x = target.x - outward.x * offset - origin.x,
-    z = target.z - outward.z * offset - origin.z,
-    clamp = (value: number, span: number, size: number) =>
-      Math.max(span * scale, Math.min(size - span * scale, value)),
-    alongU = clamp(x * u.x + z * u.z, spanU, width),
-    alongV = clamp(x * v.x + z * v.z, spanV, depth);
-  target.x = origin.x + alongU * u.x + alongV * v.x + outward.x * offset;
-  target.z = origin.z + alongU * u.z + alongV * v.z + outward.z * offset;
+  target.addScaledVector(right, closest.x - desired.x);
+  target.addScaledVector(
+    up.clone().addScaledVector(outward, -up.y / outward.y),
+    closest.z - desired.z,
+  );
 }
 export function drawingBufferSize(
   width: number,

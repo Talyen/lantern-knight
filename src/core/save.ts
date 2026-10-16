@@ -1,9 +1,9 @@
 import { equipmentSlots, healthBonus } from '../content/items';
 import { validateInventory, MAX_ITEM_COUNT } from './inventory';
-import { AreaStateSchema, parseAreaState } from './area-state';
+import { AreaStateSchema, parseAreaState, restoreScenePosition } from './area-state';
 import { z } from 'zod';
 import { OnboardingSchema } from './onboarding';
-import { type ContentRegistry, contains, isSupportedPosition } from '../content/world';
+import { type ContentRegistry, contains } from '../content/world';
 import { effectiveRadius } from '../content/collision';
 import { tuning } from '../content/gameplay';
 const id = z.string().regex(/^[a-z0-9][a-z0-9_-]*$/);
@@ -71,7 +71,7 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
   for (const [areaId, state] of Object.entries(save.areas))
     save.areas[areaId] = parseAreaState(state, registry, areaId);
 
-  if (!isSupportedPosition(active, save.player, effectiveRadius(player.radius)))
+  if (!restoreScenePosition(active, save.player, effectiveRadius(player.radius)))
     throw new Error('Unsupported saved player position');
 
   return save;

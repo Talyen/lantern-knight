@@ -87,7 +87,11 @@ export function groundPlacementPolicy(document: SceneSnapshot, area: AreaDefinit
   const paintedColliders = new Set(
     ground?.regions.filter((r) => r.footprint).map((r) => 'ground-' + r.id),
   );
-  const terrain = { ...area, props: area.props.filter((p) => paintedColliders.has(p.id)) };
+  const terrain = {
+    ...area,
+    playableBoundary: area.sceneBoundary ?? area.playableBoundary,
+    props: area.props.filter((p) => paintedColliders.has(p.id)),
+  };
   return (point: Point, radius: number, allowPaintedOcclusion = false): string | undefined => {
     if (!ground) return;
     if (!isSupportedPosition(terrain, point, radius))

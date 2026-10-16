@@ -5,7 +5,7 @@ import { test, expect } from './fixtures';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
 
-test('forge departure keeps the hero and cue clear of the toolbar without a bright surround', async ({
+test('forge departure keeps the hero below controls with artwork across the upper viewport', async ({
   page,
 }) => {
   test.setTimeout(240_000);
@@ -43,12 +43,43 @@ test('forge departure keeps the hero and cue clear of the toolbar without a brig
       { timeout: 60_000 },
     )
     .toBe(true);
-  const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
-  if (directory) await mkdir(directory, { recursive: true });
-  const capture = await page.screenshot(
-      directory ? { path: path.join(directory, 'camera-forge-departure.png') } : {},
-    ),
-    image = await sharp(capture).ensureAlpha().raw().toBuffer({ resolveWithObject: true }),
-    offset = (8 * image.info.width + 8) * 4;
-  expect(Math.max(...image.data.subarray(offset, offset + 3))).toBeLessThan(40);
+  for (const [name, width, height] of [
+    ['landscape', 1600, 900],
+    ['portrait', 900, 1600],
+    ['wide', 2100, 900],
+  ] as const) {
+    await page.setViewportSize({ width, height });
+    await expect
+      .poll(async () => {
+        const hint = (await cue.boundingBox())!;
+        return hint.y > 80 && hint.y + hint.height < height;
+      })
+      .toBe(true);
+    // Let the resized drawing buffer settle before checking the rendered edge.
+    await page.waitForTimeout(500);
+    const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
+    if (directory) await mkdir(directory, { recursive: true });
+    const capture = await page.screenshot(
+        directory ? { path: path.join(directory, `camera-forge-${name}.png`) } : {},
+      ),
+      image = await sharp(capture).metadata(),
+      strip = await sharp(capture)
+        .extract({
+          left: Math.floor(image.width! * 0.4),
+          top: 8,
+          width: Math.floor(image.width! * 0.2),
+          height: 48,
+        })
+        .stats();
+    // The old ink-dark band was a flat clear color behind the finite painting.
+    // Scene geometry tests protect exact coverage; this checks real rendered art.
+    expect(Math.max(...strip.channels.slice(0, 3).map((channel) => channel.stdev))).toBeGreaterThan(
+      2,
+    );
+  }
+  await page.keyboard.press('e');
+  await expect(page.locator('#room-title')).toHaveText(content.area('desecrated-chapel').name, {
+    timeout: 60_000,
+  });
+  await expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 60_000 });
 });

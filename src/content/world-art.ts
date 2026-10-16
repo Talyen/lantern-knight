@@ -133,7 +133,8 @@ export function resolveScene(
     exits: [],
     floorColor: 0x344b4e,
     ...geometry,
-    playableBoundary: layout?.corners,
+    sceneBoundary: layout?.corners,
+    playableBoundary: layout?.playableBoundary,
     ...gameplay,
     props: [
       ...churchyardColliders(visuals),

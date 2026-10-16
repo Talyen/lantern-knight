@@ -1,7 +1,13 @@
 import { z } from 'zod';
 import { rewardSchema } from '../content/interactions';
-import { type ContentRegistry, contains, isSupportedPosition } from '../content/world';
-import { effectiveRadius } from '../content/collision';
+import {
+  type ContentRegistry,
+  type AreaDefinition,
+  type Point,
+  contains,
+  isSupportedPosition,
+} from '../content/world';
+import { effectiveRadius, supportedPosition, clearSegment } from '../content/collision';
 import type { ContentSnapshot } from '../content/snapshot';
 import { tuning } from '../content/gameplay';
 const id = z.string().regex(/^[a-z0-9][a-z0-9_-]*$/);
@@ -37,6 +43,39 @@ export const AreaStateSchema = z.strictObject({
     .optional(),
 });
 export type AreaState = z.infer<typeof AreaStateSchema>;
+
+// Preserve checkpoints made before a painting gained its inner framing margin.
+// Only the old clear floor is eligible; walls and invalid coordinates still fail.
+export function restoreScenePosition(area: AreaDefinition, point: Point, radius: number) {
+  if (isSupportedPosition(area, point, radius)) return true;
+  if (!area.sceneBoundary) return false;
+  const previous = { ...area, playableBoundary: area.sceneBoundary };
+  if (!isSupportedPosition(previous, point, radius)) return false;
+  let corrected = supportedPosition(area, point, radius);
+  const clear = (candidate: Point) =>
+    isSupportedPosition(area, candidate, radius) &&
+    clearSegment(previous, point, candidate, radius);
+  if (!clear(corrected)) {
+    // The nearest boundary point can overlap painted collision. Search nearby
+    // clear footing without crossing a wall or changing checkpoint progress.
+    let found: Point | undefined;
+    for (let distance = 0.2; distance <= 6 && !found; distance += 0.2)
+      for (let i = 0; i < 64; i++) {
+        const candidate = {
+          x: point.x + Math.cos((i * Math.PI) / 32) * distance,
+          z: point.z + Math.sin((i * Math.PI) / 32) * distance,
+        };
+        if (clear(candidate)) {
+          found = candidate;
+          break;
+        }
+      }
+    if (!found) return false;
+    corrected = found;
+  }
+  Object.assign(point, corrected);
+  return true;
+}
 
 // Admission is shared by checkpoints and simulation construction. Returns a
 // detached state so neither caller drafts nor borrowed views become live state.
@@ -78,7 +117,7 @@ export function parseAreaState(
       const reward = Number.isInteger(index) && index >= 0 ? source?.rewards?.[index] : undefined;
       if (
         !source ||
-        !isSupportedPosition(area, drop, 0.01) ||
+        !restoreScenePosition(area, drop, 0.01) ||
         !reward ||
         reward.item !== drop.rewards[0]!.item ||
         reward.amount !== drop.rewards[0]!.amount ||
@@ -109,7 +148,7 @@ export function parseAreaState(
     throw new Error('Unknown or duplicate alerted enemy');
   for (const spawn of area.spawns)
     if (
-      !isSupportedPosition(
+      !restoreScenePosition(
         area,
         state.actors[spawn.id]!,
         effectiveRadius(registry.actor(spawn.actor).radius),

@@ -1,3 +1,4 @@
+import { tuning } from './gameplay';
 import { polygonBounds } from './polygon';
 import { cameraContract } from '../assets/camera-contract';
 import type { Point } from './world';
@@ -28,5 +29,20 @@ export function artworkFloorLayout(width: number, depth: number) {
       z = (v! - 0.5) * groundDepth;
     return { x: x * c + z * s, z: -x * s + z * c };
   };
-  return { corners, bounds, uv, world };
+  // Reserve room for the complete hero and camera controls inside the painting.
+  // Collision adds the actor radius to this margin, including restored positions.
+  const side = Math.min(0.75, width * 0.1) / width,
+    top =
+      Math.min(
+        cameraContract.heroHeight * tuning.heroVisualScale * Math.cos(elevation) + 0.5,
+        depth * 0.6,
+      ) / depth,
+    bottom = Math.min(0.2, depth * 0.1) / depth,
+    playableBoundary = [
+      [side, top],
+      [1 - side, top],
+      [1 - side, 1 - bottom],
+      [side, 1 - bottom],
+    ].map(world);
+  return { corners, bounds, uv, world, playableBoundary };
 }
