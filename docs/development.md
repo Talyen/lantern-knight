@@ -18,6 +18,8 @@ Development selects a checkout-local preparation when available, otherwise the i
 
 `npm run build` compiles Game for the browser; `-- --dev` compiles the authoring views. Both consume pinned assets unless `-- --local` selects checkout-local preparation. Use `npm run build -- --eager` to acquire the complete verified pin before selecting the same Game files when individual-file delivery is unavailable. Web builds do not compile Electron. `npm run package` composes the matching web and Electron builds for native delivery; use `-- --local` there for an unsigned native prototype with local assets. On macOS, Game release packaging signs and notarizes by default using the saved Keychain setup in [delivery](release.md#signed-mac-packages-for-steam); add `-- --unsigned` for a development Game package without notarization.
 
+[Vercel configuration](../vercel.json) builds the browser Game with Node 24, typechecking and the normal pinned-asset build, serving `dist`. Installation skips the unused Electron binary. The `lantern-knight` project belongs to Talyen's projects and links to `Talyen/lantern-knight`. As in Alchemy, Git auto-deploys are disabled; deploy deliberately from the Vercel dashboard or CLI. Keep local Vercel links and pulled environment files in the ignored `.vercel/` directory.
+
 ## Setup by task
 
 | Task                                         | Additional setup after `npm ci`                                                                                                      |

@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "git": { "deploymentEnabled": false },
+  "installCommand": "ELECTRON_SKIP_BINARY_DOWNLOAD=1 npm ci",
+  "buildCommand": "npm run typecheck && npm run build",
+  "outputDirectory": "dist"
+}
