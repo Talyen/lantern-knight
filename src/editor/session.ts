@@ -181,6 +181,7 @@ export function createEditorSession() {
     $<HTMLInputElement>('width').value = String(d.floor.width);
     $<HTMLInputElement>('depth').value = String(d.floor.depth);
     $<HTMLFieldSetElement>('transform').disabled = busy || !p || locked;
+    $('ground-interaction-section').inert = busy;
     $('selected-name').textContent = p ? (locked ? 'Locked object' : '') : 'Select an object';
     for (const key of ['x', 'z', 'y', 'scale'] as const)
       $<HTMLInputElement>(key).value = p

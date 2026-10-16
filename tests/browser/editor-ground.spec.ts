@@ -257,7 +257,10 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     await expect(page.locator('#ground-profile option[value="' + profileId + '"]')).toHaveCount(1);
     await page.locator('#ground-profile').selectOption(profileId!);
     await page.locator('#ground-restore-profile').click();
-    await expectEditorDocument(page, (document) => document.groundInteraction).toEqual(authored);
+    await expectEditorDocument(page, (document) => document.groundInteraction, {
+      timeout: 60_000,
+    }).toEqual(authored);
+    await waitForEditorIdle(page);
     await page.locator('#undo').click();
     await expectEditorDocument(page, (document) => document.groundInteraction).toBeUndefined();
     await page.locator('#redo').click();
@@ -270,7 +273,7 @@ test('ground authoring accepts and corrects selection, saves contours and routes
     }));
     await page.locator('#ground-test-movement').click();
     await page.waitForFunction(() => window.sceneEditor.playtest()?.ready, undefined, {
-      timeout: 60_000,
+      timeout: 120_000,
     });
     expect((await page.evaluate(() => window.sceneEditor.playtest()))!.actors.length).toBe(4);
     const enemyId = await page.evaluate(

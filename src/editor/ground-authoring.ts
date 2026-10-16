@@ -618,11 +618,14 @@ export class GroundAuthoring {
       d.floor,
       this.field<HTMLInputElement>('#ground-profile-review').checked,
     );
-    await this.host.change((draft) => {
-      draft.groundInteraction = interaction;
-    });
-    this.host.status(
-      'Saved interaction restored. Inspect alignment, collision and depth before saving.',
+    await this.host.change(
+      (draft) => {
+        draft.groundInteraction = interaction;
+      },
+      () =>
+        this.host.status(
+          'Saved interaction restored. Inspect alignment, collision and depth before saving.',
+        ),
     );
   }
   private reviewCandidate() {
