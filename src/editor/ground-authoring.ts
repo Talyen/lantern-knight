@@ -61,6 +61,8 @@ export class GroundAuthoring {
   private gestureLease?: GestureLease;
   private abort?: AbortController;
   private request = 0;
+  private profileListRequest = 0;
+  private profileRestoreRequest = 0;
   private lifetime = new AbortController();
   private previous?: SceneSnapshot;
   private signature = '';
@@ -571,14 +573,17 @@ export class GroundAuthoring {
     };
   }
   private async loadProfiles() {
+    this.lifetime.signal.throwIfAborted();
+    const request = ++this.profileListRequest;
     const d = this.host.document(),
       identity = this.selectionIdentity();
     const response = await fetch('/__lantern_editor?groundProfiles', {
       signal: this.lifetime.signal,
     });
     const data = await response.json();
+    this.lifetime.signal.throwIfAborted();
+    if (request !== this.profileListRequest || d !== this.host.document()) return;
     if (!response.ok) throw new Error(data.error);
-    if (d !== this.host.document()) return;
     const profiles = data.profiles as {
       id: string;
       name: string;
@@ -602,6 +607,8 @@ export class GroundAuthoring {
     this.host.status(`${profiles.length} saved interaction revisions available.`);
   }
   private async restoreProfile() {
+    this.lifetime.signal.throwIfAborted();
+    const request = ++this.profileRestoreRequest;
     const id = this.field<HTMLSelectElement>('#ground-profile').value;
     if (!id) throw new Error('Choose a saved interaction revision first.');
     const d = this.host.document(),
@@ -610,8 +617,9 @@ export class GroundAuthoring {
       signal: this.lifetime.signal,
     });
     const data = await response.json();
+    this.lifetime.signal.throwIfAborted();
+    if (request !== this.profileRestoreRequest || d !== this.host.document()) return;
     if (!response.ok) throw new Error(data.error);
-    if (d !== this.host.document()) return;
     const interaction = restoreGroundProfile(
       GroundProfileSchema.parse(data.profile),
       identity,

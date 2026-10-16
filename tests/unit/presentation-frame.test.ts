@@ -258,3 +258,84 @@ test('the armored warden holds its hammer windup until the damage tick in every 
     'runtime mapping preserves the supplied timeline',
   );
 });
+
+function actorFixture(t: import('node:test').TestContext, zeroWindup = false) {
+  const definitions = structuredClone(content.definitions) as ContentDefinitions;
+  if (zeroWindup) definitions.actors[0]!.melee.windup = 0;
+  definitions.actors = [
+    ...definitions.actors,
+    { ...actorDefinitions.find((a) => a.id === 'chapel-warden')! },
+  ];
+  const sim = new Simulation(new ContentRegistry(definitions));
+  const room = new Group(),
+    texture = new CanvasTexture({} as HTMLCanvasElement);
+  const packs = new Map(
+    ['ink-hero-current', 'library-sk01', 'library-sk02'].map((id) => {
+      const manifest = manifestFixture(id);
+      manifest.asset.clips.attack = structuredClone(manifest.asset.clips.attack_sword_01!);
+      for (const clip of Object.values(manifest.asset.clips.attack))
+        clip!.notifies = [{ id: 'hit', kind: 'whoosh', atMs: 50 }];
+      return [id, { manifest, textures: new Map([['atlas-0', texture]]) }] as const;
+    }),
+  );
+  const presentation = new ActorPresentation(room, packs, new OrthographicCamera(), texture, {
+    animation: { clips: {} },
+  } as PreparedRegistration);
+  t.after(() => {
+    presentation.dispose();
+    texture.dispose();
+  });
+  const update = () =>
+    presentation.update(sim.view, 1, 0, {
+      walkTiming: 'supplied',
+      stabilized: false,
+      rigidSword: false,
+      animationTreatment: 'original',
+      debug: false,
+    });
+  return { sim, presentation, room, update };
+}
+
+test('removed actors release their sprites, shadows and rings on the next frame', (t) => {
+  const { sim, presentation, room, update } = actorFixture(t);
+  update();
+  sim.actors = [sim.hero];
+  update();
+  assert.equal(presentation.actors.size, 1);
+  assert.equal(room.children.length, 3);
+});
+
+test('replacing an actor definition at the same identity rebuilds its visual and body ring', (t) => {
+  const { sim, presentation, update } = actorFixture(t);
+  update();
+  const old = presentation.actors.get(sim.enemies[0]!.id)!;
+  sim.actors[1] = sim.create(sim.enemies[0]!.id, 'enemy', 1, 0, 'chapel-warden');
+  update();
+  const next = presentation.actors.get(sim.enemies[0]!.id)!;
+  assert.notEqual(next, old);
+  assert.equal(next.sprite.manifest.asset.id, 'library-sk02');
+  assert.equal(old.sprite.mesh.parent, null);
+});
+
+test('accepted zero-windup enemy attacks render a finite contact pose at action entry', (t) => {
+  const { sim, presentation, update } = actorFixture(t, true);
+  sim.start(sim.enemies[0]!, 'attack');
+  update();
+  assert.ok(presentation.actors.get(sim.enemies[0]!.id)!.sprite.animator.time > 0);
+});
+
+test('hero walk animation follows actual travel speed for analog movement', (t) => {
+  const { sim, presentation, update } = actorFixture(t);
+  sim.hero.state = 'walk';
+  sim.hero.px = sim.hero.x;
+  sim.hero.pz = sim.hero.z - 0.01;
+  presentation.update(sim.view, 1, 20, {
+    walkTiming: 'supplied',
+    stabilized: false,
+    rigidSword: false,
+    animationTreatment: 'original',
+    debug: false,
+  });
+  assert.ok(Math.abs(presentation.actors.get(sim.hero.id)!.sprite.animator.time - 4) < 1e-8);
+  update();
+});

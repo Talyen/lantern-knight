@@ -2,6 +2,7 @@ import { heightAt } from '../content/world';
 import { Navigation, effectiveRadius } from './navigation';
 import { interactionTarget } from './interaction';
 import type { Simulation, Command } from './simulation';
+import { acceptCommand } from './command';
 
 // A transient input intent. Checkpoints contain drops, never pending UI requests.
 export class PickupPlan {
@@ -60,16 +61,14 @@ export class PickupPlan {
   }
   beforeStep(sim: Simulation, command: Command) {
     if (command.generation !== undefined && command.generation !== sim.generation) return;
+    const accepted = acceptCommand(command, sim.generation, sim.hero);
     if (
       this.pending &&
       (this.pending.generation !== sim.generation ||
         sim.hero.health <= 0 ||
-        Math.hypot(command.move.x, command.move.z) > 0.01 ||
-        command.actions?.length ||
-        command.attack ||
-        command.ability ||
-        command.dodge ||
-        command.potion)
+        Math.hypot(accepted.move.x, accepted.move.z) > 0.01 ||
+        accepted.actions.length ||
+        accepted.potion)
     )
       this.cancel(sim);
   }

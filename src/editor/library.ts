@@ -116,6 +116,13 @@ export class SceneLibrary {
       input.value = '';
     };
     this.dialog = $<HTMLDialogElement>('scene-library-dialog');
+    this.dialog.addEventListener(
+      'close',
+      () => {
+        if (!this.dialog.open) this.loadSequence++;
+      },
+      { signal: this.lifetime.signal },
+    );
     $('save-fragment').onclick = () =>
       void (async () => {
         const objects = host.history().fragment(host.selection());

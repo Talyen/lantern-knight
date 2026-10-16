@@ -339,7 +339,8 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         (event.target as HTMLElement)?.closest?.('input,select,textarea') ||
         (event.target as HTMLElement)?.isContentEditable ||
         (!panel.open &&
-          (event.target as Element)?.closest?.('button,a[href],summary,[role=button]'))
+          (event.target as Element)?.closest?.('button,a[href],summary,[role=button]') &&
+          !(event.code === 'KeyE' && (event.target as Element)?.closest?.('.ground-loot-label')))
       )
         return;
       if (panel.open) {

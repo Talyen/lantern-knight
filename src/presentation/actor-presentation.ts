@@ -41,7 +41,14 @@ export type Visual = {
   heading: (typeof HEADINGS)[number];
 };
 export class ActorPresentation {
-  private visuals = new Map<ActorId, Visual & { dispose(): void }>();
+  private visuals = new Map<ActorId, Visual & { identity: object; dispose(): void }>();
+  // Retain derived identities without keeping retired simulation actors alive.
+  private identities = new WeakMap<ActorView, object>();
+  private identity(actor: ActorView) {
+    let identity = this.identities.get(actor);
+    if (!identity) this.identities.set(actor, (identity = {}));
+    return identity;
+  }
   get actors(): ReadonlyMap<ActorId, Visual> {
     return this.visuals;
   }
@@ -103,6 +110,7 @@ export class ActorPresentation {
       for (const mesh of [sprite.mesh, shadow, ring])
         resources.defer(() => mesh.removeFromParent());
       const v = {
+        identity: this.identity(a),
         sprite,
         shadow,
         ring,
@@ -168,8 +176,16 @@ export class ActorPresentation {
   }
   update(sim: SimulationView, alpha: number, ms: number, options: ActorOptions) {
     const events: AnimationEvent[] = [];
+    const live = new Set(sim.actors.map((actor) => actor.id));
+    const retired = [...this.visuals].filter(([id]) => !live.has(id));
+    for (const [id] of retired) this.visuals.delete(id);
+    cleanupAll(retired.map((entry) => () => entry[1].dispose()));
     for (const a of sim.actors) {
-      const v = this.visuals.get(a.id) ?? this.createVisual(a, sim.generation),
+      const previousVisual = this.visuals.get(a.id);
+      const v =
+          previousVisual?.identity === this.identity(a)
+            ? previousVisual
+            : this.createVisual(a, sim.generation),
         heading =
           v.sprite.manifest.asset.viewMode === 'fixed-authored'
             ? ('d45' as const)
@@ -225,7 +241,7 @@ export class ActorPresentation {
                   .reduce((sum, hold) => sum + hold, 0),
           end = strike + (duration * (t.activeEnd - t.windup)) / t.total;
         const visual =
-          a.age <= t.windup
+          t.windup > 0 && a.age <= t.windup
             ? (a.age / t.windup) * strike
             : a.age < t.activeEnd
               ? strike + ((a.age - t.windup) / (t.activeEnd - t.windup)) * (end - strike)
@@ -261,7 +277,7 @@ export class ActorPresentation {
         notifies = v.sprite.animator.advance(
           a.state === 'walk'
             ? moving
-              ? ms * (a.kind === 'hero' ? tuning.moveSpeed / 3 : 1)
+              ? ms * (a.kind === 'hero' ? (Math.hypot(a.x - a.px, a.z - a.pz) * 60) / 3 : 1)
               : 0
             : ms,
         );

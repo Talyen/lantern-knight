@@ -742,3 +742,24 @@ test('large enemies choose melee positions within the hero height range', () => 
     'a reachable position beside the recess permits melee',
   );
 });
+
+test('pickup routing uses admitted actions and finite movement consistently with simulation', () => {
+  const sim = new Simulation(content);
+  sim.drops.push({
+    id: 'loot',
+    source: 'test',
+    enemy: false,
+    x: 3,
+    z: 5,
+    rewards: [{ item: 'gold', amount: 1 }],
+  });
+  const plan = new PickupPlan();
+  assert.equal(plan.request(sim, 'loot'), true);
+  plan.beforeStep(sim, {
+    move: { x: Infinity, z: 0 },
+    aim: { x: 0, z: 0 },
+    actions: [],
+    attack: true,
+  });
+  assert.equal(sim.navigationDebug(false).routes.length, 1);
+});

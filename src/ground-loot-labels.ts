@@ -8,6 +8,15 @@ export class GroundLootLabels {
   private labels = new Map<string, { button: HTMLButtonElement; width: number }>();
   private point = new Vector3();
   private generation = -1;
+  private hovered?: string;
+  private focused?: string;
+  private highlight() {
+    const visible = (id: string | undefined) => {
+      const button = id && this.labels.get(id)?.button;
+      return button && !button.hidden && !this.root.hidden ? id : undefined;
+    };
+    this.app.highlightedDrop = visible(this.focused) ?? visible(this.hovered);
+  }
   constructor(
     private root: HTMLElement,
     private app: Application,
@@ -16,12 +25,14 @@ export class GroundLootLabels {
   update(visible: boolean) {
     this.root.hidden = !visible;
     if (!visible) {
+      this.hovered = this.focused = undefined;
       this.app.highlightedDrop = undefined;
       return;
     }
     if (this.generation !== this.app.sim.generation) {
       for (const { button } of this.labels.values()) button.remove();
       this.labels.clear();
+      this.hovered = this.focused = undefined;
       this.app.highlightedDrop = undefined;
       this.generation = this.app.sim.generation;
     }
@@ -33,6 +44,8 @@ export class GroundLootLabels {
       if (!live.has(id)) {
         label.button.remove();
         this.labels.delete(id);
+        if (this.hovered === id) this.hovered = undefined;
+        if (this.focused === id) this.focused = undefined;
         if (this.app.highlightedDrop === id) this.app.highlightedDrop = undefined;
       }
     const occupied: { x: number; y: number; width: number }[] = [];
@@ -42,29 +55,38 @@ export class GroundLootLabels {
       if (!label) {
         const name = `${items[reward.item]!.name}${reward.amount > 1 ? ` ×${reward.amount}` : ''}`;
         const button = html<HTMLButtonElement>`<button type="button" class="ground-loot-label" data-kind="${items[reward.item]!.kind}" data-drop="${drop.id}" aria-label="Collect ${name}">${name}</button>`;
-        let hovered = false;
-        const highlight = () => {
-          if (hovered || document.activeElement === button) this.app.highlightedDrop = drop.id;
-          else if (this.app.highlightedDrop === drop.id) this.app.highlightedDrop = undefined;
-        };
         button.addEventListener(
           'pointerenter',
           () => {
-            hovered = true;
-            highlight();
+            this.hovered = drop.id;
+            this.highlight();
           },
           { signal: this.signal },
         );
         button.addEventListener(
           'pointerleave',
           () => {
-            hovered = false;
-            highlight();
+            if (this.hovered === drop.id) this.hovered = undefined;
+            this.highlight();
           },
           { signal: this.signal },
         );
-        button.addEventListener('focus', highlight, { signal: this.signal });
-        button.addEventListener('blur', highlight, { signal: this.signal });
+        button.addEventListener(
+          'focus',
+          () => {
+            this.focused = drop.id;
+            this.highlight();
+          },
+          { signal: this.signal },
+        );
+        button.addEventListener(
+          'blur',
+          () => {
+            if (this.focused === drop.id) this.focused = undefined;
+            this.highlight();
+          },
+          { signal: this.signal },
+        );
         button.addEventListener(
           'click',
           (event) => {
@@ -120,5 +142,6 @@ export class GroundLootLabels {
       label.button.style.left = `${x}px`;
       label.button.style.top = `${y}px`;
     }
+    this.highlight();
   }
 }
