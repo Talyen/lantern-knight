@@ -32,7 +32,7 @@ Gameplay controls place registered enemies, exits and health pickups linked to u
 
 Play starts an unsaved snapshot through the shared Application lifecycle with a storage-free bridge. WASD moves, left-click attacks, Shift dodges, right-click uses the lantern, and Escape pauses. Play uses the main workspace with a compact Return/Restart bar. Return to editor discards gameplay state and preserves the scene, selection, camera and dock. Restart creates a fresh temporary session. Current schemas are listed under [scene content](architecture.md#scene-content) and [saved-state changes](architecture.md#change-saved-state).
 
-Game launches the abandoned orchard and connects to the forest clearing. Use editor Play to test other authored scenes. For independent rendering fixtures, open `/sandbox.html?scene=outdoor-fixture` or `/sandbox.html?scene=interior-fixture`. Reload restores preview context. Moving existing artwork requires no preparation or publication; changed artwork inputs follow [Assets](assets.md#runtime-composition-boundary).
+Game starts in Abandoned Orchard and connects through Forest Gathering Clearing and Ruined Craftsman Forge to Desecrated Chapel. Use editor Play to test a scene directly, including drafts outside that route. For independent rendering fixtures, open `/sandbox.html?scene=outdoor-fixture` or `/sandbox.html?scene=interior-fixture`. Reload restores preview context. Moving existing artwork requires no preparation or publication; changed artwork inputs follow [Assets](assets.md#runtime-composition-boundary).
 
 ### Ground interaction
 
@@ -110,7 +110,7 @@ Session storage remembers each fixture's experiments, preview position/camera/pa
 
 ### Hero movement review
 
-Open Inspect → Hero movement review. Travel speed changes only the current preview hero; run cadence and Game tuning stay fixed. Replay an out-and-back stride, all eight headings, or movement into the fixture boundary. Stop, Restart, switching fixtures or opening animation review cancels the replay. Choose Selected for the current 3 m/s or Original for the former 1.8 m/s. Reloading restores the default speed; these experiments are excluded from checkpoints.
+Open Inspect → Hero movement review. Travel speed changes only the current preview hero; run cadence and Game tuning stay fixed. Replay an out-and-back stride, all eight headings, or movement into the fixture boundary. Stop, Restart, switching fixtures or opening animation review cancels the replay. Selected uses the 3 m/s comparison preset; Original uses 1.8 m/s. Game's current speed comes from `tuning.moveSpeed` in [gameplay tuning](../src/content/gameplay.ts). Reloading restores the default speed; these experiments are excluded from checkpoints.
 
 ### Sweep review
 
