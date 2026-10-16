@@ -1,5 +1,7 @@
 import { expectPageValue, test, expect } from './fixtures';
 test('scene selection and camera framing survive independent reloads', async ({ page }) => {
+  // Four cold renderer constructions share this journey on CI software WebGL.
+  test.setTimeout(420_000);
   await page.addInitScript(() => sessionStorage.setItem('lantern-author-scene', 'court'));
   await page.goto('/sandbox.html');
   await page.waitForFunction(() => window.foundation?.ready);

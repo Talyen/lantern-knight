@@ -370,6 +370,8 @@ test('painting bounce excludes scenery and dense cores reuse the original shadow
 });
 
 test('orchard cohesion controls survive reload independently', async ({ page }) => {
+  // Reload and fixture replacements each prepare the complete scene renderer.
+  test.setTimeout(420_000);
   await page.goto('/sandbox.html?scene=orchard-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   await page.getByRole('button', { name: 'Visuals', exact: true }).click();
