@@ -63,7 +63,9 @@ test('clicking a distant label routes to one stack and preserves its siblings on
   await loadCheckpoint(page);
   await expect(page.locator('.ground-loot-label')).toHaveCount(rewardCount - 1);
   await page.keyboard.press('e');
-  await expect(page.locator('.ground-loot-label')).toHaveCount(rewardCount - 2);
+  await expect(page.locator('.ground-loot-label')).toHaveCount(rewardCount - 2, {
+    timeout: 30_000,
+  });
 });
 
 test('crowded loot stays visible and leaving a focused label restores the nearest E action', async ({

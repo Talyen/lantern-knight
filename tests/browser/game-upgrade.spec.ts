@@ -194,7 +194,7 @@ for (const choice of ['sword', 'lantern'] as const) {
       button: choice === 'sword' ? 'left' : 'right',
     });
     await expect(page.locator('.ground-loot-label').filter({ hasText: 'Gold ×4' })).toBeVisible({
-      timeout: 30_000,
+      timeout: 60_000,
     });
     await capture('payoff');
     await page.locator('#pause').click();

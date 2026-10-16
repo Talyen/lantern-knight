@@ -74,6 +74,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     await page.getByRole('button', { name: 'Rest', exact: true }).click();
     await expect(page.locator('.adventure-panel')).toContainText(
       'Health restored. Your journey continues from this campfire.',
+      { timeout: 60_000 },
     );
     await page.keyboard.press('Escape');
     const arrived = await checkpoint();

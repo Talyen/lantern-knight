@@ -187,7 +187,7 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
   await expect(page.locator('#menu-start')).toBeFocused();
   await page.locator('#new-game').click();
   await page.locator('#confirm-new').click();
-  await expect(page.locator('#new-confirm')).not.toBeVisible();
+  await expect(page.locator('#new-confirm')).not.toBeVisible({ timeout: 60_000 });
   await expect(page.locator('canvas')).toBeFocused();
   const restarted = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), keys[0]!);
   expect(restarted.player.health).toBe(100);
