@@ -249,16 +249,18 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await page.locator('#open-inventory').click();
   const panel = page.locator('.adventure-panel');
   await expect(panel).toBeVisible();
+  await page.locator('.inventory-row').filter({ hasText: 'Orchard Ring' }).click();
   await panel.getByRole('button', { name: 'Equip · Ring 1', exact: true }).click();
   await expect(panel).toContainText('60 / 110 health');
+  await panel.locator('.inventory-row').filter({ hasText: 'Damaged Axe' }).click();
   const salvage = panel.getByRole('button', { name: 'Salvage stack' });
   await salvage.focus();
   await page.keyboard.down('Enter');
   await page.keyboard.down('Enter');
   await page.keyboard.up('Enter');
-  await expect(
-    panel.locator('.inventory-slot').filter({ hasText: 'Body · Leather / Cloth' }),
-  ).toContainText('Leather Armor');
+  await expect(panel.locator('.inventory-slot').filter({ hasText: 'Body' })).toContainText(
+    'Leather Armor',
+  );
   await expect(panel).toContainText('Iron ×2');
   if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY)
     await page.screenshot({

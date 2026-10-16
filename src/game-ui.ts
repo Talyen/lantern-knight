@@ -3,6 +3,7 @@ import { Vector3 } from 'three';
 import { heightAt } from './content/world';
 import { bindAudioControls } from './audio/controls';
 import { gameMenu } from './game-menu';
+import './player-controls.css';
 import './game-ui.css';
 import './adventure-ui.css';
 import { bindAdventureUI } from './adventure-ui';

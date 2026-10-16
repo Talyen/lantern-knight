@@ -121,42 +121,6 @@ body.game {
   }
 }
 /* Player chrome is scoped away from the editor and effects workbench. */
-.game {
-  --ink: #121a1b;
-  --panel: #1b2525;
-  --ivory: #f1e7d2;
-  --sage: #a9b6ab;
-  --amber: #d8b477;
-  --rule: #b8bf9d2b;
-  color: var(--ivory);
-  font-size: 14px;
-}
-.game button,
-.game select {
-  border-radius: 2px;
-  background: #202b2b;
-  border-color: #89958655;
-  color: var(--ivory);
-  transition:
-    background 140ms,
-    border-color 140ms,
-    color 140ms;
-}
-.game button:hover:not(:disabled) {
-  background: #34403a;
-  border-color: var(--amber);
-  color: #fff4da;
-}
-.game button:disabled {
-  cursor: default;
-  opacity: 0.45;
-}
-.game button:focus-visible,
-.game select:focus-visible,
-.game input:focus-visible {
-  outline: 2px solid var(--amber);
-  outline-offset: 5px;
-}
 .game [hidden] {
   display: none !important;
 }
@@ -177,7 +141,7 @@ body.game {
   text-transform: uppercase;
   color: var(--amber);
   letter-spacing: 0.18em;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.6;
 }
 .game .muted {
@@ -203,10 +167,7 @@ body.game {
   overflow: visible;
 }
 .game .menu-heading h1 {
-  font:
-    44px/1.08 Georgia,
-    'Times New Roman',
-    serif;
+  font: 44px/1.08 var(--font-display);
   font-weight: 400;
   letter-spacing: -0.035em;
   margin: 12px 0 18px;
@@ -287,7 +248,7 @@ body.game {
 }
 .game #save-notice {
   color: var(--sage);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.7;
   max-width: 300px;
   margin: 20px 0 0;
@@ -328,7 +289,7 @@ body.game {
   margin-top: 24px;
 }
 .game .journey-summary .journey-edition {
-  font-size: 10px;
+  font-size: 12px;
   color: #b7c2b3;
   letter-spacing: 0.05em;
 }
@@ -361,14 +322,12 @@ body.game {
 .game .menu-page legend {
   padding: 0 14px 0 0;
   color: var(--ivory);
-  font:
-    22px Georgia,
-    serif;
+  font: 24px var(--font-display);
 }
 .game .menu-page label {
-  min-height: 28px;
+  min-height: 32px;
   margin-top: 12px;
-  font-size: 13px;
+  font-size: 14px;
   color: #d6dbcd;
 }
 .game .menu-page input {
@@ -532,7 +491,7 @@ body.game {
 }
 .game .supply-row {
   color: #d2cfb4;
-  font-size: 11px;
+  font-size: 12px;
 }
 .game .supply-row kbd {
   margin-right: 6px;
@@ -608,7 +567,7 @@ body.game {
   background: #101b1dc9;
 }
 .game .title-card h2 {
-  font-family: Georgia, serif;
+  font-family: var(--font-display);
   font-weight: 400;
   line-height: normal;
   color: #e6ddcd;

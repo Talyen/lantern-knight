@@ -68,6 +68,7 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   await page.getByRole('button', { name: 'Collect Gatherer’s Seal', exact: true }).click();
   await page.locator('#open-inventory').click();
   const panel = page.locator('.adventure-panel');
+  await page.locator('.inventory-row').filter({ hasText: 'Gatherer’s Seal' }).click();
   await panel.getByRole('button', { name: 'Equip · Trinket', exact: true }).click();
   await expect(panel).toContainText('100 / 110 health');
   await page.keyboard.press('Escape');

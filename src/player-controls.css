@@ -1,0 +1,77 @@
+/* Shared player typography and controls. Developer surfaces keep their own chrome. */
+.game {
+  --ink: #121a1b;
+  --panel: #1b2525;
+  --ivory: #f1e7d2;
+  --sage: #b1bbae;
+  --amber: #d8b477;
+  --rule: #b8bf9d30;
+  --font-body: system-ui, sans-serif;
+  --font-display: Georgia, 'Times New Roman', serif;
+  color: var(--ivory);
+  font: 15px/1.5 var(--font-body);
+}
+.game button,
+.game select {
+  min-height: 42px;
+  padding: 9px 14px;
+  border: 1px solid #89958666;
+  border-radius: 3px;
+  background: var(--panel);
+  color: var(--ivory);
+  font: 500 14px/1.4 var(--font-body);
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
+}
+.game button:hover:not(:disabled),
+.game select:hover:not(:disabled) {
+  background: #303c35;
+  border-color: var(--amber);
+  color: #fff4da;
+}
+.game button:active:not(:disabled) {
+  background: #3a453a;
+}
+.game button:disabled,
+.game select:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+.game button:focus-visible,
+.game select:focus-visible,
+.game input:focus-visible,
+.game summary:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}
+.game .primary-action {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--ink);
+  font-weight: 650;
+}
+.game .primary-action:hover:not(:disabled) {
+  background: #ecd09e;
+  color: #101818;
+}
+.game .primary-action:active:not(:disabled) {
+  background: #cba76c;
+}
+.game input {
+  accent-color: var(--amber);
+}
+.game input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+}
+.game summary {
+  cursor: pointer;
+}
+@media (prefers-reduced-motion: reduce) {
+  .game button,
+  .game select {
+    transition: none;
+  }
+}

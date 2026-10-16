@@ -113,6 +113,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     await page.keyboard.press('e');
     await page.getByRole('button', { name: 'Collect Vigil Amulet', exact: true }).click();
     await page.locator('#open-inventory').click();
+    await page.locator('.inventory-row').filter({ hasText: 'Vigil Amulet' }).click();
     await page.getByRole('button', { name: 'Equip · Amulet', exact: true }).click();
     await expect(page.locator('.adventure-panel')).toContainText('100 / 115 health');
     await capture('vigil-amulet');

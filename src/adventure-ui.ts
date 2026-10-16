@@ -10,7 +10,7 @@ import { tuning } from './content/gameplay';
 import type { Application } from './application';
 import { equipmentSlots, items, type EquipmentSlot } from './content/items';
 const slotNames: Record<EquipmentSlot, string> = {
-  body: 'Body · Leather / Cloth',
+  body: 'Body',
   gloves: 'Gloves',
   belt: 'Belt',
   boots: 'Boots',
@@ -29,6 +29,11 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
   let choice: ForgeUpgrade | undefined;
   let working = false;
   let message = '';
+  let messageError = false;
+  let selected: { kind: 'pack'; id: string } | { kind: 'slot'; slot: EquipmentSlot } | undefined;
+  let equipTo: EquipmentSlot | undefined;
+  let inventoryView: 'kit' | 'pack' = 'pack';
+  let forgeDetails = false;
   let focusedAction = 'return';
   const deny = () => void app.audio.play('ui-deny', { world: false }).catch(() => {});
   function close() {
@@ -42,6 +47,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     const element = html<HTMLButtonElement>`<button type="button" data-action="${key}">${label}</button>`;
     element.addEventListener('click', action, { signal });
     element.disabled = disabled;
+    if (key === 'confirm-upgrade') element.className = 'primary-action';
     return element;
   }
   function report(action: () => void, confirmation: string) {
@@ -49,9 +55,11 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     try {
       action();
       message = confirmation;
+      messageError = false;
     } catch (error) {
       deny();
       message = (error as Error).message;
+      messageError = true;
     }
     draw();
   }
@@ -60,12 +68,14 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       if (disposed || working) return;
       working = true;
       message = '';
+      messageError = false;
       draw();
       try {
         await action();
       } catch (error) {
         if (disposed) return;
         deny();
+        messageError = true;
         message = workbench
           ? `${(error as Error).message}. Nothing was spent. Try again.`
           : (error as Error).message;
@@ -75,87 +85,93 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       }
     });
   }
-  function forge(bench: string) {
+  function forge() {
     const owned = app.session.forgeUpgrade;
     const current = kitAttributes(owned);
-    const summary = html`<div class="inventory-summary">${Object.entries(forgeCost).map(
-      ([item, amount]) =>
-        html`<span>${app.session.inventory[item] ?? 0} ${items[item]!.name}${owned ? '' : ` · need ${amount}`}</span>`,
-    )}</div>`;
     if (owned)
-      return html`<div class="adventure-content forge-content">${summary}
+      return html`<div class="adventure-content forge-content forge-complete">
+        <span class="adventure-eyebrow">Your permanent improvement</span>
         <h3>${forgeChoices[owned].name} complete</h3>
-        <p>Your permanent kit is strengthened. This workshop temper has been used.</p>
-        <p class="forge-result">Edge ${current.edge}% · Ember ${current.ember}%</p>
-        <p>Kept through rest, death and save/resume. A second purchase is unavailable.</p>
+        <p class="forge-result">${owned === 'sword' ? 'A sharper edge for the road ahead.' : 'A brighter flame against the dark.'}</p>
+        <dl class="kit-attributes"><div><dt>Edge</dt><dd>${current.edge}%</dd></div><div><dt>Ember</dt><dd>${current.ember}%</dd></div></dl>
+        <p>Your permanent kit is strengthened. Kept through rest, death and save/resume.</p>
+        <p>This workshop temper has been used. A second purchase is unavailable.</p>
         <p>The northern street leads to Desecrated Chapel. Rest at a campfire before setting out.</p>
       </div>`;
     const affordable = Object.entries(forgeCost).every(
       ([id, amount]) => (app.session.inventory[id] ?? 0) >= amount,
     );
-    const options = (['sword', 'lantern'] as const)
-      .filter((upgrade) => !choice || choice === upgrade)
-      .map((upgrade) => {
-        const next = kitAttributes(upgrade);
-        const burnTicks = Math.floor(tuning.ability.burnDuration / tuning.ability.burnCadence),
-          lanternDamage = (ember: number) =>
-            scaledDamage(tuning.ability.damage, ember) +
-            burnTicks * scaledDamage(tuning.ability.burnDamage, ember);
-        const select =
-          !choice &&
-          button(
-            forgeChoices[upgrade].name,
-            `choose-${upgrade}`,
-            () => {
-              choice = upgrade;
-              draw();
-              panel.querySelector<HTMLButtonElement>('[data-action="confirm-upgrade"]')?.focus();
-            },
-            working || !affordable,
-          );
-        return html`<section class="forge-option">
-          <span class="adventure-eyebrow">${forgeChoices[upgrade].attribute} 100% → ${next[upgrade === 'sword' ? 'edge' : 'ember']}%</span>
-          <h3>${forgeChoices[upgrade].name}</h3>
-          <p class="forge-result">${
-            upgrade === 'sword'
-              ? `Sword damage ${scaledDamage(tuning.attack.damage, current.edge)} → ${scaledDamage(tuning.attack.damage, next.edge)}`
-              : `Total lantern damage ${lanternDamage(current.ember)} → ${lanternDamage(next.ember)} per enemy`
-          }</p>
-          ${
-            upgrade === 'lantern' &&
-            html`<p>Initial hit ${scaledDamage(tuning.ability.damage, current.ember)} → ${scaledDamage(tuning.ability.damage, next.ember)} · Burn ${scaledDamage(tuning.ability.burnDamage, current.ember)} → ${scaledDamage(tuning.ability.burnDamage, next.ember)} per tick (${burnTicks} ticks over ${tuning.ability.burnDuration / tuning.tickHz}s).</p>`
-          }
-          <p>${upgrade === 'sword' ? 'One clean sword hit fells a thrall immediately. Attack timing stays the same.' : `One Flare burns the whole group. Thralls fall after the full Burn; reposition while it works. The ${tuning.ability.cooldown / tuning.tickHz}s cooldown and ${tuning.ability.stun / tuning.tickHz}s stagger stay the same.`}</p>
-          <p>Cost: 20 Gold · 4 Iron · 1 Workshop Temper</p>${select}
-        </section>`;
-      });
-    const selected = choice;
-    return html`<div class="adventure-content forge-content">${summary}
-      <p>One workshop temper. One permanent improvement. Choose your sword or lantern.</p>
-      <div class="forge-options">${options}</div>
-      ${
-        selected
-          ? html`<section>
-        <h3>Confirm ${forgeChoices[selected].name}?</h3>
-        <p>This uses your only workshop temper. The choice cannot be changed.</p>
-        ${button('Confirm upgrade', 'confirm-upgrade', () =>
-          run(async () => {
-            await app.purchaseForgeUpgrade(bench, selected);
-            if (disposed) return;
-            choice = undefined;
-            message = `${forgeChoices[selected].name} complete. Your upgrade is permanent.`;
-          }),
-        )}
-        ${button('Back to choices', 'cancel-upgrade', () => {
-          choice = undefined;
+    const costs = Object.entries(forgeCost).map(([id, amount]) => {
+      const have = app.session.inventory[id] ?? 0;
+      return html`<div class="forge-cost${have < amount ? ' insufficient' : ''}"><dt>${items[id]!.name}</dt><dd>${have} / ${amount}<span>${have < amount ? `Need ${amount - have} more` : 'Ready'}</span></dd></div>`;
+    });
+    const burnTicks = Math.floor(tuning.ability.burnDuration / tuning.ability.burnCadence);
+    const lanternDamage = (ember: number) =>
+      scaledDamage(tuning.ability.damage, ember) +
+      burnTicks * scaledDamage(tuning.ability.burnDamage, ember);
+    const options = (['sword', 'lantern'] as const).map((upgrade) => {
+      const next = kitAttributes(upgrade);
+      const select = button(
+        forgeChoices[upgrade].name,
+        `choose-${upgrade}`,
+        () => {
+          choice = upgrade;
+          message = '';
           draw();
-          panel.querySelector<HTMLButtonElement>(`[data-action="choose-${selected}"]`)?.focus();
-        })}
-      </section>`
-          : !affordable &&
-            html`<p class="adventure-empty">Requires 20 Gold, 4 Iron and 1 Workshop Temper. Recover the temper from the guarded forge cache.</p>`
-      }
+          panel
+            .querySelector<HTMLButtonElement>('[data-action="confirm-upgrade"]')
+            ?.focus({ preventScroll: true });
+        },
+        working || !affordable,
+      );
+      select.setAttribute('aria-pressed', String(choice === upgrade));
+      return html`<section class="forge-option${choice === upgrade ? ' selected' : ''}">
+        <div class="forge-option-heading"><h3>${forgeChoices[upgrade].name}</h3>${choice === upgrade && html`<span class="forge-selection">Selected</span>`}</div>
+        <p class="forge-playstyle">${upgrade === 'sword' ? 'Stronger single strikes.' : 'Burn a group over time.'}</p>
+        <div class="forge-damage"><span>${upgrade === 'sword' ? 'Sword damage' : 'Total lantern damage'}</span><strong>${upgrade === 'sword' ? `${scaledDamage(tuning.attack.damage, current.edge)} → ${scaledDamage(tuning.attack.damage, next.edge)}` : `${lanternDamage(current.ember)} → ${lanternDamage(next.ember)}`}</strong><span>${upgrade === 'sword' ? 'per strike' : 'per enemy'}</span></div>
+
+        ${select}
+      </section>`;
+    });
+    const details = html<HTMLDetailsElement>`<details class="forge-details"><summary data-action="forge-details">Damage & timing details</summary><div><p>One clean sword hit fells a thrall immediately. One Flare burns the whole group; thralls fall after the full Burn.</p><p>Sword damage ${scaledDamage(tuning.attack.damage, current.edge)} → ${scaledDamage(tuning.attack.damage, 200)}. Attack timing stays the same.</p><p>Total lantern damage ${lanternDamage(current.ember)} → ${lanternDamage(200)} per enemy.</p><p>Initial hit ${scaledDamage(tuning.ability.damage, current.ember)} → ${scaledDamage(tuning.ability.damage, 200)} · Burn ${scaledDamage(tuning.ability.burnDamage, current.ember)} → ${scaledDamage(tuning.ability.burnDamage, 200)} per tick (${burnTicks} ticks over ${tuning.ability.burnDuration / tuning.tickHz}s).</p><p>The ${tuning.ability.cooldown / tuning.tickHz}s cooldown and ${tuning.ability.stun / tuning.tickHz}s stagger stay the same.</p></div></details>`;
+    details.open = forgeDetails;
+    details.addEventListener(
+      'toggle',
+      () => {
+        if (details.isConnected) forgeDetails = details.open;
+      },
+      { signal },
+    );
+    return html`<div class="adventure-content forge-content">
+      <div class="forge-intro"><p>One workshop temper. One permanent improvement.</p><span class="section-note">Owned / required</span></div>
+      <dl class="forge-costs" aria-label="Upgrade cost · owned / required">${costs}</dl>
+      <div class="forge-options">${options}</div>
+      ${!affordable && html`<p class="forge-shortfall">Requires 20 Gold, 4 Iron and 1 Workshop Temper. Recover the temper from the guarded forge cache.</p>`}
+      ${details}
     </div>`;
+  }
+  function forgeDecision(bench: string) {
+    const selectedChoice = choice;
+    if (app.session.forgeUpgrade) return false;
+    return html`<section class="forge-decision" aria-label="Confirm permanent improvement"><div><strong>${selectedChoice ? `Confirm ${forgeChoices[selectedChoice].name}?` : 'Sword or lantern?'}</strong><p>${selectedChoice ? 'Spends 20 Gold · 4 Iron · 1 Workshop Temper. This choice cannot be changed.' : 'Compare both improvements, then select one above.'}</p></div>${
+      selectedChoice &&
+      html`<div class="decision-actions">${button('Back to choices', 'cancel-upgrade', () => {
+        choice = undefined;
+        message = '';
+        messageError = false;
+        draw();
+        panel
+          .querySelector<HTMLButtonElement>(`[data-action="choose-${selectedChoice}"]`)
+          ?.focus({ preventScroll: true });
+      })}${button('Confirm upgrade', 'confirm-upgrade', () =>
+        run(async () => {
+          await app.purchaseForgeUpgrade(bench, selectedChoice);
+          if (disposed) return;
+          choice = undefined;
+          message = `${forgeChoices[selectedChoice].name} complete. Your upgrade is permanent.`;
+        }),
+      )}</div>`
+    }</section>`;
   }
   function campfire(key: string) {
     const destinations = [...app.session.discovered].map((destination) => {
@@ -194,82 +210,262 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       </section>
     </div>`;
   }
+  function navigateItems(event: KeyboardEvent, columns: number) {
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+    const group = event.currentTarget as HTMLElement;
+    const controls = [...group.querySelectorAll<HTMLButtonElement>('button:not(:disabled)')];
+    const index = controls.indexOf(event.target as HTMLButtonElement);
+    if (index < 0) return;
+    const next =
+      event.key === 'Home'
+        ? 0
+        : event.key === 'End'
+          ? controls.length - 1
+          : event.key === 'ArrowRight'
+            ? index + 1
+            : event.key === 'ArrowLeft'
+              ? index - 1
+              : event.key === 'ArrowDown'
+                ? index + columns
+                : event.key === 'ArrowUp'
+                  ? index - columns
+                  : undefined;
+    if (next === undefined) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const target = controls[Math.max(0, Math.min(controls.length - 1, next))];
+    target?.focus();
+    target?.click();
+  }
   function inventory() {
-    const gear = equipmentSlots.map((slot) => {
-      const id = app.session.equipment[slot];
-      return html`<div class="inventory-slot${id ? ' occupied' : ''}">
-        <div><span class="inventory-slot-name">${slotNames[slot]}</span><strong>${id ? items[id]!.name : 'Empty slot'}</strong></div>
-        ${
-          id &&
-          button('Unequip', `unequip-${slot}`, () =>
-            report(
-              () => app.changeInventory('unequip', undefined, slot),
-              `${items[id]!.name} unequipped.`,
-            ),
-          )
-        }
-      </div>`;
+    const equipment = app.session.equipment;
+    const carried = Object.entries(app.session.inventory).flatMap(([id, count]) => {
+      const spare = count - equipmentSlots.filter((slot) => equipment[slot] === id).length;
+      return spare > 0 && id !== 'gold' ? [{ id, count: spare, item: items[id]! }] : [];
     });
-    let damaged = false;
-    const bag = Object.entries(app.session.inventory).flatMap(([id, count]) => {
-      if (count <= 0 || id === 'gold') return [];
-      const item = items[id]!;
-      const equipped = equipmentSlots.filter((slot) => app.session.equipment[slot] === id);
-      const carried = count - equipped.length;
-      if (carried === 0) return [];
-      damaged ||= !!item.salvage;
-      const actions = (item.slots ?? []).map((slot) => {
-        const equip = button(
-          'Equip · ' + slotNames[slot],
-          `equip-${id}-${slot}`,
-          () => report(() => app.changeInventory('equip', id, slot), `${item.name} equipped.`),
-          working || equipped.length >= count || equipped.includes(slot),
-        );
-        if (equipped.includes(slot)) equip.title = 'Already equipped in this slot';
-        else if (equipped.length >= count) equip.title = 'Unequip a copy before moving it here';
-        return equip;
+    const groupOrder = (item: (typeof carried)[number]['item']) =>
+      item.kind === 'gear' ? 0 : item.salvage ? 2 : 1;
+    carried.sort(
+      (a, b) => groupOrder(a.item) - groupOrder(b.item) || a.item.name.localeCompare(b.item.name),
+    );
+    if (!carried.length) inventoryView = 'kit';
+    const selectedId = selected?.kind === 'pack' ? selected.id : undefined;
+    if (selectedId && !carried.some((entry) => entry.id === selectedId)) selected = undefined;
+    const firstGear = carried.find((entry) => entry.item.kind === 'gear');
+    selected ??= firstGear ? { kind: 'pack', id: firstGear.id } : { kind: 'slot', slot: 'sword' };
+    const selectItem = (id: string) => {
+      selected = { kind: 'pack', id };
+      inventoryView = 'pack';
+      const slots = items[id]!.slots;
+      equipTo = slots?.find((slot) => !equipment[slot]) ?? slots?.[0];
+      panel.querySelector('.item-description')?.scrollTo(0, 0);
+      draw();
+    };
+    const kitSlots: readonly EquipmentSlot[] = [
+      'sword',
+      'lantern',
+      ...equipmentSlots.filter((slot) => slot !== 'sword' && slot !== 'lantern'),
+    ];
+    const gear = kitSlots.map((slot) => {
+      const id = equipment[slot];
+      const control = button('', `slot-${slot}`, () => {
+        selected = { kind: 'slot', slot };
+        inventoryView = 'kit';
+        panel.querySelector('.item-description')?.scrollTo(0, 0);
+        draw();
       });
-      return html`<div class="inventory-row ${item.kind}">
-        <span class="inventory-item-kind">${item.kind === 'gear' ? 'Equipment' : item.kind}</span><strong>${item.name} ×${carried}</strong>
-        ${equipped.length > 0 && html`<p>Equipped · ${equipped.map((slot) => slotNames[slot]).join(', ')}</p>`}
-        ${!!item.maxHealth && html`<p>+${item.maxHealth} maximum health · does not heal on equip</p>`}
-        ${item.kind === 'potion' && html`<p>Q · Restore 40 health during play. Rest does not refill potions.</p>`}
-        ${item.kind === 'material' && html`<p>${id === 'workshop-temper' ? 'One permanent sword or lantern improvement at the forge workbench.' : 'Collected material. Kept in your pack.'}</p>`}
-        ${
-          item.salvage &&
-          html`<section><p>Salvage only → ${Object.entries(item.salvage)
-            .map(([material, amount]) => `${amount * count} ${items[material]!.name}`)
-            .join(', ')}</p>
-          ${button('Salvage stack', `salvage-${id}`, () => report(() => app.changeInventory('salvage', id), `${item.name} salvaged.`))}</section>`
-        }
-        ${actions}
-      </div>`;
+      control.className = `inventory-slot${id ? ' occupied' : ''}`;
+      control.tabIndex = (selected?.kind === 'slot' ? selected.slot === slot : slot === 'sword')
+        ? 0
+        : -1;
+      control.setAttribute(
+        'aria-pressed',
+        String(selected?.kind === 'slot' && selected.slot === slot),
+      );
+      control.setAttribute(
+        'aria-label',
+        `${slotNames[slot]} · ${id ? items[id]!.name : 'Empty slot'}`,
+      );
+      control.append(
+        html`<span class="inventory-slot-name">${slotNames[slot]}</span>`,
+        html`<strong>${id ? (items[id]!.name === slotNames[slot] ? 'Equipped' : items[id]!.name) : 'Empty slot'}</strong>`,
+      );
+      return control;
+    });
+    const groups = (['Equipment', 'Supplies', 'Salvage'] as const).map((group) => {
+      const entries = carried.filter(({ item }) =>
+        group === 'Equipment'
+          ? item.kind === 'gear'
+          : group === 'Salvage'
+            ? !!item.salvage
+            : item.kind !== 'gear' && !item.salvage,
+      );
+      if (!entries.length) return false;
+      return html`<section class="pack-group"><h4>${group}</h4>${entries.map(
+        ({ id, count, item }) => {
+          const control = button('', `item-${id}`, () => selectItem(id));
+          control.className = 'inventory-row';
+          control.tabIndex = (
+            selected?.kind === 'pack' ? selected.id === id : carried[0]?.id === id
+          )
+            ? 0
+            : -1;
+          control.setAttribute(
+            'aria-pressed',
+            String(selected?.kind === 'pack' && selected.id === id),
+          );
+          control.append(
+            html`<span><strong>${item.name} ×${count}</strong><span class="inventory-item-kind">${item.maxHealth ? `+${item.maxHealth} maximum health` : item.salvage ? 'Convert to materials' : item.kind === 'potion' ? 'Restore 40 health' : item.kind === 'gear' ? 'Equipment' : id === 'workshop-temper' ? 'Permanent forge improvement' : 'Crafting material'}</span></span>`,
+            html`<span class="item-arrow" aria-hidden="true">→</span>`,
+          );
+          return control;
+        },
+      )}</section>`;
     });
     const attributes = kitAttributes(app.session.forgeUpgrade);
-    return html`<div class="adventure-content">
-      <div class="inventory-summary"><span>${app.session.inventory.gold ?? 0} Gold</span><span>${app.sim.hero.health} / ${app.sim.maxHealth} health</span><span>${app.session.inventory['health-potion'] ?? 0} potions</span>
-        <span>Vitality ${app.sim.maxHealth} · Edge ${attributes.edge}% · Ember ${attributes.ember}%</span>
-      </div>
+    const tabs = (['kit', 'pack'] as const).map((view) => {
+      const control = button(view === 'kit' ? 'Your kit' : 'Your pack', `show-${view}`, () => {
+        inventoryView = view;
+        draw();
+      });
+      control.setAttribute('aria-pressed', String(inventoryView === view));
+      return control;
+    });
+    const content = html`<div class="adventure-content inventory-content inventory-view-${inventoryView}">
+      <div class="inventory-summary"><span>${app.sim.hero.health} / ${app.sim.maxHealth} health</span><span>${app.session.inventory.gold ?? 0} Gold</span><span>${app.session.inventory['health-potion'] ?? 0} potions</span><span>Edge ${attributes.edge}% · Ember ${attributes.ember}%</span></div>
+      <div class="inventory-tabs" role="group" aria-label="Browse inventory">${tabs}</div>
       <div class="inventory-columns">
-        <section class="inventory-equipment"><h3>Equipment</h3><p class="section-note">What you take into the dark.</p>${gear}</section>
-        <section class="inventory-bag"><h3>Carried items</h3><p class="section-note">Equipment, supplies, and things worth keeping.</p>
-          ${bag.length ? bag : html`<p class="adventure-empty">No spare equipment or supplies. Explore and collect loot to fill your pack.</p>`}
-          ${damaged && button('Salvage all damaged equipment', 'salvage-all', () => report(() => app.changeInventory('salvage'), 'All damaged equipment salvaged.'))}
-        </section>
+        <section class="inventory-equipment"><div class="section-heading"><h3>Your kit</h3><span>${equipmentSlots.filter((slot) => equipment[slot]).length} / ${equipmentSlots.length}</span></div><div class="equipment-grid" role="group" aria-label="Equipment slots · use arrow keys to choose">${gear}</div></section>
+        <section class="inventory-bag"><div class="section-heading"><h3>Your pack</h3><span>${carried.length} ${carried.length === 1 ? 'stack' : 'stacks'}</span></div><div class="pack-items" data-scroll="pack" role="group" aria-label="Carried items · use arrow keys to choose">${carried.length ? groups : html`<p class="adventure-empty">No spare items yet. Equipment and supplies you collect will appear here.</p>`}</div></section>
+        ${inventoryDetail()}
       </div>
     </div>`;
+    content
+      .querySelector('.equipment-grid')!
+      .addEventListener('keydown', (event) => navigateItems(event as KeyboardEvent, 2), { signal });
+    content
+      .querySelector('.pack-items')!
+      .addEventListener('keydown', (event) => navigateItems(event as KeyboardEvent, 1), { signal });
+    return content;
+  }
+  function inventoryDetail() {
+    const equippedSlot = selected?.kind === 'slot' ? selected.slot : undefined;
+    const id =
+      selected?.kind === 'pack'
+        ? selected.id
+        : equippedSlot
+          ? app.session.equipment[equippedSlot]
+          : undefined;
+    if (!id)
+      return html`<section class="inventory-detail" aria-label="Selected item"><span class="adventure-eyebrow">${equippedSlot ? slotNames[equippedSlot] : 'Equipment'}</span><h3>Room for something new.</h3><p>Select equipment in your pack to compare it with your kit.</p></section>`;
+    const item = items[id]!;
+    const slots = item.slots;
+    if (slots && (!equipTo || !slots.includes(equipTo)))
+      equipTo = slots.find((slot) => !app.session.equipment[slot]) ?? slots[0];
+    const targetSlot = equippedSlot ?? equipTo;
+    const replacedId = targetSlot ? app.session.equipment[targetSlot] : undefined;
+    const projectedHealth =
+      app.sim.maxHealth -
+      (replacedId ? (items[replacedId]!.maxHealth ?? 0) : 0) +
+      (equippedSlot ? 0 : (item.maxHealth ?? 0));
+    const actions: HTMLElement[] = [];
+    if (equippedSlot) {
+      const control = button('Unequip', 'unequip', () =>
+        report(
+          () => app.changeInventory('unequip', undefined, equippedSlot),
+          `${item.name} unequipped.`,
+        ),
+      );
+      actions.push(control);
+    } else if (slots && targetSlot) {
+      if (slots.length > 1) {
+        const select = html<HTMLSelectElement>`<select data-action="equip-slot" aria-label="Equip to">${slots.map((slot) => html`<option value="${slot}">${slotNames[slot]} · ${app.session.equipment[slot] ? items[app.session.equipment[slot]!]!.name : 'Empty slot'}</option>`)}</select>`;
+        select.value = targetSlot;
+        select.disabled = working;
+        select.addEventListener(
+          'change',
+          () => {
+            equipTo = select.value as EquipmentSlot;
+            draw();
+          },
+          { signal },
+        );
+        actions.push(html`<label class="equip-destination">Equip to${select}</label>`);
+      }
+      const control = button(
+        'Equip · ' + slotNames[targetSlot],
+        'equip',
+        () =>
+          report(() => {
+            app.changeInventory('equip', id, targetSlot);
+            selected = { kind: 'slot', slot: targetSlot };
+            inventoryView = 'kit';
+          }, `${item.name} equipped.`),
+        working || app.session.equipment[targetSlot] === id,
+      );
+      control.className = 'primary-action';
+      actions.push(control);
+    }
+    const allSalvage: Record<string, number> = {};
+    if (item.salvage) {
+      for (const [ownedId, count] of Object.entries(app.session.inventory))
+        for (const [material, amount] of Object.entries(items[ownedId]!.salvage ?? {}))
+          allSalvage[material] = (allSalvage[material] ?? 0) + count * amount;
+      const control = button('Salvage stack', 'salvage', () =>
+        report(() => app.changeInventory('salvage', id), `${item.name} salvaged.`),
+      );
+      control.className = 'primary-action';
+      actions.push(
+        control,
+        button('Salvage all damaged equipment', 'salvage-all', () =>
+          report(() => app.changeInventory('salvage'), 'All damaged equipment salvaged.'),
+        ),
+      );
+    }
+    return html`<section class="inventory-detail" aria-label="Selected item"><div class="item-description" data-scroll="detail"><span class="adventure-eyebrow">${equippedSlot ? `Equipped · ${slotNames[equippedSlot]}` : item.kind === 'gear' ? 'Equipment in your pack' : item.kind === 'salvage' ? 'Salvage only' : 'Supplies'}</span><h3>${item.name}</h3>
+      ${slots && html`<div class="equipment-comparison">${item.maxHealth || (replacedId && items[replacedId]!.maxHealth) ? html`<div class="item-comparison"><span>${equippedSlot ? 'Maximum health after unequipping' : 'Maximum health after equipping'}</span><strong>${app.sim.maxHealth} → ${projectedHealth}</strong></div>` : false}<p>${equippedSlot ? 'Returns this item to your pack.' : `Replaces ${replacedId ? items[replacedId]!.name : 'an empty slot'}.`}</p><p class="section-note">${item.maxHealth ? `+${item.maxHealth} maximum health · does not heal on equip.` : id === 'sword' || id === 'lantern' ? 'Forge improvements belong to your permanent kit.' : 'No stat change.'}</p></div>`}
+      ${id === 'sword' && html`<div class="item-comparison"><span>Sword damage per strike</span><strong>${scaledDamage(tuning.attack.damage, kitAttributes(app.session.forgeUpgrade).edge)}</strong></div>`}
+      ${id === 'lantern' && html`<div><div class="item-comparison"><span>Total lantern damage per enemy</span><strong>${scaledDamage(tuning.ability.damage, kitAttributes(app.session.forgeUpgrade).ember) + Math.floor(tuning.ability.burnDuration / tuning.ability.burnCadence) * scaledDamage(tuning.ability.burnDamage, kitAttributes(app.session.forgeUpgrade).ember)}</strong></div><p>Lantern burst · ${tuning.ability.cooldown / tuning.tickHz}s recharge.</p></div>`}
+      ${item.kind === 'potion' && html`<div><div class="item-comparison"><span>Health restored</span><strong>40</strong></div><p>Press Q during play to drink a potion. Rest does not refill your supply.</p></div>`}
+      ${item.kind === 'material' && html`<p>${id === 'workshop-temper' ? 'Bring this to the forge workbench for one permanent sword or lantern improvement.' : 'Collected material. Kept in your pack for the road ahead.'}</p>`}
+      ${
+        item.salvage &&
+        html`<div><div class="salvage-yield"><span>Salvage this stack into</span><strong>${Object.entries(
+          item.salvage,
+        )
+          .map(
+            ([material, amount]) =>
+              `${amount * (app.session.inventory[id] ?? 0)} ${items[material]!.name}`,
+          )
+          .join(
+            ' · ',
+          )}</strong></div><p>Damaged equipment cannot be equipped.</p><p class="section-note">All damaged equipment → ${Object.entries(
+          allSalvage,
+        )
+          .map(([material, amount]) => `${amount} ${items[material]!.name}`)
+          .join(' · ')}.</p></div>`
+      }
+      </div><div class="item-actions">${actions}</div></section>`;
   }
   function draw() {
     if (disposed) return;
     if (panel.contains(document.activeElement))
       focusedAction = (document.activeElement as HTMLElement)?.dataset.action ?? focusedAction;
     const scrollTop = panel.querySelector('.adventure-content')?.scrollTop ?? 0;
+    const scrolls = new Map(
+      [...panel.querySelectorAll<HTMLElement>('[data-scroll]')].map((el) => [
+        el.dataset.scroll,
+        el.scrollTop,
+      ]),
+    );
     const title = fire
       ? app.session.fire(fire).definition.name
       : workbench
         ? 'Forge workbench'
         : 'Inventory';
-    const content = workbench ? forge(workbench) : fire ? campfire(fire) : inventory();
+    const content = workbench ? forge() : fire ? campfire(fire) : inventory();
+    panel.classList.toggle('is-inventory', !workbench && !fire);
+    panel.classList.toggle('is-forge', !!workbench);
     const back = button('Return to game', 'return', close);
     back.className = 'adventure-close';
     back.title = 'Return to game · Esc';
@@ -278,18 +474,27 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     panel.replaceChildren(
       html`<header class="adventure-header"><div><p class="adventure-eyebrow">${fire ? 'A moment of shelter' : workbench ? 'A lasting choice' : 'Ready for the road'}</p><h2>${title}</h2></div>${back}</header>`,
       content,
+      ...(workbench
+        ? [forgeDecision(workbench)].filter((node): node is HTMLElement => !!node)
+        : []),
       html`<footer class="adventure-footer">
-        ${message ? html`<p class="adventure-feedback" role="status">${message}</p>` : html`<p>${working ? (workbench ? 'Saving your upgrade…' : 'Preparing your journey…') : 'The world waits while you prepare.'}</p>`}
-        ${!working && html`<span class="adventure-key-hint">Esc · Return to game</span>`}
+        ${message ? html`<p class="adventure-feedback${messageError ? ' error' : ''}" role="${messageError ? 'alert' : 'status'}">${message}</p>` : html`<p>${working ? (workbench ? 'Saving your upgrade…' : 'Preparing your journey…') : 'The world waits while you prepare.'}</p>`}
+        ${!working && html`<span class="adventure-key-hint">${!fire && !workbench ? 'Arrows · Select · ' : ''}Esc · Return to game</span>`}
       </footer>`,
     );
     content.scrollTop = scrollTop;
+    for (const el of panel.querySelectorAll<HTMLElement>('[data-scroll]'))
+      el.scrollTop = scrolls.get(el.dataset.scroll) ?? 0;
     if (panel.open && working) panel.focus({ preventScroll: true });
     else if (panel.open)
       (
-        Array.from(panel.querySelectorAll('button')).find(
-          (b) => !b.disabled && b.dataset.action === focusedAction,
-        ) ?? panel.querySelector<HTMLButtonElement>('[data-action="return"]:not(:disabled)')
+        Array.from(panel.querySelectorAll<HTMLElement>('[data-action]')).find(
+          (b) => !b.matches(':disabled') && b.dataset.action === focusedAction,
+        ) ??
+        panel.querySelector<HTMLButtonElement>(
+          '.inventory-slot[aria-pressed="true"], .inventory-row[aria-pressed="true"]',
+        ) ??
+        panel.querySelector<HTMLButtonElement>('[data-action="return"]:not(:disabled)')
       )?.focus({ preventScroll: true });
   }
   function openInventory() {
@@ -309,7 +514,12 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         workbench = target.kind === 'workbench' ? target.id : undefined;
       }
       choice = undefined;
+      selected = undefined;
+      equipTo = undefined;
+      inventoryView = 'pack';
+      forgeDetails = false;
       message = '';
+      messageError = false;
       focusedAction = 'return';
       app.pause(true);
       root.querySelector<HTMLDialogElement>('#modal')?.close();
