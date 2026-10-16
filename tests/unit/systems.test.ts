@@ -66,8 +66,7 @@ test('input uses the first click position, preserves pending dodge across key re
       point = walkablePoint(input.camera, clientX, clientY, rect, sim.areaDefinition)!;
     assert.ok(Math.abs(cmd.aim.x - point.x) < 1e-7);
     assert.ok(Math.abs(cmd.aim.z - point.z) < 1e-7);
-    assert.equal(cmd.attack, button === 0);
-    assert.equal(cmd.ability, button === 2);
+    assert.deepEqual(cmd.actions, [button === 0 ? 'sword' : 'lantern']);
   }
   for (const modifier of ['ctrlKey', 'metaKey', 'altKey']) {
     canvas.dispatchEvent(
@@ -78,17 +77,29 @@ test('input uses the first click position, preserves pending dodge across key re
         [modifier]: true,
       }),
     );
-    assert.equal(
-      input.consume(sim.hero, sim.areaDefinition, sim.generation).attack,
-      false,
+    assert.deepEqual(
+      input.consume(sim.hero, sim.areaDefinition, sim.generation).actions,
+      [],
       'modified pointer gestures must not trigger combat',
     );
   }
   for (const repeat of [false, true])
     target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat }));
-  assert.equal(input.consume(sim.hero, sim.areaDefinition, sim.generation).dodge, true);
+  assert.deepEqual(input.consume(sim.hero, sim.areaDefinition, sim.generation).actions, ['dodge']);
   target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: true }));
-  assert.equal(input.consume(sim.hero, sim.areaDefinition, sim.generation).dodge, false);
+  assert.deepEqual(input.consume(sim.hero, sim.areaDefinition, sim.generation).actions, []);
+  for (const button of [2, 0])
+    canvas.dispatchEvent(
+      Object.assign(new Event('pointerdown'), { button, clientX: 650, clientY: 320 }),
+    );
+  target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: false }));
+  target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyQ', repeat: false }));
+  const queued = input.consume(sim.hero, sim.areaDefinition, sim.generation);
+  assert.deepEqual(queued.actions, ['lantern', 'sword', 'dodge']);
+  assert.equal(queued.potion, true);
+  const next = input.consume(sim.hero, sim.areaDefinition, sim.generation);
+  assert.deepEqual(next.actions, []);
+  assert.equal(next.potion, false);
   target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
   assert.ok(input.keys.has('KeyW'));
   target.matches = () => true;
@@ -102,7 +113,11 @@ test('input uses the first click position, preserves pending dodge across key re
   target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
   target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: false }));
   assert.equal(input.keys.size, 0, 'focused buttons cannot move the hero');
-  assert.equal(input.edges.dodge, false, 'focused buttons cannot trigger combat');
+  assert.deepEqual(
+    input.consume(sim.hero, sim.areaDefinition, sim.generation).actions,
+    [],
+    'focused buttons cannot trigger combat',
+  );
   target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'Escape', repeat: false }));
   assert.equal(pauses, 1, 'Escape still toggles pause from a focused button');
   input.clear();
@@ -131,7 +146,9 @@ test('input uses the first click position, preserves pending dodge across key re
     Object.assign(new Event('pointerdown'), { button: 0, clientX: 650, clientY: 320 }),
   );
   assert.equal(input.keys.size, 0);
-  assert.deepEqual(input.edges, { attack: false, dodge: false, ability: false, potion: false });
+  const command = input.consume(sim.hero, sim.areaDefinition, sim.generation);
+  assert.deepEqual(command.actions, []);
+  assert.equal(command.potion, false);
   assert.equal(input.hasPointer, false);
 });
 function clear(session: GameSession) {
@@ -561,7 +578,7 @@ test('invalid movement cannot corrupt the hero position or dodge heading', () =>
     sim.step({ move: { x: value, z: 1 }, aim });
     assert.deepEqual({ x: sim.hero.x, z: sim.hero.z }, before);
     assert.equal(sim.hero.state, 'idle');
-    sim.step({ move: { x: value, z: 1 }, aim, dodge: true });
+    sim.step({ move: { x: value, z: 1 }, aim, actions: ['dodge'] });
     assert.ok(Number.isFinite(sim.hero.yaw));
     for (let i = 0; i < tuning.dodge.total; i++) sim.step(still);
     assert.ok(Number.isFinite(sim.hero.x + sim.hero.y + sim.hero.z));

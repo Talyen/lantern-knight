@@ -281,7 +281,7 @@ export class SceneLibrary {
         void this.host
           .change(
             (d) => {
-              const temp = new EditorHistory(d);
+              const temp = EditorHistory.create(d);
               inserted = temp.insertFragment(fragment.objects);
               Object.assign(d, temp.document);
             },
@@ -378,7 +378,7 @@ export class SceneLibrary {
     const ids: string[] = [];
     await this.host.change(
       (d) => {
-        const temp = new EditorHistory(d);
+        const temp = EditorHistory.create(d);
         for (const p of this.points)
           ids.push(...temp.insertFragment(this.fragmentData, p.x - cx, p.z - cz, true));
         Object.assign(d, temp.document);

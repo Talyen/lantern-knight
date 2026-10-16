@@ -106,6 +106,34 @@ describe('scene authoring contracts', () => {
     await state.edit((h) => h.undo());
     assert.deepEqual(state.history.document, original);
   });
+  it('skips unchanged view work while accepting history-only edits', async () => {
+    let applications = 0;
+    const state = new EditorDocument(
+      emptyScene(),
+      async () => {
+        applications++;
+      },
+      () => {},
+      new AbortController().signal,
+    );
+    const original = state.history.document;
+    await state.edit((history) => history.undo());
+    await state.edit((history) => history.change(() => {}));
+    assert.equal(applications, 0);
+    assert.equal(state.history.document, original);
+    await state.edit((history) => {
+      history.change((draft) => {
+        draft.name = 'Ready for redo';
+      });
+      history.undo();
+    });
+    assert.equal(applications, 0);
+    assert.equal(state.history.document, original);
+    assert.equal(state.history.canRedo, true);
+    await state.edit((history) => history.redo());
+    assert.equal(applications, 1);
+    assert.equal(state.history.document.name, 'Ready for redo');
+  });
   it('isolates accepted scenes and undo from retained candidates, drafts and derived fragments', async () => {
     const original = sceneFixture('graveyard');
     let candidate!: EditorHistory, draft!: SceneDocument, finish!: () => void;
@@ -189,7 +217,7 @@ describe('scene authoring contracts', () => {
     assert.equal(applies, 1);
   });
   it('derives collision footprints and rejects invalid edits without changing history', () => {
-    const h = new EditorHistory(sceneFixture('graveyard')),
+    const h = EditorHistory.create(sceneFixture('graveyard')),
       before = structuredClone(h.document);
     assert.throws(() => h.transform('family-tomb-west', { y: NaN }));
     assert.throws(() => h.transform('boundary-oak', { scale: 0 }));
@@ -231,7 +259,7 @@ describe('scene authoring contracts', () => {
     assert.throws(() => parseSceneDocument(d), /Duplicate/);
   });
   it('preserves undo/redo across saving a production copy as a draft', () => {
-    const h = new EditorHistory(sceneFixture('graveyard'));
+    const h = EditorHistory.create(sceneFixture('graveyard'));
     h.transform('family-tomb-west', { x: -6.2 });
     h.transform('family-tomb-west', { x: -6.3 });
     h.undo();
@@ -313,7 +341,7 @@ describe('scene file saving', () => {
 });
 
 it('mounted lamps follow edited supports through cascading undo', () => {
-  const h = new EditorHistory(sceneFixture('chapel'));
+  const h = EditorHistory.create(sceneFixture('chapel'));
   const lamp = () =>
     resolveAuthoredScene(h.document).props.find((p) => p.id === 'crypt-altar-candles')!;
 
@@ -328,7 +356,7 @@ it('mounted lamps follow edited supports through cascading undo', () => {
   assert.ok(Math.abs(lamp().x - 0.93) < 1e-10);
 });
 it('attachment cycles and missing supports reject without changing history', () => {
-  const h = new EditorHistory(sceneFixture('chapel')),
+  const h = EditorHistory.create(sceneFixture('chapel')),
     before = structuredClone(h.document);
   assert.throws(
     () =>
@@ -347,7 +375,7 @@ it('attachment cycles and missing supports reject without changing history', () 
   assert.deepEqual(h.document, before);
   assert.equal(h.canUndo, false);
   {
-    const h = new EditorHistory(emptyScene());
+    const h = EditorHistory.create(emptyScene());
     const template = { asset: 'ink-graveyard-scenery', clip: 'lantern-hardware' };
     for (let i = 0; i < 3; i++)
       h.change((d) =>

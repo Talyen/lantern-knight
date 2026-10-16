@@ -44,7 +44,7 @@ test('authored heading ties and hysteresis preserve action headings while aim ch
   assert.equal(selectAuthoredDirection(Math.PI / 4 - 0.01, 'd90'), 'd90');
   assert.equal(selectAuthoredDirection(-Math.PI / 2), 'd270');
   const s = duel();
-  s.step({ ...still, attack: true });
+  s.step({ ...still, actions: ['sword'] });
   const heading = s.hero.actionHeading;
   for (let i = 0; i < 8; i++) s.step({ ...still, aim: { x: 0, z: -2 } });
   assert.equal(s.hero.actionHeading, heading);
@@ -89,13 +89,13 @@ test('each attack heading damages only during its active phase and completes wit
 });
 test('alternation survives waiting, dodge and hurt; interruptions cannot complete or damage stale attacks', () => {
   const s = duel();
-  s.step({ ...still, attack: true });
+  s.step({ ...still, actions: ['sword'] });
   assert.equal(s.hero.nextAttack, 'lunge');
   s.damage(s.enemies[0]!, s.hero, 1);
   for (let i = 0; i < 100; i++) s.step(still);
-  s.step({ ...still, dodge: true });
+  s.step({ ...still, actions: ['dodge'] });
   for (let i = 0; i < 45; i++) s.step(still);
-  s.step({ ...still, attack: true });
+  s.step({ ...still, actions: ['sword'] });
   assert.equal(s.hero.attackKind, 'lunge');
   assert.equal(s.hero.nextAttack, 'sweep');
   assert.equal(
@@ -112,7 +112,7 @@ test('alternation survives waiting, dodge and hurt; interruptions cannot complet
   const attacks: string[] = [];
   let action = -1;
   for (let tick = 0; tick < 210; tick++) {
-    buffered.step({ ...still, attack: [0, 68, 121].includes(tick) });
+    buffered.step({ ...still, actions: [0, 68, 121].includes(tick) ? ['sword'] : [] });
     if (buffered.hero.state === 'attack' && buffered.hero.action !== action) {
       action = buffered.hero.action;
       attacks.push(buffered.hero.attackKind);
@@ -121,20 +121,21 @@ test('alternation survives waiting, dodge and hurt; interruptions cannot complet
   assert.deepEqual(attacks, ['sweep', 'lunge', 'sweep']);
   assert.equal(buffered.enemies[0]!.health, 22);
   const early = duel();
-  for (let tick = 0; tick < 100; tick++) early.step({ ...still, attack: tick === 0 || tick === 2 });
+  for (let tick = 0; tick < 100; tick++)
+    early.step({ ...still, actions: tick === 0 || tick === 2 ? ['sword'] : [] });
   assert.equal(early.hero.attackKind, 'lunge');
-  early.step({ ...still, attack: true });
+  early.step({ ...still, actions: ['sword'] });
   assert.equal(early.hero.attackKind, 'sweep');
   const queued = duel();
   queued.startSword(queued.hero, 'sweep');
   queued.hero.age = attackDefinition(queued.hero).total - 3;
-  queued.step({ ...still, move: { x: 1, z: 0 }, dodge: true });
+  queued.step({ ...still, move: { x: 1, z: 0 }, actions: ['dodge'] });
   assert.equal(queued.hero.state, 'dodge');
 });
 test('dodge invulnerability and distance are confined to travel cels; lantern pulses once and death completes', () => {
   const s = duel();
   s.enemies[0]!.x = 5;
-  s.step({ ...still, move: { x: 1, z: 0 }, dodge: true });
+  s.step({ ...still, move: { x: 1, z: 0 }, actions: ['dodge'] });
   const start = s.hero.x;
   for (let i = 1; i < tuning.dodge.travelStart; i++) s.step(still);
   assert.equal(s.hero.x, start);
@@ -160,15 +161,15 @@ test('dodge invulnerability and distance are confined to travel cels; lantern pu
   s.damage(s.enemies[0]!, s.hero, 1000);
   assert.ok(s.hero.action > interruptedAction);
   const deathAction = s.hero.action;
-  s.step({ ...still, move: { x: 1, z: 1 }, attack: true });
+  s.step({ ...still, move: { x: 1, z: 1 }, actions: ['sword'] });
   assert.equal(s.hero.state, 'death');
   assert.equal(s.hero.action, deathAction);
   for (let i = 1; i < 90; i++) assert.equal(s.step(still).reset, undefined);
   assert.equal(s.step(still).reset, 'death');
   assert.equal(heroActionTiming('hit', 'd90').total, 24);
   const alive = duel();
-  alive.step({ ...still, ability: true });
-  for (let tick = 0; tick < 100; tick++) alive.step({ ...still, ability: true });
+  alive.step({ ...still, actions: ['lantern'] });
+  for (let tick = 0; tick < 100; tick++) alive.step({ ...still, actions: ['lantern'] });
   assert.ok(alive.hero.cooldown > 0);
   assert.notEqual(alive.hero.state, 'ability');
 });
@@ -230,7 +231,7 @@ test('poise preserves a physical-hit windup, while lantern stagger and death int
   assert.equal(enemy.state, 'attack');
   assert.equal(enemy.age, 20);
   assert.equal(enemy.action, action);
-  s.step({ ...still, ability: true });
+  s.step({ ...still, actions: ['lantern'] });
   for (let i = 0; i < tuning.ability.windup; i++) s.step(still);
   assert.equal(enemy.state, 'hurt');
   assert.ok(enemy.stun > 0);

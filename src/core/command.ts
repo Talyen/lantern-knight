@@ -9,25 +9,14 @@ export type HeroAction = z.infer<typeof heroAction>;
 export const CommandSchema = z.strictObject({
   move: point,
   aim: point,
-  attack: z.boolean().optional(),
-  dodge: z.boolean().optional(),
-  ability: z.boolean().optional(),
-  actions: z.array(heroAction).optional(),
+  actions: z.array(heroAction).readonly().optional(),
   generation: z.number().int().nonnegative().optional(),
   potion: z.boolean().optional(),
 });
-export type Command = Omit<z.infer<typeof CommandSchema>, 'actions'> & {
-  actions?: readonly HeroAction[];
-};
-export type AcceptedCommand = {
-  move: { x: number; z: number };
-  aim: { x: number; z: number };
-  actions: readonly HeroAction[];
-  potion: boolean;
-};
+export type Command = z.infer<typeof CommandSchema>;
+export type AcceptedCommand = Required<Omit<Command, 'generation'>>;
 
-// Adapt legacy action flags exactly once. An explicit ordered action list wins,
-// including an empty list; stale commands cannot consume potions or buffer actions.
+// Missing or stale commands cannot consume potions or buffer actions.
 export function acceptCommand(
   command: Command | undefined,
   generation: number,
@@ -42,11 +31,7 @@ export function acceptCommand(
         : { x: 0, z: 0 },
     aim:
       Number.isFinite(command.aim.x) && Number.isFinite(command.aim.z) ? command.aim : fallbackAim,
-    actions: command.actions ?? [
-      ...(command.attack ? ['sword' as const] : []),
-      ...(command.ability ? ['lantern' as const] : []),
-      ...(command.dodge ? ['dodge' as const] : []),
-    ],
+    actions: command.actions ?? [],
     potion: command.potion ?? false,
   };
 }

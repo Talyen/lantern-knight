@@ -121,15 +121,15 @@ test('failed scenery construction releases contact shadows before room ownership
 
 test('checkpoint restore preserves the next alternating sword attack', () => {
   const session = new GameSession(content);
-  session.step({ ...still, attack: true });
+  session.step({ ...still, actions: ['sword'] });
   const save = session.captureSave();
   session.restoreSave(save);
-  session.step({ ...still, attack: true });
+  session.step({ ...still, actions: ['sword'] });
   assert.equal(session.sim.hero.attackKind, 'lunge');
   // Older prototype saves without the new optional field remain loadable.
   delete save.player.nextAttack;
   session.restoreSave(save);
-  session.step({ ...still, attack: true });
+  session.step({ ...still, actions: ['sword'] });
   assert.equal(session.sim.hero.attackKind, 'sweep');
 });
 
@@ -223,7 +223,7 @@ test('external arrangements cannot inherit an unrelated health reward through ma
   draft.gameplay!.pickups = [
     { id: 'health', object: 'potion', kind: 'health', amount: 25, radius: 1, x: 0, z: 0 },
   ];
-  const history = new EditorHistory(draft);
+  const history = EditorHistory.create(draft);
   history.insertFragment([
     { id: 'potion', kind: 'prop', asset: 'other-art', clip: 'idle', x: 3, z: 0 },
   ]);

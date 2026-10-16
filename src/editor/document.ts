@@ -27,7 +27,7 @@ export class EditorDocument {
     private readonly validate: (document: SceneSnapshot) => void,
     private readonly signal: AbortSignal,
   ) {
-    this.current = new EditorHistory(document);
+    this.current = EditorHistory.create(document);
     this.accept(this.current);
   }
   get history(): EditorSnapshot {
@@ -48,7 +48,7 @@ export class EditorDocument {
     });
   }
   replace(document: SceneSnapshot) {
-    return this.update(() => new EditorHistory(document));
+    return this.update(() => EditorHistory.create(document));
   }
   private update(prepare: () => EditorHistory) {
     // EditorView owns acquisition/draining. This caller borrows only completion;
@@ -63,11 +63,13 @@ export class EditorDocument {
     try {
       const candidate = prepare().fork();
       this.signal.throwIfAborted();
-      this.validate(candidate.document);
-      this.signal.throwIfAborted();
-      applying = true;
-      await this.apply(candidate.document);
-      this.signal.throwIfAborted();
+      if (candidate.document !== this.current.document) {
+        this.validate(candidate.document);
+        this.signal.throwIfAborted();
+        applying = true;
+        await this.apply(candidate.document);
+        this.signal.throwIfAborted();
+      }
       this.accept(candidate);
     } catch (error) {
       if (applying && !this.signal.aborted) {

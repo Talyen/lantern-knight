@@ -130,7 +130,7 @@ test('a clear fixture arena supports the complete dodge distance', () => {
     sim.step({
       move: { x: Math.sin(yaw), z: Math.cos(yaw) },
       aim: { x: Math.sin(yaw) * 3, z: 0.25 + Math.cos(yaw) * 3 },
-      dodge: true,
+      actions: ['dodge'],
     });
     while (sim.hero.state === 'dodge') sim.step(still);
     assert.ok(

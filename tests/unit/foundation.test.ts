@@ -173,9 +173,11 @@ test('fixed command replay matches across render cadences; catch-up bounded and 
         s.step({
           move: { x: s.tick < 90 ? 1 : 0, z: 0 },
           aim: { x: 0, z: 0 },
-          attack: s.tick % 40 === 0,
-          ability: s.tick === 110,
-          dodge: s.tick === 60,
+          actions: [
+            ...(s.tick % 40 === 0 ? ['sword' as const] : []),
+            ...(s.tick === 110 ? ['lantern' as const] : []),
+            ...(s.tick === 60 ? ['dodge' as const] : []),
+          ],
         });
       });
     return s;
@@ -456,7 +458,7 @@ test('death resets current area exactly once, clears transient state, and invali
   assert.equal(s.accepts(event), false);
   s.damage(oldEnemy, s.hero, 1000, generation);
   assert.equal(s.hero.health, 100);
-  session.step({ ...still, attack: true, dodge: true, generation });
+  session.step({ ...still, actions: ['sword', 'dodge'], generation });
   assert.equal(s.hero.state, 'idle');
   assert.equal(session.resetCount, 1);
 });

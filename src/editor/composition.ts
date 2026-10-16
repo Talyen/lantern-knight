@@ -183,7 +183,7 @@ export class CompositionTools {
             };
           }
           try {
-            const temp = new EditorHistory(original);
+            const temp = EditorHistory.create(original);
             temp.transformMany(ids, fields);
             view.previewTransforms(temp.document);
             validFields = fields;

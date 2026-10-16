@@ -1962,7 +1962,7 @@ test('frame admission is revoked by hooks and disposal before gameplay or furthe
     };
     app.command = () => {
       if (boundary === 'command') app.setSimulationEnabled(false);
-      return { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 }, dodge: true };
+      return { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 }, actions: ['dodge'] };
     };
     if (boundary === 'step') app.beforeStep = () => app.pause(true);
     if (boundary === 'resume')

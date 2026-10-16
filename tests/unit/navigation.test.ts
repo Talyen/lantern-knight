@@ -156,7 +156,7 @@ test('movement preview routes enemies around scenery without damage; populate cl
   sim.movementPreview = true;
   const hp = sim.hero.health;
   for (let i = 0; i < 900; i++)
-    sim.step({ move: { x: 0, z: 0 }, aim: { x: 1, z: 0 }, attack: true, ability: true });
+    sim.step({ move: { x: 0, z: 0 }, aim: { x: 1, z: 0 }, actions: ['sword', 'lantern'] });
   assert.equal(sim.hero.health, hp);
   assert.ok(sim.enemies[0]!.x < 0);
   assert.ok(sim.actors.every((p) => isSupportedPosition(a, p, 0.3)));
@@ -711,7 +711,7 @@ test('obsolete commands cannot cancel the current pickup route', () => {
   plan.beforeStep(sim, {
     move: { x: 1, z: 0 },
     aim: { x: 0, z: 0 },
-    attack: true,
+    actions: ['sword'],
     generation: sim.generation - 1,
   });
   assert.equal(sim.navigationDebug(false).routes.length, 1);
@@ -759,7 +759,6 @@ test('pickup routing uses admitted actions and finite movement consistently with
     move: { x: Infinity, z: 0 },
     aim: { x: 0, z: 0 },
     actions: [],
-    attack: true,
   });
   assert.equal(sim.navigationDebug(false).routes.length, 1);
 });

@@ -16,9 +16,11 @@ test('authored Game arrival stays safe and saveable without spurious victories o
     const result = session.step({
       ...still,
       move: { x: 1, z: 0 },
-      attack: i % 60 === 0,
-      ability: i === 0,
-      dodge: i === 100,
+      actions: [
+        ...(i % 60 === 0 ? ['sword' as const] : []),
+        ...(i === 0 ? ['lantern' as const] : []),
+        ...(i === 100 ? ['dodge' as const] : []),
+      ],
     });
     victories += result.events.filter((e) => e.kind === 'room-clear').length;
     assert.equal(result.transition, undefined);

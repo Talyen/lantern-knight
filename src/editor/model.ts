@@ -19,20 +19,20 @@ export function sceneItems(document: SceneSnapshot): EditorItem[] {
   }));
 }
 export class EditorHistory {
-  private current: SceneSnapshot;
-  private past: SceneSnapshot[] = [];
-  private future: SceneSnapshot[] = [];
-  constructor(document: SceneSnapshot) {
-    this.current = contentSnapshot(parseSceneDocument(document));
+  private constructor(
+    private current: SceneSnapshot,
+    private past: SceneSnapshot[] = [],
+    private future: SceneSnapshot[] = [],
+  ) {}
+  static create(document: SceneSnapshot) {
+    return new EditorHistory(contentSnapshot(parseSceneDocument(document)));
   }
   get document(): SceneSnapshot {
     return this.current;
   }
   fork() {
-    const copy = new EditorHistory(this.document);
-    copy.past = [...this.past];
-    copy.future = [...this.future];
-    return copy;
+    // Documents are immutable; only the undo/redo stacks belong to this editor.
+    return new EditorHistory(this.document, [...this.past], [...this.future]);
   }
   get canUndo() {
     return this.past.length > 0;

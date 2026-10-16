@@ -69,6 +69,8 @@ Room replacement has a separate acceptance barrier. Before committing gameplay c
 
 `src/presentation/camera.ts` owns Three.js camera construction, viewport constraints, projection and screen-relative movement. Camera framing jointly fits the viewport inside the finite rendered `sceneBoundary` and keeps the complete hero below the upper controls. It adjusts the center and zoom together; no silhouette correction can expose space beyond the scene. Artwork layout reserves a playable margin for the hero inside the full painting, while rendering and camera coverage retain its original footprint. Checkpoint admission moves positions in the former outer margin onto nearby framed ground only when the original floor and connecting segment are clear; progress is preserved. `keepHeroVisible` controls authored composition bias only; final scene coverage and hero framing apply universally. If an impossible focus lies beyond the painting, coverage remains mandatory. `src/input.ts` adapts DOM input and pointer projection into gameplay commands under Application's lifetime. Rendering and browser input do not live in the gameplay model. Camera and direction algorithms remain shared across Game, editor and preview consumers through their respective owners.
 
+Combat commands carry one ordered `actions` list (`sword`, `lantern`, `dodge`), shared by input, previews and replay recipes. Input queues each press once; potion use remains a separate command flag.
+
 ### Content acceptance
 
 ContentRegistry clones and deeply freezes gameplay definitions before validation. Its private lookup indexes and public definition snapshot share the same accepted objects; callers retain editable drafts. Scene composition separately snapshots visual definitions and freezes their derived asset requirements, so draft edits cannot change live geometry, checkpoint validation or rendering requirements. Registry acceptance validates every hero entry and the complete enemy spawn jitter segment against actor clearance, so Game, transitions, headless sessions and editor playtests cannot bypass placement validation. Replace content by constructing a new registry and scene composition. Editor renames follow scene acceptance rather than mutating the active simulation.
@@ -76,6 +78,8 @@ ContentRegistry clones and deeply freezes gameplay definitions before validation
 ### Scene documents and ground interaction
 
 Version 5 scene documents own floor, scenery, camera, surrounds and gameplay geometry. `src/content/scene-document.ts` parses them; `src/content/world-art.ts` resolves area geometry, colliders, visuals and asset requirements together. `src/content/world-visuals.ts` owns visual types, resource requirements and framing helpers.
+
+Editor history forks share frozen scene snapshots and copy only their undo/redo stacks. View acceptance runs only when a transaction changes the document; history-only changes still commit their undo/redo state.
 
 The optional `groundInteraction` block binds normalized image contours to an exact asset hash, frame and dimensions; independent world-space polygon footprints resolve into ordinary blocking props. Depth anchors or left-to-right piecewise boundaries belong to presentation. `src/content/floor-layout.ts` owns both artwork/world mappings and resize reprojection. Image coordinates start at the top left, with Y increasing downward; floor rendering converts them to bottom-left texture UVs at the presentation boundary.
 
