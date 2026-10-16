@@ -11,7 +11,8 @@ test.use({ actionTimeout: 30_000 });
 test('clearing reward and forge salvage survive travel, rest and death recovery', async ({
   page,
 }) => {
-  test.setTimeout(480_000);
+  // The complete return journey includes several cold room rebuilds and a reload.
+  test.setTimeout(600_000);
   const clearing = content.area('forest-gathering-clearing');
   const forge = content.area('ruined-forge');
   const chest = clearing.interactables![0]!;

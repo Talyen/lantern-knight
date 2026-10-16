@@ -12,7 +12,8 @@ for (const choice of ['sword', 'lantern'] as const) {
   test(`${choice} kit reaches the chapel and retains its vigil reward through retry and return`, async ({
     page,
   }) => {
-    test.setTimeout(360_000);
+    // Campfire, retry, return and reload each prepare a complete room renderer.
+    test.setTimeout(600_000);
     const forge = content.area('ruined-forge');
     const chapel = content.area('desecrated-chapel');
     const forward = forge.exits.find((e) => e.destination === chapel.id)!;
