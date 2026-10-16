@@ -1,4 +1,5 @@
 import { guidingWindAssets } from './guiding-wind';
+import { itemArtAssets } from './item-art';
 import orchard from '../../authoring/scenes/abandoned-orchard.json';
 import clearing from '../../authoring/scenes/forest-gathering-clearing.json';
 import forge from '../../authoring/scenes/ruined-forge.json';
@@ -136,6 +137,7 @@ export const gameScenes: SceneContent = Object.freeze({
 export const gameAssetCatalog: Readonly<Record<string, string>> = Object.fromEntries(
   [
     ...new Set([
+      ...itemArtAssets,
       ...gameScenes.initialAssets,
       ...content.definitions.areas.flatMap((area) => gameScenes.area(area.id).assets),
     ]),

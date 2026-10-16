@@ -131,7 +131,9 @@
         "assets/library-artwork/sources-5.json",
         "assets/library-combat-sources.json",
         "assets/library-artwork/artwork-6.json",
-        "assets/library-artwork/sources-6.json"
+        "assets/library-artwork/sources-6.json",
+        "assets/library-artwork/ui-artwork.json",
+        "assets/library-artwork/ui-sources.json"
       ],
       "dependsOn": []
     },

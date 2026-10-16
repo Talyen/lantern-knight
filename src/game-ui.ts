@@ -1,3 +1,4 @@
+import { createItemArtwork } from './item-art';
 import { GroundLootLabels } from './ground-loot-labels';
 import { Vector3 } from 'three';
 import { heightAt } from './content/world';
@@ -12,7 +13,7 @@ import type { Application } from './application';
 import { tuning } from './content/gameplay';
 import { clearSegment } from './content/collision';
 export const gameUI = `<main class="stage game-stage"><canvas aria-label="Lantern Knight game" tabindex="0"></canvas>
-<div class="travel-veil" aria-hidden="true"></div><div class="title-card"><div class="eyebrow">Lantern Knight</div><h2 id="room-title"></h2></div>
+<div class="travel-veil" aria-hidden="true"></div><div class="title-card"><h2 id="room-title"></h2></div>
 <section class="hud" aria-label="Health and supplies"><div class="health-heading"><span>Vitality</span><span id="hp"></span></div><div class="health" role="meter" aria-label="Health" aria-valuemin="0"><span id="health-fill"></span></div><div class="supply-row"><span><kbd>Q</kbd> Health Potion</span><span id="potion-count"></span></div><div id="lantern-readiness" hidden><div class="lantern-heading"><span>Lantern</span><span id="lantern-state"></span></div><div class="lantern-charge" role="meter" aria-label="Lantern recharge" aria-valuemin="0" aria-valuemax="100"><span id="lantern-fill"></span></div></div></section>
 <div class="ground-loot-labels" aria-label="Ground items"></div><p id="interaction-hint" aria-live="polite"></p><p id="lantern-hint" aria-live="polite"></p>
 <div class="game-toolbar"><button id="open-inventory">Inventory <kbd>I</kbd></button><button id="pause" aria-label="Pause / save">Menu <kbd>Esc</kbd></button></div>
@@ -42,6 +43,9 @@ export function createGameUI(root: HTMLElement) {
     bound = true;
     application = app;
     journeyStarted = app.startedFromCheckpoint;
+    const artwork = createItemArtwork(app.runtime, lifetime.signal);
+    $('.supply-row > span').prepend(artwork('health-potion'));
+    $('.lantern-heading > span').prepend(artwork('lantern'));
     lootLabels = new GroundLootLabels($('.ground-loot-labels'), app, lifetime.signal);
     adventure = bindAdventureUI(app, root, lifetime.signal);
     bindAudioControls(app, root, lifetime.signal);
@@ -193,9 +197,7 @@ export function createGameUI(root: HTMLElement) {
     unsubscribe = app.events.subscribe((event) => {
       if (event.kind === 'action-unavailable') status(event.reason);
       if (event.kind === 'potion-used') status('Health Potion · restored health');
-      if (event.kind === 'room-reset' && event.reason === 'death')
-        status('A new breath · returned to your checkpoint');
-      if (event.kind === 'room-clear') status('The way is clear');
+      if (event.kind === 'room-reset' && event.reason === 'death') status('Returned to checkpoint');
     });
     showPage('home');
     app.pause(true);
@@ -216,23 +218,14 @@ export function createGameUI(root: HTMLElement) {
     $('#resume').hidden = atTitle;
     $('#new-game').hidden = atTitle && !journeyStarted;
     $('#checkpoint-actions').hidden = atTitle;
-    $('#menu-eyebrow').textContent =
-      atTitle && home ? 'A sword. A lantern. A way forward.' : 'Lantern Knight';
     $('#pause-title').innerHTML = home
       ? atTitle
         ? 'Lantern<br>Knight'
-        : 'A moment of quiet.'
+        : 'Paused'
       : page === 'settings'
         ? 'Settings'
-        : 'Find your way.';
-    $('#menu-description').textContent = home
-      ? atTitle
-        ? 'Carry a little light into the unknown.'
-        : 'Your journey will be here when you are ready.'
-      : '';
+        : 'Controls';
     $('#start-label').textContent = journeyStarted ? 'Continue journey' : 'Begin journey';
-    $('#journey-label').textContent = journeyStarted ? 'Your journey' : 'Your journey begins';
-    $('#journey-area').textContent = application?.sim.areaDefinition.name ?? '';
     const focus = home ? (atTitle ? '#menu-start' : '#resume') : '#menu-back';
     $(focus).focus();
   }
@@ -394,9 +387,7 @@ export function createGameUI(root: HTMLElement) {
         : '') ||
       app.persistence.error ||
       app.settingsError ||
-      (atTitle
-        ? 'Progress saves as you explore. Prototype checkpoints may reset with updates.'
-        : 'Progress saves as you explore. Save a checkpoint before leaving.');
+      '';
   }
 
   return {

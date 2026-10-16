@@ -1,0 +1,36 @@
+{
+  "assets": [
+    {
+      "id": "artwork-ui-equipment-icons-v1",
+      "member": "Items/Interface/Illustrated Inventory v1/Artwork/equipment-icons.png",
+      "label": "UI Equipment Icons",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "anchor": [
+        627.0,
+        627.0
+      ],
+      "density": 256
+    },
+    {
+      "id": "artwork-ui-gothic-frame-v1",
+      "member": "Items/Interface/Illustrated Inventory v1/Artwork/gothic-frame.png",
+      "label": "UI Gothic Frame",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "anchor": [
+        627.0,
+        627.0
+      ],
+      "density": 256
+    }
+  ]
+}

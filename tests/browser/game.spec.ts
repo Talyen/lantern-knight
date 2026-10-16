@@ -250,10 +250,10 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   const panel = page.locator('.adventure-panel');
   await expect(panel).toBeVisible();
   await page.locator('.inventory-row').filter({ hasText: 'Orchard Ring' }).click();
-  await panel.getByRole('button', { name: 'Equip · Ring 1', exact: true }).click();
-  await expect(panel).toContainText('60 / 110 health');
+  await panel.getByRole('button', { name: 'Equip', exact: true }).click();
+  await expect(page.locator('#hp')).toHaveText('60 / 110');
   await panel.locator('.inventory-row').filter({ hasText: 'Damaged Axe' }).click();
-  const salvage = panel.getByRole('button', { name: 'Salvage stack' });
+  const salvage = panel.getByRole('button', { name: 'Salvage', exact: true });
   await salvage.focus();
   await page.keyboard.down('Enter');
   await page.keyboard.down('Enter');
