@@ -6,17 +6,20 @@ test('inventory admission and exports detach state; commands enforce owned equip
   const draft = { inventory: { 'orchard-ring': 1 }, equipment: {} };
   const owner = new InventoryState(draft);
   draft.inventory['orchard-ring'] = 5;
-  owner.equip('orchard-ring', 'ring1');
+  owner.change({ kind: 'equip', item: 'orchard-ring', slot: 'ring1' });
   const before = owner.snapshot();
-  assert.throws(() => owner.equip('orchard-ring', 'ring2'), /not owned/);
+  assert.throws(
+    () => owner.change({ kind: 'equip', item: 'orchard-ring', slot: 'ring2' }),
+    /not owned/,
+  );
   assert.deepEqual(owner.snapshot(), before);
   assert.equal(owner.healthBonus, 10);
   before.inventory['orchard-ring'] = 3;
   delete before.equipment.ring1;
   assert.equal(owner.inventory['orchard-ring'], 1);
   assert.equal(owner.equipment.ring1, 'orchard-ring');
-  owner.unequip('ring1');
-  owner.equip('orchard-ring', 'ring2');
+  owner.change({ kind: 'unequip', slot: 'ring1' });
+  owner.change({ kind: 'equip', item: 'orchard-ring', slot: 'ring2' });
   assert.equal(owner.healthBonus, 10);
 });
 

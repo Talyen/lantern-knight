@@ -16,6 +16,10 @@ export type InventorySnapshot = {
   equipment: Equipment;
   forgeUpgrade?: ForgeUpgrade;
 };
+export type InventoryCommand =
+  | { kind: 'equip'; item: string; slot: EquipmentSlot }
+  | { kind: 'unequip'; slot: EquipmentSlot }
+  | { kind: 'salvage'; item?: string };
 
 // Save admission and live commands enforce the same ownership/count contract.
 export function validateInventory({ inventory, equipment, forgeUpgrade }: InventorySnapshot) {
@@ -57,18 +61,19 @@ export interface InventoryAccess {
 export class InventoryState implements InventoryAccess {
   private state: InventorySnapshot;
   constructor(snapshot: InventorySnapshot = { inventory: {}, equipment: {} }) {
-    this.state = this.accept(snapshot);
+    this.state = this.accept(
+      structuredClone({
+        inventory: snapshot.inventory,
+        equipment: snapshot.equipment,
+        ...(snapshot.forgeUpgrade !== undefined ? { forgeUpgrade: snapshot.forgeUpgrade } : {}),
+      }),
+    );
   }
   private accept(snapshot: InventorySnapshot): InventorySnapshot {
-    const next = structuredClone({
-      inventory: snapshot.inventory,
-      equipment: snapshot.equipment,
-      ...(snapshot.forgeUpgrade !== undefined ? { forgeUpgrade: snapshot.forgeUpgrade } : {}),
-    });
-    validateInventory(next);
-    Object.freeze(next.inventory);
-    Object.freeze(next.equipment);
-    return Object.freeze(next);
+    validateInventory(snapshot);
+    Object.freeze(snapshot.inventory);
+    Object.freeze(snapshot.equipment);
+    return Object.freeze(snapshot);
   }
   get inventory(): Readonly<Inventory> {
     return this.state.inventory;
@@ -105,10 +110,11 @@ export class InventoryState implements InventoryAccess {
   snapshot(): InventorySnapshot {
     return structuredClone(this.state);
   }
-  private update(change: (draft: InventorySnapshot) => void) {
+  private update(change: (draft: InventorySnapshot) => boolean) {
     const next = this.snapshot();
-    change(next);
+    if (!change(next)) return false;
     this.state = this.accept(next);
+    return true;
   }
   award(rewards: readonly Reward[]) {
     this.update(({ inventory }) => {
@@ -117,36 +123,41 @@ export class InventoryState implements InventoryAccess {
           throw new Error('Invalid reward');
         inventory[item] = (inventory[item] ?? 0) + amount;
       }
+      return rewards.length > 0;
     });
   }
   consume(item: string) {
     if (!Object.hasOwn(items, item) || (this.inventory[item] ?? 0) <= 0) return false;
     this.update(({ inventory }) => {
       inventory[item]!--;
+      return true;
     });
     return true;
   }
-  equip(item: string, slot: EquipmentSlot) {
-    this.update(({ equipment }) => {
-      equipment[slot] = item;
-    });
-  }
-  unequip(slot: EquipmentSlot) {
-    this.update(({ equipment }) => {
-      delete equipment[slot];
-    });
-  }
-  salvage(item?: string) {
-    this.update(({ inventory, equipment }) => {
+  change(command: InventoryCommand): boolean {
+    return this.update(({ inventory, equipment }) => {
+      if (command.kind === 'equip') {
+        if (equipment[command.slot] === command.item) return false;
+        equipment[command.slot] = command.item;
+        return true;
+      }
+      if (command.kind === 'unequip') {
+        if (!equipment[command.slot]) return false;
+        delete equipment[command.slot];
+        return true;
+      }
+      let changed = false;
       for (const [id, count] of Object.entries(inventory)) {
-        if (item && item !== id) continue;
+        if (command.item && command.item !== id) continue;
         const yields = items[id]?.salvage;
         if (!yields || !count) continue;
         if (Object.values(equipment).includes(id)) throw new Error('Unequip before salvaging');
         for (const [material, amount] of Object.entries(yields))
           inventory[material] = (inventory[material] ?? 0) + count * amount;
         inventory[id] = 0;
+        changed = true;
       }
+      return changed;
     });
   }
 }

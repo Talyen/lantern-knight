@@ -358,7 +358,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     if (equippedSlot) {
       const control = button('Unequip', 'unequip', () =>
         report(
-          () => app.changeInventory('unequip', undefined, equippedSlot),
+          () => app.changeInventory({ kind: 'unequip', slot: equippedSlot }),
           `${item.name} unequipped.`,
         ),
       );
@@ -383,7 +383,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         'equip',
         () =>
           report(() => {
-            app.changeInventory('equip', id, targetSlot);
+            app.changeInventory({ kind: 'equip', item: id, slot: targetSlot });
             selected = { kind: 'slot', slot: targetSlot };
             inventoryView = 'kit';
           }, `${item.name} equipped.`),
@@ -394,13 +394,13 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     }
     if (item.salvage) {
       const control = button('Salvage', 'salvage', () =>
-        report(() => app.changeInventory('salvage', id), `${item.name} salvaged.`),
+        report(() => app.changeInventory({ kind: 'salvage', item: id }), `${item.name} salvaged.`),
       );
       control.className = 'primary-action';
       actions.push(
         control,
         button('Salvage all', 'salvage-all', () =>
-          report(() => app.changeInventory('salvage'), 'Damaged equipment salvaged.'),
+          report(() => app.changeInventory({ kind: 'salvage' }), 'Damaged equipment salvaged.'),
         ),
       );
     }

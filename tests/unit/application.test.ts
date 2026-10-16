@@ -92,6 +92,36 @@ function editFixture(app: Application, work: (sim: Simulation) => undefined) {
   });
   app.editPreview(work);
 }
+test('inventory commands save accepted changes once and leave no-ops and rejected commands inert', async () => {
+  const writes: GameSave[] = [];
+  const { app } = fixture(undefined, {
+    saveGame: async (save) => {
+      writes.push(save);
+    },
+  });
+  const save = app.session.captureSave();
+  Object.assign(save.adventure!.inventory, { 'orchard-ring': 1, 'damaged-axe': 2 });
+  await app.restore(save);
+  const changes = () => app.events.history.filter((event) => event.kind === 'inventory-changed');
+  app.changeInventory({ kind: 'equip', item: 'orchard-ring', slot: 'ring1' });
+  assert.equal(writes.length, 1);
+  assert.equal(writes[0]!.adventure!.equipment.ring1, 'orchard-ring');
+  app.changeInventory({ kind: 'equip', item: 'orchard-ring', slot: 'ring1' });
+  app.changeInventory({ kind: 'unequip', slot: 'ring2' });
+  app.changeInventory({ kind: 'salvage', item: 'iron' });
+  assert.throws(
+    () => app.changeInventory({ kind: 'equip', item: 'orchard-ring', slot: 'ring2' }),
+    /not owned/,
+  );
+  assert.equal(writes.length, 1);
+  assert.equal(changes().length, 1);
+  app.changeInventory({ kind: 'salvage', item: 'damaged-axe' });
+  app.changeInventory({ kind: 'salvage', item: 'damaged-axe' });
+  assert.equal(writes.length, 2);
+  assert.equal(writes[1]!.adventure!.inventory.iron, 4);
+  assert.equal(changes().length, 2);
+  app.dispose();
+});
 test('interacting with a different stack cancels a pending label pickup route', () => {
   const { app } = fixture();
   app.readOnly = true;
@@ -1698,7 +1728,7 @@ test('shutdown drains all owners after UI, renderer and lease failures and canno
   assert.equal(app.packs.size, 0);
   assert.equal(app.ready, false);
   assert.equal(app.roomReady, false);
-  assert.throws(() => app.changeInventory('salvage'), /loading/);
+  assert.throws(() => app.changeInventory({ kind: 'salvage' }), /loading/);
   app.dispose();
   assert.equal(calls.length, 6);
 });
@@ -2167,7 +2197,7 @@ test('forge purchase saves one atomic candidate, blocks overlapping commands and
   await assert.rejects(app.purchaseForgeUpgrade('bench', 'lantern'), /current operation/);
   await assert.rejects(app.load(), /purchase/);
   await assert.rejects(app.reset('death'), /purchase/);
-  assert.throws(() => app.changeInventory('salvage'), /loading/);
+  assert.throws(() => app.changeInventory({ kind: 'salvage' }), /loading/);
   await assert.rejects(app.save(), /purchase/);
   app.autosave();
   assert.equal(writes.length, 1, 'a stale autosave cannot overwrite the purchase');

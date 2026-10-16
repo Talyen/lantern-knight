@@ -201,10 +201,10 @@ test('loot, salvage and equipment persist while rest resets enemies and discards
   assert.equal(s.sim.collectDrop('enemy-first-1'), true);
   s.sim.hero.x = -8;
   s.step(idle);
-  s.salvage('damaged-axe');
+  s.changeInventory({ kind: 'salvage', item: 'damaged-axe' });
   assert.equal(s.inventory.iron, 2);
   supply(s, 'orchard-ring', 1);
-  s.equip('orchard-ring', 'ring1');
+  s.changeInventory({ kind: 'equip', item: 'orchard-ring', slot: 'ring1' });
   assert.equal(s.sim.maxHealth, 110);
   assert.equal(s.sim.hero.health, 100);
   s.rest('orchard/west');
@@ -220,7 +220,7 @@ test('loot, salvage and equipment persist while rest resets enemies and discards
   loaded.restoreSave(save);
   assert.equal(loaded.inventory.iron, 2);
   assert.equal(loaded.sim.maxHealth, 110);
-  loaded.unequip('ring1');
+  loaded.changeInventory({ kind: 'unequip', slot: 'ring1' });
   assert.equal(loaded.sim.hero.health, 100);
 });
 test('potions never consume at full health, heal by 40, and retain a one second cooldown', () => {
@@ -731,7 +731,7 @@ test('salvage overflow preserves all ingredients and a loadable checkpoint', () 
   supply(s, 'damaged-axe', 100000000);
   supply(s, 'damaged-helmet', 1);
   const before = s.captureSave();
-  assert.throws(() => s.salvage(), /inventory/i);
+  assert.throws(() => s.changeInventory({ kind: 'salvage' }), /inventory/i);
   assert.deepEqual(s.captureSave(), before);
   assert.doesNotThrow(() => parseGame(s.captureSave(), s.registry));
 });
@@ -765,7 +765,7 @@ for (const reenter of ['checkpoint', 'travel'] as const)
       s.sim.hero.x = -5.5;
     }
     assert.equal(s.sim.inCombat, true, reenter + ' must preserve the alert');
-    assert.throws(() => s.salvage(), /Finish combat/);
+    assert.throws(() => s.changeInventory({ kind: 'salvage' }), /Finish combat/);
     assert.equal(s.sim.enemies[0]!.state, 'idle', 'animation remains transient');
     s.sim.hero.x = -8;
     s.rest('orchard/west');
@@ -1061,9 +1061,12 @@ test('prepared rooms suspend progression writes and cancellation restores the ac
   breakCrate(session.sim);
   const before = session.captureSave();
   const plan = session.prepareRest('orchard/west');
-  assert.throws(() => session.equip('orchard-ring', 'ring1'), /loading/);
-  assert.throws(() => session.unequip('sword'), /loading/);
-  assert.throws(() => session.salvage(), /loading/);
+  assert.throws(
+    () => session.changeInventory({ kind: 'equip', item: 'orchard-ring', slot: 'ring1' }),
+    /loading/,
+  );
+  assert.throws(() => session.changeInventory({ kind: 'unequip', slot: 'sword' }), /loading/);
+  assert.throws(() => session.changeInventory({ kind: 'salvage' }), /loading/);
   assert.throws(() => session.discoverFire('orchard/west'), /loading/);
   session.sim.hero.x = -7;
   assert.throws(() => session.sim.collectDrop('object-crate-0'), /loading/);
@@ -1071,7 +1074,7 @@ test('prepared rooms suspend progression writes and cancellation restores the ac
   assert.deepEqual(session.captureSave(), before);
   session.cancelRoom(plan);
   assert.equal(session.sim.collectDrop('object-crate-0'), true);
-  session.equip('orchard-ring', 'ring1');
+  session.changeInventory({ kind: 'equip', item: 'orchard-ring', slot: 'ring1' });
   assert.equal(session.inventory.gold, 3);
   assert.equal(session.equipment.ring1, 'orchard-ring');
 });

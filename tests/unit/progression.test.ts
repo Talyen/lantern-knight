@@ -17,7 +17,7 @@ test('a prepared purchase reserves progression until commit or cancellation', ()
   const before = s.captureSave(),
     tick = s.sim.tick;
   const purchase = s.prepareForgePurchase('bench', 'sword');
-  assert.throws(() => s.salvage('iron'), /loading|purchase/);
+  assert.throws(() => s.changeInventory({ kind: 'salvage', item: 'iron' }), /loading|purchase/);
   assert.throws(() => s.dismissLesson('sword'), /loading|purchase/);
   assert.deepEqual(s.step({ ...idle, move: { x: 1, z: 0 } }), { events: [] });
   assert.equal(s.sim.tick, tick);
@@ -135,8 +135,8 @@ for (const choice of ['sword', 'lantern'] as const) {
     s.sim.hero.health = 100;
     s.sim.damage(target, s.sim.hero, 8);
     assert.equal(s.sim.hero.health, 92, 'enemy damage is unchanged');
-    s.unequip('sword');
-    s.unequip('lantern');
+    s.changeInventory({ kind: 'unequip', slot: 'sword' });
+    s.changeInventory({ kind: 'unequip', slot: 'lantern' });
     assert.deepEqual(
       kitAttributes(s.forgeUpgrade),
       attributes,
