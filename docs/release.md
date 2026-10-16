@@ -21,7 +21,7 @@ Packaging builds the web and Electron outputs once, then records and verifies th
 
 Packages retain source commit, asset identity and output checksums. Native jobs build directly from the checked-out commit and pin; no cross-platform build-restoration protocol is needed. Follow hosted CI to final conclusions only after an authorized push. Local macOS validation does not establish Windows or hosted success.
 
-Mac Game release packages use [Developer ID signing and Apple notarization](#signed-mac-packages-for-steam) by default. Output remains an unpacked macOS arm64/Windows x64 application; Windows packages are unsigned. Windows signing, installers, licenses/notices and Steam depot delivery remain separate release work. [Assets](assets.md) owns explicit pin publication; [verification](verification.md) owns checks and evidence.
+Mac Game release packages use [Developer ID signing and Apple notarization](#signed-mac-packages-for-steam) by default. Output remains an unpacked macOS arm64/Windows x64 application; Windows packages are unsigned. Windows signing, installers, licenses/notices and Steam depot delivery remain separate release work. [Assets](assets.md) owns task-scoped asset pin publication; [verification](verification.md) owns checks and evidence.
 
 ## Opening Windows acceptance
 
