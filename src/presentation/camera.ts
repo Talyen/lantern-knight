@@ -33,8 +33,29 @@ export function resizeCamera(
   camera.bottom = -half;
   camera.updateProjectionMatrix();
 }
-/** Fit the ground-plane viewport inside the convex movement boundary. */
-export function constrainCamera(camera: OrthographicCamera, target: Vector3, area: AreaDefinition) {
+/** Fit the floor first; an explicit focus keeps its silhouette visible at the edges. */
+export function constrainCamera(
+  camera: OrthographicCamera,
+  target: Vector3,
+  area: AreaDefinition,
+  focus?: { position: Vector3; height: number },
+) {
+  constrainFloor(camera, target, area);
+  if (!focus) return;
+  const halfWidth = (camera.right - camera.left) / (2 * camera.zoom),
+    halfHeight = (camera.top - camera.bottom) / (2 * camera.zoom),
+    delta = focus.position.clone().sub(target),
+    limit = Math.max(0, halfWidth - 0.75),
+    lateral = delta.dot(right),
+    vertical = delta.dot(up),
+    low = -halfHeight + 0.6,
+    high = halfHeight - focus.height * up.y - 0.6,
+    // If an unusually tight zoom cannot fit the silhouette, center it.
+    root = low <= high ? Math.max(low, Math.min(high, vertical)) : (low + high) / 2;
+  target.addScaledVector(right, lateral - Math.max(-limit, Math.min(limit, lateral)));
+  target.addScaledVector(up.clone().addScaledVector(outward, -up.y / outward.y), vertical - root);
+}
+function constrainFloor(camera: OrthographicCamera, target: Vector3, area: AreaDefinition) {
   const boundary = area.playableBoundary;
   if (
     !boundary ||

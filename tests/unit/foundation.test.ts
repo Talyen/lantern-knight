@@ -25,7 +25,7 @@ import { StorageCodec } from '../../src/platform/storage-codec';
 import { resourcePath, trustedSender } from '../../electron/security';
 
 import { content } from '../fixtures/content';
-import { boundaryContains } from '../../src/content/world';
+import { boundaryContains, supportedPosition } from '../../src/content/world';
 import { GameSession } from '../../src/core/session';
 
 const approx = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-7, `${a} != ${b}`);
@@ -524,6 +524,65 @@ test('camera framing keeps the ground viewport inside convex boundaries', () => 
         }
     }
   }
+});
+
+test('hero framing survives floor clamping at corners and narrow aspects', () => {
+  let clippedBefore = false;
+  const height = contract.heroHeight * tuning.heroVisualScale;
+  for (const boundary of [
+    [
+      { x: -12, z: -12 },
+      { x: 12, z: -12 },
+      { x: 12, z: 12 },
+      { x: -12, z: 12 },
+    ],
+    [
+      { x: -12, z: -12 },
+      { x: 12, z: -12 },
+      { x: 0, z: 12 },
+    ],
+  ]) {
+    const area = {
+      ...content.area('court'),
+      bounds: { minX: -12, maxX: 12, minZ: -12, maxZ: 12 },
+      playableBoundary: boundary,
+    };
+    for (const aspect of [9 / 16, 16 / 9, 21 / 9])
+      for (const corner of boundary)
+        for (const elevation of [0, 2]) {
+          const p = supportedPosition(area, corner, 0.3),
+            position = new Vector3(p.x, elevation, p.z),
+            target = position.clone().add(new Vector3(0, 1.7, 0)),
+            camera = makeCamera(aspect),
+            project = () => {
+              camera.position.copy(target).addScaledVector(outward, 30);
+              camera.lookAt(target);
+              camera.updateMatrixWorld();
+              return [
+                position.clone().project(camera),
+                position
+                  .clone()
+                  .add(new Vector3(0, height, 0))
+                  .project(camera),
+              ];
+            };
+          constrainCamera(camera, target, area);
+          clippedBefore ||= project().some((p) => Math.abs(p.x) > 1 || Math.abs(p.y) > 1);
+          constrainCamera(camera, target, area, { position, height });
+          for (const p of project()) {
+            assert.ok(Math.abs(p.x) < 1, `hero outside horizontal frame: ${p.x}`);
+            assert.ok(Math.abs(p.y) < 1, `hero outside vertical frame: ${p.y}`);
+          }
+        }
+  }
+  assert.ok(clippedBefore, 'the fixture must reproduce floor clamping hiding the hero');
+  const area = { ...content.area('court'), bounds: { minX: -30, maxX: 30, minZ: -30, maxZ: 30 } },
+    target = new Vector3(0.3, 1, 0.2),
+    camera = makeCamera(16 / 9);
+  constrainCamera(camera, target, area);
+  const authored = target.clone();
+  constrainCamera(camera, target, area, { position: new Vector3(), height });
+  assert.deepEqual(target, authored, 'safe authored framing stays unchanged');
 });
 
 test('supplied actor kits select delivered facings while authored clips stay strict', () => {

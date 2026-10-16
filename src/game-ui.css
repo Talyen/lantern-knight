@@ -503,6 +503,7 @@ body.game {
   border-radius: 2px;
 }
 .game .health-heading,
+.game .lantern-heading,
 .game .supply-row {
   display: flex;
   justify-content: space-between;
@@ -544,6 +545,24 @@ body.game {
 }
 .game .supply-row.empty #potion-count {
   color: #dcaa94;
+}
+.game #lantern-readiness {
+  margin-top: 14px;
+  color: #d2cfb4;
+}
+.game #lantern-state {
+  font-variant-numeric: tabular-nums;
+  color: var(--ivory);
+}
+.game .lantern-charge {
+  height: 3px;
+  margin-top: 8px;
+  background: #36403a;
+}
+.game #lantern-fill {
+  display: block;
+  height: 100%;
+  background: #d4b67c;
 }
 .game .menu-open > .hud,
 .game .menu-open > .game-toolbar,

@@ -440,7 +440,14 @@ export class GamePresentation implements PresentationLifecycle {
           compositionHeight({ x, z }, this.visuals),
         framed.z,
       );
-      constrainCamera(this.camera, this.viewTarget, sim.areaDefinition);
+      constrainCamera(
+        this.camera,
+        this.viewTarget,
+        sim.areaDefinition,
+        this.visuals?.camera.keepHeroVisible
+          ? { position: this.cameraTarget, height: contract.heroHeight * tuning.heroVisualScale }
+          : undefined,
+      );
       this.camera.position.copy(this.viewTarget).addScaledVector(outward, 30);
       this.camera.lookAt(this.viewTarget);
       this.camera.updateMatrixWorld();

@@ -35,8 +35,14 @@ test('lantern cue appears for a reachable threat and clears with play and sessio
       ui = createGameUI(root),
       read = () => {
         ui.update(app);
+        readiness.push({
+          hidden: Boolean(root.querySelector<HTMLElement>('#lantern-readiness')!.hidden),
+          text: root.querySelector('#lantern-state')!.textContent,
+          charge: root.querySelector('.lantern-charge')!.getAttribute('aria-valuenow'),
+        });
         return root.querySelector('#lantern-hint')!.textContent;
       },
+      readiness: { hidden: boolean; text: string | null; charge: string | null }[] = [],
       states: Record<string, string | null> = {};
     states.nearby = read();
     for (const property of ['paused', 'busy'] as const) {
@@ -69,11 +75,16 @@ test('lantern cue appears for a reachable threat and clears with play and sessio
     states.learned = read();
     session.restoreSave(session.captureSave());
     states.restored = read();
+    session.sim.engaged = false;
+    for (const enemy of session.sim.enemies) enemy.health = 0;
+    read();
+    session.sim.hero.cooldown = tuning.ability.cooldown / 2;
+    read();
     ui.dispose();
     host.remove();
-    return states;
+    return { states, readiness };
   });
-  expect(result).toEqual({
+  expect(result.states).toEqual({
     nearby: 'RMB · Repel with lantern',
     paused: '',
     busy: '',
@@ -87,6 +98,11 @@ test('lantern cue appears for a reachable threat and clears with play and sessio
     learned: '',
     restored: '',
   });
+  expect(result.readiness[0]).toEqual({ hidden: false, text: 'Ready', charge: '100' });
+  for (const index of [1, 2, 3, 4]) expect(result.readiness[index]!.hidden).toBe(true);
+  expect(result.readiness[9]).toEqual({ hidden: false, text: '4.0s', charge: '0' });
+  expect(result.readiness.at(-2)).toEqual({ hidden: true, text: 'Ready', charge: '100' });
+  expect(result.readiness.at(-1)).toEqual({ hidden: false, text: '2.0s', charge: '50' });
 });
 
 test('Game UI lifetime isolates remounts, pending saves and retired input', async ({ page }) => {

@@ -42,6 +42,14 @@ import {
 import { resolveScene } from '../../src/content/world-art';
 import { emptyScene } from '../../src/editor/default-scene';
 
+test('authored scenes keep the hero visible unless explicitly opted out', () => {
+  const document = emptyScene();
+  delete document.camera.keepHeroVisible;
+  assert.equal(resolveScene(document).visuals.camera.keepHeroVisible, true);
+  document.camera.keepHeroVisible = false;
+  assert.equal(resolveScene(document).visuals.camera.keepHeroVisible, false);
+});
+
 test('camera keeps all four viewport corners on the floor at every edge, aspect and zoom', () => {
   for (const layout of [undefined, 'artwork'] as const) {
     const document = emptyScene();

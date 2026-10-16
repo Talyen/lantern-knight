@@ -418,7 +418,7 @@ export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
   props.sort((a, b) => (order.get(a.id) ?? Infinity) - (order.get(b.id) ?? Infinity));
   return {
     floor: d.floor.asset,
-    camera: d.camera,
+    camera: { ...d.camera, keepHeroVisible: d.camera.keepHeroVisible ?? true },
     surround: d.surround,
     weather: d.weather,
     rainBounds: d.rainBounds,

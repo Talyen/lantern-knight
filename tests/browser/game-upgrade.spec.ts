@@ -86,7 +86,11 @@ for (const choice of ['sword', 'lantern'] as const) {
     await expect(sword).toBeEnabled();
     await expect(lantern).toBeEnabled();
     await expect(panel).toContainText('Sword damage 26 → 52');
-    await expect(panel).toContainText('Lantern hit 16 → 32 · Burn 4 → 8 per tick (3 ticks)');
+    await expect(panel).toContainText('Total lantern damage 28 → 56 per enemy');
+    await expect(panel).toContainText(
+      'Initial hit 16 → 32 · Burn 4 → 8 per tick (3 ticks over 3s)',
+    );
+    await expect(panel).toContainText('4s cooldown and 0.5s stagger stay the same');
     await capture('choices');
     if (choice === 'sword') {
       await page.setViewportSize({ width: 640, height: 800 });
@@ -179,10 +183,14 @@ for (const choice of ['sword', 'lantern'] as const) {
     const approach = new Navigation(area).route(fire, opponent, effectiveRadius(0.25));
     expect(approach.status).toBe('ready');
     const beforeGuard = approach.points[approach.points.length - 2] ?? fire;
-    const distance = Math.hypot(beforeGuard.x - opponent.x, beforeGuard.z - opponent.z);
+    const distance = Math.hypot(beforeGuard.x - opponent.x, beforeGuard.z - opponent.z),
+      // Cast from burst range so an approaching guard cannot interrupt the
+      // longer lantern windup before the payoff being measured.
+      gap = choice === 'lantern' ? 2.2 : 1.1;
+    expect(distance).toBeGreaterThan(gap);
     Object.assign(rematch.player, {
-      x: opponent.x + ((beforeGuard.x - opponent.x) / distance) * 1.1,
-      z: opponent.z + ((beforeGuard.z - opponent.z) / distance) * 1.1,
+      x: opponent.x + ((beforeGuard.x - opponent.x) / distance) * gap,
+      z: opponent.z + ((beforeGuard.z - opponent.z) / distance) * gap,
     });
     await page.locator('#pause').click();
     await restore(rematch);
@@ -203,5 +211,24 @@ for (const choice of ['sword', 'lantern'] as const) {
     const won = await stored();
     expect(won.areas[area.id]!.actors[guard.id]!.health).toBe(0);
     expect(won.adventure!.forgeUpgrade).toBe(choice);
+
+    // The northern departure used to place the hero and its cue behind the
+    // toolbar after floor clamping, even at the default viewport.
+    const departure = area.exits.find((exit) => exit.destination === 'desecrated-chapel')!;
+    Object.assign(won.player, departure.marker!);
+    await restore(won);
+    const cue = page.locator('#interaction-hint');
+    await expect(cue).toHaveText('E · Travel to Desecrated Chapel');
+    await expect
+      .poll(async () => {
+        const hint = (await cue.boundingBox())!,
+          toolbar = (await page.locator('.game-toolbar').boundingBox())!;
+        return (
+          hint.y > toolbar.y + toolbar.height + 12 &&
+          hint.y + hint.height < page.viewportSize()!.height
+        );
+      })
+      .toBe(true);
+    await capture('chapel-exit');
   });
 }

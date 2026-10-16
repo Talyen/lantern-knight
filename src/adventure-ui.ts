@@ -97,6 +97,10 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       .filter((upgrade) => !choice || choice === upgrade)
       .map((upgrade) => {
         const next = kitAttributes(upgrade);
+        const burnTicks = Math.floor(tuning.ability.burnDuration / tuning.ability.burnCadence),
+          lanternDamage = (ember: number) =>
+            scaledDamage(tuning.ability.damage, ember) +
+            burnTicks * scaledDamage(tuning.ability.burnDamage, ember);
         const select =
           !choice &&
           button(
@@ -115,9 +119,13 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
           <p class="forge-result">${
             upgrade === 'sword'
               ? `Sword damage ${scaledDamage(tuning.attack.damage, current.edge)} → ${scaledDamage(tuning.attack.damage, next.edge)}`
-              : `Lantern hit ${scaledDamage(tuning.ability.damage, current.ember)} → ${scaledDamage(tuning.ability.damage, next.ember)} · Burn ${scaledDamage(tuning.ability.burnDamage, current.ember)} → ${scaledDamage(tuning.ability.burnDamage, next.ember)} per tick (3 ticks)`
+              : `Total lantern damage ${lanternDamage(current.ember)} → ${lanternDamage(next.ember)} per enemy`
           }</p>
-          <p>${upgrade === 'sword' ? 'Strike decisively. One clean sword hit fells a thrall.' : 'Burn the whole group. One Flare fells thralls after all three Burn ticks.'}</p>
+          ${
+            upgrade === 'lantern' &&
+            html`<p>Initial hit ${scaledDamage(tuning.ability.damage, current.ember)} → ${scaledDamage(tuning.ability.damage, next.ember)} · Burn ${scaledDamage(tuning.ability.burnDamage, current.ember)} → ${scaledDamage(tuning.ability.burnDamage, next.ember)} per tick (${burnTicks} ticks over ${tuning.ability.burnDuration / tuning.tickHz}s).</p>`
+          }
+          <p>${upgrade === 'sword' ? 'One clean sword hit fells a thrall immediately. Attack timing stays the same.' : `One Flare burns the whole group. Thralls fall after the full Burn; reposition while it works. The ${tuning.ability.cooldown / tuning.tickHz}s cooldown and ${tuning.ability.stun / tuning.tickHz}s stagger stay the same.`}</p>
           <p>Cost: 20 Gold · 4 Iron · 1 Workshop Temper</p>${select}
         </section>`;
       });

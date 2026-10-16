@@ -12,7 +12,7 @@ import { tuning } from './content/gameplay';
 import { clearSegment } from './content/collision';
 export const gameUI = `<main class="stage game-stage"><canvas aria-label="Lantern Knight game" tabindex="0"></canvas>
 <div class="travel-veil" aria-hidden="true"></div><div class="title-card"><div class="eyebrow">Lantern Knight</div><h2 id="room-title"></h2></div>
-<section class="hud" aria-label="Health and supplies"><div class="health-heading"><span>Vitality</span><span id="hp"></span></div><div class="health" role="meter" aria-label="Health" aria-valuemin="0"><span id="health-fill"></span></div><div class="supply-row"><span><kbd>Q</kbd> Health Potion</span><span id="potion-count"></span></div></section>
+<section class="hud" aria-label="Health and supplies"><div class="health-heading"><span>Vitality</span><span id="hp"></span></div><div class="health" role="meter" aria-label="Health" aria-valuemin="0"><span id="health-fill"></span></div><div class="supply-row"><span><kbd>Q</kbd> Health Potion</span><span id="potion-count"></span></div><div id="lantern-readiness" hidden><div class="lantern-heading"><span>Lantern</span><span id="lantern-state"></span></div><div class="lantern-charge" role="meter" aria-label="Lantern recharge" aria-valuemin="0" aria-valuemax="100"><span id="lantern-fill"></span></div></div></section>
 <div class="ground-loot-labels" aria-label="Ground items"></div><p id="interaction-hint" aria-live="polite"></p><p id="lantern-hint" aria-live="polite"></p>
 <div class="game-toolbar"><button id="open-inventory">Inventory <kbd>I</kbd></button><button id="pause" aria-label="Pause / save">Menu <kbd>Esc</kbd></button></div>
 <p id="status" role="status"></p><section id="startup-error" class="startup-failure" aria-labelledby="startup-error-title" hidden><p class="eyebrow">Lantern Knight</p><h1 id="startup-error-title">The path could not be opened.</h1><p id="startup-error-detail" role="alert"></p><a href="./index.html">Try again</a></section>${gameMenu}</main>`;
@@ -346,6 +346,21 @@ export function createGameUI(root: HTMLElement) {
     $('.health').setAttribute('aria-valuemax', String(s.maxHealth));
     $('.hud').classList.toggle('low-health', s.hero.health <= s.maxHealth * 0.3);
     $('#health-fill').style.width = `${(s.hero.health / s.maxHealth) * 100}%`;
+    const cooldown = s.hero.cooldown,
+      charge = Math.floor((1 - cooldown / tuning.ability.cooldown) * 100),
+      lanternState =
+        cooldown > 0 ? `${(Math.ceil((cooldown * 10) / tuning.tickHz) / 10).toFixed(1)}s` : 'Ready';
+    $('#lantern-readiness').hidden =
+      !app.roomReady ||
+      app.busy ||
+      app.paused ||
+      !!adventure?.isOpen() ||
+      s.hero.health <= 0 ||
+      (!s.inCombat && cooldown === 0);
+    $('#lantern-state').textContent = lanternState;
+    $('.lantern-charge').setAttribute('aria-valuenow', String(charge));
+    $('.lantern-charge').setAttribute('aria-valuetext', lanternState);
+    $('#lantern-fill').style.width = `${charge}%`;
     if (lastArea !== s.area) {
       lastArea = s.area;
       $('#room-title').textContent = s.areaDefinition.name;
