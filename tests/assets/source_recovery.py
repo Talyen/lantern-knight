@@ -14,7 +14,7 @@ from unittest.mock import patch
 
 PROJECT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT / "tools/assets"))
-from resolver import SourceResolver, load_index  # noqa: E402 - local modules require the path above.
+from resolver import SourceResolver, load_index, signature  # noqa: E402 - local modules require the path above.
 from source import read  # noqa: E402 - local modules require the path above.
 from library import make_plan, apply_plan, check_sources  # noqa: E402 - local module path.
 
@@ -177,6 +177,73 @@ class Recovery(unittest.TestCase):
         }
         with self.assertRaisesRegex(ValueError, "only collection sidecars"):
             self.resolver()
+
+    def test_discovery_proofs_skip_duplicate_archive_hashes_but_reject_replacements(self):
+        path = self.root / "pack.zip"
+        inventory = {
+            "discoveryVersion": 8,
+            "files": [
+                {
+                    "path": "pack.zip",
+                    **identity(self.archive),
+                    "signature": list(signature(path.stat())),
+                }
+            ],
+        }
+        resolver = self.resolver(search_roots=[self.root])
+        resolver.reuse_inventory(inventory)
+        with resolver.open("archive:pack.zip") as stream:
+            self.assertEqual(stream.read(), self.archive)
+        self.assertEqual(resolver.stats["hashes"], 0)
+        # Retaining the byte count and mtime must not authenticate new bytes.
+        before = path.stat()
+        path.write_bytes(b"x" * len(self.archive))
+        os.utime(path, ns=(before.st_atime_ns, before.st_mtime_ns))
+        changed = self.resolver(search_roots=[self.root])
+        changed.reuse_inventory(inventory)
+        with self.assertRaisesRegex(FileNotFoundError, "Missing exact asset source"):
+            with changed.open("archive:pack.zip"):
+                self.fail("Changed archive must not be admitted")
+        self.assertGreater(changed.stats["hashes"], 0)
+
+    def test_cloud_placeholder_fails_before_reading_even_with_a_discovery_proof(self):
+        path = self.root / "pack.zip"
+        resolver = self.resolver()
+        resolver.reuse_inventory(
+            {
+                "discoveryVersion": 8,
+                "files": [
+                    {
+                        "path": "pack.zip",
+                        **identity(self.archive),
+                        "signature": list(signature(path.stat())),
+                    }
+                ],
+            }
+        )
+        original_stat = pathlib.Path.stat
+
+        class PlaceholderStat:
+            st_flags = 0x40000000
+
+            def __init__(self, info):
+                self.info = info
+
+            def __getattr__(self, name):
+                return getattr(self.info, name)
+
+        def local_stat(candidate, *args, **kwargs):
+            info = original_stat(candidate, *args, **kwargs)
+            return PlaceholderStat(info) if candidate == path else info
+
+        with patch("resolver.sys.platform", "darwin"), patch.object(
+            pathlib.Path, "stat", autospec=True, side_effect=local_stat
+        ):
+            with self.assertRaisesRegex(
+                RuntimeError, "Asset source is not downloaded locally.*Download Now"
+            ):
+                resolver.digest(path)
+        self.assertEqual(resolver.stats["hashes"], 0)
 
     def test_repeated_moves_in_same_reader_and_completed_interrupted_move(self):
         resolver = self.resolver()

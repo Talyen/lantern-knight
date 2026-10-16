@@ -59,6 +59,17 @@ def signature(info):
     return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns)
 
 
+def require_local(path):
+    # Opening a macOS File Provider placeholder can block indefinitely in read(),
+    # even when discovery has a valid hash proof for its unchanged metadata.
+    if sys.platform == "darwin" and getattr(path.stat(), "st_flags", 0) & 0x40000000:
+        raise RuntimeError(
+            f"Asset source is not downloaded locally: {path}. "
+            "Use Download Now in Finder and retry after the download completes. "
+            "Existing prepared assets are preserved."
+        )
+
+
 def regular_file(path):
     # Reject links in every component, including a linked source directory.
     for part in [path, *path.parents]:
@@ -163,6 +174,27 @@ class SourceResolver:
         self.locations = {}
         self.stats = {"scans": 0, "hashes": 0}
 
+    def reuse_inventory(self, inventory):
+        """Carry discovery's hash proofs across processes, never across file changes.
+
+        Only the local discovery snapshot is a proof source. digest/open still
+        compare the current device, inode, size and nanosecond mtime/ctime before
+        using it; moved or modified files follow ordinary content recovery.
+        """
+        if inventory.get("discoveryVersion") != 8:
+            return
+        for record in inventory.get("files", []):
+            stamp = record.get("signature")
+            if (
+                isinstance(stamp, list)
+                and len(stamp) == 5
+                and all(isinstance(n, int) for n in stamp)
+                and stamp[2] == record["bytes"]
+                and record["sha256"] in self.by_size.get(record["bytes"], ())
+            ):
+                path = self.root / safe_relative(record["path"])
+                self.verified[str(path)] = (tuple(stamp), record["sha256"])
+
     @contextlib.contextmanager
     def locked(self):
         self.cache.mkdir(parents=True, exist_ok=True)
@@ -215,6 +247,9 @@ class SourceResolver:
         try:
             if not regular_file(path):
                 return None
+            if path.stat().st_size not in self.by_size:
+                return None
+            require_local(path)
             with path.open("rb") as stream:
                 before = signature(os.fstat(stream.fileno()))
                 if before[2] not in self.by_size:
@@ -353,6 +388,7 @@ class SourceResolver:
             try:
                 if not regular_file(path):
                     raise FileNotFoundError(path)
+                require_local(path)
                 stream = path.open("rb")
                 before = signature(os.fstat(stream.fileno()))
                 cached = self.verified.get(str(path))

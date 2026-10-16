@@ -9,7 +9,7 @@ import pathlib
 import stat
 import zipfile
 from PIL import Image, ImageOps
-from resolver import load_index, safe_relative
+from resolver import load_index, safe_relative, require_local
 
 IMAGE_TYPES = {".png", ".jpg", ".jpeg", ".webp"}
 MEDIA_TYPES = {
@@ -34,6 +34,7 @@ def sha(data):
 
 
 def file_hash(p):
+    require_local(p)
     h = hashlib.sha256()
     with p.open("rb") as f:
         for b in iter(lambda: f.read(1024 * 1024), b""):
@@ -97,7 +98,9 @@ def discover(root, original, previous=None, identities=None):
                         details = (
                             old.get("image") if metadata_current and old and old.get("signature") == stamp else None
                         )
-                        details = details or image_info(p.read_bytes())
+                        if not details:
+                            require_local(p)
+                            details = image_info(p.read_bytes())
                         record["image"] = details
                         record["kind"] = "media" if details["animated"] else "image"
                         (media if details["animated"] else images).setdefault(
@@ -117,6 +120,7 @@ def discover(root, original, previous=None, identities=None):
                 if members is None:
                     members = []
                     old_members = {m['sha256']: m for m in (old_archive or {}).get('members', [])} if metadata_current else {}
+                    require_local(p)
                     try:
                         with zipfile.ZipFile(p) as z:
                             names = set()

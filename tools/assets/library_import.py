@@ -10,6 +10,7 @@ import pathlib
 import re
 import struct
 import zipfile
+import sys
 from contextlib import ExitStack
 from resolver import PROJECT, SourceResolver, load_index, safe_relative
 from library_sequences import supplied_sequences
@@ -1201,6 +1202,12 @@ class Importer:
 
 def build(root, specs, index, artwork=(), inventory=None, index_path=None):
     resolver = SourceResolver(root, index)
+    if inventory:
+        resolver.reuse_inventory(inventory)
+
+    def progress(message):
+        print("Library plan: " + message, file=sys.stderr, flush=True)
+
     images_by_hash = {i['sha256']: i for i in inventory['images']} if inventory else {}
     archive_members = {
         r['sha256']: {m['member']: m['sha256'] for m in r.get('members', [])}
@@ -1211,6 +1218,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
         for spec in specs:
             if spec["archive"] not in index["archives"]:
                 continue
+            progress("opening " + spec["archive"])
             stream = stack.enter_context(resolver.open("archive:" + spec["archive"]))
             packages.append(Package(spec, stack.enter_context(zipfile.ZipFile(stream))))
         importer = Importer(packages)
@@ -1234,9 +1242,11 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
             key=lambda p: any(t in p.spec["archive"] for t in ["Canal_Workshop", "Crypt_Entry"]),
         ):
             if p.spec["category"] == 0 and "enemy_animation_handoff" in p.spec["archive"]:
+                progress("enemy metadata " + p.spec["archive"])
                 importer.enemy_catalog(p)
         for p in packages:
             if p.spec["category"] == 0 and "Overnight" in p.spec["archive"]:
+                progress("enemy extension metadata " + p.spec["archive"])
                 importer.enemy_overnight(p)
         for p in packages:
             if p.spec["category"] == 0:
@@ -1245,6 +1255,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                 continue
             if p.spec["archive"] == "Lantern_Interaction_Cues_v1_Source_and_Review.zip":
                 continue
+            progress("metadata " + p.spec["archive"])
             importer.package(p)
         unresolved_animations = []
         if inventory:
@@ -1256,6 +1267,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                     continue
                 group = "discovered-" + archive_identity["sha256"][:24]
                 known = known_archives.get(archive_identity["sha256"])
+                progress("discovered metadata " + archive_identity.get("pathHint", archive))
                 stream = None if known else stack.enter_context(resolver.open("archive:" + archive))
                 package = Package(
                     {"archive": archive, "group": group, "category": 7},
@@ -1359,6 +1371,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                     continue
                 package = LoosePackage(record, inventory["files"], locators, resolver)
                 member = record["path"]
+                progress("loose metadata " + member)
                 try:
                     original = package.json(member)
                     data = supplied_sequences(package, member, original)
@@ -1405,6 +1418,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
         }
         for record in artwork:
             member = record["member"]
+            progress("artwork registration " + member)
             identity = index['files']['library-artwork'][member]['sha256']
             delivered = images_by_hash.get(identity)
             if delivered:
@@ -1436,6 +1450,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
             }
             importer.clip(asset, "still", "d45", [frame], [1000], True)
         represented = {}
+        progress("registering source identities and coverage")
         if inventory:
             inventory["unresolvedAnimations"] = unresolved_animations
             by_group = {p.spec["group"]: p for p in packages}

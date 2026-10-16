@@ -62,16 +62,29 @@ export async function prepare(context: PreparationContext, check = false) {
     await using temporary = await fs.mkdtempDisposable(
       path.join(os.tmpdir(), 'lantern-library-plan-'),
     );
-    await runProcess(
-      'python3',
-      [
-        '-B',
-        path.join(projectRoot, 'tools/assets/library_import.py'),
-        '--output',
-        path.join(temporary.path, 'plan.json'),
-      ],
-      { cwd: projectRoot, env: context.environment, timeoutMs: 120000 },
-    );
+    let progress = '';
+    try {
+      await runProcess(
+        'python3',
+        [
+          '-B',
+          path.join(projectRoot, 'tools/assets/library_import.py'),
+          '--output',
+          path.join(temporary.path, 'plan.json'),
+        ],
+        {
+          cwd: projectRoot,
+          env: context.environment,
+          idleTimeoutMs: 10 * 60_000,
+          output: (chunk) => {
+            progress = (progress + chunk.toString()).slice(-4000);
+            process.stdout.write(chunk);
+          },
+        },
+      );
+    } catch (error) {
+      throw new Error('Library metadata import failed:\n' + progress.trim(), { cause: error });
+    }
     await context.writeAsset(planFile, await fs.readFile(path.join(temporary.path, 'plan.json')));
   }
   const plan = (await readJson(planFile)) as {

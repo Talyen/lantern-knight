@@ -8,6 +8,8 @@ export async function runProcess(
     cwd: string;
     env?: NodeJS.ProcessEnv;
     timeoutMs?: number;
+    // Output resets this deadline; the absolute timeout, if set, remains independent.
+    idleTimeoutMs?: number;
     shutdownGraceMs?: number;
     output?: (chunk: Buffer) => void;
     signal?: AbortSignal;
@@ -19,10 +21,11 @@ export async function runProcess(
     cwd: options.cwd,
     env: options.env ?? process.env,
     detached: grouped,
-    stdio: options.output ? ['ignore', 'pipe', 'pipe'] : 'inherit',
+    stdio:
+      options.output || options.idleTimeoutMs !== undefined
+        ? ['ignore', 'pipe', 'pipe']
+        : 'inherit',
   });
-  child.stdout?.on('data', options.output!);
-  child.stderr?.on('data', options.output!);
   let stopped: string | undefined, force: ReturnType<typeof setTimeout> | undefined;
   const cleanup: Promise<void>[] = [];
   const kill = (signal: NodeJS.Signals) => {
@@ -72,6 +75,23 @@ export async function runProcess(
     force = setTimeout(() => kill('SIGKILL'), options.shutdownGraceMs ?? 5000);
     force.unref();
   };
+  let idleTimer: ReturnType<typeof setTimeout> | undefined;
+  const activity = () => {
+    clearTimeout(idleTimer);
+    if (!stopped && options.idleTimeoutMs !== undefined)
+      idleTimer = setTimeout(() => stop('stalled without output'), options.idleTimeoutMs);
+  };
+  child.stdout?.on('data', (chunk: Buffer) => {
+    activity();
+    if (options.output) options.output(chunk);
+    else process.stdout.write(chunk);
+  });
+  child.stderr?.on('data', (chunk: Buffer) => {
+    activity();
+    if (options.output) options.output(chunk);
+    else process.stderr.write(chunk);
+  });
+  activity();
   const interrupt = () => stop('interrupted'),
     terminate = () => stop('terminated'),
     abort = () => stop('cancelled');
@@ -84,6 +104,7 @@ export async function runProcess(
       : setTimeout(() => stop('deadline exceeded'), options.timeoutMs);
   await using _scopeExit1 = onAsyncExit(async () => {
     clearTimeout(timer);
+    clearTimeout(idleTimer);
     clearTimeout(force);
     process.off('SIGINT', interrupt);
     process.off('SIGTERM', terminate);

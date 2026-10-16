@@ -2,6 +2,45 @@ import { withDiagnostic } from '../../tools/smoke/scenario';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runProcess } from '../../tools/run-process';
+test('progress renews the stall deadline, but silence and absolute deadlines still stop commands', async (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  const controller = new AbortController();
+  let updates = 0;
+  await assert.rejects(
+    runProcess(process.execPath, ['-e', `setInterval(()=>console.log('progress'),10);`], {
+      cwd: process.cwd(),
+      idleTimeoutMs: 500,
+      signal: controller.signal,
+      output: () => {
+        t.mock.timers.tick(400);
+        if (++updates === 8) controller.abort();
+      },
+    }),
+    /cancelled/,
+  );
+  assert.equal(updates, 8);
+  await assert.rejects(
+    runProcess(
+      process.execPath,
+      ['-e', `console.log('opening fixture.zip'); setInterval(()=>{},1000);`],
+      {
+        cwd: process.cwd(),
+        idleTimeoutMs: 500,
+        output: () => t.mock.timers.tick(500),
+      },
+    ),
+    /stalled without output/,
+  );
+  await assert.rejects(
+    runProcess(process.execPath, ['-e', `setInterval(()=>console.log('progress'),10);`], {
+      cwd: process.cwd(),
+      timeoutMs: 700,
+      idleTimeoutMs: 500,
+      output: () => t.mock.timers.tick(400),
+    }),
+    /deadline exceeded/,
+  );
+});
 for (const code of [0, 7])
   test(
     `cleanup tolerates an unsignalable retired group without changing command exit ${code}`,
