@@ -139,6 +139,79 @@ test('direct downloads reject corrupted, oversized and truncated responses witho
   }
 });
 
+test('range downloads retry interrupted transport without retaining partial bytes', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-file-retry-');
+  const target = path.join(root, 'page'),
+    bytes = Buffer.from('image'),
+    failure = new TypeError('fetch failed', {
+      cause: Object.assign(new Error('other side closed'), { code: 'UND_ERR_SOCKET' }),
+    });
+  let attempts = 0;
+  await downloadFile(
+    'https://example.test/container',
+    { bytes: bytes.length, sha256: sha(bytes) },
+    target,
+    async (_, init) => {
+      attempts++;
+      assert.deepEqual(await fs.readdir(root), [], 'previous attempt must be fully unwound');
+      assert.equal(new Headers(init?.headers).get('range'), 'bytes=10-14');
+      if (attempts === 1) throw failure;
+      let chunks = 0;
+      const body = new ReadableStream<Uint8Array>({
+        pull(controller) {
+          if (attempts === 2 && chunks++) controller.error(failure);
+          else if (attempts === 2) controller.enqueue(Uint8Array.from(bytes.subarray(0, 2)));
+          else {
+            controller.enqueue(Uint8Array.from(bytes));
+            controller.close();
+          }
+        },
+      });
+      return new Response(body, { status: 206, headers: { 'content-range': 'bytes 10-14/100' } });
+    },
+    undefined,
+    { offset: 10, totalBytes: 100 },
+  );
+  assert.equal(attempts, 3);
+  assert.deepEqual(await fs.readFile(target), bytes);
+  assert.deepEqual(await fs.readdir(root), ['page']);
+});
+
+test('transport retries stop after three attempts and cancellation ends their backoff', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-file-retry-limit-'),
+    target = path.join(root, 'page'),
+    info = { bytes: 5, sha256: sha(Buffer.from('image')) },
+    failure = Object.assign(new Error('connection reset'), { code: 'ECONNRESET' });
+  let attempts = 0;
+  await assert.rejects(
+    downloadFile('https://example.test/file', info, target, async () => {
+      attempts++;
+      throw failure;
+    }),
+    (error) => error === failure,
+  );
+  assert.equal(attempts, 3);
+  assert.deepEqual(await fs.readdir(root), []);
+  const cancellation = new AbortController();
+  attempts = 0;
+  await assert.rejects(
+    downloadFile(
+      'https://example.test/file',
+      info,
+      target,
+      async () => {
+        attempts++;
+        setTimeout(() => cancellation.abort(), 10);
+        throw failure;
+      },
+      cancellation.signal,
+    ),
+    /abort/i,
+  );
+  assert.equal(attempts, 1);
+  assert.deepEqual(await fs.readdir(root), []);
+});
+
 test('catalog authenticates the complete accepted payload, not just its download hash', async (t) => {
   const f = await fixture(t);
 

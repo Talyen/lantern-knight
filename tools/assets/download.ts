@@ -3,10 +3,49 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { pipeline } from 'node:stream/promises';
+import { setTimeout as delay } from 'node:timers/promises';
+
+function transientTransportFailure(error: unknown) {
+  const visited = new Set<unknown>();
+  while (error && typeof error === 'object' && !visited.has(error)) {
+    visited.add(error);
+    if (
+      'code' in error &&
+      [
+        'ECONNRESET',
+        'ECONNREFUSED',
+        'EAI_AGAIN',
+        'ETIMEDOUT',
+        'UND_ERR_SOCKET',
+        'UND_ERR_CONNECT_TIMEOUT',
+        'UND_ERR_HEADERS_TIMEOUT',
+        'UND_ERR_BODY_TIMEOUT',
+      ].includes(String(error.code))
+    )
+      return true;
+    error = 'cause' in error ? error.cause : undefined;
+  }
+  return false;
+}
 
 // Exact ranges transfer no archive neighbors. Stream to disk with an exact
 // size cap, hash before rename, and leave no usable output after cancellation.
-export async function downloadFile(
+export async function downloadFile(...args: Parameters<typeof downloadAttempt>) {
+  const signal = args[4];
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await downloadAttempt(...args);
+    } catch (error) {
+      signal?.throwIfAborted();
+      if (attempt === 2 || !transientTransportFailure(error)) throw error;
+      // Failed attempts have already removed their temporary bytes. Every retry
+      // repeats the exact range and verifies the complete response before install.
+      await delay(250 * (attempt + 1), undefined, { signal });
+    }
+  }
+}
+
+async function downloadAttempt(
   url: string,
   info: { bytes: number; sha256: string },
   target: string,
