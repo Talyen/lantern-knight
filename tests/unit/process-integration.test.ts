@@ -204,6 +204,13 @@ test('headless replay accepts the same ordered actions and potion input as live 
   assert.equal(result.events['potion-used'], 1);
   assert.deepEqual(result.finalSave, initial.captureSave());
   for (const event of direct.events) assert.ok(result.events[event.kind], event.kind);
+  for (const flag of ['attack', 'ability', 'dodge'])
+    await assert.rejects(
+      executeRecipe({
+        actions: [{ kind: 'step', ticks: 1, command: { ...command, [flag]: true } }],
+      }),
+      /Unrecognized key/,
+    );
 });
 
 test('built browser discovery lists loot coverage without a build, preview or asset acquisition', async (t) => {

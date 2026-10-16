@@ -52,7 +52,7 @@ it('exposes only supplied directions while preserving complete-asset coverage re
   );
   const one = resolveClip(m, 'attack', 'd90');
   assert.equal(frameAt(one, clipDuration(one) + 100), one.frames.at(-1));
-  const h = new EditorHistory(emptyScene());
+  const h = EditorHistory.create(emptyScene());
   h.change((d) =>
     d.objects.push({
       id: 'actor',

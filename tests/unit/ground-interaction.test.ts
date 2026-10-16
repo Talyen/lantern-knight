@@ -198,7 +198,7 @@ test('large accepted contours survive transactional history and scene-store reop
       ] as [number, number],
   );
   assert.ok(Buffer.byteLength(JSON.stringify(d)) > 1024 * 1024);
-  const history = new EditorHistory(d);
+  const history = EditorHistory.create(d);
   history.change((p) => {
     p.groundInteraction!.regions[0]!.name = 'Accepted correction';
   });

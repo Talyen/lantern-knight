@@ -22,7 +22,7 @@ function assembly() {
     },
     { id: 'other', kind: 'prop', asset: 'ink-scenery', clip: 'urn-niche', x: 4, z: 0 },
   ];
-  return new EditorHistory(d);
+  return EditorHistory.create(d);
 }
 it('absolute alignment places selected supports before attachments regardless of selection order', () => {
   for (const selection of [
@@ -111,7 +111,7 @@ it('duplicating artwork preserves every health reward attached to it', () => {
     x: 0,
     z: 0,
   }));
-  const h = new EditorHistory(d);
+  const h = EditorHistory.create(d);
   const [copy] = h.duplicateMany(['potion']);
   const rewards = h.document.gameplay!.pickups.filter((p) => p.object === copy);
   assert.deepEqual(
@@ -384,7 +384,7 @@ it('applying a repeat pattern preserves the copied pickups as playable health re
   d.gameplay!.pickups = [
     { id: 'health', object: 'potion', kind: 'health', amount: 25, radius: 0.5, x: 0, z: 0 },
   ];
-  const h = new EditorHistory(d);
+  const h = EditorHistory.create(d);
 
   mockGlobals(t, {
     document: {
@@ -502,7 +502,7 @@ it('duplicated containers retain independent rewards and follow their artwork th
       spent: 'lantern',
     }),
   ];
-  const h = new EditorHistory(d);
+  const h = EditorHistory.create(d);
   const [copy] = h.duplicateMany(['chest']);
   const reward = h.document.gameplay!.interactables!.find((p) => p.object === copy)!;
   assert.notEqual(reward.id, 'reward');

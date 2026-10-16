@@ -67,7 +67,7 @@ test('lantern cue appears for a reachable threat and clears with play and sessio
     session.replayHints();
     states.replayed = read();
     const still = { move: { x: 0, z: 0 }, aim: { x: 2, z: 0 } };
-    session.step({ ...still, ability: true });
+    session.step({ ...still, actions: ['lantern'] });
     states.casting = read();
     session.sim.hero.age = tuning.ability.windup;
     session.step(still);

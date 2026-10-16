@@ -110,9 +110,9 @@ test('latest request wins across and within frames; unavailable requests and mov
 });
 test('the lantern pulse is protected and survives immediate recovery cancellation', () => {
   const s = duel();
-  s.step({ ...still, ability: true });
+  s.step({ ...still, actions: ['lantern'] });
   s.hero.age = tuning.ability.windup;
-  s.step({ ...still, dodge: true });
+  s.step({ ...still, actions: ['dodge'] });
   assert.equal(s.hero.state, 'ability');
   assert.equal(s.events.filter((e) => e.kind === 'flare').length, 1);
   assert.ok(s.enemies.every((a) => a.burn));
@@ -158,15 +158,15 @@ test('loading a checkpoint keeps the displaced position without replaying lanter
 });
 test('dodge travel/invulnerability is protected; recovery yields and hurt queues until finished', () => {
   const s = duel();
-  s.step({ ...still, dodge: true });
+  s.step({ ...still, actions: ['dodge'] });
   s.hero.age = tuning.dodge.invulnerableEnd - 1;
-  s.step({ ...still, ability: true });
+  s.step({ ...still, actions: ['lantern'] });
   assert.equal(s.hero.state, 'dodge');
   s.step(still);
   assert.equal(s.hero.state, 'ability');
   s.damage(s.enemies[0]!, s.hero, 1);
   assert.equal(s.hero.pendingAction, undefined);
-  s.step({ ...still, attack: true });
+  s.step({ ...still, actions: ['sword'] });
   assert.equal(s.hero.state, 'hurt');
   steps(s, tuning.hurt.total);
   assert.equal(s.hero.state, 'attack');
@@ -174,7 +174,7 @@ test('dodge travel/invulnerability is protected; recovery yields and hurt queues
 test('incoming interruption and stale commands cannot replay a queued action', () => {
   const s = duel();
   s.startSword(s.hero);
-  s.step({ ...still, ability: true });
+  s.step({ ...still, actions: ['lantern'] });
   s.damage(s.enemies[0]!, s.hero, 1);
   assert.equal(s.hero.pendingAction, undefined);
   steps(s, tuning.hurt.total + 2);
@@ -182,7 +182,7 @@ test('incoming interruption and stale commands cannot replay a queued action', (
   assert.equal(s.hero.state, 'idle');
   assert.equal(s.hero.cooldown, 0);
   s.startSword(s.hero);
-  s.step({ ...still, dodge: true });
+  s.step({ ...still, actions: ['dodge'] });
   s.damage(s.enemies[0]!, s.hero, 1000);
   assert.equal(s.hero.pendingAction, undefined);
 });
@@ -199,7 +199,7 @@ test('burst is circular, bounded by range, obstruction and height, with one dire
     const a = s.enemies[0]!;
     Object.assign(a, { x, z, y });
     const health = a.health;
-    s.step({ ...still, ability: true });
+    s.step({ ...still, actions: ['lantern'] });
     steps(s, tuning.ability.windup);
     assert.equal(a.health, health - (hit ? 16 : 0));
     assert.equal(s.events.filter((e) => e.kind === 'flare').length, 1);
@@ -230,7 +230,7 @@ test('burst is circular, bounded by range, obstruction and height, with one dire
   });
   const s = new Simulation(blocked);
   s.enemies.forEach((a) => (a.stun = 10000));
-  s.step({ ...still, ability: true });
+  s.step({ ...still, actions: ['lantern'] });
   steps(s, tuning.ability.windup);
   assert.equal(s.enemies[0]!.burn, undefined);
 });

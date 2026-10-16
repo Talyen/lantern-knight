@@ -161,7 +161,7 @@ function moveGameplayArtwork(
   ) {
     const target = root.gameplay?.[path[1]]?.[Number(path[2])];
     if (target) {
-      const history = new EditorHistory(root);
+      const history = EditorHistory.create(root);
       history.transform(target.object, position);
       root.objects = parseSceneDocument(history.document).objects;
     }

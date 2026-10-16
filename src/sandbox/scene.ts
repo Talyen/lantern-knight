@@ -647,8 +647,10 @@ export function mountScene(
       return {
         move: d > 0.2 ? { x: dx / d, z: dz / d } : { x: 0, z: 0 },
         aim: { x: sim.hero.x + 2, z: sim.hero.z - 1 },
-        ability: t === 620,
-        attack: t === 730 || t === 760 || t === 790,
+        actions: [
+          ...(t === 730 || t === 760 || t === 790 ? ['sword' as const] : []),
+          ...(t === 620 ? ['lantern' as const] : []),
+        ],
         generation: sim.generation,
       };
     };
@@ -801,7 +803,7 @@ export function mountScene(
       return {
         move: { x: 0, z: 0 },
         aim: { x: origin.x + Math.sin(yaw) * 4, z: origin.z + Math.cos(yaw) * 4 },
-        attack,
+        actions: attack ? ['sword'] : [],
         generation: sim.generation,
       };
     };
@@ -1001,9 +1003,11 @@ export function mountScene(
       return {
         move: { x: Math.cos(angle), z: Math.sin(angle) },
         aim: target,
-        attack: true,
-        ability: sim.tick % 180 === 0,
-        dodge: sim.tick % 100 === 50,
+        actions: [
+          'sword',
+          ...(sim.tick % 180 === 0 ? ['lantern' as const] : []),
+          ...(sim.tick % 100 === 50 ? ['dodge' as const] : []),
+        ],
         generation: sim.generation,
       };
     };

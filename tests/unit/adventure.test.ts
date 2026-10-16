@@ -177,7 +177,8 @@ test('local awareness isolates encounters and campfire sanctuary ends pursuit', 
 test('sword breaks an object once, guards protect containers and departure, explicit exits do not auto-travel', () => {
   const s = fixture();
   s.sim.hero.aim = Math.PI / 2;
-  for (let i = 0; i < 50; i++) s.step({ ...idle, aim: { x: -6, z: 0 }, attack: i === 0 });
+  for (let i = 0; i < 50; i++)
+    s.step({ ...idle, aim: { x: -6, z: 0 }, actions: i === 0 ? ['sword'] : [] });
   assert.ok(s.sim.claimedObjects.has('crate'));
   assert.equal(s.sim.drops.length, 1);
   assert.equal(s.sim.openContainer('crate'), false);
@@ -867,7 +868,8 @@ test('breakables cannot award loot through the container command', () => {
   assert.equal(s.sim.claimedObjects.size, 0);
   assert.equal(s.sim.drops.length, 0);
   s.sim.hero.aim = Math.PI / 2;
-  for (let i = 0; i < 50; i++) s.step({ ...idle, aim: { x: -6, z: 0 }, attack: i === 0 });
+  for (let i = 0; i < 50; i++)
+    s.step({ ...idle, aim: { x: -6, z: 0 }, actions: i === 0 ? ['sword'] : [] });
   assert.ok(s.sim.claimedObjects.has('crate'));
   assert.equal(s.sim.drops.length, 1);
 });
@@ -1076,7 +1078,7 @@ test('prepared rooms suspend progression writes and cancellation restores the ac
 
 test('a completed lantern pulse teaches the action even when no enemy is hit', () => {
   const s = fixture();
-  s.step({ ...idle, ability: true });
+  s.step({ ...idle, actions: ['lantern'] });
   for (let i = 0; i < 60; i++) s.step(idle);
   assert.ok(s.onboarding.completed.includes('lantern'));
 });
