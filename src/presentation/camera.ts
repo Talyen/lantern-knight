@@ -49,7 +49,7 @@ export function constrainCamera(
     lateral = delta.dot(right),
     vertical = delta.dot(up),
     low = -halfHeight + 0.6,
-    high = halfHeight - focus.height * up.y - 0.6,
+    high = halfHeight - focus.height * up.y - Math.max(0.6, halfHeight * 0.24),
     // If an unusually tight zoom cannot fit the silhouette, center it.
     root = low <= high ? Math.max(low, Math.min(high, vertical)) : (low + high) / 2;
   target.addScaledVector(right, lateral - Math.max(-limit, Math.min(limit, lateral)));

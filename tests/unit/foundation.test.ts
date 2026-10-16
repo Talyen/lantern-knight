@@ -573,6 +573,7 @@ test('hero framing survives floor clamping at corners and narrow aspects', () =>
             assert.ok(Math.abs(p.x) < 1, `hero outside horizontal frame: ${p.x}`);
             assert.ok(Math.abs(p.y) < 1, `hero outside vertical frame: ${p.y}`);
           }
+          assert.ok(project()[1]!.y <= 0.76 + 1e-8, 'the head clears the upper HUD');
         }
   }
   assert.ok(clippedBefore, 'the fixture must reproduce floor clamping hiding the hero');

@@ -211,24 +211,5 @@ for (const choice of ['sword', 'lantern'] as const) {
     const won = await stored();
     expect(won.areas[area.id]!.actors[guard.id]!.health).toBe(0);
     expect(won.adventure!.forgeUpgrade).toBe(choice);
-
-    // The northern departure used to place the hero and its cue behind the
-    // toolbar after floor clamping, even at the default viewport.
-    const departure = area.exits.find((exit) => exit.destination === 'desecrated-chapel')!;
-    Object.assign(won.player, departure.marker!);
-    await restore(won);
-    const cue = page.locator('#interaction-hint');
-    await expect(cue).toHaveText('E · Travel to Desecrated Chapel');
-    await expect
-      .poll(async () => {
-        const hint = (await cue.boundingBox())!,
-          toolbar = (await page.locator('.game-toolbar').boundingBox())!;
-        return (
-          hint.y > toolbar.y + toolbar.height + 12 &&
-          hint.y + hint.height < page.viewportSize()!.height
-        );
-      })
-      .toBe(true);
-    await capture('chapel-exit');
   });
 }

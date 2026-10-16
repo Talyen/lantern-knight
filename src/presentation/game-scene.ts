@@ -347,7 +347,15 @@ export class GamePresentation implements PresentationLifecycle {
       }
       points.needsUpdate = true;
     }
-    this.renderer.setClearColor(this.background === 'light' ? 0xd1c9b4 : 0x151923);
+    // Following an artwork edge can reveal its surround. Keep that exposed
+    // space at ink value rather than the brighter developer-stage backdrop.
+    this.renderer.setClearColor(
+      this.background === 'light'
+        ? 0xd1c9b4
+        : this.visuals?.editorFloor?.layout === 'artwork'
+          ? 0x020305
+          : 0x151923,
+    );
     this.aim.visible = true;
     this.aim.scale.setScalar(sim.hero.pendingAction ? 1.15 + Math.sin(sim.tick * 0.3) * 0.1 : 1);
     (this.aim.material as T.MeshBasicMaterial).color.set(
