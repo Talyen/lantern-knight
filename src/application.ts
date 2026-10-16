@@ -7,7 +7,7 @@ import { MotionProbe } from './motion-probe';
 import { PickupPlan } from './core/pickup-plan';
 import { interactionTarget, nearbyInteraction } from './core/interaction';
 import type { ForgeUpgrade } from './content/progression';
-import type { EquipmentSlot } from './content/items';
+import type { InventoryCommand } from './core/inventory';
 import { SceneAssets } from './assets/scene-assets';
 import { AssetRuntime, type PackLease, type PackBatch, type AssetPack } from './assets/loader';
 import type {
@@ -25,11 +25,7 @@ import { parseGame, type GameSave } from './core/save';
 import type { Bridge } from './platform/bridge';
 import { FrameScheduler } from './frame-scheduler';
 import { LoadingScopes } from './loading-scopes';
-import {
-  SessionOperations,
-  SessionOperationCancelled,
-  type SessionOperation,
-} from './session-operation';
+import { SessionOperations, SessionOperationCancelled } from './session-operation';
 import { startupStage } from './assets/startup-timing';
 export type ApplicationHooks = {
   status: (message: string, error?: boolean) => void;
@@ -429,14 +425,14 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.assertActive();
     try {
       // Admit before loading feedback can synchronously submit a newer selection.
-      return await this.previewOperations.run((operation) =>
+      return await this.previewOperations.run((signal) =>
         this.withLoading(async () => {
-          operation.check();
-          let pack: PackLease | undefined = await this.runtime.loadPack(id, operation.signal);
+          signal.throwIfAborted();
+          let pack: PackLease | undefined = await this.runtime.loadPack(id, signal);
           try {
-            operation.check();
+            signal.throwIfAborted();
             this.presentation.warmPack(pack);
-            operation.check();
+            signal.throwIfAborted();
             const installed = pack;
             pack = undefined;
             // Selection can partially rebuild a renderer before failing. Retain
@@ -447,7 +443,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
                 () => {
                   this.syncPacks();
                   select();
-                  operation.check();
+                  signal.throwIfAborted();
                 },
               );
             } catch (error) {
@@ -458,7 +454,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
           } finally {
             pack?.release();
           }
-        }, operation.signal),
+        }, signal),
       );
     } catch (error) {
       if (error instanceof SessionOperationCancelled && !this.disposed) return false;
@@ -483,29 +479,29 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.events.publish(events);
   }
   private async withSessionOperation<T extends void | boolean>(
-    work: (operation: SessionOperation) => Promise<T>,
+    work: (signal: AbortSignal) => Promise<T>,
     exclusive?: string,
   ) {
     this.assertActive();
     if (this.startup && !this.ready) throw new Error('Wait for startup to finish loading');
     return this.sessionOperations.run(
-      (operation) =>
+      (signal) =>
         this.withLoading(async () => {
           try {
             // Loading hooks can synchronously replace this intent before work starts.
-            operation.check();
-            return await work(operation);
+            signal.throwIfAborted();
+            return await work(signal);
           } finally {
-            if (!operation.signal.aborted && !this.disposed && !this.roomReady) this.pause(true);
+            if (!signal.aborted && !this.disposed && !this.roomReady) this.pause(true);
           }
-        }, operation.signal),
+        }, signal),
       exclusive,
     );
   }
   // Construct the candidate before acquisition. Callers never receive the session
   // owner, choose its generation or submit feedback for an uncommitted room.
   replaceSession(scenes: SceneContent, replacement: SessionReplacement = { kind: 'new' }) {
-    return this.withSessionOperation(async (operation) => {
+    return this.withSessionOperation(async (signal) => {
       if (!this.readOnly && scenes.registry !== this.registry)
         throw new Error('Changing content requires a read-only application');
       let session: GameSession;
@@ -523,30 +519,31 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         );
         replacement.prepare?.(session.sim);
       }
-      await this.replaceRoom({ kind: 'session', next: { session, scenes }, events }, operation);
+      await this.replaceRoom({ kind: 'session', next: { session, scenes }, events }, signal);
     });
   }
-  private async replaceRoom(change: RoomChange, operation: SessionOperation) {
-    operation.check();
+  private async replaceRoom(change: RoomChange, signal: AbortSignal) {
+    signal.throwIfAborted();
     const source = change.kind === 'session' ? change.next : this.current,
       area = change.kind === 'session' ? source.session.sim.area : change.plan.destination;
     this.input.clear();
     if (this.sim.areaDefinition.campfires?.length && !this.bridge.automatedRun) {
       await new Promise<void>((resolve) => setTimeout(resolve, 160));
-      operation.check();
+      signal.throwIfAborted();
     }
     let next: PackBatch | undefined;
     try {
-      next = await this.acquireArea(area, operation.signal, source.scenes);
-      operation.check();
+      next = await this.acquireArea(area, signal, source.scenes);
+      signal.throwIfAborted();
       for (const pack of next.packs.values()) this.presentation.warmPack(pack);
-      await operation.read(
+      await readUntilAborted(
         this.presentation.prepareAssets(
           new Set([...this.packs.keys(), ...next.packs.keys()]),
-          operation.signal,
+          signal,
         ),
+        signal,
       );
-      operation.check();
+      signal.throwIfAborted();
       if (change.kind === 'session' && !this.readOnly && source.scenes.registry !== this.registry)
         throw new Error('Changing content requires a read-only application');
       if (change.kind === 'area') {
@@ -561,7 +558,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       } else changes = change.session.commitRoom(change.plan);
       this.audio.replaceSession();
       this.events.setGeneration(this.current.session.generation);
-      operation.check();
+      signal.throwIfAborted();
       const installing = next;
       next = undefined; // Installation transfers ownership even if rebuilding throws.
       this.roomAssets.install(installing, () => {
@@ -572,9 +569,9 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         );
         this.presentation.generation = this.current.session.generation;
       });
-      operation.check();
-      await operation.read(this.presentation.prepareAssets(undefined, operation.signal));
-      operation.check();
+      signal.throwIfAborted();
+      await readUntilAborted(this.presentation.prepareAssets(undefined, signal), signal);
+      signal.throwIfAborted();
       this.roomAccepted = true;
       this.input.resetAim();
       this.publish(changes);
@@ -603,30 +600,30 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       }
     });
   }
-  private async replacePlannedRoom(plan: RoomPlan, operation: SessionOperation) {
+  private async replacePlannedRoom(plan: RoomPlan, signal: AbortSignal) {
     const session = this.current.session;
     const cancel = () => this.publish(session.cancelRoom(plan));
-    operation.signal.addEventListener('abort', cancel, { once: true });
+    signal.addEventListener('abort', cancel, { once: true });
     try {
       this.publish(plan.events);
-      operation.check();
-      await this.replaceRoom({ kind: 'area', session, plan }, operation);
-      operation.check();
+      signal.throwIfAborted();
+      await this.replaceRoom({ kind: 'area', session, plan }, signal);
+      signal.throwIfAborted();
     } catch (error) {
       cancel();
       throw error;
     } finally {
-      operation.signal.removeEventListener('abort', cancel);
+      signal.removeEventListener('abort', cancel);
     }
   }
   transition(id: string) {
-    return this.withSessionOperation(async (operation) => {
+    return this.withSessionOperation(async (signal) => {
       const plan = this.current.session.prepareTransition(id);
       try {
-        await this.replacePlannedRoom(plan, operation);
+        await this.replacePlannedRoom(plan, signal);
         this.autosave();
       } catch (error) {
-        if (!operation.signal.aborted) this.pause(true);
+        if (!signal.aborted) this.pause(true);
         throw error;
       }
     });
@@ -686,27 +683,23 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       this.safe(() => this.transition(target.id));
     }
   }
-  changeInventory(action: 'equip' | 'unequip' | 'salvage', item?: string, slot?: EquipmentSlot) {
+  changeInventory(command: InventoryCommand) {
     if (this.busy || !this.roomReady) throw new Error('Wait for the area to finish loading');
-    const events =
-      action === 'equip'
-        ? this.current.session.equip(item!, slot!)
-        : action === 'unequip'
-          ? this.current.session.unequip(slot!)
-          : this.current.session.salvage(item);
+    const events = this.current.session.changeInventory(command);
     this.publish(events);
-    this.autosave();
+    if (events.length) this.autosave();
   }
   purchaseForgeUpgrade(id: string, choice: ForgeUpgrade) {
     if (this.busy || !this.roomReady)
       return Promise.reject(new Error('Wait for the current operation to finish'));
-    return this.withSessionOperation(async (operation) => {
+    return this.withSessionOperation(async (signal) => {
       const purchase = this.current.session.prepareForgePurchase(id, choice);
       try {
         // Save the complete candidate before accepting it. Failed writes spend nothing.
         // Admitted purchases cannot be superseded by a load, reset or stale autosave.
-        if (!this.readOnly) await operation.read(this.persistenceOwner.save(purchase.save));
-        operation.check();
+        if (!this.readOnly)
+          await readUntilAborted(this.persistenceOwner.save(purchase.save), signal);
+        signal.throwIfAborted();
         this.publish(purchase.commit());
       } finally {
         purchase.cancel();
@@ -714,23 +707,23 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     }, 'the forge purchase');
   }
   rest(key: string) {
-    return this.withSessionOperation(async (operation) => {
+    return this.withSessionOperation(async (signal) => {
       if (this.sim.inCombat) throw new Error('Finish combat before resting');
-      await this.replacePlannedRoom(this.current.session.prepareRest(key), operation);
+      await this.replacePlannedRoom(this.current.session.prepareRest(key), signal);
       this.autosave();
     });
   }
   travel(key: string) {
-    return this.withSessionOperation(async (operation) => {
-      await this.replacePlannedRoom(this.current.session.prepareFireTravel(key), operation);
+    return this.withSessionOperation(async (signal) => {
+      await this.replacePlannedRoom(this.current.session.prepareFireTravel(key), signal);
       this.autosave();
     });
   }
   reset(reason: 'death' | 'manual' = 'manual') {
-    return this.withSessionOperation(async (operation) => {
+    return this.withSessionOperation(async (signal) => {
       const resume = this.resumeOnCompletion();
-      await this.replacePlannedRoom(this.current.session.prepareReset(reason), operation);
-      operation.check();
+      await this.replacePlannedRoom(this.current.session.prepareReset(reason), signal);
+      signal.throwIfAborted();
       // Adventure resets change persistent encounter progress as well as player health.
       if (
         reason === 'death' ||
@@ -748,32 +741,32 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         this.pause(false);
     };
   }
-  private async restoreState(save: GameSave, operation: SessionOperation) {
-    operation.check();
-    await this.replacePlannedRoom(this.current.session.prepareRestore(save), operation);
+  private async restoreState(save: GameSave, signal: AbortSignal) {
+    signal.throwIfAborted();
+    await this.replacePlannedRoom(this.current.session.prepareRestore(save), signal);
   }
   restore(save: GameSave) {
-    return this.withSessionOperation(async (operation) => {
+    return this.withSessionOperation(async (signal) => {
       const resume = this.resumeOnCompletion();
-      await this.restoreState(save, operation);
-      operation.check();
+      await this.restoreState(save, signal);
+      signal.throwIfAborted();
       resume();
     });
   }
   load() {
-    return this.withSessionOperation(async (operation) => {
+    return this.withSessionOperation(async (signal) => {
       const resume = this.resumeOnCompletion(),
-        result = await operation.read(this.persistenceOwner.load());
+        result = await readUntilAborted(this.persistenceOwner.load(), signal);
       if (result.status === 'empty') return false;
-      await this.restoreState(result.data, operation);
-      operation.check();
+      await this.restoreState(result.data, signal);
+      signal.throwIfAborted();
       resume();
       void this.audio.play('success', { world: false }).catch(() => {});
       return true;
     });
   }
   newGame() {
-    return this.withSessionOperation(async (operation) => {
+    return this.withSessionOperation(async (signal) => {
       const resume = this.resumeOnCompletion();
       await this.replaceRoom(
         {
@@ -789,12 +782,15 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
             scenes: this.scenes,
           },
         },
-        operation,
+        signal,
       );
-      operation.check();
+      signal.throwIfAborted();
       if (!this.readOnly)
-        await operation.read(this.persistenceOwner.save(this.current.session.captureSave()));
-      operation.check();
+        await readUntilAborted(
+          this.persistenceOwner.save(this.current.session.captureSave()),
+          signal,
+        );
+      signal.throwIfAborted();
       void this.audio.play('success', { world: false }).catch(() => {});
       resume();
     });

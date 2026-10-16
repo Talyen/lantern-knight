@@ -1,5 +1,6 @@
 import type { Simulation } from './simulation';
 import type { SimulationView } from './simulation-view';
+import type { AreaDefinition, Point } from '../content/world';
 import { clearSegment } from './navigation';
 import { heightAt } from '../content/world';
 import { tuning } from '../content/gameplay';
@@ -74,13 +75,16 @@ function choices(sim: InteractionState): Interaction[] {
   ];
 }
 
-function interactionReachable(sim: InteractionState, target: { x: number; z: number }) {
+export function canReachInteraction(
+  area: AreaDefinition,
+  hero: Pick<SimulationView['hero'], 'health' | 'x' | 'y' | 'z'>,
+  target: Point,
+) {
   return (
-    sim.hero.health > 0 &&
-    Math.hypot(target.x - sim.hero.x, target.z - sim.hero.z) <= 1.6 &&
-    Math.abs(heightAt(sim.areaDefinition, target.x, target.z) - sim.hero.y) <=
-      tuning.maxCombatHeightDifference &&
-    clearSegment(sim.areaDefinition, sim.hero, target, 0.001)
+    hero.health > 0 &&
+    Math.hypot(target.x - hero.x, target.z - hero.z) <= 1.6 &&
+    Math.abs(heightAt(area, target.x, target.z) - hero.y) <= tuning.maxCombatHeightDifference &&
+    clearSegment(area, hero, target, 0.001)
   );
 }
 
@@ -88,13 +92,13 @@ function interactionReachable(sim: InteractionState, target: { x: number; z: num
 // authorize this command, and a previously displayed prompt may now be stale.
 export function interactionTarget(sim: InteractionState, kind: Interaction['kind'], id: string) {
   const target = choices(sim).find((target) => target.kind === kind && target.id === id);
-  return target && interactionReachable(sim, target) ? target : undefined;
+  return target && canReachInteraction(sim.areaDefinition, sim.hero, target) ? target : undefined;
 }
 
 export function nearbyInteraction(sim: InteractionState): Interaction | undefined {
   // Prefer available E actions; sword-only prompts and blocked targets remain fallbacks.
   return choices(sim)
-    .filter((target) => interactionReachable(sim, target))
+    .filter((target) => canReachInteraction(sim.areaDefinition, sim.hero, target))
     .sort(
       (a, b) =>
         Number(Boolean(a.blocked)) - Number(Boolean(b.blocked)) ||

@@ -1,8 +1,7 @@
 import type { ForgeUpgrade } from '../content/progression';
 import { borrowedView } from '../content/snapshot';
-import { type EquipmentSlot } from '../content/items';
 import { onboardingState, type OnboardingState, type Lesson } from './onboarding';
-import { InventoryState, type InventoryAccess } from './inventory';
+import { InventoryState, type InventoryAccess, type InventoryCommand } from './inventory';
 import { interactionTarget } from './interaction';
 import { Navigation, effectiveRadius } from './navigation';
 import { PLAYER_ID, heightAt, type ContentRegistry, type AreaId } from '../content/world';
@@ -453,31 +452,20 @@ export class GameSession {
   rest(key: string): readonly GameplayEvent[] {
     return this.commitRoom(this.prepareRest(key));
   }
-  equip(item: string, slot: EquipmentSlot) {
+  changeInventory(command: InventoryCommand) {
     this.assertProgressionWritable();
-    if (this.sim.inCombat) throw new Error('Finish combat before changing equipment');
-    const previous = this.current.inventoryState.equipment[slot];
-    this.current.inventoryState.equip(item, slot);
-    if (item === 'orchard-ring') this.completeLesson('inventory');
-    this.sim.hero.health = Math.min(this.sim.hero.health, this.sim.maxHealth);
-    return previous === item ? [] : [this.event({ kind: 'inventory-changed', operation: 'equip' })];
-  }
-  unequip(slot: EquipmentSlot) {
-    this.assertProgressionWritable();
-    if (this.sim.inCombat) throw new Error('Finish combat before changing equipment');
-    const previous = this.current.inventoryState.equipment[slot];
-    this.current.inventoryState.unequip(slot);
-    this.sim.hero.health = Math.min(this.sim.hero.health, this.sim.maxHealth);
-    return previous ? [this.event({ kind: 'inventory-changed', operation: 'unequip' })] : [];
-  }
-  salvage(item?: string) {
-    this.assertProgressionWritable();
-    if (this.sim.inCombat) throw new Error('Finish combat before salvaging');
-    const previous = JSON.stringify(this.current.inventoryState.inventory);
-    this.current.inventoryState.salvage(item);
-    return previous === JSON.stringify(this.current.inventoryState.inventory)
-      ? []
-      : [this.event({ kind: 'inventory-changed', operation: 'salvage' })];
+    if (this.sim.inCombat)
+      throw new Error(
+        command.kind === 'salvage'
+          ? 'Finish combat before salvaging'
+          : 'Finish combat before changing equipment',
+      );
+    if (!this.current.inventoryState.change(command)) return [];
+    if (command.kind === 'equip' && command.item === 'orchard-ring')
+      this.completeLesson('inventory');
+    if (command.kind !== 'salvage')
+      this.sim.hero.health = Math.min(this.sim.hero.health, this.sim.maxHealth);
+    return [this.event({ kind: 'inventory-changed', operation: command.kind })];
   }
   prepareForgePurchase(id: string, choice: ForgeUpgrade): ForgePurchase {
     this.assertProgressionWritable();

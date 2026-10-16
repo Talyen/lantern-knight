@@ -1,6 +1,6 @@
 import { heightAt } from '../content/world';
 import { Navigation, effectiveRadius } from './navigation';
-import { interactionTarget } from './interaction';
+import { canReachInteraction, interactionTarget } from './interaction';
 import type { Simulation, Command } from './simulation';
 import { acceptCommand } from './command';
 
@@ -34,22 +34,9 @@ export class PickupPlan {
         Math.hypot(b.x - sim.hero.x, b.z - sim.hero.z),
     );
     const destination = candidates.find((p) => {
-      const hero = { ...sim.hero, ...p, y: heightAt(sim.areaDefinition, p.x, p.z) };
+      const hero = { ...p, health: sim.hero.health, y: heightAt(sim.areaDefinition, p.x, p.z) };
       return (
-        interactionTarget(
-          {
-            areaDefinition: sim.areaDefinition,
-            hero,
-            claimedObjects: sim.claimedObjects,
-            drops: sim.drops,
-            registry: sim.registry,
-            inCombat: sim.inCombat,
-            guardsDefeated: (ids) => sim.guardsDefeated(ids),
-            exitAvailable: (exit) => sim.exitAvailable(exit),
-          },
-          'drop',
-          id,
-        ) &&
+        canReachInteraction(sim.areaDefinition, hero, drop) &&
         navigation.route(sim.hero, p, effectiveRadius(sim.hero.definition.radius)).status ===
           'ready'
       );
