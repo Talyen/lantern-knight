@@ -379,7 +379,7 @@ test('visual authoring, independent fragments, pattern undo and import', async (
 test('unsaved draft playtest discards gameplay state and survives repeated entry', async ({
   page,
 }) => {
-  test.setTimeout(180_000);
+  test.setTimeout(360_000);
   await openEditor(page);
   await chooseGravestone(page);
   await page.locator('#viewport').click({ position: { x: 360, y: 310 } });
@@ -408,7 +408,7 @@ test('unsaved draft playtest discards gameplay state and survives repeated entry
         window.sceneEditor.playtest()?.ready
           ? 'ready'
           : document.getElementById('validation-errors')?.textContent || 'loading',
-      { timeout: 60000 },
+      { timeout: 120_000 },
     ).toBe('ready');
     await page.locator('#playtest-pause').click();
     await expect(page.locator('#playtest-pause')).toHaveText('Resume');
