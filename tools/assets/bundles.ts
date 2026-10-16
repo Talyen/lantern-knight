@@ -18,7 +18,7 @@ import {
 import { makeArchive } from './archive';
 import { shaFile } from './sources';
 import { verifiedOutput } from '../verified-files';
-import { AssetCache, diskBytes } from './cache';
+import { AssetCache } from './cache';
 import type { PreparedAssets } from './prepare';
 import { growthReservation } from './preparation';
 
