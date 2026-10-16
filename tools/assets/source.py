@@ -11,6 +11,7 @@ import contextlib
 from collections import OrderedDict
 
 from resolver import SourceResolver, safe_relative, load_index, signature
+from source_members import MemberArchive
 
 
 class ArchiveReader:
@@ -18,9 +19,19 @@ class ArchiveReader:
 
     def __init__(self):
         self.entries = OrderedDict()
+        self.member_entries = OrderedDict()
 
     @contextlib.contextmanager
     def open(self, resolver, archive):
+        members = resolver.archive_members.get(resolver.index["archives"][archive]["sha256"])
+        if members is not None:
+            key = (id(resolver), archive)
+            view = self.member_entries.pop(key, None) or MemberArchive(resolver, archive, members)
+            self.member_entries[key] = view
+            while len(self.member_entries) > 8:
+                self.member_entries.popitem(last=False)
+            yield view
+            return
         key = (str(resolver.root), archive)
         # Every request still verifies the source identity and detects writes
         # before/after reading. Cached handles only avoid rereading ZIP tables.
@@ -50,6 +61,7 @@ class ArchiveReader:
             archive.close()
             stream.close()
         self.entries.clear()
+        self.member_entries.clear()
 
 
 def read(root, index, group, member, resolver=None, archive_reader=None):
@@ -92,6 +104,10 @@ def read(root, index, group, member, resolver=None, archive_reader=None):
 
 @contextlib.contextmanager
 def open_archive(resolver, archive):
+    members = resolver.archive_members.get(resolver.index["archives"][archive]["sha256"])
+    if members is not None:
+        yield MemberArchive(resolver, archive, members)
+        return
     with resolver.open("archive:" + archive) as stream, zipfile.ZipFile(stream) as z:
         yield z
 
@@ -119,7 +135,7 @@ def serve():
                 root, resolver.index, request["group"], request["member"], resolver, archives
             )
             response = {"id": request["id"], "data": base64.b64encode(data).decode("ascii")}
-        except (OSError, ValueError, KeyError, zipfile.BadZipFile) as error:
+        except (OSError, RuntimeError, ValueError, KeyError, zipfile.BadZipFile) as error:
             response = {"id": request["id"], "error": str(error)}
         print(json.dumps(response), flush=True)
     archives.close()

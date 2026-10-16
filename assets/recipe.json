@@ -337,6 +337,7 @@
     "tools/assets/io.ts",
     "tools/assets/resolver.py",
     "tools/assets/source.py",
+    "tools/assets/source_members.py",
     "tools/assets/sources.ts",
     "tools/compiler.ts",
     "tools/assets/operations.ts"

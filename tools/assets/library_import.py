@@ -9,11 +9,11 @@ import json
 import pathlib
 import re
 import struct
-import zipfile
 import sys
 from contextlib import ExitStack
 from resolver import PROJECT, SourceResolver, load_index, safe_relative
 from library_sequences import supplied_sequences
+from source import open_archive
 
 HEADINGS = {"DR": "d90", "DL": "d00", "UL": "d270", "UR": "d180"}
 
@@ -142,6 +142,10 @@ class Package:
         return self.cache[name]
 
     def dimensions(self, name):
+        if hasattr(self.zip, "dimensions"):
+            dimensions = self.zip.dimensions(name)
+            if dimensions:
+                return list(dimensions)
         with self.zip.open(name) as f:
             b = f.read(24)
         if b[:8] != b"\x89PNG\r\n\x1a\n":
@@ -1201,7 +1205,7 @@ class Importer:
 
 
 def build(root, specs, index, artwork=(), inventory=None, index_path=None):
-    resolver = SourceResolver(root, index)
+    resolver = SourceResolver(root, index, search_roots=[root])
     if inventory:
         resolver.reuse_inventory(inventory)
 
@@ -1219,8 +1223,9 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
             if spec["archive"] not in index["archives"]:
                 continue
             progress("opening " + spec["archive"])
-            stream = stack.enter_context(resolver.open("archive:" + spec["archive"]))
-            packages.append(Package(spec, stack.enter_context(zipfile.ZipFile(stream))))
+            packages.append(Package(
+                spec, stack.enter_context(open_archive(resolver, spec["archive"]))
+            ))
         importer = Importer(packages)
         for p in packages:
             if "Scenic_Mechanisms" in p.spec["archive"]:
@@ -1268,10 +1273,9 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                 group = "discovered-" + archive_identity["sha256"][:24]
                 known = known_archives.get(archive_identity["sha256"])
                 progress("discovered metadata " + archive_identity.get("pathHint", archive))
-                stream = None if known else stack.enter_context(resolver.open("archive:" + archive))
                 package = Package(
                     {"archive": archive, "group": group, "category": 7},
-                    known.zip if known else stack.enter_context(zipfile.ZipFile(stream)),
+                    known.zip if known else stack.enter_context(open_archive(resolver, archive)),
                 )
                 packages.append(package)
                 for member in sorted(package.names):

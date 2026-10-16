@@ -7,9 +7,11 @@ import json
 import os
 import pathlib
 import stat
+import struct
 import zipfile
 from PIL import Image, ImageOps
-from resolver import load_index, safe_relative, require_local
+from resolver import load_index, safe_relative, require_local, signature
+from source_members import METADATA_TYPES, metadata_file, retain_metadata, verified_bytes
 
 IMAGE_TYPES = {".png", ".jpg", ".jpeg", ".webp"}
 MEDIA_TYPES = {
@@ -53,6 +55,8 @@ def image_info(data):
 
 
 def discover(root, original, previous=None, identities=None):
+    if previous is None and identities:
+        previous = identities.get("sourceSnapshot")
     previous = previous if previous and previous.get("discoveryVersion") in (4, 5, 6, 7, 8) else {}
     metadata_current = previous.get("discoveryVersion") == 8
     prior = {r["path"]: r for r in previous.get("files", [])}
@@ -150,6 +154,26 @@ def discover(root, original, previous=None, identities=None):
                                 members.append(m)
                     except (OSError, ValueError, zipfile.BadZipFile) as e:
                         problems.append({"path": rel, "reason": str(e)})
+                # Preserve raw metadata once beside the library, independently of
+                # disposable discovery/producer caches. Pixels stay in their originals.
+                missing_metadata = [m for m in members or []
+                    if m["suffix"] in METADATA_TYPES
+                    and verified_bytes(metadata_file(root, m), m) is None]
+                missing_dimensions = [m for m in members or []
+                    if m["suffix"] == ".png" and "nativeCanvas" not in m]
+                if missing_metadata or missing_dimensions:
+                    require_local(p)
+                    with zipfile.ZipFile(p) as source:
+                        for m in missing_metadata:
+                            retain_metadata(root, m, source.read(m["member"]))
+                        for m in missing_dimensions:
+                            with source.open(m["member"]) as image:
+                                header = image.read(24)
+                            if header[:8] != b"\x89PNG\r\n\x1a\n":
+                                raise ValueError("Expected native PNG: " + m["member"])
+                            m["nativeCanvas"] = list(struct.unpack(">II", header[16:24]))
+                    if tuple(stamp) != signature(p.stat()):
+                        raise ValueError("Source archive changed during discovery: " + rel)
                 record["members"] = members or []
                 for m in record["members"]:
                     if m["suffix"] not in IMAGE_TYPES | MEDIA_TYPES:
@@ -247,6 +271,9 @@ def discover(root, original, previous=None, identities=None):
         }
         for r in records
     }
+    index["archiveMembers"] = {
+        r["sha256"]: r["members"] for r in records if r["kind"] == "archive"
+    }
     index["prefixes"] = {
         k: [a for a in names if a in index["archives"]]
         for k, names in index.get("prefixes", {}).items()
@@ -293,6 +320,7 @@ if __name__ == "__main__":
     args = ap.parse_args()
     identity_file = args.root / '.lantern' / 'identities.json'
     try:
+        require_local(identity_file)
         identities = json.loads(identity_file.read_text())
         if identities.get('schemaVersion') != 1:
             raise ValueError('Unsupported asset identity registry')
@@ -322,6 +350,8 @@ if __name__ == "__main__":
                 values[r['path'] + ':' + r['sha256']] = {k: r[k] for k in ('path', 'sha256', 'assetIdentity')}
             return list(values.values())
         registry = {'schemaVersion': 1,
+            'sourceSnapshot': {'discoveryVersion': 8,
+                'files': inventory['files']},
             'images': retained_records('images', inventory['images']),
             'archives': retained_records('archives', [r for r in inventory['files'] if r['kind'] == 'archive'])}
         temporary = identity_file.with_suffix('.tmp')

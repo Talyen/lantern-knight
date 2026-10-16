@@ -10,7 +10,6 @@ import stat
 import sys
 import tempfile
 import io
-import zipfile
 
 PROJECT = pathlib.Path(__file__).resolve().parents[2]
 SKIP_NAMES = {
@@ -166,6 +165,31 @@ class SourceResolver:
                 or info["bytes"] < 0
             ):
                 raise ValueError("invalid source identity")
+        retained_files = []
+        self.archive_members = index.get("archiveMembers")
+        if self.archive_members is None:
+            try:
+                retained_file = self.root / ".lantern/identities.json"
+                if not regular_file(retained_file):
+                    raise ValueError("Source registry must be a regular file")
+                require_local(retained_file)
+                retained = json.loads(retained_file.read_text())
+                retained_files = retained.get("sourceSnapshot", {}).get("files", [])
+                self.archive_members = {
+                    r["sha256"]: r["members"]
+                    for r in retained_files
+                    if r.get("kind") == "archive"
+                }
+            except (FileNotFoundError, RuntimeError):
+                self.archive_members = {}
+        self.local_members = {}
+        for key, (hint, info) in self.identities.items():
+            if key.startswith("file:") and not info.get("archive"):
+                self.local_members.setdefault(info["sha256"], []).append(hint)
+        for record in retained_files:
+            if record["kind"] != "archive":
+                hint = self.root / safe_relative(record["path"])
+                self.local_members.setdefault(record["sha256"], []).append(hint)
         self.by_size = {}
         for _, info in self.identities.values():
             self.by_size.setdefault(info["bytes"], set()).add(info["sha256"])
@@ -364,10 +388,9 @@ class SourceResolver:
         identity = self.identities[key][1]
         if identity.get("archive"):
             member = safe_relative(identity["member"])
-            with (
-                self.open("archive:" + identity["archive"]) as stream,
-                zipfile.ZipFile(stream) as archive,
-            ):
+            from source import open_archive
+
+            with open_archive(self, identity["archive"]) as archive:
                 matches = [i for i in archive.infolist() if i.filename == member]
                 if len(matches) != 1 or stat.S_ISLNK(matches[0].external_attr >> 16):
                     raise ValueError("missing or unsafe archived source: " + key)

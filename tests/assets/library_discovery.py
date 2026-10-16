@@ -1,6 +1,7 @@
 """Coverage reconciliation uses only the active library, including archived originals."""
 
 import hashlib
+import copy
 import io
 import json
 import pathlib
@@ -8,15 +9,115 @@ import sys
 import tempfile
 import unittest
 import zipfile
+from unittest.mock import patch
 from PIL import Image
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2] / "tools/assets"))
 from discovery import discover
 from library_import import build
 from resolver import SourceResolver
+from source import read
+from source_members import metadata_file
 
 
 class DiscoveryTests(unittest.TestCase):
+    def test_local_members_and_durable_metadata_rebuild_without_zip_or_disposable_cache(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary).resolve()
+            output = io.BytesIO()
+            Image.new("RGBA", (8, 8), "red").save(output, format="PNG")
+            pixels = output.getvalue()
+            metadata = json.dumps(
+                {
+                    "canvas": [8, 8],
+                    "pivotPixels": [4, 7],
+                    "frames": [{"file": "frame.png", "duration_ms": 120}],
+                }
+            ).encode()
+            archive_path = root / "supplied.zip"
+            with zipfile.ZipFile(archive_path, "w") as archive:
+                archive.writestr("frame.png", pixels)
+                archive.writestr("animation.json", metadata)
+            loose = root / "renamed-artwork.png"
+            loose.write_bytes(pixels)
+            original = {"libraryDirectory": "Test", "archives": {}, "files": {}, "prefixes": {}}
+            index, inventory = discover(root, original)
+            retained = {
+                "schemaVersion": 1,
+                "sourceSnapshot": {
+                    "discoveryVersion": 8,
+                    "files": copy.deepcopy(inventory["files"]),
+                },
+            }
+            (root / ".lantern/identities.json").write_text(json.dumps(retained))
+            archive_record = next(
+                r for r in retained["sourceSnapshot"]["files"] if r["kind"] == "archive"
+            )
+            manifest = next(m for m in archive_record["members"] if m["member"] == "animation.json")
+            self.assertEqual(metadata_file(root, manifest).read_bytes(), metadata)
+            expected = build(
+                root, [], index, inventory=copy.deepcopy(inventory), index_path=root / "index.json"
+            )
+            group = "discovered-" + archive_record["sha256"][:24]
+            # Simulate unavailable ZIPs after all disposable discovery/producer
+            # caches are gone. No test changes the real library or cloud flags.
+            with patch("zipfile.ZipFile", side_effect=AssertionError("ZIP should not be opened")):
+                restored_index, restored_inventory = discover(root, original, identities=retained)
+                self.assertEqual(restored_inventory["sha256"], inventory["sha256"])
+                actual = build(
+                    root,
+                    [],
+                    restored_index,
+                    inventory=copy.deepcopy(restored_inventory),
+                    index_path=root / "index.json",
+                )
+                self.assertEqual(actual, expected)
+                self.assertEqual(read(root, restored_index, group, "frame.png"), pixels)
+                # Authored indices can also use the library's durable member table.
+                authored = {
+                    "libraryDirectory": "Test",
+                    "archives": {
+                        "pack.zip": {
+                            "sha256": archive_record["sha256"],
+                            "bytes": archive_record["bytes"],
+                            "pathHint": "supplied.zip",
+                        }
+                    },
+                    "archiveGroups": {"fixture": "pack.zip"},
+                    "files": {},
+                }
+                self.assertEqual(read(root, authored, "fixture", "frame.png"), pixels)
+            # A changed loose copy cannot impersonate the recorded original.
+            loose.write_bytes(b"x" * len(pixels))
+            with patch.object(SourceResolver, "open", side_effect=RuntimeError("ZIP unavailable")):
+                with self.assertRaisesRegex(RuntimeError, "ZIP unavailable"):
+                    read(root, index, group, "frame.png")
+            self.assertEqual(read(root, index, group, "frame.png"), pixels)
+            loose.write_bytes(pixels)
+            # Corrupt retained metadata is rejected and recovered only from a
+            # verified original; it cannot silently remove animation coverage.
+            metadata_file(root, manifest).write_bytes(b"x" * len(metadata))
+            with patch.object(SourceResolver, "open", side_effect=RuntimeError("ZIP unavailable")):
+                with self.assertRaisesRegex(RuntimeError, "ZIP unavailable"):
+                    build(
+                        root,
+                        [],
+                        index,
+                        inventory=copy.deepcopy(inventory),
+                        index_path=root / "index.json",
+                    )
+            discover(root, original, inventory)
+            self.assertEqual(metadata_file(root, manifest).read_bytes(), metadata)
+            archive_path.unlink()
+            deleted_index, deleted = discover(root, original, identities=retained)
+            result = build(
+                root, [], deleted_index, inventory=deleted, index_path=root / "index.json"
+            )
+            self.assertEqual(deleted_index["archives"], {})
+            self.assertFalse(
+                any(a["id"].startswith("library-animation-") for a in result["assets"])
+            )
+
     def test_malformed_discovered_sequences_preserve_sibling_artwork_and_report_diagnostics(self):
         malformed = [
             {'atlas': {'file': 'atlas.png', 'rects': []}, 'frames': [{'duration_ticks': 1}]},

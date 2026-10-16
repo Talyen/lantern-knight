@@ -24,6 +24,10 @@ Recovery fixtures run with `npm run test:assets`, using temporary files to cover
 
 Full-library discovery maintains `.lantern/identities.json` inside the external Lantern Knight source root. Preserve this hidden directory when copying or backing up the library: the importer uses it to retain logical asset IDs, and therefore scene references, across replacements and moves. This metadata must survive cache cleanup and asset preparation. Original artwork and archive bytes remain unchanged.
 
+The registry also retains the last successful source snapshot: file identities, filesystem signatures and archive member tables. Original JSON and text members are stored by SHA-256 under `.lantern/metadata/`, with their archive/member provenance retained in the member table. These are durable source metadata, separate from the disposable cache. Preserve this directory with the library and keep it downloaded for offline authoring.
+
+Preparation and source readers prefer hash-identical loose artwork in the active library, then retained metadata, then the original ZIP. Every selected copy is checked against the recorded member hash; corrupt copies fall back to the verified original or fail clearly. Native dimensions and original metadata permit unchanged packs to be interpreted without opening a ZIP. A first import, missing metadata, unavailable artwork or an explicit archive health check still requires the original archive. Keep ZIPs for recovery and provenance. Reconciliation still determines active membership: retained records do not restore deleted archives or override changed source bytes.
+
 Logical asset IDs can survive an artwork replacement, but the new bytes have a new content identity. Ground interaction remains bound to the reviewed painting hash, frame and dimensions; a stable asset ID does not establish alignment. Follow [saved ground profile restoration](developer-tools.md#saved-ground-profiles) when reassigning or reviewing changed artwork.
 
 ## Source health and consolidation
