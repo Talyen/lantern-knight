@@ -32,8 +32,12 @@ const sample = (id: string, cue = 'sword', loop = false) => ({
   loopStart: 0,
   loopEnd: 0.5,
 });
-function fixture(samples = [sample('sword-1'), sample('forest-1', 'forest', true)]) {
+function fixture(
+  samples = [sample('sword-1'), sample('forest-1', 'forest', true)],
+  payloads = new Map<string, Uint8Array<ArrayBuffer>>(),
+) {
   const sources: {
+    buffer: AudioBuffer | undefined;
     started: boolean;
     stopped: boolean;
     onended: (() => void) | null;
@@ -65,11 +69,23 @@ function fixture(samples = [sample('sword-1'), sample('forest-1', 'forest', true
     close: async () => {
       counts.closed++;
     },
-    decodeAudioData: async () => ({ length: 22050, numberOfChannels: 1, duration: 0.5 }),
+    decodeAudioData: async (
+      data: ArrayBuffer,
+    ): Promise<{
+      length: number;
+      numberOfChannels: number;
+      duration: number;
+      marker?: number;
+    }> => ({
+      length: 22050,
+      numberOfChannels: 1,
+      duration: 0.5,
+      marker: new Uint8Array(data)[0],
+    }),
     createGain: gain,
     createBufferSource: () => {
       const source = {
-        buffer: undefined,
+        buffer: undefined as AudioBuffer | undefined,
         loop: false,
         loopStart: 0,
         loopEnd: 0.5,
@@ -102,7 +118,9 @@ function fixture(samples = [sample('sword-1'), sample('forest-1', 'forest', true
       counts.requests++;
       if ((url instanceof Request ? url.url : url.toString()).endsWith('manifest.json'))
         return Response.json({ schemaVersion: 1, samples });
-      return pending ? pending() : new Response(bytes);
+      return pending
+        ? pending()
+        : new Response(payloads.get(url instanceof Request ? url.url : url.toString()) ?? bytes);
     },
     timer: (callback) => {
       timers.add(callback);
@@ -917,4 +935,23 @@ test('collecting a world health reward plays healing feedback', () => {
     new AbortController().signal,
   );
   assert.deepEqual(calls, ['heal']);
+});
+
+test('concurrent sounds choose different delivered variants in playback order', async () => {
+  const payloads = [new Uint8Array([1]), new Uint8Array([2])];
+  const samples = payloads.map((payload, index) => {
+    const hash = createHash('sha256').update(payload).digest('hex');
+    return { ...sample('variant-' + index), hash, path: `audio/${hash}.wav`, bytes: 1 };
+  });
+  const f = fixture(samples, new Map(samples.map((s, i) => ['/' + s.path, payloads[i]!])));
+  try {
+    await ready(f);
+    await Promise.all(['first', 'second', 'third'].map((key) => f.playback.play('sword', { key })));
+    const played = f.sources
+      .filter((s) => s.started)
+      .map((s) => (s.buffer as unknown as { marker: number }).marker);
+    assert.deepEqual(played, [1, 2, 1]);
+  } finally {
+    f.playback.dispose();
+  }
 });

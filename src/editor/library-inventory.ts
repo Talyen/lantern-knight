@@ -14,13 +14,16 @@ export async function libraryInventory(
   signal: AbortSignal,
   show: (id: string) => void,
 ) {
+  signal.throwIfAborted();
   const response = await fetch('/generated/library/inventory.json', { signal });
+  signal.throwIfAborted();
   if (response.status === 404) {
     host.textContent = 'Prepare the library to view its source inventory.';
     return;
   }
   if (!response.ok) throw new Error('Library inventory unavailable');
   const data = (await response.json()) as Inventory;
+  signal.throwIfAborted();
   const summary = html`<p>${data.files.length.toLocaleString()} source files · ${data.images.length.toLocaleString()} distinct images · ${data.media.length.toLocaleString()} media files</p>`;
   const search = html<HTMLInputElement>`<input type="search" placeholder="Search sources and media…" aria-label="Search source inventory">`;
   const list = html`<div></div>`,
@@ -52,6 +55,7 @@ export async function libraryInventory(
   signal.addEventListener('abort', stopMedia, { once: true });
   let limit = 50;
   const render = () => {
+    if (signal.aborted) return;
     stopMedia();
     list.replaceChildren();
     const query = search.value.toLocaleLowerCase(),
@@ -61,7 +65,9 @@ export async function libraryInventory(
       const item = html`<p><span>${row.path} </span></p>`;
       if (row.assets[0]) {
         const button = html<HTMLButtonElement>`<button>Show artwork</button>`;
-        button.onclick = () => show(row.assets[0]!);
+        button.onclick = () => {
+          if (!signal.aborted) show(row.assets[0]!);
+        };
         item.append(button);
       }
       if (
@@ -77,7 +83,11 @@ export async function libraryInventory(
         ) {
           const details = html<HTMLDetailsElement>`<details><summary>Preview</summary></details>`;
           details.ontoggle = () => {
-            if (!details.open) return;
+            if (signal.aborted) return;
+            if (!details.open) {
+              details.querySelector<HTMLMediaElement>('audio,video')?.pause();
+              return;
+            }
             if (details.children.length > 1) return;
             const element = document.createElement(
               ['mp4', 'webm'].includes(ext!)
@@ -103,10 +113,12 @@ export async function libraryInventory(
     more.hidden = limit >= matches.length;
   };
   search.oninput = () => {
+    if (signal.aborted) return;
     limit = 50;
     render();
   };
   more.onclick = () => {
+    if (signal.aborted) return;
     limit += 50;
     render();
   };

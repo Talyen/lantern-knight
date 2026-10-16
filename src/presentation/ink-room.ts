@@ -265,14 +265,19 @@ export class InkRoom {
         placement.scale ?? 1,
       );
       if (placement.rotation) sprite.mesh.rotateZ(placement.rotation);
-      sprite.mesh.visible = visible;
+      sprite.mesh.visible =
+        visible && !(claimed && !active && clip === action && clip.endBehavior === 'hide');
     }
-    for (const pickup of this.area.pickups ?? []) {
-      const sprite = this.sprites.find((s) => s.id === pickup.object);
+    const pickups = this.area.pickups ?? [];
+    const remaining = new Set(
+      pickups.filter((p) => !sim.collectedPickups.has(p.id)).map((p) => p.object),
+    );
+    for (const object of new Set(pickups.map((p) => p.object))) {
+      const sprite = this.sprites.find((s) => s.id === object);
       if (sprite)
         sprite.mesh.visible =
           visible &&
-          !sim.collectedPickups.has(pickup.id) &&
+          remaining.has(object) &&
           !(
             sprite.animator.clip.endBehavior === 'hide' &&
             sprite.animator.time >= clipDuration(sprite.animator.clip)

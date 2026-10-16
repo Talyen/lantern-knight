@@ -1,5 +1,6 @@
 export class EditorConfirmation {
   private dialog = document.getElementById('editor-confirmation') as HTMLDialogElement;
+  private closed = false;
   private resolve: ((accepted: boolean) => void) | undefined;
 
   constructor() {
@@ -11,7 +12,7 @@ export class EditorConfirmation {
   }
 
   ask(message: string, action: string): Promise<boolean> {
-    if (this.resolve) return Promise.resolve(false);
+    if (this.closed || this.resolve) return Promise.resolve(false);
     this.dialog.querySelector('#confirmation-message')!.textContent = message;
     this.dialog.querySelector('#confirmation-accept')!.textContent = action;
     this.dialog.returnValue = 'cancel';
@@ -22,6 +23,8 @@ export class EditorConfirmation {
   }
 
   dispose() {
+    if (this.closed) return;
+    this.closed = true;
     this.resolve?.(false);
     this.resolve = undefined;
     this.dialog.remove();

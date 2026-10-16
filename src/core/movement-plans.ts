@@ -5,7 +5,8 @@ import {
   type RouteResult,
   type TraversalPolicy,
 } from './navigation';
-import type { Point, AreaDefinition } from '../content/world';
+import { heightAt, type Point, type AreaDefinition } from '../content/world';
+import { tuning } from '../content/gameplay';
 import type { ContentSnapshot } from '../content/snapshot';
 import type { Actor } from './actor';
 
@@ -86,7 +87,12 @@ export class MovementPlans {
       z: target.z + Math.sin((i * Math.PI) / 8) * distance,
     })).sort((p, q) => Math.hypot(p.x - a.x, p.z - a.z) - Math.hypot(q.x - a.x, q.z - a.z));
     for (const point of candidates) {
-      if (!clearSegment(this.area, point, target, 0.001)) continue;
+      if (
+        Math.abs(heightAt(this.area, point.x, point.z) - heightAt(this.area, target.x, target.z)) >
+          tuning.maxCombatHeightDifference ||
+        !clearSegment(this.area, point, target, 0.001)
+      )
+        continue;
       const route = this.navigator(a).route(a, point, radius);
       if (route.status === 'ready') return route;
     }

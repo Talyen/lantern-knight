@@ -42,22 +42,29 @@ export class GroundLootLabels {
       if (!label) {
         const name = `${items[reward.item]!.name}${reward.amount > 1 ? ` ×${reward.amount}` : ''}`;
         const button = html<HTMLButtonElement>`<button type="button" class="ground-loot-label" data-kind="${items[reward.item]!.kind}" data-drop="${drop.id}" aria-label="Collect ${name}">${name}</button>`;
-        for (const type of ['pointerenter', 'focus'])
-          button.addEventListener(
-            type,
-            () => {
-              this.app.highlightedDrop = drop.id;
-            },
-            { signal: this.signal },
-          );
-        for (const type of ['pointerleave', 'blur'])
-          button.addEventListener(
-            type,
-            () => {
-              if (this.app.highlightedDrop === drop.id) this.app.highlightedDrop = undefined;
-            },
-            { signal: this.signal },
-          );
+        let hovered = false;
+        const highlight = () => {
+          if (hovered || document.activeElement === button) this.app.highlightedDrop = drop.id;
+          else if (this.app.highlightedDrop === drop.id) this.app.highlightedDrop = undefined;
+        };
+        button.addEventListener(
+          'pointerenter',
+          () => {
+            hovered = true;
+            highlight();
+          },
+          { signal: this.signal },
+        );
+        button.addEventListener(
+          'pointerleave',
+          () => {
+            hovered = false;
+            highlight();
+          },
+          { signal: this.signal },
+        );
+        button.addEventListener('focus', highlight, { signal: this.signal });
+        button.addEventListener('blur', highlight, { signal: this.signal });
         button.addEventListener(
           'click',
           (event) => {
