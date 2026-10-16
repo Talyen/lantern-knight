@@ -91,7 +91,7 @@ export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirecto
   );
 }
 runCli(import.meta.url, async () => {
-  const workspace = await openWorkspace();
+  const workspace = await openWorkspace('pinned', 'authoring');
   await using _cleanup1 = onAsyncExit(() => workspace.release());
   await checkAssets(workspace);
 });

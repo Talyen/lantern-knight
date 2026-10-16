@@ -52,7 +52,13 @@ test('explicit pinned workspaces validate without ambient paths and failed previ
     assert.equal(workspace.publicDirectory, path.join(workspace.root, 'public'));
     assert.equal(workspace.metadataDirectory, path.join(workspace.root, 'metadata'));
     process.env.LANTERN_ASSET_WORKSPACE = '/missing-ambient-workspace';
-    await checkAssets(workspace);
+    // Full validation reads source pages and developer assets outside the runtime bundle.
+    const authoring = await openWorkspace('pinned', 'authoring');
+    try {
+      await checkAssets(authoring);
+    } finally {
+      await authoring.release();
+    }
     const leases = path.join(workspace.root, '.leases');
     const before = (await fs.readdir(leases)).sort();
     await new Promise<void>((resolve) => reservation.listen(0, '127.0.0.1', resolve));
