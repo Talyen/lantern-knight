@@ -1,10 +1,11 @@
 import { scaledDamage } from '../content/progression';
 import { tuning, attackDefinition } from '../content/gameplay';
 import { heightAt, type AreaDefinition, type Point } from '../content/world';
-import type { Actor, State, HeroAction } from './actor';
+import type { Actor, State } from './actor';
 import type { EventDetails, DamageType, DamagePhase } from './events';
 import { selectAuthoredDirection } from '../content/headings';
 import { clearSegment } from './navigation';
+import type { AcceptedCommand } from './command';
 
 // Borrow current actors and room capabilities; combat cannot replace the room,
 // award inventory, plan routes, or persist state. Simulation owns those outcomes.
@@ -18,13 +19,6 @@ interface CombatWorld {
   enemyDefeated(actor: Actor): void;
   breakObject(id: string): void;
 }
-
-type ActionCommand = {
-  attack?: boolean;
-  dodge?: boolean;
-  ability?: boolean;
-  actions?: readonly HeroAction[];
-};
 
 // One room-local owner for action admission, interruption, damage and recovery.
 // Actor clocks remain on actors; the fixed-step coordinator advances them once,
@@ -131,15 +125,10 @@ export class CombatActions {
     }
   }
   // True only when locomotion may run instead of an action this tick.
-  admitHero(h: Actor, command: ActionCommand, movementYaw?: number): boolean {
+  admitHero(h: Actor, command: Pick<AcceptedCommand, 'actions'>, movementYaw?: number): boolean {
     if (this.world.movementPreview() && h.pendingAction?.kind !== 'dodge')
       h.pendingAction = undefined;
-    const requests = command.actions ?? [
-      ...(command.attack ? ['sword' as const] : []),
-      ...(command.ability ? ['lantern' as const] : []),
-      ...(command.dodge ? ['dodge' as const] : []),
-    ];
-    for (const kind of requests) {
+    for (const kind of command.actions) {
       if (this.world.movementPreview() && kind !== 'dodge') continue;
       const cooldown = kind === 'lantern' ? h.cooldown : kind === 'dodge' ? h.dodgeCooldown : 0;
       if (cooldown > 0) {

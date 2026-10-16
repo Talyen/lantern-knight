@@ -7,6 +7,7 @@ import { randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
 import { GameSession } from '../../src/core/session';
+import { CommandSchema } from '../../src/core/command';
 import { Persistence } from '../../src/persistence';
 import { parseGame } from '../../src/core/save';
 import { type ContentRegistry } from '../../src/content/world';
@@ -14,17 +15,12 @@ import { content } from '../../src/content/game-content';
 import { AssetCache } from '../assets/cache';
 import { digest, sourceIdentity } from '../source-identity';
 
-const point = z.strictObject({ x: z.number().finite(), z: z.number().finite() });
-const command = z.strictObject({
-  move: point,
-  aim: point,
-  attack: z.boolean().optional(),
-  ability: z.boolean().optional(),
-  dodge: z.boolean().optional(),
-  generation: z.number().int().nonnegative().optional(),
-});
 const action = z.discriminatedUnion('kind', [
-  z.strictObject({ kind: z.literal('step'), ticks: z.number().int().min(1).max(3600), command }),
+  z.strictObject({
+    kind: z.literal('step'),
+    ticks: z.number().int().min(1).max(3600),
+    command: CommandSchema,
+  }),
   z.strictObject({ kind: z.literal('save') }),
   z.strictObject({ kind: z.literal('load') }),
   z.strictObject({ kind: z.literal('reset') }),

@@ -1,5 +1,5 @@
 import { footstepClip } from '../content/footsteps';
-import { cleanupAll } from '../assets/cleanup';
+import { cleanupAll, cleanupAfterFailure, DisposalScope } from '../assets/cleanup';
 import * as T from 'three';
 import { contactShadowMaterial } from './contact-shadows';
 import { selectDirection, selectAuthoredDirection, HEADINGS } from '../content/headings';
@@ -41,7 +41,7 @@ export type Visual = {
   heading: (typeof HEADINGS)[number];
 };
 export class ActorPresentation {
-  private visuals = new Map<ActorId, Visual>();
+  private visuals = new Map<ActorId, Visual & { dispose(): void }>();
   get actors(): ReadonlyMap<ActorId, Visual> {
     return this.visuals;
   }
@@ -59,42 +59,79 @@ export class ActorPresentation {
     if (!binding) throw new Error(`unknown visual ${a.definition.visual}`);
     const pack = this.packs.get(binding.asset);
     if (!pack) throw new Error(`asset not acquired ${binding.asset}`);
-    const sprite = new ActorSprite(
-      `${generation}:${a.id}`,
-      pack.manifest,
-      pack.textures,
-      this.getClip(binding.clips.idle, 'd45', pack.manifest),
-    );
-    sprite.material.color.set(binding.tint);
-    sprite.mesh.scale.setScalar(binding.scale ?? 1);
-    const shadow = new T.Mesh(
-      new T.PlaneGeometry(
-        sprite.manifest.asset.shadow.radius * 1.5,
-        sprite.manifest.asset.shadow.radius * 1.1,
-      ),
-      contactShadowMaterial(
-        this.shadowTexture,
-        Math.min(1, sprite.manifest.asset.shadow.opacity * 1.5),
-      ),
-    );
-    shadow.rotation.x = -Math.PI / 2;
-    shadow.scale.setScalar(binding.scale ?? 1);
-    shadow.renderOrder = -1.5;
-    const ring = new T.Mesh(
-      new T.RingGeometry(a.definition.radius, a.definition.radius + 0.025, 24),
-      new T.MeshBasicMaterial({
-        color: a.kind === 'hero' ? 0xd1ba7c : 0xc1645f,
-        transparent: true,
-        opacity: 0.5,
-        depthWrite: false,
-      }),
-    );
-    ring.rotation.x = -Math.PI / 2;
-    this.room.add(sprite.mesh, shadow, ring);
-    const v = { sprite, shadow, ring, tag: '', heading: 'd45' as const };
-    this.visuals.set(a.id, v);
-    return v;
+    const resources = new DisposalScope();
+    try {
+      const sprite = resources.own(
+        new ActorSprite(
+          `${generation}:${a.id}`,
+          pack.manifest,
+          pack.textures,
+          this.getClip(binding.clips.idle, 'd45', pack.manifest),
+        ),
+      );
+      sprite.material.color.set(binding.tint);
+      sprite.mesh.scale.setScalar(binding.scale ?? 1);
+      const shadow = new T.Mesh(
+        resources.own(
+          new T.PlaneGeometry(
+            sprite.manifest.asset.shadow.radius * 1.5,
+            sprite.manifest.asset.shadow.radius * 1.1,
+          ),
+        ),
+        resources.own(
+          contactShadowMaterial(
+            this.shadowTexture,
+            Math.min(1, sprite.manifest.asset.shadow.opacity * 1.5),
+          ),
+        ),
+      );
+      shadow.rotation.x = -Math.PI / 2;
+      shadow.scale.setScalar(binding.scale ?? 1);
+      shadow.renderOrder = -1.5;
+      const ring = new T.Mesh(
+        resources.own(new T.RingGeometry(a.definition.radius, a.definition.radius + 0.025, 24)),
+        resources.own(
+          new T.MeshBasicMaterial({
+            color: a.kind === 'hero' ? 0xd1ba7c : 0xc1645f,
+            transparent: true,
+            opacity: 0.5,
+            depthWrite: false,
+          }),
+        ),
+      );
+      ring.rotation.x = -Math.PI / 2;
+      for (const mesh of [sprite.mesh, shadow, ring])
+        resources.defer(() => mesh.removeFromParent());
+      const v = {
+        sprite,
+        shadow,
+        ring,
+        tag: '',
+        heading: 'd45' as const,
+        dispose: () => resources.dispose(),
+      };
+      // Register ownership before scene graph observers can throw or re-enter.
+      const previous = this.visuals.get(a.id);
+      this.visuals.set(a.id, v);
+      try {
+        previous?.dispose();
+        for (const mesh of [sprite.mesh, shadow, ring]) {
+          if (this.visuals.get(a.id) !== v)
+            throw new Error('Actor visual retired during construction');
+          this.room.add(mesh);
+          if (this.visuals.get(a.id) !== v)
+            throw new Error('Actor visual retired during construction');
+        }
+        return v;
+      } catch (error) {
+        if (this.visuals.get(a.id) === v) this.visuals.delete(a.id);
+        throw error;
+      }
+    } catch (error) {
+      cleanupAfterFailure(error, () => resources.dispose());
+    }
   }
+
   getClip(
     id: string,
     dir: (typeof HEADINGS)[number],
@@ -288,14 +325,6 @@ export class ActorPresentation {
   dispose() {
     const visuals = [...this.visuals.values()];
     this.visuals.clear();
-    cleanupAll(
-      visuals.flatMap((v) => [
-        () => v.sprite.dispose(),
-        () => v.shadow.geometry.dispose(),
-        () => v.shadow.material.dispose(),
-        () => v.ring.geometry.dispose(),
-        () => (v.ring.material as T.Material).dispose(),
-      ]),
-    );
+    cleanupAll(visuals.map((v) => () => v.dispose()));
   }
 }

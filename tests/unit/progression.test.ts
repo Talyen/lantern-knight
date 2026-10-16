@@ -11,6 +11,44 @@ import { ContentRegistry, type ContentDefinitions } from '../../src/content/worl
 import { interactionTarget } from '../../src/core/interaction';
 const idle = { move: { x: 0, z: 0 }, aim: { x: 4, z: 0 } };
 
+test('a prepared purchase reserves progression until commit or cancellation', () => {
+  const s = forgeFixture();
+  supplyForge(s);
+  const before = s.captureSave(),
+    tick = s.sim.tick;
+  const purchase = s.prepareForgePurchase('bench', 'sword');
+  assert.throws(() => s.salvage('iron'), /loading|purchase/);
+  assert.throws(() => s.dismissLesson('sword'), /loading|purchase/);
+  assert.deepEqual(s.step({ ...idle, move: { x: 1, z: 0 } }), { events: [] });
+  assert.equal(s.sim.tick, tick);
+  assert.deepEqual(s.captureSave(), before);
+  const exported = purchase.save;
+  exported.adventure!.inventory.gold = 999;
+  assert.equal(purchase.save.adventure!.inventory.gold, 8, 'candidate writes are detached');
+  purchase.commit();
+  assert.equal(s.inventory.gold, 8);
+});
+
+test('purchase cancellation restores progression without cancelling a successor room plan', () => {
+  const s = forgeFixture();
+  supplyForge(s);
+  const before = s.captureSave();
+  const cancelled = s.prepareForgePurchase('bench', 'sword');
+  cancelled.cancel();
+  cancelled.cancel();
+  assert.throws(() => cancelled.commit(), /Stale/);
+  assert.deepEqual(s.captureSave(), before);
+  s.dismissLesson('sword');
+  const superseded = s.prepareForgePurchase('bench', 'lantern');
+  const room = s.prepareReset();
+  superseded.cancel();
+  assert.equal(s.loading, true);
+  s.commitRoom(room);
+  assert.throws(() => superseded.commit(), /Stale/);
+  assert.equal(s.forgeUpgrade, undefined);
+  assert.equal(s.loading, false);
+});
+
 for (const choice of ['sword', 'lantern'] as const) {
   test(`${choice} purchase atomically spends the unique temper and survives reload, rest and death`, () => {
     const s = forgeFixture();

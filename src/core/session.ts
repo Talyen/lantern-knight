@@ -27,7 +27,13 @@ type RoomState = {
   resetCount: number;
   onboarding: OnboardingState;
 };
+export type ForgePurchase = {
+  readonly save: GameSave;
+  commit(): readonly GameplayEvent[];
+  cancel(): void;
+};
 type PendingRoom = {
+  kind: 'room';
   plan: RoomPlan;
   state: RoomState;
   outcome: EventDetails;
@@ -82,7 +88,7 @@ export class GameSession {
   get resetCount() {
     return this.current.resetCount;
   }
-  private pending: PendingRoom | undefined;
+  private pending: PendingRoom | { kind: 'purchase'; plan: ForgePurchase } | undefined;
   private eventSequence = 0;
   constructor(
     public readonly registry: ContentRegistry,
@@ -229,6 +235,7 @@ export class GameSession {
       ),
     });
     this.pending = {
+      kind: 'room',
       plan,
       state,
       outcome,
@@ -239,12 +246,16 @@ export class GameSession {
     return plan;
   }
   checkRoomPlan(plan: RoomPlan) {
-    if (this.pending?.plan !== plan || plan.sourceGeneration !== this.generation)
+    if (
+      this.pending?.kind !== 'room' ||
+      this.pending.plan !== plan ||
+      plan.sourceGeneration !== this.generation
+    )
       throw new Error('stale room plan');
   }
   commitRoom(plan: RoomPlan): readonly GameplayEvent[] {
     this.checkRoomPlan(plan);
-    const { state, outcome } = this.pending!;
+    const { state, outcome } = this.pending as PendingRoom;
     // All fallible construction and validation happened at preparation. Commit
     // only transfers ownership, before Application rebuilds its renderer.
     this.current = state;
@@ -252,7 +263,7 @@ export class GameSession {
     return [this.event(outcome)];
   }
   cancelRoom(plan: RoomPlan): readonly GameplayEvent[] {
-    if (this.pending?.plan !== plan) return [];
+    if (this.pending?.kind !== 'room' || this.pending.plan !== plan) return [];
     const cancellation = this.pending.cancellation;
     this.pending = undefined;
     return cancellation ? [this.event(cancellation)] : [];
@@ -367,7 +378,7 @@ export class GameSession {
       throw new Error('Visit a campfire to travel');
     const { area, definition } = this.fire(key);
     const plan = this.prepareTravel(area, 'fire-' + definition.id);
-    this.pending!.state.onboarding = onboardingState({
+    (this.pending as PendingRoom).state.onboarding = onboardingState({
       completed: [...this.onboarding.completed.filter((id) => id !== 'travel'), 'travel'],
       dismissed: this.onboarding.dismissed.filter((id) => id !== 'travel'),
     });
@@ -468,7 +479,7 @@ export class GameSession {
       ? []
       : [this.event({ kind: 'inventory-changed', operation: 'salvage' })];
   }
-  prepareForgePurchase(id: string, choice: ForgeUpgrade) {
+  prepareForgePurchase(id: string, choice: ForgeUpgrade): ForgePurchase {
     this.assertProgressionWritable();
     const target = interactionTarget(this.sim, 'workbench', id);
     if (!target || target.blocked) throw new Error(target?.blocked ?? 'Visit the forge workbench');
@@ -478,17 +489,34 @@ export class GameSession {
     const purchase = owner.prepareForgePurchase(choice);
     const save = this.captureSave();
     Object.assign(save.adventure!, purchase.snapshot);
-    return {
-      save,
+    const plan: ForgePurchase = Object.freeze({
+      // Callers persist detached data; changing an exported checkpoint cannot
+      // change the reserved candidate or a later retry's write.
+      get save() {
+        return structuredClone(save);
+      },
       commit: () => {
-        this.assertProgressionWritable(owner);
-        if (this.generation !== generation || this.sim.tick !== tick)
+        if (this.pending?.kind !== 'purchase' || this.pending.plan !== plan)
           throw new Error('Stale forge purchase');
+        if (
+          this.current.inventoryState !== owner ||
+          this.generation !== generation ||
+          this.sim.tick !== tick
+        )
+          throw new Error('Stale forge purchase');
+        this.pending = undefined;
         purchase.commit();
         return [this.event({ kind: 'inventory-changed', operation: 'upgrade' })];
       },
-    };
+      cancel: () => {
+        if (this.pending?.kind === 'purchase' && this.pending.plan === plan)
+          this.pending = undefined;
+      },
+    });
+    this.pending = { kind: 'purchase', plan };
+    return plan;
   }
+
   captureSave(): GameSave {
     this.recordArea();
     const a = this.sim.hero;

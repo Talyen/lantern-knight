@@ -12,6 +12,7 @@ import { sourceIdentity } from '../../tools/source-identity';
 import { executeRecipe, RecipeSchema, replayBundle } from '../../tools/diagnostics/session-replay';
 import { projectRoot } from '../../tools/assets/paths';
 import { GameSession } from '../../src/core/session';
+import type { Command } from '../../src/core/command';
 import { content } from '../../src/content/game-content';
 
 test('replay CLI matches fresh-process evidence and rejects tampered hashes or changed source identity', async () => {
@@ -181,6 +182,28 @@ test('headless replay commits death reset requests once and preserves save/load 
   assert.equal(result.events['room-reset'], 1);
   assert.equal(result.finalSave.player.health, 100);
   assert.equal(result.finalSave.area, initialSave.area);
+});
+
+test('headless replay accepts the same ordered actions and potion input as live simulation', async () => {
+  const initial = new GameSession(content),
+    save = initial.captureSave();
+  save.player.health = 20;
+  save.adventure!.inventory['health-potion'] = 1;
+  const command = {
+    move: { x: 0, z: 0 },
+    aim: { x: 0, z: 1 },
+    actions: ['sword', 'dodge', 'lantern'],
+    potion: true,
+  } satisfies Command;
+  initial.restoreSave(save);
+  const direct = initial.step(command);
+  const result = await executeRecipe({
+    initialSave: save,
+    actions: [{ kind: 'step', ticks: 1, command }],
+  });
+  assert.equal(result.events['potion-used'], 1);
+  assert.deepEqual(result.finalSave, initial.captureSave());
+  for (const event of direct.events) assert.ok(result.events[event.kind], event.kind);
 });
 
 test('built browser discovery lists loot coverage without a build, preview or asset acquisition', async (t) => {

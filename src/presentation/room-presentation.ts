@@ -1,5 +1,5 @@
 import { boundsCorners } from '../content/polygon';
-import { cleanupAll } from '../assets/cleanup';
+import { cleanupAll, cleanupAfterFailure, DisposalScope } from '../assets/cleanup';
 import { artworkFloorLayout } from '../content/floor-layout';
 import * as T from 'three';
 import { InkRoom } from './ink-room';
@@ -21,7 +21,8 @@ export class RoomPresentation {
   readonly room = new T.Group();
   readonly surround: SceneSurround;
   inkRoom: InkRoom | undefined;
-  private roomOwned: { dispose: () => void }[] = [];
+  private roomOwned = new DisposalScope();
+  private building = false;
   constructor(
     private packs: ReadonlyMap<string, AssetPack>,
     private camera: T.OrthographicCamera,
@@ -30,13 +31,28 @@ export class RoomPresentation {
   ) {
     this.surround = new SceneSurround(packs);
   }
-  ownedMesh(geometry: T.BufferGeometry, material: T.Material) {
-    this.roomOwned.push(geometry, material);
-    return new T.Mesh(geometry, material);
-  }
   buildRoom(area: AreaDefinition, art: WorldVisualDefinition | undefined) {
+    if (this.building) throw new Error('Room construction in progress');
     if (!art && (area.props.length || area.exits.length))
       throw new Error('Scenery and exits require an authored visual definition');
+    const resources = this.roomOwned;
+    this.building = true;
+    try {
+      this.buildOwnedRoom(area, art, resources);
+      if (this.roomOwned !== resources) throw new Error('Room construction retired');
+    } catch (error) {
+      cleanupAfterFailure(error, () =>
+        cleanupAll([() => this.disposeScenery(), () => this.disposeResources()]),
+      );
+    } finally {
+      this.building = false;
+    }
+  }
+  private buildOwnedRoom(
+    area: AreaDefinition,
+    art: WorldVisualDefinition | undefined,
+    resources: DisposalScope,
+  ) {
     const artwork =
       art?.editorFloor?.layout === 'artwork'
         ? artworkFloorLayout(art.editorFloor.width, art.editorFloor.depth)
@@ -122,13 +138,15 @@ export class RoomPresentation {
             quad([x, before, z], [nx, before, z], [x, middle, z], [nx, middle, z]);
         }
       }
-    const floorGeometry = footprint
-      ? groundFootprintGeometry(
-          art?.interior || art?.editorFloor ? footprint : insetGround(footprint, 1.4),
-          (x, z) =>
-            surface.kind === 'stairs' ? surface.startHeight - 0.01 : heightAt(area, x, z) - 0.01,
-        )
-      : new T.BufferGeometry();
+    const floorGeometry = resources.own(
+      footprint
+        ? groundFootprintGeometry(
+            art?.interior || art?.editorFloor ? footprint : insetGround(footprint, 1.4),
+            (x, z) =>
+              surface.kind === 'stairs' ? surface.startHeight - 0.01 : heightAt(area, x, z) - 0.01,
+          )
+        : new T.BufferGeometry(),
+    );
     if (!footprint) {
       floorGeometry.setAttribute('position', new T.Float32BufferAttribute(vertices, 3));
       floorGeometry.setIndex(indices);
@@ -155,45 +173,52 @@ export class RoomPresentation {
     let outsideMap: T.Texture | undefined;
     if (surround && art?.interior) {
       const pack = this.packs.get('ink-stage-earth')!,
-        map = pack.textures.get(pack.manifest.frames[0]!.page)!.clone();
+        map = resources.own(pack.textures.get(pack.manifest.frames[0]!.page)!.clone());
       map.wrapS = map.wrapT = T.RepeatWrapping;
       map.needsUpdate = true;
       outsideMap = map;
-      this.roomOwned.push(map);
-      const outside = this.ownedMesh(
-        groundFootprintGeometry(
-          insetGround(surround.ground, 1.4),
-          (x, z) => heightAt(area, x, z) - 0.02,
+      const outside = new T.Mesh(
+        resources.own(
+          groundFootprintGeometry(
+            insetGround(surround.ground, 1.4),
+            (x, z) => heightAt(area, x, z) - 0.02,
+          ),
         ),
-        new T.MeshBasicMaterial({
-          map,
-          color: 0xffffff,
-          depthWrite: false,
-          toneMapped: false,
-        }),
+        resources.own(
+          new T.MeshBasicMaterial({
+            map,
+            color: 0xffffff,
+            depthWrite: false,
+            toneMapped: false,
+          }),
+        ),
       );
       outside.renderOrder = DEPTH_STAGE.ground - 0.1;
       outside.userData.surfaceRole = 'ground';
       this.room.add(outside);
     }
     if (surround) {
-      const rimMaterial = art?.interior
-        ? new T.MeshBasicMaterial({
-            map: outsideMap,
-            color: 0xffffff,
-            depthWrite: false,
-            toneMapped: false,
-          })
-        : this.inkRoom!.floorMaterial();
+      const rimMaterial = resources.own(
+        art?.interior
+          ? new T.MeshBasicMaterial({
+              map: outsideMap,
+              color: 0xffffff,
+              depthWrite: false,
+              toneMapped: false,
+            })
+          : this.inkRoom!.floorMaterial(),
+      );
       fadeGroundRim(rimMaterial);
-      const rim = this.ownedMesh(
-        groundRimGeometry(
-          surround.ground,
-          (x, z) =>
-            surface.kind === 'stairs'
-              ? surface.startHeight - 0.01
-              : heightAt(area, x, z) - (art?.interior ? 0.02 : 0.01),
-          1.4,
+      const rim = new T.Mesh(
+        resources.own(
+          groundRimGeometry(
+            surround.ground,
+            (x, z) =>
+              surface.kind === 'stairs'
+                ? surface.startHeight - 0.01
+                : heightAt(area, x, z) - (art?.interior ? 0.02 : 0.01),
+            1.4,
+          ),
         ),
         rimMaterial,
       );
@@ -202,16 +227,18 @@ export class RoomPresentation {
       rim.userData.decorative = true;
       this.room.add(rim);
     }
-    const floor = this.ownedMesh(
+    const floor = new T.Mesh(
       floorGeometry,
-      this.inkRoom
-        ? this.inkRoom.floorMaterial()
-        : new T.MeshStandardMaterial({
-            color: area.floorColor,
-            roughness: 1,
-            depthTest: true,
-            depthWrite: false,
-          }),
+      resources.own(
+        this.inkRoom
+          ? this.inkRoom.floorMaterial()
+          : new T.MeshStandardMaterial({
+              color: area.floorColor,
+              roughness: 1,
+              depthTest: true,
+              depthWrite: false,
+            }),
+      ),
     );
     floor.renderOrder = DEPTH_STAGE.ground;
     this.room.add(floor);
@@ -234,16 +261,19 @@ export class RoomPresentation {
           new T.Vector3(gx[i - 1], heightAt(area, gx[i - 1]!, z) + 0.012, z),
           new T.Vector3(gx[i], heightAt(area, gx[i]!, z) + 0.012, z),
         );
-    const gridGeometry = new T.BufferGeometry().setFromPoints(gridPoints),
-      gridMaterial = new T.LineBasicMaterial({
+    const gridGeometry = resources.own(new T.BufferGeometry());
+    gridGeometry.setFromPoints(gridPoints);
+    const gridMaterial = resources.own(
+      new T.LineBasicMaterial({
         color: 0x4c6169,
         depthWrite: false,
       }),
-      grid = new T.LineSegments(gridGeometry, gridMaterial);
+    );
+    const grid = new T.LineSegments(gridGeometry, gridMaterial);
     grid.renderOrder = DEPTH_STAGE.groundGrid;
     this.room.add(grid);
-    this.roomOwned.push(gridGeometry, gridMaterial);
   }
+
   disposeScenery() {
     const inkRoom = this.inkRoom;
     this.inkRoom = undefined;
@@ -251,7 +281,7 @@ export class RoomPresentation {
   }
   disposeResources() {
     const owned = this.roomOwned;
-    this.roomOwned = [];
-    cleanupAll([...owned.map((resource) => () => resource.dispose()), () => this.room.clear()]);
+    this.roomOwned = new DisposalScope();
+    cleanupAll([() => this.room.clear(), () => owned.dispose()]);
   }
 }

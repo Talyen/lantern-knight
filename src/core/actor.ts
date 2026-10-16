@@ -5,7 +5,7 @@ import type { SweepTiming, SweepRecovery } from '../content/sweep-timing';
 import type { AuthoredHeading } from '../content/headings';
 
 export type State = 'idle' | 'walk' | 'attack' | 'dodge' | 'ability' | 'hurt' | 'death';
-export type HeroAction = 'sword' | 'lantern' | 'dodge';
+import type { HeroAction } from './command';
 type Burn = { remaining: number; nextTick: number };
 export type Actor = {
   id: ActorId;

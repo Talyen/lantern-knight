@@ -12,6 +12,7 @@ export interface SessionOperation {
 
 class OwnedSessionOperation implements SessionOperation {
   private controller = new AbortController();
+  constructor(readonly exclusive?: string) {}
   get signal() {
     return this.controller.signal;
   }
@@ -34,6 +35,10 @@ export class SessionOperations {
   private current?: OwnedSessionOperation;
   private disposed = false;
 
+  get exclusive() {
+    return this.current?.exclusive !== undefined;
+  }
+
   get busy() {
     return this.current !== undefined;
   }
@@ -42,10 +47,13 @@ export class SessionOperations {
   // ownership and must check admission before committing or invoking host code.
   async run<T extends void | boolean>(
     work: (operation: SessionOperation) => Promise<T>,
+    exclusive?: string,
   ): Promise<T> {
     if (this.disposed) throw new SessionOperationCancelled('application disposed');
+    if (this.current?.exclusive !== undefined)
+      throw new Error(`Wait for ${this.current.exclusive} to finish saving`);
     const previous = this.current,
-      operation = new OwnedSessionOperation();
+      operation = new OwnedSessionOperation(exclusive);
     // Claim ownership before invoking any callback belonging to the old owner.
     this.current = operation;
     try {

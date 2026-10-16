@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   Group,
+  BufferGeometry,
+  Material,
   Mesh,
   MeshBasicMaterial,
   PlaneGeometry,
@@ -21,6 +23,43 @@ import { manifestFixture } from '../fixtures/manifest';
 import { mockGlobals } from '../fixtures/globals';
 import { ContentRegistry, type ContentDefinitions } from '../../src/content/world';
 import { actors as actorDefinitions } from '../../src/content/actors';
+
+test('failed actor attachment destroys staged resources and leaves no live visual behind', (t) => {
+  const sim = new Simulation(content),
+    room = new Group(),
+    texture = new CanvasTexture({} as HTMLCanvasElement),
+    manifest = manifestFixture();
+  const presentation = new ActorPresentation(
+    room,
+    new Map([['ink-hero-current', { manifest, textures: new Map([['atlas-0', texture]]) }]]),
+    new OrthographicCamera(),
+    texture,
+    {} as PreparedRegistration,
+  );
+  const destroyed = new Set<object>();
+  for (const prototype of [BufferGeometry.prototype, Material.prototype]) {
+    const dispose = prototype.dispose;
+    t.mock.method(prototype, 'dispose', function (this: BufferGeometry | Material) {
+      destroyed.add(this);
+      dispose.call(this);
+    });
+  }
+  const add = room.add.bind(room);
+  room.add = function (...objects) {
+    add(...objects);
+    throw new Error('attachment observer failed');
+  };
+  try {
+    assert.throws(() => presentation.createVisual(sim.hero, sim.generation), /attachment observer/);
+    presentation.dispose();
+    assert.equal(presentation.actors.size, 0);
+    assert.equal(room.children.length, 0);
+    assert.equal(destroyed.size, 6, 'all staged sprite, shadow and ring allocations were released');
+  } finally {
+    presentation.dispose();
+    texture.dispose();
+  }
+});
 
 test('shader preparation cannot resume borrowing scenery after presentation shutdown', async () => {
   const started = Promise.withResolvers<void>(),

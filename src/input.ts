@@ -1,6 +1,5 @@
 import { cameraContract as contract } from './assets/camera-contract';
-import type { HeroAction } from './core/actor';
-import type { Command } from './core/simulation';
+import type { Command, HeroAction } from './core/command';
 import { walkablePoint, screenMovement } from './presentation/camera';
 import { enemyAimPoint } from './presentation/combat-aim';
 import type { ActorView } from './core/simulation-view';

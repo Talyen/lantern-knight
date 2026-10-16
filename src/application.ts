@@ -102,7 +102,6 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   private frameEpoch = 0;
   private frames: FrameScheduler | undefined;
   private disposed = false;
-  private purchasing = false;
   private startup?: Promise<void>;
   private graphics?: PresentationPreparation<P>;
   // Once replacement starts committing, the renderer may be partially rebuilt.
@@ -485,20 +484,22 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   private async withSessionOperation<T extends void | boolean>(
     work: (operation: SessionOperation) => Promise<T>,
+    exclusive?: string,
   ) {
     this.assertActive();
     if (this.startup && !this.ready) throw new Error('Wait for startup to finish loading');
-    if (this.purchasing) throw new Error('Wait for the forge purchase to finish saving');
-    return this.sessionOperations.run((operation) =>
-      this.withLoading(async () => {
-        try {
-          // Loading hooks can synchronously replace this intent before work starts.
-          operation.check();
-          return await work(operation);
-        } finally {
-          if (!operation.signal.aborted && !this.disposed && !this.roomReady) this.pause(true);
-        }
-      }, operation.signal),
+    return this.sessionOperations.run(
+      (operation) =>
+        this.withLoading(async () => {
+          try {
+            // Loading hooks can synchronously replace this intent before work starts.
+            operation.check();
+            return await work(operation);
+          } finally {
+            if (!operation.signal.aborted && !this.disposed && !this.roomReady) this.pause(true);
+          }
+        }, operation.signal),
+      exclusive,
     );
   }
   // Construct the candidate before acquisition. Callers never receive the session
@@ -701,7 +702,6 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       return Promise.reject(new Error('Wait for the current operation to finish'));
     return this.withSessionOperation(async (operation) => {
       const purchase = this.current.session.prepareForgePurchase(id, choice);
-      this.purchasing = true;
       try {
         // Save the complete candidate before accepting it. Failed writes spend nothing.
         // Admitted purchases cannot be superseded by a load, reset or stale autosave.
@@ -709,9 +709,9 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
         operation.check();
         this.publish(purchase.commit());
       } finally {
-        this.purchasing = false;
+        purchase.cancel();
       }
-    });
+    }, 'the forge purchase');
   }
   rest(key: string) {
     return this.withSessionOperation(async (operation) => {
@@ -820,7 +820,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       throw new Error('Room is not ready; reset or load a checkpoint to recover');
   }
   async save() {
-    if (this.purchasing) throw new Error('Wait for the forge purchase to finish saving');
+    if (this.sessionOperations.exclusive)
+      throw new Error('Wait for the forge purchase to finish saving');
     this.assertCheckpointWritable();
     await this.persistenceOwner.save(this.current.session.captureSave());
     await this.saveSettings();
@@ -828,7 +829,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     void this.audio.play('success', { world: false }).catch(() => {});
   }
   autosave() {
-    if (!this.disposed && !this.readOnly && this.roomReady && !this.purchasing)
+    if (!this.disposed && !this.readOnly && this.roomReady && !this.sessionOperations.exclusive)
       this.safe(() => this.persistenceOwner.save(this.current.session.captureSave()));
   }
   private get frameFrozen() {

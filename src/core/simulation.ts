@@ -22,18 +22,9 @@ import {
 } from '../content/world';
 import type { GameplayEvent, EventDetails } from './events';
 import type { Actor, State } from './actor';
-import type { HeroAction } from './actor';
+import { acceptCommand, type Command } from './command';
+export type { Command } from './command';
 export type { Actor, State } from './actor';
-export type Command = {
-  move: { x: number; z: number };
-  aim: { x: number; z: number };
-  attack?: boolean;
-  dodge?: boolean;
-  ability?: boolean;
-  actions?: readonly HeroAction[];
-  generation?: number;
-  potion?: boolean;
-};
 export type SimEvent = GameplayEvent;
 export type StepResult = {
   events: readonly GameplayEvent[];
@@ -361,18 +352,16 @@ export class Simulation {
   damage(from: Actor, to: Actor, amount: number, generation = this.generation) {
     this.#combat.damage(from, to, amount, generation);
   }
-  step(command?: Command): StepResult {
+  step(input?: Command): StepResult {
     this.tick++;
     this.tickEvents = [];
     const h = this.hero;
-    command ??= { move: { x: 0, z: 0 }, aim: { x: h.x, z: h.z } };
+    const command = acceptCommand(input, this.generation, {
+      x: h.x,
+      z: h.z,
+    });
     this.potionCooldown = Math.max(0, this.potionCooldown - 1);
     if (h.health <= 0 && h.age >= tuning.deathHoldTicks) return { events: [], reset: 'death' };
-    if (command.generation !== undefined && command.generation !== this.generation)
-      command = {
-        move: { x: 0, z: 0 },
-        aim: { x: h.x + Math.sin(h.aim), z: h.z + Math.cos(h.aim) },
-      };
     for (const a of this.actors) {
       a.px = a.x;
       a.py = a.y;
@@ -380,14 +369,8 @@ export class Simulation {
       a.cooldown = Math.max(0, a.cooldown - 1);
       a.dodgeCooldown = Math.max(0, a.dodgeCooldown - 1);
     }
-    if (
-      Number.isFinite(command.aim.x) &&
-      Number.isFinite(command.aim.z) &&
-      Math.hypot(command.aim.x - h.x, command.aim.z - h.z) > 0.001
-    )
+    if (Math.hypot(command.aim.x - h.x, command.aim.z - h.z) > 0.001)
       h.aim = Math.atan2(command.aim.x - h.x, command.aim.z - h.z);
-    if (!Number.isFinite(command.move.x) || !Number.isFinite(command.move.z))
-      command = { ...command, move: { x: 0, z: 0 } };
     const len = Math.hypot(command.move.x, command.move.z),
       mx = len <= 0.01 ? 0 : len > 1 ? command.move.x / len : command.move.x,
       mz = len <= 0.01 ? 0 : len > 1 ? command.move.z / len : command.move.z;

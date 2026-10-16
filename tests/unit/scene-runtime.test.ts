@@ -53,6 +53,40 @@ test('untextured diagnostics render terrain but require explicit visuals for sce
     );
 });
 
+test('room build failure releases the unattached grid and can rebuild cleanly', (t) => {
+  const area = { ...content.area('court'), props: [], exits: [] },
+    texture = new T.CanvasTexture({} as HTMLCanvasElement),
+    room = new RoomPresentation(new Map(), makeCamera(1), texture, registration),
+    destroyed = new Set<object>();
+  for (const prototype of [T.BufferGeometry.prototype, T.Material.prototype]) {
+    const dispose = prototype.dispose;
+    t.mock.method(prototype, 'dispose', function (this: T.BufferGeometry | T.Material) {
+      destroyed.add(this);
+      dispose.call(this);
+    });
+  }
+  const add = room.room.add.bind(room.room);
+  room.room.add = function (...objects) {
+    if (objects.some((object) => object instanceof T.LineSegments))
+      throw new Error('grid attachment failed');
+    return add(...objects);
+  };
+  try {
+    assert.throws(() => room.buildRoom(area, undefined), /grid attachment failed/);
+    assert.equal(room.room.children.length, 0);
+    assert.equal(destroyed.size, 4, 'floor and grid geometry/material share construction cleanup');
+    room.room.add = add;
+    room.buildRoom(area, undefined);
+    assert.equal(room.room.children.length, 2);
+    room.disposeResources();
+    assert.equal(destroyed.size, 8);
+  } finally {
+    room.disposeScenery();
+    room.disposeResources();
+    texture.dispose();
+  }
+});
+
 test('checkpoint restore preserves the next alternating sword attack', () => {
   const session = new GameSession(content);
   session.step({ ...still, attack: true });

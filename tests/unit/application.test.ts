@@ -2188,3 +2188,27 @@ test('forge purchase saves one atomic candidate, blocks overlapping commands and
   await assert.rejects(app.purchaseForgeUpgrade('bench', 'sword'), /already/);
   assert.equal(writes.length, 2);
 });
+
+test('purchase exclusivity is installed before reentrant loading feedback', async () => {
+  const session = forgeFixture();
+  supplyForge(session);
+  let writes = 0;
+  const { app } = fixture(sceneFixture(session.registry), {
+    saveGame: async () => {
+      writes++;
+    },
+  });
+  using _cleanup = onExit(() => app.dispose());
+  await app.restore(session.captureSave());
+  let attempted: Promise<void> | undefined;
+  app.hooks.loading = (active) => {
+    if (!active) return;
+    attempted = assert.rejects(app.reset(), /purchase/);
+    app.autosave();
+  };
+  await app.purchaseForgeUpgrade('bench', 'sword');
+  await attempted;
+  assert.equal(writes, 1);
+  assert.equal(app.session.forgeUpgrade, 'sword');
+  assert.equal(app.busy, false);
+});
