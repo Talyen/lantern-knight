@@ -56,6 +56,13 @@ async function start() {
       lighting = params.get('lighting-preview');
     if (lighting === 'lantern' || lighting === 'golden' || lighting === 'silver')
       application.presentation.lookRenderer.setSettings({ rig: lighting });
+    const cohesion = params.get('cohesion-preview')?.split(',');
+    if (cohesion)
+      application.presentation.lookRenderer.setSettings({
+        paintedValues: cohesion.includes('values'),
+        groundBounce: cohesion.includes('bounce'),
+        tightContacts: cohesion.includes('contacts'),
+      });
     if (wind === 'gust' || wind === 'leaves' || wind === 'combined')
       application.presentation.guidingWind.treatment = wind;
     if (dodge === 'dust' || dodge === 'leaves' || dodge === 'combined')

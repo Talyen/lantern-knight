@@ -3,6 +3,54 @@ import path from 'node:path';
 import { test, expect } from './fixtures';
 import { loadCheckpoint } from '../fixtures/input';
 
+test('requested orchard cohesion comparisons', async ({ page }) => {
+  const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
+  test.skip(!directory, 'Explicit cohesion review captures only');
+  test.setTimeout(240_000);
+  await mkdir(directory!, { recursive: true });
+  await page.goto('/sandbox.html?scene=orchard-fixture');
+  await page.waitForFunction(() => window.foundation?.ready);
+  await page.evaluate(() => window.foundation.pause(true));
+  await page.getByRole('button', { name: 'More options', exact: true }).click();
+  await page.getByRole('button', { name: 'Hide controls', exact: true }).click();
+  for (const [view, x, z] of [
+    ['camp', 7.4, 9],
+    ['cart', 10.5, 3],
+    ['fight', -0.7, 4.8],
+    ['shade', 6.9, 2.2],
+  ] as const) {
+    await page.evaluate(
+      ({ x, z }) => {
+        const f = window.foundation;
+        f.editPreview((sim) => {
+          Object.assign(sim.hero, { x, px: x, z, pz: z, yaw: Math.PI / 2 });
+        });
+        f.presentation.update(f.sim, 1, 0, { x: x + 1, z });
+      },
+      { x, z },
+    );
+    for (const rig of ['lantern', 'silver'] as const)
+      for (const treatment of ['before', 'values', 'bounce', 'contacts', 'combined'] as const) {
+        await page.evaluate(
+          ({ rig, treatment }) => {
+            const f = window.foundation;
+            f.presentation.lookRenderer.setSettings({
+              rig,
+              paintedValues: treatment === 'values' || treatment === 'combined',
+              groundBounce: treatment === 'bounce' || treatment === 'combined',
+              tightContacts: treatment === 'contacts' || treatment === 'combined',
+            });
+            f.presentation.update(f.sim, 1, 0, { x: f.sim.hero.x + 1, z: f.sim.hero.z });
+          },
+          { rig, treatment },
+        );
+        await page.screenshot({
+          path: path.join(directory!, `cohesion-${view}-${rig}-${treatment}.png`),
+        });
+      }
+  }
+});
+
 test('requested supplied-artwork comparison captures', async ({ page }) => {
   const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
   test.skip(!directory, 'Explicit visual review captures only');

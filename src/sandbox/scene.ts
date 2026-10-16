@@ -3,8 +3,8 @@ import { createBrowserBridge } from '../platform/browser-store';
 import { bindAudioControls, bindAudioAudition } from '../audio/controls';
 import { bindEffectControls } from './effect-controls';
 import { bindLightingControls } from './lighting-controls';
-import { composeSceneContent } from '../content/game-content';
-import { developerVisuals as worldVisuals } from '../content/developer-scenes';
+import { composeSceneContent, worldVisuals as productionVisuals } from '../content/game-content';
+import { developerVisuals } from '../content/developer-scenes';
 import { previewHero } from './preview';
 import { mountShell } from './shell';
 import type { PreviewContext, SceneState, AnimationState } from './workspace';
@@ -44,6 +44,11 @@ import { tuning } from '../content/gameplay';
 import type { AudioSettings } from '../content/audio';
 import { spawnActorId, heightAt } from '../content/world';
 import type { Actor, Simulation } from '../core/simulation';
+
+const worldVisuals = {
+  ...developerVisuals,
+  'orchard-fixture': productionVisuals['abandoned-orchard']!,
+};
 
 export function mountScene(
   context: PreviewContext,

@@ -37,6 +37,11 @@ export const sandboxDefinitions: ContentDefinitions = {
     ...contentDefinitions.areas,
     ...developerScenes.map((s) => s.area),
     {
+      ...contentDefinitions.areas.find((area) => area.id === 'abandoned-orchard')!,
+      id: 'orchard-fixture',
+      exits: [],
+    },
+    {
       id: 'systems-fixture',
       name: 'Systems verification fixture',
       subtitle: 'Two melee profiles. Five wardens.',

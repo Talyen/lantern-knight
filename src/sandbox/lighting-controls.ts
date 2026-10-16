@@ -6,6 +6,9 @@ const toggles = [
   ['lighting-shadows', 'shadows'],
   ['lighting-atmosphere', 'atmosphere'],
   ['lighting-post', 'postprocessing'],
+  ['cohesion-values', 'paintedValues'],
+  ['cohesion-bounce', 'groundBounce'],
+  ['cohesion-contacts', 'tightContacts'],
 ] as const;
 export function bindLightingControls(
   presentation: Presentation,
@@ -40,8 +43,10 @@ export function bindLightingControls(
       look: element<HTMLSelectElement>('#lighting-look').value as 'ink' | 'diorama' | 'cinematic',
     });
   for (const [id, key] of toggles)
-    element('#' + id).onchange = () =>
+    element('#' + id).onchange = () => {
       presentation.lightingLab.setSettings({ [key]: element<HTMLInputElement>('#' + id).checked });
+      saveSettings();
+    };
   element('#lighting-strength').oninput = () => {
     presentation.lightingLab.setSettings({
       strength: Number(element<HTMLInputElement>('#lighting-strength').value) / 100,

@@ -32,6 +32,21 @@ test('preview reload reconciles blocked or moved positions without accepting cor
   assert.equal(restored.paused, true);
   assert.equal(restored.look.rig, 'silver');
   assert.equal(restored.span, 11);
+  const legacyLook = { ...state.look } as Partial<typeof state.look>;
+  delete legacyLook.paintedValues;
+  delete legacyLook.groundBounce;
+  delete legacyLook.tightContacts;
+  const legacy = scenePreviewSchema.parse({ ...state, look: legacyLook });
+  assert.equal(legacy.look.paintedValues, false);
+  assert.equal(legacy.look.groundBounce, false);
+  assert.equal(legacy.look.tightContacts, false);
+  const comparison = scenePreviewSchema.parse({
+    ...state,
+    look: { ...state.look, groundBounce: true, tightContacts: true },
+  });
+  assert.equal(comparison.look.groundBounce, true);
+  assert.equal(comparison.look.tightContacts, true);
+  assert.equal(comparison.look.paintedValues, false);
   assert.throws(() => previewHero({ ...restored, scene: 'missing' }, sandboxContent));
   for (const bad of [
     { ...state, scale: 0 },

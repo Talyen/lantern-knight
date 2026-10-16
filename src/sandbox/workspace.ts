@@ -11,10 +11,11 @@ export const fixtures = [
   'outdoor-fixture',
   'interior-fixture',
   'systems-fixture',
+  'orchard-fixture',
   'effects-playground',
 ] as const;
 export type Fixture = (typeof fixtures)[number];
-export const fixtureNames = ['Outdoor', 'Interior', 'Systems', 'Effects'];
+export const fixtureNames = ['Outdoor', 'Interior', 'Systems', 'Orchard', 'Effects'];
 const finite = z.number().finite();
 const flags = <T extends Record<string, unknown>>(labels: T) =>
   z.object(

@@ -20,6 +20,8 @@ import {
 } from 'postprocessing';
 import { IllustratedLighting } from './illustrated-lighting';
 import { GroundMist } from './ground-mist';
+import { PaintedEnvironment } from './painted-environment';
+import { CutoutContacts } from './cutout-contacts';
 import { defaultLook, lightingRigs, lookPresets, type LookSettings } from './lighting-profiles';
 import { heightAt } from '../content/world';
 import type { SimulationView } from '../core/simulation-view';
@@ -96,6 +98,8 @@ export class SceneLightingRenderer {
   ready = false;
   time = 0;
   readonly lighting: IllustratedLighting;
+  private environment: PaintedEnvironment;
+  private contacts: CutoutContacts;
   private composer: EffectComposer;
   private bloom: BloomEffect;
   private finish: Effect;
@@ -149,6 +153,9 @@ export class SceneLightingRenderer {
   ) {
     try {
       this.lighting = this.lifetime.own(new IllustratedLighting(resources.imageRequest));
+      this.environment = this.lifetime.own(new PaintedEnvironment());
+      this.contacts = this.lifetime.own(new CutoutContacts(actors.shadowTexture));
+      resources.scene.add(this.contacts.group);
       this.mist = this.lifetime.own(new GroundMist());
       const { renderer, scene, camera } = resources;
       this.localShadows = this.lifetime.own(new LocalLightShadows(scene, renderer, this.lighting));
@@ -291,6 +298,7 @@ export class SceneLightingRenderer {
   }
   deactivate() {
     this.lighting.common.inkEnabled.value = 0;
+    this.contacts.group.visible = false;
     this.extras.visible = this.proxies.visible = false;
     this.localShadows.update(false);
     this.sun.castShadow = false;
@@ -301,7 +309,11 @@ export class SceneLightingRenderer {
   }
   resetRoom() {
     this.generation = -1;
+    this.lighting.common.inkHasEnvironment.value = 0;
+    this.lighting.common.inkEnvironment.value = this.environment.target.texture;
     cleanupAll([
+      () => this.environment.reset(),
+      () => this.contacts.reset(),
       () => this.resetGpuTiming(),
       () => this.localShadows.reset(),
       () => this.shadowProxies.reset(),
@@ -310,6 +322,14 @@ export class SceneLightingRenderer {
   }
   private buildRoom(sim: SimulationView, frame: LightingFrame) {
     const { visuals } = frame;
+    this.environment.build(
+      this.resources.renderer,
+      this.resources.packs,
+      visuals,
+      frame.groundOcclusion,
+    );
+    this.lighting.common.inkEnvironment.value = this.environment.target.texture;
+    this.lighting.common.inkHasEnvironment.value = this.environment.available ? 1 : 0;
     this.mist.setArea(sim.areaDefinition);
     const spriteGeometries = new Set(
       [
@@ -400,6 +420,16 @@ export class SceneLightingRenderer {
       origin = frame.cameraTarget;
     this.lighting.configure(s, origin, !!frame.visuals?.interior);
     this.lighting.setGroundOcclusion(frame.groundOcclusion, frame.visuals?.editorFloor);
+    this.contacts.group.visible = s.tightContacts;
+    if (s.tightContacts)
+      this.contacts.update(
+        [
+          ...(this.room.inkRoom?.contactShadows?.sprites() ?? []),
+          ...[...this.actors.actors.values()].filter((v) => v.shadow.visible).map((v) => v.sprite),
+        ],
+        sim.areaDefinition,
+        frame.groundOcclusion,
+      );
     if (frame.visuals?.interior || !fx.atmosphere) this.lighting.common.inkHaze.value = 0;
     const castShadows = s.shadows && !frame.visuals?.interior;
     this.lighting.common.inkShadowEnabled.value = castShadows ? 1 : 0;

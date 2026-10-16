@@ -108,6 +108,9 @@ export class PropContactShadows {
       }
     }
   }
+  *sprites() {
+    for (const entry of this.entries) yield entry.sprite;
+  }
   dispose() {
     if (this.disposed) return;
     this.disposed = true;

@@ -20,6 +20,8 @@ Production scenes use **Lantern night** (ambient 0.40, minimum light 0.06, key s
 
 ## Verification
 
+Dev Preview's Orchard fixture offers independent painted-value, ground-bounce and tight-contact experiments under Visuals → Scene cohesion. They preserve source pixels and start disabled. Value grouping cannot correct incompatible contour weight or perspective; judge that separately against the canonical artwork at gameplay scale. The bounce field supplies reflected color, while authored painted shade zones retain ownership of ambient darkening. Contact cores supplement the existing soft bed and respect foreground masks.
+
 Use the shared development server and affected scene/editor browser scenario. Stable fixtures protect engine and registration behavior without freezing production counts/routes. Original art preparation and explicit sharing follow [assets](assets.md); [verification](verification.md) owns evidence boundaries.
 
 ## Authored painting scales

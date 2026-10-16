@@ -43,6 +43,7 @@ uniform vec3 inkSky,inkGround,inkKey,inkDirection,inkFog,inkOrigin;
 uniform vec3 inkLightPosition[5]; uniform vec3 inkLightColor[5]; uniform float inkLightPower[5],inkLightRange[5];
 uniform float inkLocalShadowEnabled[5],inkLocalShadowFar[5];
 uniform sampler2D inkNormalA,inkNormalB,inkFlow;
+uniform sampler2D inkEnvironment;uniform float inkHasEnvironment,inkGroundBounce,inkPaintedValues,inkCohesionEligible;
 uniform vec4 inkTrimA,inkTrimB,inkRectA,inkFlowRect;
 uniform vec2 inkCanvas;
 uniform float inkSwordEnabled,inkSwordWidth,inkSwordRotation;uniform vec4 inkSwordA,inkSwordB;
@@ -102,8 +103,23 @@ vec3 inkIlluminate(vec3 base){
  if(inkEmissive>.5)return inkEnabled<.5?base:base*2.8;
  vec4 painted=inkPaintedSample();vec3 receiver=inkReceiverPoint(painted);
  if(inkEnabled<.5)return base*(.7+.3*inkVisibility(receiver));
+ if(inkCohesionEligible>.5&&inkPaintedValues>.5){
+  float value=dot(base,vec3(.2126,.7152,.0722));
+  // A gentle value grouping preserves black ink, hue and alpha silhouettes.
+  float grouped=(floor(value*5.0)+smoothstep(.25,.75,fract(value*5.0)))/5.0;
+  base*=mix(1.0,clamp(grouped/max(.008,value),.85,1.08),.45*smoothstep(.012,.07,value));
+  base=mix(vec3(dot(base,vec3(.2126,.7152,.0722))),base,.94);
+ }
  vec3 n=painted.b>.1?normalize(vec3(${outward.x},0.0,${outward.z})):inkNormal();float skyWeight=inkIsGround>.5?.85:clamp(.30+.45*(inkWorld.y-inkFootY)/inkBodyHeight+n.y*.15,0.0,1.0);
  vec3 illumination=mix(inkGround,inkSky,skyWeight)*inkAmbient;
+ if(inkCohesionEligible>.5&&inkGroundBounce>.5&&inkHasEnvironment>.5){
+  vec2 uv=vec2(dot(inkFootPosition,vec3(${right.x},${right.y},${right.z}))/inkPaintedSize.x+.5,.5-dot(inkFootPosition,vec3(${up.x},${up.y},${up.z}))/inkPaintedSize.y);
+  if(all(greaterThanEqual(uv,vec2(0.0)))&&all(lessThanEqual(uv,vec2(1.0)))){
+   vec4 environment=texture2D(inkEnvironment,vec2(uv.x,1.0-uv.y));
+   float lower=1.0-smoothstep(.0,.75,max(0.0,inkWorld.y-inkFootY)/inkBodyHeight);
+   illumination*=mix(vec3(1.0),environment.rgb*2.0,environment.a*(.12+.28*lower));
+  }
+ }
  float key=max(0.0,dot(n,inkDirection))*inkVisibility(receiver);illumination+=inkKey*(.16+key*.84)*inkKeyStrength;
  // Broad silhouettes supply stylized relief; texture luminance is never treated as height.
  vec3 local=vec3(0.0);
@@ -128,6 +144,10 @@ export class IllustratedLighting {
   }
   readonly common = {
     inkPaintedMask: { value: this.paintedFallback as T.Texture },
+    inkEnvironment: { value: this.paintedFallback as T.Texture },
+    inkHasEnvironment: { value: 0 },
+    inkGroundBounce: { value: 0 },
+    inkPaintedValues: { value: 0 },
     inkPaintedSize: { value: new T.Vector2(1, 1) },
     inkPaintedRange: { value: new T.Vector2(0, 1) },
     inkHasPaintedMask: { value: 0 },
@@ -172,6 +192,7 @@ export class IllustratedLighting {
       inkEmissive: { value: emissive ? 1 : 0 },
       inkFootY: { value: 0 },
       inkIsSprite: { value: 0 },
+      inkCohesionEligible: { value: 0 },
       inkFootPosition: { value: new T.Vector3() },
       inkBodyHeight: { value: 1 },
       inkHasNormal: { value: 0 },
@@ -238,6 +259,12 @@ export class IllustratedLighting {
           b = sample.next ? this.normals.get(sprite, sample.next) : a;
         u.inkFootY.value = sprite.mesh.position.y;
         u.inkIsSprite.value = 1;
+        u.inkCohesionEligible.value =
+          sprite.mesh.renderOrder > -1.7 &&
+          (sprite.manifest.asset.type === 'character' ||
+            (sprite.manifest.asset.type === 'prop' && sprite.manifest.asset.placement !== 'ground'))
+            ? 1
+            : 0;
         u.inkFootPosition.value.copy(sprite.mesh.position);
         silhouetteMatrix(sprite, u.inkCasterTransform.value);
         u.inkBodyHeight.value = Math.max(
@@ -319,6 +346,8 @@ export class IllustratedLighting {
       u = this.common;
     u.inkEnabled.value = !settings.baseline && settings.lighting ? 1 : 0;
     u.inkStrength.value = settings.strength;
+    u.inkGroundBounce.value = settings.groundBounce ? 1 : 0;
+    u.inkPaintedValues.value = settings.paintedValues ? 1 : 0;
     for (const [i, target] of u.inkShadeZones.value.entries()) {
       const zone = settings.shadeZones?.[i];
       target.set(zone?.x ?? 0, zone?.z ?? 0, zone?.radius ?? 0, zone?.strength ?? 0);
