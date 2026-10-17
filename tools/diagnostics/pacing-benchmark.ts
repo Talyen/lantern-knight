@@ -161,6 +161,10 @@ async function pacing(flags: string[]) {
           await page.keyboard.press('Shift');
           await page.waitForTimeout(150);
           await page.keyboard.up('KeyW');
+          // Freeze the accepted cooldown directly. Waiting for an animated
+          // pause button to become actionable can consume the whole cooldown
+          // in the slow package and turn a completed dodge into a false failure.
+          await page.keyboard.press('Escape');
           const accepted = parseGame(await controls.save(), content);
           assert.equal(accepted.area, area.id, 'First actions left the selected encounter');
           await controls.resume();
@@ -239,6 +243,7 @@ async function pacing(flags: string[]) {
           };
           await writeJson(path.join(directory, 'observations.json'), {
             initial: seed,
+            accepted,
             final,
             frames: recording.gaps,
             loading: recording.loading,
@@ -264,10 +269,6 @@ async function pacing(flags: string[]) {
             proof,
             frames: recording.gaps,
           });
-          await writeJson(path.join(directory, 'benchmark.json'), record);
-          console.log(
-            `${scenario} ${condition} ${sample + 1}: ${JSON.stringify(pacingAcceptance(record.frames, environment.refreshHz))}; proof ${JSON.stringify(proof)}`,
-          );
           assert.ok(
             Object.values(proof).every(Boolean),
             'Pacing journey did not exercise its gameplay work',
@@ -279,6 +280,12 @@ async function pacing(flags: string[]) {
             'Pacing harness changed during measurement',
           );
           if (condition === 'candidate') await requireCurrentDesktopInputs(loaded);
+          // A benchmark is consumable only after every completion/freshness
+          // check passes. Rejected attempts retain observations and diagnostics.
+          await writeJson(path.join(directory, 'benchmark.json'), record);
+          console.log(
+            `${scenario} ${condition} ${sample + 1}: ${JSON.stringify(pacingAcceptance(record.frames, environment.refreshHz))}; proof ${JSON.stringify(proof)}`,
+          );
         });
       }
   }

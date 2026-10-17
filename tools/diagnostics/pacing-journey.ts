@@ -245,6 +245,12 @@ async function journey(flags: string[]) {
     };
     assert.doesNotMatch(environment.gpu, /swiftshader|llvmpipe|software|unavailable/i);
     assert.equal(environment.renderScale, '1');
+    await requireGameBenchmarkPackage(run);
+    assert.equal(
+      await sourceInputHash(process.cwd(), { files: harnessFiles }),
+      harness.sha256,
+      'Journey harness changed during measurement',
+    );
     await writeJson(path.join(run.output, 'journey.json'), {
       build,
       harness,
@@ -262,12 +268,6 @@ async function journey(flags: string[]) {
         'Checkpoint-assisted positions and cleared encounters isolate UI and room lifetime. Combat pacing is a separate diagnostic. Loading durations are excluded from active frame claims.',
       ],
     });
-    await requireGameBenchmarkPackage(run);
-    assert.equal(
-      await sourceInputHash(process.cwd(), { files: harnessFiles }),
-      harness.sha256,
-      'Journey harness changed during measurement',
-    );
     console.log(
       `Journey: ${checks.length} completed checks, ${loops} linked loops; ${Math.round(activeMs / 1000)} active seconds, ${Math.round((performance.now() - began) / 1000)} seconds total.`,
     );
