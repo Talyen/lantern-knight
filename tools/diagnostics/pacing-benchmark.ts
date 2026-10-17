@@ -164,8 +164,11 @@ async function pacing(flags: string[]) {
           const accepted = parseGame(await controls.save(), content);
           assert.equal(accepted.area, area.id, 'First actions left the selected encounter');
           await controls.resume();
+          const activeStart = await page.evaluate(() => {
+            const state = Reflect.get(window, '__pacing') as { gaps: number[] };
+            return state.gaps.reduce((sum, ms) => sum + ms, 0);
+          });
           for (let cycle = 0; cycle < Math.ceil(durationMs / 800); cycle++) {
-            const cycleStarted = performance.now();
             const key = ['KeyW', 'KeyA', 'KeyS', 'KeyD'][cycle % 4]!;
             actions.push(key, 'sword', 'lantern', 'dodge');
             await page.keyboard.down(key);
@@ -179,9 +182,17 @@ async function pacing(flags: string[]) {
               { button: 'right' },
             );
             await page.keyboard.press('Shift');
-            // Keep the scheduled input cadence fixed across slow and fast
-            // packages instead of adding transport/dispatch cost to each hold.
-            await page.waitForTimeout(Math.max(0, 800 - (performance.now() - cycleStarted)));
+            // Keep the same input tape and active holds on both packages.
+            // Death/loading must neither shorten the minute nor add transport
+            // cost to every hold. The recorder excludes those blocked periods.
+            await page.waitForFunction(
+              (target) => {
+                const state = Reflect.get(window, '__pacing') as { gaps: number[] };
+                return state.gaps.reduce((sum, ms) => sum + ms, 0) >= target;
+              },
+              activeStart + Math.min(durationMs, (cycle + 1) * 800),
+              { timeout: 120000 },
+            );
             await page.keyboard.up(key);
             if (cycle % 6 === 5) await page.keyboard.press('KeyQ');
             if (cycle % 12 === 11 && cycle + 1 < Math.ceil(durationMs / 800)) {
@@ -226,6 +237,15 @@ async function pacing(flags: string[]) {
               );
             }),
           };
+          await writeJson(path.join(directory, 'observations.json'), {
+            initial: seed,
+            final,
+            frames: recording.gaps,
+            loading: recording.loading,
+            startupMs: run.readyMs,
+            frameTimes: recording.times,
+            inputEvents: recording.events,
+          });
           const record = PacingSchema.parse({
             schemaVersion: 6,
             harness,
@@ -245,14 +265,6 @@ async function pacing(flags: string[]) {
             frames: recording.gaps,
           });
           await writeJson(path.join(directory, 'benchmark.json'), record);
-          await writeJson(path.join(directory, 'observations.json'), {
-            initial: seed,
-            final,
-            loading: recording.loading,
-            startupMs: run.readyMs,
-            frameTimes: recording.times,
-            inputEvents: recording.events,
-          });
           console.log(
             `${scenario} ${condition} ${sample + 1}: ${JSON.stringify(pacingAcceptance(record.frames, environment.refreshHz))}; proof ${JSON.stringify(proof)}`,
           );
