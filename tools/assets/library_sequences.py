@@ -8,6 +8,46 @@ def supplied_sequences(package, member, data):
     if not isinstance(data, dict):
         return data
     base = str(pathlib.PurePosixPath(member).parent)
+    if data.get("schema") in (
+        "lantern-knight.sprite-clip.v1",
+        "lantern_knight.sprite_animation.v1",
+    ):
+        pivot = data.get("pivot_px")
+        if isinstance(pivot, dict):
+            if pivot.get("origin", "top_left") != "top_left":
+                raise ValueError("Unsupported sprite-clip pixel pivot origin")
+            pivot = [pivot["x"], pivot["y"]]
+        canvas = data.get("canvas", data.get("cell_size_px"))
+        if isinstance(canvas, dict):
+            canvas = [canvas["width"], canvas["height"]]
+        atlas = data.get("atlas")
+        atlas = atlas.get("file") if isinstance(atlas, dict) else atlas
+        frames = []
+        for frame in data["frames"]:
+            record = {k: v for k, v in frame.items() if k != "rect"}
+            try:
+                package.locate(frame["file"], base)
+            except ValueError:
+                # Atlas coordinates apply only when the standalone cel is absent.
+                rect = frame["rect"]
+                if isinstance(rect, dict):
+                    rect = [rect[k] for k in ("x", "y", "w", "h")]
+                if not atlas:
+                    raise ValueError("Sprite clip lacks a frame or atlas") from None
+                record.update(file=atlas, rect=rect, trim=[0, 0, *canvas])
+            frames.append(record)
+        normalized = {**data, "canvas": canvas, "pivot_px": pivot, "frames": frames}
+        if "pixels_per_unit" in data.get("import", {}):
+            normalized["pixels_per_unit"] = data["import"]["pixels_per_unit"]
+        clips = {data["animation"]: normalized}
+        for name, state in data.get("states", {}).items():
+            file = state.get("file") if isinstance(state, dict) else state
+            clips[name] = {
+                "frames": [{"file": file, "duration_ms": 1000}],
+                "loop": False,
+                "endBehavior": "hold",
+            }
+        return {**normalized, "clips": clips}
     if (
         all(
             isinstance(data.get(name), dict) and data[name].get("frames")

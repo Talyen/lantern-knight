@@ -519,10 +519,16 @@ class Importer:
                 else [
                     {
                         "id": str(e.get("id", e.get("name", e.get("event", "visual")))),
-                        "atMs": e["tick"] * 1000 / 60,
+                        "atMs": (
+                            e["time_ms"] if isinstance(e.get("time_ms"), (int, float))
+                            else e["tick"] * 1000 / 60
+                        ),
                     }
                     for e in events
-                    if isinstance(e, dict) and isinstance(e.get("tick"), (int, float))
+                    if isinstance(e, dict) and (
+                        isinstance(e.get("time_ms"), (int, float))
+                        or isinstance(e.get("tick"), (int, float))
+                    )
                 ]
             )
             tick = pick([c], "visual_event_tick", "attack_visual_event_tick")
