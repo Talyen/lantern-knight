@@ -128,14 +128,14 @@ test('scene and gameplay edits use routine CI; desktop contracts select platform
 test('built browser tests select only Game and remove the wrapper flag', () => {
   assert.deepEqual(browserSelection(['game', '--built', '--ui']), {
     built: true,
-    forwarded: ['game', '--ui'],
+    forwarded: ['tests/browser/game', '--ui'],
     scope: 'runtime',
   });
   for (const selector of ['game-loot', 'game-loot.spec.ts', 'tests/browser/game.spec.ts']) {
     assert.equal(browserSelection([selector]).scope, 'runtime');
     assert.deepEqual(browserSelection([selector, '--built']), {
       built: true,
-      forwarded: [selector],
+      forwarded: [selector.startsWith('tests/browser/') ? selector : 'tests/browser/' + selector],
       scope: 'runtime',
     });
   }
@@ -144,6 +144,15 @@ test('built browser tests select only Game and remove the wrapper flag', () => {
   assert.throws(() => browserSelection(['--built']), /Game scenario/);
   assert.equal(browserSelection(['editor']).scope, 'authoring');
   assert.equal(browserSelection(['scene']).scope, 'authoring');
+  assert.deepEqual(browserSelection(['game', '--grep', 'game']).forwarded, [
+    'tests/browser/game',
+    '--grep',
+    'game',
+  ]);
+  const filter = new RegExp(browserSelection(['game']).forwarded[0]!);
+  assert.ok(filter.test('/tmp/game-worktree/tests/browser/game-loot.spec.ts'));
+  assert.ok(!filter.test('/tmp/game-worktree/tests/browser/audio.spec.ts'));
+  assert.ok(!filter.test('/tmp/game-worktree/tests/browser/editor-gameplay.spec.ts'));
 });
 test('asset validation reads the explicit workspace and rejects altered media', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-explicit-assets-');

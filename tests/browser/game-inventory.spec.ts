@@ -27,10 +27,13 @@ test('inventory compares replacements and forge keeps the choice and confirmatio
     'damaged-axe': 2,
     'damaged-helmet': 1,
   });
-  await page.addInitScript((save) => {
-    const key = 'lantern-prototype-game-game';
-    if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify(save));
-  }, save);
+  const profile = process.env.LANTERN_TEST_BUILT === 'true' ? 'game' : 'preview';
+  await page.addInitScript(
+    ({ key, save }) => {
+      if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify(save));
+    },
+    { key: `lantern-prototype-${profile}-game`, save },
+  );
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto('/index.html?automated');
   await page.waitForFunction(

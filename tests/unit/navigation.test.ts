@@ -1,4 +1,4 @@
-import { boxProp, interactable } from '../fixtures/world';
+import { boxProp } from '../fixtures/world';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Navigation, moveSupported, clearSegment } from '../../src/core/navigation';
@@ -55,15 +55,21 @@ test('loot routing can use the full interaction reach beyond a deep narrow reces
   assert.equal(sim.inventory.gold, 1);
 });
 
-test('an unreachable manual route retries after displacement opens a route to its destination', () => {
+test('an unreachable route waits for displacement, then immediately retries its destination', (t) => {
   const a = area();
   a.props = [{ ...a.props[0]!, size: [0.08, 10] }];
+  a.spawns = [];
+  const routes = t.mock.method(Navigation.prototype, 'route');
   const sim = new Simulation(
     new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] }),
   );
   sim.setMovementTarget(sim.hero.id, { x: 3, z: 0 });
   assert.equal(sim.navigationDebug(false).routes[0]!.status, 'unreachable');
+  for (let i = 0; i < 60; i++) sim.step();
+  assert.equal(routes.mock.callCount(), 1, 'unchanged impossible paths are not searched again');
   Object.assign(sim.hero, { x: 2, z: 0 });
+  sim.step();
+  assert.ok(sim.hero.x > 2, 'displacement retries without waiting for a timer');
   for (let i = 0; i < 60; i++) sim.step();
   assert.ok(sim.hero.x >= 2.99);
 });
@@ -382,18 +388,6 @@ test('coincident living spawns separate deterministically without leaving suppor
   );
 });
 
-test('a route reaches destinations closer than one walking step instead of discarding them', () => {
-  const a = area();
-  a.spawns = [];
-  const sim = simulate(a),
-    goal = { x: sim.hero.x + 0.02, z: sim.hero.z };
-  sim.setMovementTarget(sim.hero.id, goal);
-  sim.step(still);
-  assert.ok(Math.hypot(sim.hero.x - goal.x, sim.hero.z - goal.z) < 1e-6);
-  sim.step(still);
-  assert.equal(sim.hero.state, 'idle');
-});
-
 test('an enemy pursues across a stair height gap instead of repeatedly swinging out of reach', () => {
   const a = area();
   a.props = [];
@@ -608,8 +602,10 @@ test('completing an explicit route releases it and allows idle aiming', () => {
   a.props = [];
   a.spawns = [];
   const sim = simulate(a);
-  sim.setMovementTarget(sim.hero.id, { x: sim.hero.x + 0.02, z: sim.hero.z });
+  const goal = { x: sim.hero.x + 0.02, z: sim.hero.z };
+  sim.setMovementTarget(sim.hero.id, goal);
   sim.step(still);
+  assert.ok(Math.hypot(sim.hero.x - goal.x, sim.hero.z - goal.z) < 1e-6);
   sim.step(still);
   sim.step({ ...still, aim: { x: sim.hero.x, z: sim.hero.z + 2 } });
   assert.equal(sim.navigationDebug().routes.length, 0);
@@ -648,41 +644,6 @@ test('automatic boundary departures still work when their marker is beyond the w
   assert.equal(sim.step().transition, 'court');
 });
 
-test('loot routing uses the outer interaction reach at a narrow recess', () => {
-  const a = area();
-  a.spawns = [];
-  a.props = [-0.25, 0.25].map((z, i) => boxProp({ id: 'recess-' + i, z, size: [2.2, 0.1] }));
-  a.interactables = [
-    interactable({
-      id: 'crate',
-      object: 'crate',
-      rewards: [{ item: 'gold', amount: 1 }],
-      spent: 'opened',
-    }),
-  ];
-  const registry = new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
-  const sim = new Simulation(registry);
-  sim.claimedObjects.add('crate');
-  sim.drops.push({
-    id: 'object-crate-0',
-    source: 'crate',
-    enemy: false,
-    x: 0,
-    z: 0,
-    rewards: [{ item: 'gold', amount: 1 }],
-  });
-  const plan = new PickupPlan();
-  assert.equal(plan.request(sim, 'object-crate-0'), true);
-  let ready: string | undefined;
-  for (let tick = 0; tick < 100 && !ready; tick++) {
-    sim.step();
-    ready = plan.ready(sim);
-  }
-  assert.equal(ready, 'object-crate-0');
-  assert.equal(sim.collectDrop(ready!), true);
-  assert.equal(sim.inventory.gold, 1);
-});
-
 test('movement preview stays in its room when walking onto an automatic exit', () => {
   const sim = new Simulation(content);
   sim.movementPreview = true;
@@ -696,7 +657,7 @@ test('movement preview stays in its room when walking onto an automatic exit', (
   assert.equal(sim.step().transition, 'landing');
 });
 
-test('obsolete commands cannot cancel the current pickup route', () => {
+test('pickup routes survive rejected input and cancel on admitted player movement', () => {
   const sim = new Simulation(content);
   sim.drops.push({
     id: 'loot',
@@ -715,6 +676,14 @@ test('obsolete commands cannot cancel the current pickup route', () => {
     generation: sim.generation - 1,
   });
   assert.equal(sim.navigationDebug(false).routes.length, 1);
+  plan.beforeStep(sim, {
+    move: { x: Infinity, z: 0 },
+    aim: { x: 0, z: 0 },
+    actions: [],
+  });
+  assert.equal(sim.navigationDebug(false).routes.length, 1);
+  plan.beforeStep(sim, { move: { x: 1, z: 0 }, aim: { x: 0, z: 0 } });
+  assert.equal(sim.navigationDebug(false).routes.length, 0);
 });
 
 test('large enemies choose melee positions within the hero height range', () => {
@@ -743,22 +712,19 @@ test('large enemies choose melee positions within the hero height range', () => 
   );
 });
 
-test('pickup routing uses admitted actions and finite movement consistently with simulation', () => {
-  const sim = new Simulation(content);
-  sim.drops.push({
-    id: 'loot',
-    source: 'test',
-    enemy: false,
-    x: 3,
-    z: 5,
-    rewards: [{ item: 'gold', amount: 1 }],
-  });
-  const plan = new PickupPlan();
-  assert.equal(plan.request(sim, 'loot'), true);
-  plan.beforeStep(sim, {
-    move: { x: Infinity, z: 0 },
-    aim: { x: 0, z: 0 },
-    actions: [],
-  });
-  assert.equal(sim.navigationDebug(false).routes.length, 1);
+test('pursuit reuses a route to a stationary target and replans when that target moves', (t) => {
+  const a = area();
+  a.props = [];
+  const sim = simulate(a),
+    enemy = sim.enemies[0]!,
+    plans = new MovementPlans(sim.areaDefinition),
+    routes = t.mock.method(Navigation.prototype, 'route'),
+    move = (actor: typeof enemy, x: number, z: number) => sim.move(actor, x, z);
+  for (let tick = 0; tick < 60; tick++)
+    plans.follow(enemy, tick, move, { kind: 'pursuit', target: sim.hero });
+  assert.equal(routes.mock.callCount(), 1);
+  const before = enemy.x;
+  plans.follow(enemy, 60, move, { kind: 'pursuit', target: { x: 4, z: 0 } });
+  assert.equal(routes.mock.callCount(), 2);
+  assert.ok(enemy.x > before, 'a moved destination changes pursuit direction');
 });

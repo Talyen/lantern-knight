@@ -32,7 +32,16 @@ export function browserSelection(args: string[]) {
       'Built browser tests require the Game scenario; scene/editor/effects use development previews',
     );
   const scope = gameOnly ? 'runtime' : 'authoring';
-  return { built, forwarded, scope } as const;
+  // Playwright matches filters against absolute paths. A checkout named after
+  // a scenario must not select unrelated suites or exceed the chosen asset scope.
+  let scenarios = true;
+  const filters = forwarded.map((arg) => {
+    // Leave Playwright options and their values untouched. Scenario selectors
+    // precede passthrough options; the wrapper's boolean flags need no value.
+    if (arg.startsWith('-') && arg !== '--ui' && arg !== '--list') scenarios = false;
+    return scenarios && /^[a-z][a-z-]*(?:\.spec\.ts)?$/.test(arg) ? 'tests/browser/' + arg : arg;
+  });
+  return { built, forwarded: filters, scope } as const;
 }
 async function browserTests(args: string[]) {
   if (args.includes('--ci-development')) {

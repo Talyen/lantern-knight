@@ -22,7 +22,13 @@ export class MovementPlans {
   private navigation = new Map<Actor['kind'], Navigation>();
   private plans = new Map<
     string,
-    { target: Point; route: RouteResult; nextPlan: number; kind: 'manual' | 'home' | 'pursuit' }
+    {
+      target: Point;
+      origin: Point;
+      route: RouteResult;
+      nextPlan: number;
+      kind: 'manual' | 'home' | 'pursuit';
+    }
   >();
   setManual(actor: Actor, target: Point | null, tick: number) {
     if (!target) {
@@ -31,12 +37,7 @@ export class MovementPlans {
     }
     if (!Number.isFinite(target.x) || !Number.isFinite(target.z))
       throw new Error('Movement destination must be finite');
-    this.plans.set(actor.id, {
-      kind: 'manual',
-      target: { ...target },
-      route: this.navigator(actor).route(actor, target, effectiveRadius(actor.definition.radius)),
-      nextPlan: tick + 15,
-    });
+    this.plans.set(actor.id, this.plan(actor, target, 'manual', tick));
   }
   clear() {
     this.plans.clear();
@@ -98,6 +99,18 @@ export class MovementPlans {
     }
     return direct;
   }
+  private plan(a: Actor, target: Point, kind: 'manual' | 'home' | 'pursuit', tick: number) {
+    return {
+      target: { x: target.x, z: target.z },
+      origin: { x: a.x, z: a.z },
+      route:
+        kind === 'manual'
+          ? this.navigator(a).route(a, target, effectiveRadius(a.definition.radius))
+          : this.pursuitRoute(a, target, kind),
+      nextPlan: tick + 15,
+      kind,
+    };
+  }
   follow(
     a: Actor,
     tick: number,
@@ -114,33 +127,28 @@ export class MovementPlans {
       this.plans.delete(a.id);
       plan = undefined;
     }
-    if (!plan) {
-      if (!target) return false;
-      plan = {
-        target: { ...target },
-        route: this.pursuitRoute(a, target, kind),
-        nextPlan: tick + 15,
-        kind,
-      };
+    if (!plan && !target) return false;
+    const goal = plan?.kind === 'manual' ? plan.target : (target ?? plan!.target);
+    const waypoint = plan?.route.points[0];
+    // Static geometry cannot make the same failed request succeed. Retry when
+    // displaced, when the next segment is obstructed, or when pursuit changes.
+    const targetChanged =
+      plan &&
+      plan.kind !== 'manual' &&
+      tick >= plan.nextPlan &&
+      (goal.x !== plan.target.x || goal.z !== plan.target.z);
+    const displaced =
+      plan &&
+      (plan.route.status === 'unreachable'
+        ? a.x !== plan.origin.x || a.z !== plan.origin.z
+        : waypoint
+          ? !navigation.clear(a, waypoint, effectiveRadius(a.definition.radius))
+          : plan.kind !== 'manual' &&
+            tick >= plan.nextPlan &&
+            Math.hypot(a.x - goal.x, a.z - goal.z) > 1e-6);
+    if (!plan || targetChanged || displaced) {
+      plan = this.plan(a, goal, plan?.kind ?? kind, tick);
       this.plans.set(a.id, plan);
-    }
-    if (target && plan.kind !== 'manual' && tick >= plan.nextPlan) {
-      plan.target = { ...target };
-      plan.route = this.pursuitRoute(a, target, kind);
-      plan.nextPlan = tick + 15;
-    }
-    if (plan.kind === 'manual' && plan.route.status === 'unreachable' && tick >= plan.nextPlan) {
-      plan.route = navigation.route(a, plan.target, effectiveRadius(a.definition.radius));
-      plan.nextPlan = tick + 15;
-    }
-    const waypoint = plan.route.points[0];
-    if (waypoint && !navigation.clear(a, waypoint, effectiveRadius(a.definition.radius))) {
-      // Collisions and dashes can displace an actor from its planned route.
-      plan.route =
-        plan.kind === 'manual'
-          ? navigation.route(a, plan.target, effectiveRadius(a.definition.radius))
-          : this.pursuitRoute(a, target ?? plan.target, kind);
-      plan.nextPlan = tick + 15;
     }
     if (plan.route.status === 'unreachable') {
       a.state = 'idle';

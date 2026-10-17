@@ -21,28 +21,41 @@ type InteractionState = Pick<
 > &
   Readonly<Pick<Simulation, 'registry' | 'inCombat' | 'guardsDefeated' | 'exitAvailable'>>;
 
-function choices(sim: InteractionState): Interaction[] {
-  return [
-    ...sim.drops.map((d) => ({
-      kind: 'drop' as const,
-      id: d.id,
-      label: 'Collect ' + d.rewards.map((r) => `${r.amount} ${items[r.item]!.name}`).join(', '),
-      x: d.x,
-      z: d.z,
-    })),
-    ...(sim.areaDefinition.campfires ?? []).map((f) => ({
-      kind: 'campfire' as const,
-      id: f.id,
-      label: f.name,
-      blocked: sim.inCombat ? 'Finish combat to use the campfire' : undefined,
-      x: f.x,
-      z: f.z,
-    })),
-    ...(sim.areaDefinition.interactables ?? [])
-      .filter((o) => !sim.claimedObjects.has(o.id))
-      .map((o) => ({
+function* choices(
+  sim: InteractionState,
+  kind?: Interaction['kind'],
+  id?: string,
+): Generator<Interaction, undefined> {
+  const reachable = (point: Point & { id: string }, candidate: Interaction['kind']) =>
+    (!kind || candidate === kind) &&
+    (id === undefined || point.id === id) &&
+    canReachInteraction(sim.areaDefinition, sim.hero, point);
+  for (const d of sim.drops)
+    if (reachable(d, 'drop'))
+      yield {
+        kind: 'drop',
+        id: d.id,
+        x: d.x,
+        z: d.z,
+        label: 'Collect ' + d.rewards.map((r) => `${r.amount} ${items[r.item]!.name}`).join(', '),
+      };
+  for (const f of sim.areaDefinition.campfires ?? [])
+    if (reachable(f, 'campfire'))
+      yield {
+        kind: 'campfire',
+        id: f.id,
+        x: f.x,
+        z: f.z,
+        label: f.name,
+        blocked: sim.inCombat ? 'Finish combat to use the campfire' : undefined,
+      };
+  for (const o of sim.areaDefinition.interactables ?? [])
+    if (!sim.claimedObjects.has(o.id) && reachable(o, o.kind))
+      yield {
         kind: o.kind,
         id: o.id,
+        x: o.x,
+        z: o.z,
         label:
           o.kind === 'workbench'
             ? 'Forge workbench'
@@ -55,24 +68,21 @@ function choices(sim: InteractionState): Interaction[] {
             : !sim.guardsDefeated(o.guards)
               ? 'Defeat the guard to open'
               : undefined,
-        x: o.x,
-        z: o.z,
-      })),
-    ...sim.areaDefinition.exits
-      .filter((e) => e.explicit)
-      .map((e) => ({
-        kind: 'exit' as const,
+      };
+  for (const e of sim.areaDefinition.exits)
+    if (e.explicit && reachable({ ...e.marker, id: e.id }, 'exit'))
+      yield {
+        kind: 'exit',
         id: e.id,
+        x: e.marker.x,
+        z: e.marker.z,
         label: 'Travel to ' + sim.registry.area(e.destination).name,
         blocked: !sim.exitAvailable(e.id)
           ? 'Defeat the enemies by the departure'
           : sim.inCombat
             ? 'Finish combat to travel'
             : undefined,
-        x: e.marker.x,
-        z: e.marker.z,
-      })),
-  ];
+      };
 }
 
 export function canReachInteraction(
@@ -91,20 +101,21 @@ export function canReachInteraction(
 // Resolve by identity, not by nearest choice: another nearby target must never
 // authorize this command, and a previously displayed prompt may now be stale.
 export function interactionTarget(sim: InteractionState, kind: Interaction['kind'], id: string) {
-  const target = choices(sim).find((target) => target.kind === kind && target.id === id);
-  return target && canReachInteraction(sim.areaDefinition, sim.hero, target) ? target : undefined;
+  return choices(sim, kind, id).next().value;
 }
 
 export function nearbyInteraction(sim: InteractionState): Interaction | undefined {
   // Prefer available E actions; sword-only prompts and blocked targets remain fallbacks.
-  return choices(sim)
-    .filter((target) => canReachInteraction(sim.areaDefinition, sim.hero, target))
-    .sort(
-      (a, b) =>
-        Number(Boolean(a.blocked)) - Number(Boolean(b.blocked)) ||
-        Number(a.kind === 'breakable') - Number(b.kind === 'breakable') ||
-        (a.kind === 'drop' ? -1 : 0) - (b.kind === 'drop' ? -1 : 0) ||
-        Math.hypot(a.x - sim.hero.x, a.z - sim.hero.z) -
-          Math.hypot(b.x - sim.hero.x, b.z - sim.hero.z),
-    )[0];
+  let best: Interaction | undefined;
+  for (const target of choices(sim))
+    if (
+      !best ||
+      (Number(Boolean(target.blocked)) - Number(Boolean(best.blocked)) ||
+        Number(target.kind === 'breakable') - Number(best.kind === 'breakable') ||
+        Number(best.kind === 'drop') - Number(target.kind === 'drop') ||
+        Math.hypot(target.x - sim.hero.x, target.z - sim.hero.z) -
+          Math.hypot(best.x - sim.hero.x, best.z - sim.hero.z)) < 0
+    )
+      best = target;
+  return best;
 }
