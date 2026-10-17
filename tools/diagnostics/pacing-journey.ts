@@ -7,6 +7,7 @@ import { smokeLaunch, playerControls, option } from '../smoke/smoke-launch';
 import { withDiagnostic } from '../smoke/scenario';
 import { requireGameBenchmarkPackage } from './game-benchmark';
 import { desktopEnvironment } from './environment';
+import { collectVisibleLoot } from '../smoke/collect-loot';
 import { pacingAcceptance } from './pacing-model';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
@@ -111,9 +112,7 @@ async function journey(flags: string[]) {
       await position(areaId, object);
       await sample('loot', async () => {
         await page.keyboard.press('KeyE');
-        const first = page.getByRole('button', { name: /^Collect / }).first();
-        await first.waitFor({ state: 'visible' });
-        while (await first.isVisible()) await first.press('Enter');
+        assert.ok((await collectVisibleLoot(page)) > 0);
         await page.keyboard.press('Escape');
       });
       carried = parseGame(await controls.save(), content);

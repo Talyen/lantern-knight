@@ -1,5 +1,6 @@
 import { test, expect } from './fixtures';
 import type { Page } from '@playwright/test';
+import { collectVisibleLoot } from '../../tools/smoke/collect-loot';
 
 // Real keyboard, focus and dialog behavior; these fixtures need no renderer or artwork.
 test.beforeEach(async ({ page }) => {
@@ -10,6 +11,22 @@ test.beforeEach(async ({ page }) => {
     }),
   );
   await page.goto('/__bug-regressions');
+});
+
+test('native journey collection completes when the final label retires during keyboard activation', async ({
+  page,
+}) => {
+  await page.evaluate(() => {
+    for (const id of ['first', 'last']) {
+      const button = document.createElement('button');
+      button.dataset.drop = id;
+      button.setAttribute('aria-label', 'Collect ' + id);
+      button.onclick = () => button.remove();
+      document.body.append(button);
+    }
+  });
+  expect(await collectVisibleLoot(page)).toBe(2);
+  await expect(page.getByRole('button', { name: /^Collect / })).toHaveCount(0);
 });
 
 test('E collects the highlighted loot while its label has keyboard focus', async ({ page }) => {
