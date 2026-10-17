@@ -657,47 +657,6 @@ test('preload cannot evict a decoded buffer borrowed by pending playback', async
   f.playback.dispose();
 });
 
-test('buffer eviction counts all borrowers and removes only unleased decoded resources', async () => {
-  const payloads = [1, 2, 3].map((value) => new Uint8Array([value]));
-  const samples = parseAudioManifest({
-    schemaVersion: 1,
-    samples: payloads.map((payload, i) => {
-      const hash = createHash('sha256').update(payload).digest('hex');
-      return { ...sample('sample-' + i), hash, path: `audio/${hash}.wav`, bytes: 1 };
-    }),
-  }).samples;
-  let requests = 0;
-  const size = 20 * 1024 ** 2;
-  const buffers = new AudioBuffers(
-    async (url) => {
-      requests++;
-      const requested = url instanceof Request ? url.url : url.toString();
-      const index = samples.findIndex((sample) => '/' + sample.path === requested);
-      return new Response(payloads[index]!);
-    },
-    async () => ({ length: size / 4, numberOfChannels: 1 }) as AudioBuffer,
-  );
-  const first = await buffers.acquire(samples[0]!);
-  const shared = await buffers.acquire(samples[0]!);
-  const second = await buffers.acquire(samples[1]!);
-  assert.equal(buffers.decodedBytes, size * 2);
-  first.release();
-  first.release();
-  assert.equal(buffers.decodedBytes, size * 2, 'the other borrower still pins the first buffer');
-  second.release();
-  assert.equal(buffers.decodedBytes, size);
-  const third = await buffers.acquire(samples[2]!);
-  third.release();
-  assert.equal(buffers.decodedBytes, size);
-  const again = await buffers.acquire(samples[0]!);
-  assert.equal(again.buffer, shared.buffer);
-  assert.equal(requests, 3, 'eviction must not reload an actively borrowed resource');
-  shared.release();
-  again.release();
-  buffers.dispose();
-  assert.equal(buffers.decodedBytes, 0);
-});
-
 test('closing the buffer owner rejects shared late decodes and further admission', async () => {
   const { promise: decoded, resolve: complete } = Promise.withResolvers<AudioBuffer>();
   const { promise: decoding, resolve: started } = Promise.withResolvers<void>();

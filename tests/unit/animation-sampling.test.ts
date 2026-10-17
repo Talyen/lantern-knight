@@ -31,3 +31,30 @@ test('loaded poses stay still before a bounded monotone transition, including lo
     assert.ok(samples.every((x, i) => i === 0 || x >= samples[i - 1]!));
   }
 });
+
+test('retiming preserves drawing-relative notifications and markers without changing the source', async () => {
+  const { retimeClip } = await import('../../src/core/animation');
+  const clip = {
+    frames: ['a', 'b'],
+    durationsMs: [100, 200],
+    loop: false,
+    notifies: [{ id: 'step', kind: 'footstep' as const, atMs: 50 }],
+    markers: [
+      { id: 'contact', atMs: 200 },
+      { id: 'end', atMs: 300 },
+    ],
+  };
+  const retimed = retimeClip(clip, [200, 100]);
+  assert.deepEqual(
+    retimed.notifies.map((n) => n.atMs),
+    [100],
+  );
+  assert.deepEqual(
+    retimed.markers?.map((n) => n.atMs),
+    [250, 300],
+  );
+  assert.deepEqual(
+    clip.markers.map((n) => n.atMs),
+    [200, 300],
+  );
+});

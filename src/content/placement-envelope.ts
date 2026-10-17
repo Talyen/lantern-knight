@@ -21,7 +21,7 @@ export function spritePlacementEnvelope(
   const registered = measured?.hash === manifest.hash ? measured.clips : {};
   const ids = new Set(
     clips
-      .filter((name) => !registered[name])
+      .filter((name) => !Object.hasOwn(registered, name))
       .flatMap((name) =>
         Object.values(manifest.asset.clips[name] ?? {}).flatMap((clip) =>
           clip ? clip.frames : [],
@@ -29,7 +29,7 @@ export function spritePlacementEnvelope(
       ),
   );
   const bounds = [
-    ...clips.flatMap((name) => (registered[name] ? [registered[name]!] : [])),
+    ...clips.flatMap((name) => (Object.hasOwn(registered, name) ? [registered[name]!] : [])),
     ...manifest.frames
       .filter((f) => ids.has(f.id))
       .map((frame) => {

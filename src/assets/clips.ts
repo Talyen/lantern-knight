@@ -1,12 +1,17 @@
 import { HEADINGS } from '../content/headings';
 import type { Manifest, Clip } from './schema';
 
+function clipKey(manifest: Manifest, id: string) {
+  const { clips, fallbacks } = manifest.asset;
+  return Object.hasOwn(clips, id) ? id : Object.hasOwn(fallbacks, id) ? fallbacks[id]! : id;
+}
+
 export function resolveClip(
   manifest: Manifest,
   id: string,
   heading: (typeof HEADINGS)[number],
 ): Clip {
-  const key = manifest.asset.clips[id] ? id : (manifest.asset.fallbacks[id] ?? id);
+  const key = clipKey(manifest, id);
   const direction =
     manifest.asset.viewMode === 'fixed-authored'
       ? 'd45'
@@ -26,7 +31,7 @@ export function resolveActorClip(
   heading: (typeof HEADINGS)[number],
 ): Clip {
   if (manifest.asset.viewMode !== 'supplied') return resolveClip(manifest, id, heading);
-  const key = manifest.asset.clips[id] ? id : (manifest.asset.fallbacks[id] ?? id),
+  const key = clipKey(manifest, id),
     directions = manifest.asset.clips[key],
     requested = HEADINGS.indexOf(heading),
     distance = (candidate: (typeof HEADINGS)[number]) => {

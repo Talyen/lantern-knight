@@ -13,21 +13,21 @@ export type ResourceLease<T> = { readonly value: T; release(): void };
 export class ResourceCache<T> {
   private readonly entries = new Map<string, Entry<T>>();
   private readonly lifetime = new AbortController();
+  private retainedBytes = 0;
   constructor(
     private readonly weight: (value: T) => number,
     private readonly budget: number,
     private readonly capacity = Infinity,
   ) {}
   get bytes() {
-    return [...this.entries.values()].reduce((sum, entry) => sum + (entry.bytes ?? 0), 0);
+    return this.retainedBytes;
   }
   private evict() {
-    let bytes = this.bytes;
     for (const [key, entry] of this.entries) {
-      if (bytes <= this.budget && this.entries.size <= this.capacity) break;
+      if (this.retainedBytes <= this.budget && this.entries.size <= this.capacity) break;
       if (entry.refs || entry.bytes === undefined) continue;
       this.entries.delete(key);
-      bytes -= entry.bytes;
+      this.retainedBytes -= entry.bytes;
     }
   }
   async acquire(
@@ -51,7 +51,10 @@ export class ResourceCache<T> {
       created.promise = created.promise
         .then((value) => {
           created.lifetime.signal.throwIfAborted();
-          created.bytes = this.weight(value);
+          const bytes = this.weight(value);
+          created.lifetime.signal.throwIfAborted();
+          created.bytes = bytes;
+          this.retainedBytes += bytes;
           this.evict();
           return value;
         })
@@ -98,6 +101,7 @@ export class ResourceCache<T> {
     if (this.lifetime.signal.aborted) return;
     const entries = [...this.entries.values()];
     this.entries.clear();
+    this.retainedBytes = 0;
     this.lifetime.abort();
     for (const entry of entries) entry.lifetime.abort();
   }

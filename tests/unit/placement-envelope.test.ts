@@ -106,5 +106,7 @@ test('unmeasured artwork reserves every registered frame, including non-looping 
   const actual = spritePlacementEnvelope(m, ['idle']);
   for (const key of ['left', 'right', 'top', 'bottom'] as const)
     assert.ok(Math.abs(actual[key] - expected[key]) < 1e-10, key);
+  Object.assign(m.asset.clips, { constructor: m.asset.clips.idle! });
+  assert.deepEqual(spritePlacementEnvelope(m, ['constructor']), actual);
   assert.throws(() => spritePlacementEnvelope(m, ['missing']), /registered drawing/);
 });

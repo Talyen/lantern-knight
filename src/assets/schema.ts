@@ -7,6 +7,7 @@ const positive = finite.positive();
 const int = z.number().int().nonnegative();
 const pair = z.tuple([finite, finite]);
 const rect = z.tuple([int, int, z.number().int().positive(), z.number().int().positive()]);
+const hash = z.string().regex(/^[a-f0-9]{64}$/);
 const id = z.string().regex(/^[a-z0-9][a-z0-9_-]*$/);
 const path = z
   .string()
@@ -67,7 +68,7 @@ const metadata = z.strictObject({
   sampling: z.enum(['linear', 'terrain-mipmapped']).optional(),
   designReference: z.string().min(1),
   renderStyle: z.string().min(1),
-  canonicalReferenceHash: z.string().length(64).optional(),
+  canonicalReferenceHash: hash.optional(),
   legacyBake: z
     .strictObject({
       contractId: z.string(),
@@ -115,7 +116,7 @@ const runtimeFrame = sourceFrame
   .extend({ source: path, page: id, rect, trim: rect, rotated: z.literal(false) });
 const deliveryImage = z.strictObject({
   path,
-  hash: z.string().length(64),
+  hash,
   width: z.number().int().positive(),
   height: z.number().int().positive(),
   bytes: int,
@@ -133,7 +134,7 @@ const deliveryImage = z.strictObject({
 const page = z.strictObject({
   id,
   path,
-  hash: z.string().length(64),
+  hash,
   width: z.number().int().positive(),
   height: z.number().int().positive(),
   bytes: int,
@@ -148,7 +149,7 @@ const ManifestSchema = z.strictObject({
   schemaVersion: z.literal(2),
   contractId: z.literal(contract.id),
   bakeVersion: z.literal(contract.bakeVersion),
-  hash: z.string().length(64),
+  hash,
   toolVersion: z.string(),
   asset: metadata,
   frames: z.array(runtimeFrame),
@@ -221,7 +222,7 @@ function validateSemantics(value: Source | Manifest) {
   if (a.anchor.some((v, i) => v < 0 || v > a.canvas[i]!))
     fail('anchor', 'outside untrimmed canvas');
   for (const required of a.requiredClips)
-    if (!a.clips[required]) fail('requiredClips', `missing ${required}`);
+    if (!Object.hasOwn(a.clips, required)) fail('requiredClips', `missing ${required}`);
   if (a.allowEmptyFrames && a.type !== 'effect')
     fail('allowEmptyFrames', 'only effects permit transparent timeline frames');
   if (
@@ -229,36 +230,45 @@ function validateSemantics(value: Source | Manifest) {
     Object.values(a.clips).some((d) => Object.keys(d).some((k) => k !== 'd45'))
   )
     fail('viewMode', 'fixed authored views declare only their single d45 storage slot');
-  for (const [clip, dirs] of Object.entries(a.clips))
-    for (const dir of a.viewMode === 'supplied'
-      ? (Object.keys(dirs) as (typeof HEADINGS)[number][])
-      : a.viewMode === 'fixed-authored'
-        ? (['d45'] as const)
-        : a.viewMode === 'four-directional' ||
-            (a.viewMode === 'mixed-directional' && clip !== 'walk')
-          ? (['d00', 'd90', 'd180', 'd270'] as const)
-          : HEADINGS) {
-      const c =
-        dirs[dir] ?? fail(`clips.${clip}.${dir}`, 'missing required heading; mirroring forbidden');
+  for (const [clip, dirs] of Object.entries(a.clips)) {
+    const required =
+      a.viewMode === 'supplied'
+        ? []
+        : a.viewMode === 'fixed-authored'
+          ? ['d45']
+          : a.viewMode === 'four-directional' ||
+              (a.viewMode === 'mixed-directional' && clip !== 'walk')
+            ? ['d00', 'd90', 'd180', 'd270']
+            : HEADINGS;
+    for (const dir of required)
+      if (!Object.hasOwn(dirs, dir))
+        fail(`clips.${clip}.${dir}`, 'missing required heading; mirroring forbidden');
+    for (const [dir, c] of Object.entries(dirs)) {
       if (c.loop && c.endBehavior === 'hide')
         fail(`clips.${clip}.${dir}`, 'loop cannot hide at its end');
       if (c.frames.length !== c.durationsMs.length)
         fail(`clips.${clip}.${dir}`, 'duration count differs from frame count');
       for (const f of c.frames) if (!ids.has(f)) fail(`clips.${clip}.${dir}`, `missing frame ${f}`);
-      const end = c.durationsMs.reduce((x, y) => x + y, 0),
-        seen = new Set<string>();
+      const end = c.durationsMs.reduce((x, y) => x + y, 0);
+      if (!Number.isFinite(end)) fail(`clips.${clip}.${dir}`, 'non-finite clip duration');
+      const seen = new Set<string>();
       for (const n of c.notifies) {
         if (n.atMs >= end || seen.has(n.id))
           fail(`clips.${clip}.${dir}.notifies`, 'event outside clip or duplicate ID');
         seen.add(n.id);
       }
-      for (const marker of c.markers ?? [])
-        if (marker.atMs > end) fail(`clips.${clip}.${dir}.markers`, 'marker outside clip');
+      seen.clear();
+      for (const marker of c.markers ?? []) {
+        if (marker.atMs > end || seen.has(marker.id))
+          fail(`clips.${clip}.${dir}.markers`, 'marker outside clip or duplicate ID');
+        seen.add(marker.id);
+      }
     }
+  }
   if (Object.values(a.clips).some((dirs) => !Object.keys(dirs).length))
     fail('clips', 'empty heading coverage');
   for (const [key, to] of Object.entries(a.fallbacks))
-    if (!a.clips[to] || a.clips[key])
+    if (!Object.hasOwn(a.clips, to) || Object.hasOwn(a.clips, key))
       fail('fallbacks', 'fallback target missing or overrides supported clip');
   if ('pages' in value) {
     const seen = new Set<string>(),
@@ -277,13 +287,20 @@ function validateSemantics(value: Source | Manifest) {
       for (const p of b.required)
         if (!seen.has(p)) fail(`bundles.${name}`, `missing required resource ${p}`);
       for (const dep of b.dependencies)
-        if (!value.bundles[dep]) fail(`bundles.${name}`, `missing dependency ${dep}`);
+        if (!Object.hasOwn(value.bundles, dep))
+          fail(`bundles.${name}`, `missing dependency ${dep}`);
     }
-    const visit = (name: string, chain: string[]) => {
-      if (chain.includes(name)) fail('bundles', 'cyclic dependency');
-      for (const dep of value.bundles[name]!.dependencies) visit(dep, [...chain, name]);
+    const visiting = new Set<string>(),
+      visited = new Set<string>();
+    const visit = (name: string) => {
+      if (visiting.has(name)) fail('bundles', 'cyclic dependency');
+      if (visited.has(name)) return;
+      visiting.add(name);
+      for (const dep of value.bundles[name]!.dependencies) visit(dep);
+      visiting.delete(name);
+      visited.add(name);
     };
-    for (const name of Object.keys(value.bundles)) visit(name, []);
+    for (const name of Object.keys(value.bundles)) visit(name);
     for (const dep of a.dependencies)
       if (!seen.has(dep)) fail('dependencies', `missing asset resource ${dep}`);
   } else if (a.dependencies.length)
