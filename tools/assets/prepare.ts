@@ -1,11 +1,11 @@
-import { writeJson } from '../json-file';
+import { readJson, writeJson } from '../json-file';
 import { preparationSteps } from './recipe';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { AssetCache, diskBytes } from './cache';
 import { cameraCalibration as calibrationFixture } from '../../src/assets/camera-calibration';
 import { stagePayload } from './payload';
-import { recipeHash, recipeInputs } from './pack';
+import { recipeHash, recipeInputs, LockSchema, PackSchema, validateCachedPack } from './pack';
 import { makeArchive, inventoryCandidate } from './archive';
 import { preparePreviewAssets, prototypeAssets } from './preview';
 import { linkTree } from './incremental';
@@ -101,21 +101,69 @@ export async function prepareAssets(
   // The same complete, source-verified layer serves review and publication.
   await preparePreviewAssets([], cache, environment);
   const base = await prototypeAssets(cache);
-  let held: Awaited<ReturnType<AssetCache['lease']>> | undefined;
   try {
-    held = await cache.lease('preparation', 0, true);
-    const payload = path.join(held.root, 'work/payload');
     if (!('complete' in base.lock) || !base.lock.complete)
       throw new Error('Publication requires complete local preparation');
+    return await preparePublicationCandidate(
+      base.held.root,
+      base.lock.recipeSha256,
+      base.lock.files,
+      cache,
+    );
+  } finally {
+    await base.held.release();
+  }
+}
+
+// Caller retains the validated immutable source layer until staging completes.
+export async function preparePublicationCandidate(
+  source: string,
+  recipeSha256: string,
+  files: Record<string, string>,
+  cache = new AssetCache(),
+): Promise<PreparedAssets> {
+  const held = await cache.lease('preparation', 0, true);
+  const payload = path.join(held.root, 'work/payload');
+  try {
+    let prior: import('./pack').AssetLock | undefined;
+    try {
+      prior = LockSchema.parse(await readJson(path.join(held.root, 'prepared.json')));
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+    }
+    if (prior?.recipeSha256 === recipeSha256) {
+      const inventory = await readJson(path.join(payload, 'pack.json'))
+        .then((value) => PackSchema.parse(value))
+        .catch((error: NodeJS.ErrnoException) => {
+          if (error.code !== 'ENOENT') throw error;
+          return undefined;
+        });
+      if (
+        inventory &&
+        Object.keys(inventory.files).length === Object.keys(files).length &&
+        Object.entries(inventory.files).every(([name, info]) => info.sha256 === files[name])
+      ) {
+        await validateCachedPack(payload, prior);
+        console.log('Reused the exact verified publication inventory; no relinking.');
+        return { held, payload, lock: prior };
+      }
+    }
+    await fs.rm(path.join(held.root, 'prepared.json'), { force: true });
     await fs.rm(path.join(held.root, 'work'), { recursive: true, force: true });
     await fs.rm(path.join(held.root, 'lantern-assets.tar.gz'), { force: true });
-    await linkTree(base.held.root, payload);
-    const lock = await inventoryCandidate(payload, base.lock.recipeSha256);
+    await linkTree(source, payload);
+    const lock = await inventoryCandidate(payload, recipeSha256);
+    const inventory = PackSchema.parse(await readJson(path.join(payload, 'pack.json')));
+    if (
+      Object.keys(inventory.files).length !== Object.keys(files).length ||
+      Object.entries(inventory.files).some(([name, info]) => info.sha256 !== files[name])
+    )
+      throw new Error('Publication source differs from verified preparation');
     await writeJson(path.join(held.root, 'prepared.json'), lock);
     await held.reserve(await diskBytes(held.root));
     await verifiedOutput(
       payload,
-      [...Object.keys(base.lock.files), 'pack.json'],
+      [...Object.keys(files), 'pack.json'],
       async () => {},
       '.verified-pack.json',
     );
@@ -124,9 +172,7 @@ export async function prepareAssets(
     );
     return { held, payload, lock };
   } catch (error) {
-    await held?.release();
+    await held.release();
     throw error;
-  } finally {
-    await base.held.release();
   }
 }

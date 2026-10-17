@@ -45,11 +45,14 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
     names.push(file);
     groups.set(owner, names);
   }
-  // Authoring downloads are independent parts; source eligibility is unrelated
-  // to the release host's per-file transport limit.
-  const authoring = groups.get('authoring') ?? [];
-  groups.delete('authoring');
-  for (const [name, files] of authoringGroups(authoring, inventory.files)) groups.set(name, files);
+  // Metadata and previews need stable shards too: one thumbnail must not
+  // rebuild the entire bootstrap archive. Readers already accept named parts.
+  for (const owner of ['authoring', 'bootstrap']) {
+    const names = groups.get(owner) ?? [];
+    groups.delete(owner);
+    for (const [name, files] of authoringGroups(names, inventory.files))
+      groups.set(name.replace('authoring-', owner + '-'), files);
+  }
   const bundles: BundlePin['bundles'] = {},
     archives: Record<string, string> = {};
   const root = path.join(candidate.held.root, 'bundles');

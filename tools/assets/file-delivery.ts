@@ -42,6 +42,35 @@ export const deliveryURL = (releaseTag: string, filename: string) =>
 export const containerURL = (hash: string) =>
   deliveryURL('assets-objects-' + hash.slice(0, 16), hash + '.bin');
 
+// Shared admission for readers and publishers reusing immutable file locations.
+export function parseFileCatalog(value: unknown, payloadSha256: string) {
+  const result = FileCatalogSchema.parse(value);
+  if (
+    result.payloadSha256 !== payloadSha256 ||
+    payloadDigest({ schemaVersion: 1, recipeSha256: '', files: result.files }) !== payloadSha256
+  )
+    throw new Error('File catalog payload differs from pin');
+  const folded = new Set<string>();
+  const sizes = new Map<string, number>();
+  for (const [name, info] of Object.entries(result.files)) {
+    safeRelative(name);
+    if (!/^(public|metadata)\//.test(name) || folded.has(name.toLowerCase()))
+      throw new Error('Invalid file catalog path');
+    const container = result.containers[info.container];
+    if (
+      !container ||
+      !Number.isSafeInteger(info.offset + info.bytes) ||
+      info.offset + info.bytes > container.bytes
+    )
+      throw new Error('Invalid asset byte range');
+    if (sizes.has(info.sha256) && sizes.get(info.sha256) !== info.bytes)
+      throw new Error('Conflicting file hash sizes');
+    sizes.set(info.sha256, info.bytes);
+    folded.add(name.toLowerCase());
+  }
+  return result;
+}
+
 export async function openFileWorkspace(
   pin: BundlePin,
   cache = new AssetCache(),
@@ -121,28 +150,12 @@ export async function openFileWorkspace(
             lifetime.signal,
           ),
         );
-      const result = FileCatalogSchema.parse(
+      const result = parseFileCatalog(
         JSON.parse(
           gunzipSync(await fs.readFile(file), { maxOutputLength: 128 * 1024 ** 2 }).toString(),
         ),
+        pin.preparation.payloadSha256,
       );
-      if (
-        result.payloadSha256 !== pin.preparation.payloadSha256 ||
-        payloadDigest({ schemaVersion: 1, recipeSha256: pin.recipeSha256, files: result.files }) !==
-          result.payloadSha256
-      )
-        throw new Error('File catalog payload differs from pin');
-      const folded = new Set<string>();
-      for (const name of Object.keys(result.files)) {
-        safeRelative(name);
-        if (!/^(public|metadata)\//.test(name) || folded.has(name.toLowerCase()))
-          throw new Error('Invalid file catalog path');
-        const info = result.files[name]!;
-        const container = result.containers[info.container];
-        if (!container || info.offset + info.bytes > container.bytes)
-          throw new Error('Invalid asset byte range');
-        folded.add(name.toLowerCase());
-      }
       return result;
     })().catch((error: unknown) => {
       catalogPromise = undefined;
