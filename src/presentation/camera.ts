@@ -1,7 +1,13 @@
 import { boundsCorners, clipPolygon, closestPointOnSegment, polygonArea } from '../content/polygon';
-import { OrthographicCamera, Plane, Raycaster, Vector2, Vector3 } from 'three';
+import { OrthographicCamera, Raycaster, Vector2, Vector3 } from 'three';
 import { cameraContract as contract } from '../assets/camera-contract';
-import { heightAt, type AreaDefinition, type Point } from '../content/world';
+import {
+  heightAt,
+  heightBreakpoints,
+  surfaceGradient,
+  type AreaDefinition,
+  type Point,
+} from '../content/world';
 const a = (contract.azimuthDeg * Math.PI) / 180,
   e = (contract.elevationDeg * Math.PI) / 180;
 export const outward = new Vector3(
@@ -143,7 +149,7 @@ export function drawingBufferSize(
     pixelRatio,
   };
 }
-export function groundPoint(
+function pointerRay(
   camera: OrthographicCamera,
   clientX: number,
   clientY: number,
@@ -158,7 +164,18 @@ export function groundPoint(
     ),
     camera,
   );
-  return ray.ray.intersectPlane(new Plane(new Vector3(0, 1, 0), 0), new Vector3());
+  return ray.ray;
+}
+export function groundPoint(
+  camera: OrthographicCamera,
+  clientX: number,
+  clientY: number,
+  rect: Pick<DOMRect, 'left' | 'top' | 'width' | 'height'>,
+) {
+  const ray = pointerRay(camera, clientX, clientY, rect);
+  if (!ray || !ray.direction.y) return null;
+  const t = -ray.origin.y / ray.direction.y;
+  return t >= 0 ? ray.at(t, new Vector3()) : null;
 }
 export function walkablePoint(
   camera: OrthographicCamera,
@@ -167,43 +184,33 @@ export function walkablePoint(
   rect: Pick<DOMRect, 'left' | 'top' | 'width' | 'height'>,
   area: AreaDefinition,
 ) {
-  if (rect.width <= 0 || rect.height <= 0 || !Number.isFinite(clientX + clientY)) return null;
-  const ray = new Raycaster();
-  ray.setFromCamera(
-    new Vector2(
-      ((clientX - rect.left) / rect.width) * 2 - 1,
-      1 - ((clientY - rect.top) / rect.height) * 2,
-    ),
-    camera,
-  );
-  let low = 0,
-    high = 100;
-  const distance = (t: number) => {
-    const x = ray.ray.origin.x + ray.ray.direction.x * t,
-      z = ray.ray.origin.z + ray.ray.direction.z * t,
-      y = ray.ray.origin.y + ray.ray.direction.y * t;
-    return y - heightAt(area, x, z);
-  };
-  if (distance(low) < 0 || distance(high) > 0) return null;
-  for (let i = 0; i < 36; i++) {
-    const mid = (low + high) / 2;
-    if (distance(mid) > 0) low = mid;
-    else high = mid;
+  const ray = pointerRay(camera, clientX, clientY, rect);
+  if (!ray) return null;
+  const start = ray.at(camera.near, new Vector3()),
+    end = ray.at(camera.far, new Vector3()),
+    cuts = [0, ...heightBreakpoints(area, start, end, []), 1].sort((a, b) => a - b),
+    delta = end.clone().sub(start);
+  // Each interval is one flat tread or linear ramp. Intersect it exactly;
+  // bisection across height jumps can invent a floor halfway up a riser.
+  for (let i = 1; i < cuts.length; i++) {
+    const low = cuts[i - 1]!,
+      high = cuts[i]!;
+    if (low === high) continue;
+    const middle = start.clone().addScaledVector(delta, (low + high) / 2),
+      gradient = surfaceGradient(area, middle.x, middle.z),
+      slope = delta.y - gradient.x * delta.x - gradient.z * delta.z,
+      t = (low + high) / 2 + (heightAt(area, middle.x, middle.z) - middle.y) / slope;
+    if (t >= low && t <= high) return start.clone().addScaledVector(delta, t);
   }
-  return ray.ray.at((low + high) / 2, new Vector3());
+  return null;
 }
 export function screenMovement(
   x: number,
   y: number,
   mode: 'screen-relative' | 'world' = 'screen-relative',
 ) {
-  const v =
-    mode === 'world'
-      ? new Vector3(x, 0, -y)
-      : right
-          .clone()
-          .multiplyScalar(x)
-          .add(new Vector3(-Math.sin(a), 0, -Math.cos(a)).multiplyScalar(y));
-  if (v.lengthSq() > 1) v.normalize();
-  return { x: v.x, z: v.z };
+  const length = Math.max(1, Math.hypot(x, y));
+  return mode === 'world'
+    ? { x: x / length, z: -y / length }
+    : { x: (right.x * x - Math.sin(a) * y) / length, z: (right.z * x - Math.cos(a) * y) / length };
 }

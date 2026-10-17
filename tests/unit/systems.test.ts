@@ -5,7 +5,13 @@ import { sandboxContent } from '../../src/content/sandbox-world';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Vector3 } from 'three';
-import { ContentRegistry, PLAYER_ID, heightAt, surfaceGradient } from '../../src/content/world';
+import {
+  ContentRegistry,
+  PLAYER_ID,
+  heightAt,
+  surfaceGradient,
+  type AreaDefinition,
+} from '../../src/content/world';
 import { GameSession } from '../../src/core/session';
 import { parseGame } from '../../src/core/save';
 import { tuning, attackDefinition } from '../../src/content/gameplay';
@@ -233,46 +239,60 @@ test('content rejects duplicate/unknown IDs and invalid numbers, bounds, ramps a
   }
 });
 
-test('x-ramp support, slope and pointer ray share the same surface independently of fixture axes', () => {
+test('pointer rays hit the nearest floor across flat ground, ramps and terrace stairs', () => {
   const area = sandboxContent.area('systems-fixture'),
     camera = makeCamera(16 / 9),
     rect = { left: 80, top: 70, width: 2560, height: 1440 };
-  for (const x of [-4, -0.5, 1, 4]) {
-    const p = new Vector3(x, heightAt(area, x, 0), 0),
-      ndc = p.clone().project(camera),
-      q = walkablePoint(
-        camera,
-        rect.left + ((ndc.x + 1) * rect.width) / 2,
-        rect.top + ((1 - ndc.y) * rect.height) / 2,
-        rect,
-        area,
-      )!;
-    assert.ok(p.distanceTo(q) < 1e-7);
-  }
+  const pick = (area: AreaDefinition, point: Vector3) => {
+    const ndc = point.clone().project(camera);
+    return walkablePoint(
+      camera,
+      rect.left + ((ndc.x + 1) * rect.width) / 2,
+      rect.top + ((1 - ndc.y) * rect.height) / 2,
+      rect,
+      area,
+    )!;
+  };
+  for (const surface of [
+    { kind: 'flat', height: 2 },
+    area.surface,
+    { kind: 'ramp', axis: 'z', start: 2, end: -1, startHeight: 0, endHeight: 0.3 },
+  ] as const)
+    for (const [x, z] of [
+      [-4, -4],
+      [-0.5, -0.5],
+      [1, 1],
+      [4, 4],
+    ] as const) {
+      const ground = { ...area, surface },
+        p = new Vector3(x, heightAt(ground, x, z), z);
+      assert.ok(p.distanceTo(pick(ground, p)) < 1e-7);
+    }
   assert.ok(Math.abs(surfaceGradient(area, 0, 0).x - 0.1) < 1e-10);
   assert.deepEqual(surfaceGradient(area, 4, 0), { x: 0, z: 0 });
-  {
-    const c = makeCamera(16 / 9),
-      rect = { left: 80, top: 76, width: 2560, height: 1440 };
-    for (const z of [-4, -1, 2]) {
-      const p = new Vector3(1, heightAt(content.area('upper-landing'), 1, z), z),
-        ndc = p.clone().project(c),
-        q = walkablePoint(
-          c,
-          rect.left + ((ndc.x + 1) * rect.width) / 2,
-          rect.top + ((1 - ndc.y) * rect.height) / 2,
-          rect,
-          content.area('upper-landing'),
-        )!;
-      near(q.x, p.x);
-      near(q.y, p.y);
-      near(q.z, p.z);
-    }
-    assert.equal(
-      walkablePoint(c, 0, 0, { ...rect, width: 0 }, content.area('upper-landing')),
-      null,
-    );
-  }
+  const stairs = {
+    ...area,
+    surface: {
+      kind: 'stairs' as const,
+      axis: 'z' as const,
+      start: 2,
+      end: -2,
+      startHeight: 0,
+      endHeight: 2,
+      steps: 3,
+      stairWidth: 3.2,
+      terraceBounds: { minX: -4, maxX: 4, minZ: -5, maxZ: -2 },
+    },
+  };
+  // This tread lies in front of lower ground on the same ray. Searching the
+  // whole ray as if height were continuous used to select that hidden ground.
+  const tread = new Vector3(-1.5, 2 / 3, 1.9);
+  assert.ok(tread.distanceTo(pick(stairs, tread)) < 1e-7);
+  // A ray through a riser must still land on real ground behind it, rather
+  // than inventing a walkable point between the two floor levels.
+  const q = pick(stairs, new Vector3(-1.5, 0.25, 2));
+  near(q.y, heightAt(stairs, q.x, q.z));
+  assert.equal(walkablePoint(camera, 0, 0, { ...rect, width: 0 }, area), null);
 });
 test('partial and cleared revisits preserve enemies; player cooldowns survive; enemy transient state clears', () => {
   const definitions = structuredClone(contentDefinitions);

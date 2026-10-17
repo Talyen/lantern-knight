@@ -29,18 +29,18 @@ export function enemyAimPoint(
   let selected: ActorView | undefined,
     depth = Infinity;
   for (const enemy of enemies) {
-    if (
-      enemy.health <= 0 ||
-      Math.abs(enemy.y - (hero.y ?? 0)) > tuning.maxCombatHeightDifference ||
-      !clearSegment(area, hero, enemy, 0.001)
-    )
+    if (enemy.health <= 0 || Math.abs(enemy.y - (hero.y ?? 0)) > tuning.maxCombatHeightDifference)
       continue;
     const scale = actorVisuals[enemy.definition.visual]?.scale ?? 1,
       bottom = project(enemy.x, enemy.y + 0.35 * scale, enemy.z),
       top = project(enemy.x, enemy.y + 1.55 * scale, enemy.z),
       radius = Math.max(0.3 * scale, enemy.definition.radius * 1.4) * pixelsPerUnit,
       y = Math.max(top.y, Math.min(bottom.y, pointer.y));
-    if (Math.hypot(pointer.x - bottom.x, pointer.y - y) <= radius && bottom.depth < depth) {
+    if (
+      bottom.depth < depth &&
+      Math.hypot(pointer.x - bottom.x, pointer.y - y) <= radius &&
+      clearSegment(area, hero, enemy, 0.001)
+    ) {
       selected = enemy;
       depth = bottom.depth;
     }
