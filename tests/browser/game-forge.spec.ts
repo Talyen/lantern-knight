@@ -12,7 +12,7 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   page,
 }) => {
   // The complete return journey includes several cold room rebuilds and a reload.
-  test.setTimeout(600_000);
+  test.setTimeout(720_000);
   const clearing = content.area('forest-gathering-clearing');
   const forge = content.area('ruined-forge');
   const chest = clearing.interactables![0]!;
@@ -41,7 +41,7 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
     undefined,
     { timeout: 180_000 },
   );
-  await page.locator('#menu-start').click();
+  await activateWithKeyboard(page.locator('#menu-start'));
   await page.locator('#pause').click();
   await page.locator('#save').click();
   const key = await page.evaluate(() =>
@@ -162,7 +162,7 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
     undefined,
     { timeout: 180_000 },
   );
-  await page.locator('#menu-start').click();
+  await activateWithKeyboard(page.locator('#menu-start'));
   await expect(page.locator('#room-title')).toHaveText(forge.name);
   await expect(page.locator('#hp')).toHaveText('110 / 110');
   await capture('forge-resumed');

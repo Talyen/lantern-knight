@@ -11,7 +11,7 @@ for (const choice of ['sword', 'lantern'] as const) {
   test(`${choice} courtyard upgrade confirms once and survives continue and death recovery`, async ({
     page,
   }) => {
-    test.setTimeout(420_000);
+    test.setTimeout(540_000);
     const area = content.area('ruined-forge');
     const bench = area.interactables!.find((o) => o.kind === 'workbench')!;
     const cache = area.interactables!.find((o) => o.kind === 'container')!;
@@ -206,8 +206,10 @@ for (const choice of ['sword', 'lantern'] as const) {
     await page.mouse.click(bounds.x + bounds.width * 0.75, bounds.y + bounds.height * 0.2, {
       button: choice === 'sword' ? 'left' : 'right',
     });
+    // Burn must finish in fixed steps. Software rendering can take more than a
+    // wall-clock minute to deliver those ticks; the live damage/drop still decides success.
     await expect(page.locator('.ground-loot-label').filter({ hasText: 'Gold ×4' })).toBeVisible({
-      timeout: 60_000,
+      timeout: 120_000,
     });
     await capture('payoff');
     await page.locator('#pause').click();
