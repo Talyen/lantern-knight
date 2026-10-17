@@ -150,7 +150,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         <h3>${forgeChoices[active].name}</h3>
         <p class="forge-damage">${active === 'sword' ? 'Damage' : 'Damage per enemy'} <strong>${owned ? damage(active, true) : `${damage(active, false)} → ${damage(active, true)}`}</strong></p>
         ${!owned && html`<div class="forge-costs" aria-label="Upgrade cost">${Object.entries(forgeCost).map(([id, amount]) => material(id, amount, (app.session.inventory[id] ?? 0) < amount))}</div>`}
-        <div class="forge-decision">${confirm}${!owned && html`<span class="permanent-choice">Permanent</span>`}</div>
+        <div class="forge-decision">${confirm}${!owned && html`<span class="permanent-choice">One permanent upgrade</span>`}</div>
       </section>
     </div>`;
   }

@@ -324,6 +324,34 @@ test('accepted zero-windup enemy attacks render a finite contact pose at action 
   assert.ok(presentation.actors.get(sim.enemies[0]!.id)!.sprite.animator.time > 0);
 });
 
+test('Burn cannot weaken an enemy attack warning and returns after the windup', (t) => {
+  const { sim, presentation, update } = actorFixture(t);
+  for (const definition of ['skeleton', 'chapel-warden']) {
+    const enemy = sim.create(sim.enemies[0]!.id, 'enemy', 1, 0, definition);
+    sim.actors[1] = enemy;
+    enemy.state = 'attack';
+    enemy.age = enemy.definition.melee.windup - 1;
+    update();
+    const ring = presentation.actors.get(enemy.id)!.ring;
+    const material = ring.material as MeshBasicMaterial;
+    const warning = { color: material.color.getHex(), opacity: material.opacity };
+    for (const nextTick of [40, 1]) {
+      enemy.burn = { remaining: 150, nextTick };
+      update();
+      assert.equal(material.color.getHex(), warning.color, definition);
+      assert.equal(material.opacity, warning.opacity, definition);
+      assert.equal(ring.visible, true);
+    }
+    enemy.age = enemy.definition.melee.windup;
+    update();
+    assert.equal(ring.visible, true, 'Burn remains visible during the swing');
+    assert.notEqual(material.color.getHex(), warning.color);
+    enemy.burn = undefined;
+    update();
+    assert.equal(ring.visible, false, 'the windup accent ends at impact once Burn is gone');
+  }
+});
+
 test('hero walk animation follows actual travel speed for analog movement', (t) => {
   const { sim, presentation, update } = actorFixture(t);
   sim.hero.state = 'walk';

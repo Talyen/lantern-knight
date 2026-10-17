@@ -1,11 +1,21 @@
 import path from 'node:path';
 import { mkdir } from 'node:fs/promises';
+import { Vector3 } from 'three';
 import { test, expect } from './fixtures';
 import { loadCheckpoint } from '../fixtures/input';
-import { content } from '../../src/content/game-content';
+import { content, worldVisuals } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
 import type { GameSave } from '../../src/core/save';
 import { Navigation, effectiveRadius } from '../../src/core/navigation';
+import { cameraContract } from '../../src/assets/camera-contract';
+import { tuning } from '../../src/content/gameplay';
+import { heightAt } from '../../src/content/world';
+import {
+  compositionPoint,
+  compositionSpan,
+  compositionHeight,
+} from '../../src/content/world-visuals';
+import { makeCamera, resizeCamera, constrainCamera, outward } from '../../src/presentation/camera';
 
 for (const choice of ['sword', 'lantern'] as const) {
   test(`${choice} courtyard upgrade confirms once and survives continue and death recovery`, async ({
@@ -202,10 +212,52 @@ for (const choice of ['sword', 'lantern'] as const) {
     const canvas = page.locator('canvas');
     const bounds = (await canvas.boundingBox())!;
     await canvas.focus();
-    // The guard is ahead of the approach, above and to the right on screen.
-    await page.mouse.click(bounds.x + bounds.width * 0.75, bounds.y + bounds.height * 0.2, {
-      button: choice === 'sword' ? 'left' : 'right',
+    // Aim at the guard's body using the same framing helpers as Game. A fixed
+    // screen corner can miss after camera coverage shifts the hero off center.
+    const visuals = worldVisuals[area.id],
+      camera = makeCamera(bounds.width / bounds.height);
+    resizeCamera(
+      camera,
+      bounds.width,
+      bounds.height,
+      compositionSpan(rematch.player, cameraContract.verticalSpan, visuals),
+    );
+    const framed = compositionPoint(
+      rematch.player,
+      {
+        halfWidth: (camera.right - camera.left) / 2,
+        halfHeight: (camera.top - camera.bottom) / 2,
+      },
+      visuals,
+    );
+    const target = new Vector3(
+      framed.x,
+      heightAt(area, framed.x, framed.z) + compositionHeight(rematch.player, visuals),
+      framed.z,
+    );
+    constrainCamera(camera, target, area, {
+      position: new Vector3(
+        rematch.player.x,
+        heightAt(area, rematch.player.x, rematch.player.z),
+        rematch.player.z,
+      ),
+      height: cameraContract.heroHeight * tuning.heroVisualScale,
     });
+    camera.position.copy(target).addScaledVector(outward, 30);
+    camera.lookAt(target);
+    camera.updateMatrixWorld();
+    const pointer = new Vector3(
+      opponent.x,
+      heightAt(area, opponent.x, opponent.z) + 0.6,
+      opponent.z,
+    ).project(camera);
+    await page.mouse.click(
+      bounds.x + ((pointer.x + 1) * bounds.width) / 2,
+      bounds.y + ((1 - pointer.y) * bounds.height) / 2,
+      {
+        button: choice === 'sword' ? 'left' : 'right',
+      },
+    );
     // Burn must finish in fixed steps. Software rendering can take more than a
     // wall-clock minute to deliver those ticks; the live damage/drop still decides success.
     await expect(page.locator('.ground-loot-label').filter({ hasText: 'Gold ×4' })).toBeVisible({

@@ -333,8 +333,15 @@ export class ActorPresentation {
       v.ring.visible = options.debug || winding || !!a.burn;
       v.ring.scale.setScalar(winding ? 1 + (0.4 * a.age) / a.definition.melee.windup : 1);
       const material = v.ring.material as T.MeshBasicMaterial;
-      material.color.set(a.burn ? 0xe9a45f : winding ? 0xe5c37d : 0xc1645f);
-      material.opacity = a.burn ? (a.burn.nextTick < 8 ? 0.55 : 0.3) : 0.5 + poisedAccent * 0.2;
+      // An ongoing status must not obscure the next committed attack.
+      material.color.set(winding ? 0xe5c37d : a.burn ? 0xe9a45f : 0xc1645f);
+      material.opacity = winding
+        ? 0.5 + poisedAccent * 0.2
+        : a.burn
+          ? a.burn.nextTick < 8
+            ? 0.55
+            : 0.3
+          : 0.5;
     }
     return events;
   }

@@ -146,6 +146,35 @@ test('direct downloads reject corrupted, oversized and truncated responses witho
   }
 });
 
+test('verified cached files need no growth admission, while new and corrupt files still do', async (t) => {
+  const f = await fixture(t);
+  const initial = await openFileWorkspace(f.pin, f.cache, f.request);
+  await initial.ensurePublicFile('generated/tree/page.png');
+  await initial.release();
+  const lease = f.cache.lease.bind(f.cache);
+  t.mock.method(f.cache, 'lease', async (...args: Parameters<typeof lease>) => {
+    const held = await lease(...args);
+    return {
+      ...held,
+      reserve: async () => {
+        throw new Error('No growth available');
+      },
+    };
+  });
+  const workspace = await openFileWorkspace(f.pin, f.cache, f.request);
+  await using _cleanup = onAsyncExit(() => workspace.release());
+  const downloads = f.calls.length;
+  assert.equal(await workspace.ensurePublicFile('generated/tree/page.png'), true);
+  assert.equal(f.calls.length, downloads, 'the verified catalog and page are reused offline');
+  await assert.rejects(workspace.ensurePublicFile('generated/other/page.png'), /No growth/);
+  await fs.writeFile(
+    path.join(workspace.publicDirectory, 'generated/tree/page.png'),
+    Buffer.alloc(8192),
+  );
+  await assert.rejects(workspace.ensurePublicFile('generated/tree/page.png'), /No growth/);
+  assert.equal(f.calls.length, downloads, 'new bytes cannot bypass reservation');
+});
+
 test('downloads release rejected response bodies, including local setup failures', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-file-response-');
   const target = path.join(root, 'page');

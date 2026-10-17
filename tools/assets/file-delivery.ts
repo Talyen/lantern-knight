@@ -139,8 +139,8 @@ export async function openFileWorkspace(
   const catalog = () =>
     (catalogPromise ??= (async () => {
       const file = path.join(held.root, 'files.json.gz');
-      await reserve('catalog', delivery.bytes);
-      if (!(await valid(file, delivery)))
+      if (!(await valid(file, delivery))) {
+        await reserve('catalog', delivery.bytes);
         await slot(() =>
           downloadFile(
             deliveryURL(delivery.releaseTag, delivery.filename),
@@ -150,6 +150,7 @@ export async function openFileWorkspace(
             lifetime.signal,
           ),
         );
+      }
       const result = parseFileCatalog(
         JSON.parse(
           gunzipSync(await fs.readFile(file), { maxOutputLength: 128 * 1024 ** 2 }).toString(),
@@ -167,8 +168,10 @@ export async function openFileWorkspace(
     const info = index.files[relative];
     if (!info) return false;
     const target = path.join(held.root, relative);
-    await reserve(info.sha256, info.bytes);
+    // Verified files already belong to initialBytes and the active lease.
+    // Only installing or repairing bytes needs additional growth admission.
     if (await valid(target, info)) return true;
+    await reserve(info.sha256, info.bytes);
     let object = objects.get(info.sha256);
     if (!object) {
       object = slot(async () => {

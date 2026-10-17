@@ -90,7 +90,7 @@ Guide with clustered supplies, open walking space, warm resting-place light, ene
 
 Barrels belong with orchard storage; household pottery belongs by the ruined storehouse. Resting fires gather a bedroll and kindling. Tie caches and forward paths to named local guards; keep the return path available. Use the supplied dark fire bowl and animation, preserving source artwork. The hero's continuous lantern light uses a stronger, wider pool with a soft falloff; keep enemy silhouettes and painted scenery readable within it.
 
-Enemy cues use supplied animation with a restrained windup accent, without ground attack zones. Show the burst radius and a subdued persistent Burn cue. Burn ticks do not repeat full contact effects or impact sounds.
+Enemy cues use supplied animation with a restrained windup accent, without ground attack zones. Show the burst radius and a subdued Burn cue. During an enemy windup, the attack accent takes priority over Burn; the status accent resumes at impact. Burn ticks do not repeat full contact effects or impact sounds.
 
 ## Prototype priorities
 
