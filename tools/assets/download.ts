@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { pipeline } from 'node:stream/promises';
-import { setTimeout as delay } from 'node:timers/promises';
+import timers from 'node:timers/promises';
 
 function transientTransportFailure(error: unknown) {
   const visited = new Set<unknown>();
@@ -40,7 +40,7 @@ export async function downloadFile(...args: Parameters<typeof downloadAttempt>) 
       if (attempt === 2 || !transientTransportFailure(error)) throw error;
       // Failed attempts have already removed their temporary bytes. Every retry
       // repeats the exact range and verifies the complete response before install.
-      await delay(250 * (attempt + 1), undefined, { signal });
+      await timers.setTimeout(250 * (attempt + 1), undefined, { signal });
     }
   }
 }

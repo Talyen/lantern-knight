@@ -190,7 +190,13 @@ test('fixed command replay matches across render cadences; catch-up bounded and 
           ],
         });
       });
-    return s;
+    return {
+      tick: s.tick,
+      seed: s.seed,
+      hero: s.hero,
+      enemies: s.enemies,
+      area: s.captureAreaState(),
+    };
   };
   const a = replay(1000 / 30),
     b = replay(1000 / 144);

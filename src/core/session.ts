@@ -292,11 +292,13 @@ export class GameSession {
       if (event.kind === 'dodge') this.completeLesson('dodge');
       if (event.kind === 'potion-used') this.completeLesson('potion');
     }
-    const entry = this.sim.areaDefinition.entries.find(
-      (e) => e.id === this.sim.areaDefinition.baselineEntry,
-    )!;
-    if (Math.hypot(this.sim.hero.x - entry.x, this.sim.hero.z - entry.z) >= 2)
-      this.completeLesson('hook');
+    if (!this.onboarding.completed.includes('hook')) {
+      const entry = this.sim.areaDefinition.entries.find(
+        (e) => e.id === this.sim.areaDefinition.baselineEntry,
+      )!;
+      if (Math.hypot(this.sim.hero.x - entry.x, this.sim.hero.z - entry.z) >= 2)
+        this.completeLesson('hook');
+    }
     return previousOnboarding === this.onboarding ? result : { ...result, onboardingChanged: true };
   }
   completeLesson(lesson: Lesson) {

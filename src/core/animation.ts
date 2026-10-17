@@ -66,10 +66,13 @@ export class Animator {
     if (!Number.isFinite(ms)) return [];
     const from =
         this.notifiedThrough < 0 ? this.notifiedThrough : Math.max(this.time, this.notifiedThrough),
-      to = this.time + Math.max(0, ms),
-      duration = clipDuration(this.clip),
-      events: { key: string; kind: string; timeMs: number; instance: number }[] = [];
-    const first = Math.floor(Math.max(0, from) / duration),
+      to = this.time + Math.max(0, ms);
+    this.time = to;
+    this.notifiedThrough = Math.max(this.notifiedThrough, to);
+    const events: { key: string; kind: string; timeMs: number; instance: number }[] = [];
+    if (!this.orderedNotifies.length || to <= from) return events;
+    const duration = clipDuration(this.clip),
+      first = Math.floor(Math.max(0, from) / duration),
       last = this.clip.loop ? Math.floor(to / duration) : 0;
     for (let loop = this.clip.loop ? first : 0; loop <= last; loop++)
       for (const event of this.orderedNotifies) {
@@ -82,8 +85,6 @@ export class Animator {
             instance: this.instance,
           });
       }
-    this.time = to;
-    this.notifiedThrough = Math.max(this.notifiedThrough, to);
     return events;
   }
   get frame() {
