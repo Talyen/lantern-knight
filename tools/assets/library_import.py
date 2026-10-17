@@ -263,7 +263,10 @@ class Importer:
             or any(not isinstance(d, (int, float)) or d <= 0 for d in durations)
         ):
             raise ValueError(f"{asset['id']}/{name}: missing frames or positive timing")
-        duration = sum(durations)
+        # Match the runtime left-to-right IEEE-754 sum (Python 3.12 sum compensates).
+        duration = 0.0
+        for frame_duration in durations:
+            duration += frame_duration
         if any(
             not isinstance(m.get("atMs"), (int, float))
             or m["atMs"] < 0
