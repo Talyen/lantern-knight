@@ -1,0 +1,16 @@
+{
+  "files": {
+    "library-artwork": {
+      "Items/Interface/Illustrated Inventory v1/Artwork/equipment-icons.png": {
+        "sha256": "6e3ea57c91e0fa89638b37a6d8c6d23667a00185e325a0b2a6cb12a8a858998c",
+        "bytes": 1663993,
+        "pathHint": "Items/Interface/Illustrated Inventory v1/Artwork/equipment-icons.png"
+      },
+      "Items/Interface/Illustrated Inventory v1/Artwork/gothic-frame.png": {
+        "sha256": "8df7e89d1af314baacadec1183fd6b2097652df18a5e413c996b91ba38e8df0a",
+        "bytes": 789224,
+        "pathHint": "Items/Interface/Illustrated Inventory v1/Artwork/gothic-frame.png"
+      }
+    }
+  }
+}

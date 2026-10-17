@@ -384,7 +384,7 @@ export async function installMatchingPreparation(
   const payload = path.join(held.root, 'work/payload');
   let inventory: Awaited<ReturnType<typeof validatePack>>;
   try {
-    inventory = await validatePack(payload, lock);
+    inventory = await validateCachedPack(payload, lock);
   } catch {
     return false;
   }

@@ -1,3 +1,4 @@
+import { createItemArtwork } from './item-art';
 import { html } from './dom';
 import { Vector3 } from 'three';
 import { items } from './content/items';
@@ -5,6 +6,7 @@ import { heightAt } from './content/world';
 import type { Application } from './application';
 
 export class GroundLootLabels {
+  private readonly artwork: ReturnType<typeof createItemArtwork>;
   private labels = new Map<string, { button: HTMLButtonElement; width: number }>();
   private point = new Vector3();
   private generation = -1;
@@ -21,7 +23,9 @@ export class GroundLootLabels {
     private root: HTMLElement,
     private app: Application,
     private signal: AbortSignal,
-  ) {}
+  ) {
+    this.artwork = createItemArtwork(app.runtime, signal);
+  }
   update(visible: boolean) {
     this.root.hidden = !visible;
     if (!visible) {
@@ -55,6 +59,7 @@ export class GroundLootLabels {
       if (!label) {
         const name = `${items[reward.item]!.name}${reward.amount > 1 ? ` ×${reward.amount}` : ''}`;
         const button = html<HTMLButtonElement>`<button type="button" class="ground-loot-label" data-kind="${items[reward.item]!.kind}" data-drop="${drop.id}" aria-label="Collect ${name}">${name}</button>`;
+        button.prepend(this.artwork(reward.item));
         button.addEventListener(
           'pointerenter',
           () => {

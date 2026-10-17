@@ -114,8 +114,8 @@ for (const choice of ['sword', 'lantern'] as const) {
     await page.getByRole('button', { name: 'Collect Vigil Amulet', exact: true }).click();
     await page.locator('#open-inventory').click();
     await page.locator('.inventory-row').filter({ hasText: 'Vigil Amulet' }).click();
-    await page.getByRole('button', { name: 'Equip · Amulet', exact: true }).click();
-    await expect(page.locator('.adventure-panel')).toContainText('100 / 115 health');
+    await page.getByRole('button', { name: 'Equip', exact: true }).click();
+    await expect(page.locator('#hp')).toHaveText('100 / 115');
     await capture('vigil-amulet');
     await page.keyboard.press('Escape');
     const rewarded = await checkpoint();

@@ -66,9 +66,12 @@ for (const choice of ['sword', 'lantern'] as const) {
     const panel = page.getByRole('dialog', { name: 'Forge workbench', exact: true });
     const sword = panel.getByRole('button', { name: 'Temper Sword', exact: true });
     const lantern = panel.getByRole('button', { name: 'Rekindle Lantern', exact: true });
-    await expect(sword).toBeDisabled();
-    await expect(lantern).toBeDisabled();
-    await expect(panel).toContainText('Requires 20 Gold, 4 Iron and 1 Workshop Temper');
+    await expect(sword).toBeEnabled();
+    await expect(lantern).toBeEnabled();
+    await expect(
+      panel.getByRole('button', { name: 'Confirm upgrade', exact: true }),
+    ).toBeDisabled();
+    await expect(panel.locator('.material-cost.insufficient')).toHaveCount(3);
     await page.keyboard.press('Escape');
     await page.locator('#pause').click();
     Object.assign(seed.player, { x: cache.x, z: cache.z });
@@ -85,12 +88,10 @@ for (const choice of ['sword', 'lantern'] as const) {
     await page.keyboard.press('e');
     await expect(sword).toBeEnabled();
     await expect(lantern).toBeEnabled();
-    await expect(panel).toContainText('Sword damage 26 → 52');
-    await expect(panel).toContainText('Total lantern damage 28 → 56 per enemy');
-    await expect(panel).toContainText(
-      'Initial hit 16 → 32 · Burn 4 → 8 per tick (3 ticks over 3s)',
-    );
-    await expect(panel).toContainText('4s cooldown and 0.5s stagger stay the same');
+    await expect(panel.locator('.forge-damage')).toContainText('26 → 52');
+    await lantern.click();
+    await expect(panel.locator('.forge-damage')).toContainText('28 → 56');
+    await sword.click();
     await capture('choices');
     if (choice === 'sword') {
       await page.setViewportSize({ width: 640, height: 800 });
@@ -101,7 +102,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     }
     await (choice === 'sword' ? sword : lantern).click();
     await expect(panel.getByRole('button', { name: 'Confirm upgrade', exact: true })).toBeFocused();
-    await panel.getByRole('button', { name: 'Back to choices', exact: true }).click();
+    await (choice === 'sword' ? lantern : sword).click();
     expect((await stored()).adventure).toEqual(supplied.adventure);
     await (choice === 'sword' ? sword : lantern).click();
     await capture('confirm');
@@ -130,7 +131,9 @@ for (const choice of ['sword', 'lantern'] as const) {
     await page.keyboard.down('Enter');
     await page.keyboard.down('Enter');
     await page.keyboard.up('Enter');
-    await expect(panel).toContainText('Your permanent kit is strengthened');
+    await expect(panel.getByRole('button', { name: 'Confirm upgrade', exact: true })).toHaveText(
+      'Complete',
+    );
     const purchased = await stored();
     expect(purchased.adventure!.forgeUpgrade).toBe(choice);
     expect(purchased.adventure!.inventory.gold).toBe(0);
@@ -146,8 +149,9 @@ for (const choice of ['sword', 'lantern'] as const) {
     await expect(page.locator('#menu-start')).toHaveAccessibleName('Continue journey');
     await page.locator('#menu-start').click();
     await page.keyboard.press('i');
-    await expect(page.locator('.adventure-panel')).toContainText(
-      choice === 'sword' ? 'Edge 200% · Ember 100%' : 'Edge 100% · Ember 200%',
+    await page.locator(`[data-action="slot-${choice}"]`).click();
+    await expect(page.locator('.inventory-detail')).toContainText(
+      choice === 'sword' ? 'Damage 52' : 'Damage 56 per enemy',
     );
     await page.keyboard.press('Escape');
     const dead = await stored();
@@ -157,8 +161,9 @@ for (const choice of ['sword', 'lantern'] as const) {
     await expect(page.locator('#hp')).toHaveText('100 / 100', { timeout: 60_000 });
     await ready();
     await page.keyboard.press('i');
-    await expect(page.locator('.adventure-panel')).toContainText(
-      choice === 'sword' ? 'Edge 200% · Ember 100%' : 'Edge 100% · Ember 200%',
+    await page.locator(`[data-action="slot-${choice}"]`).click();
+    await expect(page.locator('.inventory-detail')).toContainText(
+      choice === 'sword' ? 'Damage 52' : 'Damage 56 per enemy',
     );
     await page.keyboard.press('Escape');
     const recovered = await stored();

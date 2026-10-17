@@ -18,8 +18,9 @@ import {
 import { makeArchive } from './archive';
 import { shaFile } from './sources';
 import { verifiedOutput } from '../verified-files';
-import { AssetCache, diskBytes } from './cache';
+import { AssetCache } from './cache';
 import type { PreparedAssets } from './prepare';
+import { growthReservation } from './preparation';
 
 import { selectedFiles } from '../select-runtime-assets';
 export type AssetScope = 'runtime' | 'authoring';
@@ -53,6 +54,8 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
     archives: Record<string, string> = {};
   const root = path.join(candidate.held.root, 'bundles');
   await fs.mkdir(root, { recursive: true });
+  let reserveGrowth: Awaited<ReturnType<typeof growthReservation>> | undefined;
+  let retainedGrowth = 0;
   for (const [name, files] of [...groups].sort(([a], [b]) => a.localeCompare(b))) {
     const key = createHash('sha256')
       .update(JSON.stringify(files.sort().map((file) => [file, inventory.files[file]])))
@@ -82,12 +85,22 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
         throw error;
     }
     const payload = path.join(root, name);
-    if (candidate.held.reserve)
-      await candidate.held.reserve(
-        (await diskBytes(candidate.held.root)) +
-          files.reduce((bytes, file) => bytes + inventory.files[file]!.bytes, 0) +
-          4096,
-      );
+    const started = performance.now();
+    reserveGrowth ??= await growthReservation(candidate.held);
+    const manifestBytes = Buffer.byteLength(
+      JSON.stringify({
+        schemaVersion: 1,
+        recipeSha256: key,
+        files: Object.fromEntries(files.map((file) => [file, inventory.files[file]])),
+      }),
+    );
+    // Hardlinks add no artwork bytes. Reserve the new manifest and a conservative
+    // gzip/tar bound before writing; retain only actual archive growth afterward.
+    const tarBytes = files.reduce(
+      (bytes, file) => bytes + 512 + Math.ceil(inventory.files[file]!.bytes / 512) * 512,
+      1536 + Math.ceil(manifestBytes / 512) * 512,
+    );
+    await reserveGrowth(retainedGrowth + Math.ceil(tarBytes * 1.01) + manifestBytes + 65536);
     await fs.rm(payload, { recursive: true, force: true });
     for (const file of files) {
       safeRelative(file);
@@ -99,12 +112,18 @@ export async function prepareBundles(candidate: PreparedAssets, previous?: Asset
     await fs.mkdir(path.dirname(archive), { recursive: true });
     const lock = await makeArchive(payload, archive, key, inventory.files);
     await writeJson(receiptFile, lock);
+    retainedGrowth += lock.bytes + Buffer.byteLength(JSON.stringify(lock)) + 4096;
     bundles[name] = lock;
     archives[name] = archive;
     await fs.rm(payload, { recursive: true, force: true });
+    console.log(
+      `Publication bundle ${name}: ${(lock.bytes / 1024 ** 2).toFixed(1)} MiB in ${((performance.now() - started) / 1000).toFixed(2)}s.`,
+    );
   }
   const accepted = preparationPin(candidate.lock, await recipeInputs(), inventory);
   const pin = LockSchema.parse({ ...accepted, schemaVersion: 3, bundles }) as BundlePin;
+  if (reserveGrowth)
+    await reserveGrowth(retainedGrowth + Buffer.byteLength(JSON.stringify({ pin, archives })));
   await writeJson(path.join(root, 'plan.json'), { pin, archives });
   return { pin, archives };
 }

@@ -15,6 +15,7 @@ import {
   inspectArchive,
   validatePack,
   validateCachedPack,
+  installMatchingPreparation,
   preparationPin,
   recipeHash,
   recipeInputs,
@@ -256,6 +257,28 @@ test('exact pinned preparation can be consumed offline and survives preparation 
   await bundled.release();
   await held.release();
   await preparation.release();
+});
+test('a cached preparation proof cannot seed changed bytes with the same size and modification time', async (t) => {
+  const f = await fixture(t);
+  const preparation = await f.cache.lease('preparation'),
+    destination = await f.cache.lease('destination'),
+    payload = path.join(preparation.root, 'work/payload');
+  await using _cleanup = onAsyncExit(async () => {
+    await destination.release();
+    await preparation.release();
+  });
+  await fs.mkdir(path.dirname(payload), { recursive: true });
+  await fs.cp(f.source, payload, { recursive: true });
+  await writeJson(path.join(preparation.root, 'prepared.json'), f.lock);
+  await validateCachedPack(payload, f.lock);
+  const file = path.join(payload, 'public/page.png'),
+    before = await fs.stat(file);
+  await fs.writeFile(file, Buffer.alloc(before.size, 0x78));
+  await fs.utimes(file, before.atime, before.mtime);
+  assert.equal(await installMatchingPreparation(destination, f.lock, f.cache), false);
+  await assert.rejects(fs.access(path.join(destination.root, 'public/page.png')), {
+    code: 'ENOENT',
+  });
 });
 test('a rewritten cache inventory cannot bless changed asset bytes', async (t) => {
   const f = await fixture(t);

@@ -209,10 +209,10 @@ body.game {
   color: var(--sage);
 }
 .game .menu-actions .primary-action {
-  background: var(--amber);
-  color: #182020;
-  border-color: var(--amber);
-  font-weight: 600;
+  background: #5e211b;
+  color: var(--ivory);
+  border: 3px double #a28456;
+  font-weight: 400;
   margin: 0 0 10px;
   min-height: 53px;
 }
@@ -221,8 +221,8 @@ body.game {
   font-size: 22px;
 }
 .game .menu-actions .primary-action:hover:not(:disabled) {
-  color: #101818;
-  background: #ead09b;
+  color: var(--ivory);
+  background: #7b3026;
 }
 .game .checkpoint-actions {
   display: grid;
@@ -747,13 +747,17 @@ body.game {
   z-index: 4;
   overflow: hidden;
 }
-.ground-loot-label {
+.game .ground-loot-label {
   position: absolute;
   transform: translate(-50%, -50%);
   pointer-events: auto;
   white-space: nowrap;
-  padding: 3px 8px;
+  padding: 0 8px;
   min-height: 23px;
+  height: 23px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   border: 1px solid #9b967455;
   border-radius: 2px;
   background: #111619e8;
@@ -776,4 +780,20 @@ body.game {
   background: #292c26f5;
   outline: 1px solid #e1c88e;
   outline-offset: 1px;
+}
+
+.game :is(.supply-row, .lantern-heading) > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.game :is(.supply-row, .lantern-heading) .item-art {
+  width: 22px;
+  height: 22px;
+}
+.game .ground-loot-label .item-art {
+  display: inline-flex;
+  width: 17px;
+  height: 17px;
+  margin: 0;
 }

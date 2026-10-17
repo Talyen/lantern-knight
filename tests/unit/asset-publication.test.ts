@@ -10,7 +10,7 @@ import { manifestFixture } from '../fixtures/manifest';
 import { gameAssetCatalog } from '../../src/content/game-content';
 import { assetCatalog } from '../../src/content/asset-catalog';
 import { loadingVideoPath } from '../../src/content/loading-media';
-import { AssetCache } from '../../tools/assets/cache';
+import { AssetCache, diskBytes } from '../../tools/assets/cache';
 import { makeArchive, inventoryCandidate } from '../../tools/assets/archive';
 import { recipeHash, LockSchema, type AssetLock } from '../../tools/assets/pack';
 import { publishBundledPrepared, verifyRemote } from '../../tools/assets/publication';
@@ -48,11 +48,25 @@ test('split publication uses downloadable filenames, frees the candidate archive
   await write('public/lighting/manifest.json', JSON.stringify({ entries: {} }));
   await write('public/audio/manifest.json', JSON.stringify({ schemaVersion: 1, samples: [] }));
   await write('public/authoring-only.png', 'distinct authoring artwork');
+  for (let i = 0; i < 200; i++) await write(`public/authoring/${i}.png`, `distinct source ${i}`);
   await write('public/generated/library/catalog.json', '{}');
   await write('public/generated/library/index.json', '{}');
   await write('public/generated/delivery/fixture/preview.png', 'small preview');
+  let reservations = 0,
+    granted = 0;
   const lock = await makeArchive(payload, archive, await recipeHash()),
-    candidate = { held, payload, archive, lock },
+    candidate = {
+      held: {
+        ...held,
+        reserveUpTo: async (bytes: number, preferred: number) => {
+          reservations++;
+          return (granted = await held.reserveUpTo(bytes, preferred));
+        },
+      },
+      payload,
+      archive,
+      lock,
+    },
     uploads = new Map<string, Buffer>();
   await writeJson(target, lock);
   const remoteAssets = (tag: string) =>
@@ -124,6 +138,8 @@ test('split publication uses downloadable filenames, frees the candidate archive
     /interrupted before pin/,
   );
   assert.deepEqual(await readJson(target), lock);
+  assert.equal(reservations, 1, 'small shards share one bounded growth reservation');
+  assert.ok((await diskBytes(held.root)) <= granted, 'publication stays within its reservation');
   await assert.rejects(fs.access(archive), { code: 'ENOENT' });
   const inventoryLock = await inventoryCandidate(payload, lock.recipeSha256);
   await publishBundledPrepared(
@@ -138,6 +154,7 @@ test('split publication uses downloadable filenames, frees the candidate archive
   const pin = LockSchema.parse(await readJson(target));
   assert.equal(pin.schemaVersion, 3);
   if (pin.schemaVersion !== 3) throw new Error('Expected split pin');
+  assert.ok(Object.keys(pin.bundles).filter((name) => name.startsWith('authoring-')).length > 40);
   assert.ok(pin.fileDelivery, 'individual files are verified before pinning');
   assert.ok(pin.bundles.bootstrap, 'metadata and thumbnails have their own bootstrap bundle');
   const acquired = await ensureBundlePack(pin, cache, async (url) => {
