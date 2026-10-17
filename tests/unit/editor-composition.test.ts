@@ -29,16 +29,28 @@ it('absolute alignment places selected supports before attachments regardless of
     ['child', 'support'],
     ['support', 'child'],
   ]) {
-    const history = assembly(),
-      before = history.document;
+    const history = assembly();
+    history.change((d) => {
+      d.objects.pop();
+      d.objects[1]!.footprint = [0.2, 0.2];
+      d.geometry = {
+        bounds: { minX: -6, maxX: 6, minZ: -6, maxZ: 6 },
+        surface: { kind: 'flat', height: 0 },
+        baselineEntry: 'start',
+        entries: [{ id: 'start', x: 4, z: 2 }],
+      };
+    });
+    const before = history.document;
     history.transformEach(selection, { x: 3, z: 2 });
     const selected = sceneItems(history.document).filter((item) =>
       selection.includes(item.placement.id),
     );
     assert.ok(selected.every((item) => item.placement.x === 3 && item.placement.z === 2));
+    const aligned = history.document;
+    assert.throws(() => history.transformEach(selection, { x: 4, z: 2 }), /entry is obstructed/);
+    assert.equal(history.document, aligned);
     history.undo();
     assert.deepEqual(history.document, before);
-    assert.equal(history.canUndo, false);
   }
 });
 
@@ -85,18 +97,26 @@ it('fragments detach external supports while keeping world placement and insert 
   assert.equal(h.document.objects.at(-1)!.x, 1);
 });
 
-it('saved arrangements retain the selected artwork draw order when inserted', () => {
+it('copied and saved assemblies preserve draw order and undo as one edit', () => {
   const h = assembly();
   h.change((d) => {
     d.propOrder = ['child', 'support'];
   });
-  const ids = h.insertFragment(h.fragment(['support']));
-  assert.deepEqual(
-    sceneItems(h.document)
-      .filter((p) => ids.includes(p.placement.id))
-      .map((p) => (p.placement.mount ? 'child' : 'support')),
-    ['child', 'support'],
-  );
+  const before = h.document;
+  for (const insert of [
+    () => h.insertFragment(h.fragment(['support'])),
+    () => h.duplicateMany(['support']),
+  ]) {
+    const ids = insert();
+    assert.deepEqual(
+      sceneItems(h.document)
+        .filter((p) => ids.includes(p.placement.id))
+        .map((p) => (p.placement.mount ? 'child' : 'support')),
+      ['child', 'support'],
+    );
+    h.undo();
+    assert.equal(h.document, before);
+  }
 });
 
 it('duplicating artwork preserves every health reward attached to it', () => {
@@ -323,22 +343,6 @@ it('scaling an assembly scales its attachment height with its support', () => {
   const child = sceneItems(h.document).find((p) => p.placement.id === 'child')!.placement;
   assert.equal(child.y, 2);
   assert.equal(child.scale, 2);
-});
-
-it('duplicating an assembly preserves its authored prop order', () => {
-  const h = assembly();
-  h.change((d) => {
-    d.propOrder = ['child', 'support'];
-  });
-  const ids = h.duplicateMany(['support']);
-  assert.deepEqual(
-    sceneItems(h.document)
-      .filter((p) => ids.includes(p.placement.id))
-      .map((p) =>
-        h.document.objects.find((o) => o.id === p.placement.id)!.mount ? 'child' : 'support',
-      ),
-    ['child', 'support'],
-  );
 });
 
 it('duplicating an assembly preserves intentional overlap allowances between its copied objects', () => {

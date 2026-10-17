@@ -1,5 +1,6 @@
 import {
   parseSceneDocument,
+  resolveSceneDocument,
   type SceneDocument,
   type SceneSnapshot,
   type SceneObject,
@@ -110,19 +111,20 @@ export class EditorHistory {
       // Supports move before attachments; the complete batch owns one undo entry.
       for (const id of [...targets.keys()].sort((a, b) => depth(a) - depth(b))) {
         const fields = targets.get(id)!;
-        const item = sceneItems(document).find((p) => p.placement.id === id);
-        if (!item) throw new Error('Unknown scene object: ' + id);
-        const object = document.objects.find((p) => p.id === id)!;
+        const object = document.objects.find((p) => p.id === id);
+        if (!object) throw new Error('Unknown scene object: ' + id);
         if (object.mount) {
+          // Resolve relative offsets during the batch; validate the completed scene in change().
+          const art = resolveSceneDocument(document);
+          const placements = [...art.props, ...art.decals];
+          const item = placements.find((p) => p.id === id)!;
+          const support = placements.find((p) => p.id === object.mount!.to)!;
           const { x, y, z, ...other } = fields;
           const offset = object.mount.offset;
-          const support = sceneItems(document).find(
-            (p) => p.placement.id === object.mount!.to,
-          )!.placement;
           const delta = localOffset(support, [
-            x === undefined ? 0 : x - item.placement.x,
-            y === undefined ? 0 : y - (item.placement.y ?? 0),
-            z === undefined ? 0 : z - item.placement.z,
+            x === undefined ? 0 : x - item.x,
+            y === undefined ? 0 : y - (item.y ?? 0),
+            z === undefined ? 0 : z - item.z,
           ]);
           for (let i = 0; i < 3; i++) offset[i]! += delta[i]!;
           Object.assign(object, other);
@@ -136,50 +138,46 @@ export class EditorHistory {
     ids: readonly string[],
     fields: { x?: number; z?: number; rotation?: number; scale?: number },
   ) {
-    let items = sceneItems(this.document).filter((p) => ids.includes(p.placement.id));
+    const all = sceneItems(this.document);
+    let items = all.filter((p) => ids.includes(p.placement.id));
     if (!items.length) return;
     const cx = items.reduce((v, p) => v + p.placement.x, 0) / items.length;
     const cz = items.reduce((v, p) => v + p.placement.z, 0) / items.length;
     const angle = fields.rotation ?? 0,
       factor = fields.scale ?? 1;
+    const transform = (p: { x: number; z: number }) => {
+      const dx = (p.x - cx) * factor,
+        dz = (p.z - cz) * factor;
+      return {
+        x: cx + dx * Math.cos(angle) - dz * Math.sin(angle) + (fields.x ?? 0),
+        z: cz + dx * Math.sin(angle) + dz * Math.cos(angle) + (fields.z ?? 0),
+      };
+    };
     if (angle || factor !== 1) {
       const included = new Set(this.descendants(ids));
-      items = sceneItems(this.document).filter((p) => included.has(p.placement.id));
+      items = all.filter((p) => included.has(p.placement.id));
     }
     // Resolve targets against the original snapshot. A selected support carries its
     // descendants; explicitly selected children are transformed only once.
     const targets = new Map(
-      items.map(({ placement: p }) => {
-        const dx = (p.x - cx) * factor,
-          dz = (p.z - cz) * factor;
-        return [
-          p.id,
-          {
-            x: cx + dx * Math.cos(angle) - dz * Math.sin(angle) + (fields.x ?? 0),
-            z: cz + dx * Math.sin(angle) + dz * Math.cos(angle) + (fields.z ?? 0),
-            scale: (p.scale ?? 1) * factor,
-            rotation: Math.atan2(
-              Math.sin((p.rotation ?? 0) + angle),
-              Math.cos((p.rotation ?? 0) + angle),
-            ),
-          },
-        ];
-      }),
+      items.map(({ placement: p }) => [
+        p.id,
+        {
+          ...transform(p),
+          scale: (p.scale ?? 1) * factor,
+          rotation: Math.atan2(
+            Math.sin((p.rotation ?? 0) + angle),
+            Math.cos((p.rotation ?? 0) + angle),
+          ),
+        },
+      ]),
     );
     // Move registered joins in the same history transaction as their assembly.
     const transformed = new Set(this.descendants(items.map((item) => item.placement.id)));
     this.applyTransforms(targets, (document) => {
       for (const overlap of document.overlaps) {
         if (!transformed.has(overlap.a) || !transformed.has(overlap.b)) continue;
-        const corners = boundsCorners(overlap.region).map((point) => {
-          const dx = (point.x - cx) * factor,
-            dz = (point.z - cz) * factor;
-          return {
-            x: cx + dx * Math.cos(angle) - dz * Math.sin(angle) + (fields.x ?? 0),
-            z: cz + dx * Math.sin(angle) + dz * Math.cos(angle) + (fields.z ?? 0),
-          };
-        });
-        overlap.region = polygonBounds(corners);
+        overlap.region = polygonBounds(boundsCorners(overlap.region).map(transform));
       }
     });
   }
