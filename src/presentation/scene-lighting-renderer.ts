@@ -531,7 +531,7 @@ export class SceneLightingRenderer {
       return;
     }
     this.resize();
-    this.glowPass.enabled = fx.bloom;
+    this.glowPass.enabled = fx.bloom && look.bloom > 0;
     this.bloom.intensity = fx.bloom ? look.bloom : 0;
     this.uniforms.lookContrast.value = look.contrast;
     this.uniforms.lookInkFinish.value = s.paintedFinish ? 1 : 0;

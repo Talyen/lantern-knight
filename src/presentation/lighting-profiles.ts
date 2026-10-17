@@ -93,7 +93,7 @@ export const lookPresets = {
     label: 'Dark cinematic',
     contrast: 1.03,
     saturation: 0.94,
-    bloom: 0.12,
+    bloom: 0,
     mist: 0.06,
     haze: 0.08,
     shadow: 0.24,
