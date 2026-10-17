@@ -162,7 +162,8 @@ export class AssetCache {
       );
     }
     const lock = path.join(this.root, '.mutex');
-    for (let n = 0; ; n++) {
+    const started = Date.now();
+    for (;;) {
       try {
         await fs.mkdir(lock);
         await writeJson(path.join(lock, 'owner.json'), owner());
@@ -188,7 +189,10 @@ export class AssetCache {
             continue;
           }
         }
-        if (n >= 200) throw new Error('Asset cache is busy; retry after the current operation');
+        // A complete library accounting/eviction pass can outlast ten seconds.
+        // Readers and cleanup wait for its live owner instead of restarting work.
+        if (Date.now() - started >= 5 * 60_000)
+          throw new Error('Asset cache is busy; retry after the current operation');
         await new Promise((done) => setTimeout(done, 50));
       }
     }
