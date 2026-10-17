@@ -166,8 +166,10 @@ export async function startGameBenchmark(
             ...document.querySelectorAll<HTMLInputElement | HTMLSelectElement>(
               '#modal input,#modal select',
             ),
-          ].map((el) => [
-            el.id || el.dataset.visualEffect!,
+          ].map((el, index) => [
+            el.id ||
+              el.dataset.visualEffect ||
+              (el.dataset.audio ? 'audio:' + el.dataset.audio : 'control:' + index),
             el instanceof HTMLInputElement && el.type === 'checkbox' ? el.checked : el.value,
           ]),
         ),

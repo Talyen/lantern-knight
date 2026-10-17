@@ -135,8 +135,10 @@ async function pacing(flags: string[]) {
                     ...document.querySelectorAll<HTMLInputElement | HTMLSelectElement>(
                       '#modal input,#modal select',
                     ),
-                  ].map((e) => [
-                    e.id || e.dataset.visualEffect!,
+                  ].map((e, index) => [
+                    e.id ||
+                      e.dataset.visualEffect ||
+                      (e.dataset.audio ? 'audio:' + e.dataset.audio : 'control:' + index),
                     e instanceof HTMLInputElement && e.type === 'checkbox' ? e.checked : e.value,
                   ]),
                 ),
