@@ -28,9 +28,10 @@ async function diskUsage(
   const pending = [root];
   // Bound both directory and file metadata requests. Library pages are spread
   // across thousands of small directories, rather than one flat file list.
+  // Drain from the end so each batch avoids shifting the remaining directory queue.
   while (pending.length) {
     await Promise.all(
-      pending.splice(0, 16).map(async (directory) => {
+      pending.splice(-16).map(async (directory) => {
         let names;
         try {
           names = await fs.readdir(directory, { withFileTypes: true });
