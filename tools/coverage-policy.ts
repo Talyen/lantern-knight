@@ -2,6 +2,13 @@
 const policies = [
   {
     pattern:
+      /^tools\/(?:(?:cli|scope-exit|json-file|verified-files|run-process|command-lane)\.ts$|assets\/(?:workspace|paths|demand(?:-plugin)?|file-delivery|download|bundles|pack|preview|cache|files|sources)\.ts$)/,
+    desktop: true,
+    authoring: true,
+    assets: true,
+  },
+  {
+    pattern:
       /^(assets\/|authoring\/|references\/canon\/|src\/(?:assets|content|presentation)\/|src\/core\/(?:animation|locomotion)|tools\/(?:assets\/|check-assets|check-scene-documents|select-runtime-assets|compiler|preview-session)|tests\/assets\/|package(?:-lock)?\.json$)/,
     assets: true,
   },
@@ -12,7 +19,7 @@ const policies = [
   },
   {
     pattern:
-      /^(src\/(?:editor|effects-playground|sandbox)|src\/content\/(?:scene-(?:document|design)|world-art|game-content|effects-playground)|src\/presentation\/effects-playground|tests\/browser\/(?:editor|effects|fixtures\.ts$))/,
+      /^(tools\/(?:scene|segmentation)\/|src\/(?:editor|effects-playground|sandbox)|src\/content\/(?:scene-(?:document|design)|world-art|game-content|effects-playground)|src\/presentation\/effects-playground|tests\/browser\/(?:editor|effects|fixtures\.ts$))/,
     authoring: true,
   },
   {

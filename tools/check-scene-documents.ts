@@ -20,7 +20,9 @@ export async function checkSceneDocuments(
   const profileDirectory = path.join(root, 'authoring/ground-profiles');
   try {
     await fs.access(profileDirectory);
-    await new GroundProfileStore(profileDirectory).list();
+    const profiles = await new GroundProfileStore(profileDirectory).list();
+    const unreadable = profiles.find((profile) => profile.error);
+    if (unreadable) throw new Error(`Ground profile ${unreadable.id}: ${unreadable.error}`);
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
   }

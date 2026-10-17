@@ -359,6 +359,35 @@ test('cache reservations evict unused data, protect active work and enforce the 
   await cache.clean();
   assert.ok((await diskBytes(root)) < 8192);
 });
+for (const operation of ['reserve', 'reserveUpTo'] as const)
+  test(`a queued ${operation} cannot recreate a released cache lease`, async (t) => {
+    const root = await temporaryDirectory(t, 'lantern-lease-release-');
+    const cache = new AssetCache(root, 8192);
+    const held = await cache.lease('active');
+    const entered = Promise.withResolvers<void>();
+    const resume = Promise.withResolvers<void>();
+    const mkdir = fs.mkdir;
+    let paused = false;
+    t.mock.method(fs, 'mkdir', async (...args: Parameters<typeof mkdir>) => {
+      if (args[0] === path.join(root, '.mutex') && !paused) {
+        paused = true;
+        entered.resolve();
+        await resume.promise;
+      }
+      return mkdir(...args);
+    });
+    t.after(() => resume.resolve());
+    const reservation = assert.rejects(
+      operation === 'reserve' ? held.reserve(1000) : held.reserveUpTo(1000, 2000),
+      /reservation/,
+    );
+    await entered.promise;
+    await held.release();
+    resume.resolve();
+    await reservation;
+    assert.deepEqual(await fs.readdir(path.join(held.root, '.leases')), []);
+    assert.equal(await cache.clean(), 1, 'released entry must remain evictable');
+  });
 test('failed lease metadata writes preserve live reservations and do not wedge subsequent cache operations', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-lease-write-'),
     cache = new AssetCache(root, 8192),

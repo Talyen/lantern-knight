@@ -359,6 +359,8 @@ export class AssetCache {
         if (released || !Number.isSafeInteger(bytes) || bytes < 0 || bytes > this.limit)
           throw new Error('Invalid cache reservation');
         await this.locked(async () => {
+          // Release can win the mutex while this reservation waits for admission.
+          if (released) throw new Error('Invalid cache reservation');
           await this.makeRoom(name, bytes);
           await this.writeJSON(file, { ...owner(), bytes });
         });
@@ -374,6 +376,7 @@ export class AssetCache {
         )
           throw new Error('Invalid cache reservation');
         return this.locked(async () => {
+          if (released) throw new Error('Invalid cache reservation');
           const granted = await this.makeRoom(name, bytes, undefined, preferred);
           await this.writeJSON(file, { ...owner(), bytes: granted });
           return granted;

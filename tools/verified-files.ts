@@ -1,4 +1,4 @@
-import { readJson, writeJson } from './json-file';
+import { readJson, writeJsonAtomic } from './json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -37,8 +37,8 @@ export async function verifiedOutput(
   const key = createHash('sha256').update(JSON.stringify(signature)).digest('hex');
   const file = path.join(root, receipt);
   try {
-    const prior = (await readJson(file)) as { version: number; key: string };
-    if (prior.version === 1 && prior.key === key) return true;
+    const prior = (await readJson(file)) as { version?: unknown; key?: unknown } | null;
+    if (prior?.version === 1 && prior.key === key) return true;
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT' && !(error instanceof SyntaxError))
       throw error;
@@ -46,7 +46,7 @@ export async function verifiedOutput(
   await validate();
   if (JSON.stringify(signature) !== JSON.stringify(await fileSignatures(root, names)))
     throw new Error('Output changed during validation');
-  await writeJson(file, { version: 1, key });
+  await writeJsonAtomic(file, { version: 1, key });
   return false;
 }
 
