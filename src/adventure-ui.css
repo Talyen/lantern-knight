@@ -111,6 +111,10 @@
   flex-direction: column;
   overflow: hidden;
 }
+.game .adventure-panel.is-inventory .inventory-content {
+  margin-bottom: 72px;
+  padding-bottom: 0;
+}
 .adventure-panel .inventory-columns {
   display: grid;
   flex: 1;
@@ -564,6 +568,9 @@
   }
 }
 @media (max-width: 760px) {
+  .game .adventure-panel.is-inventory .inventory-content {
+    margin-bottom: 34px;
+  }
   .game .adventure-panel.is-inventory {
     width: calc(100vw - 20px);
     height: calc(100dvh - 20px);

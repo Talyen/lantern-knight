@@ -172,6 +172,11 @@ test('inventory compares replacements and forge keeps the choice and confirmatio
   await panel.locator('[data-action="slot-sword"]').click();
   const equipmentBounds = await panel.locator('.inventory-equipment').boundingBox();
   expect(equipmentBounds!.height).toBeLessThanOrEqual(600);
+  const contentBounds = await panel.locator('.inventory-content').boundingBox();
+  const panelBounds = await panel.boundingBox();
+  expect(contentBounds!.y + contentBounds!.height).toBeLessThanOrEqual(
+    panelBounds!.y + panelBounds!.height - 30,
+  );
   await detail.getByRole('button', { name: 'Unequip', exact: true }).focus();
   await expect(detail.getByRole('button', { name: 'Unequip', exact: true })).toBeInViewport({
     ratio: 1,
