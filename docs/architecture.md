@@ -245,6 +245,8 @@ GamePresentation owns shared CombatFeedback. Its declared combat catalog assets 
 
 Keep native DOM controls and the shared Application lifecycle. Verify focus return, nested confirmation cancellation, accepted input, pending operations and failure feedback. Settings remain separate from checkpoints; Sandbox cannot write checkpoints. Use application tests and the Game browser scenario.
 
+Player menus use prepared gothic frames and illustrated control artwork. Equipment stays left of an expanded pack on desktop; narrow windows switch between kit and pack. Pack cells are presentation space, not a carrying limit. Selected-item details stay inside the inventory panel. Checkpoint utilities live under More, and settings show one category at a time. Icon explanations use one mounted native popover from `src/player-tooltips.ts`; hover and keyboard focus share it, and the mounted Game lifetime removes it on disposal. Keep short labels for ambiguous settings, irreversible choices and actionable failures.
+
 ### Introduce audio
 
 Follow [audio](#audio), keeping playback separate from gameplay and covering failure/disposal together.

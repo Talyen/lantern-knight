@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { test, expect } from './fixtures';
-import { loadCheckpoint } from '../fixtures/input';
+import { clickCheckpointAction, loadCheckpoint } from '../fixtures/input';
 
 test('requested cohesion render cost comparison', async ({ page }) => {
   const directory = process.env.LANTERN_COHESION_MEASUREMENTS;
@@ -172,7 +172,7 @@ test('requested supplied-artwork comparison captures', async ({ page }) => {
     await page.locator('canvas[data-ready="true"]').waitFor();
     await page.locator('#menu-start').click();
     await page.locator('#pause').click();
-    await page.locator('#save').click();
+    await clickCheckpointAction(page, 'save');
     await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
     await page.evaluate(() => {
       const key = Object.keys(localStorage).find((k) => k.endsWith('-game'))!;
@@ -266,7 +266,7 @@ test('requested lighting and Lunge facing captures', async ({ page }) => {
   await page.locator('canvas[data-ready="true"]').waitFor();
   await page.locator('#menu-start').click();
   await page.locator('#pause').click();
-  await page.locator('#save').click();
+  await clickCheckpointAction(page, 'save');
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
   await page.evaluate(() => {
     const key = Object.keys(localStorage).find((k) => k.endsWith('-game'))!;
@@ -309,7 +309,7 @@ test('requested corrected Orchard placement captures', async ({ page }) => {
   await page.locator('canvas[data-ready="true"]').waitFor();
   await page.locator('#menu-start').click();
   await page.locator('#pause').click();
-  await page.locator('#save').click();
+  await clickCheckpointAction(page, 'save');
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
   for (const [name, x, z] of [
     ['east', 8.5, -4],

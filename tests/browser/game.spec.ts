@@ -1,6 +1,6 @@
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
-import { loadCheckpoint } from '../fixtures/input';
+import { clickCheckpointAction, loadCheckpoint } from '../fixtures/input';
 import { test, expect } from './fixtures';
 test('main menu, game input, pause focus and current checkpoint reload', async ({ page }) => {
   // Startup, checkpoint loads and death recovery are distinct room operations.
@@ -15,6 +15,11 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
   await expect(page.locator('#menu-start')).toHaveAccessibleName('Begin journey');
   await expect(page.locator('#menu-start')).toBeFocused();
   if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY) {
+    await page.waitForFunction(() =>
+      [...document.querySelectorAll('#modal .item-art')].every(
+        (el) => el.getAttribute('data-ready') === 'true',
+      ),
+    );
     await mkdir(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, { recursive: true });
     await page.screenshot({
       path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'main-menu.png'),
@@ -24,6 +29,18 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
   await expect(page.locator('#menu-start')).toBeVisible();
   await page.locator('#menu-settings').click();
   await expect(page.locator('#render-scale')).toBeVisible();
+  await page.getByRole('tab', { name: 'Sound', exact: true }).click();
+  await expect(page.locator('#render-scale')).toBeHidden();
+  await expect(page.locator('[data-audio="master"]')).toBeVisible();
+  await page.keyboard.press('ArrowUp');
+  await expect(page.getByRole('tab', { name: 'Display', exact: true })).toBeFocused();
+  await expect(page.getByRole('tooltip')).toBeVisible();
+  await expect(page.getByRole('tooltip')).toHaveText('Display');
+  await expect(page.locator('#render-scale')).toBeVisible();
+  await expect(page.locator('[data-visual-effect="rain"]')).toBeHidden();
+  await page.locator('.advanced-settings > summary').click();
+  await expect(page.locator('[data-visual-effect="rain"]')).toBeVisible();
+  await page.locator('.advanced-settings > summary').click();
   if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY)
     await page.screenshot({
       path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'settings.png'),
@@ -34,6 +51,10 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
   await expect(
     page.locator('.control-grid > div').filter({ hasText: 'Lantern burst' }),
   ).toContainText('RMB');
+  if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY)
+    await page.screenshot({
+      path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'controls.png'),
+    });
   await page.keyboard.press('Escape');
   await expect(page.locator('#menu-start')).toBeVisible();
   await page.locator('#menu-start').click();
@@ -49,7 +70,12 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
   }
   await page.locator('#pause').click();
   await expect(page.locator('#resume')).toBeFocused();
-  await page.locator('#save').click();
+  await expect(page.locator('#save')).toBeHidden();
+  if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY)
+    await page.screenshot({
+      path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'pause.png'),
+    });
+  await clickCheckpointAction(page, 'save');
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
   const keys = await page.evaluate(() =>
     Object.keys(localStorage).filter((key) => key.endsWith('-game')),
@@ -61,10 +87,12 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
     true,
   );
   expect(initial.wins).toBe(0);
-  await page.locator('#menu-help').click();
+  await page.locator('#menu-settings').click();
+  await page.locator('#settings-controls').click();
   await expect(
     page.locator('.control-grid > div').filter({ hasText: 'Lantern burst' }),
   ).toContainText('RMB');
+  await page.locator('#menu-back').click();
   await page.locator('#menu-back').click();
   await page.locator('#resume').click();
   await expect(page.locator('.game-stage canvas')).toBeFocused();
@@ -129,7 +157,7 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
     }
   });
   await page.locator('#pause').click();
-  await page.locator('#save').click();
+  await clickCheckpointAction(page, 'save');
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
   const afterControls = await page.evaluate(
     (key) => JSON.parse(localStorage.getItem(key)!),
@@ -146,7 +174,7 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
   });
   await page.keyboard.up('KeyW');
   await page.locator('#pause').click();
-  await page.locator('#save').click();
+  await clickCheckpointAction(page, 'save');
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
   const moved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), keys[0]!);
   expect(
@@ -176,7 +204,7 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
   await expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 60_000 });
   await expect(page.locator('#hp')).toHaveText('100 / 100');
   await page.locator('#pause').click();
-  await page.locator('#new-game').click();
+  await clickCheckpointAction(page, 'new-game');
   await expect(page.locator('#cancel-new')).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(page.locator('#new-confirm')).not.toBeVisible();
@@ -185,7 +213,7 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
   await expect(page.locator('#modal')).toHaveClass(/is-title/);
   await expect(page.locator('#menu-start')).toHaveAccessibleName('Continue journey');
   await expect(page.locator('#menu-start')).toBeFocused();
-  await page.locator('#new-game').click();
+  await clickCheckpointAction(page, 'new-game');
   await page.locator('#confirm-new').click();
   await expect(page.locator('#new-confirm')).not.toBeVisible({ timeout: 60_000 });
   await expect(page.locator('canvas')).toBeFocused();
@@ -210,7 +238,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   );
   await page.locator('#menu-start').click();
   await page.locator('#pause').click();
-  await page.locator('#save').click();
+  await clickCheckpointAction(page, 'save');
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
   const { content } = await import('../../src/content/game-content');
   const orchard = content.area('abandoned-orchard');
@@ -273,7 +301,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await page.keyboard.press('q');
   await expect(page.locator('#hp')).toHaveText('100 / 110');
   await page.locator('#pause').click();
-  await page.locator('#save').click();
+  await clickCheckpointAction(page, 'save');
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
   const fire = orchard.campfires![0]!;
   await page.evaluate(
@@ -302,7 +330,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await page.keyboard.press('Escape');
   // Unlock departure through a valid cleared encounter checkpoint; use the real departure interaction.
   await page.locator('#pause').click();
-  await page.locator('#save').click();
+  await clickCheckpointAction(page, 'save');
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
   const exit = orchard.exits[0]!;
   await page.evaluate(

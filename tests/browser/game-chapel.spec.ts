@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { mkdir } from 'node:fs/promises';
 import { activateWithKeyboard, test, expect } from './fixtures';
-import { loadCheckpoint } from '../fixtures/input';
+import { clickCheckpointAction, loadCheckpoint } from '../fixtures/input';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
 import type { GameSave } from '../../src/core/save';
@@ -46,7 +46,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     await ready();
     await page.locator('#menu-start').click();
     await page.locator('#pause').click();
-    await page.locator('#save').click();
+    await clickCheckpointAction(page, 'save');
     const key = await page.evaluate(() =>
       Object.keys(localStorage).find((k) => k.endsWith('-game'))!,
     );
@@ -62,7 +62,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     };
     const checkpoint = async () => {
       await page.locator('#pause').click();
-      await page.locator('#save').click();
+      await clickCheckpointAction(page, 'save');
       await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
       return stored();
     };

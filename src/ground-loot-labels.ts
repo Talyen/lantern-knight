@@ -58,7 +58,7 @@ export class GroundLootLabels {
       let label = this.labels.get(drop.id);
       if (!label) {
         const name = `${items[reward.item]!.name}${reward.amount > 1 ? ` ×${reward.amount}` : ''}`;
-        const button = html<HTMLButtonElement>`<button type="button" class="ground-loot-label" data-kind="${items[reward.item]!.kind}" data-drop="${drop.id}" aria-label="Collect ${name}">${name}</button>`;
+        const button = html<HTMLButtonElement>`<button type="button" class="ground-loot-label" data-kind="${items[reward.item]!.kind}" data-drop="${drop.id}" data-tip="${name}" aria-label="Collect ${name}"><span class="visually-hidden">${name}</span>${reward.amount > 1 ? html`<span>${reward.amount}</span>` : false}</button>`;
         button.prepend(this.artwork(reward.item));
         button.addEventListener(
           'pointerenter',
@@ -117,14 +117,14 @@ export class GroundLootLabels {
       }
       const clampX = (x: number) =>
         Math.max(label.width / 2 + 5, Math.min(width - label.width / 2 - 5, x));
-      const clampY = (y: number) => Math.max(15, Math.min(height - 15, y));
+      const clampY = (y: number) => Math.max(24, Math.min(height - 24, y));
       const anchorX = clampX(((this.point.x + 1) * width) / 2),
         anchorY = clampY(((1 - this.point.y) * height) / 2);
       const columns = [anchorX],
         rows = [anchorY];
       for (let offset = label.width + 6; offset < width + label.width; offset += label.width + 6)
         columns.push(clampX(anchorX - offset), clampX(anchorX + offset));
-      for (let offset = 25; offset < height + 25; offset += 25)
+      for (let offset = 46; offset < height + 46; offset += 46)
         rows.push(clampY(anchorY - offset), clampY(anchorY + offset));
       let x = anchorX,
         y = anchorY;
@@ -136,7 +136,7 @@ export class GroundLootLabels {
             !occupied.some(
               (p) =>
                 Math.abs(p.x - column) < (p.width + label.width) / 2 + 6 &&
-                Math.abs(p.y - row) < 25,
+                Math.abs(p.y - row) < 46,
             )
           ) {
             x = column;

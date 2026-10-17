@@ -2,7 +2,7 @@ import path from 'node:path';
 import { mkdir } from 'node:fs/promises';
 import { Vector3 } from 'three';
 import { test, expect } from './fixtures';
-import { loadCheckpoint } from '../fixtures/input';
+import { clickCheckpointAction, loadCheckpoint } from '../fixtures/input';
 import { content, worldVisuals } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
 import type { GameSave } from '../../src/core/save';
@@ -54,7 +54,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     await ready();
     await page.locator('#menu-start').click();
     await page.locator('#pause').click();
-    await page.locator('#save').click();
+    await clickCheckpointAction(page, 'save');
     await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
     const key = await page.evaluate(() =>
       Object.keys(localStorage).find((k) => k.endsWith('-game'))!,
@@ -90,7 +90,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     for (const label of ['Collect Gold ×20', 'Collect Iron ×6', 'Collect Workshop Temper'])
       await page.getByRole('button', { name: label, exact: true }).click();
     await page.locator('#pause').click();
-    await page.locator('#save').click();
+    await clickCheckpointAction(page, 'save');
     await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
     const supplied = await stored();
     Object.assign(supplied.player, { x: bench.x, z: bench.z });
@@ -265,7 +265,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     });
     await capture('payoff');
     await page.locator('#pause').click();
-    await page.locator('#save').click();
+    await clickCheckpointAction(page, 'save');
     await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
     const won = await stored();
     expect(won.areas[area.id]!.actors[guard.id]!.health).toBe(0);

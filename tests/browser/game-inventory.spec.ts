@@ -1,3 +1,4 @@
+import { clickCheckpointAction } from '../fixtures/input';
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { test, expect } from './fixtures';
@@ -43,6 +44,8 @@ test('inventory compares replacements and forge keeps the choice and confirmatio
   await page.keyboard.press('i');
   const panel = page.getByRole('dialog', { name: 'Inventory', exact: true });
   const detail = panel.getByRole('region', { name: 'Selected item' });
+  await expect(detail).toBeHidden();
+  await expect(panel.locator('.pack-items > *')).toHaveCount(48);
   const pick = (name: string) => panel.locator('.inventory-row').filter({ hasText: name }).click();
   const capture = async (name: string) => {
     const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
@@ -52,13 +55,19 @@ test('inventory compares replacements and forge keeps the choice and confirmatio
       0,
       { timeout: 60_000 },
     );
+    await page.locator('.adventure-panel h2').click();
     await page.screenshot({ path: path.join(directory, `redesign-${name}.png`) });
   };
+  await capture('inventory-overview-1280');
   await panel.locator('[data-action="slot-sword"]').focus();
   await page.keyboard.press('ArrowRight');
   await expect(panel.locator('[data-action="slot-body"]')).toBeFocused();
   await panel.locator('[data-action="slot-lantern"]').click();
   await expect(detail).toContainText('Damage 28 per enemy');
+  await detail.getByRole('button', { name: 'Close item details' }).click();
+  await expect(detail).toBeHidden();
+  await expect(panel.locator('[data-action="slot-lantern"]')).toBeFocused();
+  await panel.locator('[data-action="slot-lantern"]').click();
   await page.keyboard.press('Tab');
   await expect(panel.locator('.inventory-row').first()).toBeFocused();
   await pick('Traveller’s Charm');
@@ -132,6 +141,7 @@ test('inventory compares replacements and forge keeps the choice and confirmatio
   await expect(forge.getByRole('button', { name: 'Confirm upgrade', exact: true })).toBeInViewport({
     ratio: 1,
   });
+  await expect(forge.locator('.permanent-choice')).toBeInViewport({ ratio: 1 });
   for (const name of ['Temper Sword', 'Rekindle Lantern'])
     await expect(forge.getByRole('button', { name, exact: true })).toBeInViewport({ ratio: 1 });
   await forge.getByRole('button', { name: 'Temper Sword', exact: true }).click();
@@ -139,11 +149,15 @@ test('inventory compares replacements and forge keeps the choice and confirmatio
   await expect(forge.locator('.forge-damage')).toContainText('26 → 52');
   await page.setViewportSize({ width: 1280, height: 720 });
   await capture('forge-1280');
+  await forge.getByRole('button', { name: 'Temper Sword', exact: true }).click();
+  await expect(
+    forge.getByRole('button', { name: 'Confirm upgrade', exact: true }),
+  ).toHaveAccessibleDescription(/Gold: .* available, .* required/);
   await page.keyboard.press('Shift+Tab');
   await expect(forge.getByRole('button', { name: 'Rekindle Lantern', exact: true })).toBeFocused();
   await page.keyboard.press('Escape');
   await page.locator('#pause').click();
-  await page.locator('#save').click();
+  await clickCheckpointAction(page, 'save');
   await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
   await page.reload();
   await page.waitForFunction(

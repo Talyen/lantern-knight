@@ -1,77 +1,241 @@
-/* Shared player typography and controls. Developer surfaces keep their own chrome. */
+/* Shared player controls; artwork stays in the prepared library. */
 .game {
-  --ink: #151311;
-  --panel: #252019;
-  --ivory: #f1e7d2;
-  --sage: #b5a88f;
-  --amber: #c7ad79;
-  --rule: #ae977b40;
+  --ink: #101114;
+  --panel: #191b20;
+  --ivory: #eee4cc;
+  --sage: #b6ac96;
+  --amber: #c5a569;
+  --rule: #8b775245;
   --font-body: system-ui, sans-serif;
   --font-display: Georgia, 'Times New Roman', serif;
   color: var(--ivory);
   font: 15px/1.5 var(--font-body);
 }
 .game button,
-.game select {
-  min-height: 42px;
-  padding: 9px 14px;
-  border: 1px solid #806b4e;
-  border-radius: 0;
-  background: var(--panel);
+.game select,
+.game summary {
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid #716044;
+  border-radius: 1px;
+  background: linear-gradient(#34373d, #191b20);
+  box-shadow:
+    inset 0 1px #a2936a26,
+    inset 0 -2px #0007,
+    0 2px 4px #0004;
   color: var(--ivory);
   font: 400 16px/1.3 var(--font-display);
+  cursor: pointer;
   transition:
     background 120ms ease,
     border-color 120ms ease,
     color 120ms ease;
 }
 .game button:hover:not(:disabled),
-.game select:hover:not(:disabled) {
-  background: #3c3022;
+.game select:hover:not(:disabled),
+.game summary:hover {
+  background: linear-gradient(#41434a, #24272e);
   border-color: var(--amber);
-  color: #fff4da;
+  color: #fff1cf;
 }
 .game button:active:not(:disabled) {
-  background: #493820;
+  background: #191b20;
+  box-shadow: inset 0 2px 5px #0009;
 }
 .game button:disabled,
 .game select:disabled {
   cursor: default;
-  opacity: 0.5;
+  opacity: 0.45;
 }
-.game button:focus-visible,
-.game select:focus-visible,
-.game input:focus-visible,
-.game summary:focus-visible {
-  outline: 2px solid var(--amber);
+.game :is(button, select, input, summary, [tabindex='0']):focus-visible {
+  outline: 2px solid #e2c58d;
   outline-offset: 3px;
 }
 .game .primary-action {
-  background: #5e211b;
-  border: 3px double #a28456;
-  color: var(--ivory);
-  font-weight: 400;
+  border-color: #c3a268;
+  background: linear-gradient(#454039, #25272d);
+  color: #fff0cd;
+  box-shadow:
+    inset 0 0 0 2px #15180fa6,
+    inset 0 1px #d5b67866,
+    0 2px 4px #0006;
 }
-.game .primary-action:hover:not(:disabled) {
-  background: #7b3026;
-  color: #fff4da;
+.game button:has(> .button-frame) {
+  position: relative;
+  isolation: isolate;
 }
-.game .primary-action:active:not(:disabled) {
-  background: #481713;
+.game button > .button-frame {
+  position: absolute;
+  inset: -4px -8px;
+  z-index: -1;
+  width: calc(100% + 16px);
+  height: calc(100% + 8px);
+}
+.game button > .button-frame > img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: fill;
+}
+.game button:has(> .button-frame[data-ready='true']) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+.game .primary-action > .button-frame {
+  filter: brightness(1.2);
+}
+.game button:hover:not(:disabled) > .button-frame {
+  filter: brightness(1.25);
 }
 .game input {
   accent-color: var(--amber);
+  font: inherit;
 }
 .game input[type='checkbox'] {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
-.game summary {
-  cursor: pointer;
+.game .player-icon {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+}
+.game .icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 9px;
+}
+.game kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  padding: 2px 5px;
+  border: 1px solid #b6a98366;
+  border-bottom-width: 2px;
+  border-radius: 2px;
+  background: #171b16;
+  font: 11px/1.4 var(--font-body);
+  color: var(--ivory);
+  white-space: nowrap;
+}
+.game .gothic-panel {
+  position: relative;
+  border: 0;
+  background: #17191f;
+  box-shadow: none;
+  isolation: isolate;
+}
+.game .gothic-panel:has(> .interface-frame[data-ready='true']) {
+  background: transparent;
+}
+.game :is(#menu-back, .adventure-close):not(:has(.control-icon[data-ready='true']))::before {
+  content: '×';
+  font: 28px/1 var(--font-display);
+}
+.game .gothic-panel > :not(.interface-frame) {
+  position: relative;
+  z-index: 1;
+}
+.game .gothic-panel > .interface-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--art-image);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.game .gothic-panel > .interface-frame > img {
+  display: none;
+}
+.game .control-icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+}
+.game :is(button, summary):has(> .icon-frame) {
+  position: relative;
+  isolation: isolate;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+.game :is(button, summary, .supply-row) > .icon-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: var(--art-image);
+  background-size: 100% 100%;
+}
+.game :is(button, summary, .supply-row) > .icon-frame > img {
+  display: none;
+}
+.game :is(button, summary):hover > .icon-frame {
+  filter: brightness(1.25);
+}
+.game .control-grid kbd {
+  position: relative;
+  isolation: isolate;
+  color: #28251f;
+  border: 0;
+  background: transparent;
+  font: 600 14px/1 var(--font-display);
+  text-shadow: 0 1px #fff7;
+}
+.game .control-grid .keycap-frame {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--art-image);
+  background-size: 100% 100%;
+}
+.game .control-grid .keycap-frame > img {
+  display: none;
+}
+.game .visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.game .player-tooltip {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  max-width: min(280px, calc(100vw - 16px));
+  padding: 9px 13px;
+  border: 1px solid #a38a57;
+  color: #f3e5c8;
+  background: #15171cfa;
+  box-shadow:
+    inset 0 0 0 2px #34353c,
+    0 4px 15px #0008;
+  font: 14px/1.4 var(--font-body);
+  pointer-events: none;
+  text-align: center;
+}
+.game [hidden] {
+  display: none !important;
 }
 @media (prefers-reduced-motion: reduce) {
-  .game button,
-  .game select {
-    transition: none;
+  .game *,
+  .game *::before,
+  .game *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
