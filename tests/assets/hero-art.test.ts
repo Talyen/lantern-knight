@@ -13,7 +13,8 @@ import { trimmedBounds } from '../../src/assets/sprite-registration';
 import { parseManifest, resolveClip } from '../../src/assets/schema';
 import { readAsset } from '../../tools/assets/io';
 import { ActorSprite } from '../../src/presentation/sprite';
-import { Texture, Vector3 } from 'three';
+import { Texture, Vector3, Group, CanvasTexture } from 'three';
+import { ActorPresentation } from '../../src/presentation/actor-presentation';
 import { heroFrameScales, scaleHeroRegistration } from '../../tools/assets/hero-scale';
 test('current hero preserves mixed native registrations and resolves all headings without mirroring', async () => {
   const registration = readRegistration();
@@ -130,6 +131,22 @@ test('current hero preserves mixed native registrations and resolves all heading
       false,
     );
   }
+  const shadow = new CanvasTexture({} as HTMLCanvasElement);
+  const presentation = new ActorPresentation(
+    new Group(),
+    new Map([[m.asset.id, { manifest: m, textures }]]),
+    camera,
+    shadow,
+    registration,
+  );
+  const sweep = presentation.getClip('sweep', 'd45', m);
+  assert.equal(
+    sweep.frames.at(-1),
+    resolveClip(m, 'idle', 'd90').frames[0],
+    'a cardinal preview request recovers in the authored attack facing',
+  );
+  presentation.dispose();
+  shadow.dispose();
   const missing = structuredClone(m);
   delete missing.asset.clips.walk!.d45;
   assert.throws(() => parseManifest(missing), /missing required heading/);

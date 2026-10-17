@@ -166,7 +166,11 @@ export class ActorPresentation {
         clip,
         sweepTiming,
         sweepRecovery,
-        resolveClip(manifest, 'idle', dir).frames[0],
+        resolveClip(
+          manifest,
+          'idle',
+          selectAuthoredDirection((HEADINGS.indexOf(dir) * Math.PI) / 4),
+        ).frames[0],
       );
     if (id !== 'walk' && isHeroLocomotion(id)) return clip;
     return id === 'walk' && manifest.asset.id === 'ink-hero-current'

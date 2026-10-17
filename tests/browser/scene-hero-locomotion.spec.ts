@@ -81,8 +81,8 @@ test('cursor-facing locomotion renders every facing/travel pair and preserves ph
     f.editPreview((sim) => {
       Object.assign(sim.hero, { x: 0, px: 0, z: 0, pz: 0, state: 'idle', aim: Math.PI / 2 });
     });
-    f.presentation.update(f.sim, 1, 0, { x: 4, z: 0 });
-    const p = f.presentation.camera.position.clone().set(4, 0, 0).project(f.presentation.camera);
+    f.presentation.update(f.sim, 1, 0, { x: 2, z: 0 });
+    const p = f.presentation.camera.position.clone().set(2, 0, 0).project(f.presentation.camera);
     const rect = f.presentation.canvas.getBoundingClientRect();
     f.pause(false);
     return {
