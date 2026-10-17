@@ -165,6 +165,7 @@ async function pacing(flags: string[]) {
           assert.equal(accepted.area, area.id, 'First actions left the selected encounter');
           await controls.resume();
           for (let cycle = 0; cycle < Math.ceil(durationMs / 800); cycle++) {
+            const cycleStarted = performance.now();
             const key = ['KeyW', 'KeyA', 'KeyS', 'KeyD'][cycle % 4]!;
             actions.push(key, 'sword', 'lantern', 'dodge');
             await page.keyboard.down(key);
@@ -178,7 +179,9 @@ async function pacing(flags: string[]) {
               { button: 'right' },
             );
             await page.keyboard.press('Shift');
-            await page.waitForTimeout(800);
+            // Keep the scheduled input cadence fixed across slow and fast
+            // packages instead of adding transport/dispatch cost to each hold.
+            await page.waitForTimeout(Math.max(0, 800 - (performance.now() - cycleStarted)));
             await page.keyboard.up(key);
             if (cycle % 6 === 5) await page.keyboard.press('KeyQ');
             if (cycle % 12 === 11 && cycle + 1 < Math.ceil(durationMs / 800)) {
