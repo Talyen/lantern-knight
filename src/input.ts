@@ -32,14 +32,11 @@ export class Input {
       if (editing(e.target) || control(e.target)) this.clear();
     });
     on('keydown', (e) => {
-      if (
-        editing(e.target) ||
-        (e.code !== 'Escape' && control(e.target)) ||
-        e.ctrlKey ||
-        e.metaKey ||
-        e.altKey
-      )
+      if (e.ctrlKey || e.metaKey || e.altKey) {
+        this.clear();
         return;
+      }
+      if (editing(e.target) || (e.code !== 'Escape' && control(e.target))) return;
       this.keys.add(e.code);
       if (!e.repeat && (e.code === 'ShiftLeft' || e.code === 'ShiftRight')) {
         this.actions.push('dodge');

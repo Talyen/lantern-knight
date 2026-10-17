@@ -13,9 +13,10 @@ import { type ArtPlacement } from '../content/world-visuals';
 export type EditorItem = { placement: ArtPlacement; kind: SceneObject['kind'] };
 export function sceneItems(document: SceneSnapshot): EditorItem[] {
   // Selection needs detached placements, not a second admission of the entire scene.
-  const art = resolveSceneDocument(
-      structuredClone({ ...document, groundInteraction: undefined }) as SceneDocument,
-    ),
+  const art = resolveSceneDocument({
+      ...document,
+      objects: structuredClone(document.objects),
+    } as SceneDocument),
     kinds = new Map(document.objects.map((p) => [p.id, p.kind]));
   return [...art.props, ...art.decals].map((placement) => ({
     placement,
@@ -234,7 +235,7 @@ export class EditorHistory {
     copyGameplay = false,
   ) {
     const copies = structuredClone(objects) as SceneObject[];
-    const source = parseSceneDocument(this.document);
+    const source = this.document as SceneDocument;
     const remap = new Map(copies.map((p) => [p.id, 'object-' + crypto.randomUUID()]));
     this.change((d) => {
       for (const p of copies) {

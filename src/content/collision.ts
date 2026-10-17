@@ -87,12 +87,12 @@ function collisionShape(p: PropDefinition): Shape {
 }
 export function isSupportedPosition(area: AreaDefinition, p: Point, radius: number) {
   const b = area.bounds;
-  if (
-    p.x < b.minX + radius - epsilon ||
-    p.x > b.maxX - radius + epsilon ||
-    p.z < b.minZ + radius - epsilon ||
-    p.z > b.maxZ - radius + epsilon
-  )
+  if (!(
+    p.x >= b.minX + radius - epsilon &&
+    p.x <= b.maxX - radius + epsilon &&
+    p.z >= b.minZ + radius - epsilon &&
+    p.z <= b.maxZ - radius + epsilon
+  ))
     return false;
   if (area.playableBoundary && !boundaryContains(area.playableBoundary, p, radius)) return false;
   for (const prop of area.props) {

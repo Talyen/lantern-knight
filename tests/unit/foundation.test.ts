@@ -11,6 +11,7 @@ import {
   screenMovement,
 } from '../../src/presentation/camera';
 import { selectDirection } from '../../src/content/headings';
+import { ActorSprite } from '../../src/presentation/sprite';
 import { trimmedBounds } from '../../src/assets/sprite-registration';
 import { cameraCalibration } from '../../src/assets/camera-calibration';
 import { cameraContract as contract } from '../../src/assets/camera-contract';
@@ -71,24 +72,33 @@ test('trim placement preserves every source pixel relative to the foot; heading 
   assert.ok(screenMovement(0, 1).x < 0);
 });
 
-test('vertical actor depth preserves baked projection exactly and places head above the foot in world space', () => {
+test('actor sprite vertices preserve baked projection and stand vertically above the foot', () => {
   const camera = makeCamera(16 / 9),
-    angle = (contract.elevationDeg * Math.PI) / 180,
-    foot = new Vector3(1, 0, 2);
-  for (const [x, y] of [
-    [-0.4, -0.3],
-    [0.6, 1.8],
-    [0, 0],
-  ]) {
-    const facing = new Vector3(x, y, 0).applyQuaternion(camera.quaternion).add(foot),
-      vertical = new Vector3(x, y, y! * Math.tan(angle))
-        .applyQuaternion(camera.quaternion)
-        .add(foot);
-    const a = facing.project(camera),
-      b = vertical.clone().project(camera);
-    approx(a.x, b.x);
-    approx(a.y, b.y);
-    approx(vertical.y, y! / Math.cos(angle));
+    foot = new Vector3(1, 0, 2),
+    manifest = manifestFixture(),
+    texture = new Texture(),
+    clip = resolveClip(manifest, 'idle', 'd45'),
+    sprite = new ActorSprite('hero', manifest, new Map([['atlas-0', texture]]), clip);
+  try {
+    sprite.show(clip.frames[0]!, foot, camera);
+    sprite.mesh.updateMatrixWorld();
+    const positions = sprite.geometry.getAttribute('position');
+    for (let i = 0; i < positions.count; i++) {
+      const local = new Vector3().fromBufferAttribute(positions, i),
+        world = sprite.mesh.localToWorld(local.clone()),
+        painted = new Vector3(local.x, local.y, 0).applyQuaternion(camera.quaternion).add(foot),
+        screen = world.clone().project(camera),
+        expected = painted.project(camera);
+      // Float32 geometry permits sub-pixel rounding, not altered projection.
+      assert.ok(Math.abs(screen.x - expected.x) < 1e-6);
+      assert.ok(Math.abs(screen.y - expected.y) < 1e-6);
+      const base = new Vector3(local.x, 0, 0).applyQuaternion(camera.quaternion).add(foot);
+      assert.ok(Math.hypot(world.x - base.x, world.z - base.z) < 1e-6);
+      assert.ok(world.y > foot.y);
+    }
+  } finally {
+    sprite.dispose();
+    texture.dispose();
   }
 });
 

@@ -96,7 +96,8 @@ export class Navigation {
       this.#policy?.position(goal) === false
     )
       return fail;
-    if (this.clear(start, goal, radius)) return { status: 'ready', points: [{ ...goal }] };
+    if (this.clear(start, goal, radius))
+      return { status: 'ready', points: [{ x: goal.x, z: goal.z }] };
     const b = this.area.bounds,
       nx = Math.ceil((b.maxX - b.minX) / this.spacing) + 1,
       nz = Math.ceil((b.maxZ - b.minZ) / this.spacing) + 1,
@@ -166,7 +167,7 @@ export class Navigation {
       const current = heap.pop()!.id;
       if (closed.has(current)) continue;
       if (current === destination) {
-        const raw: Point[] = [{ ...goal }];
+        const raw: Point[] = [{ x: goal.x, z: goal.z }];
         let id = parents.get(destination);
         while (id !== undefined) {
           raw.push(point(id));

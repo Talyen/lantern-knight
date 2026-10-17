@@ -136,6 +136,8 @@ test('input uses the first click position, preserves pending dodge across key re
   assert.equal(input.keys.size, 0, 'focus inside a control releases held movement');
   target.closest = () => null;
   for (const modifier of ['ctrlKey', 'metaKey', 'altKey']) {
+    for (const code of ['KeyW', 'ShiftLeft', 'KeyQ'])
+      target.dispatchEvent(Object.assign(new Event('keydown'), { code, repeat: false }));
     target.dispatchEvent(
       Object.assign(new Event('keydown'), {
         code: 'KeyW',
@@ -143,7 +145,10 @@ test('input uses the first click position, preserves pending dodge across key re
         [modifier]: true,
       }),
     );
-    assert.equal(input.keys.size, 0, 'application shortcuts cannot move the hero');
+    assert.equal(input.keys.size, 0, 'application shortcuts release held movement');
+    const shortcut = input.consume(sim.hero, sim.areaDefinition, sim.generation);
+    assert.deepEqual(shortcut.actions, [], 'shortcuts discard queued combat');
+    assert.equal(shortcut.potion, false);
   }
   input.resetAim();
   input.dispose();

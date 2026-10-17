@@ -97,11 +97,8 @@ export class CombatActions {
       dz = to.z - from.z,
       d = Math.hypot(dx, dz);
     if (d > range || Math.abs(to.y - from.y) > tuning.maxCombatHeightDifference) return false;
-    if (d < 0.001) return true;
-    const difference = Math.abs(
-      Math.atan2(Math.sin(Math.atan2(dx, dz) - from.yaw), Math.cos(Math.atan2(dx, dz) - from.yaw)),
-    );
-    return difference <= halfAngle + 1e-10;
+    if (d < 0.001 || halfAngle === Math.PI) return true;
+    return dx * Math.sin(from.yaw) + dz * Math.cos(from.yaw) >= d * Math.cos(halfAngle + 1e-10);
   }
   private cancellable(h: Actor) {
     switch (h.state) {

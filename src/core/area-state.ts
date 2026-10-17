@@ -153,12 +153,12 @@ export function respawnAreaState(
   previous: ContentSnapshot<AreaState>,
   initial: AreaState,
 ): AreaState {
-  return AreaStateSchema.parse({
+  return structuredClone({
     ...previous,
     actors: initial.actors,
     cleared: initial.cleared,
     engaged: initial.engaged,
     alerted: [],
     drops: previous.drops?.filter((drop) => !drop.enemy),
-  });
+  }) as AreaState;
 }

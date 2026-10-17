@@ -730,3 +730,77 @@ test('manual enemy routes work before encounter activation and respect stun', ()
   assert.equal(sim.engaged, false);
   assert.equal(sim.hero.health, sim.maxHealth);
 });
+
+test('navigation rejects invalid coordinates and publishes detached coordinate-only waypoints', () => {
+  const a = area();
+  a.props = [];
+  const nav = new Navigation(a),
+    goal = { x: 3, z: 1, health: 10, inventory: { gold: 3 } };
+  for (const invalid of [NaN, Infinity, -Infinity]) {
+    assert.equal(isSupportedPosition(a, { x: invalid, z: 0 }, 0.3), false);
+    assert.equal(nav.route({ x: -3, z: 0 }, { x: invalid, z: 0 }, 0.3).status, 'unreachable');
+  }
+  const route = nav.route({ x: -3, z: 0 }, goal, 0.3);
+  assert.deepEqual(route.points, [{ x: 3, z: 1 }]);
+  goal.x = 4;
+  assert.deepEqual(route.points, [{ x: 3, z: 1 }]);
+});
+
+test('following a route spends the movement budget across corners without cutting them', (t) => {
+  const a = area();
+  a.props = [];
+  const sim = simulate(a),
+    hero = sim.hero,
+    plans = new MovementPlans(sim.areaDefinition),
+    budget = hero.definition.speed / 60;
+  Object.assign(hero, { x: 0, z: 0 });
+  t.mock.method(Navigation.prototype, 'route', () => ({
+    status: 'ready',
+    points: [
+      { x: budget / 4, z: 0 },
+      { x: budget / 4, z: 2 },
+    ],
+  }));
+  plans.setManual(hero, { x: budget / 4, z: 2 }, 0);
+  const segments: { x: number; z: number }[] = [];
+  plans.follow(hero, 1, (actor, x, z) => {
+    segments.push({ x, z });
+    sim.move(actor, x, z);
+  });
+  assert.ok(Math.abs(hero.x - budget / 4) < 1e-8);
+  assert.ok(Math.abs(hero.z - (budget * 3) / 4) < 1e-8);
+  assert.equal(segments.length, 2, 'movement follows both clear segments, not their diagonal');
+  assert.equal(segments[0]!.z, 0);
+  assert.equal(segments[1]!.x, 0);
+});
+
+test('a reached melee fallback waits for displacement or a moved target before searching again', (t) => {
+  const a = area();
+  a.props = [];
+  const sim = simulate(a),
+    enemy = sim.enemies[0]!,
+    plans = new MovementPlans(sim.areaDefinition),
+    goal = { x: -3, z: 0 },
+    fallback = { x: enemy.x - 0.01, z: enemy.z };
+  const routes = t.mock.method(
+    Navigation.prototype,
+    'route',
+    (_start: { x: number; z: number }, target: { x: number; z: number }) =>
+      target === goal
+        ? { status: 'unreachable', points: [] }
+        : { status: 'ready', points: [{ ...fallback }] },
+  );
+  const move = (actor: typeof enemy, x: number, z: number) => sim.move(actor, x, z);
+  plans.follow(enemy, 0, move, { kind: 'pursuit', target: goal });
+  const searched = routes.mock.callCount();
+  for (let tick = 1; tick < 60; tick++)
+    plans.follow(enemy, tick, move, { kind: 'pursuit', target: goal });
+  assert.equal(
+    routes.mock.callCount(),
+    searched,
+    'the same fallback must not be searched every tick',
+  );
+  enemy.x += 0.1;
+  plans.follow(enemy, 60, move, { kind: 'pursuit', target: goal });
+  assert.ok(routes.mock.callCount() > searched);
+});

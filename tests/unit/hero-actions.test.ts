@@ -80,12 +80,15 @@ test('each attack heading damages only during its active phase and completes wit
             ),
       );
     }
-  const narrow = duel();
-  Object.assign(narrow.enemies[0]!, { x: Math.cos(0.5), z: Math.sin(0.5) });
-  narrow.hero.aim = Math.PI / 2;
-  narrow.startSword(narrow.hero, 'lunge');
-  for (let i = 0; i < 54; i++) narrow.step(still);
-  assert.equal(narrow.enemies[0]!.health, 100);
+  for (const offset of [-1e-7, 0, 1e-7]) {
+    const narrow = duel();
+    narrow.hero.aim = Math.PI / 2;
+    narrow.startSword(narrow.hero, 'lunge');
+    const angle = attackDefinition(narrow.hero).halfAngle + offset;
+    Object.assign(narrow.enemies[0]!, { x: Math.cos(angle), z: Math.sin(angle) });
+    for (let i = 0; i < 54; i++) narrow.step(still);
+    assert.equal(narrow.enemies[0]!.health, offset > 0 ? 100 : 74);
+  }
 });
 test('alternation survives waiting, dodge and hurt; interruptions cannot complete or damage stale attacks', () => {
   const s = duel();

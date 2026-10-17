@@ -25,6 +25,7 @@ export class MovementPlans {
     {
       target: Point;
       origin: Point;
+      destination: Point;
       route: RouteResult;
       nextPlan: number;
       kind: 'manual' | 'home' | 'pursuit';
@@ -100,13 +101,15 @@ export class MovementPlans {
     return direct;
   }
   private plan(a: Actor, target: Point, kind: 'manual' | 'home' | 'pursuit', tick: number) {
+    const route =
+      kind === 'manual'
+        ? this.navigator(a).route(a, target, effectiveRadius(a.definition.radius))
+        : this.pursuitRoute(a, target, kind);
     return {
       target: { x: target.x, z: target.z },
       origin: { x: a.x, z: a.z },
-      route:
-        kind === 'manual'
-          ? this.navigator(a).route(a, target, effectiveRadius(a.definition.radius))
-          : this.pursuitRoute(a, target, kind),
+      destination: route.points.at(-1) ?? { x: target.x, z: target.z },
+      route,
       nextPlan: tick + 15,
       kind,
     };
@@ -145,30 +148,36 @@ export class MovementPlans {
           ? !navigation.clear(a, waypoint, effectiveRadius(a.definition.radius))
           : plan.kind !== 'manual' &&
             tick >= plan.nextPlan &&
-            Math.hypot(a.x - goal.x, a.z - goal.z) > 1e-6);
+            Math.hypot(a.x - plan.destination.x, a.z - plan.destination.z) > 1e-6);
     if (!plan || targetChanged || displaced) {
       plan = this.plan(a, goal, plan?.kind ?? kind, tick);
       this.plans.set(a.id, plan);
     }
-    const step = a.definition.speed / 60;
-    while (
-      plan.route.points.length &&
-      Math.hypot(plan.route.points[0]!.x - a.x, plan.route.points[0]!.z - a.z) < 1e-6
-    )
-      plan.route.points.shift();
-    const p = plan.route.points[0];
-    if (!p) {
-      if (plan.kind === 'manual' && plan.route.status === 'ready') this.plans.delete(a.id);
-      a.yaw = a.aim;
-      a.state = 'idle';
-      return false;
+    let remaining = a.definition.speed / 60,
+      moved = false;
+    while (plan.route.points.length) {
+      const p = plan.route.points[0]!,
+        dx = p.x - a.x,
+        dz = p.z - a.z,
+        distance = Math.hypot(dx, dz);
+      if (distance < 1e-6) {
+        plan.route.points.shift();
+        continue;
+      }
+      if (remaining < 1e-6) break;
+      const step = Math.min(remaining, distance);
+      a.yaw = Math.atan2(dx, dz);
+      move(a, (dx / distance) * step, (dz / distance) * step);
+      moved = true;
+      remaining -= step;
+      // Spend the rest on the next segment only after actually reaching this
+      // corner. Collision or room policy can still stop the requested movement.
+      if (Math.hypot(a.x - p.x, a.z - p.z) >= 1e-6) break;
     }
-    const dx = p.x - a.x,
-      dz = p.z - a.z,
-      d = Math.hypot(dx, dz);
-    a.yaw = Math.atan2(dx, dz);
-    a.state = 'walk';
-    move(a, (dx / d) * Math.min(step, d), (dz / d) * Math.min(step, d));
-    return true;
+    if (!plan.route.points.length && plan.kind === 'manual' && plan.route.status === 'ready')
+      this.plans.delete(a.id);
+    a.state = moved ? 'walk' : 'idle';
+    if (!moved) a.yaw = a.aim;
+    return moved;
   }
 }
