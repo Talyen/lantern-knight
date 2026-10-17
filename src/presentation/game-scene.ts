@@ -133,6 +133,7 @@ export class GamePresentation implements PresentationLifecycle {
   area: AreaDefinition;
   generation = -1;
   flare: T.Mesh;
+  private flarePrimer: T.Mesh | undefined;
   private burst:
     { tick: number; generation: number; position: readonly [number, number, number] } | undefined;
   get visuals() {
@@ -307,6 +308,7 @@ export class GamePresentation implements PresentationLifecycle {
       sun: this.visuals?.look ? this.visuals.look.sun : defaultLook.sun,
       shadeZones: this.visuals?.look?.shadeZones,
     });
+    if (this.flarePrimer) this.primeFlare();
   }
   getClip(id: string, dir: (typeof HEADINGS)[number], manifest = this.manifest): Clip {
     return this.actorPresentation.getClip(id, dir, manifest, this.walkTiming);
@@ -323,6 +325,10 @@ export class GamePresentation implements PresentationLifecycle {
     }
     this.roomPresentation.room.visible = true;
     this.updateCamera(sim, alpha);
+    if (this.flarePrimer?.parent)
+      this.flarePrimer.position
+        .copy(this.camera.position)
+        .addScaledVector(outward, this.camera.far * 4);
     const burst = this.burst?.generation === sim.generation ? this.burst : undefined;
     const elapsed = burst ? sim.tick - burst.tick + alpha : 21;
     this.flare.visible = (elapsed < 21 && !!burst) || this.debug;
@@ -502,10 +508,28 @@ export class GamePresentation implements PresentationLifecycle {
     if (this.disposed) throw new Error('presentation disposed');
     this.animationFlow = { texture, ...this.registration.animation };
   }
+  private primeFlare() {
+    if (this.disposed) return;
+    if (!this.flarePrimer) {
+      const beauty = this.flare.material as T.Material,
+        primer = new T.Mesh(this.flare.geometry, beauty);
+      primer.frustumCulled = false;
+      primer.onAfterRender = (_renderer, _scene, _camera, _geometry, material) => {
+        if (material === beauty) primer.removeFromParent();
+      };
+      this.flarePrimer = primer;
+      this.resources.defer(() => primer.removeFromParent());
+    }
+    this.flarePrimer.position
+      .copy(this.camera.position)
+      .addScaledVector(outward, this.camera.far * 4);
+    this.scene.add(this.flarePrimer);
+  }
   async warm() {
     await this.lookRenderer.prepare();
     if (this.disposed) throw new Error('presentation disposed');
     this.combatFeedback.prepare();
+    this.primeFlare();
     for (const pack of this.packs.values()) this.warmPack(pack);
     await this.renderer.compileAsync(this.scene, this.camera);
     if (this.disposed) throw new Error('presentation disposed');

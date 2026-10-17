@@ -28,7 +28,7 @@ import { SceneLightingRenderer } from '../../src/presentation/scene-lighting-ren
 import { CombatFeedback } from '../../src/presentation/combat-feedback';
 import { combatEffectAssets } from '../../src/content/combat-feedback';
 
-test('combat shader representatives stay invisible and survive room resets until presentation disposal', () => {
+test('combat shader representatives prime offscreen in the beauty pass and survive resets until disposal', () => {
   const texture = new CanvasTexture({} as HTMLCanvasElement),
     manifest = manifestFixture();
   manifest.asset.type = 'effect';
@@ -38,18 +38,42 @@ test('combat shader representatives stay invisible and survive room resets until
       { manifest, textures: new Map([['atlas-0', texture]]) },
     ]),
   );
-  const feedback = new CombatFeedback(packs, new OrthographicCamera(), new EventHub());
+  const camera = new OrthographicCamera();
+  const feedback = new CombatFeedback(packs, camera, new EventHub());
   feedback.prepare();
   const representatives = [...feedback.group.children];
   assert.equal(representatives.length, combatEffectAssets.length);
-  assert.ok(representatives.every((mesh) => !mesh.visible));
+  assert.ok(
+    representatives.every(
+      (mesh) => mesh.visible && mesh.position.distanceTo(camera.position) > camera.far,
+    ),
+  );
+  for (const mesh of representatives) {
+    const last = (mesh.children.at(-1) ?? mesh) as Mesh,
+      beauty = last.material as Material,
+      depth = new Material();
+    last.material = depth;
+    const args = [{}, {}, {}, {}, depth] as unknown as Parameters<typeof last.onAfterRender>;
+    last.onAfterRender(...args);
+    assert.equal(mesh.visible, true, 'A focus/depth override cannot finish beauty preparation');
+    last.material = beauty;
+    args[4] = beauty;
+    last.onAfterRender(...args);
+    assert.equal(mesh.visible, false);
+    depth.dispose();
+  }
   feedback.prepare();
   feedback.reset();
   assert.deepEqual(feedback.group.children, representatives);
+  assert.ok(
+    representatives.every((mesh) => mesh.visible),
+    'Room replacement rearms shader preparation',
+  );
   let retired = 0;
   for (const mesh of representatives)
     (mesh as Mesh<BufferGeometry, Material>).material.addEventListener('dispose', () => retired++);
   feedback.dispose();
+  assert.throws(() => feedback.prepare(), /disposed/);
   assert.equal(retired, representatives.length);
   assert.equal(feedback.group.children.length, 0);
   texture.dispose();
@@ -174,6 +198,9 @@ test('shader preparation cannot resume borrowing scenery after presentation shut
     packs: new Map(),
     lookRenderer: { prepare: async () => {} },
     combatFeedback: { prepare: () => {} },
+    scene: new Group(),
+    camera: new OrthographicCamera(),
+    flare: new Mesh(new PlaneGeometry(), new MeshBasicMaterial()),
     renderer: {
       compileAsync: () => {
         started.resolve();
@@ -195,6 +222,11 @@ test('shader preparation cannot resume borrowing scenery after presentation shut
   compilation.resolve();
   await assert.rejects(warming, /presentation disposed/);
   assert.equal(touchedScenery, false);
+  assert.equal(
+    presentation.scene.children.length,
+    0,
+    'Cancelled preparation retires its borrowed flare primer',
+  );
 });
 
 test('animation observers can shut down presentation only after the complete frame finishes borrowing resources', (t) => {

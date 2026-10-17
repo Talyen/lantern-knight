@@ -6,6 +6,125 @@ import { LocalLightShadows } from '../../src/presentation/local-light-shadows';
 import { defaultLook } from '../../src/presentation/lighting-profiles';
 import { ActorSprite } from '../../src/presentation/sprite';
 import { manifestFixture } from './manifest';
+import { CombatFeedback } from '../../src/presentation/combat-feedback';
+import { combatEffectAssets } from '../../src/content/combat-feedback';
+import { EventHub } from '../../src/core/events';
+import { GamePresentation } from '../../src/presentation/game-scene';
+import { DisposalScope } from '../../src/assets/cleanup';
+
+/** @knip-external Shared with the native shader preparation proof. */
+export async function combatPreparationProof() {
+  const gpu = gpuFixture(128),
+    { renderer, scene, camera, own } = gpu;
+  scene.background = new T.Color(0x113355);
+  const manifest = manifestFixture('prepared-effect');
+  Object.assign(manifest.asset, {
+    type: 'effect',
+    renderStyle: 'clean-ink',
+    renderCategory: 'cutout',
+    canvas: [32, 32],
+    anchor: [16, 32],
+    density: 32,
+  });
+  const pixels = new Uint8Array(64 * 64 * 4);
+  for (let i = 0; i < pixels.length; i += 4) pixels.set([180, 100, 60, 255], i);
+  const texture = own(new T.DataTexture(pixels, 64, 64));
+  texture.colorSpace = T.SRGBColorSpace;
+  texture.needsUpdate = true;
+  const textures = new Map([['atlas-0', texture]]),
+    packs = new Map(combatEffectAssets.map((id) => [id, { manifest, textures }])),
+    feedback = own(new CombatFeedback(packs, camera, own(new EventHub())));
+  const ring = new T.Mesh(
+    own(new T.RingGeometry(0.45, 0.5)),
+    own(
+      new T.MeshBasicMaterial({
+        color: 0xf4c575,
+        transparent: true,
+        opacity: 0.35,
+        depthWrite: false,
+        side: T.DoubleSide,
+      }),
+    ),
+  );
+  ring.visible = false;
+  scene.add(ring, feedback.group);
+  const presentation: GamePresentation = Object.create(GamePresentation.prototype);
+  Object.assign(presentation, {
+    resources: own(new DisposalScope()),
+    packs: new Map(),
+    renderer,
+    scene,
+    camera,
+    flare: ring,
+    combatFeedback: feedback,
+    lookRenderer: { prepare: async () => {} },
+    roomPresentation: { surround: { scene: new T.Scene(), update() {}, render() {} } },
+    viewTarget: new T.Vector3(),
+    visualEffects: { palette: true },
+  });
+  try {
+    const before = gpu.capture();
+    // Reproduce the initial asynchronous compilation's different target and
+    // light topology, then prime in the actual linear-color render target.
+    renderer.setRenderTarget(null);
+    await presentation.warm();
+    for (let i = 0; i < 5; i++) scene.add(new T.PointLight(0xffffff, 0));
+    const primed = gpu.capture();
+    const ids = () => renderer.info.programs!.map((program) => program.id).sort((a, b) => a - b);
+    let differences = 0;
+    for (let i = 0; i < before.length; i++) if (before[i] !== primed[i]) differences++;
+    const visibleAfterPrime = feedback.group.children.some((mesh) => mesh.visible);
+    const extraMeshesAfterPrime = scene.children.filter(
+      (mesh) => mesh instanceof T.Mesh && mesh !== ring,
+    ).length;
+    const effects = () => {
+      const programs = [ids()];
+      let effectPixels = 0;
+      for (let i = 0; i < 2; i++) {
+        const active = own(
+          new ActorSprite('active:' + i, manifest, textures, manifest.asset.clips.idle!.d45!),
+        );
+        active.show(manifest.frames[0]!.id, new T.Vector3(), camera);
+        scene.add(active.mesh);
+        const visible = gpu.capture();
+        for (let p = 0; p < visible.length; p += 4) if (visible[p] !== before[p]) effectPixels++;
+        programs.push(ids());
+        active.dispose();
+        gpu.capture();
+        programs.push(ids());
+      }
+      ring.visible = true;
+      gpu.capture();
+      programs.push(ids());
+      ring.visible = false;
+      gpu.capture();
+      programs.push(ids());
+      return { programs, effectPixels };
+    };
+    const firstEffects = effects();
+    feedback.reset();
+    const rearmed = feedback.group.children.every((mesh) => mesh.visible);
+    for (const light of [...scene.children])
+      if (light instanceof T.PointLight) light.removeFromParent();
+    renderer.setRenderTarget(null);
+    await presentation.warm();
+    const afterReset = gpu.capture();
+    let resetDifferences = 0;
+    for (let i = 0; i < before.length; i++) if (before[i] !== afterReset[i]) resetDifferences++;
+    const resetHidden = feedback.group.children.every((mesh) => !mesh.visible);
+    const resetEffects = effects();
+    return {
+      differences,
+      ...firstEffects,
+      visibleAfterPrime,
+      extraMeshesAfterPrime,
+      reset: { differences: resetDifferences, rearmed, hidden: resetHidden, ...resetEffects },
+      error: renderer.getContext().getError(),
+    };
+  } finally {
+    gpu.dispose();
+  }
+}
 
 /** @knip-external Shared by browser checks and the opt-in native pixel probe. */
 export function shadowBatchingProof() {

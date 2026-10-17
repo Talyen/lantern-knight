@@ -1,5 +1,28 @@
 import { test, expect } from './fixtures';
 
+test('combat programs prime without changing pixels and survive later effect disposal', async ({
+  page,
+}) => {
+  await page.route('**/combat-preparation-proof.html', (route) =>
+    route.fulfill({ contentType: 'text/html', body: '<canvas></canvas>' }),
+  );
+  await page.goto('/combat-preparation-proof.html');
+  const proof = await page.evaluate(async () => {
+    const source = '/tests/fixtures/shadow-batching.ts';
+    return (await import(source)).combatPreparationProof();
+  });
+  expect(proof.differences).toBe(0);
+  expect(proof.effectPixels).toBeGreaterThan(50);
+  expect(proof.visibleAfterPrime).toBe(false);
+  expect(proof.extraMeshesAfterPrime).toBe(0);
+  expect(proof.error).toBe(0);
+  for (const programs of proof.programs) expect(programs).toEqual(proof.programs[0]);
+  expect(proof.reset.differences).toBe(0);
+  expect(proof.reset.rearmed && proof.reset.hidden).toBe(true);
+  expect(proof.reset.effectPixels).toBeGreaterThan(50);
+  for (const programs of proof.reset.programs) expect(programs).toEqual(proof.reset.programs[0]);
+});
+
 test('region batching preserves every native painted shadow pixel across lights and areas', async ({
   page,
 }) => {
