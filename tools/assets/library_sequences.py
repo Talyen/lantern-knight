@@ -8,7 +8,7 @@ def supplied_sequences(package, member, data):
     if not isinstance(data, dict):
         return data
     base = str(pathlib.PurePosixPath(member).parent)
-    if data.get("schema") in (
+    if data.get("animation") and data.get("schema") in (
         "lantern-knight.sprite-clip.v1",
         "lantern_knight.sprite_animation.v1",
     ):
@@ -42,6 +42,11 @@ def supplied_sequences(package, member, data):
         clips = {data["animation"]: normalized}
         for name, state in data.get("states", {}).items():
             file = state.get("file") if isinstance(state, dict) else state
+            try:
+                package.locate(file, base)
+            except ValueError:
+                # Loose atlas exports omit state PNGs supplied in the runtime archive.
+                continue
             clips[name] = {
                 "frames": [{"file": file, "duration_ms": 1000}],
                 "loop": False,

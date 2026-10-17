@@ -33,9 +33,13 @@ class ImportTests(unittest.TestCase):
         for schema in ("lantern-knight.sprite-clip.v1", "lantern_knight.sprite_animation.v1"):
             for standalone in (True, False):
                 with self.subTest(schema=schema, standalone=standalone):
-                    files = {"kit/atlas.png": png(16, 8), "kit/states/empty.png": png(8, 8)}
+                    files = {"kit/atlas.png": png(16, 8)}
                     if standalone:
-                        files.update({"kit/frames/0.png": png(8, 8), "kit/frames/1.png": png(8, 8)})
+                        files.update({
+                            "kit/frames/0.png": png(8, 8),
+                            "kit/frames/1.png": png(8, 8),
+                            "kit/states/empty.png": png(8, 8),
+                        })
                     p = package(files)
                     data = {
                         "schema": schema,
@@ -88,11 +92,29 @@ class ImportTests(unittest.TestCase):
                     else:
                         self.assertEqual(clip["frames"][1]["member"], "kit/atlas.png")
                         self.assertEqual(clip["frames"][1]["rect"], [8, 0, 8, 8])
-                    self.assertEqual(
-                        asset["clips"]["empty"]["d45"]["frames"][0]["member"],
-                        "kit/states/empty.png",
-                    )
+                    if standalone:
+                        self.assertEqual(
+                            asset["clips"]["empty"]["d45"]["frames"][0]["member"],
+                            "kit/states/empty.png",
+                        )
+                    else:
+                        self.assertNotIn("empty", asset["clips"])
                     self.assertEqual(json.dumps(data, sort_keys=True), original)
+
+    def test_existing_named_clip_schema_keeps_its_original_adapter(self):
+        data = {
+            "schema": "lantern-knight.sprite-clip.v1",
+            "clip": "move",
+            "canvas": [8, 8],
+            "pivot_px": [4, 7],
+            "frames": [{"file": "frame.png", "duration_ms": 100}],
+        }
+        p = package({"frame.png": png(8, 8)})
+        asset = Importer([p]).animation(
+            p, "clip.json", supplied_sequences(p, "clip.json", data), "actor",
+            defaults={"pixels_per_unit": 256},
+        )
+        self.assertEqual(asset["clips"]["move"]["d45"]["durationsMs"], [100])
 
     def test_loot_sequences_keep_baked_motion_fixed_pivot_contact_and_terminal_hold(self):
         p = package(
