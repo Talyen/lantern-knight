@@ -114,13 +114,7 @@ vec3 inkIlluminate(vec3 base){
  float key=max(0.0,dot(n,inkDirection))*inkVisibility(receiver);illumination+=inkKey*(.16+key*.84)*inkKeyStrength;
  // Broad silhouettes supply stylized relief; texture luminance is never treated as height.
  vec3 local=vec3(0.0);
- for(int i=0;i<5;i++){
-  if(inkLightPower[i]<=0.0)continue;
-  vec3 delta=inkLightPosition[i]-receiver;float d=length(delta),range=max(.1,inkLightRange[i]);
-  if(d>=range)continue;
-  float falloff=pow(max(0.0,1.0-d/range),2.0);
-  local+=inkLightColor[i]*inkLightPower[i]*falloff*(.35+.65*max(0.0,dot(n,normalize(delta+vec3(.0001)))))*inkLocalVisibility(i,receiver,n);
- }
+ for(int i=0;i<5;i++){vec3 delta=inkLightPosition[i]-receiver;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.35+.65*max(0.0,dot(n,normalize(delta+vec3(.0001)))))*inkLocalVisibility(i,receiver,n);}
  illumination*=inkShade();
  if(inkCohesionEligible>.5&&inkGroundBounce>.5&&inkHasEnvironment>.5){
   float lower=1.0-smoothstep(.0,.75,max(0.0,inkWorld.y-inkFootY)/inkBodyHeight);

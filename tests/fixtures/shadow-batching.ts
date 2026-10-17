@@ -162,8 +162,8 @@ export function shadowBatchingProof() {
     compile(program, renderer);
     if (!referenceLoop) return;
     const start = program.fragmentShader.indexOf(' for(int i=0;i<5;i++){');
-    const end = program.fragmentShader.indexOf('\n }', start) + 3;
-    if (start < 0 || end < start) throw new Error('Missing optimized light loop');
+    const end = program.fragmentShader.indexOf('\n illumination*=inkShade();', start);
+    if (start < 0 || end < start) throw new Error('Missing light loop');
     program.fragmentShader =
       program.fragmentShader.slice(0, start) +
       ' for(int i=0;i<5;i++){vec3 delta=inkLightPosition[i]-receiver;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.35+.65*max(0.0,dot(n,normalize(delta+vec3(.0001)))))*inkLocalVisibility(i,receiver,n);}' +
