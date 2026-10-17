@@ -320,10 +320,12 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await expect(page.locator('#interaction-hint')).toHaveText('E · Rest');
   await page.keyboard.press('e');
   await expect(panel).toContainText('Orchard Campfire');
-  if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY)
+  if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY) {
+    await expect(panel.locator('.campfire-emblem .item-art')).toHaveAttribute('data-ready', 'true');
     await page.screenshot({
       path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'campfire.png'),
     });
+  }
   await panel.getByRole('button', { name: 'Rest', exact: true }).click();
   await expect(page.locator('#status')).toHaveText('Rested · health restored', { timeout: 60_000 });
   await expect(page.locator('#hp')).toHaveText('110 / 110');

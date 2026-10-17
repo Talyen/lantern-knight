@@ -281,6 +281,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     const firstGear = carried.find((entry) => entry.definition.kind === 'gear');
     selected ??= firstGear ? { kind: 'pack', id: firstGear.id } : { kind: 'slot', slot: 'sword' };
     const selectItem = (id: string) => {
+      if (!messageError) message = '';
       selected = { kind: 'pack', id };
       detailVisible = true;
       inventoryView = 'pack';
@@ -297,6 +298,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     const gear = kitSlots.map((slot) => {
       const id = equipment[slot];
       const control = button('', `slot-${slot}`, () => {
+        if (!messageError) message = '';
         selected = { kind: 'slot', slot };
         detailVisible = true;
         inventoryView = 'kit';
