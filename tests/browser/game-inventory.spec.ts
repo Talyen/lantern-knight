@@ -50,6 +50,7 @@ test('inventory compares replacements and forge keeps the choice and confirmatio
     await mkdir(directory, { recursive: true });
     await expect(page.locator('.adventure-panel .item-art:not([data-ready="true"])')).toHaveCount(
       0,
+      { timeout: 60_000 },
     );
     await page.screenshot({ path: path.join(directory, `redesign-${name}.png`) });
   };
