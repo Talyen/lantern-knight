@@ -23,7 +23,14 @@ export function ciDevelopmentFiles(files: readonly string[], authoring: boolean)
 export function browserSelection(args: string[]) {
   const built = args.includes('--built');
   const forwarded = args.filter((arg) => arg !== '--built');
-  const selections = forwarded.filter((arg) => !arg.startsWith('--'));
+  const selections: string[] = [];
+  // Scenario selectors precede Playwright options. Values such as --grep's
+  // expression must not change the selected asset scope or built-Game admission.
+  for (const arg of forwarded) {
+    if (arg === '--ui' || arg === '--list') continue;
+    if (arg.startsWith('-')) break;
+    selections.push(arg);
+  }
   const gameOnly =
     selections.length > 0 &&
     selections.every((arg) => /^(?:tests\/browser\/)?game(?:-[a-z-]+)?(?:\.spec\.ts)?$/.test(arg));

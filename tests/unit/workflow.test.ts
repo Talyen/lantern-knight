@@ -149,6 +149,16 @@ test('built browser tests select only Game and remove the wrapper flag', () => {
     '--grep',
     'game',
   ]);
+  for (const options of [
+    ['--grep', 'inventory'],
+    ['--project', 'chromium'],
+    ['--grep-invert', 'slow journey'],
+  ])
+    assert.deepEqual(browserSelection(['game', '--built', ...options]), {
+      built: true,
+      forwarded: ['tests/browser/game', ...options],
+      scope: 'runtime',
+    });
   const filter = new RegExp(browserSelection(['game']).forwarded[0]!);
   assert.ok(filter.test('/tmp/game-worktree/tests/browser/game-loot.spec.ts'));
   assert.ok(!filter.test('/tmp/game-worktree/tests/browser/audio.spec.ts'));
