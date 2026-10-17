@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { mkdir } from 'node:fs/promises';
-import { test, expect } from './fixtures';
+import { activateWithKeyboard, test, expect } from './fixtures';
 import { loadCheckpoint } from '../fixtures/input';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
@@ -115,8 +115,8 @@ for (const choice of ['sword', 'lantern'] as const) {
     await page.keyboard.press('e');
     await page.getByRole('button', { name: 'Collect Vigil Amulet', exact: true }).click();
     await page.locator('#open-inventory').click();
-    await page.locator('.inventory-row').filter({ hasText: 'Vigil Amulet' }).click();
-    await page.getByRole('button', { name: 'Equip', exact: true }).click();
+    await activateWithKeyboard(page.locator('.inventory-row').filter({ hasText: 'Vigil Amulet' }));
+    await activateWithKeyboard(page.getByRole('button', { name: 'Equip', exact: true }));
     await expect(page.locator('#hp')).toHaveText('100 / 115');
     await capture('vigil-amulet');
     await page.keyboard.press('Escape');

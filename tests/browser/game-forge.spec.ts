@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { mkdir } from 'node:fs/promises';
-import { test, expect } from './fixtures';
+import { activateWithKeyboard, test, expect } from './fixtures';
 import { loadCheckpoint } from '../fixtures/input';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
@@ -68,8 +68,8 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   await page.getByRole('button', { name: 'Collect Gatherer’s Seal', exact: true }).click();
   await page.locator('#open-inventory').click();
   const panel = page.locator('.adventure-panel');
-  await page.locator('.inventory-row').filter({ hasText: 'Gatherer’s Seal' }).click();
-  await panel.getByRole('button', { name: 'Equip', exact: true }).click();
+  await activateWithKeyboard(page.locator('.inventory-row').filter({ hasText: 'Gatherer’s Seal' }));
+  await activateWithKeyboard(panel.getByRole('button', { name: 'Equip', exact: true }));
   await expect(page.locator('#hp')).toHaveText('100 / 110');
   await page.keyboard.press('Escape');
   const onward = await saveCurrent();

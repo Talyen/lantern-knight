@@ -1,4 +1,4 @@
-import { test as base, expect, type Page } from '@playwright/test';
+import { test as base, expect, type Locator, type Page } from '@playwright/test';
 import fs from 'node:fs/promises';
 import { projectRoot } from '../../tools/assets/paths';
 export const test = base.extend<{ errors: string[] }>({
@@ -22,6 +22,12 @@ export const test = base.extend<{ errors: string[] }>({
   ],
 });
 export { expect };
+
+export async function activateWithKeyboard(button: Locator) {
+  await expect(button).toBeVisible();
+  await expect(button).toBeEnabled();
+  await button.press('Enter');
+}
 
 export async function waitForEditor(page: Page, timeout?: number) {
   await page.waitForFunction(

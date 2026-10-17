@@ -1,4 +1,4 @@
-import { expectPageValue, test, expect } from './fixtures';
+import { activateWithKeyboard, expectPageValue, test, expect } from './fixtures';
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
@@ -49,7 +49,6 @@ test('audio settings persist independently in Game', async ({ page }) => {
   await page.locator('#menu-settings').click();
   await expect(page.locator('[data-audio="master"]')).toHaveValue('35');
   await expect(page.locator('[data-audio="muted"]')).toBeChecked();
-  await page.screenshot({ path: test.info().outputPath('sound-settings.png') });
   await page.locator('[data-audio="muted"]').uncheck();
   await page.locator('#menu-back').click();
   await page.locator('#menu-start').click();
@@ -157,15 +156,14 @@ test('Preview exposes every audition and persists audio settings', async ({ page
     const before = await page.evaluate(
       () => (window as unknown as { audioProbe: { starts: number } }).audioProbe.starts,
     );
-    await page.getByRole('button', { name: 'Play sample', exact: true }).click();
+    await activateWithKeyboard(page.getByRole('button', { name: 'Play sample', exact: true }));
     await expectPageValue(
       page,
       () => (window as unknown as { audioProbe: { starts: number } }).audioProbe.starts,
       { message: id },
     ).toBeGreaterThan(before);
-    await page.getByRole('button', { name: 'Stop sample', exact: true }).click();
+    await activateWithKeyboard(page.getByRole('button', { name: 'Stop sample', exact: true }));
   }
-  await page.screenshot({ path: test.info().outputPath('sound-preview.png') });
   await page.locator('[data-audio="muted"]').check();
   await page.reload();
   await page.waitForFunction(() => window.foundation?.ready);
