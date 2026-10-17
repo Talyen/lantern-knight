@@ -18,6 +18,8 @@ for (const choice of ['sword', 'lantern'] as const) {
     const chapel = content.area('desecrated-chapel');
     const forward = forge.exits.find((e) => e.destination === chapel.id)!;
     const retreat = chapel.exits.find((e) => e.destination === forge.id)!;
+    const entry = forge.entries.find((e) => e.id === retreat.entry)!;
+    expect(Math.hypot(entry.x - forward.marker.x, entry.z - forward.marker.z)).toBeGreaterThan(1.6);
     const fire = chapel.campfires![0]!;
     const cache = chapel.interactables!.find((o) => o.kind === 'container')!;
     const session = new GameSession(content, 142, forge.id);
@@ -148,11 +150,13 @@ for (const choice of ['sword', 'lantern'] as const) {
     await page.keyboard.press('e');
     await expect(page.locator('#room-title')).toHaveText(forge.name, { timeout: 60_000 });
     await ready();
+    await expect(page.locator('#interaction-hint')).not.toHaveText(
+      'E · Travel to Desecrated Chapel',
+    );
+    await expect(page.locator('#lantern-readiness')).toBeHidden();
     await capture('forge-return');
     const returned = await checkpoint();
-    const entry = forge.entries.find((e) => e.id === retreat.entry)!;
     expect(returned.player.x).toBeCloseTo(entry.x);
     expect(returned.player.z).toBeCloseTo(entry.z);
-    expect(Math.hypot(entry.x - forward.marker.x, entry.z - forward.marker.z)).toBeGreaterThan(1.6);
   });
 }
