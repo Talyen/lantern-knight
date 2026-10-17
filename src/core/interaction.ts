@@ -30,59 +30,63 @@ function* choices(
     (!kind || candidate === kind) &&
     (id === undefined || point.id === id) &&
     canReachInteraction(sim.areaDefinition, sim.hero, point);
-  for (const d of sim.drops)
-    if (reachable(d, 'drop'))
-      yield {
-        kind: 'drop',
-        id: d.id,
-        x: d.x,
-        z: d.z,
-        label: 'Collect ' + d.rewards.map((r) => `${r.amount} ${items[r.item]!.name}`).join(', '),
-      };
-  for (const f of sim.areaDefinition.campfires ?? [])
-    if (reachable(f, 'campfire'))
-      yield {
-        kind: 'campfire',
-        id: f.id,
-        x: f.x,
-        z: f.z,
-        label: f.name,
-        blocked: sim.inCombat ? 'Finish combat to use the campfire' : undefined,
-      };
-  for (const o of sim.areaDefinition.interactables ?? [])
-    if (!sim.claimedObjects.has(o.id) && reachable(o, o.kind))
-      yield {
-        kind: o.kind,
-        id: o.id,
-        x: o.x,
-        z: o.z,
-        label:
-          o.kind === 'workbench'
-            ? 'Forge workbench'
-            : o.kind === 'breakable'
-              ? 'LMB · Break'
-              : 'Open container',
-        blocked:
-          o.kind === 'workbench' && sim.inCombat
-            ? 'Finish combat to use the workbench'
-            : !sim.guardsDefeated(o.guards)
-              ? 'Defeat the guard to open'
+  if (!kind || kind === 'drop')
+    for (const d of sim.drops)
+      if (reachable(d, 'drop'))
+        yield {
+          kind: 'drop',
+          id: d.id,
+          x: d.x,
+          z: d.z,
+          label: 'Collect ' + d.rewards.map((r) => `${r.amount} ${items[r.item]!.name}`).join(', '),
+        };
+  if (!kind || kind === 'campfire')
+    for (const f of sim.areaDefinition.campfires ?? [])
+      if (reachable(f, 'campfire'))
+        yield {
+          kind: 'campfire',
+          id: f.id,
+          x: f.x,
+          z: f.z,
+          label: f.name,
+          blocked: sim.inCombat ? 'Finish combat to use the campfire' : undefined,
+        };
+  if (!kind || kind === 'container' || kind === 'breakable' || kind === 'workbench')
+    for (const o of sim.areaDefinition.interactables ?? [])
+      if (!sim.claimedObjects.has(o.id) && reachable(o, o.kind))
+        yield {
+          kind: o.kind,
+          id: o.id,
+          x: o.x,
+          z: o.z,
+          label:
+            o.kind === 'workbench'
+              ? 'Forge workbench'
+              : o.kind === 'breakable'
+                ? 'LMB · Break'
+                : 'Open container',
+          blocked:
+            o.kind === 'workbench' && sim.inCombat
+              ? 'Finish combat to use the workbench'
+              : !sim.guardsDefeated(o.guards)
+                ? 'Defeat the guard to open'
+                : undefined,
+        };
+  if (!kind || kind === 'exit')
+    for (const e of sim.areaDefinition.exits)
+      if (e.explicit && reachable({ ...e.marker, id: e.id }, 'exit'))
+        yield {
+          kind: 'exit',
+          id: e.id,
+          x: e.marker.x,
+          z: e.marker.z,
+          label: 'Travel to ' + sim.registry.area(e.destination).name,
+          blocked: !sim.exitAvailable(e.id)
+            ? 'Defeat the enemies by the departure'
+            : sim.inCombat
+              ? 'Finish combat to travel'
               : undefined,
-      };
-  for (const e of sim.areaDefinition.exits)
-    if (e.explicit && reachable({ ...e.marker, id: e.id }, 'exit'))
-      yield {
-        kind: 'exit',
-        id: e.id,
-        x: e.marker.x,
-        z: e.marker.z,
-        label: 'Travel to ' + sim.registry.area(e.destination).name,
-        blocked: !sim.exitAvailable(e.id)
-          ? 'Defeat the enemies by the departure'
-          : sim.inCombat
-            ? 'Finish combat to travel'
-            : undefined,
-      };
+        };
 }
 
 export function canReachInteraction(

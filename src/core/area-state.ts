@@ -22,7 +22,7 @@ const point = z.strictObject({
     })
     .optional(),
 });
-export const AreaStateSchema = z.strictObject({
+const AreaStateSchema = z.strictObject({
   cleared: z.boolean(),
   engaged: z.boolean(),
   alerted: z.array(id).optional(),
@@ -77,6 +77,10 @@ export function restoreScenePosition(area: AreaDefinition, point: Point, radius:
   return true;
 }
 
+function uniqueReferences(ids: readonly string[] = [], known: ReadonlySet<string>) {
+  return new Set(ids).size === ids.length && ids.every((id) => known.has(id));
+}
+
 // Admission is shared by checkpoints and simulation construction. Returns a
 // detached state so neither caller drafts nor borrowed views become live state.
 export function parseAreaState(
@@ -87,31 +91,27 @@ export function parseAreaState(
   const state = AreaStateSchema.parse(value),
     area = registry.area(areaId);
 
-  if (Object.keys(state.actors).some((id) => !area.spawns.some((s) => s.id === id)))
+  const spawns = new Map(area.spawns.map((spawn) => [spawn.id, spawn])),
+    objects = new Map(area.interactables?.map((object) => [object.id, object]));
+  if (Object.keys(state.actors).some((id) => !spawns.has(id)))
     throw new Error(`unknown actor reference in ${area.id}`);
-  if (Object.keys(state.actors).length !== area.spawns.length)
+  if (Object.keys(state.actors).length !== spawns.size)
     throw new Error(`actor count differs in ${area.id}`);
-  if (
-    state.collectedPickups &&
-    (new Set(state.collectedPickups).size !== state.collectedPickups.length ||
-      state.collectedPickups.some((id) => !area.pickups?.some((p) => p.id === id)))
-  )
+  if (!uniqueReferences(state.collectedPickups, new Set(area.pickups?.map((p) => p.id))))
     throw new Error('Unknown or duplicate collected pickup');
+  const claimed = new Set(state.claimedObjects);
   if (
-    state.claimedObjects &&
-    (new Set(state.claimedObjects).size !== state.claimedObjects.length ||
-      state.claimedObjects.some(
-        (id) => !area.interactables?.some((p) => p.id === id && p.kind !== 'workbench'),
-      ))
+    !uniqueReferences(
+      state.claimedObjects,
+      new Set([...objects.values()].filter((o) => o.kind !== 'workbench').map((o) => o.id)),
+    )
   )
     throw new Error('Unknown claimed object');
   if (state.drops) {
     if (new Set(state.drops.map((d) => d.id)).size !== state.drops.length)
       throw new Error('Duplicate drop');
     for (const drop of state.drops) {
-      const source = drop.enemy
-        ? area.spawns.find((p) => p.id === drop.source)
-        : area.interactables?.find((p) => p.id === drop.source);
+      const source = drop.enemy ? spawns.get(drop.source) : objects.get(drop.source);
       const prefix = (drop.enemy ? 'enemy-' : 'object-') + drop.source + '-';
       const index = drop.id.startsWith(prefix) ? Number(drop.id.slice(prefix.length)) : -1;
       const reward = Number.isInteger(index) && index >= 0 ? source?.rewards?.[index] : undefined;
@@ -122,39 +122,29 @@ export function parseAreaState(
         reward.item !== drop.rewards[0]!.item ||
         reward.amount !== drop.rewards[0]!.amount ||
         drop.id !== prefix + index ||
-        (!drop.enemy && !state.claimedObjects?.includes(drop.source)) ||
+        (!drop.enemy && !claimed.has(drop.source)) ||
         (drop.enemy && state.actors[drop.source]?.health !== 0)
       )
         throw new Error('Invalid drop');
     }
   }
   for (const spawn of area.spawns) {
-    const actor = state.actors[spawn.id];
+    const actor = state.actors[spawn.id],
+      definition = registry.actor(spawn.actor);
     if (
       !actor ||
       !contains(area.bounds, actor) ||
-      actor.health > registry.actor(spawn.actor).maxHealth ||
+      actor.health > definition.maxHealth ||
       (actor.burn && actor.health === 0)
     )
       throw new Error(`invalid actor ${area.id}/${spawn.id}`);
+    if (!restoreScenePosition(area, actor, effectiveRadius(definition.radius)))
+      throw new Error('Unsupported saved actor position');
   }
   if (state.cleared !== Object.values(state.actors).every((a) => a.health === 0))
     throw new Error(`inconsistent clear state ${area.id}`);
-  if (
-    state.alerted &&
-    (new Set(state.alerted).size !== state.alerted.length ||
-      state.alerted.some((id) => !area.spawns.some((spawn) => spawn.id === id)))
-  )
+  if (!uniqueReferences(state.alerted, new Set(spawns.keys())))
     throw new Error('Unknown or duplicate alerted enemy');
-  for (const spawn of area.spawns)
-    if (
-      !restoreScenePosition(
-        area,
-        state.actors[spawn.id]!,
-        effectiveRadius(registry.actor(spawn.actor).radius),
-      )
-    )
-      throw new Error('Unsupported saved actor position');
   return state;
 }
 

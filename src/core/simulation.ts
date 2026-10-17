@@ -2,7 +2,7 @@ import { kitAttributes } from '../content/progression';
 import { parseAreaState, type AreaState } from './area-state';
 import { InventoryState, type InventoryAccess } from './inventory';
 import type { GroundDrop } from '../content/interactions';
-import { interactionTarget } from './interaction';
+import { canReachInteraction, interactionTarget } from './interaction';
 import { simulationView } from './simulation-view';
 import { moveSupported, effectiveRadius, clearSegment } from './navigation';
 import { MovementPlans } from './movement-plans';
@@ -132,12 +132,13 @@ export class Simulation {
       );
   }
   collectDrop(id: string) {
-    const drop = this.drops.find((p) => p.id === id);
-    if (!drop || !interactionTarget(this, 'drop', id)) return false;
+    const index = this.drops.findIndex((p) => p.id === id),
+      drop = this.drops[index];
+    if (!drop || !canReachInteraction(this.areaDefinition, this.hero, drop)) return false;
     this.inventoryAccess.award(drop.rewards);
     for (const reward of drop.rewards)
       this.emit(this.hero, { kind: 'pickup', pickup: reward.item, amount: reward.amount });
-    this.drops = this.drops.filter((p) => p !== drop);
+    this.drops.splice(index, 1);
     return true;
   }
 
@@ -218,9 +219,10 @@ export class Simulation {
     this.engaged = !def.activation;
   }
   captureAreaState(): AreaState {
+    const live = new Map(this.actors.map((actor) => [actor.id, actor]));
     const actors = Object.fromEntries(
       this.areaDefinition.spawns.map((spawn) => {
-        const actor = this.actors.find((actor) => actor.id === spawnActorId(this.area, spawn.id));
+        const actor = live.get(spawnActorId(this.area, spawn.id));
         if (!actor) throw new Error(`missing spawn ${spawn.id}`);
         return [
           spawn.id,

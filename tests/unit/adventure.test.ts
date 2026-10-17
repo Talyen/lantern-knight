@@ -272,6 +272,8 @@ test('fire travel requires discovery and proximity, preserves health, and cancel
 test('death chooses the nearest reachable discovered fire in-stage and otherwise uses the last visited fire', () => {
   const s = fixture();
   discover(s, 'orchard/east');
+  s.sim.hero.x = 0;
+  assert.equal(s.respawnFire(), 'orchard/east', 'equidistant fires use stable identity order');
   s.sim.hero.x = 6;
   s.sim.hero.health = 0;
   assert.equal(s.respawnFire(), 'orchard/east');
@@ -334,6 +336,18 @@ test('checkpoint validation rejects invalid gear, duplicate drops, unknown claim
     (v: typeof saved) => {
       v.areas.orchard!.claimedObjects = [];
     },
+    (v: typeof saved) => {
+      v.areas.orchard!.actors.first!.health = NaN;
+    },
+    (v: typeof saved) => {
+      v.areas.orchard!.claimedObjects = ['crate', 'crate'];
+    },
+    (v: typeof saved) => {
+      v.areas.orchard!.collectedPickups = ['unknown'];
+    },
+    (v: typeof saved) => {
+      Object.assign(v.areas.orchard!, { unexpected: true });
+    },
   ]) {
     const next = structuredClone(saved);
     mutate(next);
@@ -373,6 +387,11 @@ test('campfire commands reject aliases without poisoning checkpoint identities',
     assert.throws(() => s.prepareRest(key), /campfire/i);
   }
   assert.deepEqual(s.captureSave(), before);
+  for (const lastFire of ['', 'orchard/west/extra', 'forest/west']) {
+    const invalid = structuredClone(before);
+    invalid.adventure!.lastFire = lastFire;
+    assert.throws(() => parseGame(invalid, s.registry), /campfire/i);
+  }
   assert.doesNotThrow(() => parseGame(s.captureSave(), s.registry));
 });
 
@@ -987,6 +1006,7 @@ test('room proposals preserve active progress until commit and cancellation disc
     // Checkpoint input remains caller-owned after admission.
     saved.player.health = 0;
     saved.adventure!.inventory.gold = 999;
+    saved.areas[saved.area]!.actors.first!.health = 0;
     const events = session.commitRoom(accepted);
     assert.equal(session.generation, sim.generation + 1, kind);
     assert.equal(session.sim.area, accepted.destination, kind);
@@ -995,6 +1015,7 @@ test('room proposals preserve active progress until commit and cancellation disc
       assert.equal(session.sim.initialSeed, 987);
       assert.equal(session.sim.hero.health, 60);
       assert.equal(session.inventory.gold, 42);
+      assert.equal(session.sim.enemies[0]!.health, 1);
     } else if (kind === 'travel') assert.equal(session.sim.hero.health, 25);
     else {
       assert.equal(session.sim.hero.health, session.sim.maxHealth);
@@ -1013,10 +1034,10 @@ test('failed candidate construction preserves active state and a previously prep
     sim = session.sim;
   const previous = session.prepareRest('orchard/west');
   // oxlint-disable-next-line typescript/unbound-method -- Invoked below with its simulation receiver.
-  const capture = Simulation.prototype.captureAreaState;
-  t.mock.method(Simulation.prototype, 'captureAreaState', function (this: Simulation) {
+  const populate = Simulation.prototype.populate;
+  t.mock.method(Simulation.prototype, 'populate', function (this: Simulation, entry?: string) {
     if (this.generation > sim.generation) throw new Error('candidate construction failed');
-    return capture.call(this);
+    return populate.call(this, entry);
   });
   assert.throws(() => session.prepareReset('death'), /candidate construction failed/);
   assert.equal(session.sim, sim);

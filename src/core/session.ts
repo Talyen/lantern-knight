@@ -140,7 +140,6 @@ export class GameSession {
       resetCount: 0,
       onboarding: onboardingState(),
     };
-    this.recordArea();
   }
   private assertProgressionWritable(inventory = this.current.inventoryState) {
     if (inventory !== this.current.inventoryState) throw new Error('inactive room inventory');
@@ -190,9 +189,6 @@ export class GameSession {
       ...details,
     });
   }
-  private recordArea() {
-    this.current.visited.set(this.sim.area, this.sim.captureAreaState());
-  }
 
   private roomState(): RoomState {
     // Saved area snapshots are detached values. Preparation replaces map entries,
@@ -225,11 +221,13 @@ export class GameSession {
       this.roomInventory(state.inventoryState),
       state.visited.get(area),
     );
+    // The accepted simulation owns the current room. Keep snapshots only for
+    // inactive rooms, so capturing a checkpoint never mutates session state.
+    state.visited.delete(area);
     sim.tick = this.sim.tick;
     return sim;
   }
   private prepareRoom(state: RoomState, outcome: EventDetails, transition = false): RoomPlan {
-    state.visited.set(state.sim.area, state.sim.captureAreaState());
     const destination = state.sim.area;
     const plan = Object.freeze({
       sourceGeneration: this.generation,
@@ -389,28 +387,32 @@ export class GameSession {
     return plan;
   }
   respawnFire() {
-    const navigation = new Navigation(this.sim.areaDefinition);
-    const candidates = [...this.current.discovered]
-      .filter((key) => this.fire(key).area === this.sim.area)
-      .map((key) => {
-        const route = navigation.route(
-          this.sim.hero,
-          this.sim.areaDefinition.entries.find(
-            (entry) => entry.id === 'fire-' + this.fire(key).definition.id,
-          )!,
-          effectiveRadius(this.sim.hero.definition.radius),
-        );
-        let previous: Point = this.sim.hero,
-          distance = 0;
-        for (const point of route.points) {
-          distance += Math.hypot(point.x - previous.x, point.z - previous.z);
-          previous = point;
-        }
-        return { key, distance: route.status === 'ready' ? distance : Infinity };
-      })
-      .filter((p) => Number.isFinite(p.distance))
-      .sort((a, b) => a.distance - b.distance || a.key.localeCompare(b.key));
-    return candidates[0]?.key ?? this.lastFire;
+    const area = this.sim.areaDefinition,
+      hero = this.sim.hero,
+      navigation = new Navigation(area);
+    let nearest: string | undefined,
+      shortest = Infinity;
+    for (const fire of area.campfires ?? []) {
+      const key = area.id + '/' + fire.id;
+      if (!this.current.discovered.has(key)) continue;
+      const route = navigation.route(
+        hero,
+        area.entries.find((entry) => entry.id === 'fire-' + fire.id)!,
+        effectiveRadius(hero.definition.radius),
+      );
+      if (route.status !== 'ready') continue;
+      let previous: Point = hero,
+        distance = 0;
+      for (const point of route.points) {
+        distance += Math.hypot(point.x - previous.x, point.z - previous.z);
+        previous = point;
+      }
+      if (distance < shortest || (distance === shortest && key.localeCompare(nearest!) < 0)) {
+        nearest = key;
+        shortest = distance;
+      }
+    }
+    return nearest ?? this.lastFire;
   }
   private resetEnemies(state: RoomState) {
     for (const [area, saved] of state.visited) {
@@ -511,7 +513,6 @@ export class GameSession {
   }
 
   captureSave(): GameSave {
-    this.recordArea();
     const a = this.sim.hero;
     return {
       version: 9,
@@ -536,7 +537,10 @@ export class GameSession {
         dodgeCooldown: a.dodgeCooldown,
         nextAttack: a.nextAttack,
       },
-      areas: structuredClone(Object.fromEntries(this.current.visited)),
+      areas: {
+        ...structuredClone(Object.fromEntries(this.current.visited)),
+        [this.sim.area]: this.sim.captureAreaState(),
+      },
     };
   }
   prepareRestore(value: GameSave): RoomPlan {

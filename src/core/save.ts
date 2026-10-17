@@ -1,6 +1,6 @@
 import { equipmentSlots, healthBonus } from '../content/items';
 import { validateInventory, MAX_ITEM_COUNT } from './inventory';
-import { AreaStateSchema, parseAreaState, restoreScenePosition } from './area-state';
+import { type AreaState, parseAreaState, restoreScenePosition } from './area-state';
 import { z } from 'zod';
 import { OnboardingSchema } from './onboarding';
 import { type ContentRegistry, contains } from '../content/world';
@@ -33,19 +33,14 @@ const GameSchema = z.strictObject({
       onboarding: OnboardingSchema.optional(),
     })
     .optional(),
-  areas: z.record(id, AreaStateSchema),
+  areas: z.record(id, z.unknown()),
 });
-export type GameSave = z.infer<typeof GameSchema>;
+export type GameSave = Omit<z.infer<typeof GameSchema>, 'areas'> & {
+  areas: Record<string, AreaState>;
+};
 export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
   const save = GameSchema.parse(value),
-    resolve = (id: string) => {
-      try {
-        return registry.area(id);
-      } catch {
-        throw new Error(`unknown area ${id}`);
-      }
-    },
-    active = resolve(save.area),
+    active = registry.area(save.area),
     player = registry.actor(registry.definitions.player);
   if (
     !contains(active.bounds, save.player) ||
@@ -55,24 +50,31 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
   if (!save.adventure && registry.definitions.areas.some((area) => area.campfires?.length))
     throw new Error('Missing adventure state');
   if (save.adventure) {
-    const { discovered, lastFire } = save.adventure;
+    const { discovered, lastFire } = save.adventure,
+      discoveredIds = new Set(discovered);
     validateInventory(save.adventure);
-    const fires = registry.definitions.areas.flatMap((a) =>
-      (a.campfires ?? []).map((f) => a.id + '/' + f.id),
+    const fires = new Set(
+      registry.definitions.areas.flatMap((a) => (a.campfires ?? []).map((f) => a.id + '/' + f.id)),
     );
     if (
-      new Set(discovered).size !== discovered.length ||
-      discovered.some((f) => !fires.includes(f)) ||
-      (lastFire && !discovered.includes(lastFire))
+      discoveredIds.size !== discovered.length ||
+      discovered.some((f) => !fires.has(f)) ||
+      (lastFire !== undefined && !discoveredIds.has(lastFire))
     )
       throw new Error('Unknown campfire');
   }
   if (!Object.hasOwn(save.areas, save.area)) throw new Error('missing current area state');
-  for (const [areaId, state] of Object.entries(save.areas))
-    save.areas[areaId] = parseAreaState(state, registry, areaId);
+  // Area admission owns its schema parse and detached result. Parsing it here
+  // as well would clone every actor and drop twice.
+  const areas = Object.fromEntries(
+    Object.entries(save.areas).map(([areaId, state]) => [
+      areaId,
+      parseAreaState(state, registry, areaId),
+    ]),
+  );
 
   if (!restoreScenePosition(active, save.player, effectiveRadius(player.radius)))
     throw new Error('Unsupported saved player position');
 
-  return save;
+  return { ...save, areas };
 }

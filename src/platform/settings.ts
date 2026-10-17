@@ -21,12 +21,12 @@ const SettingsSchema = z.strictObject({
   depthOfField: z.number().min(0).max(1),
   visualEffects: VisualEffectsSchema,
 });
+const LegacySettingsSchema = SettingsSchema.omit({ audio: true, version: true }).extend({
+  version: z.literal(5),
+});
 export type Settings = z.infer<typeof SettingsSchema>;
 export function parseSettings(value: unknown): Settings {
-  const legacy = SettingsSchema.omit({ audio: true, version: true }).extend({
-    version: z.literal(5),
-  });
-  const previous = legacy.safeParse(value);
+  const previous = LegacySettingsSchema.safeParse(value);
   return SettingsSchema.parse(
     previous.success ? { ...previous.data, version: 6, audio: { ...defaultAudioSettings } } : value,
   );
