@@ -119,7 +119,6 @@ export class MovementPlans {
   ) {
     const target = intent?.target;
     const kind = intent?.kind ?? 'home';
-    const navigation = this.navigator(a);
     let plan = this.plans.get(a.id);
     // An intent change invalidates automatic routes immediately. Moving pursuit
     // targets still replan on the normal cadence; manual commands retain priority.
@@ -128,6 +127,7 @@ export class MovementPlans {
       plan = undefined;
     }
     if (!plan && !target) return false;
+    const navigation = this.navigator(a);
     const goal = plan?.kind === 'manual' ? plan.target : (target ?? plan!.target);
     const waypoint = plan?.route.points[0];
     // Static geometry cannot make the same failed request succeed. Retry when

@@ -61,13 +61,7 @@ export interface InventoryAccess {
 export class InventoryState implements InventoryAccess {
   private state: InventorySnapshot;
   constructor(snapshot: InventorySnapshot = { inventory: {}, equipment: {} }) {
-    this.state = this.accept(
-      structuredClone({
-        inventory: snapshot.inventory,
-        equipment: snapshot.equipment,
-        ...(snapshot.forgeUpgrade !== undefined ? { forgeUpgrade: snapshot.forgeUpgrade } : {}),
-      }),
-    );
+    this.state = this.accept(this.copy(snapshot));
   }
   private accept(snapshot: InventorySnapshot): InventorySnapshot {
     validateInventory(snapshot);
@@ -97,7 +91,7 @@ export class InventoryState implements InventoryAccess {
     draft.forgeUpgrade = choice;
     const accepted = this.accept(draft);
     return {
-      snapshot: structuredClone(accepted),
+      snapshot: this.copy(accepted),
       commit: () => {
         if (this.state !== previous) throw new Error('Stale forge purchase');
         this.state = accepted;
@@ -107,8 +101,15 @@ export class InventoryState implements InventoryAccess {
   get healthBonus() {
     return healthBonus(this.equipment);
   }
+  private copy(snapshot: InventorySnapshot): InventorySnapshot {
+    return {
+      inventory: { ...snapshot.inventory },
+      equipment: { ...snapshot.equipment },
+      ...(snapshot.forgeUpgrade !== undefined ? { forgeUpgrade: snapshot.forgeUpgrade } : {}),
+    };
+  }
   snapshot(): InventorySnapshot {
-    return structuredClone(this.state);
+    return this.copy(this.state);
   }
   private update(change: (draft: InventorySnapshot) => boolean) {
     const next = this.snapshot();
@@ -117,13 +118,14 @@ export class InventoryState implements InventoryAccess {
     return true;
   }
   award(rewards: readonly Reward[]) {
+    if (!rewards.length) return;
     this.update(({ inventory }) => {
       for (const { item, amount } of rewards) {
         if (!Object.hasOwn(items, item) || !Number.isSafeInteger(amount) || amount <= 0)
           throw new Error('Invalid reward');
         inventory[item] = (inventory[item] ?? 0) + amount;
       }
-      return rewards.length > 0;
+      return true;
     });
   }
   consume(item: string) {
@@ -135,14 +137,17 @@ export class InventoryState implements InventoryAccess {
     return true;
   }
   change(command: InventoryCommand): boolean {
+    if (
+      (command.kind === 'equip' && this.equipment[command.slot] === command.item) ||
+      (command.kind === 'unequip' && !this.equipment[command.slot])
+    )
+      return false;
     return this.update(({ inventory, equipment }) => {
       if (command.kind === 'equip') {
-        if (equipment[command.slot] === command.item) return false;
         equipment[command.slot] = command.item;
         return true;
       }
       if (command.kind === 'unequip') {
-        if (!equipment[command.slot]) return false;
         delete equipment[command.slot];
         return true;
       }

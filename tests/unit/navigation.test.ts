@@ -394,7 +394,7 @@ test('coincident living spawns separate deterministically without leaving suppor
   );
 });
 
-test('an enemy pursues across a stair height gap instead of repeatedly swinging out of reach', () => {
+function stairArea(): AreaDefinition {
   const a = area();
   a.props = [];
   a.surface = {
@@ -406,6 +406,11 @@ test('an enemy pursues across a stair height gap instead of repeatedly swinging 
     endHeight: 2,
     steps: 1,
   };
+  return a;
+}
+
+test('an enemy pursues across a stair height gap instead of repeatedly swinging out of reach', () => {
+  const a = stairArea();
   a.entries = [{ id: 'start', x: 0, z: 0.4 }];
   a.spawns = [{ id: 'enemy', actor: 'skeleton', x: 0, z: -0.4 }];
   const sim = simulate(a),
@@ -422,18 +427,8 @@ test('an enemy pursues across a stair height gap instead of repeatedly swinging 
 });
 
 test('health pickups cannot be collected across a stair height gap', () => {
-  const a = area();
-  a.props = [];
+  const a = stairArea();
   a.spawns = [];
-  a.surface = {
-    kind: 'stairs',
-    axis: 'z',
-    start: 0,
-    end: 4,
-    startHeight: 0,
-    endHeight: 2,
-    steps: 1,
-  };
   a.entries = [{ id: 'start', x: 0, z: -0.4 }];
   a.pickups = [
     { id: 'health', object: 'health-art', kind: 'health', x: 0, z: 0.4, radius: 1, amount: 20 },
@@ -450,17 +445,7 @@ test('health pickups cannot be collected across a stair height gap', () => {
 });
 
 test('actors on opposite sides of a stair height gap do not push each other', () => {
-  const a = area();
-  a.props = [];
-  a.surface = {
-    kind: 'stairs',
-    axis: 'z',
-    start: 0,
-    end: 4,
-    startHeight: 0,
-    endHeight: 2,
-    steps: 1,
-  };
+  const a = stairArea();
   a.entries = [{ id: 'start', x: 0, z: 0.1 }];
   a.spawns = [{ id: 'enemy', actor: 'skeleton', x: 0, z: -0.1 }];
   const sim = simulate(a);
@@ -585,7 +570,7 @@ test('content rejects a self-intersecting star masquerading as a convex playable
   );
 });
 
-test('an omitted command preserves hero aim', () => {
+test('idle aim and movement deadzone preserve position; completing a route releases manual control', () => {
   const a = area();
   a.props = [];
   a.spawns = [];
@@ -593,21 +578,9 @@ test('an omitted command preserves hero aim', () => {
   sim.hero.aim = 1.2;
   sim.step();
   assert.equal(sim.hero.aim, 1.2);
-});
-test('movement inside the deadzone does not creep', () => {
-  const a = area();
-  a.props = [];
-  a.spawns = [];
-  const sim = simulate(a),
-    before = { x: sim.hero.x, z: sim.hero.z };
+  const before = { x: sim.hero.x, z: sim.hero.z };
   sim.step({ ...still, move: { x: 0.005, z: 0 } });
   assert.deepEqual({ x: sim.hero.x, z: sim.hero.z }, before);
-});
-test('completing an explicit route releases it and allows idle aiming', () => {
-  const a = area();
-  a.props = [];
-  a.spawns = [];
-  const sim = simulate(a);
   const goal = { x: sim.hero.x + 0.02, z: sim.hero.z };
   sim.setMovementTarget(sim.hero.id, goal);
   sim.step(still);
@@ -733,4 +706,22 @@ test('pursuit reuses a route to a stationary target and replans when that target
   plans.follow(enemy, 60, move, { kind: 'pursuit', target: { x: 4, z: 0 } });
   assert.equal(routes.mock.callCount(), 2);
   assert.ok(enemy.x > before, 'a moved destination changes pursuit direction');
+});
+
+test('manual enemy routes work before encounter activation and respect stun', () => {
+  const sim = new Simulation(content),
+    enemy = sim.enemies[0]!,
+    start = enemy.x,
+    goal = { x: start + 0.3, z: enemy.z };
+  assert.equal(sim.engaged, false);
+  sim.setMovementTarget(enemy.id, goal);
+  enemy.stun = 1;
+  sim.step();
+  assert.equal(enemy.x, start);
+  for (let i = 0; i < 30; i++) sim.step();
+  assert.ok(Math.hypot(enemy.x - goal.x, enemy.z - goal.z) < 1e-6);
+  assert.equal(enemy.state, 'idle');
+  assert.equal(sim.navigationDebug(false).routes.length, 0);
+  assert.equal(sim.engaged, false);
+  assert.equal(sim.hero.health, sim.maxHealth);
 });

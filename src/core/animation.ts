@@ -19,6 +19,26 @@ export function frameAt(clip: Clip, timeMs: number) {
   }
   return clip.frames.at(-1)!;
 }
+// Preserve drawing-relative notify positions when authored holds change.
+export function retimeClip(clip: Clip, holds: readonly number[]): Clip {
+  const remap = (time: number) => {
+    let from = 0,
+      to = 0;
+    for (let i = 0; i < holds.length; i++) {
+      const old = clip.durationsMs[i]!,
+        next = holds[i]!;
+      if (time <= from + old + 1e-7) return to + (Math.max(0, time - from) / old) * next;
+      from += old;
+      to += next;
+    }
+    return to;
+  };
+  return {
+    ...clip,
+    durationsMs: [...holds],
+    notifies: clip.notifies.map((notify) => ({ ...notify, atMs: remap(notify.atMs) })),
+  };
+}
 export class Animator {
   time = 0;
   instance = 0;

@@ -409,29 +409,27 @@ export class Simulation {
       if (a.health <= 0) continue;
       this.#combat.advanceRecoil(a);
       if (a.kind === 'enemy') {
-        const intent = this.encounter.decide(a, h, this.engaged, this.movementPreview);
-        if (intent.kind === 'none' && !this.movement.manual(a.id)) {
+        const intent = this.encounter.decide(a, h, this.engaged, this.movementPreview),
+          manual = this.movement.manual(a.id);
+        if (intent.kind === 'none' && !manual) {
           this.movement.cancel(a.id);
           if (a.state === 'walk') this.start(a, 'idle');
         }
         if (intent.cancelAttack && a.state === 'attack') this.start(a, 'idle');
-        if (intent.kind === 'home' && (a.state === 'idle' || a.state === 'walk')) {
-          if (a.stun === 0) this.follow(a, { kind: 'home', target: intent.target });
-          else a.state = 'idle';
-          continue;
+        if (a.state === 'idle' || a.state === 'walk') {
+          if (a.stun > 0) a.state = 'idle';
+          else if (intent.kind === 'pursuit') {
+            a.aim = Math.atan2(h.x - a.x, h.z - a.z);
+            if (intent.attack && !manual) {
+              a.state = 'idle';
+              if (!this.movementPreview) this.start(a, 'attack');
+            } else this.follow(a, { kind: 'pursuit', target: h });
+          } else if (intent.kind === 'home' || manual)
+            this.follow(
+              a,
+              intent.kind === 'home' ? { kind: 'home', target: intent.target } : undefined,
+            );
         }
-        if (
-          intent.kind === 'pursuit' &&
-          a.stun === 0 &&
-          (a.state === 'idle' || a.state === 'walk')
-        ) {
-          a.aim = Math.atan2(h.x - a.x, h.z - a.z);
-          if (intent.attack && !this.movement.manual(a.id)) {
-            a.state = 'idle';
-            if (!this.movementPreview) this.start(a, 'attack');
-          } else this.follow(a, { kind: 'pursuit', target: h });
-        }
-        if (a.stun > 0 && (a.state === 'walk' || a.state === 'idle')) a.state = 'idle';
       }
       this.#combat.advance(a);
     }

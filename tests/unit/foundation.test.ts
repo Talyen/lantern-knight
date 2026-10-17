@@ -15,7 +15,7 @@ import { selectDirection } from '../../src/content/headings';
 import { trimmedBounds } from '../../src/assets/sprite-registration';
 import { cameraCalibration } from '../../src/assets/camera-calibration';
 import { cameraContract as contract } from '../../src/assets/camera-contract';
-import { Animator, frameAt } from '../../src/core/animation';
+import { Animator, frameAt, retimeClip } from '../../src/core/animation';
 import { Simulation, FixedClock } from '../../src/core/simulation';
 import { tuning } from '../../src/content/gameplay';
 import { resolveActorClip, resolveClip, type Clip } from '../../src/assets/schema';
@@ -123,6 +123,16 @@ test('invalid animation deltas and seeks leave playback and notifications usable
   );
 });
 test('notifies survive skipped frames/loops, have unique identities, interruption restarts; scrub silent; death holds', () => {
+  const retimed = new Animator('retimed', retimeClip(clip, [50, 150, 100]));
+  assert.deepEqual(
+    retimed.advance(199).map((event) => [event.kind, event.timeMs]),
+    [['footstep', 40]],
+  );
+  assert.deepEqual(
+    retimed.advance(1).map((event) => [event.kind, event.timeMs]),
+    [['whoosh', 200]],
+  );
+  assert.deepEqual(clip.durationsMs, [100, 50, 150]);
   const a = new Animator('hero', clip);
   assert.equal(a.advance(650).length, 4);
   assert.equal(a.advance(0).length, 0);

@@ -1,3 +1,4 @@
+import { retimeClip } from '../core/animation';
 import type { Clip } from '../assets/schema';
 import type { AuthoredHeading } from '../content/headings';
 import {
@@ -29,20 +30,8 @@ export function retimeSweepClip(
   }
   let result = versions.get(key);
   if (result) return result;
-  const remap = (time: number) => {
-    let from = 0,
-      to = 0;
-    for (let i = 0; i < clip.durationsMs.length; i++) {
-      const hold = clip.durationsMs[i]!,
-        next = holds[i]!;
-      if (time <= from + hold + 1e-7) return to + Math.max(0, (time - from) / hold) * next;
-      from += hold;
-      to += next;
-    }
-    return to;
-  };
   result = {
-    ...clip,
+    ...retimeClip(clip, holds),
     frames: clip.frames.map((frame, index) => {
       if (!cleanEnding) return frame;
       if (index === clip.frames.length - 1) return readyFrame!;
@@ -51,8 +40,6 @@ export function retimeSweepClip(
         return clip.frames[clip.frames.length - 3]!;
       return frame;
     }),
-    durationsMs: [...holds],
-    notifies: clip.notifies.map((notify) => ({ ...notify, atMs: remap(notify.atMs) })),
   };
   versions.set(key, result);
   return result;

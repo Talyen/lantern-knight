@@ -12,20 +12,19 @@ export type WalkTiming = keyof typeof walkTimings;
 const cached = new WeakMap<Clip, Map<string, Clip>>();
 export function timedWalk(clip: Clip, timing: WalkTiming, holds?: readonly number[]): Clip {
   if (timing === 'supplied' || !holds) return clip;
+  const key = holds.join(',');
+  let versions = cached.get(clip);
+  const existing = versions?.get(key);
+  if (existing) return existing;
   if (
     holds.length !== clip.frames.length ||
     holds.some((n) => !Number.isFinite(n) || n <= 0) ||
     Math.abs(holds.reduce((a, b) => a + b, 0) - clipDuration(clip)) > 0.001
   )
     throw new Error('Weighted walk must preserve its authored cycle');
-  const key = holds.join(','),
-    versions = cached.get(clip) ?? new Map<string, Clip>();
-  cached.set(clip, versions);
-  let result = versions.get(key);
-  if (!result) {
-    result = { ...clip, durationsMs: [...holds] };
-    versions.set(key, result);
-  }
+  if (!versions) cached.set(clip, (versions = new Map()));
+  const result = { ...clip, durationsMs: [...holds] };
+  versions.set(key, result);
   return result;
 }
 export function remapWalkTime(from: Clip, to: Clip, time: number) {

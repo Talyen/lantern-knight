@@ -77,9 +77,5 @@ test('forge departure keeps the hero below controls with artwork across the uppe
       2,
     );
   }
-  await page.keyboard.press('e');
-  await expect(page.locator('#room-title')).toHaveText(content.area('desecrated-chapel').name, {
-    timeout: 60_000,
-  });
-  await expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 60_000 });
+  // game-chapel.spec.ts owns the full departure, reward and return journey.
 });
