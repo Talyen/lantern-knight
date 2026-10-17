@@ -51,6 +51,8 @@ A small compressed, hash-pinned catalog maps each file to its own SHA-256, size 
 
 The shared version 3 pin identifies separate runtime and authoring bundles and an optional individual-file delivery catalog. Existing monolithic releases remain preserved. Exact prepared publication payloads can seed pinned authoring acquisition offline; consumers retain their own hardlinks and leases.
 
+The shared `assets/lock.json` has a 128 KiB repository limit for sharded bundle identities and delivery references. Per-file catalogs and asset payloads remain external; other JSON files retain their existing size limits.
+
 Game content can reference any prepared library ID by its stable manifest path. There is no second promotion allowlist. Authoring catalog overlap is allowed only for an identical binding; a conflicting path still fails. Current combat defaults use Sword Finisher 03 and Blocked Contact Shear from the existing pin without regenerating or publishing original artwork.
 
 ## Preparation and publication
