@@ -150,10 +150,6 @@ export class MovementPlans {
       plan = this.plan(a, goal, plan?.kind ?? kind, tick);
       this.plans.set(a.id, plan);
     }
-    if (plan.route.status === 'unreachable') {
-      a.state = 'idle';
-      return false;
-    }
     const step = a.definition.speed / 60;
     while (
       plan.route.points.length &&
@@ -162,7 +158,7 @@ export class MovementPlans {
       plan.route.points.shift();
     const p = plan.route.points[0];
     if (!p) {
-      if (plan.kind === 'manual') this.plans.delete(a.id);
+      if (plan.kind === 'manual' && plan.route.status === 'ready') this.plans.delete(a.id);
       a.yaw = a.aim;
       a.state = 'idle';
       return false;

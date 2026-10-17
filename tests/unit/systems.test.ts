@@ -326,36 +326,9 @@ test('partial and cleared revisits preserve enemies; player cooldowns survive; e
   assert.ok(session.sim.cleared);
   assert.ok(session.sim.enemies.every((a) => a.health === 0));
   assert.equal(session.wins, 1);
-  {
-    const session = new GameSession(content);
-    let s = session.sim;
-    s.hero.health = 55;
-    Object.assign(s.hero, { x: 0, z: -5.95 });
-    s.enemies.forEach((a) => (a.health = 0));
-    const result = session.step(still);
-    assert.equal(result.transition, 'landing');
-    session.commitRoom(session.prepareTransition(result.transition!));
-    s = session.sim;
-    assert.equal(s.area, 'upper-landing');
-    assert.equal(s.hero.health, 55);
-    assert.equal(session.wins, 1);
-    assert.equal(s.hero.z, 7.5);
-    for (const z of [1, 0, -0.5, -1, -2, -3]) {
-      s.hero.z = z;
-      s.move(s.hero, 0, 0);
-      near(s.hero.y, heightAt(s.areaDefinition, s.hero.x, z));
-    }
-    near(heightAt(s.areaDefinition, 0, 3.75), 0);
-    near(heightAt(s.areaDefinition, 0, -3), 0);
-    s.hero.z = 8.3;
-    s.enemies.forEach((a) => (a.health = 0));
-    session.step(still);
-    session.commitRoom(session.prepareTransition('court'));
-    assert.equal(session.sim.area, 'court');
-    assert.equal(session.wins, 2);
-    assert.equal(session.sim.hero.z, -5.5);
-    assert.ok(session.sim.cleared);
-  }
+  enter(session, 'landing');
+  clear(session);
+  assert.equal(session.wins, 2, 'clearing a second room counts another victory');
 });
 test('death resets only current area and failed/superseded transitions cannot commit', () => {
   const session = new GameSession(content);

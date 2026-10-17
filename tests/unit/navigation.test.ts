@@ -65,7 +65,8 @@ test('an unreachable route waits for displacement, then immediately retries its 
   );
   sim.setMovementTarget(sim.hero.id, { x: 3, z: 0 });
   assert.equal(sim.navigationDebug(false).routes[0]!.status, 'unreachable');
-  for (let i = 0; i < 60; i++) sim.step();
+  for (let i = 0; i < 60; i++) sim.step({ move: { x: 0, z: 0 }, aim: { x: -3, z: 2 } });
+  assert.equal(sim.hero.yaw, 0, 'a blocked route must still allow idle aiming');
   assert.equal(routes.mock.callCount(), 1, 'unchanged impossible paths are not searched again');
   for (let i = 0; i < 15; i++) {
     sim.hero.z += 0.001; // Separation can displace a blocked actor every tick.

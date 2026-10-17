@@ -432,7 +432,7 @@ test('IPC sender checks and protocol constrain origin, frame, slot, payload, ext
 });
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: 0 } };
 
-test('death resets current area exactly once, clears transient state, and invalidates old events/commands/actor references', () => {
+test('death resets current area exactly once, clears transient state, and invalidates old commands and actor references', () => {
   const session = new GameSession(content, 142, 'upper-landing'),
     old = session.sim,
     oldHero = old.hero,
@@ -441,7 +441,6 @@ test('death resets current area exactly once, clears transient state, and invali
   old.hero.cooldown = 100;
   old.hero.pendingAction = { kind: 'sword', yaw: 0 };
   old.damage(oldEnemy, oldHero, 1000);
-  const event = old.events.at(-1)!;
   for (let i = 0; i < tuning.deathHoldTicks + 1; i++) {
     const result = session.step(still);
     if (result.reset) {
@@ -455,9 +454,12 @@ test('death resets current area exactly once, clears transient state, and invali
   assert.equal(s.hero.health, 100);
   assert.equal(s.hero.cooldown, 0);
   assert.equal(s.hero.pendingAction, undefined);
-  assert.equal(s.accepts(event), false);
   s.damage(oldEnemy, s.hero, 1000, generation);
+  s.damage(oldEnemy, s.hero, 1000);
   assert.equal(s.hero.health, 100);
+  const retiredHealth = oldEnemy.health;
+  s.damage(s.hero, oldEnemy, 1000);
+  assert.equal(oldEnemy.health, retiredHealth);
   session.step({ ...still, actions: ['sword', 'dodge'], generation });
   assert.equal(s.hero.state, 'idle');
   assert.equal(session.resetCount, 1);

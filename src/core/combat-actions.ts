@@ -29,7 +29,6 @@ export class CombatActions {
   private readonly recoils = new WeakMap<Actor, { x: number; z: number; ticks: number }>();
   constructor(
     private readonly area: AreaDefinition,
-    private readonly generation: number,
     private readonly world: CombatWorld,
   ) {}
   start(a: Actor, state: State, yaw = a.aim) {
@@ -57,7 +56,6 @@ export class CombatActions {
     from: Actor,
     to: Actor,
     amount: number,
-    generation = this.generation,
     damageType: DamageType = 'physical',
     phase: DamagePhase = 'direct',
   ) {
@@ -65,9 +63,6 @@ export class CombatActions {
       this.world.movementPreview() ||
       !Number.isFinite(amount) ||
       amount <= 0 ||
-      generation !== this.generation ||
-      !this.world.actors().includes(from) ||
-      !this.world.actors().includes(to) ||
       to.health <= 0 ||
       (to.kind === 'hero' &&
         to.state === 'dodge' &&
@@ -164,14 +159,7 @@ export class CombatActions {
       burn.remaining--;
       burn.nextTick--;
       if (burn.nextTick === 0) {
-        this.damage(
-          source,
-          target,
-          tuning.ability.burnDamage,
-          this.generation,
-          'burn',
-          'over-time',
-        );
+        this.damage(source, target, tuning.ability.burnDamage, 'burn', 'over-time');
         burn.nextTick = tuning.ability.burnCadence;
       }
       if (burn.remaining === 0) target.burn = undefined;
@@ -246,7 +234,7 @@ export class CombatActions {
             this.withinArc(a, target, tuning.ability.range, Math.PI) &&
             clearSegment(this.area, a, target, 0.001)
           ) {
-            this.damage(a, target, tuning.ability.damage, this.generation, 'burn');
+            this.damage(a, target, tuning.ability.damage, 'burn');
             if (target.health > 0) {
               const dx = target.x - a.x,
                 dz = target.z - a.z,

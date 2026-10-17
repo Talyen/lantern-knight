@@ -4,7 +4,13 @@ import { onboardingState, type OnboardingState, type Lesson } from './onboarding
 import { InventoryState, type InventoryAccess, type InventoryCommand } from './inventory';
 import { interactionTarget } from './interaction';
 import { Navigation, effectiveRadius } from './navigation';
-import { PLAYER_ID, heightAt, type ContentRegistry, type AreaId } from '../content/world';
+import {
+  PLAYER_ID,
+  heightAt,
+  type ContentRegistry,
+  type AreaId,
+  type Point,
+} from '../content/world';
 import { Simulation, type Command, type StepResult } from './simulation';
 import { tuning } from '../content/gameplay';
 import { respawnAreaState, type AreaState } from './area-state';
@@ -220,7 +226,6 @@ export class GameSession {
       state.visited.get(area),
     );
     sim.tick = this.sim.tick;
-    sim.resetCount = state.resetCount;
     return sim;
   }
   private prepareRoom(state: RoomState, outcome: EventDetails, transition = false): RoomPlan {
@@ -395,11 +400,11 @@ export class GameSession {
           )!,
           effectiveRadius(this.sim.hero.definition.radius),
         );
-        let previous = this.sim.hero,
+        let previous: Point = this.sim.hero,
           distance = 0;
         for (const point of route.points) {
           distance += Math.hypot(point.x - previous.x, point.z - previous.z);
-          previous = { ...previous, ...point };
+          previous = point;
         }
         return { key, distance: route.status === 'ready' ? distance : Infinity };
       })

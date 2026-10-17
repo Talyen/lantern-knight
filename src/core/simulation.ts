@@ -25,7 +25,6 @@ import type { Actor, State } from './actor';
 import { acceptCommand, type Command } from './command';
 export type { Command } from './command';
 export type { Actor, State } from './actor';
-export type SimEvent = GameplayEvent;
 export type StepResult = {
   events: readonly GameplayEvent[];
   transition?: string;
@@ -75,7 +74,7 @@ export class Simulation {
   }
   guardsDefeated(ids: readonly string[] = []) {
     return ids.every(
-      (id) => this.enemies.find((a) => a.id === spawnActorId(this.area, id))?.health === 0,
+      (id) => this.actors.find((a) => a.id === spawnActorId(this.area, id))?.health === 0,
     );
   }
   exitAvailable(id: string) {
@@ -83,7 +82,7 @@ export class Simulation {
     return Boolean(e && (!e.requiresClear || this.cleared) && this.guardsDefeated(e.guards));
   }
   get inCombat() {
-    return this.encounter.inCombat(this.hero, this.enemies, this.engaged);
+    return this.encounter.inCombat(this.hero, this.actors, this.engaged);
   }
 
   openContainer(id: string) {
@@ -142,11 +141,9 @@ export class Simulation {
     return true;
   }
 
-  private tickEvents: SimEvent[] = [];
+  private tickEvents: GameplayEvent[] = [];
   cleared = false;
   readonly generation: number;
-  resetCount = 0;
-  completedEncounters = 0;
   engaged = false;
   constructor(
     public readonly registry: ContentRegistry,
@@ -159,7 +156,7 @@ export class Simulation {
   ) {
     this.encounter = new EncounterBehavior(this.areaDefinition);
     this.movement = new MovementPlans(this.areaDefinition, this.encounter.traversal);
-    this.#combat = new CombatActions(this.areaDefinition, generation, {
+    this.#combat = new CombatActions(this.areaDefinition, {
       actors: () => this.actors,
       movementPreview: () => this.movementPreview,
       damagePercent: (type) => {
@@ -183,7 +180,7 @@ export class Simulation {
     this.populate(entry);
     if (areaState) this.restoreAreaState(areaState);
   }
-  get events(): readonly SimEvent[] {
+  get events(): readonly GameplayEvent[] {
     return Object.freeze([...this.tickEvents]);
   }
   get areaDefinition() {
@@ -328,9 +325,6 @@ export class Simulation {
     this.tickEvents.push(event);
     return event;
   }
-  accepts(event: Pick<SimEvent, 'generation'>) {
-    return event.generation === this.generation;
-  }
   start(a: Actor, state: State, yaw = a.aim) {
     this.#combat.start(a, state, yaw);
   }
@@ -350,7 +344,9 @@ export class Simulation {
     a.y = heightAt(this.areaDefinition, a.x, a.z);
   }
   damage(from: Actor, to: Actor, amount: number, generation = this.generation) {
-    this.#combat.damage(from, to, amount, generation);
+    if (generation !== this.generation || !this.actors.includes(from) || !this.actors.includes(to))
+      return;
+    this.#combat.damage(from, to, amount);
   }
   step(input?: Command): StepResult {
     this.tick++;
@@ -484,11 +480,9 @@ export class Simulation {
         this.collectedPickups.add(pickup.id);
         this.emit(h, { kind: 'pickup', pickup: pickup.id, amount });
       }
-    this.cleared = this.enemies.every((a) => a.health <= 0);
-    if (this.enemies.length && this.cleared && !wasCleared) {
-      this.completedEncounters++;
-      this.emit(h, { kind: 'room-clear' });
-    }
+    const enemies = this.enemies;
+    this.cleared = enemies.every((a) => a.health <= 0);
+    if (enemies.length && this.cleared && !wasCleared) this.emit(h, { kind: 'room-clear' });
     const exit =
       h.health > 0 && !this.movementPreview
         ? this.areaDefinition.exits.find((e) => {
