@@ -140,7 +140,7 @@ export class MovementPlans {
     const displaced =
       plan &&
       (plan.route.status === 'unreachable'
-        ? a.x !== plan.origin.x || a.z !== plan.origin.z
+        ? tick >= plan.nextPlan && (a.x !== plan.origin.x || a.z !== plan.origin.z)
         : waypoint
           ? !navigation.clear(a, waypoint, effectiveRadius(a.definition.radius))
           : plan.kind !== 'manual' &&

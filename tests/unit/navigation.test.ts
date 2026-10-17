@@ -67,6 +67,11 @@ test('an unreachable route waits for displacement, then immediately retries its 
   assert.equal(sim.navigationDebug(false).routes[0]!.status, 'unreachable');
   for (let i = 0; i < 60; i++) sim.step();
   assert.equal(routes.mock.callCount(), 1, 'unchanged impossible paths are not searched again');
+  for (let i = 0; i < 15; i++) {
+    sim.hero.z += 0.001; // Separation can displace a blocked actor every tick.
+    sim.step();
+  }
+  assert.equal(routes.mock.callCount(), 2, 'continuous displacement retains the retry cadence');
   Object.assign(sim.hero, { x: 2, z: 0 });
   sim.step();
   assert.ok(sim.hero.x > 2, 'displacement retries without waiting for a timer');
