@@ -28,7 +28,7 @@ export function playerControls(page: Page, profile: string) {
     );
     return (await readJson(path.join(profile, 'prototype-saves/game.json'))) as GameSave;
   };
-  const checkpoint = async (action: 'save' | 'load') => {
+  const checkpoint = async (action: 'save' | 'load' | 'new-game' | 'reset') => {
     const button = page.locator('#' + action);
     if (!(await button.isVisible())) await page.locator('#checkpoint-options > summary').click();
     await button.click();
@@ -49,7 +49,7 @@ export function playerControls(page: Page, profile: string) {
           requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
         ),
     );
-  return { pause, resume, save, load, frames };
+  return { pause, resume, save, load, checkpoint, frames };
 }
 type SmokeWork = { updates: number; submissions: number };
 export async function observeWork(page: Page) {

@@ -1,6 +1,7 @@
 import { test, expect } from './fixtures';
 import type { Page } from '@playwright/test';
 import { collectVisibleLoot } from '../../tools/smoke/collect-loot';
+import { playerControls } from '../../tools/smoke/smoke-launch';
 
 // Real keyboard, focus and dialog behavior; these fixtures need no renderer or artwork.
 test.beforeEach(async ({ page }) => {
@@ -11,6 +12,35 @@ test.beforeEach(async ({ page }) => {
     }),
   );
   await page.goto('/__bug-regressions');
+});
+
+test('native diagnostic controls open collapsed journey actions before activating them', async ({
+  page,
+}) => {
+  await page.evaluate(async () => {
+    const moduleURL = '/src/game-menu.ts';
+    const { gameMenu } = await import(moduleURL);
+    const root = document.querySelector('#app')!;
+    root.innerHTML = gameMenu;
+    const modal = root.querySelector<HTMLDialogElement>('#modal')!;
+    const options = root.querySelector<HTMLDetailsElement>('#checkpoint-options')!;
+    options.hidden = false;
+    options.querySelector('div')!.append(root.querySelector('#new-game')!);
+    for (const action of ['new-game', 'reset'])
+      root.querySelector('#' + action)!.addEventListener('click', () => {
+        root.setAttribute('data-action', action);
+      });
+    modal.showModal();
+  });
+  const controls = playerControls(page, 'unused');
+  for (const action of ['new-game', 'reset'] as const) {
+    await page.locator('#checkpoint-options').evaluate((element) => {
+      (element as HTMLDetailsElement).open = false;
+    });
+    await controls.checkpoint(action);
+    await expect(page.locator('#app')).toHaveAttribute('data-action', action);
+    await expect(page.locator('#' + action)).toBeVisible();
+  }
 });
 
 test('native journey collection completes when the final label retires during keyboard activation', async ({

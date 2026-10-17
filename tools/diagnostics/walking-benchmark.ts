@@ -47,6 +47,7 @@ async function runWalkingBenchmark(flags: string[] = []) {
     await page.locator('#render-scale').selectOption('1');
     await page.locator('#depth-of-field').fill('100');
     await page.locator('#depth-of-field').dispatchEvent('input');
+    await page.locator('.advanced-settings > summary').click();
     const effects = page.locator('#modal input[data-visual-effect]');
     for (const effect of await effects.all()) await effect.setChecked(true);
     await page.locator('#menu-back').click();

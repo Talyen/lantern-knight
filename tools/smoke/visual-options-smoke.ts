@@ -19,6 +19,7 @@ export async function runScenario(flags: string[] = []) {
     );
     await page.locator('#menu-settings').click();
     await page.locator('#zoom-span').selectOption('15');
+    await page.locator('.advanced-settings > summary').click();
     for (const key of Object.keys(visualEffectLabels)) {
       const box = page.locator(`[data-visual-effect="${key}"]`);
       if (key === 'rain') {
@@ -55,7 +56,7 @@ export async function runScenario(flags: string[] = []) {
       smoke: false,
       bloom: false,
     });
-    assert.equal((persisted as { version: number }).version, 6);
+    assert.equal((persisted as { version: number }).version, 7);
     assert.equal((persisted as { depthOfField: number }).depthOfField, 1);
     await assert.rejects(fs.access(path.join(run.profile, 'prototype-saves/game.json')));
     await page.reload();
