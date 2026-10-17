@@ -27,8 +27,16 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   session.sim.enemies.forEach((a) => (a.health = 0));
   const seed = session.captureSave();
   seed.areas[clearing.id]!.cleared = true;
+  // A cold software-rendered room can take as long as a checkpoint rebuild.
+  const roomTimeout = 120_000;
   const settled = () =>
-    expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 60_000 });
+    expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: roomTimeout });
+  const walkThrough = async (name: string) => {
+    await expect(page.locator('#interaction-hint')).toHaveText(`E · Travel to ${name}`);
+    await page.keyboard.press('e');
+    await expect(page.locator('#room-title')).toHaveText(name, { timeout: roomTimeout });
+    await settled();
+  };
   const capture = async (name: string) => {
     const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
     if (!directory) return;
@@ -75,10 +83,7 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   const onward = await saveCurrent();
   Object.assign(onward.player, forward.marker);
   await restore(onward);
-  await expect(page.locator('#interaction-hint')).toHaveText(/^E · Travel to /);
-  await page.keyboard.press('e');
-  await expect(page.locator('#room-title')).toHaveText(forge.name, { timeout: 60_000 });
-  await settled();
+  await walkThrough(forge.name);
   await capture('forge-arrival');
   await expect(page.locator('#interaction-hint')).toHaveText('E · Rest');
   await page.keyboard.press('e');
@@ -100,10 +105,7 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   expect(collected.areas[forge.id]!.claimedObjects).toContain(tools.id);
   Object.assign(collected.player, forge.exits[0]!.marker);
   await restore(collected);
-  await expect(page.locator('#interaction-hint')).toHaveText(/^E · Travel to /);
-  await page.keyboard.press('e');
-  await expect(page.locator('#room-title')).toHaveText(clearing.name, { timeout: 60_000 });
-  await settled();
+  await walkThrough(clearing.name);
   await capture('clearing-return-path');
   const returned = await saveCurrent();
   expect(
@@ -123,9 +125,7 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   const back = clearing.exits.find((exit) => exit.destination === 'abandoned-orchard')!;
   Object.assign(returned.player, back.marker);
   await restore(returned);
-  await page.keyboard.press('e');
-  await expect(page.locator('#room-title')).toHaveText('Abandoned Orchard', { timeout: 60_000 });
-  await settled();
+  await walkThrough('Abandoned Orchard');
   await capture('orchard-return-path');
   const orchardReturn = await saveCurrent();
   const orchardPath = content.area('abandoned-orchard').exits[0]!.marker;
@@ -138,9 +138,10 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
 
   Object.assign(returned.player, { x: clearing.campfires![0]!.x, z: clearing.campfires![0]!.z });
   await restore(returned);
+  await expect(page.locator('#interaction-hint')).toHaveText('E · Rest');
   await page.keyboard.press('e');
   await panel.getByRole('button', { name: forge.name + ' · ' + fire.name }).click();
-  await expect(page.locator('#room-title')).toHaveText(forge.name, { timeout: 60_000 });
+  await expect(page.locator('#room-title')).toHaveText(forge.name, { timeout: roomTimeout });
   await settled();
   await panel.getByRole('button', { name: 'Rest', exact: true }).click();
   await expect(page.locator('#status')).toHaveText('Rested · health restored', { timeout: 60_000 });
