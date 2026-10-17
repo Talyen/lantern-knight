@@ -21,6 +21,7 @@ type EnemyIntent =
 // chooses intent without starting actions, dealing damage or moving actors.
 export class EncounterBehavior {
   private alerted = new Set<string>();
+  private readonly homes;
   readonly #traversal: TraversalPolicy = Object.freeze({
     position: (point: Point) => !this.safePoint(point),
     segment: (start: Point, end: Point) => this.enemySegment(start, end),
@@ -28,7 +29,9 @@ export class EncounterBehavior {
   get traversal() {
     return this.#traversal;
   }
-  constructor(private readonly area: ContentSnapshot<AreaDefinition>) {}
+  constructor(private readonly area: ContentSnapshot<AreaDefinition>) {
+    this.homes = new Map(area.spawns.map((spawn) => [spawnActorId(area.id, spawn.id), spawn]));
+  }
   reset() {
     this.alerted.clear();
   }
@@ -101,29 +104,26 @@ export class EncounterBehavior {
   }
   inCombat(
     hero: ContentSnapshot<Actor>,
-    enemies: readonly ContentSnapshot<Actor>[],
+    actors: readonly ContentSnapshot<Actor>[],
     engaged: boolean,
   ) {
     return (
       hero.health <= 0 ||
       (!this.safePoint(hero) &&
-        enemies.some(
-          (a) => a.health > 0 && (this.alerted.has(a.id) || (!this.home(a)?.awareness && engaged)),
+        actors.some(
+          (a) =>
+            a.kind === 'enemy' &&
+            a.health > 0 &&
+            (this.alerted.has(a.id) || (!this.homes.get(a.id)?.awareness && engaged)),
         ))
     );
   }
-  private home(actor: ContentSnapshot<Actor>) {
-    return this.area.spawns.find((p) => spawnActorId(this.area.id, p.id) === actor.id);
-  }
   alert(actor: ContentSnapshot<Actor>) {
-    const group = this.home(actor)?.awareness?.group;
-    const ids = [
-      actor.id,
-      ...this.area.spawns
-        .filter((p) => group && p.awareness?.group === group)
-        .map((p) => spawnActorId(this.area.id, p.id)),
-    ];
-    for (const id of ids) this.alerted.add(id);
+    this.alerted.add(actor.id);
+    const group = this.homes.get(actor.id)?.awareness?.group;
+    if (group)
+      for (const [id, home] of this.homes)
+        if (home.awareness?.group === group) this.alerted.add(id);
   }
   decide(
     actor: ContentSnapshot<Actor>,
@@ -131,7 +131,7 @@ export class EncounterBehavior {
     engaged: boolean,
     preview: boolean,
   ): EnemyIntent {
-    const home = this.home(actor);
+    const home = this.homes.get(actor.id);
     let cancelAttack = false;
     if (home && !preview) {
       const safe = this.safePoint(hero);

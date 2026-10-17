@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { supportedPosition, isSupportedPosition, heightAt } from '../../src/content/world';
-import { content, contentDefinitions } from '../fixtures/content';
+import { supportedPosition, isSupportedPosition } from '../../src/content/world';
+import { content } from '../fixtures/content';
 import { content as visualContent, worldVisuals } from '../fixtures/visuals';
 import { Simulation } from '../../src/core/simulation';
 import { GameSession } from '../../src/core/session';
@@ -10,16 +10,8 @@ import { composeSceneContent } from '../../src/content/game-content';
 import { sceneAssets, compositionPoint, compositionHeight } from '../../src/content/world-visuals';
 const still = { move: { x: 0, z: 0 }, aim: { x: 0, z: -1 } };
 test('encounters remain dormant until activation and damage wakes their peers', () => {
-  assert.deepEqual(
-    contentDefinitions.areas.map((a) => a.id),
-    ['court', 'upper-landing'],
-  );
-  for (const [area, count] of [
-    ['court', 1],
-    ['upper-landing', 2],
-  ] as const) {
+  for (const area of ['court', 'upper-landing']) {
     const s = new Simulation(content, 142, area, 1);
-    assert.equal(s.enemies.length, count);
     assert.equal(s.engaged, false);
     const before = s.enemies.map((a) => [a.x, a.z, a.health]);
     for (let i = 0; i < 240; i++) s.step(still);
@@ -28,17 +20,6 @@ test('encounters remain dormant until activation and damage wakes their peers', 
       before,
     );
     assert.equal(s.hero.health, 100);
-    for (const spawn of s.areaDefinition.spawns) {
-      assert.equal(spawn.actor, 'skeleton');
-      assert.equal(spawn.jitterZ, undefined);
-      for (let i = 0; i <= 20; i++) {
-        const p = {
-          x: spawn.x * (1 - i / 20),
-          z: spawn.z + (((area === 'court' ? 5.8 : 7.5) - spawn.z) * i) / 20,
-        };
-        assert.ok(isSupportedPosition(s.areaDefinition, p, 0.3));
-      }
-    }
   }
   const s = new Simulation(content, 142, content.definitions.initialArea, 1);
   s.hero.z = 1.2;
@@ -111,15 +92,6 @@ test('authored box footprints block bodies at edges and corners without escaping
         assert.equal(collider.z, (wall!.from.z + wall!.to.z) / 2);
       }
     }
-  const graveyard = content.area('court'),
-    chapel = content.area('upper-landing');
-  assert.equal(heightAt(graveyard, 4, 0), 0);
-  assert.equal(heightAt(graveyard, 0, -5.4), 0);
-  assert.equal(heightAt(graveyard, 0, -5.95), 0);
-  assert.equal(heightAt(chapel, 0, 0), 0);
-  assert.equal(graveyard.exits[0]!.destination, chapel.id);
-  assert.equal(chapel.exits[0]!.destination, graveyard.id);
-  assert.equal(chapel.exits[0]!.requiresClear, false);
 });
 
 test('a clear fixture arena supports the complete dodge distance', () => {

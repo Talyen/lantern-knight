@@ -62,7 +62,11 @@ async function main() {
       '--import',
       'tsx',
       '--test',
-      '--test-concurrency=2',
+      // Routine suites run serially in one runtime; full/asset/watch tiers keep
+      // process isolation for integration proofs and independently reloadable files.
+      ...(watch || assets || requested.includes('--full')
+        ? ['--test-concurrency=2']
+        : ['--test-isolation=none']),
       '--test-reporter=' + (watch || verbose ? 'spec' : './tools/test-reporter.ts'),
       ...(watch ? ['--watch'] : []),
       ...files,
