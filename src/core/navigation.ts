@@ -17,6 +17,7 @@ export function moveSupported(
       ? { x: start.x, z: start.z }
       : supportedPosition(area, start, radius),
     d = { ...delta };
+  if (d.x === 0 && d.z === 0) return p;
   for (let i = 0; i < 4; i++) {
     const hit = sweepCircle(area, p, d, radius);
     if (!hit) {

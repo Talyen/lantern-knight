@@ -294,11 +294,13 @@ export class GameSession {
       if (event.kind === 'dodge') this.completeLesson('dodge');
       if (event.kind === 'potion-used') this.completeLesson('potion');
     }
-    const entry = this.sim.areaDefinition.entries.find(
-      (e) => e.id === this.sim.areaDefinition.baselineEntry,
-    )!;
-    if (Math.hypot(this.sim.hero.x - entry.x, this.sim.hero.z - entry.z) >= 2)
-      this.completeLesson('hook');
+    if (!this.onboarding.completed.includes('hook')) {
+      const entry = this.sim.areaDefinition.entries.find(
+        (e) => e.id === this.sim.areaDefinition.baselineEntry,
+      )!;
+      if (Math.hypot(this.sim.hero.x - entry.x, this.sim.hero.z - entry.z) >= 2)
+        this.completeLesson('hook');
+    }
     return previousOnboarding === this.onboarding ? result : { ...result, onboardingChanged: true };
   }
   completeLesson(lesson: Lesson) {
@@ -390,28 +392,34 @@ export class GameSession {
   }
   respawnFire() {
     const navigation = new Navigation(this.sim.areaDefinition);
-    const candidates = [...this.current.discovered]
-      .filter((key) => this.fire(key).area === this.sim.area)
-      .map((key) => {
-        const route = navigation.route(
-          this.sim.hero,
-          this.sim.areaDefinition.entries.find(
-            (entry) => entry.id === 'fire-' + this.fire(key).definition.id,
-          )!,
-          effectiveRadius(this.sim.hero.definition.radius),
-        );
-        let previous: Point = this.sim.hero,
-          distance = 0;
-        for (const point of route.points) {
-          distance += Math.hypot(point.x - previous.x, point.z - previous.z);
-          previous = point;
-        }
-        return { key, distance: route.status === 'ready' ? distance : Infinity };
-      })
-      .filter((p) => Number.isFinite(p.distance))
-      .sort((a, b) => a.distance - b.distance || a.key.localeCompare(b.key));
-    return candidates[0]?.key ?? this.lastFire;
+    let closest: string | undefined,
+      nearestDistance = Infinity;
+    for (const key of this.current.discovered) {
+      const { area, definition } = this.fire(key);
+      if (area !== this.sim.area) continue;
+      const route = navigation.route(
+        this.sim.hero,
+        this.sim.areaDefinition.entries.find((entry) => entry.id === 'fire-' + definition.id)!,
+        effectiveRadius(this.sim.hero.definition.radius),
+      );
+      if (route.status !== 'ready') continue;
+      let previous: Point = this.sim.hero,
+        distance = 0;
+      for (const point of route.points) {
+        distance += Math.hypot(point.x - previous.x, point.z - previous.z);
+        previous = point;
+      }
+      if (
+        distance < nearestDistance ||
+        (distance === nearestDistance && closest !== undefined && key.localeCompare(closest) < 0)
+      ) {
+        closest = key;
+        nearestDistance = distance;
+      }
+    }
+    return closest ?? this.lastFire;
   }
+
   private resetEnemies(state: RoomState) {
     for (const [area, saved] of state.visited) {
       const fresh = new Simulation(this.registry, this.sim.initialSeed, area);

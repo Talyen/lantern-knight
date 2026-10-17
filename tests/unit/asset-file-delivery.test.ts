@@ -7,6 +7,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash, randomBytes } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
+import timers from 'node:timers/promises';
 import { AssetCache } from '../../tools/assets/cache';
 import { openFileWorkspace, parseFileCatalog } from '../../tools/assets/file-delivery';
 import { downloadFile } from '../../tools/assets/download';
@@ -145,7 +146,22 @@ test('direct downloads reject corrupted, oversized and truncated responses witho
   }
 });
 
+// Advance the actual promise timer when backoff is installed, after I/O cleanup.
+function retryClock(t: TestContext, onWait = () => {}) {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  const wait = timers.setTimeout;
+  t.mock.method(timers, 'setTimeout', (...args: Parameters<typeof wait>) => {
+    const ms = args[0] ?? 1;
+    assert.ok(ms > 0, 'transport retries must yield through a backoff');
+    const pending = wait(...args);
+    onWait();
+    t.mock.timers.tick(ms);
+    return pending;
+  });
+}
+
 test('range downloads retry interrupted transport without retaining partial bytes', async (t) => {
+  retryClock(t);
   const root = await temporaryDirectory(t, 'lantern-file-retry-');
   const target = path.join(root, 'page'),
     bytes = Buffer.from('image'),
@@ -184,6 +200,8 @@ test('range downloads retry interrupted transport without retaining partial byte
 });
 
 test('transport retries stop after three attempts and cancellation ends their backoff', async (t) => {
+  let cancelBackoff: (() => void) | undefined;
+  retryClock(t, () => cancelBackoff?.());
   const root = await temporaryDirectory(t, 'lantern-file-retry-limit-'),
     target = path.join(root, 'page'),
     info = { bytes: 5, sha256: sha(Buffer.from('image')) },
@@ -199,6 +217,7 @@ test('transport retries stop after three attempts and cancellation ends their ba
   assert.equal(attempts, 3);
   assert.deepEqual(await fs.readdir(root), []);
   const cancellation = new AbortController();
+  cancelBackoff = () => cancellation.abort();
   attempts = 0;
   await assert.rejects(
     downloadFile(
@@ -207,7 +226,6 @@ test('transport retries stop after three attempts and cancellation ends their ba
       target,
       async () => {
         attempts++;
-        setTimeout(() => cancellation.abort(), 10);
         throw failure;
       },
       cancellation.signal,

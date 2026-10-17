@@ -85,33 +85,33 @@ export function parseAreaState(
   areaId: string,
 ): AreaState {
   const state = AreaStateSchema.parse(value),
-    area = registry.area(areaId);
+    area = registry.area(areaId),
+    spawns = new Map(area.spawns.map((spawn) => [spawn.id, spawn])),
+    objects = new Map((area.interactables ?? []).map((object) => [object.id, object])),
+    pickups = new Set(area.pickups?.map((pickup) => pickup.id)),
+    claims = new Set(state.claimedObjects);
 
-  if (Object.keys(state.actors).some((id) => !area.spawns.some((s) => s.id === id)))
+  if (Object.keys(state.actors).some((id) => !spawns.has(id)))
     throw new Error(`unknown actor reference in ${area.id}`);
   if (Object.keys(state.actors).length !== area.spawns.length)
     throw new Error(`actor count differs in ${area.id}`);
   if (
     state.collectedPickups &&
     (new Set(state.collectedPickups).size !== state.collectedPickups.length ||
-      state.collectedPickups.some((id) => !area.pickups?.some((p) => p.id === id)))
+      state.collectedPickups.some((id) => !pickups.has(id)))
   )
     throw new Error('Unknown or duplicate collected pickup');
   if (
     state.claimedObjects &&
-    (new Set(state.claimedObjects).size !== state.claimedObjects.length ||
-      state.claimedObjects.some(
-        (id) => !area.interactables?.some((p) => p.id === id && p.kind !== 'workbench'),
-      ))
+    (claims.size !== state.claimedObjects.length ||
+      state.claimedObjects.some((id) => !objects.has(id) || objects.get(id)!.kind === 'workbench'))
   )
     throw new Error('Unknown claimed object');
   if (state.drops) {
     if (new Set(state.drops.map((d) => d.id)).size !== state.drops.length)
       throw new Error('Duplicate drop');
     for (const drop of state.drops) {
-      const source = drop.enemy
-        ? area.spawns.find((p) => p.id === drop.source)
-        : area.interactables?.find((p) => p.id === drop.source);
+      const source = drop.enemy ? spawns.get(drop.source) : objects.get(drop.source);
       const prefix = (drop.enemy ? 'enemy-' : 'object-') + drop.source + '-';
       const index = drop.id.startsWith(prefix) ? Number(drop.id.slice(prefix.length)) : -1;
       const reward = Number.isInteger(index) && index >= 0 ? source?.rewards?.[index] : undefined;
@@ -122,7 +122,7 @@ export function parseAreaState(
         reward.item !== drop.rewards[0]!.item ||
         reward.amount !== drop.rewards[0]!.amount ||
         drop.id !== prefix + index ||
-        (!drop.enemy && !state.claimedObjects?.includes(drop.source)) ||
+        (!drop.enemy && !claims.has(drop.source)) ||
         (drop.enemy && state.actors[drop.source]?.health !== 0)
       )
         throw new Error('Invalid drop');
@@ -143,7 +143,7 @@ export function parseAreaState(
   if (
     state.alerted &&
     (new Set(state.alerted).size !== state.alerted.length ||
-      state.alerted.some((id) => !area.spawns.some((spawn) => spawn.id === id)))
+      state.alerted.some((id) => !spawns.has(id)))
   )
     throw new Error('Unknown or duplicate alerted enemy');
   for (const spawn of area.spawns)

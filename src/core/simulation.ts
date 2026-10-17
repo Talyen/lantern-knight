@@ -132,12 +132,13 @@ export class Simulation {
       );
   }
   collectDrop(id: string) {
-    const drop = this.drops.find((p) => p.id === id);
-    if (!drop || !interactionTarget(this, 'drop', id)) return false;
+    const index = this.drops.findIndex((p) => p.id === id);
+    if (index < 0 || !interactionTarget(this, 'drop', id)) return false;
+    const drop = this.drops[index]!;
     this.inventoryAccess.award(drop.rewards);
     for (const reward of drop.rewards)
       this.emit(this.hero, { kind: 'pickup', pickup: reward.item, amount: reward.amount });
-    this.drops = this.drops.filter((p) => p !== drop);
+    this.drops.splice(index, 1);
     return true;
   }
 
@@ -218,9 +219,10 @@ export class Simulation {
     this.engaged = !def.activation;
   }
   captureAreaState(): AreaState {
+    const byId = new Map(this.actors.map((actor) => [actor.id, actor]));
     const actors = Object.fromEntries(
       this.areaDefinition.spawns.map((spawn) => {
-        const actor = this.actors.find((actor) => actor.id === spawnActorId(this.area, spawn.id));
+        const actor = byId.get(spawnActorId(this.area, spawn.id));
         if (!actor) throw new Error(`missing spawn ${spawn.id}`);
         return [
           spawn.id,
@@ -246,8 +248,9 @@ export class Simulation {
   }
   private restoreAreaState(value: ContentSnapshot<AreaState>) {
     const state = parseAreaState(value, this.registry, this.area);
+    const byId = new Map(this.actors.map((actor) => [actor.id, actor]));
     for (const spawn of this.areaDefinition.spawns) {
-      const actor = this.actors.find((actor) => actor.id === spawnActorId(this.area, spawn.id))!;
+      const actor = byId.get(spawnActorId(this.area, spawn.id))!;
       Object.assign(actor, state.actors[spawn.id]);
       actor.y = heightAt(this.areaDefinition, actor.x, actor.z);
       actor.px = actor.x;
@@ -438,21 +441,18 @@ export class Simulation {
       a.age++;
       a.stun = Math.max(0, a.stun - 1);
     }
-    for (let i = 0; i < this.actors.length; i++)
-      for (let j = i + 1; j < this.actors.length; j++) {
-        const a = this.actors[i]!,
-          b = this.actors[j]!;
-        if (
-          a.health <= 0 ||
-          b.health <= 0 ||
-          Math.abs(a.y - b.y) > tuning.maxCombatHeightDifference
-        )
-          continue;
+    const living = this.actors.filter((actor) => actor.health > 0);
+    for (let i = 0; i < living.length; i++)
+      for (let j = i + 1; j < living.length; j++) {
+        const a = living[i]!,
+          b = living[j]!;
+        if (Math.abs(a.y - b.y) > tuning.maxCombatHeightDifference) continue;
         const dx = b.x - a.x,
           dz = b.z - a.z,
-          d = Math.hypot(dx, dz),
+          distanceSquared = dx * dx + dz * dz,
           r = a.definition.radius + b.definition.radius;
-        if (d < r) {
+        if (distanceSquared < r * r) {
+          const d = Math.hypot(dx, dz);
           // Coincident authored spawns need a stable separation direction too.
           const nx = d > 1e-8 ? dx / d : 1,
             nz = d > 1e-8 ? dz / d : 0,
@@ -462,28 +462,29 @@ export class Simulation {
         }
       }
     const wasCleared = this.cleared;
-    if (h.health > 0 && !this.movementPreview)
+    if (h.health > 0 && h.health < this.maxHealth && !this.movementPreview)
       for (const pickup of this.areaDefinition.pickups ?? []) {
         if (
           this.collectedPickups.has(pickup.id) ||
           Math.hypot(h.x - pickup.x, h.z - pickup.z) > pickup.radius ||
           Math.abs(h.y - heightAt(this.areaDefinition, pickup.x, pickup.z)) >
             tuning.maxCombatHeightDifference ||
-          !clearSegment(this.areaDefinition, h, pickup, 0.001) ||
-          h.health >= this.maxHealth
+          !clearSegment(this.areaDefinition, h, pickup, 0.001)
         )
           continue;
         const amount = Math.min(pickup.amount, this.maxHealth - h.health);
         h.health += amount;
         this.collectedPickups.add(pickup.id);
         this.emit(h, { kind: 'pickup', pickup: pickup.id, amount });
+        if (h.health >= this.maxHealth) break;
       }
-    const enemies = this.enemies;
-    this.cleared = enemies.every((a) => a.health <= 0);
-    if (enemies.length && this.cleared && !wasCleared) this.emit(h, { kind: 'room-clear' });
+    this.cleared = !living.some((actor) => actor.kind === 'enemy');
+    if (this.cleared && !wasCleared && this.actors.some((actor) => actor.kind === 'enemy'))
+      this.emit(h, { kind: 'room-clear' });
     const exit =
       h.health > 0 && !this.movementPreview
         ? this.areaDefinition.exits.find((e) => {
+            if (e.explicit || !contains(e.trigger, h) || !this.exitAvailable(e.id)) return false;
             const bounds = this.areaDefinition.bounds;
             // Boundary markers may sit beyond the walkable room. Keep the contact ray inside it.
             const marker = {
@@ -491,9 +492,6 @@ export class Simulation {
               z: Math.max(bounds.minZ + 0.01, Math.min(bounds.maxZ - 0.01, e.marker.z)),
             };
             return (
-              !e.explicit &&
-              this.exitAvailable(e.id) &&
-              contains(e.trigger, h) &&
               Math.abs(h.y - heightAt(this.areaDefinition, marker.x, marker.z)) <=
                 tuning.maxCombatHeightDifference &&
               clearSegment(this.areaDefinition, h, marker, 0.001)

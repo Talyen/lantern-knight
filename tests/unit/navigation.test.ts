@@ -114,6 +114,11 @@ test('swept movement stops a fast dash at a thin wall and slides along its face'
   assert.ok(isSupportedPosition(a, p, 0.3));
   assert.equal(clearSegment(a, { x: -3, z: 0 }, { x: 3, z: 0 }, 0.3), false);
   assert.ok(moveSupported(a, { x: -3, z: 0 }, { x: -10, z: 0 }, 0.3).x >= -4.70001);
+  const corrected = moveSupported(a, { x: 0, z: 0 }, { x: 0, z: 0 }, 0.3);
+  assert.ok(
+    isSupportedPosition(a, corrected, 0.3),
+    'idle placement still repairs unsupported footing',
+  );
 });
 test('routes go around walls, preserve clearance, and distinguish an unreachable destination', () => {
   const a = area(),
