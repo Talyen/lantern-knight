@@ -55,7 +55,10 @@ test('audio settings persist independently in Game', async ({ page }) => {
   await page.locator('#menu-start').click();
 });
 
-test('prepared samples decode and Preview exposes every audition', async ({ page, request }) => {
+test('Game starts localized ambience and decodes every prepared sample', async ({
+  page,
+  request,
+}) => {
   test.setTimeout(300_000);
   const response = await request.get('/audio/manifest.json');
   expect(response.ok()).toBe(true);
@@ -133,6 +136,14 @@ test('prepared samples decode and Preview exposes every audition', async ({ page
     body: JSON.stringify(decoded, null, 2),
     contentType: 'application/json',
   });
+});
+
+test('Preview exposes every audition and persists audio settings', async ({ page, request }) => {
+  test.setTimeout(300_000);
+  const response = await request.get('/audio/manifest.json');
+  expect(response.ok()).toBe(true);
+  const manifest = await response.json();
+  test.skip(manifest.samples.length === 0, 'The published asset pin predates audio delivery');
   await page.goto('/sandbox.html?scene=outdoor-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   await page.locator('[data-panel="inspect"]').click();
