@@ -294,6 +294,24 @@ test('cooldowns begin on playback and ended voices release their resources', asy
   assert.equal(f.sources.length, 2);
   f.playback.dispose();
 });
+test('inaudible, cooling and saturated cues do not acquire decoded buffers', async (t) => {
+  const f = fixture();
+  try {
+    await ready(f);
+    const acquire = t.mock.method(AudioBuffers.prototype, 'acquire');
+    await f.playback.play('sword', { x: 16, z: 0 });
+    assert.equal(acquire.mock.callCount(), 0);
+    await f.playback.play('sword');
+    await f.playback.play('sword');
+    assert.equal(acquire.mock.callCount(), 1);
+    for (let i = 1; i < 20; i++) await f.playback.play('sword', { key: String(i) });
+    assert.equal(f.playback.diagnosticsSnapshot.voices, 20);
+    await f.playback.play('sword', { key: 'over-budget' });
+    assert.equal(acquire.mock.callCount(), 20);
+  } finally {
+    f.playback.dispose();
+  }
+});
 test('pause stops world sounds but menu feedback remains available', async () => {
   const f = fixture([sample('sword-1'), sample('ui-1', 'ui-confirm')]);
   await ready(f);
@@ -564,6 +582,7 @@ test('rapid ambience changes retain only one outgoing fade and timer', async () 
   const f = fixture([sample('forest-1', 'forest', true), sample('wind-1', 'wind', true)]);
   await ready(f);
   await f.playback.setAmbience(['forest']);
+  assert.equal(f.timers.size, 0, 'the first group has no outgoing fade to retire');
   await f.playback.setAmbience(['wind']);
   assert.equal(f.sources[0]!.stopped, false);
   await f.playback.setAmbience(['forest']);

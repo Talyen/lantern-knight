@@ -244,6 +244,23 @@ export class AudioPlayback {
   private finishVoices(predicate: (voice: AudioVoice) => boolean) {
     cleanupAll([...this.voices].filter(predicate).map((voice) => voice.finish));
   }
+  private voiceBudget(critical: boolean) {
+    let total = 0,
+      ordinary = 0;
+    let victim: AudioVoice | undefined;
+    for (const voice of this.voices) {
+      if (voice.loop) continue;
+      total++;
+      if (!voice.critical) {
+        ordinary++;
+        victim ??= voice;
+      }
+    }
+    return {
+      allowed: critical ? total < 24 || !!victim : total < 24 && ordinary < 20,
+      victim: total >= 24 ? victim : undefined,
+    };
+  }
   get samples() {
     return this.manifest?.samples.map(({ id, cue }) => ({ id, cue })) ?? [];
   }
@@ -266,7 +283,13 @@ export class AudioPlayback {
         ...(world ? [this.worldLifetime.signal] : []),
         ...(options.signal ? [options.signal] : []),
       ]),
-      requested = this.deps.now();
+      requested = this.deps.now(),
+      key = cue + ':' + (options.key ?? 'global'),
+      critical = options.critical ?? false;
+    const distance = () =>
+      !world || options.x === undefined || options.z === undefined
+        ? 0
+        : Math.hypot(options.x - this.listener.x, options.z - this.listener.z);
     const allowed = () =>
       !this.lifetime.signal.aborted &&
       !signal.aborted &&
@@ -274,8 +297,10 @@ export class AudioPlayback {
       !this.settings.muted &&
       this.settings.master > 0 &&
       this.settings.effects > 0 &&
+      (this.cooldown.get(key) ?? -Infinity) <= this.deps.now() &&
+      distance() < 16 &&
       (!world || !this.frozen);
-    if (!allowed()) return;
+    if (!allowed() || !this.voiceBudget(critical).allowed) return;
     let voice: AudioVoice | undefined;
     let lease: AudioBufferLease | undefined;
     try {
@@ -296,30 +321,16 @@ export class AudioPlayback {
         lease = await this.buffers.acquire(sample, signal);
         if (!allowed() || this.deps.now() - requested > 0.25) return;
       } while (!options.sampleId && variants.length > 1 && sample.id === this.lastVariant.get(cue));
-      const key = cue + ':' + (options.key ?? 'global');
-      if ((this.cooldown.get(key) ?? -Infinity) > this.deps.now()) return;
-      const distance =
-        !world || options.x === undefined || options.z === undefined
-          ? 0
-          : Math.hypot(options.x - this.listener.x, options.z - this.listener.z);
-      if (distance >= 16) return;
-      const critical = options.critical ?? false;
-      if (
-        (!critical && [...this.voices].filter((v) => !v.loop && !v.critical).length >= 20) ||
-        [...this.voices].filter((v) => !v.loop).length >= 24
-      ) {
-        if (!critical) return;
-        const victim = [...this.voices].find((v) => !v.loop && !v.critical);
-        if (!victim) return;
-        victim.finish();
-      }
+      const budget = this.voiceBudget(critical);
+      if (!budget.allowed) return;
+      budget.victim?.finish();
       voice = this.createVoice(
         lease,
         world,
         critical,
         false,
         (cue.startsWith('step-') ? 10 ** (-8 / 20) : cue === 'cloth' ? 10 ** (-10 / 20) : 1) /
-          (1 + distance * 0.25),
+          (1 + distance() * 0.25),
       );
       lease = undefined;
       voice.cancelWith(options.signal);
@@ -397,11 +408,13 @@ export class AudioPlayback {
         voice.gain.gain.linearRampToValueAtTime(0, time + 1);
         this.retiring.add(voice);
       }
-      const timer = this.deps.timer(() => {
-        this.timers.delete(timer);
-        this.cleanupObserved(outgoing.map((voice) => voice.finish));
-      }, 1000);
-      this.timers.add(timer);
+      if (outgoing.length) {
+        const timer = this.deps.timer(() => {
+          this.timers.delete(timer);
+          this.cleanupObserved(outgoing.map((voice) => voice.finish));
+        }, 1000);
+        this.timers.add(timer);
+      }
     } catch (error) {
       if (!signal.aborted) this.fail(error);
     } finally {

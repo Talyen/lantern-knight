@@ -118,6 +118,12 @@ describe('scene authoring contracts', () => {
     );
     const original = state.history.document;
     await state.edit((history) => history.undo());
+    await state.edit((history) => {
+      history.transformEach([], { x: 1 });
+      history.transformMany([], { scale: 2 });
+      history.removeMany([]);
+      assert.deepEqual(history.insertFragment([]), []);
+    });
     await state.edit((history) => history.change(() => {}));
     assert.equal(applications, 0);
     assert.equal(state.history.document, original);
@@ -133,6 +139,13 @@ describe('scene authoring contracts', () => {
     await state.edit((history) => history.redo());
     assert.equal(applications, 1);
     assert.equal(state.history.document.name, 'Ready for redo');
+    const accepted = state.history.document;
+    state.reidentify(accepted.id, accepted.target);
+    assert.equal(
+      state.history.document,
+      accepted,
+      'saving under the same identity preserves snapshots',
+    );
   });
   it('isolates accepted scenes and undo from retained candidates, drafts and derived fragments', async () => {
     const original = sceneFixture('graveyard');
@@ -270,6 +283,12 @@ describe('scene authoring contracts', () => {
     h.undo();
     assert.equal(h.document.id, 'scene-copy');
     assert.equal(h.document.target, 'draft');
+    h.change((d) => {
+      d.id = 'renamed-copy';
+    });
+    h.reidentify('renamed-copy', 'draft');
+    h.undo();
+    assert.equal(h.document.id, 'renamed-copy', 'older undo entries adopt the saved identity too');
     const before = structuredClone(h.document);
     assert.throws(() => h.reidentify('../outside', 'draft'));
     assert.deepEqual(h.document, before);

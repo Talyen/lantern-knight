@@ -23,6 +23,21 @@ test('enemies stop their walking pose when death removes their pursuit target', 
     false,
   );
 });
+test('enemy death retires manual and automatic movement routes', () => {
+  for (const manual of [false, true]) {
+    const s = new Simulation(content),
+      enemy = s.enemies[0]!;
+    s.engaged = true;
+    if (manual) s.setMovementTarget(enemy.id, { x: 2, z: 2 });
+    s.step(still);
+    assert.ok(s.navigationDebug(false).routes.some((route) => route.id === enemy.id));
+    s.damage(s.hero, enemy, enemy.health);
+    assert.equal(
+      s.navigationDebug(false).routes.some((route) => route.id === enemy.id),
+      false,
+    );
+  }
+});
 test('directional input during an attack cancels the previous movement destination', () => {
   const s = new Simulation(content);
   s.setMovementTarget(s.hero.id, { x: 2, z: 6 });
@@ -58,6 +73,7 @@ test('each attack heading damages only during its active phase and completes wit
       Object.assign(s.enemies[0]!, { x: Math.sin(yaw), z: Math.cos(yaw) });
       s.hero.aim = yaw;
       s.startSword(s.hero, kind);
+      assert.equal(s.hero.actionHeading, heading);
       const spec = attackDefinition(s.hero),
         hits: number[] = [];
       for (let i = 0; i < spec.total; i++) {

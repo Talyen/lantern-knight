@@ -772,6 +772,13 @@ test('following a route spends the movement budget across corners without cuttin
   assert.equal(segments.length, 2, 'movement follows both clear segments, not their diagonal');
   assert.equal(segments[0]!.z, 0);
   assert.equal(segments[1]!.x, 0);
+  assert.equal(
+    plans.follow(hero, 2, () => {}),
+    false,
+    'vetoed movement is not walking',
+  );
+  assert.equal(hero.state, 'idle');
+  assert.equal(plans.has(hero.id), true, 'a blocked request retains its destination');
 });
 
 test('a reached melee fallback waits for displacement or a moved target before searching again', (t) => {

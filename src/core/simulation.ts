@@ -170,7 +170,10 @@ export class Simulation {
         this.engaged = true;
         this.encounter.alert(actor);
       },
-      enemyDefeated: (actor) => this.dropEnemyRewards(actor),
+      enemyDefeated: (actor) => {
+        this.movement.cancel(actor.id);
+        this.dropEnemyRewards(actor);
+      },
       breakObject: (id) => {
         this.claimObject(id);
       },

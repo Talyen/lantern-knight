@@ -49,7 +49,9 @@ export class EditorHistory {
   }
   reidentify(id: string, target: SceneDocument['target']) {
     const identify = (document: SceneSnapshot) =>
-      contentSnapshot(parseSceneDocument({ ...document, id, target }));
+      document.id === id && document.target === target
+        ? document
+        : contentSnapshot(parseSceneDocument({ ...document, id, target }));
     const document = identify(this.document),
       past = this.past.map(identify),
       future = this.future.map(identify);
@@ -108,6 +110,7 @@ export class EditorHistory {
     targets: ReadonlyMap<string, Parameters<EditorHistory['transform']>[1]>,
     after?: (document: SceneDocument) => void,
   ) {
+    if (!targets.size) return;
     const objects = new Map(this.document.objects.map((object) => [object.id, object])),
       depth = (id: string): number => {
         const object = objects.get(id);
@@ -144,6 +147,7 @@ export class EditorHistory {
     ids: readonly string[],
     fields: { x?: number; z?: number; rotation?: number; scale?: number },
   ) {
+    if (!ids.length) return;
     const all = sceneItems(this.document);
     let items = all.filter((p) => ids.includes(p.placement.id));
     if (!items.length) return;
@@ -189,6 +193,7 @@ export class EditorHistory {
   }
 
   removeMany(ids: readonly string[]) {
+    if (!ids.length) return;
     const removed = new Set(this.descendants(ids));
     this.change((d) => {
       d.objects = d.objects.filter((p) => !removed.has(p.id));
@@ -234,6 +239,7 @@ export class EditorHistory {
     dz = 0,
     copyGameplay = false,
   ) {
+    if (!objects.length) return [];
     const copies = structuredClone(objects) as SceneObject[];
     const source = this.document as SceneDocument;
     const remap = new Map(copies.map((p) => [p.id, 'object-' + crypto.randomUUID()]));

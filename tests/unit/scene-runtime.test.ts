@@ -141,7 +141,10 @@ test('draft death retries at the authored hero start', () => {
   assert.deepEqual([session.sim.hero.x, session.sim.hero.z], [3, 2]);
   session.sim.hero.health = 0;
   session.sim.hero.age = 10000;
-  session.step(still);
+  assert.equal(session.step(still).reset, 'death');
+  session.resetCurrentArea('death');
+  assert.equal(session.sim.hero.health, session.sim.maxHealth);
+  assert.equal(session.resetCount, 1);
   assert.deepEqual([session.sim.hero.x, session.sim.hero.z], [3, 2]);
 });
 

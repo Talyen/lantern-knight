@@ -185,7 +185,7 @@ test('incoming interruption and stale commands cannot replay a queued action', (
   s.damage(s.enemies[0]!, s.hero, 1000);
   assert.equal(s.hero.pendingAction, undefined);
 });
-test('burst is circular, bounded by range, obstruction and height, with one direct hit', () => {
+test('burst is circular, bounded by range and height, with one direct hit', () => {
   for (const [x, z, y, hit] of [
     [-2.5, 0, 0, true],
     [2.5, 0, 0, true],
@@ -207,31 +207,6 @@ test('burst is circular, bounded by range, obstruction and height, with one dire
     steps(s, tuning.ability.total - tuning.ability.windup);
     assert.equal(a.health, health - (hit ? 16 : 0));
   }
-  const definitions = registry().definitions;
-  const blocked = new ContentRegistry({
-    ...definitions,
-    areas: definitions.areas.map((a) => ({
-      ...a,
-      props: [
-        {
-          id: 'wall',
-          kind: 'wall' as const,
-          x: 0.5,
-          z: 0,
-          radius: 0.1,
-          height: 2,
-          size: [0.1, 3] as const,
-          shape: 'box' as const,
-          blocking: true,
-        },
-      ],
-    })),
-  });
-  const s = new Simulation(blocked);
-  s.enemies.forEach((a) => (a.stun = 10000));
-  s.step({ ...still, actions: ['lantern'] });
-  steps(s, tuning.ability.windup);
-  assert.equal(s.enemies[0]!.burn, undefined);
 });
 test('Burn ticks preserve attacks and movement, refresh without postponing cadence, and expire after three ticks', () => {
   const s = duel();

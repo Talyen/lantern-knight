@@ -63,20 +63,18 @@ export function authoredGameplay(
   positions: readonly { id: string; x: number; z: number }[] = [],
 ): AreaDefinition {
   const gameplay = document.gameplay;
-  return gameplay
-    ? {
-        ...area,
-        spawns: gameplay.spawns,
-        campfires: gameplay.campfires,
-        interactables: gameplay.interactables?.map((p) => {
-          const object = positions.find((v) => v.id === p.object);
-          return object ? { ...p, x: object.x, z: object.z } : p;
-        }),
-        exits: gameplay.exits,
-        pickups: gameplay.pickups.map((p) => {
-          const object = positions.find((v) => v.id === p.object);
-          return object ? { ...p, x: object.x, z: object.z } : p;
-        }),
-      }
-    : area;
+  if (!gameplay) return area;
+  const objects = new Map(positions.map((position) => [position.id, position]));
+  const placed = <P extends { object: string; x: number; z: number }>(p: P): P => {
+    const object = objects.get(p.object);
+    return object ? { ...p, x: object.x, z: object.z } : p;
+  };
+  return {
+    ...area,
+    spawns: gameplay.spawns,
+    campfires: gameplay.campfires,
+    interactables: gameplay.interactables?.map(placed),
+    exits: gameplay.exits,
+    pickups: gameplay.pickups.map(placed),
+  };
 }

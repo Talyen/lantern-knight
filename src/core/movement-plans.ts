@@ -153,8 +153,9 @@ export class MovementPlans {
       plan = this.plan(a, goal, plan?.kind ?? kind, tick);
       this.plans.set(a.id, plan);
     }
-    let remaining = a.definition.speed / 60,
-      moved = false;
+    const startX = a.x,
+      startZ = a.z;
+    let remaining = a.definition.speed / 60;
     while (plan.route.points.length) {
       const p = plan.route.points[0]!,
         dx = p.x - a.x,
@@ -168,7 +169,6 @@ export class MovementPlans {
       const step = Math.min(remaining, distance);
       a.yaw = Math.atan2(dx, dz);
       move(a, (dx / distance) * step, (dz / distance) * step);
-      moved = true;
       remaining -= step;
       // Spend the rest on the next segment only after actually reaching this
       // corner. Collision or room policy can still stop the requested movement.
@@ -176,6 +176,7 @@ export class MovementPlans {
     }
     if (!plan.route.points.length && plan.kind === 'manual' && plan.route.status === 'ready')
       this.plans.delete(a.id);
+    const moved = Math.hypot(a.x - startX, a.z - startZ) > 1e-6;
     a.state = moved ? 'walk' : 'idle';
     if (!moved) a.yaw = a.aim;
     return moved;

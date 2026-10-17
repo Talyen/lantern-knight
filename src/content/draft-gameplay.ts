@@ -24,11 +24,6 @@ export function composeDraftGameplay(
         }
       : {},
   );
-  // The playtest hero marker is also its retry location. Keep destination
-  // entries intact for traversal into the draft.
-  area.entries = area.entries.map((entry) =>
-    entry.id === area.baselineEntry ? { ...entry, ...document.hero } : entry,
-  );
   const registry = new ContentRegistry({
     ...definitions,
     initialArea: area.id,
