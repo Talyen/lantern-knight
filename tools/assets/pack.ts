@@ -388,11 +388,9 @@ export async function installMatchingPreparation(
   } catch {
     return false;
   }
-  await destination.reserve(
-    Object.values(inventory.files).reduce((n, f) => n + f.bytes, 0) +
-      64 * 1024 +
-      (await diskBytes(destination.root)),
-  );
+  // All payload bytes already belong to the protected preparation lease.
+  // Hardlinks add no duplicate payload storage; reserve only staging metadata.
+  await destination.reserve(64 * 1024 + (await diskBytes(destination.root)));
   for (const file of [...Object.keys(inventory.files), 'pack.json']) {
     safeRelative(file);
     const target = path.join(incoming, file);
@@ -404,6 +402,12 @@ export async function installMatchingPreparation(
     await fs.rm(path.join(destination.root, name), { recursive: true, force: true });
     await fs.rename(path.join(incoming, name), path.join(destination.root, name));
   }
+  await verifiedOutput(
+    destination.root,
+    [...Object.keys(inventory.files), 'pack.json'],
+    async () => {},
+    '.verified-pack.json',
+  );
   console.log('Reused exact pinned preparation payload; no download or extraction.');
   return true;
 }

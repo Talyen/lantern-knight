@@ -22,13 +22,13 @@ import {
   LockSchema,
 } from '../../tools/assets/pack';
 import { ensureBundlePack } from '../../tools/assets/bundles';
-import { makeArchive } from '../../tools/assets/archive';
+import { makeArchive, inventoryCandidate } from '../../tools/assets/archive';
 
 import { projectRoot } from '../../tools/assets/paths';
 import { prototypeAssets } from '../../tools/assets/preview';
 import { workspaceIdentity } from '../../tools/assets/workspace';
 
-test('recipe identity excludes runtime composition and includes preparation and publication inputs', async () => {
+test('recipe identity includes producers and excludes runtime composition and delivery tooling', async () => {
   // Each variant changes one input in the same immutable source snapshot.
   const inputs = new Map<string, Promise<Buffer<ArrayBuffer>>>();
   const read = (name: string) => {
@@ -48,6 +48,9 @@ test('recipe identity excludes runtime composition and includes preparation and 
     'tools/run-process.ts',
     'tools/assets/pack.ts',
     'tools/assets/paths.ts',
+    'tools/assets/bundles.ts',
+    'tools/assets/publication.ts',
+    'tools/assets/file-publication.ts',
   ]) {
     assert.equal(
       await recipeHash((name) =>
@@ -66,8 +69,6 @@ test('recipe identity excludes runtime composition and includes preparation and 
     'authoring/hero-actions.json',
     'tools/assets/prepare/prepare-graveyard-coverage.ts',
     'tools/assets/prepare.ts',
-    'tools/assets/bundles.ts',
-    'tools/assets/publication.ts',
   ]) {
     assert.notEqual(
       await recipeHash((name) =>
@@ -569,4 +570,29 @@ test('single-pass installation rejects archive links and releases its peak reser
     ensurePack(lock, f.cache, (async () => new Response(body)) as typeof fetch),
     /links and special entries/,
   );
+});
+
+test('offline preparation seeding reserves metadata rather than a second copy of hardlinked payload bytes', async (t) => {
+  const root = await temporaryDirectory(t, 'preparation-link-budget-');
+  const cache = new AssetCache(root, 320 * 1024);
+  const preparation = await cache.lease('preparation');
+  const destination = await cache.lease('destination');
+  await using _cleanup = onAsyncExit(async () => {
+    await destination.release();
+    await preparation.release();
+  });
+  const payload = path.join(preparation.root, 'work/payload');
+  await fs.mkdir(path.join(payload, 'public'), { recursive: true });
+  await fs.mkdir(path.join(payload, 'metadata'));
+  await fs.writeFile(path.join(payload, 'metadata/receipt.json'), '{}');
+  await fs.writeFile(path.join(payload, 'public/large.png'), Buffer.alloc(192 * 1024, 0x41));
+  const lock = await inventoryCandidate(payload, 'a'.repeat(64));
+  await writeJson(path.join(preparation.root, 'prepared.json'), lock);
+  assert.equal(await installMatchingPreparation(destination, lock, cache), true);
+  const source = await fs.stat(path.join(payload, 'public/large.png'));
+  const linked = await fs.stat(path.join(destination.root, 'public/large.png'));
+  assert.equal(linked.ino, source.ino);
+  assert.equal(linked.dev, source.dev);
+  await validateCachedPack(destination.root, lock);
+  assert.ok((await diskBytes(root)) < cache.limit);
 });

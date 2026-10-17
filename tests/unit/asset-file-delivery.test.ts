@@ -8,10 +8,16 @@ import path from 'node:path';
 import { createHash, randomBytes } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
 import { AssetCache } from '../../tools/assets/cache';
-import { openFileWorkspace } from '../../tools/assets/file-delivery';
+import { openFileWorkspace, parseFileCatalog } from '../../tools/assets/file-delivery';
 import { downloadFile } from '../../tools/assets/download';
-import { buildFileCatalog } from '../../tools/assets/file-publication';
-import { preparationPin, PackSchema, type AssetLock } from '../../tools/assets/pack';
+import { buildFileCatalog, publishIndividualFiles } from '../../tools/assets/file-publication';
+import {
+  preparationPin,
+  payloadDigest,
+  PackSchema,
+  LockSchema,
+  type AssetLock,
+} from '../../tools/assets/pack';
 import { inventoryCandidate } from '../../tools/assets/archive';
 
 const sha = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
@@ -368,4 +374,148 @@ test('temporary cache reservation failure does not poison a later artwork retry'
     /Temporary cache contention/,
   );
   assert.equal(await workspace.ensurePublicFile('generated/tree/manifest.json'), true);
+});
+
+test('delta publication retains immutable locations across renames, aliases and deletions; only new hashes are packed', async (t) => {
+  const f = await fixture(t);
+  const source = path.join(f.root, 'source');
+  const old = f.catalog.files['public/generated/tree/page.png']!;
+  await fs.rename(
+    path.join(source, 'public/generated/tree/page.png'),
+    path.join(source, 'public/renamed.png'),
+  );
+  await fs.rm(path.join(source, 'public/generated/other/page.png'));
+  const added = Buffer.from('new artwork');
+  await fs.writeFile(path.join(source, 'public/new.png'), added);
+  await fs.writeFile(path.join(source, 'public/empty'), '');
+  const candidate = await inventoryCandidate(source, f.pin.recipeSha256);
+  const inventory = PackSchema.parse(await readJson(path.join(source, 'pack.json')));
+  const pin = { ...f.pin, ...preparationPin(candidate, {}, inventory), schemaVersion: 3 as const };
+  // An unchanged object's bytes need not be staged or read to retain its location.
+  await fs.rm(path.join(source, 'public/renamed.png'));
+  await fs.rm(path.join(source, 'public/generated/tree/alias.png'));
+  await fs.rm(path.join(source, 'public/generated/tree/manifest.json'));
+  const held = await f.cache.lease('delta');
+  await using _cleanup = onAsyncExit(() => held.release());
+  const packed: Buffer[] = [];
+  const next = await buildFileCatalog(
+    pin,
+    inventory,
+    source,
+    held,
+    async (_info, file) => {
+      packed.push(await fs.readFile(file));
+    },
+    f.catalog,
+  );
+  assert.equal(next.files['public/renamed.png']!.container, old.container);
+  assert.equal(next.files['public/renamed.png']!.offset, old.offset);
+  assert.deepEqual(next.files['public/renamed.png'], next.files['public/generated/tree/alias.png']);
+  assert.equal(next.files['public/generated/other/page.png'], undefined);
+  assert.deepEqual(
+    new Set(Object.keys(next.containers)),
+    new Set(Object.values(next.files).map((file) => file.container)),
+  );
+  assert.equal(
+    packed.reduce((n, bytes) => n + bytes.length, 0),
+    added.length + 1,
+    'new content plus the empty-container sentinel only',
+  );
+  assert.deepEqual(parseFileCatalog(next, pin.preparation.payloadSha256), next);
+  const unchanged = await buildFileCatalog(
+    pin,
+    inventory,
+    source,
+    held,
+    async () => {
+      assert.fail('unchanged content must not be rewritten or uploaded');
+    },
+    next,
+  );
+  assert.deepEqual(unchanged, next);
+  const invalid = structuredClone(next);
+  invalid.files['public/renamed.png']!.offset = Number.MAX_SAFE_INTEGER;
+  assert.throws(() => parseFileCatalog(invalid, pin.preparation.payloadSha256), /byte range/);
+  invalid.payloadSha256 = 'f'.repeat(64);
+  await assert.rejects(
+    buildFileCatalog(pin, inventory, source, held, async () => {}, invalid),
+    /payload/,
+  );
+});
+
+test('an already published file pin verifies remote ranges without acquiring or republishing the complete payload', async (t) => {
+  const f = await fixture(t);
+  f.pin.bundles = {
+    runtime: {
+      schemaVersion: 1,
+      releaseTag: 'assets-' + 'a'.repeat(16),
+      filename: 'lantern-assets.tar.gz',
+      sha256: 'a'.repeat(64),
+      bytes: 1,
+      recipeSha256: 'a'.repeat(64),
+      inventorySha256: 'b'.repeat(64),
+    },
+  };
+  const accepted = LockSchema.parse(f.pin);
+  if (accepted.schemaVersion !== 3) throw new Error('Expected bundled pin');
+  f.pin = accepted;
+  const target = path.join(f.root, 'lock.json');
+  await fs.writeFile(target, JSON.stringify(f.pin));
+  const before = await fs.readFile(target, 'utf8');
+  await publishIndividualFiles(
+    f.pin,
+    f.cache,
+    async (args) => {
+      assert.equal(args[0], 'api', 'unchanged delivery must not upload');
+      const assets = Object.entries(f.catalog.containers).map(([hash, info]) => ({
+        name: hash + '.bin',
+        size: info.bytes,
+        digest: 'sha256:' + hash,
+      }));
+      return JSON.stringify(args.includes('--paginate') ? [assets] : { id: 'fixture', assets });
+    },
+    target,
+    f.request,
+  );
+  assert.deepEqual(JSON.parse(await fs.readFile(target, 'utf8')), JSON.parse(before));
+  assert.equal(
+    f.calls.filter((call) => !call.range).length,
+    1,
+    'only the authenticated catalog is downloaded whole',
+  );
+  assert.equal(
+    f.calls.filter((call) => call.range).length,
+    Object.keys(f.catalog.containers).length,
+  );
+  assert.equal(
+    (await fs.readdir(path.join(f.cache.root, 'entries'))).some((name) => name.startsWith('pack-')),
+    false,
+  );
+  const changed = { ...f.catalog, payloadSha256: 'f'.repeat(64) };
+  assert.throws(() => parseFileCatalog(changed, f.pin.preparation.payloadSha256), /payload/);
+  assert.equal(payloadDigest(f.inventory), f.pin.preparation.payloadSha256);
+});
+
+test('container construction falls back to one worker when the cache grants only one transfer', async (t) => {
+  const f = await fixture(t);
+  const held = await f.cache.lease('serial-publication');
+  await using _cleanup = onAsyncExit(() => held.release());
+  let active = 0;
+  let peak = 0;
+  const catalog = await buildFileCatalog(
+    f.pin,
+    f.inventory,
+    path.join(f.root, 'source'),
+    {
+      ...held,
+      reserveUpTo: (required) => held.reserveUpTo(required, required),
+    },
+    async () => {
+      peak = Math.max(peak, ++active);
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      active--;
+    },
+  );
+  assert.equal(peak, 1);
+  assert.deepEqual(catalog, f.catalog, 'serial fallback delivers the same deterministic catalog');
 });

@@ -156,7 +156,80 @@ test('split publication uses downloadable filenames, frees the candidate archive
   if (pin.schemaVersion !== 3) throw new Error('Expected split pin');
   assert.ok(Object.keys(pin.bundles).filter((name) => name.startsWith('authoring-')).length > 40);
   assert.ok(pin.fileDelivery, 'individual files are verified before pinning');
-  assert.ok(pin.bundles.bootstrap, 'metadata and thumbnails have their own bootstrap bundle');
+  assert.ok(
+    Object.keys(pin.bundles).some((name) => name.startsWith('bootstrap-')),
+    'metadata and thumbnails have stable bootstrap shards',
+  );
+  const completedPlan = await readJson(path.join(held.root, 'bundles/plan.json'));
+  for (const file of Object.values(completedPlan.archives) as string[])
+    await assert.rejects(fs.access(file), { code: 'ENOENT' });
+  const uploadedBeforeRetry = new Set(uploads.keys());
+  await publishBundledPrepared(
+    { held, payload, lock: inventoryLock },
+    publish,
+    verify,
+    target,
+    async () => {},
+    request,
+    cache,
+  );
+  assert.deepEqual(
+    new Set(uploads.keys()),
+    uploadedBeforeRetry,
+    'a completed retry uploads no existing content',
+  );
+  const nextBytes = Buffer.from('one new authoring item');
+  await write('public/authoring/new-item.png', nextBytes);
+  const nextLock = await inventoryCandidate(payload, lock.recipeSha256);
+  await publishBundledPrepared(
+    { held, payload, lock: nextLock },
+    publish,
+    verify,
+    target,
+    async () => {},
+    request,
+    cache,
+  );
+  const addedContainers = [...uploads].filter(
+    ([key]) => !uploadedBeforeRetry.has(key) && key.startsWith('assets-objects-'),
+  );
+  assert.equal(addedContainers.length, 1);
+  assert.deepEqual(
+    addedContainers[0]![1],
+    nextBytes,
+    'only the new content is delivered in a new container',
+  );
+  const nextPin = LockSchema.parse(await readJson(target));
+  assert.equal(nextPin.schemaVersion, 3);
+  if (nextPin.schemaVersion !== 3) throw new Error('Expected split pin');
+  assert.equal(
+    Object.keys(nextPin.bundles).filter(
+      (name) => JSON.stringify(nextPin.bundles[name]) !== JSON.stringify(pin.bundles[name]),
+    ).length,
+    1,
+    'only the changed archive shard is rebuilt',
+  );
+  const objectKey = [...uploads.keys()].find((key) => key.startsWith('assets-objects-'))!;
+  const original = uploads.get(objectKey)!;
+  uploads.set(objectKey, Buffer.from('host bytes changed'));
+  await assert.rejects(
+    publishBundledPrepared(
+      { held, payload, lock: nextLock },
+      publish,
+      verify,
+      target,
+      async () => {},
+      request,
+      cache,
+    ),
+    /Published delivery bytes differ/,
+  );
+  assert.deepEqual(
+    await readJson(target),
+    nextPin,
+    'failed reuse verification preserves the accepted pin',
+  );
+  uploads.set(objectKey, original);
   const acquired = await ensureBundlePack(pin, cache, async (url) => {
     const parsed = new URL(url instanceof Request ? url.url : url),
       key = parsed.pathname.split('/').slice(-2).join('/');

@@ -8,6 +8,7 @@ import { shaFile } from './sources';
 import { gh } from './github';
 import type { PreparedAssets } from './prepare';
 import { publishFileDelivery } from './file-publication';
+import { publicationWork } from './publication-work';
 
 export async function verifyRemote(
   lock: AssetLock,
@@ -148,16 +149,17 @@ export async function publishBundledPrepared(
   }
   const { prepareBundles } = await import('./bundles');
   const plan = await prepareBundles(prepared, previous);
-  for (const [name, lock] of Object.entries(plan.pin.bundles)) {
+  await publicationWork(Object.entries(plan.pin.bundles), async ([name, lock]) => {
     if (plan.archives[name]) await uploadArchive(lock, plan.archives[name]!, publish);
     await verify(lock);
-  }
+  });
   const fileDelivery = await publishFileDelivery(
     plan.pin,
     prepared.payload,
     cache,
     publish,
     request,
+    previous?.schemaVersion === 3 ? previous : undefined,
   );
   await validateCandidate(prepared);
   await beforePin();
@@ -172,4 +174,13 @@ export async function publishBundledPrepared(
     throw new Error('Asset pin changed during publication; refusing to overwrite it');
   await writeJsonAtomic(target, { ...plan.pin, fileDelivery }, true);
   console.log('Published and pinned immutable bundles; unchanged bundles were reused.');
+  // All admitted uploads have settled and downloadable bytes are verified.
+  // Retain source preparation, but avoid a second full pack occupying the cache.
+  for (const archive of Object.values(plan.archives)) {
+    try {
+      await fs.rm(archive, { force: true });
+    } catch (error) {
+      console.warn('Published successfully; could not remove staging archive ' + archive, error);
+    }
+  }
 }
