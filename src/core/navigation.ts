@@ -76,16 +76,36 @@ class Heap {
 export class Navigation {
   readonly spacing = 0.2;
   private grids = new Map<number, Map<number, boolean>>();
+  private edges = new Map<number, Map<number, number>>();
+  private readonly immutableGeometry: boolean;
   readonly #policy: TraversalPolicy | undefined;
   constructor(
     readonly area: AreaDefinition,
     policy?: TraversalPolicy,
   ) {
     this.#policy = policy;
+    const frozenPoints = (points: readonly Point[] | undefined) =>
+      !points || (Object.isFrozen(points) && points.every(Object.isFrozen));
+    this.immutableGeometry =
+      Object.isFrozen(area) &&
+      Object.isFrozen(area.bounds) &&
+      Object.isFrozen(area.props) &&
+      area.props.every(
+        (p) =>
+          Object.isFrozen(p) && (!p.size || Object.isFrozen(p.size)) && frozenPoints(p.polygon),
+      ) &&
+      frozenPoints(area.playableBoundary);
   }
   clear(start: Point, end: Point, radius: number) {
     return (
       clearSegment(this.area, start, end, radius) && (this.#policy?.segment(start, end) ?? true)
+    );
+  }
+  private clearSupported(start: Point, end: Point, radius: number) {
+    if (!this.immutableGeometry) return this.clear(start, end, radius);
+    return (
+      !sweepCircle(this.area, start, { x: end.x - start.x, z: end.z - start.z }, radius) &&
+      (this.#policy?.segment(start, end) ?? true)
     );
   }
   route(start: Point, goal: Point, radius: number): RouteResult {
@@ -96,7 +116,7 @@ export class Navigation {
       this.#policy?.position(goal) === false
     )
       return fail;
-    if (this.clear(start, goal, radius))
+    if (this.clearSupported(start, goal, radius))
       return { status: 'ready', points: [{ x: goal.x, z: goal.z }] };
     const b = this.area.bounds,
       nx = Math.ceil((b.maxX - b.minX) / this.spacing) + 1,
@@ -106,6 +126,11 @@ export class Navigation {
     if (!cells) {
       cells = new Map();
       this.grids.set(radius, cells);
+    }
+    let edges = this.edges.get(radius);
+    if (!edges && this.immutableGeometry) {
+      edges = new Map();
+      this.edges.set(radius, edges);
     }
     const point = (id: number): Point =>
       id === destination
@@ -125,6 +150,21 @@ export class Navigation {
       }
       return v;
     };
+    const connected = (from: number, to: number, dx: number, dz: number) => {
+      const a = point(from),
+        b = point(to);
+      if (!edges) return this.clear(a, b, radius);
+      const shift = ((dz + 1) * 3 + dx + 1) * 2,
+        flags = edges.get(from) ?? 0,
+        state = (flags >>> shift) & 3;
+      // Two bits per directed neighbor: unknown, blocked, clear. Only immutable
+      // grid geometry is reusable; room policy still evaluates every traversal.
+      const clear = state
+        ? state === 2
+        : !sweepCircle(this.area, a, { x: b.x - a.x, z: b.z - a.z }, radius);
+      if (!state) edges.set(from, flags | ((clear ? 2 : 1) << shift));
+      return clear && (this.#policy?.segment(a, b) ?? true);
+    };
     const connections = (p: Point) => {
       const ix = Math.round((p.x - b.minX) / this.spacing),
         iz = Math.round((p.z - b.minZ) / this.spacing);
@@ -138,7 +178,7 @@ export class Navigation {
             if (r && x !== ix - r && x !== ix + r && z !== iz - r && z !== iz + r) continue;
             if (x < 0 || x >= nx || z < 0 || z >= nz) continue;
             const id = z * nx + x;
-            if (valid(id) && this.clear(p, point(id), radius)) found.push(id);
+            if (valid(id) && this.clearSupported(p, point(id), radius)) found.push(id);
           }
         // A nearest node can belong to a disconnected pocket. Keep every
         // local connection; forbidden starts search outward until they escape.
@@ -178,7 +218,7 @@ export class Navigation {
         let origin = start;
         for (let i = 0; i < raw.length;) {
           let j = raw.length - 1;
-          while (j > i && !this.clear(origin, raw[j]!, radius)) j--;
+          while (j > i && !this.clearSupported(origin, raw[j]!, radius)) j--;
           smooth.push(raw[j]!);
           origin = raw[j]!;
           i = j + 1;
@@ -188,7 +228,7 @@ export class Navigation {
       closed.add(current);
       // Connect the actual endpoint wherever it becomes visible. A narrow
       // recess may have no connected grid cell beside its goal.
-      if (this.clear(point(current), goal, radius)) {
+      if (this.clearSupported(point(current), goal, radius)) {
         const cost = scores.get(current)! + h(current);
         if (cost < (scores.get(destination) ?? Infinity)) {
           scores.set(destination, cost);
@@ -210,7 +250,7 @@ export class Navigation {
             (dx && dz && (!valid(current + dx) || !valid(current + dz * nx)))
           )
             continue;
-          if (!this.clear(point(current), point(next), radius)) continue;
+          if (!connected(current, next, dx, dz)) continue;
           const cost = scores.get(current)! + Math.hypot(dx, dz) * this.spacing;
           if (cost >= (scores.get(next) ?? Infinity)) continue;
           scores.set(next, cost);
