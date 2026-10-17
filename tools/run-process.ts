@@ -81,16 +81,20 @@ export async function runProcess(
     if (!stopped && options.idleTimeoutMs !== undefined)
       idleTimer = setTimeout(() => stop('stalled without output'), options.idleTimeoutMs);
   };
-  child.stdout?.on('data', (chunk: Buffer) => {
+  let outputFailure: { error: unknown } | undefined;
+  const output = (stream: NodeJS.WriteStream, chunk: Buffer) => {
     activity();
-    if (options.output) options.output(chunk);
-    else process.stdout.write(chunk);
-  });
-  child.stderr?.on('data', (chunk: Buffer) => {
-    activity();
-    if (options.output) options.output(chunk);
-    else process.stderr.write(chunk);
-  });
+    if (outputFailure) return;
+    try {
+      if (options.output) options.output(chunk);
+      else stream.write(chunk);
+    } catch (error) {
+      outputFailure = { error };
+      stop('output failed');
+    }
+  };
+  child.stdout?.on('data', (chunk: Buffer) => output(process.stdout, chunk));
+  child.stderr?.on('data', (chunk: Buffer) => output(process.stderr, chunk));
   activity();
   const interrupt = () => stop('interrupted'),
     terminate = () => stop('terminated'),
@@ -120,7 +124,11 @@ export async function runProcess(
     child.once('exit', (code, signal) =>
       code === 0 && !stopped
         ? resolve()
-        : reject(new Error(`${command} ${stopped ?? `exited ${code ?? signal}`}`)),
+        : reject(
+            outputFailure
+              ? outputFailure.error
+              : new Error(`${command} ${stopped ?? `exited ${code ?? signal}`}`),
+          ),
     );
   });
 }

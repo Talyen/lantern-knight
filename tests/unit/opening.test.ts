@@ -11,7 +11,6 @@ import { parseGame } from '../../src/core/save';
 import { retimeLanternClip } from '../../src/presentation/lantern-timing';
 import { heroActionTiming } from '../../src/content/hero-actions';
 import { AUTHORED_HEADINGS } from '../../src/content/headings';
-import { InventoryState } from '../../src/core/inventory';
 const still = { move: { x: 0, z: 0 }, aim: { x: 1, z: 0 } };
 function registry() {
   const ids = ['abandoned-orchard', 'forest-gathering-clearing'];
@@ -412,157 +411,7 @@ test('orchard wind follows discoveries, allows bypasses and preserves progress a
   assert.equal(windDestination(bypass.view)?.z, -6, 'passing the camp does not guide backward');
 });
 
-test('clearing wind suggests the ruins, their dropped reward, then the resting fire', () => {
-  const defs = registry().definitions;
-  const r = new ContentRegistry({
-    ...defs,
-    areas: defs.areas.map((a) => ({
-      ...a,
-      spawns: [],
-      interactables: a.interactables?.map((o) => ({ ...o, kind: 'container' as const })),
-    })),
-  });
-  const s = new Simulation(r, 142, 'forest-gathering-clearing');
-  assert.equal(windDestination(s.view)?.z, 2);
-  s.claimedObjects.add('crate');
-  s.drops.push({
-    id: 'object-crate-0',
-    source: 'crate',
-    enemy: false,
-    x: 1,
-    z: 2,
-    rewards: [{ item: 'health-potion', amount: 1 }],
-  });
-  assert.equal(windDestination(s.view)?.x, 1);
-  s.drops.length = 0;
-  assert.equal(windDestination(s.view)?.x, 5);
-});
-
-test('clearing guidance leads onward after collection; forge guidance ends at its fire', () => {
-  const defs = registry().definitions;
-  const clearing = defs.areas[1]!;
-  const forward = {
-    ...clearing.exits[0]!,
-    id: 'onward',
-    destination: 'ruined-forge',
-    marker: { x: -5, z: 4 },
-  };
-  const r = new ContentRegistry({
-    ...defs,
-    areas: [
-      defs.areas[0]!,
-      {
-        ...clearing,
-        spawns: [],
-        exits: [...clearing.exits, forward],
-        interactables: clearing.interactables?.map((o) => ({ ...o, kind: 'container' as const })),
-      },
-      {
-        ...clearing,
-        id: 'ruined-forge',
-        spawns: [],
-        interactables: clearing.interactables?.map((o) => ({ ...o, kind: 'container' as const })),
-      },
-    ],
-  });
-  const s = new Simulation(r, 142, clearing.id);
-  assert.equal(windDestination(s.view)?.z, 2);
-  s.claimedObjects.add('crate');
-  s.drops.push({
-    id: 'reward',
-    source: 'crate',
-    enemy: false,
-    x: 1,
-    z: 2,
-    rewards: [{ item: 'gold', amount: 1 }],
-  });
-  assert.equal(windDestination(s.view)?.x, 1);
-  s.drops.length = 0;
-  assert.deepEqual(windDestination(s.view), forward.marker);
-  const forge = new Simulation(r, 142, 'ruined-forge');
-  assert.equal(windDestination(forge.view)?.z, 2);
-  forge.claimedObjects.add('crate');
-  assert.equal(windDestination(forge.view)?.x, 5);
-});
-
-test('either permanent kit choice guides the return journey after outstanding cache rewards', () => {
-  const defs = registry().definitions;
-  const r = new ContentRegistry({
-    ...defs,
-    areas: defs.areas.map((area) => ({
-      ...area,
-      spawns: [],
-      interactables: area.interactables?.map((object) => ({
-        ...object,
-        id: area.id === 'abandoned-orchard' ? 'guarded-chest' : object.id,
-        kind: 'container' as const,
-      })),
-    })),
-  });
-  for (const forgeUpgrade of ['sword', 'lantern'] as const) {
-    const inventory = new InventoryState({ inventory: {}, equipment: {}, forgeUpgrade });
-    for (const area of r.definitions.areas) {
-      const sim = new Simulation(r, 142, area.id, 1, undefined, inventory);
-      const cache = area.interactables![0]!;
-      assert.deepEqual(windDestination(sim.view), cache);
-      sim.claimedObjects.add(cache.id);
-      sim.drops.push({
-        id: 'outstanding-reward',
-        source: cache.id,
-        enemy: false,
-        x: 1,
-        z: 2,
-        rewards: [{ item: 'gold', amount: 1 }],
-      });
-      assert.deepEqual(windDestination(sim.view), sim.view.drops[0]);
-      sim.drops.length = 0;
-      assert.deepEqual(
-        windDestination(sim.view),
-        area.id === 'abandoned-orchard' ? area.campfires![0] : area.exits[0]!.marker,
-      );
-    }
-  }
-});
-
-test('forge guidance opens the chapel after either upgrade and chapel spoils suggest its return path', () => {
-  const base = registry().definitions.areas[0]!;
-  const ids = ['ruined-forge', 'desecrated-chapel'];
-  const r = new ContentRegistry({
-    ...fixture.definitions,
-    initialArea: ids[0]!,
-    areas: ids.map((id, i) => ({
-      ...base,
-      id,
-      spawns: [],
-      exits: [{ ...base.exits[0]!, destination: ids[1 - i]!, entry: 'start' }],
-      interactables: [interactable({ id: 'cache', object: 'cache' })],
-    })),
-  });
-  for (const forgeUpgrade of ['sword', 'lantern'] as const) {
-    const inventory = new InventoryState({ inventory: {}, equipment: {}, forgeUpgrade });
-    const forge = new Simulation(r, 142, ids[0]!, 1, undefined, inventory);
-    forge.claimedObjects.add('cache');
-    assert.deepEqual(windDestination(forge.view), forge.areaDefinition.exits[0]!.marker);
-    const chapel = new Simulation(r, 142, ids[1]!, 1, undefined, inventory);
-    assert.deepEqual(windDestination(chapel.view), chapel.areaDefinition.interactables![0]);
-    chapel.claimedObjects.add('cache');
-    chapel.drops.push({
-      id: 'reward',
-      source: 'cache',
-      enemy: false,
-      x: 1,
-      z: 2,
-      rewards: [{ item: 'vigil-amulet', amount: 1 }],
-    });
-    assert.deepEqual(windDestination(chapel.view), chapel.view.drops[0]);
-    inventory.award([{ item: 'vigil-amulet', amount: 1 }]);
-    chapel.drops.length = 0;
-    assert.deepEqual(windDestination(chapel.view), chapel.areaDefinition.exits[0]!.marker);
-    assert.deepEqual(windDestination(forge.view), forge.areaDefinition.campfires![0]);
-  }
-});
-
-test('chapel reward guides the complete return past skipped caches, including after reload', () => {
+test('wind follows the chapel journey after either upgrade and returns only with its reward', () => {
   const base = registry().definitions.areas[0]!;
   const ids = [
     'abandoned-orchard',
@@ -593,7 +442,7 @@ test('chapel reward guides the complete return past skipped caches, including af
           ? [
               {
                 ...base.exits[0]!,
-                id: 'forward',
+                id: i === 0 ? 'depart' : 'forward',
                 destination: ids[i + 1]!,
                 entry: 'start',
                 marker: { x: 5, z: 0 },
@@ -601,7 +450,9 @@ test('chapel reward guides the complete return past skipped caches, including af
             ]
           : []),
       ],
-      interactables: [interactable({ id: 'cache', object: 'cache', z: 2 })],
+      interactables: [
+        interactable({ id: i === 0 ? 'guarded-chest' : 'cache', object: 'cache', z: 2 }),
+      ],
     })),
   });
   for (const forgeUpgrade of ['sword', 'lantern'] as const)
@@ -609,6 +460,27 @@ test('chapel reward guides the complete return past skipped caches, including af
       const session = new GameSession(r, 142, id),
         save = session.captureSave();
       save.adventure!.forgeUpgrade = forgeUpgrade;
+      session.restoreSave(save);
+      const outward = session.sim,
+        cache = outward.areaDefinition.interactables![0]!;
+      assert.deepEqual(windDestination(outward.view), cache);
+      outward.claimedObjects.add(cache.id);
+      outward.drops.push({
+        id: 'cache-reward',
+        source: cache.id,
+        enemy: false,
+        x: 1,
+        z: 2,
+        rewards: [{ item: 'gold', amount: 1 }],
+      });
+      assert.deepEqual(windDestination(outward.view), outward.view.drops[0]);
+      outward.drops.length = 0;
+      assert.deepEqual(
+        windDestination(outward.view),
+        outward.areaDefinition.exits.find((exit) => exit.id !== 'return')?.marker ??
+          outward.areaDefinition.campfires![0],
+        'an upgrade alone must not turn the journey home',
+      );
       save.adventure!.inventory['vigil-amulet'] = 1;
       session.restoreSave(save);
       const sim = session.sim,
@@ -620,10 +492,10 @@ test('chapel reward guides the complete return past skipped caches, including af
         home,
         'unclaimed optional caches do not restart the outward journey',
       );
-      sim.claimedObjects.add('cache');
+      sim.claimedObjects.add(cache.id);
       sim.drops.push({
         id: 'cache-reward',
-        source: 'cache',
+        source: cache.id,
         enemy: false,
         x: 1,
         z: 2,

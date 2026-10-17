@@ -2,6 +2,30 @@ import { withDiagnostic } from '../../tools/smoke/scenario';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runProcess } from '../../tools/run-process';
+test('output failures reject the command after stopping it instead of escaping the promise', async () => {
+  const failure = new Error('could not report progress');
+  let calls = 0;
+  await assert.rejects(
+    runProcess(
+      process.execPath,
+      [
+        '-e',
+        `process.on('SIGTERM',()=>{console.log('closing');process.exit(0)});
+         console.log('ready'); setInterval(()=>{},1000);`,
+      ],
+      {
+        cwd: process.cwd(),
+        timeoutMs: 2000,
+        output: () => {
+          calls++;
+          throw failure;
+        },
+      },
+    ),
+    (error) => error === failure,
+  );
+  assert.equal(calls, 1);
+});
 test('progress renews the stall deadline, but silence and absolute deadlines still stop commands', async (t) => {
   t.mock.timers.enable({ apis: ['setTimeout'] });
   const controller = new AbortController();
@@ -102,16 +126,19 @@ test(
   },
 );
 
-test('cancellation terminates the owned process tree and does not hold the caller open', async () => {
-  const controller = new AbortController();
-  let output = '';
-  const run = runProcess(
-    process.execPath,
-    [
-      '-e',
-      // Reap the child before the parent exits. Killing an orphaned zombie group can
-      // return EPERM on macOS; the parent never sends a signal to its child itself.
-      `const {spawn}=require('node:child_process');
+test(
+  'cancellation terminates the owned process tree and does not hold the caller open',
+  { timeout: 5000 },
+  async (t) => {
+    const controller = new AbortController();
+    let output = '';
+    const run = runProcess(
+      process.execPath,
+      [
+        '-e',
+        // Reap the child before the parent exits. Killing an orphaned zombie group can
+        // return EPERM on macOS; the parent never sends a signal to its child itself.
+        `const {spawn}=require('node:child_process');
        const child=spawn(process.execPath,['-e','setInterval(()=>{},1000)'],{stdio:'inherit'});
        const timer=setInterval(()=>{},1000);
        process.on('SIGTERM',()=>{
@@ -120,67 +147,51 @@ test('cancellation terminates the owned process tree and does not hold the calle
          else child.once('exit',()=>process.exit(0));
        });
        console.log(child.pid);`,
-    ],
-    {
-      cwd: process.cwd(),
-      signal: controller.signal,
-      output: (chunk) => {
-        output += chunk.toString();
+      ],
+      {
+        cwd: process.cwd(),
+        signal: AbortSignal.any([controller.signal, t.signal]),
+        output: (chunk) => {
+          output += chunk.toString();
+          if (output.includes('\n')) controller.abort();
+        },
       },
-    },
-  );
-  const deadline = Date.now() + 5000;
-  while (!Number(output.trim())) {
-    if (Date.now() > deadline) throw new Error('Child did not start');
-    await new Promise((resolve) => setTimeout(resolve, 10));
-  }
-  controller.abort();
-  await assert.rejects(run, /cancelled/);
-  const pid = Number(output.trim());
-  for (let n = 0; n < 100; n++) {
-    try {
-      process.kill(pid, 0);
-    } catch (error) {
-      assert.equal((error as NodeJS.ErrnoException).code, 'ESRCH');
-      return;
-    }
-    await new Promise((resolve) => setTimeout(resolve, 10));
-  }
-  assert.fail('Owned child survived cancellation');
-});
+    );
+    await assert.rejects(run, /cancelled/);
+    const pid = Number(output.trim());
+    assert.ok(pid > 0);
+    // The parent waits for its child to exit before exiting itself.
+    assert.throws(() => process.kill(pid, 0), { code: 'ESRCH' });
+  },
+);
 
-test('a short shutdown grace bounds cancellation of an uncooperative owned process', async () => {
-  const controller = new AbortController();
-  let ready = false;
-  const run = runProcess(
-    process.execPath,
-    ['-e', `process.on('SIGTERM',()=>{}); console.log('ready'); setInterval(()=>{},1000);`],
-    {
-      cwd: process.cwd(),
-      signal: controller.signal,
-      shutdownGraceMs: 50,
-      output: () => {
-        ready = true;
+test(
+  'a short shutdown grace bounds cancellation of an uncooperative owned process',
+  { timeout: 5000 },
+  async (t) => {
+    const controller = new AbortController();
+    let started = 0;
+    const run = runProcess(
+      process.execPath,
+      ['-e', `process.on('SIGTERM',()=>{}); console.log('ready'); setInterval(()=>{},1000);`],
+      {
+        cwd: process.cwd(),
+        signal: AbortSignal.any([controller.signal, t.signal]),
+        shutdownGraceMs: 50,
+        output: () => {
+          started = Date.now();
+          controller.abort();
+        },
       },
-    },
-  );
-  const deadline = Date.now() + 5000;
-  while (!ready) {
-    if (Date.now() > deadline) {
-      controller.abort();
-      await run.catch(() => {});
-      assert.fail('Owned process did not start');
-    }
-    await new Promise((resolve) => setTimeout(resolve, 10));
-  }
-  const started = Date.now();
-  controller.abort();
-  await assert.rejects(run, /cancelled/);
-  assert.ok(
-    Date.now() - started < 3000,
-    'Custom shutdown grace must not wait the default five seconds',
-  );
-});
+    );
+    await assert.rejects(run, /cancelled/);
+    assert.ok(started > 0);
+    assert.ok(
+      Date.now() - started < 3000,
+      'Custom shutdown grace must not wait the default five seconds',
+    );
+  },
+);
 
 test('diagnostic shutdown retains operation and report failures even if cleanup fails', async () => {
   const [work, report, close] = ['work', 'report', 'close'].map((message) => new Error(message));

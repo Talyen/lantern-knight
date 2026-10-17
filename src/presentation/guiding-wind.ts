@@ -45,10 +45,7 @@ export function windDestination(sim: SimulationView): Point | undefined {
       // Accepted world state owns progress, including reload and campfire resets.
       // These are suggestions: walking past the camp never sends the player back.
       if (sim.claimedObjects.has(press.id))
-        return (
-          sim.drops.find((d) => d.source === press.id) ??
-          (sim.forgeUpgrade ? sim.areaDefinition.campfires?.[0] : departure)
-        );
+        return sim.drops.find((d) => d.source === press.id) ?? departure;
       const camp = sim.areaDefinition.interactables?.find((o) => o.id === 'southern-cache');
       const firstHome = sim.areaDefinition.spawns.find((s) => s.id === 'first');
       const distance = (p: Point) => Math.hypot(p.x - sim.hero.x, p.z - sim.hero.z);
@@ -88,30 +85,26 @@ export function windDestination(sim: SimulationView): Point | undefined {
   if (sim.area === 'forest-gathering-clearing' || sim.area === 'ruined-forge') {
     const chest = sim.areaDefinition.interactables?.find((o) => o.kind === 'container');
     if (chest && !sim.claimedObjects.has(chest.id)) return chest;
-    if (
-      sim.area === 'ruined-forge' &&
-      !sim.forgeUpgrade &&
-      !sim.drops.some((d) => d.source === chest?.id)
-    ) {
-      const bench = sim.areaDefinition.interactables?.find((o) => o.kind === 'workbench');
-      if (bench) return bench;
-    }
+    const drop = sim.drops.find((d) => d.source === chest?.id);
+    if (drop) return drop;
+    if (sim.area === 'ruined-forge' && !sim.forgeUpgrade)
+      return (
+        sim.areaDefinition.interactables?.find((o) => o.kind === 'workbench') ??
+        sim.areaDefinition.campfires?.[0]
+      );
     return (
-      sim.drops.find((d) => d.source === chest?.id) ??
-      (sim.area === 'ruined-forge' && sim.forgeUpgrade && !sim.inventory['vigil-amulet']
-        ? sim.areaDefinition.exits.find((e) => e.destination === 'desecrated-chapel')?.marker
-        : undefined) ??
       sim.areaDefinition.exits.find(
-        (e) => e.destination === (sim.forgeUpgrade ? 'abandoned-orchard' : 'ruined-forge'),
-      )?.marker ??
-      sim.areaDefinition.campfires?.[0]
+        (e) =>
+          e.destination === (sim.area === 'ruined-forge' ? 'desecrated-chapel' : 'ruined-forge'),
+      )?.marker ?? sim.areaDefinition.campfires?.[0]
     );
   }
 }
 
 function routePoint(route: readonly Point[], distance: number): Point {
   let p = route[0]!;
-  for (const next of route.slice(1)) {
+  for (let i = 1; i < route.length; i++) {
+    const next = route[i]!;
     const length = Math.hypot(next.x - p.x, next.z - p.z);
     if (distance <= length && length > 0) {
       const t = Math.max(0, distance / length);
@@ -209,6 +202,10 @@ export class GuidingWind {
         Math.min(1, stream.fade + (batch === this.current ? 1 : -1) * dt * 3),
       );
       const route = stream.route;
+      let length = 0;
+      for (let i = 1; i < route.length; i++)
+        length += Math.hypot(route[i]!.x - route[i - 1]!.x, route[i]!.z - route[i - 1]!.z);
+      const reach = Math.min(timing.reach, length);
       if (batch === this.current && route.length > 1) {
         const near = routePoint(route, 1),
           origin = route[0]!;
@@ -225,16 +222,9 @@ export class GuidingWind {
           envelope > 0 &&
           stream.fade > 0 &&
           route.length > 1 &&
+          reach >= 0.5 &&
           (!reduced || i % 4 === 0);
         if (!sprite.mesh.visible) continue;
-        const length = route
-          .slice(1)
-          .reduce((sum, p, i) => sum + Math.hypot(p.x - route[i]!.x, p.z - route[i]!.z), 0);
-        const reach = Math.min(timing.reach, length);
-        if (reach < 0.5) {
-          sprite.mesh.visible = false;
-          continue;
-        }
         const travel = (this.time * (reduced ? 1.4 : 5.4) + i * 0.91) % reach;
         const before = routePoint(route, travel - 0.35);
         const after = routePoint(route, travel + 0.35);
