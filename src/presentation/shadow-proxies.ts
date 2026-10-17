@@ -30,6 +30,10 @@ export class ShadowProxies {
       const layout = artworkFloorLayout(floor.width, floor.depth);
       for (const region of ground.regions) {
         if (!region.depth) continue;
+        // Native masks contain thousands of disconnected contour islands. They
+        // share one opaque shadow material and transform: submit their unchanged
+        // triangles once per region, not once per island on every shadow face.
+        const batch: number[] = [];
         for (const mask of region.mask ?? []) {
           const shape = new T.Shape(mask.outer.map(([u, v]) => new T.Vector2(u, v)));
           shape.holes = mask.holes.map(
@@ -96,6 +100,16 @@ export class ShadowProxies {
               point.z + outward.z * lift,
             );
           }
+          const indices = geometry.getIndex();
+          for (let i = 0; i < (indices?.count ?? positions.count); i++) {
+            const index = indices ? indices.getX(i) : i;
+            batch.push(positions.getX(index), positions.getY(index), positions.getZ(index));
+          }
+          geometry.dispose();
+        }
+        if (batch.length) {
+          const geometry = new T.BufferGeometry();
+          geometry.setAttribute('position', new T.Float32BufferAttribute(batch, 3));
           geometry.computeBoundingSphere();
           const mesh = new T.Mesh(
             geometry,
@@ -153,7 +167,13 @@ export class ShadowProxies {
       this.shadowOnly(mesh);
       const wind = sprite.material.userData.foliageWind as FoliageWind | undefined;
       wind?.attach(depth);
-      entry = { mesh, depth };
+      entry = {
+        mesh,
+        depth,
+        ...(sprite.manifest.asset.type === 'character'
+          ? { blend: new AnimationBlendShader([depth as unknown as T.MeshBasicMaterial]) }
+          : {}),
+      };
       this.casters.set(sprite, entry);
       this.proxies.add(mesh);
     }

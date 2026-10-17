@@ -11,6 +11,7 @@ export class LocalLightShadows {
     light.shadow.mapSize.set(512, 512);
     light.shadow.camera.near = 0.05;
     light.shadow.camera.far = 10;
+    light.shadow.autoUpdate = false;
     light.visible = light.castShadow = false;
     return light;
   });
@@ -42,7 +43,13 @@ export class LocalLightShadows {
     const u = this.lighting.common;
     for (const [i, light] of this.lights.entries()) {
       const active = !this.disposed && enabled && u.inkLightPower.value[i]! > 0;
-      light.visible = light.castShadow = active;
+      // Light/shadow counts participate in Three's shader cache keys, including
+      // unlit materials. Keep all five slots admitted while lighting is enabled;
+      // a transient burst must not compile a new room-wide shader variant.
+      light.visible = light.castShadow = !this.disposed && enabled;
+      // Prime every cube during the covered room draw. Thereafter inactive
+      // slots retain storage without redrawing; live casters still update fully.
+      light.shadow.needsUpdate = active || (enabled && !this.disposed && !light.shadow.map);
       u.inkLocalShadowEnabled.value[i] = active ? 1 : 0;
       light.position.copy(u.inkLightPosition.value[i]!);
       const far = Math.max(0.1, u.inkLightRange.value[i]!);

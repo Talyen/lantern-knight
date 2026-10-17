@@ -97,6 +97,12 @@ export class ActorSprite {
       this.material.depthWrite = false;
       this.material.alphaTest = 0;
     }
+    // Declare the character's blended shader before the room's first draw.
+    // Starting a walk/action then changes uniforms, never shader structure.
+    if (manifest.asset.type === 'character')
+      this.blendShader = new AnimationBlendShader(
+        this.edgeMaterial ? [this.material, this.edgeMaterial] : [this.material],
+      );
   }
   showAnimation(
     foot: Vector3,

@@ -23,6 +23,80 @@ import { manifestFixture } from '../fixtures/manifest';
 import { mockGlobals } from '../fixtures/globals';
 import { ContentRegistry, type ContentDefinitions } from '../../src/content/world';
 import { actors as actorDefinitions } from '../../src/content/actors';
+import { ActorSprite } from '../../src/presentation/sprite';
+import { SceneLightingRenderer } from '../../src/presentation/scene-lighting-renderer';
+
+test('companion GPU uploads finish before readiness and stop borrowing after cancellation or disposal', async () => {
+  const textures = [{}, {}],
+    uploaded: unknown[] = [];
+  const renderer: SceneLightingRenderer = Object.create(SceneLightingRenderer.prototype);
+  const abort = new AbortController();
+  Object.assign(renderer, {
+    ready: false,
+    disposed: false,
+    resources: {
+      renderer: {
+        initTexture: (texture: unknown) => {
+          uploaded.push(texture);
+        },
+      },
+      packs: new Map(),
+    },
+    lighting: {
+      normals: { load: async () => {}, textures: new Map(textures.map((t, i) => [String(i), t])) },
+    },
+  });
+  await renderer.prepare(undefined, abort.signal);
+  assert.deepEqual([...uploaded], textures);
+  assert.equal(renderer.ready, true);
+  uploaded.length = 0;
+  Object.assign(renderer, { ready: false });
+  abort.abort(new Error('superseded room'));
+  await assert.rejects(renderer.prepare(undefined, abort.signal), /superseded room/);
+  assert.equal(uploaded.length, 0);
+  const callback = Reflect.get(renderer, 'resources').renderer;
+  callback.initTexture = (texture: unknown) => {
+    uploaded.push(texture);
+    Reflect.set(renderer, 'disposed', true);
+  };
+  await assert.rejects(renderer.prepare(), /disposed/);
+  assert.deepEqual(uploaded, [textures[0]]);
+  assert.equal(renderer.ready, false);
+});
+
+test('first blended character pose reuses the shader declared before initial room rendering', () => {
+  const manifest = manifestFixture(),
+    texture = new CanvasTexture({} as HTMLCanvasElement);
+  const sprite = new ActorSprite(
+    'hero',
+    manifest,
+    new Map([['atlas-0', texture]]),
+    manifest.asset.clips.idle!.d45!,
+  );
+  const camera = new OrthographicCamera(),
+    foot = new Vector3(),
+    frame = manifest.frames[0]!;
+  sprite.show(frame.id, foot, camera);
+  const before = [sprite.material, ...(sprite.edgeMaterial ? [sprite.edgeMaterial] : [])].map(
+    (m) => [m.customProgramCacheKey(), m.version],
+  );
+  sprite.show(frame.id, foot, camera, {
+    from: frame.id,
+    to: frame.id,
+    mix: 0.5,
+    motion: false,
+    guarded: true,
+  });
+  assert.deepEqual(
+    [sprite.material, ...(sprite.edgeMaterial ? [sprite.edgeMaterial] : [])].map((m) => [
+      m.customProgramCacheKey(),
+      m.version,
+    ]),
+    before,
+  );
+  sprite.dispose();
+  texture.dispose();
+});
 
 test('failed actor attachment destroys staged resources and leaves no live visual behind', (t) => {
   const sim = new Simulation(content),

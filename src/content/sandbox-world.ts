@@ -41,11 +41,17 @@ export const sandboxDefinitions: ContentDefinitions = {
       id: 'orchard-fixture',
       exits: [],
     },
-    ...(['ruined-forge', 'desecrated-chapel'] as const).map((id, index) => {
+    ...(
+      [
+        ['forest-gathering-clearing', 'clearing-fixture'],
+        ['ruined-forge', 'forge-fixture'],
+        ['desecrated-chapel', 'chapel-fixture'],
+      ] as const
+    ).map(([id, fixture]) => {
       const area = contentDefinitions.areas.find((candidate) => candidate.id === id)!;
       return {
         ...area,
-        id: index === 0 ? 'forge-fixture' : 'chapel-fixture',
+        id: fixture,
         exits: [],
         // Comparison copies cannot duplicate the adventure's unique rewards.
         interactables: area.interactables?.map((object) => ({ ...object, rewards: [] })),

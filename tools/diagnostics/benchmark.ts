@@ -117,9 +117,11 @@ async function main() {
   const first = await read(args[0]!),
     second = await read(args[1]!);
   const compare =
-    [2, 3, 4].includes(first.schemaVersion) || [2, 3, 4].includes(second.schemaVersion)
-      ? (await import('./game-benchmark')).compareGameBenchmarks
-      : compareBenchmarks;
+    first.schemaVersion === 6 || second.schemaVersion === 6
+      ? (await import('./pacing-model')).comparePacing
+      : [2, 3, 4, 5].includes(first.schemaVersion) || [2, 3, 4, 5].includes(second.schemaVersion)
+        ? (await import('./game-benchmark')).compareGameBenchmarks
+        : compareBenchmarks;
   console.log(JSON.stringify(compare(first, second), null, 2));
 }
 runCli(import.meta.url, () => main(), 'message');

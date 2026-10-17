@@ -54,7 +54,7 @@ if (scenario === 'record' || scenario === 'replay' || scenario === 'compare') {
       timeoutMs: 30 * 60_000,
     },
   );
-} else if (scenario === 'walking') {
+} else if (scenario === 'walking' || scenario === 'pacing' || scenario === 'journey') {
   try {
     // The executable contains its assets. Read the pin without acquiring payloads.
     const assets = await workspaceIdentity(flags.includes('--local') ? 'local' : 'pinned');
@@ -63,7 +63,11 @@ if (scenario === 'record' || scenario === 'replay' || scenario === 'compare') {
       [
         '--import',
         'tsx',
-        'tools/diagnostics/walking-benchmark.ts',
+        scenario === 'pacing'
+          ? 'tools/diagnostics/pacing-benchmark.ts'
+          : scenario === 'journey'
+            ? 'tools/diagnostics/pacing-journey.ts'
+            : 'tools/diagnostics/walking-benchmark.ts',
         ...flags.filter((flag) => flag !== '--local'),
       ],
       {
@@ -75,21 +79,24 @@ if (scenario === 'record' || scenario === 'replay' || scenario === 'compare') {
           LANTERN_CACHE_ROOT: cacheRoot() + '-measurements',
           LANTERN_CACHE_BUDGET_GIB: '0.25',
         },
-        timeoutMs: Math.max(
-          1,
-          (flags.includes('--visible') ? 60000 : 27000) - (performance.now() - started),
-        ),
+        timeoutMs:
+          scenario !== 'walking'
+            ? 2 * 60 * 60_000
+            : Math.max(
+                1,
+                (flags.includes('--visible') ? 60000 : 27000) - (performance.now() - started),
+              ),
         shutdownGraceMs: 1000,
       },
     );
   } catch (error) {
     console.error(
-      `Walking measurement did not complete: ${error instanceof Error ? error.message : String(error)}. Retry with a matching package and a free GPU lane.`,
+      `${scenario} measurement did not complete: ${error instanceof Error ? error.message : String(error)}. Retry with a matching package and a free GPU lane.`,
     );
     process.exitCode = 1;
   } finally {
     console.log(
-      `Walking command wall time: ${((performance.now() - started) / 1000).toFixed(2)}s (includes pin lookup, launch and cleanup; packaging is separate).`,
+      `${scenario} command wall time: ${((performance.now() - started) / 1000).toFixed(2)}s (includes pin lookup, launch and cleanup; packaging is separate).`,
     );
   }
 } else if (native.has(scenario)) {
