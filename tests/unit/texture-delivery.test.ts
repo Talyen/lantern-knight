@@ -255,3 +255,39 @@ test('compressed decode owns invalid textures and retires synchronous parser fai
     'Initialization completing after failed shutdown still closes workers',
   );
 });
+
+test('cancelled compressed transports stop before reading or transcoding obsolete bytes', async () => {
+  const canvas = {
+    getContext: () => ({ MAX_TEXTURE_SIZE: 1, getParameter: () => 8192, getExtension: () => null }),
+    ownerDocument: { querySelector: () => null },
+  } as unknown as HTMLCanvasElement;
+  for (const phase of ['response', 'body']) {
+    const controller = new AbortController();
+    let reads = 0;
+    const delivery = new TextureDelivery(canvas, 'delivery', async () => {
+      if (phase === 'response') controller.abort(new Error('obsolete response'));
+      return Object.assign(new Response('abc'), {
+        arrayBuffer: async () => {
+          reads++;
+          controller.abort(new Error('obsolete body'));
+          return new TextEncoder().encode('abc').buffer;
+        },
+      });
+    });
+    using cleanup = onExit(() => delivery.dispose());
+    await assert.rejects(
+      delivery.decode(
+        {
+          url: '/page.ktx2',
+          encoding: 'ktx2-uastc',
+          hash: 'wrong',
+          width: 2,
+          height: 3,
+        },
+        controller.signal,
+      ),
+      /obsolete/,
+    );
+    assert.equal(reads, phase === 'response' ? 0 : 1);
+  }
+});

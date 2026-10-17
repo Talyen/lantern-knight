@@ -127,8 +127,10 @@ export class TextureDelivery {
     try {
       if (page.encoding === 'ktx2-uastc') {
         const response = await this.request(page.url, { signal });
+        signal.throwIfAborted();
         if (!response.ok) throw new Error(`${page.url}: HTTP ${response.status}`);
         const bytes = await response.arrayBuffer();
+        signal.throwIfAborted();
         if ((await sha256(bytes)) !== page.hash) throw new Error(`${page.url}: hash mismatch`);
         signal.throwIfAborted();
         texture = await new Promise<Texture>((resolve, reject) => {

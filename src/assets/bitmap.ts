@@ -14,8 +14,10 @@ export async function verifiedBitmap(
 ) {
   signal?.throwIfAborted();
   const response = await request(url, { signal });
+  signal?.throwIfAborted();
   if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
   const bytes = await response.arrayBuffer();
+  signal?.throwIfAborted();
   if ((await sha256(bytes)) !== expected.hash) throw new Error(`${url}: hash mismatch`);
   signal?.throwIfAborted();
   const bitmap = await startupStage('image-decode', () =>

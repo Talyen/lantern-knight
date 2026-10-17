@@ -223,3 +223,18 @@ test('CI accounts for every browser suite and runs development lifetime regressi
   assert.throws(() => ciDevelopmentFiles([...files, 'unclassified.spec.ts'], false), /no CI tier/);
   assert.throws(() => ciDevelopmentFiles([...files, 'unclassified.spec.ts'], true), /no CI tier/);
 });
+
+test('repeated global mocks restore original descriptors and remove newly introduced globals', async (t) => {
+  const { mockGlobals } = await import('../fixtures/globals');
+  const before = Object.getOwnPropertyDescriptor(globalThis, 'fetch');
+  const absent = '__lantern_mock_fixture__';
+  assert.equal(Object.hasOwn(globalThis, absent), false);
+  await t.test('mocked lifetime', (scope) => {
+    mockGlobals(scope, { fetch: 'first', [absent]: 1 });
+    mockGlobals(scope, { fetch: 'second', [absent]: 2 });
+    assert.equal(Reflect.set(globalThis, absent, 3), true);
+    assert.equal(Reflect.get(globalThis, absent), 3);
+  });
+  assert.deepEqual(Object.getOwnPropertyDescriptor(globalThis, 'fetch'), before);
+  assert.equal(Object.hasOwn(globalThis, absent), false);
+});

@@ -89,7 +89,7 @@ export class AssetRuntime {
     this.assertActive();
     let promise = this.manifests.get(id);
     if (!promise) {
-      const path = this.catalog[id];
+      const path = Object.hasOwn(this.catalog, id) ? this.catalog[id] : undefined;
       if (!path) throw new Error(`unknown asset ${id}`);
       promise = Promise.resolve()
         .then(() => {
@@ -114,8 +114,7 @@ export class AssetRuntime {
   }
   seedManifest(id: string, data: unknown) {
     this.assertActive();
-    const file = this.catalog[id];
-    if (!file) return;
+    if (!Object.hasOwn(this.catalog, id)) return;
     this.manifests.set(id, Promise.resolve(this.acceptManifest(id, data)));
   }
   private acceptManifest(id: string, data: unknown): Manifest {
@@ -213,18 +212,20 @@ export class AssetRuntime {
     const flags = await readUntilAborted(response.json(), signal);
     signal.throwIfAborted();
     const byteSource = new AssetByteSource(flags.assetBundles);
-    const delivery = canvas
-      ? new TextureDelivery(
-          canvas,
-          new URLSearchParams(location.search).get('images') === 'source' ? 'source' : quality,
-          byteSource.request,
-          prepareTexture,
-        )
-      : undefined;
-    const runtime = new AssetRuntime(catalog, byteSource.request, undefined, undefined, delivery);
-    runtime.byteSource = byteSource;
-    runtime.libraryInventory = flags.libraryInventory === true;
+    let delivery: TextureDelivery | undefined;
+    let runtime: AssetRuntime | undefined;
     try {
+      delivery = canvas
+        ? new TextureDelivery(
+            canvas,
+            new URLSearchParams(location.search).get('images') === 'source' ? 'source' : quality,
+            byteSource.request,
+            prepareTexture,
+          )
+        : undefined;
+      runtime = new AssetRuntime(catalog, byteSource.request, undefined, undefined, delivery);
+      runtime.byteSource = byteSource;
+      runtime.libraryInventory = flags.libraryInventory === true;
       signal.throwIfAborted();
       runtime.registration = await startupStage('registration', async () => {
         const registration = await readUntilAborted(
@@ -242,7 +243,10 @@ export class AssetRuntime {
       signal.throwIfAborted();
       return runtime;
     } catch (error) {
-      cleanupAfterFailure(error, () => runtime.dispose());
+      cleanupAfterFailure(error, () => {
+        if (runtime) runtime.dispose();
+        else cleanupAll([() => delivery?.dispose(), () => byteSource.dispose()]);
+      });
     }
   }
 }

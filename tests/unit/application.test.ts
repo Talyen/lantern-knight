@@ -2,7 +2,6 @@ import { forgeFixture, supplyForge } from '../fixtures/forge';
 import type { GameSave } from '../../src/core/save';
 import { onExit } from '../../tools/scope-exit';
 import { mockGlobals } from '../fixtures/globals';
-import { ResourcePool } from '../../src/assets/resource-pool';
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { Application } from '../../src/application';
@@ -19,29 +18,6 @@ import { tuning } from '../../src/content/gameplay';
 beforeEach((t) => {
   assert.ok('after' in t);
   mockGlobals(t, { window: new EventTarget(), document: new EventTarget() });
-});
-
-test('resolved zero and empty resource handles dispose once and can be acquired again', async () => {
-  for (const value of [0, undefined]) {
-    let loaded = 0;
-    const disposed: unknown[] = [],
-      pool = new ResourcePool(
-        async () => {
-          loaded++;
-          return value;
-        },
-        (value) => disposed.push(value),
-      );
-    const first = await pool.acquire(['handle', 'handle']);
-    first.release();
-    first.release();
-    assert.deepEqual(disposed, [value]);
-    assert.equal(pool.size, 0);
-    const second = await pool.acquire(['handle']);
-    assert.equal(loaded, 2);
-    second.release();
-    assert.deepEqual(disposed, [value, value]);
-  }
 });
 
 function runtime(loadPack: AssetRuntime['loadPack']) {
@@ -1733,28 +1709,6 @@ test('shutdown drains all owners after UI, renderer and lease failures and canno
   assert.equal(calls.length, 6);
 });
 
-test('resource pool closes every loaded resource despite destructor failure, including late decodes', async () => {
-  const late = Promise.withResolvers<string>(),
-    destroyed: string[] = [];
-  const pool = new ResourcePool(
-    (id) => (id === 'late' ? late.promise : Promise.resolve(id)),
-    (id) => {
-      destroyed.push(id);
-      if (id === 'broken') throw new Error('texture listener failed');
-    },
-  );
-  const held = await pool.acquire(['broken', 'peer']);
-  const pending = pool.acquire(['late']);
-  assert.throws(() => pool.dispose(), /texture listener failed/);
-  assert.equal(pool.size, 0);
-  assert.deepEqual(destroyed, ['broken', 'peer']);
-  late.resolve('late');
-  await assert.rejects(pending, /disposed/);
-  held.release();
-  pool.dispose();
-  assert.deepEqual(destroyed, ['broken', 'peer', 'late']);
-});
-
 test('failed startup retains its original cause while draining a failed cleanup', async () => {
   const { app } = fixture();
   const primary = new Error('catalog unavailable'),
@@ -1786,36 +1740,6 @@ test('failed startup retains its original cause while draining a failed cleanup'
   assert.equal(closed, 1);
   app.dispose();
   assert.equal(closed, 1);
-});
-
-test('cancelling a pool acquisition reports destructor errors through its promise and drains peers', async () => {
-  const late = Promise.withResolvers<string>(),
-    destroyed: string[] = [];
-  const controller = new AbortController();
-  const failure = new Error('texture cleanup');
-  const pool = new ResourcePool(
-    (id) => (id === 'late' ? late.promise : Promise.resolve(id)),
-    (id) => {
-      destroyed.push(id);
-      if (id === 'broken') throw failure;
-    },
-  );
-  const ready = Promise.withResolvers<void>();
-  const pending = pool.acquire(['broken', 'peer', 'late'], controller.signal, (done) => {
-    if (done === 2) ready.resolve();
-  });
-  await ready.promise;
-  controller.abort();
-  assert.deepEqual(destroyed, ['broken', 'peer']);
-  assert.equal(pool.size, 0);
-  late.resolve('late');
-  await assert.rejects(pending, (error: unknown) => {
-    assert.ok(error instanceof AggregateError);
-    assert.equal(error.errors[1], failure);
-    return true;
-  });
-  assert.deepEqual(destroyed, ['broken', 'peer', 'late']);
-  pool.dispose();
 });
 
 test('health pickup commits an autosaved checkpoint including its consumed identity', async () => {

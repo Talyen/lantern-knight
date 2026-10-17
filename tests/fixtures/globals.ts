@@ -1,12 +1,22 @@
 import type { TestContext } from 'node:test';
 
-export function mockGlobals(t: Pick<TestContext, 'after'>, values: Record<string, unknown>) {
-  for (const [key, value] of Object.entries(values)) {
-    const previous = Object.getOwnPropertyDescriptor(globalThis, key);
+type Scope = Pick<TestContext, 'after'>;
+const originals = new WeakMap<Scope, Map<string, PropertyDescriptor | undefined>>();
+
+export function mockGlobals(t: Scope, values: Record<string, unknown>) {
+  const saved = originals.get(t) ?? new Map<string, PropertyDescriptor | undefined>();
+  if (!originals.has(t)) {
+    originals.set(t, saved);
     t.after(() => {
-      if (previous) Object.defineProperty(globalThis, key, previous);
-      else Reflect.deleteProperty(globalThis, key);
+      for (const [key, previous] of saved) {
+        if (previous) Object.defineProperty(globalThis, key, previous);
+        else Reflect.deleteProperty(globalThis, key);
+      }
+      originals.delete(t);
     });
-    Object.defineProperty(globalThis, key, { configurable: true, value });
+  }
+  for (const [key, value] of Object.entries(values)) {
+    if (!saved.has(key)) saved.set(key, Object.getOwnPropertyDescriptor(globalThis, key));
+    Object.defineProperty(globalThis, key, { configurable: true, writable: true, value });
   }
 }

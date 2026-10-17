@@ -71,11 +71,22 @@ export class AssetByteSource {
   readonly request: typeof fetch = async (input, init) => {
     this.lifetime.signal.throwIfAborted();
     const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
-    const file = this.files.get(url);
-    const signal = AbortSignal.any([this.lifetime.signal, ...(init?.signal ? [init.signal] : [])]);
+    const resolved = typeof location === 'undefined' ? undefined : new URL(url, location.href);
+    const file = this.files.get(
+      resolved && resolved.protocol === location.protocol && resolved.host === location.host
+        ? resolved.pathname
+        : url,
+    );
+    const requestSignal =
+      init?.signal === undefined && input instanceof Request ? input.signal : init?.signal;
+    const signal = AbortSignal.any([
+      this.lifetime.signal,
+      ...(requestSignal ? [requestSignal] : []),
+    ]);
     signal.throwIfAborted();
     if (!file) return this.transport(input, { ...init, signal });
-    if (init?.method && init.method !== 'GET') throw new Error('Runtime assets require GET');
+    const method = init?.method ?? (input instanceof Request ? input.method : 'GET');
+    if (method.toUpperCase() !== 'GET') throw new Error('Runtime assets require GET');
     const held = await this.cache.acquire(
       file.bundle.path,
       (signal) => this.download(file.bundle, signal),

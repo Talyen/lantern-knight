@@ -325,31 +325,103 @@ test('manifest admission shares reentrant transport and stale failures preserve 
   assert.equal(requests, 1);
 });
 
-test('runtime shutdown settles metadata readers while ignored transport remains observed', async () => {
-  const response = Promise.withResolvers<Response>(),
-    started = Promise.withResolvers<void>();
-  const runtime = new AssetRuntime({ hero: 'generated/hero.json' }, () => {
-    started.resolve();
-    return response.promise;
+test(
+  'runtime shutdown closes active packs, pending manifests and decodes, and rejects reuse',
+  { timeout: 2000 },
+  async () => {
+    const manifest = manifestFixture();
+    let respond!: (response: Response) => void,
+      finish!: (texture: Texture) => void,
+      requests = 0,
+      decoded = 0;
+    const destroyed: Texture[] = [],
+      runtime = new AssetRuntime(
+        { live: 'generated/live.json', late: 'generated/late.json' },
+        () => {
+          requests++;
+          return new Promise<Response>((resolve) => {
+            respond = resolve;
+          });
+        },
+        () => {
+          decoded++;
+          return new Promise<Texture>((resolve) => {
+            finish = resolve;
+          });
+        },
+        (texture) => destroyed.push(texture),
+      );
+    manifest.asset.id = 'live';
+    runtime.seedManifest('live', manifest);
+    const live = runtime.loadPack('live');
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    const first = new Texture();
+    finish(first);
+    const held = await live;
+    // Use a distinct page so this acquisition is still decoding at shutdown.
+    const next = structuredClone(manifest);
+    next.pages[0]!.hash = 'e'.repeat(64);
+    runtime.seedManifest('live', next);
+    const pending = runtime.loadPack('live'),
+      lateManifest = runtime.loadPack('late');
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    runtime.dispose();
+    runtime.dispose();
+    assert.deepEqual(destroyed, [first]);
+    await assert.rejects(lateManifest, /disposed/);
+    assert.equal(Reflect.get(runtime, 'pages').size, 0);
+    const second = new Texture();
+    finish(second);
+    respond(new Response(JSON.stringify(manifest)));
+    await assert.rejects(pending, /disposed/);
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(Reflect.get(runtime, 'pages').size, 0, 'Late metadata cannot revive registration');
+    held.release();
+    assert.deepEqual(destroyed, [first, second]);
+    assert.equal(runtime.resourceCount, 0);
+    await assert.rejects(runtime.loadPack('live'), /disposed/);
+    await assert.rejects(runtime.loadPacks([]), /disposed/);
+    await assert.rejects(runtime.manifest('late'), /disposed/);
+    assert.throws(() => runtime.seedManifest('live', manifest), /disposed/);
+    assert.equal(requests, 1);
+    assert.equal(decoded, 2);
+  },
+);
+test('catalog lookups admit only owned asset IDs, including explicitly registered prototype names', async () => {
+  let requests = 0;
+  const runtime = new AssetRuntime({}, async () => {
+    requests++;
+    assert.fail('Unexpected manifest transport');
   });
-  const pending = runtime.manifest('hero');
-  const settled = pending.then(
-    () => false,
-    () => true,
-  );
-  await started.promise;
+  for (const id of ['constructor', 'toString', '__proto__']) {
+    await assert.rejects(runtime.manifest(id), /unknown asset/);
+    runtime.seedManifest(id, manifestFixture());
+  }
+  assert.equal(requests, 0);
   runtime.dispose();
-  assert.equal(
-    await Promise.race([settled, new Promise((resolve) => setImmediate(() => resolve(false)))]),
-    true,
-    'Retired metadata readers must not wait for transport',
-  );
-  response.resolve(new Response(JSON.stringify(manifestFixture('hero'))));
-  await assert.rejects(pending, /disposed/);
-  await new Promise<void>((resolve) => setImmediate(resolve));
-  assert.equal(
-    Reflect.get(runtime, 'pages').size,
-    0,
-    'Late metadata cannot revive page registration',
-  );
+  const registered = new AssetRuntime({ constructor: 'generated/constructor.json' });
+  registered.seedManifest('constructor', manifestFixture('constructor'));
+  assert.equal((await registered.manifest('constructor')).asset.id, 'constructor');
+  registered.dispose();
+});
+
+test('runtime opening closes staged owners when graphics or catalog construction fails', async (t) => {
+  mockGlobals(t, { fetch: async () => Response.json({}), location: { search: '' } });
+  const sourceDisposal = t.mock.method(AssetByteSource.prototype, 'dispose');
+  const deliveryDisposal = t.mock.method(TextureDelivery.prototype, 'dispose');
+  for (const graphics of [false, true]) {
+    const canvas = {
+      getContext: () =>
+        graphics
+          ? { MAX_TEXTURE_SIZE: 1, getParameter: () => 8192, getExtension: () => null }
+          : null,
+      ownerDocument: { querySelector: () => null },
+    } as unknown as HTMLCanvasElement;
+    await assert.rejects(
+      AssetRuntime.open({ invalid: '../catalog.json' }, canvas),
+      graphics ? /invalid local asset catalog/ : /WebGL 2 is unavailable/,
+    );
+    assert.equal(sourceDisposal.mock.callCount(), graphics ? 2 : 1);
+    assert.equal(deliveryDisposal.mock.callCount(), graphics ? 1 : 0);
+  }
 });

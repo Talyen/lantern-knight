@@ -1,3 +1,4 @@
+import { mockGlobals } from '../fixtures/globals';
 import { onAsyncExit } from '../../tools/scope-exit';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -5,7 +6,8 @@ import { runtimeBundles } from '../../tools/build-runtime-delivery';
 import { AssetByteSource } from '../../src/assets/byte-source';
 import { DecodeQueue } from '../../src/assets/decode-queue';
 
-test('bundled prepared images retain exact bytes, deduplicate transport and isolate read cancellation', async () => {
+test('bundled prepared images retain exact bytes, deduplicate transport and isolate read cancellation', async (t) => {
+  mockGlobals(t, { location: new URL('https://game.test/index.html') });
   const images = new Map([
     ['lighting/first.png', Buffer.from('first PNG')],
     ['lighting/second.png', Buffer.from('second PNG')],
@@ -20,9 +22,11 @@ test('bundled prepared images retain exact bytes, deduplicate transport and isol
     return transport.promise;
   });
   const cancelled = new AbortController();
-  const first = source.request('/lighting/first.png', { signal: cancelled.signal });
+  const first = source.request(
+    new Request('https://game.test/lighting/first.png', { signal: cancelled.signal }),
+  );
   const rejected = assert.rejects(first, /cancelled/);
-  const second = source.request('/lighting/second.png');
+  const second = source.request(new URL('https://game.test/lighting/second.png'));
   cancelled.abort(new Error('cancelled'));
   transport.resolve(new Response(new Uint8Array(Object.values(built.binary)[0]!)));
   await rejected;
@@ -187,3 +191,42 @@ test('cancelled queued decodes settle without waiting for active work or startin
   assert.equal(obsoleteStarts, 0);
   queue.dispose();
 });
+
+for (const origin of ['https://game.test', 'lantern://app']) {
+  test(`${origin} bundled requests respect method overrides and leave other origins to transport`, async (t) => {
+    mockGlobals(t, { location: new URL(origin + '/index.html') });
+    const built = await runtimeBundles(new Map([['hero', new Set(['lighting/a.png'])]]), async () =>
+      Buffer.from('a'),
+    );
+    const requested: string[] = [];
+    const source = new AssetByteSource(built.bundles, async (url) => {
+      requested.push(url instanceof Request ? url.url : url.toString());
+      return new Response('a');
+    });
+    t.after(() => source.dispose());
+    const post = new Request(origin + '/lighting/a.png', { method: 'POST' });
+    await assert.rejects(source.request(post), /require GET/);
+    assert.deepEqual(requested, []);
+    assert.equal(await (await source.request(post, { method: 'get' })).text(), 'a');
+    assert.equal(requested[0], '/' + built.bundles[0]!.path);
+    await source.request('https://other.test/lighting/a.png');
+    assert.equal(requested[1], 'https://other.test/lighting/a.png');
+    await source.request('lantern://other/lighting/a.png');
+    assert.equal(requested[2], 'lantern://other/lighting/a.png');
+    const cancelled = new AbortController();
+    cancelled.abort(new Error('request cancelled'));
+    await assert.rejects(
+      source.request(new Request(post, { method: 'GET', signal: cancelled.signal })),
+      /request cancelled/,
+    );
+    assert.equal(
+      await (
+        await source.request(new Request(post, { signal: cancelled.signal }), {
+          method: 'GET',
+          signal: null,
+        })
+      ).text(),
+      'a',
+    );
+  });
+}

@@ -60,13 +60,13 @@ export class NormalLibrary {
       return sum + image.width * image.height * 4;
     }, 0);
   }
-  private disposed = false;
   private readonly lifetime = new AbortController();
   private readonly decodes = new DecodeQueue(8);
   private inventory?: Promise<void>;
   private pending = Promise.resolve();
   load(assets: Iterable<string>, signal?: AbortSignal) {
-    if (this.disposed) return Promise.reject(new Error('lighting companions disposed'));
+    if (this.lifetime.signal.aborted)
+      return Promise.reject(new Error('lighting companions disposed'));
     const selected = [...assets],
       lifetime = signal ? AbortSignal.any([signal, this.lifetime.signal]) : this.lifetime.signal;
     const operation = this.pending.then(() => this.loadSelected(selected, lifetime));
@@ -77,6 +77,13 @@ export class NormalLibrary {
   }
   private async loadSelected(assets: Iterable<string>, signal: AbortSignal) {
     signal.throwIfAborted();
+    const selected = new Set(assets);
+    if (!selected.size) {
+      const previous = this.current;
+      this.current = { textures: new Map(), release: () => {} };
+      previous.release();
+      return;
+    }
     this.inventory ??= (async () => {
       const response = await this.request('/lighting/manifest.json', {
         signal: this.lifetime.signal,
@@ -93,7 +100,6 @@ export class NormalLibrary {
     });
     await readUntilAborted(this.inventory, signal);
     signal.throwIfAborted();
-    const selected = new Set(assets);
     const keys = Object.keys(this.entries).filter((key) => selected.has(key.split(':')[0]!));
     // Failed staging revokes sibling claims immediately. The accepted selection
     // has independent claims and stays available while late native work drains.
@@ -121,8 +127,7 @@ export class NormalLibrary {
     return this.current.textures.get(key);
   }
   dispose() {
-    if (this.disposed) return;
-    this.disposed = true;
+    if (this.lifetime.signal.aborted) return;
     this.current = { textures: new Map(), release: () => {} };
     this.lifetime.abort();
     cleanupAll([() => this.decodes.dispose(), () => this.pool.dispose()]);

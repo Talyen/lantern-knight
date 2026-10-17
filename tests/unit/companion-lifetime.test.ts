@@ -8,129 +8,95 @@ import { mockGlobals } from '../fixtures/globals';
 
 const hash = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad';
 
-test('failed normal batches retire staging and admit recovery while a native decode remains pending', async (t) => {
-  const decoding = Promise.withResolvers<void>(),
-    late = Promise.withResolvers<ImageBitmap>(),
-    closed: string[] = [];
-  const bitmap = (id: string) =>
-    ({ width: 2, height: 3, close: () => closed.push(id) }) as ImageBitmap;
-  let decodes = 0;
-  mockGlobals(t, {
-    createImageBitmap: async () => {
-      if (++decodes === 2) {
-        decoding.resolve();
-        return late.promise;
-      }
-      return bitmap(String(decodes));
-    },
-  });
-  const library = new NormalLibrary(async (url) => {
-    const file = url instanceof Request ? url.url : url.toString();
-    if (file.endsWith('manifest.json'))
-      return Response.json({
-        recipe: 'alpha-volume-v1',
-        entries: Object.fromEntries(
-          ['current', 'late', 'missing', 'recovery'].map((id) => [
-            id + ':pose',
-            { file: id + '.png', hash, width: 2, height: 3 },
-          ]),
-        ),
+for (const cancelled of [false, true]) {
+  test(
+    `${cancelled ? 'cancelled' : 'failed'} normal staging releases peers and admits recovery before native decode settles`,
+    { timeout: 2000 },
+    async (t) => {
+      const decoding = Promise.withResolvers<void>(),
+        late = Promise.withResolvers<ImageBitmap>(),
+        closed: string[] = [],
+        abort = new AbortController();
+      const bitmap = (id: string) =>
+        ({ width: 2, height: 3, close: () => closed.push(id) }) as ImageBitmap;
+      let decodes = 0,
+        requests = 0;
+      mockGlobals(t, {
+        createImageBitmap: async () => {
+          if (++decodes === 3) {
+            decoding.resolve();
+            return late.promise;
+          }
+          return bitmap(String(decodes));
+        },
       });
-    if (file.endsWith('missing.png')) {
+      const library = new NormalLibrary(async (url) => {
+        requests++;
+        const file = url instanceof Request ? url.url : url.toString();
+        if (file.endsWith('manifest.json'))
+          return Response.json({
+            recipe: 'alpha-volume-v1',
+            entries: Object.fromEntries(
+              ['current', 'staged', 'late', 'missing', 'recovery'].map((id) => [
+                id + ':pose',
+                { file: id + '.png', hash, width: 2, height: 3 },
+              ]),
+            ),
+          });
+        if (file.endsWith('missing.png')) {
+          await decoding.promise;
+          return new Response('', { status: 503 });
+        }
+        return new Response('abc');
+      });
+      t.after(() => {
+        library.dispose();
+        late.resolve(bitmap('late'));
+      });
+      await library.load([]);
+      assert.equal(requests, 0, 'An empty selection requires no companion manifest');
+      await library.load(['current']);
+      const current = library.textures.get('current:pose');
+      const pending = library.load(
+        cancelled ? ['staged', 'late'] : ['staged', 'late', 'missing'],
+        abort.signal,
+      );
+      const rejected = assert.rejects(pending, cancelled ? /obsolete/ : /HTTP 503/);
       await decoding.promise;
-      return new Response('', { status: 503 });
-    }
-    return new Response('abc');
-  });
-  t.after(() => {
-    library.dispose();
-    late.resolve(bitmap('late'));
-  });
-  await library.load(['current']);
-  const current = library.textures.get('current:pose');
-  let failed = false;
-  const failure = assert.rejects(library.load(['late', 'missing']), /HTTP 503/).then(() => {
-    failed = true;
-  });
-  await decoding.promise;
-  await new Promise<void>((resolve) => setImmediate(resolve));
-  assert.equal(failed, true, 'One failed companion must retire its unfinished peers');
-  await failure;
-  assert.equal(library.textures.get('current:pose'), current);
-  await library.load(['recovery']);
-  const recovery = library.textures.get('recovery:pose');
-  late.resolve(bitmap('late'));
-  await new Promise<void>((resolve) => setImmediate(resolve));
-  assert.equal(library.textures.get('recovery:pose'), recovery);
-  assert.deepEqual(closed, ['1', 'late']);
-});
-
-test('cancelled normal selections release staging and unblock recovery before native decode settles', async (t) => {
-  const decoding = Promise.withResolvers<void>(),
-    late = Promise.withResolvers<ImageBitmap>(),
-    closed: number[] = [];
-  let decodes = 0;
-  const bitmap = (id: number) =>
-    ({ width: 2, height: 3, close: () => closed.push(id) }) as unknown as ImageBitmap;
-  mockGlobals(t, {
-    fetch: async (url: string) =>
-      url.endsWith('manifest.json')
-        ? new Response(
-            JSON.stringify({
-              recipe: 'alpha-volume-v1',
-              entries: Object.fromEntries(
-                ['current', 'staged', 'late', 'recovery'].map((id) => [
-                  id + ':pose',
-                  { file: id + '.png', hash, width: 2, height: 3 },
-                ]),
-              ),
-            }),
-          )
-        : new Response('abc'),
-    createImageBitmap: async () => {
-      const id = ++decodes;
-      if (id === 3) {
-        decoding.resolve();
-        return late.promise;
+      if (cancelled) {
+        const queuedAbort = new AbortController();
+        const queued = assert.rejects(
+          library.load(['current'], queuedAbort.signal),
+          /queued obsolete/,
+        );
+        queuedAbort.abort(new Error('queued obsolete'));
+        await queued;
+        abort.abort(new Error('obsolete'));
       }
-      return bitmap(id);
+      await rejected;
+      assert.deepEqual(
+        closed,
+        ['2'],
+        'Completed staging releases while the accepted room stays live',
+      );
+      assert.equal(library.textures.get('current:pose'), current);
+      await library.load(['recovery']);
+      const recovery = library.textures.get('recovery:pose');
+      assert.ok(recovery);
+      assert.equal(library.bytes, 24);
+      late.resolve(bitmap('late'));
+      await new Promise<void>((resolve) => setImmediate(resolve));
+      assert.deepEqual(closed, ['2', '1', 'late']);
+      assert.equal(library.textures.get('recovery:pose'), recovery);
+      await library.load([]);
+      assert.equal(library.bytes, 0);
+      assert.equal(library.textures.size, 0);
+      assert.deepEqual(closed, ['2', '1', 'late', '4']);
+      library.dispose();
+      await assert.rejects(library.load([]), /disposed/);
     },
-  });
-  const library = new NormalLibrary(),
-    abort = new AbortController();
-  t.after(() => {
-    abort.abort();
-    late.resolve(bitmap(3));
-    library.dispose();
-  });
-  await library.load(['current']);
-  const current = library.textures.get('current:pose');
-  let settled = false;
-  const pending = library.load(['staged', 'late'], abort.signal);
-  const rejected = assert.rejects(pending, /obsolete/).then(() => {
-    settled = true;
-  });
-  await decoding.promise;
-  const queuedAbort = new AbortController(),
-    queued = assert.rejects(library.load(['current'], queuedAbort.signal), /queued obsolete/);
-  queuedAbort.abort(new Error('queued obsolete'));
-  await queued;
-  abort.abort(new Error('obsolete'));
-  await new Promise<void>((resolve) => setImmediate(resolve));
-  assert.equal(settled, true, 'Cancellation must not wait for a native decoder');
-  await rejected;
-  assert.deepEqual(closed, [2], 'Release completed staging without retiring the accepted room');
-  assert.equal(library.textures.get('current:pose'), current);
-  await library.load(['recovery']);
-  const recovery = library.textures.get('recovery:pose');
-  assert.ok(recovery);
-  assert.equal(library.bytes, 24);
-  late.resolve(bitmap(3));
-  await new Promise<void>((resolve) => setImmediate(resolve));
-  assert.deepEqual(closed, [2, 1, 3]);
-  assert.equal(library.textures.get('recovery:pose'), recovery);
-  assert.equal(library.textures.size, 1);
-});
+  );
+}
 
 test('animation flow shares repeated acquisitions and releases its bitmap once', async (t) => {
   let fetches = 0,
