@@ -5,7 +5,7 @@ import { heroLanternPosition, heroSwordPosition } from './hero-lantern';
 import { flareLightEnvelope } from '../content/ability-effects';
 import { tuning } from '../content/gameplay';
 import { ActorSprite } from './sprite';
-import { combatFeedback as settings } from '../content/combat-feedback';
+import { combatFeedback as settings, combatEffectAssets } from '../content/combat-feedback';
 import {
   defaultSweepTiming,
   sweepEffectTiming,
@@ -38,6 +38,7 @@ export class CombatFeedback {
   readonly flareLight = { position: new T.Vector3(), power: 0, range: 7 };
   private pulse: { tick: number; generation: number; action: number } | undefined;
   private active: ActiveEffect[] = [];
+  private prepared = new Map<string, ActorSprite>();
   private pending: (GameplayEvent & { kind: 'damage' })[] = [];
   private generation = -1;
   private castTag = '';
@@ -51,6 +52,24 @@ export class CombatFeedback {
       if (event.kind === 'damage' && event.amount > 0 && event.phase !== 'over-time')
         this.pending.push(event);
     });
+  }
+  prepare() {
+    // Retain an invisible representative of each effect through the lifetime of
+    // the presentation. compileAsync includes invisible meshes, and their live
+    // material references keep Three from retiring programs between bursts.
+    for (const asset of combatEffectAssets) {
+      if (this.prepared.has(asset)) continue;
+      const pack = this.packs.get(asset);
+      if (!pack) throw new Error(`Combat feedback asset not acquired: ${asset}`);
+      const clip = Object.values(pack.manifest.asset.clips).flatMap((headings) =>
+        Object.values(headings),
+      )[0]!;
+      const sprite = new ActorSprite(`prepared:${asset}`, pack.manifest, pack.textures, clip);
+      this.prepared.set(asset, sprite);
+      this.group.add(sprite.mesh);
+      sprite.show(clip.frames[0]!, new T.Vector3(), this.camera);
+      sprite.mesh.visible = false;
+    }
   }
   private emit(
     asset: string,
@@ -276,6 +295,8 @@ export class CombatFeedback {
   dispose() {
     this.unsubscribe();
     this.reset();
+    for (const sprite of this.prepared.values()) sprite.dispose();
+    this.prepared.clear();
     this.group.removeFromParent();
   }
 }

@@ -505,6 +505,7 @@ export class GamePresentation implements PresentationLifecycle {
   async warm() {
     await this.lookRenderer.prepare();
     if (this.disposed) throw new Error('presentation disposed');
+    this.combatFeedback.prepare();
     for (const pack of this.packs.values()) this.warmPack(pack);
     await this.renderer.compileAsync(this.scene, this.camera);
     if (this.disposed) throw new Error('presentation disposed');

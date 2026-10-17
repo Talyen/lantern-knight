@@ -392,6 +392,10 @@ export function createGameUI(root: HTMLElement) {
 
   return {
     bind,
+    prepare() {
+      if (closed || !application) throw new Error('Game UI is not active');
+      return createItemArtwork(application.runtime, lifetime.signal).prepare();
+    },
     failure(message: string) {
       $('#startup-error-detail').textContent = message;
       $('#startup-error').hidden = false;

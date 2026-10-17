@@ -25,6 +25,35 @@ import { ContentRegistry, type ContentDefinitions } from '../../src/content/worl
 import { actors as actorDefinitions } from '../../src/content/actors';
 import { ActorSprite } from '../../src/presentation/sprite';
 import { SceneLightingRenderer } from '../../src/presentation/scene-lighting-renderer';
+import { CombatFeedback } from '../../src/presentation/combat-feedback';
+import { combatEffectAssets } from '../../src/content/combat-feedback';
+
+test('combat shader representatives stay invisible and survive room resets until presentation disposal', () => {
+  const texture = new CanvasTexture({} as HTMLCanvasElement),
+    manifest = manifestFixture();
+  manifest.asset.type = 'effect';
+  const packs = new Map(
+    combatEffectAssets.map((asset) => [
+      asset,
+      { manifest, textures: new Map([['atlas-0', texture]]) },
+    ]),
+  );
+  const feedback = new CombatFeedback(packs, new OrthographicCamera(), new EventHub());
+  feedback.prepare();
+  const representatives = [...feedback.group.children];
+  assert.equal(representatives.length, combatEffectAssets.length);
+  assert.ok(representatives.every((mesh) => !mesh.visible));
+  feedback.prepare();
+  feedback.reset();
+  assert.deepEqual(feedback.group.children, representatives);
+  let retired = 0;
+  for (const mesh of representatives)
+    (mesh as Mesh<BufferGeometry, Material>).material.addEventListener('dispose', () => retired++);
+  feedback.dispose();
+  assert.equal(retired, representatives.length);
+  assert.equal(feedback.group.children.length, 0);
+  texture.dispose();
+});
 
 test('companion GPU uploads finish before readiness and stop borrowing after cancellation or disposal', async () => {
   const textures = [{}, {}],
@@ -144,6 +173,7 @@ test('shader preparation cannot resume borrowing scenery after presentation shut
     resources: new DisposalScope(),
     packs: new Map(),
     lookRenderer: { prepare: async () => {} },
+    combatFeedback: { prepare: () => {} },
     renderer: {
       compileAsync: () => {
         started.resolve();

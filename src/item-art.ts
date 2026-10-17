@@ -1,25 +1,43 @@
 import { html } from './dom';
-import { itemArt, itemArtCrops } from './content/item-art';
+import {
+  itemArt,
+  itemArtCrops,
+  forgeArtwork,
+  forgeAnvilArtwork,
+  interfaceFrameArtwork,
+} from './content/item-art';
 import type { AssetRuntime } from './assets/loader';
 import { verifiedBitmap } from './assets/bitmap';
 import { readUntilAborted } from './assets/abort';
 
-export function createItemArtwork(runtime: AssetRuntime, signal: AbortSignal) {
+type ItemArtwork = ((id: string, className?: string) => HTMLElement) & {
+  prepare(): Promise<void>;
+};
+const lifetimes = new WeakMap<AbortSignal, Map<AssetRuntime, ItemArtwork>>();
+
+export function createItemArtwork(runtime: AssetRuntime, signal: AbortSignal): ItemArtwork {
+  signal.throwIfAborted();
+  let scope = lifetimes.get(signal);
+  if (!scope) lifetimes.set(signal, (scope = new Map()));
+  const existing = scope.get(runtime);
+  if (existing) return existing;
   const drawings = new Map<string, Promise<string>>();
   const urls = new Set<string>();
   signal.addEventListener(
     'abort',
     () => {
       drawings.clear();
+      scope.delete(runtime);
       for (const url of urls) URL.revokeObjectURL(url);
       urls.clear();
     },
     { once: true },
   );
   function source(id: string) {
+    signal.throwIfAborted();
     const asset = itemArt[id] ?? id;
     const crop = itemArtCrops[id];
-    const key = id;
+    const key = asset + JSON.stringify(crop ?? []);
     let pending = drawings.get(key);
     if (!pending) {
       pending = (async () => {
@@ -104,7 +122,7 @@ export function createItemArtwork(runtime: AssetRuntime, signal: AbortSignal) {
     }
     return pending;
   }
-  return (id: string, className = '') => {
+  const artwork = (id: string, className = '') => {
     const wrapper = html`<span class="item-art ${className}" aria-hidden="true"></span>`;
     void source(id)
       .then((url) => {
@@ -123,4 +141,21 @@ export function createItemArtwork(runtime: AssetRuntime, signal: AbortSignal) {
       });
     return wrapper;
   };
+  const prepared = Object.assign(artwork, {
+    async prepare() {
+      // Serial preparation bounds decoded image memory and moves canvas
+      // readback/alpha trimming under the startup cover, before player input.
+      for (const id of [
+        ...Object.keys(itemArt),
+        forgeArtwork,
+        forgeAnvilArtwork,
+        interfaceFrameArtwork,
+      ]) {
+        signal.throwIfAborted();
+        await source(id).catch(() => signal.throwIfAborted());
+      }
+    },
+  });
+  scope.set(runtime, prepared);
+  return prepared;
 }
