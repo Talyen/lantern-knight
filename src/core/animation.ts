@@ -37,6 +37,9 @@ export function retimeClip(clip: Clip, holds: readonly number[]): Clip {
     ...clip,
     durationsMs: [...holds],
     notifies: clip.notifies.map((notify) => ({ ...notify, atMs: remap(notify.atMs) })),
+    ...(clip.markers
+      ? { markers: clip.markers.map((marker) => ({ ...marker, atMs: remap(marker.atMs) })) }
+      : {}),
   };
 }
 export class Animator {

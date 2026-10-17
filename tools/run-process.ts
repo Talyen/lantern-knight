@@ -26,6 +26,7 @@ export async function runProcess(
         ? ['ignore', 'pipe', 'pipe']
         : 'inherit',
   });
+  const closed = new Promise<void>((resolve) => child.once('close', () => resolve()));
   let stopped: string | undefined, force: ReturnType<typeof setTimeout> | undefined;
   const cleanup: Promise<void>[] = [];
   const kill = (signal: NodeJS.Signals) => {
@@ -71,14 +72,21 @@ export async function runProcess(
   const stop = (reason: string) => {
     if (stopped) return;
     stopped = reason;
-    kill('SIGTERM');
-    force = setTimeout(() => kill('SIGKILL'), options.shutdownGraceMs ?? 5000);
-    force.unref();
+    if (child.exitCode === null && child.signalCode === null) {
+      kill('SIGTERM');
+      force = setTimeout(() => kill('SIGKILL'), options.shutdownGraceMs ?? 5000);
+      force.unref();
+    }
   };
   let idleTimer: ReturnType<typeof setTimeout> | undefined;
   const activity = () => {
     clearTimeout(idleTimer);
-    if (!stopped && options.idleTimeoutMs !== undefined)
+    if (
+      !stopped &&
+      child.exitCode === null &&
+      child.signalCode === null &&
+      options.idleTimeoutMs !== undefined
+    )
       idleTimer = setTimeout(() => stop('stalled without output'), options.idleTimeoutMs);
   };
   let outputFailure: { error: unknown } | undefined;
@@ -106,31 +114,48 @@ export async function runProcess(
     options.timeoutMs === undefined
       ? undefined
       : setTimeout(() => stop('deadline exceeded'), options.timeoutMs);
-  await using _scopeExit1 = onAsyncExit(async () => {
-    clearTimeout(timer);
-    clearTimeout(idleTimer);
-    clearTimeout(force);
-    process.off('SIGINT', interrupt);
-    process.off('SIGTERM', terminate);
-    options.signal?.removeEventListener('abort', abort);
-    // Remaining owned children must not keep a dead command's output handles alive.
-    if (grouped) kill('SIGKILL');
-    await Promise.all(cleanup);
-    child.stdout?.destroy();
-    child.stderr?.destroy();
-  });
-  await new Promise<void>((resolve, reject) => {
-    child.once('error', reject);
-    child.once('exit', (code, signal) =>
-      code === 0 && !stopped
-        ? resolve()
-        : reject(
-            outputFailure
-              ? outputFailure.error
-              : new Error(`${command} ${stopped ?? `exited ${code ?? signal}`}`),
-          ),
-    );
-  });
+  {
+    await using _scopeExit1 = onAsyncExit(async () => {
+      clearTimeout(timer);
+      clearTimeout(idleTimer);
+      clearTimeout(force);
+      process.off('SIGINT', interrupt);
+      process.off('SIGTERM', terminate);
+      options.signal?.removeEventListener('abort', abort);
+      // Retire owned descendants, then drain their output before reporting success.
+      if (grouped) {
+        kill('SIGKILL');
+        let timedOut = false;
+        const drain = setTimeout(() => {
+          timedOut = true;
+          child.stdout?.destroy();
+          child.stderr?.destroy();
+        }, options.shutdownGraceMs ?? 5000);
+        try {
+          await closed;
+        } finally {
+          clearTimeout(drain);
+        }
+        if (timedOut) throw new Error(`${command} output did not close after exit`);
+      }
+      await Promise.all(cleanup);
+      child.stdout?.destroy();
+      child.stderr?.destroy();
+    });
+    await new Promise<void>((resolve, reject) => {
+      child.once('error', reject);
+      child.once('exit', (code, signal) =>
+        code === 0 && !stopped
+          ? resolve()
+          : reject(
+              outputFailure
+                ? outputFailure.error
+                : new Error(`${command} ${stopped ?? `exited ${code ?? signal}`}`),
+            ),
+      );
+    });
+  }
+  if (outputFailure) throw outputFailure.error;
 }
 
 export async function untilInterrupted() {

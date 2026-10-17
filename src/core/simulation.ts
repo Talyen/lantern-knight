@@ -298,7 +298,7 @@ export class Simulation {
       state: 'idle',
       age: 0,
       action: 0,
-      health: definition.maxHealth,
+      health: definition.maxHealth + (kind === 'hero' ? this.inventoryAccess.healthBonus : 0),
       cooldown: 0,
       dodgeCooldown: 0,
       stun: 0,
@@ -404,7 +404,8 @@ export class Simulation {
         } else {
           h.state = len > 0.01 ? 'walk' : 'idle';
           h.yaw = h.state === 'walk' ? Math.atan2(mx, mz) : h.aim;
-          this.move(h, (mx * h.definition.speed) / 60, (mz * h.definition.speed) / 60);
+          if (len > 0.01)
+            this.move(h, (mx * h.definition.speed) / 60, (mz * h.definition.speed) / 60);
         }
       }
     }

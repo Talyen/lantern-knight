@@ -29,7 +29,7 @@ function duel() {
 }
 
 test('clicking an enemy torso lands a lunge in every direction while floor projection can aim behind the hero', (t) => {
-  mockGlobals(t, { window: new EventTarget() });
+  mockGlobals(t, { window: new EventTarget(), document: new EventTarget() });
   const canvas = Object.assign(new EventTarget(), { getBoundingClientRect: () => rect });
   const input = new Input(canvas as unknown as HTMLCanvasElement, camera, () => {});
   t.after(() => input.dispose());
