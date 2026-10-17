@@ -15,7 +15,10 @@ export type EventDetails =
   | { kind: 'object-claimed'; object: string }
   | { kind: 'potion-used' | 'dodge' | 'rested' }
   | { kind: 'campfire-discovered'; fire: string }
-  | { kind: 'inventory-changed'; operation: 'equip' | 'unequip' | 'salvage' | 'upgrade' }
+  | {
+      kind: 'inventory-changed';
+      operation: 'equip' | 'unequip' | 'salvage' | 'upgrade' | 'move' | 'organize';
+    }
   | { kind: 'action-unavailable'; reason: string }
   | { kind: 'pickup'; pickup: string; amount: number }
   | { kind: 'damage'; target: ActorId; amount: number; damageType: DamageType; phase: DamagePhase }

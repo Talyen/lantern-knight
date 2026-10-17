@@ -53,12 +53,26 @@ export class GroundLootLabels {
         if (this.app.highlightedDrop === id) this.app.highlightedDrop = undefined;
       }
     const occupied: { x: number; y: number; width: number }[] = [];
+    const origin = this.root.getBoundingClientRect();
+    const reserved = [
+      ...(this.root.parentElement?.querySelectorAll<HTMLElement>('.hud, .game-toolbar') ?? []),
+    ]
+      .filter((element) => element.getClientRects().length)
+      .map((element) => {
+        const box = element.getBoundingClientRect();
+        return {
+          left: box.left - origin.left - 8,
+          right: box.right - origin.left + 8,
+          top: box.top - origin.top - 8,
+          bottom: box.bottom - origin.top + 8,
+        };
+      });
     for (const drop of [...sim.drops].sort((a, b) => a.id.localeCompare(b.id))) {
       const reward = drop.rewards[0]!;
       let label = this.labels.get(drop.id);
       if (!label) {
         const name = `${items[reward.item]!.name}${reward.amount > 1 ? ` ×${reward.amount}` : ''}`;
-        const button = html<HTMLButtonElement>`<button type="button" class="ground-loot-label" data-kind="${items[reward.item]!.kind}" data-drop="${drop.id}" data-tip="${name}" aria-label="Collect ${name}"><span class="visually-hidden">${name}</span>${reward.amount > 1 ? html`<span>${reward.amount}</span>` : false}</button>`;
+        const button = html<HTMLButtonElement>`<button type="button" class="ground-loot-label" data-kind="${items[reward.item]!.kind}" data-drop="${drop.id}" data-tip="${name}" aria-label="Collect ${name}"><span class="loot-name">${name}</span></button>`;
         button.prepend(this.artwork(reward.item));
         button.addEventListener(
           'pointerenter',
@@ -133,6 +147,13 @@ export class GroundLootLabels {
       search: for (const column of columns)
         for (const row of rows)
           if (
+            !reserved.some(
+              (box) =>
+                column + label.width / 2 > box.left &&
+                column - label.width / 2 < box.right &&
+                row + 22 > box.top &&
+                row - 22 < box.bottom,
+            ) &&
             !occupied.some(
               (p) =>
                 Math.abs(p.x - column) < (p.width + label.width) / 2 + 6 &&

@@ -255,6 +255,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
       for (const a of Object.values(save.areas[save.area].actors) as { health: number }[])
         a.health = 0;
       save.areas[save.area].cleared = true;
+      delete save.adventure.pack;
       save.adventure.inventory['damaged-axe'] = 1;
       save.adventure.inventory['health-potion'] = 1;
       localStorage.setItem(key, JSON.stringify(save));

@@ -434,6 +434,7 @@ test('wind follows the chapel journey after either upgrade and returns only with
     for (const id of ids) {
       const session = new GameSession(r, 142, id),
         save = session.captureSave();
+      delete save.adventure!.pack;
       save.adventure!.forgeUpgrade = forgeUpgrade;
       session.restoreSave(save);
       const outward = session.sim,

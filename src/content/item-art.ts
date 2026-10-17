@@ -21,8 +21,6 @@ export const itemArt: Readonly<Record<string, string>> = {
   sword: 'library-lantern_concept_item_01_oathsteel_sword',
   lantern: 'library-watch_lantern',
   'ui-title': 'library-artwork-ui-title-emblem-v2',
-  'ui-button': 'library-artwork-ui-button-frame-v2',
-  'ui-icon-frame': 'library-artwork-ui-icon-frame-v2',
   'ui-health': 'library-artwork-ui-health-frame-v2',
   'ui-campfire': 'library-artwork-ui-campfire-emblem-v1',
   ...Object.fromEntries(
@@ -41,8 +39,6 @@ export const itemArt: Readonly<Record<string, string>> = {
       'settings',
       'aim',
       'close',
-      'more',
-      'keycap',
     ].map((name) => [`ui-${name}`, 'library-artwork-ui-control-icons-v2']),
   ),
 };
@@ -68,22 +64,8 @@ export const itemArtCrops: Readonly<Record<string, readonly [number, number, num
   'ui-settings': [0.777512, 0.550239, 0.19378, 0.194577],
   'ui-aim': [0.050239, 0.760766, 0.19697, 0.195375],
   'ui-close': [0.308612, 0.77512, 0.168262, 0.165869],
-  'ui-more': [0.526316, 0.828549, 0.205742, 0.064593],
-  'ui-keycap': [0.793461, 0.784689, 0.161882, 0.165869],
 };
-export const interfaceFrameArtwork = 'library-artwork-ui-inventory-frame-v2';
-export const archedFrameArtwork = 'library-artwork-ui-arched-frame-v2';
-export const settingsFrameArtwork = 'library-artwork-ui-wide-frame-v2';
-export const campfireFrameArtwork = 'library-artwork-ui-campfire-frame-v2';
 export const forgeAnvilArtwork = 'library-furn_blacksmith_anvil_01';
 export const itemArtAssets = [
-  ...new Set([
-    ...Object.values(itemArt),
-    forgeArtwork,
-    forgeAnvilArtwork,
-    interfaceFrameArtwork,
-    archedFrameArtwork,
-    settingsFrameArtwork,
-    campfireFrameArtwork,
-  ]),
+  ...new Set([...Object.values(itemArt), forgeArtwork, forgeAnvilArtwork]),
 ];

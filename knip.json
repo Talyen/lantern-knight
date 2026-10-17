@@ -40,7 +40,8 @@
     "tools/package.ts",
     "tools/diagnostics.ts",
     "tools/test-reporter.ts",
-    "playwright.config.ts"
+    "playwright.config.ts",
+    "tools/ui-study/main.ts"
   ],
   "project": [
     "src/**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}",
