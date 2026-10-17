@@ -1,37 +1,37 @@
 .game .adventure-panel {
-  width: min(1120px, calc(100vw - 40px));
+  width: min(calc(900px * var(--ui-scale)), calc(100vw - 40px));
   max-width: none;
-  height: min(740px, calc(100dvh - 40px));
-  max-height: calc(100dvh - 40px);
+  max-height: calc(100dvh - 32px);
+  padding: 24px 30px;
+  overflow: auto;
+  color: var(--ivory);
+  font: inherit;
+  scrollbar-width: thin;
+}
+.game .adventure-panel.is-inventory {
+  width: min(calc(1120px * var(--ui-scale)), calc(100vw - 48px));
+  height: min(820px, calc(100dvh - 40px));
   padding: 0;
   overflow: hidden;
-  color: var(--ivory);
-  background: #151311;
-  border: 3px double #766752;
-  border-radius: 0;
-  box-shadow:
-    0 0 0 5px #161513,
-    0 0 0 6px #4a4033,
-    0 24px 100px #000c;
-  font: 16px/1.4 var(--font-display);
 }
 .adventure-panel[open] {
   display: flex;
   flex-direction: column;
 }
 .adventure-panel::backdrop {
-  background: #070605b8;
+  background: #050903a8;
+}
+.game .adventure-panel.is-inventory::before {
+  display: none;
 }
 .adventure-panel .adventure-header {
   position: relative;
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  justify-content: center;
-  min-height: 64px;
-  padding: 8px 68px;
-  border-bottom: 3px double #594e3f;
-  background: #1e1b17;
+  min-height: 72px;
+  padding: 18px 26px;
+  border-bottom: 1px solid var(--rule);
 }
 .adventure-panel h2,
 .adventure-panel h3 {
@@ -41,159 +41,122 @@
   line-height: 1.15;
 }
 .adventure-panel h2 {
-  font-size: 32px;
+  font-size: 2em;
 }
 .adventure-panel h3 {
-  font-size: 26px;
+  font-size: 1.65em;
 }
-.adventure-panel .adventure-close {
-  position: absolute;
-  right: 12px;
-  top: 10px;
-  width: 42px;
-  padding: 0;
-  font: 34px/1 var(--font-display);
+.adventure-panel .adventure-header h2::before {
+  content: '◆';
+  font: 12px var(--font-body);
+  color: var(--amber);
+  vertical-align: middle;
+  margin-right: 14px;
+}
+.game .adventure-panel .adventure-close {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 12px;
+}
+.adventure-panel .adventure-close .control-icon {
+  width: 18px;
+  height: 18px;
 }
 .adventure-panel .adventure-content {
-  flex: 1;
   min-height: 0;
+  padding: 20px 0;
   overflow: auto;
-  padding: 22px;
   overscroll-behavior: contain;
 }
-.adventure-panel :is(.adventure-content, .pack-items, .item-description) {
+.adventure-panel :is(.adventure-content, .pack-scroll, .inventory-detail, .item-description) {
   scrollbar-width: thin;
-  scrollbar-color: #766752 #151311;
+  scrollbar-color: #77765f #10171a;
 }
-.game .visually-hidden,
-.adventure-panel .adventure-footer:not(.visible) {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-}
-.adventure-panel .adventure-footer.visible {
+.adventure-panel .adventure-footer {
   flex-shrink: 0;
-  padding: 8px 22px;
-  background: #241b16;
-  border-top: 1px solid #665343;
-  font: 14px/1.4 var(--font-body);
+  font-size: 0.85em;
+  color: var(--sage);
 }
 .adventure-panel .adventure-footer p {
   margin: 0;
 }
+.adventure-panel .adventure-footer:not(.visible) {
+  min-height: 24px;
+}
+.adventure-panel .adventure-footer.visible {
+  padding: 12px 0;
+  border-top: 1px solid var(--rule);
+}
 .adventure-panel .adventure-feedback.error {
   color: #f5aca1;
 }
-.game .item-art {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.game .item-art :is(img, svg) {
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-  object-fit: contain;
+.adventure-panel.is-inventory .adventure-footer {
+  min-height: 38px;
+  padding: 10px 26px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.78em;
 }
 .adventure-panel .inventory-content {
   display: flex;
+  flex: 1;
   flex-direction: column;
   overflow: hidden;
+  padding: 20px 26px 16px;
 }
 .adventure-panel .inventory-columns {
   display: grid;
   flex: 1;
   min-height: 0;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
-  grid-template-rows: minmax(0, 1fr) auto;
-  gap: 14px 28px;
+  grid-template-columns: minmax(240px, 1fr) minmax(0, 1.6fr);
+  grid-template-rows: minmax(180px, 1fr) calc(215px * var(--ui-scale));
+  gap: 18px 28px;
 }
 .adventure-panel .inventory-equipment {
   grid-column: 1;
-  grid-row: 1 / 3;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
   min-height: 0;
-  padding: 16px 10px 10px;
-  border: 1px solid #55483a;
-  border-top: 3px double #8d785b;
-  background: #201a14;
+}
+.adventure-panel .inventory-equipment h3 {
+  font-size: 1.5em;
+  margin-bottom: 14px;
 }
 .adventure-panel .equipment-grid {
   display: grid;
-  height: 100%;
-  grid-template-columns: 0.85fr 1fr 1fr 0.95fr;
+  flex: 1;
+  min-height: 0;
+  grid-template-columns: 0.85fr 1fr 1fr 0.85fr;
   grid-template-rows: repeat(6, minmax(0, 1fr));
-  gap: 8px;
+  gap: 5px;
 }
 .adventure-panel :is(.inventory-slot, .inventory-row, .forge-option) {
   position: relative;
   min-width: 0;
   min-height: 0;
-  padding: 10px;
-  border: 1px solid #665844;
+  padding: 7px;
+  border: 1px solid #8c805744;
   border-radius: 0;
-  background: #100f0d;
-  box-shadow: inset 0 0 0 2px #211d17;
+  background: #101719;
 }
 .adventure-panel :is(.inventory-slot, .inventory-row, .forge-option):hover:not(:disabled) {
-  background: #282218;
-  border-color: #cbb58b;
+  background: #29322f;
+  border-color: #b99f65;
 }
 .adventure-panel :is(.inventory-slot, .inventory-row, .forge-option)[aria-pressed='true'] {
-  border-color: #e1cda0;
-  background: #272116;
-  box-shadow: inset 0 0 0 2px #675338;
-}
-.adventure-panel :is(.inventory-slot, .inventory-row, .forge-option)[aria-pressed='true']::after {
-  position: absolute;
-  content: '';
-  inset: 3px;
-  border: 2px solid #e5d6b2;
-  clip-path: polygon(
-    0 0,
-    16px 0,
-    16px 2px,
-    2px 2px,
-    2px 16px,
-    0 16px,
-    0 0,
-    100% 0,
-    100% 16px,
-    calc(100% - 2px) 16px,
-    calc(100% - 2px) 2px,
-    calc(100% - 16px) 2px,
-    calc(100% - 16px) 0,
-    100% 0,
-    100% 100%,
-    calc(100% - 16px) 100%,
-    calc(100% - 16px) calc(100% - 2px),
-    calc(100% - 2px) calc(100% - 2px),
-    calc(100% - 2px) calc(100% - 16px),
-    100% calc(100% - 16px),
-    100% 100%,
-    0 100%,
-    0 calc(100% - 16px),
-    2px calc(100% - 16px),
-    2px calc(100% - 2px),
-    16px calc(100% - 2px),
-    16px 100%,
-    0 100%
-  );
-  pointer-events: none;
+  border-color: #c7a66a;
+  background: #3a3d31;
+  box-shadow: inset 0 0 0 1px #bb9a6244;
 }
 .adventure-panel .slot-sword {
   grid-column: 1;
   grid-row: 1 / 6;
+  overflow: hidden;
 }
 .adventure-panel .slot-body {
   grid-column: 2 / 4;
@@ -231,266 +194,415 @@
   grid-column: 4;
   grid-row: 6;
 }
+.adventure-panel .slot-sword .item-art img,
+.adventure-panel .inventory-row[data-item='sword'] .item-art img {
+  height: 78%;
+  width: auto;
+  max-width: none;
+  transform: rotate(-45deg);
+}
 .adventure-panel .inventory-slot:not(.occupied) .item-art {
-  opacity: 0.12;
+  opacity: 0.16;
   filter: grayscale(1);
 }
 .adventure-panel .inventory-bag {
   grid-column: 2;
-  grid-row: 1;
+  grid-row: 1 / span 2;
   display: flex;
   flex-direction: column;
   min-height: 0;
+  min-width: 0;
+}
+.adventure-panel .pack-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 14px;
+  flex-shrink: 0;
+}
+.adventure-panel .pack-heading h3 {
+  font-size: 1.65em;
+}
+.adventure-panel .pack-heading span {
+  display: block;
+  color: var(--sage);
+  font-size: 0.8em;
+  margin-top: 4px;
+}
+.adventure-panel .pack-heading button {
+  font-size: 0.85em;
+  padding: 8px 12px;
+  background: transparent;
+}
+.adventure-panel .pack-scroll {
+  overflow: auto;
+  min-height: 0;
+  flex: 1;
+  padding: 4px;
+  margin: -4px;
+  overscroll-behavior: contain;
 }
 .adventure-panel .pack-items {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  grid-auto-rows: min-content;
-  align-content: start;
-  overflow: auto;
-  padding: 3px;
-  margin: -3px;
-}
-.adventure-panel :is(.inventory-row, .bag-empty) {
-  aspect-ratio: 1;
-}
-.adventure-panel .inventory-row {
-  padding: 8px;
+  width: 100%;
+  min-width: calc(336px * var(--ui-scale));
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: repeat(16, minmax(0, 1fr));
+  aspect-ratio: 12 / 16;
+  background: #0f1619;
+  isolation: isolate;
 }
 .adventure-panel .bag-empty {
-  border: 1px solid #3d342a;
-  background: #100f0d;
-  box-shadow: inset 0 0 0 2px #1a1713;
+  border: 1px solid #59625b22;
+  pointer-events: none;
+}
+.adventure-panel .inventory-row {
+  z-index: 1;
+  padding: 7px;
+  background: #20282a;
+}
+.adventure-panel .inventory-row .item-art {
+  filter: drop-shadow(0 3px 3px #0007);
+}
+.adventure-panel .inventory-row.moving {
+  opacity: 0.35;
+}
+.adventure-panel .pack-placement {
+  z-index: 3;
+  pointer-events: none;
+  border: 2px solid #d5c693;
+  background: #b7c49544;
+}
+.adventure-panel .pack-placement.invalid {
+  border-color: #ef9c85;
+  background: #ae544855;
 }
 .adventure-panel .item-count {
   position: absolute;
-  right: 5px;
-  bottom: 1px;
-  color: #f5e9ce;
-  font: 17px/1.2 var(--font-display);
-  text-shadow:
-    1px 1px 2px #000,
-    -1px -1px #000;
+  right: 4px;
+  bottom: 3px;
+  color: #f3e3bd;
+  font: 0.85em/1.2 var(--font-body);
+  text-shadow: 0 1px 3px #000;
 }
 .adventure-panel .inventory-gold {
   display: flex;
   justify-content: flex-end;
-  margin-top: auto;
-  padding-top: 8px;
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid var(--rule);
 }
 .adventure-panel .material-cost {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font: 22px/1 var(--font-display);
-  white-space: nowrap;
+  font-size: 0.9em;
 }
-.adventure-panel .material-cost .item-art {
-  width: 36px;
-  height: 36px;
+.adventure-panel .material-cost > .item-art {
+  width: 28px;
+  height: 28px;
+}
+.adventure-panel .material-cost strong {
+  font-weight: 400;
+  color: #e0c995;
+}
+.adventure-panel .material-cost small {
+  display: block;
+  font-size: 0.85em;
 }
 .adventure-panel .material-cost.insufficient {
-  color: #f4a698;
+  color: #e9a697;
 }
 .adventure-panel .inventory-detail {
-  grid-column: 2;
+  position: relative;
+  grid-column: 1;
   grid-row: 2;
-  padding: 16px 0 0;
-  min-height: 135px;
-  border-top: 3px double #594e3f;
   display: flex;
+  flex-direction: column;
+  min-height: 0;
   gap: 12px;
-  align-items: flex-start;
-  justify-content: space-between;
+  padding: 16px 0 0;
+  border-top: 1px solid #8f81545e;
+  overflow: auto;
 }
-.adventure-panel .empty-detail {
-  visibility: hidden;
+.adventure-panel .detail-close {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 36px;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 22px;
 }
 .adventure-panel .item-description {
   min-width: 0;
-  max-height: 160px;
   overflow: auto;
+  flex: 1;
 }
 .adventure-panel .item-description h3 {
-  font-size: 24px;
-  color: #dfc18a;
+  padding-right: 34px;
+  color: #e7dabb;
+  font-size: 1.6em;
 }
 .adventure-panel .item-description p {
-  margin: 6px 0;
-  font-size: 17px;
+  margin: 10px 0 0;
+  font-size: 0.95em;
 }
 .adventure-panel .item-effect {
-  color: #b8bbd5;
+  color: #d9cfad;
 }
 .adventure-panel .item-replaces {
-  color: #a89a85;
-  font-size: 14px !important;
+  color: #b7af96;
+  font-size: 0.85em !important;
 }
 .adventure-panel .item-comparison {
-  color: #b5a88f;
+  color: #b6b39e;
 }
 .adventure-panel .item-comparison strong {
   font-weight: 400;
-  color: #e9dfc9;
+  color: #d0dbb9;
   white-space: nowrap;
+}
+.adventure-panel .item-comparison small {
+  font-size: 0.85em;
 }
 .adventure-panel .item-actions {
   display: flex;
-  flex-shrink: 0;
-  flex-direction: column;
   gap: 8px;
-  max-width: 45%;
+  flex-wrap: wrap;
+  flex-shrink: 0;
 }
 .adventure-panel .item-actions button {
-  min-width: 96px;
+  flex: 1;
+  min-width: 72px;
+  font-size: 0.9em;
 }
 .adventure-panel .equip-destination {
   display: flex;
-  flex-direction: column;
-  font-size: 13px;
-  gap: 4px;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  font-size: 0.85em;
 }
 .adventure-panel .equip-destination select {
+  flex: 1;
   min-width: 0;
-  width: 100%;
-  max-width: 180px;
+  max-width: 100%;
+  font-size: 0.9em;
 }
 .adventure-panel .salvage-yield {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 .adventure-panel .inventory-tabs {
   display: none;
 }
 .adventure-panel .forge-content {
-  padding: 0;
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  overflow: hidden;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 28px;
+  padding: 20px 0 8px;
 }
 .adventure-panel .forge-illustration {
   position: relative;
   overflow: hidden;
   min-height: 0;
-  background: #100e0b;
-  border-right: 3px double #594e3f;
+  border-right: 1px solid var(--rule);
 }
 .adventure-panel .forge-scene {
   position: absolute;
   inset: 0;
-  opacity: 0.12;
+  opacity: 0.18;
 }
 .adventure-panel .forge-scene img {
   height: 100%;
   max-width: none;
-  max-height: none;
-  width: 150%;
+  width: 160%;
   object-fit: cover;
 }
 .adventure-panel .forge-featured-item {
   position: absolute;
-  inset: 12% 14%;
-  width: 72%;
-  height: 76%;
-  filter: drop-shadow(4px 12px 8px #000);
+  inset: 0 17% auto;
+  width: 66%;
+  height: 61%;
+  filter: drop-shadow(4px 12px 8px #0008);
+}
+.adventure-panel .forge-anvil {
+  position: absolute;
+  left: 6%;
+  bottom: 0;
+  width: 88%;
+  height: 70%;
 }
 .adventure-panel .forge-work {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
   min-height: 0;
-  padding: 24px 32px;
 }
 .adventure-panel .forge-options {
   display: flex;
-  gap: 16px;
+  gap: 10px;
   width: 100%;
-  height: min(32vh, 245px);
-  margin-bottom: 26px;
+  height: 96px;
+  flex-shrink: 0;
+  margin-bottom: 16px;
 }
 .adventure-panel .forge-option {
   flex: 1;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  padding: 9px;
+  font-size: 0.8em;
+}
+.adventure-panel .forge-option .item-art {
+  height: 50px;
+  min-height: 0;
 }
 .adventure-panel .forge-work h3 {
-  text-align: center;
-  font-size: 34px;
+  font-size: 1.7em;
 }
 .adventure-panel .forge-damage {
-  margin: 12px 0 24px;
-  text-align: center;
-  font-size: 20px;
-  color: #b7ab95;
+  margin: 8px 0 12px;
+  font-size: 0.9em;
+  color: var(--sage);
 }
 .adventure-panel .forge-damage strong {
   display: block;
   margin-top: 4px;
-  color: var(--ivory);
-  font-size: 30px;
-  font-weight: 400;
+  color: #e8d9b3;
+  font: 1.7em/1.15 var(--font-display);
 }
 .adventure-panel .forge-costs {
   display: flex;
-  gap: 26px;
-  margin-bottom: 26px;
-}
-.adventure-panel .forge-costs .item-art {
-  width: 48px;
-  height: 48px;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  border-block: 1px solid var(--rule);
+  margin-bottom: 16px;
 }
 .adventure-panel .forge-decision {
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100%;
-  gap: 8px;
+  gap: 10px;
 }
 .adventure-panel .forge-decision button {
-  width: min(100%, 270px);
-  min-height: 48px;
-  font-size: 22px;
+  width: 100%;
+  min-height: 44px;
+  font-size: 1em;
 }
 .adventure-panel .permanent-choice {
-  font-size: 14px;
-  color: #ad9d83;
+  color: var(--sage);
+  font-size: 0.78em;
+}
+.game .adventure-panel.is-campfire {
+  width: min(calc(400px * var(--ui-scale)), calc(100vw - 32px));
+}
+.adventure-panel.is-campfire .adventure-header {
+  border: 0;
+  padding: 12px 0;
+  min-height: 52px;
+}
+.adventure-panel.is-campfire h2 {
+  font-size: 1.7em;
+}
+.adventure-panel.is-campfire h2::before {
+  display: none;
 }
 .adventure-panel .campfire-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  padding: 6px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
-.adventure-panel .campfire-rest h3 {
-  margin: 14px 0;
+.adventure-panel .campfire-rest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
-.adventure-panel .campfire-content p {
-  color: #b5a88f;
+.adventure-panel .campfire-rest button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 48px;
+  font: 1.4em var(--font-display);
+  border-color: #ae935e;
+  background: #4d4935;
+}
+.adventure-panel .campfire-emblem {
+  width: 100px;
+  height: 100px;
+}
+.adventure-panel .campfire-health {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: #dbbda0;
+}
+.adventure-panel .campfire-health .player-icon {
+  width: 18px;
+  height: 18px;
+}
+.adventure-panel .rest-consequences {
+  margin: 0;
+  color: var(--sage);
+  font-size: 0.85em;
+  text-align: center;
+}
+.adventure-panel .campfire-travel {
+  border-top: 1px solid var(--rule);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.adventure-panel .campfire-travel h3 {
+  font-size: 1.4em;
 }
 .adventure-panel .campfire-destination {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   width: 100%;
-  margin: 12px 0;
   text-align: left;
+  font-size: 0.95em;
 }
-@media (max-width: 760px) {
-  .game .adventure-panel {
+.adventure-panel .campfire-destination.current {
+  padding: 10px 14px;
+  color: #b8b49f;
+}
+.adventure-panel .campfire-destination.current::after {
+  content: 'Here';
+  margin-left: auto;
+  font-size: 0.8em;
+  color: #b8c2a1;
+}
+.adventure-panel .campfire-destination .player-icon {
+  width: 20px;
+  height: 20px;
+  color: #bf9f61;
+}
+.adventure-panel .empty-travel {
+  margin: 0;
+  color: var(--sage);
+  font-size: 0.85em;
+}
+@media (max-width: 900px) {
+  .game .adventure-panel.is-inventory {
     width: calc(100vw - 24px);
-    height: min(740px, calc(100dvh - 24px));
-    max-height: calc(100dvh - 24px);
-  }
-  .adventure-panel .adventure-header {
-    min-height: 54px;
-  }
-  .adventure-panel h2 {
-    font-size: 28px;
-  }
-  .adventure-panel .adventure-close {
-    top: 6px;
-    right: 6px;
-  }
-  .adventure-panel .adventure-content {
-    padding: 16px;
   }
   .adventure-panel .inventory-tabs {
     display: flex;
@@ -500,17 +612,16 @@
   .adventure-panel .inventory-tabs button {
     flex: 1;
   }
-  .adventure-panel .inventory-tabs button[aria-pressed='true'] {
-    border-color: #e1cda0;
-    color: #f5e9ce;
-    background: #392d20;
+  .adventure-panel .inventory-tabs [aria-pressed='true'] {
+    border-color: #d6b87c;
+    background: #34392d;
   }
   .adventure-panel .inventory-columns {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr) auto;
-    gap: 12px;
+    grid-template-rows: minmax(140px, 1fr) calc(215px * var(--ui-scale));
+    gap: 14px;
   }
-  .adventure-panel :is(.inventory-equipment, .inventory-bag) {
+  .adventure-panel .inventory-bag {
     grid-column: 1;
     grid-row: 1;
   }
@@ -520,171 +631,80 @@
   }
   .adventure-panel .inventory-detail {
     grid-column: 1;
-    min-height: 108px;
+    grid-row: 2;
   }
   .adventure-panel .equipment-grid {
-    max-width: 420px;
-    margin: auto;
-  }
-  .adventure-panel .inventory-equipment {
-    padding: 8px;
+    width: 100%;
+    max-width: 440px;
+    margin-inline: auto;
   }
   .adventure-panel .forge-content {
-    padding: 0;
-    grid-template-columns: 0.7fr 1fr;
-  }
-  .adventure-panel .forge-work {
-    padding: 16px;
-  }
-  .adventure-panel .forge-options {
-    height: 160px;
-    gap: 8px;
-    margin-bottom: 18px;
-  }
-  .adventure-panel .forge-option {
-    padding: 12px;
-  }
-  .adventure-panel .forge-work h3 {
-    font-size: 26px;
-  }
-  .adventure-panel .forge-costs {
-    gap: 16px;
-  }
-  .adventure-panel .forge-costs .item-art {
-    width: 30px;
-    height: 36px;
-  }
-  .adventure-panel .forge-damage {
-    margin-bottom: 16px;
+    gap: 20px;
   }
 }
-@media (max-width: 440px) {
-  .adventure-panel .forge-content {
-    grid-template-columns: 1fr;
-  }
-  .adventure-panel .forge-illustration {
-    display: none;
-  }
-  .adventure-panel .item-description h3 {
-    font-size: 21px;
-  }
-  .adventure-panel .item-description p {
-    font-size: 15px;
-  }
-  .adventure-panel .campfire-content {
-    grid-template-columns: 1fr;
-  }
-}
-@media (max-height: 570px) {
-  .adventure-panel .inventory-detail {
-    min-height: 100px;
-  }
-  .adventure-panel .item-description {
-    max-height: 95px;
-  }
-  .adventure-panel .forge-options {
-    height: 120px;
-    margin-bottom: 12px;
-  }
-  .adventure-panel .forge-work {
-    padding: 12px;
-  }
-  .adventure-panel .forge-costs {
-    margin-bottom: 12px;
-  }
-  .adventure-panel .forge-damage {
-    margin: 8px 0 12px;
-  }
-}
-
-.adventure-panel .slot-sword {
-  overflow: hidden;
-}
-.adventure-panel .slot-sword .item-art img {
-  height: 67%;
-  width: auto;
-  max-width: none;
-  max-height: none;
-  transform: rotate(-45deg);
-}
-.adventure-panel .forge-anvil {
-  position: absolute;
-  left: 6%;
-  bottom: 5%;
-  width: 88%;
-  height: 70%;
-}
-.adventure-panel .forge-featured-item {
-  inset: 4% 17% auto;
-  width: 66%;
-  height: 61%;
-}
-
-.adventure-panel .interface-frame {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  pointer-events: none;
-  border: 44px solid transparent;
-  border-image: var(--art-image) 320 / 44px stretch;
-}
-.adventure-panel .interface-frame > img {
-  display: none;
-}
-.game .adventure-panel {
-  border: 0;
-  box-shadow: 0 24px 100px #000c;
-}
-.adventure-panel .adventure-header {
-  min-height: 72px;
-  padding-top: 16px;
-}
-.adventure-panel .adventure-close {
-  top: 20px;
-  right: 44px;
-}
-.adventure-panel .adventure-content {
-  padding: 22px 40px 40px;
-}
-.adventure-panel .forge-content {
-  padding: 0 12px 12px;
-}
-@media (max-width: 760px) {
-  .adventure-panel .interface-frame {
-    border-width: 32px;
-    border-image-width: 32px;
+@media (max-width: 650px) {
+  .game .adventure-panel {
+    padding: 20px;
   }
   .adventure-panel .adventure-header {
     min-height: 62px;
+    padding: 12px 20px;
   }
-  .adventure-panel .adventure-close {
-    top: 14px;
-    right: 32px;
+  .adventure-panel .inventory-content {
+    padding: 14px 20px;
   }
-  .adventure-panel .adventure-content {
-    padding: 14px 28px 30px;
-  }
-  .adventure-panel .forge-content {
-    padding: 0 10px 10px;
-  }
-}
-
-@media (max-width: 760px) {
   .adventure-panel .forge-content {
     grid-template-columns: 1fr;
   }
   .adventure-panel .forge-illustration {
     display: none;
   }
-  .adventure-panel .forge-work {
-    padding: 20px 32px;
-  }
-  .adventure-panel .forge-options {
-    height: min(34vh, 240px);
+  .adventure-panel.is-inventory .adventure-footer {
+    padding: 10px 20px;
   }
 }
-@media (max-height: 570px) {
-  .adventure-panel .forge-options {
-    height: 120px;
+@media (max-height: 650px) {
+  .game .adventure-panel.is-inventory {
+    height: calc(100dvh - 24px);
   }
+  .adventure-panel .inventory-columns {
+    grid-template-rows: minmax(140px, 1fr) calc(185px * var(--ui-scale));
+  }
+  .adventure-panel .inventory-detail {
+    gap: 8px;
+    padding-top: 10px;
+  }
+  .adventure-panel .item-description h3 {
+    font-size: 1.4em;
+  }
+  .adventure-panel .forge-options {
+    height: 80px;
+    margin-bottom: 10px;
+  }
+  .adventure-panel .forge-option .item-art {
+    height: 36px;
+  }
+  .adventure-panel .campfire-emblem {
+    width: 60px;
+    height: 60px;
+  }
+}
+.adventure-panel .empty-detail p {
+  margin: 14px 0 6px;
+  font: 1.4em var(--font-display);
+  color: #c1c3b2;
+}
+.adventure-panel .empty-detail span,
+.adventure-panel .item-description .item-kind {
+  color: var(--sage);
+  font-size: 0.8em;
+}
+.adventure-panel .item-count {
+  max-width: calc(100% - 8px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.game .inventory-row:focus-visible {
+  outline-offset: -3px;
 }

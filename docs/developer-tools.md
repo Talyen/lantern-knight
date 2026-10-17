@@ -1,5 +1,7 @@
 # Developer tools
 
+For the player-facing inventory alternatives and menu concepts, see the [UI polish study](ui-polish.md#design-study). It builds a standalone review artifact without player storage or a live game renderer.
+
 Run `npm run dev`; developer navigation connects Game, Dev Preview and the scene editor. Dev Preview lives at `/sandbox.html` and consolidates independent outdoor/interior/system fixtures, animation, calibration, occlusion, lighting and effects experiments. Game packages exclude developer screens and fixtures. [Development](development.md) owns setup and preview ports.
 
 ## Scene editor

@@ -29,6 +29,93 @@ def png(w, h):
 
 
 class ImportTests(unittest.TestCase):
+    def test_interaction_exports_preserve_registration_event_and_persistent_states(self):
+        for schema in ("lantern-knight.sprite-clip.v1", "lantern_knight.sprite_animation.v1"):
+            for standalone in (True, False):
+                with self.subTest(schema=schema, standalone=standalone):
+                    files = {"kit/atlas.png": png(16, 8)}
+                    if standalone:
+                        files.update({
+                            "kit/frames/0.png": png(8, 8),
+                            "kit/frames/1.png": png(8, 8),
+                            "kit/states/empty.png": png(8, 8),
+                        })
+                    p = package(files)
+                    data = {
+                        "schema": schema,
+                        "animation": "open",
+                        "canvas": {"width": 8, "height": 8},
+                        "pivot_px": {"x": 4, "y": 7, "origin": "top_left"},
+                        "atlas": {"file": "atlas.png"},
+                        "import": {"pixels_per_unit": 100},
+                        "loop": False,
+                        "frames": [
+                            {
+                                "file": "frames/0.png",
+                                "rect": {"x": 0, "y": 0, "w": 8, "h": 8},
+                                "duration_ms": 100,
+                            },
+                            {
+                                "file": "frames/1.png",
+                                "rect": {"x": 8, "y": 0, "w": 8, "h": 8},
+                                "duration_ms": 160,
+                            },
+                        ],
+                        "events": [{"name": "loot_release", "frame": 1, "time_ms": 100}],
+                        "states": {"empty": "states/empty.png"},
+                    }
+                    if schema.endswith("sprite_animation.v1"):
+                        del data["canvas"]
+                        del data["import"]
+                        data.update(cell_size_px=[8, 8], pivot_px=[4, 7], atlas="atlas.png")
+                        data["states"] = {"empty": {"file": "states/empty.png", "persistent": True}}
+                    original = json.dumps(data, sort_keys=True)
+                    normalized = supplied_sequences(p, "kit/animation.json", data)
+                    asset = Importer([p]).animation(
+                        p,
+                        "kit/animation.json",
+                        normalized,
+                        "container",
+                        defaults={"pixels_per_unit": 256},
+                    )
+                    clip = asset["clips"]["open"]["d45"]
+                    self.assertEqual(clip["durationsMs"], [100, 160])
+                    self.assertEqual(clip["markers"], [{"id": "loot_release", "atMs": 100}])
+                    self.assertFalse(clip["loop"])
+                    self.assertEqual(clip["endBehavior"], "hold")
+                    self.assertEqual(clip["frames"][1]["anchor"], [4, 7])
+                    self.assertEqual(clip["frames"][1]["density"], 100 if "import" in data else 256)
+                    self.assertEqual(clip["frames"][1]["canvas"], [8, 8])
+                    if standalone:
+                        self.assertEqual(clip["frames"][1]["member"], "kit/frames/1.png")
+                        self.assertNotIn("rect", clip["frames"][1])
+                    else:
+                        self.assertEqual(clip["frames"][1]["member"], "kit/atlas.png")
+                        self.assertEqual(clip["frames"][1]["rect"], [8, 0, 8, 8])
+                    if standalone:
+                        self.assertEqual(
+                            asset["clips"]["empty"]["d45"]["frames"][0]["member"],
+                            "kit/states/empty.png",
+                        )
+                    else:
+                        self.assertNotIn("empty", asset["clips"])
+                    self.assertEqual(json.dumps(data, sort_keys=True), original)
+
+    def test_existing_named_clip_schema_keeps_its_original_adapter(self):
+        data = {
+            "schema": "lantern-knight.sprite-clip.v1",
+            "clip": "move",
+            "canvas": [8, 8],
+            "pivot_px": [4, 7],
+            "frames": [{"file": "frame.png", "duration_ms": 100}],
+        }
+        p = package({"frame.png": png(8, 8)})
+        asset = Importer([p]).animation(
+            p, "clip.json", supplied_sequences(p, "clip.json", data), "actor",
+            defaults={"pixels_per_unit": 256},
+        )
+        self.assertEqual(asset["clips"]["move"]["d45"]["durationsMs"], [100])
+
     def test_loot_sequences_keep_baked_motion_fixed_pivot_contact_and_terminal_hold(self):
         p = package(
             {
@@ -211,7 +298,7 @@ class ImportTests(unittest.TestCase):
         marker = {"id": "hold", "atMs": 28 * 1000 / 60}
         importer.clip(asset, "recovery", "d45", [{}] * 6, durations, markers=[marker])
         clip = asset["clips"]["recovery"]["d45"]
-        self.assertEqual(clip["markers"][0]["atMs"], sum(durations))
+        self.assertEqual(clip["markers"][0]["atMs"], 466.66666666666663)
         self.assertEqual(clip["durationsMs"], durations)
         with self.assertRaisesRegex(ValueError, "event outside supplied timeline"):
             importer.clip(asset, "invalid", "d45", [{}] * 6, durations,

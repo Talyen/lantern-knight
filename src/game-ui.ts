@@ -12,11 +12,14 @@ import { type VisualEffect } from './content/visual-effects';
 import type { Application } from './application';
 import { tuning } from './content/gameplay';
 import { clearSegment } from './content/collision';
+import { itemArt } from './content/item-art';
+import { playerIcon } from './player-icons';
+import { bindPlayerTooltips } from './player-tooltips';
 export const gameUI = `<main class="stage game-stage"><canvas aria-label="Lantern Knight game" tabindex="0"></canvas>
 <div class="travel-veil" aria-hidden="true"></div><div class="title-card"><h2 id="room-title"></h2></div>
-<section class="hud" aria-label="Health and supplies"><div class="health-heading"><span>Vitality</span><span id="hp"></span></div><div class="health" role="meter" aria-label="Health" aria-valuemin="0"><span id="health-fill"></span></div><div class="supply-row"><span><kbd>Q</kbd> Health Potion</span><span id="potion-count"></span></div><div id="lantern-readiness" hidden><div class="lantern-heading"><span>Lantern</span><span id="lantern-state"></span></div><div class="lantern-charge" role="meter" aria-label="Lantern recharge" aria-valuemin="0" aria-valuemax="100"><span id="lantern-fill"></span></div></div></section>
+<section class="hud" aria-label="Health and supplies"><div class="health-orb" tabindex="0" data-tip="Health"><div class="health" role="meter" aria-label="Health" aria-valuemin="0"><span id="health-fill"></span></div><span id="hp"></span></div><div class="supply-row" tabindex="0" role="group" aria-label="Health Potion" data-tip="Health Potion · Q"><span class="supply-art"></span><kbd>Q</kbd><span id="potion-count"></span></div><div id="lantern-readiness" tabindex="0" data-tip="Lantern burst · RMB" hidden><div class="lantern-heading"><span></span><kbd>RMB</kbd><span id="lantern-state"></span></div><div class="lantern-charge" role="meter" aria-label="Lantern recharge" aria-valuemin="0" aria-valuemax="100"><span id="lantern-fill"></span></div></div></section>
 <div class="ground-loot-labels" aria-label="Ground items"></div><p id="interaction-hint" aria-live="polite"></p><p id="lantern-hint" aria-live="polite"></p>
-<div class="game-toolbar"><button id="open-inventory">Inventory <kbd>I</kbd></button><button id="pause" aria-label="Pause / save">Menu <kbd>Esc</kbd></button></div>
+<div class="game-toolbar"><button id="open-inventory" class="icon-button" aria-label="Inventory I" data-tip="Inventory · I">${playerIcon('bag')}<kbd>I</kbd></button><button id="pause" class="icon-button" aria-label="Pause menu" data-tip="Menu · Esc">${playerIcon('settings')}<kbd>Esc</kbd></button></div>
 <p id="status" role="status"></p><section id="startup-error" class="startup-failure" aria-labelledby="startup-error-title" hidden><p class="eyebrow">Lantern Knight</p><h1 id="startup-error-title">The path could not be opened.</h1><p id="startup-error-detail" role="alert"></p><a href="./index.html">Try again</a></section>${gameMenu}</main>`;
 // The mounted Game owns its controls, async feedback and adventure dialog.
 export function createGameUI(root: HTMLElement) {
@@ -35,17 +38,26 @@ export function createGameUI(root: HTMLElement) {
   let atTitle = true;
   let journeyStarted = false;
   let page: 'home' | 'settings' | 'help' = 'home';
+  let helpReturn: 'home' | 'settings' = 'home';
   let application: Application | undefined;
   const cuePosition = new Vector3();
   let lootLabels: GroundLootLabels | undefined;
+  bindPlayerTooltips(root, lifetime.signal);
   function bind(app: Application) {
     if (closed || bound) throw new Error('Game UI already bound or disposed');
     bound = true;
     application = app;
     journeyStarted = app.startedFromCheckpoint;
     const artwork = createItemArtwork(app.runtime, lifetime.signal);
-    $('.supply-row > span').prepend(artwork('health-potion'));
-    $('.lantern-heading > span').prepend(artwork('lantern'));
+    $('.supply-row > span').prepend(artwork('ui-potion'));
+
+    $('.lantern-heading > span').prepend(artwork('ui-lantern'));
+    $('.menu-crest').append(artwork('ui-title'));
+    $('.health-orb').append(artwork('ui-health', 'health-frame'));
+    for (const icon of root.querySelectorAll<SVGElement>('[data-player-icon]')) {
+      const id = `ui-${icon.dataset.playerIcon}`;
+      if (itemArt[id]) icon.replaceWith(artwork(id, 'control-icon'));
+    }
     lootLabels = new GroundLootLabels($('.ground-loot-labels'), app, lifetime.signal);
     adventure = bindAdventureUI(app, root, lifetime.signal);
     bindAudioControls(app, root, lifetime.signal);
@@ -124,7 +136,42 @@ export function createGameUI(root: HTMLElement) {
       app.pause(false);
     });
     on($('#menu-settings'), 'click', () => showPage('settings'));
-    on($('#menu-help'), 'click', () => showPage('help'));
+    on($('#menu-help'), 'click', () => {
+      helpReturn = 'home';
+      showPage('help');
+    });
+    on($('#settings-controls'), 'click', () => {
+      helpReturn = 'settings';
+      showPage('help');
+    });
+    const settingTabs = [...root.querySelectorAll<HTMLButtonElement>('[data-settings-tab]')];
+    function selectSettings(tab: HTMLButtonElement) {
+      for (const candidate of settingTabs) {
+        const active = candidate === tab;
+        candidate.setAttribute('aria-selected', String(active));
+        candidate.tabIndex = active ? 0 : -1;
+        $('#' + candidate.getAttribute('aria-controls')).hidden = !active;
+      }
+    }
+    for (const tab of settingTabs) {
+      on(tab, 'click', () => selectSettings(tab));
+      on(tab, 'keydown', (event) => {
+        if (!['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const index =
+          event.key === 'Home'
+            ? 0
+            : event.key === 'End'
+              ? settingTabs.length - 1
+              : (settingTabs.indexOf(tab) +
+                  (event.key === 'ArrowUp' ? -1 : 1) +
+                  settingTabs.length) %
+                settingTabs.length;
+        const next = settingTabs[index]!;
+        selectSettings(next);
+        next.focus();
+      });
+    }
     on($('#menu-back'), 'click', navigateBack);
     on($('#open-inventory'), 'click', () => adventure?.openInventory());
     on($('#return-title'), 'click', () =>
@@ -155,7 +202,7 @@ export function createGameUI(root: HTMLElement) {
     );
     on($('#load'), 'click', () =>
       perform('Loading checkpoint…', async () =>
-        (await app.load()) ? 'Checkpoint loaded' : 'No compatible checkpoint. Start a New Game.',
+        (await app.load()) ? 'Checkpoint loaded' : 'No checkpoint. Begin a new journey.',
       ),
     );
     on($('#new-game'), 'click', () => {
@@ -167,16 +214,22 @@ export function createGameUI(root: HTMLElement) {
     });
     on($('#cancel-new'), 'click', cancelNew);
     on($('#confirm-new'), 'click', () =>
-      perform('Starting new game…', async () => {
+      perform('Starting journey…', async () => {
         await app.newGame();
         journeyStarted = true;
-        return 'New game started';
+        return 'New journey started';
       }),
     );
     $<HTMLSelectElement>('#zoom-span').value = String(app.presentation.verticalSpan);
     on($('#zoom-span'), 'change', () => {
       app.presentation.verticalSpan = Number($<HTMLSelectElement>('#zoom-span').value);
       app.presentation.resize(app.scale);
+      app.safe(() => app.saveSettings());
+    });
+    $<HTMLSelectElement>('#ui-scale').value = String(app.uiScale);
+    on($('#ui-scale'), 'change', () => {
+      app.uiScale = Number($<HTMLSelectElement>('#ui-scale').value) as 0.9 | 1 | 1.15;
+      root.style.setProperty('--ui-scale', String(app.uiScale));
       app.safe(() => app.saveSettings());
     });
     $<HTMLSelectElement>('#render-scale').value = String(app.scale);
@@ -195,7 +248,7 @@ export function createGameUI(root: HTMLElement) {
       $('#dev-return').append(button);
     }
     unsubscribe = app.events.subscribe((event) => {
-      if (event.kind === 'action-unavailable') status(event.reason);
+      if (event.kind === 'action-unavailable') status(event.reason, true);
       if (event.kind === 'potion-used') status('Health Potion · restored health');
       if (event.kind === 'room-reset' && event.reason === 'death') status('Returned to checkpoint');
     });
@@ -210,14 +263,25 @@ export function createGameUI(root: HTMLElement) {
     const modal = $('#modal');
     modal.classList.toggle('is-title', atTitle && home);
     modal.classList.toggle('is-subpage', !home);
+    modal.classList.toggle('is-help', page === 'help');
     $('#menu-home').hidden = !home;
     $('#settings-page').hidden = page !== 'settings';
     $('#help-page').hidden = page !== 'help';
-    $('#menu-back').hidden = home;
+    $('#menu-back').hidden = home && atTitle;
+    $('#menu-back').setAttribute('aria-label', home ? 'Return to game' : 'Back');
+    $('#menu-back').dataset.tip = home ? 'Resume · Esc' : 'Back · Esc';
+    $('#menu-help').hidden = false;
+    if (atTitle) $('.menu-utilities').prepend($('#menu-help'));
+    else $('#menu-actions').insertBefore($('#menu-help'), $('#return-title'));
     $('#menu-start').hidden = !atTitle;
     $('#resume').hidden = atTitle;
     $('#new-game').hidden = atTitle && !journeyStarted;
-    $('#checkpoint-actions').hidden = atTitle;
+    $('#return-title').hidden = atTitle;
+    $('#checkpoint-options').hidden = atTitle;
+    $<HTMLDetailsElement>('#checkpoint-options').open = false;
+    const newGame = $('#new-game');
+    if (atTitle) $('#menu-actions').insertBefore(newGame, $('#menu-settings'));
+    else $('#checkpoint-actions').append(newGame);
     $('#pause-title').innerHTML = home
       ? atTitle
         ? 'Lantern<br>Knight'
@@ -225,14 +289,29 @@ export function createGameUI(root: HTMLElement) {
       : page === 'settings'
         ? 'Settings'
         : 'Controls';
-    $('#start-label').textContent = journeyStarted ? 'Continue journey' : 'Begin journey';
+    $('#start-label').textContent = journeyStarted ? 'Continue' : 'Begin';
+    $('#menu-start').setAttribute(
+      'aria-label',
+      journeyStarted ? 'Continue journey' : 'Begin journey',
+    );
     const focus = home ? (atTitle ? '#menu-start' : '#resume') : '#menu-back';
     $(focus).focus();
   }
   function navigateBack() {
     if (pending) return;
+    const options = $<HTMLDetailsElement>('#checkpoint-options');
+    if (options.open && page === 'home') {
+      options.open = false;
+      options.querySelector('summary')?.focus();
+      return;
+    }
     if (page !== 'home') {
       const previous = page;
+      if (page === 'help' && helpReturn === 'settings') {
+        showPage('settings');
+        $('#settings-controls').focus();
+        return;
+      }
       showPage('home');
       $(previous === 'settings' ? '#menu-settings' : '#menu-help').focus();
     } else if (!atTitle) application?.pause(false);
@@ -250,7 +329,7 @@ export function createGameUI(root: HTMLElement) {
     if (!error && !pending)
       statusTimeout = setTimeout(() => {
         for (const el of elements) el.textContent = '';
-      }, 5000);
+      }, 2800);
   }
   function showPause(paused: boolean) {
     if (closed) return;
@@ -272,6 +351,7 @@ export function createGameUI(root: HTMLElement) {
   }
   function update(app: Application) {
     if (closed) return;
+    root.style.setProperty('--ui-scale', String(app.uiScale));
     const s = app.sim;
     lootLabels?.update(app.roomReady && !app.busy && !app.paused && !adventure?.isOpen());
     if (adventure?.isOpen() && $<HTMLDialogElement>('#modal').open)
@@ -339,19 +419,15 @@ export function createGameUI(root: HTMLElement) {
     $('.health').setAttribute('aria-valuenow', String(s.hero.health));
     $('.health').setAttribute('aria-valuemax', String(s.maxHealth));
     $('.hud').classList.toggle('low-health', s.hero.health <= s.maxHealth * 0.3);
-    $('#health-fill').style.width = `${(s.hero.health / s.maxHealth) * 100}%`;
+    $('#health-fill').style.height = `${(s.hero.health / s.maxHealth) * 100}%`;
     const cooldown = s.hero.cooldown,
       charge = Math.floor((1 - cooldown / tuning.ability.cooldown) * 100),
       lanternState =
         cooldown > 0 ? `${(Math.ceil((cooldown * 10) / tuning.tickHz) / 10).toFixed(1)}s` : 'Ready';
     $('#lantern-readiness').hidden =
-      !app.roomReady ||
-      app.busy ||
-      app.paused ||
-      !!adventure?.isOpen() ||
-      s.hero.health <= 0 ||
-      (!s.inCombat && cooldown === 0);
+      !app.roomReady || app.busy || app.paused || !!adventure?.isOpen() || s.hero.health <= 0;
     $('#lantern-state').textContent = lanternState;
+    $('#lantern-readiness').style.setProperty('--charge', `${charge}%`);
     $('.lantern-charge').setAttribute('aria-valuenow', String(charge));
     $('.lantern-charge').setAttribute('aria-valuetext', lanternState);
     $('#lantern-fill').style.width = `${charge}%`;
@@ -376,6 +452,7 @@ export function createGameUI(root: HTMLElement) {
       'menu-help',
       'menu-back',
       'cancel-new',
+      'settings-controls',
     ])
       $<HTMLButtonElement>('#' + id).disabled = unavailable;
     $<HTMLButtonElement>('#resume').disabled = unavailable || !app.roomReady;

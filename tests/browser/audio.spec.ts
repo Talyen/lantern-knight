@@ -30,6 +30,7 @@ test('audio settings persist independently in Game', async ({ page }) => {
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
   );
   await page.locator('#menu-settings').click();
+  await page.getByRole('tab', { name: 'Sound', exact: true }).click();
   await expect(page.locator('[data-audio="master"]')).toHaveValue('80');
   await page.locator('[data-audio="master"]').evaluate((element) => {
     const input = element as HTMLInputElement;
@@ -47,6 +48,7 @@ test('audio settings persist independently in Game', async ({ page }) => {
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
   );
   await page.locator('#menu-settings').click();
+  await page.getByRole('tab', { name: 'Sound', exact: true }).click();
   await expect(page.locator('[data-audio="master"]')).toHaveValue('35');
   await expect(page.locator('[data-audio="muted"]')).toBeChecked();
   await page.locator('[data-audio="muted"]').uncheck();

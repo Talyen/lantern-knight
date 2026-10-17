@@ -1,13 +1,13 @@
 {
   "schemaVersion": 3,
-  "releaseTag": "assets-2d9f53903c172601",
+  "releaseTag": "assets-29921a464025f781",
   "filename": "lantern-assets.tar.gz",
-  "sha256": "2d9f53903c172601db5f35800f5c9f588d272b3bd32766db6fe394150c615ccb",
-  "inventorySha256": "2d9f53903c172601db5f35800f5c9f588d272b3bd32766db6fe394150c615ccb",
-  "bytes": 20368705158,
-  "recipeSha256": "1463a333dc2fb97152ad833df3bdc7c7d51b7fccbd30f308fa55c588d0042e8c",
+  "sha256": "29921a464025f78141ee0795b293e52a000e16d172261c4b5adbef01360258df",
+  "inventorySha256": "29921a464025f78141ee0795b293e52a000e16d172261c4b5adbef01360258df",
+  "bytes": 20404916430,
+  "recipeSha256": "5e88afaa47adb8187dd200a5550a144659121b9de22cf0333f5a8ac65e172e6d",
   "preparation": {
-    "recipeSha256": "1463a333dc2fb97152ad833df3bdc7c7d51b7fccbd30f308fa55c588d0042e8c",
+    "recipeSha256": "5e88afaa47adb8187dd200a5550a144659121b9de22cf0333f5a8ac65e172e6d",
     "inputs": {
       "dependencies": "608f3b1374e4439465093f5bebc166f64c39ebebab013e563b1aea76b9ae85fc",
       "assets/audio-sources.json": "59b980676efdc04813e265465e727453d5abbcfa07ac8497de4ce298fc02e713",
@@ -24,13 +24,13 @@
       "assets/library-artwork/sources-4.json": "e231f547fe29430c1410f23cad7b67ccc6d9bdc3bc3af49e73d5408a4875cf38",
       "assets/library-artwork/sources-5.json": "1a329e0f3e1d38440e7736f0fbf8f21bd138604f7430e14a3c660320e2d3c0a3",
       "assets/library-artwork/sources-6.json": "6ea22032a9f3edcd6a0080c06b74926f6edcdc6cbc94f39e5b5781ec425890a5",
-      "assets/library-artwork/ui-artwork.json": "e1352dfc62d0ec3abe14d22be117b67ba9b32a8a921c8570ff47939efc9ec98e",
-      "assets/library-artwork/ui-sources.json": "7db3dd61f1d59d8c00213753bcb8c3e8b6583813c3d730416ed4185ba63e25c0",
+      "assets/library-artwork/ui-artwork.json": "b8286f536ca269a40d6c19fedc3c82c74fd33747f55ac935b559df78ec2b5443",
+      "assets/library-artwork/ui-sources.json": "88b49539d85276140041cf80fd4e6290aa9a496d3f80b0f8a366460dcd6f49f8",
       "assets/library-combat-sources.json": "839bb630f9e979b1022746b0682ecaebc8c5f264000012b325855aeca4e55705",
       "assets/library-packs.json": "c4207ad2761c8694f7bf6a56f95f657fb0cf0dda7c2451be7027e80dda4a79f5",
       "assets/library-sources.json": "923b63c0dba83ffc69667dbc434808040e2d3074a3c309e68506852c6bd4d6f5",
       "assets/loading-sources.json": "c6328b90787a8f51146d0d54b62dc043565421cab27f2be4362cc615dc3a26a9",
-      "assets/recipe.json": "40a3cc51e2afcdf5ee7a3e5f23137dd36deea05184b3d917584d3075e8bba42c",
+      "assets/recipe.json": "3d4c7fa5c45f79d57b2351d08320180ec361ea863c0a8d6bb819bbb359036c7a",
       "assets/sources.json": "2880da52af9174ee5aef5823e6f3d49c513edd0459083ee916529a0d7b3350a5",
       "authoring/chapel-art.json": "8188a48dd079a98396b5c66f6077674c249dc1ac015eb198556a0141397e0497",
       "authoring/flat-stage-art.json": "ee632818909d76d66ed95be8cfa641f45d44d0beaea9f36c70b9e18217086bbc",
@@ -44,7 +44,7 @@
       "src/assets/camera.json": "35774b91048aa5c230a28918731a8afc14cb9df13118e050c6a74b99064cdaa4",
       "src/assets/normal-pixels.ts": "8507675392974e35711bb16a3029102b2f2ba118dda2741575d8f8220924f79e",
       "src/assets/registration.ts": "b0e0ce58778ac0fe8ce5cc5383da958fffb5d8d8342ca19947d21bc45568bd63",
-      "src/assets/schema.ts": "c21ad54facd17a274f5969c6ad30f2fd2c3140bca7c6bfc5d015a1dddaaac6ab",
+      "src/assets/schema.ts": "0289636fe20d0374092bf0c5f0f4cb100d0ca71fe5f705cad1a62b23e6a81667",
       "src/content/asset-catalog.ts": "0b91e9e02cc1e266084cf61baacabb5b7264d07c1e0c48d2baa35750b5397aea",
       "src/content/effects-playground-assets.ts": "f370f71b4199a37f39b9803b0c50342584422d433bac0f22ad479ef794fd5297",
       "src/content/graveyard-registration.ts": "55a5219a7be91e8e195413974155a6777da6bc492d168ee333879505b0a5693b",
@@ -55,7 +55,6 @@
       "tools/assets/archive.ts": "da73dc46c773905a8e064b72805f126a60db7d430f8058e19ecd9c14b5338eb3",
       "tools/assets/audio.ts": "479b8e017f76d3f0998d08f93a7461e04b8a102712d83ee2b9eee5dd508c2d22",
       "tools/assets/authoring-catalog.ts": "557356cf4012db5f18342196e38b70f7ed1ae7b799375c94dba98fcb811ff22c",
-      "tools/assets/bundles.ts": "6adad36ab6bfe09b15df363ed3716d9cf1d3c00f311d0937cc2a2ab847c88979",
       "tools/assets/context.ts": "f59919cea1bc851e1affc40ebe6cf488eb55d41b16053e3eb71f8d82b3e92796",
       "tools/assets/definition.ts": "53b4b4ed27f8e93f4a3a8afa1fe6acb8fa6e80c0fbbf05e29f93aca821758def",
       "tools/assets/discovery.py": "5ed5421e9df1f90c6d3ffded399f8a7aac163fd9f9bf7ad8f92d686844bf9ec0",
@@ -67,7 +66,7 @@
       "tools/assets/image-delivery.ts": "c3a09ea7ad5d3a07b18177157b2601f3df210d3417f9f65f555de9aa777d9830",
       "tools/assets/incremental.ts": "bf5991cfa48e37a1d16fa1d77dd0654969e56e5ca4f4ccbeeacea3c1ae393038",
       "tools/assets/io.ts": "8b7383e2d65ae8fc2c8249870af49d58c3f10d0d11cf4d6c7751614e6f20526e",
-      "tools/assets/library_import.py": "efcff225cfdadd52cd6be5c9b099b427f293879707f113cb6183f1f61022a0bf",
+      "tools/assets/library_import.py": "d84cfdec97892a41ab824c428cfcdda52ca3db049fde3edba98c508e33c8819f",
       "tools/assets/library_sequences.py": "55e1da13ab75ec0fff5aac1498a4e98dbf859b01bb4cc0068da89156904bfe74",
       "tools/assets/loading-media.ts": "98b1131e1b3de1e4c35e9918f1b1c0a69b53c6b07a03b58bb2f63ae772349343",
       "tools/assets/operations.ts": "d9237bfaa5a3d9d7e6de6007030c73228e14760a2c8f8cbb4375f45883194ab5",
@@ -75,7 +74,7 @@
       "tools/assets/pixels.ts": "0d396a9c51e8b7eeca8684c821e9270ddbf0305e9399dbbf4884a36296b63eb2",
       "tools/assets/preparation-output.ts": "462e7c4ac6ae5bab07ff6a07a65ab411e3bcfce2642282c434e3129c9e88a230",
       "tools/assets/preparation.ts": "dc93880ae284e338ad7d05df7e99ad166607f29bbb6738fb8d2d790aa7dffc6f",
-      "tools/assets/prepare.ts": "11a5dcb80b2d36c61be1b1f3ca54e341255d2423152b0517c821ff144a10febc",
+      "tools/assets/prepare.ts": "498b61f5713d67fc81b2e799b52b989974d1cc77d35778edce27b2184e7e4ea9",
       "tools/assets/prepare/prepare-animation-flow.py": "13adbb6395970e36cc33e6bcae70a096e094c21bfda2d4f140860cee31bcee9f",
       "tools/assets/prepare/prepare-audio.ts": "f117640cc8e4ffd464feabca7e944355a1b3976d9865906cecea4abfba7db949",
       "tools/assets/prepare/prepare-churchyard-kit.ts": "76f34731c8aef87bca99398bfff73666ac3f5907d0bc617a47b28665543faf97",
@@ -94,7 +93,6 @@
       "tools/assets/prepare/prepare-tended-art.ts": "e72370a25017c78c59e45da1d4359691d5ef2af5e73b60924847ddb1a584cd0d",
       "tools/assets/prepare/prepare-visual-effects.ts": "f5d8717f4ef0daaa923056d15d372e49d2d5bb973436ce666573add1a4b2cdb8",
       "tools/assets/preview.ts": "de523e2986354a15cb0f006a35ca05fedf874005e70d3d9143be7d149cd5ea5d",
-      "tools/assets/publication.ts": "b898b29ba4dc2b9b5c4e9ba28343f6a300bc4be597a6d9cc7a87d92a82df425c",
       "tools/assets/recipe.ts": "e4afa0085c8ad2b70496967a0d35f0b073e4ad177af1fedb0f5213066f5350c6",
       "tools/assets/resolver.py": "663a704422c484215c0053d7e2a77c744f36eed5053500cd7ef8e61adb0b5e63",
       "tools/assets/source.py": "38c2ae95dca679178b81950a0aa12a7b0164044a1b5cb6380914d3bb1023d6f1",
@@ -103,7 +101,7 @@
       "tools/compiler.ts": "169f3afd8b34452dc4dab930b99389cc0ea7a5598b0068602a07f9ec7e5c5589",
       "tools/lighting-bindings.ts": "fc0212029302de66c1f78998347d174156246d16641ae930ff5774affd42cb8f"
     },
-    "payloadSha256": "c72fc6b672a9e9bcf8473f6b50cf336746168e35bc735b2235fefc19c3080dcd"
+    "payloadSha256": "fd990029cacc1a668aa2379dc8b9f20eb523014e8255456231e43fb7bbb180db"
   },
   "bundles": {
     "authoring-00": {
@@ -144,12 +142,12 @@
     },
     "authoring-04": {
       "schemaVersion": 1,
-      "releaseTag": "assets-f4e4736fac06d9d6",
+      "releaseTag": "assets-6e74440adabdf26c",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "f4e4736fac06d9d61a179e0c9addda59a1d01d181622421adb4a23ef823299fb",
-      "inventorySha256": "51f63829844d34342a1d8290672d0463ac5d0651ca719c39eee80a4d7dfd2723",
-      "bytes": 348347324,
-      "recipeSha256": "d84fe72d20331fa6ad457862ad82ba53dfabe7aa36a306248ffe7159cb04c44a"
+      "sha256": "6e74440adabdf26c7d3e6f786365cff0183577e284223fabcb0e8d9796e22d55",
+      "inventorySha256": "699ca91893799f8df142de1ef6592c99d39a0b71e9c17a3796175f01966e3ae8",
+      "bytes": 349104976,
+      "recipeSha256": "cc6794f967b405c00c25b6ee3f8143e107c3319b7835e71c88470b5a2cc98b9b"
     },
     "authoring-05": {
       "schemaVersion": 1,
@@ -180,12 +178,12 @@
     },
     "authoring-08": {
       "schemaVersion": 1,
-      "releaseTag": "assets-cf054c321b837ca8",
+      "releaseTag": "assets-91862761e7edaff8",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "cf054c321b837ca81dc76068c3fc36d6cad5c503ecfde1b85b72ee0526baa5a2",
-      "inventorySha256": "960d22fa252952fef3640e520d37d0cc5814f7b81a4216025c1d3bd1002b340f",
-      "bytes": 254013113,
-      "recipeSha256": "4fd8c610576805a0df3250c12bae095eb36eae3f48a9b3156318f9df7a0067da"
+      "sha256": "91862761e7edaff841d82ffe83cd819c2f729cfd34d3223c1d7ea014e0f13cf6",
+      "inventorySha256": "56d56a28e2e9b875c7fd77676d9cdebac841d8ef6223fe88f52615a97cccd74d",
+      "bytes": 255169205,
+      "recipeSha256": "b2828569105d5acfe1edfab9eef87c1314537e6ba65ba4d84d2798bae616036d"
     },
     "authoring-09": {
       "schemaVersion": 1,
@@ -198,12 +196,12 @@
     },
     "authoring-0a": {
       "schemaVersion": 1,
-      "releaseTag": "assets-a6e97956d6f9e77d",
+      "releaseTag": "assets-99cf98360dca75e3",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "a6e97956d6f9e77db079bda0db60bdead9ada4e2b19b9ee164a8c7c0be8efcbd",
-      "inventorySha256": "973b45198b20a151a6a7fa8588dd7e0ebccde8c2e87cbb56478e8cb72e804275",
-      "bytes": 261032247,
-      "recipeSha256": "e6599bec441ec3c26ce4cbcc462f88311fd780853fa103caa3b340bca4fd07ec"
+      "sha256": "99cf98360dca75e3f2b193c531f8c7c3681fde3566093b3edf09a4077d9d4b07",
+      "inventorySha256": "bf116fbc8110a2acd747b62f6d44b8c23d708a0fbb324891fbce3fa94c7a4e3e",
+      "bytes": 262175305,
+      "recipeSha256": "1862c9d742c35c040e6712917c344a9507a19c122c96b73ca34f2af2f199fb1c"
     },
     "authoring-0b": {
       "schemaVersion": 1,
@@ -234,12 +232,12 @@
     },
     "authoring-0e": {
       "schemaVersion": 1,
-      "releaseTag": "assets-4f60ac389d90447b",
+      "releaseTag": "assets-f6c48a8b1b0ce882",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "4f60ac389d90447bc80d5fe334dece05231ac268b11139858afaf5cd0d2d62c1",
-      "inventorySha256": "07f40a99a030dad6bf3907a417e881122a09ebb29e773cdc14f186a830e4bc98",
-      "bytes": 246322253,
-      "recipeSha256": "b9fa798731fc3c7398a9a941b63102e4c779b65c835afe32cfe659096e9d56e4"
+      "sha256": "f6c48a8b1b0ce8821e1ddb20dac0e7ef3bc0baef2d62a9b9b2601daae9f9d0bc",
+      "inventorySha256": "1670808bc6fcdbf931ed96f27f20cb7879aef625f428d783b34700c91fe3afb3",
+      "bytes": 248337717,
+      "recipeSha256": "09d051018a1026c4d695bc40ec76d16a0eb2d1c4cec3a3ea4ae33c7cf6aa277a"
     },
     "authoring-0f": {
       "schemaVersion": 1,
@@ -297,12 +295,12 @@
     },
     "authoring-15": {
       "schemaVersion": 1,
-      "releaseTag": "assets-655933cc126d3b7c",
+      "releaseTag": "assets-26fd203300eb7988",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "655933cc126d3b7c978824fb34dc58cd4086ad5b0f16d595891622393c5e9a98",
-      "inventorySha256": "9a3ee419643d9dc354c989d408a4d55e4d92153d3a220aa964d12b1ee428aaa6",
-      "bytes": 298160449,
-      "recipeSha256": "c2bab5ffde972076e84e76f8ef3f9a9f3b0b817ef48a93270581d1a92ec7da52"
+      "sha256": "26fd203300eb798860d10be2b1cd53b6ee3218ba217670b97c6b718e3849188a",
+      "inventorySha256": "64a6657e940ec1441bb30b90c7646d4fb3bba2e7a3ea653f7dc3700252cca3ad",
+      "bytes": 299723138,
+      "recipeSha256": "1c22db10e805752fe06d2928ea5ee85746cb52a435d168984ee23e177aa9277a"
     },
     "authoring-16": {
       "schemaVersion": 1,
@@ -360,12 +358,12 @@
     },
     "authoring-1c": {
       "schemaVersion": 1,
-      "releaseTag": "assets-8f0cb1793f7a86e2",
+      "releaseTag": "assets-5bc96b997efca502",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "8f0cb1793f7a86e22ec22d42d64213c07831406cf1758f4e371845e6f9e3bc30",
-      "inventorySha256": "403c59b33d4eb144f6c2160524f6ed349ec2980ed0501840e35a7533ecae8d49",
-      "bytes": 331749284,
-      "recipeSha256": "aef465ad4815a149fc28c5c4f5d854a7d914390be88395f814e13e4bd6a52346"
+      "sha256": "5bc96b997efca502c125ccbfa240a50131e7b86bae5ea07d003a6f25676cbd5b",
+      "inventorySha256": "1cd74fdd923f0d46e57c5bb2f9ae30216f7cb119f05f02617993cc92603be94c",
+      "bytes": 333225921,
+      "recipeSha256": "ecaa2f3c2873e5d09fe129194c0b5bdcde941e99060f8d74f20b2146f4f342ee"
     },
     "authoring-1d": {
       "schemaVersion": 1,
@@ -396,12 +394,12 @@
     },
     "authoring-20": {
       "schemaVersion": 1,
-      "releaseTag": "assets-af771d9169e0a5e2",
+      "releaseTag": "assets-cfea4f81aaba801b",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "af771d9169e0a5e2a5243c8709e7f731cc9d36059b5c4e9ff482e5ff31c17798",
-      "inventorySha256": "6caadd2e74747eb57a69b209ce9b1e7f9eab52a2c52a3f5280fb1002cd544a94",
-      "bytes": 249584272,
-      "recipeSha256": "5d3a26335df088c1dfff99e3533675273c190c09254a6984f73be64d39598968"
+      "sha256": "cfea4f81aaba801b668cf19e93e93399bdea58a65ca1c6cdca9ee3d028c76697",
+      "inventorySha256": "125d9b37b4db4a6978736cbdaf2c9e0c84acab77415659b7acf95960b67688b1",
+      "bytes": 250889173,
+      "recipeSha256": "5371024a7729cd463a05230f1296bbdec618e4afdba34934c2cd408ab56873a3"
     },
     "authoring-21": {
       "schemaVersion": 1,
@@ -486,12 +484,12 @@
     },
     "authoring-2a": {
       "schemaVersion": 1,
-      "releaseTag": "assets-4b883cf1663d07a2",
+      "releaseTag": "assets-0aadaf6bf947b5c6",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "4b883cf1663d07a2a88c3bf652e99c61053b0c95bb608e1587c8bfe951789d3e",
-      "inventorySha256": "7aaad81f13f09782c75f3241c8742536d055143ed5bdcc030a75ea123c03765f",
-      "bytes": 281046185,
-      "recipeSha256": "4559605f7dc299e6a768927b7d60281230e610fe389eba3eac84c88052834c13"
+      "sha256": "0aadaf6bf947b5c6fcd458935e473f55f8bd3dee37b832c3e076e038ecbb9022",
+      "inventorySha256": "1dec30f20504e23985d5f2e8483fb9fd3a932ac6c9e86a64971d87ea7d40b41e",
+      "bytes": 282264591,
+      "recipeSha256": "e30f062f3ebda66c945a6806ba4c9a95e082885f58d2f6e8712c7db10acb7983"
     },
     "authoring-2b": {
       "schemaVersion": 1,
@@ -513,12 +511,12 @@
     },
     "authoring-2d": {
       "schemaVersion": 1,
-      "releaseTag": "assets-03a6de38f7631eac",
+      "releaseTag": "assets-d2f0afdfd2b15690",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "03a6de38f7631eac3faf6e2c76474cfcefa563a950b605369665f3b19b1f585c",
-      "inventorySha256": "3da98212fb4ee1430fc609c94ca37b19443ff6624a07b946a40ed4f84c5554c3",
-      "bytes": 297663992,
-      "recipeSha256": "0a622e7797d79914e770e6a0a30ff4451a50d1df030b0b36694f930915a9e097"
+      "sha256": "d2f0afdfd2b156905b2f810c42b92801e55e0063ff032796ed270515ffb5c523",
+      "inventorySha256": "981b1316f631cb55928e272d008ebb9808d7e2f22bbd1d5de9ecf4697bd4a393",
+      "bytes": 298938836,
+      "recipeSha256": "37e08ffbd87d8561a3596840f4277fdddf0cb07f9d0b80c06aff78cded643e45"
     },
     "authoring-2e": {
       "schemaVersion": 1,
@@ -549,12 +547,12 @@
     },
     "authoring-31": {
       "schemaVersion": 1,
-      "releaseTag": "assets-2eff8af38e9414e5",
+      "releaseTag": "assets-2a18303f6c32e2ce",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "2eff8af38e9414e5ee4f01100b209d4b34a7552752e16888924cb4c2536e9768",
-      "inventorySha256": "f4d9900b531423d4b4b399a16a4a66dfd0232c3fa5f9a259e520257eeff5c955",
-      "bytes": 237269349,
-      "recipeSha256": "c4509731783c2a8535f396f049845f20e00b275cc270fe7f12bd452bf962d77b"
+      "sha256": "2a18303f6c32e2ce0789bc8652bfdce7bb440f2230e5298e5e63671820357d5f",
+      "inventorySha256": "bf0db8da99786544d4945c5861ab8ae411b57de1bdf4f2061e791ab4d742d645",
+      "bytes": 238030616,
+      "recipeSha256": "307919088e05e4b20079674e2939cbbf48c927146ee1b927edadf436b5e25605"
     },
     "authoring-32": {
       "schemaVersion": 1,
@@ -603,21 +601,21 @@
     },
     "authoring-37": {
       "schemaVersion": 1,
-      "releaseTag": "assets-370b7545810bf32f",
+      "releaseTag": "assets-5112307911880ebc",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "370b7545810bf32f0316775ee47e144e47c1b1585268d4f503dc1d82ad4f6610",
-      "inventorySha256": "5615426b1feb0da5521d455eeebb6d7b6261b6b8080da99ed98a0587ed20f0ba",
-      "bytes": 228584028,
-      "recipeSha256": "566ce7098436b1a246d8b48f650f5a3c12fc7db959fea568c27b2062fae487d0"
+      "sha256": "5112307911880ebc8b6dd13a1b339a5930552f7bf1777685ae2175f99318c818",
+      "inventorySha256": "9af62a088337e4892762394669d6d26327dea2605541850b4eb70afda3e6da80",
+      "bytes": 229324158,
+      "recipeSha256": "3f607f8bdcaf52668ddbca90d94e3e00258d4ea3708c724624425b7449c98f27"
     },
     "authoring-38": {
       "schemaVersion": 1,
-      "releaseTag": "assets-7ffe6c04d16ca31a",
+      "releaseTag": "assets-5562a9f93bb7e3c1",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "7ffe6c04d16ca31a5811019d994dc614a6093c180f894a53f96d699cbe577495",
-      "inventorySha256": "9c419c426ee017503fd7d288324e114124a67635dfd3df778ad110b320e7fd66",
-      "bytes": 269970748,
-      "recipeSha256": "316b2e6b0af00a5c44a0c30a87dfe753fee7bfd42f80fc3fec9fb169b729b47b"
+      "sha256": "5562a9f93bb7e3c1280c741b69782711e6294e358e6213d1df7758ce103e07d4",
+      "inventorySha256": "44e16dcc9c034d6f2cada6155cb32a9979415bad1e8c664b28853619c8d18423",
+      "bytes": 271127576,
+      "recipeSha256": "ca587173fc66382cefa85c7180795e847b3e7480cd3831a4bfddd18e5302e775"
     },
     "authoring-39": {
       "schemaVersion": 1,
@@ -630,12 +628,12 @@
     },
     "authoring-3a": {
       "schemaVersion": 1,
-      "releaseTag": "assets-b342e7643340b201",
+      "releaseTag": "assets-84bc763a22ca98bf",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "b342e7643340b2011af309dd98667aa25a856d41a2347c5fb342a2c752f89220",
-      "inventorySha256": "fcc04a2b4949588e3a36d0d944dffb49c502aec6ec7a99d9435a3a1c945e4993",
-      "bytes": 269037278,
-      "recipeSha256": "65242eb0d854a3aac8e975a0cbb4ae5e75a112728001c33692e263127891cf56"
+      "sha256": "84bc763a22ca98bf76a4031748d708f8d4791ef7c82fd22b6ba610b38195eeb4",
+      "inventorySha256": "40c6a4641e567ea5dd6c70eff1024e80e340bd4f7043479bb6ca064c2ab75f4b",
+      "bytes": 270208889,
+      "recipeSha256": "f58a865638512874972f2de80ddb293e9514bbe6f981c173df9525c06ebe13fa"
     },
     "authoring-3b": {
       "schemaVersion": 1,
@@ -657,12 +655,12 @@
     },
     "authoring-3d": {
       "schemaVersion": 1,
-      "releaseTag": "assets-75eddd01069ef3f8",
+      "releaseTag": "assets-e9eda3d52a87a8f2",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "75eddd01069ef3f808fa22d881b16dcb86e9c0f01b095d29c6540df816fd5687",
-      "inventorySha256": "fe806ca08e7a0fd2b85d293f481df171824a0fa7aaa7db33ffbb46dcd87b80a3",
-      "bytes": 300900424,
-      "recipeSha256": "d3afd9f17a4379aef2eb998cba9456fb529ef2519e167364d021bc0279c6c209"
+      "sha256": "e9eda3d52a87a8f204dd280c5f994718cd2d09157c1ebd23a973be95484d6402",
+      "inventorySha256": "344d4b4fab86eef93e6804b82f41f4e66b0cee047bfc84aee52409b274c40820",
+      "bytes": 301662803,
+      "recipeSha256": "9433c11328888f946e540fda42d2b599246121da10648d35b33b91d1ad557edb"
     },
     "authoring-3e": {
       "schemaVersion": 1,
@@ -675,36 +673,603 @@
     },
     "authoring-3f": {
       "schemaVersion": 1,
-      "releaseTag": "assets-99d2d409c7efe72b",
+      "releaseTag": "assets-9ccc2d90115c0dfe",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "99d2d409c7efe72b6ccbdf1ee92d21dc7e964f001b88faab0fceca68f7319c75",
-      "inventorySha256": "6f729a240b33cccfe6031a2a4ba5c3cd20b1d25edeb06b721c6266794ad800cc",
-      "bytes": 297848559,
-      "recipeSha256": "40ae8a636582ec33cdf07f9aa527fc2af13038526ba8fb9eca48c22c401dabde"
+      "sha256": "9ccc2d90115c0dfe9989b33d4d5e3f1e65452f39ecd0123730fc640f4558d6f6",
+      "inventorySha256": "4b336287c7abdcf0e9a2d053c9078cc952acd13089ecbbd96a0b9f19545b10b9",
+      "bytes": 299534359,
+      "recipeSha256": "903de64bdd1ed558e9a9693c6875ec41e28dad7c0a814e5a5f793d74eefadef8"
     },
-    "bootstrap": {
+    "bootstrap-00": {
       "schemaVersion": 1,
-      "releaseTag": "assets-ec0579e1378d5f71",
+      "releaseTag": "assets-4f93e0f520504ca8",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "ec0579e1378d5f7183b020d6815b7637fb1448f2da3abe3c5faf1cd7d441fe68",
-      "inventorySha256": "1aa124a8ef8bd7317fa8c072ad35b1b7b98291b1e1b2b095b546ac6a0680557a",
-      "bytes": 1660834678,
-      "recipeSha256": "258316e65dd42c3845471fab516e1830e67cb286bdb6ea36c84499c448c89b3b"
+      "sha256": "4f93e0f520504ca87e586bb00f2dc6889643e6e4ca33d0e6052935f8bdd5b940",
+      "inventorySha256": "6c05f024dc04d0362653d5f979554e68c9919eee530e98b253051a21eef45046",
+      "bytes": 26128679,
+      "recipeSha256": "8830662e1953da30317192ebb777cac6f1fc7de6a938d791344387b81da74fda"
+    },
+    "bootstrap-01": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-6fc6e0cf561fbec7",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "6fc6e0cf561fbec7b028cba4e4c75557fb1b1128abeed9707d8f928f0f85f6f0",
+      "inventorySha256": "ac35ff1bf905ce484c5666643981f28b9345749c54055c02a3b18491ec61a4cf",
+      "bytes": 22012840,
+      "recipeSha256": "7748d14a21940a4b28e207b6eac60fdb01181482ca0b771ce1181426505e0137"
+    },
+    "bootstrap-02": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-2f314f4f4b9512ab",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "2f314f4f4b9512ab83619d85a7a0356b85e6da9c0635c40f145462c0564496f3",
+      "inventorySha256": "a45bd7c7870a4d7543a7c86d521315477378ad82d1ebbf33a6a800c306ff2e71",
+      "bytes": 24281085,
+      "recipeSha256": "c520df0c5d9a59789a92e232eb45313eec4999e7be7e9db8558a95a2c65b5b7f"
+    },
+    "bootstrap-03": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-2a4703fda99b8025",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "2a4703fda99b80258bcd53c7120ccb4738b2bbcfc0cf735f6cf18fcb183ee99d",
+      "inventorySha256": "f670bf5fcf679a3bbeceec32163d08518daeafcb7a91dbd7cfa32308f1da8cfd",
+      "bytes": 26793210,
+      "recipeSha256": "41257e4c536efc8fa08bccbd7e7d46cc9b897066e5fd69f1506ca60c481a9f1a"
+    },
+    "bootstrap-04": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-762caa3fe2be0eb7",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "762caa3fe2be0eb70f27bda86de240ce67afb3b4c0d167a07c0e02d0804e72a0",
+      "inventorySha256": "2708f3e7d06d667e65142593b73618537f371c4bae8e34149e20cf63fff97df0",
+      "bytes": 24385961,
+      "recipeSha256": "3ee73610b0bb4799adcc7ec1d87c2b96b6ecea17ced68d7ef7e62602d0455a47"
+    },
+    "bootstrap-05": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-0315bda6e35f9652",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "0315bda6e35f96526045d56138da71058bc717a7878ad3bba371ad90d1f8bd80",
+      "inventorySha256": "1b5bc741f35216af9305470efe59cf8b18936ee74173ebb8dcc81ab9c61fbd7d",
+      "bytes": 25117462,
+      "recipeSha256": "849b83503086242ac80e705bf45a75261b0b6faaf89341c49711374f2228a79a"
+    },
+    "bootstrap-06": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-b665ee4ef5394ef9",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "b665ee4ef5394ef98aaef4f194e32b18c4a3f233c2f27cd6d6167a6d8d371e9c",
+      "inventorySha256": "cd4cb03330addd95f0910eac0ef93fa3900a642e2423e07b89914ffafa177004",
+      "bytes": 27894825,
+      "recipeSha256": "9981f48c1e09206296a4eb1cd3bc1c4945301dab1fef03a197c7618a7aa97181"
+    },
+    "bootstrap-07": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-66877f7e37b7f2f2",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "66877f7e37b7f2f2e9aa26a1923be1dbff40a083b07ce2bfa4ace0d751be456a",
+      "inventorySha256": "b5976316fa4e395e185b6988d4e928bf3dd5b666de736355a92b7c6e0157b07f",
+      "bytes": 22130828,
+      "recipeSha256": "a41031e65cb942497a2c3bdf83fd166bb1e8067a7e6a952d6d14a07d7c7da1c2"
+    },
+    "bootstrap-08": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-d685b44aed5aa8a5",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "d685b44aed5aa8a5113f54039488de84730d0aff910507b6966c71c0c08aa34b",
+      "inventorySha256": "7d40a7b50a22cca42cad3722aaf1dfb4f33a186ad3f4c3f84ce79f6dec21e7d6",
+      "bytes": 26836933,
+      "recipeSha256": "2e9c3e8d85971b32bed7291dd89201d90538a1a9697483759c1140466aba123f"
+    },
+    "bootstrap-09": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-29c87f4b471729e6",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "29c87f4b471729e6a617c6a8c42867ea526457308add3602a27141de8e468e8a",
+      "inventorySha256": "ea0dcd06ad88c7b151e3993ce037b029e618cf863d9253b7e9a39e798ac031a9",
+      "bytes": 21568076,
+      "recipeSha256": "5dfb6b3558715ede1a1d049bcaf5f729013df668fac7ea494ec9c8f1f776f4d8"
+    },
+    "bootstrap-0a": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-c9bf5182cf9ffc11",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "c9bf5182cf9ffc11a04beeae4fd4873a14b3cdb200c12528441dfe7feba38207",
+      "inventorySha256": "00fb6fe611d8eac1eac2438d8903c6e9d91dddf2cfe50991ce8721ecd943d3af",
+      "bytes": 25393754,
+      "recipeSha256": "80a42b3ea90ef67b6b39a0e15c827a75356fb5e8f5cbc67837c27e939e5ab0c8"
+    },
+    "bootstrap-0b": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-56af7859c260cfe0",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "56af7859c260cfe09298e68292515454bc9957462b7e607b04b22ed1db0c449f",
+      "inventorySha256": "94535b9beaf68e2921fc70f7444866b2150188cc150c304d30d1ee8a7ef3db02",
+      "bytes": 32337491,
+      "recipeSha256": "f61add8bb91f626408c41a37702a90de244aacc6cea37084c4b6f1bc5fb7efe2"
+    },
+    "bootstrap-0c": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-8a31a64773fe1404",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "8a31a64773fe1404df8f5625e03a0b0fa4e58ed5bc1a74c57306e132af762c78",
+      "inventorySha256": "cf9c54efa234352c975aab6e665aec4c8ec7a3ef4664fe234f150c2478a23aa5",
+      "bytes": 24642803,
+      "recipeSha256": "3100c2c63ac01ff602a51af088c9319e4f1e7b2eee49f6e0bf488b6a35205efc"
+    },
+    "bootstrap-0d": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-190615827a6d8f88",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "190615827a6d8f88899b79dfea5e818e3f8ffb1ef62dea45ed3b3297a0c226d5",
+      "inventorySha256": "8b2c8cff3ed74d656634943d63b7a2e2cd4ad1f4161baf4df4a0c59dd76da62d",
+      "bytes": 24494639,
+      "recipeSha256": "be8068e4fad33c90ebaab913294baf7f1dd5629389d662272332b9a16c416a4f"
+    },
+    "bootstrap-0e": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-8a9387e64db48a1d",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "8a9387e64db48a1dbe4abbb19633529c3d0edb70eef18f05271e8bc453fbd841",
+      "inventorySha256": "b99dc30f61a73fd7bbe456199b1e83aed1224fd65bb55cbba84f1c4c077ebcbe",
+      "bytes": 25914267,
+      "recipeSha256": "bc63b5412c917046c089119ac0b10509f85d8aa0959aa3acbb28e3bd2a139581"
+    },
+    "bootstrap-0f": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-64b50569d26b61d4",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "64b50569d26b61d49f252df81ff32f079973b3bdfdee577ec92153df56492edd",
+      "inventorySha256": "55330249e6279dbe76fe3c08b1db2d9de9c2f13acba9715b55bac662a82e6cc5",
+      "bytes": 26303458,
+      "recipeSha256": "bd60ccdcf6b9dffbccf87e6391439169bb3941312f760b4958722785db913115"
+    },
+    "bootstrap-10": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-d0d58640ada70c0d",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "d0d58640ada70c0d5b46254c6ffe4542940e58f356af49c29afeefefe1277f50",
+      "inventorySha256": "31cfb171d5b4ff0b6f0595749fd269702ccf0cb670ee01f9a385f362a6256d33",
+      "bytes": 27069346,
+      "recipeSha256": "4e6ce0ba7c6d181de2d7fc5fad711e4e76af553f8ab117734ecd0699be4c0469"
+    },
+    "bootstrap-11": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-f6a74e2e1f053338",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "f6a74e2e1f05333840fb5941f179ff2c862c719c91d22a884be1a515f60d0e6d",
+      "inventorySha256": "a300867c9d9f441674f693566b8905ae451d66dd878ae4614106408eafbbecc6",
+      "bytes": 22145965,
+      "recipeSha256": "bdb0f36ce4ec5ebcf93f259bccb944c9bfbbf8bc79a88d3f87848d3e6727e66b"
+    },
+    "bootstrap-12": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-555c462cc9e13c49",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "555c462cc9e13c4911bc227a14de6eb1bd9ffdd44bd42316f267e7337fe95544",
+      "inventorySha256": "3a326cd24c072ee91598acc40f620c60d76f01ff37ab6e10a4ab815999908ebd",
+      "bytes": 30327022,
+      "recipeSha256": "6be1a5b926d2813420a73e1e0da10ba4b3481da7f7d6d992d3d0b5b67b8436ab"
+    },
+    "bootstrap-13": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-196abc3920c0d7dd",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "196abc3920c0d7ddfcc5c3827ee8e546b11a535c0857674094dae6b696c91511",
+      "inventorySha256": "92bbc0467f9a42cd0640193e97c0a548f035d0c52cc9b3b6db43854bdda00503",
+      "bytes": 27862254,
+      "recipeSha256": "b7c5e8c498cf854946785356942aa02f94c4376e661a6f36d34895f8537715b9"
+    },
+    "bootstrap-14": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-95a36dfd1449b3ab",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "95a36dfd1449b3aba97c2707afb63eaf1ae7af1c2c1f6b857f1083beb51d84ac",
+      "inventorySha256": "34f510ba8710c716bb9be44e50ecd77a558cca4b3a6a7cf7b5886deba974d050",
+      "bytes": 25961199,
+      "recipeSha256": "924c8f2a7a966690a70866ad1eeb5eea5bda79e5aff7343755bead79c2cc28a3"
+    },
+    "bootstrap-15": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-8b223546269893e4",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "8b223546269893e461e341f408182f2fc70e9bdbc87b37115641776f6ed8cd89",
+      "inventorySha256": "7887dd1af2644139df7e6d9f828739d8dd7968f6c4a1d285ed98049058eeffe0",
+      "bytes": 23431040,
+      "recipeSha256": "a1932bc8934a35d1e1442e2543a54039a394bea64c4db27bdcfd167cdb65c22d"
+    },
+    "bootstrap-16": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-24cca94b319e287f",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "24cca94b319e287f46c98c30988311c2565d0897df9bfb3b8b1ee4f5cf621b55",
+      "inventorySha256": "f070f8da2e871a32ef45ccbfc6e6ff3b25e6dcfa86a02acae60ff2c37f855f50",
+      "bytes": 22791173,
+      "recipeSha256": "3e9121e52a7b429b020accbbc0ea8f20d6b1ca4e20a38f6ae1fff37e73c840ea"
+    },
+    "bootstrap-17": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-316c106b9a619fbe",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "316c106b9a619fbe025f5c76da26438ea25b7c2d887f74c9762f3a299c0e9114",
+      "inventorySha256": "4199771dca75030bad9766e954c90e2bd3398d56d7590c7f5771b76eba67bb79",
+      "bytes": 28736523,
+      "recipeSha256": "3d598e2ae99656ecf0c63b39511dff933064c884bbb7319b065c3a57d2b8ebd9"
+    },
+    "bootstrap-18": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-4766773d11f58902",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "4766773d11f589022001a5bd6c7b7f4ae231adf8e5a11c3660c6c709236ae47f",
+      "inventorySha256": "799d69b1529590b1efa795ca9ab1a86c2074c881beb697b8e5d176918a6cf07c",
+      "bytes": 24024375,
+      "recipeSha256": "e5cb518e2ba346e78b687613de0c309d074ca6091141e606d26fc406c45adfc2"
+    },
+    "bootstrap-19": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-3b3c3867d878c118",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "3b3c3867d878c118e61c9252ab84f15af0deb6f0f5247712d9fad1490c8aaa72",
+      "inventorySha256": "3b5963f283318dbe2100f807b2f85463f64bd6e5dd6e61b10c1865174029cbb6",
+      "bytes": 26649088,
+      "recipeSha256": "2dc715e2fcf9fd2fa70295b14b106026881cd7f62f11d74ace28b529ca84ee43"
+    },
+    "bootstrap-1a": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-9306ade3b84a7034",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "9306ade3b84a7034f5d741aa02464272f9477ac2e3cb350da6b8adef39b324b2",
+      "inventorySha256": "fe54577ccb9549e12b17dd2998275dcca8e98a6226ca9568c545e1b0445aed8a",
+      "bytes": 28398431,
+      "recipeSha256": "e252087411acf21d88494f96ef490b8f1fbfb66242c23ae056f344eef7772fdb"
+    },
+    "bootstrap-1b": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-4f740085ba5a81d8",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "4f740085ba5a81d8fc62fa4a48f5bd611f2e6c8317bb16cf2025f378e6ecc3e7",
+      "inventorySha256": "9f69d283bae4cb809bf13b1600db6d6220a7e88e138474fc1fabdeefa1118fb2",
+      "bytes": 21437267,
+      "recipeSha256": "5bce78db98fe984fe6d38000642067b5345a0711eecada3f1c1f992bf69df2f2"
+    },
+    "bootstrap-1c": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-ce1bae5820613d3b",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "ce1bae5820613d3ba6a115d058fe25de3b2a9f8b2ca3586bde09e26bc0f5802e",
+      "inventorySha256": "fb32736ab68118d9081340e099fa54fd674b20249e1019543337159d1cb272d0",
+      "bytes": 28600661,
+      "recipeSha256": "6026dd6a5059ec1e3c995fd7e65a0ec8d163a1aa34fe1f76770b08838e945f15"
+    },
+    "bootstrap-1d": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-26ecdd273ae1bb18",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "26ecdd273ae1bb184f0ff07088d2d7a660f0b8f33d60a5bf73cc54e2dbb9336a",
+      "inventorySha256": "2bab97bcec2433ee474785374b860a268125776e069aedbd2783cea285ff4299",
+      "bytes": 29798207,
+      "recipeSha256": "72f6ce621ff10a4e996f75d4f6e09895c941cab88d2cfa7cde96890ff69dab61"
+    },
+    "bootstrap-1e": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-7785c4591c388245",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "7785c4591c38824548b33e3cd6bb6481b33ee5ba1db1a9a92e60241365d56bd6",
+      "inventorySha256": "6b29d218565a4c7ce22c04b59368a53adf49611172b8bc4086208e3e84e1c37d",
+      "bytes": 23773218,
+      "recipeSha256": "e8ab94c63de4cd0d59ab5b1d7a33e7edbc5cb3325f42d1dfb6846ceeb1d4621d"
+    },
+    "bootstrap-1f": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-b2ab4c3ac34649e5",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "b2ab4c3ac34649e5e56013a56bbbc4b54b0f3865d51c7d7137a4f99bf945be36",
+      "inventorySha256": "115a6f567c97ff102273545d37ce2ae4f564540b457361e9b8967824680269c7",
+      "bytes": 25019102,
+      "recipeSha256": "424758ce4724c7ce16d5e1a4aea25a6a23df18969d457a867b1f593f8db5735b"
+    },
+    "bootstrap-20": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-a239213285f36f26",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "a239213285f36f2691ba79fbf6fa04443f291bf4801c4a4d704784b2063f9868",
+      "inventorySha256": "281ceaf476465d62162844bf978d045ff6c368a9b5f7ec59f3e779c6ea9cf044",
+      "bytes": 24113874,
+      "recipeSha256": "97b32c47ffbd2f918609b3c7c8b91a55e77a81b7943d47436e6ae6932cdf4301"
+    },
+    "bootstrap-21": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-6bf022c3345efdca",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "6bf022c3345efdca94796d0ae84cfc2487b6da7bd80ab3472af524cf86cc5f4b",
+      "inventorySha256": "314469eee29c010a43741e67024eae5e17bf8a391fd54d22015b0ea5be3028e2",
+      "bytes": 28445946,
+      "recipeSha256": "7f1ba1539d29fcc1c7f311d62f81ffef4235a4b1f6a48bbea55f8468bdb62fb5"
+    },
+    "bootstrap-22": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-5cc46315217c9e7b",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "5cc46315217c9e7b2ed464b704586444386418ce827b98b55401569a44f5ab66",
+      "inventorySha256": "e5724f4c3dcceb9a3c1fc69a95480caa682a6917dacbb105aee27f1fd5560f2e",
+      "bytes": 27667503,
+      "recipeSha256": "bb73b129f84fb431493f7ddc8302e4cf99fb961c7c27e909ecfab4dd9eb815a0"
+    },
+    "bootstrap-23": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-269716a168429569",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "269716a1684295692cc9344df43266af0a8a37e421d97aa23994f419409a88bd",
+      "inventorySha256": "dd034161df4f94ca984f6a9e138a6465f64cc0790ad07cfd8be4627654a8157c",
+      "bytes": 24807763,
+      "recipeSha256": "3325222ddb98174914fa635879890ffad40a5da00b9b47aa131ae512422e1a5c"
+    },
+    "bootstrap-24": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-17ac0bd16d7b96b4",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "17ac0bd16d7b96b4a136912eb8aedc922580a81cb1ac83070a823aff55a35599",
+      "inventorySha256": "2c8630415b947d3643867ca8116dc04bc1caaa9d0811b450a1c809e94c96e568",
+      "bytes": 27876467,
+      "recipeSha256": "223853e9f0a291cad20d9ce0bda4ac1afae99cb89d0849f5a3e069b7b0a45556"
+    },
+    "bootstrap-25": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-c889874a6c335bb0",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "c889874a6c335bb0fc3e58a5c66278157755f99fc7d97cecc9a65f28aa97c8d1",
+      "inventorySha256": "cbea580a04bbd2ee9cdeaa67ba1f7071844e19e3742c79a74096775ebfb4ee4f",
+      "bytes": 27774916,
+      "recipeSha256": "db4831235d8b7991cc2890adbccf0150a47a27f8d3330694d5bc4fb87aecfe8a"
+    },
+    "bootstrap-26": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-e7cdda484b577b0b",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "e7cdda484b577b0bbb44ec0f1198b9fd1c3fb6fedec1a8456e044287c125b30f",
+      "inventorySha256": "67018055a191c30ebaba8bf28a65464e51fa4a6491cf02222e9f2ccac21bb78d",
+      "bytes": 24538825,
+      "recipeSha256": "abdaa715eace6e503b393c727dccefb7da76486b0c1eb6858a341a2fd810c1d2"
+    },
+    "bootstrap-27": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-6ac1ecb6081d760c",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "6ac1ecb6081d760cf7d8b18231bdd7deb7590ead6f0d3bfc8a9ca47dd4e2c47a",
+      "inventorySha256": "7bad144516569e6f35fb06dba49681d45b8404b65c8290c45aae127180a64328",
+      "bytes": 25592157,
+      "recipeSha256": "cc1b5fff099e8bfcb2c8baa7b63a16c4015e757227d15143b5435bd73b74ffe1"
+    },
+    "bootstrap-28": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-03cc9d4680cd9ad8",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "03cc9d4680cd9ad803fdc30020b83df666b17c877ea5d2efa52bbd1ae8a82cdf",
+      "inventorySha256": "95c4b9bf5f11adc5a8c0e57bc1ad282ba8b1e61348e8425f9d505802117ba84d",
+      "bytes": 27590244,
+      "recipeSha256": "b3bc70624a71d9ac27e6c4c665b9d7e83004470becb253356cb77bbb9f298a56"
+    },
+    "bootstrap-29": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-be23fc5e0aa1637b",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "be23fc5e0aa1637b0be2175df0f65ed655dbce3264929003366ac39a96df2007",
+      "inventorySha256": "556b8d83f94cf03bee3b47f291b94e228d9839cf9e5f35ecf40d1eb2d457beeb",
+      "bytes": 29885940,
+      "recipeSha256": "495dd6235ed589f8fa9dc2d1ab19b889067e4de6f4991c8b0acb48b8e6541479"
+    },
+    "bootstrap-2a": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-e6cf897b7d0f6e98",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "e6cf897b7d0f6e98f9c9364eb70db4ce63f6040a567265bf4891b62c2c63dc08",
+      "inventorySha256": "094c4b4e1ccd4b636d78f067e4c783b9b845e8a8f50bff8022bea09ef296c577",
+      "bytes": 26364787,
+      "recipeSha256": "978ad5289e630e7792ee53912613a6fbf23cf825062cdcdf7506597d13278318"
+    },
+    "bootstrap-2b": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-4ba9c5249306deb9",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "4ba9c5249306deb99beb6d6ef83ca43cbbc4caf13e8b66290577fdba4ca8e6af",
+      "inventorySha256": "6ac131104b164f3e79a57b282f4c89d6013794383db59289cbf7c55fcbe93ab3",
+      "bytes": 26873037,
+      "recipeSha256": "5fa8c3f0e024ea4adb15a21fdf9691d2741e916798c1ffd3dfff8d23ca634583"
+    },
+    "bootstrap-2c": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-f2d6c57acbeac1e5",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "f2d6c57acbeac1e5f335d39fe27edaa5ac7f0d29ac5a55101cf396b947f66c6d",
+      "inventorySha256": "560c5092afad963ae11514ea6aae3d415292c9d01fcc589cae7db53e455ce81f",
+      "bytes": 23146305,
+      "recipeSha256": "7038647f12a691f8a9eea5b3a0a25c767a489dd68d49e261518030441ade54bd"
+    },
+    "bootstrap-2d": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-4e1606ffc17a162d",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "4e1606ffc17a162dca3c9d70de5fce66762b80e0cd8bbe9cf5d39a6173383ef0",
+      "inventorySha256": "e6f149e6dfa7f353dec4c641345fa86f095c11d6ea1088be7e5495abfce1fc11",
+      "bytes": 24463266,
+      "recipeSha256": "fed9e2a3a0c8981f3fc86196abf8d4cacf4532faf3e23a3df44e0a37897e45da"
+    },
+    "bootstrap-2e": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-26c380edcc27783e",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "26c380edcc27783eae7fae24d850070327aedb42157c7e8efab5ce077048ada0",
+      "inventorySha256": "4e0694da6c94e5e3c6512ec65def275bb7da9f9690994e032b75d60f5a5e599a",
+      "bytes": 25576960,
+      "recipeSha256": "f13962f0faa5c22e65898ff960e7f5b477324b7827242bee7c5357134d4447a5"
+    },
+    "bootstrap-2f": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-cd1239f305a15264",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "cd1239f305a1526435a370e75ed5f42f196a8c2aa940aafab9595a7b96bcd94c",
+      "inventorySha256": "d7acfb6dd916e4ed3122857debcdffe676d64614d14e14c326c206eed0bbc0e7",
+      "bytes": 22880019,
+      "recipeSha256": "bf37499d23c79c5b3d7de7aecdb415527d21c6388086d2e5fbb18cd3c3222b6c"
+    },
+    "bootstrap-30": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-82a74e474e780b25",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "82a74e474e780b253bbf2ba75986ccda941a4b47b66ec03d083bbb901431bf24",
+      "inventorySha256": "71eee57bcc37ba7ef2b2783a134305690740d43fc229cadeed17eb71027eee64",
+      "bytes": 29820539,
+      "recipeSha256": "3c993d223e6c05dc06f8d76403f2113ca6245be62ad1a6b69119a35ee95d5da5"
+    },
+    "bootstrap-31": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-4d3b887f7551cd4a",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "4d3b887f7551cd4a2b5147a53b511cd725f224da2b6164cae57be7642920448e",
+      "inventorySha256": "3b84372f6728dff1675fa6cb46f55b35926d5a2fd9705cda8c7c34e42d1c0bb8",
+      "bytes": 25619403,
+      "recipeSha256": "0ddb6784be96b0b2645fe16d64e0cf7f440a8cd2a529669ba03dcce90cda6dec"
+    },
+    "bootstrap-32": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-7f45d63dd560e6bc",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "7f45d63dd560e6bc4e7c8ca0e97b4f6fbad9adeaacf88a2e996dfff994f07786",
+      "inventorySha256": "77331c68ec79a4fc6357cc7f29a6ed73f7bf2435fb058a03d4d6ea049b2bc8e3",
+      "bytes": 23799627,
+      "recipeSha256": "11580a5cf261ab2b2d974a05bd67394d968a9445a762d9ea4e1f7e2f7903bf5e"
+    },
+    "bootstrap-33": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-7ae0e7091ee02b26",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "7ae0e7091ee02b2612dd45da373ef7f1323715133ab547788e164cd2dabc8be7",
+      "inventorySha256": "67399b97a6eb71ddaec1405ac40d7912dd9657e655ea31bba3779cb574bb87ac",
+      "bytes": 26954946,
+      "recipeSha256": "181c0db95f8d44c22a996e1122d8f93ac0afed7cb8000382440b835c18472166"
+    },
+    "bootstrap-34": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-4a723945cfa96a63",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "4a723945cfa96a6372447218865a32a46cc315e6bc902c09f15da2aa8ddbb8eb",
+      "inventorySha256": "c6dc2352832d8e56033b34ce2cba6be12a61e281793c9ee0a10db34e1f73bb1e",
+      "bytes": 24041839,
+      "recipeSha256": "ecdb81822ae3417ca5b85d6809a1aa56d1bcf8475e46bfbd82a9386102b19c78"
+    },
+    "bootstrap-35": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-64d56b55c058b238",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "64d56b55c058b23835fed337e7904c71e779cdcee5cf210150d65ef7b7bbea16",
+      "inventorySha256": "c41052b46ea32f5963b30f79471a0e43cb7d17ad741f0835be13e76097bf9aad",
+      "bytes": 28179035,
+      "recipeSha256": "a080ef4b27c9b63337e06e093e8a684586f2f094f6ae73dc08c226e7078c00a4"
+    },
+    "bootstrap-36": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-90d34724afc2dd57",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "90d34724afc2dd57d524c19bf9439f807cc775ad2e86e12346e08ccc2b8f7f30",
+      "inventorySha256": "66038e8af0dc2e32a4ddc7785d8be91b1fb739167b9f400d0c947e336d996ef2",
+      "bytes": 25308810,
+      "recipeSha256": "195d0902d700ad2fc9c08faac1dbe2e7c9d2e67816df368abddd91dbaac5a69c"
+    },
+    "bootstrap-37": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-161dbdea4cf4c046",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "161dbdea4cf4c0460794964801f6d3873924d5f42c7b256ce10d661af68f3bb0",
+      "inventorySha256": "5f67b8e374e26a8b529116ee7acf908c879dc3a714961a99fa345acd69357693",
+      "bytes": 23377127,
+      "recipeSha256": "54b33ce217fce3ba5a86100e3265c41339d9f2b0ecedc651c37a1e6f4a6a6c6a"
+    },
+    "bootstrap-38": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-f64ac85aea58caf6",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "f64ac85aea58caf6428d57b84061cc7428c3b095a09623be5a0d0f20218ad079",
+      "inventorySha256": "eda1a404e2c495287a47426f9a6af88cac045d60921728399bfb53555c10157e",
+      "bytes": 24900056,
+      "recipeSha256": "612dea70d3974a609b7fda53ecc553d19846d53e9a379d2d6daa22bad04a5269"
+    },
+    "bootstrap-39": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-7804fe33e42cfcd0",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "7804fe33e42cfcd088b285420939172a14045a8341bd20d2677bc1dcbb651d46",
+      "inventorySha256": "20444f02d32b7bc09e6fb119b04c0c090a740208f0865ee37e0fadacf65ec553",
+      "bytes": 25707757,
+      "recipeSha256": "aeadc17e8d4d2ccfb92c09cada304b7c07ec86f0f8bf61f14ed03d6935d759f4"
+    },
+    "bootstrap-3a": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-f07462ff2ac6fc43",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "f07462ff2ac6fc435373cc1c5868d3eb6751979b9ec9701662b211abef324c6c",
+      "inventorySha256": "64ba27117d7b0c1ce68ec7a82d9081ce8278486e7095dfe46ed0b9a482601eba",
+      "bytes": 25056723,
+      "recipeSha256": "4c01352dd61ccbc705cb9d00d59a73f745ef0dd3cbe8da7b0d7ec884700684b9"
+    },
+    "bootstrap-3b": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-0bcd3343123c1201",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "0bcd3343123c1201b3ea4c2f1d67e661919599637160b0e6a025582406d053d1",
+      "inventorySha256": "a12373e130dfb7248d3cd3ffc80483ae3acdb39974f170b95b557fc013827247",
+      "bytes": 33967966,
+      "recipeSha256": "e9acdf97fb3f86c5b6e2b8162e476a4df3a54169b0e2b4fcda9deaf6f7271e57"
+    },
+    "bootstrap-3c": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-856c05081274b618",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "856c05081274b61851128e7400c29a4cf4a56d78cb18a271455d64364994fe8e",
+      "inventorySha256": "8bcb8814393fe806c3da9b623082801811973ce7ec5fe3b3d4a3bdd8a1c94f6d",
+      "bytes": 25513244,
+      "recipeSha256": "fe68164cdee89dc5e3d22b799c36a7883cf3b775a20919010a5ad19eb5f3e40b"
+    },
+    "bootstrap-3d": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-ad0c1f31b168797e",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "ad0c1f31b168797eea7f078f64186dbded9a55927045ebf4732aff45201a5837",
+      "inventorySha256": "1f8214f770ab1e42534f3784b6e8f2fc9ebe8cf4cb1bbc327b8fb8c5a9cd4b1b",
+      "bytes": 25472589,
+      "recipeSha256": "893d2bb2efa0cfcea0e50937e66777515b588328c3749eb56be8a80471ac5e50"
+    },
+    "bootstrap-3e": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-f21c793c094b4aff",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "f21c793c094b4affeac6761bc00bffc89fdca5ed43776903798c4d867603298d",
+      "inventorySha256": "b39ae071482fd7dc15dab483db5a935afc995e5e1bba29b9f774c74a8ec76568",
+      "bytes": 26344799,
+      "recipeSha256": "a4acc57ccd2d395823b9fc7fb1d29b44e35382d0599dab8e2b26288283ad37ab"
+    },
+    "bootstrap-3f": {
+      "schemaVersion": 1,
+      "releaseTag": "assets-2d18dcb906e3551d",
+      "filename": "lantern-assets.tar.gz",
+      "sha256": "2d18dcb906e3551dcb3ebb2555a07bf10e262015c19980cf928f90096f67b85f",
+      "inventorySha256": "3470103b108c011cd72cdebcc3ac2b06685230055ad02eeb38f676aa90ec08e2",
+      "bytes": 29815937,
+      "recipeSha256": "a1b8000df90c156c0847583c81cea668e53bdbf454d059b6883358d1938376bf"
     },
     "runtime": {
       "schemaVersion": 1,
-      "releaseTag": "assets-ea90d5eb400af26b",
+      "releaseTag": "assets-4a5750fd61f2242a",
       "filename": "lantern-assets.tar.gz",
-      "sha256": "ea90d5eb400af26b84493d4db27061b9f66f5575bd424215e3b555ff6c7fa17b",
-      "inventorySha256": "b1925d1d083ddb670b3d747355e695b8615ad1ec23ce8ba47bba385f0bc136d7",
-      "bytes": 566537755,
-      "recipeSha256": "3e1ed7cb130c6446ec0157c79c3f8e58efda6c3ca9f768d18310fc36e099193b"
+      "sha256": "4a5750fd61f2242a4d75fbb3b4697147179293a9884a97230fb5182269165977",
+      "inventorySha256": "3831b51163942a2513ca0f609fe2bf37e1e90f035bedfef9c169537346afe2ae",
+      "bytes": 579672780,
+      "recipeSha256": "5774276c8c3a0e59ae6214ecf93d579eefb88c6bae7721ae5e45451ba95838aa"
     }
   },
   "fileDelivery": {
-    "releaseTag": "assets-catalog-7a80c5fd682e1eb8",
+    "releaseTag": "assets-catalog-94aa0ebd14cfffd0",
     "filename": "files.json.gz",
-    "sha256": "7a80c5fd682e1eb8facf35a43b6a87c00ee1729400fd6b67928e62d6104375b4",
-    "bytes": 7528939
+    "sha256": "94aa0ebd14cfffd07780adf743e6a8d656fda77da3ea11f3a3906630f2310558",
+    "bytes": 7536321
   }
 }

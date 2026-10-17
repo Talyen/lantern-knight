@@ -10,6 +10,66 @@
         "sha256": "8df7e89d1af314baacadec1183fd6b2097652df18a5e413c996b91ba38e8df0a",
         "bytes": 789224,
         "pathHint": "Items/Interface/Illustrated Inventory v1/Artwork/gothic-frame.png"
+      },
+      "Items/Interface/Gothic Player UI v1/Artwork/button-frame.png": {
+        "sha256": "73b7978f5ac14cce05458eb323f6fe5abc538aa8f19bc898f73e62c8b0455036",
+        "bytes": 872979,
+        "pathHint": "Items/Interface/Gothic Player UI v1/Artwork/button-frame.png"
+      },
+      "Items/Interface/Gothic Player UI v1/Artwork/health-orb.png": {
+        "sha256": "13fb8485109070c5f9f924d6a734061b4ed3bf9a5295009beceb377caa142b44",
+        "bytes": 1201800,
+        "pathHint": "Items/Interface/Gothic Player UI v1/Artwork/health-orb.png"
+      },
+      "Items/Interface/Gothic Player UI v1/Artwork/campfire-emblem.png": {
+        "sha256": "b271d54d0986501f24466c73fad313ed04ab720f9611a8ee65f9392da110914f",
+        "bytes": 1286319,
+        "pathHint": "Items/Interface/Gothic Player UI v1/Artwork/campfire-emblem.png"
+      },
+      "Items/Interface/Gothic Player UI v2/Artwork/title-emblem.png": {
+        "sha256": "75e1fec6274173b0e567ca510c64673c282963c6b4db5d1e5ec9f718d28b666a",
+        "bytes": 1360094,
+        "pathHint": "Items/Interface/Gothic Player UI v2/Artwork/title-emblem.png"
+      },
+      "Items/Interface/Gothic Player UI v2/Artwork/button-frame.png": {
+        "sha256": "47456d48dbe30d373c570da9ae5f446b4a63ffa16b53a66bb31479b510699c0a",
+        "bytes": 1148612,
+        "pathHint": "Items/Interface/Gothic Player UI v2/Artwork/button-frame.png"
+      },
+      "Items/Interface/Gothic Player UI v2/Artwork/icon-frame.png": {
+        "sha256": "f5b10079bc4666606f11d9e2e1dc34acafd773c06f1cb80075aac54d37944709",
+        "bytes": 1693337,
+        "pathHint": "Items/Interface/Gothic Player UI v2/Artwork/icon-frame.png"
+      },
+      "Items/Interface/Gothic Player UI v2/Artwork/control-icons.png": {
+        "sha256": "ac8db306023768d5adbfb7005b30b62f701e267a564a5c3bdd461ca4c11da992",
+        "bytes": 1184708,
+        "pathHint": "Items/Interface/Gothic Player UI v2/Artwork/control-icons.png"
+      },
+      "Items/Interface/Gothic Player UI v2/Artwork/health-frame.png": {
+        "sha256": "951bcd70fa8db5ac96d68c5e216e2a2de02bd2d382c71e89f8853cda80341fa8",
+        "bytes": 1110183,
+        "pathHint": "Items/Interface/Gothic Player UI v2/Artwork/health-frame.png"
+      },
+      "Items/Interface/Gothic Player UI v2/Artwork/wide-frame.png": {
+        "sha256": "5087019999c294984fcbd999d467226a92752166881274a5adbb031d31a554e6",
+        "bytes": 1695618,
+        "pathHint": "Items/Interface/Gothic Player UI v2/Artwork/wide-frame.png"
+      },
+      "Items/Interface/Gothic Player UI v2/Artwork/arched-frame.png": {
+        "sha256": "4b18f7eb284ca220a08d650479778cf7e50b9d245c904ee881275f1045a44f78",
+        "bytes": 1490092,
+        "pathHint": "Items/Interface/Gothic Player UI v2/Artwork/arched-frame.png"
+      },
+      "Items/Interface/Gothic Player UI v2/Artwork/inventory-frame.png": {
+        "sha256": "f4e90bb364dde268dee1641e09cfaa9cb9ac94a62f5bb9fd5afdd51262cccb3a",
+        "bytes": 1414821,
+        "pathHint": "Items/Interface/Gothic Player UI v2/Artwork/inventory-frame.png"
+      },
+      "Items/Interface/Gothic Player UI v2/Artwork/campfire-frame.png": {
+        "sha256": "77da6728c3b0a2a3a33a6d42000ac067917f54c7014f20f4cb97a6d7dbe1798c",
+        "bytes": 1444878,
+        "pathHint": "Items/Interface/Gothic Player UI v2/Artwork/campfire-frame.png"
       }
     }
   }

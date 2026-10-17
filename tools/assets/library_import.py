@@ -263,7 +263,10 @@ class Importer:
             or any(not isinstance(d, (int, float)) or d <= 0 for d in durations)
         ):
             raise ValueError(f"{asset['id']}/{name}: missing frames or positive timing")
-        duration = sum(durations)
+        # Match the runtime left-to-right IEEE-754 sum (Python 3.12 sum compensates).
+        duration = 0.0
+        for frame_duration in durations:
+            duration += frame_duration
         if any(
             not isinstance(m.get("atMs"), (int, float))
             or m["atMs"] < 0
@@ -519,10 +522,16 @@ class Importer:
                 else [
                     {
                         "id": str(e.get("id", e.get("name", e.get("event", "visual")))),
-                        "atMs": e["tick"] * 1000 / 60,
+                        "atMs": (
+                            e["time_ms"] if isinstance(e.get("time_ms"), (int, float))
+                            else e["tick"] * 1000 / 60
+                        ),
                     }
                     for e in events
-                    if isinstance(e, dict) and isinstance(e.get("tick"), (int, float))
+                    if isinstance(e, dict) and (
+                        isinstance(e.get("time_ms"), (int, float))
+                        or isinstance(e.get("tick"), (int, float))
+                    )
                 ]
             )
             tick = pick([c], "visual_event_tick", "attack_visual_event_tick")

@@ -8,7 +8,8 @@ const VisualEffectsSchema = z.strictObject(
   >,
 );
 const SettingsSchema = z.strictObject({
-  version: z.literal(6),
+  version: z.literal(7),
+  uiScale: z.union([z.literal(0.9), z.literal(1), z.literal(1.15)]),
   audio: z.strictObject({
     master: z.number().min(0).max(1),
     effects: z.number().min(0).max(1),
@@ -21,13 +22,19 @@ const SettingsSchema = z.strictObject({
   depthOfField: z.number().min(0).max(1),
   visualEffects: VisualEffectsSchema,
 });
-const LegacySettingsSchema = SettingsSchema.omit({ audio: true, version: true }).extend({
+const PreviousSettingsSchema = SettingsSchema.omit({ version: true, uiScale: true }).extend({
+  version: z.literal(6),
+});
+const LegacySettingsSchema = PreviousSettingsSchema.omit({ audio: true, version: true }).extend({
   version: z.literal(5),
 });
 export type Settings = z.infer<typeof SettingsSchema>;
 export function parseSettings(value: unknown): Settings {
-  const previous = LegacySettingsSchema.safeParse(value);
+  const legacy = LegacySettingsSchema.safeParse(value);
+  const previous = PreviousSettingsSchema.safeParse(
+    legacy.success ? { ...legacy.data, version: 6, audio: { ...defaultAudioSettings } } : value,
+  );
   return SettingsSchema.parse(
-    previous.success ? { ...previous.data, version: 6, audio: { ...defaultAudioSettings } } : value,
+    previous.success ? { ...previous.data, version: 7, uiScale: 1 } : value,
   );
 }

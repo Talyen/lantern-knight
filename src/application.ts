@@ -125,6 +125,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   readOnly = false;
   scale = 1;
   settingsError = '';
+  uiScale: 0.9 | 1 | 1.15 = 1;
   private simulationEnabled = true;
   beforeStep: (sim: GameSession['sim']) => void = () => {};
   setSimulationEnabled(value: boolean) {
@@ -353,6 +354,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     if (settings.status === 'ok') {
       this.audio.updateSettings(settings.data.audio);
       this.scale = settings.data.renderScale;
+      this.uiScale = settings.data.uiScale;
       this.presentation.verticalSpan = settings.data.verticalSpan;
       this.presentation.setDepthOfField(settings.data.depthOfField);
       this.presentation.setVisualEffects(settings.data.visualEffects);
@@ -798,7 +800,8 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   async saveSettings() {
     this.assertActive();
     await this.persistenceOwner.saveSettings({
-      version: 6,
+      version: 7,
+      uiScale: this.uiScale,
       audio: this.audio.settings,
       renderScale: this.scale,
       showDebug: false,

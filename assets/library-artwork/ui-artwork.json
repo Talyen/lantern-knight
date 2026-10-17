@@ -31,6 +31,198 @@
         627.0
       ],
       "density": 256
+    },
+    {
+      "id": "artwork-ui-gothic-button-v1",
+      "member": "Items/Interface/Gothic Player UI v1/Artwork/button-frame.png",
+      "label": "UI Button",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        2172,
+        724
+      ],
+      "anchor": [
+        1086.0,
+        362.0
+      ],
+      "density": 256
+    },
+    {
+      "id": "artwork-ui-health-orb-v1",
+      "member": "Items/Interface/Gothic Player UI v1/Artwork/health-orb.png",
+      "label": "UI Orb",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "anchor": [
+        627.0,
+        627.0
+      ],
+      "density": 256
+    },
+    {
+      "id": "artwork-ui-campfire-emblem-v1",
+      "member": "Items/Interface/Gothic Player UI v1/Artwork/campfire-emblem.png",
+      "label": "UI Fire",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "anchor": [
+        627.0,
+        627.0
+      ],
+      "density": 256
+    },
+    {
+      "id": "artwork-ui-title-emblem-v2",
+      "member": "Items/Interface/Gothic Player UI v2/Artwork/title-emblem.png",
+      "label": "UI Title Emblem",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        1122,
+        1402
+      ],
+      "anchor": [
+        561.0,
+        701.0
+      ],
+      "density": 256
+    },
+    {
+      "id": "artwork-ui-button-frame-v2",
+      "member": "Items/Interface/Gothic Player UI v2/Artwork/button-frame.png",
+      "label": "UI Button Frame",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        2172,
+        724
+      ],
+      "anchor": [
+        1086.0,
+        362.0
+      ],
+      "density": 256
+    },
+    {
+      "id": "artwork-ui-icon-frame-v2",
+      "member": "Items/Interface/Gothic Player UI v2/Artwork/icon-frame.png",
+      "label": "UI Icon Frame",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "anchor": [
+        627.0,
+        627.0
+      ],
+      "density": 256
+    },
+    {
+      "id": "artwork-ui-control-icons-v2",
+      "member": "Items/Interface/Gothic Player UI v2/Artwork/control-icons.png",
+      "label": "UI Control Icons",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "anchor": [
+        627.0,
+        627.0
+      ],
+      "density": 256
+    },
+    {
+      "id": "artwork-ui-health-frame-v2",
+      "member": "Items/Interface/Gothic Player UI v2/Artwork/health-frame.png",
+      "label": "UI Health Frame",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        1254,
+        1254
+      ],
+      "anchor": [
+        627.0,
+        627.0
+      ],
+      "density": 256
+    },
+    {
+      "id": "artwork-ui-wide-frame-v2",
+      "member": "Items/Interface/Gothic Player UI v2/Artwork/wide-frame.png",
+      "label": "UI Wide Frame",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        1536,
+        1024
+      ],
+      "anchor": [
+        768.0,
+        512.0
+      ],
+      "density": 256
+    },
+    {
+      "id": "artwork-ui-arched-frame-v2",
+      "member": "Items/Interface/Gothic Player UI v2/Artwork/arched-frame.png",
+      "label": "UI Arched Frame",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        1024,
+        1536
+      ],
+      "anchor": [
+        512.0,
+        768.0
+      ],
+      "density": 256
+    },
+    {
+      "id": "artwork-ui-inventory-frame-v2",
+      "member": "Items/Interface/Gothic Player UI v2/Artwork/inventory-frame.png",
+      "label": "UI Inventory Frame",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        1774,
+        887
+      ],
+      "anchor": [
+        887.0,
+        443.5
+      ],
+      "density": 256
+    },
+    {
+      "id": "artwork-ui-campfire-frame-v2",
+      "member": "Items/Interface/Gothic Player UI v2/Artwork/campfire-frame.png",
+      "label": "UI Campfire Frame",
+      "type": "prop",
+      "projection": "painted-cutout",
+      "canvas": [
+        1086,
+        1448
+      ],
+      "anchor": [
+        543.0,
+        724.0
+      ],
+      "density": 256
     }
   ]
 }

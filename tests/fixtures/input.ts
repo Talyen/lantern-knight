@@ -15,6 +15,15 @@ export async function holdMovement(page: Page, key: string) {
 
 // Loading replaces renderer resources before the player receives completion feedback.
 export async function loadCheckpoint(page: Page) {
-  await page.locator('#load').click();
+  await clickCheckpointAction(page, 'load');
   await expect(page.locator('#status')).toHaveText('Checkpoint loaded', { timeout: 120_000 });
+}
+
+export async function clickCheckpointAction(
+  page: Page,
+  action: 'save' | 'load' | 'reset' | 'new-game',
+) {
+  const button = page.locator('#' + action);
+  if (!(await button.isVisible())) await page.locator('#checkpoint-options > summary').click();
+  await button.click();
 }

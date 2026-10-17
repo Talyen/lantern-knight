@@ -1,77 +1,171 @@
-/* Shared player typography and controls. Developer surfaces keep their own chrome. */
+/* Player surfaces share a quiet ink palette; existing artwork supplies character. */
 .game {
-  --ink: #151311;
-  --panel: #252019;
-  --ivory: #f1e7d2;
-  --sage: #b5a88f;
-  --amber: #c7ad79;
-  --rule: #ae977b40;
+  --ink: #0e1113;
+  --panel: #171b1d;
+  --ivory: #e9e0ca;
+  --sage: #a7ad9e;
+  --amber: #b89b62;
+  --rule: #77756448;
   --font-body: system-ui, sans-serif;
   --font-display: Georgia, 'Times New Roman', serif;
   color: var(--ivory);
-  font: 15px/1.5 var(--font-body);
+  font: 14px/1.45 var(--font-body);
+}
+.game-stage {
+  --ui-scale: 1;
+  font-size: calc(14px * var(--ui-scale));
 }
 .game button,
-.game select {
-  min-height: 42px;
+.game select,
+.game summary {
+  min-height: 44px;
   padding: 9px 14px;
-  border: 1px solid #806b4e;
-  border-radius: 0;
-  background: var(--panel);
-  color: var(--ivory);
-  font: 400 16px/1.3 var(--font-display);
+  border: 1px solid var(--rule);
+  border-radius: 1px;
+  color: inherit;
+  background: #1c2426;
+  font: inherit;
+  cursor: pointer;
   transition:
     background 120ms ease,
-    border-color 120ms ease,
-    color 120ms ease;
+    border-color 120ms ease;
 }
 .game button:hover:not(:disabled),
-.game select:hover:not(:disabled) {
-  background: #3c3022;
-  border-color: var(--amber);
-  color: #fff4da;
+.game select:hover:not(:disabled),
+.game summary:hover {
+  background: #2b3332;
+  border-color: #a59366;
 }
 .game button:active:not(:disabled) {
-  background: #493820;
+  background: #111719;
 }
 .game button:disabled,
 .game select:disabled {
-  cursor: default;
   opacity: 0.5;
+  cursor: default;
 }
-.game button:focus-visible,
-.game select:focus-visible,
-.game input:focus-visible,
-.game summary:focus-visible {
-  outline: 2px solid var(--amber);
+.game :is(button, select, input, summary, [tabindex='0']):focus-visible {
+  outline: 2px solid #edce8d;
   outline-offset: 3px;
 }
 .game .primary-action {
-  background: #5e211b;
-  border: 3px double #a28456;
-  color: var(--ivory);
-  font-weight: 400;
+  border-color: #ae935e;
+  background: #4d4935;
+  color: #fff1ce;
 }
 .game .primary-action:hover:not(:disabled) {
-  background: #7b3026;
-  color: #fff4da;
-}
-.game .primary-action:active:not(:disabled) {
-  background: #481713;
+  background: #625a3d;
 }
 .game input {
   accent-color: var(--amber);
+  font: inherit;
 }
 .game input[type='checkbox'] {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
-.game summary {
-  cursor: pointer;
+.game input[type='range'] {
+  width: 100%;
+  min-width: 0;
+  accent-color: #bda56d;
+}
+.game .player-icon,
+.game .control-icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+}
+.game .control-icon img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+.game .icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 48px;
+  height: 48px;
+  padding: 10px;
+}
+.game kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  padding: 2px 4px;
+  border: 1px solid #90836a77;
+  border-radius: 2px;
+  background: #161b1c;
+  color: #e0d7bf;
+  font: 0.78em/1.3 var(--font-body);
+  white-space: nowrap;
+}
+.game .gothic-panel {
+  border: 1px solid #928260;
+  background: #151b1ef5;
+  box-shadow:
+    0 20px 80px #0009,
+    inset 0 0 0 4px #101619;
+}
+.game .gothic-panel::before {
+  content: '◆';
+  display: block;
+  color: var(--amber);
+  font-size: 11px;
+  text-align: center;
+  pointer-events: none;
+}
+.game .visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.game .item-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.game .item-art :is(img, svg) {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.game .player-tooltip {
+  position: fixed;
+  inset: auto;
+  width: max-content;
+  max-width: min(280px, calc(100vw - 16px));
+  margin: 0;
+  padding: 7px 10px;
+  border: 1px solid #8d805b;
+  background: #151e1df5;
+  color: var(--ivory);
+  font: 12px/1.4 var(--font-body);
+  box-shadow: 0 4px 12px #0007;
+  pointer-events: none;
+}
+.game [hidden] {
+  display: none !important;
 }
 @media (prefers-reduced-motion: reduce) {
-  .game button,
-  .game select {
-    transition: none;
+  .game *,
+  .game *::before,
+  .game *::after {
+    transition: none !important;
   }
 }

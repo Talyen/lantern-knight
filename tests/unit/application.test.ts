@@ -76,6 +76,7 @@ test('inventory commands save accepted changes once and leave no-ops and rejecte
     },
   });
   const save = app.session.captureSave();
+  delete save.adventure!.pack;
   Object.assign(save.adventure!.inventory, { 'orchard-ring': 1, 'damaged-axe': 2 });
   await app.restore(save);
   const changes = () => app.events.history.filter((event) => event.kind === 'inventory-changed');

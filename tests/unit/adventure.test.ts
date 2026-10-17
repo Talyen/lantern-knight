@@ -30,6 +30,7 @@ function breakCrate(sim: Simulation) {
 }
 function supply(session: GameSession, item: string, amount: number) {
   const save = session.captureSave();
+  delete save.adventure!.pack;
   save.adventure!.inventory[item] = amount;
   session.restoreSave(save);
 }

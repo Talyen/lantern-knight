@@ -1,6 +1,8 @@
 import { html } from './dom';
+import { bindPackPlacement } from './inventory-placement';
+import { packColumns, packRows } from './core/pack';
 import { createItemArtwork } from './item-art';
-import { forgeArtwork, forgeAnvilArtwork, interfaceFrameArtwork } from './content/item-art';
+import { forgeArtwork, forgeAnvilArtwork } from './content/item-art';
 import {
   forgeChoices,
   forgeCost,
@@ -11,6 +13,7 @@ import {
 import { tuning } from './content/gameplay';
 import type { Application } from './application';
 import { equipmentSlots, items, type EquipmentSlot } from './content/items';
+import { createPlayerIcon } from './player-icons';
 const slotNames: Record<EquipmentSlot, string> = {
   body: 'Body',
   gloves: 'Gloves',
@@ -25,7 +28,10 @@ const slotNames: Record<EquipmentSlot, string> = {
 };
 export function bindAdventureUI(app: Application, root: HTMLElement, signal: AbortSignal) {
   let disposed = false;
-  const panel = html<HTMLDialogElement>`<dialog class="adventure-panel" tabindex="-1" aria-label="Inventory and campfire"></dialog>`;
+  let drawing = new AbortController();
+  let drawSignal = signal;
+  let placement: ReturnType<typeof bindPackPlacement> | undefined;
+  const panel = html<HTMLDialogElement>`<dialog class="adventure-panel gothic-panel" tabindex="-1" aria-label="Inventory and campfire"></dialog>`;
   let fire: string | undefined;
   let workbench: string | undefined;
   let choice: ForgeUpgrade | undefined;
@@ -34,12 +40,14 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
   let messageError = false;
   let selected: { kind: 'pack'; id: string } | { kind: 'slot'; slot: EquipmentSlot } | undefined;
   let equipTo: EquipmentSlot | undefined;
+  let detailVisible = false;
   let inventoryView: 'kit' | 'pack' = 'pack';
   const artwork = createItemArtwork(app.runtime, signal);
   let focusedAction = 'return';
   const deny = () => void app.audio.play('ui-deny', { world: false }).catch(() => {});
   function close() {
     if (disposed || !panel.open || working) return;
+    placement?.cancel();
     panel.close();
     fire = workbench = choice = undefined;
     app.pause(false);
@@ -47,10 +55,14 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
   }
   function button(label: string, key: string, action: () => void, disabled = working) {
     const element = html<HTMLButtonElement>`<button type="button" data-action="${key}">${label}</button>`;
-    element.addEventListener('click', action, { signal });
+    element.addEventListener('click', action, { signal: drawSignal });
     element.disabled = disabled;
     if (key === 'confirm-upgrade') element.className = 'primary-action';
-    if (key === 'rest') element.title = 'Restore health and reset enemies';
+    if (key === 'rest') {
+      element.setAttribute('aria-label', 'Rest');
+      element.dataset.tip = 'Rest · Restore health · Save checkpoint · Reset enemies';
+      element.append(createPlayerIcon('fire'), document.createTextNode(' Rest'));
+    }
     return element;
   }
   function report(action: () => void, confirmation: string) {
@@ -96,8 +108,9 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
           Math.floor(tuning.ability.burnDuration / tuning.ability.burnCadence) *
             scaledDamage(tuning.ability.burnDamage, attributes.ember);
   }
-  function material(id: string, amount: number, insufficient = false) {
-    return html`<span class="material-cost${insufficient ? ' insufficient' : ''}" title="${items[id]!.name}" aria-label="${amount} ${items[id]!.name}${insufficient ? ' · insufficient' : ''}">${artwork(id)}<span>${amount}</span></span>`;
+  function material(id: string, amount: number, insufficient = false, owned?: number) {
+    const label = `${owned === undefined ? amount : `${owned} / ${amount}`} ${items[id]!.name}${insufficient ? ' · insufficient' : ''}`;
+    return html`<span class="material-cost${insufficient ? ' insufficient' : ''}" role="img" aria-label="${label}">${artwork(id)}<span>${items[id]!.name} <strong>${owned === undefined ? amount : `${owned} / ${amount}`}</strong>${insufficient ? html`<small>More needed</small>` : false}</span></span>`;
   }
   function forge() {
     const owned = app.session.forgeUpgrade;
@@ -123,11 +136,18 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       select.className = 'forge-option';
       select.setAttribute('aria-label', forgeChoices[upgrade].name);
       select.setAttribute('aria-pressed', String(active === upgrade));
-      select.append(artwork(upgrade));
+      select.dataset.tip = forgeChoices[upgrade].name;
+      select.append(artwork(upgrade), html`<span>${forgeChoices[upgrade].name}</span>`);
       return select;
     });
     const confirm = button(
-      owned ? 'Complete' : working ? 'Saving…' : active === 'sword' ? 'Temper' : 'Rekindle',
+      owned
+        ? 'Complete'
+        : working
+          ? 'Saving…'
+          : active === 'sword'
+            ? 'Temper sword'
+            : 'Rekindle lantern',
       'confirm-upgrade',
       () => {
         if (!workbench || owned) return;
@@ -143,14 +163,24 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       working || !affordable || !!owned,
     );
     confirm.setAttribute('aria-label', 'Confirm upgrade');
+    if (!owned)
+      confirm.setAttribute(
+        'aria-description',
+        Object.entries(forgeCost)
+          .map(
+            ([id, amount]) =>
+              `${items[id]!.name}: ${app.session.inventory[id] ?? 0} available, ${amount} required`,
+          )
+          .join('. '),
+      );
     return html`<div class="adventure-content forge-content">
       <div class="forge-illustration" aria-hidden="true">${artwork(forgeArtwork, 'forge-scene')}${artwork(forgeAnvilArtwork, 'forge-anvil')}${artwork(active, 'forge-featured-item')}</div>
       <section class="forge-work" aria-label="Forge improvement">
         <div class="forge-options" role="group" aria-label="Choose an improvement">${owned ? artwork(owned) : options}</div>
         <h3>${forgeChoices[active].name}</h3>
         <p class="forge-damage">${active === 'sword' ? 'Damage' : 'Damage per enemy'} <strong>${owned ? damage(active, true) : `${damage(active, false)} → ${damage(active, true)}`}</strong></p>
-        ${!owned && html`<div class="forge-costs" aria-label="Upgrade cost">${Object.entries(forgeCost).map(([id, amount]) => material(id, amount, (app.session.inventory[id] ?? 0) < amount))}</div>`}
-        <div class="forge-decision">${confirm}${!owned && html`<span class="permanent-choice">One permanent upgrade</span>`}</div>
+        ${!owned && html`<div class="forge-costs" aria-label="Upgrade cost">${Object.entries(forgeCost).map(([id, amount]) => material(id, amount, (app.session.inventory[id] ?? 0) < amount, app.session.inventory[id] ?? 0))}</div>`}
+        <div class="forge-decision">${confirm}${!owned && html`<span class="permanent-choice">Choose one permanent upgrade. The other becomes unavailable.</span>`}</div>
       </section>
     </div>`;
   }
@@ -158,8 +188,11 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     const destinations = [...app.session.discovered].map((destination) => {
       const { area, definition } = app.session.fire(destination);
       const current = destination === key;
+      const name = app.registry.area(area).name;
+      if (current)
+        return html`<div class="campfire-destination current" aria-current="location" aria-label="${name} · Here" data-tip="Current campfire">${createPlayerIcon('waypoint')}<span>${name}</span></div>`;
       const travel = button(
-        `${app.registry.area(area).name} · ${definition.name}${current ? ' · Here' : ''}`,
+        name,
         `travel-${destination}`,
         () =>
           run(async () => {
@@ -168,15 +201,17 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
             fire = destination;
             message = `Arrived at ${definition.name}.`;
           }),
-        current || working,
+        working,
       );
-      travel.className = `campfire-destination${current ? ' current' : ''}`;
+      travel.className = 'campfire-destination';
+      travel.setAttribute('aria-label', `${name} · ${definition.name}`);
+      travel.prepend(createPlayerIcon('waypoint'));
       return travel;
     });
     return html`<div class="adventure-content campfire-content">
-      <section class="campfire-rest"><h3>Rest</h3><p class="campfire-health">${app.sim.hero.health} / ${app.sim.maxHealth} health</p>
+      <section class="campfire-rest"><div class="campfire-emblem" aria-hidden="true">${artwork('ui-campfire')}</div>${app.sim.hero.health < app.sim.maxHealth && html`<p class="campfire-health">${createPlayerIcon('heart')}${app.sim.hero.health} / ${app.sim.maxHealth}</p>`}
 
-        ${button('Rest', 'rest', () =>
+        ${button('', 'rest', () =>
           run(async () => {
             await app.rest(key);
             if (disposed) return;
@@ -185,8 +220,9 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
           }),
         )}
       </section>
-      <section class="campfire-travel"><h3>Travel</h3>
-        ${destinations}
+      <p class="rest-consequences">Restore health · Save checkpoint · Reset enemies</p>
+      <section class="campfire-travel" aria-label="Travel"><h3>Travel</h3>
+        ${destinations}${destinations.length === 1 ? html`<p class="empty-travel">Discover another campfire to travel.</p>` : false}
       </section>
     </div>`;
   }
@@ -210,8 +246,17 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         const dx = (to.left + to.right - from.left - from.right) / 2;
         const dy = (to.top + to.bottom - from.top - from.bottom) / 2;
         const along = (horizontal ? dx : dy) * sign;
-        const across = Math.abs(horizontal ? dy : dx);
-        const score = along + across * 2;
+        // Tall equipment and multi-cell pack items should navigate along their
+        // occupied row/column, rather than jumping toward a nearer item center.
+        const crossCenter = horizontal
+          ? (from.top + from.bottom) / 2
+          : (from.left + from.right) / 2;
+        const across = Math.max(
+          0,
+          (horizontal ? to.top : to.left) - crossCenter,
+          crossCenter - (horizontal ? to.bottom : to.right),
+        );
+        const score = along + across * 10;
         if (along > 1 && score < best) {
           best = score;
           target = candidate;
@@ -225,22 +270,22 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
   }
   function inventory() {
     const equipment = app.session.equipment;
-    const carried = Object.entries(app.session.inventory).flatMap(([id, count]) => {
-      const spare = count - equipmentSlots.filter((slot) => equipment[slot] === id).length;
-      return spare > 0 && id !== 'gold' ? [{ id, count: spare, item: items[id]! }] : [];
-    });
-    const order = { gear: 0, potion: 1, currency: 2, material: 2, salvage: 3 };
-    carried.sort(
-      (a, b) => order[a.item.kind] - order[b.item.kind] || a.item.name.localeCompare(b.item.name),
-    );
+    const carried = app.session.pack.map((entry) => ({
+      ...entry,
+      id: entry.key,
+      count: entry.quantity,
+      definition: items[entry.item]!,
+    }));
     const selectedId = selected?.kind === 'pack' ? selected.id : undefined;
     if (selectedId && !carried.some((entry) => entry.id === selectedId)) selected = undefined;
-    const firstGear = carried.find((entry) => entry.item.kind === 'gear');
+    const firstGear = carried.find((entry) => entry.definition.kind === 'gear');
     selected ??= firstGear ? { kind: 'pack', id: firstGear.id } : { kind: 'slot', slot: 'sword' };
     const selectItem = (id: string) => {
+      if (!messageError) message = '';
       selected = { kind: 'pack', id };
+      detailVisible = true;
       inventoryView = 'pack';
-      const slots = items[id]!.slots;
+      const slots = items[carried.find((entry) => entry.id === id)!.item]!.slots;
       equipTo = slots?.find((slot) => !equipment[slot]) ?? slots?.[0];
       panel.querySelector('.item-description')?.scrollTo(0, 0);
       draw();
@@ -253,7 +298,9 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     const gear = kitSlots.map((slot) => {
       const id = equipment[slot];
       const control = button('', `slot-${slot}`, () => {
+        if (!messageError) message = '';
         selected = { kind: 'slot', slot };
+        detailVisible = true;
         inventoryView = 'kit';
         panel.querySelector('.item-description')?.scrollTo(0, 0);
         draw();
@@ -270,7 +317,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         'aria-label',
         `${slotNames[slot]} · ${id ? items[id]!.name : 'Empty slot'}`,
       );
-      control.title = `${slotNames[slot]} · ${id ? items[id]!.name : 'Empty slot'}`;
+      control.dataset.tip = `${slotNames[slot]} · ${id ? items[id]!.name : 'Empty slot'}`;
       control.append(
         artwork(
           id ??
@@ -291,24 +338,29 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       );
       return control;
     });
-    const bag = carried.map(({ id, count, item }) => {
+    const bag = carried.map(({ id, count, item: itemId, definition: item, x, y }) => {
       const control = button('', `item-${id}`, () => selectItem(id));
       control.className = 'inventory-row';
+      control.dataset.entry = id;
+      control.dataset.tip = `${item.name}${count > 1 ? ` ×${count}` : ''}`;
+      control.dataset.item = itemId;
+      const [width, height] = item.footprint;
+      control.style.gridArea = `${y + 1} / ${x + 1} / span ${height} / span ${width}`;
       control.tabIndex = (selected?.kind === 'pack' ? selected.id === id : carried[0]?.id === id)
         ? 0
         : -1;
-      control.title = `${item.name} ×${count}`;
+
       control.setAttribute('aria-label', `${item.name} ×${count}`);
       control.setAttribute('aria-pressed', String(selected?.kind === 'pack' && selected.id === id));
       control.append(
-        artwork(id),
+        artwork(itemId),
         html`<span class="visually-hidden">${item.name} ×${count}</span>`,
       );
       if (count > 1) control.append(html`<span class="item-count">${count}</span>`);
       return control;
     });
     const empty = Array.from(
-      { length: Math.max(0, 18 - bag.length) },
+      { length: packColumns * packRows },
       () => html`<span class="bag-empty" aria-hidden="true"></span>`,
     );
     const tabs = (['kit', 'pack'] as const).map((view) => {
@@ -317,33 +369,55 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         draw();
       });
       control.setAttribute('aria-pressed', String(inventoryView === view));
+      control.setAttribute('aria-label', view === 'kit' ? 'Your kit' : 'Your pack');
+      control.dataset.tip = view === 'kit' ? 'Equipment' : 'Pack';
       return control;
     });
     const content = html`<div class="adventure-content inventory-content inventory-view-${inventoryView}">
       <div class="inventory-tabs" role="group" aria-label="Browse inventory">${tabs}</div>
       <div class="inventory-columns">
-        <section class="inventory-equipment" aria-label="Equipment"><div class="equipment-grid" role="group" aria-label="Equipment slots">${gear}</div></section>
-        <section class="inventory-bag" aria-label="Carried items"><div class="pack-items" data-scroll="pack" role="group" aria-label="Carried items">${bag}${empty}</div><div class="inventory-gold">${material('gold', app.session.inventory.gold ?? 0)}</div></section>${inventoryDetail()}
+        <section class="inventory-equipment" aria-label="Equipment"><h3>Your kit</h3><div class="equipment-grid" role="group" aria-label="Equipment slots">${gear}</div></section>
+        <section class="inventory-bag" aria-label="Carried items"><header class="pack-heading"><div><h3>Your pack</h3><span>${carried.reduce((sum, entry) => sum + entry.definition.footprint[0] * entry.definition.footprint[1], 0)} / 192 cells · 12 × 16</span></div>${button('Organize', 'organize', () => report(() => app.changeInventory({ kind: 'organize' }), 'Pack organized.'))}</header><div class="pack-scroll" data-scroll="pack"><div class="pack-items" role="group" aria-label="Carried items">${empty}${bag}</div></div><div class="inventory-gold">${material('gold', app.session.inventory.gold ?? 0)}</div></section>${inventoryDetail()}
       </div>
     </div>`;
     content
       .querySelector('.equipment-grid')!
-      .addEventListener('keydown', (event) => navigateItems(event as KeyboardEvent), { signal });
+      .addEventListener('keydown', (event) => navigateItems(event as KeyboardEvent), {
+        signal: drawSignal,
+      });
     content
       .querySelector('.pack-items')!
-      .addEventListener('keydown', (event) => navigateItems(event as KeyboardEvent), { signal });
+      .addEventListener('keydown', (event) => navigateItems(event as KeyboardEvent), {
+        signal: drawSignal,
+      });
+    placement = bindPackPlacement(
+      content.querySelector<HTMLElement>('.pack-items')!,
+      app.session.pack,
+      (entry, x, y) => {
+        focusedAction = `item-${entry}`;
+        report(() => app.changeInventory({ kind: 'move', entry, x, y }), 'Item placed.');
+      },
+      (key) => {
+        selected = { kind: 'pack', id: key };
+        detailVisible = true;
+        panel.querySelector('.inventory-detail')?.replaceWith(inventoryDetail());
+      },
+      (text) => {
+        message = text;
+        const feedback = panel.querySelector<HTMLElement>('.adventure-feedback');
+        if (feedback) feedback.textContent = text;
+      },
+      drawSignal,
+    );
     return content;
   }
   function inventoryDetail() {
     const equippedSlot = selected?.kind === 'slot' ? selected.slot : undefined;
-    const id =
-      selected?.kind === 'pack'
-        ? selected.id
-        : equippedSlot
-          ? app.session.equipment[equippedSlot]
-          : undefined;
-    if (!id)
-      return html`<section class="inventory-detail empty-detail" aria-label="Selected item"></section>`;
+    const entryKey = selected?.kind === 'pack' ? selected.id : undefined;
+    const packEntry = app.session.pack.find((entry) => entry.key === entryKey);
+    const id = packEntry?.item ?? (equippedSlot ? app.session.equipment[equippedSlot] : undefined);
+    if (!id || !detailVisible)
+      return html`<section class="inventory-detail empty-detail" aria-label="Selected item"><p>Select an item to inspect it.</p><span>Equipment and pack stay in place.</span></section>`;
     const item = items[id]!;
     const slots = item.slots;
     if (slots && (!equipTo || !slots.includes(equipTo)))
@@ -374,7 +448,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
             equipTo = select.value as EquipmentSlot;
             draw();
           },
-          { signal },
+          { signal: drawSignal },
         );
         actions.push(html`<label class="equip-destination">Equip to${select}</label>`);
       }
@@ -383,7 +457,12 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         'equip',
         () =>
           report(() => {
-            app.changeInventory({ kind: 'equip', item: id, slot: targetSlot });
+            app.changeInventory({
+              kind: 'equip',
+              item: id,
+              slot: targetSlot,
+              entry: selected?.kind === 'pack' ? selected.id : undefined,
+            });
             selected = { kind: 'slot', slot: targetSlot };
             inventoryView = 'kit';
           }, `${item.name} equipped.`),
@@ -391,6 +470,10 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       );
       control.className = 'primary-action';
       actions.push(control);
+    }
+    if (selected?.kind === 'pack') {
+      const key = selected.id;
+      actions.push(button('Move', 'move-item', () => placement?.start(key)));
     }
     if (item.salvage) {
       const control = button('Salvage', 'salvage', () =>
@@ -404,8 +487,20 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         ),
       );
     }
-    return html`<section class="inventory-detail" aria-label="Selected item"><div class="item-description" data-scroll="detail"><h3>${item.name}</h3>
-      ${slots && (item.maxHealth || (replacedId && items[replacedId]!.maxHealth)) ? html`<p class="item-comparison">Health <strong>${app.sim.maxHealth} → ${projectedHealth}</strong></p>` : false}
+    const dismiss = button('×', 'dismiss-detail', () => {
+      detailVisible = false;
+      focusedAction = selected?.kind === 'slot' ? `slot-${selected.slot}` : `item-${selected?.id}`;
+      panel
+        .querySelector<HTMLButtonElement>(`[data-action="${focusedAction}"]`)
+        ?.focus({ preventScroll: true });
+      draw();
+    });
+    dismiss.className = 'detail-close';
+    dismiss.setAttribute('aria-label', 'Close item details');
+    return html`<section class="inventory-detail" aria-label="Selected item">${dismiss}<div class="item-description" data-scroll="detail"><h3>${item.name}</h3>
+      <p class="item-kind">${equippedSlot ? 'Equipped' : packEntry && packEntry.quantity > 1 ? `Count ${packEntry.quantity}` : 'Carried'} · ${item.footprint[0]} × ${item.footprint[1]} cells</p>
+      ${item.kind === 'material' && html`<p class="item-effect">Forge material</p>`}
+      ${slots && (item.maxHealth || (replacedId && items[replacedId]!.maxHealth)) ? html`<p class="item-comparison">Maximum health <strong>${app.sim.maxHealth} → ${projectedHealth} <small>(${projectedHealth - app.sim.maxHealth >= 0 ? '+' : ''}${projectedHealth - app.sim.maxHealth})</small></strong></p>` : false}
       ${id === 'sword' && html`<p class="item-effect">Damage ${damage('sword', app.session.forgeUpgrade === 'sword')}</p>`}
       ${id === 'lantern' && html`<p class="item-effect">Damage ${damage('lantern', app.session.forgeUpgrade === 'lantern')} per enemy</p>`}
       ${item.kind === 'potion' && html`<p class="item-effect">Restores 40 health</p>`}
@@ -425,6 +520,9 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         el.scrollTop,
       ]),
     );
+    drawing.abort();
+    drawing = new AbortController();
+    drawSignal = AbortSignal.any([signal, drawing.signal]);
     const title = fire
       ? app.session.fire(fire).definition.name
       : workbench
@@ -433,17 +531,19 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     const content = workbench ? forge() : fire ? campfire(fire) : inventory();
     panel.classList.toggle('is-inventory', !workbench && !fire);
     panel.classList.toggle('is-forge', !!workbench);
-    const back = button('×', 'return', close);
+    panel.classList.toggle('is-campfire', !!fire);
+    const back = button('', 'return', close);
+    back.append(artwork('ui-close', 'control-icon'));
     back.setAttribute('aria-label', 'Return to game');
     back.className = 'adventure-close';
-    back.title = 'Return to game · Esc';
     panel.setAttribute('aria-busy', String(working));
     panel.setAttribute('aria-label', title);
+    const header = html`<header class="adventure-header"><h2>${workbench ? 'Forge' : title}</h2>${back}</header>`;
+
     panel.replaceChildren(
-      artwork(interfaceFrameArtwork, 'interface-frame'),
-      html`<header class="adventure-header"><h2>${workbench ? 'Forge' : title}</h2>${back}</header>`,
+      header,
       content,
-      html`<footer class="adventure-footer${messageError || working ? ' visible' : ''}"><p class="adventure-feedback${messageError ? ' error' : ''}" role="${messageError ? 'alert' : 'status'}">${message || (working ? 'Saving…' : '')}</p></footer>`,
+      html`<footer class="adventure-footer${messageError || working ? ' visible' : ''}"><p class="adventure-feedback${messageError ? ' error' : ''}" role="${messageError ? 'alert' : 'status'}">${message || (working ? 'Working…' : !workbench && !fire ? 'Select to inspect · Drag to arrange · M to move with keys' : '')}</p></footer>`,
     );
     content.scrollTop = scrollTop;
     for (const el of panel.querySelectorAll<HTMLElement>('[data-scroll]'))
@@ -479,6 +579,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       choice = undefined;
       selected = undefined;
       equipTo = undefined;
+      detailVisible = false;
       inventoryView = 'pack';
       message = '';
       messageError = false;
@@ -499,7 +600,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       event.preventDefault();
       close();
     },
-    { signal },
+    { signal: drawSignal },
   );
   document.addEventListener(
     'keydown',
@@ -516,6 +617,15 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       )
         return;
       if (panel.open) {
+        if (event.code === 'Escape' && placement?.moving) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          placement.cancel();
+          message = 'Move cancelled.';
+          const feedback = panel.querySelector<HTMLElement>('.adventure-feedback');
+          if (feedback) feedback.textContent = message;
+          return;
+        }
         if (event.repeat && (event.key === 'Enter' || event.key === ' ')) {
           event.preventDefault();
           event.stopImmediatePropagation();
@@ -545,6 +655,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
   const dispose = () => {
     if (disposed) return;
     disposed = true;
+    drawing.abort();
     panel.close();
     panel.remove();
   };

@@ -53,12 +53,26 @@ export class GroundLootLabels {
         if (this.app.highlightedDrop === id) this.app.highlightedDrop = undefined;
       }
     const occupied: { x: number; y: number; width: number }[] = [];
+    const origin = this.root.getBoundingClientRect();
+    const reserved = [
+      ...(this.root.parentElement?.querySelectorAll<HTMLElement>('.hud, .game-toolbar') ?? []),
+    ]
+      .filter((element) => element.getClientRects().length)
+      .map((element) => {
+        const box = element.getBoundingClientRect();
+        return {
+          left: box.left - origin.left - 8,
+          right: box.right - origin.left + 8,
+          top: box.top - origin.top - 8,
+          bottom: box.bottom - origin.top + 8,
+        };
+      });
     for (const drop of [...sim.drops].sort((a, b) => a.id.localeCompare(b.id))) {
       const reward = drop.rewards[0]!;
       let label = this.labels.get(drop.id);
       if (!label) {
         const name = `${items[reward.item]!.name}${reward.amount > 1 ? ` ×${reward.amount}` : ''}`;
-        const button = html<HTMLButtonElement>`<button type="button" class="ground-loot-label" data-kind="${items[reward.item]!.kind}" data-drop="${drop.id}" aria-label="Collect ${name}">${name}</button>`;
+        const button = html<HTMLButtonElement>`<button type="button" class="ground-loot-label" data-kind="${items[reward.item]!.kind}" data-drop="${drop.id}" data-tip="${name}" aria-label="Collect ${name}"><span class="loot-name">${name}</span></button>`;
         button.prepend(this.artwork(reward.item));
         button.addEventListener(
           'pointerenter',
@@ -117,14 +131,14 @@ export class GroundLootLabels {
       }
       const clampX = (x: number) =>
         Math.max(label.width / 2 + 5, Math.min(width - label.width / 2 - 5, x));
-      const clampY = (y: number) => Math.max(15, Math.min(height - 15, y));
+      const clampY = (y: number) => Math.max(24, Math.min(height - 24, y));
       const anchorX = clampX(((this.point.x + 1) * width) / 2),
         anchorY = clampY(((1 - this.point.y) * height) / 2);
       const columns = [anchorX],
         rows = [anchorY];
       for (let offset = label.width + 6; offset < width + label.width; offset += label.width + 6)
         columns.push(clampX(anchorX - offset), clampX(anchorX + offset));
-      for (let offset = 25; offset < height + 25; offset += 25)
+      for (let offset = 46; offset < height + 46; offset += 46)
         rows.push(clampY(anchorY - offset), clampY(anchorY + offset));
       let x = anchorX,
         y = anchorY;
@@ -133,10 +147,17 @@ export class GroundLootLabels {
       search: for (const column of columns)
         for (const row of rows)
           if (
+            !reserved.some(
+              (box) =>
+                column + label.width / 2 > box.left &&
+                column - label.width / 2 < box.right &&
+                row + 22 > box.top &&
+                row - 22 < box.bottom,
+            ) &&
             !occupied.some(
               (p) =>
                 Math.abs(p.x - column) < (p.width + label.width) / 2 + 6 &&
-                Math.abs(p.y - row) < 25,
+                Math.abs(p.y - row) < 46,
             )
           ) {
             x = column;
