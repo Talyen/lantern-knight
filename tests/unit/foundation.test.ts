@@ -15,7 +15,8 @@ import { selectDirection } from '../../src/content/headings';
 import { trimmedBounds } from '../../src/assets/sprite-registration';
 import { cameraCalibration } from '../../src/assets/camera-calibration';
 import { cameraContract as contract } from '../../src/assets/camera-contract';
-import { Animator, frameAt, retimeClip } from '../../src/core/animation';
+import { Animator, frameAt } from '../../src/core/animation';
+import { timedWalk } from '../../src/core/locomotion-timing';
 import { Simulation, FixedClock } from '../../src/core/simulation';
 import { tuning } from '../../src/content/gameplay';
 import { resolveActorClip, resolveClip, type Clip } from '../../src/assets/schema';
@@ -108,10 +109,14 @@ const clip: Clip = {
   ],
 };
 test('invalid animation deltas and seeks leave playback and notifications usable', () => {
+  const initial = new Animator('hero', {
+    ...clip,
+    notifies: [{ id: 'start', kind: 'footstep', atMs: 0 }],
+  });
+  assert.deepEqual(initial.advance(-1), []);
+  assert.equal(initial.advance(0).length, 1, 'a rejected delta cannot consume the initial notify');
   const animation = new Animator('hero', clip);
   animation.advance(50);
-  animation.advance(NaN);
-  assert.equal(animation.time, 50);
   for (const invalid of [NaN, Infinity, -Infinity]) {
     assert.deepEqual(animation.advance(invalid), []);
     animation.seek(invalid);
@@ -123,7 +128,7 @@ test('invalid animation deltas and seeks leave playback and notifications usable
   );
 });
 test('notifies survive skipped frames/loops, have unique identities, interruption restarts; scrub silent; death holds', () => {
-  const retimed = new Animator('retimed', retimeClip(clip, [50, 150, 100]));
+  const retimed = new Animator('retimed', timedWalk(clip, 'weighted', [50, 150, 100]));
   assert.deepEqual(
     retimed.advance(199).map((event) => [event.kind, event.timeMs]),
     [['footstep', 40]],
@@ -258,11 +263,6 @@ test('shared async resources deduplicate, cancellation cannot resurrect discarde
   fail = false;
   const recovered = await retry.acquire(['x']);
   recovered.release();
-  assert.equal(retry.size, 0);
-  for (let i = 0; i < 10; i++) {
-    const lease = await retry.acquire(['shared']);
-    lease.release();
-  }
   assert.equal(retry.size, 0);
   const firstManifest = manifestFixture('first');
   const secondManifest = structuredClone(firstManifest);

@@ -6,6 +6,7 @@ import { acceptCommand } from './command';
 
 // A transient input intent. Checkpoints contain drops, never pending UI requests.
 export class PickupPlan {
+  private navigation: Navigation | undefined;
   private pending: { id: string; generation: number } | undefined;
   cancel(sim: Simulation) {
     if (this.pending?.generation === sim.generation) sim.setMovementTarget(sim.hero.id, null);
@@ -19,7 +20,9 @@ export class PickupPlan {
       this.pending = { id, generation: sim.generation };
       return true;
     }
-    const navigation = new Navigation(sim.areaDefinition);
+    if (this.navigation?.area !== sim.areaDefinition)
+      this.navigation = new Navigation(sim.areaDefinition);
+    const navigation = this.navigation;
     const candidates = [
       drop,
       ...[0.5, 1.15, 1.5, 1.6].flatMap((radius) =>

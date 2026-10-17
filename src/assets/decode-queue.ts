@@ -29,6 +29,7 @@ export class DecodeQueue {
         this.active++;
         void Promise.resolve()
           .then(() => {
+            if (this.closed) throw new Error(this.disposedMessage);
             signal?.throwIfAborted();
             return work();
           })

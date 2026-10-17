@@ -59,15 +59,15 @@ export interface InventoryAccess {
 }
 
 export class InventoryState implements InventoryAccess {
-  private state: InventorySnapshot;
+  private state: InventorySnapshot & { readonly healthBonus: number };
   constructor(snapshot: InventorySnapshot = { inventory: {}, equipment: {} }) {
     this.state = this.accept(this.copy(snapshot));
   }
-  private accept(snapshot: InventorySnapshot): InventorySnapshot {
+  private accept(snapshot: InventorySnapshot) {
     validateInventory(snapshot);
     Object.freeze(snapshot.inventory);
     Object.freeze(snapshot.equipment);
-    return Object.freeze(snapshot);
+    return Object.freeze({ ...snapshot, healthBonus: healthBonus(snapshot.equipment) });
   }
   get inventory(): Readonly<Inventory> {
     return this.state.inventory;
@@ -99,7 +99,7 @@ export class InventoryState implements InventoryAccess {
     };
   }
   get healthBonus() {
-    return healthBonus(this.equipment);
+    return this.state.healthBonus;
   }
   private copy(snapshot: InventorySnapshot): InventorySnapshot {
     return {

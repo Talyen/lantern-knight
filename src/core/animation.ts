@@ -63,10 +63,10 @@ export class Animator {
     this.notifiedThrough = Math.max(this.notifiedThrough, this.time);
   } // silent; rewinding cannot replay already crossed notifies
   advance(ms: number) {
-    if (!Number.isFinite(ms)) return [];
+    if (!Number.isFinite(ms) || ms < 0) return [];
     const from =
         this.notifiedThrough < 0 ? this.notifiedThrough : Math.max(this.time, this.notifiedThrough),
-      to = this.time + Math.max(0, ms);
+      to = this.time + ms;
     this.time = to;
     this.notifiedThrough = Math.max(this.notifiedThrough, to);
     const events: { key: string; kind: string; timeMs: number; instance: number }[] = [];

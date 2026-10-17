@@ -24,10 +24,14 @@ export function acceptCommand(
 ): AcceptedCommand {
   if (!command || (command.generation !== undefined && command.generation !== generation))
     return { move: { x: 0, z: 0 }, aim: fallbackAim, actions: [], potion: false };
+  // Scale before measuring length: two finite components can have an infinite norm.
+  const scale = Math.max(1, Math.abs(command.move.x), Math.abs(command.move.z));
   return {
     move:
       Number.isFinite(command.move.x) && Number.isFinite(command.move.z)
-        ? command.move
+        ? scale > 1
+          ? { x: command.move.x / scale, z: command.move.z / scale }
+          : command.move
         : { x: 0, z: 0 },
     aim:
       Number.isFinite(command.aim.x) && Number.isFinite(command.aim.z) ? command.aim : fallbackAim,

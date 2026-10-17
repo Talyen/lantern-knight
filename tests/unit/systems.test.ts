@@ -563,6 +563,17 @@ test('resetting the fixed clock inside a step discards pending time without dela
   assert.equal(steps, 2);
 });
 
+test('finite movement keeps its direction and speed even when its length overflows', () => {
+  for (const sign of [-1, 1]) {
+    const normal = new Simulation(content),
+      extreme = new Simulation(content);
+    const aim = { x: 1, z: 6 };
+    normal.step({ move: { x: sign, z: 1 }, aim });
+    extreme.step({ move: { x: sign * Number.MAX_VALUE, z: Number.MAX_VALUE }, aim });
+    assert.deepEqual(extreme.hero, normal.hero);
+  }
+});
+
 test('invalid movement cannot corrupt the hero position or dodge heading', () => {
   for (const value of [NaN, Infinity, -Infinity]) {
     const sim = new Simulation(content);

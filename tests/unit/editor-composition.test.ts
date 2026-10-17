@@ -24,6 +24,14 @@ function assembly() {
   ];
   return EditorHistory.create(d);
 }
+it('history rejects broken attachments before accepting them as editable state', () => {
+  const d = parseSceneDocument(assembly().document);
+  d.objects[1]!.mount!.to = 'missing';
+  assert.throws(() => EditorHistory.create(d), /Missing attachment support/);
+  d.objects[1]!.mount!.to = 'child';
+  assert.throws(() => EditorHistory.create(d), /Cyclic attachment support/);
+});
+
 it('absolute alignment places selected supports before attachments regardless of selection order', () => {
   for (const selection of [
     ['child', 'support'],
@@ -146,7 +154,7 @@ it('duplicating artwork preserves every health reward attached to it', () => {
 });
 
 import { SceneLibrary, patternPoints } from '../../src/editor/library';
-import { parseSceneFragment } from '../../src/content/scene-document';
+import { parseSceneFragment, parseSceneDocument } from '../../src/content/scene-document';
 it('patterns are reproducible, bounded, and follow authored path endpoints', () => {
   const d = emptyScene();
   d.paths = [

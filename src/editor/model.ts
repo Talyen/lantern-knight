@@ -6,13 +6,16 @@ import {
   type SceneObject,
 } from '../content/scene-document';
 import { boundsCorners, polygonBounds } from '../content/polygon';
-import { contentSnapshot } from '../content/snapshot';
+import { contentSnapshot, type ContentSnapshot } from '../content/snapshot';
 import { localOffset } from '../content/scenery-presets';
 import { resolveAuthoredScene } from '../content/world-art';
 import { type ArtPlacement } from '../content/world-visuals';
 export type EditorItem = { placement: ArtPlacement; kind: SceneObject['kind'] };
 export function sceneItems(document: SceneSnapshot): EditorItem[] {
-  const art = resolveAuthoredScene({ ...document, groundInteraction: undefined }),
+  // Selection needs detached placements, not a second admission of the entire scene.
+  const art = resolveSceneDocument(
+      structuredClone({ ...document, groundInteraction: undefined }) as SceneDocument,
+    ),
     kinds = new Map(document.objects.map((p) => [p.id, p.kind]));
   return [...art.props, ...art.decals].map((placement) => ({
     placement,
@@ -26,7 +29,9 @@ export class EditorHistory {
     private future: SceneSnapshot[] = [],
   ) {}
   static create(document: SceneSnapshot) {
-    return new EditorHistory(contentSnapshot(parseSceneDocument(document)));
+    const valid = parseSceneDocument(document);
+    resolveAuthoredScene(valid);
+    return new EditorHistory(contentSnapshot(valid));
   }
   get document(): SceneSnapshot {
     return this.current;
@@ -52,7 +57,7 @@ export class EditorHistory {
     this.future = future;
   }
   change(mutator: (d: SceneDocument) => void) {
-    const next = parseSceneDocument(this.document);
+    const next = structuredClone(this.document) as SceneDocument;
     mutator(next);
     const valid = parseSceneDocument(next);
     resolveAuthoredScene(valid);
@@ -196,23 +201,22 @@ export class EditorHistory {
 
   duplicateMany(ids: readonly string[]) {
     const included = new Set(this.descendants(ids));
-    const document = parseSceneDocument(this.document);
+    const originals = new Map(this.document.objects.map((object) => [object.id, object]));
     const objects = sceneItems(this.document)
       .filter((p) => included.has(p.placement.id))
-      .map((p) => document.objects.find((object) => object.id === p.placement.id)!);
+      .map((p) => originals.get(p.placement.id)!);
     return this.insertFragment(objects, 0.5, 0.5, true);
   }
 
   fragment(ids: readonly string[]) {
     const included = new Set(this.descendants(ids));
     const items = sceneItems(this.document);
-    const objects = parseSceneDocument(this.document).objects;
+    const objects = new Map(this.document.objects.map((object) => [object.id, object]));
     return items
       .filter((p) => included.has(p.placement.id))
-      .map((p) => objects.find((object) => object.id === p.placement.id)!)
-      .map((copy) => {
+      .map(({ placement: world }) => {
+        const copy = structuredClone(objects.get(world.id)!) as SceneObject;
         if (copy.mount && !included.has(copy.mount.to)) {
-          const world = items.find((v) => v.placement.id === copy.id)!.placement;
           delete copy.mount;
           copy.role = 'upright';
           copy.x = world.x;
@@ -223,13 +227,19 @@ export class EditorHistory {
       });
   }
 
-  insertFragment(objects: readonly SceneObject[], dx = 0, dz = 0, copyGameplay = false) {
-    const copies = structuredClone([...objects]);
+  insertFragment(
+    objects: readonly ContentSnapshot<SceneObject>[],
+    dx = 0,
+    dz = 0,
+    copyGameplay = false,
+  ) {
+    const copies = structuredClone(objects) as SceneObject[];
     const source = parseSceneDocument(this.document);
     const remap = new Map(copies.map((p) => [p.id, 'object-' + crypto.randomUUID()]));
     this.change((d) => {
       for (const p of copies) {
-        p.id = remap.get(p.id)!;
+        const original = p.id;
+        p.id = remap.get(original)!;
         if (p.fixture) p.fixture.id = p.id + '-flame';
         if (p.mount && remap.has(p.mount.to)) p.mount.to = remap.get(p.mount.to)!;
         else if (p.mount) {
@@ -242,14 +252,13 @@ export class EditorHistory {
           p.z = p.z! + dz;
         }
         d.objects.push(p);
-        const original = objects.find((o) => remap.get(o.id) === p.id)!;
         if (copyGameplay && d.gameplay) {
           const copied = <P extends { id: string; object: string; x: number; z: number }>(
             values: readonly P[] | undefined,
             prefix: string,
           ) =>
             (values ?? [])
-              .filter((v) => v.object === original.id)
+              .filter((v) => v.object === original)
               .map((value) => ({
                 ...structuredClone(value),
                 id: prefix + '-' + crypto.randomUUID(),

@@ -1,5 +1,5 @@
 import type { Clip } from '../assets/schema';
-import { clipDuration } from './animation';
+import { clipDuration, retimeClip } from './animation';
 export const walkTimings = {
   supplied: { label: 'Authored holds', description: 'Imported locomotion timing.' },
   weighted: {
@@ -23,7 +23,7 @@ export function timedWalk(clip: Clip, timing: WalkTiming, holds?: readonly numbe
   )
     throw new Error('Weighted walk must preserve its authored cycle');
   if (!versions) cached.set(clip, (versions = new Map()));
-  const result = { ...clip, durationsMs: [...holds] };
+  const result = retimeClip(clip, holds);
   versions.set(key, result);
   return result;
 }

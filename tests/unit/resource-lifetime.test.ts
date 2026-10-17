@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Group, Mesh, MeshBasicMaterial, PlaneGeometry, OrthographicCamera, Texture } from 'three';
+import { DecodeQueue } from '../../src/assets/decode-queue';
 import { ResourcePool } from '../../src/assets/resource-pool';
 import { SceneAssets } from '../../src/assets/scene-assets';
 import { AssetRuntime, type PackBatch, type PackLease } from '../../src/assets/loader';
@@ -371,4 +372,19 @@ test('failed construction drains a consumed scope, preserves the cause and rejec
   );
   scope.dispose();
   assert.deepEqual(calls, ['closing', 'reentrant', 'material', 'renderer']);
+});
+
+test('closing a decode queue revokes admitted work before its scheduled native call starts', async () => {
+  const queue = new DecodeQueue(1);
+  let started = 0;
+  const work = async () => ++started;
+  const active = queue.run(work),
+    waiting = queue.run(work);
+  const rejected = Promise.all([
+    assert.rejects(active, /disposed/),
+    assert.rejects(waiting, /disposed/),
+  ]);
+  queue.dispose();
+  await rejected;
+  assert.equal(started, 0);
 });
