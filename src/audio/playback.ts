@@ -1,3 +1,4 @@
+import { readUntilAborted } from '../abort';
 import { AudioBuffers, type AudioBufferLease } from './buffers';
 import { cleanupAll, cleanupAfterFailure } from '../assets/cleanup';
 import { audioManifestPath, parseAudioManifest, type AudioManifest } from '../assets/audio';
@@ -34,6 +35,8 @@ export class AudioPlayback {
   private ambience?: GainNode;
   private manifest?: AudioManifest;
   private initialization?: Promise<void>;
+  private preloading?: AbortController;
+  private ambienceRequest?: { key: string; promise: Promise<void> };
   private readonly buffers: AudioBuffers;
   private voices = new Set<AudioVoice>();
   private loops: AudioVoice[] = [];
@@ -80,11 +83,16 @@ export class AudioPlayback {
       .then(async () => {
         this.lifetime.signal.throwIfAborted();
         this.prepareContext();
-        const response = await this.deps.request('/' + audioManifestPath, {
-          signal: this.lifetime.signal,
-        });
+        const response = await readUntilAborted(
+          this.deps.request('/' + audioManifestPath, {
+            signal: this.lifetime.signal,
+          }),
+          this.lifetime.signal,
+        );
         if (!response.ok) throw new Error('prepared audio manifest missing');
-        const manifest = parseAudioManifest(await response.json());
+        const manifest = parseAudioManifest(
+          await readUntilAborted(response.json(), this.lifetime.signal),
+        );
         if (!this.lifetime.signal.aborted) this.manifest = manifest;
       })
       .catch((error: unknown) => {
@@ -148,12 +156,17 @@ export class AudioPlayback {
     if (this.master) this.master.gain.value = settings.muted ? 0 : settings.master;
     if (this.effects) this.effects.gain.value = settings.effects;
     if (this.ambience) this.ambience.gain.value = settings.ambience;
-    if (settings.muted) {
+    if (settings.muted || settings.master === 0 || settings.effects === 0) {
+      this.preloading?.abort();
       this.cooldown.clear();
       this.cancelPending(false);
-      this.cleanupObserved([() => this.finishVoices(() => true), () => this.stopAmbience()]);
-    } else if (this.unlocked) void this.setAmbience(this.destination).catch(() => {});
+      this.cleanupObserved([() => this.finishVoices((voice) => !voice.loop)]);
+    }
+    if (settings.muted || settings.master === 0 || settings.ambience === 0)
+      this.cleanupObserved([() => this.stopAmbience()]);
+    else if (this.unlocked) void this.setAmbience(this.destination).catch(() => {});
   }
+
   setWorldFrozen(frozen: boolean) {
     if (this.frozen === frozen) return;
     this.frozen = frozen;
@@ -186,14 +199,24 @@ export class AudioPlayback {
     if (!worldOnly) session.abort();
   }
   private async preload() {
-    for (const sample of this.manifest?.samples ?? []) {
-      if (sample.loop || this.lifetime.signal.aborted || this.settings.muted) continue;
-      try {
-        const lease = await this.buffers.acquire(sample);
-        lease.release();
-      } catch (error) {
-        this.fail(error);
+    if (this.settings.muted || this.settings.master === 0 || this.settings.effects === 0) return;
+    const controller = new AbortController();
+    this.preloading?.abort();
+    this.preloading = controller;
+    const signal = AbortSignal.any([this.lifetime.signal, controller.signal]);
+    try {
+      for (const sample of this.manifest?.samples ?? []) {
+        if (signal.aborted) break;
+        if (sample.loop) continue;
+        try {
+          const lease = await this.buffers.acquire(sample, signal);
+          lease.release();
+        } catch (error) {
+          if (!signal.aborted) this.fail(error);
+        }
       }
+    } finally {
+      if (this.preloading === controller) this.preloading = undefined;
     }
   }
   private createVoice(
@@ -344,25 +367,38 @@ export class AudioPlayback {
       lease?.release();
     }
   }
-  async setAmbience(destination: readonly AudioCue[]) {
-    const previous = this.ambienceLifetime;
-    this.ambienceLifetime = new AbortController();
-    const signal = AbortSignal.any([this.lifetime.signal, this.ambienceLifetime.signal]);
-    const cues = destination.slice(0, 2);
+  setAmbience(destination: readonly AudioCue[]): Promise<void> {
+    const cues = destination.slice(0, 2),
+      key = cues.join('/');
     this.destination = cues;
-    const key = cues.join('/');
-    previous.abort();
     if (
-      signal.aborted ||
+      this.lifetime.signal.aborted ||
       !this.unlocked ||
       !this.manifest ||
       this.manifest.samples.length === 0 ||
       this.frozen ||
       this.settings.muted ||
-      this.lifetime.signal.aborted
+      this.settings.master === 0 ||
+      this.settings.ambience === 0
     )
-      return;
-    if (key === this.activeDestination) return;
+      return Promise.resolve();
+    if (this.ambienceRequest?.key === key) return this.ambienceRequest.promise;
+    const previous = this.ambienceLifetime;
+    this.ambienceLifetime = new AbortController();
+    const signal = AbortSignal.any([this.lifetime.signal, this.ambienceLifetime.signal]);
+    this.ambienceRequest = undefined;
+    previous.abort();
+    if (signal.aborted || key === this.activeDestination) return Promise.resolve();
+    const promise = this.prepareAmbience(cues, key, signal);
+    const request = { key, promise };
+    this.ambienceRequest = request;
+    const clear = () => {
+      if (this.ambienceRequest === request) this.ambienceRequest = undefined;
+    };
+    void promise.then(clear, clear);
+    return promise;
+  }
+  private async prepareAmbience(cues: readonly AudioCue[], key: string, signal: AbortSignal) {
     const created: AudioVoice[] = [];
     try {
       const samples = cues.map((cue) => {
@@ -422,6 +458,7 @@ export class AudioPlayback {
     }
   }
   private stopAmbience() {
+    this.ambienceRequest = undefined;
     this.ambienceLifetime.abort();
     this.activeDestination = '';
     const timers = [...this.timers],

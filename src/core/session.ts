@@ -439,7 +439,6 @@ export class GameSession {
       fire ? this.fire(fire).area : this.sim.area,
       fire ? 'fire-' + this.fire(fire).definition.id : undefined,
     );
-    state.sim.hero.health = state.sim.maxHealth;
     if (fire) state.lastFire = fire;
     return this.prepareRoom(state, { kind: 'room-reset', reason });
   }
@@ -455,7 +454,6 @@ export class GameSession {
     state.lastFire = key;
     this.resetEnemies(state);
     state.sim = this.restoredSimulation(state, area, 'fire-' + definition.id);
-    state.sim.hero.health = state.sim.maxHealth;
     return this.prepareRoom(state, { kind: 'rested' });
   }
   rest(key: string): readonly GameplayEvent[] {

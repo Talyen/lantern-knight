@@ -49,6 +49,14 @@ export class Input {
     });
     on('keyup', (e) => this.keys.delete(e.code));
     on('blur', () => this.clear());
+    on('pagehide', () => this.clear());
+    document.addEventListener(
+      'visibilitychange',
+      () => {
+        if (document.hidden) this.clear();
+      },
+      { signal },
+    );
     on('pointermove', (e) => {
       this.pointer = { x: e.clientX, y: e.clientY };
       this.hasPointer = true;

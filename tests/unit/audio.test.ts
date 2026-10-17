@@ -145,8 +145,11 @@ function fixture(
     },
   };
 }
-async function ready(f: ReturnType<typeof fixture>) {
+async function ready(f: ReturnType<typeof fixture>, preload = true) {
+  const settings = f.playback.settings;
+  if (!preload) f.playback.updateSettings({ ...settings, effects: 0 });
   await f.playback.unlock();
+  if (!preload) f.playback.updateSettings(settings);
   f.playback.setWorldFrozen(false);
 }
 test('session replacement cancels pending ambience and closes the previous room loops', async () => {
@@ -273,10 +276,17 @@ test('first gesture unlocks once, mute and disposal release live sounds', async 
   await ready(f);
   await f.playback.play('sword');
   assert.equal(f.playback.diagnosticsSnapshot.voices, 1);
-  f.playback.updateSettings({ ...defaultAudioSettings, muted: true });
+  f.playback.updateSettings({ ...defaultAudioSettings, effects: 0 });
   assert.equal(f.playback.diagnosticsSnapshot.voices, 0);
   await f.playback.play('sword');
   assert.equal(f.sources.length, 1);
+  f.playback.updateSettings(defaultAudioSettings);
+  await f.playback.play('sword');
+  assert.equal(f.playback.diagnosticsSnapshot.voices, 1, 'silent cues cannot consume cooldown');
+  f.playback.updateSettings({ ...defaultAudioSettings, muted: true });
+  assert.equal(f.playback.diagnosticsSnapshot.voices, 0);
+  await f.playback.play('sword');
+  assert.equal(f.sources.length, 2);
   f.playback.dispose();
   f.playback.dispose();
   assert.equal(f.counts.closed, 1);
@@ -367,12 +377,17 @@ test(
   'pending playback cancels before transport settles and expired cues never start',
   { timeout: 2000 },
   async () => {
-    for (const action of ['replace', 'expire', 'mute', 'dispose', 'abort', 'freeze']) {
-      const f = fixture([sample('forest-1', 'forest', true)]);
-      await ready(f);
-      // Add a one-shot after preload so its fetch can be controlled.
-      const manifest = (f.playback as unknown as { manifest: AudioManifest }).manifest;
-      manifest.samples.push(sample('late-1', 'sword'));
+    for (const action of [
+      'replace',
+      'expire',
+      'mute',
+      'effects-off',
+      'dispose',
+      'abort',
+      'freeze',
+    ]) {
+      const f = fixture([sample('late-1', 'sword')]);
+      await ready(f, false);
       const { promise: response, resolve } = Promise.withResolvers<Response>();
       const requested = Promise.withResolvers<void>();
       f.pending = () => {
@@ -385,6 +400,8 @@ test(
       if (action === 'replace') f.playback.replaceSession();
       if (action === 'expire') f.now = 1;
       if (action === 'mute') f.playback.updateSettings({ ...defaultAudioSettings, muted: true });
+      if (action === 'effects-off')
+        f.playback.updateSettings({ ...defaultAudioSettings, effects: 0 });
       if (action === 'dispose') f.playback.dispose();
       if (action === 'abort') controller.abort();
       if (action === 'freeze') f.playback.setWorldFrozen(true);
@@ -494,9 +511,8 @@ test('audio authoring verifies source hashes and rejects changed or escaped sour
 });
 
 test('an aborted waiter cannot consume cooldown or stop a newer waiter sharing its load', async () => {
-  const f = fixture([sample('forest-1', 'forest', true)]);
-  await ready(f);
-  (f.playback as unknown as { manifest: AudioManifest }).manifest.samples.push(sample('late-1'));
+  const f = fixture([sample('late-1')]);
+  await ready(f, false);
   const { promise: response, resolve } = Promise.withResolvers<Response>();
   const { promise: requested, resolve: started } = Promise.withResolvers<void>();
   f.pending = () => {
@@ -933,3 +949,112 @@ test('concurrent sounds choose different delivered variants in playback order', 
     f.playback.dispose();
   }
 });
+
+test('silent audio channels acquire no buffers and ambience resumes when audible again', async (t) => {
+  for (const channel of ['master', 'ambience'] as const) {
+    const f = fixture([sample('forest-1', 'forest', true)]);
+    await ready(f);
+    const acquire = t.mock.method(AudioBuffers.prototype, 'acquire');
+    f.playback.updateSettings({ ...defaultAudioSettings, [channel]: 0 });
+    await f.playback.setAmbience(['forest']);
+    assert.equal(acquire.mock.callCount(), 0, channel);
+    f.playback.updateSettings(defaultAudioSettings);
+    await f.playback.setAmbience(['forest']);
+    assert.equal(f.playback.diagnosticsSnapshot.loops, 1);
+    f.playback.updateSettings({ ...defaultAudioSettings, [channel]: 0 });
+    assert.equal(f.playback.diagnosticsSnapshot.loops, 0);
+    f.playback.dispose();
+    acquire.mock.restore();
+  }
+});
+
+test('silent effects do not preload samples on unlock', async () => {
+  const f = fixture();
+  f.playback.updateSettings({ ...defaultAudioSettings, effects: 0 });
+  await ready(f);
+  assert.equal(f.counts.requests, 1, 'only the manifest is needed');
+  f.playback.dispose();
+});
+
+test('repeating a pending ambience destination preserves its acquisition', async () => {
+  const f = fixture([sample('forest-1', 'forest', true)]);
+  await ready(f);
+  const requested = Promise.withResolvers<void>();
+  const response = Promise.withResolvers<Response>();
+  f.pending = () => {
+    requested.resolve();
+    return response.promise;
+  };
+  const first = f.playback.setAmbience(['forest']);
+  await requested.promise;
+  const second = f.playback.setAmbience(['forest']);
+  response.resolve(new Response(bytes));
+  await Promise.all([first, second]);
+  assert.equal(f.counts.requests, 2, 'one manifest and one sample transport');
+  assert.equal(f.sources.length, 1);
+  f.playback.dispose();
+});
+
+test(
+  'muting cancels an in-flight effects preload without waiting for transport',
+  { timeout: 2000 },
+  async () => {
+    const f = fixture([sample('sword-1')]);
+    const requested = Promise.withResolvers<void>();
+    const response = Promise.withResolvers<Response>();
+    f.pending = () => {
+      requested.resolve();
+      return response.promise;
+    };
+    const unlocking = f.playback.unlock();
+    await requested.promise;
+    f.playback.updateSettings({ ...defaultAudioSettings, muted: true });
+    try {
+      await unlocking;
+      assert.equal(f.playback.diagnosticsSnapshot.decodedBytes, 0);
+      assert.deepEqual(f.reports, []);
+    } finally {
+      response.resolve(new Response(bytes));
+      f.playback.dispose();
+    }
+  },
+);
+
+test(
+  'audio initialization settles on shutdown during manifest transport or body reads',
+  { timeout: 2000 },
+  async () => {
+    for (const phase of ['transport', 'body']) {
+      const f = fixture([]),
+        requested = Promise.withResolvers<void>(),
+        late = Promise.withResolvers<void>();
+      const wait = () => {
+        requested.resolve();
+        return late.promise;
+      };
+      const playback = new AudioPlayback(() => assert.fail('shutdown must be quiet'), {
+        context: () => f.context as unknown as AudioContext,
+        request: async () => {
+          if (phase === 'transport') await wait();
+          return {
+            ok: true,
+            json: async () => {
+              if (phase === 'body') await wait();
+              return { schemaVersion: 1, samples: [] };
+            },
+          } as Response;
+        },
+      });
+      const pending = playback.initialize();
+      await requested.promise;
+      playback.dispose();
+      try {
+        await pending;
+      } finally {
+        late.reject(new Error('late manifest failure'));
+      }
+      assert.deepEqual(playback.samples, []);
+      assert.equal(f.counts.closed, 1);
+    }
+  },
+);

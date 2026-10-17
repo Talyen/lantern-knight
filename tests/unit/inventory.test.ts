@@ -1,3 +1,5 @@
+import { Simulation } from '../../src/core/simulation';
+import { content } from '../fixtures/content';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { InventoryState, MAX_ITEM_COUNT } from '../../src/core/inventory';
@@ -49,4 +51,23 @@ test('reward batches validate before committing any item and cannot overflow sav
   assert.equal(owner.consume('health-potion'), true);
   assert.equal(owner.consume('health-potion'), false);
   assert.equal(owner.inventory['health-potion'], 0);
+});
+
+test('a newly populated hero starts at the health granted by its owned equipment', () => {
+  const inventory = new InventoryState({
+    inventory: { 'orchard-ring': 1 },
+    equipment: { ring1: 'orchard-ring' },
+  });
+  const sim = new Simulation(
+    content,
+    142,
+    content.definitions.initialArea,
+    1,
+    undefined,
+    inventory,
+  );
+  assert.equal(sim.hero.health, sim.maxHealth);
+  sim.hero.health = 1;
+  sim.populate();
+  assert.equal(sim.hero.health, sim.maxHealth);
 });

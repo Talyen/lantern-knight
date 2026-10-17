@@ -226,3 +226,30 @@ test('diagnostic shutdown retains operation and report failures even if cleanup 
   );
   assert.deepEqual(calls, ['work', 'report', 'close']);
 });
+
+test('command completion drains stdout and stderr before returning', async () => {
+  const bytes = 2 * 1024 * 1024;
+  let received = 0;
+  await runProcess(
+    process.execPath,
+    [
+      '-e',
+      `
+    const fs = require('node:fs');
+    const payload = Buffer.alloc(${bytes}, 120);
+    for (const fd of [1, 2]) {
+      let offset = 0;
+      while (offset < payload.length) offset += fs.writeSync(fd, payload, offset);
+    }
+  `,
+    ],
+    {
+      cwd: process.cwd(),
+      timeoutMs: 5000,
+      output: (chunk) => {
+        received += chunk.length;
+      },
+    },
+  );
+  assert.equal(received, bytes * 2);
+});

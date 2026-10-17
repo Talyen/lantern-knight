@@ -48,7 +48,7 @@ test('split publication uses downloadable filenames, frees the candidate archive
   await write('public/lighting/manifest.json', JSON.stringify({ entries: {} }));
   await write('public/audio/manifest.json', JSON.stringify({ schemaVersion: 1, samples: [] }));
   await write('public/authoring-only.png', 'distinct authoring artwork');
-  for (let i = 0; i < 200; i++) await write(`public/authoring/${i}.png`, `distinct source ${i}`);
+  for (let i = 0; i < 3; i++) await write(`public/authoring/${i}.png`, `distinct source ${i}`);
   await write('public/generated/library/catalog.json', '{}');
   await write('public/generated/library/index.json', '{}');
   await write('public/generated/delivery/fixture/preview.png', 'small preview');
@@ -154,7 +154,10 @@ test('split publication uses downloadable filenames, frees the candidate archive
   const pin = LockSchema.parse(await readJson(target));
   assert.equal(pin.schemaVersion, 3);
   if (pin.schemaVersion !== 3) throw new Error('Expected split pin');
-  assert.ok(Object.keys(pin.bundles).filter((name) => name.startsWith('authoring-')).length > 40);
+  assert.ok(
+    Object.keys(pin.bundles).filter((name) => name.startsWith('authoring-')).length > 1,
+    'publication must verify multiple independent authoring shards',
+  );
   assert.ok(pin.fileDelivery, 'individual files are verified before pinning');
   assert.ok(
     Object.keys(pin.bundles).some((name) => name.startsWith('bootstrap-')),

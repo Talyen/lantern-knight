@@ -55,7 +55,8 @@ test('input uses the first click position, preserves pending dodge across key re
         bottom: 670,
       }),
     });
-  mockGlobals(t, { window: target });
+  const doc = Object.assign(new EventTarget(), { hidden: false });
+  mockGlobals(t, { window: target, document: doc });
   let pauses = 0;
   const input = new Input(canvas as unknown as HTMLCanvasElement, makeCamera(4 / 3), () => {
     pauses++;
@@ -149,6 +150,20 @@ test('input uses the first click position, preserves pending dodge across key re
     const shortcut = input.consume(sim.hero, sim.areaDefinition, sim.generation);
     assert.deepEqual(shortcut.actions, [], 'shortcuts discard queued combat');
     assert.equal(shortcut.potion, false);
+  }
+  target.closest = () => null;
+  for (const event of ['visibilitychange', 'pagehide']) {
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW', repeat: false }));
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'ShiftLeft', repeat: false }));
+    target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyQ', repeat: false }));
+    if (event === 'visibilitychange') {
+      doc.hidden = true;
+      doc.dispatchEvent(new Event(event));
+    } else target.dispatchEvent(new Event(event));
+    const hidden = input.consume(sim.hero, sim.areaDefinition, sim.generation);
+    assert.equal(Math.hypot(hidden.move.x, hidden.move.z), 0);
+    assert.deepEqual(hidden.actions, []);
+    assert.equal(hidden.potion, false);
   }
   input.resetAim();
   input.dispose();
@@ -545,7 +560,8 @@ test('failed feedback is removed once; synchronous and asynchronous failures can
 
 test('keyboard events on a non-element target do not crash the input listener', (t) => {
   const target = new EventTarget();
-  mockGlobals(t, { window: target });
+  const doc = Object.assign(new EventTarget(), { hidden: false });
+  mockGlobals(t, { window: target, document: doc });
   const input = new Input(new EventTarget() as HTMLCanvasElement, makeCamera(1), () => {});
   using _cleanup1 = onExit(() => input.dispose());
   target.dispatchEvent(Object.assign(new Event('keydown'), { code: 'KeyW' }));
