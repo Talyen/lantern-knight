@@ -66,6 +66,11 @@ async function downloadAttempt(
     signal,
     headers: range ? { Range: `bytes=${range.offset}-${end}`, 'Accept-Encoding': 'identity' } : {},
   });
+  await using _response = onAsyncExit(async () => {
+    // Header rejection and local file errors can precede stream consumption.
+    // Retire the body on every exit so an unused response cannot retain its socket.
+    if (!response.bodyUsed) await response.body?.cancel();
+  });
   if (
     range &&
     (response.status !== 206 ||
@@ -74,14 +79,12 @@ async function downloadAttempt(
       (response.headers.get('content-encoding') &&
         response.headers.get('content-encoding') !== 'identity'))
   ) {
-    await response.body?.cancel();
     throw new Error('Asset server did not honor the exact byte range');
   }
   if (!response.ok || !response.body)
     throw new Error(`Asset file unavailable: HTTP ${response.status}`);
   const declared = response.headers.get('content-length');
   if (declared !== null && Number(declared) !== info.bytes) {
-    await response.body.cancel();
     throw new Error('Asset file size differs from pin');
   }
   const temporary = target + '.' + randomUUID();

@@ -164,6 +164,27 @@ test('built browser tests select only Game and remove the wrapper flag', () => {
   assert.ok(!filter.test('/tmp/game-worktree/tests/browser/audio.spec.ts'));
   assert.ok(!filter.test('/tmp/game-worktree/tests/browser/editor-gameplay.spec.ts'));
 });
+test('authoring storage and selection tools select their browser CI tier', () => {
+  for (const file of [
+    'tools/scene/scene-editor-store.ts',
+    'tools/scene/fragment-store.ts',
+    'tools/scene/ground-profile-store.ts',
+    'tools/segmentation/service.ts',
+  ])
+    assert.equal(requiresAuthoring([file]), true, file);
+  for (const file of [
+    'tools/cli.ts',
+    'tools/scope-exit.ts',
+    'tools/json-file.ts',
+    'tools/verified-files.ts',
+    'tools/run-process.ts',
+    'tools/command-lane.ts',
+    'tools/assets/download.ts',
+    'tools/assets/file-delivery.ts',
+    'tools/assets/cache.ts',
+  ])
+    assert.deepEqual(coverageFor([file]), { desktop: true, authoring: true, assets: true }, file);
+});
 test('asset validation reads the explicit workspace and rejects altered media', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-explicit-assets-');
 

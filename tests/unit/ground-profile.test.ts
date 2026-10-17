@@ -8,6 +8,25 @@ import { GroundProfileStore } from '../../tools/scene/ground-profile-store';
 import { SceneStore } from '../../tools/scene/scene-editor-store';
 import { emptyScene } from '../../src/editor/default-scene';
 import { restoreGroundProfile } from '../../src/content/ground-profile';
+import { checkSceneDocuments } from '../../tools/check-scene-documents';
+
+it('asset validation rejects damaged archived profiles even without authored scenes', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-profile-check-');
+  const directory = path.join(root, 'authoring/ground-profiles');
+  const profiles = new GroundProfileStore(directory);
+  const id = await profiles.save({
+    version: 1,
+    name: 'Archived interaction',
+    floor: { width: 20, depth: 20 },
+    interaction: groundFixture([]),
+  });
+  assert.equal(await checkSceneDocuments(root, root), 0);
+  const file = path.join(directory, id + '.json');
+  await fs.writeFile(file, '{}');
+  assert.ok((await profiles.list())[0]!.error, 'the editor retains unreadable revision entries');
+  await assert.rejects(checkSceneDocuments(root, root), /Ground profile.*damaged/);
+  assert.equal(await fs.readFile(file, 'utf8'), '{}', 'validation must preserve the damaged file');
+});
 
 it('retains independent interaction revisions after scene deletion, clearing and artwork replacement', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-profiles-');

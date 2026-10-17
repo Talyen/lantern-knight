@@ -146,6 +146,33 @@ test('direct downloads reject corrupted, oversized and truncated responses witho
   }
 });
 
+test('downloads release rejected response bodies, including local setup failures', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-file-response-');
+  const target = path.join(root, 'page');
+  const info = { bytes: 5, sha256: sha(Buffer.from('image')) };
+  for (const status of [404, 200]) {
+    let cancelled = false;
+    const response = new Response(
+      new ReadableStream({
+        cancel: () => {
+          cancelled = true;
+        },
+      }),
+      {
+        status,
+      },
+    );
+    // A regular file in place of the parent makes setup fail before body consumption.
+    const destination = status === 200 ? path.join(target, 'child') : target;
+    if (status === 200) await fs.writeFile(target, 'preserve');
+    await assert.rejects(
+      downloadFile('https://example.test/file', info, destination, async () => response),
+    );
+    assert.equal(cancelled, true, 'unused network body must be cancelled');
+  }
+  assert.equal(await fs.readFile(target, 'utf8'), 'preserve');
+});
+
 // Advance the actual promise timer when backoff is installed, after I/O cleanup.
 function retryClock(t: TestContext, onWait = () => {}) {
   t.mock.timers.enable({ apis: ['setTimeout'] });
