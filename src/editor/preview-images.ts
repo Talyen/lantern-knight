@@ -82,6 +82,10 @@ export class PreviewImages {
   ) {
     const active = () => !this.closed && (!playback || playback.active);
     if (!active()) return;
+    if (!target.isConnected) {
+      this.latest.get(target)?.abort();
+      return;
+    }
     const previous = this.latest.get(target),
       request = new AbortController();
     this.latest.set(target, request);

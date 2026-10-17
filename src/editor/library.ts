@@ -20,7 +20,7 @@ type Host = {
   open: (value: string) => Promise<void>;
   import: (document: SceneDocument) => Promise<void>;
   fragment: (name: string, objects: SceneDocument['objects']) => Promise<void>;
-  change: (mutate: (d: SceneDocument) => void, committed?: () => void) => Promise<void>;
+  edit: (work: (history: EditorHistory) => void, committed?: () => void) => Promise<void>;
   select: (ids: string[]) => void;
   status: (message: string, error?: boolean) => void;
   recoveries: () => { key: string; name: string; time: string }[];
@@ -88,9 +88,11 @@ export class SceneLibrary {
   private dialog: HTMLDialogElement;
   private lifetime = new AbortController();
   private loadSequence = 0;
+  private importSequence = 0;
   private preview = new T.Group();
   private points: { x: number; z: number }[] = [];
   private snapshot = '';
+  private snapshotDocument?: SceneSnapshot;
   private fragmentData: SceneDocument['objects'] = [];
   constructor(private host: Host) {
     $('scene-library').onclick = () =>
@@ -101,18 +103,29 @@ export class SceneLibrary {
       this.download(host.history().document, host.history().document.id + '.json');
     const input = $<HTMLInputElement>('import-scene');
     input.onchange = () => {
-      const file = input.files?.[0];
+      if (this.lifetime.signal.aborted) return;
+      const file = input.files?.[0],
+        request = ++this.importSequence,
+        document = host.history().document;
       if (file)
         void (async () => {
           if (file.size > sceneBytesLimit) throw new Error('Scene exceeds 4 MiB');
-          const d = parseSceneDocument(JSON.parse(await file.text()));
+          const text = await readUntilAborted(file.text(), this.lifetime.signal);
+          this.lifetime.signal.throwIfAborted();
+          if (request !== this.importSequence) return;
+          if (host.history().document !== document)
+            throw new Error('Scene changed while reading the import; choose the file again');
+          const d = parseSceneDocument(JSON.parse(text));
           await host.import({
             ...d,
             id: 'untitled',
             target: 'draft',
             name: 'Imported ' + d.name.slice(0, 71),
           });
-        })().catch((e) => host.status(editorError(e), true));
+        })().catch((e) => {
+          if (!this.lifetime.signal.aborted && request === this.importSequence)
+            host.status(editorError(e), true);
+        });
       input.value = '';
     };
     this.dialog = $<HTMLDialogElement>('scene-library-dialog');
@@ -279,13 +292,14 @@ export class SceneLibrary {
         this.dialog.close();
         let inserted: string[] = [];
         void this.host
-          .change(
-            (d) => {
-              const temp = EditorHistory.create(d);
-              inserted = temp.insertFragment(fragment.objects);
-              Object.assign(d, temp.document);
+          .edit(
+            (history) => {
+              inserted = history.insertFragment(fragment.objects);
             },
-            () => this.host.select(inserted),
+            () => {
+              this.host.select(inserted);
+              this.host.status('Composition updated.');
+            },
           )
           .catch((e) => this.host.status(editorError(e), true));
       };
@@ -309,7 +323,6 @@ export class SceneLibrary {
   }
   private patternSnapshot() {
     return JSON.stringify([
-      this.host.history().document,
       this.host.selection(),
       ...[
         'pattern-kind',
@@ -344,6 +357,7 @@ export class SceneLibrary {
     if (this.points.length * this.fragmentData.length + d.objects.length > 500)
       throw new Error('Pattern exceeds the 500-object scene limit');
     this.snapshot = this.patternSnapshot();
+    this.snapshotDocument = d;
     const view = this.host.view();
     if (!view.presentation)
       throw new Error('Scene view is unavailable; reopen the scene to recover');
@@ -368,24 +382,29 @@ export class SceneLibrary {
     );
   }
   private async applyPattern() {
-    if (this.snapshot !== this.patternSnapshot())
+    if (
+      this.snapshotDocument !== this.host.history().document ||
+      this.snapshot !== this.patternSnapshot()
+    )
       throw new Error('Scene changed; preview the pattern again');
     const items = sceneItems(this.host.history().document).filter((p) =>
       this.fragmentData.some((v) => v.id === p.placement.id),
     );
     const cx = items.reduce((a, p) => a + p.placement.x, 0) / items.length,
       cz = items.reduce((a, p) => a + p.placement.z, 0) / items.length;
-    const ids: string[] = [];
-    await this.host.change(
-      (d) => {
-        const temp = EditorHistory.create(d);
-        for (const p of this.points)
-          ids.push(...temp.insertFragment(this.fragmentData, p.x - cx, p.z - cz, true));
-        Object.assign(d, temp.document);
+    let ids: string[] = [];
+    await this.host.edit(
+      (history) => {
+        ids = history.insertFragment(
+          this.fragmentData,
+          this.points.map((p) => ({ x: p.x - cx, z: p.z - cz })),
+          true,
+        );
       },
       () => {
         this.host.select(ids);
         this.clearPreview();
+        this.host.status('Composition updated.');
       },
     );
   }
@@ -393,6 +412,7 @@ export class SceneLibrary {
     clearOverlay(this.preview);
     this.points = [];
     this.snapshot = '';
+    this.snapshotDocument = undefined;
     if (!this.lifetime.signal.aborted) this.host.view()?.render();
     $<HTMLButtonElement>('pattern-apply').disabled = true;
   }

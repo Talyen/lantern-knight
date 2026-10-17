@@ -161,3 +161,81 @@ test('disposed editor confirmations decline later requests without reopening a d
   });
   expect(result).toEqual({ cancelled: false, late: false });
 });
+
+test('file import keeps the newest request and cannot overwrite later edits or a closed editor', async ({
+  page,
+}) => {
+  const result = await page.evaluate(async () => {
+    const libraryURL = '/src/editor/library.ts',
+      modelURL = '/src/editor/model.ts',
+      defaultURL = '/src/editor/default-scene.ts',
+      uiURL = '/src/editor/ui.ts';
+    const [{ SceneLibrary }, { EditorHistory }, { emptyScene }, { editorUI }] = await Promise.all([
+      import(libraryURL) as Promise<typeof import('../../src/editor/library')>,
+      import(modelURL) as Promise<typeof import('../../src/editor/model')>,
+      import(defaultURL) as Promise<typeof import('../../src/editor/default-scene')>,
+      import(uiURL) as Promise<typeof import('../../src/editor/ui')>,
+    ]);
+    document.querySelector('#app')!.innerHTML = editorUI;
+    const history = EditorHistory.create(emptyScene()),
+      imported: string[] = [],
+      messages: string[] = [];
+    const library = new SceneLibrary({
+      history: () => history,
+      view: () => ({ render() {} }) as import('../../src/editor/view').EditorView,
+      selection: () => [],
+      open: async () => {},
+      import: async (scene) => {
+        imported.push(scene.name);
+      },
+      edit: async (work) => {
+        work(history);
+      },
+      fragment: async () => {},
+      select() {},
+      status: (message) => {
+        messages.push(message);
+      },
+      recoveries: () => [],
+      restore() {},
+    });
+    const input = document.querySelector<HTMLInputElement>('#import-scene')!;
+    const begin = (name: string) => {
+      const reading = Promise.withResolvers<string>();
+      Object.defineProperty(input, 'files', {
+        configurable: true,
+        value: [{ size: 1, text: () => reading.promise }],
+      });
+      input.dispatchEvent(new Event('change'));
+      return () => reading.resolve(JSON.stringify({ ...emptyScene(), name }));
+    };
+    const flush = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
+    try {
+      const old = begin('Older'),
+        newest = begin('Newest');
+      old();
+      await flush();
+      newest();
+      await flush();
+      const changed = begin('Stale');
+      history.change((draft) => {
+        draft.name = 'Keep these edits';
+      });
+      changed();
+      await flush();
+      const closed = begin('Closed');
+      library.dispose();
+      await flush();
+      closed();
+      await flush();
+      return { imported, messages, name: history.document.name };
+    } finally {
+      library.dispose();
+    }
+  });
+  expect(result).toEqual({
+    imported: ['Imported Newest'],
+    messages: ['Scene changed while reading the import; choose the file again'],
+    name: 'Keep these edits',
+  });
+});

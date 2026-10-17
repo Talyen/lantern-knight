@@ -45,8 +45,9 @@ export class CompositionTools {
     element('reset-transform').onclick = () =>
       void this.edit((history) =>
         history.change((d) => {
+          const editable = new Set(this.editable());
           for (const p of d.objects)
-            if (this.editable().includes(p.id)) {
+            if (editable.has(p.id)) {
               p.scale = 1;
               p.rotation = 0;
             }
@@ -254,19 +255,28 @@ export class CompositionTools {
       : value;
   }
   editable() {
-    const hidden = new Set(this.host.history().descendants([...this.hidden]));
+    const history = this.host.history(),
+      hidden = new Set(history.descendants([...this.hidden])),
+      objects = new Map(history.document.objects.map((object) => [object.id, object])),
+      locked = new Set(this.locked);
+    // A locked attachment also protects every support that would move it.
+    for (const id of locked) {
+      const parent = objects.get(id)?.mount?.to;
+      if (parent) locked.add(parent);
+    }
     return [...this.selection].filter(
-      (id) =>
-        !hidden.has(id) &&
-        !this.host
-          .history()
-          .descendants([id])
-          .some((child) => this.locked.has(child)),
+      (id) => objects.has(id) && !hidden.has(id) && !locked.has(id),
     );
   }
   set(id: string | undefined, additive = false) {
     if (!additive) this.selection.clear();
-    if (id && !this.hidden.has(id)) {
+    if (
+      id &&
+      !this.host
+        .history()
+        .descendants([...this.hidden])
+        .includes(id)
+    ) {
       if (additive && this.selection.has(id)) this.selection.delete(id);
       else this.selection.add(id);
     }
@@ -367,8 +377,9 @@ export class CompositionTools {
     const items = sceneItems(this.host.history().document);
     for (const id of this.selection)
       if (!items.some((v) => v.placement.id === id)) this.selection.delete(id);
-    element('selection-tools').hidden = !this.editable().length;
-    element('alignment-tools').hidden = this.editable().length < 2;
+    const editable = this.editable();
+    element('selection-tools').hidden = !editable.length;
+    element('alignment-tools').hidden = editable.length < 2;
     if (this.selection.size > 1) {
       element('selected-name').textContent = `${this.selection.size} objects selected`;
       const selected = items
@@ -455,7 +466,7 @@ export class CompositionTools {
     this.host.view()?.selectMany([...this.selection].filter((id) => !hidden.has(id)));
     this.positionHandles();
     const primary = [...this.selection].at(-1);
-    if (primary && (this.locked.has(primary) || this.hidden.has(primary)))
+    if (primary && !editable.includes(primary))
       element<HTMLFieldSetElement>('transform').disabled = true;
   }
 }

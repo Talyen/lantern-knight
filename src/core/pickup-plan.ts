@@ -13,10 +13,10 @@ export class PickupPlan {
     this.pending = undefined;
   }
   request(sim: Simulation, id: string): boolean {
-    this.cancel(sim);
     const drop = sim.drops.find((d) => d.id === id);
     if (!drop || sim.hero.health <= 0) return false;
     if (interactionTarget(sim, 'drop', id)) {
+      this.cancel(sim);
       this.pending = { id, generation: sim.generation };
       return true;
     }
@@ -45,6 +45,7 @@ export class PickupPlan {
       );
     });
     if (!destination) return false;
+    this.cancel(sim);
     sim.setMovementTarget(sim.hero.id, destination);
     this.pending = { id, generation: sim.generation };
     return true;

@@ -11,17 +11,23 @@ import { localOffset } from '../content/scenery-presets';
 import { resolveAuthoredScene } from '../content/world-art';
 import { type ArtPlacement } from '../content/world-visuals';
 export type EditorItem = { placement: ArtPlacement; kind: SceneObject['kind'] };
+const itemCache = new WeakMap<SceneSnapshot, EditorItem[]>();
 export function sceneItems(document: SceneSnapshot): EditorItem[] {
+  const cached = itemCache.get(document);
+  if (cached) return structuredClone(cached);
   // Selection needs detached placements, not a second admission of the entire scene.
   const art = resolveSceneDocument({
       ...document,
       objects: structuredClone(document.objects),
     } as SceneDocument),
     kinds = new Map(document.objects.map((p) => [p.id, p.kind]));
-  return [...art.props, ...art.decals].map((placement) => ({
+  const items = [...art.props, ...art.decals].map((placement) => ({
     placement,
     kind: kinds.get(placement.id)!,
   }));
+  // History snapshots are immutable; mutable authoring drafts must resolve afresh.
+  if (Object.isFrozen(document)) itemCache.set(document, structuredClone(items));
+  return items;
 }
 export class EditorHistory {
   private constructor(
@@ -63,8 +69,8 @@ export class EditorHistory {
     const next = structuredClone(this.document) as SceneDocument;
     mutator(next);
     const valid = parseSceneDocument(next);
-    resolveAuthoredScene(valid);
     if (JSON.stringify(valid) === JSON.stringify(this.document)) return;
+    resolveAuthoredScene(valid);
     this.past.push(this.document);
     if (this.past.length > 100) this.past.shift();
     this.current = contentSnapshot(valid);
@@ -93,12 +99,14 @@ export class EditorHistory {
 
   descendants(ids: readonly string[]) {
     const included = new Set(ids);
-    let count;
-    do {
-      count = included.size;
-      for (const object of this.document.objects)
-        if (object.mount && included.has(object.mount.to)) included.add(object.id);
-    } while (count !== included.size);
+    const children = new Map<string, string[]>();
+    for (const object of this.document.objects)
+      if (object.mount) {
+        const siblings = children.get(object.mount.to) ?? [];
+        siblings.push(object.id);
+        children.set(object.mount.to, siblings);
+      }
+    for (const id of included) for (const child of children.get(id) ?? []) included.add(child);
     return [...included];
   }
 
@@ -211,7 +219,7 @@ export class EditorHistory {
     const objects = sceneItems(this.document)
       .filter((p) => included.has(p.placement.id))
       .map((p) => originals.get(p.placement.id)!);
-    return this.insertFragment(objects, 0.5, 0.5, true);
+    return this.insertFragment(objects, [{ x: 0.5, z: 0.5 }], true);
   }
 
   fragment(ids: readonly string[]) {
@@ -235,67 +243,72 @@ export class EditorHistory {
 
   insertFragment(
     objects: readonly ContentSnapshot<SceneObject>[],
-    dx = 0,
-    dz = 0,
+    offsets: readonly { x: number; z: number }[] = [{ x: 0, z: 0 }],
     copyGameplay = false,
   ) {
-    if (!objects.length) return [];
-    const copies = structuredClone(objects) as SceneObject[];
+    if (!objects.length || !offsets.length) return [];
     const source = this.document as SceneDocument;
-    const remap = new Map(copies.map((p) => [p.id, 'object-' + crypto.randomUUID()]));
+    const inserted: string[] = [];
     this.change((d) => {
-      for (const p of copies) {
-        const original = p.id;
-        p.id = remap.get(original)!;
-        if (p.fixture) p.fixture.id = p.id + '-flame';
-        if (p.mount && remap.has(p.mount.to)) p.mount.to = remap.get(p.mount.to)!;
-        else if (p.mount) {
-          const support = sceneItems(d).find((v) => v.placement.id === p.mount!.to)?.placement;
-          if (!support) throw new Error('Fragment attachment support is missing');
-          const delta = localOffset(support, [dx, 0, dz]);
-          for (let i = 0; i < 3; i++) p.mount.offset[i]! += delta[i]!;
-        } else {
-          p.x = p.x! + dx;
-          p.z = p.z! + dz;
+      for (const { x: dx, z: dz } of offsets) {
+        const copies = structuredClone(objects) as SceneObject[];
+        const remap = new Map(copies.map((p) => [p.id, 'object-' + crypto.randomUUID()]));
+        for (const p of copies) {
+          const original = p.id;
+          p.id = remap.get(original)!;
+          if (p.fixture) p.fixture.id = p.id + '-flame';
+          if (p.mount && remap.has(p.mount.to)) p.mount.to = remap.get(p.mount.to)!;
+          else if (p.mount) {
+            const support = sceneItems(this.document).find(
+              (v) => v.placement.id === p.mount!.to,
+            )?.placement;
+            if (!support) throw new Error('Fragment attachment support is missing');
+            const delta = localOffset(support, [dx, 0, dz]);
+            for (let i = 0; i < 3; i++) p.mount.offset[i]! += delta[i]!;
+          } else {
+            p.x = p.x! + dx;
+            p.z = p.z! + dz;
+          }
+          d.objects.push(p);
+          inserted.push(p.id);
+          if (copyGameplay && d.gameplay) {
+            const copied = <P extends { id: string; object: string; x: number; z: number }>(
+              values: readonly P[] | undefined,
+              prefix: string,
+            ) =>
+              (values ?? [])
+                .filter((v) => v.object === original)
+                .map((value) => ({
+                  ...structuredClone(value),
+                  id: prefix + '-' + crypto.randomUUID(),
+                  object: p.id,
+                  x: p.x ?? value.x,
+                  z: p.z ?? value.z,
+                }));
+            d.gameplay.pickups.push(...copied(source.gameplay?.pickups, 'pickup'));
+            const interactables = copied(source.gameplay?.interactables, 'interactable');
+            if (interactables.length) (d.gameplay.interactables ??= []).push(...interactables);
+          }
         }
-        d.objects.push(p);
-        if (copyGameplay && d.gameplay) {
-          const copied = <P extends { id: string; object: string; x: number; z: number }>(
-            values: readonly P[] | undefined,
-            prefix: string,
-          ) =>
-            (values ?? [])
-              .filter((v) => v.object === original)
-              .map((value) => ({
-                ...structuredClone(value),
-                id: prefix + '-' + crypto.randomUUID(),
-                object: p.id,
-                x: p.x ?? value.x,
-                z: p.z ?? value.z,
-              }));
-          d.gameplay.pickups.push(...copied(source.gameplay?.pickups, 'pickup'));
-          const interactables = copied(source.gameplay?.interactables, 'interactable');
-          if (interactables.length) (d.gameplay.interactables ??= []).push(...interactables);
-        }
+        if (copyGameplay)
+          for (const overlap of source.overlaps) {
+            const a = remap.get(overlap.a),
+              b = remap.get(overlap.b);
+            if (!a || !b) continue;
+            d.overlaps.push({
+              ...overlap,
+              a,
+              b,
+              region: {
+                minX: overlap.region.minX + dx,
+                maxX: overlap.region.maxX + dx,
+                minZ: overlap.region.minZ + dz,
+                maxZ: overlap.region.maxZ + dz,
+              },
+            });
+          }
       }
-      if (copyGameplay)
-        for (const overlap of source.overlaps) {
-          const a = remap.get(overlap.a),
-            b = remap.get(overlap.b);
-          if (!a || !b) continue;
-          d.overlaps.push({
-            ...overlap,
-            a,
-            b,
-            region: {
-              minX: overlap.region.minX + dx,
-              maxX: overlap.region.maxX + dx,
-              minZ: overlap.region.minZ + dz,
-              maxZ: overlap.region.maxZ + dz,
-            },
-          });
-        }
     });
-    return copies.map((p) => p.id);
+    return inserted;
   }
 }

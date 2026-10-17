@@ -125,7 +125,7 @@ export function createEditorSession() {
     emptyScene(),
     (document) => view.apply(document),
     (document) => {
-      resolveAuthoredScene(document);
+      // EditorHistory already admitted attachments, geometry and fixtures.
       if (document.gameplay) composeDraftGameplay(document, contentDefinitions, worldVisuals);
     },
     lifetime.signal,
@@ -1468,8 +1468,7 @@ export function createEditorSession() {
       history: () => documents.history,
       view: () => view,
       selected: () => selected,
-      locked: () =>
-        !!selected && (composition.locked.has(selected) || composition.hidden.has(selected)),
+      locked: () => !!selected && !composition.editable().includes(selected),
       change,
       select: (id) => composition.set(id),
     });
@@ -1479,7 +1478,7 @@ export function createEditorSession() {
       selection: () => composition.editable(),
       open,
       import: importDocument,
-      change,
+      edit,
       status,
       fragment: async (name, objects) =>
         await run(async () => {

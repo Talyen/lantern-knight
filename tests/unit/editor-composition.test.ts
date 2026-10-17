@@ -409,6 +409,7 @@ it('applying a repeat pattern preserves the copied pickups as playable health re
     points: { x: number; z: number }[];
     fragmentData: typeof d.objects;
     snapshot: string;
+    snapshotDocument: typeof h.document;
     patternSnapshot(): string;
     applyPattern(): Promise<void>;
     clearPreview(): void;
@@ -417,22 +418,45 @@ it('applying a repeat pattern preserves the copied pickups as playable health re
     history: () => h,
     selection: () => ['potion'],
     select: () => {},
-    change: async (work: (candidate: typeof d) => void, committed: () => void) => {
-      h.change(work);
+    status() {},
+    edit: async (work: (candidate: EditorHistory) => void, committed: () => void) => {
+      work(h);
       committed();
     },
   };
-  library.points = [{ x: 3, z: 0 }];
+  library.points = [
+    { x: 3, z: 0 },
+    { x: 5, z: 0 },
+  ];
   library.fragmentData = h.fragment(['potion']);
   library.clearPreview = () => {};
   library.snapshot = library.patternSnapshot();
+  library.snapshotDocument = h.document;
+  const before = h.document;
   await library.applyPattern();
-  assert.equal(h.document.gameplay!.pickups.length, 2);
+  assert.equal(h.document.gameplay!.pickups.length, 3);
   const { registry } = composeDraftGameplay(h.document, content.definitions, {});
   const sim = new Simulation(registry);
   Object.assign(sim.hero, { x: 3, z: 0, health: 50 });
   sim.step({ move: { x: 0, z: 0 }, aim: { x: 4, z: 0 } });
   assert.equal(sim.hero.health, 75);
+  h.undo();
+  assert.equal(h.document, before, 'one undo removes the complete pattern and its rewards');
+  assert.equal(h.canUndo, false);
+  h.redo();
+  await assert.rejects(library.applyPattern(), /Scene changed/);
+  const accepted = h.document;
+  assert.throws(() =>
+    h.insertFragment(
+      h.fragment(['potion']),
+      [
+        { x: 1, z: 0 },
+        { x: 1001, z: 0 },
+      ],
+      true,
+    ),
+  );
+  assert.equal(h.document, accepted, 'an invalid later copy cannot leave a partial pattern');
 });
 
 import { CompositionTools } from '../../src/editor/composition';
@@ -499,6 +523,16 @@ it('marquee selects rendered elevations and excludes descendants of hidden suppo
   host.view = () => ({ sim, screen: (p: Vector3) => ({ x: p.x * 100, y: p.y * 100 }) });
   tools.rectangle({ x: -10, y: -10 }, { x: 110, y: 10 }, false);
   assert.equal(tools.selection.size, 0, 'a hidden support hides its mounted children from marquee');
+  tools.set('child');
+  assert.equal(tools.selection.size, 0, 'the object list cannot select a hidden attachment either');
+  tools.hidden.clear();
+  tools.locked.add('child');
+  for (const id of ['support', 'child', 'other', 'removed']) tools.selection.add(id);
+  assert.deepEqual(
+    tools.editable(),
+    ['other'],
+    'locked attachments protect their support; stale IDs cannot edit',
+  );
 });
 
 it('duplicated containers retain independent rewards and follow their artwork through transforms', () => {

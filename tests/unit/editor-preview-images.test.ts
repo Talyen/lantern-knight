@@ -96,7 +96,12 @@ it('failed pages remain retryable and detached canvases cannot receive delayed p
   f.requests[1]!.resolve(f.image);
   await retry;
   assert.equal(paints, 0);
+  const detached = f.images.draw(canvas, 'detached', () => paints++);
+  await f.flush();
+  const requests = f.requests.length;
   f.images.dispose();
+  await detached;
+  assert.equal(requests, 2, 'detached canvases do not start another decode');
 });
 
 it('evicts decoded atlas pixels by memory budget rather than only counting page URLs', async () => {

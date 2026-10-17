@@ -191,6 +191,13 @@ describe('scene authoring contracts', () => {
       .footprint!;
     (footprint as [number, number])[0] = 999;
     assert.deepEqual(accepted.document.objects, original.objects);
+    assert.deepEqual(sceneItems(accepted.document), sceneItems(original));
+    original.objects[0]!.x = -5;
+    assert.equal(
+      sceneItems(original).find((p) => p.placement.id === 'family-tomb-west')!.placement.x,
+      -5,
+    );
+    original.objects[0]!.x = accepted.document.objects[0]!.x;
     state.reidentify('saved-copy', 'draft');
     assert.equal(accepted.document.id, original.id);
     assert.equal(state.history.document.id, 'saved-copy');

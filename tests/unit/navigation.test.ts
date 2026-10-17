@@ -55,6 +55,38 @@ test('loot routing can use the full interaction reach beyond a deep narrow reces
   assert.equal(sim.inventory.gold, 1);
 });
 
+test('rejected loot clicks preserve an accepted pickup and its route', () => {
+  const a = area();
+  a.spawns = [];
+  a.props = [{ ...a.props[0]!, size: [0.08, 10] }];
+  const sim = new Simulation(
+    new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] }),
+  );
+  sim.drops.push(
+    ...[-1, 3].map((x, i) => ({
+      id: 'loot-' + i,
+      source: 'crate',
+      enemy: false,
+      x,
+      z: 0,
+      rewards: [{ item: 'gold', amount: 1 }],
+    })),
+  );
+  const plan = new PickupPlan();
+  assert.equal(plan.request(sim, 'loot-0'), true);
+  const route = sim.navigationDebug(false).routes;
+  assert.equal(plan.request(sim, 'missing'), false);
+  assert.equal(plan.request(sim, 'loot-1'), false);
+  assert.deepEqual(sim.navigationDebug(false).routes, route);
+  let ready: string | undefined;
+  for (let tick = 0; tick < 100 && !ready; tick++) {
+    sim.step();
+    ready = plan.ready(sim);
+  }
+  assert.equal(ready, 'loot-0');
+  assert.equal(sim.collectDrop(ready!), true);
+});
+
 test('an unreachable route waits for displacement, then immediately retries its destination', (t) => {
   const a = area();
   a.props = [{ ...a.props[0]!, size: [0.08, 10] }];
