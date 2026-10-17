@@ -12,7 +12,12 @@ test('the packaged recorder separates loading from first controllable frames and
     disconnected = false,
     cancelled = false;
   const listeners = new Set<Function>();
-  const window = {};
+  const windowListeners = new Map<string, Function>();
+  const documentListeners = new Map<string, Function>();
+  const window = {
+    addEventListener: (name: string, fn: Function) => windowListeners.set(name, fn),
+    removeEventListener: (name: string) => windowListeners.delete(name),
+  };
   const context = vm.createContext({
     window,
     Reflect,
@@ -32,8 +37,14 @@ test('the packaged recorder separates loading from first controllable frames and
       hidden: false,
       hasFocus: () => true,
       querySelector: () => null,
-      addEventListener: (_name: string, fn: Function) => listeners.add(fn),
-      removeEventListener: (_name: string, fn: Function) => listeners.delete(fn),
+      addEventListener: (name: string, fn: Function) => {
+        listeners.add(fn);
+        documentListeners.set(name, fn);
+      },
+      removeEventListener: (name: string, fn: Function) => {
+        listeners.delete(fn);
+        documentListeners.delete(name);
+      },
     },
     MutationObserver: class {
       constructor(fn: () => void) {
@@ -57,6 +68,9 @@ test('the packaged recorder separates loading from first controllable frames and
   changed();
   tick(1030);
   tick(1046);
+  vm.runInContext(`(${readPacingRecorder.toString()})(false)`, context);
+  assert.equal(cancelled, false);
+  assert.equal(Reflect.has(window, '__pacing'), true);
   const result = JSON.parse(
     JSON.stringify(vm.runInContext(`(${readPacingRecorder.toString()})()`, context)),
   );
@@ -66,8 +80,18 @@ test('the packaged recorder separates loading from first controllable frames and
   assert.equal(disconnected, true);
   assert.equal(cancelled, true);
   assert.equal(listeners.size, 0);
+  assert.equal(windowListeners.size, 0);
+  assert.equal(documentListeners.size, 0);
   tick(2000);
   assert.equal(Reflect.has(window, '__pacing'), false);
+  // A brief native-window blur may begin and end between RAF callbacks.
+  vm.runInContext(`(${installPacingRecorder.toString()})()`, context);
+  tick(2010);
+  windowListeners.get('blur')!();
+  tick(2026);
+  const interrupted = vm.runInContext(`(${readPacingRecorder.toString()})()`, context);
+  assert.equal(interrupted.foreground, false);
+  assert.equal(windowListeners.size + documentListeners.size, 0);
 });
 
 test('60 Hz acceptance rejects isolated missed frames even when average FPS passes', () => {
@@ -76,9 +100,29 @@ test('60 Hz acceptance rejects isolated missed frames even when average FPS pass
   frames[1800] = 25;
   const result = pacingAcceptance(frames, 60);
   assert.ok(result.fps > 59);
-  assert.equal(result.missedFrames, 1);
+  assert.equal(result.lateIntervals, 1);
+  assert.equal(result.estimatedMissedRefreshes, 1);
   assert.equal(result.target, 'missed');
   assert.equal(pacingAcceptance(frames, 120).target, 'inconclusive');
+});
+
+test('pacing distinguishes late intervals from missed refresh estimates without penalizing timestamp residue', () => {
+  const frames = Array<number>(3600).fill(18 + 1e-12);
+  // A real tenth of a microsecond still exceeds the requested p95 limit.
+  assert.equal(pacingAcceptance(frames, 60).p95Ms, 18 + 1e-12);
+  const mixed = Array<number>(3600).fill(1000 / 60);
+  for (let i = 0; i < 200; i++) mixed[i] = 18 + 1e-12;
+  assert.equal(pacingAcceptance(mixed, 60).target, 'met');
+  mixed.fill(18.0001, 0, 200);
+  assert.equal(pacingAcceptance(mixed, 60).target, 'missed');
+  mixed.fill(1000 / 60);
+  mixed[0] = 25 - 1e-12;
+  mixed[1] = 50;
+  const result = pacingAcceptance(mixed, 60);
+  assert.equal(result.lateIntervals, 2);
+  assert.equal(result.estimatedMissedRefreshes, 3);
+  mixed[0] = 24.9999;
+  assert.equal(pacingAcceptance(mixed, 60).lateIntervals, 1);
 });
 
 test('pacing comparisons require equal conditions, accepted inputs and completed gameplay', () => {

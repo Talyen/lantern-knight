@@ -34,6 +34,12 @@ export function installPacingRecorder() {
           : `${e.type}:${(e.target as HTMLElement).id || (e.target as HTMLElement).tagName}`,
     });
   };
+  const lostFocus = () => {
+    state.foreground = false;
+  };
+  const visibility = () => {
+    if (document.hidden) lostFocus();
+  };
   const observer = new MutationObserver(() => {
     const next = blocked();
     if (next === wasBlocked) return;
@@ -45,7 +51,7 @@ export function installPacingRecorder() {
     loading,
     times,
     events,
-    foreground: true,
+    foreground: document.hasFocus() && !document.hidden,
     overflow: false,
     stop: () => {
       closed = true;
@@ -53,6 +59,8 @@ export function installPacingRecorder() {
       observer.disconnect();
       document.removeEventListener('keydown', input, true);
       document.removeEventListener('pointerdown', input, true);
+      window.removeEventListener('blur', lostFocus);
+      document.removeEventListener('visibilitychange', visibility);
     },
   };
   const frame = (now: number) => {
@@ -78,13 +86,17 @@ export function installPacingRecorder() {
   });
   document.addEventListener('keydown', input, true);
   document.addEventListener('pointerdown', input, true);
+  window.addEventListener('blur', lostFocus);
+  document.addEventListener('visibilitychange', visibility);
   Reflect.set(window, '__pacing', state);
   request = requestAnimationFrame(frame);
 }
-export function readPacingRecorder() {
+export function readPacingRecorder(stop = true) {
   const s = Reflect.get(window, '__pacing') as Recording;
-  s.stop();
-  Reflect.deleteProperty(window, '__pacing');
+  if (stop) {
+    s.stop();
+    Reflect.deleteProperty(window, '__pacing');
+  }
   return {
     gaps: s.gaps,
     loading: s.loading,

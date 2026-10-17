@@ -32,17 +32,25 @@ export const PacingSchema = BenchmarkSchema.omit({
     'Pacing active sample is shorter than the requested duration',
   );
 export function pacingAcceptance(frames: number[], refreshHz: number) {
-  const summary = frameSummary(frames);
+  const summary = frameSummary(frames),
+    // Subtracting browser timestamps leaves binary residue well below a ns.
+    // Normalize only that residue; retain every raw observation in the record.
+    ns = (ms: number) => Math.round(ms * 1e6) / 1e6,
+    lateIntervals = frames.filter((ms) => ns(ms) >= 25).length;
   return {
     ...summary,
-    missedFrames: frames.filter((ms) => ms >= 25).length,
+    lateIntervals,
+    estimatedMissedRefreshes: frames.reduce(
+      (sum, ms) => sum + Math.max(0, Math.round((ns(ms) * refreshHz) / 1000) - 1),
+      0,
+    ),
     target:
       refreshHz < 59 || refreshHz > 61
         ? 'inconclusive'
         : summary.fps >= 59 &&
-            summary.p95Ms <= 18 &&
-            summary.p99Ms <= 20 &&
-            frames.every((ms) => ms < 25)
+            ns(summary.p95Ms) <= 18 &&
+            ns(summary.p99Ms) <= 20 &&
+            lateIntervals === 0
           ? 'met'
           : 'missed',
   };

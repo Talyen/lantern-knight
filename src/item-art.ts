@@ -1,11 +1,5 @@
 import { html } from './dom';
-import {
-  itemArt,
-  itemArtCrops,
-  forgeArtwork,
-  forgeAnvilArtwork,
-  interfaceFrameArtwork,
-} from './content/item-art';
+import { itemArt, itemArtCrops, itemArtAssets } from './content/item-art';
 import type { AssetRuntime } from './assets/loader';
 import { verifiedBitmap } from './assets/bitmap';
 import { readUntilAborted } from './assets/abort';
@@ -143,14 +137,9 @@ export function createItemArtwork(runtime: AssetRuntime, signal: AbortSignal): I
   };
   const prepared = Object.assign(artwork, {
     async prepare() {
-      // Serial preparation bounds decoded image memory and moves canvas
-      // readback/alpha trimming under the startup cover, before player input.
-      for (const id of [
-        ...Object.keys(itemArt),
-        forgeArtwork,
-        forgeAnvilArtwork,
-        interfaceFrameArtwork,
-      ]) {
+      // Finish known drawings under startup cover. Request remaining sources
+      // serially, avoiding another decode burst alongside the mounted UI.
+      for (const id of [...Object.keys(itemArt), ...itemArtAssets]) {
         signal.throwIfAborted();
         await source(id).catch(() => signal.throwIfAborted());
       }

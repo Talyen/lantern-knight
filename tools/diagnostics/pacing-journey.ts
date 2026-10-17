@@ -80,12 +80,7 @@ async function journey(flags: string[]) {
         path.join(run.profile, 'prototype-saves/game.json'),
         JSON.stringify(parseGame(save, content)),
       );
-      await page.locator('#load').click();
-      await page.waitForFunction(
-        () =>
-          document.querySelector('#status')?.textContent === 'Checkpoint loaded' &&
-          !document.body.classList.contains('traveling'),
-      );
+      await controls.load();
     };
     const position = async (areaId: string, point: Point, clear = true) => {
       const s = new GameSession(content, 142, areaId),

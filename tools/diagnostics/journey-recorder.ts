@@ -11,12 +11,20 @@ export function installJourneyRecorder(excludeDialogs: boolean) {
     last: 0,
     activeSince: performance.now(),
     request: 0,
-    foreground: true,
+    foreground: document.hasFocus() && !document.hidden,
     overflow: false,
     stop: () => {
       cancelAnimationFrame(s.request);
       observer.disconnect();
+      window.removeEventListener('blur', lostFocus);
+      document.removeEventListener('visibilitychange', visibility);
     },
+  };
+  const lostFocus = () => {
+    s.foreground = false;
+  };
+  const visibility = () => {
+    if (document.hidden) lostFocus();
   };
   let wasBlocked = blocked();
   const observer = new MutationObserver(() => {
@@ -29,6 +37,8 @@ export function installJourneyRecorder(excludeDialogs: boolean) {
     subtree: true,
     attributeFilter: ['class', 'open'],
   });
+  window.addEventListener('blur', lostFocus);
+  document.addEventListener('visibilitychange', visibility);
   const frame = (now: number) => {
     s.foreground &&= document.hasFocus() && !document.hidden;
     if (s.last) {

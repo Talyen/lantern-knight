@@ -15,8 +15,13 @@ test('journey keeps interactive dialogs separate from loading and includes first
       changed = () => {},
       disconnected = false,
       cancelled = false;
+    const windowListeners = new Map<string, Function>();
+    const documentListeners = new Map<string, Function>();
     const context = vm.createContext({
-      window: {},
+      window: {
+        addEventListener: (name: string, fn: Function) => windowListeners.set(name, fn),
+        removeEventListener: (name: string) => windowListeners.delete(name),
+      },
       Reflect,
       Math,
       __name: (fn: Function) => fn,
@@ -31,6 +36,8 @@ test('journey keeps interactive dialogs separate from loading and includes first
         hidden: false,
         hasFocus: () => true,
         querySelector: () => (dialog ? {} : null),
+        addEventListener: (name: string, fn: Function) => documentListeners.set(name, fn),
+        removeEventListener: (name: string) => documentListeners.delete(name),
       },
       MutationObserver: class {
         constructor(fn: () => void) {
@@ -66,6 +73,14 @@ test('journey keeps interactive dialogs separate from loading and includes first
     assert.equal(result.foreground, true);
     assert.equal(result.overflow, false);
     assert.equal(cancelled && disconnected, true);
+    assert.equal(windowListeners.size + documentListeners.size, 0);
     assert.equal(vm.runInContext(`Reflect.has(window, '__journeyFrames')`, context), false);
+    vm.runInContext(`(${installJourneyRecorder.toString()})(${excludeDialogs})`, context);
+    tick(501);
+    windowListeners.get('blur')!();
+    tick(517);
+    const interrupted = vm.runInContext(`(${readJourneyRecorder.toString()})()`, context);
+    assert.equal(interrupted.foreground, false);
+    assert.equal(windowListeners.size + documentListeners.size, 0);
   }
 });

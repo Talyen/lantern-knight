@@ -150,6 +150,7 @@ async function pacing(flags: string[]) {
           };
           assert.doesNotMatch(environment.gpu, /software|swiftshader|unavailable|llvmpipe/i);
           const actions: string[] = [];
+          for (const key of ['Meta', 'Control', 'Alt', 'Shift']) await page.keyboard.up(key);
           await page.evaluate(installPacingRecorder);
           await controls.resume();
           actions.push('lantern', 'dodge');
@@ -167,6 +168,21 @@ async function pacing(flags: string[]) {
           await page.keyboard.press('Escape');
           const accepted = parseGame(await controls.save(), content);
           assert.equal(accepted.area, area.id, 'First actions left the selected encounter');
+          const opening = await page.evaluate(readPacingRecorder, false);
+          await writeJson(path.join(directory, 'first-actions.json'), {
+            initial: seed,
+            accepted,
+            opening,
+          });
+          assert.equal(opening.foreground, true, 'Pacing lost foreground during opening actions');
+          assert.ok(
+            !opening.events.some((e) => /keydown:(Meta|Control|Alt)/.test(e.kind)),
+            'Pacing received an unplanned modifier key',
+          );
+          assert.ok(
+            accepted.player.cooldown > 0 && accepted.player.dodgeCooldown > 0,
+            'Pacing opening ability/dodge was not accepted',
+          );
           await controls.resume();
           const activeStart = await page.evaluate(() => {
             const state = Reflect.get(window, '__pacing') as { gaps: number[] };
@@ -206,17 +222,16 @@ async function pacing(flags: string[]) {
                 path.join(run.profile, 'prototype-saves/game.json'),
                 JSON.stringify(seed),
               );
-              await page.locator('#load').click();
-              await page.waitForFunction(
-                () =>
-                  document.querySelector('#status')?.textContent === 'Checkpoint loaded' &&
-                  !document.body.classList.contains('traveling'),
-              );
+              await controls.load();
               await page.locator('canvas').focus();
             }
           }
-          const recording = await page.evaluate(readPacingRecorder);
+          const recording = await page.evaluate(readPacingRecorder, true);
           assert.equal(recording.overflow, false, 'Pacing recording exceeded its bounded budget');
+          assert.ok(
+            !recording.events.some((e) => /keydown:(Meta|Control|Alt)/.test(e.kind)),
+            'Pacing received an unplanned modifier key',
+          );
           // Capture outside the measured interval; image encoding cannot manufacture a hitch.
           await page.screenshot({ path: path.join(directory, 'game.png') });
           const final = parseGame(await controls.save(), content);
