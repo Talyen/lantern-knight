@@ -188,6 +188,7 @@ test('headless replay accepts the same ordered actions and potion input as live 
   const initial = new GameSession(content),
     save = initial.captureSave();
   save.player.health = 20;
+  delete save.adventure!.pack;
   save.adventure!.inventory['health-potion'] = 1;
   const command = {
     move: { x: 0, z: 0 },

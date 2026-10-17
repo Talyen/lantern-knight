@@ -43,17 +43,19 @@ export function bindPackPlacement(
     control(entry.key)?.classList.add('moving');
   }
   function start(key: string) {
+    if (signal.aborted) return;
     const entry = entries.find((entry) => entry.key === key);
     if (!entry) return;
     cancel();
     select(key);
+    if (signal.aborted) return;
     gesture = { entry, x: entry.x, y: entry.y, keyboard: true, dx: 0, dy: 0 };
     control(key)?.focus({ preventScroll: true });
     update();
     announce('Arrow keys to move · Enter to place · Esc to cancel');
   }
   function place() {
-    if (!gesture) return;
+    if (!gesture || signal.aborted) return;
     const { entry, x, y } = gesture;
     if (!packFits(entries, entry, x, y)) {
       announce('That space is blocked. Your item has not moved.');

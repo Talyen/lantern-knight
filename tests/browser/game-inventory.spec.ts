@@ -71,6 +71,8 @@ test('inventory compares replacements and forge keeps the choice and confirmatio
   await expect(panel.locator('[data-action="slot-lantern"]')).toBeFocused();
   await panel.locator('[data-action="slot-lantern"]').click();
   await page.keyboard.press('Tab');
+  await expect(panel.getByRole('button', { name: 'Organize', exact: true })).toBeFocused();
+  await page.keyboard.press('Tab');
   await expect(panel.locator('.inventory-row').first()).toBeFocused();
   await pick('Traveller’s Charm');
   await expect(detail).toContainText('100 → 105');
@@ -232,11 +234,14 @@ test('sized pack dragging, keyboard cancellation and organizing persist without 
         (item: { key: string }) => item.key === entry,
       );
     }, key);
-  // Scroll to a free lower row before using the actual HTML drag path.
-  const destination = panel.locator('.bag-empty').nth(13 * 12 + 10);
-  await destination.scrollIntoViewIfNeeded();
-  await ring.dragTo(destination);
-  await expect.poll(readPosition).toMatchObject({ x: 10, y: 13 });
+  // Empty cells are intentionally pointer-transparent. Drop on the live grid
+  // at a visible cell, as the player does, rather than targeting its decoration.
+  const grid = panel.locator('.pack-items');
+  const bounds = (await grid.boundingBox())!;
+  await ring.dragTo(grid, {
+    targetPosition: { x: (bounds.width / 12) * 10.5, y: (bounds.width / 12) * 5.5 },
+  });
+  await expect.poll(readPosition).toMatchObject({ x: 10, y: 5 });
   const before = await readPosition();
   const moved = panel.locator(`[data-entry="${key}"]`);
   await moved.press('m');
@@ -247,7 +252,7 @@ test('sized pack dragging, keyboard cancellation and organizing persist without 
   await moved.press('m');
   await moved.press('ArrowLeft');
   await moved.press('Enter');
-  await expect.poll(readPosition).toMatchObject({ x: 9, y: 13 });
+  await expect.poll(readPosition).toMatchObject({ x: 9, y: 5 });
   await page.keyboard.press('Escape');
   await page.reload();
   await page.waitForFunction(
@@ -255,9 +260,9 @@ test('sized pack dragging, keyboard cancellation and organizing persist without 
   );
   await page.locator('#menu-start').click();
   await page.keyboard.press('i');
-  await expect(panel.locator(`[data-entry="${key}"]`)).toHaveAttribute('style', /14 \/ 10/);
+  await expect(panel.locator(`[data-entry="${key}"]`)).toHaveAttribute('style', /6 \/ 10/);
   await panel.getByRole('button', { name: 'Organize', exact: true }).click();
-  await expect.poll(readPosition).not.toMatchObject({ x: 9, y: 13 });
+  await expect.poll(readPosition).not.toMatchObject({ x: 9, y: 5 });
   await page.keyboard.press('Escape');
   await page.locator('#pause').click();
   await page.locator('#menu-settings').click();
@@ -289,4 +294,52 @@ test('sized pack dragging, keyboard cancellation and organizing persist without 
     ).toBe(true);
     await expect(page.locator('#ui-scale')).toBeInViewport({ ratio: 1 });
   }
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.locator('#menu-back').click();
+  await page.locator('#menu-start').click();
+  await page.keyboard.press('i');
+  await panel.locator('.inventory-row[data-item="orchard-ring"]').first().click();
+  const capture = async (name: string) => {
+    const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
+    if (!directory) return;
+    await mkdir(directory, { recursive: true });
+    await expect(panel.locator('.item-art:not([data-ready="true"])')).toHaveCount(0, {
+      timeout: 60_000,
+    });
+    await page.screenshot({ path: path.join(directory, `${name}.png`) });
+  };
+  await expect(panel.getByRole('button', { name: 'Equip', exact: true })).toBeInViewport({
+    ratio: 1,
+  });
+  await capture('inventory-large-640');
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await capture('inventory-large-1920');
+  // A counts-only test setup exercises admission into a completely full pack.
+  await page.evaluate(() => {
+    const key = Object.keys(localStorage).find((key) => key.endsWith('-game'))!;
+    const saved = JSON.parse(localStorage.getItem(key)!);
+    const counts: Record<string, number> = { gold: 248 };
+    for (const item of Object.values(saved.adventure.equipment) as string[])
+      counts[item] = (counts[item] ?? 0) + 1;
+    counts['orchard-ring'] = (counts['orchard-ring'] ?? 0) + 192;
+    saved.adventure.inventory = counts;
+    delete saved.adventure.pack;
+    localStorage.setItem(key, JSON.stringify(saved));
+  });
+  await page.reload();
+  await page.waitForFunction(
+    () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
+  );
+  await page.locator('#menu-start').click();
+  await page.keyboard.press('i');
+  await expect(panel.locator('.inventory-row')).toHaveCount(192);
+  await expect(panel.locator('.pack-heading')).toContainText('192 / 192');
+  await capture('inventory-full-1920');
+  await panel.locator('[data-action="slot-sword"]').click();
+  await panel.getByRole('button', { name: 'Unequip', exact: true }).click();
+  await expect(panel.getByRole('alert')).toContainText('Your pack is full');
+  await expect(panel.locator('.inventory-slot.slot-sword')).toHaveAttribute(
+    'aria-label',
+    'Sword · Sword',
+  );
 });

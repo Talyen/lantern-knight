@@ -246,8 +246,17 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         const dx = (to.left + to.right - from.left - from.right) / 2;
         const dy = (to.top + to.bottom - from.top - from.bottom) / 2;
         const along = (horizontal ? dx : dy) * sign;
-        const across = Math.abs(horizontal ? dy : dx);
-        const score = along + across * 2;
+        // Tall equipment and multi-cell pack items should navigate along their
+        // occupied row/column, rather than jumping toward a nearer item center.
+        const crossCenter = horizontal
+          ? (from.top + from.bottom) / 2
+          : (from.left + from.right) / 2;
+        const across = Math.max(
+          0,
+          (horizontal ? to.top : to.left) - crossCenter,
+          crossCenter - (horizontal ? to.bottom : to.right),
+        );
+        const score = along + across * 10;
         if (along > 1 && score < best) {
           best = score;
           target = candidate;
@@ -331,6 +340,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       const control = button('', `item-${id}`, () => selectItem(id));
       control.className = 'inventory-row';
       control.dataset.entry = id;
+      control.dataset.tip = `${item.name}${count > 1 ? ` ×${count}` : ''}`;
       control.dataset.item = itemId;
       const [width, height] = item.footprint;
       control.style.gridArea = `${y + 1} / ${x + 1} / span ${height} / span ${width}`;

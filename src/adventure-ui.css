@@ -704,3 +704,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.game .inventory-row:focus-visible {
+  outline-offset: -3px;
+}
