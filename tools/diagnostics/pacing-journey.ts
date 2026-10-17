@@ -9,6 +9,8 @@ import { requireGameBenchmarkPackage } from './game-benchmark';
 import { desktopEnvironment } from './environment';
 import { collectVisibleLoot } from '../smoke/collect-loot';
 import { pacingAcceptance } from './pacing-model';
+import { installJourneyRecorder, readJourneyRecorder } from './journey-recorder';
+import { sourceInputHash } from '../source-identity';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
 import { parseGame, type GameSave } from '../../src/core/save';
@@ -23,6 +25,15 @@ async function journey(flags: string[]) {
   );
   const soakMs = Number(option('--soak-ms', '0', flags));
   assert.ok(Number.isFinite(soakMs) && soakMs >= 0 && soakMs <= 900000, 'Use 0–900000 ms soak');
+  const harnessFiles = [
+    'tools/diagnostics/pacing-journey.ts',
+    'tools/diagnostics/journey-recorder.ts',
+    'tools/diagnostics/pacing-model.ts',
+    'tools/smoke/collect-loot.ts',
+    'tools/smoke/smoke-launch.ts',
+    'tools/smoke/scenario.ts',
+  ];
+  const harness = { sha256: await sourceInputHash(process.cwd(), { files: harnessFiles }) };
   const run = await smokeLaunch(
     false,
     process.platform === 'darwin' ? ['--use-gl=angle', '--use-angle=metal'] : [],
@@ -52,32 +63,14 @@ async function journey(flags: string[]) {
     await page.evaluate(() => Reflect.set(window, '__name', (fn: Function) => fn));
     await controls.resume();
     const checks: string[] = [],
-      records: { phase: string; frames: number[]; foreground: boolean }[] = [];
+      records: ({ phase: string } & ReturnType<typeof readJourneyRecorder>)[] = [];
     const sample = async (phase: string, work: () => Promise<void>) => {
-      await page.evaluate(() => {
-        const s = { frames: [] as number[], last: 0, request: 0, foreground: true };
-        Reflect.set(window, '__journeyFrames', s);
-        const frame = (now: number) => {
-          s.foreground &&= document.hasFocus() && !document.hidden;
-          if (s.last) s.frames.push(now - s.last);
-          s.last = now;
-          s.request = requestAnimationFrame(frame);
-        };
-        s.request = requestAnimationFrame(frame);
-      });
+      await page.evaluate(installJourneyRecorder, phase === 'arrival-actions');
       await work();
       await page.waitForTimeout(600);
-      const result = await page.evaluate(() => {
-        const s = Reflect.get(window, '__journeyFrames') as {
-          frames: number[];
-          request: number;
-          foreground: boolean;
-        };
-        cancelAnimationFrame(s.request);
-        Reflect.deleteProperty(window, '__journeyFrames');
-        return { frames: s.frames, foreground: s.foreground };
-      });
+      const result = await page.evaluate(readJourneyRecorder);
       assert.equal(result.foreground, true, 'Journey lost foreground focus');
+      assert.equal(result.overflow, false, 'Journey recording exceeded its bounded budget');
       records.push({ phase, ...result });
     };
     let carried = parseGame(await controls.save(), content);
@@ -148,17 +141,17 @@ async function journey(flags: string[]) {
       for (const destination of route) {
         const exit = content.area(areaId).exits.find((e) => e.destination === destination)!;
         await position(areaId, exit.marker);
-        await page.keyboard.press('KeyE');
-        await page.waitForFunction(
-          (name) =>
-            document.querySelector('#room-title')?.textContent === name &&
-            !document.body.classList.contains('traveling'),
-          content.area(destination).name,
-          { timeout: 120000 },
-        );
         // Loading is timed independently; the first resumed frame/actions belong
         // to this phase, with no warmup masking first-use work.
         await sample('arrival-actions', async () => {
+          await page.keyboard.press('KeyE');
+          await page.waitForFunction(
+            (name) =>
+              document.querySelector('#room-title')?.textContent === name &&
+              !document.body.classList.contains('traveling'),
+            content.area(destination).name,
+            { timeout: 120000 },
+          );
           // The first loop proves all interactions. Subsequent cleared-area
           // loops sustain actual movement/effects; loading never fills the
           // requested fifteen-minute gameplay budget.
@@ -254,6 +247,7 @@ async function journey(flags: string[]) {
     assert.equal(environment.renderScale, '1');
     await writeJson(path.join(run.output, 'journey.json'), {
       build,
+      harness,
       environment,
       checks,
       loops,
@@ -269,6 +263,11 @@ async function journey(flags: string[]) {
       ],
     });
     await requireGameBenchmarkPackage(run);
+    assert.equal(
+      await sourceInputHash(process.cwd(), { files: harnessFiles }),
+      harness.sha256,
+      'Journey harness changed during measurement',
+    );
     console.log(
       `Journey: ${checks.length} completed checks, ${loops} linked loops; ${Math.round(activeMs / 1000)} active seconds, ${Math.round((performance.now() - began) / 1000)} seconds total.`,
     );
