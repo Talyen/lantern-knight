@@ -167,7 +167,8 @@ export class MovementPlans {
       }
       if (remaining < 1e-6) break;
       const step = Math.min(remaining, distance);
-      a.yaw = Math.atan2(dx, dz);
+      a.travelYaw = Math.atan2(dx, dz);
+      a.yaw = a.travelYaw;
       move(a, (dx / distance) * step, (dz / distance) * step);
       remaining -= step;
       // Spend the rest on the next segment only after actually reaching this

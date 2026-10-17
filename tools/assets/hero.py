@@ -6,7 +6,8 @@ import os
 import pathlib
 import struct
 
-from resolver import PROJECT, SourceResolver
+from resolver import PROJECT, SourceResolver, load_index
+from hero_cursor import extend
 from source import read
 
 HEADINGS = {"DL": "d00", "DR": "d90", "UR": "d180", "UL": "d270"}
@@ -172,6 +173,7 @@ def describe(root, index):
         )
         authored["walk"][heading] = {"holdsMs": holds}
         limits.extend(manifest.get("limitations", []))
+    extend(root, index, resolver, frames, clips, authored)
     return {
         "frames": frames,
         "clips": clips,
@@ -182,7 +184,7 @@ def describe(root, index):
 
 
 if __name__ == "__main__":
-    index = json.loads((PROJECT / "assets/sources.json").read_text())
+    index = load_index(PROJECT / "assets/sources.json")
     library = pathlib.Path(
         os.environ.get("ASSET_LIBRARY_ROOT", pathlib.Path.home() / "Documents/Asset Library")
     )

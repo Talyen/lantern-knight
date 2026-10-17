@@ -883,6 +883,14 @@ class Importer:
         data = p.json(spec["manifest"])
         base = str(pathlib.PurePosixPath(spec["manifest"]).parent)
         kind = spec.get("kind", "prop")
+        if spec["format"] == "hero-native":
+            data = supplied_sequences(p, spec["manifest"], data)
+            self.animation(
+                p, spec["manifest"], data, spec["identity"], label=spec["label"], kind="character"
+            )
+            self.dispositions.append({"archive": spec["archive"], "status": "imported"})
+            return
+
 
         def sequence(
             identity,

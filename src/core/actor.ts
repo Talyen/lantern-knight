@@ -18,6 +18,8 @@ export type Actor = {
   py: number;
   pz: number;
   yaw: number;
+  // Voluntary locomotion heading, independent of facing and action commitment.
+  travelYaw: number;
   aim: number;
   state: State;
   age: number;

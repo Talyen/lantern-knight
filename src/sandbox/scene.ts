@@ -1,3 +1,4 @@
+import { heroScreenDirections, heroTravelClip, heroTravelClips } from '../content/hero-locomotion';
 import { cleanupAll } from '../assets/cleanup';
 import { createBrowserBridge } from '../platform/browser-store';
 import { bindAudioControls, bindAudioAudition } from '../audio/controls';
@@ -204,7 +205,14 @@ export function mountScene(
       group.label = label;
       for (const [name, directions] of entries)
         if (Object.values(directions).some((clip) => clip && animatedSequence(clip)) === animated)
-          group.append(new Option(name.replaceAll('_', ' '), name));
+          group.append(
+            new Option(
+              heroTravelClips.includes(name)
+                ? `Run · travel ${heroScreenDirections[name.slice(7) as (typeof HEADINGS)[number]]}`
+                : name.replaceAll('_', ' '),
+              name,
+            ),
+          );
       if (group.children.length) select.append(group);
     }
     select.value = presentation.labClip;
@@ -215,7 +223,16 @@ export function mountScene(
       presentation.manifest.asset.clips[presentation.labClip]!,
     ) as (typeof HEADINGS)[number][];
     if (!headings.includes(presentation.labHeading)) presentation.labHeading = headings[0]!;
-    $('#heading').innerHTML = headings.map((d) => `<option>${d}</option>`).join('');
+    const hero = presentation.labAsset === 'ink-hero-current';
+    $('#heading-label').textContent = hero ? 'Facing' : 'Direction';
+    $('#heading').replaceChildren(
+      ...headings.map((d) => new Option(hero ? heroScreenDirections[d] : d, d)),
+    );
+    const locomotion = hero && heroTravelClips.includes(presentation.labClip);
+    $('#travel-label').hidden = !locomotion;
+    const travel = $<HTMLSelectElement>('#travel');
+    travel.replaceChildren(...HEADINGS.map((d) => new Option(heroScreenDirections[d], d)));
+    if (locomotion) travel.value = presentation.labClip.slice(7);
     $<HTMLSelectElement>('#heading').value = presentation.labHeading;
   }
 
@@ -362,6 +379,13 @@ export function mountScene(
       presentation.labClip = $<HTMLSelectElement>('#clip').value;
       presentation.notifyLog = [];
       updateLabHeadings();
+    };
+    $('#travel').onchange = () => {
+      presentation.labClip = heroTravelClip(
+        $<HTMLSelectElement>('#travel').value as (typeof HEADINGS)[number],
+      );
+      $<HTMLSelectElement>('#clip').value = presentation.labClip;
+      presentation.notifyLog = [];
     };
     $('#heading').onchange = () => {
       presentation.labHeading = $<HTMLSelectElement>('#heading').value as (typeof HEADINGS)[number];
@@ -933,10 +957,17 @@ export function mountScene(
               : 'Terminal drawing holds';
     $('#action-timing').textContent =
       `Directed ${Math.round(d)} ms · imported ${Math.round(reference)} ms. ${markers}.`;
+    const cursorLocomotion = hero && heroTravelClips.includes(presentation.labClip);
+    $('#locomotion-timing-help').textContent = cursorLocomotion
+      ? 'Supplied holds · 40 ticks. Facing and travel switches preserve cycle phase.'
+      : walkTimings[presentation.walkTiming].description;
     $('#walk-comparison').hidden = !hero;
     $('#walk-comparison').textContent = timing
       ? 'Left: directed rhythm and selected treatment. Right: imported rhythm and held drawings. Both start together on elapsed time.'
       : 'Left: selected treatment. Right: uncorrected held drawings. Both use identical directed timing. Green markers are fixed actor roots.';
+    if (cursorLocomotion)
+      $('#walk-comparison').textContent =
+        'Both actors use the supplied 40-tick cycle. New poses retain authored holds; existing forward poses can use their reviewed treatment.';
     $('#notify').textContent = presentation.notifyLog.join('\n');
     for (const id of [
       'animation-comparison',

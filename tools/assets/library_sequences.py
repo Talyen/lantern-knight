@@ -8,6 +8,40 @@ def supplied_sequences(package, member, data):
     if not isinstance(data, dict):
         return data
     base = str(pathlib.PurePosixPath(member).parent)
+    # Cursor locomotion and the native hero expansion use fixed pixel cells.
+    # Keep runtime exports intact; native source drawings remain separate images.
+    runtime = data.get("runtime", {})
+    frames = data.get("runtime_frames", data.get("frames"))
+    if (
+        package.spec.get("format") == "hero-native"
+        and isinstance(frames, list)
+        and frames
+        and (
+            data.get("facing_world_xyz")
+            or data.get("runtime_canvas_px")
+            or data.get("world_heading")
+            or data.get("asset") == "Lantern Hero C / Rust"
+            or (runtime.get("cell_size") and runtime.get("pivot_px_top_left"))
+            or (data.get("canvas_px") and data.get("pivot_top_left_px"))
+        )
+    ):
+        return {
+            **data,
+            **runtime,
+            "id": data.get("clip_id", data.get("asset", "animation")),
+            "canvas": data.get(
+                "runtime_canvas_px", data.get("canvas_px", runtime.get("cell_size"))
+            ),
+            "pivot_px": data.get(
+                "pivot_top_left_px", data.get("pivot_px_top_left", runtime.get("pivot_px_top_left"))
+            ),
+            "pixels_per_unit": data.get(
+                "pixels_per_unit",
+                data.get("pixels_per_unit_approximate", runtime.get("suggested_pixels_per_unit")),
+            ),
+            "frames": frames,
+            "loop": runtime.get("loop", data.get("loop", bool(data.get("cycle")))),
+        }
     if data.get("animation") and data.get("schema") in (
         "lantern-knight.sprite-clip.v1",
         "lantern_knight.sprite_animation.v1",

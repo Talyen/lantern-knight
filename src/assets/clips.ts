@@ -1,3 +1,4 @@
+import { isHeroLocomotion } from '../content/hero-locomotion';
 import { HEADINGS } from '../content/headings';
 import type { Manifest, Clip } from './schema';
 
@@ -16,7 +17,9 @@ export function resolveClip(
     manifest.asset.viewMode === 'fixed-authored'
       ? 'd45'
       : manifest.asset.viewMode === 'four-directional' ||
-          (manifest.asset.viewMode === 'mixed-directional' && key !== 'walk')
+          (manifest.asset.viewMode === 'mixed-directional' &&
+            key !== 'idle' &&
+            !isHeroLocomotion(key))
         ? HEADINGS[(Math.floor((HEADINGS.indexOf(heading) + 1) / 2) * 2) % 8]!
         : heading;
   const clip = manifest.asset.clips[key]?.[direction];

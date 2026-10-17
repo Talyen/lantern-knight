@@ -43,7 +43,11 @@
         "tools/assets/hero.py",
         "assets/sources.json",
         "src/content/hero-actions.ts",
-        "tools/assets/hero-scale.ts"
+        "tools/assets/hero-scale.ts",
+        "tools/assets/hero_cursor.py",
+        "assets/hero-cursor-sources.json",
+        "authoring/hero-cursor.json",
+        "src/content/hero-locomotion.ts"
       ],
       "dependsOn": [
         "assets/prepare/prepare-ink.ts"
@@ -133,7 +137,8 @@
         "assets/library-artwork/artwork-6.json",
         "assets/library-artwork/sources-6.json",
         "assets/library-artwork/ui-artwork.json",
-        "assets/library-artwork/ui-sources.json"
+        "assets/library-artwork/ui-sources.json",
+        "assets/hero-cursor-sources.json"
       ],
       "dependsOn": []
     },

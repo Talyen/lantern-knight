@@ -1,0 +1,533 @@
+{
+  "archives": {
+    "Lantern_DL_DR_Source_Runtime_v01.zip": {
+      "sha256": "953c6605b4adaf338d4b59d276be91aeb6394d1b301b845f5723228f56ab6166",
+      "bytes": 3168022,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DL_DR_Source_Runtime_v01.zip"
+    },
+    "Lantern_DL_D_Source_Runtime_v02.zip": {
+      "sha256": "50f3c6da68811605a0c8f31342b5758e83c88d4a4dca7a60f901f04f87627d7b",
+      "bytes": 3680415,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DL_D_Source_Runtime_v02.zip"
+    },
+    "Lantern_DL_L_Source_Runtime_v02.zip": {
+      "sha256": "60bc7ebb3c03844d3b105a68e52f0abe6b8dc129f0718816f3b6abe030ef434d",
+      "bytes": 2903729,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DL_L_Source_Runtime_v02.zip"
+    },
+    "Lantern_DL_R_Source_Runtime_v02.zip": {
+      "sha256": "6b770e9f1f8cd0a386adcaf632761efe9587e947d382b4a18afc5871fcdd6884",
+      "bytes": 3074155,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DL_R_Source_Runtime_v02.zip"
+    },
+    "Lantern_DL_UL_Source_Runtime_v01.zip": {
+      "sha256": "259b4a4a1cc6517acec6c02e4002c433310e164b485615b2ff19c3d50b7b6394",
+      "bytes": 3084112,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DL_UL_Source_Runtime_v01.zip"
+    },
+    "Lantern_DL_UR_Backward_Source_Runtime_v03.zip": {
+      "sha256": "f3b9ad0fb2891008e50ce6bbab400f9a5a9611ad60a883a0c4b144501a53b58f",
+      "bytes": 3577320,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DL_UR_Backward_Source_Runtime_v03.zip"
+    },
+    "Lantern_DL_U_Source_Runtime_v02.zip": {
+      "sha256": "b7c4e4b32c88985d6da55cf31fe9b87788ab10f8e6c0cf75ca4020cf9a7bbfd8",
+      "bytes": 3048372,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DL_U_Source_Runtime_v02.zip"
+    },
+    "Lantern_DR_DL_RightStrafe_Source_Runtime_v03.zip": {
+      "sha256": "8ef9f292c3f5f5728d2f236d9e978aaa3d04e9c5f1555aa0bbfbac5629b66d3d",
+      "bytes": 6598142,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DR_DL_RightStrafe_Source_Runtime_v03.zip"
+    },
+    "Lantern_DR_D_Source_Runtime_v02.zip": {
+      "sha256": "207b660f2b2866be481d206a32f23185825c4b5bb17efa2b6f1c9afe0a959260",
+      "bytes": 3072626,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DR_D_Source_Runtime_v02.zip"
+    },
+    "Lantern_DR_L_Source_Runtime_v02.zip": {
+      "sha256": "9ca5eec64ee5acdc3fedea9ddf58a3de1c2e0b9c473b63527ef9ee5fdf46fe05",
+      "bytes": 2921078,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DR_L_Source_Runtime_v02.zip"
+    },
+    "Lantern_DR_R_Source_Runtime_v01.zip": {
+      "sha256": "030dbb5ce2bb04efd28ea59e705a1ae1283597e91c90a9dcc0b022bb84c40cc1",
+      "bytes": 3050234,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DR_R_Source_Runtime_v01.zip"
+    },
+    "Lantern_DR_UL_Backward_Source_Runtime_v02.zip": {
+      "sha256": "941b587db873ff97f59fa4d9e510b83d1880ddecfc0ddb5ee64ca177d60d0080",
+      "bytes": 2825235,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DR_UL_Backward_Source_Runtime_v02.zip"
+    },
+    "Lantern_DR_UR_Source_Runtime_v02.zip": {
+      "sha256": "583e71b2daf3053ed5d9b94b80afb50004be604f1ff663b29e4c03cf1521f6eb",
+      "bytes": 2906395,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DR_UR_Source_Runtime_v02.zip"
+    },
+    "Lantern_DR_U_Source_Runtime_v02.zip": {
+      "sha256": "2e90eeec958c37cd8faa2d03f938c7d05c5fb9b3cb317b877e1447b4f7a84c5a",
+      "bytes": 3071035,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_DR_U_Source_Runtime_v02.zip"
+    },
+    "Lantern_D_DL_Source_Runtime_v01.zip": {
+      "sha256": "9a09f12ca21e9a7bd47bb6d0acaf9916c13c095cdb7557e71ec04648e5f35a61",
+      "bytes": 3095855,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_D_DL_Source_Runtime_v01.zip"
+    },
+    "Lantern_D_DR_Source_Runtime_v01.zip": {
+      "sha256": "e4fe8eab393d1bbd3677cea49c07f4fe223d6caa7b09c3bdc0034a7e333e9e86",
+      "bytes": 3388032,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_D_DR_Source_Runtime_v01.zip"
+    },
+    "Lantern_D_L_Source_Runtime_v01.zip": {
+      "sha256": "28d01a59f0cd6b0e3e9012b2cb4608fd360fec30133db050c9a3e3c925f06c1b",
+      "bytes": 3219411,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_D_L_Source_Runtime_v01.zip"
+    },
+    "Lantern_D_R_Source_Runtime_v01.zip": {
+      "sha256": "31747a29d99a81b22d089fd40eb1c73a872621d2aca7276d1e22f8dc75d26b25",
+      "bytes": 3144458,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_D_R_Source_Runtime_v01.zip"
+    },
+    "Lantern_D_UL_Source_Runtime_v01.zip": {
+      "sha256": "2384d3efa590339f76e987f2a2345005be633474ba2fca935827801b0c46ee84",
+      "bytes": 3131394,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_D_UL_Source_Runtime_v01.zip"
+    },
+    "Lantern_D_UR_Source_Runtime_v01.zip": {
+      "sha256": "50133640e48f0c79aead6705a1be3d50f4e3f0c365e1da7e5ea0e197a1041c6e",
+      "bytes": 3077684,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_D_UR_Source_Runtime_v01.zip"
+    },
+    "Lantern_D_U_Backward_Source_Runtime_v03.zip": {
+      "sha256": "d92d28e5007592c9bfd65de99590422ff848fca97c924b3564ed6b0228416fcb",
+      "bytes": 4427012,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_D_U_Backward_Source_Runtime_v03.zip"
+    },
+    "Lantern_L_DL_Source_Runtime_v02.zip": {
+      "sha256": "fc2b48cb1a77a0c2c2961873a694159e43cab2ac98228a197ae4cf2a973cb6d5",
+      "bytes": 2672408,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_L_DL_Source_Runtime_v02.zip"
+    },
+    "Lantern_L_DR_Source_Runtime_v01.zip": {
+      "sha256": "9e27d1093f39fd0570c2956d7cb3e1a0b0d45273a4b05f5d7ac9f9bd7820819f",
+      "bytes": 2611683,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_L_DR_Source_Runtime_v01.zip"
+    },
+    "Lantern_L_D_Source_Runtime_v02.zip": {
+      "sha256": "ae9f75023a001cec3338b783bb1c727b19ee37bc696df44fd81e4e70f99458e3",
+      "bytes": 2593850,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_L_D_Source_Runtime_v02.zip"
+    },
+    "Lantern_L_R_Backward_Source_Runtime_v03.zip": {
+      "sha256": "4820da857a7446be4adf8137ae756d9ded2cb9f1318e7ebbada19e5a857663de",
+      "bytes": 2325094,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_L_R_Backward_Source_Runtime_v03.zip"
+    },
+    "Lantern_L_UL_Source_Runtime_v02.zip": {
+      "sha256": "6f126d69d609b2063f9740d61cc34d87538440589841e75e35d793eb434adf64",
+      "bytes": 2704058,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_L_UL_Source_Runtime_v02.zip"
+    },
+    "Lantern_L_UR_Source_Runtime_v02.zip": {
+      "sha256": "c0a742e39eefe94da64d424974561486ac06cf1ec7e2a6e83209d0c4a3d20e04",
+      "bytes": 2724385,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_L_UR_Source_Runtime_v02.zip"
+    },
+    "Lantern_L_U_Source_Runtime_v01.zip": {
+      "sha256": "d923387a1349ee680dc6631bdfcaf6e3dfea74698e65bf3e2d2c8f43386707b7",
+      "bytes": 2399796,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_L_U_Source_Runtime_v01.zip"
+    },
+    "Lantern_R_DL_Source_Runtime_v01.zip": {
+      "sha256": "1f796f6df87b02295c784de5a55da5d7328c7c1b93ebcd70a0ce8f23bdff4f5b",
+      "bytes": 2284503,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_R_DL_Source_Runtime_v01.zip"
+    },
+    "Lantern_R_DR_Source_Runtime_v02.zip": {
+      "sha256": "8683743bdac285549f69415a7eab789def89e9502975901f611435a98e3e3418",
+      "bytes": 3071912,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_R_DR_Source_Runtime_v02.zip"
+    },
+    "Lantern_R_D_Source_Runtime_v01.zip": {
+      "sha256": "c30bd5e6034be3f0b082e87ab4be3ef124a53c3534deddf34e3307c0284b72b8",
+      "bytes": 2432283,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_R_D_Source_Runtime_v01.zip"
+    },
+    "Lantern_R_L_Backward_Source_Runtime_v04.zip": {
+      "sha256": "a5d514870e2ac6cb1296fed87c842db3792a0e52ce9cfb32fe401e27b082349f",
+      "bytes": 3196136,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_R_L_Backward_Source_Runtime_v04.zip"
+    },
+    "Lantern_R_UL_Source_Runtime_v01.zip": {
+      "sha256": "4cd89e1ffa215706338d0fe1616bd16ac0f1fbb5563e4da44d668e6fa2de02f8",
+      "bytes": 3151628,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_R_UL_Source_Runtime_v01.zip"
+    },
+    "Lantern_R_UR_Source_Runtime_v03.zip": {
+      "sha256": "33530f11ab2ab7241d0ed9a82796cc3e6a1f3125dc95239c5a1e454f88a0cfb6",
+      "bytes": 3302502,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_R_UR_Source_Runtime_v03.zip"
+    },
+    "Lantern_R_U_Source_Runtime_v01.zip": {
+      "sha256": "572cb8dc6978ca1e7ee26dc8e4ff7375854c77d2d1c56bede2d9ac749afc867b",
+      "bytes": 2187199,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_R_U_Source_Runtime_v01.zip"
+    },
+    "Lantern_UL_DL_Source_Runtime_v01.zip": {
+      "sha256": "80a76a4de77f0bac534de72cbdf7669347781efeb895c4cc80cd737384996478",
+      "bytes": 2871103,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UL_DL_Source_Runtime_v01.zip"
+    },
+    "Lantern_UL_DR_Backward_Source_Runtime_v03.zip": {
+      "sha256": "9d632120cbd0e2e52d098e9ba466cfa6e1ed39a14cc00491be4f69613c160763",
+      "bytes": 2444185,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UL_DR_Backward_Source_Runtime_v03.zip"
+    },
+    "Lantern_UL_D_Source_Runtime_v02.zip": {
+      "sha256": "184432cb71356cc2b6f526ccee347bae3ad592c53c869ff83c9141c69b87b54f",
+      "bytes": 2336615,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UL_D_Source_Runtime_v02.zip"
+    },
+    "Lantern_UL_L_Source_Runtime_v01.zip": {
+      "sha256": "dc1f85d83c6ab1edc323b87616bdf53a87941558b00a80a43afa565185abf700",
+      "bytes": 2344566,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UL_L_Source_Runtime_v01.zip"
+    },
+    "Lantern_UL_R_Source_Runtime_v01.zip": {
+      "sha256": "ff57ce22d2fe615e07fdf9e4e90c20bc6b9ce107618fc768a911fa8f42eee6ed",
+      "bytes": 2349969,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UL_R_Source_Runtime_v01.zip"
+    },
+    "Lantern_UL_UR_Source_Runtime_v02.zip": {
+      "sha256": "a166dfb3a4b65398b7418449c16580b9ba06342121daa557dd7807a3f6b2b008",
+      "bytes": 2885584,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UL_UR_Source_Runtime_v02.zip"
+    },
+    "Lantern_UL_U_Source_Runtime_v03.zip": {
+      "sha256": "ab7d47824b9fd9283dcf2f5dc7753e78e585b127258fda06b3fd0b79244a9df2",
+      "bytes": 2854338,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UL_U_Source_Runtime_v03.zip"
+    },
+    "Lantern_UR_DL_Backward_Source_Runtime_v03.zip": {
+      "sha256": "8703ba16bec82835752f32f2f4d458900b4571b3ebefde10ffe98af75d074a17",
+      "bytes": 2664246,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UR_DL_Backward_Source_Runtime_v03.zip"
+    },
+    "Lantern_UR_DR_Source_Runtime_v02.zip": {
+      "sha256": "3cef9fc8198524ef6e40b0c6f523eaeb7540c4fa9cf23abe1b3847d71a69b5fb",
+      "bytes": 2642334,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UR_DR_Source_Runtime_v02.zip"
+    },
+    "Lantern_UR_D_Source_Runtime_v01.zip": {
+      "sha256": "78f3cbfd2a6458ad141c563646771cb32c519123e10206c487195867bacb8349",
+      "bytes": 2321504,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UR_D_Source_Runtime_v01.zip"
+    },
+    "Lantern_UR_L_Source_Runtime_v02.zip": {
+      "sha256": "95c58e0ca61c89d75ce0e6988fac9401210f35a1b079136703e7ad1a9e5f4bf0",
+      "bytes": 2438760,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UR_L_Source_Runtime_v02.zip"
+    },
+    "Lantern_UR_R_Source_Runtime_v01.zip": {
+      "sha256": "39adee9a88dedad73699aedcb0fd159d987c628d4834cca5d4edffdfb3ae7ed0",
+      "bytes": 2387144,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UR_R_Source_Runtime_v01.zip"
+    },
+    "Lantern_UR_UL_Source_Runtime_v01.zip": {
+      "sha256": "c17f030ea798d16d142588230f01975f2e4ab4d706ec1e380b5ff12e17ce8ddf",
+      "bytes": 2442994,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UR_UL_Source_Runtime_v01.zip"
+    },
+    "Lantern_UR_U_Source_Runtime_v01.zip": {
+      "sha256": "83fa4e9c9c0f957271d04f588be60f8d2c8ee90ee4af0f4df0116dce6e83f298",
+      "bytes": 2363820,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_UR_U_Source_Runtime_v01.zip"
+    },
+    "Lantern_U_DL_Source_Runtime_v01.zip": {
+      "sha256": "7955ab4d7f1277e986b887413d3617ab6e5011b241f33f2f6ad1b06c1f16e522",
+      "bytes": 2578609,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_U_DL_Source_Runtime_v01.zip"
+    },
+    "Lantern_U_DR_Source_Runtime_v01.zip": {
+      "sha256": "b700e401a402c14fe5e5329b4350a5bcab32a13c93286a81b246632ed70aac0f",
+      "bytes": 2560418,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_U_DR_Source_Runtime_v01.zip"
+    },
+    "Lantern_U_D_Backward_Source_Runtime_v03.zip": {
+      "sha256": "330964d485d9178f415d3e938c4866ccfbad38f2eedb0025e319cc82bc2d7ce4",
+      "bytes": 2674307,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_U_D_Backward_Source_Runtime_v03.zip"
+    },
+    "Lantern_U_L_Source_Runtime_v01.zip": {
+      "sha256": "40fa48100467c4e5468c46446755697acdc3d5e386394ebf3c0f6e8fe75fb7e3",
+      "bytes": 2535716,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_U_L_Source_Runtime_v01.zip"
+    },
+    "Lantern_U_R_Source_Runtime_v01.zip": {
+      "sha256": "a55932961f9a470005ab9df2c8c9d90a720197e7860973a3009b7ed3335aa34a",
+      "bytes": 2848828,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_U_R_Source_Runtime_v01.zip"
+    },
+    "Lantern_U_UL_Source_Runtime_v01.zip": {
+      "sha256": "27a7b9006f42d6e79cb7f1ca16fd1070dea73f909278c8878bf5f7ea73249daf",
+      "bytes": 2448766,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_U_UL_Source_Runtime_v01.zip"
+    },
+    "Lantern_U_UR_Source_Runtime_v01.zip": {
+      "sha256": "881e91c033ec6dbc7a6ce48dbaa9539bd880c10ee06c222db24685d165ce2028",
+      "bytes": 2382825,
+      "pathHint": "Characters/Hero/Locomotion/Lantern_U_UR_Source_Runtime_v01.zip"
+    },
+    "LanternKnight_idle_screenUp_native_v01_Kit.zip": {
+      "sha256": "9e4696ac668ec8faecbb7574c355946a65833f16d4827e1885f9a0946706b47a",
+      "bytes": 5978053,
+      "pathHint": "Characters/Hero/Idle/Sources/LanternKnight_idle_screenUp_native_v01_Kit.zip"
+    },
+    "LanternKnight_idle_screenDown_native_v01_Kit.zip": {
+      "sha256": "6ccabd64cf7ac687d8234e2209b0cbcd98d16e5a36157289377aca027134a51c",
+      "bytes": 7015432,
+      "pathHint": "Characters/Hero/Idle/Sources/LanternKnight_idle_screenDown_native_v01_Kit.zip"
+    },
+    "LanternKnight_idle_screenLeft_native_v01_Kit.zip": {
+      "sha256": "e2411e73d29724bb3abf8a49bcf537a5b2344046f29ea1656fdb7deb3d89f28c",
+      "bytes": 5883581,
+      "pathHint": "Characters/Hero/Idle/Sources/LanternKnight_idle_screenLeft_native_v01_Kit.zip"
+    },
+    "LanternKnight_idle_screenRight_native_v01_Kit.zip": {
+      "sha256": "5934fcfe0076d683e74f75e472163b11cb255000c3ac3de69f7ed8935c53dbdb",
+      "bytes": 5738078,
+      "pathHint": "Characters/Hero/Idle/Sources/LanternKnight_idle_screenRight_native_v01_Kit.zip"
+    },
+    "Lantern_Hero_finisher_DR_Native_Cels_v01.zip": {
+      "sha256": "b1dc83842a4876b6feeedc6613d27f779adc3451d76b2bff9cd55768be645e36",
+      "bytes": 2600792,
+      "pathHint": "Characters/Hero/Finisher/Sources/Lantern_Hero_finisher_DR_Native_Cels_v01.zip"
+    },
+    "Lantern_Hero_knockdown_DR_Native_Cels_v01.zip": {
+      "sha256": "65936ccdc81c916808c81c5ff3edac3cb38172da6e286e403c8eb54eebd5508d",
+      "bytes": 3261746,
+      "pathHint": "Characters/Hero/Recovery/Sources/Lantern_Hero_knockdown_DR_Native_Cels_v01.zip"
+    },
+    "Lantern_Hero_getup_DR_Native_Cels_v01.zip": {
+      "sha256": "59c286cfd226cd45a6fa4876b07653644ca1dae803d6a59848e3bcdeb1cc43f9",
+      "bytes": 3164745,
+      "pathHint": "Characters/Hero/Recovery/Sources/Lantern_Hero_getup_DR_Native_Cels_v01.zip"
+    },
+    "channel_hold_DR_runtime.zip": {
+      "sha256": "eb3b283c657d5361e09770bf9093bddae89e46eb51f6fd6e97a0d519b1d8b07e",
+      "bytes": 3662311,
+      "pathHint": "Characters/Hero/Channel Hold/Sources/channel_hold_DR_runtime.zip"
+    },
+    "standing_reach_DR_runtime.zip": {
+      "sha256": "aa8597b05f7fd01d42cff13d8f1f412b8b98e6e95407ada626efbdd5efd9476c",
+      "bytes": 3294658,
+      "pathHint": "Characters/Hero/Interactions/Sources/standing_reach_DR_runtime.zip"
+    },
+    "pickup_kneel_DR_runtime.zip": {
+      "sha256": "fd99ead1248109bb1e7fef2b11962c2d08e13d45f203289f40a0c0ebd4b2bf0f",
+      "bytes": 4946864,
+      "pathHint": "Characters/Hero/Interactions/Sources/pickup_kneel_DR_runtime.zip"
+    },
+    "selfheal_enter_DR_runtime.zip": {
+      "sha256": "c093c1b76600bf8597da42e542ee659c37d45186183b20e9ee74dde89cc32bfc",
+      "bytes": 1643038,
+      "pathHint": "Characters/Hero/Interactions/Sources/selfheal_enter_DR_runtime.zip"
+    },
+    "selfheal_loop_DR_runtime.zip": {
+      "sha256": "b48e61462353f4b030a9cf73908eed8caf4da8312af0756d4310d6cdaedb90cb",
+      "bytes": 2990260,
+      "pathHint": "Characters/Hero/Interactions/Sources/selfheal_loop_DR_runtime.zip"
+    },
+    "selfheal_exit_DR_runtime.zip": {
+      "sha256": "292fee58f0286addd7b5125eef6224aff9058427afa5f6d1edec1f2fb2d06574",
+      "bytes": 1688284,
+      "pathHint": "Characters/Hero/Interactions/Sources/selfheal_exit_DR_runtime.zip"
+    },
+    "Lantern_Hero_Lantern_Inspect_DR_Runtime_Test_v01.zip": {
+      "sha256": "83e122cc6ff052add72ef62d2544f1dca7902ad088cd70eecdd049b5f3a7052c",
+      "bytes": 3894930,
+      "pathHint": "Characters/Hero/Interactions/Sources/Lantern_Hero_Lantern_Inspect_DR_Runtime_Test_v01.zip"
+    },
+    "Lantern_Hero_Exhausted_Idle_DR_Runtime_Test_v02.zip": {
+      "sha256": "77feab0df16a53c4427c66f0d84e093e145d7691de3a7e991b7438c0a1828faf",
+      "bytes": 3851891,
+      "pathHint": "Characters/Hero/Idle/Sources/Lantern_Hero_Exhausted_Idle_DR_Runtime_Test_v02.zip"
+    },
+    "Lantern_Hero_stagger_DR_Native_Cels_v01.zip": {
+      "sha256": "f5fbe7d1680677e4e60d55307e8af117e9f3b268b7c4a84fcd2ed1775e17871b",
+      "bytes": 5201663,
+      "pathHint": "Characters/Hero/Recovery/Sources/Lantern_Hero_stagger_DR_Native_Cels_v01.zip"
+    },
+    "Lantern_Hero_respawn_DR_Native_Cels_v02.zip": {
+      "sha256": "dbfcf1955f18c0ae60e493c1e24df99c40fd2088a42b604e7fdc82418dfcd9ce",
+      "bytes": 5115042,
+      "pathHint": "Characters/Hero/Recovery/Sources/Lantern_Hero_respawn_DR_Native_Cels_v02.zip"
+    }
+  },
+  "archiveGroups": {
+    "hero-cursor-Lantern_DL_DR_Source_Runtime_v01": "Lantern_DL_DR_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_DL_D_Source_Runtime_v02": "Lantern_DL_D_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_DL_L_Source_Runtime_v02": "Lantern_DL_L_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_DL_R_Source_Runtime_v02": "Lantern_DL_R_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_DL_UL_Source_Runtime_v01": "Lantern_DL_UL_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_DL_UR_Backward_Source_Runtime_v03": "Lantern_DL_UR_Backward_Source_Runtime_v03.zip",
+    "hero-cursor-Lantern_DL_U_Source_Runtime_v02": "Lantern_DL_U_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_DR_DL_RightStrafe_Source_Runtime_v03": "Lantern_DR_DL_RightStrafe_Source_Runtime_v03.zip",
+    "hero-cursor-Lantern_DR_D_Source_Runtime_v02": "Lantern_DR_D_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_DR_L_Source_Runtime_v02": "Lantern_DR_L_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_DR_R_Source_Runtime_v01": "Lantern_DR_R_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_DR_UL_Backward_Source_Runtime_v02": "Lantern_DR_UL_Backward_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_DR_UR_Source_Runtime_v02": "Lantern_DR_UR_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_DR_U_Source_Runtime_v02": "Lantern_DR_U_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_D_DL_Source_Runtime_v01": "Lantern_D_DL_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_D_DR_Source_Runtime_v01": "Lantern_D_DR_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_D_L_Source_Runtime_v01": "Lantern_D_L_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_D_R_Source_Runtime_v01": "Lantern_D_R_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_D_UL_Source_Runtime_v01": "Lantern_D_UL_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_D_UR_Source_Runtime_v01": "Lantern_D_UR_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_D_U_Backward_Source_Runtime_v03": "Lantern_D_U_Backward_Source_Runtime_v03.zip",
+    "hero-cursor-Lantern_L_DL_Source_Runtime_v02": "Lantern_L_DL_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_L_DR_Source_Runtime_v01": "Lantern_L_DR_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_L_D_Source_Runtime_v02": "Lantern_L_D_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_L_R_Backward_Source_Runtime_v03": "Lantern_L_R_Backward_Source_Runtime_v03.zip",
+    "hero-cursor-Lantern_L_UL_Source_Runtime_v02": "Lantern_L_UL_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_L_UR_Source_Runtime_v02": "Lantern_L_UR_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_L_U_Source_Runtime_v01": "Lantern_L_U_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_R_DL_Source_Runtime_v01": "Lantern_R_DL_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_R_DR_Source_Runtime_v02": "Lantern_R_DR_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_R_D_Source_Runtime_v01": "Lantern_R_D_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_R_L_Backward_Source_Runtime_v04": "Lantern_R_L_Backward_Source_Runtime_v04.zip",
+    "hero-cursor-Lantern_R_UL_Source_Runtime_v01": "Lantern_R_UL_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_R_UR_Source_Runtime_v03": "Lantern_R_UR_Source_Runtime_v03.zip",
+    "hero-cursor-Lantern_R_U_Source_Runtime_v01": "Lantern_R_U_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_UL_DL_Source_Runtime_v01": "Lantern_UL_DL_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_UL_DR_Backward_Source_Runtime_v03": "Lantern_UL_DR_Backward_Source_Runtime_v03.zip",
+    "hero-cursor-Lantern_UL_D_Source_Runtime_v02": "Lantern_UL_D_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_UL_L_Source_Runtime_v01": "Lantern_UL_L_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_UL_R_Source_Runtime_v01": "Lantern_UL_R_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_UL_UR_Source_Runtime_v02": "Lantern_UL_UR_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_UL_U_Source_Runtime_v03": "Lantern_UL_U_Source_Runtime_v03.zip",
+    "hero-cursor-Lantern_UR_DL_Backward_Source_Runtime_v03": "Lantern_UR_DL_Backward_Source_Runtime_v03.zip",
+    "hero-cursor-Lantern_UR_DR_Source_Runtime_v02": "Lantern_UR_DR_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_UR_D_Source_Runtime_v01": "Lantern_UR_D_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_UR_L_Source_Runtime_v02": "Lantern_UR_L_Source_Runtime_v02.zip",
+    "hero-cursor-Lantern_UR_R_Source_Runtime_v01": "Lantern_UR_R_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_UR_UL_Source_Runtime_v01": "Lantern_UR_UL_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_UR_U_Source_Runtime_v01": "Lantern_UR_U_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_U_DL_Source_Runtime_v01": "Lantern_U_DL_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_U_DR_Source_Runtime_v01": "Lantern_U_DR_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_U_D_Backward_Source_Runtime_v03": "Lantern_U_D_Backward_Source_Runtime_v03.zip",
+    "hero-cursor-Lantern_U_L_Source_Runtime_v01": "Lantern_U_L_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_U_R_Source_Runtime_v01": "Lantern_U_R_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_U_UL_Source_Runtime_v01": "Lantern_U_UL_Source_Runtime_v01.zip",
+    "hero-cursor-Lantern_U_UR_Source_Runtime_v01": "Lantern_U_UR_Source_Runtime_v01.zip",
+    "hero-idle-U": "LanternKnight_idle_screenUp_native_v01_Kit.zip",
+    "hero-idle-D": "LanternKnight_idle_screenDown_native_v01_Kit.zip",
+    "hero-idle-L": "LanternKnight_idle_screenLeft_native_v01_Kit.zip",
+    "hero-idle-R": "LanternKnight_idle_screenRight_native_v01_Kit.zip",
+    "hero-native-69abfa2514d2": "Lantern_DL_DR_Source_Runtime_v01.zip",
+    "hero-native-1504d13428c6": "Lantern_DL_D_Source_Runtime_v02.zip",
+    "hero-native-dbc99e3d4048": "Lantern_DL_L_Source_Runtime_v02.zip",
+    "hero-native-ba356fc5bee1": "Lantern_DL_R_Source_Runtime_v02.zip",
+    "hero-native-e327f6ea2985": "Lantern_DL_UL_Source_Runtime_v01.zip",
+    "hero-native-588a7ca9c8a8": "Lantern_DL_UR_Backward_Source_Runtime_v03.zip",
+    "hero-native-a88f72238a76": "Lantern_DL_U_Source_Runtime_v02.zip",
+    "hero-native-a4f2fe3df45b": "Lantern_DR_DL_RightStrafe_Source_Runtime_v03.zip",
+    "hero-native-a7533990c500": "Lantern_DR_D_Source_Runtime_v02.zip",
+    "hero-native-f9ee7eab7bf4": "Lantern_DR_L_Source_Runtime_v02.zip",
+    "hero-native-632182768c71": "Lantern_DR_R_Source_Runtime_v01.zip",
+    "hero-native-afc65dc0f167": "Lantern_DR_UL_Backward_Source_Runtime_v02.zip",
+    "hero-native-6d9eb4ea065e": "Lantern_DR_UR_Source_Runtime_v02.zip",
+    "hero-native-28961cb28b9d": "Lantern_DR_U_Source_Runtime_v02.zip",
+    "hero-native-f4303a988b52": "Lantern_D_DL_Source_Runtime_v01.zip",
+    "hero-native-f9ec0b905262": "Lantern_D_DR_Source_Runtime_v01.zip",
+    "hero-native-fc2d9d0678a5": "Lantern_D_L_Source_Runtime_v01.zip",
+    "hero-native-dbaf1daf3c9d": "Lantern_D_R_Source_Runtime_v01.zip",
+    "hero-native-a3780e702e09": "Lantern_D_UL_Source_Runtime_v01.zip",
+    "hero-native-e891650ad93e": "Lantern_D_UR_Source_Runtime_v01.zip",
+    "hero-native-ec036df72d9e": "Lantern_D_U_Backward_Source_Runtime_v03.zip",
+    "hero-native-2b7a70d1a94b": "Lantern_L_DL_Source_Runtime_v02.zip",
+    "hero-native-d6a5bdb1b1e7": "Lantern_L_DR_Source_Runtime_v01.zip",
+    "hero-native-f0001476e951": "Lantern_L_D_Source_Runtime_v02.zip",
+    "hero-native-71f58bb537a5": "Lantern_L_R_Backward_Source_Runtime_v03.zip",
+    "hero-native-922a38da682a": "Lantern_L_UL_Source_Runtime_v02.zip",
+    "hero-native-00851ebf9a63": "Lantern_L_UR_Source_Runtime_v02.zip",
+    "hero-native-931001666372": "Lantern_L_U_Source_Runtime_v01.zip",
+    "hero-native-20ad70f985f4": "Lantern_R_DL_Source_Runtime_v01.zip",
+    "hero-native-617091af1435": "Lantern_R_DR_Source_Runtime_v02.zip",
+    "hero-native-e457b8a9735c": "Lantern_R_D_Source_Runtime_v01.zip",
+    "hero-native-bb4368fa6e47": "Lantern_R_L_Backward_Source_Runtime_v04.zip",
+    "hero-native-c75d93d0bc1e": "Lantern_R_UL_Source_Runtime_v01.zip",
+    "hero-native-f6da793e1112": "Lantern_R_UR_Source_Runtime_v03.zip",
+    "hero-native-df73db581229": "Lantern_R_U_Source_Runtime_v01.zip",
+    "hero-native-1b9dc44a71bf": "Lantern_UL_DL_Source_Runtime_v01.zip",
+    "hero-native-38a64c76167c": "Lantern_UL_DR_Backward_Source_Runtime_v03.zip",
+    "hero-native-dee1e3692394": "Lantern_UL_D_Source_Runtime_v02.zip",
+    "hero-native-12681fb06c16": "Lantern_UL_L_Source_Runtime_v01.zip",
+    "hero-native-c1320bdba6cb": "Lantern_UL_R_Source_Runtime_v01.zip",
+    "hero-native-d6f02d1b1249": "Lantern_UL_UR_Source_Runtime_v02.zip",
+    "hero-native-aabe9c611dc3": "Lantern_UL_U_Source_Runtime_v03.zip",
+    "hero-native-40ea8f995b06": "Lantern_UR_DL_Backward_Source_Runtime_v03.zip",
+    "hero-native-b819eb3043d1": "Lantern_UR_DR_Source_Runtime_v02.zip",
+    "hero-native-ba2c50d656ff": "Lantern_UR_D_Source_Runtime_v01.zip",
+    "hero-native-d41acdf63473": "Lantern_UR_L_Source_Runtime_v02.zip",
+    "hero-native-1c58872ff319": "Lantern_UR_R_Source_Runtime_v01.zip",
+    "hero-native-4d56f58d6119": "Lantern_UR_UL_Source_Runtime_v01.zip",
+    "hero-native-2cba78cd80a4": "Lantern_UR_U_Source_Runtime_v01.zip",
+    "hero-native-2c7b3b8e0c6e": "Lantern_U_DL_Source_Runtime_v01.zip",
+    "hero-native-195060f23f3b": "Lantern_U_DR_Source_Runtime_v01.zip",
+    "hero-native-244e92ab95e5": "Lantern_U_D_Backward_Source_Runtime_v03.zip",
+    "hero-native-a74420c70a0a": "Lantern_U_L_Source_Runtime_v01.zip",
+    "hero-native-1f5d7b70544d": "Lantern_U_R_Source_Runtime_v01.zip",
+    "hero-native-ad8afe9f7a83": "Lantern_U_UL_Source_Runtime_v01.zip",
+    "hero-native-3c73c815b693": "Lantern_U_UR_Source_Runtime_v01.zip",
+    "hero-native-82b6bf98d7f5": "Lantern_Hero_finisher_DR_Native_Cels_v01.zip",
+    "hero-native-65557d496daf": "Lantern_Hero_knockdown_DR_Native_Cels_v01.zip",
+    "hero-native-6878871b50ac": "Lantern_Hero_getup_DR_Native_Cels_v01.zip",
+    "hero-native-1c5a756446c8": "channel_hold_DR_runtime.zip",
+    "hero-native-f37a74b09d68": "standing_reach_DR_runtime.zip",
+    "hero-native-5de96c737dc1": "pickup_kneel_DR_runtime.zip",
+    "hero-native-d5b83891d80c": "selfheal_enter_DR_runtime.zip",
+    "hero-native-c4ca76c3c453": "selfheal_loop_DR_runtime.zip",
+    "hero-native-c1d05256af81": "selfheal_exit_DR_runtime.zip",
+    "hero-native-271f00e344b3": "LanternKnight_idle_screenUp_native_v01_Kit.zip",
+    "hero-native-abaa6ce7b63c": "LanternKnight_idle_screenDown_native_v01_Kit.zip",
+    "hero-native-c4c4a73cd4dc": "LanternKnight_idle_screenLeft_native_v01_Kit.zip",
+    "hero-native-3ea8c001532f": "LanternKnight_idle_screenRight_native_v01_Kit.zip",
+    "hero-native-31978824f775": "Lantern_Hero_Lantern_Inspect_DR_Runtime_Test_v01.zip",
+    "hero-native-00076e0a422a": "Lantern_Hero_Exhausted_Idle_DR_Runtime_Test_v02.zip",
+    "hero-native-17cb2a2227ae": "Lantern_Hero_stagger_DR_Native_Cels_v01.zip",
+    "hero-native-c01cf0adfb14": "Lantern_Hero_respawn_DR_Native_Cels_v02.zip"
+  },
+  "files": {
+    "hero-cursor": {
+      "selection.json": {
+        "sha256": "7cc98ccdc92f7de247bbb51b47668013ce9e27b1ec7db309254aaf8845eee40f",
+        "bytes": 205326,
+        "pathHint": "Characters/Hero/Locomotion/Lantern_Cursor_Locomotion_64_Selection_Index.json"
+      },
+      "idle-U.json": {
+        "sha256": "4942cc54b6c8d68e612dcc06e332fad3c062ed1ca50a0846b6a03c51853816a6",
+        "bytes": 5667,
+        "pathHint": "Characters/Hero/Idle/Animations/LanternKnight_idle_screenUp_native_v01.json"
+      },
+      "idle-D.json": {
+        "sha256": "427667f734dd0782fe62ec19eb04fff87f063da345d5bf8fc5ccc50b9ff12761",
+        "bytes": 5670,
+        "pathHint": "Characters/Hero/Idle/Animations/LanternKnight_idle_screenDown_native_v01.json"
+      },
+      "idle-L.json": {
+        "sha256": "36538f1a23a2b1fdca460144de1201e047213f5e2ec8e9b4774f618658e66c69",
+        "bytes": 5671,
+        "pathHint": "Characters/Hero/Idle/Animations/LanternKnight_idle_screenLeft_native_v01.json"
+      },
+      "idle-R.json": {
+        "sha256": "3761a4a8cc46e41b774d8da5bccc9500ab2677f8d313f224dd389c78148b549e",
+        "bytes": 5675,
+        "pathHint": "Characters/Hero/Idle/Animations/LanternKnight_idle_screenRight_native_v01.json"
+      }
+    }
+  }
+}

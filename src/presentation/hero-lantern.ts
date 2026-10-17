@@ -9,8 +9,7 @@ import type { ActorSprite } from './sprite';
 // A changed hero handoff needs new socket registration, rather than stale offsets.
 export function heroLanternPosition(sprite: ActorSprite, target: Vector3) {
   const sample = sprite.lightingSample;
-  if (!sample || sprite.manifest.asset.contentVersion !== 'hero-directed-20261007-v03')
-    return false;
+  if (!sample || sprite.manifest.asset.contentVersion !== 'hero-cursor-20261017-v01') return false;
   const point = (frame: Frame) => {
     const socket = frame.attachments.lantern ?? sockets[frame.id as keyof typeof sockets];
     if (!socket) return undefined;
@@ -35,8 +34,7 @@ export function heroLanternPosition(sprite: ActorSprite, target: Vector3) {
 // These sockets share the same native drawing coordinates as the lantern sockets.
 export function heroSwordPosition(sprite: ActorSprite, base: Vector3, tip: Vector3) {
   const sample = sprite.lightingSample;
-  if (!sample || sprite.manifest.asset.contentVersion !== 'hero-directed-20261007-v03')
-    return false;
+  if (!sample || sprite.manifest.asset.contentVersion !== 'hero-cursor-20261017-v01') return false;
   const points = (frame: Frame) => {
     const line = swordSockets[frame.id as keyof typeof swordSockets];
     if (!line) return;

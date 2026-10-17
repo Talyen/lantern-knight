@@ -152,3 +152,22 @@ Library metadata import reuses discovery's local hash proofs only while device, 
 One-shots are mono 44.1 kHz, 16-bit PCM WAV. Ambience is stereo 48 kHz Vorbis at 128 kbps using FFmpeg 9's native encoder. Preparation measures mean/peak levels, limits normalization boosts to 18 dB, applies authored family gain, and limits peaks. One-shots remove leading silence below -55 dB; recipe segments and short terminal fades bound duration. Loops bake a 250 ms equal-power wrap seam and record decoded loop bounds. Originals are preserved.
 
 The separate typed `audio/manifest.json` records IDs, relative content-addressed paths, hashes, sizes, durations, channels, sample rates and loop boundaries. Source/processing receipts stay in external metadata. Identical cooked bytes share files. Runtime selection, bundle publication and asset checks include all selected audio and verify hashes; no runtime path points at Documents. Local prototypes use prepared layers. Local preparation leaves the pin unchanged; agents may publish task-scoped audio when ready under [preparation and publication](#preparation-and-publication). Pins without an audio manifest build and preview silently. Present manifests and their samples still require schema and integrity validation.
+
+## Hero animation bindings
+
+The cursor locomotion selection index supplies 64 facing/travel pairs: eight existing forward runs and 56 new clips. Preparation verifies package and drawing hashes, screen/world vectors, fixed registration and per-frame holds. Supplied runtime drawings remain in place, never mirrored or played backward. Some locomotion exports were resampled by their supplier; their native source drawings remain separate library assets. All moving clips preserve a 40-tick cycle; Game preserves phase when facing or travel changes. The new clips use a reviewed clip-wide 0.82 scale correction against existing idle anatomy; source pixels and foot pivots remain intact. Native proportion, projection and planted-foot variation remain visible at joins, especially when entering the older leaning forward sprints.
+
+| Supplied clips | Game binding | Reason or limit |
+| --- | --- | --- |
+| 64 locomotion pairs | Cursor-facing movement | Exact independent facing/travel selection; current speed retained in every direction. |
+| U/D/L/R idle additions | Matching stationary facing | Complete the existing diagonal idles to eight views. |
+| Existing sweep, lunge, dodge, flare, hit and death | Existing actions | Preserve direction coverage, damage windows, movement and invulnerability timing. |
+| Finisher | Animation browser | Distinct attack with no existing finisher mechanic; one DR view. |
+| Knockdown and get-up | Animation browser | Require a grounded/recovery state absent from current combat; one DR view. |
+| Stagger | Animation browser | A longer balance-recovery step than the current hit response; one DR view. |
+| Standing reach and corrected kneeling pickup | Animation browser | Current interactions commit immediately and permit movement; these clips require committed target alignment and 77/99 ticks. |
+| Self-heal enter, loop and exit | Animation browser | Potion healing remains instant; the kneeling sequence requires new action admission and interruption rules. |
+| Channel hold, lantern inspection and exhausted idle | Animation browser | No corresponding channel, inspection or exhaustion state; one DR view. |
+| Respawn | Animation browser | Begins kneeling; current checkpoint reconstruction permits immediate control at arbitrary facing. |
+
+The new Game frames have reviewed lantern attachment points. Held frames have no inferred motion warp or blade reconstruction. Existing forward contacts remain direction-specific; new clips carry their reviewed alternating contact drawings in the prepared notifies. Single-facing library kits retain their original timing and pixels, and do not certify gameplay contact, root motion or seamless transition registration.

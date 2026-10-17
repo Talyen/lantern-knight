@@ -1,4 +1,6 @@
 import { readRegistration } from '../../tools/assets/data';
+import cursorRecipe from '../../authoring/hero-cursor.json';
+import { heroTravelClips } from '../../src/content/hero-locomotion';
 import { timedWalk, remapWalkTime } from '../../src/core/locomotion-timing';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -67,9 +69,12 @@ test('current hero preserves mixed native registrations and resolves all heading
     assert.deepEqual(sprite.mesh.position, foot);
   }
   for (const name of Object.keys(m.asset.clips))
-    for (const heading of name === 'walk' ? HEADINGS : AUTHORED_HEADINGS) {
+    for (const heading of name === 'idle' || name === 'walk' || heroTravelClips.includes(name)
+      ? HEADINGS
+      : AUTHORED_HEADINGS) {
       const c = resolveClip(m, name, heading);
-      assert.deepEqual(c.durationsMs, heroTimings[name]![heading]!.holdsMs);
+      const directed = heroTimings[name]?.[heading as (typeof AUTHORED_HEADINGS)[number]];
+      if (directed) assert.deepEqual(c.durationsMs, directed.holdsMs);
       if (name === 'cast_lantern_flare') {
         const retimed = retimeLanternClip(
           c,
@@ -79,11 +84,11 @@ test('current hero preserves mixed native registrations and resolves all heading
         assert.equal(frameAt(retimed, 200), c.frames[4]);
       }
       assert.ok(c.frames.every((id) => m.frames.some((f) => f.id === id)));
-      assert.equal(c.loop, ['ready', 'idle', 'walk'].includes(name));
+      assert.equal(c.loop, ['ready', 'idle', 'walk', ...heroTravelClips].includes(name));
       const data = registration.animation.clips[`${name}:${heading}`]!;
       assert.ok(data);
       assert.deepEqual(data.frames, c.frames);
-      if (name === 'walk') {
+      if (name === 'walk' || heroTravelClips.includes(name)) {
         const weighted = timedWalk(c, 'weighted', data.weightedHoldsMs);
         assert.ok(
           Math.abs(
@@ -104,6 +109,26 @@ test('current hero preserves mixed native registrations and resolves all heading
     );
     const actionHeading = selectAuthoredDirection((HEADINGS.indexOf(heading) * Math.PI) / 4);
     assert.equal(resolveClip(m, 'sweep', heading), resolveClip(m, 'sweep', actionHeading));
+  }
+  for (const travel of HEADINGS)
+    for (const facing of HEADINGS) {
+      const id = `travel_${travel}`,
+        c = resolveClip(m, id, facing);
+      assert.equal(c, m.asset.clips[id]![facing]);
+      assert.ok(Math.abs(c.durationsMs.reduce((a, b) => a + b, 0) - 40000 / 60) < 0.001);
+      assert.equal(c.notifies.filter((n) => n.kind === 'footstep').length, 2);
+      if (travel === facing) assert.deepEqual(c.frames, resolveClip(m, 'walk', facing).frames);
+      else assert.ok(c.frames.every((f) => f.startsWith(`${id}-${facing}-`)));
+      const absent = structuredClone(m);
+      delete absent.asset.clips[id]![facing];
+      assert.throws(() => parseManifest(absent), /missing required heading/);
+    }
+  for (const [id, reviewed] of Object.entries(cursorRecipe.frames)) {
+    assert.deepEqual(m.frames.find((f) => f.id === id)!.attachments, reviewed);
+    assert.equal(
+      registration.animation.pairs.some((p) => p.from === id),
+      false,
+    );
   }
   const missing = structuredClone(m);
   delete missing.asset.clips.walk!.d45;

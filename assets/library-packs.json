@@ -1270,6 +1270,736 @@
       "manifest": "Thorn_Snare/timing_manifest.json",
       "identity": "combat-thorn-snare",
       "label": "Thorn Snare"
+    },
+    {
+      "archive": "Lantern_DL_DR_Source_Runtime_v01.zip",
+      "group": "hero-native-69abfa2514d2",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DL_move_DR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dl_dr_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_DL_DR_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_DL_D_Source_Runtime_v02.zip",
+      "group": "hero-native-1504d13428c6",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DL_move_D/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dl_d_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_DL_D_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_DL_L_Source_Runtime_v02.zip",
+      "group": "hero-native-dbc99e3d4048",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DL_move_L/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dl_l_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_DL_L_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_DL_R_Source_Runtime_v02.zip",
+      "group": "hero-native-ba356fc5bee1",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DL_move_R/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dl_r_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_DL_R_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_DL_UL_Source_Runtime_v01.zip",
+      "group": "hero-native-e327f6ea2985",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DL_move_UL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dl_ul_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_DL_UL_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_DL_UR_Backward_Source_Runtime_v03.zip",
+      "group": "hero-native-588a7ca9c8a8",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DL_move_UR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dl_ur_backward_source_runtime_v03",
+      "label": "Hero cursor locomotion Lantern_DL_UR_Backward_Source_Runtime_v03"
+    },
+    {
+      "archive": "Lantern_DL_U_Source_Runtime_v02.zip",
+      "group": "hero-native-a88f72238a76",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DL_move_U/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dl_u_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_DL_U_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_DR_DL_RightStrafe_Source_Runtime_v03.zip",
+      "group": "hero-native-a4f2fe3df45b",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DR_move_DL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dr_dl_rightstrafe_source_runtime_v03",
+      "label": "Hero cursor locomotion Lantern_DR_DL_RightStrafe_Source_Runtime_v03"
+    },
+    {
+      "archive": "Lantern_DR_D_Source_Runtime_v02.zip",
+      "group": "hero-native-a7533990c500",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DR_move_D/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dr_d_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_DR_D_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_DR_L_Source_Runtime_v02.zip",
+      "group": "hero-native-f9ee7eab7bf4",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DR_move_L/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dr_l_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_DR_L_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_DR_R_Source_Runtime_v01.zip",
+      "group": "hero-native-632182768c71",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DR_move_R/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dr_r_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_DR_R_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_DR_UL_Backward_Source_Runtime_v02.zip",
+      "group": "hero-native-afc65dc0f167",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DR_move_UL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dr_ul_backward_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_DR_UL_Backward_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_DR_UR_Source_Runtime_v02.zip",
+      "group": "hero-native-6d9eb4ea065e",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DR_move_UR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dr_ur_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_DR_UR_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_DR_U_Source_Runtime_v02.zip",
+      "group": "hero-native-28961cb28b9d",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_DR_move_U/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_dr_u_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_DR_U_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_D_DL_Source_Runtime_v01.zip",
+      "group": "hero-native-f4303a988b52",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_D_move_DL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_d_dl_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_D_DL_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_D_DR_Source_Runtime_v01.zip",
+      "group": "hero-native-f9ec0b905262",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_D_move_DR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_d_dr_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_D_DR_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_D_L_Source_Runtime_v01.zip",
+      "group": "hero-native-fc2d9d0678a5",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_D_move_L/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_d_l_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_D_L_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_D_R_Source_Runtime_v01.zip",
+      "group": "hero-native-dbaf1daf3c9d",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_D_move_R/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_d_r_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_D_R_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_D_UL_Source_Runtime_v01.zip",
+      "group": "hero-native-a3780e702e09",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_D_move_UL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_d_ul_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_D_UL_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_D_UR_Source_Runtime_v01.zip",
+      "group": "hero-native-e891650ad93e",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_D_move_UR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_d_ur_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_D_UR_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_D_U_Backward_Source_Runtime_v03.zip",
+      "group": "hero-native-ec036df72d9e",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_D_move_U/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_d_u_backward_source_runtime_v03",
+      "label": "Hero cursor locomotion Lantern_D_U_Backward_Source_Runtime_v03"
+    },
+    {
+      "archive": "Lantern_L_DL_Source_Runtime_v02.zip",
+      "group": "hero-native-2b7a70d1a94b",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_L_move_DL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_l_dl_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_L_DL_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_L_DR_Source_Runtime_v01.zip",
+      "group": "hero-native-d6a5bdb1b1e7",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_L_move_DR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_l_dr_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_L_DR_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_L_D_Source_Runtime_v02.zip",
+      "group": "hero-native-f0001476e951",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_L_move_D/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_l_d_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_L_D_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_L_R_Backward_Source_Runtime_v03.zip",
+      "group": "hero-native-71f58bb537a5",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_L_move_R/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_l_r_backward_source_runtime_v03",
+      "label": "Hero cursor locomotion Lantern_L_R_Backward_Source_Runtime_v03"
+    },
+    {
+      "archive": "Lantern_L_UL_Source_Runtime_v02.zip",
+      "group": "hero-native-922a38da682a",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_L_move_UL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_l_ul_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_L_UL_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_L_UR_Source_Runtime_v02.zip",
+      "group": "hero-native-00851ebf9a63",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_L_move_UR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_l_ur_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_L_UR_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_L_U_Source_Runtime_v01.zip",
+      "group": "hero-native-931001666372",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_L_move_U/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_l_u_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_L_U_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_R_DL_Source_Runtime_v01.zip",
+      "group": "hero-native-20ad70f985f4",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_R_move_DL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_r_dl_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_R_DL_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_R_DR_Source_Runtime_v02.zip",
+      "group": "hero-native-617091af1435",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_R_move_DR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_r_dr_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_R_DR_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_R_D_Source_Runtime_v01.zip",
+      "group": "hero-native-e457b8a9735c",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_R_move_D/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_r_d_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_R_D_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_R_L_Backward_Source_Runtime_v04.zip",
+      "group": "hero-native-bb4368fa6e47",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_R_move_L/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_r_l_backward_source_runtime_v04",
+      "label": "Hero cursor locomotion Lantern_R_L_Backward_Source_Runtime_v04"
+    },
+    {
+      "archive": "Lantern_R_UL_Source_Runtime_v01.zip",
+      "group": "hero-native-c75d93d0bc1e",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_R_move_UL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_r_ul_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_R_UL_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_R_UR_Source_Runtime_v03.zip",
+      "group": "hero-native-f6da793e1112",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_R_move_UR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_r_ur_source_runtime_v03",
+      "label": "Hero cursor locomotion Lantern_R_UR_Source_Runtime_v03"
+    },
+    {
+      "archive": "Lantern_R_U_Source_Runtime_v01.zip",
+      "group": "hero-native-df73db581229",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_R_move_U/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_r_u_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_R_U_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_UL_DL_Source_Runtime_v01.zip",
+      "group": "hero-native-1b9dc44a71bf",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UL_move_DL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ul_dl_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_UL_DL_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_UL_DR_Backward_Source_Runtime_v03.zip",
+      "group": "hero-native-38a64c76167c",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UL_move_DR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ul_dr_backward_source_runtime_v03",
+      "label": "Hero cursor locomotion Lantern_UL_DR_Backward_Source_Runtime_v03"
+    },
+    {
+      "archive": "Lantern_UL_D_Source_Runtime_v02.zip",
+      "group": "hero-native-dee1e3692394",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UL_move_D/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ul_d_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_UL_D_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_UL_L_Source_Runtime_v01.zip",
+      "group": "hero-native-12681fb06c16",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UL_move_L/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ul_l_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_UL_L_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_UL_R_Source_Runtime_v01.zip",
+      "group": "hero-native-c1320bdba6cb",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UL_move_R/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ul_r_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_UL_R_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_UL_UR_Source_Runtime_v02.zip",
+      "group": "hero-native-d6f02d1b1249",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UL_move_UR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ul_ur_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_UL_UR_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_UL_U_Source_Runtime_v03.zip",
+      "group": "hero-native-aabe9c611dc3",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UL_move_U/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ul_u_source_runtime_v03",
+      "label": "Hero cursor locomotion Lantern_UL_U_Source_Runtime_v03"
+    },
+    {
+      "archive": "Lantern_UR_DL_Backward_Source_Runtime_v03.zip",
+      "group": "hero-native-40ea8f995b06",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UR_move_DL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ur_dl_backward_source_runtime_v03",
+      "label": "Hero cursor locomotion Lantern_UR_DL_Backward_Source_Runtime_v03"
+    },
+    {
+      "archive": "Lantern_UR_DR_Source_Runtime_v02.zip",
+      "group": "hero-native-b819eb3043d1",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UR_move_DR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ur_dr_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_UR_DR_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_UR_D_Source_Runtime_v01.zip",
+      "group": "hero-native-ba2c50d656ff",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UR_move_D/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ur_d_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_UR_D_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_UR_L_Source_Runtime_v02.zip",
+      "group": "hero-native-d41acdf63473",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UR_move_L/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ur_l_source_runtime_v02",
+      "label": "Hero cursor locomotion Lantern_UR_L_Source_Runtime_v02"
+    },
+    {
+      "archive": "Lantern_UR_R_Source_Runtime_v01.zip",
+      "group": "hero-native-1c58872ff319",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UR_move_R/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ur_r_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_UR_R_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_UR_UL_Source_Runtime_v01.zip",
+      "group": "hero-native-4d56f58d6119",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UR_move_UL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ur_ul_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_UR_UL_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_UR_U_Source_Runtime_v01.zip",
+      "group": "hero-native-2cba78cd80a4",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_UR_move_U/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_ur_u_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_UR_U_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_U_DL_Source_Runtime_v01.zip",
+      "group": "hero-native-2c7b3b8e0c6e",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_U_move_DL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_u_dl_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_U_DL_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_U_DR_Source_Runtime_v01.zip",
+      "group": "hero-native-195060f23f3b",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_U_move_DR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_u_dr_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_U_DR_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_U_D_Backward_Source_Runtime_v03.zip",
+      "group": "hero-native-244e92ab95e5",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_U_move_D/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_u_d_backward_source_runtime_v03",
+      "label": "Hero cursor locomotion Lantern_U_D_Backward_Source_Runtime_v03"
+    },
+    {
+      "archive": "Lantern_U_L_Source_Runtime_v01.zip",
+      "group": "hero-native-a74420c70a0a",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_U_move_L/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_u_l_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_U_L_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_U_R_Source_Runtime_v01.zip",
+      "group": "hero-native-1f5d7b70544d",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_U_move_R/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_u_r_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_U_R_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_U_UL_Source_Runtime_v01.zip",
+      "group": "hero-native-ad8afe9f7a83",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_U_move_UL/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_u_ul_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_U_UL_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_U_UR_Source_Runtime_v01.zip",
+      "group": "hero-native-3c73c815b693",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "locomotion_face_U_move_UR/manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_u_ur_source_runtime_v01",
+      "label": "Hero cursor locomotion Lantern_U_UR_Source_Runtime_v01"
+    },
+    {
+      "archive": "Lantern_Hero_finisher_DR_Native_Cels_v01.zip",
+      "group": "hero-native-82b6bf98d7f5",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "finisher_DR/finisher_DR_animation.json",
+      "kind": "character",
+      "identity": "hero-finisher_dr",
+      "label": "Hero finisher_DR"
+    },
+    {
+      "archive": "Lantern_Hero_knockdown_DR_Native_Cels_v01.zip",
+      "group": "hero-native-65557d496daf",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "knockdown_DR/knockdown_DR_animation.json",
+      "kind": "character",
+      "identity": "hero-knockdown_dr",
+      "label": "Hero knockdown_DR"
+    },
+    {
+      "archive": "Lantern_Hero_getup_DR_Native_Cels_v01.zip",
+      "group": "hero-native-6878871b50ac",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "getup_DR/getup_DR_animation.json",
+      "kind": "character",
+      "identity": "hero-getup_dr",
+      "label": "Hero getup_DR"
+    },
+    {
+      "archive": "channel_hold_DR_runtime.zip",
+      "group": "hero-native-1c5a756446c8",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "channel_hold_DR_manifest.json",
+      "kind": "character",
+      "identity": "hero-channel_hold_dr",
+      "label": "Hero channel_hold_DR"
+    },
+    {
+      "archive": "standing_reach_DR_runtime.zip",
+      "group": "hero-native-f37a74b09d68",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "standing_reach_DR_manifest.json",
+      "kind": "character",
+      "identity": "hero-standing_reach_dr",
+      "label": "Hero standing_reach_DR"
+    },
+    {
+      "archive": "pickup_kneel_DR_runtime.zip",
+      "group": "hero-native-5de96c737dc1",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "pickup_kneel_DR_manifest.json",
+      "kind": "character",
+      "identity": "hero-pickup_kneel_dr",
+      "label": "Hero pickup_kneel_DR"
+    },
+    {
+      "archive": "selfheal_enter_DR_runtime.zip",
+      "group": "hero-native-d5b83891d80c",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "selfheal_enter_DR_manifest.json",
+      "kind": "character",
+      "identity": "hero-selfheal_enter_dr",
+      "label": "Hero selfheal_enter_DR"
+    },
+    {
+      "archive": "selfheal_loop_DR_runtime.zip",
+      "group": "hero-native-c4ca76c3c453",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "selfheal_loop_DR_manifest.json",
+      "kind": "character",
+      "identity": "hero-selfheal_loop_dr",
+      "label": "Hero selfheal_loop_DR"
+    },
+    {
+      "archive": "selfheal_exit_DR_runtime.zip",
+      "group": "hero-native-c1d05256af81",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "selfheal_exit_DR_manifest.json",
+      "kind": "character",
+      "identity": "hero-selfheal_exit_dr",
+      "label": "Hero selfheal_exit_DR"
+    },
+    {
+      "archive": "LanternKnight_idle_screenUp_native_v01_Kit.zip",
+      "group": "hero-native-271f00e344b3",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "LanternKnight_idle_screenUp_native_v01.json",
+      "kind": "character",
+      "identity": "hero-idle_u",
+      "label": "Hero idle_U"
+    },
+    {
+      "archive": "LanternKnight_idle_screenDown_native_v01_Kit.zip",
+      "group": "hero-native-abaa6ce7b63c",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "LanternKnight_idle_screenDown_native_v01.json",
+      "kind": "character",
+      "identity": "hero-idle_d",
+      "label": "Hero idle_D"
+    },
+    {
+      "archive": "LanternKnight_idle_screenLeft_native_v01_Kit.zip",
+      "group": "hero-native-c4c4a73cd4dc",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "LanternKnight_idle_screenLeft_native_v01.json",
+      "kind": "character",
+      "identity": "hero-idle_l",
+      "label": "Hero idle_L"
+    },
+    {
+      "archive": "LanternKnight_idle_screenRight_native_v01_Kit.zip",
+      "group": "hero-native-3ea8c001532f",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "LanternKnight_idle_screenRight_native_v01.json",
+      "kind": "character",
+      "identity": "hero-idle_r",
+      "label": "Hero idle_R"
+    },
+    {
+      "archive": "Lantern_Hero_Lantern_Inspect_DR_Runtime_Test_v01.zip",
+      "group": "hero-native-31978824f775",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "lantern_inspect_DR_v01_manifest.json",
+      "kind": "character",
+      "identity": "hero-lantern_inspect_dr_v01",
+      "label": "Hero lantern_inspect_DR_v01"
+    },
+    {
+      "archive": "Lantern_Hero_Exhausted_Idle_DR_Runtime_Test_v02.zip",
+      "group": "hero-native-00076e0a422a",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "exhausted_idle_DR_v02_manifest.json",
+      "kind": "character",
+      "identity": "hero-exhausted_idle_dr_v02",
+      "label": "Hero exhausted_idle_DR_v02"
+    },
+    {
+      "archive": "Lantern_Hero_stagger_DR_Native_Cels_v01.zip",
+      "group": "hero-native-17cb2a2227ae",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "stagger_DR/stagger_DR_runtime.json",
+      "kind": "character",
+      "identity": "hero-stagger_dr",
+      "label": "Hero stagger_DR"
+    },
+    {
+      "archive": "Lantern_Hero_respawn_DR_Native_Cels_v02.zip",
+      "group": "hero-native-c01cf0adfb14",
+      "category": 1,
+      "format": "hero-native",
+      "manifest": "respawn_DR/respawn_DR_runtime.json",
+      "kind": "character",
+      "identity": "hero-respawn_dr",
+      "label": "Hero respawn_DR"
     }
   ]
 }

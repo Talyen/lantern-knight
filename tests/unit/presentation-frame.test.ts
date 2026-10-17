@@ -1,3 +1,5 @@
+import { HEADINGS } from '../../src/content/headings';
+import { heroTravelClip } from '../../src/content/hero-locomotion';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
@@ -272,6 +274,12 @@ function actorFixture(t: import('node:test').TestContext, zeroWindup = false) {
   const packs = new Map(
     ['ink-hero-current', 'library-sk01', 'library-sk02'].map((id) => {
       const manifest = manifestFixture(id);
+      if (id === 'ink-hero-current')
+        for (const travel of HEADINGS)
+          manifest.asset.clips[heroTravelClip(travel)] = structuredClone(
+            manifest.asset.clips.walk!,
+          );
+      manifest.asset.clips.move = structuredClone(manifest.asset.clips.walk!);
       manifest.asset.clips.attack = structuredClone(manifest.asset.clips.attack_sword_01!);
       for (const clip of Object.values(manifest.asset.clips.attack))
         clip!.notifies = [{ id: 'hit', kind: 'whoosh', atMs: 50 }];
@@ -366,4 +374,38 @@ test('hero walk animation follows actual travel speed for analog movement', (t) 
   });
   assert.ok(Math.abs(presentation.actors.get(sim.hero.id)!.sprite.animator.time - 4) < 1e-8);
   update();
+});
+
+test('hero facing and travel select distinct clips without restarting the locomotion phase', (t) => {
+  const { sim, presentation, update } = actorFixture(t);
+  sim.actors = [sim.hero];
+  Object.assign(sim.hero, { state: 'walk', yaw: Math.PI / 2, travelYaw: Math.PI });
+  update();
+  const v = presentation.actors.get(sim.hero.id)!;
+  assert.match(v.tag, /travel_d180:d90/);
+  v.sprite.animator.seek(137);
+  sim.hero.travelYaw = -Math.PI / 2;
+  update();
+  assert.match(v.tag, /travel_d270:d90/);
+  assert.equal(v.sprite.animator.time, 137);
+  sim.hero.yaw = 0;
+  update();
+  assert.match(v.tag, /travel_d270:d00/);
+  assert.equal(v.sprite.animator.time, 137);
+  sim.hero.state = 'idle';
+  update();
+  assert.match(v.tag, /idle:d00/);
+  assert.equal(v.sprite.animator.time, 0);
+});
+
+test('enemy travel-direction changes retain the existing movement animation phase', (t) => {
+  const { sim, presentation, update } = actorFixture(t);
+  const enemy = sim.enemies[0]!;
+  enemy.state = 'walk';
+  update();
+  const v = presentation.actors.get(enemy.id)!;
+  v.sprite.animator.seek(137);
+  enemy.yaw = Math.PI;
+  update();
+  assert.equal(v.sprite.animator.time, 137);
 });

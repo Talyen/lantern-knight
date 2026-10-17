@@ -18,7 +18,7 @@ motion_file = ROOT / "authoring/hero-motion.json"
 motion_recipe = json.loads(motion_file.read_text())
 original = json.loads((WORK / "staging/ink/hero-receipt.json").read_text())["originalTimings"]
 frames = {f["id"]: f for f in source["frames"]}
-if motion_recipe["schemaVersion"] != 1 or set(motion_recipe["frames"]) != set(frames):
+if motion_recipe["schemaVersion"] != 1 or not set(motion_recipe["frames"]).issubset(frames):
     raise ValueError("Motion recipe must cover exactly the selected drawings")
 W, H, G = 128, 160, 2
 SX, SY = W + G * 2, H + G * 2
@@ -119,6 +119,16 @@ def guarded(first, reverse, canvas, cap):
 for name, dirs in source["asset"]["clips"].items():
     for heading, clip in dirs.items():
         ids = clip["frames"]
+        if f"{name}:{heading}" not in motion_recipe["clips"]:
+            clips[f"{name}:{heading}"] = {
+                "asset": "ink-hero-current",
+                "frames": ids,
+                "weightedHoldsMs": clip["durationsMs"],
+                "originalHoldsMs": original[name][heading]["holdsMs"],
+                "loop": clip["loop"],
+                "registration": domain(ids),
+            }
+            continue
         d = domain(ids)
         gray = {}
         swords = {}

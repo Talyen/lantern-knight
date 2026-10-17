@@ -14,7 +14,13 @@ test('hero review covers every clip/direction and leaves idle at its current siz
       frames: Object.keys(motion.frames).filter((key) => key.startsWith(`${id}-${heading}-`)),
     })),
   );
-  const scales = heroFrameScales(scaleRecipe, clips);
+  const baseline = {
+    ...scaleRecipe,
+    clips: Object.fromEntries(
+      Object.entries(scaleRecipe.clips).filter(([key]) => Object.hasOwn(motion.clips, key)),
+    ),
+  };
+  const scales = heroFrameScales(baseline, clips);
   assert.equal(scales.size, Object.keys(motion.frames).length);
   for (const [id, scale] of scales) {
     if (id.startsWith('idle-') || id.startsWith('ready-')) assert.equal(scale, 1);
@@ -23,9 +29,16 @@ test('hero review covers every clip/direction and leaves idle at its current siz
   assert.equal(scales.get('walk-d00-00'), 1.16);
   assert.equal(scales.get('death-d270-04'), 1);
   assert.ok(Math.abs(scales.get('sweep-d90-00')! - 1.06 * 1.06) < 1e-12);
-  assert.throws(() => heroFrameScales(scaleRecipe, clips.slice(1)), /exactly/);
+  assert.throws(() => heroFrameScales(baseline, clips.slice(1)), /exactly/);
   assert.throws(
-    () => heroFrameScales({ ...scaleRecipe, frames: { 'absent-00': 1.1 } }, clips),
+    () =>
+      heroFrameScales(
+        {
+          ...baseline,
+          frames: { 'absent-00': 1.1 },
+        },
+        clips,
+      ),
     /Unknown hero scale drawing/,
   );
   assert.throws(() => heroFrameScales({ ...scaleRecipe, clips: { 'idle:d00': 0 } }, clips));

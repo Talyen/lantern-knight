@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { cameraContract as contract } from './camera-contract';
 import { HEADINGS } from '../content/headings';
+import { heroTravelClips } from '../content/hero-locomotion';
 import type { ContentSnapshot } from '../content/snapshot';
 const finite = z.number().finite();
 const positive = finite.positive();
@@ -237,7 +238,8 @@ function validateSemantics(value: Source | Manifest) {
         : a.viewMode === 'fixed-authored'
           ? ['d45']
           : a.viewMode === 'four-directional' ||
-              (a.viewMode === 'mixed-directional' && clip !== 'walk')
+              (a.viewMode === 'mixed-directional' &&
+                !['idle', 'walk', ...heroTravelClips].includes(clip))
             ? ['d00', 'd90', 'd180', 'd270']
             : HEADINGS;
     for (const dir of required)

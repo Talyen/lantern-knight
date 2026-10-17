@@ -29,17 +29,63 @@ def png(w, h):
 
 
 class ImportTests(unittest.TestCase):
+    def test_hero_cursor_and_native_expansion_keep_fixed_registration_and_timing(self):
+        for data in [
+            {
+                "clip_id": "cursor",
+                "facing_world_xyz": [0, 0, 1],
+                "canvas_px": [8, 8],
+                "pivot_top_left_px": [4, 7],
+                "pixels_per_unit_approximate": 145,
+                "cycle": {"ticks": 40},
+                "runtime_frames": [
+                    {"file": "frames/0.png", "hold_ticks_60hz": 7},
+                    {"file": "frames/1.png", "hold_ticks_60hz": 33},
+                ],
+            },
+            {
+                "asset": "pickup",
+                "runtime": {
+                    "cell_size": [8, 8],
+                    "pivot_px_top_left": [4, 7],
+                    "suggested_pixels_per_unit": 145,
+                    "loop": False,
+                },
+                "frames": [
+                    {"file": "frames/0.png", "hold_ticks_60hz": 7},
+                    {"file": "frames/1.png", "hold_ticks_60hz": 33},
+                ],
+            },
+        ]:
+            with self.subTest(data=data):
+                p = package({"kit/frames/0.png": png(8, 8), "kit/frames/1.png": png(8, 8)})
+                p.spec["format"] = "hero-native"
+                normalized = supplied_sequences(p, "kit/manifest.json", data)
+                asset = Importer([p]).animation(
+                    p, "kit/manifest.json", normalized, "hero", kind="character"
+                )
+                clip = next(iter(asset["clips"].values()))["d45"]
+                self.assertEqual(clip["durationsMs"], [7 * 1000 / 60, 33 * 1000 / 60])
+                self.assertEqual(clip["loop"], "cycle" in data)
+                self.assertFalse(asset["mirroring"])
+                for frame in clip["frames"]:
+                    self.assertEqual(frame["canvas"], [8, 8])
+                    self.assertEqual(frame["anchor"], [4, 7])
+                    self.assertEqual(frame["density"], 145)
+
     def test_interaction_exports_preserve_registration_event_and_persistent_states(self):
         for schema in ("lantern-knight.sprite-clip.v1", "lantern_knight.sprite_animation.v1"):
             for standalone in (True, False):
                 with self.subTest(schema=schema, standalone=standalone):
                     files = {"kit/atlas.png": png(16, 8)}
                     if standalone:
-                        files.update({
-                            "kit/frames/0.png": png(8, 8),
-                            "kit/frames/1.png": png(8, 8),
-                            "kit/states/empty.png": png(8, 8),
-                        })
+                        files.update(
+                            {
+                                "kit/frames/0.png": png(8, 8),
+                                "kit/frames/1.png": png(8, 8),
+                                "kit/states/empty.png": png(8, 8),
+                            }
+                        )
                     p = package(files)
                     data = {
                         "schema": schema,
@@ -111,7 +157,10 @@ class ImportTests(unittest.TestCase):
         }
         p = package({"frame.png": png(8, 8)})
         asset = Importer([p]).animation(
-            p, "clip.json", supplied_sequences(p, "clip.json", data), "actor",
+            p,
+            "clip.json",
+            supplied_sequences(p, "clip.json", data),
+            "actor",
             defaults={"pixels_per_unit": 256},
         )
         self.assertEqual(asset["clips"]["move"]["d45"]["durationsMs"], [100])
@@ -301,8 +350,14 @@ class ImportTests(unittest.TestCase):
         self.assertEqual(clip["markers"][0]["atMs"], 466.66666666666663)
         self.assertEqual(clip["durationsMs"], durations)
         with self.assertRaisesRegex(ValueError, "event outside supplied timeline"):
-            importer.clip(asset, "invalid", "d45", [{}] * 6, durations,
-                          markers=[{**marker, "atMs": marker["atMs"] + 0.001}])
+            importer.clip(
+                asset,
+                "invalid",
+                "d45",
+                [{}] * 6,
+                durations,
+                markers=[{**marker, "atMs": marker["atMs"] + 0.001}],
+            )
 
     def test_dual_export_uses_local_frame_bounds_and_keeps_atlas_slices(self):
         p = package({"frame.png": png(8, 8), "atlas.png": png(16, 8)})

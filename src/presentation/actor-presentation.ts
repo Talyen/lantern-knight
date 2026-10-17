@@ -1,4 +1,5 @@
 import { footstepClip } from '../content/footsteps';
+import { heroTravelClip, isHeroLocomotion } from '../content/hero-locomotion';
 import { cleanupAll, cleanupAfterFailure, DisposalScope } from '../assets/cleanup';
 import * as T from 'three';
 import { contactShadowMaterial } from './contact-shadows';
@@ -39,6 +40,7 @@ export type Visual = {
   ring: T.Mesh;
   tag: string;
   heading: (typeof HEADINGS)[number];
+  travelHeading: (typeof HEADINGS)[number];
 };
 export class ActorPresentation {
   private visuals = new Map<ActorId, Visual & { identity: object; dispose(): void }>();
@@ -116,6 +118,7 @@ export class ActorPresentation {
         ring,
         tag: '',
         heading: 'd45' as const,
+        travelHeading: 'd45' as const,
         dispose: () => resources.dispose(),
       };
       // Register ownership before scene graph observers can throw or re-enter.
@@ -148,7 +151,11 @@ export class ActorPresentation {
     sweepTiming: SweepTiming = defaultSweepTiming,
     sweepRecovery: SweepRecovery = defaultSweepRecovery,
   ): Clip {
-    const clip = resolveActorClip(manifest, id, dir);
+    const clip =
+      isHeroLocomotion(id) && id !== 'walk'
+        ? manifest.asset.clips[id]?.[dir]
+        : resolveActorClip(manifest, id, dir);
+    if (!clip) throw new Error(`Missing hero locomotion ${id}/${dir}`);
     if (id === 'cast_lantern_flare' && manifest.asset.id === 'ink-hero-current')
       return retimeLanternClip(
         clip,
@@ -161,6 +168,7 @@ export class ActorPresentation {
         sweepRecovery,
         resolveClip(manifest, 'idle', dir).frames[0],
       );
+    if (id !== 'walk' && isHeroLocomotion(id)) return clip;
     return id === 'walk' && manifest.asset.id === 'ink-hero-current'
       ? footstepClip(
           timedWalk(
@@ -190,16 +198,21 @@ export class ActorPresentation {
           v.sprite.manifest.asset.viewMode === 'fixed-authored'
             ? ('d45' as const)
             : v.sprite.manifest.asset.viewMode === 'four-directional' ||
-                (v.sprite.manifest.asset.viewMode === 'mixed-directional' && a.state !== 'walk')
+                (v.sprite.manifest.asset.viewMode === 'mixed-directional' &&
+                  a.state !== 'walk' &&
+                  a.state !== 'idle')
               ? a.state === 'idle' || a.state === 'walk'
                 ? selectAuthoredDirection(a.yaw, v.heading)
                 : a.actionHeading
               : selectDirection(a.yaw, v.heading),
+        travelHeading = selectDirection(a.travelYaw, v.travelHeading),
         binding = actorVisuals[a.definition.visual]!,
         id =
           a.state === 'attack'
             ? binding.attacks[a.attackKind === 'lunge' ? 1 : 0]!
-            : binding.clips[a.state],
+            : a.kind === 'hero' && a.state === 'walk' && binding.asset === 'ink-hero-current'
+              ? heroTravelClip(travelHeading)
+              : binding.clips[a.state],
         tag = `${sim.generation}:${id}:${heading}:${a.action}`;
       const selectedClip = this.getClip(
         id,
@@ -212,13 +225,20 @@ export class ActorPresentation {
       if (tag !== v.tag || v.sprite.animator.clip !== selectedClip) {
         const old = v.sprite.animator.time,
           previous = v.sprite.animator.clip,
-          keepPhase = (a.state === 'walk' || a.state === 'idle') && v.tag.split(':')[1] === id;
+          previousId = v.tag.split(':')[1] ?? '',
+          keepPhase =
+            ((a.state === 'walk' || a.state === 'idle') && previousId === id) ||
+            (a.kind === 'hero' &&
+              a.state === 'walk' &&
+              isHeroLocomotion(previousId) &&
+              isHeroLocomotion(id));
         v.sprite.animator.start(selectedClip);
         if (keepPhase)
           v.sprite.animator.seek(
             previous === selectedClip ? old : remapWalkTime(previous, selectedClip, old),
           );
         v.tag = tag;
+        v.travelHeading = travelHeading;
         v.heading = v.sprite.manifest.asset.viewMode === 'fixed-authored' ? 'd45' : heading;
       }
       const clip = v.sprite.animator.clip;

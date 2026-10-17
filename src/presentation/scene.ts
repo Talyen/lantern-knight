@@ -31,7 +31,7 @@ export class Presentation extends GamePresentation {
   private rootMaterial: T.MeshBasicMaterial;
   overlayOwned: { dispose: () => void }[] = [];
   labTime = 0;
-  labClip = 'walk';
+  labClip = 'travel_d45';
   labHeading: (typeof HEADINGS)[number] = 'd45';
   labPaused = false;
   labSpeed = 1;

@@ -46,7 +46,7 @@ test('authored sun is fixed as the view moves and removing it restores the rig',
 
 test('lantern light follows displayed socket registration, stabilization and mirrored animation', () => {
   const manifest = manifestFixture();
-  manifest.asset.contentVersion = 'hero-directed-20261007-v03';
+  manifest.asset.contentVersion = 'hero-cursor-20261017-v01';
   const frame = manifest.frames[0]!;
   frame.attachments.lantern = [manifest.asset.anchor[0] + 20, manifest.asset.anchor[1] - 40];
   frame.visualOffsetPx = [10, -5];
@@ -95,7 +95,7 @@ test('lantern light follows displayed socket registration, stabilization and mir
 
 test('Lunge effect sockets follow enlarged and mirrored native blade drawings', () => {
   const manifest = manifestFixture();
-  manifest.asset.contentVersion = 'hero-directed-20261007-v03';
+  manifest.asset.contentVersion = 'hero-cursor-20261017-v01';
   const frame = manifest.frames[0]!;
   frame.id = 'lunge-d90-00';
   frame.visualOffsetPx = [10, -5];
