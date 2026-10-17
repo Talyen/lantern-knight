@@ -168,6 +168,15 @@ test('inventory compares replacements and forge keeps the choice and confirmatio
   await expect(page.locator('#hp')).toHaveText('60 / 120');
   await expect(panel.locator('[data-action="slot-trinket"]')).toContainText('Gatherer’s Seal');
   await expect(panel.locator('.inventory-row').filter({ hasText: 'Iron ×10' })).toBeVisible();
+  await page.setViewportSize({ width: 1280, height: 600 });
+  await panel.locator('[data-action="slot-sword"]').click();
+  const equipmentBounds = await panel.locator('.inventory-equipment').boundingBox();
+  expect(equipmentBounds!.height).toBeLessThanOrEqual(600);
+  await detail.getByRole('button', { name: 'Unequip', exact: true }).focus();
+  await expect(detail.getByRole('button', { name: 'Unequip', exact: true })).toBeInViewport({
+    ratio: 1,
+  });
+  await capture('inventory-short-1280');
   await page.keyboard.press('Escape');
   await expect(page.locator('canvas')).toBeFocused();
 });

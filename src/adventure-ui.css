@@ -675,7 +675,8 @@
     overflow: auto;
   }
   .adventure-panel .inventory-columns {
-    flex: 0 0 auto;
+    flex: 0 0 480px;
+    height: 480px;
     min-height: 480px;
   }
 }
