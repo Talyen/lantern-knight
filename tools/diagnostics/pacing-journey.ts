@@ -142,7 +142,8 @@ async function journey(flags: string[]) {
     const cdp = await page.context().newCDPSession(page);
     const resources: { loop: number; heap: unknown; processes: unknown }[] = [];
     let areaId = 'abandoned-orchard',
-      loops = 0;
+      loops = 0,
+      activeMs = 0;
     const began = performance.now();
     do {
       for (const destination of route) {
@@ -159,12 +160,20 @@ async function journey(flags: string[]) {
         // Loading is timed independently; the first resumed frame/actions belong
         // to this phase, with no warmup masking first-use work.
         await sample('arrival-actions', async () => {
-          await page.keyboard.down('KeyA');
-          await page.keyboard.press('Shift');
-          await page.mouse.click(600, 400, { button: 'right' });
-          await page.waitForTimeout(1000);
-          await page.keyboard.up('KeyA');
+          // The first loop proves all interactions. Subsequent cleared-area
+          // loops sustain actual movement/effects; loading never fills the
+          // requested fifteen-minute gameplay budget.
+          for (let step = 0; step < (soakMs > 0 && loops > 0 ? 20 : 1); step++) {
+            const key = ['KeyA', 'KeyW', 'KeyD', 'KeyS'][step % 4]!;
+            await page.keyboard.down(key);
+            await page.keyboard.press('Shift');
+            await page.mouse.click(600, 400, { button: 'right' });
+            await page.mouse.click(650, 420);
+            await page.waitForTimeout(1000);
+            await page.keyboard.up(key);
+          }
         });
+        activeMs += records.at(-1)!.frames.reduce((sum, ms) => sum + ms, 0);
         carried = parseGame(await controls.save(), content);
         assert.equal(carried.area, destination);
         checks.push(areaId + ' → ' + destination);
@@ -228,7 +237,7 @@ async function journey(flags: string[]) {
           app.getAppMetrics().map((m) => ({ type: m.type, memory: m.memory })),
         ),
       });
-    } while (performance.now() - began < soakMs);
+    } while (activeMs < soakMs);
     const environment = {
       ...(await desktopEnvironment(run)),
       ...(await page.evaluate(() => {
@@ -249,6 +258,7 @@ async function journey(flags: string[]) {
       environment,
       checks,
       loops,
+      activeMs,
       resources,
       elapsedMs: performance.now() - began,
       records: records.map((r) => ({
@@ -261,7 +271,7 @@ async function journey(flags: string[]) {
     });
     await requireGameBenchmarkPackage(run);
     console.log(
-      `Journey: ${checks.length} completed checks, ${loops} linked loops; ${Math.round((performance.now() - began) / 1000)} seconds.`,
+      `Journey: ${checks.length} completed checks, ${loops} linked loops; ${Math.round(activeMs / 1000)} active seconds, ${Math.round((performance.now() - began) / 1000)} seconds total.`,
     );
   });
 }
