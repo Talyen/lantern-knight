@@ -8,6 +8,7 @@ export const itemArt: Readonly<Record<string, string>> = {
   'damaged-helmet': 'library-lantern_drop_concept_08_watch_helm',
   'travellers-charm': 'library-lantern_ritual_prop_06_wax_seal_kit',
   'gatherers-seal': 'library-lantern_drop_concept_10_ashen_reliquary',
+  'cinder-signet': 'library-lantern_concept_item_15_ember_signet_ring',
   'orchard-ring': 'library-lantern_concept_item_15_ember_signet_ring',
   'vigil-amulet': 'library-lantern_concept_item_09_mourning_medallion',
   'leather-armor': 'library-artwork-ui-equipment-icons-v1',

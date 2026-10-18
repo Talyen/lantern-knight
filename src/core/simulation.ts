@@ -74,6 +74,9 @@ export class Simulation {
   get equipment() {
     return this.inventoryAccess.equipment;
   }
+  get ribLanes() {
+    return this.#combat.ribLanes;
+  }
   claimedObjects = new Set<string>();
   objectActions = new Map<string, number>();
   drops: GroundDrop[] = [];
@@ -172,6 +175,8 @@ export class Simulation {
         const attributes = kitAttributes(this.inventoryAccess.upgrades);
         return type === 'physical' ? attributes.edge : attributes.ember;
       },
+      equipment: () => this.inventoryAccess.equipment,
+      safePoint: (point) => this.encounter.safePoint(point),
       emit: (actor, details) => this.emit(actor, details),
       move: (actor, x, z) => this.move(actor, x, z),
       enemyHit: (actor) => {
@@ -207,6 +212,7 @@ export class Simulation {
       spawn = def.entries.find((e) => e.id === (entry ?? def.baselineEntry));
     if (!spawn) throw new Error('missing entry');
     this.movement.clear();
+    this.#combat.clear();
     this.collectedPickups.clear();
     this.claimedObjects.clear();
     this.objectActions.clear();
@@ -348,6 +354,9 @@ export class Simulation {
   start(a: Actor, state: State, yaw = a.aim) {
     this.#combat.start(a, state, yaw);
   }
+  cancelSpells() {
+    this.#combat.cancelSpells();
+  }
   startSword(a: Actor, kind = a.nextAttack) {
     this.#combat.startSword(a, kind);
   }
@@ -375,6 +384,7 @@ export class Simulation {
   step(input?: Command): StepResult {
     this.tick++;
     this.tickEvents.length = 0;
+    this.#combat.beginTick();
     const h = this.#hero;
     const maxHealth = this.maxHealth;
     const command = acceptCommand(input, this.generation, {
@@ -453,7 +463,8 @@ export class Simulation {
             a.aim = Math.atan2(h.x - a.x, h.z - a.z);
             if (intent.attack && !manual) {
               a.state = 'idle';
-              if (!this.movementPreview) this.start(a, 'attack');
+              this.movement.cancel(a.id);
+              if (!this.movementPreview && a.cooldown === 0) this.start(a, 'attack');
             } else this.follow(a, { kind: 'pursuit', target: h });
           } else if (intent.kind === 'home' || manual)
             this.follow(

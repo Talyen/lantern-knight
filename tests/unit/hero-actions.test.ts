@@ -205,7 +205,7 @@ test('enemy strikes use the same dodge invulnerability tick regardless of actor 
         enemy = s.enemies[0]!;
       Object.assign(enemy, { x: 0, z: 1.1, stun: 0, aim: Math.PI });
       s.start(enemy, 'attack');
-      enemy.age = enemy.definition.melee.windup;
+      enemy.age = enemy.definition.attack.windup;
       s.start(s.hero, 'dodge', Math.PI / 2);
       s.hero.age = age;
       if (reverse) s.actors.reverse();
@@ -219,7 +219,7 @@ test('enemy strikes use the same dodge invulnerability tick regardless of actor 
 
 test('sweep and lunge apply the accepted hero melee damage', () => {
   const definitions = structuredClone(contentDefinitions);
-  definitions.actors.find((a) => a.kind === 'hero')!.melee.damage = 7;
+  definitions.actors.find((a) => a.kind === 'hero')!.attack.damage = 7;
   for (const kind of ['sweep', 'lunge'] as const) {
     const s = new Simulation(new ContentRegistry(definitions));
     Object.assign(s.hero, { x: 0, z: 0, aim: Math.PI / 2 });

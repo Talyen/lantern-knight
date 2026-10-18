@@ -29,22 +29,25 @@ type Surface =
       startHeight: number;
       endHeight: number;
     };
-type MeleeDefinition = {
+type AttackTiming = {
   windup: number;
   activeEnd: number;
   total: number;
   range: number;
-  sweepRange?: number;
-  halfAngle: number;
   damage: number;
 };
+export type AttackDefinition = AttackTiming &
+  (
+    | { kind: 'melee'; sweepRange?: number; halfAngle: number }
+    | { kind: 'rib-lane'; length: number; width: number; cooldown: number }
+  );
 export type ActorDefinition = {
   id: string;
   kind: 'hero' | 'enemy';
   maxHealth: number;
   radius: number;
   speed: number;
-  melee: MeleeDefinition;
+  attack: AttackDefinition;
   visual: string;
   // Physical hits cannot interrupt this actor; the lantern pulse still can.
   poise?: boolean;
@@ -186,7 +189,16 @@ export class ContentRegistry {
     unique(definitions.actors, 'actor');
     unique(definitions.areas, 'area');
     for (const a of definitions.actors) {
-      finite(a.maxHealth, a.radius, a.speed, ...Object.values(a.melee));
+      finite(
+        a.maxHealth,
+        a.radius,
+        a.speed,
+        a.attack.windup,
+        a.attack.activeEnd,
+        a.attack.total,
+        a.attack.range,
+        a.attack.damage,
+      );
       if (
         !Number.isInteger(a.maxHealth) ||
         a.maxHealth <= 0 ||
@@ -196,19 +208,34 @@ export class ContentRegistry {
         !ids.test(a.visual)
       )
         fail(`invalid actor ${a.id}`);
-      const m = a.melee;
+      const m = a.attack;
       if (
         ![m.windup, m.activeEnd, m.total, m.damage].every(Number.isInteger) ||
         m.windup < 0 ||
         m.activeEnd <= m.windup ||
         m.total <= m.activeEnd ||
         m.range <= 0 ||
-        (m.sweepRange !== undefined && m.sweepRange <= 0) ||
-        m.halfAngle <= 0 ||
-        m.halfAngle > Math.PI ||
         m.damage <= 0
       )
-        fail(`invalid melee ${a.id}`);
+        fail(`invalid attack ${a.id}`);
+      if (m.kind === 'melee') {
+        finite(m.halfAngle, m.sweepRange ?? m.range);
+        if (
+          (m.sweepRange !== undefined && m.sweepRange <= 0) ||
+          m.halfAngle <= 0 ||
+          m.halfAngle > Math.PI
+        )
+          fail(`invalid melee ${a.id}`);
+      } else if (
+        m.kind !== 'rib-lane' ||
+        a.kind !== 'enemy' ||
+        m.length <= 0 ||
+        m.width <= 0 ||
+        !Number.isInteger(m.cooldown) ||
+        m.cooldown < m.total
+      )
+        fail(`invalid rib lane ${a.id}`);
+      if (m.kind === 'rib-lane') finite(m.length, m.width, m.cooldown);
       this.#actors.set(a.id, a);
     }
     if (this.actor(definitions.player).kind !== 'hero') fail('player must use a hero definition');

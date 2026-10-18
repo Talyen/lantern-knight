@@ -100,7 +100,9 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   await capture('forge-tool-cache');
   await page.keyboard.press('e');
   await page.getByRole('button', { name: `Collect Iron ×${ironAmount}`, exact: true }).click();
+  await page.getByRole('button', { name: 'Collect Cinder Signet', exact: true }).click();
   const collected = await saveCurrent();
+  expect(collected.adventure!.inventory['cinder-signet']).toBe(1);
   expect(collected.adventure!.inventory.iron).toBe(ironBefore + ironAmount);
   expect(collected.areas[forge.id]!.claimedObjects).toContain(tools.id);
   Object.assign(collected.player, forge.exits[0]!.marker);
@@ -148,6 +150,7 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   await page.keyboard.press('Escape');
   const rested = await saveCurrent();
   expect(rested.areas[forge.id]!.claimedObjects).toContain(tools.id);
+  expect(rested.adventure!.inventory['cinder-signet']).toBe(1);
   expect(rested.adventure!.inventory.iron).toBe(ironBefore + ironAmount);
   rested.player.health = 0;
   await restore(rested);
@@ -156,6 +159,7 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   const recovered = await saveCurrent();
   expect(recovered.area).toBe(forge.id);
   expect(recovered.areas[forge.id]!.claimedObjects).toContain(tools.id);
+  expect(recovered.adventure!.inventory['cinder-signet']).toBe(1);
   expect(recovered.adventure!.inventory.iron).toBe(ironBefore + ironAmount);
   await page.reload();
   await page.waitForFunction(

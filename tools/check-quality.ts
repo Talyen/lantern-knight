@@ -31,7 +31,9 @@ const largestPropScale = Math.max(
 );
 const largestCueScale = Math.max(
   1,
-  ...content.definitions.actors.filter((a) => a.kind === 'enemy').map((a) => a.melee.range / 2),
+  ...content.definitions.actors
+    .filter((a) => a.kind === 'enemy' && a.attack.kind === 'melee')
+    .map((a) => a.attack.range / 2),
 );
 const cases = Object.keys(assetCatalog)
   .filter((id) => id.startsWith('ink-'))
