@@ -9,12 +9,12 @@ import { tuning, attackDefinition } from '../../src/content/gameplay';
 import { burningSwordBonus } from '../../src/content/items';
 import { GameSession } from '../../src/core/session';
 import { content, gameScenes } from '../../src/content/game-content';
-import { combatFeedback } from '../../src/content/combat-feedback';
+import { ribLaneEffect } from '../../src/content/combat-feedback';
 import { StorageCodec } from '../../src/platform/storage-codec';
 
 const idle = { move: { x: 0, z: 0 }, aim: { x: 1, z: 0 } };
 test('only areas with a caster acquire rib artwork', () => {
-  const asset = combatFeedback.ribLane.asset;
+  const asset = ribLaneEffect.asset;
   assert.equal(gameScenes.initialAssets.includes(asset), false);
   for (const area of content.definitions.areas)
     assert.equal(gameScenes.area(area.id).assets.includes(asset), area.id === 'ruined-forge');

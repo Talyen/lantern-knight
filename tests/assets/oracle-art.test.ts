@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readAsset } from '../../tools/assets/io';
 import { parseManifest, resolveActorClip } from '../../src/assets/schema';
 import { actorVisuals } from '../../src/content/visuals';
-import { combatFeedback } from '../../src/content/combat-feedback';
+import { ribLaneEffect } from '../../src/content/combat-feedback';
 
 test('supplied Oracle headings retain cast release and the rib lane retains its contact marker', async () => {
   const binding = actorVisuals['candlebone-oracle']!;
@@ -22,10 +22,7 @@ test('supplied Oracle headings retain cast release and the rib lane retains its 
   }
   const lane = parseManifest(
     JSON.parse(
-      await readAsset(
-        `public/generated/library/${combatFeedback.ribLane.asset}/manifest.json`,
-        'utf8',
-      ),
+      await readAsset(`public/generated/library/${ribLaneEffect.asset}/manifest.json`, 'utf8'),
     ),
   );
   assert.deepEqual(lane.asset.canvas, [512, 384]);

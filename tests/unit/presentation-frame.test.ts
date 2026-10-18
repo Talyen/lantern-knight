@@ -31,7 +31,11 @@ import { CombatFeedback } from '../../src/presentation/combat-feedback';
 import {
   combatFeedback as feedbackSettings,
   combatEffectAssets,
+  ribLaneEffect,
+  type CombatEffectBinding,
 } from '../../src/content/combat-feedback';
+import { attackDefinition, tuning } from '../../src/content/gameplay';
+
 import { lanePoint, ribLaneAttack } from '../../src/content/rib-lane';
 import { cameraContract } from '../../src/assets/camera-contract';
 import { makeCamera } from '../../src/presentation/camera';
@@ -43,7 +47,7 @@ test('room-specific rib representatives retire before their pack is released', (
     string,
     { manifest: typeof manifest; textures: Map<string, CanvasTexture> }
   >(
-    [...combatEffectAssets, feedbackSettings.ribLane.asset].map((asset) => [
+    [...combatEffectAssets, ribLaneEffect.asset].map((asset) => [
       asset,
       { manifest, textures: new Map([['atlas-0', texture]]) },
     ]),
@@ -54,7 +58,7 @@ test('room-specific rib representatives retire before their pack is released', (
     assert.equal(feedback.group.children.length, combatEffectAssets.length + 1);
     let disposed = 0;
     (feedback.group.children.at(-1) as Mesh).geometry.addEventListener('dispose', () => disposed++);
-    packs.delete(feedbackSettings.ribLane.asset);
+    packs.delete(ribLaneEffect.asset);
     feedback.reset();
     assert.equal(disposed, 1);
     assert.equal(feedback.group.children.length, combatEffectAssets.length);
@@ -68,7 +72,7 @@ test('room-specific rib representatives retire before their pack is released', (
 
 test('rib artwork endpoints match the locked ground footprint and retire on cancellation', () => {
   const texture = new CanvasTexture({} as HTMLCanvasElement);
-  const manifest = manifestFixture(feedbackSettings.ribLane.asset);
+  const manifest = manifestFixture(ribLaneEffect.asset);
   Object.assign(manifest.asset, {
     canvas: [512, 384],
     density: 256,
@@ -87,9 +91,7 @@ test('rib artwork endpoints match the locked ground footprint and retire on canc
     },
   };
   const feedback = new CombatFeedback(
-    new Map([
-      [feedbackSettings.ribLane.asset, { manifest, textures: new Map([['atlas-0', texture]]) }],
-    ]),
+    new Map([[ribLaneEffect.asset, { manifest, textures: new Map([['atlas-0', texture]]) }]]),
     makeCamera(1),
     new EventHub(),
   );
@@ -675,11 +677,14 @@ function impactFixture(t: import('node:test').TestContext, reducedMotion = false
         const manifest = manifestFixture(asset);
         manifest.asset.type = 'effect';
         const clip = manifest.asset.clips.idle!.d45!;
-        manifest.asset.clips[feedbackSettings.contact.clip] = { d45: clip };
-        for (const heading of HEADINGS)
-          manifest.asset.clips[`sword_finisher_03__d${heading.slice(1).padStart(3, '0')}`] = {
-            d45: clip,
-          };
+        for (const binding of Object.values(feedbackSettings) as readonly CombatEffectBinding[]) {
+          manifest.asset.clips[binding.clip] = { d45: clip };
+          if (binding.directional)
+            for (const heading of HEADINGS)
+              manifest.asset.clips[`${binding.clip}__d${heading.slice(1).padStart(3, '0')}`] = {
+                d45: clip,
+              };
+        }
         return [asset, { manifest, textures: new Map([['atlas-0', texture]]) }] as const;
       }),
     ),
@@ -694,7 +699,7 @@ function impactFixture(t: import('node:test').TestContext, reducedMotion = false
     fixture.update();
     feedback.update(fixture.sim.view, 1, undefined, fixture.presentation.actors);
   };
-  return { ...fixture, hub, feedback, render };
+  return { ...fixture, hub, feedback, render, packs };
 }
 
 test('direct hits react on either side without moving combat bodies, settle, and do not replay for Burn', (t) => {
@@ -850,4 +855,124 @@ test('Flare impact weight is independent of the previous sword attack', (t) => {
   }
   assert.ok(strengths[0]! > 0);
   assert.equal(strengths[0], strengths[1]);
+});
+
+test('directional library trails use their authored world heading without a camera offset', (t) => {
+  const { sim, feedback, render } = impactFixture(t);
+  render();
+  for (let direction = 0; direction < 8; direction++) {
+    feedback.reset();
+    sim.hero.aim = (direction * Math.PI) / 4;
+    sim.startSword(sim.hero, 'sweep');
+    sim.tick = sim.hero.age = attackDefinition(sim.hero).windup;
+    feedback.update(sim.view, 1);
+    const trail = feedback.group.children.find(
+      (mesh) => mesh.userData.asset === feedbackSettings.sweepEdge.asset,
+    );
+    assert.equal(trail?.userData.clip, `sword_arc_02__d${String(direction * 45).padStart(3, '0')}`);
+  }
+});
+
+test('the dodge wake follows interpolated travel and stops borrowing a retired action', (t) => {
+  const { sim, feedback } = impactFixture(t);
+  sim.actors = [sim.hero];
+  for (const retirement of ['action', 'death'] as const) {
+    feedback.reset();
+    sim.actors = [sim.hero];
+    Object.assign(sim.hero, { x: 0, px: 0, z: 0, pz: 0, health: 100 });
+    sim.start(sim.hero, 'dodge', Math.PI / 2);
+    sim.tick += tuning.dodge.travelStart + 1;
+    sim.hero.age = tuning.dodge.travelStart + 1;
+    feedback.update(sim.view, 1);
+    const wake = feedback.group.children.find((mesh) => mesh.name === 'combat-dodge');
+    assert.ok(wake);
+    assert.equal(wake.userData.clip, 'dash_wake__d090');
+    assert.equal(feedback.group.children.length, 1, 'the default dodge has no leaves layer');
+    const initial = wake.position.clone();
+    sim.tick++;
+    sim.hero.age++;
+    sim.hero.x = 1;
+    feedback.update(sim.view, 0.5);
+    assert.ok(Math.abs(wake.position.x - initial.x - 0.5) < 1e-8);
+    assert.equal(wake.position.z, initial.z);
+    const released = wake.position.clone();
+    if (retirement === 'action') sim.start(sim.hero, 'idle');
+    else sim.hero.health = 0;
+    sim.hero.x = 5;
+    sim.tick++;
+    feedback.update(sim.view, 1);
+    assert.deepEqual(wake.position, released, retirement);
+    sim.tick += 20;
+    feedback.update(sim.view, 1);
+    assert.equal(wake.parent, null, 'the released wake retires its drawing');
+  }
+});
+
+test('supplied contact markers meet the damage tick, and interrupted formations cannot release', (t) => {
+  const { sim, hub, feedback, presentation, render: renderActors, packs } = impactFixture(t);
+  renderActors();
+  const render = () => feedback.update(sim.view, 1, undefined, presentation.actors);
+  const pack = packs.get(feedbackSettings.sweep.asset)!;
+  const textures = [0, 1, 2].map(() => new CanvasTexture({} as HTMLCanvasElement));
+  t.after(() => textures.forEach((texture) => texture.dispose()));
+  pack.manifest.frames = textures.map((_, index) => ({
+    ...pack.manifest.frames[0]!,
+    id: `cel-${index}`,
+    page: `cel-${index}`,
+  }));
+  pack.manifest.pages = textures.map((_, index) => ({
+    ...pack.manifest.pages[0]!,
+    id: `cel-${index}`,
+  }));
+  textures.forEach((texture, index) => pack.textures.set(`cel-${index}`, texture));
+  pack.manifest.asset.clips.show = {
+    d45: {
+      frames: ['cel-0', 'cel-1', 'cel-2'],
+      durationsMs: [160, 90, 150],
+      markers: [{ id: 'contact', atMs: 160 }],
+      notifies: [],
+      loop: false,
+    },
+  };
+  sim.startSword(sim.hero, 'sweep');
+  sim.tick = 8;
+  sim.hero.age = 8;
+  render();
+  const effect = feedback.group.children.find(
+    (mesh) => mesh.userData.asset === feedbackSettings.sweep.asset,
+  ) as Mesh<PlaneGeometry, MeshBasicMaterial>;
+  assert.ok(effect);
+  assert.equal(effect.material.map, textures[0]);
+  sim.tick = 11;
+  sim.hero.age = 11;
+  feedback.update(sim.view, 0.5, undefined, presentation.actors);
+  assert.equal(effect.material.map, textures[0], 'the formation remains before the committed tick');
+  feedback.update(sim.view, 1, undefined, presentation.actors);
+  assert.equal(
+    effect.material.map,
+    textures[1],
+    'the supplied contact drawing begins on the damage tick',
+  );
+  assert.equal(
+    sim.enemies[0]!.health,
+    sim.enemies[0]!.definition.maxHealth,
+    'animation cannot commit damage',
+  );
+  feedback.reset();
+  const enemy = sim.enemies[0]!;
+  sim.start(enemy, 'attack');
+  enemy.age = enemy.definition.attack.windup - 5;
+  render();
+  assert.ok(feedback.group.children.some((mesh) => mesh.name === 'combat-enemy-swing'));
+  sim.start(enemy, 'hurt');
+  render();
+  assert.equal(
+    feedback.group.children.filter((mesh) => mesh.name === 'combat-enemy-swing').length,
+    0,
+  );
+  sim.start(sim.hero, 'idle');
+  hub.publish([sim.emit(enemy, { kind: 'strike' })]);
+  feedback.reset();
+  render();
+  assert.equal(feedback.group.children.length, 0);
 });

@@ -8,7 +8,7 @@ import { resolveScene } from './world-art';
 import { contentSnapshot, type ContentSnapshot } from './snapshot';
 import { ContentRegistry, type ContentDefinitions } from './world';
 import { sceneAssets, validateAreaArt, type WorldVisualDefinition } from './world-visuals';
-import { combatFeedback, combatEffectAssets } from './combat-feedback';
+import { ribLaneEffect, combatEffectAssets } from './combat-feedback';
 import { visualEffectsAssets } from './visual-effects-assets';
 import type { AreaDefinition } from './world';
 import type { Manifest } from '../assets/schema';
@@ -68,7 +68,7 @@ export function composeSceneContent(
               ...(area.spawns.some(
                 (spawn) => registry.actor(spawn.actor).attack.kind === 'rib-lane',
               )
-                ? [combatFeedback.ribLane.asset]
+                ? [ribLaneEffect.asset]
                 : []),
               ...area.spawns.map(
                 (spawn) => actorVisuals[registry.actor(spawn.actor).visual]!.asset,
