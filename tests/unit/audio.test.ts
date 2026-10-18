@@ -487,8 +487,10 @@ test('movement foley requires traveled distance, not idle animation or frozen fr
   hero.state = 'walk';
   feedback.frame(sim, false);
   assert.equal(calls.length, 0);
-  hero.x += 0.7;
-  feedback.frame(sim, false);
+  for (let i = 0; i < 7; i++) {
+    hero.x += 0.1;
+    feedback.frame(sim, false);
+  }
   assert.ok(calls.includes('step-stone'));
   const before = calls.length;
   hero.x += 0.7;
