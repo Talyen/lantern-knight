@@ -32,6 +32,7 @@ export type StepResult = {
   onboardingChanged?: boolean;
   reset?: 'death';
 };
+const emptyEvents: readonly GameplayEvent[] = Object.freeze([]);
 export class Simulation {
   readonly #view = simulationView(this);
   get view() {
@@ -76,10 +77,15 @@ export class Simulation {
   get maxHealth() {
     return this.hero.definition.maxHealth + this.inventoryAccess.healthBonus;
   }
+  private defeatedIds(): Set<string> {
+    const defeated = new Set<string>();
+    for (const actor of this.actors) if (actor.health === 0) defeated.add(actor.id);
+    return defeated;
+  }
   guardsDefeated(ids: readonly string[] = []) {
-    return ids.every(
-      (id) => this.actors.find((a) => a.id === spawnActorId(this.area, id))?.health === 0,
-    );
+    if (!ids.length) return true;
+    const defeated = this.defeatedIds();
+    return ids.every((id) => defeated.has(spawnActorId(this.area, id)));
   }
   exitAvailable(id: string) {
     const e = this.areaDefinition.exits.find((e) => e.id === id);
@@ -185,7 +191,7 @@ export class Simulation {
     if (areaState) this.restoreAreaState(areaState);
   }
   get events(): readonly GameplayEvent[] {
-    return Object.freeze([...this.tickEvents]);
+    return this.tickEvents.length ? Object.freeze(this.tickEvents.slice()) : emptyEvents;
   }
   get areaDefinition() {
     return this.registry.area(this.area);
@@ -457,18 +463,19 @@ export class Simulation {
       a.age++;
       a.stun = Math.max(0, a.stun - 1);
     }
-    const living = this.actors.filter((actor) => actor.health > 0);
-    for (let i = 0; i < living.length; i++)
-      for (let j = i + 1; j < living.length; j++) {
-        const a = living[i]!,
-          b = living[j]!;
+    const actors = this.actors;
+    for (let i = 0; i < actors.length; i++)
+      for (let j = i + 1; j < actors.length; j++) {
+        const a = actors[i]!,
+          b = actors[j]!;
+        if (a.health <= 0 || b.health <= 0) continue;
         if (Math.abs(a.y - b.y) > tuning.maxCombatHeightDifference) continue;
         const dx = b.x - a.x,
           dz = b.z - a.z,
           distanceSquared = dx * dx + dz * dz,
           r = a.definition.radius + b.definition.radius;
         if (distanceSquared < r * r) {
-          const d = Math.hypot(dx, dz);
+          const d = Math.sqrt(distanceSquared);
           // Coincident authored spawns need a stable separation direction too.
           const nx = d > 1e-8 ? dx / d : 1,
             nz = d > 1e-8 ? dz / d : 0,
@@ -478,7 +485,8 @@ export class Simulation {
         }
       }
     const wasCleared = this.cleared;
-    if (h.health > 0 && h.health < this.maxHealth && !this.movementPreview)
+    const maxHealth = this.hero.definition.maxHealth + this.inventoryAccess.healthBonus;
+    if (h.health > 0 && h.health < maxHealth && !this.movementPreview)
       for (const pickup of this.areaDefinition.pickups ?? []) {
         if (this.collectedPickups.has(pickup.id)) continue;
         const dx = h.x - pickup.x,
@@ -490,24 +498,34 @@ export class Simulation {
           !clearSegment(this.areaDefinition, h, pickup, 0.001)
         )
           continue;
-        const amount = Math.min(pickup.amount, this.maxHealth - h.health);
+        const amount = Math.min(pickup.amount, maxHealth - h.health);
         h.health += amount;
         this.collectedPickups.add(pickup.id);
         this.emit(h, { kind: 'health-pickup', amount });
-        if (h.health >= this.maxHealth) break;
+        if (h.health >= maxHealth) break;
       }
-    this.cleared = !living.some((actor) => actor.kind === 'enemy');
-    if (
-      h.health > 0 &&
-      this.cleared &&
-      !wasCleared &&
-      this.actors.some((actor) => actor.kind === 'enemy')
-    )
+    let cleared = true,
+      hasEnemy = false;
+    for (const actor of actors)
+      if (actor.kind === 'enemy') {
+        hasEnemy = true;
+        if (actor.health > 0) {
+          cleared = false;
+          break;
+        }
+      }
+    this.cleared = cleared;
+    if (h.health > 0 && this.cleared && !wasCleared && hasEnemy)
       this.emit(h, { kind: 'room-clear' });
+    // Guard checks share one defeated set instead of scanning actors per exit.
+    const defeated = this.defeatedIds();
     const exit =
       h.health > 0 && !this.movementPreview
         ? this.areaDefinition.exits.find((e) => {
-            if (e.explicit || !contains(e.trigger, h) || !this.exitAvailable(e.id)) return false;
+            if (e.explicit || !contains(e.trigger, h)) return false;
+            if (e.requiresClear && !this.cleared) return false;
+            if (!(e.guards ?? []).every((id) => defeated.has(spawnActorId(this.area, id))))
+              return false;
             const bounds = this.areaDefinition.bounds;
             // Boundary markers may sit beyond the walkable room. Keep the contact ray inside it.
             const marker = {
@@ -522,7 +540,7 @@ export class Simulation {
           })
         : undefined;
     return {
-      events: Object.freeze([...this.tickEvents]),
+      events: this.tickEvents.length ? Object.freeze(this.tickEvents.slice()) : emptyEvents,
       ...(exit ? { transition: exit.id } : {}),
     };
   }

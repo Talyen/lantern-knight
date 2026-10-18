@@ -3,7 +3,7 @@ import { overlayLine, clearOverlay } from '../presentation/overlay-lines';
 import type { EditorSnapshot } from './document';
 import { sceneBytesLimit } from '../content/scene-document';
 import { editorError } from './errors';
-import { readUntilAborted } from '../abort';
+import { readUntilAborted } from '../assets/abort';
 import {
   parseSceneDocument,
   parseSceneFragment,

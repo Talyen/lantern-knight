@@ -3,7 +3,7 @@ import { cleanupAll, cleanupAfterFailure } from '../assets/cleanup';
 import { ResourcePool } from '../assets/resource-pool';
 import { BitmapTexture } from './bitmap-texture';
 import { verifiedBitmap } from '../assets/bitmap';
-import { readUntilAborted } from '../abort';
+import { readUntilAborted } from '../assets/abort';
 import { DecodeQueue } from '../assets/decode-queue';
 import type { ActorSprite } from './sprite';
 

@@ -17,6 +17,8 @@ export const outward = new Vector3(
 );
 export const right = new Vector3(Math.cos(a), 0, -Math.sin(a));
 export const up = new Vector3().crossVectors(outward, right);
+// Horizontal camera-ground direction reused per clamp; avoids a clone per frame.
+const cameraGroundUp = up.clone().addScaledVector(outward, -up.y / outward.y);
 export function makeCamera(aspect: number, target = new Vector3()) {
   const h = contract.verticalSpan / 2;
   const camera = new OrthographicCamera(-h * aspect, h * aspect, h, -h, 0.1, 100);
@@ -91,7 +93,8 @@ export function constrainCamera(
   if (!polygon.length) {
     let low = frameHero ? minimum : 0,
       high = 1;
-    for (let i = 0; i < 40; i++) {
+    // 2^-24 resolves scale well past pixel precision; each pass rebuilds clips.
+    for (let i = 0; i < 24; i++) {
       const mid = (low + high) / 2;
       if (inset(mid, frameHero).length) low = mid;
       else high = mid;
@@ -115,10 +118,7 @@ export function constrainCamera(
     }
   }
   target.addScaledVector(right, closest.x - desired.x);
-  target.addScaledVector(
-    up.clone().addScaledVector(outward, -up.y / outward.y),
-    closest.z - desired.z,
-  );
+  target.addScaledVector(cameraGroundUp, closest.z - desired.z);
 }
 export function drawingBufferSize(
   width: number,

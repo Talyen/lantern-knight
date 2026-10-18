@@ -1,5 +1,5 @@
 import { Texture } from 'three';
-import { readUntilAborted } from '../abort';
+import { readUntilAborted } from '../assets/abort';
 import { cleanupAll, cleanupAfterFailure } from '../assets/cleanup';
 
 // A single immutable companion per renderer lifetime. Callers borrow the texture.

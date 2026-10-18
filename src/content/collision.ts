@@ -20,22 +20,32 @@ export function boundaryContains(points: readonly Point[], p: Point, radius = 0)
   return points.every((a, i) => {
     const b = points[(i + 1) % points.length]!,
       dx = b.x - a.x,
-      dz = b.z - a.z;
-    return (dx * (p.z - a.z) - dz * (p.x - a.x)) / Math.hypot(dx, dz) >= radius - 1e-8;
+      dz = b.z - a.z,
+      length = Math.hypot(dx, dz);
+    // Duplicate boundary points carry no edge; they must not reject the position.
+    if (length < 1e-9) return true;
+    return (dx * (p.z - a.z) - dz * (p.x - a.x)) / length >= radius - 1e-8;
   });
 }
 export function clampToBoundary(points: readonly Point[], p: Point, radius: number): Point {
   if (boundaryContains(points, p, radius)) return p;
-  const edges = points.map((a, i) => {
-    const b = points[(i + 1) % points.length]!,
+  const edges: { x: number; z: number; d: number }[] = [];
+  for (let i = 0; i < points.length; i++) {
+    const a = points[i]!,
+      b = points[(i + 1) % points.length]!,
       dx = b.x - a.x,
       dz = b.z - a.z,
       length = Math.hypot(dx, dz);
-    return { x: -dz / length, z: dx / length, d: (-dz * a.x + dx * a.z) / length + radius };
-  });
+    if (length < 1e-9) continue;
+    edges.push({ x: -dz / length, z: dx / length, d: (-dz * a.x + dx * a.z) / length + radius });
+  }
+  if (!edges.length) return p;
   const inset = edges.map((b, i) => {
     const a = edges[(i + edges.length - 1) % edges.length]!,
       det = a.x * b.z - a.z * b.x;
+    // Collinear boundary points yield parallel inset lines; any point on the
+    // line keeps the clamp bounded instead of producing NaN.
+    if (Math.abs(det) < 1e-12) return { x: b.x * b.d, z: b.z * b.d };
     return { x: (a.d * b.z - a.z * b.d) / det, z: (a.x * b.d - a.d * b.x) / det };
   });
   let closest = p,
@@ -82,7 +92,9 @@ function collisionShape(p: PropDefinition): Shape {
   cached = points
     ? { points, ...polygonBounds(points) }
     : { minX: p.x - p.radius, maxX: p.x + p.radius, minZ: p.z - p.radius, maxZ: p.z + p.radius };
-  if (Object.isFrozen(p)) shapes.set(p, cached);
+  // Area geometry is immutable for a session; cache by identity so per-tick
+  // collision avoids rebuilding trig and bounds for every prop.
+  shapes.set(p, cached);
   return cached;
 }
 export function isSupportedPosition(area: AreaDefinition, p: Point, radius: number) {
@@ -129,69 +141,60 @@ export function supportedPosition(area: AreaDefinition, p: Point, radius: number
   for (let pass = 0; pass < 3; pass++)
     for (const prop of area.props) {
       if (prop.blocking === false) continue;
-      if (prop.shape === 'polygon' && prop.polygon) {
-        const points = prop.polygon,
-          inside = insidePolygon({ x, z }, points),
-          signed = points.reduce((a, p, i) => {
-            const q = points[(i + 1) % points.length]!;
-            return a + p.x * q.z - q.x * p.z;
-          }, 0),
-          candidates = [];
+      // Boxes are rotated rectangles; their cached corners run the same
+      // nearest-edge correction as authored polygons.
+      const points =
+        prop.shape === 'polygon'
+          ? prop.polygon
+          : prop.shape === 'box' && prop.size
+            ? collisionShape(prop).points
+            : undefined;
+      if (points) {
+        const inside = insidePolygon({ x, z }, points);
+        let signed = 0;
+        for (let i = 0; i < points.length; i++) {
+          const a = points[i]!,
+            b = points[(i + 1) % points.length]!;
+          signed += a.x * b.z - b.x * a.z;
+        }
+        const sign = signed < 0 ? 1 : -1;
+        let bestX = x,
+          bestZ = z,
+          bestD = Infinity;
         for (let i = 0; i < points.length; i++) {
           const a = points[i]!,
             b = points[(i + 1) % points.length]!,
             dx = b.x - a.x,
             dz = b.z - a.z,
-            l = Math.hypot(dx, dz),
-            t = Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.z) * dz) / (l * l))),
+            lSquared = dx * dx + dz * dz;
+          if (lSquared < 1e-18) continue;
+          const l = Math.sqrt(lSquared),
+            t = Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.z) * dz) / lSquared)),
             qx = a.x + dx * t,
             qz = a.z + dz * t,
-            d = Math.hypot(x - qx, z - qz),
-            sign = signed < 0 ? 1 : -1;
+            d = Math.hypot(x - qx, z - qz);
           if (!inside && d >= radius) continue;
           const nx = inside || d < 1e-9 ? (-dz / l) * sign : (x - qx) / Math.max(d, 1e-9),
             nz = inside || d < 1e-9 ? (dx / l) * sign : (z - qz) / Math.max(d, 1e-9),
-            candidate = { x: qx + nx * (radius + 0.001), z: qz + nz * (radius + 0.001) };
+            cx = qx + nx * (radius + 0.001),
+            cz = qz + nz * (radius + 0.001);
           if (
-            candidate.x >= area.bounds.minX + radius &&
-            candidate.x <= area.bounds.maxX - radius &&
-            candidate.z >= area.bounds.minZ + radius &&
-            candidate.z <= area.bounds.maxZ - radius &&
-            !insidePolygon(candidate, points)
+            cx < area.bounds.minX + radius ||
+            cx > area.bounds.maxX - radius ||
+            cz < area.bounds.minZ + radius ||
+            cz > area.bounds.maxZ - radius ||
+            insidePolygon({ x: cx, z: cz }, points)
           )
-            candidates.push({ ...candidate, d: Math.hypot(candidate.x - x, candidate.z - z) });
+            continue;
+          const cd = Math.hypot(cx - x, cz - z);
+          if (cd < bestD) {
+            bestD = cd;
+            bestX = cx;
+            bestZ = cz;
+          }
         }
-        if (candidates.length) {
-          candidates.sort((a, b) => a.d - b.d);
-          x = candidates[0]!.x;
-          z = candidates[0]!.z;
-        }
-      } else if (prop.shape === 'box' && prop.size) {
-        const hx = prop.size[0] / 2,
-          hz = prop.size[1] / 2,
-          c = Math.cos(prop.rotation ?? 0),
-          s = Math.sin(prop.rotation ?? 0),
-          wx = x - prop.x,
-          wz = z - prop.z,
-          dx = wx * c + wz * s,
-          dz = -wx * s + wz * c;
-        const qx = Math.max(-hx, Math.min(hx, dx)),
-          qz = Math.max(-hz, Math.min(hz, dz));
-        const vx = dx - qx,
-          vz = dz - qz,
-          d = Math.hypot(vx, vz);
-        if (d > 0 && d < radius) {
-          const shift = (radius - d) / d;
-          x += (vx * c - vz * s) * shift;
-          z += (vx * s + vz * c) * shift;
-        } else if (d === 0) {
-          let lx = dx,
-            lz = dz;
-          if (hx - Math.abs(dx) < hz - Math.abs(dz)) lx = (dx < 0 ? -1 : 1) * (hx + radius);
-          else lz = (dz < 0 ? -1 : 1) * (hz + radius);
-          x = prop.x + lx * c - lz * s;
-          z = prop.z + lx * s + lz * c;
-        }
+        x = bestX;
+        z = bestZ;
       } else {
         let dx = x - prop.x,
           dz = z - prop.z,

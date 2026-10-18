@@ -14,7 +14,6 @@
     "tools/check-assets.ts",
     "tools/check-docs.ts",
     "tools/check-repository.ts",
-    "tools/check-source-assets.ts",
     "tools/format.ts",
     "tools/diagnostics/game-benchmark.ts",
     "tools/diagnostics/pacing-benchmark.ts",
