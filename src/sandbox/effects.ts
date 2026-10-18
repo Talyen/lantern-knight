@@ -4,11 +4,11 @@ import { AssetRuntime } from '../assets/loader';
 import { bindAssetPicker } from './asset-picker';
 import { mountShell } from './shell';
 import type { PreviewContext, EffectsState } from './workspace';
-import { supportedPosition, heightAt } from '../content/world';
+import { heightAt, ContentRegistry } from '../content/world';
+import { supportedPosition } from '../content/collision';
 import { assetPickerUI, previewHUD } from './ui';
 import { LoadingScreen } from '../loading-screen';
 import { Application } from '../application';
-import { ContentRegistry } from '../content/world';
 import { EffectsPlayground } from '../presentation/effects-playground';
 import { EffectsPresentation } from './effects-presentation';
 import {

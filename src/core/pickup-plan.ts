@@ -1,5 +1,6 @@
 import { heightAt } from '../content/world';
-import { Navigation, effectiveRadius } from './navigation';
+import { Navigation } from './navigation';
+import { effectiveRadius } from '../content/collision';
 import { canReachInteraction, interactionTarget } from './interaction';
 import type { Simulation, Command } from './simulation';
 import { acceptCommand } from './command';

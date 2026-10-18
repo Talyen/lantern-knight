@@ -30,10 +30,12 @@ test('review authored occluders from reachable front and behind positions', asyn
   const report = await page.evaluate(async () => {
     const floorPath = '/src/content/floor-layout.ts',
       navigationPath = '/src/core/navigation.ts',
+      collisionPath = '/src/content/collision.ts',
       depthPath = '/src/presentation/ground-occlusion.ts',
       cameraPath = '/src/presentation/camera.ts';
     const { artworkFloorLayout } = await import(floorPath),
-      { Navigation, clearSegment } = await import(navigationPath),
+      { Navigation } = await import(navigationPath),
+      { clearSegment } = await import(collisionPath),
       { regionDepth, GroundOcclusion } = await import(depthPath),
       { outward } = await import(cameraPath),
       view = window.sceneEditor.view(),

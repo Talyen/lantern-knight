@@ -5,7 +5,6 @@ import {
   sweepCircle,
 } from '../content/collision';
 import type { AreaDefinition, Point } from '../content/world';
-export { effectiveRadius, clearSegment } from '../content/collision';
 const epsilon = 1e-6;
 export function moveSupported(
   area: AreaDefinition,

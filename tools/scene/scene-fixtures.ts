@@ -1,5 +1,5 @@
 import type { Point } from '../../src/content/world';
-import { isSupportedPosition, supportedPosition } from '../../src/content/world';
+import { isSupportedPosition, supportedPosition } from '../../src/content/collision';
 import { sandboxContent } from '../../src/content/sandbox-world';
 import { developerVisuals as worldVisuals } from '../../src/content/developer-scenes';
 

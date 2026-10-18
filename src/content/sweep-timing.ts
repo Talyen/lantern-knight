@@ -5,7 +5,6 @@ type Preset = {
   description: string;
   ticks?: Record<AuthoredHeading, readonly number[]>;
   damage?: readonly [number, number];
-  effect?: { lead: number; hold: number; tail: number };
 };
 export const sweepTimingPresets = {
   baseline: {
@@ -22,7 +21,6 @@ export const sweepTimingPresets = {
       d180: [1, 2, 2, 7, 2, 4, 5, 7, 6, 6],
     },
     damage: [12, 18],
-    effect: { lead: 6, hold: 1, tail: 5 },
   },
   weight: {
     label: 'B · Weight · 250 / 800 ms',
@@ -34,7 +32,6 @@ export const sweepTimingPresets = {
       d180: [1, 2, 3, 9, 4, 2, 6, 8, 7, 6],
     },
     damage: [15, 21],
-    effect: { lead: 8, hold: 3, tail: 6 },
   },
   quick: {
     label: 'C · Quick · 167 / 600 ms',
@@ -46,7 +43,6 @@ export const sweepTimingPresets = {
       d180: [1, 1, 2, 6, 2, 4, 4, 6, 5, 5],
     },
     damage: [10, 16],
-    effect: { lead: 4, hold: 0, tail: 6 },
   },
 } as const satisfies Record<string, Preset>;
 export type SweepTiming = keyof typeof sweepTimingPresets;
@@ -62,18 +58,6 @@ for (const [id, preset] of Object.entries(sweepTimingPresets)) {
 }
 export function sweepTimingOverride(timing: SweepTiming, heading: AuthoredHeading) {
   return timingOverrides.get(`${timing}:${heading}`);
-}
-export function sweepEffectTiming(timing: SweepTiming) {
-  const recipe: Preset = sweepTimingPresets[timing];
-  return recipe.effect;
-}
-export function sweepEffectPhase(timing: SweepTiming, elapsedMs: number) {
-  const recipe = sweepEffectTiming(timing);
-  if (!recipe) throw new Error('Baseline sweep uses its authored effect clock');
-  const ticks = (elapsedMs * 60) / 1000;
-  if (ticks < recipe.lead) return 0.5 * (ticks / recipe.lead) ** 2;
-  if (ticks < recipe.lead + recipe.hold) return 0.5;
-  return Math.min(1, 0.5 + (0.5 * (ticks - recipe.lead - recipe.hold)) / recipe.tail);
 }
 
 export type SweepRecovery = 'authored' | 'ready' | 'clean';

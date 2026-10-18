@@ -2,12 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { scenePreviewSchema, previewHero } from '../../src/sandbox/preview';
 import { sandboxContent } from '../../src/content/sandbox-world';
-import {
-  ContentRegistry,
-  isSupportedPosition,
-  heightAt,
-  type ContentDefinitions,
-} from '../../src/content/world';
+import { ContentRegistry, heightAt, type ContentDefinitions } from '../../src/content/world';
+import { isSupportedPosition } from '../../src/content/collision';
 import { defaultLook } from '../../src/presentation/lighting-profiles';
 
 test('preview reload reconciles blocked or moved positions without accepting corrupt state', () => {

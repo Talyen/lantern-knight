@@ -2,7 +2,7 @@ import type { GroundRegion, MaskShape } from '../../src/content/ground-interacti
 import type { SceneDocument } from '../../src/content/scene-document';
 import { artworkFloorLayout } from '../../src/content/floor-layout';
 import { resolveScene } from '../../src/content/world-art';
-import { clearSegment } from '../../src/core/navigation';
+import { clearSegment } from '../../src/content/collision';
 
 /** Exact vertical coverage at a source-image column, including holes and separate islands. */
 export function maskIntervals(mask: readonly MaskShape[], u: number) {

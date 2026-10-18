@@ -3,7 +3,8 @@ import { borrowedView } from '../content/snapshot';
 import { onboardingState, type OnboardingState, type Lesson } from './onboarding';
 import { InventoryState, type InventoryAccess, type InventoryCommand } from './inventory';
 import { interactionTarget } from './interaction';
-import { Navigation, effectiveRadius } from './navigation';
+import { Navigation } from './navigation';
+import { effectiveRadius } from '../content/collision';
 import {
   PLAYER_ID,
   heightAt,

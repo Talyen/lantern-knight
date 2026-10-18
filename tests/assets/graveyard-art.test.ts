@@ -19,7 +19,7 @@ scene.objects.push(
 );
 const graveyardArt = resolveAuthoredScene(scene);
 import { sceneArtFindings } from '../../src/content/scene-art-validation';
-import { isSupportedPosition, supportedPosition } from '../../src/content/world';
+import { isSupportedPosition, supportedPosition } from '../../src/content/collision';
 import { content } from '../fixtures/content';
 import { assetCatalog } from '../../src/content/visuals';
 import { parseManifest } from '../../src/assets/schema';

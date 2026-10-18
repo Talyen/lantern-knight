@@ -1,10 +1,6 @@
 import { z } from 'zod';
-import {
-  supportedPosition,
-  isSupportedPosition,
-  heightAt,
-  type ContentRegistry,
-} from '../content/world';
+import { heightAt, type ContentRegistry } from '../content/world';
+import { supportedPosition, isSupportedPosition } from '../content/collision';
 import { effectiveRadius } from '../content/collision';
 const finite = z.number().finite();
 export const scenePreviewSchema = z.object({
