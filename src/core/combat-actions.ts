@@ -34,7 +34,9 @@ export class CombatActions {
   // Checkpoints retain the resulting position, never an unfinished impulse.
   private readonly recoils = new WeakMap<Actor, { x: number; z: number; ticks: number }>();
   private readonly lanes = new Map<Actor, Omit<RibLane, 'age'>>();
+  private static readonly noLanes: readonly RibLane[] = Object.freeze([]);
   get ribLanes(): readonly RibLane[] {
+    if (!this.lanes.size) return CombatActions.noLanes;
     return Object.freeze(
       [...this.lanes]
         .filter(

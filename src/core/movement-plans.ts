@@ -82,8 +82,8 @@ export class MovementPlans {
     const targetHeight = heightAt(this.area, target.x, target.z);
     let best: RouteResult | undefined;
     let bestDistanceSquared = Infinity;
-    for (let i = 0; i < 16; i++) {
-      const angle = (i * Math.PI) / 8;
+    for (let i = 0; i < 8; i++) {
+      const angle = (i * Math.PI) / 4;
       const point = {
         x: target.x + Math.cos(angle) * distance,
         z: target.z + Math.sin(angle) * distance,

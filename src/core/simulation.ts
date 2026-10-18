@@ -2,6 +2,7 @@ import { kitAttributes } from '../content/progression';
 import { parseAreaState, type AreaState } from './area-state';
 import { InventoryState, type InventoryAccess } from './inventory';
 import type { GroundDrop } from '../content/interactions';
+import type { Reward } from '../content/items';
 import { canReachInteraction, interactionTarget } from './interaction';
 import { simulationView } from './simulation-view';
 import { moveSupported } from './navigation';
@@ -42,7 +43,6 @@ export class Simulation {
   private readonly movement: MovementPlans;
   private readonly encounter: EncounterBehavior;
   readonly #combat: CombatActions;
-  #enemyDefinitionId: string | undefined;
   setMovementTarget(id: string, target: Point | null) {
     const actor = this.actors.find((actor) => actor.id === id);
     if (!actor) return false;
@@ -83,8 +83,7 @@ export class Simulation {
     return this.actors.find((actor) => actor.id === spawnActorId(this.area, spawnId));
   }
   guardsDefeated(ids: readonly string[] = []) {
-    for (const id of ids) if (this.spawnActor(id)?.health !== 0) return false;
-    return true;
+    return ids.every((id) => this.spawnActor(id)?.health === 0);
   }
   exitAvailable(id: string) {
     const e = this.areaDefinition.exits.find((e) => e.id === id);
@@ -104,35 +103,35 @@ export class Simulation {
     if (!object || this.claimedObjects.has(id) || !this.guardsDefeated(object.guards)) return false;
     this.claimedObjects.add(id);
     this.objectActions.set(id, this.tick);
-    if (object.rewards.length)
-      this.drops.push(
-        ...object.rewards.map((reward, index) => ({
-          id: 'object-' + id + '-' + index,
-          source: id,
-          enemy: false,
-          x: object.x,
-          z: object.z,
-          rewards: [structuredClone(reward)],
-        })),
-      );
+    if (object.rewards.length) this.pushRewards('object', id, object.x, object.z, object.rewards);
     this.emit(this.hero, { kind: 'object-claimed', object: id });
     return true;
+  }
+  private pushRewards(
+    prefix: 'object' | 'enemy',
+    source: string,
+    x: number,
+    z: number,
+    rewards: readonly Reward[],
+  ) {
+    const enemy = prefix === 'enemy';
+    this.drops.push(
+      ...rewards.map((reward, index) => ({
+        id: `${prefix}-${source}-${index}`,
+        source,
+        enemy,
+        x,
+        z,
+        rewards: [structuredClone(reward)],
+      })),
+    );
   }
   private dropEnemyRewards(actor: Actor) {
     const spawn = this.areaDefinition.spawns.find(
       (p) => spawnActorId(this.area, p.id) === actor.id,
     );
     if (spawn?.rewards?.length)
-      this.drops.push(
-        ...spawn.rewards.map((reward, index) => ({
-          id: 'enemy-' + spawn.id + '-' + index,
-          source: spawn.id,
-          enemy: true,
-          x: actor.x,
-          z: actor.z,
-          rewards: [structuredClone(reward)],
-        })),
-      );
+      this.pushRewards('enemy', spawn.id, actor.x, actor.z, spawn.rewards);
   }
   collectDrop(id: string) {
     const index = this.drops.findIndex((p) => p.id === id);
@@ -289,9 +288,7 @@ export class Simulation {
     z: number,
     definitionId = kind === 'hero'
       ? this.registry.definitions.player
-      : (this.#enemyDefinitionId ??= this.registry.definitions.actors.find(
-          (a) => a.kind === 'enemy',
-        )!.id),
+      : this.registry.definitions.actors.find((a) => a.kind === 'enemy')!.id,
   ): Actor {
     const definition = this.registry.actor(definitionId);
     if (definition.kind !== kind) throw new Error('actor kind mismatch');
@@ -371,105 +368,79 @@ export class Simulation {
       return;
     this.#combat.damage(from, to, amount);
   }
-  step(input?: Command): StepResult {
-    this.tick++;
-    this.tickEvents.length = 0;
-    this.#combat.beginTick();
-    const h = this.hero;
-    const maxHealth = this.maxHealth;
-    const command = acceptCommand(input, this.generation, {
-      x: h.x,
-      z: h.z,
-    });
-    this.potionCooldown = Math.max(0, this.potionCooldown - 1);
-    if (h.health <= 0 && h.age >= tuning.deathHoldTicks) return { events: [], reset: 'death' };
-    for (const a of this.actors) {
-      a.px = a.x;
-      a.py = a.y;
-      a.pz = a.z;
-      a.cooldown = Math.max(0, a.cooldown - 1);
-      a.dodgeCooldown = Math.max(0, a.dodgeCooldown - 1);
-    }
-    if (Math.hypot(command.aim.x - h.x, command.aim.z - h.z) > 0.001)
-      h.aim = Math.atan2(command.aim.x - h.x, command.aim.z - h.z);
+  private stepHero(h: Actor, command: ReturnType<typeof acceptCommand>, maxHealth: number) {
     const len = Math.hypot(command.move.x, command.move.z),
       mx = len <= 0.01 ? 0 : len > 1 ? command.move.x / len : command.move.x,
       mz = len <= 0.01 ? 0 : len > 1 ? command.move.z / len : command.move.z;
-    if (h.health > 0) {
-      if (len > 0.01) this.movement.cancel(h.id);
-      if (
-        command.potion &&
-        !this.movementPreview &&
-        this.potionCooldown === 0 &&
-        h.health < maxHealth &&
-        this.inventoryAccess.consume('health-potion')
-      ) {
-        h.health = Math.min(maxHealth, h.health + 40);
-        this.potionCooldown = 60;
-        this.emit(h, { kind: 'potion-used' });
-      } else if (command.potion && !this.movementPreview)
-        this.emit(h, {
-          kind: 'action-unavailable',
-          reason:
-            h.health >= maxHealth
-              ? 'Health is already full'
-              : !(this.inventory['health-potion'] ?? 0)
-                ? 'No Health Potions'
-                : 'Potion is cooling down',
-        });
-      if (this.#combat.admitHero(h, command, len > 0.01 ? Math.atan2(mx, mz) : undefined)) {
-        if (len <= 0.01 && this.movement.has(h.id)) {
-          this.follow(h);
-          h.yaw = h.aim;
-        } else {
-          h.state = len > 0.01 ? 'walk' : 'idle';
-          h.yaw = h.aim;
-          if (len > 0.01) h.travelYaw = Math.atan2(mx, mz);
-          if (len > 0.01)
-            this.move(h, (mx * h.definition.speed) / 60, (mz * h.definition.speed) / 60);
-        }
+    if (h.health <= 0) return;
+    if (len > 0.01) this.movement.cancel(h.id);
+    if (
+      command.potion &&
+      !this.movementPreview &&
+      this.potionCooldown === 0 &&
+      h.health < maxHealth &&
+      this.inventoryAccess.consume('health-potion')
+    ) {
+      h.health = Math.min(maxHealth, h.health + 40);
+      this.potionCooldown = 60;
+      this.emit(h, { kind: 'potion-used' });
+    } else if (command.potion && !this.movementPreview)
+      this.emit(h, {
+        kind: 'action-unavailable',
+        reason:
+          h.health >= maxHealth
+            ? 'Health is already full'
+            : !(this.inventory['health-potion'] ?? 0)
+              ? 'No Health Potions'
+              : 'Potion is cooling down',
+      });
+    if (this.#combat.admitHero(h, command, len > 0.01 ? Math.atan2(mx, mz) : undefined)) {
+      if (len <= 0.01 && this.movement.has(h.id)) {
+        this.follow(h);
+        h.yaw = h.aim;
+      } else {
+        h.state = len > 0.01 ? 'walk' : 'idle';
+        h.yaw = h.aim;
+        if (len > 0.01) h.travelYaw = Math.atan2(mx, mz);
+        if (len > 0.01)
+          this.move(h, (mx * h.definition.speed) / 60, (mz * h.definition.speed) / 60);
       }
     }
-    // A downed hero can still observe the room, but no gameplay outcome may
-    // follow from the corpse: Burn must not keep killing, and a death hold
-    // cannot win the encounter.
-    if (h.health > 0) this.#combat.advanceBurn(h);
-    if (this.areaDefinition.activation && contains(this.areaDefinition.activation, h))
-      this.engaged = true;
+  }
+  private stepEnemies(h: Actor) {
     for (const a of this.actors) {
       if (a.health <= 0) continue;
       this.#combat.advanceRecoil(a);
-      if (a.kind === 'enemy') {
-        const intent = this.encounter.decide(a, h, this.engaged, this.movementPreview),
-          manual = this.movement.manual(a.id);
-        if (intent.kind === 'none' && !manual) {
-          this.movement.cancel(a.id);
-          if (a.state === 'walk') this.start(a, 'idle');
-        }
-        if (intent.cancelAttack && a.state === 'attack') this.start(a, 'idle');
-        if (a.state === 'idle' || a.state === 'walk') {
-          if (a.stun > 0) a.state = 'idle';
-          else if (intent.kind === 'pursuit') {
-            a.aim = Math.atan2(h.x - a.x, h.z - a.z);
-            if (intent.attack && !manual) {
-              a.state = 'idle';
-              this.movement.cancel(a.id);
-              if (!this.movementPreview && a.cooldown === 0) this.start(a, 'attack');
-            } else this.follow(a, { kind: 'pursuit', target: h });
-          } else if (intent.kind === 'home' || manual)
-            this.follow(
-              a,
-              intent.kind === 'home' ? { kind: 'home', target: intent.target } : undefined,
-            );
-        }
+      if (a.kind !== 'enemy') {
+        this.#combat.advance(a);
+        continue;
+      }
+      const intent = this.encounter.decide(a, h, this.engaged, this.movementPreview),
+        manual = this.movement.manual(a.id);
+      if (intent.kind === 'none' && !manual) {
+        this.movement.cancel(a.id);
+        if (a.state === 'walk') this.start(a, 'idle');
+      }
+      if (intent.cancelAttack && a.state === 'attack') this.start(a, 'idle');
+      if (a.state === 'idle' || a.state === 'walk') {
+        if (a.stun > 0) a.state = 'idle';
+        else if (intent.kind === 'pursuit') {
+          a.aim = Math.atan2(h.x - a.x, h.z - a.z);
+          if (intent.attack && !manual) {
+            a.state = 'idle';
+            this.movement.cancel(a.id);
+            if (!this.movementPreview && a.cooldown === 0) this.start(a, 'attack');
+          } else this.follow(a, { kind: 'pursuit', target: h });
+        } else if (intent.kind === 'home' || manual)
+          this.follow(
+            a,
+            intent.kind === 'home' ? { kind: 'home', target: intent.target } : undefined,
+          );
       }
       this.#combat.advance(a);
     }
-    // Every actor observes the same action tick during combat, including dodge protection.
-    for (const a of this.actors) {
-      a.age++;
-      a.stun = Math.max(0, a.stun - 1);
-    }
+  }
+  private separateActors() {
     const actors = this.actors;
     for (let i = 0; i < actors.length; i++)
       for (let j = i + 1; j < actors.length; j++) {
@@ -491,28 +462,86 @@ export class Simulation {
           this.move(b, nx * delta, nz * delta);
         }
       }
+  }
+  private collectPickups(h: Actor, maxHealth: number) {
+    if (h.health <= 0 || h.health >= maxHealth || this.movementPreview) return;
+    for (const pickup of this.areaDefinition.pickups ?? []) {
+      if (this.collectedPickups.has(pickup.id)) continue;
+      const dx = h.x - pickup.x,
+        dz = h.z - pickup.z;
+      if (dx * dx + dz * dz > pickup.radius * pickup.radius) continue;
+      if (
+        Math.abs(h.y - heightAt(this.areaDefinition, pickup.x, pickup.z)) >
+          tuning.maxCombatHeightDifference ||
+        !clearSegment(this.areaDefinition, h, pickup, 0.001)
+      )
+        continue;
+      const amount = Math.min(pickup.amount, maxHealth - h.health);
+      h.health += amount;
+      this.collectedPickups.add(pickup.id);
+      this.emit(h, { kind: 'health-pickup', amount });
+      if (h.health >= maxHealth) break;
+    }
+  }
+  private findExit(h: Actor) {
+    // Guard health is read directly; no per-tick defeated set is needed.
+    if (h.health <= 0 || this.movementPreview) return undefined;
+    return this.areaDefinition.exits.find((e) => {
+      if (e.explicit || !contains(e.trigger, h)) return false;
+      if (e.requiresClear && !this.cleared) return false;
+      if (!this.guardsDefeated(e.guards ?? [])) return false;
+      const bounds = this.areaDefinition.bounds;
+      // Boundary markers may sit beyond the walkable room. Keep the contact ray inside it.
+      const marker = {
+        x: Math.max(bounds.minX + 0.01, Math.min(bounds.maxX - 0.01, e.marker.x)),
+        z: Math.max(bounds.minZ + 0.01, Math.min(bounds.maxZ - 0.01, e.marker.z)),
+      };
+      return (
+        Math.abs(h.y - heightAt(this.areaDefinition, marker.x, marker.z)) <=
+          tuning.maxCombatHeightDifference && clearSegment(this.areaDefinition, h, marker, 0.001)
+      );
+    });
+  }
+  step(input?: Command): StepResult {
+    this.tick++;
+    this.tickEvents.length = 0;
+    this.#combat.beginTick();
+    const h = this.hero;
+    const maxHealth = this.maxHealth;
+    const command = acceptCommand(input, this.generation, {
+      x: h.x,
+      z: h.z,
+    });
+    this.potionCooldown = Math.max(0, this.potionCooldown - 1);
+    if (h.health <= 0 && h.age >= tuning.deathHoldTicks) return { events: [], reset: 'death' };
+    for (const a of this.actors) {
+      a.px = a.x;
+      a.py = a.y;
+      a.pz = a.z;
+      a.cooldown = Math.max(0, a.cooldown - 1);
+      a.dodgeCooldown = Math.max(0, a.dodgeCooldown - 1);
+    }
+    if (Math.hypot(command.aim.x - h.x, command.aim.z - h.z) > 0.001)
+      h.aim = Math.atan2(command.aim.x - h.x, command.aim.z - h.z);
+    this.stepHero(h, command, maxHealth);
+    // A downed hero can still observe the room, but no gameplay outcome may
+    // follow from the corpse: Burn must not keep killing, and a death hold
+    // cannot win the encounter.
+    if (h.health > 0) this.#combat.advanceBurn(h);
+    if (this.areaDefinition.activation && contains(this.areaDefinition.activation, h))
+      this.engaged = true;
+    this.stepEnemies(h);
+    // Every actor observes the same action tick during combat, including dodge protection.
+    for (const a of this.actors) {
+      a.age++;
+      a.stun = Math.max(0, a.stun - 1);
+    }
+    this.separateActors();
     const wasCleared = this.cleared;
-    if (h.health > 0 && h.health < maxHealth && !this.movementPreview)
-      for (const pickup of this.areaDefinition.pickups ?? []) {
-        if (this.collectedPickups.has(pickup.id)) continue;
-        const dx = h.x - pickup.x,
-          dz = h.z - pickup.z;
-        if (dx * dx + dz * dz > pickup.radius * pickup.radius) continue;
-        if (
-          Math.abs(h.y - heightAt(this.areaDefinition, pickup.x, pickup.z)) >
-            tuning.maxCombatHeightDifference ||
-          !clearSegment(this.areaDefinition, h, pickup, 0.001)
-        )
-          continue;
-        const amount = Math.min(pickup.amount, maxHealth - h.health);
-        h.health += amount;
-        this.collectedPickups.add(pickup.id);
-        this.emit(h, { kind: 'health-pickup', amount });
-        if (h.health >= maxHealth) break;
-      }
+    this.collectPickups(h, maxHealth);
     let cleared = true,
       hasEnemy = false;
-    for (const actor of actors)
+    for (const actor of this.actors)
       if (actor.kind === 'enemy') {
         hasEnemy = true;
         if (actor.health > 0) {
@@ -523,26 +552,7 @@ export class Simulation {
     this.cleared = cleared;
     if (h.health > 0 && this.cleared && !wasCleared && hasEnemy)
       this.emit(h, { kind: 'room-clear' });
-    // Guard health is read directly; no per-tick defeated set is needed.
-    const exit =
-      h.health > 0 && !this.movementPreview
-        ? this.areaDefinition.exits.find((e) => {
-            if (e.explicit || !contains(e.trigger, h)) return false;
-            if (e.requiresClear && !this.cleared) return false;
-            if (!this.guardsDefeated(e.guards ?? [])) return false;
-            const bounds = this.areaDefinition.bounds;
-            // Boundary markers may sit beyond the walkable room. Keep the contact ray inside it.
-            const marker = {
-              x: Math.max(bounds.minX + 0.01, Math.min(bounds.maxX - 0.01, e.marker.x)),
-              z: Math.max(bounds.minZ + 0.01, Math.min(bounds.maxZ - 0.01, e.marker.z)),
-            };
-            return (
-              Math.abs(h.y - heightAt(this.areaDefinition, marker.x, marker.z)) <=
-                tuning.maxCombatHeightDifference &&
-              clearSegment(this.areaDefinition, h, marker, 0.001)
-            );
-          })
-        : undefined;
+    const exit = this.findExit(h);
     return {
       events: this.takeEvents(),
       ...(exit ? { transition: exit.id } : {}),

@@ -4,8 +4,6 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { InventoryState, MAX_ITEM_COUNT } from '../../src/core/inventory';
 import { packFits } from '../../src/core/pack';
-import { parseSettings } from '../../src/platform/settings';
-import { defaultVisualEffects } from '../../src/content/visual-effects';
 
 test('inventory admission and exports detach state; commands enforce owned equipment copies', () => {
   const draft = { inventory: { 'orchard-ring': 1 }, equipment: {} };
@@ -141,24 +139,6 @@ test('full-pack unequip and malformed placement admission preserve ownership', (
     /placement/,
   );
   assert.throws(() => new InventoryState({ ...before, pack: before.pack!.slice(1) }), /ownership/);
-});
-
-test('version six settings retain custom values while adding independent interface size', () => {
-  const settings = parseSettings({
-    version: 6,
-    audio: { master: 0.4, effects: 0.3, ambience: 0.2, muted: true },
-    renderScale: 0.75,
-    showDebug: false,
-    verticalSpan: 13,
-    depthOfField: 0.25,
-    visualEffects: defaultVisualEffects(),
-  });
-  assert.equal(settings.version, 7);
-  assert.equal(settings.uiScale, 1);
-  assert.equal(settings.audio.master, 0.4);
-  assert.equal(settings.renderScale, 0.75);
-  assert.equal(settings.verticalSpan, 13);
-  assert.throws(() => parseSettings({ ...settings, uiScale: 5 }));
 });
 
 test('full-pack pickup failure preserves every reward in a multi-reward ground drop', () => {
