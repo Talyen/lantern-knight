@@ -24,12 +24,6 @@ export const items: Readonly<Record<string, ItemDefinition>> = {
   gold: { footprint: [1, 1], stackable: true, name: 'Gold', kind: 'currency' },
   iron: { footprint: [1, 1], stackable: true, name: 'Iron', kind: 'material' },
   bone: { footprint: [1, 1], stackable: true, name: 'Bone', kind: 'material' },
-  'workshop-temper': {
-    footprint: [1, 1],
-    stackable: true,
-    name: 'Workshop Temper',
-    kind: 'material',
-  },
   'health-potion': { footprint: [1, 2], stackable: true, name: 'Health Potion', kind: 'potion' },
   'damaged-axe': {
     footprint: [2, 4],

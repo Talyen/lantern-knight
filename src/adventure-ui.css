@@ -26,7 +26,9 @@
 }
 .adventure-panel .adventure-header {
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 44px;
+  gap: 12px;
   flex-shrink: 0;
   align-items: center;
   min-height: 72px;
@@ -135,7 +137,7 @@
   grid-template-rows: repeat(6, minmax(0, 1fr));
   gap: 5px;
 }
-.adventure-panel :is(.inventory-slot, .inventory-row, .forge-option) {
+.adventure-panel :is(.inventory-slot, .inventory-row, .upgrade-option) {
   position: relative;
   min-width: 0;
   min-height: 0;
@@ -144,11 +146,11 @@
   border-radius: 0;
   background: #101719;
 }
-.adventure-panel :is(.inventory-slot, .inventory-row, .forge-option):hover:not(:disabled) {
+.adventure-panel :is(.inventory-slot, .inventory-row, .upgrade-option):hover:not(:disabled) {
   background: #29322f;
   border-color: #b99f65;
 }
-.adventure-panel :is(.inventory-slot, .inventory-row, .forge-option)[aria-pressed='true'] {
+.adventure-panel :is(.inventory-slot, .inventory-row, .upgrade-option)[aria-pressed='true'] {
   border-color: #c7a66a;
   background: #3a3d31;
   box-shadow: inset 0 0 0 1px #bb9a6244;
@@ -403,58 +405,27 @@
 .adventure-panel .inventory-tabs {
   display: none;
 }
-.adventure-panel .forge-content {
+.adventure-panel .upgrade-content {
   display: grid;
   grid-template-columns: 1fr 1.1fr;
   gap: 28px;
   padding: 20px 0 8px;
 }
-.adventure-panel .forge-illustration {
-  position: relative;
-  overflow: hidden;
-  min-height: 0;
-  border-right: 1px solid var(--rule);
-}
-.adventure-panel .forge-scene {
-  position: absolute;
-  inset: 0;
-  opacity: 0.18;
-}
-.adventure-panel .forge-scene img {
-  height: 100%;
-  max-width: none;
-  width: 160%;
-  object-fit: cover;
-}
-.adventure-panel .forge-featured-item {
-  position: absolute;
-  inset: 0 17% auto;
-  width: 66%;
-  height: 61%;
-  filter: drop-shadow(4px 12px 8px #0008);
-}
-.adventure-panel .forge-anvil {
-  position: absolute;
-  left: 6%;
-  bottom: 0;
-  width: 88%;
-  height: 70%;
-}
-.adventure-panel .forge-work {
+.adventure-panel .upgrade-work {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   min-height: 0;
 }
-.adventure-panel .forge-options {
+.adventure-panel .upgrade-options {
   display: flex;
   gap: 10px;
   width: 100%;
-  height: 96px;
+  min-height: 120px;
   flex-shrink: 0;
   margin-bottom: 16px;
 }
-.adventure-panel .forge-option {
+.adventure-panel .upgrade-option {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -463,25 +434,25 @@
   padding: 9px;
   font-size: 0.8em;
 }
-.adventure-panel .forge-option .item-art {
+.adventure-panel .upgrade-option .item-art {
   height: 50px;
   min-height: 0;
 }
-.adventure-panel .forge-work h3 {
+.adventure-panel .upgrade-work h3 {
   font-size: 1.7em;
 }
-.adventure-panel .forge-damage {
+.adventure-panel .upgrade-damage {
   margin: 8px 0 12px;
   font-size: 0.9em;
   color: var(--sage);
 }
-.adventure-panel .forge-damage strong {
+.adventure-panel .upgrade-damage strong {
   display: block;
   margin-top: 4px;
   color: #e8d9b3;
   font: 1.7em/1.15 var(--font-display);
 }
-.adventure-panel .forge-costs {
+.adventure-panel .upgrade-costs {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -489,20 +460,16 @@
   border-block: 1px solid var(--rule);
   margin-bottom: 16px;
 }
-.adventure-panel .forge-decision {
+.adventure-panel .upgrade-decision {
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 10px;
 }
-.adventure-panel .forge-decision button {
+.adventure-panel .upgrade-decision button {
   width: 100%;
   min-height: 44px;
   font-size: 1em;
-}
-.adventure-panel .permanent-choice {
-  color: var(--sage);
-  font-size: 0.78em;
 }
 .game .adventure-panel.is-campfire {
   width: min(calc(400px * var(--ui-scale)), calc(100vw - 32px));
@@ -638,7 +605,7 @@
     max-width: 440px;
     margin-inline: auto;
   }
-  .adventure-panel .forge-content {
+  .adventure-panel .upgrade-content {
     gap: 20px;
   }
 }
@@ -653,11 +620,8 @@
   .adventure-panel .inventory-content {
     padding: 14px 20px;
   }
-  .adventure-panel .forge-content {
+  .adventure-panel .upgrade-content {
     grid-template-columns: 1fr;
-  }
-  .adventure-panel .forge-illustration {
-    display: none;
   }
   .adventure-panel.is-inventory .adventure-footer {
     padding: 10px 20px;
@@ -677,11 +641,11 @@
   .adventure-panel .item-description h3 {
     font-size: 1.4em;
   }
-  .adventure-panel .forge-options {
-    height: 80px;
+  .adventure-panel .upgrade-options {
+    min-height: 100px;
     margin-bottom: 10px;
   }
-  .adventure-panel .forge-option .item-art {
+  .adventure-panel .upgrade-option .item-art {
     height: 36px;
   }
   .adventure-panel .campfire-emblem {
@@ -707,4 +671,86 @@
 
 .game .inventory-row:focus-visible {
   outline-offset: -3px;
+}
+
+.adventure-panel .adventure-navigation {
+  font-size: 0.85em;
+}
+.adventure-panel .upgrade-kit > p,
+.adventure-panel .upgrade-decision p {
+  color: var(--sage);
+  font-size: 0.85em;
+  line-height: 1.5;
+}
+.adventure-panel .upgrade-option small {
+  display: block;
+  margin-top: 6px;
+  color: var(--sage);
+}
+.adventure-panel .upgrade-work details {
+  margin-bottom: 16px;
+  font-size: 0.85em;
+  line-height: 1.5;
+}
+.adventure-panel .upgrade-work summary {
+  cursor: pointer;
+  color: var(--amber);
+}
+.adventure-panel.is-campfire .adventure-header {
+  grid-template-columns: minmax(0, 1fr) 44px;
+}
+.adventure-panel.is-campfire .adventure-navigation {
+  grid-row: 2;
+  grid-column: 1 / -1;
+}
+.adventure-panel.is-campfire .adventure-close {
+  grid-row: 1;
+  grid-column: 2;
+}
+@media (max-width: 650px) {
+  .adventure-panel .adventure-header {
+    grid-template-columns: minmax(0, 1fr) 44px;
+  }
+  .adventure-panel .adventure-navigation {
+    grid-row: 2;
+    grid-column: 1 / -1;
+  }
+  .adventure-panel .adventure-close {
+    grid-row: 1;
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 650px) {
+  .adventure-panel.is-upgrades .adventure-header {
+    min-height: 0;
+    padding: 0 0 12px;
+    gap: 8px;
+  }
+  .adventure-panel .upgrade-content {
+    gap: 16px;
+    padding: 12px 0 0;
+  }
+  .adventure-panel .upgrade-options {
+    min-height: 88px;
+    margin-bottom: 8px;
+  }
+  .adventure-panel .upgrade-option .item-art {
+    height: 32px;
+  }
+  .adventure-panel .upgrade-kit > p {
+    margin: 8px 0;
+  }
+  .adventure-panel .upgrade-work > p {
+    margin-block: 8px;
+  }
+  .adventure-panel .upgrade-costs {
+    flex-direction: row;
+    gap: 20px;
+    padding-block: 8px;
+    margin-bottom: 8px;
+  }
+  .adventure-panel .upgrade-decision {
+    gap: 0;
+  }
 }

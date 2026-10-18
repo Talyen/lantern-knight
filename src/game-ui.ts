@@ -388,9 +388,6 @@ export function createGameUI(root: HTMLElement) {
               drop: 'E · Take',
               campfire: 'E · Rest',
               container: 'E · Open',
-              workbench: app.session.forgeUpgrade
-                ? 'E · Inspect workbench'
-                : 'E · Improve sword or lantern',
               exit: `E · ${interaction.label}`,
               breakable: 'LMB · Break',
             } as const

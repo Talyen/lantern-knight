@@ -7,14 +7,19 @@ import {
   type EquipmentSlot,
   type Reward,
 } from '../content/items';
-import { forgeCost, type ForgeUpgrade } from '../content/progression';
+import {
+  upgradeOffer,
+  validateUpgrades,
+  type UpgradeId,
+  type UpgradeRanks,
+} from '../content/progression';
 import { packFits, placeEntry, organizePack, type PackEntry } from './pack';
 export const MAX_ITEM_COUNT = 100000000;
 export type InventorySnapshot = {
   inventory: Inventory;
   equipment: Equipment;
   pack?: PackEntry[];
-  forgeUpgrade?: ForgeUpgrade;
+  upgrades?: UpgradeRanks;
 };
 export type InventoryCommand =
   | { kind: 'equip'; item: string; slot: EquipmentSlot; entry?: string }
@@ -23,11 +28,8 @@ export type InventoryCommand =
   | { kind: 'move'; entry: string; x: number; y: number }
   | { kind: 'organize' };
 
-export function validateInventory({ inventory, equipment, forgeUpgrade, pack }: InventorySnapshot) {
-  if (forgeUpgrade !== undefined && forgeUpgrade !== 'sword' && forgeUpgrade !== 'lantern')
-    throw new Error('Unknown forge upgrade');
-  if ((inventory['workshop-temper'] ?? 0) > (forgeUpgrade ? 0 : 1))
-    throw new Error('Invalid workshop temper ownership');
+export function validateInventory({ inventory, equipment, upgrades, pack }: InventorySnapshot) {
+  validateUpgrades(upgrades ?? {});
   for (const [item, amount] of Object.entries(inventory))
     if (
       !Object.hasOwn(items, item) ||
@@ -84,7 +86,7 @@ export interface InventoryAccess {
   readonly inventory: Readonly<Inventory>;
   readonly equipment: Readonly<Equipment>;
   readonly healthBonus: number;
-  readonly forgeUpgrade?: ForgeUpgrade;
+  readonly upgrades: Readonly<UpgradeRanks>;
   award(rewards: readonly Reward[]): void;
   consume(item: string): boolean;
 }
@@ -96,7 +98,7 @@ export class InventoryState implements InventoryAccess {
     equipment: Readonly<Equipment>;
     inventory: Readonly<Inventory>;
     healthBonus: number;
-    forgeUpgrade?: ForgeUpgrade;
+    upgrades: Readonly<UpgradeRanks>;
   };
   constructor(snapshot: InventorySnapshot = { inventory: {}, equipment: {} }) {
     validateInventory(snapshot);
@@ -114,7 +116,7 @@ export class InventoryState implements InventoryAccess {
       pack,
       snapshot.equipment,
       snapshot.inventory.gold ?? 0,
-      snapshot.forgeUpgrade,
+      snapshot.upgrades,
       snapshot.inventory,
     );
   }
@@ -136,20 +138,20 @@ export class InventoryState implements InventoryAccess {
     pack: PackEntry[],
     equipment: Equipment,
     gold: number,
-    forgeUpgrade?: ForgeUpgrade,
+    upgrades?: UpgradeRanks,
     known: Readonly<Inventory> = this.state?.inventory ?? {},
   ) {
     const inventory: Inventory = Object.fromEntries(Object.keys(known).map((id) => [id, 0]));
     if (gold || Object.hasOwn(known, 'gold')) inventory.gold = gold;
     for (const item of Object.values(equipment)) inventory[item] = (inventory[item] ?? 0) + 1;
     for (const entry of pack) inventory[entry.item] = (inventory[entry.item] ?? 0) + entry.quantity;
-    validateInventory({ inventory, equipment, pack, forgeUpgrade });
+    validateInventory({ inventory, equipment, pack, upgrades });
     return Object.freeze({
       pack: Object.freeze(pack.map((entry) => Object.freeze({ ...entry }))),
       equipment: Object.freeze({ ...equipment }),
       inventory: Object.freeze(inventory),
       healthBonus: healthBonus(equipment),
-      forgeUpgrade,
+      upgrades: Object.freeze({ ...upgrades }),
     });
   }
   get inventory() {
@@ -161,8 +163,8 @@ export class InventoryState implements InventoryAccess {
   get pack() {
     return this.state.pack;
   }
-  get forgeUpgrade() {
-    return this.state.forgeUpgrade;
+  get upgrades() {
+    return this.state.upgrades;
   }
   get healthBonus() {
     return this.state.healthBonus;
@@ -172,7 +174,7 @@ export class InventoryState implements InventoryAccess {
       inventory: { ...this.inventory },
       equipment: { ...this.equipment },
       pack: this.pack.map((entry) => ({ ...entry })),
-      ...(this.forgeUpgrade ? { forgeUpgrade: this.forgeUpgrade } : {}),
+      upgrades: { ...this.upgrades },
     };
   }
   private draft() {
@@ -180,7 +182,7 @@ export class InventoryState implements InventoryAccess {
       pack: this.pack.map((entry) => ({ ...entry })),
       equipment: { ...this.equipment },
       gold: this.inventory.gold ?? 0,
-      forgeUpgrade: this.forgeUpgrade,
+      upgrades: this.upgrades,
     };
   }
   private spend(pack: PackEntry[], item: string, amount: number) {
@@ -189,27 +191,29 @@ export class InventoryState implements InventoryAccess {
     entry.quantity -= amount;
     if (!entry.quantity) pack.splice(pack.indexOf(entry), 1);
   }
-  prepareForgePurchase(choice: ForgeUpgrade) {
-    if (choice !== 'sword' && choice !== 'lantern') throw new Error('Unknown forge upgrade');
-    if (this.forgeUpgrade) throw new Error('Your workshop temper has already been used');
+  prepareUpgradePurchase(choice: UpgradeId) {
+    const { next, reason } = upgradeOffer(choice, this.upgrades, this.inventory);
+    if (!next || reason) throw new Error(reason);
     const previous = this.state,
       draft = this.draft();
-    for (const [item, amount] of Object.entries(forgeCost)) {
-      if ((this.inventory[item] ?? 0) < amount)
-        throw new Error('Requires 20 Gold, 4 Iron and 1 Workshop Temper');
+    for (const [item, amount] of Object.entries(next.cost)) {
+      if ((this.inventory[item] ?? 0) < amount) throw new Error('Insufficient upgrade materials');
       if (item === 'gold') draft.gold -= amount;
       else this.spend(draft.pack, item, amount);
     }
-    const accepted = this.accept(draft.pack, draft.equipment, draft.gold, choice);
+    const accepted = this.accept(draft.pack, draft.equipment, draft.gold, {
+      ...this.upgrades,
+      [choice]: (this.upgrades[choice] ?? 0) + 1,
+    });
     return {
       snapshot: {
         inventory: { ...accepted.inventory },
         equipment: { ...accepted.equipment },
         pack: accepted.pack.map((entry) => ({ ...entry })),
-        forgeUpgrade: choice,
+        upgrades: { ...accepted.upgrades },
       },
       commit: () => {
-        if (this.state !== previous) throw new Error('Stale forge purchase');
+        if (this.state !== previous) throw new Error('Stale upgrade purchase');
         this.state = accepted;
       },
     };
@@ -233,14 +237,14 @@ export class InventoryState implements InventoryAccess {
         for (let index = 0; index < amount; index++) this.add(draft.pack, item, 1);
       }
     }
-    this.state = this.accept(draft.pack, draft.equipment, draft.gold, draft.forgeUpgrade);
+    this.state = this.accept(draft.pack, draft.equipment, draft.gold, draft.upgrades);
   }
   consume(item: string) {
     if (!Object.hasOwn(items, item) || !(this.inventory[item] ?? 0)) return false;
     const draft = this.draft();
     if (item === 'gold') draft.gold--;
     else this.spend(draft.pack, item, 1);
-    this.state = this.accept(draft.pack, draft.equipment, draft.gold, draft.forgeUpgrade);
+    this.state = this.accept(draft.pack, draft.equipment, draft.gold, draft.upgrades);
     return true;
   }
   change(command: InventoryCommand): boolean {
@@ -296,7 +300,7 @@ export class InventoryState implements InventoryAccess {
         for (const [material, amount] of Object.entries(items[entry.item]!.salvage!))
           this.add(draft.pack, material, amount * entry.quantity);
     }
-    this.state = this.accept(draft.pack, draft.equipment, draft.gold, draft.forgeUpgrade);
+    this.state = this.accept(draft.pack, draft.equipment, draft.gold, draft.upgrades);
     return true;
   }
 }

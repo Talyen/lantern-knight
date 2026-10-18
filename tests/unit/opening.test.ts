@@ -430,12 +430,12 @@ test('wind follows the chapel journey after either upgrade and returns only with
       ],
     })),
   });
-  for (const forgeUpgrade of ['sword', 'lantern'] as const)
+  for (const upgrades of ['sword', 'lantern'] as const)
     for (const id of ids) {
       const session = new GameSession(r, 142, id),
         save = session.captureSave();
       delete save.adventure!.pack;
-      save.adventure!.forgeUpgrade = forgeUpgrade;
+      save.adventure!.upgrades = { [upgrades]: 1 };
       session.restoreSave(save);
       const outward = session.sim,
         cache = outward.areaDefinition.interactables![0]!;

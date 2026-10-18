@@ -6,7 +6,7 @@ import { heightAt } from '../content/world';
 import { tuning } from '../content/gameplay';
 import { items } from '../content/items';
 export type Interaction = {
-  kind: 'drop' | 'campfire' | 'container' | 'exit' | 'breakable' | 'workbench';
+  kind: 'drop' | 'campfire' | 'container' | 'exit' | 'breakable';
   id: string;
   label: string;
   blocked?: string;
@@ -51,7 +51,7 @@ function* choices(
           label: f.name,
           blocked: sim.inCombat ? 'Finish combat to use the campfire' : undefined,
         };
-  if (!kind || kind === 'container' || kind === 'breakable' || kind === 'workbench')
+  if (!kind || kind === 'container' || kind === 'breakable')
     for (const o of sim.areaDefinition.interactables ?? [])
       if (!sim.claimedObjects.has(o.id) && reachable(o, o.kind))
         yield {
@@ -59,18 +59,8 @@ function* choices(
           id: o.id,
           x: o.x,
           z: o.z,
-          label:
-            o.kind === 'workbench'
-              ? 'Forge workbench'
-              : o.kind === 'breakable'
-                ? 'LMB · Break'
-                : 'Open container',
-          blocked:
-            o.kind === 'workbench' && sim.inCombat
-              ? 'Finish combat to use the workbench'
-              : !sim.guardsDefeated(o.guards)
-                ? 'Defeat the guard to open'
-                : undefined,
+          label: o.kind === 'breakable' ? 'LMB · Break' : 'Open container',
+          blocked: !sim.guardsDefeated(o.guards) ? 'Defeat the guard to open' : undefined,
         };
   if (!kind || kind === 'exit')
     for (const e of sim.areaDefinition.exits)

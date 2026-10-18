@@ -87,11 +87,6 @@ export function windDestination(sim: SimulationView): Point | undefined {
     if (chest && !sim.claimedObjects.has(chest.id)) return chest;
     const drop = sim.drops.find((d) => d.source === chest?.id);
     if (drop) return drop;
-    if (sim.area === 'ruined-forge' && !sim.forgeUpgrade)
-      return (
-        sim.areaDefinition.interactables?.find((o) => o.kind === 'workbench') ??
-        sim.areaDefinition.campfires?.[0]
-      );
     return (
       sim.areaDefinition.exits.find(
         (e) =>

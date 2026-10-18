@@ -92,14 +92,9 @@ function details() {
   const item = items.find((entry) => entry.key === selected);
   if (!item)
     return html`<section class="inspection empty-inspection" aria-label="Selected item"><span class="section-label">Item details</span><p>Select an item to inspect it.</p><span class="muted">Your equipment and pack stay in place.</span></section>`;
-  const isGear = ![
-    'iron',
-    'bone',
-    'health-potion',
-    'workshop-temper',
-    'damaged-axe',
-    'damaged-helmet',
-  ].includes(item.item);
+  const isGear = !['iron', 'bone', 'health-potion', 'damaged-axe', 'damaged-helmet'].includes(
+    item.item,
+  );
   const move = action('Move', () => {
     moving = { key: item.key, x: item.x, y: item.y, keyboard: true };
     itemButton(item.key)?.focus();
@@ -422,7 +417,7 @@ function conceptContent() {
     )}</div></details></section>`;
   if (concept === 'settings') return settingsContent();
   if (concept === 'forge')
-    return html`<section class="concept-panel forge-concept"><header class="concept-heading">${ornament()}<h1>The Forge</h1><p>Choose one permanent improvement.</p></header><div class="forge-body"><div class="forge-art">${art('anvil')}${art(forgeChoice, 'forged-item')}</div><div class="forge-decision"><div class="forge-choices" role="group" aria-label="Forge choice">${[
+    return html`<section class="concept-panel forge-concept"><header class="concept-heading">${ornament()}<h1>The Forge</h1><p>Inspect permanent kit improvements.</p></header><div class="forge-body"><div class="forge-art">${art('anvil')}${art(forgeChoice, 'forged-item')}</div><div class="forge-decision"><div class="forge-choices" role="group" aria-label="Forge choice">${[
       'sword',
       'lantern',
     ].map((id) => {
@@ -434,7 +429,7 @@ function conceptContent() {
       b.append(art(id), html`<span>${id === 'sword' ? 'Temper sword' : 'Rekindle lantern'}</span>`);
       b.setAttribute('aria-pressed', String(forgeChoice === id));
       return b;
-    })}</div><h2>${forgeChoice === 'sword' ? 'A keener edge' : 'A brighter flame'}</h2><p class="forge-effect">${forgeChoice === 'sword' ? 'Physical damage' : 'Damage per enemy'} <strong>${forgeChoice === 'sword' ? '26 → 52' : '28 → 56'}</strong></p><dl class="cost-list"><div><dt>Gold</dt><dd>248 / 20</dd></div><div><dt>Iron</dt><dd>24 / 4</dd></div><div><dt>Workshop Temper</dt><dd>1 / 1</dd></div></dl>${action(
+    })}</div><h2>${forgeChoice === 'sword' ? 'A keener edge' : 'A brighter flame'}</h2><p class="forge-effect">${forgeChoice === 'sword' ? 'Physical damage' : 'Damage per enemy'} <strong>${forgeChoice === 'sword' ? '26 → 52' : '28 → 56'}</strong></p><dl class="cost-list"><div><dt>Gold</dt><dd>248 / 20</dd></div><div><dt>Iron</dt><dd>24 / 4</dd></div></dl>${action(
       forgeDone
         ? 'Improvement complete'
         : forgeChoice === 'sword'

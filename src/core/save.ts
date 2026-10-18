@@ -1,3 +1,4 @@
+import { upgradeIds } from '../content/progression';
 import { equipmentSlots, healthBonus } from '../content/items';
 import { InventoryState, validateInventory, MAX_ITEM_COUNT } from './inventory';
 import { type AreaState, parseAreaState, restoreScenePosition } from './area-state';
@@ -13,7 +14,7 @@ const point = z.strictObject({
   health: z.number().int().nonnegative(),
 });
 const GameSchema = z.strictObject({
-  version: z.literal(10),
+  version: z.literal(11),
   seed: z.number().int().min(0).max(4294967295),
   wins: z.number().int().nonnegative().max(100000),
   area: id,
@@ -38,7 +39,7 @@ const GameSchema = z.strictObject({
         )
         .max(192)
         .optional(),
-      forgeUpgrade: z.enum(['sword', 'lantern']).optional(),
+      upgrades: z.partialRecord(z.enum(upgradeIds), z.number().int().positive()).optional(),
       discovered: z.array(z.string()).max(1000),
       lastFire: z.string().optional(),
       potionCooldown: z.number().int().min(0).max(60),
