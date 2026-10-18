@@ -44,7 +44,10 @@ export interface TraversalPolicy {
   segment(start: Point, end: Point): boolean;
 }
 class Heap {
-  entries: { id: number; score: number }[] = [];
+  private entries: { id: number; score: number }[] = [];
+  get size() {
+    return this.entries.length;
+  }
   push(id: number, score: number) {
     const value = { id, score };
     let i = this.entries.length;
@@ -57,10 +60,11 @@ class Heap {
     }
     this.entries[i] = value;
   }
-  pop() {
-    const first = this.entries[0],
-      last = this.entries.pop();
-    if (this.entries.length && last) {
+  pop(): { id: number; score: number } | undefined {
+    const first = this.entries[0];
+    if (!first) return undefined;
+    const last = this.entries.pop()!;
+    if (this.entries.length) {
       let i = 0;
       while (i * 2 + 1 < this.entries.length) {
         let c = i * 2 + 1;
@@ -204,7 +208,7 @@ export class Navigation {
       scores.set(id, cost);
       heap.push(id, cost + h(id));
     }
-    while (heap.entries.length) {
+    while (heap.size) {
       const current = heap.pop()!.id;
       if (closed.has(current)) continue;
       if (current === destination) {

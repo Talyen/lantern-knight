@@ -75,11 +75,11 @@ export function validateInventory({ inventory, equipment, upgrades, pack }: Inve
       if (!packFits(pack, entry, entry.x, entry.y)) throw new Error('Invalid pack placement');
       used[entry.item] = (used[entry.item] ?? 0) + entry.quantity;
     }
-    for (const [item, amount] of Object.entries(inventory))
-      if (item !== 'gold' && (used[item] ?? 0) !== amount)
-        throw new Error('Pack ownership differs');
-    for (const [item, amount] of Object.entries(used))
-      if ((inventory[item] ?? 0) !== amount) throw new Error('Pack ownership differs');
+    // Equipment plus pack entries must exactly account for every non-gold count.
+    for (const item of new Set([...Object.keys(inventory), ...Object.keys(used)])) {
+      if (item === 'gold') continue;
+      if ((used[item] ?? 0) !== (inventory[item] ?? 0)) throw new Error('Pack ownership differs');
+    }
   }
 }
 export interface InventoryAccess {
