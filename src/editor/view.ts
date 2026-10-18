@@ -1,4 +1,4 @@
-import { readUntilAborted } from '../abort';
+import { readUntilAborted } from '../assets/abort';
 import { groundPlacementPolicy } from '../content/scene-placement';
 import { paintedEnvelopePolicy, spritePlacementEnvelope } from '../content/placement-envelope';
 import { cleanupAll } from '../assets/cleanup';

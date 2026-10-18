@@ -1,6 +1,6 @@
 import type { SceneDocument, SceneSnapshot } from '../content/scene-document';
 import { EditorHistory } from './model';
-import { readUntilAborted } from '../abort';
+import { readUntilAborted } from '../assets/abort';
 
 export type EditorSnapshot = Readonly<
   Pick<EditorHistory, 'document' | 'canUndo' | 'canRedo' | 'descendants' | 'fragment'>

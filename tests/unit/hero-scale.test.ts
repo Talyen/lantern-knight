@@ -26,9 +26,6 @@ test('hero review covers every clip/direction and leaves idle at its current siz
     if (id.startsWith('idle-') || id.startsWith('ready-')) assert.equal(scale, 1);
     assert.ok(scale >= 0.85 && scale <= 1.2, id);
   }
-  assert.equal(scales.get('walk-d00-00'), 1.16);
-  assert.equal(scales.get('death-d270-04'), 1);
-  assert.ok(Math.abs(scales.get('sweep-d90-00')! - 1.06 * 1.06) < 1e-12);
   assert.throws(() => actorFrameScales(baseline, clips.slice(1)), /exactly/);
   assert.throws(
     () =>

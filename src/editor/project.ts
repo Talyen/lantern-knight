@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { readUntilAborted } from '../abort';
+import { readUntilAborted } from '../assets/abort';
 import { parseSceneDocument, type SceneDocument } from '../content/scene-document';
 import type { EditorDocument } from './document';
 import type { EditorHistory } from './model';

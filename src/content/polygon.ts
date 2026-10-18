@@ -11,12 +11,17 @@ export function polygonArea(points: readonly Point[]) {
   );
 }
 export function polygonBounds(points: readonly Point[]): Bounds {
-  return {
-    minX: Math.min(...points.map((p) => p.x)),
-    maxX: Math.max(...points.map((p) => p.x)),
-    minZ: Math.min(...points.map((p) => p.z)),
-    maxZ: Math.max(...points.map((p) => p.z)),
-  };
+  let minX = Infinity,
+    maxX = -Infinity,
+    minZ = Infinity,
+    maxZ = -Infinity;
+  for (const p of points) {
+    if (p.x < minX) minX = p.x;
+    if (p.x > maxX) maxX = p.x;
+    if (p.z < minZ) minZ = p.z;
+    if (p.z > maxZ) maxZ = p.z;
+  }
+  return { minX, maxX, minZ, maxZ };
 }
 export function segmentsIntersect(a: Point, b: Point, c: Point, d: Point) {
   return (

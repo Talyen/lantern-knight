@@ -124,9 +124,22 @@ export class AudioFeedback {
       this.authored.clear();
     }
     const profile = areaAudio(sim.area);
-    const nearFire = sim.areaDefinition.campfires?.some(
-      (fire) => Math.hypot(fire.x - sim.hero.x, fire.z - sim.hero.z) < 4,
-    );
+    const surface = profile.surface;
+    const hero = sim.hero;
+    const heroX = hero.x,
+      heroZ = hero.z;
+    let nearFire = false;
+    const campfires = sim.areaDefinition.campfires;
+    if (campfires) {
+      for (const fire of campfires) {
+        const dx = fire.x - heroX,
+          dz = fire.z - heroZ;
+        if (dx * dx + dz * dz < 16) {
+          nearFire = true;
+          break;
+        }
+      }
+    }
     // A stable per-frame key avoids rebuilding the joined cue list every frame;
     // the played ambience derives from the area profile and nearby fire only.
     const key = nearFire ? sim.area + ':fire' : sim.area;
@@ -144,25 +157,28 @@ export class AudioFeedback {
         this.movement.set(actor.id, { x: actor.x, z: actor.z, distance: 0 });
         continue;
       }
-      const moved = Math.hypot(actor.x - entry.x, actor.z - entry.z),
-        travelled = entry.distance;
+      const dx = actor.x - entry.x,
+        dz = actor.z - entry.z,
+        movedSquared = dx * dx + dz * dz;
       entry.x = actor.x;
       entry.z = actor.z;
       entry.distance = 0;
+      if (contacts.has(actor.id)) continue;
+      if (contacts !== this.authored && this.authored.has(actor.id)) continue;
       if (
         frozen ||
         actor.state !== 'walk' ||
-        contacts.has(actor.id) ||
-        this.authored.has(actor.id) ||
         actorVisuals[actor.definition.visual]?.asset === 'ink-hero-current'
       )
         continue;
-      if (moved > 1) continue; // teleport/reset, rather than a stride
+      if (movedSquared > 1) continue; // teleport/reset, rather than a stride
+      const travelled = entry.distance;
+      const moved = Math.sqrt(movedSquared);
       entry.distance = travelled + moved;
       if (entry.distance < 0.65) continue;
       entry.distance %= 0.65;
       void this.playback
-        .play(`step-${areaAudio(sim.area).surface}`, {
+        .play(`step-${surface}`, {
           key: actor.id,
           critical: actor.kind === 'hero',
           x: actor.x,
@@ -172,7 +188,10 @@ export class AudioFeedback {
       if (actor.kind === 'hero')
         void this.playback.play('cloth', { key: actor.id }).catch(() => {});
     }
-    for (const id of this.movement.keys())
-      if (!sim.actors.some((a) => a.id === id)) this.movement.delete(id);
+    if (this.movement.size > sim.actors.length) {
+      const alive = new Set<string>();
+      for (const actor of sim.actors) alive.add(actor.id);
+      for (const id of this.movement.keys()) if (!alive.has(id)) this.movement.delete(id);
+    }
   }
 }
