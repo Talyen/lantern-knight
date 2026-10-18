@@ -293,7 +293,10 @@ export class ActorPresentation {
                   (duration - flash);
         notifies = v.sprite.animator.advance(Math.max(0, visual - v.sprite.animator.time));
       } else if (a.state === 'dodge' || a.state === 'hurt') {
-        const total = a.state === 'dodge' ? tuning.dodge.total : tuning.enemyHurt.total;
+        const total =
+          a.state === 'dodge'
+            ? tuning.dodge.total
+            : Math.max(tuning.enemyHurt.total, a.age + a.stun);
         notifies = v.sprite.animator.advance(
           Math.max(0, (a.age / total) * clipDuration(clip) - v.sprite.animator.time),
         );

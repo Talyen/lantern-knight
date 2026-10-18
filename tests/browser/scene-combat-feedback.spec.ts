@@ -74,7 +74,14 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
       });
       f.presentation.update(f.sim, 1, 0, { x: 0.5, z: -1.5 });
     }, action);
-    for (const stage of ['anticipation', 'contact', 'aftermath', 'settled'] as const) {
+    const stages = [
+      'anticipation',
+      'contact',
+      'aftermath',
+      ...(action === 'flare' ? (['stagger'] as const) : []),
+      'settled',
+    ] as const;
+    for (const stage of stages) {
       const result = await page.evaluate(
         async ({ action, stage }) => {
           const f = window.foundation;
@@ -100,7 +107,7 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
                 ? windup - 2 - source.age
                 : stage === 'contact'
                   ? windup + 3 - source.age
-                  : stage === 'aftermath'
+                  : stage === 'aftermath' || stage === 'stagger'
                     ? 10
                     : 60;
             for (let tick = 0; tick < Math.max(0, count); tick++) {
@@ -130,6 +137,8 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
               JSON.stringify(body) ===
               JSON.stringify([hero.x, hero.z, enemy.x, enemy.z, hero.health, enemy.health]),
             error: f.presentation.renderer.getContext().getError(),
+            enemyState: enemy.state,
+            staggerRemaining: enemy.stun,
           };
         },
         { action, stage },
@@ -137,6 +146,10 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
       expect(result.error).toBe(0);
       expect(result.bodyUnchanged).toBe(true);
       expect(result.rangeRingVisible).toBe(false);
+      if (stage === 'stagger') {
+        expect(result.staggerRemaining).toBeGreaterThan(0);
+        expect(result.enemyState).toBe('hurt');
+      }
       if (stage === 'contact') {
         expect(result.direct, `${action} contact`).toBe(action !== 'miss' && action !== 'dodge');
         expect(result.effects.includes('combat-contact')).toBe(
@@ -160,5 +173,53 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
       if (directory)
         await page.screenshot({ path: path.join(directory, `${action}-${stage}.png`) });
     }
+  }
+  // Keep poise and the shared stagger readable with the complete enemy group.
+  for (const stage of ['poise', 'stagger'] as const) {
+    const result = await page.evaluate(async (stage) => {
+      const f = window.foundation,
+        gameplayPath = '/src/content/gameplay.ts',
+        { tuning } = await import(gameplayPath);
+      f.editPreview((sim) => {
+        if (stage === 'poise') {
+          f.presentation.combatFeedback.reset();
+          const warden = sim.create('group-warden', 'enemy', 0.8, -1.5, 'chapel-warden'),
+            west = sim.create('group-west', 'enemy', -1.5, -1.3, 'chapel-attendant'),
+            north = sim.create('group-north', 'enemy', -0.5, -3, 'chapel-attendant');
+          sim.actors = [sim.hero, warden, west, north];
+          Object.assign(sim.hero, { x: -0.5, px: -0.5, z: -1.5, pz: -1.5, health: 100 });
+          sim.start(sim.hero, 'idle');
+          for (const enemy of sim.enemies) {
+            sim.start(enemy, 'attack', Math.atan2(sim.hero.x - enemy.x, sim.hero.z - enemy.z));
+            enemy.age = enemy.definition.attack.windup - 6;
+          }
+          sim.step();
+          sim.damage(sim.hero, warden, 1);
+          f.presentation.events.publish(sim.events);
+        } else {
+          sim.start(sim.hero, 'ability');
+          sim.hero.age = tuning.ability.windup;
+          for (let tick = 0; tick < 21; tick++) f.presentation.events.publish(sim.step().events);
+        }
+      });
+      f.presentation.update(f.sim, 1, 0, { x: 0.8, z: -1.5 });
+      return {
+        enemies: f.sim.enemies.map((enemy) => ({ state: enemy.state, stun: enemy.stun })),
+        heroHealth: f.sim.hero.health,
+        enemyEffects: f.presentation.combatFeedback.group.children.filter(
+          (mesh) => mesh.visible && mesh.name === 'combat-enemy-swing',
+        ).length,
+        error: f.presentation.renderer.getContext().getError(),
+      };
+    }, stage);
+    expect(result.error).toBe(0);
+    expect(result.heroHealth).toBe(100);
+    if (stage === 'stagger') expect(result.enemyEffects).toBe(0);
+    for (const enemy of result.enemies) {
+      expect(enemy.state).toBe(stage === 'poise' ? 'attack' : 'hurt');
+      if (stage === 'stagger') expect(enemy.stun).toBeGreaterThan(0);
+    }
+    if (directory)
+      await page.screenshot({ path: path.join(directory, `chapel-group-${stage}.png`) });
   }
 });

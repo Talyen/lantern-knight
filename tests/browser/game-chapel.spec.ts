@@ -45,6 +45,7 @@ for (const choice of ['neither', 'sword', 'lantern', 'both'] as const) {
       const directory = process.env.LANTERN_CHAPEL_CAPTURE_DIRECTORY;
       if (!directory) return;
       await mkdir(directory, { recursive: true });
+      await expect(page.locator('.travel-veil')).toHaveCSS('opacity', '0');
       await page.screenshot({ path: path.join(directory, `${choice}-${name}.png`) });
     };
     await page.goto('/index.html?automated');

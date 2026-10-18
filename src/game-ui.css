@@ -587,7 +587,8 @@ body.game {
   }
 }
 #interaction-hint,
-#lantern-hint {
+#lantern-hint,
+#action-hint {
   position: absolute;
   transform: translate(-50%, -100%);
   margin: -12px 0 0;
@@ -609,7 +610,8 @@ body.game {
   transform: translateX(-50%);
 }
 #interaction-hint:empty,
-#lantern-hint:empty {
+#lantern-hint:empty,
+#action-hint:empty {
   display: none;
 }
 .travel-veil {

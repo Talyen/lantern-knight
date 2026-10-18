@@ -62,6 +62,31 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
   await expect(
     page.locator('#opening-hint, .actions, .controls-hint, .combat-guide, #objective'),
   ).toHaveCount(0);
+  // Real input distinguishes a buffered cast from admission and cooldown rejection.
+  const canvas = page.locator('canvas'),
+    bounds = (await canvas.boundingBox())!;
+  await page.mouse.click(bounds.x + bounds.width * 0.6, bounds.y + bounds.height * 0.6);
+  await page.waitForTimeout(100);
+  await page.mouse.click(bounds.x + bounds.width * 0.6, bounds.y + bounds.height * 0.6, {
+    button: 'right',
+  });
+  await expect(page.locator('#action-hint')).toHaveText('Lantern queued');
+  if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY) {
+    await mkdir(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, { recursive: true });
+    await page.screenshot({
+      path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'queued-cast.png'),
+    });
+  }
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#action-hint')).toBeEmpty();
+  await page.locator('#resume').click();
+  await expect(page.locator('#action-hint')).toBeEmpty();
+  await expect(page.locator('#lantern-state')).toHaveText(/s$/);
+  await page.mouse.click(bounds.x + bounds.width * 0.6, bounds.y + bounds.height * 0.6, {
+    button: 'right',
+  });
+  await expect(page.locator('#status')).toHaveText('Lantern is cooling down');
+  await expect(page.locator('#lantern-state')).toHaveText('Ready', { timeout: 60_000 });
   if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY) {
     await mkdir(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, { recursive: true });
     await page.screenshot({

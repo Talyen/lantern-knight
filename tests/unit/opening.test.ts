@@ -138,6 +138,12 @@ test('a lantern burst drives nearby undead back while interrupting their attack'
   steps(s, 3);
   assert.equal(first!.x, settled);
   assert.ok(first!.stun > 0 && first!.burn);
+  assert.equal(first!.state, 'hurt', 'the stagger must not look ready before it releases');
+  while (first!.stun > 0) {
+    assert.equal(first!.state, 'hurt');
+    s.step(still);
+  }
+  assert.equal(first!.state, 'idle', 'the pose releases with the existing stagger timer');
 });
 test('loading a checkpoint keeps the displaced position without replaying lantern recoil', () => {
   const session = new GameSession(registry());

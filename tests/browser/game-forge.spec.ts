@@ -41,6 +41,7 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
     const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
     if (!directory) return;
     await mkdir(directory, { recursive: true });
+    await expect(page.locator('.travel-veil')).toHaveCSS('opacity', '0');
     await page.screenshot({ path: path.join(directory, name + '.png') });
   };
   await page.goto('/index.html?automated');

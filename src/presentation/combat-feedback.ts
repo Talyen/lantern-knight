@@ -30,6 +30,7 @@ type ActiveEffect = {
   sourceEnd: number;
   position: T.Vector3;
   rotation: number;
+  committed: boolean;
   follow?: { actor: ActorView; action: number };
 };
 type ActionPlan = { kind: EffectKind; windup: number; layers: readonly CombatEffectBinding[] };
@@ -227,6 +228,7 @@ export class CombatFeedback {
       sourceContact: binding.contactMs ?? clip.markers?.find((m) => m.id === 'contact')?.atMs ?? 0,
       sourceEnd: clipDuration(clip),
       ...pose,
+      committed: !follow || kind === 'dodge',
       follow: follow ? { actor, action: actor.action } : undefined,
     });
     this.group.add(effect.mesh);
@@ -360,6 +362,9 @@ export class CombatFeedback {
           };
           this.begin(recorded, plan, event.tick, alpha, actors, event.action, 0);
         }
+        for (const effect of this.active)
+          if (effect.follow?.actor.id === event.actor && effect.follow.action === event.action)
+            effect.committed = true;
         if (event.kind === 'flare' && this.pulse?.action === event.action)
           this.pulse.committed = true;
         const strength = event.kind === 'flare' ? 0.05 : this.heavyEnemy(source) ? 0.045 : 0;
@@ -413,7 +418,6 @@ export class CombatFeedback {
     this.pending = [];
     if (
       this.pulse &&
-      clock < this.pulse.tick &&
       !this.pulse.committed &&
       (sim.hero.action !== this.pulse.action || sim.hero.health <= 0)
     )
@@ -429,7 +433,7 @@ export class CombatFeedback {
       const effect = this.active[i]!;
       const owner = effect.follow;
       const cancelled =
-        clock < effect.contact &&
+        !effect.committed &&
         owner &&
         (owner.actor.action !== owner.action ||
           owner.actor.health <= 0 ||
