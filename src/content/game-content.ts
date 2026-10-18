@@ -46,6 +46,21 @@ export type SceneContent = {
     packs: ReadonlyMap<string, { manifest: Manifest }>,
   ) => void;
 };
+/** Gameplay artwork requirements independent of authored geometry and rendering. */
+export function areaGameplayAssets(
+  registry: Pick<ContentRegistry, 'actor'>,
+  area: Pick<AreaDefinition, 'spawns' | 'interactables'>,
+) {
+  return [
+    ...(area.interactables?.length || area.spawns.some((s) => s.rewards?.length)
+      ? ['library-lantern_concept_item_12_coin_purse']
+      : []),
+    ...(area.spawns.some((spawn) => registry.actor(spawn.actor).attack.kind === 'rib-lane')
+      ? [ribLaneEffect.asset]
+      : []),
+    ...area.spawns.map((spawn) => actorVisuals[registry.actor(spawn.actor).visual]!.asset),
+  ];
+}
 export function composeSceneContent(
   registry: ContentRegistry,
   visualsByArea: Readonly<Record<string, WorldVisualDefinition>>,
@@ -62,17 +77,7 @@ export function composeSceneContent(
           assets: Object.freeze([
             ...new Set([
               ...(visuals ? sceneAssets(visuals) : []),
-              ...(area.interactables?.length || area.spawns.some((s) => s.rewards?.length)
-                ? ['library-lantern_concept_item_12_coin_purse']
-                : []),
-              ...(area.spawns.some(
-                (spawn) => registry.actor(spawn.actor).attack.kind === 'rib-lane',
-              )
-                ? [ribLaneEffect.asset]
-                : []),
-              ...area.spawns.map(
-                (spawn) => actorVisuals[registry.actor(spawn.actor).visual]!.asset,
-              ),
+              ...areaGameplayAssets(registry, area),
             ]),
           ]),
         }),

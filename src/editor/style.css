@@ -779,3 +779,115 @@ body.focus-mode #toggle-dock {
 #ground-section:has(#ground-browser[open]) #ground-preview {
   height: 72px;
 }
+
+/* Review keeps the scene visible beside the gallery and its shared decisions. */
+@media (min-width: 1001px) {
+  main:has(#review-panel:not([hidden])) {
+    grid-template-columns: minmax(0, 1fr) 420px;
+  }
+}
+.review-help,
+#review-count,
+#review-flags,
+#review-feedback {
+  color: #c4c5b7;
+  font-size: 12px;
+}
+.review-search-row,
+.review-actions {
+  display: flex;
+  gap: 6px;
+}
+#review-search {
+  flex: 1;
+  min-width: 0;
+}
+#review-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  max-height: 270px;
+  min-height: 100px;
+  overflow: auto;
+  margin-bottom: 14px;
+}
+.review-asset {
+  padding: 5px;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.review-asset canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #101719;
+  margin-bottom: 5px;
+}
+.review-asset span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.review-asset small {
+  color: #dac69b;
+}
+#review-detail {
+  border-top: 1px solid #8f794e;
+  padding-top: 12px;
+}
+#review-identity {
+  font-size: 11px;
+  overflow-wrap: anywhere;
+  color: #b9b29c;
+}
+#review-preview {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  background: #101719;
+}
+#review-usages {
+  display: grid;
+  gap: 5px;
+  max-height: 145px;
+  overflow: auto;
+  padding-top: 8px;
+}
+#review-usages button {
+  text-align: left;
+  font-size: 12px;
+}
+#review-notes {
+  display: block;
+  width: 100%;
+  resize: vertical;
+  min-height: 72px;
+  font: inherit;
+  color: inherit;
+  background: #101719;
+  border: 1px solid #39494c;
+  border-radius: 5px;
+  padding: 8px;
+  margin-top: 4px;
+}
+#review-save {
+  border-color: #8f794e;
+  color: #f0d59c;
+}
+#review-warnings,
+#review-usage-warnings {
+  white-space: pre-line;
+}
+#review-warnings:empty,
+#review-usage-warnings:empty {
+  display: none;
+}
+.review-preview-error {
+  border: 1px dashed #c4a882;
+}
+#review-feedback.error,
+#review-warnings,
+#review-usage-warnings {
+  color: #efb29d;
+}

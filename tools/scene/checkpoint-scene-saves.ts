@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { assetReviewSchema } from '../../src/editor/asset-review-data';
 import { GroundProfileSchema } from '../../src/content/ground-profile';
 import { execFile } from 'node:child_process';
 import { lstat, readFile } from 'node:fs/promises';
@@ -23,6 +24,7 @@ export async function checkpointSceneSaves(main: string) {
       ![' M', '??'].includes(entry.slice(0, 2)) ||
       !(
         /^authoring\/scenes\/[a-z][a-z0-9-]{0,63}\.json$/.test(file) ||
+        file === 'authoring/asset-reviews.json' ||
         (entry.startsWith('?? ') && /^authoring\/ground-profiles\/[a-f0-9]{64}\.json$/.test(file))
       )
     )
@@ -42,6 +44,8 @@ export async function checkpointSceneSaves(main: string) {
       const document = parseSceneDocument(JSON.parse(body));
       if (document.id !== path.basename(file, '.json'))
         throw new Error('Scene save ID does not match its file: ' + file);
+    } else if (file === 'authoring/asset-reviews.json') {
+      assetReviewSchema.parse(JSON.parse(body));
     } else {
       GroundProfileSchema.parse(JSON.parse(body));
       if (createHash('sha256').update(body).digest('hex') !== path.basename(file, '.json'))
