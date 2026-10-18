@@ -157,8 +157,7 @@ body.game {
   background: transparent;
   box-shadow: none;
 }
-.game .is-title .menu-shell::before,
-.game .is-title .panel-emblem {
+.game .is-title .menu-shell::before {
   display: none;
 }
 .game .is-title .menu-crest {
