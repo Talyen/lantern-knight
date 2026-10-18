@@ -23,6 +23,7 @@ import { SceneLibrary } from './library';
 import { VisualAuthoring } from './visual-authoring';
 import { CompositionTools } from './composition';
 import { EditorConfirmation } from './confirmation';
+import { AssetReview } from './asset-review';
 import { libraryInventory } from './library-inventory';
 import { editorUI } from './ui';
 import { EditorWorkspace, openDock } from './workspace';
@@ -114,6 +115,7 @@ export function createEditorSession() {
   let composition: CompositionTools;
   let visualAuthoring: VisualAuthoring;
   let sceneLibrary: SceneLibrary;
+  let assetReview: AssetReview;
   let playtest: DraftPlaytest;
   const canvas = $<HTMLCanvasElement>('viewport');
   let runtime: AssetRuntime,
@@ -264,6 +266,7 @@ export function createEditorSession() {
       `${items.length} ${items.length === 1 ? 'object' : 'objects'} · ${Number(d.floor.width.toFixed(2))} × ${Number(d.floor.depth.toFixed(2))} ground · ${lightingRigs[d.look.rig].label}`;
     workspace.refresh();
     sceneLibrary?.refresh();
+    assetReview?.refresh();
     if (ready && $<HTMLSelectElement>('asset-scope').value === 'scene') showPalette();
   }
   function select(id: string | undefined) {
@@ -1521,6 +1524,48 @@ export function createEditorSession() {
     });
     assetIndex = await loadAssetIndex(runtime, lifetime.signal);
     usedAssets = assetClosure(usedAssetRoots(), assetIndex);
+    assetReview = new AssetReview($('review-panel'), {
+      document: () => documents.history.document,
+      manifests: assetIndex,
+      signal: lifetime.signal,
+      post: (body) => project.post(body),
+      thumbnail: async (asset, target, selectedClip) => {
+        const manifest = assetIndex.get(asset);
+        if (!manifest) throw new Error('Asset is no longer in the prepared catalog');
+        const clip = selectedClip ?? Object.keys(manifest.asset.clips)[0]!;
+        await thumbnail({ asset, clip, manifest, kind: paletteKind(manifest) ?? 'prop' }, target);
+      },
+      open,
+      focus: (asset, usage) => {
+        if (busy) return;
+        gestures.cancel();
+        setWalkingHero(false);
+        composition.selection.clear();
+        usage.objects.forEach((id) => composition.selection.add(id));
+        select(usage.objects.at(-1));
+        if (usage.objects.length) composition.focus();
+        else if (usage.points.length && view.presentation) {
+          view.setGameCamera(false);
+          const center = view.presentation.center;
+          center.set(
+            usage.points.reduce((sum, p) => sum + p.x, 0) / usage.points.length,
+            usage.points.reduce(
+              (sum, point) =>
+                sum + (view.sim ? heightAt(view.sim.areaDefinition, point.x, point.z) : 0),
+              0,
+            ) /
+              usage.points.length +
+              1.8,
+            usage.points.reduce((sum, p) => sum + p.z, 0) / usage.points.length,
+          );
+          view.render();
+        } else fit();
+        openDock('review');
+        status(
+          `${assetIndex.has(asset) ? assetLabel(assetIndex.get(asset)!) : asset} · ${usage.roles.join(', ')}${usage.objects.length ? ` · ${usage.objects.length} selected` : ''}`,
+        );
+      },
+    });
     const manifests = [...assetIndex.values()];
     assertActive();
     for (const m of manifests) {

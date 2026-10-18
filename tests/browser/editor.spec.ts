@@ -958,7 +958,7 @@ test('task destinations preserve advanced data and show suitable grounds before 
   request,
 }) => {
   await openEditor(page);
-  await expect(page.getByRole('tab')).toHaveText(['Add', 'Objects', 'Scene']);
+  await expect(page.getByRole('tab')).toHaveText(['Add', 'Objects', 'Scene', 'Review']);
   await page.locator('#focus-mode').click();
   await expect(page.locator('#focus-mode')).toBeVisible();
   await expect(page.locator('#focus-mode')).toHaveText('Exit focus');

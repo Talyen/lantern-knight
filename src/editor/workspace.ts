@@ -1,9 +1,9 @@
 import { html } from '../dom';
 const element = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
-export type DockTab = 'artwork' | 'object' | 'objects' | 'scene';
+export type DockTab = 'artwork' | 'object' | 'objects' | 'scene' | 'review';
 export function openDock(tab: DockTab, reveal = true) {
   if (reveal) document.body.classList.remove('dock-hidden', 'focus-mode');
-  for (const name of ['artwork', 'object', 'objects', 'scene'] as const) {
+  for (const name of ['artwork', 'object', 'objects', 'scene', 'review'] as const) {
     element(name + '-panel').hidden = name !== tab;
     if (name === 'object') continue;
     const button = element<HTMLButtonElement>(name + '-tab');
@@ -11,6 +11,7 @@ export function openDock(tab: DockTab, reveal = true) {
     button.setAttribute('aria-selected', String(active));
     button.tabIndex = active ? 0 : -1;
   }
+  if (tab === 'review') element('review-panel').dispatchEvent(new Event('workspace-show'));
   element('focus-mode').setAttribute(
     'aria-pressed',
     String(document.body.classList.contains('focus-mode')),
@@ -29,7 +30,7 @@ export class EditorWorkspace {
   private navigation: HTMLElement | null = null;
   constructor(private readonly selectionSize: () => number) {
     const signal = this.lifetime.signal;
-    for (const tab of ['artwork', 'objects', 'scene'] as const) {
+    for (const tab of ['artwork', 'objects', 'scene', 'review'] as const) {
       element(tab + '-tab').onclick = () => {
         openDock(tab);
         this.remember();
@@ -37,13 +38,13 @@ export class EditorWorkspace {
       element(tab + '-tab').onkeydown = (e) => {
         if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
         e.preventDefault();
-        const tabs = ['artwork', 'objects', 'scene'] as const;
+        const tabs = ['artwork', 'objects', 'scene', 'review'] as const;
         const next =
           e.key === 'Home'
             ? 0
             : e.key === 'End'
-              ? 2
-              : (tabs.indexOf(tab) + (e.key === 'ArrowRight' ? 1 : 2)) % 3;
+              ? tabs.length - 1
+              : (tabs.indexOf(tab) + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
         openDock(tabs[next]!);
         element(tabs[next]! + '-tab').focus();
         this.remember();
@@ -85,7 +86,7 @@ export class EditorWorkspace {
     try {
       const state = JSON.parse(localStorage.getItem('lantern-editor-workspace') ?? '{}');
       openDock(
-        ['artwork', 'object', 'objects', 'scene'].includes(state.tab)
+        ['artwork', 'object', 'objects', 'scene', 'review'].includes(state.tab)
           ? state.tab === 'object'
             ? 'objects'
             : state.tab
@@ -287,6 +288,7 @@ export class EditorWorkspace {
       ['artwork', 'Browse artwork'],
       ['objects', 'Find objects'],
       ['scene', 'Scene settings'],
+      ['review', 'Review scene assets and replacement queue'],
     ] as const) {
       if (!name.toLowerCase().includes(query)) continue;
       const button = html<HTMLButtonElement>`<button>${name}</button>`;

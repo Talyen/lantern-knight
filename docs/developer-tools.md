@@ -22,6 +22,14 @@ Ground-standing props receive contact shadows automatically, using authored foot
 
 Use Add → Arrangements to save selections to `authoring/fragments/` and insert independent copies. Arrange in object properties previews repetitions along a selected path or seeded scatter within a chosen circular region before committing one undoable batch. [Scene fragments](../authoring/fragments/README.md) describes what recipes retain.
 
+### Asset review and replacement queue
+
+Open the Review tab to browse assets in the current scene (including unsaved edits), a selected saved scene, all scenes, or the To replace queue. Each asset appears once, including ground, scenery, actors, runtime effects and dependencies. Select artwork for a larger preview of its used clips and its scene uses; a scene-use button opens that scene if needed and focuses its placements. Opening another scene keeps the existing unsaved-work confirmation. Grounds and runtime resources without individual placements show the scene framing.
+
+Choose a replacement scope: a specific scene, or Retire everywhere / delete after replacement. Save replacement flag writes the notes and scope to `authoring/asset-reviews.json`, independently of scene saves and browser preferences. The integration lock checkpoints valid queue edits alongside scene saves so later task branches can incorporate the decisions. Save an untitled scene before marking scene-specific replacements. Separate scene and everywhere flags can coexist; Clear flag removes only the selected scope. Notes stay in memory while switching assets, and require Save replacement flag before closing the editor. Reload queue refreshes saved decisions and scene inventory while keeping unsaved notes. A concurrent file change rejects the save; reload, review the latest decisions and save again.
+
+Flags record authoring intent only. They preserve scene references, source originals and importer metadata. Missing assets and flags whose scene references have disappeared remain in the queue until cleared. Invalid saved scenes are reported rather than silently counted as reviewed. Review does not replace artwork or delete files.
+
 ### Saving and recovery
 
 Save updates the current document; Save As creates another saved scene. A saved scene is a durable file; [Game content registration](architecture.md#add-an-area-or-enemy) determines whether Game uses it. Discard, import and attached-object deletion confirmations stay inside the editor. Cancel or Escape preserves the current work. Writes compare revisions and replace files atomically. If a file changed externally, preserve the scene, reload or save a separate copy. Editing never writes game checkpoints.

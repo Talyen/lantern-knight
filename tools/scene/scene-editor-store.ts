@@ -1,6 +1,7 @@
 import { readJson, writeFileAtomic } from '../json-file';
 import { SegmentationService } from '../segmentation/service';
 import { FragmentStore } from './fragment-store';
+import { AssetReviewStore, AssetReviewConflict } from './asset-review-store';
 import { GroundProfileStore } from './ground-profile-store';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -56,7 +57,7 @@ export class SceneStore {
     if (document.id !== id) throw new Error('Scene identity differs from filename');
     return { document, revision: digest(bytes) };
   }
-  async list() {
+  async documents() {
     await this.location('untitled');
     const files = (await fs.readdir(this.directory)).filter((f) => f.endsWith('.json')).sort();
     return Promise.all(
@@ -64,11 +65,17 @@ export class SceneStore {
         const id = file.slice(0, -5);
         try {
           const { document } = await this.read(id);
-          return { id, name: document!.name, target: document!.target };
+          if (!document) throw new Error('Scene file disappeared while reading');
+          return { id, document };
         } catch (error) {
-          return { id, name: id, error: String(error) };
+          return { id, error: String(error) };
         }
       }),
+    );
+  }
+  async list() {
+    return (await this.documents()).map(({ id, document, error }) =>
+      document ? { id, name: document.name, target: document.target } : { id, name: id, error },
     );
   }
   async save(value: unknown, revision: unknown) {
@@ -161,6 +168,7 @@ export function sceneEditorPlugin(
   };
   const profiles = new GroundProfileStore(path.join(root, 'authoring/ground-profiles'));
   const store = new SceneStore(path.join(root, 'authoring/scenes'), validate, profiles);
+  const reviews = new AssetReviewStore(path.join(root, 'authoring/asset-reviews.json'));
   const fragments = new FragmentStore(path.join(root, 'authoring/fragments'));
   return {
     name: 'lantern-scene-editor',
@@ -208,6 +216,19 @@ export function sceneEditorPlugin(
                   'Scene schema or pinned assets changed. Preserve your scene and restart the editor before saving.',
                 );
               if (req.method === 'GET') {
+                if (url.searchParams.has('assetReview')) {
+                  const documents = [];
+                  const warnings = [];
+                  for (const scene of await store.documents()) {
+                    if (scene.document) {
+                      // Review needs references, not megabytes of ground mask contours.
+                      const { groundInteraction: _ground, ...document } = scene.document;
+                      documents.push(document);
+                    } else warnings.push(`${scene.id}: ${scene.error}`);
+                  }
+                  respond(200, { ...(await reviews.read()), documents, warnings });
+                  return;
+                }
                 if (url.searchParams.has('groundProfiles')) {
                   respond(200, { profiles: await profiles.list() });
                   return;
@@ -259,6 +280,10 @@ export function sceneEditorPlugin(
                 throw new SceneConflict(
                   'Scene schema or pinned assets changed. Reload or save a separate recovered scene.',
                 );
+              if (body.action === 'assetReview') {
+                respond(200, await reviews.save(body.reviews, body.revision));
+                return;
+              }
               if (body.action === 'segment') {
                 const abort = new AbortController();
                 res.once('close', () => {
@@ -283,9 +308,12 @@ export function sceneEditorPlugin(
               }
               respond(200, { ...(await store.save(body.document, body.revision)), baseRevision });
             } catch (error) {
-              respond(error instanceof SceneConflict ? 409 : 400, {
-                error: (error as Error).message,
-              });
+              respond(
+                error instanceof SceneConflict || error instanceof AssetReviewConflict ? 409 : 400,
+                {
+                  error: (error as Error).message,
+                },
+              );
             }
           };
           handle().catch(next);
