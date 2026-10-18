@@ -552,7 +552,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     const header = html`<header class="adventure-header"><h2>${title}</h2>${navigation}${back}</header>`;
 
     panel.replaceChildren(
-      artwork('ui-lantern', 'panel-emblem'),
+      html`<span class="panel-emblem" aria-hidden="true">${createPlayerIcon('lantern')}</span>`,
       header,
       content,
       html`<footer class="adventure-footer${messageError || working ? ' visible' : ''}"><p class="adventure-feedback${messageError ? ' error' : ''}" role="${messageError ? 'alert' : 'status'}">${message || (working ? 'Working…' : !showingUpgrades && !fire ? 'Select to inspect · Drag to arrange · M to move with keys' : '')}</p></footer>`,
