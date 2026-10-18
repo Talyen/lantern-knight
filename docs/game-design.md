@@ -50,7 +50,7 @@ Inventory presents a compact equipped kit, a grouped pack and one selected-item 
 
 ## Character progression
 
-The opening offers one permanent choice at a reachable courtyard workbench in Ruined Craftsman Forge. Gold, Iron and a unique Workshop Temper fund the purchase; equipment continues to add maximum health. Bone remains reserved for a later recipe.
+The current prototype offers one permanent choice at a reachable courtyard workbench in Ruined Craftsman Forge. Gold, Iron and a unique Workshop Temper fund the purchase; equipment continues to add maximum health. Bone remains reserved for a later recipe. The [universal upgrade proposal](#universal-upgrades--proposal) below describes a possible replacement; the forge rules in this section remain implemented behavior until that replacement is chosen and built.
 
 Use three explicit attributes: Vitality raises maximum health, Edge scales direct physical sword damage, and Ember scales lantern initial-hit and Burn damage together. Keep attack timing, dodge protection, lantern radius, cooldown and stagger fixed so upgrades preserve learned combat cues. Start at Vitality 100, Edge 100% and Ember 100%; existing health equipment adds to Vitality. Defer character levels, XP and freely allocated stat points until the first choice proves useful.
 
@@ -61,6 +61,36 @@ Retain current equipment slots, with rings, trinkets and the chapel amulet grant
 Budget the mandatory clearing encounter and forge cache to cover the first purchase without farming: clearing guards supply 8 Gold and two axes (4 Iron after salvage), and the forge cache supplies 20 Gold and 6 Iron. Optional orchard rewards allow earlier healing and equipment discovery without being a prerequisite. The cache supplies one unique Workshop Temper. Rest must never regenerate caches, tempers or permanent upgrades; ordinary enemy drops must not bypass the unique purchase limit.
 
 Persist the chosen upgrade, unique temper ownership and resource balances atomically before accepting the purchase in the live session. Cancelled or failed purchases consume nothing; repeated activation cannot buy twice. Death retains earned resources, claimed caches, equipment and upgrades while retrying enemies. Acceptance requires both upgrade choices to change their intended damage only, a visible before/after comparison, save/resume and death retention, and no duplicate reward or purchase after reload.
+
+### Universal upgrades — proposal
+
+Make permanent kit improvements available at every campfire through one shared upgrade catalog. The player gathers Gold and salvage materials, chooses an improvement at a nearby fire, sees its exact effect and cost, then confirms. Scenes supply resources and campfires; they do not define upgrade rules or own the player's progression. This is a proposed direction, not implemented behavior.
+
+#### Player loop
+
+- Inspect improvements and their requirements from inventory anywhere. Purchase only while alive, out of combat and within ordinary interaction reach of a campfire. Opening the upgrade panel or buying an improvement neither rests the hero nor resets encounters; Rest remains a separate action.
+- Start with **Temper Sword I** and **Rekindle Lantern I**, using Gold and Iron. Remove the Workshop Temper requirement and the permanent either/or lock. Buying sword first leaves lantern available for a later purchase, and vice versa. Keep equipment as the initial source of maximum-health bonuses.
+- The first version has one purchasable rank per path. Keep the existing first-rank effects as comparison baselines: sword damage 26 → 52, or lantern initial damage 16 → 32 and each of three Burn ticks 4 → 8. Preserve timing, radius, cooldown and stagger. Higher ranks require explicit recipes and encounter tuning; costs must never imply an unlimited repeatable purchase.
+- Display owned rank, current and resulting values, owned/required materials and a confirmation. Explain unavailable improvements with a concrete reason. Save before showing success; cancellation or a failed save spends nothing.
+- Keep improvements across death, rest, travel, equipment swaps and reload. A first purchase chooses what to strengthen now, without permanently forbidding the other path. Respec and branching specializations are outside this first version.
+
+Gold and Iron keep the existing loot/salvage loop useful without introducing another currency. Shared recipe costs and finite rank caps control power; ordinary rewards may fund either improvement. Budget a reliable first purchase through normal progress without requiring one named cache. Optional exploration or repeated encounters can fund the second: this proposal deliberately allows that and requires checking the chapel with neither, either and both improvements. Final costs and reward placement remain design work; the current 20 Gold / 4 Iron cost is a comparison baseline, not an approved economy for buying both.
+
+Any scene may place a campfire and ordinary rewards without adding a new progression rule. Upgrade recipes refer to materials, prerequisites, rank and effects, never an area, workbench or container ID. Guidance can suggest the nearest reachable fire when an improvement is affordable; it must not require returning to Ruined Craftsman Forge or turn into a persistent shopping reminder. The forge remains a destination and source of salvage; its workbench can remain scenery unless a separate reusable crafting purpose is designed.
+
+#### Ownership and implementation path
+
+Reuse the current content, inventory, session and application owners rather than introducing a general progression framework. A small catalog in `src/content/progression.ts` defines stable improvement IDs, finite ranks, costs and effects. InventoryState owns purchased ranks and resource balances together. GameSession validates the nearby campfire and prepares the purchase; Application persists the complete candidate before committing it. Presentation reads catalog data and current state without deciding affordability or spending.
+
+Replace the single `forgeUpgrade` choice throughout checkpoint validation, derived attributes, purchase UI and guidance. Preserve single-use purchase plans, stale-session rejection, detached candidate saves and exclusion of overlapping inventory/load/reset operations. Restore validates purchased IDs/ranks against the selected content registry; room changes never reset them. Existing safe damage rounding and equipment ownership stay in place.
+
+Remove the global one-Temper content restriction with the obsolete material and reward bindings. Review the forge cache, mandatory encounter budgets, wind targets, workbench prompts, item descriptions and scene composition documentation together. Purchases at two different fires must update the same permanent kit. Focused protection should cover duplicate/overlapping purchases, caps and missing materials, failed writes, death/reload retention and equivalent access in unrelated scene fixtures.
+
+Prototype saves are disposable under [saved-state policy](architecture.md#change-saved-state); implementation should bump the checkpoint version and state the reset explicitly. A compatibility migration is not required for this prototype. No saved-state or gameplay code changes are part of this proposal.
+
+#### Tradeoffs
+
+Campfires already communicate safety, discovery and travel, making them a consistent place to improve the kit. Keeping both paths available reduces irreversible choice anxiety and gives future materials a reusable purpose. The cost is less exclusivity between sword and lantern builds, plus a need to tune encounters for players who buy both. A global XP/stat tree would add another reward economy, while a socketed-relic system would add loadout and effect design; neither is needed to remove the current scene dependency. Reconsider those only if later progression needs them.
 
 ## World structure
 

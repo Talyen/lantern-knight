@@ -25,9 +25,16 @@ Implemented means reachable in source, in progress means unfinished, planned mea
 
 Keep the [combat](game-design.md#combat-feel), [Burn](game-design.md#damage-types-and-burn) and [progression](game-design.md#character-progression) defaults until observed play supports a change. Preserve the blocked raised workshop and altar until elevation is authored. The opening does not need a chapter ending.
 
+- **Enemy combat polish — planned.** Review enemy animation, attack tells, impact and recovery windows, pursuit and grouped encounters. Make the warden's physical poise and the lantern's stagger readable; distinguish threats without ground attack zones. Follow [combat feel](game-design.md#combat-feel) and [opening guidance](game-design.md#opening-guidance).
+- **Scene cohesion and traversal — planned.** Review painted lighting, contact and cast shadows, selective glow, occlusion and usable paths together at gameplay scale. Decide whether the blocked workshop and altar become accessible, authoring elevation before opening either route. Follow [scene cohesion](scene-design.md#scene-cohesion) and [world structure](game-design.md#world-structure).
+- **UI feedback and settings — planned.** Distinguish accepted, buffered and unavailable actions; show save/load progress, completion and failure. Review pointer/keyboard outcomes, inventory comparisons, compact layouts and settings usability. Follow [action feedback](game-design.md#player-action-feedback), [equipment](game-design.md#equipment) and [menu contracts](architecture.md#change-player-menus-or-settings).
+
 ## Next
 
 Address the largest observed combat or navigation friction before extending the adventure. Music and weaknesses remain deferred.
+
+- **Next adventure milestone — needs design.** Choose a bounded destination, encounter, authored reward and stopping point, with a clear route into and out of the existing adventure. Define the scope before producing another scene; destinations and bosses remain uncommitted. Follow [world structure](game-design.md#world-structure).
+- **Progression and equipment expansion — needs design.** Evaluate the [universal upgrade proposal](game-design.md#universal-upgrades--proposal) to replace the scene-specific forge choice. Define meaningful equipment effects, later upgrades and recipes, including whether Bone has a deliberate use. Keep currently cosmetic slots cosmetic until their effects and comparisons are designed; do not add recipes solely to consume an unused material. Follow [character progression](game-design.md#character-progression) and [equipment](game-design.md#equipment).
 
 ## Later
 
@@ -35,6 +42,7 @@ Extend the adventure and authored rewards, equipment, upgrades and encounters af
 
 - **Windows acceptance — deferred; reference hardware needs design.** Name reference CPU/GPU/display and validate [packaged 1440p/60 FPS](release.md#opening-windows-acceptance). macOS and software smoke do not certify target performance.
 - **Performance and lifetime — deferred.** Warm up, measure roughly one minute in a seeded representative encounter and a modest stress fixture; record median/p95/stalls, environment, buffer size and scale. Account separately for downloads, decoded CPU data, GPU textures/mips, render targets and temporary allocations; verify settled growth across repeated room changes. Follow [performance comparisons](verification.md#performance-comparisons).
+- **Release distribution — planned for later.** Complete Windows signing, installers, licenses/notices and Steam depot delivery. Validate an actual Steam beta installation, launch, update and overlay on supported hosts. Existing package and direct-executable checks do not establish distribution readiness. Follow [milestone delivery](release.md#milestone-delivery) and [Steam package validation](release.md#build-and-verify).
 
 ## Open design decisions
 
