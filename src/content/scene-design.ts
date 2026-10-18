@@ -1,6 +1,7 @@
 import type { Bounds } from './world';
 import type { ArtPlacement, WorldVisualDefinition, SceneProfile } from './world-visuals';
 import { sceneArtFindings, solidIntersection } from './scene-art-validation';
+import { contains } from './collision';
 
 type DesignZone = {
   kind: 'focal' | 'supporting' | 'framing' | 'clear';
@@ -107,8 +108,6 @@ export const sceneDesignProfiles: Readonly<
     },
   },
 };
-const contains = (b: Bounds, x: number, z: number) =>
-  x >= b.minX && x <= b.maxX && z >= b.minZ && z <= b.maxZ;
 export function paletteEntry(p: Pick<ArtPlacement, 'asset' | 'clip'>) {
   return scenePalette[p.asset + ':' + p.clip];
 }
@@ -130,6 +129,18 @@ export function sceneCompositionFindings(art: WorldVisualDefinition): string[] {
   const spec = sceneDesignProfiles[art.designProfile],
     notes: string[] = [],
     count = new Map<string, number>();
+  const clearZones = Object.values(spec.zones)
+    .filter((z) => z.kind === 'clear')
+    .map((z) => ({
+      id: 'route',
+      center: {
+        x: (z.bounds.minX + z.bounds.maxX) / 2,
+        z: (z.bounds.minZ + z.bounds.maxZ) / 2,
+      },
+      width: z.bounds.maxX - z.bounds.minX,
+      length: z.bounds.maxZ - z.bounds.minZ,
+      angle: 0,
+    }));
   for (const p of [...art.props, ...art.decals]) {
     const e = paletteEntry(p),
       zone = p.zone && spec.zones[p.zone];
@@ -145,13 +156,12 @@ export function sceneCompositionFindings(art: WorldVisualDefinition): string[] {
         (p.opacity !== undefined && p.opacity !== 1))
     )
       notes.push(`${p.id}: experimental artwork treatment`);
-    if (!zone || (!p.mount && !contains(zone.bounds, p.x, p.z)))
+    if (!zone || (!p.mount && !contains(zone.bounds, p)))
       notes.push(`${p.id}: outside its composition zone`);
     if (e?.category !== 'ground-panel' && p.zone && zone)
       count.set(p.zone, (count.get(p.zone) ?? 0) + 1);
     if (p.footprint)
-      for (const clear of Object.values(spec.zones).filter((z) => z.kind === 'clear')) {
-        const b = clear.bounds;
+      for (const clear of clearZones) {
         if (
           solidIntersection(
             {
@@ -161,13 +171,7 @@ export function sceneCompositionFindings(art: WorldVisualDefinition): string[] {
               length: p.footprint[1],
               angle: p.footprintAngle ?? 0,
             },
-            {
-              id: 'route',
-              center: { x: (b.minX + b.maxX) / 2, z: (b.minZ + b.maxZ) / 2 },
-              width: b.maxX - b.minX,
-              length: b.maxZ - b.minZ,
-              angle: 0,
-            },
+            clear,
           )
         )
           notes.push(`${p.id}: occupies an intended clear zone`);

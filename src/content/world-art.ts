@@ -79,6 +79,45 @@ export function churchyardColliders(art: WorldVisualDefinition): PropDefinition[
     })),
   ];
 }
+function defaultGeometry(floor: SceneDocument['floor']): NonNullable<SceneDocument['geometry']> {
+  return {
+    bounds: {
+      minX: -floor.width / 2,
+      maxX: floor.width / 2,
+      minZ: -floor.depth / 2,
+      maxZ: floor.depth / 2,
+    },
+    surface: { kind: 'flat' as const, height: 0 },
+    baselineEntry: 'start',
+    entries: [{ id: 'start', x: 0, z: 0 }],
+  };
+}
+
+function campfireEntries(
+  area: AreaDefinition,
+  hero: SceneDocument['hero'],
+): AreaDefinition['entries'] {
+  const retained = area.entries
+    .filter((e) => !area.campfires?.some((f) => e.id === 'fire-' + f.id))
+    .map((e) => (e.id === area.baselineEntry ? { ...e, ...hero } : e));
+  const fires = (area.campfires ?? []).map((f) => {
+    const candidate = supportedPosition(
+      area,
+      { x: f.x + Math.min(0.9, f.safeRadius / 2), z: f.z },
+      0.3,
+    );
+    const safe = (point: { x: number; z: number }) =>
+      Math.hypot(point.x - f.x, point.z - f.z) < Math.min(f.safeRadius, 1.6) &&
+      isSupportedPosition(area, point, 0.3) &&
+      Math.abs(heightAt(area, point.x, point.z) - heightAt(area, f.x, f.z)) <=
+        tuning.maxCombatHeightDifference &&
+      clearSegment(area, point, f, 0.001);
+    const existing = area.entries.find((e) => e.id === 'fire-' + f.id);
+    const point = existing && safe(existing) ? existing : safe(candidate) ? candidate : f;
+    return { id: 'fire-' + f.id, x: point.x, z: point.z };
+  });
+  return [...retained, ...fires];
+}
 export type ResolvedScene = {
   document: SceneDocument;
   area: AreaDefinition;
@@ -104,20 +143,11 @@ export function resolveScene(
   const document = parseSceneDocument(value);
   const visuals = resolveAuthoredScene(document);
   const floor = document.floor;
-  let geometry = document.geometry ?? {
-    bounds: {
-      minX: -floor!.width / 2,
-      maxX: floor!.width / 2,
-      minZ: -floor!.depth / 2,
-      maxZ: floor!.depth / 2,
-    },
-    surface: { kind: 'flat' as const, height: 0 },
-    baselineEntry: 'start',
-    entries: [{ id: 'start', x: 0, z: 0 }],
-  };
+  const base = document.geometry ?? defaultGeometry(floor);
   const layout =
     floor.layout === 'artwork' ? artworkFloorLayout(floor.width, floor.depth) : undefined;
-  if (layout) geometry = { ...geometry, bounds: layout.bounds };
+  // Artwork floors keep authored gameplay but always use the painting footprint.
+  const geometry = layout ? { ...base, bounds: layout.bounds } : base;
   let area: AreaDefinition = {
     id: document.base === 'flat' ? 'editor-flat' : document.base,
     name: document.name,
@@ -148,27 +178,7 @@ export function resolveScene(
     ],
   };
   area = authoredGameplay(document, area, visuals.props);
-  area.entries = [
-    ...area.entries
-      .filter((e) => !area.campfires?.some((f) => e.id === 'fire-' + f.id))
-      .map((e) => (e.id === area.baselineEntry ? { ...e, ...document.hero } : e)),
-    ...(area.campfires ?? []).map((f) => {
-      const candidate = supportedPosition(
-        area,
-        { x: f.x + Math.min(0.9, f.safeRadius / 2), z: f.z },
-        0.3,
-      );
-      const safe = (point: { x: number; z: number }) =>
-        Math.hypot(point.x - f.x, point.z - f.z) < Math.min(f.safeRadius, 1.6) &&
-        isSupportedPosition(area, point, 0.3) &&
-        Math.abs(heightAt(area, point.x, point.z) - heightAt(area, f.x, f.z)) <=
-          tuning.maxCombatHeightDifference &&
-        clearSegment(area, point, f, 0.001);
-      const existing = area.entries.find((e) => e.id === 'fire-' + f.id);
-      const point = existing && safe(existing) ? existing : safe(candidate) ? candidate : f;
-      return { id: 'fire-' + f.id, x: point.x, z: point.z };
-    }),
-  ];
+  area.entries = campfireEntries(area, document.hero);
   const placements = scenePlacementFindings(document, area, visuals);
   if (placements.length)
     throw new Error('Placement needs clear ground: ' + placements.map((p) => p.message).join('; '));

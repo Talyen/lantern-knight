@@ -36,6 +36,7 @@ export const GroundInteractionSchema = z
   })
   .superRefine((g, ctx) => {
     const ids = new Set<string>();
+    const unitUv = artworkFloorLayout(1, 1).uv;
     for (const r of g.regions) {
       if (ids.has(r.id))
         ctx.addIssue({ code: 'custom', message: 'Duplicate ground region: ' + r.id });
@@ -51,7 +52,7 @@ export const GroundInteractionSchema = z
           message: 'Footprint must be a simple nondegenerate polygon: ' + r.name,
         });
       if (r.depth?.kind === 'boundary') {
-        const xs = r.depth.points.map((p) => artworkFloorLayout(1, 1).uv(p)[0]);
+        const xs = r.depth.points.map((p) => unitUv(p)[0]);
         if (!xs.every((v, i) => i === 0 || v > xs[i - 1]! + 1e-8))
           ctx.addIssue({
             code: 'custom',

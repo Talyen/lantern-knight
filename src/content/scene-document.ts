@@ -292,6 +292,25 @@ export function floorClips(m: Manifest) {
     ? paletteClips(m).filter((c) => m.asset.clips[c]?.d45?.frames.length === 1)
     : [];
 }
+
+function hasUsableClip(m: Manifest, clip: string): boolean {
+  return Object.values(m.asset.clips[clip] ?? {}).some((c) => c && c.frames.length > 0);
+}
+
+function groundArtworkChanged(
+  manifest: Manifest,
+  ground: NonNullable<SceneSnapshot['groundInteraction']>,
+  floorClip: string | undefined,
+): boolean {
+  const frame = manifest.frames.find((f) => f.id === ground.frame);
+  const page = frame && manifest.pages.find((p) => p.id === frame.page);
+  return (
+    !frame ||
+    page?.hash !== ground.hash ||
+    manifest.asset.clips[floorClip ?? 'still']?.d45?.frames[0] !== ground.frame ||
+    manifest.asset.canvas.some((v, i) => v !== ground.dimensions[i])
+  );
+}
 export function validateSceneReferences(
   d: SceneSnapshot,
   manifests?: ReadonlyMap<string, Manifest>,
@@ -309,13 +328,7 @@ export function validateSceneReferences(
   const ground = d.groundInteraction;
   if (ground && manifests && !deferredGround) {
     const manifest = manifests.get(ground.asset);
-    if (
-      !manifest ||
-      manifest.pages.find((p) => p.id === manifest.frames.find((f) => f.id === ground.frame)?.page)
-        ?.hash !== ground.hash ||
-      manifest.asset.clips[d.floor.clip ?? 'still']?.d45?.frames[0] !== ground.frame ||
-      manifest.asset.canvas.some((v, i) => v !== ground.dimensions[i])
-    )
+    if (!manifest || groundArtworkChanged(manifest, ground, d.floor.clip))
       throw new Error(
         'Ground interaction artwork identity changed. Authored regions are preserved in the scene file; review the changed ground before clearing or reauthoring them.',
       );
@@ -324,23 +337,22 @@ export function validateSceneReferences(
   for (const p of d.objects) {
     if (ids.has(p.id)) throw new Error('Duplicate object identity: ' + p.id);
     ids.add(p.id);
+    if (p.fixture) {
+      if (ids.has(p.fixture.id)) throw new Error('Duplicate fixture identity: ' + p.fixture.id);
+      ids.add(p.fixture.id);
+    }
     if (manifests) {
       const m = manifests.get(p.asset);
-      if (!m || paletteKind(m) !== p.kind || !paletteClips(m).includes(p.clip))
+      if (!m || paletteKind(m) !== p.kind || !hasUsableClip(m, p.clip))
         throw new Error(`Unavailable scenery: ${p.asset}/${p.clip}`);
       const heading = p.heading ?? 'd45';
       if (!m.asset.clips[p.clip]?.[heading])
         throw new Error(`Unavailable facing: ${p.asset}/${p.clip}/${heading}`);
-    }
-  }
-  for (const p of d.objects)
-    if (p.fixture) {
-      if (ids.has(p.fixture.id)) throw new Error('Duplicate fixture identity: ' + p.fixture.id);
-      ids.add(p.fixture.id);
-      const f = p.fixture.flame;
-      if (manifests && f && !manifests.get(f.asset)?.asset.clips[f.clip]?.d45)
+      const f = p.fixture?.flame;
+      if (f && !manifests.get(f.asset)?.asset.clips[f.clip]?.d45)
         throw new Error(`Unavailable flame: ${f.asset}/${f.clip}`);
     }
+  }
   if (manifests && !deferredGround) {
     const findings = sceneEnvelopeFindings(d, manifests);
     if (findings.length)
@@ -384,15 +396,15 @@ export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
     if (!p) throw new Error('Missing attachment support: ' + id);
     if (visiting.has(id)) throw new Error('Cyclic attachment support: ' + id);
     visiting.add(id);
-    const { kind: _, ...fields } = p;
-    fields.purpose ??= 'Scene editor scenery';
+    const { kind: _, purpose: _purpose, ...fields } = p;
+    const purpose = p.purpose ?? 'Scene editor scenery';
     let placement: ArtPlacement;
     if (p.mount) {
       const parent = resolve(p.mount.to),
         [x, y, z] = placementOffset(parent, p.mount.offset);
       placement = {
         ...fields,
-        purpose: fields.purpose,
+        purpose,
         role: 'attachment',
         mount: p.mount,
         x: parent.x + x,
@@ -402,7 +414,7 @@ export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
     } else
       placement = {
         ...fields,
-        purpose: fields.purpose,
+        purpose,
         role: p.role as 'ground' | 'upright' | undefined,
         mount: undefined,
         x: p.x!,

@@ -4,7 +4,8 @@ import { cameraContract } from '../assets/camera-contract';
 import type { Point } from './world';
 
 /** Width and depth are the visible artwork dimensions, before ground foreshortening. */
-export function artworkFloorLayout(width: number, depth: number) {
+const layoutCache = new Map<string, ReturnType<typeof buildLayout>>();
+function buildLayout(width: number, depth: number) {
   const yaw = (cameraContract.azimuthDeg * Math.PI) / 180,
     elevation = (cameraContract.elevationDeg * Math.PI) / 180,
     c = Math.cos(yaw),
@@ -45,4 +46,15 @@ export function artworkFloorLayout(width: number, depth: number) {
       [side, 1 - bottom],
     ].map(world);
   return { corners, bounds, uv, world, playableBoundary };
+}
+
+export function artworkFloorLayout(width: number, depth: number) {
+  const key = width + 'x' + depth;
+  let layout = layoutCache.get(key);
+  if (!layout) {
+    layout = buildLayout(width, depth);
+    if (layoutCache.size > 64) layoutCache.clear();
+    layoutCache.set(key, layout);
+  }
+  return layout;
 }

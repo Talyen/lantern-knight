@@ -10,7 +10,7 @@ import { resolveScene } from '../src/content/world-art';
 import { parseManifest, type Manifest } from '../src/assets/schema';
 import { readAuthoringCatalog } from './assets/authoring-catalog';
 import { GroundProfileStore } from './scene/ground-profile-store';
-import { spawnPlacementAssets } from '../src/content/scene-placement';
+import { sceneAssetIds } from '../src/content/scene-placement';
 export async function checkSceneDocuments(
   root: string,
   publicDirectory: string,
@@ -44,7 +44,7 @@ export async function checkSceneDocuments(
       throw new Error('Scene filename differs from its identity: ' + file);
     const scene = resolveScene(d);
     catalog ??= await readAuthoringCatalog(publicDirectory);
-    for (const id of new Set([...scene.assets, ...spawnPlacementAssets(d)])) {
+    for (const id of new Set([...scene.assets, ...sceneAssetIds(d)])) {
       if (manifests.has(id)) continue;
       const source = catalog[id];
       if (!source) {

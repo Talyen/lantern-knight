@@ -4,7 +4,7 @@ import { placementOffset, sceneFixtures } from './scenery-presets';
 import type { Bounds, Point } from './world';
 import type { ArtPlacement, WorldVisualDefinition, SiteWall } from './world-visuals';
 export type ArtFinding = {
-  kind: 'solid-intersection' | 'invalid-registration' | 'blocked-route' | 'unknown-allowance';
+  kind: 'solid-intersection' | 'invalid-registration' | 'unknown-allowance';
   a: string;
   b?: string;
   message: string;
@@ -57,9 +57,11 @@ export function sceneArtFindings(art: WorldVisualDefinition): ArtFinding[] {
       findings.push({ kind: 'invalid-registration', a: p.id, message: 'Duplicate placement ID' });
     ids.add(p.id);
   }
+  const byId = new Map<string, (typeof art.props)[number]>();
+  for (const s of art.props) if (!byId.has(s.id)) byId.set(s.id, s);
   for (const p of art.props) {
     if (!p.mount) continue;
-    const support = art.props.find((s) => s.id === p.mount!.to);
+    const support = byId.get(p.mount.to);
     const [x, y, z] = placementOffset(support ?? {}, p.mount.offset);
     if (
       !support ||
@@ -123,6 +125,15 @@ export function sceneArtFindings(art: WorldVisualDefinition): ArtFinding[] {
       wall: w,
     })),
   ];
+  const overlapsByPair = new Map<string, Array<NonNullable<typeof art.overlaps>[number]>>();
+  for (const v of art.overlaps ?? []) {
+    for (const key of [v.a + '|' + v.b, v.b + '|' + v.a]) {
+      const list = overlapsByPair.get(key);
+      if (list) list.push(v);
+      else overlapsByPair.set(key, [v]);
+    }
+  }
+  const propIds = new Set(art.props.map((p) => p.id));
   for (let i = 0; i < solids.length; i++)
     for (let j = i + 1; j < solids.length; j++) {
       const a = solids[i]!,
@@ -145,12 +156,13 @@ export function sceneArtFindings(art: WorldVisualDefinition): ArtFinding[] {
         )
           continue;
       }
-      const allowance = art.overlaps?.find(
-        (v) =>
-          ((v.a === a.id && v.b === b.id) || (v.a === b.id && v.b === a.id)) &&
-          contains(v.region, { x: hit.minX, z: hit.minZ }) &&
-          contains(v.region, { x: hit.maxX, z: hit.maxZ }),
-      );
+      const allowance = overlapsByPair
+        .get(a.id + '|' + b.id)
+        ?.find(
+          (v) =>
+            contains(v.region, { x: hit.minX, z: hit.minZ }) &&
+            contains(v.region, { x: hit.maxX, z: hit.maxZ }),
+        );
       if (allowance) continue;
       findings.push({
         kind: 'solid-intersection',
@@ -161,7 +173,7 @@ export function sceneArtFindings(art: WorldVisualDefinition): ArtFinding[] {
     }
   for (const fixture of sceneFixtures(art))
     if (
-      !art.props.some((p) => p.id === fixture.prop) ||
+      !propIds.has(fixture.prop) ||
       !fixture.socket.every(Number.isFinite) ||
       fixture.power <= 0 ||
       fixture.radius <= 0

@@ -7,7 +7,7 @@ import { cameraContract } from '../assets/camera-contract';
 
 export const SCENE_LIGHT_CAPACITY = 3;
 export const SCENE_SHADE_CAPACITY = 8;
-export type SceneProfile = 'graveyard' | 'chapel';
+export type SceneProfile = Exclude<SceneDocument['profile'], 'study'>;
 type PlacementBase = Omit<
   SceneDocument['objects'][number],
   'kind' | 'label' | 'role' | 'mount' | 'x' | 'z' | 'purpose' | 'footprint' | 'fixture'
@@ -82,11 +82,9 @@ export function validateAreaArt(
     if (!p) throw new Error(`missing room art: ${id}`);
     return p.manifest;
   };
-  for (const id of [art.floor]) {
-    const m = pack(id);
-    if (m.asset.type !== 'material' || m.asset.projection !== 'top-down')
-      throw new Error('floor must use raw top-down material');
-  }
+  const floor = pack(art.floor);
+  if (floor.asset.type !== 'material' || floor.asset.projection !== 'top-down')
+    throw new Error('floor must use raw top-down material');
   for (const p of art.props) {
     if (
       !Number.isFinite(p.x + p.z + (p.y ?? 0) + (p.scale ?? 1)) ||
@@ -127,6 +125,11 @@ export function validateAreaArt(
   for (const id of ['ink-cues']) pack(id);
 }
 
+function arrivalBlend(heroZ: number, arrival: { start: number; end: number } | undefined): number {
+  if (!arrival) return 0;
+  return Math.max(0, Math.min(1, (heroZ - arrival.start) / (arrival.end - arrival.start)));
+}
+
 export function compositionPoint(
   hero: Point,
   frame: { halfWidth: number; halfHeight: number } | undefined,
@@ -134,9 +137,7 @@ export function compositionPoint(
 ): Point {
   const f = art?.camera;
   if (!f) return { ...hero };
-  const t = f.arrival
-      ? Math.max(0, Math.min(1, (hero.z - f.arrival.start) / (f.arrival.end - f.arrival.start)))
-      : 0,
+  const t = arrivalBlend(hero.z, f.arrival),
     biasZ = f.bias.z + (f.arrival ? f.arrival.biasZ - f.bias.z : 0) * t;
   const target = {
     x: Math.max(f.bounds.minX, Math.min(f.bounds.maxX, hero.x + f.bias.x)),
@@ -177,7 +178,7 @@ export function compositionSpan(
   const f = art?.camera,
     a = f?.arrival;
   if (!a?.span || requested !== cameraContract.verticalSpan) return requested;
-  const t = Math.max(0, Math.min(1, (hero.z - a.start) / (a.end - a.start))),
+  const t = arrivalBlend(hero.z, a),
     ease = t * t * (3 - 2 * t);
   return requested + (a.span - requested) * ease;
 }
@@ -186,6 +187,6 @@ export function compositionHeight(hero: Point, art: WorldVisualDefinition | unde
   const f = art?.camera,
     base = f?.targetHeight ?? 0,
     a = f?.arrival;
-  const t = a ? Math.max(0, Math.min(1, (hero.z - a.start) / (a.end - a.start))) : 0;
+  const t = arrivalBlend(hero.z, a);
   return base + ((a?.targetHeight ?? base) - base) * t;
 }

@@ -11,7 +11,7 @@ import { actors } from './actors';
 import { actorVisuals } from './visuals';
 
 export type PlacementFinding = { id: string; message: string };
-export function spawnPlacementAssets(document: SceneSnapshot): string[] {
+function spawnPlacementAssets(document: SceneSnapshot): string[] {
   return [
     ...new Set(
       (document.gameplay?.spawns ?? []).map((spawn) => {
@@ -24,16 +24,35 @@ export function spawnPlacementAssets(document: SceneSnapshot): string[] {
   ];
 }
 
+/** Every static asset root a scene needs before its packs can be validated. */
+export function sceneAssetIds(document: SceneSnapshot): Set<string> {
+  return new Set([
+    ...spawnPlacementAssets(document),
+    ...document.proceduralAssets,
+    ...(document.surround?.layers.map((layer) => layer.asset) ?? []),
+    ...document.objects.flatMap((p) => [
+      p.asset,
+      ...(p.fixture?.flame ? [p.fixture.flame.asset] : []),
+    ]),
+    ...(document.floor ? [document.floor.asset] : []),
+  ]);
+}
+
 export function sceneEnvelopeFindings(
   document: SceneSnapshot,
   manifests: ReadonlyMap<string, Manifest>,
 ): PlacementFinding[] {
   if (!document.groundInteraction) return [];
   const inspect = paintedEnvelopePolicy(document);
+  type Interactable = NonNullable<NonNullable<SceneSnapshot['gameplay']>['interactables']>[number];
+  const interactions = new Map<string, Interactable>();
+  for (const p of document.gameplay?.interactables ?? [])
+    if (!interactions.has(p.object)) interactions.set(p.object, p);
+  const pickups = new Set((document.gameplay?.pickups ?? []).map((p) => p.object));
   const findings: PlacementFinding[] = [];
   for (const object of document.objects) {
-    const interaction = document.gameplay?.interactables?.find((p) => p.object === object.id);
-    const pickup = document.gameplay?.pickups.some((p) => p.object === object.id);
+    const interaction = interactions.get(object.id);
+    const pickup = pickups.has(object.id);
     // Static scenery may sit partly behind painted foliage. Gameplay targets
     // still reserve their complete drawing so they begin fully discoverable.
     if (!interaction && !pickup && object.kind === 'prop') continue;
@@ -112,19 +131,23 @@ export function scenePlacementFindings(
 ): PlacementFinding[] {
   const inspect = groundPlacementPolicy(document, area);
   const findings: PlacementFinding[] = [];
+  const objects = new Map(document.objects.map((o) => [o.id, o] as const));
+  const interactive = new Set([
+    ...(area.interactables?.map((p) => p.object) ?? []),
+    ...(area.pickups?.map((p) => p.object) ?? []),
+  ]);
   const check = (id: string, point: Point, radius: number, allowPaintedOcclusion = false) => {
     const message = inspect(point, radius, allowPaintedOcclusion);
     if (message) findings.push({ id, message: `${id}: ${message}` });
   };
   for (const prop of art.props) {
-    const object = document.objects.find((o) => o.id === prop.id);
+    const object = objects.get(prop.id);
     if (object?.kind !== 'prop' && object?.kind !== 'character') continue;
     if (prop.role === 'ground' || prop.role === 'attachment') continue;
-    const radius = prop.footprint ? Math.hypot(...prop.footprint) / 2 : 0.3 * (prop.scale ?? 1);
-    const interactive =
-      area.interactables?.some((p) => p.object === prop.id) ||
-      area.pickups?.some((p) => p.object === prop.id);
-    check(prop.id, prop, radius, object.kind === 'prop' && !interactive);
+    const radius = prop.footprint
+      ? Math.hypot(prop.footprint[0], prop.footprint[1]) / 2
+      : 0.3 * (prop.scale ?? 1);
+    check(prop.id, prop, radius, object.kind === 'prop' && !interactive.has(prop.id));
   }
   for (const spawn of area.spawns) check(spawn.id, spawn, 0.3 + (spawn.jitterZ ?? 0));
   return findings;

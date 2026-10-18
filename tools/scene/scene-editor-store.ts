@@ -16,7 +16,7 @@ import {
 
 import { readAuthoringCatalog } from '../assets/authoring-catalog';
 import { parseManifest } from '../../src/assets/schema';
-import { spawnPlacementAssets } from '../../src/content/scene-placement';
+import { sceneAssetIds } from '../../src/content/scene-placement';
 import type { Plugin } from 'vite';
 const digest = (bytes: string | Buffer) => createHash('sha256').update(bytes).digest('hex');
 const validId = /^[a-z][a-z0-9-]{0,63}$/;
@@ -139,13 +139,7 @@ export function sceneEditorPlugin(
   const validate = async (d: SceneDocument) => {
     await ensurePublicFile?.('generated/library/catalog.json');
     const catalog = await readAuthoringCatalog(preparedPublic);
-    const ids = new Set([
-      ...spawnPlacementAssets(d),
-      ...d.proceduralAssets,
-      ...(d.surround?.layers.map((layer) => layer.asset) ?? []),
-      ...d.objects.flatMap((p) => [p.asset, ...(p.fixture?.flame ? [p.fixture.flame.asset] : [])]),
-      ...(d.floor ? [d.floor.asset] : []),
-    ]);
+    const ids = sceneAssetIds(d);
     const manifests = new Map(
       await Promise.all(
         [...ids].map(async (id) => {

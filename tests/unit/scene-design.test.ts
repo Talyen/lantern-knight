@@ -14,7 +14,12 @@ test('prototype artwork treatment and palette are advice; footprints may be expl
   p.footprint = [1.2, 0.7];
   const art = resolveSceneDocument(parseSceneDocument(d));
   assert.deepEqual(art.props[0]!.footprint, [1.2, 0.7]);
-  assert.doesNotThrow(() => sceneCompositionFindings(art));
+  const findings = sceneCompositionFindings(art);
+  assert.ok(
+    findings.some((note) => note.includes('experimental artwork treatment')),
+    'scaled, mirrored and tinted treatment is flagged as experimental advice, not rejected: ' +
+      findings.join('; '),
+  );
   const history = EditorHistory.create(d);
   history.transform(p.id, { scale: 3 });
   assert.equal(history.document.objects[0]!.scale, 3);

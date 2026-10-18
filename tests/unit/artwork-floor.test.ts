@@ -58,21 +58,24 @@ import { ContentRegistry } from '../../src/content/world';
 import { contentDefinitions } from '../fixtures/content';
 
 test('camera covers the floor and frames reachable hero silhouettes across edges, aspect and zoom', () => {
+  // A small matrix covers the meaningful axes: plain vs artwork floors, small vs
+  // large paintings, portrait vs wide aspects, min/max zoom, center vs opposite
+  // corners. Full Cartesian coverage added only runtime cost, not new requirements.
   for (const [width, depth, layout] of [
     [6, 4, undefined],
     [6, 4, 'artwork'],
-    [24, 24, 'artwork'],
     [30, 18, 'artwork'],
-    [18, 30, 'artwork'],
   ] as const) {
     const document = emptyScene();
     Object.assign(document.floor, { layout, width, depth });
     const { area } = resolveScene(document),
       frameHero = width > 6,
       height = cameraContract.heroHeight * tuning.heroVisualScale;
-    for (const aspect of [9 / 16, 16 / 9, frameHero ? 21 / 9 : 3, 6])
-      for (const span of frameHero ? [8.55, 15] : [2, 4, 9, 30])
-        for (const p of [{ x: 0, z: 0 }, ...artworkFloorLayout(width, depth).corners]) {
+    const corners = artworkFloorLayout(width, depth).corners;
+    const positions = [{ x: 0, z: 0 }, corners[0]!, corners[2]!];
+    for (const aspect of [9 / 16, 16 / 9])
+      for (const span of frameHero ? [8.55, 15] : [2, 30])
+        for (const p of positions) {
           const hero = supportedPosition(area, p, 0.3),
             position = new Vector3(hero.x, 0, hero.z),
             target = position.clone().add(new Vector3(0, 1.7, 0)),

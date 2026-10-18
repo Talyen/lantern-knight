@@ -73,6 +73,7 @@ export function paintedEnvelopePolicy(
     ...mask,
     ...polygonBounds(mask.outer),
   }));
+  const elevationCos = Math.cos((cameraContract.elevationDeg * Math.PI) / 180);
   return (
     foot: Point,
     bounds: PlacementEnvelope,
@@ -90,18 +91,17 @@ export function paintedEnvelopePolicy(
     const c = Math.cos(angle),
       s = Math.sin(angle);
     const [u, v] = layout.uv(foot);
+    const jitters = transform.jitterZ ? [0, transform.jitterZ] : [0];
     const samples = [bounds.left, bounds.right].flatMap((x) =>
       [bounds.top, bounds.bottom].flatMap((y) =>
-        [0, transform.jitterZ ?? 0].map((jitter) => {
+        jitters.map((jitter) => {
           const [ju, jv] = layout.uv({ x: foot.x, z: foot.z + jitter });
           const mx = x * (transform.mirror ? -1 : 1);
           return {
             x: ju + ((mx * c - y * s) * scale) / document.floor.width,
             z:
               jv -
-              ((mx * s + y * c) * scale +
-                (transform.y ?? 0) * Math.cos((cameraContract.elevationDeg * Math.PI) / 180)) /
-                document.floor.depth,
+              ((mx * s + y * c) * scale + (transform.y ?? 0) * elevationCos) / document.floor.depth,
           };
         }),
       ),
@@ -117,24 +117,23 @@ export function paintedEnvelopePolicy(
       return 'registered artwork extends beyond the painting';
     const region = { minX: left, maxX: right, minZ: top, maxZ: bottom };
     const rectangle = boundsCorners(region);
-    const hit = masks.find(
-      (m) =>
-        m.minX <= right &&
-        m.maxX >= left &&
-        m.minZ <= bottom &&
-        m.maxZ >= top &&
-        (rectangle.some(
+    const hit = masks.find((m) => {
+      const overlapsBounds = m.minX <= right && m.maxX >= left && m.minZ <= bottom && m.maxZ >= top;
+      if (!overlapsBounds) return false;
+      return (
+        rectangle.some(
           (p) => insidePolygon(p, m.outer) && !m.holes.some((h) => insidePolygon(p, h)),
         ) ||
-          m.outer.some((p) => contains(region, p)) ||
-          [m.outer, ...m.holes].some((ring) =>
-            ring.some((a, i) =>
-              rectangle.some((b, j) =>
-                segmentsIntersect(a, ring[(i + 1) % ring.length]!, b, rectangle[(j + 1) % 4]!),
-              ),
+        m.outer.some((p) => contains(region, p)) ||
+        [m.outer, ...m.holes].some((ring) =>
+          ring.some((a, i) =>
+            rectangle.some((b, j) =>
+              segmentsIntersect(a, ring[(i + 1) % ring.length]!, b, rectangle[(j + 1) % 4]!),
             ),
-          )),
-    );
+          ),
+        )
+      );
+    });
     if (hit) return `registered artwork overlaps painted scenery “${hit.name}”`;
   };
 }

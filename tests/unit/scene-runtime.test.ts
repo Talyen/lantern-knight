@@ -1,7 +1,7 @@
 import { interactable } from '../fixtures/world';
 import { onExit } from '../../tools/scope-exit';
 import { RoomPresentation } from '../../src/presentation/room-presentation';
-import { test } from 'node:test';
+import { test, type TestContext } from 'node:test';
 import assert from 'node:assert/strict';
 import * as T from 'three';
 import { GameSession } from '../../src/core/session';
@@ -53,11 +53,8 @@ test('untextured diagnostics render terrain but require explicit visuals for sce
     );
 });
 
-test('room build failure releases the unattached grid and can rebuild cleanly', (t) => {
-  const area = { ...content.area('court'), props: [], exits: [] },
-    texture = new T.CanvasTexture({} as HTMLCanvasElement),
-    room = new RoomPresentation(new Map(), makeCamera(1), texture, registration),
-    destroyed = new Set<object>();
+function trackConstructionDisposal(t: TestContext) {
+  const destroyed = new Set<object>();
   for (const prototype of [T.BufferGeometry.prototype, T.Material.prototype]) {
     const dispose = prototype.dispose;
     t.mock.method(prototype, 'dispose', function (this: T.BufferGeometry | T.Material) {
@@ -65,6 +62,14 @@ test('room build failure releases the unattached grid and can rebuild cleanly', 
       dispose.call(this);
     });
   }
+  return destroyed;
+}
+
+test('room build failure releases the unattached grid and can rebuild cleanly', (t) => {
+  const area = { ...content.area('court'), props: [], exits: [] },
+    texture = new T.CanvasTexture({} as HTMLCanvasElement),
+    room = new RoomPresentation(new Map(), makeCamera(1), texture, registration),
+    destroyed = trackConstructionDisposal(t);
   const add = room.room.add.bind(room.room);
   room.room.add = function (...objects) {
     if (objects.some((object) => object instanceof T.LineSegments))
@@ -91,14 +96,7 @@ test('failed scenery construction releases contact shadows before room ownership
   const area = { ...content.area('court'), props: [], exits: [] },
     texture = new T.CanvasTexture({} as HTMLCanvasElement),
     room = new RoomPresentation(new Map(), makeCamera(1), texture, registration),
-    destroyed = new Set<object>();
-  for (const prototype of [T.BufferGeometry.prototype, T.Material.prototype]) {
-    const dispose = prototype.dispose;
-    t.mock.method(prototype, 'dispose', function (this: T.BufferGeometry | T.Material) {
-      destroyed.add(this);
-      dispose.call(this);
-    });
-  }
+    destroyed = trackConstructionDisposal(t);
   const add = room.room.add.bind(room.room);
   room.room.add = function (...objects) {
     add(...objects);
