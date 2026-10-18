@@ -10,7 +10,7 @@ import zipfile
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2] / "tools/assets"))
 from library_import import Package, Importer, LoosePackage, animation_contract
-from library_sequences import supplied_sequences
+from library_sequences import supplied_sequences, interactable_sequences
 
 
 def package(files):
@@ -29,6 +29,82 @@ def png(w, h):
 
 
 class ImportTests(unittest.TestCase):
+    def test_scene_props_keep_separate_native_and_runtime_playback_and_terminal_holds(self):
+        data = {
+            "crate": {
+                "action": "open",
+                "frame_count": 3,
+                "native_cell": [16, 16],
+                "runtime_cell": [8, 8],
+                "pivot_native": [8, 15],
+                "pivot_runtime": [4, 7.5],
+                "durations_ms": [100, 130, 0],
+            }
+        }
+        p = package(
+            {
+                f"pack/{v}/crate_{i:02d}.png": png(size, size)
+                for v, size in [("native", 16), ("runtime", 8)]
+                for i in range(3)
+            }
+        )
+        original = json.dumps(data)
+        variants = interactable_sequences(p, "pack/timing.json", data)
+        importer = Importer([p])
+        for name, record in variants:
+            importer.animation(p, "pack/timing.json", record, name)
+        self.assertEqual(len(importer.assets), 2)
+        for asset, (name, record) in zip(importer.assets.values(), variants):
+            self.assertEqual(set(asset["clips"]), {"open", "closed", "opened"})
+            clip = asset["clips"]["open"]["d45"]
+            self.assertEqual(clip["durationsMs"], [100, 130, 1000 / 60])
+            self.assertFalse(clip["loop"])
+            self.assertEqual(clip["endBehavior"], "hold")
+            self.assertEqual(
+                [f["member"] for f in clip["frames"]],
+                [f"pack/{name.split('-')[-1]}/crate_{i:02d}.png" for i in range(3)],
+            )
+            self.assertTrue(all(f["anchor"] == record["pivot_px"] for f in clip["frames"]))
+            self.assertEqual(clip["frames"][0]["canvas"][0] / clip["frames"][0]["density"], 8 / 256)
+        self.assertEqual(json.dumps(data), original)
+        p.names.remove("pack/native/crate_01.png")
+        with self.assertRaisesRegex(ValueError, "missing"):
+            interactable_sequences(p, "pack/timing.json", data)
+
+    def test_interactable_external_release_splits_segments_and_scales_native_pivot(self):
+        data = {
+            "name": "trial",
+            "native_canvas": [16, 20],
+            "runtime_canvas": [8, 10],
+            "ground_anchor_native": [8, 18],
+            "authored_cels": 4,
+            "frame_duration_ms": [100, 0, 200, 0],
+            "segments": {"arm": [0, 1], "completion": [2, 3]},
+            "holds": {"ready": 0, "armed": 1, "completed": 3},
+            "completion_frame": 3,
+        }
+        p = package(
+            {
+                f"{v}/{i:02d}_state.png": png(w, h)
+                for v, w, h in [("native", 16, 20), ("runtime", 8, 10)]
+                for i in [3, 1, 2, 0]
+            }
+        )
+        importer = Importer([p])
+        for name, record in interactable_sequences(p, "metadata.json", data):
+            asset = importer.animation(p, "metadata.json", record, name)
+            self.assertNotIn("interact", asset["clips"])
+            self.assertEqual(asset["clips"]["arm"]["d45"]["durationsMs"], [100, 1000 / 60])
+            completion = asset["clips"]["completion"]["d45"]
+            self.assertEqual(completion["markers"], [{"id": "complete", "atMs": 200}])
+            self.assertEqual(
+                completion["frames"][0]["anchor"], [8, 18] if name.endswith("native") else [4, 9]
+            )
+        self.assertIsNone(interactable_sequences(p, "review.json", data))
+        data["segments"] = {"interact": [0, 1, 2, 3]}
+        with self.assertRaisesRegex(ValueError, "externally controlled hold"):
+            interactable_sequences(p, "metadata.json", data)
+
     def test_review_inventory_is_not_playback_but_missing_timed_drawings_remain_a_contract(self):
         review = {"frames": [{"file": "a.png", "sha256": "a", "alpha_bbox": [1, 2, 3, 4]}]}
         self.assertFalse(animation_contract(review))

@@ -13,7 +13,7 @@ import struct
 import sys
 from contextlib import ExitStack
 from resolver import PROJECT, SourceResolver, load_index, safe_relative
-from library_sequences import supplied_sequences, frame_sha256
+from library_sequences import supplied_sequences, frame_sha256, interactable_sequences
 from source import open_archive
 
 HEADINGS = {"DR": "d90", "DL": "d00", "UL": "d270", "UR": "d180"}
@@ -1435,7 +1435,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                     if not isinstance(data, dict):
                         continue
                     try:
-                        data = supplied_sequences(package, member, data)
+                        variants = interactable_sequences(package, member, data)
                     except (ValueError, KeyError, TypeError, IndexError, AttributeError) as error:
                         metadata_failure(
                             package,
@@ -1446,59 +1446,17 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                             package.metadata_hashes[member],
                         )
                         continue
-                    if not animation_contract(data):
-                        continue
-                    clips = data.get("clips")
-                    if clips and (
-                        not isinstance(clips, (dict, list))
-                        or not all(
-                            isinstance(c, dict)
-                            for c in (clips.values() if isinstance(clips, dict) else clips)
-                        )
-                    ):
-                        continue
-                    frames = data.get("frames")
-                    if not clips and not (
-                        isinstance(frames, list)
-                        and frames
-                        and isinstance(frames[0], dict)
-                        and any(k in frames[0] for k in ("file", "png", "sprite", "path", "image"))
-                    ):
-                        continue
-                    trial = Importer([package])
-                    identity = (
-                        "animation-"
-                        + archive_identity.get("assetIdentity", archive_identity["sha256"])[:16]
-                        + "-"
-                        + hashlib.sha256(member.encode()).hexdigest()[:12]
-                    )
-                    try:
-                        trial.animation(
-                            package,
-                            member,
-                            data,
-                            identity,
-                            label=archive_identity["pathHint"] + " / " + member,
-                            kind=data.get("type")
-                            if data.get("type") in ("character", "prop", "effect")
-                            else "prop",
-                            defaults={"pixels_per_unit": 256},
-                        )
-                        if not all(a["clips"] for a in trial.assets.values()):
-                            raise ValueError("no complete animation clips")
-                        for a in trial.assets.values():
-                            for directions in a["clips"].values():
-                                for clip in directions.values():
-                                    for frame in clip["frames"]:
-                                        if any(
-                                            n < 0 or n > frame["canvas"][i]
-                                            for i, n in enumerate(frame["anchor"])
-                                        ):
-                                            raise ValueError(
-                                                "supplied registration requires an adapter"
-                                            )
-                    except (ValueError, KeyError, TypeError, IndexError, AttributeError) as error:
-                        if not known or member not in known.cache:
+                    variants = variants if variants is not None else [("", data)]
+                    for variant, data in variants:
+                        try:
+                            data = supplied_sequences(package, member, data)
+                        except (
+                            ValueError,
+                            KeyError,
+                            TypeError,
+                            IndexError,
+                            AttributeError,
+                        ) as error:
                             metadata_failure(
                                 package,
                                 member,
@@ -1507,16 +1465,92 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                                 archive_identity["pathHint"],
                                 package.metadata_hashes[member],
                             )
-                    else:
-                        conflicts = importer.assets.keys() & trial.assets.keys()
-                        if conflicts:
-                            raise ValueError(
-                                "Conflicting discovered animation identities: "
-                                + ", ".join(sorted(conflicts))
+                            continue
+                        if not animation_contract(data):
+                            continue
+                        clips = data.get("clips")
+                        if clips and (
+                            not isinstance(clips, (dict, list))
+                            or not all(
+                                isinstance(c, dict)
+                                for c in (clips.values() if isinstance(clips, dict) else clips)
                             )
-                        importer.assets.update(trial.assets)
-                        for identity, bindings in trial.metadata_bindings.items():
-                            importer.metadata_bindings.setdefault(identity, set()).update(bindings)
+                        ):
+                            continue
+                        frames = data.get("frames")
+                        if not clips and not (
+                            isinstance(frames, list)
+                            and frames
+                            and isinstance(frames[0], dict)
+                            and any(
+                                k in frames[0] for k in ("file", "png", "sprite", "path", "image")
+                            )
+                        ):
+                            continue
+                        trial = Importer([package])
+                        identity = (
+                            "animation-"
+                            + archive_identity.get("assetIdentity", archive_identity["sha256"])[:16]
+                            + "-"
+                            + hashlib.sha256(member.encode()).hexdigest()[:12]
+                            + ("-" + slug(variant) if variant else "")
+                        )
+                        try:
+                            trial.animation(
+                                package,
+                                member,
+                                data,
+                                identity,
+                                label=archive_identity["pathHint"]
+                                + " / "
+                                + member
+                                + (" / " + variant if variant else ""),
+                                kind=data.get("type")
+                                if data.get("type") in ("character", "prop", "effect")
+                                else "prop",
+                                defaults={"pixels_per_unit": 256},
+                            )
+                            if not all(a["clips"] for a in trial.assets.values()):
+                                raise ValueError("no complete animation clips")
+                            for a in trial.assets.values():
+                                for directions in a["clips"].values():
+                                    for clip in directions.values():
+                                        for frame in clip["frames"]:
+                                            if any(
+                                                n < 0 or n > frame["canvas"][i]
+                                                for i, n in enumerate(frame["anchor"])
+                                            ):
+                                                raise ValueError(
+                                                    "supplied registration requires an adapter"
+                                                )
+                        except (
+                            ValueError,
+                            KeyError,
+                            TypeError,
+                            IndexError,
+                            AttributeError,
+                        ) as error:
+                            if not known or member not in known.cache:
+                                metadata_failure(
+                                    package,
+                                    member,
+                                    data,
+                                    error,
+                                    archive_identity["pathHint"],
+                                    package.metadata_hashes[member],
+                                )
+                        else:
+                            conflicts = importer.assets.keys() & trial.assets.keys()
+                            if conflicts:
+                                raise ValueError(
+                                    "Conflicting discovered animation identities: "
+                                    + ", ".join(sorted(conflicts))
+                                )
+                            importer.assets.update(trial.assets)
+                            for identity, bindings in trial.metadata_bindings.items():
+                                importer.metadata_bindings.setdefault(identity, set()).update(
+                                    bindings
+                                )
             locators = {
                 info["sha256"]: (group, member)
                 for group, records in sorted(index["files"].items())

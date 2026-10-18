@@ -16,6 +16,151 @@ def frame_sha256(record, shared_states=None):
     )
 
 
+def interactable_sequences(package, member, data):
+    """Keep each supplied scene prop and resolution as its own playable asset."""
+    if not isinstance(data, dict):
+        return None
+    base = str(pathlib.PurePosixPath(member).parent)
+    records = None
+    if (
+        pathlib.PurePosixPath(member).name == "timing.json"
+        and data
+        and all(
+            isinstance(v, dict) and v.get("action") in ("open", "break") and v.get("frame_count")
+            for v in data.values()
+        )
+    ):
+        records = data
+    elif (
+        pathlib.PurePosixPath(member).name == "metadata.json"
+        and data.get("native_canvas")
+        and (data.get("timing_ms") or data.get("frame_duration_ms"))
+    ):
+        records = {data.get("name", data.get("asset", "interact")): data}
+    if records is None:
+        return None
+    result = []
+    for name, record in records.items():
+        durations = record.get(
+            "durations_ms",
+            record.get(
+                "frame_durations_ms", record.get("timing_ms", record.get("frame_duration_ms"))
+            ),
+        )
+        count = record.get("frame_count", record.get("authored_cels", len(durations)))
+        if not isinstance(durations, list) or len(durations) != count or count < 1:
+            raise ValueError("Interactable timing must cover every supplied cel")
+        for variant in ("native", "runtime"):
+            pivot = record.get(
+                "pivot_" + variant,
+                record.get(
+                    variant + "_pivot_pixels",
+                    record.get("ground_anchor_" + variant, record.get("ground_contact_" + variant)),
+                ),
+            )
+            if pivot is None and variant == "runtime":
+                original = record.get("ground_anchor_native")
+                if original and record.get("runtime_canvas"):
+                    pivot = [
+                        original[i] * record["runtime_canvas"][i] / record["native_canvas"][i]
+                        for i in range(2)
+                    ]
+            if pivot is None:
+                raise ValueError("Interactable is missing its supplied ground pivot")
+            if record.get("action"):
+                files = [
+                    str(pathlib.PurePosixPath(base) / f"{variant}/{name}_{i:02d}.png")
+                    for i in range(count)
+                ]
+                if any(f not in package.names for f in files):
+                    raise ValueError("Interactable is missing a supplied cel")
+            else:
+                folder = str(pathlib.PurePosixPath(base) / variant) + "/"
+                candidates = [
+                    n for n in package.names if n.startswith(folder) and n.endswith(".png")
+                ]
+                indexed = {}
+                for path in candidates:
+                    match = re.fullmatch(
+                        r"(?:frame_)?(\d{2})_.+|(?:frame_)?(\d{2})",
+                        pathlib.PurePosixPath(path).stem,
+                    )
+                    if match:
+                        index = int(match.group(1) or match.group(2))
+                        if index in indexed:
+                            raise ValueError("Ambiguous interactable cel index")
+                        indexed[index] = path
+                if set(indexed) != set(range(count)):
+                    raise ValueError("Interactable drawings do not match the declared cel sequence")
+                files = [indexed[i] for i in range(count)]
+            canvas = package.dimensions(files[0])
+            if any(package.dimensions(f) != canvas for f in files):
+                raise ValueError("Interactable cels do not share the supplied canvas")
+            native = record.get("native_canvas", record.get("native_cell"))
+            runtime = record.get("runtime_canvas", record.get("runtime_cell"))
+            if native is None:
+                native = package.dimensions(package.locate(f"native/{name}_00.png", base))
+                runtime = package.dimensions(package.locate(f"runtime/{name}_00.png", base))
+            density = 256 * canvas[0] / runtime[0]
+            frames = [
+                {"file": f, "duration_ms": d, "terminal_hold": d == 0}
+                for f, d in zip(files, durations)
+            ]
+            holds = record.get("holds", {})
+            if record.get("action"):
+                action = record["action"]
+                segments = {action: list(range(count))}
+                holds = {
+                    "closed" if action == "open" else "intact": 0,
+                    "opened" if action == "open" else "broken": count - 1,
+                }
+            else:
+                segments = record.get("segments", {"interact": list(range(count))})
+                holds = holds or {
+                    "ready": record.get("ready_frame", 0),
+                    "completed": record.get(
+                        "completed_frame", record.get("completion_frame", count - 1)
+                    ),
+                }
+            clips = {}
+            for clip, indices in segments.items():
+                if not indices or any(type(i) is not int or i < 0 or i >= count for i in indices):
+                    raise ValueError("Interactable segment references an absent cel")
+                selected = [frames[i] for i in indices]
+                if any(f["duration_ms"] == 0 for f in selected[:-1]):
+                    raise ValueError("Interactable segment crosses an externally controlled hold")
+                clips[clip] = {"frames": selected, "loop": False, "end_behavior": "hold"}
+                event = record.get("completion_event_frame", record.get("completion_frame"))
+                if event in indices:
+                    clips[clip]["events"] = [
+                        {
+                            "id": "complete",
+                            "time_ms": sum(
+                                f["duration_ms"] for f in selected[: indices.index(event)]
+                            ),
+                        }
+                    ]
+            for hold, index in holds.items():
+                if type(index) is not int or index < 0 or index >= count:
+                    raise ValueError("Interactable hold references an absent cel")
+                clips[hold] = {
+                    "frames": [{"file": files[index], "duration_ms": 1000}],
+                    "loop": False,
+                }
+            result.append(
+                (
+                    str(name) + "-" + variant,
+                    {
+                        "canvas": list(canvas),
+                        "pivot_px": pivot,
+                        "pixels_per_unit": density,
+                        "clips": clips,
+                    },
+                )
+            )
+    return result
+
+
 def supplied_sequences(package, member, data):
     if not isinstance(data, dict):
         return data
