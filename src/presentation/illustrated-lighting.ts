@@ -37,7 +37,7 @@ float inkLocalVisibility(int i,vec3 receiver,vec3 normal){
 const shader = `
 ${rigidSwordGLSL}
 varying vec3 inkWorld,inkShadowWorld; varying vec3 inkSurface; varying vec2 inkUV;
-uniform float inkEnabled,inkStrength,inkAmbient,inkMinimumLight,inkKeyStrength,inkRim,inkHaze,inkIsGround,inkEmissive,inkHasNormal,inkBlend,inkWarp,inkMix,inkMirror,inkFootY,inkBodyHeight,inkShadowEnabled,inkIsSprite;
+uniform float inkEnabled,inkStrength,inkAmbient,inkMinimumLight,inkKeyStrength,inkRim,inkHaze,inkIsGround,inkEmissive,inkHasNormal,inkBlend,inkWarp,inkMix,inkMirror,inkFootY,inkBodyHeight,inkShadowEnabled,inkIsSprite,inkIsProp;
 uniform vec3 inkFootPosition;uniform vec4 inkShadeZones[${SCENE_SHADE_CAPACITY}];
 uniform vec3 inkSky,inkGround,inkKey,inkDirection,inkFog,inkOrigin;
 uniform vec3 inkLightPosition[5]; uniform vec3 inkLightColor[5]; uniform float inkLightPower[5],inkLightRange[5];
@@ -109,7 +109,7 @@ vec3 inkIlluminate(vec3 base){
   base*=1.0-.08*smoothstep(.12,.8,value);
   base=mix(vec3(dot(base,vec3(.2126,.7152,.0722))),base,.96);
  }
- vec3 n=painted.b>.1?normalize(vec3(${outward.x},0.0,${outward.z})):inkNormal();float skyWeight=inkIsGround>.5?.85:clamp(.30+.45*(inkWorld.y-inkFootY)/inkBodyHeight+n.y*.15,0.0,1.0);
+ vec3 n=painted.b>.1?normalize(vec3(${outward.x},0.0,${outward.z})):inkNormal();float skyWeight=(inkIsGround>.5||inkIsProp>.5)?.85:clamp(.30+.45*(inkWorld.y-inkFootY)/inkBodyHeight+n.y*.15,0.0,1.0);
  vec3 illumination=mix(inkGround,inkSky,skyWeight)*inkAmbient;
  float key=max(0.0,dot(n,inkDirection))*inkVisibility(receiver);illumination+=inkKey*(.16+key*.84)*inkKeyStrength;
  // Broad silhouettes supply stylized relief; texture luminance is never treated as height.
@@ -189,6 +189,7 @@ export class IllustratedLighting {
       inkEmissive: { value: emissive ? 1 : 0 },
       inkFootY: { value: 0 },
       inkIsSprite: { value: 0 },
+      inkIsProp: { value: 0 },
       inkCohesionEligible: { value: 0 },
       inkEnvironmentColor: { value: new T.Vector4(0.5, 0.5, 0.5, 0) },
       inkFootPosition: { value: new T.Vector3() },
@@ -243,7 +244,7 @@ export class IllustratedLighting {
       );
     };
     material.customProgramCacheKey = () =>
-      `${key}:illustrated-lighting-v6:${!!this.localShadowMaps[0]!.value}`;
+      `${key}:illustrated-lighting-v7:${!!this.localShadowMaps[0]!.value}`;
     material.needsUpdate = true;
     this.attached.set(material, uniforms);
     return uniforms;
@@ -260,6 +261,12 @@ export class IllustratedLighting {
         if (environmentColor) u.inkEnvironmentColor.value.copy(environmentColor);
         else u.inkEnvironmentColor.value.set(0.5, 0.5, 0.5, 0);
         u.inkIsSprite.value = 1;
+        // Illustrated props already contain their own top/side value structure.
+        // Match the painting's ambient exposure; normals still shape local lights.
+        u.inkIsProp.value =
+          sprite.manifest.asset.type === 'prop' && sprite.manifest.asset.placement !== 'ground'
+            ? 1
+            : 0;
         u.inkCohesionEligible.value =
           sprite.mesh.renderOrder > -1.7 &&
           (sprite.manifest.asset.type === 'character' ||

@@ -8,6 +8,7 @@ import { actorVisuals } from '../content/visuals';
 import * as T from 'three';
 import { GamePresentation } from '../presentation/game-scene';
 import { ActorSprite } from '../presentation/sprite';
+import { cameraContract } from '../assets/camera-contract';
 import { resolveClip } from '../assets/schema';
 import { resolveScene } from '../content/world-art';
 import {
@@ -33,24 +34,27 @@ import type { AssetRuntime, PackLease, PackBatch } from '../assets/loader';
 import { sceneItems } from './model';
 class EditorPresentation extends GamePresentation {
   center = new T.Vector3();
+  gameCamera = false;
   overlay = new T.Group();
   beforeRender = () => {};
   protected override renderFrame(sim: SimulationView, ms: number) {
     this.aim.visible = false;
     this.flare.visible = false;
     for (const v of this.actorPresentation.actors.values()) v.ring.visible = false;
-    resizeCamera(this.camera, this.canvas.clientWidth, this.canvas.clientHeight, this.viewSpan);
-    this.viewTarget.copy(this.center);
-    constrainCamera(this.camera, this.viewTarget, sim.areaDefinition);
-    this.cameraTarget.copy(this.viewTarget);
-    this.camera.position.copy(this.viewTarget).addScaledVector(outward, 30);
-    this.camera.lookAt(this.viewTarget);
-    this.camera.updateMatrixWorld();
+    if (!this.gameCamera) {
+      resizeCamera(this.camera, this.canvas.clientWidth, this.canvas.clientHeight, this.viewSpan);
+      this.viewTarget.copy(this.center);
+      constrainCamera(this.camera, this.viewTarget, sim.areaDefinition);
+      this.cameraTarget.copy(this.viewTarget);
+      this.camera.position.copy(this.viewTarget).addScaledVector(outward, 30);
+      this.camera.lookAt(this.viewTarget);
+      this.camera.updateMatrixWorld();
+    } else this.center.copy(this.viewTarget);
     this.beforeRender();
     super.renderFrame(sim, ms);
   }
   override get viewSpan() {
-    return this.verticalSpan;
+    return this.gameCamera ? super.viewSpan : this.verticalSpan;
   }
 }
 export class EditorView {
@@ -101,14 +105,34 @@ export class EditorView {
     { position: T.Vector3; scale: T.Vector3; quaternion: T.Quaternion }
   >();
   private appliedDocument?: SceneSnapshot;
-  private walking?: { x: number; z: number; yaw: number; initialYaw: number; center: T.Vector3 };
+  private walking?: {
+    x: number;
+    z: number;
+    yaw: number;
+    initialYaw: number;
+    center: T.Vector3;
+    gameCamera: boolean;
+    span: number;
+  };
   setHeroWalking(enabled: boolean) {
     if (!this.available || !this.simulation || !this.renderer) return;
     if (enabled && !this.walking) {
       const { x, z, yaw } = this.simulation.hero;
-      this.walking = { x, z, yaw, initialYaw: yaw, center: this.renderer.center.clone() };
+      this.walking = {
+        x,
+        z,
+        yaw,
+        initialYaw: yaw,
+        center: this.renderer.center.clone(),
+        gameCamera: this.renderer.gameCamera,
+        span: this.renderer.verticalSpan,
+      };
+      this.renderer.gameCamera = true;
+      this.renderer.verticalSpan = cameraContract.verticalSpan;
     } else if (!enabled && this.walking) {
       this.renderer.center.copy(this.walking.center);
+      this.renderer.gameCamera = this.walking.gameCamera;
+      this.renderer.verticalSpan = this.walking.span;
       this.simulation.hero.yaw = this.walking.initialYaw;
       this.walking = undefined;
       this.simulation.hero.state = 'idle';
@@ -320,6 +344,8 @@ export class EditorView {
       });
       const presentation = this.renderer!;
       if (!this.warmed) {
+        await presentation.loadAnimationFlow();
+        if (this.closed) throw new Error('Editor closed');
         await presentation.warm();
         if (this.closed) throw new Error('Editor closed');
         this.warmed = true;
@@ -338,6 +364,16 @@ export class EditorView {
     } finally {
       this.applying = false;
     }
+  }
+  setGameCamera(enabled: boolean) {
+    if (!this.available || !this.renderer) return;
+    if (!enabled && this.renderer.gameCamera) {
+      this.renderer.center.copy(this.renderer.viewTarget);
+      this.renderer.verticalSpan = this.renderer.viewSpan;
+    }
+    this.renderer.gameCamera = enabled;
+    if (enabled) this.renderer.verticalSpan = cameraContract.verticalSpan;
+    this.render();
   }
   hero(point: { x: number; z: number }) {
     if (!this.available) return;

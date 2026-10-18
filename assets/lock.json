@@ -1,8 +1,8 @@
 {
   "schemaVersion": 4,
-  "sha256": "95ef51de6e5ee69d2983bc4d3ec60c7ce7f20fa9cd29abc2503d838f3362531f",
-  "inventorySha256": "95ef51de6e5ee69d2983bc4d3ec60c7ce7f20fa9cd29abc2503d838f3362531f",
-  "bytes": 24636242861,
+  "sha256": "820cdf994f55241600dc03349a13964b59e2d17b977bfb5eafc1e81fd15c9585",
+  "inventorySha256": "820cdf994f55241600dc03349a13964b59e2d17b977bfb5eafc1e81fd15c9585",
+  "bytes": 24624037172,
   "recipeSha256": "34737bbadceed1344acdb4312ddc5c77f1987405f802ea6a349126ac51f22a37",
   "preparation": {
     "recipeSha256": "34737bbadceed1344acdb4312ddc5c77f1987405f802ea6a349126ac51f22a37",
@@ -106,12 +106,12 @@
       "tools/compiler.ts": "169f3afd8b34452dc4dab930b99389cc0ea7a5598b0068602a07f9ec7e5c5589",
       "tools/lighting-bindings.ts": "fc0212029302de66c1f78998347d174156246d16641ae930ff5774affd42cb8f"
     },
-    "payloadSha256": "bd25ace5a5a39e6564ae5bb58b489efd53e41cd9276122baef23d1a761975f8a"
+    "payloadSha256": "366b5697e1dea1f9bac215a4b7927f8a43480732a7ade75264dacb9105651129"
   },
   "fileDelivery": {
-    "releaseTag": "assets-catalog-4246d67b3e6d35fa",
+    "releaseTag": "assets-catalog-e983d18974569120",
     "filename": "files.json.gz",
-    "sha256": "4246d67b3e6d35fa91e809077b621185dba01f2da77243238f8967c3cea8c69c",
-    "bytes": 10678942
+    "sha256": "e983d18974569120c79a8bec66a4224d37a163327c459c91682ad0bb9803b7af",
+    "bytes": 10670296
   }
 }

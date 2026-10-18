@@ -332,6 +332,7 @@ export function createEditorSession() {
   function fit() {
     const p = view.presentation;
     if (!p) return;
+    view.setGameCamera(false);
     const b = p.area.bounds;
     const floor = documents.history.document.floor;
     const artwork =
@@ -629,10 +630,7 @@ export function createEditorSession() {
   $('delete').onclick = () => void composition?.remove();
   $('fit').onclick = fit;
   $('reset-game-zoom').onclick = () => {
-    if (!view.presentation) return;
-    view.presentation.verticalSpan = cameraContract.verticalSpan;
-    view.resize();
-    view.render();
+    view.setGameCamera(true);
   };
   let walkingHero = false;
   const walkKeys = new Set<string>();
@@ -1048,6 +1046,7 @@ export function createEditorSession() {
         composition.set(item.placement.id, e.shiftKey);
       if (e.shiftKey || composition.locked.has(item.placement.id)) return;
     }
+    if (mode === 'pan') view.setGameCamera(false);
     const root = hero ? documents.history.document.hero : (item?.placement ?? { x: 0, z: 0 }),
       height =
         mode === 'pan'
@@ -1176,6 +1175,7 @@ export function createEditorSession() {
   canvas.onwheel = (e) => {
     e.preventDefault();
     if (busy || !view?.presentation) return;
+    view.setGameCamera(false);
     view.presentation.verticalSpan = Math.max(
       3,
       Math.min(

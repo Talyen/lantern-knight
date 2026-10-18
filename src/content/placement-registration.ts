@@ -198,14 +198,7 @@ export const placementRegistration: Readonly<
       opened: envelope(-0.14926, 0.14926, 0.29626, 0.0015),
     },
   },
-  'library-animation-ad1ac49313c9c860-b56f2f6ad561-forge_bellows_bench-native': {
-    hash: '9242a52d7dd996420a0f379cf26420b6a75a28cd0505ca1368ad9e1b9be7b716',
-    clips: {
-      interact: envelope(-0.44141, 0.43946, 0.66993, -0.00782),
-      ready: envelope(-0.41602, 0.42774, 0.64258, 0),
-      completed: envelope(-0.40235, 0.43946, 0.66993, -0.00782),
-    },
-  },
+
   'library-animation-8c867dfa177fdfd2-d1edecc41799-offertory_stand-native': {
     hash: '33d2d7acbfa787e3238c85d17349e7a317175c87c9506c886ddd627bf437fd99',
     clips: {

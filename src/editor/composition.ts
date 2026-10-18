@@ -358,6 +358,7 @@ export class CompositionTools {
       this.selection.has(v.placement.id),
     );
     if (!p || !items.length || !view.sim) return;
+    view.setGameCamera(false);
     p.center.set(
       items.reduce((v, p) => v + p.placement.x, 0) / items.length,
       items.reduce(

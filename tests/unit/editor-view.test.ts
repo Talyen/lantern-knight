@@ -28,12 +28,17 @@ test('editor acquires shared presentation resources before warming and retains t
     return { manifest, textures: new Map(), release: () => released.push(id) };
   };
   let warmed = false;
+  let flowLoaded = false;
   const view = new EditorView({} as HTMLCanvasElement, runtime, (_canvas, packs) => {
     return {
       scene: new Group(),
       overlay: new Group(),
       roomPresentation: {},
+      async loadAnimationFlow() {
+        flowLoaded = true;
+      },
       async warm() {
+        assert.equal(flowLoaded, true);
         for (const id of gameScenes.initialAssets)
           assert.ok(packs.has(id), 'Shared presentation asset missing before warming: ' + id);
         assert.deepEqual(released, []);
@@ -148,6 +153,7 @@ test('editor acceptance hides failed rebuilds, recovers and preserves installed 
   const presentation = {
     scene: new Group(),
     overlay: new Group(),
+    async loadAnimationFlow() {},
     async warm() {
       if (++warmCalls === 1) {
         throw new Error('warm failed');

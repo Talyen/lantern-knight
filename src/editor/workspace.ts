@@ -260,7 +260,7 @@ export class EditorWorkspace {
       ['Redo', 'redo'],
       ['Duplicate selection', 'duplicate'],
       ['Delete selection', 'delete'],
-      ['Reset game zoom', 'reset-game-zoom'],
+      ['Game camera', 'reset-game-zoom'],
       ['Fit scene', 'fit'],
       ['Focus selection', 'focus-selection'],
       ['Focus mode', 'focus-mode'],
