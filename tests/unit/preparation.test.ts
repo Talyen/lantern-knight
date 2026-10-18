@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { cachedPreparationStep } from '../../tools/assets/incremental';
+import { forEachFile } from '../../tools/assets/file-batches';
 import { createPreparationContext } from '../../tools/assets/context';
 import {
   preparationSteps,
@@ -262,4 +263,37 @@ test('completing a scoped layer never targets the same leased snapshot', () => {
   const scoped = preparationLayerKey({ ...inputs, steps: preparationSelection(['library-all']) });
   const full = preparationLayerKey({ ...inputs, steps: preparationSelection([]) });
   assert.notEqual(full, scoped);
+});
+
+// Failure may not release a cache lease while another admitted file still mutates it.
+test('bulk preparation drains failed batches before rejecting and admits no later batch', async () => {
+  const admitted: number[] = [];
+  const started = Promise.withResolvers<void>();
+  const finish = Promise.withResolvers<void>();
+  let settled = false;
+  const failure = new Error('failed file');
+  const operation = forEachFile(
+    Array.from({ length: 130 }, (_, i) => i),
+    (file) => {
+      admitted.push(file);
+      if (file === 0) throw failure;
+      if (file === 1) {
+        started.resolve();
+        return finish.promise;
+      }
+      return Promise.resolve();
+    },
+  );
+  const checked = assert
+    .rejects(operation, (error) => error === failure)
+    .then(() => {
+      settled = true;
+    });
+  await started.promise;
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  assert.equal(settled, false);
+  assert.equal(admitted.length, 64);
+  finish.resolve();
+  await checked;
+  assert.equal(admitted.length, 64);
 });

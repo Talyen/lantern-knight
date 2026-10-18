@@ -319,6 +319,7 @@
     "tools/assets/preview.ts",
     "tools/assets/preparation.ts",
     "tools/assets/incremental.ts",
+    "tools/assets/file-batches.ts",
     "tools/assets/context.ts",
     "tools/assets/prepare.ts"
   ],

@@ -9,6 +9,7 @@ import { compile as compileAtlas } from '../compiler';
 import type { Manifest } from '../../src/assets/schema';
 import { runProcess as invokeProcess } from '../run-process';
 import { safeRelative, exactSource as readExactSource } from './files';
+import { forEachFile } from './file-batches';
 import { fileChecksums, fileSignature, type VerifiedFiles } from '../verified-files';
 
 export type PreparationOptions = {
@@ -258,9 +259,9 @@ export async function createPreparationContext(options: PreparationOptions) {
         await fs.appendFile(options.outputLog, [...outputRecords].join('\n') + '\n');
       outputRecords.clear();
     },
-    async adopt(files: readonly string[]) {
+    async adopt(files: readonly string[], hashes?: Readonly<Record<string, string>>) {
       await pending;
-      for (const relative of files) {
+      await forEachFile(files, async (relative) => {
         const file = path.join(root, safeRelative(relative)),
           stat = await fs.lstat(file),
           key = inode(stat, file);
@@ -270,21 +271,27 @@ export async function createPreparationContext(options: PreparationOptions) {
         if (oldKey === key) {
           if (links.get(key)?.size !== stat.size)
             throw new Error('Cached preparation output changed during adoption');
-          continue;
+        } else {
+          const old = oldKey ? links.get(oldKey) : undefined;
+          if (old && --old.count === 0) {
+            bytes -= old.size;
+            links.delete(oldKey!);
+          }
+          const installed = links.get(key);
+          if (installed) installed.count++;
+          else {
+            links.set(key, { count: 1, size: stat.size });
+            bytes += stat.size;
+          }
+          identities.set(file, key);
         }
-        const old = oldKey ? links.get(oldKey) : undefined;
-        if (old && --old.count === 0) {
-          bytes -= old.size;
-          links.delete(oldKey!);
+        const hash = hashes?.[relative];
+        if (hash) {
+          contents.set(hash, { file, key });
+          verified.set(relative, { hash, signature: fileSignature(stat) });
+          verifiedInodes.set(fileSignature(stat), hash);
         }
-        const installed = links.get(key);
-        if (installed) installed.count++;
-        else {
-          links.set(key, { count: 1, size: stat.size });
-          bytes += stat.size;
-        }
-        identities.set(file, key);
-      }
+      });
       if (bytes > options.budget) throw new Error('Asset preparation exceeds reserved cache space');
     },
     compile: async (

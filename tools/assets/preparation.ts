@@ -9,6 +9,7 @@ import { cachedPreparationStep } from './incremental';
 import { preparationStepKey, recipeInputs, type preparationSteps } from './recipe';
 import { sourceSnapshot } from './discovery';
 import { diskBytes } from './cache';
+import { forEachFile } from './file-batches';
 
 export async function growthReservation(held: {
   root: string;
@@ -152,11 +153,15 @@ export async function prepareSteps(options: {
         ? { root: context.sourceRoot, indexPath: options.env.LANTERN_LIBRARY_INDEX, strict: true }
         : undefined,
     });
-    if (result.reused || operation.file.endsWith('.py')) await context.adopt(result.files);
+    if (result.reused || operation.file.endsWith('.py'))
+      await context.adopt(result.files, result.hashes);
+    else
+      await forEachFile(result.files, (file) =>
+        context.recordContentHash(file, result.hashes[file]!),
+      );
     digests.set(operation.file, result.digest);
     for (const name of result.files) {
       files[name] = result.hashes[name]!;
-      await context.recordContentHash(name, files[name]!);
     }
     await options.afterStep?.({ reused: result.reused });
     console.log(

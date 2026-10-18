@@ -106,3 +106,25 @@ test('replacing an existing internal hardlink counts the retained bytes as well 
   await assert.rejects(context.writeAsset('public/c', 'x'), /reserved cache space/);
   assert.equal(await context.readAsset('public/b', 'utf8'), '1234');
 });
+
+test('bulk adoption registers verified aliases once and retains replacement budget checks', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-context-adopt-');
+  const context = await createPreparationContext({
+    workspace: root,
+    sourceRoot: root,
+    libraryRoot: root,
+    budget: 8,
+  });
+  await fs.mkdir(path.join(root, 'public'));
+  await fs.writeFile(path.join(root, 'public/a'), '1234');
+  await fs.link(path.join(root, 'public/a'), path.join(root, 'public/b'));
+  const hash = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4';
+  await context.adopt(['public/a', 'public/b'], { 'public/a': hash, 'public/b': hash });
+  assert.equal(await context.verifiedHash('public/a'), hash);
+  assert.equal(await context.verifiedHash('public/b'), hash);
+  await context.writeAsset('public/a', '5678');
+  assert.equal(await context.readAsset('public/b', 'utf8'), '1234');
+  await assert.rejects(context.writeAsset('public/c', 'x'), /reserved cache space/);
+  await fs.writeFile(path.join(root, 'public/b'), '4321');
+  assert.equal(await context.verifiedHash('public/b'), undefined);
+});

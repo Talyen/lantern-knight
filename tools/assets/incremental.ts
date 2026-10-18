@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { safeRelative } from './files';
+import { forEachFile } from './file-batches';
 
 import { readLibrarySource } from './sources';
 import { verifiedOutput, fileChecksums } from '../verified-files';
@@ -25,27 +26,22 @@ type Receipt = {
 export async function linkTree(source: string, destination: string, merge = false) {
   const pending = [[source, destination]] as [string, string][];
   while (pending.length) {
-    await Promise.all(
-      pending.splice(0, 16).map(async ([fromRoot, toRoot]) => {
-        await fs.mkdir(toRoot, { recursive: true });
-        const entries = await fs.readdir(fromRoot, { withFileTypes: true });
-        for (let offset = 0; offset < entries.length; offset += 64)
-          await Promise.all(
-            entries.slice(offset, offset + 64).map(async (entry) => {
-              if (entry.name.startsWith('.')) return;
-              const from = path.join(fromRoot, entry.name),
-                to = path.join(toRoot, entry.name);
-              if (entry.isSymbolicLink())
-                throw new Error('Immutable asset layers cannot contain symlinks');
-              if (entry.isDirectory()) pending.push([from, to]);
-              else
-                await fs.link(from, to).catch((error: NodeJS.ErrnoException) => {
-                  if (!merge || error.code !== 'EEXIST') throw error;
-                });
-            }),
-          );
-      }),
-    );
+    await forEachFile(pending.splice(0, 16), async ([fromRoot, toRoot]) => {
+      await fs.mkdir(toRoot, { recursive: true });
+      const entries = await fs.readdir(fromRoot, { withFileTypes: true });
+      await forEachFile(entries, async (entry) => {
+        if (entry.name.startsWith('.')) return;
+        const from = path.join(fromRoot, entry.name),
+          to = path.join(toRoot, entry.name);
+        if (entry.isSymbolicLink())
+          throw new Error('Immutable asset layers cannot contain symlinks');
+        if (entry.isDirectory()) pending.push([from, to]);
+        else
+          await fs.link(from, to).catch((error: NodeJS.ErrnoException) => {
+            if (!merge || error.code !== 'EEXIST') throw error;
+          });
+      });
+    });
   }
 }
 // Delivery mutates producer manifests. Retain those small documents separately
@@ -102,13 +98,13 @@ export async function cachedPreparationStep(options: {
         if (createHash('sha256').update(bytes).digest('hex') !== source.sha256)
           throw new Error('Cached preparation source changed');
       }
-      for (const name of stored) {
+      await forEachFile(stored, async (name) => {
         safeRelative(name);
         const target = path.join(options.workspace, name);
         await fs.mkdir(path.dirname(target), { recursive: true });
         await fs.rm(target, { force: true });
         await fs.link(path.join(directory, 'files', name), target);
-      }
+      });
       return {
         reused: true,
         digest: prior.digest,
@@ -143,14 +139,16 @@ export async function cachedPreparationStep(options: {
   const files = await (options.hashFiles?.(names) ?? fileChecksums(options.workspace, names));
   await options.verifyOutputs?.(files);
   await fs.mkdir(path.join(temporary, 'files'), { recursive: true });
-  for (const name of names) {
-    safeRelative(name);
-    if (!storedOutput(name, options.cachePublic)) continue;
-    const target = path.join(temporary, 'files', name),
-      original = path.join(options.workspace, name);
-    await fs.mkdir(path.dirname(target), { recursive: true });
-    await fs.link(original, target);
-  }
+  await forEachFile(
+    names.filter((name) => storedOutput(name, options.cachePublic)),
+    async (name) => {
+      safeRelative(name);
+      const target = path.join(temporary, 'files', name),
+        original = path.join(options.workspace, name);
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      await fs.link(original, target);
+    },
+  );
   const sourceReads = (await readLog(sources))
     .split('\n')
     .filter(Boolean)
@@ -192,7 +190,7 @@ export async function restorePreparationStaging(cache: string, workspace: string
       },
       '.verified-staging.json',
     );
-    for (const name of names) {
+    await forEachFile(names, async (name) => {
       safeRelative(name);
       const target = path.join(workspace, name);
       await fs.mkdir(path.dirname(target), { recursive: true });
@@ -201,6 +199,6 @@ export async function restorePreparationStaging(cache: string, workspace: string
         .catch((error: NodeJS.ErrnoException) => {
           if (error.code !== 'EEXIST') throw error;
         });
-    }
+    });
   }
 }
