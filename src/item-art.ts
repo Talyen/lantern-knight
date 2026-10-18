@@ -61,7 +61,9 @@ export function createItemArtwork(runtime: AssetRuntime, signal: AbortSignal): I
           const height = Math.round((crop?.[3] ?? 1) * frameHeight);
           canvas.width = width;
           canvas.height = height;
-          const ctx = canvas.getContext('2d')!;
+          // Cropping immediately reads every pixel. Keep this canvas on the CPU
+          // rather than forcing a readback alongside the game's covered GPU draw.
+          const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
           // Runtime bitmaps are flipped for WebGL; restore authored orientation.
           ctx.translate(0, height);
           ctx.scale(1, -1);
@@ -83,7 +85,7 @@ export function createItemArtwork(runtime: AssetRuntime, signal: AbortSignal): I
           result.width = Math.max(1, right - left + 1);
           result.height = Math.max(1, bottom - top + 1);
           result
-            .getContext('2d')!
+            .getContext('2d', { willReadFrequently: true })!
             .drawImage(
               canvas,
               left,

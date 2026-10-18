@@ -13,6 +13,20 @@ export const test = base.extend<{ errors: string[] }>({
       const errors: string[] = [];
       const pending = new Set<string>();
       const warnings: string[] = [];
+      const stages: { name: string; duration: number }[] = [];
+      await page.addInitScript(() => {
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries())
+            if (
+              entry.name.startsWith('lantern-startup:') &&
+              entry.name !== 'lantern-startup:image-decode'
+            )
+              console.debug(
+                'lantern-startup-stage',
+                JSON.stringify({ name: entry.name, duration: entry.duration }),
+              );
+        }).observe({ entryTypes: ['measure'] });
+      });
       page.on('request', (request) => pending.add(request.url()));
       const finished = (request: { url(): string }) => pending.delete(request.url());
       page.on('requestfinished', finished);
@@ -21,6 +35,8 @@ export const test = base.extend<{ errors: string[] }>({
       page.on('console', (message) => {
         if (message.type() === 'error') errors.push(message.text());
         if (message.type() === 'warning') warnings.push(message.text());
+        if (message.type() === 'debug' && message.text().startsWith('lantern-startup-stage '))
+          stages.push(JSON.parse(message.text().slice('lantern-startup-stage '.length)));
       });
       await use(errors);
       if (testInfo.status !== testInfo.expectedStatus) {
@@ -44,7 +60,13 @@ export const test = base.extend<{ errors: string[] }>({
             );
           }),
         ]).finally(() => clearTimeout(timer));
-        const diagnostic = { state, pending: [...pending], warnings: warnings.slice(-10), errors };
+        const diagnostic = {
+          state,
+          stages,
+          pending: [...pending],
+          warnings: warnings.slice(-10),
+          errors,
+        };
         console.log('Browser failure state:', JSON.stringify(diagnostic));
         await testInfo.attach('failure-state', {
           body: JSON.stringify(diagnostic, null, 2),

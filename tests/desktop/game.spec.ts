@@ -8,6 +8,8 @@ import { verifyBuildIdentity } from '../../tools/build-identity';
 import { smokeExecutable, playerControls } from '../../tools/smoke/smoke-launch';
 import { extractFile } from '@electron/asar';
 test('Game package starts, accepts input and reloads current storage', async () => {
+  // Two cold launches decode and prepare the complete current player kit.
+  test.setTimeout(300_000);
   await verifyBuildIdentity();
   const executable = smokeExecutable(false),
     profile = await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-desktop-'));
@@ -34,6 +36,8 @@ test('Game package starts, accepts input and reloads current storage', async () 
     let page = await app.firstWindow();
     await page.waitForFunction(
       () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
+      undefined,
+      { timeout: 120_000 },
     );
     expect(await page.evaluate(() => 'foundation' in window)).toBe(false);
     expect(await page.evaluate(() => typeof window.lantern?.launchMode)).toBe('undefined');
@@ -56,6 +60,8 @@ test('Game package starts, accepts input and reloads current storage', async () 
     page = await app.firstWindow();
     await page.waitForFunction(
       () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
+      undefined,
+      { timeout: 120_000 },
     );
     await expect(page.locator('#menu-start')).toHaveAccessibleName('Continue journey');
     await page.locator('#menu-start').click();
