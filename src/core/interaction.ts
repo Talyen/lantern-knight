@@ -101,15 +101,19 @@ export function interactionTarget(sim: InteractionState, kind: Interaction['kind
 export function nearbyInteraction(sim: InteractionState): Interaction | undefined {
   // Prefer available E actions; sword-only prompts and blocked targets remain fallbacks.
   let best: Interaction | undefined;
-  for (const target of choices(sim))
+  let bestDistance = Infinity;
+  for (const target of choices(sim)) {
+    const distance = Math.hypot(target.x - sim.hero.x, target.z - sim.hero.z);
     if (
       !best ||
       (Number(Boolean(target.blocked)) - Number(Boolean(best.blocked)) ||
         Number(target.kind === 'breakable') - Number(best.kind === 'breakable') ||
         Number(best.kind === 'drop') - Number(target.kind === 'drop') ||
-        Math.hypot(target.x - sim.hero.x, target.z - sim.hero.z) -
-          Math.hypot(best.x - sim.hero.x, best.z - sim.hero.z)) < 0
-    )
+        distance - bestDistance) < 0
+    ) {
       best = target;
+      bestDistance = distance;
+    }
+  }
   return best;
 }

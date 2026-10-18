@@ -243,6 +243,15 @@ test('Burn defeat awards one drop and clears status, even on later ticks', () =>
   steps(s, 100);
   assert.equal(s.drops.filter((d) => d.source === 'a').length, 1);
 });
+test('A due burn pulse fires instead of stalling when its tick reaches zero', () => {
+  const s = duel();
+  const a = s.enemies[0]!;
+  const health = a.health;
+  a.burn = { remaining: 180, nextTick: 0 };
+  s.step(still);
+  assert.equal(a.health, health - tuning.ability.burnDamage);
+  assert.deepEqual(a.burn, { remaining: 179, nextTick: tuning.ability.burnCadence });
+});
 test('a downed hero cannot keep burning enemies or win the encounter', () => {
   const s = duel();
   const a = s.enemies[0]!;

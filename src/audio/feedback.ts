@@ -162,7 +162,11 @@ export class AudioFeedback {
         movedSquared = dx * dx + dz * dz;
       entry.x = actor.x;
       entry.z = actor.z;
-      entry.distance = 0;
+      if (movedSquared > 1) {
+        // Teleports and resets are not strides; only travelled distance counts.
+        entry.distance = 0;
+        continue;
+      }
       if (contacts.has(actor.id)) continue;
       if (contacts !== this.authored && this.authored.has(actor.id)) continue;
       if (
@@ -171,7 +175,6 @@ export class AudioFeedback {
         actorVisuals[actor.definition.visual]?.asset === 'ink-hero-current'
       )
         continue;
-      if (movedSquared > 1) continue; // teleport/reset, rather than a stride
       const travelled = entry.distance;
       const moved = Math.sqrt(movedSquared);
       entry.distance = travelled + moved;

@@ -154,12 +154,12 @@ export class CombatActions {
       const burn = target.burn;
       if (!burn || target.health <= 0) continue;
       burn.remaining--;
-      burn.nextTick--;
-      if (burn.nextTick === 0) {
+      if (--burn.nextTick <= 0) {
         this.damage(source, target, tuning.ability.burnDamage, 'burn', 'over-time');
-        burn.nextTick = tuning.ability.burnCadence;
+        // A lethal pulse clears the status; never rearm detached state.
+        if (target.burn) target.burn.nextTick = tuning.ability.burnCadence;
       }
-      if (burn.remaining === 0) target.burn = undefined;
+      if (burn.remaining <= 0) target.burn = undefined;
     }
   }
   advanceRecoil(actor: Actor) {

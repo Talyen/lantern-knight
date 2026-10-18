@@ -474,8 +474,7 @@ export class Simulation {
         }
       }
     const wasCleared = this.cleared;
-    const maxHealth = this.hero.definition.maxHealth + this.inventoryAccess.healthBonus;
-    if (h.health > 0 && h.health < maxHealth && !this.movementPreview)
+    if (h.health > 0 && h.health < this.maxHealth && !this.movementPreview)
       for (const pickup of this.areaDefinition.pickups ?? []) {
         if (this.collectedPickups.has(pickup.id)) continue;
         const dx = h.x - pickup.x,
@@ -487,11 +486,11 @@ export class Simulation {
           !clearSegment(this.areaDefinition, h, pickup, 0.001)
         )
           continue;
-        const amount = Math.min(pickup.amount, maxHealth - h.health);
+        const amount = Math.min(pickup.amount, this.maxHealth - h.health);
         h.health += amount;
         this.collectedPickups.add(pickup.id);
         this.emit(h, { kind: 'health-pickup', amount });
-        if (h.health >= maxHealth) break;
+        if (h.health >= this.maxHealth) break;
       }
     let cleared = true,
       hasEnemy = false;

@@ -12,11 +12,11 @@ export function moveSupported(
   delta: Point,
   radius: number,
 ): Point {
-  let p = isSupportedPosition(area, start, radius)
-      ? { x: start.x, z: start.z }
-      : supportedPosition(area, start, radius),
-    d = { ...delta };
-  if (d.x === 0 && d.z === 0) return p;
+  // The returned point is only read; an uninterrupted move borrows the start
+  // instead of copying it on every per-tick call.
+  let p = isSupportedPosition(area, start, radius) ? start : supportedPosition(area, start, radius);
+  if (delta.x === 0 && delta.z === 0) return { ...p };
+  let d = { ...delta };
   for (let i = 0; i < 4; i++) {
     const hit = sweepCircle(area, p, d, radius);
     if (!hit) {
@@ -142,9 +142,8 @@ export class Navigation {
       if (id < 0 || id >= nx * nz) return false;
       let v = cells!.get(id);
       if (v === undefined) {
-        v =
-          isSupportedPosition(this.area, point(id), radius) &&
-          (this.#policy?.position(point(id)) ?? true);
+        const at = point(id);
+        v = isSupportedPosition(this.area, at, radius) && (this.#policy?.position(at) ?? true);
         cells!.set(id, v);
       }
       return v;
