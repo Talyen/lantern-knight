@@ -23,6 +23,7 @@ export class ResourceCache<T> {
     return this.retainedBytes;
   }
   private evict() {
+    if (this.retainedBytes <= this.budget && this.entries.size <= this.capacity) return;
     for (const [key, entry] of this.entries) {
       if (this.retainedBytes <= this.budget && this.entries.size <= this.capacity) break;
       if (entry.refs || entry.bytes === undefined) continue;

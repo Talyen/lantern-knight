@@ -177,10 +177,15 @@ function validateSemantics(value: Source | Manifest) {
     for (const p of value.pages)
       if (p.mipmaps) {
         const f = value.frames.filter((f) => f.page === p.id);
+        const rect = f[0]?.rect;
         if (
           a.sampling !== 'terrain-mipmapped' ||
           f.length !== 1 ||
-          f[0]!.rect.join() !== [0, 0, p.width, p.height].join()
+          !rect ||
+          rect[0] !== 0 ||
+          rect[1] !== 0 ||
+          rect[2] !== p.width ||
+          rect[3] !== p.height
         )
           throw new Error('mipmaps require one complete standalone ground frame per page');
       }
@@ -208,8 +213,8 @@ function validateSemantics(value: Source | Manifest) {
         f.trim[1] + f.trim[3] > registration.canvas[1]
       )
         fail(`frames.${f.id}.trim`, 'outside source canvas');
-      const m = value as Manifest,
-        p = m.pages.find((p) => p.id === f.page);
+      // Only manifests carry atlas pages; sources never have `trim`.
+      const p = 'pages' in value ? value.pages.find((p) => p.id === f.page) : undefined;
       if (
         !p ||
         f.rect[0] + f.rect[2] > p.width ||

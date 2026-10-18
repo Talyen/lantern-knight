@@ -134,6 +134,25 @@ test('asset identities require SHA-256 hex rather than arbitrary 64-character st
   }
 });
 
+test('wide atlas previews allow normal integer rounding without rejecting the asset', () => {
+  const manifest = manifestFixture('wide-flame');
+  const page = manifest.pages[0]!;
+  page.width = 6144;
+  page.height = 512;
+  page.rgbaBytes = 6144 * 512 * 4;
+  page.preview = {
+    path: 'preview.png',
+    hash: 'c'.repeat(64),
+    width: 512,
+    height: 43,
+    bytes: 1,
+    gpuBytes: 512 * 43 * 4,
+    encoding: 'png',
+    mipmaps: false,
+  };
+  parseManifest(manifest);
+});
+
 test('bundle validation accepts shared dependency graphs and rejects inherited dependencies and cycles', () => {
   const manifest = manifestFixture();
   manifest.bundles = Object.fromEntries(

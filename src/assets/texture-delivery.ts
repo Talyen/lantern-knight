@@ -1,8 +1,8 @@
 import { cleanupAll, cleanupAfterFailure } from './cleanup';
 import { KTX2Loader } from 'three/addons/loaders/KTX2Loader.js';
-import { Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter } from 'three';
+import { Texture } from 'three';
 import type { Manifest } from './schema';
-import { sha256, verifiedBitmap } from './bitmap';
+import { fetchVerifiedBytes, configureTexture, verifiedBitmap } from './bitmap';
 import { DecodeQueue } from './decode-queue';
 
 export type ImageQuality = 'source' | 'delivery' | 'lossless';
@@ -22,7 +22,6 @@ export type ImageRequest = {
 export type SourcePage = ImageRequest & { delivery?: readonly Variant[] };
 export function selectDelivery(
   page: SourcePage,
-  targetPixels: number,
   maxTextureSize: number,
   compressed: boolean,
   quality: ImageQuality,
@@ -56,7 +55,9 @@ export function selectDelivery(
   );
   if (!available.length)
     throw new Error('No prepared image fits this GPU; the source image remains available.');
-  const required = Math.min(Math.max(page.width, page.height), targetPixels);
+  // Keep native detail; mipmaps handle minification. Screen dimensions alone do
+  // not describe projected coverage when the camera pans or zooms.
+  const required = Math.max(page.width, page.height);
   const sizes = [...new Set(available.map((v) => Math.max(v.width, v.height)))].sort(
     (a, b) => a - b,
   );
@@ -105,11 +106,8 @@ export class TextureDelivery {
     this.compressed = (bptc || astc) && (!policy || policy.includes("'unsafe-eval'"));
   }
   choose(page: SourcePage) {
-    // Screen dimensions alone do not describe projected image coverage when
-    // the camera pans or zooms. Keep native detail; mipmaps handle minification.
     return selectDelivery(
       page,
-      Infinity,
       this.maxSize,
       this.compressed,
       this.quality,
@@ -126,13 +124,7 @@ export class TextureDelivery {
     let texture: Texture | undefined;
     try {
       if (page.encoding === 'ktx2-uastc') {
-        const response = await this.request(page.url, { signal });
-        signal.throwIfAborted();
-        if (!response.ok) throw new Error(`${page.url}: HTTP ${response.status}`);
-        const bytes = await response.arrayBuffer();
-        signal.throwIfAborted();
-        if ((await sha256(bytes)) !== page.hash) throw new Error(`${page.url}: hash mismatch`);
-        signal.throwIfAborted();
+        const bytes = await fetchVerifiedBytes(page.url, page.hash, this.request, signal);
         texture = await new Promise<Texture>((resolve, reject) => {
           const fail = (e: Error) => {
             this.pending.delete(fail);
@@ -163,6 +155,8 @@ export class TextureDelivery {
         if (dimensions.width !== page.width || dimensions.height !== page.height) {
           throw new Error('Compressed image dimensions differ');
         }
+        configureTexture(texture, page.mipmaps === true);
+        // Compressed mipmaps ship inside the container; never generate them.
         texture.generateMipmaps = false;
       } else {
         const bitmap = await verifiedBitmap(page.url, page, this.request, signal);
@@ -171,13 +165,8 @@ export class TextureDelivery {
           throw new Error('Image loader disposed');
         }
         texture = new Texture(bitmap);
-        texture.generateMipmaps = page.mipmaps === true;
+        configureTexture(texture, page.mipmaps === true);
       }
-      texture.colorSpace = SRGBColorSpace;
-      texture.minFilter = page.mipmaps ? LinearMipmapLinearFilter : LinearFilter;
-      texture.magFilter = LinearFilter;
-      texture.flipY = false;
-      texture.premultiplyAlpha = false;
       texture.userData.delivery = {
         encoding: page.encoding ?? 'png',
         width: page.width,

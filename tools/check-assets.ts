@@ -47,7 +47,6 @@ export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirecto
       const image = selectDelivery(
         { ...page, url: path.posix.join(path.posix.dirname(file), page.path) },
         Infinity,
-        Infinity,
         false,
         'source',
       );

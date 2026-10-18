@@ -1,9 +1,9 @@
 import { acquireBatch } from './acquire-batch';
 import { cleanupAll, cleanupAfterFailure } from './cleanup';
 import { parseRegistration, type PreparedRegistration } from './registration';
-import { Texture, SRGBColorSpace, LinearFilter, LinearMipmapLinearFilter } from 'three';
+import { Texture } from 'three';
 import { parseManifest, type Manifest } from './schema';
-import { sha256, verifiedBitmap } from './bitmap';
+import { verifiedBitmap, configureTexture, sha256 } from './bitmap';
 import { TextureDelivery, type SourcePage, type ImageQuality } from './texture-delivery';
 import { ResourcePool } from './resource-pool';
 import { contentSnapshot } from '../content/snapshot';
@@ -23,10 +23,8 @@ type PageRequest = SourcePage;
 export const pageIdentity = (
   p: Pick<Manifest['pages'][number], 'hash' | 'width' | 'height'> & {
     mipmaps?: boolean;
-    delivery?: Manifest['pages'][number]['delivery'];
   },
-) =>
-  `${p.hash}:${p.width}x${p.height}:srgb-straight-${p.mipmaps ? 'terrain-mips' : 'linear-no-mips'}:${p.delivery?.map((v) => v.hash + ':' + v.mipmaps).join('|') ?? ''}`;
+) => `${p.hash}:${p.width}x${p.height}:${p.mipmaps ? 'mips' : 'nomips'}`;
 export class AssetRuntime {
   readonly catalog: Readonly<Record<string, string>>;
   registration!: PreparedRegistration;
@@ -68,12 +66,7 @@ export class AssetRuntime {
         if (this.delivery) return this.delivery.decode(p, signal);
         const bitmap = await verifiedBitmap(p.url, p, this.request, signal);
         const texture = new Texture(bitmap);
-        texture.colorSpace = SRGBColorSpace;
-        texture.generateMipmaps = p.mipmaps === true;
-        texture.minFilter = p.mipmaps ? LinearMipmapLinearFilter : LinearFilter;
-        texture.magFilter = LinearFilter;
-        texture.flipY = false;
-        texture.premultiplyAlpha = false;
+        configureTexture(texture, p.mipmaps === true);
         texture.needsUpdate = true;
         return texture;
       },
@@ -153,20 +146,18 @@ export class AssetRuntime {
     this.assertActive();
     if (signal?.aborted) throw new Error('load cancelled');
     const keys = manifest.pages.map((page) => {
-      const original = this.pages.get(pageIdentity(page))!;
-      if (!this.delivery) return pageIdentity(page);
+      const id = pageIdentity(page);
+      const original = this.pages.get(id)!;
+      if (!this.delivery) return id;
       const selected = this.delivery.choose(original);
       const key = pageIdentity(selected) + ':' + (selected.encoding ?? 'png');
       this.pages.set(key, selected);
       return key;
     });
     const held = await this.pool.acquire(keys, signal, progress);
-    try {
-      this.assertActive();
-      if (signal?.aborted) throw new Error('load cancelled');
-    } catch (error) {
-      cleanupAfterFailure(error, held.release);
-    }
+    if (this.lifetime.signal.aborted)
+      cleanupAfterFailure(new Error('Asset runtime disposed'), held.release);
+    if (signal?.aborted) cleanupAfterFailure(new Error('load cancelled'), held.release);
     return {
       manifest,
       textures: new Map(manifest.pages.map((p, i) => [p.id, held.resources.get(keys[i]!)!])),
@@ -198,7 +189,7 @@ export class AssetRuntime {
   static async open(
     catalog: Readonly<Record<string, string>>,
     canvas?: HTMLCanvasElement,
-    quality: Exclude<ImageQuality, 'source'> = 'delivery',
+    quality: ImageQuality = 'delivery',
     profile: 'game' | 'authoring' = 'authoring',
     prepareTexture?: (texture: Texture) => void,
     signal = new AbortController().signal,
@@ -216,12 +207,7 @@ export class AssetRuntime {
     let runtime: AssetRuntime | undefined;
     try {
       delivery = canvas
-        ? new TextureDelivery(
-            canvas,
-            new URLSearchParams(location.search).get('images') === 'source' ? 'source' : quality,
-            byteSource.request,
-            prepareTexture,
-          )
+        ? new TextureDelivery(canvas, quality, byteSource.request, prepareTexture)
         : undefined;
       runtime = new AssetRuntime(catalog, byteSource.request, undefined, undefined, delivery);
       runtime.byteSource = byteSource;

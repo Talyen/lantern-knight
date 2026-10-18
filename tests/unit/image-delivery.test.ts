@@ -5,7 +5,19 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 import { createPreparationContext } from '../../tools/assets/context';
-import { prepareImageDelivery, imageHash } from '../../tools/assets/image-delivery';
+import {
+  prepareImageDelivery,
+  imageHash,
+  useGpuCompression,
+} from '../../tools/assets/image-delivery';
+
+test('GPU compression applies to opaque aligned artwork above the size floor', () => {
+  assert.equal(useGpuCompression(true, 640, 640), false);
+  assert.equal(useGpuCompression(false, 6144, 4096), true);
+  assert.equal(useGpuCompression(false, 1254, 1254), false);
+  assert.equal(useGpuCompression(false, 1672, 941), false);
+  assert.equal(useGpuCompression(false, 2, 2), true);
+});
 
 test('quick preparation preserves source bytes, alpha and cached derivatives without invoking a GPU encoder', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-delivery-unit-');

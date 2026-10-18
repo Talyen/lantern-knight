@@ -12,7 +12,7 @@ export class SceneAssets {
   get packs(): ReadonlyMap<string, AssetPack> {
     return this.view;
   }
-  install(next: PackBatch, rebuild: () => undefined) {
+  install(next: PackBatch, rebuild: () => void) {
     if (this.closed) {
       next.release();
       throw new Error('Scene assets disposed');

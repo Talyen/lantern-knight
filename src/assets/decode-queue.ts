@@ -11,21 +11,8 @@ export class DecodeQueue {
     if (this.closed) return Promise.reject(new Error(this.disposedMessage));
     if (signal?.aborted) return Promise.reject(signal.reason);
     return new Promise<T>((resolve, reject) => {
-      const cleanup = () => signal?.removeEventListener('abort', cancel);
-      const item = {
-        start: () => start(),
-        reject: (error: Error) => {
-          cleanup();
-          reject(error);
-        },
-      };
-      const cancel = () => {
-        this.waiting = this.waiting.filter((queued) => queued !== item);
-        cleanup();
-        reject(signal!.reason);
-      };
       const start = () => {
-        cleanup();
+        signal?.removeEventListener('abort', cancel);
         this.active++;
         void Promise.resolve()
           .then(() => {
@@ -38,6 +25,17 @@ export class DecodeQueue {
             this.active--;
             if (!this.closed) this.waiting.shift()?.start();
           });
+      };
+      const cancel = () => {
+        this.waiting = this.waiting.filter((queued) => queued !== item);
+        reject(signal!.reason);
+      };
+      const item = {
+        start,
+        reject: (error: Error) => {
+          signal?.removeEventListener('abort', cancel);
+          reject(error);
+        },
       };
       if (this.active < this.limit) start();
       else {

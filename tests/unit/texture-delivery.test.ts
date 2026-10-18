@@ -1,6 +1,4 @@
 import { onExit } from '../../tools/scope-exit';
-import { manifestFixture } from '../fixtures/manifest';
-import { parseManifest } from '../../src/assets/schema';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
@@ -8,7 +6,6 @@ import {
   TextureDelivery,
   type SourcePage,
 } from '../../src/assets/texture-delivery';
-import { useGpuCompression } from '../../tools/assets/image-delivery';
 
 test('delivery selects adequate full-composition variants, preserves source quality and respects GPU formats', () => {
   const variant = (width: number, height: number, encoding: 'png' | 'ktx2-uastc') => ({
@@ -35,38 +32,32 @@ test('delivery selects adequate full-composition variants, preserves source qual
       variant(6144, 4096, 'ktx2-uastc'),
     ],
   };
-  assert.equal(selectDelivery(page, 2500, 8192, true, 'delivery').width, 4092);
-  assert.equal(selectDelivery(page, 2500, 8192, false, 'delivery').encoding, 'png');
+  // Runtime keeps native detail; mipmaps handle minification.
+  assert.equal(selectDelivery(page, 8192, true, 'delivery').width, 6144);
+  assert.equal(selectDelivery(page, 8192, false, 'delivery').encoding, 'png');
+  assert.equal(selectDelivery(page, 8192, false, 'delivery').width, 6144);
   // Editor picking needs drawable PNGs, with native detail when supported and
   // a complete smaller composition on a GPU limited to 4096 pixels.
-  const editorNative = selectDelivery(page, Infinity, 8192, true, 'lossless');
+  const editorNative = selectDelivery(page, 8192, true, 'lossless');
   assert.equal(editorNative.width, 6144);
   assert.equal(editorNative.encoding, 'png');
-  const editorLimited = selectDelivery(page, Infinity, 4096, true, 'lossless');
+  const editorLimited = selectDelivery(page, 4096, true, 'lossless');
   assert.equal(editorLimited.width, 4092);
   assert.equal(editorLimited.encoding, 'png');
 
-  const original = selectDelivery(page, 1000, 8192, true, 'source');
+  const original = selectDelivery(page, 8192, true, 'source');
   assert.equal(original.width, 6144);
   assert.equal(original.encoding, 'png');
   assert.equal(original.mipmaps, false);
-  assert.throws(() => selectDelivery(page, 1000, 4096, true, 'source'), /original image exceeds/);
+  assert.throws(() => selectDelivery(page, 4096, true, 'source'), /original image exceeds/);
   const odd: SourcePage = {
     ...page,
     width: 2051,
     height: 1367,
     delivery: [variant(2051, 1367, 'png'), variant(2051, 1367, 'ktx2-uastc')],
   };
-  assert.equal(selectDelivery(odd, 4000, 8192, true, 'delivery').encoding, 'png');
-  assert.equal(selectDelivery(odd, 4000, 8192, true, 'delivery', false).encoding, 'ktx2-uastc');
-});
-
-test('alpha-sensitive artwork keeps lossless delivery and GPU formats respect block dimensions', () => {
-  assert.equal(useGpuCompression(true, 640, 640), false);
-  assert.equal(useGpuCompression(false, 6144, 4096), true);
-  assert.equal(useGpuCompression(false, 1254, 1254), false);
-  assert.equal(useGpuCompression(false, 1672, 941), false);
-  assert.equal(useGpuCompression(false, 2, 2), true);
+  assert.equal(selectDelivery(odd, 8192, true, 'delivery').encoding, 'png');
+  assert.equal(selectDelivery(odd, 8192, true, 'delivery', false).encoding, 'ktx2-uastc');
 });
 
 test('strict browser policy uses lossless artwork without starting the eval-based Basis worker', () => {
@@ -95,25 +86,6 @@ test('strict browser policy uses lossless artwork without starting the eval-base
   using _cleanup1 = onExit(() => delivery.dispose());
   assert.equal(delivery.choose(page).encoding, 'png');
   assert.equal(delivery.choose(page).width, 512);
-});
-
-test('wide atlas previews allow normal integer rounding without rejecting the asset', () => {
-  const manifest = manifestFixture('wide-flame');
-  const page = manifest.pages[0]!;
-  page.width = 6144;
-  page.height = 512;
-  page.rgbaBytes = 6144 * 512 * 4;
-  page.preview = {
-    path: 'preview.png',
-    hash: 'c'.repeat(64),
-    width: 512,
-    height: 43,
-    bytes: 1,
-    gpuBytes: 512 * 43 * 4,
-    encoding: 'png',
-    mipmaps: false,
-  };
-  parseManifest(manifest);
 });
 
 test('delivery prepares a verified texture before transfer and closes failed uploads', async (t) => {
@@ -254,6 +226,37 @@ test('compressed decode owns invalid textures and retires synchronous parser fai
     2,
     'Initialization completing after failed shutdown still closes workers',
   );
+});
+
+test('compressed textures share the runtime configuration without generated mipmaps', async () => {
+  const { Texture, SRGBColorSpace, LinearFilter } = await import('three');
+  const canvas = {
+    getContext: () => ({ MAX_TEXTURE_SIZE: 1, getParameter: () => 8192, getExtension: () => ({}) }),
+    ownerDocument: { querySelector: () => null },
+  } as unknown as HTMLCanvasElement;
+  const delivery = new TextureDelivery(canvas, 'delivery', async () => new Response('abc'));
+  using cleanup = onExit(() => delivery.dispose());
+  const loader = Reflect.get(delivery, 'loader');
+  loader.parse = (_bytes: ArrayBuffer, loaded: (texture: InstanceType<typeof Texture>) => void) =>
+    loaded(new Texture({ width: 2, height: 3, close: () => {} } as unknown as ImageBitmap));
+  const held = await delivery.decode({
+    url: '/test.ktx2',
+    hash: 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad',
+    width: 2,
+    height: 3,
+    encoding: 'ktx2-uastc' as const,
+  });
+  try {
+    assert.equal(held.colorSpace, SRGBColorSpace);
+    assert.equal(held.flipY, false);
+    assert.equal(held.premultiplyAlpha, false);
+    assert.equal(held.generateMipmaps, false);
+    assert.equal(held.minFilter, LinearFilter);
+    assert.equal(held.userData.delivery.encoding, 'ktx2-uastc');
+  } finally {
+    held.dispose();
+    (held.image as { close?: () => void }).close?.();
+  }
 });
 
 test('cancelled compressed transports stop before reading or transcoding obsolete bytes', async () => {

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import type { Manifest } from './schema';
 import type { AssetRuntime } from './loader';
+import { DecodeQueue } from './decode-queue';
 export type AssetScope = 'all' | 'used' | 'scene';
 export const assetFilterSchema = z.object({
   scope: z.enum(['all', 'used', 'scene']),
@@ -72,22 +73,23 @@ export async function loadAssetIndex(runtime: AssetRuntime, signal: AbortSignal)
     if (response.ok) {
       const index = (await response.json()) as Record<string, unknown>;
       for (const [id, data] of Object.entries(index))
-        if (id in runtime.catalog) runtime.seedManifest(id, data);
+        if (Object.hasOwn(runtime.catalog, id)) runtime.seedManifest(id, data);
     } else if (response.status !== 404) throw new Error('Prepared asset index is unavailable');
   }
-  const ids = Object.keys(runtime.catalog),
-    manifests = new Map<string, Manifest>();
-  let next = 0;
-  await Promise.all(
-    Array.from({ length: Math.min(6, ids.length) }, async () => {
-      while (next < ids.length) {
-        signal.throwIfAborted();
-        const id = ids[next++]!;
-        const manifest = await runtime.manifest(id);
-        signal.throwIfAborted();
-        manifests.set(id, manifest);
-      }
-    }),
-  );
-  return manifests;
+  const queue = new DecodeQueue(6, 'Asset index disposed');
+  try {
+    const entries = await Promise.all(
+      Object.keys(runtime.catalog).map((id) =>
+        queue.run(async () => {
+          signal.throwIfAborted();
+          const manifest = await runtime.manifest(id);
+          signal.throwIfAborted();
+          return [id, manifest] as const;
+        }, signal),
+      ),
+    );
+    return new Map(entries);
+  } finally {
+    queue.dispose();
+  }
 }

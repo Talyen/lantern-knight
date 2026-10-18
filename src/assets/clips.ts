@@ -36,12 +36,20 @@ export function resolveActorClip(
   if (manifest.asset.viewMode !== 'supplied') return resolveClip(manifest, id, heading);
   const key = clipKey(manifest, id),
     directions = manifest.asset.clips[key],
-    requested = HEADINGS.indexOf(heading),
-    distance = (candidate: (typeof HEADINGS)[number]) => {
-      const delta = Math.abs(HEADINGS.indexOf(candidate) - requested);
-      return Math.min(delta, HEADINGS.length - delta);
-    },
-    available = HEADINGS.filter((candidate) => directions?.[candidate]);
-  available.sort((a, b) => distance(a) - distance(b));
-  return resolveClip(manifest, id, available[0] ?? heading);
+    requested = HEADINGS.indexOf(heading);
+  let nearest: (typeof HEADINGS)[number] | undefined;
+  let best = Infinity;
+  for (const candidate of HEADINGS) {
+    if (!directions?.[candidate]) continue;
+    const delta = Math.abs(HEADINGS.indexOf(candidate) - requested);
+    const distance = Math.min(delta, HEADINGS.length - delta);
+    if (distance < best) {
+      best = distance;
+      nearest = candidate;
+    }
+  }
+  const clip = directions?.[nearest ?? heading];
+  if (!clip)
+    throw new Error(`required clip unavailable: ${manifest.asset.id}/${id}/${nearest ?? heading}`);
+  return clip;
 }
