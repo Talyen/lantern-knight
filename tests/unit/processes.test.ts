@@ -299,3 +299,18 @@ test('web input identity ignores Electron-only edits while desktop identity obse
   assert.notEqual(await sourceInputHash(root, { scope: 'web' }), web);
   await assert.rejects(requireCurrentDesktopInputs(built, root), /fresh desktop package/);
 });
+
+test('editing a player SVG invalidates web inputs and the current desktop package', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-svg-inputs-');
+  execFileSync('git', ['init', '-q'], { cwd: root });
+  await fs.mkdir(path.join(root, 'src'));
+  const frame = path.join(root, 'src/ink-brass-frame.svg');
+  await fs.writeFile(frame, '<svg><path d="M0 0h10"/></svg>');
+  const { sourceInputHash } = await import('../../tools/source-identity');
+  const web = await sourceInputHash(root, { scope: 'web' });
+  const built = { inputSha256: await sourceInputHash(root, { scope: 'desktop' }) };
+  await requireCurrentDesktopInputs(built, root);
+  await fs.writeFile(frame, '<svg><path d="M0 0h20"/></svg>');
+  assert.notEqual(await sourceInputHash(root, { scope: 'web' }), web);
+  await assert.rejects(requireCurrentDesktopInputs(built, root), /fresh desktop package/);
+});
