@@ -18,6 +18,7 @@ export type ItemDefinition = {
   kind: 'currency' | 'material' | 'potion' | 'salvage' | 'gear';
   slots?: readonly EquipmentSlot[];
   maxHealth?: number;
+  burningSwordBonusPercent?: number;
   salvage?: Readonly<Record<string, number>>;
 };
 export const items: Readonly<Record<string, ItemDefinition>> = {
@@ -62,6 +63,14 @@ export const items: Readonly<Record<string, ItemDefinition>> = {
     kind: 'gear',
     slots: ['ring1', 'ring2'],
     maxHealth: 10,
+  },
+  'cinder-signet': {
+    footprint: [1, 1],
+    stackable: false,
+    name: 'Cinder Signet',
+    kind: 'gear',
+    slots: ['ring1', 'ring2'],
+    burningSwordBonusPercent: 25,
   },
   'vigil-amulet': {
     footprint: [1, 1],
@@ -128,4 +137,12 @@ export type Equipment = Partial<Record<EquipmentSlot, string>>;
 export type Reward = { item: string; amount: number };
 export function healthBonus(equipment: Readonly<Equipment>) {
   return Object.values(equipment).reduce((sum, id) => sum + (items[id]?.maxHealth ?? 0), 0);
+}
+
+// Duplicate equipped copies grant the strongest authored bonus once.
+export function burningSwordBonus(equipment: Readonly<Equipment>) {
+  return Math.max(
+    0,
+    ...Object.values(equipment).map((id) => items[id]?.burningSwordBonusPercent ?? 0),
+  );
 }

@@ -77,8 +77,8 @@ export class MovementPlans {
     const direct = this.navigator(a).route(a, target, radius);
     if (direct.status === 'ready' || kind !== 'pursuit') return direct;
     // A larger enemy may not fit at the hero's feet. Find the nearest reachable
-    // melee position with clear contact rather than reporting unreachable.
-    const distance = a.definition.melee.range * 0.8;
+    // attack position with clear contact rather than reporting unreachable.
+    const distance = a.definition.attack.range * 0.8;
     const targetHeight = heightAt(this.area, target.x, target.z);
     let best: RouteResult | undefined;
     let bestDistanceSquared = Infinity;

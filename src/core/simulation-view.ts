@@ -21,6 +21,7 @@ const properties = [
   'claimedObjects',
   'objectActions',
   'drops',
+  'ribLanes',
   'collectedPickups',
 ] as const;
 type Borrowed<T> =
