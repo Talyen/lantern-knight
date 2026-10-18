@@ -1,12 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
-  <path d="M3 2 117 3 118 117 2 118Z" stroke="#080b0a" stroke-width="5"/>
-  <path d="M5 4 115 5 116 115 4 116Z" stroke="#8e7040" stroke-width="2"/>
-  <path d="M9 8H112V112H8V9" stroke="#d1ad68"/>
-  <path d="M20 4 10 6 5 19 5 5ZM100 5 112 6 116 19 115 5ZM5 100 7 113 20 116H4ZM100 116 113 113 116 100V116Z" fill="#b89553"/>
-  <path d="m6 22 5-10 11-6M98 6l11 6 6 10M6 98l6 11 10 6M98 115l11-6 6-11" stroke="#e0bf7d"/>
-  <path d="M20 12H12V20M100 12H108V20M12 100V108H20M100 108H108V100" stroke="#51452d"/>
-  <g fill="#e0bf7d" stroke="#100f0b" stroke-width="1.5">
-    <circle cx="9" cy="9" r="2.5"/><circle cx="111" cy="9" r="2.5"/>
-    <circle cx="9" cy="111" r="2.5"/><circle cx="111" cy="111" r="2.5"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" fill="none">
+  <defs>
+    <g id="corner">
+      <path d="M2 36V2H36L30 7 19 9 9 19 7 30Z" fill="#9c793e" stroke="#080807" stroke-width="2"/>
+      <path d="M4 30 7 16 16 7 30 4" stroke="#e2bd73" stroke-width="1.5"/>
+      <path d="M14 28V14H28" stroke="#6d5330" stroke-width="1.5"/>
+      <path d="m12 25 4-7 7-6" stroke="#c5a56c"/>
+      <circle cx="8" cy="8" r="4" fill="#d6b578" stroke="#17130d" stroke-width="2"/>
+      <circle cx="8" cy="8" r="1.25" fill="#4d3c25"/>
+    </g>
+  </defs>
+  <path d="M8 2H152L158 8V152L152 158H8L2 152V8Z" stroke="#080807" stroke-width="4"/>
+  <path d="M6 6H154V154H6Z" stroke="#967442" stroke-width="2"/>
+  <path d="M18 5H142M155 18V142M142 155H18M5 142V18" stroke="#d1ad68"/>
+  <path d="M12 12H148V148H12Z" stroke="#51442f"/>
+  <use href="#corner"/>
+  <use href="#corner" transform="translate(160 0) rotate(90)"/>
+  <use href="#corner" transform="translate(160 160) rotate(180)"/>
+  <use href="#corner" transform="translate(0 160) rotate(270)"/>
 </svg>

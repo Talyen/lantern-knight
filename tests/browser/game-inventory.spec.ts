@@ -64,7 +64,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await page.keyboard.press('ArrowRight');
   await expect(panel.locator('[data-action="slot-body"]')).toBeFocused();
   await panel.locator('[data-action="slot-lantern"]').click();
-  await expect(detail).toContainText('Damage 28 per enemy');
+  await expect(detail.getByRole('img', { name: 'Damage 28 per enemy', exact: true })).toBeVisible();
   await detail.getByRole('button', { name: 'Close item details' }).click();
   await expect(detail).toContainText('Select an item to inspect it.');
   await expect(panel.locator('[data-action="slot-lantern"]')).toBeFocused();
@@ -92,12 +92,15 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await capture('inventory-ring-1280');
   await detail.getByRole('button', { name: 'Equip', exact: true }).click();
   await pick('Orchard Ring');
-  await expect(detail.getByRole('combobox', { name: 'Equip to' })).toHaveValue('ring2');
+  const destinations = detail.getByRole('group', { name: 'Equip to', exact: true });
+  const ring1 = destinations.getByRole('button', { name: /^Ring 1 · / });
+  const ring2 = destinations.getByRole('button', { name: /^Ring 2 · / });
+  await expect(ring2).toHaveAttribute('aria-pressed', 'true');
   await expect(detail).toContainText('120 → 130');
-  await detail.getByRole('combobox', { name: 'Equip to' }).selectOption('ring1');
+  await ring1.click();
   await expect(detail.getByRole('button', { name: 'Equip', exact: true })).toBeDisabled();
   await expect(detail).toContainText('120 → 120');
-  await detail.getByRole('combobox', { name: 'Equip to' }).selectOption('ring2');
+  await ring2.click();
   await detail.getByRole('button', { name: 'Equip', exact: true }).click();
   await expect(page.locator('#hp')).toHaveText('60 / 130');
   await expect(panel.locator('.inventory-row').filter({ hasText: 'Orchard Ring' })).toHaveCount(0);
@@ -107,7 +110,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await expect(page.locator('#hp')).toHaveText('60 / 120');
   await pick('Health Potion');
   await expect(detail.locator('.item-portrait')).toHaveAttribute('data-item', 'health-potion');
-  await expect(detail).toContainText('Restores 40 health');
+  await expect(detail.getByRole('img', { name: 'Restores 40 health', exact: true })).toBeVisible();
   await pick('Damaged Axe');
   await expect(detail.getByLabel('4 Iron', { exact: true })).toBeVisible();
   await expect(detail.locator('.salvage-yield .item-art[data-ready="true"]')).toHaveCount(1);
@@ -168,7 +171,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   const contentBounds = await panel.locator('.inventory-content').boundingBox();
   const panelBounds = await panel.boundingBox();
   expect(contentBounds!.y + contentBounds!.height).toBeLessThanOrEqual(
-    panelBounds!.y + panelBounds!.height - 30,
+    panelBounds!.y + panelBounds!.height,
   );
   await detail.getByRole('button', { name: 'Unequip', exact: true }).focus();
   await expect(detail.getByRole('button', { name: 'Unequip', exact: true })).toBeInViewport({

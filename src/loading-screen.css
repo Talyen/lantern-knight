@@ -10,12 +10,12 @@
   border: 0;
   outline: none;
   overflow: hidden;
-  background: #101310;
+  background: #111111;
   color: #f0e6cc;
   z-index: 10000;
 }
 #loading-screen::backdrop {
-  background: #101310;
+  background: #111111;
 }
 #loading-screen video {
   display: block;
