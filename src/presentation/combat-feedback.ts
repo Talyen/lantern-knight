@@ -1,8 +1,7 @@
 import * as T from 'three';
 import { right, up, outward } from './camera';
 import { heroLanternPosition, heroSwordPosition } from './hero-lantern';
-import { flareLightEnvelope } from '../content/ability-effects';
-import { tuning, attackDefinition } from '../content/gameplay';
+import { tuning, attackDefinition, flareLightEnvelope } from '../content/gameplay';
 import { ActorSprite } from './sprite';
 import {
   combatFeedback as settings,

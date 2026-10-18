@@ -9,9 +9,9 @@ import { clipDuration, frameAt } from '../../src/core/animation';
 import type { Clip } from '../../src/assets/schema';
 
 test('all 64 cursor/travel combinations retain facing, travel and movement speed independently', () => {
+  const sim = new Simulation(content);
   for (let f = 0; f < 8; f++)
     for (let t = 0; t < 8; t++) {
-      const sim = new Simulation(content);
       sim.actors = [sim.hero];
       Object.assign(sim.hero, { x: 0, z: 0 });
       const facing = (f * Math.PI) / 4,

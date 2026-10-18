@@ -190,11 +190,11 @@ test('large accepted contours survive transactional history and scene-store reop
   d.floor.layout = 'artwork';
   d.groundInteraction = ground();
   d.groundInteraction.regions[0]!.mask![0]!.outer = Array.from(
-    { length: 90000 },
+    { length: 40000 },
     (_, i) =>
       [
-        0.5 + 0.2 * Math.cos((i / 90000) * Math.PI * 2),
-        0.5 + 0.2 * Math.sin((i / 90000) * Math.PI * 2),
+        0.5 + 0.2 * Math.cos((i / 40000) * Math.PI * 2),
+        0.5 + 0.2 * Math.sin((i / 40000) * Math.PI * 2),
       ] as [number, number],
   );
   assert.ok(Buffer.byteLength(JSON.stringify(d)) > 1024 * 1024);

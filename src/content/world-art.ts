@@ -1,6 +1,5 @@
 import { scenePlacementFindings } from './scene-placement';
-import { clearSegment, supportedPosition, isSupportedPosition } from './collision';
-import { tuning } from './gameplay';
+import { supportedPosition, isSupportedPosition } from './collision';
 import { artworkFloorLayout } from './floor-layout';
 import { authoredGameplay } from './authored-gameplay';
 import { resolveFixtures } from './scenery-presets';
@@ -10,7 +9,7 @@ import {
   type SceneDocument,
   type SceneSnapshot,
 } from './scene-document';
-import { heightAt, type AreaDefinition, type PropDefinition } from './world';
+import { isValidCampfireEntry, type AreaDefinition, type PropDefinition } from './world';
 import { sceneAssets, SCENE_LIGHT_CAPACITY, type WorldVisualDefinition } from './world-visuals';
 export function resolveAuthoredScene(snapshot: SceneSnapshot): WorldVisualDefinition {
   const document = parseSceneDocument(snapshot);
@@ -158,14 +157,13 @@ export function resolveScene(
         { x: f.x + Math.min(0.9, f.safeRadius / 2), z: f.z },
         0.3,
       );
-      const safe = (point: { x: number; z: number }) =>
-        Math.hypot(point.x - f.x, point.z - f.z) < Math.min(f.safeRadius, 1.6) &&
-        isSupportedPosition(area, point, 0.3) &&
-        Math.abs(heightAt(area, point.x, point.z) - heightAt(area, f.x, f.z)) <=
-          tuning.maxCombatHeightDifference &&
-        clearSegment(area, point, f, 0.001);
       const existing = area.entries.find((e) => e.id === 'fire-' + f.id);
-      const point = existing && safe(existing) ? existing : safe(candidate) ? candidate : f;
+      const point =
+        existing && isValidCampfireEntry(area, f, existing)
+          ? existing
+          : isValidCampfireEntry(area, f, candidate)
+            ? candidate
+            : f;
       return { id: 'fire-' + f.id, x: point.x, z: point.z };
     }),
   ];

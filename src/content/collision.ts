@@ -1,12 +1,13 @@
 import {
   closestPointOnSegment,
+  insidePolygon,
+  polygonArea,
   polygonBounds,
   polygonEdgeDistance,
   boundsCorners,
+  rotatedRectCorners,
 } from './polygon';
-import { insidePolygon } from './graveyard-layout';
 import type { AreaDefinition, Bounds, Point, PropDefinition } from './world';
-import type { ContentSnapshot } from './snapshot';
 
 export const effectiveRadius = (radius: number) => Math.max(0.3, radius);
 const epsilon = 1e-6;
@@ -65,54 +66,23 @@ export function clampToBoundary(points: readonly Point[], p: Point, radius: numb
 function vertices(p: PropDefinition): readonly Point[] | undefined {
   if (p.shape === 'polygon') return p.polygon;
   if (p.shape !== 'box' || !p.size) return;
-  const c = Math.cos(p.rotation ?? 0),
-    s = Math.sin(p.rotation ?? 0);
-  return [
-    [-1, -1],
-    [1, -1],
-    [1, 1],
-    [-1, 1],
-  ].map(([x, z]) => ({
-    x: p.x + ((x! * p.size![0]) / 2) * c - ((z! * p.size![1]) / 2) * s,
-    z: p.z + ((x! * p.size![0]) / 2) * s + ((z! * p.size![1]) / 2) * c,
-  }));
+  return rotatedRectCorners(p, p.size[0], p.size[1], p.rotation ?? 0);
 }
-type Shape = ContentSnapshot<{
+type Shape = {
   points?: readonly Point[];
-  // Outward-normal multiplier for polygon rings, cached with the vertices so
-  // per-tick correction never rebuilds the signed area it never changes.
+  // Outward-normal multiplier for polygon rings, derived from the signed area
+  // so per-tick correction never recomputes the winding it never changes.
   sign?: 1 | -1;
   minX: number;
   maxX: number;
   minZ: number;
   maxZ: number;
-}>;
-const shapes = new WeakMap<PropDefinition, Shape>();
-function polygonSign(points: readonly Point[]): 1 | -1 {
-  let signed = 0;
-  for (let i = 0; i < points.length; i++) {
-    const a = points[i]!,
-      b = points[(i + 1) % points.length]!;
-    signed += a.x * b.z - b.x * a.z;
-  }
-  return signed < 0 ? 1 : -1;
-}
+};
 function collisionShape(p: PropDefinition): Shape {
-  let cached = shapes.get(p);
-  if (cached) return cached;
   const points = vertices(p);
-  cached = points
-    ? { points, ...polygonBounds(points), sign: polygonSign(points) }
+  return points
+    ? { points, ...polygonBounds(points), sign: polygonArea(points) < 0 ? 1 : -1 }
     : { minX: p.x - p.radius, maxX: p.x + p.radius, minZ: p.z - p.radius, maxZ: p.z + p.radius };
-  // Accepted content is deeply frozen; authoring drafts can move or resize
-  // existing props, including nested geometry beneath a shallow root freeze.
-  if (
-    Object.isFrozen(p) &&
-    (!p.size || Object.isFrozen(p.size)) &&
-    (!p.polygon || (Object.isFrozen(p.polygon) && p.polygon.every(Object.isFrozen)))
-  )
-    shapes.set(p, cached);
-  return cached;
 }
 export function isSupportedPosition(area: AreaDefinition, p: Point, radius: number) {
   const b = area.bounds;
@@ -158,7 +128,7 @@ export function supportedPosition(area: AreaDefinition, p: Point, radius: number
   for (let pass = 0; pass < 3; pass++)
     for (const prop of area.props) {
       if (prop.blocking === false) continue;
-      // Boxes are rotated rectangles; their cached corners run the same
+      // Boxes are rotated rectangles; their shared corners run the same
       // nearest-edge correction as authored polygons.
       const shape = collisionShape(prop),
         points = shape.points;
@@ -176,15 +146,13 @@ export function supportedPosition(area: AreaDefinition, p: Point, radius: number
             lSquared = dx * dx + dz * dz;
           if (lSquared < 1e-18) continue;
           const l = Math.sqrt(lSquared),
-            t = Math.max(0, Math.min(1, ((x - a.x) * dx + (z - a.z) * dz) / lSquared)),
-            qx = a.x + dx * t,
-            qz = a.z + dz * t,
-            d = Math.hypot(x - qx, z - qz);
+            q = closestPointOnSegment({ x, z }, a, b),
+            d = Math.hypot(x - q.x, z - q.z);
           if (!inside && d >= radius) continue;
-          const nx = inside || d < 1e-9 ? (-dz / l) * sign : (x - qx) / Math.max(d, 1e-9),
-            nz = inside || d < 1e-9 ? (dx / l) * sign : (z - qz) / Math.max(d, 1e-9),
-            cx = qx + nx * (radius + 0.001),
-            cz = qz + nz * (radius + 0.001);
+          const nx = inside || d < 1e-9 ? (-dz / l) * sign : (x - q.x) / Math.max(d, 1e-9),
+            nz = inside || d < 1e-9 ? (dx / l) * sign : (z - q.z) / Math.max(d, 1e-9),
+            cx = q.x + nx * (radius + 0.001),
+            cz = q.z + nz * (radius + 0.001);
           if (
             cx < area.bounds.minX + radius ||
             cx > area.bounds.maxX - radius ||

@@ -40,7 +40,7 @@ test('recipe identity includes producers and excludes runtime composition and de
     'src/content/developer-scenes.ts',
     'src/content/game-content.ts',
     'src/content/crypt-scene.ts',
-    'src/content/graveyard-layout.ts',
+    'src/content/polygon.ts',
     'src/content/camera.json',
     'src/presentation/lighting-profiles.ts',
     'tools/assets/prepare/prepare-ground-proof.ts',

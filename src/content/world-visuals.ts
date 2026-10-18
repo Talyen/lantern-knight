@@ -127,6 +127,8 @@ export function validateAreaArt(
   for (const id of ['ink-cues']) pack(id);
 }
 
+const arrivalBlend = (hero: Point, arrival: { start: number; end: number } | undefined) =>
+  arrival ? Math.max(0, Math.min(1, (hero.z - arrival.start) / (arrival.end - arrival.start))) : 0;
 export function compositionPoint(
   hero: Point,
   frame: { halfWidth: number; halfHeight: number } | undefined,
@@ -134,9 +136,7 @@ export function compositionPoint(
 ): Point {
   const f = art?.camera;
   if (!f) return { ...hero };
-  const t = f.arrival
-      ? Math.max(0, Math.min(1, (hero.z - f.arrival.start) / (f.arrival.end - f.arrival.start)))
-      : 0,
+  const t = arrivalBlend(hero, f.arrival),
     biasZ = f.bias.z + (f.arrival ? f.arrival.biasZ - f.bias.z : 0) * t;
   const target = {
     x: Math.max(f.bounds.minX, Math.min(f.bounds.maxX, hero.x + f.bias.x)),
@@ -177,7 +177,7 @@ export function compositionSpan(
   const f = art?.camera,
     a = f?.arrival;
   if (!a?.span || requested !== cameraContract.verticalSpan) return requested;
-  const t = Math.max(0, Math.min(1, (hero.z - a.start) / (a.end - a.start))),
+  const t = arrivalBlend(hero, a),
     ease = t * t * (3 - 2 * t);
   return requested + (a.span - requested) * ease;
 }
@@ -186,6 +186,6 @@ export function compositionHeight(hero: Point, art: WorldVisualDefinition | unde
   const f = art?.camera,
     base = f?.targetHeight ?? 0,
     a = f?.arrival;
-  const t = a ? Math.max(0, Math.min(1, (hero.z - a.start) / (a.end - a.start))) : 0;
+  const t = arrivalBlend(hero, a);
   return base + ((a?.targetHeight ?? base) - base) * t;
 }

@@ -332,8 +332,6 @@ export function validateSceneReferences(
       if (!m.asset.clips[p.clip]?.[heading])
         throw new Error(`Unavailable facing: ${p.asset}/${p.clip}/${heading}`);
     }
-  }
-  for (const p of d.objects)
     if (p.fixture) {
       if (ids.has(p.fixture.id)) throw new Error('Duplicate fixture identity: ' + p.fixture.id);
       ids.add(p.fixture.id);
@@ -341,6 +339,7 @@ export function validateSceneReferences(
       if (manifests && f && !manifests.get(f.asset)?.asset.clips[f.clip]?.d45)
         throw new Error(`Unavailable flame: ${f.asset}/${f.clip}`);
     }
+  }
   if (manifests && !deferredGround) {
     const findings = sceneEnvelopeFindings(d, manifests);
     if (findings.length)
