@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
-import { verifiedOutput } from '../../tools/verified-files';
+import { verifiedOutput, type VerifiedFiles } from '../../tools/verified-files';
 
 test('invalid validation receipts require a fresh proof and can be repaired', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-verification-receipt-');
@@ -48,4 +48,33 @@ test('persisted proofs detect same-size edits with restored mtime, deletion and 
     outputVerified(root, ['output'], '.verified-output.json'),
     /Invalid verified/,
   );
+});
+
+test('parallel checksums preserve sorted identity, share aliases and invalidate restored timestamps', async (t) => {
+  const { fileChecksums } = await import('../../tools/verified-files');
+  const { createHash } = await import('node:crypto');
+  const root = await temporaryDirectory(t, 'lantern-checksum-batches-');
+  const expected: Record<string, string> = {};
+  for (let i = 0; i < 40; i++) {
+    const name = String(i).padStart(2, '0');
+    const bytes = Buffer.alloc((40 - i) * 1024, i);
+    await fs.writeFile(path.join(root, name), bytes);
+    expected[name] = createHash('sha256').update(bytes).digest('hex');
+  }
+  await fs.link(path.join(root, '00'), path.join(root, 'alias'));
+  expected.alias = expected['00']!;
+  const proofs: VerifiedFiles = new Map();
+  const names = Object.keys(expected).reverse();
+  const actual = await fileChecksums(root, names, proofs);
+  assert.deepEqual(actual, expected);
+  assert.equal(JSON.stringify(actual), JSON.stringify(expected));
+  assert.equal(proofs.size, names.length);
+  assert.deepEqual(await fileChecksums(root, names, proofs), expected);
+  const file = path.join(root, '00');
+  const before = await fs.stat(file);
+  await fs.writeFile(file, Buffer.alloc(before.size, 99));
+  await fs.utimes(file, before.atime, before.mtime);
+  const changed = await fileChecksums(root, names, proofs);
+  assert.notEqual(changed['00'], expected['00']);
+  assert.equal(changed.alias, changed['00']);
 });

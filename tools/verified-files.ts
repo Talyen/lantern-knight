@@ -72,18 +72,34 @@ export async function fileChecksums(
   verified?: VerifiedFiles,
 ) {
   const before = await fileSignatures(root, names);
-  const hashes: Record<string, string> = {};
+  // Predeclare sorted keys so completion order never changes payload identity.
+  const hashes: Record<string, string> = Object.fromEntries(
+    Object.keys(before).map((name) => [name, '']),
+  );
   const shared = new Map<string, string>();
   for (const proof of verified?.values() ?? []) shared.set(proof.signature, proof.hash);
+  const missing = new Map<string, string[]>();
   for (const [name, signature] of Object.entries(before)) {
     const key = signature.split(':')[1] === '0' ? name : signature;
     const prior = verified?.get(name);
-    let hash = prior?.signature === signature ? prior.hash : shared.get(key);
-    if (!hash) {
-      hash = await shaFile(path.join(root, name));
-      shared.set(key, hash);
+    const hash = prior?.signature === signature ? prior.hash : shared.get(key);
+    if (hash) hashes[name] = hash;
+    else {
+      const aliases = missing.get(key) ?? [];
+      aliases.push(name);
+      missing.set(key, aliases);
     }
-    hashes[name] = hash;
+  }
+  const groups = [...missing.values()];
+  for (let offset = 0; offset < groups.length; offset += 16) {
+    const results = await Promise.allSettled(
+      groups.slice(offset, offset + 16).map(async (names) => {
+        const hash = await shaFile(path.join(root, names[0]!));
+        for (const name of names) hashes[name] = hash;
+      }),
+    );
+    // Drain every admitted stream before a failed proof can release its lease.
+    for (const result of results) if (result.status === 'rejected') throw result.reason;
   }
   if (JSON.stringify(before) !== JSON.stringify(await fileSignatures(root, names)))
     throw new Error('Output changed while hashing');

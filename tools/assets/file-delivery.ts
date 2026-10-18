@@ -260,12 +260,17 @@ export async function openFileWorkspace(
       const groups = new Map<string, Map<string, (typeof index.files)[string]>>();
       const missingNames: string[] = [];
       for (let offset = 0; offset < names.length; offset += 16) {
+        lifetime.signal.throwIfAborted();
         const batch = names.slice(offset, offset + 16);
         // Finish reads before installing aliases: hardlink creation changes
         // ctime and must not race a hash proof for that same inode.
-        const accepted = await Promise.all(
+        const results = await Promise.allSettled(
           batch.map((name) => valid(path.join(held.root, name), index.files[name]!)),
         );
+        const accepted = results.map((result) => {
+          if (result.status === 'rejected') throw result.reason;
+          return result.value;
+        });
         for (const [position, name] of batch.entries()) {
           if (accepted[position]) continue;
           const info = index.files[name]!;
@@ -334,13 +339,16 @@ export async function openFileWorkspace(
         held.root,
         names,
         async () => {
-          for (let offset = 0; offset < names.length; offset += 16)
-            await Promise.all(
+          for (let offset = 0; offset < names.length; offset += 16) {
+            lifetime.signal.throwIfAborted();
+            const results = await Promise.allSettled(
               names.slice(offset, offset + 16).map(async (name) => {
                 if (!(await valid(path.join(held.root, name), index.files[name]!)))
                   throw new Error('Materialized asset differs: ' + name);
               }),
             );
+            for (const result of results) if (result.status === 'rejected') throw result.reason;
+          }
         },
         receipt,
       );
