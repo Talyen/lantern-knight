@@ -39,16 +39,17 @@ export function inPuddle(x: number, z: number) {
     return inside;
   });
 }
+const pondsGLSL = `float ponds(vec2 p){float coverage=0.;${puddles
+  .map(
+    (p) =>
+      `{bool inside=false;float gap=1000.;${p
+        .map((a, i) => {
+          const b = p[(i + 1) % p.length]!;
+          return `{vec2 a=vec2(${a[0].toFixed(4)},${a[1].toFixed(4)}),b=vec2(${b[0].toFixed(4)},${b[1].toFixed(4)}),d=b-a;gap=min(gap,length(p-a-d*clamp(dot(p-a,d)/dot(d,d),0.,1.)));if((a.y>p.y)!=(b.y>p.y)&&p.x<(b.x-a.x)*(p.y-a.y)/(b.y-a.y)+a.x)inside=!inside;}`;
+        })
+        .join('')}coverage=max(coverage,smoothstep(-.04,.05,inside?gap:-gap));}`,
+  )
+  .join('')}return coverage;}`;
 export function puddleGLSL() {
-  return `float ponds(vec2 p){float coverage=0.;${puddles
-    .map(
-      (p) =>
-        `{bool inside=false;float gap=1000.;${p
-          .map((a, i) => {
-            const b = p[(i + 1) % p.length]!;
-            return `{vec2 a=vec2(${a[0].toFixed(4)},${a[1].toFixed(4)}),b=vec2(${b[0].toFixed(4)},${b[1].toFixed(4)}),d=b-a;gap=min(gap,length(p-a-d*clamp(dot(p-a,d)/dot(d,d),0.,1.)));if((a.y>p.y)!=(b.y>p.y)&&p.x<(b.x-a.x)*(p.y-a.y)/(b.y-a.y)+a.x)inside=!inside;}`;
-          })
-          .join('')}coverage=max(coverage,smoothstep(-.04,.05,inside?gap:-gap));}`,
-    )
-    .join('')}return coverage;}`;
+  return pondsGLSL;
 }

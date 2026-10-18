@@ -3,7 +3,6 @@ import path from 'node:path';
 import { comparePixels } from './smoke-pixels';
 import { scenario } from './scenario';
 import { effectLabels, type PlaygroundEffect } from '../../src/content/effects-playground';
-import type {} from '../../src/sandbox/effects';
 
 export async function runScenario(flags: string[] = []) {
   await scenario(

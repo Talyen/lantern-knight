@@ -9,6 +9,7 @@ export class PlaygroundShafts {
   });
   private depths = new Map<T.Material, T.MeshDepthMaterial>();
   private size = new T.Vector2();
+  private clearColor = new T.Color();
   private uniforms = {
     beamDepth: { value: this.target.depthTexture },
     beamSize: { value: new T.Vector2(1, 1) },
@@ -68,8 +69,10 @@ export class PlaygroundShafts {
     enabled: boolean,
     strength: number,
   ) {
-    this.group.visible = enabled;
-    if (!enabled) return;
+    if (!enabled) {
+      this.group.visible = false;
+      return;
+    }
     renderer.getDrawingBufferSize(this.size);
     const w = Math.max(1, Math.round(this.size.x / 2)),
       h = Math.max(1, Math.round(this.size.y / 2));
@@ -82,7 +85,7 @@ export class PlaygroundShafts {
       hidden: { object: T.Object3D; visible: boolean }[] = [],
       previousTarget = renderer.getRenderTarget(),
       shadow = renderer.shadowMap.enabled,
-      clear = renderer.getClearColor(new T.Color()),
+      clear = renderer.getClearColor(this.clearColor),
       alpha = renderer.getClearAlpha();
     this.group.visible = false;
     try {
