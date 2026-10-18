@@ -2,7 +2,7 @@ import { onAsyncExit, onExit } from '../../tools/scope-exit';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Texture } from 'three';
-import { AssetRuntime, type PackLease } from '../../src/assets/loader';
+import { AssetRuntime, pageIdentity, type PackLease } from '../../src/assets/loader';
 import { resolveClip } from '../../src/assets/schema';
 import { manifestFixture } from '../fixtures/manifest';
 import { TextureDelivery } from '../../src/assets/texture-delivery';
@@ -483,4 +483,36 @@ test('source image inspection keeps the native-image policy when opening a runti
   ];
   runtime.seedManifest('test', manifest);
   await assert.rejects(runtime.loadPack('test'), /original image exceeds/);
+});
+
+test('page identity distinguishes mipmap use and delivery variants', () => {
+  const variant = (hash: string) => ({
+    path: 'v.png',
+    hash,
+    width: 32,
+    height: 32,
+    bytes: 4096,
+    gpuBytes: 4096,
+    mipmaps: false,
+    encoding: 'png' as const,
+  });
+  const page = {
+    hash: 'a'.repeat(64),
+    width: 64,
+    height: 64,
+    mipmaps: false,
+    delivery: [variant('b'.repeat(64))],
+  };
+  assert.notEqual(pageIdentity({ ...page, mipmaps: true }), pageIdentity(page));
+  assert.notEqual(
+    pageIdentity({ ...page, delivery: undefined }),
+    pageIdentity(page),
+    'a page without prepared variants must not share a cache key with a delivered one',
+  );
+  assert.notEqual(
+    pageIdentity({ ...page, delivery: [variant('c'.repeat(64))] }),
+    pageIdentity(page),
+    'different variant sets must not alias one preparation onto another',
+  );
+  assert.equal(pageIdentity(page), pageIdentity({ ...page }));
 });

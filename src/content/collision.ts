@@ -78,11 +78,23 @@ type Shape = {
   minZ: number;
   maxZ: number;
 };
+const shapes = new WeakMap<PropDefinition, Shape>();
 function collisionShape(p: PropDefinition): Shape {
+  const cached = shapes.get(p);
+  if (cached) return cached;
   const points = vertices(p);
-  return points
+  const shape: Shape = points
     ? { points, ...polygonBounds(points), sign: polygonArea(points) < 0 ? 1 : -1 }
     : { minX: p.x - p.radius, maxX: p.x + p.radius, minZ: p.z - p.radius, maxZ: p.z + p.radius };
+  // Accepted content is deeply frozen; authoring drafts can move or resize
+  // existing props, including nested geometry beneath a shallow root freeze.
+  if (
+    Object.isFrozen(p) &&
+    (!p.size || Object.isFrozen(p.size)) &&
+    (!p.polygon || (Object.isFrozen(p.polygon) && p.polygon.every(Object.isFrozen)))
+  )
+    shapes.set(p, shape);
+  return shape;
 }
 export function isSupportedPosition(area: AreaDefinition, p: Point, radius: number) {
   const b = area.bounds;

@@ -9,7 +9,7 @@ import { AudioPlayback } from '../../src/audio/playback';
 import { AudioBuffers } from '../../src/audio/buffers';
 import { AudioFeedback } from '../../src/audio/feedback';
 import { parseAudioManifest, type AudioManifest } from '../../src/assets/audio';
-import { defaultAudioSettings, areaAudio } from '../../src/content/audio';
+import { defaultAudioSettings, areaAudio, cueCooldown } from '../../src/content/audio';
 import { parseSettings } from '../../src/platform/settings';
 import { defaultVisualEffects } from '../../src/content/visual-effects';
 import { reviewFilename } from '../../tools/assets/audio-review';
@@ -916,6 +916,16 @@ test('known areas share authored audio while unknown fixtures fall back to quiet
   assert.deepEqual(areaAudio('interior-fixture'), { surface: 'stone', ambience: [] });
   for (const id of ['unknown-constructor-area', 'constructor', 'toString', '__proto__'])
     assert.deepEqual(areaAudio(id), { surface: 'stone', ambience: [] });
+});
+
+test('cue cooldowns are finite for named, stepped, prototype and default cues', () => {
+  assert.equal(cueCooldown('ui-deny'), 0.5);
+  assert.equal(cueCooldown('impact'), 0.06);
+  assert.equal(cueCooldown('bone'), 0.06);
+  assert.equal(cueCooldown('step-grass'), 0.12);
+  assert.equal(cueCooldown('sword'), 0.04);
+  for (const cue of ['constructor', 'toString', '__proto__', 'hasOwnProperty'])
+    assert.equal(cueCooldown(cue as never), 0.04, `${cue} must use the default cooldown`);
 });
 
 test('loot and health pickups play distinct feedback cues', () => {

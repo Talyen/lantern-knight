@@ -131,7 +131,10 @@ export function scenePlacementFindings(
 ): PlacementFinding[] {
   const inspect = groundPlacementPolicy(document, area);
   const findings: PlacementFinding[] = [];
-  const objects = new Map(document.objects.map((o) => [o.id, o] as const));
+  // Match the first object for a placement, mirroring the interactable lookup.
+  const objects = new Map<string, (typeof document.objects)[number]>();
+  for (const object of document.objects)
+    if (!objects.has(object.id)) objects.set(object.id, object);
   const interactive = new Set([
     ...(area.interactables?.map((p) => p.object) ?? []),
     ...(area.pickups?.map((p) => p.object) ?? []),
