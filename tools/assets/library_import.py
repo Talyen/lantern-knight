@@ -5,6 +5,7 @@ registration fails; provisional stills use a documented common reference density
 """
 
 import argparse
+import hashlib
 import json
 import pathlib
 import re
@@ -12,7 +13,7 @@ import struct
 import sys
 from contextlib import ExitStack
 from resolver import PROJECT, SourceResolver, load_index, safe_relative
-from library_sequences import supplied_sequences
+from library_sequences import supplied_sequences, frame_sha256
 from source import open_archive
 
 HEADINGS = {"DR": "d90", "DL": "d00", "UL": "d270", "UR": "d180"}
@@ -39,6 +40,7 @@ METADATA_FIELDS = {
     "density": (
         "native_pixels_per_unit pixels_per_unit estimated_pixels_per_unit estimated_ppu "
         "suggested_pixels_per_unit suggestedPixelsPerUnit clip_pixels_per_metre "
+        "pixels_per_unit_approximate approximate_pixels_per_unit pixels_per_world_unit ppu "
         "source_density_px_per_m source_texels_per_metre world_density_px_per_metre "
         "render_density_px_per_m recommended_pixels_per_unit density"
     ).split(),
@@ -56,6 +58,8 @@ METADATA_FIELDS = {
         "pivot_pixels_top_left pivot_top_left_px pivot_px_top_left pivot_pixels "
         "root_origin_pixels root_pixels root_px_top_left fixed_root_pixels "
         "fixed_pivot_top_left_px pivot_top_left pivot_px pivotPx ground_pivot_px "
+        "root_top_left root_px root_pivot_px root_pivot_px_top_left common_pivot_xy "
+        "common_pivot_top_left display_anchor_pixels_top_left "
         "native_pivot_top_left_px fixed_pivot_pixels_top_left pivotPixels default_root "
         "anchor_pixels anchor pivot root"
     ).split(),
@@ -95,18 +99,61 @@ def animation_contract(data):
     """Playback records declare a sequence; counts and review notes are not clips."""
     if not isinstance(data, dict):
         return False
-    clips = data.get('clips', data.get('actions'))
+    if data.get("bundle_contains_art") is False and isinstance(data.get("packages"), list):
+        return False
+    clips = data.get("clips", data.get("actions"))
     if clips is None:
         clips = [data]
     if isinstance(clips, dict):
         clips = clips.values()
     if not isinstance(clips, (list, type({}.values()))):
         return False
-    return any(isinstance(c, dict) and (
-        any(isinstance(c.get(key), list) and c[key] for key in ('frames', 'cels', 'drawings'))
-        or (c.get('rects') and c.get('atlas'))
-        or (c.get('timeline') and c.get('unique_cels'))
-    ) for c in clips)
+
+    def playback(c):
+        contexts = [c, data]
+        frames = c.get("frames", c.get("cels", c.get("drawings", [])))
+        return (
+            any(
+                pick(contexts, key) is not None
+                for key in (
+                    "fps",
+                    "source_fps",
+                    "sourceFPS",
+                    "durations_ms",
+                    "durationsMs",
+                    "frame_durations_ms",
+                    *METADATA_FIELDS["holds"],
+                )
+            )
+            or any(
+                any(key in context for key in ("loop", "terminal_hold", "terminal_hold_indefinite"))
+                or context.get("mode") in ("loop", "once", "one_shot")
+                for context in contexts
+            )
+            or bool(c.get("timeline"))
+            or any(
+                isinstance(f, dict)
+                and any(
+                    k in f
+                    for k in (
+                        "duration_ms",
+                        *METADATA_FIELDS["frame_ticks"],
+                    )
+                )
+                for f in (frames if isinstance(frames, list) else [])
+            )
+        )
+
+    return any(
+        isinstance(c, dict)
+        and playback(c)
+        and (
+            any(isinstance(c.get(key), list) and c[key] for key in ("frames", "cels", "drawings"))
+            or (c.get("rects") and c.get("atlas"))
+            or (c.get("timeline") and c.get("unique_cels"))
+        )
+        for c in clips
+    )
 
 
 class Package:
@@ -116,6 +163,7 @@ class Package:
         if len(self.names) != len(archive.namelist()):
             raise ValueError("Duplicate archive member: " + spec["archive"])
         self.cache = {}
+        self.metadata_hashes = {}
 
     def locate(self, name, base=""):
         safe_relative(name)
@@ -138,8 +186,40 @@ class Package:
                 if name in self.zip.namelist()
                 else next(peer for peer in self.peers if name in peer.zip.namelist())
             )
-            self.cache[name] = json.loads(owner.zip.read(name))
+            original = owner.zip.read(name)
+            self.metadata_hashes[name] = hashlib.sha256(original).hexdigest()
+            self.cache[name] = json.loads(original)
         return self.cache[name]
+
+    def present_drawing_hashes(self, member, data):
+        """Constrain shared metadata to the drawings actually supplied beside it."""
+        base = str(pathlib.PurePosixPath(member).parent)
+        clips = data.get("clips", data.get("actions", [data]))
+        if isinstance(clips, dict):
+            clips = clips.values()
+        hashes = set()
+        for clip in clips if isinstance(clips, (list, type({}.values()))) else []:
+            if not isinstance(clip, dict):
+                continue
+            frames = clip.get("frames", clip.get("cels", clip.get("drawings", [])))
+            for frame in frames if isinstance(frames, list) else []:
+                name = frame if isinstance(frame, str) else metadata([frame], "frame_file")
+                if not isinstance(name, str):
+                    continue
+                try:
+                    located = self.locate(name, base)
+                except ValueError:
+                    continue
+                hashes.add(self.drawing_hash(located))
+        return hashes
+
+    def drawing_hash(self, member):
+        members = getattr(self.zip, "members", {})
+        return (
+            members[member]["sha256"]
+            if member in members
+            else hashlib.sha256(self.zip.read(member)).hexdigest()
+        )
 
     def dimensions(self, name):
         if hasattr(self.zip, "dimensions"):
@@ -188,16 +268,23 @@ class LoosePackage(Package):
         }
         self.names = set(self.references)
         self.cache = {}
+        self.metadata_hashes = {}
         self.resolver = resolver
 
     def reference(self, name, base="", **fields):
         group, member = self.references[self.locate(name, base)]
         return {"group": group, "member": member, **fields}
 
+    def drawing_hash(self, member):
+        group, name = self.references[member]
+        return self.resolver.index["files"][group][name]["sha256"]
+
     def json(self, name):
         if name not in self.cache:
             group, member = self.references[name]
-            self.cache[name] = json.loads(self.resolver.read("file:" + group + "/" + member))
+            original = self.resolver.read("file:" + group + "/" + member)
+            self.metadata_hashes[name] = hashlib.sha256(original).hexdigest()
+            self.cache[name] = json.loads(original)
         return self.cache[name]
 
     def dimensions(self, member):
@@ -217,6 +304,7 @@ class Importer:
         self.by_name = {p.spec["archive"]: p for p in packages}
         self.assets = {}
         self.dispositions = []
+        self.metadata_bindings = {}
 
     def asset(self, identity, label, kind, projection="painted-cutout", placement=None):
         if kind == "effect" and projection == "painted-cutout":
@@ -292,8 +380,17 @@ class Importer:
         name = metadata([record], "frame_file")
         if not isinstance(name, str):
             raise ValueError("Missing frame filename: " + str(record)[:160])
-        ref = p.reference(name, base)
-        dims = p.dimensions(ref["member"])
+        try:
+            ref = p.reference(name, base)
+            dims = p.dimensions(ref["member"])
+        except ValueError:
+            # Split source/handoff exports declare exact runtime drawing hashes.
+            # Resolve only those bytes in the active, verified library inventory.
+            image = getattr(p, "images_by_hash", {}).get(frame_sha256(record))
+            if image is None:
+                raise
+            ref = {"group": image["group"], "member": image["member"]}
+            dims = image["canvas"]
         canvas = metadata(contexts, "canvas", default=dims)
         if isinstance(canvas, dict):
             canvas = [canvas.get("width"), canvas.get("height")]
@@ -325,12 +422,7 @@ class Importer:
             canvas = dims
         rect = record.get("rect")
         atlas = pick(contexts, "atlas")
-        if (
-            rect is not None
-            and list(rect[2:]) == dims
-            and isinstance(atlas, str)
-            and atlas != name
-        ):
+        if rect is not None and list(rect[2:]) == dims and isinstance(atlas, str) and atlas != name:
             # Dual exports describe atlas placement beside a standalone frame.
             # Its native image uses local coordinates, not the atlas offset.
             rect = [0, 0, *dims]
@@ -341,7 +433,7 @@ class Importer:
             "density": ppu,
             **({"rect": rect} if rect is not None else {}),
             **({"trim": record["trim"]} if "trim" in record else {}),
-            **({"sha256": record["sha256"]} if record.get("sha256") else {}),
+            **({"sha256": identity} if (identity := frame_sha256(record)) else {}),
         }
 
     def still(
@@ -352,9 +444,7 @@ class Importer:
             "asset_id",
             "id",
             "old_id",
-            default=pathlib.PurePosixPath(
-                metadata([record], "still_file")
-            ).stem,
+            default=pathlib.PurePosixPath(metadata([record], "still_file")).stem,
         )
         if "library-" + slug(identity or name) in self.assets:
             return self.assets["library-" + slug(identity or name)]
@@ -433,7 +523,21 @@ class Importer:
         for name, c in clips.items():
             if not isinstance(c, dict):
                 continue
-            contexts = [c, data, defaults]
+            contexts = [
+                c,
+                *(
+                    c[k]
+                    for k in ("runtime_integration", "import_settings")
+                    if isinstance(c.get(k), dict)
+                ),
+                data,
+                *(
+                    data[k]
+                    for k in ("runtime_integration", "import_settings")
+                    if isinstance(data.get(k), dict)
+                ),
+                defaults,
+            ]
             if c.get("space") == "top_down":
                 asset["projection"] = "top-down"
                 asset["placement"] = "ground"
@@ -482,15 +586,13 @@ class Importer:
                         f.get("hold_indefinitely")
                         or f.get("terminal_hold")
                         or f.get("terminal")
-                        or c.get("terminal_hold") == "indefinite"
+                        or (
+                            i == len(records) - 1 and c.get("terminal_hold") in (True, "indefinite")
+                        )
                     ):
                         h = 1
                     if h is not None:
-                        duration = (
-                            h
-                            * 1000
-                            / metadata(contexts, "clock_rate", default=60)
-                        )
+                        duration = h * 1000 / metadata(contexts, "clock_rate", default=60)
                 if duration is None:
                     fps = pick(contexts, "fps", "source_fps", "sourceFPS")
                     if fps:
@@ -503,10 +605,7 @@ class Importer:
             end = (
                 "hide"
                 if any(
-                    t
-                    in str(
-                        metadata(contexts, "end_behavior", default="")
-                    ).lower()
+                    t in str(metadata(contexts, "end_behavior", default="")).lower()
                     for t in ["remove", "disable_renderer", "hide", "clear"]
                 )
                 else "hold"
@@ -523,12 +622,14 @@ class Importer:
                     {
                         "id": str(e.get("id", e.get("name", e.get("event", "visual")))),
                         "atMs": (
-                            e["time_ms"] if isinstance(e.get("time_ms"), (int, float))
+                            e["time_ms"]
+                            if isinstance(e.get("time_ms"), (int, float))
                             else e["tick"] * 1000 / 60
                         ),
                     }
                     for e in events
-                    if isinstance(e, dict) and (
+                    if isinstance(e, dict)
+                    and (
                         isinstance(e.get("time_ms"), (int, float))
                         or isinstance(e.get("tick"), (int, float))
                     )
@@ -554,6 +655,8 @@ class Importer:
                 end,
                 markers,
             )
+        if member in p.metadata_hashes:
+            self.metadata_bindings.setdefault(p.metadata_hashes[member], set()).add(asset["id"])
         return asset
 
     def package(self, p):
@@ -891,7 +994,6 @@ class Importer:
             self.dispositions.append({"archive": spec["archive"], "status": "imported"})
             return
 
-
         def sequence(
             identity,
             name,
@@ -1123,8 +1225,10 @@ class Importer:
                         {
                             "pixels_per_unit": 256,
                             "pivot_px": {
-                                "CT04": [320, 608], "CT01": [416, 584],
-                                "SK03": [204, 554], "ZB04": [448, 488],
+                                "CT04": [320, 608],
+                                "CT01": [416, 584],
+                                "SK03": [204, 554],
+                                "ZB04": [448, 488],
                             }.get(actor["enemy_id"], [320, 500]),
                         },
                     )
@@ -1169,10 +1273,16 @@ class Importer:
             runtime = self.by_name[pack["runtime_artifacts"][0]["file_name"]]
             asset = self.assets["library-" + slug(pack["actor_id"])]
 
-            def animation(data, heading):
+            def animation(data, heading, member, runtime=runtime, pack=pack, asset=asset):
                 self.animation(
-                    runtime, member, data, pack["actor_id"], pack["actor_name"],
-                    "character", heading, asset["clips"]["move"]["d90"]["frames"][0],
+                    runtime,
+                    member,
+                    data,
+                    pack["actor_id"],
+                    pack["actor_name"],
+                    "character",
+                    heading,
+                    asset["clips"]["move"]["d90"]["frames"][0],
                 )
 
             # Heading metadata files are authoritative even when the handoff has no local copy.
@@ -1191,18 +1301,18 @@ class Importer:
                         (h for h in HEADINGS if re.search(r"\b" + h + r"\b", facing)), None
                     )
                 if heading or pack["category"] == "DR_reaction_extension":
-                    animation(data, HEADINGS[heading] if heading else "d90")
+                    animation(data, HEADINGS[heading] if heading else "d90", member)
                     count += 1
                 elif "directions" in data or "headings" in data:
                     for heading, hd in data.get("directions", data.get("headings")).items():
-                        animation({**data, **hd}, HEADINGS[heading])
+                        animation({**data, **hd}, HEADINGS[heading], member)
                         count += 1
                 else:
                     for name, c in data["clips"].items():
                         heading = c.get("facing", name.split("_")[0])
                         if heading in HEADINGS:
                             action = c.get("action", name.removeprefix(heading + "_"))
-                            animation({**data, "clips": {action: c}}, HEADINGS[heading])
+                            animation({**data, "clips": {action: c}}, HEADINGS[heading], member)
                             count += 1
             if not count:
                 raise ValueError("Unclassified enemy extension: " + runtime.spec["archive"])
@@ -1229,20 +1339,26 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
     def progress(message):
         print("Library plan: " + message, file=sys.stderr, flush=True)
 
-    images_by_hash = {i['sha256']: i for i in inventory['images']} if inventory else {}
-    archive_members = {
-        r['sha256']: {m['member']: m['sha256'] for m in r.get('members', [])}
-        for r in inventory['files'] if r['kind'] == 'archive'
-    } if inventory else {}
+    images_by_hash = {i["sha256"]: i for i in inventory["images"]} if inventory else {}
+    archive_members = (
+        {
+            r["sha256"]: {m["member"]: m["sha256"] for m in r.get("members", [])}
+            for r in inventory["files"]
+            if r["kind"] == "archive"
+        }
+        if inventory
+        else {}
+    )
     with ExitStack() as stack:
         packages = []
         for spec in specs:
             if spec["archive"] not in index["archives"]:
                 continue
             progress("opening " + spec["archive"])
-            packages.append(Package(
-                spec, stack.enter_context(open_archive(resolver, spec["archive"]))
-            ))
+            packages.append(
+                Package(spec, stack.enter_context(open_archive(resolver, spec["archive"])))
+            )
+            packages[-1].images_by_hash = images_by_hash
         importer = Importer(packages)
         for p in packages:
             if "Scenic_Mechanisms" in p.spec["archive"]:
@@ -1280,9 +1396,22 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
             progress("metadata " + p.spec["archive"])
             importer.package(p)
         unresolved_animations = []
-        if inventory:
-            import hashlib
+        metadata_failures = []
 
+        def metadata_failure(package, member, data, error, archive, identity):
+            metadata_failures.append(
+                (
+                    identity,
+                    {
+                        "archive": archive,
+                        "metadata": member,
+                        "reason": str(error),
+                    },
+                    package.present_drawing_hashes(member, data if isinstance(data, dict) else {}),
+                )
+            )
+
+        if inventory:
             known_archives = {index["archives"][p.spec["archive"]]["sha256"]: p for p in packages}
             for archive, archive_identity in index["archives"].items():
                 if not archive.startswith("discovered/"):
@@ -1294,6 +1423,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                     {"archive": archive, "group": group, "category": 7},
                     known.zip if known else stack.enter_context(open_archive(resolver, archive)),
                 )
+                package.images_by_hash = images_by_hash
                 packages.append(package)
                 for member in sorted(package.names):
                     if not member.endswith(".json"):
@@ -1307,9 +1437,14 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                     try:
                         data = supplied_sequences(package, member, data)
                     except (ValueError, KeyError, TypeError, IndexError, AttributeError) as error:
-                        unresolved_animations.append({
-                            'archive': archive_identity['pathHint'], 'metadata': member,
-                            'reason': str(error)})
+                        metadata_failure(
+                            package,
+                            member,
+                            data,
+                            error,
+                            archive_identity["pathHint"],
+                            package.metadata_hashes[member],
+                        )
                         continue
                     if not animation_contract(data):
                         continue
@@ -1333,7 +1468,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                     trial = Importer([package])
                     identity = (
                         "animation-"
-                        + archive_identity.get('assetIdentity', archive_identity['sha256'])[:16]
+                        + archive_identity.get("assetIdentity", archive_identity["sha256"])[:16]
                         + "-"
                         + hashlib.sha256(member.encode()).hexdigest()[:12]
                     )
@@ -1364,18 +1499,24 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                                             )
                     except (ValueError, KeyError, TypeError, IndexError, AttributeError) as error:
                         if not known or member not in known.cache:
-                            unresolved_animations.append(
-                                {
-                                    "archive": archive_identity["pathHint"],
-                                    "metadata": member,
-                                    "reason": str(error),
-                                }
+                            metadata_failure(
+                                package,
+                                member,
+                                data,
+                                error,
+                                archive_identity["pathHint"],
+                                package.metadata_hashes[member],
                             )
                     else:
                         conflicts = importer.assets.keys() & trial.assets.keys()
                         if conflicts:
-                            raise ValueError("Conflicting discovered animation identities: " + ", ".join(sorted(conflicts)))
+                            raise ValueError(
+                                "Conflicting discovered animation identities: "
+                                + ", ".join(sorted(conflicts))
+                            )
                         importer.assets.update(trial.assets)
+                        for identity, bindings in trial.metadata_bindings.items():
+                            importer.metadata_bindings.setdefault(identity, set()).update(bindings)
             locators = {
                 info["sha256"]: (group, member)
                 for group, records in sorted(index["files"].items())
@@ -1391,15 +1532,15 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                 if record["kind"] != "source" or not record["path"].endswith(".json"):
                     continue
                 package = LoosePackage(record, inventory["files"], locators, resolver)
+                package.images_by_hash = images_by_hash
                 member = record["path"]
                 progress("loose metadata " + member)
+                original = {}
                 try:
                     original = package.json(member)
                     data = supplied_sequences(package, member, original)
                 except (ValueError, KeyError, TypeError, IndexError, AttributeError) as error:
-                    unresolved_animations.append(
-                        {"archive": member, "metadata": member, "reason": str(error)}
-                    )
+                    metadata_failure(package, member, original, error, member, record["sha256"])
                     continue
                 if data is original or not isinstance(data, dict) or not animation_contract(data):
                     continue
@@ -1425,11 +1566,11 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                                             "supplied registration requires an adapter"
                                         )
                 except (ValueError, KeyError, TypeError, IndexError, AttributeError) as error:
-                    unresolved_animations.append(
-                        {"archive": member, "metadata": member, "reason": str(error)}
-                    )
+                    metadata_failure(package, member, data, error, member, record["sha256"])
                 else:
                     importer.assets.update(trial.assets)
+                    for identity, bindings in trial.metadata_bindings.items():
+                        importer.metadata_bindings.setdefault(identity, set()).update(bindings)
         used = {
             f["group"]
             for a in importer.assets.values()
@@ -1440,21 +1581,26 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
         for record in artwork:
             member = record["member"]
             progress("artwork registration " + member)
-            identity = index['files']['library-artwork'][member]['sha256']
+            identity = index["files"]["library-artwork"][member]["sha256"]
             delivered = images_by_hash.get(identity)
             if delivered:
-                dimensions = delivered['canvas']
+                dimensions = delivered["canvas"]
             else:
                 original = resolver.read("file:library-artwork/" + member)
                 dimensions = list(struct.unpack(">II", original[16:24]))
                 if original[:8] != b"\x89PNG\r\n\x1a\n":
-                    raise ValueError('Expected native PNG: ' + member)
+                    raise ValueError("Expected native PNG: " + member)
             if dimensions != record["canvas"]:
                 if not delivered:
                     raise ValueError("Artwork registration differs: " + member)
-                record = {**record, 'canvas': dimensions,
-                    'anchor': [record['anchor'][i] * dimensions[i] / record['canvas'][i] for i in range(2)],
-                    'density': record['density'] * dimensions[0] / record['canvas'][0]}
+                record = {
+                    **record,
+                    "canvas": dimensions,
+                    "anchor": [
+                        record["anchor"][i] * dimensions[i] / record["canvas"][i] for i in range(2)
+                    ],
+                    "density": record["density"] * dimensions[0] / record["canvas"][0],
+                }
             asset = importer.asset(
                 record["id"], record["label"], record["type"], record["projection"]
             )
@@ -1471,6 +1617,8 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
             }
             importer.clip(asset, "still", "d45", [frame], [1000], True)
         represented = {}
+        for identity, bindings in importer.metadata_bindings.items():
+            represented[identity] = set(bindings)
         progress("registering source identities and coverage")
         if inventory:
             inventory["unresolvedAnimations"] = unresolved_animations
@@ -1483,9 +1631,13 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                             key = (frame["group"], frame["member"])
                             if key not in hashes:
                                 package = by_group.get(key[0])
-                                cached_hash = archive_members.get(
-                                    index['archives'][package.spec['archive']]['sha256'], {}
-                                ).get(key[1]) if package else None
+                                cached_hash = (
+                                    archive_members.get(
+                                        index["archives"][package.spec["archive"]]["sha256"], {}
+                                    ).get(key[1])
+                                    if package
+                                    else None
+                                )
                                 hashes[key] = cached_hash or (
                                     __import__("hashlib")
                                     .sha256(package.zip.read(key[1]))
@@ -1493,14 +1645,33 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                                     if package
                                     else index["files"][key[0]][key[1]]["sha256"]
                                 )
-                            frame['sourceSha256'] = hashes[key]
+                            frame["sourceSha256"] = hashes[key]
                             represented.setdefault(hashes[key], set()).add(asset["id"])
+            drawing_hashes = {
+                asset["id"]: {
+                    f["sourceSha256"]
+                    for directions in asset["clips"].values()
+                    for clip in directions.values()
+                    for f in clip["frames"]
+                }
+                for asset in importer.assets.values()
+            }
+            # Exact shared metadata may reuse a completed import only when all
+            # drawings supplied beside the partial copy agree with that asset.
+            unresolved_animations.extend(
+                issue
+                for identity, issue, required in metadata_failures
+                if not any(
+                    required <= drawing_hashes[asset]
+                    for asset in importer.metadata_bindings.get(identity, ())
+                )
+            )
             for image in inventory["images"]:
                 if image["sha256"] in represented:
                     continue
                 canvas = image["canvas"]
                 asset = importer.asset(
-                    "source-" + image.get('assetIdentity', image['sha256'])[:24],
+                    "source-" + image.get("assetIdentity", image["sha256"])[:24],
                     image["path"],
                     "prop" if image["alpha"] else "material",
                     "painted-cutout" if image["alpha"] else "top-down",
@@ -1516,7 +1687,7 @@ def build(root, specs, index, artwork=(), inventory=None, index_path=None):
                     "anchor": [canvas[0] / 2, canvas[1] if image["alpha"] else canvas[1] / 2],
                     "density": 256,
                     "indexPath": str(index_path),
-                    "sourceSha256": image['sha256'],
+                    "sourceSha256": image["sha256"],
                 }
                 importer.clip(asset, "still", "d45", [frame], [1000], True)
                 represented[image["sha256"]] = {asset["id"]}

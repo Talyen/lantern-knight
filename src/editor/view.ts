@@ -16,7 +16,7 @@ import {
   type SceneSnapshot,
 } from '../content/scene-document';
 import { ContentRegistry, heightAt } from '../content/world';
-import { contentDefinitions } from '../content/game-content';
+import { contentDefinitions, gameScenes } from '../content/game-content';
 import { GameSession } from '../core/session';
 import { EventHub } from '../core/events';
 import {
@@ -252,7 +252,7 @@ export class EditorView {
     }
     const ids = new Set(
       [
-        'ink-hero-current',
+        ...gameScenes.initialAssets,
         ...(document.gameplay?.spawns.map((p) => {
           const actor = contentDefinitions.actors.find((a) => a.id === p.actor);
           if (!actor) throw new Error('Unknown enemy ' + p.actor);

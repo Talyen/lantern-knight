@@ -4,10 +4,116 @@ import pathlib
 import re
 
 
+def frame_sha256(record, shared_states=None):
+    registration = record.get("source_registration", {})
+    state = (shared_states or {}).get(record.get("shared_state_id"), {})
+    return (
+        record.get("sha256")
+        or record.get("png_sha256")
+        or registration.get("delivery_sha256")
+        or (registration.get("sha256") if registration.get("file") == record.get("file") else None)
+        or state.get("sha256")
+    )
+
+
 def supplied_sequences(package, member, data):
     if not isinstance(data, dict):
         return data
     base = str(pathlib.PurePosixPath(member).parent)
+    frames = data.get("frames")
+    if isinstance(frames, list) and frames and all(isinstance(f, dict) for f in frames):
+        frames = [
+            {**f, "sha256": identity}
+            if (identity := frame_sha256(f, data.get("shared_states")))
+            else f
+            for f in frames
+        ]
+        if frames != data["frames"]:
+            data = {**data, "frames": frames}
+    if data.get("optional") and data.get("recommended_preview_variant") and data.get("clip"):
+        raw = package.json(package.locate(data["clip"] + ".json", base))
+        original = raw["frames"]
+        if len(original) != len(frames) or any(
+            a.get("drawing") != b.get("drawing") for a, b in zip(original, frames)
+        ):
+            raise ValueError("Optional registration does not match the declared raw drawing order")
+        timing = ("hold_ticks_60hz", "hold_indefinitely", "terminal_hold", "duration_ms")
+        return {
+            **data,
+            "loop": raw["loop"],
+            "terminal_hold": raw.get("terminal_hold"),
+            "frames": [
+                {**f, **{k: source[k] for k in timing if k in source}}
+                for f, source in zip(frames, original)
+            ],
+        }
+    if isinstance(data.get("timings"), dict) and isinstance(frames, list) and frames:
+        clips = {}
+        for name, variant in data["timings"].items():
+            ticks = variant.get("ticks_60hz")
+            if not isinstance(ticks, list) or len(ticks) != len(frames):
+                raise ValueError("Timing variant does not cover the exact supplied drawings")
+            clips[name] = {
+                "frames": [
+                    {**f, "duration_ms": hold * 1000 / 60} for f, hold in zip(frames, ticks)
+                ],
+                "loop": data.get("loop", False),
+            }
+        return {**data, "clips": clips}
+    if (
+        data.get("source_rgba_preserved") is True
+        and frames
+        and all(isinstance(f, dict) and f.get("sha256") for f in frames)
+    ):
+        canonical_member = str(pathlib.PurePosixPath(base).parent / "manifest.json")
+        if canonical_member in package.names:
+            canonical = package.json(canonical_member)
+            candidates = canonical.get("runtime_frames", canonical.get("frames", []))
+
+            def signature(fs):
+                return [(f.get("sha256"), f.get("hold_ticks_60hz")) for f in fs]
+
+            if candidates and signature(candidates) == signature(frames):
+                return {**canonical, "frames": candidates}
+    if data.get("states") and data.get("id") and isinstance(data.get("atlas"), dict) and frames:
+        for parent in pathlib.PurePosixPath(base).parents:
+            candidate = str(parent / "manifest.json")
+            if candidate not in package.names:
+                continue
+            manifest = package.json(candidate)
+            records = manifest.get("assets", [])
+            matching = [
+                a for a in records if a.get("id") == data["id"] and a.get("frames") == frames
+            ]
+            if len(matching) == 1:
+                return {**manifest, **data}
+    clips = data.get("clips")
+    if isinstance(clips, dict) and isinstance(data.get("atlas"), str) and data.get("atlas_columns"):
+        normalized = {}
+        for name, clip in clips.items():
+            indices = clip.get("frames")
+            holds = clip.get("duration_ticks")
+            if not isinstance(indices, list) or not all(isinstance(i, int) for i in indices):
+                return data
+            if not isinstance(holds, list) or len(holds) != len(indices):
+                raise ValueError("Indexed atlas timing does not cover the exact frame sequence")
+            width, height = data["cell_size"]
+            columns = data["atlas_columns"]
+            if any(i < 0 or i >= data["native_cel_count"] for i in indices):
+                raise ValueError("Indexed atlas frame is outside the supplied cel count")
+            normalized[name] = {
+                **clip,
+                "frames": [
+                    {
+                        "file": data["atlas"],
+                        "rect": [i % columns * width, i // columns * height, width, height],
+                        "trim": [0, 0, width, height],
+                        "duration_ms": hold * 1000 / data["timing_hz"],
+                    }
+                    for i, hold in zip(indices, holds)
+                ],
+            }
+        return {**data, "canvas": data["cell_size"], "clips": normalized}
     # Cursor locomotion and the native hero expansion use fixed pixel cells.
     # Keep runtime exports intact; native source drawings remain separate images.
     runtime = data.get("runtime", {})

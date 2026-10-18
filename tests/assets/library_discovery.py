@@ -21,6 +21,92 @@ from source_members import metadata_file
 
 
 class DiscoveryTests(unittest.TestCase):
+    def test_metadata_companions_bind_only_identical_successfully_imported_contracts(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary).resolve()
+            pixels = io.BytesIO()
+            Image.new("RGBA", (8, 8), "red").save(pixels, format="PNG")
+            different = io.BytesIO()
+            Image.new("RGBA", (8, 8), "blue").save(different, format="PNG")
+            clip = {
+                "pivot_px": [4, 7],
+                "frames": [
+                    {"file": "frame.png", "duration_ms": 120},
+                    {"file": "later.png", "duration_ms": 80},
+                ],
+            }
+            original = {"libraryDirectory": "Test", "archives": {}, "files": {}, "prefixes": {}}
+            for archive, files in {
+                "runtime.zip": {
+                    "frame.png": pixels.getvalue(),
+                    "later.png": pixels.getvalue(),
+                    "animation.json": json.dumps(clip),
+                },
+                "source.zip": {"reference/animation.json": json.dumps(clip)},
+                "matching.zip": {
+                    "frame.png": pixels.getvalue(),
+                    "animation.json": json.dumps(clip),
+                },
+                "partial-wrong.zip": {
+                    "frame.png": different.getvalue(),
+                    "animation.json": json.dumps(clip),
+                },
+                "unrelated.zip": {
+                    "animation.json": json.dumps(
+                        {
+                            **clip,
+                            "frames": [{"file": "other.png", "duration_ms": 120}],
+                        }
+                    )
+                },
+            }.items():
+                with zipfile.ZipFile(root / archive, "w") as output:
+                    for name, data in files.items():
+                        output.writestr(name, data)
+            index, inventory = discover(root, original)
+            result = build(root, [], index, inventory=inventory, index_path=root / "index.json")
+            self.assertEqual(
+                {r["archive"] for r in inventory["unresolvedAnimations"]},
+                {"partial-wrong.zip", "unrelated.zip"},
+            )
+            records = {r["path"]: r for r in inventory["files"]}
+            self.assertEqual(records["source.zip"]["assets"], records["runtime.zip"]["assets"])
+            self.assertTrue(records["source.zip"]["assets"])
+            self.assertEqual(records["matching.zip"]["assets"], records["runtime.zip"]["assets"])
+            self.assertEqual(len(result["assets"]), 2)
+            (root / "runtime.zip").unlink()
+            index, inventory = discover(root, original)
+            build(root, [], index, inventory=inventory, index_path=root / "index.json")
+            self.assertEqual(len(inventory["unresolvedAnimations"]), 4)
+
+    def test_drawing_hash_resolves_only_active_exact_bytes_across_split_exports(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = pathlib.Path(temporary).resolve()
+            pixels = io.BytesIO()
+            Image.new("RGBA", (8, 8), "red").save(pixels, format="PNG")
+            identity = hashlib.sha256(pixels.getvalue()).hexdigest()
+            (root / "renamed.png").write_bytes(pixels.getvalue())
+            clip = {
+                "pivot_px": [4, 7],
+                "frames": [
+                    {"file": "absent.png", "sha256": identity, "duration_ms": 120},
+                ],
+            }
+            with zipfile.ZipFile(root / "source.zip", "w") as archive:
+                archive.writestr("animation.json", json.dumps(clip))
+            original = {"libraryDirectory": "Test", "archives": {}, "files": {}, "prefixes": {}}
+            index, inventory = discover(root, original)
+            result = build(root, [], index, inventory=inventory, index_path=root / "index.json")
+            self.assertEqual(inventory["unresolvedAnimations"], [])
+            frame = result["assets"][0]["clips"]["animation"]["d45"]["frames"][0]
+            self.assertEqual(frame["sha256"], identity)
+            self.assertEqual(frame["sourceSha256"], identity)
+            self.assertNotEqual(frame["member"], "absent.png")
+            Image.new("RGBA", (8, 8), "blue").save(root / "renamed.png", format="PNG")
+            index, inventory = discover(root, original)
+            build(root, [], index, inventory=inventory, index_path=root / "index.json")
+            self.assertEqual(len(inventory["unresolvedAnimations"]), 1)
+
     def test_local_members_and_durable_metadata_rebuild_without_zip_or_disposable_cache(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = pathlib.Path(temporary).resolve()

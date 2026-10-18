@@ -11,6 +11,52 @@ import { makeCamera, outward } from '../../src/presentation/camera';
 import { Simulation } from '../../src/core/simulation';
 import { ContentRegistry, heightAt } from '../../src/content/world';
 import { contentDefinitions } from '../fixtures/content';
+import { gameScenes } from '../../src/content/game-content';
+
+test('editor acquires shared presentation resources before warming and retains them until disposal', async () => {
+  const ids = new Set([...gameScenes.initialAssets, 'ink-moss']);
+  const runtime = new AssetRuntime(
+    Object.fromEntries([...ids].map((id) => [id, `generated/${id}/manifest.json`])),
+  );
+  const released: string[] = [];
+  runtime.loadPack = async (id) => {
+    const manifest = manifestFixture(id);
+    if (id === 'ink-moss') {
+      manifest.asset.type = 'material';
+      manifest.asset.projection = 'top-down';
+    }
+    return { manifest, textures: new Map(), release: () => released.push(id) };
+  };
+  let warmed = false;
+  const view = new EditorView({} as HTMLCanvasElement, runtime, (_canvas, packs) => {
+    return {
+      scene: new Group(),
+      overlay: new Group(),
+      roomPresentation: {},
+      async warm() {
+        for (const id of gameScenes.initialAssets)
+          assert.ok(packs.has(id), 'Shared presentation asset missing before warming: ' + id);
+        assert.deepEqual(released, []);
+        warmed = true;
+      },
+      lookRenderer: { setSettings() {}, async prepare() {} },
+      dispose() {},
+    } as unknown as NonNullable<EditorView['presentation']>;
+  });
+  try {
+    const document = emptyScene();
+    delete document.floor.clip;
+    await view.apply(document);
+    assert.equal(warmed, true);
+    assert.ok(view.presentation);
+    assert.deepEqual(released, []);
+  } finally {
+    view.dispose();
+    runtime.dispose();
+  }
+  assert.deepEqual(new Set(released), ids);
+  assert.equal(released.length, ids.size);
+});
 
 test('editor ground picking follows elevated surfaces while explicit drag planes retain their height', () => {
   for (const surface of [

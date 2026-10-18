@@ -9,7 +9,7 @@ import unittest
 import zipfile
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2] / "tools/assets"))
-from library_import import Package, Importer, LoosePackage
+from library_import import Package, Importer, LoosePackage, animation_contract
 from library_sequences import supplied_sequences
 
 
@@ -29,6 +29,152 @@ def png(w, h):
 
 
 class ImportTests(unittest.TestCase):
+    def test_review_inventory_is_not_playback_but_missing_timed_drawings_remain_a_contract(self):
+        review = {"frames": [{"file": "a.png", "sha256": "a", "alpha_bbox": [1, 2, 3, 4]}]}
+        self.assertFalse(animation_contract(review))
+        self.assertFalse(
+            animation_contract(
+                {
+                    "bundle_contains_art": False,
+                    "packages": [{"sha256": "a"}],
+                    "clips": [{"frames": [{"file": "missing.png", "hold_ticks": 5}]}],
+                }
+            )
+        )
+        self.assertTrue(
+            animation_contract(
+                {
+                    "frames": [{"file": "missing.png", "hold_ticks": 5}],
+                }
+            )
+        )
+
+        self.assertTrue(animation_contract({"loop": False, "frames": [{"file": "missing.png"}]}))
+
+    def test_split_exports_require_exact_drawing_hashes_and_keep_runtime_registration(self):
+        p = package({})
+        p.images_by_hash = {
+            "verified": {"group": "runtime", "member": "renamed.png", "canvas": [8, 8]}
+        }
+        data = {
+            "runtime_integration": {"ppu": 145, "common_pivot_xy": [4, 7]},
+            "shared_states": {"R0": {"sha256": "verified"}},
+            "frames": [{"file": "missing.png", "shared_state_id": "R0", "hold_ticks_60hz": 7}],
+        }
+        original = json.dumps(data, sort_keys=True)
+        normalized = supplied_sequences(p, "source.json", data)
+        clip = Importer([p]).animation(p, "source.json", normalized, "hero")["clips"]["animation"][
+            "d45"
+        ]
+        self.assertEqual(
+            clip["frames"][0],
+            {
+                "group": "runtime",
+                "member": "renamed.png",
+                "canvas": [8, 8],
+                "anchor": [4, 7],
+                "density": 145,
+                "sha256": "verified",
+            },
+        )
+        self.assertEqual(clip["durationsMs"], [7 * 1000 / 60])
+        self.assertEqual(json.dumps(data, sort_keys=True), original)
+        with self.assertRaisesRegex(ValueError, "missing"):
+            Importer([p]).animation(
+                p,
+                "source.json",
+                {
+                    **normalized,
+                    "frames": [{"file": "missing.png", "sha256": "different", "hold_ticks": 7}],
+                },
+                "hero",
+            )
+
+    def test_indexed_atlas_keeps_supplied_order_durations_and_cell_pivots(self):
+        p = package({"runtime/atlas.png": png(16, 8)})
+        data = {
+            "cell_size": [8, 8],
+            "pivot_pixels_top_left": [4, 7],
+            "pixels_per_unit": 145,
+            "atlas": "atlas.png",
+            "atlas_columns": 2,
+            "native_cel_count": 2,
+            "timing_hz": 60,
+            "clips": {"sleep": {"frames": [1, 0, 1], "duration_ticks": [90, 30, 60], "loop": True}},
+        }
+        normalized = supplied_sequences(p, "runtime/manifest.json", data)
+        clip = Importer([p]).animation(p, "runtime/manifest.json", normalized, "cat")["clips"][
+            "sleep"
+        ]["d45"]
+        self.assertEqual(clip["durationsMs"], [1500, 500, 1000])
+        self.assertEqual(
+            [f["rect"] for f in clip["frames"]], [[8, 0, 8, 8], [0, 0, 8, 8], [8, 0, 8, 8]]
+        )
+        self.assertTrue(
+            all(f["canvas"] == [8, 8] and f["anchor"] == [4, 7] for f in clip["frames"])
+        )
+        with self.assertRaisesRegex(ValueError, "outside"):
+            supplied_sequences(
+                p,
+                "runtime/manifest.json",
+                {
+                    **data,
+                    "clips": {"sleep": {"frames": [2], "duration_ticks": [60]}},
+                },
+            )
+
+    def test_timing_variants_and_optional_registration_preserve_each_authored_sequence(self):
+        raw = {
+            "loop": False,
+            "terminal_hold": "indefinite",
+            "frames": [
+                {"drawing": 1, "file": "a.png", "hold_ticks_60hz": 8},
+                {"drawing": 2, "file": "b.png", "hold_indefinitely": True},
+            ],
+        }
+        p = package({"a.png": png(8, 8), "b.png": png(8, 8), "raw.json": json.dumps(raw)})
+        optional = {
+            "optional": True,
+            "recommended_preview_variant": "registered",
+            "clip": "raw",
+            "pivot_px": [4, 7],
+            "frames": [
+                {"drawing": 1, "file": "a.png"},
+                {"drawing": 2, "file": "b.png"},
+            ],
+        }
+        clip = Importer([p]).animation(
+            p,
+            "optional.json",
+            supplied_sequences(p, "optional.json", optional),
+            "variant",
+            defaults={"pixels_per_unit": 256},
+        )["clips"]["raw"]["d45"]
+        self.assertEqual(clip["durationsMs"], [8 * 1000 / 60, 1000 / 60])
+        self.assertEqual(clip["endBehavior"], "hold")
+        variants = {
+            "pivot_px": [4, 7],
+            "frames": [{"file": "a.png"}, {"file": "b.png"}],
+            "timings": {"slow": {"ticks_60hz": [8, 10]}, "brisk": {"ticks_60hz": [5, 7]}},
+        }
+        asset = Importer([p]).animation(
+            p,
+            "timing.json",
+            supplied_sequences(p, "timing.json", variants),
+            "walk",
+            defaults={"pixels_per_unit": 256},
+        )
+        self.assertEqual(
+            asset["clips"]["slow"]["d45"]["durationsMs"], [8 * 1000 / 60, 10 * 1000 / 60]
+        )
+        self.assertEqual(
+            asset["clips"]["brisk"]["d45"]["durationsMs"], [5 * 1000 / 60, 7 * 1000 / 60]
+        )
+        with self.assertRaisesRegex(ValueError, "exact supplied"):
+            supplied_sequences(
+                p, "timing.json", {**variants, "timings": {"bad": {"ticks_60hz": [8]}}}
+            )
+
     def test_hero_cursor_and_native_expansion_keep_fixed_registration_and_timing(self):
         for data in [
             {

@@ -133,6 +133,8 @@ Explicit preparation scans loose files and ZIP members by content identity. Dupl
 
 Metadata adapters interpret animation timing, pivots and slices. Unrecognized or incomplete animation contracts are listed in the prepared inventory with their actual failure, while the supplied images and native media remain available. The editor's Source inventory & media panel exposes coverage counts, source associations, media previews/downloads and these limitations. It does not invent missing timing or convert source sheets into guessed animation. SVG originals and fonts remain downloadable; SVGs can be previewed as images. Video/audio are available media, not yet playable scene objects; GLB/Blend files require a model importer.
 
+Split source and handoff metadata can reuse a complete animation when its original JSON bytes match and the supplied drawings agree, or resolve a renamed drawing through its declared hash in the active library. Review catalogs and integrity reports without playback timing remain provenance rather than clips. Supplied atlas indices, timing variants, terminal holds and nested runtime registration retain their authored sequence and values.
+
 Shared content is hardlinked and counted once, free disk space is checked, and active leases cannot be evicted. `LANTERN_PREPARE_BUDGET` overrides the preparation workspace target in bytes (default the cache limit). [Publication](#preparation-and-publication) owns bundle partitioning and pin updates. Browser/device verification is required for actual renderer and codec compatibility.
 
 ## Preparation guidance
