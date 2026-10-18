@@ -28,13 +28,13 @@ Repeated Burn applications refresh one DoT without stacking or postponing its ne
 
 The lantern is a circular burst centered on the hero at impact. Mouse aim selects the supplied casting animation's facing, independently of targeting. Preserve obstruction and height checks; only enemies receive the burst, while crates retain their sword interaction.
 
-Start with a 2.5 m radius, a four-second cooldown beginning when casting starts, a 0.2-second visible lift, 16 initial Burn damage and half a second of stagger. Fire once when the lantern reaches its raised pose. Recovery becomes cancellable only after that pulse resolves. Keep gameplay and runtime animation timing together without regenerating the supplied artwork.
+Start with a 3.25 m radius, a four-second cooldown beginning when casting starts, a 0.2-second visible lift, 16 initial Burn damage and half a second of stagger. Fire once when the lantern reaches its raised pose. Recovery becomes cancellable only after that pulse resolves. Keep gameplay and runtime animation timing together without regenerating the supplied artwork.
 
 These are playtest defaults, not balance approval. The burst creates room to reposition and supports a sword follow-up; damage over time does not repeatedly interrupt enemies. Use cooldown only, without consumable charges.
 
 ## Movement and facing
 
-Face the direction of travel while moving. Face the mouse aim direction for sword attacks and lantern casting.
+Face mouse aim while moving or standing, independently of travel direction. Sword attacks and lantern casting commit their facing when admitted.
 
 A cursor over a living enemy's body aims toward that enemy's feet, rather than projecting its torso onto the floor behind it. Use a narrow upright body capsule, excluding weapons; dead enemies, obstructed enemies and enemies on a different walking elevation do not capture aim. Empty ground retains free mouse aiming. This changes facing only: combat still enforces range, attack arcs, obstruction and elevation.
 

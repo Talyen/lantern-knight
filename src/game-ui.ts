@@ -431,7 +431,12 @@ export function createGameUI(root: HTMLElement) {
       lanternState =
         cooldown > 0 ? `${(Math.ceil((cooldown * 10) / tuning.tickHz) / 10).toFixed(1)}s` : 'Ready';
     $('#lantern-readiness').hidden =
-      !app.roomReady || app.busy || app.paused || !!adventure?.isOpen() || s.hero.health <= 0;
+      !app.roomReady ||
+      app.busy ||
+      app.paused ||
+      !!adventure?.isOpen() ||
+      s.hero.health <= 0 ||
+      (cooldown === 0 && !s.inCombat);
     setText($('#lantern-state'), lanternState);
     setStyle($('#lantern-readiness'), '--charge', `${charge}%`);
     $('.lantern-charge').setAttribute('aria-valuenow', String(charge));

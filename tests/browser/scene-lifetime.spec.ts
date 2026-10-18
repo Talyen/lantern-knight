@@ -135,7 +135,7 @@ test('Game UI lifetime isolates remounts, pending saves and retired input', asyn
       events: hub,
       persistence: { error: '' },
       settingsError: '',
-      session: { inventory: {}, equipment: {}, discovered: new Set() },
+      session: { inventory: {}, equipment: {}, pack: [], discovered: new Set() },
       sim: {
         area: 'room',
         drops: [],

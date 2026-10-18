@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import { projectRoot } from '../../tools/assets/paths';
 export const test = base.extend<{ errors: string[] }>({
   errors: [
-    async ({ page, request }, use) => {
+    async ({ page, request }, use, testInfo) => {
       const identity = await (await request.get('/__lantern_identity')).json();
       expect(identity.root).toBe(await fs.realpath(projectRoot));
       expect(identity.assets).toBe(process.env.LANTERN_ASSET_SHA256);
@@ -11,11 +11,46 @@ export const test = base.extend<{ errors: string[] }>({
         process.env.LANTERN_TEST_BUILT === 'true' ? 'built' : 'development',
       );
       const errors: string[] = [];
+      const pending = new Set<string>();
+      const warnings: string[] = [];
+      page.on('request', (request) => pending.add(request.url()));
+      const finished = (request: { url(): string }) => pending.delete(request.url());
+      page.on('requestfinished', finished);
+      page.on('requestfailed', finished);
       page.on('pageerror', (error) => errors.push(error.message));
       page.on('console', (message) => {
         if (message.type() === 'error') errors.push(message.text());
+        if (message.type() === 'warning') warnings.push(message.text());
       });
       await use(errors);
+      if (testInfo.status !== testInfo.expectedStatus) {
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const state = await Promise.race([
+          page
+            .evaluate(() => ({
+              status: document.querySelector('#status')?.textContent,
+              startupError: document.querySelector('#startup-error-detail')?.textContent,
+              ready: document.querySelector('canvas')?.getAttribute('data-ready'),
+              stages: performance
+                .getEntriesByType('measure')
+                .filter((entry) => entry.name.startsWith('lantern-startup:'))
+                .map((entry) => ({ name: entry.name, duration: entry.duration })),
+            }))
+            .catch((error: Error) => ({ error: error.message })),
+          new Promise((resolve) => {
+            timer = setTimeout(
+              () => resolve({ error: 'Renderer did not respond within 3s' }),
+              3000,
+            );
+          }),
+        ]).finally(() => clearTimeout(timer));
+        const diagnostic = { state, pending: [...pending], warnings: warnings.slice(-10), errors };
+        console.log('Browser failure state:', JSON.stringify(diagnostic));
+        await testInfo.attach('failure-state', {
+          body: JSON.stringify(diagnostic, null, 2),
+          contentType: 'application/json',
+        });
+      }
       expect(errors).toEqual([]);
     },
     { auto: true },
