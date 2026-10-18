@@ -134,8 +134,6 @@ export class GamePresentation implements PresentationLifecycle {
   generation = -1;
   flare: T.Mesh;
   private flarePrimer: T.Mesh | undefined;
-  private burst:
-    { tick: number; generation: number; position: readonly [number, number, number] } | undefined;
   get visuals() {
     return this.visualOverride;
   }
@@ -216,16 +214,6 @@ export class GamePresentation implements PresentationLifecycle {
       this.flare.rotation.x = -Math.PI / 2;
       this.flare.frustumCulled = false;
       this.scene.add(this.flare);
-      this.resources.defer(
-        events.subscribe((event) => {
-          if (event.kind === 'flare')
-            this.burst = {
-              tick: event.tick,
-              generation: event.generation,
-              position: event.position,
-            };
-        }),
-      );
       const aimGeo = this.resources.own(new T.RingGeometry(0.16, 0.19, 32)),
         aimMat = this.resources.own(
           new T.MeshBasicMaterial({
@@ -329,16 +317,13 @@ export class GamePresentation implements PresentationLifecycle {
       this.flarePrimer.position
         .copy(this.camera.position)
         .addScaledVector(outward, this.camera.far * 4);
-    const burst = this.burst?.generation === sim.generation ? this.burst : undefined;
-    const elapsed = burst ? sim.tick - burst.tick + alpha : 21;
-    this.flare.visible = (elapsed < 21 && !!burst) || this.debug;
-    const origin = burst?.position ?? [sim.hero.x, sim.hero.y, sim.hero.z];
-    this.flare.position.set(origin[0], origin[1] + 0.06, origin[2]);
+    // Gameplay uses authored library animation. This geometry is a debug guide only.
+    this.flare.visible = this.debug;
+    const origin = [sim.hero.x, sim.hero.y, sim.hero.z] as const;
+    this.flare.position.set(origin[0]!, origin[1]! + 0.06, origin[2]!);
     this.flare.rotation.z = 0;
     this.flare.scale.setScalar(1);
-    (this.flare.material as T.MeshBasicMaterial).opacity = burst
-      ? 0.2 * Math.max(0, 1 - elapsed / 21)
-      : 0.12;
+    (this.flare.material as T.MeshBasicMaterial).opacity = 0.12;
     if (this.flare.visible) {
       const points = this.flare.geometry.getAttribute('position'),
         a = this.flare.rotation.z,
@@ -412,6 +397,7 @@ export class GamePresentation implements PresentationLifecycle {
     this.combatFeedback.update(sim, alpha, heroSprite, this.actorPresentation.actors);
     this.flareLight.position.copy(this.combatFeedback.flareLight.position);
     this.flareLight.intensity = this.combatFeedback.flareLight.power * 4;
+    this.flareLight.distance = this.combatFeedback.flareLight.range;
     // A render-only impulse never enters follow framing or pointer projection.
     const cameraKick = this.combatFeedback.cameraKick.clone();
     this.camera.position.add(cameraKick);

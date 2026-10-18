@@ -118,11 +118,11 @@ Open Inspect → Hero movement review. Travel speed changes only the current pre
 
 ### Sweep review
 
-Open Inspect → Sweep review to compare the selected Sword Finisher 03 and Contact Shear feedback. The crescent uses camera-correct pre-painted views and uniform scale per facing. Sweep defaults to 2.15 m reach and a 180° sector; lunge keeps its own reach and angle.
+Open Inspect → Sweep review to compare the selected library sword trails and confirmed-hit feedback. Effects retain their supplied drawings, registration and uniform scale. Sweep defaults to 2.15 m reach and a 180° sector; lunge keeps its own reach and angle.
 
 Enable Hit area guides to show the ground boundary in blue and the same boundary at the effect midpoint in gold. The replay begins with a miss, then repeats five numbered probes: near, inside range, outside range, inside angle and outside angle. Accepted hits turn their rings gold. Single enemy mode provides an uncluttered timing comparison. Stop returns control; Restart restores normal fixture actors.
 
-Timing choices share the 100 ms damage window, hit area, damage amount and Contact Shear:
+Timing choices share the 100 ms damage window, hit area, damage amount and contact effects:
 
 | Preset          | First damage | Total duration |
 | --------------- | ------------ | -------------- |
@@ -133,7 +133,7 @@ Timing choices share the 100 ms damage window, hit area, damage amount and Conta
 
 Timing overrides change simulation, cel holds, notifies and effect playback together at the next available action. Down-right recovery defaults to Canonical final pose: replace only the final drawing with the canonical idle frame while preserving the penultimate pose, action duration and damage beats. Original ending and Clean settle to idle remain available for comparison.
 
-Game and Dev Preview share the Quick timing and Canonical final pose defaults. Preview overrides reset on reload and are excluded from checkpoints. Contact Shear appears for positive direct damage, including hero sword/lantern hits and incoming enemy hits. Direct hits add a two-tick drawing hold, a short directional recoil and a bounded camera nudge; armored enemies keep their Physical attack playback. Enemy swings use a smaller warm trail, including misses. Burn ticks retain their persistent cue without replaying Contact Shear, camera motion or impact sounds. Reduced-motion preferences suppress camera nudges. Stop, Restart, fixture changes and dedicated animation review clear transient feedback.
+Game and Dev Preview share the Quick timing and Canonical final pose defaults. Preview overrides reset on reload and are excluded from checkpoints. Contact effects appear for positive direct damage, including hero sword/lantern hits and incoming enemy hits. Direct hits add a two-tick drawing hold, a short directional recoil and a bounded camera nudge; armored enemies keep their Physical attack playback. Enemy swipes and heavy blows use separate library bindings, including on misses. Burn ticks retain their persistent cue without replaying contact effects, camera motion or impact sounds. Reduced-motion preferences suppress camera nudges. Stop, Restart, fixture changes and dedicated animation review clear transient feedback.
 
 ### Automated diagnostics
 
@@ -145,7 +145,7 @@ For explicit native investigations, `npm run benchmark -- scene` checks fixture 
 
 Development Game accepts `?motion-probe` to show frame p50/p95/p99 and retain a bounded recording in the diagnostic output's `data-recording` attribute. Samples include frame intervals, simulation steps, interpolation alpha, interpolated hero position, camera position and a stationary landmark's projected position. Compare straight runs, collisions and camera edges with matching viewport, resolution and effects; average FPS alone does not establish uniform motion. Run actual Safari visibly without another GPU test competing for the machine.
 
-Development Game query parameters `wind-preview=gust|leaves|combined` and `dodge-preview=dust|leaves|combined` select supplied-artwork comparisons. `lighting-preview=lantern|golden|silver` compares the shared lighting rigs in Game. Dev Preview's Scene effects controls expose the wind and Dodge treatments. Production Game ignores these review parameters. Captures and recordings stay outside Git.
+Development Game query parameters `wind-preview=gust|leaves|combined` and `dodge-preview=dust|leaves|combined` select supplied-artwork comparisons. `lighting-preview=lantern|golden|silver` compares the shared lighting rigs in Game. Dev Preview's Scene effects controls expose the wind and Dodge treatments. The default Dodge uses the supplied directional dash wake, attached to the hero during travel; `dust` selects that wake without leaves. Production Game ignores these review parameters. Captures and recordings stay outside Git.
 
 ### Opening comparison captures
 

@@ -1,52 +1,56 @@
 import * as T from 'three';
 import { right, up, outward } from './camera';
-import { cameraContract } from '../assets/camera-contract';
 import { heroLanternPosition, heroSwordPosition } from './hero-lantern';
 import { flareLightEnvelope } from '../content/ability-effects';
-import { tuning } from '../content/gameplay';
+import { tuning, attackDefinition } from '../content/gameplay';
 import { ActorSprite } from './sprite';
-import { combatFeedback as settings, combatEffectAssets } from '../content/combat-feedback';
 import {
-  defaultSweepTiming,
-  sweepEffectTiming,
-  sweepEffectPhase,
-  type SweepTiming,
-} from '../content/sweep-timing';
-import { attackDefinition } from '../content/gameplay';
-import { selectDirection, selectAuthoredDirection } from '../content/headings';
+  combatFeedback as settings,
+  combatEffectAssets,
+  type CombatEffectBinding,
+} from '../content/combat-feedback';
+import { selectDirection } from '../content/headings';
 import { clipDuration } from '../core/animation';
 import type { EventHub, GameplayEvent } from '../core/events';
 import type { ActorView, SimulationView } from '../core/simulation-view';
 import type { Visual } from './actor-presentation';
 import type { AssetPack } from '../assets/loader';
 
+type EffectKind = 'sweep' | 'contact' | 'flare' | 'lunge' | 'dodge' | 'enemy-swing';
 type ActiveEffect = {
   sprite: ActorSprite;
+  binding: CombatEffectBinding;
+  kind: EffectKind;
   start: number;
-  duration: number;
+  contact: number;
+  end: number;
+  sourceContact: number;
+  sourceEnd: number;
   position: T.Vector3;
-  reverse: boolean;
-  scale: number;
-  kind: 'sweep' | 'contact' | 'flare' | 'lunge' | 'dodge' | 'enemy-swing';
-  tint?: number;
-  rotation?: number;
-  action?: number;
-  sweepTiming?: SweepTiming;
+  rotation: number;
+  follow?: { actor: ActorView; action: number };
 };
+type ActionPlan = { kind: EffectKind; windup: number; layers: readonly CombatEffectBinding[] };
 export class CombatFeedback {
   readonly group = new T.Group();
   sweepEnabled = true;
-  dodgeTreatment: 'dust' | 'leaves' | 'combined' = 'combined';
-  readonly flareLight = { position: new T.Vector3(), power: 0, range: 7 };
+  dodgeTreatment: 'dust' | 'leaves' | 'combined' = 'dust';
+  readonly flareLight = {
+    position: new T.Vector3(),
+    power: 0,
+    range: tuning.ability.range * 2 + 2,
+  };
   readonly cameraKick = new T.Vector3();
   private readonly reducedMotion =
     typeof window !== 'undefined' &&
     window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
-  private pulse: { tick: number; generation: number; action: number } | undefined;
+  private pulse: { tick: number; action: number; committed: boolean } | undefined;
   private active: ActiveEffect[] = [];
+  private casts = new Map<string, number>();
   private prepared = new Map<string, ActorSprite>();
   private disposed = false;
   private pending: GameplayEvent[] = [];
+  private shocks: { tick: number; x: number; z: number; strength: number }[] = [];
   private impacts: {
     target: ActorView;
     tick: number;
@@ -56,7 +60,6 @@ export class CombatFeedback {
     frame?: string;
   }[] = [];
   private generation = -1;
-  private castTag = '';
   private unsubscribe: () => void;
   constructor(
     private packs: ReadonlyMap<string, AssetPack>,
@@ -65,8 +68,9 @@ export class CombatFeedback {
   ) {
     this.unsubscribe = events.subscribe((event) => {
       if (
-        (event.kind === 'damage' && event.amount > 0 && event.phase !== 'over-time') ||
-        event.kind === 'strike'
+        (event.kind === 'damage' && event.amount > 0 && event.phase === 'direct') ||
+        event.kind === 'strike' ||
+        event.kind === 'flare'
       )
         this.pending.push(event);
     });
@@ -109,25 +113,141 @@ export class CombatFeedback {
       sprite.mesh.visible = true;
     }
   }
-  private emit(
-    asset: string,
-    clipName: string,
-    effect: Omit<ActiveEffect, 'sprite' | 'duration'> & { duration?: number },
+  private plan(actor: ActorView, action = actor.state): ActionPlan | undefined {
+    if (action === 'attack') {
+      const windup = attackDefinition(actor).windup;
+      if (actor.kind === 'enemy')
+        return {
+          kind: 'enemy-swing',
+          windup,
+          layers: this.heavyEnemy(actor)
+            ? [settings.enemySlam, settings.enemyDust]
+            : [settings.enemySwipe],
+        };
+      if (actor.attackKind === 'sweep')
+        return this.sweepEnabled
+          ? { kind: 'sweep', windup, layers: [settings.sweep, settings.sweepEdge] }
+          : undefined;
+      return { kind: 'lunge', windup, layers: [settings.lunge, settings.lungeBurst] };
+    }
+    if (actor.kind !== 'hero') return;
+    if (action === 'ability')
+      return {
+        kind: 'flare',
+        windup: tuning.ability.windup,
+        layers: [settings.flare, settings.flareRays],
+      };
+    if (action === 'dodge')
+      return {
+        kind: 'dodge',
+        windup: tuning.dodge.travelStart,
+        layers:
+          this.dodgeTreatment === 'leaves'
+            ? [settings.dodgeLeaves]
+            : this.dodgeTreatment === 'dust'
+              ? [settings.dodge]
+              : [settings.dodge, settings.dodgeLeaves],
+      };
+    return;
+  }
+  private heavyEnemy(actor: ActorView) {
+    return (
+      actor.kind === 'enemy' && (!!actor.definition.poise || actor.definition.melee.damage >= 18)
+    );
+  }
+  private placement(
+    binding: CombatEffectBinding,
+    actor: ActorView,
+    alpha: number,
+    sprite?: ActorSprite,
   ) {
-    const pack = this.packs.get(asset);
-    if (!pack) throw new Error(`Combat feedback asset not acquired: ${asset}`);
+    const forward = new T.Vector3(Math.sin(actor.yaw), 0, Math.cos(actor.yaw));
+    const position = new T.Vector3(
+      actor.px + (actor.x - actor.px) * alpha,
+      actor.y + binding.height,
+      actor.pz + (actor.z - actor.pz) * alpha,
+    ).addScaledVector(forward, binding.forward);
+    let rotation = binding.orient
+      ? Math.atan2(forward.dot(up), forward.dot(right)) -
+        T.MathUtils.degToRad(binding.axisDegrees ?? 0)
+      : 0;
+    if (sprite && binding.attachment === 'lantern') heroLanternPosition(sprite, position);
+    if (sprite && binding.attachment === 'sword') {
+      const tip = new T.Vector3();
+      if (heroSwordPosition(sprite, position, tip) && binding.orient) {
+        const blade = tip.sub(position);
+        rotation =
+          Math.atan2(blade.dot(up), blade.dot(right)) -
+          T.MathUtils.degToRad(binding.axisDegrees ?? 0);
+      }
+    }
+    return { position, rotation };
+  }
+  private emit(
+    binding: CombatEffectBinding,
+    kind: EffectKind,
+    actor: ActorView,
+    contact: number,
+    lead: number,
+    alpha: number,
+    sprite?: ActorSprite,
+    follow = true,
+  ) {
+    const pack = this.packs.get(binding.asset);
+    if (!pack) throw new Error(`Combat feedback asset not acquired: ${binding.asset}`);
+    const code = selectDirection(actor.yaw).slice(1).padStart(3, '0');
+    const clipName = binding.directional ? `${binding.clip}__d${code}` : binding.clip;
     const clip = pack.manifest.asset.clips[clipName]?.d45;
-    if (!clip) throw new Error(`Combat feedback clip missing: ${asset}/${clipName}`);
-    const sprite = new ActorSprite(
-      `feedback:${asset}:${effect.start}`,
+    if (!clip) throw new Error(`Combat feedback clip missing: ${binding.asset}/${clipName}`);
+    const effect = new ActorSprite(
+      `feedback:${binding.asset}:${contact}:${actor.id}`,
       pack.manifest,
       pack.textures,
       clip,
     );
-    sprite.mesh.name = `combat-${effect.kind}`;
-    sprite.mesh.userData = { asset, clip: clipName };
-    this.group.add(sprite.mesh);
-    this.active.push({ ...effect, sprite, duration: effect.duration ?? clipDuration(clip) });
+    effect.material.color.setHex(binding.tint ?? 0xffffff);
+    effect.mesh.name = `combat-${kind}`;
+    effect.mesh.userData = { asset: binding.asset, clip: clipName };
+    const pose = this.placement(binding, actor, alpha, sprite);
+    if (kind === 'contact') pose.position.addScaledVector(outward, 0.38);
+    this.active.push({
+      sprite: effect,
+      binding,
+      kind,
+      start: contact - lead,
+      contact,
+      end: contact + binding.tailTicks,
+      sourceContact: binding.contactMs ?? clip.markers?.find((m) => m.id === 'contact')?.atMs ?? 0,
+      sourceEnd: clipDuration(clip),
+      ...pose,
+      follow: follow ? { actor, action: actor.action } : undefined,
+    });
+    this.group.add(effect.mesh);
+  }
+  private begin(
+    actor: ActorView,
+    plan: ActionPlan,
+    contact: number,
+    alpha: number,
+    sprites: ReadonlyMap<string, Visual> | undefined,
+    action = actor.action,
+    lead = plan.windup,
+  ) {
+    const tag = `${actor.id}:${action}`;
+    if (this.casts.has(tag)) return;
+    this.casts.set(tag, contact + Math.max(...plan.layers.map((layer) => layer.tailTicks)));
+    for (const binding of plan.layers)
+      this.emit(
+        binding,
+        plan.kind,
+        actor,
+        contact,
+        Math.min(lead, binding.leadTicks),
+        alpha,
+        sprites?.get(actor.id)?.sprite,
+        lead > 0,
+      );
+    if (plan.kind === 'flare') this.pulse = { tick: contact, action, committed: lead === 0 };
   }
   update(
     sim: SimulationView,
@@ -137,33 +257,57 @@ export class CombatFeedback {
   ) {
     if (this.disposed) return;
     if (this.generation !== sim.generation) {
-      for (const effect of this.active) effect.sprite.dispose();
-      this.active = [];
-      this.castTag = '';
-      this.pulse = undefined;
-      this.impacts = [];
+      // Preserve only queued outcomes belonging to the newly accepted room.
+      const pending = this.pending.filter((event) => event.generation === sim.generation);
+      this.reset();
+      this.pending = pending;
       this.generation = sim.generation;
-      this.primePrepared();
+    }
+    const clock = sim.tick - 1 + alpha;
+    for (const [tag, end] of this.casts) if (end < clock) this.casts.delete(tag);
+    for (const actor of sim.actors) {
+      if (actor.health <= 0) continue;
+      const plan = this.plan(actor);
+      if (!plan) continue;
+      // Actions are admitted at age zero, then aged after combat resolves.
+      const contact = sim.tick - actor.age + plan.windup + 1;
+      if (
+        clock >=
+          contact -
+            Math.min(plan.windup, Math.max(...plan.layers.map((layer) => layer.leadTicks))) &&
+        clock < contact + Math.max(...plan.layers.map((layer) => layer.tailTicks))
+      )
+        this.begin(actor, plan, contact, alpha, actors);
     }
     for (const event of this.pending) {
       if (event.generation !== sim.generation) continue;
       const source = sim.actors.find((actor) => actor.id === event.actor);
-      if (event.kind === 'strike') {
-        if (source?.kind !== 'enemy') continue;
-        const heading = selectDirection(event.direction + Math.PI / 4)
-          .slice(1)
-          .padStart(3, '0');
-        this.emit(settings.sweep.asset, `sword_finisher_03__d${heading}`, {
-          kind: 'enemy-swing',
-          start: event.tick - 2,
-          position: new T.Vector3(...event.position).add(
-            new T.Vector3(Math.sin(event.direction) * 0.45, 0.45, Math.cos(event.direction) * 0.45),
-          ),
-          duration: source.definition.poise ? 230 : 160,
-          scale: source.definition.poise ? 0.7 : 0.48,
-          reverse: settings.sweep.reverse,
-          tint: 0xe8b99c,
-        });
+      if (event.kind === 'strike' || event.kind === 'flare') {
+        if (!source) continue;
+        const plan = this.plan(source, event.kind === 'flare' ? 'ability' : 'attack');
+        if (plan) {
+          const recorded: ActorView = {
+            ...source,
+            x: event.position[0],
+            px: event.position[0],
+            y: event.position[1],
+            z: event.position[2],
+            pz: event.position[2],
+            yaw: event.direction,
+            action: event.action,
+          };
+          this.begin(recorded, plan, event.tick, alpha, actors, event.action, 0);
+        }
+        if (event.kind === 'flare' && this.pulse?.action === event.action)
+          this.pulse.committed = true;
+        const strength = event.kind === 'flare' ? 0.05 : this.heavyEnemy(source) ? 0.045 : 0;
+        if (strength)
+          this.shocks.push({
+            tick: event.tick,
+            x: event.position[0],
+            z: event.position[2],
+            strength,
+          });
         continue;
       }
       if (event.kind !== 'damage') continue;
@@ -183,208 +327,111 @@ export class CombatFeedback {
           !!source?.definition.poise ||
           (source?.kind === 'hero' && source.attackKind === 'lunge') ||
           target.health <= 0;
-      // Replace a target's impulse instead of stacking displacement in a crowd.
       this.impacts = this.impacts.filter((impact) => impact.target !== target);
       this.impacts.push({ target, tick: event.tick, direction, burn, heavy });
-      this.emit(settings.contact.asset, settings.contact.clip, {
-        start: event.tick,
-        // The impact is a camera-facing card; lift it ahead of the actor's
-        // vertical cutout while retaining depth tests against the room.
-        position: new T.Vector3(
-          target.x,
-          target.y + settings.contact.height,
-          target.z,
-        ).addScaledVector(outward, 0.38),
-        duration: burn ? 230 : heavy ? 190 : 150,
-        scale: settings.contact.scale * (burn ? 1.3 : heavy ? 1.2 : 1),
-        reverse: false,
-        kind: 'contact',
-        tint: burn ? 0xffc279 : target.kind === 'hero' ? 0xffbb9e : 0xffebbe,
-        rotation: Math.atan2(direction.dot(up), direction.dot(right)) - Math.PI / 4,
-      });
+      const binding: CombatEffectBinding = burn ? settings.contactBurn : settings.contact;
+      this.emit(binding, 'contact', target, event.tick, 0, alpha, undefined, false);
+      const contact = this.active.at(-1)!;
+      if (binding.orient)
+        contact.rotation =
+          Math.atan2(direction.dot(up), direction.dot(right)) -
+          T.MathUtils.degToRad(binding.axisDegrees ?? 0);
+      if (!burn && target.kind === 'enemy')
+        this.emit(
+          target.definition.poise ? settings.contactArmor : settings.contactBone,
+          'contact',
+          target,
+          event.tick,
+          0,
+          alpha,
+          undefined,
+          false,
+        );
     }
     this.pending = [];
-    const hero = sim.hero,
-      timing = attackDefinition(hero),
-      tag = `${sim.generation}:${hero.action}`,
-      profile = hero.sweepTiming ?? defaultSweepTiming,
-      effectTiming = sweepEffectTiming(profile),
-      lead = effectTiming?.lead ?? settings.sweep.leadTicks;
     if (
-      this.sweepEnabled &&
-      hero.state === 'attack' &&
-      hero.attackKind === 'sweep' &&
-      hero.age >= timing.windup - lead &&
-      hero.age < timing.activeEnd &&
-      this.castTag !== tag
-    ) {
-      this.castTag = tag;
-      const heading = selectDirection(
-        hero.yaw + T.MathUtils.degToRad(settings.sweep.headingOffsetDegrees),
-      );
-      const code = heading.slice(1).padStart(3, '0');
-      this.emit(settings.sweep.asset, `sword_finisher_03__d${code}`, {
-        start: sim.tick - (hero.age - (timing.windup - lead)),
-        position: new T.Vector3(
-          hero.x + Math.sin(hero.yaw) * settings.sweep.forward,
-          hero.y + settings.sweep.height,
-          hero.z + Math.cos(hero.yaw) * settings.sweep.forward,
-        ),
-        duration: effectTiming
-          ? ((effectTiming.lead + effectTiming.hold + effectTiming.tail) * 1000) / 60
-          : settings.sweep.durationMs,
-        sweepTiming: effectTiming ? profile : undefined,
-        scale: settings.sweep.scale[selectAuthoredDirection(hero.yaw)],
-        reverse: settings.sweep.reverse,
-        kind: 'sweep',
-      });
+      this.pulse &&
+      clock < this.pulse.tick &&
+      !this.pulse.committed &&
+      (sim.hero.action !== this.pulse.action || sim.hero.health <= 0)
+    )
+      this.pulse = undefined;
+    if (this.pulse && clock <= this.pulse.tick) {
+      this.flareLight.position.set(sim.hero.x, sim.hero.y + 0.9, sim.hero.z);
+      if (heroSprite) heroLanternPosition(heroSprite, this.flareLight.position);
     }
-    const age = hero.age - 1 + alpha;
-    const actionStart = sim.tick - hero.age;
-    const foot = new T.Vector3(
-      hero.px + (hero.x - hero.px) * alpha,
-      hero.y,
-      hero.pz + (hero.z - hero.pz) * alpha,
-    );
-    const heading = selectDirection(hero.yaw + Math.PI / 4)
-      .slice(1)
-      .padStart(3, '0');
-    const forward = new T.Vector3(Math.sin(hero.yaw), 0, Math.cos(hero.yaw));
-    const rotation = Math.atan2(forward.dot(up), forward.dot(right));
-    if (hero.state === 'ability' && age >= tuning.ability.windup - 6 && this.castTag !== tag) {
-      this.castTag = tag;
-      this.pulse = {
-        tick: actionStart + tuning.ability.windup,
-        generation: sim.generation,
-        action: hero.action,
-      };
-      const position = foot.clone().add(new T.Vector3(0, 0.7, 0));
-      if (heroSprite) heroLanternPosition(heroSprite, position);
-      this.flareLight.position.copy(position);
-      this.emit(settings.flare.asset, settings.flare.clip, {
-        kind: 'flare',
-        start: this.pulse.tick - 6,
-        position,
-        rotation,
-        duration: 350,
-        scale: settings.flare.scale,
-        reverse: false,
-      });
-    }
-    if (
-      hero.state === 'attack' &&
-      hero.attackKind === 'lunge' &&
-      age >= timing.windup - 5 &&
-      age < timing.activeEnd &&
-      this.castTag !== tag
-    ) {
-      this.castTag = tag;
-      this.emit(settings.lunge.asset, settings.lunge.clip, {
-        kind: 'lunge',
-        action: hero.action,
-        start: actionStart + timing.windup - 5,
-        position: foot
-          .clone()
-          .addScaledVector(forward, 0.6)
-          .add(new T.Vector3(0, 0.65, 0)),
-        duration: ((timing.activeEnd - timing.windup + 13) * 1000) / 60,
-        scale: settings.lunge.scale,
-        reverse: false,
-        rotation,
-      });
-    }
-    if (hero.state === 'dodge' && age >= tuning.dodge.travelStart && this.castTag !== tag) {
-      this.castTag = tag;
-      const base = {
-        kind: 'dodge' as const,
-        start: actionStart + tuning.dodge.travelStart,
-        position: foot,
-        duration: ((tuning.dodge.travelEnd - tuning.dodge.travelStart + 10) * 1000) / 60,
-        reverse: false,
-      };
-      if (this.dodgeTreatment !== 'leaves')
-        this.emit(settings.dodge.asset, `dash_wake__d${heading}`, {
-          ...base,
-          scale: settings.dodge.scale,
-        });
-      if (this.dodgeTreatment !== 'dust')
-        this.emit(settings.dodgeLeaves.asset, settings.dodgeLeaves.clip, {
-          ...base,
-          scale: settings.dodgeLeaves.scale,
-        });
-    }
-    if (this.pulse && sim.tick - 1 + alpha < this.pulse.tick) {
-      if (hero.action !== this.pulse.action || hero.health <= 0) {
-        this.pulse = undefined;
-        for (const effect of this.active.filter((e) => e.kind === 'flare')) effect.sprite.dispose();
-        this.active = this.active.filter((e) => e.kind !== 'flare');
-      } else if (heroSprite && heroLanternPosition(heroSprite, this.flareLight.position)) {
-        for (const effect of this.active)
-          if (effect.kind === 'flare') effect.position.copy(this.flareLight.position);
-      }
-    }
-    this.flareLight.power =
-      this.pulse?.generation === sim.generation
-        ? 3.8 * flareLightEnvelope(((sim.tick - 1 + alpha - this.pulse.tick) * 1000) / 60)
-        : 0;
+    this.flareLight.power = this.pulse
+      ? 5.2 * flareLightEnvelope((((clock - this.pulse.tick) * 1000) / 60) * 0.6)
+      : 0;
     for (let i = this.active.length - 1; i >= 0; i--) {
-      const effect = this.active[i]!,
-        elapsed = Math.max(0, ((sim.tick - 1 + alpha - effect.start) * 1000) / 60);
-      if (elapsed >= effect.duration || (effect.kind === 'sweep' && !this.sweepEnabled)) {
+      const effect = this.active[i]!;
+      const owner = effect.follow;
+      const cancelled =
+        clock < effect.contact &&
+        owner &&
+        (owner.actor.action !== owner.action ||
+          owner.actor.health <= 0 ||
+          !sim.actors.includes(owner.actor));
+      if (clock >= effect.end || cancelled || (effect.kind === 'sweep' && !this.sweepEnabled)) {
         effect.sprite.dispose();
         this.active.splice(i, 1);
-      } else {
-        const phase =
-          effect.kind === 'contact'
-            ? 0.08 + (0.92 * elapsed) / effect.duration
-            : effect.kind === 'flare'
-              ? elapsed < 100
-                ? (elapsed / 100) * 0.57
-                : 0.57 + ((elapsed - 100) / 250) * 0.43
-              : effect.sweepTiming
-                ? sweepEffectPhase(effect.sweepTiming, elapsed)
-                : elapsed / effect.duration;
-        effect.sprite.animator.seek(
-          (effect.reverse ? 1 - phase : phase) * clipDuration(effect.sprite.animator.clip),
-        );
-        effect.sprite.mesh.scale.setScalar(effect.scale);
-        if (effect.kind === 'lunge' && heroSprite && hero.action === effect.action) {
-          const tip = new T.Vector3();
-          if (heroSwordPosition(heroSprite, effect.position, tip)) {
-            const blade = tip.sub(effect.position);
-            effect.rotation = Math.atan2(blade.dot(up), blade.dot(right));
-          }
-        }
-        effect.sprite.showAnimation(effect.position, this.camera);
-        if (effect.rotation !== undefined) effect.sprite.mesh.rotateZ(effect.rotation);
-        if (effect.kind === 'flare') {
-          const frame = effect.sprite.lightingSample!.frame;
-          const registration = frame.registration ?? effect.sprite.manifest.asset;
-          const x =
-            (settings.flare.sourceOrigin[0] - registration.anchor[0]) / registration.density;
-          const y =
-            (registration.anchor[1] - settings.flare.sourceOrigin[1]) / registration.density;
-          const offset = new T.Vector3(
-            x,
-            y,
-            y * Math.tan((cameraContract.elevationDeg * Math.PI) / 180),
-          )
-            .multiplyScalar(effect.scale)
-            .applyQuaternion(effect.sprite.mesh.quaternion);
-          effect.sprite.mesh.position.sub(offset);
-        }
-        effect.sprite.material.color.set(effect.tint ?? 0xffffff);
-        effect.sprite.edgeMaterial?.color.copy(effect.sprite.material.color);
-        effect.sprite.material.opacity =
-          effect.kind === 'dodge'
-            ? 0.55 * Math.min(1, (effect.duration - elapsed) / 100)
-            : effect.kind === 'contact' || effect.kind === 'enemy-swing'
-              ? Math.min(1, (effect.duration - elapsed) / 60)
-              : 1;
+        continue;
       }
+      if (clock < effect.start) {
+        effect.sprite.mesh.visible = false;
+        continue;
+      }
+      effect.sprite.mesh.visible = true;
+      const travel = effect.binding.attachment === 'travel';
+      if (
+        owner &&
+        travel &&
+        (owner.actor.action !== owner.action ||
+          owner.actor.health <= 0 ||
+          !sim.actors.includes(owner.actor))
+      )
+        effect.follow = undefined;
+      else if (owner) {
+        const pose = this.placement(
+          effect.binding,
+          owner.actor,
+          alpha,
+          actors?.get(owner.actor.id)?.sprite,
+        );
+        effect.position.copy(pose.position);
+        effect.rotation = pose.rotation;
+        if (clock >= effect.contact && !travel) effect.follow = undefined;
+      }
+      const time =
+        clock < effect.contact
+          ? effect.sourceContact *
+            T.MathUtils.clamp(
+              (clock - effect.start) / Math.max(1, effect.contact - effect.start),
+              0,
+              1,
+            )
+          : effect.sourceContact +
+            ((effect.sourceEnd - effect.sourceContact) * (clock - effect.contact)) /
+              (effect.end - effect.contact);
+      effect.sprite.animator.seek(Math.max(0, time));
+      effect.sprite.mesh.scale.setScalar(effect.binding.scale);
+      effect.sprite.showAnimation(effect.position, this.camera);
+      if (effect.rotation) effect.sprite.mesh.rotateZ(effect.rotation);
+      effect.sprite.material.opacity = Math.min(1, Math.max(0, (effect.end - clock) / 4));
     }
     const now = sim.tick - 1 + alpha;
     this.cameraKick.set(0, 0, 0);
+    this.shocks = this.shocks.filter((shock) => now - shock.tick < 10);
+    if (!this.reducedMotion)
+      for (const shock of this.shocks) {
+        const age = Math.max(0, now - shock.tick),
+          distance = Math.hypot(sim.hero.x - shock.x, sim.hero.z - shock.z);
+        const strength =
+          shock.strength * Math.max(0, 1 - distance / 6) * Math.exp(-age / 3) * Math.cos(age * 0.6);
+        if (Math.abs(strength) > this.cameraKick.length())
+          this.cameraKick.copy(up).multiplyScalar(-strength);
+      }
+
     this.impacts = this.impacts.filter(
       (impact) => sim.actors.includes(impact.target) && now - impact.tick < 16,
     );
@@ -436,7 +483,8 @@ export class CombatFeedback {
     this.active = [];
     this.pending = [];
     this.impacts = [];
-    this.castTag = '';
+    this.shocks = [];
+    this.casts.clear();
     this.pulse = undefined;
     this.flareLight.power = 0;
     this.cameraKick.set(0, 0, 0);

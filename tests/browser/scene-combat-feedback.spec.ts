@@ -17,7 +17,16 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
   });
   await page.getByRole('button', { name: 'More options', exact: true }).click();
   await page.getByRole('button', { name: 'Hide controls', exact: true }).click();
-  for (const action of ['sweep', 'lunge', 'flare', 'thrall', 'warden', 'miss'] as const) {
+  for (const action of [
+    'sweep',
+    'lunge',
+    'flare',
+    'thrall',
+    'attendant',
+    'warden',
+    'miss',
+    'dodge',
+  ] as const) {
     await page.evaluate((action) => {
       const f = window.foundation;
       f.presentation.combatFeedback.reset();
@@ -29,7 +38,11 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
           'enemy',
           0.5,
           -1.5,
-          action === 'warden' ? 'chapel-warden' : 'skeleton',
+          action === 'warden'
+            ? 'chapel-warden'
+            : action === 'attendant'
+              ? 'chapel-attendant'
+              : 'skeleton',
         );
         sim.actors = [sim.hero, enemy];
         Object.assign(sim.hero, {
@@ -44,10 +57,16 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
         });
         sim.start(sim.hero, 'idle', Math.PI / 2);
         enemy.stun = 10000;
-        if (action === 'thrall' || action === 'warden' || action === 'miss') {
+        if (
+          action === 'thrall' ||
+          action === 'attendant' ||
+          action === 'warden' ||
+          action === 'miss'
+        ) {
           if (action === 'miss') Object.assign(sim.hero, { x: -3, px: -3 });
           sim.start(enemy, 'attack', -Math.PI / 2);
         } else if (action === 'flare') sim.start(sim.hero, 'ability', Math.PI / 2);
+        else if (action === 'dodge') sim.start(sim.hero, 'dodge', Math.PI / 2);
         else {
           sim.hero.aim = Math.PI / 2;
           sim.startSword(sim.hero, action);
@@ -55,7 +74,7 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
       });
       f.presentation.update(f.sim, 1, 0, { x: 0.5, z: -1.5 });
     }, action);
-    for (const stage of ['anticipation', 'contact', 'settled'] as const) {
+    for (const stage of ['anticipation', 'contact', 'aftermath', 'settled'] as const) {
       const result = await page.evaluate(
         async ({ action, stage }) => {
           const f = window.foundation;
@@ -64,17 +83,26 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
           let direct = false;
           f.editPreview((sim) => {
             const source =
-              action === 'thrall' || action === 'warden' || action === 'miss'
+              action === 'thrall' ||
+              action === 'attendant' ||
+              action === 'warden' ||
+              action === 'miss'
                 ? sim.enemies[0]!
                 : sim.hero;
             const windup =
-              action === 'flare' ? tuning.ability.windup : attackDefinition(source).windup;
+              action === 'flare'
+                ? tuning.ability.windup
+                : action === 'dodge'
+                  ? tuning.dodge.travelStart
+                  : attackDefinition(source).windup;
             const count =
               stage === 'anticipation'
                 ? windup - 2 - source.age
                 : stage === 'contact'
                   ? windup + 3 - source.age
-                  : 24;
+                  : stage === 'aftermath'
+                    ? 10
+                    : 60;
             for (let tick = 0; tick < Math.max(0, count); tick++) {
               const result = sim.step();
               direct ||= result.events.some(
@@ -94,6 +122,10 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
               .filter((mesh) => mesh.visible)
               .map((mesh) => mesh.name),
             kick: feedback.cameraKick.length(),
+            assets: feedback.group.children
+              .filter((mesh) => mesh.visible)
+              .map((mesh) => mesh.userData.asset as string),
+            rangeRingVisible: f.presentation.flare.visible,
             bodyUnchanged:
               JSON.stringify(body) ===
               JSON.stringify([hero.x, hero.z, enemy.x, enemy.z, hero.health, enemy.health]),
@@ -104,12 +136,21 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
       );
       expect(result.error).toBe(0);
       expect(result.bodyUnchanged).toBe(true);
+      expect(result.rangeRingVisible).toBe(false);
       if (stage === 'contact') {
-        expect(result.direct, `${action} contact`).toBe(action !== 'miss');
-        expect(result.effects.includes('combat-contact')).toBe(action !== 'miss');
-        if (['thrall', 'warden', 'miss'].includes(action))
+        expect(result.direct, `${action} contact`).toBe(action !== 'miss' && action !== 'dodge');
+        expect(result.effects.includes('combat-contact')).toBe(
+          action !== 'miss' && action !== 'dodge',
+        );
+        if (['thrall', 'attendant', 'warden', 'miss'].includes(action))
           expect(result.effects).toContain('combat-enemy-swing');
-        if (action !== 'miss') expect(result.kick).toBeGreaterThan(0);
+        if (action !== 'miss' && action !== 'dodge') expect(result.kick).toBeGreaterThan(0);
+        if (action === 'flare')
+          expect(result.assets).toContain('library-animation-31cc2e4e941e9c27-14c5aeddfa12');
+        if (action === 'thrall' || action === 'attendant')
+          expect(result.assets).toContain('library-combat-ivory-rake');
+        if (action === 'warden') expect(result.assets).toContain('library-combat-rust-crescent');
+        if (action === 'dodge') expect(result.assets).toContain('library-dash_wake');
       }
       if (stage === 'settled') {
         expect(result.effects).not.toContain('combat-contact');
