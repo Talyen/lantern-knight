@@ -19,6 +19,7 @@ test('requested cohesion render cost comparison', async ({ page }) => {
     const gl = p.renderer.getContext(),
       samples = [];
     const render = () => p.update(f.sim, 1, 0, { x: 0.3, z: 4.8 });
+    p.lookRenderer.setProfiling(true);
     for (let pair = 0; pair < 5; pair++)
       for (const enabled of pair % 2 ? [true, false] : [false, true]) {
         p.lookRenderer.setSettings({
@@ -42,6 +43,7 @@ test('requested cohesion render cost comparison', async ({ page }) => {
         }
         samples.push({ enabled, firstRenderMs, frames, cost: p.lookRenderer.stats().frameCost });
       }
+    p.lookRenderer.setProfiling(false);
     return {
       samples,
       stats: p.stats(),

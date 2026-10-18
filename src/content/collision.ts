@@ -221,6 +221,13 @@ export function sweepCircle(
   radius: number,
 ): Hit | undefined {
   let best: Hit | undefined;
+  // Preserve the narrow phase, including its slightly negative contact times.
+  // A remote polygon edge cannot touch this padded swept-circle rectangle.
+  const padding = Math.abs(radius) + epsilon * (1 + Math.abs(delta.x) + Math.abs(delta.z)),
+    minX = Math.min(start.x, start.x + delta.x) - padding,
+    maxX = Math.max(start.x, start.x + delta.x) + padding,
+    minZ = Math.min(start.z, start.z + delta.z) - padding,
+    maxZ = Math.max(start.z, start.z + delta.z) + padding;
   const accept = (t: number, nx: number, nz: number) => {
     if (t >= -epsilon && t <= 1 && nx * delta.x + nz * delta.z < -epsilon && (!best || t < best.t))
       best = { t: Math.max(0, t), nx, nz };
@@ -241,6 +248,13 @@ export function sweepCircle(
     if (len > epsilon) accept(t, qx / len, qz / len);
   };
   const edge = (a: Point, b: Point) => {
+    if (
+      Math.max(a.x, b.x) < minX ||
+      Math.min(a.x, b.x) > maxX ||
+      Math.max(a.z, b.z) < minZ ||
+      Math.min(a.z, b.z) > maxZ
+    )
+      return;
     const dx = b.x - a.x,
       dz = b.z - a.z,
       len = Math.hypot(dx, dz);

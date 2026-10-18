@@ -1,5 +1,7 @@
 # Developer tools
 
+For the player-facing inventory alternatives and menu concepts, see the [UI polish study](ui-polish.md#design-study). It builds a standalone review artifact without player storage or a live game renderer.
+
 Run `npm run dev`; developer navigation connects Game, Dev Preview and the scene editor. Dev Preview lives at `/sandbox.html` and consolidates independent outdoor/interior/system fixtures, animation, calibration, occlusion, lighting and effects experiments. Game packages exclude developer screens and fixtures. [Development](development.md) owns setup and preview ports.
 
 ## Scene editor
@@ -98,7 +100,7 @@ Animation enters dedicated asset playback; Return to scene restores the scene's 
 
 Visuals exposes production light rigs and looks, original rendering and a separate all-effects-off comparison. Nested controls cover lighting response, depth of field, individual effects, scripted replay and render scale. The Effects fixture keeps Quiet ink/Richer HD-2D treatments, individual effects and outline experiments; it does not reinterpret them as production lighting looks. Comparisons preserve selected options. Controls requiring another fixture name it and offer an explicit switch.
 
-Choose **Orchard**, **Forge** or **Chapel** for production-art cohesion comparisons without adventure travel or checkpoint writes. Visuals → Scene cohesion independently selects Ink harmonization, Shared palette finish, Ground color bounce and Dense contact cores. The [scene treatment](scene-design.md#scene-cohesion) preserves source artwork. All four start enabled in new previews; existing saved choices persist per fixture. Compare identical poses under Lantern night and Silver hour, then walk through painted shade and behind foreground scenery. Forge and Chapel comparison copies omit unique rewards.
+Choose **Orchard**, **Clearing**, **Forge** or **Chapel** for production-art cohesion comparisons without adventure travel or checkpoint writes. Visuals → Scene cohesion independently selects Ink harmonization, Shared palette finish, Ground color bounce and Dense contact cores. The [scene treatment](scene-design.md#scene-cohesion) preserves source artwork. All four treatments start enabled in new previews; existing saved choices persist per fixture. Compare identical poses under Lantern night and Silver hour, then walk through painted shade and behind foreground scenery. Clearing, Forge and Chapel comparison copies omit unique rewards.
 
 Inspect groups registration/collision overlays, camera framing, calibration reference view, occlusion positioning and an explicit enemy-freeze control. Calibration preserves scene context; Return to scene restores it. Opening Inspect alone never freezes enemies.
 

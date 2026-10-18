@@ -1,12 +1,10 @@
 import * as T from 'three';
 import { outward } from '../../src/presentation/camera';
 import { DisposalScope, cleanupAfterFailure } from '../../src/assets/cleanup';
-/** @knip-external Loaded by the browser GPU probes through Vite. */
 export { T };
 
 // Small framebuffer proofs share renderer/camera setup and one GPU lifetime.
 // Tests keep their actual materials, geometry, pixel comparisons and thresholds.
-/** @knip-external Loaded by the browser GPU probes through Vite. */
 export function gpuFixture(width: number, height = width, span = 4) {
   const resources = new DisposalScope();
   const own = <V extends { dispose(): void }>(value: V) => resources.own(value);

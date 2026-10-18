@@ -151,3 +151,43 @@ test('painted masks produce physical silhouette geometry at their authored depth
   }
   proxies.reset();
 });
+
+test('disconnected painted contours batch without changing triangles, holes or region ownership', () => {
+  const art = resolveScene(emptyScene()).visuals;
+  const layout = artworkFloorLayout(art.editorFloor!.width, art.editorFloor!.depth);
+  const masks = [
+    { outer: rectangle(0.2, 0.2, 0.4, 0.4), holes: [rectangle(0.25, 0.25, 0.3, 0.3)] },
+    { outer: rectangle(0.6, 0.2, 0.8, 0.4), holes: [] },
+  ];
+  const region = {
+    id: 'tree',
+    name: 'Tree',
+    depth: { kind: 'anchor' as const, point: layout.world([0.5, 0.8]) },
+    mask: masks,
+  };
+  art.groundInteraction = groundFixture([region], { asset: 'test', frame: 'test' });
+  const sun = new T.DirectionalLight(),
+    batched = new ShadowProxies(sun);
+  batched.build(art, []);
+  assert.equal(batched.proxies.children.length, 1);
+  const triangles: number[] = [];
+  for (const mask of masks) {
+    const single = new ShadowProxies(sun);
+    single.build(
+      {
+        ...art,
+        groundInteraction: { ...art.groundInteraction, regions: [{ ...region, mask: [mask] }] },
+      },
+      [],
+    );
+    triangles.push(
+      ...(single.proxies.children[0] as T.Mesh).geometry.getAttribute('position').array,
+    );
+    single.reset();
+  }
+  assert.deepEqual(
+    [...(batched.proxies.children[0] as T.Mesh).geometry.getAttribute('position').array],
+    triangles,
+  );
+  batched.reset();
+});

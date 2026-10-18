@@ -241,6 +241,7 @@ export async function benchmarkSurround(context: SceneContext) {
       p = f.presentation,
       results = [];
     f.pause(true);
+    p.lookRenderer.setProfiling(true);
     try {
       for (const enabled of [false, true]) {
         p.roomPresentation.surround.scene.visible = enabled;
@@ -277,6 +278,7 @@ export async function benchmarkSurround(context: SceneContext) {
         });
       }
     } finally {
+      p.lookRenderer.setProfiling(false);
       p.roomPresentation.surround.scene.visible = true;
     }
     return results;

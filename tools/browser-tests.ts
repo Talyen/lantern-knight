@@ -14,7 +14,9 @@ export function ciDevelopmentFiles(files: readonly string[], authoring: boolean)
         return false;
       if (/^game(?:-[a-z-]+)?\.spec\.ts$/.test(file)) return false;
       if (/^(editor(?:-[a-z-]+)?|effects)\.spec\.ts$/.test(file)) return authoring;
-      if (/^(scene(?:-[a-z-]+)?|audio|image-delivery|ground-occlusion)\.spec\.ts$/.test(file))
+      if (
+        /^(scene(?:-[a-z-]+)?|audio|image-delivery|item-art|ground-occlusion)\.spec\.ts$/.test(file)
+      )
         return true;
       throw new Error('Browser suite has no CI tier: ' + file);
     })

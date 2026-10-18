@@ -43,7 +43,7 @@ uniform vec3 inkSky,inkGround,inkKey,inkDirection,inkFog,inkOrigin;
 uniform vec3 inkLightPosition[5]; uniform vec3 inkLightColor[5]; uniform float inkLightPower[5],inkLightRange[5];
 uniform float inkLocalShadowEnabled[5],inkLocalShadowFar[5];
 uniform sampler2D inkNormalA,inkNormalB,inkFlow;
-uniform vec4 inkEnvironmentColor;uniform float inkHasEnvironment,inkGroundBounce,inkPaintedValues,inkCohesionEligible,inkFilterProp;
+uniform vec4 inkEnvironmentColor;uniform float inkHasEnvironment,inkGroundBounce,inkPaintedValues,inkCohesionEligible;
 uniform vec4 inkTrimA,inkTrimB,inkRectA,inkFlowRect;
 uniform vec2 inkCanvas;
 uniform float inkSwordEnabled,inkSwordWidth,inkSwordRotation;uniform vec4 inkSwordA,inkSwordB;
@@ -99,31 +99,15 @@ float inkShade(){
  for(int i=0;i<${SCENE_SHADE_CAPACITY};i++){vec4 zone=inkShadeZones[i];float radius=max(.001,zone.z);shade=max(shade,zone.w*(1.0-smoothstep(radius*.55,radius,length(point-zone.xy))));}
  return 1.0-shade;
 }
-void inkOrder(inout vec3 a,inout vec3 b){if(dot(a,vec3(.2126,.7152,.0722))>dot(b,vec3(.2126,.7152,.0722))){vec3 swap=a;a=b;b=swap;}}
-vec3 inkQuietProp(sampler2D image,vec3 base,vec3 tint){
- if(dot(base,vec3(.2126,.7152,.0722))<.015)return base;
- vec2 radius=fwidth(inkUV)*.8,low=inkRectA.xy,high=low+inkRectA.zw;
- vec4 a=texture2D(image,clamp(inkUV+vec2(radius.x,0.0),low,high));
- vec4 b=texture2D(image,clamp(inkUV-vec2(radius.x,0.0),low,high));
- vec4 c=texture2D(image,clamp(inkUV+vec2(0.0,radius.y),low,high));
- vec4 d=texture2D(image,clamp(inkUV-vec2(0.0,radius.y),low,high));
- // Preserve alpha contours and deep ink. Quiet isolated interior flecks only.
- if(min(min(a.a,b.a),min(c.a,d.a))<.98)return base;
- vec3 c0=base,c1=a.rgb*tint,c2=b.rgb*tint,c3=c.rgb*tint,c4=d.rgb*tint;
- inkOrder(c0,c1);inkOrder(c3,c4);inkOrder(c2,c4);inkOrder(c2,c3);inkOrder(c1,c4);
- inkOrder(c0,c3);inkOrder(c0,c2);inkOrder(c1,c3);inkOrder(c1,c2);
- return mix(base,c2,.8);
-}
-vec3 inkIlluminate(vec3 base,sampler2D image,vec3 tint,float alpha){
+vec3 inkIlluminate(vec3 base){
  if(inkEmissive>.5)return inkEnabled<.5?base:base*2.8;
  vec4 painted=inkPaintedSample();vec3 receiver=inkReceiverPoint(painted);
  if(inkEnabled<.5)return base*(.7+.3*inkVisibility(receiver));
- if(inkFilterProp>.5&&inkPaintedValues>.5&&alpha>.98)base=inkQuietProp(image,base,tint);
  if(inkCohesionEligible>.5&&inkPaintedValues>.5){
   float value=dot(base,vec3(.2126,.7152,.0722));
   // A gentle value grouping preserves black ink, hue and alpha silhouettes.
-  base*=1.0-.18*smoothstep(.12,.8,value);
-  base=mix(vec3(dot(base,vec3(.2126,.7152,.0722))),base,.88);
+  base*=1.0-.08*smoothstep(.12,.8,value);
+  base=mix(vec3(dot(base,vec3(.2126,.7152,.0722))),base,.96);
  }
  vec3 n=painted.b>.1?normalize(vec3(${outward.x},0.0,${outward.z})):inkNormal();float skyWeight=inkIsGround>.5?.85:clamp(.30+.45*(inkWorld.y-inkFootY)/inkBodyHeight+n.y*.15,0.0,1.0);
  vec3 illumination=mix(inkGround,inkSky,skyWeight)*inkAmbient;
@@ -142,7 +126,7 @@ vec3 inkIlluminate(vec3 base,sampler2D image,vec3 tint,float alpha){
  vec3 result=base*response;
  float edge=pow(1.0-max(0.0,dot(n,vec3(${outward.x},${outward.y},${outward.z}))),2.0);
  float harmonize=inkCohesionEligible*inkPaintedValues;
- result*=1.0-.32*edge*harmonize*inkProtection;
+ result*=1.0-.12*edge*harmonize*inkProtection;
  result+=(inkKey*key*edge*inkRim+local*.09)*inkProtection*inkStrength*(1.0-inkIsGround)*(1.0-harmonize*.7);
  float distanceFog=smoothstep(7.0,29.0,length((inkWorld-inkOrigin).xz))*inkHaze;
  return min(mix(result,inkFog*.45,distanceFog),vec3(.98));
@@ -189,7 +173,7 @@ export class IllustratedLighting {
     inkFog: { value: new T.Color() },
     inkOrigin: { value: new T.Vector3() },
     inkLightPosition: { value: Array.from({ length: 5 }, () => new T.Vector3()) },
-    inkLightColor: { value: Array.from({ length: 5 }, () => new T.Color(0xffad57)) },
+    inkLightColor: { value: Array.from({ length: 5 }, () => new T.Color(0xffc68a)) },
     inkLightRange: { value: [4.8, 4.8, 4.8, 4.8, 7] },
     inkLightPower: { value: [0, 0, 0, 0, 0] },
   };
@@ -206,7 +190,6 @@ export class IllustratedLighting {
       inkFootY: { value: 0 },
       inkIsSprite: { value: 0 },
       inkCohesionEligible: { value: 0 },
-      inkFilterProp: { value: 0 },
       inkEnvironmentColor: { value: new T.Vector4(0.5, 0.5, 0.5, 0) },
       inkFootPosition: { value: new T.Vector3() },
       inkBodyHeight: { value: 1 },
@@ -255,16 +238,12 @@ export class IllustratedLighting {
         ) + program.fragmentShader;
       program.fragmentShader = program.fragmentShader.replace(
         '#include <opaque_fragment>',
-        `#ifdef USE_MAP
-outgoingLight=inkIlluminate(outgoingLight,map,diffuse,diffuseColor.a/max(opacity,.001));
-#else
-outgoingLight=inkIlluminate(outgoingLight,inkNormalA,diffuse,1.0);
-#endif
+        `outgoingLight=inkIlluminate(outgoingLight);
 #include <opaque_fragment>`,
       );
     };
     material.customProgramCacheKey = () =>
-      `${key}:illustrated-lighting-v5:${!!this.localShadowMaps[0]!.value}`;
+      `${key}:illustrated-lighting-v6:${!!this.localShadowMaps[0]!.value}`;
     material.needsUpdate = true;
     this.attached.set(material, uniforms);
     return uniforms;
@@ -287,8 +266,6 @@ outgoingLight=inkIlluminate(outgoingLight,inkNormalA,diffuse,1.0);
             (sprite.manifest.asset.type === 'prop' && sprite.manifest.asset.placement !== 'ground'))
             ? 1
             : 0;
-        u.inkFilterProp.value =
-          sprite.manifest.asset.type === 'prop' ? u.inkCohesionEligible.value : 0;
         u.inkFootPosition.value.copy(sprite.mesh.position);
         silhouetteMatrix(sprite, u.inkCasterTransform.value);
         u.inkBodyHeight.value = Math.max(
@@ -424,7 +401,7 @@ outgoingLight=inkIlluminate(outgoingLight,inkNormalA,diffuse,1.0);
       neutralColor(c);
   }
   restoreLightColors() {
-    for (const c of this.common.inkLightColor.value) c.set(0xffad57);
+    for (const c of this.common.inkLightColor.value) c.set(0xffc68a);
   }
   dispose() {
     this.paintedFallback.dispose();

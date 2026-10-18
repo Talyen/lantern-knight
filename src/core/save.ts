@@ -1,5 +1,5 @@
 import { equipmentSlots, healthBonus } from '../content/items';
-import { validateInventory, MAX_ITEM_COUNT } from './inventory';
+import { InventoryState, validateInventory, MAX_ITEM_COUNT } from './inventory';
 import { type AreaState, parseAreaState, restoreScenePosition } from './area-state';
 import { z } from 'zod';
 import { OnboardingSchema } from './onboarding';
@@ -13,7 +13,7 @@ const point = z.strictObject({
   health: z.number().int().nonnegative(),
 });
 const GameSchema = z.strictObject({
-  version: z.literal(9),
+  version: z.literal(10),
   seed: z.number().int().min(0).max(4294967295),
   wins: z.number().int().nonnegative().max(100000),
   area: id,
@@ -26,6 +26,18 @@ const GameSchema = z.strictObject({
     .strictObject({
       inventory: z.record(id, z.number().int().nonnegative().max(MAX_ITEM_COUNT)),
       equipment: z.partialRecord(z.enum(equipmentSlots), id),
+      pack: z
+        .array(
+          z.strictObject({
+            key: z.string().regex(/^entry-[0-9]+$/),
+            item: id,
+            quantity: z.number().int().positive().max(MAX_ITEM_COUNT),
+            x: z.number().int().min(0).max(11),
+            y: z.number().int().min(0).max(15),
+          }),
+        )
+        .max(192)
+        .optional(),
       forgeUpgrade: z.enum(['sword', 'lantern']).optional(),
       discovered: z.array(z.string()).max(1000),
       lastFire: z.string().optional(),
@@ -53,6 +65,10 @@ export function parseGame(value: unknown, registry: ContentRegistry): GameSave {
     const { discovered, lastFire } = save.adventure,
       discoveredIds = new Set(discovered);
     validateInventory(save.adventure);
+    // Counts-only fixture/checkpoint inputs are packed at admission too, so a
+    // syntactically valid payload can never defer a capacity failure to startup.
+    if (!save.adventure.pack)
+      save.adventure.pack = new InventoryState(save.adventure).snapshot().pack;
     const fires = new Set(
       registry.definitions.areas.flatMap((a) => (a.campfires ?? []).map((f) => a.id + '/' + f.id)),
     );

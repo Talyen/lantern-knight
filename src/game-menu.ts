@@ -37,13 +37,13 @@ export const gameMenu = `<dialog class="modal game-menu is-title" id="modal" ari
         <button id="return-title" hidden>Main menu</button>
       </div>
       <div class="menu-utilities"><button id="menu-help" class="icon-button" aria-label="Controls & help" data-tip="Controls">${playerIcon('controls')}<span class="title-help-label">Controls</span></button>
-        <details id="checkpoint-options" hidden><summary class="icon-button" aria-label="Checkpoint options" data-tip="Checkpoint options">${playerIcon('more')}</summary><div id="checkpoint-actions" class="checkpoint-actions"><button id="save">Save checkpoint</button><button id="load">Load checkpoint</button><button id="reset">Reset encounter</button></div></details>
+        <details id="checkpoint-options" hidden><summary class="icon-button" aria-label="Journey options">Journey options</summary><div id="checkpoint-actions" class="checkpoint-actions"><button id="save">Save checkpoint</button><button id="load">Load checkpoint</button><button id="reset">Reset encounter</button></div></details>
       </div>
     </section>
     <section id="settings-page" class="menu-page" aria-label="Settings" hidden>
-      <div class="settings-layout"><nav class="settings-nav" aria-label="Settings sections"><div role="tablist" aria-label="Settings categories" aria-orientation="vertical"><button id="settings-display-tab" class="icon-button" role="tab" aria-selected="true" aria-controls="settings-display" data-settings-tab="display" aria-label="Display" data-tip="Display">${playerIcon('display')}</button><button id="settings-sound-tab" class="icon-button" role="tab" aria-selected="false" tabindex="-1" aria-controls="settings-sound" data-settings-tab="sound" aria-label="Sound" data-tip="Sound">${playerIcon('sound')}</button></div><button id="settings-controls" class="icon-button" aria-label="Controls" data-tip="Controls">${playerIcon('controls')}</button></nav>
-        <div class="settings-content"><section id="settings-display" role="tabpanel" aria-labelledby="settings-display-tab"><fieldset class="display-options"><legend class="visually-hidden">Display</legend><label>Camera<select id="zoom-span" aria-label="Camera distance"><option value="8.55">Close</option><option value="9">9 m</option><option value="11">Medium</option><option value="13">Wide</option><option value="15">Far</option></select></label>
-          <label>Render scale<select id="render-scale"><option value="1">100%</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label>
+      <div class="settings-layout"><nav class="settings-nav" aria-label="Settings sections"><div role="tablist" aria-label="Settings categories" aria-orientation="vertical"><button id="settings-display-tab" class="icon-button" role="tab" aria-selected="true" aria-controls="settings-display" data-settings-tab="display" aria-label="Display" data-tip="Display">${playerIcon('display')}<span>Display</span></button><button id="settings-sound-tab" class="icon-button" role="tab" aria-selected="false" tabindex="-1" aria-controls="settings-sound" data-settings-tab="sound" aria-label="Sound" data-tip="Sound">${playerIcon('sound')}<span>Sound</span></button></div><button id="settings-controls" class="icon-button" aria-label="Controls" data-tip="Controls">${playerIcon('controls')}<span>Controls</span></button></nav>
+        <div class="settings-content"><section id="settings-display" role="tabpanel" aria-labelledby="settings-display-tab"><fieldset class="display-options"><legend class="visually-hidden">Display</legend><label>Camera<select id="zoom-span" aria-label="Camera distance"><option value="8.55">Close</option><option value="9">Near</option><option value="11">Medium</option><option value="13">Wide</option><option value="15">Far</option></select></label>
+          <label>Interface size<select id="ui-scale"><option value="0.9">Small</option><option value="1">Default</option><option value="1.15">Large</option></select></label><label>Render scale<select id="render-scale"><option value="1">100%</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label><p class="setting-explanation">Lower render scale improves performance; interface size changes only menus and HUD.</p>
           <label for="depth-of-field">Depth of field <output id="depth-of-field-value">100%</output></label><input id="depth-of-field" type="range" min="0" max="100" step="5" value="100"></fieldset>
           <details class="advanced-settings"><summary>Advanced</summary><fieldset class="visual-options"><legend class="visually-hidden">Atmosphere</legend>${Object.entries(
             playerEffectLabels,
@@ -68,7 +68,7 @@ export const gameMenu = `<dialog class="modal game-menu is-title" id="modal" ari
                     .map((k) => `<kbd>${k}</kbd>`)
                     .join('')
                 : `<kbd>${key}</kbd>`
-          }</span>${playerIcon(icon)}</dt><dd class="visually-hidden">${action}</dd></div>`,
+          }</span>${playerIcon(icon)}</dt><dd>${action}</dd></div>`,
       )
       .join('')}</dl></section>
     <footer class="menu-footer"><p id="menu-status" role="status" aria-live="polite"></p><p id="save-notice"></p><div id="dev-return"></div></footer>

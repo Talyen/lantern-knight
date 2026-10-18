@@ -153,7 +153,8 @@ for (const choice of ['sword', 'lantern'] as const) {
     await expect(page.locator('#interaction-hint')).not.toHaveText(
       'E · Travel to Desecrated Chapel',
     );
-    await expect(page.locator('#lantern-readiness')).toBeHidden();
+    await expect(page.locator('#lantern-readiness')).toBeVisible();
+    await expect(page.locator('#lantern-state')).toHaveText('Ready');
     await capture('forge-return');
     const returned = await checkpoint();
     expect(returned.player.x).toBeCloseTo(entry.x);

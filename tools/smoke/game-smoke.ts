@@ -20,7 +20,14 @@ export async function runScenario(flags: string[] = []) {
       const { page, app } = run;
       const checks: string[] = [];
       details.checks = checks;
-      const { pause, resume, save: observe, frames } = playerControls(page, run.profile);
+      const {
+        pause,
+        resume,
+        save: observe,
+        load,
+        checkpoint: checkpointAction,
+        frames,
+      } = playerControls(page, run.profile);
       const checkpoint = path.join(run.profile, 'prototype-saves/game.json');
       const gameplayTime = (durationMs: number) =>
         page.evaluate(
@@ -75,6 +82,7 @@ export async function runScenario(flags: string[] = []) {
       assert.equal(await page.evaluate(() => !!document.activeElement?.closest('#modal')), true);
       await page.keyboard.press('Tab');
       assert.equal(await page.evaluate(() => document.activeElement?.id), 'resume');
+      await page.locator('#checkpoint-options > summary').click();
       await page.locator('#new-game').focus();
       await page.keyboard.down('Enter');
       await page.locator('#new-confirm').waitFor({ state: 'visible' });
@@ -86,11 +94,13 @@ export async function runScenario(flags: string[] = []) {
       assert.equal(await page.locator('#new-confirm').isVisible(), false);
       assert.equal(await page.evaluate(() => document.activeElement?.id), 'new-game');
       await page.keyboard.press('Escape');
+      assert.equal(await page.locator('#new-game').isVisible(), false);
+      await page.keyboard.press('Escape');
       assert.equal(await page.evaluate(() => document.activeElement?.tagName), 'CANVAS');
       checks.push('title admission, contained pause focus and nested confirmation cancellation');
       await fs.writeFile(checkpoint, JSON.stringify({ version: 99 }));
       await pause();
-      await page.locator('#new-game').click();
+      await checkpointAction('new-game');
       await page.locator('#confirm-new').click();
       await page.waitForFunction(
         () => !document.querySelector<HTMLDialogElement>('#new-confirm')!.open,
@@ -130,10 +140,7 @@ export async function runScenario(flags: string[] = []) {
       const frozen = await fs.readFile(checkpoint);
       await page.waitForTimeout(300);
       assert.deepEqual(await fs.readFile(checkpoint), frozen);
-      await page.locator('#load').click();
-      await page.waitForFunction(
-        () => document.querySelector('#status')?.textContent === 'Checkpoint loaded',
-      );
+      await load();
       assert.equal(await page.evaluate(() => document.activeElement?.tagName), 'CANVAS');
       const restored = await observe();
       for (const field of ['x', 'z', 'health'] as const)
@@ -143,7 +150,7 @@ export async function runScenario(flags: string[] = []) {
       await resume();
       await page.waitForTimeout(benchmark ? 2200 : 100);
       await pause();
-      await page.locator('#reset').click();
+      await checkpointAction('reset');
       await page.waitForFunction(
         () => document.querySelector('#status')?.textContent === 'Encounter reset',
       );

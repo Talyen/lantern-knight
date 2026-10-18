@@ -5,6 +5,8 @@ const forbidden =
   /^(?:staging|evidence|docs\/history|references\/(?:art|handoff|updates)|public\/(?:generated|lighting|visual-effects|dev-effects|dev-lighting)|dist(?:-dev|-electron(?:-dev)?)?|release(?:-dev)?|tmp|\.cache)(?:\/|$)/;
 const exceptions: Readonly<Record<string, number>> = {
   'assets/sources.json': 80 * 1024,
+  // Sharded bundle identities are versioned input; file catalogs remain external.
+  'assets/lock.json': 128 * 1024,
   'package-lock.json': 512 * 1024,
   'references/hero/hero-reference.png': 1024 * 1024,
   'references/canon/image(3).png': 1024 * 1024,

@@ -59,7 +59,12 @@ export class FocusMask {
       };
       material.customProgramCacheKey = () => `focus-mask-${protect}`;
       attachRevealMask(material, source);
-      entry = { material };
+      entry = {
+        material,
+        ...(sprite?.manifest.asset.type === 'character'
+          ? { blend: new AnimationBlendShader([material]) }
+          : {}),
+      };
       this.depths.set(source, entry);
     }
     const wind = source.userData.foliageWind as FoliageWind | undefined;

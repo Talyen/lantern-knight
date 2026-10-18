@@ -455,7 +455,7 @@ test('legacy visual settings migrate without losing their values', () => {
     visualEffects: defaultVisualEffects(),
   };
   const migrated = parseSettings(legacy);
-  assert.equal(migrated.version, 6);
+  assert.equal(migrated.version, 7);
   assert.equal(migrated.renderScale, 0.75);
   assert.equal(migrated.depthOfField, 0.25);
   assert.deepEqual(migrated.audio, defaultAudioSettings);

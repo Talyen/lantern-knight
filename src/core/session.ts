@@ -52,6 +52,7 @@ const sessionProperties = [
   'wins',
   'resetCount',
   'inventory',
+  'pack',
   'equipment',
   'forgeUpgrade',
   'discovered',
@@ -69,6 +70,9 @@ export class GameSession {
   }
   get inventory() {
     return this.current.inventoryState.inventory;
+  }
+  get pack() {
+    return this.current.inventoryState.pack;
   }
   get forgeUpgrade() {
     return this.current.inventoryState.forgeUpgrade;
@@ -515,7 +519,7 @@ export class GameSession {
   captureSave(): GameSave {
     const a = this.sim.hero;
     return {
-      version: 9,
+      version: 10,
       adventure: {
         ...this.current.inventoryState.snapshot(),
         discovered: [...this.current.discovered],

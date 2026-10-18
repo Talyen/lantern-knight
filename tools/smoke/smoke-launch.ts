@@ -22,11 +22,25 @@ export function playerControls(page: Page, profile: string) {
   };
   const save = async () => {
     await pause();
-    await page.locator('#save').click();
+    await checkpoint('save');
     await page.waitForFunction(
       () => document.querySelector('#status')?.textContent === 'Checkpoint saved',
     );
     return (await readJson(path.join(profile, 'prototype-saves/game.json'))) as GameSave;
+  };
+  const checkpoint = async (action: 'save' | 'load' | 'new-game' | 'reset') => {
+    const button = page.locator('#' + action);
+    if (!(await button.isVisible())) await page.locator('#checkpoint-options > summary').click();
+    await button.click();
+  };
+  const load = async () => {
+    await pause();
+    await checkpoint('load');
+    await page.waitForFunction(
+      () =>
+        document.querySelector('#status')?.textContent === 'Checkpoint loaded' &&
+        !document.body.classList.contains('traveling'),
+    );
   };
   const frames = () =>
     page.evaluate(
@@ -35,7 +49,7 @@ export function playerControls(page: Page, profile: string) {
           requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
         ),
     );
-  return { pause, resume, save, frames };
+  return { pause, resume, save, load, checkpoint, frames };
 }
 type SmokeWork = { updates: number; submissions: number };
 export async function observeWork(page: Page) {

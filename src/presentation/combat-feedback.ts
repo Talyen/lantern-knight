@@ -1,11 +1,11 @@
 import * as T from 'three';
-import { right, up } from './camera';
+import { right, up, outward } from './camera';
 import { cameraContract } from '../assets/camera-contract';
 import { heroLanternPosition, heroSwordPosition } from './hero-lantern';
 import { flareLightEnvelope } from '../content/ability-effects';
 import { tuning } from '../content/gameplay';
 import { ActorSprite } from './sprite';
-import { combatFeedback as settings } from '../content/combat-feedback';
+import { combatFeedback as settings, combatEffectAssets } from '../content/combat-feedback';
 import {
   defaultSweepTiming,
   sweepEffectTiming,
@@ -38,6 +38,8 @@ export class CombatFeedback {
   readonly flareLight = { position: new T.Vector3(), power: 0, range: 7 };
   private pulse: { tick: number; generation: number; action: number } | undefined;
   private active: ActiveEffect[] = [];
+  private prepared = new Map<string, ActorSprite>();
+  private disposed = false;
   private pending: (GameplayEvent & { kind: 'damage' })[] = [];
   private generation = -1;
   private castTag = '';
@@ -51,6 +53,44 @@ export class CombatFeedback {
       if (event.kind === 'damage' && event.amount > 0 && event.phase !== 'over-time')
         this.pending.push(event);
     });
+  }
+  prepare() {
+    if (this.disposed) throw new Error('combat feedback disposed');
+    // Compile through the actual covered beauty pass: compileAsync alone uses
+    // different light counts/output color space from the postprocessing target.
+    // Keep references alive afterward so bursts cannot retire their programs.
+    for (const asset of combatEffectAssets) {
+      if (this.prepared.has(asset)) continue;
+      const pack = this.packs.get(asset);
+      if (!pack) throw new Error(`Combat feedback asset not acquired: ${asset}`);
+      const clip = Object.values(pack.manifest.asset.clips).flatMap((headings) =>
+        Object.values(headings),
+      )[0]!;
+      const sprite = new ActorSprite(`prepared:${asset}`, pack.manifest, pack.textures, clip);
+      this.prepared.set(asset, sprite);
+      this.group.add(sprite.mesh);
+      sprite.show(
+        clip.frames[0]!,
+        this.camera.position.clone().addScaledVector(outward, this.camera.far * 4),
+        this.camera,
+      );
+      // Frustum culling is disabled on sprites. Submit this clipped drawing with
+      // unchanged material flags, then retire it only after its beauty material
+      // (not a depth/focus override) has actually rendered.
+      const last = sprite.edgeMesh ?? sprite.mesh,
+        beauty = last.material;
+      last.onAfterRender = (_renderer, _scene, _camera, _geometry, material) => {
+        if (material === beauty) sprite.mesh.visible = false;
+      };
+    }
+    this.primePrepared();
+  }
+  private primePrepared() {
+    if (this.disposed) return;
+    for (const sprite of this.prepared.values()) {
+      sprite.mesh.position.copy(this.camera.position).addScaledVector(outward, this.camera.far * 4);
+      sprite.mesh.visible = true;
+    }
   }
   private emit(
     asset: string,
@@ -79,6 +119,7 @@ export class CombatFeedback {
       this.castTag = '';
       this.pulse = undefined;
       this.generation = sim.generation;
+      this.primePrepared();
     }
     for (const event of this.pending) {
       if (event.generation !== sim.generation) continue;
@@ -272,10 +313,15 @@ export class CombatFeedback {
     this.castTag = '';
     this.pulse = undefined;
     this.flareLight.power = 0;
+    this.primePrepared();
   }
   dispose() {
+    if (this.disposed) return;
+    this.disposed = true;
     this.unsubscribe();
     this.reset();
+    for (const sprite of this.prepared.values()) sprite.dispose();
+    this.prepared.clear();
     this.group.removeFromParent();
   }
 }

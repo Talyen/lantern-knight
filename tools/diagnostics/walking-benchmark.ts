@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { smokeLaunch, playerControls } from '../smoke/smoke-launch';
-import { startGameBenchmark } from './game-benchmark';
+import { startGameBenchmark, requireGameBenchmarkPackage } from './game-benchmark';
 import { frameSummary } from './benchmark-model';
 import { content } from '../../src/content/game-content';
 import { visualEffectLabels } from '../../src/content/visual-effects';
@@ -28,6 +28,7 @@ async function runWalkingBenchmark(flags: string[] = []) {
   const { page, app, errors } = run;
   const { pause, resume, save } = playerControls(page, run.profile);
   try {
+    await requireGameBenchmarkPackage(run);
     await app.evaluate(({ BrowserWindow, screen }, visible) => {
       const window = BrowserWindow.getAllWindows()[0]!;
       const display = screen.getDisplayMatching(window.getBounds());
@@ -39,14 +40,18 @@ async function runWalkingBenchmark(flags: string[] = []) {
         window.focus();
       }
     }, visible);
-    await pause();
+    // The title menu is already open. Starting a journey just to reopen the
+    // menu can race its asynchronous first-room admission.
+    if (!(await page.locator('#modal').isVisible())) await pause();
     await page.locator('#menu-settings').click();
     await page.locator('#render-scale').selectOption('1');
     await page.locator('#depth-of-field').fill('100');
     await page.locator('#depth-of-field').dispatchEvent('input');
+    await page.locator('.advanced-settings > summary').click();
     const effects = page.locator('#modal input[data-visual-effect]');
     for (const effect of await effects.all()) await effect.setChecked(true);
     await page.locator('#menu-back').click();
+    await resume();
     const initial = await save();
     assert.equal(initial.area, content.definitions.initialArea);
     await resume();
@@ -121,7 +126,15 @@ async function runWalkingBenchmark(flags: string[] = []) {
       'One five-second sample supports quick iteration, not absence of rare stutters or a performance improvement claim.',
     );
   } catch (error) {
-    await writeJson(path.join(run.output, 'failure.json'), { error: String(error), errors });
+    await page.screenshot({ path: path.join(run.output, 'failure.png') }).catch(() => {});
+    const ui = await page
+      .evaluate(() => ({
+        url: location.href,
+        text: document.body.innerText.slice(0, 4000),
+        focused: document.activeElement?.id,
+      }))
+      .catch(() => undefined);
+    await writeJson(path.join(run.output, 'failure.json'), { error: String(error), errors, ui });
     throw error;
   } finally {
     await run.close();

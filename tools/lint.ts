@@ -10,8 +10,6 @@ async function lintCode(mode: string, fix = false) {
     await quietRun(process.execPath, [
       'node_modules/knip/bin/knip.js',
       '--no-progress',
-      '--reporter',
-      'compact',
       '--treat-config-hints-as-errors',
       '--treat-tag-hints-as-errors',
     ]);

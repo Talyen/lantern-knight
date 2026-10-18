@@ -133,6 +133,7 @@ export class SceneLightingRenderer {
   private shadowType: T.ShadowMapType;
   private frameCost = { cpuSubmissionMs: 0, gpuMs: null as number | null, calls: 0, triangles: 0 };
   private gl: WebGL2RenderingContext;
+  private profiling = false;
   private timer: { TIME_ELAPSED_EXT: number; GPU_DISJOINT_EXT: number } | null;
   private queries: WebGLQuery[] = [];
   private uniforms = {
@@ -179,7 +180,7 @@ export class SceneLightingRenderer {
       this.shadowType = renderer.shadowMap.type;
       this.lifetime.defer(() => this.deactivate());
       this.gl = renderer.getContext() as WebGL2RenderingContext;
-      this.timer = this.gl.getExtension('EXT_disjoint_timer_query_webgl2');
+      this.timer = null;
       this.composer = this.lifetime.own(
         new EffectComposer(renderer, { frameBufferType: T.HalfFloatType }),
       );
@@ -194,7 +195,7 @@ export class SceneLightingRenderer {
         luminanceThreshold: 1,
         luminanceSmoothing: 0.12,
         mipmapBlur: true,
-        resolutionScale: 0.5,
+        resolutionScale: 0.25,
       });
       this.glowPass = new EffectPass(camera, this.bloom);
       this.composer.addPass(this.glowPass);
@@ -285,6 +286,15 @@ export class SceneLightingRenderer {
     await this.lighting.normals.load(assets, signal);
     signal?.throwIfAborted();
     if (this.disposed) throw new Error('lighting renderer disposed');
+    // Decoding companions alone leaves texImage uploads on the first frame of
+    // each new pose. Pay that cost while the room is covered, like color atlases.
+    for (const texture of this.lighting.normals.textures.values()) {
+      signal?.throwIfAborted();
+      if (this.disposed) throw new Error('lighting renderer disposed');
+      this.resources.renderer.initTexture(texture);
+    }
+    signal?.throwIfAborted();
+    if (this.disposed) throw new Error('lighting renderer disposed');
     this.ready = true;
   }
 
@@ -292,6 +302,14 @@ export class SceneLightingRenderer {
     for (const query of this.queries) this.gl.deleteQuery(query);
     this.queries = [];
     this.frameCost.gpuMs = null;
+  }
+  setProfiling(enabled: boolean) {
+    if (this.disposed) throw new Error('lighting renderer disposed');
+    if (this.profiling === enabled) return;
+    this.resetGpuTiming();
+    this.profiling = enabled;
+    this.timer = enabled ? this.gl.getExtension('EXT_disjoint_timer_query_webgl2') : null;
+    this.frameCost = { cpuSubmissionMs: 0, gpuMs: null, calls: 0, triangles: 0 };
   }
   setSettings(settings: Partial<LookSettings>) {
     this.settings = {
@@ -359,6 +377,10 @@ export class SceneLightingRenderer {
     this.generation = sim.generation;
   }
   render(sim: SimulationView, ms: number, frame: LightingFrame) {
+    if (!this.profiling) {
+      this.draw(sim, ms, frame);
+      return;
+    }
     const r = this.resources.renderer,
       start = performance.now(),
       autoReset = r.info.autoReset;
@@ -445,7 +467,7 @@ export class SceneLightingRenderer {
     const heroSprite = this.actors.actors.get(sim.hero.id)?.sprite;
     const hasLantern =
       heroSprite && heroLanternPosition(heroSprite, lights.inkLightPosition.value[0]!);
-    lights.inkLightPower.value[0] = hasLantern ? 1.8 : 0;
+    lights.inkLightPower.value[0] = hasLantern ? 1.35 : 0;
     lights.inkLightRange.value.fill(4.8);
     lights.inkLightRange.value[0] = s.rig === 'lantern' ? 5.4 : 6.8;
     for (const [i, l] of this.effects.lights(fx).slice(0, SCENE_LIGHT_CAPACITY).entries()) {
@@ -509,7 +531,7 @@ export class SceneLightingRenderer {
       return;
     }
     this.resize();
-    this.glowPass.enabled = fx.bloom;
+    this.glowPass.enabled = fx.bloom && look.bloom > 0;
     this.bloom.intensity = fx.bloom ? look.bloom : 0;
     this.uniforms.lookContrast.value = look.contrast;
     this.uniforms.lookInkFinish.value = s.paintedFinish ? 1 : 0;
@@ -560,7 +582,11 @@ export class SceneLightingRenderer {
       environment: this.environment.stats(),
       companions: this.lighting.normals.textures.size,
       normalBytes: this.lighting.normals.bytes,
-      frameCost: { ...this.frameCost, gpuTiming: this.timer ? 'available' : 'unavailable' },
+      frameCost: {
+        ...this.frameCost,
+        profiling: this.profiling,
+        gpuTiming: this.timer ? 'available' : 'unavailable',
+      },
       targets: {
         width: w,
         height: h,

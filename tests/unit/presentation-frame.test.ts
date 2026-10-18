@@ -25,6 +25,133 @@ import { manifestFixture } from '../fixtures/manifest';
 import { mockGlobals } from '../fixtures/globals';
 import { ContentRegistry, type ContentDefinitions } from '../../src/content/world';
 import { actors as actorDefinitions } from '../../src/content/actors';
+import { ActorSprite } from '../../src/presentation/sprite';
+import { SceneLightingRenderer } from '../../src/presentation/scene-lighting-renderer';
+import { CombatFeedback } from '../../src/presentation/combat-feedback';
+import { combatEffectAssets } from '../../src/content/combat-feedback';
+
+test('combat shader representatives prime offscreen in the beauty pass and survive resets until disposal', () => {
+  const texture = new CanvasTexture({} as HTMLCanvasElement),
+    manifest = manifestFixture();
+  manifest.asset.type = 'effect';
+  const packs = new Map(
+    combatEffectAssets.map((asset) => [
+      asset,
+      { manifest, textures: new Map([['atlas-0', texture]]) },
+    ]),
+  );
+  const camera = new OrthographicCamera();
+  const feedback = new CombatFeedback(packs, camera, new EventHub());
+  feedback.prepare();
+  const representatives = [...feedback.group.children];
+  assert.equal(representatives.length, combatEffectAssets.length);
+  assert.ok(
+    representatives.every(
+      (mesh) => mesh.visible && mesh.position.distanceTo(camera.position) > camera.far,
+    ),
+  );
+  for (const mesh of representatives) {
+    const last = (mesh.children.at(-1) ?? mesh) as Mesh,
+      beauty = last.material as Material,
+      depth = new Material();
+    last.material = depth;
+    const args = [{}, {}, {}, {}, depth] as unknown as Parameters<typeof last.onAfterRender>;
+    last.onAfterRender(...args);
+    assert.equal(mesh.visible, true, 'A focus/depth override cannot finish beauty preparation');
+    last.material = beauty;
+    args[4] = beauty;
+    last.onAfterRender(...args);
+    assert.equal(mesh.visible, false);
+    depth.dispose();
+  }
+  feedback.prepare();
+  feedback.reset();
+  assert.deepEqual(feedback.group.children, representatives);
+  assert.ok(
+    representatives.every((mesh) => mesh.visible),
+    'Room replacement rearms shader preparation',
+  );
+  let retired = 0;
+  for (const mesh of representatives)
+    (mesh as Mesh<BufferGeometry, Material>).material.addEventListener('dispose', () => retired++);
+  feedback.dispose();
+  assert.throws(() => feedback.prepare(), /disposed/);
+  assert.equal(retired, representatives.length);
+  assert.equal(feedback.group.children.length, 0);
+  texture.dispose();
+});
+
+test('companion GPU uploads finish before readiness and stop borrowing after cancellation or disposal', async () => {
+  const textures = [{}, {}],
+    uploaded: unknown[] = [];
+  const renderer: SceneLightingRenderer = Object.create(SceneLightingRenderer.prototype);
+  const abort = new AbortController();
+  Object.assign(renderer, {
+    ready: false,
+    disposed: false,
+    resources: {
+      renderer: {
+        initTexture: (texture: unknown) => {
+          uploaded.push(texture);
+        },
+      },
+      packs: new Map(),
+    },
+    lighting: {
+      normals: { load: async () => {}, textures: new Map(textures.map((t, i) => [String(i), t])) },
+    },
+  });
+  await renderer.prepare(undefined, abort.signal);
+  assert.deepEqual([...uploaded], textures);
+  assert.equal(renderer.ready, true);
+  uploaded.length = 0;
+  Object.assign(renderer, { ready: false });
+  abort.abort(new Error('superseded room'));
+  await assert.rejects(renderer.prepare(undefined, abort.signal), /superseded room/);
+  assert.equal(uploaded.length, 0);
+  const callback = Reflect.get(renderer, 'resources').renderer;
+  callback.initTexture = (texture: unknown) => {
+    uploaded.push(texture);
+    Reflect.set(renderer, 'disposed', true);
+  };
+  await assert.rejects(renderer.prepare(), /disposed/);
+  assert.deepEqual(uploaded, [textures[0]]);
+  assert.equal(renderer.ready, false);
+});
+
+test('first blended character pose reuses the shader declared before initial room rendering', () => {
+  const manifest = manifestFixture(),
+    texture = new CanvasTexture({} as HTMLCanvasElement);
+  const sprite = new ActorSprite(
+    'hero',
+    manifest,
+    new Map([['atlas-0', texture]]),
+    manifest.asset.clips.idle!.d45!,
+  );
+  const camera = new OrthographicCamera(),
+    foot = new Vector3(),
+    frame = manifest.frames[0]!;
+  sprite.show(frame.id, foot, camera);
+  const before = [sprite.material, ...(sprite.edgeMaterial ? [sprite.edgeMaterial] : [])].map(
+    (m) => [m.customProgramCacheKey(), m.version],
+  );
+  sprite.show(frame.id, foot, camera, {
+    from: frame.id,
+    to: frame.id,
+    mix: 0.5,
+    motion: false,
+    guarded: true,
+  });
+  assert.deepEqual(
+    [sprite.material, ...(sprite.edgeMaterial ? [sprite.edgeMaterial] : [])].map((m) => [
+      m.customProgramCacheKey(),
+      m.version,
+    ]),
+    before,
+  );
+  sprite.dispose();
+  texture.dispose();
+});
 
 test('failed actor attachment destroys staged resources and leaves no live visual behind', (t) => {
   const sim = new Simulation(content),
@@ -72,6 +199,10 @@ test('shader preparation cannot resume borrowing scenery after presentation shut
     resources: new DisposalScope(),
     packs: new Map(),
     lookRenderer: { prepare: async () => {} },
+    combatFeedback: { prepare: () => {} },
+    scene: new Group(),
+    camera: new OrthographicCamera(),
+    flare: new Mesh(new PlaneGeometry(), new MeshBasicMaterial()),
     renderer: {
       compileAsync: () => {
         started.resolve();
@@ -93,6 +224,11 @@ test('shader preparation cannot resume borrowing scenery after presentation shut
   compilation.resolve();
   await assert.rejects(warming, /presentation disposed/);
   assert.equal(touchedScenery, false);
+  assert.equal(
+    presentation.scene.children.length,
+    0,
+    'Cancelled preparation retires its borrowed flare primer',
+  );
 });
 
 test('animation observers can shut down presentation only after the complete frame finishes borrowing resources', (t) => {

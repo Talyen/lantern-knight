@@ -114,14 +114,10 @@ type Samples = {
   stop: () => void;
 };
 type SampleWindow = Window & { __lanternMeasurement?: Samples };
-export async function startGameBenchmark(
+export async function requireGameBenchmarkPackage(
   run: Awaited<ReturnType<typeof smokeLaunch>>,
-  initialCheckpoint: unknown,
-  walking = false,
+  current = true,
 ) {
-  // tsx preserves names in functions serialized into the renderer by Playwright.
-  await run.page.evaluate(() => Reflect.set(window, '__name', (fn: Function) => fn));
-  const source = await verificationIdentity(process.cwd());
   const loaded = await run.app.evaluate(({ app }) => {
     const fs = process.getBuiltinModule('fs'),
       path = process.getBuiltinModule('path');
@@ -135,12 +131,23 @@ export async function startGameBenchmark(
       files: Record<string, string>;
     };
   });
-  await requireCurrentDesktopInputs(loaded);
+  if (current) await requireCurrentDesktopInputs(loaded);
   assert.equal(
     loaded.assets.sha256,
     process.env.LANTERN_ASSET_SHA256,
     'Game benchmark package asset pin differs',
   );
+  return loaded;
+}
+export async function startGameBenchmark(
+  run: Awaited<ReturnType<typeof smokeLaunch>>,
+  initialCheckpoint: unknown,
+  walking = false,
+) {
+  // tsx preserves names in functions serialized into the renderer by Playwright.
+  await run.page.evaluate(() => Reflect.set(window, '__name', (fn: Function) => fn));
+  const source = await verificationIdentity(process.cwd());
+  const loaded = await requireGameBenchmarkPackage(run);
   const environment = async () => {
     const desktop = await desktopEnvironment(run);
     const rendering = await run.page.evaluate(() => {
@@ -159,8 +166,10 @@ export async function startGameBenchmark(
             ...document.querySelectorAll<HTMLInputElement | HTMLSelectElement>(
               '#modal input,#modal select',
             ),
-          ].map((el) => [
-            el.id || el.dataset.visualEffect!,
+          ].map((el, index) => [
+            el.id ||
+              el.dataset.visualEffect ||
+              (el.dataset.audio ? 'audio:' + el.dataset.audio : 'control:' + index),
             el instanceof HTMLInputElement && el.type === 'checkbox' ? el.checked : el.value,
           ]),
         ),

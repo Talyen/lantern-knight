@@ -48,7 +48,11 @@ async function start() {
   );
   app = application;
   await application.boot();
+  delete application.canvas.dataset.ready;
   ui.bind(application);
+  loading.set(true);
+  await ui.prepare();
+  loading.set(false);
   if (import.meta.env.DEV) {
     const params = new URLSearchParams(location.search),
       wind = params.get('wind-preview'),

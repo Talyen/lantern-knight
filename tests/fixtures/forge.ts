@@ -66,6 +66,7 @@ export function forgeFixture() {
 }
 export function supplyForge(session: GameSession) {
   const save = session.captureSave();
+  delete save.adventure!.pack;
   Object.assign(save.adventure!.inventory, { gold: 28, iron: 10, 'workshop-temper': 1 });
   session.restoreSave(save);
 }

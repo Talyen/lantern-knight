@@ -15,6 +15,7 @@ import { PickupPlan } from '../../src/core/pickup-plan';
 import { MovementPlans } from '../../src/core/movement-plans';
 import { EncounterBehavior } from '../../src/core/encounter-behavior';
 import { tuning } from '../../src/content/gameplay';
+import { sweepCircle } from '../../src/content/collision';
 import { content, contentDefinitions } from '../fixtures/content';
 const area = (): AreaDefinition => ({
   ...structuredClone(contentDefinitions.areas[0]!),
@@ -28,6 +29,52 @@ const area = (): AreaDefinition => ({
   exits: [],
   props: [boxProp({ id: 'wall', radius: 0.2, size: [0.08, 4] })],
 });
+test('cached grid geometry retains live, directed room traversal policy', () => {
+  const a = area();
+  const registry = new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] });
+  let guarded = false;
+  const navigation = new Navigation(registry.area(a.id), {
+    position: () => true,
+    segment: (start, end) => !(guarded && start.x < -1 && end.x >= -1),
+  });
+  const left = { x: -3, z: 0 },
+    right = { x: 3, z: 0 };
+  assert.equal(navigation.route(left, right, 0.3).status, 'ready');
+  guarded = true;
+  assert.equal(navigation.route(left, right, 0.3).status, 'unreachable');
+  assert.equal(navigation.route(right, left, 0.3).status, 'ready');
+});
+
+test('mutable navigation drafts still check support after blockers change', () => {
+  for (const initiallyFrozen of [false, true]) {
+    const a = area(),
+      blockers = [...a.props],
+      start = { x: -3, z: 0 },
+      goal = { x: 3, z: 0 };
+    a.props = blockers;
+    if (initiallyFrozen) Object.freeze(a);
+    const navigation = new Navigation(a);
+    assert.equal(navigation.route(start, goal, 0.3).status, 'ready');
+    Object.freeze(a); // A shallow root freeze does not make its nested geometry immutable.
+    blockers.push(boxProp({ id: 'closed-door', x: -1, size: [0.08, 10] }));
+    assert.equal(navigation.route(start, goal, 0.3).status, 'unreachable');
+  }
+});
+
+test('swept edge pruning retains rounded corners and tolerated initial contact', () => {
+  const a = area();
+  const corner = sweepCircle(a, { x: -1, z: -2.2 }, { x: 2, z: 0 }, 0.3);
+  assert.ok(corner);
+  assert.ok(Math.abs(corner.t - (1 - 0.04 - Math.sqrt(0.3 ** 2 - 0.2 ** 2)) / 2) < 1e-12);
+  assert.ok(Math.abs(corner.nx + Math.sqrt(0.3 ** 2 - 0.2 ** 2) / 0.3) < 1e-12);
+  assert.ok(Math.abs(corner.nz + 2 / 3) < 1e-12);
+  const touching = sweepCircle(a, { x: -0.34 + 5e-7, z: 0 }, { x: 1, z: 0 }, 0.3);
+  assert.ok(touching);
+  assert.equal(touching.t, 0);
+  assert.equal(touching.nx, -1);
+  assert.equal(Math.abs(touching.nz), 0);
+});
+
 test('loot routing can use the full interaction reach beyond a deep narrow recess', () => {
   const a = area();
   a.spawns = [];
