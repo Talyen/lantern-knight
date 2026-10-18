@@ -36,6 +36,7 @@ export class IllustratedRain {
   private origin = 0;
   private last = -1;
   private signature = '';
+  private dropDirection = new T.Vector3();
   private visibleDrops = 0;
   private impacts: { x: number; z: number; age: number }[] = [];
   private schedule: RainSchedule;
@@ -43,7 +44,7 @@ export class IllustratedRain {
     this.schedule = new RainSchedule(seed);
     for (let i = 0; i < RAIN_SLOTS; i++) {
       const sprite = (asset: string) => {
-        const p = packs.get(asset)!;
+        const p = packs.get(asset);
         if (!p) throw new Error(`weather pack unavailable: ${asset}`);
         const s = new ActorSprite(
           `rain-${asset}-${i}`,
@@ -79,7 +80,11 @@ export class IllustratedRain {
     surface: RainSurface,
   ) {
     const weather = normalizeWeather(state),
-      signature = JSON.stringify([weather.rain > 0, enabled, surface.bounds, surface.shelters]);
+      bounds = surface.bounds,
+      shelters = surface.shelters;
+    let signature = `${weather.rain > 0 ? 1 : 0}${enabled ? 1 : 0}|${bounds.minX},${bounds.maxX},${bounds.minZ},${bounds.maxZ}`;
+    for (const shelter of shelters)
+      signature += `;${shelter.minX},${shelter.maxX},${shelter.minZ},${shelter.maxZ}`;
     if (time < this.last || signature !== this.signature) {
       this.origin = time;
       this.signature = signature;
@@ -106,7 +111,7 @@ export class IllustratedRain {
           T.MathUtils.lerp(e.startZ, e.z, q),
         );
         slot.drop.quaternion.copy(camera.quaternion);
-        const direction = new T.Vector3(e.x - e.startX, -e.height, e.z - e.startZ);
+        const direction = this.dropDirection.set(e.x - e.startX, -e.height, e.z - e.startZ);
         slot.drop.rotateZ(-Math.atan2(direction.dot(right), direction.dot(up)));
         this.visibleDrops++;
       }

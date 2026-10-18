@@ -1,5 +1,6 @@
 import * as T from 'three';
 import type { ActorSprite } from './sprite';
+const stillAir = { x: 1, z: 0 };
 /** Root-relative deformation is identical in beauty, soft edge and auxiliary passes. */
 export class FoliageWind {
   readonly time = new T.Uniform(0);
@@ -40,7 +41,7 @@ export class FoliageWind {
     material.userData.foliageWind = this;
     material.needsUpdate = true;
   }
-  update(time: number, enabled: boolean, strength = 0.012, direction = { x: 1, z: 0 }) {
+  update(time: number, enabled: boolean, strength = 0.012, direction = stillAir) {
     this.direction.value = (direction.x - direction.z) / Math.SQRT2 || 0.4;
     this.time.value = time;
     this.strength.value = enabled ? strength : 0;

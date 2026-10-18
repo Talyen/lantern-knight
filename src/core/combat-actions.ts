@@ -1,11 +1,15 @@
 import { scaledDamage } from '../content/progression';
 import { tuning, attackDefinition } from '../content/gameplay';
-import { heightAt, type AreaDefinition, type Point } from '../content/world';
+import { heightAt, heightBreakpoints, type AreaDefinition, type Point } from '../content/world';
 import type { Actor, State } from './actor';
 import type { EventDetails, DamageType, DamagePhase } from './events';
 import { selectAuthoredDirection } from '../content/headings';
 import { clearSegment } from '../content/collision';
 import type { AcceptedCommand } from './command';
+import { burningSwordBonus } from '../content/items';
+import { lanePoint, nearestLanePoint, type RibLane } from '../content/rib-lane';
+import { isSupportedPosition } from '../content/collision';
+import type { Equipment } from '../content/items';
 
 // Borrow current actors and room capabilities; combat cannot replace the room,
 // award inventory, plan routes, or persist state. Simulation owns those outcomes.
@@ -13,6 +17,8 @@ interface CombatWorld {
   actors(): readonly Actor[];
   movementPreview(): boolean;
   damagePercent(type: DamageType): number;
+  equipment(): Readonly<Equipment>;
+  safePoint(point: Point): boolean;
   emit(actor: Actor, details: EventDetails): unknown;
   move(actor: Actor, x: number, z: number): void;
   enemyHit(actor: Actor): void;
@@ -27,11 +33,60 @@ export class CombatActions {
   // Displacement belongs to this combat owner and the struck actor instance.
   // Checkpoints retain the resulting position, never an unfinished impulse.
   private readonly recoils = new WeakMap<Actor, { x: number; z: number; ticks: number }>();
+  private readonly lanes = new Map<Actor, Omit<RibLane, 'age'>>();
+  get ribLanes(): readonly RibLane[] {
+    return Object.freeze(
+      [...this.lanes]
+        .filter(
+          ([source]) =>
+            source.health > 0 &&
+            source.state === 'attack' &&
+            this.world.actors().includes(source) &&
+            this.world.actors().some((a) => a.kind === 'hero' && a.health > 0) &&
+            !this.world.movementPreview(),
+        )
+        .map(([source, lane]) => Object.freeze({ ...lane, age: source.age })),
+    );
+  }
+  clear() {
+    this.lanes.clear();
+  }
+  cancelSpells() {
+    for (const source of this.lanes.keys()) this.start(source, 'idle', source.yaw);
+  }
+  beginTick() {
+    const actors = this.world.actors();
+    if (!actors.some((a) => a.kind === 'hero' && a.health > 0)) this.lanes.clear();
+    for (const [source] of this.lanes)
+      if (!actors.includes(source) || source.health <= 0 || source.state !== 'attack')
+        this.lanes.delete(source);
+  }
   constructor(
     private readonly area: AreaDefinition,
     private readonly world: CombatWorld,
   ) {}
   start(a: Actor, state: State, yaw = a.aim) {
+    this.lanes.delete(a);
+    if (a.kind === 'hero' && state === 'death') this.lanes.clear();
+    if (state === 'attack' && a.definition.attack.kind === 'rib-lane') {
+      const target = this.world.actors().find((actor) => actor.kind === 'hero');
+      const attack = a.definition.attack;
+      if (!target || target.health <= 0 || a.cooldown > 0) return;
+      const lane = Object.freeze({
+        id: `${a.id}:${a.action + 1}`,
+        source: a.id,
+        x: target.x,
+        z: target.z,
+        y: target.y,
+        length: attack.length,
+        width: attack.width,
+        windup: attack.windup,
+        total: attack.total,
+      });
+      if (!this.laneAllowed(a, lane)) return;
+      this.lanes.set(a, lane);
+      a.cooldown = attack.cooldown;
+    }
     a.state = state;
     a.age = 0;
     a.action++;
@@ -72,7 +127,15 @@ export class CombatActions {
       return;
     if (to.kind === 'enemy') this.world.enemyHit(to);
     const resolved =
-      from.kind === 'hero' ? scaledDamage(amount, this.world.damagePercent(damageType)) : amount;
+      from.kind === 'hero'
+        ? scaledDamage(
+            amount,
+            this.world.damagePercent(damageType) *
+              (damageType === 'physical' && phase === 'direct' && from.state === 'attack' && to.burn
+                ? 1 + burningSwordBonus(this.world.equipment()) / 100
+                : 1),
+          )
+        : amount;
     const actual = Math.min(to.health, resolved);
     to.health -= actual;
     this.world.emit(from, { kind: 'damage', target: to.id, amount: actual, damageType, phase });
@@ -92,13 +155,75 @@ export class CombatActions {
     to: Point & { y: number },
     range: number,
     halfAngle: number,
+    sy?: number,
+    cy?: number,
   ) {
     const dx = to.x - from.x,
       dz = to.z - from.z,
-      d = Math.hypot(dx, dz);
-    if (d > range || Math.abs(to.y - from.y) > tuning.maxCombatHeightDifference) return false;
-    if (d < 0.001 || halfAngle === Math.PI) return true;
-    return dx * Math.sin(from.yaw) + dz * Math.cos(from.yaw) >= d * Math.cos(halfAngle + 1e-10);
+      dSquared = dx * dx + dz * dz;
+    if (dSquared > range * range || Math.abs(to.y - from.y) > tuning.maxCombatHeightDifference)
+      return false;
+    if (dSquared < 1e-6 || halfAngle === Math.PI) return true;
+    const s = sy ?? Math.sin(from.yaw),
+      c = cy ?? Math.cos(from.yaw);
+    const d = Math.sqrt(dSquared);
+    return dx * s + dz * c >= d * Math.cos(halfAngle + 1e-10);
+  }
+  private laneAllowed(source: Actor, lane: Omit<RibLane, 'age'>) {
+    if (
+      Math.abs(source.y - lane.y) > tuning.maxCombatHeightDifference ||
+      !clearSegment(this.area, source, lane, 0.001)
+    )
+      return false;
+    const corners = [-1, 1].flatMap((along) =>
+      [-1, 1].map((across) =>
+        lanePoint(lane, (along * lane.length) / 2, (across * lane.width) / 2),
+      ),
+    );
+    const start = lanePoint(lane, -lane.length / 2, 0),
+      end = lanePoint(lane, lane.length / 2, 0);
+    if (!clearSegment(this.area, start, end, lane.width / 2)) return false;
+    for (const point of [lane, start, end, ...corners])
+      if (
+        !isSupportedPosition(this.area, point, 0.001) ||
+        Math.abs(heightAt(this.area, point.x, point.z) - lane.y) > 0.01 ||
+        this.world.safePoint(point)
+      )
+        return false;
+    // A stair/terrace can cross the interior while all four corners remain flat.
+    for (let i = 0; i < corners.length; i++) {
+      const from = corners[i]!,
+        to = corners[(i + 1) % corners.length]!;
+      for (const t of heightBreakpoints(this.area, from, to, [lane.y])) {
+        const p = { x: from.x + (to.x - from.x) * t, z: from.z + (to.z - from.z) * t };
+        if (Math.abs(heightAt(this.area, p.x, p.z) - lane.y) > 0.01) return false;
+      }
+    }
+    for (const fire of this.area.campfires ?? [])
+      if (this.world.safePoint(nearestLanePoint(lane, fire))) return false;
+    return true;
+  }
+  private advanceLane(a: Actor) {
+    const lane = this.lanes.get(a),
+      attack = a.definition.attack;
+    const hero = this.world.actors().find((actor) => actor.kind === 'hero');
+    if (!lane || !hero || hero.health <= 0 || this.world.safePoint(hero)) {
+      this.start(a, 'idle');
+      return;
+    }
+    if (a.age >= attack.windup && a.age < attack.activeEnd && !a.hitIds.includes(hero.id)) {
+      const nearest = nearestLanePoint(lane, hero);
+      if (
+        Math.hypot(hero.x - nearest.x, hero.z - nearest.z) <= hero.definition.radius &&
+        Math.abs(hero.y - lane.y) <= tuning.maxCombatHeightDifference &&
+        clearSegment(this.area, lane, hero, 0.001)
+      ) {
+        // One contact attempt, including a successful invulnerable dodge.
+        a.hitIds.push(hero.id);
+        this.damage(a, hero, attack.damage);
+      }
+    }
+    if (a.age >= attack.total - 1) this.start(a, 'idle');
   }
   private cancellable(h: Actor) {
     switch (h.state) {
@@ -154,12 +279,12 @@ export class CombatActions {
       const burn = target.burn;
       if (!burn || target.health <= 0) continue;
       burn.remaining--;
-      burn.nextTick--;
-      if (burn.nextTick === 0) {
+      if (--burn.nextTick <= 0) {
         this.damage(source, target, tuning.ability.burnDamage, 'burn', 'over-time');
-        burn.nextTick = tuning.ability.burnCadence;
+        // A lethal pulse clears the status; never rearm detached state.
+        if (target.burn) target.burn.nextTick = tuning.ability.burnCadence;
       }
-      if (burn.remaining === 0) target.burn = undefined;
+      if (burn.remaining <= 0) target.burn = undefined;
     }
   }
   advanceRecoil(actor: Actor) {
@@ -181,37 +306,46 @@ export class CombatActions {
       return;
     }
     if (a.state === 'attack') {
+      if (a.definition.attack.kind === 'rib-lane') {
+        this.advanceLane(a);
+        return;
+      }
       const t = attackDefinition(a);
       if (a.age === t.windup) this.world.emit(a, { kind: 'strike' });
-      if (a.age >= t.windup && a.age < t.activeEnd)
+      if (a.age >= t.windup && a.age < t.activeEnd) {
+        const sy = Math.sin(a.yaw),
+          cy = Math.cos(a.yaw);
         for (const target of this.world.actors()) {
           if (target.kind === a.kind || target.health <= 0 || a.hitIds.includes(target.id))
             continue;
           if (
-            this.withinArc(a, target, t.range, t.halfAngle) &&
+            this.withinArc(a, target, t.range, t.halfAngle, sy, cy) &&
             clearSegment(this.area, a, target, 0.001)
           ) {
             a.hitIds.push(target.id);
             this.damage(a, target, t.damage);
           }
         }
-      if (a.kind === 'hero' && a.age >= t.windup && a.age < t.activeEnd)
-        for (const object of this.area.interactables ?? [])
-          if (
-            object.kind === 'breakable' &&
-            this.withinArc(
-              a,
-              {
-                x: object.x,
-                z: object.z,
-                y: heightAt(this.area, object.x, object.z),
-              },
-              t.range,
-              t.halfAngle,
-            ) &&
-            clearSegment(this.area, a, object, 0.001)
-          )
-            this.world.breakObject(object.id);
+        if (a.kind === 'hero')
+          for (const object of this.area.interactables ?? [])
+            if (
+              object.kind === 'breakable' &&
+              this.withinArc(
+                a,
+                {
+                  x: object.x,
+                  z: object.z,
+                  y: heightAt(this.area, object.x, object.z),
+                },
+                t.range,
+                t.halfAngle,
+                sy,
+                cy,
+              ) &&
+              clearSegment(this.area, a, object, 0.001)
+            )
+              this.world.breakObject(object.id);
+      }
       if (a.age >= t.total - 1) this.start(a, 'idle');
     } else if (a.state === 'dodge') {
       if (a.age >= tuning.dodge.travelStart && a.age < tuning.dodge.travelEnd)

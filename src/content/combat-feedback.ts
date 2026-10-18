@@ -180,10 +180,12 @@ export const combatFeedback = {
     contactMs: 0,
   },
 } as const satisfies Record<string, CombatEffectBinding>;
+export const ribLaneEffect = { asset: 'library-combat-candlebone-rib-lane', clip: 'show' } as const;
 export const combatEffectCatalog = Object.fromEntries(
-  Object.values(combatFeedback).map(({ asset }) => [
+  [...Object.values(combatFeedback), ribLaneEffect].map(({ asset }) => [
     asset,
     `generated/library/${asset}/manifest.json`,
   ]),
 );
-export const combatEffectAssets = Object.keys(combatEffectCatalog);
+// Actor spells are acquired by their rooms, separately from the shared combat kit.
+export const combatEffectAssets = Object.values(combatFeedback).map(({ asset }) => asset);

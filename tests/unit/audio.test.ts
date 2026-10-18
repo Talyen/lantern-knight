@@ -487,13 +487,48 @@ test('movement foley requires traveled distance, not idle animation or frozen fr
   hero.state = 'walk';
   feedback.frame(sim, false);
   assert.equal(calls.length, 0);
-  hero.x += 0.7;
-  feedback.frame(sim, false);
+  for (let i = 0; i < 7; i++) {
+    hero.x += 0.1;
+    feedback.frame(sim, false);
+  }
   assert.ok(calls.includes('step-stone'));
   const before = calls.length;
   hero.x += 0.7;
   feedback.frame(sim, true);
   assert.equal(calls.length, before);
+  hero.definition = { ...hero.definition, visual: 'candlebone-oracle' };
+  hero.x += 0.7;
+  feedback.frame(sim, false);
+  assert.equal(calls.length, before, 'hovering Oracle has no ground footsteps');
+});
+
+test('unmarked kits accumulate short strides across frames; teleports reset the stride', () => {
+  const session = new GameSession(content),
+    calls: string[] = [];
+  const feedback = new AudioFeedback({
+    setListener() {},
+    setWorldFrozen() {},
+    setAmbience: async () => {},
+    play: async (cue: string) => {
+      calls.push(cue);
+    },
+  } as unknown as AudioPlayback);
+  const hero = { ...session.sim.hero, definition: session.sim.enemies[0]!.definition };
+  const sim = { ...session.sim.view, hero, actors: [hero], enemies: [] };
+  feedback.frame(sim, false);
+  hero.state = 'walk';
+  for (let i = 0; i < 10; i++) {
+    hero.x += 0.07;
+    feedback.frame(sim, false);
+  }
+  assert.ok(calls.includes('step-stone'), 'ten short strides must total one footstep');
+  const steps = calls.length;
+  hero.x += 5;
+  feedback.frame(sim, false);
+  assert.equal(calls.length, steps, 'a teleport is not a stride');
+  hero.x += 0.07;
+  feedback.frame(sim, false);
+  assert.equal(calls.length, steps, 'the teleport cleared the accumulated stride');
 });
 
 test('audio authoring verifies source hashes and rejects changed or escaped sources', async (t) => {

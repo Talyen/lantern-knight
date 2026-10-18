@@ -79,18 +79,30 @@ function vertices(p: PropDefinition): readonly Point[] | undefined {
 }
 type Shape = ContentSnapshot<{
   points?: readonly Point[];
+  // Outward-normal multiplier for polygon rings, cached with the vertices so
+  // per-tick correction never rebuilds the signed area it never changes.
+  sign?: 1 | -1;
   minX: number;
   maxX: number;
   minZ: number;
   maxZ: number;
 }>;
 const shapes = new WeakMap<PropDefinition, Shape>();
+function polygonSign(points: readonly Point[]): 1 | -1 {
+  let signed = 0;
+  for (let i = 0; i < points.length; i++) {
+    const a = points[i]!,
+      b = points[(i + 1) % points.length]!;
+    signed += a.x * b.z - b.x * a.z;
+  }
+  return signed < 0 ? 1 : -1;
+}
 function collisionShape(p: PropDefinition): Shape {
   let cached = shapes.get(p);
   if (cached) return cached;
   const points = vertices(p);
   cached = points
-    ? { points, ...polygonBounds(points) }
+    ? { points, ...polygonBounds(points), sign: polygonSign(points) }
     : { minX: p.x - p.radius, maxX: p.x + p.radius, minZ: p.z - p.radius, maxZ: p.z + p.radius };
   // Area geometry is immutable for a session; cache by identity so per-tick
   // collision avoids rebuilding trig and bounds for every prop.
@@ -143,21 +155,11 @@ export function supportedPosition(area: AreaDefinition, p: Point, radius: number
       if (prop.blocking === false) continue;
       // Boxes are rotated rectangles; their cached corners run the same
       // nearest-edge correction as authored polygons.
-      const points =
-        prop.shape === 'polygon'
-          ? prop.polygon
-          : prop.shape === 'box' && prop.size
-            ? collisionShape(prop).points
-            : undefined;
+      const shape = collisionShape(prop),
+        points = shape.points;
       if (points) {
         const inside = insidePolygon({ x, z }, points);
-        let signed = 0;
-        for (let i = 0; i < points.length; i++) {
-          const a = points[i]!,
-            b = points[(i + 1) % points.length]!;
-          signed += a.x * b.z - b.x * a.z;
-        }
-        const sign = signed < 0 ? 1 : -1;
+        const sign = shape.sign ?? 1;
         let bestX = x,
           bestZ = z,
           bestD = Infinity;

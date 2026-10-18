@@ -50,18 +50,13 @@ export type PlaygroundSettings = {
   outline: { thickness: number; opacity: number; color: string };
 };
 export function playgroundDefaults(): PlaygroundSettings {
+  const effects = {} as Record<PlaygroundEffect, boolean>;
+  for (const key of Object.keys(effectLabels) as PlaygroundEffect[]) effects[key] = true;
   return {
-    effects: Object.fromEntries(Object.keys(effectLabels).map((k) => [k, true])) as Record<
-      PlaygroundEffect,
-      boolean
-    >,
+    effects,
     treatment: 'quiet',
     baseline: false,
     paused: false,
     outline: { thickness: 1, opacity: 0.25, color: '#29343b' },
   };
 }
-export function activeEffect(settings: PlaygroundSettings, key: PlaygroundEffect) {
-  return !settings.baseline && settings.effects[key];
-}
-export { playgroundCatalog } from './effects-playground-assets';

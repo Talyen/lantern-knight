@@ -10,14 +10,13 @@ import { assetPickerUI, previewHUD } from './ui';
 import { LoadingScreen } from '../loading-screen';
 import { Application } from '../application';
 import { EffectsPlayground } from '../presentation/effects-playground';
-import { EffectsPresentation } from './effects-presentation';
 import {
   effectsDefinitions,
-  playgroundCatalog,
   effectLabels,
   playgroundDefaults,
   type PlaygroundEffect,
 } from '../content/effects-playground';
+import { playgroundCatalog } from '../content/effects-playground-assets';
 import type { Bridge } from '../platform/bridge';
 import '../inspection';
 declare global {
@@ -62,7 +61,7 @@ export function mountEffects(context: PreviewContext) {
   );
   const $ = <T extends HTMLElement>(id: string) => shell.root.querySelector<T>('#' + id)!;
   const registry = new ContentRegistry(effectsDefinitions);
-  let app: Application<EffectsPresentation>;
+  let app: Application<EffectsPlayground>;
   let view: EffectsPlayground;
   let disposed = false,
     previewReady = false;
@@ -88,9 +87,6 @@ export function mountEffects(context: PreviewContext) {
     savePreview();
   }
 
-  function pause() {
-    app.pause(!app.paused);
-  }
   async function reset() {
     abort.signal.throwIfAborted();
     await app.replaceSession(app.scenes, { kind: 'new', seed: 903 });
@@ -140,10 +136,7 @@ export function mountEffects(context: PreviewContext) {
         area: (id) => ({ area: registry.area(id), assets: [] }),
         validate: () => {},
       },
-      (canvas, packs) => {
-        view = new EffectsPlayground(canvas, packs, emitters);
-        return new EffectsPresentation(view, settings);
-      },
+      (canvas, packs) => (view = new EffectsPlayground(canvas, packs, emitters, settings)),
       {
         status: (message) => {
           if (!disposed) shell.status(message);
@@ -260,7 +253,7 @@ export function mountEffects(context: PreviewContext) {
           });
       },
       clearInput: () => app.input?.clear(),
-      togglePause: pause,
+      togglePause: () => app.pause(!app.paused),
       restart: () => app.safe(reset),
       resize: () => app.presentation?.resize(app.scale),
       save: savePreview,
@@ -317,7 +310,7 @@ export function mountEffects(context: PreviewContext) {
   }
   function captureState(): EffectsState {
     return {
-      kind: 'effects',
+      kind: 'effects' as const,
       settings: structuredClone(settings),
       scale: app.scale as EffectsState['scale'],
       freeze: $<HTMLInputElement>('freeze-enemies').checked,

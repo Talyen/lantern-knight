@@ -76,24 +76,34 @@ export class MovementPlans {
     const radius = effectiveRadius(a.definition.radius);
     const direct = this.navigator(a).route(a, target, radius);
     if (direct.status === 'ready' || kind !== 'pursuit') return direct;
-    // A larger enemy may not fit at the hero's feet. Find a reachable melee
-    // position with clear contact rather than treating the hero as unreachable.
-    const distance = a.definition.melee.range * 0.8;
-    const candidates = Array.from({ length: 16 }, (_, i) => ({
-      x: target.x + Math.cos((i * Math.PI) / 8) * distance,
-      z: target.z + Math.sin((i * Math.PI) / 8) * distance,
-    })).sort((p, q) => Math.hypot(p.x - a.x, p.z - a.z) - Math.hypot(q.x - a.x, q.z - a.z));
-    for (const point of candidates) {
+    // A larger enemy may not fit at the hero's feet. Find the nearest reachable
+    // attack position with clear contact rather than reporting unreachable.
+    const distance = a.definition.attack.range * 0.8;
+    const targetHeight = heightAt(this.area, target.x, target.z);
+    let best: RouteResult | undefined;
+    let bestDistanceSquared = Infinity;
+    for (let i = 0; i < 16; i++) {
+      const angle = (i * Math.PI) / 8;
+      const point = {
+        x: target.x + Math.cos(angle) * distance,
+        z: target.z + Math.sin(angle) * distance,
+      };
+      const dx = point.x - a.x,
+        dz = point.z - a.z,
+        distanceSquared = dx * dx + dz * dz;
+      if (distanceSquared >= bestDistanceSquared) continue;
       if (
-        Math.abs(heightAt(this.area, point.x, point.z) - heightAt(this.area, target.x, target.z)) >
+        Math.abs(heightAt(this.area, point.x, point.z) - targetHeight) >
           tuning.maxCombatHeightDifference ||
         !clearSegment(this.area, point, target, 0.001)
       )
         continue;
       const route = this.navigator(a).route(a, point, radius);
-      if (route.status === 'ready') return route;
+      if (route.status !== 'ready') continue;
+      best = route;
+      bestDistanceSquared = distanceSquared;
     }
-    return direct;
+    return best ?? direct;
   }
   private plan(a: Actor, target: Point, kind: 'manual' | 'home' | 'pursuit', tick: number) {
     const route =

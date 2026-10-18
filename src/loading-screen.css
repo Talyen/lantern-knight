@@ -10,12 +10,12 @@
   border: 0;
   outline: none;
   overflow: hidden;
-  background: #101318;
-  color: #e7ddc5;
+  background: #111111;
+  color: #f0e6cc;
   z-index: 10000;
 }
 #loading-screen::backdrop {
-  background: #101318;
+  background: #111111;
 }
 #loading-screen video {
   display: block;
@@ -36,6 +36,6 @@
   font:
     14px Georgia,
     serif;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.06em;
   text-shadow: 0 1px 4px #000;
 }

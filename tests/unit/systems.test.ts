@@ -204,7 +204,7 @@ test('accepted content isolates live sessions and checkpoints from later draft e
   assert.equal(registry.definitions.areas[0], area);
   assert.equal(registry.actor(enemy.definition.id), enemy.definition);
   assert.equal(Reflect.set(area.bounds, 'maxX', -100), false);
-  assert.equal(Reflect.set(enemy.definition.melee, 'damage', 10000), false);
+  assert.equal(Reflect.set(enemy.definition.attack, 'damage', 10000), false);
   assert.equal(Reflect.set(registry.definitions.areas, '0', undefined), false);
   assert.equal(Reflect.set(registry, 'definitions', draft), false);
   assert.deepEqual(parseGame(save, registry), save);
@@ -252,7 +252,7 @@ test('content rejects duplicate/unknown IDs and invalid numbers, bounds, ramps a
     Object.assign(heavy, { x: 1, z: 0, y: s.hero.y, stun: 0 });
     s.actors = [s.hero, heavy, a];
     s.start(heavy, 'attack', -Math.PI / 2);
-    heavy.age = heavy.definition.melee.windup;
+    heavy.age = heavy.definition.attack.windup;
     const result = s.step(still);
     assert.equal(s.hero.health, 80);
     assert.ok(result.events.some((e) => e.kind === 'damage' && e.amount === 20));

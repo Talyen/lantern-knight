@@ -50,7 +50,10 @@ export async function sourceInputHash(
       (file.startsWith('electron/') || file === 'tools/build-electron.ts')
     )
       continue;
-    if (!/\.(ts|cjs|json|css|html|md|py|yml|toml)$/.test(file) || file.startsWith('references/'))
+    if (
+      !/\.(ts|cjs|json|css|svg|html|md|py|yml|toml)$/.test(file) ||
+      file.startsWith('references/')
+    )
       continue;
     const stat = await fs.lstat(path.join(root, file)).catch((e) => {
       if (e.code === 'ENOENT') return undefined;

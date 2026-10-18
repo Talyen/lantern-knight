@@ -8,7 +8,7 @@ import { resolveScene } from './world-art';
 import { contentSnapshot, type ContentSnapshot } from './snapshot';
 import { ContentRegistry, type ContentDefinitions } from './world';
 import { sceneAssets, validateAreaArt, type WorldVisualDefinition } from './world-visuals';
-import { combatEffectAssets } from './combat-feedback';
+import { ribLaneEffect, combatEffectAssets } from './combat-feedback';
 import { visualEffectsAssets } from './visual-effects-assets';
 import type { AreaDefinition } from './world';
 import type { Manifest } from '../assets/schema';
@@ -64,6 +64,11 @@ export function composeSceneContent(
               ...(visuals ? sceneAssets(visuals) : []),
               ...(area.interactables?.length || area.spawns.some((s) => s.rewards?.length)
                 ? ['library-lantern_concept_item_12_coin_purse']
+                : []),
+              ...(area.spawns.some(
+                (spawn) => registry.actor(spawn.actor).attack.kind === 'rib-lane',
+              )
+                ? [ribLaneEffect.asset]
                 : []),
               ...area.spawns.map(
                 (spawn) => actorVisuals[registry.actor(spawn.actor).visual]!.asset,

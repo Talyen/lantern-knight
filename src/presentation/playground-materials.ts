@@ -5,38 +5,42 @@ import { normalPixels } from './lighting-profiles';
 /** Matching authored color/height patterns; ink brightness is never interpreted as geometry. */
 export function sampleMaterial(kind: 'stone' | 'wood') {
   const size = 512,
+    stone = kind === 'stone',
     rgba = new Uint8Array(size * size * 4),
-    height = new Uint8Array(size * size);
-  for (let y = 0; y < size; y++)
+    heights = new Uint8Array(size * size * 4),
+    height = new Uint8Array(size * size),
+    base: readonly [number, number, number] = stone ? [0.39, 0.43, 0.4] : [0.31, 0.23, 0.16];
+  for (let y = 0; y < size; y++) {
+    const v = y / size,
+      row = Math.floor(v * 4),
+      rowPhase = row * 0.9,
+      rowShift = stone ? (row % 2) * 0.5 : 0,
+      b = (v * 4) % 1,
+      stoneWave = y * 0.18,
+      woodWave = v * 130;
     for (let x = 0; x < size; x++) {
       const u = x / size,
-        v = y / size,
-        row = Math.floor(v * 4),
-        a = (u * 4 + (kind === 'stone' ? (row % 2) * 0.5 : 0)) % 1,
-        b = (v * 4) % 1;
-      const edge = Math.min(a, 1 - a, kind === 'stone' ? b : 1, kind === 'stone' ? 1 - b : 1),
+        iu = Math.floor(u * 4),
+        a = (u * 4 + rowShift) % 1;
+      const edge = stone ? Math.min(a, 1 - a, b, 1 - b) : Math.min(a, 1 - a),
         joint = edge < 0.025;
-      const value = joint ? 0.16 : 0.68 + 0.06 * Math.sin(Math.floor(u * 4) * 1.8 + row * 0.9);
-      height[y * size + x] = Math.round(
-        (joint ? 0.12 : Math.min(1, value + Math.min(0.2, edge * 2))) * 255,
-      );
-      const texture =
-        kind === 'wood'
-          ? 0.05 * Math.sin(v * 130 + Math.sin(u * 23) * 2)
-          : 0.025 * Math.sin(x * 0.21 + y * 0.18);
-      const color = kind === 'stone' ? [0.39, 0.43, 0.4] : [0.31, 0.23, 0.16],
-        p = (y * size + x) * 4;
+      const value = joint ? 0.16 : 0.68 + 0.06 * Math.sin(iu * 1.8 + rowPhase);
+      const h = Math.round((joint ? 0.12 : Math.min(1, value + Math.min(0.2, edge * 2))) * 255),
+        i = y * size + x,
+        p = i * 4;
+      height[i] = h;
+      heights[p] = heights[p + 1] = heights[p + 2] = h;
+      heights[p + 3] = 255;
+      const grain = stone
+        ? 0.025 * Math.sin(x * 0.21 + stoneWave)
+        : 0.05 * Math.sin(woodWave + Math.sin(u * 23) * 2);
       for (let c = 0; c < 3; c++)
-        rgba[p + c] = Math.round(255 * Math.max(0, color[c]! * (joint ? 0.3 : 1) + texture));
+        rgba[p + c] = Math.round(255 * Math.max(0, base[c]! * (joint ? 0.3 : 1) + grain));
       rgba[p + 3] = 255;
     }
+  }
   const color = new T.DataTexture(rgba, size, size, T.RGBAFormat),
     normal = new T.DataTexture(normalPixels(height, size, size, 12), size, size, T.RGBAFormat);
-  const heights = new Uint8Array(size * size * 4);
-  for (let i = 0; i < height.length; i++) {
-    heights[i * 4] = heights[i * 4 + 1] = heights[i * 4 + 2] = height[i]!;
-    heights[i * 4 + 3] = 255;
-  }
   const relief = new T.DataTexture(heights, size, size, T.RGBAFormat);
   color.colorSpace = T.SRGBColorSpace;
   for (const t of [color, normal, relief]) {
@@ -105,6 +109,8 @@ export function sampleMaterial(kind: 'stone' | 'wood') {
 export class SilhouetteOutline {
   readonly mesh: T.Mesh;
   private material: T.ShaderMaterial;
+  private positionsVersion = -1;
+  private pad = -1;
   constructor(readonly source: T.Mesh<T.PlaneGeometry, T.MeshBasicMaterial>) {
     this.material = new T.ShaderMaterial({
       transparent: true,
@@ -130,28 +136,32 @@ export class SilhouetteOutline {
     this.mesh.frustumCulled = false;
   }
   update(pad: number, depthSlope: number, opacity = 0.25, color = '#29343b') {
-    this.material.uniforms.opacity!.value = opacity * this.source.material.opacity;
-    this.material.uniforms.tint!.value.set(color);
-    const pos = this.source.geometry.getAttribute('position'),
-      uv = this.source.geometry.getAttribute('uv'),
-      u = this.material.uniforms;
-    const left = pos.getX(0),
-      right = pos.getX(1),
-      top = pos.getY(0),
-      bottom = pos.getY(2),
-      minU = uv.getX(0),
-      maxU = uv.getX(1),
-      minV = uv.getY(2),
-      maxV = uv.getY(0);
-    u.map!.value = this.source.material.map;
-    u.center!.value.set((left + right) / 2, (top + bottom) / 2);
-    u.pad!.value = pad;
+    const u = this.material.uniforms;
+    u.opacity!.value = opacity * this.source.material.opacity;
+    u.tint!.value.set(color);
     u.depthSlope!.value = depthSlope;
-    u.rect!.value.set(minU, minV, maxU, maxV);
-    u.uvPad!.value.set(
-      (pad * (maxU - minU)) / (right - left),
-      (pad * (maxV - minV)) / (top - bottom),
-    );
+    const pos = this.source.geometry.getAttribute('position') as T.BufferAttribute;
+    if (this.positionsVersion !== pos.version || this.pad !== pad) {
+      this.positionsVersion = pos.version;
+      this.pad = pad;
+      const uv = this.source.geometry.getAttribute('uv'),
+        left = pos.getX(0),
+        right = pos.getX(1),
+        top = pos.getY(0),
+        bottom = pos.getY(2),
+        minU = uv.getX(0),
+        maxU = uv.getX(1),
+        minV = uv.getY(2),
+        maxV = uv.getY(0);
+      u.map!.value = this.source.material.map;
+      u.center!.value.set((left + right) / 2, (top + bottom) / 2);
+      u.pad!.value = pad;
+      u.rect!.value.set(minU, minV, maxU, maxV);
+      u.uvPad!.value.set(
+        (pad * (maxU - minU)) / (right - left),
+        (pad * (maxV - minV)) / (top - bottom),
+      );
+    }
     this.mesh.position.copy(this.source.position);
     this.mesh.quaternion.copy(this.source.quaternion);
     this.mesh.scale.copy(this.source.scale);

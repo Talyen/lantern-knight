@@ -1,4 +1,4 @@
-import { CanvasTexture } from 'three';
+import { CanvasTexture, LinearFilter } from 'three';
 
 export function radialTexture(innerRadius: number, centerAlpha: number, middleAlpha: number) {
   const canvas = document.createElement('canvas');
@@ -15,5 +15,7 @@ export function radialTexture(innerRadius: number, centerAlpha: number, middleAl
   context.fillRect(0, 0, 64, 64);
   const texture = new CanvasTexture(canvas);
   texture.generateMipmaps = false;
+  texture.minFilter = LinearFilter;
+  texture.magFilter = LinearFilter;
   return texture;
 }

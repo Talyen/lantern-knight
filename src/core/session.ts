@@ -233,6 +233,7 @@ export class GameSession {
     return sim;
   }
   private prepareRoom(state: RoomState, outcome: EventDetails, transition = false): RoomPlan {
+    this.sim.cancelSpells();
     const destination = state.sim.area;
     const plan = Object.freeze({
       sourceGeneration: this.generation,
@@ -414,7 +415,11 @@ export class GameSession {
         distance += Math.hypot(point.x - previous.x, point.z - previous.z);
         previous = point;
       }
-      if (distance < shortest || (distance === shortest && key.localeCompare(nearest!) < 0)) {
+      if (
+        nearest === undefined ||
+        distance < shortest ||
+        (distance === shortest && key.localeCompare(nearest) < 0)
+      ) {
         nearest = key;
         shortest = distance;
       }
@@ -429,6 +434,7 @@ export class GameSession {
   }
   prepareReset(reason: 'death' | 'manual' = 'manual'): RoomPlan {
     const fire = reason === 'death' ? this.respawnFire() : undefined;
+    const destination = fire ? this.fire(fire) : undefined;
     const state = this.roomState();
     state.resetCount++;
     const adventure = this.registry.definitions.areas.some((a) => a.campfires?.length);
@@ -441,8 +447,8 @@ export class GameSession {
     } else this.resetEnemies(state);
     state.sim = this.restoredSimulation(
       state,
-      fire ? this.fire(fire).area : this.sim.area,
-      fire ? 'fire-' + this.fire(fire).definition.id : undefined,
+      destination?.area ?? this.sim.area,
+      destination ? 'fire-' + destination.definition.id : undefined,
     );
     if (fire) state.lastFire = fire;
     return this.prepareRoom(state, { kind: 'room-reset', reason });

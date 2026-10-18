@@ -123,7 +123,7 @@ test('a lantern burst drives nearby undead back while interrupting their attack'
   const s = duel(),
     [first, second] = s.enemies;
   s.start(first!, 'attack');
-  first!.age = first!.definition.melee.windup;
+  first!.age = first!.definition.attack.windup;
   s.start(s.hero, 'ability');
   s.hero.age = tuning.ability.windup;
   s.step(still);
@@ -131,8 +131,9 @@ test('a lantern burst drives nearby undead back while interrupting their attack'
   assert.equal(s.hero.health, tuning.heroMaxHealth);
   assert.ok(first!.x > 1 && second!.x < -1);
   steps(s, tuning.ability.recoilTicks - 1);
-  assert.ok(Math.abs(first!.x - (1 + tuning.ability.recoilDistance)) < 1e-8);
-  assert.ok(Math.abs(second!.x + (1 + tuning.ability.recoilDistance)) < 1e-8);
+  // Recoil travels the authored distance; collision and rounding own the exact rest.
+  assert.ok(Math.abs(first!.x - (1 + tuning.ability.recoilDistance)) < 0.05);
+  assert.ok(Math.abs(second!.x + (1 + tuning.ability.recoilDistance)) < 0.05);
   const settled = first!.x;
   steps(s, 3);
   assert.equal(first!.x, settled);
@@ -208,10 +209,10 @@ test('burst is circular, bounded by range and height, with one direct hit', () =
     assert.equal(a.health, health - (hit ? 16 : 0));
   }
 });
-test('Burn ticks preserve attacks and movement, refresh without postponing cadence, and expire after three ticks', () => {
+test('Burn pulses on cadence without disturbing actions, then expires', () => {
   const s = duel();
   const a = s.enemies[0]!;
-  a.burn = { remaining: 180, nextTick: 1 };
+  a.burn = { remaining: 3, nextTick: 1 };
   s.start(a, 'attack');
   a.age = 3;
   const action = a.action;
@@ -222,17 +223,26 @@ test('Burn ticks preserve attacks and movement, refresh without postponing caden
   assert.ok(
     s.events.some((e) => e.kind === 'damage' && e.phase === 'over-time' && e.damageType === 'burn'),
   );
+  // A zero tick still fires instead of stalling; the lethal path clears below.
+  a.burn = { remaining: 3, nextTick: 0 };
+  const health = a.health;
+  s.step(still);
+  assert.equal(a.health, health - tuning.ability.burnDamage);
+  assert.deepEqual(a.burn, { remaining: 2, nextTick: tuning.ability.burnCadence });
+  // Refreshing re-arms duration but keeps the running cadence.
   a.burn = { remaining: 100, nextTick: 20 };
   s.start(s.hero, 'ability');
   s.hero.age = tuning.ability.windup;
   s.step(still);
   assert.deepEqual(a.burn, { remaining: 180, nextTick: 19 });
-  const health = a.health;
-  steps(s, 180);
-  assert.equal(a.health, health - 12);
+  // Two cadence pulses land over 61 ticks, then the timer expires.
+  a.burn = { remaining: 61, nextTick: 1 };
+  const pulseHealth = a.health;
+  steps(s, 61);
+  assert.equal(a.health, pulseHealth - 2 * tuning.ability.burnDamage);
   assert.equal(a.burn, undefined);
 });
-test('Burn defeat awards one drop and clears status, even on later ticks', () => {
+test('Burn defeat awards one drop and clears status', () => {
   const s = duel();
   const a = s.enemies[0]!;
   a.health = 4;
@@ -240,8 +250,17 @@ test('Burn defeat awards one drop and clears status, even on later ticks', () =>
   s.step(still);
   assert.equal(a.health, 0);
   assert.equal(a.burn, undefined);
-  steps(s, 100);
+  steps(s, 5);
   assert.equal(s.drops.filter((d) => d.source === 'a').length, 1);
+});
+test('A due burn pulse fires instead of stalling when its tick reaches zero', () => {
+  const s = duel();
+  const a = s.enemies[0]!;
+  const health = a.health;
+  a.burn = { remaining: 180, nextTick: 0 };
+  s.step(still);
+  assert.equal(a.health, health - tuning.ability.burnDamage);
+  assert.deepEqual(a.burn, { remaining: 179, nextTick: tuning.ability.burnCadence });
 });
 test('a downed hero cannot keep burning enemies or win the encounter', () => {
   const s = duel();

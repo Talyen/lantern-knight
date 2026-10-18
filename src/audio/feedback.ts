@@ -101,6 +101,7 @@ export class AudioFeedback {
         if (
           event.notify === 'footstep' &&
           actor?.state === 'walk' &&
+          actorVisuals[actor.definition.visual]?.groundFootsteps !== false &&
           Math.hypot(actor.x - actor.px, actor.z - actor.pz) > 0.001
         ) {
           this.authored.add(actor.id);
@@ -159,20 +160,24 @@ export class AudioFeedback {
       }
       const dx = actor.x - entry.x,
         dz = actor.z - entry.z,
-        movedSquared = dx * dx + dz * dz;
+        movedSquared = dx * dx + dz * dz,
+        travelled = entry.distance;
       entry.x = actor.x;
       entry.z = actor.z;
-      entry.distance = 0;
+      if (movedSquared > 1) {
+        // Teleports and resets are not strides; only travelled distance counts.
+        entry.distance = 0;
+        continue;
+      }
       if (contacts.has(actor.id)) continue;
       if (contacts !== this.authored && this.authored.has(actor.id)) continue;
       if (
         frozen ||
         actor.state !== 'walk' ||
+        actorVisuals[actor.definition.visual]?.groundFootsteps === false ||
         actorVisuals[actor.definition.visual]?.asset === 'ink-hero-current'
       )
         continue;
-      if (movedSquared > 1) continue; // teleport/reset, rather than a stride
-      const travelled = entry.distance;
       const moved = Math.sqrt(movedSquared);
       entry.distance = travelled + moved;
       if (entry.distance < 0.65) continue;
