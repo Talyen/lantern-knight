@@ -57,13 +57,10 @@ export class AudioFeedback {
         play('heal');
         break;
       case 'pickup':
-        play(
-          event.pickup === 'gold'
-            ? 'coin'
-            : sim.areaDefinition.pickups?.some((p) => p.id === event.pickup)
-              ? 'heal'
-              : 'pickup',
-        );
+        play(event.item === 'gold' ? 'coin' : 'pickup');
+        break;
+      case 'health-pickup':
+        play('heal');
         break;
       case 'object-claimed': {
         const object = sim.areaDefinition.interactables?.find((o) => o.id === event.object);
@@ -131,21 +128,29 @@ export class AudioFeedback {
     const nearFire = sim.areaDefinition.campfires?.some(
       (fire) => Math.hypot(fire.x - sim.hero.x, fire.z - sim.hero.z) < 4,
     );
-    const destination: readonly AudioCue[] = nearFire
-      ? [...profile.ambience.slice(0, 1), 'campfire']
-      : profile.ambience;
-    const key = destination.join('/');
+    // A stable per-frame key avoids rebuilding the joined cue list every frame;
+    // the played ambience derives from the area profile and nearby fire only.
+    const key = nearFire ? sim.area + ':fire' : sim.area;
     if (key !== this.ambienceKey || this.ambienceGeneration !== sim.generation) {
       this.ambienceKey = key;
       this.ambienceGeneration = sim.generation;
+      const destination: readonly AudioCue[] = nearFire
+        ? [...profile.ambience.slice(0, 1), 'campfire']
+        : profile.ambience;
       void this.playback.setAmbience(destination).catch(() => {});
     }
     for (const actor of sim.actors) {
-      const previous = this.movement.get(actor.id),
-        next = { x: actor.x, z: actor.z, distance: 0 };
-      this.movement.set(actor.id, next);
+      let entry = this.movement.get(actor.id);
+      if (!entry) {
+        this.movement.set(actor.id, { x: actor.x, z: actor.z, distance: 0 });
+        continue;
+      }
+      const moved = Math.hypot(actor.x - entry.x, actor.z - entry.z),
+        travelled = entry.distance;
+      entry.x = actor.x;
+      entry.z = actor.z;
+      entry.distance = 0;
       if (
-        !previous ||
         frozen ||
         actor.state !== 'walk' ||
         actorVisuals[actor.definition.visual]?.groundFootsteps === false ||
@@ -154,11 +159,10 @@ export class AudioFeedback {
         actorVisuals[actor.definition.visual]?.asset === 'ink-hero-current'
       )
         continue;
-      const moved = Math.hypot(actor.x - previous.x, actor.z - previous.z);
       if (moved > 1) continue; // teleport/reset, rather than a stride
-      next.distance = previous.distance + moved;
-      if (next.distance < 0.65) continue;
-      next.distance %= 0.65;
+      entry.distance = travelled + moved;
+      if (entry.distance < 0.65) continue;
+      entry.distance %= 0.65;
       void this.playback
         .play(`step-${areaAudio(sim.area).surface}`, {
           key: actor.id,

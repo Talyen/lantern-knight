@@ -9,7 +9,7 @@ import { AudioPlayback } from '../../src/audio/playback';
 import { AudioBuffers } from '../../src/audio/buffers';
 import { AudioFeedback } from '../../src/audio/feedback';
 import { parseAudioManifest, type AudioManifest } from '../../src/assets/audio';
-import { defaultAudioSettings } from '../../src/content/audio';
+import { defaultAudioSettings, areaAudio } from '../../src/content/audio';
 import { parseSettings } from '../../src/platform/settings';
 import { defaultVisualEffects } from '../../src/content/visual-effects';
 import { reviewFilename } from '../../tools/assets/audio-review';
@@ -879,18 +879,14 @@ test('disposal before queued initialization prevents audio allocation', async ()
   assert.equal(f.reports.length, 0);
 });
 
-test('unknown prototype-named areas use quiet fallback audio without breaking frames', () => {
-  const s = new GameSession(content);
-  const feedback = new AudioFeedback({
-    setListener() {},
-    setWorldFrozen() {},
-    setAmbience: async () => {},
-    play: async () => {},
-  } as unknown as AudioPlayback);
-  feedback.frame({ ...s.sim.view, area: 'constructor' }, false);
+test('known areas share authored audio while unknown fixtures fall back to quiet stone', () => {
+  assert.deepEqual(areaAudio('abandoned-orchard'), { surface: 'grass', ambience: [] });
+  assert.deepEqual(areaAudio('outdoor-fixture'), { surface: 'grass', ambience: [] });
+  assert.deepEqual(areaAudio('interior-fixture'), { surface: 'stone', ambience: [] });
+  assert.deepEqual(areaAudio('unknown-constructor-area'), { surface: 'stone', ambience: [] });
 });
 
-test('collecting a world health reward plays healing feedback', () => {
+test('loot and health pickups play distinct feedback cues', () => {
   const s = new GameSession(content),
     calls: string[] = [];
   const feedback = new AudioFeedback({
@@ -898,41 +894,22 @@ test('collecting a world health reward plays healing feedback', () => {
       calls.push(cue);
     },
   } as unknown as AudioPlayback);
-  const view = {
-    ...s.sim.view,
-    areaDefinition: {
-      ...s.sim.areaDefinition,
-      pickups: [
-        {
-          id: 'healing',
-          object: 'bottle',
-          kind: 'health' as const,
-          x: 0,
-          z: 0,
-          amount: 20,
-          radius: 1,
-        },
-      ],
-    },
-  };
-  feedback.event(
-    {
-      key: 'health',
-      kind: 'pickup',
+  const signal = new AbortController().signal,
+    base = {
+      key: 'pickup',
       tick: 1,
       generation: s.generation,
       actor: s.sim.hero.id,
       action: 0,
       area: s.sim.area,
-      position: [0, 0, 0],
+      position: [0, 0, 0] as const,
       direction: 0,
-      pickup: 'healing',
       amount: 20,
-    },
-    view,
-    new AbortController().signal,
-  );
-  assert.deepEqual(calls, ['heal']);
+    };
+  feedback.event({ ...base, kind: 'pickup', item: 'gold' }, s.sim.view, signal);
+  feedback.event({ ...base, kind: 'pickup', item: 'iron' }, s.sim.view, signal);
+  feedback.event({ ...base, kind: 'health-pickup' }, s.sim.view, signal);
+  assert.deepEqual(calls, ['coin', 'pickup', 'heal']);
 });
 
 test('concurrent sounds choose different delivered variants in playback order', async () => {
