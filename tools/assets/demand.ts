@@ -1,17 +1,17 @@
 import path from 'node:path';
 import { AssetCache } from './cache';
-import { type AssetLock } from './pack';
+import { type FilePin } from './pack';
 import { ensureBundlePack } from './bundles';
 import { openFileWorkspace } from './file-delivery';
 
 // Current pins select individual authenticated files. Older pins use the same
 // complete-bundle acquisition as builds, rather than a second archive reader.
 export async function openDemandWorkspace(
-  pin: Extract<AssetLock, { schemaVersion: 3 }>,
+  pin: FilePin,
   cache = new AssetCache(),
   request: typeof fetch = fetch,
 ) {
-  if (pin.fileDelivery) return openFileWorkspace(pin, cache, request);
+  if (pin.schemaVersion === 4 || pin.fileDelivery) return openFileWorkspace(pin, cache, request);
   const held = await ensureBundlePack(pin, cache, request);
   return {
     root: held.root,

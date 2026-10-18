@@ -125,15 +125,16 @@ export class EventHub {
   }
   publish(events: readonly PresentationEvent[]) {
     if (this.disposed || !events.length) return;
-    // Capture the complete batch before any observer can re-enter publication.
-    this.queue.push(
-      ...events.map((event) =>
-        Object.freeze({
-          ...event,
-          position: Object.freeze([...event.position]) as EventBase['position'],
-        }),
-      ),
-    );
+    // Simulation already freezes its events; only harden batches from ad-hoc callers.
+    for (const event of events)
+      this.queue.push(
+        Object.isFrozen(event) && Object.isFrozen(event.position)
+          ? event
+          : Object.freeze({
+              ...event,
+              position: Object.freeze([...event.position]) as EventBase['position'],
+            }),
+      );
     this.drain();
   }
   private fail(

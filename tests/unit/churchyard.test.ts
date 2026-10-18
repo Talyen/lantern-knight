@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { supportedPosition, isSupportedPosition } from '../../src/content/world';
+import { supportedPosition, isSupportedPosition } from '../../src/content/collision';
 import { content } from '../fixtures/content';
 import { content as visualContent, worldVisuals } from '../fixtures/visuals';
 import { Simulation } from '../../src/core/simulation';

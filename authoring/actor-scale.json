@@ -1,0 +1,455 @@
+{
+  "schemaVersion": 1,
+  "assets": {
+    "library-zb04": {
+      "sourceSha256": "5995dfca68eb2096343a9e5ef3a8abede7ea90c8b70f0ae0563e67cf9817d4d7",
+      "baseline": "Original move:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve source cowl size and supplied density adjustments; retain crawling reach, raised attack poses and emergence/collapse.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "spawn:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-ct02": {
+      "sourceSha256": "edc2ac5d305a9ecfb3c95d6ff829e5f6eadf2eb7295165ec5b276c9cb0c8e063",
+      "baseline": "Original move:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve hood/face and bell proportions; retain crouched shuffle, standing attack anticipation, robe flare and fallen defeat.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "spawn:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-sk03": {
+      "sourceSha256": "2802bd838e68dda10db7c50bca96eb6e8522a9e2c7808d53bac50b08559c163f",
+      "baseline": "Original move:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve original DR neutral size. Direction-extension estimated PPU values are relative conventions, not absolute world density. Correct the six added movement/cast bindings together; preserve hover, casting reach and collapse.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 0.390625,
+        "move:d270": 0.390625,
+        "move:d180": 0.390625,
+        "attack:d90": 1,
+        "attack:d00": 0.390625,
+        "attack:d270": 0.390625,
+        "attack:d180": 0.390625,
+        "spawn:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-ct01": {
+      "sourceSha256": "a7c2f2f58d9afca15db2f93d647df3b830b53e5957f4681f0add66cbfd5be44d",
+      "baseline": "Original move:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve mask and shoulder proportions and existing supplied density adjustments; retain robe streaming, dagger lean and awakening.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "spawn:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-ct04": {
+      "sourceSha256": "5112bb4314db62eff2361590c8909a0f5087eecb4b0dea9fb2bbe6e2f220fddd",
+      "baseline": "Original move:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve compact hood, halo and supplied density adjustments; retain sleeve extension, halo tilt, assembly and dispersal.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "spawn:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-sk01": {
+      "sourceSha256": "7f5dc1f59d10a14ddcfa223559c920d606004922c5bd1757b80b5f245b5d7821",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve skull/ribcage proportions; retain gait compression, reaching attack, recoil and collapse. Rear view exposes less face and torso width.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-sk02": {
+      "sourceSha256": "1eefb1be4a337a4614aeec285f8bce62d50940b5796d9f1380c75025da99866e",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve helmet/pauldron proportions and the independent gameplay size multiplier; retain gait compression, raised hammer, overhead lean and collapse.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-zb01": {
+      "sourceSha256": "9721c70c1e801af02749862934a7d14f1b92de26b9c456c16d1f563449c1fa2d",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve skull and shoulder size; retain shuffling stride, forward reach, recoil and kneeling/fallen defeat.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-zb02": {
+      "sourceSha256": "48c1ccc9f3efd5ee194c537d855984689a431c1be3b5fa72b70449b3a4ab7c3e",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve intended heavy build, head and cuff proportions; retain raised fists, hunched impact and collapse.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-gb01": {
+      "sourceSha256": "2d39c2f81009b1e6032c21f0ac8719071a326c8361984b61cea23fb956ef14ff",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve goblin head/ear and torso proportions; retain crouched strides, airborne reach, recoil and collapse.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-sl01": {
+      "sourceSha256": "be73718d497edea8dfdc579de9eb0e71da7b9c882c12a087df1d9ba749b4582f",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve native mass and eye treatment; squash, stretch, attack extrusion and defeat pooling are deliberate pose changes.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-sp01": {
+      "sourceSha256": "9e96212f58cd0c7be47ec54954014779a1847c2f01c6f8b96b70689b02590974",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve hood opening and native scale; retain flight bob, trailing cloth, compressed attack and dissolving defeat.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-bt03": {
+      "sourceSha256": "cbdf2dd4b0b20f4b88d10e6c0710932d807185574f00e4f2c4f51d88d5b6b95d",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve thorax and head size; wing span, folding, banking and grounded defeat change the silhouette deliberately.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-fp02": {
+      "sourceSha256": "89f7f5e12dae6d156bc5da20f5dbad8a695de9277d4650a47491e29d223bc341",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve cap diameter and spots; retain stalk compression, cap tilt, hopping and fallen defeat.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-lantern_concept_enemy_03_masked_cultist": {
+      "sourceSha256": "d929c46ba7bd27f4821a38bd47cffe629afd56014977e67a1d2d1f9f9c4ad349",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve beak mask and shoulder proportions; retain cape flare, low dagger windup and collapse.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-lantern_concept_enemy_08_clockwork_penitent": {
+      "sourceSha256": "e283525e33935835c97d69e09c17ebaa940900509f1c146f2b6af42df8c97af0",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve gear housing, mask and rod proportions; retain bent mechanical posture, rod lift, recoil and collapse.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-lantern_creature_concept_03_moth_oracle": {
+      "sourceSha256": "8a70e3d042448946c6bd9db7c3f107eedd21e46f539ace7183b0734766d89afe",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve thorax/head proportions; retain wing articulation, raised arms, foreshortened banks and grounded defeat.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-lantern_elite_concept_01_bellbearing_pilgrim": {
+      "sourceSha256": "049a6354ef2b0ee78983270532ddc09b04f080cc7eeaff54430157a99e081968",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve bell/yoke and hood proportions; retain stoop, carried-bell tilt, cross-body swing and kneeling defeat. Only delivered DR/DL motion is reviewed.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-lantern_elite_concept_05_candle_procession_wraith": {
+      "sourceSha256": "56b146f87b5c7b455e8141fefba95e8495e36b716c7578c2eae47a013be5d158",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve hood and candle beam proportions; retain robe streaming, casting lean and sinking defeat.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-lantern_elite_concept_06_rootbound_stone_saint": {
+      "sourceSha256": "22aff3f700ec15acbd0878f06cd330b8a63af734ecf3f609f934adef4f473b8d",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve head/halo and torso proportions; retain root extension, reaching gesture and sinking defeat. Only delivered DR/UL motion is reviewed.",
+      "clips": {
+        "move:d90": 1,
+        "move:d270": 1,
+        "attack:d90": 1,
+        "attack:d270": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-lantern_archetype_concept_01_skeletal_archer": {
+      "sourceSha256": "d849dd818c4835a7404fceb1ac640454fa1ee58af8959eb0aa0abaea462abc45",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve skull, ribcage and bow proportions; retain stride compression, bow draw, turning release, recoil and collapse. Do not invent missing attack facings.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d270": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-lantern_hostile_faction_concept_04_censer_keeper": {
+      "sourceSha256": "b36a2ee991750fc7762ee36376609142a1e32e7e7e202dcb51013a5828d4ff69",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve head, shoulder and censer proportions; retain coat streaming, swinging censer, recoil and kneeling defeat.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-lantern_cave_creature_06_hovering_broken_mask": {
+      "sourceSha256": "394da3d49e06e9568b9bcdd0e9abc35d9ade3493a6988a5209f45a8563ec794b",
+      "baseline": "Original idle:d90 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Preserve the rigid mask size; rotations, banking and foreshortening change its projected outline, not its registration scale.",
+      "clips": {
+        "move:d90": 1,
+        "move:d00": 1,
+        "move:d270": 1,
+        "move:d180": 1,
+        "attack:d90": 1,
+        "attack:d00": 1,
+        "attack:d270": 1,
+        "attack:d180": 1,
+        "idle:d90": 1,
+        "hit:d90": 1,
+        "defeat:d90": 1
+      },
+      "frames": {}
+    },
+    "library-lantern_clockwork_beetle": {
+      "sourceSha256": "31c89798cb4cc52486b750f3d24347528e6ba3f8cc6488f4b18157b07ce2ca03",
+      "baseline": "Original idle:d45 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Delivered still source sheets have no authoritative animated timeline. Preserve all six sheet registrations; do not infer animation or fit individual sheet cells.",
+      "clips": {
+        "idle:d45": 1,
+        "mandible_attack:d45": 1,
+        "recoil:d45": 1,
+        "scuttle_front:d45": 1,
+        "scuttle_rear:d45": 1,
+        "scuttle_side:d45": 1
+      },
+      "frames": {}
+    },
+    "library-lantern_shroud_wisp": {
+      "sourceSha256": "95600d98bb02472568a7e95166f090acf8b9d8535d1b1a64e19afcc0aaa43b65",
+      "baseline": "Original hover:d45 drawing 1; retain supplied world size and compare stable anatomy.",
+      "notes": "Delivered still reference has no animated timeline. Preserve its native registration.",
+      "clips": {
+        "hover:d45": 1
+      },
+      "frames": {}
+    }
+  }
+}

@@ -2,7 +2,8 @@ import * as T from 'three';
 import type { AssetPack } from '../assets/loader';
 import { resolveClip } from '../assets/schema';
 import { frameAt, clipDuration } from '../core/animation';
-import { Navigation, effectiveRadius, clearSegment } from '../core/navigation';
+import { Navigation } from '../core/navigation';
+import { effectiveRadius, clearSegment } from '../content/collision';
 import type { SimulationView } from '../core/simulation-view';
 import { heightAt, spawnActorId, type Point } from '../content/world';
 import {

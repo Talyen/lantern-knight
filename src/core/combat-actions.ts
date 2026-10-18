@@ -4,7 +4,7 @@ import { heightAt, heightBreakpoints, type AreaDefinition, type Point } from '..
 import type { Actor, State } from './actor';
 import type { EventDetails, DamageType, DamagePhase } from './events';
 import { selectAuthoredDirection } from '../content/headings';
-import { clearSegment } from './navigation';
+import { clearSegment } from '../content/collision';
 import type { AcceptedCommand } from './command';
 import { burningSwordBonus } from '../content/items';
 import { lanePoint, nearestLanePoint, type RibLane } from '../content/rib-lane';

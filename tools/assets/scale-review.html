@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Character scale review</title>
+  <style>
+    body {
+      margin: 24px;
+      background: #202128;
+      color: #eee;
+      font: 16px system-ui;
+      max-width: 1400px;
+    }
+    h1 {
+      font: 28px Georgia;
+    }
+    label {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      margin: 8px;
+      max-width: 100%;
+    }
+    select,
+    button,
+    input {
+      font: inherit;
+    }
+    select {
+      min-width: 0;
+      max-width: 32rem;
+    }
+    button,
+    select {
+      padding: 6px;
+      color: inherit;
+      background: #252a30;
+      border: 1px solid #41474f;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #343c44;
+    }
+    input {
+      accent-color: #c0a063;
+    }
+    button:focus-visible,
+    select:focus-visible,
+    input:focus-visible {
+      outline: 2px solid #e8c890;
+      outline-offset: 3px;
+    }
+    main {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    figure {
+      margin: 0;
+    }
+    canvas {
+      background: #303039;
+      width: 100%;
+      height: auto;
+    }
+    output {
+      display: block;
+      margin: 12px;
+      overflow-wrap: anywhere;
+    }
+    a {
+      color: #e8c890;
+    }
+    p {
+      max-width: 75ch;
+      line-height: 1.5;
+    }
+    @media (max-width: 760px) {
+      body {
+        margin: 16px;
+      }
+      main {
+        grid-template-columns: 1fr;
+      }
+      select {
+        max-width: calc(100vw - 120px);
+      }
+    }
+  </style>
+  <h1>Character scale review</h1>
+  <p>
+    Compare anatomy at equal world scale. Preserve compression, lean, bob, flight, squash and
+    collapse. The gold cross marks the native root. Original pixels, supplied registration and
+    animation holds are preserved. Reference overlays are guides, not height targets.
+  </p>
+  <label
+    >Enemy
+    <select id="asset"></select
+  ></label>
+  <label
+    >Clip / facing
+    <select id="clip"></select
+  ></label>
+  <button id="play">Play</button
+  ><button id="back">Previous drawing</button
+  ><button id="next">Next drawing</button>
+  <label>Drawing <input id="frame" type="range" min="0" value="0" /></label>
+  <label><input id="reference" type="checkbox" />Neutral reference overlay</label>
+  <label><input id="joins" type="checkbox" />Play action joins</label>
+  <label>Zoom <input id="zoom" type="range" min="50" max="200" value="100" /></label>
+  <output id="status"></output>
+  <p id="notes"></p>
+  <main>
+    <figure>
+      <figcaption>Supplied registration</figcaption>
+      <canvas id="native" width="640" height="640"></canvas>
+    </figure>
+    <figure>
+      <figcaption>Reviewed registration</figcaption>
+      <canvas id="reviewed" width="640" height="640"></canvas>
+    </figure>
+  </main>
+  <p>
+    <a id="sheet">Open all drawings in this clip</a> ·
+    <a href="recipe-draft.json">Source-bound recipe draft</a> ·
+    <a href="review.json">Review data</a>
+  </p>
+  <script>
+    const assets = /* REVIEW_DATA */ [];
+    const get = (id) => document.getElementById(id);
+    const images = new Map();
+    let asset,
+      clip,
+      index = 0,
+      elapsed = 0,
+      playing = false,
+      last = 0,
+      generation = 0;
+    const image = async (path) => {
+      if (!images.has(path))
+        images.set(
+          path,
+          new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = () => reject(Error(path));
+            img.src = path;
+          }),
+        );
+      return images.get(path);
+    };
+    function draw(ctx, frame, img, corrected, alpha = 1) {
+      const ratio =
+        ((96 / frame.density) * (corrected ? frame.scale : 1) * Number(get('zoom').value)) / 100;
+      ctx.globalAlpha = alpha;
+      ctx.drawImage(
+        img,
+        ...frame.rect,
+        320 + (frame.trim[0] - frame.anchor[0] + frame.visualOffsetPx[0]) * ratio,
+        500 + (frame.trim[1] - frame.anchor[1] + frame.visualOffsetPx[1]) * ratio,
+        frame.rect[2] * ratio,
+        frame.rect[3] * ratio,
+      );
+      ctx.globalAlpha = 1;
+    }
+    async function render() {
+      const stamp = ++generation,
+        frame = clip.frames[index];
+      const neutral =
+        asset.clips.find((c) => c.id === 'idle' && c.heading === clip.heading) ??
+        asset.clips.find((c) => c.id === 'move' && c.heading === clip.heading) ??
+        asset.clips[0];
+      let img, ref;
+      try {
+        [img, ref] = await Promise.all([image(frame.image), image(neutral.frames[0].image)]);
+      } catch (error) {
+        if (stamp === generation) {
+          pause();
+          get('status').textContent =
+            'Could not load drawing. Keep the images folder beside index.html, then reload.';
+        }
+        return;
+      }
+      if (stamp !== generation) return;
+      for (const [id, corrected] of [
+        ['native', false],
+        ['reviewed', true],
+      ]) {
+        const ctx = get(id).getContext('2d');
+        ctx.clearRect(0, 0, 640, 640);
+        ctx.strokeStyle = '#857252';
+        ctx.beginPath();
+        ctx.moveTo(0, 500);
+        ctx.lineTo(640, 500);
+        ctx.moveTo(320, 490);
+        ctx.lineTo(320, 510);
+        ctx.stroke();
+        if (get('reference').checked) draw(ctx, neutral.frames[0], ref, corrected, 0.24);
+        draw(ctx, frame, img, corrected);
+      }
+      get('frame').max = clip.frames.length - 1;
+      get('frame').value = index;
+      get('status').textContent =
+        `${asset.label} · ${clip.id}/${clip.heading} · drawing ${index + 1}/${clip.frames.length} · ${clip.durationsMs[index].toFixed(1)} ms · scale ×${frame.scale.toFixed(4)} · ${frame.key}`;
+      get('sheet').href = `${asset.id}-${clip.id}-${clip.heading}.png`;
+    }
+    function chooseClip() {
+      clip = asset.clips[Number(get('clip').value)];
+      index = 0;
+      elapsed = 0;
+      render();
+    }
+    function chooseAsset() {
+      images.clear();
+      asset = assets[Number(get('asset').value)];
+      get('notes').textContent = `${asset.baseline} ${asset.notes}`;
+      get('clip').replaceChildren(
+        ...asset.clips.map((c, i) => new Option(`${c.id} / ${c.heading}`, i)),
+      );
+      chooseClip();
+    }
+    function pause() {
+      playing = false;
+      get('play').textContent = 'Play';
+    }
+    get('asset').replaceChildren(...assets.map((a, i) => new Option(a.label + ' · ' + a.id, i)));
+    get('asset').onchange = chooseAsset;
+    get('clip').onchange = chooseClip;
+    get('play').onclick = () => {
+      playing = !playing;
+      get('play').textContent = playing ? 'Pause' : 'Play';
+    };
+    get('frame').oninput = () => {
+      pause();
+      index = Number(get('frame').value);
+      elapsed = 0;
+      render();
+    };
+    for (const [id, delta] of [
+      ['back', -1],
+      ['next', 1],
+    ])
+      get(id).onclick = () => {
+        pause();
+        index = (index + delta + clip.frames.length) % clip.frames.length;
+        elapsed = 0;
+        render();
+      };
+    get('reference').onchange = render;
+    get('zoom').oninput = render;
+    function tick(now) {
+      const delta = last ? Math.min(100, now - last) : 0;
+      last = now;
+      if (playing) {
+        elapsed += delta;
+        let changed = false;
+        while (elapsed >= clip.durationsMs[index]) {
+          elapsed -= clip.durationsMs[index];
+          index++;
+          changed = true;
+          if (index === clip.frames.length) {
+            if (get('joins').checked) {
+              const sequence = asset.clips.filter((c) => c.heading === clip.heading);
+              clip = sequence[(sequence.indexOf(clip) + 1) % sequence.length];
+              get('clip').value = asset.clips.indexOf(clip);
+              index = 0;
+            } else if (clip.loop) index = 0;
+            else {
+              index = clip.frames.length - 1;
+              elapsed = 0;
+              pause();
+              break;
+            }
+          }
+        }
+        if (changed) render();
+      }
+      requestAnimationFrame(tick);
+    }
+    if (assets.length) {
+      chooseAsset();
+      requestAnimationFrame(tick);
+    } else
+      get('status').textContent =
+        'No enemy clips were exported. Run assets:scale-review against the source library.';
+  </script>
+</html>

@@ -29,7 +29,7 @@ test('runtime consumers fetch only runtime bundles; authoring reuses them and ve
   const candidate = await inventoryCandidate(combined, 'a'.repeat(64));
   const inventory = PackSchema.parse(await readJson(path.join(combined, 'pack.json')));
   const accepted = preparationPin(candidate, {}, inventory);
-  if (accepted.schemaVersion === 1) throw new Error('Expected accepted preparation');
+  if (accepted.schemaVersion !== 2) throw new Error('Expected accepted preparation');
   const pin = { ...accepted, schemaVersion: 3 as const, bundles: locks };
   const cache = new AssetCache(path.join(root, 'cache'), 1024 * 1024),
     requests: string[] = [];

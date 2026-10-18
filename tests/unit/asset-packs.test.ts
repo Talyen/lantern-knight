@@ -625,3 +625,69 @@ test('offline preparation seeding reserves metadata rather than a second copy of
   await validateCachedPack(destination.root, lock);
   assert.ok((await diskBytes(root)) < cache.limit);
 });
+
+test('incremental cache inventory skips unchanged payload walks across instances and evictions', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-cache-inventory-');
+  const cache = new AssetCache(root, 16384);
+  for (const name of ['old-a', 'old-b', 'retained']) {
+    const held = await cache.lease(name, 3000);
+    await fs.mkdir(path.join(held.root, 'nested'));
+    await fs.writeFile(path.join(held.root, 'nested/data'), Buffer.alloc(3000));
+    await held.release();
+  }
+  const read = fs.readdir;
+  const walks: string[] = [];
+  t.mock.method(fs, 'readdir', async (...args: Parameters<typeof read>) => {
+    const name = String(args[0]);
+    if (name.includes('/entries/') && !name.endsWith('/.leases')) walks.push(name);
+    return read(...args);
+  });
+  const fresh = new AssetCache(root, 16384);
+  const reader = await fresh.lease('retained', 0, false, true);
+  await fresh.usage();
+  assert.ok((await reader.residentBytes()) >= 3000);
+  const writer = await fresh.lease('new', 11000);
+  assert.deepEqual(walks, [], 'inactive and read-only payloads reuse persisted inode inventories');
+  await assert.rejects(fs.access(path.join(root, 'entries/old-a')));
+  await assert.rejects(fs.access(path.join(root, 'entries/old-b')));
+  await fs.access(path.join(reader.root, 'nested/data'));
+  await writer.release();
+  await reader.release();
+});
+
+test('cache inventory rebuilds corrupt records and refreshes mutable entries without stale sizes', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-cache-inventory-repair-');
+  const cache = new AssetCache(root, 16384);
+  const held = await cache.lease('data', 3000);
+  await fs.mkdir(path.join(held.root, 'nested'));
+  await fs.writeFile(path.join(held.root, 'nested/data'), Buffer.alloc(3000));
+  await held.release();
+  await fs.writeFile(path.join(root, '.inventory/data.json.gz'), 'corrupt inventory');
+  assert.ok((await cache.usage()) >= 3000);
+  const writer = await cache.lease('data');
+  await fs.writeFile(path.join(writer.root, 'nested/data'), Buffer.alloc(8000));
+  assert.ok(
+    (await cache.usage()) >= 8000,
+    'an active writer is accounted from current filesystem data',
+  );
+  await writer.release();
+  assert.ok((await new AssetCache(root, 16384).usage()) >= 8000);
+});
+
+test('inventory storage exhaustion preserves lease cleanup and falls back to filesystem accounting', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-cache-index-space-');
+  const cache = new AssetCache(root, 16384);
+  const held = await cache.lease('data', 3000);
+  await fs.writeFile(path.join(held.root, 'data'), Buffer.alloc(3000));
+  const write = fs.writeFile;
+  const mocked = t.mock.method(fs, 'writeFile', async (...args: Parameters<typeof write>) => {
+    if (typeof args[0] === 'string' && args[0].includes('/.inventory/'))
+      throw Object.assign(new Error('disk full'), { code: 'ENOSPC' });
+    return write(...args);
+  });
+  await held.release();
+  assert.deepEqual(await fs.readdir(path.join(held.root, '.leases')), []);
+  assert.ok((await cache.usage()) >= 3000);
+  mocked.mock.restore();
+  assert.ok((await cache.usage()) >= 3000);
+});

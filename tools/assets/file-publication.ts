@@ -10,12 +10,14 @@ import { gzipSync, gunzipSync } from 'node:zlib';
 import { AssetCache } from './cache';
 import { safeRelative } from './files';
 import {
-  type AssetLock,
   type PackInventory,
   payloadDigest,
   PackSchema,
   lockFile,
   LockSchema,
+  type FilePin,
+  type FilePublicationIdentity,
+  filePin,
 } from './pack';
 import { ensureBundlePack, authoringGroups } from './bundles';
 import { gh } from './github';
@@ -28,7 +30,6 @@ import {
 } from './file-delivery';
 import { publicationWork } from './publication-work';
 
-type BundlePin = Extract<AssetLock, { schemaVersion: 3 }>;
 type Container = { sha256: string; bytes: number };
 
 // Optional parallelism must not increase the minimum cache budget. Reserve one
@@ -57,7 +58,7 @@ async function transferSlots(
 // Immutable, uncompressed concatenations preserve byte addressing. Each object
 // is stored once; aliases share its offset. No tar/gzip parsing runs in readers.
 export async function buildFileCatalog(
-  pin: BundlePin,
+  pin: FilePublicationIdentity,
   inventory: PackInventory,
   sourceRoot: string,
   held: Awaited<ReturnType<AssetCache['lease']>>,
@@ -90,7 +91,15 @@ export async function buildFileCatalog(
   }
   console.log(`Individual file delivery: reusing ${locations.size}/${unique.size} content hashes.`);
   const pending = [...unique.keys()].filter((hash) => !locations.has(hash)).sort();
-  const groups = [...authoringGroups(pending, Object.fromEntries(unique)).values()];
+  const metadata = (hash: string) =>
+    /\.json(?:\.gz)?$/.test(unique.get(hash)!.name) ||
+    unique.get(hash)!.name.startsWith('metadata/');
+  const groups = [true, false].flatMap((kind) => [
+    ...authoringGroups(
+      pending.filter((hash) => metadata(hash) === kind),
+      Object.fromEntries(unique),
+    ).values(),
+  ]);
   const concurrency = await transferSlots(
     held,
     groups.map((hashes) =>
@@ -163,12 +172,12 @@ export async function buildFileCatalog(
 }
 
 export async function publishFileDelivery(
-  pin: BundlePin,
+  pin: FilePublicationIdentity,
   sourceRoot: string | undefined,
   cache = new AssetCache(),
   publish = gh,
   request: typeof fetch = fetch,
-  previous?: BundlePin,
+  previous?: FilePin,
 ) {
   const held = await cache.lease('range-publication-' + pin.sha256, 0, true);
   let granted = 0;
@@ -308,12 +317,15 @@ export async function publishFileDelivery(
         )
       : prior!;
   // Prove range support on every published container before switching readers.
-  const proofs = Object.entries(catalog.containers).flatMap(([hash, container]) => {
-    const file = Object.values(catalog.files)
-      .filter((f) => f.container === hash && f.bytes > 0)
-      .sort((a, b) => a.bytes - b.bytes)[0];
-    return [{ hash, container, file }];
-  });
+  const smallest = new Map<string, FileCatalog['files'][string]>();
+  for (const file of Object.values(catalog.files))
+    if (file.bytes > 0 && file.bytes < (smallest.get(file.container)?.bytes ?? Infinity))
+      smallest.set(file.container, file);
+  const proofs = Object.entries(catalog.containers).map(([hash, container]) => ({
+    hash,
+    container,
+    file: smallest.get(hash),
+  }));
   const proofSlots = await transferSlots(
     work,
     proofs.map((p) => p.file?.bytes ?? 0),
@@ -363,18 +375,21 @@ export async function publishFileDelivery(
 
 // Publish the accepted bytes without refreshing artwork or changing its pin.
 export async function publishIndividualFiles(
-  pin: BundlePin,
+  pin: FilePin,
   cache = new AssetCache(),
   publish = gh,
   target = lockFile,
   request: typeof fetch = fetch,
 ) {
-  const source = pin.fileDelivery ? undefined : await ensureBundlePack(pin, cache, request);
+  const source =
+    pin.schemaVersion === 3 && !pin.fileDelivery
+      ? await ensureBundlePack(pin, cache, request)
+      : undefined;
   await using _cleanup3 = onAsyncExit(async () => {
     await source?.release();
   });
   const fileDelivery = await publishFileDelivery(pin, source?.root, cache, publish, request);
-  const next = LockSchema.parse({ ...pin, fileDelivery });
+  const next = filePin(pin, fileDelivery);
   if (JSON.stringify(LockSchema.parse(await readJson(target))) !== JSON.stringify(pin))
     throw new Error('Asset pin changed during file publication; refusing to overwrite it');
   if (JSON.stringify(next) !== JSON.stringify(pin)) await writeJsonAtomic(target, next, true);

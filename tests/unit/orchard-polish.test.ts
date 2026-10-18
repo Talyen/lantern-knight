@@ -12,7 +12,8 @@ import { flareLightEnvelope } from '../../src/content/ability-effects';
 import { FixedClock } from '../../src/core/simulation';
 import { tuning } from '../../src/content/gameplay';
 import { content as productionContent } from '../../src/content/game-content';
-import { Navigation, effectiveRadius } from '../../src/core/navigation';
+import { Navigation } from '../../src/core/navigation';
+import { effectiveRadius } from '../../src/content/collision';
 
 const idle = { move: { x: 0, z: 0 }, aim: { x: 0, z: 1 } };
 function fixture(blocked = false) {

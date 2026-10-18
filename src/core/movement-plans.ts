@@ -1,10 +1,5 @@
-import {
-  Navigation,
-  effectiveRadius,
-  clearSegment,
-  type RouteResult,
-  type TraversalPolicy,
-} from './navigation';
+import { Navigation, type RouteResult, type TraversalPolicy } from './navigation';
+import { effectiveRadius, clearSegment } from '../content/collision';
 import { heightAt, type Point, type AreaDefinition } from '../content/world';
 import { tuning } from '../content/gameplay';
 import type { ContentSnapshot } from '../content/snapshot';

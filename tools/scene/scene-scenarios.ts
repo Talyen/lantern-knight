@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import type { Page, ElectronApplication } from 'playwright';
-import { isSupportedPosition, type AreaDefinition, type Point } from '../../src/content/world';
+import { type AreaDefinition, type Point } from '../../src/content/world';
+import { isSupportedPosition } from '../../src/content/collision';
 import type { WorldVisualDefinition } from '../../src/content/world-visuals';
 import type { AssetCache } from '../assets/cache';
 import type { LookSettings } from '../../src/presentation/lighting-profiles';

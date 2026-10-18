@@ -12,6 +12,9 @@ import { projectRoot } from '../paths';
 import type { PreparationContext } from '../context';
 import { preparationOutput } from '../preparation-output';
 import { runProcess } from '../../run-process';
+import scaleRecipe from '../../../authoring/actor-scale.json';
+import { libraryFrameScales, nativeDrawingKey, validateScaleCoverage } from '../library-scale';
+import { scaleActorRegistration } from '../actor-scale';
 export async function prepare(context: PreparationContext, check = false) {
   const { write: output } = preparationOutput(context, check);
   const { readLibrarySource, stagingFile, readAsset } = context;
@@ -98,6 +101,7 @@ export async function prepare(context: PreparationContext, check = false) {
     media?: { group: string; member: string; sha256: string; path: string }[];
   };
   const catalog: Record<string, string> = {};
+  const reviewedScale = validateScaleCoverage(plan.assets, scaleRecipe);
   const receipts: {
     asset: string;
     group: string;
@@ -118,6 +122,7 @@ export async function prepare(context: PreparationContext, check = false) {
     drawings = 0;
 
   for (const item of plan.assets) {
+    const scales = libraryFrameScales(item, reviewedScale);
     let priorManifest: ManifestDraft | undefined;
     try {
       priorManifest = parseManifest(
@@ -297,11 +302,14 @@ export async function prepare(context: PreparationContext, check = false) {
               : input.sha256 && input.sha256 !== cached.hash && input.sha256 !== cached.acceptedHash
           )
             throw new Error('Conflicting delivered frame identity: ' + key);
-          const registration = {
+          const nativeRegistration = {
             canvas: input.canvas,
             anchor: input.anchor,
             density: input.density,
           };
+          const registration = scales
+            ? scaleActorRegistration(nativeRegistration, scales.get(nativeDrawingKey(input))!)
+            : nativeRegistration;
           const rect =
             input.rect ??
             ([0, 0, cached.page.width, cached.page.height] as [number, number, number, number]);
@@ -387,6 +395,7 @@ export async function prepare(context: PreparationContext, check = false) {
       skipped: [],
       sources: receipts,
       dispositions: plan.dispositions,
+      scale: reviewedScale,
     }) + '\n',
   );
   console.log(

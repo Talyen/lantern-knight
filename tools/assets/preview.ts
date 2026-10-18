@@ -1,3 +1,4 @@
+import { acquirePinnedPack } from './pinned';
 import { onAsyncExit } from '../scope-exit';
 import os from 'node:os';
 import { audioTools, verifyAudioSources } from './audio';
@@ -8,13 +9,12 @@ import { stagePayload } from './payload';
 import { listFiles } from './files';
 import { verifiedOutput, fileChecksums } from '../verified-files';
 import type { AssetScope } from './bundles';
-import { ensureBundlePack } from './bundles';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { AssetCache } from './cache';
 import { projectRoot, sourceLibrary } from './paths';
-import { readLock, ensurePack, recipeHash, validateCachedPack } from './pack';
+import { readLock, recipeHash, validateCachedPack } from './pack';
 import {
   preparationSelection,
   preparationStepKey,
@@ -78,7 +78,7 @@ export async function prototypeAssets(
     }
   }
   if (entry) {
-    const held = await cache.lease(entry);
+    const held = await cache.lease(entry, 0, false, true);
     try {
       const descriptor = (await readJson(path.join(held.root, 'preview.json'))) as Preview;
       if (descriptor.version !== 1 || !descriptor.sha256 || !descriptor.files)
@@ -109,7 +109,7 @@ export async function prototypeAssets(
   }
   const lock = await readLock((name) => fs.readFile(path.join(root, name)));
   if (reusePrepared) {
-    const held = await cache.lease('preparation');
+    const held = await cache.lease('preparation', 0, false, true);
     const payload = path.join(held.root, 'work/payload');
     try {
       const inventory = await validateCachedPack(payload, lock);
@@ -143,9 +143,7 @@ export async function prototypeAssets(
       files: undefined,
     };
   return {
-    held: await (lock.schemaVersion === 3
-      ? ensureBundlePack(lock, cache, fetch, scope)
-      : ensurePack(lock, cache)),
+    held: await acquirePinnedPack(lock, cache, scope),
     lock,
     stepCache: undefined,
     files: undefined,

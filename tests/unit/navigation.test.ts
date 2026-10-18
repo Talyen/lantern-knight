@@ -1,13 +1,10 @@
 import { boxProp } from '../fixtures/world';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { Navigation, moveSupported, clearSegment } from '../../src/core/navigation';
-import {
-  ContentRegistry,
-  heightAt,
-  isSupportedPosition,
-  type AreaDefinition,
-} from '../../src/content/world';
+import { Navigation, moveSupported } from '../../src/core/navigation';
+import { clearSegment } from '../../src/content/collision';
+import { ContentRegistry, heightAt, type AreaDefinition } from '../../src/content/world';
+import { isSupportedPosition } from '../../src/content/collision';
 import { GameSession } from '../../src/core/session';
 import { parseGame } from '../../src/core/save';
 import { Simulation } from '../../src/core/simulation';

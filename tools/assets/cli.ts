@@ -9,7 +9,7 @@ import { openWorkspace } from './workspace';
 import { readLock } from './pack';
 import { preparePreviewAssets } from './preview';
 import { prepareAssets } from './prepare';
-import { publishBundledPrepared } from './publication';
+import { publishPrepared } from './publication';
 import { readAuthoringCatalog } from './authoring-catalog';
 import { parseManifest } from '../../src/assets/schema';
 import { checkAssets } from '../check-assets';
@@ -32,7 +32,8 @@ async function main() {
   if (command === 'publish-files') {
     if (args.length) throw new Error('Use assets:publish-files without options');
     const pin = await readLock();
-    if (pin.schemaVersion !== 3) throw new Error('Individual delivery requires a bundled pin');
+    if (pin.schemaVersion !== 3 && pin.schemaVersion !== 4)
+      throw new Error('Individual delivery requires an accepted file-capable pin');
     await publishIndividualFiles(pin);
   } else if (command === 'prepare' || command === 'publish') {
     os.setPriority(process.pid, os.constants.priority.PRIORITY_BELOW_NORMAL);
@@ -63,7 +64,7 @@ async function main() {
       await using _cleanup1 = onAsyncExit(() => prepared.held.release());
       if (command === 'publish') {
         await checkAssets({ publicDirectory: path.join(prepared.payload, 'public') });
-        await publishBundledPrepared(prepared);
+        await publishPrepared(prepared);
       }
     }
     console.log(
@@ -78,7 +79,9 @@ async function main() {
       'pack-' + pin.sha256,
       'pack-' + pin.sha256 + '-runtime',
       'pack-' + pin.sha256 + '-authoring',
-      ...(pin.schemaVersion === 3 && pin.fileDelivery ? ['files-' + pin.fileDelivery.sha256] : []),
+      ...((pin.schemaVersion === 3 || pin.schemaVersion === 4) && pin.fileDelivery
+        ? ['files-' + pin.fileDelivery.sha256]
+        : []),
       ...(pin.schemaVersion === 3
         ? Object.values(pin.bundles).map((part) => 'pack-' + part.sha256)
         : []),
