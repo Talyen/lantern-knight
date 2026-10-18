@@ -8,8 +8,8 @@ import { AssetCache } from '../../tools/assets/cache';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 
 test(
-  'cache readers wait through a live accounting operation longer than ten seconds',
-  { timeout: 30_000 },
+  'cache readers wait through a live accounting operation instead of restarting work',
+  { timeout: 15_000 },
   async (t) => {
     const root = await temporaryDirectory(t, 'lantern-cache-contention-');
     const cache = new AssetCache(root, 1024 * 1024);
@@ -25,7 +25,7 @@ test(
       (held) => ({ held }),
       (error: unknown) => ({ error }),
     );
-    await delay(12_000);
+    await delay(1_000);
     await fs.rm(mutex, { recursive: true });
     const outcome = await admission;
     if ('error' in outcome) throw outcome.error;

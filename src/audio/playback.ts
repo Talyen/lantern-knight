@@ -1,4 +1,4 @@
-import { readUntilAborted } from '../abort';
+import { readUntilAborted } from '../assets/abort';
 import { AudioBuffers, type AudioBufferLease } from './buffers';
 import { cleanupAll, cleanupAfterFailure } from '../assets/cleanup';
 import { audioManifestPath, parseAudioManifest, type AudioManifest } from '../assets/audio';

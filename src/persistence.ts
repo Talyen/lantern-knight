@@ -1,7 +1,7 @@
 import type { Bridge } from './platform/bridge';
 import type { GameSave } from './core/save';
 import type { Settings } from './platform/settings';
-import { readUntilAborted } from './abort';
+import { readUntilAborted } from './assets/abort';
 import { SessionOperationCancelled } from './session-operation';
 
 // Adapters own admitted I/O and its ordering. This owner revokes application

@@ -1,4 +1,4 @@
-import { readUntilAborted } from './abort';
+import { readUntilAborted } from './assets/abort';
 import { AudioPlayback } from './audio/playback';
 import { AudioFeedback } from './audio/feedback';
 import { cleanupAll, cleanupAfterFailure } from './assets/cleanup';

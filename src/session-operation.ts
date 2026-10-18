@@ -1,4 +1,4 @@
-import { readUntilAborted } from './abort';
+import { readUntilAborted } from './assets/abort';
 
 // Cancellation is an expected result when a newer session intent takes ownership.
 export class SessionOperationCancelled extends Error {}
