@@ -1,5 +1,5 @@
 import { scenePlacementFindings } from './scene-placement';
-import { clearSegment } from './collision';
+import { clearSegment, supportedPosition, isSupportedPosition } from './collision';
 import { tuning } from './gameplay';
 import { artworkFloorLayout } from './floor-layout';
 import { authoredGameplay } from './authored-gameplay';
@@ -10,13 +10,7 @@ import {
   type SceneDocument,
   type SceneSnapshot,
 } from './scene-document';
-import {
-  supportedPosition,
-  heightAt,
-  isSupportedPosition,
-  type AreaDefinition,
-  type PropDefinition,
-} from './world';
+import { heightAt, type AreaDefinition, type PropDefinition } from './world';
 import { sceneAssets, SCENE_LIGHT_CAPACITY, type WorldVisualDefinition } from './world-visuals';
 export function resolveAuthoredScene(snapshot: SceneSnapshot): WorldVisualDefinition {
   const document = parseSceneDocument(snapshot);

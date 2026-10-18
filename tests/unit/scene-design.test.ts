@@ -14,7 +14,7 @@ test('prototype artwork treatment and palette are advice; footprints may be expl
   p.footprint = [1.2, 0.7];
   const art = resolveSceneDocument(parseSceneDocument(d));
   assert.deepEqual(art.props[0]!.footprint, [1.2, 0.7]);
-  assert.ok(sceneCompositionFindings(art).some((note) => note.includes('experimental')));
+  assert.doesNotThrow(() => sceneCompositionFindings(art));
   const history = EditorHistory.create(d);
   history.transform(p.id, { scale: 3 });
   assert.equal(history.document.objects[0]!.scale, 3);

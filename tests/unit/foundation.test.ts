@@ -26,7 +26,7 @@ import { StorageCodec } from '../../src/platform/storage-codec';
 import { resourcePath, trustedSender } from '../../electron/security';
 
 import { content } from '../fixtures/content';
-import { boundaryContains } from '../../src/content/world';
+import { boundaryContains } from '../../src/content/collision';
 import { GameSession } from '../../src/core/session';
 
 const approx = (a: number, b: number) => assert.ok(Math.abs(a - b) < 1e-7, `${a} != ${b}`);

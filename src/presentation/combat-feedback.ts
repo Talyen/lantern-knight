@@ -235,7 +235,9 @@ export class CombatFeedback {
   ) {
     const tag = `${actor.id}:${action}`;
     if (this.casts.has(tag)) return;
-    this.casts.set(tag, contact + Math.max(...plan.layers.map((layer) => layer.tailTicks)));
+    let tail = 0;
+    for (const layer of plan.layers) if (layer.tailTicks > tail) tail = layer.tailTicks;
+    this.casts.set(tag, contact + tail);
     for (const binding of plan.layers)
       this.emit(
         binding,
@@ -271,17 +273,19 @@ export class CombatFeedback {
       if (!plan) continue;
       // Actions are admitted at age zero, then aged after combat resolves.
       const contact = sim.tick - actor.age + plan.windup + 1;
-      if (
-        clock >=
-          contact -
-            Math.min(plan.windup, Math.max(...plan.layers.map((layer) => layer.leadTicks))) &&
-        clock < contact + Math.max(...plan.layers.map((layer) => layer.tailTicks))
-      )
+      let lead = 0,
+        tail = 0;
+      for (const layer of plan.layers) {
+        if (layer.leadTicks > lead) lead = layer.leadTicks;
+        if (layer.tailTicks > tail) tail = layer.tailTicks;
+      }
+      if (clock >= contact - Math.min(plan.windup, lead) && clock < contact + tail)
         this.begin(actor, plan, contact, alpha, actors);
     }
+    const actorsById = new Map(sim.actors.map((actor) => [actor.id, actor] as const));
     for (const event of this.pending) {
       if (event.generation !== sim.generation) continue;
-      const source = sim.actors.find((actor) => actor.id === event.actor);
+      const source = actorsById.get(event.actor);
       if (event.kind === 'strike' || event.kind === 'flare') {
         if (!source) continue;
         const plan = this.plan(source, event.kind === 'flare' ? 'ability' : 'attack');
@@ -311,7 +315,7 @@ export class CombatFeedback {
         continue;
       }
       if (event.kind !== 'damage') continue;
-      const target = sim.actors.find((actor) => actor.id === event.target);
+      const target = actorsById.get(event.target);
       if (!target) continue;
       const direction = new T.Vector3(
         target.x - event.position[0],
