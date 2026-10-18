@@ -425,3 +425,62 @@ test('runtime opening closes staged owners when graphics or catalog construction
     assert.equal(deliveryDisposal.mock.callCount(), graphics ? 1 : 0);
   }
 });
+
+test('source image inspection keeps the native-image policy when opening a runtime', async (t) => {
+  const { sha256 } = await import('../../src/assets/bitmap');
+  const hash = 'a'.repeat(64),
+    registration = JSON.stringify({
+      schemaVersion: 2,
+      animation: {
+        width: 1,
+        height: 1,
+        canvas: [1, 1],
+        bytes: 1,
+        sha256: hash,
+        tuningHash: hash,
+        stagedSourceHash: hash,
+        preparedHashes: {},
+        pairs: [],
+        offsets: {},
+        clips: {},
+      },
+      coverage: { masks: {}, sockets: {} },
+    }),
+    registrationHash = await sha256(new TextEncoder().encode(registration));
+  mockGlobals(t, {
+    location: {
+      search: '?images=source',
+      href: 'http://localhost/?images=source',
+      protocol: 'http:',
+      host: 'localhost',
+    },
+    fetch: async (url: unknown) =>
+      String(url).endsWith('build-mode.json')
+        ? Response.json({ registrationHash })
+        : String(url).endsWith('registration.json')
+          ? new Response(registration)
+          : new Response('abc'),
+    createImageBitmap: async () => ({ width: 32, height: 32, close() {} }),
+  });
+  const canvas = {
+    getContext: () => ({ MAX_TEXTURE_SIZE: 1, getParameter: () => 32, getExtension: () => null }),
+    ownerDocument: { querySelector: () => null },
+  } as unknown as HTMLCanvasElement;
+  const runtime = await AssetRuntime.open({ test: 'generated/test/manifest.json' }, canvas);
+  using cleanup = onExit(() => runtime.dispose());
+  const manifest = manifestFixture('test');
+  manifest.pages[0]!.delivery = [
+    {
+      path: 'generated/test/small.png',
+      width: 32,
+      height: 32,
+      hash: await sha256(new TextEncoder().encode('abc')),
+      bytes: 3,
+      gpuBytes: 4096,
+      encoding: 'png',
+      mipmaps: false,
+    },
+  ];
+  runtime.seedManifest('test', manifest);
+  await assert.rejects(runtime.loadPack('test'), /original image exceeds/);
+});

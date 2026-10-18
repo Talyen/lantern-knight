@@ -207,7 +207,12 @@ export class AssetRuntime {
     let runtime: AssetRuntime | undefined;
     try {
       delivery = canvas
-        ? new TextureDelivery(canvas, quality, byteSource.request, prepareTexture)
+        ? new TextureDelivery(
+            canvas,
+            new URLSearchParams(location.search).get('images') === 'source' ? 'source' : quality,
+            byteSource.request,
+            prepareTexture,
+          )
         : undefined;
       runtime = new AssetRuntime(catalog, byteSource.request, undefined, undefined, delivery);
       runtime.byteSource = byteSource;

@@ -171,3 +171,16 @@ test('checkpoints at an old scene edge move onto clear framed ground', () => {
   Object.assign(blocked.player, { x: 1000, z: 1000 });
   assert.throws(() => parseGame(blocked, content), /invalid player state/);
 });
+
+test('resolved scenes own independent mutable painting geometry', () => {
+  const document = emptyScene();
+  Object.assign(document.floor, { layout: 'artwork', width: 27, depth: 19 });
+  const first = resolveScene(document).area,
+    second = resolveScene(document).area,
+    expected = structuredClone(second);
+  first.bounds.maxX = 100;
+  first.sceneBoundary![0]!.x = 100;
+  first.playableBoundary![0]!.z = 100;
+  assert.deepEqual(second, expected);
+  assert.deepEqual(resolveScene(document).area, expected);
+});

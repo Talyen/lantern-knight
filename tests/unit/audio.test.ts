@@ -914,7 +914,8 @@ test('known areas share authored audio while unknown fixtures fall back to quiet
   assert.deepEqual(areaAudio('abandoned-orchard'), { surface: 'grass', ambience: [] });
   assert.deepEqual(areaAudio('outdoor-fixture'), { surface: 'grass', ambience: [] });
   assert.deepEqual(areaAudio('interior-fixture'), { surface: 'stone', ambience: [] });
-  assert.deepEqual(areaAudio('unknown-constructor-area'), { surface: 'stone', ambience: [] });
+  for (const id of ['unknown-constructor-area', 'constructor', 'toString', '__proto__'])
+    assert.deepEqual(areaAudio(id), { surface: 'stone', ambience: [] });
 });
 
 test('loot and health pickups play distinct feedback cues', () => {

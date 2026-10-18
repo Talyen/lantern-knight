@@ -49,7 +49,7 @@ const surfaces: Readonly<Record<string, AreaAudio['surface']>> = {
   'forest-gathering-clearing': 'dirt',
 };
 export function areaAudio(id: string): AreaAudio {
-  return { surface: surfaces[id] ?? 'stone', ambience: [] };
+  return { surface: Object.hasOwn(surfaces, id) ? surfaces[id]! : 'stone', ambience: [] };
 }
 const cooldowns: Readonly<Record<string, number>> = { 'ui-deny': 0.5, impact: 0.06, bone: 0.06 };
 export function cueCooldown(cue: AudioCue) {

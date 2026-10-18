@@ -783,6 +783,42 @@ test('large enemies choose melee positions within the hero height range', () => 
   );
 });
 
+test('large enemies reach melee through an oblique narrow approach', () => {
+  const a = area(),
+    angle = Math.PI / 8,
+    c = Math.cos(angle),
+    s = Math.sin(angle);
+  a.entries = [{ id: 'start', x: 0, z: 0 }];
+  a.spawns = [{ id: 'enemy', actor: 'skeleton', x: 3 * c, z: 3 * s }];
+  a.props = [
+    ...[-1, 1].map((side, i) =>
+      boxProp({
+        id: 'wall-' + i,
+        x: -s * side,
+        z: c * side,
+        size: [10, 0.4],
+        rotation: angle,
+      }),
+    ),
+    ...[-0.55, 0.55].map((offset, i) => ({
+      id: 'post-' + i,
+      kind: 'pillar' as const,
+      x: -s * offset,
+      z: c * offset,
+      radius: 0.15,
+      height: 1,
+    })),
+  ];
+  const definitions = structuredClone(contentDefinitions);
+  definitions.actors[0]!.radius = 0.7;
+  definitions.actors[0]!.attack.range = 2;
+  const sim = new Simulation(
+    new ContentRegistry({ ...definitions, initialArea: a.id, areas: [a] }),
+  );
+  for (let tick = 0; tick < 300 && sim.hero.health === sim.maxHealth; tick++) sim.step();
+  assert.ok(sim.hero.health < sim.maxHealth, 'the angled passage has a reachable melee position');
+});
+
 test('pursuit reaches a stationary target and turns when that target moves', () => {
   const a = area();
   a.props = [];
