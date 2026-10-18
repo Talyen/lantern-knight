@@ -623,7 +623,8 @@ test('complete acquisition rejects a corrupt container before installing its fil
     f.cache,
     async (url, init) => {
       const response = await f.request(url, init);
-      if (String(url).endsWith('files.json.gz')) return response;
+      if ((url instanceof Request ? url.url : url.toString()).endsWith('files.json.gz'))
+        return response;
       const bytes = Buffer.from(await response.arrayBuffer());
       bytes[0] = bytes[0]! ^ 255;
       return new Response(bytes);
@@ -643,7 +644,8 @@ test('complete acquisition coalesces calls and disposal drains its cancelled tra
     filePin(f.pin, f.pin.fileDelivery!),
     f.cache,
     async (url, init) => {
-      if (String(url).endsWith('files.json.gz')) return f.request(url, init);
+      if ((url instanceof Request ? url.url : url.toString()).endsWith('files.json.gz'))
+        return f.request(url, init);
       started.resolve();
       return new Promise<Response>((_resolve, reject) => {
         init!.signal!.addEventListener(

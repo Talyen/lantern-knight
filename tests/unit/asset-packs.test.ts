@@ -681,7 +681,7 @@ test('inventory storage exhaustion preserves lease cleanup and falls back to fil
   await fs.writeFile(path.join(held.root, 'data'), Buffer.alloc(3000));
   const write = fs.writeFile;
   const mocked = t.mock.method(fs, 'writeFile', async (...args: Parameters<typeof write>) => {
-    if (String(args[0]).includes('/.inventory/'))
+    if (typeof args[0] === 'string' && args[0].includes('/.inventory/'))
       throw Object.assign(new Error('disk full'), { code: 'ENOSPC' });
     return write(...args);
   });
