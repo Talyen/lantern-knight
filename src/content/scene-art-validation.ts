@@ -1,4 +1,4 @@
-import { clipPolygon, polygonBounds } from './polygon';
+import { clipPolygon, polygonBounds, rotatedRectCorners } from './polygon';
 import { contains } from './collision';
 import { placementOffset, sceneFixtures } from './scenery-presets';
 import type { Bounds, Point } from './world';
@@ -18,17 +18,7 @@ type Solid = {
   wall?: SiteWall;
 };
 function corners(s: Solid) {
-  const c = Math.cos(s.angle),
-    n = Math.sin(s.angle);
-  return [
-    [-1, -1],
-    [1, -1],
-    [1, 1],
-    [-1, 1],
-  ].map(([x, z]) => ({
-    x: s.center.x + ((x! * s.width) / 2) * c - ((z! * s.length) / 2) * n,
-    z: s.center.z + ((x! * s.width) / 2) * n + ((z! * s.length) / 2) * c,
-  }));
+  return rotatedRectCorners(s.center, s.width, s.length, s.angle);
 }
 export function solidIntersection(a: Solid, b: Solid): Bounds | undefined {
   const ac = corners(a),

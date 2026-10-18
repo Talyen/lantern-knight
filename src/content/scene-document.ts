@@ -337,10 +337,6 @@ export function validateSceneReferences(
   for (const p of d.objects) {
     if (ids.has(p.id)) throw new Error('Duplicate object identity: ' + p.id);
     ids.add(p.id);
-    if (p.fixture) {
-      if (ids.has(p.fixture.id)) throw new Error('Duplicate fixture identity: ' + p.fixture.id);
-      ids.add(p.fixture.id);
-    }
     if (manifests) {
       const m = manifests.get(p.asset);
       if (!m || paletteKind(m) !== p.kind || !hasUsableClip(m, p.clip))
@@ -348,8 +344,12 @@ export function validateSceneReferences(
       const heading = p.heading ?? 'd45';
       if (!m.asset.clips[p.clip]?.[heading])
         throw new Error(`Unavailable facing: ${p.asset}/${p.clip}/${heading}`);
-      const f = p.fixture?.flame;
-      if (f && !manifests.get(f.asset)?.asset.clips[f.clip]?.d45)
+    }
+    if (p.fixture) {
+      if (ids.has(p.fixture.id)) throw new Error('Duplicate fixture identity: ' + p.fixture.id);
+      ids.add(p.fixture.id);
+      const f = p.fixture.flame;
+      if (manifests && f && !manifests.get(f.asset)?.asset.clips[f.clip]?.d45)
         throw new Error(`Unavailable flame: ${f.asset}/${f.clip}`);
     }
   }

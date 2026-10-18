@@ -3,7 +3,7 @@ import { contains } from './collision';
 import type { Manifest } from '../assets/schema';
 import { trimmedBounds } from '../assets/sprite-registration';
 import { artworkFloorLayout } from './floor-layout';
-import { insidePolygon } from './graveyard-layout';
+import { insidePolygon } from './polygon';
 import type { SceneSnapshot } from './scene-document';
 import type { Point } from './world';
 import { placementRegistration, type PlacementEnvelope } from './placement-registration';
@@ -19,31 +19,26 @@ export function spritePlacementEnvelope(
 ): PlacementEnvelope {
   const measured = placementRegistration[manifest.asset.id];
   const registered = measured?.hash === manifest.hash ? measured.clips : {};
-  const ids = new Set(
-    clips
-      .filter((name) => !Object.hasOwn(registered, name))
-      .flatMap((name) =>
-        Object.values(manifest.asset.clips[name] ?? {}).flatMap((clip) =>
-          clip ? clip.frames : [],
-        ),
-      ),
-  );
-  const bounds = [
-    ...clips.flatMap((name) => (Object.hasOwn(registered, name) ? [registered[name]!] : [])),
-    ...manifest.frames
-      .filter((f) => ids.has(f.id))
-      .map((frame) => {
-        const registration = frame.registration ?? manifest.asset;
-        const b = trimmedBounds(registration, frame.trim);
-        const [x, y] = frame.visualOffsetPx ?? [0, 0];
-        return {
-          left: b.left + x / registration.density,
-          right: b.right + x / registration.density,
-          top: b.top - y / registration.density,
-          bottom: b.bottom - y / registration.density,
-        };
-      }),
-  ];
+  const unmeasured = new Set<string>();
+  const bounds: PlacementEnvelope[] = [];
+  for (const name of clips) {
+    if (Object.hasOwn(registered, name)) bounds.push(registered[name]!);
+    else
+      for (const clip of Object.values(manifest.asset.clips[name] ?? {}))
+        for (const frame of clip?.frames ?? []) unmeasured.add(frame);
+  }
+  for (const frame of manifest.frames) {
+    if (!unmeasured.has(frame.id)) continue;
+    const registration = frame.registration ?? manifest.asset;
+    const b = trimmedBounds(registration, frame.trim);
+    const [x, y] = frame.visualOffsetPx ?? [0, 0];
+    bounds.push({
+      left: b.left + x / registration.density,
+      right: b.right + x / registration.density,
+      top: b.top - y / registration.density,
+      bottom: b.bottom - y / registration.density,
+    });
+  }
   if (!bounds.length) throw new Error('Placement needs a registered drawing');
   return {
     left: Math.min(...bounds.map((b) => b.left)),

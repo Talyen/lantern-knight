@@ -12,9 +12,10 @@ export const heroScreenDirections: Readonly<Record<Heading, string>> = {
   d315: 'L',
 };
 export const heroTravelClips = HEADINGS.map((heading) => `travel_${heading}`);
+const heroTravelSet = new Set<string>(heroTravelClips);
 export function heroTravelClip(heading: Heading) {
   return `travel_${heading}`;
 }
 export function isHeroLocomotion(id: string) {
-  return id === 'walk' || heroTravelClips.includes(id);
+  return id === 'walk' || heroTravelSet.has(id);
 }

@@ -42,21 +42,16 @@ export type AreaAudio = {
   ambience: readonly AudioCue[];
 };
 // Explicit production defaults; unknown developer fixtures use quiet stone foley.
-const areas: Readonly<Record<string, AreaAudio>> = {
-  'outdoor-fixture': { surface: 'grass', ambience: [] },
-  'interior-fixture': { surface: 'stone', ambience: [] },
-  'abandoned-orchard': { surface: 'grass', ambience: [] },
-  'forest-gathering-clearing': { surface: 'dirt', ambience: [] },
+const surfaces: Readonly<Record<string, AreaAudio['surface']>> = {
+  'outdoor-fixture': 'grass',
+  'interior-fixture': 'stone',
+  'abandoned-orchard': 'grass',
+  'forest-gathering-clearing': 'dirt',
 };
 export function areaAudio(id: string): AreaAudio {
-  return Object.hasOwn(areas, id) ? areas[id]! : { surface: 'stone', ambience: [] };
+  return { surface: surfaces[id] ?? 'stone', ambience: [] };
 }
+const cooldowns: Readonly<Record<string, number>> = { 'ui-deny': 0.5, impact: 0.06, bone: 0.06 };
 export function cueCooldown(cue: AudioCue) {
-  return cue === 'ui-deny'
-    ? 0.5
-    : cue.startsWith('step-')
-      ? 0.12
-      : cue === 'impact' || cue === 'bone'
-        ? 0.06
-        : 0.04;
+  return cooldowns[cue] ?? (cue.startsWith('step-') ? 0.12 : 0.04);
 }

@@ -23,6 +23,16 @@ export function polygonBounds(points: readonly Point[]): Bounds {
   }
   return { minX, maxX, minZ, maxZ };
 }
+export function insidePolygon(p: Point, points: readonly Point[]) {
+  let inside = false;
+  for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
+    const a = points[i]!,
+      b = points[j]!;
+    if (a.z > p.z !== b.z > p.z && p.x < ((b.x - a.x) * (p.z - a.z)) / (b.z - a.z) + a.x)
+      inside = !inside;
+  }
+  return inside;
+}
 export function segmentsIntersect(a: Point, b: Point, c: Point, d: Point) {
   return (
     Math.max(a.x, b.x) >= Math.min(c.x, d.x) &&
@@ -86,4 +96,22 @@ export function boundsCorners(b: Bounds): Point[] {
     { x: b.maxX, z: b.maxZ },
     { x: b.minX, z: b.maxZ },
   ];
+}
+export function rotatedRectCorners(
+  center: Point,
+  width: number,
+  length: number,
+  angle: number,
+): Point[] {
+  const c = Math.cos(angle),
+    n = Math.sin(angle);
+  return [
+    [-1, -1],
+    [1, -1],
+    [1, 1],
+    [-1, 1],
+  ].map(([x, z]) => ({
+    x: center.x + ((x! * width) / 2) * c - ((z! * length) / 2) * n,
+    z: center.z + ((x! * width) / 2) * n + ((z! * length) / 2) * c,
+  }));
 }

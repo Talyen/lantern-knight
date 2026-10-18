@@ -1,7 +1,18 @@
 import { tuning } from './gameplay';
-import { ContentRegistry, type ContentDefinitions } from './world';
+import { ContentRegistry, type AreaDefinition, type ContentDefinitions } from './world';
 import { contentDefinitions } from './game-content';
 import { developerScenes } from './developer-scenes';
+// Comparison copies cannot duplicate the adventure's unique rewards.
+const fixtureCopy = (id: string, fixture: string): AreaDefinition => {
+  const area = contentDefinitions.areas.find((candidate) => candidate.id === id)!;
+  return {
+    ...area,
+    id: fixture,
+    exits: [],
+    interactables: area.interactables?.map((object) => ({ ...object, rewards: [] })),
+    spawns: area.spawns.map((spawn) => ({ ...spawn, rewards: [] })),
+  };
+};
 export const sandboxDefinitions: ContentDefinitions = {
   ...contentDefinitions,
   initialArea: 'outdoor-fixture',
@@ -37,28 +48,14 @@ export const sandboxDefinitions: ContentDefinitions = {
   areas: [
     ...contentDefinitions.areas,
     ...developerScenes.map((s) => s.area),
-    {
-      ...contentDefinitions.areas.find((area) => area.id === 'abandoned-orchard')!,
-      id: 'orchard-fixture',
-      exits: [],
-    },
     ...(
       [
+        ['abandoned-orchard', 'orchard-fixture'],
         ['forest-gathering-clearing', 'clearing-fixture'],
         ['ruined-forge', 'forge-fixture'],
         ['desecrated-chapel', 'chapel-fixture'],
       ] as const
-    ).map(([id, fixture]) => {
-      const area = contentDefinitions.areas.find((candidate) => candidate.id === id)!;
-      return {
-        ...area,
-        id: fixture,
-        exits: [],
-        // Comparison copies cannot duplicate the adventure's unique rewards.
-        interactables: area.interactables?.map((object) => ({ ...object, rewards: [] })),
-        spawns: area.spawns.map((spawn) => ({ ...spawn, rewards: [] })),
-      };
-    }),
+    ).map(([id, fixture]) => fixtureCopy(id, fixture)),
     {
       id: 'systems-fixture',
       name: 'Systems verification fixture',

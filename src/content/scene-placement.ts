@@ -1,5 +1,5 @@
 import { polygonEdgeDistance } from './polygon';
-import { insidePolygon } from './graveyard-layout';
+import { insidePolygon } from './polygon';
 import { isSupportedPosition } from './collision';
 import { artworkFloorLayout } from './floor-layout';
 import type { SceneSnapshot } from './scene-document';

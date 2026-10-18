@@ -161,7 +161,213 @@ export function surfaceGradient(area: AreaDefinition, x: number, z: number) {
     slope = inside ? (s.endHeight - s.startHeight) / (s.end - s.start) : 0;
   return { x: s.axis === 'x' ? slope : 0, z: s.axis === 'z' ? slope : 0 };
 }
+export function isValidCampfireEntry(
+  area: AreaDefinition,
+  fire: { x: number; z: number; safeRadius: number },
+  entry: Point,
+) {
+  return (
+    Math.hypot(entry.x - fire.x, entry.z - fire.z) < Math.min(fire.safeRadius, 1.6) &&
+    isSupportedPosition(area, entry, 0.3) &&
+    Math.abs(heightAt(area, entry.x, entry.z) - heightAt(area, fire.x, fire.z)) <=
+      tuning.maxCombatHeightDifference &&
+    clearSegment(area, entry, fire, 0.001)
+  );
+}
 const ids = /^[a-z0-9][a-z0-9_-]*$/;
+const fail = (message: string): never => {
+  throw new Error(`content: ${message}`);
+};
+const assertFinite = (...values: number[]) => {
+  if (values.some((v) => !Number.isFinite(v))) fail('non-finite value');
+};
+const assertUnique = <T extends { id: string }>(items: readonly T[], label: string) => {
+  const seen = new Set<string>();
+  for (const v of items) {
+    if (!ids.test(v.id) || seen.has(v.id)) fail(`invalid or duplicate ${label} ID ${v.id}`);
+    seen.add(v.id);
+  }
+};
+const assertBounds = (b: Bounds) => {
+  assertFinite(b.minX, b.maxX, b.minZ, b.maxZ);
+  if (b.minX >= b.maxX || b.minZ >= b.maxZ) fail('invalid bounds');
+};
+function assertActor(a: ContentSnapshot<ActorDefinition>) {
+  assertFinite(
+    a.maxHealth,
+    a.radius,
+    a.speed,
+    a.attack.windup,
+    a.attack.activeEnd,
+    a.attack.total,
+    a.attack.range,
+    a.attack.damage,
+  );
+  if (
+    !Number.isInteger(a.maxHealth) ||
+    a.maxHealth <= 0 ||
+    a.radius <= 0 ||
+    a.speed <= 0 ||
+    (a.poise !== undefined && typeof a.poise !== 'boolean') ||
+    !ids.test(a.visual)
+  )
+    fail(`invalid actor ${a.id}`);
+  const m = a.attack;
+  if (
+    ![m.windup, m.activeEnd, m.total, m.damage].every(Number.isInteger) ||
+    m.windup < 0 ||
+    m.activeEnd <= m.windup ||
+    m.total <= m.activeEnd ||
+    m.range <= 0 ||
+    m.damage <= 0
+  )
+    fail(`invalid attack ${a.id}`);
+  if (m.kind === 'melee') {
+    assertFinite(m.halfAngle, m.sweepRange ?? m.range);
+    if (
+      (m.sweepRange !== undefined && m.sweepRange <= 0) ||
+      m.halfAngle <= 0 ||
+      m.halfAngle > Math.PI
+    )
+      fail(`invalid melee ${a.id}`);
+  } else if (
+    m.kind !== 'rib-lane' ||
+    a.kind !== 'enemy' ||
+    m.length <= 0 ||
+    m.width <= 0 ||
+    !Number.isInteger(m.cooldown) ||
+    m.cooldown < m.total
+  )
+    fail(`invalid rib lane ${a.id}`);
+  if (m.kind === 'rib-lane') assertFinite(m.length, m.width, m.cooldown);
+}
+function assertArea(
+  a: ContentSnapshot<AreaDefinition>,
+  actor: (id: string) => { kind: 'hero' | 'enemy'; radius: number },
+  playerRadius: number,
+) {
+  assertBounds(a.bounds);
+  if (a.activation) assertBounds(a.activation);
+  for (const points of [a.sceneBoundary, a.playableBoundary]) {
+    if (!points) continue;
+    if (points.length < 3 || points.length > 16) fail('invalid playable boundary');
+    for (const [i, p] of points.entries()) {
+      assertFinite(p.x, p.z);
+      const b = points[(i + 1) % points.length]!;
+      if (
+        !contains(a.bounds, p) ||
+        points.some(
+          (c, j) =>
+            j !== i &&
+            j !== (i + 1) % points.length &&
+            (b.x - p.x) * (c.z - p.z) - (b.z - p.z) * (c.x - p.x) <= 1e-8,
+        )
+      )
+        fail('playable boundary must be strictly convex and counterclockwise');
+    }
+  }
+  assertFinite(a.seedOffset, a.floorColor);
+  if (!Number.isInteger(a.seedOffset) || a.seedOffset < 0) fail('invalid seed offset');
+  assertUnique(a.entries, 'entry');
+  assertUnique(a.spawns, 'spawn');
+  assertUnique(a.exits, 'exit');
+  assertUnique(a.props, 'prop');
+  assertUnique(a.pickups ?? [], 'pickup');
+  assertUnique(a.campfires ?? [], 'campfire');
+  assertUnique(a.interactables ?? [], 'interactable');
+  for (const fire of a.campfires ?? []) {
+    campfireSchema.parse(fire);
+    if (!isSupportedPosition(a, fire, 0.3)) fail('Unsupported campfire ' + fire.id);
+    const entry = a.entries.find((entry) => entry.id === 'fire-' + fire.id);
+    if (!entry || !isValidCampfireEntry(a, fire, entry)) fail('Invalid campfire entry ' + fire.id);
+  }
+  for (const object of a.interactables ?? []) {
+    interactableSchema.parse(object);
+    if (!isSupportedPosition(a, object, 0.1)) fail('Unsupported interactable ' + object.id);
+    if (object.guards.some((id) => !a.spawns.some((p) => p.id === id)))
+      fail('Unknown object guard');
+  }
+  for (const exit of a.exits)
+    if (exit.guards?.some((id) => !a.spawns.some((p) => p.id === id))) fail('Unknown exit guard');
+  for (const p of a.pickups ?? []) {
+    assertFinite(p.x, p.z, p.amount, p.radius);
+    if (
+      !contains(a.bounds, p) ||
+      !isSupportedPosition(a, p, 0.01) ||
+      p.kind !== 'health' ||
+      !Number.isInteger(p.amount) ||
+      p.amount <= 0 ||
+      p.radius <= 0
+    )
+      fail('invalid pickup ' + p.id);
+  }
+  for (const p of [...a.entries, ...a.spawns]) {
+    assertFinite(p.x, p.z);
+    if (!contains(a.bounds, p)) fail(`point outside ${a.id}`);
+  }
+  if (!a.entries.some((e) => e.id === a.baselineEntry)) fail(`missing baseline entry ${a.id}`);
+  const s = a.surface;
+  if (s.kind === 'flat') assertFinite(s.height);
+  else {
+    if (s.kind === 'stairs') {
+      if (s.axis !== 'z' || !Number.isInteger(s.steps) || s.steps! < 1 || s.steps! > 12)
+        fail('invalid stairs');
+      if (s.terraceBounds) {
+        assertBounds(s.terraceBounds);
+        assertFinite(s.stairWidth ?? 0);
+        if ((s.stairWidth ?? 0) <= 0) fail('invalid stair width');
+      }
+    }
+    assertFinite(s.start, s.end, s.startHeight, s.endHeight);
+    if (s.start === s.end || Math.abs((s.endHeight - s.startHeight) / (s.end - s.start)) > 0.5)
+      fail(`invalid shallow ramp ${a.id}`);
+  }
+  for (const p of a.spawns) {
+    if (actor(p.actor).kind !== 'enemy') fail('encounter spawn must be an enemy');
+    if (p.awareness) awarenessSchema.parse(p.awareness);
+    p.rewards?.forEach((r) => {
+      rewardSchema.parse(r);
+    });
+    assertFinite(p.jitterZ ?? 0);
+    if ((p.jitterZ ?? 0) < 0 || p.z + (p.jitterZ ?? 0) > a.bounds.maxZ)
+      fail('invalid spawn jitter');
+  }
+  for (const p of a.props) {
+    if (
+      p.shape === 'polygon' &&
+      (!p.polygon || p.polygon.length < 3 || p.polygon.some((v) => !Number.isFinite(v.x + v.z)))
+    )
+      fail('invalid terrain polygon');
+    if (p.shape === 'box' && !p.size) fail('box footprint requires size');
+    assertFinite(p.x, p.z, p.radius, p.height, p.rotation ?? 0, ...(p.size ?? []));
+    if (p.radius <= 0 || p.height <= 0 || p.size?.some((v) => v <= 0)) fail(`invalid prop ${p.id}`);
+  }
+  for (const e of a.exits) {
+    assertBounds(e.trigger);
+    assertFinite(e.marker.x, e.marker.z);
+    if (e.explicit && !isSupportedPosition(a, e.marker, 0.01))
+      fail('Unsupported exit marker ' + e.id);
+    if (
+      !contains(a.bounds, { x: e.trigger.minX, z: e.trigger.minZ }) ||
+      !contains(a.bounds, { x: e.trigger.maxX, z: e.trigger.maxZ })
+    )
+      fail(`exit outside ${a.id}`);
+  }
+  // Acceptance covers every transition entry and every possible seeded spawn,
+  // using the same actor clearance as movement and checkpoint validation.
+  for (const entry of a.entries)
+    if (!isSupportedPosition(a, entry, playerRadius)) fail(`unsupported entry ${a.id}/${entry.id}`);
+  for (const spawn of a.spawns)
+    if (
+      !clearSegment(
+        a,
+        spawn,
+        { x: spawn.x, z: spawn.z + (spawn.jitterZ ?? 0) },
+        effectiveRadius(actor(spawn.actor).radius),
+      )
+    )
+      fail(`unsupported spawn ${a.id}/${spawn.id}`);
+}
 export class ContentRegistry {
   readonly definitions: ContentSnapshot<ContentDefinitions>;
   #areas = new Map<AreaId, ContentSnapshot<AreaDefinition>>();
@@ -169,210 +375,21 @@ export class ContentRegistry {
   constructor(draft: ContentDefinitions) {
     const definitions = contentSnapshot(draft);
     this.definitions = definitions;
-    const fail = (message: string): never => {
-      throw new Error(`content: ${message}`);
-    };
-    const finite = (...values: number[]) => {
-      if (values.some((v) => !Number.isFinite(v))) fail('non-finite value');
-    };
-    const unique = <T extends { id: string }>(items: readonly T[], label: string) => {
-      const seen = new Set<string>();
-      for (const v of items) {
-        if (!ids.test(v.id) || seen.has(v.id)) fail(`invalid or duplicate ${label} ID ${v.id}`);
-        seen.add(v.id);
-      }
-    };
-    const bounds = (b: Bounds) => {
-      finite(b.minX, b.maxX, b.minZ, b.maxZ);
-      if (b.minX >= b.maxX || b.minZ >= b.maxZ) fail('invalid bounds');
-    };
-    unique(definitions.actors, 'actor');
-    unique(definitions.areas, 'area');
+    assertUnique(definitions.actors, 'actor');
+    assertUnique(definitions.areas, 'area');
     for (const a of definitions.actors) {
-      finite(
-        a.maxHealth,
-        a.radius,
-        a.speed,
-        a.attack.windup,
-        a.attack.activeEnd,
-        a.attack.total,
-        a.attack.range,
-        a.attack.damage,
-      );
-      if (
-        !Number.isInteger(a.maxHealth) ||
-        a.maxHealth <= 0 ||
-        a.radius <= 0 ||
-        a.speed <= 0 ||
-        (a.poise !== undefined && typeof a.poise !== 'boolean') ||
-        !ids.test(a.visual)
-      )
-        fail(`invalid actor ${a.id}`);
-      const m = a.attack;
-      if (
-        ![m.windup, m.activeEnd, m.total, m.damage].every(Number.isInteger) ||
-        m.windup < 0 ||
-        m.activeEnd <= m.windup ||
-        m.total <= m.activeEnd ||
-        m.range <= 0 ||
-        m.damage <= 0
-      )
-        fail(`invalid attack ${a.id}`);
-      if (m.kind === 'melee') {
-        finite(m.halfAngle, m.sweepRange ?? m.range);
-        if (
-          (m.sweepRange !== undefined && m.sweepRange <= 0) ||
-          m.halfAngle <= 0 ||
-          m.halfAngle > Math.PI
-        )
-          fail(`invalid melee ${a.id}`);
-      } else if (
-        m.kind !== 'rib-lane' ||
-        a.kind !== 'enemy' ||
-        m.length <= 0 ||
-        m.width <= 0 ||
-        !Number.isInteger(m.cooldown) ||
-        m.cooldown < m.total
-      )
-        fail(`invalid rib lane ${a.id}`);
-      if (m.kind === 'rib-lane') finite(m.length, m.width, m.cooldown);
+      assertActor(a);
       this.#actors.set(a.id, a);
     }
     if (this.actor(definitions.player).kind !== 'hero') fail('player must use a hero definition');
+    const playerRadius = effectiveRadius(this.actor(definitions.player).radius);
+    const actor = (id: string) => {
+      const value = this.#actors.get(id);
+      if (!value) fail(`unknown actor ${id}`);
+      return value as { kind: 'hero' | 'enemy'; radius: number };
+    };
     for (const a of definitions.areas) {
-      bounds(a.bounds);
-      if (a.activation) bounds(a.activation);
-      for (const points of [a.sceneBoundary, a.playableBoundary]) {
-        if (!points) continue;
-        if (points.length < 3 || points.length > 16) fail('invalid playable boundary');
-        for (const [i, p] of points.entries()) {
-          finite(p.x, p.z);
-          const b = points[(i + 1) % points.length]!;
-          if (
-            !contains(a.bounds, p) ||
-            points.some(
-              (c, j) =>
-                j !== i &&
-                j !== (i + 1) % points.length &&
-                (b.x - p.x) * (c.z - p.z) - (b.z - p.z) * (c.x - p.x) <= 1e-8,
-            )
-          )
-            fail('playable boundary must be strictly convex and counterclockwise');
-        }
-      }
-      finite(a.seedOffset, a.floorColor);
-      if (!Number.isInteger(a.seedOffset) || a.seedOffset < 0) fail('invalid seed offset');
-      unique(a.entries, 'entry');
-      unique(a.spawns, 'spawn');
-      unique(a.exits, 'exit');
-      unique(a.props, 'prop');
-      unique(a.pickups ?? [], 'pickup');
-      unique(a.campfires ?? [], 'campfire');
-      unique(a.interactables ?? [], 'interactable');
-      for (const fire of a.campfires ?? []) {
-        campfireSchema.parse(fire);
-        if (!isSupportedPosition(a, fire, 0.3)) fail('Unsupported campfire ' + fire.id);
-        const entry = a.entries.find((entry) => entry.id === 'fire-' + fire.id);
-        if (
-          !entry ||
-          Math.hypot(entry.x - fire.x, entry.z - fire.z) >= fire.safeRadius ||
-          Math.hypot(entry.x - fire.x, entry.z - fire.z) > 1.6 ||
-          Math.abs(heightAt(a, entry.x, entry.z) - heightAt(a, fire.x, fire.z)) >
-            tuning.maxCombatHeightDifference ||
-          !clearSegment(a, entry, fire, 0.001)
-        )
-          fail('Invalid campfire entry ' + fire.id);
-      }
-      for (const object of a.interactables ?? []) {
-        interactableSchema.parse(object);
-        if (!isSupportedPosition(a, object, 0.1)) fail('Unsupported interactable ' + object.id);
-        if (object.guards.some((id) => !a.spawns.some((p) => p.id === id)))
-          fail('Unknown object guard');
-      }
-      for (const exit of a.exits)
-        if (exit.guards?.some((id) => !a.spawns.some((p) => p.id === id)))
-          fail('Unknown exit guard');
-      for (const p of a.pickups ?? []) {
-        finite(p.x, p.z, p.amount, p.radius);
-        if (
-          !contains(a.bounds, p) ||
-          !isSupportedPosition(a, p, 0.01) ||
-          p.kind !== 'health' ||
-          !Number.isInteger(p.amount) ||
-          p.amount <= 0 ||
-          p.radius <= 0
-        )
-          fail('invalid pickup ' + p.id);
-      }
-      for (const p of [...a.entries, ...a.spawns]) {
-        finite(p.x, p.z);
-        if (!contains(a.bounds, p)) fail(`point outside ${a.id}`);
-      }
-      if (!a.entries.some((e) => e.id === a.baselineEntry)) fail(`missing baseline entry ${a.id}`);
-      const s = a.surface;
-      if (s.kind === 'flat') finite(s.height);
-      else {
-        if (s.kind === 'stairs') {
-          if (s.axis !== 'z' || !Number.isInteger(s.steps) || s.steps! < 1 || s.steps! > 12)
-            fail('invalid stairs');
-          if (s.terraceBounds) {
-            bounds(s.terraceBounds);
-            finite(s.stairWidth ?? 0);
-            if ((s.stairWidth ?? 0) <= 0) fail('invalid stair width');
-          }
-        }
-        finite(s.start, s.end, s.startHeight, s.endHeight);
-        if (s.start === s.end || Math.abs((s.endHeight - s.startHeight) / (s.end - s.start)) > 0.5)
-          fail(`invalid shallow ramp ${a.id}`);
-      }
-      for (const p of a.spawns) {
-        if (this.actor(p.actor).kind !== 'enemy') fail('encounter spawn must be an enemy');
-        if (p.awareness) awarenessSchema.parse(p.awareness);
-        p.rewards?.forEach((r) => {
-          rewardSchema.parse(r);
-        });
-        finite(p.jitterZ ?? 0);
-        if ((p.jitterZ ?? 0) < 0 || p.z + (p.jitterZ ?? 0) > a.bounds.maxZ)
-          fail('invalid spawn jitter');
-      }
-      for (const p of a.props) {
-        if (
-          p.shape === 'polygon' &&
-          (!p.polygon || p.polygon.length < 3 || p.polygon.some((v) => !Number.isFinite(v.x + v.z)))
-        )
-          fail('invalid terrain polygon');
-        if (p.shape === 'box' && !p.size) fail('box footprint requires size');
-        finite(p.x, p.z, p.radius, p.height, p.rotation ?? 0, ...(p.size ?? []));
-        if (p.radius <= 0 || p.height <= 0 || p.size?.some((v) => v <= 0))
-          fail(`invalid prop ${p.id}`);
-      }
-      for (const e of a.exits) {
-        bounds(e.trigger);
-        finite(e.marker.x, e.marker.z);
-        if (e.explicit && !isSupportedPosition(a, e.marker, 0.01))
-          fail('Unsupported exit marker ' + e.id);
-        if (
-          !contains(a.bounds, { x: e.trigger.minX, z: e.trigger.minZ }) ||
-          !contains(a.bounds, { x: e.trigger.maxX, z: e.trigger.maxZ })
-        )
-          fail(`exit outside ${a.id}`);
-      }
-      // Acceptance covers every transition entry and every possible seeded spawn,
-      // using the same actor clearance as movement and checkpoint validation.
-      const playerRadius = effectiveRadius(this.actor(definitions.player).radius);
-      for (const entry of a.entries)
-        if (!isSupportedPosition(a, entry, playerRadius))
-          fail(`unsupported entry ${a.id}/${entry.id}`);
-      for (const spawn of a.spawns)
-        if (
-          !clearSegment(
-            a,
-            spawn,
-            { x: spawn.x, z: spawn.z + (spawn.jitterZ ?? 0) },
-            effectiveRadius(this.actor(spawn.actor).radius),
-          )
-        )
-          fail(`unsupported spawn ${a.id}/${spawn.id}`);
+      assertArea(a, actor, playerRadius);
       this.#areas.set(a.id, a);
     }
     this.area(definitions.initialArea);
