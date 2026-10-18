@@ -1,6 +1,6 @@
 # Roadmap
 
-Finish and playtest the connected opening before extending the adventure. [Game design](game-design.md) owns design intent; this page tracks capability, priorities and acceptance.
+Polish combat and presentation in the connected opening before extending the adventure. [Game design](game-design.md) owns design intent; this page tracks capability, priorities and acceptance.
 
 Implemented means reachable in source, in progress means unfinished, planned means agreed direction, and needs design means a decision or playtest is required. These statuses do not certify current checks, visual polish or release availability. Supplied hero animation artwork remains TEST material pending visible playtesting.
 
@@ -21,25 +21,20 @@ Implemented means reachable in source, in progress means unfinished, planned mea
 
 ## Now
 
-**Opening loop accepted through visible playtesting — in progress.** Finish the connected orchard → clearing → forge → chapel → orchard journey before extending the adventure. [Opening playtest](verification.md#opening-playtest) owns the review procedure; source implementation and seeded browser fixtures do not establish new-player acceptance.
+**Combat and interaction polish — in progress.** Review movement/action facing, buffering, dodge timing, action/effect joins and object-anchored cues in the connected orchard → clearing → forge → chapel → orchard journey.
 
-Acceptance requires an unprompted new player to:
-
-- Discover the orchard supplies, controls and lantern without tutorial windows, and read paired enemy attacks, Burn and recovery opportunities.
-- Follow the clearing's usable paths, find the courtyard workbench, understand its single-choice limit and confirm the exact costs and damage change.
-- Reach the chapel, distinguish the warden from its attendants, recognize that sword hits do not interrupt its windup and use the lantern's stagger and Burn meaningfully.
-- Collect the Vigil Amulet, return on foot to Orchard Campfire and recognize the chosen upgrade's payoff against restored encounters. Cover both upgrade choices across separate fresh journeys.
-- Recover from death and save/resume with resources, rewards and the permanent choice retained.
-
-Keep the [combat](game-design.md#combat-feel), [Burn](game-design.md#damage-types-and-burn) and [progression](game-design.md#character-progression) defaults until observed play supports a change. Review movement/action facing, buffering, dodge timing, action/effect joins and object-anchored cues in that same journey. Preserve the blocked raised workshop and altar until elevation is authored. The opening does not need a chapter ending.
+Keep the [combat](game-design.md#combat-feel), [Burn](game-design.md#damage-types-and-burn) and [progression](game-design.md#character-progression) defaults until observed play supports a change. Preserve the blocked raised workshop and altar until elevation is authored. The opening does not need a chapter ending.
 
 ## Next
 
-Address the largest observed playtest friction, then complete the contextual [audio listening pass](sound-design.md#listening-and-tuning) and [packaged Windows acceptance](release.md#opening-windows-acceptance). Audio preparation and browser decoding are implemented; audible mix approval and immutable audio publication remain pending. Music and weaknesses remain deferred. Name the Windows reference hardware before claiming packaged 1440p/60 FPS acceptance.
+Address the largest observed combat or navigation friction before extending the adventure. Music and weaknesses remain deferred.
 
 ## Later
 
 Extend the adventure and authored rewards, equipment, upgrades and encounters after combat polish and the first progression loop. Destinations, bosses and speculative systems remain uncommitted; see [world structure](game-design.md#world-structure).
+
+- **Windows acceptance — deferred; reference hardware needs design.** Name reference CPU/GPU/display and validate [packaged 1440p/60 FPS](release.md#opening-windows-acceptance). macOS and software smoke do not certify target performance.
+- **Performance and lifetime — deferred.** Warm up, measure roughly one minute in a seeded representative encounter and a modest stress fixture; record median/p95/stalls, environment, buffer size and scale. Account separately for downloads, decoded CPU data, GPU textures/mips, render targets and temporary allocations; verify settled growth across repeated room changes. Follow [performance comparisons](verification.md#performance-comparisons).
 
 ## Open design decisions
 
@@ -47,12 +42,9 @@ Lantern shape, cooldown, stagger, Burn cadence and recovery cancellation are cho
 
 ## Presentation and delivery acceptance
 
-| Work                       | Status       | Acceptance                                                                                                                                                                                                                                                                                                                                                                                                          |
-| -------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Hero animation treatment   | In progress  | Inspect every clip/direction for mixed-registration transitions, bounded stabilization, weighted locomotion and rigid-sword protection. Large pose changes or uncertain equipment retain authored holds; further smoothing needs compatible art or stronger correspondence and preserves action consequences.                                                                                                       |
-| Hero attachments           | Planned      | Validate per-frame/direction attachments, registration, source density, hands, pose joins and gameplay readability. Immediate kit and production-method choices follow [presentation defaults](game-design.md#presentation-and-delivery-defaults).                                                                                                                                                                  |
-| Replacement combat effects | In progress  | Supplied sweep, Lunge, Flare, Dodge and contact bindings are implemented. Inspect their timing, registration, attachments, action/effect joins and hit readability; source integration does not establish visual acceptance.                                                                                                                                                                                        |
-| Windows acceptance         | Needs design | Name reference CPU/GPU/display and validate packaged 1440p/60 FPS. macOS and software smoke do not certify target performance.                                                                                                                                                                                                                                                                                      |
-| Performance and lifetime   | Planned      | Warm up, measure roughly one minute in a seeded representative encounter and a modest stress fixture; record median/p95/stalls, environment, buffer size and scale. Account separately for downloads, decoded CPU data, GPU textures/mips, render targets and temporary allocations; verify settled growth across repeated room changes. Follow [performance comparisons](verification.md#performance-comparisons). |
+| Work                       | Status      | Acceptance                                                                                                                                                                                                                                                                                                    |
+| -------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hero animation treatment   | In progress | Inspect every clip/direction for mixed-registration transitions, bounded stabilization, weighted locomotion and rigid-sword protection. Large pose changes or uncertain equipment retain authored holds; further smoothing needs compatible art or stronger correspondence and preserves action consequences. |
+| Replacement combat effects | In progress | Supplied sweep, Lunge, Flare, Dodge and contact bindings are implemented. Inspect their timing, registration, attachments, action/effect joins and hit readability; source integration does not establish visual acceptance.                                                                                  |
 
 Update existing items as work advances; move completed capabilities into Built. Promote local work after integration and relevant validation, reporting evidence separately from status. Keep dates, historical reports and generated output out of this page. [Task coordination](task-coordination.md#handoff-and-commits) owns integration; [Verification](verification.md) owns checks.
