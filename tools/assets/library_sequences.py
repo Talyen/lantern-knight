@@ -74,7 +74,10 @@ def interactable_sequences(package, member, data):
                 ),
                 "pivot_native": data.get(
                     "anchor_native",
-                    data.get("native_anchor_pixels", data.get("native_anchor_bottom_contact")),
+                    data.get(
+                        "native_anchor",
+                        data.get("native_anchor_pixels", data.get("native_anchor_bottom_contact")),
+                    ),
                 ),
                 "pivot_runtime": data.get(
                     "runtime_anchor",

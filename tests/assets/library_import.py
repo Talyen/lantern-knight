@@ -67,6 +67,8 @@ class ImportTests(unittest.TestCase):
                 "runtime_anchor_bottom_contact": [4, 7],
             },
         ]
+        cases.append({**cases[0], "native_anchor": cases[0]["anchor_native"]})
+        del cases[-1]["anchor_native"]
         for data in cases:
             data = {**data, "scene": 1}
             with self.subTest(data=data):
