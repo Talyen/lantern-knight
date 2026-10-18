@@ -12,24 +12,27 @@ export function moveSupported(
   delta: Point,
   radius: number,
 ): Point {
-  let p = isSupportedPosition(area, start, radius)
-      ? { x: start.x, z: start.z }
-      : supportedPosition(area, start, radius),
-    d = { ...delta };
-  if (d.x === 0 && d.z === 0) return p;
+  // The returned point is only read; an uninterrupted move borrows the start
+  // instead of copying it on every per-tick call.
+  let p = isSupportedPosition(area, start, radius) ? start : supportedPosition(area, start, radius);
+  if (delta.x === 0 && delta.z === 0) return { ...p };
+  let dx = delta.x,
+    dz = delta.z;
   for (let i = 0; i < 4; i++) {
-    const hit = sweepCircle(area, p, d, radius);
+    const step = { x: dx, z: dz };
+    const hit = sweepCircle(area, p, step, radius);
     if (!hit) {
-      const next = { x: p.x + d.x, z: p.z + d.z };
+      const next = { x: p.x + dx, z: p.z + dz };
       return isSupportedPosition(area, next, radius) ? next : p;
     }
-    const t = Math.max(0, hit.t - epsilon / Math.max(epsilon, Math.hypot(d.x, d.z)));
-    p = { x: p.x + d.x * t, z: p.z + d.z * t };
-    d = { x: d.x * (1 - t), z: d.z * (1 - t) };
-    const inward = Math.min(0, d.x * hit.nx + d.z * hit.nz);
-    d.x -= inward * hit.nx;
-    d.z -= inward * hit.nz;
-    if (Math.hypot(d.x, d.z) < epsilon) break;
+    const t = Math.max(0, hit.t - epsilon / Math.max(epsilon, Math.hypot(dx, dz)));
+    p = { x: p.x + dx * t, z: p.z + dz * t };
+    dx *= 1 - t;
+    dz *= 1 - t;
+    const inward = Math.min(0, dx * hit.nx + dz * hit.nz);
+    dx -= inward * hit.nx;
+    dz -= inward * hit.nz;
+    if (dx * dx + dz * dz < epsilon * epsilon) break;
   }
   return p;
 }
@@ -142,9 +145,8 @@ export class Navigation {
       if (id < 0 || id >= nx * nz) return false;
       let v = cells!.get(id);
       if (v === undefined) {
-        v =
-          isSupportedPosition(this.area, point(id), radius) &&
-          (this.#policy?.position(point(id)) ?? true);
+        const at = point(id);
+        v = isSupportedPosition(this.area, at, radius) && (this.#policy?.position(at) ?? true);
         cells!.set(id, v);
       }
       return v;

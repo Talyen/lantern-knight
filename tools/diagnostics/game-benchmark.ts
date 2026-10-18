@@ -4,10 +4,18 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { z } from 'zod';
 import { BenchmarkSchema, frameSummary } from './benchmark-model';
-import { digest } from '../source-identity';
-import { verificationIdentity, requireStableInputs } from '../verification';
+import { digest, sourceFingerprint as verificationIdentity } from '../source-identity';
 import { requireCurrentDesktopInputs } from '../build-identity';
 import type { smokeLaunch } from '../smoke/smoke-launch';
+
+async function requireStableInputs(
+  root: string,
+  before: Awaited<ReturnType<typeof verificationIdentity>>,
+  options: Parameters<typeof verificationIdentity>[1] = {},
+) {
+  if (before.sha256 !== (await verificationIdentity(root, options)).sha256)
+    throw new Error('Source inputs changed during the run');
+}
 
 export const journeyPhases = ['movement', 'actions', 'checkpoint'] as const;
 const segment = z.strictObject({

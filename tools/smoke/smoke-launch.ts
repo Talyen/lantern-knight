@@ -5,7 +5,7 @@ import { randomUUID } from 'node:crypto';
 import { _electron as electron, type ElectronApplication, type Page } from 'playwright';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { acquireTestLane } from '../verification';
+import { acquireCommandLane } from '../command-lane';
 export const option = (name: string, fallback: string, flags: string[] = []) => {
   const i = flags.indexOf(name);
   return i < 0 ? fallback : (flags[i + 1] ?? fallback);
@@ -119,10 +119,10 @@ export async function smokeLaunch(
   options: SmokeLaunchOptions = {},
 ) {
   const flags = options.flags ?? [];
-  let lane: Awaited<ReturnType<typeof acquireTestLane>>;
+  let lane: Awaited<ReturnType<typeof acquireCommandLane>>;
   try {
     await fs.access(options.executable ?? smokeExecutable(dev));
-    lane = await acquireTestLane({ waitMs: options.laneWaitMs });
+    lane = await acquireCommandLane({ waitMs: options.laneWaitMs });
   } catch (error) {
     // A refused run never creates a profile, but an explicitly requested diagnostic
     // still records the failure. Preserve any existing diagnostic in that folder.

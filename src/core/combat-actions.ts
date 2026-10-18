@@ -92,13 +92,19 @@ export class CombatActions {
     to: Point & { y: number },
     range: number,
     halfAngle: number,
+    sy?: number,
+    cy?: number,
   ) {
     const dx = to.x - from.x,
       dz = to.z - from.z,
-      d = Math.hypot(dx, dz);
-    if (d > range || Math.abs(to.y - from.y) > tuning.maxCombatHeightDifference) return false;
-    if (d < 0.001 || halfAngle === Math.PI) return true;
-    return dx * Math.sin(from.yaw) + dz * Math.cos(from.yaw) >= d * Math.cos(halfAngle + 1e-10);
+      dSquared = dx * dx + dz * dz;
+    if (dSquared > range * range || Math.abs(to.y - from.y) > tuning.maxCombatHeightDifference)
+      return false;
+    if (dSquared < 1e-6 || halfAngle === Math.PI) return true;
+    const s = sy ?? Math.sin(from.yaw),
+      c = cy ?? Math.cos(from.yaw);
+    const d = Math.sqrt(dSquared);
+    return dx * s + dz * c >= d * Math.cos(halfAngle + 1e-10);
   }
   private cancellable(h: Actor) {
     switch (h.state) {
@@ -154,12 +160,12 @@ export class CombatActions {
       const burn = target.burn;
       if (!burn || target.health <= 0) continue;
       burn.remaining--;
-      burn.nextTick--;
-      if (burn.nextTick === 0) {
+      if (--burn.nextTick <= 0) {
         this.damage(source, target, tuning.ability.burnDamage, 'burn', 'over-time');
-        burn.nextTick = tuning.ability.burnCadence;
+        // A lethal pulse clears the status; never rearm detached state.
+        if (target.burn) target.burn.nextTick = tuning.ability.burnCadence;
       }
-      if (burn.remaining === 0) target.burn = undefined;
+      if (burn.remaining <= 0) target.burn = undefined;
     }
   }
   advanceRecoil(actor: Actor) {
@@ -183,35 +189,40 @@ export class CombatActions {
     if (a.state === 'attack') {
       const t = attackDefinition(a);
       if (a.age === t.windup) this.world.emit(a, { kind: 'strike' });
-      if (a.age >= t.windup && a.age < t.activeEnd)
+      if (a.age >= t.windup && a.age < t.activeEnd) {
+        const sy = Math.sin(a.yaw),
+          cy = Math.cos(a.yaw);
         for (const target of this.world.actors()) {
           if (target.kind === a.kind || target.health <= 0 || a.hitIds.includes(target.id))
             continue;
           if (
-            this.withinArc(a, target, t.range, t.halfAngle) &&
+            this.withinArc(a, target, t.range, t.halfAngle, sy, cy) &&
             clearSegment(this.area, a, target, 0.001)
           ) {
             a.hitIds.push(target.id);
             this.damage(a, target, t.damage);
           }
         }
-      if (a.kind === 'hero' && a.age >= t.windup && a.age < t.activeEnd)
-        for (const object of this.area.interactables ?? [])
-          if (
-            object.kind === 'breakable' &&
-            this.withinArc(
-              a,
-              {
-                x: object.x,
-                z: object.z,
-                y: heightAt(this.area, object.x, object.z),
-              },
-              t.range,
-              t.halfAngle,
-            ) &&
-            clearSegment(this.area, a, object, 0.001)
-          )
-            this.world.breakObject(object.id);
+        if (a.kind === 'hero')
+          for (const object of this.area.interactables ?? [])
+            if (
+              object.kind === 'breakable' &&
+              this.withinArc(
+                a,
+                {
+                  x: object.x,
+                  z: object.z,
+                  y: heightAt(this.area, object.x, object.z),
+                },
+                t.range,
+                t.halfAngle,
+                sy,
+                cy,
+              ) &&
+              clearSegment(this.area, a, object, 0.001)
+            )
+              this.world.breakObject(object.id);
+      }
       if (a.age >= t.total - 1) this.start(a, 'idle');
     } else if (a.state === 'dodge') {
       if (a.age >= tuning.dodge.travelStart && a.age < tuning.dodge.travelEnd)

@@ -1,4 +1,5 @@
 import type { Clip } from '../assets/schema';
+const orderNotifies = (clip: Clip) => [...clip.notifies].sort((a, b) => a.atMs - b.atMs);
 export function clipDuration(clip: Clip) {
   return clip.durationsMs.reduce((a, b) => a + b, 0);
 }
@@ -51,11 +52,11 @@ export class Animator {
     public actor: string,
     public clip: Clip,
   ) {
-    this.orderedNotifies = [...clip.notifies].sort((a, b) => a.atMs - b.atMs);
+    this.orderedNotifies = orderNotifies(clip);
   }
   start(clip: Clip) {
     this.clip = clip;
-    this.orderedNotifies = [...clip.notifies].sort((a, b) => a.atMs - b.atMs);
+    this.orderedNotifies = orderNotifies(clip);
     this.time = 0;
     this.notifiedThrough = -Number.EPSILON;
     this.instance++;

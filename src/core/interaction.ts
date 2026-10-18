@@ -30,6 +30,9 @@ function* choices(
     (!kind || candidate === kind) &&
     (id === undefined || point.id === id) &&
     canReachInteraction(sim.areaDefinition, sim.hero, point);
+  // Combat status is fixed for the query; read once instead of re-scanning actors per target.
+  const inCombat =
+    kind === undefined || kind === 'campfire' || kind === 'exit' ? sim.inCombat : false;
   if (!kind || kind === 'drop')
     for (const d of sim.drops)
       if (reachable(d, 'drop'))
@@ -49,7 +52,7 @@ function* choices(
           x: f.x,
           z: f.z,
           label: f.name,
-          blocked: sim.inCombat ? 'Finish combat to use the campfire' : undefined,
+          blocked: inCombat ? 'Finish combat to use the campfire' : undefined,
         };
   if (!kind || kind === 'container' || kind === 'breakable')
     for (const o of sim.areaDefinition.interactables ?? [])
@@ -73,7 +76,7 @@ function* choices(
           label: 'Travel to ' + sim.registry.area(e.destination).name,
           blocked: !sim.exitAvailable(e.id)
             ? 'Defeat the enemies by the departure'
-            : sim.inCombat
+            : inCombat
               ? 'Finish combat to travel'
               : undefined,
         };
@@ -101,15 +104,19 @@ export function interactionTarget(sim: InteractionState, kind: Interaction['kind
 export function nearbyInteraction(sim: InteractionState): Interaction | undefined {
   // Prefer available E actions; sword-only prompts and blocked targets remain fallbacks.
   let best: Interaction | undefined;
-  for (const target of choices(sim))
+  let bestDistance = Infinity;
+  for (const target of choices(sim)) {
+    const distance = Math.hypot(target.x - sim.hero.x, target.z - sim.hero.z);
     if (
       !best ||
       (Number(Boolean(target.blocked)) - Number(Boolean(best.blocked)) ||
         Number(target.kind === 'breakable') - Number(best.kind === 'breakable') ||
         Number(best.kind === 'drop') - Number(target.kind === 'drop') ||
-        Math.hypot(target.x - sim.hero.x, target.z - sim.hero.z) -
-          Math.hypot(best.x - sim.hero.x, best.z - sim.hero.z)) < 0
-    )
+        distance - bestDistance) < 0
+    ) {
       best = target;
+      bestDistance = distance;
+    }
+  }
   return best;
 }
