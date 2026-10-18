@@ -136,6 +136,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await page.keyboard.press('Escape');
   await expect(page.locator('canvas')).toBeFocused();
   await page.keyboard.press('e');
+  await capture('campfire-640');
   await page.getByRole('button', { name: 'Upgrade kit', exact: true }).click();
   const upgrades = page.getByRole('dialog', { name: 'Upgrade kit', exact: true });
   for (const name of ['Temper Sword I', 'Rekindle Lantern I'])
