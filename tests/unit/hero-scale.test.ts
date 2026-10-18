@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { heroFrameScales, scaleHeroRegistration } from '../../tools/assets/hero-scale';
+import { actorFrameScales, scaleActorRegistration } from '../../tools/assets/actor-scale';
 import motion from '../../authoring/hero-motion.json';
 import scaleRecipe from '../../authoring/hero-scale.json';
 import { heroTimings } from '../../src/content/hero-actions';
@@ -20,7 +20,7 @@ test('hero review covers every clip/direction and leaves idle at its current siz
       Object.entries(scaleRecipe.clips).filter(([key]) => Object.hasOwn(motion.clips, key)),
     ),
   };
-  const scales = heroFrameScales(baseline, clips);
+  const scales = actorFrameScales(baseline, clips);
   assert.equal(scales.size, Object.keys(motion.frames).length);
   for (const [id, scale] of scales) {
     if (id.startsWith('idle-') || id.startsWith('ready-')) assert.equal(scale, 1);
@@ -29,19 +29,19 @@ test('hero review covers every clip/direction and leaves idle at its current siz
   assert.equal(scales.get('walk-d00-00'), 1.16);
   assert.equal(scales.get('death-d270-04'), 1);
   assert.ok(Math.abs(scales.get('sweep-d90-00')! - 1.06 * 1.06) < 1e-12);
-  assert.throws(() => heroFrameScales(baseline, clips.slice(1)), /exactly/);
+  assert.throws(() => actorFrameScales(baseline, clips.slice(1)), /exactly/);
   assert.throws(
     () =>
-      heroFrameScales(
+      actorFrameScales(
         {
           ...baseline,
           frames: { 'absent-00': 1.1 },
         },
         clips,
       ),
-    /Unknown hero scale drawing/,
+    /Unknown actor scale drawing/,
   );
-  assert.throws(() => heroFrameScales({ ...scaleRecipe, clips: { 'idle:d00': 0 } }, clips));
+  assert.throws(() => actorFrameScales({ ...scaleRecipe, clips: { 'idle:d00': 0 } }, clips));
 });
 
 test('scale changes world geometry uniformly about the native foot pivot', () => {
@@ -53,7 +53,7 @@ test('scale changes world geometry uniformly about the native foot pivot', () =>
   const trim: [number, number, number, number] = [70, 40, 480, 620];
   const before = trimmedBounds(native, trim);
   for (const scale of [0.88, 1, 1.16]) {
-    const corrected = scaleHeroRegistration(native, scale),
+    const corrected = scaleActorRegistration(native, scale),
       after = trimmedBounds(corrected, trim);
     assert.equal(native.density, 320);
     assert.deepEqual(corrected.anchor, native.anchor);
@@ -62,5 +62,5 @@ test('scale changes world geometry uniformly about the native foot pivot', () =>
       assert.ok(Math.abs(after[side] - before[side] * scale) < 1e-12);
   }
   for (const scale of [0, -1, NaN, Infinity])
-    assert.throws(() => scaleHeroRegistration(native, scale), /Invalid hero scale/);
+    assert.throws(() => scaleActorRegistration(native, scale), /Invalid actor scale/);
 });

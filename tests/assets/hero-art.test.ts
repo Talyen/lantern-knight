@@ -15,7 +15,7 @@ import { readAsset } from '../../tools/assets/io';
 import { ActorSprite } from '../../src/presentation/sprite';
 import { Texture, Vector3, Group, CanvasTexture } from 'three';
 import { ActorPresentation } from '../../src/presentation/actor-presentation';
-import { heroFrameScales, scaleHeroRegistration } from '../../tools/assets/hero-scale';
+import { actorFrameScales, scaleActorRegistration } from '../../tools/assets/actor-scale';
 test('current hero preserves mixed native registrations and resolves all headings without mirroring', async () => {
   const registration = readRegistration();
   const m = parseManifest(
@@ -37,7 +37,7 @@ test('current hero preserves mixed native registrations and resolves all heading
   };
   // Shared pins can predate local calibration; each pack proves its own recipe.
   const scales = receipt.scale
-    ? heroFrameScales(
+    ? actorFrameScales(
         receipt.scale,
         Object.entries(m.asset.clips).flatMap(([id, headings]) =>
           Object.entries(headings).map(([heading, clip]) => ({
@@ -54,7 +54,7 @@ test('current hero preserves mixed native registrations and resolves all heading
     const frame = m.frames.find((f) => f.id === native.id)!;
     assert.deepEqual(
       frame.registration,
-      scaleHeroRegistration(native.registration, scales.get(native.id) ?? 1),
+      scaleActorRegistration(native.registration, scales.get(native.id) ?? 1),
     );
   }
   const textures = new Map(m.pages.map((p) => [p.id, new Texture()]));

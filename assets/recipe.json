@@ -43,7 +43,7 @@
         "tools/assets/hero.py",
         "assets/sources.json",
         "src/content/hero-actions.ts",
-        "tools/assets/hero-scale.ts",
+        "tools/assets/actor-scale.ts",
         "tools/assets/hero_cursor.py",
         "assets/hero-cursor-sources.json",
         "authoring/hero-cursor.json",
@@ -118,6 +118,9 @@
       "inputs": [
         "assets/library-packs.json",
         "tools/assets/library_import.py",
+        "tools/assets/actor-scale.ts",
+        "tools/assets/library-scale.ts",
+        "authoring/actor-scale.json",
         "tools/assets/library_sequences.py",
         "tools/assets/authoring-catalog.ts",
         "assets/sources.json",

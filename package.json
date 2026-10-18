@@ -25,6 +25,7 @@
     "package": "tsx tools/package.ts",
     "assets:prepare": "tsx tools/assets/cli.ts prepare",
     "assets:inspect": "tsx tools/assets/cli.ts inspect",
+    "assets:scale-review": "tsx tools/assets/scale-review.ts",
     "assets:publish-files": "tsx tools/assets/cli.ts publish-files",
     "assets:publish": "tsx tools/assets/cli.ts publish",
     "assets:clean": "tsx tools/assets/cli.ts clean",
