@@ -1,4 +1,4 @@
-import { heightAt } from '../content/world';
+import { heightAt, type Point } from '../content/world';
 import { Navigation } from './navigation';
 import { effectiveRadius } from '../content/collision';
 import { canReachInteraction, interactionTarget } from './interaction';
@@ -24,27 +24,29 @@ export class PickupPlan {
     if (this.navigation?.area !== sim.areaDefinition)
       this.navigation = new Navigation(sim.areaDefinition);
     const navigation = this.navigation;
-    const candidates = [
-      drop,
-      ...[0.5, 1.15, 1.5, 1.6].flatMap((radius) =>
-        Array.from({ length: 16 }, (_, i) => ({
-          x: drop.x + Math.cos((i * Math.PI) / 8) * radius,
-          z: drop.z + Math.sin((i * Math.PI) / 8) * radius,
-        })),
-      ),
-    ].sort(
-      (a, b) =>
-        Math.hypot(a.x - sim.hero.x, a.z - sim.hero.z) -
-        Math.hypot(b.x - sim.hero.x, b.z - sim.hero.z),
-    );
-    const destination = candidates.find((p) => {
+    const radius = effectiveRadius(sim.hero.definition.radius);
+    let destination: Point | undefined;
+    let bestDistanceSquared = Infinity;
+    const consider = (p: Point) => {
+      const dx = p.x - sim.hero.x,
+        dz = p.z - sim.hero.z,
+        distanceSquared = dx * dx + dz * dz;
+      if (distanceSquared >= bestDistanceSquared) return;
       const hero = { ...p, health: sim.hero.health, y: heightAt(sim.areaDefinition, p.x, p.z) };
-      return (
+      if (
         canReachInteraction(sim.areaDefinition, hero, drop) &&
-        navigation.route(sim.hero, p, effectiveRadius(sim.hero.definition.radius)).status ===
-          'ready'
-      );
-    });
+        navigation.route(sim.hero, p, radius).status === 'ready'
+      ) {
+        destination = p;
+        bestDistanceSquared = distanceSquared;
+      }
+    };
+    consider(drop);
+    for (const ring of [0.5, 1.15, 1.5, 1.6])
+      for (let i = 0; i < 16; i++) {
+        const angle = (i * Math.PI) / 8;
+        consider({ x: drop.x + Math.cos(angle) * ring, z: drop.z + Math.sin(angle) * ring });
+      }
     if (!destination) return false;
     this.cancel(sim);
     sim.setMovementTarget(sim.hero.id, destination);

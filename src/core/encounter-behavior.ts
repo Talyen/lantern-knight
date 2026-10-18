@@ -55,10 +55,12 @@ export class EncounterBehavior {
     return this.area.campfires?.some((fire) => this.safeAt(p, fire)) ?? false;
   }
   private enemySegment(start: Point, end: Point) {
+    const campfires = this.area.campfires ?? [];
+    if (!campfires.length) return true;
     const dx = end.x - start.x,
       dz = end.z - start.z,
-      length = Math.hypot(dx, dz);
-    for (const fire of this.area.campfires ?? []) {
+      lengthSquared = dx * dx + dz * dz;
+    for (const fire of campfires) {
       const sx = start.x - fire.x,
         sz = start.z - fire.z;
       if (this.safeAt(start, fire)) {
@@ -67,17 +69,20 @@ export class EncounterBehavior {
         if (sx * dx + sz * dz < -1e-8) return false;
         continue;
       }
-      if (!length) continue;
-      const projection = -(sx * dx + sz * dz) / (length * length),
+      if (!lengthSquared) continue;
+      const length = Math.sqrt(lengthSquared);
+      const projection = -(sx * dx + sz * dz) / lengthSquared,
         closest = Math.max(0, Math.min(1, projection)),
-        at = (t: number) => ({ x: start.x + dx * t, z: start.z + dz * t }),
-        nearest = at(closest);
-      if (Math.hypot(nearest.x - fire.x, nearest.z - fire.z) >= fire.safeRadius) continue;
+        nearestX = start.x + dx * closest,
+        nearestZ = start.z + dz * closest;
+      if (Math.hypot(nearestX - fire.x, nearestZ - fire.z) >= fire.safeRadius) continue;
+      const nearest = { x: nearestX, z: nearestZ };
       if (this.safeAt(nearest, fire) || this.safeAt(end, fire)) return false;
       // Height and visibility can expose arbitrarily narrow sanctuary fragments.
       // Classify geometry-derived intervals, independent of movement step size.
-      const axis = at(projection),
-        distance = Math.hypot(axis.x - fire.x, axis.z - fire.z),
+      const axisX = start.x + dx * projection,
+        axisZ = start.z + dz * projection,
+        distance = Math.hypot(axisX - fire.x, axisZ - fire.z),
         half = Math.sqrt(Math.max(0, fire.safeRadius ** 2 - distance ** 2)) / length,
         from = Math.max(0, projection - half),
         to = Math.min(1, projection + half),
@@ -96,8 +101,13 @@ export class EncounterBehavior {
           .filter((t) => t >= from && t <= to)
           .sort((a, b) => a - b);
       for (let i = 0; i < cuts.length; i++) {
-        if (this.safeAt(at(cuts[i]!), fire)) return false;
-        if (i && this.safeAt(at((cuts[i - 1]! + cuts[i]!) / 2), fire)) return false;
+        const t = cuts[i]!,
+          point = { x: start.x + dx * t, z: start.z + dz * t };
+        if (this.safeAt(point, fire)) return false;
+        if (i) {
+          const mid = (cuts[i - 1]! + t) / 2;
+          if (this.safeAt({ x: start.x + dx * mid, z: start.z + dz * mid }, fire)) return false;
+        }
       }
     }
     return true;

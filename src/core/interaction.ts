@@ -30,6 +30,9 @@ function* choices(
     (!kind || candidate === kind) &&
     (id === undefined || point.id === id) &&
     canReachInteraction(sim.areaDefinition, sim.hero, point);
+  // Combat status is fixed for the query; read once instead of re-scanning actors per target.
+  const inCombat =
+    kind === undefined || kind === 'campfire' || kind === 'exit' ? sim.inCombat : false;
   if (!kind || kind === 'drop')
     for (const d of sim.drops)
       if (reachable(d, 'drop'))
@@ -49,7 +52,7 @@ function* choices(
           x: f.x,
           z: f.z,
           label: f.name,
-          blocked: sim.inCombat ? 'Finish combat to use the campfire' : undefined,
+          blocked: inCombat ? 'Finish combat to use the campfire' : undefined,
         };
   if (!kind || kind === 'container' || kind === 'breakable')
     for (const o of sim.areaDefinition.interactables ?? [])
@@ -73,7 +76,7 @@ function* choices(
           label: 'Travel to ' + sim.registry.area(e.destination).name,
           blocked: !sim.exitAvailable(e.id)
             ? 'Defeat the enemies by the departure'
-            : sim.inCombat
+            : inCombat
               ? 'Finish combat to travel'
               : undefined,
         };
