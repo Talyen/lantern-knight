@@ -4,7 +4,8 @@ import { InventoryState, type InventoryAccess } from './inventory';
 import type { GroundDrop } from '../content/interactions';
 import { canReachInteraction, interactionTarget } from './interaction';
 import { simulationView } from './simulation-view';
-import { moveSupported, effectiveRadius, clearSegment } from './navigation';
+import { moveSupported } from './navigation';
+import { effectiveRadius, clearSegment } from '../content/collision';
 import { MovementPlans } from './movement-plans';
 import { EncounterBehavior } from './encounter-behavior';
 import type { Point } from '../content/world';
@@ -15,11 +16,11 @@ import {
   ContentRegistry,
   PLAYER_ID,
   spawnActorId,
-  contains,
   heightAt,
   type AreaId,
   type ActorId,
 } from '../content/world';
+import { contains } from '../content/collision';
 import type { GameplayEvent, EventDetails } from './events';
 import type { Actor, State } from './actor';
 import { acceptCommand, type Command } from './command';
@@ -468,9 +469,11 @@ export class Simulation {
     const wasCleared = this.cleared;
     if (h.health > 0 && h.health < this.maxHealth && !this.movementPreview)
       for (const pickup of this.areaDefinition.pickups ?? []) {
+        if (this.collectedPickups.has(pickup.id)) continue;
+        const dx = h.x - pickup.x,
+          dz = h.z - pickup.z;
+        if (dx * dx + dz * dz > pickup.radius * pickup.radius) continue;
         if (
-          this.collectedPickups.has(pickup.id) ||
-          Math.hypot(h.x - pickup.x, h.z - pickup.z) > pickup.radius ||
           Math.abs(h.y - heightAt(this.areaDefinition, pickup.x, pickup.z)) >
             tuning.maxCombatHeightDifference ||
           !clearSegment(this.areaDefinition, h, pickup, 0.001)

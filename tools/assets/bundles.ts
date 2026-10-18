@@ -1,135 +1,23 @@
 import { onAsyncExit } from '../scope-exit';
-import { readJson, writeJson } from '../json-file';
+import { readJson } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { safeRelative } from './files';
 import {
-  LockSchema,
   validatePack,
   validateCachedPack,
   ensurePack,
   installMutex,
   installMatchingPreparation,
-  preparationPin,
-  recipeInputs,
   type AssetLock,
 } from './pack';
-import { makeArchive } from './archive';
-import { shaFile } from './sources';
 import { verifiedOutput } from '../verified-files';
 import { AssetCache } from './cache';
-import type { PreparedAssets } from './prepare';
-import { growthReservation } from './preparation';
 
-import { selectedFiles } from '../select-runtime-assets';
 export type AssetScope = 'runtime' | 'authoring';
 
 type BundlePin = Extract<AssetLock, { schemaVersion: 3 }>;
-export async function prepareBundles(candidate: PreparedAssets, previous?: AssetLock) {
-  const inventory = await validateCachedPack(candidate.payload, candidate.lock);
-  const selection = await selectedFiles(path.join(candidate.payload, 'public'), 'runtime');
-  const runtime = new Set(
-    [...selection.files, ...Object.keys(selection.generated)].map((file) => 'public/' + file),
-  );
-  const groups = new Map<string, string[]>();
-  for (const file of Object.keys(inventory.files)) {
-    if (file === 'metadata/preparation-inputs.json') continue;
-    const owner =
-        runtime.has(file) || file.startsWith('metadata/')
-          ? 'runtime'
-          : file.endsWith('.json') || file.endsWith('/preview.png')
-            ? 'bootstrap'
-            : 'authoring',
-      names = groups.get(owner) ?? [];
-    names.push(file);
-    groups.set(owner, names);
-  }
-  // Metadata and previews need stable shards too: one thumbnail must not
-  // rebuild the entire bootstrap archive. Readers already accept named parts.
-  for (const owner of ['authoring', 'bootstrap']) {
-    const names = groups.get(owner) ?? [];
-    groups.delete(owner);
-    for (const [name, files] of authoringGroups(names, inventory.files))
-      groups.set(name.replace('authoring-', owner + '-'), files);
-  }
-  const bundles: BundlePin['bundles'] = {},
-    archives: Record<string, string> = {};
-  const root = path.join(candidate.held.root, 'bundles');
-  await fs.mkdir(root, { recursive: true });
-  let reserveGrowth: Awaited<ReturnType<typeof growthReservation>> | undefined;
-  let retainedGrowth = 0;
-  for (const [name, files] of [...groups].sort(([a], [b]) => a.localeCompare(b))) {
-    const key = createHash('sha256')
-      .update(JSON.stringify(files.sort().map((file) => [file, inventory.files[file]])))
-      .digest('hex');
-    const prior = previous?.schemaVersion === 3 ? previous.bundles[name] : undefined;
-    if (prior?.recipeSha256 === key) {
-      bundles[name] = prior;
-      continue;
-    }
-    const archive = path.join(root, name + '-archive', 'lantern-assets.tar.gz');
-    const receiptFile = path.join(root, name + '-archive', 'lock.json');
-    try {
-      const parsed = LockSchema.safeParse(await readJson(receiptFile));
-      const cached = parsed.success ? parsed.data : undefined;
-      if (
-        cached?.schemaVersion === 1 &&
-        cached.recipeSha256 === key &&
-        (await fs.stat(archive)).size === cached.bytes &&
-        (await shaFile(archive)) === cached.sha256
-      ) {
-        bundles[name] = cached;
-        archives[name] = archive;
-        continue;
-      }
-    } catch (error) {
-      if ((error as NodeJS.ErrnoException).code !== 'ENOENT' && !(error instanceof SyntaxError))
-        throw error;
-    }
-    const payload = path.join(root, name);
-    const started = performance.now();
-    reserveGrowth ??= await growthReservation(candidate.held);
-    const manifestBytes = Buffer.byteLength(
-      JSON.stringify({
-        schemaVersion: 1,
-        recipeSha256: key,
-        files: Object.fromEntries(files.map((file) => [file, inventory.files[file]])),
-      }),
-    );
-    // Hardlinks add no artwork bytes. Reserve the new manifest and a conservative
-    // gzip/tar bound before writing; retain only actual archive growth afterward.
-    const tarBytes = files.reduce(
-      (bytes, file) => bytes + 512 + Math.ceil(inventory.files[file]!.bytes / 512) * 512,
-      1536 + Math.ceil(manifestBytes / 512) * 512,
-    );
-    await reserveGrowth(retainedGrowth + Math.ceil(tarBytes * 1.01) + manifestBytes + 65536);
-    await fs.rm(payload, { recursive: true, force: true });
-    for (const file of files) {
-      safeRelative(file);
-      const target = path.join(payload, file);
-      await fs.mkdir(path.dirname(target), { recursive: true });
-      await fs.link(path.join(candidate.payload, file), target);
-    }
-    // gh uploads the basename; # only supplies its display label.
-    await fs.mkdir(path.dirname(archive), { recursive: true });
-    const lock = await makeArchive(payload, archive, key, inventory.files);
-    await writeJson(receiptFile, lock);
-    retainedGrowth += lock.bytes + Buffer.byteLength(JSON.stringify(lock)) + 4096;
-    bundles[name] = lock;
-    archives[name] = archive;
-    await fs.rm(payload, { recursive: true, force: true });
-    console.log(
-      `Publication bundle ${name}: ${(lock.bytes / 1024 ** 2).toFixed(1)} MiB in ${((performance.now() - started) / 1000).toFixed(2)}s.`,
-    );
-  }
-  const accepted = preparationPin(candidate.lock, await recipeInputs(), inventory);
-  const pin = LockSchema.parse({ ...accepted, schemaVersion: 3, bundles }) as BundlePin;
-  if (reserveGrowth)
-    await reserveGrowth(retainedGrowth + Buffer.byteLength(JSON.stringify({ pin, archives })));
-  await writeJson(path.join(root, 'plan.json'), { pin, archives });
-  return { pin, archives };
-}
 // Hash-prefix partitions keep deletions and additions local to one shard.
 // Oversized shards split further; neighboring bundles never shift boundaries.
 export function authoringGroups(
@@ -175,7 +63,7 @@ export async function ensureBundlePack(
   scope: AssetScope = 'authoring',
 ) {
   const names = scope === 'runtime' && pin.bundles.runtime ? ['runtime'] : Object.keys(pin.bundles);
-  const held = await cache.lease('pack-' + pin.sha256 + '-' + scope),
+  const held = await cache.lease('pack-' + pin.sha256 + '-' + scope, 0, false, true),
     parts: Awaited<ReturnType<typeof ensurePack>>[] = [];
   try {
     if (scope === 'authoring') {

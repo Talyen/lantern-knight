@@ -22,13 +22,16 @@ const FileDeliverySchema = z.strictObject({
   sha256: hash,
   bytes: bytes.positive().max(64 * 1024 ** 2),
 });
-const archiveFields = {
-  releaseTag: z.string().regex(/^assets-[a-f0-9]{16}$/),
-  filename: z.literal('lantern-assets.tar.gz'),
+const identityFields = {
   sha256: hash,
   inventorySha256: hash,
   bytes: bytes.positive(),
   recipeSha256: hash,
+};
+const archiveFields = {
+  releaseTag: z.string().regex(/^assets-[a-f0-9]{16}$/),
+  filename: z.literal('lantern-assets.tar.gz'),
+  ...identityFields,
 };
 export const ArchiveLockSchema = z.strictObject({ schemaVersion: z.literal(1), ...archiveFields });
 type ArchiveLock = z.infer<typeof ArchiveLockSchema>;
@@ -71,8 +74,44 @@ export const LockSchema = z.union([
       )
         ctx.addIssue({ code: 'custom', message: 'Invalid bundle preparation identity' });
     }),
+  z
+    .strictObject({
+      schemaVersion: z.literal(4),
+      ...identityFields,
+      preparation,
+      fileDelivery: FileDeliverySchema,
+    })
+    .superRefine((pin, ctx) => {
+      if (
+        createHash('sha256').update(JSON.stringify(pin.preparation.inputs)).digest('hex') !==
+        pin.preparation.recipeSha256
+      )
+        ctx.addIssue({ code: 'custom', message: 'Invalid file preparation identity' });
+    }),
 ]);
 export type AssetLock = z.infer<typeof LockSchema>;
+export type ArchivePin = Exclude<AssetLock, { schemaVersion: 4 }>;
+export type FilePin = Extract<AssetLock, { schemaVersion: 3 | 4 }>;
+export type FilePublicationIdentity = Pick<
+  FilePin,
+  'sha256' | 'inventorySha256' | 'bytes' | 'recipeSha256' | 'preparation'
+> & { fileDelivery?: z.infer<typeof FileDeliverySchema> };
+export function filePin(
+  source: FilePublicationIdentity,
+  fileDelivery: NonNullable<FilePin['fileDelivery']>,
+) {
+  const pin = LockSchema.parse({
+    schemaVersion: 4,
+    sha256: source.sha256,
+    inventorySha256: source.inventorySha256,
+    bytes: source.bytes,
+    recipeSha256: source.recipeSha256,
+    preparation: source.preparation,
+    fileDelivery,
+  });
+  if (pin.schemaVersion !== 4) throw new Error('Expected file delivery pin');
+  return pin;
+}
 export const acceptedRecipe = (lock: AssetLock) =>
   lock.schemaVersion !== 1 ? lock.preparation.recipeSha256 : lock.recipeSha256;
 export type PackInventory = {
@@ -104,7 +143,7 @@ export function preparationPin(
     ...fields
   } = archive as AssetLock & { preparation?: unknown };
   return LockSchema.parse({
-    schemaVersion: archive.schemaVersion === 3 ? 3 : 2,
+    schemaVersion: archive.schemaVersion >= 3 ? archive.schemaVersion : 2,
     ...fields,
     preparation: {
       recipeSha256: createHash('sha256').update(JSON.stringify(inputs)).digest('hex'),
@@ -297,13 +336,17 @@ export async function installMutex<T>(root: string, work: () => Promise<T>) {
   return await work();
 }
 export async function ensurePack(
-  lock: AssetLock,
+  lock: ArchivePin,
   cache = new AssetCache(),
   request: typeof fetch = fetch,
   url = `https://github.com/Talyen/lantern-knight/releases/download/${lock.releaseTag}/${lock.filename}`,
 ) {
-  const held = await cache.lease('pack-' + lock.sha256);
+  const held = await cache.lease('pack-' + lock.sha256, 0, false, true);
   try {
+    try {
+      await validateCachedPack(held.root, lock);
+      return held;
+    } catch {}
     await installMutex(held.root, async () => {
       try {
         await validateCachedPack(held.root, lock);
@@ -375,7 +418,7 @@ export async function installMatchingPreparation(
   }
   if (prepared.sha256 !== lock.sha256 || prepared.inventorySha256 !== lock.inventorySha256)
     return false;
-  const held = await cache.lease('preparation');
+  const held = await cache.lease('preparation', 0, false, true);
   const incoming = path.join(destination.root, '.incoming-' + randomUUID());
   await using _scopeExit1 = onAsyncExit(async () => {
     await fs.rm(incoming, { recursive: true, force: true });

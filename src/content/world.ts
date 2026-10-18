@@ -158,13 +158,6 @@ export function surfaceGradient(area: AreaDefinition, x: number, z: number) {
     slope = inside ? (s.endHeight - s.startHeight) / (s.end - s.start) : 0;
   return { x: s.axis === 'x' ? slope : 0, z: s.axis === 'z' ? slope : 0 };
 }
-export {
-  contains,
-  boundaryContains,
-  clampToBoundary,
-  supportedPosition,
-  isSupportedPosition,
-} from './collision';
 const ids = /^[a-z0-9][a-z0-9_-]*$/;
 export class ContentRegistry {
   readonly definitions: ContentSnapshot<ContentDefinitions>;

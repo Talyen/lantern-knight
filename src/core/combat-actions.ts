@@ -4,7 +4,7 @@ import { heightAt, type AreaDefinition, type Point } from '../content/world';
 import type { Actor, State } from './actor';
 import type { EventDetails, DamageType, DamagePhase } from './events';
 import { selectAuthoredDirection } from '../content/headings';
-import { clearSegment } from './navigation';
+import { clearSegment } from '../content/collision';
 import type { AcceptedCommand } from './command';
 
 // Borrow current actors and room capabilities; combat cannot replace the room,

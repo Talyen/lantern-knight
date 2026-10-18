@@ -2,7 +2,7 @@ import { rectangle } from '../fixtures/ground';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { artworkFloorLayout } from '../../src/content/floor-layout';
-import { boundaryContains, clampToBoundary, supportedPosition } from '../../src/content/world';
+import { boundaryContains, clampToBoundary, supportedPosition } from '../../src/content/collision';
 import { cameraContract } from '../../src/assets/camera-contract';
 
 test('single paintings cover one complete image and retain the displayed aspect ratio', () => {

@@ -7,7 +7,7 @@ import { source as definition } from '../definition';
 import { heroTimings } from '../../../src/content/hero-actions';
 import scaleRecipe from '../../../authoring/hero-scale.json';
 import cursorRecipe from '../../../authoring/hero-cursor.json';
-import { heroFrameScales, scaleHeroRegistration } from '../hero-scale';
+import { actorFrameScales, scaleActorRegistration } from '../actor-scale';
 import type { PreparationContext } from '../context';
 import { preparationOutput } from '../preparation-output';
 export async function prepare(context: PreparationContext, check = false) {
@@ -63,7 +63,7 @@ export async function prepare(context: PreparationContext, check = false) {
     )
       throw new Error(`Invalid hero cursor contacts: ${clip.id}/${clip.heading}`);
   }
-  const scales = heroFrameScales(scaleRecipe, handoff.clips);
+  const scales = actorFrameScales(scaleRecipe, handoff.clips);
   const base = definition(
     'ink-hero-current',
     'character',
@@ -106,7 +106,7 @@ export async function prepare(context: PreparationContext, check = false) {
       path: file,
       origin: 'imported-study',
       attachments: lantern ? { lantern: [lantern[0]!, lantern[1]!] } : {},
-      registration: scaleHeroRegistration(record.registration, scales.get(record.id)!),
+      registration: scaleActorRegistration(record.registration, scales.get(record.id)!),
     });
   }
   for (const clip of handoff.clips) {

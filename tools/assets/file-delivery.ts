@@ -1,17 +1,18 @@
-import { onExit } from '../scope-exit';
+import { onExit, onAsyncExit } from '../scope-exit';
 import { downloadFile } from './download';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { gunzipSync } from 'node:zlib';
 import { z } from 'zod';
-import { AssetCache, diskBytes } from './cache';
+import { AssetCache } from './cache';
 import { safeRelative } from './files';
 import { fileSignature } from '../verified-files';
 import { shaFile } from './sources';
-import { type AssetLock, payloadDigest } from './pack';
+import { type FilePin, payloadDigest } from './pack';
+import { createReadStream, createWriteStream } from 'node:fs';
+import { pipeline } from 'node:stream/promises';
 
-type BundlePin = Extract<AssetLock, { schemaVersion: 3 }>;
 const hash = z.string().regex(/^[a-f0-9]{64}$/);
 export const FileCatalogSchema = z.strictObject({
   schemaVersion: z.literal(1),
@@ -72,18 +73,20 @@ export function parseFileCatalog(value: unknown, payloadSha256: string) {
 }
 
 export async function openFileWorkspace(
-  pin: BundlePin,
+  pin: FilePin,
   cache = new AssetCache(),
   request: typeof fetch = fetch,
 ) {
   const delivery = pin.fileDelivery;
   if (!delivery) throw new Error('Missing individual file delivery');
-  const held = await cache.lease('files-' + delivery.sha256);
+  const held = await cache.lease('files-' + delivery.sha256, 0, false, true);
   const lifetime = new AbortController();
   const pending = new Map<string, Promise<boolean>>();
   const objects = new Map<string, Promise<void>>();
   const proofs = new Map<string, string>();
   let catalogPromise: Promise<FileCatalog> | undefined;
+  let basePromise: Promise<Awaited<ReturnType<AssetCache['lease']>> | undefined> | undefined;
+  let baseLease: Awaited<ReturnType<AssetCache['lease']>> | undefined;
   let active = 0;
   const waiting: (() => void)[] = [];
   const slot = async <T>(work: () => Promise<T>) => {
@@ -113,7 +116,7 @@ export async function openFileWorkspace(
   // Accounting follows unique hashes; aliases are hardlinks, not extra copies.
   let initialBytes: number;
   try {
-    initialBytes = await diskBytes(held.root);
+    initialBytes = await held.residentBytes();
   } catch (error) {
     await held.release();
     throw error;
@@ -162,6 +165,43 @@ export async function openFileWorkspace(
       catalogPromise = undefined;
       throw error;
     }));
+  const reuseComplete = async (relative: string, info: { bytes: number; sha256: string }) => {
+    basePromise ??= (async () => {
+      const name = 'pack-' + pin.sha256 + '-authoring';
+      try {
+        const stat = await fs.lstat(path.join(cache.root, 'entries', name, 'pack.json'));
+        if (!stat.isFile() || stat.isSymbolicLink()) return undefined;
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code === 'ENOENT') return undefined;
+        throw error;
+      }
+      return (baseLease = await cache.lease(name, 0, false, true));
+    })();
+    const base = await basePromise;
+    lifetime.signal.throwIfAborted();
+    if (!base) return false;
+    const source = path.join(base.root, relative);
+    // The catalog authenticates each file independently; no whole-pack scan is
+    // needed to reuse one matching local image, even if other files are absent.
+    if (!(await valid(source, info))) {
+      // A detected corrupt/partial cache loses immutable accounting as well.
+      // The next admission sees its current bytes before downloading a repair.
+      await base.reserve(0);
+      return false;
+    }
+    await reserve('cached-links', 65536);
+    lifetime.signal.throwIfAborted();
+    const target = path.join(held.root, relative);
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    const temporary = target + '.' + randomUUID();
+    try {
+      await fs.link(source, temporary);
+      await fs.rename(temporary, target);
+    } finally {
+      await fs.rm(temporary, { force: true });
+    }
+    return true;
+  };
   const ensure = async (relative: string) => {
     lifetime.signal.throwIfAborted();
     const index = await catalog();
@@ -171,16 +211,18 @@ export async function openFileWorkspace(
     // Verified files already belong to initialBytes and the active lease.
     // Only installing or repairing bytes needs additional growth admission.
     if (await valid(target, info)) return true;
-    await reserve(info.sha256, info.bytes);
+    if (await reuseComplete(relative, info)) return true;
     let object = objects.get(info.sha256);
     if (!object) {
       object = slot(async () => {
         const file = path.join(held.root, 'objects', info.sha256);
-        if (!(await valid(file, info)))
+        if (!(await valid(file, info))) {
+          await reserve(info.sha256, info.bytes);
           await downloadFile(containerURL(info.container), info, file, request, lifetime.signal, {
             offset: info.offset,
             totalBytes: index.containers[info.container]!.bytes,
           });
+        }
       }).finally(() => objects.delete(info.sha256));
       objects.set(info.sha256, object);
     }
@@ -196,7 +238,80 @@ export async function openFileWorkspace(
     }
     return true;
   };
+  const materializeAll = () => {
+    const existing = pending.get('materialize-all');
+    if (existing) return existing;
+    const task = (async () => {
+      const index = await catalog();
+      const groups = new Map<string, Map<string, (typeof index.files)[string]>>();
+      for (const [name, info] of Object.entries(index.files)) {
+        if (await valid(path.join(held.root, name), info)) continue;
+        if (await reuseComplete(name, info)) continue;
+        const group = groups.get(info.container) ?? new Map();
+        group.set(info.sha256, info);
+        groups.set(info.container, group);
+      }
+      // Full authoring acquisition fetches each immutable container once. Normal
+      // previews still fetch only the exact ranges they request.
+      for (const [hash, group] of groups) {
+        lifetime.signal.throwIfAborted();
+        const missing = [];
+        for (const info of group.values())
+          if (!(await valid(path.join(held.root, 'objects', info.sha256), info)))
+            missing.push(info);
+        if (missing.length) {
+          const temporary = path.join(held.root, '.container-' + randomUUID());
+          for (const info of missing) await reserve(info.sha256, info.bytes);
+          await reserve('container', index.containers[hash]!.bytes);
+          try {
+            await slot(() =>
+              downloadFile(
+                containerURL(hash),
+                {
+                  sha256: hash,
+                  bytes: index.containers[hash]!.bytes,
+                },
+                temporary,
+                request,
+                lifetime.signal,
+              ),
+            );
+            await fs.mkdir(path.join(held.root, 'objects'), { recursive: true });
+            for (const info of missing) {
+              lifetime.signal.throwIfAborted();
+              const object = path.join(held.root, 'objects', info.sha256);
+              const incoming = object + '.' + randomUUID();
+              try {
+                if (info.bytes === 0) await fs.writeFile(incoming, '');
+                else
+                  await pipeline(
+                    createReadStream(temporary, {
+                      start: info.offset,
+                      end: info.offset + info.bytes - 1,
+                    }),
+                    createWriteStream(incoming, { flags: 'wx' }),
+                    { signal: lifetime.signal },
+                  );
+                if (!(await valid(incoming, info))) throw new Error('Container file hash differs');
+                await fs.rename(incoming, object);
+              } finally {
+                await fs.rm(incoming, { force: true });
+              }
+            }
+          } finally {
+            await fs.rm(temporary, { force: true });
+            sizes.delete('container');
+          }
+        }
+      }
+      for (const name of Object.keys(index.files)) await ensure(name);
+    })();
+    const completion = task.then(() => true).finally(() => pending.delete('materialize-all'));
+    pending.set('materialize-all', completion);
+    return completion;
+  };
   return {
+    materializeAll,
     root: held.root,
     publicDirectory: path.join(held.root, 'public'),
     metadataDirectory: path.join(held.root, 'metadata'),
@@ -219,6 +334,9 @@ export async function openFileWorkspace(
         ...objects.values(),
         ...(catalogPromise ? [catalogPromise] : []),
       ]);
+      await using cleanup = onAsyncExit(async () => {
+        await baseLease?.release();
+      });
       await held.release();
     },
   };

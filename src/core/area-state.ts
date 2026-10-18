@@ -1,12 +1,7 @@
 import { z } from 'zod';
 import { rewardSchema } from '../content/interactions';
-import {
-  type ContentRegistry,
-  type AreaDefinition,
-  type Point,
-  contains,
-  isSupportedPosition,
-} from '../content/world';
+import { type ContentRegistry, type AreaDefinition, type Point } from '../content/world';
+import { contains, isSupportedPosition } from '../content/collision';
 import { effectiveRadius, supportedPosition, clearSegment } from '../content/collision';
 import type { ContentSnapshot } from '../content/snapshot';
 import { tuning } from '../content/gameplay';

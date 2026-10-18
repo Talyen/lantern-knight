@@ -11,7 +11,7 @@ import { digest, sourceInputHash } from '../source-identity';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
 import { parseGame } from '../../src/core/save';
-import { supportedPosition } from '../../src/content/world';
+import { supportedPosition } from '../../src/content/collision';
 import { clearSegment, isSupportedPosition } from '../../src/content/collision';
 import { PacingSchema, pacingAcceptance } from './pacing-model';
 import { installPacingRecorder, readPacingRecorder } from './pacing-recorder';

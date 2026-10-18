@@ -1,7 +1,7 @@
 import type { Simulation } from './simulation';
 import type { SimulationView } from './simulation-view';
 import type { AreaDefinition, Point } from '../content/world';
-import { clearSegment } from './navigation';
+import { clearSegment } from '../content/collision';
 import { heightAt } from '../content/world';
 import { tuning } from '../content/gameplay';
 import { items } from '../content/items';

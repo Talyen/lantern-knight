@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { randomUUID } from 'node:crypto';
+import { gzipSync, gunzipSync } from 'node:zlib';
 import { safeRelative } from './files';
 import { cacheRoot, CACHE_LIMIT, projectRoot } from './paths';
 
@@ -18,17 +19,10 @@ function alive(value: Owner) {
     return (error as NodeJS.ErrnoException).code !== 'ESRCH';
   }
 }
-async function diskUsage(
-  root: string,
-  physicalSeen = new Set<string>(),
-  logicalSeen = new Set<string>(),
-): Promise<{ logical: number; physical: number }> {
-  let logical = 0,
-    physical = 0;
+type Footprint = [string, number][];
+async function footprint(root: string, omitLeases = false): Promise<Footprint> {
+  const files = new Map<string, number>();
   const pending = [root];
-  // Bound both directory and file metadata requests. Library pages are spread
-  // across thousands of small directories, rather than one flat file list.
-  // Drain from the end so each batch avoids shifting the remaining directory queue.
   while (pending.length) {
     await Promise.all(
       pending.splice(-16).map(async (directory) => {
@@ -40,48 +34,44 @@ async function diskUsage(
           throw error;
         }
         for (let offset = 0; offset < names.length; offset += 64) {
-          const batch = names.slice(offset, offset + 64);
-          if (batch.some((entry) => entry.isSymbolicLink()))
-            throw new Error('Cache contains a symbolic link');
-          const stats = await Promise.all(
-            batch.map((entry) =>
-              entry.isDirectory()
-                ? Promise.resolve(undefined)
-                : fs
-                    .stat(path.join(directory, entry.name))
-                    .catch((error: NodeJS.ErrnoException) => {
-                      if (error.code === 'ENOENT') return undefined;
-                      throw error;
-                    }),
-            ),
+          await Promise.all(
+            names.slice(offset, offset + 64).map(async (entry) => {
+              if (entry.isSymbolicLink()) throw new Error('Cache contains a symbolic link');
+              const file = path.join(directory, entry.name);
+              if (entry.isDirectory()) {
+                if (!(omitLeases && directory === root && entry.name === '.leases'))
+                  pending.push(file);
+                return;
+              }
+              const stat = await fs.lstat(file).catch((error: NodeJS.ErrnoException) => {
+                if (error.code === 'ENOENT') return undefined;
+                throw error;
+              });
+              if (!stat) return;
+              if (!stat.isFile() || stat.isSymbolicLink()) throw new Error('Unexpected cache file');
+              files.set(stat.ino ? `${stat.dev}:${stat.ino}` : file, stat.size);
+            }),
           );
-          for (const [index, entry] of batch.entries()) {
-            const file = path.join(directory, entry.name);
-            if (entry.isDirectory()) pending.push(file);
-            else {
-              // Candidate writers atomically replace files during lease acquisition.
-              const stat = stats[index];
-              if (!stat) continue;
-              const key = stat.ino ? `${stat.dev}:${stat.ino}` : file;
-              if (!logicalSeen.has(key)) {
-                logicalSeen.add(key);
-                logical += stat.size;
-              }
-              if (!physicalSeen.has(key)) {
-                physicalSeen.add(key);
-                physical += stat.size;
-              }
-            }
-          }
         }
       }),
     );
   }
-  return { logical, physical };
+  return [...files];
 }
 export async function diskBytes(root: string, seen = new Set<string>()) {
-  return (await diskUsage(root, seen)).physical;
+  let bytes = 0;
+  for (const [key, size] of await footprint(root))
+    if (!seen.has(key)) {
+      seen.add(key);
+      bytes += size;
+    }
+  return bytes;
 }
+const stamp = async (root: string) => {
+  const stat = await fs.lstat(root);
+  if (!stat.isDirectory() || stat.isSymbolicLink()) throw new Error('Unexpected cache entry');
+  return `${stat.dev}:${stat.ino}:${stat.mtimeMs}:${stat.ctimeMs}`;
+};
 export class AssetCache {
   async prunePreviews(prefix: string, current: string) {
     if (!/^preview-[a-f0-9]{20}$/.test(prefix) || !current.startsWith(prefix + '-'))
@@ -105,8 +95,10 @@ export class AssetCache {
           name !== current &&
           name !== prefix + '-index' &&
           !(await active(name))
-        )
+        ) {
           await fs.rm(path.join(entries, name), { recursive: true, force: true });
+          await fs.rm(this.inventoryFile(name), { force: true });
+        }
     });
   }
   constructor(
@@ -200,34 +192,97 @@ export class AssetCache {
     await using _cleanup1 = onAsyncExit(() => fs.rm(lock, { recursive: true, force: true }));
     return await work();
   }
+  private inventoryFile(name: string) {
+    return path.join(this.root, '.inventory', name + '.json.gz');
+  }
+  private async inventory(root: string, mutable: boolean) {
+    const file = this.inventoryFile(path.basename(root));
+    const signature = await stamp(root);
+    if (!mutable) {
+      try {
+        const value = JSON.parse(
+          gunzipSync(await fs.readFile(file), { maxOutputLength: 128 * 1024 ** 2 }).toString(),
+        );
+        if (
+          value.version === 1 &&
+          value.stamp === signature &&
+          Array.isArray(value.files) &&
+          value.files.every(
+            (item: unknown) =>
+              Array.isArray(item) &&
+              item.length === 2 &&
+              typeof item[0] === 'string' &&
+              Number.isSafeInteger(item[1]) &&
+              item[1] >= 0,
+          )
+        )
+          return value.files as Footprint;
+      } catch (error) {
+        // The inventory is disposable accounting metadata. Missing or damaged
+        // records are rebuilt from the entry, never trusted as zero bytes.
+        if ((error as NodeJS.ErrnoException).code === 'EACCES') throw error;
+      }
+    }
+    const files = await footprint(root, true);
+    if (!mutable) await this.saveInventory(root, files);
+    return files;
+  }
+  private async saveInventory(root: string, files: Footprint) {
+    const file = this.inventoryFile(path.basename(root));
+    const body = gzipSync(
+      Buffer.from(JSON.stringify({ version: 1, stamp: await stamp(root), files })),
+    );
+    await fs.mkdir(path.dirname(file), { recursive: true });
+    const temporary = file + '.' + randomUUID() + '.tmp';
+    try {
+      await fs.writeFile(temporary, body);
+      await fs.rename(temporary, file);
+    } catch (error) {
+      if (!['ENOSPC', 'EDQUOT'].includes((error as NodeJS.ErrnoException).code ?? '')) throw error;
+      // A disposable index must not turn successful lease release into a disk
+      // allocation failure. Its absence forces filesystem accounting next time.
+      await fs.rm(file, { force: true });
+    } finally {
+      await fs.rm(temporary, { force: true });
+    }
+  }
   private async entries() {
     const directory = path.join(this.root, 'entries');
     await fs.mkdir(directory, { recursive: true });
     const entries = [];
-    const seen = new Set<string>();
     for (const name of await fs.readdir(directory)) {
       const root = path.join(directory, name);
-      if (!(await fs.lstat(root)).isDirectory()) throw new Error('Unexpected cache entry');
+      await stamp(root);
       const leaseDir = path.join(root, '.leases');
       let used = false,
+        mutable = false,
+        abandonedWriter = false,
         reserved = 0;
       await fs.mkdir(leaseDir, { recursive: true });
       for (const lease of await this.leaseFiles(leaseDir)) {
         const file = path.join(leaseDir, lease),
-          value = (await readJson(file)) as Owner & { bytes: number };
+          value = (await readJson(file)) as Owner & { bytes: number; readOnly?: boolean };
         if (alive(value)) {
           used = true;
+          mutable ||= value.readOnly !== true;
           reserved = Math.max(reserved, value.bytes);
-        } else await fs.unlink(file);
+        } else {
+          abandonedWriter ||= value.readOnly !== true;
+          await fs.unlink(file);
+        }
       }
-      const { logical, physical } = await diskUsage(root, seen);
+      const data = await this.inventory(root, mutable || abandonedWriter);
+      if (abandonedWriter && !mutable) await this.saveInventory(root, data);
+      const files = new Map(data);
+      for (const [key, bytes] of await footprint(leaseDir)) files.set(key, bytes);
+      const logical = [...files.values()].reduce((a, b) => a + b, 0);
       entries.push({
         name,
         root,
         used,
         bytes: Math.max(logical, reserved),
         logical,
-        physical,
+        files,
         reserved,
         at: (await fs.stat(root)).mtimeMs,
       });
@@ -262,22 +317,39 @@ export class AssetCache {
     preferred = bytes,
   ) {
     let entries = knownEntries ?? (await this.entries());
+    // Count shared inodes once and retain their references through eviction.
+    // Removing a hardlink must not subtract bytes still owned by another entry.
+    const inodes = new Map<string, { bytes: number; references: number }>();
+    for (const entry of entries)
+      for (const [key, size] of entry.files) {
+        const old = inodes.get(key);
+        inodes.set(key, {
+          bytes: Math.max(size, old?.bytes ?? 0),
+          references: (old?.references ?? 0) + 1,
+        });
+      }
     const required = () =>
+      [...inodes.values()].reduce((sum, inode) => sum + inode.bytes, 0) +
       entries.reduce(
         (sum, e) =>
           sum +
-          e.physical +
           Math.max(0, (e.name === name ? Math.max(bytes, e.reserved) : e.reserved) - e.logical),
         0,
-      ) + (entries.some((e) => e.name === name) ? 0 : bytes);
-    const overhead = await this.overheadBytes();
+      ) +
+      (entries.some((e) => e.name === name) ? 0 : bytes);
+    let overhead = await this.overheadBytes();
     let total = overhead + required();
     const evictable = entries.filter((e) => e.name !== name && !e.used).sort((a, b) => a.at - b.at);
     for (const e of evictable) {
       if (total <= this.limit) break;
       await fs.rm(e.root, { recursive: true, force: true });
-      // Shared inodes may still belong to a live entry after this path is removed.
-      entries = await this.entries();
+      await fs.rm(this.inventoryFile(e.name), { force: true });
+      for (const key of e.files.keys()) {
+        const inode = inodes.get(key)!;
+        if (--inode.references === 0) inodes.delete(key);
+      }
+      entries = entries.filter((entry) => entry !== e);
+      overhead = await this.overheadBytes();
       total = overhead + required();
     }
     if (total > this.limit)
@@ -301,7 +373,7 @@ export class AssetCache {
       ),
     );
   }
-  async lease(name: string, bytes = 0, exclusive = false) {
+  async lease(name: string, bytes = 0, exclusive = false, readOnly = false) {
     safeRelative(name);
     if (name.includes('/')) throw new Error('Cache entry name must be a single component');
     if (!Number.isSafeInteger(bytes) || bytes < 0 || bytes > this.limit)
@@ -340,12 +412,33 @@ export class AssetCache {
         await this.makeRoom(name, Math.max(bytes, existing?.bytes ?? 0), entries);
       }
       await fs.mkdir(path.dirname(file), { recursive: true });
-      await this.writeJSON(file, { ...owner(), bytes });
+      // Preserve the known payload footprint across read-only LRU touches.
+      let mutablePeer = false;
+      for (const peer of await this.leaseFiles(path.dirname(file))) {
+        const value = await readJson(path.join(path.dirname(file), peer));
+        if (value.readOnly !== true) mutablePeer = true;
+      }
+      const known = readOnly && !mutablePeer ? await this.inventory(root, false) : undefined;
+      if (!readOnly || mutablePeer) await fs.rm(this.inventoryFile(name), { force: true });
+      await this.writeJSON(file, { ...owner(), bytes, readOnly });
       await fs.utimes(root, new Date(), new Date());
+      if (known) await this.saveInventory(root, known);
     });
     let released = false;
     return {
       root,
+      residentBytes: () =>
+        this.locked(async () => {
+          let mutable = false;
+          for (const peer of await this.leaseFiles(path.dirname(file))) {
+            const value = await readJson(path.join(path.dirname(file), peer));
+            if (value.readOnly !== true) mutable = true;
+          }
+          const data = await this.inventory(root, mutable);
+          return (
+            data.reduce((sum, item) => sum + item[1], 0) + (await diskBytes(path.dirname(file)))
+          );
+        }),
       sole: async () =>
         this.locked(async () => {
           for (const entry of await this.leaseFiles(path.dirname(file)))
@@ -362,7 +455,9 @@ export class AssetCache {
           // Release can win the mutex while this reservation waits for admission.
           if (released) throw new Error('Invalid cache reservation');
           await this.makeRoom(name, bytes);
-          await this.writeJSON(file, { ...owner(), bytes });
+          await this.writeJSON(file, { ...owner(), bytes, readOnly: false });
+          readOnly = false;
+          await fs.rm(this.inventoryFile(name), { force: true });
         });
       },
       reserveUpTo: async (bytes: number, preferred: number) => {
@@ -378,14 +473,26 @@ export class AssetCache {
         return this.locked(async () => {
           if (released) throw new Error('Invalid cache reservation');
           const granted = await this.makeRoom(name, bytes, undefined, preferred);
-          await this.writeJSON(file, { ...owner(), bytes: granted });
+          await this.writeJSON(file, { ...owner(), bytes: granted, readOnly: false });
+          readOnly = false;
+          await fs.rm(this.inventoryFile(name), { force: true });
           return granted;
         });
       },
       release: async () => {
         if (released) return;
         released = true;
-        await this.locked(() => fs.rm(file, { force: true }));
+        await this.locked(async () => {
+          await fs.rm(file, { force: true });
+          const peers = await this.leaseFiles(path.dirname(file));
+          for (const peer of peers) {
+            const value = await readJson(path.join(path.dirname(file), peer));
+            if (alive(value) && value.readOnly !== true) return;
+          }
+          // Writers close only after their admitted writes settle. Refresh just
+          // this entry once; unrelated immutable payloads retain their inventory.
+          await this.inventory(root, !readOnly).then((files) => this.saveInventory(root, files));
+        });
       },
     };
   }
@@ -400,6 +507,7 @@ export class AssetCache {
       for (const e of await this.entries())
         if (!e.used && !keep.has(e.name)) {
           await fs.rm(e.root, { recursive: true, force: true });
+          await fs.rm(this.inventoryFile(e.name), { force: true });
           removed++;
         }
       return removed;
@@ -410,7 +518,16 @@ export class AssetCache {
       const entries = await this.entries();
       return (
         (await this.overheadBytes()) +
-        entries.reduce((sum, e) => sum + e.physical + Math.max(0, e.reserved - e.logical), 0)
+        [
+          ...entries
+            .reduce((files, entry) => {
+              for (const [key, bytes] of entry.files)
+                files.set(key, Math.max(bytes, files.get(key) ?? 0));
+              return files;
+            }, new Map<string, number>())
+            .values(),
+        ].reduce((a, b) => a + b, 0) +
+        entries.reduce((sum, e) => sum + Math.max(0, e.reserved - e.logical), 0)
       );
     });
   }

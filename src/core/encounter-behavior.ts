@@ -8,7 +8,7 @@ import {
 import { visibilityBreakpoints } from '../content/collision';
 import type { ContentSnapshot } from '../content/snapshot';
 import { tuning } from '../content/gameplay';
-import { clearSegment } from './navigation';
+import { clearSegment } from '../content/collision';
 import type { TraversalPolicy } from './navigation';
 import type { Actor } from './actor';
 

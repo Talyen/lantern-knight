@@ -3,8 +3,9 @@ import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { AssetCache } from './cache';
 import { projectRoot } from './paths';
-import { readLock, ensurePack, type AssetLock } from './pack';
-import { ensureBundlePack, type AssetScope } from './bundles';
+import { readLock, type AssetLock } from './pack';
+import { acquirePinnedPack } from './pinned';
+import { type AssetScope } from './bundles';
 import { openDemandWorkspace } from './demand';
 import { prototypeAssets } from './preview';
 
@@ -18,15 +19,6 @@ export type AssetWorkspace = {
   ensurePublicFile?: (relative: string) => Promise<boolean>;
   release: () => Promise<void>;
 };
-async function acquirePinnedPack(
-  lock: AssetLock,
-  cache = new AssetCache(),
-  scope: AssetScope = 'authoring',
-) {
-  return lock.schemaVersion === 3
-    ? ensureBundlePack(lock, cache, fetch, scope)
-    : ensurePack(lock, cache);
-}
 export async function openWorkspace(
   mode: 'pinned' | 'local' = 'pinned',
   scope: AssetScope = 'runtime',
@@ -37,7 +29,9 @@ export async function openWorkspace(
   const fallback =
     demand && scope === 'authoring'
       ? async (lock: AssetLock) =>
-          lock.schemaVersion === 3 ? openDemandWorkspace(lock, cache) : undefined
+          lock.schemaVersion === 3 || lock.schemaVersion === 4
+            ? openDemandWorkspace(lock, cache)
+            : undefined
       : undefined;
   if (mode === 'pinned' && fallback) {
     const workspace = await fallback(await readLock());

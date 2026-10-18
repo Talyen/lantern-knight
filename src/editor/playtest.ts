@@ -15,8 +15,9 @@ import {
   type SceneSnapshot,
 } from '../content/scene-document';
 import type { Bridge } from '../platform/bridge';
-import { heightAt, isSupportedPosition } from '../content/world';
-import { Navigation, effectiveRadius } from '../core/navigation';
+import { heightAt } from '../content/world';
+import { isSupportedPosition, effectiveRadius } from '../content/collision';
+import { Navigation } from '../core/navigation';
 type Host = {
   document: () => SceneSnapshot;
   compose: (snapshot: SceneSnapshot) => { registry: ContentRegistry; scenes: SceneContent };

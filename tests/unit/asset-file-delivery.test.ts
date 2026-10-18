@@ -13,12 +13,14 @@ import { openFileWorkspace, parseFileCatalog } from '../../tools/assets/file-del
 import { downloadFile } from '../../tools/assets/download';
 import { buildFileCatalog, publishIndividualFiles } from '../../tools/assets/file-publication';
 import {
+  filePin,
   preparationPin,
   payloadDigest,
   PackSchema,
   LockSchema,
   type AssetLock,
 } from '../../tools/assets/pack';
+import { acquirePinnedPack } from '../../tools/assets/pinned';
 import { inventoryCandidate } from '../../tools/assets/archive';
 
 const sha = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
@@ -551,7 +553,12 @@ test('an already published file pin verifies remote ranges without acquiring or 
     target,
     f.request,
   );
-  assert.deepEqual(JSON.parse(await fs.readFile(target, 'utf8')), JSON.parse(before));
+  const upgraded = LockSchema.parse(JSON.parse(await fs.readFile(target, 'utf8')));
+  assert.equal(upgraded.schemaVersion, 4);
+  assert.deepEqual(upgraded.preparation, JSON.parse(before).preparation);
+  assert.deepEqual(upgraded.fileDelivery, JSON.parse(before).fileDelivery);
+  assert.equal(upgraded.sha256, f.pin.sha256);
+  assert.ok(!('bundles' in upgraded));
   assert.equal(
     f.calls.filter((call) => !call.range).length,
     1,
@@ -592,4 +599,110 @@ test('container construction falls back to one worker when the cache grants only
   );
   assert.equal(peak, 1);
   assert.deepEqual(catalog, f.catalog, 'serial fallback delivers the same deterministic catalog');
+});
+
+test('version 4 full acquisition downloads each container once and then works offline', async (t) => {
+  const f = await fixture(t);
+  const pin = filePin(f.pin, f.pin.fileDelivery!);
+  const workspace = await acquirePinnedPack(pin, f.cache, 'authoring', f.request);
+  for (const [name, bytes] of Object.entries(f.entries))
+    assert.deepEqual(await fs.readFile(path.join(workspace.root, name)), bytes);
+  assert.equal(f.calls.filter((call) => call.range).length, 0);
+  assert.equal(f.calls.length, Object.keys(f.catalog.containers).length + 1);
+  await workspace.release();
+  const offline = await acquirePinnedPack(pin, f.cache, 'authoring', async () => {
+    throw new Error('complete acquisition must be reusable offline');
+  });
+  await offline.release();
+});
+
+test('complete acquisition rejects a corrupt container before installing its files', async (t) => {
+  const f = await fixture(t);
+  const workspace = await openFileWorkspace(
+    filePin(f.pin, f.pin.fileDelivery!),
+    f.cache,
+    async (url, init) => {
+      const response = await f.request(url, init);
+      if ((url instanceof Request ? url.url : url.toString()).endsWith('files.json.gz'))
+        return response;
+      const bytes = Buffer.from(await response.arrayBuffer());
+      bytes[0] = bytes[0]! ^ 255;
+      return new Response(bytes);
+    },
+  );
+  await assert.rejects(workspace.materializeAll(), /hash or size differs/);
+  await workspace.release();
+  await assert.rejects(fs.access(workspace.publicDirectory), { code: 'ENOENT' });
+  assert.deepEqual(await fs.readdir(path.join(workspace.root, '.leases')), []);
+  assert.ok(!(await fs.readdir(workspace.root)).some((name) => name.startsWith('.container-')));
+});
+
+test('complete acquisition coalesces calls and disposal drains its cancelled transport', async (t) => {
+  const f = await fixture(t);
+  const started = Promise.withResolvers<void>();
+  const workspace = await openFileWorkspace(
+    filePin(f.pin, f.pin.fileDelivery!),
+    f.cache,
+    async (url, init) => {
+      if ((url instanceof Request ? url.url : url.toString()).endsWith('files.json.gz'))
+        return f.request(url, init);
+      started.resolve();
+      return new Promise<Response>((_resolve, reject) => {
+        init!.signal!.addEventListener(
+          'abort',
+          () => reject(new DOMException('Aborted', 'AbortError')),
+          { once: true },
+        );
+      });
+    },
+  );
+  const pending = workspace.materializeAll();
+  assert.equal(workspace.materializeAll(), pending);
+  const rejected = assert.rejects(pending, /abort/i);
+  await started.promise;
+  await workspace.release();
+  await rejected;
+  assert.deepEqual(await fs.readdir(path.join(workspace.root, '.leases')), []);
+});
+
+test('demand acquisition verifies and links complete cached files before requesting image bytes', async (t) => {
+  const f = await fixture(t);
+  const complete = await f.cache.lease('pack-' + f.pin.sha256 + '-authoring');
+  for (const [name, bytes] of Object.entries(f.entries)) {
+    const target = path.join(complete.root, name);
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    await fs.writeFile(target, bytes);
+  }
+  await fs.writeFile(path.join(complete.root, 'pack.json'), '{}');
+  await complete.release();
+  const workspace = await openFileWorkspace(
+    filePin(f.pin, f.pin.fileDelivery!),
+    f.cache,
+    f.request,
+  );
+  await workspace.ensurePublicFile('generated/tree/page.png');
+  assert.deepEqual(
+    f.calls.map((call) => call.file),
+    ['files.json.gz'],
+  );
+  assert.equal(
+    (await fs.stat(path.join(workspace.publicDirectory, 'generated/tree/page.png'))).ino,
+    (await fs.stat(path.join(complete.root, 'public/generated/tree/page.png'))).ino,
+  );
+  await fs.writeFile(
+    path.join(complete.root, 'public/generated/other/page.png'),
+    'corrupt local cache',
+  );
+  await workspace.ensurePublicFile('generated/other/page.png');
+  assert.equal(
+    f.calls.filter((call) => call.range).length,
+    1,
+    'a corrupt local file still needs verified delivery',
+  );
+  assert.deepEqual(
+    await fs.readFile(path.join(workspace.publicDirectory, 'generated/other/page.png')),
+    f.entries['public/generated/other/page.png'],
+  );
+  await workspace.release();
+  assert.deepEqual(await fs.readdir(path.join(complete.root, '.leases')), []);
 });
