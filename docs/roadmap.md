@@ -34,6 +34,7 @@ Keep the [combat](game-design.md#combat-feel), [Burn](game-design.md#damage-type
 Address the largest observed combat or navigation friction before extending the adventure. Music and weaknesses remain deferred.
 
 - **Next adventure milestone — needs design.** Choose a bounded destination, encounter, authored reward and stopping point, with a clear route into and out of the existing adventure. Define the scope before producing another scene; destinations and bosses remain uncommitted. Follow [world structure](game-design.md#world-structure).
+- **Persistent world conditions — future direction.** Start with one authored shortcut, milestone or mechanism that must survive travel, reload and encounter respawn. Give GameSession a small typed checkpoint condition and connect it to the relevant interaction/navigation behavior. Reuse existing inventory or claim state when sufficient; no general quest framework. Follow [world structure](game-design.md#world-structure).
 - **Progression and equipment expansion — needs design.** Build on [universal upgrades](game-design.md#universal-upgrades) with deliberately authored higher ranks and rewards. Define meaningful equipment effects, later upgrades and recipes, including whether Bone has a deliberate use. Keep currently cosmetic slots cosmetic until their effects and comparisons are designed; do not add recipes solely to consume an unused material. Follow [character progression](game-design.md#character-progression) and [equipment](game-design.md#equipment).
 
 ## Later

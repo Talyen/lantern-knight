@@ -335,6 +335,9 @@ export class Simulation {
   start(a: Actor, state: State, yaw = a.aim) {
     this.#combat.start(a, state, yaw);
   }
+  cancelSpells() {
+    this.#combat.cancelSpells();
+  }
   startSword(a: Actor, kind = a.nextAttack) {
     this.#combat.startSword(a, kind);
   }

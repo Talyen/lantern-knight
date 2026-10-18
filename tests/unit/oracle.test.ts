@@ -226,7 +226,7 @@ test('forge ring reward is one-time and spell actions do not enter version-11 sa
   assert.equal(restored.enemies[0]!.state, 'idle');
 });
 
-test('session loading freezes a cast, while committed retry and rest leave no spell', () => {
+test('room loading cancels a cast even if cancelled; retry and rest leave no spell', () => {
   const session = new GameSession(content, 142, 'ruined-forge');
   const sim = session.sim;
   sim.enemies
@@ -239,9 +239,13 @@ test('session loading freezes a cast, while committed retry and rest leave no sp
   assert.equal(sim.ribLanes.length, 1);
   const age = sim.ribLanes[0]!.age;
   const plan = session.prepareReset();
+  assert.equal(sim.ribLanes.length, 0);
+  assert.equal(sim.enemies.find((a) => a.definition.id === 'candlebone-oracle')!.state, 'idle');
   session.step(idle);
-  assert.equal(sim.ribLanes[0]!.age, age);
-  session.commitRoom(plan);
+  session.cancelRoom(plan);
+  assert.equal(sim.ribLanes.length, 0);
+  assert.ok(age > 0);
+  session.resetCurrentArea();
   assert.equal(session.sim.ribLanes.length, 0);
   const fire = session.sim.areaDefinition.campfires![0]!;
   Object.assign(session.sim.hero, { x: fire.x, z: fire.z });

@@ -232,6 +232,7 @@ export class GameSession {
     return sim;
   }
   private prepareRoom(state: RoomState, outcome: EventDetails, transition = false): RoomPlan {
+    this.sim.cancelSpells();
     const destination = state.sim.area;
     const plan = Object.freeze({
       sourceGeneration: this.generation,

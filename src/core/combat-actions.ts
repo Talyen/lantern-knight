@@ -51,6 +51,9 @@ export class CombatActions {
   clear() {
     this.lanes.clear();
   }
+  cancelSpells() {
+    for (const source of this.lanes.keys()) this.start(source, 'idle', source.yaw);
+  }
   beginTick() {
     const actors = this.world.actors();
     if (!actors.some((a) => a.kind === 'hero' && a.health > 0)) this.lanes.clear();
