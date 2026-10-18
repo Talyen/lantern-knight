@@ -155,7 +155,13 @@ test('campfire improvements save atomically, remain independent and work in diff
   await page.locator('#menu-start').click();
   await page.keyboard.press('i');
   await page.locator('[data-action="slot-sword"]').click();
-  await expect(page.locator('.inventory-detail')).toContainText('Damage 52');
+  await expect(
+    page.locator('.inventory-detail').getByRole('img', { name: 'Damage 52', exact: true }),
+  ).toBeVisible();
   await page.locator('[data-action="slot-lantern"]').click();
-  await expect(page.locator('.inventory-detail')).toContainText('Damage 56 per enemy');
+  await expect(
+    page
+      .locator('.inventory-detail')
+      .getByRole('img', { name: 'Damage 56 per enemy', exact: true }),
+  ).toBeVisible();
 });
