@@ -658,6 +658,9 @@
   font: 1.4em var(--font-display);
   color: #c1c3b2;
 }
+.adventure-panel .inventory-columns:has(.item-conditional-comparison) {
+  grid-template-rows: minmax(140px, 1fr) min(calc(310px * var(--ui-scale)), 42dvh);
+}
 .adventure-panel .empty-detail span,
 .adventure-panel .item-description .item-kind {
   color: var(--sage);

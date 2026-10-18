@@ -108,8 +108,10 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await expect(detail).toContainText('Sword hits deal 25% more damage to burning enemies.');
   await expect(detail).toContainText('26 → 33');
   await capture('cinder-comparison-1280');
+  await expect(detail.locator('.item-comparison').last()).toBeInViewport({ ratio: 1 });
   await detail.getByRole('combobox', { name: 'Equip to' }).selectOption('ring2');
   await expect(detail).toContainText('Maximum health 120 → 110');
+  await expect(detail.locator('.item-comparison').last()).toBeInViewport({ ratio: 1 });
   await detail.getByRole('button', { name: 'Equip', exact: true }).click();
   await pick('Orchard Ring');
   await detail.getByRole('combobox', { name: 'Equip to' }).selectOption('ring2');
@@ -131,8 +133,8 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await page.setViewportSize({ width: 640, height: 800 });
   await pick('Cinder Signet');
   await expect(detail).toContainText('26 → 33');
-  await expect(detail.locator('.item-comparison').last()).toBeInViewport({ ratio: 1 });
   await capture('cinder-comparison-640');
+  await expect(detail.locator('.item-comparison').last()).toBeInViewport({ ratio: 1 });
   await pick('Orchard Ring');
   await expect(detail.getByRole('button', { name: 'Equip', exact: true })).toBeInViewport({
     ratio: 1,

@@ -513,7 +513,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       ${item.kind === 'material' && html`<p class="item-effect">Upgrade material</p>`}
       ${slots && (item.maxHealth || (replacedId && items[replacedId]!.maxHealth)) ? html`<p class="item-comparison">Maximum health <strong>${app.sim.maxHealth} → ${projectedHealth} <small>(${projectedHealth - app.sim.maxHealth >= 0 ? '+' : ''}${projectedHealth - app.sim.maxHealth})</small></strong></p>` : false}
       ${item.burningSwordBonusPercent && html`<p class="item-effect">Sword hits deal ${item.burningSwordBonusPercent}% more damage to burning enemies.</p>`}
-      ${compareBurn && html`<p class="item-comparison">Sword damage against burning enemies <strong>${burningDamage(app.session.equipment)} → ${burningDamage(projectedEquipment)}</strong></p>`}
+      ${compareBurn && html`<p class="item-comparison item-conditional-comparison">Sword damage against burning enemies <strong>${burningDamage(app.session.equipment)} → ${burningDamage(projectedEquipment)}</strong></p>`}
       ${id === 'sword' && html`<p class="item-effect">Damage ${damage('sword', app.session.upgrades)}</p>`}
       ${id === 'lantern' && html`<p class="item-effect">Damage ${damage('lantern', app.session.upgrades)} per enemy</p>`}
       ${item.kind === 'potion' && html`<p class="item-effect">Restores 40 health</p>`}
