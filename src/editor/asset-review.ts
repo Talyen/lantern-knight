@@ -187,7 +187,7 @@ export class AssetReview {
         : visible.length === 1 && flags.some((flag) => flag.scene === visible[0]!.document.id)
           ? 'Replace in this scene'
           : flags.length
-            ? `${flags.length} replacement flags`
+            ? `${flags.length} replacement ${flags.length === 1 ? 'flag' : 'flags'}`
             : `${usages.length} ${usages.length === 1 ? 'scene' : 'scenes'}`;
       const canvas = html<HTMLCanvasElement>`<canvas width="192" height="112" data-asset="${asset}" data-clip="${usages[0]?.assets.get(asset)?.clips[0] ?? ''}" aria-hidden="true"></canvas>`;
       const button = html<HTMLButtonElement>`<button class="review-asset" data-asset="${asset}" aria-pressed="${String(this.selected === asset)}">${canvas}<span>${this.label(asset)}</span><small>${badge}</small></button>`;

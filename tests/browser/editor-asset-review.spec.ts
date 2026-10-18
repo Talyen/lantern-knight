@@ -18,10 +18,11 @@ test('asset review focuses scene uses and persists scoped notes with conflict re
   const savedSceneId = 'review-disk-' + Date.now();
   const sceneFile = path.join(projectRoot, 'authoring/scenes', savedSceneId + '.json');
   const fixture = sceneFixture('graveyard');
-  fixture.id = 'review-fixture';
+  fixture.id = 'review-current-' + Date.now();
   fixture.name = 'Review fixture';
   fixture.objects = fixture.objects.slice(0, 1);
   fixture.objects.push({ ...fixture.objects[0]!, id: 'second-tomb', x: 3, z: 3 });
+  const currentSceneFile = path.join(projectRoot, 'authoring/scenes', fixture.id + '.json');
   try {
     await fs.writeFile(file, JSON.stringify({ version: 1, entries: [] }));
     await fs.writeFile(
@@ -31,6 +32,10 @@ test('asset review focuses scene uses and persists scoped notes with conflict re
     await openEditor(page);
     await importEditorScene(page, fixture);
     await waitForEditorIdle(page);
+    await page.locator('#save').click();
+    await page.locator('#file-id').fill(fixture.id);
+    await page.locator('#confirm-save').click();
+    await expect(page.locator('#save-state')).toHaveText('Saved', { timeout: 30000 });
     const before = await readEditorDocument(page);
     await page.locator('#review-tab').click();
     await expect(page.locator('#review-feedback')).toContainText('Queue loaded', {
@@ -41,7 +46,10 @@ test('asset review focuses scene uses and persists scoped notes with conflict re
     await page.locator('#review-gallery button').click();
     await expect(page.locator('#review-usages')).toContainText('2 placements');
     await expect(page.locator('#review-clip')).toHaveValue('tomb');
-    await page.locator('#review-usages button').filter({ hasText: 'Review fixture' }).click();
+    await page
+      .locator('#review-usages button')
+      .filter({ hasText: /^Imported Review fixture/ })
+      .click();
     await expect(page.locator('#review-tab')).toHaveAttribute('aria-selected', 'true');
     expect(await page.evaluate(() => window.sceneEditor.state().selected)).toBe('second-tomb');
     await page.locator('#review-notes').fill('Too ornate; use a plain stone instead.');
@@ -59,6 +67,9 @@ test('asset review focuses scene uses and persists scoped notes with conflict re
     await page.locator('#review-notes').fill('Retire the whole set.');
     await page.locator('#review-save').click();
     await expect(page.locator('#review-feedback')).toContainText('saved');
+    await page.locator('#name').fill(before.name + ' draft');
+    await page.locator('#name').dispatchEvent('change');
+    await waitForEditorIdle(page);
     await page.reload();
     await waitForEditor(page);
     // Restore the imported scene from the existing document recovery.
@@ -73,7 +84,7 @@ test('asset review focuses scene uses and persists scoped notes with conflict re
     await page.locator('#review-gallery button').click();
     await page.locator('#review-target').selectOption('everywhere');
     await expect(page.locator('#review-notes')).toHaveValue('Retire the whole set.');
-    await expect(page.locator('#review-flags')).toContainText('Replace in Review fixture');
+    await expect(page.locator('#review-flags')).toContainText(`Replace in ${before.name}`);
     await expect(page.locator('#review-flags')).toContainText('Retire everywhere');
 
     // Another editor changes the file while this one holds an earlier revision.
@@ -127,6 +138,7 @@ test('asset review focuses scene uses and persists scoped notes with conflict re
     await page.screenshot({ path: '/tmp/lantern-asset-review.png' });
   } finally {
     await fs.rm(sceneFile, { force: true });
+    await fs.rm(currentSceneFile, { force: true });
     if (original) await fs.writeFile(file, original);
     else await fs.rm(file, { force: true });
   }

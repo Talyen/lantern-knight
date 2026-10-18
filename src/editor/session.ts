@@ -1549,7 +1549,13 @@ export function createEditorSession() {
           const center = view.presentation.center;
           center.set(
             usage.points.reduce((sum, p) => sum + p.x, 0) / usage.points.length,
-            1.8,
+            usage.points.reduce(
+              (sum, point) =>
+                sum + (view.sim ? heightAt(view.sim.areaDefinition, point.x, point.z) : 0),
+              0,
+            ) /
+              usage.points.length +
+              1.8,
             usage.points.reduce((sum, p) => sum + p.z, 0) / usage.points.length,
           );
           view.render();
