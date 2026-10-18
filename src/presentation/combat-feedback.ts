@@ -16,7 +16,8 @@ import { attackDefinition } from '../content/gameplay';
 import { selectDirection, selectAuthoredDirection } from '../content/headings';
 import { clipDuration } from '../core/animation';
 import type { EventHub, GameplayEvent } from '../core/events';
-import type { SimulationView } from '../core/simulation-view';
+import type { ActorView, SimulationView } from '../core/simulation-view';
+import type { Visual } from './actor-presentation';
 import type { AssetPack } from '../assets/loader';
 
 type ActiveEffect = {
@@ -26,7 +27,8 @@ type ActiveEffect = {
   position: T.Vector3;
   reverse: boolean;
   scale: number;
-  kind: 'sweep' | 'contact' | 'flare' | 'lunge' | 'dodge';
+  kind: 'sweep' | 'contact' | 'flare' | 'lunge' | 'dodge' | 'enemy-swing';
+  tint?: number;
   rotation?: number;
   action?: number;
   sweepTiming?: SweepTiming;
@@ -36,11 +38,23 @@ export class CombatFeedback {
   sweepEnabled = true;
   dodgeTreatment: 'dust' | 'leaves' | 'combined' = 'combined';
   readonly flareLight = { position: new T.Vector3(), power: 0, range: 7 };
+  readonly cameraKick = new T.Vector3();
+  private readonly reducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
   private pulse: { tick: number; generation: number; action: number } | undefined;
   private active: ActiveEffect[] = [];
   private prepared = new Map<string, ActorSprite>();
   private disposed = false;
-  private pending: (GameplayEvent & { kind: 'damage' })[] = [];
+  private pending: GameplayEvent[] = [];
+  private impacts: {
+    target: ActorView;
+    tick: number;
+    direction: T.Vector3;
+    burn: boolean;
+    heavy: boolean;
+    frame?: string;
+  }[] = [];
   private generation = -1;
   private castTag = '';
   private unsubscribe: () => void;
@@ -50,7 +64,10 @@ export class CombatFeedback {
     events: EventHub,
   ) {
     this.unsubscribe = events.subscribe((event) => {
-      if (event.kind === 'damage' && event.amount > 0 && event.phase !== 'over-time')
+      if (
+        (event.kind === 'damage' && event.amount > 0 && event.phase !== 'over-time') ||
+        event.kind === 'strike'
+      )
         this.pending.push(event);
     });
   }
@@ -112,25 +129,78 @@ export class CombatFeedback {
     this.group.add(sprite.mesh);
     this.active.push({ ...effect, sprite, duration: effect.duration ?? clipDuration(clip) });
   }
-  update(sim: SimulationView, alpha = 1, heroSprite?: ActorSprite) {
+  update(
+    sim: SimulationView,
+    alpha = 1,
+    heroSprite?: ActorSprite,
+    actors?: ReadonlyMap<string, Visual>,
+  ) {
+    if (this.disposed) return;
     if (this.generation !== sim.generation) {
       for (const effect of this.active) effect.sprite.dispose();
       this.active = [];
       this.castTag = '';
       this.pulse = undefined;
+      this.impacts = [];
       this.generation = sim.generation;
       this.primePrepared();
     }
     for (const event of this.pending) {
       if (event.generation !== sim.generation) continue;
+      const source = sim.actors.find((actor) => actor.id === event.actor);
+      if (event.kind === 'strike') {
+        if (source?.kind !== 'enemy') continue;
+        const heading = selectDirection(event.direction + Math.PI / 4)
+          .slice(1)
+          .padStart(3, '0');
+        this.emit(settings.sweep.asset, `sword_finisher_03__d${heading}`, {
+          kind: 'enemy-swing',
+          start: event.tick - 2,
+          position: new T.Vector3(...event.position).add(
+            new T.Vector3(Math.sin(event.direction) * 0.45, 0.45, Math.cos(event.direction) * 0.45),
+          ),
+          duration: source.definition.poise ? 230 : 160,
+          scale: source.definition.poise ? 0.7 : 0.48,
+          reverse: settings.sweep.reverse,
+          tint: 0xe8b99c,
+        });
+        continue;
+      }
+      if (event.kind !== 'damage') continue;
       const target = sim.actors.find((actor) => actor.id === event.target);
       if (!target) continue;
+      const direction = new T.Vector3(
+        target.x - event.position[0],
+        0,
+        target.z - event.position[2],
+      );
+      if (direction.lengthSq() < 0.0001)
+        direction.set(Math.sin(event.direction), 0, Math.cos(event.direction));
+      direction.normalize();
+      const burn = event.damageType === 'burn',
+        heavy =
+          burn ||
+          !!source?.definition.poise ||
+          (source?.kind === 'hero' && source.attackKind === 'lunge') ||
+          target.health <= 0;
+      // Replace a target's impulse instead of stacking displacement in a crowd.
+      this.impacts = this.impacts.filter((impact) => impact.target !== target);
+      this.impacts.push({ target, tick: event.tick, direction, burn, heavy });
       this.emit(settings.contact.asset, settings.contact.clip, {
         start: event.tick,
-        position: new T.Vector3(target.x, target.y + settings.contact.height, target.z),
-        scale: settings.contact.scale,
+        // The impact is a camera-facing card; lift it ahead of the actor's
+        // vertical cutout while retaining depth tests against the room.
+        position: new T.Vector3(
+          target.x,
+          target.y + settings.contact.height,
+          target.z,
+        ).addScaledVector(outward, 0.38),
+        duration: burn ? 230 : heavy ? 190 : 150,
+        scale: settings.contact.scale * (burn ? 1.3 : heavy ? 1.2 : 1),
         reverse: false,
         kind: 'contact',
+        tint: burn ? 0xffc279 : target.kind === 'hero' ? 0xffbb9e : 0xffebbe,
+        rotation: Math.atan2(direction.dot(up), direction.dot(right)) - Math.PI / 4,
       });
     }
     this.pending = [];
@@ -265,13 +335,15 @@ export class CombatFeedback {
         this.active.splice(i, 1);
       } else {
         const phase =
-          effect.kind === 'flare'
-            ? elapsed < 100
-              ? (elapsed / 100) * 0.57
-              : 0.57 + ((elapsed - 100) / 250) * 0.43
-            : effect.sweepTiming
-              ? sweepEffectPhase(effect.sweepTiming, elapsed)
-              : elapsed / effect.duration;
+          effect.kind === 'contact'
+            ? 0.08 + (0.92 * elapsed) / effect.duration
+            : effect.kind === 'flare'
+              ? elapsed < 100
+                ? (elapsed / 100) * 0.57
+                : 0.57 + ((elapsed - 100) / 250) * 0.43
+              : effect.sweepTiming
+                ? sweepEffectPhase(effect.sweepTiming, elapsed)
+                : elapsed / effect.duration;
         effect.sprite.animator.seek(
           (effect.reverse ? 1 - phase : phase) * clipDuration(effect.sprite.animator.clip),
         );
@@ -301,8 +373,61 @@ export class CombatFeedback {
             .applyQuaternion(effect.sprite.mesh.quaternion);
           effect.sprite.mesh.position.sub(offset);
         }
+        effect.sprite.material.color.set(effect.tint ?? 0xffffff);
+        effect.sprite.edgeMaterial?.color.copy(effect.sprite.material.color);
         effect.sprite.material.opacity =
-          effect.kind === 'dodge' ? 0.55 * Math.min(1, (effect.duration - elapsed) / 100) : 1;
+          effect.kind === 'dodge'
+            ? 0.55 * Math.min(1, (effect.duration - elapsed) / 100)
+            : effect.kind === 'contact' || effect.kind === 'enemy-swing'
+              ? Math.min(1, (effect.duration - elapsed) / 60)
+              : 1;
+      }
+    }
+    const now = sim.tick - 1 + alpha;
+    this.cameraKick.set(0, 0, 0);
+    this.impacts = this.impacts.filter(
+      (impact) => sim.actors.includes(impact.target) && now - impact.tick < 16,
+    );
+    for (const impact of this.impacts) {
+      const visual = actors?.get(impact.target.id);
+      if (!visual) continue;
+      const age = Math.max(0, now - impact.tick),
+        // Quick outward impulse, a small counter-settle, then the supplied pose.
+        kick =
+          age < 2
+            ? 0.65 + (0.35 * age) / 2
+            : Math.exp(-(age - 2) / 3.2) * Math.cos((age - 2) * 0.42),
+        distance =
+          (impact.target.definition.poise && !impact.burn && impact.target.health > 0
+            ? 0.045
+            : impact.heavy
+              ? 0.16
+              : 0.11) * kick,
+        flash = Math.max(0, 1 - age / 5);
+      if (
+        age < 2 &&
+        (!impact.target.definition.poise || impact.burn || impact.target.health <= 0)
+      ) {
+        impact.frame ??= visual.sprite.animator.frame;
+        visual.sprite.show(impact.frame, visual.sprite.mesh.position.clone(), this.camera);
+      }
+      visual.sprite.mesh.position.addScaledVector(impact.direction, distance);
+      visual.sprite.mesh.rotateZ(-impact.direction.dot(right) * kick * 0.035);
+      visual.sprite.material.color
+        .lerp(
+          new T.Color(impact.burn ? 0xffd29a : impact.target.kind === 'hero' ? 0xffc2ad : 0xfff0ce),
+          flash * 0.8,
+        )
+        .multiplyScalar(1 + flash * 0.45);
+      visual.sprite.edgeMaterial?.color.copy(visual.sprite.material.color);
+      if (!this.reducedMotion) {
+        const strength =
+            (impact.target.kind === 'hero' ? 0.085 : impact.heavy ? 0.045 : 0.025) * kick,
+          offset = right
+            .clone()
+            .multiplyScalar(impact.direction.dot(right) * strength)
+            .addScaledVector(up, -strength * 0.35);
+        if (offset.lengthSq() > this.cameraKick.lengthSq()) this.cameraKick.copy(offset);
       }
     }
   }
@@ -310,9 +435,11 @@ export class CombatFeedback {
     for (const effect of this.active) effect.sprite.dispose();
     this.active = [];
     this.pending = [];
+    this.impacts = [];
     this.castTag = '';
     this.pulse = undefined;
     this.flareLight.power = 0;
+    this.cameraKick.set(0, 0, 0);
     this.primePrepared();
   }
   dispose() {

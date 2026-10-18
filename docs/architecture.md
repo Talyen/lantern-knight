@@ -165,7 +165,11 @@ Presentation borrows `SimulationView` from `src/core/simulation-view.ts`, with r
 
 ### Transient effects
 
-CombatFeedback uses interpolated action time for supplied Flare, Lunge and Dodge drawings. Flare has a separate warm light slot, rising for 100 ms before damage and fading over 250 ms afterward; it does not alter the steady lantern or damage rules. Guiding wind crossfades route snapshots, runs for eight seconds in a twelve-second cycle and shares a local breeze with foliage and smoke. Developer visual comparisons select autumn gust, falling leaves or their combination, and dust, leaves or combined Dodge trails.
+CombatFeedback uses interpolated action time for supplied Flare, Lunge and Dodge drawings. Flare has a separate warm light slot, rising for 100 ms before damage and fading over 250 ms afterward; it does not alter the steady lantern or damage rules.
+
+Confirmed direct hits compress Contact Shear into a short directional burst, hold the struck drawing for two ticks, then settle a bounded visual recoil; Physical hits preserve an armored enemy's uninterrupted attack. Flare hits use a warmer, broader contact. Enemy strike events play a smaller warm sweep even on a miss, while tightening windup rings and a short body follow-through mark commitment. Burn ticks never replay impact feedback. Render-only camera impulses select the strongest current hit instead of stacking and respect reduced-motion preferences; they are restored before input or camera framing borrows the camera. Room reset clears pending events, held drawings, recoil and camera impulses together.
+
+Guiding wind crossfades route snapshots, runs for eight seconds in a twelve-second cycle and shares a local breeze with foliage and smoke. Developer visual comparisons select autumn gust, falling leaves or their combination, and dust, leaves or combined Dodge trails.
 
 ### Asset ownership and disposal
 

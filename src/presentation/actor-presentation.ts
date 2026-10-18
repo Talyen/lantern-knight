@@ -333,11 +333,9 @@ export class ActorPresentation {
       v.sprite.rigidSword = options.rigidSword;
       const winding =
         a.kind === 'enemy' && a.state === 'attack' && a.age < a.definition.melee.windup;
-      // A single late lift preserves the supplied palette, including neutral armor.
-      const poisedAccent =
-        winding && a.definition.poise
-          ? Math.max(0, (a.age / a.definition.melee.windup - 0.5) * 2)
-          : 0;
+      const charge = winding ? Math.max(0, (a.age / a.definition.melee.windup - 0.45) / 0.55) : 0;
+      // One accelerating accent makes the commitment readable without blinking.
+      const poisedAccent = charge * charge * (a.definition.poise ? 1 : 0.65);
       v.sprite.material.color.set(binding.tint).multiplyScalar(1 + poisedAccent * 0.35);
       v.sprite.showAnimation(
         foot,
@@ -345,6 +343,15 @@ export class ActorPresentation {
         v.sprite.manifest.asset.id === 'ink-hero-current' ? options.animationTreatment : 'original',
         options.animationFlow,
       );
+      if (a.kind === 'enemy' && a.state === 'attack') {
+        const timing = attackDefinition(a),
+          afterContact = a.age - 1 + alpha - timing.windup,
+          thrust = afterContact >= 0 ? Math.max(0, 1 - afterContact / 10) : -charge * 0.45;
+        v.sprite.mesh.position.addScaledVector(
+          new T.Vector3(Math.sin(a.yaw), 0, Math.cos(a.yaw)),
+          thrust * (a.definition.poise ? 0.12 : 0.09),
+        );
+      }
       v.sprite.mesh.visible =
         a.health > 0 || a.kind === 'hero' || a.age < tuning.enemyDeathHoldTicks;
       const gradient = surfaceGradient(sim.areaDefinition, x, z);
@@ -355,7 +362,7 @@ export class ActorPresentation {
       v.shadow.visible = a.health > 0;
       v.ring.position.set(foot.x, foot.y + 0.035, foot.z);
       v.ring.visible = options.debug || winding || !!a.burn;
-      v.ring.scale.setScalar(winding ? 1 + (0.4 * a.age) / a.definition.melee.windup : 1);
+      v.ring.scale.setScalar(winding ? 1.65 - 0.55 * charge * charge : 1);
       const material = v.ring.material as T.MeshBasicMaterial;
       // An ongoing status must not obscure the next committed attack.
       material.color.set(winding ? 0xe5c37d : a.burn ? 0xe9a45f : 0xc1645f);

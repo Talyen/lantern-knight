@@ -409,10 +409,19 @@ export class GamePresentation implements PresentationLifecycle {
       this.visuals,
       this.guidingWind.breeze,
     );
-    this.combatFeedback.update(sim, alpha, heroSprite);
+    this.combatFeedback.update(sim, alpha, heroSprite, this.actorPresentation.actors);
     this.flareLight.position.copy(this.combatFeedback.flareLight.position);
     this.flareLight.intensity = this.combatFeedback.flareLight.power * 4;
-    this.renderFrame(sim, ms);
+    // A render-only impulse never enters follow framing or pointer projection.
+    const cameraKick = this.combatFeedback.cameraKick.clone();
+    this.camera.position.add(cameraKick);
+    this.camera.updateMatrixWorld();
+    try {
+      this.renderFrame(sim, ms);
+    } finally {
+      this.camera.position.sub(cameraKick);
+      this.camera.updateMatrixWorld();
+    }
     // Observers may dispose or replace the room. Publish only after every
     // borrower has finished touching this frame's resources.
     if (!this.disposed && this.generation === sim.generation) this.events.publish(events);

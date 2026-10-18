@@ -28,7 +28,10 @@ import { actors as actorDefinitions } from '../../src/content/actors';
 import { ActorSprite } from '../../src/presentation/sprite';
 import { SceneLightingRenderer } from '../../src/presentation/scene-lighting-renderer';
 import { CombatFeedback } from '../../src/presentation/combat-feedback';
-import { combatEffectAssets } from '../../src/content/combat-feedback';
+import {
+  combatFeedback as feedbackSettings,
+  combatEffectAssets,
+} from '../../src/content/combat-feedback';
 
 test('combat shader representatives prime offscreen in the beauty pass and survive resets until disposal', () => {
   const texture = new CanvasTexture({} as HTMLCanvasElement),
@@ -289,8 +292,13 @@ test('animation observers can shut down presentation only after the complete fra
     roomPresentation: { room },
     guidingWind: { update: () => {} },
     sceneEffects: { update: () => {} },
-    combatFeedback: { update: () => {}, flareLight: { position: new Vector3(), power: 0 } },
+    combatFeedback: {
+      update: () => {},
+      cameraKick: new Vector3(0.04, 0.02, 0),
+      flareLight: { position: new Vector3(), power: 0 },
+    },
     renderFrame: () => {
+      assert.deepEqual(camera.position.toArray(), [0.04, 0.02, 0]);
       assert.equal(
         closed,
         false,
@@ -306,6 +314,7 @@ test('animation observers can shut down presentation only after the complete fra
   });
   hub.setGeneration(sim.generation);
   hub.subscribe(() => {
+    assert.deepEqual(camera.position.toArray(), [0, 0, 0], 'Observers borrow the unshifted camera');
     calls.push('notify');
     presentation.dispose();
     hub.dispose();
@@ -544,4 +553,191 @@ test('enemy travel-direction changes retain the existing movement animation phas
   enemy.yaw = Math.PI;
   update();
   assert.equal(v.sprite.animator.time, 137);
+});
+
+function impactFixture(t: import('node:test').TestContext, reducedMotion = false) {
+  mockGlobals(t, { window: { matchMedia: () => ({ matches: reducedMotion }) } });
+  const fixture = actorFixture(t),
+    hub = new EventHub(),
+    texture = new CanvasTexture({} as HTMLCanvasElement),
+    packs = new Map(
+      combatEffectAssets.map((asset) => {
+        const manifest = manifestFixture(asset);
+        manifest.asset.type = 'effect';
+        const clip = manifest.asset.clips.idle!.d45!;
+        manifest.asset.clips[feedbackSettings.contact.clip] = { d45: clip };
+        for (const heading of HEADINGS)
+          manifest.asset.clips[`sword_finisher_03__d${heading.slice(1).padStart(3, '0')}`] = {
+            d45: clip,
+          };
+        return [asset, { manifest, textures: new Map([['atlas-0', texture]]) }] as const;
+      }),
+    ),
+    feedback = new CombatFeedback(packs, new OrthographicCamera(), hub);
+  hub.setGeneration(fixture.sim.generation);
+  t.after(() => {
+    feedback.dispose();
+    hub.dispose();
+    texture.dispose();
+  });
+  const render = () => {
+    fixture.update();
+    feedback.update(fixture.sim.view, 1, undefined, fixture.presentation.actors);
+  };
+  return { ...fixture, hub, feedback, render };
+}
+
+test('direct hits react on either side without moving combat bodies, settle, and do not replay for Burn', (t) => {
+  const { sim, hub, feedback, presentation, render } = impactFixture(t);
+  const enemy = sim.enemies[0]!;
+  Object.assign(sim.hero, { x: 0, px: 0, z: 0, pz: 0 });
+  Object.assign(enemy, { x: 1, px: 1, z: 0, pz: 0 });
+  for (const [source, target] of [
+    [sim.hero, enemy],
+    [enemy, sim.hero],
+  ] as const) {
+    sim.tick += 20;
+    const event = sim.emit(source, {
+      kind: 'damage',
+      target: target.id,
+      amount: 8,
+      damageType: 'physical',
+      phase: 'direct',
+    });
+    assert.equal(event.kind, 'damage');
+    if (event.kind !== 'damage') throw new Error('Expected damage event');
+    hub.publish([event]);
+    const body = { x: target.x, z: target.z, health: target.health, age: target.age };
+    render();
+    const sprite = presentation.actors.get(target.id)!.sprite;
+    assert.notEqual(sprite.mesh.position.x, target.x);
+    assert.ok(feedback.cameraKick.length() > 0);
+    assert.ok(feedback.group.children.some((mesh) => mesh.name === 'combat-contact'));
+    assert.deepEqual({ x: target.x, z: target.z, health: target.health, age: target.age }, body);
+    const offset = sprite.mesh.position.x;
+    render();
+    assert.equal(
+      sprite.mesh.position.x,
+      offset,
+      'repainting a paused tick cannot accumulate recoil',
+    );
+    sim.tick += 20;
+    render();
+    assert.equal(sprite.mesh.position.x, target.x);
+    assert.equal(feedback.cameraKick.length(), 0);
+    assert.equal(feedback.group.children.length, 0);
+    hub.publish([
+      {
+        ...event,
+        key: event.key + ':burn',
+        tick: sim.tick,
+        damageType: 'burn',
+        phase: 'over-time',
+      },
+    ]);
+    render();
+    assert.equal(feedback.group.children.length, 0);
+    assert.equal(feedback.cameraKick.length(), 0);
+  }
+});
+
+test('enemy misses have a swing but no hit reaction, and reset discards queued and active feedback', (t) => {
+  const { sim, hub, feedback, render } = impactFixture(t);
+  const enemy = sim.enemies[0]!;
+  hub.publish([sim.emit(enemy, { kind: 'strike' })]);
+  render();
+  assert.deepEqual(
+    feedback.group.children.map((mesh) => mesh.name),
+    ['combat-enemy-swing'],
+  );
+  assert.equal(feedback.cameraKick.length(), 0);
+  hub.publish([
+    sim.emit(enemy, {
+      kind: 'damage',
+      target: sim.hero.id,
+      amount: 8,
+      damageType: 'physical',
+      phase: 'direct',
+    }),
+  ]);
+  feedback.reset();
+  render();
+  assert.equal(feedback.group.children.length, 0);
+  assert.equal(feedback.cameraKick.length(), 0);
+  hub.publish([sim.emit(enemy, { kind: 'strike' })]);
+  feedback.dispose();
+  render();
+  assert.equal(feedback.group.children.length, 0);
+});
+
+test('reduced motion keeps contact feedback while suppressing camera impulses', (t) => {
+  const { sim, hub, feedback, render } = impactFixture(t, true);
+  hub.publish([
+    sim.emit(sim.enemies[0]!, {
+      kind: 'damage',
+      target: sim.hero.id,
+      amount: 8,
+      damageType: 'physical',
+      phase: 'direct',
+    }),
+  ]);
+  render();
+  assert.ok(feedback.group.children.some((mesh) => mesh.name === 'combat-contact'));
+  assert.equal(feedback.cameraKick.length(), 0);
+});
+
+test('the contact drawing holds for two ticks and stale actor identities cannot retain an impulse', (t) => {
+  const { sim, hub, feedback, presentation, render } = impactFixture(t);
+  render();
+  const enemy = sim.enemies[0]!,
+    sprite = presentation.actors.get(enemy.id)!.sprite;
+  const first = sprite.animator.frame;
+  sprite.frameIndex.set('after-contact', { ...sprite.frameIndex.get(first)!, id: 'after-contact' });
+  Object.assign(sprite.animator.clip, { frames: [first, 'after-contact'], durationsMs: [16, 184] });
+  sprite.animator.seek(0);
+  hub.publish([
+    sim.emit(sim.hero, {
+      kind: 'damage',
+      target: enemy.id,
+      amount: 8,
+      damageType: 'physical',
+      phase: 'direct',
+    }),
+  ]);
+  render();
+  assert.equal(sprite.lastFrame, first);
+  sim.tick++;
+  sprite.animator.seek(50);
+  render();
+  assert.equal(sprite.lastFrame, first, 'hold the supplied drawing while the simulation continues');
+  sim.tick += 2;
+  render();
+  assert.equal(sprite.lastFrame, 'after-contact');
+  const replacement = sim.create(enemy.id, 'enemy', enemy.x, enemy.z, enemy.definition.id);
+  sim.actors[1] = replacement;
+  render();
+  assert.equal(feedback.cameraKick.length(), 0);
+  assert.equal(presentation.actors.get(enemy.id)!.sprite.mesh.position.x, replacement.x);
+});
+
+test('Flare impact weight is independent of the previous sword attack', (t) => {
+  const { sim, hub, feedback, render } = impactFixture(t);
+  const strengths: number[] = [];
+  for (const attackKind of ['sweep', 'lunge'] as const) {
+    sim.tick += 20;
+    sim.hero.attackKind = attackKind;
+    hub.publish([
+      sim.emit(sim.hero, {
+        kind: 'damage',
+        target: sim.enemies[0]!.id,
+        amount: 16,
+        damageType: 'burn',
+        phase: 'direct',
+      }),
+    ]);
+    render();
+    strengths.push(feedback.cameraKick.length());
+  }
+  assert.ok(strengths[0]! > 0);
+  assert.equal(strengths[0], strengths[1]);
 });

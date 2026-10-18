@@ -133,7 +133,7 @@ Timing choices share the 100 ms damage window, hit area, damage amount and Conta
 
 Timing overrides change simulation, cel holds, notifies and effect playback together at the next available action. Down-right recovery defaults to Canonical final pose: replace only the final drawing with the canonical idle frame while preserving the penultimate pose, action duration and damage beats. Original ending and Clean settle to idle remain available for comparison.
 
-Game and Dev Preview share the Quick timing and Canonical final pose defaults. Preview overrides reset on reload and are excluded from checkpoints. Contact Shear appears for positive direct damage, including hero sword/lantern hits and incoming enemy hits. Burn ticks retain their persistent cue without replaying Contact Shear or impact sounds. Stop, Restart, fixture changes and dedicated animation review clear transient feedback.
+Game and Dev Preview share the Quick timing and Canonical final pose defaults. Preview overrides reset on reload and are excluded from checkpoints. Contact Shear appears for positive direct damage, including hero sword/lantern hits and incoming enemy hits. Direct hits add a two-tick drawing hold, a short directional recoil and a bounded camera nudge; armored enemies keep their Physical attack playback. Enemy swings use a smaller warm trail, including misses. Burn ticks retain their persistent cue without replaying Contact Shear, camera motion or impact sounds. Reduced-motion preferences suppress camera nudges. Stop, Restart, fixture changes and dedicated animation review clear transient feedback.
 
 ### Automated diagnostics
 
