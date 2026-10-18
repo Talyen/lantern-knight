@@ -131,7 +131,7 @@ export class Simulation {
     if (!drop || !canReachInteraction(this.areaDefinition, this.hero, drop)) return false;
     this.inventoryAccess.award(drop.rewards);
     for (const reward of drop.rewards)
-      this.emit(this.hero, { kind: 'pickup', pickup: reward.item, amount: reward.amount });
+      this.emit(this.hero, { kind: 'pickup', item: reward.item, amount: reward.amount });
     this.drops.splice(index, 1);
     return true;
   }
@@ -406,7 +406,10 @@ export class Simulation {
         }
       }
     }
-    this.#combat.advanceBurn(h);
+    // A downed hero can still observe the room, but no gameplay outcome may
+    // follow from the corpse: Burn must not keep killing, and a death hold
+    // cannot win the encounter.
+    if (h.health > 0) this.#combat.advanceBurn(h);
     if (this.areaDefinition.activation && contains(this.areaDefinition.activation, h))
       this.engaged = true;
     for (const a of this.actors) {
@@ -476,11 +479,16 @@ export class Simulation {
         const amount = Math.min(pickup.amount, this.maxHealth - h.health);
         h.health += amount;
         this.collectedPickups.add(pickup.id);
-        this.emit(h, { kind: 'pickup', pickup: pickup.id, amount });
+        this.emit(h, { kind: 'health-pickup', amount });
         if (h.health >= this.maxHealth) break;
       }
     this.cleared = !living.some((actor) => actor.kind === 'enemy');
-    if (this.cleared && !wasCleared && this.actors.some((actor) => actor.kind === 'enemy'))
+    if (
+      h.health > 0 &&
+      this.cleared &&
+      !wasCleared &&
+      this.actors.some((actor) => actor.kind === 'enemy')
+    )
       this.emit(h, { kind: 'room-clear' });
     const exit =
       h.health > 0 && !this.movementPreview

@@ -881,6 +881,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
             (e) =>
               e.kind === 'potion-used' ||
               e.kind === 'pickup' ||
+              e.kind === 'health-pickup' ||
               e.kind === 'object-claimed' ||
               (e.kind === 'death' && e.actor !== 'player'),
           )

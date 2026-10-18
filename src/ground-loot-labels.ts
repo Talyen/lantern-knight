@@ -52,6 +52,11 @@ export class GroundLootLabels {
         if (this.focused === id) this.focused = undefined;
         if (this.app.highlightedDrop === id) this.app.highlightedDrop = undefined;
       }
+    // Zero drops is the common case and needs no layout reads or overlay scan.
+    if (!sim.drops.length) {
+      this.highlight();
+      return;
+    }
     const occupied: { x: number; y: number; width: number }[] = [];
     const origin = this.root.getBoundingClientRect();
     const reserved = [
@@ -67,7 +72,7 @@ export class GroundLootLabels {
           bottom: box.bottom - origin.top + 8,
         };
       });
-    for (const drop of [...sim.drops].sort((a, b) => a.id.localeCompare(b.id))) {
+    for (const drop of [...sim.drops].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))) {
       const reward = drop.rewards[0]!;
       let label = this.labels.get(drop.id);
       if (!label) {

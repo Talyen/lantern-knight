@@ -385,9 +385,10 @@ export class CombatFeedback {
     }
     const now = sim.tick - 1 + alpha;
     this.cameraKick.set(0, 0, 0);
-    this.impacts = this.impacts.filter(
-      (impact) => sim.actors.includes(impact.target) && now - impact.tick < 16,
-    );
+    if (this.impacts.length)
+      this.impacts = this.impacts.filter(
+        (impact) => sim.actors.includes(impact.target) && now - impact.tick < 16,
+      );
     for (const impact of this.impacts) {
       const visual = actors?.get(impact.target.id);
       if (!visual) continue;

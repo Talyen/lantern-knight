@@ -274,19 +274,21 @@ export class InkRoom {
         visible && !(claimed && !active && clip === action && clip.endBehavior === 'hide');
     }
     const pickups = this.area.pickups ?? [];
-    const remaining = new Set(
-      pickups.filter((p) => !sim.collectedPickups.has(p.id)).map((p) => p.object),
-    );
-    for (const object of new Set(pickups.map((p) => p.object))) {
-      const sprite = this.sprites.find((s) => s.id === object);
-      if (sprite)
-        sprite.mesh.visible =
-          visible &&
-          remaining.has(object) &&
-          !(
-            sprite.animator.clip.endBehavior === 'hide' &&
-            sprite.animator.time >= clipDuration(sprite.animator.clip)
-          );
+    if (pickups.length) {
+      const remaining = new Set(
+        pickups.filter((p) => !sim.collectedPickups.has(p.id)).map((p) => p.object),
+      );
+      for (const object of new Set(pickups.map((p) => p.object))) {
+        const sprite = this.sprites.find((s) => s.id === object);
+        if (sprite)
+          sprite.mesh.visible =
+            visible &&
+            remaining.has(object) &&
+            !(
+              sprite.animator.clip.endBehavior === 'hide' &&
+              sprite.animator.time >= clipDuration(sprite.animator.clip)
+            );
+      }
     }
     for (const s of this.effects.values()) s.mesh.visible = false;
     this.sceneryReveal.update(sim, alpha, ms);

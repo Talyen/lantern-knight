@@ -97,6 +97,11 @@ export class GamePresentation implements PresentationLifecycle {
   light = new T.PointLight(0xf7b862, 8, 9, 1.4);
   debug = false;
   background = 'dark';
+  private readonly motionQuery =
+    typeof window === 'undefined'
+      ? undefined
+      : window.matchMedia?.('(prefers-reduced-motion: reduce)');
+  private reducedMotion = this.motionQuery?.matches ?? false;
   animationTreatment: AnimationTreatment = 'guarded';
   stabilized = true;
   rigidSword = true;
@@ -166,6 +171,14 @@ export class GamePresentation implements PresentationLifecycle {
         });
       this.resources.own(this.renderer);
       this.resources.own(this.flow);
+      const motionQuery = this.motionQuery;
+      if (motionQuery) {
+        const onMotionChange = () => {
+          this.reducedMotion = motionQuery.matches;
+        };
+        motionQuery.addEventListener('change', onMotionChange);
+        this.resources.defer(() => motionQuery.removeEventListener('change', onMotionChange));
+      }
       this.renderer.outputColorSpace = T.SRGBColorSpace;
       this.renderer.setPixelRatio(contract.pixelRatioCap);
       this.renderer.setClearColor(0x151923);
@@ -394,12 +407,7 @@ export class GamePresentation implements PresentationLifecycle {
           this.groundOcclusion.update(sprite, drop.x, drop.z);
         }
       }
-    this.guidingWind.update(
-      sim,
-      ms,
-      this.visualEffects.wind,
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-    );
+    this.guidingWind.update(sim, ms, this.visualEffects.wind, this.reducedMotion);
     this.sceneEffects.update(
       sim.areaDefinition,
       sim.generation,
