@@ -13,16 +13,25 @@ export const heroFootContacts: Record<Heading, readonly number[]> = {
   d270: [0, 4],
   d315: [0, 4],
 };
+const versions = new WeakMap<Clip, Map<Heading, Clip>>();
 export function footstepClip(clip: Clip, heading: Heading): Clip {
-  return {
-    ...clip,
-    notifies: [
-      ...clip.notifies.filter((n) => n.kind !== 'footstep'),
-      ...heroFootContacts[heading].map((frame, i) => ({
-        id: `foot-${i}`,
-        kind: 'footstep' as const,
-        atMs: clip.durationsMs.slice(0, frame).reduce((a, b) => a + b, 0),
-      })),
-    ],
-  };
+  // Clips are immutable, so the derived contact list is reusable per facing.
+  let headings = versions.get(clip);
+  if (!headings) versions.set(clip, (headings = new Map()));
+  let result = headings.get(heading);
+  if (!result) {
+    result = {
+      ...clip,
+      notifies: [
+        ...clip.notifies.filter((n) => n.kind !== 'footstep'),
+        ...heroFootContacts[heading].map((frame, i) => ({
+          id: `foot-${i}`,
+          kind: 'footstep' as const,
+          atMs: clip.durationsMs.slice(0, frame).reduce((a, b) => a + b, 0),
+        })),
+      ],
+    };
+    headings.set(heading, result);
+  }
+  return result;
 }

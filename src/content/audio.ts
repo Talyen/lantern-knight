@@ -53,5 +53,6 @@ export function areaAudio(id: string): AreaAudio {
 }
 const cooldowns: Readonly<Record<string, number>> = { 'ui-deny': 0.5, impact: 0.06, bone: 0.06 };
 export function cueCooldown(cue: AudioCue) {
-  return cooldowns[cue] ?? (cue.startsWith('step-') ? 0.12 : 0.04);
+  // Own keys only: a prototype-named cue must not inherit Object members.
+  return Object.hasOwn(cooldowns, cue) ? cooldowns[cue]! : cue.startsWith('step-') ? 0.12 : 0.04;
 }

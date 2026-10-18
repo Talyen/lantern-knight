@@ -20,11 +20,16 @@ export type PackBatch = {
   release: () => void;
 };
 type PageRequest = SourcePage;
+// Delivery variants and their mipmap use are part of a page's identity: two
+// preparations of the same source image can ship different variant sets, and a
+// pool lookup must not alias one preparation's byte URL onto another's.
 export const pageIdentity = (
   p: Pick<Manifest['pages'][number], 'hash' | 'width' | 'height'> & {
     mipmaps?: boolean;
+    delivery?: Manifest['pages'][number]['delivery'];
   },
-) => `${p.hash}:${p.width}x${p.height}:${p.mipmaps ? 'mips' : 'nomips'}`;
+) =>
+  `${p.hash}:${p.width}x${p.height}:srgb-straight-${p.mipmaps ? 'terrain-mips' : 'linear-no-mips'}:${p.delivery?.map((v) => v.hash + ':' + v.mipmaps).join('|') ?? ''}`;
 export class AssetRuntime {
   readonly catalog: Readonly<Record<string, string>>;
   registration!: PreparedRegistration;

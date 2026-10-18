@@ -166,8 +166,12 @@ export function isValidCampfireEntry(
   fire: { x: number; z: number; safeRadius: number },
   entry: Point,
 ) {
+  // Entry sits inside the fire's safe radius and within the shared 1.6 cap.
+  // The cap is inclusive: an authored entry exactly at it remains admissible.
+  const distance = Math.hypot(entry.x - fire.x, entry.z - fire.z);
   return (
-    Math.hypot(entry.x - fire.x, entry.z - fire.z) < Math.min(fire.safeRadius, 1.6) &&
+    distance < fire.safeRadius &&
+    distance <= 1.6 &&
     isSupportedPosition(area, entry, 0.3) &&
     Math.abs(heightAt(area, entry.x, entry.z) - heightAt(area, fire.x, fire.z)) <=
       tuning.maxCombatHeightDifference &&
