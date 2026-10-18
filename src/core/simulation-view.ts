@@ -7,7 +7,7 @@ export type ActorView = ContentSnapshot<Actor>;
 const properties = [
   'initialSeed',
   'maxHealth',
-  'forgeUpgrade',
+  'upgrades',
   'inventory',
   'inCombat',
   'tick',

@@ -59,8 +59,8 @@ export class Simulation {
   get inventory() {
     return this.inventoryAccess.inventory;
   }
-  get forgeUpgrade() {
-    return this.inventoryAccess.forgeUpgrade;
+  get upgrades() {
+    return this.inventoryAccess.upgrades;
   }
   get equipment() {
     return this.inventoryAccess.equipment;
@@ -92,13 +92,7 @@ export class Simulation {
   }
   private claimObject(id: string) {
     const object = this.areaDefinition.interactables?.find((p) => p.id === id);
-    if (
-      !object ||
-      object.kind === 'workbench' ||
-      this.claimedObjects.has(id) ||
-      !this.guardsDefeated(object.guards)
-    )
-      return false;
+    if (!object || this.claimedObjects.has(id) || !this.guardsDefeated(object.guards)) return false;
     this.claimedObjects.add(id);
     this.objectActions.set(id, this.tick);
     if (object.rewards.length)
@@ -161,7 +155,7 @@ export class Simulation {
       actors: () => this.actors,
       movementPreview: () => this.movementPreview,
       damagePercent: (type) => {
-        const attributes = kitAttributes(this.inventoryAccess.forgeUpgrade);
+        const attributes = kitAttributes(this.inventoryAccess.upgrades);
         return type === 'physical' ? attributes.edge : attributes.ember;
       },
       emit: (actor, details) => this.emit(actor, details),

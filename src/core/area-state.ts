@@ -100,12 +100,7 @@ export function parseAreaState(
   if (!uniqueReferences(state.collectedPickups, new Set(area.pickups?.map((p) => p.id))))
     throw new Error('Unknown or duplicate collected pickup');
   const claimed = new Set(state.claimedObjects);
-  if (
-    !uniqueReferences(
-      state.claimedObjects,
-      new Set([...objects.values()].filter((o) => o.kind !== 'workbench').map((o) => o.id)),
-    )
-  )
+  if (!uniqueReferences(state.claimedObjects, new Set([...objects.values()].map((o) => o.id))))
     throw new Error('Unknown claimed object');
   if (state.drops) {
     if (new Set(state.drops.map((d) => d.id)).size !== state.drops.length)

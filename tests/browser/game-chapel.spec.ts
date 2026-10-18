@@ -26,7 +26,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     Object.assign(session.sim.hero, forward.marker);
     session.sim.enemies.forEach((a) => (a.health = 0));
     const seed = session.captureSave();
-    seed.adventure!.forgeUpgrade = choice;
+    seed.adventure!.upgrades = { [choice]: 1 };
     seed.areas[forge.id]!.cleared = true;
     const ready = async () => {
       await page.waitForFunction(
@@ -81,7 +81,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     );
     await page.keyboard.press('Escape');
     const arrived = await checkpoint();
-    expect(arrived.adventure!.forgeUpgrade).toBe(choice);
+    expect(arrived.adventure!.upgrades).toEqual({ [choice]: 1 });
     expect(arrived.player.x).toBeCloseTo(chapel.entries.find((e) => e.id === 'fire-' + fire.id)!.x);
     expect(arrived.adventure!.discovered).toContain(chapel.id + '/' + fire.id);
     const gathering = structuredClone(arrived);
@@ -127,7 +127,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     await expect(page.locator('#hp')).toHaveText('100 / 115');
     const continued = await checkpoint();
     expect(continued.adventure!.equipment.amulet).toBe('vigil-amulet');
-    expect(continued.adventure!.forgeUpgrade).toBe(choice);
+    expect(continued.adventure!.upgrades).toEqual({ [choice]: 1 });
     const dead = structuredClone(rewarded);
     dead.player.health = 0;
     await restore(dead);

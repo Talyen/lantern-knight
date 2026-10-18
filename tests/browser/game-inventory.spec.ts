@@ -5,12 +5,12 @@ import { test, expect } from './fixtures';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
 
-test('inventory compares replacements and forge keeps the choice and confirmation reachable', async ({
+test('inventory compares replacements and upgrades keep selection and confirmation reachable', async ({
   page,
 }) => {
   test.setTimeout(300_000);
   const area = content.area('ruined-forge');
-  const bench = area.interactables!.find((object) => object.kind === 'workbench')!;
+  const bench = area.campfires![0]!;
   const session = new GameSession(content, 142, area.id);
   const save = session.captureSave();
   Object.assign(save.player, { x: bench.x, z: bench.z, health: 60 });
@@ -22,7 +22,6 @@ test('inventory compares replacements and forge keeps the choice and confirmatio
     iron: 5,
     bone: 2,
     'health-potion': 2,
-    'workshop-temper': 1,
     'orchard-ring': 2,
     'travellers-charm': 1,
     'gatherers-seal': 1,
@@ -106,8 +105,6 @@ test('inventory compares replacements and forge keeps the choice and confirmatio
   await expect(page.locator('#hp')).toHaveText('60 / 120');
   await pick('Health Potion');
   await expect(detail).toContainText('Restores 40 health');
-  await pick('Workshop Temper');
-  await expect(detail).toContainText('Workshop Temper');
   await pick('Damaged Axe');
   await expect(detail.getByLabel('4 Iron', { exact: true })).toBeVisible();
   await expect(detail.locator('.salvage-yield .item-art[data-ready="true"]')).toHaveCount(1);
@@ -136,29 +133,17 @@ test('inventory compares replacements and forge keeps the choice and confirmatio
   await page.keyboard.press('Escape');
   await expect(page.locator('canvas')).toBeFocused();
   await page.keyboard.press('e');
-  const forge = page.getByRole('dialog', { name: 'Forge workbench', exact: true });
-  for (const name of ['Temper Sword', 'Rekindle Lantern'])
-    await expect(forge.getByRole('button', { name, exact: true })).toBeInViewport({ ratio: 1 });
-  await capture('forge-640');
-  await forge.getByRole('button', { name: 'Rekindle Lantern', exact: true }).click();
-  await expect(forge.getByRole('button', { name: 'Confirm upgrade', exact: true })).toBeFocused();
-  await expect(forge.getByRole('button', { name: 'Confirm upgrade', exact: true })).toBeInViewport({
-    ratio: 1,
-  });
-  await expect(forge.locator('.permanent-choice')).toBeInViewport({ ratio: 1 });
-  for (const name of ['Temper Sword', 'Rekindle Lantern'])
-    await expect(forge.getByRole('button', { name, exact: true })).toBeInViewport({ ratio: 1 });
-  await forge.getByRole('button', { name: 'Temper Sword', exact: true }).click();
-  await expect(forge.locator('h3')).toHaveText('Temper Sword');
-  await expect(forge.locator('.forge-damage')).toContainText('26 → 52');
+  await page.getByRole('button', { name: 'Upgrade kit', exact: true }).click();
+  const upgrades = page.getByRole('dialog', { name: 'Upgrade kit', exact: true });
+  for (const name of ['Temper Sword I', 'Rekindle Lantern I'])
+    await expect(upgrades.getByRole('button', { name, exact: true })).toBeInViewport({ ratio: 1 });
+  await capture('upgrades-640');
+  await upgrades.getByRole('button', { name: 'Rekindle Lantern I', exact: true }).click();
+  await expect(upgrades.locator('.upgrade-damage')).toContainText('28 → 56');
+  await upgrades.getByRole('button', { name: 'Temper Sword I', exact: true }).click();
+  await expect(upgrades.locator('.upgrade-damage')).toContainText('26 → 52');
   await page.setViewportSize({ width: 1280, height: 720 });
-  await capture('forge-1280');
-  await forge.getByRole('button', { name: 'Temper Sword', exact: true }).click();
-  await expect(
-    forge.getByRole('button', { name: 'Confirm upgrade', exact: true }),
-  ).toHaveAccessibleDescription(/Gold: .* available, .* required/);
-  await page.keyboard.press('Shift+Tab');
-  await expect(forge.getByRole('button', { name: 'Rekindle Lantern', exact: true })).toBeFocused();
+  await capture('upgrades-1280');
   await page.keyboard.press('Escape');
   await page.locator('#pause').click();
   await clickCheckpointAction(page, 'save');

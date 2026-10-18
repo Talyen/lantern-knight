@@ -1,4 +1,4 @@
-import { forgeFixture, supplyForge } from '../fixtures/forge';
+import { upgradeFixture, supplyUpgrades } from '../fixtures/upgrades';
 import type { GameSave } from '../../src/core/save';
 import { onExit } from '../../tools/scope-exit';
 import { mockGlobals } from '../fixtures/globals';
@@ -2089,9 +2089,9 @@ test('startup transfers the prepared renderer factory and revokes uploads before
   assert.throws(upload, /revoked/);
 });
 
-test('forge purchase saves one atomic candidate, blocks overlapping commands and spends nothing on failure', async () => {
-  const session = forgeFixture();
-  supplyForge(session);
+test('campfire upgrade purchase saves one atomic candidate, blocks overlapping commands and spends nothing on failure', async () => {
+  const session = upgradeFixture();
+  supplyUpgrades(session);
   const writes: GameSave[] = [];
   let resolveWrite!: () => void;
   let rejectWrite!: (error: Error) => void;
@@ -2107,19 +2107,18 @@ test('forge purchase saves one atomic candidate, blocks overlapping commands and
   using _cleanup = onExit(() => app.dispose());
   await app.restore(session.captureSave());
   const before = app.session.captureSave();
-  const failed = app.purchaseForgeUpgrade('bench', 'sword');
+  const failed = app.purchaseUpgrade('camp/arrival', 'sword');
   assert.equal(app.busy, true);
   assert.equal(writes.length, 1);
-  assert.equal(writes[0]!.adventure!.forgeUpgrade, 'sword');
+  assert.deepEqual(writes[0]!.adventure!.upgrades, { sword: 1 });
   assert.equal(writes[0]!.adventure!.inventory.gold, 8);
   assert.equal(writes[0]!.adventure!.inventory.iron, 6);
-  assert.equal(writes[0]!.adventure!.inventory['workshop-temper'], 0);
   assert.deepEqual(
     app.session.captureSave(),
     before,
     'candidate is not live while storage is pending',
   );
-  await assert.rejects(app.purchaseForgeUpgrade('bench', 'lantern'), /current operation/);
+  await assert.rejects(app.purchaseUpgrade('camp/arrival', 'lantern'), /current operation/);
   await assert.rejects(app.load(), /purchase/);
   await assert.rejects(app.reset('death'), /purchase/);
   assert.throws(() => app.changeInventory({ kind: 'salvage' }), /loading/);
@@ -2134,19 +2133,19 @@ test('forge purchase saves one atomic candidate, blocks overlapping commands and
     app.events.history.some((e) => e.kind === 'inventory-changed'),
     false,
   );
-  const successful = app.purchaseForgeUpgrade('bench', 'lantern');
+  const successful = app.purchaseUpgrade('camp/arrival', 'lantern');
   resolveWrite();
   await successful;
-  assert.equal(app.session.forgeUpgrade, 'lantern');
+  assert.deepEqual(app.session.upgrades, { lantern: 1 });
   assert.deepEqual(app.session.captureSave(), writes[1]);
   assert.equal(app.events.history.filter((e) => e.kind === 'inventory-changed').length, 1);
-  await assert.rejects(app.purchaseForgeUpgrade('bench', 'sword'), /already/);
+  await assert.rejects(app.purchaseUpgrade('camp/arrival', 'lantern'), /Maximum rank/);
   assert.equal(writes.length, 2);
 });
 
 test('purchase exclusivity is installed before reentrant loading feedback', async () => {
-  const session = forgeFixture();
-  supplyForge(session);
+  const session = upgradeFixture();
+  supplyUpgrades(session);
   let writes = 0;
   const { app } = fixture(sceneFixture(session.registry), {
     saveGame: async () => {
@@ -2161,9 +2160,9 @@ test('purchase exclusivity is installed before reentrant loading feedback', asyn
     attempted = assert.rejects(app.reset(), /purchase/);
     app.autosave();
   };
-  await app.purchaseForgeUpgrade('bench', 'sword');
+  await app.purchaseUpgrade('camp/arrival', 'sword');
   await attempted;
   assert.equal(writes, 1);
-  assert.equal(app.session.forgeUpgrade, 'sword');
+  assert.deepEqual(app.session.upgrades, { sword: 1 });
   assert.equal(app.busy, false);
 });

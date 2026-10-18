@@ -3,7 +3,6 @@ export const itemArt: Readonly<Record<string, string>> = {
   gold: 'library-lantern_concept_item_12_coin_purse',
   iron: 'library-lantern_resource_concept_02_iron_ingot_stack',
   bone: 'library-crypt_restrained_bone_pile_01',
-  'workshop-temper': 'library-lantern_resource_concept_06_slate_whetstone',
   'health-potion': 'library-lantern_concept_item_10_crimson_restorative',
   'damaged-axe': 'library-lantern_drop_concept_03_bearded_handaxe',
   'damaged-helmet': 'library-lantern_drop_concept_08_watch_helm',

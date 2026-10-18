@@ -1,4 +1,4 @@
-import type { ForgeUpgrade } from '../content/progression';
+import type { UpgradeId } from '../content/progression';
 import { borrowedView } from '../content/snapshot';
 import { onboardingState, type OnboardingState, type Lesson } from './onboarding';
 import { InventoryState, type InventoryAccess, type InventoryCommand } from './inventory';
@@ -32,7 +32,7 @@ type RoomState = {
   resetCount: number;
   onboarding: OnboardingState;
 };
-export type ForgePurchase = {
+export type UpgradePurchase = {
   readonly save: GameSave;
   commit(): readonly GameplayEvent[];
   cancel(): void;
@@ -54,7 +54,7 @@ const sessionProperties = [
   'inventory',
   'pack',
   'equipment',
-  'forgeUpgrade',
+  'upgrades',
   'discovered',
   'onboarding',
   'lastFire',
@@ -74,8 +74,8 @@ export class GameSession {
   get pack() {
     return this.current.inventoryState.pack;
   }
-  get forgeUpgrade() {
-    return this.current.inventoryState.forgeUpgrade;
+  get upgrades() {
+    return this.current.inventoryState.upgrades;
   }
   get equipment() {
     return this.current.inventoryState.equipment;
@@ -97,7 +97,7 @@ export class GameSession {
   get resetCount() {
     return this.current.resetCount;
   }
-  private pending: PendingRoom | { kind: 'purchase'; plan: ForgePurchase } | undefined;
+  private pending: PendingRoom | { kind: 'purchase'; plan: UpgradePurchase } | undefined;
   private eventSequence = 0;
   constructor(
     public readonly registry: ContentRegistry,
@@ -157,8 +157,8 @@ export class GameSession {
       get equipment() {
         return inventory.equipment;
       },
-      get forgeUpgrade() {
-        return inventory.forgeUpgrade;
+      get upgrades() {
+        return inventory.upgrades;
       },
       get healthBonus() {
         return inventory.healthBonus;
@@ -478,17 +478,20 @@ export class GameSession {
       this.sim.hero.health = Math.min(this.sim.hero.health, this.sim.maxHealth);
     return [this.event({ kind: 'inventory-changed', operation: command.kind })];
   }
-  prepareForgePurchase(id: string, choice: ForgeUpgrade): ForgePurchase {
+  prepareUpgradePurchase(id: string, choice: UpgradeId): UpgradePurchase {
     this.assertProgressionWritable();
-    const target = interactionTarget(this.sim, 'workbench', id);
-    if (!target || target.blocked) throw new Error(target?.blocked ?? 'Visit the forge workbench');
+    const { area, definition } = this.fire(id);
+    const target =
+      area === this.sim.area ? interactionTarget(this.sim, 'campfire', definition.id) : undefined;
+    if (!target || target.blocked)
+      throw new Error(target?.blocked ?? 'Visit a reachable campfire to upgrade');
     const owner = this.current.inventoryState;
     const generation = this.generation;
     const tick = this.sim.tick;
-    const purchase = owner.prepareForgePurchase(choice);
+    const purchase = owner.prepareUpgradePurchase(choice);
     const save = this.captureSave();
     Object.assign(save.adventure!, purchase.snapshot);
-    const plan: ForgePurchase = Object.freeze({
+    const plan: UpgradePurchase = Object.freeze({
       // Callers persist detached data; changing an exported checkpoint cannot
       // change the reserved candidate or a later retry's write.
       get save() {
@@ -496,13 +499,13 @@ export class GameSession {
       },
       commit: () => {
         if (this.pending?.kind !== 'purchase' || this.pending.plan !== plan)
-          throw new Error('Stale forge purchase');
+          throw new Error('Stale upgrade purchase');
         if (
           this.current.inventoryState !== owner ||
           this.generation !== generation ||
           this.sim.tick !== tick
         )
-          throw new Error('Stale forge purchase');
+          throw new Error('Stale upgrade purchase');
         this.pending = undefined;
         purchase.commit();
         return [this.event({ kind: 'inventory-changed', operation: 'upgrade' })];
@@ -519,7 +522,7 @@ export class GameSession {
   captureSave(): GameSave {
     const a = this.sim.hero;
     return {
-      version: 10,
+      version: 11,
       adventure: {
         ...this.current.inventoryState.snapshot(),
         discovered: [...this.current.discovered],

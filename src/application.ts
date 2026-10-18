@@ -6,7 +6,7 @@ import { Vector3 } from 'three';
 import { MotionProbe } from './motion-probe';
 import { PickupPlan } from './core/pickup-plan';
 import { interactionTarget, nearbyInteraction } from './core/interaction';
-import type { ForgeUpgrade } from './content/progression';
+import type { UpgradeId } from './content/progression';
 import type { InventoryCommand } from './core/inventory';
 import { SceneAssets } from './assets/scene-assets';
 import { AssetRuntime, type PackLease, type PackBatch, type AssetPack } from './assets/loader';
@@ -679,8 +679,6 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       this.publish(this.current.session.discoverFire(this.sim.area + '/' + target.id));
       this.autosave();
       return { kind: 'campfire' as const, id: this.sim.area + '/' + target.id };
-    } else if (target.kind === 'workbench') {
-      return { kind: 'workbench' as const, id: target.id };
     } else if (target.kind === 'exit') {
       this.safe(() => this.transition(target.id));
     }
@@ -691,11 +689,11 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     this.publish(events);
     if (events.length) this.autosave();
   }
-  purchaseForgeUpgrade(id: string, choice: ForgeUpgrade) {
+  purchaseUpgrade(id: string, choice: UpgradeId) {
     if (this.busy || !this.roomReady)
       return Promise.reject(new Error('Wait for the current operation to finish'));
     return this.withSessionOperation(async (signal) => {
-      const purchase = this.current.session.prepareForgePurchase(id, choice);
+      const purchase = this.current.session.prepareUpgradePurchase(id, choice);
       try {
         // Save the complete candidate before accepting it. Failed writes spend nothing.
         // Admitted purchases cannot be superseded by a load, reset or stale autosave.
@@ -706,7 +704,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       } finally {
         purchase.cancel();
       }
-    }, 'the forge purchase');
+    }, 'the upgrade purchase');
   }
   rest(key: string) {
     return this.withSessionOperation(async (signal) => {
@@ -820,7 +818,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
   }
   async save() {
     if (this.sessionOperations.exclusive)
-      throw new Error('Wait for the forge purchase to finish saving');
+      throw new Error('Wait for the upgrade purchase to finish saving');
     this.assertCheckpointWritable();
     await this.persistenceOwner.save(this.current.session.captureSave());
     await this.saveSettings();

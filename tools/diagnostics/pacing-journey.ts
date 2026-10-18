@@ -165,24 +165,25 @@ async function journey(flags: string[]) {
         assert.equal(carried.area, destination);
         checks.push(areaId + ' → ' + destination);
         areaId = destination;
-        if (destination === 'ruined-forge' && loops === 0 && !carried.adventure!.forgeUpgrade) {
+        if (destination === 'ruined-forge' && loops === 0 && !carried.adventure!.upgrades?.sword) {
           await collect(areaId, 'forge-tool-chest');
-          const bench = content.area(areaId).interactables!.find((o) => o.kind === 'workbench')!;
+          const bench = content.area(areaId).campfires![0]!;
           await position(areaId, bench);
           await sample('forge', async () => {
             await page.keyboard.press('KeyE');
-            await page.getByRole('button', { name: 'Temper Sword', exact: true }).press('Enter');
+            await page.getByRole('button', { name: 'Upgrade kit', exact: true }).press('Enter');
+            await page.getByRole('button', { name: 'Temper Sword I', exact: true }).press('Enter');
             await page.getByRole('button', { name: 'Confirm upgrade', exact: true }).press('Enter');
             await page.waitForFunction(
-              () => document.querySelector('.forge-decision button')?.textContent === 'Complete',
+              () => document.querySelector('.upgrade-decision button')?.textContent === 'Complete',
             );
             await page.keyboard.press('Escape');
           });
           carried = parseGame(await controls.save(), content);
-          assert.equal(carried.adventure!.forgeUpgrade, 'sword');
+          assert.deepEqual(carried.adventure!.upgrades, { sword: 1 });
           assert.equal(carried.adventure!.equipment.trinket, 'travellers-charm');
           assert.ok(carried.areas['ruined-forge']!.claimedObjects?.includes('forge-tool-chest'));
-          checks.push('forge purchase persisted');
+          checks.push('campfire upgrade persisted');
         }
         if (destination === 'desecrated-chapel' && loops === 0) {
           const fire = content.area(areaId).campfires![0]!;
@@ -206,7 +207,7 @@ async function journey(flags: string[]) {
           );
           carried = parseGame(await controls.save(), content);
           assert.ok(carried.player.health > 0);
-          assert.equal(carried.adventure!.forgeUpgrade, 'sword');
+          assert.deepEqual(carried.adventure!.upgrades, { sword: 1 });
           checks.push('rest, death and retry preserved equipment/upgrade');
           assert.equal(carried.adventure!.equipment.trinket, 'travellers-charm');
           assert.ok(carried.areas['ruined-forge']!.claimedObjects?.includes('forge-tool-chest'));

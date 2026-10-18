@@ -19,23 +19,18 @@ export const campfireSchema = z.strictObject({
   safeRadius: z.number().positive().max(10),
   discovered: z.boolean().optional(),
 });
-export const interactableSchema = z
-  .strictObject({
-    id,
-    object: id,
-    kind: z.enum(['breakable', 'container', 'workbench']),
-    x: coordinate,
-    z: coordinate,
-    guards: z.array(id).max(20),
-    rewards: z.array(rewardSchema).max(20),
-    idle: z.string(),
-    action: z.string(),
-    spent: z.string(),
-  })
-  .refine(
-    (o) => o.kind !== 'workbench' || o.rewards.length === 0,
-    'Workbench cannot supply repeatable rewards',
-  );
+export const interactableSchema = z.strictObject({
+  id,
+  object: id,
+  kind: z.enum(['breakable', 'container']),
+  x: coordinate,
+  z: coordinate,
+  guards: z.array(id).max(20),
+  rewards: z.array(rewardSchema).max(20),
+  idle: z.string(),
+  action: z.string(),
+  spent: z.string(),
+});
 export type CampfireDefinition = z.infer<typeof campfireSchema>;
 export type InteractableDefinition = Omit<
   z.infer<typeof interactableSchema>,

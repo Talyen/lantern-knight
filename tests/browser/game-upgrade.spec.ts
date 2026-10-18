@@ -1,274 +1,161 @@
 import path from 'node:path';
 import { mkdir } from 'node:fs/promises';
-import { Vector3 } from 'three';
 import { test, expect } from './fixtures';
-import { clickCheckpointAction, loadCheckpoint } from '../fixtures/input';
-import { content, worldVisuals } from '../../src/content/game-content';
+import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
 import type { GameSave } from '../../src/core/save';
-import { Navigation, effectiveRadius } from '../../src/core/navigation';
-import { cameraContract } from '../../src/assets/camera-contract';
-import { tuning } from '../../src/content/gameplay';
-import { heightAt } from '../../src/content/world';
-import {
-  compositionPoint,
-  compositionSpan,
-  compositionHeight,
-} from '../../src/content/world-visuals';
-import { makeCamera, resizeCamera, constrainCamera, outward } from '../../src/presentation/camera';
 
-for (const choice of ['sword', 'lantern'] as const) {
-  test(`${choice} courtyard upgrade confirms once and survives continue and death recovery`, async ({
-    page,
-  }) => {
-    test.setTimeout(540_000);
-    const area = content.area('ruined-forge');
-    const bench = area.interactables!.find((o) => o.kind === 'workbench')!;
-    const cache = area.interactables!.find((o) => o.kind === 'container')!;
-    expect(new Navigation(area).route(area.entries[0]!, bench, effectiveRadius(0.25)).status).toBe(
-      'ready',
+test('campfire improvements save atomically, remain independent and work in different scenes', async ({
+  page,
+}) => {
+  test.setTimeout(420_000);
+  const area = content.area('forest-gathering-clearing');
+  const fire = area.campfires![0]!;
+  const session = new GameSession(content, 142, area.id);
+  Object.assign(session.sim.hero, { x: fire.x, z: fire.z });
+  session.discoverFire(area.id + '/' + fire.id);
+  const save = session.captureSave();
+  save.player.health = 60;
+  delete save.adventure!.pack;
+  Object.assign(save.adventure!.inventory, { gold: 40, iron: 8 });
+  for (const actor of Object.values(save.areas[area.id]!.actors)) actor.health = 0;
+  save.areas[area.id]!.cleared = true;
+  const profile = process.env.LANTERN_TEST_BUILT === 'true' ? 'game' : 'preview';
+  const key = `lantern-prototype-${profile}-game`;
+  await page.addInitScript(
+    ({ key, save }) => {
+      if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify(save));
+    },
+    { key, save },
+  );
+  const stored = (): Promise<GameSave> =>
+    page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), key);
+  const ready = async () => {
+    await page.waitForFunction(
+      () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
+      undefined,
+      { timeout: 180_000 },
     );
-    const s = new GameSession(content, 142, area.id);
-    const fire = area.campfires![0]!;
-    Object.assign(s.sim.hero, { x: fire.x, z: fire.z });
-    s.discoverFire(area.id + '/' + fire.id);
-    for (const enemy of s.sim.enemies) enemy.health = 0;
-    Object.assign(s.sim.hero, { x: bench.x, z: bench.z });
-    const seed = s.captureSave();
-    seed.areas[area.id]!.cleared = true;
-    const capture = async (name: string) => {
-      const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
-      if (!directory) return;
-      await mkdir(directory, { recursive: true });
-      await page.screenshot({ path: path.join(directory, `upgrade-${choice}-${name}.png`) });
+    await expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 60_000 });
+  };
+  const capture = async (name: string) => {
+    const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
+    if (!directory) return;
+    await mkdir(directory, { recursive: true });
+    await expect(page.locator('.adventure-panel .item-art:not([data-ready="true"])')).toHaveCount(
+      0,
+      { timeout: 60_000 },
+    );
+    await page.screenshot({ path: path.join(directory, `campfire-upgrade-${name}.png`) });
+  };
+  await page.goto('/index.html?automated');
+  await ready();
+  await page.locator('#menu-start').click();
+  // Inventory is an inspection surface even when the hero happens to stand at a fire.
+  await page.keyboard.press('i');
+  await page.getByRole('button', { name: 'Upgrade kit', exact: true }).click();
+  const panel = page.getByRole('dialog', { name: 'Upgrade kit', exact: true });
+  const confirm = panel.locator('[data-action="confirm-upgrade"]');
+  await expect(confirm).toBeDisabled();
+  await expect(panel).toContainText('Visit any campfire to purchase.');
+  await page.keyboard.press('Escape');
+  await page.keyboard.press('e');
+  await capture('campfire');
+  await page.getByRole('button', { name: 'Upgrade kit', exact: true }).click();
+  const sword = panel.getByRole('button', { name: 'Temper Sword I', exact: true });
+  const lantern = panel.getByRole('button', { name: 'Rekindle Lantern I', exact: true });
+  await expect(panel.locator('.upgrade-damage')).toContainText('26 → 52');
+  await lantern.click();
+  await expect(panel.locator('.upgrade-damage')).toContainText('28 → 56');
+  await sword.click();
+  await capture('wide');
+  await page.setViewportSize({ width: 640, height: 800 });
+  await expect(sword).toBeInViewport({ ratio: 1 });
+  await expect(lantern).toBeInViewport({ ratio: 1 });
+  await expect(confirm).toBeInViewport({ ratio: 1 });
+  expect(await panel.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(true);
+  await capture('narrow');
+  await page.setViewportSize({ width: 1280, height: 800 });
+  const before = await stored();
+  await page.evaluate(() => {
+    const original = Object.getOwnPropertyDescriptor(Storage.prototype, 'setItem')!.value as (
+      this: Storage,
+      key: string,
+      value: string,
+    ) => void;
+    Storage.prototype.setItem = function (key, value) {
+      if (key.endsWith('-game')) throw new Error('Storage full');
+      original.call(this, key, value);
     };
-    const ready = async () => {
-      await page.waitForFunction(
-        () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
-        undefined,
-        { timeout: 180_000 },
-      );
-      await expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 60_000 });
-    };
-    await page.goto('/index.html?automated');
-    await ready();
-    await page.locator('#menu-start').click();
-    await page.locator('#pause').click();
-    await clickCheckpointAction(page, 'save');
-    await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
-    const key = await page.evaluate(() =>
-      Object.keys(localStorage).find((k) => k.endsWith('-game'))!,
-    );
-    const stored = (): Promise<GameSave> =>
-      page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), key);
-    const restore = async (save: GameSave) => {
-      await page.evaluate(({ key, save }) => localStorage.setItem(key, JSON.stringify(save)), {
-        key,
-        save,
-      });
-      await loadCheckpoint(page);
-      await ready();
-    };
-    await restore(seed);
-    await expect(page.locator('#interaction-hint')).toHaveText('E · Improve sword or lantern');
-    await capture('courtyard');
-    await page.keyboard.press('e');
-    const panel = page.getByRole('dialog', { name: 'Forge workbench', exact: true });
-    const sword = panel.getByRole('button', { name: 'Temper Sword', exact: true });
-    const lantern = panel.getByRole('button', { name: 'Rekindle Lantern', exact: true });
-    await expect(sword).toBeEnabled();
-    await expect(lantern).toBeEnabled();
-    await expect(
-      panel.getByRole('button', { name: 'Confirm upgrade', exact: true }),
-    ).toBeDisabled();
-    await expect(panel.locator('.material-cost.insufficient')).toHaveCount(3);
-    await page.keyboard.press('Escape');
-    await page.locator('#pause').click();
-    Object.assign(seed.player, { x: cache.x, z: cache.z });
-    await restore(seed);
-    await page.keyboard.press('e');
-    for (const label of ['Collect Gold ×20', 'Collect Iron ×6', 'Collect Workshop Temper'])
-      await page.getByRole('button', { name: label, exact: true }).click();
-    await page.locator('#pause').click();
-    await clickCheckpointAction(page, 'save');
-    await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
-    const supplied = await stored();
-    Object.assign(supplied.player, { x: bench.x, z: bench.z });
-    await restore(supplied);
-    await page.keyboard.press('e');
-    await expect(sword).toBeEnabled();
-    await expect(lantern).toBeEnabled();
-    await expect(panel.locator('.forge-damage')).toContainText('26 → 52');
-    await lantern.click();
-    await expect(panel.locator('.forge-damage')).toContainText('28 → 56');
-    await sword.click();
-    await capture('choices');
-    if (choice === 'sword') {
-      await page.setViewportSize({ width: 640, height: 800 });
-      await expect(panel).toBeVisible();
-      expect(await panel.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(true);
-      await capture('narrow-choices');
-      await page.setViewportSize({ width: 1280, height: 800 });
-    }
-    await (choice === 'sword' ? sword : lantern).click();
-    await expect(panel.getByRole('button', { name: 'Confirm upgrade', exact: true })).toBeFocused();
-    await (choice === 'sword' ? lantern : sword).click();
-    expect((await stored()).adventure).toEqual(supplied.adventure);
-    await (choice === 'sword' ? sword : lantern).click();
-    await capture('confirm');
-    if (choice === 'sword') {
-      await page.evaluate(() => {
-        const descriptor = Object.getOwnPropertyDescriptor(Storage.prototype, 'setItem')!;
-        const original = descriptor.value as (this: Storage, key: string, value: string) => void;
-        Storage.prototype.setItem = function (key, value) {
-          if (key.endsWith('-game')) throw new Error('Storage full');
-          original.call(this, key, value);
-        };
-        Object.assign(window, {
-          restoreUpgradeStorage: () => {
-            Object.defineProperty(Storage.prototype, 'setItem', descriptor);
-          },
-        });
-      });
-      await panel.getByRole('button', { name: 'Confirm upgrade', exact: true }).click();
-      await expect(panel).toContainText('Storage full');
-      expect((await stored()).adventure).toEqual(supplied.adventure);
-      await page.evaluate(() =>
-        (window as unknown as { restoreUpgradeStorage(): void }).restoreUpgradeStorage(),
-      );
-    }
-    await panel.getByRole('button', { name: 'Confirm upgrade', exact: true }).focus();
-    await page.keyboard.down('Enter');
-    await page.keyboard.down('Enter');
-    await page.keyboard.up('Enter');
-    await expect(panel.getByRole('button', { name: 'Confirm upgrade', exact: true })).toHaveText(
-      'Complete',
-    );
-    const purchased = await stored();
-    expect(purchased.adventure!.forgeUpgrade).toBe(choice);
-    expect(purchased.adventure!.inventory.gold).toBe(0);
-    expect(purchased.adventure!.inventory.iron).toBe(2);
-    expect(purchased.adventure!.inventory['workshop-temper']).toBe(0);
-    await expect(sword).toHaveCount(0);
-    await expect(lantern).toHaveCount(0);
-    await capture('complete');
-    await page.keyboard.press('Escape');
-    await expect(page.locator('#interaction-hint')).toHaveText('E · Inspect workbench');
-    await page.reload();
-    await ready();
-    await expect(page.locator('#menu-start')).toHaveAccessibleName('Continue journey');
-    await page.locator('#menu-start').click();
-    await page.keyboard.press('i');
-    await page.locator(`[data-action="slot-${choice}"]`).click();
-    await expect(page.locator('.inventory-detail')).toContainText(
-      choice === 'sword' ? 'Damage 52' : 'Damage 56 per enemy',
-    );
-    await page.keyboard.press('Escape');
-    const dead = await stored();
-    dead.player.health = 0;
-    await page.locator('#pause').click();
-    await restore(dead);
-    await expect(page.locator('#hp')).toHaveText('100 / 100', { timeout: 60_000 });
-    await ready();
-    await page.keyboard.press('i');
-    await page.locator(`[data-action="slot-${choice}"]`).click();
-    await expect(page.locator('.inventory-detail')).toContainText(
-      choice === 'sword' ? 'Damage 52' : 'Damage 56 per enemy',
-    );
-    await page.keyboard.press('Escape');
-    const recovered = await stored();
-    expect(recovered.adventure!.forgeUpgrade).toBe(choice);
-    expect(recovered.adventure!.inventory).toEqual(purchased.adventure!.inventory);
-    expect(recovered.areas[area.id]!.claimedObjects).toContain(cache.id);
-    expect(
-      recovered.areas[area.id]!.drops!.some((d) =>
-        d.rewards.some((r) => r.item === 'workshop-temper'),
-      ),
-    ).toBe(false);
-
-    // Replay one live courtyard opponent with the persisted kit. The checkpoint
-    // isolates combat from route timing; attack input and damage stay real.
-    const guard = area.spawns.find((spawn) => spawn.awareness?.group === 'courtyard')!;
-    const rematch = new GameSession(content, 142, area.id).captureSave();
-    rematch.adventure = recovered.adventure;
-    rematch.areas[area.id]!.claimedObjects = recovered.areas[area.id]!.claimedObjects;
-    for (const [id, actor] of Object.entries(rematch.areas[area.id]!.actors))
-      if (id !== guard.id) actor.health = 0;
-    const opponent = rematch.areas[area.id]!.actors[guard.id]!;
-    const approach = new Navigation(area).route(fire, opponent, effectiveRadius(0.25));
-    expect(approach.status).toBe('ready');
-    const beforeGuard = approach.points[approach.points.length - 2] ?? fire;
-    const distance = Math.hypot(beforeGuard.x - opponent.x, beforeGuard.z - opponent.z),
-      // Cast from burst range so an approaching guard cannot interrupt the
-      // longer lantern windup before the payoff being measured.
-      gap = choice === 'lantern' ? 2.2 : 1.1;
-    expect(distance).toBeGreaterThan(gap);
-    Object.assign(rematch.player, {
-      x: opponent.x + ((beforeGuard.x - opponent.x) / distance) * gap,
-      z: opponent.z + ((beforeGuard.z - opponent.z) / distance) * gap,
-    });
-    await page.locator('#pause').click();
-    await restore(rematch);
-    const canvas = page.locator('canvas');
-    const bounds = (await canvas.boundingBox())!;
-    await canvas.focus();
-    // Aim at the guard's body using the same framing helpers as Game. A fixed
-    // screen corner can miss after camera coverage shifts the hero off center.
-    const visuals = worldVisuals[area.id],
-      camera = makeCamera(bounds.width / bounds.height);
-    resizeCamera(
-      camera,
-      bounds.width,
-      bounds.height,
-      compositionSpan(rematch.player, cameraContract.verticalSpan, visuals),
-    );
-    const framed = compositionPoint(
-      rematch.player,
-      {
-        halfWidth: (camera.right - camera.left) / 2,
-        halfHeight: (camera.top - camera.bottom) / 2,
+    Object.assign(window, {
+      restoreUpgradeStorage: () => {
+        Storage.prototype.setItem = original;
       },
-      visuals,
-    );
-    const target = new Vector3(
-      framed.x,
-      heightAt(area, framed.x, framed.z) + compositionHeight(rematch.player, visuals),
-      framed.z,
-    );
-    constrainCamera(camera, target, area, {
-      position: new Vector3(
-        rematch.player.x,
-        heightAt(area, rematch.player.x, rematch.player.z),
-        rematch.player.z,
-      ),
-      height: cameraContract.heroHeight * tuning.heroVisualScale,
     });
-    camera.position.copy(target).addScaledVector(outward, 30);
-    camera.lookAt(target);
-    camera.updateMatrixWorld();
-    const pointer = new Vector3(
-      opponent.x,
-      heightAt(area, opponent.x, opponent.z) + 0.6,
-      opponent.z,
-    ).project(camera);
-    await page.mouse.click(
-      bounds.x + ((pointer.x + 1) * bounds.width) / 2,
-      bounds.y + ((1 - pointer.y) * bounds.height) / 2,
-      {
-        button: choice === 'sword' ? 'left' : 'right',
-      },
-    );
-    // Burn must finish in fixed steps. Software rendering can take more than a
-    // wall-clock minute to deliver those ticks; the live damage/drop still decides success.
-    await expect(page.locator('.ground-loot-label').filter({ hasText: 'Gold ×4' })).toBeVisible({
-      timeout: 120_000,
-    });
-    await capture('payoff');
-    await page.locator('#pause').click();
-    await clickCheckpointAction(page, 'save');
-    await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
-    const won = await stored();
-    expect(won.areas[area.id]!.actors[guard.id]!.health).toBe(0);
-    expect(won.adventure!.forgeUpgrade).toBe(choice);
   });
-}
+  await confirm.click();
+  await expect(panel.getByRole('alert')).toContainText('Nothing was spent');
+  expect((await stored()).adventure).toEqual(before.adventure);
+  await page.evaluate(() =>
+    (window as unknown as { restoreUpgradeStorage(): void }).restoreUpgradeStorage(),
+  );
+  await confirm.focus();
+  await page.keyboard.down('Enter');
+  await page.keyboard.down('Enter');
+  await page.keyboard.up('Enter');
+  await expect(confirm).toHaveText('Complete');
+  const first = await stored();
+  expect(first.adventure!.upgrades).toEqual({ sword: 1 });
+  expect(first.adventure!.inventory.gold).toBe(20);
+  expect(first.adventure!.inventory.iron).toBe(4);
+  expect(first.player.health).toBe(60);
+  expect(first.areas[area.id]!.actors).toEqual(before.areas[area.id]!.actors);
+  await expect(lantern).toBeEnabled();
+  await lantern.click();
+  await expect(confirm).toBeEnabled();
+  // Returning from inspection neither rests nor buys the other path.
+  await panel.getByRole('button', { name: 'Back to campfire', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Rest', exact: true })).toBeVisible();
+  await page.keyboard.press('Escape');
+  const chapel = content.area('desecrated-chapel');
+  const other = chapel.campfires![0]!;
+  const destination = new GameSession(content, 142, chapel.id);
+  Object.assign(destination.sim.hero, { x: other.x, z: other.z });
+  destination.discoverFire(chapel.id + '/' + other.id);
+  const next = destination.captureSave();
+  next.adventure = {
+    ...first.adventure!,
+    discovered: [...first.adventure!.discovered, chapel.id + '/' + other.id],
+    lastFire: chapel.id + '/' + other.id,
+  };
+  next.player.health = 60;
+  await page.evaluate(({ key, next }) => localStorage.setItem(key, JSON.stringify(next)), {
+    key,
+    next,
+  });
+  await page.reload();
+  await ready();
+  await page.locator('#menu-start').click();
+  await page.keyboard.press('e');
+  await page.getByRole('button', { name: 'Upgrade kit', exact: true }).click();
+  await lantern.click();
+  await confirm.click();
+  await expect(confirm).toHaveText('Complete');
+  const both = await stored();
+  expect(both.adventure!.upgrades).toEqual({ sword: 1, lantern: 1 });
+  expect(both.adventure!.inventory.gold).toBe(0);
+  expect(both.adventure!.inventory.iron).toBe(0);
+  expect(both.player.health).toBe(60);
+  await sword.click();
+  await expect(confirm).toBeDisabled();
+  await capture('both');
+  await page.keyboard.press('Escape');
+  await page.reload();
+  await ready();
+  await page.locator('#menu-start').click();
+  await page.keyboard.press('i');
+  await page.locator('[data-action="slot-sword"]').click();
+  await expect(page.locator('.inventory-detail')).toContainText('Damage 52');
+  await page.locator('[data-action="slot-lantern"]').click();
+  await expect(page.locator('.inventory-detail')).toContainText('Damage 56 per enemy');
+});

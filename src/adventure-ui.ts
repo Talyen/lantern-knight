@@ -2,13 +2,14 @@ import { html } from './dom';
 import { bindPackPlacement } from './inventory-placement';
 import { packColumns, packRows } from './core/pack';
 import { createItemArtwork } from './item-art';
-import { forgeArtwork, forgeAnvilArtwork } from './content/item-art';
 import {
-  forgeChoices,
-  forgeCost,
+  upgrades,
+  upgradeIds,
+  upgradeOffer,
+  type UpgradeRanks,
   kitAttributes,
   scaledDamage,
-  type ForgeUpgrade,
+  type UpgradeId,
 } from './content/progression';
 import { tuning } from './content/gameplay';
 import type { Application } from './application';
@@ -33,8 +34,8 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
   let placement: ReturnType<typeof bindPackPlacement> | undefined;
   const panel = html<HTMLDialogElement>`<dialog class="adventure-panel gothic-panel" tabindex="-1" aria-label="Inventory and campfire"></dialog>`;
   let fire: string | undefined;
-  let workbench: string | undefined;
-  let choice: ForgeUpgrade | undefined;
+  let showingUpgrades = false;
+  let choice: UpgradeId | undefined;
   let working = false;
   let message = '';
   let messageError = false;
@@ -49,7 +50,8 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     if (disposed || !panel.open || working) return;
     placement?.cancel();
     panel.close();
-    fire = workbench = choice = undefined;
+    fire = choice = undefined;
+    showingUpgrades = false;
     app.pause(false);
     app.canvas.focus();
   }
@@ -91,7 +93,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
         if (disposed) return;
         deny();
         messageError = true;
-        message = workbench
+        message = showingUpgrades
           ? `${(error as Error).message}. Nothing was spent. Try again.`
           : (error as Error).message;
       } finally {
@@ -100,8 +102,8 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       }
     });
   }
-  function damage(upgrade: ForgeUpgrade, improved: boolean) {
-    const attributes = kitAttributes(improved ? upgrade : undefined);
+  function damage(upgrade: UpgradeId, ranks: Readonly<UpgradeRanks>) {
+    const attributes = kitAttributes(ranks);
     return upgrade === 'sword'
       ? scaledDamage(tuning.attack.damage, attributes.edge)
       : scaledDamage(tuning.ability.damage, attributes.ember) +
@@ -112,75 +114,70 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     const label = `${owned === undefined ? amount : `${owned} / ${amount}`} ${items[id]!.name}${insufficient ? ' · insufficient' : ''}`;
     return html`<span class="material-cost${insufficient ? ' insufficient' : ''}" role="img" aria-label="${label}">${artwork(id)}<span>${items[id]!.name} <strong>${owned === undefined ? amount : `${owned} / ${amount}`}</strong>${insufficient ? html`<small>More needed</small>` : false}</span></span>`;
   }
-  function forge() {
-    const owned = app.session.forgeUpgrade;
-    const active = owned ?? choice ?? 'sword';
-    const affordable = Object.entries(forgeCost).every(
-      ([id, amount]) => (app.session.inventory[id] ?? 0) >= amount,
-    );
-    const options = (['sword', 'lantern'] as const).map((upgrade) => {
-      const select = button(
-        '',
-        `choose-${upgrade}`,
-        () => {
-          choice = upgrade;
-          message = '';
-          messageError = false;
-          draw();
-          panel
-            .querySelector<HTMLButtonElement>('[data-action="confirm-upgrade"]')
-            ?.focus({ preventScroll: true });
-        },
-        working || !!owned,
+  function improvements() {
+    const active = choice ?? 'sword';
+    const ranks = app.session.upgrades;
+    const offer = upgradeOffer(active, ranks, app.session.inventory);
+    const nextRanks = { ...ranks, [active]: offer.rank + 1 };
+    const reason = !offer.next
+      ? offer.reason
+      : !fire
+        ? 'Visit any campfire to purchase.'
+        : offer.reason;
+    const options = upgradeIds.map((id) => {
+      const option = upgradeOffer(id, ranks, app.session.inventory);
+      const select = button('', `choose-${id}`, () => {
+        choice = id;
+        message = '';
+        messageError = false;
+        draw();
+      });
+      select.className = 'upgrade-option';
+      select.setAttribute('aria-label', `${upgrades[id].name} I`);
+      select.setAttribute('aria-pressed', String(active === id));
+      select.append(
+        artwork(id),
+        html`<span>${upgrades[id].name} I<small>${option.rank ? 'Rank I owned' : 'Not improved'}</small></span>`,
       );
-      select.className = 'forge-option';
-      select.setAttribute('aria-label', forgeChoices[upgrade].name);
-      select.setAttribute('aria-pressed', String(active === upgrade));
-      select.dataset.tip = forgeChoices[upgrade].name;
-      select.append(artwork(upgrade), html`<span>${forgeChoices[upgrade].name}</span>`);
       return select;
     });
     const confirm = button(
-      owned
-        ? 'Complete'
-        : working
-          ? 'Saving…'
-          : active === 'sword'
-            ? 'Temper sword'
-            : 'Rekindle lantern',
+      working ? 'Saving…' : !offer.next ? 'Complete' : 'Confirm upgrade',
       'confirm-upgrade',
       () => {
-        if (!workbench || owned) return;
-        const bench = workbench;
-        const upgrade = active;
+        if (!fire || !offer.next || reason) return;
+        const source = fire;
         run(async () => {
-          await app.purchaseForgeUpgrade(bench, upgrade);
+          await app.purchaseUpgrade(source, active);
           if (disposed) return;
-          choice = undefined;
-          message = `${forgeChoices[upgrade].name} complete.`;
+          message = `${upgrades[active].name} I complete.`;
         });
       },
-      working || !affordable || !!owned,
+      working || !!reason,
     );
-    confirm.setAttribute('aria-label', 'Confirm upgrade');
-    if (!owned)
-      confirm.setAttribute(
-        'aria-description',
-        Object.entries(forgeCost)
+    confirm.setAttribute(
+      'aria-description',
+      reason ??
+        Object.entries(offer.next!.cost)
           .map(
             ([id, amount]) =>
               `${items[id]!.name}: ${app.session.inventory[id] ?? 0} available, ${amount} required`,
           )
           .join('. '),
-      );
-    return html`<div class="adventure-content forge-content">
-      <div class="forge-illustration" aria-hidden="true">${artwork(forgeArtwork, 'forge-scene')}${artwork(forgeAnvilArtwork, 'forge-anvil')}${artwork(active, 'forge-featured-item')}</div>
-      <section class="forge-work" aria-label="Forge improvement">
-        <div class="forge-options" role="group" aria-label="Choose an improvement">${owned ? artwork(owned) : options}</div>
-        <h3>${forgeChoices[active].name}</h3>
-        <p class="forge-damage">${active === 'sword' ? 'Damage' : 'Damage per enemy'} <strong>${owned ? damage(active, true) : `${damage(active, false)} → ${damage(active, true)}`}</strong></p>
-        ${!owned && html`<div class="forge-costs" aria-label="Upgrade cost">${Object.entries(forgeCost).map(([id, amount]) => material(id, amount, (app.session.inventory[id] ?? 0) < amount, app.session.inventory[id] ?? 0))}</div>`}
-        <div class="forge-decision">${confirm}${!owned && html`<span class="permanent-choice">Choose one permanent upgrade. The other becomes unavailable.</span>`}</div>
+    );
+    const attributes = kitAttributes(offer.next ? nextRanks : ranks);
+    return html`<div class="adventure-content upgrade-content">
+      <section class="upgrade-kit" aria-label="Permanent kit improvements">
+        <div class="upgrade-options" role="group" aria-label="Choose an improvement">${options}</div>
+        <p>Permanent improvements at every campfire. Both paths can be earned.</p>
+      </section>
+      <section class="upgrade-work" aria-label="Selected improvement">
+        <h3>${upgrades[active].name} I</h3>
+        <p>${offer.rank ? 'Rank I owned · Maximum rank reached' : 'Rank 0 → I'}</p>
+        <p class="upgrade-damage">${active === 'sword' ? 'Sword damage' : 'Lantern damage per enemy'} <strong>${damage(active, ranks)}${offer.next ? ` → ${damage(active, nextRanks)}` : ''}</strong></p>
+        <details><summary>Damage breakdown</summary><p>${active === 'sword' ? `Sweep and lunge: ${scaledDamage(tuning.attack.damage, attributes.edge)} damage per impact.` : `Initial hit ${scaledDamage(tuning.ability.damage, attributes.ember)} + ${Math.floor(tuning.ability.burnDuration / tuning.ability.burnCadence)} Burn ticks of ${scaledDamage(tuning.ability.burnDamage, attributes.ember)} damage over three seconds.`}</p><p>Attack timing, lantern radius, four-second cooldown and half-second stagger stay the same.</p></details>
+        ${offer.next && html`<div class="upgrade-costs" aria-label="Upgrade cost">${Object.entries(offer.next.cost).map(([id, amount]) => material(id, amount, (app.session.inventory[id] ?? 0) < amount, app.session.inventory[id] ?? 0))}</div>`}
+        <div class="upgrade-decision">${confirm}<p>${reason ?? 'Spend the displayed materials to permanently improve your kit. Enemies and health stay as they are.'}</p></div>
       </section>
     </div>`;
   }
@@ -499,10 +496,10 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     dismiss.setAttribute('aria-label', 'Close item details');
     return html`<section class="inventory-detail" aria-label="Selected item">${dismiss}<div class="item-description" data-scroll="detail"><h3>${item.name}</h3>
       <p class="item-kind">${equippedSlot ? 'Equipped' : packEntry && packEntry.quantity > 1 ? `Count ${packEntry.quantity}` : 'Carried'} · ${item.footprint[0]} × ${item.footprint[1]} cells</p>
-      ${item.kind === 'material' && html`<p class="item-effect">Forge material</p>`}
+      ${item.kind === 'material' && html`<p class="item-effect">Upgrade material</p>`}
       ${slots && (item.maxHealth || (replacedId && items[replacedId]!.maxHealth)) ? html`<p class="item-comparison">Maximum health <strong>${app.sim.maxHealth} → ${projectedHealth} <small>(${projectedHealth - app.sim.maxHealth >= 0 ? '+' : ''}${projectedHealth - app.sim.maxHealth})</small></strong></p>` : false}
-      ${id === 'sword' && html`<p class="item-effect">Damage ${damage('sword', app.session.forgeUpgrade === 'sword')}</p>`}
-      ${id === 'lantern' && html`<p class="item-effect">Damage ${damage('lantern', app.session.forgeUpgrade === 'lantern')} per enemy</p>`}
+      ${id === 'sword' && html`<p class="item-effect">Damage ${damage('sword', app.session.upgrades)}</p>`}
+      ${id === 'lantern' && html`<p class="item-effect">Damage ${damage('lantern', app.session.upgrades)} per enemy</p>`}
       ${item.kind === 'potion' && html`<p class="item-effect">Restores 40 health</p>`}
       ${!equippedSlot && replacedId && replacedId !== id && html`<p class="item-replaces">Replaces ${items[replacedId]!.name}</p>`}
       ${item.salvage && html`<div class="salvage-yield" aria-label="Salvage yield">${Object.entries(item.salvage).map(([materialId, amount]) => material(materialId, amount * (app.session.inventory[id] ?? 0)))}</div>`}
@@ -523,27 +520,39 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     drawing.abort();
     drawing = new AbortController();
     drawSignal = AbortSignal.any([signal, drawing.signal]);
-    const title = fire
-      ? app.session.fire(fire).definition.name
-      : workbench
-        ? 'Forge workbench'
+    const title = showingUpgrades
+      ? 'Upgrade kit'
+      : fire
+        ? app.session.fire(fire).definition.name
         : 'Inventory';
-    const content = workbench ? forge() : fire ? campfire(fire) : inventory();
-    panel.classList.toggle('is-inventory', !workbench && !fire);
-    panel.classList.toggle('is-forge', !!workbench);
-    panel.classList.toggle('is-campfire', !!fire);
+    const content = showingUpgrades ? improvements() : fire ? campfire(fire) : inventory();
+    panel.classList.toggle('is-inventory', !showingUpgrades && !fire);
+    panel.classList.toggle('is-upgrades', showingUpgrades);
+    panel.classList.toggle('is-campfire', !showingUpgrades && !!fire);
+    const navigation = button(
+      showingUpgrades ? (fire ? 'Back to campfire' : 'Back to inventory') : 'Upgrade kit',
+      'upgrade-kit',
+      () => {
+        placement?.cancel();
+        showingUpgrades = !showingUpgrades;
+        message = '';
+        messageError = false;
+        draw();
+      },
+    );
+    navigation.className = 'adventure-navigation';
     const back = button('', 'return', close);
     back.append(artwork('ui-close', 'control-icon'));
     back.setAttribute('aria-label', 'Return to game');
     back.className = 'adventure-close';
     panel.setAttribute('aria-busy', String(working));
     panel.setAttribute('aria-label', title);
-    const header = html`<header class="adventure-header"><h2>${workbench ? 'Forge' : title}</h2>${back}</header>`;
+    const header = html`<header class="adventure-header"><h2>${title}</h2>${navigation}${back}</header>`;
 
     panel.replaceChildren(
       header,
       content,
-      html`<footer class="adventure-footer${messageError || working ? ' visible' : ''}"><p class="adventure-feedback${messageError ? ' error' : ''}" role="${messageError ? 'alert' : 'status'}">${message || (working ? 'Working…' : !workbench && !fire ? 'Select to inspect · Drag to arrange · M to move with keys' : '')}</p></footer>`,
+      html`<footer class="adventure-footer${messageError || working ? ' visible' : ''}"><p class="adventure-feedback${messageError ? ' error' : ''}" role="${messageError ? 'alert' : 'status'}">${message || (working ? 'Working…' : !showingUpgrades && !fire ? 'Select to inspect · Drag to arrange · M to move with keys' : '')}</p></footer>`,
     );
     content.scrollTop = scrollTop;
     for (const el of panel.querySelectorAll<HTMLElement>('[data-scroll]'))
@@ -569,13 +578,13 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     try {
       if (!interact) {
         if (app.sim.inCombat) throw new Error('Finish combat before opening inventory');
-        fire = workbench = undefined;
+        fire = undefined;
       } else {
         const target = app.interact();
         if (!target) return;
         fire = target.kind === 'campfire' ? target.id : undefined;
-        workbench = target.kind === 'workbench' ? target.id : undefined;
       }
+      showingUpgrades = false;
       choice = undefined;
       selected = undefined;
       equipTo = undefined;

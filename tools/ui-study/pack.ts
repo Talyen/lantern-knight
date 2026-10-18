@@ -65,7 +65,6 @@ export function samplePack(state: 'empty' | 'populated' | 'full') {
     ['orchard-ring', 'Orchard Ring', 1, 1, 1, 'Maximum health +10'],
     ['vigil-amulet', 'Vigil Amulet', 1, 1, 1, 'Maximum health +15'],
     ['belt', 'Leather Belt', 2, 1, 1, 'Belt equipment'],
-    ['workshop-temper', 'Workshop Temper', 1, 1, 1, 'One permanent forge improvement'],
     ['damaged-helmet', 'Damaged Helmet', 2, 2, 2, 'Salvage → 2 Iron, 2 Bone'],
     ['gatherers-seal', 'Gatherer’s Seal', 1, 1, 1, 'Maximum health +10'],
   ] as const;
