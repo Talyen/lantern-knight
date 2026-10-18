@@ -34,11 +34,13 @@ test('persisted proofs detect same-size edits with restored mtime, deletion and 
   const root = await temporaryDirectory(t, 'lantern-verification-identity-');
   const file = path.join(root, 'output');
   await fs.writeFile(file, 'accepted');
+  await fs.utimes(file, 1_700_000_000, 1_700_000_000);
   await verifiedOutput(root, ['output'], async () => {});
   assert.equal(await outputVerified(root, ['output'], '.verified-output.json'), true);
   const before = await fs.stat(file);
   await fs.writeFile(file, 'modified');
   await fs.utimes(file, before.atime, before.mtime);
+  assert.equal((await fs.stat(file)).mtimeMs, before.mtimeMs);
   assert.equal(await outputVerified(root, ['output'], '.verified-output.json'), false);
   await fs.rm(file);
   assert.equal(await outputVerified(root, ['output'], '.verified-output.json'), false);
@@ -59,6 +61,7 @@ test('parallel checksums preserve sorted identity, share aliases and invalidate 
     const name = String(i).padStart(2, '0');
     const bytes = Buffer.alloc((40 - i) * 1024, i);
     await fs.writeFile(path.join(root, name), bytes);
+    await fs.utimes(path.join(root, name), 1_700_000_000, 1_700_000_000);
     expected[name] = createHash('sha256').update(bytes).digest('hex');
   }
   await fs.link(path.join(root, '00'), path.join(root, 'alias'));
@@ -74,6 +77,7 @@ test('parallel checksums preserve sorted identity, share aliases and invalidate 
   const before = await fs.stat(file);
   await fs.writeFile(file, Buffer.alloc(before.size, 99));
   await fs.utimes(file, before.atime, before.mtime);
+  assert.equal((await fs.stat(file)).mtimeMs, before.mtimeMs);
   const changed = await fileChecksums(root, names, proofs);
   assert.notEqual(changed['00'], expected['00']);
   assert.equal(changed.alias, changed['00']);
