@@ -257,12 +257,13 @@ export class ActorPresentation {
         const t = attackDefinition(a),
           duration = clipDuration(clip),
           strike =
-            binding.attackContactDrawing === undefined
+            clip.markers?.find((marker) => marker.id === 'visual_orb_cast')?.atMs ??
+            (binding.attackContactDrawing === undefined
               ? (clip.notifies.find((n) => n.kind === 'whoosh')?.atMs ??
                 (duration * t.windup) / t.total)
               : clip.durationsMs
                   .slice(0, binding.attackContactDrawing - 1)
-                  .reduce((sum, hold) => sum + hold, 0),
+                  .reduce((sum, hold) => sum + hold, 0)),
           end = strike + (duration * (t.activeEnd - t.windup)) / t.total;
         const visual =
           t.windup > 0 && a.age <= t.windup
@@ -332,8 +333,8 @@ export class ActorPresentation {
       v.sprite.stabilized = a.kind === 'hero' ? options.stabilized : true;
       v.sprite.rigidSword = options.rigidSword;
       const winding =
-        a.kind === 'enemy' && a.state === 'attack' && a.age < a.definition.melee.windup;
-      const charge = winding ? Math.max(0, (a.age / a.definition.melee.windup - 0.45) / 0.55) : 0;
+        a.kind === 'enemy' && a.state === 'attack' && a.age < a.definition.attack.windup;
+      const charge = winding ? Math.max(0, (a.age / a.definition.attack.windup - 0.45) / 0.55) : 0;
       // One accelerating accent makes the commitment readable without blinking.
       const poisedAccent = charge * charge * (a.definition.poise ? 1 : 0.65);
       v.sprite.material.color.set(binding.tint).multiplyScalar(1 + poisedAccent * 0.35);
@@ -343,7 +344,7 @@ export class ActorPresentation {
         v.sprite.manifest.asset.id === 'ink-hero-current' ? options.animationTreatment : 'original',
         options.animationFlow,
       );
-      if (a.kind === 'enemy' && a.state === 'attack') {
+      if (a.kind === 'enemy' && a.state === 'attack' && a.definition.attack.kind === 'melee') {
         const timing = attackDefinition(a),
           afterContact = a.age - 1 + alpha - timing.windup,
           thrust = afterContact >= 0 ? Math.max(0, 1 - afterContact / 10) : -charge * 0.45;

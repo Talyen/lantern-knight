@@ -751,10 +751,10 @@ export function mountScene(
       return;
     }
     const hero = sim.hero;
-    if (hero.definition.melee.sweepRange !== sweepRange)
+    if (hero.definition.attack.kind === 'melee' && hero.definition.attack.sweepRange !== sweepRange)
       hero.definition = {
         ...hero.definition,
-        melee: { ...hero.definition.melee, sweepRange: sweepRange },
+        attack: { ...hero.definition.attack, sweepRange: sweepRange },
       };
   }
   function stopSweepReplay() {

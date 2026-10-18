@@ -14,7 +14,8 @@ import {
 } from '../content/sweep-timing';
 import { attackDefinition } from '../content/gameplay';
 import { selectDirection, selectAuthoredDirection } from '../content/headings';
-import { clipDuration } from '../core/animation';
+import { clipDuration, frameAt } from '../core/animation';
+import { ribLaneArtwork } from '../content/rib-lane';
 import type { EventHub, GameplayEvent } from '../core/events';
 import type { ActorView, SimulationView } from '../core/simulation-view';
 import type { Visual } from './actor-presentation';
@@ -45,6 +46,7 @@ export class CombatFeedback {
   private pulse: { tick: number; generation: number; action: number } | undefined;
   private active: ActiveEffect[] = [];
   private prepared = new Map<string, ActorSprite>();
+  private lanes = new Map<string, ActorSprite>();
   private disposed = false;
   private pending: GameplayEvent[] = [];
   private impacts: {
@@ -76,7 +78,10 @@ export class CombatFeedback {
     // Compile through the actual covered beauty pass: compileAsync alone uses
     // different light counts/output color space from the postprocessing target.
     // Keep references alive afterward so bursts cannot retire their programs.
-    for (const asset of combatEffectAssets) {
+    for (const asset of [
+      ...combatEffectAssets,
+      ...(this.packs.has(settings.ribLane.asset) ? [settings.ribLane.asset] : []),
+    ]) {
       if (this.prepared.has(asset)) continue;
       const pack = this.packs.get(asset);
       if (!pack) throw new Error(`Combat feedback asset not acquired: ${asset}`);
@@ -129,6 +134,56 @@ export class CombatFeedback {
     this.group.add(sprite.mesh);
     this.active.push({ ...effect, sprite, duration: effect.duration ?? clipDuration(clip) });
   }
+  private clearLanes() {
+    for (const sprite of this.lanes.values()) sprite.dispose();
+    this.lanes.clear();
+  }
+  private updateLanes(sim: SimulationView, alpha: number) {
+    const ids = new Set(sim.ribLanes.map((lane) => lane.id));
+    for (const [id, sprite] of this.lanes) {
+      if (ids.has(id)) continue;
+      sprite.dispose();
+      this.lanes.delete(id);
+    }
+    for (const lane of sim.ribLanes) {
+      const pack = this.packs.get(settings.ribLane.asset);
+      const clip = pack?.manifest.asset.clips[settings.ribLane.clip]?.d45;
+      if (!pack || !clip) throw new Error('Rib lane artwork not acquired');
+      let sprite = this.lanes.get(lane.id);
+      if (!sprite) {
+        sprite = new ActorSprite(`rib-lane:${lane.id}`, pack.manifest, pack.textures, clip);
+        sprite.mesh.name = 'combat-rib-lane';
+        this.lanes.set(lane.id, sprite);
+        this.group.add(sprite.mesh);
+      }
+      const age = Math.max(0, lane.age - 1 + alpha);
+      const contact = clip.markers?.find((m) => m.id === 'contact')?.atMs ?? 1020;
+      const elapsed =
+        age < lane.windup
+          ? (age * contact) / lane.windup
+          : contact + ((age - lane.windup) * (1530 - contact)) / (lane.total - lane.windup);
+      const scale = lane.length / ribLaneArtwork.worldLength;
+      sprite.mesh.scale.setScalar(scale);
+      const position = new T.Vector3(lane.x, lane.y + 0.025, lane.z)
+        .addScaledVector(right, -ribLaneArtwork.centerOffset.x * scale)
+        .addScaledVector(up, -ribLaneArtwork.centerOffset.y * scale)
+        .addScaledVector(
+          outward,
+          (ribLaneArtwork.centerOffset.y * scale) /
+            Math.tan(T.MathUtils.degToRad(cameraContract.elevationDeg)),
+        );
+      sprite.show(frameAt(clip, elapsed), position, this.camera);
+      // Preserve every projected source pixel while giving the card ground depth.
+      const vertices = sprite.geometry.getAttribute('position') as T.BufferAttribute;
+      for (let i = 0; i < vertices.count; i++)
+        vertices.setZ(
+          i,
+          -vertices.getY(i) / Math.tan(T.MathUtils.degToRad(cameraContract.elevationDeg)),
+        );
+      vertices.needsUpdate = true;
+      sprite.mesh.userData = { age, x: lane.x, z: lane.z, length: lane.length, width: lane.width };
+    }
+  }
   update(
     sim: SimulationView,
     alpha = 1,
@@ -137,6 +192,7 @@ export class CombatFeedback {
   ) {
     if (this.disposed) return;
     if (this.generation !== sim.generation) {
+      this.clearLanes();
       for (const effect of this.active) effect.sprite.dispose();
       this.active = [];
       this.castTag = '';
@@ -145,6 +201,7 @@ export class CombatFeedback {
       this.generation = sim.generation;
       this.primePrepared();
     }
+    this.updateLanes(sim, alpha);
     for (const event of this.pending) {
       if (event.generation !== sim.generation) continue;
       const source = sim.actors.find((actor) => actor.id === event.actor);
@@ -432,6 +489,14 @@ export class CombatFeedback {
     }
   }
   reset() {
+    this.clearLanes();
+    // SceneAssets has installed the next room; retire borrowed representatives
+    // before its rebuild callback releases the previous room’s textures.
+    for (const [asset, sprite] of this.prepared) {
+      if (this.packs.has(asset)) continue;
+      this.prepared.delete(asset);
+      sprite.dispose();
+    }
     for (const effect of this.active) effect.sprite.dispose();
     this.active = [];
     this.pending = [];

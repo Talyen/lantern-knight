@@ -160,7 +160,8 @@ export class EncounterBehavior {
         kind: 'pursuit',
         cancelAttack,
         attack:
-          Math.hypot(hero.x - actor.x, hero.z - actor.z) <= actor.definition.melee.range && contact,
+          Math.hypot(hero.x - actor.x, hero.z - actor.z) <= actor.definition.attack.range &&
+          contact,
       };
     }
     return { kind: 'none', cancelAttack };

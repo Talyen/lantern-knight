@@ -104,6 +104,7 @@ export class AudioFeedback {
         if (
           event.notify === 'footstep' &&
           actor?.state === 'walk' &&
+          actorVisuals[actor.definition.visual]?.groundFootsteps !== false &&
           Math.hypot(actor.x - actor.px, actor.z - actor.pz) > 0.001
         ) {
           this.authored.add(actor.id);
@@ -147,6 +148,7 @@ export class AudioFeedback {
         !previous ||
         frozen ||
         actor.state !== 'walk' ||
+        actorVisuals[actor.definition.visual]?.groundFootsteps === false ||
         contacts.has(actor.id) ||
         this.authored.has(actor.id) ||
         actorVisuals[actor.definition.visual]?.asset === 'ink-hero-current'

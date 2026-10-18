@@ -1,4 +1,5 @@
 export const combatFeedback = {
+  ribLane: { asset: 'library-combat-candlebone-rib-lane', clip: 'show' },
   flare: {
     asset: 'library-animation-09492a7b61152c09-b72d9dc365fb',
     clip: 'lantern_flare_fx',
@@ -35,4 +36,7 @@ export const combatEffectCatalog = Object.fromEntries(
     .map(({ asset }) => asset)
     .map((id) => [id, `generated/library/${id}/manifest.json`]),
 );
-export const combatEffectAssets = Object.keys(combatEffectCatalog);
+// Rib lanes belong to rooms with casters, not the hero’s shared action kit.
+export const combatEffectAssets = Object.entries(combatFeedback)
+  .filter(([kind]) => kind !== 'ribLane')
+  .map(([, effect]) => effect.asset);

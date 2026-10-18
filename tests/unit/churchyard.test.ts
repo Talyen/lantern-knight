@@ -141,7 +141,7 @@ test('narrow authored framing keeps the hero and full silhouette inside the view
 test('skeletons close the last part of their reach and can hit a stationary player', () => {
   const s = new Simulation(content, 142, content.definitions.initialArea, 1),
     enemy = s.enemies[0]!;
-  Object.assign(s.hero, { x: enemy.x, z: enemy.z + enemy.definition.melee.range + 0.06 });
+  Object.assign(s.hero, { x: enemy.x, z: enemy.z + enemy.definition.attack.range + 0.06 });
   s.move(s.hero, 0, 0);
   for (let i = 0; i < 120; i++) s.step(still);
   assert.ok(s.hero.health < 100, 'an enemy must not swing forever outside its hit range');

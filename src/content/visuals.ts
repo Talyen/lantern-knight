@@ -9,6 +9,7 @@ export type ActorVisualDefinition = {
   attackContactDrawing?: number;
   tint: number;
   scale?: number;
+  groundFootsteps?: boolean;
 };
 export const actorVisuals: Readonly<Record<string, ActorVisualDefinition>> = {
   hero: {
@@ -32,6 +33,23 @@ export const actorVisuals: Readonly<Record<string, ActorVisualDefinition>> = {
       death: 'defeat',
     },
     attacks: ['attack', 'attack'],
+    tint: 0xffffff,
+  },
+  'candlebone-oracle': {
+    id: 'candlebone-oracle',
+    groundFootsteps: false,
+    asset: 'library-sk03',
+    clips: {
+      idle: 'move',
+      walk: 'move',
+      attack: 'attack',
+      dodge: 'move',
+      ability: 'move',
+      hurt: 'hit',
+      death: 'defeat',
+    },
+    attacks: ['attack', 'attack'],
+    attackContactDrawing: 5,
     tint: 0xffffff,
   },
   'chapel-warden': {

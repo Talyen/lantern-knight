@@ -494,6 +494,10 @@ test('movement foley requires traveled distance, not idle animation or frozen fr
   hero.x += 0.7;
   feedback.frame(sim, true);
   assert.equal(calls.length, before);
+  hero.definition = { ...hero.definition, visual: 'candlebone-oracle' };
+  hero.x += 0.7;
+  feedback.frame(sim, false);
+  assert.equal(calls.length, before, 'hovering Oracle has no ground footsteps');
 });
 
 test('audio authoring verifies source hashes and rejects changed or escaped sources', async (t) => {

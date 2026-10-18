@@ -123,7 +123,7 @@ test('a lantern burst drives nearby undead back while interrupting their attack'
   const s = duel(),
     [first, second] = s.enemies;
   s.start(first!, 'attack');
-  first!.age = first!.definition.melee.windup;
+  first!.age = first!.definition.attack.windup;
   s.start(s.hero, 'ability');
   s.hero.age = tuning.ability.windup;
   s.step(still);

@@ -35,7 +35,7 @@ test('presentation view stays live across ticks and actor replacement without ex
     // @ts-expect-error Presentation cannot consume pickups.
     view.collectedPickups.add('pickup');
     // @ts-expect-error Presentation cannot edit accepted content.
-    view.hero.definition.melee.damage = 0;
+    view.hero.definition.attack.damage = 0;
   }
 });
 

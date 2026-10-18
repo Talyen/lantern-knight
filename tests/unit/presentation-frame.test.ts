@@ -32,6 +32,116 @@ import {
   combatFeedback as feedbackSettings,
   combatEffectAssets,
 } from '../../src/content/combat-feedback';
+import { lanePoint, ribLaneAttack } from '../../src/content/rib-lane';
+import { cameraContract } from '../../src/assets/camera-contract';
+import { makeCamera } from '../../src/presentation/camera';
+
+test('room-specific rib representatives retire before their pack is released', () => {
+  const texture = new CanvasTexture({} as HTMLCanvasElement),
+    manifest = manifestFixture();
+  const packs = new Map<
+    string,
+    { manifest: typeof manifest; textures: Map<string, CanvasTexture> }
+  >(
+    [...combatEffectAssets, feedbackSettings.ribLane.asset].map((asset) => [
+      asset,
+      { manifest, textures: new Map([['atlas-0', texture]]) },
+    ]),
+  );
+  const feedback = new CombatFeedback(packs, new OrthographicCamera(), new EventHub());
+  try {
+    feedback.prepare();
+    assert.equal(feedback.group.children.length, combatEffectAssets.length + 1);
+    let disposed = 0;
+    (feedback.group.children.at(-1) as Mesh).geometry.addEventListener('dispose', () => disposed++);
+    packs.delete(feedbackSettings.ribLane.asset);
+    feedback.reset();
+    assert.equal(disposed, 1);
+    assert.equal(feedback.group.children.length, combatEffectAssets.length);
+    feedback.prepare();
+    assert.equal(feedback.group.children.length, combatEffectAssets.length);
+  } finally {
+    feedback.dispose();
+    texture.dispose();
+  }
+});
+
+test('rib artwork endpoints match the locked ground footprint and retire on cancellation', () => {
+  const texture = new CanvasTexture({} as HTMLCanvasElement);
+  const manifest = manifestFixture(feedbackSettings.ribLane.asset);
+  Object.assign(manifest.asset, {
+    canvas: [512, 384],
+    density: 256,
+    anchor: [256, 192],
+    projection: 'projected-world',
+  });
+  manifest.frames = [{ ...manifest.frames[0]!, rect: [0, 0, 512, 384], trim: [0, 0, 512, 384] }];
+  Object.assign(manifest.pages[0]!, { width: 512, height: 384 });
+  manifest.asset.clips.show = {
+    d45: {
+      frames: [manifest.frames[0]!.id],
+      durationsMs: [1880],
+      loop: false,
+      notifies: [],
+      markers: [{ id: 'contact', atMs: 1020 }],
+    },
+  };
+  const feedback = new CombatFeedback(
+    new Map([
+      [feedbackSettings.ribLane.asset, { manifest, textures: new Map([['atlas-0', texture]]) }],
+    ]),
+    makeCamera(1),
+    new EventHub(),
+  );
+  const sim = new Simulation(content);
+  const lane = {
+    id: 'locked',
+    source: sim.enemies[0]!.id,
+    x: 0,
+    y: 0,
+    z: 0,
+    age: 45,
+    length: 4,
+    width: 0.8,
+    windup: ribLaneAttack.windup,
+    total: ribLaneAttack.total,
+  };
+  try {
+    for (let frame = 0; frame < 2; frame++) {
+      feedback.update({ ...sim.view, ribLanes: [lane] });
+      const mesh = feedback.group.children.find((c) => c.name === 'combat-rib-lane')!;
+      mesh.updateMatrixWorld(true);
+      const point = (x: number, y: number) => {
+        const u = (x - 256) / 256,
+          v = (192 - y) / 256;
+        return new Vector3(
+          u,
+          v,
+          -v / Math.tan((cameraContract.elevationDeg * Math.PI) / 180),
+        ).applyMatrix4(mesh.matrixWorld);
+      };
+      assert.ok(point(0.49 * 512, 0.57 * 384).distanceTo(new Vector3(0, 0.025, 0)) < 1e-6);
+      for (const [x, y, along] of [
+        [0.18, 0.72, -2],
+        [0.8, 0.42, 2],
+      ]) {
+        const expected = lanePoint(lane, along!, 0);
+        assert.ok(
+          point(x! * 512, y! * 384).distanceTo(new Vector3(expected.x, 0.025, expected.z)) < 1e-6,
+        );
+      }
+    }
+    const mesh = feedback.group.children[0] as Mesh;
+    let disposed = 0;
+    mesh.geometry.addEventListener('dispose', () => disposed++);
+    feedback.update(sim.view);
+    assert.equal(feedback.group.children.length, 0);
+    assert.equal(disposed, 1);
+  } finally {
+    feedback.dispose();
+    texture.dispose();
+  }
+});
 
 test('combat shader representatives prime offscreen in the beauty pass and survive resets until disposal', () => {
   const texture = new CanvasTexture({} as HTMLCanvasElement),
@@ -381,11 +491,11 @@ test('the armored warden holds its hammer windup until the damage tick in every 
     enemy.action++;
     enemy.yaw = (index * Math.PI) / 2;
     enemy.actionHeading = heading;
-    enemy.age = enemy.definition.melee.windup / 2;
+    enemy.age = enemy.definition.attack.windup / 2;
     presentation.update(sim.view, 1, 0, options);
     const visual = presentation.actors.get(enemy.id)!;
     const quiet = visual.sprite.material.color.r;
-    enemy.age = enemy.definition.melee.windup - 1;
+    enemy.age = enemy.definition.attack.windup - 1;
     presentation.update(sim.view, 1, 0, options);
     assert.equal(visual.sprite.animator.frame, 'windup', heading);
     assert.ok(
@@ -395,7 +505,7 @@ test('the armored warden holds its hammer windup until the damage tick in every 
     enemy.age++;
     presentation.update(sim.view, 1, 0, options);
     assert.equal(visual.sprite.animator.frame, 'contact', heading);
-    enemy.age = enemy.definition.melee.total - 1;
+    enemy.age = enemy.definition.attack.total - 1;
     presentation.update(sim.view, 1, 0, options);
     assert.equal(visual.sprite.animator.frame, 'recovery', heading);
   }
@@ -408,7 +518,7 @@ test('the armored warden holds its hammer windup until the damage tick in every 
 
 function actorFixture(t: import('node:test').TestContext, zeroWindup = false) {
   const definitions = structuredClone(content.definitions) as ContentDefinitions;
-  if (zeroWindup) definitions.actors[0]!.melee.windup = 0;
+  if (zeroWindup) definitions.actors[0]!.attack.windup = 0;
   definitions.actors = [
     ...definitions.actors,
     { ...actorDefinitions.find((a) => a.id === 'chapel-warden')! },
@@ -483,7 +593,7 @@ test('Burn cannot weaken an enemy attack warning and returns after the windup', 
     const enemy = sim.create(sim.enemies[0]!.id, 'enemy', 1, 0, definition);
     sim.actors[1] = enemy;
     enemy.state = 'attack';
-    enemy.age = enemy.definition.melee.windup - 1;
+    enemy.age = enemy.definition.attack.windup - 1;
     update();
     const ring = presentation.actors.get(enemy.id)!.ring;
     const material = ring.material as MeshBasicMaterial;
@@ -495,7 +605,7 @@ test('Burn cannot weaken an enemy attack warning and returns after the windup', 
       assert.equal(material.opacity, warning.opacity, definition);
       assert.equal(ring.visible, true);
     }
-    enemy.age = enemy.definition.melee.windup;
+    enemy.age = enemy.definition.attack.windup;
     update();
     assert.equal(ring.visible, true, 'Burn remains visible during the swing');
     assert.notEqual(material.color.getHex(), warning.color);

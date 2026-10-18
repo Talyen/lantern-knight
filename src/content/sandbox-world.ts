@@ -13,7 +13,7 @@ export const sandboxDefinitions: ContentDefinitions = {
       maxHealth: tuning.enemy.maxHealth,
       radius: tuning.heroRadius,
       speed: tuning.enemy.speed,
-      melee: { ...tuning.enemy, halfAngle: 1.1 },
+      attack: { kind: 'melee', ...tuning.enemy, halfAngle: 1.1 },
       visual: 'ossuary-thrall',
     },
     {
@@ -22,7 +22,8 @@ export const sandboxDefinitions: ContentDefinitions = {
       maxHealth: 140,
       radius: 0.35,
       speed: 0.75,
-      melee: {
+      attack: {
+        kind: 'melee',
         windup: 42,
         activeEnd: 46,
         total: 72,

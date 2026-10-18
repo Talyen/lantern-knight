@@ -1,6 +1,7 @@
 import { heroActionTiming, heroCelTick, type HeroAttackKind } from './hero-actions';
 import type { SweepTiming } from './sweep-timing';
 import type { AuthoredHeading } from './headings';
+import type { AttackDefinition } from './world';
 export const tuning = {
   cameraFollow: true,
   tickHz: 60,
@@ -56,30 +57,25 @@ export function attackDefinition(actor: {
   sweepTiming?: SweepTiming;
   actionHeading: AuthoredHeading;
   definition: {
-    melee: {
-      windup: number;
-      activeEnd: number;
-      total: number;
-      range: number;
-      sweepRange?: number;
-      halfAngle: number;
-      damage: number;
-    };
+    attack: AttackDefinition;
   };
 }) {
+  const attack = actor.definition.attack;
   return actor.kind === 'hero'
     ? {
         ...tuning.attack,
-        damage: actor.definition.melee.damage,
+        damage: actor.definition.attack.damage,
         range:
           actor.attackKind === 'sweep'
-            ? (actor.definition.melee.sweepRange ?? actor.definition.melee.range)
-            : actor.definition.melee.range,
+            ? attack.kind === 'melee'
+              ? (attack.sweepRange ?? attack.range)
+              : attack.range
+            : actor.definition.attack.range,
         ...heroActionTiming(actor.attackKind, actor.actionHeading, actor.sweepTiming),
         clip: actor.attackKind,
         halfAngle: actor.attackKind === 'sweep' ? tuning.sweepHalfAngle : 0.35,
       }
-    : actor.definition.melee;
+    : { ...attack, halfAngle: attack.kind === 'melee' ? attack.halfAngle : 0 };
 }
 export const clipForState = {
   idle: 'idle',

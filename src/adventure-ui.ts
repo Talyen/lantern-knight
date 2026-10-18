@@ -13,7 +13,7 @@ import {
 } from './content/progression';
 import { tuning } from './content/gameplay';
 import type { Application } from './application';
-import { equipmentSlots, items, type EquipmentSlot } from './content/items';
+import { equipmentSlots, items, burningSwordBonus, type EquipmentSlot } from './content/items';
 import { createPlayerIcon } from './player-icons';
 const slotNames: Record<EquipmentSlot, string> = {
   body: 'Body',
@@ -425,6 +425,20 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       app.sim.maxHealth -
       (replacedId ? (items[replacedId]!.maxHealth ?? 0) : 0) +
       (equippedSlot ? 0 : (item.maxHealth ?? 0));
+    const projectedEquipment = { ...app.session.equipment };
+    if (targetSlot) {
+      if (equippedSlot) delete projectedEquipment[targetSlot];
+      else projectedEquipment[targetSlot] = id;
+    }
+    const burningDamage = (equipment: typeof projectedEquipment) =>
+      scaledDamage(
+        tuning.attack.damage,
+        kitAttributes(app.session.upgrades).edge * (1 + burningSwordBonus(equipment) / 100),
+      );
+    const compareBurn =
+      targetSlot &&
+      (burningSwordBonus(app.session.equipment) !== burningSwordBonus(projectedEquipment) ||
+        item.burningSwordBonusPercent);
     const actions: HTMLElement[] = [];
     if (equippedSlot) {
       const control = button('Unequip', 'unequip', () =>
@@ -498,6 +512,8 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
       <p class="item-kind">${equippedSlot ? 'Equipped' : packEntry && packEntry.quantity > 1 ? `Count ${packEntry.quantity}` : 'Carried'} · ${item.footprint[0]} × ${item.footprint[1]} cells</p>
       ${item.kind === 'material' && html`<p class="item-effect">Upgrade material</p>`}
       ${slots && (item.maxHealth || (replacedId && items[replacedId]!.maxHealth)) ? html`<p class="item-comparison">Maximum health <strong>${app.sim.maxHealth} → ${projectedHealth} <small>(${projectedHealth - app.sim.maxHealth >= 0 ? '+' : ''}${projectedHealth - app.sim.maxHealth})</small></strong></p>` : false}
+      ${item.burningSwordBonusPercent && html`<p class="item-effect">Sword hits deal ${item.burningSwordBonusPercent}% more damage to burning enemies.</p>`}
+      ${compareBurn && html`<p class="item-comparison">Sword damage against burning enemies <strong>${burningDamage(app.session.equipment)} → ${burningDamage(projectedEquipment)}</strong></p>`}
       ${id === 'sword' && html`<p class="item-effect">Damage ${damage('sword', app.session.upgrades)}</p>`}
       ${id === 'lantern' && html`<p class="item-effect">Damage ${damage('lantern', app.session.upgrades)} per enemy</p>`}
       ${item.kind === 'potion' && html`<p class="item-effect">Restores 40 health</p>`}

@@ -8,7 +8,9 @@ import type { GameSave } from '../../src/core/save';
 
 test.use({ actionTimeout: 30_000, screenshot: 'only-on-failure' });
 
-for (const choice of ['sword', 'lantern'] as const) {
+for (const choice of ['neither', 'sword', 'lantern', 'both'] as const) {
+  const ranks =
+    choice === 'neither' ? {} : choice === 'both' ? { sword: 1, lantern: 1 } : { [choice]: 1 };
   test(`${choice} kit reaches the chapel and retains its vigil reward through retry and return`, async ({
     page,
   }) => {
@@ -26,7 +28,10 @@ for (const choice of ['sword', 'lantern'] as const) {
     Object.assign(session.sim.hero, forward.marker);
     session.sim.enemies.forEach((a) => (a.health = 0));
     const seed = session.captureSave();
-    seed.adventure!.upgrades = { [choice]: 1 };
+    seed.adventure!.upgrades = ranks;
+    seed.adventure!.inventory['cinder-signet'] = 1;
+    seed.adventure!.equipment.ring2 = 'cinder-signet';
+    delete seed.adventure!.pack;
     seed.areas[forge.id]!.cleared = true;
     const ready = async () => {
       await page.waitForFunction(
@@ -81,7 +86,7 @@ for (const choice of ['sword', 'lantern'] as const) {
     );
     await page.keyboard.press('Escape');
     const arrived = await checkpoint();
-    expect(arrived.adventure!.upgrades).toEqual({ [choice]: 1 });
+    expect(arrived.adventure!.upgrades).toEqual(ranks);
     expect(arrived.player.x).toBeCloseTo(chapel.entries.find((e) => e.id === 'fire-' + fire.id)!.x);
     expect(arrived.adventure!.discovered).toContain(chapel.id + '/' + fire.id);
     const gathering = structuredClone(arrived);
@@ -127,7 +132,8 @@ for (const choice of ['sword', 'lantern'] as const) {
     await expect(page.locator('#hp')).toHaveText('100 / 115');
     const continued = await checkpoint();
     expect(continued.adventure!.equipment.amulet).toBe('vigil-amulet');
-    expect(continued.adventure!.upgrades).toEqual({ [choice]: 1 });
+    expect(continued.adventure!.equipment.ring2).toBe('cinder-signet');
+    expect(continued.adventure!.upgrades).toEqual(ranks);
     const dead = structuredClone(rewarded);
     dead.player.health = 0;
     await restore(dead);

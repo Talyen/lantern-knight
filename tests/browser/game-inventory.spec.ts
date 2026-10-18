@@ -23,6 +23,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
     bone: 2,
     'health-potion': 2,
     'orchard-ring': 2,
+    'cinder-signet': 1,
     'travellers-charm': 1,
     'gatherers-seal': 1,
     'damaged-axe': 2,
@@ -103,6 +104,22 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await expect(detail).toContainText('130 → 120');
   await detail.getByRole('button', { name: 'Unequip', exact: true }).click();
   await expect(page.locator('#hp')).toHaveText('60 / 120');
+  await pick('Cinder Signet');
+  await expect(detail).toContainText('Sword hits deal 25% more damage to burning enemies.');
+  await expect(detail).toContainText('26 → 33');
+  await capture('cinder-comparison-1280');
+  await detail.getByRole('combobox', { name: 'Equip to' }).selectOption('ring2');
+  await expect(detail).toContainText('Maximum health 120 → 110');
+  await detail.getByRole('button', { name: 'Equip', exact: true }).click();
+  await pick('Orchard Ring');
+  await detail.getByRole('combobox', { name: 'Equip to' }).selectOption('ring2');
+  await expect(detail).toContainText('33 → 26');
+  await panel.locator('[data-action="slot-ring2"]').click();
+  await expect(detail).toContainText('33 → 26');
+  await detail.getByRole('button', { name: 'Unequip', exact: true }).click();
+  await pick('Orchard Ring');
+  await detail.getByRole('combobox', { name: 'Equip to' }).selectOption('ring2');
+  await detail.getByRole('button', { name: 'Equip', exact: true }).click();
   await pick('Health Potion');
   await expect(detail).toContainText('Restores 40 health');
   await pick('Damaged Axe');
@@ -112,6 +129,10 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await expect(panel.locator('.inventory-row').filter({ hasText: 'Damaged' })).toHaveCount(0);
   await expect(panel.locator('.inventory-row').filter({ hasText: 'Iron ×10' })).toBeVisible();
   await page.setViewportSize({ width: 640, height: 800 });
+  await pick('Cinder Signet');
+  await expect(detail).toContainText('26 → 33');
+  await expect(detail.locator('.item-comparison').last()).toBeInViewport({ ratio: 1 });
+  await capture('cinder-comparison-640');
   await pick('Orchard Ring');
   await expect(detail.getByRole('button', { name: 'Equip', exact: true })).toBeInViewport({
     ratio: 1,

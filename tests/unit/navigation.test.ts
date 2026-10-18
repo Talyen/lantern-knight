@@ -764,7 +764,7 @@ test('large enemies choose melee positions within the hero height range', () => 
   }));
   const definitions = structuredClone(contentDefinitions);
   definitions.actors[0]!.radius = 0.7;
-  definitions.actors[0]!.melee.range = 2;
+  definitions.actors[0]!.attack.range = 2;
   const sim = new Simulation(
     new ContentRegistry({ ...definitions, initialArea: a.id, areas: [a] }),
   );
