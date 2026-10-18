@@ -42,14 +42,9 @@ export class Simulation {
   private readonly movement: MovementPlans;
   private readonly encounter: EncounterBehavior;
   readonly #combat: CombatActions;
-  // Room membership is fixed by populate; cache identity lookups so per-tick
-  // and per-frame queries avoid scanning the actor list.
-  #hero!: Actor;
-  #enemies: Actor[] = [];
-  #byId = new Map<string, Actor>();
   #enemyDefinitionId: string | undefined;
   setMovementTarget(id: string, target: Point | null) {
-    const actor = this.#byId.get(id);
+    const actor = this.actors.find((actor) => actor.id === id);
     if (!actor) return false;
     this.movement.setManual(actor, target, this.tick);
     return true;
@@ -82,10 +77,10 @@ export class Simulation {
   drops: GroundDrop[] = [];
   potionCooldown = 0;
   get maxHealth() {
-    return this.#hero.definition.maxHealth + this.inventoryAccess.healthBonus;
+    return this.hero.definition.maxHealth + this.inventoryAccess.healthBonus;
   }
   private spawnActor(spawnId: string): Actor | undefined {
-    return this.#byId.get(spawnActorId(this.area, spawnId));
+    return this.actors.find((actor) => actor.id === spawnActorId(this.area, spawnId));
   }
   guardsDefeated(ids: readonly string[] = []) {
     for (const id of ids) if (this.spawnActor(id)?.health !== 0) return false;
@@ -96,7 +91,7 @@ export class Simulation {
     return Boolean(e && (!e.requiresClear || this.cleared) && this.guardsDefeated(e.guards));
   }
   get inCombat() {
-    return this.encounter.inCombat(this.#hero, this.#enemies, this.engaged);
+    return this.encounter.inCombat(this.hero, this.enemies, this.engaged);
   }
 
   openContainer(id: string) {
@@ -232,10 +227,7 @@ export class Simulation {
           p.actor,
         ),
       );
-    this.#hero = this.actors[0]!;
-    this.#enemies = this.actors.filter((a) => a.kind === 'enemy');
-    this.#byId = new Map(this.actors.map((actor) => [actor.id, actor]));
-    this.cleared = this.#enemies.length === 0;
+    this.cleared = this.enemies.length === 0;
     this.engaged = !def.activation;
   }
   captureAreaState(): AreaState {
@@ -331,10 +323,12 @@ export class Simulation {
     };
   }
   get hero() {
-    return this.#hero;
+    const hero = this.actors.find((actor) => actor.id === PLAYER_ID);
+    if (!hero) throw new Error('missing player');
+    return hero;
   }
   get enemies(): readonly Actor[] {
-    return this.#enemies;
+    return this.actors.filter((actor) => actor.kind === 'enemy');
   }
   emit(a: Actor, details: EventDetails) {
     const event = Object.freeze({
@@ -373,11 +367,7 @@ export class Simulation {
     a.y = heightAt(this.areaDefinition, a.x, a.z);
   }
   damage(from: Actor, to: Actor, amount: number, generation = this.generation) {
-    if (
-      generation !== this.generation ||
-      this.#byId.get(from.id) !== from ||
-      this.#byId.get(to.id) !== to
-    )
+    if (generation !== this.generation || !this.actors.includes(from) || !this.actors.includes(to))
       return;
     this.#combat.damage(from, to, amount);
   }
@@ -385,7 +375,7 @@ export class Simulation {
     this.tick++;
     this.tickEvents.length = 0;
     this.#combat.beginTick();
-    const h = this.#hero;
+    const h = this.hero;
     const maxHealth = this.maxHealth;
     const command = acceptCommand(input, this.generation, {
       x: h.x,

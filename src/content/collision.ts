@@ -104,9 +104,14 @@ function collisionShape(p: PropDefinition): Shape {
   cached = points
     ? { points, ...polygonBounds(points), sign: polygonSign(points) }
     : { minX: p.x - p.radius, maxX: p.x + p.radius, minZ: p.z - p.radius, maxZ: p.z + p.radius };
-  // Area geometry is immutable for a session; cache by identity so per-tick
-  // collision avoids rebuilding trig and bounds for every prop.
-  shapes.set(p, cached);
+  // Accepted content is deeply frozen; authoring drafts can move or resize
+  // existing props, including nested geometry beneath a shallow root freeze.
+  if (
+    Object.isFrozen(p) &&
+    (!p.size || Object.isFrozen(p.size)) &&
+    (!p.polygon || (Object.isFrozen(p.polygon) && p.polygon.every(Object.isFrozen)))
+  )
+    shapes.set(p, cached);
   return cached;
 }
 export function isSupportedPosition(area: AreaDefinition, p: Point, radius: number) {

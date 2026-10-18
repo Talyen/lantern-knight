@@ -58,6 +58,39 @@ test('mutable navigation drafts still check support after blockers change', () =
   }
 });
 
+test('collision queries follow edits to existing draft blockers and nested geometry', () => {
+  const a = area();
+  const size: [number, number] = [1, 1];
+  const box = boxProp({ id: 'moving-wall', x: 0, size });
+  a.props = [box];
+  const point = { x: 3, z: 0 };
+  assert.equal(isSupportedPosition(a, point, 0.3), true);
+  box.x = point.x;
+  assert.equal(isSupportedPosition(a, point, 0.3), false, 'moved box blocks its new position');
+  assert.equal(isSupportedPosition(a, { x: 0, z: 0 }, 0.3), true);
+
+  box.x = 0;
+  Object.freeze(box);
+  assert.equal(isSupportedPosition(a, point, 0.3), true);
+  size[0] = 8;
+  assert.equal(isSupportedPosition(a, point, 0.3), false, 'shallow freeze permits resizing');
+
+  const polygon = [
+    { x: -1, z: -1 },
+    { x: 1, z: -1 },
+    { x: 1, z: 1 },
+    { x: -1, z: 1 },
+  ];
+  a.props = [Object.freeze({ ...box, shape: 'polygon' as const, polygon: Object.freeze(polygon) })];
+  assert.equal(isSupportedPosition(a, point, 0.3), true);
+  for (const vertex of polygon) vertex.x += 3;
+  assert.equal(
+    isSupportedPosition(a, point, 0.3),
+    false,
+    'frozen polygon still has draft vertices',
+  );
+});
+
 test('swept edge pruning retains rounded corners and tolerated initial contact', () => {
   const a = area();
   const corner = sweepCircle(a, { x: -1, z: -2.2 }, { x: 2, z: 0 }, 0.3);

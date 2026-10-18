@@ -37,3 +37,24 @@ test('reading and editing navigation diagnostics cannot change gameplay or retai
   }
   assert.deepEqual(observed.navigationDebug(false), control.navigationDebug(false));
 });
+
+test('preview actor replacements drive live queries, movement and damage admission', () => {
+  const sim = new Simulation(content);
+  const previous = sim.enemies[0]!;
+  const hero = sim.create(sim.hero.id, 'hero', sim.hero.x, sim.hero.z);
+  const enemy = sim.create(previous.id, 'enemy', previous.x, previous.z);
+  sim.actors = [hero, enemy];
+  assert.equal(sim.view.hero, hero);
+  assert.deepEqual(sim.view.enemies, [enemy]);
+  assert.equal(sim.setMovementTarget(enemy.id, { x: enemy.x, z: enemy.z }), true);
+  assert.equal(sim.navigationDebug(false).routes[0]!.id, enemy.id);
+  sim.damage(hero, previous, 1);
+  assert.equal(previous.health, previous.definition.maxHealth, 'retired actors reject damage');
+  sim.damage(hero, enemy, 1);
+  assert.equal(enemy.health, enemy.definition.maxHealth - 1);
+  sim.actors.splice(1, 1);
+  assert.deepEqual(sim.view.enemies, []);
+  assert.equal(sim.setMovementTarget(enemy.id, null), false);
+  sim.damage(hero, enemy, 1);
+  assert.equal(enemy.health, enemy.definition.maxHealth - 1);
+});
