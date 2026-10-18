@@ -88,6 +88,7 @@ export async function restoreImageDelivery(
   ] as const) {
     try {
       const file = 'public/' + deliveryRoot(page, standalone, gpu, rgb, legacy) + '/receipt.json';
+      if (!context.hasAsset(file)) continue;
       const bytes = await context.readAsset(file);
       const receipt = JSON.parse(bytes.toString()) as Receipt;
       if (

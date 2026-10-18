@@ -9,6 +9,7 @@ import { parseManifest, type ManifestDraft } from '../../../src/assets/schema';
 import { imageHash, prepareImageDelivery, restoreImageDelivery } from '../image-delivery';
 import type { PreparationContext } from '../context';
 import { preparationOutput } from '../preparation-output';
+import { fileChecksums } from '../../verified-files';
 
 export async function prepare(context: PreparationContext, check = false) {
   const catalog = {
@@ -66,12 +67,14 @@ export async function prepare(context: PreparationContext, check = false) {
   // Measured encoder footprint is about 37 bytes/pixel; allow headroom and
   // never run more than two background jobs on the default path.
   const memoryBudget = Math.floor(os.totalmem() / 8);
-  let memoryUsed = 0;
+  let memoryUsed = 0,
+    encoding = 0;
   const waiting: { bytes: number; ready: () => void }[] = [];
   const drain = () => {
-    while (waiting.length && memoryUsed + waiting[0]!.bytes <= memoryBudget) {
+    while (waiting.length && encoding < workers && memoryUsed + waiting[0]!.bytes <= memoryBudget) {
       const next = waiting.shift()!;
       memoryUsed += next.bytes;
+      encoding++;
       next.ready();
     }
   };
@@ -83,6 +86,7 @@ export async function prepare(context: PreparationContext, check = false) {
     });
     using _scopeExit1 = onExit(() => {
       memoryUsed -= bytes;
+      encoding--;
       drain();
     });
     return await action();
@@ -91,20 +95,23 @@ export async function prepare(context: PreparationContext, check = false) {
     completed = 0,
     failure: unknown;
   console.log(
-    `Preparing image delivery for ${queue.length} unique pages with ${Math.min(workers, queue.length)} workers.`,
+    `Preparing image delivery for ${queue.length} unique pages with ${Math.min(workers, queue.length)} encoder workers.`,
   );
   await Promise.all(
-    Array.from({ length: Math.min(workers, queue.length) }, async () => {
+    // Cached receipt reads are I/O-bound. Keep their queue independent of the
+    // encoder and pixel-memory limits, including on an entirely warm refresh.
+    Array.from({ length: Math.min(Math.max(16, workers), queue.length) }, async () => {
       while (!failure) {
         const job = queue[next++];
         if (!job) break;
         const [key, { sourceFile, page, standalone, pages }] = job;
         try {
           const known = await context.verifiedHash(sourceFile);
-          let receipt =
-            known === page.hash
-              ? await restoreImageDelivery(context, page, standalone, check)
-              : undefined;
+          const actual = known ?? (await fileChecksums(context.root, [sourceFile]))[sourceFile];
+          if (actual !== page.hash)
+            throw new Error('Source page changed before encoding: ' + sourceFile);
+          // A cold hash proof does not make a cached image an encoding job.
+          let receipt = await restoreImageDelivery(context, page, standalone, check);
           if (receipt) reused++;
           if (!receipt) {
             encoded++;

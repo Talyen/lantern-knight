@@ -98,15 +98,25 @@ async function main() {
       values.gpu
     )
       throw new Error('Invalid asset inspection/check arguments');
-    const workspace = await openWorkspace(values.local ? 'local' : 'pinned', 'authoring');
+    const workspace = await openWorkspace(
+      values.local ? 'local' : 'pinned',
+      'authoring',
+      command === 'inspect',
+    );
     await using _cleanup2 = onAsyncExit(() => workspace.release());
     if (command === 'check') await checkAssets(workspace);
     else {
+      const ensure = async (file: string) => {
+        if (workspace.ensurePublicFile && !(await workspace.ensurePublicFile(file)))
+          throw new Error('Asset file is absent from the workspace: ' + file);
+      };
+      await ensure('generated/library/catalog.json');
       const catalog = await readAuthoringCatalog(workspace.publicDirectory),
         id = positionals[0];
       if (!id) console.log(`${Object.keys(catalog).length} assets. Supply an asset ID.`);
       else {
         if (!Object.hasOwn(catalog, id)) throw new Error('Unknown asset: ' + id);
+        await ensure(catalog[id]!);
         const m = parseManifest(await readJson(path.join(workspace.publicDirectory, catalog[id]!)));
         console.log(
           JSON.stringify(

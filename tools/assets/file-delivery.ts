@@ -7,7 +7,7 @@ import { gunzipSync } from 'node:zlib';
 import { z } from 'zod';
 import { AssetCache } from './cache';
 import { safeRelative } from './files';
-import { fileSignature } from '../verified-files';
+import { fileSignature, outputVerified, verifiedOutput } from '../verified-files';
 import { shaFile } from './sources';
 import { type FilePin, payloadDigest } from './pack';
 import { createReadStream, createWriteStream } from 'node:fs';
@@ -105,8 +105,15 @@ export async function openFileWorkspace(
       const stat = await fs.lstat(file),
         signature = fileSignature(stat);
       if (!stat.isFile() || stat.isSymbolicLink() || stat.size !== info.bytes) return false;
-      if (proofs.get(file) !== signature && (await shaFile(file)) !== info.sha256) return false;
-      proofs.set(file, signature);
+      // Aliases share a proof only for the same unchanged inode. A hash is not
+      // admitted until a second stat proves the read itself was stable.
+      const key = stat.ino === 0 ? file + ':' + signature : signature;
+      if (proofs.get(key) !== info.sha256) {
+        if ((await shaFile(file)) !== info.sha256) return false;
+        if (fileSignature(await fs.lstat(file)) !== signature)
+          throw new Error('Asset file changed while hashing: ' + file);
+        proofs.set(key, info.sha256);
+      }
       return true;
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
@@ -205,8 +212,8 @@ export async function openFileWorkspace(
   const ensure = async (relative: string) => {
     lifetime.signal.throwIfAborted();
     const index = await catalog();
-    const info = index.files[relative];
-    if (!info) return false;
+    if (!Object.hasOwn(index.files, relative)) return false;
+    const info = index.files[relative]!;
     const target = path.join(held.root, relative);
     // Verified files already belong to initialBytes and the active lease.
     // Only installing or repairing bytes needs additional growth admission.
@@ -242,14 +249,32 @@ export async function openFileWorkspace(
     const existing = pending.get('materialize-all');
     if (existing) return existing;
     const task = (async () => {
+      lifetime.signal.throwIfAborted();
       const index = await catalog();
+      const names = Object.keys(index.files);
+      const receipt = '.verified-materialized-' + pin.preparation.payloadSha256 + '.json';
+      if (await outputVerified(held.root, names, receipt)) {
+        lifetime.signal.throwIfAborted();
+        return;
+      }
       const groups = new Map<string, Map<string, (typeof index.files)[string]>>();
-      for (const [name, info] of Object.entries(index.files)) {
-        if (await valid(path.join(held.root, name), info)) continue;
-        if (await reuseComplete(name, info)) continue;
-        const group = groups.get(info.container) ?? new Map();
-        group.set(info.sha256, info);
-        groups.set(info.container, group);
+      const missingNames: string[] = [];
+      for (let offset = 0; offset < names.length; offset += 16) {
+        const batch = names.slice(offset, offset + 16);
+        // Finish reads before installing aliases: hardlink creation changes
+        // ctime and must not race a hash proof for that same inode.
+        const accepted = await Promise.all(
+          batch.map((name) => valid(path.join(held.root, name), index.files[name]!)),
+        );
+        for (const [position, name] of batch.entries()) {
+          if (accepted[position]) continue;
+          const info = index.files[name]!;
+          if (await reuseComplete(name, info)) continue;
+          missingNames.push(name);
+          const group = groups.get(info.container) ?? new Map();
+          group.set(info.sha256, info);
+          groups.set(info.container, group);
+        }
       }
       // Full authoring acquisition fetches each immutable container once. Normal
       // previews still fetch only the exact ranges they request.
@@ -304,7 +329,21 @@ export async function openFileWorkspace(
           }
         }
       }
-      for (const name of Object.keys(index.files)) await ensure(name);
+      for (const name of missingNames) await ensure(name);
+      await verifiedOutput(
+        held.root,
+        names,
+        async () => {
+          for (let offset = 0; offset < names.length; offset += 16)
+            await Promise.all(
+              names.slice(offset, offset + 16).map(async (name) => {
+                if (!(await valid(path.join(held.root, name), index.files[name]!)))
+                  throw new Error('Materialized asset differs: ' + name);
+              }),
+            );
+        },
+        receipt,
+      );
     })();
     const completion = task.then(() => true).finally(() => pending.delete('materialize-all'));
     pending.set('materialize-all', completion);

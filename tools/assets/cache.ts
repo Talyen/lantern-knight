@@ -284,7 +284,7 @@ export class AssetCache {
         logical,
         files,
         reserved,
-        at: (await fs.stat(root)).mtimeMs,
+        at: Math.max((await fs.stat(root)).mtimeMs, (await fs.stat(leaseDir)).mtimeMs),
       });
     }
     return entries;
@@ -412,17 +412,10 @@ export class AssetCache {
         await this.makeRoom(name, Math.max(bytes, existing?.bytes ?? 0), entries);
       }
       await fs.mkdir(path.dirname(file), { recursive: true });
-      // Preserve the known payload footprint across read-only LRU touches.
-      let mutablePeer = false;
-      for (const peer of await this.leaseFiles(path.dirname(file))) {
-        const value = await readJson(path.join(path.dirname(file), peer));
-        if (value.readOnly !== true) mutablePeer = true;
-      }
-      const known = readOnly && !mutablePeer ? await this.inventory(root, false) : undefined;
-      if (!readOnly || mutablePeer) await fs.rm(this.inventoryFile(name), { force: true });
+      // Reader activity lives under .leases. Touching the payload root forced
+      // every reader to decompress and recompress its complete inode inventory.
+      if (!readOnly) await fs.rm(this.inventoryFile(name), { force: true });
       await this.writeJSON(file, { ...owner(), bytes, readOnly });
-      await fs.utimes(root, new Date(), new Date());
-      if (known) await this.saveInventory(root, known);
     });
     let released = false;
     return {
@@ -484,6 +477,9 @@ export class AssetCache {
         released = true;
         await this.locked(async () => {
           await fs.rm(file, { force: true });
+          // A reader changes ownership metadata only. Inventory misses and root
+          // changes are rebuilt lazily by the next budget/accounting operation.
+          if (readOnly) return;
           const peers = await this.leaseFiles(path.dirname(file));
           for (const peer of peers) {
             const value = await readJson(path.join(path.dirname(file), peer));
@@ -491,7 +487,7 @@ export class AssetCache {
           }
           // Writers close only after their admitted writes settle. Refresh just
           // this entry once; unrelated immutable payloads retain their inventory.
-          await this.inventory(root, !readOnly).then((files) => this.saveInventory(root, files));
+          await this.inventory(root, true).then((files) => this.saveInventory(root, files));
         });
       },
     };

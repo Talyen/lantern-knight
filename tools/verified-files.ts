@@ -27,26 +27,41 @@ async function fileSignatures(root: string, names: readonly string[]) {
   }
   return signatures;
 }
+async function outputProof(root: string, names: readonly string[], receipt: string) {
+  const signature = await fileSignatures(root, names);
+  const key = createHash('sha256').update(JSON.stringify(signature)).digest('hex');
+  const file = path.join(root, receipt);
+  let matches = false;
+  try {
+    const prior = (await readJson(file)) as { version?: unknown; key?: unknown } | null;
+    matches = prior?.version === 1 && prior.key === key;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT' && !(error instanceof SyntaxError))
+      throw error;
+  }
+  return { signature, key, file, matches };
+}
+// A missing member is repairable; an unsafe member must still fail closed.
+export async function outputVerified(root: string, names: readonly string[], receipt: string) {
+  try {
+    return (await outputProof(root, names, receipt)).matches;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+    return false;
+  }
+}
 export async function verifiedOutput(
   root: string,
   names: readonly string[],
   validate: () => Promise<void>,
   receipt = '.verified-output.json',
 ) {
-  const signature = await fileSignatures(root, names);
-  const key = createHash('sha256').update(JSON.stringify(signature)).digest('hex');
-  const file = path.join(root, receipt);
-  try {
-    const prior = (await readJson(file)) as { version?: unknown; key?: unknown } | null;
-    if (prior?.version === 1 && prior.key === key) return true;
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code !== 'ENOENT' && !(error instanceof SyntaxError))
-      throw error;
-  }
+  const proof = await outputProof(root, names, receipt);
+  if (proof.matches) return true;
   await validate();
-  if (JSON.stringify(signature) !== JSON.stringify(await fileSignatures(root, names)))
+  if (JSON.stringify(proof.signature) !== JSON.stringify(await fileSignatures(root, names)))
     throw new Error('Output changed during validation');
-  await writeJsonAtomic(file, { version: 1, key });
+  await writeJsonAtomic(proof.file, { version: 1, key: proof.key });
   return false;
 }
 
@@ -72,5 +87,7 @@ export async function fileChecksums(
   }
   if (JSON.stringify(before) !== JSON.stringify(await fileSignatures(root, names)))
     throw new Error('Output changed while hashing');
+  for (const [name, hash] of Object.entries(hashes))
+    verified?.set(name, { signature: before[name]!, hash });
   return hashes;
 }

@@ -213,6 +213,8 @@ export async function createPreparationContext(options: PreparationOptions) {
     path: resolve,
     stagingFile: (file: string) => path.join(root, 'staging', safeRelative(file)),
     readAsset,
+    // The workspace has one writer; subprocess adoption refreshes this inventory.
+    hasAsset: (file: string) => identities.has(resolve(file)),
     writeAsset,
     exactSource,
     readLibrarySource: source,

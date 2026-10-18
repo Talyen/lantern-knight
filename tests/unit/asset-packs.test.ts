@@ -691,3 +691,86 @@ test('inventory storage exhaustion preserves lease cleanup and falls back to fil
   mocked.mock.restore();
   assert.ok((await cache.usage()) >= 3000);
 });
+
+test('local demand readers verify only requested bytes and revoke access before releasing their lease', async (t) => {
+  const f = await fixture(t);
+  const prefix =
+    'preview-' + createHash('sha256').update(path.resolve(f.root)).digest('hex').slice(0, 20);
+  const entry = prefix + '-' + 'd'.repeat(24);
+  const prepared = await f.cache.lease(entry);
+  await fs.mkdir(path.join(prepared.root, 'work/public'), { recursive: true });
+  const bytes = 'selected metadata';
+  const file = path.join(prepared.root, 'work/public/selected.json');
+  await fs.writeFile(file, bytes);
+  await writeJson(path.join(prepared.root, 'preview.json'), {
+    version: 1,
+    sha256: 'a'.repeat(64),
+    recipeSha256: f.lock.recipeSha256,
+    files: {
+      'public/selected.json': createHash('sha256').update(bytes).digest('hex'),
+      'public/unrequested.png': 'b'.repeat(64),
+    },
+  });
+  await prepared.release();
+  const index = await f.cache.lease(prefix + '-index');
+  await writeJson(path.join(index.root, 'preview.json'), { entry });
+  await index.release();
+  const selected = await prototypeAssets(f.cache, f.root, 'authoring', false, undefined, true);
+  const ensure = 'ensurePublicFile' in selected.held && selected.held.ensurePublicFile;
+  assert.ok(ensure);
+  assert.equal(await ensure('selected.json'), true);
+  assert.equal(await ensure('constructor'), false);
+  await assert.rejects(ensure('unrequested.png'), { code: 'ENOENT' });
+  const before = await fs.stat(file);
+  await fs.writeFile(file, 'tampered metadata');
+  await fs.utimes(file, before.atime, before.mtime);
+  await assert.rejects(ensure('selected.json'), /output changed/);
+  await fs.writeFile(file, bytes);
+  const started = Promise.withResolvers<void>();
+  const finish = Promise.withResolvers<void>();
+  const lstat = fs.lstat;
+  let waiting = true;
+  t.mock.method(fs, 'lstat', async (...args: Parameters<typeof lstat>) => {
+    if (String(args[0]) === file && waiting) {
+      waiting = false;
+      started.resolve();
+      await finish.promise;
+    }
+    return lstat(...args);
+  });
+  const read = ensure('selected.json');
+  assert.equal(ensure('selected.json'), read);
+  await started.promise;
+  const closing = selected.held.release();
+  await assert.rejects(ensure('selected.json'), /released/);
+  assert.equal((await fs.readdir(path.join(prepared.root, '.leases'))).length, 1);
+  finish.resolve();
+  assert.equal(await read, true);
+  await closing;
+  assert.deepEqual(await fs.readdir(path.join(prepared.root, '.leases')), []);
+});
+
+test('read leases preserve the inode inventory and update eviction recency through lease metadata', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-cache-read-recency-');
+  const cache = new AssetCache(root, 16384);
+  for (const name of ['recently-read', 'unused']) {
+    const held = await cache.lease(name, 4000);
+    await fs.writeFile(path.join(held.root, 'data'), Buffer.alloc(4000));
+    await held.release();
+    for (const file of [held.root, path.join(held.root, '.leases')])
+      await fs.utimes(file, new Date(0), new Date(0));
+  }
+  // Account after the deliberate timestamp changes, then freeze the record.
+  await cache.usage();
+  const inventory = path.join(root, '.inventory/recently-read.json.gz');
+  const before = await fs.readFile(inventory);
+  const stat = await fs.stat(inventory);
+  const reader = await new AssetCache(root, cache.limit).lease('recently-read', 0, false, true);
+  await reader.release();
+  assert.deepEqual(await fs.readFile(inventory), before);
+  assert.equal((await fs.stat(inventory)).mtimeMs, stat.mtimeMs);
+  const growth = await cache.lease('new', 10000);
+  await fs.access(path.join(root, 'entries/recently-read/data'));
+  await assert.rejects(fs.access(path.join(root, 'entries/unused')), { code: 'ENOENT' });
+  await growth.release();
+});

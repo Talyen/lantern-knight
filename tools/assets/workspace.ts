@@ -38,7 +38,9 @@ export async function openWorkspace(
     if (workspace) return workspace;
   }
   const selected =
-    mode === 'local' ? await prototypeAssets(cache, undefined, scope, false, fallback) : undefined;
+    mode === 'local'
+      ? await prototypeAssets(cache, undefined, scope, false, fallback, demand)
+      : undefined;
   const lock = selected?.lock ?? (await readLock());
   const held = selected?.held ?? (await acquirePinnedPack(lock as AssetLock, cache, scope));
   console.log(`Asset workspace (${mode}/${scope}): ${Math.round(performance.now() - started)}ms.`);

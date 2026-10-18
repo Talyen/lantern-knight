@@ -706,3 +706,52 @@ test('demand acquisition verifies and links complete cached files before request
   await workspace.release();
   assert.deepEqual(await fs.readdir(path.join(complete.root, '.leases')), []);
 });
+
+test('complete workspace proofs survive reopen but repair same-size edits and missing members', async (t) => {
+  const f = await fixture(t);
+  const pin = filePin(f.pin, f.pin.fileDelivery!);
+  const initial = await openFileWorkspace(pin, f.cache, f.request);
+  await initial.materializeAll();
+  const root = initial.root;
+  await initial.release();
+  const receipt = path.join(
+    root,
+    '.verified-materialized-' + pin.preparation.payloadSha256 + '.json',
+  );
+  const proof = await fs.stat(receipt);
+  const warm = await openFileWorkspace(pin, f.cache, async () => {
+    throw Error('offline');
+  });
+  await warm.materializeAll();
+  assert.equal((await fs.stat(receipt)).mtimeMs, proof.mtimeMs);
+  await warm.release();
+  const changed = path.join(root, 'public/generated/tree/page.png');
+  const before = await fs.stat(changed);
+  await fs.writeFile(changed, Buffer.alloc(before.size));
+  await fs.utimes(changed, before.atime, before.mtime);
+  await fs.rm(path.join(root, 'public/generated/other/page.png'));
+  const repaired = await openFileWorkspace(pin, f.cache, f.request);
+  await repaired.materializeAll();
+  for (const [name, bytes] of Object.entries(f.entries))
+    assert.deepEqual(await fs.readFile(path.join(root, name)), bytes);
+  await repaired.release();
+  await assert.rejects(repaired.materializeAll(), /abort/i);
+});
+
+test('a file changed during hashing cannot acquire an in-process verification proof', async (t) => {
+  const f = await fixture(t);
+  const first = await openFileWorkspace(f.pin, f.cache, f.request);
+  await first.ensurePublicFile('generated/tree/page.png');
+  const file = path.join(first.root, 'public/generated/tree/page.png');
+  await first.release();
+  const lstat = fs.lstat;
+  let reads = 0;
+  t.mock.method(fs, 'lstat', async (...args: Parameters<typeof lstat>) => {
+    if (String(args[0]) === file && ++reads === 2)
+      await fs.writeFile(file, Buffer.alloc(f.entries['public/generated/tree/page.png'].length));
+    return lstat(...args);
+  });
+  const next = await openFileWorkspace(f.pin, f.cache, f.request);
+  await assert.rejects(next.ensurePublicFile('generated/tree/page.png'), /changed while hashing/);
+  await next.release();
+});

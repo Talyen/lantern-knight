@@ -6,8 +6,8 @@ import { readJson, writeJson } from '../json-file';
 import { discoverLibrary, sourceSnapshot } from './discovery';
 import { cameraCalibration } from '../../src/assets/camera-calibration';
 import { stagePayload } from './payload';
-import { listFiles } from './files';
-import { verifiedOutput, fileChecksums } from '../verified-files';
+import { listFiles, safeRelative } from './files';
+import { verifiedOutput, fileChecksums, type VerifiedFiles } from '../verified-files';
 import type { AssetScope } from './bundles';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -48,6 +48,7 @@ export async function prototypeAssets(
   fallback?: (
     lock: import('./pack').AssetLock,
   ) => Promise<import('./workspace').AssetWorkspace | undefined>,
+  demand = false,
 ) {
   const index = await cache.lease(previewName(root) + '-index');
   let entry: string | undefined;
@@ -83,8 +84,47 @@ export async function prototypeAssets(
       const descriptor = (await readJson(path.join(held.root, 'preview.json'))) as Preview;
       if (descriptor.version !== 1 || !descriptor.sha256 || !descriptor.files)
         throw new Error('Invalid prototype asset layer');
+      const work = path.join(held.root, 'work');
+      if (demand) {
+        const pending = new Map<string, Promise<boolean>>();
+        const verified: VerifiedFiles = new Map();
+        let released = false;
+        let releasing: Promise<void> | undefined;
+        return {
+          held: {
+            ...held,
+            root: work,
+            ensurePublicFile(relative: string) {
+              if (released) return Promise.reject(new Error('Asset workspace is released'));
+              const name = 'public/' + safeRelative(relative);
+              if (!Object.hasOwn(descriptor.files, name)) return Promise.resolve(false);
+              let task = pending.get(name);
+              if (!task) {
+                task = (async () => {
+                  const hashes = await fileChecksums(work, [name], verified);
+                  if (hashes[name] !== descriptor.files[name])
+                    throw new Error('Prototype asset output changed: ' + name);
+                  return true;
+                })().finally(() => pending.delete(name));
+                pending.set(name, task);
+              }
+              return task;
+            },
+            release() {
+              released = true;
+              return (releasing ??= (async () => {
+                await Promise.allSettled([...pending.values()]);
+                await held.release();
+              })());
+            },
+          },
+          lock: descriptor,
+          stepCache: path.join(held.root, 'steps'),
+          files: descriptor.files,
+        };
+      }
       await verifiedOutput(
-        path.join(held.root, 'work'),
+        work,
         Object.keys(descriptor.files),
         async () => {
           const hashes = await fileChecksums(
@@ -130,13 +170,13 @@ export async function prototypeAssets(
         throw error;
     }
   }
-  const demand = await fallback?.(lock);
-  if (demand)
+  const demandWorkspace = await fallback?.(lock);
+  if (demandWorkspace)
     return {
       held: {
-        root: demand.root,
-        release: demand.release,
-        ensurePublicFile: demand.ensurePublicFile,
+        root: demandWorkspace.root,
+        release: demandWorkspace.release,
+        ensurePublicFile: demandWorkspace.ensurePublicFile,
       },
       lock,
       stepCache: undefined,
