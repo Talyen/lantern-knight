@@ -22,6 +22,8 @@ def interactable_sequences(package, member, data):
         return None
     base = str(pathlib.PurePosixPath(member).parent)
     records = None
+    frame_folders = {"native": "native", "runtime": "runtime"}
+    declared_order = None
     if (
         pathlib.PurePosixPath(member).name == "timing.json"
         and data
@@ -37,6 +39,51 @@ def interactable_sequences(package, member, data):
         and (data.get("timing_ms") or data.get("frame_duration_ms"))
     ):
         records = {data.get("name", data.get("asset", "interact")): data}
+    elif pathlib.PurePosixPath(member).name == "manifest.json":
+        animation = data.get("animation", {})
+        if not isinstance(animation, dict):
+            animation = {}
+        durations = data.get(
+            "frame_ms", data.get("duration_ms", animation.get("frame_durations_ms"))
+        )
+        native_zero = str(pathlib.PurePosixPath(base) / "native_frames/00.png")
+        runtime_zero = str(pathlib.PurePosixPath(base) / "runtime_frames/00.png")
+        if (
+            data.get("scene") is not None
+            and str(pathlib.PurePosixPath(base) / "closed.png") in package.names
+            and str(pathlib.PurePosixPath(base) / "open.png") in package.names
+            and durations is not None
+            and native_zero in package.names
+            and runtime_zero in package.names
+        ):
+            if data.get("loop", animation.get("loop")) is not False or not (
+                animation.get("hold_final") is True
+                or "hold" in str(data.get("on_complete", "")).lower()
+            ):
+                raise ValueError("Scene opening must declare one-shot playback and a final hold")
+            record = {
+                "action": "open",
+                "durations_ms": durations,
+                "frame_count": data.get("frame_count", data.get("frames", len(durations))),
+                "native_canvas": data.get(
+                    "native_canvas", data.get("native_frame_size", package.dimensions(native_zero))
+                ),
+                "runtime_canvas": data.get(
+                    "runtime_canvas",
+                    data.get("runtime_frame_size", package.dimensions(runtime_zero)),
+                ),
+                "pivot_native": data.get(
+                    "anchor_native",
+                    data.get("native_anchor_pixels", data.get("native_anchor_bottom_contact")),
+                ),
+                "pivot_runtime": data.get(
+                    "runtime_anchor",
+                    data.get("anchor_pixels", data.get("runtime_anchor_bottom_contact")),
+                ),
+            }
+            declared_order = data.get("frame_files")
+            frame_folders = {"native": "native_frames", "runtime": "runtime_frames"}
+            records = {data.get("name", data.get("prop", "interact")): record}
     if records is None:
         return None
     result = []
@@ -67,7 +114,7 @@ def interactable_sequences(package, member, data):
                     ]
             if pivot is None:
                 raise ValueError("Interactable is missing its supplied ground pivot")
-            if record.get("action"):
+            if record.get("action") and frame_folders[variant] == variant:
                 files = [
                     str(pathlib.PurePosixPath(base) / f"{variant}/{name}_{i:02d}.png")
                     for i in range(count)
@@ -75,7 +122,7 @@ def interactable_sequences(package, member, data):
                 if any(f not in package.names for f in files):
                     raise ValueError("Interactable is missing a supplied cel")
             else:
-                folder = str(pathlib.PurePosixPath(base) / variant) + "/"
+                folder = str(pathlib.PurePosixPath(base) / frame_folders[variant]) + "/"
                 candidates = [
                     n for n in package.names if n.startswith(folder) and n.endswith(".png")
                 ]
@@ -92,7 +139,23 @@ def interactable_sequences(package, member, data):
                         indexed[index] = path
                 if set(indexed) != set(range(count)):
                     raise ValueError("Interactable drawings do not match the declared cel sequence")
-                files = [indexed[i] for i in range(count)]
+                order = list(range(count))
+                if declared_order is not None:
+                    if not isinstance(declared_order, list) or len(declared_order) != count:
+                        raise ValueError("Declared interactable order does not cover every cel")
+                    order = []
+                    for file in declared_order:
+                        supplied = pathlib.PurePosixPath(file)
+                        if supplied.parent != pathlib.PurePosixPath(
+                            "runtime_frames"
+                        ) or not re.fullmatch(r"\d{2}\.png", supplied.name):
+                            raise ValueError(
+                                "Declared interactable cel must name a runtime drawing"
+                            )
+                        order.append(int(supplied.stem))
+                    if set(order) != set(range(count)):
+                        raise ValueError("Declared interactable order repeats or omits a cel")
+                files = [indexed[i] for i in order]
             canvas = package.dimensions(files[0])
             if any(package.dimensions(f) != canvas for f in files):
                 raise ValueError("Interactable cels do not share the supplied canvas")
@@ -101,6 +164,9 @@ def interactable_sequences(package, member, data):
             if native is None:
                 native = package.dimensions(package.locate(f"native/{name}_00.png", base))
                 runtime = package.dimensions(package.locate(f"runtime/{name}_00.png", base))
+            supplied_canvas = native if variant == "native" else runtime
+            if tuple(supplied_canvas) != tuple(canvas):
+                raise ValueError("Interactable canvas differs from its supplied drawings")
             density = 256 * canvas[0] / runtime[0]
             frames = [
                 {"file": f, "duration_ms": d, "terminal_hold": d == 0}

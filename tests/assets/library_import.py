@@ -29,6 +29,82 @@ def png(w, h):
 
 
 class ImportTests(unittest.TestCase):
+    def test_scene_opening_manifests_preserve_supplied_order_timing_pivots_and_final_state(self):
+        cases = [
+            {
+                "frame_count": 3,
+                "frame_ms": [100, 120, 200],
+                "loop": False,
+                "on_complete": "hold frame 2 indefinitely",
+                "native_canvas": [16, 16],
+                "anchor_native": [8, 15],
+                "runtime_anchor": [4, 7],
+            },
+            {
+                "frames": 3,
+                "duration_ms": [100, 120, 200],
+                "loop": False,
+                "on_complete": "hold_final_frame",
+                "native_anchor_pixels": [8, 15],
+                "anchor_pixels": [4, 7],
+                "runtime_canvas": [8, 8],
+                "frame_files": [
+                    "runtime_frames/02.png",
+                    "runtime_frames/00.png",
+                    "runtime_frames/01.png",
+                ],
+            },
+            {
+                "frame_count": 3,
+                "animation": {
+                    "loop": False,
+                    "hold_final": True,
+                    "frame_durations_ms": [100, 120, 200],
+                },
+                "native_frame_size": [16, 16],
+                "runtime_frame_size": [8, 8],
+                "native_anchor_bottom_contact": [8, 15],
+                "runtime_anchor_bottom_contact": [4, 7],
+            },
+        ]
+        for data in cases:
+            data = {**data, "scene": 1}
+            with self.subTest(data=data):
+                p = package(
+                    {
+                        f"{variant}_frames/{i:02d}.png": png(size, size)
+                        for variant, size in [("native", 16), ("runtime", 8)]
+                        for i in range(3)
+                    }
+                )
+                self.assertIsNone(interactable_sequences(p, "manifest.json", data))
+                p.names.update(["closed.png", "open.png"])
+                variants = interactable_sequences(p, "manifest.json", data)
+                importer = Importer([p])
+                for name, record in variants:
+                    importer.animation(p, "manifest.json", record, name)
+                    variant = name.rsplit("-", 1)[1]
+                    order = [2, 0, 1] if "frame_files" in data else [0, 1, 2]
+                    clip = record["clips"]["open"]
+                    self.assertEqual(
+                        [f["file"] for f in clip["frames"]],
+                        [f"{variant}_frames/{i:02d}.png" for i in order],
+                    )
+                    self.assertEqual([f["duration_ms"] for f in clip["frames"]], [100, 120, 200])
+                    self.assertEqual(record["pivot_px"], [8, 15] if variant == "native" else [4, 7])
+                    self.assertEqual(record["pixels_per_unit"], 512 if variant == "native" else 256)
+                    self.assertEqual(clip["end_behavior"], "hold")
+                    self.assertEqual(
+                        record["clips"]["opened"]["frames"][0]["file"],
+                        f"{variant}_frames/{order[-1]:02d}.png",
+                    )
+                self.assertEqual(len(importer.assets), 2)
+                with self.assertRaises(ValueError):
+                    interactable_sequences(p, "manifest.json", {**data, "loop": True})
+                p.names.remove("native_frames/01.png")
+                with self.assertRaises(ValueError):
+                    interactable_sequences(p, "manifest.json", data)
+
     def test_scene_props_keep_separate_native_and_runtime_playback_and_terminal_holds(self):
         data = {
             "crate": {
