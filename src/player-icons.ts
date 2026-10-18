@@ -21,6 +21,13 @@ const paths = {
   fire: '<path d="M12 2q1 7 6 9 4 3 1 7-6 6-13 1-5-4 1-10 0 5 3 5-1-5 2-12ZM4 22l16-2M4 20l16 2"/>',
   waypoint: '<path d="M19 9q0 6-7 13Q5 15 5 9a7 7 0 1 1 14 0Z"/><circle cx="12" cy="9" r="2"/>',
   reset: '<path d="M4 10a8 8 0 1 1 1 8M4 3v7h7"/>',
+  upgrade: '<path d="M3 11h18l-5 5H9l-6-5ZM9 16v4H6v2h13v-2h-4v-4M12 2v6M9 5l3-3 3 3"/>',
+  organize:
+    '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>',
+  check: '<path d="m5 12 5 5L20 6"/>',
+  coins:
+    '<ellipse cx="8" cy="5" rx="6" ry="3"/><path d="M2 5v5c0 4 12 4 12 0V5M2 10v5c0 4 12 4 12 0v-5"/><ellipse cx="17" cy="14" rx="5" ry="3"/><path d="M12 14v5c0 4 10 4 10 0v-5"/>',
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v1"/>',
   heart: '<path d="M12 21 3 12C-2 5 7 0 12 6c5-6 14-1 9 6Z"/>',
 } as const;
 

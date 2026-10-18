@@ -1,3 +1,4 @@
+import { ribLaneAttack } from './rib-lane';
 import { tuning } from './gameplay';
 import type { ContentDefinitions } from './world';
 export const actors = [
@@ -8,7 +9,15 @@ export const actors = [
     maxHealth: 50,
     radius: 0.25,
     speed: 0.9,
-    melee: { windup: 39, activeEnd: 43, total: 68, range: 1.2, halfAngle: 1.1, damage: 8 },
+    attack: {
+      kind: 'melee',
+      windup: 39,
+      activeEnd: 43,
+      total: 68,
+      range: 1.2,
+      halfAngle: 1.1,
+      damage: 8,
+    },
     visual: 'ossuary-thrall',
   },
   {
@@ -18,7 +27,15 @@ export const actors = [
     maxHealth: 130,
     radius: 0.34,
     speed: 0.65,
-    melee: { windup: 60, activeEnd: 66, total: 108, range: 1.6, halfAngle: 1.3, damage: 18 },
+    attack: {
+      kind: 'melee',
+      windup: 60,
+      activeEnd: 66,
+      total: 108,
+      range: 1.6,
+      halfAngle: 1.3,
+      damage: 18,
+    },
     visual: 'chapel-warden',
   },
   {
@@ -27,8 +44,25 @@ export const actors = [
     maxHealth: 50,
     radius: 0.25,
     speed: 1.2,
-    melee: { windup: 32, activeEnd: 36, total: 62, range: 1.2, halfAngle: 1.1, damage: 8 },
+    attack: {
+      kind: 'melee',
+      windup: 32,
+      activeEnd: 36,
+      total: 62,
+      range: 1.2,
+      halfAngle: 1.1,
+      damage: 8,
+    },
     visual: 'ossuary-thrall',
+  },
+  {
+    id: 'candlebone-oracle',
+    kind: 'enemy',
+    maxHealth: 70,
+    radius: 0.25,
+    speed: 0.7,
+    attack: ribLaneAttack,
+    visual: 'candlebone-oracle',
   },
   {
     id: 'lamplighter',
@@ -36,7 +70,7 @@ export const actors = [
     maxHealth: tuning.heroMaxHealth,
     radius: tuning.heroRadius,
     speed: tuning.moveSpeed,
-    melee: { ...tuning.attack, sweepRange: tuning.sweepRange },
+    attack: { kind: 'melee', ...tuning.attack, sweepRange: tuning.sweepRange },
     visual: 'hero',
   },
 ] satisfies ContentDefinitions['actors'];

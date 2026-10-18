@@ -706,7 +706,7 @@ test('campfire sanctuary also cancels strikes from enemies without local awarene
   const enemy = s.sim.enemies[0]!;
   enemy.aim = -Math.PI / 2;
   s.sim.start(enemy, 'attack');
-  enemy.age = enemy.definition.melee.windup;
+  enemy.age = enemy.definition.attack.windup;
   s.step(idle);
   assert.equal(s.sim.hero.health, 100);
   assert.equal(s.sim.inCombat, false);

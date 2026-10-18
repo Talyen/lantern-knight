@@ -10,7 +10,7 @@
   min-height: 0;
 }
 body.game {
-  background: #101614;
+  background: #111111;
 }
 .game #app {
   height: 100dvh;
@@ -43,7 +43,7 @@ body.game {
   border: 0;
   overflow: auto;
   color: inherit;
-  background: #060b079c;
+  background: #06060680;
 }
 .game .modal:not([open]) {
   display: none;
@@ -70,6 +70,7 @@ body.game {
 .game .menu-heading h1 {
   margin: 0;
   font: 400 2.35em/1.15 var(--font-display);
+  color: var(--ivory);
 }
 .game .menu-crest {
   display: none;
@@ -143,7 +144,7 @@ body.game {
 }
 .game .game-menu.is-title {
   justify-content: flex-start;
-  background: linear-gradient(90deg, #060c0ce0, #07110a59 65%, #050b0726);
+  background: linear-gradient(90deg, #080808e0, #08080859 65%, #08080826);
 }
 .game .is-title > .menu-shell {
   width: min(calc(350px * var(--ui-scale)), 100%);
@@ -152,6 +153,7 @@ body.game {
   margin-right: auto;
   padding: 0 22px 24px;
   border: 0;
+  border-image: none;
   background: transparent;
   box-shadow: none;
 }
@@ -193,10 +195,10 @@ body.game {
   background: transparent;
   padding-left: 18px;
 }
-.game .is-title .menu-actions button:hover:not(:disabled),
+.game .is-title .menu-actions button:not(.primary-action):hover:not(:disabled),
 .game .is-title #menu-help:hover {
   border-color: #8c805b;
-  background: #25302999;
+  background: #302b2599;
 }
 .game .is-title .menu-actions .primary-action {
   text-align: left;
@@ -262,8 +264,8 @@ body.game {
   height: 18px;
 }
 .game .settings-nav [aria-selected='true'] {
-  border-color: #ad945e;
-  background: #34392d;
+  border-color: var(--amber);
+  background: var(--surface-selected);
   color: #f4e4bb;
 }
 .game .menu-page fieldset {
@@ -289,12 +291,6 @@ body.game {
   width: 150px;
   max-width: 55%;
   font-size: 0.9em;
-}
-.game .setting-explanation {
-  margin: 0 0 14px;
-  color: var(--sage);
-  font-size: 0.8em;
-  line-height: 1.5;
 }
 .game #depth-of-field {
   margin: 2px 0 12px;
@@ -371,7 +367,7 @@ body.game {
   color: inherit;
 }
 .game .confirmation::backdrop {
-  background: #050703b3;
+  background: #050505b3;
 }
 .game .confirmation h2 {
   margin: 18px 0 12px;
@@ -395,8 +391,9 @@ body.game {
   width: calc(48px * var(--ui-scale));
   height: calc(48px * var(--ui-scale));
   padding: 10px;
-  background: #141c1cdd;
-  color: #d4bb86;
+  background: #171615f5;
+  border-color: #ae925a88;
+  color: var(--amber);
 }
 .game .game-toolbar kbd {
   position: absolute;
@@ -472,12 +469,12 @@ body.game {
 }
 .game .supply-row {
   position: relative;
-  width: calc(54px * var(--ui-scale));
+  width: calc(66px * var(--ui-scale));
   height: calc(66px * var(--ui-scale));
   margin-bottom: 12px;
-  padding: 8px 10px 18px;
-  border: 1px solid #8a825955;
-  background: #121b1cdd;
+  padding: 6px 12px 22px;
+  border: 1px solid #ae925a88;
+  background: #171615f5;
 }
 .game .supply-row > .supply-art {
   display: block;
@@ -505,8 +502,8 @@ body.game {
   width: calc(66px * var(--ui-scale));
   height: calc(66px * var(--ui-scale));
   margin-bottom: 12px;
-  border: 1px solid #b09d6d;
-  background: #121b1cee;
+  border: 1px solid #ae925a88;
+  background: #171615f5;
 }
 .game .lantern-heading {
   position: relative;
@@ -535,7 +532,7 @@ body.game {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 2px;
+  height: 4px;
   pointer-events: none;
 }
 .game #lantern-fill {
@@ -555,8 +552,8 @@ body.game {
   width: max-content;
   margin: 0;
   padding: 9px 14px;
-  border: 1px solid #8b7850;
-  background: #151e1df5;
+  border: 1px solid #aa8b51;
+  background: #171615f5;
   font-size: 0.9em;
   text-align: center;
 }
@@ -597,8 +594,8 @@ body.game {
   padding: 7px 10px;
   color: #efdfbf;
   font-size: 0.9em;
-  background: #151e1df5;
-  border: 1px solid #a88b536e;
+  background: #171615f5;
+  border: 1px solid #aa8b5188;
   pointer-events: none;
   text-align: center;
 }
@@ -619,7 +616,7 @@ body.game {
   position: absolute;
   inset: 0;
   z-index: 20;
-  background: #0c1117;
+  background: #171615;
   opacity: 0;
   pointer-events: none;
   transition: opacity 160ms ease;
@@ -648,9 +645,9 @@ body.game {
   align-items: center;
   justify-content: center;
   gap: 7px;
-  border: 1px solid #8a774f77;
-  background: #141e1def;
-  color: #e0ddce;
+  border: 1px solid #aa8b5188;
+  background: #171615f5;
+  color: var(--ivory);
   font: 0.85em/1.3 var(--font-body);
 }
 .game .ground-loot-label .item-art {
@@ -661,7 +658,7 @@ body.game {
   color: #dec486;
 }
 .game .ground-loot-label[data-kind='potion'] {
-  color: #bcd0b0;
+  color: #d4c9af;
 }
 .game .ground-loot-label[data-kind='gear'] {
   color: #dfd3b2;

@@ -76,9 +76,9 @@ export class MovementPlans {
     const radius = effectiveRadius(a.definition.radius);
     const direct = this.navigator(a).route(a, target, radius);
     if (direct.status === 'ready' || kind !== 'pursuit') return direct;
-    // A larger enemy may not fit at the hero's feet. Find a reachable melee
+    // A larger enemy may not fit at the hero's feet. Find a reachable attack
     // position with clear contact rather than treating the hero as unreachable.
-    const distance = a.definition.melee.range * 0.8;
+    const distance = a.definition.attack.range * 0.8;
     const candidates = Array.from({ length: 16 }, (_, i) => ({
       x: target.x + Math.cos((i * Math.PI) / 8) * distance,
       z: target.z + Math.sin((i * Math.PI) / 8) * distance,
