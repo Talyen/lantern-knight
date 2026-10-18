@@ -25,6 +25,8 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('audio settings persist independently in Game', async ({ page }) => {
+  // Persisted settings require two complete renderer startups on software WebGL.
+  test.setTimeout(420_000);
   await page.goto('/index.html');
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
