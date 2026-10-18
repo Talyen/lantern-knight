@@ -17,6 +17,7 @@ import { shaFile } from './sources';
 import { gh } from './github';
 import type { PreparedAssets } from './prepare';
 import { publishFileDelivery } from './file-publication';
+import { selectedFiles } from '../select-runtime-assets';
 
 export async function verifyRemote(
   lock: ArchivePin,
@@ -97,6 +98,8 @@ export async function publishPrepared(
     cache = new AssetCache(),
   } = options;
   await validateCandidate(prepared);
+  // Selection validates current consumers; it never determines container membership.
+  await selectedFiles(path.join(prepared.payload, 'public'), 'runtime');
   if (prepared.archive) {
     if (
       (await fs.stat(prepared.archive)).size !== prepared.lock.bytes ||

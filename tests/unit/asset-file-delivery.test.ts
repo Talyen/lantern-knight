@@ -664,3 +664,45 @@ test('complete acquisition coalesces calls and disposal drains its cancelled tra
   await rejected;
   assert.deepEqual(await fs.readdir(path.join(workspace.root, '.leases')), []);
 });
+
+test('demand acquisition verifies and links complete cached files before requesting image bytes', async (t) => {
+  const f = await fixture(t);
+  const complete = await f.cache.lease('pack-' + f.pin.sha256 + '-authoring');
+  for (const [name, bytes] of Object.entries(f.entries)) {
+    const target = path.join(complete.root, name);
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    await fs.writeFile(target, bytes);
+  }
+  await fs.writeFile(path.join(complete.root, 'pack.json'), '{}');
+  await complete.release();
+  const workspace = await openFileWorkspace(
+    filePin(f.pin, f.pin.fileDelivery!),
+    f.cache,
+    f.request,
+  );
+  await workspace.ensurePublicFile('generated/tree/page.png');
+  assert.deepEqual(
+    f.calls.map((call) => call.file),
+    ['files.json.gz'],
+  );
+  assert.equal(
+    (await fs.stat(path.join(workspace.publicDirectory, 'generated/tree/page.png'))).ino,
+    (await fs.stat(path.join(complete.root, 'public/generated/tree/page.png'))).ino,
+  );
+  await fs.writeFile(
+    path.join(complete.root, 'public/generated/other/page.png'),
+    'corrupt local cache',
+  );
+  await workspace.ensurePublicFile('generated/other/page.png');
+  assert.equal(
+    f.calls.filter((call) => call.range).length,
+    1,
+    'a corrupt local file still needs verified delivery',
+  );
+  assert.deepEqual(
+    await fs.readFile(path.join(workspace.publicDirectory, 'generated/other/page.png')),
+    f.entries['public/generated/other/page.png'],
+  );
+  await workspace.release();
+  assert.deepEqual(await fs.readdir(path.join(complete.root, '.leases')), []);
+});

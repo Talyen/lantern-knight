@@ -204,6 +204,22 @@ test('file publication uploads only changed content, frees legacy archives and p
   const stablePin = LockSchema.parse(await readJson(target));
   assert.equal(stablePin.schemaVersion, 4);
   assert.ok(!('bundles' in stablePin));
+  const runtimeFile = Object.entries(gameAssetCatalog).find(
+    ([id]) => !Object.hasOwn(assetCatalog, id),
+  )![1];
+  await fs.rm(path.join(payload, 'public', runtimeFile));
+  const incomplete = await inventoryCandidate(payload, lock.recipeSha256);
+  const beforeInvalid = new Set(uploads.keys());
+  await assert.rejects(
+    publishPrepared({ held, payload, lock: incomplete }, { publish, target, request, cache }),
+    /ENOENT/,
+  );
+  assert.deepEqual(
+    await readJson(target),
+    stablePin,
+    'unresolved runtime references preserve the pin',
+  );
+  assert.deepEqual(new Set(uploads.keys()), beforeInvalid, 'runtime validation precedes upload');
 });
 
 test('authoring shards preserve unrelated membership and retain indivisible sources', () => {

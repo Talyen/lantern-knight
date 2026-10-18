@@ -1,4 +1,4 @@
-import { onExit } from '../scope-exit';
+import { onExit, onAsyncExit } from '../scope-exit';
 import { downloadFile } from './download';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -85,6 +85,8 @@ export async function openFileWorkspace(
   const objects = new Map<string, Promise<void>>();
   const proofs = new Map<string, string>();
   let catalogPromise: Promise<FileCatalog> | undefined;
+  let basePromise: Promise<Awaited<ReturnType<AssetCache['lease']>> | undefined> | undefined;
+  let baseLease: Awaited<ReturnType<AssetCache['lease']>> | undefined;
   let active = 0;
   const waiting: (() => void)[] = [];
   const slot = async <T>(work: () => Promise<T>) => {
@@ -163,6 +165,43 @@ export async function openFileWorkspace(
       catalogPromise = undefined;
       throw error;
     }));
+  const reuseComplete = async (relative: string, info: { bytes: number; sha256: string }) => {
+    basePromise ??= (async () => {
+      const name = 'pack-' + pin.sha256 + '-authoring';
+      try {
+        const stat = await fs.lstat(path.join(cache.root, 'entries', name, 'pack.json'));
+        if (!stat.isFile() || stat.isSymbolicLink()) return undefined;
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code === 'ENOENT') return undefined;
+        throw error;
+      }
+      return (baseLease = await cache.lease(name, 0, false, true));
+    })();
+    const base = await basePromise;
+    lifetime.signal.throwIfAborted();
+    if (!base) return false;
+    const source = path.join(base.root, relative);
+    // The catalog authenticates each file independently; no whole-pack scan is
+    // needed to reuse one matching local image, even if other files are absent.
+    if (!(await valid(source, info))) {
+      // A detected corrupt/partial cache loses immutable accounting as well.
+      // The next admission sees its current bytes before downloading a repair.
+      await base.reserve(0);
+      return false;
+    }
+    await reserve('cached-links', 65536);
+    lifetime.signal.throwIfAborted();
+    const target = path.join(held.root, relative);
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    const temporary = target + '.' + randomUUID();
+    try {
+      await fs.link(source, temporary);
+      await fs.rename(temporary, target);
+    } finally {
+      await fs.rm(temporary, { force: true });
+    }
+    return true;
+  };
   const ensure = async (relative: string) => {
     lifetime.signal.throwIfAborted();
     const index = await catalog();
@@ -172,6 +211,7 @@ export async function openFileWorkspace(
     // Verified files already belong to initialBytes and the active lease.
     // Only installing or repairing bytes needs additional growth admission.
     if (await valid(target, info)) return true;
+    if (await reuseComplete(relative, info)) return true;
     let object = objects.get(info.sha256);
     if (!object) {
       object = slot(async () => {
@@ -206,6 +246,7 @@ export async function openFileWorkspace(
       const groups = new Map<string, Map<string, (typeof index.files)[string]>>();
       for (const [name, info] of Object.entries(index.files)) {
         if (await valid(path.join(held.root, name), info)) continue;
+        if (await reuseComplete(name, info)) continue;
         const group = groups.get(info.container) ?? new Map();
         group.set(info.sha256, info);
         groups.set(info.container, group);
@@ -293,6 +334,9 @@ export async function openFileWorkspace(
         ...objects.values(),
         ...(catalogPromise ? [catalogPromise] : []),
       ]);
+      await using cleanup = onAsyncExit(async () => {
+        await baseLease?.release();
+      });
       await held.release();
     },
   };
