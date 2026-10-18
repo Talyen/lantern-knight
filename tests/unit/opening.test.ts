@@ -187,11 +187,11 @@ test('incoming interruption and stale commands cannot replay a queued action', (
 });
 test('burst is circular, bounded by range and height, with one direct hit', () => {
   for (const [x, z, y, hit] of [
-    [-2.5, 0, 0, true],
-    [2.5, 0, 0, true],
-    [0, -2.5, 0, true],
-    [0, 2.5, 0, true],
-    [0, 2.501, 0, false],
+    [-3.25, 0, 0, true],
+    [3.25, 0, 0, true],
+    [0, -3.25, 0, true],
+    [0, 3.25, 0, true],
+    [0, 3.251, 0, false],
     [1, 0, 1, false],
   ] as const) {
     const s = duel();
