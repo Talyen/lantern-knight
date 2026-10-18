@@ -88,4 +88,43 @@ test('forge Oracle renders its locked warning, contact and cancellation from sim
     if (directory)
       await page.screenshot({ path: path.join(directory, `forge-oracle-${stage}.png`) });
   }
+  const escaped = await page.evaluate(() => {
+    const f = window.foundation;
+    f.presentation.combatFeedback.reset();
+    f.editPreview((sim) => {
+      const oracle = sim.enemies.find((a) => a.definition.id === 'candlebone-oracle')!;
+      Object.assign(sim.hero, { x: 3, px: 3, z: 4, pz: 4, health: 100 });
+      sim.start(sim.hero, 'idle');
+      oracle.cooldown = 0;
+      sim.start(oracle, 'idle');
+      sim.step();
+      if (sim.ribLanes.length !== 1) throw new Error('Expected a fresh courtyard cast');
+      while (oracle.age < 64)
+        f.presentation.events.publish(
+          sim.step({ move: { x: 1, z: 0 }, aim: { x: 6, z: 4 } }).events,
+        );
+    });
+    f.presentation.update(f.sim, 1, 0, { x: 6, z: 4 });
+    return {
+      health: f.sim.hero.health,
+      x: f.sim.hero.x,
+      locked: f.sim.ribLanes[0],
+      error: f.presentation.renderer.getContext().getError(),
+    };
+  });
+  expect(escaped.health).toBe(100);
+  expect(escaped.x).toBeGreaterThan(4);
+  expect(escaped.locked).toMatchObject({ x: 3, z: 4 });
+  expect(escaped.error).toBe(0);
+  if (directory) await page.screenshot({ path: path.join(directory, 'forge-oracle-escaped.png') });
+  await page.evaluate(() => {
+    const f = window.foundation;
+    f.editPreview((sim) => {
+      const fire = sim.areaDefinition.campfires![0]!;
+      Object.assign(sim.hero, { x: fire.x, z: fire.z });
+      sim.step();
+    });
+    f.presentation.update(f.sim, 1, 0, f.sim.hero);
+  });
+  expect(await page.evaluate(() => window.foundation.sim.ribLanes.length)).toBe(0);
 });

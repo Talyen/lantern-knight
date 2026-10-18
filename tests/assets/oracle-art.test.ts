@@ -4,6 +4,12 @@ import { readAsset } from '../../tools/assets/io';
 import { parseManifest, resolveActorClip } from '../../src/assets/schema';
 import { actorVisuals } from '../../src/content/visuals';
 import { ribLaneEffect } from '../../src/content/combat-feedback';
+import forge from '../../authoring/scenes/ruined-forge.json';
+import { parseSceneDocument } from '../../src/content/scene-document';
+import {
+  paintedEnvelopePolicy,
+  spritePlacementEnvelope,
+} from '../../src/content/placement-envelope';
 
 test('supplied Oracle headings retain cast release and the rib lane retains its contact marker', async () => {
   const binding = actorVisuals['candlebone-oracle']!;
@@ -11,6 +17,17 @@ test('supplied Oracle headings retain cast release and the rib lane retains its 
     JSON.parse(await readAsset(`public/generated/library/${binding.asset}/manifest.json`, 'utf8')),
   );
   assert.notEqual(oracle.asset.mirroring, true);
+  const document = parseSceneDocument(forge);
+  const spawn = document.gameplay!.spawns.find((a) => a.actor === 'candlebone-oracle')!;
+  assert.equal(
+    paintedEnvelopePolicy(document)(
+      spawn,
+      spritePlacementEnvelope(oracle, [binding.clips.idle, binding.clips.walk]),
+      { scale: binding.scale ?? 1 },
+    ),
+    undefined,
+    'Oracle placement must reserve all delivered movement drawings against painted scenery',
+  );
   for (const heading of ['d00', 'd90', 'd180', 'd270'] as const) {
     for (const clip of Object.values(binding.clips))
       assert.ok(resolveActorClip(oracle, clip, heading).frames.length);
