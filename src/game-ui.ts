@@ -26,6 +26,15 @@ export function createGameUI(root: HTMLElement) {
   const lifetime = new AbortController();
   let closed = false;
   const $ = <T extends HTMLElement>(selector: string) => root.querySelector<T>(selector)!;
+  // Per-frame writes only when a value actually changed; repeated style/value
+  // writes re-dirty layout for no visible difference.
+  const setText = (element: HTMLElement, value: string) => {
+    if (element.textContent !== value) element.textContent = value;
+  };
+  const setStyle = (element: HTMLElement, property: string, value: string) => {
+    if (element.style.getPropertyValue(property) !== value)
+      element.style.setProperty(property, value);
+  };
   const on = <K extends keyof HTMLElementEventMap>(
     element: HTMLElement,
     type: K,
@@ -351,7 +360,7 @@ export function createGameUI(root: HTMLElement) {
   }
   function update(app: Application) {
     if (closed) return;
-    root.style.setProperty('--ui-scale', String(app.uiScale));
+    setStyle(root, '--ui-scale', String(app.uiScale));
     const s = app.sim;
     lootLabels?.update(app.roomReady && !app.busy && !app.paused && !adventure?.isOpen());
     if (adventure?.isOpen() && $<HTMLDialogElement>('#modal').open)
@@ -410,24 +419,24 @@ export function createGameUI(root: HTMLElement) {
       cue.style.top = `${(1 - cuePosition.y) * 50}%`;
     } else cue.removeAttribute('aria-label');
     const potions = app.session.inventory['health-potion'] ?? 0;
-    $('#potion-count').textContent = `×${potions}`;
+    setText($('#potion-count'), `×${potions}`);
     $('.supply-row').classList.toggle('empty', potions === 0);
-    $('#hp').textContent = `${s.hero.health} / ${s.maxHealth}`;
+    setText($('#hp'), `${s.hero.health} / ${s.maxHealth}`);
     $('.health').setAttribute('aria-valuenow', String(s.hero.health));
     $('.health').setAttribute('aria-valuemax', String(s.maxHealth));
     $('.hud').classList.toggle('low-health', s.hero.health <= s.maxHealth * 0.3);
-    $('#health-fill').style.height = `${(s.hero.health / s.maxHealth) * 100}%`;
+    setStyle($('#health-fill'), 'height', `${(s.hero.health / s.maxHealth) * 100}%`);
     const cooldown = s.hero.cooldown,
       charge = Math.floor((1 - cooldown / tuning.ability.cooldown) * 100),
       lanternState =
         cooldown > 0 ? `${(Math.ceil((cooldown * 10) / tuning.tickHz) / 10).toFixed(1)}s` : 'Ready';
     $('#lantern-readiness').hidden =
       !app.roomReady || app.busy || app.paused || !!adventure?.isOpen() || s.hero.health <= 0;
-    $('#lantern-state').textContent = lanternState;
-    $('#lantern-readiness').style.setProperty('--charge', `${charge}%`);
+    setText($('#lantern-state'), lanternState);
+    setStyle($('#lantern-readiness'), '--charge', `${charge}%`);
     $('.lantern-charge').setAttribute('aria-valuenow', String(charge));
     $('.lantern-charge').setAttribute('aria-valuetext', lanternState);
-    $('#lantern-fill').style.width = `${charge}%`;
+    setStyle($('#lantern-fill'), 'width', `${charge}%`);
     if (lastArea !== s.area) {
       lastArea = s.area;
       $('#room-title').textContent = s.areaDefinition.name;
@@ -455,13 +464,15 @@ export function createGameUI(root: HTMLElement) {
     $<HTMLButtonElement>('#resume').disabled = unavailable || !app.roomReady;
     $<HTMLButtonElement>('#menu-start').disabled = unavailable || !app.roomReady;
     $<HTMLButtonElement>('#save').disabled = unavailable || !app.roomReady;
-    $('#save-notice').textContent =
+    setText(
+      $('#save-notice'),
       (!app.roomReady
         ? 'Room unavailable. Reset, load a checkpoint, or start a new game to recover.'
         : '') ||
-      app.persistence.error ||
-      app.settingsError ||
-      '';
+        app.persistence.error ||
+        app.settingsError ||
+        '',
+    );
   }
 
   return {

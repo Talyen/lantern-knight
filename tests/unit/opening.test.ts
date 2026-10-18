@@ -187,11 +187,11 @@ test('incoming interruption and stale commands cannot replay a queued action', (
 });
 test('burst is circular, bounded by range and height, with one direct hit', () => {
   for (const [x, z, y, hit] of [
-    [-2.5, 0, 0, true],
-    [2.5, 0, 0, true],
-    [0, -2.5, 0, true],
-    [0, 2.5, 0, true],
-    [0, 2.501, 0, false],
+    [-3.25, 0, 0, true],
+    [3.25, 0, 0, true],
+    [0, -3.25, 0, true],
+    [0, 3.25, 0, true],
+    [0, 3.251, 0, false],
     [1, 0, 1, false],
   ] as const) {
     const s = duel();
@@ -242,6 +242,18 @@ test('Burn defeat awards one drop and clears status, even on later ticks', () =>
   assert.equal(a.burn, undefined);
   steps(s, 100);
   assert.equal(s.drops.filter((d) => d.source === 'a').length, 1);
+});
+test('a downed hero cannot keep burning enemies or win the encounter', () => {
+  const s = duel();
+  const a = s.enemies[0]!;
+  s.hero.health = 0;
+  s.start(s.hero, 'death');
+  a.health = 3;
+  a.burn = { remaining: 300, nextTick: 1 };
+  const events = s.step(still).events;
+  assert.equal(a.health, 3);
+  assert.equal(s.cleared, false);
+  assert.ok(!events.some((e) => e.kind === 'room-clear'));
 });
 test('Burn timers and onboarding survive save/load and inactive destinations; resets clear Burn and input queues', () => {
   const r = registry();

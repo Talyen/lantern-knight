@@ -28,7 +28,7 @@ export const tuning = {
     windup: heroActionTiming('cast_lantern_flare', 'd90').windup,
     total: heroActionTiming('cast_lantern_flare', 'd90').total,
     cooldown: 240,
-    range: 2.5,
+    range: 3.25,
     damage: 16,
     stun: 30,
     recoilDistance: 0.75,

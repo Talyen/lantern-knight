@@ -20,7 +20,8 @@ export type EventDetails =
       operation: 'equip' | 'unequip' | 'salvage' | 'upgrade' | 'move' | 'organize';
     }
   | { kind: 'action-unavailable'; reason: string }
-  | { kind: 'pickup'; pickup: string; amount: number }
+  | { kind: 'pickup'; item: string; amount: number }
+  | { kind: 'health-pickup'; amount: number }
   | { kind: 'damage'; target: ActorId; amount: number; damageType: DamageType; phase: DamagePhase }
   | { kind: 'stagger'; target: ActorId; duration: number }
   | { kind: 'strike' | 'flare' | 'death' | 'room-clear' }
@@ -123,7 +124,7 @@ export class EventHub {
     return true;
   }
   publish(events: readonly PresentationEvent[]) {
-    if (this.disposed) return;
+    if (this.disposed || !events.length) return;
     // Capture the complete batch before any observer can re-enter publication.
     this.queue.push(
       ...events.map((event) =>
