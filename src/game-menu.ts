@@ -27,6 +27,7 @@ const controlRows = [
 
 export const gameMenu = `<dialog class="modal game-menu is-title" id="modal" aria-labelledby="pause-title">
   <div class="menu-shell gothic-panel">
+    <span class="panel-emblem" aria-hidden="true">${playerIcon('lantern')}</span>
     <header class="menu-heading"><button id="menu-back" class="icon-button" aria-label="Back" data-tip="Back · Esc" hidden>${playerIcon('close')}</button><div class="menu-crest" aria-hidden="true"></div><h1 id="pause-title">Lantern<br>Knight</h1></header>
     <section class="menu-home" id="menu-home" aria-label="Main menu">
       <div class="menu-actions" id="menu-actions">

@@ -61,6 +61,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     element.disabled = disabled;
     if (key === 'confirm-upgrade') element.className = 'primary-action';
     if (key === 'rest') {
+      element.classList.add('primary-action');
       element.setAttribute('aria-label', 'Rest');
       element.dataset.tip = 'Rest · Restore health · Save checkpoint · Reset enemies';
       element.append(createPlayerIcon('fire'), document.createTextNode(' Rest'));
@@ -169,6 +170,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     return html`<div class="adventure-content upgrade-content">
       <section class="upgrade-kit" aria-label="Permanent kit improvements">
         <div class="upgrade-options" role="group" aria-label="Choose an improvement">${options}</div>
+        <div class="upgrade-preview">${artwork(active)}</div>
         <p>Permanent improvements at every campfire. Both paths can be earned.</p>
       </section>
       <section class="upgrade-work" aria-label="Selected improvement">
@@ -373,8 +375,8 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     const content = html`<div class="adventure-content inventory-content inventory-view-${inventoryView}">
       <div class="inventory-tabs" role="group" aria-label="Browse inventory">${tabs}</div>
       <div class="inventory-columns">
-        <section class="inventory-equipment" aria-label="Equipment"><h3>Your kit</h3><div class="equipment-grid" role="group" aria-label="Equipment slots">${gear}</div></section>
-        <section class="inventory-bag" aria-label="Carried items"><header class="pack-heading"><div><h3>Your pack</h3><span>${carried.reduce((sum, entry) => sum + entry.definition.footprint[0] * entry.definition.footprint[1], 0)} / 192 cells · 12 × 16</span></div>${button('Organize', 'organize', () => report(() => app.changeInventory({ kind: 'organize' }), 'Pack organized.'))}</header><div class="pack-scroll" data-scroll="pack"><div class="pack-items" role="group" aria-label="Carried items">${empty}${bag}</div></div><div class="inventory-gold">${material('gold', app.session.inventory.gold ?? 0)}</div></section>${inventoryDetail()}
+        <section class="inventory-equipment" aria-label="Equipment"><h3 class="visually-hidden">Your kit</h3><div class="equipment-grid" role="group" aria-label="Equipment slots">${gear}</div></section>
+        <section class="inventory-bag" aria-label="Carried items"><header class="pack-heading"><div><h3>Pack</h3><span>${carried.reduce((sum, entry) => sum + entry.definition.footprint[0] * entry.definition.footprint[1], 0)} / 192 cells · 12 × 16</span></div>${button('Organize', 'organize', () => report(() => app.changeInventory({ kind: 'organize' }), 'Pack organized.'))}</header><div class="pack-scroll" data-scroll="pack"><div class="pack-items" role="group" aria-label="Carried items">${empty}${bag}</div></div><div class="inventory-gold">${material('gold', app.session.inventory.gold ?? 0)}</div></section>${inventoryDetail()}
       </div>
     </div>`;
     content
@@ -494,7 +496,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     });
     dismiss.className = 'detail-close';
     dismiss.setAttribute('aria-label', 'Close item details');
-    return html`<section class="inventory-detail" aria-label="Selected item">${dismiss}<div class="item-description" data-scroll="detail"><h3>${item.name}</h3>
+    return html`<section class="inventory-detail" aria-label="Selected item">${dismiss}<div class="item-portrait" data-item="${id}">${artwork(id)}</div><div class="item-description" data-scroll="detail"><h3>${item.name}</h3>
       <p class="item-kind">${equippedSlot ? 'Equipped' : packEntry && packEntry.quantity > 1 ? `Count ${packEntry.quantity}` : 'Carried'} · ${item.footprint[0]} × ${item.footprint[1]} cells</p>
       ${item.kind === 'material' && html`<p class="item-effect">Upgrade material</p>`}
       ${slots && (item.maxHealth || (replacedId && items[replacedId]!.maxHealth)) ? html`<p class="item-comparison">Maximum health <strong>${app.sim.maxHealth} → ${projectedHealth} <small>(${projectedHealth - app.sim.maxHealth >= 0 ? '+' : ''}${projectedHealth - app.sim.maxHealth})</small></strong></p>` : false}
@@ -550,6 +552,7 @@ export function bindAdventureUI(app: Application, root: HTMLElement, signal: Abo
     const header = html`<header class="adventure-header"><h2>${title}</h2>${navigation}${back}</header>`;
 
     panel.replaceChildren(
+      artwork('ui-lantern', 'panel-emblem'),
       header,
       content,
       html`<footer class="adventure-footer${messageError || working ? ' visible' : ''}"><p class="adventure-feedback${messageError ? ' error' : ''}" role="${messageError ? 'alert' : 'status'}">${message || (working ? 'Working…' : !showingUpgrades && !fire ? 'Select to inspect · Drag to arrange · M to move with keys' : '')}</p></footer>`,

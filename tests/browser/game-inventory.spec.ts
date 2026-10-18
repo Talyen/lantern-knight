@@ -79,6 +79,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await expect(page.locator('#hp')).toHaveText('60 / 105');
   await expect(panel.locator('.inventory-slot[aria-pressed="true"]')).toBeFocused();
   await pick('Gatherer’s Seal');
+  await expect(detail.locator('.item-portrait')).toHaveAttribute('data-item', 'gatherers-seal');
   await expect(detail).toContainText('105 → 110');
   await expect(detail).toContainText('Replaces Traveller’s Charm');
   await expect(panel.locator('.item-art:not([data-ready="true"])')).toHaveCount(0);
@@ -88,6 +89,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await detail.getByRole('button', { name: 'Equip', exact: true }).click();
   await pick('Orchard Ring');
   await expect(detail).toContainText('110 → 120');
+  await capture('inventory-ring-1280');
   await detail.getByRole('button', { name: 'Equip', exact: true }).click();
   await pick('Orchard Ring');
   await expect(detail.getByRole('combobox', { name: 'Equip to' })).toHaveValue('ring2');
@@ -104,6 +106,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await detail.getByRole('button', { name: 'Unequip', exact: true }).click();
   await expect(page.locator('#hp')).toHaveText('60 / 120');
   await pick('Health Potion');
+  await expect(detail.locator('.item-portrait')).toHaveAttribute('data-item', 'health-potion');
   await expect(detail).toContainText('Restores 40 health');
   await pick('Damaged Axe');
   await expect(detail.getByLabel('4 Iron', { exact: true })).toBeVisible();

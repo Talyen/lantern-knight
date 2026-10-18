@@ -1,11 +1,11 @@
 /* Player surfaces share a quiet ink palette; existing artwork supplies character. */
 .game {
-  --ink: #0e1113;
-  --panel: #171b1d;
-  --ivory: #e9e0ca;
-  --sage: #a7ad9e;
-  --amber: #b89b62;
-  --rule: #77756448;
+  --ink: #101310;
+  --panel: #151815;
+  --ivory: #f0e6cc;
+  --sage: #b2b1a0;
+  --amber: #c7a361;
+  --rule: #aa915140;
   --font-body: system-ui, sans-serif;
   --font-display: Georgia, 'Times New Roman', serif;
   color: var(--ivory);
@@ -23,7 +23,7 @@
   border: 1px solid var(--rule);
   border-radius: 1px;
   color: inherit;
-  background: #1c2426;
+  background: #161b17;
   font: inherit;
   cursor: pointer;
   transition:
@@ -33,8 +33,8 @@
 .game button:hover:not(:disabled),
 .game select:hover:not(:disabled),
 .game summary:hover {
-  background: #2b3332;
-  border-color: #a59366;
+  background: #282c21;
+  border-color: var(--amber);
 }
 .game button:active:not(:disabled) {
   background: #111719;
@@ -49,12 +49,19 @@
   outline-offset: 3px;
 }
 .game .primary-action {
-  border-color: #ae935e;
-  background: #4d4935;
-  color: #fff1ce;
+  border: 1px solid #e0bb78;
+  background: #c39b55;
+  color: #18160f;
+  box-shadow: inset 0 0 0 2px #6f542d66;
+  font-family: var(--font-display);
 }
 .game .primary-action:hover:not(:disabled) {
-  background: #625a3d;
+  background: #dfb975;
+  border-color: #f3d69a;
+}
+.game .primary-action:active:not(:disabled) {
+  background: #a47f41;
+  box-shadow: inset 0 2px 3px #3b2a1b66;
 }
 .game input {
   accent-color: var(--amber);
@@ -104,19 +111,35 @@
   white-space: nowrap;
 }
 .game .gothic-panel {
-  border: 1px solid #928260;
-  background: #151b1ef5;
-  box-shadow:
-    0 20px 80px #0009,
-    inset 0 0 0 4px #101619;
+  border: 12px solid transparent;
+  border-image: url('./ink-brass-frame.svg') 24 / 12px stretch;
+  background: #101410fa;
+  background-clip: padding-box;
+  box-shadow: 0 24px 80px #000b;
 }
 .game .gothic-panel::before {
-  content: '◆';
-  display: block;
-  color: var(--amber);
-  font-size: 11px;
-  text-align: center;
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid #b6975533;
   pointer-events: none;
+}
+.game .panel-emblem {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: calc(50% - 16px);
+  width: 32px;
+  height: 34px;
+  padding: 3px 6px;
+  background: var(--ink);
+  color: var(--amber);
+  pointer-events: none;
+}
+.game .panel-emblem :is(.player-icon, .control-icon) {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 .game .visually-hidden {
   position: absolute !important;
@@ -152,8 +175,8 @@
   max-width: min(280px, calc(100vw - 16px));
   margin: 0;
   padding: 7px 10px;
-  border: 1px solid #8d805b;
-  background: #151e1df5;
+  border: 1px solid #9c814e;
+  background: #111610fa;
   color: var(--ivory);
   font: 12px/1.4 var(--font-body);
   box-shadow: 0 4px 12px #0007;
