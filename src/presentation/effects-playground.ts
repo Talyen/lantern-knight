@@ -25,8 +25,14 @@ import { cameraContract as contract } from '../assets/camera-contract';
 import { resolveActorClip, resolveClip, type Clip } from '../assets/schema';
 import { frameAt, clipDuration } from '../core/animation';
 import type { AssetPack } from '../assets/loader';
+import type { PresentationLifecycle } from './lifecycle';
 import type { SimulationView } from '../core/simulation-view';
-import { effectsArea, activeEffect, type PlaygroundSettings } from '../content/effects-playground';
+import {
+  effectsArea,
+  type PlaygroundEffect,
+  type PlaygroundSettings,
+} from '../content/effects-playground';
+import { defaultVisualEffects, type VisualEffects } from '../content/visual-effects';
 
 type Animated = { sprite: ActorSprite; clip: Clip; foot: T.Vector3; phase: number };
 type Lamp = {
@@ -39,11 +45,15 @@ type Lamp = {
   embers: Animated;
 };
 
-export class EffectsPlayground {
+export class EffectsPlayground implements PresentationLifecycle {
   readonly renderer: T.WebGLRenderer;
   readonly camera = makeCamera(16 / 9);
   readonly scene = new T.Scene();
   readonly lighting = new IllustratedLighting();
+  generation = 0;
+  verticalSpan = 9;
+  readonly visualEffects = defaultVisualEffects();
+  readonly depthOfField = 0;
   private composer: EffectComposer;
   private bloom: BloomEffect;
   private glowPass: EffectPass;
@@ -66,6 +76,22 @@ export class EffectsPlayground {
   private hero: ActorSprite;
   private target: ActorSprite;
   private uniformTime = new T.Uniform(0);
+  private heroFoot = new T.Vector3();
+  private mistOrigin = new T.Vector3();
+  private lightingOrigin = new T.Vector3();
+  private wetForPuddle = false;
+  private readonly rainBounds = { minX: -5.5, maxX: 5.5, minZ: -4.5, maxZ: 5.5 };
+  private readonly rainShelters = [{ minX: -5.4, maxX: -1.65, minZ: -2.5, maxZ: 0.5 }];
+  private readonly rainWeather = { rain: 1, wind: { x: 0.22, z: 0.08 } };
+  private readonly rainHeight = () => 0;
+  private readonly rainPuddle = (x: number, z: number) => this.wetForPuddle && inPuddle(x, z);
+  private readonly rainSurface = {
+    bounds: this.rainBounds,
+    shelters: this.rainShelters,
+    height: this.rainHeight,
+    puddle: this.rainPuddle,
+  };
+  private readonly labLook = { ...defaultLook, shadows: false };
   private heroClip = '';
   private shadowMapSize = 1024;
   time = 0;
@@ -74,6 +100,7 @@ export class EffectsPlayground {
     readonly canvas: HTMLCanvasElement,
     private packs: ReadonlyMap<string, AssetPack>,
     emitters: Record<string, number[]>,
+    private settings: PlaygroundSettings,
   ) {
     this.renderer = new T.WebGLRenderer({ canvas, antialias: false });
     this.renderer.outputColorSpace = T.SRGBColorSpace;
@@ -92,6 +119,7 @@ export class EffectsPlayground {
     this.key.shadow.camera.right = this.key.shadow.camera.top = 10;
     this.key.shadow.camera.far = 30;
     this.key.shadow.bias = -0.0004;
+    this.key.castShadow = true;
     this.composer = new EffectComposer(this.renderer, { frameBufferType: T.HalfFloatType });
     this.composer.addPass(new RenderPass(this.scene, this.camera));
     this.bloom = new BloomEffect({
@@ -204,7 +232,24 @@ export class EffectsPlayground {
     this.motes = new T.Points(geometry, material);
     this.scene.add(this.motes);
     this.owned.push(geometry, material);
+    this.camera.position.set(0, 0, 0).addScaledVector(outward, 30);
+    this.camera.lookAt(0, 0, 0);
+    this.camera.updateMatrixWorld();
     this.resize();
+  }
+  setDepthOfField() {}
+  setVisualEffects(value: Partial<VisualEffects>) {
+    Object.assign(this.settings.effects, value);
+  }
+  async loadAnimationFlow() {}
+  warm() {
+    return this.prepare();
+  }
+  warmPack() {}
+  async prepareAssets() {}
+  resetRoom() {}
+  update(sim: SimulationView, alpha: number, ms: number) {
+    this.draw(sim, alpha, Math.min(100, ms), this.settings);
   }
   private mesh<M extends T.Material>(geometry: T.BufferGeometry, material: M) {
     const mesh = new T.Mesh(geometry, material);
@@ -213,7 +258,7 @@ export class EffectsPlayground {
     return mesh;
   }
   private sprite(id: string, asset: string, clip: string, foot: T.Vector3) {
-    const pack = this.packs.get(asset)!;
+    const pack = this.packs.get(asset);
     if (!pack) throw new Error(`playground pack missing: ${asset}`);
     const s = new ActorSprite(
       id,
@@ -288,27 +333,24 @@ export class EffectsPlayground {
     if (this.disposed) return;
     this.time += settings.paused ? 0 : ms / 1000;
     this.uniformTime.value = this.time;
-    const on = (key: Parameters<typeof activeEffect>[1]) => activeEffect(settings, key),
+    const on = (key: PlaygroundEffect) => !settings.baseline && settings.effects[key],
       rich = settings.treatment === 'rich',
       strength = rich ? 1.7 : 1;
-    this.key.castShadow = true;
     this.hemi.color.set(on('palette') ? 0xb8cde3 : 0xc9d4d2);
     this.hemi.groundColor.set(on('palette') ? 0x49465c : 0x59615c);
     this.key.color.set(on('palette') ? 0xffdaa0 : 0xe5ddd0);
-    this.lighting.configure(
-      { ...defaultLook, shadows: false, atmosphere: on('atmosphere') },
-      new T.Vector3(),
-    );
+    this.labLook.atmosphere = on('atmosphere');
+    this.lighting.configure(this.labLook, this.lightingOrigin);
     this.lighting.common.inkShadowEnabled.value = 0;
     this.lighting.restoreLightColors();
     if (!on('palette')) this.lighting.neutralPalette();
     const hero = sim.hero,
-      foot = new T.Vector3(
-        hero.px + (hero.x - hero.px) * alpha,
-        0,
-        hero.pz + (hero.z - hero.pz) * alpha,
-      ),
       clip = hero.state === 'walk' ? 'walk' : 'idle';
+    const foot = this.heroFoot.set(
+      hero.px + (hero.x - hero.px) * alpha,
+      0,
+      hero.pz + (hero.z - hero.pz) * alpha,
+    );
     const heading = selectAuthoredDirection(hero.yaw),
       tag = clip + ':' + heading;
     if (tag !== this.heroClip) {
@@ -372,19 +414,15 @@ export class EffectsPlayground {
         sample.uniforms.labPower.value[i] = l.light.intensity * 0.15;
       });
     }
-    this.rain.update(this.time, { rain: 1, wind: { x: 0.22, z: 0.08 } }, on('rain'), this.camera, {
-      bounds: { minX: -5.5, maxX: 5.5, minZ: -4.5, maxZ: 5.5 },
-      shelters: [{ minX: -5.4, maxX: -1.65, minZ: -2.5, maxZ: 0.5 }],
-      height: () => 0,
-      puddle: (x, z) => on('wetness') && inPuddle(x, z),
-    });
+    this.wetForPuddle = on('wetness');
+    this.rain.update(this.time, this.rainWeather, on('rain'), this.camera, this.rainSurface);
     const impacts = this.rain.stats().impacts;
     for (const sample of [this.stone, this.wood]) {
       sample.uniforms.labImpactCount.value = impacts.length;
       impacts.forEach((p, i) => sample.uniforms.labImpacts.value[i]!.set(p.x, p.z, p.age));
     }
     this.mist.group.visible = this.motes.visible = on('atmosphere');
-    this.mist.update(this.time, 0xa8b7bd, 0.09 * strength, new T.Vector3());
+    this.mist.update(this.time, 0xa8b7bd, 0.09 * strength, this.mistOrigin);
     this.shafts.update(this.renderer, this.scene, this.camera, this.time, on('shafts'), strength);
     this.outlines.forEach((o) => {
       o.mesh.visible = on('outlines') && o.source.visible;

@@ -73,21 +73,18 @@ export function rainEvent(
 }
 /** Gusts affect new drops; an airborne drop retains its original trajectory. */
 export class RainSchedule {
-  private events = new Map<number, ReturnType<typeof rainEvent>>();
+  private starts = new Map<number, { cycle: number; startX: number; startZ: number }>();
   constructor(private seed: number) {}
   reset() {
-    this.events.clear();
+    this.starts.clear();
   }
   sample(time: number, slot: number, bounds: Bounds, weather: WeatherState) {
-    const next = rainEvent(time, slot, this.seed, bounds, weather),
-      previous = this.events.get(slot);
-    if (!previous || previous.cycle !== next.cycle) {
-      this.events.set(slot, next);
-      return next;
+    const next = rainEvent(time, slot, this.seed, bounds, weather);
+    let start = this.starts.get(slot);
+    if (!start || start.cycle !== next.cycle) {
+      start = { cycle: next.cycle, startX: next.startX, startZ: next.startZ };
+      this.starts.set(slot, start);
     }
-    previous.age = next.age;
-    previous.splashAge = next.splashAge;
-    previous.active = next.active;
-    return previous;
+    return { ...next, startX: start.startX, startZ: start.startZ };
   }
 }

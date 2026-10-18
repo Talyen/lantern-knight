@@ -19,7 +19,7 @@ const policies = [
   },
   {
     pattern:
-      /^(tools\/(?:scene|segmentation)\/|src\/(?:editor|effects-playground|sandbox)|src\/content\/(?:scene-(?:document|design)|world-art|game-content|effects-playground)|src\/presentation\/effects-playground|tests\/browser\/(?:editor|effects|fixtures\.ts$))/,
+      /^(tools\/(?:scene|segmentation)\/|src\/(?:editor|sandbox)|src\/content\/(?:scene-(?:document|design)|world-art|game-content|effects-playground)|src\/presentation\/effects-playground|tests\/browser\/(?:editor|effects|fixtures\.ts$))/,
     authoring: true,
   },
   {

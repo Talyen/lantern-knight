@@ -4,7 +4,6 @@
     "electron/main.ts",
     "electron/preload.ts",
     "src/editor/main.ts",
-    "src/effects-playground/main.ts",
     "src/main.ts",
     "src/sandbox/main.ts",
     "tools/diagnostics/benchmark.ts",
