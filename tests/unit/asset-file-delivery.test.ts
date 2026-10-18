@@ -13,12 +13,14 @@ import { openFileWorkspace, parseFileCatalog } from '../../tools/assets/file-del
 import { downloadFile } from '../../tools/assets/download';
 import { buildFileCatalog, publishIndividualFiles } from '../../tools/assets/file-publication';
 import {
+  filePin,
   preparationPin,
   payloadDigest,
   PackSchema,
   LockSchema,
   type AssetLock,
 } from '../../tools/assets/pack';
+import { acquirePinnedPack } from '../../tools/assets/pinned';
 import { inventoryCandidate } from '../../tools/assets/archive';
 
 const sha = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
@@ -551,7 +553,12 @@ test('an already published file pin verifies remote ranges without acquiring or 
     target,
     f.request,
   );
-  assert.deepEqual(JSON.parse(await fs.readFile(target, 'utf8')), JSON.parse(before));
+  const upgraded = LockSchema.parse(JSON.parse(await fs.readFile(target, 'utf8')));
+  assert.equal(upgraded.schemaVersion, 4);
+  assert.deepEqual(upgraded.preparation, JSON.parse(before).preparation);
+  assert.deepEqual(upgraded.fileDelivery, JSON.parse(before).fileDelivery);
+  assert.equal(upgraded.sha256, f.pin.sha256);
+  assert.ok(!('bundles' in upgraded));
   assert.equal(
     f.calls.filter((call) => !call.range).length,
     1,
@@ -592,4 +599,66 @@ test('container construction falls back to one worker when the cache grants only
   );
   assert.equal(peak, 1);
   assert.deepEqual(catalog, f.catalog, 'serial fallback delivers the same deterministic catalog');
+});
+
+test('version 4 full acquisition downloads each container once and then works offline', async (t) => {
+  const f = await fixture(t);
+  const pin = filePin(f.pin, f.pin.fileDelivery!);
+  const workspace = await acquirePinnedPack(pin, f.cache, 'authoring', f.request);
+  for (const [name, bytes] of Object.entries(f.entries))
+    assert.deepEqual(await fs.readFile(path.join(workspace.root, name)), bytes);
+  assert.equal(f.calls.filter((call) => call.range).length, 0);
+  assert.equal(f.calls.length, Object.keys(f.catalog.containers).length + 1);
+  await workspace.release();
+  const offline = await acquirePinnedPack(pin, f.cache, 'authoring', async () => {
+    throw new Error('complete acquisition must be reusable offline');
+  });
+  await offline.release();
+});
+
+test('complete acquisition rejects a corrupt container before installing its files', async (t) => {
+  const f = await fixture(t);
+  const workspace = await openFileWorkspace(
+    filePin(f.pin, f.pin.fileDelivery!),
+    f.cache,
+    async (url, init) => {
+      const response = await f.request(url, init);
+      if (String(url).endsWith('files.json.gz')) return response;
+      const bytes = Buffer.from(await response.arrayBuffer());
+      bytes[0] = bytes[0]! ^ 255;
+      return new Response(bytes);
+    },
+  );
+  await assert.rejects(workspace.materializeAll(), /hash or size differs/);
+  await workspace.release();
+  await assert.rejects(fs.access(workspace.publicDirectory), { code: 'ENOENT' });
+  assert.deepEqual(await fs.readdir(path.join(workspace.root, '.leases')), []);
+  assert.ok(!(await fs.readdir(workspace.root)).some((name) => name.startsWith('.container-')));
+});
+
+test('complete acquisition coalesces calls and disposal drains its cancelled transport', async (t) => {
+  const f = await fixture(t);
+  const started = Promise.withResolvers<void>();
+  const workspace = await openFileWorkspace(
+    filePin(f.pin, f.pin.fileDelivery!),
+    f.cache,
+    async (url, init) => {
+      if (String(url).endsWith('files.json.gz')) return f.request(url, init);
+      started.resolve();
+      return new Promise<Response>((_resolve, reject) => {
+        init!.signal!.addEventListener(
+          'abort',
+          () => reject(new DOMException('Aborted', 'AbortError')),
+          { once: true },
+        );
+      });
+    },
+  );
+  const pending = workspace.materializeAll();
+  assert.equal(workspace.materializeAll(), pending);
+  const rejected = assert.rejects(pending, /abort/i);
+  await started.promise;
+  await workspace.release();
+  await rejected;
+  assert.deepEqual(await fs.readdir(path.join(workspace.root, '.leases')), []);
 });

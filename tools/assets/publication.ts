@@ -2,16 +2,24 @@ import { onAsyncExit } from '../scope-exit';
 import { readJson, writeJsonAtomic } from '../json-file';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { AssetCache, diskBytes } from './cache';
-import { recipeHash, validateCachedPack, lockFile, LockSchema, type AssetLock } from './pack';
+import { AssetCache } from './cache';
+import {
+  recipeHash,
+  validateCachedPack,
+  lockFile,
+  LockSchema,
+  type ArchivePin,
+  preparationPin,
+  recipeInputs,
+  filePin,
+} from './pack';
 import { shaFile } from './sources';
 import { gh } from './github';
 import type { PreparedAssets } from './prepare';
 import { publishFileDelivery } from './file-publication';
-import { publicationWork } from './publication-work';
 
 export async function verifyRemote(
-  lock: AssetLock,
+  lock: ArchivePin,
   cache = new AssetCache(),
   request: typeof fetch = fetch,
 ) {
@@ -71,66 +79,23 @@ async function validateCandidate(prepared: PreparedAssets) {
     throw new Error('Asset recipes changed; prepare and validate again');
   await validateCachedPack(prepared.payload, prepared.lock);
 }
-async function uploadArchive(
-  lock: import('./pack').AssetLock,
-  archive: string,
-  publish: typeof gh,
-) {
-  let existing: { assets: { name: string }[] } | undefined;
-  try {
-    const value = JSON.parse(
-      await publish(['release', 'view', lock.releaseTag, '--json', 'assets']),
-    );
-    if (
-      !Array.isArray(value.assets) ||
-      value.assets.some((a: unknown) => !a || typeof (a as { name?: unknown }).name !== 'string')
-    )
-      throw new Error('Invalid existing release metadata');
-    existing = value;
-  } catch (error) {
-    const stderr = (error as { stderr?: unknown }).stderr;
-    const detail =
-      String(error) +
-      ' ' +
-      (typeof stderr === 'string' || Buffer.isBuffer(stderr) ? stderr.toString() : '');
-    if (!/release not found|HTTP 404|Not Found/i.test(detail)) throw error;
-  }
-  if (existing) {
-    if (!existing.assets.some((a) => a.name === lock.filename))
-      await publish(['release', 'upload', lock.releaseTag, archive + '#' + lock.filename]);
-  } else {
-    const commit = (
-      await publish([
-        'api',
-        'repos/Talyen/lantern-knight/git/ref/heads/main',
-        '--jq',
-        '.object.sha',
-      ])
-    ).trim();
-    await publish([
-      'release',
-      'create',
-      lock.releaseTag,
-      archive + '#' + lock.filename,
-      '--target',
-      commit,
-      '--title',
-      'Prepared assets ' + lock.sha256.slice(0, 16),
-      '--notes',
-      'Verified runtime asset pack. Recipe SHA-256: ' + lock.recipeSha256,
-      '--latest=false',
-    ]);
-  }
-}
-export async function publishBundledPrepared(
+export async function publishPrepared(
   prepared: PreparedAssets,
-  publish = gh,
-  verify = verifyRemote,
-  target = lockFile,
-  beforePin: () => Promise<void> = async () => {},
-  request: typeof fetch = fetch,
-  cache = new AssetCache(),
+  options: {
+    publish?: typeof gh;
+    target?: string;
+    beforePin?: () => Promise<void>;
+    request?: typeof fetch;
+    cache?: AssetCache;
+  } = {},
 ) {
+  const {
+    publish = gh,
+    target = lockFile,
+    beforePin = async () => {},
+    request = fetch,
+    cache = new AssetCache(),
+  } = options;
   await validateCandidate(prepared);
   if (prepared.archive) {
     if (
@@ -139,7 +104,6 @@ export async function publishBundledPrepared(
     )
       throw new Error('Prepared archive differs from the reviewed candidate');
     await fs.rm(prepared.archive);
-    await prepared.held.reserve(await diskBytes(prepared.held.root));
   }
   let previous: import('./pack').AssetLock | undefined;
   try {
@@ -147,19 +111,16 @@ export async function publishBundledPrepared(
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
   }
-  const { prepareBundles } = await import('./bundles');
-  const plan = await prepareBundles(prepared, previous);
-  await publicationWork(Object.entries(plan.pin.bundles), async ([name, lock]) => {
-    if (plan.archives[name]) await uploadArchive(lock, plan.archives[name]!, publish);
-    await verify(lock);
-  });
-  const fileDelivery = await publishFileDelivery(
-    plan.pin,
+  const inventory = await validateCachedPack(prepared.payload, prepared.lock);
+  const accepted = preparationPin(prepared.lock, await recipeInputs(), inventory);
+  if (accepted.schemaVersion === 1) throw new Error('Missing accepted preparation identity');
+  const delivery = await publishFileDelivery(
+    accepted,
     prepared.payload,
     cache,
     publish,
     request,
-    previous?.schemaVersion === 3 ? previous : undefined,
+    previous?.schemaVersion === 3 || previous?.schemaVersion === 4 ? previous : undefined,
   );
   await validateCandidate(prepared);
   await beforePin();
@@ -172,15 +133,6 @@ export async function publishBundledPrepared(
     JSON.stringify(previous)
   )
     throw new Error('Asset pin changed during publication; refusing to overwrite it');
-  await writeJsonAtomic(target, { ...plan.pin, fileDelivery }, true);
-  console.log('Published and pinned immutable bundles; unchanged bundles were reused.');
-  // All admitted uploads have settled and downloadable bytes are verified.
-  // Retain source preparation, but avoid a second full pack occupying the cache.
-  for (const archive of Object.values(plan.archives)) {
-    try {
-      await fs.rm(archive, { force: true });
-    } catch (error) {
-      console.warn('Published successfully; could not remove staging archive ' + archive, error);
-    }
-  }
+  await writeJsonAtomic(target, filePin(accepted, delivery), true);
+  console.log('Published verified file delivery; unchanged image containers were reused.');
 }

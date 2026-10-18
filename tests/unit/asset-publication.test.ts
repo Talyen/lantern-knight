@@ -10,13 +10,14 @@ import { manifestFixture } from '../fixtures/manifest';
 import { gameAssetCatalog } from '../../src/content/game-content';
 import { assetCatalog } from '../../src/content/asset-catalog';
 import { loadingVideoPath } from '../../src/content/loading-media';
-import { AssetCache, diskBytes } from '../../tools/assets/cache';
+import { AssetCache } from '../../tools/assets/cache';
 import { makeArchive, inventoryCandidate } from '../../tools/assets/archive';
 import { recipeHash, LockSchema, type AssetLock } from '../../tools/assets/pack';
-import { publishBundledPrepared, verifyRemote } from '../../tools/assets/publication';
-import { ensureBundlePack, authoringGroups } from '../../tools/assets/bundles';
+import { publishPrepared, verifyRemote } from '../../tools/assets/publication';
+import { openFileWorkspace } from '../../tools/assets/file-delivery';
+import { authoringGroups } from '../../tools/assets/bundles';
 
-test('split publication uses downloadable filenames, frees the candidate archive and preserves the pin on failure', async (t) => {
+test('file publication uploads only changed content, frees legacy archives and preserves the pin on failure', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-publication-'),
     cache = new AssetCache(path.join(root, 'cache')),
     held = await cache.lease('preparation'),
@@ -52,17 +53,9 @@ test('split publication uses downloadable filenames, frees the candidate archive
   await write('public/generated/library/catalog.json', '{}');
   await write('public/generated/library/index.json', '{}');
   await write('public/generated/delivery/fixture/preview.png', 'small preview');
-  let reservations = 0,
-    granted = 0;
   const lock = await makeArchive(payload, archive, await recipeHash()),
     candidate = {
-      held: {
-        ...held,
-        reserveUpTo: async (bytes: number, preferred: number) => {
-          reservations++;
-          return (granted = await held.reserveUpTo(bytes, preferred));
-        },
-      },
+      held,
       payload,
       archive,
       lock,
@@ -117,64 +110,34 @@ test('split publication uses downloadable filenames, frees the candidate archive
     }
     return new Response(Uint8Array.from(bytes));
   };
-  const verify = async (part: AssetLock) => {
-    const bytes = uploads.get(part.releaseTag + '/' + part.filename);
-    assert.ok(bytes, 'the pinned download filename must exist');
-    assert.equal(bytes.length, part.bytes);
-    assert.equal(createHash('sha256').update(bytes).digest('hex'), part.sha256);
-  };
   await assert.rejects(
-    publishBundledPrepared(
-      candidate,
+    publishPrepared(candidate, {
       publish,
-      verify,
       target,
-      async () => {
+      beforePin: async () => {
         throw new Error('interrupted before pin');
       },
       request,
       cache,
-    ),
+    }),
     /interrupted before pin/,
   );
   assert.deepEqual(await readJson(target), lock);
-  assert.equal(reservations, 1, 'small shards share one bounded growth reservation');
-  assert.ok((await diskBytes(held.root)) <= granted, 'publication stays within its reservation');
   await assert.rejects(fs.access(archive), { code: 'ENOENT' });
   const inventoryLock = await inventoryCandidate(payload, lock.recipeSha256);
-  await publishBundledPrepared(
+  await publishPrepared(
     { held, payload, lock: inventoryLock },
-    publish,
-    verify,
-    target,
-    async () => {},
-    request,
-    cache,
+    { publish, target, request, cache },
   );
   const pin = LockSchema.parse(await readJson(target));
-  assert.equal(pin.schemaVersion, 3);
-  if (pin.schemaVersion !== 3) throw new Error('Expected split pin');
-  assert.ok(
-    Object.keys(pin.bundles).filter((name) => name.startsWith('authoring-')).length > 1,
-    'publication must verify multiple independent authoring shards',
-  );
+  assert.equal(pin.schemaVersion, 4);
+  if (pin.schemaVersion !== 4) throw new Error('Expected split pin');
   assert.ok(pin.fileDelivery, 'individual files are verified before pinning');
-  assert.ok(
-    Object.keys(pin.bundles).some((name) => name.startsWith('bootstrap-')),
-    'metadata and thumbnails have stable bootstrap shards',
-  );
-  const completedPlan = await readJson(path.join(held.root, 'bundles/plan.json'));
-  for (const file of Object.values(completedPlan.archives) as string[])
-    await assert.rejects(fs.access(file), { code: 'ENOENT' });
+  assert.equal([...uploads.keys()].filter((key) => key.endsWith('.tar.gz')).length, 0);
   const uploadedBeforeRetry = new Set(uploads.keys());
-  await publishBundledPrepared(
+  await publishPrepared(
     { held, payload, lock: inventoryLock },
-    publish,
-    verify,
-    target,
-    async () => {},
-    request,
-    cache,
+    { publish, target, request, cache },
   );
   assert.deepEqual(
     new Set(uploads.keys()),
@@ -184,15 +147,7 @@ test('split publication uses downloadable filenames, frees the candidate archive
   const nextBytes = Buffer.from('one new authoring item');
   await write('public/authoring/new-item.png', nextBytes);
   const nextLock = await inventoryCandidate(payload, lock.recipeSha256);
-  await publishBundledPrepared(
-    { held, payload, lock: nextLock },
-    publish,
-    verify,
-    target,
-    async () => {},
-    request,
-    cache,
-  );
+  await publishPrepared({ held, payload, lock: nextLock }, { publish, target, request, cache });
   const addedContainers = [...uploads].filter(
     ([key]) => !uploadedBeforeRetry.has(key) && key.startsWith('assets-objects-'),
   );
@@ -203,28 +158,13 @@ test('split publication uses downloadable filenames, frees the candidate archive
     'only the new content is delivered in a new container',
   );
   const nextPin = LockSchema.parse(await readJson(target));
-  assert.equal(nextPin.schemaVersion, 3);
-  if (nextPin.schemaVersion !== 3) throw new Error('Expected split pin');
-  assert.equal(
-    Object.keys(nextPin.bundles).filter(
-      (name) => JSON.stringify(nextPin.bundles[name]) !== JSON.stringify(pin.bundles[name]),
-    ).length,
-    1,
-    'only the changed archive shard is rebuilt',
-  );
+  assert.equal(nextPin.schemaVersion, 4);
+  if (nextPin.schemaVersion !== 4) throw new Error('Expected split pin');
   const objectKey = [...uploads.keys()].find((key) => key.startsWith('assets-objects-'))!;
   const original = uploads.get(objectKey)!;
   uploads.set(objectKey, Buffer.from('host bytes changed'));
   await assert.rejects(
-    publishBundledPrepared(
-      { held, payload, lock: nextLock },
-      publish,
-      verify,
-      target,
-      async () => {},
-      request,
-      cache,
-    ),
+    publishPrepared({ held, payload, lock: nextLock }, { publish, target, request, cache }),
     /Published delivery bytes differ/,
   );
   assert.deepEqual(
@@ -233,16 +173,37 @@ test('split publication uses downloadable filenames, frees the candidate archive
     'failed reuse verification preserves the accepted pin',
   );
   uploads.set(objectKey, original);
-  const acquired = await ensureBundlePack(pin, cache, async (url) => {
-    const parsed = new URL(url instanceof Request ? url.url : url),
-      key = parsed.pathname.split('/').slice(-2).join('/');
-    return new Response(Uint8Array.from(uploads.get(key)!));
-  });
+  const acquired = await openFileWorkspace(pin, cache, request);
+  await acquired.materializeAll();
   await using _cleanup1 = onAsyncExit(() => acquired.release());
   assert.equal(
     await fs.readFile(path.join(acquired.root, 'public/authoring-only.png'), 'utf8'),
     'distinct authoring artwork',
   );
+  const beforeCalibration = new Set(uploads.keys());
+  const calibratedFile = 'public/' + assetCatalog['library-sk01']!;
+  const calibrated = await readJson(path.join(payload, calibratedFile));
+  calibrated.asset.density = 273.92;
+  await write(calibratedFile, JSON.stringify(calibrated));
+  const calibratedLock = await inventoryCandidate(payload, lock.recipeSha256);
+  await publishPrepared(
+    { held, payload, lock: calibratedLock },
+    { publish, target, request, cache },
+  );
+  const calibrationObjects = [...uploads].filter(
+    ([key]) => !beforeCalibration.has(key) && key.startsWith('assets-objects-'),
+  );
+  assert.equal(calibrationObjects.length, 1, 'only the corrected manifest is uploaded');
+  assert.deepEqual(calibrationObjects[0]![1], Buffer.from(JSON.stringify(calibrated)));
+  assert.equal(
+    [...uploads.keys()].filter((key) => key.endsWith('.tar.gz')).length,
+    0,
+    'calibration never repackages image bytes',
+  );
+  // Runtime selection changes do not participate in immutable container identity.
+  const stablePin = LockSchema.parse(await readJson(target));
+  assert.equal(stablePin.schemaVersion, 4);
+  assert.ok(!('bundles' in stablePin));
 });
 
 test('authoring shards preserve unrelated membership and retain indivisible sources', () => {
