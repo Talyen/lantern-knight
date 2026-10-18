@@ -49,7 +49,11 @@ export const test = base.extend<{ errors: string[] }>({
               ready: document.querySelector('canvas')?.getAttribute('data-ready'),
               stages: performance
                 .getEntriesByType('measure')
-                .filter((entry) => entry.name.startsWith('lantern-startup:'))
+                .filter(
+                  (entry) =>
+                    entry.name.startsWith('lantern-startup:') &&
+                    entry.name !== 'lantern-startup:image-decode',
+                )
                 .map((entry) => ({ name: entry.name, duration: entry.duration })),
             }))
             .catch((error: Error) => ({ error: error.message })),

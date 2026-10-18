@@ -14,6 +14,57 @@ test('forge Oracle renders its locked warning, contact and cancellation from sim
   page.on('request', (request) => pending.add(new URL(request.url()).pathname));
   page.on('requestfinished', (request) => pending.delete(new URL(request.url()).pathname));
   page.on('requestfailed', (request) => pending.delete(new URL(request.url()).pathname));
+  // Retain context and deletion ownership evidence when a software GPU restarts.
+  await page.addInitScript(() => {
+    const owners = new WeakMap<object, { gl: object; generation: number }>();
+    const generations = new WeakMap<object, number>();
+    document.addEventListener(
+      'webglcontextlost',
+      () => console.warn('Oracle WebGL context lost'),
+      true,
+    );
+    document.addEventListener(
+      'webglcontextrestored',
+      (event) => {
+        const gl = (event.target as HTMLCanvasElement).getContext('webgl2')!;
+        generations.set(gl, (generations.get(gl) ?? 0) + 1);
+        console.warn('Oracle WebGL context restored');
+      },
+      true,
+    );
+    const prototype = WebGL2RenderingContext.prototype as unknown as Record<
+      string,
+      (this: WebGL2RenderingContext, ...args: unknown[]) => unknown
+    >;
+    for (const kind of [
+      'Buffer',
+      'Texture',
+      'Framebuffer',
+      'Renderbuffer',
+      'Shader',
+      'Program',
+      'VertexArray',
+      'Query',
+      'TransformFeedback',
+      'Sampler',
+    ]) {
+      const create = prototype['create' + kind]!,
+        remove = prototype['delete' + kind]!;
+      prototype['create' + kind] = function (...args) {
+        const object = create.apply(this, args);
+        if (object && typeof object === 'object')
+          owners.set(object, { gl: this, generation: generations.get(this) ?? 0 });
+        return object;
+      };
+      prototype['delete' + kind] = function (...args) {
+        const object = args[0],
+          owner = object && typeof object === 'object' ? owners.get(object) : undefined;
+        if (owner && (owner.gl !== this || owner.generation !== (generations.get(this) ?? 0)))
+          console.warn('Oracle stale GPU deletion', kind, new Error().stack);
+        return remove.apply(this, args);
+      };
+    }
+  });
   await page.goto('/sandbox.html?scene=forge-fixture&automated');
   try {
     await page.waitForFunction(() => window.foundation?.ready);

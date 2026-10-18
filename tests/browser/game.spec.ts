@@ -1,6 +1,6 @@
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
-import { clickCheckpointAction, loadCheckpoint } from '../fixtures/input';
+import { clickCheckpointAction, loadCheckpoint, saveCheckpoint } from '../fixtures/input';
 import { test, expect } from './fixtures';
 test('main menu, game input, pause focus and current checkpoint reload', async ({ page }) => {
   // Startup, checkpoint loads and death recovery are distinct room operations.
@@ -75,8 +75,7 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
     await page.screenshot({
       path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'pause.png'),
     });
-  await clickCheckpointAction(page, 'save');
-  await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
+  await saveCheckpoint(page);
   const keys = await page.evaluate(() =>
     Object.keys(localStorage).filter((key) => key.endsWith('-game')),
   );
@@ -157,8 +156,7 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
     }
   });
   await page.locator('#pause').click();
-  await clickCheckpointAction(page, 'save');
-  await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
+  await saveCheckpoint(page);
   const afterControls = await page.evaluate(
     (key) => JSON.parse(localStorage.getItem(key)!),
     keys[0]!,
@@ -174,8 +172,7 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
   });
   await page.keyboard.up('KeyW');
   await page.locator('#pause').click();
-  await clickCheckpointAction(page, 'save');
-  await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
+  await saveCheckpoint(page);
   const moved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), keys[0]!);
   expect(
     Math.hypot(moved.player.x - initial.player.x, moved.player.z - initial.player.z),
@@ -238,8 +235,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   );
   await page.locator('#menu-start').click();
   await page.locator('#pause').click();
-  await clickCheckpointAction(page, 'save');
-  await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
+  await saveCheckpoint(page);
   const { content } = await import('../../src/content/game-content');
   const orchard = content.area('abandoned-orchard');
   const chest = orchard.interactables!.find((o) => o.kind === 'container')!;
@@ -302,8 +298,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await page.keyboard.press('q');
   await expect(page.locator('#hp')).toHaveText('100 / 110');
   await page.locator('#pause').click();
-  await clickCheckpointAction(page, 'save');
-  await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
+  await saveCheckpoint(page);
   const fire = orchard.campfires![0]!;
   await page.evaluate(
     ({ key, fire }) => {
@@ -333,8 +328,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await page.keyboard.press('Escape');
   // Unlock departure through a valid cleared encounter checkpoint; use the real departure interaction.
   await page.locator('#pause').click();
-  await clickCheckpointAction(page, 'save');
-  await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
+  await saveCheckpoint(page);
   const exit = orchard.exits[0]!;
   await page.evaluate(
     ({ key, marker }) => {

@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { mkdir } from 'node:fs/promises';
 import { activateWithKeyboard, test, expect } from './fixtures';
-import { clickCheckpointAction, loadCheckpoint } from '../fixtures/input';
+import { loadCheckpoint, saveCheckpoint } from '../fixtures/input';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
 import type { GameSave } from '../../src/core/save';
@@ -51,7 +51,7 @@ for (const choice of ['neither', 'sword', 'lantern', 'both'] as const) {
     await ready();
     await page.locator('#menu-start').click();
     await page.locator('#pause').click();
-    await clickCheckpointAction(page, 'save');
+    await saveCheckpoint(page);
     const key = await page.evaluate(() =>
       Object.keys(localStorage).find((k) => k.endsWith('-game'))!,
     );
@@ -67,8 +67,7 @@ for (const choice of ['neither', 'sword', 'lantern', 'both'] as const) {
     };
     const checkpoint = async () => {
       await page.locator('#pause').click();
-      await clickCheckpointAction(page, 'save');
-      await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
+      await saveCheckpoint(page);
       return stored();
     };
     await restore(seed);
@@ -159,7 +158,7 @@ for (const choice of ['neither', 'sword', 'lantern', 'both'] as const) {
     await expect(page.locator('#interaction-hint')).not.toHaveText(
       'E · Travel to Desecrated Chapel',
     );
-    await expect(page.locator('#lantern-readiness')).toBeVisible();
+    await expect(page.locator('#lantern-readiness')).toBeHidden();
     await expect(page.locator('#lantern-state')).toHaveText('Ready');
     await capture('forge-return');
     const returned = await checkpoint();

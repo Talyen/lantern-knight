@@ -74,7 +74,8 @@ async function main() {
     {
       cwd: projectRoot,
       env: workspace ? workspaceEnvironment(workspace) : process.env,
-      timeoutMs: watch ? undefined : 5 * 60_000,
+      // Full-library asset proofs re-open and verify payloads after acquisition.
+      timeoutMs: watch ? undefined : (assets ? 10 : 5) * 60_000,
     },
   );
 }

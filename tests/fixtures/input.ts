@@ -15,8 +15,28 @@ export async function holdMovement(page: Page, key: string) {
 
 // Loading replaces renderer resources before the player receives completion feedback.
 export async function loadCheckpoint(page: Page) {
-  await clickCheckpointAction(page, 'load');
-  await expect(page.locator('#status')).toHaveText('Checkpoint loaded', { timeout: 120_000 });
+  await checkpointFeedback(page, 'load', 'Checkpoint loaded');
+}
+
+export async function saveCheckpoint(page: Page) {
+  await checkpointFeedback(page, 'save', 'Checkpoint saved');
+}
+
+async function checkpointFeedback(page: Page, action: 'save' | 'load', message: string) {
+  const status = page.locator('#status');
+  // Software rendering can delay the next poll until a brief notice has cleared.
+  // Arm before the action and retain proof that its completion feedback appeared.
+  await status.evaluate((node, message) => {
+    node.removeAttribute('data-checkpoint-feedback');
+    const observer = new MutationObserver(() => {
+      if (node.textContent !== message) return;
+      node.setAttribute('data-checkpoint-feedback', message);
+      observer.disconnect();
+    });
+    observer.observe(node, { childList: true, characterData: true, subtree: true });
+  }, message);
+  await clickCheckpointAction(page, action);
+  await expect(status).toHaveAttribute('data-checkpoint-feedback', message, { timeout: 120_000 });
 }
 
 export async function clickCheckpointAction(

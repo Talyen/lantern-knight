@@ -10,7 +10,9 @@ import { projectRoot } from '../../tools/assets/paths';
 test('fresh source checkout: renderer reload, main/preload restart and owned shutdown', async () => {
   test.setTimeout(8 * 60_000);
   // Expand Windows 8.3 temp aliases before Vite starts native filesystem watchers.
-  const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-live-'))),
+  const workspace = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'lantern-live-'))),
+    root = path.join(workspace, 'checkout'),
+    profile = path.join(workspace, 'profile'),
     controller = new AbortController();
   let browser: Browser | undefined,
     running: Promise<void> | undefined,
@@ -57,7 +59,8 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
         env: {
           ...process.env,
           LANTERN_PREVIEW_PORT: String(port),
-          LANTERN_USER_DATA: path.join(root, 'profile'),
+          // Chromium's changing/locked databases must stay outside Vite's source watcher.
+          LANTERN_USER_DATA: profile,
           LANTERN_TEST_HIDDEN: '1',
           LANTERN_AUTOMATED_RUN: '1',
         },
@@ -89,8 +92,7 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
     await page.locator('#render-scale').selectOption('0.5');
     await page.evaluate(() => window.lantern!.loadSettings());
     expect(
-      (await readJson(path.join(root, 'profile/preview/prototype-saves/settings.json')))
-        .renderScale,
+      (await readJson(path.join(profile, 'preview/prototype-saves/settings.json'))).renderScale,
     ).toBe(0.5);
     const renderStarted = performance.now();
     await fs.appendFile(
@@ -133,6 +135,6 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
     controller.abort();
     await running;
     await browser?.close().catch(() => {});
-    await fs.rm(root, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+    await fs.rm(workspace, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
   }
 });

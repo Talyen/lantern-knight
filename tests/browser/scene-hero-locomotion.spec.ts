@@ -3,7 +3,8 @@ import { test, expect } from './fixtures';
 test('cursor-facing locomotion renders every facing/travel pair and preserves phase through transitions', async ({
   page,
 }) => {
-  test.setTimeout(240_000);
+  // All 64 combinations submit their held drawings through CI software WebGL.
+  test.setTimeout(420_000);
   await page.goto('/sandbox.html?scene=outdoor-fixture&automated');
   await page.waitForFunction(
     () => window.foundation?.ready && window.foundation.presentation.lookRenderer.ready,
@@ -39,13 +40,23 @@ test('cursor-facing locomotion renders every facing/travel pair and preserves ph
         if (v.sprite.animator.clip !== expected)
           throw new Error(`Wrong selection ${facing}/${travel}`);
         selected.push(`${headings[facing]}/${headings[travel]}`);
-        // Held source drawings must all reach the renderer, including terminal-to-start wrap.
-        for (let tick = 0; tick <= 40; tick += 5) {
-          v.sprite.animator.seek((tick * 1000) / 60);
+        // Visit exact drawing boundaries once, rather than repeatedly rendering
+        // long holds or skipping drawings shorter than a fixed sampling step.
+        let elapsed = 0;
+        for (const [index, frame] of expected.frames.entries()) {
+          v.sprite.animator.seek(elapsed);
           f.presentation.update(f.sim, 1, 0, { x: 0, z: 0 });
-          if (!v.sprite.lightingSample?.frame || f.presentation.renderer.getContext().getError())
+          if (
+            v.sprite.lightingSample?.frame.id !== frame ||
+            f.presentation.renderer.getContext().getError()
+          )
             throw new Error('Missing frame or WebGL error');
+          elapsed += expected.durationsMs[index]!;
         }
+        v.sprite.animator.seek(elapsed);
+        f.presentation.update(f.sim, 1, 0, { x: 0, z: 0 });
+        if (v.sprite.lightingSample?.frame.id !== expected.frames[0])
+          throw new Error('Locomotion loop did not return to its first drawing');
         v.sprite.animator.seek(400);
         f.editPreview((sim) => {
           sim.hero.travelYaw = (((travel + 1) % 8) * Math.PI) / 4;

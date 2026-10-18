@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { test, expect } from './fixtures';
-import { clickCheckpointAction, loadCheckpoint } from '../fixtures/input';
+import { loadCheckpoint, saveCheckpoint } from '../fixtures/input';
 import { content } from '../../src/content/game-content';
 
 test('clicking a distant label routes to one stack and preserves its siblings on reload', async ({
@@ -11,8 +11,7 @@ test('clicking a distant label routes to one stack and preserves its siblings on
   await page.locator('canvas[data-ready="true"]').waitFor();
   await page.locator('#menu-start').click();
   await page.locator('#pause').click();
-  await clickCheckpointAction(page, 'save');
-  await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
+  await saveCheckpoint(page);
   const chest = content
     .area('abandoned-orchard')
     .interactables!.find((o) => o.kind === 'container')!;
@@ -55,8 +54,7 @@ test('clicking a distant label routes to one stack and preserves its siblings on
   );
   await expect(page.locator('.ground-loot-label')).toHaveCount(rewardCount - 1);
   await page.locator('#pause').click();
-  await clickCheckpointAction(page, 'save');
-  await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
+  await saveCheckpoint(page);
   const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), key);
   expect(saved.adventure.inventory['orchard-ring']).toBe(1);
   expect(saved.areas[saved.area].drops).toHaveLength(rewardCount - 1);
@@ -76,8 +74,7 @@ test('crowded loot stays visible and leaving a focused label restores the neares
   await page.locator('canvas[data-ready="true"]').waitFor();
   await page.locator('#menu-start').click();
   await page.locator('#pause').click();
-  await clickCheckpointAction(page, 'save');
-  await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
+  await saveCheckpoint(page);
   const area = content.area(content.definitions.initialArea);
   const drops = [
     ...area.interactables!.flatMap((object) =>

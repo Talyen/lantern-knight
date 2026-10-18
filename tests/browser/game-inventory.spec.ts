@@ -1,4 +1,4 @@
-import { clickCheckpointAction } from '../fixtures/input';
+import { saveCheckpoint } from '../fixtures/input';
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { test, expect } from './fixtures';
@@ -8,7 +8,8 @@ import { GameSession } from '../../src/core/session';
 test('inventory compares replacements and upgrades keep selection and confirmation reachable', async ({
   page,
 }) => {
-  test.setTimeout(300_000);
+  // Full renderer reloads and the viewport matrix share this software-WebGL journey.
+  test.setTimeout(600_000);
   const area = content.area('ruined-forge');
   const bench = area.campfires![0]!;
   const session = new GameSession(content, 142, area.id);
@@ -178,8 +179,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await capture('upgrades-1280');
   await page.keyboard.press('Escape');
   await page.locator('#pause').click();
-  await clickCheckpointAction(page, 'save');
-  await expect(page.locator('#status')).toContainText('saved', { ignoreCase: true });
+  await saveCheckpoint(page);
   await page.reload();
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
@@ -210,7 +210,8 @@ test('inventory compares replacements and upgrades keep selection and confirmati
 test('sized pack dragging, keyboard cancellation and organizing persist without shifting equipment', async ({
   page,
 }) => {
-  test.setTimeout(300_000);
+  // Four complete renderer launches verify placement, settings and full-pack reloads.
+  test.setTimeout(600_000);
   const session = new GameSession(content, 142, 'ruined-forge');
   const save = session.captureSave();
   delete save.adventure!.pack;

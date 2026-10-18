@@ -2,6 +2,9 @@ import { test, expect } from './fixtures';
 test('Dev Preview remembers separate scene experiments and preserves comparison selections', async ({
   page,
 }) => {
+  // Effects, the complete hero scene, and the restored effects fixture each
+  // acquire and prepare their own resources on cold CI software WebGL.
+  test.setTimeout(420_000);
   await page.goto('/effects.html');
   await expect(page).toHaveURL(/sandbox.html/);
   await page.waitForFunction(() => window.effectsPlayground?.ready);
