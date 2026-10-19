@@ -25,6 +25,7 @@ test('contact grounding derives unregistered sizes and respects explicit exclusi
     },
     base = contactFootprint(p, sprite)!;
   assert.ok(base[0] > 0 && base[1] > 0);
+  assert.deepEqual(contactFootprint({ ...p, shadow: 'contact-only' }, sprite), base);
   assert.deepEqual(
     contactFootprint({ ...p, scale: 2 }, sprite),
     base.map((n) => n * 2),

@@ -230,7 +230,7 @@ for (const [scene, spawnId, actors] of [
     'first',
     ['fallen-orchard-worker', 'orchard-feral-boar', 'rootbound-scarecrow'],
   ],
-  ['clearing-fixture', 'clearing-a', ['mossfang-scavenger', 'ironcap-fungus']],
+  ['clearing-fixture', 'clearing-a', ['mossfang-scavenger', 'rootbound-scarecrow']],
 ] as const) {
   test(`${scene} creatures use their drawn attacks and neutral hit contacts`, async ({ page }) => {
     await page.goto(`/sandbox.html?scene=${scene}&automated`);

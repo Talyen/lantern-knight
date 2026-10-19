@@ -35,7 +35,7 @@ const placementSchema = z.strictObject({
   tint: z.number().int().min(0).max(0xffffff).optional(),
   opacity: z.number().finite().min(0).max(1).optional(),
   fade: z.boolean().optional(),
-  shadow: z.enum(['none', 'contact', 'cast']).optional(),
+  shadow: z.enum(['none', 'contact', 'contact-only', 'cast']).optional(),
   asset: z.string().regex(/^[a-z0-9_-]+$/),
   clip: z.string().regex(/^[a-zA-Z0-9_-]+$/),
   ...transform,

@@ -107,6 +107,7 @@ export const placementRegistration: Readonly<
     clips: {
       closed: envelope(-0.5773, 0.6137, 1.0432, -0.2614),
       open: envelope(-0.5773, 0.6137, 1.4296, -0.2614),
+      weathered_satchel_open: envelope(-0.5773, 0.6137, 1.4296, -0.2614),
     },
   },
   'library-prop_wooden_handcart_01': {

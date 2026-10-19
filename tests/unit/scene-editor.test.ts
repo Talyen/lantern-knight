@@ -22,6 +22,22 @@ import { EditorDocument } from '../../src/editor/document';
 import { SceneStore } from '../../tools/scene/scene-editor-store';
 
 describe('scene authoring contracts', () => {
+  it('preserves explicit contact-only grounding through scene serialization and resolution', () => {
+    const document = emptyScene();
+    document.objects = [
+      {
+        id: 'bedroll',
+        kind: 'prop',
+        asset: 'ink-scenery',
+        clip: 'still',
+        x: 0,
+        z: 0,
+        shadow: 'contact-only',
+      },
+    ];
+    const restored = parseSceneDocument(JSON.parse(JSON.stringify(document)));
+    assert.equal(resolveAuthoredScene(restored).props[0]!.shadow, 'contact-only');
+  });
   it('demands rain assets only when authored rain is enabled', () => {
     const document = emptyScene();
     document.weather = { rain: 0, wind: { x: 0, z: 0 } };
