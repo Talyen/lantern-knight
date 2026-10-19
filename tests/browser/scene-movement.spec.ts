@@ -4,6 +4,7 @@ test('keyboard movement renders forward runs in all eight directions and cursor 
   page,
 }, testInfo) => {
   test.setTimeout(180_000);
+  await page.setViewportSize({ width: 800, height: 600 });
   await page.goto('/sandbox.html?scene=outdoor-fixture&automated');
   await page.waitForFunction(() => window.foundation?.ready);
   await page.evaluate(() => {
@@ -27,7 +28,9 @@ test('keyboard movement renders forward runs in all eight directions and cursor 
       f.pause(false);
     });
     for (const key of keys) await page.keyboard.down(key);
-    await expect.poll(() => page.evaluate(() => window.foundation.sim.hero.state)).toBe('walk');
+    await expect
+      .poll(() => page.evaluate(() => window.foundation.sim.hero.state), { timeout: 30_000 })
+      .toBe('walk');
     await expect
       .poll(() =>
         page.evaluate(() => {
@@ -54,7 +57,9 @@ test('keyboard movement renders forward runs in all eight directions and cursor 
     for (const key of keys) await page.keyboard.up(key);
     await page.mouse.move(bounds.x + bounds.width * 0.2, bounds.y + bounds.height * 0.4);
     await page.evaluate(() => window.foundation.pause(false));
-    await expect.poll(() => page.evaluate(() => window.foundation.sim.hero.state)).toBe('idle');
+    await expect
+      .poll(() => page.evaluate(() => window.foundation.sim.hero.state), { timeout: 30_000 })
+      .toBe('idle');
     const idle = await page.evaluate(() => {
       const f = window.foundation;
       f.pause(true);

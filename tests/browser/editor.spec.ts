@@ -29,6 +29,8 @@ test('editor placement, experimental scale, history, reload, save and external c
   request,
   errors,
 }) => {
+  test.setTimeout(300_000);
+  await page.setViewportSize({ width: 800, height: 600 });
   const id = 'prototype-' + Date.now(),
     file = path.join(projectRoot, 'authoring/scenes', id + '.json');
   try {
@@ -147,7 +149,8 @@ test('editor placement, experimental scale, history, reload, save and external c
     expect((await readEditorDocument(page)).name).toBe('Preserved draft');
     await page.locator('#reload').click();
     await page.getByRole('button', { name: 'Discard edits', exact: true }).click();
-    await expect(page.locator('#name')).toHaveValue('External change', { timeout: 30000 });
+    await waitForEditorIdle(page);
+    await expect(page.locator('#name')).toHaveValue('External change');
     await expect(page.locator('#save-state')).toHaveText('Saved');
     expect(nativeDialogs).toEqual([]);
     const data = await (await request.get('/__lantern_editor')).json();

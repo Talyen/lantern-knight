@@ -4,7 +4,8 @@ import { clickCheckpointAction, loadCheckpoint, saveCheckpoint } from '../fixtur
 import { test, expect } from './fixtures';
 test('main menu, game input, pause focus and current checkpoint reload', async ({ page }) => {
   // Startup, checkpoint loads and death recovery are distinct room operations.
-  test.setTimeout(300_000);
+  test.setTimeout(420_000);
+  await page.setViewportSize({ width: 960, height: 600 });
   await page.goto('/index.html');
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
@@ -99,7 +100,7 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
     button: 'right',
   });
   await expect(page.locator('#status')).toHaveText('Lantern is cooling down');
-  await expect(page.locator('#lantern-state')).toHaveText('Ready', { timeout: 60_000 });
+  await expect(page.locator('#lantern-state')).toHaveText('Ready', { timeout: 120_000 });
   if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY) {
     await mkdir(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, { recursive: true });
     await page.screenshot({

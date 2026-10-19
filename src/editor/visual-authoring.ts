@@ -365,7 +365,13 @@ export class VisualAuthoring {
                   .change((d) => {
                     writeField(d, path, { ...fire, object: undefined });
                     const history = EditorHistory.create(d);
-                    history.removeMany([customObject]);
+                    const removed = new Set(history.descendants([customObject]));
+                    const shared = [
+                      ...(d.gameplay?.campfires ?? []),
+                      ...(d.gameplay?.pickups ?? []),
+                      ...(d.gameplay?.interactables ?? []),
+                    ].some((item) => item.object && removed.has(item.object));
+                    if (!shared) history.removeMany([customObject]);
                     Object.assign(d, parseSceneDocument(history.document));
                   })
                   .catch(console.error);
