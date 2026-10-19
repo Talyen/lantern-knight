@@ -369,44 +369,48 @@ test('painting bounce excludes scenery and dense cores reuse the original shadow
   expect(proof.error).toBe(0);
 });
 
-test('orchard cohesion controls survive reload independently', async ({ page }) => {
-  // Reload and fixture replacements each prepare the complete scene renderer.
-  test.setTimeout(420_000);
-  await page.setViewportSize({ width: 800, height: 600 });
-  await page.goto('/sandbox.html?scene=orchard-fixture');
-  await page.waitForFunction(() => window.foundation?.ready);
-  await page.getByRole('button', { name: 'Visuals', exact: true }).click();
-  await page.getByText('Scene cohesion', { exact: true }).click();
-  await page.locator('#cohesion-values').uncheck();
-  await page.locator('#cohesion-finish').uncheck();
-  await page.locator('#cohesion-bounce').check();
-  await page.locator('#cohesion-contacts').check();
-  await page.reload();
-  await page.waitForFunction(() => window.foundation?.ready);
-  await expect(page.locator('#cohesion-bounce')).toBeChecked();
-  await expect(page.locator('#cohesion-contacts')).toBeChecked();
-  await expect(page.locator('#cohesion-values')).not.toBeChecked();
-  await expect(page.locator('#cohesion-finish')).not.toBeChecked();
-  expect(await page.evaluate(() => window.foundation.sim.area)).toBe('orchard-fixture');
-  const field = await page.evaluate(async () => {
-    const f = window.foundation,
-      p = f.presentation;
-    p.lookRenderer.setSettings({ groundBounce: false });
-    await f.fixture('orchard-fixture');
-    f.pause(true);
-    p.update(f.sim, 1, 0, { x: 0, z: 0 });
-    const disabled = p.lookRenderer.stats().environment;
-    p.lookRenderer.setSettings({ groundBounce: true });
-    p.update(f.sim, 1, 0, { x: 0, z: 0 });
-    const enabled = p.lookRenderer.stats().environment;
-    await f.fixture('outdoor-fixture');
-    p.update(f.sim, 1, 0, { x: 0, z: 0 });
-    return { disabled, enabled, replaced: p.lookRenderer.stats().environment };
+test.describe('cohesion persistence', () => {
+  test.use({ deviceScaleFactor: 0.5 });
+
+  test('orchard cohesion controls survive reload independently', async ({ page }) => {
+    // Reload and fixture replacements each prepare the complete scene renderer.
+    test.setTimeout(420_000);
+    await page.setViewportSize({ width: 800, height: 600 });
+    await page.goto('/sandbox.html?scene=orchard-fixture');
+    await page.waitForFunction(() => window.foundation?.ready);
+    await page.getByRole('button', { name: 'Visuals', exact: true }).click();
+    await page.getByText('Scene cohesion', { exact: true }).click();
+    await page.locator('#cohesion-values').uncheck();
+    await page.locator('#cohesion-finish').uncheck();
+    await page.locator('#cohesion-bounce').check();
+    await page.locator('#cohesion-contacts').check();
+    await page.reload();
+    await page.waitForFunction(() => window.foundation?.ready);
+    await expect(page.locator('#cohesion-bounce')).toBeChecked();
+    await expect(page.locator('#cohesion-contacts')).toBeChecked();
+    await expect(page.locator('#cohesion-values')).not.toBeChecked();
+    await expect(page.locator('#cohesion-finish')).not.toBeChecked();
+    expect(await page.evaluate(() => window.foundation.sim.area)).toBe('orchard-fixture');
+    const field = await page.evaluate(async () => {
+      const f = window.foundation,
+        p = f.presentation;
+      p.lookRenderer.setSettings({ groundBounce: false });
+      await f.fixture('orchard-fixture');
+      f.pause(true);
+      p.update(f.sim, 1, 0, { x: 0, z: 0 });
+      const disabled = p.lookRenderer.stats().environment;
+      p.lookRenderer.setSettings({ groundBounce: true });
+      p.update(f.sim, 1, 0, { x: 0, z: 0 });
+      const enabled = p.lookRenderer.stats().environment;
+      await f.fixture('outdoor-fixture');
+      p.update(f.sim, 1, 0, { x: 0, z: 0 });
+      return { disabled, enabled, replaced: p.lookRenderer.stats().environment };
+    });
+    expect(field.disabled).toEqual({ configured: false, available: false, sampleBytes: 0 });
+    expect(field.enabled.configured).toBe(true);
+    expect(field.enabled.available).toBe(true);
+    expect(field.enabled.sampleBytes).toBeGreaterThan(0);
+    expect(field.enabled.sampleBytes).toBeLessThanOrEqual(128 * 128 * 4);
+    expect(field.replaced).toEqual({ configured: true, available: false, sampleBytes: 0 });
   });
-  expect(field.disabled).toEqual({ configured: false, available: false, sampleBytes: 0 });
-  expect(field.enabled.configured).toBe(true);
-  expect(field.enabled.available).toBe(true);
-  expect(field.enabled.sampleBytes).toBeGreaterThan(0);
-  expect(field.enabled.sampleBytes).toBeLessThanOrEqual(128 * 128 * 4);
-  expect(field.replaced).toEqual({ configured: true, available: false, sampleBytes: 0 });
 });
