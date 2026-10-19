@@ -5,6 +5,9 @@ import { test, expect } from './fixtures';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
 
+// This proof samples a native-resolution screenshot strip.
+test.use({ deviceScaleFactor: 1 });
+
 test('forge departure keeps the hero below controls with artwork across the upper viewport', async ({
   page,
 }) => {

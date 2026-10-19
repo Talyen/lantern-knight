@@ -1,4 +1,8 @@
 import { test, expect } from './fixtures';
+
+// This journey verifies control state across renderer replacements.
+test.use({ deviceScaleFactor: 0.5 });
+
 test('Dev Preview remembers separate scene experiments and preserves comparison selections', async ({
   page,
 }) => {

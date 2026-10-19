@@ -18,8 +18,10 @@ async function start() {
   const application = new Application(
     document.querySelector('canvas')!,
     gameAssetCatalog,
-    window.lantern ??
-      createBrowserBridge(content, import.meta.env.MODE === 'sandbox' ? 'preview' : 'game'),
+    window.lantern ?? {
+      ...createBrowserBridge(content, import.meta.env.MODE === 'sandbox' ? 'preview' : 'game'),
+      automatedRun: new URLSearchParams(location.search).has('automated'),
+    },
     gameScenes,
     Object.assign(
       (...args: Parameters<PresentationFactory<GamePresentation>>) => new GamePresentation(...args),

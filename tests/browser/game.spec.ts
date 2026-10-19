@@ -3,14 +3,14 @@ import path from 'node:path';
 import { clickCheckpointAction, loadCheckpoint, saveCheckpoint } from '../fixtures/input';
 import { test, expect } from './fixtures';
 
-// UI and input proofs retain CSS viewport geometry without full-resolution WebGL.
-// Explicit visual captures still use the native framebuffer size.
-test.use({ deviceScaleFactor: process.env.LANTERN_OPENING_CAPTURE_DIRECTORY ? 1 : 0.5 });
 test('main menu, game input, pause focus and current checkpoint reload', async ({ page }) => {
   // Startup, checkpoint loads and death recovery are distinct room operations.
   test.setTimeout(420_000);
   await page.setViewportSize({ width: 960, height: 600 });
-  await page.goto('/index.html');
+  await page.clock.install();
+  // Automated Game input must keep advancing even without foreground visibility.
+  await page.addInitScript(() => Object.defineProperty(document, 'hidden', { value: true }));
+  await page.goto('/index.html?automated');
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
   );
@@ -79,12 +79,14 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
     });
     observer.observe(node, { childList: true, characterData: true, subtree: true });
   });
+  // Let startup and menu timers run naturally, then control only the input window.
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 60_000));
   await page.mouse.click(bounds.x + bounds.width * 0.6, bounds.y + bounds.height * 0.6);
-  // A rendered frame admits the sword before a second input can replace it.
-  await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => resolve())));
+  await page.clock.runFor(100);
   await page.mouse.click(bounds.x + bounds.width * 0.6, bounds.y + bounds.height * 0.6, {
     button: 'right',
   });
+  await page.clock.runFor(50);
   await expect(page.locator('#action-hint')).toHaveAttribute(
     'data-queued-feedback',
     'Lantern queued',
@@ -95,6 +97,8 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
       path: path.join(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, 'queued-cast.png'),
     });
   }
+  await page.clock.resume();
+  await expect(page.locator('#lantern-state')).toHaveText(/s$/);
   await page.keyboard.press('Escape');
   await expect(page.locator('#action-hint')).toBeEmpty();
   await page.locator('#resume').click();

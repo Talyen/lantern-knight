@@ -2,6 +2,7 @@ import { defineConfig } from '@playwright/test';
 import path from 'node:path';
 const desktop = process.env.LANTERN_TEST_TARGET === 'desktop';
 const built = process.env.LANTERN_TEST_BUILT === 'true';
+const game = !desktop && process.env.LANTERN_TEST_SCOPE === 'runtime';
 const port = process.env.LANTERN_PREVIEW_PORT ?? '5174';
 const hardware = process.env.LANTERN_TEST_GPU === 'hardware';
 export default defineConfig({
@@ -15,6 +16,7 @@ export default defineConfig({
   use: {
     baseURL: `http://127.0.0.1:${port}`,
     viewport: { width: 1280, height: 800 },
+    deviceScaleFactor: game && !process.env.LANTERN_OPENING_CAPTURE_DIRECTORY ? 0.5 : 1,
     screenshot: 'off',
     video: 'off',
     trace: 'off',
