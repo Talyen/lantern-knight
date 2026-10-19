@@ -10,7 +10,11 @@ import { projectRoot } from './assets/paths';
 export function ciDevelopmentFiles(files: readonly string[], authoring: boolean) {
   return files
     .filter((file) => {
-      if (/^(authored-ground|ground-review|orchard-design|orchard-polish)\.spec\.ts$/.test(file))
+      if (
+        /^(authored-ground|ground-review|orchard-design|orchard-polish|scene-placement)\.spec\.ts$/.test(
+          file,
+        )
+      )
         return false;
       if (/^game(?:-[a-z-]+)?\.spec\.ts$/.test(file)) return false;
       if (/^(editor(?:-[a-z-]+)?|effects)\.spec\.ts$/.test(file)) return authoring;
