@@ -6,6 +6,7 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
   page,
 }) => {
   test.setTimeout(360_000);
+  await page.setViewportSize({ width: 800, height: 600 });
   const directory = process.env.LANTERN_COMBAT_CAPTURES;
   if (directory) await mkdir(directory, { recursive: true });
   await page.emulateMedia({ reducedMotion: 'no-preference' });

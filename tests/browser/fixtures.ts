@@ -77,6 +77,10 @@ export const test = base.extend<{ errors: string[] }>({
           contentType: 'application/json',
         });
       }
+      // Retire live render loops before destroying the context. Software WebGL
+      // can otherwise keep Chromium busy while the next context is created.
+      if (testInfo.status === testInfo.expectedStatus && !page.isClosed())
+        await page.goto('about:blank', { waitUntil: 'load', timeout: 30_000 });
       expect(errors).toEqual([]);
     },
     { auto: true },

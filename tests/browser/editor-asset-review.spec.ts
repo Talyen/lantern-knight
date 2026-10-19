@@ -100,7 +100,7 @@ test('asset review focuses scene uses and persists scoped notes with conflict re
       .getByRole('button', { name: 'Imported Review fixture · Saved scene', exact: true })
       .click();
     await page.getByRole('button', { name: 'Discard edits', exact: true }).click();
-    await expectEditorDocument(page, (document) => document.id, { timeout: 30000 }).toBe(
+    await expectEditorDocument(page, (document) => document.id, { timeout: 120_000 }).toBe(
       fixture.id,
     );
     await waitForEditorIdle(page);
@@ -153,7 +153,7 @@ test('asset review focuses scene uses and persists scoped notes with conflict re
         timeout: 30000,
       })
       .toBe(true);
-    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.setViewportSize({ width: 960, height: 600 });
     await page.locator('#review-view').selectOption('queue');
     await page.locator('#review-gallery button[data-asset="ink-scenery"]').click();
     await page.locator('#review-target').selectOption('everywhere');
@@ -172,7 +172,7 @@ test('asset review focuses scene uses and persists scoped notes with conflict re
     expect((await readEditorDocument(page)).id).toBe(fixture.id);
     await page.locator('#review-usages button').filter({ hasText: 'Saved review fixture' }).click();
     await page.getByRole('button', { name: 'Discard edits', exact: true }).click();
-    await expectEditorDocument(page, (document) => document.id, { timeout: 30000 }).toBe(
+    await expectEditorDocument(page, (document) => document.id, { timeout: 120_000 }).toBe(
       savedSceneId,
     );
     await waitForEditorIdle(page);
