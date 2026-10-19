@@ -252,7 +252,6 @@ export class EditorWorkspace {
       ['Save As', 'save-as'],
       ['New scene', 'new-scene'],
       ['Open scene library', 'scene-library'],
-      ['Recovery history', 'recovery-history'],
       ['Browse arrangements', 'arrangements'],
       ['Select objects', 'select-tool'],
       ['Set player start', 'start-tool'],

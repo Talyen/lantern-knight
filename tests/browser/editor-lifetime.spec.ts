@@ -335,13 +335,12 @@ test('library rendering ignores superseded listings and cancelled arrangement bo
       dialog: document.getElementById('scene-library-dialog'),
       preview: window.sceneEditor.view().presentation!.overlay.clone(false),
       host: {
-        recoveries: () => [{ name: '<recovery>', time: 'now', key: 'recovery' }],
         view: () => ({ render() {} }),
       },
     });
     try {
       const first = library.load(),
-        second = library.load('recovery');
+        second = library.load();
       requests[1]!.resolve(Response.json({ scenes: [] }));
       await second;
       requests[0]!.resolve(
@@ -349,7 +348,6 @@ test('library rendering ignores superseded listings and cancelled arrangement bo
       );
       await first;
       const title = document.getElementById('library-title')!.textContent;
-      const recovery = document.getElementById('library-recovery')!.textContent;
       const body = Promise.withResolvers<unknown>();
       const loading = library.load('arrangements').then(
         () => 'accepted',
@@ -361,15 +359,14 @@ test('library rendering ignores superseded listings and cancelled arrangement bo
       await Promise.resolve();
       library.dispose();
       body.resolve({ fragments: [{ id: 'late', error: 'Late arrangement' }] });
-      return { title, recovery, outcome: await loading, fragments: fragments.children.length };
+      return { title, outcome: await loading, fragments: fragments.children.length };
     } finally {
       window.fetch = original;
       library.dispose();
     }
   });
   expect(result).toEqual({
-    title: 'Recovery history',
-    recovery: '<recovery> · now',
+    title: 'Open scene',
     outcome: 'cancelled',
     fragments: 0,
   });

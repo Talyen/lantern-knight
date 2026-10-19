@@ -163,7 +163,7 @@ export function sceneEditorPlugin(
     validateSceneReferences(d, manifests);
     if ((await sourceRevision()) !== (await initialRevision))
       throw new SceneConflict(
-        'Scene schema or pinned assets changed while saving. Restart and review the recovered scene.',
+        'Scene schema or pinned assets changed while saving. Preserve your scene and restart the editor.',
       );
   };
   const profiles = new GroundProfileStore(path.join(root, 'authoring/ground-profiles'));
@@ -278,7 +278,7 @@ export function sceneEditorPlugin(
               const body = JSON.parse(Buffer.concat(chunks).toString());
               if (body.baseRevision !== baseRevision)
                 throw new SceneConflict(
-                  'Scene schema or pinned assets changed. Reload or save a separate recovered scene.',
+                  'Scene schema or pinned assets changed. Preserve your scene and restart the editor.',
                 );
               if (body.action === 'assetReview') {
                 respond(200, await reviews.save(body.reviews, body.revision));

@@ -6,7 +6,7 @@ export type EditorSnapshot = Readonly<
   Pick<EditorHistory, 'document' | 'canUndo' | 'canRedo' | 'descendants' | 'fragment'>
 >;
 
-// The view must accept a candidate before it becomes editable or recoverable state.
+// The view must accept a candidate before it becomes editable state.
 export class EditorDocument {
   private current: EditorHistory;
   private pending = false;

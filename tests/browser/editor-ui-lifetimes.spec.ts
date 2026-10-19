@@ -196,8 +196,6 @@ test('file import keeps the newest request and cannot overwrite later edits or a
       status: (message) => {
         messages.push(message);
       },
-      recoveries: () => [],
-      restore() {},
     });
     const input = document.querySelector<HTMLInputElement>('#import-scene')!;
     const begin = (name: string) => {

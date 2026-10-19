@@ -457,8 +457,7 @@ dialog form > div {
   width: 80vw;
 }
 #library-scenes,
-#library-fragments,
-#library-recovery {
+#library-fragments {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;

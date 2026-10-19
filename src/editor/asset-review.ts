@@ -95,6 +95,7 @@ export class AssetReview {
   private async load() {
     if (this.loading || this.writing || this.host.signal.aborted) return;
     this.loading = true;
+    this.needsReload = true;
     this.$<HTMLButtonElement>('review-reload').disabled = true;
     this.feedback('Loading scenes and replacement queue…');
     try {
@@ -102,6 +103,10 @@ export class AssetReview {
       const data = await response.json();
       this.host.signal.throwIfAborted();
       if (!response.ok) throw new Error(data.error);
+      if (!data.reviews || !Array.isArray(data.documents))
+        throw new Error(
+          'Asset review is unavailable on this preview server. Restart the preview server and reload the editor.',
+        );
       this.reviews = assetReviewSchema.parse(data.reviews);
       this.revision = data.revision;
       this.documents = data.documents.map(parseSceneDocument);
@@ -115,7 +120,10 @@ export class AssetReview {
       this.feedback(editorError(error), true);
     } finally {
       this.loading = false;
-      if (!this.host.signal.aborted) this.$<HTMLButtonElement>('review-reload').disabled = false;
+      if (!this.host.signal.aborted) {
+        this.$<HTMLButtonElement>('review-reload').disabled = false;
+        this.renderNotes();
+      }
     }
   }
   private render() {
@@ -274,13 +282,18 @@ export class AssetReview {
         ? 'scene:' + specific[0]!.document.id
         : 'everywhere';
     const existing = this.reviews.entries.find((e) => e.asset === asset);
-    select.value =
+    const preferred =
       this.target ||
       (existing
         ? existing.scene === null
           ? 'everywhere'
           : 'scene:' + existing.scene
         : defaultScene);
+    select.value = [...select.options].some(
+      (option) => option.value === preferred && !option.disabled,
+    )
+      ? preferred
+      : defaultScene;
     this.target = select.value;
     this.renderNotes();
   }

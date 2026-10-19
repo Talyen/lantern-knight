@@ -24,7 +24,7 @@ async function chooseGravestone(page: Page) {
   await page.getByTitle('ink-scenery/arch', { exact: true }).click();
   await page.locator('#place-clip').selectOption('gravestone');
 }
-test('editor placement, experimental scale, history, recovery, save and external conflict', async ({
+test('editor placement, experimental scale, history, reload, save and external conflict', async ({
   page,
   request,
   errors,
@@ -37,14 +37,28 @@ test('editor placement, experimental scale, history, recovery, save and external
       nativeDialogs.push(dialog.type());
       await dialog.dismiss();
     });
+    const { workspace } = await (await request.get('/__lantern_editor')).json();
+    await page.addInitScript((workspace: string) => {
+      localStorage.setItem(
+        'lantern-scene-editor-recovery:' +
+          location.origin +
+          location.pathname +
+          ':' +
+          workspace +
+          ':untitled',
+        JSON.stringify({ document: { name: 'Old local draft' }, savedAt: '2026-01-01' }),
+      );
+    }, workspace);
     await openEditor(page, '/editor.html');
+    await expect(page.locator('#recovery')).toHaveCount(0);
+    await expect(page.locator('#recovery-history')).toHaveCount(0);
     const initial = await readEditorDocument(page);
     expect(initial.look).toEqual({
       rig: 'lantern',
       look: 'cinematic',
       sun: { azimuthDeg: 20, elevationDeg: 15 },
     });
-    await changeField(page.locator('#name'), 'Prototype recovery');
+    await changeField(page.locator('#name'), 'Prototype edits');
     await page.locator('#undo').click();
     expect((await readEditorDocument(page)).name).toBe(initial.name);
     await page.locator('#redo').click();
@@ -53,15 +67,15 @@ test('editor placement, experimental scale, history, recovery, save and external
     await expect(page.getByRole('dialog', { name: 'Confirm action' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Cancel', exact: true })).toBeFocused();
     await page.keyboard.press('Escape');
-    expect((await readEditorDocument(page)).name).toBe('Prototype recovery');
+    expect((await readEditorDocument(page)).name).toBe('Prototype edits');
     await page.locator('#document-menu > summary').click();
     await page.locator('#new-scene').click();
     await page.getByRole('button', { name: 'Cancel', exact: true }).click();
     await page.reload();
     await waitForEditor(page);
     expect(nativeDialogs).toEqual([]);
-    await expect(page.locator('#recovery')).toBeVisible();
-    await page.locator('#restore').click();
+    await expect(page.locator('#recovery')).toHaveCount(0);
+    expect((await readEditorDocument(page)).name).toBe(initial.name);
     expect(await readEditorDocument(page, (document) => document.look)).toEqual(initial.look);
     await chooseGravestone(page);
     await page.locator('#viewport').click({ position: { x: 350, y: 280 } });
@@ -69,7 +83,7 @@ test('editor placement, experimental scale, history, recovery, save and external
     await expectEditorDocument(page, (document) => document.objects.length).toBe(1);
     await changeField(page.locator('#scale'), '2');
     await expectEditorDocument(page, (document) => document.objects[0]!.scale).toBe(2);
-    // Reject after the view has already replaced its room. History and recovery must
+    // Reject after the view has already replaced its room. History must
     // retain the accepted scene, and the old room must be restored for retry.
     const snapshot = () =>
       page.evaluate(() => ({
@@ -85,6 +99,7 @@ test('editor placement, experimental scale, history, recovery, save and external
         ),
       }));
     const accepted = await snapshot();
+    expect(accepted.recovery).toHaveLength(1);
     await page.evaluate(() => {
       const renderer = window.sceneEditor.view().presentation!.lookRenderer;
       const prepare = renderer.prepare.bind(renderer);
@@ -1034,14 +1049,14 @@ test('task destinations preserve advanced data and show suitable grounds before 
   await expect(page.locator('#ground-current')).not.toBeEmpty();
   expect(await readEditorDocument(page)).toEqual(before);
   await page.locator('#document-menu > summary').click();
-  await page.locator('#recovery-history').click();
-  await expect(page.locator('[data-library=scenes]')).not.toBeVisible();
+  await page.locator('#scene-library').click();
+  await expect(page.locator('[data-library=scenes]')).toBeVisible();
   await expect(page.locator('[data-library=arrangements]')).not.toBeVisible();
   await page.getByRole('button', { name: 'Close', exact: true }).click();
   await page.locator('#artwork-tab').click();
   await page.locator('#arrangements').click();
   await expect(page.locator('[data-library=arrangements]')).toBeVisible();
-  await expect(page.locator('[data-library=recovery]')).not.toBeVisible();
+  await expect(page.locator('[data-library=recovery]')).toHaveCount(0);
   await page.getByRole('button', { name: 'Close', exact: true }).click();
   expect(await readEditorDocument(page)).toEqual(before);
   const flags = await (await request.get('/build-mode.json')).json();

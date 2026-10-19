@@ -23,8 +23,6 @@ type Host = {
   edit: (work: (history: EditorHistory) => void, committed?: () => void) => Promise<void>;
   select: (ids: string[]) => void;
   status: (message: string, error?: boolean) => void;
-  recoveries: () => { key: string; name: string; time: string }[];
-  restore: (key: string) => void;
 };
 const $ = <E extends HTMLElement>(id: string) => document.getElementById(id) as E;
 function recentScenes(): string[] {
@@ -97,8 +95,6 @@ export class SceneLibrary {
   constructor(private host: Host) {
     $('scene-library').onclick = () =>
       void this.load().catch((e) => host.status(editorError(e), true));
-    $('recovery-history').onclick = () =>
-      void this.load('recovery').catch((e) => host.status(editorError(e), true));
     $('export-scene').onclick = () =>
       this.download(host.history().document, host.history().document.id + '.json');
     const input = $<HTMLInputElement>('import-scene');
@@ -207,7 +203,7 @@ export class SceneLibrary {
       /* Thumbnails are disposable. */
     }
   }
-  async load(destination: 'scenes' | 'recovery' | 'arrangements' = 'scenes') {
+  async load(destination: 'scenes' | 'arrangements' = 'scenes') {
     const request = ++this.loadSequence;
     const signal = this.lifetime.signal;
     const current = () => !signal.aborted && request === this.loadSequence;
@@ -219,11 +215,7 @@ export class SceneLibrary {
     this.lifetime.signal.throwIfAborted();
     if (!this.dialog.open) this.dialog.showModal();
     $('library-title').textContent =
-      destination === 'scenes'
-        ? 'Open scene'
-        : destination === 'recovery'
-          ? 'Recovery history'
-          : 'Reusable arrangements';
+      destination === 'scenes' ? 'Open scene' : 'Reusable arrangements';
     for (const section of this.dialog.querySelectorAll<HTMLElement>('[data-library]'))
       section.hidden = section.dataset.library !== destination;
     const recent = recentScenes();
@@ -257,17 +249,6 @@ export class SceneLibrary {
     };
     $('library-search').oninput = render;
     render();
-    const recoveries = $('library-recovery');
-    recoveries.replaceChildren();
-    for (const recovery of this.host.recoveries()) {
-      const b = html<HTMLButtonElement>`<button>${recovery.name} · ${recovery.time}</button>`;
-      b.onclick = () => {
-        this.dialog.close();
-        this.host.restore(recovery.key);
-      };
-      recoveries.append(b);
-    }
-    if (!recoveries.children.length) recoveries.textContent = 'No recovery history is available.';
     if (destination !== 'arrangements') return;
     const r = await readUntilAborted(fetch('/__lantern_editor?fragments', { signal }), signal);
     const fragments = await readUntilAborted(r.json(), signal);

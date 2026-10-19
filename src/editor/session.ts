@@ -148,9 +148,6 @@ export function createEditorSession() {
     documents,
     (document) => parseSceneDocument(withGameplayDefaults(document, contentDefinitions)),
     lifetime.signal,
-    'lantern-scene-editor-recovery:' + location.origin + location.pathname + ':',
-    () => localStorage,
-    () => status('Local recovery is unavailable. Save your scene to preserve it.', true),
   );
   function status(message: string, error = false) {
     if (closed) return;
@@ -281,14 +278,9 @@ export function createEditorSession() {
   function launch(work: Promise<unknown>) {
     work.catch((error) => status(editorError(error), true));
   }
-  async function run(action: () => Promise<void>, restoring = false) {
+  async function run(action: () => Promise<void>) {
     if (closed || busy) return;
     gestures.cancel();
-    if (project.recoveryPending && !restoring) {
-      status('Restore or dismiss the previous recovery before editing.', true);
-      controls();
-      return;
-    }
     busy = true;
     const resumeGestures = gestures.suspend();
     try {
@@ -392,7 +384,6 @@ export function createEditorSession() {
       setWalkingHero(false);
       await project.open(value);
       assertActive();
-      showRecovery();
       const d = documents.history.document;
       selected = undefined;
       composition?.reset();
@@ -412,7 +403,6 @@ export function createEditorSession() {
   async function save(copyId?: string) {
     await run(async () => {
       await project.save(copyId);
-      showRecovery();
       $('conflict').hidden = true;
       await list();
       assertActive();
@@ -1026,7 +1016,7 @@ export function createEditorSession() {
   let drag: Drag | undefined;
   canvas.oncontextmenu = (e) => e.preventDefault();
   canvas.onpointerdown = (e) => {
-    if (busy || !view.presentation || project.recoveryPending) return;
+    if (busy || !view.presentation) return;
     if (drag || marquee) return;
     canvas.focus();
     if (visualAuthoring?.pointerDown(e)) return;
@@ -1269,40 +1259,6 @@ export function createEditorSession() {
     },
     { signal: lifetime.signal },
   );
-  window.addEventListener('beforeunload', () => project.recover(), { signal: lifetime.signal });
-  $('export-recovery').onclick = () => {
-    const stored = project.recoverySource();
-    if (!stored) return;
-    const url = URL.createObjectURL(new Blob([stored], { type: 'application/json' })),
-      link = document.createElement('a');
-    link.href = url;
-    link.download = 'lantern-scene-recovery.json';
-    link.click();
-    URL.revokeObjectURL(url);
-  };
-  $('dismiss-recovery').onclick = () => {
-    project.dismissRecovery();
-    $('recovery').hidden = true;
-  };
-  $('restore').onclick = () =>
-    void run(async () => {
-      if (!project.recoveryReadable) return;
-      setWalkingHero(false);
-      const changedFoundations = await project.restoreRecovery();
-      assertActive();
-      selected = undefined;
-      composition?.reset();
-      await refresh();
-      view.setGrid($<HTMLInputElement>('grid').checked);
-      view.render();
-      fit();
-      $('recovery').hidden = true;
-      status(
-        changedFoundations
-          ? 'Recovery restored against updated foundations. Review the composition before saving.'
-          : 'Recovery restored.',
-      );
-    }, true);
   let resizeFrame = 0;
   const resizeObserver = new ResizeObserver(() => {
     if (closed) return;
@@ -1395,19 +1351,6 @@ export function createEditorSession() {
   }
   window.addEventListener('pagehide', dispose, { signal: lifetime.signal });
 
-  function readRecovery(key: string) {
-    project.readRecovery(key);
-    showRecovery();
-  }
-  function showRecovery() {
-    $('recovery').hidden = !project.recoveryPending;
-    $<HTMLButtonElement>('restore').disabled = !project.recoveryReadable;
-    if (project.recoveryPending && !project.recoveryReadable)
-      status(
-        'Saved recovery uses an unreadable or older format. Download it before adapting or dismissing it.',
-        true,
-      );
-  }
   async function importDocument(document: SceneDocument) {
     if (
       project.dirty &&
@@ -1421,7 +1364,6 @@ export function createEditorSession() {
       setWalkingHero(false);
       await project.import(document);
       assertActive();
-      showRecovery();
       composition.reset();
       await refresh();
       composition.set(undefined);
@@ -1432,12 +1374,6 @@ export function createEditorSession() {
   async function start() {
     await list();
     assertActive();
-    try {
-      const entries = project.recoveryEntries();
-      if (entries[0]) readRecovery(entries[0].key);
-    } catch {
-      status('Local recovery is unavailable.', true);
-    }
     assetCatalog = await authoringCatalog(lifetime.signal);
     assertActive();
     // Picking reads texture alpha on a 2D canvas, so editor delivery stays PNG.
@@ -1498,12 +1434,6 @@ export function createEditorSession() {
         composition.set(ids.at(-1), false);
         ids.forEach((id) => composition.selection.add(id));
         controls();
-      },
-      recoveries: () => project.recoveryEntries(),
-      restore: (key) => {
-        project.recover();
-        readRecovery(key);
-        $<HTMLButtonElement>('restore').click();
       },
     });
     playtest = new DraftPlaytest({
@@ -1590,7 +1520,7 @@ export function createEditorSession() {
     busy = false;
     controls();
     ready = true;
-    if (!project.recoveryPending) status('');
+    status('');
     frames = new FrameScheduler(
       animate,
       () => (last = 0),

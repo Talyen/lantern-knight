@@ -141,7 +141,7 @@ test('closing the scene library retires its pending refresh', async ({ page }) =
     const response = Promise.withResolvers<Response>();
     let count = 0;
     window.fetch = async () => (++count === 1 ? Response.json({ scenes: [] }) : response.promise);
-    const library = new SceneLibrary({ recoveries: () => [] } as never);
+    const library = new SceneLibrary({} as never);
     try {
       await library.load();
       const pending = library.load();
@@ -258,4 +258,73 @@ test('late ground profile lists cannot replace a newer refresh', async ({ page }
 
 test('an older ground profile restore cannot override the latest choice', async ({ page }) => {
   expect(await profileProof(page, 'restore')).toEqual({ changes: ['New'] });
+});
+
+test('review flags remain editable after clearing orphaned scopes and reject an outdated backend', async ({
+  page,
+}) => {
+  const reviewURL = '**/__lantern_editor?assetReview';
+  const reviews = {
+    version: 1,
+    entries: [{ asset: 'retired-prop', scene: 'removed-scene', notes: 'Replace this' }],
+  };
+  await page.route(reviewURL, (route) =>
+    route.fulfill({ json: { reviews, revision: 'initial', documents: [], warnings: [] } }),
+  );
+  await page.evaluate(async () => {
+    const reviewURL = '/src/editor/asset-review.ts',
+      uiURL = '/src/editor/ui.ts',
+      sceneURL = '/src/editor/default-scene.ts';
+    const { AssetReview } = await import(reviewURL),
+      { editorUI } = await import(uiURL),
+      { emptyScene } = await import(sceneURL);
+    document.querySelector('#app')!.innerHTML = editorUI;
+    const root = document.getElementById('review-panel')!;
+    root.hidden = false;
+    const review = new AssetReview(root, {
+      document: emptyScene,
+      manifests: new Map(),
+      signal: new AbortController().signal,
+      post: async (body: { reviews: unknown }) => ({ reviews: body.reviews, revision: 'saved' }),
+      thumbnail: async () => {},
+      open: async () => {},
+      focus() {},
+    });
+    review.refresh();
+  });
+  await expect(page.locator('#review-feedback')).toContainText('Queue loaded');
+  await page.locator('#review-view').selectOption('queue');
+  await page.locator('#review-gallery button[data-asset="retired-prop"]').click();
+  await expect(page.locator('#review-target')).toHaveValue('scene:removed-scene');
+  await page.locator('#review-clear').click();
+  await expect(page.locator('#review-feedback')).toHaveText('Replacement flag cleared.');
+  await expect(page.locator('#review-target')).toHaveValue('everywhere');
+  await expect(page.locator('#review-save')).toBeEnabled();
+  await page.locator('#review-notes').fill('Keep this new note');
+  await page.locator('#review-save').click();
+  await expect(page.locator('#review-feedback')).toContainText('saved');
+  await page.locator('#review-notes').fill('Keep this unsaved note');
+
+  await page.unroute(reviewURL);
+  await page.route(reviewURL, (route) => route.fulfill({ json: { scenes: [] } }));
+  await page.locator('#review-reload').click();
+  await expect(page.locator('#review-feedback')).toContainText('Restart the preview server');
+  await expect(page.locator('#review-save')).toBeDisabled();
+  await expect(page.locator('#review-clear')).toBeDisabled();
+  await expect(page.locator('#review-notes')).toHaveValue('Keep this unsaved note');
+  await page.unroute(reviewURL);
+  await page.route(reviewURL, (route) =>
+    route.fulfill({
+      json: {
+        reviews: { version: 1, entries: [] },
+        revision: 'current',
+        documents: [],
+        warnings: [],
+      },
+    }),
+  );
+  await page.locator('#review-reload').click();
+  await expect(page.locator('#review-feedback')).toContainText('Queue loaded');
+  await expect(page.locator('#review-save')).toBeEnabled();
+  await expect(page.locator('#review-notes')).toHaveValue('Keep this unsaved note');
 });
