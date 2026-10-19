@@ -1,6 +1,7 @@
 import { assetClosure } from '../assets/asset-browser';
 import type { Manifest } from '../assets/schema';
-import type { SceneSnapshot } from '../content/scene-document';
+import { resolveSceneDocument, type SceneSnapshot } from '../content/scene-document';
+import { sceneObjects } from '../content/campfire-visuals';
 import { sceneAssetIds } from '../content/scene-placement';
 import {
   contentDefinitions,
@@ -51,7 +52,11 @@ export function reviewSceneAssets(
     usages.set(asset, usage);
   };
   add(document.floor.asset, 'Ground', undefined, undefined, document.floor.clip);
-  for (const object of document.objects) {
+  const visuals = resolveSceneDocument(document as Parameters<typeof resolveSceneDocument>[0]);
+  const placements = new Map([...visuals.props, ...visuals.decals].map((p) => [p.id, p]));
+  const authored = new Set(document.objects.map((p) => p.id));
+  const objects = sceneObjects(document);
+  for (const object of objects) {
     add(
       object.asset,
       object.kind === 'character'
@@ -61,12 +66,12 @@ export function reviewSceneAssets(
           : object.kind === 'effect'
             ? 'Effect'
             : 'Scenery',
-      { x: object.x ?? 0, z: object.z ?? 0 },
-      object.id,
+      placements.get(object.id),
+      authored.has(object.id) ? object.id : undefined,
       object.clip,
     );
   }
-  for (const object of document.objects)
+  for (const object of objects)
     if (object.fixture?.flame)
       add(
         object.fixture.flame.asset,

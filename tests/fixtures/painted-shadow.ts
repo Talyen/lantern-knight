@@ -1,5 +1,7 @@
 import { gpuFixture, T } from './gpu';
-import { worldVisuals } from '../../src/content/game-content';
+import { emptyScene } from '../../src/editor/default-scene';
+import { resolveScene } from '../../src/content/world-art';
+import { rectangle, groundFixture } from './ground';
 import { artworkFloorLayout } from '../../src/content/floor-layout';
 import {
   paintedHeightByte,
@@ -16,12 +18,21 @@ import { maskIntervals } from '../../tools/diagnostics/ground-occlusion-audit';
 
 /** @knip-external Loaded by the browser regression through Vite. */
 export function paintedShadowProof() {
-  const art = worldVisuals['forest-gathering-clearing']!,
+  const art = resolveScene(emptyScene()).visuals,
     floor = art.editorFloor!,
-    region = art.groundInteraction!.regions.find((r) => r.id === 'clearing-structure-4')!,
-    mask = structuredClone(region.mask!) as MaskShape[],
-    ground = { ...art.groundInteraction!, regions: [region] },
     layout = artworkFloorLayout(floor.width, floor.depth),
+    mask: MaskShape[] = [{ outer: rectangle(0.3, 0.5, 0.57, 0.75), holes: [] }],
+    region = {
+      id: 'raised-island',
+      name: 'Raised island',
+      height: 0.25,
+      mask,
+      depth: {
+        kind: 'boundary' as const,
+        points: [layout.world([0.3, 0.7]), layout.world([0.45, 0.8]), layout.world([0.57, 0.7])],
+      },
+    },
+    ground = groundFixture([region]),
     gpu = gpuFixture(384, 384, 6),
     { renderer, scene, camera, own } = gpu;
   try {

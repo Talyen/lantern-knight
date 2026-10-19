@@ -9,6 +9,7 @@ import { reviewSceneAssets } from '../../src/editor/asset-review-model';
 import { sceneFixture } from '../fixtures/scene';
 import { execFileSync } from 'node:child_process';
 import { checkpointSceneSaves } from '../../tools/scene/checkpoint-scene-saves';
+import { defaultCampfireAsset } from '../../src/content/campfire-visuals';
 import { manifestFixture } from '../fixtures/manifest';
 
 test('review queue persists scoped decisions, rejects stale writers and recovers after failure', async () => {
@@ -112,4 +113,17 @@ test('valid review decisions checkpoint for future tasks while invalid edits rem
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }
+});
+
+test('review focus resolves mounted scenery and generated campfires without selecting synthetic objects', () => {
+  const scene = sceneFixture('chapel');
+  scene.gameplay!.campfires = [{ id: 'rest', name: 'Rest', x: 3, z: 4, safeRadius: 2 }];
+  const usages = reviewSceneAssets(scene, new Map());
+  assert.deepEqual(usages.get('ink-crypt')!.points, [{ x: -0.07, z: -6.95 + 0.08 }]);
+  assert.deepEqual(usages.get('ink-crypt')!.objects, ['crypt-altar-candles']);
+  const fire = usages.get(defaultCampfireAsset)!;
+  assert.deepEqual(fire.roles, ['Scenery']);
+  assert.deepEqual(fire.points, [{ x: 3, z: 4 }]);
+  assert.deepEqual(fire.clips, ['loop']);
+  assert.deepEqual(fire.objects, []);
 });
