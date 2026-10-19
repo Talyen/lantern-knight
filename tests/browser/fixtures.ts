@@ -90,7 +90,7 @@ export async function activateWithKeyboard(button: Locator) {
   await button.press('Enter');
 }
 
-export async function waitForEditor(page: Page, timeout?: number) {
+export async function waitForEditor(page: Page, timeout = 180_000) {
   await page.waitForFunction(
     () => {
       const error = document.querySelector('#validation-errors')?.textContent;

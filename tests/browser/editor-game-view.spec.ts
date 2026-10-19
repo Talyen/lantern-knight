@@ -4,19 +4,17 @@ import type { SceneSnapshot } from '../../src/content/scene-document';
 
 // Compare the actual presentations with identical assets, pose, viewport and time.
 // This catches editor-only framing/lighting drift without freezing scene artwork.
-test('Game camera matches Game rendering and the lantern lights nearby surfaces', async ({
-  page,
-}, testInfo) => {
-  await page.setViewportSize({ width: 1000, height: 720 });
-  await page.goto('/editor.html?automated');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
-  for (const id of [
-    'abandoned-orchard',
-    'forest-gathering-clearing',
-    'ruined-forge',
-    'desecrated-chapel',
-    'woodland',
-  ]) {
+for (const id of [
+  'abandoned-orchard',
+  'forest-gathering-clearing',
+  'ruined-forge',
+  'desecrated-chapel',
+  'woodland',
+]) {
+  test(`Game camera and lantern match the editor in ${id}`, async ({ page }, testInfo) => {
+    await page.setViewportSize({ width: 1000, height: 720 });
+    await page.goto('/editor.html?automated');
+    await page.waitForFunction(() => window.sceneEditor?.ready());
     const document = JSON.parse(
       await fs.readFile('authoring/scenes/' + id + '.json', 'utf8'),
     ) as SceneSnapshot;
@@ -168,12 +166,16 @@ test('Game camera matches Game rendering and the lantern lights nearby surfaces'
     expect(proof.illuminated, id).toBeGreaterThan(1000);
     expect(proof.red, id).toBeGreaterThan(proof.blue);
     expect(proof.power, id).toBeGreaterThan(1.35);
-  }
-  // Navigation controls must still release the game camera for composition.
-  await page.locator('#view-menu').evaluate((e: HTMLDetailsElement) => (e.open = true));
-  await page.locator('#fit').click();
-  expect(await page.evaluate(() => window.sceneEditor.view().presentation!.gameCamera)).toBe(false);
-  await page.locator('#view-menu').evaluate((e: HTMLDetailsElement) => (e.open = true));
-  await page.locator('#reset-game-zoom').click();
-  expect(await page.evaluate(() => window.sceneEditor.view().presentation!.gameCamera)).toBe(true);
-});
+    // Navigation controls must still release the game camera for composition.
+    await page.locator('#view-menu').evaluate((e: HTMLDetailsElement) => (e.open = true));
+    await page.locator('#fit').click();
+    expect(await page.evaluate(() => window.sceneEditor.view().presentation!.gameCamera)).toBe(
+      false,
+    );
+    await page.locator('#view-menu').evaluate((e: HTMLDetailsElement) => (e.open = true));
+    await page.locator('#reset-game-zoom').click();
+    expect(await page.evaluate(() => window.sceneEditor.view().presentation!.gameCamera)).toBe(
+      true,
+    );
+  });
+}

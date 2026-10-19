@@ -1028,7 +1028,8 @@ test('task destinations preserve advanced data and show suitable grounds before 
     );
     expect(manifest.asset.imageRole).toBe('scene-painting');
   }
-  if (values.length)
+  if (values.length) {
+    await page.locator('#ground-thumbnails canvas').first().scrollIntoViewIfNeeded();
     await expect
       .poll(
         () =>
@@ -1042,6 +1043,7 @@ test('task destinations preserve advanced data and show suitable grounds before 
         { timeout: 30_000 },
       )
       .toBeGreaterThan(0);
+  }
   await capture('ground-browser');
   await page.locator('#ground-kind').selectOption('all');
   expect(await page.locator('#floor option').count()).toBeGreaterThan(values.length);

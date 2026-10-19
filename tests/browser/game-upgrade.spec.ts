@@ -8,7 +8,8 @@ import type { GameSave } from '../../src/core/save';
 test('campfire improvements save atomically, remain independent and work in different scenes', async ({
   page,
 }) => {
-  test.setTimeout(420_000);
+  // Three cold renderer starts plus two purchase flows need the full journey budget.
+  test.setTimeout(600_000);
   const area = content.area('forest-gathering-clearing');
   const fire = area.campfires![0]!;
   const session = new GameSession(content, 142, area.id);

@@ -68,7 +68,8 @@ export function mountScene(
   const previewSettings = createBrowserBridge(sandboxContent, 'sandbox');
   let restoredAudio: AudioSettings | undefined;
   const sandboxBridge: Bridge = {
-    automatedRun: window.lantern?.automatedRun,
+    automatedRun:
+      window.lantern?.automatedRun ?? new URLSearchParams(location.search).has('automated'),
     loadGame: async () => ({ status: 'empty' }),
     loadSettings: async () => {
       const saved = await previewSettings.loadSettings();

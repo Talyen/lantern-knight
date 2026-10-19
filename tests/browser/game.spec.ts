@@ -5,6 +5,7 @@ import { test, expect } from './fixtures';
 test('main menu, game input, pause focus and current checkpoint reload', async ({ page }) => {
   // Startup, checkpoint loads and death recovery are distinct room operations.
   test.setTimeout(300_000);
+  await page.clock.install();
   await page.goto('/index.html');
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
@@ -65,11 +66,14 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
   // Real input distinguishes a buffered cast from admission and cooldown rejection.
   const canvas = page.locator('canvas'),
     bounds = (await canvas.boundingBox())!;
+  // Admit the sword before sending the lantern even on a slow software renderer.
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000));
   await page.mouse.click(bounds.x + bounds.width * 0.6, bounds.y + bounds.height * 0.6);
-  await page.waitForTimeout(100);
+  await page.clock.runFor(50);
   await page.mouse.click(bounds.x + bounds.width * 0.6, bounds.y + bounds.height * 0.6, {
     button: 'right',
   });
+  await page.clock.runFor(50);
   await expect(page.locator('#action-hint')).toHaveText('Lantern queued');
   if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY) {
     await mkdir(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, { recursive: true });
@@ -78,7 +82,9 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
     });
   }
   await page.keyboard.press('Escape');
+  await page.clock.runFor(17);
   await expect(page.locator('#action-hint')).toBeEmpty();
+  await page.clock.resume();
   await page.locator('#resume').click();
   await expect(page.locator('#action-hint')).toBeEmpty();
   await expect(page.locator('#lantern-state')).toHaveText(/s$/);
@@ -351,7 +357,7 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await expect(page.locator('#hp')).toHaveText('110 / 110');
   await waitForRoom();
   await page.keyboard.press('Escape');
-  // Unlock departure through a valid cleared encounter checkpoint; use the real departure interaction.
+  // Use the real physical departure interaction from a checkpoint at its marker.
   await page.locator('#pause').click();
   await saveCheckpoint(page);
   const exit = orchard.exits[0]!;
@@ -373,6 +379,22 @@ test('orchard loot, equipment, campfire rest and destination travel survive relo
   await page.keyboard.press('e');
   await waitForRoom();
   await expect(page.locator('#room-title')).toHaveText('Forest Gathering Clearing');
+  // Physical passages arrive at the trail, separately from campfire fast travel.
+  await page.locator('#pause').click();
+  await saveCheckpoint(page);
+  const clearingFire = content.area('forest-gathering-clearing').campfires![0]!;
+  await page.evaluate(
+    ({ key, fire }) => {
+      const save = JSON.parse(localStorage.getItem(key)!);
+      save.player.x = fire.x;
+      save.player.z = fire.z;
+      localStorage.setItem(key, JSON.stringify(save));
+    },
+    { key, fire: { x: clearingFire.x, z: clearingFire.z } },
+  );
+  await loadCheckpoint(page);
+  await waitForRoom();
+  await expect(page.locator('#interaction-hint')).toHaveText('E · Rest');
   await page.keyboard.press('e');
   await expect(panel).toContainText('Clearing Campfire');
   await panel.getByRole('button', { name: 'Abandoned Orchard · Orchard Campfire' }).click();

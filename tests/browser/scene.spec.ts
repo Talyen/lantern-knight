@@ -227,7 +227,9 @@ test('shared asset browser includes library enemies, separates poses and filters
   await page.goto('/sandbox.html?scene=outdoor-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   await page.getByRole('button', { name: 'Animation', exact: true }).click();
-  await expect(page.locator('#asset option[value="library-ct01"]')).toHaveCount(1);
+  await expect(page.locator('#asset option[value="library-ct01"]')).toHaveCount(1, {
+    timeout: 30_000,
+  });
   await expect(page.locator('#asset option[value="ink-stage-earth"]')).toHaveCount(0);
   await page.locator('#asset').selectOption('library-ct01');
   // Decode/upload can outlast the default 5 s assertion window on CI software rendering.

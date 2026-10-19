@@ -1,9 +1,9 @@
 import { test, expect } from './fixtures';
 
-test('cursor-facing locomotion renders every facing/travel pair and preserves phase through transitions', async ({
+test('travel-facing locomotion ignores cursor angle and preserves phase through transitions', async ({
   page,
 }) => {
-  // All 64 combinations submit their held drawings through CI software WebGL.
+  // All eight travel headings are checked against every cursor angle through software WebGL.
   test.setTimeout(420_000);
   await page.goto('/sandbox.html?scene=outdoor-fixture&automated');
   await page.waitForFunction(
@@ -35,31 +35,34 @@ test('cursor-facing locomotion renders every facing/travel pair and preserves ph
         const v = actor(),
           expected =
             f.presentation.manifest.asset.clips[`travel_${headings[travel]}`]![
-              headings[facing] as 'd00'
+              headings[travel] as 'd00'
             ]!;
         if (v.sprite.animator.clip !== expected)
           throw new Error(`Wrong selection ${facing}/${travel}`);
         selected.push(`${headings[facing]}/${headings[travel]}`);
-        // Visit exact drawing boundaries once, rather than repeatedly rendering
-        // long holds or skipping drawings shorter than a fixed sampling step.
-        let elapsed = 0;
-        for (const [index, frame] of expected.frames.entries()) {
+        // Each travel clip is identical across cursor angles; submit its drawings once.
+        if (facing === 0) {
+          // Visit exact drawing boundaries once, rather than repeatedly rendering
+          // long holds or skipping drawings shorter than a fixed sampling step.
+          let elapsed = 0;
+          for (const [index, frame] of expected.frames.entries()) {
+            v.sprite.animator.seek(elapsed);
+            f.presentation.update(f.sim, 1, 0, { x: 0, z: 0 });
+            if (
+              v.sprite.lightingSample?.frame.id !== frame ||
+              f.presentation.renderer.getContext().getError()
+            )
+              throw new Error('Missing frame or WebGL error');
+            elapsed += expected.durationsMs[index]!;
+          }
           v.sprite.animator.seek(elapsed);
           f.presentation.update(f.sim, 1, 0, { x: 0, z: 0 });
-          if (
-            v.sprite.lightingSample?.frame.id !== frame ||
-            f.presentation.renderer.getContext().getError()
-          )
-            throw new Error('Missing frame or WebGL error');
-          elapsed += expected.durationsMs[index]!;
+          if (v.sprite.lightingSample?.frame.id !== expected.frames[0])
+            throw new Error('Locomotion loop did not return to its first drawing');
         }
-        v.sprite.animator.seek(elapsed);
-        f.presentation.update(f.sim, 1, 0, { x: 0, z: 0 });
-        if (v.sprite.lightingSample?.frame.id !== expected.frames[0])
-          throw new Error('Locomotion loop did not return to its first drawing');
         v.sprite.animator.seek(400);
         f.editPreview((sim) => {
-          sim.hero.travelYaw = (((travel + 1) % 8) * Math.PI) / 4;
+          sim.hero.yaw = sim.hero.travelYaw = (((travel + 1) % 8) * Math.PI) / 4;
         });
         f.presentation.update(f.sim, 1, 0, { x: 0, z: 0 });
         if (Math.abs(actor().sprite.animator.time - 400) > 0.001)
@@ -70,7 +73,7 @@ test('cursor-facing locomotion renders every facing/travel pair and preserves ph
         f.presentation.update(f.sim, 1, 0, { x: 0, z: 0 });
         if (
           actor().sprite.animator.clip !==
-          f.presentation.manifest.asset.clips.idle![headings[facing] as 'd00']
+          f.presentation.manifest.asset.clips.idle![headings[(travel + 1) % 8] as 'd00']
         )
           throw new Error('Wrong stationary facing');
       }
@@ -113,7 +116,7 @@ test('cursor-facing locomotion renders every facing/travel pair and preserves ph
           return { state: f.sim.hero.state, facing: v.heading, travel: v.travelHeading };
         }),
       )
-      .toEqual({ state: 'walk', facing: 'd90', travel: 'd225' });
+      .toEqual({ state: 'walk', facing: 'd225', travel: 'd225' });
   } finally {
     await page.keyboard.up('KeyW');
   }
