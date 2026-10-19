@@ -1061,6 +1061,23 @@ class Importer:
                 clip = data.get("animation", data.get("clip"))
                 clips = {clip["name"]: clip}
             atlas(spec["identity"], data, clips)
+        elif spec["format"] == "directional-actor":
+            directions = data.get("directions", {})
+            if set(directions) != set(HEADINGS):
+                raise ValueError("Directional actor requires DR, DL, UL and UR drawings")
+            for direction, metadata in directions.items():
+                for name, clip in metadata["clips"].items():
+                    sequence(
+                        spec["identity"],
+                        name,
+                        data,
+                        [{"file": f} for f in clip["frames"]],
+                        clip["holds_ticks"],
+                        loop=clip.get("loop", False),
+                        heading=HEADINGS[direction],
+                        markers=clip.get("markers"),
+                    )
+            self.assets["library-" + slug(spec["identity"])]["label"] = spec["label"]
         elif spec["format"] == "frame-props":
             records = data if isinstance(data, list) else data.get("assets", [data])
             for meta in records:

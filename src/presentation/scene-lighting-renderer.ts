@@ -1,7 +1,6 @@
 import { cleanupAll, cleanupAfterFailure, DisposalScope } from '../assets/cleanup';
 import type { GroundOcclusion } from './ground-occlusion';
 import { ColorAntialiasing } from './color-antialiasing';
-import { radialTexture } from './radial-texture';
 import { heroLanternPosition } from './hero-lantern';
 import { FocusMask } from './focus-mask';
 import { ShadowProxies } from './shadow-proxies';
@@ -125,7 +124,6 @@ export class SceneLightingRenderer {
   }
   private dust: T.Points;
   private mist: GroundMist;
-  private glows: T.Mesh<T.PlaneGeometry, T.MeshBasicMaterial>[] = [];
   private generation = -1;
   private size = new T.Vector2();
   private shadowWasEnabled: boolean;
@@ -258,24 +256,7 @@ export class SceneLightingRenderer {
       particle.fragmentShader = particle.fragmentShader.replace(';#include', ';\n#include');
       this.dust = new T.Points(geometry, particle);
       this.extras.add(this.dust);
-      const mistTexture = this.lifetime.own(radialTexture(1, 1, 0.35));
       this.extras.add(this.mist.group);
-      for (let i = 1; i < 4; i++) {
-        const material = this.lifetime.own(
-          new T.MeshBasicMaterial({
-            map: mistTexture,
-            color: new T.Color(0xffac4d).multiplyScalar(4),
-            transparent: true,
-            depthWrite: false,
-            toneMapped: false,
-            blending: T.AdditiveBlending,
-            opacity: 0.5,
-          }),
-        );
-        const glow = new T.Mesh(this.lifetime.own(new T.PlaneGeometry(0.45, 0.45)), material);
-        this.extras.add(glow);
-        this.glows.push(glow);
-      }
     } catch (error) {
       cleanupAfterFailure(error, () => this.dispose());
     }
@@ -518,13 +499,7 @@ export class SceneLightingRenderer {
       look.mist * 0.8,
       frame.visuals?.surround ? new T.Vector3(0, 0, 0) : origin,
     );
-    this.glows.forEach((mesh, index) => {
-      const i = index + 1;
-      mesh.visible = s.lighting && lights.inkLightPower.value[i]! > 0;
-      mesh.position.copy(lights.inkLightPosition.value[i]!);
-      mesh.quaternion.copy(p.camera.quaternion);
-      mesh.scale.setScalar(frame.visuals?.interior ? 0.5 : 1);
-    });
+
     if (!s.postprocessing) {
       r.autoClear = this.priorAutoClear;
       this.room.surround.render(r, p.camera, p.scene);

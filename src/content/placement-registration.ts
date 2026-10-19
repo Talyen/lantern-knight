@@ -22,6 +22,27 @@ export const placementRegistration: Readonly<
     }
   >
 > = {
+  'library-zb01': {
+    hash: '0c8c9d3ac2c59696a1f24a1be80e72bd0040af0dda5ccd880c692bed1148c5d0',
+    clips: {
+      idle: envelope(-0.5079, 0.836, 1.7188, -0.2266),
+      move: envelope(-0.8047, 0.9141, 1.7735, -0.2266),
+    },
+  },
+  'library-orchard-feral-boar': {
+    hash: '5437f2053d68ef7b0a3b304430e1bc7d4aa3841a4f5b2c1d6e102c41a98136ea',
+    clips: {
+      idle: envelope(-0.5875, 0.675, 1.0625, -0.0125),
+      move: envelope(-0.6438, 0.7063, 1.0563, -0.05),
+    },
+  },
+  'library-orchard-rootbound-scarecrow': {
+    hash: '6c5ee333cb4dafa4bc7b3428650fa7ca2b76d0e2de4222352bde79482d377873',
+    clips: {
+      idle: envelope(-0.9264, 0.979, 2.1685, -0.0211),
+      move: envelope(-1.1369, 1.0632, 2.1579, -0.1053),
+    },
+  },
   'library-sk01': {
     hash: '1cd536a1460b207afd9cbc2ffc50bc8be5d16fcbb3121ec465d6c445fbb3cf3d',
     clips: {

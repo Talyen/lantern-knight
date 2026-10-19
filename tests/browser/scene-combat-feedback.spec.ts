@@ -223,3 +223,75 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
       await page.screenshot({ path: path.join(directory, `chapel-group-${stage}.png`) });
   }
 });
+
+test('orchard workers, boar and scarecrow use their drawn attacks and neutral hit contacts', async ({
+  page,
+}) => {
+  await page.goto('/sandbox.html?scene=orchard-fixture&automated');
+  await page.waitForFunction(() => window.foundation?.ready);
+  await page.evaluate(() => window.foundation.pause(true));
+  for (const actor of ['fallen-orchard-worker', 'orchard-feral-boar', 'rootbound-scarecrow']) {
+    const proof = await page.evaluate((actor) => {
+      const f = window.foundation;
+      const visibleAssets = () =>
+        f.presentation.combatFeedback.group.children
+          .filter((mesh) => mesh.visible)
+          .map((mesh) => mesh.userData.asset as string);
+      const setup = (attacker: 'hero' | 'enemy') => {
+        f.presentation.combatFeedback.reset();
+        f.editPreview((sim) => {
+          const spawn = sim.areaDefinition.spawns.find((s) => s.id === 'first')!;
+          const enemy = sim.create('orchard-feedback-proof', 'enemy', spawn.x, spawn.z, actor);
+          sim.actors = [sim.hero, enemy];
+          sim.movementPreview = false;
+          sim.engaged = true;
+          Object.assign(sim.hero, {
+            x: spawn.x - 0.9,
+            px: spawn.x - 0.9,
+            z: spawn.z,
+            pz: spawn.z,
+            health: 100,
+            cooldown: 0,
+            burn: undefined,
+            pendingAction: undefined,
+          });
+          sim.start(sim.hero, 'idle', Math.PI / 2);
+          enemy.stun = 10000;
+          if (attacker === 'enemy') sim.start(enemy, 'attack', -Math.PI / 2);
+          else {
+            sim.hero.aim = Math.PI / 2;
+            sim.startSword(sim.hero, 'sweep');
+          }
+        });
+      };
+      setup('enemy');
+      f.editPreview((sim) => {
+        sim.enemies[0]!.age = sim.enemies[0]!.definition.attack.windup + 1;
+      });
+      f.presentation.update(f.sim, 1, 0, f.sim.enemies[0]!);
+      const attack = visibleAssets();
+      setup('hero');
+      let damaged = false;
+      f.editPreview((sim) => {
+        for (let i = 0; i < sim.hero.definition.attack.windup + 3; i++) {
+          const result = sim.step();
+          damaged ||= result.events.some((e) => e.kind === 'damage' && e.target !== sim.hero.id);
+          f.presentation.events.publish(result.events);
+        }
+      });
+      f.presentation.update(f.sim, 1, 0, f.sim.enemies[0]!);
+      return {
+        attack,
+        contact: visibleAssets(),
+        damaged,
+        error: f.presentation.renderer.getContext().getError(),
+      };
+    }, actor);
+    expect(proof.attack).not.toContain('library-combat-ivory-rake');
+    expect(proof.contact).not.toContain('library-combat-ivory-rupture');
+    expect(proof.contact).not.toContain('library-amber_impact');
+    expect(proof.contact).toContain('library-neutral_contact_snap');
+    expect(proof.damaged).toBe(true);
+    expect(proof.error).toBe(0);
+  }
+});
