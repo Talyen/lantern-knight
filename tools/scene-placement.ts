@@ -21,13 +21,14 @@ runCli(import.meta.url, async (args) => {
       spec: { type: 'string' },
       round: { type: 'string' },
       choice: { type: 'string' },
+      feedback: { type: 'string' },
       software: { type: 'boolean' },
     },
   });
   const [command] = positionals;
   if (positionals.length !== 1 || !values.round)
     throw new Error(
-      'Use scene:compare prepare --spec FILE --round NEW_EXTERNAL_DIR | capture --round DIR [--software] | vote --round DIR --choice A|B',
+      'Use scene:compare prepare --spec FILE --round NEW_EXTERNAL_DIR | capture --round DIR [--software] | vote --round DIR --choice A|B|neither [--feedback TEXT]',
     );
   const directory = path.resolve(values.round);
   await fs.mkdir(path.dirname(directory), { recursive: true });
@@ -85,7 +86,8 @@ runCli(import.meta.url, async (args) => {
         path.join(directory, 'B.png'),
     );
   } else if (command === 'vote') {
-    if (values.choice !== 'A' && values.choice !== 'B') throw new Error('Choice must be A or B');
-    console.log(await recordPreference(directory, values.choice));
+    if (values.choice !== 'A' && values.choice !== 'B' && values.choice !== 'neither')
+      throw new Error('Record A, B, or an explicitly volunteered neither');
+    console.log(await recordPreference(directory, values.choice, values.feedback));
   } else throw new Error('Unknown comparison command: ' + command);
 });

@@ -1,6 +1,13 @@
 # Placement lessons
 
-No human preferences have been recorded for this loop yet. The skill's initial composition guidance comes from the existing scene policy and remains a starting point for evaluation.
+The first human comparison rejected both images. No preferred composition or general aesthetic rule has been established. The skill's initial composition guidance remains a starting point for evaluation.
+
+## First clearing pair: both rejected
+
+- Round `8ca3a58f-af01-42a0-b341-8e1e54ecc742`, hash `d2c384b2cc7fe4db8a7d74f8e5108a51208fd28a56c47b73629bb0c268e34078`. Evidence: `~/.codex/scene-placement/2026-10-18-clearing-pilot/round-01`.
+- Human wording: “honestly neither, they are basically equally bad”. Winner: none.
+- Both used the same clearing, props, enemies, lighting and framing; only bedroll/fuel positions changed. This rejects both rendered layouts, without establishing why they failed.
+- Process correction: establish a preferred overall composition before asking the human to distinguish small offsets within it. This is a response to a failed experiment, not a validated aesthetic rule. No holdout evaluation has run.
 
 Keep only compact, useful lessons here. Raw sessions, screenshots, rejected variants and detailed history stay outside Git. For each retained lesson record:
 

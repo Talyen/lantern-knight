@@ -180,13 +180,18 @@ export async function completeCapture(directory: string) {
   await fs.writeFile(path.join(directory, 'capture.json'), bytes, { flag: 'wx' });
 }
 
-export async function recordPreference(directory: string, choice: 'A' | 'B') {
+export async function recordPreference(
+  directory: string,
+  choice: 'A' | 'B' | 'neither',
+  feedback?: string,
+) {
   const { round, hash, bytes } = await readCapture(directory, 'capture.json');
   const decision = {
     round: hash,
     capture: sha256(bytes),
     choice,
-    winner: round.labels[choice === 'A' ? 0 : 1]!,
+    winner: choice === 'neither' ? null : round.labels[choice === 'A' ? 0 : 1]!,
+    ...(feedback ? { feedback } : {}),
     source: 'human',
     at: new Date().toISOString(),
   };

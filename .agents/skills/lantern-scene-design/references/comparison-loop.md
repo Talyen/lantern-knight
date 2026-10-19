@@ -12,6 +12,8 @@ Declare practice and holdout scenes before tuning. Start with Abandoned Orchard 
 
 Compare the current best layout with one challenger. Before generating the challenger, write one testable hypothesis, such as moving a scattered supply group to a painted work landmark. Use a comparable effort budget for alternatives. A trial that changes several unrelated things cannot identify which caused the preference.
 
+Before a usable layout has been established, compare distinct overall arrangements: their landmark relationship, occupied space and route/encounter silhouette should read differently at gameplay scale. Record this as composition exploration, not evidence for an isolated causal rule. Begin fine placement refinements only after a composition is preferred. If the human volunteers that both are bad, retain neither as an accepted incumbent and return to this broader search.
+
 For skill comparisons, freeze baseline and candidate instruction files, start fresh attempts from the same scene and brief, and keep the same assets and iteration budget. Do not give either attempt the expected winner or prior reviewer conclusions. Use independent agents for these transfer attempts when delegation is available and authorized, with only the assigned instructions, brief and raw scene/assets; generating both after reading the proposed lesson is not an independent comparison. A local layout win alone does not prove that a skill revision improved agent performance. If independent attempts are unavailable, record the comparison as a placement diagnostic and defer the skill-performance claim.
 
 ## Capture and ask
@@ -21,6 +23,8 @@ Prepare the comparison, then run its capture command. It imports both snapshots 
 Inspect both images yourself. Check that they show the actual placement difference, both satisfy the brief, and no selection outlines or startup errors obscure them. An unchanged-looking view is not useful feedback even if PNG hashes differ. Capture additional matching views for your own checks when needed. The human sees exactly two unannotated screenshots of the same view, labeled A and B. No hypothesis, proposed winner or evaluative captions.
 
 Ask only: **Which do you prefer, A or B?** Stop at this natural feedback boundary. On reply, record that choice against this exact round before changing anything. Never manufacture a human preference from an agent critique. Keep evidence outside disposable worktrees so a later chat can resume a pending round.
+
+The question stays A/B, but the human may volunteer “neither.” Record `--choice neither` and any volunteered wording with `--feedback`; this produces a null winner. Do not demand a forced preference, request a reason, relabel rejection as a positive tie, or count an infrastructure replay as another human rejection. Repair the next pair without inferring aesthetic rules from unstated reasons.
 
 ## Revise and transfer
 

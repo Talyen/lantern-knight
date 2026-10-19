@@ -89,13 +89,19 @@ test('human choices stay bound to blinded snapshots and cannot overwrite decisio
   await fs.writeFile(path.join(directory, 'B.png'), 'replacement');
   await assert.rejects(recordPreference(directory, 'A'), /Screenshots changed/);
   await fs.writeFile(path.join(directory, 'B.png'), b);
-  const vote = await recordPreference(directory, 'B');
+  const accepted = path.join(root, 'accepted-round');
+  await fs.cp(directory, accepted, { recursive: true });
+  const vote = await recordPreference(accepted, 'B');
   assert.equal(vote.winner, round.labels[1]);
   assert.equal(vote.source, 'human');
+  await assert.rejects(recordPreference(accepted, 'A'), /EEXIST/);
+  const rejection = await recordPreference(directory, 'neither', 'Both equally bad');
+  assert.equal(rejection.winner, null);
+  assert.equal(rejection.feedback, 'Both equally bad');
   await assert.rejects(recordPreference(directory, 'A'), /EEXIST/);
   assert.equal(
     JSON.parse(await fs.readFile(path.join(directory, 'preference.json'), 'utf8')).choice,
-    'B',
+    'neither',
   );
   await fs.writeFile(path.join(directory, 'candidate.json'), '{}');
   await assert.rejects(readRound(directory), /inputs changed/);

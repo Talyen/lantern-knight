@@ -54,6 +54,8 @@ npm run scene:compare -- vote --round /external/session/round-01 --choice A
 
 `preference.json` binds the human choice and winning variant to the round and capture hashes. Voting rejects incomplete capture, changed snapshots/images and an existing decision. Never run `vote` based on an agent's preference. The files are local experiment records, not tamper-proof attestations. Keep the external session path with any compact lesson so subsequent chats can find the evidence.
 
+Keep the human question limited to A/B. If they voluntarily reject both, record `--choice neither`; it writes a null winner. Optional `--feedback` preserves their volunteered wording without asking for an explanation. Neither layout becomes an accepted incumbent. Return to distinct overall compositions before testing small refinements. A rejection alone does not identify the aesthetic defect.
+
 For another camera, a new challenger or another judgment, prepare a new round. Do not overwrite the screenshot associated with an existing vote. Resume pending feedback from its two preserved images; record the answer before continuing.
 
 ## Learn and verify
