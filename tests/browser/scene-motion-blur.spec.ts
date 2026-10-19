@@ -5,6 +5,7 @@ import { test, expect } from './fixtures';
 test('camera shutter changes moving scenery and clears on stop or reduced motion', async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 800, height: 600 });
   await page.goto('/sandbox.html?scene=orchard-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   const proof = await page.evaluate(() => {

@@ -5,6 +5,7 @@ test('travel-facing locomotion ignores cursor angle and preserves phase through 
 }) => {
   // All eight travel headings are checked against every cursor angle through software WebGL.
   test.setTimeout(420_000);
+  await page.setViewportSize({ width: 800, height: 600 });
   await page.goto('/sandbox.html?scene=outdoor-fixture&automated');
   await page.waitForFunction(
     () => window.foundation?.ready && window.foundation.presentation.lookRenderer.ready,
@@ -40,26 +41,25 @@ test('travel-facing locomotion ignores cursor angle and preserves phase through 
         if (v.sprite.animator.clip !== expected)
           throw new Error(`Wrong selection ${facing}/${travel}`);
         selected.push(`${headings[facing]}/${headings[travel]}`);
+        if (facing !== 0) continue;
         // Each travel clip is identical across cursor angles; submit its drawings once.
-        if (facing === 0) {
-          // Visit exact drawing boundaries once, rather than repeatedly rendering
-          // long holds or skipping drawings shorter than a fixed sampling step.
-          let elapsed = 0;
-          for (const [index, frame] of expected.frames.entries()) {
-            v.sprite.animator.seek(elapsed);
-            f.presentation.update(f.sim, 1, 0, { x: 0, z: 0 });
-            if (
-              v.sprite.lightingSample?.frame.id !== frame ||
-              f.presentation.renderer.getContext().getError()
-            )
-              throw new Error('Missing frame or WebGL error');
-            elapsed += expected.durationsMs[index]!;
-          }
+        // Visit exact drawing boundaries once, rather than repeatedly rendering
+        // long holds or skipping drawings shorter than a fixed sampling step.
+        let elapsed = 0;
+        for (const [index, frame] of expected.frames.entries()) {
           v.sprite.animator.seek(elapsed);
           f.presentation.update(f.sim, 1, 0, { x: 0, z: 0 });
-          if (v.sprite.lightingSample?.frame.id !== expected.frames[0])
-            throw new Error('Locomotion loop did not return to its first drawing');
+          if (
+            v.sprite.lightingSample?.frame.id !== frame ||
+            f.presentation.renderer.getContext().getError()
+          )
+            throw new Error('Missing frame or WebGL error');
+          elapsed += expected.durationsMs[index]!;
         }
+        v.sprite.animator.seek(elapsed);
+        f.presentation.update(f.sim, 1, 0, { x: 0, z: 0 });
+        if (v.sprite.lightingSample?.frame.id !== expected.frames[0])
+          throw new Error('Locomotion loop did not return to its first drawing');
         v.sprite.animator.seek(400);
         f.editPreview((sim) => {
           sim.hero.yaw = sim.hero.travelYaw = (((travel + 1) % 8) * Math.PI) / 4;

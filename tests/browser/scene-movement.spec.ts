@@ -49,7 +49,8 @@ test('keyboard movement renders forward runs in all eight directions and cursor 
     });
     expect(moving.yaw).toBe(moving.travel);
     expect(moving.tag).toContain(`:travel_${moving.heading}:${moving.heading}:`);
-    await page.screenshot({ path: testInfo.outputPath(`forward-${moving.heading}.png`) });
+    if (process.env.LANTERN_MOVEMENT_CAPTURES)
+      await page.screenshot({ path: testInfo.outputPath(`forward-${moving.heading}.png`) });
     for (const key of keys) await page.keyboard.up(key);
     await page.mouse.move(bounds.x + bounds.width * 0.2, bounds.y + bounds.height * 0.4);
     await page.evaluate(() => window.foundation.pause(false));
@@ -61,5 +62,6 @@ test('keyboard movement renders forward runs in all eight directions and cursor 
     });
     expect(idle).toEqual({ state: 'idle', yaw: moving.yaw });
   }
-  await page.screenshot({ path: testInfo.outputPath('movement-facing.png') });
+  if (process.env.LANTERN_MOVEMENT_CAPTURES)
+    await page.screenshot({ path: testInfo.outputPath('movement-facing.png') });
 });

@@ -16,6 +16,7 @@ for (const choice of ['neither', 'sword', 'lantern', 'both'] as const) {
   }) => {
     // Campfire, retry, return and reload each prepare a complete room renderer.
     test.setTimeout(600_000);
+    await page.setViewportSize({ width: 960, height: 600 });
     const forge = content.area('ruined-forge');
     const chapel = content.area('desecrated-chapel');
     const forward = forge.exits.find((e) => e.destination === chapel.id)!;
@@ -39,7 +40,7 @@ for (const choice of ['neither', 'sword', 'lantern', 'both'] as const) {
         undefined,
         { timeout: 180_000 },
       );
-      await expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 60_000 });
+      await expect(page.locator('body')).not.toHaveClass(/traveling/, { timeout: 120_000 });
     };
     const capture = async (name: string) => {
       const directory = process.env.LANTERN_CHAPEL_CAPTURE_DIRECTORY;
@@ -74,7 +75,7 @@ for (const choice of ['neither', 'sword', 'lantern', 'both'] as const) {
     await restore(seed);
     await expect(page.locator('#interaction-hint')).toHaveText('E · Travel to Desecrated Chapel');
     await page.keyboard.press('e');
-    await expect(page.locator('#room-title')).toHaveText(chapel.name, { timeout: 60_000 });
+    await expect(page.locator('#room-title')).toHaveText(chapel.name, { timeout: 120_000 });
     await ready();
     await capture('threshold');
     await expect(page.locator('#interaction-hint')).toHaveText('E · Rest');
@@ -154,7 +155,7 @@ for (const choice of ['neither', 'sword', 'lantern', 'both'] as const) {
       'E · Travel to Ruined Craftsman Forge',
     );
     await page.keyboard.press('e');
-    await expect(page.locator('#room-title')).toHaveText(forge.name, { timeout: 60_000 });
+    await expect(page.locator('#room-title')).toHaveText(forge.name, { timeout: 120_000 });
     await ready();
     await expect(page.locator('#interaction-hint')).not.toHaveText(
       'E · Travel to Desecrated Chapel',

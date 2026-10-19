@@ -3,6 +3,8 @@ import { test, expect } from './fixtures';
 test('camera motion blur is opt-in and persists through player settings reload', async ({
   page,
 }) => {
+  // Both cold Game starts and the settings round trip render through software WebGL in CI.
+  test.setTimeout(300_000);
   await page.goto('/index.html');
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',

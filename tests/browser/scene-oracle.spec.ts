@@ -4,6 +4,9 @@ import { test, expect } from './fixtures';
 
 test.use({ screenshot: 'only-on-failure' });
 
+// These interaction proofs do not depend on a full-size framebuffer.
+test.use({ viewport: { width: 800, height: 600 } });
+
 test('forge Oracle renders its locked warning, contact and cancellation from simulation state', async ({
   page,
 }) => {

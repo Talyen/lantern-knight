@@ -1,4 +1,7 @@
 import { expectPageValue, test, expect } from './fixtures';
+// These interaction proofs do not depend on a full-size framebuffer.
+test.use({ viewport: { width: 800, height: 600 } });
+
 test('scene selection and camera framing survive independent reloads', async ({ page }) => {
   // Four cold renderer constructions share this journey on CI software WebGL.
   test.setTimeout(420_000);

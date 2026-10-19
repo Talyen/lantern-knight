@@ -5,7 +5,6 @@ import { test, expect } from './fixtures';
 test('main menu, game input, pause focus and current checkpoint reload', async ({ page }) => {
   // Startup, checkpoint loads and death recovery are distinct room operations.
   test.setTimeout(300_000);
-  await page.clock.install();
   await page.goto('/index.html');
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
@@ -66,15 +65,25 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
   // Real input distinguishes a buffered cast from admission and cooldown rejection.
   const canvas = page.locator('canvas'),
     bounds = (await canvas.boundingBox())!;
-  // Admit the sword before sending the lantern even on a slow software renderer.
-  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000));
+  // Record transient feedback before input, as with checkpoint feedback below.
+  await page.locator('#action-hint').evaluate((node) => {
+    const observer = new MutationObserver(() => {
+      if (node.textContent !== 'Lantern queued') return;
+      node.setAttribute('data-queued-feedback', node.textContent);
+      observer.disconnect();
+    });
+    observer.observe(node, { childList: true, characterData: true, subtree: true });
+  });
   await page.mouse.click(bounds.x + bounds.width * 0.6, bounds.y + bounds.height * 0.6);
-  await page.clock.runFor(50);
+  // A rendered frame admits the sword before a second input can replace it.
+  await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => resolve())));
   await page.mouse.click(bounds.x + bounds.width * 0.6, bounds.y + bounds.height * 0.6, {
     button: 'right',
   });
-  await page.clock.runFor(50);
-  await expect(page.locator('#action-hint')).toHaveText('Lantern queued');
+  await expect(page.locator('#action-hint')).toHaveAttribute(
+    'data-queued-feedback',
+    'Lantern queued',
+  );
   if (process.env.LANTERN_OPENING_CAPTURE_DIRECTORY) {
     await mkdir(process.env.LANTERN_OPENING_CAPTURE_DIRECTORY, { recursive: true });
     await page.screenshot({
@@ -82,9 +91,7 @@ test('main menu, game input, pause focus and current checkpoint reload', async (
     });
   }
   await page.keyboard.press('Escape');
-  await page.clock.runFor(17);
   await expect(page.locator('#action-hint')).toBeEmpty();
-  await page.clock.resume();
   await page.locator('#resume').click();
   await expect(page.locator('#action-hint')).toBeEmpty();
   await expect(page.locator('#lantern-state')).toHaveText(/s$/);
