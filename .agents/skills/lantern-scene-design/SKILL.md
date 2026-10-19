@@ -15,6 +15,8 @@ For each group, decide who used it, what they were doing and why it belongs besi
 
 Calibrate size beside the hero and painted human-scale landmarks. Inspect full drawings, opened/broken states and all relevant enemy facings. Read painted paths visually and keep complete object silhouettes off them. Check footing, occlusion and grounding in the renderer. Avoid enlarging a prop merely to make it noticeable.
 
+The painting-envelope checks do not prevent a guard or another prop from hiding a container. Review overlaps between independent objects in the actual approach view, including enemy poses and opened lids; every gameplay target needs a readable silhouette and an accessible front.
+
 Place enemies as encounter beats: what the player sees first, where engagement begins, which enemies join, where the player can fight and how they can retreat. Inspect the approach at gameplay scale with actual lighting. Do not use evenly spaced decoration, a pretty overview or valid spawn clearance as proof of a good encounter. Check movement and combat separately from screenshot preference.
 
 Establish a coherent overall arrangement before refining individual offsets. If both alternatives are rejected, develop distinct compositions rather than continuing to nudge the same few objects. Once an arrangement is preferred, test one meaningful refinement at a time in the same views. Remove purposeless objects and revise crowded groups. Preserve the painting and unrelated gameplay. Use the [verification workflow](../../../CONTRIBUTING.md#verification); report actual structural, browser, native and visual coverage.
