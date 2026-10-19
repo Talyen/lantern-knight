@@ -21,7 +21,15 @@ test('playable paintings support their annotated floors and matching arrivals', 
       'Imported ' + document.name,
     );
     await waitForEditorIdle(page);
-    console.info('Exploration: renderer ready', area.id);
+    const renderer = await page.evaluate(() => {
+      const gl = window.sceneEditor.view().presentation!.renderer.getContext();
+      const debug = gl.getExtension('WEBGL_debug_renderer_info');
+      return String(gl.getParameter(debug ? debug.UNMASKED_RENDERER_WEBGL : gl.RENDERER));
+    });
+    if (process.env.LANTERN_TEST_GPU === 'hardware')
+      expect(renderer).not.toMatch(/swiftshader|llvmpipe|software/i);
+    await fs.writeFile(path.join(directory, area.id + '-renderer.txt'), renderer);
+    console.info('Exploration: renderer ready', area.id, renderer);
     const targets = [
       ...document.groundInteraction.destinations,
       ...area.entries
@@ -86,9 +94,17 @@ test('playable paintings support their annotated floors and matching arrivals', 
     if ((await page.locator('#play-action > details').getAttribute('open')) === null)
       await page.locator('#play-action > details > summary').click();
     await page.locator('#test-movement').click();
-    await page.waitForFunction(() => window.sceneEditor.playtest()?.ready, undefined, {
-      timeout: 120_000,
-    });
+    await expect
+      .poll(
+        () =>
+          page.evaluate(() => ({
+            ready: window.sceneEditor.playtest()?.ready ?? false,
+            tick: window.sceneEditor.playtest()?.tick,
+            status: document.querySelector('#playtest-status')?.textContent,
+          })),
+        { timeout: 120_000 },
+      )
+      .toMatchObject({ ready: true });
     const before = await page.evaluate(() => window.sceneEditor.playtest()!.hero);
     await page.keyboard.down('w');
     await expect
@@ -104,14 +120,16 @@ test('playable paintings support their annotated floors and matching arrivals', 
     expect(routeIndex).toBeGreaterThanOrEqual(0);
     const target = targets[routeIndex]!;
     await page.locator('#movement-destination').selectOption(String(routeIndex));
-    await page.waitForFunction(
-      (target) => {
-        const hero = window.sceneEditor.playtest()!.hero;
-        return Math.hypot(hero.x - target.x, hero.z - target.z) < 0.3;
-      },
-      target,
-      { timeout: 90_000 },
-    );
+    await expect
+      .poll(
+        () =>
+          page.evaluate((target) => {
+            const hero = window.sceneEditor.playtest()!.hero;
+            return Math.hypot(hero.x - target.x, hero.z - target.z);
+          }, target),
+        { timeout: 90_000 },
+      )
+      .toBeLessThan(0.3);
     await page.screenshot({ path: path.join(directory, area.id + '-walking.png') });
     await page.locator('#playtest-return').click();
     console.info('Exploration: keyboard complete', area.id);
