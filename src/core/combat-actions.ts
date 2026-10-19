@@ -394,6 +394,8 @@ export class CombatActions {
       if (a.age >= tuning.ability.total - 1) this.start(a, 'idle');
     } else if (
       a.state === 'hurt' &&
+      // Stun expires at tick end; release its pose on that same tick.
+      (a.kind === 'hero' || a.stun <= 1) &&
       a.age >= (a.kind === 'hero' ? tuning.hurt.total : tuning.enemyHurt.total) - 1
     )
       this.start(a, 'idle', a.yaw);

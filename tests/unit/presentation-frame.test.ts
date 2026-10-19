@@ -965,10 +965,35 @@ test('supplied contact markers meet the damage tick, and interrupted formations 
   render();
   assert.ok(feedback.group.children.some((mesh) => mesh.name === 'combat-enemy-swing'));
   sim.start(enemy, 'hurt');
+  sim.tick += 12;
   render();
   assert.equal(
     feedback.group.children.filter((mesh) => mesh.name === 'combat-enemy-swing').length,
     0,
+  );
+  feedback.reset();
+  sim.start(sim.hero, 'ability');
+  sim.hero.age = tuning.ability.windup - 2;
+  render();
+  assert.ok(feedback.flareLight.power > 0);
+  sim.start(sim.hero, 'hurt');
+  sim.tick += 4;
+  render();
+  assert.equal(feedback.flareLight.power, 0, 'a skipped repaint cannot release a cancelled flash');
+  assert.equal(feedback.group.children.length, 0);
+
+  feedback.reset();
+  sim.startSword(sim.hero, 'sweep');
+  const attack = attackDefinition(sim.hero);
+  sim.hero.age = attack.windup - 3;
+  render();
+  while (sim.hero.age < attack.activeEnd) hub.publish(sim.step().events);
+  hub.publish(sim.step({ move: { x: 0, z: 0 }, aim: { x: 1, z: 0 }, actions: ['dodge'] }).events);
+  assert.equal(sim.hero.state, 'dodge');
+  render();
+  assert.ok(
+    feedback.group.children.some((mesh) => mesh.name === 'combat-sweep'),
+    'a resolved strike retains its aftermath when recovery cancels between repaints',
   );
   sim.start(sim.hero, 'idle');
   hub.publish([sim.emit(enemy, { kind: 'strike' })]);

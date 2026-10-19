@@ -16,6 +16,10 @@ Every supported player action should receive timely, perceivable acknowledgment 
 
 Reuse existing movement, action animation, focus/selection, cooldown indicators and status messages before adding effects. Make accepted, buffered and unavailable actions distinguishable where that affects the player's next decision; a queued attack must not look like an immediate hit or a rejected input like a successful cast. Unbound keys and noninteractive scenery require no response.
 
+While an action waits behind a committed action or hurt reaction, show a short Sword queued, Lantern queued or Dodge queued cue above the hero. Clear it on admission or cancellation and hide it during pause, loading, death or an adventure dialog. The aim marker also acknowledges a queued action; reduced motion uses a steady enlargement instead of a pulse. Action animation acknowledges admission, while cooldown rejection retains its brief failure message.
+
+Cancelled windups must not release an impact drawing or lantern flash when rendering skips past their expected contact time. A resolved strike or Flare retains its aftermath when recovery is cancelled before the next repaint.
+
 For delayed operations such as save/load, acknowledge pending work promptly, then communicate completion or failure without a success cue on failure. Pointer and keyboard interaction should communicate equivalent outcomes. Review combat polish and checkpoint flows against these expectations; this principle does not claim that every planned cue is already implemented or alter simulation timing.
 
 ## Damage types and Burn
@@ -29,6 +33,8 @@ Repeated Burn applications refresh one DoT without stacking or postponing its ne
 The lantern is a circular burst centered on the hero at impact. Mouse aim selects the supplied casting animation's facing, independently of targeting. Preserve obstruction and height checks; only enemies receive the burst, while crates retain their sword interaction.
 
 Start with a 3.25 m radius, a four-second cooldown beginning when casting starts, a 0.2-second visible lift, 16 initial Burn damage and half a second of stagger. Fire once when the lantern reaches its raised pose. Recovery becomes cancellable only after that pulse resolves. Keep gameplay and runtime animation timing together without regenerating the supplied artwork.
+
+An enemy's hurt animation spans the existing lantern stagger, returning to idle when that stagger releases. Do not show a ready idle pose during the remaining interruption window or extend the time before the enemy can act.
 
 These are playtest defaults, not balance approval. The burst creates room to reposition and supports a sword follow-up; damage over time does not repeatedly interrupt enemies. Use cooldown only, without consumable charges.
 

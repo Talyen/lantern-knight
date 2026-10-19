@@ -353,7 +353,13 @@ export class GamePresentation implements PresentationLifecycle {
     }
     this.renderer.setClearColor(this.background === 'light' ? 0xd1c9b4 : 0x151923);
     this.aim.visible = true;
-    this.aim.scale.setScalar(sim.hero.pendingAction ? 1.15 + Math.sin(sim.tick * 0.3) * 0.1 : 1);
+    this.aim.scale.setScalar(
+      sim.hero.pendingAction
+        ? this.reducedMotion
+          ? 1.2
+          : 1.15 + Math.sin(sim.tick * 0.3) * 0.1
+        : 1,
+    );
     (this.aim.material as T.MeshBasicMaterial).color.set(
       sim.hero.pendingAction ? 0xf2e4bb : 0xe5bd77,
     );

@@ -3,6 +3,7 @@ import { test, expect } from './fixtures';
 test('a mouse click on a nearby enemy torso directs the live lunge toward its feet', async ({
   page,
 }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/sandbox.html?scene=outdoor-fixture&automated');
   await page.waitForFunction(
     () => window.foundation?.ready && window.foundation.presentation.lookRenderer.ready,
@@ -33,4 +34,20 @@ test('a mouse click on a nearby enemy torso directs the live lunge toward its fe
     .poll(() => page.evaluate(() => window.foundation.sim.enemies[0]!.health), { timeout: 30000 })
     .toBe(24);
   expect(await page.evaluate(() => window.foundation.sim.hero.attackKind)).toBe('lunge');
+  const scales = await page.evaluate(() => {
+    const f = window.foundation;
+    f.pause(true);
+    f.editPreview((sim) => {
+      sim.hero.pendingAction = { kind: 'sword', yaw: 0 };
+    });
+    return [10, 15].map((tick) => {
+      f.editPreview((sim) => {
+        sim.tick = tick;
+      });
+      f.presentation.update(f.sim, 1, 0, f.sim.hero);
+      return f.presentation.aim.scale.x;
+    });
+  });
+  expect(scales[0]).toBeGreaterThan(1);
+  expect(scales[0]).toBe(scales[1]);
 });
