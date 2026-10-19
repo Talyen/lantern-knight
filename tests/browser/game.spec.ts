@@ -2,6 +2,10 @@ import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { clickCheckpointAction, loadCheckpoint, saveCheckpoint } from '../fixtures/input';
 import { test, expect } from './fixtures';
+
+// UI and input proofs retain CSS viewport geometry without full-resolution WebGL.
+// Explicit visual captures still use the native framebuffer size.
+test.use({ deviceScaleFactor: process.env.LANTERN_OPENING_CAPTURE_DIRECTORY ? 1 : 0.5 });
 test('main menu, game input, pause focus and current checkpoint reload', async ({ page }) => {
   // Startup, checkpoint loads and death recovery are distinct room operations.
   test.setTimeout(420_000);

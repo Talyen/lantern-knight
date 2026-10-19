@@ -5,6 +5,10 @@ import { test, expect } from './fixtures';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
 
+// UI and input proofs retain CSS viewport geometry without full-resolution WebGL.
+// Explicit visual captures still use the native framebuffer size.
+test.use({ deviceScaleFactor: process.env.LANTERN_OPENING_CAPTURE_DIRECTORY ? 1 : 0.5 });
+
 test('inventory compares replacements and upgrades keep selection and confirmation reachable', async ({
   page,
 }) => {
