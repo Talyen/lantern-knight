@@ -12,37 +12,50 @@ export type PreviewOptions = {
   scope: AssetScope;
   port: number;
   reuse?: boolean;
+  fallbackPort?: boolean;
   open?: boolean;
   demand?: boolean;
 };
 export async function openPreview(options: PreviewOptions) {
   if (!Number.isInteger(options.port) || options.port < 1 || options.port > 65535)
     throw new Error('Invalid preview port');
-  const origin = `http://127.0.0.1:${options.port}`;
+  let port = options.port;
+  let origin = `http://127.0.0.1:${port}`;
   const artifact =
     options.output === 'built' ? await verifyBuildIdentity({ target: 'web' }) : undefined;
   let workspace: AssetWorkspace | undefined;
   let owned: { close(): Promise<void> } | undefined;
   try {
     let existing: Response | undefined;
-    try {
-      existing = await fetch(origin + '/__lantern_identity', { signal: AbortSignal.timeout(1000) });
-    } catch (error) {
-      if ((error as Error).name === 'TimeoutError')
-        throw new Error('Preview port is occupied by an unresponsive server');
+    for (;;) {
+      let conflict: Error | undefined;
+      try {
+        existing = await fetch(origin + '/__lantern_identity', {
+          signal: AbortSignal.timeout(1000),
+        });
+      } catch (error) {
+        if ((error as Error).name === 'TimeoutError')
+          conflict = new Error('Preview port is occupied by an unresponsive server');
+      }
+      if (existing) {
+        if (!options.reuse) throw new Error('Preview port is already occupied');
+        const identity = await existing.json().catch(() => undefined);
+        if (
+          identity?.root !== (await fs.realpath(projectRoot)) ||
+          identity?.assets !==
+            (artifact?.assets.sha256 ?? (await workspaceIdentity(options.assets))) ||
+          identity?.target !== 'development' ||
+          (options.scope === 'authoring' && identity?.scope !== 'authoring')
+        )
+          conflict = new Error('Preview belongs to another checkout or asset identity');
+      }
+      if (!conflict) break;
+      if (!options.fallbackPort || port === 65535) throw conflict;
+      existing = undefined;
+      origin = `http://127.0.0.1:${++port}`;
     }
-    if (existing) {
-      if (!options.reuse) throw new Error('Preview port is already occupied');
-      const identity = await existing.json();
-      if (
-        identity.root !== (await fs.realpath(projectRoot)) ||
-        identity.assets !==
-          (artifact?.assets.sha256 ?? (await workspaceIdentity(options.assets))) ||
-        identity.target !== 'development' ||
-        (options.scope === 'authoring' && identity.scope !== 'authoring')
-      )
-        throw new Error('Preview belongs to another checkout or asset identity');
-    }
+    if (port !== options.port)
+      console.log(`Preview port ${options.port} is occupied or stale; using ${origin}`);
     if (!existing && !artifact)
       workspace = await openWorkspace(
         options.assets,
@@ -55,7 +68,7 @@ export async function openPreview(options: PreviewOptions) {
     // still exposes the requested experience while delivery resolves the full pin.
     if (workspace) workspace = { ...workspace, scope: options.scope };
     if (!existing && workspace) {
-      owned = await developmentServer(workspace, { port: options.port, open: options.open });
+      owned = await developmentServer(workspace, { port, open: options.open });
     } else if (!existing) {
       const identity = {
         root: await fs.realpath(projectRoot),
@@ -67,7 +80,7 @@ export async function openPreview(options: PreviewOptions) {
         root: projectRoot,
         publicDir: false,
         build: { outDir: 'dist' },
-        preview: { host: '127.0.0.1', port: options.port, strictPort: true },
+        preview: { host: '127.0.0.1', port, strictPort: true },
         plugins: [
           {
             name: 'lantern-built-identity',

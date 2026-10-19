@@ -18,18 +18,6 @@ export type CombatEffectBinding = {
   readonly tint?: number;
 };
 export const combatFeedback = {
-  sweep: {
-    asset: 'library-combat-shutter-cleave',
-    clip: 'show',
-    scale: 2.1,
-    height: 0.6,
-    forward: 0,
-    leadTicks: 6,
-    tailTicks: 18,
-    orient: true,
-    axisDegrees: 40,
-    attachment: 'sword',
-  },
   sweepEdge: {
     asset: 'library-sword_arc_02',
     clip: 'sword_arc_02',

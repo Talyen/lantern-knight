@@ -869,6 +869,7 @@ test('directional library trails use their authored world heading without a came
     const trail = feedback.group.children.find(
       (mesh) => mesh.userData.asset === feedbackSettings.sweepEdge.asset,
     );
+    assert.equal(feedback.group.children.length, 1, 'sweep plays only its directional arc');
     assert.equal(trail?.userData.clip, `sword_arc_02__d${String(direction * 45).padStart(3, '0')}`);
   }
 });
@@ -912,7 +913,7 @@ test('supplied contact markers meet the damage tick, and interrupted formations 
   const { sim, hub, feedback, presentation, render: renderActors, packs } = impactFixture(t);
   renderActors();
   const render = () => feedback.update(sim.view, 1, undefined, presentation.actors);
-  const pack = packs.get(feedbackSettings.sweep.asset)!;
+  const pack = packs.get(feedbackSettings.lunge.asset)!;
   const textures = [0, 1, 2].map(() => new CanvasTexture({} as HTMLCanvasElement));
   t.after(() => textures.forEach((texture) => texture.dispose()));
   pack.manifest.frames = textures.map((_, index) => ({
@@ -934,17 +935,16 @@ test('supplied contact markers meet the damage tick, and interrupted formations 
       loop: false,
     },
   };
-  sim.startSword(sim.hero, 'sweep');
-  sim.tick = 8;
-  sim.hero.age = 8;
+  sim.startSword(sim.hero, 'lunge');
+  const windup = attackDefinition(sim.hero).windup;
+  sim.tick = sim.hero.age = windup - 2;
   render();
   const effect = feedback.group.children.find(
-    (mesh) => mesh.userData.asset === feedbackSettings.sweep.asset,
+    (mesh) => mesh.userData.asset === feedbackSettings.lunge.asset,
   ) as Mesh<PlaneGeometry, MeshBasicMaterial>;
   assert.ok(effect);
   assert.equal(effect.material.map, textures[0]);
-  sim.tick = 11;
-  sim.hero.age = 11;
+  sim.tick = sim.hero.age = windup + 1;
   feedback.update(sim.view, 0.5, undefined, presentation.actors);
   assert.equal(effect.material.map, textures[0], 'the formation remains before the committed tick');
   feedback.update(sim.view, 1, undefined, presentation.actors);

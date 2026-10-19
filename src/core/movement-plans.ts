@@ -184,7 +184,7 @@ export class MovementPlans {
       this.plans.delete(a.id);
     const moved = Math.hypot(a.x - startX, a.z - startZ) > 1e-6;
     a.state = moved ? 'walk' : 'idle';
-    if (!moved) a.yaw = a.aim;
+    if (!moved && a.kind !== 'hero') a.yaw = a.aim;
     return moved;
   }
 }

@@ -12,7 +12,7 @@ For Game-only browser work, use `npm run dev -- --runtime`. This selects runtime
 
 `npm run desktop:dev` starts its own Vite server and watches Electron main/preload bundles. It requires an unused port; set `LANTERN_PREVIEW_PORT` if a browser preview already occupies the default. Renderer edits reload through Vite; main/preload edits restart the owned Electron process. `npm run desktop:dev -- --game` opens Game with runtime assets and Game-only navigation; the default developer views acquire the complete authoring workspace. Live Game keeps its separate preview save namespace. It does not build or package the application first. Close the command to release its server and asset lease.
 
-Lantern defaults to port 5174, including direct Vite launches. Use `-- --port 5175` for a browser worktree, or set `LANTERN_PREVIEW_PORT=5175` for browser and desktop commands. Ports are strict: an occupied port is never taken from another checkout.
+Lantern defaults to port 5174, including direct Vite launches. `npm run dev` and `npm run dev:preview` reuse a matching server or try subsequent ports when a stale or incompatible server occupies the default. They print the selected URL and leave existing servers running. Use `-- --port 5175` for a browser worktree, or set `LANTERN_PREVIEW_PORT=5175` for browser and desktop commands. Explicit ports, desktop launches and direct Vite launches remain strict.
 
 Development selects a checkout-local preparation when available, otherwise the immutable pin. `npm run dev -- --pinned` deliberately uses the pin. Assets are shared through an external bounded cache, so new worktrees do not copy artwork or need the source library.
 
