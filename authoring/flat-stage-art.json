@@ -94,6 +94,24 @@
       "type": "material",
       "projection": "top-down",
       "alphaRemap": null
+    },
+    {
+      "id": "ink-stage-gatherers-shelter",
+      "group": "clearing-rest-v1",
+      "file": "shelter.png",
+      "clip": "shelter",
+      "canvas": [
+        1448,
+        1086
+      ],
+      "anchor": [
+        760,
+        820
+      ],
+      "density": 350,
+      "type": "prop",
+      "projection": "painted-cutout",
+      "alphaRemap": null
     }
   ]
 }

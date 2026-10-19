@@ -13,6 +13,7 @@ export const assetCatalog: Readonly<Record<string, string>> = {
     [
       'ink-stage-chapel-exterior',
       'ink-stage-chapel-interior',
+      'ink-stage-gatherers-shelter',
       'ink-stage-earth',
       'ink-stage-road',
       'ink-stage-stone',

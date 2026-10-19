@@ -11,13 +11,12 @@ export async function prepare(context: PreparationContext, check = false) {
   const { write: output, pack } = preparationOutput(context, check);
   const { readAsset } = context;
 
-  const root = 'references/art/' + recipe.group;
-  const provenance = JSON.parse(await readAsset(root + '/provenance.json', 'utf8')) as {
-    selected: { id: string; nativeSha256: string; dimensions: number[] }[];
-  };
   const receipt = [];
-
   for (const r of recipe.frames) {
+    const root = 'references/art/' + (r.group ?? recipe.group);
+    const provenance = JSON.parse(await readAsset(root + '/provenance.json', 'utf8')) as {
+      selected: { id: string; nativeSha256: string; dimensions: number[] }[];
+    };
     const original = await readAsset(root + '/' + r.file),
       native = await sharp(original).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
     const record = provenance.selected.find((p) => p.id + '.png' === r.file);

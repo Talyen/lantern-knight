@@ -1,11 +1,11 @@
 {
   "schemaVersion": 4,
-  "sha256": "820cdf994f55241600dc03349a13964b59e2d17b977bfb5eafc1e81fd15c9585",
-  "inventorySha256": "820cdf994f55241600dc03349a13964b59e2d17b977bfb5eafc1e81fd15c9585",
-  "bytes": 24624037172,
-  "recipeSha256": "34737bbadceed1344acdb4312ddc5c77f1987405f802ea6a349126ac51f22a37",
+  "sha256": "05cdd33de477c9efb821bdc95db8a3c9a6cfc3f4468434e4031f0ad7b671beb2",
+  "inventorySha256": "05cdd33de477c9efb821bdc95db8a3c9a6cfc3f4468434e4031f0ad7b671beb2",
+  "bytes": 24647719629,
+  "recipeSha256": "bac99b39542873cdfd17cb26b89d5db8d6c0804a6db17b59a4f8681e6a530ac0",
   "preparation": {
-    "recipeSha256": "34737bbadceed1344acdb4312ddc5c77f1987405f802ea6a349126ac51f22a37",
+    "recipeSha256": "bac99b39542873cdfd17cb26b89d5db8d6c0804a6db17b59a4f8681e6a530ac0",
     "inputs": {
       "dependencies": "608f3b1374e4439465093f5bebc166f64c39ebebab013e563b1aea76b9ae85fc",
       "assets/audio-sources.json": "59b980676efdc04813e265465e727453d5abbcfa07ac8497de4ce298fc02e713",
@@ -30,10 +30,10 @@
       "assets/library-sources.json": "923b63c0dba83ffc69667dbc434808040e2d3074a3c309e68506852c6bd4d6f5",
       "assets/loading-sources.json": "c6328b90787a8f51146d0d54b62dc043565421cab27f2be4362cc615dc3a26a9",
       "assets/recipe.json": "84f4dc3bcbe0f5ba4f99ec8d9dbba4ac3820940574cafcda09da5e889ae19d0b",
-      "assets/sources.json": "55361c55d82803a51d2342f6b1cb9d783a097b31507eba226b825c59bd7190d5",
+      "assets/sources.json": "a9c6024844331d5a02d63e63e81fce53640566b14205defdeb5d58dab70b74f0",
       "authoring/actor-scale.json": "ca7f617192a31ca5664fcd0951004715c9414a684bbcd9e25d1b9c97da35a463",
       "authoring/chapel-art.json": "8188a48dd079a98396b5c66f6077674c249dc1ac015eb198556a0141397e0497",
-      "authoring/flat-stage-art.json": "ee632818909d76d66ed95be8cfa641f45d44d0beaea9f36c70b9e18217086bbc",
+      "authoring/flat-stage-art.json": "cbfd4b5f8d9ebab630d4f032252b0694d06c3f90065f3fb8f156b4fcd69b6c2e",
       "authoring/graveyard-art.json": "2da41d7a4d63682d1da7067d0de4b129161c9781f456190cdafd9f051341f290",
       "authoring/ground-overlays.json": "abff1893689e06397dd2d86b3fd85047189bffb965916aa9406206afdb8b3e64",
       "authoring/hero-actions.json": "2f73d4a03a565c5e5db181e00125114d0890ff8f692a5384ce2cafed6e4bbe38",
@@ -46,7 +46,7 @@
       "src/assets/normal-pixels.ts": "8507675392974e35711bb16a3029102b2f2ba118dda2741575d8f8220924f79e",
       "src/assets/registration.ts": "b0e0ce58778ac0fe8ce5cc5383da958fffb5d8d8342ca19947d21bc45568bd63",
       "src/assets/schema.ts": "e53be892dbcde6af4aa210220f086785af5bacfa424fa501f3096ec09a58d599",
-      "src/content/asset-catalog.ts": "94801d13c8efea3c776ce1eb2f67c7c923c879a6ace2c93e2cb13758e4eb6b36",
+      "src/content/asset-catalog.ts": "3ff02f13d63923a66d4c18044df8593d4a4901664f5f8f1b2808f07c4161b80e",
       "src/content/effects-playground-assets.ts": "f370f71b4199a37f39b9803b0c50342584422d433bac0f22ad479ef794fd5297",
       "src/content/graveyard-registration.ts": "55a5219a7be91e8e195413974155a6777da6bc492d168ee333879505b0a5693b",
       "src/content/hero-actions.ts": "91f492a63b11c3c558ef9b3b70d5a78bf4039aa5172d62821845105f9583e42a",
@@ -84,7 +84,7 @@
       "tools/assets/prepare/prepare-audio.ts": "f117640cc8e4ffd464feabca7e944355a1b3976d9865906cecea4abfba7db949",
       "tools/assets/prepare/prepare-churchyard-kit.ts": "76f34731c8aef87bca99398bfff73666ac3f5907d0bc617a47b28665543faf97",
       "tools/assets/prepare/prepare-effects-playground.ts": "1a8981fb69f81969e0791c2758719ec62e39c64cd71e01d5c9992243f1ae3e99",
-      "tools/assets/prepare/prepare-flat-stage.ts": "62820cbb9f7a514031fc03744331bb6c0e2fb32097406aa98bad0e7d9b877e6d",
+      "tools/assets/prepare/prepare-flat-stage.ts": "8bf22fdfa64cc1b840a4b73f814f6ac7b3d4302f68037ef0eed9820543b146db",
       "tools/assets/prepare/prepare-graveyard-art.ts": "1e34eff98978526ae2b809a540e3e260825cd6d514fa28494a7d0ba2aa67c37c",
       "tools/assets/prepare/prepare-graveyard-coverage.ts": "767700daf931001eba8203c5b489305b35c451340fc9d2c6bce4b5ed295eb20e",
       "tools/assets/prepare/prepare-graveyard-ground.ts": "c5f050a31dfc9d15c1f88505a29e02b8645d106b376566af48114336c8b16f69",
@@ -106,12 +106,12 @@
       "tools/compiler.ts": "169f3afd8b34452dc4dab930b99389cc0ea7a5598b0068602a07f9ec7e5c5589",
       "tools/lighting-bindings.ts": "fc0212029302de66c1f78998347d174156246d16641ae930ff5774affd42cb8f"
     },
-    "payloadSha256": "366b5697e1dea1f9bac215a4b7927f8a43480732a7ade75264dacb9105651129"
+    "payloadSha256": "f1d2338c8b91b8e09e025307f0ebec5f98b1c7ff0aaa7a163a1f90ed36ee7d7a"
   },
   "fileDelivery": {
-    "releaseTag": "assets-catalog-e983d18974569120",
+    "releaseTag": "assets-catalog-aa574a269832c488",
     "filename": "files.json.gz",
-    "sha256": "e983d18974569120c79a8bec66a4224d37a163327c459c91682ad0bb9803b7af",
-    "bytes": 10670296
+    "sha256": "aa574a269832c4883d6397b25127a6c7df04f5f2297f194ae9a4fe60a53dfe72",
+    "bytes": 10710159
   }
 }

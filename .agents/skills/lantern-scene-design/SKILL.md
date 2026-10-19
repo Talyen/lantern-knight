@@ -7,6 +7,8 @@ description: Place props and enemies coherently in Lantern Knight production sce
 
 Read [scene design](../../../docs/scene-design.md), the relevant [scene brief](../../../authoring/scenes/README.md), and the project's artwork instructions. Existing source paintings establish the landmarks, paths and perspective. Technical acceptance does not establish good composition.
 
+Inspect a few strong shipped-game screenshots or environment concepts before rebuilding a weak scene. Identify concrete relationships to borrow: a shelter enclosing a working area, supplies nested under its roof, an open standing apron, and a quiet route toward the next landmark. Keep Lantern's own artwork style. Build the large spatial arrangement first; commission a coherent scene-specific assembly when the available small props cannot establish the intended place. Review the complete arrival frame and reachable gameplay approaches against those references. Record the resulting example in the scene brief; numerical self-ratings do not establish visual quality.
+
 ## Compose from the painting
 
 Inspect a clean overview and gameplay-camera views with the hero visible before editing. Identify the route, working areas, focal landmark, approach to each encounter and retreat space. Separate scenery already painted into the floor from independent objects. Do not infer an empty placement area from coordinates or collision masks alone.
@@ -14,6 +16,8 @@ Inspect a clean overview and gameplay-camera views with the hero visible before 
 For each group, decide who used it, what they were doing and why it belongs beside that particular landmark. Put supplies where someone could reach and use them. Compose a primary object and related supporting objects with useful gaps; inspect repeated silhouettes, accidental tangencies and whether the group competes with the painting. Leave quiet ground between meaningful groups. These are starting hypotheses, not a mandatory object count or universal clustering recipe.
 
 Calibrate size beside the hero and painted human-scale landmarks. Inspect full drawings, opened/broken states and all relevant enemy facings. Read painted paths visually and keep complete object silhouettes off them. Check footing, occlusion and grounding in the renderer. Avoid enlarging a prop merely to make it noticeable.
+
+Walk around a new group's usable apron in the actual playtest. Existing ground annotations can omit the top of a painted ledge even when every placed root passes validation. Correct scene collision where the new route exposes that omission, then inspect the moving hero beside the artwork again.
 
 The painting-envelope checks do not prevent a guard or another prop from hiding a container. Review overlaps between independent objects in the actual approach view, including enemy poses and opened lids; every gameplay target needs a readable silhouette and an accessible front.
 
