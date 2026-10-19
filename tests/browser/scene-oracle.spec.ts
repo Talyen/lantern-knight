@@ -86,7 +86,7 @@ test('forge Oracle renders its locked warning, contact and cancellation from sim
     );
     throw error;
   }
-  await page.evaluate(() => {
+  const target = await page.evaluate(() => {
     const f = window.foundation;
     f.mode('encounter');
     f.pause(true);
@@ -98,77 +98,95 @@ test('forge Oracle renders its locked warning, contact and cancellation from sim
         .forEach((a) => {
           a.health = 0;
         });
-      Object.assign(sim.hero, { x: 3, px: 3, z: 4, pz: 4, health: 100 });
+      Object.assign(sim.hero, { x: 3, px: 3, z: 4, pz: 4, health: 100, stun: 0 });
+      sim.start(sim.hero, 'idle');
+      const oracle = sim.enemies.find((a) => a.definition.id === 'candlebone-oracle')!;
+      oracle.cooldown = oracle.stun = 0;
+      sim.start(oracle, 'idle');
       sim.step();
+      if (sim.ribLanes.length !== 1) throw new Error('Expected a fresh courtyard cast');
     });
-    f.presentation.update(f.sim, 1, 0, { x: 3, z: 4 });
+    f.presentation.update(f.sim, 1, 0, f.sim.hero);
+    return { x: f.sim.hero.x, z: f.sim.hero.z };
   });
   await page.getByRole('button', { name: 'More options', exact: true }).click();
   await page.getByRole('button', { name: 'Hide controls', exact: true }).click();
   for (const stage of ['warning', 'contact', 'cancelled'] as const) {
-    const observed = await page.evaluate((stage) => {
-      const f = window.foundation;
-      f.editPreview((sim) => {
-        const oracle = sim.enemies.find((a) => a.definition.id === 'candlebone-oracle')!;
-        const targetAge = stage === 'warning' ? 45 : stage === 'contact' ? 64 : 65;
-        while (oracle.age < targetAge) {
-          const result = sim.step();
-          f.presentation.events.publish(result.events);
-        }
-        if (stage === 'cancelled') sim.damage(sim.hero, oracle, 1);
-      });
-      f.presentation.update(f.sim, 1, 0, { x: 3, z: 4 });
-      const mesh = f.presentation.combatFeedback.group.children.find(
-        (c) => c.name === 'combat-rib-lane',
-      );
-      return {
-        health: f.sim.hero.health,
-        lanes: f.sim.ribLanes.length,
-        effect: mesh?.visible ?? false,
-        registration: mesh?.userData,
-        swordSwing: f.presentation.combatFeedback.group.children.some(
-          (c) => c.name === 'combat-enemy-swing',
-        ),
-        error: f.presentation.renderer.getContext().getError(),
-      };
-    }, stage);
+    const observed = await page.evaluate(
+      ({ stage, target }) => {
+        const f = window.foundation;
+        f.editPreview((sim) => {
+          const oracle = sim.enemies.find((a) => a.definition.id === 'candlebone-oracle')!;
+          const targetAge = stage === 'warning' ? 45 : stage === 'contact' ? 64 : 65;
+          while (oracle.age < targetAge) {
+            const result = sim.step();
+            f.presentation.events.publish(result.events);
+          }
+          if (stage === 'cancelled') sim.damage(sim.hero, oracle, 1);
+        });
+        f.presentation.update(f.sim, 1, 0, target);
+        const mesh = f.presentation.combatFeedback.group.children.find(
+          (c) => c.name === 'combat-rib-lane',
+        );
+        return {
+          health: f.sim.hero.health,
+          lanes: f.sim.ribLanes.length,
+          effect: mesh?.visible ?? false,
+          registration: mesh?.userData,
+          swordSwing: f.presentation.combatFeedback.group.children.some(
+            (c) => c.name === 'combat-enemy-swing',
+          ),
+          error: f.presentation.renderer.getContext().getError(),
+        };
+      },
+      { stage, target },
+    );
     expect(observed.error).toBe(0);
     expect(observed.swordSwing).toBe(false);
     expect(observed.health).toBe(stage === 'warning' ? 100 : 86);
     expect(observed.lanes).toBe(stage === 'cancelled' ? 0 : 1);
     expect(observed.effect).toBe(stage !== 'cancelled');
     if (stage !== 'cancelled')
-      expect(observed.registration).toMatchObject({ x: 3, z: 4, length: 4, width: 0.8 });
+      expect(observed.registration).toMatchObject({ ...target, length: 4, width: 0.8 });
     if (directory)
       await page.screenshot({ path: path.join(directory, `forge-oracle-${stage}.png`) });
   }
-  const escaped = await page.evaluate(() => {
+  const escaped = await page.evaluate((target) => {
     const f = window.foundation;
     f.presentation.combatFeedback.reset();
     f.editPreview((sim) => {
       const oracle = sim.enemies.find((a) => a.definition.id === 'candlebone-oracle')!;
-      Object.assign(sim.hero, { x: 3, px: 3, z: 4, pz: 4, health: 100 });
+      Object.assign(sim.hero, {
+        x: target.x,
+        px: target.x,
+        z: target.z,
+        pz: target.z,
+        health: 100,
+      });
       sim.start(sim.hero, 'idle');
-      oracle.cooldown = 0;
+      oracle.cooldown = oracle.stun = 0;
       sim.start(oracle, 'idle');
       sim.step();
       if (sim.ribLanes.length !== 1) throw new Error('Expected a fresh courtyard cast');
       while (oracle.age < 64)
         f.presentation.events.publish(
-          sim.step({ move: { x: 1, z: 0 }, aim: { x: 6, z: 4 } }).events,
+          sim.step({
+            move: { x: sim.hero.x < target.x + 1.1 ? 1 : 0, z: 0 },
+            aim: { x: target.x + 3, z: target.z },
+          }).events,
         );
     });
-    f.presentation.update(f.sim, 1, 0, { x: 6, z: 4 });
+    f.presentation.update(f.sim, 1, 0, { x: target.x + 3, z: target.z });
     return {
       health: f.sim.hero.health,
       x: f.sim.hero.x,
       locked: f.sim.ribLanes[0],
       error: f.presentation.renderer.getContext().getError(),
     };
-  });
+  }, target);
   expect(escaped.health).toBe(100);
-  expect(escaped.x).toBeGreaterThan(4);
-  expect(escaped.locked).toMatchObject({ x: 3, z: 4 });
+  expect(escaped.x).toBeGreaterThan(target.x + 1);
+  expect(escaped.locked).toMatchObject(target);
   expect(escaped.error).toBe(0);
   if (directory) await page.screenshot({ path: path.join(directory, 'forge-oracle-escaped.png') });
   await page.evaluate(() => {

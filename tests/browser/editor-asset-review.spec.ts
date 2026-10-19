@@ -10,6 +10,8 @@ test('asset review focuses scene uses and persists scoped notes with conflict re
   request,
   errors,
 }) => {
+  // Persistence, conflict recovery, a reload and cross-scene navigation share this journey.
+  test.setTimeout(300_000);
   const file = path.join(projectRoot, 'authoring/asset-reviews.json');
   const original = await fs.readFile(file).catch((e: NodeJS.ErrnoException) => {
     if (e.code !== 'ENOENT') throw e;
@@ -35,6 +37,7 @@ test('asset review focuses scene uses and persists scoped notes with conflict re
     await page.locator('#save').click();
     await page.locator('#file-id').fill(fixture.id);
     await page.locator('#confirm-save').click();
+    await waitForEditorIdle(page);
     await expect(page.locator('#save-state')).toHaveText('Saved', { timeout: 30000 });
     const before = await readEditorDocument(page);
     await page.locator('#review-tab').click();

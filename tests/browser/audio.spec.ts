@@ -1,3 +1,5 @@
+import { content } from '../../src/content/game-content';
+import { GameSession } from '../../src/core/session';
 import { activateWithKeyboard, expectPageValue, test, expect } from './fixtures';
 
 test.beforeEach(async ({ page }) => {
@@ -71,24 +73,25 @@ test('Game starts localized ambience and decodes every prepared sample', async (
   page.on('request', (request) => {
     if (/\/audio\//.test(request.url())) requested.push(request.url());
   });
+  // Audio admission needs a listener in range, independent of rendered walking cadence.
+  const session = new GameSession(content, 142);
+  const fire = session.sim.areaDefinition.campfires![0]!;
+  Object.assign(session.sim.hero, { x: fire.x, z: fire.z });
+  const profile = process.env.LANTERN_TEST_BUILT === 'true' ? 'game' : 'preview';
+  await page.addInitScript(({ key, save }) => localStorage.setItem(key, JSON.stringify(save)), {
+    key: `lantern-prototype-${profile}-game`,
+    save: session.captureSave(),
+  });
   await page.goto('/index.html');
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
   );
   await page.locator('#menu-start').click();
-  // The quiet entrance starts outside the localized campfire's audible reach.
-  // Approach through the open path before expecting its loop to begin.
-  await page.locator('canvas').focus();
-  await page.keyboard.down('KeyW');
-  try {
-    await expectPageValue(
-      page,
-      () => (window as unknown as { audioProbe: { loopStarts: number } }).audioProbe.loopStarts,
-      { timeout: 30_000 },
-    ).toBeGreaterThan(0);
-  } finally {
-    await page.keyboard.up('KeyW');
-  }
+  await expectPageValue(
+    page,
+    () => (window as unknown as { audioProbe: { loopStarts: number } }).audioProbe.loopStarts,
+    { timeout: 30_000 },
+  ).toBeGreaterThan(0);
   await expectPageValue(
     page,
     () => (window as unknown as { audioProbe: { starts: number } }).audioProbe.starts,

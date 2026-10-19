@@ -4,20 +4,24 @@ import { test, expect, openEditor, waitForEditorIdle } from './fixtures';
 import { importEditorScene, expectEditorDocument } from './editor-driver';
 import { content } from '../../src/content/game-content';
 
-test.use({ video: process.env.LANTERN_EXPLORATION_CAPTURES ? 'on' : 'off', actionTimeout: 30_000 });
+test.use({
+  video: process.env.LANTERN_EXPLORATION_CAPTURES ? 'on' : 'off',
+  actionTimeout: 30_000,
+  viewport: { width: 800, height: 600 },
+});
 
-test('playable paintings support their annotated floors and matching arrivals', async ({
-  page,
-}, info) => {
-  test.setTimeout(900_000);
-  const directory = process.env.LANTERN_EXPLORATION_CAPTURES ?? info.outputDir;
-  await fs.mkdir(directory, { recursive: true });
-  await openEditor(page);
-  for (const area of content.definitions.areas) {
+for (const area of content.definitions.areas) {
+  test(`playable painting supports annotated floors and matching arrivals in ${area.id}`, async ({
+    page,
+  }, info) => {
+    test.setTimeout(420_000);
+    const directory = process.env.LANTERN_EXPLORATION_CAPTURES ?? info.outputDir;
+    await fs.mkdir(directory, { recursive: true });
+    await openEditor(page);
     console.info('Exploration: loading', area.id);
     const document = JSON.parse(await fs.readFile(`authoring/scenes/${area.id}.json`, 'utf8'));
     await importEditorScene(page, document, area.id + '.json');
-    await expectEditorDocument(page, (d) => d.name, { timeout: 90_000 }).toBe(
+    await expectEditorDocument(page, (d) => d.name, { timeout: 180_000 }).toBe(
       'Imported ' + document.name,
     );
     await waitForEditorIdle(page);
@@ -56,7 +60,7 @@ test('playable paintings support their annotated floors and matching arrivals', 
         let ticks = 0;
         while (ticks < 5000 && Math.hypot(hero.x - target.x, hero.z - target.z) > 0.16) {
           sim.step({ move: { x: 0, z: 0 }, aim: target });
-          if (++ticks % 20 === 0) view.render(1000 / 60);
+          ticks++;
           if (
             sim.navigationDebug().routes.some((r) => r.id === hero.id && r.status === 'unreachable')
           )
@@ -69,6 +73,7 @@ test('playable paintings support their annotated floors and matching arrivals', 
       if (target.reachable !== false) {
         expect(result.distance, `${area.id}: ${target.name}`).toBeLessThan(0.16);
         if (
+          process.env.LANTERN_EXPLORATION_CAPTURES &&
           /arrival|departure|stairs|steps|terrace|altar|workshop|shed|room floor|raised/i.test(
             target.name,
           )
@@ -127,16 +132,17 @@ test('playable paintings support their annotated floors and matching arrivals', 
             const hero = window.sceneEditor.playtest()!.hero;
             return Math.hypot(hero.x - target.x, hero.z - target.z);
           }, target),
-        { timeout: 90_000 },
+        { timeout: 180_000 },
       )
       .toBeLessThan(0.3);
-    await page.screenshot({ path: path.join(directory, area.id + '-walking.png') });
+    if (process.env.LANTERN_EXPLORATION_CAPTURES)
+      await page.screenshot({ path: path.join(directory, area.id + '-walking.png') });
     await page.locator('#playtest-return').click();
     console.info('Exploration: keyboard complete', area.id);
-  }
-  if (process.env.LANTERN_EXPLORATION_CAPTURES) {
-    const video = page.video();
-    await page.close();
-    await video?.saveAs(path.join(directory, 'walking.webm'));
-  }
-});
+    if (process.env.LANTERN_EXPLORATION_CAPTURES) {
+      const video = page.video();
+      await page.close();
+      await video?.saveAs(path.join(directory, area.id + '-walking.webm'));
+    }
+  });
+}

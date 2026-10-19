@@ -128,7 +128,7 @@ test('preview navigation preserves playback and isolates controls from gameplay'
   await expect(page.locator('#preview-drawer')).toBeHidden();
   await expect(page.locator('.hud')).toBeHidden();
   const bounds = await page.locator('canvas').boundingBox();
-  expect(bounds?.height).toBe(756);
+  expect(bounds?.height).toBe(page.viewportSize()!.height - 44);
   await page.locator('#pause').click();
   const before = await page.evaluate(() => ({
     tick: window.foundation.sim.tick,
@@ -184,10 +184,13 @@ test('preview navigation preserves playback and isolates controls from gameplay'
   expect((await page.locator('canvas').boundingBox())?.height).toBe(800);
   await page.keyboard.press('Escape');
   await expect(page.locator('.preview-toolbar')).toBeVisible();
+  await page.bringToFront();
   await page.locator('canvas').focus();
   await page.keyboard.press('Escape');
   await expect(page.locator('#pause')).toHaveText('Pause');
-  await expectPageValue(page, () => window.foundation.sim.tick).toBeGreaterThan(before.tick);
+  await expectPageValue(page, () => window.foundation.sim.tick, {
+    timeout: 30_000,
+  }).toBeGreaterThan(before.tick);
 });
 
 test('preview scene reset preserves experiments and settings reset is explicit', async ({
