@@ -79,7 +79,7 @@ vec3 spriteAlphasAt(vec2 offset){
   }
 #endif
   vec2 p=vMapUv+offset;
-  if(any(lessThan(p,spriteOutlineRect.xy))||any(greaterThan(p,spriteOutlineRect.zw)))return vec3(0.);
+  if(any(lessThan(p,spriteOutlineRect.xy))||any(greaterThanEqual(p,spriteOutlineRect.zw)))return vec3(0.);
   return vec3(vec2(texture2D(map,p).a),0.);
 }
 #endif
