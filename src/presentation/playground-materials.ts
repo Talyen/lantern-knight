@@ -124,7 +124,7 @@ export class SilhouetteOutline {
         pad: { value: 0 },
         uvPad: { value: new T.Vector2() },
         depthSlope: { value: 0 },
-        tint: { value: new T.Color(0x29343b) },
+        tint: { value: new T.Color(0x242424) },
         opacity: { value: 0.25 },
         style: { value: 0 },
       },
@@ -146,8 +146,8 @@ export class SilhouetteOutline {
       float alpha=edge*(1.-a(vUV));
       if(alpha<.01)discard;
       vec3 color=tint;
-      if(style>.5&&style<1.5)color=mix(vec3(.82,.72,.52),tint,inner);
-      if(style>1.5){color=mix(vec3(.035,.055,.08),tint,smoothstep(.1,.8,lit));alpha*=mix(.3,1.,lit);}
+      if(style>.5&&style<1.5)color=mix(vec3(.35),tint,inner);
+      if(style>1.5){color=mix(vec3(.035),tint,smoothstep(.1,.8,lit));alpha*=mix(.3,1.,lit);}
       gl_FragColor=vec4(color,alpha*opacity);
       #include <tonemapping_fragment>
       #include <colorspace_fragment>
@@ -157,7 +157,7 @@ export class SilhouetteOutline {
     this.mesh.frustumCulled = false;
   }
   update(worldPad: number, settings: OutlineSettings) {
-    const pad = worldPad / this.source.scale.x;
+    const pad = worldPad / Math.abs(this.source.scale.x);
     const positions = this.source.geometry.getAttribute('position');
     const depthSlope =
       (positions.getZ(0) - positions.getZ(2)) / (positions.getY(0) - positions.getY(2));
