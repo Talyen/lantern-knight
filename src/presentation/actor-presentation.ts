@@ -2,7 +2,8 @@ import { footstepClip } from '../content/footsteps';
 import { heroTravelClip, isHeroLocomotion } from '../content/hero-locomotion';
 import { cleanupAll, cleanupAfterFailure, DisposalScope } from '../assets/cleanup';
 import * as T from 'three';
-import { contactShadowMaterial } from './contact-shadows';
+import { actorContactGeometry, contactShadowMaterial, poseActorContact } from './contact-shadows';
+import { actorContactPatches } from './contact-profiles';
 import { selectDirection, selectAuthoredDirection, HEADINGS } from '../content/headings';
 import { retimeLanternClip } from './lantern-timing';
 import { retimeSweepClip } from './sweep-timing';
@@ -82,9 +83,10 @@ export class ActorPresentation {
       sprite.mesh.scale.setScalar(binding.scale ?? 1);
       const shadow = new T.Mesh(
         resources.own(
-          new T.PlaneGeometry(
+          actorContactGeometry(
             sprite.manifest.asset.shadow.radius * 1.5,
             sprite.manifest.asset.shadow.radius * 1.1,
+            actorContactPatches(sprite) !== undefined,
           ),
         ),
         resources.own(
@@ -362,8 +364,11 @@ export class ActorPresentation {
       this.groundNormal.set(-gradient.x, 1, -gradient.z).normalize();
       v.shadow.quaternion.setFromUnitVectors(this.planeNormal, this.groundNormal);
       v.ring.quaternion.copy(v.shadow.quaternion);
+      poseActorContact(v.shadow, v.sprite, this.groundNormal);
       v.shadow.position.set(foot.x, foot.y + 0.03, foot.z);
-      v.shadow.visible = a.health > 0;
+      v.shadow.visible = v.sprite.mesh.visible;
+      v.shadow.material.opacity =
+        Math.min(1, v.sprite.manifest.asset.shadow.opacity * 1.5) * v.sprite.material.opacity;
       v.ring.position.set(foot.x, foot.y + 0.035, foot.z);
       v.ring.visible = options.debug || winding || !!a.burn;
       v.ring.scale.setScalar(winding ? 1.65 - 0.55 * charge * charge : 1);

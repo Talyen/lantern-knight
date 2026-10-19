@@ -2,6 +2,267 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { test, expect } from './fixtures';
 import { clickCheckpointAction, loadCheckpoint } from '../fixtures/input';
+import { sourceIdentity } from '../../tools/source-identity';
+import os from 'node:os';
+
+test('requested contact shadow prototype comparison', async ({ page, context, request }) => {
+  const directory = process.env.LANTERN_CONTACT_STUDY,
+    baseline = process.env.LANTERN_CONTACT_BASELINE;
+  test.skip(!directory || !baseline, 'Explicit two-checkout contact-shadow review only');
+  test.setTimeout(300_000);
+  const beforePage = await context.newPage(),
+    identity = await (await request.get('/__lantern_identity')).json(),
+    beforeIdentity = await (await request.get(baseline + '/__lantern_identity')).json();
+  expect(beforeIdentity.assets).toBe(identity.assets);
+  const sources = await Promise.all([
+    sourceIdentity(beforeIdentity.root),
+    sourceIdentity(identity.root),
+  ]);
+  const errors: string[] = [];
+  beforePage.on('pageerror', (e) => errors.push(e.message));
+  beforePage.on('console', (m) => {
+    if (m.type() === 'error') errors.push(m.text());
+  });
+  await mkdir(directory!, { recursive: true });
+  for (const [target, origin] of [
+    [beforePage, baseline!],
+    [page, ''],
+  ] as const) {
+    await target.goto(origin + '/sandbox.html?scene=forge-fixture');
+    await target.waitForFunction(() => window.foundation?.ready);
+    await target.evaluate(() => {
+      const f = window.foundation,
+        p = f.presentation;
+      f.pause(true);
+      f.editPreview((sim) => {
+        Object.assign(sim.hero, {
+          x: 4.3,
+          px: 4.3,
+          z: 1.4,
+          pz: 1.4,
+          yaw: Math.PI / 4,
+          state: 'idle',
+          age: 0,
+        });
+        for (const actor of sim.enemies) {
+          const spawn = sim.areaDefinition.spawns.find((s) => actor.id.endsWith(s.id))!;
+          Object.assign(actor, {
+            x: spawn.x,
+            px: spawn.x,
+            z: spawn.z,
+            pz: spawn.z,
+            state: 'idle',
+            age: 0,
+          });
+        }
+      });
+      p.debug = false;
+      p.beforeSceneRender = () => {
+        p.aim.visible = false;
+      };
+      p.lookRenderer.setSettings({
+        rig: 'lantern',
+        tightContacts: true,
+        paintedValues: true,
+        paintedFinish: true,
+        groundBounce: true,
+      });
+      p.update(f.sim, 1, 0, f.sim.hero);
+      for (const visual of p.actorPresentation.actors.values()) visual.sprite.animator.seek(0);
+      p.update(f.sim, 1, 0, f.sim.hero);
+    });
+  }
+  const samples: {
+    pair: number;
+    after: boolean;
+    frames: number[];
+    gpu: unknown;
+    buffer: unknown;
+    settings: unknown;
+    error: number;
+  }[] = [];
+  const measure = async (target: typeof page) => {
+    await target.bringToFront();
+    const sample = await target.evaluate(() => {
+      const f = window.foundation,
+        p = f.presentation,
+        gl = p.renderer.getContext(),
+        render = () => p.update(f.sim, 1, 0, f.sim.hero);
+      for (let i = 0; i < 30; i++) render();
+      gl.finish();
+      const frames = [];
+      for (let i = 0; i < 40; i++) {
+        const start = performance.now();
+        render();
+        gl.finish();
+        frames.push(performance.now() - start);
+      }
+      return {
+        frames,
+        gpu: p.stats().gpu,
+        buffer: p.stats().buffer,
+        settings: p.lookRenderer.settings,
+        error: gl.getError(),
+      };
+    });
+    expect(sample.error).toBe(0);
+    expect(sample.gpu).not.toMatch(/swiftshader|software|unavailable/i);
+    return sample;
+  };
+  for (let pair = 0; pair < 5; pair++)
+    for (const after of pair % 2 ? [true, false] : [false, true])
+      samples.push({ pair, after, ...(await measure(after ? page : beforePage)) });
+  // A second control keeps the GPU context and allocations fixed. Only the
+  // reviewed contacts inspect the hash each frame. Borrow shallow manifest
+  // copies for the control; pack manifests and source files stay immutable.
+  const baselineMatrices = await beforePage.evaluate(() =>
+    Array.from(
+      window.foundation.presentation.roomPresentation.inkRoom!.contactShadows!.mesh.instanceMatrix
+        .array,
+    ),
+  );
+  const original = await page.evaluate(() => {
+    const p = window.foundation.presentation,
+      batch = p.roomPresentation.inkRoom!.contactShadows!.mesh;
+    return {
+      matrices: Array.from(batch.instanceMatrix.array),
+      boxes: Array.from(batch.geometry.getAttribute('contactBox').array),
+    };
+  });
+  const sameContext = [];
+  for (let pair = 0; pair < 5; pair++)
+    for (const after of pair % 2 ? [true, false] : [false, true]) {
+      await page.evaluate(
+        ({ after, original, baselineMatrices }) => {
+          const p = window.foundation.presentation,
+            batch = p.roomPresentation.inkRoom!.contactShadows!.mesh;
+          [...p.actorPresentation.actors.values()].forEach((v) => {
+            const manifest = p.packs.get(v.sprite.manifest.asset.id)!.manifest;
+            v.sprite.manifest = after ? manifest : { ...manifest, hash: '0'.repeat(64) };
+          });
+          batch.instanceMatrix.array.set(after ? original.matrices : baselineMatrices);
+          batch.instanceMatrix.needsUpdate = true;
+          const boxes = batch.geometry.getAttribute('contactBox');
+          for (let i = 0; i < boxes.count; i++) boxes.setX(i, after ? original.boxes[i]! : 0);
+          boxes.needsUpdate = true;
+        },
+        { after, original, baselineMatrices },
+      );
+      sameContext.push({ pair, after, ...(await measure(page)) });
+    }
+  const profiles = [];
+  for (const [target, label] of [
+    [beforePage, 'before'],
+    [page, 'after'],
+  ] as const) {
+    await target.bringToFront();
+    const profile = await target.evaluate(async () => {
+      const f = window.foundation,
+        p = f.presentation,
+        gl = p.renderer.getContext();
+      p.lookRenderer.setProfiling(true);
+      for (let i = 0; i < 30; i++) {
+        p.update(f.sim, 1, 0, f.sim.hero);
+        gl.finish();
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      }
+      const result = {
+        cost: p.lookRenderer.stats().frameCost,
+        memory: p.renderer.info.memory,
+        stats: p.stats(),
+        poses: [...p.actorPresentation.actors.values()].map((v) => ({
+          frame: v.sprite.animator.frame,
+          position: v.sprite.mesh.position.toArray(),
+        })),
+      };
+      p.lookRenderer.setProfiling(false);
+      return result;
+    });
+    profiles.push(profile);
+    await target.getByRole('button', { name: 'More options', exact: true }).click();
+    await target.getByRole('button', { name: 'Hide controls', exact: true }).click();
+    await target.screenshot({ path: path.join(directory!, label + '.png') });
+    for (let heading = 0; heading < 8; heading++) {
+      await target.evaluate((heading) => {
+        const f = window.foundation;
+        f.editPreview((sim) => {
+          sim.hero.yaw = (heading * Math.PI) / 4;
+        });
+        f.presentation.update(f.sim, 1, 0, f.sim.hero);
+      }, heading);
+      await target.screenshot({ path: path.join(directory!, `${label}-heading-${heading}.png`) });
+    }
+    await target.evaluate(() => {
+      const f = window.foundation;
+      f.editPreview((sim) => {
+        sim.hero.yaw = Math.PI / 4;
+        sim.claimedObjects.add('forge-tool-chest');
+      });
+      f.presentation.update(f.sim, 1, 0, f.sim.hero);
+    });
+    await target.screenshot({ path: path.join(directory!, label + '-toolbox-open.png') });
+    for (const age of [1, 24, 60]) {
+      await target.evaluate((age) => {
+        const f = window.foundation;
+        f.editPreview((sim) => {
+          const actor = sim.enemies
+            .filter((a) => a.definition.visual === 'ossuary-thrall')
+            .sort(
+              (a, b) =>
+                Math.hypot(a.x - sim.hero.x, a.z - sim.hero.z) -
+                Math.hypot(b.x - sim.hero.x, b.z - sim.hero.z),
+            )[0]!;
+          actor.health = 0;
+          actor.state = 'death';
+          actor.age = age;
+        });
+        f.presentation.update(f.sim, 1, 0, f.sim.hero);
+      }, age);
+      await target.screenshot({ path: path.join(directory!, `${label}-death-${age}.png`) });
+    }
+  }
+  expect(profiles[1]!.poses).toEqual(profiles[0]!.poses);
+  expect(profiles[1]!.cost.calls).toBe(profiles[0]!.cost.calls);
+  expect(profiles[1]!.cost.triangles - profiles[0]!.cost.triangles).toBeLessThanOrEqual(
+    2 * profiles[1]!.poses.length,
+  );
+  expect(profiles[1]!.memory).toEqual(profiles[0]!.memory);
+  expect(
+    samples.every(
+      (s) =>
+        JSON.stringify(s.settings) === JSON.stringify(samples[0]!.settings) &&
+        JSON.stringify(s.buffer) === JSON.stringify(samples[0]!.buffer),
+    ),
+  ).toBe(true);
+  expect(errors).toEqual([]);
+  expect(
+    await Promise.all([sourceIdentity(beforeIdentity.root), sourceIdentity(identity.root)]),
+  ).toEqual(sources);
+  await writeFile(
+    path.join(directory!, 'comparison.json'),
+    JSON.stringify(
+      {
+        sources,
+        hardware: {
+          model: os.cpus()[0]!.model,
+          platform: os.platform(),
+          release: os.release(),
+          arch: os.arch(),
+        },
+        samples,
+        sameContext,
+        profiles,
+        limitations: [
+          'Frozen-pose hardware browser rendering with GPU completion; excludes display presentation and gameplay simulation. Profiling is separate from timed samples.',
+          'Same-context control retains candidate control flow and its box shader; it isolates profile shape cost from separate-context scheduling and allocation noise.',
+        ],
+      },
+      null,
+      2,
+    ),
+  );
+  await beforePage.close();
+});
 
 test('requested cohesion render cost comparison', async ({ page }) => {
   const directory = process.env.LANTERN_COHESION_MEASUREMENTS;

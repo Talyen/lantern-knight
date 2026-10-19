@@ -305,6 +305,52 @@ test('failed actor attachment destroys staged resources and leaves no live visua
   }
 });
 
+test('death contact shadows remain with the drawing and retire with it', (t) => {
+  mockGlobals(t, { window: { matchMedia: () => ({ matches: false }) } });
+  const sim = new Simulation(content),
+    room = new Group(),
+    texture = new CanvasTexture({} as HTMLCanvasElement),
+    manifest = manifestFixture(),
+    enemyManifest = manifestFixture('library-sk01'),
+    actors = new ActorPresentation(
+      room,
+      new Map([
+        ['ink-hero-current', { manifest, textures: new Map([['atlas-0', texture]]) }],
+        ['library-sk01', { manifest: enemyManifest, textures: new Map([['atlas-0', texture]]) }],
+      ]),
+      new OrthographicCamera(),
+      texture,
+      {} as PreparedRegistration,
+    ),
+    options = {
+      walkTiming: 'weighted' as const,
+      stabilized: true,
+      rigidSword: true,
+      animationTreatment: 'original' as const,
+      debug: false,
+    };
+  enemyManifest.asset.clips.defeat = enemyManifest.asset.clips.death!;
+  t.after(() => {
+    actors.dispose();
+    texture.dispose();
+  });
+  const enemy = sim.enemies[0]!;
+  enemy.health = 0;
+  enemy.state = 'death';
+  for (const age of [0, tuning.enemyDeathHoldTicks - 1, tuning.enemyDeathHoldTicks]) {
+    enemy.age = age;
+    actors.update(sim.view, 1, 0, options);
+    const visual = actors.actors.get(enemy.id)!;
+    assert.equal(visual.shadow.visible, age < tuning.enemyDeathHoldTicks);
+    assert.equal(visual.shadow.visible, visual.sprite.mesh.visible);
+  }
+  sim.hero.health = 0;
+  sim.hero.state = 'death';
+  sim.hero.age = tuning.enemyDeathHoldTicks + 1;
+  actors.update(sim.view, 1, 0, options);
+  assert.equal(actors.actors.get(sim.hero.id)!.shadow.visible, true);
+});
+
 test('shader preparation cannot resume borrowing scenery after presentation shutdown', async () => {
   const started = Promise.withResolvers<void>(),
     compilation = Promise.withResolvers<void>();
