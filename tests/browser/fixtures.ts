@@ -2,6 +2,33 @@ import { test as base, expect, type Locator, type Page } from '@playwright/test'
 import fs from 'node:fs/promises';
 import { projectRoot } from '../../tools/assets/paths';
 export const test = base.extend<{ errors: string[] }>({
+  context: async ({ playwright, browserName, video }, use, testInfo) => {
+    // End the process after each case: destroying a context alone can strand
+    // Chromium's software graphics driver and block the next context.
+    const browser = await playwright[browserName].launch();
+    try {
+      const mode = typeof video === 'string' ? video : video.mode;
+      const record =
+        mode === 'on' ||
+        mode === 'retain-on-failure' ||
+        (mode === 'on-first-retry' && testInfo.retry === 1) ||
+        (mode === 'on-all-retries' && testInfo.retry > 0);
+      // Playwright applies configured context options to manually created contexts.
+      const context = await browser.newContext(
+        record
+          ? {
+              recordVideo: {
+                dir: testInfo.outputPath('video'),
+                size: typeof video === 'string' ? undefined : video.size,
+              },
+            }
+          : {},
+      );
+      await use(context);
+    } finally {
+      await browser.close();
+    }
+  },
   errors: [
     async ({ page, request }, use, testInfo) => {
       const identity = await (await request.get('/__lantern_identity')).json();
@@ -77,10 +104,6 @@ export const test = base.extend<{ errors: string[] }>({
           contentType: 'application/json',
         });
       }
-      // Retire live render loops before destroying the context. Software WebGL
-      // can otherwise keep Chromium busy while the next context is created.
-      if (testInfo.status === testInfo.expectedStatus && !page.isClosed())
-        await page.goto('about:blank', { waitUntil: 'load', timeout: 30_000 });
       expect(errors).toEqual([]);
     },
     { auto: true },
