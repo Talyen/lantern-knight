@@ -264,6 +264,7 @@ export class EffectsPlayground implements PresentationLifecycle {
       pack.textures,
       resolveActorClip(pack.manifest, clip, 'd45'),
     );
+    if (s.outline) s.outline.enabled = false;
     s.show(s.animator.frame, foot, this.camera);
     this.sprites.push(s);
     this.scene.add(s.mesh);

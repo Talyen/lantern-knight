@@ -102,7 +102,7 @@ export function playgroundDefaults(): PlaygroundSettings {
     treatment: 'quiet',
     baseline: false,
     paused: false,
-    outlineInset: 1,
+    outlineInset: 2,
     outline: { thickness: 4, opacity: 1, color: '#080808', style: 'solid' },
   };
 }

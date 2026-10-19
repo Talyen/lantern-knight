@@ -65,6 +65,7 @@ export class FocusMask {
           ? { blend: new AnimationBlendShader([material]) }
           : {}),
       };
+      sprite?.outline?.attach(material, false);
       this.depths.set(source, entry);
     }
     const wind = source.userData.foliageWind as FoliageWind | undefined;

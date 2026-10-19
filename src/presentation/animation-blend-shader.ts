@@ -51,7 +51,7 @@ vec4 walkDisplacement(vec2 q){
   vec2 uv=animationFlowRect.xy+clamp(q,0.0,1.0)*animationFlowRect.zw;
   return (texture2D(animationFlow,vec2(uv.x,1.0-uv.y))*255.0-128.0)*2.0/walkCanvasSize.xyxy;
 }
-vec4 walkCompositeAt(vec2 coordinate){
+void walkLayersAt(vec2 coordinate,out vec4 ca,out vec4 cb,out float blend){
   vec2 a=coordinate,b=coordinate;
   if(walkWarp>0.5){
     // Two inverse-map estimates keep both drawings registered to the same output.
@@ -60,14 +60,18 @@ vec4 walkCompositeAt(vec2 coordinate){
       b=coordinate-(1.0-walkMix)*walkDisplacement(b).zw;
     }
   }
-  float blend=walkMix;
+  blend=walkMix;
   if(walkSwordEnabled>.5){
     vec4 rigid=swordCoordinates(coordinate*walkCanvasSize,walkSwordA,walkSwordB,walkMix,walkSwordRotation);
     float protect=swordProtection(vec4(a,b)*walkCanvasSize.xyxy,rigid,walkSwordA,walkSwordB,walkSwordWidth);
     a=mix(a,rigid.xy/walkCanvasSize,protect);b=mix(b,rigid.zw/walkCanvasSize,protect);
     blend=mix(blend,step(.5,walkMix),protect);
   }
-  vec4 ca=walkSample(map,a,walkTrimA,walkRectA),cb=walkSample(walkNext,b,walkTrimB,walkRectB);
+  ca=walkSample(map,a,walkTrimA,walkRectA);cb=walkSample(walkNext,b,walkTrimB,walkRectB);
+}
+vec4 walkCompositeAt(vec2 coordinate){
+  vec4 ca,cb;float blend;
+  walkLayersAt(coordinate,ca,cb,blend);
   float alpha=mix(ca.a,cb.a,blend);
   vec3 premul=mix(ca.rgb*ca.a,cb.rgb*cb.a,blend);
   return vec4(alpha>0.00001?premul/alpha:vec3(0.0),alpha);

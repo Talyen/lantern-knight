@@ -197,7 +197,12 @@ vec4 occlusion=texture2D(groundAtlas,groundUV);
 float sceneryDepth=groundRange.x+(occlusion.r*255.0*256.0+occlusion.g*255.0)/65535.0*groundRange.y;
 bool insideGround=all(greaterThanEqual(groundUV,vec2(0.0)))&&all(lessThanEqual(groundUV,vec2(1.0)));
 if(insideGround&&occlusion.b>.1&&groundFoot<sceneryDepth-.001){
-  if(groundOutline<.5||diffuseColor.a<.05)discard;
+  float sourceAlpha=diffuseColor.a;
+#ifdef HAS_SPRITE_OUTLINE
+  sourceAlpha=spriteSourceAlpha;
+  spriteOutlineMix=0.;
+#endif
+  if(groundOutline<.5||sourceAlpha<.05)discard;
   float edgeAlpha=1.0;
   vec2 sx=dFdx(vMapUv)*1.5,sy=dFdy(vMapUv)*1.5;
   for(int i=0;i<4;i++){

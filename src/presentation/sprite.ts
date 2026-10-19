@@ -8,6 +8,7 @@ import {
   type Texture,
   type Material,
 } from 'three';
+import { SpriteOutline } from './sprite-outline';
 import { trimmedBounds } from '../assets/sprite-registration';
 import { cleanupAll } from '../assets/cleanup';
 import { cameraContract as contract } from '../assets/camera-contract';
@@ -52,6 +53,7 @@ export class ActorSprite {
   });
   edgeMaterial: MeshBasicMaterial | undefined;
   edgeMesh: Mesh | undefined;
+  readonly outline?: SpriteOutline;
   private blendShader: AnimationBlendShader | undefined;
   private fullCanvas = false;
   private lastPair = '';
@@ -103,6 +105,17 @@ export class ActorSprite {
       this.blendShader = new AnimationBlendShader(
         this.edgeMaterial ? [this.material, this.edgeMaterial] : [this.material],
       );
+    if (
+      (manifest.asset.type === 'character' || manifest.asset.type === 'prop') &&
+      manifest.asset.placement !== 'ground' &&
+      manifest.asset.placement !== 'reference' &&
+      manifest.asset.renderCategory !== 'translucent'
+    ) {
+      this.outline = new SpriteOutline(this.geometry, manifest.asset.type === 'character');
+      for (const material of [this.material, this.edgeMaterial])
+        if (material) this.outline.attach(material);
+      this.mesh.onBeforeRender = (renderer) => this.outline!.update(renderer, this.mesh);
+    }
   }
   showAnimation(
     foot: Vector3,

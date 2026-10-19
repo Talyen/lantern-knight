@@ -54,7 +54,7 @@ export function mountEffects(context: PreviewContext) {
           `<label>${label}<input type="checkbox" data-effect="${key}" checked></label>`,
       )
       .join('')}</details>
-    <details data-section="effects-outline"><summary>Outline appearance</summary><p>Persistent silhouette edges on hero, enemy and props. Separate from hidden-actor occlusion outlines.</p><label for="outline-inset">Inset distance <output id="outline-inset-value">1 px</output></label><input id="outline-inset" type="range" min="0" max="2" step="1" value="1"><p>Moves part of the stroke inside the artwork without changing total thickness. At 4 px: 1 px in + 3 px out, or 2 px in + 2 px out.</p><label>Preset<select id="outline-preset"><option value="custom">Custom</option>${Object.entries(
+    <details data-section="effects-outline"><summary>Outline appearance</summary><p>Persistent silhouette edges on hero, enemy and props. Separate from hidden-actor occlusion outlines.</p><label for="outline-inset">Inset distance <output id="outline-inset-value">2 px</output></label><input id="outline-inset" type="range" min="0" max="2" step="1" value="2"><p>Moves part of the stroke inside the artwork without changing total thickness. At 4 px: 1 px in + 3 px out, or 2 px in + 2 px out.</p><label>Preset<select id="outline-preset"><option value="custom">Custom</option>${Object.entries(
       outlinePresets,
     )
       .map(([id, preset]) => `<option value="${id}">${preset.label}</option>`)

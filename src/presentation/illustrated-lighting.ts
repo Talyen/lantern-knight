@@ -228,7 +228,7 @@ export class IllustratedLighting {
         program.vertexShader;
       program.vertexShader = program.vertexShader.replace(
         '#include <project_vertex>',
-        '#include <project_vertex>\ninkWorld=(modelMatrix*vec4(transformed,1.0)).xyz;inkShadowWorld=inkIsSprite>.5?(inkCasterTransform*vec4(transformed,1.0)).xyz:inkWorld;inkSurface=normalize(mat3(modelMatrix)*normal);inkUV=uv;',
+        '#include <project_vertex>\ninkWorld=(modelMatrix*vec4(transformed,1.0)).xyz;inkShadowWorld=inkIsSprite>.5?(inkCasterTransform*vec4(transformed,1.0)).xyz:inkWorld;inkSurface=normalize(mat3(modelMatrix)*normal);inkUV=uv;\n#ifdef HAS_SPRITE_OUTLINE\ninkUV=vMapUv;\n#endif\n',
       );
       program.fragmentShader =
         shader.replace(

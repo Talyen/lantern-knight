@@ -78,7 +78,7 @@ const effectsStateSchema = z.object({
     treatment: z.enum(['quiet', 'rich']),
     baseline: z.boolean(),
     paused: z.boolean(),
-    outlineInset: finite.min(0).max(2).default(1),
+    outlineInset: finite.min(0).max(2).default(2),
     outline: z.object({
       thickness: finite.min(0.5).max(5),
       opacity: finite.min(0).max(1),
