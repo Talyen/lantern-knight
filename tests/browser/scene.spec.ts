@@ -46,6 +46,8 @@ test('scene URL selections accept fixtures and reject unknown scenes', async ({ 
 });
 
 test('repeated scene switches release renderer resources', async ({ page }) => {
+  // Eight replacements and the reveal sequence share one resource-growth proof.
+  test.setTimeout(300_000);
   await page.goto('/sandbox.html?scene=interior-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   const resources = await page.evaluate(async () => {
