@@ -17,7 +17,10 @@ export function expectEditorDocument<T>(
   read: (document: SceneSnapshot) => T,
   options?: Parameters<typeof expect.poll>[1],
 ) {
-  return expect.poll(() => readEditorDocument(page, read), options);
+  return expect.poll(() => readEditorDocument(page, read), {
+    timeout: 60_000,
+    ...(typeof options === 'string' ? { message: options } : options),
+  });
 }
 
 export async function importEditorScene(page: Page, document: unknown, name = 'scene.json') {

@@ -3,6 +3,7 @@ import { GameSession } from '../../src/core/session';
 import { activateWithKeyboard, expectPageValue, test, expect } from './fixtures';
 
 test.beforeEach(async ({ page }) => {
+  await page.setViewportSize({ width: 800, height: 600 });
   await page.addInitScript(() => {
     const probe = { starts: 0, stops: 0, loopStarts: 0 };
     Object.assign(window, { audioProbe: probe });
