@@ -40,11 +40,9 @@ These are playtest defaults, not balance approval. The burst creates room to rep
 
 ## Movement and facing
 
-Face mouse aim while moving or standing, independently of travel direction. Sword attacks and lantern casting commit their facing when admitted.
+Move in eight directions with the hero facing the direction of travel. Stopping retains the last body facing; moving the cursor alone does not turn the hero. Sword attacks and lantern casting turn toward mouse aim and commit their facing when admitted.
 
-A cursor over a living enemy's body aims toward that enemy's feet, rather than projecting its torso onto the floor behind it. Use a narrow upright body capsule, excluding weapons; dead enemies, obstructed enemies and enemies on a different walking elevation do not capture aim. Empty ground retains free mouse aiming. This changes facing only: combat still enforces range, attack arcs, obstruction and elevation.
-
-Defer full aim-facing strafing initially: it requires additional animation work. The first playable should make the transition between movement-facing and action-facing clear and natural.
+A cursor over a living enemy's body aims toward that enemy's feet, rather than projecting its torso onto the floor behind it. Use a narrow upright body capsule, excluding weapons; dead enemies, obstructed enemies and enemies on a different walking elevation do not capture aim. Empty ground retains free mouse aiming. This changes action aim only: combat still enforces range, attack arcs, obstruction and elevation.
 
 ## Equipment
 
