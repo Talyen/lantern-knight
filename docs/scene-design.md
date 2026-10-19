@@ -22,6 +22,8 @@ The four playable scenes use **Lantern night** (ambient 0.58, minimum light 0.14
 
 ## Verification
 
+For improving agent prop/enemy placement through human A/B screenshot preferences, use the [placement learning loop](scene-placement-learning.md). It preserves comparable snapshots and decisions while keeping raw captures outside Git.
+
 Game and new previews enable Ink harmonization, Shared palette finish, Ground color bounce and Dense contact cores. Dev Preview → Visuals → Scene cohesion can toggle them independently; saved preview choices remain respected. Harmonization gently groups cutout values and restrains artificial rim highlights while preserving deep ink, original interior drawing and alpha contours. Illustrated props use the painting’s ambient exposure rather than a second height-based gradient; their surface normals still shape directional and local light. Props retain their source detail without a per-pixel median filter. The shared finishing pass brings the ground painting and cutouts into one restrained palette. These treatments preserve source artwork and registration; they do not change drawn perspective or poses.
 
 Ground bounce samples the original unlit painting once per room into a small color field, excluding masked upright scenery and black ink. Each sprite receives a smooth sample at its foot registration, strongest toward its base; authored shade zones retain ownership of ambient darkening. Dense cores strengthen the center of existing soft contact shadows, retaining their fade and foreground masks. They reuse the existing shadow draws and add no silhouette projection pass.
