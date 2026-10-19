@@ -25,8 +25,14 @@ test('capture a blinded placement comparison without saving either scene', async
     await openEditor(page);
     const scene = parseSceneDocument(await readJSON(path.join(directory, variant + '.json')));
     await importEditorScene(page, scene);
-    await expectEditorDocument(page, (document) => document.name, { timeout: 90_000 }).toBe(
-      'Imported ' + scene.name,
+    await page.waitForFunction(
+      (name) => {
+        const error = document.querySelector('#validation-errors')?.textContent;
+        if (error) throw new Error(error);
+        return window.sceneEditor.state().document.name === 'Imported ' + name;
+      },
+      scene.name,
+      { timeout: 90_000 },
     );
     await waitForEditorIdle(page);
     await expectEditorDocument(page, (document) => document.objects).toEqual(scene.objects);
