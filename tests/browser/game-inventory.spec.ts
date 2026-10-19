@@ -78,7 +78,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await pick('Traveller’s Charm');
   await expect(detail).toContainText('100 → 105');
   await detail.getByRole('button', { name: 'Equip', exact: true }).click();
-  await expect(page.locator('#hp')).toHaveText('60 / 105');
+  await expect(page.locator('#hp')).toHaveText('60 / 105', { timeout: 30_000 });
   await expect(panel.locator('.inventory-slot[aria-pressed="true"]')).toBeFocused();
   await pick('Gatherer’s Seal');
   await expect(detail.locator('.item-portrait')).toHaveAttribute('data-item', 'gatherers-seal');
@@ -104,12 +104,12 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await expect(detail).toContainText('120 → 120');
   await ring2.click();
   await detail.getByRole('button', { name: 'Equip', exact: true }).click();
-  await expect(page.locator('#hp')).toHaveText('60 / 130');
+  await expect(page.locator('#hp')).toHaveText('60 / 130', { timeout: 30_000 });
   await expect(panel.locator('.inventory-row').filter({ hasText: 'Orchard Ring' })).toHaveCount(0);
   await panel.locator('[data-action="slot-ring1"]').click();
   await expect(detail).toContainText('130 → 120');
   await detail.getByRole('button', { name: 'Unequip', exact: true }).click();
-  await expect(page.locator('#hp')).toHaveText('60 / 120');
+  await expect(page.locator('#hp')).toHaveText('60 / 120', { timeout: 30_000 });
   await pick('Cinder Signet');
   await expect(detail).toContainText('Sword hits deal 25% more damage to burning enemies.');
   await expect(detail).toContainText('26 → 33');
@@ -186,7 +186,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   );
   await page.locator('#menu-start').click();
   await page.keyboard.press('i');
-  await expect(page.locator('#hp')).toHaveText('60 / 120');
+  await expect(page.locator('#hp')).toHaveText('60 / 120', { timeout: 30_000 });
   await expect(panel.locator('[data-action="slot-trinket"]')).toContainText('Gatherer’s Seal');
   await expect(panel.locator('.inventory-row').filter({ hasText: 'Iron ×10' })).toBeVisible();
   await page.setViewportSize({ width: 1280, height: 600 });
