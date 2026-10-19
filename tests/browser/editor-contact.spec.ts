@@ -55,22 +55,24 @@ for (const layout of ['repeat', 'artwork'] as const)
         gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
         return pixels;
       };
-      const opacity = hero.shadow.material.opacity;
+      // Actor contact opacity follows the drawing every frame. Isolate the
+      // contact pass through material visibility, independently of that update.
+      const visible = hero.shadow.material.visible;
       contacts.mesh.visible = false;
-      hero.shadow.material.opacity = 0;
+      hero.shadow.material.visible = false;
       const initialCast = capture();
       presentation.lookRenderer.setSettings({ shadows: false });
       const baseline = capture();
       contacts.mesh.visible = true;
       const props = capture();
       contacts.mesh.visible = false;
-      hero.shadow.material.opacity = opacity;
+      hero.shadow.material.visible = visible;
       const actor = capture();
-      hero.shadow.material.opacity = 0;
+      hero.shadow.material.visible = false;
       presentation.lookRenderer.setSettings({ shadows: true });
       const cast = capture();
       presentation.lookRenderer.setSettings({ shadows: false });
-      hero.shadow.material.opacity = opacity;
+      hero.shadow.material.visible = visible;
       contacts.mesh.visible = true;
       capture();
       hero.sprite.mesh.updateMatrixWorld(true);

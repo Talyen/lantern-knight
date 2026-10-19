@@ -343,6 +343,13 @@ test('death contact shadows remain with the drawing and retire with it', (t) => 
     const visual = actors.actors.get(enemy.id)!;
     assert.equal(visual.shadow.visible, age < tuning.enemyDeathHoldTicks);
     assert.equal(visual.shadow.visible, visual.sprite.mesh.visible);
+    visual.sprite.material.opacity = 0.5;
+    actors.update(sim.view, 1, 0, options);
+    assert.equal(
+      visual.shadow.material.opacity,
+      Math.min(1, enemyManifest.asset.shadow.opacity * 1.5) * 0.5,
+    );
+    visual.sprite.material.opacity = 1;
   }
   sim.hero.health = 0;
   sim.hero.state = 'death';
