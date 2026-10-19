@@ -9,7 +9,7 @@ import {
   type WebGLRenderer,
 } from 'three';
 
-/** The approved silhouette stroke: 2 CSS pixels inside and 2 outside. */
+/** The approved silhouette stroke: 1 CSS pixel inside and 1 outside. */
 export class SpriteOutline {
   enabled = true;
   private positionsVersion = -1;
@@ -52,7 +52,7 @@ uniform vec2 spriteOutlineViewport,spriteOutlineCenter,spriteOutlineUVPerUnit;
 if(spriteOutlineEnabled>.5){
   vec2 dx=(projectionMatrix*modelViewMatrix*vec4(1.,0.,0.,0.)).xy*spriteOutlineViewport*.5;
   vec2 dy=(projectionMatrix*modelViewMatrix*vec4(0.,1.,spriteOutlineDepthSlope,0.)).xy*spriteOutlineViewport*.5;
-  vec2 pad=2./max(vec2(length(dx),length(dy)),vec2(.001));
+  vec2 pad=1./max(vec2(length(dx),length(dy)),vec2(.001));
   vec2 offset=sign(position.xy-spriteOutlineCenter)*pad;
   transformed.xy+=offset;
   transformed.z+=offset.y*spriteOutlineDepthSlope;
@@ -79,7 +79,7 @@ vec3 spriteAlphasAt(vec2 offset){
   }
 #endif
   vec2 p=vMapUv+offset;
-  if(any(lessThan(p,spriteOutlineRect.xy))||any(greaterThan(p,spriteOutlineRect.zw)))return vec3(0.);
+  if(any(lessThan(p,spriteOutlineRect.xy))||any(greaterThanEqual(p,spriteOutlineRect.zw)))return vec3(0.);
   return vec3(vec2(texture2D(map,p).a),0.);
 }
 #endif
@@ -96,8 +96,8 @@ if(spriteOutlineEnabled>.5){
   float center=mix(centers.x,centers.y,layers.z);
   spriteSourceAlpha=center*opacity;
   vec2 outer=vec2(0.),inner=vec2(1.);
-  vec2 sx=dFdx(vMapUv)*spriteOutlinePixelRatio*2.;
-  vec2 sy=dFdy(vMapUv)*spriteOutlinePixelRatio*2.;
+  vec2 sx=dFdx(vMapUv)*spriteOutlinePixelRatio;
+  vec2 sy=dFdy(vMapUv)*spriteOutlinePixelRatio;
   for(int i=0;i<16;i++){
     float angle=float(i)*6.2831853/16.;
     for(int ring=1;ring<=4;ring++){
@@ -121,7 +121,7 @@ if(spriteOutlineEnabled>.5){
           '#include <opaque_fragment>\n#ifdef USE_MAP\ngl_FragColor.rgb=mix(gl_FragColor.rgb,spriteOutlineColor,spriteOutlineMix);\n#endif',
         );
     };
-    material.customProgramCacheKey = () => `${key}:sprite-outline-v2:${color}`;
+    material.customProgramCacheKey = () => `${key}:sprite-outline-v3:${color}`;
     material.needsUpdate = true;
   }
 

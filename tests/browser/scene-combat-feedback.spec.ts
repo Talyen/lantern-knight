@@ -158,6 +158,11 @@ test('hero sword and Flare impacts, enemy swings and misses render and retire in
         if (['thrall', 'attendant', 'warden', 'miss'].includes(action))
           expect(result.effects).toContain('combat-enemy-swing');
         if (action !== 'miss' && action !== 'dodge') expect(result.kick).toBeGreaterThan(0);
+        if (action === 'sweep') {
+          expect(result.effects.filter((name) => name === 'combat-sweep')).toHaveLength(1);
+          expect(result.assets).toContain('library-sword_arc_02');
+          expect(result.assets).not.toContain('library-combat-wickline-thrust');
+        }
         if (action === 'flare')
           expect(result.assets).toContain('library-animation-31cc2e4e941e9c27-14c5aeddfa12');
         if (action === 'thrall' || action === 'attendant')

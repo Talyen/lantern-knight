@@ -134,7 +134,7 @@ export class CombatFeedback {
         };
       if (actor.attackKind === 'sweep')
         return this.sweepEnabled
-          ? { kind: 'sweep', windup, layers: [settings.sweep, settings.sweepEdge] }
+          ? { kind: 'sweep', windup, layers: [settings.sweepEdge] }
           : undefined;
       return { kind: 'lunge', windup, layers: [settings.lunge, settings.lungeBurst] };
     }
