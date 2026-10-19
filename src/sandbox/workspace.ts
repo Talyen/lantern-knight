@@ -61,7 +61,7 @@ const animationSchema = z.object({
 export type AnimationState = z.infer<typeof animationSchema>;
 const sceneStateSchema = scenePreviewSchema.extend({
   kind: z.literal('scene'),
-  effects: flags(visualEffectLabels),
+  effects: flags(visualEffectLabels).extend({ motionBlur: z.boolean().default(false) }),
   effectsBaseline: z.boolean(),
   freeze: z.boolean(),
   collision: z.boolean(),

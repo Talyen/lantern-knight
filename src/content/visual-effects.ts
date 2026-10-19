@@ -9,11 +9,14 @@ export const visualEffectLabels = {
   atmosphere: 'Ground mist & motes',
   palette: 'Colored shadows & highlights',
   bloom: 'Bloom',
+  motionBlur: 'Camera motion blur (experimental)',
 } as const;
 export type VisualEffect = keyof typeof visualEffectLabels;
 export type VisualEffects = Record<VisualEffect, boolean>;
 export const defaultVisualEffects = (): VisualEffects =>
-  Object.fromEntries(Object.keys(visualEffectLabels).map((k) => [k, true])) as VisualEffects;
+  Object.fromEntries(
+    Object.keys(visualEffectLabels).map((k) => [k, k !== 'motionBlur']),
+  ) as VisualEffects;
 export type WeatherState = { rain: number; wind: { x: number; z: number } };
 export const dryWeather = (): WeatherState => ({ rain: 0, wind: { x: 0, z: 0 } });
 export function normalizeWeather(state: WeatherState): WeatherState {

@@ -481,6 +481,7 @@ export class GamePresentation implements PresentationLifecycle {
     this.lookRenderer.render(sim, ms, {
       visuals: this.visuals,
       visualEffects: this.visualEffects,
+      reducedMotion: this.reducedMotion,
       groundOcclusion: this.groundOcclusion,
       cameraTarget: this.cameraTarget,
       viewSpan: this.viewSpan,
