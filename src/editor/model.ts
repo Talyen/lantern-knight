@@ -21,10 +21,13 @@ export function sceneItems(document: SceneSnapshot): EditorItem[] {
       objects: structuredClone(document.objects),
     } as SceneDocument),
     kinds = new Map(document.objects.map((p) => [p.id, p.kind]));
-  const items = [...art.props, ...art.decals].map((placement) => ({
-    placement,
-    kind: kinds.get(placement.id)!,
-  }));
+  // Generated gameplay visuals are edited through Gameplay, not object transforms.
+  const items = [...art.props, ...art.decals]
+    .filter((p) => kinds.has(p.id))
+    .map((placement) => ({
+      placement,
+      kind: kinds.get(placement.id)!,
+    }));
   // History snapshots are immutable; mutable authoring drafts must resolve afresh.
   if (Object.isFrozen(document)) itemCache.set(document, structuredClone(items));
   return items;
@@ -206,6 +209,10 @@ export class EditorHistory {
     this.change((d) => {
       d.objects = d.objects.filter((p) => !removed.has(p.id));
       if (d.gameplay) d.gameplay.pickups = d.gameplay.pickups.filter((p) => !removed.has(p.object));
+      if (d.gameplay?.campfires)
+        d.gameplay.campfires = d.gameplay.campfires.filter(
+          (p) => !p.object || !removed.has(p.object),
+        );
       if (d.gameplay?.interactables)
         d.gameplay.interactables = d.gameplay.interactables.filter((p) => !removed.has(p.object));
       d.propOrder = d.propOrder.filter((id) => !removed.has(id));

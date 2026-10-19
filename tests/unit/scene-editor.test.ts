@@ -2,6 +2,8 @@ import { onExit } from '../../tools/scope-exit';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import { emptyScene } from '../../src/editor/default-scene';
 import { sceneFixture } from '../fixtures/scene';
+import { defaultCampfireAsset } from '../../src/content/campfire-visuals';
+import { sceneAssetIds } from '../../src/content/scene-placement';
 import { applySceneryPreset } from '../../src/content/scenery-presets';
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
@@ -22,6 +24,99 @@ import { EditorDocument } from '../../src/editor/document';
 import { SceneStore } from '../../tools/scene/scene-editor-store';
 
 describe('scene authoring contracts', () => {
+  it('keeps default campfire artwork, lighting and asset admission together as the checkpoint moves', () => {
+    const document = emptyScene();
+    document.gameplay = {
+      spawns: [],
+      exits: [],
+      pickups: [],
+      campfires: [{ id: 'rest', name: 'Rest', x: 1, z: 2, safeRadius: 2.6 }],
+    };
+    for (const x of [1, 3]) {
+      document.gameplay.campfires![0]!.x = x;
+      const parsed = parseSceneDocument(JSON.parse(JSON.stringify(document)));
+      const { visuals, area, assets } = resolveScene(parsed);
+      const prop = visuals.props.find((p) => p.id === 'campfire-rest')!;
+      assert.equal(prop.asset, defaultCampfireAsset);
+      assert.equal(prop.clip, 'loop');
+      assert.deepEqual([prop.x, prop.z], [x, 2]);
+      assert.deepEqual([area.campfires![0]!.x, area.campfires![0]!.z], [x, 2]);
+      assert.equal(visuals.resolvedFixtures!.length, 1);
+      assert.equal(visuals.resolvedFixtures![0]!.prop, prop.id);
+      assert.equal(
+        visuals.resolvedFixtures![0]!.flame,
+        undefined,
+        'The supplied loop already contains its flames',
+      );
+      assert.ok(assets.includes(defaultCampfireAsset));
+      assert.ok(sceneAssetIds(parsed).has(defaultCampfireAsset));
+      assert.equal(
+        sceneItems(parsed).length,
+        0,
+        'Generated campfires use gameplay controls rather than object transforms',
+      );
+      assert.equal(
+        parsed.objects.length,
+        0,
+        'Derived artwork never gets baked into the saved document',
+      );
+      assert.throws(() => validateSceneReferences(parsed, new Map()), /Unavailable scenery/);
+    }
+    document.gameplay.campfires = [];
+    assert.equal(resolveScene(document).visuals.props.length, 0);
+    assert.equal(resolveScene(document).visuals.resolvedFixtures!.length, 0);
+    assert.ok(!sceneAssetIds(document).has(defaultCampfireAsset));
+  });
+  it('uses explicit custom campfire artwork once and follows its position without leaking authoring fields', () => {
+    const document = emptyScene();
+    document.objects.push({
+      id: 'custom',
+      kind: 'prop',
+      asset: 'ink-scenery',
+      clip: 'tomb',
+      x: 3,
+      z: 2,
+    });
+    document.gameplay = {
+      spawns: [],
+      exits: [],
+      pickups: [],
+      campfires: [{ id: 'rest', name: 'Rest', object: 'custom', x: 0, z: 0, safeRadius: 2.6 }],
+    };
+    const resolved = resolveScene(document);
+    assert.equal(resolved.visuals.props.length, 1);
+    assert.deepEqual(resolved.area.campfires, [
+      { id: 'rest', name: 'Rest', x: 3, z: 2, safeRadius: 2.6 },
+    ]);
+    assert.ok(!resolved.assets.includes(defaultCampfireAsset));
+    const history = EditorHistory.create(document);
+    history.removeMany(['custom']);
+    assert.deepEqual(
+      history.document.gameplay!.campfires,
+      [],
+      'Deleting custom artwork also removes its linked checkpoint',
+    );
+    document.objects = [];
+    assert.throws(() => parseSceneDocument(document), /Campfire references missing/);
+  });
+  it('rejects authored objects shadowing an automatically generated campfire', () => {
+    const document = emptyScene();
+    document.gameplay = {
+      spawns: [],
+      exits: [],
+      pickups: [],
+      campfires: [{ id: 'rest', name: 'Rest', x: 0, z: 0, safeRadius: 2.6 }],
+    };
+    document.objects.push({
+      id: 'campfire-rest',
+      kind: 'prop',
+      asset: 'ink-scenery',
+      clip: 'tomb',
+      x: 0,
+      z: 0,
+    });
+    assert.throws(() => parseSceneDocument(document), /Reserved campfire object identity/);
+  });
   it('demands rain assets only when authored rain is enabled', () => {
     const document = emptyScene();
     document.weather = { rain: 0, wind: { x: 0, z: 0 } };

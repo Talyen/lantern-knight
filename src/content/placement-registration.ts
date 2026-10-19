@@ -36,6 +36,13 @@ export const placementRegistration: Readonly<
       move: envelope(-0.7969, 0.7383, 1.8399, -0.2813),
     },
   },
+  'library-animation-cd5cf5e86d510972-576732730917': {
+    hash: 'b0384870809d42e4088f07a7445f1d2b7ae2570bf0d87c4bcca0234120e52647',
+    clips: {
+      loop: envelope(-0.859375, 0.859375, 1.33203125, 0),
+      unlit: envelope(-0.859375, 0.859375, 1.33203125, 0),
+    },
+  },
   'fx-brazier-body': {
     hash: '627aeff0a2647e4014d74540affa5122e8e977b8862468445791868288af57b6',
     clips: {

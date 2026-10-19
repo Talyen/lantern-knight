@@ -1,3 +1,4 @@
+import { sceneObjects } from './campfire-visuals';
 import { polygonEdgeDistance } from './polygon';
 import { insidePolygon } from './polygon';
 import { isSupportedPosition } from './collision';
@@ -30,7 +31,7 @@ export function sceneAssetIds(document: SceneSnapshot): Set<string> {
     ...spawnPlacementAssets(document),
     ...document.proceduralAssets,
     ...(document.surround?.layers.map((layer) => layer.asset) ?? []),
-    ...document.objects.flatMap((p) => [
+    ...sceneObjects(document).flatMap((p) => [
       p.asset,
       ...(p.fixture?.flame ? [p.fixture.flame.asset] : []),
     ]),
@@ -48,11 +49,14 @@ export function sceneEnvelopeFindings(
   const interactions = new Map<string, Interactable>();
   for (const p of document.gameplay?.interactables ?? [])
     if (!interactions.has(p.object)) interactions.set(p.object, p);
+  const campfires = new Set(
+    (document.gameplay?.campfires ?? []).map((p) => p.object ?? 'campfire-' + p.id),
+  );
   const pickups = new Set((document.gameplay?.pickups ?? []).map((p) => p.object));
   const findings: PlacementFinding[] = [];
-  for (const object of document.objects) {
+  for (const object of sceneObjects(document)) {
     const interaction = interactions.get(object.id);
-    const pickup = pickups.has(object.id);
+    const pickup = pickups.has(object.id) || campfires.has(object.id);
     // Static scenery may sit partly behind painted foliage. Gameplay targets
     // still reserve their complete drawing so they begin fully discoverable.
     if (!interaction && !pickup && object.kind === 'prop') continue;
@@ -133,11 +137,12 @@ export function scenePlacementFindings(
   const findings: PlacementFinding[] = [];
   // Match the first object for a placement, mirroring the interactable lookup.
   const objects = new Map<string, (typeof document.objects)[number]>();
-  for (const object of document.objects)
+  for (const object of sceneObjects(document))
     if (!objects.has(object.id)) objects.set(object.id, object);
   const interactive = new Set([
     ...(area.interactables?.map((p) => p.object) ?? []),
     ...(area.pickups?.map((p) => p.object) ?? []),
+    ...(document.gameplay?.campfires?.map((p) => p.object ?? 'campfire-' + p.id) ?? []),
   ]);
   const check = (id: string, point: Point, radius: number, allowPaintedOcclusion = false) => {
     const message = inspect(point, radius, allowPaintedOcclusion);
