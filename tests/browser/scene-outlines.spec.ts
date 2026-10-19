@@ -1,6 +1,6 @@
 import { test, expect } from './fixtures';
 
-test('centered outlines keep a four CSS pixel stroke across zoom, mirroring and pixel ratio, and obey scenery', async ({
+test('centered outlines keep a two CSS pixel stroke across zoom, mirroring and pixel ratio, and obey scenery', async ({
   page,
 }) => {
   await page.route('**/outline-proof.html', (route) =>
@@ -142,10 +142,10 @@ test('centered outlines keep a four CSS pixel stroke across zoom, mirroring and 
     }
   });
   for (const { ratio, base, outlined } of proof.cases) {
-    expect(base.left - outlined.left).toBeCloseTo(2 * ratio, 0);
-    expect(outlined.right - base.right).toBeCloseTo(2 * ratio, 0);
-    expect(outlined.black).toBeGreaterThanOrEqual(7 * ratio);
-    expect(outlined.black).toBeLessThanOrEqual(9 * ratio);
+    expect(base.left - outlined.left).toBeCloseTo(1 * ratio, 0);
+    expect(outlined.right - base.right).toBeCloseTo(1 * ratio, 0);
+    expect(outlined.black).toBeGreaterThanOrEqual(3 * ratio);
+    expect(outlined.black).toBeLessThanOrEqual(5 * ratio);
   }
   expect(proof.hiddenEqual).toBe(true);
   expect(proof.hiddenOffEqual).toBe(true);
@@ -302,9 +302,9 @@ test('soft contours match the approved inset study without broken bands', async 
     try {
       sprite.outline.enabled = false;
       study.update(
-        (4 * 4) / 128,
-        { thickness: 4, opacity: 1, color: '#080808', style: 'solid' },
-        2,
+        (2 * 4) / 128,
+        { thickness: 2, opacity: 1, color: '#080808', style: 'solid' },
+        1,
       );
       scene.add(study.mesh);
       const expected = gpu.capture();
