@@ -345,6 +345,20 @@ export class GameSession {
     const state = this.roomState(),
       player = this.sim.hero;
     const next = this.restoredSimulation(state, destination, entry);
+    if (!entry.startsWith('fire-')) {
+      const returns = next.areaDefinition.exits
+        .filter((exit) => exit.destination === this.sim.area)
+        .sort(
+          (a, b) =>
+            Math.hypot(a.marker.x - next.hero.x, a.marker.z - next.hero.z) -
+            Math.hypot(b.marker.x - next.hero.x, b.marker.z - next.hero.z),
+        );
+      const passage = returns[0];
+      if (passage) {
+        const yaw = Math.atan2(next.hero.x - passage.marker.x, next.hero.z - passage.marker.z);
+        next.hero.yaw = next.hero.aim = next.hero.travelYaw = yaw;
+      }
+    }
     next.potionCooldown = this.sim.potionCooldown;
     next.hero.health = player.health;
     next.hero.cooldown = player.cooldown;

@@ -1,5 +1,4 @@
 import { cleanupAll, cleanupAfterFailure, DisposalScope } from '../assets/cleanup';
-import { GuidingWind } from './guiding-wind';
 import { radialTexture } from './radial-texture';
 import { defaultLook } from './lighting-profiles';
 import { heroLanternPosition } from './hero-lantern';
@@ -88,7 +87,6 @@ export class GamePresentation implements PresentationLifecycle {
   visualEffects = defaultVisualEffects();
   sceneEffects: SceneVisualEffects;
   readonly combatFeedback: CombatFeedback;
-  readonly guidingWind: GuidingWind;
   renderer: T.WebGLRenderer;
   camera = makeCamera(16 / 9);
   scene = new T.Scene();
@@ -265,8 +263,6 @@ export class GamePresentation implements PresentationLifecycle {
         new CombatFeedback(this.packs, this.camera, this.events),
       );
       this.scene.add(this.combatFeedback.group);
-      this.guidingWind = this.resources.own(new GuidingWind(this.packs, this.camera));
-      this.scene.add(this.guidingWind.group);
     } catch (error) {
       cleanupAfterFailure(error, () => this.dispose());
     }
@@ -398,7 +394,6 @@ export class GamePresentation implements PresentationLifecycle {
           this.groundOcclusion.update(sprite, drop.x, drop.z);
         }
       }
-    this.guidingWind.update(sim, ms, this.visualEffects.wind, this.reducedMotion);
     this.sceneEffects.update(
       sim.areaDefinition,
       sim.generation,
@@ -406,7 +401,6 @@ export class GamePresentation implements PresentationLifecycle {
       ms,
       this.visualEffects,
       this.visuals,
-      this.guidingWind.breeze,
     );
     this.combatFeedback.update(sim, alpha, heroSprite, this.actorPresentation.actors);
     this.flareLight.position.copy(this.combatFeedback.flareLight.position);

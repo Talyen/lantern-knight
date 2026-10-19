@@ -79,9 +79,7 @@ export type AreaDefinition = {
   spawns: readonly (Omit<AuthoredGameplay['spawns'][number], 'rewards'> & {
     rewards?: readonly Reward[];
   })[];
-  exits: readonly (Omit<AuthoredGameplay['exits'][number], 'guards'> & {
-    guards?: readonly string[];
-  })[];
+  exits: readonly AuthoredGameplay['exits'][number][];
   props: readonly PropDefinition[];
   campfires?: readonly CampfireDefinition[];
   interactables?: readonly InteractableDefinition[];
@@ -288,11 +286,7 @@ function assertArea(
   for (const object of a.interactables ?? []) {
     interactableSchema.parse(object);
     if (!isSupportedPosition(a, object, 0.1)) fail('Unsupported interactable ' + object.id);
-    if (object.guards.some((id) => !a.spawns.some((p) => p.id === id)))
-      fail('Unknown object guard');
   }
-  for (const exit of a.exits)
-    if (exit.guards?.some((id) => !a.spawns.some((p) => p.id === id))) fail('Unknown exit guard');
   for (const p of a.pickups ?? []) {
     assertFinite(p.x, p.z, p.amount, p.radius);
     if (

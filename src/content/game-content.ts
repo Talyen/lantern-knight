@@ -1,4 +1,3 @@
-import { guidingWindAssets } from './guiding-wind';
 import { itemArtAssets } from './item-art';
 import orchard from '../../authoring/scenes/abandoned-orchard.json';
 import clearing from '../../authoring/scenes/forest-gathering-clearing.json';
@@ -91,7 +90,6 @@ export function composeSceneContent(
         actorVisuals[registry.actor(registry.definitions.player).visual]!.asset,
         ...visualEffectsAssets,
         ...combatEffectAssets,
-        ...guidingWindAssets,
       ]),
     ]),
     area: (id) => {

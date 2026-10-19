@@ -16,7 +16,9 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   const clearing = content.area('forest-gathering-clearing');
   const forge = content.area('ruined-forge');
   const chest = clearing.interactables![0]!;
-  const forward = clearing.exits.find((e) => e.destination === forge.id)!;
+  const orchard = content.area('abandoned-orchard');
+  const forward = orchard.exits.find((e) => e.destination === forge.id)!;
+  const clearingReturn = clearing.exits[0]!;
   const tools = forge.interactables![0]!;
   const fire = forge.campfires![0]!;
   const ironAmount = tools.rewards.find((r) => r.item === 'iron')!.amount;
@@ -81,10 +83,17 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   await expect(page.locator('#hp')).toHaveText('100 / 110');
   await page.keyboard.press('Escape');
   const onward = await saveCurrent();
-  Object.assign(onward.player, forward.marker);
+  Object.assign(onward.player, clearingReturn.marker);
   await restore(onward);
+  await walkThrough(orchard.name);
+  const orchardOnward = await saveCurrent();
+  Object.assign(orchardOnward.player, forward.marker);
+  await restore(orchardOnward);
   await walkThrough(forge.name);
   await capture('forge-arrival');
+  const arrival = await saveCurrent();
+  Object.assign(arrival.player, { x: fire.x, z: fire.z });
+  await restore(arrival);
   await expect(page.locator('#interaction-hint')).toHaveText('E · Rest');
   await page.keyboard.press('e');
   await expect(panel).toContainText(fire.name);
@@ -107,7 +116,7 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   expect(collected.areas[forge.id]!.claimedObjects).toContain(tools.id);
   Object.assign(collected.player, forge.exits[0]!.marker);
   await restore(collected);
-  await walkThrough(clearing.name);
+  await walkThrough(orchard.name);
   await capture('clearing-return-path');
   const returned = await saveCurrent();
   expect(
@@ -118,15 +127,20 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
   ).toBeGreaterThan(1.6);
   expect(
     Math.hypot(
-      returned.player.x - clearing.campfires![0]!.x,
-      returned.player.z - clearing.campfires![0]!.z,
+      returned.player.x - orchard.campfires![0]!.x,
+      returned.player.z - orchard.campfires![0]!.z,
     ),
   ).toBeGreaterThan(1.6);
 
+  const clearingPath = orchard.exits.find((e) => e.destination === clearing.id)!;
+  Object.assign(returned.player, clearingPath.marker);
+  await restore(returned);
+  await walkThrough(clearing.name);
+  const clearingArrival = await saveCurrent();
   // Exercise the other on-foot boundary without coupling this persistence case to route timing.
   const back = clearing.exits.find((exit) => exit.destination === 'abandoned-orchard')!;
-  Object.assign(returned.player, back.marker);
-  await restore(returned);
+  Object.assign(clearingArrival.player, back.marker);
+  await restore(clearingArrival);
   await walkThrough('Abandoned Orchard');
   await capture('orchard-return-path');
   const orchardReturn = await saveCurrent();
@@ -138,8 +152,11 @@ test('clearing reward and forge salvage survive travel, rest and death recovery'
     Math.hypot(orchardReturn.player.x - orchardPath.x, orchardReturn.player.z - orchardPath.z),
   ).toBeGreaterThan(1.6);
 
-  Object.assign(returned.player, { x: clearing.campfires![0]!.x, z: clearing.campfires![0]!.z });
-  await restore(returned);
+  Object.assign(clearingArrival.player, {
+    x: clearing.campfires![0]!.x,
+    z: clearing.campfires![0]!.z,
+  });
+  await restore(clearingArrival);
   await expect(page.locator('#interaction-hint')).toHaveText('E · Rest');
   await page.keyboard.press('e');
   await panel.getByRole('button', { name: forge.name + ' · ' + fire.name }).click();

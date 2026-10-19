@@ -127,8 +127,6 @@ function fixture() {
         marker: { x: 11, z: 0 },
         destination: id === 'orchard' ? 'forest' : 'orchard',
         entry: 'start',
-        requiresClear: false,
-        guards: ['guard'],
       },
     ],
     interactables: [
@@ -146,7 +144,6 @@ function fixture() {
         object: 'chest',
         x: 5,
         z: 4,
-        guards: ['guard'],
         rewards: [{ item: 'orchard-ring', amount: 1 }],
         spent: 'opened',
       }),
@@ -175,7 +172,7 @@ test('local awareness isolates encounters and campfire sanctuary ends pursuit', 
   for (let i = 0; i < 180; i++) s.step(idle);
   assert.ok(s.sim.enemies[0]!.x >= -6, 'enemy stays outside sanctuary');
 });
-test('sword breaks an object once, guards protect containers and departure, explicit exits do not auto-travel', () => {
+test('sword breaks an object once, containers and departure remain available with living enemies, explicit exits do not auto-travel', () => {
   const s = fixture();
   s.sim.hero.aim = Math.PI / 2;
   for (let i = 0; i < 50; i++)
@@ -184,7 +181,7 @@ test('sword breaks an object once, guards protect containers and departure, expl
   assert.equal(s.sim.drops.length, 1);
   assert.equal(s.sim.openContainer('crate'), false);
   assert.equal(s.sim.openContainer('chest'), false);
-  assert.equal(s.sim.exitAvailable('depart'), false);
+  assert.equal(s.sim.exitAvailable('depart'), true);
   s.sim.damage(s.sim.hero, s.sim.enemies[1]!, 1000);
   assert.equal(s.sim.exitAvailable('depart'), true);
   Object.assign(s.sim.hero, { x: 5, z: 4 });
@@ -355,11 +352,13 @@ test('checkpoint validation rejects invalid gear, duplicate drops, unknown claim
     assert.throws(() => parseGame(next, s.registry));
   }
 });
-test('nearby prompts expose guarded reasons and collected loot cannot be collected twice', () => {
+test('nearby containers remain usable with living enemies and collected loot cannot be collected twice', () => {
   const s = fixture();
   s.sim.hero.x = 5;
   s.sim.hero.z = 4;
-  assert.match(nearbyInteraction(s.sim)!.blocked!, /guard/);
+  assert.equal(nearbyInteraction(s.sim)!.blocked, undefined);
+  assert.ok(s.sim.enemies.some((a) => a.health > 0));
+  assert.equal(s.sim.openContainer('chest'), true);
   s.sim.hero.x = -8;
   s.sim.hero.z = 0;
   breakCrate(s.sim);
@@ -850,8 +849,8 @@ test('core commands enforce the same contact barriers as interaction prompts', (
         entry.id === 'fire-west' ? { ...entry, x: 0, z: 0.8 } : entry,
       ),
       spawns: [],
-      interactables: [{ ...a.interactables![1]!, x: 0, z: 0.8, guards: [] }],
-      exits: a.exits.map((e) => ({ ...e, marker: { x: 0, z: 0.8 }, guards: [] })),
+      interactables: [{ ...a.interactables![1]!, x: 0, z: 0.8 }],
+      exits: a.exits.map((e) => ({ ...e, marker: { x: 0, z: 0.8 } })),
       props:
         obstruction === 'wall'
           ? [boxProp({ id: 'divider', z: 0.4, height: 2, size: [2, 0.1] })]
@@ -906,17 +905,45 @@ test('a displayed container prompt does not authorize a later command after cont
   assert.equal(s.sim.claimedObjects.size, 0);
 });
 
-test('explicit departures enforce the prompt combat restriction in headless sessions', () => {
+test('explicit departures allow escape during combat in headless sessions', () => {
   const s = fixture();
   s.sim.damage(s.sim.hero, s.sim.enemies[1]!, 1000);
   s.sim.damage(s.sim.hero, s.sim.enemies[0]!, 1);
   Object.assign(s.sim.hero, { x: 11, z: 0 });
-  assert.match(nearbyInteraction(s.sim)!.blocked!, /combat/i);
-  assert.throws(() => s.prepareTransition('depart'), /unavailable/i);
-  assert.equal(s.loading, false);
-  s.sim.damage(s.sim.hero, s.sim.enemies[0]!, 1000);
+  assert.equal(s.sim.inCombat, true);
+  assert.equal(nearbyInteraction(s.sim)!.blocked, undefined);
+  s.sim.hero.health = 63;
+  s.sim.hero.cooldown = 70;
+  s.sim.hero.dodgeCooldown = 20;
   s.commitRoom(s.prepareTransition('depart'));
   assert.equal(s.sim.area, 'forest');
+  assert.equal(s.sim.hero.health, 63);
+  assert.equal(s.sim.hero.cooldown, 70);
+  assert.equal(s.sim.hero.dodgeCooldown, 20);
+  assert.equal(s.captureSave().areas.orchard!.actors.first!.health, 49);
+});
+
+test('optional relic ownership does not gate containers or physical exits', () => {
+  for (const ownsRelic of [false, true]) {
+    const session = fixture();
+    if (ownsRelic) supply(session, 'vigil-amulet', 1);
+    Object.assign(session.sim.hero, { x: 5, z: 4 });
+    assert.ok(session.sim.enemies.every((enemy) => enemy.health > 0));
+    assert.equal(session.sim.openContainer('chest'), true);
+    Object.assign(session.sim.hero, { x: 11, z: 0 });
+    const arrival = session.prepareTransition('depart');
+    session.commitRoom(arrival);
+    assert.equal(session.sim.area, 'forest');
+    assert.equal(session.inventory['vigil-amulet'] ?? 0, ownsRelic ? 1 : 0);
+    const reverse = session.sim.areaDefinition.exits.find(
+      (exit) => exit.destination === 'orchard',
+    )!;
+    const expected = Math.atan2(
+      session.sim.hero.x - reverse.marker.x,
+      session.sim.hero.z - reverse.marker.z,
+    );
+    assert.equal(session.sim.hero.yaw, expected);
+  }
 });
 
 test('fire travel commits the destination as the fallback death checkpoint', () => {
@@ -941,7 +968,6 @@ for (const obstruction of ['floor', 'wall'] as const)
       exits: a.exits.map((e) => ({
         ...e,
         explicit: false,
-        guards: [],
         trigger: { minX: -1, maxX: 1, minZ: -1, maxZ: 1 },
         marker: { x: 0, z: 0.8 },
       })),
@@ -962,16 +988,16 @@ test('a sword-only crate cannot hide the nearby campfire E interaction', () => {
   assert.equal(nearbyInteraction(s.sim)?.kind, 'campfire');
 });
 
-test('a blocked chest cannot hide an available container within interaction reach', () => {
+test('the nearest reachable container wins regardless of nearby enemies', () => {
   const s = changedAreas((a) => ({
     ...a,
     interactables: [
       { ...a.interactables![1]!, x: -8, z: 0 },
-      { ...a.interactables![1]!, id: 'unguarded', x: -7, z: 0, guards: [] },
+      { ...a.interactables![1]!, id: 'unguarded', x: -7, z: 0 },
     ],
     campfires: [],
   }));
-  assert.equal(nearbyInteraction(s.sim)?.id, 'unguarded');
+  assert.equal(nearbyInteraction(s.sim)?.id, 'chest');
 });
 
 test('room proposals preserve active progress until commit and cancellation discards the whole candidate', () => {

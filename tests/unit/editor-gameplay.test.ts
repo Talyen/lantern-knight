@@ -41,7 +41,6 @@ it('draft gameplay rejects invalid references without altering the input', () =>
       id: 'exit',
       destination: 'missing',
       entry: 'start',
-      requiresClear: false,
       trigger: { minX: -1, maxX: 1, minZ: -3, maxZ: -2 },
       marker: { x: 0, z: -2.5 },
     },

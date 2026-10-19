@@ -18,7 +18,6 @@ export function interactable(
     kind: 'container',
     x: 0,
     z: 0,
-    guards: [],
     rewards: [],
     idle: 'idle',
     action: 'open',

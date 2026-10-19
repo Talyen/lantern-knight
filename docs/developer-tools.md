@@ -155,7 +155,7 @@ For explicit native investigations, `npm run benchmark -- scene` checks fixture 
 
 Development Game accepts `?motion-probe` to show frame p50/p95/p99 and retain a bounded recording in the diagnostic output's `data-recording` attribute. Samples include frame intervals, simulation steps, interpolation alpha, interpolated hero position, camera position and a stationary landmark's projected position. Compare straight runs, collisions and camera edges with matching viewport, resolution and effects; average FPS alone does not establish uniform motion. Run actual Safari visibly without another GPU test competing for the machine.
 
-Development Game query parameters `wind-preview=gust|leaves|combined` and `dodge-preview=dust|leaves|combined` select supplied-artwork comparisons. `lighting-preview=lantern|golden|silver` compares the shared lighting rigs in Game. Dev Preview's Scene effects controls expose the wind and Dodge treatments. The default Dodge uses the supplied directional dash wake, attached to the hero during travel; `dust` selects that wake without leaves. Production Game ignores these review parameters. Captures and recordings stay outside Git.
+Development Game query parameters `dodge-preview=dust|leaves|combined` selects supplied-artwork comparisons. `lighting-preview=lantern|golden|silver` compares the shared lighting rigs in Game. Dev Preview's Scene effects controls expose the Dodge treatment and ambient foliage toggle. The default Dodge uses the supplied directional dash wake, attached to the hero during travel; `dust` selects that wake without leaves. Production Game ignores these review parameters. Captures and recordings stay outside Git.
 
 ### Opening comparison captures
 

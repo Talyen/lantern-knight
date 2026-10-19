@@ -108,13 +108,11 @@ export class SceneVisualEffects {
     ms: number,
     options: VisualEffects,
     art: WorldVisualDefinition | undefined,
-    breeze = { x: 0, z: 0, strength: 0 },
   ) {
     if (generation !== this.generation || area.id !== this.area?.id)
       this.build(area, generation, sprites, art);
     this.time += Math.max(0, ms) / 1000;
-    for (const wind of this.winds)
-      wind.update(this.time, options.wind, 0.012 + breeze.strength * 0.018, breeze);
+    for (const wind of this.winds) wind.update(this.time, options.wind);
     for (const f of this.fixtures) {
       const opacity = f.body?.material.opacity ?? 1,
         visible = f.body?.mesh.visible ?? true;
@@ -143,9 +141,7 @@ export class SceneVisualEffects {
             scale = s.mesh.scale.clone(),
             root = f.position.clone();
           if (s === f.smoke && options.wind) {
-            root.x +=
-              Math.sin(this.time * 0.7 + f.phase) * 0.06 + breeze.x * breeze.strength * 0.25;
-            root.z += breeze.z * breeze.strength * 0.25;
+            root.x += Math.sin(this.time * 0.7 + f.phase) * 0.06;
           }
           s.show(
             frameAt(clip, ((this.time + f.phase) * 1000) % clipDuration(clip)),

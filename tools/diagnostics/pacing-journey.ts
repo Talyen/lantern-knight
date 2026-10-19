@@ -120,10 +120,10 @@ async function journey(flags: string[]) {
     checks.push('equipped charm');
     const route = [
       'forest-gathering-clearing',
+      'abandoned-orchard',
       'ruined-forge',
       'desecrated-chapel',
       'ruined-forge',
-      'forest-gathering-clearing',
       'abandoned-orchard',
     ];
     const cdp = await page.context().newCDPSession(page);

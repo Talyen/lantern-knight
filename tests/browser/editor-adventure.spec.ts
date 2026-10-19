@@ -44,10 +44,9 @@ test('editor authors campfires, local encounters, rewards and explicit departure
   expect(gameplay.spawns[0]!.awareness).toEqual({ radius: 3.3, leash: 5.8, group: 'final-pair' });
   expect(gameplay.spawns[0]!.rewards).toEqual([{ item: 'gold', amount: 3 }]);
   expect(gameplay.exits[0]!.explicit).toBe(true);
-  expect(gameplay.exits[0]!.guards).toEqual([]);
 });
 
-test('gameplay inspector moves linked artwork and creates valid container and guard references', async ({
+test('gameplay inspector moves linked artwork and creates valid container references', async ({
   page,
 }) => {
   await openEditor(page);
@@ -82,13 +81,6 @@ test('gameplay inspector moves linked artwork and creates valid container and gu
   await page.getByRole('button', { name: 'Add Interactables', exact: true }).click();
   await expectEditorDocument(page, (document) => document.gameplay!.interactables?.length).toBe(1);
   await page.locator('[data-section="gameplay.interactables.0"] > summary').click();
-  await page.locator('[data-section="gameplay.interactables.0.advanced"] > summary').click();
-  await page.locator('[data-section="gameplay.interactables.0.guards"] > summary').click();
-  await page.getByRole('button', { name: 'Add Guards', exact: true }).click();
-  await expectEditorDocument(
-    page,
-    (document) => document.gameplay!.interactables![0]!.guards,
-  ).toEqual(['warden']);
   const interaction = await readEditorDocument(
     page,
     (document) => document.gameplay!.interactables![0]!,

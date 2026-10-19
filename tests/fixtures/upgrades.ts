@@ -38,7 +38,6 @@ export function upgradeFixture(area = 'camp') {
             kind: 'container',
             x: 1,
             z: 0,
-            guards: ['guard'],
             rewards: [
               { item: 'gold', amount: 20 },
               { item: 'iron', amount: 6 },

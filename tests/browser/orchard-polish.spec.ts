@@ -169,8 +169,8 @@ test('requested supplied-artwork comparison captures', async ({ page }) => {
   test.skip(!directory, 'Explicit visual review captures only');
   test.setTimeout(300_000);
   await mkdir(directory!, { recursive: true });
-  for (const treatment of ['gust', 'leaves', 'combined']) {
-    await page.goto(`/index.html?automated&wind-preview=${treatment}`);
+  {
+    await page.goto('/index.html?automated');
     await page.locator('canvas[data-ready="true"]').waitFor();
     await page.locator('#menu-start').click();
     await page.locator('#pause').click();
@@ -188,7 +188,7 @@ test('requested supplied-artwork comparison captures', async ({ page }) => {
     });
     await loadCheckpoint(page);
     await page.waitForTimeout(3000);
-    await page.screenshot({ path: path.join(directory!, `wind-${treatment}.png`) });
+    await page.screenshot({ path: path.join(directory!, 'exploration.png') });
   }
   await page.mouse.move(950, 380);
   await page.mouse.click(950, 380, { button: 'right' });

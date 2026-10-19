@@ -69,7 +69,6 @@ test('editor scopes visibility and locks to the opened scene, respects shortcuts
                 kind: 'container',
                 x: -2,
                 z: 0,
-                guards: [],
                 rewards: [{ item: 'gold', amount: 3 }],
                 idle: 'gravestone',
                 action: 'gravestone',

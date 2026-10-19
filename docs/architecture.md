@@ -175,7 +175,7 @@ CombatFeedback uses interpolated action time for supplied Flare, Lunge and Dodge
 
 Confirmed direct hits compress Contact Shear into a short directional burst, hold the struck drawing for two ticks, then settle a bounded visual recoil; Physical hits preserve an armored enemy's uninterrupted attack. Flare hits use a warmer, broader contact. Enemy strike events play a smaller warm sweep even on a miss, while tightening windup rings and a short body follow-through mark commitment. Burn ticks never replay impact feedback. Render-only camera impulses select the strongest current hit instead of stacking and respect reduced-motion preferences; they are restored before input or camera framing borrows the camera. Room reset clears pending events, held drawings, recoil and camera impulses together.
 
-Guiding wind crossfades route snapshots, runs for eight seconds in a twelve-second cycle and shares a local breeze with foliage and smoke. Developer visual comparisons select autumn gust, falling leaves or their combination, and dust, leaves or combined Dodge trails.
+Ambient foliage and smoke remain independent of gameplay state. Developer comparisons retain dust, leaves or combined Dodge trails. Physical exits and containers have no encounter-clearance requirements; physical travel may escape combat, while campfire services require safety.
 
 ### Asset ownership and disposal
 

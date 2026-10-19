@@ -26,9 +26,7 @@ export const AuthoredGameplaySchema = z
           trigger: bounds,
           destination: id,
           entry: id,
-          requiresClear: z.boolean(),
           explicit: z.boolean().optional(),
-          guards: z.array(id).optional(),
           marker: point,
         }),
       )

@@ -1,4 +1,3 @@
-import type { WindTreatment } from '../content/guiding-wind';
 import type { Presentation } from '../presentation/scene';
 import type { VisualEffect } from '../content/visual-effects';
 export function bindEffectControls(
@@ -11,9 +10,6 @@ export function bindEffectControls(
     input.checked = presentation.visualEffects[key];
     input.onchange = () => change(key, input.checked);
   }
-  const wind = root.querySelector<HTMLSelectElement>('#wind-treatment')!;
-  wind.value = presentation.guidingWind.treatment;
-  wind.onchange = () => (presentation.guidingWind.treatment = wind.value as WindTreatment);
   const dodge = root.querySelector<HTMLSelectElement>('#dodge-treatment')!;
   dodge.value = presentation.combatFeedback.dodgeTreatment;
   dodge.onchange = () =>

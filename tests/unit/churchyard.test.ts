@@ -34,7 +34,9 @@ test('encounters remain dormant until activation and damage wakes their peers', 
 });
 test('activation survives load/revisit and resets on death; backward passage allows retreat', () => {
   const session = new GameSession(content);
-  assert.throws(() => session.prepareTransition('landing'), /unavailable/);
+  const unguarded = session.prepareTransition('landing');
+  session.cancelRoom(unguarded);
+  assert.ok(session.sim.enemies.some((a) => a.health > 0));
   session.sim.damage(session.sim.hero, session.sim.enemies[0]!, 100);
   session.step(still);
   session.commitRoom(session.prepareTransition('landing'));

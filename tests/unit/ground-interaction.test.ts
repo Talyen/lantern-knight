@@ -235,7 +235,6 @@ test('placement rejects painted silhouettes and collision with base clearance, p
       object: 'barrel',
       kind: 'container',
       ...masked,
-      guards: [],
       rewards: [],
       idle: 'barrel',
       action: 'barrel',

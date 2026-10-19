@@ -25,17 +25,15 @@ export const interactableSchema = z.strictObject({
   kind: z.enum(['breakable', 'container']),
   x: coordinate,
   z: coordinate,
-  guards: z.array(id).max(20),
   rewards: z.array(rewardSchema).max(20),
   idle: z.string(),
   action: z.string(),
   spent: z.string(),
 });
 export type CampfireDefinition = z.infer<typeof campfireSchema>;
-export type InteractableDefinition = Omit<
-  z.infer<typeof interactableSchema>,
-  'guards' | 'rewards'
-> & { guards: readonly string[]; rewards: readonly import('./items').Reward[] };
+export type InteractableDefinition = Omit<z.infer<typeof interactableSchema>, 'rewards'> & {
+  rewards: readonly import('./items').Reward[];
+};
 export type GroundDrop = {
   id: string;
   source: string;

@@ -55,7 +55,6 @@ async function start() {
   loading.set(false);
   if (import.meta.env.DEV) {
     const params = new URLSearchParams(location.search),
-      wind = params.get('wind-preview'),
       dodge = params.get('dodge-preview'),
       lighting = params.get('lighting-preview');
     if (lighting === 'lantern' || lighting === 'golden' || lighting === 'silver')
@@ -68,8 +67,6 @@ async function start() {
         groundBounce: cohesion.includes('bounce'),
         tightContacts: cohesion.includes('contacts'),
       });
-    if (wind === 'gust' || wind === 'leaves' || wind === 'combined')
-      application.presentation.guidingWind.treatment = wind;
     if (dodge === 'dust' || dodge === 'leaves' || dodge === 'combined')
       application.presentation.combatFeedback.dodgeTreatment = dodge;
   }

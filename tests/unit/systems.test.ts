@@ -316,8 +316,6 @@ test('pointer rays hit the nearest floor across flat ground, ramps and terrace s
 });
 test('partial and cleared revisits preserve enemies; player cooldowns survive; enemy transient state clears', () => {
   const definitions = structuredClone(contentDefinitions);
-  definitions.areas[0]!.exits[0]!.requiresClear = false;
-  definitions.areas[1]!.exits[0]!.requiresClear = false;
   const session = new GameSession(new ContentRegistry(definitions));
   const enemy = session.sim.enemies[0]!;
   enemy.health = 25;

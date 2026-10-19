@@ -82,12 +82,9 @@ export class Simulation {
   private spawnActor(spawnId: string): Actor | undefined {
     return this.actors.find((actor) => actor.id === spawnActorId(this.area, spawnId));
   }
-  guardsDefeated(ids: readonly string[] = []) {
-    return ids.every((id) => this.spawnActor(id)?.health === 0);
-  }
   exitAvailable(id: string) {
     const e = this.areaDefinition.exits.find((e) => e.id === id);
-    return Boolean(e && (!e.requiresClear || this.cleared) && this.guardsDefeated(e.guards));
+    return Boolean(e);
   }
   get inCombat() {
     return this.encounter.inCombat(this.hero, this.enemies, this.engaged);
@@ -100,7 +97,7 @@ export class Simulation {
   }
   private claimObject(id: string) {
     const object = this.areaDefinition.interactables?.find((p) => p.id === id);
-    if (!object || this.claimedObjects.has(id) || !this.guardsDefeated(object.guards)) return false;
+    if (!object || this.claimedObjects.has(id)) return false;
     this.claimedObjects.add(id);
     this.objectActions.set(id, this.tick);
     if (object.rewards.length) this.pushRewards('object', id, object.x, object.z, object.rewards);
@@ -482,12 +479,9 @@ export class Simulation {
     }
   }
   private findExit(h: Actor) {
-    // Guard health is read directly; no per-tick defeated set is needed.
     if (h.health <= 0 || this.movementPreview) return undefined;
     return this.areaDefinition.exits.find((e) => {
       if (e.explicit || !contains(e.trigger, h)) return false;
-      if (e.requiresClear && !this.cleared) return false;
-      if (!this.guardsDefeated(e.guards ?? [])) return false;
       const bounds = this.areaDefinition.bounds;
       // Boundary markers may sit beyond the walkable room. Keep the contact ray inside it.
       const marker = {

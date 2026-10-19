@@ -51,7 +51,6 @@ const templates = {
     kind: 'container',
     x: 0,
     z: 0,
-    guards: [],
     rewards: [],
     idle: 'idle',
     action: 'open',
@@ -63,9 +62,7 @@ const templates = {
     trigger: { minX: -1, maxX: 1, minZ: -3, maxZ: -2 },
     destination: 'flat',
     entry: 'start',
-    requiresClear: false,
     explicit: true,
-    guards: [],
     marker: { x: 0, z: -2.5 },
   },
   pickups: { id: 'pickup', object: '', kind: 'health', amount: 25, radius: 0.5, x: 0, z: 0 },
@@ -276,12 +273,8 @@ export class VisualAuthoring {
               const reference =
                 field === 'propOrder'
                   ? this.host.history().document.objects.find((p) => !next.includes(p.id))?.id
-                  : field === 'guards'
-                    ? this.host
-                        .history()
-                        .document.gameplay?.spawns.find((p) => !next.includes(p.id))?.id
-                    : undefined;
-              if ((field === 'propOrder' || field === 'guards') && reference === undefined) return;
+                  : undefined;
+              if (field === 'propOrder' && reference === undefined) return;
               const base =
                 reference ??
                 value[0] ??

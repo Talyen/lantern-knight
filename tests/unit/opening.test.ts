@@ -6,7 +6,6 @@ import { content as fixture } from '../fixtures/content';
 import { GameSession } from '../../src/core/session';
 import { Simulation } from '../../src/core/simulation';
 import { attackDefinition, tuning } from '../../src/content/gameplay';
-import { windDestination } from '../../src/presentation/guiding-wind';
 import { parseGame } from '../../src/core/save';
 import { retimeLanternClip } from '../../src/presentation/lantern-timing';
 import { heroActionTiming } from '../../src/content/hero-actions';
@@ -37,11 +36,9 @@ function registry() {
         id: 'depart',
         destination: ids[1 - i]!,
         entry: 'fire-arrival',
-        requiresClear: false,
         explicit: true,
         marker: { x: 5, z: 5 },
         trigger: { minX: 4, maxX: 6, minZ: 4, maxZ: 6 },
-        guards: [],
       },
     ],
     campfires: [{ id: 'arrival', name: 'Fire', x: 5, z: 5, safeRadius: 1, discovered: i === 0 }],
@@ -345,195 +342,4 @@ test('malformed saved Burn timers and duplicate hint histories cannot enter a se
   duplicate.adventure!.onboarding = { completed: ['sword'], dismissed: ['sword'] };
   assert.throws(() => session.restoreSave(duplicate));
   assert.deepEqual(session.captureSave(), before);
-});
-
-test('environmental guidance suggests nearby supplies and the path, yields during combat and death', () => {
-  const defs = registry().definitions;
-  const r = new ContentRegistry({
-    ...defs,
-    areas: defs.areas.map((a) => ({
-      ...a,
-      spawns: a.spawns.map((s) => ({ ...s, awareness: { radius: 3, leash: 5 } })),
-    })),
-  });
-  const s = new Simulation(r);
-  s.enemies.forEach((a) => Object.assign(a, { x: 8, z: 8 }));
-  assert.equal(windDestination(s.view)?.z, 2);
-  s.claimedObjects.add('crate');
-  assert.equal(windDestination(s.view)?.x, 5);
-  s.enemies[0]!.x = s.hero.x;
-  s.enemies[0]!.z = s.hero.z;
-  s.engaged = true;
-  s.step(still);
-  assert.equal(windDestination(s.view), undefined);
-  s.hero.health = 0;
-  assert.equal(windDestination(s.view), undefined);
-});
-
-test('orchard wind follows discoveries, allows bypasses and preserves progress across respawns', () => {
-  const defs = registry().definitions;
-  const r = new ContentRegistry({
-    ...defs,
-    areas: defs.areas.map((a) => ({
-      ...a,
-      spawns: [{ id: 'first', actor: 'skeleton', x: 1, z: -2, awareness: { radius: 2, leash: 4 } }],
-      interactables: [
-        { ...a.interactables![0]!, id: 'southern-cache', kind: 'container' as const, x: 0, z: 2 },
-        { ...a.interactables![0]!, id: 'guarded-chest', kind: 'container' as const, x: 0, z: -6 },
-      ],
-    })),
-  });
-  const s = new Simulation(r);
-  const destination = () => windDestination(s.view);
-  assert.equal(destination()?.z, 2);
-  s.claimedObjects.add('southern-cache');
-  s.drops.push({
-    id: 'camp-reward',
-    source: 'southern-cache',
-    enemy: false,
-    x: 0,
-    z: 2,
-    rewards: [{ item: 'travellers-charm', amount: 1 }],
-  });
-  assert.equal(destination()?.z, 2, 'opening the satchel still guides to its reward');
-  s.drops.length = 0;
-  assert.equal(destination()?.z, -2);
-  s.enemies[0]!.health = 0;
-  assert.equal(destination()?.z, -6);
-  s.claimedObjects.add('guarded-chest');
-  s.drops.push({
-    id: 'press-reward',
-    source: 'guarded-chest',
-    enemy: false,
-    x: 0,
-    z: -6,
-    rewards: [{ item: 'orchard-ring', amount: 1 }],
-  });
-  assert.equal(destination()?.z, -6);
-  s.drops.length = 0;
-  s.enemies[0]!.health = 50;
-  assert.equal(destination()?.x, 5, 'respawning enemies do not rewind the completed route');
-
-  const bypass = new Simulation(r);
-  bypass.hero.z = -0.5;
-  assert.equal(windDestination(bypass.view)?.z, -2, 'the first encounter leads onward past camp');
-  bypass.enemies[0]!.health = 0;
-  assert.equal(windDestination(bypass.view)?.z, -6, 'an unclaimed satchel does not rewind combat');
-  bypass.hero.z = -5;
-  assert.equal(windDestination(bypass.view)?.z, -6, 'passing the camp does not guide backward');
-});
-
-test('wind follows the chapel journey after either upgrade and returns only with its reward', () => {
-  const base = registry().definitions.areas[0]!;
-  const ids = [
-    'abandoned-orchard',
-    'forest-gathering-clearing',
-    'ruined-forge',
-    'desecrated-chapel',
-  ];
-  const r = new ContentRegistry({
-    ...fixture.definitions,
-    initialArea: ids[0]!,
-    areas: ids.map((id, i) => ({
-      ...base,
-      id,
-      spawns: [],
-      exits: [
-        ...(i
-          ? [
-              {
-                ...base.exits[0]!,
-                id: 'return',
-                destination: ids[i - 1]!,
-                entry: 'start',
-                marker: { x: -5, z: 0 },
-              },
-            ]
-          : []),
-        ...(i < ids.length - 1
-          ? [
-              {
-                ...base.exits[0]!,
-                id: i === 0 ? 'depart' : 'forward',
-                destination: ids[i + 1]!,
-                entry: 'start',
-                marker: { x: 5, z: 0 },
-              },
-            ]
-          : []),
-      ],
-      interactables: [
-        interactable({ id: i === 0 ? 'guarded-chest' : 'cache', object: 'cache', z: 2 }),
-      ],
-    })),
-  });
-  for (const upgrades of ['sword', 'lantern'] as const)
-    for (const id of ids) {
-      const session = new GameSession(r, 142, id),
-        save = session.captureSave();
-      delete save.adventure!.pack;
-      save.adventure!.upgrades = { [upgrades]: 1 };
-      session.restoreSave(save);
-      const outward = session.sim,
-        cache = outward.areaDefinition.interactables![0]!;
-      assert.deepEqual(windDestination(outward.view), cache);
-      outward.claimedObjects.add(cache.id);
-      outward.drops.push({
-        id: 'cache-reward',
-        source: cache.id,
-        enemy: false,
-        x: 1,
-        z: 2,
-        rewards: [{ item: 'gold', amount: 1 }],
-      });
-      assert.deepEqual(windDestination(outward.view), outward.view.drops[0]);
-      outward.drops.length = 0;
-      assert.deepEqual(
-        windDestination(outward.view),
-        outward.areaDefinition.exits.find((exit) => exit.id !== 'return')?.marker ??
-          outward.areaDefinition.campfires![0],
-        'an upgrade alone must not turn the journey home',
-      );
-      save.adventure!.inventory['vigil-amulet'] = 1;
-      session.restoreSave(save);
-      const sim = session.sim,
-        home =
-          sim.areaDefinition.exits.find((e) => e.id === 'return')?.marker ??
-          sim.areaDefinition.campfires![0];
-      assert.deepEqual(
-        windDestination(sim.view),
-        home,
-        'unclaimed optional caches do not restart the outward journey',
-      );
-      sim.claimedObjects.add(cache.id);
-      sim.drops.push({
-        id: 'cache-reward',
-        source: cache.id,
-        enemy: false,
-        x: 1,
-        z: 2,
-        rewards: [{ item: 'gold', amount: 1 }],
-      });
-      assert.deepEqual(
-        windDestination(sim.view),
-        sim.view.drops[0],
-        'finish an opened cache before leaving',
-      );
-      sim.drops.length = 0;
-      sim.drops.push({
-        id: 'enemy-reward',
-        source: 'a',
-        enemy: true,
-        x: 2,
-        z: 1,
-        rewards: [{ item: 'gold', amount: 1 }],
-      });
-      assert.deepEqual(
-        windDestination(sim.view),
-        home,
-        'ordinary enemy coins do not redirect the return',
-      );
-      sim.hero.health = 0;
-      assert.equal(windDestination(sim.view), undefined);
-    }
 });

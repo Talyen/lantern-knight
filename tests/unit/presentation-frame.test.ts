@@ -402,7 +402,6 @@ test('animation observers can shut down presentation only after the complete fra
     visualEffects: defaultVisualEffects(),
     updateCamera: () => {},
     roomPresentation: { room },
-    guidingWind: { update: () => {} },
     sceneEffects: { update: () => {} },
     combatFeedback: {
       update: () => {},

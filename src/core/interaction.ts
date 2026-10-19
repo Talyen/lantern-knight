@@ -19,7 +19,7 @@ type InteractionState = Pick<
   SimulationView,
   'areaDefinition' | 'hero' | 'claimedObjects' | 'drops'
 > &
-  Readonly<Pick<Simulation, 'registry' | 'inCombat' | 'guardsDefeated' | 'exitAvailable'>>;
+  Readonly<Pick<Simulation, 'registry' | 'inCombat'>>;
 
 function* choices(
   sim: InteractionState,
@@ -31,8 +31,7 @@ function* choices(
     (id === undefined || point.id === id) &&
     canReachInteraction(sim.areaDefinition, sim.hero, point);
   // Combat status is fixed for the query; read once instead of re-scanning actors per target.
-  const inCombat =
-    kind === undefined || kind === 'campfire' || kind === 'exit' ? sim.inCombat : false;
+  const inCombat = kind === undefined || kind === 'campfire' ? sim.inCombat : false;
   if (!kind || kind === 'drop')
     for (const d of sim.drops)
       if (reachable(d, 'drop'))
@@ -63,7 +62,6 @@ function* choices(
           x: o.x,
           z: o.z,
           label: o.kind === 'breakable' ? 'LMB · Break' : 'Open container',
-          blocked: !sim.guardsDefeated(o.guards) ? 'Defeat the guard to open' : undefined,
         };
   if (!kind || kind === 'exit')
     for (const e of sim.areaDefinition.exits)
@@ -74,11 +72,6 @@ function* choices(
           x: e.marker.x,
           z: e.marker.z,
           label: 'Travel to ' + sim.registry.area(e.destination).name,
-          blocked: !sim.exitAvailable(e.id)
-            ? 'Defeat the enemies by the departure'
-            : inCombat
-              ? 'Finish combat to travel'
-              : undefined,
         };
 }
 
