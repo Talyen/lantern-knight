@@ -92,6 +92,7 @@ export type PlaygroundSettings = {
   baseline: boolean;
   paused: boolean;
   outline: OutlineSettings;
+  outlineInset: number;
 };
 export function playgroundDefaults(): PlaygroundSettings {
   const effects = {} as Record<PlaygroundEffect, boolean>;
@@ -101,6 +102,7 @@ export function playgroundDefaults(): PlaygroundSettings {
     treatment: 'quiet',
     baseline: false,
     paused: false,
+    outlineInset: 1,
     outline: { thickness: 4, opacity: 1, color: '#080808', style: 'solid' },
   };
 }

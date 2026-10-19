@@ -54,7 +54,7 @@ export function mountEffects(context: PreviewContext) {
           `<label>${label}<input type="checkbox" data-effect="${key}" checked></label>`,
       )
       .join('')}</details>
-    <details data-section="effects-outline"><summary>Outline appearance</summary><p>Persistent silhouette edges on hero, enemy and props. Separate from hidden-actor occlusion outlines.</p><label>Preset<select id="outline-preset"><option value="custom">Custom</option>${Object.entries(
+    <details data-section="effects-outline"><summary>Outline appearance</summary><p>Persistent silhouette edges on hero, enemy and props. Separate from hidden-actor occlusion outlines.</p><label for="outline-inset">Inset distance <output id="outline-inset-value">1 px</output></label><input id="outline-inset" type="range" min="0" max="2" step="1" value="1"><p>Moves part of the stroke inside the artwork without changing total thickness. At 4 px: 1 px in + 3 px out, or 2 px in + 2 px out.</p><label>Preset<select id="outline-preset"><option value="custom">Custom</option>${Object.entries(
       outlinePresets,
     )
       .map(([id, preset]) => `<option value="${id}">${preset.label}</option>`)
@@ -90,6 +90,8 @@ export function mountEffects(context: PreviewContext) {
     $<HTMLInputElement>('outline-opacity').value = String(settings.outline.opacity * 100);
     $('outline-opacity-value').textContent = Math.round(settings.outline.opacity * 100) + '%';
     $<HTMLInputElement>('outline-color').value = settings.outline.color;
+    $<HTMLInputElement>('outline-inset').value = String(settings.outlineInset);
+    $('outline-inset-value').textContent = settings.outlineInset + ' px';
     $<HTMLSelectElement>('outline-style').value = settings.outline.style;
     $<HTMLSelectElement>('outline-preset').value =
       Object.entries(outlinePresets).find(
@@ -217,6 +219,10 @@ export function mountEffects(context: PreviewContext) {
         settings.baseline = false;
         synchronize();
       }
+    };
+    $('outline-inset').oninput = () => {
+      settings.outlineInset = Number($<HTMLInputElement>('outline-inset').value);
+      synchronize();
     };
     $('outline-style').onchange = () => {
       settings.outline.style = $<HTMLSelectElement>('outline-style')

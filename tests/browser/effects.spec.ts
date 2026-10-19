@@ -13,6 +13,8 @@ test('Dev Preview remembers separate scene experiments and preserves comparison 
   await page.locator('[data-effect="rain"]').uncheck();
   await page.getByText('Outline appearance', { exact: true }).click();
   await page.locator('#outline-preset').selectOption('double');
+  await expect(page.locator('#outline-inset')).toHaveValue('1');
+  await page.locator('#outline-inset').press('Home');
   await page.locator('#baseline').check();
   expect(await page.evaluate(() => window.effectsPlayground.settings.effects.rain)).toBe(false);
   const reset = await page.evaluate(async () => {
@@ -39,6 +41,7 @@ test('Dev Preview remembers separate scene experiments and preserves comparison 
   await page.waitForFunction(() => window.effectsPlayground?.ready);
   await expect(page.locator('#baseline')).toBeChecked();
   await expect(page.locator('#outline-preset')).toHaveValue('double');
+  await expect(page.locator('#outline-inset')).toHaveValue('0');
   expect(await page.evaluate(() => window.effectsPlayground.settings.outline.style)).toBe('double');
   expect(await page.evaluate(() => window.effectsPlayground.settings.paused)).toBe(true);
   await expect(page.locator('[data-effect="rain"]')).not.toBeChecked();

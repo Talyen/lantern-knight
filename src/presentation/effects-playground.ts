@@ -428,6 +428,7 @@ export class EffectsPlayground implements PresentationLifecycle {
         ((this.camera.top - this.camera.bottom) / this.canvas.clientHeight) *
           settings.outline.thickness,
         settings.outline,
+        settings.outlineInset,
       );
     });
     this.glowPass.enabled = on('bloom');

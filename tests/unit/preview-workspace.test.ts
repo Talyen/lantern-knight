@@ -17,6 +17,7 @@ test('workspace retains independent experiments and reset survives storage failu
   settings.baseline = true;
   settings.outline.opacity = 0.4;
   settings.outline.style = 'brush';
+  settings.outlineInset = 2;
   store.state.scenes['effects-playground'] = {
     kind: 'effects',
     settings,
