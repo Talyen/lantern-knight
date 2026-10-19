@@ -1,5 +1,6 @@
 import { cleanupAll, cleanupAfterFailure, DisposalScope } from '../assets/cleanup';
 import type { GroundOcclusion } from './ground-occlusion';
+import { CameraMotionBlur } from './camera-motion-blur';
 import { ColorAntialiasing } from './color-antialiasing';
 import { radialTexture } from './radial-texture';
 import { heroLanternPosition } from './hero-lantern';
@@ -32,6 +33,7 @@ import type { AssetPack } from '../assets/loader';
 import type { WorldVisualDefinition } from '../content/world-visuals';
 import type { VisualEffects } from '../content/visual-effects';
 type LightingFrame = {
+  reducedMotion?: boolean;
   transientLight?: { position: T.Vector3; power: number; range: number };
   visuals: WorldVisualDefinition | undefined;
   visualEffects: VisualEffects;
@@ -42,9 +44,20 @@ type LightingFrame = {
 
 const finishShader = `
 uniform float lookContrast,lookSaturation,lookDefocus,lookFocus,lookNear,lookFar,lookInkFinish;
+uniform vec2 lookMotion;
 uniform vec2 lookTexel; uniform sampler2D lookMask;
 void mainImage(const in vec4 inputColor,const in vec2 uv,out vec4 outputColor){
  vec3 color=inputColor.rgb;
+ if(dot(lookMotion,lookMotion)>0.0){
+  vec3 sum=color;float total=1.0;
+  float protect=texture2D(lookMask,uv).g;
+  for(int i=1;i<=8;i++){
+   vec2 p=clamp(uv+lookMotion*(float(i)/8.0-.5),vec2(0.0),vec2(1.0));
+   float weight=1.0-texture2D(lookMask,p).g;
+   sum+=texture2D(inputBuffer,p).rgb*weight;total+=weight;
+  }
+  color=mix(sum/total,color,protect);
+ }
  if(lookDefocus>.01){
   vec2 d=lookTexel*3.0;vec4 mask=texture2D(lookMask,uv);float protect=mask.g;
   protect=max(protect,texture2D(lookMask,uv+d).g);protect=max(protect,texture2D(lookMask,uv-d).g);
@@ -136,7 +149,9 @@ export class SceneLightingRenderer {
   private profiling = false;
   private timer: { TIME_ELAPSED_EXT: number; GPU_DISJOINT_EXT: number } | null;
   private queries: WebGLQuery[] = [];
+  private motionBlur = new CameraMotionBlur();
   private uniforms = {
+    lookMotion: new T.Uniform(new T.Vector2()),
     lookContrast: new T.Uniform(1),
     lookInkFinish: new T.Uniform(0),
     lookSaturation: new T.Uniform(1),
@@ -320,6 +335,7 @@ export class SceneLightingRenderer {
     };
   }
   deactivate() {
+    this.motionBlur.reset();
     this.lighting.common.inkEnabled.value = 0;
     this.configureContacts(false);
     this.extras.visible = this.proxies.visible = false;
@@ -331,6 +347,7 @@ export class SceneLightingRenderer {
     r.autoClear = this.priorAutoClear;
   }
   resetRoom() {
+    this.motionBlur.reset();
     this.generation = -1;
     this.lighting.setEnvironment();
     cleanupAll([
@@ -526,6 +543,7 @@ export class SceneLightingRenderer {
       mesh.scale.setScalar(frame.visuals?.interior ? 0.5 : 1);
     });
     if (!s.postprocessing) {
+      this.motionBlur.reset();
       r.autoClear = this.priorAutoClear;
       this.room.surround.render(r, p.camera, p.scene);
       return;
@@ -543,7 +561,11 @@ export class SceneLightingRenderer {
       .clone()
       .sub(origin.clone().add(new T.Vector3(0, 0.8, 0)))
       .dot(new T.Vector3(0, 0, 1).applyQuaternion(p.camera.quaternion));
-    if (this.uniforms.lookDefocus.value > 0) this.focusMask.render(sprites);
+    this.uniforms.lookMotion.value.copy(
+      this.motionBlur.update(p.camera, ms, fx.motionBlur && !frame.reducedMotion),
+    );
+    if (this.uniforms.lookDefocus.value > 0 || this.uniforms.lookMotion.value.lengthSq() > 0)
+      this.focusMask.render(sprites);
     r.autoClear = false;
     this.composer.render(ms / 1000);
   }
@@ -552,6 +574,7 @@ export class SceneLightingRenderer {
       size = r.getDrawingBufferSize(new T.Vector2());
     if (size.equals(this.size)) return;
     this.size.copy(size);
+    this.motionBlur.reset();
     const logical = r.getSize(new T.Vector2());
     this.composer.setSize(logical.x, logical.y);
     this.mask.setSize(size.x, size.y);

@@ -34,8 +34,10 @@ export const effectsDefinitions: ContentDefinitions = {
   areas: [effectsArea],
 };
 
+// This fixture has its own fixed camera and does not use the scene finish pass.
+const { motionBlur: _motionBlur, ...playgroundVisualLabels } = visualEffectLabels;
 export const effectLabels = {
-  ...visualEffectLabels,
+  ...playgroundVisualLabels,
   wetness: 'Wet surfaces & puddles',
   outlines: 'Always-visible outlines',
   contact: 'Contact grounding',

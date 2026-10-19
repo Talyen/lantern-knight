@@ -12,6 +12,7 @@ const playerEffectLabels: Record<VisualEffect, string> = {
   atmosphere: 'Mist & drifting motes',
   palette: 'Rich shadows & highlights',
   bloom: 'Soft light glow',
+  motionBlur: 'Camera motion blur (experimental)',
 };
 const controlRows = [
   ['W A S D', 'Move', 'move'],
@@ -50,7 +51,7 @@ export const gameMenu = `<dialog class="modal game-menu is-title" id="modal" ari
           )
             .map(
               ([key, label]) =>
-                `<label>${label}<input type="checkbox" data-visual-effect="${key}" checked></label>`,
+                `<label>${label}<input type="checkbox" data-visual-effect="${key}" ${key === 'motionBlur' ? '' : 'checked'}></label>`,
             )
             .join('')}</fieldset></details>
         </section><section id="settings-sound" role="tabpanel" aria-labelledby="settings-sound-tab" hidden>${audioControls()}</section></div>

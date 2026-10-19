@@ -215,3 +215,19 @@ test('solid props cast sun and moving local-light silhouettes, receive warm ligh
   expect(proof.paintedResponse).toBeGreaterThan(20);
   expect(proof.pinholeChanges).toBe(0);
 });
+
+test('raised island lantern visibility agrees with unobstructed geometric rays', async ({
+  page,
+}) => {
+  await page.route('**/painted-shadow-proof.html', (route) =>
+    route.fulfill({ contentType: 'text/html', body: '<canvas></canvas>' }),
+  );
+  await page.goto('/painted-shadow-proof.html');
+  const proof = await page.evaluate(async () => {
+    const source = '/tests/fixtures/painted-shadow.ts';
+    return (await import(source)).paintedShadowProof();
+  });
+  expect(proof.error).toBe(0);
+  expect(proof.checked).toBeGreaterThan(100);
+  expect(proof.failures).toEqual([]);
+});

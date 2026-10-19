@@ -1,12 +1,14 @@
 import { defaultAudioSettings } from '../content/audio';
 import { z } from 'zod';
 import { visualEffectLabels, type VisualEffects } from '../content/visual-effects';
-const VisualEffectsSchema = z.strictObject(
-  Object.fromEntries(Object.keys(visualEffectLabels).map((k) => [k, z.boolean()])) as Record<
-    keyof VisualEffects,
-    z.ZodBoolean
-  >,
-);
+const VisualEffectsSchema = z
+  .strictObject(
+    Object.fromEntries(Object.keys(visualEffectLabels).map((k) => [k, z.boolean()])) as Record<
+      keyof VisualEffects,
+      z.ZodBoolean
+    >,
+  )
+  .extend({ motionBlur: z.boolean().default(false) });
 const SettingsSchema = z.strictObject({
   version: z.literal(7),
   uiScale: z.union([z.literal(0.9), z.literal(1), z.literal(1.15)]),

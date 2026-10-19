@@ -6,6 +6,7 @@ export function neutralColor(color: T.Color) {
   return color.setRGB(v, v, v);
 }
 import { right, up, outward } from './camera';
+import { PAINTED_HEIGHT_RANGE } from '../content/ground-interaction';
 import { SCENE_SHADE_CAPACITY } from '../content/world-visuals';
 import { cameraContract as contract } from '../assets/camera-contract';
 import type { ActorSprite } from './sprite';
@@ -69,8 +70,10 @@ vec3 inkReceiverPoint(vec4 painted){
  if(painted.b<.1)return inkShadowWorld;
  vec3 ray=vec3(${outward.x},${outward.y},${outward.z});
  float depth=inkPaintedRange.x+(painted.r*255.0*256.0+painted.g*255.0)/65535.0*inkPaintedRange.y;
- float lift=max(0.0,(depth-dot(inkWorld.xz,ray.xz))/dot(ray.xz,ray.xz));
- return inkWorld+ray*lift;
+ vec3 base=inkWorld-ray*(inkWorld.y/ray.y);
+ float lift=max(0.0,(depth-dot(base.xz,ray.xz))/dot(ray.xz,ray.xz));
+ if(painted.a>0.0)lift=min(lift,painted.a*${PAINTED_HEIGHT_RANGE.toFixed(1)}/ray.y);
+ return base+ray*lift;
 }
 LOCAL_SHADOW_FUNCTION
 float inkVisibility(vec3 receiver){
@@ -102,6 +105,10 @@ float inkShade(){
 vec3 inkIlluminate(vec3 base){
  if(inkEmissive>.5)return inkEnabled<.5?base:base*2.8;
  vec4 painted=inkPaintedSample();vec3 receiver=inkReceiverPoint(painted);
+ // Painted depth boundaries can slope across the image. Use the physical
+ // receiver plane for shadow bias rather than the stylized lighting normal.
+ vec3 receiverNormal=cross(dFdx(receiver),dFdy(receiver));
+ receiverNormal=dot(receiverNormal,receiverNormal)>1e-12?normalize(receiverNormal):normalize(inkSurface);
  if(inkEnabled<.5)return base*(.7+.3*inkVisibility(receiver));
  if(inkCohesionEligible>.5&&inkPaintedValues>.5){
   float value=dot(base,vec3(.2126,.7152,.0722));
@@ -114,7 +121,7 @@ vec3 inkIlluminate(vec3 base){
  float key=max(0.0,dot(n,inkDirection))*inkVisibility(receiver);illumination+=inkKey*(.16+key*.84)*inkKeyStrength;
  // Broad silhouettes supply stylized relief; texture luminance is never treated as height.
  vec3 local=vec3(0.0);
- for(int i=0;i<5;i++){vec3 delta=inkLightPosition[i]-receiver;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.35+.65*max(0.0,dot(n,normalize(delta+vec3(.0001)))))*inkLocalVisibility(i,receiver,n);}
+ for(int i=0;i<5;i++){vec3 delta=inkLightPosition[i]-receiver;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.35+.65*max(0.0,dot(n,normalize(delta+vec3(.0001)))))*inkLocalVisibility(i,receiver,receiverNormal);}
  illumination*=inkShade();
  if(inkCohesionEligible>.5&&inkGroundBounce>.5&&inkHasEnvironment>.5){
   float lower=1.0-smoothstep(.0,.75,max(0.0,inkWorld.y-inkFootY)/inkBodyHeight);
