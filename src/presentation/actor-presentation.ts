@@ -3,7 +3,6 @@ import { heroTravelClip, isHeroLocomotion } from '../content/hero-locomotion';
 import { cleanupAll, cleanupAfterFailure, DisposalScope } from '../assets/cleanup';
 import * as T from 'three';
 import { actorContactGeometry, contactShadowMaterial, poseActorContact } from './contact-shadows';
-import { actorContactPatches } from './contact-profiles';
 import { selectDirection, selectAuthoredDirection, HEADINGS } from '../content/headings';
 import { retimeLanternClip } from './lantern-timing';
 import { retimeSweepClip } from './sweep-timing';
@@ -86,7 +85,6 @@ export class ActorPresentation {
           actorContactGeometry(
             sprite.manifest.asset.shadow.radius * 1.5,
             sprite.manifest.asset.shadow.radius * 1.1,
-            actorContactPatches(sprite) !== undefined,
           ),
         ),
         resources.own(
@@ -365,7 +363,7 @@ export class ActorPresentation {
       v.shadow.quaternion.setFromUnitVectors(this.planeNormal, this.groundNormal);
       v.ring.quaternion.copy(v.shadow.quaternion);
       poseActorContact(v.shadow, v.sprite, this.groundNormal);
-      v.shadow.position.set(foot.x, foot.y + 0.03, foot.z);
+      v.shadow.position.set(v.sprite.mesh.position.x, foot.y + 0.03, v.sprite.mesh.position.z);
       v.shadow.visible = v.sprite.mesh.visible;
       v.shadow.material.opacity =
         Math.min(1, v.sprite.manifest.asset.shadow.opacity * 1.5) * v.sprite.material.opacity;

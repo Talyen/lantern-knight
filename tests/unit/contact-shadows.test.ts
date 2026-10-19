@@ -13,51 +13,43 @@ import { manifestFixture } from '../fixtures/manifest';
 import { resolveClip } from '../../src/assets/schema';
 import type { ArtPlacement } from '../../src/content/world-visuals';
 import { content } from '../fixtures/content';
+import { right, up } from '../../src/presentation/camera';
 
-test('reviewed sole contacts follow a slope and restore generic grounding for other poses or changed art', () => {
-  const manifest = manifestFixture();
-  manifest.hash = '03ac4b4fbb1459f85a56b3bb9c48af73d5b2144ba0e302513088e3cab151889a';
-  const clip = manifest.asset.clips.idle!.d45!;
-  clip.frames = ['idle-d90-00'];
-  const sprite = new ActorSprite('hero', manifest, new Map(), clip),
-    texture = new T.Texture(),
-    shadow = new T.Mesh(
-      actorContactGeometry(0.51, 0.374, true),
-      contactShadowMaterial(texture, 0.48),
+test('prepared supports follow slopes, reuse GPU buffers and fall back for legacy frames', () => {
+  const manifest = manifestFixture('any-character');
+  const frame = manifest.frames[0]!;
+  frame.contact = [
+    [-0.12, -0.03, 0.09, 0.025],
+    [0.14, 0.02, 0.08, 0.025],
+  ];
+  const sprite = new ActorSprite(
+      'actor',
+      manifest,
+      new Map(),
+      resolveClip(manifest, 'idle', 'd45'),
     ),
+    texture = new T.Texture(),
+    shadow = new T.Mesh(actorContactGeometry(0.51, 0.374), contactShadowMaterial(texture, 0.48)),
     normal = new T.Vector3(-0.2, 1, 0.1).normalize();
+  sprite.animator.start({ ...sprite.animator.clip, frames: [frame.id] });
+  const positions = shadow.geometry.getAttribute('position');
   try {
+    shadow.quaternion.setFromUnitVectors(new T.Vector3(0, 0, 1), normal);
     poseActorContact(shadow, sprite, normal);
-    const positions = shadow.geometry.getAttribute('position');
-    for (let i = 0; i < positions.count; i++)
-      assert.ok(Math.abs(new T.Vector3().fromBufferAttribute(positions, i).dot(normal)) < 1e-7);
-    const reviewed = Array.from(positions.array);
-    clip.frames = ['unreviewed-action'];
+    assert.equal(shadow.geometry.drawRange.count, 18);
+    for (let i = 0; i < positions.count; i++) {
+      const point = new T.Vector3()
+        .fromBufferAttribute(positions, i)
+        .applyQuaternion(shadow.quaternion);
+      assert.ok(Math.abs(point.dot(normal)) < 1e-7);
+    }
+    const next = { ...frame, id: 'another-pose', contact: undefined };
+    sprite.frameIndex.set(next.id, next);
+    sprite.animator.start({ ...sprite.animator.clip, frames: [next.id] });
     poseActorContact(shadow, sprite, normal);
-    const generic = Array.from(positions.array).slice(0, 12);
     assert.equal(shadow.geometry.drawRange.count, 6);
-    assert.notDeepEqual(generic, reviewed);
-    const original = new T.PlaneGeometry(0.51, 0.374);
-    assert.deepEqual(generic, Array.from(original.getAttribute('position').array));
-    original.dispose();
-    clip.frames = ['idle-d90-00'];
-    poseActorContact(shadow, sprite, normal);
-    assert.deepEqual(Array.from(positions.array), reviewed);
-    assert.equal(shadow.geometry.drawRange.count, 12);
-    assert.equal(
-      shadow.geometry.getAttribute('position'),
-      positions,
-      'Stance changes reuse the uploaded buffer',
-    );
-    poseActorContact(shadow, sprite, new T.Vector3(-1, 1, 0).normalize());
-    assert.deepEqual(
-      Array.from(positions.array).slice(0, 12),
-      generic,
-      'An edge-on floor keeps finite generic grounding',
-    );
-    manifest.hash = 'b'.repeat(64);
-    poseActorContact(shadow, sprite, normal);
-    assert.deepEqual(Array.from(positions.array).slice(0, 12), generic);
+    assert.equal(shadow.geometry.getAttribute('contactStrength').getX(0), 1);
+    assert.equal(shadow.geometry.getAttribute('position'), positions);
   } finally {
     sprite.dispose();
     shadow.geometry.dispose();
@@ -66,30 +58,71 @@ test('reviewed sole contacts follow a slope and restore generic grounding for ot
   }
 });
 
-test('toolbox base contacts stay drawable when the artwork is mirrored', () => {
-  const id = 'library-animation-01b6ad35f0ea6d5b-ffa5b716b5a5-interact-native',
-    manifest = manifestFixture(id);
-  manifest.hash = 'cd514729d28908d8b701ebe29eb09065dfbc3e18ef98e81b355542de518de1d6';
-  manifest.asset.type = 'prop';
-  manifest.asset.placement = 'upright';
+test('support blending follows displayed registration offsets without shifting the root', () => {
+  const manifest = manifestFixture('blended-character'),
+    frame = {
+      ...manifest.frames[0]!,
+      registration: {
+        canvas: [100, 100] as [number, number],
+        anchor: [50, 80] as [number, number],
+        density: 100,
+      },
+      visualOffsetPx: [10, 10] as [number, number],
+      contact: [[0, 0, 0.1, 0.03] as [number, number, number, number]],
+    };
   const sprite = new ActorSprite(
-      'toolbox',
+      'actor',
       manifest,
       new Map(),
       resolveClip(manifest, 'idle', 'd45'),
     ),
+    texture = new T.Texture(),
+    shadow = new T.Mesh(actorContactGeometry(0.5, 0.4), contactShadowMaterial(texture, 0.48)),
+    normal = new T.Vector3(0, 1, 0);
+  sprite.lightingSample = {
+    frame,
+    next: { ...frame, id: 'next', contact: [[0.2, 0.2, 0.1, 0.03]] },
+    blend: { from: frame.id, to: 'next', mix: 0.5, motion: false, guarded: false },
+  };
+  shadow.quaternion.setFromUnitVectors(new T.Vector3(0, 0, 1), normal);
+  try {
+    poseActorContact(shadow, sprite, normal);
+    const positions = shadow.geometry.getAttribute('position'),
+      center = new T.Vector3();
+    for (let i = 4; i < 8; i++) center.add(new T.Vector3().fromBufferAttribute(positions, i));
+    center.multiplyScalar(0.25).applyQuaternion(shadow.quaternion);
+    assert.ok(Math.abs(center.dot(right) - 0.2) < 1e-6);
+    assert.ok(Math.abs(center.dot(up)) < 1e-6);
+    assert.deepEqual(shadow.position.toArray(), [0, 0, 0]);
+  } finally {
+    sprite.dispose();
+    shadow.geometry.dispose();
+    shadow.material.dispose();
+    texture.dispose();
+  }
+});
+
+test('generic prepared prop supports respect mirroring and keep positive instance winding', () => {
+  const manifest = manifestFixture('any-prop');
+  manifest.asset.type = 'prop';
+  manifest.asset.placement = 'upright';
+  manifest.frames.forEach((f) => {
+    f.contact = [[0.1, -0.03, 0.15, 0.04]];
+  });
+  const sprite = new ActorSprite('prop', manifest, new Map(), resolveClip(manifest, 'idle', 'd45')),
     texture = new T.Texture(),
     batch = new PropContactShadows(texture, 2);
   try {
     for (const mirror of [false, true]) {
       batch.add(
         {
-          id: 'toolbox',
-          asset: id,
+          id: 'prop',
+          asset: manifest.asset.id,
           clip: 'idle',
           x: 0,
           z: 0,
           scale: 2.2,
+          footprint: [3, 4],
           mirror,
           purpose: 'Fixture',
         },
@@ -97,11 +130,8 @@ test('toolbox base contacts stay drawable when the artwork is mirrored', () => {
         content.area('court'),
       );
       const matrix = new T.Matrix4();
-      batch.mesh.getMatrixAt(batch.mesh.count - 1, matrix);
-      assert.ok(
-        matrix.determinant() > 0,
-        'Instanced ground contacts cannot use reversed face winding',
-      );
+      batch.mesh.getMatrixAt(batch.mesh.count - 2, matrix);
+      assert.ok(matrix.determinant() > 0);
     }
   } finally {
     batch.dispose();
@@ -162,7 +192,7 @@ test('batched contact shadows follow visibility and fading without orphaned shad
     };
   batch.add(p, sprite, content.area('court'));
   batch.add({ ...p, shadow: 'none' }, sprite, content.area('court'));
-  assert.equal(batch.mesh.count, 1);
+  assert.equal(batch.mesh.count, 3);
   const matrix = new T.Matrix4();
   batch.mesh.getMatrixAt(0, matrix);
   assert.equal(matrix.elements[12], 2);

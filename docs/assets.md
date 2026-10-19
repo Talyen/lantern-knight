@@ -71,6 +71,8 @@ Cache accounting stores compressed per-entry inode inventories outside payloads.
 
 Publication is sharing prepared assets, separate from shipping a game. Original artwork generation/editing follows AGENTS and the art-direction skill. Inspect generated artwork when authoring it; the publisher does not turn aesthetic advice into release receipts.
 
+Prepared character and upright-prop frames may carry up to two automatic `contact` patches in registered screen-plane world units: center X/Y and positive radii X/Y. Image-delivery preparation derives them from verified source alpha and smooths small neighboring-frame contour changes. The field is optional for older packs; missing or empty supports use the runtime soft footprint. Contact metadata changes manifest identity without changing original artwork or page bytes. `placementHash` retains the pre-contact identity used by measured alpha envelopes; registration or artwork changes still invalidate those measurements. The existing authoring index and delivery report retain support results and their extraction recipe identity, so unchanged assets reuse prepared contacts during a scoped refresh.
+
 ## Runtime composition boundary
 
 Scene layout, gameplay geometry, camera and lighting are runtime content. Preparation recipes own artwork-producing inputs and dependency order. Moving existing scenery does not bake or publish artwork. Changes to authored hero drawings, timing, registration or bake calibration require affected preparation; runtime timing overrides remain content. Source-free tests still verify the resulting current bindings.

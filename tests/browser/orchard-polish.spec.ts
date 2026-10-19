@@ -2,75 +2,86 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { test, expect } from './fixtures';
 import { clickCheckpointAction, loadCheckpoint } from '../fixtures/input';
-import { sourceIdentity } from '../../tools/source-identity';
+import { sourceIdentity, sourceInputHash } from '../../tools/source-identity';
 import os from 'node:os';
 
-test('requested contact shadow prototype comparison', async ({ page, context, request }) => {
+test('requested generic contact shadow comparison', async ({ page, context, request }) => {
   const directory = process.env.LANTERN_CONTACT_STUDY,
     baseline = process.env.LANTERN_CONTACT_BASELINE;
-  test.skip(!directory || !baseline, 'Explicit two-checkout contact-shadow review only');
+  test.skip(!directory, 'Explicit contact-shadow renderer review only');
   test.setTimeout(300_000);
   const beforePage = await context.newPage(),
-    identity = await (await request.get('/__lantern_identity')).json(),
-    beforeIdentity = await (await request.get(baseline + '/__lantern_identity')).json();
+    sources = await sourceIdentity(process.cwd()),
+    identity = await (await request.get('/__lantern_identity')).json();
+  const beforeIdentity = baseline
+    ? await (await request.get(baseline + '/__lantern_identity')).json()
+    : identity;
   expect(beforeIdentity.assets).toBe(identity.assets);
-  const sources = await Promise.all([
-    sourceIdentity(beforeIdentity.root),
-    sourceIdentity(identity.root),
-  ]);
   const errors: string[] = [];
   beforePage.on('pageerror', (e) => errors.push(e.message));
   beforePage.on('console', (m) => {
     if (m.type() === 'error') errors.push(m.text());
   });
   await mkdir(directory!, { recursive: true });
-  for (const [target, origin] of [
-    [beforePage, baseline!],
-    [page, ''],
-  ] as const) {
-    await target.goto(origin + '/sandbox.html?scene=forge-fixture');
+  for (const target of [beforePage, page]) {
+    await target.goto(
+      (target === beforePage ? (baseline ?? '') : '') + '/sandbox.html?scene=forge-fixture',
+    );
     await target.waitForFunction(() => window.foundation?.ready);
-    await target.evaluate(() => {
-      const f = window.foundation,
-        p = f.presentation;
-      f.pause(true);
-      f.editPreview((sim) => {
-        Object.assign(sim.hero, {
-          x: 4.3,
-          px: 4.3,
-          z: 1.4,
-          pz: 1.4,
-          yaw: Math.PI / 4,
-          state: 'idle',
-          age: 0,
-        });
-        for (const actor of sim.enemies) {
-          const spawn = sim.areaDefinition.spawns.find((s) => actor.id.endsWith(s.id))!;
-          Object.assign(actor, {
-            x: spawn.x,
-            px: spawn.x,
-            z: spawn.z,
-            pz: spawn.z,
+    await target.evaluate(
+      (baseline) => {
+        const f = window.foundation,
+          p = f.presentation;
+        f.pause(true);
+        Reflect.set(p, 'contactStudyUpdate', p.update.bind(p));
+        Reflect.set(p, 'update', () => undefined);
+        f.editPreview((sim) => {
+          Object.assign(sim.hero, {
+            x: 4.3,
+            px: 4.3,
+            z: 1.4,
+            pz: 1.4,
+            yaw: Math.PI / 4,
             state: 'idle',
             age: 0,
           });
-        }
-      });
-      p.debug = false;
-      p.beforeSceneRender = () => {
-        p.aim.visible = false;
-      };
-      p.lookRenderer.setSettings({
-        rig: 'lantern',
-        tightContacts: true,
-        paintedValues: true,
-        paintedFinish: true,
-        groundBounce: true,
-      });
-      p.update(f.sim, 1, 0, f.sim.hero);
-      for (const visual of p.actorPresentation.actors.values()) visual.sprite.animator.seek(0);
-      p.update(f.sim, 1, 0, f.sim.hero);
-    });
+          for (const actor of sim.enemies) {
+            const spawn = sim.areaDefinition.spawns.find((s) => actor.id.endsWith(s.id))!;
+            Object.assign(actor, {
+              x: spawn.x,
+              px: spawn.x,
+              z: spawn.z,
+              pz: spawn.z,
+              state: 'idle',
+              age: 0,
+            });
+          }
+        });
+        p.debug = false;
+        p.beforeSceneRender = () => {
+          p.aim.visible = false;
+        };
+        p.lookRenderer.setSettings({
+          rig: 'lantern',
+          tightContacts: true,
+          paintedValues: true,
+          paintedFinish: true,
+          groundBounce: true,
+        });
+        if (baseline)
+          for (const sprite of [
+            ...[...p.actorPresentation.actors.values()].map((v) => v.sprite),
+            ...p.roomPresentation.inkRoom!.sprites,
+          ])
+            sprite.frameIndex = new Map(
+              [...sprite.frameIndex].map(([id, f]) => [id, { ...f, contact: undefined }]),
+            );
+        Reflect.get(p, 'contactStudyUpdate')(f.sim, 1, 0, f.sim.hero);
+        for (const visual of p.actorPresentation.actors.values()) visual.sprite.animator.seek(0);
+        Reflect.get(p, 'contactStudyUpdate')(f.sim, 1, 0, f.sim.hero);
+      },
+      target === beforePage && !baseline,
+    );
   }
   const samples: {
     pair: number;
@@ -87,7 +98,8 @@ test('requested contact shadow prototype comparison', async ({ page, context, re
       const f = window.foundation,
         p = f.presentation,
         gl = p.renderer.getContext(),
-        render = () => p.update(f.sim, 1, 0, f.sim.hero);
+        render = () => Reflect.get(p, 'contactStudyUpdate')(f.sim, 1, 1000 / 60, f.sim.hero);
+      for (const v of p.actorPresentation.actors.values()) v.sprite.animator.seek(0);
       for (let i = 0; i < 30; i++) render();
       gl.finish();
       const frames = [];
@@ -112,44 +124,39 @@ test('requested contact shadow prototype comparison', async ({ page, context, re
   for (let pair = 0; pair < 5; pair++)
     for (const after of pair % 2 ? [true, false] : [false, true])
       samples.push({ pair, after, ...(await measure(after ? page : beforePage)) });
-  // A second control keeps the GPU context and allocations fixed. Only the
-  // reviewed contacts inspect the hash each frame. Borrow shallow manifest
-  // copies for the control; pack manifests and source files stay immutable.
-  const baselineMatrices = await beforePage.evaluate(() =>
-    Array.from(
-      window.foundation.presentation.roomPresentation.inkRoom!.contactShadows!.mesh.instanceMatrix
-        .array,
-    ),
-  );
-  const original = await page.evaluate(() => {
-    const p = window.foundation.presentation,
-      batch = p.roomPresentation.inkRoom!.contactShadows!.mesh;
-    return {
-      matrices: Array.from(batch.instanceMatrix.array),
-      boxes: Array.from(batch.geometry.getAttribute('contactBox').array),
-    };
-  });
+  // Keep one context, shader and allocations fixed to distinguish support
+  // cost from context scheduling and frequency drift in the full comparison.
   const sameContext = [];
   for (let pair = 0; pair < 5; pair++)
     for (const after of pair % 2 ? [true, false] : [false, true]) {
-      await page.evaluate(
-        ({ after, original, baselineMatrices }) => {
-          const p = window.foundation.presentation,
-            batch = p.roomPresentation.inkRoom!.contactShadows!.mesh;
-          [...p.actorPresentation.actors.values()].forEach((v) => {
-            const manifest = p.packs.get(v.sprite.manifest.asset.id)!.manifest;
-            v.sprite.manifest = after ? manifest : { ...manifest, hash: '0'.repeat(64) };
-          });
-          batch.instanceMatrix.array.set(after ? original.matrices : baselineMatrices);
-          batch.instanceMatrix.needsUpdate = true;
-          const boxes = batch.geometry.getAttribute('contactBox');
-          for (let i = 0; i < boxes.count; i++) boxes.setX(i, after ? original.boxes[i]! : 0);
-          boxes.needsUpdate = true;
-        },
-        { after, original, baselineMatrices },
-      );
+      await page.evaluate((after) => {
+        const p = window.foundation.presentation;
+        for (const sprite of [
+          ...[...p.actorPresentation.actors.values()].map((v) => v.sprite),
+          ...p.roomPresentation.inkRoom!.sprites,
+        ]) {
+          let saved = Reflect.get(sprite, 'contactStudyFrames');
+          if (!saved) {
+            saved = sprite.frameIndex;
+            Reflect.set(sprite, 'contactStudyFrames', saved);
+          }
+          sprite.frameIndex = after
+            ? saved
+            : new Map(
+                [...saved].map(([id, f]: [string, any]) => [id, { ...f, contact: undefined }]),
+              );
+        }
+      }, after);
       sameContext.push({ pair, after, ...(await measure(page)) });
     }
+  await page.evaluate(() => {
+    const p = window.foundation.presentation;
+    for (const sprite of [
+      ...[...p.actorPresentation.actors.values()].map((v) => v.sprite),
+      ...p.roomPresentation.inkRoom!.sprites,
+    ])
+      sprite.frameIndex = Reflect.get(sprite, 'contactStudyFrames');
+  });
   const profiles = [];
   for (const [target, label] of [
     [beforePage, 'before'],
@@ -162,16 +169,26 @@ test('requested contact shadow prototype comparison', async ({ page, context, re
         gl = p.renderer.getContext();
       p.lookRenderer.setProfiling(true);
       for (let i = 0; i < 30; i++) {
-        p.update(f.sim, 1, 0, f.sim.hero);
+        Reflect.get(p, 'contactStudyUpdate')(f.sim, 1, 0, f.sim.hero);
         gl.finish();
         await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
       }
+      for (const v of p.actorPresentation.actors.values()) v.sprite.animator.seek(0);
+      Reflect.get(p, 'contactStudyUpdate')(f.sim, 1, 0, f.sim.hero);
       const result = {
+        assets: p.roomPresentation.inkRoom!.sprites.map((s) => ({
+          id: s.manifest.asset.id,
+          hash: s.manifest.hash,
+          frame: s.animator.frame,
+          contact: s.frameIndex.get(s.animator.frame)?.contact,
+        })),
         cost: p.lookRenderer.stats().frameCost,
         memory: p.renderer.info.memory,
         stats: p.stats(),
         poses: [...p.actorPresentation.actors.values()].map((v) => ({
           frame: v.sprite.animator.frame,
+          asset: v.sprite.manifest.asset.id,
+          hash: v.sprite.manifest.hash,
           position: v.sprite.mesh.position.toArray(),
         })),
       };
@@ -181,6 +198,13 @@ test('requested contact shadow prototype comparison', async ({ page, context, re
     profiles.push(profile);
     await target.getByRole('button', { name: 'More options', exact: true }).click();
     await target.getByRole('button', { name: 'Hide controls', exact: true }).click();
+    await target.evaluate(async () => {
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      );
+      const f = window.foundation;
+      Reflect.get(f.presentation, 'contactStudyUpdate')(f.sim, 1, 0, f.sim.hero);
+    });
     await target.screenshot({ path: path.join(directory!, label + '.png') });
     for (let heading = 0; heading < 8; heading++) {
       await target.evaluate((heading) => {
@@ -188,7 +212,7 @@ test('requested contact shadow prototype comparison', async ({ page, context, re
         f.editPreview((sim) => {
           sim.hero.yaw = (heading * Math.PI) / 4;
         });
-        f.presentation.update(f.sim, 1, 0, f.sim.hero);
+        Reflect.get(f.presentation, 'contactStudyUpdate')(f.sim, 1, 0, f.sim.hero);
       }, heading);
       await target.screenshot({ path: path.join(directory!, `${label}-heading-${heading}.png`) });
     }
@@ -198,9 +222,32 @@ test('requested contact shadow prototype comparison', async ({ page, context, re
         sim.hero.yaw = Math.PI / 4;
         sim.claimedObjects.add('forge-tool-chest');
       });
-      f.presentation.update(f.sim, 1, 0, f.sim.hero);
+      Reflect.get(f.presentation, 'contactStudyUpdate')(f.sim, 1, 0, f.sim.hero);
     });
     await target.screenshot({ path: path.join(directory!, label + '-toolbox-open.png') });
+    for (const [state, age] of [
+      ['walk', 8],
+      ['attack', 16],
+    ] as const) {
+      await target.evaluate(
+        ({ state, age }) => {
+          const f = window.foundation;
+          f.editPreview((sim) => {
+            Object.assign(sim.hero, { state, age, px: sim.hero.x - 0.04 });
+            if (state === 'walk') {
+              const actor = sim.enemies.find((a) => a.definition.visual === 'ossuary-thrall')!;
+              Object.assign(actor, { state: 'walk', px: actor.x - 0.03 });
+            }
+          });
+          const p = f.presentation;
+          Reflect.get(p, 'contactStudyUpdate')(f.sim, 1, 1000 / 60, f.sim.hero);
+          for (const v of p.actorPresentation.actors.values()) v.sprite.animator.seek(150);
+          Reflect.get(p, 'contactStudyUpdate')(f.sim, 1, 0, f.sim.hero);
+        },
+        { state, age },
+      );
+      await target.screenshot({ path: path.join(directory!, `${label}-hero-${state}.png`) });
+    }
     for (const age of [1, 24, 60]) {
       await target.evaluate((age) => {
         const f = window.foundation;
@@ -216,7 +263,7 @@ test('requested contact shadow prototype comparison', async ({ page, context, re
           actor.state = 'death';
           actor.age = age;
         });
-        f.presentation.update(f.sim, 1, 0, f.sim.hero);
+        Reflect.get(f.presentation, 'contactStudyUpdate')(f.sim, 1, 0, f.sim.hero);
       }, age);
       await target.screenshot({ path: path.join(directory!, `${label}-death-${age}.png`) });
     }
@@ -224,7 +271,7 @@ test('requested contact shadow prototype comparison', async ({ page, context, re
   expect(profiles[1]!.poses).toEqual(profiles[0]!.poses);
   expect(profiles[1]!.cost.calls).toBe(profiles[0]!.cost.calls);
   expect(profiles[1]!.cost.triangles - profiles[0]!.cost.triangles).toBeLessThanOrEqual(
-    2 * profiles[1]!.poses.length,
+    4 * (profiles[1]!.poses.length + profiles[1]!.assets.length),
   );
   expect(profiles[1]!.memory).toEqual(profiles[0]!.memory);
   expect(
@@ -235,14 +282,19 @@ test('requested contact shadow prototype comparison', async ({ page, context, re
     ),
   ).toBe(true);
   expect(errors).toEqual([]);
-  expect(
-    await Promise.all([sourceIdentity(beforeIdentity.root), sourceIdentity(identity.root)]),
-  ).toEqual(sources);
+  expect(await sourceIdentity(process.cwd())).toEqual(sources);
   await writeFile(
     path.join(directory!, 'comparison.json'),
     JSON.stringify(
       {
         sources,
+        runtimeWithoutPin: await sourceInputHash(process.cwd(), {
+          scope: 'runtime',
+          ignoreAssetPin: true,
+        }),
+        identity,
+        beforeIdentity,
+        baseline: baseline ?? 'same-renderer-supports-disabled',
         hardware: {
           model: os.cpus()[0]!.model,
           platform: os.platform(),
@@ -253,8 +305,8 @@ test('requested contact shadow prototype comparison', async ({ page, context, re
         sameContext,
         profiles,
         limitations: [
-          'Frozen-pose hardware browser rendering with GPU completion; excludes display presentation and gameplay simulation. Profiling is separate from timed samples.',
-          'Same-context control retains candidate control flow and its box shader; it isolates profile shape cost from separate-context scheduling and allocation noise.',
+          'Hardware browser rendering with animations advancing at 60 Hz and GPU completion; excludes display presentation and gameplay simulation. Profiling is separate from timed samples.',
+          'Both pages use the candidate renderer and identical prepared assets; the control disables prepared supports. This isolates support shape and update cost, and does not compare old and new shader overhead.',
         ],
       },
       null,
@@ -593,4 +645,95 @@ test('requested corrected Orchard placement captures', async ({ page }) => {
     await loadCheckpoint(page);
     await page.screenshot({ path: path.join(directory!, `orchard-${name}-clearance.png`) });
   }
+});
+
+test('requested generic contacts on additional upright props', async ({ page }) => {
+  const directory = process.env.LANTERN_CONTACT_STUDY;
+  test.skip(!directory, 'Explicit contact-shadow renderer review only');
+  await page.goto('/editor.html?automated');
+  await page.waitForFunction(() => window.sceneEditor?.ready());
+  await page.evaluate(async () => {
+    const editor = window.sceneEditor,
+      view = editor.view(),
+      doc = {
+        ...structuredClone(editor.state().document),
+        hero: { x: 0, z: 3 },
+        objects: [
+          {
+            id: 'stone',
+            kind: 'prop' as const,
+            scale: 1,
+            asset: 'ink-scenery',
+            clip: 'gravestone',
+            x: -3,
+            z: 0,
+            purpose: 'Generic contacts review',
+          },
+          {
+            id: 'altar',
+            kind: 'prop' as const,
+            scale: 1,
+            asset: 'ink-chapel-altar',
+            clip: 'altar',
+            x: 0,
+            z: 0,
+            purpose: 'Generic contacts review',
+          },
+          {
+            id: 'lamp',
+            kind: 'prop' as const,
+            scale: 1,
+            asset: 'ink-graveyard-scenery',
+            clip: 'crook-lamp',
+            x: 3,
+            z: 0,
+            purpose: 'Generic contacts review',
+          },
+        ],
+      };
+    await view.apply(doc);
+    for (const object of doc.objects) {
+      const s = view.presentation!.roomPresentation.inkRoom!.sprites.find(
+          (s) => s.id === object.id,
+        )!,
+        frame = s.frameIndex.get(s.animator.frame)!,
+        density = (frame.registration ?? s.manifest.asset).density;
+      object.scale = Math.min((2 * density) / frame.trim[2], (2.7 * density) / frame.trim[3]);
+    }
+    await view.apply(doc);
+    view.presentation!.lookRenderer.setSettings({
+      lighting: false,
+      shadows: false,
+      tightContacts: true,
+    });
+    view.render();
+  });
+  const record = await page.evaluate(() =>
+    window.sceneEditor.view().presentation!.roomPresentation.inkRoom!.sprites.map((s) => ({
+      id: s.id,
+      asset: s.manifest.asset.id,
+      frame: s.animator.frame,
+      contacts: s.frameIndex.get(s.animator.frame)?.contact,
+    })),
+  );
+  expect(record.filter((s) => s.contacts?.length).length).toBeGreaterThanOrEqual(2);
+  await page
+    .locator('#viewport')
+    .screenshot({ path: path.join(directory!, 'additional-after.png') });
+  await page.evaluate(() => {
+    const view = window.sceneEditor.view(),
+      p = view.presentation!;
+    for (const s of [
+      ...p.roomPresentation.inkRoom!.sprites,
+      ...[...p.actorPresentation.actors.values()].map((v) => v.sprite),
+    ])
+      s.frameIndex = new Map(
+        [...s.frameIndex].map(([id, f]) => [id, { ...f, contact: undefined }]),
+      );
+    view.render();
+  });
+  await page
+    .locator('#viewport')
+    .screenshot({ path: path.join(directory!, 'additional-before.png') });
+  await writeFile(path.join(directory!, 'additional-assets.json'), JSON.stringify(record, null, 2));
 });

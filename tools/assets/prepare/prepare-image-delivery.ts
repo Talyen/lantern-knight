@@ -1,3 +1,5 @@
+import sharp from 'sharp';
+import { contactSupport, smoothContacts, contactIdentity } from '../contact-support';
 import { onExit } from '../../scope-exit';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -16,6 +18,27 @@ export async function prepare(context: PreparationContext, check = false) {
     ...(await readAuthoringCatalog(context.publicDirectory)),
     ...playgroundCatalog,
   };
+  const contactRecipe = imageHash(
+    JSON.stringify([
+      await context.readAsset('tools/assets/contact-support.ts', 'utf8'),
+      await context.readAsset('tools/assets/prepare/prepare-image-delivery.ts', 'utf8'),
+      sharp.versions,
+    ]),
+  );
+  let previousContacts: Record<string, ManifestDraft> = {};
+  try {
+    const report = JSON.parse(
+      await context.readAsset('public/generated/library/delivery-report.json', 'utf8'),
+    );
+    if (report.contactRecipe === contactRecipe)
+      previousContacts = JSON.parse(
+        await context.readAsset('public/generated/library/index.json', 'utf8'),
+      );
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+  }
+  let reusedContacts = 0,
+    derivedContacts = 0;
   const cached = new Map<string, Awaited<ReturnType<typeof prepareImageDelivery>>>();
   const index: Record<string, ManifestDraft> = {};
   let processed = 0,
@@ -152,6 +175,45 @@ export async function prepare(context: PreparationContext, check = false) {
   if (failure) throw failure;
   for (const [id, file] of Object.entries(catalog)) {
     const manifest = index[id]!;
+    manifest.placementHash = contactIdentity(manifest);
+    if (
+      manifest.asset.type === 'character' ||
+      (manifest.asset.type === 'prop' &&
+        manifest.asset.placement !== 'ground' &&
+        manifest.asset.placement !== 'reference')
+    ) {
+      const previous = Object.hasOwn(previousContacts, id) ? previousContacts[id] : undefined;
+      if (
+        previous?.placementHash === manifest.placementHash &&
+        previous.frames.length === manifest.frames.length &&
+        previous.frames.every((f) => f.contact !== undefined)
+      ) {
+        manifest.frames.forEach((f, i) => {
+          f.contact = previous.frames[i]!.contact;
+        });
+        reusedContacts++;
+      } else {
+        derivedContacts++;
+        for (const page of manifest.pages) {
+          const frames = manifest.frames.filter((f) => f.page === page.id);
+          const bytes = await context.readAsset(
+            'public/' + path.posix.join(path.posix.dirname(file), page.path),
+          );
+          if (imageHash(bytes) !== page.hash)
+            throw new Error('Contact source page changed: ' + file);
+          const { data, info } = await sharp(bytes)
+            .toColourspace('srgb')
+            .ensureAlpha()
+            .raw()
+            .toBuffer({ resolveWithObject: true });
+          for (const frame of frames)
+            frame.contact = contactSupport(data, info.width, frame, manifest.asset);
+        }
+        smoothContacts(manifest);
+      }
+    }
+    // Adding derived contacts must not discard independently measured alpha
+    // envelopes. Keep their pre-contact identity while versioning all support data.
     manifest.hash = imageHash(JSON.stringify([manifest.asset, manifest.frames, manifest.pages]));
     parseManifest(manifest);
     await write('public/' + file, JSON.stringify(manifest) + '\n');
@@ -190,8 +252,12 @@ export async function prepare(context: PreparationContext, check = false) {
     deliveryBytes,
     losslessAlpha,
     losslessDimensions,
+    contactRecipe,
   };
   await write('public/generated/library/delivery-report.json', JSON.stringify(report) + '\n');
+  console.log(
+    `Automatic supports: ${derivedContacts} assets derived, ${reusedContacts} reused by artwork, registration and recipe identity.`,
+  );
   console.log(
     `${check ? 'Verified' : 'Prepared'} image delivery: ${processed} pages; ${reused} reused, ${encoded} encoded; ${compressed} compressed variants; PNG masters retained.`,
   );
