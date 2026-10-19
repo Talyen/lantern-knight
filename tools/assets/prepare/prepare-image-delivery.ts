@@ -215,8 +215,10 @@ export async function prepare(context: PreparationContext, check = false) {
     // Adding derived contacts must not discard independently measured alpha
     // envelopes. Keep their pre-contact identity while versioning all support data.
     manifest.hash = imageHash(JSON.stringify([manifest.asset, manifest.frames, manifest.pages]));
-    parseManifest(manifest);
-    await write('public/' + file, JSON.stringify(manifest) + '\n');
+    // Serialize the parsed shape so newly added optional fields have the same
+    // order on a cold preparation and when reading the resulting manifest.
+    index[id] = parseManifest(manifest);
+    await write('public/' + file, JSON.stringify(index[id]) + '\n');
   }
   for (const name of ['basis_transcoder.js', 'basis_transcoder.wasm']) {
     const source = fileURLToPath(
