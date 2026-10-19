@@ -1,11 +1,11 @@
 {
   "schemaVersion": 4,
-  "sha256": "ed06a5380c583e7da715545b60734b163a6e93929519da937f6927cc876f4d19",
-  "inventorySha256": "ed06a5380c583e7da715545b60734b163a6e93929519da937f6927cc876f4d19",
-  "bytes": 24653659683,
-  "recipeSha256": "7922c6078f921bcf0786a4006ac3de0cabf232e4c2297c66184ca547605a6363",
+  "sha256": "05cdd33de477c9efb821bdc95db8a3c9a6cfc3f4468434e4031f0ad7b671beb2",
+  "inventorySha256": "05cdd33de477c9efb821bdc95db8a3c9a6cfc3f4468434e4031f0ad7b671beb2",
+  "bytes": 24647719629,
+  "recipeSha256": "bac99b39542873cdfd17cb26b89d5db8d6c0804a6db17b59a4f8681e6a530ac0",
   "preparation": {
-    "recipeSha256": "7922c6078f921bcf0786a4006ac3de0cabf232e4c2297c66184ca547605a6363",
+    "recipeSha256": "bac99b39542873cdfd17cb26b89d5db8d6c0804a6db17b59a4f8681e6a530ac0",
     "inputs": {
       "dependencies": "608f3b1374e4439465093f5bebc166f64c39ebebab013e563b1aea76b9ae85fc",
       "assets/audio-sources.json": "59b980676efdc04813e265465e727453d5abbcfa07ac8497de4ce298fc02e713",
@@ -29,7 +29,7 @@
       "assets/library-packs.json": "db39719b2de81fcae14a40fc9ea2f69b785beb31ae4f08b495e235d21c4d43d6",
       "assets/library-sources.json": "923b63c0dba83ffc69667dbc434808040e2d3074a3c309e68506852c6bd4d6f5",
       "assets/loading-sources.json": "c6328b90787a8f51146d0d54b62dc043565421cab27f2be4362cc615dc3a26a9",
-      "assets/recipe.json": "fd4a1cd8a3b9710c578aa4b5df8f3e49fd50f597fd710aa227342ae3efdfb12f",
+      "assets/recipe.json": "84f4dc3bcbe0f5ba4f99ec8d9dbba4ac3820940574cafcda09da5e889ae19d0b",
       "assets/sources.json": "a9c6024844331d5a02d63e63e81fce53640566b14205defdeb5d58dab70b74f0",
       "authoring/actor-scale.json": "ca7f617192a31ca5664fcd0951004715c9414a684bbcd9e25d1b9c97da35a463",
       "authoring/chapel-art.json": "8188a48dd079a98396b5c66f6077674c249dc1ac015eb198556a0141397e0497",
@@ -45,7 +45,7 @@
       "src/assets/camera.json": "35774b91048aa5c230a28918731a8afc14cb9df13118e050c6a74b99064cdaa4",
       "src/assets/normal-pixels.ts": "8507675392974e35711bb16a3029102b2f2ba118dda2741575d8f8220924f79e",
       "src/assets/registration.ts": "b0e0ce58778ac0fe8ce5cc5383da958fffb5d8d8342ca19947d21bc45568bd63",
-      "src/assets/schema.ts": "90592bcc781a5f2059996e4827a8e3723ba5e47244345aad48c491cbc9e205b8",
+      "src/assets/schema.ts": "e53be892dbcde6af4aa210220f086785af5bacfa424fa501f3096ec09a58d599",
       "src/content/asset-catalog.ts": "3ff02f13d63923a66d4c18044df8593d4a4901664f5f8f1b2808f07c4161b80e",
       "src/content/effects-playground-assets.ts": "f370f71b4199a37f39b9803b0c50342584422d433bac0f22ad479ef794fd5297",
       "src/content/graveyard-registration.ts": "55a5219a7be91e8e195413974155a6777da6bc492d168ee333879505b0a5693b",
@@ -58,7 +58,6 @@
       "tools/assets/archive.ts": "da73dc46c773905a8e064b72805f126a60db7d430f8058e19ecd9c14b5338eb3",
       "tools/assets/audio.ts": "479b8e017f76d3f0998d08f93a7461e04b8a102712d83ee2b9eee5dd508c2d22",
       "tools/assets/authoring-catalog.ts": "557356cf4012db5f18342196e38b70f7ed1ae7b799375c94dba98fcb811ff22c",
-      "tools/assets/contact-support.ts": "6103c2c796579130b31f2fee605f852f866b462c9af7949137934e8c0dd337e0",
       "tools/assets/context.ts": "fd876bda53cf9807f71b7898c05d735dc4e3723340fbaa9fb637f6b502f3da2c",
       "tools/assets/definition.ts": "53b4b4ed27f8e93f4a3a8afa1fe6acb8fa6e80c0fbbf05e29f93aca821758def",
       "tools/assets/discovery.py": "5ed5421e9df1f90c6d3ffded399f8a7aac163fd9f9bf7ad8f92d686844bf9ec0",
@@ -90,7 +89,7 @@
       "tools/assets/prepare/prepare-graveyard-coverage.ts": "767700daf931001eba8203c5b489305b35c451340fc9d2c6bce4b5ed295eb20e",
       "tools/assets/prepare/prepare-graveyard-ground.ts": "c5f050a31dfc9d15c1f88505a29e02b8645d106b376566af48114336c8b16f69",
       "tools/assets/prepare/prepare-hero.ts": "9f90577788c43681935cc3705cf1c2a3b5372bae375ec60613cc9f72cb962132",
-      "tools/assets/prepare/prepare-image-delivery.ts": "08b7a91e8b28d86ebd199f11b13e2ea573b3ecca1faef142422c0c5b6a1ef710",
+      "tools/assets/prepare/prepare-image-delivery.ts": "7948bec90f30d4b7dc5d0e5700d92fe891ac3f8654bbbbb8e5fe9f6c9b11f14e",
       "tools/assets/prepare/prepare-ink.ts": "a1e2ee2075789152c212342b733d059ce4ff37b3b509ce05ee650953a6fabce3",
       "tools/assets/prepare/prepare-library.ts": "48f86115be22792efdcc32d85303b5e7a79842c329241c895665a9704d9bf33b",
       "tools/assets/prepare/prepare-lighting.ts": "83603df51ef837e0eb588d1121165c5380e1b84b9073af7d5d02515aca5c6918",
@@ -107,12 +106,12 @@
       "tools/compiler.ts": "169f3afd8b34452dc4dab930b99389cc0ea7a5598b0068602a07f9ec7e5c5589",
       "tools/lighting-bindings.ts": "fc0212029302de66c1f78998347d174156246d16641ae930ff5774affd42cb8f"
     },
-    "payloadSha256": "4bda3f52403e29ef641d8b5b76aac7df89e4e29d5905e4af794d23d4eb4b15ba"
+    "payloadSha256": "f1d2338c8b91b8e09e025307f0ebec5f98b1c7ff0aaa7a163a1f90ed36ee7d7a"
   },
   "fileDelivery": {
-    "releaseTag": "assets-catalog-786e6ecc29dce0cd",
+    "releaseTag": "assets-catalog-aa574a269832c488",
     "filename": "files.json.gz",
-    "sha256": "786e6ecc29dce0cd5f5f19a7a7cee85bf556edc06eb665914487d0c1e236e9ea",
-    "bytes": 10818617
+    "sha256": "aa574a269832c4883d6397b25127a6c7df04f5f2297f194ae9a4fe60a53dfe72",
+    "bytes": 10710159
   }
 }

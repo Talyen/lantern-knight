@@ -112,17 +112,9 @@ const SourceSchema = z.strictObject({
   asset: metadata,
   frames: z.array(sourceFrame).min(1),
 });
-const runtimeFrame = sourceFrame.omit({ path: true }).extend({
-  source: path,
-  page: id,
-  rect,
-  trim: rect,
-  rotated: z.literal(false),
-  contact: z
-    .array(z.tuple([finite, finite, positive, positive]))
-    .max(2)
-    .optional(),
-});
+const runtimeFrame = sourceFrame
+  .omit({ path: true })
+  .extend({ source: path, page: id, rect, trim: rect, rotated: z.literal(false) });
 const deliveryImage = z.strictObject({
   path,
   hash,
@@ -160,7 +152,6 @@ const ManifestSchema = z.strictObject({
   bakeVersion: z.literal(contract.bakeVersion),
   hash,
   toolVersion: z.string(),
-  placementHash: hash.optional(),
   asset: metadata,
   frames: z.array(runtimeFrame),
   pages: z.array(page),

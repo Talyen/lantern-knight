@@ -274,8 +274,7 @@
       ],
       "inputs": [
         "tools/assets/image-delivery.ts",
-        "tools/assets/authoring-catalog.ts",
-        "tools/assets/contact-support.ts"
+        "tools/assets/authoring-catalog.ts"
       ],
       "dependsOn": [
         "assets/prepare/prepare-masonry.ts",

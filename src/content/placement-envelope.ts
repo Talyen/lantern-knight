@@ -18,8 +18,7 @@ export function spritePlacementEnvelope(
   clips: readonly string[],
 ): PlacementEnvelope {
   const measured = placementRegistration[manifest.asset.id];
-  const registered =
-    measured?.hash === (manifest.placementHash ?? manifest.hash) ? measured.clips : {};
+  const registered = measured?.hash === manifest.hash ? measured.clips : {};
   const unmeasured = new Set<string>();
   const bounds: PlacementEnvelope[] = [];
   for (const name of clips) {

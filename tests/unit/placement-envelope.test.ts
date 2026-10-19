@@ -1,4 +1,3 @@
-import { placementRegistration } from '../../src/content/placement-registration';
 import { rectangle } from '../fixtures/ground';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -110,16 +109,4 @@ test('unmeasured artwork reserves every registered frame, including non-looping 
   Object.assign(m.asset.clips, { constructor: m.asset.clips.idle! });
   assert.deepEqual(spritePlacementEnvelope(m, ['constructor']), actual);
   assert.throws(() => spritePlacementEnvelope(m, ['missing']), /registered drawing/);
-});
-
-test('derived contact metadata preserves measured alpha envelopes while changed artwork invalidates them', () => {
-  const [id, measured] = Object.entries(placementRegistration)[0]!,
-    name = Object.keys(measured.clips)[0]!,
-    manifest = manifestFixture(id);
-  manifest.hash = 'f'.repeat(64);
-  manifest.placementHash = measured.hash;
-  assert.deepEqual(spritePlacementEnvelope(manifest, [name]), measured.clips[name]);
-  manifest.placementHash = 'e'.repeat(64);
-  manifest.asset.clips[name] = manifest.asset.clips.idle!;
-  assert.notDeepEqual(spritePlacementEnvelope(manifest, [name]), measured.clips[name]);
 });
