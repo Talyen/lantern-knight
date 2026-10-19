@@ -64,7 +64,7 @@ test('invalid workspace data falls back without applying corrupt settings', () =
           kind: 'effects',
           settings: {
             ...playgroundDefaults(),
-            outline: { thickness: 1, opacity: 1, color: '#ffffff' },
+            outline: { thickness: 1, opacity: 1.1, color: '#ffffff' },
           },
           hero: { x: 0, z: 0, yaw: 0 },
           scale: 1,

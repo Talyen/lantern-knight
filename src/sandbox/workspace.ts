@@ -79,9 +79,10 @@ const effectsStateSchema = z.object({
     baseline: z.boolean(),
     paused: z.boolean(),
     outline: z.object({
-      thickness: finite.min(0.5).max(2),
-      opacity: finite.min(0).max(0.5),
+      thickness: finite.min(0.5).max(5),
+      opacity: finite.min(0).max(1),
       color: z.string().regex(/^#[0-9a-f]{6}$/i),
+      style: z.enum(['solid', 'double', 'rim']).default('solid'),
     }),
   }),
 });

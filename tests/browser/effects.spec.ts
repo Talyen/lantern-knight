@@ -11,6 +11,8 @@ test('Dev Preview remembers separate scene experiments and preserves comparison 
   await page.getByRole('button', { name: 'Visuals', exact: true }).click();
   await page.getByText('Individual effects', { exact: true }).click();
   await page.locator('[data-effect="rain"]').uncheck();
+  await page.getByText('Outline appearance', { exact: true }).click();
+  await page.locator('#outline-preset').selectOption('double');
   await page.locator('#baseline').check();
   expect(await page.evaluate(() => window.effectsPlayground.settings.effects.rain)).toBe(false);
   const reset = await page.evaluate(async () => {
@@ -36,6 +38,8 @@ test('Dev Preview remembers separate scene experiments and preserves comparison 
   await page.selectOption('#scene-select', 'effects-playground');
   await page.waitForFunction(() => window.effectsPlayground?.ready);
   await expect(page.locator('#baseline')).toBeChecked();
+  await expect(page.locator('#outline-preset')).toHaveValue('double');
+  expect(await page.evaluate(() => window.effectsPlayground.settings.outline.style)).toBe('double');
   expect(await page.evaluate(() => window.effectsPlayground.settings.paused)).toBe(true);
   await expect(page.locator('[data-effect="rain"]')).not.toBeChecked();
   await page.locator('#baseline').uncheck();

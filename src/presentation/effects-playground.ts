@@ -21,7 +21,6 @@ import { defaultLook } from './lighting-profiles';
 import { sampleMaterial, SilhouetteOutline } from './playground-materials';
 import { makeCamera, resizeCamera, drawingBufferSize, right, outward } from './camera';
 import { selectAuthoredDirection } from '../content/headings';
-import { cameraContract as contract } from '../assets/camera-contract';
 import { resolveActorClip, resolveClip, type Clip } from '../assets/schema';
 import { frameAt, clipDuration } from '../core/animation';
 import type { AssetPack } from '../assets/loader';
@@ -181,11 +180,6 @@ export class EffectsPlayground implements PresentationLifecycle {
     this.prop('stone', 'gravestone', -1.4, -2.8, 0.8);
     this.hero = this.sprite('hero', 'ink-hero-current', 'idle', new T.Vector3(0, 0, 3));
     this.target = this.sprite('target', 'library-sk01', 'idle', new T.Vector3(2.8, 0, -0.7));
-    this.outlines = [
-      new SilhouetteOutline(this.hero.mesh),
-      new SilhouetteOutline(this.target.mesh),
-    ];
-    this.outlines.forEach((o) => this.scene.add(o.mesh));
     for (const [i, [id, x, z]] of (
       [
         ['watch', -1.9, 1.3],
@@ -209,6 +203,10 @@ export class EffectsPlayground implements PresentationLifecycle {
         embers = this.animation(`embers-${id}`, 'fx-embers', socket.clone(), i * 0.47);
       this.lamps.push({ body, flame, position, light, socket, smoke, embers });
     }
+    this.outlines = this.sprites
+      .filter((sprite) => sprite.manifest.asset.type !== 'effect')
+      .map((sprite) => new SilhouetteOutline(sprite.mesh));
+    this.outlines.forEach((outline) => this.scene.add(outline.mesh));
     this.rain = new IllustratedRain(packs);
     this.scene.add(this.rain.group, this.shafts.group);
     this.mist.setArea(effectsArea);
@@ -429,9 +427,7 @@ export class EffectsPlayground implements PresentationLifecycle {
       o.update(
         ((this.camera.top - this.camera.bottom) / this.canvas.clientHeight) *
           settings.outline.thickness,
-        Math.tan((contract.elevationDeg * Math.PI) / 180),
-        settings.outline.opacity,
-        settings.outline.color,
+        settings.outline,
       );
     });
     this.glowPass.enabled = on('bloom');

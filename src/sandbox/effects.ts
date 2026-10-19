@@ -14,6 +14,7 @@ import {
   effectsDefinitions,
   effectLabels,
   playgroundDefaults,
+  outlinePresets,
   type PlaygroundEffect,
 } from '../content/effects-playground';
 import { playgroundCatalog } from '../content/effects-playground-assets';
@@ -53,7 +54,13 @@ export function mountEffects(context: PreviewContext) {
           `<label>${label}<input type="checkbox" data-effect="${key}" checked></label>`,
       )
       .join('')}</details>
-    <details data-section="effects-outline"><summary>Outline appearance</summary><label for="outline-width">Thickness <output id="outline-width-value">1 px</output></label><input id="outline-width" type="range" min="0.5" max="2" step="0.25" value="1"><label for="outline-opacity">Opacity <output id="outline-opacity-value">25%</output></label><input id="outline-opacity" type="range" min="0" max="50" step="5" value="25"><label>Color<input id="outline-color" type="color" value="#29343b"></label></details>
+    <details data-section="effects-outline"><summary>Outline appearance</summary><p>Persistent silhouette edges on hero, enemy and props. Separate from hidden-actor occlusion outlines.</p><label>Preset<select id="outline-preset"><option value="custom">Custom</option>${Object.entries(
+      outlinePresets,
+    )
+      .map(([id, preset]) => `<option value="${id}">${preset.label}</option>`)
+      .join(
+        '',
+      )}</select></label><label>Edge style<select id="outline-style"><option value="solid">Solid</option><option value="double">Ink + parchment</option><option value="rim">Directional rim</option></select></label><label for="outline-width">Thickness <output id="outline-width-value">1 px</output></label><input id="outline-width" type="range" min="0.5" max="5" step="0.25" value="1"><label for="outline-opacity">Opacity <output id="outline-opacity-value">25%</output></label><input id="outline-opacity" type="range" min="0" max="100" step="5" value="25"><label>Color<input id="outline-color" type="color" value="#29343b"></label></details>
     <details data-section="effects-rendering"><summary>Rendering</summary><label>Render scale<select id="render-scale"><option value="1">100%</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label><p>Production light rigs, looks and focus controls use Outdoor, Interior or Systems.</p><button data-fixture="outdoor-fixture">Open Outdoor fixture</button></details></section>
     <section data-preview-panel="animation" hidden>${assetPickerUI}<p>Animation requires Outdoor, Interior or Systems.</p><button id="preview-library-asset">Preview selected asset in Outdoor</button></section>
     <section data-preview-panel="inspect" hidden><label>Freeze enemies<input id="freeze-enemies" type="checkbox"></label><p>Calibration, registration and occlusion inspection require Outdoor, Interior or Systems.</p><button data-fixture="outdoor-fixture">Open Outdoor fixture</button></section>`,
@@ -83,6 +90,15 @@ export function mountEffects(context: PreviewContext) {
     $<HTMLInputElement>('outline-opacity').value = String(settings.outline.opacity * 100);
     $('outline-opacity-value').textContent = Math.round(settings.outline.opacity * 100) + '%';
     $<HTMLInputElement>('outline-color').value = settings.outline.color;
+    $<HTMLSelectElement>('outline-style').value = settings.outline.style;
+    $<HTMLSelectElement>('outline-preset').value =
+      Object.entries(outlinePresets).find(
+        ([, p]) =>
+          p.thickness === settings.outline.thickness &&
+          p.opacity === settings.outline.opacity &&
+          p.color === settings.outline.color &&
+          p.style === settings.outline.style,
+      )?.[0] ?? 'custom';
     shell.sync();
     savePreview();
   }
@@ -192,16 +208,33 @@ export function mountEffects(context: PreviewContext) {
         settings.baseline = false;
         synchronize();
       };
+    $('outline-preset').onchange = () => {
+      const id = $<HTMLSelectElement>('outline-preset').value;
+      if (Object.hasOwn(outlinePresets, id)) {
+        const { label: _label, ...outline } = outlinePresets[id as keyof typeof outlinePresets];
+        Object.assign(settings.outline, outline);
+        settings.effects.outlines = true;
+        settings.baseline = false;
+        synchronize();
+      }
+    };
+    $('outline-style').onchange = () => {
+      settings.outline.style = $<HTMLSelectElement>('outline-style')
+        .value as typeof settings.outline.style;
+      synchronize();
+    };
     $('outline-width').oninput = () => {
       settings.outline.thickness = Number($<HTMLInputElement>('outline-width').value);
-      $('outline-width-value').textContent = settings.outline.thickness + ' px';
+      synchronize();
     };
     $('outline-opacity').oninput = () => {
       settings.outline.opacity = Number($<HTMLInputElement>('outline-opacity').value) / 100;
-      $('outline-opacity-value').textContent = Math.round(settings.outline.opacity * 100) + '%';
+      synchronize();
     };
-    $('outline-color').oninput = () =>
-      (settings.outline.color = $<HTMLInputElement>('outline-color').value);
+    $('outline-color').oninput = () => {
+      settings.outline.color = $<HTMLInputElement>('outline-color').value;
+      synchronize();
+    };
     if (remembered) {
       const position = supportedPosition(registry.area('effects-playground'), remembered.hero, 0.3);
       const y = heightAt(registry.area('effects-playground'), position.x, position.z);

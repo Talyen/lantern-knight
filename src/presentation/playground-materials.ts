@@ -1,4 +1,5 @@
 import * as T from 'three';
+import type { OutlineSettings } from '../content/effects-playground';
 import { puddleGLSL } from './playground-surfaces';
 import { normalPixels } from './lighting-profiles';
 
@@ -125,20 +126,46 @@ export class SilhouetteOutline {
         depthSlope: { value: 0 },
         tint: { value: new T.Color(0x29343b) },
         opacity: { value: 0.25 },
+        style: { value: 0 },
       },
       vertexShader:
         'varying vec2 vUV;uniform vec2 center,uvPad;uniform float pad,depthSlope;void main(){vec2 side=sign(position.xy-center);vec3 p=position;p.xy+=side*pad;p.z+=side.y*pad*depthSlope;vUV=uv+side*uvPad;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);}',
-      fragmentShader: `varying vec2 vUV;uniform sampler2D map;uniform vec4 rect;uniform vec2 uvPad;uniform vec3 tint;uniform float opacity;
+      fragmentShader: `varying vec2 vUV;uniform sampler2D map;uniform vec4 rect;uniform vec2 uvPad;uniform vec3 tint;uniform float opacity,style;
     float a(vec2 p){if(any(lessThan(p,rect.xy))||any(greaterThan(p,rect.zw)))return 0.;return texture2D(map,p).a;}
-    void main(){float edge=0.;for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++)edge=max(edge,a(vUV+vec2(float(x),float(y))*uvPad));float alpha=edge*(1.-a(vUV));if(alpha<.01)discard;gl_FragColor=vec4(tint,alpha*opacity);}`,
+    void main(){
+      float edge=0.,inner=0.,lit=0.;
+      for(int i=0;i<16;i++){
+        float angle=float(i)*6.2831853/16.;
+        vec2 direction=vec2(cos(angle),sin(angle));
+        float neighbor=a(vUV+direction*uvPad);
+        edge=max(edge,neighbor);
+        inner=max(inner,a(vUV+direction*uvPad*.45));
+        // A source to the lower right puts the highlight on the upper-left edge.
+        lit=max(lit,neighbor*max(0.,dot(direction,normalize(vec2(1.,-1.)))));
+      }
+      float alpha=edge*(1.-a(vUV));
+      if(alpha<.01)discard;
+      vec3 color=tint;
+      if(style>.5&&style<1.5)color=mix(vec3(.82,.72,.52),tint,inner);
+      if(style>1.5){color=mix(vec3(.035,.055,.08),tint,smoothstep(.1,.8,lit));alpha*=mix(.3,1.,lit);}
+      gl_FragColor=vec4(color,alpha*opacity);
+      #include <tonemapping_fragment>
+      #include <colorspace_fragment>
+    }`,
     });
     this.mesh = new T.Mesh(source.geometry, this.material);
     this.mesh.frustumCulled = false;
   }
-  update(pad: number, depthSlope: number, opacity = 0.25, color = '#29343b') {
+  update(worldPad: number, settings: OutlineSettings) {
+    const pad = worldPad / this.source.scale.x;
+    const positions = this.source.geometry.getAttribute('position');
+    const depthSlope =
+      (positions.getZ(0) - positions.getZ(2)) / (positions.getY(0) - positions.getY(2));
     const u = this.material.uniforms;
-    u.opacity!.value = opacity * this.source.material.opacity;
-    u.tint!.value.set(color);
+    u.opacity!.value = settings.opacity * this.source.material.opacity;
+    u.tint!.value.set(settings.color);
+    u.style!.value = settings.style === 'double' ? 1 : settings.style === 'rim' ? 2 : 0;
+    u.map!.value = this.source.material.map;
     u.depthSlope!.value = depthSlope;
     const pos = this.source.geometry.getAttribute('position') as T.BufferAttribute;
     if (this.positionsVersion !== pos.version || this.pad !== pad) {
