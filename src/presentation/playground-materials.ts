@@ -132,22 +132,36 @@ export class SilhouetteOutline {
         'varying vec2 vUV;uniform vec2 center,uvPad;uniform float pad,depthSlope;void main(){vec2 side=sign(position.xy-center);vec3 p=position;p.xy+=side*pad;p.z+=side.y*pad*depthSlope;vUV=uv+side*uvPad;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);}',
       fragmentShader: `varying vec2 vUV;uniform sampler2D map;uniform vec4 rect;uniform vec2 uvPad;uniform vec3 tint;uniform float opacity,style;
     float a(vec2 p){if(any(lessThan(p,rect.xy))||any(greaterThan(p,rect.zw)))return 0.;return texture2D(map,p).a;}
+    float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+    float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+1.),f.x),f.y);}
     void main(){
-      float edge=0.,inner=0.,lit=0.;
+      // Object-local coordinates keep grain attached to the drawing, not the screen.
+      vec2 paper=(vUV-rect.xy)/uvPad*4.;
+      float radius=1.;
+      if(style>3.5&&style<4.5)radius=.5+.5*noise(paper*.12);
+      float edge=0.,inner=0.,middle=0.,outerInner=0.,lit=0.;
       for(int i=0;i<16;i++){
         float angle=float(i)*6.2831853/16.;
         vec2 direction=vec2(cos(angle),sin(angle));
-        float neighbor=a(vUV+direction*uvPad);
+        float neighbor=a(vUV+direction*uvPad*radius);
+        inner=max(inner,a(vUV+direction*uvPad*.25));
+        middle=max(middle,a(vUV+direction*uvPad*.5));
+        outerInner=max(outerInner,a(vUV+direction*uvPad*.75));
         edge=max(edge,neighbor);
-        inner=max(inner,a(vUV+direction*uvPad*.45));
-        // A source to the lower right puts the highlight on the upper-left edge.
         lit=max(lit,neighbor*max(0.,dot(direction,normalize(vec2(1.,-1.)))));
       }
+      if(style>3.5&&style<4.5)edge=max(edge,inner);
+      else edge=max(edge,max(inner,max(middle,outerInner)));
       float alpha=edge*(1.-a(vUV));
-      if(alpha<.01)discard;
       vec3 color=tint;
-      if(style>.5&&style<1.5)color=mix(vec3(.025),tint,inner);
-      if(style>1.5){color=mix(vec3(.003),tint,smoothstep(.1,.8,lit));alpha*=mix(.3,1.,lit);}
+      if(style>.5&&style<1.5)alpha=max(inner,max(0.,edge-outerInner))*(1.-a(vUV));
+      if(style>1.5&&style<2.5){color=mix(vec3(.003),tint,smoothstep(.1,.8,lit));alpha*=mix(.3,1.,lit);}
+      if(style>2.5&&style<3.5){
+        float bristles=noise(vec2(paper.x*.18,paper.y*.5));
+        alpha*=smoothstep(.32,.65,bristles)*mix(.5,1.,hash(floor(paper)));
+      }
+      if(style>4.5)alpha=(inner*.4+middle*.32+edge*.28)*(1.-a(vUV))*mix(.3,1.,noise(paper*.8));
+      if(alpha<.01)discard;
       gl_FragColor=vec4(color,alpha*opacity);
       #include <tonemapping_fragment>
       #include <colorspace_fragment>
@@ -164,7 +178,9 @@ export class SilhouetteOutline {
     const u = this.material.uniforms;
     u.opacity!.value = settings.opacity * this.source.material.opacity;
     u.tint!.value.set(settings.color);
-    u.style!.value = settings.style === 'double' ? 1 : settings.style === 'rim' ? 2 : 0;
+    u.style!.value = { solid: 0, double: 1, rim: 2, brush: 3, hand: 4, charcoal: 5 }[
+      settings.style
+    ];
     u.map!.value = this.source.material.map;
     u.depthSlope!.value = depthSlope;
     const pos = this.source.geometry.getAttribute('position') as T.BufferAttribute;

@@ -46,45 +46,44 @@ export type OutlineSettings = {
   thickness: number;
   opacity: number;
   color: string;
-  style: 'solid' | 'double' | 'rim';
+  style: 'solid' | 'double' | 'rim' | 'brush' | 'hand' | 'charcoal';
 };
 export const outlinePresets = {
-  none: { label: 'Original artwork', thickness: 1, opacity: 0, color: '#101010', style: 'solid' },
-  fine: { label: 'Black ink · 2 px', thickness: 2, opacity: 0.8, color: '#101010', style: 'solid' },
-  bold: {
-    label: 'Black ink · 3 px',
-    thickness: 3,
-    opacity: 1,
-    color: '#101010',
-    style: 'solid',
-  },
-  sepia: {
-    label: 'Black ink · 4 px',
+  none: { label: 'Original artwork', thickness: 4, opacity: 0, color: '#080808', style: 'solid' },
+  solid: {
+    label: 'Continuous ink · 4 px',
     thickness: 4,
     opacity: 1,
     color: '#080808',
     style: 'solid',
   },
-  paper: {
-    label: 'Soft charcoal · 4 px',
+  brush: {
+    label: 'Broken dry brush · 4 px',
     thickness: 4,
-    opacity: 0.65,
-    color: '#242424',
-    style: 'solid',
+    opacity: 1,
+    color: '#080808',
+    style: 'brush',
+  },
+  hand: {
+    label: 'Irregular hand ink · 4 px',
+    thickness: 4,
+    opacity: 1,
+    color: '#080808',
+    style: 'hand',
+  },
+  charcoal: {
+    label: 'Grainy charcoal · 4 px',
+    thickness: 4,
+    opacity: 1,
+    color: '#080808',
+    style: 'charcoal',
   },
   double: {
-    label: 'Dark double edge · 4 px',
+    label: 'Double contour · 4 px',
     thickness: 4,
     opacity: 1,
     color: '#080808',
     style: 'double',
-  },
-  rim: {
-    label: 'Directional charcoal · 3 px',
-    thickness: 3,
-    opacity: 0.9,
-    color: '#303030',
-    style: 'rim',
   },
 } as const satisfies Record<string, OutlineSettings & { label: string }>;
 export type PlaygroundSettings = {
@@ -102,6 +101,6 @@ export function playgroundDefaults(): PlaygroundSettings {
     treatment: 'quiet',
     baseline: false,
     paused: false,
-    outline: { thickness: 3, opacity: 1, color: '#101010', style: 'solid' },
+    outline: { thickness: 4, opacity: 1, color: '#080808', style: 'solid' },
   };
 }
