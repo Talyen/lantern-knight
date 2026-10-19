@@ -1,3 +1,4 @@
+import { sceneObjects } from './campfire-visuals';
 import type { ContentSnapshot } from './snapshot';
 import { GroundInteractionSchema } from './ground-interaction';
 import { AuthoredGameplaySchema } from './authored-gameplay';
@@ -246,6 +247,19 @@ const SceneDocumentSchema = z
   .superRefine((d, ctx) => {
     if (new Set(d.objects.map((p) => p.id)).size !== d.objects.length)
       ctx.addIssue({ code: 'custom', message: 'Duplicate object identity' });
+    for (const fire of d.gameplay?.campfires ?? []) {
+      if (fire.object) {
+        if (!d.objects.some((p) => p.id === fire.object && p.kind === 'prop' && !p.mount))
+          ctx.addIssue({
+            code: 'custom',
+            message: 'Campfire references missing free-standing prop: ' + fire.object,
+          });
+      } else if (d.objects.some((p) => p.id === 'campfire-' + fire.id))
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Reserved campfire object identity: campfire-' + fire.id,
+        });
+    }
     if (d.base !== 'flat' && !d.geometry)
       ctx.addIssue({ code: 'custom', message: 'Gameplay scenes require geometry and entries' });
     for (const p of [...(d.gameplay?.pickups ?? []), ...(d.gameplay?.interactables ?? [])])
@@ -334,7 +348,7 @@ export function validateSceneReferences(
       );
   }
   const ids = new Set<string>();
-  for (const p of d.objects) {
+  for (const p of sceneObjects(d)) {
     if (ids.has(p.id)) throw new Error('Duplicate object identity: ' + p.id);
     ids.add(p.id);
     if (manifests) {
@@ -387,7 +401,8 @@ export function validateSceneReferences(
 }
 export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
   validateSceneReferences(d);
-  const raw = new Map(d.objects.map((p) => [p.id, p]));
+  const objects = sceneObjects(d);
+  const raw = new Map(objects.map((p) => [p.id, p]));
   const resolved = new Map<string, ArtPlacement>(),
     visiting = new Set<string>();
   const resolve = (id: string): ArtPlacement => {
@@ -425,7 +440,7 @@ export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
     resolved.set(id, placement);
     return placement;
   };
-  const props = d.objects.filter((p) => p.kind !== 'decal').map((p) => resolve(p.id));
+  const props = objects.filter((p) => p.kind !== 'decal').map((p) => resolve(p.id));
   const order = new Map(d.propOrder.map((id, i) => [id, i]));
   props.sort((a, b) => (order.get(a.id) ?? Infinity) - (order.get(b.id) ?? Infinity));
   return {
@@ -444,7 +459,7 @@ export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
     overlaps: d.overlaps,
     designProfile: d.profile === 'study' ? undefined : d.profile,
     props,
-    decals: d.objects.filter((p) => p.kind === 'decal').map((p) => resolve(p.id)),
+    decals: objects.filter((p) => p.kind === 'decal').map((p) => resolve(p.id)),
     groundInteraction: d.groundInteraction,
     editorFloor: d.floor.clip ? { ...d.floor, clip: d.floor.clip } : undefined,
     look: d.look,

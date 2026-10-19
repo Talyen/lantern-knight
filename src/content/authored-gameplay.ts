@@ -33,7 +33,10 @@ export const AuthoredGameplaySchema = z
         }),
       )
       .max(50),
-    campfires: z.array(campfireSchema).max(30).optional(),
+    campfires: z
+      .array(campfireSchema.extend({ object: id.optional() }))
+      .max(30)
+      .optional(),
     interactables: z.array(interactableSchema).max(100).optional(),
     pickups: z
       .array(
@@ -72,7 +75,10 @@ export function authoredGameplay(
   return {
     ...area,
     spawns: gameplay.spawns,
-    campfires: gameplay.campfires,
+    campfires: gameplay.campfires?.map(({ object, ...fire }) => {
+      const position = object && objects.get(object);
+      return position ? { ...fire, x: position.x, z: position.z } : fire;
+    }),
     interactables: gameplay.interactables?.map(placed),
     exits: gameplay.exits,
     pickups: gameplay.pickups.map(placed),

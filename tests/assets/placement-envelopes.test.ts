@@ -14,7 +14,7 @@ test('placement measurements contain every supplied alpha edge in every reserved
     const manifest = parseManifest(JSON.parse(await readAsset('public/' + file, 'utf8')));
     assert.equal(
       registration.hash,
-      manifest.hash,
+      manifest.placementHash ?? manifest.hash,
       'Review placement measurements after replacing ' + id,
     );
     const pages = new Map<string, { data: Buffer; info: { width: number } }>();

@@ -156,11 +156,11 @@ function moveGameplayArtwork(
 ) {
   if (
     path[0] === 'gameplay' &&
-    (path[1] === 'pickups' || path[1] === 'interactables') &&
+    (path[1] === 'pickups' || path[1] === 'interactables' || path[1] === 'campfires') &&
     path.length === 3
   ) {
     const target = root.gameplay?.[path[1]]?.[Number(path[2])];
-    if (target) {
+    if (target?.object) {
       const history = EditorHistory.create(root);
       history.transform(target.object, position);
       root.objects = parseSceneDocument(history.document).objects;
@@ -225,7 +225,7 @@ export class VisualAuthoring {
   private form(value: Data, path: (string | number)[], parent: HTMLElement, label: string) {
     if (
       path[0] === 'gameplay' &&
-      (path[1] === 'pickups' || path[1] === 'interactables') &&
+      (path[1] === 'pickups' || path[1] === 'interactables' || path[1] === 'campfires') &&
       path.length === 3 &&
       typeof value === 'object' &&
       !Array.isArray(value)
@@ -306,6 +306,8 @@ export class VisualAuthoring {
               const item = structuredClone(base);
               if (item && typeof item === 'object' && !Array.isArray(item) && 'id' in item)
                 item.id = field.replace(/s$/, '') + '-' + crypto.randomUUID();
+              if (field === 'campfires' && item && typeof item === 'object' && !Array.isArray(item))
+                delete (item as Record<string, Data>).object;
               if (
                 (field === 'pickups' || field === 'interactables') &&
                 typeof item === 'object' &&
@@ -357,6 +359,38 @@ export class VisualAuthoring {
               gameplayItem && !common[String(path.at(-2))]?.includes(name) ? advanced : details,
               name,
             );
+        if (gameplayItem && path.at(-2) === 'campfires') {
+          const fire = value as Record<string, Data>;
+          details.append(
+            html`<p>${fire.object ? 'Uses custom campfire artwork.' : 'Uses the default Wayfarer Stone Ring and animated fire.'}</p>`,
+          );
+          const customObject = typeof fire.object === 'string' ? fire.object : undefined;
+          if (customObject)
+            details.append(
+              this.button('Use default campfire', () => {
+                void this.host
+                  .change((d) => {
+                    writeField(d, path, { ...fire, object: undefined });
+                    const history = EditorHistory.create(d);
+                    history.removeMany([customObject]);
+                    Object.assign(d, parseSceneDocument(history.document));
+                  })
+                  .catch(console.error);
+              }),
+            );
+          else
+            details.append(
+              this.button('Use selected artwork', () => {
+                const selected = this.host
+                  .history()
+                  .document.objects.find(
+                    (p) => p.id === this.host.selected() && p.kind === 'prop' && !p.mount,
+                  );
+                if (!selected) throw new Error('Select a free-standing prop first');
+                this.commit(path, { ...fire, object: selected.id, x: selected.x!, z: selected.z! });
+              }),
+            );
+        }
         if (advanced.children.length > 1) details.append(advanced);
       }
       return;
@@ -766,7 +800,11 @@ export class VisualAuthoring {
         handle(['gameplay', 'pickups', i], positions.get(p.object)!, 'Pickup ' + p.id),
       );
       d.gameplay?.campfires?.forEach((p, i) =>
-        handle(['gameplay', 'campfires', i], p, 'Campfire ' + p.name),
+        handle(
+          ['gameplay', 'campfires', i],
+          p.object ? positions.get(p.object)! : p,
+          'Campfire ' + p.name,
+        ),
       );
       d.gameplay?.interactables?.forEach((p, i) =>
         handle(['gameplay', 'interactables', i], positions.get(p.object)!, p.kind + ' ' + p.id),
@@ -790,8 +828,7 @@ export class VisualAuthoring {
     }
     if (enabled.includes('shelters')) for (const b of d.rainShelters ?? []) box(b, 0x99bbff);
     if (enabled.includes('lights'))
-      for (const item of sceneItems(d)) {
-        const p = item.placement;
+      for (const p of resolveAuthoredScene(d).props) {
         if (p.fixture)
           line(
             Array.from({ length: 32 }, (_, i) => ({

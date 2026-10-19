@@ -5,6 +5,7 @@ import {
   expectEditorDocument,
 } from './editor-driver';
 import { test, expect, openEditor, waitForEditorIdle } from './fixtures';
+import { defaultCampfireAsset } from '../../src/content/campfire-visuals';
 import { emptyScene } from '../../src/editor/default-scene';
 
 test('editor authors campfires, local encounters, rewards and explicit departures', async ({
@@ -16,6 +17,17 @@ test('editor authors campfires, local encounters, rewards and explicit departure
   await page.locator('[data-section="gameplay.campfires"] > summary').click();
   await page.getByRole('button', { name: 'Add Campfires', exact: true }).click();
   await expectEditorDocument(page, (document) => document.gameplay?.campfires?.length).toBe(1);
+  expect(
+    await page.evaluate(
+      (asset) =>
+        window.sceneEditor
+          .view()
+          .presentation!.roomPresentation.inkRoom!.sprites.filter(
+            (s) => s.manifest.asset.id === asset,
+          ).length,
+      defaultCampfireAsset,
+    ),
+  ).toBe(1);
   await page.locator('[data-section="gameplay.spawns"] > summary').click();
   await page.getByRole('button', { name: 'Add Enemies', exact: true }).click();
   await page.locator('[data-section="gameplay.spawns.0"] > summary').click();
