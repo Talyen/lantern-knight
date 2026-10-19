@@ -22,6 +22,27 @@ export const placementRegistration: Readonly<
     }
   >
 > = {
+  'library-animation-e3d89a5fb4340376-12e598daecad': {
+    hash: '151c9fbc17f1ed7980f33d511308931fbf2f49f683eb10dd4036a2cf82d39640',
+    clips: {
+      loop: envelope(-1.6563, 1.6719, 2.8868, -0.0352),
+      unlit: envelope(-1.6563, 1.6719, 2.3125, -0.0352),
+    },
+  },
+  'library-gb01': {
+    hash: 'bc9394212d26a30715483e84796ddd9abd08de763fa6ae3b7fe71514b9a8c86f',
+    clips: {
+      idle: envelope(-0.7834, 0.7834, 1.6634, 0),
+      move: envelope(-0.9, 0.86, 1.7067, 0),
+    },
+  },
+  'library-fp02': {
+    hash: '9bec8e544440177e381e36aaf7e8e3a1db46a365602c232a5a33d31b926b6d92',
+    clips: {
+      idle: envelope(-0.5675, 0.57, 1.1225, 0),
+      move: envelope(-0.6075, 0.61, 1.1675, 0),
+    },
+  },
   'library-zb01': {
     hash: '0c8c9d3ac2c59696a1f24a1be80e72bd0040af0dda5ccd880c692bed1148c5d0',
     clips: {

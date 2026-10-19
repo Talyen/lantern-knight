@@ -14,6 +14,38 @@ export type ActorVisualDefinition = {
   combatMaterial?: 'bone' | 'armor';
 };
 export const actorVisuals: Readonly<Record<string, ActorVisualDefinition>> = {
+  'mossfang-scavenger': {
+    id: 'mossfang-scavenger',
+    asset: 'library-gb01',
+    clips: {
+      idle: 'idle',
+      walk: 'move',
+      attack: 'attack',
+      dodge: 'move',
+      ability: 'idle',
+      hurt: 'hit',
+      death: 'defeat',
+    },
+    attacks: ['attack', 'attack'],
+    attackContactDrawing: 4,
+    tint: 0xffffff,
+  },
+  'ironcap-fungus': {
+    id: 'ironcap-fungus',
+    asset: 'library-fp02',
+    clips: {
+      idle: 'idle',
+      walk: 'move',
+      attack: 'attack',
+      dodge: 'move',
+      ability: 'idle',
+      hurt: 'hit',
+      death: 'defeat',
+    },
+    attacks: ['attack', 'attack'],
+    attackContactDrawing: 4,
+    tint: 0xffffff,
+  },
   'fallen-orchard-worker': {
     id: 'fallen-orchard-worker',
     asset: 'library-zb01',

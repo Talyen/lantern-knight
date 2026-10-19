@@ -3,6 +3,40 @@ import { tuning } from './gameplay';
 import type { ContentDefinitions } from './world';
 export const actors = [
   {
+    id: 'mossfang-scavenger',
+    kind: 'enemy',
+    maxHealth: 50,
+    radius: 0.27,
+    speed: 1.1,
+    attack: {
+      kind: 'melee',
+      windup: 36,
+      activeEnd: 42,
+      total: 68,
+      range: 1.15,
+      halfAngle: 1.1,
+      damage: 9,
+    },
+    visual: 'mossfang-scavenger',
+  },
+  {
+    id: 'ironcap-fungus',
+    kind: 'enemy',
+    maxHealth: 65,
+    radius: 0.27,
+    speed: 0.55,
+    attack: {
+      kind: 'melee',
+      windup: 48,
+      activeEnd: 54,
+      total: 88,
+      range: 1.25,
+      halfAngle: 1.1,
+      damage: 12,
+    },
+    visual: 'ironcap-fungus',
+  },
+  {
     id: 'fallen-orchard-worker',
     kind: 'enemy',
     maxHealth: 35,
