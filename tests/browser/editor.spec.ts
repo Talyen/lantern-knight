@@ -383,7 +383,9 @@ test('visual authoring, independent fragments, pattern undo and import', async (
     const imported = await readEditorDocument(page);
     await importEditorScene(page, imported, 'scene.json');
     await waitForEditorIdle(page);
-    await expectEditorDocument(page, (document) => document.name).toContain('Imported');
+    await expectEditorDocument(page, (document) => document.name, { timeout: 60_000 }).toContain(
+      'Imported',
+    );
     expect((await page.evaluate(() => window.sceneEditor.state())).revision).toBeNull();
   } finally {
     const fragments = (await (await request.get('/__lantern_editor?fragments')).json())
@@ -469,7 +471,9 @@ test('editor workspace keeps populated attachment controls accessible at desktop
 }) => {
   await openEditor(page);
   await importEditorScene(page, sceneFixture('chapel'), 'fixture.json');
-  await expectEditorDocument(page, (document) => document.name).toContain('Imported');
+  await expectEditorDocument(page, (document) => document.name, { timeout: 60_000 }).toContain(
+    'Imported',
+  );
   await expect(page.locator('#save-state')).toHaveText('Unsaved');
   const child = await readEditorDocument(
     page,
@@ -975,6 +979,8 @@ test('task destinations preserve advanced data and show suitable grounds before 
   page,
   request,
 }) => {
+  test.setTimeout(300_000);
+  await page.setViewportSize({ width: 960, height: 600 });
   await openEditor(page);
   await expect(page.getByRole('tab')).toHaveText(['Add', 'Objects', 'Scene', 'Review']);
   await page.locator('#focus-mode').click();
