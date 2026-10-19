@@ -2000,26 +2000,6 @@
       "kind": "character",
       "identity": "hero-respawn_dr",
       "label": "Hero respawn_DR"
-    },
-    {
-      "group": "orchard-orchard-feral-boar",
-      "archive": "orchard-feral-boar_runtime_v01.zip",
-      "category": 9,
-      "format": "directional-actor",
-      "manifest": "animation.json",
-      "kind": "character",
-      "identity": "orchard-feral-boar",
-      "label": "Orchard Feral Boar"
-    },
-    {
-      "group": "orchard-orchard-rootbound-scarecrow",
-      "archive": "orchard-rootbound-scarecrow_runtime_v01.zip",
-      "category": 9,
-      "format": "directional-actor",
-      "manifest": "animation.json",
-      "kind": "character",
-      "identity": "orchard-rootbound-scarecrow",
-      "label": "Orchard Rootbound Scarecrow"
     }
   ]
 }

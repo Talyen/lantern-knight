@@ -5,12 +5,6 @@ export const assetCatalog: Readonly<Record<string, string>> = {
   ...visualEffectsCatalog,
   'fx-brazier-body': 'generated/dev-effects/fx-brazier-body/manifest.json',
   'fx-brazier-flame': 'generated/dev-effects/fx-brazier-flame/manifest.json',
-  'library-gb01': 'generated/library/library-gb01/manifest.json',
-  'library-fp02': 'generated/library/library-fp02/manifest.json',
-  'library-zb01': 'generated/library/library-zb01/manifest.json',
-  'library-orchard-feral-boar': 'generated/library/library-orchard-feral-boar/manifest.json',
-  'library-orchard-rootbound-scarecrow':
-    'generated/library/library-orchard-rootbound-scarecrow/manifest.json',
   'library-sk01': 'generated/library/library-sk01/manifest.json',
   'library-sk03': 'generated/library/library-sk03/manifest.json',
   'library-sk02': 'generated/library/library-sk02/manifest.json',

@@ -2,7 +2,6 @@ import * as T from 'three';
 import { right, up, outward } from './camera';
 import { heroLanternPosition, heroSwordPosition } from './hero-lantern';
 import { tuning, attackDefinition, flareLightEnvelope } from '../content/gameplay';
-import { actorVisuals } from '../content/visuals';
 import { ActorSprite } from './sprite';
 import {
   combatFeedback as settings,
@@ -125,16 +124,14 @@ export class CombatFeedback {
     if (action === 'attack') {
       if (actor.definition.attack.kind === 'rib-lane') return;
       const windup = attackDefinition(actor).windup;
-      if (actor.kind === 'enemy') {
-        const material = actorVisuals[actor.definition.visual]?.combatMaterial;
-        if (!material) return;
+      if (actor.kind === 'enemy')
         return {
           kind: 'enemy-swing',
           windup,
-          layers:
-            material === 'armor' ? [settings.enemySlam, settings.enemyDust] : [settings.enemySwipe],
+          layers: this.heavyEnemy(actor)
+            ? [settings.enemySlam, settings.enemyDust]
+            : [settings.enemySwipe],
         };
-      }
       if (actor.attackKind === 'sweep')
         return this.sweepEnabled
           ? { kind: 'sweep', windup, layers: [settings.sweep, settings.sweepEdge] }
@@ -406,10 +403,9 @@ export class CombatFeedback {
         contact.rotation =
           Math.atan2(direction.dot(up), direction.dot(right)) -
           T.MathUtils.degToRad(binding.axisDegrees ?? 0);
-      const material = actorVisuals[target.definition.visual]?.combatMaterial;
-      if (!burn && target.kind === 'enemy' && material)
+      if (!burn && target.kind === 'enemy')
         this.emit(
-          material === 'armor' ? settings.contactArmor : settings.contactBone,
+          target.definition.poise ? settings.contactArmor : settings.contactBone,
           'contact',
           target,
           event.tick,

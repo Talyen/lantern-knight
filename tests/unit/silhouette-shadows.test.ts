@@ -40,15 +40,6 @@ test('contact-marked props cast live alpha silhouettes without owning their draw
       purpose: 'Test',
     },
     {
-      id: 'contact-only',
-      asset: manifest.asset.id,
-      clip: 'idle',
-      x: 0,
-      z: 0,
-      shadow: 'contact-only',
-      purpose: 'Low item retains independent contact grounding',
-    },
-    {
       id: 'disabled',
       asset: manifest.asset.id,
       clip: 'idle',

@@ -797,44 +797,6 @@ class ImportTests(unittest.TestCase):
         self.assertEqual(c["frames"][0]["density"], 100)
         self.assertTrue(c["loop"])
 
-    def test_directional_actor_preserves_facings_timing_contacts_and_registration(self):
-        headings = {"DR": "d90", "DL": "d00", "UL": "d270", "UR": "d180"}
-        data = {
-            "canvas_px": [10, 20], "pivot_px": [4, 18], "pixels_per_unit": 100,
-            "directions": {direction: {"clips": {
-                "attack": {"frames": [f"{direction}/1.png", f"{direction}/0.png"],
-                           "holds_ticks": [30, 6], "loop": False,
-                           "markers": [{"id": "contact", "atMs": 500}]}
-            }} for direction in headings},
-        }
-        def fixture(metadata):
-            p = package({"animation.json": json.dumps(metadata), **{
-                f"{direction}/{i}.png": png(10, 20)
-                for direction in headings for i in range(2)
-            }})
-            p.spec.update(format="directional-actor", manifest="animation.json",
-                          identity="boar", kind="character", label="Feral boar")
-            return p
-        p = fixture(data)
-        importer = Importer([p])
-        importer.package(p)
-        actor = importer.assets["library-boar"]
-        self.assertFalse(actor["mirroring"])
-        self.assertEqual(actor["label"], "Feral boar")
-        self.assertEqual(set(actor["clips"]["attack"]), set(headings.values()))
-        for direction, heading in headings.items():
-            clip = actor["clips"]["attack"][heading]
-            self.assertEqual(clip["durationsMs"], [500, 100])
-            self.assertEqual(clip["markers"], [{"id": "contact", "atMs": 500}])
-            self.assertFalse(clip["loop"])
-            self.assertEqual(clip["frames"][0]["anchor"], [4, 18])
-            self.assertEqual(clip["frames"][0]["density"], 100)
-            self.assertTrue(clip["frames"][0]["member"].endswith(f"{direction}/1.png"))
-        data["directions"].pop("UL")
-        p = fixture(data)
-        with self.assertRaisesRegex(ValueError, "DR, DL, UL and UR"):
-            Importer([p]).package(p)
-
     def test_delivered_prop_preserves_one_shot_and_held_states(self):
         meta = {
             "name": "desk",

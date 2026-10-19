@@ -10,89 +10,8 @@ export type ActorVisualDefinition = {
   tint: number;
   scale?: number;
   groundFootsteps?: boolean;
-  // Omitted uses neutral contact and the supplied attack drawing alone.
-  combatMaterial?: 'bone' | 'armor';
 };
 export const actorVisuals: Readonly<Record<string, ActorVisualDefinition>> = {
-  'mossfang-scavenger': {
-    id: 'mossfang-scavenger',
-    asset: 'library-gb01',
-    clips: {
-      idle: 'idle',
-      walk: 'move',
-      attack: 'attack',
-      dodge: 'move',
-      ability: 'idle',
-      hurt: 'hit',
-      death: 'defeat',
-    },
-    attacks: ['attack', 'attack'],
-    attackContactDrawing: 4,
-    tint: 0xffffff,
-  },
-  'ironcap-fungus': {
-    id: 'ironcap-fungus',
-    asset: 'library-fp02',
-    clips: {
-      idle: 'idle',
-      walk: 'move',
-      attack: 'attack',
-      dodge: 'move',
-      ability: 'idle',
-      hurt: 'hit',
-      death: 'defeat',
-    },
-    attacks: ['attack', 'attack'],
-    attackContactDrawing: 4,
-    tint: 0xffffff,
-  },
-  'fallen-orchard-worker': {
-    id: 'fallen-orchard-worker',
-    asset: 'library-zb01',
-    clips: {
-      idle: 'idle',
-      walk: 'move',
-      attack: 'attack',
-      dodge: 'move',
-      ability: 'idle',
-      hurt: 'hit',
-      death: 'defeat',
-    },
-    attacks: ['attack', 'attack'],
-    tint: 0xffffff,
-  },
-  'orchard-feral-boar': {
-    id: 'orchard-feral-boar',
-    asset: 'library-orchard-feral-boar',
-    clips: {
-      idle: 'idle',
-      walk: 'move',
-      attack: 'attack',
-      dodge: 'move',
-      ability: 'idle',
-      hurt: 'hit',
-      death: 'defeat',
-    },
-    attacks: ['attack', 'attack'],
-    tint: 0xffffff,
-    attackContactDrawing: 2,
-  },
-  'rootbound-scarecrow': {
-    id: 'rootbound-scarecrow',
-    asset: 'library-orchard-rootbound-scarecrow',
-    clips: {
-      idle: 'idle',
-      walk: 'move',
-      attack: 'attack',
-      dodge: 'move',
-      ability: 'idle',
-      hurt: 'hit',
-      death: 'defeat',
-    },
-    attacks: ['attack', 'attack'],
-    tint: 0xffffff,
-    attackContactDrawing: 2,
-  },
   hero: {
     id: 'hero',
     asset: 'ink-hero-current',
@@ -103,7 +22,6 @@ export const actorVisuals: Readonly<Record<string, ActorVisualDefinition>> = {
   },
   'ossuary-thrall': {
     id: 'ossuary-thrall',
-    combatMaterial: 'bone',
     asset: 'library-sk01',
     clips: {
       idle: 'idle',
@@ -119,7 +37,6 @@ export const actorVisuals: Readonly<Record<string, ActorVisualDefinition>> = {
   },
   'candlebone-oracle': {
     id: 'candlebone-oracle',
-    combatMaterial: 'bone',
     groundFootsteps: false,
     asset: 'library-sk03',
     clips: {
@@ -137,7 +54,6 @@ export const actorVisuals: Readonly<Record<string, ActorVisualDefinition>> = {
   },
   'chapel-warden': {
     id: 'chapel-warden',
-    combatMaterial: 'armor',
     asset: 'library-sk02',
     clips: {
       idle: 'idle',

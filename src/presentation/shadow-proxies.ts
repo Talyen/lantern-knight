@@ -121,8 +121,7 @@ export class ShadowProxies {
       }
     }
     for (const prop of visuals?.props ?? []) {
-      if (prop.shadow === 'none' || prop.shadow === 'contact-only' || prop.role === 'ground')
-        continue;
+      if (prop.shadow === 'none' || prop.role === 'ground') continue;
       const sprite = sprites.find((s) => s.id === prop.id);
       if (sprite) {
         // A fixture's solid body casts; its separate luminous flame does not.

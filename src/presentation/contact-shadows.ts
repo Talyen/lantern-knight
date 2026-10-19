@@ -3,7 +3,6 @@ import { cleanupAll } from '../assets/cleanup';
 import { multiplyGroundShadow } from './ground-shadow-material';
 import type { ArtPlacement } from '../content/world-visuals';
 import { heightAt, surfaceGradient, type AreaDefinition } from '../content/world';
-import { spritePlacementEnvelope } from '../content/placement-envelope';
 import type { ActorSprite } from './sprite';
 import { actorContactPatches, toolboxContact, type ContactPatches } from './contact-profiles';
 import { right, up, outward } from './camera';
@@ -133,9 +132,10 @@ export function contactFootprint(
   )
     return;
   if (p.footprint) return p.footprint;
-  const bounds = spritePlacementEnvelope(sprite.manifest, [p.clip]),
-    width = (bounds.right - bounds.left) * (p.scale ?? 1);
-  // Measured alpha extents avoid grounding a prop's transparent canvas margins.
+  const frame = sprite.frameIndex.get(sprite.animator.frame)!,
+    registration = frame.registration ?? asset,
+    width = (frame.trim[2] / registration.density) * (p.scale ?? 1);
+  // Trimmed artwork gives unregistered props a bounded, scale-aware base.
   return [width * 0.65, width * 0.3];
 }
 

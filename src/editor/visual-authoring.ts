@@ -105,7 +105,7 @@ const optional = {
   },
 };
 const choices: Record<string, string[]> = {
-  shadow: ['none', 'contact-only', 'cast'],
+  shadow: ['none', 'cast'],
   role: ['ground', 'upright', 'attachment'],
   age: ['kept', 'old', 'damaged'],
   axis: ['x', 'z'],

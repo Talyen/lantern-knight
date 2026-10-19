@@ -1,11 +1,11 @@
 {
   "schemaVersion": 4,
-  "sha256": "7a481e80080df4407208cc0c38e745c91f2b53e2d24f717eb069db8e42c9a614",
-  "inventorySha256": "7a481e80080df4407208cc0c38e745c91f2b53e2d24f717eb069db8e42c9a614",
-  "bytes": 24644252866,
-  "recipeSha256": "56f746f7d2f2dd3fb3b5b69739ecd43556542072fd37a36f9668490498a42555",
+  "sha256": "820cdf994f55241600dc03349a13964b59e2d17b977bfb5eafc1e81fd15c9585",
+  "inventorySha256": "820cdf994f55241600dc03349a13964b59e2d17b977bfb5eafc1e81fd15c9585",
+  "bytes": 24624037172,
+  "recipeSha256": "34737bbadceed1344acdb4312ddc5c77f1987405f802ea6a349126ac51f22a37",
   "preparation": {
-    "recipeSha256": "56f746f7d2f2dd3fb3b5b69739ecd43556542072fd37a36f9668490498a42555",
+    "recipeSha256": "34737bbadceed1344acdb4312ddc5c77f1987405f802ea6a349126ac51f22a37",
     "inputs": {
       "dependencies": "608f3b1374e4439465093f5bebc166f64c39ebebab013e563b1aea76b9ae85fc",
       "assets/audio-sources.json": "59b980676efdc04813e265465e727453d5abbcfa07ac8497de4ce298fc02e713",
@@ -26,8 +26,8 @@
       "assets/library-artwork/ui-artwork.json": "b8286f536ca269a40d6c19fedc3c82c74fd33747f55ac935b559df78ec2b5443",
       "assets/library-artwork/ui-sources.json": "88b49539d85276140041cf80fd4e6290aa9a496d3f80b0f8a366460dcd6f49f8",
       "assets/library-combat-sources.json": "839bb630f9e979b1022746b0682ecaebc8c5f264000012b325855aeca4e55705",
-      "assets/library-packs.json": "af7c7d6e3428e04101836530e19892517fd222460d1bf36102722cf9c626a2ab",
-      "assets/library-sources.json": "ea05e53f5f9278266783334763b5d66e6aacada87f2fc7542bfc7036b37a8362",
+      "assets/library-packs.json": "db39719b2de81fcae14a40fc9ea2f69b785beb31ae4f08b495e235d21c4d43d6",
+      "assets/library-sources.json": "923b63c0dba83ffc69667dbc434808040e2d3074a3c309e68506852c6bd4d6f5",
       "assets/loading-sources.json": "c6328b90787a8f51146d0d54b62dc043565421cab27f2be4362cc615dc3a26a9",
       "assets/recipe.json": "84f4dc3bcbe0f5ba4f99ec8d9dbba4ac3820940574cafcda09da5e889ae19d0b",
       "assets/sources.json": "55361c55d82803a51d2342f6b1cb9d783a097b31507eba226b825c59bd7190d5",
@@ -46,7 +46,7 @@
       "src/assets/normal-pixels.ts": "8507675392974e35711bb16a3029102b2f2ba118dda2741575d8f8220924f79e",
       "src/assets/registration.ts": "b0e0ce58778ac0fe8ce5cc5383da958fffb5d8d8342ca19947d21bc45568bd63",
       "src/assets/schema.ts": "e53be892dbcde6af4aa210220f086785af5bacfa424fa501f3096ec09a58d599",
-      "src/content/asset-catalog.ts": "3388277a3136135d9ca05c9ba00630dc0a79b0c8b637ae74d9e4306ca33c7b4a",
+      "src/content/asset-catalog.ts": "94801d13c8efea3c776ce1eb2f67c7c923c879a6ace2c93e2cb13758e4eb6b36",
       "src/content/effects-playground-assets.ts": "f370f71b4199a37f39b9803b0c50342584422d433bac0f22ad479ef794fd5297",
       "src/content/graveyard-registration.ts": "55a5219a7be91e8e195413974155a6777da6bc492d168ee333879505b0a5693b",
       "src/content/hero-actions.ts": "91f492a63b11c3c558ef9b3b70d5a78bf4039aa5172d62821845105f9583e42a",
@@ -71,7 +71,7 @@
       "tools/assets/incremental.ts": "8875081de3c298ede3e4f56f8649a3febb712d996be833dff7e8ee64221f5644",
       "tools/assets/io.ts": "8b7383e2d65ae8fc2c8249870af49d58c3f10d0d11cf4d6c7751614e6f20526e",
       "tools/assets/library-scale.ts": "0a2dcf6404f5c4f26beb04641d725502b2255ccb3514bdc5a85a20a8299d8d4f",
-      "tools/assets/library_import.py": "b52f4267a62f0f6ffbeffc6f1e032ee739064fe98bc4c0fe5df6bff0bc6fba30",
+      "tools/assets/library_import.py": "dca86c7d356e9fe5ddeee5e3e3f7710329905830b58fd3f3bcf8ab3c3d8a6eab",
       "tools/assets/library_sequences.py": "da37914304da71b76d3e501db86ccc58e845beede50b8388b4f6ed608b91d3f6",
       "tools/assets/loading-media.ts": "98b1131e1b3de1e4c35e9918f1b1c0a69b53c6b07a03b58bb2f63ae772349343",
       "tools/assets/operations.ts": "d9237bfaa5a3d9d7e6de6007030c73228e14760a2c8f8cbb4375f45883194ab5",
@@ -106,12 +106,12 @@
       "tools/compiler.ts": "169f3afd8b34452dc4dab930b99389cc0ea7a5598b0068602a07f9ec7e5c5589",
       "tools/lighting-bindings.ts": "fc0212029302de66c1f78998347d174156246d16641ae930ff5774affd42cb8f"
     },
-    "payloadSha256": "e166cf3b5e4e50aabe32a09243f0694408f231e6b0c6542ffbf76f0afdf3d5b2"
+    "payloadSha256": "366b5697e1dea1f9bac215a4b7927f8a43480732a7ade75264dacb9105651129"
   },
   "fileDelivery": {
-    "releaseTag": "assets-catalog-eab88728f83a523e",
+    "releaseTag": "assets-catalog-e983d18974569120",
     "filename": "files.json.gz",
-    "sha256": "eab88728f83a523eb5e6b31fe12541dd55a8f69b49afa2351ec1d5af9025942a",
-    "bytes": 10710200
+    "sha256": "e983d18974569120c79a8bec66a4224d37a163327c459c91682ad0bb9803b7af",
+    "bytes": 10670296
   }
 }

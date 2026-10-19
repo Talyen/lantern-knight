@@ -22,48 +22,6 @@ export const placementRegistration: Readonly<
     }
   >
 > = {
-  'library-animation-e3d89a5fb4340376-12e598daecad': {
-    hash: '151c9fbc17f1ed7980f33d511308931fbf2f49f683eb10dd4036a2cf82d39640',
-    clips: {
-      loop: envelope(-1.6563, 1.6719, 2.8868, -0.0352),
-      unlit: envelope(-1.6563, 1.6719, 2.3125, -0.0352),
-    },
-  },
-  'library-gb01': {
-    hash: 'bc9394212d26a30715483e84796ddd9abd08de763fa6ae3b7fe71514b9a8c86f',
-    clips: {
-      idle: envelope(-0.7834, 0.7834, 1.6634, 0),
-      move: envelope(-0.9, 0.86, 1.7067, 0),
-    },
-  },
-  'library-fp02': {
-    hash: '9bec8e544440177e381e36aaf7e8e3a1db46a365602c232a5a33d31b926b6d92',
-    clips: {
-      idle: envelope(-0.5675, 0.57, 1.1225, 0),
-      move: envelope(-0.6075, 0.61, 1.1675, 0),
-    },
-  },
-  'library-zb01': {
-    hash: '0c8c9d3ac2c59696a1f24a1be80e72bd0040af0dda5ccd880c692bed1148c5d0',
-    clips: {
-      idle: envelope(-0.5079, 0.836, 1.7188, -0.2266),
-      move: envelope(-0.8047, 0.9141, 1.7735, -0.2266),
-    },
-  },
-  'library-orchard-feral-boar': {
-    hash: '5437f2053d68ef7b0a3b304430e1bc7d4aa3841a4f5b2c1d6e102c41a98136ea',
-    clips: {
-      idle: envelope(-0.5875, 0.675, 1.0625, -0.0125),
-      move: envelope(-0.6438, 0.7063, 1.0563, -0.05),
-    },
-  },
-  'library-orchard-rootbound-scarecrow': {
-    hash: '6c5ee333cb4dafa4bc7b3428650fa7ca2b76d0e2de4222352bde79482d377873',
-    clips: {
-      idle: envelope(-0.9264, 0.979, 2.1685, -0.0211),
-      move: envelope(-1.1369, 1.0632, 2.1579, -0.1053),
-    },
-  },
   'library-sk01': {
     hash: '1cd536a1460b207afd9cbc2ffc50bc8be5d16fcbb3121ec465d6c445fbb3cf3d',
     clips: {
@@ -107,7 +65,6 @@ export const placementRegistration: Readonly<
     clips: {
       closed: envelope(-0.5773, 0.6137, 1.0432, -0.2614),
       open: envelope(-0.5773, 0.6137, 1.4296, -0.2614),
-      weathered_satchel_open: envelope(-0.5773, 0.6137, 1.4296, -0.2614),
     },
   },
   'library-prop_wooden_handcart_01': {
@@ -207,14 +164,6 @@ export const placementRegistration: Readonly<
       break: envelope(-0.32618, 0.26856, 0.57032, -0.09083),
       intact: envelope(-0.22559, 0.25684, 0.55469, -0.09083),
       broken: envelope(-0.23438, 0.26856, 0.48633, -0.08887),
-    },
-  },
-  'library-animation-7a833570093b0901-f9ce237bd03f-clay_jar-native': {
-    hash: '94f62e85a0bfb1c06822f7a925f37ff4818891d97951b36c1afa75d775c2b7a6',
-    clips: {
-      break: envelope(-0.27735, 0.30176, 0.55762, -0.0918),
-      intact: envelope(-0.21778, 0.28516, 0.52344, -0.0918),
-      broken: envelope(-0.27735, 0.27247, 0.46192, -0.0879),
     },
   },
   'library-animation-7a833570093b0901-f9ce237bd03f-oval_hamper-native': {
