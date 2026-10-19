@@ -61,7 +61,9 @@ test('playable paintings support their annotated floors and matching arrivals', 
       if (target.reachable !== false) {
         expect(result.distance, `${area.id}: ${target.name}`).toBeLessThan(0.16);
         if (
-          /arrival|departure|stairs|steps|terrace|altar|workshop|shed|room floor/i.test(target.name)
+          /arrival|departure|stairs|steps|terrace|altar|workshop|shed|room floor|raised/i.test(
+            target.name,
+          )
         ) {
           const image = await page.evaluate(() => {
             const view = window.sceneEditor.view();
