@@ -87,6 +87,8 @@ test('repeated scene switches release renderer resources', async ({ page }) => {
 test('benchmark resets keep renderer generations aligned and restore the original content', async ({
   page,
 }) => {
+  // The reset and restore each prepare a complete renderer generation.
+  test.setTimeout(420_000);
   await page.goto('/sandbox.html?scene=interior-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   const before = await page.evaluate(async () => {

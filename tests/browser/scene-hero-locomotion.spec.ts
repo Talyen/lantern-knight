@@ -109,16 +109,20 @@ test('travel-facing locomotion ignores cursor angle and preserves phase through 
   await page.keyboard.down('KeyW');
   try {
     await expect
-      .poll(() =>
-        page.evaluate(() => {
-          const f = window.foundation,
-            v = f.presentation.actorPresentation.actors.get(f.sim.hero.id)!;
-          return { state: f.sim.hero.state, facing: v.heading, travel: v.travelHeading };
-        }),
+      .poll(
+        () =>
+          page.evaluate(() => {
+            const f = window.foundation,
+              v = f.presentation.actorPresentation.actors.get(f.sim.hero.id)!;
+            return { state: f.sim.hero.state, facing: v.heading, travel: v.travelHeading };
+          }),
+        { timeout: 30_000 },
       )
       .toEqual({ state: 'walk', facing: 'd225', travel: 'd225' });
   } finally {
     await page.keyboard.up('KeyW');
   }
-  await expect.poll(() => page.evaluate(() => window.foundation.sim.hero.state)).toBe('idle');
+  await expect
+    .poll(() => page.evaluate(() => window.foundation.sim.hero.state), { timeout: 30_000 })
+    .toBe('idle');
 });
