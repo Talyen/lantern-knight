@@ -146,8 +146,8 @@ export class SilhouetteOutline {
       float alpha=edge*(1.-a(vUV));
       if(alpha<.01)discard;
       vec3 color=tint;
-      if(style>.5&&style<1.5)color=mix(vec3(.35),tint,inner);
-      if(style>1.5){color=mix(vec3(.035),tint,smoothstep(.1,.8,lit));alpha*=mix(.3,1.,lit);}
+      if(style>.5&&style<1.5)color=mix(vec3(.025),tint,inner);
+      if(style>1.5){color=mix(vec3(.003),tint,smoothstep(.1,.8,lit));alpha*=mix(.3,1.,lit);}
       gl_FragColor=vec4(color,alpha*opacity);
       #include <tonemapping_fragment>
       #include <colorspace_fragment>

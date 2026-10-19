@@ -49,29 +49,41 @@ export type OutlineSettings = {
   style: 'solid' | 'double' | 'rim';
 };
 export const outlinePresets = {
-  none: { label: 'Original artwork', thickness: 1, opacity: 0, color: '#242424', style: 'solid' },
-  fine: { label: 'Fine ink', thickness: 0.75, opacity: 0.35, color: '#181818', style: 'solid' },
-  bold: { label: 'Soft charcoal', thickness: 1.5, opacity: 0.25, color: '#292929', style: 'solid' },
-  sepia: { label: 'Graphite edge', thickness: 1, opacity: 0.45, color: '#383838', style: 'solid' },
+  none: { label: 'Original artwork', thickness: 1, opacity: 0, color: '#101010', style: 'solid' },
+  fine: { label: 'Black ink · 2 px', thickness: 2, opacity: 0.8, color: '#101010', style: 'solid' },
+  bold: {
+    label: 'Black ink · 3 px',
+    thickness: 3,
+    opacity: 1,
+    color: '#101010',
+    style: 'solid',
+  },
+  sepia: {
+    label: 'Black ink · 4 px',
+    thickness: 4,
+    opacity: 1,
+    color: '#080808',
+    style: 'solid',
+  },
   paper: {
-    label: 'Soft silver edge',
-    thickness: 1,
-    opacity: 0.2,
-    color: '#bcbcbc',
+    label: 'Soft charcoal · 4 px',
+    thickness: 4,
+    opacity: 0.65,
+    color: '#242424',
     style: 'solid',
   },
   double: {
-    label: 'Graphite keyline',
-    thickness: 1.5,
-    opacity: 0.3,
-    color: '#242424',
+    label: 'Dark double edge · 4 px',
+    thickness: 4,
+    opacity: 1,
+    color: '#080808',
     style: 'double',
   },
   rim: {
-    label: 'Directional graphite',
-    thickness: 1.5,
-    opacity: 0.35,
-    color: '#a0a0a0',
+    label: 'Directional charcoal · 3 px',
+    thickness: 3,
+    opacity: 0.9,
+    color: '#303030',
     style: 'rim',
   },
 } as const satisfies Record<string, OutlineSettings & { label: string }>;
@@ -90,6 +102,6 @@ export function playgroundDefaults(): PlaygroundSettings {
     treatment: 'quiet',
     baseline: false,
     paused: false,
-    outline: { thickness: 1, opacity: 0.25, color: '#242424', style: 'solid' },
+    outline: { thickness: 3, opacity: 1, color: '#101010', style: 'solid' },
   };
 }
