@@ -21,6 +21,7 @@ export const GroundInteractionSchema = z
           name: z.string().trim().min(1).max(80),
           footprint: z.array(point).min(3).optional(),
           mask: z.array(z.strictObject({ outer: ring, holes: z.array(ring) })).optional(),
+          height: z.number().finite().positive().max(16).optional(),
           depth: z
             .union([
               z.strictObject({ kind: z.literal('anchor'), point }),
@@ -64,6 +65,14 @@ export const GroundInteractionSchema = z
 export type GroundInteraction = z.infer<typeof GroundInteractionSchema>;
 export type GroundRegion = GroundInteraction['regions'][number];
 export type MaskShape = NonNullable<GroundRegion['mask']>[number];
+// Alpha in the existing coverage/depth atlas stores a height ceiling; zero
+// preserves the uncapped upright reconstruction used by existing scenery.
+export const PAINTED_HEIGHT_RANGE = 16;
+export function paintedHeightByte(region: Pick<GroundRegion, 'height'>) {
+  return region.height === undefined
+    ? 0
+    : Math.max(1, Math.round((region.height / PAINTED_HEIGHT_RANGE) * 255));
+}
 function simplePolygon(points: readonly Point[]) {
   for (let i = 0; i < points.length; i++) {
     const a = points[i]!,

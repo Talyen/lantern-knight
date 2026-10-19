@@ -131,6 +131,18 @@ export class GroundAuthoring {
           r.name = $<HTMLInputElement>('ground-region-name').value;
         });
     };
+    $<HTMLInputElement>('ground-region-height').onchange = () => {
+      const input = $<HTMLInputElement>('ground-region-height');
+      if (!input.checkValidity()) {
+        input.reportValidity();
+        return;
+      }
+      if (this.region())
+        this.commit((r) => {
+          if (input.value === '') delete r.height;
+          else r.height = input.valueAsNumber;
+        });
+    };
     $('ground-task').onchange = () => {
       const next = $<HTMLSelectElement>('ground-task').value;
       const refinement = ['ai-point', 'brush-add', 'brush-erase'].includes(next)
@@ -286,6 +298,9 @@ export class GroundAuthoring {
   private updateName() {
     const r = this.region();
     this.field<HTMLInputElement>('#ground-region-name').value = r?.name ?? 'Ground region';
+    const height = this.field<HTMLInputElement>('#ground-region-height');
+    height.value = r?.height === undefined ? '' : String(r.height);
+    height.disabled = !r;
     this.refreshTools();
   }
   private uv(e: PointerEvent): UV | undefined {

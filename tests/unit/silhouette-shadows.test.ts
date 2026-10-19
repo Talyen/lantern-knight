@@ -1,3 +1,4 @@
+import { paintedHeightByte, PAINTED_HEIGHT_RANGE } from '../../src/content/ground-interaction';
 import { rectangle, groundFixture } from '../fixtures/ground';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -190,4 +191,57 @@ test('disconnected painted contours batch without changing triangles, holes or r
     triangles,
   );
   batched.reset();
+});
+
+test('painted casters split at the ground and height ceiling without phantom ramps', () => {
+  const art = resolveScene(emptyScene()).visuals,
+    layout = artworkFloorLayout(art.editorFloor!.width, art.editorFloor!.depth);
+  for (const height of [undefined, 0.75]) {
+    const region = {
+      id: 'island',
+      name: 'Raised island',
+      height,
+      depth: {
+        kind: 'boundary' as const,
+        points: [layout.world([0.3, 0.4]), layout.world([0.5, 0.7]), layout.world([0.7, 0.5])],
+      },
+      mask: [{ outer: rectangle(0.2, 0.2, 0.8, 0.8), holes: [] }],
+    };
+    art.groundInteraction = groundFixture([region], { asset: 'test', frame: 'test' });
+    const proxies = new ShadowProxies(new T.DirectionalLight());
+    proxies.build(art, []);
+    const positions = (proxies.proxies.children[0] as T.Mesh).geometry.getAttribute('position'),
+      ceiling =
+        height === undefined ? Infinity : (paintedHeightByte(region) / 255) * PAINTED_HEIGHT_RANGE;
+    let topTriangles = 0,
+      wallTriangles = 0;
+    for (let i = 0; i < positions.count; i += 3) {
+      const center = new T.Vector3();
+      for (let j = 0; j < 3; j++)
+        center.add(new T.Vector3().fromBufferAttribute(positions, i + j).multiplyScalar(1 / 3));
+      const u = center.dot(right) / art.editorFloor!.width + 0.5,
+        v = 0.5 - center.dot(new T.Vector3().crossVectors(outward, right)) / art.editorFloor!.depth,
+        point = layout.world([u, v]),
+        expected = Math.min(
+          ceiling,
+          Math.max(
+            0,
+            ((regionDepth(region, u, layout) - point.x * outward.x - point.z * outward.z) /
+              (outward.x ** 2 + outward.z ** 2)) *
+              outward.y,
+          ),
+        );
+      assert.ok(
+        Math.abs(center.y - expected) < 1e-5,
+        'Every triangle interior matches its reconstructed receiver, including both clipping planes',
+      );
+      assert.ok(center.y > 0, 'Ground-only triangles do not cast');
+      assert.ok(center.y <= ceiling + 1e-5);
+      if (Math.abs(center.y - ceiling) < 1e-5) topTriangles++;
+      else wallTriangles++;
+    }
+    assert.ok(wallTriangles > 0);
+    if (height !== undefined) assert.ok(topTriangles > 0);
+    proxies.reset();
+  }
 });

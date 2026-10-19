@@ -276,3 +276,15 @@ test('placement rejects painted silhouettes and collision with base clearance, p
   });
   assert.throws(() => resolveScene(d), /supply: base overlaps painted collision/);
 });
+
+test('raised ground surfaces retain a validated optional height through reprojection', () => {
+  const g = ground();
+  g.regions[0]!.height = 0.75;
+  assert.equal(GroundInteractionSchema.parse(g).regions[0]!.height, 0.75);
+  resizeGroundInteraction(g, { width: 40, depth: 26 }, { width: 20, depth: 13 });
+  assert.equal(g.regions[0]!.height, 0.75);
+  for (const height of [0, -1, Infinity, 17]) {
+    g.regions[0]!.height = height;
+    assert.equal(GroundInteractionSchema.safeParse(g).success, false);
+  }
+});

@@ -166,7 +166,7 @@ export function shadowBatchingProof() {
     if (start < 0 || end < start) throw new Error('Missing light loop');
     program.fragmentShader =
       program.fragmentShader.slice(0, start) +
-      ' for(int i=0;i<5;i++){vec3 delta=inkLightPosition[i]-receiver;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.35+.65*max(0.0,dot(n,normalize(delta+vec3(.0001)))))*inkLocalVisibility(i,receiver,n);}' +
+      ' for(int i=0;i<5;i++){vec3 delta=inkLightPosition[i]-receiver;float d=length(delta);float falloff=pow(max(0.0,1.0-d/max(.1,inkLightRange[i])),2.0);local+=inkLightColor[i]*inkLightPower[i]*falloff*(.35+.65*max(0.0,dot(n,normalize(delta+vec3(.0001)))))*inkLocalVisibility(i,receiver,receiverNormal);}' +
       program.fragmentShader.slice(end);
   };
   material.customProgramCacheKey = () => key + ':reference-loop:' + referenceLoop;

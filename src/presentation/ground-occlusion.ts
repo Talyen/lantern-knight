@@ -1,6 +1,10 @@
 import * as T from 'three';
 import type { ContentSnapshot } from '../content/snapshot';
-import type { GroundInteraction, GroundRegion } from '../content/ground-interaction';
+import {
+  paintedHeightByte,
+  type GroundInteraction,
+  type GroundRegion,
+} from '../content/ground-interaction';
 import { artworkFloorLayout } from '../content/floor-layout';
 import { outward, right, up } from './camera';
 import type { ActorSprite } from './sprite';
@@ -102,7 +106,7 @@ export class GroundOcclusion {
             data[index] = value >> 8;
             data[index + 1] = value & 255;
             data[index + 2] = alpha;
-            data[index + 3] = 255;
+            data[index + 3] = paintedHeightByte(region);
           }
         }
       }
