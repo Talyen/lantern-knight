@@ -209,6 +209,14 @@ export const placementRegistration: Readonly<
       broken: envelope(-0.23438, 0.26856, 0.48633, -0.08887),
     },
   },
+  'library-animation-7a833570093b0901-f9ce237bd03f-clay_jar-native': {
+    hash: '94f62e85a0bfb1c06822f7a925f37ff4818891d97951b36c1afa75d775c2b7a6',
+    clips: {
+      break: envelope(-0.27735, 0.30176, 0.55762, -0.0918),
+      intact: envelope(-0.21778, 0.28516, 0.52344, -0.0918),
+      broken: envelope(-0.27735, 0.27247, 0.46192, -0.0879),
+    },
+  },
   'library-animation-7a833570093b0901-f9ce237bd03f-oval_hamper-native': {
     hash: '0b70884955aa0a9f46f9238742fd008ebc9412acecca5eda4e0f44cf059f579b',
     clips: {
