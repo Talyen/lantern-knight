@@ -183,7 +183,7 @@ The cursor locomotion selection index supplies 64 facing/travel pairs: eight exi
 
 | Supplied clips                                      | Game binding               | Reason or limit                                                                                                              |
 | --------------------------------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| 64 locomotion pairs                                 | Cursor-facing movement     | Exact independent facing/travel selection; current speed retained in every direction.                                        |
+| 64 locomotion pairs                                 | Travel-facing movement     | Game selects the eight forward runs; other pairs remain available for previews.                                                 |
 | U/D/L/R idle additions                              | Matching stationary facing | Complete the existing diagonal idles to eight views.                                                                         |
 | Existing sweep, lunge, dodge, flare, hit and death  | Existing actions           | Preserve direction coverage, damage windows, movement and invulnerability timing.                                            |
 | Finisher                                            | Animation browser          | Distinct attack with no existing finisher mechanic; one DR view.                                                             |

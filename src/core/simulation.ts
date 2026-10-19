@@ -397,11 +397,9 @@ export class Simulation {
     if (this.#combat.admitHero(h, command, len > 0.01 ? Math.atan2(mx, mz) : undefined)) {
       if (len <= 0.01 && this.movement.has(h.id)) {
         this.follow(h);
-        h.yaw = h.aim;
       } else {
         h.state = len > 0.01 ? 'walk' : 'idle';
-        h.yaw = h.aim;
-        if (len > 0.01) h.travelYaw = Math.atan2(mx, mz);
+        if (len > 0.01) h.yaw = h.travelYaw = Math.atan2(mx, mz);
         if (len > 0.01)
           this.move(h, (mx * h.definition.speed) / 60, (mz * h.definition.speed) / 60);
       }

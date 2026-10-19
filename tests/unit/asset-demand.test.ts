@@ -58,6 +58,50 @@ test('matching development server reuse acquires no asset workspace', async () =
   }
 });
 
+test('automatic preview ports skip stale servers and reuse the next compatible server', async (t) => {
+  const { projectRoot } = await import('../../tools/assets/paths');
+  const { readLock } = await import('../../tools/assets/pack');
+  const { openPreview } = await import('../../tools/preview-session');
+  const identity = {
+    root: await fs.realpath(projectRoot),
+    assets: (await readLock()).sha256,
+    target: 'development',
+    scope: 'authoring',
+  };
+  const replies = [
+    JSON.stringify({ ...identity, assets: '0'.repeat(64) }),
+    JSON.stringify({ ...identity, root: '/another-checkout' }),
+    JSON.stringify({ ...identity, scope: 'runtime' }),
+    '<!doctype html><title>Another application</title>',
+    JSON.stringify(identity),
+  ];
+  const requested: string[] = [];
+  t.mock.method(globalThis, 'fetch', async (url: string) => {
+    requested.push(url);
+    const reply = replies.shift();
+    assert.notEqual(reply, undefined, 'fallback must stop at the compatible server');
+    return new Response(reply);
+  });
+  const session = await openPreview({
+    output: 'development',
+    assets: 'pinned',
+    scope: 'authoring',
+    port: 5174,
+    reuse: true,
+    fallbackPort: true,
+    demand: true,
+  });
+  await using _cleanup = onAsyncExit(() => session.close());
+  assert.deepEqual(
+    requested,
+    [5174, 5175, 5176, 5177, 5178].map((port) => `http://127.0.0.1:${port}/__lantern_identity`),
+  );
+  assert.equal(session.origin, 'http://127.0.0.1:5178');
+  assert.equal(session.ownsServer, false);
+  assert.equal(session.workspace, undefined);
+  assert.equal(session.assetIdentity, identity.assets);
+});
+
 test('ground selection acquires its original source image before invoking segmentation', async (t) => {
   const { SegmentationService } = await import('../../tools/segmentation/service');
   const { manifestFixture } = await import('../fixtures/manifest');

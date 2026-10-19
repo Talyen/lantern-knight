@@ -149,7 +149,7 @@ test('rejected loot clicks preserve an accepted pickup and its route', () => {
   assert.equal(sim.collectDrop(ready!), true);
 });
 
-test('a blocked route still allows idle aiming and retries after displacement', () => {
+test('a blocked route retains body facing and retries after displacement', () => {
   const a = area();
   a.props = [{ ...a.props[0]!, size: [0.08, 10] }];
   a.spawns = [];
@@ -159,7 +159,7 @@ test('a blocked route still allows idle aiming and retries after displacement', 
   sim.setMovementTarget(sim.hero.id, { x: 3, z: 0 });
   assert.equal(sim.navigationDebug(false).routes[0]!.status, 'unreachable');
   for (let i = 0; i < 60; i++) sim.step({ move: { x: 0, z: 0 }, aim: { x: -3, z: 2 } });
-  assert.equal(sim.hero.yaw, 0, 'a blocked route must still allow idle aiming');
+  assert.equal(sim.hero.yaw, Math.PI / 4, 'a blocked route retains body facing');
   Object.assign(sim.hero, { x: 2, z: 0 });
   sim.step();
   assert.ok(sim.hero.x > 2, 'displacement retries without waiting for a timer');
@@ -680,7 +680,7 @@ test('idle aim and movement deadzone preserve position; completing a route relea
   sim.step(still);
   sim.step({ ...still, aim: { x: sim.hero.x, z: sim.hero.z + 2 } });
   assert.equal(sim.navigationDebug().routes.length, 0);
-  assert.equal(sim.hero.yaw, 0);
+  assert.equal(sim.hero.yaw, Math.PI / 2);
 });
 
 test('route ownership switches automatic intent immediately and preserves manual priority', () => {

@@ -67,7 +67,7 @@ export class CombatActions {
     private readonly area: AreaDefinition,
     private readonly world: CombatWorld,
   ) {}
-  start(a: Actor, state: State, yaw = a.aim) {
+  start(a: Actor, state: State, yaw = state === 'idle' && a.kind === 'hero' ? a.yaw : a.aim) {
     this.lanes.delete(a);
     if (a.kind === 'hero' && state === 'death') this.lanes.clear();
     if (state === 'attack' && a.definition.attack.kind === 'rib-lane') {

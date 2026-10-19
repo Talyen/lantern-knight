@@ -30,6 +30,7 @@ async function main() {
     port: port ?? Number(process.env.LANTERN_PREVIEW_PORT ?? 5174),
     open: values.preview ? false : values.open,
     reuse: true,
+    fallbackPort: values.port === undefined && process.env.LANTERN_PREVIEW_PORT === undefined,
     demand: !values.eager,
   });
   await using _cleanup1 = onAsyncExit(() => session.close());
