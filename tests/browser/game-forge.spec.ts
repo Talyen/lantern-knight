@@ -6,7 +6,10 @@ import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
 import type { GameSave } from '../../src/core/save';
 
-test.use({ actionTimeout: 30_000 });
+test.use({
+  actionTimeout: 30_000,
+  deviceScaleFactor: process.env.LANTERN_OPENING_CAPTURE_DIRECTORY ? 1 : 0.5,
+});
 
 test('clearing reward and forge salvage survive travel, rest and death recovery', async ({
   page,

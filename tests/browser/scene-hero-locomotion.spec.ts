@@ -89,40 +89,8 @@ test('travel-facing locomotion ignores cursor angle and preserves phase through 
     .toBe('travel_d315');
   expect(await page.locator('#heading').inputValue()).toBe('d135');
   await page.locator('#return-scene').click();
-  const cursor = await page.evaluate(() => {
-    const f = window.foundation;
-    f.pause(true);
-    f.editPreview((sim) => {
-      Object.assign(sim.hero, { x: 0, px: 0, z: 0, pz: 0, state: 'idle', aim: Math.PI / 2 });
-    });
-    f.presentation.update(f.sim, 1, 0, { x: 2, z: 0 });
-    const p = f.presentation.camera.position.clone().set(2, 0, 0).project(f.presentation.camera);
-    const rect = f.presentation.canvas.getBoundingClientRect();
-    f.pause(false);
-    return {
-      x: rect.left + ((p.x + 1) * rect.width) / 2,
-      y: rect.top + ((1 - p.y) * rect.height) / 2,
-    };
-  });
-  await page.locator('canvas').focus();
-  await page.mouse.move(cursor.x, cursor.y);
-  await page.keyboard.down('KeyW');
-  try {
-    await expect
-      .poll(
-        () =>
-          page.evaluate(() => {
-            const f = window.foundation,
-              v = f.presentation.actorPresentation.actors.get(f.sim.hero.id)!;
-            return { state: f.sim.hero.state, facing: v.heading, travel: v.travelHeading };
-          }),
-        { timeout: 30_000 },
-      )
-      .toEqual({ state: 'walk', facing: 'd225', travel: 'd225' });
-  } finally {
-    await page.keyboard.up('KeyW');
-  }
   await expect
-    .poll(() => page.evaluate(() => window.foundation.sim.hero.state), { timeout: 30_000 })
-    .toBe('idle');
+    .poll(() => page.evaluate(() => window.foundation.presentation.mode))
+    .toBe('encounter');
+  // Real keyboard admission and release in all eight headings live in scene-movement.
 });

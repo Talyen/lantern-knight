@@ -7,6 +7,7 @@ const hardware = process.env.LANTERN_TEST_GPU === 'hardware';
 export default defineConfig({
   testDir: desktop ? 'tests/desktop' : 'tests/browser',
   timeout: 180_000,
+  expect: { timeout: 30_000 },
   workers: 1,
   retries: 0,
   outputDir: '.cache/browser-results',

@@ -149,6 +149,9 @@ test('editor placement, experimental scale, history, reload, save and external c
     expect((await readEditorDocument(page)).name).toBe('Preserved draft');
     await page.locator('#reload').click();
     await page.getByRole('button', { name: 'Discard edits', exact: true }).click();
+    await expectEditorDocument(page, (document) => document.name, { timeout: 120_000 }).toBe(
+      'External change',
+    );
     await waitForEditorIdle(page);
     await expect(page.locator('#name')).toHaveValue('External change');
     await expect(page.locator('#save-state')).toHaveText('Saved');
