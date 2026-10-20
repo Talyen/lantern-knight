@@ -80,26 +80,25 @@ export class RoomPresentation {
       );
     const bounds = area.bounds,
       surface = area.surface,
+      steps = surface.kind === 'stairs' ? (surface.steps ?? 3) : 3,
+      stairWidth = surface.kind === 'stairs' ? (surface.stairWidth ?? 3.2) : 3.2,
       axis = (min: number, max: number, name: 'x' | 'z') => {
         const values = [min, max];
         for (let n = min + 2; n < max; n += 2) values.push(n);
         if (surface.kind !== 'flat' && surface.axis === name) {
           values.push(surface.start, surface.end);
           if (surface.kind === 'stairs')
-            for (let i = 1; i < surface.steps!; i++)
-              values.push(surface.start + ((surface.end - surface.start) * i) / surface.steps!);
+            for (let i = 1; i < steps; i++)
+              values.push(surface.start + ((surface.end - surface.start) * i) / steps);
         }
         if (surface.kind === 'stairs' && surface.terraceBounds) {
           values.push(
             ...(name === 'x'
-              ? [
-                  surface.terraceBounds.minX,
-                  surface.terraceBounds.maxX,
-                  -surface.stairWidth! / 2,
-                  surface.stairWidth! / 2,
-                ]
+              ? [surface.terraceBounds.minX, surface.terraceBounds.maxX]
               : [surface.terraceBounds.minZ, surface.terraceBounds.maxZ]),
           );
+          if (name === (surface.axis === 'x' ? 'z' : 'x'))
+            values.push(-stairWidth / 2, stairWidth / 2);
         }
         return [...new Set(values)].sort((a, b) => a - b);
       };

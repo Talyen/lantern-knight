@@ -100,14 +100,17 @@ export function heightAt(area: AreaDefinition, x: number, z: number) {
   const t = Math.max(0, Math.min(1, ((s.axis === 'x' ? x : z) - s.start) / (s.end - s.start)));
   if (s.kind === 'stairs' && s.terraceBounds) {
     if (contains(s.terraceBounds, { x, z })) return s.endHeight;
+    const along = s.axis === 'x' ? x : z,
+      across = s.axis === 'x' ? z : x;
     if (
-      Math.abs(x) > (s.stairWidth ?? 3.2) / 2 ||
-      z < Math.min(s.start, s.end) ||
-      z > Math.max(s.start, s.end)
+      Math.abs(across) > (s.stairWidth ?? 3.2) / 2 ||
+      along < Math.min(s.start, s.end) ||
+      along > Math.max(s.start, s.end)
     )
       return s.startHeight;
   }
-  const supported = s.kind === 'stairs' ? Math.ceil(t * (s.steps ?? 3) - 1e-9) / (s.steps ?? 3) : t;
+  const steps = s.steps ?? 3,
+    supported = s.kind === 'stairs' ? Math.ceil(t * steps - 1e-9) / steps : t;
   return s.startHeight + (s.endHeight - s.startHeight) * supported;
 }
 // Segment parameters at surface discontinuities and requested height levels.
@@ -145,8 +148,9 @@ export function heightBreakpoints(
       axis('x', s.terraceBounds.maxX);
       axis('z', s.terraceBounds.minZ);
       axis('z', s.terraceBounds.maxZ);
-      axis('x', -(s.stairWidth ?? 3.2) / 2);
-      axis('x', (s.stairWidth ?? 3.2) / 2);
+      const across = s.axis === 'x' ? 'z' : 'x';
+      axis(across, -(s.stairWidth ?? 3.2) / 2);
+      axis(across, (s.stairWidth ?? 3.2) / 2);
     }
   }
   return cuts;
@@ -308,12 +312,13 @@ function assertArea(
   if (s.kind === 'flat') assertFinite(s.height);
   else {
     if (s.kind === 'stairs') {
-      if (s.axis !== 'z' || !Number.isInteger(s.steps) || s.steps! < 1 || s.steps! > 12)
-        fail('invalid stairs');
+      const steps = s.steps ?? 3;
+      if (!Number.isInteger(steps) || steps < 1 || steps > 12) fail('invalid stairs');
       if (s.terraceBounds) {
         assertBounds(s.terraceBounds);
-        assertFinite(s.stairWidth ?? 0);
-        if ((s.stairWidth ?? 0) <= 0) fail('invalid stair width');
+        const width = s.stairWidth ?? 3.2;
+        assertFinite(width);
+        if (width <= 0) fail('invalid stair width');
       }
     }
     assertFinite(s.start, s.end, s.startHeight, s.endHeight);

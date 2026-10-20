@@ -54,7 +54,8 @@ test('authored hero composition bias defaults on', () => {
 import { tuning } from '../../src/content/gameplay';
 import { GameSession } from '../../src/core/session';
 import { parseGame } from '../../src/core/save';
-import { ContentRegistry } from '../../src/content/world';
+import { ContentRegistry, heightAt, heightBreakpoints } from '../../src/content/world';
+import type { ContentDefinitions } from '../../src/content/world';
 import { contentDefinitions } from '../fixtures/content';
 
 test('camera covers the floor and frames reachable hero silhouettes across edges, aspect and zoom', () => {
@@ -183,4 +184,63 @@ test('resolved scenes own independent mutable painting geometry', () => {
   first.playableBoundary![0]!.z = 100;
   assert.deepEqual(second, expected);
   assert.deepEqual(resolveScene(document).area, expected);
+});
+
+function stairDefinitions(
+  surface: ContentDefinitions['areas'][number]['surface'],
+): ContentDefinitions {
+  const definitions = structuredClone(contentDefinitions) as ContentDefinitions;
+  definitions.areas[0]!.surface = surface;
+  return definitions;
+}
+
+test('admitted stairs default an omitted step count', () => {
+  const definitions = stairDefinitions({
+    kind: 'stairs',
+    axis: 'z',
+    start: -2,
+    end: 2,
+    startHeight: 0,
+    endHeight: 1.5,
+    stairWidth: 3.2,
+    terraceBounds: { minX: 5, maxX: 6, minZ: 5, maxZ: 6 },
+  });
+  const area = new ContentRegistry(definitions).area(definitions.areas[0]!.id);
+  assert.equal(heightAt(area, 0, -1), 0.5);
+});
+
+test('admitted stairs default an omitted stair width', () => {
+  const definitions = stairDefinitions({
+    kind: 'stairs',
+    axis: 'z',
+    start: -2,
+    end: 2,
+    startHeight: 0,
+    endHeight: 1.5,
+    steps: 3,
+    terraceBounds: { minX: 5, maxX: 6, minZ: 5, maxZ: 6 },
+  });
+  const area = new ContentRegistry(definitions).area(definitions.areas[0]!.id);
+  assert.equal(heightAt(area, 0, -1), 0.5);
+  assert.equal(heightAt(area, 1.7, -1), 0);
+});
+
+test('stairs on the X axis keep their run, width and height cuts on that axis', () => {
+  const definitions = stairDefinitions({
+    kind: 'stairs',
+    axis: 'x',
+    start: -2,
+    end: 2,
+    startHeight: 0,
+    endHeight: 1.5,
+    steps: 3,
+    stairWidth: 3.2,
+    terraceBounds: { minX: 5, maxX: 6, minZ: 5, maxZ: 6 },
+  });
+  const area = new ContentRegistry(definitions).area(definitions.areas[0]!.id);
+  assert.equal(heightAt(area, -1, 0), 0.5);
+  assert.equal(heightAt(area, -1, 1.7), 0);
+  const cuts = heightBreakpoints(area, { x: -1, z: -2 }, { x: -1, z: 2 }, []);
+  assert.ok(cuts.some((t) => Math.abs(t - 0.1) < 1e-9));
+  assert.ok(cuts.some((t) => Math.abs(t - 0.9) < 1e-9));
 });
