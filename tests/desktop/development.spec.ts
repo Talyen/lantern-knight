@@ -1,6 +1,7 @@
 import { readJson } from '../../tools/json-file';
 import net from 'node:net';
 import { test, expect, chromium, type Browser } from '@playwright/test';
+import { prepareStatePage } from '../fixtures/rasterization';
 import fs from 'node:fs/promises';
 import { constants } from 'node:fs';
 import path from 'node:path';
@@ -84,6 +85,7 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
     await expect.poll(() => endpoints.length, { timeout: 60_000, message: log }).toBeGreaterThan(0);
     browser = await chromium.connectOverCDP(endpoints[0]!);
     let page = browser.contexts()[0]!.pages()[0]!;
+    await prepareStatePage(page);
     await page.waitForFunction(
       () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
     );
@@ -129,6 +131,7 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
       await browser.close().catch(() => {});
       browser = await chromium.connectOverCDP(endpoints.at(-1)!);
       page = browser.contexts()[0]!.pages()[0]!;
+      await prepareStatePage(page);
       await page.waitForFunction(
         () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
       );

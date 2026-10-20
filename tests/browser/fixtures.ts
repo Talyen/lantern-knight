@@ -1,6 +1,7 @@
 import { test as base, expect, type Locator, type Page } from '@playwright/test';
 import fs from 'node:fs/promises';
 import { projectRoot } from '../../tools/assets/paths';
+import { suppressRasterization } from '../fixtures/rasterization';
 const test = base.extend<{ errors: string[]; rasterize: boolean }>({
   rasterize: [true, { option: true }],
   context: async ({ playwright, browserName, video, rasterize }, use, testInfo) => {
@@ -26,21 +27,7 @@ const test = base.extend<{ errors: string[]; rasterize: boolean }>({
           : {},
       );
       if (!rasterize && !Object.keys(process.env).some((key) => /CAPTURE|CAPTURES/.test(key)))
-        await context.addInitScript(() => {
-          // State/DOM integration still creates real contexts, uploads assets,
-          // compiles shaders and retires resources. Its unused pixels need no draws.
-          for (const name of [
-            'drawArrays',
-            'drawElements',
-            'drawArraysInstanced',
-            'drawElementsInstanced',
-          ])
-            Object.defineProperty(WebGL2RenderingContext.prototype, name, {
-              configurable: true,
-              writable: true,
-              value() {},
-            });
-        });
+        await context.addInitScript(suppressRasterization);
       await use(context);
     } finally {
       await browser.close();

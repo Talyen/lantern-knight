@@ -7,6 +7,7 @@ import os from 'node:os';
 import { verifyBuildIdentity } from '../../tools/build-identity';
 import { smokeExecutable, playerControls } from '../../tools/smoke/smoke-launch';
 import { extractFile } from '@electron/asar';
+import { prepareStatePage } from '../fixtures/rasterization';
 test('Game package starts, accepts input and reloads current storage', async () => {
   // Two cold launches decode and prepare the complete current player kit.
   test.setTimeout(300_000);
@@ -61,6 +62,9 @@ test('Game package starts, accepts input and reloads current storage', async () 
     await app.close();
     app = await launch();
     page = await app.firstWindow();
+    // First launch owns real native rendering; this second launch owns durable
+    // checkpoint restoration through the same executable, Bridge and controls.
+    await prepareStatePage(page);
     await page.waitForFunction(
       () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
       undefined,

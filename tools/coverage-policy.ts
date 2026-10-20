@@ -7,6 +7,7 @@ const policies = [
     assets: true,
   },
   { pattern: /^tools\/ci-browser-shard\.ts$/, authoring: true },
+  { pattern: /^tests\/fixtures\/rasterization\.ts$/, desktop: true, authoring: true, assets: true },
   {
     pattern:
       /^tools\/(?:(?:cli|scope-exit|json-file|verified-files|run-process|command-lane)\.ts$|assets\/(?:workspace|paths|demand(?:-plugin)?|file-delivery|download|bundles|pack|preview|cache|files|sources)\.ts$)/,
