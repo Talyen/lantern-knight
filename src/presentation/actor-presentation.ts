@@ -246,7 +246,14 @@ export class ActorPresentation {
         v.heading = v.sprite.manifest.asset.viewMode === 'fixed-authored' ? 'd45' : heading;
       }
       const clip = v.sprite.animator.clip;
-      if (a.health <= 0 && a.age >= tuning.deathHoldTicks && v.sprite.animator.time === 0)
+      // Heroes and enemies have different corpse holds; a rebuilt visual for an
+      // already-dead enemy must settle to its end pose without replaying death
+      // notifies from the start.
+      if (
+        a.health <= 0 &&
+        a.age >= (a.kind === 'hero' ? tuning.deathHoldTicks : tuning.enemyDeathHoldTicks) &&
+        v.sprite.animator.time === 0
+      )
         v.sprite.animator.seek(clipDuration(clip));
       let notifies: ReturnType<Animator['advance']> = [];
       if (a.kind === 'hero' && a.state !== 'walk' && a.state !== 'idle') {

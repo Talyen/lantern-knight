@@ -3,9 +3,15 @@ export const packColumns = 12;
 export const packRows = 16;
 export type PackEntry = { key: string; item: string; quantity: number; x: number; y: number };
 
+function footprint(item: string): readonly [number, number] {
+  const definition = items[item];
+  if (!definition) throw new Error(`Unknown pack item: ${item}`);
+  return definition.footprint;
+}
+
 /** The only cells an item can occupy. Preview, marker and commit share it. */
 export function clampPackCell(item: string, x: number, y: number) {
-  const [width, height] = items[item]!.footprint;
+  const [width, height] = footprint(item);
   return {
     x: Math.max(0, Math.min(packColumns - width, x)),
     y: Math.max(0, Math.min(packRows - height, y)),
@@ -13,7 +19,7 @@ export function clampPackCell(item: string, x: number, y: number) {
 }
 
 export function packFits(pack: readonly PackEntry[], entry: PackEntry, x: number, y: number) {
-  const [width, height] = items[entry.item]!.footprint;
+  const [width, height] = footprint(entry.item);
   return (
     Number.isInteger(x) &&
     Number.isInteger(y) &&
@@ -23,14 +29,14 @@ export function packFits(pack: readonly PackEntry[], entry: PackEntry, x: number
     y + height <= packRows &&
     !pack.some((other) => {
       if (other.key === entry.key) return false;
-      const [w, h] = items[other.item]!.footprint;
+      const [w, h] = footprint(other.item);
       return x < other.x + w && x + width > other.x && y < other.y + h && y + height > other.y;
     })
   );
 }
 
 export function placeEntry(pack: PackEntry[], entry: PackEntry) {
-  const [width, height] = items[entry.item]!.footprint;
+  const [width, height] = footprint(entry.item);
   for (let y = 0; y <= packRows - height; y++)
     for (let x = 0; x <= packColumns - width; x++) {
       if (packFits(pack, entry, x, y)) {
@@ -44,8 +50,8 @@ export function placeEntry(pack: PackEntry[], entry: PackEntry) {
 export function organizePack(pack: readonly PackEntry[]) {
   const result: PackEntry[] = [];
   for (const entry of [...pack].sort((a, b) => {
-    const [aw, ah] = items[a.item]!.footprint,
-      [bw, bh] = items[b.item]!.footprint;
+    const [aw, ah] = footprint(a.item),
+      [bw, bh] = footprint(b.item);
     return bw * bh - aw * ah || a.item.localeCompare(b.item) || a.key.localeCompare(b.key);
   }))
     placeEntry(result, entry);

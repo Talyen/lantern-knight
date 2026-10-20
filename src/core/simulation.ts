@@ -268,7 +268,10 @@ export class Simulation {
       actor.pz = actor.z;
       if (actor.health === 0) {
         this.start(actor, 'death');
-        actor.age = tuning.deathHoldTicks;
+        // Area snapshots only store enemy spawns; the hero is restored
+        // separately. Enemy corpses use the enemy hold so restored rooms keep
+        // the same visibility window as freshly defeated enemies.
+        actor.age = tuning.enemyDeathHoldTicks;
       }
     }
     this.collectedPickups = new Set(state.collectedPickups ?? []);
