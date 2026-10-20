@@ -3,7 +3,7 @@ import { content } from '../fixtures/content';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { InventoryState, MAX_ITEM_COUNT } from '../../src/core/inventory';
-import { packFits } from '../../src/core/pack';
+import { packFits, type PackEntry } from '../../src/core/pack';
 
 test('inventory admission and exports detach state; commands enforce owned equipment copies', () => {
   const draft = { inventory: { 'orchard-ring': 1 }, equipment: {} };
@@ -159,4 +159,38 @@ test('full-pack pickup failure preserves every reward in a multi-reward ground d
   assert.throws(() => sim.collectDrop('mixed'), /pack is full/);
   assert.equal(sim.drops.length, 1);
   assert.deepEqual(owner.snapshot(), before);
+});
+
+test('spending across multiple non-stackable entries sums ownership', () => {
+  const owner = new InventoryState({ inventory: {}, equipment: {} });
+  owner.award([
+    { item: 'sword', amount: 2 },
+    { item: 'iron', amount: 5 },
+  ]);
+  assert.equal(owner.inventory.sword, 2);
+  assert.equal(owner.pack.filter((entry) => entry.item === 'sword').length, 2);
+  // The private spend path must sum across single-quantity gear entries.
+  // Before the fix it inspected only the first entry and threw for amount 2.
+  const pack = owner.snapshot().pack!.map((entry) => ({ ...entry }));
+  (owner as unknown as { spend(pack: PackEntry[], item: string, amount: number): void }).spend(
+    pack,
+    'sword',
+    2,
+  );
+  assert.equal(pack.filter((entry) => entry.item === 'sword').length, 0);
+  // Stackable spending still consumes from its single stack.
+  const iron = owner.snapshot().pack!.map((entry) => ({ ...entry }));
+  (owner as unknown as { spend(pack: PackEntry[], item: string, amount: number): void }).spend(
+    iron,
+    'iron',
+    3,
+  );
+  assert.equal(iron.find((entry) => entry.item === 'iron')!.quantity, 2);
+  assert.throws(() =>
+    (owner as unknown as { spend(pack: PackEntry[], item: string, amount: number): void }).spend(
+      pack,
+      'sword',
+      1,
+    ),
+  );
 });

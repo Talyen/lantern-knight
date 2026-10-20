@@ -186,10 +186,19 @@ export class InventoryState implements InventoryAccess {
     };
   }
   private spend(pack: PackEntry[], item: string, amount: number) {
-    const entry = pack.find((entry) => entry.item === item);
-    if (!entry || entry.quantity < amount) throw new Error('Not enough inventory items');
-    entry.quantity -= amount;
-    if (!entry.quantity) pack.splice(pack.indexOf(entry), 1);
+    const owned = pack
+      .filter((entry) => entry.item === item)
+      .reduce((sum, entry) => sum + entry.quantity, 0);
+    if (owned < amount) throw new Error('Not enough inventory items');
+    let remaining = amount;
+    for (let i = pack.length - 1; i >= 0 && remaining > 0; i--) {
+      const entry = pack[i]!;
+      if (entry.item !== item) continue;
+      const take = Math.min(entry.quantity, remaining);
+      entry.quantity -= take;
+      remaining -= take;
+      if (!entry.quantity) pack.splice(i, 1);
+    }
   }
   prepareUpgradePurchase(choice: UpgradeId) {
     const { next, reason } = upgradeOffer(choice, this.upgrades, this.inventory);

@@ -31,8 +31,10 @@ export function transitionMix(
   phase: number,
   timing?: Pick<TransitionTiming, 'holdFraction' | 'easing'>,
 ) {
-  const hold = timing?.holdFraction ?? 0,
-    t = Math.max(0, Math.min(1, (phase - hold) / (1 - hold)));
+  const raw = timing?.holdFraction ?? 0,
+    hold = Number.isFinite(raw) ? Math.min(Math.max(0, raw), 1) : 0;
+  if (hold >= 1) return 0;
+  const t = Math.max(0, Math.min(1, (phase - hold) / (1 - hold)));
   switch (timing?.easing) {
     case 'ease-in':
       return t * t;

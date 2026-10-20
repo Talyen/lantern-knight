@@ -32,7 +32,9 @@ export function remapWalkTime(from: Clip, to: Clip, time: number) {
     return from.loop && to.loop ? (Math.max(0, time) / clipDuration(from)) * clipDuration(to) : 0;
   const duration = clipDuration(from),
     loop = from.loop ? Math.floor(Math.max(0, time) / duration) : 0,
-    t = from.loop ? Math.max(0, time) % duration : Math.min(Math.max(0, time), duration - 0.0001);
+    t = from.loop
+      ? Math.max(0, time) % duration
+      : Math.min(Math.max(0, time), Math.max(0, duration - 0.0001));
   let a = 0,
     b = 0;
   for (let i = 0; i < from.frames.length; i++) {

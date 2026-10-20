@@ -6,7 +6,7 @@ export function clipDuration(clip: Clip) {
 export function clipTime(clip: Clip, timeMs: number) {
   const duration = clipDuration(clip),
     time = Math.max(0, timeMs);
-  if (!clip.loop) return Math.min(time, duration - 0.0001);
+  if (!clip.loop) return Math.min(time, Math.max(0, duration - 0.0001));
   const wrapped = time % duration;
   return duration - wrapped < 1e-7 ? 0 : wrapped;
 }

@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { sampleAnimation, transitionMix } from '../../src/core/animation-treatment';
+import { clipTime } from '../../src/core/animation';
+import { remapWalkTime } from '../../src/core/locomotion-timing';
 
 test('guarded sampling respects variable holds, looping and terminal death poses', () => {
   const c = { frames: ['a', 'b', 'c'], durationsMs: [100, 50, 150], loop: true, notifies: [] };
@@ -57,4 +59,22 @@ test('retiming preserves drawing-relative notifications and markers without chan
     clip.markers.map((n) => n.atMs),
     [200, 300],
   );
+});
+
+test('tiny non-looping clips clamp to zero instead of negative time', () => {
+  const tiny = { frames: ['a'], durationsMs: [1e-9], loop: false, notifies: [] };
+  assert.equal(clipTime(tiny, 10), 0);
+  assert.ok(clipTime(tiny, 10) >= 0);
+  const from = { frames: ['a', 'b'], durationsMs: [1e-9, 1e-9], loop: false, notifies: [] };
+  const to = { frames: ['a', 'b'], durationsMs: [100, 100], loop: false, notifies: [] };
+  const remapped = remapWalkTime(from, to, 10);
+  assert.ok(Number.isFinite(remapped) && remapped >= 0);
+  const sample = sampleAnimation(tiny, 10, 'guarded');
+  assert.ok(Number.isFinite(sample.mix) && sample.mix >= 0);
+});
+
+test('a fully held transition stays at zero instead of producing NaN', () => {
+  assert.equal(transitionMix(0.5, { holdFraction: 1 }), 0);
+  assert.equal(transitionMix(1, { holdFraction: 1 }), 0);
+  assert.equal(transitionMix(0, { holdFraction: 1 }), 0);
 });

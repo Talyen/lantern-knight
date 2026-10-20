@@ -199,7 +199,14 @@ export function walkablePoint(
     const middle = start.clone().addScaledVector(delta, (low + high) / 2),
       gradient = surfaceGradient(area, middle.x, middle.z),
       slope = delta.y - gradient.x * delta.x - gradient.z * delta.z,
-      t = (low + high) / 2 + (heightAt(area, middle.x, middle.z) - middle.y) / slope;
+      height = heightAt(area, middle.x, middle.z);
+    if (!Number.isFinite(slope) || Math.abs(slope) < 1e-12) {
+      // Ray runs parallel to this tread. A coplanar ray hits everywhere on
+      // the interval; otherwise this interval cannot contain the crossing.
+      if (Math.abs(height - middle.y) < 1e-9) return middle;
+      continue;
+    }
+    const t = (low + high) / 2 + (height - middle.y) / slope;
     if (t >= low && t <= high) return start.clone().addScaledVector(delta, t);
   }
   return null;

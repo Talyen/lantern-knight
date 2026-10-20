@@ -90,3 +90,16 @@ test('body aiming follows the head of a larger enemy visual', () => {
   enemy.definition = { ...enemy.definition, visual: 'chapel-warden' };
   assert.deepEqual(pick(), { x: enemy.x, z: enemy.z });
 });
+
+test('a ray parallel to flat ground returns its coplanar crossing instead of null', async () => {
+  const { OrthographicCamera } = await import('three');
+  const area = content.area('court');
+  const horizontal = new OrthographicCamera(-5, 5, 5, -5, 0.1, 100);
+  horizontal.position.set(0, 0, 5);
+  horizontal.lookAt(0, 0, 0);
+  horizontal.updateMatrixWorld();
+  const flatRect = { left: 0, top: 0, width: 800, height: 450 };
+  const point = walkablePoint(horizontal, 400, 225, flatRect, area);
+  assert.ok(point, 'coplanar horizontal ray must hit flat ground');
+  assert.ok(Math.abs(point!.y) < 1e-9);
+});
