@@ -662,6 +662,39 @@ test('adventure starter equipment is present even when the starting room has no 
   assert.equal(s.inventory.sword, 1);
   assert.equal(s.equipment.lantern, 'lantern');
 });
+
+test('actor separation settles at the clearance radius movement already uses', () => {
+  const s = fixture();
+  // The skeleton shares the hero's cell and closes on him.
+  Object.assign(s.sim.hero, { x: -3, z: 0 });
+  s.step(idle);
+  const enemy = s.sim.enemies[0]!;
+  assert.ok(
+    Math.hypot(s.sim.hero.x - enemy.x, s.sim.hero.z - enemy.z) >= 0.6 - 1e-6,
+    'actors keep the clearance their own movement enforces',
+  );
+});
+
+test('resting at an unknown campfire discovers it with feedback and the lesson', () => {
+  const s = fixture();
+  assert.equal(s.discovered.has('orchard/east'), false);
+  assert.equal(s.onboarding.completed.includes('campfire'), false);
+  Object.assign(s.sim.hero, { x: 8, z: 0 });
+  const events = s.rest('orchard/east');
+  assert.equal(s.discovered.has('orchard/east'), true);
+  assert.equal(
+    events.some((event) => event.kind === 'campfire-discovered'),
+    true,
+    'a first campfire reports its discovery',
+  );
+  assert.equal(s.onboarding.completed.includes('campfire'), true);
+  // A known campfire is not discovered twice.
+  const repeated = s.rest('orchard/east');
+  assert.equal(
+    repeated.some((event) => event.kind === 'campfire-discovered'),
+    false,
+  );
+});
 test('movement preview cannot consume or heal from inventory potions', () => {
   const s = fixture();
   supply(s, 'health-potion', 1);

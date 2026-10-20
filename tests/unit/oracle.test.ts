@@ -75,6 +75,24 @@ test('stepping out or dodging the lane avoids its only contact', () => {
   }
 });
 
+test('the lane contacts the hero by the clearance radius its body occupies', () => {
+  // The lane is 0.8 wide, so 0.68 across leaves 0.28 of clearance between the
+  // hero's centre and the lane edge: inside the effective radius every other
+  // clearance decision uses, and outside the authored body radius.
+  const overlapping = fixture();
+  overlapping.step(idle);
+  Object.assign(overlapping.hero, lanePoint(overlapping.ribLanes[0]!, 0, 0.4 + 0.28));
+  overlapping.enemies[0]!.age = ribLaneAttack.windup;
+  overlapping.step(idle);
+  assert.equal(overlapping.hero.health, 86, 'an overlapping body takes the contact');
+  const clear = fixture();
+  clear.step(idle);
+  Object.assign(clear.hero, lanePoint(clear.ribLanes[0]!, 0, 0.4 + 0.32));
+  clear.enemies[0]!.age = ribLaneAttack.windup;
+  clear.step(idle);
+  assert.equal(clear.hero.health, 100, 'a clear body does not');
+});
+
 test('Oracle cancels on sword interruption, lantern stagger, death and repopulation', () => {
   for (const cause of ['sword', 'lantern', 'death', 'populate', 'hero-death'] as const) {
     const s = fixture();

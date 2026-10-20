@@ -185,6 +185,14 @@ export class InventoryState implements InventoryAccess {
       upgrades: this.upgrades,
     };
   }
+  // The aggregate count includes equipped copies, which cannot be spent.
+  // Spendable ownership is what the pack (or the wallet) actually holds.
+  private spendable(pack: readonly PackEntry[], gold: number, item: string) {
+    if (item === 'gold') return gold;
+    return pack
+      .filter((entry) => entry.item === item)
+      .reduce((sum, entry) => sum + entry.quantity, 0);
+  }
   private spend(pack: PackEntry[], item: string, amount: number) {
     const owned = pack
       .filter((entry) => entry.item === item)
@@ -206,7 +214,8 @@ export class InventoryState implements InventoryAccess {
     const previous = this.state,
       draft = this.draft();
     for (const [item, amount] of Object.entries(next.cost)) {
-      if ((this.inventory[item] ?? 0) < amount) throw new Error('Insufficient upgrade materials');
+      if (this.spendable(draft.pack, draft.gold, item) < amount)
+        throw new Error('Insufficient upgrade materials');
       if (item === 'gold') draft.gold -= amount;
       else this.spend(draft.pack, item, amount);
     }
@@ -249,8 +258,11 @@ export class InventoryState implements InventoryAccess {
     this.state = this.accept(draft.pack, draft.equipment, draft.gold, draft.upgrades);
   }
   consume(item: string) {
-    if (!Object.hasOwn(items, item) || !(this.inventory[item] ?? 0)) return false;
+    if (!Object.hasOwn(items, item)) return false;
     const draft = this.draft();
+    // Equipped copies are owned but not spendable; consuming one is refused
+    // rather than reported as an inventory failure.
+    if (this.spendable(draft.pack, draft.gold, item) < 1) return false;
     if (item === 'gold') draft.gold--;
     else this.spend(draft.pack, item, 1);
     this.state = this.accept(draft.pack, draft.equipment, draft.gold, draft.upgrades);

@@ -232,15 +232,21 @@ export class GameSession {
     sim.tick = this.sim.tick;
     return sim;
   }
-  private prepareRoom(state: RoomState, outcome: EventDetails, transition = false): RoomPlan {
+  private prepareRoom(
+    state: RoomState,
+    outcome: EventDetails,
+    transition = false,
+    events: readonly GameplayEvent[] = [],
+  ): RoomPlan {
     this.sim.cancelSpells();
     const destination = state.sim.area;
     const plan = Object.freeze({
       sourceGeneration: this.generation,
       destination,
-      events: Object.freeze(
-        transition ? [this.event({ kind: 'transition-start', destination })] : [],
-      ),
+      events: Object.freeze([
+        ...events,
+        ...(transition ? [this.event({ kind: 'transition-start', destination })] : []),
+      ]),
     });
     this.pending = {
       kind: 'room',
@@ -474,15 +480,29 @@ export class GameSession {
     const { area, definition } = this.fire(key);
     if (area !== this.sim.area || !this.canUseFire(definition.id))
       throw new Error('Campfire unavailable');
+    // Resting at an unknown fire discovers it. The discovery belongs to this
+    // candidate room, with the same feedback and lesson as discoverFire.
+    const first = !this.current.discovered.has(key);
     const state = this.roomState();
     state.discovered.add(key);
     state.lastFire = key;
+    if (first && !this.onboarding.completed.includes('campfire'))
+      state.onboarding = onboardingState({
+        completed: [...this.onboarding.completed, 'campfire'],
+        dismissed: this.onboarding.dismissed.filter((id) => id !== 'campfire'),
+      });
     this.resetEnemies(state);
     state.sim = this.restoredSimulation(state, area, 'fire-' + definition.id);
-    return this.prepareRoom(state, { kind: 'rested' });
+    return this.prepareRoom(
+      state,
+      { kind: 'rested' },
+      false,
+      first ? [this.event({ kind: 'campfire-discovered', fire: key })] : [],
+    );
   }
   rest(key: string): readonly GameplayEvent[] {
-    return this.commitRoom(this.prepareRest(key));
+    const plan = this.prepareRest(key);
+    return [...plan.events, ...this.commitRoom(plan)];
   }
   changeInventory(command: InventoryCommand) {
     this.assertProgressionWritable();

@@ -4,7 +4,7 @@ import { heightAt, heightBreakpoints, type AreaDefinition, type Point } from '..
 import type { Actor, State } from './actor';
 import type { EventDetails, DamageType, DamagePhase } from './events';
 import { selectAuthoredDirection } from '../content/headings';
-import { clearSegment } from '../content/collision';
+import { clearSegment, effectiveRadius } from '../content/collision';
 import type { AcceptedCommand } from './command';
 import { burningSwordBonus } from '../content/items';
 import { lanePoint, nearestLanePoint, type RibLane } from '../content/rib-lane';
@@ -216,7 +216,8 @@ export class CombatActions {
     if (a.age >= attack.windup && a.age < attack.activeEnd && !a.hitIds.includes(hero.id)) {
       const nearest = nearestLanePoint(lane, hero);
       if (
-        Math.hypot(hero.x - nearest.x, hero.z - nearest.z) <= hero.definition.radius &&
+        Math.hypot(hero.x - nearest.x, hero.z - nearest.z) <=
+          effectiveRadius(hero.definition.radius) &&
         Math.abs(hero.y - lane.y) <= tuning.maxCombatHeightDifference &&
         clearSegment(this.area, lane, hero, 0.001)
       ) {

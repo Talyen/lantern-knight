@@ -194,3 +194,23 @@ test('spending across multiple non-stackable entries sums ownership', () => {
     ),
   );
 });
+
+test('consuming an equipped item is refused instead of reported as a shortage', () => {
+  const owner = new InventoryState({
+    inventory: { 'orchard-ring': 1, 'health-potion': 1 },
+    equipment: { ring1: 'orchard-ring' },
+  });
+  // The aggregate count includes the equipped copy, which cannot be spent.
+  assert.equal(owner.inventory['orchard-ring'], 1);
+  assert.equal(owner.consume('orchard-ring'), false);
+  assert.equal(owner.equipment.ring1, 'orchard-ring');
+  assert.equal(owner.inventory['orchard-ring'], 1);
+  // A pack copy of the same item is still spendable.
+  owner.award([{ item: 'orchard-ring', amount: 1 }]);
+  assert.equal(owner.consume('orchard-ring'), true);
+  assert.equal(owner.inventory['orchard-ring'], 1);
+  assert.equal(owner.equipment.ring1, 'orchard-ring');
+  // Unknown and unowned items never throw either.
+  assert.equal(owner.consume('constructor'), false);
+  assert.equal(owner.consume('iron'), false);
+});

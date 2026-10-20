@@ -491,7 +491,9 @@ test('artwork with several health rewards stays visible until every reward is ta
   ];
   const sim = new Simulation(new ContentRegistry(definitions));
   // The wider pickup can be taken before entering the smaller pickup's radius.
-  Object.assign(sim.hero, { x: 0.8, z: 0, health: 80 });
+  // The hero starts clear of the spawned enemy so that actor separation does
+  // not decide which pickup is in range.
+  Object.assign(sim.hero, { x: -0.6, z: 0, health: 80 });
   sim.step();
   assert.deepEqual([...sim.collectedPickups], ['wide']);
   Object.assign(room, { area: sim.areaDefinition });

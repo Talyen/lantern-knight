@@ -446,7 +446,9 @@ export class Simulation {
         const dx = b.x - a.x,
           dz = b.z - a.z,
           distanceSquared = dx * dx + dz * dz,
-          r = a.definition.radius + b.definition.radius;
+          // Separation shares the movement clearance: the effective radius is
+          // the one every other clearance decision already uses.
+          r = effectiveRadius(a.definition.radius) + effectiveRadius(b.definition.radius);
         if (distanceSquared < r * r) {
           const d = Math.sqrt(distanceSquared);
           // Coincident authored spawns need a stable separation direction too.
