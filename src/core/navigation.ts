@@ -15,6 +15,7 @@ export function moveSupported(
   // The returned point is only read; an uninterrupted move borrows the start
   // instead of copying it on every per-tick call.
   let p = isSupportedPosition(area, start, radius) ? start : supportedPosition(area, start, radius);
+  const fallback = p;
   if (delta.x === 0 && delta.z === 0) return { ...p };
   let dx = delta.x,
     dz = delta.z;
@@ -34,7 +35,9 @@ export function moveSupported(
     dz -= inward * hit.nz;
     if (dx * dx + dz * dz < epsilon * epsilon) break;
   }
-  return p;
+  // Sliding around concave corners can still end marginally inside geometry.
+  // Mirror the no-contact branch: never return a worse position than the start.
+  return isSupportedPosition(area, p, radius) ? p : fallback;
 }
 export type RouteResult =
   { status: 'ready'; points: Point[] } | { status: 'unreachable'; points: [] };

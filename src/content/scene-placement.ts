@@ -1,7 +1,7 @@
 import { sceneObjects } from './campfire-visuals';
 import { polygonEdgeDistance } from './polygon';
 import { insidePolygon } from './polygon';
-import { isSupportedPosition } from './collision';
+import { isSupportedPosition, clearSegment, effectiveRadius } from './collision';
 import { artworkFloorLayout } from './floor-layout';
 import type { SceneSnapshot } from './scene-document';
 import type { AreaDefinition, Point } from './world';
@@ -96,6 +96,16 @@ export function sceneEnvelopeFindings(
 }
 // Authoring placement is stricter than movement: characters may walk beneath a
 // canopy, but a spawn or upright prop must begin on visibly clear ground.
+function paintedTerrain(document: SceneSnapshot, area: AreaDefinition): AreaDefinition {
+  const paintedColliders = new Set(
+    document.groundInteraction?.regions.filter((r) => r.footprint).map((r) => 'ground-' + r.id),
+  );
+  return {
+    ...area,
+    playableBoundary: area.sceneBoundary ?? area.playableBoundary,
+    props: area.props.filter((p) => paintedColliders.has(p.id)),
+  };
+}
 export function groundPlacementPolicy(document: SceneSnapshot, area: AreaDefinition) {
   const ground = document.groundInteraction;
   const layout = artworkFloorLayout(document.floor.width, document.floor.depth);
@@ -107,14 +117,7 @@ export function groundPlacementPolicy(document: SceneSnapshot, area: AreaDefinit
         holes: shape.holes.map((ring) => ring.map(layout.world)),
       })),
     ) ?? [];
-  const paintedColliders = new Set(
-    ground?.regions.filter((r) => r.footprint).map((r) => 'ground-' + r.id),
-  );
-  const terrain = {
-    ...area,
-    playableBoundary: area.sceneBoundary ?? area.playableBoundary,
-    props: area.props.filter((p) => paintedColliders.has(p.id)),
-  };
+  const terrain = paintedTerrain(document, area);
   return (point: Point, radius: number, allowPaintedOcclusion = false): string | undefined => {
     if (!ground) return;
     if (!isSupportedPosition(terrain, point, radius))
@@ -157,6 +160,34 @@ export function scenePlacementFindings(
       : 0.3 * (prop.scale ?? 1);
     check(prop.id, prop, radius, object.kind === 'prop' && !interactive.has(prop.id));
   }
-  for (const spawn of area.spawns) check(spawn.id, spawn, 0.3 + (spawn.jitterZ ?? 0));
+  for (const spawn of area.spawns) {
+    if (!document.groundInteraction) continue;
+    const actorDef = actors.find((a) => a.id === spawn.actor);
+    const radius = effectiveRadius(actorDef?.radius ?? 0.3);
+    const jitter = spawn.jitterZ ?? 0;
+    const start = { x: spawn.x, z: spawn.z };
+    const end = { x: spawn.x, z: spawn.z + jitter };
+    // Validate the swept capsule with the same clearance the runtime uses,
+    // instead of inflating sideways with an oversized circle.
+    const terrain = paintedTerrain(document, area);
+    if (!clearSegment(terrain, start, end, radius)) {
+      findings.push({
+        id: spawn.id,
+        message: `${spawn.id}: base overlaps painted collision or the floor edge`,
+      });
+      continue;
+    }
+    // Every reachable jitter position must also begin on visibly clear ground.
+    const length = Math.abs(jitter);
+    const steps = Math.max(1, Math.ceil(length / 0.2));
+    for (let i = 0; i <= steps; i++) {
+      const point = { x: start.x, z: start.z + (jitter * i) / steps };
+      const message = inspect(point, radius);
+      if (message) {
+        findings.push({ id: spawn.id, message: `${spawn.id}: ${message}` });
+        break;
+      }
+    }
+  }
   return findings;
 }

@@ -664,15 +664,19 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     if (!target) return;
     if (target.blocked) throw new Error(target.blocked);
     if (target.kind === 'drop') {
-      this.pickupPlan.cancel(this.current.session.sim);
-      if (this.current.session.sim.collectDrop(target.id)) {
-        this.publish(this.current.session.sim.events);
+      const sim = this.current.session.sim;
+      const before = sim.events.length;
+      this.pickupPlan.cancel(sim);
+      if (sim.collectDrop(target.id)) {
+        this.publish(sim.events.slice(before));
         this.hooks.status(target.label.replace(/^Collect /, 'Collected '));
         this.autosave();
       }
     } else if (target.kind === 'container') {
-      if (this.current.session.sim.openContainer(target.id)) {
-        this.publish(this.current.session.sim.events);
+      const sim = this.current.session.sim;
+      const before = sim.events.length;
+      if (sim.openContainer(target.id)) {
+        this.publish(sim.events.slice(before));
         this.autosave();
       }
     } else if (target.kind === 'campfire') {
