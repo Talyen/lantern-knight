@@ -3,8 +3,30 @@ import { content } from '../fixtures/content';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { InventoryState, MAX_ITEM_COUNT } from '../../src/core/inventory';
-import { packFits, type PackEntry } from '../../src/core/pack';
+import {
+  packFits,
+  clampPackCell,
+  packColumns,
+  packRows,
+  type PackEntry,
+} from '../../src/core/pack';
+import { items } from '../../src/content/items';
 
+test('a multi-cell item is clamped to the only cells it can occupy', () => {
+  // The Sword covers two columns and four rows, so the last usable cell is
+  // column eleven and row thirteen. A drag past the edge lands there.
+  assert.deepEqual(clampPackCell('sword', 11, 0), { x: 10, y: 0 });
+  assert.deepEqual(clampPackCell('sword', 0, 15), { x: 0, y: 12 });
+  assert.deepEqual(clampPackCell('sword', -5, -5), { x: 0, y: 0 });
+  assert.deepEqual(clampPackCell('gold', 11, 15), { x: 11, y: 15 });
+  for (const item of ['sword', 'gold', 'health-potion']) {
+    const [width, height] = items[item]!.footprint,
+      cell = clampPackCell(item, 99, 99);
+    assert.ok(cell.x + width <= packColumns, item + ' stays inside the pack columns');
+    assert.ok(cell.y + height <= packRows, item + ' stays inside the pack rows');
+    assert.ok(cell.x >= 0 && cell.y >= 0, item + ' stays inside the pack origin');
+  }
+});
 test('inventory admission and exports detach state; commands enforce owned equipment copies', () => {
   const draft = { inventory: { 'orchard-ring': 1 }, equipment: {} };
   const owner = new InventoryState(draft);

@@ -1,5 +1,5 @@
 import { items } from './content/items';
-import { packColumns, packRows, packFits, type PackEntry } from './core/pack';
+import { packColumns, packFits, clampPackCell, type PackEntry } from './core/pack';
 
 // Each drawn pack owns one placement gesture. Redraw/closure aborts its listeners
 // and preview; only the session command can commit a new position.
@@ -35,10 +35,16 @@ export function bindPackPlacement(
   }
   function update() {
     if (!gesture) return;
-    const { entry, x, y } = gesture,
+    const { entry } = gesture;
+    // The preview, the blocked marker and the committed cell describe one
+    // place. A multi-cell item cannot hang over the grid edge.
+    const cell = clampPackCell(entry.item, gesture.x, gesture.y);
+    gesture.x = cell.x;
+    gesture.y = cell.y;
+    const { x, y } = gesture,
       [width, height] = items[entry.item]!.footprint;
     preview.hidden = false;
-    preview.style.gridArea = `${Math.max(0, Math.min(packRows - height, y)) + 1} / ${Math.max(0, Math.min(packColumns - width, x)) + 1} / span ${height} / span ${width}`;
+    preview.style.gridArea = `${y + 1} / ${x + 1} / span ${height} / span ${width}`;
     preview.classList.toggle('invalid', !packFits(entries, entry, x, y));
     control(entry.key)?.classList.add('moving');
   }
@@ -116,9 +122,13 @@ export function bindPackPlacement(
         if (!offset) return;
         event.preventDefault();
         event.stopImmediatePropagation();
-        const [width, height] = items[gesture.entry.item]!.footprint;
-        gesture.x = Math.max(0, Math.min(packColumns - width, gesture.x + offset[0]));
-        gesture.y = Math.max(0, Math.min(packRows - height, gesture.y + offset[1]));
+        const cell = clampPackCell(
+          gesture.entry.item,
+          gesture.x + offset[0],
+          gesture.y + offset[1],
+        );
+        gesture.x = cell.x;
+        gesture.y = cell.y;
         update();
         preview.scrollIntoView({ block: 'nearest' });
         announce(
@@ -137,10 +147,12 @@ export function bindPackPlacement(
         cell = bounds.width / packColumns;
       gesture.x = Math.floor((event.clientX - bounds.left) / cell) - gesture.dx;
       gesture.y = Math.floor((event.clientY - bounds.top) / cell) - gesture.dy;
+      // update() clamps the gesture to the grid, so the drop marker, the
+      // blocked state and the committed cell describe the same place.
+      update();
       event.dataTransfer!.dropEffect = packFits(entries, gesture.entry, gesture.x, gesture.y)
         ? 'move'
         : 'none';
-      update();
       const scroll = grid.parentElement!;
       const viewport = scroll.getBoundingClientRect();
       if (event.clientY > viewport.bottom - 30) scroll.scrollTop += 12;

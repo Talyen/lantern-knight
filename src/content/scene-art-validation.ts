@@ -98,7 +98,10 @@ export function sceneArtFindings(art: WorldVisualDefinition): ArtFinding[] {
       });
   const solids: Solid[] = [
     ...art.props
-      .filter((p): p is ArtPlacement & { footprint: readonly [number, number] } => !!p.footprint)
+      .filter(
+        (p): p is ArtPlacement & { footprint: readonly [number, number] } =>
+          !!p.footprint && p.role !== 'attachment',
+      )
       .map((p) => ({
         id: p.id,
         center: { x: p.x, z: p.z },

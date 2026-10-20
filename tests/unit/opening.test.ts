@@ -104,6 +104,16 @@ test('latest request wins across and within frames; unavailable requests and mov
   while (s.hero.state === 'attack') s.step(still);
   assert.equal(s.hero.state, 'ability');
 });
+test('a press replaced by a newer one is reported instead of dropped', () => {
+  const s = duel();
+  s.startSword(s.hero);
+  s.step({ ...still, actions: ['sword', 'dodge'] });
+  // The latest request still wins and waits behind the committed action.
+  assert.equal(s.hero.pendingAction?.kind, 'dodge');
+  const unavailable = s.events.filter((e) => e.kind === 'action-unavailable');
+  assert.equal(unavailable.length, 1, 'the superseded press is answered');
+  assert.match(unavailable[0]!.reason, /Sword/);
+});
 test('the lantern pulse is protected and survives immediate recovery cancellation', () => {
   const s = duel();
   s.step({ ...still, actions: ['lantern'] });

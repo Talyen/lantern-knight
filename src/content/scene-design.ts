@@ -115,11 +115,15 @@ export function deriveScenePlacement(p: ArtPlacement): ArtPlacement {
   const e = paletteEntry(p);
   return {
     ...p,
+    // A mounted object hangs from its support. It owns no ground footprint,
+    // so it must not become a blocking collider or a ground solid.
     footprint:
-      p.footprint ??
-      (e?.footprint
-        ? [e.footprint[0] * (p.scale ?? 1), e.footprint[1] * (p.scale ?? 1)]
-        : undefined),
+      p.role === 'attachment'
+        ? undefined
+        : (p.footprint ??
+          (e?.footprint
+            ? [e.footprint[0] * (p.scale ?? 1), e.footprint[1] * (p.scale ?? 1)]
+            : undefined)),
     footprintAngle: p.footprintAngle ?? 0,
   };
 }

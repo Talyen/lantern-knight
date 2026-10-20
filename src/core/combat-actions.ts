@@ -5,11 +5,14 @@ import type { Actor, State } from './actor';
 import type { EventDetails, DamageType, DamagePhase } from './events';
 import { selectAuthoredDirection } from '../content/headings';
 import { clearSegment, effectiveRadius } from '../content/collision';
-import type { AcceptedCommand } from './command';
+import type { AcceptedCommand, HeroAction } from './command';
 import { burningSwordBonus } from '../content/items';
 import { lanePoint, nearestLanePoint, type RibLane } from '../content/rib-lane';
 import { isSupportedPosition } from '../content/collision';
 import type { Equipment } from '../content/items';
+
+const actionLabel = (kind: HeroAction) =>
+  kind === 'sword' ? 'Sword' : kind === 'lantern' ? 'Lantern' : 'Dodge';
 
 // Borrow current actors and room capabilities; combat cannot replace the room,
 // award inventory, plan routes, or persist state. Simulation owns those outcomes.
@@ -254,10 +257,17 @@ export class CombatActions {
       if (cooldown > 0) {
         this.world.emit(h, {
           kind: 'action-unavailable',
-          reason: `${kind === 'lantern' ? 'Lantern' : 'Dodge'} is cooling down`,
+          reason: `${actionLabel(kind)} is cooling down`,
         });
         continue;
       }
+      // One action waits in the queue. A press that a newer one replaces is
+      // reported, so no input is ever dropped without an answer.
+      if (h.pendingAction)
+        this.world.emit(h, {
+          kind: 'action-unavailable',
+          reason: `${actionLabel(h.pendingAction.kind)} was replaced by a newer press`,
+        });
       h.pendingAction = { kind, yaw: kind === 'dodge' ? (movementYaw ?? h.aim) : h.aim };
     }
     if (!this.cancellable(h)) return false;

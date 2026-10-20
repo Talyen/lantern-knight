@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { parseSceneDocument, resolveSceneDocument } from '../../src/content/scene-document';
 import { sceneCompositionFindings } from '../../src/content/scene-design';
+import { churchyardColliders } from '../../src/content/world-art';
+import { sceneArtFindings } from '../../src/content/scene-art-validation';
 import { sceneFixture } from '../fixtures/scene';
 import { EditorHistory } from '../../src/editor/model';
 test('prototype artwork treatment and palette are advice; footprints may be explicitly authored', () => {
@@ -25,6 +27,33 @@ test('prototype artwork treatment and palette are advice; footprints may be expl
   assert.equal(history.document.objects[0]!.scale, 3);
   history.undo();
   assert.equal(history.document.objects[0]!.scale, 2);
+});
+test('a mounted object owns no ground footprint, collider or solid', () => {
+  const d = sceneFixture('chapel'),
+    mounted = d.objects.find((o) => o.id === 'crypt-altar-candles')!;
+  // A palette entry with a ground footprint, hung from the altar.
+  mounted.asset = 'ink-scenery';
+  mounted.clip = 'gravestone';
+  const art = resolveSceneDocument(parseSceneDocument(d)),
+    placement = art.props.find((p) => p.id === 'crypt-altar-candles')!;
+  assert.equal(placement.role, 'attachment');
+  assert.equal(
+    placement.footprint,
+    undefined,
+    'a mounted object hangs from its support and owns no ground footprint',
+  );
+  assert.ok(
+    !churchyardColliders(art).some((c) => c.id === 'crypt-altar-candles'),
+    'a mounted object must not block the ground beneath its support',
+  );
+  assert.ok(
+    !sceneArtFindings(art).some(
+      (finding) =>
+        finding.kind === 'solid-intersection' &&
+        (finding.a === 'crypt-altar-candles' || finding.b === 'crypt-altar-candles'),
+    ),
+    'a mounted object is not a ground solid that can overlap its support',
+  );
 });
 test('current documents reject malformed values and attachment cycles while allowing socket experiments', () => {
   const d = sceneFixture('chapel'),

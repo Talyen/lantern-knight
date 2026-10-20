@@ -51,7 +51,7 @@ export function resolveAuthoredScene(snapshot: SceneSnapshot): WorldVisualDefini
 export function churchyardColliders(art: WorldVisualDefinition): PropDefinition[] {
   return [
     ...art.props
-      .filter((p) => p.footprint)
+      .filter((p) => p.footprint && p.role !== 'attachment')
       .map((p) => ({
         id: p.id,
         kind: 'wall' as const,

@@ -3,6 +3,15 @@ export const packColumns = 12;
 export const packRows = 16;
 export type PackEntry = { key: string; item: string; quantity: number; x: number; y: number };
 
+/** The only cells an item can occupy. Preview, marker and commit share it. */
+export function clampPackCell(item: string, x: number, y: number) {
+  const [width, height] = items[item]!.footprint;
+  return {
+    x: Math.max(0, Math.min(packColumns - width, x)),
+    y: Math.max(0, Math.min(packRows - height, y)),
+  };
+}
+
 export function packFits(pack: readonly PackEntry[], entry: PackEntry, x: number, y: number) {
   const [width, height] = items[entry.item]!.footprint;
   return (
