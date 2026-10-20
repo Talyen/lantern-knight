@@ -235,8 +235,21 @@ export class SceneLightingRenderer {
       fallback.compareFunction = T.LessEqualCompare;
       fallback.needsUpdate = true;
       this.lifetime.own(fallback);
-      Object.defineProperty(this.lighting.common.inkShadowMap, 'value', {
-        get: () => this.sun.shadow.map?.depthTexture ?? fallback,
+      const shadowMapTarget = this.lighting.common.inkShadowMap;
+      const shadowMapGet = () => this.sun.shadow.map?.depthTexture ?? fallback;
+      Object.defineProperty(shadowMapTarget, 'value', {
+        get: shadowMapGet,
+        configurable: true,
+        enumerable: true,
+      });
+      this.lifetime.defer(() => {
+        if (Object.getOwnPropertyDescriptor(shadowMapTarget, 'value')?.get === shadowMapGet)
+          Object.defineProperty(shadowMapTarget, 'value', {
+            value: null,
+            writable: true,
+            configurable: true,
+            enumerable: true,
+          });
       });
       this.lighting.common.inkShadowMatrix.value = this.sun.shadow.matrix;
       scene.add(this.sun, this.sun.target, this.extras, this.proxies);

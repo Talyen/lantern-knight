@@ -81,7 +81,9 @@ export class PropContactShadows {
   readonly mesh: T.InstancedMesh<T.PlaneGeometry, T.MeshBasicMaterial>;
   private opacity: T.InstancedBufferAttribute;
   private entries: { sprite: ActorSprite; opacity: number }[] = [];
+  private readonly capacity: number;
   constructor(texture: T.Texture, capacity: number) {
+    this.capacity = capacity;
     const geometry = new T.PlaneGeometry(1, 1),
       material = contactShadowMaterial(texture, 1);
     this.opacity = new T.InstancedBufferAttribute(new Float32Array(capacity), 1);
@@ -110,6 +112,11 @@ export class PropContactShadows {
     this.mesh.userData.noCastShadow = true;
   }
   add(p: ArtPlacement, sprite: ActorSprite, area: AreaDefinition) {
+    if (this.disposed) return;
+    // The mesh is sized once from props plus worst-case drops. Additional
+    // placements must not write past its instance buffers or inflate its draw
+    // count with uninitialized instances.
+    if (this.mesh.count >= this.capacity) return;
     const size = contactFootprint(p, sprite);
     if (!size) return;
     const transform = new T.Object3D(),

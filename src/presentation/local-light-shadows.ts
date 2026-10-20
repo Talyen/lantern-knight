@@ -17,6 +17,7 @@ export class LocalLightShadows {
   });
   private fallback = new T.WebGLCubeRenderTarget(1);
   private disposed = false;
+  private readonly assigned: { target: object; get: () => T.Texture | null }[] = [];
   constructor(
     scene: T.Scene,
     renderer: T.WebGLRenderer,
@@ -31,9 +32,14 @@ export class LocalLightShadows {
       renderer.initRenderTarget(this.fallback);
       for (const [i, light] of this.lights.entries()) {
         scene.add(light);
-        Object.defineProperty(lighting.localShadowMaps[i]!, 'value', {
-          get: () => light.shadow.map?.depthTexture ?? texture,
+        const target = lighting.localShadowMaps[i]!;
+        const get = () => light.shadow.map?.depthTexture ?? texture;
+        Object.defineProperty(target, 'value', {
+          get,
+          configurable: true,
+          enumerable: true,
         });
+        this.assigned.push({ target, get });
       }
     } catch (error) {
       cleanupAfterFailure(error, () => this.dispose());
@@ -80,6 +86,17 @@ export class LocalLightShadows {
       () => this.reset(),
       () => this.fallback.dispose(),
       ...this.lights.map((light) => () => light.removeFromParent()),
+      // A retired mount releases its uniform override only while it still owns
+      // that value, so a successor's getter is never cleared by its predecessor.
+      ...this.assigned.map(({ target, get }) => () => {
+        if (Object.getOwnPropertyDescriptor(target, 'value')?.get === get)
+          Object.defineProperty(target, 'value', {
+            value: null,
+            writable: true,
+            configurable: true,
+            enumerable: true,
+          });
+      }),
     ]);
   }
 }

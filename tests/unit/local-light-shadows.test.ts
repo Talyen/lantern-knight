@@ -46,3 +46,40 @@ test('transient light activation preserves shader topology and only redraws live
     lighting.dispose();
   }
 });
+
+test('uniform overrides are configurable and restore only while owned', () => {
+  const lighting = new IllustratedLighting(),
+    scene = new T.Scene(),
+    renderer = { initRenderTarget: () => {} } as unknown as T.WebGLRenderer;
+  const first = new LocalLightShadows(scene, renderer, lighting);
+  try {
+    // A successor against the same lighting must not throw on redefinition.
+    const second = new LocalLightShadows(scene, renderer, lighting);
+    try {
+      for (const uniform of lighting.localShadowMaps) {
+        const descriptor = Object.getOwnPropertyDescriptor(uniform, 'value')!;
+        assert.equal(typeof descriptor.get, 'function');
+        assert.equal(descriptor.configurable, true);
+      }
+      // Retiring the predecessor must not clear its successor's getter.
+      first.dispose();
+      for (const uniform of lighting.localShadowMaps) {
+        const descriptor = Object.getOwnPropertyDescriptor(uniform, 'value')!;
+        assert.equal(typeof descriptor.get, 'function');
+      }
+    } finally {
+      second.dispose();
+    }
+    // Once no shadows remain, uniforms return to writable nulls.
+    for (const uniform of lighting.localShadowMaps) {
+      const descriptor = Object.getOwnPropertyDescriptor(uniform, 'value')!;
+      // oxlint-disable-next-line typescript/unbound-method -- Inspecting the accessor, never invoking it unbound.
+      assert.equal(descriptor.get, undefined);
+      assert.equal(descriptor.configurable, true);
+      assert.equal(descriptor.writable, true);
+      assert.equal(uniform.value, null);
+    }
+  } finally {
+    lighting.dispose();
+  }
+});

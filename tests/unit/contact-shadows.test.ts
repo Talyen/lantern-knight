@@ -82,3 +82,44 @@ test('batched contact shadows follow visibility and fading without orphaned shad
   sprite.dispose();
   texture.dispose();
 });
+
+test('over-capacity contact placements are ignored instead of corrupting instance buffers', () => {
+  const manifest = manifestFixture();
+  manifest.asset.type = 'prop';
+  manifest.asset.placement = 'upright';
+  manifest.asset.projection = 'painted-cutout';
+  const sprite = new ActorSprite('prop', manifest, new Map(), resolveClip(manifest, 'idle', 'd45')),
+    texture = new T.Texture(),
+    batch = new PropContactShadows(texture, 1),
+    p: ArtPlacement = {
+      id: 'prop',
+      asset: manifest.asset.id,
+      clip: 'idle',
+      x: 2,
+      z: 3,
+      footprint: [3, 4],
+      purpose: 'Fixture',
+    };
+  try {
+    batch.add(p, sprite, content.area('court'));
+    assert.equal(batch.mesh.count, 1);
+    // A second valid placement beyond the sized batch must not grow the draw
+    // count or write past its instance buffers.
+    batch.add({ ...p, id: 'prop-2', x: 4 }, sprite, content.area('court'));
+    assert.equal(batch.mesh.count, 1);
+    const opacity = batch.mesh.geometry.getAttribute(
+      'contactOpacity',
+    ) as T.InstancedBufferAttribute;
+    assert.equal(opacity.count, 1);
+    const matrix = new T.Matrix4();
+    batch.mesh.getMatrixAt(0, matrix);
+    assert.equal(matrix.elements[12], 2);
+    // Adding after disposal is a no-op instead of a use-after-dispose write.
+    batch.dispose();
+    batch.add(p, sprite, content.area('court'));
+    assert.equal(batch.mesh.count, 1);
+  } finally {
+    sprite.dispose();
+    texture.dispose();
+  }
+});
