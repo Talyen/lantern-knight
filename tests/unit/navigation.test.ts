@@ -253,6 +253,32 @@ test('a diagonal cannot cut a polygon corner and different actor radii change pa
   assert.equal(new Navigation(a).route({ x: -3, z: 0 }, { x: 3, z: 0 }, 0.3).status, 'ready');
   assert.equal(new Navigation(a).route({ x: -3, z: 0 }, { x: 3, z: 0 }, 0.5).status, 'unreachable');
 });
+test('a polygon prop whose coordinates overflow its own area is refused at admission', () => {
+  const a = area();
+  a.props = [
+    {
+      id: 'huge',
+      kind: 'wall',
+      x: 0,
+      z: 0,
+      radius: 0.2,
+      height: 1,
+      shape: 'polygon',
+      // Each coordinate is finite, yet the polygon's own area overflows, so
+      // its edges stop blocking anything the collision queries read.
+      polygon: [
+        { x: 1e308, z: -1e308 },
+        { x: -1e308, z: 1e308 },
+        { x: 0, z: 0 },
+      ],
+    },
+  ];
+  assert.throws(
+    () => new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] }),
+    /invalid terrain polygon/,
+  );
+});
+
 test('movement preview routes enemies around scenery without damage; populate clears destinations', () => {
   const a = area(),
     registry = new ContentRegistry({ ...contentDefinitions, initialArea: a.id, areas: [a] }),

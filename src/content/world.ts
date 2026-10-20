@@ -8,6 +8,7 @@ import {
 } from './interactions';
 import type { Reward } from './items';
 import { contains, clearSegment, effectiveRadius, isSupportedPosition } from './collision';
+import { polygonArea } from './polygon';
 import { contentSnapshot, type ContentSnapshot } from './snapshot';
 import type { AuthoredGameplay } from './authored-gameplay';
 import { tuning } from './gameplay';
@@ -187,6 +188,18 @@ const fail = (message: string): never => {
 const assertFinite = (...values: number[]) => {
   if (values.some((v) => !Number.isFinite(v))) fail('non-finite value');
 };
+// Collision queries read polygon edges directly. Coordinates that are finite
+// but large enough to overflow the polygon's own area leave those edges
+// unusable, so the shape itself must stay measurable.
+const assertPolygon = (points: readonly Point[] | undefined) => {
+  if (
+    !points ||
+    points.length < 3 ||
+    points.some((v) => !Number.isFinite(v.x) || !Number.isFinite(v.z)) ||
+    !Number.isFinite(polygonArea(points))
+  )
+    fail('invalid terrain polygon');
+};
 const assertUnique = <T extends { id: string }>(items: readonly T[], label: string) => {
   const seen = new Set<string>();
   for (const v of items) {
@@ -336,11 +349,7 @@ function assertArea(
       fail('invalid spawn jitter');
   }
   for (const p of a.props) {
-    if (
-      p.shape === 'polygon' &&
-      (!p.polygon || p.polygon.length < 3 || p.polygon.some((v) => !Number.isFinite(v.x + v.z)))
-    )
-      fail('invalid terrain polygon');
+    if (p.shape === 'polygon') assertPolygon(p.polygon);
     if (p.shape === 'box' && !p.size) fail('box footprint requires size');
     assertFinite(p.x, p.z, p.radius, p.height, p.rotation ?? 0, ...(p.size ?? []));
     if (p.radius <= 0 || p.height <= 0 || p.size?.some((v) => v <= 0)) fail(`invalid prop ${p.id}`);
