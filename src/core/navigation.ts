@@ -131,10 +131,12 @@ export class Navigation {
       nx = Math.ceil((b.maxX - b.minX) / this.spacing) + 1,
       nz = Math.ceil((b.maxZ - b.minZ) / this.spacing) + 1,
       destination = nx * nz;
-    let cells = this.grids.get(radius);
+    let cells: Map<number, boolean> | undefined = this.immutableGeometry
+      ? this.grids.get(radius)
+      : undefined;
     if (!cells) {
       cells = new Map();
-      this.grids.set(radius, cells);
+      if (this.immutableGeometry) this.grids.set(radius, cells);
     }
     let edges = this.edges.get(radius);
     if (!edges && this.immutableGeometry) {

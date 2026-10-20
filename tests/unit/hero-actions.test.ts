@@ -261,3 +261,13 @@ test('poise preserves a physical-hit windup, while lantern stagger and death int
   assert.equal(enemy.state, 'death');
   assert.equal(enemy.health, 0);
 });
+test('movement preview reports combat input as unavailable instead of dropping it', () => {
+  const s = new Simulation(content);
+  s.movementPreview = true;
+  const result = s.step({ ...still, actions: ['sword', 'lantern'] });
+  const unavailable = result.events.filter((e) => e.kind === 'action-unavailable');
+  assert.equal(unavailable.length, 2);
+  assert.ok(unavailable.every((e) => e.reason.includes('previewing movement')));
+  assert.equal(s.hero.pendingAction, undefined);
+  assert.equal(s.hero.state, 'idle');
+});

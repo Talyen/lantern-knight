@@ -97,6 +97,7 @@ export const spawnActorId = (area: AreaId, spawn: string): ActorId => `${area}/$
 export function heightAt(area: AreaDefinition, x: number, z: number) {
   const s = area.surface;
   if (s.kind === 'flat') return s.height;
+  if (s.end === s.start) return s.startHeight;
   const t = Math.max(0, Math.min(1, ((s.axis === 'x' ? x : z) - s.start) / (s.end - s.start)));
   if (s.kind === 'stairs' && s.terraceBounds) {
     if (contains(s.terraceBounds, { x, z })) return s.endHeight;
