@@ -21,3 +21,23 @@ export function readUntilAborted<T>(pending: Promise<T>, signal: AbortSignal): P
     );
   });
 }
+
+// Abortable delay that releases its timer on cancellation. Use for short UI
+// pauses inside cancellable session work; never use for resource acquisition.
+export function delayUntilAborted(ms: number, signal: AbortSignal): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    if (signal.aborted) {
+      reject(signal.reason);
+      return;
+    }
+    const timer = setTimeout(() => {
+      signal.removeEventListener('abort', onAbort);
+      resolve();
+    }, ms);
+    const onAbort = () => {
+      clearTimeout(timer);
+      reject(signal.reason);
+    };
+    signal.addEventListener('abort', onAbort, { once: true });
+  });
+}

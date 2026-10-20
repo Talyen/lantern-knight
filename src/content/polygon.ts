@@ -67,8 +67,11 @@ export function clipPolygon(
   boundary: readonly Point[],
   epsilon = 1e-10,
 ): Point[] {
+  if (boundary.length < 3) return [];
+  const area = polygonArea(boundary);
+  if (!Number.isFinite(area) || area === 0) return [];
   let polygon = [...subject];
-  const sign = Math.sign(polygonArea(boundary));
+  const sign = Math.sign(area);
   for (let edge = 0; edge < boundary.length; edge++) {
     const a = boundary[edge]!,
       b = boundary[(edge + 1) % boundary.length]!,

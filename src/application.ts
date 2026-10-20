@@ -1,4 +1,4 @@
-import { readUntilAborted } from './assets/abort';
+import { delayUntilAborted, readUntilAborted } from './assets/abort';
 import { AudioPlayback } from './audio/playback';
 import { AudioFeedback } from './audio/feedback';
 import { cleanupAll, cleanupAfterFailure } from './assets/cleanup';
@@ -530,8 +530,7 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
       area = change.kind === 'session' ? source.session.sim.area : change.plan.destination;
     this.input.clear();
     if (this.sim.areaDefinition.campfires?.length && !this.bridge.automatedRun) {
-      await new Promise<void>((resolve) => setTimeout(resolve, 160));
-      signal.throwIfAborted();
+      await delayUntilAborted(160, signal);
     }
     let next: PackBatch | undefined;
     try {

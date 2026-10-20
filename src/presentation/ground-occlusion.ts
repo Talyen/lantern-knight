@@ -23,8 +23,9 @@ export function regionDepth(
   const a = points[i - 1]!,
     b = points[i]!,
     x = layout.uv(a)[0],
-    span = layout.uv(b)[0] - x,
-    t = Math.max(0, Math.min(1, (u - x) / span));
+    span = layout.uv(b)[0] - x;
+  if (!Number.isFinite(span) || span === 0) return depth(a);
+  const t = Math.max(0, Math.min(1, (u - x) / span));
   return depth(a) + (depth(b) - depth(a)) * t;
 }
 export class GroundOcclusion {
