@@ -249,10 +249,22 @@ export class CombatActions {
   }
   // True only when locomotion may run instead of an action this tick.
   admitHero(h: Actor, command: Pick<AcceptedCommand, 'actions'>, movementYaw?: number): boolean {
-    if (this.world.movementPreview() && h.pendingAction?.kind !== 'dodge')
+    const queued = h.pendingAction;
+    if (this.world.movementPreview() && queued && queued.kind !== 'dodge') {
+      this.world.emit(h, {
+        kind: 'action-unavailable',
+        reason: `${actionLabel(queued.kind)} unavailable while previewing movement`,
+      });
       h.pendingAction = undefined;
+    }
     for (const kind of command.actions) {
-      if (this.world.movementPreview() && kind !== 'dodge') continue;
+      if (this.world.movementPreview() && kind !== 'dodge') {
+        this.world.emit(h, {
+          kind: 'action-unavailable',
+          reason: `${actionLabel(kind)} unavailable while previewing movement`,
+        });
+        continue;
+      }
       const cooldown = kind === 'lantern' ? h.cooldown : kind === 'dodge' ? h.dodgeCooldown : 0;
       if (cooldown > 0) {
         this.world.emit(h, {

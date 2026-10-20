@@ -927,3 +927,26 @@ test('following a route spends the movement budget across corners without cuttin
   assert.equal(hero.state, 'idle');
   assert.equal(plans.has(hero.id), true, 'a blocked request retains its destination');
 });
+test('mutable navigation drafts do not serve cached cells after edits', () => {
+  const a = area();
+  a.props = [
+    boxProp({ id: 'wall', size: [0.08, 4] }),
+    boxProp({ id: 'door', x: -1, size: [0.08, 10] }),
+  ];
+  const navigation = new Navigation(a);
+  assert.equal(navigation.route({ x: -3, z: 0 }, { x: 3, z: 0 }, 0.3).status, 'unreachable');
+  a.props = [a.props[0]!];
+  assert.equal(navigation.route({ x: -3, z: 0 }, { x: 3, z: 0 }, 0.3).status, 'ready');
+  assert.deepEqual(
+    navigation.debugCells(0.3),
+    [],
+    'mutable drafts retain no cached clearance for diagnostics',
+  );
+});
+test('degenerate ramps report their start height instead of NaN', () => {
+  const a = area();
+  a.surface = { kind: 'ramp', axis: 'x', start: 2, end: 2, startHeight: 1, endHeight: 3 };
+  assert.equal(heightAt(a, -5, 0), 1);
+  assert.equal(heightAt(a, 2, 0), 1);
+  assert.equal(heightAt(a, 9, 0), 1);
+});
