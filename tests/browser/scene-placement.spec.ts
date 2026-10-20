@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { test, expect, openEditor, waitForEditorIdle } from './fixtures';
+import { pixelTest as test, expect, openEditor, waitForEditorIdle } from './fixtures';
 import { importEditorScene, expectEditorDocument } from './editor-driver';
 import { parseSceneDocument } from '../../src/content/scene-document';
 import { readRound, readJSON, sha256 } from '../../tools/scene-placement/session';

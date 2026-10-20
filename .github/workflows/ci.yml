@@ -22,17 +22,7 @@ jobs:
       assets: ${{ steps.impact.outputs.assets }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-      - name: Ensure pinned npm
-        shell: bash
-        run: |
-          if [ "$(npm --version)" != "$NPM_VERSION" ]; then
-            npm install --global "npm@$NPM_VERSION" --no-audit --no-fund
-          fi
-      - run: npm ci
+      - uses: ./.github/actions/setup
       - name: Fetch comparison base
         env:
           COMPARISON_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -45,62 +35,63 @@ jobs:
       - run: npm run check:ci
       - run: git diff --exit-code
   assets:
-    needs: source
+    needs: [source, build]
     if: needs.source.outputs.assets == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      - uses: ./.github/actions/setup
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-      - name: Ensure pinned npm
-        shell: bash
-        run: |
-          if [ "$(npm --version)" != "$NPM_VERSION" ]; then
-            npm install --global "npm@$NPM_VERSION" --no-audit --no-fund
-          fi
-      - run: npm ci
+          assets: validation
       - name: Set up Python asset test dependencies
         shell: bash
         run: |
           python3 -m venv "$RUNNER_TEMP/asset-test-python"
           "$RUNNER_TEMP/asset-test-python/bin/pip" install --disable-pip-version-check Pillow==11.3.0
           echo "$RUNNER_TEMP/asset-test-python/bin" >> "$GITHUB_PATH"
-      - name: Configure external cache
-        shell: bash
-        run: echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
-      - run: npm run test:assets
-      - run: npm run assets:check
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: game-web-${{ github.sha }}
+          path: dist/
+      - run: npm run test:assets -- --built
+      - run: npm run assets:check -- --built
       - run: git diff --exit-code
-  game:
+  build:
     needs: source
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./.github/actions/setup
+        with:
+          assets: game-build
+      - run: npm run build
+      - run: git diff --exit-code
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: game-web-${{ github.sha }}
+          path: dist/
+          include-hidden-files: true
+          compression-level: 0
+          retention-days: 1
+  game:
+    needs: build
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      - uses: ./.github/actions/setup
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-      - name: Ensure pinned npm
-        shell: bash
-        run: |
-          if [ "$(npm --version)" != "$NPM_VERSION" ]; then
-            npm install --global "npm@$NPM_VERSION" --no-audit --no-fund
-          fi
-      - run: npm ci
-      - name: Configure external cache
-        shell: bash
-        run: echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
-      - run: npm run build
+          name: game-web-${{ github.sha }}
+          path: dist/
       - run: npx playwright install --with-deps --only-shell chromium
-      - run: npm run test:browser -- game --built --fully-parallel --shard=${{ matrix.shard }}/14
+      - run: npm run test:browser -- game --built --fully-parallel --shard=${{ matrix.shard }}/11
       - run: git diff --exit-code
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: failure()
@@ -116,24 +107,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard:
-          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      - uses: ./.github/actions/setup
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-      - name: Ensure pinned npm
-        shell: bash
-        run: |
-          if [ "$(npm --version)" != "$NPM_VERSION" ]; then
-            npm install --global "npm@$NPM_VERSION" --no-audit --no-fund
-          fi
-      - run: npm ci
-      - name: Configure external cache
-        shell: bash
-        run: echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
+          assets: browser-${{ matrix.shard }}
       - run: npx playwright install --with-deps --only-shell chromium
       - name: Development browser checks
         env:
@@ -141,7 +120,7 @@ jobs:
         run: |
           scenarios=(--ci-development)
           if [ "$AUTHORING_CHECKS" = true ] || [ "${{ github.event_name }}" = workflow_dispatch ]; then scenarios+=(--authoring); fi
-          npm run test:browser -- "${scenarios[@]}" --fully-parallel --shard=${{ matrix.shard }}/24
+          npm run test:browser -- "${scenarios[@]}" --ci-shard=${{ matrix.shard }}/16
       - run: git diff --exit-code
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: failure()
@@ -151,7 +130,7 @@ jobs:
           retention-days: 3
           if-no-files-found: ignore
   desktop:
-    needs: source
+    needs: [source, build]
     if: needs.source.outputs.desktop == 'true' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
@@ -165,21 +144,14 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      - uses: ./.github/actions/setup
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-      - name: Ensure pinned npm
-        shell: bash
-        run: |
-          if [ "$(npm --version)" != "$NPM_VERSION" ]; then
-            npm install --global "npm@$NPM_VERSION" --no-audit --no-fund
-          fi
-      - run: npm ci
-      - name: Configure external cache
-        shell: bash
-        run: echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
-      - run: npm run package -- --platform ${{ matrix.platform }} --unsigned
+          assets: desktop
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: game-web-${{ github.sha }}
+          path: dist/
+      - run: npm run package -- --platform ${{ matrix.platform }} --prebuilt-web --unsigned
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
       - run: npm run test:desktop
@@ -192,7 +164,7 @@ jobs:
           if-no-files-found: ignore
   checks:
     if: always()
-    needs: [source, assets, game, browser, desktop]
+    needs: [source, build, assets, game, browser, desktop]
     runs-on: ubuntu-24.04
     steps:
       - name: Require selected coverage

@@ -4,7 +4,8 @@ import { build as viteBuild } from 'vite';
 import { openWorkspace } from './assets/workspace';
 import { selectedFiles, copySelectedFiles } from './select-runtime-assets';
 import { buildElectron } from './build-electron';
-import { writeBuildIdentity } from './build-identity';
+import { verifyBuildIdentity, writeBuildIdentity } from './build-identity';
+import assert from 'node:assert/strict';
 import { sourceFingerprint, sourceInputHash } from './source-identity';
 import { projectRoot } from './assets/paths';
 import { webConfig } from '../vite.config';
@@ -49,9 +50,26 @@ export async function buildWeb(profile: BuildProfile = 'game', local = false, ea
   );
   return { source, assets: { identity: workspace.identity, recipe: workspace.recipe } };
 }
-export async function buildDesktop(profile: BuildProfile = 'game', local = false) {
+export async function buildDesktop(
+  profile: BuildProfile = 'game',
+  local = false,
+  prebuiltWeb = false,
+) {
+  if (prebuiltWeb && local) throw new Error('Prebuilt web assets cannot use --local');
   const desktopSource = await sourceFingerprint(projectRoot, { scope: 'desktop' });
-  const inputs = await buildWeb(profile, local);
+  const inputs = prebuiltWeb
+    ? await (async () => {
+        const artifact = await verifyBuildIdentity({ profile, target: 'web' });
+        assert.equal(
+          artifact.inputSha256,
+          await sourceInputHash(projectRoot, { scope: 'web' }),
+          'Prebuilt web inputs differ; rebuild before packaging',
+        );
+        return {
+          assets: { identity: artifact.assets.sha256, recipe: artifact.assets.recipeSha256 },
+        };
+      })()
+    : await buildWeb(profile, local);
   const started = performance.now();
   await buildElectron(profile);
   console.log(`Electron compilation: ${Math.round(performance.now() - started)}ms.`);

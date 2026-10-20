@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { test, expect } from './fixtures';
+import { pixelTest as test, expect } from './fixtures';
 import { clickCheckpointAction, loadCheckpoint } from '../fixtures/input';
 
 test('requested cohesion render cost comparison', async ({ page }) => {

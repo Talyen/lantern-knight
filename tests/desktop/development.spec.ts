@@ -52,7 +52,14 @@ test('fresh source checkout: renderer reload, main/preload restart and owned shu
     });
     running = runProcess(
       process.execPath,
-      ['--import', 'tsx', 'tools/desktop-dev.ts', '--game', '--remote-debugging-port=0'],
+      [
+        '--import',
+        'tsx',
+        'tools/desktop-dev.ts',
+        '--game',
+        '--remote-debugging-port=0',
+        '--force-device-scale-factor=0.5',
+      ],
       {
         cwd: root,
         signal: controller.signal,

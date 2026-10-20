@@ -1,4 +1,4 @@
-import { expectPageValue, test, expect, openEditor } from './fixtures';
+import { expectPageValue, stateTest as test, expect, openEditor } from './fixtures';
 
 // Failure happens after the workspace, renderer and authoring tools have mounted.
 // A failed startup must close their observers just like leaving a ready editor.

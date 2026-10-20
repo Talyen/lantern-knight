@@ -1,16 +1,11 @@
 import fs from 'node:fs/promises';
-import { test, expect } from './fixtures';
+import { pixelTest as test, expect } from './fixtures';
 import type { SceneSnapshot } from '../../src/content/scene-document';
 
 // Compare the actual presentations with identical assets, pose, viewport and time.
 // This catches editor-only framing/lighting drift without freezing scene artwork.
-for (const id of [
-  'abandoned-orchard',
-  'forest-gathering-clearing',
-  'ruined-forge',
-  'desecrated-chapel',
-  'woodland',
-]) {
+// One outdoor and one interior painting exercise the shared camera/lighting contract.
+for (const id of ['abandoned-orchard', 'ruined-forge']) {
   test(`Game camera and lantern match the editor in ${id}`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width: 1000, height: 720 });
     await page.goto('/editor.html?automated');

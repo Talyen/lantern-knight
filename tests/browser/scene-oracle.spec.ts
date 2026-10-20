@@ -1,6 +1,6 @@
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
-import { test, expect } from './fixtures';
+import { stateTest as test, expect } from './fixtures';
 
 test.use({ screenshot: 'only-on-failure' });
 

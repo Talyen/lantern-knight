@@ -1,0 +1,28 @@
+name: Verification dependencies
+description: Pinned Node/npm and immutable asset cache, without caching live leases
+inputs:
+  assets:
+    description: Cache partition; omit when the job consumes only the built artifact
+    default: ''
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: npm
+    - name: Install verification dependencies
+      shell: bash
+      run: |
+        if [ "$(npm --version)" != "$NPM_VERSION" ]; then
+          npm install --global "npm@$NPM_VERSION" --no-audit --no-fund
+        fi
+        npm ci
+        echo "LANTERN_CACHE_ROOT=$RUNNER_TEMP/LanternKnight" >> "$GITHUB_ENV"
+    - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      if: inputs.assets != ''
+      with:
+        path: |
+          ${{ runner.temp }}/LanternKnight/entries
+          !${{ runner.temp }}/LanternKnight/entries/**/.leases/**
+        key: assets-v1-${{ runner.os }}-${{ hashFiles('assets/lock.json') }}-${{ inputs.assets }}

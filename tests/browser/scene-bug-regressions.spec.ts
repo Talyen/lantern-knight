@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { stateTest as test, expect } from './fixtures';
 import type { Page } from '@playwright/test';
 import { collectVisibleLoot } from '../../tools/smoke/collect-loot';
 import { playerControls } from '../../tools/smoke/smoke-launch';

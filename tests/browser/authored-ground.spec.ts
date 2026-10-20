@@ -1,5 +1,5 @@
 import { readEditorDocument, expectEditorDocument } from './editor-driver';
-import { test, expect, openEditor } from './fixtures';
+import { pixelTest as test, expect, openEditor } from './fixtures';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 

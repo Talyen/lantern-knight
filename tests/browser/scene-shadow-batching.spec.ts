@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { pixelTest as test, expect } from './fixtures';
 
 test('combat programs prime without changing pixels and survive later effect disposal', async ({
   page,

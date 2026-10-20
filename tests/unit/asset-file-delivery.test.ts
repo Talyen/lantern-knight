@@ -24,7 +24,7 @@ import { acquirePinnedPack } from '../../tools/assets/pinned';
 import { inventoryCandidate } from '../../tools/assets/archive';
 
 const sha = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
-async function fixture(t: TestContext) {
+async function fixture(t: TestContext, metadata = false) {
   const root = await temporaryDirectory(t, 'lantern-files-');
   const page = randomBytes(8192);
   const entries = {
@@ -32,6 +32,7 @@ async function fixture(t: TestContext) {
     'public/generated/tree/page.png': page,
     'public/generated/tree/alias.png': page,
     'public/generated/other/page.png': randomBytes(16384),
+    ...(metadata ? { 'metadata/ink/hero-receipt.json': Buffer.from('{"frames":[]}') } : {}),
   };
   const cache = new AssetCache(path.join(root, 'cache'), 4 * 1024 ** 2);
   const held = await cache.lease('builder');
@@ -127,6 +128,23 @@ test('uncached artwork downloads exactly the catalog and selected file, coalesce
   assert.equal(await offline.ensurePublicFile('generated/tree/page.png'), true);
   await offline.release();
   await assert.rejects(offline.ensurePublicFile('generated/tree/page.png'), /abort/i);
+});
+
+test('metadata acquisition authenticates only the selected receipt, coalesces callers and revokes on close', async (t) => {
+  const f = await fixture(t, true);
+  const workspace = await openFileWorkspace(f.pin, f.cache, f.request);
+  await Promise.all([
+    workspace.ensureMetadataFile('ink/hero-receipt.json'),
+    workspace.ensureMetadataFile('ink/hero-receipt.json'),
+  ]);
+  assert.equal(f.calls.length, 2, 'catalog plus one selected receipt');
+  assert.deepEqual(
+    await readJson(path.join(workspace.metadataDirectory, 'ink/hero-receipt.json')),
+    { frames: [] },
+  );
+  assert.throws(() => workspace.ensureMetadataFile('../public/escape'), /Unsafe/);
+  await workspace.release();
+  await assert.rejects(workspace.ensureMetadataFile('ink/hero-receipt.json'), /abort/i);
 });
 
 test('direct downloads reject corrupted, oversized and truncated responses without installing bytes', async (t) => {

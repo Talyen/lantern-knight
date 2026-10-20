@@ -79,6 +79,39 @@ test('runtime selection builds from delivery-only payloads and validates shipped
     await write(delivery, image);
   }
   const legacy = await selectedFiles(source, 'game');
+  let active = 0,
+    peak = 0;
+  const calls = new Map<string, number>();
+  const parallel = await selectedFiles(source, 'game', async (name) => {
+    calls.set(name, (calls.get(name) ?? 0) + 1);
+    peak = Math.max(peak, ++active);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1));
+      return true;
+    } finally {
+      active--;
+    }
+  });
+  assert.deepEqual(parallel, legacy, 'Concurrent acquisition must preserve every artifact byte');
+  assert.ok(peak > 1 && peak <= 8, 'Transfer admission is concurrent and bounded');
+  assert.ok(
+    [...calls.values()].every((count) => count === 1),
+    'Repeated reads reuse admission',
+  );
+  await assert.rejects(
+    selectedFiles(source, 'game', async (name) => {
+      active++;
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1));
+        if (name === Object.values(gameAssetCatalog)[0]) throw new Error('transfer rejected');
+        return true;
+      } finally {
+        active--;
+      }
+    }),
+    /transfer rejected/,
+  );
+  assert.equal(active, 0, 'Failure drains every admitted transfer before releasing the workspace');
   assert.deepEqual(Object.keys(JSON.parse(legacy.generated['registration.json']!).coverage.masks), [
     selectedId + ':frame',
   ]);

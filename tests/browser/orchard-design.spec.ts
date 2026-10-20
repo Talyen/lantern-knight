@@ -1,7 +1,7 @@
 import { importEditorScene, expectEditorDocument } from './editor-driver';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { test, expect, openEditor, waitForEditorIdle } from './fixtures';
+import { pixelTest as test, expect, openEditor, waitForEditorIdle } from './fixtures';
 import { projectRoot } from '../../tools/assets/paths';
 import type { SceneDocument } from '../../src/content/scene-document';
 

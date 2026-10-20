@@ -6,7 +6,7 @@ import {
 } from './editor-driver';
 import {
   expectPageValue,
-  test,
+  stateTest as test,
   expect,
   openEditor,
   waitForEditor,

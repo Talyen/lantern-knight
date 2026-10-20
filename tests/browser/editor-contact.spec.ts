@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { pixelTest as test, expect } from './fixtures';
 
 for (const layout of ['repeat', 'artwork'] as const)
   test(`editor renders walking hero and prop contact shadows on ${layout} floors with independent contact and silhouette shadows`, async ({

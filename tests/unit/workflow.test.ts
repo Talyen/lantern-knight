@@ -9,6 +9,7 @@ import { coverageFor } from '../../tools/coverage-policy';
 const requiresDesktop = (files: readonly string[]) => coverageFor(files).desktop;
 const requiresAuthoring = (files: readonly string[]) => coverageFor(files).authoring;
 import { browserSelection, ciDevelopmentFiles } from '../../tools/browser-tests';
+import { browserShards } from '../../tools/ci-browser-shard';
 import { checkAssets } from '../../tools/check-assets';
 test('concise test output preserves failures, skips, TODOs and process diagnostics', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-reporter-');
@@ -245,6 +246,7 @@ test('CI accounts for every browser suite and runs development lifetime regressi
   assert.ok(routine.includes('scene-lifetime.spec.ts'));
   assert.ok(authoring.includes('editor-adventure.spec.ts'));
   assert.ok(!routine.includes('editor-adventure.spec.ts'));
+  assert.ok(!authoring.includes('editor-exploration.spec.ts'));
   assert.ok(files.includes('game-loot.spec.ts'));
   assert.ok(!authoring.some((file) => file.startsWith('game') || file.startsWith('orchard')));
   assert.deepEqual(
@@ -253,6 +255,77 @@ test('CI accounts for every browser suite and runs development lifetime regressi
   );
   assert.throws(() => ciDevelopmentFiles([...files, 'unclassified.spec.ts'], false), /no CI tier/);
   assert.throws(() => ciDevelopmentFiles([...files, 'unclassified.spec.ts'], true), /no CI tier/);
+});
+
+test('cost shards retain every parameterized and nested case once and separate expensive cases', () => {
+  const suite = (file: string, titles: string[]) => ({
+    title: file,
+    file,
+    line: 0,
+    specs: titles.map((title) => ({ file, title })),
+  });
+  const input = [
+    suite('editor-game-view.spec.ts', ['outside', 'inside']),
+    suite('scene-lifetime.spec.ts', ['failure', 'shutdown', 'retired controls', 'remount']),
+    {
+      ...suite('scene-cohesion.spec.ts', []),
+      suites: [{ ...suite('scene-cohesion.spec.ts', ['reload']), title: 'persistence', line: 30 }],
+    },
+  ];
+  const plan = browserShards(input, 2);
+  const names = plan.flatMap((shard) => shard.tests);
+  assert.equal(names.length, 7);
+  assert.equal(new Set(names).size, 7);
+  assert.ok(names.includes('scene-cohesion.spec.ts › persistence › reload'));
+  for (const shard of plan)
+    assert.equal(shard.tests.filter((name) => name.startsWith('editor-game-view')).length, 1);
+  assert.deepEqual(browserShards(input.slice().reverse(), 2), plan);
+  assert.throws(() => browserShards(input, 0), /Invalid/);
+  assert.throws(() => browserShards([], 2), /unique runnable/);
+  assert.throws(() => browserShards([input[0]!, input[0]!], 2), /unique runnable/);
+});
+
+test('native Playwright test-list discovery retains every planned browser case', async (t) => {
+  const directory = await temporaryDirectory(t, 'lantern-ci-discovery-');
+  const files = ciDevelopmentFiles(
+    (await fs.readdir('tests/browser')).filter((file) => file.endsWith('.spec.ts')),
+    true,
+  );
+  const env = { ...process.env };
+  delete env.PLAYWRIGHT_JSON_OUTPUT_FILE;
+  delete env.PLAYWRIGHT_JSON_OUTPUT_DIR;
+  delete env.PLAYWRIGHT_JSON_OUTPUT_NAME;
+  const discover = (filters: string[]) => {
+    const result = spawnSync(
+      process.execPath,
+      [
+        '--import',
+        'tsx',
+        'node_modules/@playwright/test/cli.js',
+        'test',
+        ...filters,
+        '--list',
+        '--reporter=json',
+      ],
+      { env, encoding: 'utf8', timeout: 30_000 },
+    );
+    assert.equal(result.status, 0, result.stdout + result.stderr);
+    return JSON.parse(result.stdout);
+  };
+  const original = discover(files.map((file) => 'tests/browser/' + file));
+  const plan = browserShards(original.suites, 16);
+  const file = path.join(directory, 'tests.txt');
+  await fs.writeFile(file, plan.flatMap((shard) => shard.tests).join('\n'));
+  const selected = discover(['--test-list', file]);
+  const ids = (suites: typeof original.suites): string[] =>
+    suites
+      .flatMap((suite: { specs: { id: string }[]; suites?: typeof suites }) => [
+        ...suite.specs.map((spec) => spec.id),
+        ...ids(suite.suites ?? []),
+      ])
+      .sort();
+  assert.deepEqual(ids(selected.suites), ids(original.suites));
+  assert.equal(ids(selected.suites).length, plan.flatMap((shard) => shard.tests).length);
 });
 
 test('repeated global mocks restore original descriptors and remove newly introduced globals', async (t) => {

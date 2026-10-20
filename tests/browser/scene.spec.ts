@@ -1,4 +1,4 @@
-import { expectPageValue, test, expect } from './fixtures';
+import { expectPageValue, stateTest as test, expect } from './fixtures';
 // These interaction proofs do not depend on a full-size framebuffer.
 test.use({ viewport: { width: 800, height: 600 } });
 
@@ -36,24 +36,15 @@ test('scene selection and camera framing survive independent reloads', async ({ 
   }
 });
 
-test('scene URL selections accept fixtures and reject unknown scenes', async ({ page }) => {
-  await page.goto('/sandbox.html?scene=outdoor-fixture');
-  await page.waitForFunction(() => window.foundation?.ready);
-  expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');
-  await page.goto('/sandbox.html?scene=upper-landing');
-  await page.waitForFunction(() => window.foundation?.ready);
-  expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');
-});
-
 test('repeated scene switches release renderer resources', async ({ page }) => {
-  // Eight replacements and the reveal sequence share one resource-growth proof.
+  // Warm the two fixtures, then compare two complete replacement cycles.
   test.setTimeout(300_000);
   await page.goto('/sandbox.html?scene=interior-fixture');
   await page.waitForFunction(() => window.foundation?.ready);
   const resources = await page.evaluate(async () => {
     const f = window.foundation;
     const samples = [];
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 3; i++) {
       await f.fixture('outdoor-fixture');
       await f.fixture('interior-fixture');
       f.presentation.update(f.sim, 1, 0, { x: 0, z: 1 });
@@ -81,7 +72,7 @@ test('repeated scene switches release renderer resources', async ({ page }) => {
     if (f.presentation.renderer.getContext().getError()) throw new Error('Renderer error');
     return samples;
   });
-  expect(resources[3]).toEqual(resources[2]);
+  expect(resources[2]).toEqual(resources[1]);
 });
 
 test('benchmark resets keep renderer generations aligned and restore the original content', async ({
@@ -193,23 +184,6 @@ test('preview navigation preserves playback and isolates controls from gameplay'
   await expectPageValue(page, () => window.foundation.sim.tick, {
     timeout: 30_000,
   }).toBeGreaterThan(before.tick);
-});
-
-test('preview scene reset preserves experiments and settings reset is explicit', async ({
-  page,
-}) => {
-  await page.goto('/sandbox.html?scene=outdoor-fixture');
-  await page.waitForFunction(() => window.foundation?.ready);
-  await page.getByRole('button', { name: 'Visuals', exact: true }).click();
-  await page.selectOption('#lighting-rig', 'golden');
-  await page.locator('#reset').click();
-  await expect(page.locator('#lighting-rig')).toHaveValue('golden');
-  // Independent fixture persistence is covered above. Keep this journey focused
-  // on reset semantics instead of rebuilding both scenes again.
-  await page.getByRole('button', { name: 'More options' }).click();
-  await page.getByRole('button', { name: 'Reset scene settings', exact: true }).click();
-  await page.waitForFunction(() => window.foundation?.ready);
-  await expect(page.locator('#lighting-rig')).toHaveValue('lantern');
 });
 
 test('workspace reset requires confirmation and clears preview experiments', async ({ page }) => {

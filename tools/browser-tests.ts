@@ -6,12 +6,13 @@ import { workspaceEnvironment } from './assets/workspace';
 import { acquireCommandLane } from './command-lane';
 import { runProcess } from './run-process';
 import { projectRoot } from './assets/paths';
+import { ciBrowserShard } from './ci-browser-shard';
 // Explicit diagnostics stay opt-in; every other suite must belong to a CI tier.
 export function ciDevelopmentFiles(files: readonly string[], authoring: boolean) {
   return files
     .filter((file) => {
       if (
-        /^(authored-ground|ground-review|orchard-design|orchard-polish|scene-placement)\.spec\.ts$/.test(
+        /^(authored-ground|ground-review|orchard-design|orchard-polish|scene-placement|editor-exploration)\.spec\.ts$/.test(
           file,
         )
       )
@@ -57,6 +58,10 @@ export function browserSelection(args: string[]) {
   return { built, forwarded: filters, scope } as const;
 }
 async function browserTests(args: string[]) {
+  const shardArgs = args.filter((arg) => arg.startsWith('--ci-shard='));
+  if (shardArgs.length > 1 || (shardArgs.length && !args.includes('--ci-development')))
+    throw new Error('Use one --ci-shard=N/M with --ci-development');
+  args = args.filter((arg) => !arg.startsWith('--ci-shard='));
   if (args.includes('--ci-development')) {
     if (args.includes('--built') || args.some((arg) => !arg.startsWith('--')))
       throw new Error('Use --ci-development [--authoring] without scenario selectors or --built');
@@ -70,7 +75,10 @@ async function browserTests(args: string[]) {
     ];
   } else if (args.includes('--authoring')) throw new Error('Use --authoring with --ci-development');
   const mode = process.env.CI === 'true' ? 'pinned' : 'local';
-  const { built, forwarded, scope } = browserSelection(args);
+  const { built, forwarded: selected, scope } = browserSelection(args);
+  const forwarded = shardArgs.length
+    ? await ciBrowserShard(selected, shardArgs[0]!.slice('--ci-shard='.length), projectRoot)
+    : selected;
   // Discovery does not execute fixtures, render, or consume prepared artwork.
   if (forwarded.includes('--list')) {
     await runProcess(

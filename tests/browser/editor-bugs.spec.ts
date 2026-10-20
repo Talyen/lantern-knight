@@ -4,7 +4,7 @@ import {
   readEditorDocument,
   expectEditorDocument,
 } from './editor-driver';
-import { test, expect, openEditor } from './fixtures';
+import { stateTest as test, expect, openEditor } from './fixtures';
 import type { Page } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';

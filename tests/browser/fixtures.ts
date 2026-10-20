@@ -1,8 +1,9 @@
 import { test as base, expect, type Locator, type Page } from '@playwright/test';
 import fs from 'node:fs/promises';
 import { projectRoot } from '../../tools/assets/paths';
-export const test = base.extend<{ errors: string[] }>({
-  context: async ({ playwright, browserName, video }, use, testInfo) => {
+const test = base.extend<{ errors: string[]; rasterize: boolean }>({
+  rasterize: [true, { option: true }],
+  context: async ({ playwright, browserName, video, rasterize }, use, testInfo) => {
     // End the process after each case: destroying a context alone can strand
     // Chromium's software graphics driver and block the next context.
     const browser = await playwright[browserName].launch();
@@ -24,6 +25,22 @@ export const test = base.extend<{ errors: string[] }>({
             }
           : {},
       );
+      if (!rasterize && !Object.keys(process.env).some((key) => /CAPTURE|CAPTURES/.test(key)))
+        await context.addInitScript(() => {
+          // State/DOM integration still creates real contexts, uploads assets,
+          // compiles shaders and retires resources. Its unused pixels need no draws.
+          for (const name of [
+            'drawArrays',
+            'drawElements',
+            'drawArraysInstanced',
+            'drawElementsInstanced',
+          ])
+            Object.defineProperty(WebGL2RenderingContext.prototype, name, {
+              configurable: true,
+              writable: true,
+              value() {},
+            });
+        });
       await use(context);
     } finally {
       await browser.close();
@@ -108,6 +125,15 @@ export const test = base.extend<{ errors: string[] }>({
     },
     { auto: true },
   ],
+});
+// Pixel assertions and renderer proofs always execute real draws at native resolution.
+export const pixelTest = test.extend({ deviceScaleFactor: 1 });
+// Explicit opt-in: these assertions own DOM/input/state, not rendered pixels.
+export const stateTest = test.extend({
+  rasterize: process.env.LANTERN_TEST_RASTERIZE === 'true',
+  deviceScaleFactor: Object.keys(process.env).some((key) => /CAPTURE|CAPTURES/.test(key))
+    ? 1
+    : Number(process.env.LANTERN_TEST_SCALE ?? 0.25),
 });
 export { expect };
 

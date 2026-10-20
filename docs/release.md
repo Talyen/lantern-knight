@@ -17,7 +17,7 @@ In PowerShell, set `$env:CI = 'true'` and `$env:LANTERN_PREVIEW_PORT = '5175'` b
 
 On the target host, run `npm run package -- --platform mac` or `npm run package -- --platform win`, then `npm run test:desktop` against the resulting Game package. Game output is `release/mac-arm64/Lantern Knight.app` on macOS or `release/win-unpacked/Lantern Knight.exe` on Windows.
 
-Packaging builds the web and Electron outputs once, then records and verifies their combined desktop identity. `--prebuilt` deliberately selects existing verified desktop outputs; a browser-only build is insufficient. It cannot be combined with `--local`; select local assets when creating the build. `--dev` optionally packages Lantern Knight Dev under `release-dev/` and is separate from the Game package required by desktop tests.
+Packaging builds the web and Electron outputs once, then records and verifies their combined desktop identity. `--prebuilt-web` reuses a verified web build with matching current source inputs and adds the native Electron build. `--prebuilt` deliberately selects existing verified desktop outputs; a browser-only build is insufficient. Neither prebuilt mode can be combined with `--local`; select local assets when creating the build. `--dev` optionally packages Lantern Knight Dev under `release-dev/` and is separate from the Game package required by desktop tests.
 
 Packages retain source commit, asset identity and output checksums. Native jobs build directly from the checked-out commit and pin; no cross-platform build-restoration protocol is needed. Follow hosted CI to final conclusions only after an authorized push. Local macOS validation does not establish Windows or hosted success.
 

@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { pixelTest as test, expect } from './fixtures';
 import fs from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import fixture from '../fixtures/image-delivery.json';
@@ -27,7 +27,7 @@ test('GPU image delivery preserves full composition and orientation against the 
     );
   }
   await page.goto('/delivery-proof.html');
-  const difference = await page.evaluate(
+  const proof = await page.evaluate(
     async (hashes) => {
       const threePath = '/node_modules/.vite/deps/three.js',
         deliveryPath = '/src/assets/texture-delivery.ts';
@@ -65,7 +65,21 @@ test('GPU image delivery preserves full composition and orientation against the 
       try {
         const source = await render('source', 'png'),
           compressed = await render('compressed', 'ktx2-uastc');
-        return Math.max(...source.map((value, index) => Math.abs(value - compressed[index]!)));
+        return {
+          difference: Math.max(
+            ...source.map((value, index) => Math.abs(value - compressed[index]!)),
+          ),
+          // gl.readPixels starts at the bottom. These distinct source quadrants
+          // reject blank/no-draw parity as well as a shared orientation error.
+          corners: [
+            [0, 0],
+            [63, 0],
+            [0, 63],
+            [63, 63],
+          ].map(([x, y]) =>
+            Array.from(source.subarray((y! * 64 + x!) * 4, (y! * 64 + x!) * 4 + 4)),
+          ),
+        };
       } finally {
         delivery.dispose();
         geometry.dispose();
@@ -76,5 +90,14 @@ test('GPU image delivery preserves full composition and orientation against the 
     },
     { source: fixture.source.hash, compressed: fixture.compressed.hash },
   );
-  expect(difference).toBeLessThanOrEqual(3);
+  // The offscreen target stores linear RGB; these are the decoded sRGB source quadrants.
+  for (const [index, expected] of [
+    [2, 5, 26, 255],
+    [2, 164, 26, 255],
+    [202, 5, 26, 255],
+    [202, 164, 26, 255],
+  ].entries())
+    for (const [channel, value] of expected.entries())
+      expect(Math.abs(proof.corners[index]![channel]! - value)).toBeLessThanOrEqual(1);
+  expect(proof.difference).toBeLessThanOrEqual(3);
 });

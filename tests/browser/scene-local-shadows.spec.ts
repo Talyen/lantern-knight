@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { pixelTest as test, expect } from './fixtures';
 
 test('solid props cast sun and moving local-light silhouettes, receive warm light, and retire maps', async ({
   page,

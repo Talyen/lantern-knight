@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { pixelTest as test, expect } from './fixtures';
 import { crateOcclusionFixture } from '../fixtures/crate-occlusion';
 
 test('ground atlas masks each actor independently and draws hidden outline pixels', async ({

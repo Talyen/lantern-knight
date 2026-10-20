@@ -1,6 +1,13 @@
 // One policy owns optional CI tiers. Every change still runs source, Game and scene checks.
 const policies = [
   {
+    pattern: /^\.github\/actions\//,
+    desktop: true,
+    authoring: true,
+    assets: true,
+  },
+  { pattern: /^tools\/ci-browser-shard\.ts$/, authoring: true },
+  {
     pattern:
       /^tools\/(?:(?:cli|scope-exit|json-file|verified-files|run-process|command-lane)\.ts$|assets\/(?:workspace|paths|demand(?:-plugin)?|file-delivery|download|bundles|pack|preview|cache|files|sources)\.ts$)/,
     desktop: true,

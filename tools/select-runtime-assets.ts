@@ -37,6 +37,24 @@ export async function selectedFiles(
     loadingVideoPath,
   ]);
   const generated: Record<string, string> = {};
+  const admitted = new Map<string, Promise<boolean>>();
+  const ensure = async (name: string) => {
+    safeRelative(name);
+    if (!ensureFile) return;
+    let pending = admitted.get(name);
+    if (!pending) {
+      pending = Promise.resolve().then(() => ensureFile(name));
+      admitted.set(name, pending);
+    }
+    return pending;
+  };
+  const prefetch = async (names: string[]) => {
+    const unique = [...new Set(names)];
+    for (let offset = 0; offset < unique.length; offset += 8) {
+      const results = await Promise.allSettled(unique.slice(offset, offset + 8).map(ensure));
+      for (const result of results) if (result.status === 'rejected') throw result.reason;
+    }
+  };
   const groups = new Map<string, Set<string>>();
   const bundleFile = (id: string, file: string) => {
     if (profile !== 'game') return;
@@ -45,11 +63,15 @@ export async function selectedFiles(
     groups.set(id, files);
   };
   const read = async (name: string) => {
-    safeRelative(name);
-    await ensureFile?.(name);
+    await ensure(name);
     return fs.readFile(path.join(publicRoot, name));
   };
   const hash = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
+  const hashes = new Map<string, string>();
+  const fileHash = async (name: string) => {
+    if (!hashes.has(name)) hashes.set(name, hash(await read(name)));
+    return hashes.get(name)!;
+  };
   const audio = await readPreparedAudio(read);
   generated[audioManifestPath] = JSON.stringify(audio) + '\n';
   for (const sample of audio.samples) {
@@ -59,11 +81,24 @@ export async function selectedFiles(
     files.add(sample.path);
   }
   const manifests = new Map();
+  await prefetch(Object.values(catalog));
   for (const [id, file] of Object.entries(catalog)) {
     const m = parseManifest(JSON.parse((await read(file)).toString()));
     if (m.asset.id !== id) throw new Error('Manifest identity differs: ' + id);
     manifests.set(id, m);
     files.add(file);
+    await prefetch(
+      m.pages.flatMap((page) => [
+        ...(dev ||
+        !page.delivery?.some(
+          (v) => v.encoding === 'png' && v.width === page.width && v.height === page.height,
+        )
+          ? [path.posix.join(path.posix.dirname(file), page.path)]
+          : []),
+        ...(page.delivery ?? []).map((v) => v.path),
+        ...(dev && page.preview ? [page.preview.path] : []),
+      ]),
+    );
     for (const page of m.pages) {
       const name = path.posix.join(path.posix.dirname(file), page.path);
       if (
@@ -72,7 +107,7 @@ export async function selectedFiles(
           (v) => v.encoding === 'png' && v.width === page.width && v.height === page.height,
         )
       ) {
-        if (hash(await read(name)) !== page.hash) throw new Error('Prepared page differs: ' + name);
+        if ((await fileHash(name)) !== page.hash) throw new Error('Prepared page differs: ' + name);
         files.add(name);
         if (page.bytes <= 512 * 1024) bundleFile(id, name);
       }
@@ -80,7 +115,7 @@ export async function selectedFiles(
         ...(page.delivery ?? []),
         ...(dev && page.preview ? [page.preview] : []),
       ]) {
-        if (hash(await read(image.path)) !== image.hash)
+        if ((await fileHash(image.path)) !== image.hash)
           throw new Error('Prepared delivery image differs: ' + image.path);
         files.add(image.path);
         if (image.encoding === 'png' && image.bytes <= 512 * 1024) bundleFile(id, image.path);
@@ -125,6 +160,11 @@ export async function selectedFiles(
       >,
     ).filter(([key]) => key.split(':')[0]! in catalog),
   );
+  await prefetch(
+    Object.values(lighting.entries as Record<string, { file: string }>).map(
+      (e) => 'lighting/' + safeRelative(e.file),
+    ),
+  );
   for (const [key, e] of Object.entries(lighting.entries) as [
     string,
     { file: string; hash: string; sourceHash: string; rect: unknown; trim: unknown },
@@ -142,7 +182,7 @@ export async function selectedFiles(
     )
       throw new Error('Lighting registration differs: ' + key);
     const file = 'lighting/' + safeRelative(e.file);
-    if (hash(await read(file)) !== e.hash) throw new Error('Lighting companion differs: ' + file);
+    if ((await fileHash(file)) !== e.hash) throw new Error('Lighting companion differs: ' + file);
     files.add(file);
     bundleFile(id, file);
   }
@@ -174,7 +214,7 @@ export async function selectedFiles(
   const sorted = [...files].sort();
   let bytes = 0;
   for (const file of sorted) {
-    await ensureFile?.(file);
+    await ensure(file);
     bytes += (await fs.stat(path.join(publicRoot, file))).size;
   }
   bytes += Object.values(generated).reduce((n, text) => n + Buffer.byteLength(text), 0);

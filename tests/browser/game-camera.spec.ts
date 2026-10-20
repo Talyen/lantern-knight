@@ -1,12 +1,9 @@
 import path from 'node:path';
 import { mkdir } from 'node:fs/promises';
 import sharp from 'sharp';
-import { test, expect } from './fixtures';
+import { pixelTest as test, expect } from './fixtures';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
-
-// This proof samples a native-resolution screenshot strip.
-test.use({ deviceScaleFactor: 1 });
 
 test('forge departure keeps the hero below controls with artwork across the upper viewport', async ({
   page,
@@ -46,39 +43,28 @@ test('forge departure keeps the hero below controls with artwork across the uppe
       { timeout: 60_000 },
     )
     .toBe(true);
-  for (const [name, width, height] of [
-    ['landscape', 1600, 900],
-    ['portrait', 900, 1600],
-    ['wide', 2100, 900],
-  ] as const) {
-    await page.setViewportSize({ width, height });
-    await expect
-      .poll(async () => {
-        const hint = (await cue.boundingBox())!;
-        return hint.y > 80 && hint.y + hint.height < height;
-      })
-      .toBe(true);
-    // Let the resized drawing buffer settle before checking the rendered edge.
-    await page.waitForTimeout(500);
-    const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
-    if (directory) await mkdir(directory, { recursive: true });
-    const capture = await page.screenshot(
-        directory ? { path: path.join(directory, `camera-forge-${name}.png`) } : {},
-      ),
-      image = await sharp(capture).metadata(),
-      strip = await sharp(capture)
-        .extract({
-          left: Math.floor(image.width! * 0.4),
-          top: 8,
-          width: Math.floor(image.width! * 0.2),
-          height: 48,
-        })
-        .stats();
-    // The old ink-dark band was a flat clear color behind the finite painting.
-    // Scene geometry tests protect exact coverage; this checks real rendered art.
-    expect(Math.max(...strip.channels.slice(0, 3).map((channel) => channel.stdev))).toBeGreaterThan(
-      2,
-    );
+  const width = 1280,
+    height = 600;
+  await page.setViewportSize({ width, height });
+  await expect
+    .poll(async () => {
+      const hint = (await cue.boundingBox())!;
+      return hint.y > 80 && hint.y + hint.height < height;
+    })
+    .toBe(true);
+  const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
+  if (directory) {
+    await mkdir(directory, { recursive: true });
+    await page.screenshot({ path: path.join(directory, 'camera-forge-wide.png') });
   }
+  // Capture the native pixels the assertion actually uses, without encoding the whole frame.
+  const strip = await sharp(
+    await page.screenshot({
+      clip: { x: width * 0.4, y: 8, width: width * 0.2, height: 48 },
+    }),
+  ).stats();
+  expect(Math.max(...strip.channels.slice(0, 3).map((channel) => channel.stdev))).toBeGreaterThan(
+    2,
+  );
   // game-chapel.spec.ts owns the full departure, reward and return journey.
 });

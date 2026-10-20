@@ -1,5 +1,5 @@
 import { changeField, importEditorScene, expectEditorDocument } from './editor-driver';
-import { expectPageValue, test, expect, openEditor } from './fixtures';
+import { expectPageValue, stateTest as test, expect, openEditor } from './fixtures';
 import type { Page } from '@playwright/test';
 import type { GroundAuthoring } from '../../src/editor/ground-authoring';
 import type { SceneDocument } from '../../src/content/scene-document';

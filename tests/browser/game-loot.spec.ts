@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { test, expect } from './fixtures';
+import { stateTest as test, expect } from './fixtures';
 import { loadCheckpoint, saveCheckpoint } from '../fixtures/input';
 import { content } from '../../src/content/game-content';
 

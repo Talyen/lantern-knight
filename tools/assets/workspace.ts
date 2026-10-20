@@ -17,6 +17,7 @@ export type AssetWorkspace = {
   identity: string;
   recipe: string;
   ensurePublicFile?: (relative: string) => Promise<boolean>;
+  ensureMetadataFile?: (relative: string) => Promise<boolean>;
   release: () => Promise<void>;
 };
 export async function openWorkspace(
@@ -52,6 +53,7 @@ export async function openWorkspace(
     identity: lock.sha256,
     recipe: lock.recipeSha256,
     ensurePublicFile: 'ensurePublicFile' in held ? held.ensurePublicFile : undefined,
+    ensureMetadataFile: 'ensureMetadataFile' in held ? held.ensureMetadataFile : undefined,
     release: () => held.release(),
   };
 }

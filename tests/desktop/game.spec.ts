@@ -29,7 +29,10 @@ test('Game package starts, accepts input and reloads current storage', async () 
         LANTERN_AUTOMATED_RUN: '1',
         LANTERN_TEST_HIDDEN: '1',
       },
-      args: process.platform === 'win32' ? ['--use-gl=angle', '--use-angle=swiftshader'] : [],
+      args: [
+        '--force-device-scale-factor=0.5',
+        ...(process.platform === 'win32' ? ['--use-gl=angle', '--use-angle=swiftshader'] : []),
+      ],
     });
   let app = await launch();
   try {

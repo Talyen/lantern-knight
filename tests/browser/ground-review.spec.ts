@@ -1,5 +1,5 @@
 import { readJson } from '../../tools/json-file';
-import { test, expect, waitForEditor } from './fixtures';
+import { pixelTest as test, expect, waitForEditor } from './fixtures';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 

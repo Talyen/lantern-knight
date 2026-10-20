@@ -177,6 +177,7 @@ export async function prototypeAssets(
         root: demandWorkspace.root,
         release: demandWorkspace.release,
         ensurePublicFile: demandWorkspace.ensurePublicFile,
+        ensureMetadataFile: demandWorkspace.ensureMetadataFile,
       },
       lock,
       stepCache: undefined,

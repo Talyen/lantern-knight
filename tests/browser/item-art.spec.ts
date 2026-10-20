@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { stateTest as test, expect } from './fixtures';
 
 test('covered artwork preparation preserves cropped pixels, shares lifetime cache and revokes it', async ({
   page,

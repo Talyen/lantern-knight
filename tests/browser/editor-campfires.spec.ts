@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { test, expect, openEditor, waitForEditorIdle } from './fixtures';
+import { stateTest as test, expect, openEditor, waitForEditorIdle } from './fixtures';
 import { changeField, importEditorScene, expectEditorDocument } from './editor-driver';
 import { defaultCampfireAsset } from '../../src/content/campfire-visuals';
 import { emptyScene } from '../../src/editor/default-scene';

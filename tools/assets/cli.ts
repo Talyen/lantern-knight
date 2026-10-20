@@ -12,7 +12,7 @@ import { prepareAssets } from './prepare';
 import { publishPrepared } from './publication';
 import { readAuthoringCatalog } from './authoring-catalog';
 import { parseManifest } from '../../src/assets/schema';
-import { checkAssets } from '../check-assets';
+import { checkAssets, checkBuiltAssets } from '../check-assets';
 import { acquireCommandLane } from '../command-lane';
 import { discoverLibrary } from './discovery';
 import { publishIndividualFiles } from './file-publication';
@@ -27,8 +27,14 @@ async function main() {
       local: { type: 'boolean' },
       proof: { type: 'boolean' },
       gpu: { type: 'boolean' },
+      built: { type: 'boolean' },
     },
   });
+  if (values.built) {
+    if (command !== 'check' || args.length !== 1) throw new Error('Use assets:check -- --built');
+    await checkBuiltAssets();
+    return;
+  }
   if (command === 'publish-files') {
     if (args.length) throw new Error('Use assets:publish-files without options');
     const pin = await readLock();

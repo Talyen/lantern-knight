@@ -1,4 +1,4 @@
-import { expectPageValue, test, expect } from './fixtures';
+import { expectPageValue, pixelTest as test, stateTest as state, expect } from './fixtures';
 import { expectEditorDocument } from './editor-driver';
 
 // GPU proof with small real sprites: painted shade affects overlays, while local
@@ -136,42 +136,43 @@ test('painted shade grounds characters and props without double-shading the floo
   expect(proof.warmRed).toBeGreaterThan(proof.warmBlue);
 });
 
-test('editor shade zones can be authored, previewed and undone without saving a scene', async ({
-  page,
-}) => {
-  await page.goto('/editor.html?automated');
-  await page.waitForFunction(() => window.sceneEditor?.ready());
-  await page.locator('#scene-tab').click();
-  await page.locator('[data-section="category-Atmosphere"] > summary').click();
-  await page.locator('[data-section="look.shadeZones"] > summary').click();
-  await page.getByRole('button', { name: 'Add Painted shade zones', exact: true }).click();
-  await page.waitForFunction(
-    () => window.sceneEditor.state().document.look.shadeZones?.length === 1,
-  );
-  await page.locator('[data-section="look.shadeZones.0"] > summary').click();
-  const x = page.locator('[data-field="look.shadeZones.0.x"]');
-  await x.fill('2');
-  await x.blur();
-  await expectEditorDocument(page, (document) => document.look.shadeZones?.[0]?.x).toBe(2);
-  await expectPageValue(
-    page,
-    () =>
-      window.sceneEditor.view().presentation!.lookRenderer.lighting.common.inkShadeZones.value[0]!
-        .x,
-  ).toBe(2);
-  await page.locator('#undo').click();
-  await expectEditorDocument(page, (document) => document.look.shadeZones?.[0]?.x).toBe(0);
-  await page.locator('#undo').click();
-  await expectEditorDocument(page, (document) => document.look.shadeZones?.length ?? 0).toBe(0);
-  await expectPageValue(
-    page,
-    () =>
-      window.sceneEditor.view().presentation!.lookRenderer.lighting.common.inkShadeZones.value[0]!
-        .w,
-  ).toBe(0);
-  await page.locator('#redo').click();
-  await expectEditorDocument(page, (document) => document.look.shadeZones?.length).toBe(1);
-});
+state(
+  'editor shade zones can be authored, previewed and undone without saving a scene',
+  async ({ page }) => {
+    await page.goto('/editor.html?automated');
+    await page.waitForFunction(() => window.sceneEditor?.ready());
+    await page.locator('#scene-tab').click();
+    await page.locator('[data-section="category-Atmosphere"] > summary').click();
+    await page.locator('[data-section="look.shadeZones"] > summary').click();
+    await page.getByRole('button', { name: 'Add Painted shade zones', exact: true }).click();
+    await page.waitForFunction(
+      () => window.sceneEditor.state().document.look.shadeZones?.length === 1,
+    );
+    await page.locator('[data-section="look.shadeZones.0"] > summary').click();
+    const x = page.locator('[data-field="look.shadeZones.0.x"]');
+    await x.fill('2');
+    await x.blur();
+    await expectEditorDocument(page, (document) => document.look.shadeZones?.[0]?.x).toBe(2);
+    await expectPageValue(
+      page,
+      () =>
+        window.sceneEditor.view().presentation!.lookRenderer.lighting.common.inkShadeZones.value[0]!
+          .x,
+    ).toBe(2);
+    await page.locator('#undo').click();
+    await expectEditorDocument(page, (document) => document.look.shadeZones?.[0]?.x).toBe(0);
+    await page.locator('#undo').click();
+    await expectEditorDocument(page, (document) => document.look.shadeZones?.length ?? 0).toBe(0);
+    await expectPageValue(
+      page,
+      () =>
+        window.sceneEditor.view().presentation!.lookRenderer.lighting.common.inkShadeZones.value[0]!
+          .w,
+    ).toBe(0);
+    await page.locator('#redo').click();
+    await expectEditorDocument(page, (document) => document.look.shadeZones?.length).toBe(1);
+  },
+);
 
 test('painting bounce excludes scenery and dense cores reuse the original shadow draw', async ({
   page,
@@ -369,10 +370,8 @@ test('painting bounce excludes scenery and dense cores reuse the original shadow
   expect(proof.error).toBe(0);
 });
 
-test.describe('cohesion persistence', () => {
-  test.use({ deviceScaleFactor: 0.5 });
-
-  test('orchard cohesion controls survive reload independently', async ({ page }) => {
+state.describe('cohesion persistence', () => {
+  state('orchard cohesion controls survive reload independently', async ({ page }) => {
     // Reload and fixture replacements each prepare the complete scene renderer.
     test.setTimeout(420_000);
     await page.setViewportSize({ width: 800, height: 600 });

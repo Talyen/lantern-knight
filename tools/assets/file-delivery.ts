@@ -357,6 +357,14 @@ export async function openFileWorkspace(
     pending.set('materialize-all', completion);
     return completion;
   };
+  const ensureNamedFile = (name: string) => {
+    let promise = pending.get(name);
+    if (!promise) {
+      promise = ensure(name).finally(() => pending.delete(name));
+      pending.set(name, promise);
+    }
+    return promise;
+  };
   return {
     materializeAll,
     root: held.root,
@@ -366,13 +374,10 @@ export async function openFileWorkspace(
     recipe: pin.recipeSha256,
     scope: 'authoring' as const,
     ensurePublicFile(relative: string) {
-      const name = 'public/' + safeRelative(relative);
-      let promise = pending.get(name);
-      if (!promise) {
-        promise = ensure(name).finally(() => pending.delete(name));
-        pending.set(name, promise);
-      }
-      return promise;
+      return ensureNamedFile('public/' + safeRelative(relative));
+    },
+    ensureMetadataFile(relative: string) {
+      return ensureNamedFile('metadata/' + safeRelative(relative));
     },
     async release() {
       lifetime.abort();

@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { stateTest as test, expect } from './fixtures';
 
 test('lantern cue appears for a reachable threat and clears with play and session state', async ({
   page,

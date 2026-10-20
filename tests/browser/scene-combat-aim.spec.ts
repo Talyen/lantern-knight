@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { stateTest as test, expect } from './fixtures';
 
 test('a mouse click on a nearby enemy torso directs the live lunge toward its feet', async ({
   page,

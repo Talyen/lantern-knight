@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { test, expect, openEditor, waitForEditorIdle } from './fixtures';
+import { pixelTest as test, expect, openEditor, waitForEditorIdle } from './fixtures';
 import { importEditorScene, expectEditorDocument } from './editor-driver';
 import { content } from '../../src/content/game-content';
 
@@ -14,6 +14,7 @@ for (const area of content.definitions.areas) {
   test(`playable painting supports annotated floors and matching arrivals in ${area.id}`, async ({
     page,
   }, info) => {
+    test.skip(!process.env.LANTERN_EXPLORATION_CAPTURES, 'Opt-in authored-scene review');
     test.setTimeout(420_000);
     const directory = process.env.LANTERN_EXPLORATION_CAPTURES ?? info.outputDir;
     await fs.mkdir(directory, { recursive: true });

@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { stateTest as test, expect } from './fixtures';
 
 // These DOM lifetimes need real focus, dialog and media events, but no artwork or GPU setup.
 test.beforeEach(async ({ page }) => {

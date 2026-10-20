@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { pixelTest as test, expect } from './fixtures';
 
 test('centered outlines keep a two CSS pixel stroke across zoom, mirroring and pixel ratio, and obey scenery', async ({
   page,

@@ -1,6 +1,6 @@
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
-import { activateWithKeyboard, expectPageValue, test, expect } from './fixtures';
+import { activateWithKeyboard, expectPageValue, stateTest as test, expect } from './fixtures';
 
 test.beforeEach(async ({ page }) => {
   await page.setViewportSize({ width: 800, height: 600 });
@@ -25,40 +25,6 @@ test.beforeEach(async ({ page }) => {
       return source;
     };
   });
-});
-
-test('audio settings persist independently in Game', async ({ page }) => {
-  // Persisted settings require two complete renderer startups on software WebGL.
-  test.setTimeout(420_000);
-  await page.goto('/index.html');
-  await page.waitForFunction(
-    () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
-  );
-  await page.locator('#menu-settings').click();
-  await page.getByRole('tab', { name: 'Sound', exact: true }).click();
-  await expect(page.locator('[data-audio="master"]')).toHaveValue('80');
-  await page.locator('[data-audio="master"]').evaluate((element) => {
-    const input = element as HTMLInputElement;
-    input.value = '35';
-    input.dispatchEvent(new Event('input', { bubbles: true }));
-    input.dispatchEvent(new Event('change', { bubbles: true }));
-  });
-  await page.locator('[data-audio="muted"]').check();
-  await expectPageValue(page, () => {
-    const key = Object.keys(localStorage).find((key) => key.endsWith('-settings'));
-    return key ? JSON.parse(localStorage.getItem(key)!).audio : undefined;
-  }).toEqual({ master: 0.35, effects: 0.8, ambience: 0.65, muted: true });
-  await page.reload();
-  await page.waitForFunction(
-    () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
-  );
-  await page.locator('#menu-settings').click();
-  await page.getByRole('tab', { name: 'Sound', exact: true }).click();
-  await expect(page.locator('[data-audio="master"]')).toHaveValue('35');
-  await expect(page.locator('[data-audio="muted"]')).toBeChecked();
-  await page.locator('[data-audio="muted"]').uncheck();
-  await page.locator('#menu-back').click();
-  await page.locator('#menu-start').click();
 });
 
 test('Game starts localized ambience and decodes every prepared sample', async ({

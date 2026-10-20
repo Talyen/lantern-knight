@@ -11,11 +11,13 @@ async function packageApp(
   prebuilt = false,
   local = false,
   signing?: ReturnType<typeof macSigning>,
+  prebuiltWeb = false,
 ) {
+  if (prebuilt && prebuiltWeb) throw new Error('Choose --prebuilt or --prebuilt-web');
   if (prebuilt && local)
     throw new Error('--local cannot select assets for an existing package build');
   const releaseSigning = signing ? await prepareMacSigning(signing, projectRoot) : undefined;
-  if (!prebuilt) await buildDesktop(profile, local);
+  if (!prebuilt) await buildDesktop(profile, local, prebuiltWeb);
   await verifyBuildIdentity({ profile });
   await runProcess(
     process.execPath,
@@ -47,6 +49,7 @@ runCli(import.meta.url, () => {
       platform: { type: 'string' },
       dev: { type: 'boolean' },
       prebuilt: { type: 'boolean' },
+      'prebuilt-web': { type: 'boolean' },
       local: { type: 'boolean' },
       signed: { type: 'boolean' },
       unsigned: { type: 'boolean' },
@@ -65,5 +68,6 @@ runCli(import.meta.url, () => {
     values.prebuilt,
     values.local,
     signing,
+    values['prebuilt-web'],
   );
 });

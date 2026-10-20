@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { stateTest as test, expect } from './fixtures';
 
 test('keyboard movement renders forward runs in all eight directions and cursor movement leaves idle facing alone', async ({
   page,

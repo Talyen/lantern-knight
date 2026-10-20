@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { mkdir } from 'node:fs/promises';
-import { activateWithKeyboard, test, expect } from './fixtures';
+import { activateWithKeyboard, stateTest as test, expect } from './fixtures';
 import { loadCheckpoint, saveCheckpoint } from '../fixtures/input';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';
@@ -8,9 +8,9 @@ import type { GameSave } from '../../src/core/save';
 
 test.use({ actionTimeout: 30_000, screenshot: 'only-on-failure' });
 
-for (const choice of ['neither', 'sword', 'lantern', 'both'] as const) {
-  const ranks =
-    choice === 'neither' ? {} : choice === 'both' ? { sword: 1, lantern: 1 } : { [choice]: 1 };
+for (const choice of ['both'] as const) {
+  // Upgrade permutations live in progression.test; exercise the full renderer journey once.
+  const ranks = { sword: 1, lantern: 1 };
   test(`${choice} kit reaches the chapel and retains its vigil reward through retry and return`, async ({
     page,
   }) => {

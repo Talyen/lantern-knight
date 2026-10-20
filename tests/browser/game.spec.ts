@@ -1,7 +1,7 @@
 import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { clickCheckpointAction, loadCheckpoint, saveCheckpoint } from '../fixtures/input';
-import { test, expect } from './fixtures';
+import { stateTest as test, expect } from './fixtures';
 
 test('main menu, game input, pause focus and current checkpoint reload', async ({ page }) => {
   // Startup, checkpoint loads and death recovery are distinct room operations.

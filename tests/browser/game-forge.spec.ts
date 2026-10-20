@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { mkdir } from 'node:fs/promises';
-import { activateWithKeyboard, test, expect } from './fixtures';
+import { activateWithKeyboard, stateTest as test, expect } from './fixtures';
 import { loadCheckpoint, saveCheckpoint } from '../fixtures/input';
 import { content } from '../../src/content/game-content';
 import { GameSession } from '../../src/core/session';

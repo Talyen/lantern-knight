@@ -6,6 +6,8 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { actorVisuals } from '../src/content/visuals';
 import { assetCatalog } from '../src/content/asset-catalog';
+import { gameAssetCatalog } from '../src/content/game-content';
+import { verifyBuildIdentity } from './build-identity';
 import { parseManifest, resolveActorClip, type Manifest } from '../src/assets/schema';
 import { HEADINGS } from '../src/content/headings';
 import { cameraCalibration as calibrationFixture } from '../src/assets/camera-calibration';
@@ -18,7 +20,10 @@ import { hash } from './compiler';
 import { loadingVideoPath } from '../src/content/loading-media';
 import { validateLoadingVideo } from './assets/loading-media';
 import { selectDelivery } from '../src/assets/texture-delivery';
-export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirectory'>) {
+export async function checkAssets(
+  workspace: Pick<AssetWorkspace, 'publicDirectory'>,
+  catalog: Readonly<Record<string, string>> = assetCatalog,
+) {
   const readPublic = (file: string) =>
     fs.readFile(path.join(workspace.publicDirectory, safeRelative(file)));
   validateLoadingVideo(await readPublic(loadingVideoPath));
@@ -29,7 +34,6 @@ export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirecto
     assert.equal(hash(bytes), sample.hash, 'Prepared audio differs: ' + sample.id);
   }
   const manifests = new Map<string, Manifest>();
-  const catalog = assetCatalog;
   let pages = 0;
   const calibration = JSON.parse((await readPublic('generated/calibration.json')).toString());
   // Older pins record this retired preparation cap alongside camera settings.
@@ -89,7 +93,15 @@ export async function checkAssets(workspace: Pick<AssetWorkspace, 'publicDirecto
     `PASS: ${Object.keys(catalog).length} runtime assets / ${pages} pages; current references and registration verified.`,
   );
 }
-runCli(import.meta.url, async () => {
+export async function checkBuiltAssets() {
+  await verifyBuildIdentity({ target: 'web' });
+  await checkAssets({ publicDirectory: path.join(projectRoot, 'dist') }, gameAssetCatalog);
+}
+runCli(import.meta.url, async (args) => {
+  if (args.some((arg) => arg !== '--built')) throw new Error('Use assets:check [--built]');
+  if (args.includes('--built')) {
+    return checkBuiltAssets();
+  }
   const workspace = await openWorkspace('pinned', 'authoring');
   await using _cleanup1 = onAsyncExit(() => workspace.release());
   await checkAssets(workspace);

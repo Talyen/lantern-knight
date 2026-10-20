@@ -1,4 +1,10 @@
-import { test, expect, openEditor, waitForEditor, waitForEditorIdle } from './fixtures';
+import {
+  stateTest as test,
+  expect,
+  openEditor,
+  waitForEditor,
+  waitForEditorIdle,
+} from './fixtures';
 import { importEditorScene, readEditorDocument, expectEditorDocument } from './editor-driver';
 import { sceneFixture } from '../fixtures/scene';
 import { projectRoot } from '../../tools/assets/paths';
@@ -180,7 +186,6 @@ test('asset review focuses scene uses and persists scoped notes with conflict re
     await expect
       .poll(() => page.evaluate(() => window.sceneEditor.state().selected), { timeout: 30000 })
       .toBe('second-tomb');
-    await page.screenshot({ path: '/tmp/lantern-asset-review.png' });
   } finally {
     await fs.rm(sceneFile, { force: true });
     await fs.rm(currentSceneFile, { force: true });
