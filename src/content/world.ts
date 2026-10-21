@@ -330,6 +330,8 @@ function assertArea(
   const s = a.surface;
   if (s.kind === 'flat') assertFinite(s.height);
   else {
+    if (s.kind !== 'ramp' && s.kind !== 'stairs') fail(`invalid surface ${a.id}`);
+    if (s.axis !== 'x' && s.axis !== 'z') fail(`invalid surface axis ${a.id}`);
     if (s.kind === 'stairs') {
       const steps = s.steps ?? 3;
       if (!Number.isInteger(steps) || steps < 1 || steps > 12) fail('invalid stairs');

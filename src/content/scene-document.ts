@@ -444,7 +444,14 @@ export function resolveSceneDocument(d: SceneDocument): WorldVisualDefinition {
   };
   const props = objects.filter((p) => p.kind !== 'decal').map((p) => resolve(p.id));
   const order = new Map(d.propOrder.map((id, i) => [id, i]));
-  props.sort((a, b) => (order.get(a.id) ?? Infinity) - (order.get(b.id) ?? Infinity));
+  props.sort((a, b) => {
+    const ai = order.get(a.id);
+    const bi = order.get(b.id);
+    if (ai !== undefined && bi !== undefined) return ai - bi;
+    if (ai !== undefined) return -1;
+    if (bi !== undefined) return 1;
+    return 0;
+  });
   return {
     floor: d.floor.asset,
     camera: { ...d.camera, keepHeroVisible: d.camera.keepHeroVisible ?? true },
@@ -476,6 +483,8 @@ export function parseSceneFragment(value: unknown) {
       objects: z.array(object).min(1).max(500),
     })
     .parse(value);
+  if (new TextEncoder().encode(JSON.stringify(fragment)).length > fragmentBytesLimit)
+    throw new Error('Fragment exceeds the 64 KiB authored-file limit');
   const objects = new Map(fragment.objects.map((p) => [p.id, p]));
   if (objects.size !== fragment.objects.length)
     throw new Error('Duplicate fragment object identity');
