@@ -614,6 +614,7 @@ export class GameSession {
     next.tick = 0;
     next.potionCooldown = save.adventure?.potionCooldown ?? 0;
     Object.assign(next.hero, save.player);
+    next.hero.nextAttack = save.player.nextAttack ?? 'sweep';
     next.hero.y = heightAt(next.areaDefinition, next.hero.x, next.hero.z);
     next.hero.px = next.hero.x;
     next.hero.py = next.hero.y;

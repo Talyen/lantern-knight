@@ -167,6 +167,16 @@ const wall = z
     fade: z.boolean().optional(),
   })
   .refine((w) => w.from.x !== w.to.x || w.from.z !== w.to.z, 'Wall needs a nonempty segment');
+const path = z
+  .strictObject({
+    points: z.array(point).min(1),
+    width: positive,
+    widths: z.array(positive).optional(),
+  })
+  .refine(
+    (p) => !p.widths || p.widths.length === p.points.length,
+    'Route width is registered at every control point',
+  );
 const SceneDocumentSchema = z
   .strictObject({
     version: z.literal(5),
@@ -215,15 +225,7 @@ const SceneDocumentSchema = z
     rainBounds: bounds.optional(),
     rainShelters: z.array(bounds).optional(),
     proceduralAssets: z.array(z.string()).default([]),
-    paths: z
-      .array(
-        z.strictObject({
-          points: z.array(point),
-          width: positive,
-          widths: z.array(positive).optional(),
-        }),
-      )
-      .default([]),
+    paths: z.array(path).default([]),
     walls: z.array(wall).default([]),
     graves: z
       .array(

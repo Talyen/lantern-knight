@@ -248,6 +248,7 @@ function assertActor(a: ContentSnapshot<ActorDefinition>) {
     m.damage <= 0
   )
     fail(`invalid attack ${a.id}`);
+  if (m.kind !== 'melee' && m.kind !== 'rib-lane') fail(`invalid attack kind ${a.id}`);
   if (m.kind === 'melee') {
     assertFinite(m.halfAngle, m.sweepRange ?? m.range);
     if (
@@ -257,7 +258,6 @@ function assertActor(a: ContentSnapshot<ActorDefinition>) {
     )
       fail(`invalid melee ${a.id}`);
   } else if (
-    m.kind !== 'rib-lane' ||
     a.kind !== 'enemy' ||
     m.length <= 0 ||
     m.width <= 0 ||
