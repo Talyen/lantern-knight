@@ -255,6 +255,8 @@ const SceneDocumentSchema = z
       ctx.addIssue({ code: 'custom', message: 'Duplicate wall identity' });
     if (new Set(d.graves.map((p) => p.id)).size !== d.graves.length)
       ctx.addIssue({ code: 'custom', message: 'Duplicate grave identity' });
+    if (new Set(d.propOrder).size !== d.propOrder.length)
+      ctx.addIssue({ code: 'custom', message: 'Duplicate propOrder identity' });
     const geometry = d.geometry;
     if (geometry) {
       if (new Set(geometry.entries.map((p) => p.id)).size !== geometry.entries.length)

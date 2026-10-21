@@ -378,6 +378,7 @@ export class GameSession {
     return this.prepareRoom(state, { kind: 'area-transition', destination }, true);
   }
   fire(key: string) {
+    if (typeof key !== 'string') throw new Error('Unknown campfire');
     const [area, id, extra] = key.split('/');
     if (!area || !id || extra !== undefined) throw new Error('Unknown campfire');
     let areaDef;

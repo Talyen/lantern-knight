@@ -294,6 +294,8 @@ function assertArea(
   }
   assertFinite(a.seedOffset, a.floorColor);
   if (!Number.isInteger(a.seedOffset) || a.seedOffset < 0) fail('invalid seed offset');
+  if (!Number.isInteger(a.floorColor) || a.floorColor < 0 || a.floorColor > 0xffffff)
+    fail('invalid floor color');
   assertUnique(a.entries, 'entry');
   assertUnique(a.spawns, 'spawn');
   assertUnique(a.exits, 'exit');
