@@ -318,8 +318,11 @@ export class InventoryState implements InventoryAccess {
       if (!salvaged.length) return false;
       draft.pack = draft.pack.filter((entry) => !salvaged.includes(entry));
       for (const entry of salvaged)
-        for (const [material, amount] of Object.entries(items[entry.item]!.salvage!))
-          this.add(draft.pack, material, amount * entry.quantity);
+        for (const [material, amount] of Object.entries(items[entry.item]!.salvage!)) {
+          const total = amount * entry.quantity;
+          if (material === 'gold') draft.gold += total;
+          else this.add(draft.pack, material, total);
+        }
     } else {
       throw new Error(`Unknown inventory command: ${(command as { kind: string }).kind}`);
     }

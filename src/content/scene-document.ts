@@ -251,6 +251,22 @@ const SceneDocumentSchema = z
   .superRefine((d, ctx) => {
     if (new Set(d.objects.map((p) => p.id)).size !== d.objects.length)
       ctx.addIssue({ code: 'custom', message: 'Duplicate object identity' });
+    if (new Set(d.walls.map((p) => p.id)).size !== d.walls.length)
+      ctx.addIssue({ code: 'custom', message: 'Duplicate wall identity' });
+    if (new Set(d.graves.map((p) => p.id)).size !== d.graves.length)
+      ctx.addIssue({ code: 'custom', message: 'Duplicate grave identity' });
+    const geometry = d.geometry;
+    if (geometry) {
+      if (new Set(geometry.entries.map((p) => p.id)).size !== geometry.entries.length)
+        ctx.addIssue({ code: 'custom', message: 'Duplicate geometry entry identity' });
+      if (!geometry.entries.some((p) => p.id === geometry.baselineEntry))
+        ctx.addIssue({
+          code: 'custom',
+          message:
+            'Scene baseline entry must match one of its geometry entries: ' +
+            geometry.baselineEntry,
+        });
+    }
     for (const fire of d.gameplay?.campfires ?? []) {
       if (fire.object) {
         if (!d.objects.some((p) => p.id === fire.object && p.kind === 'prop' && !p.mount))
