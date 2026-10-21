@@ -355,8 +355,11 @@ function assertArea(
       fail('invalid spawn jitter');
   }
   for (const p of a.props) {
+    if (p.shape !== undefined && p.shape !== 'box' && p.shape !== 'polygon')
+      fail(`invalid prop shape ${p.id}`);
     if (p.shape === 'polygon') assertPolygon(p.polygon);
-    if (p.shape === 'box' && !p.size) fail('box footprint requires size');
+    if (p.shape === 'box' && (!p.size || p.size.length !== 2))
+      fail(`box footprint requires size [width, length]`);
     assertFinite(p.x, p.z, p.radius, p.height, p.rotation ?? 0, ...(p.size ?? []));
     if (p.radius <= 0 || p.height <= 0 || p.size?.some((v) => v <= 0)) fail(`invalid prop ${p.id}`);
   }

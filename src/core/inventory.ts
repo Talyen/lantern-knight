@@ -311,7 +311,7 @@ export class InventoryState implements InventoryAccess {
       if (!item) return false;
       this.add(draft.pack, item, 1);
       delete draft.equipment[command.slot];
-    } else {
+    } else if (command.kind === 'salvage') {
       const salvaged = draft.pack.filter(
         (entry) => (!command.item || entry.item === command.item) && items[entry.item]!.salvage,
       );
@@ -320,6 +320,8 @@ export class InventoryState implements InventoryAccess {
       for (const entry of salvaged)
         for (const [material, amount] of Object.entries(items[entry.item]!.salvage!))
           this.add(draft.pack, material, amount * entry.quantity);
+    } else {
+      throw new Error(`Unknown inventory command: ${(command as { kind: string }).kind}`);
     }
     this.state = this.accept(draft.pack, draft.equipment, draft.gold, draft.upgrades);
     return true;

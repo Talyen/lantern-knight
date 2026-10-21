@@ -21,6 +21,7 @@ export class StorageCodec {
     return this.parsers[slot](value);
   }
   decode<S extends Slot>(slot: S, text: string | null): LoadResult<StoredValues[S]> {
+    if (!Object.hasOwn(SAVE_LIMITS, slot)) throw new Error('Unknown app-owned slot');
     if (text === null || new TextEncoder().encode(text).byteLength > SAVE_LIMITS[slot])
       return { status: 'empty' };
     try {
