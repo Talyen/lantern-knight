@@ -141,13 +141,16 @@ export class AnimationBlendShader {
       [width, height] = domain.canvas;
     u.walkEnabled.value = 1;
     u.walkMix.value = sample.mix;
-    u.walkNext.value = textures.get(b.page)!;
+    const nextPage = textures.get(b.page);
+    if (!nextPage) throw new Error(`runtime page missing: ${b.page}`);
+    u.walkNext.value = nextPage;
     u.walkCanvasSize.value.set(width, height);
     for (const [frame, trim, rect] of [
       [a, u.walkTrimA, u.walkRectA],
       [b, u.walkTrimB, u.walkRectB],
     ] as const) {
-      const page = manifest.pages.find((p) => p.id === frame.page)!;
+      const page = manifest.pages.find((p) => p.id === frame.page);
+      if (!page) throw new Error(`runtime page missing: ${frame.page}`);
       const t = registeredTrim(
         manifest,
         { ...frame, visualOffsetPx: flow?.offsets[frame.id] ?? frame.visualOffsetPx },
@@ -176,7 +179,9 @@ export class AnimationBlendShader {
       u.walkSwordRotation.value = sword.rotationRad;
     }
     u.walkWarp.value = pair ? 1 : 0;
-    u.animationFlow.value = flow?.texture ?? textures.get(a.page)!;
+    const flowPage = flow?.texture ?? textures.get(a.page);
+    if (!flowPage) throw new Error(`runtime page missing: ${a.page}`);
+    u.animationFlow.value = flowPage;
     if (pair && flow) {
       const rect = sample.guarded
         ? stabilized

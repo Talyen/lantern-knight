@@ -66,6 +66,7 @@ export function sceneArtFindings(art: WorldVisualDefinition): ArtFinding[] {
   }
   for (const allowance of art.overlaps ?? [])
     if (
+      allowance.a === allowance.b ||
       !ids.has(allowance.a) ||
       !ids.has(allowance.b) ||
       !allowance.reason ||

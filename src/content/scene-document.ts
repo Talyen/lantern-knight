@@ -152,19 +152,21 @@ const surround = z.strictObject({
     }),
   ),
 });
-const wall = z.strictObject({
-  id,
-  from: point,
-  to: point,
-  height: positive,
-  thickness: positive,
-  visualHeight: positive.optional(),
-  breaks: z.array(coordinate).optional(),
-  cutout: z.enum(['wall', 'wall-x', 'wall-z', 'boundary-x', 'boundary-z', 'fence']).optional(),
-  surface: z.literal('masonry').optional(),
-  assembly: z.string().optional(),
-  fade: z.boolean().optional(),
-});
+const wall = z
+  .strictObject({
+    id,
+    from: point,
+    to: point,
+    height: positive,
+    thickness: positive,
+    visualHeight: positive.optional(),
+    breaks: z.array(coordinate).optional(),
+    cutout: z.enum(['wall', 'wall-x', 'wall-z', 'boundary-x', 'boundary-z', 'fence']).optional(),
+    surface: z.literal('masonry').optional(),
+    assembly: z.string().optional(),
+    fade: z.boolean().optional(),
+  })
+  .refine((w) => w.from.x !== w.to.x || w.from.z !== w.to.z, 'Wall needs a nonempty segment');
 const SceneDocumentSchema = z
   .strictObject({
     version: z.literal(5),
