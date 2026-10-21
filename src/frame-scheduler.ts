@@ -1,6 +1,6 @@
 // A background window needs occasional redraws, not a continuous GPU workload.
 export class FrameScheduler {
-  private frame = 0;
+  private frame: number | undefined;
   private timer: ReturnType<typeof setTimeout> | undefined;
   private disposed = false;
   private background = false;
@@ -41,8 +41,8 @@ export class FrameScheduler {
     this.refresh();
   };
   private cancel() {
-    cancelAnimationFrame(this.frame);
-    this.frame = 0;
+    if (this.frame !== undefined) cancelAnimationFrame(this.frame);
+    this.frame = undefined;
     clearTimeout(this.timer);
     this.timer = undefined;
   }
@@ -58,13 +58,13 @@ export class FrameScheduler {
     });
   };
   private schedule() {
-    if (this.disposed || this.frame || this.timer !== undefined) return;
+    if (this.disposed || this.frame !== undefined || this.timer !== undefined) return;
     if (this.background) this.timer = setTimeout(() => this.tick(performance.now()), 1000);
     else this.frame = requestAnimationFrame(this.tick);
   }
   private tick = (now: number) => {
     if (this.disposed) return;
-    this.frame = 0;
+    this.frame = undefined;
     this.timer = undefined;
     this.run(() => {
       this.draw(now);

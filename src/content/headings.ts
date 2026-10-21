@@ -14,7 +14,7 @@ export function selectDirection(yaw: number, previous?: Heading, hold = hysteres
   const tau = Math.PI * 2,
     step = tau / 8,
     angle = normalize(yaw);
-  if (previous) {
+  if (previous && (HEADINGS as readonly string[]).includes(previous)) {
     const p = HEADINGS.indexOf(previous) * step;
     if (angularDelta(angle, p) < step / 2 + hold) return previous;
   }

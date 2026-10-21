@@ -34,9 +34,10 @@ export class StorageCodec {
   }
   snapshot<S extends Slot>(slot: S, value: unknown): StoredValues[S] {
     if (!Object.hasOwn(SAVE_LIMITS, slot)) throw new Error('Unknown app-owned slot');
-    const text = JSON.stringify(value);
+    const parsed = this.parse(slot, value);
+    const text = JSON.stringify(parsed);
     if (!text || new TextEncoder().encode(text).byteLength > SAVE_LIMITS[slot])
       throw new Error('Save payload exceeds limit');
-    return this.parse(slot, value);
+    return parsed;
   }
 }
