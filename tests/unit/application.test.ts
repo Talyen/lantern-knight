@@ -2166,3 +2166,33 @@ test('purchase exclusivity is installed before reentrant loading feedback', asyn
   assert.deepEqual(app.session.upgrades, { sword: 1 });
   assert.equal(app.busy, false);
 });
+
+test('failed first rest emits no discovery until a room is committed', async () => {
+  const definitions = structuredClone(contentDefinitions);
+  definitions.areas[0]!.entries = [
+    ...definitions.areas[0]!.entries,
+    { id: 'fire-home', x: 0, z: 6.65 },
+  ];
+  definitions.areas[0]!.campfires = [{ id: 'home', name: 'Home', x: 0, z: 6.65, safeRadius: 1 }];
+  const { app } = fixture(sceneFixture(new ContentRegistry(definitions)), { automatedRun: true });
+  try {
+    const before = app.session.captureSave();
+    app.presentation.prepareAssets = async () => {
+      throw new Error('preparation failed');
+    };
+    await assert.rejects(app.rest('court/home'), /preparation failed/);
+    assert.deepEqual(app.session.captureSave(), before);
+    assert.equal(
+      app.events.history.some((event) => event.kind === 'campfire-discovered'),
+      false,
+    );
+    app.presentation.prepareAssets = async () => {};
+    await app.rest('court/home');
+    const discoveries = app.events.history.filter((event) => event.kind === 'campfire-discovered');
+    assert.equal(discoveries.length, 1);
+    assert.equal(discoveries[0]!.generation, app.session.generation);
+    assert.equal(app.session.discovered.has('court/home'), true);
+  } finally {
+    app.dispose();
+  }
+});

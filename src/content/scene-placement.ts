@@ -1,6 +1,10 @@
 import { sceneObjects } from './campfire-visuals';
-import { polygonEdgeDistance } from './polygon';
-import { insidePolygon } from './polygon';
+import {
+  polygonEdgeDistance,
+  insidePolygon,
+  closestPointOnSegment,
+  segmentsIntersect,
+} from './polygon';
 import { isSupportedPosition, clearSegment, effectiveRadius } from './collision';
 import { artworkFloorLayout } from './floor-layout';
 import type { SceneSnapshot } from './scene-document';
@@ -106,17 +110,45 @@ function paintedTerrain(document: SceneSnapshot, area: AreaDefinition): AreaDefi
     props: area.props.filter((p) => paintedColliders.has(p.id)),
   };
 }
-export function groundPlacementPolicy(document: SceneSnapshot, area: AreaDefinition) {
-  const ground = document.groundInteraction;
+function paintedMasks(document: SceneSnapshot) {
   const layout = artworkFloorLayout(document.floor.width, document.floor.depth);
-  const masks =
-    ground?.regions.flatMap((region) =>
+  return (
+    document.groundInteraction?.regions.flatMap((region) =>
       (region.mask ?? []).map((shape) => ({
         name: region.name,
         outer: shape.outer.map(layout.world),
         holes: shape.holes.map((ring) => ring.map(layout.world)),
       })),
-    ) ?? [];
+    ) ?? []
+  );
+}
+function maskAlongSegment(document: SceneSnapshot, start: Point, end: Point, radius: number) {
+  const masks = paintedMasks(document);
+  const distance = (point: Point, a: Point, b: Point) => {
+    const nearest = closestPointOnSegment(point, a, b);
+    return Math.hypot(point.x - nearest.x, point.z - nearest.z);
+  };
+  const hit = masks.find((mask) =>
+    [mask.outer, ...mask.holes].some((ring) =>
+      ring.some((a, i) => {
+        const b = ring[(i + 1) % ring.length]!;
+        return (
+          segmentsIntersect(start, end, a, b) ||
+          Math.min(
+            distance(start, a, b),
+            distance(end, a, b),
+            distance(a, start, end),
+            distance(b, start, end),
+          ) <= radius
+        );
+      }),
+    ),
+  );
+  return hit ? `base overlaps painted scenery “${hit.name}”` : undefined;
+}
+export function groundPlacementPolicy(document: SceneSnapshot, area: AreaDefinition) {
+  const ground = document.groundInteraction;
+  const masks = paintedMasks(document);
   const terrain = paintedTerrain(document, area);
   return (point: Point, radius: number, allowPaintedOcclusion = false): string | undefined => {
     if (!ground) return;
@@ -177,17 +209,13 @@ export function scenePlacementFindings(
       });
       continue;
     }
-    // Every reachable jitter position must also begin on visibly clear ground.
-    const length = Math.abs(jitter);
-    const steps = Math.max(1, Math.ceil(length / 0.2));
-    for (let i = 0; i <= steps; i++) {
-      const point = { x: start.x, z: start.z + (jitter * i) / steps };
-      const message = inspect(point, radius);
-      if (message) {
-        findings.push({ id: spawn.id, message: `${spawn.id}: ${message}` });
-        break;
-      }
-    }
+    // Endpoints detect complete containment; boundary distance catches even
+    // a grazing contact between them, including the boundaries of mask holes.
+    const message =
+      inspect(start, radius) ??
+      inspect(end, radius) ??
+      maskAlongSegment(document, start, end, radius);
+    if (message) findings.push({ id: spawn.id, message: `${spawn.id}: ${message}` });
   }
   return findings;
 }

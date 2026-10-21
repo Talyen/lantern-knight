@@ -680,7 +680,13 @@ test('resting at an unknown campfire discovers it with feedback and the lesson',
   assert.equal(s.discovered.has('orchard/east'), false);
   assert.equal(s.onboarding.completed.includes('campfire'), false);
   Object.assign(s.sim.hero, { x: 8, z: 0 });
+  const before = s.captureSave();
+  const cancelled = s.prepareRest('orchard/east');
+  assert.deepEqual(cancelled.events, [], 'discovery waits for room acceptance');
+  assert.deepEqual(s.cancelRoom(cancelled), []);
+  assert.deepEqual(s.captureSave(), before);
   const events = s.rest('orchard/east');
+  assert.ok(events.every((event) => event.generation === s.generation));
   assert.equal(s.discovered.has('orchard/east'), true);
   assert.equal(
     events.some((event) => event.kind === 'campfire-discovered'),

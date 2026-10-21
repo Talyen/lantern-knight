@@ -287,3 +287,36 @@ test('raised ground surfaces retain a validated optional height through reprojec
     assert.equal(GroundInteractionSchema.safeParse(g).success, false);
   }
 });
+
+test('spawn jitter cannot graze a painted mask between sampled positions', () => {
+  const d = emptyScene();
+  d.floor.layout = 'artwork';
+  const layout = artworkFloorLayout(d.floor.width, d.floor.depth);
+  d.groundInteraction = ground();
+  const region = d.groundInteraction.regions[0]!;
+  delete region.footprint;
+  region.mask = [
+    {
+      outer: [
+        { x: 0.299, z: 0.099 },
+        { x: 0.301, z: 0.099 },
+        { x: 0.301, z: 0.101 },
+        { x: 0.299, z: 0.101 },
+      ].map(layout.uv),
+      holes: [],
+    },
+  ];
+  d.gameplay!.spawns = [{ id: 'grazing-guard', actor: 'skeleton', x: 0, z: 0, jitterZ: 0.2 }];
+  assert.throws(() => resolveScene(d), /grazing-guard: base overlaps painted scenery/);
+  // A nearby but clear sweep stays valid.
+  d.gameplay!.spawns[0]!.x = -0.01;
+  assert.doesNotThrow(() => resolveScene(d));
+  // A complete sweep inside a mask hole also stays valid.
+  region.mask = [
+    {
+      outer: rectangle(0.2, 0.2, 0.8, 0.8),
+      holes: [rectangle(0.4, 0.4, 0.6, 0.6, true)],
+    },
+  ];
+  assert.doesNotThrow(() => resolveScene(d));
+});

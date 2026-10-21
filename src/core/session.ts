@@ -43,6 +43,7 @@ type PendingRoom = {
   plan: RoomPlan;
   state: RoomState;
   outcome: EventDetails;
+  feedback: readonly EventDetails[];
   cancellation?: EventDetails;
 };
 // Hosts may inspect a session, but only its owner may replace its simulation.
@@ -236,23 +237,23 @@ export class GameSession {
     state: RoomState,
     outcome: EventDetails,
     transition = false,
-    events: readonly GameplayEvent[] = [],
+    feedback: readonly EventDetails[] = [],
   ): RoomPlan {
     this.sim.cancelSpells();
     const destination = state.sim.area;
     const plan = Object.freeze({
       sourceGeneration: this.generation,
       destination,
-      events: Object.freeze([
-        ...events,
-        ...(transition ? [this.event({ kind: 'transition-start', destination })] : []),
-      ]),
+      events: Object.freeze(
+        transition ? [this.event({ kind: 'transition-start', destination })] : [],
+      ),
     });
     this.pending = {
       kind: 'room',
       plan,
       state,
       outcome,
+      feedback,
       ...(transition
         ? { cancellation: { kind: 'transition-cancelled', destination } as EventDetails }
         : {}),
@@ -269,12 +270,12 @@ export class GameSession {
   }
   commitRoom(plan: RoomPlan): readonly GameplayEvent[] {
     this.checkRoomPlan(plan);
-    const { state, outcome } = this.pending as PendingRoom;
+    const { state, outcome, feedback } = this.pending as PendingRoom;
     // All fallible construction and validation happened at preparation. Commit
     // only transfers ownership, before Application rebuilds its renderer.
     this.current = state;
     this.pending = undefined;
-    return [this.event(outcome)];
+    return [...feedback.map((details) => this.event(details)), this.event(outcome)];
   }
   cancelRoom(plan: RoomPlan): readonly GameplayEvent[] {
     if (this.pending?.kind !== 'room' || this.pending.plan !== plan) return [];
@@ -503,12 +504,11 @@ export class GameSession {
       state,
       { kind: 'rested' },
       false,
-      first ? [this.event({ kind: 'campfire-discovered', fire: key })] : [],
+      first ? [{ kind: 'campfire-discovered', fire: key }] : [],
     );
   }
   rest(key: string): readonly GameplayEvent[] {
-    const plan = this.prepareRest(key);
-    return [...plan.events, ...this.commitRoom(plan)];
+    return this.commitRoom(this.prepareRest(key));
   }
   changeInventory(command: InventoryCommand) {
     this.assertProgressionWritable();
