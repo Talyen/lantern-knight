@@ -172,6 +172,9 @@ export function isValidCampfireEntry(
 ) {
   // Entry sits inside the fire's safe radius and within the shared 1.6 cap.
   // The cap is inclusive: an authored entry exactly at it remains admissible.
+  // The arrival segment uses the same actor clearance as endpoints and movement,
+  // so a thin wall sliver between entry and fire cannot pass validation while
+  // blocking the hero.
   const distance = Math.hypot(entry.x - fire.x, entry.z - fire.z);
   return (
     distance < fire.safeRadius &&
@@ -179,7 +182,7 @@ export function isValidCampfireEntry(
     isSupportedPosition(area, entry, 0.3) &&
     Math.abs(heightAt(area, entry.x, entry.z) - heightAt(area, fire.x, fire.z)) <=
       tuning.maxCombatHeightDifference &&
-    clearSegment(area, entry, fire, 0.001)
+    clearSegment(area, entry, fire, 0.3)
   );
 }
 const ids = /^[a-z0-9][a-z0-9_-]*$/;
@@ -191,13 +194,15 @@ const assertFinite = (...values: number[]) => {
 };
 // Collision queries read polygon edges directly. Coordinates that are finite
 // but large enough to overflow the polygon's own area leave those edges
-// unusable, so the shape itself must stay measurable.
+// unusable, and a zero-area ring collapses to a line with an inverted
+// outward normal, so the shape itself must stay measurable and nonempty.
 const assertPolygon = (points: readonly Point[] | undefined) => {
   if (
     !points ||
     points.length < 3 ||
     points.some((v) => !Number.isFinite(v.x) || !Number.isFinite(v.z)) ||
-    !Number.isFinite(polygonArea(points))
+    !Number.isFinite(polygonArea(points)) ||
+    polygonArea(points) === 0
   )
     fail('invalid terrain polygon');
 };

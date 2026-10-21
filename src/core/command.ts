@@ -17,25 +17,40 @@ export type Command = z.infer<typeof CommandSchema>;
 export type AcceptedCommand = Required<Omit<Command, 'generation'>>;
 
 // Missing or stale commands cannot consume potions or buffer actions.
+// Accepted commands are detached copies: callers retain editable drafts while
+// simulation owns admitted data, and only known hero actions pass admission.
 export function acceptCommand(
   command: Command | undefined,
   generation: number,
   fallbackAim: { x: number; z: number },
 ): AcceptedCommand {
   if (!command || (command.generation !== undefined && command.generation !== generation))
-    return { move: { x: 0, z: 0 }, aim: fallbackAim, actions: [], potion: false };
+    return {
+      move: { x: 0, z: 0 },
+      aim: { x: fallbackAim.x, z: fallbackAim.z },
+      actions: [],
+      potion: false,
+    };
   // Scale before measuring length: two finite components can have an infinite norm.
   const scale = Math.max(1, Math.abs(command.move.x), Math.abs(command.move.z));
+  const actions = Array.isArray(command.actions)
+    ? command.actions.filter(
+        (action): action is HeroAction =>
+          action === 'sword' || action === 'lantern' || action === 'dodge',
+      )
+    : [];
   return {
     move:
       Number.isFinite(command.move.x) && Number.isFinite(command.move.z)
         ? scale > 1
           ? { x: command.move.x / scale, z: command.move.z / scale }
-          : command.move
+          : { x: command.move.x, z: command.move.z }
         : { x: 0, z: 0 },
     aim:
-      Number.isFinite(command.aim.x) && Number.isFinite(command.aim.z) ? command.aim : fallbackAim,
-    actions: command.actions ?? [],
-    potion: command.potion ?? false,
+      Number.isFinite(command.aim.x) && Number.isFinite(command.aim.z)
+        ? { x: command.aim.x, z: command.aim.z }
+        : { x: fallbackAim.x, z: fallbackAim.z },
+    actions: [...actions],
+    potion: command.potion === true,
   };
 }
