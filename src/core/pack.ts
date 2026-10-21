@@ -12,9 +12,11 @@ function footprint(item: string): readonly [number, number] {
 /** The only cells an item can occupy. Preview, marker and commit share it. */
 export function clampPackCell(item: string, x: number, y: number) {
   const [width, height] = footprint(item);
+  const safeX = Number.isNaN(x) ? 0 : x;
+  const safeY = Number.isNaN(y) ? 0 : y;
   return {
-    x: Math.max(0, Math.min(packColumns - width, x)),
-    y: Math.max(0, Math.min(packRows - height, y)),
+    x: Math.max(0, Math.min(packColumns - width, safeX)),
+    y: Math.max(0, Math.min(packRows - height, safeY)),
   };
 }
 

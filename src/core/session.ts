@@ -379,7 +379,13 @@ export class GameSession {
   fire(key: string) {
     const [area, id, extra] = key.split('/');
     if (!area || !id || extra !== undefined) throw new Error('Unknown campfire');
-    const definition = this.registry.area(area!).campfires?.find((f) => f.id === id);
+    let areaDef;
+    try {
+      areaDef = this.registry.area(area!);
+    } catch {
+      throw new Error('Unknown campfire');
+    }
+    const definition = areaDef.campfires?.find((f) => f.id === id);
     if (!definition) throw new Error('Unknown campfire');
     return { area: area!, definition };
   }

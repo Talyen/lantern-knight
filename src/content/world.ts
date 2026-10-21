@@ -229,6 +229,7 @@ function assertActor(a: ContentSnapshot<ActorDefinition>) {
     a.attack.damage,
   );
   if (
+    (a.kind !== 'hero' && a.kind !== 'enemy') ||
     !Number.isInteger(a.maxHealth) ||
     a.maxHealth <= 0 ||
     a.radius <= 0 ||
@@ -335,11 +336,10 @@ function assertArea(
     if (s.kind === 'stairs') {
       const steps = s.steps ?? 3;
       if (!Number.isInteger(steps) || steps < 1 || steps > 12) fail('invalid stairs');
-      if (s.terraceBounds) {
-        assertBounds(s.terraceBounds);
-        const width = s.stairWidth ?? 3.2;
-        assertFinite(width);
-        if (width <= 0) fail('invalid stair width');
+      if (s.terraceBounds) assertBounds(s.terraceBounds);
+      if (s.stairWidth !== undefined) {
+        assertFinite(s.stairWidth);
+        if (s.stairWidth <= 0) fail('invalid stair width');
       }
     }
     assertFinite(s.start, s.end, s.startHeight, s.endHeight);
@@ -357,6 +357,16 @@ function assertArea(
       fail('invalid spawn jitter');
   }
   for (const p of a.props) {
+    if (
+      p.kind !== 'pillar' &&
+      p.kind !== 'tree' &&
+      p.kind !== 'wall' &&
+      p.kind !== 'foreground' &&
+      p.kind !== 'border'
+    )
+      fail(`invalid prop kind ${p.id}`);
+    if (p.blocking !== undefined && typeof p.blocking !== 'boolean')
+      fail(`invalid prop blocking ${p.id}`);
     if (p.shape !== undefined && p.shape !== 'box' && p.shape !== 'polygon')
       fail(`invalid prop shape ${p.id}`);
     if (p.shape === 'polygon') assertPolygon(p.polygon);
