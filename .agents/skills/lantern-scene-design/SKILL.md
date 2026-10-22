@@ -9,6 +9,8 @@ Read [scene design](../../../docs/scene-design.md), the relevant [scene brief](.
 
 Inspect a few strong shipped-game screenshots or environment concepts before rebuilding a weak scene. Identify concrete relationships to borrow: a shelter enclosing a working area, supplies nested under its roof, an open standing apron, and a quiet route toward the next landmark. Keep Lantern's own artwork style. Build the large spatial arrangement first; commission a coherent scene-specific assembly when the available small props cannot establish the intended place. Review the complete arrival frame and reachable gameplay approaches against those references. Record the resulting example in the scene brief; numerical self-ratings do not establish visual quality.
 
+Inspect the relevant [visual references](../../../references/visual/README.md), keeping canonical artwork, user preferences and agent candidates distinct. Use large masses, route and negative space to resolve composition before adding supporting props or lighting detail. Retain matching before/after gameplay views and identify the largest remaining defects before calling a composition improved.
+
 ## Compose from the painting
 
 Inspect a clean overview and gameplay-camera views with the hero visible before editing. Identify the route, working areas, focal landmark, approach to each encounter and retreat space. Separate scenery already painted into the floor from independent objects. Do not infer an empty placement area from coordinates or collision masks alone.

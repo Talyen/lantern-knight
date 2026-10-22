@@ -35,3 +35,5 @@ Follow [Development](docs/development.md) for focused tests, preview ports and t
 | Run a requested investigation | [Audits](docs/audits/README.md) |
 
 [Agent guidance](AGENTS.md) owns source preservation and [skill routing](.agents/skills/README.md). [Canonical references](references/canon/README.md) identify the hero and [Clean INK style](references/canon/clean-ink-style-sources.md). `package.json` lists available commands.
+
+Visual work: [reference set](references/visual/README.md), [product copy](docs/product-copy.md), and [UI design study](docs/ui-polish.md).

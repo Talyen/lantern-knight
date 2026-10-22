@@ -1650,3 +1650,7 @@ output {
 .campfire-concept .travel-list button {
   min-height: 36px;
 }
+
+.settings-fields {
+  display: contents;
+}
