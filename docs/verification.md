@@ -12,6 +12,10 @@ Choose the command for the evidence needed:
 
 `check` and `check:ci` run each selected phase fresh, report timings and fail on the first broken phase. Previous passing results never suppress a selected suite. These commands do not acquire artwork, run browser or desktop checks, package the application or install Python tooling. `check:ci` can run locally; it does not establish a hosted CI result. Follow [test selection](#test-selection) for those integration tiers and [documentation checks](#documentation-checks) for prose accuracy limits.
 
+## Visual acceptance
+
+Substantial UI, layout and artistic changes require inspected rendered before/after evidence at intended usage scale. Follow the [frontend workflow](../.agents/skills/frontend-design/SKILL.md) or [scene workflow](../.agents/skills/lantern-scene-design/SKILL.md). Check relevant constrained layouts and interaction states. Inspect transitions in motion when changed. Keep captures outside Git and disposable worktrees, and link the durable location from the task report or [reference index](../references/visual/README.md) when reusable. Missing rendering leaves visual acceptance unverified. Browser assertions, source checks and asset metadata do not establish aesthetic quality or human preference.
+
 ## Test selection
 
 `npm test` and `npm run test:watch` default to fast `tests/unit/*.test.ts` suites. `npm test -- --full` runs all pure suites; `npm run test:watch -- --full` watches them all. The small explicit CI-default list in `tools/test.ts` keeps fresh-process replay/build proofs, real-Git integration-lock proofs and long cache contention checks in full CI coverage; it records each reason, and missing entries fail selection rather than silently losing coverage. New pure suites run locally unless deliberately classified. Arguments name exact files, including CI-default suites; duplicates run once and invalid selections fail before setup. Use `--full` without exact files or `--assets`. Pure tests use small fixtures and require no source artwork or prepared pack.

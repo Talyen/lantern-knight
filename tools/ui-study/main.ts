@@ -347,10 +347,10 @@ function settingsContent() {
   };
   return html`<section class="concept-panel settings-concept"><header class="concept-heading">${ornament()}<h1>Settings</h1></header><div class="settings-body"><nav aria-label="Settings categories">${category('display', 'Display')}${category('sound', 'Sound')}${category('controls', 'Controls')}</nav><section class="settings-values">${
     activeSettings === 'display'
-      ? html`<h2>Display</h2><label class="setting-row"><span>Camera distance</span><select><option>Close</option><option selected>Medium</option><option>Wide</option><option>Far</option></select></label><label class="setting-row"><span>Interface size</span><select><option>Small</option><option selected>Default</option><option>Large</option></select></label><label class="setting-row"><span>Render scale<small>Lower values improve performance.</small></span><select><option>100%</option><option>75%</option><option>50%</option></select></label>${range('Depth of field', 50)}<details><summary>Advanced visuals</summary><label class="setting-row"><span>Moving foliage</span><input type="checkbox" checked></label><label class="setting-row"><span>Smoke & embers</span><input type="checkbox" checked></label></details>`
+      ? html`<div class="settings-fields"><h2>Display</h2><label class="setting-row"><span>Camera distance</span><select><option>Close</option><option selected>Medium</option><option>Wide</option><option>Far</option></select></label><label class="setting-row"><span>Interface size</span><select><option>Small</option><option selected>Default</option><option>Large</option></select></label><label class="setting-row"><span>Render scale<small>Lower values improve performance.</small></span><select><option>100%</option><option>75%</option><option>50%</option></select></label>${range('Depth of field', 50)}<details><summary>Advanced visuals</summary><label class="setting-row"><span>Moving foliage</span><input type="checkbox" checked></label><label class="setting-row"><span>Smoke & embers</span><input type="checkbox" checked></label></details></div>`
       : activeSettings === 'sound'
-        ? html`<h2>Sound</h2><label class="setting-row"><span>Mute</span><input type="checkbox"></label>${range('Master volume', 80)}${range('Sound effects', 80)}${range('Ambience', 65)}`
-        : html`<h2>Controls</h2><dl class="bindings">${[
+        ? html`<div class="settings-fields"><h2>Sound</h2><label class="setting-row"><span>Mute</span><input type="checkbox"></label>${range('Master volume', 80)}${range('Sound effects', 80)}${range('Ambience', 65)}</div>`
+        : html`<div class="settings-fields"><h2>Controls</h2><dl class="bindings">${[
             ['W A S D', 'Move'],
             ['Mouse', 'Aim'],
             ['LMB', 'Sword'],
@@ -362,7 +362,7 @@ function settingsContent() {
             ['Esc', 'Pause / resume'],
           ].map(
             ([key, label]) => html`<div><dt>${label}</dt><dd><kbd>${key}</kbd></dd></div>`,
-          )}</dl>`
+          )}</dl></div>`
   }</section></div><footer class="concept-footnote">Changes in this study are temporary.</footer></section>`;
 }
 function conceptContent() {

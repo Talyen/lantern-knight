@@ -8,9 +8,15 @@ Use one isolated worktree and task branch per implementation chat, starting from
 
 Finish with fresh `npm run check`; also run `npm run docs:check` for prose edits. [Verification](docs/verification.md) owns high-value tests (zero new tests is valid), CI/browser coverage and asset/native/visual checks. Report actual coverage. Each chat commits its reviewed task changes and integrates into clean local `main` under `npm run integration:lock -- <command> [args...]` and [standing commit authorization](docs/task-coordination.md#handoff-and-commits). Hold the lock through incorporating current `main`, verification and advancing `main`. The integration lock checkpoints valid saved scene files, asset review decisions and new immutable ground profiles in `main` before integrating, so ordinary editor saves need no user cleanup. Preserve other dirty work; if blocked, leave the task committed on its branch and report why. After successful integration, `integration:lock` automatically deletes and unregisters only the invoking task worktree, including local-only files and build outputs, while retaining its branch under the [cleanup policy](docs/task-coordination.md#handoff-and-commits). Pass `--keep-worktree` before the integration command when requested work or a preview still needs the checkout. Report the hash, integration and cleanup status, then stop; pushes, PRs, publication other than task-scoped asset packs, and other destructive cleanup require separate authorization.
 
+# Visual interfaces
+
+For UI and layout work, apply [frontend design](.agents/skills/frontend-design/SKILL.md), inspect the [visual reference set](references/visual/README.md), and follow [product copy](docs/product-copy.md). Substantial visual changes require rendered before/after review under [verification](docs/verification.md#visual-acceptance); tests alone do not establish aesthetic quality. Keep user-approved references distinct from agent candidates.
+
 # Artwork and assets
 
 Before artwork/texture generation, editing, replacement or art direction, apply `lantern-art-direction` at `/Users/ryanmcintire/.codex/skills/lantern-art-direction/SKILL.md`. Every generation prompt includes the canonical `references/canon/clean-ink-style.prompt.txt` block, highest native resolution/quality and literal `gpt-image-2.5 sunburst`. Inspect outputs under [canonical style](references/canon/clean-ink-style-sources.md); preserve original sources and canonical hero artwork.
+
+Inspect the [visual reference set](references/visual/README.md) for scoped examples; agent candidates never supersede canonical source artwork.
 
 For production composition, follow [scene policy](docs/scene-design.md) and [lantern-scene-design](.agents/skills/lantern-scene-design/SKILL.md). Preserve existing art direction; design advice permits valid experiments.
 

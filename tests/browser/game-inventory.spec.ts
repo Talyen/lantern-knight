@@ -50,7 +50,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await expect(panel.locator('.bag-empty')).toHaveCount(192);
   const pick = (name: string) =>
     panel.locator('.inventory-row').filter({ hasText: name }).first().click();
-  const capture = async (name: string) => {
+  const capture = async (name: string, keepFocus = false) => {
     const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
     if (!directory) return;
     await mkdir(directory, { recursive: true });
@@ -58,13 +58,14 @@ test('inventory compares replacements and upgrades keep selection and confirmati
       0,
       { timeout: 60_000 },
     );
-    await page.locator('.adventure-panel h2').click();
+    if (!keepFocus) await page.locator('.adventure-panel h2').click();
     await page.screenshot({ path: path.join(directory, `redesign-${name}.png`) });
   };
   await capture('inventory-overview-1280');
   await panel.locator('[data-action="slot-sword"]').focus();
   await page.keyboard.press('ArrowRight');
   await expect(panel.locator('[data-action="slot-body"]')).toBeFocused();
+  await capture('inventory-keyboard-focus-1280', true);
   await panel.locator('[data-action="slot-lantern"]').click();
   await expect(detail.getByRole('img', { name: 'Damage 28 per enemy', exact: true })).toBeVisible();
   await detail.getByRole('button', { name: 'Close item details' }).click();
@@ -101,6 +102,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await expect(detail).toContainText('120 → 130');
   await ring1.click();
   await expect(detail.getByRole('button', { name: 'Equip', exact: true })).toBeDisabled();
+  await capture('inventory-disabled-1280');
   await expect(detail).toContainText('120 → 120');
   await ring2.click();
   await detail.getByRole('button', { name: 'Equip', exact: true }).click();
@@ -110,8 +112,10 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await expect(detail).toContainText('130 → 120');
   await detail.getByRole('button', { name: 'Unequip', exact: true }).click();
   await expect(page.locator('#hp')).toHaveText('60 / 120', { timeout: 30_000 });
+  const kitBeforeComparison = await panel.locator('.inventory-equipment').boundingBox();
   await pick('Cinder Signet');
-  await expect(detail).toContainText('Sword hits deal 25% more damage to burning enemies.');
+  expect(await panel.locator('.inventory-equipment').boundingBox()).toEqual(kitBeforeComparison);
+  await expect(detail).toContainText('+25% sword damage to burning enemies.');
   await expect(detail).toContainText('26 → 33');
   await capture('cinder-comparison-1280');
   await expect(detail.locator('.item-comparison').last()).toBeInViewport({ ratio: 1 });
@@ -356,6 +360,7 @@ test('sized pack dragging, keyboard cancellation and organizing persist without 
   await panel.locator('[data-action="slot-sword"]').click();
   await panel.getByRole('button', { name: 'Unequip', exact: true }).click();
   await expect(panel.getByRole('alert')).toContainText('Your pack is full');
+  await capture('inventory-full-error-1920');
   await expect(panel.locator('.inventory-slot.slot-sword')).toHaveAttribute(
     'aria-label',
     'Sword · Sword',

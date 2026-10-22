@@ -8,6 +8,8 @@ license: Complete terms in LICENSE.txt
 
 Adapted from [pstack's unslop skill](https://github.com/backnotprop/pstack/blob/3a604672c46cd8187d2b19980eae0a34f9f91138/skills/unslop/SKILL.md), revision `3a604672c46cd8187d2b19980eae0a34f9f91138`, under the [MIT license](LICENSE.txt). This local adaptation uses contextual selection and flexible style guidance. Upstream updates are reviewed manually.
 
+For text inside Game or developer interfaces, apply the [product-copy policy](../../../docs/product-copy.md); this prose skill alone does not establish interface quality.
+
 Apply while writing or editing technical prose; do not require a separate user command or visible editing report.
 
 - State the concrete action, mechanism, result, or decision. Replace vague improvement claims with supporting facts; do not invent measurements or sources.
