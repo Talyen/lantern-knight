@@ -939,6 +939,25 @@ test('session asset requests share one lease; disposal and failed warming releas
   assert.equal(failure.app.packs.size, 1);
   failure.app.dispose();
 });
+
+test('room warming stops borrowing the renderer as soon as shutdown revokes the operation', async (t) => {
+  const scenes = { ...sceneFixture(content), initialAssets: ['first', 'second'] };
+  const { app } = fixture(scenes);
+  t.after(() => app.dispose());
+  const calls: string[] = [];
+  app.runtime = runtime(
+    async (id) => ({ release: () => calls.push('release:' + id) }) as unknown as PackLease,
+  );
+  app.presentation.warmPack = () => {
+    calls.push('warm');
+    app.dispose();
+  };
+  app.presentation.prepareAssets = async () => {
+    calls.push('prepare');
+  };
+  await assert.rejects(app.reset(), /disposed/);
+  assert.deepEqual(calls, ['warm', 'release:first', 'release:second']);
+});
 test('failed room preparation keeps the current session and packs; retry replaces and disposes each batch once', async () => {
   const { app } = fixture({
       ...sceneFixture(content),
