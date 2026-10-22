@@ -536,7 +536,10 @@ export class Application<P extends PresentationLifecycle = PresentationLifecycle
     try {
       next = await this.acquireArea(area, signal, source.scenes);
       signal.throwIfAborted();
-      for (const pack of next.packs.values()) this.presentation.warmPack(pack);
+      for (const pack of next.packs.values()) {
+        this.presentation.warmPack(pack);
+        signal.throwIfAborted();
+      }
       await readUntilAborted(
         this.presentation.prepareAssets(
           new Set([...this.packs.keys(), ...next.packs.keys()]),

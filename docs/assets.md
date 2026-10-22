@@ -75,7 +75,7 @@ Publication is sharing prepared assets, separate from shipping a game. Original 
 
 Scene layout, gameplay geometry, camera and lighting are runtime content. Preparation recipes own artwork-producing inputs and dependency order. Moving existing scenery does not bake or publish artwork. Changes to authored hero drawings, timing, registration or bake calibration require affected preparation; runtime timing overrides remain content. Source-free tests still verify the resulting current bindings.
 
-The current TEST hero uses supplied native drawings, eight-direction running, four-direction idle/actions, guarded treatment and rigid-sword protection. Source handoff timing and raster bytes remain preserved; gameplay uses authored 60 Hz holds. The owner-supplied Last Ferry loading video is copied unchanged and played silently during loading. These choices do not establish final art quality.
+The current TEST hero uses supplied native drawings, eight-direction running and idle, four-direction actions, guarded treatment and rigid-sword protection. [Hero animation bindings](#hero-animation-bindings) records the delivered clips and current Game selection. Source handoff timing and raster bytes remain preserved; gameplay uses authored 60 Hz holds. The owner-supplied Last Ferry loading video is copied unchanged and played silently during loading. These choices do not establish final art quality.
 
 `authoring/hero-scale.json` owns per-clip and per-drawing registration scale. `authoring/hero-motion.json` owns native-space motion landmarks and is hashed by animation registration. Scale-only preparation changes leave that motion identity intact; publishing newly prepared artwork remains a separate step.
 

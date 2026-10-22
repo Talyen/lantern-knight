@@ -11,6 +11,21 @@ const requiresAuthoring = (files: readonly string[]) => coverageFor(files).autho
 import { browserSelection, ciDevelopmentFiles } from '../../tools/browser-tests';
 import { browserShards } from '../../tools/ci-browser-shard';
 import { checkAssets } from '../../tools/check-assets';
+import { parseAssetArgs } from '../../tools/assets/cli';
+
+test('preparation options reject discarded selections before acquiring sources or the GPU lane', () => {
+  assert.throws(() => parseAssetArgs(['prepare', '--ids', 'hero', '--proof']), /not both/);
+  assert.throws(() => parseAssetArgs(['prepare', '--local']), /not preparation/);
+  assert.throws(() => parseAssetArgs(['prepare', '--ids']), /asset-id/);
+  assert.throws(() => parseAssetArgs(['prepare', 'hero']), /asset-id/);
+  for (const args of [[], ['--proof'], ['--gpu'], ['--ids', 'hero', 'tree']]) {
+    const parsed = parseAssetArgs(['prepare', ...args]);
+    assert.equal(parsed.command, 'prepare');
+    assert.deepEqual(parsed.positionals, args.includes('--ids') ? ['hero', 'tree'] : []);
+  }
+  assert.equal(parseAssetArgs(['inspect', '--local', 'hero']).values.local, true);
+  assert.equal(parseAssetArgs(['check', '--local']).values.local, true);
+});
 test('concise test output preserves failures, skips, TODOs and process diagnostics', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-reporter-');
   const file = path.join(root, 'reporter.test.mjs');

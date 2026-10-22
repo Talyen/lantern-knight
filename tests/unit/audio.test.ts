@@ -152,6 +152,36 @@ async function ready(f: ReturnType<typeof fixture>, preload = true) {
   if (!preload) f.playback.updateSettings(settings);
   f.playback.setWorldFrozen(false);
 }
+
+for (const suspended of [false, true])
+  test(`shutdown settles ${suspended ? 'repeated' : 'initial'} audio unlock while native resume remains pending`, async (t) => {
+    const f = fixture();
+    t.after(() => f.playback.dispose());
+    if (suspended) {
+      await ready(f);
+      Object.assign(f.context, { state: 'suspended' });
+    }
+    const requests = f.counts.requests;
+    const resume = Promise.withResolvers<void>();
+    f.context.resume = () => resume.promise;
+    const unlocking = f.playback.unlock();
+    let settled = false;
+    const completion = unlocking.then(() => {
+      settled = true;
+    });
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    f.playback.dispose();
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    assert.equal(
+      settled,
+      true,
+      'Closed audio cannot leave its unlock callers waiting on native work',
+    );
+    resume.reject(new Error('Late native failure'));
+    await completion;
+    assert.equal(f.counts.requests, requests, 'Late resume cannot initialize a closed owner');
+  });
+
 test('session replacement cancels pending ambience and closes the previous room loops', async () => {
   const f = fixture([sample('forest-1', 'forest', true)]);
   await ready(f);

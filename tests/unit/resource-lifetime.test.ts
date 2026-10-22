@@ -71,22 +71,32 @@ test('scenery teardown consumes every sprite and shadow even when a sprite destr
   texture.dispose();
 });
 
-test('reentrant installation cannot retire the successor batch', () => {
-  const assets = new SceneAssets(),
-    released: number[] = [];
-  const batch = (id: number): PackBatch => ({
-    packs: new Map(),
-    release: () => {
-      released.push(id);
-    },
+for (const failed of [false, true])
+  test(`nested installation retains active rebuild borrows after outer ${failed ? 'failure' : 'success'}`, () => {
+    const assets = new SceneAssets(),
+      released: number[] = [];
+    const batch = (id: number): PackBatch => ({
+      packs: new Map([[String(id), {} as PackLease]]),
+      release: () => {
+        released.push(id);
+      },
+    });
+    const install = () =>
+      assets.install(batch(1), () => {
+        assets.install(batch(2), () => {});
+        assert.deepEqual(released, [], 'The returning outer rebuild still borrows its textures');
+        assert.deepEqual([...assets.packs.keys()], ['1', '2']);
+        if (failed) throw new Error('outer rebuild failed after its successor');
+      });
+    if (failed) assert.throws(install, /outer rebuild failed/);
+    else install();
+    assert.deepEqual(released, []);
+    assert.deepEqual([...assets.packs.keys()], ['1', '2']);
+    assets.install(batch(3), () => {});
+    assert.deepEqual(released, [1, 2]);
+    assets.dispose();
+    assert.deepEqual(released, [1, 2, 3]);
   });
-  assets.install(batch(1), () => {
-    assets.install(batch(2), () => {});
-  });
-  assert.deepEqual(released, [1]);
-  assets.dispose();
-  assert.deepEqual(released, [1, 2]);
-});
 
 test('room asset ownership drains failed generations even when an older batch cannot release cleanly', () => {
   const assets = new SceneAssets(),

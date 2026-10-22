@@ -17,8 +17,8 @@ import { acquireCommandLane } from '../command-lane';
 import { discoverLibrary } from './discovery';
 import { publishIndividualFiles } from './file-publication';
 
-async function main() {
-  const [command, ...args] = process.argv.slice(2);
+export function parseAssetArgs(input: string[]) {
+  const [command, ...args] = input;
   const { values, positionals } = parseArgs({
     args,
     allowPositionals: true,
@@ -30,6 +30,17 @@ async function main() {
       built: { type: 'boolean' },
     },
   });
+  if (command === 'prepare') {
+    if (values.local) throw new Error('--local is for asset inspection/checks, not preparation');
+    if (values.ids && values.proof) throw new Error('Use --ids or --proof, not both');
+    if ((values.ids && !positionals.length) || (!values.ids && positionals.length))
+      throw new Error('Use assets:prepare, --ids <asset-id>... or --proof');
+  }
+  return { command, args, values, positionals };
+}
+
+async function main() {
+  const { command, args, values, positionals } = parseAssetArgs(process.argv.slice(2));
   if (values.built) {
     if (command !== 'check' || args.length !== 1) throw new Error('Use assets:check -- --built');
     await checkBuiltAssets();
@@ -48,11 +59,6 @@ async function main() {
       (positionals.length || values.ids || values.local || values.proof || values.gpu)
     )
       throw new Error('Use assets:publish without options');
-    if (
-      command === 'prepare' &&
-      ((values.ids && !positionals.length) || (!values.ids && positionals.length))
-    )
-      throw new Error('Use assets:prepare, --ids <asset-id>... or --proof');
     const lane = await acquireCommandLane({ command: 'assets:' + command });
     await using _cleanup3 = onAsyncExit(() => lane.release());
     const cache = new AssetCache();
@@ -63,7 +69,6 @@ async function main() {
     env.LANTERN_IMAGE_GPU = '1';
     env.LANTERN_PREPARE_BUDGET = process.env.LANTERN_PREPARE_BUDGET ?? String(cache.limit);
     if (command === 'prepare' && !values.proof) {
-      if (values.proof) throw new Error('Use --ids or --proof');
       await preparePreviewAssets(positionals, cache, env);
     } else {
       const prepared = await prepareAssets(cache, !!values.proof, env);
