@@ -315,6 +315,27 @@ const SceneDocumentSchema = z
             'Scene baseline entry must match one of its geometry entries: ' +
             geometry.baselineEntry,
         });
+      for (const entry of geometry.entries) {
+        if (
+          entry.x < geometry.bounds.minX ||
+          entry.x > geometry.bounds.maxX ||
+          entry.z < geometry.bounds.minZ ||
+          entry.z > geometry.bounds.maxZ
+        )
+          ctx.addIssue({
+            code: 'custom',
+            message: 'Geometry entry outside bounds: ' + entry.id,
+          });
+      }
+      if (geometry.surface.kind === 'stairs' && geometry.surface.terraceBounds) {
+        const tb = geometry.surface.terraceBounds;
+        const gb = geometry.bounds;
+        if (tb.minX < gb.minX || tb.maxX > gb.maxX || tb.minZ < gb.minZ || tb.maxZ > gb.maxZ)
+          ctx.addIssue({
+            code: 'custom',
+            message: 'Stair terrace bounds outside geometry bounds',
+          });
+      }
     }
     for (const fire of d.gameplay?.campfires ?? []) {
       if (fire.object) {

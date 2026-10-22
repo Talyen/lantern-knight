@@ -11,6 +11,7 @@ export const awarenessSchema = z.strictObject({
   leash: z.number().positive().max(40),
   group: id.optional(),
 });
+const clip = z.string().regex(/^[a-zA-Z0-9_-]+$/);
 export const campfireSchema = z.strictObject({
   id,
   name: z.string().min(1).max(80),
@@ -26,9 +27,9 @@ export const interactableSchema = z.strictObject({
   x: coordinate,
   z: coordinate,
   rewards: z.array(rewardSchema).max(20),
-  idle: z.string(),
-  action: z.string(),
-  spent: z.string(),
+  idle: clip,
+  action: clip,
+  spent: clip,
 });
 export type CampfireDefinition = z.infer<typeof campfireSchema>;
 export type InteractableDefinition = Omit<z.infer<typeof interactableSchema>, 'rewards'> & {

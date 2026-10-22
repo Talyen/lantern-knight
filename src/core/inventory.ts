@@ -239,15 +239,17 @@ export class InventoryState implements InventoryAccess {
   award(rewards: readonly Reward[]) {
     if (!rewards.length) return;
     const draft = this.draft();
+    const totals: Record<string, number> = { ...this.inventory };
     for (const { item, amount } of rewards) {
       if (
         !Object.hasOwn(items, item) ||
         !Number.isSafeInteger(amount) ||
         amount <= 0 ||
         amount > MAX_ITEM_COUNT ||
-        (this.inventory[item] ?? 0) + amount > MAX_ITEM_COUNT
+        (totals[item] ?? 0) + amount > MAX_ITEM_COUNT
       )
         throw new Error('Invalid inventory reward');
+      totals[item] = (totals[item] ?? 0) + amount;
       if (item === 'gold') draft.gold += amount;
       else if (items[item]!.stackable) this.add(draft.pack, item, amount);
       else {

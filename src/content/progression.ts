@@ -17,6 +17,8 @@ export type UpgradeId = keyof typeof upgrades;
 export type UpgradeRanks = Partial<Record<UpgradeId, number>>;
 export const upgradeIds = Object.keys(upgrades) as UpgradeId[];
 export function validateUpgrades(ranks: Readonly<UpgradeRanks>) {
+  if (!ranks || typeof ranks !== 'object' || Array.isArray(ranks))
+    throw new Error('Unknown upgrade or invalid rank');
   for (const [id, rank] of Object.entries(ranks))
     if (
       !Object.hasOwn(upgrades, id) ||
