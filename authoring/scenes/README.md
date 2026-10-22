@@ -1,8 +1,8 @@
 # Authored scenes
 
-Save scene documents here through the [scene editor](../../docs/developer-tools.md#scene-editor). Scenes are replaceable prototype content; the selected orchard, clearing, forge and chapel documents supply Game content, while engine tests own independent fixtures.
+Save scene documents here through the [scene editor](../../docs/developer-tools.md#scene-editor). Scenes are replaceable prototype content; the registered orchard, clearing, forge, chapel, rootwood, village and graveyard documents supply Game content, while engine tests own independent fixtures.
 
-Game starts in Abandoned Orchard, branching to Forest Gathering Clearing through its northwestern forest path and Ruined Craftsman Forge through its eastern gate. Forge’s northern street leads to Desecrated Chapel. The clearing has no forge departure. Open a draft in the editor and choose Play to run it without writing Game checkpoints. [Game content registration](../../docs/architecture.md#add-an-area-or-enemy) is a separate step. Sandbox rendering fixtures live in content code and are independent of this directory.
+Game starts in Abandoned Orchard, branching to Forest Gathering Clearing through its northwestern forest path and Ruined Craftsman Forge through its eastern gate. Forge’s northern street leads to Desecrated Chapel. The clearing’s northwestern path continues to Rootwood Clearing, then Ruined Village Paths and Graveyard Terraces. Every passage has a matching return; the clearing has no forge departure. Open a draft in the editor and choose Play to run it without writing Game checkpoints. [Game content registration](../../docs/architecture.md#add-an-area-or-enemy) is a separate step. Sandbox rendering fixtures live in content code and are independent of this directory.
 
 Saving a scene with ground interaction also retains an immutable revision under `authoring/ground-profiles/`. See [Saved ground profiles](../../docs/developer-tools.md#saved-ground-profiles) for restoration and artwork reassignment, and [scene design](../../docs/scene-design.md) for composition guidance and the starting painting scales.
 
@@ -42,3 +42,13 @@ The Vigil Amulet remains optional equipment. Collecting it does not initiate a r
 ## Woodland composition
 
 The travel pack rests at the stone footing of the northern ruined gatepost, off the trail. Its hand-carried size is reviewed beside the hero. Woodland uses Silver hour because its source painting already contains deep cool shade; this preserves readable ground beyond the stronger warm lantern pool. The clearing also uses Silver hour; Orchard, Forge and Chapel retain Lantern night. Game and the editor consume the same saved look.
+
+## Rootwood, village and graveyard branch
+
+Clearing’s northwestern path leads into Rootwood Clearing’s western approach. Silver hour keeps the deep painted foliage readable. A lone skeleton occupies the central fork, a linked melee pair holds the eastern detour, and a Candlebone Oracle covers the northern approach to the village. The western campfire supports retries; broad quiet ground separates arrival from the first fight. The northern route remains usable during pursuit.
+
+Rootwood’s northern path meets the village’s southern trail. The arrival fire sits on the eastern verge. A lone square sentry introduces the open fighting area; an Oracle and faster attendant share awareness farther up the hearth apron. A separate cottage straggler makes the western steps an optional detour. A mason’s toolbox beside the hearth contains repair iron and a potion, accessible without defeating the pair. The northern trail continues to Graveyard Terraces.
+
+Graveyard arrives at the western stair landing, with a fire on the central terrace. A lone skeleton occupies the curving descent; farther down, a linked skeleton attendant and armored hammer warden hold the lower mausoleum court. The court’s open apron provides room to dodge the committed swing and counter with sword or lantern. The gravekeeper’s coffer holds Gold, potions and a damaged axe; it opens independently of combat and remains spent after rest. A focused collision footprint keeps the lower court’s corner post out of the walking route. The western stairs return to the village.
+
+All three areas reuse supplied paintings, existing enemy drawings and registered container artwork. Camps, enemies and containers reserve clear artwork envelopes. Movement review covers the authored approaches, both directions of each passage, the lower graveyard court and the usable fronts of both containers.

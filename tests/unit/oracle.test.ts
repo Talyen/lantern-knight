@@ -17,7 +17,10 @@ test('only areas with a caster acquire rib artwork', () => {
   const asset = ribLaneEffect.asset;
   assert.equal(gameScenes.initialAssets.includes(asset), false);
   for (const area of content.definitions.areas)
-    assert.equal(gameScenes.area(area.id).assets.includes(asset), area.id === 'ruined-forge');
+    assert.equal(
+      gameScenes.area(area.id).assets.includes(asset),
+      area.spawns.some((spawn) => content.actor(spawn.actor).attack.kind === 'rib-lane'),
+    );
 });
 function fixture(edit?: (defs: ContentDefinitions) => void, inventory = new InventoryState()) {
   const defs = structuredClone(contentDefinitions);

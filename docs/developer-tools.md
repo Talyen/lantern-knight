@@ -44,7 +44,7 @@ Gameplay controls place registered enemies, exits and health pickups linked to u
 
 Play starts an unsaved snapshot through the shared Application lifecycle with a storage-free bridge. WASD moves, left-click attacks, Shift dodges, right-click uses the lantern, and Escape pauses. Play uses the main workspace with a compact Return/Restart bar. Return to editor discards gameplay state and preserves the scene, selection, camera and dock. Restart creates a fresh temporary session. Current schemas are listed under [scene content](architecture.md#scene-content) and [saved-state changes](architecture.md#change-saved-state).
 
-Game starts in Abandoned Orchard and connects through Forest Gathering Clearing and Ruined Craftsman Forge to Desecrated Chapel. Use editor Play to test a scene directly, including drafts outside that route. For independent rendering fixtures, open `/sandbox.html?scene=outdoor-fixture` or `/sandbox.html?scene=interior-fixture`. Reload restores preview context. Moving existing artwork requires no preparation or publication; changed artwork inputs follow [Assets](assets.md#runtime-composition-boundary).
+Game starts in Abandoned Orchard. Its clearing branch continues through Rootwood Clearing and Ruined Village Paths to Graveyard Terraces; its forge branch leads to Desecrated Chapel. Use editor Play to test a scene directly, including drafts outside that route. For independent rendering fixtures, open `/sandbox.html?scene=outdoor-fixture` or `/sandbox.html?scene=interior-fixture`. Reload restores preview context. Moving existing artwork requires no preparation or publication; changed artwork inputs follow [Assets](assets.md#runtime-composition-boundary).
 
 ### Ground interaction
 
