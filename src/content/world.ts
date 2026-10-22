@@ -321,7 +321,9 @@ function assertArea(
       p.kind !== 'health' ||
       !Number.isInteger(p.amount) ||
       p.amount <= 0 ||
-      p.radius <= 0
+      p.amount > 1000 ||
+      p.radius <= 0 ||
+      p.radius > 10
     )
       fail('invalid pickup ' + p.id);
   }

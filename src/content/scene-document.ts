@@ -257,6 +257,13 @@ const SceneDocumentSchema = z
       ctx.addIssue({ code: 'custom', message: 'Duplicate grave identity' });
     if (new Set(d.propOrder).size !== d.propOrder.length)
       ctx.addIssue({ code: 'custom', message: 'Duplicate propOrder identity' });
+    for (const overlap of d.overlaps) {
+      if (overlap.a === overlap.b)
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Self-overlap allowance: a and b must be distinct: ' + overlap.a,
+        });
+    }
     const geometry = d.geometry;
     if (geometry) {
       if (new Set(geometry.entries.map((p) => p.id)).size !== geometry.entries.length)
@@ -284,11 +291,17 @@ const SceneDocumentSchema = z
     }
     if (d.base !== 'flat' && !d.geometry)
       ctx.addIssue({ code: 'custom', message: 'Gameplay scenes require geometry and entries' });
-    for (const p of [...(d.gameplay?.pickups ?? []), ...(d.gameplay?.interactables ?? [])])
+    for (const p of d.gameplay?.pickups ?? [])
       if (!d.objects.some((o) => o.id === p.object && o.kind !== 'decal'))
         ctx.addIssue({
           code: 'custom',
           message: 'Pickup references missing upright artwork: ' + p.object,
+        });
+    for (const p of d.gameplay?.interactables ?? [])
+      if (!d.objects.some((o) => o.id === p.object && o.kind !== 'decal'))
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Interactable references missing upright artwork: ' + p.object,
         });
   });
 export type SceneSnapshot = ContentSnapshot<SceneDocument>;

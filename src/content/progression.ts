@@ -45,6 +45,7 @@ export function upgradeOffer(
   return { rank, next, reason };
 }
 export function kitAttributes(ranks: Readonly<UpgradeRanks> = {}) {
+  validateUpgrades(ranks);
   const attributes = { edge: 100, ember: 100 };
   for (const id of upgradeIds) {
     const rank = ranks[id] ?? 0;
