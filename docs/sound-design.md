@@ -20,6 +20,8 @@ The recipes select 58 samples from 57 distinct source paths across 29 cue famili
 
 ## Listening and tuning
 
+Deferred until the user has time; this listening pass does not block the next development task.
+
 Game pause and Dev Preview inspection panels expose independent master/effects/ambience levels and mute. Preview additionally offers every prepared sample with Play/Stop controls. Listen through the selected samples, then exercise movement, combat, loot, inventory, rest, travel and menus in context. Check voices/background contamination, tails, repetition, overlapping impacts, relative levels and wrap seams. Automated decoding, peak measurements and lifetime tests do not certify this audible mix; listening approval remains pending until performed and recorded.
 
 Sound recipes preserve original sources. [Audio preparation](assets.md#audio-preparation) owns source verification, derivatives, immutable delivery and task-scoped publication. [Audio architecture](architecture.md#audio) owns playback lifetimes, failure isolation and resource limits.

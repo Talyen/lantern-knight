@@ -106,9 +106,9 @@ Enemy cues use supplied animation with a restrained windup accent, without groun
 
 ## Prototype priorities
 
-Polish alternating sweep/lunge attacks, dodge, the Burn lantern special and movement/action facing transitions together in the connected opening. Review enemy action animation and attack cues, hit/Burn feedback, contextual guidance and settings usability during the [opening playtest](verification.md#opening-playtest). Complete the [audio listening pass](sound-design.md#listening-and-tuning); music remains deferred.
+Polish alternating sweep/lunge attacks, dodge, the Burn lantern special and movement/action facing transitions together in the connected opening. Review enemy action animation and attack cues, hit/Burn feedback, contextual guidance and settings usability during the [opening playtest](verification.md#opening-playtest). The [audio listening pass](sound-design.md#listening-and-tuning) is deferred until the user has time; music remains deferred.
 
-Art validation should establish that elevation, occlusion, contact shadows and selective glow work coherently. Visible playtesting should confirm that a new player understands the controls, reads enemy actions, uses both attacks meaningfully, traverses connected authored areas, retries after death and saves/resumes reliably.
+Art validation should establish that elevation, occlusion, contact shadows and selective glow work coherently. Rendered gameplay review should cover controls, enemy actions, both attacks, connected-area traversal, death/retry and save/resume. First-time player testing is outside the current roadmap.
 
 Validate campfire improvements through ordinary play, including earning materials, buying either path first and eventually both, and retaining purchases through death and save/resume. Use observed play to revisit the lantern, Burn and cancellation defaults before expanding progression or the adventure; the [roadmap](roadmap.md) tracks acceptance.
 

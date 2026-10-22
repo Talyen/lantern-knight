@@ -67,13 +67,13 @@ Non-watch `npm test` and `npm run test:assets` omit individual passing cases whi
 
 ## Opening playtest
 
-Use a fresh player profile and the production Game view with default visual/audio settings. Have a first-time player begin without coaching; controls remain available in pause/help. An agent-driven journey, seeded checkpoint or editor preview can diagnose problems but cannot establish first-time human acceptance.
+Use a fresh player profile and the production Game view with default visual/audio settings for agent-driven gameplay review. Controls remain available in pause/help. First-time player testing is outside the current roadmap and is not an acceptance gate. If a first-time player becomes available later, an optional uncoached session can assess understanding; agent-driven journeys do not establish that result.
 
-Explore both Orchard branches and the Forge–Chapel connection in both directions without coaching. Record hesitation, missed entrances, backtracking, inaccessible apparent floor, unreadable hits and confusion about adjacent destinations. Check the shed floor, clearing stairs and terraces, forge workshop and rooms, and chapel altar and entrance stairs with the moving hero visible. Verify physical departures during pursuit and containers near living enemies. Ask what the player understood after play rather than explaining it during play.
+Explore both Orchard branches and the Forge–Chapel connection in both directions. Record hesitation, missed entrances, backtracking, inaccessible apparent floor, unreadable hits and confusion about adjacent destinations. Check the shed floor, clearing stairs and terraces, forge workshop and rooms, and chapel altar and entrance stairs with the moving hero visible. Verify physical departures during pursuit and containers near living enemies. For an optional human session, ask what the player understood after play rather than explaining it during play.
 
 Cover buying sword first, lantern first and eventually both improvements. Earn encounters and resources through ordinary play; do not seed victories, grant items, teleport or change combat defaults. After choosing, compare the upgraded kit against restored encounters. Exercise death/retry and save/resume without losing earned improvements or rewards. Preserve observations and requested captures outside Git, including source/asset identity, choice, settings, interruptions and any coaching. Fix the largest observed friction before expanding the adventure; distinguish observed defects from design hypotheses.
 
-Run the [audio listening pass](sound-design.md#listening-and-tuning) in context and [Windows acceptance](release.md#opening-windows-acceptance) on the named target host. Report these separately from functional browser coverage. A pending human, audible or target-hardware check keeps the corresponding roadmap acceptance open.
+The [audio listening pass](sound-design.md#listening-and-tuning) is deferred until the user has time. Run [Windows acceptance](release.md#opening-windows-acceptance) on the named target host when available. Report audible mix and target-hardware checks separately from functional browser coverage; neither is established by agent-driven browser checks.
 
 ## Test value
 
