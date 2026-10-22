@@ -2,8 +2,12 @@ import { onAsyncExit } from './scope-exit';
 import { runProcess } from './run-process';
 import { acquireCommandLane } from './command-lane';
 import { projectRoot } from './assets/paths';
-const lane = await acquireCommandLane({ command: 'test:desktop' });
-await using _cleanup1 = onAsyncExit(() => lane.release());
+const lane = process.argv.includes('--list')
+  ? undefined
+  : await acquireCommandLane({ command: 'test:desktop' });
+await using _cleanup1 = onAsyncExit(async () => {
+  await lane?.release();
+});
 await runProcess(
   process.execPath,
   ['--import', 'tsx', 'node_modules/@playwright/test/cli.js', 'test', ...process.argv.slice(2)],

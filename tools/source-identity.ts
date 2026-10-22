@@ -40,14 +40,16 @@ export async function sourceInputHash(
     if (options.files && !options.files.includes(file)) continue;
     if (
       ['runtime', 'web', 'desktop'].includes(options.scope ?? '') &&
-      !/^(src|electron|authoring)\/|^tools\/(?:build|select-runtime-assets|verified-files|source-identity)|^(package(?:-lock)?\.json|vite\.config\.ts|.*\.html|assets\/lock\.json)$/.test(
+      !/^(src|electron|authoring)\/|^tools\/(?:build|stage-desktop-web|select-runtime-assets|verified-files|source-identity)|^(package(?:-lock)?\.json|vite\.config\.ts|.*\.html|assets\/lock\.json)$/.test(
         file,
       )
     )
       continue;
     if (
       options.scope === 'web' &&
-      (file.startsWith('electron/') || file === 'tools/build-electron.ts')
+      (file.startsWith('electron/') ||
+        file === 'tools/build-electron.ts' ||
+        file === 'tools/stage-desktop-web.ts')
     )
       continue;
     if (

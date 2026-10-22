@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     outputs:
+      source: ${{ steps.impact.outputs.source }}
       desktop: ${{ steps.impact.outputs.desktop }}
       authoring: ${{ steps.impact.outputs.authoring }}
       assets: ${{ steps.impact.outputs.assets }}
@@ -33,6 +34,8 @@ jobs:
           LANTERN_CI_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: node --import tsx tools/ci-impact.ts
       - run: npm run check:ci
+        env:
+          LANTERN_CI_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
       - run: git diff --exit-code
   assets:
     needs: [source, build]
@@ -59,6 +62,7 @@ jobs:
       - run: git diff --exit-code
   build:
     needs: source
+    if: needs.source.outputs.source == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -108,6 +112,7 @@ jobs:
           if-no-files-found: ignore
   browser:
     needs: source
+    if: needs.source.outputs.source == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     strategy:

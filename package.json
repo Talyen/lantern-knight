@@ -47,7 +47,11 @@
     "occlusion:audit": "tsx tools/ground-occlusion-audit.ts",
     "scene:compare": "tsx tools/scene-placement.ts",
     "assets:audio-review": "tsx tools/assets/audio-review.ts",
-    "ui:study": "tsx tools/ui-study/build.ts"
+    "ui:study": "tsx tools/ui-study/build.ts",
+    "task:integrate": "tsx tools/task-integrate.ts",
+    "verify:game": "tsx tools/verify-target.ts game",
+    "verify:authoring": "tsx tools/verify-target.ts authoring",
+    "verify:desktop": "tsx tools/verify-target.ts desktop"
   },
   "dependencies": {
     "postprocessing": "6.39.5",
@@ -81,7 +85,14 @@
       "output": "release"
     },
     "files": [
-      "dist/**",
+      {
+        "from": "dist-desktop",
+        "to": "dist",
+        "filter": [
+          "**/*",
+          "!**/*.map"
+        ]
+      },
       "dist-electron/**",
       "!**/*.map",
       "package.json"

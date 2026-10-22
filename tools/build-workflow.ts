@@ -9,6 +9,7 @@ import assert from 'node:assert/strict';
 import { sourceFingerprint, sourceInputHash } from './source-identity';
 import { projectRoot } from './assets/paths';
 import { webConfig } from '../vite.config';
+import { stageDesktopWeb } from './stage-desktop-web';
 export async function buildWeb(profile: BuildProfile = 'game', local = false, eager = false) {
   const started = performance.now(),
     workspace = await openWorkspace(
@@ -71,6 +72,7 @@ export async function buildDesktop(
       })()
     : await buildWeb(profile, local);
   const started = performance.now();
+  await stageDesktopWeb(profile, projectRoot);
   await buildElectron(profile);
   console.log(`Electron compilation: ${Math.round(performance.now() - started)}ms.`);
   if ((await sourceInputHash(projectRoot, { scope: 'desktop' })) !== desktopSource.sha256)

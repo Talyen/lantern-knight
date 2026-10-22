@@ -1,4 +1,13 @@
-// One policy owns optional CI tiers. Every change still runs source, Game and scene checks.
+// Only known prose paths can omit source/build/runtime checks. Unknown files
+// and unavailable or empty comparisons retain source verification.
+export function documentationOnly(files: readonly string[] | undefined) {
+  return (
+    !!files?.length &&
+    files.every((file) =>
+      /^(?:[^/]+\.md|docs\/.*\.md|\.agents\/.*\.md|references\/visual\/.*\.md)$/.test(file),
+    )
+  );
+}
 const policies = [
   {
     pattern: /^\.github\/actions\//,
@@ -22,7 +31,7 @@ const policies = [
   },
   {
     pattern:
-      /^(electron\/|package(?:-lock)?\.json$|electron-builder.*\.json$|.*\.html$|assets\/lock\.json$|src\/core\/save\.ts$|src\/platform\/(?:bridge|settings|storage-codec)\.ts$|src\/content\/asset-catalog\.ts$|tools\/(?:build|package|desktop|select-runtime-assets)|tools\/assets\/(?:pack|archive|bundles|workspace|publication|paths)\.ts$|tests\/(?:desktop\/|fixtures\/input\.ts$))/,
+      /^(electron\/|package(?:-lock)?\.json$|electron-builder.*\.json$|.*\.html$|assets\/lock\.json$|src\/core\/save\.ts$|src\/platform\/(?:bridge|settings|storage-codec)\.ts$|src\/content\/asset-catalog\.ts$|tools\/(?:build|stage-desktop-web|package|desktop|select-runtime-assets)|tools\/assets\/(?:pack|archive|bundles|workspace|publication|paths)\.ts$|tests\/(?:desktop\/|fixtures\/input\.ts$))/,
     desktop: true,
   },
   {
@@ -32,22 +41,27 @@ const policies = [
   },
   {
     pattern:
-      /^(vite\.config|playwright\.config|tools\/(?:preview-session|coverage-policy|ci-impact|browser-tests|dev|run-process|command-lane)|\.github\/workflows\/)/,
+      /^(vite\.config|playwright\.config|tools\/(?:preview-session|coverage-policy|changed-files|ci-impact|verify-target|browser-tests|dev|run-process|command-lane)|\.github\/workflows\/)/,
     desktop: true,
     authoring: true,
   },
 ] as const;
 export function coverageFor(files?: readonly string[]) {
-  if (!files) return { desktop: true, authoring: true, assets: true };
-  return policies.reduce(
-    (selected, policy) =>
-      files.some((file) => policy.pattern.test(file))
-        ? {
-            desktop: selected.desktop || ('desktop' in policy && policy.desktop),
-            authoring: selected.authoring || ('authoring' in policy && policy.authoring),
-            assets: selected.assets || ('assets' in policy && policy.assets),
-          }
-        : selected,
-    { desktop: false, authoring: false, assets: false },
-  );
+  if (documentationOnly(files))
+    return { source: false, desktop: false, authoring: false, assets: false };
+  if (!files) return { source: true, desktop: true, authoring: true, assets: true };
+  return {
+    source: true,
+    ...policies.reduce(
+      (selected, policy) =>
+        files.some((file) => policy.pattern.test(file))
+          ? {
+              desktop: selected.desktop || ('desktop' in policy && policy.desktop),
+              authoring: selected.authoring || ('authoring' in policy && policy.authoring),
+              assets: selected.assets || ('assets' in policy && policy.assets),
+            }
+          : selected,
+      { desktop: false, authoring: false, assets: false },
+    ),
+  };
 }

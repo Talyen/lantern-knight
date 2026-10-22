@@ -99,11 +99,11 @@ test('build proof ignores mutable Finder metadata but rejects app tampering, mis
       encoding: 'utf8',
     });
   await using _cleanup2 = onAsyncExit(() => fs.rm(directory, { recursive: true, force: true }));
-  await fs.mkdir(path.join(directory, 'dist'));
+  await fs.mkdir(path.join(directory, 'dist-desktop'));
   await fs.mkdir(path.join(directory, 'dist-electron'));
-  await fs.writeFile(path.join(directory, 'dist/app.js'), 'original');
+  await fs.writeFile(path.join(directory, 'dist-desktop/app.js'), 'original');
   await fs.writeFile(path.join(directory, 'dist-electron/main.cjs'), 'main');
-  await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-one');
+  await fs.writeFile(path.join(directory, 'dist-desktop/.DS_Store'), 'finder-one');
   const proof = (overrides: NodeJS.ProcessEnv = {}) =>
     verifyBuildIdentity({
       root: directory,
@@ -118,14 +118,14 @@ test('build proof ignores mutable Finder metadata but rejects app tampering, mis
   });
   assert.equal(run().status, 0);
   assert.equal(run(['--write']).status, 1, 'Only supervised builds write identities');
-  const identityPath = path.join(directory, 'dist/build-identity.json'),
+  const identityPath = path.join(directory, 'dist-desktop/build-identity.json'),
     identity = await readJson(identityPath);
-  assert.equal(identity.files['dist/.DS_Store'], undefined);
-  await fs.writeFile(path.join(directory, 'dist/.DS_Store'), 'finder-two');
+  assert.equal(identity.files['dist-desktop/.DS_Store'], undefined);
+  await fs.writeFile(path.join(directory, 'dist-desktop/.DS_Store'), 'finder-two');
   await proof();
-  await fs.writeFile(path.join(directory, 'dist/app.js'), 'tampered');
+  await fs.writeFile(path.join(directory, 'dist-desktop/app.js'), 'tampered');
   await assert.rejects(proof(), /build artifact files differ/);
-  await fs.writeFile(path.join(directory, 'dist/app.js'), 'original');
+  await fs.writeFile(path.join(directory, 'dist-desktop/app.js'), 'original');
   identity.sourceCommit = 'a'.repeat(40);
   identity.dirty = false;
   await writeJson(identityPath, identity);

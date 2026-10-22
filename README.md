@@ -15,7 +15,7 @@ WASD moves, mouse aims, LMB uses the sword, RMB uses the lantern, Shift dodges, 
 
 Game opens in the abandoned orchard, with separate paths to the forest clearing and ruined forge courtyard. The forge’s northern street leads to Desecrated Chapel; exploration and loot have no enemy-clearance requirements. To playtest other authored content, open `/editor.html`, choose a saved scene through Scene → Open scene, click Open, then Play. Drafts whose ground is absent from the pin need [local artwork preparation](docs/assets.md#local-preparation-review). `/sandbox.html` opens the independent Dev Preview fixtures.
 
-Follow [Development](docs/development.md) for focused tests, preview ports and the edit–play–check loop. Finish edits with `npm run check`; [Verification](docs/verification.md) explains additional checks for browser, asset and desktop changes.
+Follow [Development](docs/development.md) for the edit–play–check loop, [Verification](docs/verification.md) for check selection, and [task coordination](docs/task-coordination.md) for integration.
 
 ## Documentation
 

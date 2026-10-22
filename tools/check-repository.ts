@@ -2,7 +2,7 @@ import { sceneBytesLimit } from '../src/content/scene-document';
 import fs from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 const forbidden =
-  /^(?:staging|evidence|docs\/history|references\/(?:art|handoff|updates)|public\/(?:generated|lighting|visual-effects|dev-effects|dev-lighting)|dist(?:-dev|-electron(?:-dev)?)?|release(?:-dev)?|tmp|\.cache)(?:\/|$)/;
+  /^(?:staging|evidence|docs\/history|references\/(?:art|handoff|updates)|public\/(?:generated|lighting|visual-effects|dev-effects|dev-lighting)|dist(?:-dev|-desktop(?:-dev)?|-electron(?:-dev)?)?|release(?:-dev)?|tmp|\.cache)(?:\/|$)/;
 const exceptions: Readonly<Record<string, number>> = {
   'assets/sources.json': 80 * 1024,
   // Authored import adapters, not the generated external library catalog.

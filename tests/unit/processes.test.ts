@@ -1,3 +1,4 @@
+import { stageDesktopWeb } from '../../tools/stage-desktop-web';
 import { temporaryDirectory } from '../fixtures/temporary-directory';
 import {
   writeBuildIdentity,
@@ -263,7 +264,9 @@ test('web identities need no Electron output and cannot be reused as desktop bui
   await verifyBuildIdentity(options);
   await fs.mkdir(path.join(root, 'dist-electron'));
   await fs.writeFile(path.join(root, 'dist-electron/main.cjs'), 'electron');
-  await assert.rejects(verifyBuildIdentity({ ...options, target: 'desktop' }), /desktop artifact/);
+  await assert.rejects(verifyBuildIdentity({ ...options, target: 'desktop' }));
+  const original = await fs.readFile(path.join(root, 'dist/build-identity.json'), 'utf8');
+  await stageDesktopWeb('game', root);
   await writeBuildIdentity({ ...options, target: 'desktop' });
   await verifyBuildIdentity({ ...options, target: 'desktop' });
   await fs.writeFile(path.join(root, 'dist-electron/main.cjs'), 'tampered');
@@ -271,7 +274,16 @@ test('web identities need no Electron output and cannot be reused as desktop bui
     verifyBuildIdentity({ ...options, target: 'desktop' }),
     /artifact files differ/,
   );
-  await assert.rejects(verifyBuildIdentity(options), /web artifact/);
+  await verifyBuildIdentity(options);
+  assert.equal(await fs.readFile(path.join(root, 'dist/build-identity.json'), 'utf8'), original);
+  await fs.writeFile(path.join(root, 'dist-desktop/index.html'), 'changed staging');
+  await assert.rejects(
+    verifyBuildIdentity({ ...options, target: 'desktop' }),
+    /artifact files differ/,
+  );
+  await verifyBuildIdentity(options);
+  await fs.writeFile(path.join(root, 'dist/index.html'), 'changed browser');
+  await assert.rejects(stageDesktopWeb('game', root), /artifact files differ/);
 });
 
 test('web input identity ignores Electron-only edits while desktop identity observes them', async (t) => {
@@ -289,6 +301,12 @@ test('web input identity ignores Electron-only edits while desktop identity obse
   assert.equal(await sourceInputHash(root, { scope: 'web' }), web);
   assert.notEqual(await sourceInputHash(root, { scope: 'desktop' }), desktop);
   await fs.mkdir(path.join(root, 'tools/diagnostics'), { recursive: true });
+  const stage = path.join(root, 'tools/stage-desktop-web.ts');
+  await fs.writeFile(stage, 'initial staging');
+  const staged = await sourceInputHash(root, { scope: 'desktop' });
+  await fs.writeFile(stage, 'changed staging');
+  assert.equal(await sourceInputHash(root, { scope: 'web' }), web);
+  assert.notEqual(await sourceInputHash(root, { scope: 'desktop' }), staged);
   const harness = path.join(root, 'tools/diagnostics/benchmark.ts');
   await fs.writeFile(harness, 'baseline harness');
   const built = { inputSha256: await sourceInputHash(root, { scope: 'desktop' }) };

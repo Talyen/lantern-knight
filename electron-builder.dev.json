@@ -4,7 +4,19 @@
   "directories": {
     "output": "release-dev"
   },
-  "files": ["dist-dev/**", "dist-electron-dev/**", "!**/*.map", "package.json"],
+  "files": [
+    {
+      "from": "dist-desktop-dev",
+      "to": "dist-dev",
+      "filter": [
+        "**/*",
+        "!**/*.map"
+      ]
+    },
+    "dist-electron-dev/**",
+    "!**/*.map",
+    "package.json"
+  ],
   "extraMetadata": {
     "main": "dist-electron-dev/main.cjs"
   },

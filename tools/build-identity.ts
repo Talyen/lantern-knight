@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { cameraContract as contract } from '../src/assets/camera-contract';
 import { content } from '../src/content/game-content';
 import { worldVisuals } from '../src/content/game-content';
-import { webOutput, electronOutput, type BuildProfile } from './build-profile';
+import { webOutput, desktopWebOutput, electronOutput, type BuildProfile } from './build-profile';
 import type { AssetWorkspace } from './assets/workspace';
 import { sourceInputHash, type sourceFingerprint } from './source-identity';
 const isOSMetadata = (name: string) => path.posix.basename(name) === '.DS_Store';
@@ -22,7 +22,7 @@ async function artifactFiles(options: ArtifactOptions = {}) {
     report = options.report ?? console.log;
   const profile = options.profile ?? 'game',
     target = options.target ?? 'desktop',
-    dist = webOutput(profile),
+    dist = target === 'desktop' ? desktopWebOutput(profile) : webOutput(profile),
     electron = electronOutput(profile);
   const identityPath = `${dist}/build-identity.json`;
   // Finder can rewrite this after a build. It is not an application resource.

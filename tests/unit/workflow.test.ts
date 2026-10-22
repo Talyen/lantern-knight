@@ -3,12 +3,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { spawnSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { selectTestFiles, ciDefaultSuites } from '../../tools/test';
-import { coverageFor } from '../../tools/coverage-policy';
+import { coverageFor, documentationOnly } from '../../tools/coverage-policy';
 const requiresDesktop = (files: readonly string[]) => coverageFor(files).desktop;
 const requiresAuthoring = (files: readonly string[]) => coverageFor(files).authoring;
 import { browserSelection, ciDevelopmentFiles } from '../../tools/browser-tests';
+import { changedFiles, comparisonFiles } from '../../tools/changed-files';
+import { verificationSteps } from '../../tools/verify-target';
 import { browserShards } from '../../tools/ci-browser-shard';
 import { checkAssets } from '../../tools/check-assets';
 import { parseAssetArgs } from '../../tools/assets/cli';
@@ -136,6 +138,7 @@ test('scene and gameplay edits use routine CI; desktop contracts select platform
     'src/platform/storage-codec.ts',
     'assets/lock.json',
     'tools/package.ts',
+    'tools/stage-desktop-web.ts',
     'tests/fixtures/input.ts',
     'package-lock.json',
   ])
@@ -199,7 +202,11 @@ test('authoring storage and selection tools select their browser CI tier', () =>
     'tools/assets/file-delivery.ts',
     'tools/assets/cache.ts',
   ])
-    assert.deepEqual(coverageFor([file]), { desktop: true, authoring: true, assets: true }, file);
+    assert.deepEqual(
+      coverageFor([file]),
+      { source: true, desktop: true, authoring: true, assets: true },
+      file,
+    );
 });
 test('asset validation reads the explicit workspace and rejects altered media', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-explicit-assets-');
@@ -211,18 +218,20 @@ test('asset validation reads the explicit workspace and rejects altered media', 
 });
 
 test('preview and policy changes select both optional tiers; missing comparisons fail closed', () => {
-  assert.deepEqual(coverageFor(), { desktop: true, authoring: true, assets: true });
+  assert.deepEqual(coverageFor(), { source: true, desktop: true, authoring: true, assets: true });
   for (const file of [
     'tools/preview-session.ts',
     'tools/coverage-policy.ts',
     'playwright.config.ts',
   ])
     assert.deepEqual(coverageFor([file]), {
+      source: true,
       desktop: true,
       authoring: true,
       assets: file === 'tools/preview-session.ts',
     });
   assert.deepEqual(coverageFor(['docs/development.md']), {
+    source: false,
     desktop: false,
     authoring: false,
     assets: false,
@@ -356,4 +365,120 @@ test('repeated global mocks restore original descriptors and remove newly introd
   });
   assert.deepEqual(Object.getOwnPropertyDescriptor(globalThis, 'fetch'), before);
   assert.equal(Object.hasOwn(globalThis, absent), false);
+});
+
+test('only known prose changes omit source and runtime verification', () => {
+  for (const files of [
+    ['README.md', 'docs/assets.md', '.agents/skills/architect/SKILL.md'],
+    ['references/visual/README.md'],
+  ]) {
+    assert.equal(documentationOnly(files), true);
+    assert.deepEqual(coverageFor(files), {
+      source: false,
+      desktop: false,
+      authoring: false,
+      assets: false,
+    });
+  }
+  for (const files of [
+    undefined,
+    [],
+    ['docs/development.md', 'src/main.ts'],
+    ['unknown.md/file'],
+    ['references/canon/hero.md'],
+    ['docs/schema.json'],
+    ['tools/new-tool.ts'],
+  ]) {
+    assert.equal(documentationOnly(files), false);
+    assert.equal(coverageFor(files).source, true);
+  }
+});
+
+test('change selection includes deletions, both sides of moves, staged and untracked inputs', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-changes-');
+  const git = (...args: string[]) =>
+    execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim();
+  git('init', '-b', 'main');
+  await fs.writeFile(path.join(root, 'old.ts'), 'export {};');
+  await fs.writeFile(path.join(root, 'README.md'), 'before');
+  git('add', '.');
+  git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.test', 'commit', '-m', 'base');
+  const base = git('rev-parse', 'HEAD');
+  git('mv', 'old.ts', 'moved.ts');
+  await fs.writeFile(path.join(root, 'README.md'), 'after');
+  await fs.writeFile(path.join(root, 'new.ts'), 'export {};');
+  const selected = ['README.md', 'moved.ts', 'new.ts', 'old.ts'];
+  assert.deepEqual(changedFiles(root, base), selected);
+  assert.deepEqual(comparisonFiles(root), selected);
+  assert.equal(documentationOnly(changedFiles(root, base)), false);
+  assert.throws(() => changedFiles(root, 'missing-base'));
+  assert.equal(comparisonFiles(root, 'missing-base'), undefined);
+});
+
+test('verification targets select setup and tests in order; listing never builds', () => {
+  assert.deepEqual(verificationSteps(['game']), [
+    ['build.ts'],
+    ['browser-tests.ts', 'game', '--built'],
+  ]);
+  assert.deepEqual(verificationSteps(['game', '--local']), [
+    ['build.ts', '--local'],
+    ['browser-tests.ts', 'game', '--built'],
+  ]);
+  assert.deepEqual(verificationSteps(['authoring']), [
+    ['browser-tests.ts', '--ci-development', '--authoring'],
+  ]);
+  assert.deepEqual(verificationSteps(['desktop', '--local', '--platform', 'win'], 'win32'), [
+    ['package.ts', '--unsigned', '--local', '--platform', 'win'],
+    ['desktop-tests.ts'],
+  ]);
+  for (const target of ['game', 'authoring', 'desktop']) {
+    const steps = verificationSteps([target, '--list']);
+    assert.equal(steps.length, 1);
+    assert.equal(steps[0]!.at(-1), '--list');
+    assert.ok(steps[0]![0]!.endsWith('tests.ts'));
+  }
+  assert.throws(() => verificationSteps(['unknown']));
+  assert.throws(() => verificationSteps(['game', '--platform', 'mac']));
+  assert.throws(() => verificationSteps(['desktop', '--platform', 'unknown']));
+  assert.deepEqual(verificationSteps(['authoring', '--local']), verificationSteps(['authoring']));
+  assert.throws(
+    () => verificationSteps(['desktop', '--platform', 'win'], 'darwin'),
+    /selected macOS or Windows host/,
+  );
+  assert.throws(() => verificationSteps(['desktop'], 'linux'), /selected macOS or Windows host/);
+});
+
+test('CI emits prose-only and source job decisions from real Git changes, falling back on unavailable bases', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-ci-impact-');
+  const reports = await temporaryDirectory(t, 'lantern-ci-output-');
+  const git = (...args: string[]) =>
+    execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim();
+  git('init', '-b', 'main');
+  await fs.writeFile(path.join(root, 'README.md'), 'before');
+  git('add', '.');
+  git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.test', 'commit', '-m', 'base');
+  const base = git('rev-parse', 'HEAD');
+  await fs.writeFile(path.join(root, 'README.md'), 'after');
+  const output = path.join(reports, 'output');
+  const select = async (comparison: string) => {
+    await fs.writeFile(output, '');
+    const result = spawnSync(
+      process.execPath,
+      ['--import', import.meta.resolve('tsx'), path.resolve('tools/ci-impact.ts')],
+      {
+        cwd: root,
+        encoding: 'utf8',
+        env: { ...process.env, LANTERN_CI_BASE: comparison, GITHUB_OUTPUT: output },
+      },
+    );
+    assert.equal(result.status, 0, result.stdout + result.stderr);
+    return fs.readFile(output, 'utf8');
+  };
+  assert.equal(await select(base), 'source=false\ndesktop=false\nauthoring=false\nassets=false\n');
+  await fs.writeFile(path.join(root, 'new.ts'), 'export {};');
+  assert.match(await select(base), /^source=true/);
+  assert.equal(
+    await select('missing-base'),
+    'source=true\ndesktop=true\nauthoring=true\nassets=true\n',
+  );
 });

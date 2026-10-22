@@ -17,6 +17,8 @@ SKIP_NAMES = {
     "node_modules",
     "dist",
     "dist-dev",
+    "dist-desktop",
+    "dist-desktop-dev",
     "dist-electron",
     "dist-electron-dev",
     "release",

@@ -33,3 +33,6 @@ evidence/
 references/art/
 playwright-report/
 test-results/
+
+dist-desktop/
+dist-desktop-dev/

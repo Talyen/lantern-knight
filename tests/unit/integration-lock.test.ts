@@ -37,7 +37,7 @@ async function fixture(t: test.TestContext) {
     await Promise.all(processes.map(({ done }) => done));
     await fs.rm(root, { recursive: true, force: true });
   });
-  const run = (code: string, cwd = task, keepWorktree = false) => {
+  const run = (code: string, cwd = task, keepWorktree = false, taskCommand = false) => {
     // Fixture repositories own independent locks, even when check runs during real integration.
     const env: NodeJS.ProcessEnv = {
       ...process.env,
@@ -49,11 +49,9 @@ async function fixture(t: test.TestContext) {
       [
         '--import',
         import.meta.resolve('tsx'),
-        cli,
+        taskCommand ? path.resolve('tools/task-integrate.ts') : cli,
         ...(keepWorktree ? ['--keep-worktree'] : []),
-        process.execPath,
-        '-e',
-        code,
+        ...(taskCommand ? [] : [process.execPath, '-e', code]),
       ],
       {
         cwd,
@@ -75,7 +73,7 @@ async function fixture(t: test.TestContext) {
     processes.push({ child, done });
     return { child, done, output: () => output };
   };
-  return { root, main, task, git, run };
+  return { root, main, task, git, run, runTask: (keep = false) => run('', task, keep, true) };
 }
 
 async function until(condition: () => boolean | Promise<boolean>) {
@@ -303,4 +301,79 @@ test('new immutable interaction revisions checkpoint with scenes, but modified r
   assert.equal(await modified.done, 1);
   assert.equal(git(['rev-parse', 'HEAD']), before);
   assert.equal(await fs.readFile(file, 'utf8'), body + ' ');
+});
+
+test('task integration merges incoming main, verifies combined changes and never advances main after failed checks', async (t) => {
+  const { root, main, task, git, runTask } = await fixture(t);
+  git(['branch', '-m', 'codex/task'], task);
+  await fs.mkdir(path.join(task, 'tools'));
+  await fs.writeFile(path.join(task, '.gitignore'), 'node_modules/\n.proof\n');
+  await fs.symlink(path.resolve('node_modules'), path.join(task, 'node_modules'), 'dir');
+  await fs.writeFile(
+    path.join(task, 'tools/check.ts'),
+    `
+    import fs from 'node:fs';
+    import { execFileSync } from 'node:child_process';
+    const base = process.argv[process.argv.indexOf('--base') + 1];
+    fs.writeFileSync('.proof', JSON.stringify({ base,
+      changes: execFileSync('git', ['diff', '--name-only', base], { encoding: 'utf8' }),
+      incoming: fs.readFileSync('incoming', 'utf8'),
+    }));
+    if (fs.existsSync('fail-check')) process.exit(7);
+    if (fs.existsSync('change-main')) fs.writeFileSync(${JSON.stringify(path.join(main, 'unfinished'))}, 'concurrent main edit');
+  `,
+  );
+  await fs.writeFile(path.join(task, 'fail-check'), 'fail');
+  git(['add', '.'], task);
+  git(['commit', '-m', 'task'], task);
+  const base = git(['rev-parse', 'main']).trim();
+  await fs.writeFile(path.join(main, 'incoming'), 'current main');
+  git(['add', '.']);
+  git(['commit', '-m', 'incoming main']);
+  const before = git(['rev-parse', 'main']);
+  const failed = runTask();
+  assert.equal(await failed.done, 1, failed.output());
+  assert.equal(git(['rev-parse', 'main']), before);
+  const proof = JSON.parse(await fs.readFile(path.join(task, '.proof'), 'utf8'));
+  assert.equal(proof.base, base);
+  assert.equal(proof.incoming, 'current main');
+  assert.match(proof.changes, /incoming/);
+  assert.match(proof.changes, /tools\/check.ts/);
+  await fs.unlink(path.join(task, 'fail-check'));
+  git(['add', '.'], task);
+  git(['commit', '-m', 'repair'], task);
+  // A new unrelated edit on main must remain untouched and prevent execution.
+  await fs.writeFile(path.join(main, 'unfinished'), 'keep');
+  const blocked = runTask();
+  assert.equal(await blocked.done, 1, blocked.output());
+  assert.equal(await fs.readFile(path.join(main, 'unfinished'), 'utf8'), 'keep');
+  assert.equal(git(['rev-parse', 'main']), before);
+  await fs.unlink(path.join(main, 'unfinished'));
+  await fs.writeFile(path.join(task, 'change-main'), 'simulate concurrent save');
+  git(['add', '.'], task);
+  git(['commit', '-m', 'concurrent fixture'], task);
+  const concurrent = runTask();
+  assert.equal(await concurrent.done, 1, concurrent.output());
+  assert.match(concurrent.output(), /changed during verification/);
+  assert.equal(git(['rev-parse', 'main']), before);
+  assert.equal(await fs.readFile(path.join(main, 'unfinished'), 'utf8'), 'concurrent main edit');
+  await fs.unlink(path.join(main, 'unfinished'));
+  await fs.unlink(path.join(task, 'change-main'));
+  git(['add', '.'], task);
+  git(['commit', '-m', 'finish fixture'], task);
+  const kept = runTask(true);
+  assert.equal(await kept.done, 0, kept.output());
+  assert.equal(git(['rev-parse', 'main']), git(['rev-parse', 'codex/task']));
+  assert.equal(await fs.readFile(path.join(task, 'incoming'), 'utf8'), 'current main');
+  const cleaned = runTask();
+  assert.equal(await cleaned.done, 0, cleaned.output());
+  assert.equal(
+    await fs.stat(task).then(
+      () => true,
+      () => false,
+    ),
+    false,
+  );
+  assert.equal(git(['status', '--porcelain']), '');
+  assert.deepEqual(await fs.readdir(path.join(root, 'archives')), []);
 });

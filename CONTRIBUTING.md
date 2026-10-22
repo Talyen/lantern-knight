@@ -4,7 +4,7 @@ Follow [Development](docs/development.md) for the edit–play–check loop. Pref
 
 ## Verification
 
-Finish with fresh `npm run check`. For documentation edits, also run `npm run docs:check`; the regular check does not include it. Slow/integration checks and affected browser scenarios run in CI by default; targeted local diagnosis or validation remains available. [Verification](docs/verification.md) owns test selection, asset/native checks and evidence requirements. Local checks do not establish hosted CI or visible playtesting.
+Follow [Verification](docs/verification.md#regular-checks) for change-aware checks and [additional coverage](docs/verification.md#test-selection). Local checks establish only the coverage actually run.
 
 ## Review and investigation
 
@@ -12,4 +12,4 @@ Inspect the complete relevant diff, including new files, and surrounding consume
 
 ## Collaboration and commits
 
-[Task coordination](docs/task-coordination.md) owns worktrees, shared interfaces, local integration and standing task-commit authorization. It also defines the exception allowing task-scoped asset publication. Pushes, PRs and other publication require separate authorization. Report the change, integration/commit, completed checks and unavailable coverage.
+[Task coordination](docs/task-coordination.md) owns isolation, authorization, the integration command and completion reporting.

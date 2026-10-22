@@ -23,7 +23,7 @@ test('Game package starts, accepts input and reloads current storage', async () 
   await verifyPackageFuses(executable);
   expect(listPackage(archive, { isPack: false }).some((file) => file.endsWith('.map'))).toBe(false);
   expect(JSON.parse(extractFile(archive, 'dist/build-identity.json').toString())).toEqual(
-    await readJson('dist/build-identity.json'),
+    await readJson('dist-desktop/build-identity.json'),
   );
   const launch = () =>
     launchPackaged(executable, profile, [
@@ -74,7 +74,7 @@ test('Game package starts, accepts input and reloads current storage', async () 
       await fs.readFile(path.join(profile, 'diagnostics/session.json'), 'utf8'),
     );
     expect(report.identity.sourceCommit).toBe(
-      (await readJson('dist/build-identity.json')).sourceCommit,
+      (await readJson('dist-desktop/build-identity.json')).sourceCommit,
     );
     expect(report.environment.electron).toBe(
       (await readJson('package.json')).devDependencies.electron,

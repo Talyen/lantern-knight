@@ -6,11 +6,23 @@ Choose the command for the evidence needed:
 
 | Command              | Coverage                                                                                                                       |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `npm run check`      | Typechecking, JavaScript/TypeScript linting, handwritten code formatting and fast pure suites. Required after edits stabilize. |
-| `npm run docs:check` | Documentation links, anchors, script names, file references and guide reachability. Also required for prose edits.             |
-| `npm run check:ci`   | All regular source checks, all pure suites, documentation, repository/import boundaries and unused-code analysis.              |
+| `npm run check`      | Change-aware local verification: documentation for prose-only changes; typechecking, linting, formatting and fast pure suites for source changes. Includes documentation when changed. |
+| `npm run docs:check` | Explicit documentation-only check: links, anchors, script names, file references and guide reachability. |
+| `npm run check:ci`   | Full source gates and all pure suites; documentation only when the CI comparison contains only known prose paths. |
 
-`check` and `check:ci` run each selected phase fresh, report timings and fail on the first broken phase. Previous passing results never suppress a selected suite. These commands do not acquire artwork, run browser or desktop checks, package the application or install Python tooling. `check:ci` can run locally; it does not establish a hosted CI result. Follow [test selection](#test-selection) for those integration tiers and [documentation checks](#documentation-checks) for prose accuracy limits.
+Finish stabilized edits with `npm run check`. For implementation tasks, [task integration](task-coordination.md#handoff-and-commits) owns that final run under the lock; do not repeat it immediately beforehand. Every selected phase runs fresh and failures stop the command. Changed Markdown is checked automatically, so no second `docs:check` invocation is needed.
+
+Local selection compares the working tree, index and untracked files against the common ancestor of main and HEAD. `-- --base <commit>` selects an explicit baseline. Integration compares the combined result against the pre-merge common ancestor, covering task and incoming main changes. Only Markdown in root/docs/local skills/visual-reference guidance counts as prose-only. Mixed changes, unknown paths, empty comparisons and unavailable comparisons retain source checks. Explicit invalid baselines fail. `check:ci` uses `LANTERN_CI_BASE`; without a usable CI comparison it runs full coverage.
+
+These commands report phase timings and do not acquire artwork or run browser/native checks. `check:ci` can run locally without establishing a hosted CI result. Complete appropriate additional coverage for changed behavior, using an existing focused command or one of these targets:
+
+| Command | Operation |
+| --- | --- |
+| `npm run verify:game` | Build Game using pinned artwork and run built-Game browser checks. `-- --local` selects unpublished local artwork. |
+| `npm run verify:authoring` | Run the development scene, editor and effects browser tier; prefer local artwork, or the pin when none exists. CI uses the pin. |
+| `npm run verify:desktop` | Build an unsigned native Game package and run desktop checks. Supports `-- --local` and `-- --platform mac` or `-- --platform win`. |
+
+Each target supports `-- --list` to discover tests without building, taking the GPU lane or acquiring artwork. Targets preserve the existing build, package and test commands for focused diagnosis and interactive work. Browser checks require installed Playwright Chromium; desktop execution requires the matching host platform. Use `LANTERN_PREVIEW_PORT` for a task's browser port. Target commands do not establish visual or audible acceptance.
 
 ## Visual acceptance
 
@@ -63,7 +75,7 @@ The `audio` decoding and audition tests skip when the selected assets contain no
 
 Development-preview browser checks prefer checkout-local prepared assets, falling back to the pin. One preview session acquires assets and starts a server, or reuses a matching Vite server after checking checkout, asset identity and required scope. It closes only its own server and lease. With `CI=true`, browser checks use pinned assets and require an unused port for their own server; use this mode for [milestone verification](release.md). Install Chromium once with `npx playwright install chromium` when needed; Linux hosts may also need Playwright's `--with-deps` installation. Add `--ui` after the scenario for continuous interactive iteration, for example `npm run test:browser -- editor --ui`.
 
-After `npm run build`, `npm run test:browser -- game --built` verifies Game against the production web artifact with its recorded asset identity. It checks artifact bytes before starting a dedicated preview, without reopening the asset cache. Scene/editor/effects scenarios retain development previews because production Game excludes those views. Game packaging replaces the web identity with a combined desktop identity; run `npm run build` again before using `--built` after Game packaging.
+After `npm run build`, `npm run test:browser -- game --built` verifies Game against the production web artifact with its recorded asset identity. It checks artifact bytes before starting a dedicated preview, without reopening the asset cache. Scene/editor/effects scenarios retain development previews because production Game excludes those views. Packaging stages a verified copy in `dist-desktop/` (or `dist-desktop-dev/`) with its own desktop identity. Browser outputs `dist/` and `dist-dev/` remain usable after packaging; packages retain their existing internal paths.
 
 `npm run test:desktop` consumes a Game package and tests the actual executable, bundled identity, real controls and storage restart. The live-development fixture copies sources and installed dependencies into an isolated checkout, excluding generated dependency caches; CI verifies fresh installation once before these tests. Native results apply to the platform exercised. Browser results do not certify desktop integration or visible reference-hardware pacing.
 
@@ -99,11 +111,11 @@ Do not add retries to hide races, silently skip failures or weaken an invariant 
 
 ## Documentation checks
 
-Run `npm run docs:check` after documentation edits; `npm run check` does not include it, while `npm run check:ci` does. It validates local Markdown links/anchors, npm script names, repository file references and reachability of root/docs guides from README or AGENTS. It does not validate command arguments, external links or whether prose matches behavior. Check those claims against the relevant source owner. Feature guides link to the relevant workflow or contract owner.
+`npm run check` includes documentation when Markdown changes; `npm run docs:check` remains available explicitly. `npm run check:ci` always includes documentation. It validates local Markdown links/anchors, npm script names, repository file references and reachability of root/docs guides from README or AGENTS. It does not validate command arguments, external links or whether prose matches behavior. Check those claims against the relevant source owner. Feature guides link to the relevant workflow or contract owner.
 
 ## E2E coverage and execution budgets
 
-Routine Linux CI runs all pure suites and source gates first. One Linux build produces the verified Game web artifact for every Game shard and both native packaging jobs. Uploads retain the build identity and exact bytes; consumers reject changed files or another commit. Native packaging also compares current web inputs before adding its platform-specific Electron bundle. The complete manual workflow includes assets, authoring and both native platforms.
+Known prose-only Linux CI changes run documentation checks and omit build, asset, browser and desktop jobs. Other changes run all pure suites and source gates first; unavailable comparisons select full coverage. One Linux build produces the verified Game web artifact for every Game shard and both native packaging jobs. Uploads retain the build identity and exact bytes; consumers reject changed files or another commit. Native packaging also compares current web inputs before adding its platform-specific Electron bundle. The complete manual workflow includes assets, authoring and both native platforms.
 
 Eleven Game shards cover controls, a native camera strip, inventory, upgrades, loot-label routing, adventure rewards/travel and one complete upgraded-kit chapel entry/reward/retry/return journey. Pure progression tests own upgrade permutations; the same browser journey is no longer repeated four times.
 
