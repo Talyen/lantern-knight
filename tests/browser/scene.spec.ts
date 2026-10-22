@@ -2,37 +2,47 @@ import { expectPageValue, stateTest as test, expect } from './fixtures';
 // These interaction proofs do not depend on a full-size framebuffer.
 test.use({ viewport: { width: 800, height: 600 } });
 
-test('scene selection and camera framing survive independent reloads', async ({ page }) => {
-  // Four cold renderer constructions share this journey on CI software WebGL.
+test('scene selection and distinct camera framing survive one workspace reload', async ({
+  page,
+}) => {
   test.setTimeout(420_000);
   await page.addInitScript(() => sessionStorage.setItem('lantern-author-scene', 'court'));
   await page.goto('/sandbox.html');
   await page.waitForFunction(() => window.foundation?.ready);
   expect(await page.evaluate(() => window.foundation.sim.area)).toBe('outdoor-fixture');
-  for (const scene of ['outdoor-fixture', 'interior-fixture']) {
-    if (scene === 'interior-fixture') {
-      await page.locator('#scene-select').selectOption(scene);
-      await page.waitForFunction(
-        () => window.foundation?.ready && window.foundation.sim.area === 'interior-fixture',
-      );
-    }
-    await page.evaluate(() => {
+  const select = async (scene: string) => {
+    await page.locator('#scene-select').selectOption(scene);
+    await page.waitForFunction(
+      (id) => window.foundation?.ready && window.foundation.sim.area === id,
+      scene,
+    );
+  };
+  const frame = async (span: number) =>
+    page.evaluate((span) => {
       const f = window.foundation;
       f.pause(true);
       f.mode('lighting');
-      f.presentation.verticalSpan = 13;
-    });
-    // Drop the URL selection so reload must restore the current workspace.
-    await page.goto('/sandbox.html');
-    await page.waitForFunction(() => window.foundation?.ready);
-    expect(await page.evaluate(() => window.foundation.sim.area)).toBe(scene);
+      f.presentation.verticalSpan = span;
+    }, span);
+  await frame(13);
+  await select('interior-fixture');
+  await frame(17);
+  // Drop URL selection and reconstruct both fixtures from the saved workspace.
+  await page.goto('/sandbox.html');
+  await page.waitForFunction(() => window.foundation?.ready);
+  expect(await page.evaluate(() => window.foundation.sim.area)).toBe('interior-fixture');
+  for (const [scene, span] of [
+    ['interior-fixture', 17],
+    ['outdoor-fixture', 13],
+  ] as const) {
+    if (scene === 'outdoor-fixture') await select(scene);
+    expect(await page.evaluate(() => window.foundation.presentation.verticalSpan)).toBe(span);
     expect(
       await page.evaluate(() => {
         const { rig, look, sun } = window.foundation.presentation.lookRenderer.settings;
         return { rig, look, sun };
       }),
     ).toEqual({ rig: 'lantern', look: 'cinematic', sun: { azimuthDeg: 20, elevationDeg: 15 } });
-    expect(await page.evaluate(() => window.foundation.presentation.verticalSpan)).toBe(13);
   }
 });
 

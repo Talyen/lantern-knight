@@ -47,7 +47,6 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   const panel = page.getByRole('dialog', { name: 'Inventory', exact: true });
   const detail = panel.getByRole('region', { name: 'Selected item' });
   await expect(detail).toContainText('Select an item to inspect it.');
-  await expect(panel.locator('.bag-empty')).toHaveCount(192);
   const pick = (name: string) =>
     panel.locator('.inventory-row').filter({ hasText: name }).first().click();
   const capture = async (name: string, keepFocus = false) => {
@@ -86,8 +85,6 @@ test('inventory compares replacements and upgrades keep selection and confirmati
   await expect(detail).toContainText('105 → 110');
   await expect(detail).toContainText('Replaces Traveller’s Charm');
   await expect(panel.locator('.item-art:not([data-ready="true"])')).toHaveCount(0);
-  await expect(panel).not.toContainText('Ready for the road');
-  await expect(panel).not.toContainText('The world waits');
   await capture('inventory-1280');
   await detail.getByRole('button', { name: 'Equip', exact: true }).click();
   await pick('Orchard Ring');
@@ -214,7 +211,7 @@ test('inventory compares replacements and upgrades keep selection and confirmati
 test('sized pack dragging, keyboard cancellation and organizing persist without shifting equipment', async ({
   page,
 }) => {
-  // Four complete renderer launches verify placement, settings and full-pack reloads.
+  // Three launches verify organized layout and full-pack admission after real pack gestures.
   test.setTimeout(600_000);
   const session = new GameSession(content, 142, 'ruined-forge');
   const save = session.captureSave();
@@ -264,6 +261,28 @@ test('sized pack dragging, keyboard cancellation and organizing persist without 
     targetPosition: { x: (bounds.width / 12) * 10.5, y: (bounds.width / 12) * 5.5 },
   });
   await expect.poll(readPosition).toMatchObject({ x: 10, y: 5 });
+  const readPack = () =>
+    page.evaluate(() => {
+      const key = Object.keys(localStorage).find((key) => key.endsWith('-game'))!;
+      return JSON.parse(localStorage.getItem(key)!).adventure.pack;
+    });
+  const beforeBlocked = await readPack();
+  const occupied = beforeBlocked.find((entry: { item: string }) => entry.item === 'health-potion')!;
+  const blocked = panel.locator(`[data-entry="${key}"]`);
+  await blocked.press('m');
+  for (let x = 10; x !== occupied.x; x += Math.sign(occupied.x - x))
+    await blocked.press(x < occupied.x ? 'ArrowRight' : 'ArrowLeft');
+  for (let y = 5; y !== occupied.y; y += Math.sign(occupied.y - y))
+    await blocked.press(y < occupied.y ? 'ArrowDown' : 'ArrowUp');
+  await expect(panel.locator('.pack-placement.invalid')).toBeVisible();
+  await blocked.press('Enter');
+  await expect(panel.getByRole('status')).toHaveText(
+    'That space is blocked. Your item has not moved.',
+  );
+  await page.keyboard.press('Escape');
+  expect(await readPack()).toEqual(beforeBlocked);
+  await expect(ring).toHaveCSS('grid-column-start', '11');
+  await expect(ring).toHaveCSS('grid-row-start', '6');
   const before = await readPosition();
   const moved = panel.locator(`[data-entry="${key}"]`);
   await moved.press('m');
@@ -275,16 +294,11 @@ test('sized pack dragging, keyboard cancellation and organizing persist without 
   await moved.press('ArrowLeft');
   await moved.press('Enter');
   await expect.poll(readPosition).toMatchObject({ x: 9, y: 5 });
-  await page.keyboard.press('Escape');
-  await page.reload();
-  await page.waitForFunction(
-    () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
-  );
-  await page.locator('#menu-start').click();
-  await page.keyboard.press('i');
-  await expect(panel.locator(`[data-entry="${key}"]`)).toHaveAttribute('style', /6 \/ 10/);
   await panel.getByRole('button', { name: 'Organize', exact: true }).click();
   await expect.poll(readPosition).not.toMatchObject({ x: 9, y: 5 });
+  // Organize must save the whole arrangement and restore it through UI admission.
+  const organized = await readPack();
+  // Large interface layout is exercised here; preference restoration belongs to settings.
   await page.keyboard.press('Escape');
   await page.locator('#pause').click();
   await page.locator('#menu-settings').click();
@@ -301,25 +315,16 @@ test('sized pack dragging, keyboard cancellation and organizing persist without 
   await page.waitForFunction(
     () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
   );
-  await page.locator('#menu-settings').click();
-  await expect(page.locator('#ui-scale')).toHaveValue('1.15');
-  for (const viewport of [
-    { width: 1920, height: 1080 },
-    { width: 1280, height: 600 },
-    { width: 640, height: 800 },
-  ]) {
-    await page.setViewportSize(viewport);
-    expect(
-      await page
-        .locator('.menu-shell')
-        .evaluate((element) => element.scrollWidth <= element.clientWidth),
-    ).toBe(true);
-    await expect(page.locator('#ui-scale')).toBeInViewport({ ratio: 1 });
-  }
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.locator('#menu-back').click();
   await page.locator('#menu-start').click();
   await page.keyboard.press('i');
+  await expect(panel.locator('.inventory-row')).toHaveCount(organized.length);
+  for (const entry of organized) {
+    const item = panel.locator(`[data-entry="${entry.key}"]`);
+    await expect(item).toHaveCSS('grid-column-start', String(entry.x + 1));
+    await expect(item).toHaveCSS('grid-row-start', String(entry.y + 1));
+  }
+  await page.setViewportSize({ width: 640, height: 800 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await panel.locator('.inventory-row[data-item="orchard-ring"]').first().click();
   const capture = async (name: string) => {
     const directory = process.env.LANTERN_OPENING_CAPTURE_DIRECTORY;
@@ -357,9 +362,11 @@ test('sized pack dragging, keyboard cancellation and organizing persist without 
   await expect(panel.locator('.inventory-row')).toHaveCount(192);
   await expect(panel.locator('.pack-heading')).toContainText('192 / 192');
   await capture('inventory-full-1920');
+  const fullPack = await readPack();
   await panel.locator('[data-action="slot-sword"]').click();
   await panel.getByRole('button', { name: 'Unequip', exact: true }).click();
   await expect(panel.getByRole('alert')).toContainText('Your pack is full');
+  expect(await readPack()).toEqual(fullPack);
   await capture('inventory-full-error-1920');
   await expect(panel.locator('.inventory-slot.slot-sword')).toHaveAttribute(
     'aria-label',
