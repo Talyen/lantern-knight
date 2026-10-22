@@ -6,6 +6,9 @@ import chapel from '../../authoring/scenes/desecrated-chapel.json';
 import rootwood from '../../authoring/scenes/rootwood-clearing.json';
 import village from '../../authoring/scenes/ruined-village-paths.json';
 import graveyard from '../../authoring/scenes/graveyard-terraces.json';
+import cloister from '../../authoring/scenes/cloister.json';
+import abbey from '../../authoring/scenes/raven-abbey.json';
+import crypt from '../../authoring/scenes/crypt.json';
 import { resolveScene } from './world-art';
 import { contentSnapshot, type ContentSnapshot } from './snapshot';
 import { ContentRegistry, type ContentDefinitions } from './world';
@@ -17,9 +20,18 @@ import type { Manifest } from '../assets/schema';
 import { actors } from './actors';
 import { actorVisuals, assetCatalog } from './visuals';
 import { validateSceneReferences } from './scene-document';
-const playableScenes = [orchard, clearing, forge, chapel, rootwood, village, graveyard].map(
-  (document) => resolveScene(document),
-);
+const playableScenes = [
+  orchard,
+  clearing,
+  forge,
+  chapel,
+  rootwood,
+  village,
+  graveyard,
+  cloister,
+  abbey,
+  crypt,
+].map((document) => resolveScene(document));
 export const worldVisuals: Readonly<Record<string, WorldVisualDefinition>> = Object.fromEntries(
   playableScenes.map((scene) => [scene.area.id, scene.visuals]),
 );
