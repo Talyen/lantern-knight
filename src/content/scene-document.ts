@@ -90,6 +90,11 @@ const object = placementSchema
         code: 'custom',
         message: 'Mounted objects use only support-relative offsets; free objects require x/z',
       });
+    if (p.mount && p.mount.to === p.id)
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Object cannot mount to itself: ' + p.id,
+      });
     if (p.kind === 'decal' && (p.mount || p.fixture))
       ctx.addIssue({ code: 'custom', message: 'Ground details cannot carry fixtures or mounts' });
   });
@@ -118,7 +123,7 @@ const surface = z.union([
   z
     .strictObject({
       kind: z.enum(['ramp', 'stairs']),
-      steps: z.number().int().positive().optional(),
+      steps: z.number().int().positive().max(12).optional(),
       terraceBounds: bounds.optional(),
       stairWidth: positive.optional(),
       axis: z.enum(['x', 'z']),
@@ -127,7 +132,11 @@ const surface = z.union([
       startHeight: coordinate,
       endHeight: coordinate,
     })
-    .refine((s) => s.start !== s.end, 'Surface needs a nonempty range'),
+    .refine((s) => s.start !== s.end, 'Surface needs a nonempty range')
+    .refine(
+      (s) => Math.abs((s.endHeight - s.startHeight) / (s.end - s.start)) <= 0.5,
+      'Ramp slope cannot exceed 0.5',
+    ),
 ]);
 const geometry = z.strictObject({
   bounds,
@@ -244,13 +253,44 @@ const SceneDocumentSchema = z
     interior: bounds.optional(),
     propOrder: z.array(id).default([]),
     overlaps: z
-      .array(z.strictObject({ a: id, b: id, region: bounds, reason: z.string() }))
+      .array(
+        z.strictObject({
+          a: id,
+          b: id,
+          region: bounds,
+          reason: z.string().trim().min(1),
+        }),
+      )
       .default([]),
     objects: z.array(object).max(500),
   })
   .superRefine((d, ctx) => {
     if (new Set(d.objects.map((p) => p.id)).size !== d.objects.length)
       ctx.addIssue({ code: 'custom', message: 'Duplicate object identity' });
+    const objectMap = new Map(d.objects.map((p) => [p.id, p]));
+    for (const obj of d.objects) {
+      if (!obj.mount) continue;
+      if (!objectMap.has(obj.mount.to)) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Missing attachment support: ' + obj.mount.to,
+        });
+      } else {
+        const visited = new Set<string>([obj.id]);
+        let curr = objectMap.get(obj.mount.to);
+        while (curr?.mount) {
+          if (visited.has(curr.id)) {
+            ctx.addIssue({
+              code: 'custom',
+              message: 'Cyclic attachment support: ' + obj.id,
+            });
+            break;
+          }
+          visited.add(curr.id);
+          curr = objectMap.get(curr.mount.to);
+        }
+      }
+    }
     if (new Set(d.walls.map((p) => p.id)).size !== d.walls.length)
       ctx.addIssue({ code: 'custom', message: 'Duplicate wall identity' });
     if (new Set(d.graves.map((p) => p.id)).size !== d.graves.length)

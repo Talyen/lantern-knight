@@ -28,9 +28,10 @@ export function validateUpgrades(ranks: Readonly<UpgradeRanks>) {
 }
 export function upgradeOffer(
   id: UpgradeId,
-  ranks: Readonly<UpgradeRanks>,
-  inventory: Readonly<Inventory>,
+  ranks: Readonly<UpgradeRanks> = {},
+  inventory: Readonly<Inventory> = {},
 ) {
+  validateUpgrades(ranks);
   if (!Object.hasOwn(upgrades, id)) throw new Error('Unknown upgrade');
   const rank = ranks[id] ?? 0;
   const next = upgrades[id].ranks[rank];

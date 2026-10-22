@@ -257,15 +257,17 @@ function assertActor(a: ContentSnapshot<ActorDefinition>) {
       m.halfAngle > Math.PI
     )
       fail(`invalid melee ${a.id}`);
-  } else if (
-    a.kind !== 'enemy' ||
-    m.length <= 0 ||
-    m.width <= 0 ||
-    !Number.isInteger(m.cooldown) ||
-    m.cooldown < m.total
-  )
-    fail(`invalid rib lane ${a.id}`);
-  if (m.kind === 'rib-lane') assertFinite(m.length, m.width, m.cooldown);
+  } else {
+    assertFinite(m.length, m.width, m.cooldown);
+    if (
+      a.kind !== 'enemy' ||
+      m.length <= 0 ||
+      m.width <= 0 ||
+      !Number.isInteger(m.cooldown) ||
+      m.cooldown < m.total
+    )
+      fail(`invalid rib lane ${a.id}`);
+  }
 }
 function assertArea(
   a: ContentSnapshot<AreaDefinition>,
@@ -340,7 +342,14 @@ function assertArea(
     if (s.kind === 'stairs') {
       const steps = s.steps ?? 3;
       if (!Number.isInteger(steps) || steps < 1 || steps > 12) fail('invalid stairs');
-      if (s.terraceBounds) assertBounds(s.terraceBounds);
+      if (s.terraceBounds) {
+        assertBounds(s.terraceBounds);
+        if (
+          !contains(a.bounds, { x: s.terraceBounds.minX, z: s.terraceBounds.minZ }) ||
+          !contains(a.bounds, { x: s.terraceBounds.maxX, z: s.terraceBounds.maxZ })
+        )
+          fail(`terrace outside ${a.id}`);
+      }
       if (s.stairWidth !== undefined) {
         assertFinite(s.stairWidth);
         if (s.stairWidth <= 0) fail('invalid stair width');
