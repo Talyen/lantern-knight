@@ -21,6 +21,7 @@ export function electronConfig(name: 'main' | 'preload', profile: BuildProfile):
     outfile: `${electronOutput(profile)}/${name}.cjs`,
     define: { __DEV_APP__: String(profile === 'authoring') },
     bundle: true,
+    sourcemap: 'external',
     metafile: true,
     platform: 'node',
     target: 'node24',

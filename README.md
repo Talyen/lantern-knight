@@ -4,7 +4,7 @@ An early sword-and-lantern prototype with a playable orchard opening, connected 
 
 ## Develop and verify
 
-Use Node 24.18.0 and npm 11.16.0:
+Use Node 24.22.1 and npm 11.16.0:
 
 ```sh
 npm ci

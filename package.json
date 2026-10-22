@@ -7,7 +7,7 @@
   "author": "Lantern Knight",
   "main": "dist-electron/main.cjs",
   "engines": {
-    "node": ">=24.18.0 <25"
+    "node": ">=24.22.1 <25"
   },
   "scripts": {
     "dev": "tsx tools/dev.ts",
@@ -52,14 +52,14 @@
   "dependencies": {
     "postprocessing": "6.39.5",
     "three": "0.186.1",
-    "zod": "4.6.5"
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@electron/asar": "3.4.1",
     "@playwright/test": "1.63.0",
     "@types/node": "24.19.1",
     "@types/three": "0.186.0",
-    "electron": "44.5.1",
+    "electron": "44.9.3",
     "electron-builder": "26.15.3",
     "esbuild": "0.28.2",
     "knip": "6.40.0",
@@ -71,7 +71,8 @@
     "tar": "7.5.22",
     "tsx": "4.23.15",
     "typescript": "7.0.2",
-    "vite": "8.3.3"
+    "vite": "8.3.5",
+    "@electron/fuses": "2.0.0"
   },
   "build": {
     "appId": "studio.lanternknight.foundation",
@@ -82,6 +83,7 @@
     "files": [
       "dist/**",
       "dist-electron/**",
+      "!**/*.map",
       "package.json"
     ],
     "asar": true,
@@ -92,7 +94,20 @@
     "win": {
       "target": "dir"
     },
-    "beforeBuild": "tools/package-bundled.cjs"
+    "beforeBuild": "tools/package-bundled.cjs",
+    "electronFuses": {
+      "runAsNode": false,
+      "enableNodeOptionsEnvironmentVariable": false,
+      "enableNodeCliInspectArguments": false,
+      "enableEmbeddedAsarIntegrityValidation": true,
+      "onlyLoadAppFromAsar": true,
+      "resetAdHocDarwinSignature": true
+    }
   },
-  "packageManager": "npm@11.16.0"
+  "packageManager": "npm@11.16.0",
+  "overrides": {
+    "@electron/get": {
+      "global-agent": "4.1.3"
+    }
+  }
 }

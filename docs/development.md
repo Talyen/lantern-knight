@@ -4,7 +4,7 @@ This is an early prototype. Prefer a short edit–play–check loop. Scenes, ass
 
 ## Start and iterate
 
-Use Node 24.18.0 and npm 11.16.0, then `npm ci` and `npm run dev`. One Vite server serves Game, Dev Preview and the scene editor. Development acquires pinned artwork on demand and reuses a matching running server before opening an asset workspace. Use `npm run dev -- --eager` to acquire the complete authoring library upfront for offline work or startup comparisons. Developer navigation links connect these views. Dev Preview uses one toolbar and floating inspector for independent outdoor/interior/system fixtures, animation, visuals/effects, inspection and diagnostics; advanced controls remain collapsed until needed.
+Use Node 24.22.1 and npm 11.16.0, then `npm ci` and `npm run dev`. One Vite server serves Game, Dev Preview and the scene editor. Development acquires pinned artwork on demand and reuses a matching running server before opening an asset workspace. Use `npm run dev -- --eager` to acquire the complete authoring library upfront for offline work or startup comparisons. Developer navigation links connect these views. Dev Preview uses one toolbar and floating inspector for independent outdoor/interior/system fixtures, animation, visuals/effects, inspection and diagnostics; advanced controls remain collapsed until needed.
 
 For Game-only browser work, use `npm run dev -- --runtime`. This selects runtime assets and omits developer navigation. Use the default authoring preview for the editor and Dev Preview.
 
@@ -59,3 +59,9 @@ Tool commands parse arguments and call owned workflows. Preview sessions hold on
 Inspect `git status`, `git diff --stat` and the relevant diff, including new files. Preserve unrelated edits. Each implementation chat uses an isolated worktree and task branch with local dependencies and a distinct preview port. Follow [task ownership](task-coordination.md#parallel-task-ownership) before editing and [locked integration](task-coordination.md#handoff-and-commits) for commits, verification, main integration and cleanup. That guide also owns messaging boundaries and resource coordination. Small sequential edits need no task registration, snapshot database or passing-evidence receipt.
 
 Keep implementation choices local. Add interfaces only when they express a real consumer or resource lifetime. Delete superseded paths and update their documentation in the same change.
+
+## Dependency security
+
+Dependabot opens weekly npm, segmentation Python and GitHub Actions updates. Compatible npm updates are grouped; Torch/Torchvision and the detector-loading packages have separate compatibility groups. Review model/toolchain upgrades with their owners and run real local inference after changing model-loading dependencies.
+
+The Dependency security workflow runs on dependency changes, manual dispatch and weekly against main. It audits the complete npm lock and the explicitly pinned segmentation requirements without downloading models or resolving platform-specific CUDA extras. Reproduce with `npm audit --audit-level=moderate` and `pip-audit -r tools/segmentation/requirements.txt --no-deps --disable-pip` in an audit-tool environment. Also audit the installed authoring environment after setup to cover platform-specific dependencies. The npm override of `global-agent` under `@electron/get` removes the affected legacy logger chain while retaining the downloader's bootstrap API; remove it when the upstream dependency range includes the replacement.

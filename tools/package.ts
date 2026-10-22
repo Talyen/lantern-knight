@@ -5,6 +5,8 @@ import { verifyBuildIdentity } from './build-identity';
 import { runProcess } from './run-process';
 import { projectRoot } from './assets/paths';
 import { macSigning, prepareMacSigning, notarizeMacApp } from './package-mac';
+import { verifyPackageFuses } from './package-fuses';
+import path from 'node:path';
 async function packageApp(
   platform: 'mac' | 'win',
   profile: import('./build-profile').BuildProfile = 'game',
@@ -12,6 +14,7 @@ async function packageApp(
   local = false,
   signing?: ReturnType<typeof macSigning>,
   prebuiltWeb = false,
+  inspectable = false,
 ) {
   if (prebuilt && prebuiltWeb) throw new Error('Choose --prebuilt or --prebuilt-web');
   if (prebuilt && local)
@@ -27,6 +30,13 @@ async function packageApp(
       '--' + platform,
       platform === 'mac' ? '--arm64' : '--x64',
       '--dir',
+      ...(inspectable
+        ? [
+            '-c.directories.output=release-inspectable',
+            '-c.electronFuses.runAsNode=true',
+            '-c.electronFuses.enableNodeCliInspectArguments=true',
+          ]
+        : []),
       ...(releaseSigning
         ? [
             '-c.mac.identity=' + releaseSigning.identity.replace(/^Developer ID Application: /, ''),
@@ -41,6 +51,20 @@ async function packageApp(
     ],
     { cwd: projectRoot, timeoutMs: 10 * 60_000 },
   );
+  const name = profile === 'authoring' ? 'Lantern Knight Dev' : 'Lantern Knight';
+  const output = inspectable
+    ? 'release-inspectable'
+    : profile === 'authoring'
+      ? 'release-dev'
+      : 'release';
+  await verifyPackageFuses(
+    path.join(
+      projectRoot,
+      output,
+      platform === 'mac' ? `mac-arm64/${name}.app` : `win-unpacked/${name}.exe`,
+    ),
+    inspectable || profile === 'authoring',
+  );
   if (releaseSigning) await notarizeMacApp(releaseSigning, projectRoot);
 }
 runCli(import.meta.url, () => {
@@ -53,6 +77,7 @@ runCli(import.meta.url, () => {
       local: { type: 'boolean' },
       signed: { type: 'boolean' },
       unsigned: { type: 'boolean' },
+      inspectable: { type: 'boolean' },
       identity: { type: 'string' },
       'notary-profile': { type: 'string' },
     },
@@ -61,6 +86,10 @@ runCli(import.meta.url, () => {
     values.platform ??
     (process.platform === 'darwin' ? 'mac' : process.platform === 'win32' ? 'win' : undefined);
   if (platform !== 'mac' && platform !== 'win') throw new Error('Supply --platform mac|win');
+  if (values.inspectable && (!values.unsigned || values.signed || values.dev))
+    throw new Error(
+      '--inspectable requires --unsigned Game packaging; it is not a release artifact',
+    );
   const signing = macSigning({ ...values, platform });
   return packageApp(
     platform,
@@ -69,5 +98,6 @@ runCli(import.meta.url, () => {
     values.local,
     signing,
     values['prebuilt-web'],
+    values.inspectable,
   );
 });

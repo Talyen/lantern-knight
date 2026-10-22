@@ -23,6 +23,14 @@ Packages retain source commit, asset identity and output checksums. Native jobs 
 
 Mac Game release packages use [Developer ID signing and Apple notarization](#signed-mac-packages-for-steam) by default. Output remains an unpacked macOS arm64/Windows x64 application; Windows packages are unsigned. Windows signing, installers, licenses/notices and Steam depot delivery remain separate release work. [Assets](assets.md) owns task-scoped asset pin publication; [verification](verification.md) owns checks and evidence.
 
+## Package hardening and diagnostic builds
+
+Game packages disable Electron's RunAsNode, NODE_OPTIONS and main-process inspection fuses, enable embedded ASAR integrity and allow loading only from ASAR. Packaging verifies these flags on the resulting executable before reporting success. macOS arm64 packaging renews the ad-hoc signature after flipping fuses; signed releases subsequently receive their Developer ID signature and notarization. Developer packages intentionally retain main-process inspection. [Electron fuses](https://www.electronjs.org/docs/latest/tutorial/fuses) describes these package-time controls.
+
+The Game desktop test attaches to Chromium without enabling the main-process inspector and exercises the hardened executable. Existing native benchmark tools require main-process inspection: create a separate unsigned Game package with `npm run package -- --unsigned --inspectable`, then set `LANTERN_EXECUTABLE` to the executable under `release-inspectable/` when running those tools. For example, on macOS use `LANTERN_EXECUTABLE="/absolute/checkout/release-inspectable/mac-arm64/Lantern Knight.app/Contents/MacOS/Lantern Knight" npm run benchmark -- startup --samples 5 --visible`. On Windows select `release-inspectable/win-unpacked/Lantern Knight.exe`. Inspectable builds cannot use Developer ID release signing through this command and must not be distributed as releases. Their measurements establish behavior for that diagnostic package, not hardened release acceptance.
+
+Vite emits hidden source maps and Electron emits external maps beside build outputs. Distributable packages exclude maps. CI retains web and platform-specific desktop symbol artifacts for fourteen days, named by commit; retain the matching artifacts externally for longer-lived releases. Local maps remain in `dist/` and `dist-electron/` until rebuilt. Help → Export diagnostics saves a local report; renderer failure offers export and process restart. See [desktop diagnostics](architecture.md#desktop-diagnostics) for content and retention bounds.
+
 ## Opening Windows acceptance
 
 Run on the intended Windows reference PC. Record CPU, GPU and driver, RAM, Windows version, display resolution/refresh rate, package source commit and asset identity. Choose a 2560 × 1440 display mode and verify the actual framebuffer; a browser viewport or macOS cross-build does not qualify. Reference hardware remains unnamed until supplied and exercised.

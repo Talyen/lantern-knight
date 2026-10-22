@@ -67,6 +67,7 @@ export function webConfig(
       fs: { allow: [process.cwd(), publicDirectory] },
     },
     build: {
+      sourcemap: 'hidden',
       copyPublicDir: false,
       outDir: authoring ? 'dist-dev' : 'dist',
       rolldownOptions: {
