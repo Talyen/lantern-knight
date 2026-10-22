@@ -19,7 +19,7 @@ Its adjacent `review-provenance.json` records image hashes, origins, scope and a
 | `hud-study.png` | Counterexample: persistent location/look labels and control strip compete with the world. | Agent critique grounded in [quiet gameplay UI](../../docs/game-design.md#opening-guidance); no new human rejection claimed. |
 | `art/forge.png` | Supplied environment illustration: inspect intact architectural masses, connected shadow planes and path spacing. | Source-art reference; it does not prove gameplay scale, traversal, prop placement or human approval of a new composition. |
 | `inventory-before.png`, `comparison-before.png` | Human-preferred incumbent: the user chose B (this framed version) over the unboxed alternative. | One complete-image preference; individual reasons remain unknown. The conditional detail layout still shrinks the kit. |
-| `inventory-after.png`, `comparison-after.png`, `inventory-narrow.png`, `comparison-narrow.png` | Revised framed candidate: preserves the preferred shell and equipment treatment, with a stable comparison area. | Agent-reviewed implementation. Human aesthetic preference remains pending until recorded for these exact images. |
+| `inventory-after.png`, `comparison-after.png`, `inventory-narrow.png`, `comparison-narrow.png` | Revised framed candidate: preserves the preferred shell and equipment treatment, with a stable comparison area. | Round 2 preferred `comparison-after.png`; other views remain agent-reviewed supporting evidence. |
 
 The gallery also includes `inventory-focus.png`, `inventory-disabled.png` and `inventory-error.png`: actual keyboard focus, disabled Equip and full-pack recovery states. These demonstrate interaction presentation, not human preference.
 
@@ -29,7 +29,9 @@ The gallery also includes `inventory-focus.png`, `inventory-disabled.png` and `i
 
 ## Recorded comparison
 
-Round 1: A was the unboxed candidate and B the original framed workbench. The user selected **B**. Exact images and hashes are recorded in `preference-01.json` beside the gallery. The losing treatment is retained as `inventory-rejected.png` and `comparison-rejected.png`, explicitly marked rejected. Do not infer that every individual change in the losing image was disliked. The next candidate retains the incumbent's visual treatment and addresses the demonstrated selection-driven layout shift. Its preference remains pending.
+Round 1: A was the unboxed candidate and B the original framed workbench. The user selected **B**. Exact images and hashes are recorded in `preference-01.json` beside the gallery. The losing treatment is retained as `inventory-rejected.png` and `comparison-rejected.png`, explicitly marked rejected. Do not infer that every individual change in the losing image was disliked. The next candidate retains the incumbent's visual treatment and addresses the demonstrated selection-driven layout shift.
+
+In round 2, A was the original framed comparison and B the revised framed comparison. The user selected **B**, preferring `comparison-after.png` over `comparison-before.png`. Exact hashes are in `preference-02.json`. Preserve the revised comparison as a scoped positive reference; the reasons and transfer to other screens remain untested. The UI contents and viewport matched, but the original capture used software WebGL and the revised capture used hardware-configured rendering.
 
 ## Use and maintain
 
