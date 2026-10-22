@@ -124,7 +124,7 @@ export async function openDiagnostics(root: string) {
   const childGone = (_event: Electron.Event, details: Electron.Details) =>
     log.record('child-process-gone', JSON.stringify(details));
   app.on('child-process-gone', childGone);
-  const exception = (error: Error) => log.fatal(error);
+  const exception = (error: unknown) => log.fatal(error);
   // Observe without suppressing Node's fatal exception behavior.
   process.on('uncaughtExceptionMonitor', exception);
   return {

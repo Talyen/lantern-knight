@@ -46,6 +46,17 @@ test('oversized or corrupt previous diagnostics do not prevent a new session', a
   );
 });
 
+test('fatal diagnostics preserve non-Error values thrown by JavaScript', async (t) => {
+  const root = await temporaryDirectory(t, 'lantern-diagnostics-');
+  const log = new DiagnosticLog(root, {});
+  for (const value of ['fatal string', 42, null, undefined]) {
+    log.fatal(value);
+    const report = JSON.parse((await readBounded(path.join(root, 'fatal.json'))).toString());
+    assert.equal(report.detail, String(value));
+  }
+  await log.close();
+});
+
 test('crash export retains two bounded payloads and ignores database files', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-diagnostics-');
   const folder = path.join(root, 'completed');

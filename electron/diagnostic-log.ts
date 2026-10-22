@@ -78,7 +78,7 @@ export class DiagnosticLog {
     // Observe failures immediately; flush still reports them to an explicit caller.
     void this.writing.catch(() => {});
   }
-  fatal(error: Error) {
+  fatal(error: unknown) {
     if (this.closed) return;
     // Node exits immediately after an uncaught exception; this small separate
     // file must not depend on the asynchronous journal writer completing.
@@ -88,7 +88,10 @@ export class DiagnosticLog {
         path.join(this.directory, 'fatal.json'),
         JSON.stringify({
           time: new Date().toISOString(),
-          detail: (error.stack ?? error.message).slice(0, 4096),
+          detail: (error instanceof Error ? (error.stack ?? error.message) : String(error)).slice(
+            0,
+            4096,
+          ),
         }),
         { mode: 0o600 },
       );
