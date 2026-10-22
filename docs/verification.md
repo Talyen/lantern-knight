@@ -105,7 +105,11 @@ Run `npm run docs:check` after documentation edits; `npm run check` does not inc
 
 Routine Linux CI runs all pure suites and source gates first. One Linux build produces the verified Game web artifact for every Game shard and both native packaging jobs. Uploads retain the build identity and exact bytes; consumers reject changed files or another commit. Native packaging also compares current web inputs before adding its platform-specific Electron bundle. The complete manual workflow includes assets, authoring and both native platforms.
 
-Eleven Game shards cover controls, a native camera strip, inventory, upgrades, loot-label routing, adventure rewards/travel and one complete upgraded-kit chapel entry/reward/retry/return journey. Pure progression tests own upgrade permutations; the same browser journey is no longer repeated four times. Audio and graphics settings share one persistence/reload journey. The camera strip retains native pixels at one wide viewport; the former three large screenshot variants are removed.
+Eleven Game shards cover controls, a native camera strip, inventory, upgrades, loot-label routing, adventure rewards/travel and one complete upgraded-kit chapel entry/reward/retry/return journey. Pure progression tests own upgrade permutations; the same browser journey is no longer repeated four times.
+
+Audio, graphics and interface-scale settings share one persistence/reload journey, including the settings viewport matrix. Pack coverage owns accepted and blocked gestures, cancellation, complete organized-layout restoration and full-pack failure without item loss. Preview camera persistence uses distinct outdoor/interior spans and restores both after one workspace reload. Campfire conversion checks exclusive/shared artwork and undo/redo in one editor lifetime.
+
+The camera strip retains native pixels at one wide viewport; the former three large screenshot variants are removed.
 
 Sixteen development-browser shards use `--ci-development --ci-shard=N/16`, adding `--authoring` for editor/effects changes. Discovery enumerates every retained test before balancing expensive cases across shards. Nested and parameterized titles stay distinct, and unclassified suite names fail selection. The relative costs in [the shard planner](../tools/ci-browser-shard.ts) are scheduling estimates, not performance results. `--list` shows the selected shard without assets or a preview. One browser worker and a fresh process per case preserve isolation; no test retry is enabled. Hosted logs include each case's elapsed time.
 

@@ -65,63 +65,76 @@ test('campfire defaults render the supplied animation and light in every playabl
   }
 });
 
-for (const shared of [false, true]) {
-  test(`custom campfire conversion preserves ${shared ? 'shared' : 'exclusive'} artwork ownership`, async ({
-    page,
-  }) => {
-    await openEditor(page);
-    const scene = emptyScene();
-    scene.objects.push({
-      id: 'custom-fire',
-      kind: 'prop',
-      asset: defaultCampfireAsset,
-      clip: 'unlit',
-      x: 1,
-      z: 1,
-    });
-    scene.gameplay!.campfires = [
-      { id: 'rest', name: 'Rest', object: 'custom-fire', x: 0, z: 0, safeRadius: 2.6 },
-    ];
-    if (shared)
-      scene.gameplay!.pickups.push({
-        id: 'shared-pickup',
-        object: 'custom-fire',
+test('custom campfire conversion preserves artwork ownership through undo and redo', async ({
+  page,
+}) => {
+  await openEditor(page);
+  for (const shared of [false, true]) {
+    await test.step(shared ? 'shared artwork' : 'exclusive artwork', async () => {
+      const scene = emptyScene();
+      scene.name = shared ? 'Shared campfire' : 'Exclusive campfire';
+      scene.objects.push({
+        id: 'custom-fire',
+        kind: 'prop',
+        asset: defaultCampfireAsset,
+        clip: 'unlit',
         x: 1,
         z: 1,
-        kind: 'health',
-        amount: 25,
-        radius: 0.4,
       });
-    await importEditorScene(page, scene);
-    await expectEditorDocument(page, (d) => d.name).toBe('Imported ' + scene.name);
-    await waitForEditorIdle(page);
-    await page.locator('#scene-tab').click();
-    await page.locator('[data-section="category-Gameplay"] > summary').click();
-    await page.locator('[data-section="gameplay.campfires"] > summary').click();
-    await page.locator('[data-section="gameplay.campfires.0"] > summary').click();
-    await expect(page.locator('[data-field="gameplay.campfires.0.x"]')).toHaveValue('1');
-    await changeField(page.locator('[data-field="gameplay.campfires.0.x"]'), '3');
-    await expectEditorDocument(page, (d) => d.objects[0]!.x).toBe(3);
-    await page.getByRole('button', { name: 'Use default campfire', exact: true }).click();
-    await expectEditorDocument(page, (d) => d.objects.length).toBe(shared ? 1 : 0);
-    if (shared)
-      await expectEditorDocument(page, (d) => d.gameplay!.pickups).toMatchObject([
-        { id: 'shared-pickup', object: 'custom-fire' },
-      ]);
-    await expectEditorDocument(page, (d) => d.gameplay!.campfires![0]).toMatchObject({
-      x: 3,
-      z: 1,
+      scene.gameplay!.campfires = [
+        { id: 'rest', name: 'Rest', object: 'custom-fire', x: 0, z: 0, safeRadius: 2.6 },
+      ];
+      if (shared)
+        scene.gameplay!.pickups.push({
+          id: 'shared-pickup',
+          object: 'custom-fire',
+          x: 1,
+          z: 1,
+          kind: 'health',
+          amount: 25,
+          radius: 0.4,
+        });
+      await importEditorScene(page, scene);
+      await expectEditorDocument(page, (d) => d.name).toBe('Imported ' + scene.name);
+      await waitForEditorIdle(page);
+      await page.locator('#scene-tab').click();
+      for (const section of ['category-Gameplay', 'gameplay.campfires', 'gameplay.campfires.0']) {
+        const details = page.locator(`[data-section="${section}"]`);
+        if (!(await details.evaluate((node: HTMLDetailsElement) => node.open)))
+          await details.locator(':scope > summary').click();
+      }
+      await expect(page.locator('[data-field="gameplay.campfires.0.x"]')).toHaveValue('1');
+      await changeField(page.locator('[data-field="gameplay.campfires.0.x"]'), '3');
+      await expectEditorDocument(page, (d) => d.objects[0]!.x).toBe(3);
+      await page.getByRole('button', { name: 'Use default campfire', exact: true }).click();
+      await expectEditorDocument(page, (d) => d.objects.length).toBe(shared ? 1 : 0);
+      await page.locator('#undo').click();
+      await expectEditorDocument(page, (d) => d.gameplay!.campfires![0]!.object).toBe(
+        'custom-fire',
+      );
+      await expectEditorDocument(page, (d) => d.objects[0]!.x).toBe(3);
+      await page.locator('#redo').click();
+      await expectEditorDocument(page, (d) => d.gameplay!.campfires![0]!.object).toBeUndefined();
+      await expectEditorDocument(page, (d) => d.objects.length).toBe(shared ? 1 : 0);
+      if (shared)
+        await expectEditorDocument(page, (d) => d.gameplay!.pickups).toMatchObject([
+          { id: 'shared-pickup', object: 'custom-fire' },
+        ]);
+      await expectEditorDocument(page, (d) => d.gameplay!.campfires![0]).toMatchObject({
+        x: 3,
+        z: 1,
+      });
+      await waitForEditorIdle(page);
+      const result = await page.evaluate(() => {
+        const view = window.sceneEditor.view();
+        return {
+          count: view.presentation!.roomPresentation.inkRoom!.sprites.filter(
+            (s) => s.id === 'campfire-rest',
+          ).length,
+          x: view.sim!.areaDefinition.campfires![0]!.x,
+        };
+      });
+      expect(result).toEqual({ count: 1, x: 3 });
     });
-    await waitForEditorIdle(page);
-    const result = await page.evaluate(() => {
-      const view = window.sceneEditor.view();
-      return {
-        count: view.presentation!.roomPresentation.inkRoom!.sprites.filter(
-          (s) => s.id === 'campfire-rest',
-        ).length,
-        x: view.sim!.areaDefinition.campfires![0]!.x,
-      };
-    });
-    expect(result).toEqual({ count: 1, x: 3 });
-  });
-}
+  }
+});
