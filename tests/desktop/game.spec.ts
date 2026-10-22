@@ -1,13 +1,15 @@
 import { readJson } from '../../tools/json-file';
 import { holdMovement, loadCheckpoint } from '../fixtures/input';
-import { test, expect, _electron } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { verifyBuildIdentity } from '../../tools/build-identity';
 import { smokeExecutable, playerControls } from '../../tools/smoke/smoke-launch';
-import { extractFile } from '@electron/asar';
+import { extractFile, listPackage } from '@electron/asar';
 import { prepareStatePage } from '../fixtures/rasterization';
+import { launchPackaged } from '../fixtures/packaged-app';
+import { verifyPackageFuses } from '../../tools/package-fuses';
 test('Game package starts, accepts input and reloads current storage', async () => {
   // Two cold launches decode and prepare the complete current player kit.
   test.setTimeout(300_000);
@@ -18,26 +20,19 @@ test('Game package starts, accepts input and reloads current storage', async () 
     process.platform === 'darwin'
       ? path.resolve(path.dirname(executable), '../Resources/app.asar')
       : path.join(path.dirname(executable), 'resources/app.asar');
+  await verifyPackageFuses(executable);
+  expect(listPackage(archive, { isPack: false }).some((file) => file.endsWith('.map'))).toBe(false);
   expect(JSON.parse(extractFile(archive, 'dist/build-identity.json').toString())).toEqual(
     await readJson('dist/build-identity.json'),
   );
   const launch = () =>
-    _electron.launch({
-      executablePath: executable,
-      env: {
-        ...process.env,
-        LANTERN_USER_DATA: profile,
-        LANTERN_AUTOMATED_RUN: '1',
-        LANTERN_TEST_HIDDEN: '1',
-      },
-      args: [
-        '--force-device-scale-factor=0.5',
-        ...(process.platform === 'win32' ? ['--use-gl=angle', '--use-angle=swiftshader'] : []),
-      ],
-    });
+    launchPackaged(executable, profile, [
+      '--force-device-scale-factor=0.5',
+      ...(process.platform === 'win32' ? ['--use-gl=angle', '--use-angle=swiftshader'] : []),
+    ]);
   let app = await launch();
   try {
-    let page = await app.firstWindow();
+    let page = app.page;
     await page.waitForFunction(
       () => document.querySelector('canvas')?.getAttribute('data-ready') === 'true',
       undefined,
@@ -61,7 +56,7 @@ test('Game package starts, accepts input and reloads current storage', async () 
     ).toBeGreaterThan(0.03);
     await app.close();
     app = await launch();
-    page = await app.firstWindow();
+    page = app.page;
     // First launch owns real native rendering; this second launch owns durable
     // checkpoint restoration through the same executable, Bridge and controls.
     await prepareStatePage(page);
@@ -74,6 +69,17 @@ test('Game package starts, accepts input and reloads current storage', async () 
     await page.locator('#menu-start').click();
     await page.locator('#pause').click();
     await loadCheckpoint(page);
+    await app.close();
+    const report = JSON.parse(
+      await fs.readFile(path.join(profile, 'diagnostics/session.json'), 'utf8'),
+    );
+    expect(report.identity.sourceCommit).toBe(
+      (await readJson('dist/build-identity.json')).sourceCommit,
+    );
+    expect(report.environment.electron).toBe(
+      (await readJson('package.json')).devDependencies.electron,
+    );
+    expect(report.events.some((event: { kind: string }) => event.kind === 'launch')).toBe(true);
   } finally {
     await app.close();
     await fs.rm(profile, { recursive: true, force: true });

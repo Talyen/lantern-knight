@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, net, protocol, session, powerMonitor, Menu } from 'electron';
+import { app, BrowserWindow, ipcMain, net, protocol, session, powerMonitor } from 'electron';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { launchEntry, checkpointDirectory } from './launch';
@@ -7,6 +7,7 @@ import { DesktopSession } from './session';
 import { DesktopShutdown } from './shutdown';
 import { content } from '../src/content/game-content';
 import { resourcePath, trustedSender } from './security';
+import { openDiagnostics } from './diagnostics';
 declare const __DEV_APP__: boolean;
 protocol.registerSchemesAsPrivileged([
   {
@@ -40,9 +41,18 @@ const hiddenTest = process.env.LANTERN_TEST_HIDDEN === '1';
 const automatedRun = process.env.LANTERN_AUTOMATED_RUN === '1';
 let window: BrowserWindow | undefined;
 let desktop: DesktopSession | undefined;
+let diagnostics: Awaited<ReturnType<typeof openDiagnostics>> | undefined;
 let exitCode = 0;
 const shutdown = new DesktopShutdown(
-  () => desktop?.dispose() ?? Promise.resolve(),
+  async () => {
+    try {
+      await desktop?.dispose();
+    } finally {
+      await diagnostics
+        ?.close()
+        .catch((error: unknown) => console.error('Unable to flush diagnostics:', error));
+    }
+  },
   () => {
     if (exitCode) app.exit(exitCode);
     else app.quit();
@@ -54,9 +64,13 @@ app
   .then(async () => {
     if (shutdown.requested) return;
     if (hiddenTest && process.platform === 'darwin') app.setActivationPolicy('accessory');
-    Menu.setApplicationMenu(null);
     const applicationRoot = app.isPackaged ? app.getAppPath() : process.cwd();
     const root = path.join(applicationRoot, __DEV_APP__ ? 'dist-dev' : 'dist');
+    diagnostics = await openDiagnostics(root);
+    if (shutdown.requested) {
+      await diagnostics.close();
+      return;
+    }
     protocol.handle('lantern', async (request) => {
       try {
         if (request.method !== 'GET') return new Response('method denied', { status: 405 });
@@ -104,6 +118,12 @@ app
     });
     desktop = desktopSession;
     const entry = () => launchEntry(__DEV_APP__, desktopSession.mode);
+    diagnostics.watch(window, async () => {
+      await desktopSession.dispose();
+      // Recovery starts a fresh process so no disposed session or GPU resource survives.
+      app.relaunch();
+      app.quit();
+    });
     window.on('closed', () => {
       desktopSession.dispose().catch((error: unknown) => {
         console.error('Unable to drain the closed desktop session:', error);
@@ -170,6 +190,10 @@ app
   })
   .catch((error) => {
     if (desktop?.disposed) return;
+    diagnostics?.record(
+      'startup-error',
+      error instanceof Error ? (error.stack ?? error.message) : String(error),
+    );
     console.error('Unable to start Lantern Knight:', error);
     exitCode = 1;
     app.quit();

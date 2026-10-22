@@ -1,5 +1,26 @@
 version: 2
 updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    versioning-strategy: increase
+    groups:
+      compatible-updates:
+        patterns: ['*']
+        update-types: [minor, patch]
+  - package-ecosystem: pip
+    directory: /tools/segmentation
+    schedule:
+      interval: weekly
+    groups:
+      segmentation-runtime:
+        patterns: ['torch', 'torchvision']
+      model-loading:
+        patterns: ['transformers', 'tokenizers', 'huggingface-hub', 'safetensors']
+      compatible-updates:
+        patterns: ['*']
+        update-types: [minor, patch]
   - package-ecosystem: github-actions
     directory: /
     schedule:

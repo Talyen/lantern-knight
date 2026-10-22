@@ -28,12 +28,12 @@ Routine local testing should take roughly ten seconds including setup. This is a
 
 Authored scenes are disposable content: gameplay and rendering regressions own their setup, and authored-document validation accepts an empty scene directory. The explicit full artwork audit validates saved documents through `checkSceneDocuments`; pure tests cover placement rejection with small fixtures instead of repeating a sweep of mutable editor saves.
 
-`npm run test:assets` runs `tests/assets/*.test.ts` against pinned prepared assets. Authored scene documents validate against authoring assets independently of Game selection. Python authoring/recovery fixtures belong to this tier and require Pillow. CI installs Pillow 11.3.0 in a temporary environment before the tests; test commands do not install dependencies. For local asset tests on macOS/Linux, create or reuse a checkout-local environment and activate it so subprocesses find Pillow:
+`npm run test:assets` runs `tests/assets/*.test.ts` against pinned prepared assets. Authored scene documents validate against authoring assets independently of Game selection. Python authoring/recovery fixtures belong to this tier and require Pillow. CI installs Pillow 13.0.0 in a temporary environment before the tests; test commands do not install dependencies. For local asset tests on macOS/Linux, create or reuse a checkout-local environment and activate it so subprocesses find Pillow:
 
 ```sh
 python3 -m venv .venv
 . .venv/bin/activate
-python -m pip install Pillow==11.3.0
+python -m pip install Pillow==13.0.0
 npm run test:assets
 ```
 
@@ -129,10 +129,14 @@ Native diagnostics consume an already packaged application; they do not build it
 
 | Scenarios after `npm run benchmark --`                                          | Required package                      |
 | ------------------------------------------------------------------------------- | ------------------------------------- |
-| `startup`, `walking`, `pacing`, `journey`, `game`, `preferences`                | Game: `npm run package -- --unsigned` |
+| `startup`, `walking`, `pacing`, `journey`, `game`, `preferences`                | Game: `npm run package -- --unsigned --inspectable` |
 | `sandbox` (alias `scene`), `lighting`, `animation`, `hero`, `effects`, `scenes` | Dev: `npm run package -- --dev`       |
 
+Game native diagnostics require `LANTERN_EXECUTABLE` to select the separate inspectable executable under `release-inspectable/`; see [diagnostic builds](release.md#package-hardening-and-diagnostic-builds). Release desktop tests continue to use the hardened Game package.
+
 Use `--local` on both packaging and the diagnostic when investigating a local asset preparation. `--visible` shows the native window; hidden/software runs do not establish visible pacing. Use `--capture` when visual evidence is wanted, or `--output /external/investigation` to retain results without requesting captures. Successful managed diagnostics normally discard their output; keep comparison records in an external directory. Native framebuffer, motion and resource assertions remain available through these scenarios; routine checks do not generate galleries.
+
+For an opt-in browser failure trace, pass `--trace retain-on-failure` after the scenario, for example `npm run test:browser -- game --built --trace retain-on-failure`. This records the failing first attempt without enabling retries. Copy retained traces externally before the next run clears the output directory. Traces diagnose DOM, requests and assertions; a state fixture still does not establish rendered pixels.
 
 Initial goals are three seconds for warm preview updates and ten seconds for ordinary checks; correctness remains required.
 

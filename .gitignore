@@ -18,6 +18,7 @@ dist-electron/
 dist-electron-dev/
 release/
 release-dev/
+release-inspectable/
 
 # Prepared assets, retained diagnostics and scratch work
 *.blend1

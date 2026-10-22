@@ -4,15 +4,19 @@
   "directories": {
     "output": "release-dev"
   },
-  "files": [
-    "dist-dev/**",
-    "dist-electron-dev/**",
-    "package.json"
-  ],
+  "files": ["dist-dev/**", "dist-electron-dev/**", "!**/*.map", "package.json"],
   "extraMetadata": {
     "main": "dist-electron-dev/main.cjs"
   },
   "asar": true,
+  "electronFuses": {
+    "runAsNode": true,
+    "enableNodeOptionsEnvironmentVariable": false,
+    "enableNodeCliInspectArguments": true,
+    "enableEmbeddedAsarIntegrityValidation": true,
+    "onlyLoadAppFromAsar": true,
+    "resetAdHocDarwinSignature": true
+  },
   "mac": {
     "identity": null,
     "category": "public.app-category.developer-tools"
