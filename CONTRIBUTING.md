@@ -12,4 +12,4 @@ Inspect the complete relevant diff, including new files, and surrounding consume
 
 ## Collaboration and commits
 
-[Task coordination](docs/task-coordination.md) owns worktrees, shared interfaces, local integration and standing task-commit authorization. Pushes and publication require the user's request. Report the change, integration/commit, completed checks and unavailable coverage.
+[Task coordination](docs/task-coordination.md) owns worktrees, shared interfaces, local integration and standing task-commit authorization. It also defines the exception allowing task-scoped asset publication. Pushes, PRs and other publication require separate authorization. Report the change, integration/commit, completed checks and unavailable coverage.
