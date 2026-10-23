@@ -247,7 +247,11 @@ test('frame summaries expose jitter and absolute hitch counts for short samples'
 
 test('web identities need no Electron output and cannot be reused as desktop builds', async (t) => {
   const root = await temporaryDirectory(t, 'lantern-web-proof-');
-  const source = { commit: 'a'.repeat(40), dirty: true, sha256: 'a'.repeat(64) };
+  const source = {
+    commit: process.env.GITHUB_SHA ?? 'a'.repeat(40),
+    dirty: false,
+    sha256: 'a'.repeat(64),
+  };
 
   await fs.mkdir(path.join(root, 'dist'));
   await fs.writeFile(path.join(root, 'dist/index.html'), 'web');
@@ -256,7 +260,6 @@ test('web identities need no Electron output and cannot be reused as desktop bui
     source,
     assets: { identity: 'b'.repeat(64), recipe: 'c'.repeat(64) },
     target: 'web' as const,
-    env: { ...process.env, GITHUB_SHA: undefined },
     report: () => {},
   };
   const web = await writeBuildIdentity(options);
