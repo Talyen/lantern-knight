@@ -120,8 +120,11 @@ for (const area of content.definitions.areas) {
       })
       .toBeGreaterThan(0.15);
     await page.keyboard.up('w');
-    const routeIndex = targets.findIndex((target) =>
-      /^(Shed interior|Ritual steps|Workshop entrance|Southern stairs)$/i.test(target.name),
+    // The selector contains authored annotations only; choose a real route in
+    // each painting without depending on names from the original four areas.
+    const routeIndex = document.groundInteraction.destinations.findIndex(
+      (target: { x: number; z: number; reachable?: boolean }) =>
+        target.reachable !== false && Math.hypot(target.x - before.x, target.z - before.z) > 1,
     );
     expect(routeIndex).toBeGreaterThanOrEqual(0);
     const target = targets[routeIndex]!;
