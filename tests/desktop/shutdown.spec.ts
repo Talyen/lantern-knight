@@ -43,22 +43,36 @@ test('window close and application quit finish an admitted atomic save', async (
         const child = application.process();
         const page = await application.firstWindow();
         await page.waitForLoadState();
-        await application.evaluate(({ app, BrowserWindow }, method) => {
-          const storage = process.getBuiltinModule('fs').promises,
-            rename = storage.rename;
-          storage.rename = async (...args) => {
-            if (method === 'window') BrowserWindow.getAllWindows()[0]!.close();
-            else app.quit();
-            // Closing at the atomic replacement boundary must retain the host
-            // through the pending write, even after its renderer has gone away.
-            await new Promise<void>((resolve) => setTimeout(resolve, 150));
-            return rename(...args);
-          };
-        }, method);
+        await application.evaluate(
+          ({ app, BrowserWindow }, { method, file }) => {
+            const storage = process.getBuiltinModule('fs').promises,
+              rename = storage.rename;
+            storage.rename = async (...args) => {
+              if (args[1] === file) {
+                if (method === 'window') BrowserWindow.getAllWindows()[0]!.close();
+                else app.quit();
+                // Closing at the settings replacement boundary must retain the
+                // host through its write. Diagnostic writes cannot trigger it.
+                await new Promise<void>((resolve) => setTimeout(resolve, 150));
+              }
+              return rename(...args);
+            };
+          },
+          { method, file },
+        );
         const closed = application.waitForEvent('close');
-        await page.evaluate((value) => {
-          void window.lantern!.saveSettings(value).catch(() => {});
-        }, settings);
+        try {
+          await page.evaluate((value) => {
+            void window.lantern!.saveSettings(value).catch(() => {});
+          }, settings);
+        } catch (error) {
+          // Renderer destruction can precede the evaluation acknowledgment.
+          if (
+            !(error instanceof Error) ||
+            !error.message.includes('Target page, context or browser has been closed')
+          )
+            throw error;
+        }
         await closed;
         expect(child.exitCode).toBe(0);
         expect(JSON.parse(await fs.readFile(file, 'utf8'))).toEqual(settings);

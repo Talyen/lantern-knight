@@ -126,7 +126,6 @@ export async function combatPreparationProof() {
   }
 }
 
-/** @knip-external Shared by browser checks and the opt-in native pixel probe. */
 export function shadowBatchingProof() {
   const gpu = gpuFixture(256, 256, 32),
     { renderer, scene, camera, own } = gpu;
