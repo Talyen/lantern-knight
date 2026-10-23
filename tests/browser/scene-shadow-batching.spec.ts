@@ -1,4 +1,6 @@
 import { pixelTest as test, expect } from './fixtures';
+import { content } from '../../src/content/game-content';
+import type { shadowBatchingProof } from '../fixtures/shadow-batching';
 
 test('combat programs prime without changing pixels and survive later effect disposal', async ({
   page,
@@ -31,14 +33,16 @@ test('region batching preserves every native painted shadow pixel across lights 
     route.fulfill({ contentType: 'text/html', body: '<canvas></canvas>' }),
   );
   await page.goto('/batching-proof.html');
-  const proof = await page.evaluate(async () => {
+  const proof: Awaited<ReturnType<typeof shadowBatchingProof>> = await page.evaluate(async () => {
     const source = '/tests/fixtures/shadow-batching.ts';
     return (await import(source)).shadowBatchingProof();
   });
   expect(proof.error).toBe(0);
   expect(proof.posePixels).toBeGreaterThan(50);
   expect(proof.poseDifferences).toBe(0);
-  expect(proof.results).toHaveLength(4);
+  expect(proof.results.map((result) => result.area)).toEqual(
+    content.definitions.areas.map((area) => area.id),
+  );
   for (const result of proof.results) {
     expect(result.differences, result.area).toBe(0);
     expect(result.lightDifferences, result.area).toBe(0);
